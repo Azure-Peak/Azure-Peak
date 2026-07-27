@@ -73,7 +73,6 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	backpack_contents = list(
-		/obj/item/recipe_book/survival,
 		/obj/item/bottle_kit,
 		/obj/item/storage/keyring/innkeep_rooms,
 		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver,

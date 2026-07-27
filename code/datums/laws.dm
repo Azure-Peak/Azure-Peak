@@ -59,7 +59,7 @@
 					continue
 				if(length(clean_laws) >= max_laws)
 					break
-				law_text = copytext(trim(law_text), 1, 501)
+				law_text = html_encode(copytext(trim(law_text), 1, 501))
 				clean_laws += law_text
 
 			// Check if anything actually changed

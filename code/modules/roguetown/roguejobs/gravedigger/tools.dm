@@ -341,7 +341,6 @@
 	icon_state = "ashovel"
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
-	sellprice = 15
 
 /obj/item/rogueweapon/shovel/bronze
 	force = 23

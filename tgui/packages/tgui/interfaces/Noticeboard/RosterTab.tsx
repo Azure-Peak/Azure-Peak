@@ -13,7 +13,7 @@ import {
   subtitleStyle,
   titleStyle,
 } from '../common/parchment';
-import { type MercenaryEntry, type TabProps } from './types';
+import type { MercenaryEntry, TabProps } from './types';
 
 export const RosterTab = ({ data }: TabProps) => {
   const roster = data.mercenary_roster;
@@ -106,9 +106,7 @@ const SummaryLine = ({
       Contracted: {roster.contracted_count}
     </span>
     <span style={{ color: INK_FAINT }}> &middot; </span>
-    <span style={{ color: SEAL_RED }}>
-      DND: {roster.dnd_count}
-    </span>
+    <span style={{ color: SEAL_RED }}>DND: {roster.dnd_count}</span>
   </div>
 );
 

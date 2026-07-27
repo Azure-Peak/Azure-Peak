@@ -7,7 +7,7 @@ import {
   tabStyle,
 } from '../common/parchment';
 import { FundView } from './Institutional/FundView';
-import { type TabProps } from './types';
+import type { TabProps } from './types';
 
 export const InstitutionalTab = ({ data, act }: TabProps) => {
   const accessibleFunds = data.funds.filter(
@@ -42,9 +42,7 @@ export const InstitutionalTab = ({ data, act }: TabProps) => {
           </div>
         ))}
       </div>
-      {!!selectedFund && (
-        <FundView fund={selectedFund} data={data} act={act} />
-      )}
+      {!!selectedFund && <FundView fund={selectedFund} data={data} act={act} />}
     </div>
   );
 };

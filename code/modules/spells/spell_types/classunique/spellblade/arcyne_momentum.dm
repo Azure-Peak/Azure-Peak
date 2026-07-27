@@ -4,7 +4,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/arcyne_momentum
 	name = "Arcyne Momentum (0)"
-	desc = "Melee strikes fuel arcyne power. Build momentum to unleash your power. Melee strikes grant 1 stack every 2 seconds. Certain abilities capable of striking multiple targets grant bonus momentum. Take care not to lose control."
+	desc = "Melee strikes fuel arcyne power. Build momentum to unleash your power. Melee strikes grant 1 stack every 2 seconds. Certain abilities capable of striking multiple targets grant bonus momentum. At 7+ the power overcharges - spend it! If it decays unspent, ALL momentum discharges at once, leaving you strained - briefly slowed and Vulnerable. Take care not to lose control."
 	icon_state = "buff"
 
 /datum/status_effect/buff/arcyne_momentum
@@ -18,7 +18,6 @@
 	var/glow_colour = "#4a90d9"
 	var/crackle_colour = "#7b5ea7"
 	var/overcharge_threshold = 7
-	var/overcharge_damage = 4
 	var/is_overcharged = FALSE
 	var/last_stack_time = 0
 	var/last_decay_time = 0
@@ -43,7 +42,6 @@
 		UnregisterSignal(owner, list(COMSIG_HUMAN_MELEE_UNARMED_ATTACK, COMSIG_MOB_ITEM_ATTACK))
 	if(is_overcharged)
 		owner.cut_overlay(electricity_overlay)
-	owner.clear_fullscreen("momentum_strain")
 	owner.remove_filter(MOMENTUM_FILTER)
 	. = ..()
 
@@ -147,13 +145,17 @@
 	return consumed
 
 /datum/status_effect/buff/arcyne_momentum/proc/update_visuals()
-	owner.remove_filter(MOMENTUM_FILTER)
+	var/had_filter = owner.remove_filter(MOMENTUM_FILTER)
 	if(stacks >= overcharge_threshold)
 		owner.add_filter(MOMENTUM_FILTER, 2, list("type" = "outline", "color" = crackle_colour, "alpha" = 200, "size" = 2))
 	else if(stacks >= 6)
 		owner.add_filter(MOMENTUM_FILTER, 2, list("type" = "outline", "color" = crackle_colour, "alpha" = 150, "size" = 2))
 	else if(stacks >= 3)
 		owner.add_filter(MOMENTUM_FILTER, 2, list("type" = "outline", "color" = glow_colour, "alpha" = 100, "size" = 1))
+	else if(had_filter && (owner.appearance_flags & KEEP_TOGETHER))
+		// KEEP_TOGETHER mobs don't repaint filter removal until another appearance change
+		owner.appearance_flags &= ~KEEP_TOGETHER
+		addtimer(VARSET_CALLBACK(owner, appearance_flags, owner.appearance_flags | KEEP_TOGETHER), 1)
 	if(stacks >= overcharge_threshold)
 		if(!is_overcharged)
 			enter_overcharge()
@@ -178,14 +180,25 @@
 	if(stacks > 0 && world.time - last_stack_time >= MOMENTUM_DECAY_DELAY)
 		if(world.time - last_decay_time >= SECOND_PER_MOMENTUM)
 			last_decay_time = world.time
+			if(stacks >= overcharge_threshold)
+				strain()
+				return
 			stacks = max(stacks - 1, 0)
 			owner.balloon_alert(owner, "M: [stacks]/[max_stacks]")
 			update_visuals()
 			update_alert()
 			update_spell_buttons()
-	if(stacks >= overcharge_threshold)
-		owner.apply_damage(overcharge_damage, BRUTE, BODY_ZONE_CHEST)
-		owner.emote(pick("twitch", "strain"), forced = TRUE)
+
+/datum/status_effect/buff/arcyne_momentum/proc/strain()
+	stacks = 0
+	owner.balloon_alert(owner, "M: 0/[max_stacks]")
+	update_visuals()
+	update_alert()
+	update_spell_buttons()
+	owner.Slowdown(2)
+	owner.apply_status_effect(/datum/status_effect/debuff/vulnerable, 5 SECONDS)
+	owner.balloon_alert_to_viewers("<font color='#bb2b2b'>Strained!</font>")
+	to_chat(owner, span_boldwarning("The unspent power lashes back through my body!"))
 
 /datum/status_effect/buff/arcyne_momentum/proc/enter_overcharge()
 	is_overcharged = TRUE

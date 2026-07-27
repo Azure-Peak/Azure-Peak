@@ -1,5 +1,5 @@
 /datum/status_effect/buff/clash/test_dummy
-	duration = 30 SECONDS
+	duration = 900 SECONDS
 
 /mob/living/carbon/human/species/human/northern/guard_dummy
 	name = "guard dummy"

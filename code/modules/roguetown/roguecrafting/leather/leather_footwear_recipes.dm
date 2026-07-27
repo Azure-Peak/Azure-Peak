@@ -20,6 +20,13 @@
 				/obj/item/natural/fur = 1)
 	craftdiff = 3	//Same as the hardened leather gloves.
 
+/datum/crafting_recipe/roguetown/leather/footwear/boots_heavy_footwrap
+	name = "hardened leather footwraps"
+	result = /obj/item/clothing/shoes/roguetown/footwraps/hleather
+	reqs = list(/obj/item/natural/hide/cured = 1,
+				/obj/item/natural/fur = 1)
+	craftdiff = 3	//Same as the hardened leather gloves.
+
 /datum/crafting_recipe/roguetown/leather/footwear/boots_heavy_b
 	name = "dress boots"
 	result = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short

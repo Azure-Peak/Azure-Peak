@@ -90,10 +90,8 @@ SUBSYSTEM_DEF(input)
 		user.update_movement_keys()
 
 /datum/controller/subsystem/input/fire()
-	var/list/clients = GLOB.clients // Let's sing the list cache song
-	for(var/i in 1 to clients.len)
-		var/client/C = clients[i]
-		C.keyLoop()
+	for(var/mob/user as anything in GLOB.player_list)
+		user.focus?.keyLoop(user.client)
 
 /// A verb that does nothing, used for clearing keybinds faster.
 /client/verb/NONSENSICAL_VERB_THAT_DOES_NOTHING()

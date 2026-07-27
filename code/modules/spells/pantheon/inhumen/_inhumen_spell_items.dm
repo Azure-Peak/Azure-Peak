@@ -493,15 +493,15 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	if(istype(I, /obj/item/rogueore))
 		var/obj/item/rogueore/O = I
-		return O.sellprice
+		return O.get_real_price()
 
 	if(istype(I, /obj/item/roguegem))
 		var/obj/item/roguegem/G = I
-		return G.sellprice
+		return G.get_real_price()
 
 	if(istype(I, /obj/item/riddleofsteel))
 		var/obj/item/riddleofsteel/R = I
-		return R.sellprice
+		return R.get_real_price()
 
 	return 0
 

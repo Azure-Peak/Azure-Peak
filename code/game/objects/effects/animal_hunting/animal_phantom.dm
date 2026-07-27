@@ -14,7 +14,9 @@
 	duration = 20 SECONDS
 	mouse_opacity = MOUSE_OPACITY_ICON
 
-/obj/effect/temp_visual/hunting_phantom/Initialize(mapload, target_mob_path, target_rot)
+/obj/effect/temp_visual/hunting_phantom/Initialize(mapload, target_mob_path, target_rot, custom_delay)
+	if(custom_delay)
+		spawn_delay = custom_delay
 	. = ..()
 	if(skip_parent_call)
 		return

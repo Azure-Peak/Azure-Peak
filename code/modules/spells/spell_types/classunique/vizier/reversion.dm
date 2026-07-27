@@ -85,6 +85,9 @@
 	var/datum/status_effect/fire_handler/fire_stacks/divine/divine_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
 	trigger.divinefirestacks = divine_status?.stacks
 
+	var/datum/status_effect/fire_handler/fire_stacks/vheslyn/vheslyn_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
+	trigger.divinefirestacks = vheslyn_status?.stacks
+
 	// Snapshot current wounds so we can remove new ones on revert
 	trigger.snapshot_wounds = target.get_wounds()
 

@@ -10,7 +10,6 @@
 	throwforce = 10
 	w_class = WEIGHT_CLASS_TINY
 	obj_flags = CAN_BE_HIT
-	sellprice = 1
 	var/dildo_type = "human"
 	var/dildo_size = "small"
 	var/pleasure = 4

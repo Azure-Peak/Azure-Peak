@@ -29,11 +29,13 @@
 	accuracy = 40
 	guard_deflectable = FALSE //is powder
 
-/obj/projectile/magic/flashpowder/on_hit(target)
+/obj/projectile/magic/flashpowder/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
 		if(out_of_effective_range())
+			return
+		if(blocked >= 100)
 			return
 		M.apply_status_effect(/datum/status_effect/debuff/flashpowder)
 		M.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)

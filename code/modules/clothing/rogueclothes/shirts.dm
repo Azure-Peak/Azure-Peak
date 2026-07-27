@@ -16,7 +16,6 @@
 	flags_inv = HIDEBOOB
 	experimental_inhand = TRUE
 	salvage_amount = 2
-
 	grid_width = 64
 	grid_height = 64
 
@@ -182,6 +181,12 @@
 	desc = "A sleeveless shirt woven from glossy material. Custom-fit for its (now deceased) wearer."
 	allowed_race = list(/datum/species/elf/dark/raider)
 	sellprice = 10
+
+/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
+	name = "aesthetic custom-fit silk shirt"
+	armor_class = ARMOR_CLASS_NONE
+	armor = ARMOR_CLOTHING
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 
 /obj/item/clothing/suit/roguetown/shirt/apothshirt
 	name = "apothecary shirt"

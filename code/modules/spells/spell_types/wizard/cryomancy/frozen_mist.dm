@@ -114,8 +114,6 @@
 				continue
 			if(L.anti_magic_check())
 				continue
-			if(source_spell?.spell_guard_check(L))
-				continue
 			apply_frost_stack(L, 1)
 
 /obj/effect/frozen_mist/Destroy()
@@ -146,8 +144,6 @@
 			if(L == caster)
 				continue
 			if(L.anti_magic_check())
-				continue
-			if(source_spell?.spell_guard_check(L))
 				continue
 			apply_frost_stack(L, 1)
 			var/actual_damage = rand(5, tick_damage)

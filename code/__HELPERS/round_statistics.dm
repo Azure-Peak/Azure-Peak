@@ -511,6 +511,7 @@ GLOBAL_LIST_EMPTY(patron_follower_counts)
 #define FEATURED_STATS_ALCHEMISTS "alchemists"
 #define FEATURED_STATS_TAX_PAYERS "tax_payers"
 #define FEATURED_STATS_ALCOHOLICS "alcohol_drinkers"
+#define FEATURED_STATS_SMOKERS "smokers"
 #define FEATURED_STATS_SPEAKERS "speakers"
 #define FEATURED_STATS_FISHERS "fishers"
 #define FEATURED_STATS_GOURMETS "gourmets"
@@ -621,12 +622,16 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		"color" = "#945d96",
 		"entries" = list()
 	),
+	FEATURED_STATS_SMOKERS = list(
+		"name" = "TOP Blacklungs",
+		"color" = "#2e201c",
+		"entries" = list()
+	),
 	FEATURED_STATS_MAGES = list(
 		"name" = "TOP Mages",
 		"color" = "#9eaceb",
 		"entries" = list()
 	),
-
 	FEATURED_STATS_SPELLS = list(
 		"name" = "TOP Spells",
 		"color" = "#6375c5",

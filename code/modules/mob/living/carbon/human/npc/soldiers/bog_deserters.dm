@@ -460,6 +460,8 @@
 	beltr = /obj/item/quiver/arrows
 	H.STASTR = rand(10, 12)
 	H.STAPER = 14
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman
@@ -479,6 +481,8 @@
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	backl = /obj/item/quiver/bolt/standard
 	H.STAPER = 13
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/marshal

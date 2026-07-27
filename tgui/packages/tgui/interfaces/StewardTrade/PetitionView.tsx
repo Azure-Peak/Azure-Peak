@@ -32,10 +32,11 @@ export const PetitionView = (props: { data: Data }) => {
     petition_categories[0]?.id ?? null,
   );
 
-  const selectedCat = petition_categories.find((c) => c.id === selectedCategory);
+  const selectedCat = petition_categories.find(
+    (c) => c.id === selectedCategory,
+  );
 
-  const cannotAct =
-    !petition.is_steward_role || !!petition.is_alderman_acting;
+  const cannotAct = !petition.is_steward_role || !!petition.is_alderman_acting;
 
   const cannotActReason = petition.is_alderman_acting
     ? "The Alderman's writ does not extend to petitioning the trade hall."
@@ -56,8 +57,8 @@ export const PetitionView = (props: { data: Data }) => {
         }}
       >
         Send envoys to a regional trade hall to commission a Standing Order of
-        your choosing. Costs Burgher Pledge. The hall takes a {petition_tax_pct}%
-        margin on petitioned orders &mdash; the price of certainty. The exact
+        your choosing. Costs Burgher Pledge. The hall takes a {petition_tax_pct}
+        % margin on petitioned orders &mdash; the price of certainty. The exact
         item mix is still set by the hall.
       </div>
 
@@ -183,7 +184,9 @@ const CategoryList = (props: {
               fontSize: FONT_BODY,
             }}
           >
-            <div style={{ fontWeight: 'bold', color: INK, marginBottom: '2px' }}>
+            <div
+              style={{ fontWeight: 'bold', color: INK, marginBottom: '2px' }}
+            >
               {c.label}
             </div>
             <div style={{ color: SEAL_AMBER, fontSize: FONT_BODY }}>
@@ -272,7 +275,9 @@ const RegionPicker = (props: {
                 borderBottom: `1px dotted ${INK_FAINT}`,
               }}
             >
-              <div style={{ flex: '1 1 auto', color: INK, fontSize: FONT_BODY }}>
+              <div
+                style={{ flex: '1 1 auto', color: INK, fontSize: FONT_BODY }}
+              >
                 <span style={{ fontWeight: 'bold' }}>{regionName}</span>
                 {!eligible && (
                   <span

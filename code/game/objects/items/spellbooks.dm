@@ -27,26 +27,21 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 	sewrepair = TRUE
 	anvilrepair = null
 	associated_skill = /datum/skill/combat/arcyne
-	possible_item_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/tome/aegis)
+	possible_item_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood)
 	name = "\improper lesser tome of the arcyne"
-	desc = "A crackling, glowing book, filled with runes and symbols that hurt the mind to stare at. It can rebind aspect spells and project an arcyne aegis."
+	desc = "A crackling, glowing book, filled with runes and symbols that hurt the mind to stare at. It can rebind aspect spells."
 	special = /datum/special_intent/arcyne_descent
 	implement_tier = IMPLEMENT_TIER_LESSER
 	implement_refund = IMPLEMENT_REFUND_LESSER
 	sellprice = 34
 	var/picked // if the book has had it's style picked or not
 	var/curpage = 1
-	var/aegis_energy_cost = 150
-	var/aegis_cooldown = 180 SECONDS
-	var/aegis_charge_time = 2 SECONDS
-	var/obj/item/rogueweapon/shield/arcyne_aegis/tome/conjured_aegis
-	COOLDOWN_DECLARE(aegis_cd)
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK
 
 /obj/item/rogueweapon/spellbook/greater
 	base_implement_name = "greater tome"
 	name = "\improper greater tome of the arcyne"
-	desc = "A well-bound arcyne tome set with a quality focus-gem. It can rebind aspect spells, project an arcyne aegis, and return a generous share of spent spell energy."
+	desc = "A well-bound arcyne tome set with a quality focus-gem. It can rebind aspect spells and return a generous share of spent spell energy."
 	force = 22
 	max_integrity = 100
 	sellprice = 42
@@ -56,7 +51,7 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 /obj/item/rogueweapon/spellbook/grand
 	base_implement_name = "grand tome"
 	name = "\improper grand tome of the arcyne"
-	desc = "A masterwork arcyne tome crowned with a gem of extraordinary quality. It can rebind aspect spells, project an arcyne aegis, and refine spent spell energy back to its bearer."
+	desc = "A masterwork arcyne tome crowned with a gem of extraordinary quality. It can rebind aspect spells and refine spent spell energy back to its bearer."
 	force = 25
 	max_integrity = 120
 	sellprice = 121
@@ -124,31 +119,17 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 	. += span_notice("Reading it allows you to rebind your aspect spells.")
 	if(implement_refund)
 		. += span_notice("When held while casting, this implement leaves behind Residual Focus, returning [round(implement_refund * 100)]% of the spell's resource cost as energy over 20 seconds.")
-	. += span_notice("With the Arcyne Aegis intent selected, aim anywhere and hold to charge a shield into your offhand, costing [aegis_energy_cost] energy.")
 
 /obj/item/rogueweapon/spellbook/attack_self(mob/living/carbon/human/user)
-	if(istype(user) && istype(user.a_intent, /datum/intent/tome/aegis))
-		conjure_aegis(user)
-		return
 	if(!open)
 		attack_right(user)
 		return
 	read(user)
 	user.update_inv_hands()
 
-/obj/item/rogueweapon/spellbook/afterattack(atom/target, mob/living/user, proximity_flag, params)
-	. = ..()
-	if(!istype(user) || !istype(user.used_intent, /datum/intent/tome/aegis))
-		return
-	conjure_aegis(user)
-
 /obj/item/rogueweapon/spellbook/rmb_self(mob/user)
 	attack_right(user)
 	return
-
-/obj/item/rogueweapon/spellbook/Destroy()
-	clear_aegis()
-	return ..()
 
 /obj/item/rogueweapon/spellbook/proc/read(mob/user)
 	change_spells()
@@ -210,11 +191,9 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 		name = "\improper [design] tome"
 		return
 	if(!open)
-		slot_flags &= ~ITEM_SLOT_HIP
 		open = TRUE
 		playsound(loc, 'sound/items/book_open.ogg', 100, FALSE, -1)
 	else
-		slot_flags |= ITEM_SLOT_HIP
 		open = FALSE
 		playsound(loc, 'sound/items/book_close.ogg', 100, FALSE, -1)
 	curpage = 1
@@ -223,55 +202,3 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 
 /obj/item/rogueweapon/spellbook/update_icon()
 	icon_state = "[base_icon_state]_[open]"
-
-/obj/item/rogueweapon/spellbook/proc/get_aegis_type()
-	switch(implement_tier)
-		if(IMPLEMENT_TIER_GREATER)
-			return /obj/item/rogueweapon/shield/arcyne_aegis/tome/greater
-		if(IMPLEMENT_TIER_GRAND)
-			return /obj/item/rogueweapon/shield/arcyne_aegis/tome/grand
-	return /obj/item/rogueweapon/shield/arcyne_aegis/tome
-
-/obj/item/rogueweapon/spellbook/proc/can_conjure_aegis(mob/living/carbon/human/user, feedback = FALSE)
-	if(!istype(user) || !user.is_holding(src))
-		return FALSE
-	if(user.get_inactive_held_item())
-		if(feedback)
-			to_chat(user, span_warning("I need my offhand free to project the Aegis!"))
-		return FALSE
-	if(!COOLDOWN_FINISHED(src, aegis_cd))
-		if(feedback)
-			to_chat(user, span_warning("The [src] is still gathering arcyne force. [round(COOLDOWN_TIMELEFT(src, aegis_cd) / 10, 1)] seconds remain."))
-		return FALSE
-	if(user.energy < aegis_energy_cost)
-		if(feedback)
-			to_chat(user, span_warning("I need [aegis_energy_cost] arcyne energy to project the Aegis!"))
-		return FALSE
-	return TRUE
-
-/obj/item/rogueweapon/spellbook/proc/conjure_aegis(mob/living/carbon/human/user)
-	if(user.client && user.client.chargedprog < 100)
-		return FALSE
-	if(!can_conjure_aegis(user, feedback = TRUE))
-		return FALSE
-	clear_aegis()
-	var/aegis_type = get_aegis_type()
-	var/obj/item/rogueweapon/shield/arcyne_aegis/tome/S = new aegis_type(user.drop_location())
-	S.link_tome(src)
-	S.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE, TRUE, user, src)
-	if(!user.put_in_hands(S))
-		qdel(S)
-		to_chat(user, span_warning("I fail to conjure the Aegis in my offhand."))
-		return FALSE
-	conjured_aegis = S
-	user.energy_add(-aegis_energy_cost)
-	COOLDOWN_START(src, aegis_cd, aegis_cooldown)
-	playsound(user, 'sound/magic/whiteflame.ogg', 80, TRUE)
-	user.balloon_alert(user, "<font color = '#9BCCD0'>Aegis!</font>")
-	user.visible_message(span_notice("[user] projects a shimmering arcyne shield from [src]!"))
-	return TRUE
-
-/obj/item/rogueweapon/spellbook/proc/clear_aegis()
-	if(conjured_aegis && !QDELETED(conjured_aegis))
-		qdel(conjured_aegis)
-	conjured_aegis = null

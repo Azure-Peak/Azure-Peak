@@ -351,6 +351,8 @@
 		if(!QDELETED(src))
 			update_inv_mouth()
 
+	worn_ac_dirty = TRUE
+
 	// Armor class warning — must run after slot vars are nulled so check_armor_skill() sees the correct state
 	if(!QDELETED(src) && istype(I, /obj/item/clothing))
 		var/obj/item/clothing/C = I

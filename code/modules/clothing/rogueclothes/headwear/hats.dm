@@ -363,7 +363,6 @@
 	name = "nemes"
 	desc = "A foreign silk headdress."
 	icon_state = "headdress"
-	sellprice = 10
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/headdress/alt

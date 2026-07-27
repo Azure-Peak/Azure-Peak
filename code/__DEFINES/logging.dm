@@ -58,3 +58,81 @@
 
 #define LOGSRC_CLIENT "Client"
 #define LOGSRC_MOB "Mob"
+/// The number of entries to store per category, don't make this too large or you'll start to see performance issues
+#define CONFIG_MAX_CACHED_LOG_ENTRIES 1000
+
+/// The number of *minimum* ticks between each log re-render, making this small will cause performance issues
+/// Admins can still manually request a re-render
+#define LOG_UPDATE_TIMEOUT 5 SECONDS
+
+// Log entry keys
+#define LOG_ENTRY_KEY_TIMESTAMP "ts"
+#define LOG_ENTRY_KEY_CATEGORY "cat"
+#define LOG_ENTRY_KEY_MESSAGE "msg"
+#define LOG_ENTRY_KEY_DATA "data"
+#define LOG_ENTRY_KEY_WORLD_STATE "w-state"
+#define LOG_ENTRY_KEY_SEMVER_STORE "s-store"
+#define LOG_ENTRY_KEY_ID "id"
+#define LOG_ENTRY_KEY_SCHEMA_VERSION "s-ver"
+
+////////////////////// CATEGORIES
+
+// Internal categories
+#define LOG_CATEGORY_INTERNAL_CATEGORY_NOT_FOUND "internal-category-not-found"
+#define LOG_CATEGORY_INTERNAL_ERROR "internal-error"
+
+// Misc categories
+#define LOG_CATEGORY_ATTACK "attack"
+#define LOG_CATEGORY_CHARACTER "character"
+#define LOG_CATEGORY_CONFIG "config"
+#define LOG_CATEGORY_HUNTED "hunted"
+#define LOG_CATEGORY_MANIFEST "manifest"
+#define LOG_CATEGORY_QDEL "qdel"
+#define LOG_CATEGORY_QUEST "quest"
+#define LOG_CATEGORY_RUNTIME "runtime"
+
+// Admin categories
+#define LOG_CATEGORY_ADMIN "admin"
+#define LOG_CATEGORY_ADMIN_DSAY "admin-dsay"
+
+// Admin private categories
+#define LOG_CATEGORY_ADMIN_PRIVATE "adminprivate"
+#define LOG_CATEGORY_ADMIN_PRIVATE_ASAY "adminprivate-asay"
+
+// Debug categories
+#define LOG_CATEGORY_DEBUG "debug"
+#define LOG_CATEGORY_DEBUG_ASSET "debug-asset"
+#define LOG_CATEGORY_DEBUG_JOB "debug-job"
+#define LOG_CATEGORY_DEBUG_MAPPING "debug-mapping"
+#define LOG_CATEGORY_DEBUG_SQL "debug-sql"
+
+// Game categories
+#define LOG_CATEGORY_GAME "game"
+#define LOG_CATEGORY_GAME_ACCESS "game-access"
+#define LOG_CATEGORY_GAME_EMOTE "game-emote"
+#define LOG_CATEGORY_GAME_LOOC "game-looc"
+#define LOG_CATEGORY_GAME_OOC "game-ooc"
+#define LOG_CATEGORY_GAME_PAPER "game-paper"
+#define LOG_CATEGORY_GAME_PRAYER "game-prayer"
+#define LOG_CATEGORY_GAME_SAY "game-say"
+#define LOG_CATEGORY_GAME_TOPIC "game-topic"
+#define LOG_CATEGORY_GAME_VOTE "game-vote"
+#define LOG_CATEGORY_GAME_WHISPER "game-whisper"
+#define LOG_CATEGORY_GAME_CRAFT "game-craft"
+
+// HREF categories
+#define LOG_CATEGORY_HREF "href"
+#define LOG_CATEGORY_HREF_TGUI "href-tgui"
+
+////////////////////// CATEGORIES END
+
+// Flags that apply to the entry_flags var on logging categories
+// These effect how entry datums process the inputs passed into them
+/// Enables data list usage for readable log entries
+/// You'll likely want to disable internal formatting to make this work properly
+#define ENTRY_USE_DATA_W_READABLE (1<<0)
+
+#define SCHEMA_VERSION "schema-version"
+
+// Default log schema version
+#define LOG_CATEGORY_SCHEMA_VERSION_NOT_SET "0.0.1"

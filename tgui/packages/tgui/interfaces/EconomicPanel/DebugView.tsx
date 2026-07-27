@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  LabeledList,
-  Section,
-  Stack,
-} from 'tgui-core/components';
+import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 
 export type DebugCounts = {
   derived_price_count: number;

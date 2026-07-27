@@ -523,7 +523,6 @@
 	skillcraft = /datum/skill/craft/carpentry
 
 /obj/item/rogueweapon/shield/heater/crafted
-	sellprice = 6
 
 
 /datum/crafting_recipe/roguetown/survival/bonespear
@@ -573,7 +572,6 @@
 		)
 
 /obj/item/fishingrod/crafted
-	sellprice = 8
 
 /datum/crafting_recipe/roguetown/survival/rodblacksteel
 	name = "fishing rod, blacksteel"

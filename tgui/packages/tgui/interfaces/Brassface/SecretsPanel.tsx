@@ -6,8 +6,8 @@ import {
   inkButtonStyle,
   SEAL_AMBER,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from '../common/parchment';
 import type { ActFn } from './types';
 

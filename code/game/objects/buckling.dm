@@ -84,6 +84,7 @@
 	M.update_mobility()
 	M.throw_alert("buckled", /atom/movable/screen/alert/restrained/buckled)
 	M.set_glide_size(glide_size)
+	M.update_mob_action_buttons(UPDATE_BUTTON_STATUS)
 	post_buckle_mob(M)
 
 	SEND_SIGNAL(src, COMSIG_MOVABLE_BUCKLE, M, force)
@@ -104,6 +105,7 @@
 		buckled_mob.update_mobility()
 		buckled_mob.clear_alert("buckled")
 		buckled_mob.set_glide_size(DELAY_TO_GLIDE_SIZE(buckled_mob.total_multiplicative_slowdown()))
+		buckled_mob.update_mob_action_buttons(UPDATE_BUTTON_STATUS)
 		buckled_mobs -= buckled_mob
 		SEND_SIGNAL(src, COMSIG_MOVABLE_UNBUCKLE, buckled_mob, force)
 //		if(buckle_lying)

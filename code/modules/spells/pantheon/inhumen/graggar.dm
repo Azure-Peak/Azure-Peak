@@ -259,12 +259,15 @@
 	speed = 1.6
 	hitsound = 'sound/magic/slimesquish.ogg'
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 
-/obj/projectile/magic/unholy_grasp/on_hit(target)
+/obj/projectile/magic/unholy_grasp/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(!iscarbon(target))
 		return
 	if(out_of_effective_range())
+		return
+	if(blocked >= 100)
 		return
 	if(target)
 		ensnare(target)
@@ -314,6 +317,9 @@
 			continue
 		if(istype(target.patron, /datum/patron/old_god))
 			to_chat(target, span_danger("You feel a surge of cold wash over you; leaving your body as quick as it hit.."))	//No effect on Psydonians!
+			continue
+		if(istype(target.patron, /datum/patron/vheslyn))
+			to_chat(target, span_danger("You feel... nothing..")) //No effect on Vheslynites, fear them.
 			continue
 		if(!owner.faction_check_mob(target))
 			continue

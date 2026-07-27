@@ -61,14 +61,7 @@ type WaxSealProps = {
 };
 
 export const WaxSeal = (props: WaxSealProps) => {
-  const {
-    label,
-    mark,
-    royal = false,
-    color = 'red',
-    size = 54,
-    style,
-  } = props;
+  const { label, mark, royal = false, color = 'red', size = 54, style } = props;
   const palette = PALETTES[color];
   const glyph = mark ?? label.trim().charAt(0).toUpperCase();
 

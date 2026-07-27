@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Arcyne Burst"
 	desc = "Mark a nearby area with arcyne force. It swells for a few seconds before bursting, striking everyone across the whole zone with a wave of kinetic force and hurling them outward."
-	button_icon_state = "seeker_volley"
+	button_icon_state = "arcyne_burst"
 	sound = 'sound/magic/vlightning.ogg'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_MEDIUM
@@ -57,7 +57,6 @@
 			continue
 		new /obj/effect/temp_visual/pillar_warning/fadein(T, blast_delay)
 
-	playsound(center, 'sound/magic/charging.ogg', 60, TRUE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(arcyne_burst_erupt), center, H, blast_radius, blast_damage, push_dist, src, name), blast_delay)
 
 	return TRUE
@@ -66,11 +65,12 @@
 	if(!epicenter)
 		return
 	playsound(epicenter, 'sound/magic/repulse.ogg', 90, TRUE, 4)
-	var/static/list/random_zones = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	for(var/turf/T in range(radius, epicenter))
 		if(!(T in get_hear(radius, epicenter)))
 			continue
 		new /obj/effect/temp_visual/kinetic_blast(T)
+		for(var/obj/structure/S in T)
+			S.take_damage(damage, BRUTE, "blunt", FALSE)
 		for(var/mob/living/L in T.contents)
 			if(L.anti_magic_check())
 				L.visible_message(span_warning("The arcyne force dissipates around [L]!"))
@@ -80,12 +80,13 @@
 				L.visible_message(span_warning("[L] braces against the blast!"))
 				continue
 			if(istype(caster) && !QDELETED(caster) && ishuman(L))
-				arcyne_strike(caster, L, null, damage, pick(random_zones), \
+				arcyne_strike(caster, L, null, damage, caster.zone_selected, \
 					BCLASS_BLUNT, spell_name = spell_name, \
 					damage_type = BRUTE, npc_simple_damage_mult = 1, \
 					skip_animation = TRUE)
 			else
 				L.adjustBruteLoss(damage * 1.5)
+				SEND_SIGNAL(L, COMSIG_ATOM_WAS_ATTACKED, caster, damage)
 			var/push_dir = get_dir(epicenter, L) || pick(GLOB.cardinals)
 			L.safe_throw_at(get_ranged_target_turf(L, push_dir, push_dist), push_dist, 1, caster, force = MOVE_FORCE_STRONG)
 			new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_ARCANE, SPELL_IMPACT_MEDIUM)

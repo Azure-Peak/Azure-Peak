@@ -136,6 +136,7 @@
 /obj/item/parcel/towner_caravan
 	var/datum/weakref/unlocked_by_owner_ref
 	var/owner_name = ""
+	var/sealed_noun = "strongbox"
 
 /obj/item/parcel/towner_caravan/Initialize(mapload)
 	. = ..()
@@ -147,13 +148,13 @@
 		return
 	var/mob/owner = unlocked_by_owner_ref?.resolve()
 	if(!owner)
-		to_chat(user, span_warning("The strongbox's owner is no longer with us. The seal will not yield."))
+		to_chat(user, span_warning("The [sealed_noun]'s owner is no longer with us. It cannot be opened."))
 		return FALSE
 	if(owner != user)
-		to_chat(user, span_warning("This strongbox is keyed to [owner_name]. Only they can crack the seal."))
+		to_chat(user, span_warning("This [sealed_noun] is magickally sealed to [owner_name]. Only they can open it."))
 		return FALSE
 	if(owner.stat == DEAD)
-		to_chat(user, span_warning("You cannot work the seal in this state."))
+		to_chat(user, span_warning("You cannot open it in this state."))
 		return FALSE
 	if(!do_after(user, 2 SECONDS, target = src))
 		return
@@ -162,11 +163,11 @@
 	var/datum/quest/quest = courier_component?.quest_ref?.resolve()
 	if(length(contained_items) == 1)
 		var/obj/item/only = contained_items[1]
-		to_chat(user, span_notice("You unwrap [only] from the strongbox."))
+		to_chat(user, span_notice("You unwrap [only] from the [sealed_noun]."))
 		user.put_in_hands(only)
 		only.update_icon()
 	else
-		to_chat(user, span_notice("You crack the strongbox open and tip out the contents."))
+		to_chat(user, span_notice("You open the [sealed_noun] and tip out the contents."))
 		var/turf/drop_loc = get_turf(user)
 		for(var/obj/item/I as anything in contained_items)
 			I.forceMove(drop_loc)
@@ -181,9 +182,9 @@
 	. = ..()
 	var/mob/owner = unlocked_by_owner_ref?.resolve()
 	if(!owner)
-		. += span_warning("The owner is no longer with us. This strongbox cannot be opened.")
+		. += span_warning("The owner is no longer with us. This [sealed_noun] cannot be opened.")
 		return
 	if(owner == user)
-		. += span_notice("You can break the seal yourself - this is yours.")
+		. += span_notice("It is magickally sealed to you - you can open it yourself.")
 	else
-		. += span_warning("Keyed to [owner_name]. They alone can crack it.")
+		. += span_warning("Magickally sealed to [owner_name]. Only they can open it.")

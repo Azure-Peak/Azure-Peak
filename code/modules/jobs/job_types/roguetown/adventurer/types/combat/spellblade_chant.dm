@@ -350,7 +350,7 @@ a.choose-btn:hover {
 <li><b>Arcyne Momentum</b> — Build 1 Momentum on melee hits (even if parried or dodged) against a living creature. Melee grants 1 stack every 2 seconds. Spend 3 to unleash empowered versions of your abilities.</li>
 <li><b>Decay</b> — Starts decaying 10 seconds after the last strike, losing 1 stack every 6 seconds.</li>
 <li><b>Disruption</b> — You lose all Momentum when knocked down or stunned. Off-balance costs 3.</li>
-<li><b>Overcharge (7)</b> — Damages your chest and blurs your vision, unlocking your most powerful ability.</li>
+<li><b>Overcharge (7)</b> — Unlocks your most powerful ability. If overcharged Momentum decays, ALL of it discharges at once, straining you - briefly slowed and left Vulnerable. Spend it!</li>
 <li><b>Maximum (10)</b> — Unleash an empowered version of your ultimate ability.</li>
 <li><b>Empower Weapon</b> — Requires 5+ momentum. Burns ALL momentum to empower your next melee attack, bypassing parry and dodge. Visible red glow warns enemies. 30s cooldown. 8s duration.</li>
 <li><b>Arcyne Surge</b> — Certain non-ultimate abilities that strike 2 or more targets grant 1 bonus Momentum.</li>

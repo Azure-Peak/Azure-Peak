@@ -542,7 +542,8 @@
 		to_chat(owner, span_warning("This is not a suitable item to Barter with."))
 		return FALSE
 	var/obj/item/I = cast_on
-	if(I.sellprice < 2 || isnull(I.sellprice))
+	var/item_value = I.get_real_price()
+	if(item_value < 2)
 		to_chat(owner, span_warning("This thing is worthless."))
 		return FALSE
 	if(I.GetComponent(/datum/component/martyrweapon))
@@ -562,12 +563,12 @@
 			return FALSE
 
 	var/delay = 1 SECONDS
-	delay += round((I.sellprice / 50) SECONDS)
+	delay += round((item_value / 50) SECONDS)
 	if(I.Adjacent(owner))
 		if(do_after(owner, delay))
 			if(I.Adjacent(owner))	//We make sure it didnt' get yoinked after the delay.
 				var/ratio = 0.4 + ((owner.get_skill_level(associated_skill)) * 0.05)
-				var/mammonreward = round(I.sellprice * ratio)
+				var/mammonreward = round(item_value * ratio)
 				var/turf/T = get_turf(I)
 				new /obj/effect/temp_visual/barter_fx(T)
 				addtimer(CALLBACK(src, PROC_REF(process_barter), mammonreward, owner, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.
@@ -588,12 +589,16 @@
 	button_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	button_icon_state = "secularbarter"
 	sound = null
+	associated_skill = /datum/skill/misc/reading
 
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_ADJACENT
 
+
+	primary_resource_type = SPELL_COST_ENERGY
 	primary_resource_cost = SPELLCOST_MIRACLE
 
+	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_MIRACLE
 
 	invocation_type = INVOCATION_NONE
@@ -602,6 +607,7 @@
 	cooldown_time = 35 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_SAME_Z
+	required_items = null
 
 	var/static/list/barter_whitelist = list(
 		/obj/item/clothing/ring,
@@ -631,7 +637,8 @@
 		to_chat(owner, span_warning("This is not a suitable item to Barter with."))
 		return FALSE
 	var/obj/item/I = cast_on
-	if(I.sellprice < 2 || isnull(I.sellprice))
+	var/item_value = I.get_real_price()
+	if(item_value < 2)
 		to_chat(owner, span_warning("This thing is worthless."))
 		return FALSE
 	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
@@ -651,12 +658,12 @@
 		return FALSE
 
 	var/delay = 1 SECONDS
-	delay += round((I.sellprice / 50) SECONDS)
+	delay += round((item_value / 50) SECONDS)
 	if(I.Adjacent(owner))
 		if(do_after(owner, delay))
 			if(I.Adjacent(owner))	//We make sure it didnt' get yoinked after the delay.
 				var/ratio = 0.4 + ((owner.get_skill_level(associated_skill)) * 0.05)
-				var/mammonreward = round(I.sellprice * ratio)
+				var/mammonreward = round(item_value * ratio)
 				var/turf/T = get_turf(I)
 				new /obj/effect/temp_visual/barter_fx(T)
 				addtimer(CALLBACK(src, PROC_REF(process_secularbarter), mammonreward, owner, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.

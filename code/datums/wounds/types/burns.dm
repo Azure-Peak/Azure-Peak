@@ -2,7 +2,7 @@
 	name = "burn"
 	whp = 1 // 1 to 1 to puncture, as it is an AP type
 	sewn_whp = 0
-	bleed_rate = 1
+	bleed_rate = 0.2
 	sewn_bleed_rate = 0.04
 	clotting_rate = 0.01
 	sewn_clotting_rate = 0.01
@@ -11,52 +11,57 @@
 	sew_threshold = 10
 	can_sew = TRUE
 	can_cauterize = FALSE
-	passive_healing = 0.4
-	severity_type = SEVERITY_TYPE_WHP
+	passive_healing = 0.1
+	bypass_bloody_wound_check = TRUE
+	severity_type = SEVERITY_TYPE_BURN // name off the limb's actual burnt fraction, not the whp heal-pool
 	sound_effect = list('sound/combat/hits/burn (1).ogg', 'sound/combat/hits/burn (2).ogg')
-	severity_stages = list(
-		"reddened" = 10,
-		"blistering" = 35,
-		"scalded" = 70,
-		"charred" = 120,
-		"cindered" = 180,
+	severity_stages = list( // burn_dam as a percent of the limb's max_damage
+		"reddened" = 5,
+		"blistering" = 20,
+		"scalded" = 40,
+		"charred" = 60,
+		"cindered" = 80,
 	)
 
 #define BURN_UPG_WHPRATE 1.2
-#define BURN_UPG_PAINRATE 0.15
-#define BURN_UPG_BLEEDRATE 0.1
+#define BURN_UPG_PAINRATE 0.25
 #define BURN_CHAR_THRESHOLD 120
-#define BURN_UPG_CLAMP_ARMORED (ARTERY_LIMB_BLEEDRATE * 0.05)
-#define BURN_UPG_CLAMP_RAW (ARTERY_LIMB_BLEEDRATE * 0.1)
-#define BURN_ARMORED_BLEED_CLAMP (ARTERY_LIMB_BLEEDRATE * 0.5)
+// flat floor + a capped damage term, so a fireball (90) bleeds more than a spitfire (40) without the old runaway clamp
+#define BURN_UPG_BLEED_FLAT 0.8
+#define BURN_UPG_BLEED_SCALE 0.02
+#define BURN_UPG_BLEED_SCALE_CAP 1.6
+#define BURN_ARMORED_BLEED_CLAMP (ARTERY_LIMB_BLEEDRATE * 0.33)
 #define BURN_MAX_BLEED (ARTERY_LIMB_BLEEDRATE * 0.75)
+
+/datum/wound/dynamic/burn/on_bodypart_gain(obj/item/bodypart/affected)
+	if(!affected.can_bloody_wound())
+		set_bleed_rate(0)
+	return ..()
 
 /datum/wound/dynamic/burn/upgrade(dam, armor, exposed)
 	whp += (dam * BURN_UPG_WHPRATE)
 	woundpain += (dam * BURN_UPG_PAINRATE)
-	if(whp >= BURN_CHAR_THRESHOLD)
-		if(!disabling)
-			disabling = TRUE
-			passive_healing = 0
-			clotting_threshold = 1
-			clotting_rate = 0.1
-			bodypart_owner?.update_disabled()
-		var/clamp_max = ((armor > 0) ? BURN_UPG_CLAMP_ARMORED : BURN_UPG_CLAMP_RAW)
-		if(exposed)
-			clamp_max = BURN_UPG_CLAMP_RAW
-		set_bleed_rate(bleed_rate + clamp((dam * BURN_UPG_BLEEDRATE), 0.1, clamp_max))
-		armor_check(armor, BURN_ARMORED_BLEED_CLAMP)
+	if(bodypart_owner?.can_bloody_wound())
+		set_bleed_rate(bleed_rate + BURN_UPG_BLEED_FLAT + clamp(dam * BURN_UPG_BLEED_SCALE, 0, BURN_UPG_BLEED_SCALE_CAP))
 		if(bleed_rate > BURN_MAX_BLEED)
 			set_bleed_rate(BURN_MAX_BLEED)
+		if(armor && !exposed)
+			armor_check(armor, BURN_ARMORED_BLEED_CLAMP)
+	if(whp >= BURN_CHAR_THRESHOLD && !disabling)
+		disabling = TRUE
+		passive_healing = 0
+		clotting_threshold = 1
+		clotting_rate = 0.1
+		bodypart_owner?.update_disabled()
 	update_stage()
 	..()
 
 #undef BURN_UPG_WHPRATE
 #undef BURN_UPG_PAINRATE
-#undef BURN_UPG_BLEEDRATE
 #undef BURN_CHAR_THRESHOLD
-#undef BURN_UPG_CLAMP_ARMORED
-#undef BURN_UPG_CLAMP_RAW
+#undef BURN_UPG_BLEED_FLAT
+#undef BURN_UPG_BLEED_SCALE
+#undef BURN_UPG_BLEED_SCALE_CAP
 #undef BURN_ARMORED_BLEED_CLAMP
 #undef BURN_MAX_BLEED
 
@@ -102,22 +107,16 @@
 	affected.Paralyze(15)
 	shake_camera(affected, 2, 2)
 	playsound(affected, 'sound/health/burning.ogg', 60, TRUE)
-	var/noblood = FALSE
-	if(iscarbon(affected))
-		var/mob/living/carbon/charred_carbon = affected
-		if(charred_carbon.dna?.species)
-			noblood = (NOBLOOD in charred_carbon.dna.species.species_traits)
-	if(HAS_TRAIT(affected, TRAIT_NOBREATH) || noblood)
-		var/burn_crit_count = 0
-		for(var/datum/wound/charring/char_wound in affected.get_wounds())
-			burn_crit_count++
-		if(burn_crit_count >= 2)
-			affected.visible_message(span_boldwarning("[affected]'s body is consumed by searing burns!"))
-			to_chat(affected, span_boldwarning("The searing heat overwhelms my body!"))
-			affected.emote("deathgasp", TRUE)
-			affected.death()
-		else
-			to_chat(affected, span_userdanger("Searing heat scorches through me - another burn like this will be fatal!"))
+	var/burn_crit_count = 0
+	for(var/datum/wound/charring/char_wound in affected.get_wounds())
+		burn_crit_count++
+	if(burn_crit_count >= 2)
+		affected.visible_message(span_boldwarning("[affected]'s body is consumed by searing burns!"))
+		to_chat(affected, span_boldwarning("The searing heat overwhelms my body!"))
+		affected.emote("deathgasp", TRUE)
+		affected.death()
+	else
+		to_chat(affected, span_userdanger("Searing heat scorches through me - another burn like this will be fatal!"))
 
 /datum/wound/charring/sew_wound()
 	. = ..()

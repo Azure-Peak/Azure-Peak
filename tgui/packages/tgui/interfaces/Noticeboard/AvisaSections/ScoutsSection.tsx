@@ -12,7 +12,7 @@ import {
   SEAL_RED,
   SERIF,
 } from '../../common/parchment';
-import { type NoticeboardData, type ScoutRegion } from '../types';
+import type { NoticeboardData, ScoutRegion } from '../types';
 
 const tableStyle: React.CSSProperties = {
   width: '100%',
@@ -106,7 +106,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
         </span>
       </td>
       <td style={cellWithDivider}>
-        {!!region.blockaded ? (
+        {region.blockaded ? (
           <>
             <div
               style={{
@@ -138,7 +138,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 blocking {region.blockade_region_label}
               </div>
             )}
-            {!!region.blockade_writ_out ? (
+            {region.blockade_writ_out ? (
               <div style={{ marginTop: 3 }}>
                 <span style={badgeStyle(SEAL_AMBER)}>WRIT OUT</span>
               </div>
@@ -158,9 +158,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
           <span style={{ color: INK_FAINT }}>-</span>
         )}
       </td>
-      <td
-        style={{ ...cellWithDivider, fontStyle: 'italic', color: INK_SOFT }}
-      >
+      <td style={{ ...cellWithDivider, fontStyle: 'italic', color: INK_SOFT }}>
         {region.ic_descriptions.length > 0
           ? region.ic_descriptions.join('; ')
           : '- the wardens have nothing to add -'}
@@ -199,9 +197,9 @@ const HelpPanel = () => (
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
       A safe region is unlikely to spawn ambushes from common creechurs and
-      brigands. A low-threat region may yield lone foes. Only Azure Basin,
-      Azure Grove, and the Terrorbog can be rendered fully safe; regions not
-      listed are beyond the wardens' charge and remain dangerous.
+      brigands. A low-threat region may yield lone foes. Only Azure Basin, Azure
+      Grove, and the Terrorbog can be rendered fully safe; regions not listed
+      are beyond the wardens' charge and remain dangerous.
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
       Danger is reduced by luring villains and creechurs and killing them when

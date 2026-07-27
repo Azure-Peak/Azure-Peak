@@ -78,6 +78,36 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/foreigner/lesserblackoak
 	)
 
+/datum/status_effect/advclass_selection
+	id = "advclass_selection"
+	duration = -1
+	tick_interval = 2 SECONDS
+	alert_type = null
+
+/datum/status_effect/advclass_selection/on_apply()
+	. = ..()
+	owner.Stun(5 SECONDS)
+
+/datum/status_effect/advclass_selection/tick()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H) || !H.advsetup)
+		qdel(src)
+		return
+	H.Stun(5 SECONDS)
+
+/datum/status_effect/advclass_selection/on_remove()
+	if(owner)
+		owner.SetStun(0)
+
+/mob/living/carbon/human/proc/set_advsetup(new_value)
+	if(advsetup == new_value)
+		return
+	advsetup = new_value
+	if(advsetup)
+		apply_status_effect(/datum/status_effect/advclass_selection)
+	else
+		remove_status_effect(/datum/status_effect/advclass_selection)
+
 /mob/living/carbon/human/proc/adv_hugboxing_start()
 	to_chat(src, span_warning("I will be in danger once I start moving."))
 	status_flags |= GODMODE

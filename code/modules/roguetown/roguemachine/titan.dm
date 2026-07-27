@@ -454,6 +454,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	return TRUE
 
 /proc/make_law(raw_message)
+	raw_message = html_encode(raw_message)
 	GLOB.laws_of_the_land += raw_message
 	priority_announce("[length(GLOB.laws_of_the_land)]. [raw_message]", "A LAW IS DECLARED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE)

@@ -83,6 +83,26 @@
 	desc = "I urgently need to drink something! Anything!"
 	icon_state = "thirst3"
 
+/datum/status_effect/debuff/spell_vampire_block
+	id = "spell_vampire_block"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/spell_vampire_block
+	duration = 60 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/datum/status_effect/debuff/spell_vampire_block/on_apply()
+	. = ..()
+	if(.)
+		ADD_TRAIT(owner, TRAIT_SPELL_VAMPIRE_BLOCK, STATUS_EFFECT_TRAIT)
+
+/datum/status_effect/debuff/spell_vampire_block/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_SPELL_VAMPIRE_BLOCK, STATUS_EFFECT_TRAIT)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/spell_vampire_block
+	name = "Vitae Surge"
+	desc = "My vampiric power blocks the flow of the arcyne in my vein - I cannot utilize conventional magick until it subsides."
+	icon_state = "debuff"
+
 
 
 /datum/status_effect/debuff/vthirstt1
@@ -512,25 +532,12 @@
 	. = ..()
 	owner.remove_stress(/datum/stressevent/resurrected)
 
-// /datum/status_effect/debuff/revived_addendum
-//	id = "revived_addendum"
-//	alert_type = /atom/movable/screen/alert/status_effect/debuff/revived_addendum
-//	duration = 5 MINUTES		//If timed right, it should naturally end alongside the 'Death's Door' debuff. Purely cosmetic, for the sake of keeping some continuity with the effects of resurrection.
-
-//	/atom/movable/screen/alert/status_effect/debuff/revived_addendum
-//	name = "Resurr.."
-//	desc = "You can feel yourself, in both body and soul, becoming fully grounded once more. Tyme will tell if you'll lyve to see tomorrow, however, or if this is merely an intermission.."
-//	icon_state = "revived_addendum"
-
-// /datum/status_effect/debuff/revived/on_remove()
-//	owner.apply_status_effect(/datum/status_effect/debuff/revival_addendum) //Cosmetic continuance, to ensure it ends with the 'Permadeath' debuff.*/ //Readd when someone can figure out how to un-errorify this.
-//	. = ..()
-
 /datum/status_effect/debuff/rotted
 	id = "rotted_body" //For de-rot - your body ROTTED. Harsher penalty for longer, can be fully off-set with a cure-rot potion.
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/rotted
 	effectedstats = list(STATKEY_STR = -2, STATKEY_PER = -2, STATKEY_INT = -2, STATKEY_WIL = -2, STATKEY_CON = -2, STATKEY_SPD = -2, STATKEY_LCK = -2)
 	duration = 30 MINUTES	// Back to a temporary 30 minute duration. It hurts.
+	examine_text = "<font color='#2c8b00'>SUBJECTPRONOUN looks frail and unnaturally pale, moving with the hesitant stiffness of one whose body has only recently remembered how to live.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/rotted
 	name = "Atrophia"
@@ -538,9 +545,10 @@
 	icon_state = "revived_rot"
 
 /datum/status_effect/debuff/rotted_zombie
-	id = "rotted_zombie" //Replaces the flat-stat change, this should ONLY apply to zombies who have been dead for some time. Makes them easier to kill.
+	id = "rotted_zombie" //Replaces the flat-stat change, this should ONLY apply to zombies, makes them easier to kill
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
-	effectedstats = list(STATKEY_CON = -8) //No duration = infinate in time - this is removed on de-rot miricle OR de-rot surgery. Won't be applied unless you've been a zombie for ~20 min.
+	effectedstats = list(STATKEY_CON = -3, STATKEY_INT = -8) //No duration = infinate in time - this is removed on de-rot miricle OR de-rot surgery. Won't be applied unless you're rotting long enough to zombify.
+	examine_text = "<font color='#2c8b00'>SUBJECTPRONOUN's flesh bears the unmistakable signs of unnatural decay. An ill omen whispers that this corpse may yet walk again.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
 	name = "Decomposing"
@@ -551,6 +559,7 @@
 	id = "permadeath"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath
 	duration = 10 MINUTES //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
+	examine_text = "<font color='#b40000'>SUBJECTPRONOUN appears haunted by an unseen burden. It feels as though their spirit hangs by the thinnest of threads. Another death may well be their last.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath
 	name = "Death's Door"
@@ -610,6 +619,35 @@
 	name = "Chilled"
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
+
+/datum/status_effect/debuff/blackvitae
+	id = "blackvitae"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/blackvitae
+	duration = 20 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/blackvitae
+	name = "Bloodrot"
+	desc = span_bloody("BLACKENED ROT SEEPS INTO MY WOUNDS! IT HURTS, IT HURTS, IT HURTS, IT HURTS!!")
+	icon_state = "ritesexpended"
+
+/datum/status_effect/debuff/blackvitae/on_apply()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/newcolor = rgb(67, 67, 67)
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod *= 1.5
+		phy.pain_mod *= 1.5
+		target.add_atom_colour(newcolor, TEMPORARY_COLOUR_PRIORITY)
+		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, newcolor), 20 SECONDS)
+
+/datum/status_effect/debuff/blackvitae/on_remove()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod /= 1.5
+		phy.pain_mod /= 1.5
 
 /datum/status_effect/debuff/cold/greater
 	id = "Frozen"
@@ -1148,13 +1186,13 @@
 	if(!ishuman(owner))
 		return FALSE
 	var/mob/living/carbon/human/H = owner
-	var/datum/physiology/phy = H.physiology 
+	var/datum/physiology/phy = H.physiology
 	var/con_mod = H.STACON - 10
 	// con mod needs to be greater than 1 for scaling
 	if(con_mod > 0)
 		// ensure their gotten con mod does not go below 1 or exceed the bleedrate cap.
 		con_mod = clamp(con_mod, 1, CONSTITUTION_BLEEDRATE_CAP - 10)
-		// this ""equalizes"" high con ppl into bleeding more, but they SHOULD generally still 
+		// this ""equalizes"" high con ppl into bleeding more, but they SHOULD generally still
 		// bleed less than if they had just 10 con. remember: this numbers gets sent THRU their con score after.
 		phy.bleed_mod = 1.15 + (con_mod * 0.1) // at 15 con you'll bleed from a wound by .825
 	else
@@ -1166,7 +1204,7 @@
 	if(!ishuman(owner))
 		return FALSE
 	var/mob/living/carbon/human/H = owner
-	var/datum/physiology/phy = H.physiology 
+	var/datum/physiology/phy = H.physiology
 	phy.bleed_mod = initial(phy.bleed_mod) // con can lower from the bleeding so we want it to just directly be set back to the initial
 	H.visible_message(span_warning("[owner] has their wounds calm..."), span_warning("My wounds stop bleeding so heavily!"))
 
@@ -1185,7 +1223,7 @@
 	if(!ishuman(owner))
 		return FALSE
 	var/mob/living/carbon/human/H = owner
-	var/datum/physiology/phy = H.physiology 
+	var/datum/physiology/phy = H.physiology
 	var/pain_mod = phy.pain_mod
 	phy.pain_mod = pain_mod * 1.15 // this then gets reduced by wil, among other things. change as needed.
 	H.visible_message(span_warning("[owner] looks to be in great pain, their wounds BLACKENING!"), span_danger("EVERYTHING HURTS!! MY WOUNDS PAIN HAS INCREASED!!"))
@@ -1195,7 +1233,7 @@
 	if(!ishuman(owner))
 		return FALSE
 	var/mob/living/carbon/human/H = owner
-	var/datum/physiology/phy = H.physiology 
+	var/datum/physiology/phy = H.physiology
 	var/pain_mod = phy.pain_mod
 	phy.pain_mod = pain_mod / 1.15 // this should be a define fuuuck
 	H.visible_message(span_warning("[owner]'s wounds suddenly return to normal!"), span_warning("My magickally induced pain subsides!"))

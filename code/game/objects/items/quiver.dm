@@ -359,18 +359,17 @@
 			arrows += A
 	update_icon()
 
-// Skeleton: Broadhead with occasional chance of bodkins
+// Broadhead with a very low chance of bodkin
 /obj/item/quiver/randomfill/skeleton
 	fill_table = list(
-		/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy = 55, 
-		/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy = 20,
-		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 5
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy = 55,
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy = 5
 	)
 
 
 /obj/item/quiver/randomfill/highwayman
 	fill_table = list(
-		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 70, 
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 70,
 		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 15,
 		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder = 5,
 		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic = 5,

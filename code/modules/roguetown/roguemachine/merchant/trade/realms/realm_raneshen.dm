@@ -25,7 +25,7 @@
 		list("name" = "Pamphylos", "tonnage" = 600, "weight" = 20),
 	)
 	city_tags = list(
-		"Raneshan", "Chorodiaki", "Müccevkabher", "Nshkormh", "Vrdaqnan",
+		"Raneshen", "Chorodiaki", "Müccevkabher", "Nshkormh", "Vrdaqnan",
 	)
 	city_tag_chance = 30
 	cultural_goods = list()

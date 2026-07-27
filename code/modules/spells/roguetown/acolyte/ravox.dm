@@ -800,6 +800,9 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 		if(istype(target.patron, /datum/patron/old_god))
 			to_chat(target, span_danger("You feel a hot-wave wash over you, leaving as quickly as it came.."))	//No effect on Psydonians!
 			continue
+		if(istype(target.patron, /datum/patron/vheslyn))
+			to_chat(target, span_danger("You feel... nothing..")) //No effect on Vheslynites, fear them.
+			continue
 		if(!owner.faction_check_mob(target))
 			continue
 		if(target.mob_biotypes & MOB_UNDEAD)

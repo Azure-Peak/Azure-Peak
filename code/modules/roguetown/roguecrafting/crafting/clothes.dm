@@ -7,7 +7,6 @@
 		/obj/item/natural/bone = 3,
 		/obj/item/natural/fibers = 1,
 		)
-	sellprice = 10
 	verbage_simple = "craft"
 	verbage = "crafted"
 	craftdiff = 0
@@ -33,7 +32,6 @@
 		/obj/item/natural/hide = 1,
 		/obj/item/natural/bone = 2,
 		)
-	sellprice = 12
 	tools = list(/obj/item/needle)
 	skillcraft = /datum/skill/craft/sewing
 	verbage_simple = "sew"
@@ -49,7 +47,6 @@
 		/obj/item/natural/hide = 1,
 		/obj/item/natural/fibers = 1,
 		)
-	sellprice = 6
 	tools = list(/obj/item/needle)
 	skillcraft = /datum/skill/craft/sewing
 	verbage_simple = "sew"

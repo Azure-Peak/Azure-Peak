@@ -34,7 +34,8 @@ const QUALITY_TIER_TOOLTIP = [
 
 export const OrdersView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
-  const { active_orders, order_pool_cap, good_catalog, region_catalog } = props.data;
+  const { active_orders, order_pool_cap, good_catalog, region_catalog } =
+    props.data;
   const count = active_orders.length;
 
   const onFulfill = (ref: string) => act('fulfill_order', { ref });
@@ -123,7 +124,9 @@ const OrderCard = (props: CardProps) => {
   return (
     <div style={style}>
       <div style={{ marginBottom: '4px' }}>
-        <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>{o.name}</span>
+        <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>
+          {o.name}
+        </span>
         {!!o.region_blockaded && (
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}
@@ -192,14 +195,12 @@ const OrderCard = (props: CardProps) => {
           }}
           title={QUALITY_TIER_TOOLTIP}
         >
-          Warehouse goods pay -80% to +35% based on the quality of submitted items.
+          Warehouse goods pay -80% to +35% based on the quality of submitted
+          items.
         </div>
       )}
       <div style={{ marginTop: '8px' }}>
-        <FulfillButton
-          order={o}
-          onFulfill={() => props.onFulfill(o.ref)}
-        />
+        <FulfillButton order={o} onFulfill={() => props.onFulfill(o.ref)} />
       </div>
     </div>
   );
@@ -247,10 +248,7 @@ const PairGroup = (props: {
   );
 };
 
-const FulfillButton = (props: {
-  order: Order;
-  onFulfill: () => void;
-}) => {
+const FulfillButton = (props: { order: Order; onFulfill: () => void }) => {
   const o = props.order;
   if (o.region_blockaded) {
     return (

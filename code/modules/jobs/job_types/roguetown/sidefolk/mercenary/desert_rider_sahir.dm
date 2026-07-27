@@ -15,7 +15,7 @@
 		STATKEY_INT = 3,
 		STATKEY_PER = 2
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "post_aspect_spells" = list(/datum/action/cooldown/spell/bind_armament), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 9, "ward" = TRUE)
 	extra_context = "This subclass chooses between twin shamshirs or a more traditional staff."
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,

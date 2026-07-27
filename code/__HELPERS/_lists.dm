@@ -865,3 +865,10 @@ Port of: https://github.com/Monkestation/Vanderlin/commit/84b8b6a716a80040145bb9
 	desc = "It looks like base turfs went to the fucking moon, TELL YOUR LOCAL CODER TODAY"
 	icon = 'icons/turf/debug.dmi'
 	icon_state = "debug_turf"
+
+/proc/find_key_by_value(var/list/list, value)
+	for(var/key in list)
+		var/found_value = list[key]
+		if(found_value == value)
+			return key
+	return null

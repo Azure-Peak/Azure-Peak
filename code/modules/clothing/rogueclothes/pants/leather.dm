@@ -70,6 +70,12 @@
 	naledicolor = TRUE
 	salvage_result = /obj/item/natural/hide/cured
 
+/obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout
+	name = "aesthetic pontifex's chaqchur"
+	armor = ARMOR_CLOTHING
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor_class = ARMOR_CLASS_NONE
+
 /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen
 	name = "baggy desert pants"
 	desc = "A handmade pair of baggy, thin leather pants. Keeps sand out of your boots, sun off your legs, and a creacher's fangs from piercing your ankles."

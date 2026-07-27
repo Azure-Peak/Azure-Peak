@@ -26,7 +26,7 @@
 	var/intdamage = damage
 	// Exposed/Vulnerable are melee set-ups; a ranged hit (including a caster's own fire/frost) shouldn't burn the proc it just set up. Full armor penetration also clears this below.
 	var/consume_debuff = !istype(used_weapon, /obj/projectile)
-	
+
 	if(HAS_TRAIT(src, TRAIT_IRONMAN)) // free clongo noise when hit
 		playsound(loc, get_armor_sound(PLATEHIT, blade_dulling), 100) // SOVLNUKE!!!
 
@@ -99,9 +99,11 @@
 		var/list/layers = get_best_worn_armor_layered(def_zone, d_type)
 		if(length(layers))
 			dr_armor_present = TRUE
+			var/obj/item/clothing/best_layer
 			for(var/C in layers)
-				if(layers[C] > protection)
+				if(!best_layer || layers[C] > protection)
 					protection = layers[C]
+					best_layer = C
 			// DR tier formula: damage * 1 / (1 + 0.2 * tier)
 			if(protection > 0)
 				// Blunt/Fire/Acid: armor takes the DR-reduced amount, none reaches HP.
@@ -139,20 +141,26 @@
 				remove_status_effect(/datum/status_effect/debuff/vulnerable)
 				emote("groan", forced = TRUE)
 
-			var/layers_deep = 1
-			var/total_layer_count = length(layers)
-			var/played_sound = FALSE
-			for(var/obj/item/clothing/C in layers)
-				var/actualdmg = intdamage
-				if(!full_dmg)
-					actualdmg /= layers_deep
-				C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
-				if(actualdmg > 0)
-					SEND_SIGNAL(src, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, actualdmg, C, layers_deep, total_layer_count)
-				if(C.blocksound && !played_sound)
-					playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)
-					played_sound = TRUE
-				layers_deep++
+			if(d_type in ARMOR_DR_SINGLE_LAYER_TYPES)
+				if(best_layer)
+					best_layer.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+					if(best_layer.blocksound)
+						playsound(loc, get_armor_sound(best_layer.blocksound, blade_dulling), 100)
+			else
+				var/layers_deep = 1
+				var/played_sound = FALSE
+				var/total_layer_count = length(layers)
+				for(var/obj/item/clothing/C in layers)
+					var/actualdmg = intdamage
+					if(!full_dmg)
+						actualdmg /= layers_deep
+					C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+					if(actualdmg > 0)
+						SEND_SIGNAL(src, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, actualdmg, C, layers_deep, total_layer_count)
+					if(C.blocksound && !played_sound)
+						playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)
+						played_sound = TRUE
+					layers_deep++
 			layers.Cut()
 
 	if(physiology)

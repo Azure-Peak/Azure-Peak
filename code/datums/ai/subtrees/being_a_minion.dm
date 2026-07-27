@@ -12,6 +12,9 @@
 	var/mob/following = controller.blackboard[follow_target]
 	var/mob/living/pawn = controller.pawn
 
+	if(isliving(pawn) && SHOULD_RESIST(pawn))
+		return
+
 	var/mob/living/threat = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	if(!isliving(threat) || QDELETED(threat) || threat.stat == DEAD)
 		threat = controller.blackboard[BB_HIGHEST_THREAT_MOB]

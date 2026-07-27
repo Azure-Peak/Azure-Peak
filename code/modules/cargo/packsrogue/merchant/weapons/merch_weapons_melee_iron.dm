@@ -124,6 +124,11 @@
 	cost = 50 // 2 Iron Ingot, 1 Small Log, 1 Chain
 	contains = list(/obj/item/rogueweapon/flail/peasantwarflail/iron)
 
+/datum/supply_pack/rogue/iron_weapons/longswordiron
+	name = "Bastard Sword"
+	cost = 45 // 2 Iron Ingot, 1 Small Log
+	contains = list(/obj/item/rogueweapon/sword/long/iron)
+
 /datum/supply_pack/rogue/iron_weapons/lucerne
 	name = "Lucerne Hammer"
 	cost = 45 // 2 Iron Ingot, 1 Small Log

@@ -123,6 +123,5 @@
 		"My silk is from the looms of Tamiro itself, not the mainland imitations. Pay the difference; you will know it on the touch.",
 		"The tariff at home does not negotiate. Yours, I trust, has more grace. Demonstrate it.",
 		"My tea master is from Aisataiji - trained at the foothill temples. For one zenny they will perform the Calm-as-the-Asemai ceremony, three hours, full silence, and seven different leaves from the islands. They have rejected the offers of clans richer than yours. They sail with me, to pass on our ancient arts. Do a favor to an old man and old master. Pay them and record his arts in your journals.",
-		"One question, before we trade. Who is Alotheos, and why does your people keep robbing his tomb?",
 		"I have heard of the fame of Azurian fishes. Big! Long! Fat, tasty and succulent. Full of umami. We have Lingyuese runic chest to preserve it for the journey home. Now, summon your best fisherman and sell me your best price for a catch of Azurian cod, salmon, and crabs. I only want the expensive, truly good ones, not the cheap one - these are not worth the space on my ship. Please, do not be like the less Factor who tried to offer me cheap fishes and pass them off. Us Kazengunese know the difference, and I will not be fooled.",
 	)

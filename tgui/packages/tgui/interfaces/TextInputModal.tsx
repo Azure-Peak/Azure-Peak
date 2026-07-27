@@ -56,11 +56,11 @@ export const TextInputModal = (props) => {
 
   const visualMultiline = multiline || input.length >= 30;
   // Dynamically changes the window height based on the message.
-  const dynamicHeight = message.length > 30 ? 
-    (message.length / 40) * 18 : 18;
+  const dynamicHeight = message.length > 30 ? (message.length / 40) * 18 : 18;
 
   let windowHeight =
-    135 + dynamicHeight +
+    135 +
+    dynamicHeight +
     (visualMultiline ? 75 : 0) +
     (message.length && large_buttons ? 5 : 0);
   if (bigmodal) windowHeight = 425; // Override and just make a big modal for FT / OOC Notes
@@ -98,10 +98,7 @@ export const TextInputModal = (props) => {
               />
             </Stack.Item>
             <Stack.Item>
-              <InputButtons
-                input={input}
-                message={`${input.length}`}
-              />
+              <InputButtons input={input} message={`${input.length}`} />
             </Stack.Item>
           </Stack>
         </Section>

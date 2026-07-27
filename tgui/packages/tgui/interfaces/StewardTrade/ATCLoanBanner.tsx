@@ -23,7 +23,11 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
   if (!atc_loan.can_view) {
     return null;
   }
-  if (!atc_loan.available && atc_loan.loans_drawn === 0 && !atc_loan.arrears_consumed) {
+  if (
+    !atc_loan.available &&
+    atc_loan.loans_drawn === 0 &&
+    !atc_loan.arrears_consumed
+  ) {
     return null;
   }
 
@@ -52,15 +56,17 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
         {atc_loan.available ? (
           <>
             The clerk receives applications for emergency loan of{' '}
-            <b>{atc_loan.min}m to {atc_loan.max}m</b> on the Company&apos;s
-            standing credit, at the customary{' '}
+            <b>
+              {atc_loan.min}m to {atc_loan.max}m
+            </b>{' '}
+            on the Company&apos;s standing credit, at the customary{' '}
             <b>{atc_loan.interest_pct}% interest</b> charged against the
             principal. The arrears grace stands forfeit on draw - should the
             Crown miss its next payroll, the realm enters sequestration without
             warning. Window closes on Day {atc_loan.closed_day}.
           </>
         ) : (
-          <>{atc_loan.blocker || 'The clerk is unavailable.'}</>
+          atc_loan.blocker || 'The clerk is unavailable.'
         )}
       </div>
       {!!atc_loan.arrears_consumed && (
@@ -71,14 +77,16 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
             marginBottom: '6px',
           }}
         >
-          Outstanding to the Company: <b>{atc_loan.outstanding}m</b>. All
-          inflow into the Crown&apos;s Purse is skimmed against the debt until
-          it is settled. The Burghers&apos; grace is forfeit; the next missed
-          payroll skips arrears and goes straight to sequestration.
+          Outstanding to the Company: <b>{atc_loan.outstanding}m</b>. All inflow
+          into the Crown&apos;s Purse is skimmed against the debt until it is
+          settled. The Burghers&apos; grace is forfeit; the next missed payroll
+          skips arrears and goes straight to sequestration.
         </div>
       )}
       {atc_loan.loans_drawn > 0 && (
-        <div style={{ color: INK_FAINT, fontSize: FONT_BODY, marginBottom: '6px' }}>
+        <div
+          style={{ color: INK_FAINT, fontSize: FONT_BODY, marginBottom: '6px' }}
+        >
           Loans drawn this week: {atc_loan.loans_drawn}.
         </div>
       )}

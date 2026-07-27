@@ -561,6 +561,9 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define TRIUMPH_CAT_MISC "MISC!"
 #define TRIUMPH_CAT_ACTIVE_DATUMS "ACTIVE"
 
+// Suffix for a triumph entry so that it doesn't overlap
+#define TRIUMPH_STASH_SUFFIX " - TR"
+
 #define ARMOR_CLASS_NONE 0
 #define ARMOR_CLASS_LIGHT 1
 #define ARMOR_CLASS_MEDIUM 2

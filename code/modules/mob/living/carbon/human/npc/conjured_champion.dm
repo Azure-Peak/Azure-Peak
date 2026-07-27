@@ -12,6 +12,8 @@
 /mob/living/carbon/human/species/human/northern/conjured_champion/Initialize()
 	. = ..()
 	set_species(/datum/species/human/northern)
+	gender = pick(MALE, FEMALE)
+	dna.species.random_character(src)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 /mob/living/carbon/human/species/human/northern/conjured_champion/proc/outfit_champion(datum/outfit/outfit)
@@ -65,15 +67,32 @@
 		if("axeman")
 			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/axeman)
 			def_intent_change(INTENT_PARRY)
+		if("flailman")
+			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/flailman)
+			def_intent_change(INTENT_PARRY)
+		if("greatflailman")
+			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/greatflailman)
+			def_intent_change(INTENT_PARRY)
 		if("spearman")
 			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/spearman)
 			def_intent_change(INTENT_PARRY)
 		if("maceman")
 			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/maceman)
 			def_intent_change(INTENT_PARRY)
+		if("dopp_spear")
+			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/doppelsoldner/spear)
+			def_intent_change(INTENT_PARRY)
+		if("dopp_swb")
+			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/doppelsoldner/swb)
+			def_intent_change(INTENT_PARRY)
+		if("dopp_xbow")
+			upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/doppelsoldner/xbow)
+			def_intent_change(INTENT_DODGE)
 		else
 			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/greatswordman)
 			def_intent_change(INTENT_PARRY)
+	dna.species.handle_body(src)
 	random_voice_NPC()
 	random_hair_NPC()
 	random_eye_color_NPC()
@@ -160,6 +179,21 @@
 	r_hand = /obj/item/rogueweapon/stoneaxe/battle
 	l_hand = (tier >= 2) ? /obj/item/rogueweapon/shield/tower/metal : /obj/item/rogueweapon/shield/wood
 
+/datum/outfit/job/roguetown/conjured_champion/flailman/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	var/skill = champion_skill(H)
+	var/tier = champion_tier(H)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, skill, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, skill, TRUE)
+	r_hand = /obj/item/rogueweapon/flail/sflail
+	l_hand = (tier >= 2) ? /obj/item/rogueweapon/shield/tower/metal : /obj/item/rogueweapon/shield/wood
+
+/datum/outfit/job/roguetown/conjured_champion/greatflailman/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	var/skill = champion_skill(H)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, skill, TRUE)
+	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
+
 /datum/outfit/job/roguetown/conjured_champion/spearman/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = champion_skill(H)
@@ -170,12 +204,14 @@
 	. = ..()
 	var/skill = champion_skill(H)
 	H.adjust_skillrank(/datum/skill/combat/maces, skill, TRUE)
-	r_hand = /obj/item/rogueweapon/mace/maul
+	r_hand = /obj/item/rogueweapon/mace/goden/steel
 
 /datum/outfit/job/roguetown/conjured_champion/archer/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/ranged_skill = min(champion_skill(H), SKILL_LEVEL_EXPERT)
 	H.STAPER = 13 + champion_tier(H)
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, ranged_skill, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, clamp(ranged_skill - 1, 2, 6), TRUE)
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
@@ -186,8 +222,52 @@
 	. = ..()
 	var/ranged_skill = min(champion_skill(H), SKILL_LEVEL_EXPERT)
 	H.STAPER = 13 + champion_tier(H)
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/crossbows, ranged_skill, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, clamp(ranged_skill - 1, 2, SKILL_LEVEL_EXPERT), TRUE)
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	backl = /obj/item/quiver/bolt/conjured
+	beltr = /obj/item/rogueweapon/sword/short/iron
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/conjured
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+
+/datum/outfit/job/roguetown/conjured_champion/doppelsoldner/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	H.STASTR = 10
+	H.STACON = 10
+	H.STAWIL = 10
+	H.adjust_skillrank_down_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_down_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
+	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
+	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft
+	neck = /obj/item/clothing/neck/roguetown/bevor
+	belt = /obj/item/storage/belt/rogue/leather
+	backl = /obj/item/rogueweapon/scabbard/gwstrap
+
+/datum/outfit/job/roguetown/conjured_champion/doppelsoldner/spear/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	H.adjust_skillrank(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	r_hand = /obj/item/rogueweapon/spear
+
+/datum/outfit/job/roguetown/conjured_champion/doppelsoldner/swb/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	H.adjust_skillrank(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	r_hand = /obj/item/rogueweapon/sword/iron
+	l_hand = /obj/item/rogueweapon/shield/buckler
+
+/datum/outfit/job/roguetown/conjured_champion/doppelsoldner/xbow/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	H.STAPER = 12
+	H.adjust_skillrank(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	backl = /obj/item/quiver/bolt/conjured
 	beltr = /obj/item/rogueweapon/sword/short/iron

@@ -101,8 +101,8 @@ export const RoyalCustomPanel = () => {
           marginTop: '4px',
         }}
       >
-        Invoked once the volume threshold is reached;
-        Import surcharges flow into the Crown&apos;s purse thereafter.
+        Invoked once the volume threshold is reached; Import surcharges flow
+        into the Crown&apos;s purse thereafter.
       </div>
     </div>
   );

@@ -46,12 +46,16 @@ const TAB_ORDER: EconomicPanelTab[] = [
   'ledger',
   'debug',
 ];
+
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { type DebugCounts, DebugView } from './EconomicPanel/DebugView';
-import { type ForeignTrade, ForeignTradeView } from './EconomicPanel/ForeignTradeView';
+import {
+  type ForeignTrade,
+  ForeignTradeView,
+} from './EconomicPanel/ForeignTradeView';
 
 type Dashboard = {
   discretionary: number;
@@ -327,9 +331,7 @@ export const EconomicPanel = () => {
     safePage * LEDGER_PAGE_SIZE,
     (safePage + 1) * LEDGER_PAGE_SIZE,
   );
-  const setLedgerKindAndReset = (
-    k: 'all' | 'mint' | 'burn' | 'transfer',
-  ) => {
+  const setLedgerKindAndReset = (k: 'all' | 'mint' | 'burn' | 'transfer') => {
     setLedgerKind(k);
     setLedgerPage(0);
   };
@@ -397,432 +399,435 @@ export const EconomicPanel = () => {
           </Stack.Item>
 
           {tab === 'solvency' && (
-          <Stack.Item>
-            <Section
-              title={
-                <span>
-                  Solvency &mdash;{' '}
-                  <span style={{ color: stateColor }}>
-                    {bankruptcy.state_label}
+            <Stack.Item>
+              <Section
+                title={
+                  <span>
+                    Solvency &mdash;{' '}
+                    <span style={{ color: stateColor }}>
+                      {bankruptcy.state_label}
+                    </span>
                   </span>
-                </span>
-              }
-            >
-              <Stack>
-                <Stack.Item grow>
-                  <LabeledList>
-                    <LabeledList.Item label="State">
-                      <b style={{ color: stateColor }}>
-                        {bankruptcy.state_label}
-                      </b>
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Outstanding Debt">
-                      <b style={{ color: stateColor }}>
-                        {bankruptcy.debt}m
-                      </b>
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Bankruptcies This Round">
-                      {bankruptcy.bankruptcy_count}
-                    </LabeledList.Item>
-                    {bankruptcy.concession_picks > 0 && (
-                      <LabeledList.Item label="Concession Picks Remaining">
-                        <b style={{ color: '#5cb85c' }}>
-                          {bankruptcy.concession_picks}
+                }
+              >
+                <Stack>
+                  <Stack.Item grow>
+                    <LabeledList>
+                      <LabeledList.Item label="State">
+                        <b style={{ color: stateColor }}>
+                          {bankruptcy.state_label}
                         </b>
                       </LabeledList.Item>
-                    )}
-                  </LabeledList>
-                </Stack.Item>
-                <Stack.Item grow>
-                  <LabeledList>
-                    <LabeledList.Item label="Arrears Loan Floor">
-                      {bankruptcy.arrears_loan_floor}m
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Sequestration Floor">
-                      {bankruptcy.operating_floor}m
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Recovery Reset">
-                      {bankruptcy.recovery_reset}m
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Sequestration Auto-Export">
-                      {bankruptcy.autoexport_override}%
-                    </LabeledList.Item>
-                    <LabeledList.Item label="ATC Loans This Round">
-                      {bankruptcy.atc_loans_drawn}
-                      {!!bankruptcy.atc_loan_arrears_consumed && (
-                        <span style={{ color: '#e07b39', marginLeft: '6px' }}>
-                          - arrears grace forfeit
-                        </span>
+                      <LabeledList.Item label="Outstanding Debt">
+                        <b style={{ color: stateColor }}>{bankruptcy.debt}m</b>
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Bankruptcies This Round">
+                        {bankruptcy.bankruptcy_count}
+                      </LabeledList.Item>
+                      {bankruptcy.concession_picks > 0 && (
+                        <LabeledList.Item label="Concession Picks Remaining">
+                          <b style={{ color: '#5cb85c' }}>
+                            {bankruptcy.concession_picks}
+                          </b>
+                        </LabeledList.Item>
                       )}
-                    </LabeledList.Item>
-                  </LabeledList>
-                </Stack.Item>
-              </Stack>
-              <Box mt={1} mb={1}>
-                <Stack align="center">
-                  <Stack.Item>
-                    <b>ATC Emergency Loan:</b>
+                    </LabeledList>
                   </Stack.Item>
+                  <Stack.Item grow>
+                    <LabeledList>
+                      <LabeledList.Item label="Arrears Loan Floor">
+                        {bankruptcy.arrears_loan_floor}m
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Sequestration Floor">
+                        {bankruptcy.operating_floor}m
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Recovery Reset">
+                        {bankruptcy.recovery_reset}m
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Sequestration Auto-Export">
+                        {bankruptcy.autoexport_override}%
+                      </LabeledList.Item>
+                      <LabeledList.Item label="ATC Loans This Round">
+                        {bankruptcy.atc_loans_drawn}
+                        {!!bankruptcy.atc_loan_arrears_consumed && (
+                          <span style={{ color: '#e07b39', marginLeft: '6px' }}>
+                            - arrears grace forfeit
+                          </span>
+                        )}
+                      </LabeledList.Item>
+                    </LabeledList>
+                  </Stack.Item>
+                </Stack>
+                <Box mt={1} mb={1}>
+                  <Stack align="center">
+                    <Stack.Item>
+                      <b>ATC Emergency Loan:</b>
+                    </Stack.Item>
+                    <Stack.Item>
+                      <NumberInput
+                        value={atcLoanAmount}
+                        minValue={bankruptcy.atc_loan_min}
+                        maxValue={bankruptcy.atc_loan_max}
+                        step={50}
+                        stepPixelSize={4}
+                        width="80px"
+                        onChange={(v: number) => setAtcLoanAmount(v)}
+                      />
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button.Confirm
+                        disabled={!bankruptcy.atc_loan_available}
+                        tooltip={
+                          bankruptcy.atc_loan_available
+                            ? `Borrow ${atcLoanAmount}m from the ATC. Consumes the arrears grace.`
+                            : `Loan unavailable: ${bankruptcy.atc_loan_blocker}`
+                        }
+                        onClick={() =>
+                          act('take_atc_loan', { amount: atcLoanAmount })
+                        }
+                      >
+                        Draw Loan
+                      </Button.Confirm>
+                    </Stack.Item>
+                    <Stack.Item color="gray" italic>
+                      {bankruptcy.atc_loan_min}-{bankruptcy.atc_loan_max}m.
+                      Closes on Day {bankruptcy.atc_loan_closed_day}.
+                    </Stack.Item>
+                  </Stack>
+                </Box>
+                <Stack mt={1} wrap>
                   <Stack.Item>
-                    <NumberInput
-                      value={atcLoanAmount}
-                      minValue={bankruptcy.atc_loan_min}
-                      maxValue={bankruptcy.atc_loan_max}
-                      step={50}
-                      stepPixelSize={4}
-                      width="80px"
-                      onChange={(v: number) => setAtcLoanAmount(v)}
-                    />
+                    <Button.Confirm
+                      disabled={bankruptcy.state !== 0}
+                      onClick={() => act('force_arrears')}
+                    >
+                      Force Arrears
+                    </Button.Confirm>
                   </Stack.Item>
                   <Stack.Item>
                     <Button.Confirm
-                      disabled={!bankruptcy.atc_loan_available}
-                      tooltip={
-                        bankruptcy.atc_loan_available
-                          ? `Borrow ${atcLoanAmount}m from the ATC. Consumes the arrears grace.`
-                          : `Loan unavailable: ${bankruptcy.atc_loan_blocker}`
-                      }
-                      onClick={() =>
-                        act('take_atc_loan', { amount: atcLoanAmount })
-                      }
+                      disabled={bankruptcy.state === 2}
+                      onClick={() => act('force_bankruptcy')}
                     >
-                      Draw Loan
+                      Force Bankruptcy
                     </Button.Confirm>
                   </Stack.Item>
-                  <Stack.Item color="gray" italic>
-                    {bankruptcy.atc_loan_min}-{bankruptcy.atc_loan_max}m. Closes
-                    on Day {bankruptcy.atc_loan_closed_day}.
+                  <Stack.Item>
+                    <Button.Confirm
+                      disabled={bankruptcy.state === 0}
+                      onClick={() => act('force_recovery')}
+                    >
+                      Force Recovery
+                    </Button.Confirm>
                   </Stack.Item>
                 </Stack>
-              </Box>
-              <Stack mt={1} wrap>
-                <Stack.Item>
-                  <Button.Confirm
-                    disabled={bankruptcy.state !== 0}
-                    onClick={() => act('force_arrears')}
-                  >
-                    Force Arrears
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    disabled={bankruptcy.state === 2}
-                    onClick={() => act('force_bankruptcy')}
-                  >
-                    Force Bankruptcy
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    disabled={bankruptcy.state === 0}
-                    onClick={() => act('force_recovery')}
-                  >
-                    Force Recovery
-                  </Button.Confirm>
-                </Stack.Item>
-              </Stack>
-              {bankruptcy.daily_payroll.length > 0 && (
-                <Box mt={1}>
-                  <Box mb={1}>
-                    <b>Daily Payroll</b> -{' '}
-                    {bankruptcy.state === 2 ? (
-                      <span style={{ color: '#c0392b', fontWeight: 'bold' }}>
-                        SUSPENDED (sequestration)
-                      </span>
-                    ) : (
-                      <span style={{ color: '#888' }}>
-                        {bankruptcy.daily_payroll_total}m total / dawn
-                      </span>
-                    )}
+                {bankruptcy.daily_payroll.length > 0 && (
+                  <Box mt={1}>
+                    <Box mb={1}>
+                      <b>Daily Payroll</b> -{' '}
+                      {bankruptcy.state === 2 ? (
+                        <span style={{ color: '#c0392b', fontWeight: 'bold' }}>
+                          SUSPENDED (sequestration)
+                        </span>
+                      ) : (
+                        <span style={{ color: '#888' }}>
+                          {bankruptcy.daily_payroll_total}m total / dawn
+                        </span>
+                      )}
+                    </Box>
+                    <Table>
+                      <Table.Row header>
+                        <Table.Cell>Job</Table.Cell>
+                        <Table.Cell collapsing>Wage</Table.Cell>
+                        <Table.Cell collapsing>Heads</Table.Cell>
+                        <Table.Cell collapsing>Suspended</Table.Cell>
+                        <Table.Cell collapsing>Pays</Table.Cell>
+                      </Table.Row>
+                      {bankruptcy.daily_payroll.map((row) => {
+                        const sequestered = bankruptcy.state === 2;
+                        const allSuspended =
+                          sequestered ||
+                          (row.headcount > 0 &&
+                            row.suspended_count >= row.headcount);
+                        return (
+                          <Table.Row
+                            key={row.job}
+                            style={{
+                              opacity: allSuspended ? 0.55 : 1,
+                              textDecoration: allSuspended
+                                ? 'line-through'
+                                : undefined,
+                            }}
+                          >
+                            <Table.Cell>{row.job}</Table.Cell>
+                            <Table.Cell collapsing>{row.amount}m</Table.Cell>
+                            <Table.Cell collapsing>{row.headcount}</Table.Cell>
+                            <Table.Cell collapsing>
+                              {row.suspended_count > 0 && (
+                                <span style={{ color: '#e07b39' }}>
+                                  {row.suspended_count}
+                                </span>
+                              )}
+                            </Table.Cell>
+                            <Table.Cell collapsing>
+                              {sequestered ? (
+                                <span
+                                  style={{
+                                    color: '#c0392b',
+                                    fontWeight: 'bold',
+                                  }}
+                                >
+                                  suspended
+                                </span>
+                              ) : (
+                                `${row.row_total}m`
+                              )}
+                            </Table.Cell>
+                          </Table.Row>
+                        );
+                      })}
+                    </Table>
                   </Box>
-                  <Table>
-                    <Table.Row header>
-                      <Table.Cell>Job</Table.Cell>
-                      <Table.Cell collapsing>Wage</Table.Cell>
-                      <Table.Cell collapsing>Heads</Table.Cell>
-                      <Table.Cell collapsing>Suspended</Table.Cell>
-                      <Table.Cell collapsing>Pays</Table.Cell>
-                    </Table.Row>
-                    {bankruptcy.daily_payroll.map((row) => {
-                      const sequestered = bankruptcy.state === 2;
-                      const allSuspended =
-                        sequestered ||
-                        (row.headcount > 0 &&
-                          row.suspended_count >= row.headcount);
-                      return (
-                        <Table.Row
-                          key={row.job}
-                          style={{
-                            opacity: allSuspended ? 0.55 : 1,
-                            textDecoration: allSuspended
-                              ? 'line-through'
-                              : undefined,
-                          }}
-                        >
-                          <Table.Cell>{row.job}</Table.Cell>
-                          <Table.Cell collapsing>{row.amount}m</Table.Cell>
-                          <Table.Cell collapsing>{row.headcount}</Table.Cell>
-                          <Table.Cell collapsing>
-                            {row.suspended_count > 0 && (
-                              <span style={{ color: '#e07b39' }}>
-                                {row.suspended_count}
-                              </span>
-                            )}
-                          </Table.Cell>
-                          <Table.Cell collapsing>
-                            {sequestered ? (
-                              <span
-                                style={{
-                                  color: '#c0392b',
-                                  fontWeight: 'bold',
-                                }}
-                              >
-                                suspended
-                              </span>
-                            ) : (
-                              `${row.row_total}m`
-                            )}
-                          </Table.Cell>
-                        </Table.Row>
-                      );
-                    })}
-                  </Table>
-                </Box>
-              )}
-              {bankruptcy.suspended_charters.length > 0 && (
-                <Box mt={1}>
-                  <Box italic color="gray" mb={1}>
-                    Suspended by Sequestration (
-                    {bankruptcy.concession_picks} concession pick
-                    {bankruptcy.concession_picks === 1 ? '' : 's'} remaining):
+                )}
+                {bankruptcy.suspended_charters.length > 0 && (
+                  <Box mt={1}>
+                    <Box italic color="gray" mb={1}>
+                      Suspended by Sequestration ({bankruptcy.concession_picks}{' '}
+                      concession pick
+                      {bankruptcy.concession_picks === 1 ? '' : 's'} remaining):
+                    </Box>
+                    <Stack wrap>
+                      {bankruptcy.suspended_charters.map((c) => (
+                        <Stack.Item key={c.id}>
+                          <Button
+                            disabled={bankruptcy.concession_picks <= 0}
+                            tooltip={
+                              bankruptcy.concession_picks <= 0
+                                ? 'No concession picks remaining'
+                                : `Restore ${c.name} without cooldown`
+                            }
+                            onClick={() =>
+                              act('concession_restore', { decree_id: c.id })
+                            }
+                          >
+                            Restore: {c.name}
+                          </Button>
+                        </Stack.Item>
+                      ))}
+                    </Stack>
                   </Box>
-                  <Stack wrap>
-                    {bankruptcy.suspended_charters.map((c) => (
-                      <Stack.Item key={c.id}>
-                        <Button
-                          disabled={bankruptcy.concession_picks <= 0}
-                          tooltip={
-                            bankruptcy.concession_picks <= 0
-                              ? 'No concession picks remaining'
-                              : `Restore ${c.name} without cooldown`
-                          }
-                          onClick={() =>
-                            act('concession_restore', { decree_id: c.id })
-                          }
-                        >
-                          Restore: {c.name}
-                        </Button>
-                      </Stack.Item>
-                    ))}
-                  </Stack>
-                </Box>
-              )}
-            </Section>
-          </Stack.Item>
+                )}
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'dashboard' && (
-          <Stack.Item>
-            <Section title={`Dashboard  -  Day ${day}`}>
-              <Stack>
-                <Stack.Item grow>
-                  <LabeledList>
-                    <LabeledList.Item label="Crown's Purse">
-                      {dashboard.discretionary}m
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Burgher Pledge">
-                      {dashboard.burgher_pledge}
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Total Bank Coin">
-                      {dashboard.total_bank}m over {dashboard.held_accounts} accounts
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Avg Balance">
-                      {dashboard.avg_balance}m
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Under 50m">
-                      {dashboard.under_50m}
-                    </LabeledList.Item>
-                  </LabeledList>
-                </Stack.Item>
-                <Stack.Item grow>
-                  <LabeledList>
-                    <LabeledList.Item label="In Advance">
-                      {dashboard.in_advance}
-                    </LabeledList.Item>
-                    <LabeledList.Item label="In Arrears">
-                      {dashboard.in_arrears}
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Debtors">
-                      {dashboard.debtor_count}
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Loans Outstanding">
-                      {dashboard.loans_outstanding} ({dashboard.loan_exposure}m exposure)
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Expected Rural Revenue">
-                      {dashboard.expected_rural_revenue}m / day
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Expected Wage Outlay">
-                      {dashboard.expected_wage_outlay}m / day
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Rural Tax YTD">
-                      {dashboard.rural_tax_total}m
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Noble Income YTD">
-                      {dashboard.noble_income_total}m
-                    </LabeledList.Item>
-                  </LabeledList>
-                </Stack.Item>
-              </Stack>
-            </Section>
-          </Stack.Item>
-
+            <Stack.Item>
+              <Section title={`Dashboard  -  Day ${day}`}>
+                <Stack>
+                  <Stack.Item grow>
+                    <LabeledList>
+                      <LabeledList.Item label="Crown's Purse">
+                        {dashboard.discretionary}m
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Burgher Pledge">
+                        {dashboard.burgher_pledge}
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Total Bank Coin">
+                        {dashboard.total_bank}m over {dashboard.held_accounts}{' '}
+                        accounts
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Avg Balance">
+                        {dashboard.avg_balance}m
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Under 50m">
+                        {dashboard.under_50m}
+                      </LabeledList.Item>
+                    </LabeledList>
+                  </Stack.Item>
+                  <Stack.Item grow>
+                    <LabeledList>
+                      <LabeledList.Item label="In Advance">
+                        {dashboard.in_advance}
+                      </LabeledList.Item>
+                      <LabeledList.Item label="In Arrears">
+                        {dashboard.in_arrears}
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Debtors">
+                        {dashboard.debtor_count}
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Loans Outstanding">
+                        {dashboard.loans_outstanding} ({dashboard.loan_exposure}
+                        m exposure)
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Expected Rural Revenue">
+                        {dashboard.expected_rural_revenue}m / day
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Expected Wage Outlay">
+                        {dashboard.expected_wage_outlay}m / day
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Rural Tax YTD">
+                        {dashboard.rural_tax_total}m
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Noble Income YTD">
+                        {dashboard.noble_income_total}m
+                      </LabeledList.Item>
+                    </LabeledList>
+                  </Stack.Item>
+                </Stack>
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'ledger' && (
-          <Stack.Item>
-            <Section
-              title={`Treasury Ledger  -  ${ledger_total} entries this round`}
-            >
-              <Stack mb={1}>
-                <Stack.Item grow>
-                  <LabeledList>
-                    <LabeledList.Item label="Round Inflow (mint)">
-                      <b style={{ color: '#5cb85c' }}>{ledger_full_minted}m</b>
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Round Outflow (burn)">
-                      <b style={{ color: '#e07b39' }}>{ledger_full_burned}m</b>
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Round Net">
-                      <b>{ledger_full_minted - ledger_full_burned}m</b>
-                    </LabeledList.Item>
-                  </LabeledList>
-                </Stack.Item>
-                <Stack.Item grow>
-                  <LabeledList>
-                    <LabeledList.Item label="Filtered Inflow">
-                      <b style={{ color: '#5cb85c' }}>
-                        {ledgerWindowTotals.minted}m
-                      </b>
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Filtered Outflow">
-                      <b style={{ color: '#e07b39' }}>
-                        {ledgerWindowTotals.burned}m
-                      </b>
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Filtered Net">
-                      <b>
-                        {ledgerWindowTotals.minted - ledgerWindowTotals.burned}m
-                      </b>
-                    </LabeledList.Item>
-                  </LabeledList>
-                </Stack.Item>
-              </Stack>
-              <Stack align="center" wrap mb={1}>
-                <Stack.Item>Kind:</Stack.Item>
-                {(['all', 'mint', 'burn', 'transfer'] as const).map((k) => (
-                  <Stack.Item key={k}>
+            <Stack.Item>
+              <Section
+                title={`Treasury Ledger  -  ${ledger_total} entries this round`}
+              >
+                <Stack mb={1}>
+                  <Stack.Item grow>
+                    <LabeledList>
+                      <LabeledList.Item label="Round Inflow (mint)">
+                        <b style={{ color: '#5cb85c' }}>
+                          {ledger_full_minted}m
+                        </b>
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Round Outflow (burn)">
+                        <b style={{ color: '#e07b39' }}>
+                          {ledger_full_burned}m
+                        </b>
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Round Net">
+                        <b>{ledger_full_minted - ledger_full_burned}m</b>
+                      </LabeledList.Item>
+                    </LabeledList>
+                  </Stack.Item>
+                  <Stack.Item grow>
+                    <LabeledList>
+                      <LabeledList.Item label="Filtered Inflow">
+                        <b style={{ color: '#5cb85c' }}>
+                          {ledgerWindowTotals.minted}m
+                        </b>
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Filtered Outflow">
+                        <b style={{ color: '#e07b39' }}>
+                          {ledgerWindowTotals.burned}m
+                        </b>
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Filtered Net">
+                        <b>
+                          {ledgerWindowTotals.minted -
+                            ledgerWindowTotals.burned}
+                          m
+                        </b>
+                      </LabeledList.Item>
+                    </LabeledList>
+                  </Stack.Item>
+                </Stack>
+                <Stack align="center" wrap mb={1}>
+                  <Stack.Item>Kind:</Stack.Item>
+                  {(['all', 'mint', 'burn', 'transfer'] as const).map((k) => (
+                    <Stack.Item key={k}>
+                      <Button
+                        selected={ledgerKind === k}
+                        onClick={() => setLedgerKindAndReset(k)}
+                      >
+                        {k}
+                      </Button>
+                    </Stack.Item>
+                  ))}
+                  <Stack.Item ml={2}>Fund:</Stack.Item>
+                  <Stack.Item>
+                    <Input
+                      value={ledgerFund}
+                      onChange={(v: string) => setLedgerFundAndReset(v)}
+                      placeholder="e.g. Crown's Purse"
+                    />
+                  </Stack.Item>
+                  <Stack.Item ml={2}>Reason:</Stack.Item>
+                  <Stack.Item grow>
+                    <Input
+                      fluid
+                      value={ledgerReason}
+                      onChange={(v: string) => setLedgerReasonAndReset(v)}
+                      placeholder="e.g. Standing Order, Manual Import, Payroll"
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
                     <Button
-                      selected={ledgerKind === k}
-                      onClick={() => setLedgerKindAndReset(k)}
+                      selected={ledgerGroup}
+                      tooltip="Collapse rows that share kind, source, destination, and reason."
+                      onClick={toggleLedgerGroup}
                     >
-                      {k}
+                      Group similar
                     </Button>
                   </Stack.Item>
-                ))}
-                <Stack.Item ml={2}>Fund:</Stack.Item>
-                <Stack.Item>
-                  <Input
-                    value={ledgerFund}
-                    onChange={(v: string) => setLedgerFundAndReset(v)}
-                    placeholder="e.g. Crown's Purse"
-                  />
-                </Stack.Item>
-                <Stack.Item ml={2}>Reason:</Stack.Item>
-                <Stack.Item grow>
-                  <Input
-                    fluid
-                    value={ledgerReason}
-                    onChange={(v: string) => setLedgerReasonAndReset(v)}
-                    placeholder="e.g. Standing Order, Manual Import, Payroll"
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    selected={ledgerGroup}
-                    tooltip="Collapse rows that share kind, source, destination, and reason."
-                    onClick={toggleLedgerGroup}
-                  >
-                    Group similar
-                  </Button>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button onClick={clearLedgerFilters}>Clear</Button>
-                </Stack.Item>
-              </Stack>
-              {ledger_total > ledger_cap && (
-                <Box italic color="gray" mb={1}>
-                  Showing the most recent {ledger_cap} of {ledger_total} entries.
-                  Aggregations above cover the full round.
-                </Box>
-              )}
-              <Box height="540px" mb={1} style={{ overflowY: 'auto' }}>
-                {pageRows.length === 0 ? (
-                  <Box italic color="gray">
-                    No entries match the current filter.
+                  <Stack.Item>
+                    <Button onClick={clearLedgerFilters}>Clear</Button>
+                  </Stack.Item>
+                </Stack>
+                {ledger_total > ledger_cap && (
+                  <Box italic color="gray" mb={1}>
+                    Showing the most recent {ledger_cap} of {ledger_total}{' '}
+                    entries. Aggregations above cover the full round.
                   </Box>
-                ) : (
-                  <Table>
-                    <Table.Row header>
-                      <Table.Cell>Time</Table.Cell>
-                      <Table.Cell>Kind</Table.Cell>
-                      <Table.Cell>From</Table.Cell>
-                      <Table.Cell>To</Table.Cell>
-                      <Table.Cell>Amount</Table.Cell>
-                      {ledgerGroup && <Table.Cell>Count</Table.Cell>}
-                      <Table.Cell>Reason</Table.Cell>
-                    </Table.Row>
-                    {pageRows.map((e, idx) => (
-                      <Table.Row key={safePage * LEDGER_PAGE_SIZE + idx}>
-                        <Table.Cell>{e.time_label}</Table.Cell>
-                        <Table.Cell>
-                          <span
-                            style={{
-                              color:
-                                e.kind === 'mint'
-                                  ? '#5cb85c'
-                                  : e.kind === 'burn'
-                                    ? '#e07b39'
-                                    : undefined,
-                            }}
-                          >
-                            {e.kind}
-                          </span>
-                        </Table.Cell>
-                        <Table.Cell>{e.from}</Table.Cell>
-                        <Table.Cell>{e.to}</Table.Cell>
-                        <Table.Cell>
-                          {e.amount}
-                          {e.currency ? e.currency.charAt(0) : ''}
-                        </Table.Cell>
-                        {ledgerGroup && (
-                          <Table.Cell>
-                            {e.count > 1 ? `×${e.count}` : ''}
-                          </Table.Cell>
-                        )}
-                        <Table.Cell>{e.reason || ''}</Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table>
                 )}
-              </Box>
-              {pageRows.length > 0 && (
-                <>
+                <Box height="540px" mb={1} style={{ overflowY: 'auto' }}>
+                  {pageRows.length === 0 ? (
+                    <Box italic color="gray">
+                      No entries match the current filter.
+                    </Box>
+                  ) : (
+                    <Table>
+                      <Table.Row header>
+                        <Table.Cell>Time</Table.Cell>
+                        <Table.Cell>Kind</Table.Cell>
+                        <Table.Cell>From</Table.Cell>
+                        <Table.Cell>To</Table.Cell>
+                        <Table.Cell>Amount</Table.Cell>
+                        {ledgerGroup && <Table.Cell>Count</Table.Cell>}
+                        <Table.Cell>Reason</Table.Cell>
+                      </Table.Row>
+                      {pageRows.map((e, idx) => (
+                        <Table.Row key={safePage * LEDGER_PAGE_SIZE + idx}>
+                          <Table.Cell>{e.time_label}</Table.Cell>
+                          <Table.Cell>
+                            <span
+                              style={{
+                                color:
+                                  e.kind === 'mint'
+                                    ? '#5cb85c'
+                                    : e.kind === 'burn'
+                                      ? '#e07b39'
+                                      : undefined,
+                              }}
+                            >
+                              {e.kind}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell>{e.from}</Table.Cell>
+                          <Table.Cell>{e.to}</Table.Cell>
+                          <Table.Cell>
+                            {e.amount}
+                            {e.currency ? e.currency.charAt(0) : ''}
+                          </Table.Cell>
+                          {ledgerGroup && (
+                            <Table.Cell>
+                              {e.count > 1 ? `×${e.count}` : ''}
+                            </Table.Cell>
+                          )}
+                          <Table.Cell>{e.reason || ''}</Table.Cell>
+                        </Table.Row>
+                      ))}
+                    </Table>
+                  )}
+                </Box>
+                {pageRows.length > 0 && (
                   <Stack align="center" mt={1}>
                     <Stack.Item grow>
                       <Box italic color="gray">
                         Page {safePage + 1} / {totalPages} -{' '}
-                        {displayRows.length}{' '}
-                        {ledgerGroup ? 'groups' : 'rows'}
+                        {displayRows.length} {ledgerGroup ? 'groups' : 'rows'}
                         {ledgerGroup
                           ? ` (from ${filteredLedger.length} entries)`
                           : ''}
@@ -863,582 +868,612 @@ export const EconomicPanel = () => {
                       />
                     </Stack.Item>
                   </Stack>
-                </>
-              )}
-            </Section>
-          </Stack.Item>
-
+                )}
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'debug' && (
-          <Stack.Item>
-            <DebugView debug={debug} act={act} />
-          </Stack.Item>
+            <Stack.Item>
+              <DebugView debug={debug} act={act} />
+            </Stack.Item>
           )}
 
           {tab === 'solvency' && (
-          <Stack.Item>
-            <Section title="Tick Actions">
-              <Stack wrap>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('advance_day')}>
-                    Advance Day
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_rural_tick')}>
-                    Fire Rural Tick
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_poll_tick')}>
-                    Fire Poll Tick
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_loan_tick')}>
-                    Fire Loan Tick
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_pledge_tick')}>
-                    Fire Pledge Tick
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_estate_incomes')}>
-                    Distribute Estates
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_payroll')}>
-                    Fire Payroll
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_economy_tick')}>
-                    Fire Economy Tick
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_brassface_tick')}>
-                    Fire BRASSFACE Tick
-                  </Button.Confirm>
-                </Stack.Item>
-              </Stack>
-            </Section>
-          </Stack.Item>
-
+            <Stack.Item>
+              <Section title="Tick Actions">
+                <Stack wrap>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('advance_day')}>
+                      Advance Day
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_rural_tick')}>
+                      Fire Rural Tick
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_poll_tick')}>
+                      Fire Poll Tick
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_loan_tick')}>
+                      Fire Loan Tick
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_pledge_tick')}>
+                      Fire Pledge Tick
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_estate_incomes')}>
+                      Distribute Estates
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_payroll')}>
+                      Fire Payroll
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_economy_tick')}>
+                      Fire Economy Tick
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_brassface_tick')}>
+                      Fire BRASSFACE Tick
+                    </Button.Confirm>
+                  </Stack.Item>
+                </Stack>
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'solvency' && (
-          <Stack.Item>
-            <Section title="Simulated Population (economy pop scaling)">
-              <Box mb={1} color="label">
-                Live active players: <b>{live_player_count}</b>.
-                Effective count used by economy pop scaling:{' '}
-                <b>{effective_player_count}</b>
-                {simulated_player_scalar > 0 ? ' (admin override)' : ' (live)'}.
-                Set 0 to use the live count.
-              </Box>
-              <Stack align="center">
-                <Stack.Item>Simulated:</Stack.Item>
-                <Stack.Item>
-                  <NumberInput
-                    step={1}
-                    minValue={0}
-                    maxValue={500}
-                    value={simPop}
-                    onChange={(v: number) => setSimPop(v)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    onClick={() =>
-                      act('set_simulated_population', { amount: simPop })
-                    }
-                  >
-                    Apply
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    onClick={() => {
-                      setSimPop(0);
-                      act('set_simulated_population', { amount: 0 });
-                    }}
-                  >
-                    Clear override
-                  </Button>
-                </Stack.Item>
-              </Stack>
-            </Section>
-          </Stack.Item>
-
+            <Stack.Item>
+              <Section title="Simulated Population (economy pop scaling)">
+                <Box mb={1} color="label">
+                  Live active players: <b>{live_player_count}</b>. Effective
+                  count used by economy pop scaling:{' '}
+                  <b>{effective_player_count}</b>
+                  {simulated_player_scalar > 0
+                    ? ' (admin override)'
+                    : ' (live)'}
+                  . Set 0 to use the live count.
+                </Box>
+                <Stack align="center">
+                  <Stack.Item>Simulated:</Stack.Item>
+                  <Stack.Item>
+                    <NumberInput
+                      step={1}
+                      minValue={0}
+                      maxValue={500}
+                      value={simPop}
+                      onChange={(v: number) => setSimPop(v)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      onClick={() =>
+                        act('set_simulated_population', { amount: simPop })
+                      }
+                    >
+                      Apply
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      onClick={() => {
+                        setSimPop(0);
+                        act('set_simulated_population', { amount: 0 });
+                      }}
+                    >
+                      Clear override
+                    </Button>
+                  </Stack.Item>
+                </Stack>
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'internal' && (
-          <Stack.Item>
-            <Section title={`Blockades (${blockades.length} active)`}>
-              <Stack wrap mb={1} align="center">
-                <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_blockade_roll')}>
-                    Fire Blockade Roll
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Dropdown
-                    width="11em"
-                    placeholder="Region..."
-                    selected={blockadeRegion}
-                    options={blockade_region_options.map((o) => ({
-                      value: o.id,
-                      displayText: o.blockaded ? `${o.name} (blockaded)` : o.name,
-                    }))}
-                    onSelected={(value) => setBlockadeRegion(value)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Dropdown
-                    width="11em"
-                    placeholder="Faction (auto)..."
-                    selected={blockadeFaction}
-                    options={[
-                      { value: '', displayText: 'Auto (by region)' },
-                      ...blockade_faction_options.map((o) => ({
+            <Stack.Item>
+              <Section title={`Blockades (${blockades.length} active)`}>
+                <Stack wrap mb={1} align="center">
+                  <Stack.Item>
+                    <Button.Confirm onClick={() => act('fire_blockade_roll')}>
+                      Fire Blockade Roll
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Dropdown
+                      width="11em"
+                      placeholder="Region..."
+                      selected={blockadeRegion}
+                      options={blockade_region_options.map((o) => ({
                         value: o.id,
-                        displayText: o.name,
-                      })),
-                    ]}
-                    onSelected={(value) => setBlockadeFaction(value)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    disabled={!blockadeRegion}
-                    onClick={() =>
-                      act('place_blockade', {
-                        region_id: blockadeRegion,
-                        faction_id: blockadeFaction || null,
-                      })
-                    }
-                  >
-                    Blockade Region
-                  </Button.Confirm>
-                </Stack.Item>
-              </Stack>
-              {blockades.length === 0 ? (
-                <Box italic color="gray">
-                  No blockades active. Trade roads run clear.
-                </Box>
-              ) : (
-                <Table>
-                  <Table.Row header>
-                    <Table.Cell>Region</Table.Cell>
-                    <Table.Cell>Threat</Table.Cell>
-                    <Table.Cell>Faction</Table.Cell>
-                    <Table.Cell>Day</Table.Cell>
-                    <Table.Cell>Writ?</Table.Cell>
-                    <Table.Cell>&nbsp;</Table.Cell>
-                  </Table.Row>
-                  {blockades.map((b) => (
-                    <Table.Row key={b.ref}>
-                      <Table.Cell>{b.region_name}</Table.Cell>
-                      <Table.Cell>{b.threat_region}</Table.Cell>
-                      <Table.Cell>{b.faction_name}</Table.Cell>
-                      <Table.Cell>D{b.day_started}</Table.Cell>
-                      <Table.Cell>{b.has_active_scroll ? 'yes' : '-'}</Table.Cell>
-                      <Table.Cell>
-                        <Button.Confirm
-                          color="bad"
-                          onClick={() =>
-                            act('clear_blockade', { ref: b.ref })
-                          }
-                        >
-                          Force Clear
-                        </Button.Confirm>
-                      </Table.Cell>
+                        displayText: o.blockaded
+                          ? `${o.name} (blockaded)`
+                          : o.name,
+                      }))}
+                      onSelected={(value) => setBlockadeRegion(value)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Dropdown
+                      width="11em"
+                      placeholder="Faction (auto)..."
+                      selected={blockadeFaction}
+                      options={[
+                        { value: '', displayText: 'Auto (by region)' },
+                        ...blockade_faction_options.map((o) => ({
+                          value: o.id,
+                          displayText: o.name,
+                        })),
+                      ]}
+                      onSelected={(value) => setBlockadeFaction(value)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      disabled={!blockadeRegion}
+                      onClick={() =>
+                        act('place_blockade', {
+                          region_id: blockadeRegion,
+                          faction_id: blockadeFaction || null,
+                        })
+                      }
+                    >
+                      Blockade Region
+                    </Button.Confirm>
+                  </Stack.Item>
+                </Stack>
+                {blockades.length === 0 ? (
+                  <Box italic color="gray">
+                    No blockades active. Trade roads run clear.
+                  </Box>
+                ) : (
+                  <Table>
+                    <Table.Row header>
+                      <Table.Cell>Region</Table.Cell>
+                      <Table.Cell>Threat</Table.Cell>
+                      <Table.Cell>Faction</Table.Cell>
+                      <Table.Cell>Day</Table.Cell>
+                      <Table.Cell>Writ?</Table.Cell>
+                      <Table.Cell>&nbsp;</Table.Cell>
                     </Table.Row>
-                  ))}
-                </Table>
-              )}
-            </Section>
-          </Stack.Item>
+                    {blockades.map((b) => (
+                      <Table.Row key={b.ref}>
+                        <Table.Cell>{b.region_name}</Table.Cell>
+                        <Table.Cell>{b.threat_region}</Table.Cell>
+                        <Table.Cell>{b.faction_name}</Table.Cell>
+                        <Table.Cell>D{b.day_started}</Table.Cell>
+                        <Table.Cell>
+                          {b.has_active_scroll ? 'yes' : '-'}
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Button.Confirm
+                            color="bad"
+                            onClick={() =>
+                              act('clear_blockade', { ref: b.ref })
+                            }
+                          >
+                            Force Clear
+                          </Button.Confirm>
+                        </Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table>
+                )}
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'foreign' && (
-          <Stack.Item>
-            <ForeignTradeView foreignTrade={foreign_trade} act={act} />
-          </Stack.Item>
+            <Stack.Item>
+              <ForeignTradeView foreignTrade={foreign_trade} act={act} />
+            </Stack.Item>
           )}
 
           {tab === 'assembly' && (
-          <Stack.Item>
-            <Section
-              title={`City Assembly  -  Session #${assembly.session_number || 0}`}
-            >
-              <Stack>
-                <Stack.Item grow>
-                  <LabeledList>
-                    <LabeledList.Item label="Alderman">
-                      {assembly.alderman_name || '(vacant)'}
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Trade Warrant">
-                      {assembly.trade_remaining ?? 0}m / {assembly.trade_cap ?? 0}m
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Defense Warrant">
-                      {assembly.defense_remaining ?? 0}p / {assembly.defense_cap ?? 0}p
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Censured">
-                      {assembly.censured_count ?? 0}
-                    </LabeledList.Item>
-                    <LabeledList.Item label="Sessions Resolved">
-                      {assembly.history_count ?? 0}
-                    </LabeledList.Item>
-                  </LabeledList>
-                </Stack.Item>
-                <Stack.Item grow>
-                  <Stack vertical>
-                    <Stack.Item>
-                      <Button.Confirm
-                        onClick={() => act('assembly_resolve')}
-                      >
-                        Resolve Now (silent)
-                      </Button.Confirm>
-                      <Button.Confirm
-                        ml={1}
-                        onClick={() => act('assembly_resolve_skip_quorum')}
-                      >
-                        Resolve, Skip Quorum
-                      </Button.Confirm>
-                      <Button.Confirm
-                        ml={1}
-                        onClick={() => act('assembly_divine_complete')}
-                      >
-                        Divine Intervention
-                      </Button.Confirm>
-                    </Stack.Item>
-                    <Stack.Item>
-                      <Button onClick={() => act('assembly_refresh_warrant')}>
-                        Refresh Warrant
-                      </Button>
-                      <Button.Confirm
-                        ml={1}
-                        color="bad"
-                        onClick={() => act('assembly_drain_warrant')}
-                      >
-                        Drain Warrant
-                      </Button.Confirm>
-                    </Stack.Item>
-                    {assembly.alderman_ckey ? (
+            <Stack.Item>
+              <Section
+                title={`City Assembly  -  Session #${assembly.session_number || 0}`}
+              >
+                <Stack>
+                  <Stack.Item grow>
+                    <LabeledList>
+                      <LabeledList.Item label="Alderman">
+                        {assembly.alderman_name || '(vacant)'}
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Trade Warrant">
+                        {assembly.trade_remaining ?? 0}m /{' '}
+                        {assembly.trade_cap ?? 0}m
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Defense Warrant">
+                        {assembly.defense_remaining ?? 0}p /{' '}
+                        {assembly.defense_cap ?? 0}p
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Censured">
+                        {assembly.censured_count ?? 0}
+                      </LabeledList.Item>
+                      <LabeledList.Item label="Sessions Resolved">
+                        {assembly.history_count ?? 0}
+                      </LabeledList.Item>
+                    </LabeledList>
+                  </Stack.Item>
+                  <Stack.Item grow>
+                    <Stack vertical>
                       <Stack.Item>
+                        <Button.Confirm onClick={() => act('assembly_resolve')}>
+                          Resolve Now (silent)
+                        </Button.Confirm>
                         <Button.Confirm
-                          color="bad"
-                          onClick={() => act('assembly_demote_alderman')}
+                          ml={1}
+                          onClick={() => act('assembly_resolve_skip_quorum')}
                         >
-                          Demote Alderman
+                          Resolve, Skip Quorum
+                        </Button.Confirm>
+                        <Button.Confirm
+                          ml={1}
+                          onClick={() => act('assembly_divine_complete')}
+                        >
+                          Divine Intervention
                         </Button.Confirm>
                       </Stack.Item>
-                    ) : null}
-                  </Stack>
-                </Stack.Item>
-              </Stack>
-              <Stack align="center" mt={1}>
-                <Stack.Item>Trade cap:</Stack.Item>
-                <Stack.Item>
-                  <NumberInput
-                    step={50}
-                    minValue={0}
-                    maxValue={10000}
-                    value={assemblyTradeCap}
-                    onChange={(v: number) => setAssemblyTradeCap(v)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    onClick={() =>
-                      act('assembly_set_trade_cap', { amount: assemblyTradeCap })
-                    }
-                  >
-                    Set
-                  </Button>
-                </Stack.Item>
-                <Stack.Item>Defense cap:</Stack.Item>
-                <Stack.Item>
-                  <NumberInput
-                    step={50}
-                    minValue={0}
-                    maxValue={10000}
-                    value={assemblyDefenseCap}
-                    onChange={(v: number) => setAssemblyDefenseCap(v)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    onClick={() =>
-                      act('assembly_set_defense_cap', { amount: assemblyDefenseCap })
-                    }
-                  >
-                    Set
-                  </Button>
-                </Stack.Item>
-              </Stack>
-              <Box italic color="gray" mt={1}>
-                To promote or censure a specific player, select them in the player
-                list below and use the Alderman buttons in the detail pane.
-              </Box>
-            </Section>
-          </Stack.Item>
-
+                      <Stack.Item>
+                        <Button onClick={() => act('assembly_refresh_warrant')}>
+                          Refresh Warrant
+                        </Button>
+                        <Button.Confirm
+                          ml={1}
+                          color="bad"
+                          onClick={() => act('assembly_drain_warrant')}
+                        >
+                          Drain Warrant
+                        </Button.Confirm>
+                      </Stack.Item>
+                      {assembly.alderman_ckey ? (
+                        <Stack.Item>
+                          <Button.Confirm
+                            color="bad"
+                            onClick={() => act('assembly_demote_alderman')}
+                          >
+                            Demote Alderman
+                          </Button.Confirm>
+                        </Stack.Item>
+                      ) : null}
+                    </Stack>
+                  </Stack.Item>
+                </Stack>
+                <Stack align="center" mt={1}>
+                  <Stack.Item>Trade cap:</Stack.Item>
+                  <Stack.Item>
+                    <NumberInput
+                      step={50}
+                      minValue={0}
+                      maxValue={10000}
+                      value={assemblyTradeCap}
+                      onChange={(v: number) => setAssemblyTradeCap(v)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      onClick={() =>
+                        act('assembly_set_trade_cap', {
+                          amount: assemblyTradeCap,
+                        })
+                      }
+                    >
+                      Set
+                    </Button>
+                  </Stack.Item>
+                  <Stack.Item>Defense cap:</Stack.Item>
+                  <Stack.Item>
+                    <NumberInput
+                      step={50}
+                      minValue={0}
+                      maxValue={10000}
+                      value={assemblyDefenseCap}
+                      onChange={(v: number) => setAssemblyDefenseCap(v)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      onClick={() =>
+                        act('assembly_set_defense_cap', {
+                          amount: assemblyDefenseCap,
+                        })
+                      }
+                    >
+                      Set
+                    </Button>
+                  </Stack.Item>
+                </Stack>
+                <Box italic color="gray" mt={1}>
+                  To promote or censure a specific player, select them in the
+                  player list below and use the Alderman buttons in the detail
+                  pane.
+                </Box>
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'dashboard' && (
-          <Stack.Item>
-            <Section title="Crown's Purse Mint / Burn">
-              <Stack align="center">
-                <Stack.Item>Mint:</Stack.Item>
-                <Stack.Item>
-                  <NumberInput
-                    step={10}
-                    minValue={1}
-                    maxValue={100000}
-                    value={mintAmount}
-                    onChange={(v: number) => setMintAmount(v)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    onClick={() => act('mint_discretionary', { amount: mintAmount })}
-                  >
-                    Mint
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item ml={3}>Burn:</Stack.Item>
-                <Stack.Item>
-                  <NumberInput
-                    step={10}
-                    minValue={1}
-                    maxValue={100000}
-                    value={burnAmount}
-                    onChange={(v: number) => setBurnAmount(v)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    onClick={() => act('burn_discretionary', { amount: burnAmount })}
-                  >
-                    Burn
-                  </Button.Confirm>
-                </Stack.Item>
-              </Stack>
-            </Section>
-          </Stack.Item>
-
+            <Stack.Item>
+              <Section title="Crown's Purse Mint / Burn">
+                <Stack align="center">
+                  <Stack.Item>Mint:</Stack.Item>
+                  <Stack.Item>
+                    <NumberInput
+                      step={10}
+                      minValue={1}
+                      maxValue={100000}
+                      value={mintAmount}
+                      onChange={(v: number) => setMintAmount(v)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      onClick={() =>
+                        act('mint_discretionary', { amount: mintAmount })
+                      }
+                    >
+                      Mint
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item ml={3}>Burn:</Stack.Item>
+                  <Stack.Item>
+                    <NumberInput
+                      step={10}
+                      minValue={1}
+                      maxValue={100000}
+                      value={burnAmount}
+                      onChange={(v: number) => setBurnAmount(v)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      onClick={() =>
+                        act('burn_discretionary', { amount: burnAmount })
+                      }
+                    >
+                      Burn
+                    </Button.Confirm>
+                  </Stack.Item>
+                </Stack>
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'dashboard' && (
-          <Stack.Item>
-            <Section title="Merchant Favor (testing)">
-              <Stack align="center">
-                <Stack.Item>Amount:</Stack.Item>
-                <Stack.Item>
-                  <NumberInput
-                    step={100}
-                    minValue={1}
-                    maxValue={100000}
-                    value={favorAmount}
-                    onChange={(v: number) => setFavorAmount(v)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    color="good"
-                    onClick={() => act('adjust_merchant_favor', { amount: favorAmount })}
-                  >
-                    Grant
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button.Confirm
-                    color="bad"
-                    onClick={() => act('adjust_merchant_favor', { amount: -favorAmount })}
-                  >
-                    Revoke
-                  </Button.Confirm>
-                </Stack.Item>
-              </Stack>
-            </Section>
-          </Stack.Item>
-
+            <Stack.Item>
+              <Section title="Merchant Favor (testing)">
+                <Stack align="center">
+                  <Stack.Item>Amount:</Stack.Item>
+                  <Stack.Item>
+                    <NumberInput
+                      step={100}
+                      minValue={1}
+                      maxValue={100000}
+                      value={favorAmount}
+                      onChange={(v: number) => setFavorAmount(v)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      color="good"
+                      onClick={() =>
+                        act('adjust_merchant_favor', { amount: favorAmount })
+                      }
+                    >
+                      Grant
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      color="bad"
+                      onClick={() =>
+                        act('adjust_merchant_favor', { amount: -favorAmount })
+                      }
+                    >
+                      Revoke
+                    </Button.Confirm>
+                  </Stack.Item>
+                </Stack>
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'charters' && (
-          <Stack.Item>
-            <Section title="Charters">
-              <Stack vertical>
-                {charters.map((c) => (
-                  <Stack.Item key={c.id}>
-                    <Button.Confirm
-                      fluid
-                      color={c.active ? 'good' : 'bad'}
-                      onClick={() => act('toggle_charter', { decree_id: c.id })}
-                    >
-                      {c.name}: {c.active ? 'ACTIVE' : 'SUSPENDED'}
-                    </Button.Confirm>
-                  </Stack.Item>
-                ))}
-              </Stack>
-            </Section>
-          </Stack.Item>
-
-          )}
-
-          {tab === 'players' && (
-          <Stack.Item>
-            <Section title="Filter">
-              <Stack align="center" wrap>
-                <Stack.Item>Category:</Stack.Item>
-                {filter_options.categories.map((cat) => (
-                  <Stack.Item key={cat}>
-                    <Button
-                      selected={filter.category === cat}
-                      onClick={() => applyFilter({ category: cat })}
-                    >
-                      {CATEGORY_LABELS[cat] || cat}
-                    </Button>
-                  </Stack.Item>
-                ))}
-              </Stack>
-              <Stack align="center" mt={1} wrap>
-                <Stack.Item>Status:</Stack.Item>
-                {filter_options.statuses.map((s) => (
-                  <Stack.Item key={s}>
-                    <Button
-                      selected={filter.status === s}
-                      onClick={() => applyFilter({ status: s })}
-                    >
-                      {STATUS_LABELS[s] || s}
-                    </Button>
-                  </Stack.Item>
-                ))}
-              </Stack>
-              <Stack align="center" mt={1}>
-                <Stack.Item>Search:</Stack.Item>
-                <Stack.Item grow>
-                  <Input
-                    fluid
-                    value={searchDraft}
-                    onChange={(v: string) => setSearchDraft(v)}
-                    placeholder="Substring match on name..."
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <Button onClick={() => applyFilter({ search: searchDraft })}>
-                    Apply
-                  </Button>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    onClick={() => {
-                      setSearchDraft('');
-                      act('set_filter', { category: 'all', status: 'all', search: '' });
-                    }}
-                  >
-                    Clear
-                  </Button>
-                </Stack.Item>
-              </Stack>
-            </Section>
-          </Stack.Item>
-
-          )}
-
-          {tab === 'players' && (
-          <Stack.Item>
-            <Section title={`Players (${players.length} matching filter)`}>
-              {players.length === 0 ? (
-                <Box italic color="gray">
-                  No players match the current filter. Widen the filter or select
-                  a category/status above.
-                </Box>
-              ) : (
-                <>
-                  <Table>
-                    <Table.Row header>
-                      <Table.Cell>Name</Table.Cell>
-                      <Table.Cell>Job</Table.Cell>
-                      <Table.Cell>Category</Table.Cell>
-                      <Table.Cell>Rate</Table.Cell>
-                      <Table.Cell>Balance</Table.Cell>
-                      <Table.Cell>Advance</Table.Cell>
-                      <Table.Cell>Owed</Table.Cell>
-                      <Table.Cell>Overdue</Table.Cell>
-                      <Table.Cell>Flags</Table.Cell>
-                      <Table.Cell>&nbsp;</Table.Cell>
-                    </Table.Row>
-                    {players.map((p) => {
-                      const isSelected = selected && selected.ref === p.ref;
-                      return (
-                      <Table.Row key={p.ref}>
-                        <Table.Cell>
-                          {isSelected ? <b>{'> '}{p.name}</b> : p.name}
-                        </Table.Cell>
-                        <Table.Cell>{p.job}</Table.Cell>
-                        <Table.Cell>{p.category_name}</Table.Cell>
-                        <Table.Cell>
-                          {p.rate}m{p.raw_rate !== p.rate ? ` (raw ${p.raw_rate}m)` : ''}
-                        </Table.Cell>
-                        <Table.Cell>{p.balance}m</Table.Cell>
-                        <Table.Cell>{p.advance}</Table.Cell>
-                        <Table.Cell>{p.owed}m</Table.Cell>
-                        <Table.Cell>{p.overdue}</Table.Cell>
-                        <Table.Cell>
-                          {p.exempt ? 'E ' : ''}
-                          {p.is_debtor ? 'D ' : ''}
-                          {p.has_loan ? 'L ' : ''}
-                        </Table.Cell>
-                        <Table.Cell>
-                          <Button onClick={() => act('select', { ref: p.ref })}>
-                            Select
-                          </Button>
-                        </Table.Cell>
-                      </Table.Row>
-                      );
-                    })}
-                  </Table>
-
-                  <Stack mt={1} wrap>
-                    <Stack.Item>
+            <Stack.Item>
+              <Section title="Charters">
+                <Stack vertical>
+                  {charters.map((c) => (
+                    <Stack.Item key={c.id}>
                       <Button.Confirm
-                        color="bad"
-                        onClick={() => act('bulk_clear_debt')}
-                      >
-                        Bulk: Clear debt for all {players.length} filtered
-                      </Button.Confirm>
-                    </Stack.Item>
-                    <Stack.Item>
-                      <NumberInput
-                        step={1}
-                        minValue={1}
-                        maxValue={30}
-                        value={bulkAdvanceDays}
-                        onChange={(v: number) => setBulkAdvanceDays(v)}
-                      />
-                    </Stack.Item>
-                    <Stack.Item>
-                      <Button.Confirm
+                        fluid
+                        color={c.active ? 'good' : 'bad'}
                         onClick={() =>
-                          act('bulk_add_advance', { days: bulkAdvanceDays })
+                          act('toggle_charter', { decree_id: c.id })
                         }
                       >
-                        Bulk: +{bulkAdvanceDays} advance days to all filtered
+                        {c.name}: {c.active ? 'ACTIVE' : 'SUSPENDED'}
                       </Button.Confirm>
                     </Stack.Item>
-                  </Stack>
-                </>
-              )}
-            </Section>
-          </Stack.Item>
+                  ))}
+                </Stack>
+              </Section>
+            </Stack.Item>
+          )}
+
+          {tab === 'players' && (
+            <Stack.Item>
+              <Section title="Filter">
+                <Stack align="center" wrap>
+                  <Stack.Item>Category:</Stack.Item>
+                  {filter_options.categories.map((cat) => (
+                    <Stack.Item key={cat}>
+                      <Button
+                        selected={filter.category === cat}
+                        onClick={() => applyFilter({ category: cat })}
+                      >
+                        {CATEGORY_LABELS[cat] || cat}
+                      </Button>
+                    </Stack.Item>
+                  ))}
+                </Stack>
+                <Stack align="center" mt={1} wrap>
+                  <Stack.Item>Status:</Stack.Item>
+                  {filter_options.statuses.map((s) => (
+                    <Stack.Item key={s}>
+                      <Button
+                        selected={filter.status === s}
+                        onClick={() => applyFilter({ status: s })}
+                      >
+                        {STATUS_LABELS[s] || s}
+                      </Button>
+                    </Stack.Item>
+                  ))}
+                </Stack>
+                <Stack align="center" mt={1}>
+                  <Stack.Item>Search:</Stack.Item>
+                  <Stack.Item grow>
+                    <Input
+                      fluid
+                      value={searchDraft}
+                      onChange={(v: string) => setSearchDraft(v)}
+                      placeholder="Substring match on name..."
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      onClick={() => applyFilter({ search: searchDraft })}
+                    >
+                      Apply
+                    </Button>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      onClick={() => {
+                        setSearchDraft('');
+                        act('set_filter', {
+                          category: 'all',
+                          status: 'all',
+                          search: '',
+                        });
+                      }}
+                    >
+                      Clear
+                    </Button>
+                  </Stack.Item>
+                </Stack>
+              </Section>
+            </Stack.Item>
+          )}
+
+          {tab === 'players' && (
+            <Stack.Item>
+              <Section title={`Players (${players.length} matching filter)`}>
+                {players.length === 0 ? (
+                  <Box italic color="gray">
+                    No players match the current filter. Widen the filter or
+                    select a category/status above.
+                  </Box>
+                ) : (
+                  <>
+                    <Table>
+                      <Table.Row header>
+                        <Table.Cell>Name</Table.Cell>
+                        <Table.Cell>Job</Table.Cell>
+                        <Table.Cell>Category</Table.Cell>
+                        <Table.Cell>Rate</Table.Cell>
+                        <Table.Cell>Balance</Table.Cell>
+                        <Table.Cell>Advance</Table.Cell>
+                        <Table.Cell>Owed</Table.Cell>
+                        <Table.Cell>Overdue</Table.Cell>
+                        <Table.Cell>Flags</Table.Cell>
+                        <Table.Cell>&nbsp;</Table.Cell>
+                      </Table.Row>
+                      {players.map((p) => {
+                        const isSelected = selected && selected.ref === p.ref;
+                        return (
+                          <Table.Row key={p.ref}>
+                            <Table.Cell>
+                              {isSelected ? (
+                                <b>
+                                  {'> '}
+                                  {p.name}
+                                </b>
+                              ) : (
+                                p.name
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>{p.job}</Table.Cell>
+                            <Table.Cell>{p.category_name}</Table.Cell>
+                            <Table.Cell>
+                              {p.rate}m
+                              {p.raw_rate !== p.rate
+                                ? ` (raw ${p.raw_rate}m)`
+                                : ''}
+                            </Table.Cell>
+                            <Table.Cell>{p.balance}m</Table.Cell>
+                            <Table.Cell>{p.advance}</Table.Cell>
+                            <Table.Cell>{p.owed}m</Table.Cell>
+                            <Table.Cell>{p.overdue}</Table.Cell>
+                            <Table.Cell>
+                              {p.exempt ? 'E ' : ''}
+                              {p.is_debtor ? 'D ' : ''}
+                              {p.has_loan ? 'L ' : ''}
+                            </Table.Cell>
+                            <Table.Cell>
+                              <Button
+                                onClick={() => act('select', { ref: p.ref })}
+                              >
+                                Select
+                              </Button>
+                            </Table.Cell>
+                          </Table.Row>
+                        );
+                      })}
+                    </Table>
+
+                    <Stack mt={1} wrap>
+                      <Stack.Item>
+                        <Button.Confirm
+                          color="bad"
+                          onClick={() => act('bulk_clear_debt')}
+                        >
+                          Bulk: Clear debt for all {players.length} filtered
+                        </Button.Confirm>
+                      </Stack.Item>
+                      <Stack.Item>
+                        <NumberInput
+                          step={1}
+                          minValue={1}
+                          maxValue={30}
+                          value={bulkAdvanceDays}
+                          onChange={(v: number) => setBulkAdvanceDays(v)}
+                        />
+                      </Stack.Item>
+                      <Stack.Item>
+                        <Button.Confirm
+                          onClick={() =>
+                            act('bulk_add_advance', { days: bulkAdvanceDays })
+                          }
+                        >
+                          Bulk: +{bulkAdvanceDays} advance days to all filtered
+                        </Button.Confirm>
+                      </Stack.Item>
+                    </Stack>
+                  </>
+                )}
+              </Section>
+            </Stack.Item>
           )}
 
           {tab === 'players' && selected && (

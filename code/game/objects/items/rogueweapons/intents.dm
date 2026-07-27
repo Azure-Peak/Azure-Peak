@@ -359,38 +359,6 @@
 	releasedrain = 0
 	blade_class = BCLASS_PUNCH
 
-/datum/intent/tome/aegis
-	name = "arcyne aegis"
-	desc = "Project an arcyne shield into the offhand. Aim anywhere and hold to charge it like a spell."
-	icon_state = "inuse"
-	chargetime = 2 SECONDS
-	chargedrain = 0
-	no_early_release = TRUE
-	charging_slowdown = CHARGING_SLOWDOWN_HEAVY
-	chargedloop = /datum/looping_sound/invokeascendant
-	glow_color = GLOW_COLOR_ARCANE
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-	tranged = 1
-	noaa = TRUE
-	candodge = FALSE
-	canparry = FALSE
-	misscost = 0
-	no_attack = TRUE
-	releasedrain = 0
-	blade_class = BCLASS_PUNCH
-
-/datum/intent/tome/aegis/get_chargetime()
-	var/obj/item/rogueweapon/spellbook/book = masteritem
-	if(istype(book))
-		return book.aegis_charge_time
-	return chargetime
-
-/datum/intent/tome/aegis/can_charge(atom/clicked_object)
-	var/obj/item/rogueweapon/spellbook/book = masteritem
-	if(!istype(book))
-		return FALSE
-	return book.can_conjure_aegis(mastermob, feedback = TRUE)
-
 /datum/intent/give
 	name = "give"
 	candodge = FALSE
@@ -654,6 +622,35 @@
 			M.taunted(user)
 	return
 
+/// A punch with claw visual only. All damage, armor, wound, timing, stamina, and parry behavior remains inherited from punch.
+/datum/intent/unarmed/punch/cosmetic_claw
+	name = "cosmetic claw (punch)"
+	desc = "A punch delivered with natural claws. Its presentation changes, but it behaves exactly like PUNCH."
+	animname = ATTACK_EFFECT_CLAW
+	hitsound = "bluntwooshmed"
+	miss_text = "throw a clawed punch at the air"
+	miss_sound = "bluntwooshmed"
+
+/datum/intent/unarmed/punch/cosmetic_claw/retractable
+	attack_verb = list("swipes", "rakes", "grazes")
+	miss_text = "swipe retractable claws through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/hooked
+	attack_verb = list("gouges", "hooks", "rakes")
+	miss_text = "swipe hooked claws through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/heavy
+	attack_verb = list("swipes", "buffets", "rakes")
+	miss_text = "swing heavy claws through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/talons
+	attack_verb = list("gouges", "rakes", "scores")
+	miss_text = "lash sharp talons through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/chitinous
+	attack_verb = list("scrapes", "scythes", "rakes")
+	miss_text = "scrape chitinous claws through the air"
+
 /datum/intent/unarmed/claw
 	name = "claw"
 	//icon_state
@@ -874,6 +871,10 @@
 /datum/intent/hand/light
 	name = "light"
 	icon_state = "inlight"
+
+/datum/intent/hand/convert
+	name = "convert"
+	icon_state = "inbless"
 
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT

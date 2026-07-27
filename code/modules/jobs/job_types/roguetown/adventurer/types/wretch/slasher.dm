@@ -7,8 +7,11 @@
 	cmode_music = 'sound/music/combat_ozium.ogg'
 	class_select_category = CLASS_CAT_ACCURSED
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_DECEIVING_MEEKNESS, TRAIT_ORGAN_EATER, TRAIT_NASTY_EATER) //they'll choose their defense skill later
-	maximum_possible_slots = 2 
+	traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_ORGAN_EATER, TRAIT_NASTY_EATER) //they'll choose their defense skill later
+	subclass_virtues = list(
+		/datum/virtue/combat/guarded
+	)
+	maximum_possible_slots = 2
 	extra_context = "This subclass, like all wretch subclasses, is still subject to the elevated rules and expectations that wretches must follow. You are held to a higher roleplay standard than everyone else, and your psychosis is not an OOC excuse for your gameplay to exclusively be killing others. Your character might be an insidious killer - but you are merely an actor, sharing the stage with everyone else."
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -31,7 +34,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN, //giving them some crafting skills because A) they used to be towners maybe and B) they can't sleep to train themselves + the -1 INT
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 		/datum/skill/labor/butchering = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT 
+		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT
 	)
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit,

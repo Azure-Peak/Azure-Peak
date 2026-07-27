@@ -12,6 +12,9 @@
 	var/penis_size = DEFAULT_PENIS_SIZE
 	var/functional = TRUE
 
+/obj/item/organ/penis/get_cache_key()
+	return "[..()]-[sheath_type]-[erect_state]-[penis_size]"
+
 /obj/item/organ/penis/Initialize()
 	. = ..()
 

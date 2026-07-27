@@ -36,6 +36,8 @@
 /obj/projectile/energy/divineblast
 	name = "Divine Blast"
 	icon_state = "divine_blast"
+	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	damage = 20 // wont do much to a divine worshipper
 	woundclass = BCLASS_STAB // divine blade!
 	nodamage = FALSE
@@ -48,8 +50,10 @@
 	damage = 15 // Slightly lower base damage and barely matter due to low to hit but not a problem on acolyte / cleric.
 	arcshot = TRUE
 
-/obj/projectile/energy/divineblast/on_hit(target)
+/obj/projectile/energy/divineblast/on_hit(target, blocked = FALSE)
 	. = ..()
+	if(blocked >= 100)
+		return
 	if(isliving(target))
 		var/mob/living/H = target
 		if(H.job in GLOB.church_positions) // TRAIT_CLERGY could work here but is unmaintained and druids, sextons, etc. all lack it.

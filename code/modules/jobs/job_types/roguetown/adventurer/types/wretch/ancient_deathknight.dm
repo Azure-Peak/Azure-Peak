@@ -126,7 +126,7 @@
 	H.set_blindness(0)
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro

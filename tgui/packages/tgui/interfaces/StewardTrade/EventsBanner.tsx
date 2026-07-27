@@ -1,4 +1,3 @@
-import type { EconomicEvent, GoodCatalogEntry } from './types';
 import {
   cardStyle,
   FONT_BODY,
@@ -8,6 +7,7 @@ import {
   SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
+import type { EconomicEvent, GoodCatalogEntry } from './types';
 
 export const EventsBanner = (props: {
   events: EconomicEvent[];
@@ -41,9 +41,7 @@ export const EventsBanner = (props: {
               padding: '4px 10px',
             }}
           >
-            <span style={{ fontWeight: 'bold', color: color }}>
-              {e.name}
-            </span>
+            <span style={{ fontWeight: 'bold', color: color }}>{e.name}</span>
             <span style={{ color: INK_FAINT, marginLeft: '8px' }}>
               ({e.days_left}d left)
             </span>
@@ -52,8 +50,15 @@ export const EventsBanner = (props: {
             </div>
             {isShortage && target > 0 && (
               <div style={{ marginTop: '4px' }}>
-                <div style={{ color: INK_FAINT, fontSize: FONT_BODY, marginBottom: '2px' }}>
-                  Relief: {progress} / {target} units delivered ({pct}%). Accepts: {affectedNames} 
+                <div
+                  style={{
+                    color: INK_FAINT,
+                    fontSize: FONT_BODY,
+                    marginBottom: '2px',
+                  }}
+                >
+                  Relief: {progress} / {target} units delivered ({pct}%).
+                  Accepts: {affectedNames}
                 </div>
                 <div
                   style={{

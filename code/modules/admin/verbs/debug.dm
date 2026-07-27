@@ -775,6 +775,9 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	// Call after_spawn if job exists (latejoin=TRUE to skip spawn protection and ready-up bonuses)
 	if(job_datum && hascall(job_datum, "after_spawn"))
 		H.islatejoin = TRUE  // Mark as latejoin to prevent ready-up bonuses
+		job_datum.announce_latejoin = FALSE 
+		job_datum.hidden_job = TRUE
+		job_datum.show_in_credits = FALSE
 		job_datum.after_spawn(H, H, TRUE)
 	
 	// Call after_spawn for migrant roles if it exists
@@ -786,7 +789,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	
 	// Clean up any advclass selection hugbox state that may have been applied by after_spawn
 	// This must happen AFTER after_spawn since that proc may apply hugbox for advclass selection
-	H.advsetup = 0
+	H.set_advsetup(FALSE)
 	H.invisibility = 0
 	H.cure_blind("advsetup")
 	if(H.status_flags & GODMODE)
@@ -1532,22 +1535,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 /client/proc/add_remove_spell(mob/living/carbon/human/H)	
 	switch(alert(usr, "Add or remove a spell from [H.name]?", "Add/Remove Spell", "Add", "Remove", "Cancel"))
 		if("Add")
-			var/list/spells = list()
-			for(var/path in subtypesof(/datum/action/cooldown/spell))
-				var/datum/action/cooldown/spell/S = path
-				spells["[initial(S.name)] ([path])"] = path
-			for(var/path in subtypesof(/obj/effect/proc_holder))
-				var/obj/effect/proc_holder/S = path
-				spells["[initial(S.name)] ([path])"] = path
-			var/selected = tgui_input_list(usr,"Select Spell to Add", "Spell Adder", sortList(spells))
-			if(!selected)
-				return
-			var/path = spells[selected]
-			var/spell = new path
-			if(spell)
-				H.mind.AddSpell(spell, H)
-				message_admins("[key_name_admin(usr)] has granted [selected] to [ADMIN_LOOKUPFLW(H)].")
-				log_admin("[key_name(usr)] has granted [selected] to [key_name(H)].")
+			loadout_add_spell(H)
 		if("Remove")
 			var/spell = tgui_input_list(usr,"Select Spell to Remove", "Spell Remover", H.mind.spell_list)
 			if(spell)
@@ -1561,3 +1549,29 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 				H.mind.RemoveSpell(spell)
 				message_admins("[key_name_admin(usr)] has removed [spell_name] from [ADMIN_LOOKUPFLW(H)].")
 				log_admin("[key_name(usr)] has removed [spell_name] from [key_name(H)].")
+
+/client/proc/loadout_add_spell(mob/T)
+	var/list/spells = list()
+	for(var/path in subtypesof(/datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/S = path
+		spells["[initial(S.name)] ([path])"] = path
+	for(var/path in subtypesof(/obj/effect/proc_holder))
+		var/obj/effect/proc_holder/S = path
+		spells["[initial(S.name)] ([path])"] = path
+	var/selected = tgui_input_list(usr, "Select Spell to Add", "Spell Adder", sortList(spells))
+	if(!selected)
+		return null
+	var/path = spells[selected]
+	var/datum/spell = new path
+	if(T.mind)
+		T.mind.AddSpell(spell, T)
+	else
+		if(istype(spell, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = spell
+			action_spell.Grant(T)
+		else
+			T.AddSpell(spell)
+		message_admins(span_danger("Spells given to mindless mobs will not be transferred in mindswap or cloning!"))
+	message_admins("[key_name_admin(usr)] has granted [selected] to [ADMIN_LOOKUPFLW(T)].")
+	log_admin("[key_name(usr)] has granted [selected] to [key_name(T)].")
+	return selected

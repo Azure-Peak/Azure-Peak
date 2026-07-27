@@ -95,7 +95,7 @@
 #define WRIT_TYPE_OUTLAWRY "outlawry"
 #define WRIT_TYPE_RECOVERY "recovery"
 #define WRIT_TYPE_CARRIAGE "carriage"
-#define WRIT_TYPE_TOWNER_VEIN "towner_vein"
+#define WRIT_TYPE_TOWNER "towner"
 
 #define CRIME_SACRILEGE_TEMPLE "sacrilege_temple"
 #define CRIME_PRIEST_SLAYING "priest_slaying"

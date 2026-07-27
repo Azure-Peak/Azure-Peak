@@ -15,14 +15,14 @@ import {
   SEAL_RED,
   stickyLeftCellStyle,
 } from '../../common/parchment';
-import {
-  type MarketCategory,
-  type MarketData,
-  type NoticeboardData,
-  type RealmDemandRow,
+import type {
+  MarketCategory,
+  MarketData,
+  NoticeboardData,
+  RealmDemandRow,
 } from '../types';
 
-const FILL_YELLOW = 0.50;
+const FILL_YELLOW = 0.5;
 const FILL_RED = 0.85;
 const DEMAND_WARM = 1.001;
 const TOP_N = 5;
@@ -169,7 +169,13 @@ const RealmDemandMatrix = (props: {
   const { realms, allBuckets } = props;
   if (realms.length === 0 || allBuckets.length === 0) {
     return (
-      <div style={{ ...matrixContainerStyle, color: INK_FAINT, fontStyle: 'italic' }}>
+      <div
+        style={{
+          ...matrixContainerStyle,
+          color: INK_FAINT,
+          fontStyle: 'italic',
+        }}
+      >
         The factors have no realm intelligence to share.
       </div>
     );
@@ -191,14 +197,21 @@ const RealmDemandMatrix = (props: {
           marginBottom: 4,
         }}
       >
-        A summary of what each foreign realm demands. Hail a ship from a realm to raise the demand for its categories at the Navigator. Valuables and Seafood keep their full price even with no ship in port; every other category pays only half until a buyer arrives.
+        A summary of what each foreign realm demands. Hail a ship from a realm
+        to raise the demand for its categories at the Navigator. Valuables and
+        Seafood keep their full price even with no ship in port; every other
+        category pays only half until a buyer arrives.
       </div>
       <table style={matrixTableStyle}>
         <thead>
           <tr>
             <th style={matrixCornerStyle}>Category</th>
             {realmDemandSets.map(({ realm }) => (
-              <th key={realm.realm_id} style={matrixRealmHeaderStyle} title={realm.name}>
+              <th
+                key={realm.realm_id}
+                style={matrixRealmHeaderStyle}
+                title={realm.name}
+              >
                 {realm.name}
               </th>
             ))}
@@ -347,21 +360,34 @@ export const MarketView = ({
         {loreOpen && (
           <div style={{ ...dashedFrameStyle, marginTop: 8 }}>
             <p style={{ margin: '0 0 6px 0' }}>
-              Wares lifted from the Navigator pass into the warehouses of the Azurian Trading Company, sorted by category. Each week the factors weigh which goods are scarce and which lie in glut, and the Navigator&apos;s payouts shift accordingly.
+              Wares lifted from the Navigator pass into the warehouses of the
+              Azurian Trading Company, sorted by category. Each week the factors
+              weigh which goods are scarce and which lie in glut, and the
+              Navigator&apos;s payouts shift accordingly.
             </p>
             <p style={{ margin: '0 0 6px 0' }}>
-              <b style={{ color: SEAL_GREEN }}>Saturation</b> tracks the warehouse stockpile. While there is room, goods sell at face value. When the warehouse fills, the market refuses further intake.
+              <b style={{ color: SEAL_GREEN }}>Saturation</b> tracks the
+              warehouse stockpile. While there is room, goods sell at face
+              value. When the warehouse fills, the market refuses further
+              intake.
             </p>
             <p style={{ margin: '0 0 6px 0' }}>
-              <b style={{ color: SEAL_AMBER }}>Demand</b> spikes when foreign vessels make port. Their captains pay above market for what they want. When the ship sails, the demand sails with it.
+              <b style={{ color: SEAL_AMBER }}>Demand</b> spikes when foreign
+              vessels make port. Their captains pay above market for what they
+              want. When the ship sails, the demand sails with it.
             </p>
             <p style={{ margin: '0 0 6px 0' }}>
-              <b>Hailing a ship</b> raises its demand and draws inventory from the warehouse, opening room for more sales while the ship is in port.
+              <b>Hailing a ship</b> raises its demand and draws inventory from
+              the warehouse, opening room for more sales while the ship is in
+              port.
             </p>
             <p style={{ margin: 0 }}>
-              A <b style={{ color: SEAL_AMBER }}>Black Market</b> runs in the shadows. It holds half the capacity of the legitimate warehouse, takes no demand boost from foreign ships, and its prices are independent of the regular market. Each day, smugglers and small boats quietly drain its stock, opening room over time.
+              A <b style={{ color: SEAL_AMBER }}>Black Market</b> runs in the
+              shadows. It holds half the capacity of the legitimate warehouse,
+              takes no demand boost from foreign ships, and its prices are
+              independent of the regular market. Each day, smugglers and small
+              boats quietly drain its stock, opening room over time.
             </p>
-
           </div>
         )}
       </div>
@@ -369,7 +395,8 @@ export const MarketView = ({
       <div style={feedGridStyle}>
         <div style={feedColumnStyle}>
           <div style={feedTitleStyle}>
-            <span style={{ color: SEAL_RED }}>Hot</span> - buyers hunger for these
+            <span style={{ color: SEAL_RED }}>Hot</span> - buyers hunger for
+            these
           </div>
           {hot.length === 0 ? (
             <div
@@ -401,7 +428,8 @@ export const MarketView = ({
 
         <div style={feedColumnStyle}>
           <div style={feedTitleStyle}>
-            <span style={{ color: SEAL_BLUE }}>Filling Up</span> - warehouses nearing capacity
+            <span style={{ color: SEAL_BLUE }}>Filling Up</span> - warehouses
+            nearing capacity
           </div>
           {crashed.length === 0 ? (
             <div
@@ -451,7 +479,9 @@ export const MarketView = ({
                   : `${c.consumed}/${c.capacity}m`;
                 return (
                   <div key={c.category} style={ledgerRowStyle}>
-                    <span style={ledgerNameStyle} title={c.category}>{c.category}</span>
+                    <span style={ledgerNameStyle} title={c.category}>
+                      {c.category}
+                    </span>
                     <span
                       style={{
                         textAlign: 'right',

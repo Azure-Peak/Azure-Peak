@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Fixes random vices rolling two restricted vice, make it indicate what extra vice you get"

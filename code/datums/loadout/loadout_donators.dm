@@ -114,6 +114,10 @@
 	name = "Gift - Kit, Gothic Steel Armor"
 	path = /obj/item/enchantingkit/gothicsteelarmor
 
+/datum/loadout_item/donator/universal/armor_gothic_psydonic
+	name = "Gift - Kit, Gothic Psydonic Cuirass"
+	path = /obj/item/enchantingkit/gothicpsydoniccuirass
+
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
 	path = /obj/item/enchantingkit/heroicleathercuirass
@@ -141,6 +145,14 @@
 /datum/loadout_item/donator/universal/headpiece_greatplume
 	name = "Gift - Helmet Cosmetic, Greatplume"
 	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
+/datum/loadout_item/donator/universal/headpiece_featherplume
+	name = "Gift - Helmet Cosmetic, Featherplume"
+	path = /obj/item/clothing/head/roguetown/decoration/featherplume
+
+/datum/loadout_item/donator/universal/headpiece_crestplume
+	name = "Gift - Helmet Cosmetic, Crestplume"
+	path = /obj/item/clothing/head/roguetown/decoration/crestplume
 
 /datum/loadout_item/donator/universal/armorpiece_shoulderguard
 	name = "Gift - Armor Cosmetic, Shoulderguard"
@@ -173,7 +185,7 @@
 
 /datum/loadout_item/donator/universal/belt_bronze
 	name = "Gift - Belt of Bronze Maille"
-	path = /obj/item/storage/belt/rogue/leather/donator_bronze 
+	path = /obj/item/storage/belt/rogue/leather/donator_bronze
 
 /datum/loadout_item/donator/universal/belt_iron
 	name = "Gift - Belt of Iron Maille"
@@ -210,6 +222,117 @@
 /datum/loadout_item/donator/universal/heelkit
 	name = "Gift - Armor Cosmetic, Heelification Elixir"
 	path = /obj/item/heelkit
+
+// --- GRENZEL REGIONAL ---
+
+/datum/loadout_item/donator/universal/regional/grenzelhat
+	name = "Gift - Regional, Grenzel Hat"
+	path = /obj/item/clothing/head/roguetown/grenzelhofthat/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelpants
+	name = "Gift - Regional, Grenzel Pants"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelshoes
+	name = "Gift - Regional, Grenzel Shoes"
+	path = /obj/item/clothing/shoes/roguetown/grenzelhoft/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelgloves
+	name = "Gift - Regional, Grenzel Gloves"
+	path = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelshirt
+	name = "Gift - Regional, Grenzel Shirt"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
+
+// --- AAVNR REGIONAL (FENCING) ---
+
+/datum/loadout_item/donator/universal/regional/fencingjacket
+	name = "Gift - Regional, Fencing Jacket"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/loadout
+
+/datum/loadout_item/donator/universal/regional/fencingshirt
+	name = "Gift - Regional, Fencing Shirt"
+	path = /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
+
+/datum/loadout_item/donator/universal/regional/fencingshoes
+	name = "Gift - Regional, Fencing Shoes"
+	path = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter/loadout
+
+/datum/loadout_item/donator/universal/regional/fencinggloves
+	name = "Gift - Regional, Fencing Gloves"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/loadout
+
+// --- EASTERN REGIONAL (KAZEN / LINGYUE) ---
+
+/datum/loadout_item/donator/universal/regional/easthat
+	name = "Gift - Regional, Worn Bamboo Hat"
+	path = /obj/item/clothing/head/roguetown/mentorhat/loadout
+
+/datum/loadout_item/donator/universal/regional/eastpants
+	name = "Gift - Regional, Cut-throat Pants"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
+
+/datum/loadout_item/donator/universal/regional/eastpants2
+	name = "Gift - Regional, Ripped Pants"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout
+
+/datum/loadout_item/donator/universal/regional/eastdobo
+	name = "Gift - Regional, Simple Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/loadout
+
+/datum/loadout_item/donator/universal/regional/eastdobodecorated
+	name = "Gift - Regional, Decorated Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/loadout
+
+/datum/loadout_item/donator/universal/regional/eastdoboold
+	name = "Gift - Regional, Old Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/loadout
+
+// --- NALEDI / RANESHEN ---
+
+/datum/loadout_item/donator/universal/regional/naledipontigambeson
+	name = "Gift - Regional, Pontifex Outerwear"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex/loadout
+
+/datum/loadout_item/donator/universal/regional/naledipontishirt
+	name = "Gift - Regional, Pontifex Innerwear"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout
+
+/datum/loadout_item/donator/universal/regional/naledipontipants
+	name = "Gift - Regional, Pontifex Pants"
+	path = /obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout
+
+/datum/loadout_item/donator/universal/regional/naledihierogambeson
+	name = "Gift - Regional, Hierophant Outerwear"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
+
+/datum/loadout_item/donator/universal/regional/naledihieroshirt
+	name = "Gift - Regional, Hierophant Innerwear"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout
+
+// --- ANTHRAXI / DROW (TALL HUMANOIDS ONLY) ---
+
+/datum/loadout_item/donator/universal/regional/anthraxishirt
+	name = "Gift - Regional, Shadowy Shirt (Tall Humanoid Only)"
+	path = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
+
+/datum/loadout_item/donator/universal/regional/anthraxirobe
+	name = "Gift - Regional, Shadowy Robe (Tall Humanoid Only)"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
+
+/datum/loadout_item/donator/universal/regional/anthraxigloves
+	name = "Gift - Regional, Shadowy Gloves (Tall Humanoid Only)"
+	path = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout
+
+/datum/loadout_item/donator/universal/regional/anthraxicloak
+	name = "Gift - Regional, Shadowy Cloak"
+	path = /obj/item/clothing/cloak/half/shadowcloak
+
+/datum/loadout_item/donator/universal/regional/anthraxipants
+	name = "Gift - Regional, Shadowy Pants (Tall Humanoid Only)"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
+
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -377,23 +500,28 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/willmbrink
 
 /datum/loadout_item/donator/dasfox
-	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
-	path = /obj/item/enchantingkit/dasfox_helm
-	ckeywhitelist = list("dasfox", "purplepineapple") // on request by dasfox
-
-/datum/loadout_item/donator/dasfox/cuirass
-	name = "Donator Kit - Archaic Ceremonial Cuirass"
-	path = /obj/item/enchantingkit/dasfox_cuirass
-
-/datum/loadout_item/donator/dasfox/periapt
-	name = "Donator Item - Defiled Astratan Periapt"
-	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
 	ckeywhitelist = list("dasfox")
 
 /datum/loadout_item/donator/dasfox/lance
 	name = "Donator Item - Decorated Lance"
 	path = /obj/item/enchantingkit/dasfox_lance
 	ckeywhitelist = list("dasfox", "cre77") // on request by dasfox
+
+/datum/loadout_item/donator/dasfox/tyesca_brigandine
+	name = "Donator Item - fencer's brigandine"
+	path = /obj/item/enchantingkit/tyesca_brigandine
+
+/datum/loadout_item/donator/dasfox/tyesca_montante
+	name = "Donator Item - Tyesca's montante"
+	path = /obj/item/enchantingkit/weapon/tyesca_sword
+
+/datum/loadout_item/donator/dasfox/tyesca_cloak
+	name = "Donator Item - Tyesca's cloak"
+	path = /obj/item/clothing/cloak/raincloak/tyesca
+
+/datum/loadout_item/donator/dasfox/tyesca_scabbard
+	name = "Donator Item - Tyesca's scabbard"
+	path = /obj/item/rogueweapon/scabbard/sword/tyesca
 
 /datum/loadout_item/donator/ryan
 	name = "Donator Item - Western Estates Caparison"
@@ -425,12 +553,12 @@
 /datum/loadout_item/donator/dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
 	path = /obj/item/enchantingkit/dakken_zizhelm
-	ckeywhitelist = list("dakken12") 
+	ckeywhitelist = list("dakken12")
 
 /datum/loadout_item/donator/dakken/sword
 	name = "Donator Kit - Avantyne Threaded Sword"
 	path = /obj/item/enchantingkit/dakken_alloybsword
-	ckeywhitelist = list("dakken12") 
+	ckeywhitelist = list("dakken12")
 
 /datum/loadout_item/donator/stinketh
 	name = "Donator Kit - Silver Shashka"
@@ -626,11 +754,11 @@
     name = "Donator Kit - Gre'as'anto d'Shar"
     path = /obj/item/enchantingkit/olygsword
     ckeywhitelist = list("olympus7")
-	
+
 /datum/loadout_item/donator/bobby
 	name = "Donator Kit - Holy Astratan Bascinet"
 	path = /obj/item/enchantingkit/bobby_helm
-	ckeywhitelist = list("spartanbobby") 
+	ckeywhitelist = list("spartanbobby")
 
 /datum/loadout_item/donator/ollanius_sword
 	name = "Donator Kit - Azurosa-Wrapped Sword"
@@ -645,4 +773,29 @@
 /datum/loadout_item/donator/gazelleskull
 	name = "Donator Item - Gazelle Skull"
 	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull
+	ckeywhitelist = list("shiroseschnee")
+
+/datum/loadout_item/donator/morto_staff
+	name = "Donator Kit - Frozen Vow"
+	path = /obj/item/enchantingkit/morto_staff
+	ckeywhitelist = list("mortosasye")
+
+/datum/loadout_item/donator/racobio_staff
+	name = "Donator Kit - Obsidian Tower"
+	path = /obj/item/enchantingkit/racobio_staff
+	ckeywhitelist = list("racobio")
+
+/datum/loadout_item/donator/cobb_conviction
+	name = "Donator Kit - Conviction"
+	path = /obj/item/enchantingkit/weapon/cobb_conviction
+	ckeywhitelist = list("cobbantichrist")
+
+/datum/loadout_item/donator/athena_solace
+	name = "Donator Kit - Solace"
+	path = /obj/item/enchantingkit/weapon/athena_solace
+	ckeywhitelist = list("athena14")
+
+/datum/loadout_item/donator/longest_night
+	name = "Donator Item - Longest Night Cloak"
+	path = /obj/item/clothing/cloak/longest_night
 	ckeywhitelist = list("shiroseschnee")

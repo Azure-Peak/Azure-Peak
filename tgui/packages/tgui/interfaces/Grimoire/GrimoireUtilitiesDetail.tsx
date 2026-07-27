@@ -1,4 +1,4 @@
-import { type Spell } from './types';
+import type { Spell } from './types';
 
 export const GrimoireUtilitiesDetail = ({
   spells,
@@ -9,6 +9,7 @@ export const GrimoireUtilitiesDetail = ({
   pointsBudget,
   initialSetup,
   resetBudget,
+  resetBudgetMax = 12,
   readOnly = false,
 }: {
   spells: Spell[];
@@ -19,20 +20,22 @@ export const GrimoireUtilitiesDetail = ({
   pointsBudget: number;
   initialSetup: boolean;
   resetBudget: number;
+  resetBudgetMax?: number;
   readOnly?: boolean;
 }) => (
   <div style={{ flex: 1, overflowY: 'auto' }}>
     <div className="AspectPicker__heading">Cantrips &amp; Utilities</div>
     <div className="AspectPicker__fluff">
       The lesser workings of the arcyne arts - simple enchantments, practical
-      cantrips, and scholarly conveniences that require no particular attunement.
+      cantrips, and scholarly conveniences that require no particular
+      attunement.
     </div>
     <div className="AspectPicker__divider" />
     <div className="AspectPicker__section-label">
       {pointsSpent} / {pointsBudget} pts spent
       {!readOnly && !initialSetup && (
         <span style={{ marginLeft: '12px' }}>
-          (reshaping: {resetBudget} / 2)
+          (reshaping: {resetBudget} / {resetBudgetMax})
         </span>
       )}
     </div>

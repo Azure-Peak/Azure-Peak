@@ -3,6 +3,7 @@
         "gbasood.byond-dm-language-support",
         "platymuus.dm-langclient",
         "EditorConfig.EditorConfig",
-        "dbaeumer.vscode-eslint"
+        "esbenp.prettier-vscode",
+        "biomejs.biome"
     ]
 }

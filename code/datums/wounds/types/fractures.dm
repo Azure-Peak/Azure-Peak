@@ -262,7 +262,7 @@
 	)
 	mortal = FALSE
 	whp = 50
-	bleed_rate = 5				//Lower than others, still bad though. 
+	bleed_rate = 5				//Lower than others, still bad though.
 	clotting_threshold = 0.3	//Slightly higher still
 	clotting_rate = 0.1			//Slower clotting, not bad though for bleeder wound.
 
@@ -327,7 +327,6 @@
 	bleed_rate = 25				//Higher than artery
 	clotting_threshold = 1		//Will always bleed bad
 	clotting_rate = 1			//Good clotting rate; within 24 ticks (~3 seconds) will lower heavily.
-	shatter_wound = TRUE //Lethal for all skeles, workaround for their spammability and feeling seemingly unkillable for mace users
 
 /datum/wound/fracture/chest/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -336,6 +335,20 @@
 		var/mob/living/carbon/CA = affected
 		if(HAS_TRAIT(CA, TRAIT_CRITICAL_WEAKNESS) && (NOBLOOD in CA.dna.species.species_traits))
 			CA.death()
+		if(HAS_TRAIT(CA, TRAIT_SHATTER_KILL)) // Player skeletons lose leg-mobility -> go for the skull to finish them off
+			ADD_TRAIT(affected, TRAIT_PARALYSIS_R_LEG, "[type]")
+			ADD_TRAIT(affected, TRAIT_PARALYSIS_L_LEG, "[type]")
+			if(iscarbon(affected))
+				var/mob/living/carbon/carbon_affected = affected
+				carbon_affected.update_disabled_bodyparts()
+
+/datum/wound/fracture/chest/on_mob_loss(mob/living/affected)
+	. = ..()
+	REMOVE_TRAIT(affected, TRAIT_PARALYSIS_R_LEG, "[type]")
+	REMOVE_TRAIT(affected, TRAIT_PARALYSIS_L_LEG, "[type]")
+	if(iscarbon(affected))
+		var/mob/living/carbon/carbon_affected = affected
+		carbon_affected.update_disabled_bodyparts()
 
 /datum/wound/fracture/chest/on_life()
 	. = ..()

@@ -46,6 +46,10 @@
 			. = ..()
 			return
 	user.changeNext_move(clickcd)
+	if(ismob(target))
+		SEND_SIGNAL(user, COMSIG_MOB_ATTACK_HAND, user)
+		if(SEND_SIGNAL(target, COMSIG_MOB_ATTACKED_BY_BITE, user) & COMPONENT_HAND_NO_ATTACK)
+			return
 	target.onbite(user)
 	. = ..()
 	return

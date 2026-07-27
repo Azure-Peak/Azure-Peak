@@ -34,13 +34,22 @@ export const TabBar = (props: {
   const { tab, onSwitch } = props;
   return (
     <div style={tabBarStyle}>
-      <div style={tabStyle(tab === 'orders')} onClick={() => onSwitch('orders')}>
+      <div
+        style={tabStyle(tab === 'orders')}
+        onClick={() => onSwitch('orders')}
+      >
         Standing Orders
       </div>
-      <div style={tabStyle(tab === 'market')} onClick={() => onSwitch('market')}>
+      <div
+        style={tabStyle(tab === 'market')}
+        onClick={() => onSwitch('market')}
+      >
         Market
       </div>
-      <div style={tabStyle(tab === 'regions')} onClick={() => onSwitch('regions')}>
+      <div
+        style={tabStyle(tab === 'regions')}
+        onClick={() => onSwitch('regions')}
+      >
         Regions
       </div>
       <div
@@ -55,7 +64,10 @@ export const TabBar = (props: {
       >
         Petition
       </div>
-      <div style={tabStyle(tab === 'ledger')} onClick={() => onSwitch('ledger')}>
+      <div
+        style={tabStyle(tab === 'ledger')}
+        onClick={() => onSwitch('ledger')}
+      >
         Ledger
       </div>
       <div

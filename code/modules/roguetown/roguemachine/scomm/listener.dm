@@ -61,23 +61,7 @@
 	desc = initial(desc)
 	hidden = FALSE
 	return TRUE
-/* FINISH THIS AT YOUR OWN LEISURE. IT WON'T TAKE MUCH WORK. AT MOST YOU'LL BE ADDING DISCOVERY CHECKS ON EXAMINE AND THE ABILITY TO RIP OFF DISCOVERED LISTENERS. HAVE FUN! - YISCHE
-/obj/item/listeningdevice/attack(mob/living/M, mob/living/user)
-	if(!active)
-		to_chat(user, span_warning("[src] is inactive.."))
-		return FALSE
-	
-	to_chat(user, span_notice("I attach [src] to [M]."))
-	effect = M.apply_status_effect(/datum/status_effect/bugged)
-	effect.device = src
-	forceMove(M)
-	M.contents.Add(src)
 
-	if(M.STAPER > user.STASPD)
-		to_chat(M, span_hidden("I feel something brush against the back of my neck. It stings."))
-
-	..()
-*/
 /obj/item/listeningdevice/MiddleClick(mob/user)
 	if(.)
 		return

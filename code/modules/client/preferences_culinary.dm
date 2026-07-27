@@ -1,220 +1,136 @@
-/proc/get_cached_food_flat_icon(obj/item/reagent_containers/food/snacks/food_type)
-	var/cache_key = "[food_type]"
-	if(!GLOB.cached_food_flat_icons[cache_key])
-		var/image/dummy = image(initial(food_type.icon), null, initial(food_type.icon_state), initial(food_type.layer))
-		GLOB.cached_food_flat_icons[cache_key] = "<img src='data:image/png;base64, [icon2base64(getFlatIcon(dummy))]'>"
-	return GLOB.cached_food_flat_icons[cache_key]
 
-/proc/get_cached_drink_flat_icon(drink_quality)
-	var/obj/item/reagent_containers/glass/icon_type
-	if(drink_quality <= 0)
-		icon_type = /obj/item/reagent_containers/glass/cup/wooden
-	else if(drink_quality <= 1)
-		icon_type = /obj/item/reagent_containers/glass/cup
-	else if(drink_quality <= 2)
-		icon_type = /obj/item/reagent_containers/glass/bottle
-	else if(drink_quality <= 3)
-		icon_type = /obj/item/reagent_containers/glass/cup/silver
-	else
-		icon_type = /obj/item/reagent_containers/glass/cup/golden
+GLOBAL_LIST_INIT(culinary_cuisines, list(
+	"North Imperial" = CUISINE_NORTH_IMPERIAL,
+	"South Imperial" = CUISINE_SOUTH_IMPERIAL,
+	"Otavais" = CUISINE_OTAVAIS,
+	"Northern" = CUISINE_NORTHERN,
+	"Etruscan" = CUISINE_ETRUSCAN,
+	"Southeastern" = CUISINE_SOUTHEASTERN,
+	"Ranesheni" = CUISINE_RANESHENI,
+))
 
-	var/cache_key = "[icon_type]"
-	if(!GLOB.cached_drink_flat_icons[cache_key])
-		var/image/dummy = image(initial(icon_type.icon), null, initial(icon_type.icon_state), initial(icon_type.layer))
-		GLOB.cached_drink_flat_icons[cache_key] = "<img src='data:image/png;base64, [icon2base64(getFlatIcon(dummy))]'>"
-	return GLOB.cached_drink_flat_icons[cache_key]
+GLOBAL_LIST_INIT(culinary_dishes, list(
+	"Meat" = DISH_MEAT,
+	"Poultry" = DISH_POULTRY,
+	"Seafood" = DISH_SEAFOOD,
+	"Vegetable" = DISH_VEGETABLE,
+	"Fruit" = DISH_FRUIT,
+	"Bread" = DISH_BREAD,
+	"Dairy" = DISH_DAIRY,
+	"Pastry" = DISH_PASTRY,
+	"Pie" = DISH_PIE,
+	"Sweet" = DISH_SWEET,
+	"Egg" = DISH_EGG,
+	"Noodles" = DISH_NOODLES,
+))
 
-/datum/preferences/proc/validate_culinary_preferences()
-	if(!culinary_preferences)
-		culinary_preferences = list()
+GLOBAL_LIST_INIT(culinary_drinks, list(
+	"Wine" = DRINKTYPE_WINE,
+	"Rice Wine" = DRINKTYPE_RICEWINE,
+	"Ale & Beer" = DRINKTYPE_ALE,
+	"Spirits" = DRINKTYPE_SPIRIT,
+	"Mead" = DRINKTYPE_MEAD,
+	"Cider" = DRINKTYPE_CIDER,
+	"Tea & Coffee" = DRINKTYPE_CAFFEINE,
+	"Juices" = DRINKTYPE_JUICE,
+))
 
-	if(!culinary_preferences[CULINARY_FAVOURITE_FOOD])
-		culinary_preferences[CULINARY_FAVOURITE_FOOD] = get_default_food()
+/proc/culinary_flag_name(list/options, flag)
+	if(!flag)
+		return "None"
+	for(var/label in options)
+		if(options[label] == flag)
+			return label
+	return "None"
 
-	if(!culinary_preferences[CULINARY_FAVOURITE_DRINK])
-		culinary_preferences[CULINARY_FAVOURITE_DRINK] = get_default_drink()
+/proc/culinary_flag_valid(list/options, flag)
+	if(!flag)
+		return TRUE
+	for(var/label in options)
+		if(options[label] == flag)
+			return TRUE
+	return FALSE
 
-	if(!culinary_preferences[CULINARY_HATED_FOOD])
-		culinary_preferences[CULINARY_HATED_FOOD] = get_default_hated_food()
+/proc/culinary_flags_names(list/options, flags)
+	var/list/names = list()
+	for(var/label in options)
+		if(options[label] & flags)
+			names += label
+	return names
 
-	if(!culinary_preferences[CULINARY_HATED_DRINK])
-		culinary_preferences[CULINARY_HATED_DRINK] = get_default_hated_drink()
+/datum/preferences/proc/get_culinary_axis_options(axis)
+	switch(axis)
+		if("cuisine")
+			return GLOB.culinary_cuisines
+		if("dish")
+			return GLOB.culinary_dishes
+		if("drink")
+			return GLOB.culinary_drinks
 
-	if(culinary_preferences[CULINARY_FAVOURITE_FOOD] == culinary_preferences[CULINARY_HATED_FOOD])
-		culinary_preferences[CULINARY_HATED_FOOD] = get_default_hated_food()
-	if(culinary_preferences[CULINARY_FAVOURITE_DRINK] == culinary_preferences[CULINARY_HATED_DRINK])
-		culinary_preferences[CULINARY_HATED_DRINK] = get_default_hated_drink()
+/datum/preferences/proc/sanitize_culinary_preferences()
+	if(!culinary_flag_valid(GLOB.culinary_cuisines, favorite_cuisine))
+		favorite_cuisine = NONE
+	if(!culinary_flag_valid(GLOB.culinary_dishes, favorite_dish))
+		favorite_dish = NONE
+	if(!culinary_flag_valid(GLOB.culinary_drinks, favorite_drink))
+		favorite_drink = NONE
 
-/datum/preferences/proc/reset_culinary_preferences()
-	culinary_preferences = list()
-	culinary_preferences[CULINARY_FAVOURITE_FOOD] = get_default_food()
-	culinary_preferences[CULINARY_FAVOURITE_DRINK] = get_default_drink()
-	culinary_preferences[CULINARY_HATED_FOOD] = get_default_hated_food()
-	culinary_preferences[CULINARY_HATED_DRINK] = get_default_hated_drink()
-
-/datum/preferences/proc/get_default_food()
-	return /obj/item/reagent_containers/food/snacks/rogue/bread
-
-/datum/preferences/proc/get_default_hated_food()
-	return /obj/item/reagent_containers/food/snacks/badrecipe
-
-/datum/preferences/proc/get_default_drink()
-	return /datum/reagent/consumable/ethanol/beer
-
-/datum/preferences/proc/get_default_hated_drink()
-	return //datum/container_craft/cooking/tea/badidea
+/datum/preferences/proc/set_culinary_axis(axis, flag)
+	var/list/options = get_culinary_axis_options(axis)
+	if(!options)
+		return
+	if(!culinary_flag_valid(options, flag))
+		return
+	switch(axis)
+		if("cuisine")
+			favorite_cuisine = flag
+		if("dish")
+			favorite_dish = flag
+		if("drink")
+			favorite_drink = flag
 
 /datum/preferences/proc/handle_culinary_topic(mob/user, href_list)
 	switch(href_list["preference"])
-		if("choose_food")
-			show_food_selection_ui(user, CULINARY_FAVOURITE_FOOD)
-		if("choose_drink")
-			show_drink_selection_ui(user, CULINARY_FAVOURITE_DRINK)
-		if("choose_hated_food")
-			show_food_selection_ui(user, CULINARY_HATED_FOOD)
-		if("choose_hated_drink")
-			show_drink_selection_ui(user, CULINARY_HATED_DRINK)
-		if("confirm_food")
-			var/food_type = text2path(href_list["food_type"])
-			var/preference_type = href_list["preference_type"]
-			if(ispath(food_type, /obj/item/reagent_containers/food/snacks))
-				var/opposite_preference = (preference_type == CULINARY_FAVOURITE_FOOD) ? CULINARY_HATED_FOOD : CULINARY_FAVOURITE_FOOD
-				if(culinary_preferences[opposite_preference] == food_type)
-					to_chat(user, span_warning("You can't set the same item as both favorite and hated!"))
-				else
-					culinary_preferences[preference_type] = food_type
-					user << browse(null, "window=food_selection")
-					show_culinary_ui(user)
-		if("confirm_drink")
-			var/drink_type = text2path(href_list["drink_type"])
-			var/preference_type = href_list["preference_type"]
-			if(ispath(drink_type, /datum/reagent/consumable))
-				var/opposite_preference = (preference_type == CULINARY_FAVOURITE_DRINK) ? CULINARY_HATED_DRINK : CULINARY_FAVOURITE_DRINK
-				if(culinary_preferences[opposite_preference] == drink_type)
-					to_chat(user, span_warning("You can't set the same drink as both favorite and hated!"))
-				else
-					culinary_preferences[preference_type] = drink_type
-					user << browse(null, "window=drink_selection")
-					show_culinary_ui(user)
-
-/datum/preferences/proc/print_culinary_page(mob/user)
-	var/list/dat = list()
-
-	var/current_food = culinary_preferences[CULINARY_FAVOURITE_FOOD]
-	var/current_drink = culinary_preferences[CULINARY_FAVOURITE_DRINK]
-	var/current_hated_food = culinary_preferences[CULINARY_HATED_FOOD]
-	var/current_hated_drink = culinary_preferences[CULINARY_HATED_DRINK]
-
-	var/food_name = "None"
-	var/food_icon
-	if(current_food)
-		var/obj/item/food_instance = current_food
-		food_name = capitalize(initial(food_instance.name))
-		food_icon = get_cached_food_flat_icon(current_food)
-
-	var/drink_name = "None"
-	var/drink_icon
-	if(current_drink)
-		var/datum/reagent/consumable/drink_instance = current_drink
-		drink_name = capitalize(initial(drink_instance.name))
-		var/drink_quality = initial(drink_instance.quality)
-		drink_icon = get_cached_drink_flat_icon(drink_quality)
-
-	var/hated_food_name = "None"
-	var/hated_food_icon
-	if(current_hated_food)
-		var/obj/item/hated_food_instance = current_hated_food
-		hated_food_name = capitalize(initial(hated_food_instance.name))
-		hated_food_icon = get_cached_food_flat_icon(current_hated_food)
-
-	var/hated_drink_name = "None"
-	var/hated_drink_icon
-	if(current_hated_drink)
-		var/datum/reagent/consumable/hated_drink_instance = current_hated_drink
-		hated_drink_name = capitalize(initial(hated_drink_instance.name))
-		var/hated_drink_quality = initial(hated_drink_instance.quality)
-		hated_drink_icon = get_cached_drink_flat_icon(hated_drink_quality)
-
-	dat += "<style>"
-	dat += ".culinary-item { display: flex; align-items: center; margin-bottom: 5px; }"
-	dat += ".culinary-icon { vertical-align: middle; }"
-	dat += ".culinary-text { vertical-align: middle; line-height: 32px; }"
-	dat += "</style>"
-
-	dat += "<div class='culinary-item'><b>Favourite Food:</b> <span class='culinary-icon'>[food_icon]</span> <span class='culinary-text'><a href='byond://?_src_=prefs;preference=choose_food;preference_type=[CULINARY_FAVOURITE_FOOD];task=change_culinary_preferences'>[encode_special_chars(food_name)]</a></span></div>"
-	dat += "<div class='culinary-item'><b>Favourite Drink:</b> <span class='culinary-icon'>[drink_icon]</span> <span class='culinary-text'><a href='byond://?_src_=prefs;preference=choose_drink;preference_type=[CULINARY_FAVOURITE_DRINK];task=change_culinary_preferences'>[encode_special_chars(drink_name)]</a></span></div>"
-	dat += "<div class='culinary-item'><b>Hated Food:</b> <span class='culinary-icon'>[hated_food_icon]</span> <span class='culinary-text'><a href='byond://?_src_=prefs;preference=choose_hated_food;preference_type=[CULINARY_HATED_FOOD];task=change_culinary_preferences'>[encode_special_chars(hated_food_name)]</a></span></div>"
-	dat += "<div class='culinary-item'><b>Hated Drink:</b> <span class='culinary-icon'>[hated_drink_icon]</span> <span class='culinary-text'><a href='byond://?_src_=prefs;preference=choose_hated_drink;preference_type=[CULINARY_HATED_DRINK];task=change_culinary_preferences'>[encode_special_chars(hated_drink_name)]</a></span></div>"
-
-	return dat
-
-/datum/preferences/proc/show_food_selection_ui(mob/user, preference_type)
-	var/list/dat = list()
-	dat += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
-	dat += "<style>"
-	dat += ".food-item { display: flex; align-items: center; margin-bottom: 5px; }"
-	dat += ".food-icon { vertical-align: middle; }"
-	dat += ".food-text { vertical-align: middle; line-height: 32px; }"
-	dat += "</style>"
-
-	for(var/list/food_data in GLOB.food_with_faretypes)
-		var/food_type = food_data["type"]
-		var/food_name = food_data["name"]
-		var/food_faretype = food_data["faretype"]
-
-		var/display_name = capitalize(food_name)
-		var/food_icon = get_cached_food_flat_icon(food_type)
-		dat += "<div class='food-item'><span class='food-icon'>[food_icon]</span> <span class='food-text'><a href='byond://?_src_=prefs;preference=confirm_food;food_type=[food_type];preference_type=[preference_type];task=change_culinary_preferences'>[encode_special_chars(display_name)]</a> (Quality: [food_faretype])</span></div>"
-
-	var/title = (preference_type == CULINARY_FAVOURITE_FOOD) ? "Select Favourite Food" : "Select Hated Food"
-	var/datum/browser/popup = new(user, "food_selection", "<div align='center'>[title]</div>", 400, 600)
-	popup.set_content(dat.Join())
-	popup.open(FALSE)
-
-/datum/preferences/proc/show_drink_selection_ui(mob/user, preference_type)
-	var/list/dat = list()
-	dat += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
-	dat += "<style>"
-	dat += ".drink-item { display: flex; align-items: center; margin-bottom: 5px; }"
-	dat += ".drink-icon { vertical-align: middle; }"
-	dat += ".drink-text { vertical-align: middle; line-height: 32px; }"
-	dat += "</style>"
-
-	for(var/list/drink_data in GLOB.drink_with_qualities)
-		var/drink_type = drink_data["type"]
-		var/drink_name = drink_data["name"]
-		var/drink_quality = drink_data["quality"]
-
-		var/display_name = capitalize(drink_name)
-		var/drink_icon = get_cached_drink_flat_icon(drink_quality)
-		dat += "<div class='drink-item'><span class='drink-icon'>[drink_icon]</span> <span class='drink-text'><a href='byond://?_src_=prefs;preference=confirm_drink;drink_type=[drink_type];preference_type=[preference_type];task=change_culinary_preferences'>[encode_special_chars(display_name)]</a> (Quality: [drink_quality])</span></div>"
-
-	var/title = (preference_type == CULINARY_FAVOURITE_DRINK) ? "Select Favourite Drink" : "Select Hated Drink"
-	var/datum/browser/popup = new(user, "drink_selection", "<div align='center'>[title]</div>", 400, 600)
-	popup.set_content(dat.Join())
-	popup.open(FALSE)
+		if("culinary_axis")
+			show_culinary_axis_ui(user, href_list["axis"])
+		if("culinary_set")
+			set_culinary_axis(href_list["axis"], text2num(href_list["flag"]))
+			user << browse(null, "window=culinary_selection")
+			show_culinary_ui(user)
 
 /datum/preferences/proc/show_culinary_ui(mob/user)
 	var/list/dat = list()
 	dat += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
-	dat += print_culinary_page(user)
-	var/datum/browser/popup = new(user, "culinary_customization", "<div align='center'>Culinary Preferences</div>", 345, 215)
+	dat += "Pick the food, cuisine and drinks your character loves. Only fine or lavish food, nice drink or better counts for the mood boost.<hr>"
+	dat += "<b>Cuisine:</b> <a href='byond://?_src_=prefs;preference=culinary_axis;axis=cuisine;task=change_culinary_preferences'>[culinary_flag_name(GLOB.culinary_cuisines, favorite_cuisine)]</a><br>"
+	dat += "<b>Favourite Dish:</b> <a href='byond://?_src_=prefs;preference=culinary_axis;axis=dish;task=change_culinary_preferences'>[culinary_flag_name(GLOB.culinary_dishes, favorite_dish)]</a><br>"
+	dat += "<b>Favourite Drink:</b> <a href='byond://?_src_=prefs;preference=culinary_axis;axis=drink;task=change_culinary_preferences'>[culinary_flag_name(GLOB.culinary_drinks, favorite_drink)]</a><br>"
+	var/datum/browser/popup = new(user, "culinary_customization", "<div align='center'>Culinary Preferences</div>", 400, 400)
+	popup.set_content(dat.Join())
+	popup.open(FALSE)
+
+/datum/preferences/proc/show_culinary_axis_ui(mob/user, axis)
+	var/list/options = get_culinary_axis_options(axis)
+	if(!options)
+		return
+	var/title
+	switch(axis)
+		if("cuisine")
+			title = "Select Cuisine"
+		if("dish")
+			title = "Select Favourite Dish"
+		if("drink")
+			title = "Select Favourite Drink"
+	var/list/dat = list()
+	dat += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">"
+	dat += "<a href='byond://?_src_=prefs;preference=culinary_set;axis=[axis];flag=0;task=change_culinary_preferences'>None</a><br>"
+	for(var/label in options)
+		dat += "<a href='byond://?_src_=prefs;preference=culinary_set;axis=[axis];flag=[options[label]];task=change_culinary_preferences'>[label]</a><br>"
+	var/datum/browser/popup = new(user, "culinary_selection", "<div align='center'>[title]</div>", 280, 480)
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
 
 /datum/preferences/proc/apply_culinary_preferences(mob/living/carbon/human/character)
-	if(!culinary_preferences)
-		return
-
-	character.culinary_preferences = culinary_preferences.Copy()
-
-/proc/encode_special_chars(text)
-	. = text
-	. = replacetext(., "ü", "&uuml;")
-	. = replacetext(., "Ü", "&Uuml;")
-	. = replacetext(., "ö", "&ouml;")
-	. = replacetext(., "Ö", "&Ouml;")
-	. = replacetext(., "ä", "&auml;")
-	. = replacetext(., "Ä", "&Auml;")
-	. = replacetext(., "ß", "&szlig;")
-	return .
+	character.favorite_cuisine = favorite_cuisine
+	character.favorite_dish = favorite_dish
+	character.favorite_drink = favorite_drink

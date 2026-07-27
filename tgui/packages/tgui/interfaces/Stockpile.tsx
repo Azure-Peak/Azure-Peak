@@ -9,14 +9,14 @@ import {
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
-  pageStyle,
   PARCHMENT_SHADOW,
+  pageStyle,
   rulerStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
   subTabBarStyle,
   subTabStyle,
   subtitleStyle,
@@ -287,9 +287,7 @@ export const Stockpile = () => {
               flexWrap: 'wrap',
             }}
           >
-            <span style={{ color: SEAL_AMBER }}>
-              Coinpouch
-            </span>
+            <span style={{ color: SEAL_AMBER }}>Coinpouch</span>
             <span
               style={{
                 color: data.budget > 0 ? INK : INK_FAINT,
@@ -299,14 +297,10 @@ export const Stockpile = () => {
               {data.budget}m
             </span>
             {!!data.food_stipend && (
-              <span style={{ color: SEAL_GREEN }}>
-                treasury-line
-              </span>
+              <span style={{ color: SEAL_GREEN }}>treasury-line</span>
             )}
             {!!data.below_floor && (
-              <span style={{ color: SEAL_RED }}>
-                crown ledger thin
-              </span>
+              <span style={{ color: SEAL_RED }}>crown ledger thin</span>
             )}
             <CharterChip data={data} />
             <div style={{ marginLeft: 'auto', display: 'flex', gap: '4px' }}>

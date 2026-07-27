@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react';
 
-import {
-  FONT_BODY,
-  SEAL_RED,
-} from '../common/parchment';
+import { FONT_BODY, SEAL_RED } from '../common/parchment';
 
 export const SequesteredOverlay = (props: {
   active: boolean;

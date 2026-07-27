@@ -674,3 +674,27 @@ GLOBAL_LIST_EMPTY(species_list)
 		mind = null
 		qdel(src)
 	return TRUE
+
+/proc/is_human_part_visible(mob/living/carbon/human/human, flags_inv)
+	if(!human)
+		return TRUE
+	if(flags_inv == NONE)
+		return TRUE
+	// this previously monumentally sucked and iterated over every item in a person's inventory every time their appearance needed to be checked, which was often.
+	// replaced it by checking what hide slots are obscured at any given point in a /mob/'s `obscured_flags` var, so we check that instead
+	return !(human.obscured_flags & flags_inv)
+
+/mob/living/proc/rebuild_obscured_flags()
+	// we do this when we equip and unequip anything to make sure all our flags are set properly
+	var/list/equipped_items = get_equipped_items(FALSE)
+	var/new_flags = NONE
+	for(var/obj/item/thing as anything in equipped_items)
+		if (thing.flags_inv)
+			new_flags |= thing.flags_inv
+
+	if(new_flags == obscured_flags)
+		return
+	obscured_flags = new_flags
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		H.update_body_parts()

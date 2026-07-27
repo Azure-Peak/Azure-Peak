@@ -176,6 +176,8 @@
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/highwayman
 	beltr = /obj/item/quiver/randomfill/highwayman
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
 
 /datum/ambush_config/solo_treasure_hunter

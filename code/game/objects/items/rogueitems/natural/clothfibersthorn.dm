@@ -175,7 +175,6 @@
 	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/cloth
 	dropshrink = 0.9
-	sellprice = 4
 	detail_tag = "_soaked"
 	var/wet = 0
 	/// Effectiveness when used as a bandage, how much it'll lower the bloodloss, bloodloss will get multiplied by this.
@@ -230,8 +229,8 @@
 				clothcount -= clamp(clothcount, 2, 10)
 				user.put_in_hands(B)
 		for(var/obj/item/natural/cloth/F in get_turf(src))
-			playsound(user, "rustle", 70, FALSE, -4)
 			qdel(F)
+		playsound(user, "rustle", 70, FALSE, -4)
 
 /obj/item/natural/cloth/examine(mob/user)
 	. = ..()

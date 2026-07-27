@@ -330,6 +330,9 @@
 		bodypart_overlays(organ_overlay)
 		return organ_overlay
 
+/obj/item/organ/proc/get_cache_key()
+	return "[accessory_type]-[accessory_colors]-[bodypart_icon]-[bodypart_icon_state]-[color]-[bodypart_layer]"
+
 /// Proc to customize the base icon of the organ.
 /obj/item/organ/proc/bodypart_icon(mutable_appearance/standing)
 	return

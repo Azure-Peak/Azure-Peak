@@ -11,7 +11,6 @@
 	            /obj/item/natural/hide/cured = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
-	sellprice = 11
 
 /datum/crafting_recipe/roguetown/leather/unique/baggyleatherpants
 	name = "pontifex's chaqchur"
@@ -22,7 +21,6 @@
 	            /obj/item/natural/hide/cured = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leatherunique/gladsandals
 	name = "gladiator sandals"
@@ -32,7 +30,6 @@
 	            /obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
-	sellprice = 12
 
 /datum/crafting_recipe/roguetown/leather/unique/grenzelboots
 	name = "grenzelhoftian boots"
@@ -44,7 +41,6 @@
 	            /obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
-	sellprice = 15
 
 /datum/crafting_recipe/roguetown/leather/unique/grenzelgloves
 	name = "grenzelhoftian gloves"
@@ -56,7 +52,6 @@
 	            /obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
-	sellprice = 15
 
 /datum/crafting_recipe/roguetown/leather/unique/otavanleatherpants
 	name = "otavan leather trousers"
@@ -68,7 +63,6 @@
 				/obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
-	sellprice = 30
 
 /datum/crafting_recipe/roguetown/leather/unique/otavanleathergloves
 	name = "otavan leather gloves"
@@ -81,7 +75,6 @@
 				/obj/item/natural/cloth = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
-	sellprice = 30
 
 /datum/crafting_recipe/roguetown/leather/unique/fencingbreeches
 	name = "fencing breeches"
@@ -92,7 +85,6 @@
 				/obj/item/natural/cloth = 4)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/unique/otavanboots
 	name = "otavan leather boots"
@@ -104,7 +96,6 @@
 	            /obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/leather/unique/buckleshoes
 	name = "buckled shoes"
@@ -114,7 +105,6 @@
 	            /obj/item/natural/fibers = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/leather/unique/monkleather
 	name = "pontifex's kaftan"
@@ -124,7 +114,6 @@
 				/obj/item/reagent_containers/food/snacks/tallow = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 23
 
 /datum/crafting_recipe/roguetown/leather/unique/furlinedjacket
 	name = "artificer jacket"
@@ -134,7 +123,6 @@
 	            /obj/item/natural/cloth = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 21
 
 /datum/crafting_recipe/roguetown/leather/unique/winterjacket
 	name = "winter jacket"
@@ -144,7 +132,6 @@
 	            /obj/item/natural/cloth = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 24
 
 /datum/crafting_recipe/roguetown/leather/unique/openrobes
 	name = "shamanic coat"
@@ -154,7 +141,6 @@
 	            /obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/unique/gronnpants
 	name = "fur pants"
@@ -165,7 +151,6 @@
 	            /obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/unique/gronngloves
 	name = "fur-lined leather gloves"
@@ -176,7 +161,6 @@
 	            /obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/unique/gronnboots
 	name = "atgervi leather boots"
@@ -187,7 +171,6 @@
 	            /obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/unique/monkrobes
 	name = "holy monk vestments"

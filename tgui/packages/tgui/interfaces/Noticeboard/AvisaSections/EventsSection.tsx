@@ -10,7 +10,7 @@ import {
   SEAL_RED,
   SERIF,
 } from '../../common/parchment';
-import { type EconomicEvent, type NoticeboardData } from '../types';
+import type { EconomicEvent, NoticeboardData } from '../types';
 
 const eventGridStyle: React.CSSProperties = {
   display: 'grid',

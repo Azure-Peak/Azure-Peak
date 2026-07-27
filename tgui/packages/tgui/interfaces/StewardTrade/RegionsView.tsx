@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
 import { useBackend } from '../../backend';
-import { groupByCategory } from './helpers';
-import type { Data, RegionFlow, RegionRow } from './types';
 import {
   badgeStyle,
   cardStyle,
@@ -16,6 +14,8 @@ import {
   SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
+import { groupByCategory } from './helpers';
+import type { Data, RegionFlow, RegionRow } from './types';
 
 export const RegionsView = (props: { data: Data }) => {
   const { region_rows, region_catalog } = props.data;
@@ -75,7 +75,9 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
         {!!region.blockaded && (
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}
-        <span style={{ color: INK_FAINT, fontSize: FONT_BODY, marginLeft: 'auto' }}>
+        <span
+          style={{ color: INK_FAINT, fontSize: FONT_BODY, marginLeft: 'auto' }}
+        >
           {producesCount} produces &middot; {demandsCount} demands
         </span>
       </div>

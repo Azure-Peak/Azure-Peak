@@ -123,7 +123,7 @@
 		"Illusio, me relinquere!",
 	)
 	fixed_spells = list(
-		/obj/effect/proc_holder/spell/invoked/invisibility,
+		/datum/action/cooldown/spell/invisibility,
 	)
 
 /datum/magic_aspect/hearthcraft
@@ -143,6 +143,24 @@
 	fixed_spells = list(
 		/datum/action/cooldown/spell/great_shelter,
 		/datum/action/cooldown/spell/create_campfire,
+	)
+
+/datum/magic_aspect/aegiscraft
+	name = "Aegiscraft"
+	latin_name = "Minor Aspectus Aegidis"
+	desc = "The art of projecting a shield of raw arcyne force. The shield offers some much needed external protection for a wise magi. "
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_ARCANE
+	binding_chants = list(
+		"Let me form the shield upon which my foes will fall.",
+		"Aegis, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I relinquish my shield. Let me face my foes with naught but my flesh.",
+		"Aegis, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/conjure_aegis,
 	)
 
 /datum/magic_aspect/hex

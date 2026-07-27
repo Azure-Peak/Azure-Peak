@@ -293,7 +293,6 @@
 	skillcraft = /datum/skill/craft/carpentry
 
 /obj/structure/fermentation_keg/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/meathook
 	name = "meathook"
@@ -930,7 +929,6 @@
 
 /obj/structure/closet/crate/chest/crafted
 	keylock = FALSE
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/closet
 	name = "closet"

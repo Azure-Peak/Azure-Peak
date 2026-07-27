@@ -1,11 +1,6 @@
 import type { CSSProperties } from 'react';
 
-import {
-  FONT_BODY,
-  INK,
-  INK_FAINT,
-  SERIF,
-} from '../common/parchment';
+import { FONT_BODY, INK, INK_FAINT, SERIF } from '../common/parchment';
 import {
   dashedHeaderStyle,
   detailPanelStyle,
@@ -29,7 +24,10 @@ const eventDescStyle: CSSProperties = {
 };
 
 const splitParagraphs = (text: string): string[] =>
-  text.split(/\n{2,}/).map((p) => p.trim()).filter((p) => p.length > 0);
+  text
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter((p) => p.length > 0);
 
 const eventSpanStyle: CSSProperties = {
   fontSize: FONT_BODY,

@@ -72,9 +72,8 @@
 		var/mob/living/targetted = target
 		if(!isliving(target))
 			return
-		targetted.adjust_fire_stacks(3)
-		targetted.ignite_mob()
-		targetted.visible_message(span_danger("[src] sets [target] on fire!"))
+		apply_scorch_stack(targetted, 1)
+		targetted.visible_message(span_danger("[src] sears [target] with hellfire!"))
 		src.flame_cd = world.time
 	if(!QDELETED(target))
 		return target.attack_animal(src)

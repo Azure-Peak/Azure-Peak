@@ -180,7 +180,7 @@
 	new_bounty.amount = amount
 	new_bounty.target = target_realname
 	new_bounty.bandit = bandit_status
-	new_bounty.reason = reason
+	new_bounty.reason = html_encode(reason)
 	new_bounty.employer = employer_name
 	new_bounty.target_race = race
 	new_bounty.target_height = lowertext(descriptor_height)

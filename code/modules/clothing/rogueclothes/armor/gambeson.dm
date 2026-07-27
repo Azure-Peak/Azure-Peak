@@ -9,6 +9,8 @@
 	armor = ARMOR_PADDED
 	blocksound = SOFTUNDERHIT
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	pickup_sound = 'sound/foley/equip/equip_armor.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
@@ -194,7 +196,7 @@
 		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter
-	name = "padded fencing shirt"
+	name = "fencing shirt"
 	desc = "A strong loosely worn quilted shirt that places little weight on the arms, usually worn underneath a flexible leather vest. It won't cover your legs."
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
@@ -214,6 +216,12 @@
 /obj/item/clothing/suit/roguetown/shirt/freifechter/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
+/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
+	name = "aesthetic fencing shirt"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
+	armor_class = ARMOR_CLASS_NONE
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	name = "shepherd's shirt"
@@ -259,6 +267,10 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_shirt()
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize()
+	. = ..()
+	update_icon()
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
@@ -267,6 +279,11 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
+	name = "aesthetic grenzelhoftian hip-shirt"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	name = "padded desert coat"
@@ -283,12 +300,24 @@
 	naledicolor = TRUE
 	shiftable = FALSE
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
+	name = "aesthetic hierophant's shawl"
+	armor = ARMOR_CLOTHING
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor_class = ARMOR_CLASS_NONE
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	name = "pontifex's kaftan"
 	icon_state = "monkleather"
 	item_state = "monkleather"
 	desc = "Tight boiled leathers that stretch and fit to one's frame perfectly."
 	shiftable = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex/loadout
+	name = "aesthetic pontifex's kaftan"
+	armor = ARMOR_CLOTHING
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor_class = ARMOR_CLASS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	name = "inquisitorial leather tunic"
@@ -308,6 +337,11 @@
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
+	name = "aesthetic stalker robe"
+	armor_class = ARMOR_CLASS_NONE
+	armor = ARMOR_CLOTHING
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 //Hand's gambeson, looks fancy
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand

@@ -381,6 +381,73 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	howner?.visible_message(msg)
 
 
+/datum/special_intent/proc/npc_use_chance(mob/living/user, atom/target)
+	return null
+
+
+/datum/special_intent/proc/npc_count_nearby(mob/living/user, radius, atom/center)
+	var/enemies = 0
+	var/allies = 0
+	for(var/mob/living/L in view(radius, get_turf(center || user)))
+		if(L == user || L.stat == DEAD || !(L.mobility_flags & MOBILITY_STAND))
+			continue
+		if(user.faction_check_mob(L))
+			allies++
+		else
+			enemies++
+	return list(enemies, allies)
+
+/datum/special_intent/proc/npc_ring_chance(mob/living/user, radius = 2)
+	var/list/count = npc_count_nearby(user, radius)
+	var/enemies = count[1]
+	var/allies = count[2]
+	if(!enemies)
+		return 0
+	if(enemies >= 3 && enemies >= allies)
+		return 100
+	return max(15 + (enemies - 1) * 20 - (allies * 20), 5)
+
+/datum/special_intent/proc/npc_front_chance(mob/living/user)
+	var/turf/front = get_step(get_turf(user), user.dir)
+	if(!front)
+		return 0
+	var/list/count = npc_count_nearby(user, 1, front)
+	var/enemies = count[1]
+	if(!enemies)
+		return 0
+	if(count[2])
+		return 5
+	if(enemies >= 3)
+		return 100
+	return (enemies >= 2) ? 60 : 15
+
+/datum/special_intent/proc/npc_line_chance(mob/living/user, length = 3)
+	var/enemies = 0
+	var/allies = 0
+	var/turf/T = get_turf(user)
+	for(var/i in 1 to length)
+		T = get_step(T, user.dir)
+		if(!T || T.density)
+			break
+		var/list/count = npc_count_nearby(user, 0, T)
+		enemies += count[1]
+		allies += count[2]
+	if(!enemies)
+		return 0
+	if(allies)
+		return 5
+	if(enemies >= 3)
+		return 100
+	return (enemies >= 2) ? 80 : 15
+
+/datum/special_intent/proc/npc_finisher_chance(atom/target)
+	if(!isliving(target))
+		return 0
+	var/mob/living/L = target
+	if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable))
+		return 100
+	return 10
+
 //A subtype that creates a grid for us so we don't have to painstakingly define it tile by tile.
 //Consequently, however, it does NOT support custom timers and will only work with the default delay var.
 //If you want a pattern with multiple rectangles you'll either have to deploy multiples of these, or use a custom, tile-by-tile one.
@@ -554,6 +621,9 @@ SPECIALS START HERE
 	var/dam = 200
 
 //We play the pre-sfx here because it otherwise it gets played per tile. Sounds funky.
+/datum/special_intent/ground_smash/npc_use_chance(mob/living/user, atom/target)
+	return npc_line_chance(user, 3)
+
 /datum/special_intent/ground_smash/on_create()
 	. = ..()
 	howner.Immobilize(self_immob_dur)
@@ -602,6 +672,15 @@ SPECIALS START HERE
 	var/knockdown = 2 SECONDS
 	var/immobilize_init = 1 SECONDS
 	var/dam = 20
+
+/datum/special_intent/flail_sweep/npc_use_chance(mob/living/user, atom/target)
+	var/list/count = npc_count_nearby(user, 1)
+	var/enemies = count[1]
+	if(enemies >= 3)
+		return 100
+	if(enemies == 2 && !count[2])
+		return 10
+	return 0
 
 /datum/special_intent/flail_sweep/on_create()
 	victim_count = initial(victim_count)
@@ -670,6 +749,9 @@ SPECIALS START HERE
 	var/exposed_dur = 3 SECONDS
 	var/dam
 
+/datum/special_intent/quarterstaff_sweep/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
+
 /datum/special_intent/quarterstaff_sweep/process_attack()
 	var/obj/item/rogueweapon/W = iparent
 	if(istype(W))
@@ -705,6 +787,9 @@ SPECIALS START HERE
 	var/immob_dur = 3.5 SECONDS
 	var/exposed_dur = 6 SECONDS
 	var/dam
+
+/datum/special_intent/axe_swing/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
 
 /datum/special_intent/axe_swing/_reset()
 	. = ..()
@@ -804,6 +889,9 @@ SPECIALS START HERE
 	var/self_clickcd = 3 SECONDS
 	var/self_vuln = 3 SECONDS
 
+/datum/special_intent/greatsword_swing/npc_use_chance(mob/living/user, atom/target)
+	return npc_ring_chance(user, 2)
+
 /datum/special_intent/greatsword_swing/_reset()
 	hitcount = initial(hitcount)
 	self_debuffed = initial(self_debuffed)
@@ -877,6 +965,9 @@ SPECIALS START HERE
 	var/self_clickcd = 3 SECONDS
 	var/self_vuln = 3 SECONDS
 
+/datum/special_intent/vicious_swipe/npc_use_chance(mob/living/user, atom/target)
+	return npc_ring_chance(user, 2)
+
 /datum/special_intent/vicious_swipe/post_delay(list/turfs)
 	. = ..()
 	playsound(howner, 'sound/combat/wooshes/bladed/wooshlarge (3).ogg', 100, TRUE)
@@ -925,6 +1016,9 @@ SPECIALS START HERE
 	cooldown = 60 SECONDS
 	stamcost = 25
 
+/datum/special_intent/limbguard/npc_use_chance(mob/living/user, atom/target)
+	return 0
+
 //apply_cost is called before anything else, so it works here for the toggle checks, but it's kind of a bad example -- don't do this.
 /datum/special_intent/limbguard/apply_cost(mob/living/L)
 	if(L.has_status_effect(/datum/status_effect/buff/clash) || L.toggle_timer > world.time)
@@ -964,6 +1058,13 @@ SPECIALS START HERE
 	var/push_dist = 1
 	var/pushdir
 
+/datum/special_intent/polearm_backstep/npc_use_chance(mob/living/user, atom/target)
+	var/list/count = npc_count_nearby(user, 1)
+	var/enemies = count[1]
+	if(!enemies)
+		return 0
+	return (enemies >= 2) ? 75 : 10
+
 /datum/special_intent/polearm_backstep/process_attack()
 	. = ..()
 	var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(howner, get_step(get_turf(howner), howner.dir))))
@@ -995,6 +1096,9 @@ SPECIALS START HERE
 	stamcost = 20
 	var/dam = 0
 	var/fire_stacks = 2
+
+/datum/special_intent/drakkyrmaw_bite/npc_use_chance(mob/living/user, atom/target)
+	return npc_line_chance(user, 4)
 
 /datum/special_intent/drakkyrmaw_bite/on_create()
 	. = ..()
@@ -1038,6 +1142,9 @@ SPECIALS START HERE
 	cooldown = 30 SECONDS
 	stamcost = 25
 	var/dam = 0
+
+/datum/special_intent/gilded_dragon_sweep/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
 
 /datum/special_intent/gilded_dragon_sweep/process_attack()
 	var/obj/item/rogueweapon/W = iparent
@@ -1119,6 +1226,9 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/self_immob_dur = 1 SECONDS
 	var/dam = 0
 
+/datum/special_intent/martyr_volcano_slam/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
+
 /datum/special_intent/martyr_volcano_slam/process_attack()
 	var/obj/item/rogueweapon/W = iparent
 	dam = W.force_dynamic * max((howner.STASTR / 10 + howner.STAPER / 10), 1)  / 1.5
@@ -1172,6 +1282,9 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/fire_stacks = 4
 	var/self_immob_dur = 1 SECONDS
 	var/dam = 0
+
+/datum/special_intent/martyr_blazing_sweep/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
 
 /datum/special_intent/martyr_blazing_sweep/process_attack()
 	var/obj/item/rogueweapon/W = iparent
@@ -1280,6 +1393,9 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/self_immob_dur = 0.5 SECONDS
 	var/dam = 0
 
+/datum/special_intent/martyr_blazing_trident/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
+
 /datum/special_intent/martyr_blazing_trident/process_attack()
 	var/obj/item/rogueweapon/W = iparent
 	dam = W.force_dynamic * max((howner.STASTR / 10 + howner.STAPER / 10), 1)
@@ -1323,6 +1439,9 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/prev_pixel_z
 	var/prev_transform
 
+
+/datum/special_intent/upper_cut/npc_use_chance(mob/living/user, atom/target)
+	return npc_finisher_chance(target)
 
 /datum/special_intent/upper_cut/on_create()
 	. = ..()
@@ -1387,6 +1506,9 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/dam = 50
 	var/prev_pixel_z
 	var/prev_transform
+
+/datum/special_intent/arcyne_descent/npc_use_chance(mob/living/user, atom/target)
+	return npc_finisher_chance(target)
 
 /datum/special_intent/arcyne_descent/on_create()
 	. = ..()

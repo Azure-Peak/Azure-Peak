@@ -1,5 +1,5 @@
 import { cls, stripHtml } from './helpers';
-import { type Aspect } from './types';
+import type { Aspect } from './types';
 
 export const GrimoirePointBuySection = ({
   aspect,
@@ -42,7 +42,8 @@ export const GrimoirePointBuySection = ({
         const wouldExceed =
           !isSelected && used + spell.cost > aspect.pointbuy_budget;
         const isDisabled =
-          !isSelected && (wouldExceed || selectedElsewhere || conflictsElsewhere);
+          !isSelected &&
+          (wouldExceed || selectedElsewhere || conflictsElsewhere);
         return (
           <div
             key={spell.path}

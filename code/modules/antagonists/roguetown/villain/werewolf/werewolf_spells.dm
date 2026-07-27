@@ -14,7 +14,7 @@
 
 /obj/effect/proc_holder/spell/self/howl/cast(mob/user = usr)
 	..()
-	var/message = input("Howl at the hidden moon...", "MOONCURSED") as text|null
+	var/message = sanitize(input("Howl at the hidden moon...", "MOONCURSED") as text|null)
 	if(!message) return
 
 	var/datum/antagonist/antag_data = user.mind.has_antag_datum(wolf_antag_type)

@@ -630,6 +630,12 @@
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
+/datum/anvil_recipe/tools/gold/bowl
+	name = "Bowl, Gold"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/reagent_containers/glass/bowl/gold
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+
 /datum/anvil_recipe/tools/gold/fork
 	name = "Fork, Gold (x3)"
 	req_bar = /obj/item/ingot/gold

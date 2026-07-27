@@ -50,6 +50,7 @@
 
 /obj/projectile/energy/arcynestrike
 	name = "arcyne smite (cut)"
+	expose_caster_on_deflect = TRUE
 	icon_state = "air_blade_cut"
 	guard_deflectable = TRUE
 	damage = 40 // 70 again simple mobs

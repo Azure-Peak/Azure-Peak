@@ -16,6 +16,7 @@
 	..()
 
 /datum/reagent/consumable/Acoffee
+	drink_type = DRINKTYPE_CAFFEINE
 	name = "Acorn Coffee"
 	description = "A nice bitter stimulating brew"
 	color = "#800000"

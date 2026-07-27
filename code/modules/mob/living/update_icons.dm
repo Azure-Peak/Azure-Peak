@@ -11,8 +11,11 @@
 		var/mutable_appearance/new_fire_overlay = mutable_appearance('icons/mob/OnFire.dmi', fire_icon, -FIRE_LAYER)
 		var/datum/status_effect/fire_handler/fire_stacks/fire_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
 		var/datum/status_effect/fire_handler/fire_stacks/divine_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
+		var/datum/status_effect/fire_handler/fire_stacks/vheslyn_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
 		if(divine_status?.stacks > fire_status?.stacks)
 			new_fire_overlay.color = list(0,0,0, 0,0,0, 0,0,0, 1,1,1)
+		if(vheslyn_status?.stacks > fire_status?.stacks)
+			new_fire_overlay.color = list(0,0,0, 0,0,0, 0,0,0, 0.5,0,1)
 		new_fire_overlay.appearance_flags = RESET_COLOR
 		overlays_standing[FIRE_LAYER] = new_fire_overlay
 

@@ -1791,7 +1791,7 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 
 /obj/item/inqarticles/litany
 	name = "litany"
-	desc = "A writ of religious anointment, printed on Otavan parchment. It bares the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \
+	desc = "A writ of religious anointment, printed on Otavan parchment. It bears the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \
 	to bless the faithful upon the eve of battle. Traditionally, these litanies are burned after recitement, and their ashes are smeared across a chosen weapon to consecrate \
 	them. </br>Unused litanies can be refunded through the HERMES."
 	icon = 'icons/roguetown/items/misc.dmi'
