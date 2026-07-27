@@ -1108,7 +1108,7 @@
 /datum/intent/peculate/examine(mob/user)
 	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
 	// todo: add more of these later
-		to_chat(user, span_gamedeadsay("The profane dagger says, \"Hehe... hehehe...!\""))
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"Hehe... hehehe...\"</i>"))
 		return
 	// call parent for assassins so they can actually see the desc
 	. = ..()
