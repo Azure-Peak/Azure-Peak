@@ -2,7 +2,8 @@
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Dragon's Breath"
 	desc = "Let loose a wide cone of flame that erupts forward, burning everything in its path and pushing back anyone it hits. \
-	The windup leaves you committed and wide open."
+	The windup leaves you committed and wide open.\n\
+	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	button_icon_state = "fire_blast"
 	sound = 'sound/magic/fireball.ogg'
 	spell_color = GLOW_COLOR_FIRE
@@ -69,6 +70,8 @@
 		var/list/r = rotate_offset(off[1], off[2], facing)
 		var/turf/T = locate(origin.x + r[1], origin.y + r[2], origin.z)
 		if(!T || T.density)
+			continue
+		if(stop_at_dense && path_blocked(origin, T))
 			continue
 		new /obj/effect/temp_visual/dragonfire(T)
 		for(var/atom/movable/A in T)

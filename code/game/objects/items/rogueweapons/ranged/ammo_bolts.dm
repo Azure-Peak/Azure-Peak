@@ -468,13 +468,13 @@
 	flag = "fire"
 	npc_simple_damage_mult = 2
 
-/obj/projectile/bullet/bolt/pyro/on_hit(target)
+/obj/projectile/bullet/bolt/pyro/on_hit(target, blocked = FALSE)
 	..()
 	var/turf/epicenter = get_turf(target)
 	if(epicenter)
 		new /obj/effect/temp_visual/explosion(epicenter)
 		playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
-	if(!ismob(target))
+	if(!ismob(target) || blocked >= 100)
 		return
 	var/mob/living/M = target
 	apply_scorch_stack(M, 4, def_zone)

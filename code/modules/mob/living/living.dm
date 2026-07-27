@@ -14,8 +14,6 @@
 		if(!("[turf.z]" in GLOB.weatherproof_z_levels))
 			if(SSmapping.level_has_any_trait(turf.z, list(ZTRAIT_IGNORE_WEATHER_TRAIT)))
 				GLOB.weatherproof_z_levels |= "[turf.z]"
-		if("[turf.z]" in GLOB.weatherproof_z_levels)
-			SSmatthios_mobs.register_mob(src)
 	update_a_intents()
 	swap_rmb_intent(num=1)
 	if(unique_name)
@@ -55,6 +53,11 @@
 	if(craftingthing)
 		QDEL_NULL(craftingthing)
 	QDEL_LIST(simple_wounds)
+	if(simple_embedded_objects)
+		for(var/obj/item/embedded as anything in simple_embedded_objects)
+			embedded.is_embedded = FALSE
+			embedded.embedded_host = null
+		simple_embedded_objects = null
 	return ..()
 
 /mob/living/onZImpact(turf/T, levels)

@@ -245,7 +245,7 @@ SUBSYSTEM_DEF(statpanels)
 /// Stat panel window declaration
 /client/var/datum/tgui_window/stat/stat_panel
 
-/datum/tgui_window/stat/initialize(strict_mode, fancy, assets, inline_html, inline_js, inline_css)
+/datum/tgui_window/stat/initialize(strict_mode, assets, inline_html, inline_js, inline_css)
 	. = ..()
 	send_message("build_topbar") // This is the best way of doing it... don't @ me
 

@@ -35,15 +35,15 @@
 
 /datum/component/rot/process()
 
-	var/amt2add = 10 // 1 Second. Base increment. 
+	var/amt2add = 10 // 1 Second. Base increment.
 	var/current_time = world.time
-    
+
 	// time elapsed since the last rot/process
 	var/elapsed_time = last_process ? (current_time - last_process) : 0
 	last_process = current_time
 
 	// Add amount based on the time elapsed. This is used to calculate when to wake/decompose
-	amount += (elapsed_time / 10) * amt2add 
+	amount += (elapsed_time / 10) * amt2add
 
 	return
 
@@ -105,14 +105,14 @@
 					B.rotted = TRUE
 					findonerotten = TRUE
 					shouldupdate = TRUE
-					C.apply_status_effect(/datum/status_effect/debuff/rotted_zombie)	//-8 con to rotting zombie corpse.
+					C.apply_status_effect(/datum/status_effect/debuff/rotted_zombie)	//-3 con, -8 int to rotting zombie corpse.
 			else
 				if(amount > CORPSE_SKELETONIZE_TIME)
 					if(!is_zombie)
 						B.skeletonize()
 						if(C.dna && C.dna.species)
 							C.dna.species.species_traits |= NOBLOOD
-						C.apply_status_effect(/datum/status_effect/debuff/rotted_zombie)	//-8 con to rotting zombie corpse - duplicate as a failsafe.
+						C.apply_status_effect(/datum/status_effect/debuff/rotted_zombie)	//-3 con, -8 int to rotting zombie corpse - duplicate as a failsafe.
 						shouldupdate = TRUE
 				else
 					findonerotten = TRUE

@@ -2125,12 +2125,14 @@
 
 // AVANTYNE
 
+/*
 /datum/anvil_recipe/armor/avantyne/helmet
 	name = "Veil, Avantyne (+1 A. Wafer)"
 	req_bar = /obj/item/ingot/avantyne
 	additional_items = list(/obj/item/ingot/avantyne)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/avantyne
 	display_category = ITEM_CAT_ARMOR_HELMETS
+*/
 
 /datum/anvil_recipe/armor/avantyne/maille
 	name = "Maille, Avantyne (+3 A. Wafer, +1 Cured Leather)"

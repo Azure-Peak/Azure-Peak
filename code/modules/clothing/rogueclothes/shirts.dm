@@ -16,7 +16,6 @@
 	flags_inv = HIDEBOOB
 	experimental_inhand = TRUE
 	salvage_amount = 2
-
 	grid_width = 64
 	grid_height = 64
 

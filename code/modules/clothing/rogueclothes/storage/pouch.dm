@@ -307,6 +307,7 @@
 /obj/item/storage/belt/rogue/pouch/healing/PopulateContents()
 	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
 	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical/water(src)
 	new /obj/item/needle(src)
 
 /obj/item/storage/belt/rogue/pouch/alchemy

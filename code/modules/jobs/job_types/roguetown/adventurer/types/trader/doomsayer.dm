@@ -44,6 +44,5 @@
 		/obj/item/clothing/neck/roguetown/psicross = 2,
 		/obj/item/clothing/neck/roguetown/psicross/wood = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)

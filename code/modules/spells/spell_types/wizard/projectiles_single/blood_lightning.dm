@@ -49,7 +49,7 @@
 	light_color = "#802121"
 	light_outer_range = 7
 
-/obj/projectile/magic/bloodlightning/on_hit(target)
+/obj/projectile/magic/bloodlightning/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -62,5 +62,6 @@
 			var/mob/living/L = target
 			if(out_of_effective_range())
 				return
-			L.lightning_shock(src)
+			if(blocked < 100)
+				L.lightning_shock(src)
 	qdel(src)

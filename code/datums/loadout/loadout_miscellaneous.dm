@@ -42,3 +42,8 @@
 	path = /obj/item/clothing/cloak/bandolier
 	sort_category = "Misc"
 	cost = 2
+
+/datum/loadout_item/tutorialbook
+	name = "A Tutorialeer's Handbook"
+	path = /obj/item/recipe_book/survival
+	sort_category = "Misc"

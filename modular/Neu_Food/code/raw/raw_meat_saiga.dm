@@ -1,4 +1,5 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "venison"
 	desc = "A standard cut of raw venison, freshly severed from a beast. Only the strongest saiga that wisely avoid humen bear true venison."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -9,6 +10,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "venison ribs"
 	desc = "The ribs of some cervine. It is a meaty, filling cut often cherised by commonfolk as a true feast, albeit the vert of the woods isn't meant to be touched by peasants."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -19,6 +21,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "venison loins"
 	desc = "The loin cut of a cervine, the most tender cut of venison, often desired by the upper class. Only skilled butchers have a chance at cutting this free without ruining the meat."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -29,6 +32,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "venison prime cut"
 	desc = "A prime cut of venison prepared by a skilled butcher. Not only tender, but incredibly filling too. A meal fit for a duke, often regarded by others with jealousy."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -39,6 +43,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "deadite venison"
 	desc = "The undead still carry flesh, tough, chewy. It is an aquired taste."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -51,6 +56,7 @@
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "deadite venison ribs"
 	desc = "The heavier chunk of undead flesh. Filling, but hard to stomach, a feast for the desperate nonetheless."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -62,6 +68,7 @@
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "deadite venison loins"
 	desc = "Rotten flesh is considered a delicacy in some circles. Have a bite, undeath has only made the tender flesh juicier, like overripe fruit."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -73,6 +80,7 @@
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "deadite venison prime cut"
 	desc = "Not even death could stop the creature from yielding its most prime cut. Lyckers might even consider flesh over blood at the sight."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -84,6 +92,7 @@
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "pale venison"
 	desc = "The stag danced, now it is as anyone but the Dendorite prefers them. Dead, unmoving, tasty."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -94,6 +103,7 @@
 	rotprocess = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "pale venison ribs"
 	desc = "Ribs stronger than blacksteel, the flesh attached? Ambrosia. Oh, but to have but a measure of the beast's strength."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -104,6 +114,7 @@
 	rotprocess = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "pale venison loins"
 	desc = "A simple touch is enough to dent this flesh, impossibly tender. A glance is enough to make the image remain etched in your mind. You must taste it."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
@@ -114,6 +125,7 @@
 	rotprocess = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_w
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "pale venison prime cut"
 	desc = "Skirmishes have been started over the mere legend of the stag's flesh. For it is said to yield unimaginable power. Even those with no tongue can taste it, those with no breath can smell it, for Dendor's madness knows no bounds."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'

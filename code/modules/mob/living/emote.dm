@@ -59,13 +59,13 @@
 	if(!prayer)
 		return
 
-	//If God can hear your prayer (long enough, no bad words, etc.)
-	if(patron.hear_prayer(follower, prayer))
-		// Stops prayers if you don't meet your patron's requirements to pray.
-		if(!patron?.can_pray(follower))
-			return
-		else
-			follower.sate_addiction(/datum/charflaw/addiction/godfearing)
+	// Stops prayers if you don't meet your patron's requirements to pray.
+	if(!patron?.can_pray(follower))
+		return
+	//If your patron can hear your prayer (long enough, no bad words, etc.)
+	if(!patron.hear_prayer(follower, prayer))
+		return
+	follower.sate_addiction(/datum/charflaw/addiction/godfearing)
 
 	/* admin stuff - tells you the followers name, key, and what patron they follow */
 	var/follower_ident = "[follower.key]/([follower.real_name]) (follower of [patron])"

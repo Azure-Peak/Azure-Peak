@@ -1,4 +1,6 @@
 /obj/item/reagent_containers/food/snacks/rogue/friedegg
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_EGG
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("fried egg" = 1)
 	name = "base fried egg"
@@ -29,6 +31,7 @@
 
 /*	.............   Deviled Eggs   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/stuffedegg
+	dish_type = DISH_EGG
 	name = "raw stuffed egg"
 	desc = "Raw egg stuffed with a creamy cheese filling."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
@@ -115,6 +118,7 @@
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/hammerhold
+	cuisine = CUISINE_NORTHERN
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "sausage" = 1, "bacon" = 1, "toast" = 1)
 	name = "Hammerholdian breakfast"
@@ -127,6 +131,7 @@
 
 /*	.................   Omelettes   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/omelette_raw
+	dish_type = DISH_EGG
 	name = "raw omelette"
 	desc = "Beaten eggs, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -137,6 +142,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette_raw_onion
+	dish_type = DISH_EGG|DISH_VEGETABLE
 	name = "raw onion omelette"
 	desc = "Beaten eggs with chopped onion, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -147,6 +153,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette_raw_veggie
+	dish_type = DISH_EGG|DISH_VEGETABLE
 	name = "raw vegetable omelette"
 	desc = "Beaten eggs loaded with onion and greens, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -157,6 +164,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette_raw_meat
+	dish_type = DISH_EGG|DISH_MEAT
 	name = "raw meat omelette"
 	desc = "Beaten eggs mixed with meat, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -167,6 +175,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette
+	dish_type = DISH_EGG
 	name = "omelette"
 	desc = "A fluffy omelette."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -194,6 +203,8 @@
 	tastes = list("egg" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette_veggie
+	cuisine = CUISINE_OTAVAIS|CUISINE_SOUTHEASTERN
+	dish_type = DISH_EGG|DISH_VEGETABLE
 	name = "vegetable omelette"
 	desc = "An omelette packed with onion and greens."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -210,6 +221,7 @@
 	tastes = list("egg" = 1, "vegetables" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette_veggie_slice
+	cuisine = CUISINE_OTAVAIS|CUISINE_SOUTHEASTERN
 	name = "vegetable omelette slice"
 	desc = "A hearty wedge of vegetable omelette."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -221,6 +233,8 @@
 	tastes = list("egg" = 1, "vegetables" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette_meat
+	cuisine = CUISINE_OTAVAIS|CUISINE_SOUTHEASTERN
+	dish_type = DISH_EGG|DISH_MEAT
 	name = "meat omelette"
 	desc = "An omelette rich with meat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
@@ -237,6 +251,7 @@
 	tastes = list("egg" = 1, "minced meat" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/omelette_meat_slice
+	cuisine = CUISINE_OTAVAIS|CUISINE_SOUTHEASTERN
 	name = "meat omelette slice"
 	desc = "A savory wedge of minced meat omelette."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'

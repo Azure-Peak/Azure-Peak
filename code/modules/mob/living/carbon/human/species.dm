@@ -2019,6 +2019,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.emote("painmoan", forced = TRUE)
 			H.visible_message(span_combatsecondarybp("<b>[H]</b> lets go of their hold!"))
 			H.stop_pulling(TRUE)
+
+	if(user != H && user.mind && H.mind)	// Maso / Sadism check. No self-hits, it's already very easy to fulfill like this.
+		var/painpercent = H.get_complex_pain() / H.pain_threshold
+		if(painpercent >= 100)
+			if(H.get_flaw(/datum/charflaw/addiction/masochist))
+				H.sate_addiction(/datum/charflaw/addiction/masochist)
+			if(user.get_flaw(/datum/charflaw/addiction/sadist))
+				user.sate_addiction(/datum/charflaw/addiction/sadist)
 	return TRUE
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)
