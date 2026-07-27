@@ -1130,7 +1130,7 @@
 				if(HAS_TRAIT_NOT_FROM(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
 					. += span_danger("They extrude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
 				else if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR))
-					. += span_cult("Their face is frozen in fear. Their soul leaks out of their heart-lux. I can hear screaming. They are trapped, somewhere. Break their containment to revive them.")
+					. += span_cult("Their face is frozen in fear. Their soul leaks out of their heart-lux. Their soul has been sealed within something. Find this object and destroy it to revive them.")
 
 
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
