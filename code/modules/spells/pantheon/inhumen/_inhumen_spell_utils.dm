@@ -363,7 +363,7 @@
 	var/damage = bonus_damage
 	var/npc_mult = target.mind ? 1 : 2
 	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_BSTEEL)
-	var/bclass = BCLASS_SMASH
+	var/bclass = BCLASS_BLUNT
 	var/damtype = BRUTE
 	if(mammon_spent >= 80)
 		bclass = BCLASS_BURN
