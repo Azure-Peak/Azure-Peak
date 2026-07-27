@@ -1305,7 +1305,7 @@
 	if(HAS_TRAIT(owner, TRAIT_NOMOOD))
 		to_chat(owner, span_warning("I see through Zizo's vision. No truth can hide from me."))
 	else
-		to_chat(owner, span_warning("I see through Zizo's vision. No truth can hide from me; I feel a strange hollowness in my chest as my emotions slip from me."))
+		to_chat(owner, span_warning("I see through Zizo's vision. No truth can hide from me; I feel a strange hollowness in my chest as my emotions fade away."))
 	//Now we add traits after our flavor check.
 	ADD_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT) //better night vision than Noc... but...
 	ADD_TRAIT(owner, TRAIT_NOMOOD, MAGIC_TRAIT)
@@ -1319,7 +1319,7 @@
 	if(HAS_TRAIT(owner, TRAIT_NOMOOD))
 		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds."))
 	else
-		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds and my mynd floods with the vibrant feeling of emotion again."))
+		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds and I feel that vibrant feeling of emotion again."))
 
 
 /datum/status_effect/buff/utilityrituos
