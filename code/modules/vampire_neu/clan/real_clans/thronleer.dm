@@ -6,14 +6,14 @@
 		/mob/living/carbon/human/proc/punish_spawn
 	)
 	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_SEEPRICES, TRAIT_STRENGTH_UNCAPPED) //Lord is more learned than other leaders
-	vitae_bonus = 500
-	lord_title = "Elder"
+	vitae_bonus = 1000 //Sun scorned heavily, helps us hold more to deal w/ this cavet
+	lord_title = "Arch-Seer"
 
 //Completely re-done because inital Thronleer didn't really have any identity beyond, children of the Abyss but better
 /datum/clan/thronleer
 	name = "House Thronleer"
 	desc = "Noc, facinated by your House's endless persuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet Astrata's scorn and ire only grows at what your clan has achieved."
-	curse = "suffer in the sun."
+	curse = "spurned harshly in the sun, endless compulsion to learn."
 	clanicon = "bloodheal"
 	blood_preference = BLOOD_PREFERENCE_ALL //Noc blessed, they'll eat anything that moves.
 	clane_traits = list(
@@ -39,9 +39,9 @@
 		TRAIT_ZOMBIE_IMMUNE,
 	)
 	clane_covens = list(
-		/datum/coven/obfuscate,
-		/datum/coven/auspex, //All knowing.
-		/datum/coven/demonic,
+		/datum/coven/obfuscate, //Unknown yet.
+		/datum/coven/auspex, //All knowing yet.
+		/datum/coven/demonic, //Too knowing yet.
 	)
 	leader = /datum/clan_leader/thronleer
 	covens_to_select = 0
@@ -50,8 +50,8 @@
 	return "all blood, variety is knowledge"
 
 /datum/clan/thronleer/get_downside_string()
-	return "suffer in the sun"
+	return "burn in sunlight"
 
 /datum/clan/thronleer/apply_clan_components(mob/living/carbon/human/H)
-	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 5, drain = 10) //largest damage buildup of all clans.
+	H.AddComponent(/datum/component/sunlight_vulnerability) //largest damage buildup of all clans. Vitae drain is below average though.
 	H.AddComponent(/datum/component/vampire_disguise)

@@ -129,6 +129,8 @@
 			victim.death()
 			victim.adjustBruteLoss(-50, TRUE)
 			victim.adjustFireLoss(-50, TRUE)
+			to_chat(victim, span_userdanger("I have been consumed by my kindred!"))
+			visible_message(span_danger("Some dark energy begins to flow from [victim] into [src]...")) //reverse of siring, teehehe
 			return
 		else if(victim.blood_volume < BLOOD_VOLUME_SURVIVE && victim.stat != DEAD)
 			to_chat(src, span_warning("This sad sacrifice for your own pleasure affects something deep in your mind."))
@@ -187,7 +189,7 @@
 
 	var/vampire_choice = tgui_alert(
 		src,
-		"Would you like to rise as a lycker spawn? Warning: refusal may or may not mortally wound you.",
+		"Would you like to rise as a lycker spawn?", //we don't mortally wound you, the vampyre does.
 		"THE CURSE OF ASTRATA",
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT

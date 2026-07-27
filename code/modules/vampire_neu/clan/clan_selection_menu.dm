@@ -54,23 +54,24 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 			clans += list(clan_to_ui(clan_type, C))
 		qdel(C)
 
-	clans += list(list(
-		"id" = "custom",
-		"name" = "Customised Caitiff Clan",
-		"desc" = "Forge your own cursed bloodline outside the ancient houses. The elders will not claim you, but neither will their chains bind you.",
-		"curse" = "Unstable legacy.",
-		"downside" = "Have no ancient house to shelter your name.",
-		"bloodPreference" = "Your hunger is your own.",
-		"tagline" = "Forge your own cursed bloodline",
-		"icon" = null,
-		"isCustom" = TRUE,
-		"covens" = list(),
-		"lordTitle" = "Caitiff Lord",
-		"lordForm" = null,
-		"lordTraits" = list(),
-		"clanTraits" = list(),
-		"vitaeBonus" = 0
-	))
+	if(!user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)) //Remove this if shit breaks. PREVENTS CATTIFF VLORD, TAKE A REAL BLOODLINE. YOU'RE NOT A VAGRANT. STOP MINMAXXING YOUR POTENCIES.
+		clans += list(list(
+			"id" = "custom",
+			"name" = "Customised Caitiff Clan",
+			"desc" = "Forge your own cursed bloodline outside the ancient houses. The elders will not claim you, but neither will their chains bind you.",
+			"curse" = "Unstable legacy.",
+			"downside" = "Have no ancient house to shelter your name.",
+			"bloodPreference" = "Your hunger is your own.",
+			"tagline" = "Forge your own cursed bloodline",
+			"icon" = null,
+			"isCustom" = TRUE,
+			"covens" = list(),
+			"lordTitle" = "Caitiff Lord",
+			"lordForm" = null,
+			"lordTraits" = list(),
+			"clanTraits" = list(),
+			"vitaeBonus" = 0
+		))
 
 	var/lang = user?.client?.preferred_ui_language || DEFAULT_PREFERRED_UI_LANGUAGE
 	data["clans"] = clans
@@ -207,13 +208,13 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 /datum/vampire_clan_selection_menu/proc/get_clan_tagline(datum/clan/C)
 	switch(C.name)
 		if("Nosferatu")
-			return "Sewer spies and broken masks"
+			return "Sewer and cavern spies and broken masks"
 		if("Vitabella Family")
 			return "Beauty, obsession, and adoration"
 		if("House Thronleer")
-			return "Knowledge, dread, and bad omens"
+			return "Knowledge, no matter its consequences"
 		if("Children of the Abyss")
-			return "Demonic piety and holy weakness"
+			return "Demonic affilation and holy weakness"
 		if("Crimson Fang")
 			return "Assassins, warriors, and diablerists"
 	return "An ancient curse carried through blood"
@@ -336,6 +337,14 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 			return list("name" = "Intellectual", "desc" = "Sharper mind for study, you can appraise people and mind alike with ease.")
 		if(TRAIT_LIGHT_STEP)
 			return list("name" = "Light Step", "desc" = "You move without alerting prey or guards.")
+		if(TRAIT_NOMOOD)
+			return list("name" = "Moodless", "desc" = "You feel nothing, through an ancient curse in your bloodlyne.")
+		if(TRAIT_DETACHED)
+			return list("name" = "Detached", "desc" = "Nothing could move me. Any emotion I show is a facade.")
+		if(TRAIT_BATTLEMASTER)
+			return list("name" = "Battlemaster", "desc" = "A supernatural, uncanny ability to do specials with weaponry with little to no training.")
+		if(TRAIT_GOODLOVER) //I REFUSE TO ELABORATE.
+			return list("name" = "Fabled lover", "desc" = "Its a lucky thing to share a bed with another.")
 		if(TRAIT_CICERONE)
 			return list("name" = "Cicerone", "desc" = "A deft hand, a cunning eye you can tell what's in a drink.")
 		if(TRAIT_DEATHSIGHT)

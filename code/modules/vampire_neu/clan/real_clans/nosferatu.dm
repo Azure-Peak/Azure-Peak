@@ -9,14 +9,14 @@
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn
 	)
-	lord_title = "Nosferatu"
+	lord_title = "Seer"
 	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
-	vitae_bonus = 500
+	vitae_bonus = 1400 //Sun scorned, helps us hold more to deal w/ this cavet, not remotely subtle clan so more than every other clan
 
 /datum/clan/nosferatu
 	name = "Nosferatu"
 	desc = "The Nosferatu wear their curse on the outside. Their bodies horribly twisted and deformed through the Embrace, they lurk on the fringes of most cities, acting as spies and brokers of information. Using animals and their own supernatural capacity to hide, nothing escapes the eyes of the so-called Sewer Rats."
-	curse = "Masquerade-violating appearance."
+	curse = "Horrific appearance, weaker guise against Astrata's scorn."
 	clanicon = "melpominee"
 	leader = /datum/clan_leader/nosferatu
 	clane_covens = list(
@@ -37,6 +37,7 @@
 		TRAIT_NASTY_EATER,
 		TRAIT_ANTISCRYING, //You're not scrying the sewer abomination, sire.
 		TRAIT_UNSEEMLY, //Yeah you're horrible to look at.
+		TRAIT_LIGHT_STEP,
 		TRAIT_NOSLEEP,
 		TRAIT_VAMPMANSION,
 		TRAIT_VAMP_DREAMS,
@@ -49,7 +50,7 @@
 	covens_to_select = 0
 
 /datum/clan/nosferatu/get_downside_string()
-	return "have a hideous face, and suffer in the sun"
+	return "have a hideous face, and struggle to hide from burning in sunlight"
 
 /datum/clan/nosferatu/get_blood_preference_string()
 	return "kindred blood, the blood of the dead, blood of vermin"
@@ -62,7 +63,7 @@
 
 /datum/clan/nosferatu/apply_clan_components(mob/living/carbon/human/H)
 	. = ..()
-	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 8, drain = 8)
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 5, drain = 8) //higher drain, same damage as other clans
 	H.AddComponent(/datum/component/vampire_disguise/nosferatu)
 	H.AddComponent(/datum/component/hideous_face, CALLBACK(src, TYPE_PROC_REF(/datum/clan/nosferatu, face_seen)))
 

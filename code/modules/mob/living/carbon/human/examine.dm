@@ -1112,7 +1112,7 @@
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user && !HAS_TRAIT(user, TRAIT_DEATHSIGHT)) // A lot of conditional to avoid a redundant message, but we also want unknown DNRs to be covered.
 			. += span_danger("Their body holds not even a glimmer of life. No medicine can bring them back.")
 
-	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
+	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
 		if(isliving(user))
 			var/mob/living/L = user
 			if(L.STAINT > 9 && L.STAPER > 9)

@@ -17,7 +17,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	antag_hud_name = "vamp_spawn_hud"
 	confess_lines = list(
 		"I WANT YOUR BLOOD!",
-		"DRINK THE BLOOD!",
+		"THE CRIMSON CALLS!",
 		"DEATH DID LITTLE THE FIRST TIME!",
 	)
 	rogue_enabled = TRUE
@@ -64,15 +64,15 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /datum/antagonist/vampire/get_antag_cap_weight()
 	switch(generation)
 		if(GENERATION_METHUSELAH)
-			return 3
+			return 3 //The lorde, the walking calamity.
 		if(GENERATION_ANCILLAE)
-			return 2
+			return 2 //Masquerade vampires/Vlord elites/Vlord sires.
 		if(GENERATION_NEONATE)
-			return 0.75 // Licker Wretch
+			return 0.75 // Licker Wretch/Vlord minions.
 		if(GENERATION_THINBLOOD)
-			return 0.25 // You are not even an antagonist
+			return 0.25 // You are barely even an antagonist.
 		if(GENERATION_THINNERBLOOD)
-			return 0 //Vagabond class
+			return 0 //Vagabond class.
 		else
 			return 1 // Default weight if generation not set
 
@@ -117,11 +117,11 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				max_thralls = 1
 			if(GENERATION_THINBLOOD)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
-				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are not even an antagonist
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are barely even an antagonist
 				max_thralls = 0
 			if(GENERATION_THINNERBLOOD)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
-				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 1, TRUE)
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 1, TRUE) // You are not even an antagonist
 				max_thralls = 0
 			else
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE) // Default weight if generation not set
@@ -155,7 +155,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(!vampdude)
 		return
 
-	if(vampdude.job == "Wretch" || vampdude.job == "Stray")
+	if(vampdude.job == "Wretch" || vampdude.job == "Vagabond")
 		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
 		create_custom_clan(vampdude, wretch_name)
 		return

@@ -5,13 +5,15 @@
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn
 	)
-	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
+	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_DETACHED, TRAIT_NOMOOD, TRAIT_STRENGTH_UNCAPPED) //their lord is most afflicted by daemonic influence. Emotionless almost.
+	lord_title = "Heresiarch" //cult-like heirachy
+	//no extra vitae, you have gas form + moodless off-the-bat... get it?
 
 /// Baali from aliexpress, sort of ish.
 /datum/clan/abyss
 	name = "Children of the Abyss"
-	desc = "The Children of the Abyss are a bloodline of vampires that worship the demons of old. Because of their affinity with the unholy, they are extremely vulnerable to the Church."
-	curse = "Fear of Religion."
+	desc = "The Children of the Abyss are a bloodline of infernal-harmonised vampires rumored to originate from a long-bygone experiment gone wrong by an ancient cult in the north. Because of their affinity with the unholy and daemonic, they are extremely vulnerable to the Divine."
+	curse = "Spurned by the Ten, lack of emotion."
 	clanicon = "daimonion"
 	clane_covens = list(
 		/datum/coven/obfuscate,
@@ -28,7 +30,6 @@
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
 		TRAIT_NOSLEEP,
-		TRAIT_NOSLEEP,
 		TRAIT_VAMPMANSION,
 		TRAIT_VAMP_DREAMS,
 		TRAIT_DEATHSIGHT, //Unique clan-wide boon, you can tell when/where people die..
@@ -42,9 +43,9 @@
 
 /datum/clan/abyss/on_gain(mob/living/carbon/human/H, is_vampire = TRUE)
 	. = ..()
-	H.faction |= "Abyss"
+	//H.faction |= "Abyss" //in future might be useful, keeping as a coder reference
 	H.AddElement(/datum/element/holy_weakness)
-	H.AddComponent(/datum/component/sunlight_vulnerability)
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 7, drain = 7) //Mid-way towards more harsher burning
 
 /datum/clan/abyss/get_downside_string()
-	return "burn in sunlight, and in the presence of the Ten"
+	return "burn in sunlight harsher then others, and in the presence of the Ten. Emotionless."

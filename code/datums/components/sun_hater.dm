@@ -1,12 +1,20 @@
 
 /datum/component/sunlight_vulnerability
 	/// How much damage per tick in sunlight
-	var/burn_damage = 5
+	var/burn_damage = 0
 	/// How much bloodpool drain per tick
-	var/bloodpool_drain = 2.5
+	var/bloodpool_drain = 0
 	/// Whether this mob is currently in sunlight
 	var/in_sunlight = FALSE
 
+/// we set these defaults on the init, it goes below the codenote
+/*
+So future coder, you want to give a clan, a custom amount of sunlight weakness, here's how
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 5, drain = 5) //set damage/vitae drain, both'll alter what the vamps take
+
+	if they lack this component, in their clan it won't be applied and they'll be immune to sunlight
+	please don't do this unless you're doing an inaccessable clan for aurafarming purposes, testing or events.
+*/
 /datum/component/sunlight_vulnerability/Initialize(damage = 5, drain = 5)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE

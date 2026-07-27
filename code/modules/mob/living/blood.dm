@@ -528,4 +528,4 @@
 		gaspnoise = pick('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
 
 	if(gaspnoise && !(HAS_TRAIT(src, TRAIT_NOBREATH)))
-		playsound(get_turf(src), gaspnoise, 90, FALSE)
+		playsound(get_turf(src), gaspnoise, vol = 50, ignore_walls = FALSE, quiet = TRUE) //Only if you can SEE said-dying person.

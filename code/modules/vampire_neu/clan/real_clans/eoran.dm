@@ -6,7 +6,7 @@
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn
 	)
-	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_DECEIVING_MEEKNESS, TRAIT_STRENGTH_UNCAPPED) //Decieving appearance for their lord, RP vamps.
+	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
 	lord_title = "Elder"
 	vitae_bonus = 500
 
@@ -29,6 +29,7 @@
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
 		TRAIT_NOSLEEP,
+		TRAIT_GOODLOVER, //HILARIOUS
 		TRAIT_VAMPMANSION,
 		TRAIT_VAMP_DREAMS,
 		TRAIT_DARKVISION,
@@ -45,11 +46,12 @@
 	leader = /datum/clan_leader/eoran
 	covens_to_select = 0
 /datum/clan/eoran/get_blood_preference_string()
-	return "All that is the beauty of lyfe, you love"
+	return "all that is the beauty of lyfe, you love"
 
 /datum/clan/eoran/get_downside_string()
-	return "You are perfect almost, except Sunlight's scorn, but it does not drain you of vitae."
+	return "burn in sunlight, but it does not drain you of vitae."
 
 /datum/clan/eoran/apply_clan_components(mob/living/carbon/human/H)
-	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 1, drain = 0) //no passive drain, shit still hurts if you get silvered under it
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 3, drain = 0) //no passive drain, shit still hurts if you get silvered under it. less than other clans, we RP in this house.
+	//we do RP right-- wait VL why are you sunkilling AAAA- AAAAAAAAA---
 	H.AddComponent(/datum/component/vampire_disguise)
