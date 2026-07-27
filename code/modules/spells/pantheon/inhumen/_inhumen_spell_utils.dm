@@ -361,6 +361,7 @@
 		return
 
 	var/damage = bonus_damage
+	var/mammon_spent = round(bonus_damage / 3)
 	var/npc_mult = target.mind ? 1 : 2
 	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_BSTEEL)
 	var/bclass = BCLASS_BLUNT

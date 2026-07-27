@@ -368,8 +368,8 @@
 		"Gold to glory, Matthios guide my hand!",
 		"Wealth be spent, and power be gained!",
 		"My hoard bleeds for strength, in His name!",
-		"Matthios! A king's ransom for a single blow!",
-		"Grant the weight of mine greed, Matthios!",
+		"A king's ransom for a single blow!",
+		"Roar! The weight of mine greed!",
 	)
 
 	H.say(pick(invocations), forced = invocation_type)
