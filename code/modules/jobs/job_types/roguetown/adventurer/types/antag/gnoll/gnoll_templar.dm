@@ -2,7 +2,7 @@
 	name = "Gnoll Templar"
 	tutorial = "None are as valued to protect graggarite worship as his gnoll champions themselves."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/gnoll/templar
 	category_tags = list(CTAG_GNOLL)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_UNCONVERTIBLE)
@@ -43,5 +43,5 @@
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
-		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 		H.mind?.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
