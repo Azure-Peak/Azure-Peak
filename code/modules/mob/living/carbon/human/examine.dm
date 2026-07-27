@@ -1112,23 +1112,26 @@
 				carbs.Jitter(10)
 				carbs.stuttering += 25
 
-		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
-			if(HAS_TRAIT(user, TRAIT_DEATHSIGHT) || stat == DEAD)
-				if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR)) // be SPECIFIC if they have the trait as it (probably) overrides their DNR. if not, IDGAF.
-					. += span_artery("Their face is frozen in fear. A hole is in their chest-- their being has been stolen and trapped someplace it. Recover it, to revive them.")
-				else
+			// if you have deathsight, you get the deathsight message. always.
+			if(!HAS_TRAIT(user, TRAIT_DEATHSIGHT))
+				// everyone can tell if someone is DNR if they're actually dead.
+				if(src.stat == DEAD)
+					// this is needed as a temporary stopgap. HAS_TRAIT_FROM does not function and IDK how to fix it. this would be simpler if it did.
+					if(HAS_TRAIT_NOT_FROM(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
+						. += span_danger("Their body holds not even a glimmer of life. No medicine can bring them back.")
+					else if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR))
+						. += span_cult("Their face is frozen in fear. A deep hole is visible in their chest. Something is wrong.")
+				// if theyre alive, you dont have deathsight, but youre an expert at medicine, you can tell.
+				else if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT)
+					. += span_danger("Their fifth-humor is visibly unbalanced. This will be their only chance at lyfe.")
+			// deathsight always works even on the living.
+			else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
+				if(HAS_TRAIT_NOT_FROM(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
 					. += span_danger("They extrude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
+				else if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR))
+					. += span_cult("Their face is frozen in fear. Their soul leaks out of their heart-lux. I can hear screaming. They are trapped, somewhere. Break their containment to revive them.")
 
-
-	// Real medical role can tell at a glance it is a waste of time, but only if the Necra message don't come first.
-
-	if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT && src.stat == DEAD)
-		if(HAS_TRAIT(src, TRAIT_DNR) && src != user && !HAS_TRAIT(user, TRAIT_DEATHSIGHT)) // A lot of conditional to avoid a redundant message, but we also want unknown DNRs to be covered.
-			if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR)) // be SPECIFIC if they have the trait as it (probably) overrides their DNR. if not, IDGAF.
-				. += span_artery("Their face is frozen in fear. A hole is in their chest-- their being has been stolen and trapped someplace it. Recover it, to revive them.")
-			else
-				. += span_danger("Their body holds not even a glimmer of life. No medicine can bring them back.")
 
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
 		if(isliving(user))
