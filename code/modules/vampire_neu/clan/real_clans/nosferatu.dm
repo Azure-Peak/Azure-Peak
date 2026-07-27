@@ -37,6 +37,7 @@
 		TRAIT_NASTY_EATER,
 		TRAIT_ANTISCRYING, //You're not scrying the sewer abomination, sire.
 		TRAIT_UNSEEMLY, //Yeah you're horrible to look at.
+		TRAIT_SELF_SUSTENANCE, //Nessessary with your nature
 		TRAIT_LIGHT_STEP,
 		TRAIT_NOSLEEP,
 		TRAIT_VAMPMANSION,

@@ -48,4 +48,4 @@
 	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 7, drain = 7) //Mid-way towards more harsher burning
 
 /datum/clan/abyss/get_downside_string()
-	return "burn in sunlight harsher then others, and in the presence of the Ten. Emotionless."
+	return "burn in sunlight harsher then others, and in the presence of the Ten."

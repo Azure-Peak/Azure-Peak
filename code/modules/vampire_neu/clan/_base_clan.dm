@@ -569,8 +569,10 @@ And it also helps for the character set panel
 /datum/action/clan_menu
 	name = "Clan Menu"
 	desc = "Open your clan's power management interface"
+	background_icon = 'icons/mob/actions/vampspells.dmi'
 	background_icon_state = "spell"
-	button_icon_state = "coven"
+	button_icon = 'icons/mob/actions/vampspells.dmi'
+	button_icon_state = "clan_menu"
 
 /datum/action/clan_menu/Trigger(trigger_flags)
 	if(!owner || !ishuman(owner))

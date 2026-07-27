@@ -8,7 +8,7 @@
 	)
 	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
 	lord_title = "Elder"
-	vitae_bonus = 500
+	vitae_bonus = 300 //Less than other clans, in exchange for partal sun-immunity
 
 /datum/clan/eoran
 	name = "Vitabella Family"
@@ -52,6 +52,5 @@
 	return "burn in sunlight, but it does not drain you of vitae."
 
 /datum/clan/eoran/apply_clan_components(mob/living/carbon/human/H)
-	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 3, drain = 0) //no passive drain, shit still hurts if you get silvered under it. less than other clans, we RP in this house.
-	//we do RP right-- wait VL why are you sunkilling AAAA- AAAAAAAAA---
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 3, drain = 0) //no passive drain, shit still hurts if you get silvered under it. less than other clans, we RP in this house... In theory.
 	H.AddComponent(/datum/component/vampire_disguise)

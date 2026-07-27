@@ -69,9 +69,10 @@
 	sleep(10)
 	to_chat(owner.current, span_boldwarning("</br>From the Crimson Crucible I can begin my various projects of collective sacrifice of vitae between myself and my servants to reclaim my long-lost power and kingdom."))
 	sleep(10)
-	to_chat(owner.current, span_boldwarning("</br>When I have Minions from either the Crucible or a non-resisting Sire, I should assign them to positions using the clan menu so I can PUNISH and COMMAND them."))
+	to_chat(owner.current, span_boldwarning("</br>When I have Minions from either the Crucible or any non-resisting sires of my bloodline, I should assign them to positions using the clan menu so I can PUNISH and COMMAND them."))
 	sleep(10)
-	to_chat(owner.current, span_boldwarning("</br>Now, tyme to show them how a lord gets it done."))
+	to_chat(owner.current, span_danger("</br>Now, tyme to show them how a lord gets it done."))
+	owner.emote("cackle") //sorry, you HAVE to AURAFARM.
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
@@ -178,36 +179,66 @@
 			choice.Paralyze(300)
 			choice.emote_scream()
 			playsound(choice, 'sound/misc/obey.ogg', 100, FALSE, pressure_affected = FALSE)
-		if("OBLITERATE") //exclusively for dealing with griefers/extreme-cases/sending someone off w/ style
+		if("OBLITERATE") //exclusively for extreme-cases/sending someone off w/ style
 			message_admins("[real_name] ([ckey]) used OBLITERATE punishment on [choice.real_name] ([choice.ckey])")
 			log_game("[real_name] ([ckey]) used OBLITERATE punishment on [choice.real_name] ([choice.ckey])")
-			//we log this, its literally a no comeback or ability to even resist. do sparingly.
+			//we log this, its literally a no comeback or ability to even resist permadeath. do sparingly.
 			to_chat(choice, span_userdanger("You feel only darkness. Your master no longer has use of you."))
 			choice.visible_message(span_warning("[choice] suddenly goes deathly pale for a moment, as if something terrible just happened!"))
 			choice.Knockdown(10)
-			ADD_TRAIT(choice, TRAIT_PACIFISM, "vlord_punish") //so they can't try to hurt you
-			ADD_TRAIT(choice, TRAIT_SPELLCOCKBLOCK, "vlord_punish") //no magic, you are dying
+			//There is meant to be no counter, you've genuinely pushed a vlord to their wit's end to be using this.
+			ADD_TRAIT(choice, TRAIT_PACIFISM, "vlord_punish")
+			ADD_TRAIT(choice, TRAIT_SPELLCOCKBLOCK, "vlord_punish")
 			sleep(20)
-			to_chat(choice, span_userdanger("NO! NO! WAIT WAIT--"))
+			choice.apply_damage(100, BRUTE)
+			to_chat(choice, span_userdanger("</br>NO! NO! WAIT WAIT--"))
 			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
 			choice.Stun(999999) //you're not meant to come back from this, at all. Even if you somehow glitch out of this
 			choice.Paralyze(999999)
 			choice.Knockdown(999999)
 			choice.emote("superagony")
 			sleep(20)
-			visible_message(span_userdanger("[choice] SCREAMS in UNBELIEVABLE AGONY as they're RENDED apart from the inside out!"))
+			choice.Jitter(800)
+			choice.apply_damage(100, BRUTE)
+			choice.visible_message(span_userdanger("[choice] SCREAMS in UNBELIEVABLE AGONY as they're TORN APART by some unseen force!"), span_userdanger("</br>STOPSTOPSTOP-- IT HURTS! IT HURTS!"))
 			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
-			to_chat(choice, span_userdanger("STOPSTOPSTOP-- IT HURTS! IT HURTS!"))
-			sleep(30)
-			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
-			to_chat(choice, span_userdanger("MAKE IT STOP!! MAKE IT STOP!!"))
 			choice.emote("superagony")
 			sleep(20)
+			choice.apply_damage(100, BRUTE)
+			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
+			to_chat(choice, span_userdanger("</br>MAKE IT STOP!! MAKE IT STOP!!"))
+			choice.emote("superagony")
+			choice.dismember_spawn()
+			sleep(20)
+			choice.apply_damage(100, BRUTE)
+			choice.blur_eyes(40) //MORE SUFFERING WAITER, MORE SUFFERING!!
+			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
+			to_chat(choice, span_userdanger("</br>IT HURTS! IT HURTS! STOP--"))
+			choice.emote("superagony")
+			sleep(30) //finally, we grant you the mercy of death
 			playsound(get_turf(choice), 'sound/magic/churn.ogg', 200)
 			playsound(get_turf(choice), 'sound/combat/dismemberment/dismem (2).ogg', 100)
-			choice.visible_message(span_userdanger("[choice] suddenly explodes into a pile of gore and remains!"), span_userdanger("You are completely obliterated, nothing remains. A hopeful lesson for another tymeline."))
+			choice.visible_message(span_userdanger("[choice] suddenly explodes into a pile of gore and remains!"), span_userdanger("</br></br>As your master finally spares you the mercy of death, you've a harsh lesson learned for another tymeline."))
 			choice.gib() //aurafarming
 	visible_message(span_danger("[src] reaches out, gripping [choice]'s soul, inflicting punishment!"), ignored_mobs = list(choice))
+
+/mob/living/carbon/human/proc/dismember_spawn()
+	if(!iscarbon(src)) //godknows how the fuck this would happen but lets avoid runtimes
+		return
+
+	// Dismember limbs in sequence
+	var/static/list/dismember_order = list(
+		BODY_ZONE_L_ARM,
+		BODY_ZONE_R_ARM,
+		BODY_ZONE_L_LEG,
+		BODY_ZONE_R_LEG
+	)
+
+	for(var/zone in dismember_order)
+		var/obj/item/bodypart/BP = src.get_bodypart(zone)
+		if(BP)
+			BP.dismember(skip_checks = TRUE) //You're going to gib, we don't care for armor.
+			sleep(0.5 SECONDS)
 
 ////////OUTFITS////////
 /obj/item/clothing/suit/roguetown/shirt/vampire

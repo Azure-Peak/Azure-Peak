@@ -25,23 +25,21 @@
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
-		TRAIT_SELF_SUSTENANCE,
 		TRAIT_GOODWRITER,
-		TRAIT_JACKOFALLTRADES, //Knowledge
+		TRAIT_JACKOFALLTRADES, //Knowledge (halved skill costs is your big thing)
 		TRAIT_INTELLECTUAL,
 		TRAIT_NOSLEEP,
 		TRAIT_VAMPMANSION,
 		TRAIT_VAMP_DREAMS,
 		TRAIT_DARKVISION,
 		TRAIT_LIMBATTACHMENT,
-		TRAIT_KEENEARS,
 		TRAIT_SILVER_WEAK,
 		TRAIT_ZOMBIE_IMMUNE,
 	)
 	clane_covens = list(
-		/datum/coven/obfuscate, //Unknown yet.
-		/datum/coven/auspex, //All knowing yet.
-		/datum/coven/demonic, //Too knowing yet.
+		/datum/coven/demonic,
+		/datum/coven/auspex,
+		/datum/coven/fae_trickery,
 	)
 	leader = /datum/clan_leader/thronleer
 	covens_to_select = 0
