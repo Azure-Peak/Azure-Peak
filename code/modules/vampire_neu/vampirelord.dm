@@ -72,7 +72,6 @@
 	to_chat(owner.current, span_boldwarning("</br>When I have Minions from either the Crucible or any non-resisting sires of my bloodline, I should assign them to positions using the clan menu so I can PUNISH and COMMAND them."))
 	sleep(10)
 	to_chat(owner.current, span_danger("</br>Now, tyme to show them how a lord gets it done."))
-	owner.emote("cackle") //sorry, you HAVE to AURAFARM.
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
