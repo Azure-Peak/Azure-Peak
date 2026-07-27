@@ -12,7 +12,7 @@
 //Completely re-done because inital Thronleer didn't really have any identity beyond, children of the Abyss but better
 /datum/clan/thronleer
 	name = "House Thronleer"
-	desc = "Noc, facinated by your House's endless persuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet Astrata's scorn and ire only grows at what your clan has achieved."
+	desc = "Noc, facinated by your House's endless pursuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet Astrata's scorn and ire only grows at what your clan has achieved."
 	curse = "spurned harshly in the sun, endless compulsion to learn."
 	clanicon = "bloodheal"
 	blood_preference = BLOOD_PREFERENCE_ALL //Noc blessed, they'll eat anything that moves.
