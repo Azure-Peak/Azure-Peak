@@ -55,14 +55,14 @@ export const FlavorTextPage = (props) => {
     [ooc_notes_nsfw],
   );
 
-  const oocExtraHTML = useMemo(
+  const oocextraHTML = useMemo(
     () => ({
       __html: ooc_extra_image,
     }),
     [ooc_extra_image],
   );
 
-  const nsfwOocExtraHTML = useMemo(
+  const nsfwoocextraHTML = useMemo(
     () => ({
       __html: nsfw_ooc_extra_image,
     }),
@@ -152,7 +152,7 @@ export const FlavorTextPage = (props) => {
             <>
               <Box dangerouslySetInnerHTML={flavorHTML} />
               {ooc_extra_image && (
-                <Box mt={1} dangerouslySetInnerHTML={oocExtraHTML} />
+                <Box mt={1} dangerouslySetInnerHTML={oocextraHTML} />
               )}
             </>
           )}
@@ -160,7 +160,7 @@ export const FlavorTextPage = (props) => {
             <>
               <Box dangerouslySetInnerHTML={nsfwHTML} />
               {nsfw_ooc_extra_image && (
-                <Box mt={1} dangerouslySetInnerHTML={nsfwOocExtraHTML} />
+                <Box mt={1} dangerouslySetInnerHTML={nsfwoocextraHTML} />
               )}
             </>
           )}
