@@ -43,7 +43,7 @@
 	range = 15
 	cannot_cross_z = TRUE
 
-/obj/projectile/magic/fetch/on_hit(target)
+/obj/projectile/magic/fetch/on_hit(target, blocked = FALSE)
 	. = ..()
 	var/atom/throw_target = get_step(firer, get_dir(firer, target))
 	if(isliving(target))
@@ -51,6 +51,8 @@
 		if(L.anti_magic_check() || !firer)
 			L.visible_message(span_warning("[src] vanishes on contact with [target]!"))
 			return BULLET_ACT_BLOCK
+		if(blocked >= 100)
+			return
 		L.throw_at(throw_target, out_of_effective_range() ? round(FETCH_YEET_RANGE / 2) : FETCH_YEET_RANGE, 4)
 	else
 		if(isitem(target))

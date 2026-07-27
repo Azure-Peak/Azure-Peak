@@ -111,7 +111,7 @@
 	arcshot = TRUE
 
 
-/obj/projectile/magic/arc_bolt/on_hit(target)
+/obj/projectile/magic/arc_bolt/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -125,9 +125,10 @@
 			if(out_of_effective_range())
 				qdel(src)
 				return
-			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-			if(arcs)
-				arc_to_targets(L)
+			if(blocked < 100)
+				L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+				if(arcs)
+					arc_to_targets(L)
 	else if(isatom(target))
 		var/atom/A = target
 		A.fire_act()

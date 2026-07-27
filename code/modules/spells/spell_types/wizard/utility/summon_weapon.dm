@@ -68,6 +68,9 @@
 								part.remove_embedded_object(item_to_retrieve)
 								to_chat(C, span_warning("The [item_to_retrieve] that was embedded in your [part.name] has mysteriously vanished. How fortunate!"))
 								break
+					else if(isliving(M))
+						var/mob/living/simple_holder = M
+						simple_holder.simple_remove_embedded_object(item_to_retrieve)
 					if(!isturf(item_to_retrieve.loc))
 						item_to_retrieve = item_to_retrieve.loc
 

@@ -22,6 +22,7 @@
 //
 
 /obj/item/reagent_containers/food/snacks/grown/apple/gold
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	seed = null //Ungrowable(?). Can be changed if someone wishes.
 	name = "ambrosia"
 	desc = "A golden apple, by any other name. You can see your own reflection in the golden apple's surface, as the fingers cradling it adopt a pleasant numbness."
@@ -48,6 +49,7 @@
 			. += span_rose("A fruit from the heavens, courageously plucked by Matthios while escaping with Astrata's divine fire.. or so, they say. Eating it will not only be quite tasty, but help mend my lesser wounds as well.")
 
 /obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced/gold
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "sliceed ambrosia"
 	icon_state = "gapple_sliced"
 	desc = "A golden apple, parted into perfectly symmetrical thirds. Opulance has never tasted so sweet!"

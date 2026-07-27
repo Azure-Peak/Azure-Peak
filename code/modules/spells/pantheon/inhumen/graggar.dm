@@ -259,12 +259,15 @@
 	speed = 1.6
 	hitsound = 'sound/magic/slimesquish.ogg'
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 
-/obj/projectile/magic/unholy_grasp/on_hit(target)
+/obj/projectile/magic/unholy_grasp/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(!iscarbon(target))
 		return
 	if(out_of_effective_range())
+		return
+	if(blocked >= 100)
 		return
 	if(target)
 		ensnare(target)
