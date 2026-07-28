@@ -80,21 +80,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			S["facial_style_name"]	>> facial_hairstyle
 	if(current_version < 30)
 		S["voice_color"]		>> voice_color
-	if(current_version < 34) // Update races
-		var/species_name
-		S["species"] >> species_name
-
-		if(species_name)
-			var/newtype = GLOB.species_list[species_name]
-			if(!newtype)
-				switch(species_name)
-					if("Sissean")
-
-						species_name = "Zardman"
-					if("Vulpkian")
-
-						species_name = "Venardine"
-		_load_species(S, species_name)
+	if(current_version < 34) // Update races (renames handled by _load_species legacy aliases)
+		_load_species(S)
 	if(current_version < 35) // Migrate old 3-slot loadout to gear_list
 		gear_list = list()
 		var/list/old_keys = list(
@@ -385,6 +372,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		S["species"] >> species_name
 
 	if(species_name)
+		// Species renamed since older saves were written, including Emerald Summit
+		// imports — remap before lookup so those characters don't fall back to human.
+		var/static/list/legacy_species_names = list(
+			"Sissean" = "Zardman",
+			"Vulpkian" = "Venardine",
+			"Half-Orc" = "Half Orc",
+			"gnoll" = "Gnoll",
+		)
+		if(!GLOB.species_list[species_name] && legacy_species_names[species_name])
+			species_name = legacy_species_names[species_name]
 		var/newtype = GLOB.species_list[species_name]
 		if(newtype)
 			pref_species = new newtype
