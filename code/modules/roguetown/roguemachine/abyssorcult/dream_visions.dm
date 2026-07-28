@@ -126,9 +126,9 @@
 	SIGNAL_HANDLER
 
 	var/message = speech_args[1]
-	var/lower_message = lowertext(message)
-	var/lower_phrase = lowertext(quest.required_phrase)
-	if(findtext(lower_message, lower_phrase))
+	var/clean_message = sanitize_speech_phrase(message)
+	var/clean_phrase = sanitize_speech_phrase(quest.required_phrase)
+	if(findtext(clean_message, clean_phrase))
 		var/mob/target = target_ref?.resolve()
 		if(!target)
 			to_chat(seeker, span_warning("The vision's target is gone... Your quest is lost."))
@@ -139,6 +139,14 @@
 			complete_quest()
 		else
 			to_chat(seeker, span_warning("The vision flickers - you are not close enough to [target.real_name] or they are not present."))
+
+/datum/component/vision_quest_tracker/proc/sanitize_speech_phrase(phrase)
+	var/cleaned = lowertext(phrase)
+	cleaned = replacetext(cleaned, "&#39;", "'")
+	cleaned = replacetext(cleaned, "&apos;", "'")
+	cleaned = replacetext(cleaned, "’", "'")
+	cleaned = replacetext(cleaned, "‘", "'")
+	return cleaned
 
 /datum/component/vision_quest_tracker/proc/complete_quest()
 	var/obj/structure/roguemachine/ritual_rune/rune = reward_rune_ref?.resolve()

@@ -121,45 +121,21 @@
 
 	if(!tier_choices)
 		tier_choices = list()
-		cached_choices[tier_key] = tier_choices
 
 	if(length(tier_choices) < 3)
 		var/list/existing_types = list()
-		for(var/entry in tier_choices)
+		for(var/list/entry in tier_choices)
 			var/datum/vision_quest/Q = entry["quest"]
 			existing_types += Q.type
+
 		var/list/available = list()
 		for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
 			if(Q.required_tier == tier && !(Q.type in existing_types))
 				available += Q
+
 		if(length(available))
 			shuffle(available)
-			var/needed = 3 - length(tier_choices)
-			for(var/i in 1 to min(needed, length(available)))
-				var/datum/vision_quest/Q = available[i]
-				var/mob/living/carbon/human/valid_target = find_valid_target_for_quest(Q, user)
-				if(!valid_target)
-					continue
-				Q.required_phrase = pick(Q.possible_phrases)
-				var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
-				tier_choices += list(list(
-					"quest" = Q,
-					"target" = valid_target,
-					"bonus" = chosen_bonus_path
-				))
-
-		if(!length(tier_choices))
-			var/list/tiered_quests = list()
-			for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
-				if(Q.required_tier == tier)
-					tiered_quests += Q
-
-			if(!length(tiered_quests))
-				to_chat(user, span_warning("The pool shows only empty shadows. No vision is possible at this tier."))
-				return
-
-			shuffle(tiered_quests)
-			for(var/datum/vision_quest/Q in tiered_quests)
+			for(var/datum/vision_quest/Q in available)
 				var/mob/living/carbon/human/valid_target = find_valid_target_for_quest(Q, user)
 				if(!valid_target)
 					continue
@@ -167,18 +143,20 @@
 				Q.required_phrase = pick(Q.possible_phrases)
 				var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
 
-				tier_choices += list(list(
+				tier_choices.Add(list(list(
 					"quest" = Q,
 					"target" = valid_target,
 					"bonus" = chosen_bonus_path
-				))
+				)))
+
 				if(length(tier_choices) >= 3)
 					break
 
 		cached_choices[tier_key] = tier_choices
 		src.parchment_used = used_parchment
 
-	for(var/entry in tier_choices)
+	var/list/valid_entries = list()
+	for(var/list/entry in tier_choices)
 		var/datum/vision_quest/Q = entry["quest"]
 		var/mob/living/carbon/human/target_mob = entry["target"]
 
@@ -186,8 +164,12 @@
 			var/mob/living/carbon/human/new_target = find_valid_target_for_quest(Q, user)
 			if(new_target)
 				entry["target"] = new_target
-			else
-				tier_choices -= list(entry)
+				valid_entries.Add(list(entry))
+		else
+			valid_entries.Add(list(entry))
+
+	tier_choices = valid_entries
+	cached_choices[tier_key] = tier_choices
 
 	if(!length(tier_choices))
 		to_chat(user, span_warning("The visions for this tier are there, but no suitable targets exist in the waking world."))
@@ -213,16 +195,16 @@
 		return pick(valid_targets)
 
 	// DEBUG ONLY
-	// for(var/mob/living/carbon/human/H in GLOB.human_list)
-	// 	if(H == seeker || H.stat == DEAD)
-	// 		continue
-	// 	if(!H.mind || !H.mind.assigned_role)
-	// 		continue
-	// 	if(Q.is_valid_target(H, seeker))
-	// 		valid_targets += H
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(H == seeker || H.stat == DEAD)
+			continue
+		if(!H.mind || !H.mind.assigned_role)
+			continue
+		if(Q.is_valid_target(H, seeker))
+			valid_targets += H
 
-	// if(length(valid_targets))
-	// 	return pick(valid_targets)
+	if(length(valid_targets))
+		return pick(valid_targets)
 
 	return null
 
