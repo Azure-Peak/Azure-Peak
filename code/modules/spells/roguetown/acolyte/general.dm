@@ -110,6 +110,11 @@
 
 	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
 
+	// Vampires has no benefits from miracles
+	if(spelltarget.mind?.has_antag_datum(/datum/antagonist/vampire))
+		spelltarget.visible_message(span_info("Healing energies envelop [spelltarget]!"), span_notice("I am bathed in healing choral hymns!"))
+		return TRUE
+
 	if(H.patron?.undead_hater && (spelltarget.mob_biotypes & MOB_UNDEAD))
 		// We simply do nothing to avoid healing being used to vamp/skelly check!
 		var/message_out_undead = span_info("Healing energies envelop [spelltarget]!")
@@ -369,7 +374,7 @@
 		if(target.blood_volume >= BLOOD_VOLUME_NORMAL)
 			to_chat(UH, span_warning("Their lyfeblood is at capacity. There is no need."))
 			return FALSE
-			
+
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)

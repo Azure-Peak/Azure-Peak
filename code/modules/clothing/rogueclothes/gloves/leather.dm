@@ -55,9 +55,10 @@
 
 /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout
 	name = "aesthetic shadowy fingerless gloves"
-	armor_class = ARMOR_CLASS_NONE
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+
+/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather
 	name = "fingerless leather gloves"

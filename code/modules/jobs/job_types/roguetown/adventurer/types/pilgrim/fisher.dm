@@ -3,7 +3,7 @@
 	tutorial = "You are a fisherman, with your bag of bait and your fishing rod, you are one of few who can reliably get a stable source of meat around here"
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/fisher
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
@@ -59,7 +59,6 @@
 							/obj/item/natural/worms = 2,
 							/obj/item/rogueweapon/shovel/small = 1,
 							/obj/item/flashlight/flare/torch = 1,
-							/obj/item/recipe_book/survival = 1,
 							/obj/item/rogueweapon/scabbard/sheath = 1,
 							/obj/item/mini_flagpole/fisher,
 							)

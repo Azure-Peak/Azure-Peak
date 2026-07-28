@@ -263,7 +263,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre/dec
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
@@ -272,7 +272,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/rapier/dec
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
@@ -281,7 +281,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/decorated
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
@@ -290,7 +290,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
 				beltl = /obj/item/rogueweapon/scabbard/sheath/noble
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/decorated
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
@@ -301,13 +301,13 @@
 				H.change_stat(STATKEY_PER, 1)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 				beltl = /obj/item/quiver/arrows
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/hunting_map/boars = 1, /obj/item/storage/belt/rogue/pouch/coins/mid = 1)
+				backpack_contents = list(/obj/item/hunting_map/boars = 1, /obj/item/storage/belt/rogue/pouch/coins/mid = 1)
 				ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, TRAIT_GENERIC) //Unique starting prompt, you sort of did actually earn that
 				ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands for a great hunter. With wealth, come the poor, ready to pilfer you of your hard earned coin, so tread lightly unless you want to meet a grisly end."))
 			if("Extra Coin + Expert Appraiser + Intellectual") //RP route, sacrifices practical skills for massive utility + wealth
 				H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_MASTER, TRUE)
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
 				var/crowns = list(
@@ -330,7 +330,7 @@
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With great wealth, come the poor and the greedy, ready to pilfer you of your hard earned (inherited) coin, so tread lightly, trust few unless you want to meet a grisly end."))
 			if("Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training") //The Shitpost Option
 				//Honestly, the fact you can even wear maile is fucking hilarious
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/veryrich = 1) //Hilarious
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1) //Hilarious
 				ADD_TRAIT(H, TRAIT_NORUN, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC) //HILARIOUS
@@ -344,7 +344,7 @@
 				H.change_stat(STATKEY_LCK, 5) //Congratulations, you survived this long! Somehow. Here's our exclusion.
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. Despite all of the attempts of your family to off you, you've managed to make it this far somehow. Yet tread lightly, unless you want to meet a grisly end separated from your hard earned (inherited) riches"))
 			if("Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER") //Survival Skill Pack w/ outdoorsman on top
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1)
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1)
 				ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_SURVIVAL_EXPERT, JOB_TRAIT) //Yea sure.
@@ -363,7 +363,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_PER, 1)
 				//No lockpicking, go thief for that. You're geared to cause problems, be it for or against the court.
-				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				ADD_TRAIT(H, TRAIT_KEENEARS, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
@@ -455,7 +455,6 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-		/obj/item/recipe_book/survival = 1,
 		)
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	H.set_blindness(0)
@@ -551,7 +550,6 @@
 		/obj/item/repair_kit = 1,
 		/obj/item/armor_brush = 1,
 		/obj/item/polishing_cream = 1,
-		/obj/item/recipe_book/survival = 1,
 	)
 	if(H.mind)
 		var/armors = list("Light Armor","Medium Armor")

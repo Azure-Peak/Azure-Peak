@@ -12,7 +12,7 @@
 	tutorial = "You are a seasoned weapon specialist, clad in maille, with years of experience in warfare and battle under your belt, more than any mortal could ever claim."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampguardsman
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR, TRAIT_UNCONVERTIBLE)
 	category_tags = list(CTAG_VAMPGUARD)
 	subclass_stats = list(
 		STATKEY_STR = 2,

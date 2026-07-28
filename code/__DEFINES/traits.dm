@@ -37,6 +37,7 @@
 #define TRAIT_DODGEEXPERT "Expert Dodger"
 #define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness"
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance"
+#define TRAIT_TOUGH_COOKIE "Tough Cookie"
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded"
 #define TRAIT_JOURNEYS_END "Journey's End"
 #define TRAIT_RAGE "Rage"
@@ -99,6 +100,8 @@
 #define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_EXCOMMUNICATED "Excommunicated"
+#define TRAIT_RECENT_CONVERT "Recent Convert"
+#define TRAIT_UNCONVERTIBLE "Unconvertible"
 #define TRAIT_HERESIARCH "Forbidden Knowledge"
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_JACKOFALLTRADES "Jack of All Trades"	//Reduces skill up cost
@@ -404,6 +407,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DODGEEXPERT = span_info("I am much better at dodging incoming strikes, when dressed in either light armor or nothing at all. Heavier armor, such as maille or plate, is too burdensome for me to quickly maneuver in."),
 	TRAIT_DECEIVING_MEEKNESS = span_info("People look at me and think I am a weakling. They are mistaken. I've learned how to hide my vices and true beliefs from others."),
 	TRAIT_CRITICAL_RESISTANCE = span_info("My constitution is iron-clad. My lifeblood flows slowly, I can resist the first few critical wounds that would fell others, but repeated punishment will overwhelm my defenses."),
+	TRAIT_TOUGH_COOKIE = span_info("Maneaters struggle to bite through my natural armor."),
 	TRAIT_BLOOD_RESISTANCE = span_info("My body is taut, and my blood runs slower. I bleed far less than others."),
 	TRAIT_JOURNEYS_END = span_info ("As the lyfe ebbs from my veins, my resolve hardens to push through. Do not go quietly into that good nite."),
 	TRAIT_RAGE = span_info ("PAIN AND INJURY FUELS MY BATTLERAGE!"),
@@ -554,6 +558,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_MALUM = span_warning("I am forsaken by the Maker. My hands tremble and fog overwhelms my mind."),
 	TRAIT_CURSE_EORA = span_warning("I am forsaken by the Lover. There is no beauty to be found for me in this world."),
 	TRAIT_EXCOMMUNICATED = span_warning("I have been excommunicated."),
+	TRAIT_RECENT_CONVERT = span_info("I have recently converted to a new patron; I shall not forsake them so soon."),
+	TRAIT_UNCONVERTIBLE = span_info("My nature is inextricably tied to my patron. Any attempts at conversion will fail."),
 	TRAIT_CURSE_ZIZO = span_warning("I am forsaken by the Architect. Her grasp reaches for my heart."),
 	TRAIT_CURSE_GRAGGAR = span_warning("I am forsaken by the Warlord. Bloodlust is only thing I know for real."),
 	TRAIT_CURSE_MATTHIOS = span_warning("I am forsaken by the Dragon. Greed will be my only salvation."),

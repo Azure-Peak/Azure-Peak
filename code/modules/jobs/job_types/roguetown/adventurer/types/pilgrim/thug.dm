@@ -53,7 +53,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
 	backpack_contents = list(
 				/obj/item/flashlight/flare/torch/metal = 1,
-				/obj/item/recipe_book/survival = 1,
 				/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
 				/obj/item/rogueweapon/huntingknife = 1,
@@ -93,7 +92,7 @@
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
 		STATKEY_WIL = -2,
-		STATKEY_CON = -2,	
+		STATKEY_CON = -2,
 		STATKEY_STR = -1,
 		STATKEY_SPD = 2,
 		STATKEY_INT = 2,
@@ -129,7 +128,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
@@ -196,7 +194,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
 	backpack_contents = list(
 				/obj/item/rogueweapon/huntingknife = 1,
-				/obj/item/recipe_book/survival = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1
 				)

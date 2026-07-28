@@ -213,6 +213,16 @@
 		)
 	result_item = null
 
+
+/obj/item/enchantingkit/triumph_weaponkit_psyswords
+	name = "'Slimguarded Psydonic Longsword' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to agnosticize the crossguard of a Psydonic Longsword or Enduring Longsword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/oldpsysword		= /obj/item/rogueweapon/sword/long/oldpsysword/triumph_slim,
+		/obj/item/rogueweapon/sword/long/psysword			= /obj/item/rogueweapon/sword/long/psysword/triumph_slim
+		)
+	result_item = null
+
 /obj/item/enchantingkit/triumph_transmutekit_armorkinis
 	name = "'Armorkini' transmutation elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to turn a set of Hide Armor, Leather Armor, Studded Leather Armor, Haubergeon, or Plate Armor into their corseted equivalents."
@@ -751,6 +761,14 @@
 	name = "valorian hatchet"
 	icon_state = "hatchetlegacy"
 	desc = "'What is that rag for, anyways?'"
+
+/obj/item/rogueweapon/sword/long/psysword/triumph_slim
+	icon_state = "slimpsysword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/sword/long/oldpsysword/triumph_slim
+	icon_state = "slimopsysword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 	name = "double-headed axe"

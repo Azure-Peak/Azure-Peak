@@ -1,6 +1,7 @@
 // -- momentum stuff below
 
 /obj/effect/proc_holder/spell/self/zeybek_momentum
+	source_aspect = /datum/magic_aspect/pseudo/desertrider
 	name = "Momentum"
 	desc = "Enter a flow-state of deadly swordsmanship. For 45 seconds, each landed strike builds momentum, increasing level every 5 strikes. Getting to a higher level increases duration, and restores energy. Bonuses reset by bait or riposte, and completely lost on exhaustion or stun. The first level of momentum gives +1 SPD, +1 WIL. The second doubles these effects. The third and final state gives Fortitude."
 	overlay_state = "haste"

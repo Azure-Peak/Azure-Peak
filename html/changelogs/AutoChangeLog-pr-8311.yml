@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Added Fencing Breeches to the Donator Regional Loadout."
+  - bugfix: "Fixed fencing gloves in the Donator Regional Loadout not giving out the correct item."
+  - qol: "Donator Regional Loadout items are now set to be 2x2 size if they were larger before.\n<!-- Both :cl:'s are required for the changelog to work! You can put your name to the right of the first :cl: if you want to overwrite your GitHub username as author ingame. -->\n<!-- You can use multiple of the same prefix (they're only used for the icon ingame) and delete the unneeded ones. Despite some of the tags, changelogs should generally represent how a player might be affected by the changes rather than a summary of the PR's contents. -->"

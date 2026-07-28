@@ -1,5 +1,5 @@
 import dateformat from 'dateformat';
-import yaml from 'js-yaml';
+import { CORE_SCHEMA, load } from 'js-yaml';
 import { Component, Fragment } from 'react';
 import {
   Box,
@@ -90,7 +90,7 @@ export class Changelog extends Component {
           self.getData(date, attemptNumber + 1);
         }, timeout);
       } else {
-        self.setData(yaml.load(result, { schema: yaml.CORE_SCHEMA }));
+        self.setData(load(result, { schema: CORE_SCHEMA }));
       }
     });
   };

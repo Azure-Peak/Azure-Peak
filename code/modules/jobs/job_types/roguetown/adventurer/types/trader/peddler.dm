@@ -43,7 +43,6 @@
 		/obj/item/reagent_containers/powder/ozium = 1,
 		/obj/item/reagent_containers/powder/moondust = 2,
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	if(H.mind)

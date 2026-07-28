@@ -618,6 +618,7 @@
 		record_round_statistic(STATS_LEECHES_EMBEDDED)
 	LAZYADD(embedded_objects, embedder)
 	embedder.is_embedded = TRUE
+	embedder.embedded_host = src
 	embedder.forceMove(src)
 	if(owner)
 		embedder.add_mob_blood(owner)
@@ -635,6 +636,7 @@
 			if(ranged)
 				playsound(owner, 'sound/combat/brutal_impalement.ogg', 100, vary = TRUE)
 		update_disabled()
+		update_bleed_hud()
 		if(embedder.is_silver && HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/datum/component/silverbless/psyblessed = embedder.GetComponent(/datum/component/silverbless)
 			owner.adjust_fire_stacks(1, psyblessed?.is_blessed ? /datum/status_effect/fire_handler/fire_stacks/sunder/blessed : /datum/status_effect/fire_handler/fire_stacks/sunder)
@@ -652,11 +654,13 @@
 
 	LAZYREMOVE(embedded_objects, embedder)
 	embedder.is_embedded = FALSE
+	embedder.embedded_host = null
 	if(QDELETED(embedder))
 		if(owner)
 			if(!owner.has_embedded_objects())
 				owner.clear_alert("embeddedobject")
 			update_disabled()
+			update_bleed_hud()
 		return TRUE
 
 	var/atom/drop_loc = owner?.drop_location() || drop_location()
@@ -672,7 +676,13 @@
 		if(!owner.has_embedded_objects())
 			owner.clear_alert("embeddedobject")
 		update_disabled()
+		update_bleed_hud()
 	return TRUE
+
+/obj/item/bodypart/proc/update_bleed_hud()
+	var/datum/hud/hud_used = owner?.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
 
 /obj/item/bodypart/proc/try_bandage(obj/item/new_bandage)
 	if(!new_bandage)

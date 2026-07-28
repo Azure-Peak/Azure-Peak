@@ -106,7 +106,7 @@
 	desc = "A short but heavy leather whip, sporting a blunt reinforced tip and a longer handle."
 	icon_state = "nagaika"
 	force = 25		//Same as a cudgel/sword for intent purposes. Basically a 2 range cudgel while one-handing.
-	possible_item_intents = list(/datum/intent/whip/crack/blunt, /datum/intent/whip/lash, /datum/intent/sword/strike)
+	possible_item_intents = list(/datum/intent/whip/lash, /datum/intent/whip/crack/blunt, /datum/intent/sword/strike)
 	wdefense = 1	//Akin to a cudgel, still terrible at parrying though. Better than nothing I guess; thing is used irl as a counter-weapon to knives.
 
 /obj/item/rogueweapon/whip/xylix
@@ -136,7 +136,7 @@
 	desc = "A heavy whip, corded from thick leather and adorned with a razor-sharp bronzehead. In ancient tymes, this shepherd's weapon once repelled the gnashing teeth of bloodthirsty nitebeasts: now, it seperates limb-from-trunk with thunderous claps. </br>Holding this whip imbues you with determination.. and a rather odd hankering for turkey dinners."
 	icon_state = "bronzewhip"
 	force = 21
-	minstr = 11
+	minstr = 6
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
 	smeltresult = /obj/item/ingot/bronze
 

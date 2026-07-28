@@ -183,6 +183,8 @@
 	if(embedded_objects && length(embedded_objects))
 		for(var/obj/item/embedded as anything in embedded_objects)
 			embedded_objects -= embedded
+			embedded.is_embedded = FALSE
+			embedded.embedded_host = null
 			if(!QDELETED(embedded))
 				qdel(embedded)
 		embedded_objects = null

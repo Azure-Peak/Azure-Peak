@@ -24,10 +24,6 @@
 	if (!living_mob.ai_controller) // How did you get here?
 		return FALSE
 
-	// TODO: MATTHIOS MOB SUBSYSTEM PORT
-	// if((living_mob in SSmatthios_mobs.matthios_mobs) && (target in SSmatthios_mobs.matthios_mobs))
-	// 	return FALSE
-
 	if (!(target in living_mob.ai_controller.blackboard[BB_FRIENDS_LIST]))
 		// We don't have any friends, anything's fair game
 		// OR This is not our friend, fire at will
