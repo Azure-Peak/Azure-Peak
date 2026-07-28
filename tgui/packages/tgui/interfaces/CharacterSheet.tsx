@@ -853,15 +853,26 @@ const FlavorTab = (props) => {
           scrollable
           title="Flavor & OOC"
           buttons={
-            <Button
-              color="transparent"
-              tooltip="Formatting help"
-              onClick={() =>
-                act('link', { preference: 'formathelp', task: 'input' })
-              }
-            >
-              (?)
-            </Button>
+            <>
+              <Button
+                icon="eye"
+                tooltip="Open the in-character examine preview"
+                onClick={() =>
+                  act('link', { preference: 'ooc_preview', task: 'input' })
+                }
+              >
+                Preview Examine
+              </Button>
+              <Button
+                color="transparent"
+                tooltip="Formatting help"
+                onClick={() =>
+                  act('link', { preference: 'formathelp', task: 'input' })
+                }
+              >
+                (?)
+              </Button>
+            </>
           }
         >
           <Stack>
@@ -887,7 +898,6 @@ const FlavorTab = (props) => {
               <LinkButton pref="rumour" label="Set Rumours" />
               <LinkButton pref="gossip" label="Set Noble Gossip" />
               <LinkButton pref="rumour_preview" label="Preview Rumours" />
-              <LinkButton pref="ooc_preview" label="Preview Examine" />
             </Stack.Item>
             <Stack.Item grow basis={0}>
               <Box color="label" bold mb={0.5}>
