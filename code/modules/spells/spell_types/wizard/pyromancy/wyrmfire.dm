@@ -14,7 +14,8 @@
 	abstract_type = /datum/action/cooldown/spell/projectile/fireball
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Fireball"
-	desc = "Shoot out a ball of fire that explodes on impact, scorching and slowing nearby targets."
+	desc = "Shoot out a ball of fire that explodes on impact, scorching and slowing nearby targets.\n\
+	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	button_icon_state = "fireball"
 	sound = 'sound/magic/fireball.ogg'
 	spell_color = GLOW_COLOR_FIRE
@@ -76,7 +77,7 @@
 	name = "arced fireball"
 	arcshot = TRUE
 
-/obj/projectile/magic/aoe/fireball/rogue/on_hit(target)
+/obj/projectile/magic/aoe/fireball/rogue/on_hit(target, blocked = FALSE)
 	..()
 	var/mob/living/M = ismob(target) ? target : null
 
@@ -89,7 +90,7 @@
 	if(out_of_effective_range())
 		return
 
-	if(M)
+	if(M && blocked < 100)
 		apply_scorch_stack(M, 2, def_zone)
 		M.apply_status_effect(/datum/status_effect/debuff/vulnerable, WYRMFIRE_VULNERABLE_DURATION)
 
@@ -146,7 +147,8 @@
 	desc = "Loose a devastating barrage of fire. Every strikes leave its victim Vulnerable. Toggle firing mode (Shift+G) to switch:\n\
 	Fireball: Direct fire for 90 damage and 50 area damage around the target.\n\
 	Artillery Fireball: Arced bombardment with heavy structural damage and smoke for 80 damage and 50 area damage.\n\
-	Pillar of Flame: Ground-target a delayed eruption dealing 110 damage across a 3x3 after a short warning, leaving a lingering curtain of flame across the whole area."
+	Pillar of Flame: Ground-target a delayed eruption dealing 110 damage across a 3x3 after a short warning, leaving a lingering curtain of flame across the whole area.\n\
+	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	charge_swingdelay_type = SWINGDELAY_PENALTY
 	var/current_mode = 1
 	var/list/modes = list(
@@ -321,7 +323,8 @@
 	In accordance with the laws of PSYDON,\n\
 	unmake what he has created -\n\
 	ashes to ashes, return his creation to ash!\n\
-	CONFLAGRATION!"
+	CONFLAGRATION!\n\
+	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	button_icon_state = "fireball_greater"
 	sound = null
 	spell_color = GLOW_COLOR_FIRE

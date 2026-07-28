@@ -26,6 +26,7 @@
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
 	point_cost = 2
+	requires_aspect_access = TRUE
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -68,3 +69,4 @@
 	slot_flags = ITEM_SLOT_MOUTH
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
 	sellprice = 0
+	embedding = list("embed_chance" = 0)

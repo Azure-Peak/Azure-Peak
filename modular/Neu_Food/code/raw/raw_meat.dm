@@ -252,10 +252,12 @@
 	icon_state = "spidermince"
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "minced cabbit"
 	icon_state = "meatmince"
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry
+	dish_type = DISH_MEAT|DISH_POULTRY
 	name = "minced poultry"
 	icon_state = "meatmince"
 	cooked_smell = /datum/pollutant/food/cooked_chicken

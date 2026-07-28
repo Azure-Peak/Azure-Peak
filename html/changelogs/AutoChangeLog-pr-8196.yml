@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported TGstation's icon_exists and icon_exists_or_scream proc. A port of it was included in the Major Optimization Pass: Azure Edition but I accidentally mangled it while reverting that PR. Specific PR credit can be: https://github.com/tgstation/tgstation/pull/89547"
-  - rscadd: "Fixes a bunch of issues related to the credit icons subsystem"
-  - rscadd: "Reenabled the credit icons subsystem to spread out credit icons load throughout the first 16 minutes of the round, instead of firing it in 2 seconds lagspike right at roundstart, lagging the server hard. I ported this optimization from Scarlet but in truth this turns out to be a mistake and restoring it let us throttle its burden on the server instead of slamming it at once. May or may not help alleviate possible roundstart crash."

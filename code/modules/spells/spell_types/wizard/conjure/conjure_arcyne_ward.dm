@@ -147,7 +147,7 @@
 /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide
 	name = "Conjure Dragonhide Ward"
 	desc = "Conjure a dragonhide ward - an upgraded arcyne ward hardened with draconic scales. \
-	Grants fire resistance, halving fire damage and causing flames to burn out faster and bolsters constitution. 300 integrity. \
+	Grants fire resistance, halving fire damage and causing flames to burn out faster. 300 integrity. \
 	Otherwise functions as a standard arcyne ward - yields coverage to real armor, does not regenerate. \
 	Cast again to dismiss. Cooldown begins when dismissed or destroyed."
 	button_icon_state = "conjure_dragonhide"
@@ -163,7 +163,7 @@
 /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide
 	name = "Conjure Crystalhide Ward"
 	desc = "Conjure a crystalhide ward - an upgraded arcyne ward crystallized with leyline energy. \
-	Grants brigandine-tier protection and bolsters intelligence. Shatters violently when broken, knocking back nearby foes. 300 integrity. \
+	Grants brigandine-tier protection. Shatters violently when broken, knocking back nearby foes. 300 integrity. \
 	Otherwise functions as a standard arcyne ward - yields coverage to real armor, does not regenerate. \
 	Cast again to dismiss. Cooldown begins when dismissed or destroyed."
 	button_icon_state = "conjure_dragonhide"

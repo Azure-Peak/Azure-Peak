@@ -934,14 +934,14 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /// Helper for non-projectile spells. Call before applying effects to a target.
 /// Returns TRUE if the target's Guard or parry buffer deflected the spell (skip this target).
 /// Returns FALSE if the spell should proceed normally.
-/// If attacker is provided, they get Exposed when guard deflects (pseudo-melee punishment).
+/// The caster is Exposed when guard deflects (pseudo-melee punishment); pass attacker to override who is punished.
 /// Usage in cast(): if(spell_guard_check(L)) continue
 /obj/effect/proc_holder/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
 	if(!isliving(target))
 		return FALSE
 	if(target == (ranged_ability_user || action?.owner))
 		return FALSE
-	if(isnull(attacker) && ispath(associated_skill, /datum/skill/magic/arcane))
+	if(isnull(attacker))
 		attacker = ranged_ability_user || action?.owner
 	return target.guard_deflect_spell(name, no_message, attacker)
 

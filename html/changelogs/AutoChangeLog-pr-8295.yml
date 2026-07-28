@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Changing character slots in game preferences midround will no longer cause loadout items to lose their custom metadata (name, desc, color, etc) when retrieved from stash."

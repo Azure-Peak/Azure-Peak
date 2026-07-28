@@ -90,6 +90,7 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/jamtallowslice
+	dish_type = DISH_SWEET
 	name = "slice of jamtallow"
 	desc = "A portion of jammy paradise, bearing the same hues as Azuria's morning skies. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -136,6 +137,7 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/marmaladeslice
+	dish_type = DISH_SWEET
 	name = "slice of marmalade"
 	desc = "A portion of jammy paradise, bearing the same hues as Azuria's evening seas. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -305,6 +307,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/sugarstatue/tree
 
 /obj/item/reagent_containers/food/snacks/sugarstatue
+	cuisine = CUISINE_ETRUSCAN
 	dish_type = DISH_SWEET
 	name = "sugarglass statue"
 	desc = "A decorative piece of sugarglass, meticulously fashioned to mimic a statue. Deliciously regal!"

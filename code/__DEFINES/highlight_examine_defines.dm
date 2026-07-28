@@ -1,6 +1,7 @@
 // Zizo items
 #define HERESYDESC_ZIZO_WEAPON "A grim weapon of Zizo's champions"
 #define HERESYDESC_ZIZO_ARMOR "An accursed armor piece of Zizo's champions"
+#define HERESYDESC_ZIZO_CLOTHING "An accursed piece of clothing worn by Zizo's champions"
 #define HERESYDESC_ZIZO_RELIC "A relic of Zizo's grim design"
 #define HERESYDESC_ZIZO_ICON "It bears the grim zcross of Zizo"
 #define HERESYDESC_ZIZO_MISC "A known design of Zizo"

@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Cantor get instrument choice regardless of inspiration / devotion choice"

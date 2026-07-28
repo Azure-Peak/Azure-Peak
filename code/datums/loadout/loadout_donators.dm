@@ -255,13 +255,17 @@
 	name = "Gift - Regional, Fencing Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
 
+/datum/loadout_item/donator/universal/regional/fencingpants
+	name = "Gift - Regional, Fencing Breeches"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout
+
 /datum/loadout_item/donator/universal/regional/fencingshoes
 	name = "Gift - Regional, Fencing Shoes"
 	path = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter/loadout
 
 /datum/loadout_item/donator/universal/regional/fencinggloves
 	name = "Gift - Regional, Fencing Gloves"
-	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/loadout
+	path = /obj/item/clothing/gloves/roguetown/angle/freifechter/loadout
 
 // --- EASTERN REGIONAL (KAZEN / LINGYUE) ---
 
@@ -332,6 +336,14 @@
 /datum/loadout_item/donator/universal/regional/anthraxipants
 	name = "Gift - Regional, Shadowy Pants (Tall Humanoid Only)"
 	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
+
+/datum/loadout_item/donator/universal/regional/trophyfurs
+	name = "Gift - Regional, Trophy Furs"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/trophyfur/loadout
+
+/datum/loadout_item/donator/universal/regional/hatangacoat
+	name = "Gift - Regional, Hatanga Coat"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
 
 
 /////////////////////////////

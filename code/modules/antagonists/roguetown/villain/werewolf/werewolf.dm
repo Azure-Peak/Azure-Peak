@@ -15,11 +15,11 @@
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,
-		TRAIT_NOPAIN, 
-		TRAIT_NOPAINSTUN, 
-		TRAIT_CRITICAL_RESISTANCE, 
-		TRAIT_NOFALLDAMAGE1, 
-		TRAIT_KNEESTINGER_IMMUNITY, 
+		TRAIT_NOPAIN,
+		TRAIT_NOPAINSTUN,
+		TRAIT_CRITICAL_RESISTANCE,
+		TRAIT_NOFALLDAMAGE1,
+		TRAIT_KNEESTINGER_IMMUNITY,
 		TRAIT_SHOCKIMMUNE,
 		TRAIT_SILVER_WEAK,
 		TRAIT_STRENGTH_UNCAPPED,
@@ -95,7 +95,7 @@
 	owner.special_role = name
 	if(increase_votepwr)
 		forge_werewolf_objectives()
-	
+
 	wolfname = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
 	return ..()
 
@@ -129,7 +129,7 @@
 	return ..()
 
 /datum/antagonist/werewolf/lesser/greet()
-	// DO NOT call parent. 
+	// DO NOT call parent.
 	// lesser verevolfs should always be created by alpha bites, which have their own way of informing the user
 	// they are a werewolf. despite this, i still want to provide a new audio cue in the form of [THE CRY].
 	// remove it if it's obstructive. thx.
@@ -201,16 +201,24 @@
 	name = "verewolf's skin"
 	desc = "an impenetrable hide of dendor's fury"
 	icon_state = null
-	body_parts_covered = FULL_BODY
-	body_parts_inherent = FULL_BODY
+	body_parts_covered = CHEST
+	body_parts_inherent = CHEST
 	armor = ARMOR_WWOLF
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 550
+	max_integrity = 750
 	item_flags = DROPDEL
-	repair_time = 15 SECONDS
+	repair_time = 20 SECONDS
 	interrupt_damount = 35
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin/extremities
+	max_integrity = 550
+	slot_flags = ITEM_SLOT_ARMOR
+	repair_time = 20 SECONDS
+	body_parts_covered = FULL_BODY_NO_CHEST
+	body_parts_inherent = FULL_BODY_NO_CHEST
+	name = "verewolf's thin skin"
 
 /datum/intent/simple/werewolf
 	name = "claw"

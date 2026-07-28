@@ -27,8 +27,6 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	var/loot_budget = 0
 	/// Pool key for grouping multiple sub-areas into one shared pool. Areas with the same key share one budget. Defaults to own type path.
 	var/loot_pool_key
-	/// If TRUE, this area's pool is not auto-processed at SSatoms init. Use for areas built incrementally by the dungeon generator - call process_deferred_loot_pools() once generation finishes.
-	var/loot_pool_deferred = FALSE
 
 /area/rogue/Entered(atom/movable/AM)
 	. = ..()
