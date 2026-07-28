@@ -1904,6 +1904,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("voicepack_preview")
 					if(voice_pack != "Default")
 						var/datum/voicepack/VP = GLOB.voice_packs[GLOB.voice_packs_list[voice_pack]]
+						if(!VP) // saved voicepack no longer exists (renamed/removed, or imported save)
+							to_chat(user, span_warning("Your saved voice pack \"[voice_pack]\" no longer exists and has been reset."))
+							voice_pack = "Default"
+							return
 						var/voiceline = VP.get_sound(pick(VP.preview))
 						user.playsound_local(user, voiceline, 100)
 				if("taur_type")

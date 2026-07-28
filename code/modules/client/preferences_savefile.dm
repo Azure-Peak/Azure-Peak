@@ -376,6 +376,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	return TRUE
 
 
+/// Remaps voice pack names that differ from older saves (Emerald Summit imports)
+/// and resets any pack that doesn't exist here, so stale names can't crash later.
+/datum/preferences/proc/sanitize_voice_pack()
+	if(!voice_pack || voice_pack == VOICE_PACK_DEFAULT)
+		return
+	var/static/list/legacy_voice_pack_names = list(
+		"Wizardly (Masc)" = VOICE_PACK_WIZARD,
+		"Sinister (Masc)" = VOICE_PACK_EVIL,
+	)
+	if(legacy_voice_pack_names[voice_pack])
+		voice_pack = legacy_voice_pack_names[voice_pack]
+	if(!(voice_pack in GLOB.voice_packs_list))
+		voice_pack = VOICE_PACK_DEFAULT
+
 /datum/preferences/proc/_load_species(S, species_name = null)
 	if(!species_name)
 		S["species"] >> species_name
@@ -589,6 +603,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["clothes_pref"]		>> clothes_pref
 	S["voice_type"]			>> voice_type
 	S["voice_pack"]			>> voice_pack
+	sanitize_voice_pack()
 	S["nickname"]			>> nickname
 	S["highlight_color"]	>> highlight_color
 	S["taur_type"]			>> taur_type
@@ -790,6 +805,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["pronouns"] >> pronouns
 	S["voice_type"] >> voice_type
 	S["voice_pack"] >> voice_pack
+	sanitize_voice_pack()
 	S["body_size"] >> features["body_size"]
 	if (!features["body_size"])
 		features["body_size"] = BODY_SIZE_NORMAL
