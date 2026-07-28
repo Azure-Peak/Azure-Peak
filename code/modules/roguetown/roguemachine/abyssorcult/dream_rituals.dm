@@ -1,9 +1,10 @@
 /proc/initialize_abyssal_rituals()
 	GLOB.abyssal_rituals = list()
 	for(var/datum/abyssal_ritual/R as anything in subtypesof(/datum/abyssal_ritual))
-		if(R == /datum/abyssal_ritual)
-			continue
 		var/datum/abyssal_ritual/instance = new R()
+		if(instance.name == "Generic Ritual")
+			qdel(instance)
+			continue
 		GLOB.abyssal_rituals[instance.name] = instance
 
 /datum/abyssal_ritual
