@@ -117,46 +117,47 @@
 		cached_choices = list()
 
 	var/tier_key = "[tier]"
-	var/list/tier_choices = cached_choices[tier_key]
 
+	var/list/tier_choices = cached_choices[tier_key]
 	if(!tier_choices)
 		tier_choices = list()
 
 	if(length(tier_choices) < 3)
 		var/list/existing_types = list()
-		for(var/list/entry in tier_choices)
-			var/datum/vision_quest/Q = entry["quest"]
-			existing_types += Q.type
+		for(var/i in 1 to length(tier_choices))
+			var/list/entry = tier_choices[i]
+			var/datum/vision_quest/existing_Q = entry["quest"]
+			if(existing_Q)
+				existing_types += existing_Q.type
 
 		var/list/available = list()
 		for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
 			if(Q.required_tier == tier && !(Q.type in existing_types))
 				available += Q
 
-		if(length(available))
-			shuffle(available)
-			for(var/datum/vision_quest/Q in available)
-				var/mob/living/carbon/human/valid_target = find_valid_target_for_quest(Q, user)
-				if(!valid_target)
-					continue
+		while(length(available) && length(tier_choices) < 3)
+			var/datum/vision_quest/Q = pick(available)
+			available -= Q
 
-				Q.required_phrase = pick(Q.possible_phrases)
-				var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
+			var/mob/living/carbon/human/valid_target = find_valid_target_for_quest(Q, user)
+			if(!valid_target)
+				continue
 
-				tier_choices.Add(list(list(
-					"quest" = Q,
-					"target" = valid_target,
-					"bonus" = chosen_bonus_path
-				)))
+			Q.required_phrase = pick(Q.possible_phrases)
+			var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
 
-				if(length(tier_choices) >= 3)
-					break
+			tier_choices.Add(list(list(
+				"quest" = Q,
+				"target" = valid_target,
+				"bonus" = chosen_bonus_path
+			)))
 
 		cached_choices[tier_key] = tier_choices
 		src.parchment_used = used_parchment
 
 	var/list/valid_entries = list()
-	for(var/list/entry in tier_choices)
+	for(var/i in 1 to length(tier_choices))
+		var/list/entry = tier_choices[i]
 		var/datum/vision_quest/Q = entry["quest"]
 		var/mob/living/carbon/human/target_mob = entry["target"]
 
