@@ -131,7 +131,6 @@
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-		/obj/item/storage/keyring/acolyte = 1,
 		/obj/item/mini_flagpole/church
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -207,7 +206,6 @@
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-		/obj/item/storage/keyring/acolyte = 1,
 		/obj/item/mini_flagpole/church
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
