@@ -12,7 +12,6 @@ LICH SKELETONS
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted)
 
 /datum/outfit/job/roguetown/greater_skeleton/lich
-	belt = /obj/item/storage/belt/rogue/leather/black
 
 /datum/outfit/job/roguetown/greater_skeleton/lich/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -50,6 +49,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
+	//Utility skills, unlyve to serve
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
@@ -63,6 +63,7 @@ LICH SKELETONS
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	belt = /obj/item/storage/belt/rogue/leather/black
 
 	backl = /obj/item/storage/backpack/rogue/satchel
 
@@ -153,6 +154,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 
+	//Utility skills, unlyve to serve
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
@@ -167,6 +169,8 @@ LICH SKELETONS
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 	gloves = /obj/item/clothing/gloves/roguetown/angle
+	belt = /obj/item/storage/belt/rogue/leather/black
+
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
@@ -250,6 +254,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
+	//Utility skills, unlyve to serve
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
@@ -262,6 +267,8 @@ LICH SKELETONS
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	belt = /obj/item/storage/belt/rogue/leather/black
+
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
@@ -375,6 +382,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 
+	//Utility skills, unlyve to serve (more than everyone else)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE) //Just give them a little extra for utility.
 	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE) //For making traps mostly, since they need it for crafting amythortz, remove if the recipes change.
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE) //For the alchemy mortar + pestle for explosives, remove once the recipe changes.
@@ -396,9 +404,11 @@ LICH SKELETONS
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
 	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/lich
-	gloves = /obj/item/clothing/gloves/roguetown/angle
+	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith/lich
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	belt = /obj/item/storage/belt/rogue/leather //regular looks nicer
+
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
 		/obj/item/rogueweapon/hammer/paalloy = 1,
@@ -463,6 +473,8 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+
+	//Utility skills, unlyve to serve
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
@@ -476,6 +488,8 @@ LICH SKELETONS
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	belt = /obj/item/storage/belt/rogue/leather/black
+
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy
@@ -483,7 +497,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/cloth = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -510,7 +524,7 @@ LICH SKELETONS
 
 	H.energy = H.max_energy
 
-//Stronger sidegrade of the Bulwark. Fully armored juggetnaut with high Intelligence and Perception for baiting and riposting, but extremely low Speed and complete inability to sprint at all. Crack open the armor, overwhelm and they're dead meat.
+//Stronger sidegrade of the Bulwark. Fully armored juggetnaut with high Intelligence, Strength and Perception for overwhelming, fienting and resisting fients, but extremely low Speed and complete inability to sprint at all. Crack open the armor, overwhelm and they're dead meat.
 //They lack the easily ability to escape fights including no climbing skill, they're tough and will tire you very fast. They have good armor off-the-bat. They're sturdy and difficult to tire but archers/mages/swarms of people will hardcounter them in open ground.
 /datum/advclass/greater_skeleton/lich/bulwarkrare
 	name = "Venerated Death Knight"
@@ -543,6 +557,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
 	//Again, their flaw is inability to escape, no climbing here.
 
+	//Utility skills, unlyve to serve
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
@@ -557,6 +572,8 @@ LICH SKELETONS
 	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
+	belt = /obj/item/storage/belt/rogue/leather/black
+
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 
 	backpack_contents = list(
@@ -589,7 +606,7 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind) //2 slot, irreplacable skeletons.
-		H.mind.AddSpell(new /datum/action/cooldown/spell/mending) //Gets replaced w/weaker version w/rituos armor, balances out.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending) //Gets replaced w/weaker version w/ritual armor. it balances out.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 
 	H.energy = H.max_energy
@@ -635,6 +652,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE) //A true Azurcaephan, they know their stuff.
 
+	//Utility skills, unlyve to serve
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
@@ -650,6 +668,8 @@ LICH SKELETONS
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 	backr = /obj/item/rogueweapon/shield/bronze/paalloy
+	belt = /obj/item/storage/belt/rogue/leather/black
+
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
@@ -773,22 +793,177 @@ LICH SKELETONS
 
 	H.energy = H.max_energy
 
+//Cleric skeleton, specialises in ranged casting + lesser magic utility use. They're also able to herald the darkness and snuff out lights.
+//They're quite a potent healer but they struggle with light armor and most of their body being covered by /very/ obvious heretical robes.
+//Can parry somewhat okay in melee, but they're too weak to really /hurt/ someone badly via that. Generally though you're going to taken out by mages/archers pretty decently, this is intended.
+
+//Most importantly, unlike other lich skeletons, these ones really stand out amongst the many. You know who to target on-sight pretty much.
+//Yes the name is a bitter irony because Sectarian means a closed-minded us vs them, mindset. Aka limited or bigoted, but this fits the "slaughter the living so they may walk with her" mindset of skeletons.
+/datum/advclass/greater_skeleton/lich/sectarian
+	name = "Ancient Zizite Sectarian"
+	tutorial = "'Progress. Ascension. Destiny. A mandate, commanded by God, to be fufilled by Man.' - Amongst the many fallen, few not only take their place not only in reverence but through faith and channeling divinity. No matter how far you've fallen, your faith will be that which shall peirce the heavens - Let Progress be your chariot, let her will be your guide and let your master's vision become reality."
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/sectarian
+	maximum_possible_slots = 3 //don't want too many healers for skeletons in a round but we want leniency for when they die and get replaced
+
+	category_tags = list(CTAG_LSKELETON)
+
+/datum/outfit/job/roguetown/greater_skeleton/lich/sectarian/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	H.STASTR = 8
+	H.STASPD = 8
+	H.STACON = 7 //Flimsy vs others, not as non-combat as a sapper though
+	H.STAWIL = 11
+	H.STAINT = 12 //acolyte-esc role, smarter than most skeletons
+	H.STAPER = 10
+
+	//No medium armor because avantyne half-plate exists and we do not want heretic ++
+
+	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC) //"we have rituos at home"
+	ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC) //Sovl Bonus from heretic
+	ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC) //Flavor, nothing to do w/ zurch, it solely means worse spire if you somehow get an abyssal dream shard (unstable one you throw)
+
+	H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 4))
+	//Your "rituos", notably weaker than adv missionary as your tradeoff is being actually undead and untirable. Your minor aspect is a cantrip more than anything.
+	//No free ward, never. period. Do not, I will find you. They will spend their singular minor aspect if they want one.
+
+
+	H.adjust_skillrank(/datum/skill/combat/staves, 4, TRUE) //Intended choice of parrying off blows, won't last amazingly long though
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)
+
+	//You're a true devout, a disiple, here's your "sovl" patron boons (basically you /have/ artifice potental)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/smelting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/engineering, 2, TRUE)
+
+	//Utility skills, unlyve to serve
+	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
+
+	head = /obj/item/clothing/head/roguetown/roguehood/lich_sectarian
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/paalloy //Face protection
+	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded/lich //Extra obvious herecy + better goes with the fit
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+	cloak = /obj/item/clothing/cloak/tabard/toga/lich //Goes with the fit, so you get no choice of picks
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/lich
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
+	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted/lich //Second weak spot, hands.
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy //UP THE Z
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
+	pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
+
+	//Legs are intended to have have weaker armor, this is their weak-spot. Cut them down and smash their ribs in/cut their head off/burn them to death.
+
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/rogueweapon/woodstaff/quarterstaff/iron //replace w/ gilbranze once ancient ver added (its literally +3 force w/ steel grade staff vs iron anyway)
+
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid = 1, //Hilarious
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy = 4 //SPREAD HER INFLUENCE. ZIZO. ZIZO. ZIZO. (or just wear them all to aurafarm on the Psydonites, IDK)
+	)
+
+	H.adjust_blindness(-3)
+
+	//Our offensive kit
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //SPREAD THE... ROT? turn-player-corpses-into-player-zombies spell. No skeleton mitosis please.
+	//Our Utility Spells
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+	//No bone chill, Zizo miracle heals all limbs which is strong enough as is + scales to bones. Lesser formations will be making a lot of those.
+
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MAJOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)	//Major acolyte-level regeneration, capped to T1 since Zizo miracles don't work w/ lich's skeleton spam
+	//up this if the miracle set is less about summonspam and knockdowns in future, please. They're meant to be a templar level caster vs heretic wretch. So T2 casters. No revival miracles.
+	//Starts w/1000 devotion, capped out. Cooldowns still balance this out. On-par w/zeretic spellblade devotion wise + ability (Outside of light snuff).
+
+	H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle) //We don't have blood, QOL since we can't use this.
+
+	// Reorder undead eyes action to the end, hacky but makes it easier to focus.
+	var/obj/item/organ/eyes/existing_eyes = H.getorganslot(ORGAN_SLOT_EYES)
+	if(existing_eyes)
+		existing_eyes.Remove(H, TRUE)
+		existing_eyes.Insert(H)
+
+	H.energy = H.max_energy
+
 /////////////////////////////
 // UNIQUE ITEMS!           //
 /////////////////////////////
+/obj/item/clothing/suit/roguetown/armor/vestments_padded/lich //Zizo acolyte esc-robes, armor is meant to be the same as padded vestaments
+	name = "decrepit unholy undervestaments"
+	desc = "Roughspan fabrics, silks and burlap from beyond your lyfetyme, wrapped and coiled around the waist uncomfortably tight.</br>Its adorned with inverted psycrosses in the stitchwork, a sworn unbreakable promise against the orders that bind this world to stagnation.</br></br>‎<font color='FF0000'>..Just looking at the fabric makes you feel like you're being watched..</font>"
+	icon_state = "monkvestments" //placeholdery as fuck
+	item_state = "monkvestments"
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	resistance_flags = FIRE_PROOF //All you get in exchange for herecy-marked gear
+
+/obj/item/clothing/suit/roguetown/armor/vestments_padded/lich/get_examine_highlight_status() //Literally worn by oath-sworn enemies to the Ten and Psydon, there's no subtle-part about this.
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_CLOTHING)
+
+//Do not make this craftable, please. Role Specific. ^
+
+/obj/item/clothing/wrists/roguetown/bracers/cloth/lich
+	name = "decrepit padded wrappings"
+	desc = "Roughspan fabrics and burlap from beyond your lyfetyme, wrapped and coiled around the wrists by those who have embraced what they've truly become."
+	color = "#5c5a55"
+
+/obj/item/clothing/gloves/roguetown/bandages/weighted/lich
+	color = "#5c5a55"
+
+/obj/item/clothing/head/roguetown/roguehood/lich_sectarian
+	name = "decrepit unholy hood"
+	desc = "A padded and reinforced hood of roughspun fabrics, silks and worn leather from beyond your lyfetime, splinted across creating a cocooon to shroud the face. It bares the sigil of the inverted Psycross upon its crest in defiance to the world.</br></br>‎<font color='FF0000'>..Should you stare too long into it, you could almost glimpse something staring back with eternal malice..</font>"
+	color = CLOTHING_BLACK
+	max_integrity = ARMOR_INT_HELMET_HARDLEATHER //to encourage keeping it
+	armor = ARMOR_LEATHER
+	icon_state = "monkhood" //placeholdery as fuck
+	item_state = "monkhood"
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 2 //Padded clothing
+	resistance_flags = FIRE_PROOF //All you get in exchange for herecy-marked gear
+
+/obj/item/clothing/head/roguetown/roguehood/lich_sectarian/get_examine_highlight_status() //Literally worn by oath-sworn enemies to the Ten and Psydon, there's no subtle-part about this.
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_CLOTHING)
+
+//Do not make this craftable, please. Role Specific. ^
+
 /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/lich
 	name = "decrepit sapper jacket"
 	desc = "A jacket of rugged leather with some scraps of fur and roughspun fabrics from beyond your lyfetime, donned by those who are condemned to toil forevermore."
 	color = "#d6bbbb"
 
+//Do not make this craftable, please. Role Specific. ^
+
 /obj/item/clothing/under/roguetown/trou/artipants/lich
 	name = "decrepit sapper trousers"
 	desc = "A set of trousers of leathers and roughspun fabric from beyond your lyfetime, donned by those who are condemned to toil forevermore."
+
+//Do not make this craftable, please. Role Specific. ^
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
 	name = "decrepit sapper shirt"
 	desc = "A shirt of roughspun fabrics and leather from beyond your lyfetime, donned by those who are condemned to toil forevermore."
 	color = "#d6bbbb"
+
+//Do not make this craftable, please. Role Specific. ^
+
+/obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith/lich
+	name = "decrepit forge gauntlets"
+	desc = "A shirt of rugged silks and leather from beyond your lyfetime, donned as a grasp 'pon the one thing that oft' outlasts through aeon the most; \"Artifice, Progress, Construction\"."
+	//no color changes, it already looks good
 
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 	name = "decrepit hijab"

@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Throwing knives should now properly fit into Grenzelhoftian Boots and Riding Boots."
-  - rscadd: "Throwing knives can fit into footwraps."

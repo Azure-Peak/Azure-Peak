@@ -28,6 +28,10 @@
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
 /datum/outfit/job/roguetown/gnoll_impure
+	var/vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/impure
+	var/max_fury_stacks = 60
+	var/shard_threshold = 44
+	var/shard_repair_value = 20
 
 /datum/outfit/job/roguetown/gnoll_impure/pre_equip(mob/living/carbon/human/H)
 	if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))
@@ -35,14 +39,9 @@
 		H.mind.add_antag_datum(new_antag)
 		add_verb(H, /mob/living/carbon/human/proc/gnoll_inspect_skin)
 	H.set_species(/datum/species/gnoll)
-	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/impure(H)
+	H.skin_armor = new vamp_armor_type(H)
+	H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
 	don_pelt(H)
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/impure
-	icon_state = null
-	max_integrity = 400
-	auto_repair_mode_base = 90
-	armor = ARMOR_GNOLL_WEAK
 
 /datum/outfit/job/roguetown/gnoll_impure/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)

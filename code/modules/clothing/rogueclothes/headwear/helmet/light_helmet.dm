@@ -204,8 +204,10 @@
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/loadout
 	name = "aesthetic grenzelhoft plume hat"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
+
+/obj/item/clothing/head/roguetown/grenzelhofthat/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 //................ Briar Thorns ............... //	- Dendor Briar
 /obj/item/clothing/head/roguetown/briarthorns
@@ -243,5 +245,7 @@
 
 /obj/item/clothing/head/roguetown/mentorhat/loadout
 	name = "aesthetic worn bamboo hat"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
+
+/obj/item/clothing/head/roguetown/mentorhat/loadout/Initialize()
+	. = ..()
+	loadoutize()

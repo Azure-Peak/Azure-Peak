@@ -434,7 +434,6 @@ Intermingleance with Otavan refugees and Ranesheni freemen, throughout the centu
 		<p><strong> Orthodoxy </strong> - The Holy See's eternal rival, whom gives praise to the ancient God of Psydon. Ruled by the High Scholar of Otava.</p>
 		<p><strong> Inquisition </strong> - The militant arm of the Orthodoxy, notorious for hunting both nitebeasts and suspected worshippers with overzealous impunity. </p>
 		<p><strong> Duchy </strong> - Azuria's royal family, and the rulers of the Azure Peak. Traditionally helmed by a Grand Duke or Grand Duchess. </p>
-		<p><strong> Alotheos </strong> - A labyrinthian tomb, located within Azuria. Though its origins aren't known, its said to hold untold riches within. </p>
 		<p><strong> Arcyne </strong> - Magicka. A blessing of Noc, which allows for the manipulation of Psydonia's latent energies. </p>
 		<p><strong> Leyline </strong> - Channels of pure magicka, running across Psydonia like the arteries in a body. Most arcyne acts draw from these veins. </p>
 		<p><strong> Phlogiston </strong> - The star-speckled space that cradles the Sun, the Moon, Psydonia, and all the various astralities surrounding them. </p>

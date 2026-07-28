@@ -295,6 +295,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/crossbun_jamtallowed
 	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
 	name = "jamtallowed crossbun"
 	desc = "So sinfully delicious!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -309,6 +310,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/crossbun_marmaladed
 	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
 	name = "marmaladed crossbun"
 	desc = "A particularly favorite treat amonst the papacies of Grenzelhoft and Etruscea, especially during the \
 	holidaes that pay reverance to Astrata. The marmalade is said to represent the Sun's blessed light and warming \
@@ -337,6 +339,8 @@
 	rotprocess = SHELFLIFE_EXTREME
 
 /obj/item/reagent_containers/food/snacks/rogue/psycrossbun_jamtallowed
+	cuisine = CUISINE_OTAVAIS
+	dish_type = DISH_BREAD
 	name = "jamtallowed psycrossbun"
 	desc = "A particularly favorite treat amonst the papacies of Otava and Rockhill, especially during the \
 	holidaes that pay reverance to Psydon's sacrifice. The jamtallow is said to represent the Weeping God's \
@@ -352,6 +356,8 @@
 	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/psycrossbun_marmaladed
+	cuisine = CUISINE_OTAVAIS
+	dish_type = DISH_BREAD
 	name = "marmaladed psycrossbun"
 	desc = "Wait, isn't it meant to be the other way around? Ah, well!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -427,6 +433,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/raisinbreadslice
 	cuisine = CUISINE_RANESHENI
+	dish_type = DISH_BREAD
 	name = "raisin loaf slice"
 	desc = "Soft and chewy. Nourishing and filling. Simple and decent."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -483,6 +490,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/applebreadslice
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_BREAD
 	name = "apple loaf slice"
 	desc = "Soft and chewy. Nourishing and filling. Simple yet decadant. Certainly a step up from raisins, that's for sure."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -500,6 +508,7 @@
 /*	.................   Tomatoplate  ................... */
 /obj/item/reagent_containers/food/snacks/rogue/tomatoplate
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "tomatoplate"
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket; all it's missing is a cold pint of \
@@ -520,6 +529,8 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/tomatoplate_slice
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "slice of tomatoplate"
 	desc = "The ultimate definition of being 'more than the sum of its parts'."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -538,6 +549,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "sausaged tomatoplate"
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and crispy sasuages; all it's missing \
@@ -558,6 +570,8 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate_slice
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "slice of sausaged tomatoplate"
 	desc = "What do you mean this is a Baothan's favorite kind of slice?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -576,6 +590,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/fishtomatoplate
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "fished tomatoplate"
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and oily fishes; all it's missing \
@@ -596,6 +611,8 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/fishtomatoplate_slice
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "slice of fished tomatoplate"
 	desc = "Excuse me, sire, but I specifically asked for no anchovies or zardines!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -613,6 +630,8 @@
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/oniontomatoplate
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "onioned tomatoplate"
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and crunchy onions; all it's missing \
@@ -633,6 +652,8 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/oniontomatoplate_slice
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "slice of onioned tomatoplate"
 	desc = "Excuse me, sire, but I specifically asked for no anchovies or zardines!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -651,6 +672,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/truffletomatoplate
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "truffled tomatoplate"
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadant truffles; all it's missing \
@@ -672,6 +694,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/truffletomatoplate_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "slice of truffled tomatoplate"
 	desc = "A slice that's fit for a king! ..so long as that trufflepig didn't accidentally pick a poisoned patch of truffles, of course."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -690,6 +713,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/poisontruffletomatoplate
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "truffled tomatoplate" //Like jackberried treats, this is a poisoned variant! For those who don't properly source their truffles.. or simply want to poison others!
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadant truffles; all it's missing \
@@ -711,6 +735,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/poisontruffletomatoplate_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "slice of truffled tomatoplate" //Ditto.
 	desc = "A slice that's fit for a king! ..so long as that trufflepig didn't accidentally pick a poisoned patch of truffles, of course."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -729,6 +754,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/peartomatoplate
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "pearacotta tomatoplate"
 	desc = "A curious spin on an Azurian classic, attributed to the hands of Vanderlin's most esteemed culinarians. The \
 	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and sweet pears; a melody of flavors \
@@ -750,6 +776,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/peartomatoplate_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
+	dish_type = DISH_BREAD|DISH_PIE
 	name = "slice of pearacotta tomatoplate"
 	desc = "You'd never imagine that such contrasting ingredients could meld together so wonderfully; and yet, they do! Such is the joy of creation.."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
@@ -901,6 +928,7 @@
 /*	.................   Griddle   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/griddle
 	cuisine = CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "Griddles"
 	desc = "Fluffy griddlecakes fried to perfection, plain yet delicious. They take well to a topping of sliced butter, honey, or a slice of chocolate left to melt atop them."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_griddles.dmi'
@@ -1072,6 +1100,8 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/rogue/challah_slice
+	cuisine = CUISINE_RANESHENI
+	dish_type = DISH_BREAD
 	name = "sliced challah"
 	desc = "Some would dip the slice into salt to complete the bread at this point, but it is what it is."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'

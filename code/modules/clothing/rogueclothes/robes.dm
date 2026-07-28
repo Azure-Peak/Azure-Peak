@@ -44,6 +44,9 @@
 	icon_state = "warlock"
 	storage = FALSE
 
+/obj/item/clothing/suit/roguetown/shirt/robe/unholy/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_MISC) //So Lich/Necro aren't immedately fragged, but the robes are blatently not normal
+
 /obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich
 	name = "ominous robes"
 	desc = "An otherworldly veil, whispering a hundred paradoxical answers to the ultimate question. Her hand guides your grandest missive; to bring forth progress, no matter the cost."
@@ -399,9 +402,10 @@
 
 /obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout
 	name = "aesthetic hierophant's kandys"
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
 	name = "pontifex's qaba"
@@ -416,9 +420,10 @@
 
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout
 	name = "aesthetic pontifex's qaba"
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/robe/feld
 	name = "feldsher's robe"

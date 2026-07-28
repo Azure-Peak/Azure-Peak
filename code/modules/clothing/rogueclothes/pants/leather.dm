@@ -72,9 +72,10 @@
 
 /obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout
 	name = "aesthetic pontifex's chaqchur"
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen
 	name = "baggy desert pants"

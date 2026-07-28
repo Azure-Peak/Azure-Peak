@@ -219,9 +219,10 @@
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
 	name = "aesthetic fencing shirt"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	name = "shepherd's shirt"
@@ -282,8 +283,10 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
 	name = "aesthetic grenzelhoftian hip-shirt"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	name = "padded desert coat"
@@ -302,9 +305,10 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
 	name = "aesthetic hierophant's shawl"
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	name = "pontifex's kaftan"
@@ -339,9 +343,10 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
 	name = "aesthetic stalker robe"
-	armor_class = ARMOR_CLASS_NONE
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize()
+	. = ..()
+	loadoutize()
 //Hand's gambeson, looks fancy
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand

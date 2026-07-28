@@ -71,9 +71,9 @@
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
 				H.change_stat(STATKEY_LCK, 1) // better pity bonus
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monke // ape out, brothers. +25 durability over other monks.
+					armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monke // ape out, brothers. +25 durability over other monks.
 				else
-					armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monk // same as gladiator's skin.
+					armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monk // 25 less than gladiator's skin.
 
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
@@ -255,7 +255,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	backpack_contents = list(
-		/obj/item/flashlight/flare/torch/metal = 1, 
+		/obj/item/flashlight/flare/torch/metal = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
@@ -521,7 +521,7 @@
 		else
 			cloak = /obj/item/clothing/cloak/cape/crusader
 	H.set_blindness(0)
-	if(is_bard && H.mind)
+	if(H.mind)
 		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
 		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
 		switch(instrument_choice)

@@ -32,6 +32,7 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/cakeslice
+	dish_type = DISH_PASTRY
 	name = "cake slice"
 	desc = "Soft and tender, a delicious slice of plain cake."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -84,6 +85,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/frostedcakeslice
 	cuisine = CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "frosted cake slice"
 	desc = "Glazed slice with a sugary frosting, ready to be tasted."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -123,7 +125,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/applecakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "apple cake slice"
 	desc = "Glazed slice with a sugary frosting and layered with juicy apples, sweetness and tart."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -163,7 +166,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/applenutcakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "applenut cake slice"
 	desc = "Frosted slice layered with apples and surrounded in nuts. A spectacle of flavors and textures, with mild stimulant properties."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -207,7 +211,8 @@
 	list_reagents = list(/datum/reagent/berrypoison = 5, /datum/reagent/consumable/nutriment = 48, /datum/reagent/water = 5)
 
 /obj/item/reagent_containers/food/snacks/rogue/berrycakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "berry cake slice"
 	desc = "Sliced cake with a spread of juicy berries dripping into its frosting."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -250,7 +255,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/blackberrycakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "blackberry cake slice"
 	desc = "A dark frosted slice of cake topped with blackberries. A fruity treat often paired with raspberry cake."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -292,6 +298,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/carrotcakeslice
 	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_PASTRY
 	name = "carrot cake slice"
 	desc = "A surprisingly sweet frosted cake slice with cooked carrot peels stuffed in its tender interior."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -331,7 +338,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/lemoncakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "lemon cake slice"
 	desc = "A frosted cake slice with a rich citrus taste. A thick layer of lemon filling give it a sweet, tangy and zesty flavour."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -371,7 +379,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/limecakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "lime cake slice"
 	desc = "A frosted cake slice with a rich citrus taste. A thick layer of lime filling give it a sweet, tangy and zesty flavour."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -454,6 +463,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/menthacakeslice
 	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_PASTRY
 	name = "mentha cake slice"
 	desc = "A frosted cake slice with the fresh taste of mentha and the wyld forests."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -498,6 +508,7 @@
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/rogue/peacecakeslice
+	dish_type = DISH_PASTRY
 	name = "peace cake slice"
 	desc = "Imbued with the remaining powers of its decorative bud, a frosted cake slice said to be shared between lovers or after mourning."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -542,7 +553,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/raspberrycakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "raspberry cake slice"
 	desc = "A frosted slice of cake topped with beautiful raspberries. A fruity treat often paired with blackberry cake."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -583,6 +595,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/rocknutcakeslice
 	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_PASTRY
 	name = "rocknut cake slice"
 	desc = "A simple frosted cake slice with a spread of nuts. Its mild stimulant properties makes-up most of its popularity."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -622,7 +635,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/strawberrycakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "strawberry cake slice"
 	desc = "A singular sweetened strawberry and strawberry filling over a tender frosted cake slice, simple and elegant."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -662,7 +676,8 @@
 	bitesize = 16
 
 /obj/item/reagent_containers/food/snacks/rogue/tangerinecakeslice
-	cuisine = CUISINE_SOUTH_IMPERIAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
+	dish_type = DISH_PASTRY
 	name = "tangerine cake slice"
 	desc = "A frosted cake slice with a rich citrus taste. A thick layer of tangerine filling give it a sweet, tangy and zesty flavour."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -717,6 +732,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/hcakeslice
 	cuisine = CUISINE_RANESHENI
+	dish_type = DISH_PASTRY|DISH_SWEET
 	name = "honey cake slice"
 	desc = "A slice of cake glazed with honey in the famous Raneshi fashion, a delicious sweet treat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -770,6 +786,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/ccakeslice
 	cuisine = CUISINE_OTAVAIS
+	dish_type = DISH_DAIRY|DISH_PASTRY
 	name = "cheesecake slice"
 	desc = "A simple slice of humenity's favored creation."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -830,6 +847,7 @@
 	tastes = list("corn cake" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/corncake_slice
+	dish_type = DISH_PASTRY
 	name = "corn cake slice"
 	desc = "A slice of golden corn cake."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -860,6 +878,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/corncake_lemon_slice
 	cuisine = CUISINE_ETRUSCAN
+	dish_type = DISH_PASTRY
 	name = "lemon corn cake slice"
 	desc = "A tart, sweet slice of lemon corn cake."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
@@ -890,6 +909,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/corncake_lime_slice
 	cuisine = CUISINE_ETRUSCAN
+	dish_type = DISH_PASTRY
 	name = "lime corn cake slice"
 	desc = "A tart, sweet slice of lime corn cake."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
