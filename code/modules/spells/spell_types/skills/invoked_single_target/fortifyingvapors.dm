@@ -44,10 +44,10 @@
 	glow_intensity = GLOW_INTENSITY_LOW
 	click_to_activate = TRUE
 	primary_resource_type = SPELL_COST_ENERGY
-	primary_resource_cost = 15
+	primary_resource_cost = 20
 	cast_range = 4
 	charge_required = FALSE
-	cooldown_time = 15 SECONDS
+	cooldown_time = 10 SECONDS
 	associated_skill = /datum/skill/misc/reading
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
@@ -130,7 +130,7 @@
 /datum/status_effect/buff/fortifyingvapors
 	id = "fortifyingvapors"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/fortifyingvapors
-	duration = 30 SECONDS
+	duration = 20 SECONDS
 	examine_text = "<font color='#00ff6a'>SUBJECTPRONOUN is surrounded by subtle, heady vapors.</font>"
 	var/healing_on_tick = 0.5
 	var/outline_colour = "#9ebb5b"
@@ -173,7 +173,7 @@
 	if(recipe?.blood)
 		owner.adjustOxyLoss(-5)
 		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-			owner.blood_volume += BLOOD_VOLUME_NORMAL * 0.02
+			owner.blood_volume += BLOOD_VOLUME_NORMAL * 0.01
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
 				if(W.bleed_rate <= 0 && W.sew_threshold)
@@ -182,7 +182,7 @@
 	if(recipe?.wounds)
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
-				W.heal_wound(3)
+				W.heal_wound(1.25)
 
 /datum/status_effect/buff/healingvapors
 	id = "healingvapors"
@@ -224,7 +224,7 @@
 	if(recipe?.blood)
 		owner.adjustOxyLoss(-10)
 		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-			owner.blood_volume += BLOOD_VOLUME_NORMAL * 0.03
+			owner.blood_volume += BLOOD_VOLUME_NORMAL * 0.02
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
 				if(W.bleed_rate <= 0 && W.sew_threshold)
@@ -233,7 +233,7 @@
 	if(recipe?.wounds)
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
-				W.heal_wound(6)
+				W.heal_wound(2.25)
 
 /datum/status_effect/buff/healingvapors/on_remove()
 	owner.remove_filter(VAPORS_HEALING_FILTER)
