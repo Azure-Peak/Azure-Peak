@@ -82,29 +82,38 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		S["voice_color"]		>> voice_color
 	if(current_version < 34) // Update races (renames handled by _load_species legacy aliases)
 		_load_species(S)
-	if(current_version < 35) // Migrate old 3-slot loadout to gear_list
-		gear_list = list()
-		var/list/old_keys = list(
-			list("loadout", "loadout_1_hex"),
-			list("loadout2", "loadout_2_hex"),
-			list("loadout3", "loadout_3_hex"),
-		)
-		for(var/list/pair in old_keys)
-			var/loadout_type
-			S[pair[1]] >> loadout_type
-			if(!loadout_type || !ispath(loadout_type))
-				continue
-			var/datum/loadout_item/LI = GLOB.loadout_items[loadout_type]
-			if(!LI || LI.name == "Parent loadout datum")
-				continue
-			var/list/meta = list()
-			var/old_hex
-			S[pair[2]] >> old_hex
-			if(old_hex)
-				if(old_hex[1] != "#")
-					old_hex = "#[old_hex]"
-				meta["color"] = old_hex
-			gear_list[LI.name] = meta
+	if(current_version < 35) // Migrate old slot-based loadout to gear_list
+		migrate_legacy_loadout(S)
+
+/// Converts old slot-based loadout keys (loadout..loadout6 + hex colors) into gear_list.
+/// Keyed on data, not save version: Emerald Summit saves use versions that collide with
+/// ours, so their slot loadouts arrive under any version number.
+/datum/preferences/proc/migrate_legacy_loadout(savefile/S)
+	gear_list = list()
+	var/list/old_keys = list(
+		list("loadout", "loadout_1_hex"),
+		list("loadout2", "loadout_2_hex"),
+		list("loadout3", "loadout_3_hex"),
+		list("loadout4", "loadout_4_hex"),
+		list("loadout5", "loadout_5_hex"),
+		list("loadout6", "loadout_6_hex"),
+	)
+	for(var/list/pair in old_keys)
+		var/loadout_type
+		S[pair[1]] >> loadout_type
+		if(!loadout_type || !ispath(loadout_type))
+			continue
+		var/datum/loadout_item/LI = GLOB.loadout_items[loadout_type]
+		if(!LI || LI.name == "Parent loadout datum")
+			continue
+		var/list/meta = list()
+		var/old_hex
+		S[pair[2]] >> old_hex
+		if(old_hex)
+			if(old_hex[1] != "#")
+				old_hex = "#[old_hex]"
+			meta["color"] = old_hex
+		gear_list[LI.name] = meta
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
@@ -503,6 +512,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/_load_gear_list(savefile/S)
 	S["gear_list"] >> gear_list
 	if(!islist(gear_list))
+		// No gear_list but legacy slot keys present: an Emerald Summit save whose
+		// version number skipped the < 35 migration. Convert it now.
+		var/legacy_loadout
+		S["loadout"] >> legacy_loadout
+		if(legacy_loadout)
+			migrate_legacy_loadout(S)
+			return
 		gear_list = list()
 	// Validate: remove items that no longer exist
 	for(var/item_name in gear_list)
