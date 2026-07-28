@@ -98,13 +98,15 @@
 	if(!githuburl)
 		to_chat(src, span_danger("The Github URL is not set in the server configuration."))
 		return
-	if(tgui_alert(mob, "This will open the commit history in your browser. Are you sure?", "Changelog", list("Yes", "No")) != "Yes")
-		return
-	src << link("[githuburl]/commits/main")
+	// Mark as read up front, whatever the answer — otherwise declining leaves the
+	// changelog "unread" and AGGRESSIVE_CHANGELOG re-prompts on every connect.
 	if(prefs.lastchangelog != GLOB.changelog_hash)
 		prefs.lastchangelog = GLOB.changelog_hash
 		prefs.save_preferences()
 		winset(src, "infobuttons.changelog", "font-style=;")
+	if(tgui_alert(mob, "This will open the commit history in your browser. Are you sure?", "Changelog", list("Yes", "No")) != "Yes")
+		return
+	src << link("[githuburl]/commits/main")
 
 /client/verb/hotkeys_help()
 	set name = "_Help-Controls"
