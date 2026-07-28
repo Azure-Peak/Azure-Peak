@@ -853,6 +853,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	var/list/valid_skin_colors = list()
 	for(var/skin_tone in pref_species.get_skin_list())
 		valid_skin_colors += valid_skin_tones[skin_tone]
+	// Hex casing differs between codebases (Emerald Summit saves lowercase, our
+	// defines are uppercase) — match case-insensitively and adopt our canonical form.
+	if(skin_tone && !(skin_tone in valid_skin_colors))
+		for(var/valid_color in valid_skin_colors)
+			if(lowertext(valid_color) == lowertext(skin_tone))
+				skin_tone = valid_color
+				break
 	skin_tone = sanitize_inlist(skin_tone, valid_skin_colors, valid_skin_colors[1])
 
 	joblessrole	= sanitize_integer(joblessrole, 1, 3, initial(joblessrole))
