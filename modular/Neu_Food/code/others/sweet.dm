@@ -1,5 +1,7 @@
 // -------------- CHOCOLATE -----------------
 /obj/item/reagent_containers/food/snacks/chocolate
+	cuisine = CUISINE_OTAVAIS
+	dish_type = DISH_SWEET
 	name = "chocolate ingot"
 	desc = "An unbelievably decadant slab of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
 	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
@@ -52,6 +54,7 @@
 	slice_path = null
 
 /obj/item/reagent_containers/food/snacks/jamtallow
+	dish_type = DISH_SWEET
 	name = "stick of jamtallow"
 	desc = "An ingot of jammified blackberries, fit only for the finest slices of bread. It beckons to be sliced with proper cutlery."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -87,6 +90,7 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/jamtallowslice
+	dish_type = DISH_SWEET
 	name = "slice of jamtallow"
 	desc = "A portion of jammy paradise, bearing the same hues as Azuria's morning skies. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -97,6 +101,7 @@
 	eat_effect = /datum/status_effect/buff/sweet
 
 /obj/item/reagent_containers/food/snacks/marmalade
+	dish_type = DISH_SWEET
 	name = "stick of marmalade"
 	desc = "An ingot of jammified tangerines, fit only for the finest slices of bread. It beckons to be sliced with proper cutlery."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -132,6 +137,7 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/marmaladeslice
+	dish_type = DISH_SWEET
 	name = "slice of marmalade"
 	desc = "A portion of jammy paradise, bearing the same hues as Azuria's evening seas. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -142,6 +148,8 @@
 	eat_effect = /datum/status_effect/buff/sweet
 
 /obj/item/reagent_containers/food/snacks/caramel
+	cuisine = CUISINE_RANESHENI
+	dish_type = DISH_SWEET
 	name = "caramel"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "caramel3"
@@ -165,6 +173,8 @@
 		icon_state = "caramel1"
 
 /obj/item/reagent_containers/food/snacks/dragee
+	cuisine = CUISINE_OTAVAIS
+	dish_type = DISH_SWEET
 	name = "dragée"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "dragee3"
@@ -190,6 +200,7 @@
 
 //SUGARSHAPES!!!
 /obj/item/reagent_containers/food/snacks/grown/sugarshape
+	dish_type = DISH_SWEET
 	name = "sugarshape"
 	desc = "A mound of sugar, shaped into a decorative treat. It yearns to be completed beneath an oven's heat, or to be milled back down into sugarpowder."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -296,6 +307,8 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/sugarstatue/tree
 
 /obj/item/reagent_containers/food/snacks/sugarstatue
+	cuisine = CUISINE_ETRUSCAN
+	dish_type = DISH_SWEET
 	name = "sugarglass statue"
 	desc = "A decorative piece of sugarglass, meticulously fashioned to mimic a statue. Deliciously regal!"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'

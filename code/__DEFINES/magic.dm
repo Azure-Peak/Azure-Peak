@@ -68,8 +68,13 @@
 /// Holy magic resistance that blocks unholy magic
 #define MAGIC_RESISTANCE_UNHOLY (1 << 3)
 
+// Antag that is completely blocked from casting miracles or other spells
+#define SPELLMIRACLE_BLOCK_ANTAGS list(/datum/antagonist/dreamwalker)
+
 // MAGIC TRAITS
 #define TRAIT_SPELLBLOCK "spellblock"
+/// Applied after using a non-bloodheal vampire, blocking you from using mages abilities
+#define TRAIT_SPELL_VAMPIRE_BLOCK "spell_vampire_block"
 #define TRAIT_NOC_CURSE "noc_curse"
 #define TRAIT_NOSTAMINA "nostamina"
 #define TRAIT_ATHEISM_CURSE "atheism_curse"

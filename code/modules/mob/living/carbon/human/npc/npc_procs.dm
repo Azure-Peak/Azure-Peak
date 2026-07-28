@@ -370,7 +370,7 @@
 	src.STAPER = 12 //1 less than players
 
 	//Give the body deadite AI - Override the AI too.
-	src.ai_controller = /datum/ai_controller/human_npc //TODO someone kill this for custom AI
+	upgrade_ai_controller(/datum/ai_controller/human_npc) //TODO someone kill this for custom AI
 	src.d_intent = INTENT_DODGE //To simulate that deadites CANNOT parry
 	src.dodgetime = 10
 

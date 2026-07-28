@@ -1,0 +1,10 @@
+author: "FeniaFox"
+delete-after: True
+changes:
+  - balance: "rebalanced many skin armors to use the confessor's manual needle-sewing repair method, instead of passively regenerating. (adv barbarian, adv thespian gladiator, adv monk, maa bailiff, wretch berzerker, inq disciple, inq sojourner)."
+  - balance: "Increased integrity of adv barb, adv thespian gladiator, skin armor 200->250."
+  - balance: "Increased integrity of adv monk (psydonic only) skin armor 225->250."
+  - balance: "Increased integrity of maa bailiff skin armor 250->300."
+  - balance: "Increased integrity of inq confessor arbalist skin armor 100->200, extended time to fully sew-repair 25->30s."
+  - balance: "Buffed integrity repair rate of adv barb muscle armor from 20%->35% per pushup set."
+  - code_imp: "changed skin armor code, particularly regenerating and manual files. Partial framework created for meditation-emote based skin armors, intended for mistwalker & ruma roles."

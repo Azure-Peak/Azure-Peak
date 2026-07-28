@@ -199,6 +199,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/botched_butcher_results
 	var/perfect_butcher_results
+	/// Length of the initial butchery list. Used to check if butchery results have been removed e.g whether or not a corpse is partially butchered or not.
+	var/initial_butcher_count = 0
 	/// Path of head to drop upon butchering. Guaranteed but value scales with butchering skill.
 	var/head_butcher
 	var/list/inherent_spells = list()
@@ -246,6 +248,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	for(var/spell in inherent_spells)
 		var/obj/effect/proc_holder/spell/newspell = new spell()
 		AddSpell(newspell)
+	initial_butcher_count = length(butcher_results)
 
 /mob/living/simple_animal/Destroy()
 	for(var/list/SA_list in GLOB.simple_animals)

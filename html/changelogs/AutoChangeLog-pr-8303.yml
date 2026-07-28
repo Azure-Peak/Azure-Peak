@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Adds missing cuisine / food type tags to a lot of missing food and drinks. Most importantly jamtallowed and marmaladed psycrossbuns are Otavais now."

@@ -179,6 +179,7 @@
 #define TRADE_GOOD_IRON_PROSTHETIC "IRON_PROSTHETIC"
 #define TRADE_GOOD_STEEL_PROSTHETIC "STEEL_PROSTHETIC"
 #define TRADE_GOOD_VOLTIC_GAUNTLETS "VOLTIC_GAUNTLETS"
+#define TRADE_GOOD_STEAM_SHIELD "STEAM_SHIELD"
 #define TRADE_GOOD_ARTIFICED_HALFPLATE "ARTIFICED_HALFPLATE"
 
 // Trapmaking (finished)
@@ -223,7 +224,6 @@
 #define TRADE_GOOD_PERCEPTION_POTION "PERCEPTION_POTION"
 #define TRADE_GOOD_INTELLIGENCE_POTION "INTELLIGENCE_POTION"
 #define TRADE_GOOD_SPEED_POTION "SPEED_POTION"
-#define TRADE_GOOD_TRANSIS_DUST "TRANSIS_DUST"
 
 // ---- Sellprices ----
 // Minerals
@@ -366,7 +366,6 @@
 #define SELLPRICE_ANTIDOTE_POTION 25
 #define SELLPRICE_STRONG_ANTIDOTE_POTION 40
 #define SELLPRICE_BUFF_POTION 60
-#define SELLPRICE_TRANSIS_DUST 60
 
 // Enchantment scrolls. Tier-priced — basic scrolls are a routine commission, greater
 // scrolls represent serious leyline-tier work. Mythics aren't shippable: they're bespoke

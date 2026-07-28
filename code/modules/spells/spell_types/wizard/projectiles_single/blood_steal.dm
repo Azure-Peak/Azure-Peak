@@ -43,7 +43,7 @@
 	light_outer_range = 7
 
 
-/obj/projectile/magic/bloodsteal/on_hit(target)
+/obj/projectile/magic/bloodsteal/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -54,7 +54,7 @@
 			return BULLET_ACT_BLOCK
 		if(out_of_effective_range())
 			return
-		if(ishuman(target))
+		if(ishuman(target) && blocked < 100)
 			var/mob/living/carbon/human/H = target
 			H.blood_volume = max(H.blood_volume-45, 0)
 			H.handle_blood()

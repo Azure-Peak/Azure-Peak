@@ -65,9 +65,10 @@
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout
 	name = "aesthetic fencing breeches"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
 	name = "grenzelhoftian paumpers"
@@ -111,9 +112,10 @@
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout
 	name = "aesthetic grenzelhoftian paumpers"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	name = "cut-throat's pants"
@@ -124,9 +126,10 @@
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
 	name = "aesthetic cut-throat's pants"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	name = "strange ripped pants"
@@ -137,9 +140,10 @@
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout
 	name = "aesthetic strange ripped pants"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun //no, not 'eastpants3', silly!
 	name = "gambeson trousers"
@@ -156,9 +160,10 @@
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
 	name = "aesthetic shadowy silk tights"
-	armor_class = ARMOR_CLASS_NONE
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	name = "custom-fit silk tights"

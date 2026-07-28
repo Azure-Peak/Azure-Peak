@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/advance
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Advance!"
 	desc = "Leap forward up to 4 tiles, passing through enemies, then stab ahead on landing. \
 		At 3+ momentum: consumes 3 to double damage. \

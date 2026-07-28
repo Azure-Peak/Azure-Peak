@@ -85,7 +85,7 @@
 			M.mob_timers[MT_FROST_SHARD] = world.time
 	return ..()
 
-/obj/projectile/magic/frost_shard/on_hit(target)
+/obj/projectile/magic/frost_shard/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -94,7 +94,7 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		if(isliving(target) && !repeat_hit && !out_of_effective_range())
+		if(isliving(target) && !repeat_hit && !out_of_effective_range() && blocked < 100)
 			var/mob/living/L = target
 			if(L.on_fire)
 				L.adjust_fire_stacks(-1)
@@ -131,7 +131,7 @@
 	damage = 23
 	arcshot = TRUE
 
-/obj/projectile/magic/frostbolt/on_hit(target)
+/obj/projectile/magic/frostbolt/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -143,6 +143,8 @@
 		if(isliving(target))
 			var/mob/living/L = target
 			if(out_of_effective_range())
+				return
+			if(blocked >= 100)
 				return
 			if(L.on_fire)
 				L.adjust_fire_stacks(-1)
