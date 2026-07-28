@@ -537,7 +537,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/rotted
 	effectedstats = list(STATKEY_STR = -2, STATKEY_PER = -2, STATKEY_INT = -2, STATKEY_WIL = -2, STATKEY_CON = -2, STATKEY_SPD = -2, STATKEY_LCK = -2)
 	duration = 30 MINUTES	// Back to a temporary 30 minute duration. It hurts.
-	examine_text = "<font color='#2c8b00'>SUBJECTPRONOUN looks frail and unnaturally pale, moving with the hesitant stiffness of one whose body has only recently remembered how to live.</font>"
+	examine_text = "<font color='#2c8b00'>SUBJECTPRONOUN looks frail and deathly pale, bearing the lingering weakness of a body once consumed by rot.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/rotted
 	name = "Atrophia"

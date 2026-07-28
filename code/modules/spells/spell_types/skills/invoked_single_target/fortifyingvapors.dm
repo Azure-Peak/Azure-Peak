@@ -243,7 +243,7 @@
 	REMOVE_TRAIT(owner, TRAIT_MUSES_GRACE, "vapecrack")
 	owner.update_damage_hud()
 
-/mob/living/proc/process_vapor_catalyst(catalyst, is_lethal = FALSE, stinky = FALSE)
+/mob/living/proc/process_vapor_catalyst(catalyst)
 	switch(catalyst)
 		if("Ozium")
 			visible_message(span_notice("A dull, sweet haze settles over [src], leaving [src.p_them()] eerily tranquil."), span_artery("I enter a world of bliss... Maybe too much of it. I'm slowing down everywhere."))
@@ -307,7 +307,7 @@
 				var/datum/component/rot/rot = GetComponent(/datum/component/rot)
 				if(rot && rot.amount && rot.amount >= 5 MINUTES)
 					stinky = TRUE
-				if(remove_rot(target = src, user = src, method = "surgery", success_message = "The rot leaves [src]'s body!", fail_message = "Nothing happens.", lethal = is_lethal))
+				if(remove_rot(target = src, user = src, method = "surgery", success_message = "The rot leaves [src]'s body!", fail_message = "Nothing happens."))
 					visible_message(span_green("The rot visibly sloughs away from [src]'s body."),
 						span_green("I feel the rot leave my body!"))
 					remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
