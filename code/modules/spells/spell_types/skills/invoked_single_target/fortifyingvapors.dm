@@ -295,15 +295,29 @@
 			reagents.clear_reagents()
 
 		if("Honey")
-			visible_message(span_notice("Golden-scented vapors cling gently to [src]'s body."),	span_artery("I feel the vapors caressing my ailments with a potent anti-foulness to it."))
-			if(has_status_effect(/datum/status_effect/debuff/rotted_zombie))
-				if(remove_rot(target = src,	user = src,	method = "surgery",	success_message = "The rot leaves [src]'s body!", fail_message = "Nothing happens.", lethal = is_lethal))
-					visible_message(span_green("The rot visibly sloughs away from [src]'s body."), span_green("I feel the rot leave my body!"))
+			visible_message(span_yellow("Golden-scented vapors cling gently to [src]'s body."), span_artery("I feel the vapors caressing my ailments with a potent anti-foulness to it."))
+			if(stat != DEAD)
+				visible_message(span_warning("--But they don't do anything interesting."), span_warning("But I feel no different..."))
+				return FALSE
+			var/was_zombie = HAS_TRAIT(src, TRAIT_DEADITE)
+			if(has_status_effect(/datum/status_effect/debuff/rotted_zombie) || was_zombie)
+				var/stinky = FALSE
+				if(was_zombie)
+					death() // Fail-safe to ensure the zombie is truly dead.
+				var/datum/component/rot/rot = GetComponent(/datum/component/rot)
+				if(rot && rot.amount && rot.amount >= 5 MINUTES)
+					stinky = TRUE
+				if(remove_rot(target = src, user = src, method = "surgery", success_message = "The rot leaves [src]'s body!", fail_message = "Nothing happens.", lethal = is_lethal))
+					visible_message(span_green("The rot visibly sloughs away from [src]'s body."),
+						span_green("I feel the rot leave my body!"))
 					remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
-					apply_status_effect(/datum/status_effect/debuff/rotted)
+					if(stinky)
+						apply_status_effect(/datum/status_effect/debuff/rotted)
 				else
-					visible_message(span_warning("The honeyed vapors fail to purge any corruption from [src]."), span_warning("I feel no different..."))
+					visible_message(span_warning("The honeyed vapors fail to purge any corruption from [src]."),
+						span_warning("I feel no different..."))
 			else
-				visible_message(span_notice("The sweet vapors drift harmlessly around [src], finding no rot to cleanse."), span_notice("The honeyed vapors find no trace of rot within me."))
+				visible_message(span_notice("The sweet vapors drift harmlessly around [src], finding no rot to cleanse."),
+					span_notice("The honeyed vapors find no trace of rot within me."))
 
 #undef VAPORS_HEALING_FILTER
