@@ -492,15 +492,85 @@
 
 /obj/structure/mineral_door/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_FAST)
-	var/obj/item = user.get_active_held_item()
-	if(istype(item, /obj/item/roguekey) || istype(item, /obj/item/storage/keyring))
-		if(locked)
-			to_chat(user, span_warning("The lock won't turn this way. Try turning to the left."))
-			door_rattle()
-			return
-		trykeylock(item, user)
-	else
+
+	// Special handling for deadbolt and shutter doors - preserve their custom behavior
+	if(istype(src, /obj/structure/mineral_door/wood/deadbolt) || istype(src, /obj/structure/mineral_door/wood/deadbolt/shutter))
 		return ..()
+
+	// Check if user has a key in hand or belt slots
+	var/obj/item/key_item = find_key_for_door(user)
+	if(key_item)
+		trykeylock(key_item, user)
+		return
+
+	// If no key found, fall back to parent behavior
+	return ..()
+
+/// Returns TRUE for a key that opens this door (matching hash or a master key).
+/obj/structure/mineral_door/proc/key_matches(obj/item/roguekey/K)
+	return K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)
+
+// Helper proc to find a matching key or keyring in hand or belt slots
+/obj/structure/mineral_door/proc/find_key_for_door(mob/user)
+	if(!user || !keylock)
+		return null
+
+	// Check hand first
+	var/obj/item/W = user.get_active_held_item()
+	if(W)
+		if(istype(W, /obj/item/roguekey))
+			if(key_matches(W))
+				return W
+		if(istype(W, /obj/item/storage/keyring))
+			if(keyring_has_matching_key(W))
+				return W
+
+	// Check belt slots if human
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/list/belt_slots = list(
+			H.get_item_by_slot(SLOT_BELT),
+			H.get_item_by_slot(SLOT_BELT_L),
+			H.get_item_by_slot(SLOT_BELT_R)
+		)
+
+		for(var/obj/item/I in belt_slots)
+			if(!I)
+				continue
+
+			// Check if the belt item itself is a key or keyring
+			if(istype(I, /obj/item/roguekey))
+				if(key_matches(I))
+					return I
+			if(istype(I, /obj/item/storage/keyring))
+				if(keyring_has_matching_key(I))
+					return I
+
+			// Check inside the belt item if it has contents (storage belts, etc.)
+			for(var/obj/item/contained_item in I.contents)
+				if(istype(contained_item, /obj/item/roguekey))
+					if(key_matches(contained_item))
+						return I // Return the belt item that contains the key
+				if(istype(contained_item, /obj/item/storage/keyring))
+					if(keyring_has_matching_key(contained_item))
+						return I // Return the belt item that contains the keyring
+
+	return null
+
+// Helper proc to check if a keyring contains a matching key
+/obj/structure/mineral_door/proc/keyring_has_matching_key(obj/item/storage/keyring/keyring)
+	if(!istype(keyring, /obj/item/storage/keyring))
+		return FALSE
+
+	for(var/obj/item/I in keyring.contents)
+		if(istype(I, /obj/item/roguekey))
+			if(key_matches(I))
+				return TRUE
+		if(istype(I, /obj/item/storage/keyring))
+			if(keyring_has_matching_key(I))
+				return TRUE
+
+	return FALSE
 
 /obj/structure/mineral_door/proc/trykeylock(obj/item/I, mob/user, autobump = FALSE)
 	if(door_opened || isSwitchingStates)
@@ -510,6 +580,26 @@
 	if(lockbroken)
 		to_chat(user, span_warning("The lock to this door is broken."))
 	user.changeNext_move(CLICK_CD_INTENTCAP)
+
+	// Handle belt items that contain keys (storage belts etc.) — recurse with the actual key
+	if(!istype(I, /obj/item/roguekey) && !istype(I, /obj/item/storage/keyring))
+		var/obj/item/found_key = null
+		for(var/obj/item/contained_item in I.contents)
+			if(istype(contained_item, /obj/item/roguekey))
+				if(key_matches(contained_item))
+					found_key = contained_item
+					break
+			if(istype(contained_item, /obj/item/storage/keyring))
+				if(keyring_has_matching_key(contained_item))
+					found_key = contained_item
+					break
+		if(found_key)
+			trykeylock(found_key, user, autobump)
+		else
+			to_chat(user, span_warning("No matching key found in [I]."))
+			door_rattle()
+		return
+
 	if(istype(I,/obj/item/storage/keyring))
 		var/obj/item/storage/keyring/R = I
 		if(!R.contents.len)
@@ -519,7 +609,7 @@
 			if(user.cmode)
 				if(!do_after(user, 10, TRUE, src))
 					break
-			if(K.lockhash == lockhash)
+			if(key_matches(K))
 				lock_toggle(user)
 				if(autobump && !locked)
 					src.Open()
