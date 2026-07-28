@@ -128,6 +128,7 @@ type KeybindCategory = {
 
 type Data = {
   pq: string;
+  pq_color: string | null;
   triumphs: number;
   triumph_buys_enabled: BooleanLike;
   age_verified: BooleanLike;
@@ -1322,7 +1323,10 @@ export const CharacterSheet = (props) => {
                     act('link', { preference: 'playerquality', task: 'menu' })
                   }
                 >
-                  PQ: {data.pq}
+                  PQ:{' '}
+                  <Box as="span" style={{ color: data.pq_color || undefined }}>
+                    {data.pq}
+                  </Box>
                 </Button>
                 <Button
                   color="transparent"

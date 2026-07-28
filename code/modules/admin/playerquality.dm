@@ -15,30 +15,34 @@
 		the_pq = 0
 	if(!text)
 		return the_pq
-	else
-		if(the_pq >= 100)
-			return "<span style='color: #74cde0;'>TRUE VALMORIAN</span>"
-		if(the_pq >= 70)
-			return "<span style='color: #00ff00;'>Magnificent!</span>"
-		if(the_pq >= 50)
-			return "<span style='color: #00ff00;'>Exceptional!</span>"
-		if(the_pq >= 30)
-			return "<span style='color: #47b899;'>Great!</span>"
-		if(the_pq >= 10)
-			return "<span style='color: #69c975;'>Good!</span>"
-		if(the_pq >= 5)
-			return "<span style='color: #58a762;'>Nice</span>"
-		if(the_pq >= -4)
-			return "Normal"
-		if(the_pq >= -30)
-			return "<span style='color: #be6941;'>Poor</span>"
-		if(the_pq >= -70)
-			return "<span style='color: #cd4232;'>Terrible</span>"
-		if(the_pq >= -99)
-			return "<span style='color: #e2221d;'>Abysmal</span>"
-		if(the_pq <= -100)
-			return "<span style='color: #ff00ff;'>Shitter</span>"
-		return "Normal"
+	var/list/display = get_playerquality_display(the_pq)
+	if(!display["color"])
+		return display["label"]
+	return "<span style='color: [display["color"]];'>[display["label"]]</span>"
+
+/// Returns list("label" = tier name, "color" = hex color or null) for a numeric PQ value.
+/proc/get_playerquality_display(the_pq)
+	if(the_pq >= 100)
+		return list("label" = "TRUE VALMORIAN", "color" = "#74cde0")
+	if(the_pq >= 70)
+		return list("label" = "Magnificent!", "color" = "#00ff00")
+	if(the_pq >= 50)
+		return list("label" = "Exceptional!", "color" = "#00ff00")
+	if(the_pq >= 30)
+		return list("label" = "Great!", "color" = "#47b899")
+	if(the_pq >= 10)
+		return list("label" = "Good!", "color" = "#69c975")
+	if(the_pq >= 5)
+		return list("label" = "Nice", "color" = "#58a762")
+	if(the_pq >= -4)
+		return list("label" = "Normal", "color" = null)
+	if(the_pq >= -30)
+		return list("label" = "Poor", "color" = "#be6941")
+	if(the_pq >= -70)
+		return list("label" = "Terrible", "color" = "#cd4232")
+	if(the_pq >= -99)
+		return list("label" = "Abysmal", "color" = "#e2221d")
+	return list("label" = "Shitter", "color" = "#ff00ff")
 
 /proc/adjust_playerquality(amt, key, admin, reason)
 	var/curpq = 0
@@ -157,8 +161,10 @@
 /datum/pq_menu/ui_data(mob/user)
 	var/list/data = list()
 	data["ckey"] = target_ckey
-	data["pq_text"] = get_playerquality(target_ckey, TRUE)
 	data["pq_num"] = get_playerquality(target_ckey)
+	var/list/pq_display = get_playerquality_display(data["pq_num"])
+	data["pq_text"] = pq_display["label"]
+	data["pq_color"] = pq_display["color"]
 	data["commends"] = get_commends(target_ckey)
 	data["roundpoints"] = get_roundpoints(target_ckey)
 	data["roundsplayed"] = get_roundsplayed(target_ckey)

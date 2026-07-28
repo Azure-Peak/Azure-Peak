@@ -72,7 +72,9 @@
 	var/list/data = list()
 
 	// Header badges
-	data["pq"] = get_playerquality(user.ckey, text = TRUE)
+	var/list/pq_display = get_playerquality_display(get_playerquality(user.ckey))
+	data["pq"] = pq_display["label"]
+	data["pq_color"] = pq_display["color"]
 	data["triumphs"] = user.get_triumphs()
 	data["triumph_buys_enabled"] = SStriumphs.triumph_buys_enabled
 	data["age_verified"] = user.check_agevet()

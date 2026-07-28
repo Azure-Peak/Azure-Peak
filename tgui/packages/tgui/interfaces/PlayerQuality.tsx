@@ -17,6 +17,7 @@ type CurseRow = {
 type Data = {
   ckey: string;
   pq_text: string;
+  pq_color: string | null;
   pq_num: number;
   commends: number;
   roundpoints: number;
@@ -35,9 +36,11 @@ export function PlayerQuality(props) {
         <Section textAlign="center">
           <Box bold>{data.ckey}</Box>
           <Box>
-            PQ: {/* PQ rating text is server-authored colored HTML */}
-            <span dangerouslySetInnerHTML={{ __html: data.pq_text }} /> (
-            {data.pq_num})
+            PQ:{' '}
+            <Box as="span" style={{ color: data.pq_color || undefined }}>
+              {data.pq_text}
+            </Box>{' '}
+            ({data.pq_num})
           </Box>
         </Section>
         <Section>
