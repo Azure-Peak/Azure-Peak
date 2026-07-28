@@ -147,7 +147,7 @@
 			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 		if("Sylveric Trident")
-			r_hand = /obj/item/rogueweapon/spear/dreamscape_trident
+			r_hand = /obj/item/rogueweapon/spear/trident/dreamscape_trident
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if(H.mind)

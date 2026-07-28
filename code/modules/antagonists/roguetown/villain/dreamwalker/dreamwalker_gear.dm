@@ -131,7 +131,7 @@
 /obj/item/rogueweapon/greatsword/bsword/dreamscape/active/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
-/obj/item/rogueweapon/spear/dreamscape_trident
+/obj/item/rogueweapon/spear/trident/dreamscape_trident
 	name = "otherworldly trident"
 	desc = "A strange trident. It feels like it shouldn't be an effective weapon, but the dull metal whispers tales of its power to you."
 	icon_state = "dreamtri"
@@ -141,17 +141,17 @@
 	wdefense = 4
 	throwforce = 40
 	force = 30
-	force_wielded = 20
+	force_wielded = 25
 	item_flags = DREAM_ITEM
 	var/shockwave_cooldown = 0
 	var/shockwave_cooldown_interval = 1 MINUTES
 	var/shockwave_divisor = 3
 	var/shockwave_damage = FALSE
 
-/obj/item/rogueweapon/spear/dreamscape_trident/get_examine_highlight_status()
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_DREAM_ITEM)
 
-/obj/item/rogueweapon/spear/dreamscape_trident/active
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/active
 	name = "Iridescent trident"
 	desc = "A strange trident glimmering with an oily hue. The air shimmers around it."
 	icon_state = "dreamtriactive"
@@ -164,7 +164,7 @@
 	shockwave_divisor = 2
 	shockwave_damage = TRUE
 
-/obj/item/rogueweapon/spear/dreamscape_trident/active/get_examine_highlight_status()
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/active/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 // Update weapon initializations with specific effects
@@ -180,7 +180,7 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, "poison", 20 SECONDS)
 
-/obj/item/rogueweapon/spear/dreamscape_trident/active/Initialize()
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/active/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 

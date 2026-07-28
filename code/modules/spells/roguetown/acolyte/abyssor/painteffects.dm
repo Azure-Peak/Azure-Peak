@@ -11,7 +11,7 @@
 	name = "paint trail"
 	desc = "A strange, shimmering paint staining the ground."
 	icon = 'icons/mob/actions/abyssormiracles.dmi'
-	icon_state = "paint"
+	icon_state = "paint_color"
 	alpha = 255
 	anchored = TRUE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
@@ -196,7 +196,7 @@
 	duration = -1
 	tick_interval = 1 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/buff/umbral_recovery
-	
+
 	var/stacks = 1
 	var/next_decay_time = 0
 	var/image/ink_overlay_mesh
@@ -205,7 +205,7 @@
 	. = ..()
 	if(ishuman(owner))
 		update_ink_visuals()
-	
+
 	RegisterSignal(owner, COMSIG_MOB_APPLY_DAMGE, .proc/on_wearer_damaged)
 	next_decay_time = world.time + INK_STACK_LIFETIME
 
