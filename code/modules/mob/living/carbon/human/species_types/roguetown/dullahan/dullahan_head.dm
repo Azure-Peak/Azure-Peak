@@ -3,15 +3,28 @@
 	var/list/head_items = list()
 
 // Support dropping yourself on a detached head. Check sexcon_helpers for original code with docs.
-/obj/item/bodypart/head/dullahan/MiddleMouseDrop_T(atom/movable/dragged, mob/living/user)
-	var/mob/living/carbon/human/target = src.original_owner
-	if(user.mmb_intent)
-		return ..()
-	// Maybe call target.MiddleMouseDrop_T() instead, may have side effects and so opted not to.
+// This lives on both the left and middle drag: middle-drag alone was unreliable, because any player
+// with an MMB intent selected (bite, kick, jump - a persistent toggle) fell through to ..() instead.
+/obj/item/bodypart/head/dullahan/MouseDrop_T(atom/movable/dragged, mob/living/user)
+	. = ..()
+	try_head_sex_menu(dragged, user)
 
+/obj/item/bodypart/head/dullahan/MiddleMouseDrop_T(atom/movable/dragged, mob/living/user)
+	if(user.mmb_intent)
+		return ..() // Let the selected MMB intent have it; the left-drag route still works.
+	// Maybe call target.MiddleMouseDrop_T() instead, may have side effects and so opted not to.
+	try_head_sex_menu(dragged, user)
+
+/obj/item/bodypart/head/dullahan/proc/try_head_sex_menu(atom/movable/dragged, mob/living/user)
+	var/mob/living/carbon/human/target = src.original_owner
 	if(!istype(dragged))
 		return
 	if(dragged != user)
+		return
+	if(!target) // A head with no owner on record has nobody to open a session against.
+		return
+	if(target.stat == DEAD || !target.mind)
+		to_chat(user, span_warning("[src] is lifeless. There is nobody home."))
 		return
 	if(!user.can_do_sex())
 		to_chat(user, "<span class='warning'>I can't do this.</span>")

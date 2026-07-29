@@ -183,16 +183,24 @@
 		return FALSE
 	if(user.stat != CONSCIOUS)
 		return FALSE
-	if(!user.Adjacent(target) && !action.ranged_action)
+	// A dullahan whose head is in your hands is reachable even though their body isn't. The head
+	// then stands in for the body's position, so the proximity and grab gates below are measured
+	// against the head instead - the body could be a floor away and it wouldn't matter.
+	// Only relevant when the body itself is out of reach - if you can touch them normally, nothing
+	// here applies and the head is just a head.
+	var/obj/item/bodypart/head/detached_head = user.Adjacent(target) ? null : reachable_detached_dullahan_head(target, user)
+	if(detached_head && !action.works_on_detached_head)
+		return FALSE // Everything but their mouth is somewhere else.
+	if(!user.Adjacent(target) && !action.ranged_action && !detached_head)
 		return FALSE
 	if(action.check_incapacitated && user.incapacitated())
 		return FALSE
-	if(action.check_same_tile)
+	if(action.check_same_tile && !detached_head)
 		var/same_tile = (get_turf(user) == get_turf(target))
 		var/grab_bypass = (action.aggro_grab_instead_same_tile && user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
 		if(!same_tile && !grab_bypass)
 			return FALSE
-	if(action.require_grab)
+	if(action.require_grab && !detached_head)
 		var/grabstate = user.get_highest_grab_state_on(target)
 		if(grabstate == null || grabstate < action.required_grab_state)
 			return FALSE

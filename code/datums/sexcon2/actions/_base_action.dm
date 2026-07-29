@@ -58,6 +58,11 @@
 	var/masturbation = FALSE
 	///Whenever or not you need to be adjacent to someone to use it
 	var/ranged_action = FALSE
+	/// Whether this action still makes sense against a dullahan's severed head, with the rest of
+	/// them somewhere else. Default deny: only the mouth is present, so anything involving the body
+	/// must stay unavailable. Opt in per action rather than trying to infer it from body zones -
+	/// a handful of actions never call check_location_accessible() and would otherwise slip past.
+	var/works_on_detached_head = FALSE
 	///Whenever it should be actually displayed on the panel or not
 	var/debug_erp_panel_verb = TRUE
 
@@ -99,11 +104,26 @@
 	if(target == user)
 		self_target = TRUE
 
+	// Reaching someone only by their severed head. A headless dullahan has no head bodypart on the
+	// mob, so head-aimed actions found nothing and bailed; substitute the head and let it stand in
+	// for the body's position, since the body is elsewhere and would fail every gate below.
+	// Every other zone is genuinely not present, so refuse it outright.
+	var/via_detached_head = FALSE
+	if(!user.Adjacent(target) && reachable_detached_dullahan_head(target, user))
+		if(check_zone(location) != BODY_ZONE_HEAD)
+			return FALSE
+		if(!bodypart)
+			bodypart = reachable_detached_dullahan_head(target, user)
+		via_detached_head = TRUE
+
 	if(!bodypart)
 		return FALSE
 
 	if(user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
 		return TRUE //Battlefuck buff
+
+	if(via_detached_head)
+		return get_location_accessible(target, location = location, grabs = grabs, skipundies = skipundies)
 
 	if(src.check_same_tile && (user != target || self_target))
 		var/same_tile = (get_turf(user) == get_turf(target))
