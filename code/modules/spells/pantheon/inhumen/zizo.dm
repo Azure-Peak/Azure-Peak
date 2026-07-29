@@ -422,12 +422,12 @@
 
 /datum/stressevent/zizospite
 	timer = 3 MINUTES
-	stressadd = 5 //technically 10, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one can't chain + is slightly weaker in exchange for (1) forced freakout + hallucinations.
+	stressadd = 8 //technically 16, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one can't chain + is slightly weaker in exchange for (1) forced freakout + hallucinations.
 	desc = span_boldred("I FEEL A HORRIBLE CHILL DOWN MY SPINE! MY MYND IS FILLED WITH HORRIFYING VISIONS.")
 
 /datum/stressevent/zizospitelesser
 	timer = 2 MINUTES
-	stressadd = 4 //technically 8, as it doubles from TRAIT_BAD_MOOD.
+	stressadd = 6 //technically 12, as it doubles from TRAIT_BAD_MOOD.
 	desc = span_boldred("I feel Zizo's spite and anger gaze upon me briefly.")
 
 #define ZIZOSPITE_FILTER "zizospite"
