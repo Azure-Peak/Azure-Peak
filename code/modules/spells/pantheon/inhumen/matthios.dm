@@ -60,7 +60,7 @@
 			m_devotion = 10,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Gilded Tools",
-			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Matthios, shatter my locks!")
+			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Shatter my locks!")
 		),
 		//rip the bag of bribery, say hello to pouch of smuggling
 		"Pouch of Smuggling" = list(
@@ -69,7 +69,7 @@
 			m_devotion = 100,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Rogue Arts",
-			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
+			lines = list("#Let me begin your work!", "#Protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Ordain me your blessed storage!")
 		),
 		//like a pouch of smuggling, but smugglier
 		"Bag of Smuggling" = list(
@@ -78,7 +78,7 @@
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Rogue Arts",
-			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
+			lines = list("#Let me begin your work!", "#Protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Ordain me your blessed storage!")
 		),
 		//makes failed lockpicking attempts muffled
 		"Gilded Dexterous Gloves" = list(
@@ -105,7 +105,7 @@
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Gilded Tools",
-			lines = list("#Guide my sight, O' Matthios.","#Through pins and wards, thy Free eyes see.","#No door shall be between me and truth.")
+			lines = list("#Guide my sight, O' Lord.","#Through pins and wards, thy Free eyes see.","#No door shall be between me and truth.")
 		),
 		//normal chains that bind nobility faster
 		"Gilded Chains" = list(
@@ -114,7 +114,7 @@
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Gilded Tools",
-			lines = list("Matthios! Chains for the tyrants!", "Matthios! Transact me thy chains!", "Lord of Freedom, chains for the unworthy!")
+			lines = list("Chains for the tyrants!", "Transact me thy chains!", "Lord of Freedom, chains for the unworthy!")
 		),
 		//enables thieves' cant when worn on neck
 		"Gilded Amulet of Matthios" = list(
@@ -123,7 +123,7 @@
 			m_devotion = 50,
 			m_rank = SKILL_LEVEL_NONE,
 			category = "Gilded Tools",
-			lines = list("#Matthios, let thine will be done.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
+			lines = list("#Let thine will be done.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
 		),
 		//miralchemy mode on
 		"Vial of Firstlaw" = list(
@@ -132,7 +132,7 @@
 			m_devotion = 75,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
-			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//turns 10 organic items into 1 rich food of choice (that will often be burned mess or bread if you're not starving to death)
 		"Vial of Kingsfeast Base" = list(
@@ -141,7 +141,7 @@
 			m_devotion = 25,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
-			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//basically turns water or fruits into wine, if used with blood or lux instead, becomes Kingsblood
 		"Vial of Kingswine Base" = list(
@@ -150,7 +150,7 @@
 			m_devotion = 25,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
-			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//makes you honk shoo mimimi, while restoring energy over time
 		"Vial of Goodnite Base" = list(
@@ -159,7 +159,7 @@
 			m_devotion = 50,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Malchem Vials",
-			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//a 4 use vial of mending
 		"Vial of Warsmith Base" = list(
@@ -168,7 +168,7 @@
 			m_devotion = 50,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Malchem Vials",
-			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		// a spicy, explosive, very, very difficult-to-make revive vial, uses all herbs in the world and 1 of any lux type
 		"Vial of Lyfestruth Base" = list(
@@ -177,7 +177,7 @@
 			m_devotion = 100,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Malchem Vials",
-			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 	)
 
@@ -369,7 +369,7 @@
 		"Wealth be spent, and power be gained!",
 		"My hoard bleeds for strength, in His name!",
 		"A king's ransom for a single blow!",
-		"Grant the weight of mine greed, Matthios!",
+		"Grant me the weight of mine greed!",
 	)
 
 	H.say(pick(invocations), forced = invocation_type)
@@ -905,7 +905,7 @@
 								SStreasury.burn(SStreasury.get_account(victim), from_bank, "Wealth usurped by Ma??t?hi??os?")
 								stolen += from_bank
 						if(stolen > 0)
-							grant_matthios_mammon(caster, stolen, "Wealth usurped from [victim.real_name] by Matthios.")
+							grant_matthios_mammon(caster, stolen, "Wealth \"provided\" from [victim.real_name] by Matthios.")
 							to_chat(caster, span_greentext("The Free God provides [stolen] mammon!"))
 							to_chat(victim, span_warning("A portion of my wealth has been usurped by the Free God!"))
 	else if(isatom(target))

@@ -13,7 +13,7 @@
 					/datum/action/cooldown/spell/matthios/transact				= CLERIC_T2,
 					/datum/action/cooldown/spell/matthios/barter				= CLERIC_T2,
 					/datum/action/cooldown/spell/matthios/equalize				= CLERIC_T3,
-					/datum/action/cooldown/spell/projectile/stolen_flame	= CLERIC_T3,
+					/datum/action/cooldown/spell/projectile/stolen_flame		= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/matthios	= CLERIC_T3,
 					/datum/action/cooldown/spell/matthios/churn					= CLERIC_T4
 	)
