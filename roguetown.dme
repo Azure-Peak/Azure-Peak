@@ -2526,6 +2526,9 @@
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\orc.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\tiefling.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\werewolf.dm"
+#include "code\modules\mob\living\carbon\human\species_types\taur\drider.dm"
+#include "code\modules\mob\living\carbon\human\species_types\taur\lamia.dm"
+#include "code\modules\mob\living\carbon\human\species_types\taur\taur.dm"
 #include "code\modules\mob\living\carbon\human\species_types\wildshape\cabbit.dm"
 #include "code\modules\mob\living\carbon\human\species_types\wildshape\cat.dm"
 #include "code\modules\mob\living\carbon\human\species_types\wildshape\dendormole.dm"
@@ -3691,5 +3694,6 @@
 #include "modular\piercing\piercing.dm"
 #include "modular\piercing\piercings.dm"
 #include "modular\piercing\supply.dm"
+#include "modular\taur_abilities\code\taur_abilities.dm"
 #include "modular\ze_genesis_call\genesis_call.dm"
 // END_INCLUDE

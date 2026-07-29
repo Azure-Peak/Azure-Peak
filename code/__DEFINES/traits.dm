@@ -3,6 +3,7 @@
 
 // ROGUETRAITS (description when rmb skills button)
 #define TRAIT_WEBWALK "Webwalker"
+#define TRAIT_VENOMOUS "Venomous"
 #define TRAIT_NOSTINK "Dead Nose"
 #define TRAIT_ZJUMP "High Jumping"
 #define TRAIT_JESTERPHOBIA "Jesterphobic"
@@ -364,6 +365,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CLERGY = span_info("I serve the Church of the Ten in Valmoria. From a passing glance, I can recognize all other clergy of this Church."),
 	TRAIT_CHOSEN = "Astrata choose you to represent her glory.",
 	TRAIT_WEBWALK = "I can move freely between webs.",
+	TRAIT_VENOMOUS = span_necrosis("Venom flows through my fangs. Chewing upon my prey enfeebles them."),
 	TRAIT_NOSTINK = span_dead("My nose is numb to the smell of decay."),
 	TRAIT_ZJUMP = "Time to reach a new high.",
 	TRAIT_JESTERPHOBIA = span_warning("I have a severe irrational fear of Jesters"),

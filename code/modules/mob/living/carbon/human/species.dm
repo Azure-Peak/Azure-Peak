@@ -139,6 +139,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	var/list/allowed_taur_types = list()
 
+	/// If set, this species always has a taur lower body and cannot choose "None" in setup.
+	/// Used as the fallback whenever a saved taur_type is missing or invalid. See /datum/species/lamia.
+	var/mandatory_taur_type
+
 	/// List of descriptor choices this species gets in preferences customization
 	var/list/descriptor_choices = list(
 		/datum/descriptor_choice/trait,

@@ -1922,7 +1922,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, span_bad("There are no available taur bodies for this species."))
 						return
 
-					var/list/taur_selection = list("None")
+					// A species built around its taur body has no legged form to fall back to.
+					var/list/taur_selection = pref_species.mandatory_taur_type ? list() : list("None")
 					for(var/obj/item/bodypart/taur/tt as anything in pref_species.get_taur_list())
 						taur_selection[tt::name] = tt
 
@@ -3276,8 +3277,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			for(var/X in L)
 				ADD_TRAIT(character, curse2trait(X), TRAIT_GENERIC)
 
-	if(taur_type)
-		character.Taurize(taur_type, "#[taur_color]")
+	var/applied_taur_type = taur_type || pref_species.mandatory_taur_type
+	if(applied_taur_type)
+		character.Taurize(applied_taur_type, "#[taur_color]")
 	else if(character_setup)
 		// This should only ever ~do~ anything for previews
 		character.ensure_not_taur()
