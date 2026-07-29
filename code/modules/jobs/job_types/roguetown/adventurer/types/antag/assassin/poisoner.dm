@@ -2,7 +2,7 @@
 	name = "Assassin - Poisoner"
 	tutorial = "You've known you way around poisons, natural or man-made, for most of your life. From brewing antidotes, to creating lethal mixes. You blend in well in even noble courts as a medicine man, hiding your true inentions.."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/assassin/poisoner
 	category_tags = list(CTAG_ASSASSIN)
 	traits_applied = list(TRAIT_NOSTINK, TRAIT_ALCHEMY_EXPERT, TRAIT_UNCONVERTIBLE)	// Stinky Man - You get tossed a bone around rotting corpses. Plays into the poison and stuff.
@@ -64,7 +64,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 
 	if(!istype(H.patron, /datum/patron/inhumen/graggar))
-		var/inputty = input(H, "Would you like to change your patron to Graggar?", "The beast roars", "No") as anything in list("Yes", "No")
+		var/inputty = input(H, "Would you like to change your patron to Graggar?", "THE BEAST ROARS", "No") as anything in list("Yes", "No")
 		if(inputty == "Yes")
 			to_chat(H, span_warning("My former deity has abandoned me.. Graggar is my new master."))
 			H.set_patron(/datum/patron/inhumen/graggar)
