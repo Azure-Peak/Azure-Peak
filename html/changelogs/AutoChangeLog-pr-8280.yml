@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Redid Towner Quests again, this time there's variations you can pick for different ore veins / caravan types. Removed the Easy difficulty, rebalanced to just medium. Made the two options mostly equal."
+  - rscadd: "Redid Blockade Balance, now they no longer multiplies massively by region. They now have 180 TP per wave and should have some varieties in composition. They scales by 20% per additional person in sight spotted - up to 5. So if you bring 5, rewards and amount of enemies fought should scale slightly."
+  - rscadd: "Cleaned up an issue where quest on spawn had a legacy function that blanketly applied quest faction to every mobs nearby, including toward Conjured Summons, making them completely useless in blockade fight."

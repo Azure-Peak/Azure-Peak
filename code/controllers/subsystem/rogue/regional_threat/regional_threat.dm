@@ -3,12 +3,6 @@ SUBSYSTEM_DEF(regionthreat)
 	wait = 30 MINUTES
 	flags = SS_KEEP_TIMING | SS_BACKGROUND
 	runlevels = RUNLEVEL_GAME
-	// SS fires every 30 minutes = 6 ticks per 3-hour round.
-	// Highpop tick = THREAT_HIGHPOP_TICK_RATE (20%) of max_ambush. Each tick is a maintenance fight's worth of threat.
-	// Lowpop tick = THREAT_LOWPOP_TICK_RATE (10%) of max_ambush.
-	// Basin & Grove & Terrorbog are fully tameable (min 0). Coast & Decap stay dangerous (min > 0).
-	// Budget = player_factor * pool * 3%. Solo combat budgets shown at max pool.
-	// Additive group drain: 5-man party drains at 3x/player_factor efficiency (0.5x per extra player).s
 	var/list/threat_regions = list(
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_BASIN,
@@ -92,7 +86,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.2,
 			_delivery_reward_multiplier = 1.8,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
-			_kill_target_floor = 3
+			_kill_target_floor = 3,
+			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_COAST
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP,
@@ -114,7 +109,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
-			_kill_target_floor = 3
+			_kill_target_floor = 3,
+			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		),
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
 		new /datum/threat_region(
@@ -136,7 +132,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.2,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
-			_kill_target_floor = 3
+			_kill_target_floor = 3,
+			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		)
 	)
 
@@ -157,10 +154,6 @@ SUBSYSTEM_DEF(regionthreat)
 			return TR
 	return null
 
-/// Weighted pick of a region that allows the given quest type, weighted by fill ratio
-/// (latent_ambush / max_ambush). Regions with more relative threat are picked more often, so
-/// as adventurers clear a region its quest share naturally drops. Returns null if no region
-/// allows the type.
 /datum/controller/subsystem/regionthreat/proc/pick_region_for_quest(quest_type)
 	var/list/weights = list()
 	for(var/T in threat_regions)
