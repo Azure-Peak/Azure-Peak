@@ -1,8 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "Werewolf skin split into two layers, one covering just chest, the other covering the rest except chest."
-  - bugfix: "Terrifying howl (repel howl) re-enabled for werewolf."
-  - balance: "Werewolf terrifying howl cooldown reduced from 6 minutes to the original 2 minutes."
-  - balance: "Core werewolf armor integrity increased from 550 to 750."
-  - balance: "Werewolf armor repair time increased from 15 to 20 seconds."

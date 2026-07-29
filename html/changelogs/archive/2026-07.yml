@@ -1459,3 +1459,55 @@
   - rscdel: Removed Tomb of Alotheos and all supporting code for it.
   eirenxiv:
   - bugfix: fixed female details on the coat of the commander
+2026-07-29:
+  FeniaFox:
+  - balance: rebalanced many skin armors to use the confessor's manual needle-sewing
+      repair method, instead of passively regenerating. (adv barbarian, adv thespian
+      gladiator, adv monk, maa bailiff, wretch berzerker, inq disciple, inq sojourner).
+  - balance: Increased integrity of adv barb, adv thespian gladiator, skin armor 200->250.
+  - balance: Increased integrity of adv monk (psydonic only) skin armor 225->250.
+  - balance: Increased integrity of maa bailiff skin armor 250->300.
+  - balance: Increased integrity of inq confessor arbalist skin armor 100->200, extended
+      time to fully sew-repair 25->30s.
+  - balance: Buffed integrity repair rate of adv barb muscle armor from 20%->35% per
+      pushup set.
+  - code_imp: changed skin armor code, particularly regenerating and manual files.
+      Partial framework created for meditation-emote based skin armors, intended for
+      mistwalker & ruma roles.
+  FreeStylaLT:
+  - bugfix: Fixed regional donator loadout items not working correctly (again).
+  - qol: Leather Vest, Striped Tunic and Corset are now 2x2 in size, allowing them
+      to be stored in aesthetic storage. (Alt+RMB on outerwear / helmet)
+  - rscadd: Added Trophy Furs & Hatanga Coat to the regional donator loadout.
+  - rscadd: Added fancy gold belt to triumph loadout.
+  Ketrai:
+  - balance: Werewolf skin split into two layers, one covering just chest, the other
+      covering the rest except chest.
+  - bugfix: Terrifying howl (repel howl) re-enabled for werewolf.
+  - balance: Werewolf terrifying howl cooldown reduced from 6 minutes to the original
+      2 minutes.
+  - balance: Core werewolf armor integrity increased from 550 to 750.
+  - balance: Werewolf armor repair time increased from 15 to 20 seconds.
+  WeNeedMorePhoron:
+  - bugfix: You can no longer make yourself uninterruptable from climbing by climbing
+      multiple time
+  - rscadd: Cantor get instrument choice regardless of inspiration / devotion choice
+  - rscdel: Remove transis dust from alchemical demand and navigator goal
+  - rscadd: Adds missing cuisine / food type tags to a lot of missing food and drinks.
+      Most importantly jamtallowed and marmaladed psycrossbuns are Otavais now.
+  mumblemancer:
+  - qol: '"togglefullscreen" verb is now "Toggle Fullscreen" for easier searching
+      & command bar usage'
+  radarseas:
+  - rscadd: Added new lich skeleton cleric class, "Sectarian". It has 3 slots and
+      is a mixed lesser-mage/missionary-esc weaker cleric hybrid, designed to heal
+      and support other skeletons.
+  - rscadd: Added a new heretical examine for obvious zizite clothing, currently used
+      for Sectarian attire.
+  - rscadd: Adjusted style for lich skeleton sappers
+  - balance: lich/necromancy/unholy robes are marked as suspicious designs of Zizo.
+      These are only suspicious to give you more RP leeway vs fragging gear like plate
+      armor you have to go out of your own way to get.
+  - balance: lich ballistarries gets a mid-level pouch of ancient coin. Not... anyone
+      would accept that as coinage, right?
+  - bugfix: padded undervestments no longer make plate armor noises.
