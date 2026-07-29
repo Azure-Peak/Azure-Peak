@@ -5,8 +5,8 @@
 	flag = GUILDSMAN
 	department_flag = BURGHERS
 	faction = "Station"
-	total_positions = 6
-	spawn_positions = 6
+	total_positions = 8
+	spawn_positions = 8
 	advclass_cat_rolls = list(CTAG_GUILDSMEN = 20)
 
 	forbidden_races = list(RACES_DESPISED)
