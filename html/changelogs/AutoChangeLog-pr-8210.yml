@@ -1,0 +1,7 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "bugs with Tug of War, Provocation, Judgement."
+  - rscadd: "Trial of Glory/Wits under Provocation."
+  - balance: "Tug of War is now a projectile that gives 2s off-bal + 1s stun to the pulled and tugs them back (ofc)."
+  - balance: "Ravox miracles like Challenge need combat mode."

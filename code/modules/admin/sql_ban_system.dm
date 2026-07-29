@@ -464,7 +464,7 @@
 	for(var/client/C in clients_online)
 		if(C.holder) //deadmins aren't included since they wouldn't show up on adminwho
 			admins_online += C
-	var/who = clients_online.Join(", ")
+	var/who = copytext(clients_online.Join(", "), 1, 2049)
 	var/adminwho = admins_online.Join(", ")
 	var/kn = key_name(usr)
 	var/kna = key_name_admin(usr)

@@ -14,7 +14,7 @@
 					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T3,
 					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T3,
-					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,	
+					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,
 	)
 	confess_lines = list(
 		"PRAISE ZIZO!",
@@ -47,7 +47,7 @@
 	if(istype(get_area(follower), /area/rogue/under/cave/inhumen))
 		return TRUE
 	// Allows prayer near EEEVIL psycross
-	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
+	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
 			to_chat(follower, span_danger("That accursed cross interrupts my prayers!"))
 			return FALSE

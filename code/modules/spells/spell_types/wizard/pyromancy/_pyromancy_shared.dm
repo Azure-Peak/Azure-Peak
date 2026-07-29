@@ -52,22 +52,15 @@
 		var/remaining = round((target.mob_timers[SCORCH_ADAPTATION_KEY] - world.time) / 10)
 		target.balloon_alert_to_viewers("<font color='#ff8a3d'>fire adapted ([remaining]s)</font>")
 		return FALSE
-	var/target_zone = BODY_ZONE_CHEST
+	var/target_zone = prob(50) ? BODY_ZONE_HEAD : BODY_ZONE_CHEST
+	var/aimed_zone = zone_override ? check_zone(zone_override) : null
+	if(aimed_zone == BODY_ZONE_HEAD || aimed_zone == BODY_ZONE_CHEST)
+		target_zone = aimed_zone
 	var/mob/living/carbon/carbon_target
 	if(iscarbon(target))
 		carbon_target = target
-		var/aimed_zone = zone_override ? check_zone(zone_override) : null
-		if(aimed_zone && carbon_target.get_bodypart(aimed_zone))
-			target_zone = aimed_zone
-		else
-			var/obj/item/bodypart/most_wounded
-			for(var/obj/item/bodypart/BP as anything in carbon_target.bodyparts)
-				if(QDELETED(BP))
-					continue
-				if(!most_wounded || (BP.brute_dam + BP.burn_dam) > (most_wounded.brute_dam + most_wounded.burn_dam))
-					most_wounded = BP
-			if(most_wounded && (most_wounded.brute_dam + most_wounded.burn_dam) > 0)
-				target_zone = most_wounded.body_zone
+		if(target_zone == BODY_ZONE_HEAD && !carbon_target.get_bodypart(BODY_ZONE_HEAD))
+			target_zone = BODY_ZONE_CHEST
 	target.apply_damage(SCORCH_BURN_DAMAGE, BURN, target_zone, 0)
 	if(carbon_target)
 		var/obj/item/bodypart/affecting = carbon_target.get_bodypart(check_zone(target_zone))

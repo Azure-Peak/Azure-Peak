@@ -115,7 +115,7 @@
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass
-	cuisine = NONE
+	cuisine = CUISINE_RANESHENI
 	dish_type = DISH_FRUIT|DISH_SWEET
 	name = "sweetglass"
 	desc = "A palmful of crystallized dried raisins, popular amongst the elders and children-of-nobility. Their tendancy to only \

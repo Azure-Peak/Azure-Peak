@@ -206,6 +206,7 @@
 		return FALSE
 	LAZYADD(simple_embedded_objects, embedder)
 	embedder.is_embedded = TRUE
+	embedder.embedded_host = src
 	embedder.forceMove(src)
 	embedder.add_mob_blood(src)
 	if(!silent)
@@ -224,6 +225,7 @@
 		return FALSE
 	LAZYREMOVE(simple_embedded_objects, embedder)
 	embedder.is_embedded = FALSE
+	embedder.embedded_host = null
 	var/drop_location = drop_location()
 	if(drop_location)
 		embedder.forceMove(drop_location)

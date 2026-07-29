@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Replaced the old favorite food / drinks / hated food and drinks system with the new favorite cuisine / dish type / drink type system"
-  - rscadd: "7 cuisines types: North Imperial (Grenzelhoftian), South Imperial (Azurean), Etrusan, Otavais, Ranesheni, Northern (Hammerhold and Gronnic), Southeastern (Lingyuese and Kazengun). Most food / drinks in game belon to a cuisine and a dish / drink type, with a moodbuff if you eat one of fine+ or nice+ quality for food / drinks"
-  - rscadd: "Food are now classified as belonging to one or more of the different types: - (Red) Meat, Poultry, Seafood, vegetable, Fruit, Bread, Dairy, Pastry, Pie, Sweet, Egg, Noodles."
-  - rscadd: "Drinks are classified as belonging to Wine, Ale, Spirit, Mead, Cider, Tea & Coffee, Juice, Ricewine"
-  - rscadd: "You get a floating heart if you eat your favorite food / drink that is at fine / lavish level or nice and above drink level."
