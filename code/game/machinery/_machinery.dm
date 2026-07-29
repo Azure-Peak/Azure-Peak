@@ -295,9 +295,10 @@
 	adjusted_climb_time -= user.STASPD * 2
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 
+	if(!user.start_climb())
+		return
 	structureclimber = user
-	user.mid_climb = TRUE
-	if(do_mob(user, user, adjusted_climb_time))
+	if(do_mob(user, user, adjusted_climb_time, extra_checks = user.climb_check_callback()))
 		if(src.loc) //Checking if structure has been destroyed
 			if(do_climb(user))
 				user.visible_message("<span class='warning'>[user] climbs onto [src].</span>", \
@@ -310,5 +311,5 @@
 				. = 1
 			else
 				to_chat(user, "<span class='warning'>I fail to climb onto [src].</span>")
-	user.mid_climb = FALSE
+	user.end_climb()
 	structureclimber = null

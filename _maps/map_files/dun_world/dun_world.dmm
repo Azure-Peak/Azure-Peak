@@ -2203,6 +2203,11 @@
 /area/rogue/outdoors/town/roofs)
 "awp" = (
 /obj/structure/closet/crate/roguecloset/inn,
+/obj/item/millstone,
+/obj/item/kitchen/rollingpin,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/rogueweapon/huntingknife/stoneknife,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "awr" = (
@@ -10374,6 +10379,8 @@
 	dir = 9
 	},
 /obj/structure/table/wood/large_table/south_east,
+/obj/item/kitchen/rollingpin,
+/obj/item/rogueweapon/huntingknife/chefknife,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
 "bZs" = (
@@ -14933,6 +14940,13 @@
 "cSm" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
+"cSn" = (
+/obj/structure/mineral_door/wood/fancywood{
+	lockid = "Cafe Key";
+	locked = 1
+	},
+/turf/open/floor/rogue/grassred,
+/area/rogue/outdoors/town)
 "cSp" = (
 /obj/structure/table/wood/long_table/right,
 /obj/machinery/light/rogue/candle/floorcandle,
@@ -17635,12 +17649,6 @@
 /obj/item/rope/chain,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
-"dst" = (
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/town)
 "dsu" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach)
@@ -17942,6 +17950,10 @@
 /obj/machinery/light/rogue/candle/l,
 /obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
 /obj/item/storage/roguebag,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/millstone,
+/obj/item/kitchen/rollingpin,
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town)
 "dvE" = (
@@ -18040,6 +18052,15 @@
 /obj/effect/decal/mossy,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains/decap/banditcamp)
+"dwv" = (
+/obj/effect/decal/cobbleedge{
+	icon_state = "cobbleedge-sread"
+	},
+/obj/structure/roguemachine/withdraw{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/indoors/town/tavern)
 "dwx" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/north)
@@ -27610,10 +27631,6 @@
 /obj/item/reagent_containers/glass/cup/silver,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/licharena)
-"fmA" = (
-/obj/machinery/light/rogue/candle/r,
-/turf/open/transparent/openspace,
-/area/rogue/outdoors/town/roofs)
 "fmE" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/cooking/platter/gold{
@@ -33378,6 +33395,16 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/goblinfort)
+"grb" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/obj/structure/fluff/littlebanners/bluewhite{
+	pixel_y = 4
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town)
 "grg" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/wood/nosmooth,
@@ -62225,16 +62252,6 @@
 "lFT" = (
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/cave/northern)
-"lFU" = (
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/town)
 "lFW" = (
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/floor/rogue/cobble/mossy,
@@ -65886,6 +65903,12 @@
 /obj/item/storage/roguebag{
 	pixel_y = 44
 	},
+/obj/structure/closet/crate/roguecloset/inn,
+/obj/item/rogueweapon/huntingknife/stoneknife,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/kitchen/rollingpin,
+/obj/item/millstone,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "mnm" = (
@@ -67339,7 +67362,7 @@
 "mBU" = (
 /obj/structure/roguewindow,
 /obj/structure/curtain/red,
-/turf/closed/basic,
+/turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "mBZ" = (
 /obj/structure/fluff/railing/border/west{
@@ -78555,12 +78578,6 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/town)
-"oJq" = (
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/town)
 "oJr" = (
 /obj/structure/spider/stickyweb,
 /turf/open/water/swamp,
@@ -80132,7 +80149,8 @@
 /area/rogue/outdoors/beach/forest/south)
 "oWg" = (
 /obj/structure/mineral_door/wood/fancywood{
-	lockid = "Cafe Key"
+	lockid = "Cafe Key";
+	locked = 1
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
@@ -91997,7 +92015,8 @@
 /area/rogue/indoors/town)
 "rhM" = (
 /obj/machinery/light/rogue/lanternpost{
-	pixel_y = 14
+	pixel_y = 14;
+	pixel_x = 2
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
@@ -105299,6 +105318,12 @@
 /obj/effect/lily_petal/three,
 /turf/open/water/bath,
 /area/rogue/indoors/town/bath)
+"tIy" = (
+/obj/structure/fluff/littlebanners/bluewhite{
+	pixel_y = 4
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/town)
 "tID" = (
 /obj/structure/chair/bench/church/r{
 	dir = 1
@@ -113356,6 +113381,7 @@
 "vkf" = (
 /obj/structure/table/wood/poor,
 /obj/item/millstone,
+/obj/item/kitchen/rollingpin,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town)
 "vkh" = (
@@ -113873,6 +113899,9 @@
 	color = "#3f3f3f"
 	},
 /obj/structure/fluff/walldeco/wantedposter/r,
+/obj/machinery/light/rogue/lanternpost{
+	dir = 1
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "vpe" = (
@@ -122430,7 +122459,7 @@
 	icon_state = "cobbleedge-sread"
 	},
 /obj/structure/table/wood/large_table,
-/obj/item/rogueweapon/huntingknife/chefknife,
+/obj/item/millstone,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
 "wVw" = (
@@ -272708,7 +272737,7 @@ qQa
 wsw
 wOS
 wOS
-nFn
+dwv
 taS
 taS
 taS
@@ -283025,7 +283054,7 @@ exD
 fpx
 fpx
 pWT
-oJq
+pWT
 fpx
 rhM
 exD
@@ -283477,8 +283506,8 @@ exD
 exD
 exD
 exD
-dst
 exD
+tIy
 exD
 exD
 exD
@@ -283929,8 +283958,8 @@ exD
 exD
 exD
 exD
-dst
 exD
+tIy
 exD
 exD
 exD
@@ -284381,8 +284410,8 @@ exD
 exD
 exD
 obm
-lFU
 eSr
+grb
 eSr
 eSr
 eSr
@@ -290261,7 +290290,7 @@ fpx
 fpx
 pWT
 pWT
-daQ
+cSn
 fpx
 iub
 quK
@@ -397834,7 +397863,7 @@ bGf
 bGf
 bGf
 bGf
-aUO
+bGf
 bGf
 bGf
 bGf
@@ -405517,7 +405546,7 @@ bGf
 bGf
 bGf
 bGf
-fmA
+bGf
 bGf
 bGf
 bGf

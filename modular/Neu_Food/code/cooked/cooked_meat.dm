@@ -17,6 +17,7 @@
 
 /* .............   Roast Pork   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
+	cuisine = CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	eat_effect = null
 	name = "roast pork"
 	desc = "A hunk of pigflesh, roasted to a perfect crispy texture"
@@ -296,6 +297,7 @@
 	tastes = list("crispy and slimy insectoid" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
+	cuisine = CUISINE_NORTHERN
 	name = "spider surprise"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "spider_surprise_cooked"

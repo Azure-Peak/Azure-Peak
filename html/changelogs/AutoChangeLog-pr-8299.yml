@@ -1,7 +1,0 @@
-author: "SnubbyNotSorry"
-delete-after: True
-changes:
-  - qol: "naigaka whip's intents swapped around to have their ranges consistent with other whips"
-  - bugfix: "made items that the improvised surgery kit spawns with able to fit back inside"
-  - balance: "lowered skill requirement of listening to heartbeat to identify RR from master medicine down to expert"
-  - balance: "Expert Physicker option of Take Apprentice now gives Apprentice medicine skill instead of Novice"

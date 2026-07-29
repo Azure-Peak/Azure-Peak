@@ -348,6 +348,9 @@
 	item_state = "warlockhood"
 	icon_state = "warlockhood"
 
+/obj/item/clothing/head/roguetown/roguehood/unholy/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_MISC) //So Lich/Necro aren't immedately fragged, but the robes are blatently not normal
+
 /obj/item/clothing/head/roguetown/roguehood/unholy/lich
 	name = "ominous hood"
 	desc = "An otherworldly veil, whispering the constant ponderances of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."

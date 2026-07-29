@@ -1416,3 +1416,46 @@
       like scorched etc.
   - rscdel: Removed Artificer Armor from standing order and added some proper categorizations
       to some artificers items for display / market purpose
+2026-07-28:
+  FreeStylaLT:
+  - rscadd: Added Fencing Breeches to the Donator Regional Loadout.
+  - bugfix: Fixed fencing gloves in the Donator Regional Loadout not giving out the
+      correct item.
+  - qol: 'Donator Regional Loadout items are now set to be 2x2 size if they were larger
+      before.
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  KatTheFox:
+  - bugfix: Ascendent worshippers may now pray at any inhumen shrine, not just zizocrosses
+  - bugfix: Praying without meeting patron conditions no longer both tells you it
+      didn't work, and gives you the status effect (without sating devout follower).
+      Those three events are now properly synced to each other.
+  Ketrai:
+  - rscadd: Vampiric armor, skin armor that is restored by damaging armor and picking
+      up shedded shards.
+  - balance: Gnolls now have vampiric armor rather than regenerating armor.
+  - rscadd: Blood fury for gnolls upon picking up shedded armor shards. Increases
+      strength, con, decreases spd, int
+  - balance: Gnolls lose longstriders whilst affected by blood fury bonuses
+  - balance: Gnolls lose battle ready unless affected by blood fury bonuses
+  - balance: Non shaman gnolls gain nopainstun when maxing out blood fury bonuses
+  SnubbyNotSorry:
+  - qol: naigaka whip's intents swapped around to have their ranges consistent with
+      other whips
+  - bugfix: made items that the improvised surgery kit spawns with able to fit back
+      inside
+  - balance: lowered skill requirement of listening to heartbeat to identify RR from
+      master medicine down to expert
+  - balance: Expert Physicker option of Take Apprentice now gives Apprentice medicine
+      skill instead of Novice
+  WeNeedMorePhoron:
+  - rscdel: Removed Tomb of Alotheos and all supporting code for it.
+  eirenxiv:
+  - bugfix: fixed female details on the coat of the commander

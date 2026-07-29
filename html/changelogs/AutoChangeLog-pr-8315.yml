@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Ascendent worshippers may now pray at any inhumen shrine, not just zizocrosses"
-  - bugfix: "Praying without meeting patron conditions no longer both tells you it didn't work, and gives you the status effect (without sating devout follower). Those three events are now properly synced to each other."
