@@ -67,8 +67,8 @@
 
 /obj/structure/mineral_door/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Right-clicking the door with a key, whether alone or on a keyring, will attempt to lock it.")
-	. += span_info("Left-clicking the door with a key, whether alone or on a keyring, will attempt to unlock it.")
+	. += span_info("Left-clicking an unlocked door opens or closes it.")
+	. += span_info("Right-clicking the door works the lock. The key can be held in hand, or carried on your wrist or belt - worn keyrings and pouches are searched too, so there is no need to dig it out first.")
 	. += span_info("Kicking an unlocked door will open or close it.")
 	. += span_info("Kicking a locked door has a small chance to force it open, which slightly scales with your character's Strength.")
 	. += span_info("Alternatively, doors can be bypassed by destroying them. Axes and bombs of blastpowder are the most effective choices; be mindful that such destruction can be heard from afar, however.")
@@ -499,13 +499,13 @@
 
 	// A held key or keyring is an explicit choice - use it and only it, and let trykeylock() give
 	// its own specific wrong-key feedback. Without this, holding the wrong key silently fell back
-	// to whatever the belt search found, which made the held key meaningless.
+	// to whatever the worn-key search found, which made the held key meaningless.
 	var/obj/item/held = user.get_active_held_item()
 	if(istype(held, /obj/item/roguekey) || istype(held, /obj/item/storage/keyring))
 		trykeylock(held, user)
 		return
 
-	// Nothing key-like in hand - search the belt for a match as a convenience.
+	// Nothing key-like in hand - search the wrist and belt slots for a match as a convenience.
 	var/obj/item/key_item = find_key_for_door(user)
 	if(key_item)
 		trykeylock(key_item, user)
@@ -527,7 +527,7 @@
 /obj/structure/mineral_door/proc/key_matches(obj/item/roguekey/K)
 	return K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)
 
-// Helper proc to find a matching key or keyring in hand or belt slots
+// Helper proc to find a matching key or keyring in hand, wrist or belt slots
 /obj/structure/mineral_door/proc/find_key_for_door(mob/user)
 	if(!user || !keylock)
 		return null
@@ -542,20 +542,21 @@
 			if(keyring_has_matching_key(W))
 				return W
 
-	// Check belt slots if human
+	// Check the wrist and belt slots if human
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/list/belt_slots = list(
+		var/list/carried_slots = list(
+			H.get_item_by_slot(SLOT_WRISTS),
 			H.get_item_by_slot(SLOT_BELT),
 			H.get_item_by_slot(SLOT_BELT_L),
 			H.get_item_by_slot(SLOT_BELT_R)
 		)
 
-		for(var/obj/item/I in belt_slots)
+		for(var/obj/item/I in carried_slots)
 			if(!I)
 				continue
 
-			// Check if the belt item itself is a key or keyring
+			// Check if the worn item itself is a key or keyring
 			if(istype(I, /obj/item/roguekey))
 				if(key_matches(I))
 					return I
@@ -563,14 +564,14 @@
 				if(keyring_has_matching_key(I))
 					return I
 
-			// Check inside the belt item if it has contents (storage belts, etc.)
+			// Check inside it if it has contents (storage belts, bracers, etc.)
 			for(var/obj/item/contained_item in I.contents)
 				if(istype(contained_item, /obj/item/roguekey))
 					if(key_matches(contained_item))
-						return I // Return the belt item that contains the key
+						return I // Return the worn item that contains the key
 				if(istype(contained_item, /obj/item/storage/keyring))
 					if(keyring_has_matching_key(contained_item))
-						return I // Return the belt item that contains the keyring
+						return I // Return the worn item that contains the keyring
 
 	return null
 
@@ -1007,10 +1008,9 @@
 	repair_cost_second = /obj/item/natural/stone
 	repair_skill = /datum/skill/craft/masonry
 
-/obj/structure/mineral_door/wood/donjon/stone/attack_right(mob/user)
-	if(user.get_active_held_item())
-		..()
-
+// Stone donjon doors have no viewport. The attack_right override that used to sit here only existed
+// to suppress the old right-click viewport, and blocked the parent's key handling on an empty hand
+// while it was at it - the viewport is on MiddleClick now, so right-click just uses the parent.
 /obj/structure/mineral_door/wood/donjon/stone/view_toggle(mob/user)
 	return
 
@@ -1019,20 +1019,28 @@
 	icon_state = base_state
 	..()
 
-/obj/structure/mineral_door/wood/donjon/attack_right(mob/user)
+// The viewport lives on middle-click, not right-click. It used to be on attack_right, which meant an
+// empty-handed right-click never reached /obj/structure/mineral_door/attack_right() and its
+// find_key_for_door() lookup - so keys carried in a belt could not work the lock, only keys in hand.
+/obj/structure/mineral_door/wood/donjon/MiddleClick(mob/user, params)
+	. = ..()
+	if(!user.Adjacent(src))
+		return
 	if(user.get_active_held_item())
-		..()
 		return
 	if(door_opened || isSwitchingStates)
 		return
 	if(brokenstate)
 		to_chat(user, span_warning("There isn't much left of this door."))
 		return
-	if(get_dir(src,user) == viewportdir)
-		view_toggle(user)
-	else
+	if(get_dir(src,user) != viewportdir)
 		to_chat(user, span_warning("The viewport doesn't toggle from this side."))
 		return
+	view_toggle(user)
+
+/obj/structure/mineral_door/wood/donjon/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Middle-clicking the door with an empty hand, from the side the viewport slides on, will open or close it. This requires no MMB intent to be selected.")
 
 /obj/structure/mineral_door/wood/donjon/proc/view_toggle(mob/user)
 	if(door_opened)
