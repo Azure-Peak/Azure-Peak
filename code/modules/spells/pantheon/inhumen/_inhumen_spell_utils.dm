@@ -167,6 +167,33 @@
 
 //Mammonite Utils
 
+/proc/grant_matthios_mammon(mob/living/carbon/human/H, amount, reason = "matthios_transaction")
+	if(!H || amount <= 0)
+		return 0
+	if(SStreasury.has_account(H))
+		SStreasury.mint(SStreasury.get_account(H), amount, reason)
+		return amount
+	var/list/coins = list()
+	budget2change(amount, H, null, FALSE)
+	for(var/obj/item/roguecoin/C in H.contents)
+		coins += C
+	for(var/obj/item/roguecoin/C in coins)
+		if(!C)
+			continue
+		if(H.back)
+			if(SEND_SIGNAL(H.back, COMSIG_TRY_STORAGE_INSERT, C, null, TRUE, TRUE))
+				continue
+		if(H.belt)
+			if(SEND_SIGNAL(H.belt, COMSIG_TRY_STORAGE_INSERT, C, null, TRUE, TRUE))
+				continue
+		if(H.back && H.back.contents.Find(C))
+			continue
+		if(H.belt && H.belt.contents.Find(C))
+			continue
+		C.forceMove(get_turf(H))
+
+	return amount
+
 /datum/action/cooldown/spell/matthios/mammonite/proc/get_investment_range(mob/living/carbon/human/H)
 	var/min_invest = min_mammon
 	var/max_invest = min_mammon
@@ -311,12 +338,12 @@
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), target, weapon)
 	return COMPONENT_ITEM_NO_ATTACK
 
-/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity) 
-	SIGNAL_HANDLER 
-	if(!isliving(target) || target == owner) 
-		return 
-	var/mob/living/L = target 
-	if(L.stat == DEAD) 
+/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!isliving(target) || target == owner)
+		return
+	var/mob/living/L = target
+	if(L.stat == DEAD)
 		return
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), L, null)
 	return COMPONENT_HAND_NO_ATTACK
@@ -397,4 +424,4 @@
 	transform = M
 	animate(src, pixel_x = pixel_x + rand(-16,16), pixel_y = pixel_y + rand(8,20), alpha = 0, time = duration, easing = EASE_OUT)
 
-#undef MAMMON_FILTER 
+#undef MAMMON_FILTER

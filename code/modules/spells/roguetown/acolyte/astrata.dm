@@ -171,7 +171,7 @@
 
 /obj/projectile/magic/sacred_flame
 	name = "bolt of holy fire"
-	tracer_type = /obj/effect/projectile/tracer/stun
+	tracer_type = /obj/effect/projectile/tracer/solar_beam
 	muzzle_type = null
 	impact_type = null
 	hitscan = TRUE

@@ -238,7 +238,7 @@
 /obj/structure/primal_rift/proc/spawn_orcs()
 	var/turf/T = get_turf(src)
 	for(var/i in 1 to max_orcs)
-		var/mob/living/carbon/human/species/orc/npc/O = new(T) 
+		var/mob/living/carbon/human/species/orc/npc/O = new(T)
 		O.visible_message(span_danger("[O] step out of the rift, axes drawn!"))
 		O.AddComponent(/datum/component/rift_bound, src)
 		orc_count++
@@ -818,10 +818,10 @@
 	if(!H || amount <= 0)
 		return 0
 
-	if(!SStreasury.has_account(H))
-		SStreasury.create_bank_account(H, 0)
+	var/bank = 0
+	if(SStreasury.has_account(H))
+		bank = SStreasury.get_balance(H)
 
-	var/bank = SStreasury.get_balance(H)
 	var/onhand = get_mammons_in_atom(H)
 
 	var/remaining = amount
@@ -834,7 +834,7 @@
 		paid += removed
 		remaining -= removed
 
-	if(remaining > 0)
+	if(remaining > 0 && SStreasury.has_account(H))
 		var/from_bank = min(bank, remaining)
 
 		if(from_bank > 0)

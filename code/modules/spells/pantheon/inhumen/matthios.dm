@@ -365,10 +365,10 @@
 	mammon_used = min(mammon_used, total)
 
 	var/list/invocations = list(
-		"Gold to glory, Matthios guide my hand!",
+		"Gold to glory, wealth guide my hand!",
 		"Wealth be spent, and power be gained!",
 		"My hoard bleeds for strength, in His name!",
-		"Matthios! A king's ransom for a single blow!",
+		"A king's ransom for a single blow!",
 		"Grant the weight of mine greed, Matthios!",
 	)
 
@@ -795,6 +795,123 @@
 	to_chat(owner, "<font color='yellow'>My fire returns!</font>")
 
 #undef EQUALIZED_GLOW
+
+////////////////////////
+// T3 - Usurped Flame //
+////////////////////////
+// Sacred Flame, but you steal dosh on-hit! Steals more vs NOBLES!
+
+/datum/action/cooldown/spell/projectile/stolen_flame
+	name = "Usurped Flame"
+	desc = "Emit a bolt of stolen holy fire that sunders a target, setting them ablaze and briefly immobilizing them. Damage is increased by 100% versus simple-minded creechurs. Upon striking a non-Freeman, the flame usurps between 10 and 500 mammon from their possessions and treasury, transferring it to you. Nobility yields threefold tribute. The CC effects cannot be reapplied to the same target within 15 seconds."
+	fluff_desc = "The fourth gift to men, a stolen sliver of Astrata's fury, torn from Her grasp by Matthios and bestowed upon those bold enough to defy the heavens. What was once a sacred flame of judgement now exists to seize wealth, mock divinity, and remind all that ownership belongs only to those strong enough to claim it."
+	background_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon_state = "bolt"
+	sound = 'sound/magic/lightning.ogg'
+	spell_color = GLOW_COLOR_ASTRATA
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	attunement_school = null
+	projectile_type = /obj/projectile/magic/stolen_flame
+	cast_range = SPELL_RANGE_PROJECTILE
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
+	invocations = list(
+		"Her power, our weapon!",
+		"Mankind inherits the flame!",
+		"The flames of defiance!",
+		"Judgement of the Usurped Fyre!"
+	)
+	invocation_type = INVOCATION_SHOUT
+	ignore_armor_penalty = TRUE
+	charge_required = TRUE
+	charge_time = CHARGETIME_MAJOR
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 45 SECONDS
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	point_cost = 0
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+	spell_flags = SPELL_PSYDON
+	required_items = list(
+		/obj/item/clothing/neck/roguetown/psicross,
+		/obj/item/clothing/neck/roguetown/psicross/astrata,
+		/obj/item/clothing/neck/roguetown/psicross/silver/astrata,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios,
+		/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
+	)
+
+/obj/projectile/magic/stolen_flame
+	name = "bolt of holy flame"
+	tracer_type = /obj/effect/projectile/tracer/solar_beam
+	muzzle_type = null
+	impact_type = null
+	hitscan = TRUE
+	movement_type = UNSTOPPABLE
+	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
+	light_color = "#a98107"
+	damage = 50
+	npc_simple_damage_mult = 2
+	damage_type = BURN
+	accuracy = 50
+	nodamage = FALSE
+	speed = 0.3
+	flag = "fire"
+	light_outer_range = 7
+
+/obj/projectile/magic/stolen_flame/on_hit(target, blocked = FALSE)
+	. = ..()
+	if(ismob(target))
+		var/mob/M = target
+		if(M.anti_magic_check())
+			visible_message(span_warning("[src] fizzles on contact with [target]!"))
+			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			qdel(src)
+			return BULLET_ACT_BLOCK
+		if(isliving(target))
+			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
+			if(blocked < 100)
+				L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
+					L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/sunder)
+					L.Immobilize(0.5 SECONDS)
+					L.ignite_mob()
+				else
+					L.adjust_fire_stacks(4)
+					L.Immobilize(0.5 SECONDS)
+					L.ignite_mob()
+				if(ishuman(L) && ishuman(firer))
+					var/mob/living/carbon/human/victim = L
+					var/mob/living/carbon/human/caster = firer
+					if(!HAS_TRAIT(victim, TRAIT_FREEMAN))
+						var/to_steal = rand(10, 100)
+						if(HAS_TRAIT(victim, TRAIT_NOBLE))
+							to_steal *= 3
+						var/stolen = 0
+						var/onhand = get_mammons_in_atom(victim)
+						if(onhand > 0)
+							stolen += remove_mammons_from_atom(victim, min(to_steal, onhand))
+						if(stolen < to_steal && SStreasury.has_account(victim))
+							var/from_bank = min(to_steal - stolen, SStreasury.get_balance(victim))
+							if(from_bank > 0)
+								SStreasury.burn(SStreasury.get_account(victim), from_bank, "Wealth usurped by Ma??t?hi??os?")
+								stolen += from_bank
+						if(stolen > 0)
+							grant_matthios_mammon(caster, stolen, "Wealth usurped from [victim.real_name] by Matthios.")
+							to_chat(caster, span_greentext("The Free God provides [stolen] mammon!"))
+							to_chat(victim, span_warning("A portion of my wealth has been usurped by the Free God!"))
+	else if(isatom(target))
+		var/atom/A = target
+		A.fire_act()
+	qdel(src)
 
 ////////////////////////
 // T4 - Churn Wealthy //
