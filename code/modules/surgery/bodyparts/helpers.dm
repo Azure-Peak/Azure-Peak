@@ -253,7 +253,10 @@
 /mob/living/carbon/proc/Taurize(taur_type = /obj/item/bodypart/taur/horse, color = "#ffffff")
 	// Same taur part short circuit to save on taurize cost because it occupies up to 8 - 9 ms out of a 20 ms call of preview
 	var/obj/item/bodypart/taur/existing = get_taur_tail()
-	if(existing && existing.type == taur_type && existing.taur_color == color)
+	// Stray legs alongside the taur body (see regenerate_limbs) must still be cleaned up, so only
+	// short circuit when the lower body is genuinely already correct.
+	if(existing && existing.type == taur_type && existing.taur_color == color \
+		&& !get_bodypart(BODY_ZONE_L_LEG) && !get_bodypart(BODY_ZONE_R_LEG))
 		return
 
 	for(var/X in bodyparts)
