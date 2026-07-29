@@ -1,7 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - bugfix: "Fixed regional donator loadout items not working correctly (again)."
-  - qol: "Leather Vest, Striped Tunic and Corset are now 2x2 in size, allowing them to be stored in aesthetic storage. (Alt+RMB on outerwear / helmet)"
-  - rscadd: "Added Trophy Furs & Hatanga Coat to the regional donator loadout."
-  - rscadd: "Added fancy gold belt to triumph loadout."
