@@ -60,7 +60,7 @@
 					)
 	mask = /obj/item/clothing/mask/rogue/physician
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-	head = /obj/item/clothing/head/roguetown/physician
+	head = /obj/item/clothing/head/roguetown/physician/phys
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 
 	if(!istype(H.patron, /datum/patron/inhumen/graggar))
