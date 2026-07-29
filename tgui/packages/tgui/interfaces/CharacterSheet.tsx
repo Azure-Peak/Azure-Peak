@@ -24,6 +24,7 @@ type VirtueData = {
 
 type FlawData = {
   name: string;
+  desc: string | null;
   index: number;
   warning: BooleanLike;
 };
@@ -1486,6 +1487,7 @@ export const CharacterSheet = (props) => {
                             <Button
                               color="transparent"
                               textColor={flaw.warning ? 'bad' : undefined}
+                              tooltip={flaw.desc}
                               onClick={() =>
                                 act('link', {
                                   preference: 'charflaw',

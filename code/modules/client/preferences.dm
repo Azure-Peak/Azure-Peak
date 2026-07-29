@@ -1578,7 +1578,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						cf_list.Remove(key)
 						break
 
-			var/result = tgui_input_list(user, "What burden will you bear? (You can select up to 3 vices)", "FLAWS", cf_list)
+			var/list/cf_descriptions = list()
+			for(var/key in cf_list)
+				var/datum/charflaw/cf_path = cf_list[key]
+				var/cf_desc = initial(cf_path.desc)
+				if(cf_desc)
+					cf_descriptions[key] = cf_desc
+			var/result = tgui_input_list(user, "What burden will you bear? (You can select up to 3 vices)", "FLAWS", cf_list, descriptions = cf_descriptions)
 			if(result)
 				result = cf_list[result]
 				var/datum/charflaw/C = new result()

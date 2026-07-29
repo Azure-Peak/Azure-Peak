@@ -157,6 +157,7 @@
 			continue
 		flaw_list += list(list(
 			"name" = "[cf]",
+			"desc" = cf.desc,
 			"index" = i,
 			"warning" = (cf.needs_extra_vice && !has_extra_vice),
 		))
