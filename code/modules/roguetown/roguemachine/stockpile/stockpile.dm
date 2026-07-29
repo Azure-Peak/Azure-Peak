@@ -59,7 +59,7 @@
 	data["compact"] = withdraw_tab.compact ? TRUE : FALSE
 	data["categories"] = categories
 	data["category"] = withdraw_tab.current_category
-	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_FOOD_STIPEND)) ? TRUE : FALSE
+	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)) ? TRUE : FALSE
 	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
 	data["treasury_floor"] = SStreasury.stockpile_purchase_floor
 	data["below_floor"] = treasury_balance < SStreasury.stockpile_purchase_floor
@@ -249,6 +249,11 @@
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				R.refresh_auto_price()
 				var/amt = R.payout_price * bundle_amt
+				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
+					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
+					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+					send_ooc_note("<b>MEISTER:</b> Subsidy claims [amt]m from the [R.name]. Thank you for your diligent service.", name = H.real_name)
+					return
 				SStreasury.economic_output += amt
 				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
 				if(auto_exported && message)
@@ -304,6 +309,11 @@
 			if(sound == TRUE)
 				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 			if(amt)
+				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
+					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
+					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+					send_ooc_note("<b>MEISTER:</b> Subsidy claims [amt]m from the [R.name]. Thank you for your diligent service.", name = H.real_name)
+					return
 				SStreasury.economic_output += true_value
 				var/bounty_msg = "+[amt] from [R.name] bounty"
 				if(crown_delta != 0)
