@@ -198,7 +198,9 @@
 		/mob/living/simple_animal/hostile/rogue/deepone,
 		/mob/living/simple_animal/hostile/rogue/deepone/arm,
 		/mob/living/simple_animal/hostile/rogue/deepone/spit,
-		/mob/living/simple_animal/hostile/rogue/deepone/wiz
+		/mob/living/simple_animal/hostile/rogue/deepone/wiz,
+		/mob/living/simple_animal/hostile/rogue/dreamfiend,
+		/mob/living/simple_animal/hostile/rogue/dreamfiend
 	)
 
 	addtimer(CALLBACK(source_pool, TYPE_PROC_REF(/obj/structure/roguemachine/dream_pool, spawn_deep_one_wave), deep_ones, landing_spots), 4 SECONDS)

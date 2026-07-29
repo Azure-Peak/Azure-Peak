@@ -217,6 +217,8 @@
 		D.setDir(pick(NORTH, SOUTH, EAST, WEST))
 		D.visible_message(span_purple("A secondary undertow surges, leaving [D] onto the ground!"))
 		generate_inundation_loot(spawn_turf)
+		if(prob(50))
+			generate_inundation_loot(spawn_turf)
 
 	if(length(deep_ones_left))
 		addtimer(CALLBACK(src, PROC_REF(spawn_deep_one_wave), deep_ones_left, landing_spots), 1 SECONDS)
@@ -226,22 +228,22 @@
 		return null
 
 	var/list/loot_weights = list(
-		/obj/item/reagent_containers/food/snacks/fish/oyster = 250,
-		/obj/item/reagent_containers/food/snacks/fish/shrimp = 250,
-		/obj/item/reagent_containers/food/snacks/fish/plaice = 220,
-		/obj/item/reagent_containers/food/snacks/fish/angler = 210,
-		/obj/item/reagent_containers/food/snacks/fish/clam = 190,
-		/obj/item/reagent_containers/food/snacks/fish/crab = 250,
+		/obj/item/reagent_containers/food/snacks/fish/oyster = 25,
+		/obj/item/reagent_containers/food/snacks/fish/shrimp = 25,
+		/obj/item/reagent_containers/food/snacks/fish/plaice = 22,
+		/obj/item/reagent_containers/food/snacks/fish/angler = 21,
+		/obj/item/reagent_containers/food/snacks/fish/clam = 19,
+		/obj/item/reagent_containers/food/snacks/fish/crab = 25,
 		/obj/item/clothing/head/roguetown/octopus = 36,
-		/obj/item/reagent_containers/food/snacks/fish/lobster = 420,
-		/obj/item/reagent_containers/food/snacks/fish/clownfish = 360,
+		/obj/item/reagent_containers/food/snacks/fish/lobster = 42,
+		/obj/item/reagent_containers/food/snacks/fish/clownfish = 36,
 		/obj/item/reagent_containers/food/snacks/fish/creepy_eel = 30,
 		/obj/item/reagent_containers/food/snacks/fish/creepy_squid = 30,
 		/obj/item/reagent_containers/food/snacks/fish/creepy_shark = 30,
 
-		/obj/item/reagent_containers/glass/bottle/rogue/wine = 63,
-		/obj/item/clothing/ring/gold = 94,
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 178,
+		/obj/item/reagent_containers/glass/bottle/rogue/wine = 40,
+		/obj/item/clothing/ring/gold = 40,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 80,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 60,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 15,
 
