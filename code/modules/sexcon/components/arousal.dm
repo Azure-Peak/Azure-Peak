@@ -63,13 +63,10 @@
 /datum/component/arousal/proc/set_arousal(datum/source, amount, forced = FALSE)
 	if(amount > arousal)
 		last_arousal_increase_time = world.time
-	var/clamp_max = MAX_AROUSAL
-	var/mob/user = parent
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		clamp_max = THRILLSEEKER_THRESHOLD
-		if(forced)
-			clamp_max = 50
-	arousal = clamp(amount, 0, clamp_max)
+	// Thrillseekers used to be clamped below the ejaculation thresholds here, which meant they could
+	// never climax at all. They now use the same ceiling as everyone else; the flaw's identity is that
+	// combat also arouses them (see adjust_arousal_special) and that fighting is what sates the vice.
+	arousal = clamp(amount, 0, MAX_AROUSAL)
 	update_arousal_effects()
 	try_ejaculate()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
@@ -90,8 +87,10 @@
 		return arousal
 	if(arousal > 0)
 		arousal *= arousal_multiplier
-	return set_arousal_special(source, arousal + amount, THRILLSEEKER_THRESHOLD)
+	return set_arousal_special(source, arousal + amount)
 
+/// Arousal gained from combat rather than sex. Same ceiling and climax rules as set_arousal(); the
+/// only difference is the refractory window, so a long fight doesn't retrigger endlessly.
 /datum/component/arousal/proc/set_arousal_special(datum/source, amount, limit)
 	if(last_ejaculation_time > world.time - (3 MINUTES))	//Short break to not cover the screen in pink too quickly.
 		return
@@ -102,13 +101,11 @@
 		clamp_max = limit
 	arousal = clamp(amount, 0, clamp_max)
 	update_arousal_effects()
+	try_ejaculate()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
 	return arousal
 
 /datum/component/arousal/proc/freeze_arousal(datum/source, freeze_state = null)
-	var/mob/user = parent
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		return
 	if(freeze_state == null)
 		arousal_frozen = !arousal_frozen
 	else
@@ -236,16 +233,9 @@
 			if(HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
 				intensity += 1
 
-	if(climaxer.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		var/datum/charflaw/addiction/thrill = climaxer.get_flaw(/datum/charflaw/addiction/thrillseeker)
-		climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
-		last_ejaculation_time = world.time
-		if(!thrill.sated)
-			climaxer.add_stress(/datum/stressevent/thrillsex)
-		if(prob(10))
-			climaxer.emote("groan", forced = TRUE)
-		return	
-
+	// Thrillseekers previously bailed out here with a consolation-prize stress event and none of the
+	// benefits below. They now climax like anyone else - fighting is still what sates their vice
+	// (see bodypart_wounds.dm), sex simply isn't worthless to them any more.
 	climaxer.emote("moan", forced = TRUE)
 	climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
