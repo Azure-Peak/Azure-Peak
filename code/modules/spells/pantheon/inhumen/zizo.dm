@@ -340,7 +340,7 @@
 /////////////////
 // T2 - Spite  //
 /////////////////
-// - A stronger sidegrade to undivided's gallows humor, it loses chainability + longer cooldown for straight up making people trip out and freak out. Yes this is churn emotions.
+// - A stronger sidegrade to undivided's gallows humor, it loses chainability + longer cooldown for straight up making people freak out + stat debuff. Yes this is churn emotions.
 // - Gallows humor is still /better/ if we considerable how spammable vs this, but you've the advantage of combining this w/ avantyne usually, or whatever else miracle/gear-wise.
 /datum/action/cooldown/spell/zizo/spite
 	name = "Spite"
@@ -399,19 +399,20 @@
 
 		if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE)) //Vheslynites get a unique interaction text-wise... They don't give two fucks though, they already know what they are.
 			to_chat(spelltarget, span_purple(pick("<br>I HATE YOU.<br>","<br>WHY, WHY. WHY MUST YOU MAKE ME SUFFER?<br>","<br>I HATE YOU, I HATE YOU.<br>","<br>HATRED, THAT IS ALL YOU DESERVE.<br>","<br>UNFORGIVABLE. UNFORGIVABLE.<br>")))
-			//No hallucinations, no effect, the needle is in your mynd already, you are already insane beyond all hope.
+			//No effect (past status effect), the needle is in your mynd already, you are already insane beyond all hope and caring is not something you do.
 			//Since we're in 99% of cases a hard antagonist, we still cost your cooldown and pretend that you affected us.
 
 		if(HAS_TRAIT(spelltarget, TRAIT_CABAL)) //Zizites get that disappointed Zizo stare, less effect
 			to_chat(spelltarget, span_warning("A familar gaze of Progress bares down on you with spite."))
 			spelltarget.add_stress(/datum/stressevent/zizospitelesser)
 
+		//this is what seperates it most, you are guarrenteed to lose your concentration briefly.
 		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
-			spelltarget.freak_out()
-			spelltarget.Jitter(20)
+			spelltarget.Slowdown(10) //Replaces the previous guarrenteed freakout
+			spelltarget.Jitter(30)
 			spelltarget.playsound_local(get_turf(spelltarget), 'sound/misc/zizo.ogg', 200)
 
-	if(!spelltarget.mind) //NPCs just get knocked over
+	if(!spelltarget.mind) //NPCs just get knocked over and hit with a firmer stat debuff varient from a mind check on the status effect.
 		spelltarget.emote("scream")
 		spelltarget.Jitter(20)
 		spelltarget.Knockdown(20) //long-ish to substitute for lack of hallucinations
@@ -439,7 +440,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/zizospite
 	name = "Spite"
-	desc = "<span class='warning'>A hateful gaze of eternal malice bares on me. My mynd's clarity and eyes betray me.</span>\n"
+	desc = "<span class='warning'>A hateful gaze of eternal malice bares on me. My mynd's clarity betrays me.</span>\n"
 	icon_state = "zizospite"
 
 /datum/status_effect/debuff/zizospite/on_apply()
@@ -447,13 +448,12 @@
 	var/filter = owner.get_filter(ZIZOSPITE_FILTER)
 	if(!filter)
 		owner.add_filter(ZIZOSPITE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
-
 	ADD_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
-	if(owner.mind)
+	if(owner.mind) //players get less debuff, NPCs moreso
 		owner.update_stress()
 		effectedstats = list(STATKEY_WIL = -1)
 	else
-		effectedstats = list(STATKEY_SPD = -2, STATKEY_WIL = -2) //NPCs get hit with a harder debuff to account for not tripping the fuck out
+		effectedstats = list(STATKEY_SPD = -2, STATKEY_WIL = -2) //NPCs get hit with a harder debuff to account for no stress
 
 /datum/status_effect/debuff/zizospite/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
@@ -480,7 +480,6 @@
 // T4 - Bewstow Chant //
 ///////////////////////
 // Give any fellow Zizo worshipper the ability to speak and understand Zizocant. Exclusive to antagonists at T4, soft or converted acolytes (if clergy somehow convert to Zizo).
-// TODO, probably a secular version of this, for lich. I suppose but this'll do for now. Its a neat thing if you wanna form a small cult or something as a heretic.
 
 /datum/action/cooldown/spell/zizo/bestowcant
 	name = "Bestow Zizocant"
@@ -528,6 +527,7 @@
 		spelltarget.grant_language(/datum/language/undead)
 	return TRUE
 
+//Lich has cost-free version. So they can recruit people proper.
 /datum/action/cooldown/spell/zizo/bestowcant/lich
 	primary_resource_type = SPELL_COST_ENERGY //just so we hop off the devotion system.
 	primary_resource_cost = 30
