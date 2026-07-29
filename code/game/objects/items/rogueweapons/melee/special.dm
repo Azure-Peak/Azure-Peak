@@ -480,7 +480,7 @@
 	desc = "A pair of heavily curved claws, styled after beasts and used in combat by some of the more uncivilized warriors who try to mimic the fighting styles of the wild, or by anyone who thinks they can actually do that."
 	icon_state = "ironclaw"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 3 // this is not a katar? 
+	wdefense = 3 // this is not a katar?
 	force = 20
 	possible_item_intents = list(/datum/intent/claw/cut/iron, /datum/intent/claw/lunge/iron, /datum/intent/claw/rend)
 	wbalance = WBALANCE_NORMAL
@@ -673,7 +673,7 @@
 	use_light = FALSE
 	spread_flame = FALSE
 	icon_state_ignited = "sci_firetongue_on"
-	
+
 /datum/component/ignitable/fluff/sci_sand
 	use_light = FALSE
 	spread_flame = FALSE
@@ -682,7 +682,7 @@
 /datum/component/ignitable/Initialize(...)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
-	
+
 	RegisterSignal(parent, COMSIG_STRUCTURE_ATTACKBY, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
@@ -743,8 +743,7 @@
 					ignited = TRUE
 			if(isliving(target))
 				var/mob/living/M = target
-				M.adjust_fire_stacks(5)
-				M.ignite_mob()
+				apply_scorch_stack(M, 4, BODY_ZONE_CHEST)
 				ignited = TRUE
 			if(ignited && single_use)
 				is_active = FALSE
@@ -882,9 +881,9 @@
 	desc = "A hardy repurposed dwarven mining warpick. Made to handle the dwellers above and below, both clad in rock and forged rock."
 	icon_state = "dwarpick"
 	possible_item_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)	
+	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)
 	max_blade_int = 200 //10% increase over the steel pick
-	max_integrity = 660 
+	max_integrity = 660
 
 /obj/item/rogueweapon/sword/falchion/militia
 	name = "maciejowski"

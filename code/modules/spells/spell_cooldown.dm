@@ -706,7 +706,11 @@
 		return FALSE
 
 	// Certain spells are not allowed on the centcom zlevel
-	var/turf/caster_turf = get_turf(owner)
+	var/turf/caster_turf = owner.loc
+	if(!istype(caster_turf))
+		if(feedback)
+			owner.balloon_alert(owner, "Cannot cast here!")
+		return FALSE // no spell casting when you're inside something please
 	if((spell_requirements & SPELL_REQUIRES_STATION) && is_centcom_level(caster_turf.z))
 		if(feedback)
 			owner.balloon_alert(owner, "Cannot cast here!")

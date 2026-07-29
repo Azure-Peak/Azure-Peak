@@ -1,0 +1,4 @@
+author: "TankTheBirb"
+delete-after: True
+changes:
+  - rscadd: "Changed the adjust_fire_stacks proc to adjust_scorch_stack on the following weapons: Militia Spear special reed attack, Sling Fire pots, burning gas belchers, and Fire rune from the utility spell Rune Ward."
