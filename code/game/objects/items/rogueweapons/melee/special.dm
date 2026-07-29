@@ -1247,14 +1247,19 @@
 	name = "profane dagger"
 	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the diamond on its hilt. </br>A chill rolls down my spine. I am not alone."
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate, /datum/intent/dagger/thrust/pick)
-	sellprice = 250
 	icon_state = "graggardagger"
 	sheathe_icon = "graggardagger"
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
 	// maybe add TRAIT_NOEMBED on initalize??? Fuck IDK man
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE
+	// KNOWN BUG: find dagger does not work when the dagger is put into a scabbard. until this is fixed, please leave these values intact!!
+	equip_delay_self = 0
+	unequip_delay_self = 0
+	// END OF BUG STOPGAP
 	var/last_spoken = 0 // prevent chatspam
+	is_important = TRUE // do not let it be sold or whatever
+	sellprice = 0
 
 	// static list for what non-assassins hear on picking up the dagger.
 	var/static/list/na_pleads = list(
