@@ -66,6 +66,17 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		if(client.prefs)
 			client.prefs.ShowChoices(src, 4)
 
+/// The panel opened at Login can die as a zombie window when the client's webview
+/// wasn't ready yet (common on reconnect); the framework closes it after its ping
+/// timeout but nothing reopens it. Called on a delay to catch and retry that case.
+/mob/dead/new_player/proc/retry_player_panel()
+	if(!client?.prefs)
+		return
+	if(SStgui.get_open_ui(src, client.prefs))
+		return // First open made it; nothing to do.
+	client.prefs.charsheet_tgui_active = FALSE
+	new_player_panel()
+
 /mob/dead/new_player/Topic(href, href_list[])
 	if(src != usr)
 		return 0
