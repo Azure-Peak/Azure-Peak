@@ -156,16 +156,24 @@
 	var/mob/living/mob = parent
 	var/list/parent_sessions = return_sessions_with_user(parent)
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
-	var/mob/living/carbon/human/climaxer
-	var/mob/living/carbon/human/partner 
-	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
+	// No session, or none with a running action - climaxing alone. The old code dereferenced
+	// highest_priority here and only checked it for null fifteen lines further down, so every
+	// sessionless climax runtimed instead of happening.
+	var/mob/living/carbon/human/climaxer = ishuman(parent) ? parent : null
+	var/mob/living/carbon/human/partner
+	var/datum/sex_action/action
 
-	if(action.flipped)
-		climaxer = highest_priority.target
-		partner = highest_priority.user
-	else
-		climaxer = highest_priority.user
-		partner = highest_priority.target
+	if(highest_priority)
+		action = SEX_ACTION(highest_priority.current_action)
+		if(action?.flipped)
+			climaxer = highest_priority.target
+			partner = highest_priority.user
+		else
+			climaxer = highest_priority.user
+			partner = highest_priority.target
+
+	if(!climaxer)
+		return
 
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the climaxer has a penis but no testicles
@@ -173,12 +181,12 @@
 		mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
 		after_ejaculation(action, climaxer, partner)
 		return
-	if(!highest_priority)
+	if(!action)
 		mob.visible_message(span_love("[mob] makes a mess!"))
 		var/turf/turf = get_turf(parent)
 		new /obj/effect/decal/cleanable/coom(turf)
 		after_ejaculation(action, climaxer, partner)
-	else	
+	else
 		var/return_message = action.handle_climax_message(climaxer, partner)
 		if(!return_message)
 			mob.visible_message(span_love("[mob] makes a mess!"))
@@ -230,7 +238,8 @@
 	if(action)
 		intensity = action.intensity
 		if(!action.masturbation) //If the action's masturbation, no good lover bonus
-			if(HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
+			//HAS_TRAIT dereferences its target, and a solo climax has no partner
+			if(partner && HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
 				intensity += 1
 
 	// Thrillseekers previously bailed out here with a consolation-prize stress event and none of the
@@ -244,7 +253,8 @@
 		return
 
 	climaxer.sate_addiction(/datum/charflaw/addiction/lovefiend)
-	partner.sate_addiction(/datum/charflaw/addiction/lovefiend)
+	// Solo climaxes have no partner - see ejaculate().
+	partner?.sate_addiction(/datum/charflaw/addiction/lovefiend)
 
 	switch(intensity)
 		if(1) //Should only be achievable with masturbation
@@ -260,7 +270,7 @@
 		else //This should not trigger but just in case
 			climaxer.add_stress(/datum/stressevent/cumok)
 
-	if(HAS_TRAIT(partner, TRAIT_GOODLOVER) && intensity >= 4)
+	if(partner && HAS_TRAIT(partner, TRAIT_GOODLOVER) && intensity >= 4)
 		if(!climaxer.mob_timers["cumtri"])
 			climaxer.mob_timers["cumtri"] = world.time
 			climaxer.adjust_triumphs(1)
