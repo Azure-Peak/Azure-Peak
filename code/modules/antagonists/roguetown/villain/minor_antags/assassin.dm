@@ -36,8 +36,9 @@
 
 /datum/antagonist/assassin/on_gain()
 	owner.current.cmode_music = list('sound/music/cmode/antag/combat_thewall.ogg') // placeholder until a violent way is released
-	// TODO: TO_CHAT
-	// TODO: GRANT SPELLS
+	to_chat(owner, span_cult("I hear a singing. HE awaits sacrifice. Death to the world, in the name of the Dark Star."))
+	var/evil_mask = /obj/item/clothing/mask/rogue/sack
+	owner.special_items["Sack Mask"] = evil_mask
 	var/datum/action/cooldown/spell/assassin/get_dagger/A = new
 	A.Grant(owner.current)
 	return ..()
@@ -45,8 +46,7 @@
 
 /datum/antagonist/assassin/on_removal()
 	if(!silent && owner.current)
-		// TODO: TO_CHAT
-		to_chat(owner.current,"<span class='danger'>The red fog in my mind is fading. I am no longer an [name]!</span>")
+		to_chat(owner.current,span_danger("The red fog in my mind fades away... my memories as a killer are missing! Who am I, again?"))
 	return ..()
 
 /datum/antagonist/assassin/roundend_report()
