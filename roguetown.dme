@@ -2552,6 +2552,7 @@
 #include "code\modules\mob\living\carbon\human\voicepacks\male\jester.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\knight.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\stern.dm"
+#include "code\modules\mob\living\carbon\human\voicepacks\male\tyrant.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\warrior.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\wizard.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\zeth.dm"
