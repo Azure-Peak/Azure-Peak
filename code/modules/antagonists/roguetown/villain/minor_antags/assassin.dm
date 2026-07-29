@@ -32,10 +32,9 @@
 	)
 
 /datum/antagonist/assassin/on_gain()
-	owner.current.cmode_music = list('sound/music/cmode/antag/combat_assassin.ogg')
-	var/yea = /obj/item/rogueweapon/huntingknife/idagger/steel/profane
-	owner.special_items["Profane Dagger"] = yea // Assigned assassins can get their special dagger from right clicking certain objects.
-	to_chat(owner.current, "<span class='danger'>I've blended in well up until this point, but it's time for the Hunted of Graggar to perish. I must get my dagger from where I hid it.</span>")
+	owner.current.cmode_music = list('sound/music/cmode/antag/combat_thewall.ogg') // placeholder until a violent way is released
+	// TODO: TO_CHAT
+	// TODO: GRANT SPELLS
 	return ..()
 
 /mob/living/carbon/human/proc/who_targets() // Verb for the assassin to remember their targets.

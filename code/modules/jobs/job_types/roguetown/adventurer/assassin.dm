@@ -9,7 +9,7 @@
 	min_pq = 10		// was going to put this higher but realized bandit's only 3 pq and wretch is fucking 10 so whatever
 	max_pq = null
 	antag_job = TRUE
-	
+
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
 
 	outfit = null
@@ -38,8 +38,8 @@
 		TRAIT_HERESIARCH,	//Just so they can use the Zurch.
 		TRAIT_ANTISCRYING,
 	)
-	cmode_music = 'sound/music/cmode/antag/combat_assassin.ogg'
-	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build 
+	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
+	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build
 	job_subclasses = list(
 		/datum/advclass/assassin_ranger,
 		/datum/advclass/assassin_poisoner,
