@@ -1283,6 +1283,7 @@
 		"How long have I been in here...?"
 	)
 	var/list/stored_souls = list()
+	var/mob/living/dominator // set on dagger pickup if not on spell, for admin-intervention
 
 
 /datum/profane_soul_data
@@ -1299,6 +1300,14 @@
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
 		. += "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"...here we are!\"</i>")
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/rmb_self(mob/user)
+	. = ..()
+	// it funny
+	if(world.time >= last_spoken + 3 SECONDS)
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU'RE GOING TO PAY FOR THIS!\"</i>"))
+		last_spoken = world.time
+
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
 	. = ..()
 	var/picked_message = "Help us..."
@@ -1309,10 +1318,30 @@
 			to_chat(M, "<span class='danger'>Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!</span>")
 			picked_message = pick(na_pleads)
 		else
+			// fallback incase an admin needs to spawn a new dagger for a given assassin
+			if(!dominator)
+				dominator = M
+				var/datum/antagonist/assassin/ass = M.has_antag_datum(/datum/antagonist/assassin)
+				// old dagger MUST be destroyed for a new one. for debug reasons.
+				if(!ass.my_dagger)
+					to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU ARE THE LORD OF THIS WASTELAND!\"</i>"))
+					return
 			picked_message = pick(last_words)
 		if(world.time >= last_spoken + 3 SECONDS)
 			to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"[picked_message]\"</i>"))
 			last_spoken = world.time
+
+// make sure you call release_profane_souls ANYTIME it gets destroyed
+// R_P_S no longer destroys the dagger, instead, this is shatter_dagger() to avoid runtimes associated w/ destroy()
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/Destroy()
+	if(stored_souls)
+		release_profane_souls()
+	if(dominator)
+		to_chat(dominator, span_cult("I hear a faint screaming-- blood drips. My dagger has been destroyed."))
+		var/datum/antagonist/assassin/ass = dominator.has_antag_datum(/datum/antagonist/assassin)
+		my_dagger = null
+	. = ..()
+
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
@@ -1347,8 +1376,10 @@
 		var/mob/living/carbon/human/human_user = user
 
 		// send a message. everyone know what we're doing.
-		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... STOP [human_user.p_them()]!!"),
-							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty. \"De-za-kh...\""))
+		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... \
+												STOP [human_user.p_them()]!!"),
+							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty. \
+							\n\"De-za-kh...\""))
 
 		// INITIATE GRAGGAR BEAM.
 		var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
@@ -1399,22 +1430,54 @@
 	if(!ishuman(user)) // carbons don't have all features of a human
 		return FALSE
 	var/mob/living/carbon/human/assassin = user
-	// ok the easy checks are out of the way lets start looping
-	var/target_is_acceptable_race = FALSE
-	var/user_is_acceptable_race = FALSE
-	// ONLY player species should be peculateable.
-	for(var/checked_species in ALL_RACES_TYPES)
-		if(istype(target.dna.species, checked_species))
-			target_is_acceptable_race = TRUE
-		if(istype(assassin.dna.species, checked_species))
-			user_is_acceptable_race = TRUE
-		// end it early if theyre both good
-		if((user_is_acceptable_race) && (target_is_acceptable_race))
-			break
-	if((!user_is_acceptable_race) || !(target_is_acceptable_race))
+
+	// BEGIN THE LOOPS.
+	var/user_workable_species = species_check(assassin)
+	var/target_workable_species = FALSE
+	// only check if the user is workable to avoid extra loops
+	if(user_workable_species)
+		target_workable_species = species_check(target)
+	if(!user_workable_species || !target_workable_species)
 		return FALSE
 	// everything went well
 	return TRUE
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/species_check(mob/living/L)
+	if(!ishuman(L))
+		return FALSE
+	var/mob/living/carbon/human/H = L
+	// this should be a define of every "non-weird" species. in this case, it's just missing construct & revenant.
+	// this is fine though because this should be more of a whitelist check than a blacklist since it's so finnicky
+	var/static/list/check_list = list(\
+	/datum/species/human/northern,\
+	/datum/species/human/halfelf,\
+	/datum/species/elf/dark,\
+	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
+	/datum/species/dwarf/mountain,\
+	/datum/species/tieberian,\
+	/datum/species/aasimar,\
+	/datum/species/lizardfolk,\
+	/datum/species/lupian,\
+	/datum/species/tabaxi,\
+	/datum/species/vulpkanin,\
+	/datum/species/akula,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/anthromorph,\
+	/datum/species/anthromorphsmall,\
+	/datum/species/demihuman,\
+	/datum/species/halforc,\
+	/datum/species/kobold,\
+	/datum/species/goblinp,\
+	/datum/species/ooze,\
+	/datum/species/dwarf/gnome\
+	)
+	for(var/checked_species in check_list)
+		if(istype(H.dna.species, checked_species))
+			return TRUE
+	return FALSE
+
 
 /// Checks if the user is allowed to peculate in the first place. Adjacent, trait check, whatever.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/can_peculate(mob/living/carbon/human/target, mob/living/user)
@@ -1477,10 +1540,13 @@
 			// fallback in case body is missing for some reason
 			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp... yet it quickly fades. Perchance it could not find it's body...?"))
 			qdel(soul)
-	user.adjust_triumphs(freed_souls)
-	src.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
-	qdel(src) // Delete the dagger. Forevermore.
+	if(user)
+		user.adjust_triumphs(freed_souls)
 	return freed_souls
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/shatter_dagger()
+	src.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
+	qdel(src)
 
 // Standard of the keep.
 // Big ol' flag that they keep to give bonuses, used by the manorguard standard bearer.
