@@ -172,6 +172,7 @@ type Data = {
   dnr: BooleanLike;
   voice_type: string;
   voice_pack: string;
+  char_accent: string;
   voice_pitch: number;
   bark_name: string;
   bark_speed: number;
@@ -1771,6 +1772,11 @@ export const CharacterSheet = (props) => {
                                   label="Identity"
                                   value={data.voice_type}
                                   pref="voicetype"
+                                />
+                                <PrefRow
+                                  label="Accent"
+                                  value={data.char_accent}
+                                  pref="char_accent"
                                 />
                                 <PrefRow
                                   label="Pack"

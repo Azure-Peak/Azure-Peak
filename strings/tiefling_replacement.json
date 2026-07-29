@@ -1,0 +1,37 @@
+{
+    "full": {
+        "goodbye": "adiós",
+        "bye": "adiós",
+        "my": "mi",
+        "it": "et",
+        "is": "es",
+        "in": "en",
+        "of": "de",
+        "the": "el",
+        "yes": "sí",
+        "thanks": "gracias",
+        "form of": "forma de",
+        "shape of": "forma de",
+        "bean": "frijol",
+        "beans": "frijoles",
+        "cat": "gato",
+        "friend": "amigo"
+    },
+    "start": {
+        "tomato": "tomate",
+        "whore": "puta",
+        "cheese": "queso"
+    },
+    "end": {},
+    "multiword": {},
+    "syllable": {
+        "thi": "thee",
+        "fish": "feesh",
+        "ish": "eesh",
+        "is": "es",
+        "in": "en",
+        "r": "rr",
+        "shi": "chee",
+        "sh": "ch"
+    }
+} 
