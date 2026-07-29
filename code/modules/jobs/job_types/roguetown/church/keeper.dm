@@ -4,8 +4,8 @@
 	flag = KEEPER
 	department_flag = SIDEFOLK // A little awkward, but they aren't attached to the church anymore.
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 1
+	spawn_positions = 1
 	allowed_ages = ALL_AGES_LIST
 	allowed_patrons = list(/datum/patron/divine/pestra)
 	forbidden_races = list(RACES_DESPISED)
