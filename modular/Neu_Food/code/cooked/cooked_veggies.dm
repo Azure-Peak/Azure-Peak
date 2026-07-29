@@ -1,6 +1,7 @@
 // Food that is primarily made out of a cooked vegetable component.
 /*	.............   Cooked cabbage   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/cabbage_fried
+	dish_type = DISH_VEGETABLE
 	name = "cooked cabbage"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	icon_state = "cabbage_fried"
@@ -14,6 +15,8 @@
 
 /*	.............   Baked potato   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/potato_baked
+	cuisine = CUISINE_NORTHERN
+	dish_type = DISH_VEGETABLE
 	name = "baked potatoes"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	desc = "A dwarven favorite, as a meal or a game of hot potato."
@@ -25,6 +28,8 @@
 
 /*	.............   Fried potato   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/potato_fried
+	cuisine = CUISINE_NORTHERN
+	dish_type = DISH_VEGETABLE
 	name = "fried potato"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	desc = "Potato bits, well roasted."
@@ -38,6 +43,7 @@
 
 /* .............   Baked Carrot   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked
+	dish_type = DISH_VEGETABLE
 	name = "baked carrot"
 	desc = "A carrot baked to a golden brown, with a soft and sweet interior."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
@@ -49,6 +55,7 @@
 
 /*	.............   Fried onions   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried
+	dish_type = DISH_VEGETABLE
 	name = "fried onion"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	desc = "Seared onions roasted to a delicious set of rings."
@@ -62,6 +69,8 @@
 
 /* .............   Eggplant   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/eggplantcarved
+	cuisine = CUISINE_ETRUSCAN|CUISINE_RANESHENI
+	dish_type = DISH_VEGETABLE
 	name = "carved aubergine"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	icon_state = "eggplant_carved"
@@ -69,6 +78,8 @@
 	rotprocess = SHELFLIFE_LONG
 
 /obj/item/reagent_containers/food/snacks/rogue/eggplantmeat
+	cuisine = CUISINE_ETRUSCAN|CUISINE_RANESHENI
+	dish_type = DISH_VEGETABLE|DISH_MEAT
 	name = "unfinished stuffed aubergine"
 	desc = "An eggplant stuffed with raw meat, ready to be topped with tomato."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
@@ -84,6 +95,8 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed
+	cuisine = CUISINE_ETRUSCAN|CUISINE_RANESHENI
+	dish_type = DISH_VEGETABLE|DISH_MEAT
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	name = "stuffed aubergine"
 	desc = "Eggplant stuffed with meat and tomato. Delicious!"
@@ -95,6 +108,8 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese
+	cuisine = CUISINE_ETRUSCAN|CUISINE_RANESHENI
+	dish_type = DISH_VEGETABLE|DISH_DAIRY
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	name = "stuffed aubergine with cheese"
 	desc = "Stuffed aubergine with cheese on top. Fit for a king!"
@@ -106,6 +121,7 @@
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
 /obj/item/reagent_containers/food/snacks/roastseeds
+	dish_type = DISH_VEGETABLE
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	tastes = list("toasted seeds" = 1)
 	name = "roasted seeds"

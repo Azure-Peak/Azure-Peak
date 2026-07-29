@@ -48,6 +48,7 @@
 #define SPELL_POSITIVE_SCALING_THRESHOLD 15 // The threshold at which spell scaling stop
 #define COOLDOWN_REDUCTION_PER_INT 0.05 // The amount of cooldown reduction per point of intelligence above / below threshold
 #define FATIGUE_REDUCTION_PER_INT 0.05 // Stamina cost reduction per INT above threshold. 5 points above = 25% max reduction
+#define DOMINANT_FAITH_ADJUST 0.05 // For miracles
 
 // Armor Penalty - We applies to cooldown because we want static stamina cost
 #define MEDIUM_ARMOR_CD_PENALTY 0.15 // Cooldown multiplier for wearing medium armor
@@ -158,6 +159,7 @@
 #define MAX_MINOR_ASPECTS 2
 #define ASPECT_MAJOR "major"
 #define ASPECT_MINOR "minor"
+#define ASPECT_PSEUDO "pseudo"
 
 // Telegraph delay tiers (in ticks)
 #define TELEGRAPH_SKILLSHOT 4   // Fast - requires prediction to dodge
@@ -213,7 +215,7 @@
 #define COMSIG_MOB_KICKED_SUCCESSFUL "mob_kicked_successful" //from /mob/living/proc/try_kick(). Sent to target after a kick lands (past dodge/parry).
 
 // Aspect
-#define ASPECT_RESET_BUDGET 12
+#define ASPECT_RESET_BUDGET 4
 #define ASPECT_RESET_COST_MAJOR 4
 #define ASPECT_RESET_COST_MINOR 2
 #define ASPECT_RESET_COST_UTILITY 1

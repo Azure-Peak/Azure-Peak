@@ -56,8 +56,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 	for(var/datum/action/A in actions)
 		A.Remove(src)
 	actions = null
-	SScrediticons.processing -= src
-	SScrediticons.currentrun -= src
 	SStreasury.remove_person(src) // Call me overly cautious I dunno when they giving dogs bank account
 	if(skills && skills.current == src)
 		var/datum/skill_holder/my_skill = skills

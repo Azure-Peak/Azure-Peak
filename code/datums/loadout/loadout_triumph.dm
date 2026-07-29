@@ -371,6 +371,12 @@
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_plaquegoldenbeltfancy
+	name = "Belt of Plaque, Golden, Fancy"
+	path = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+	triumph_cost = 7
+	sort_category = "Triumphs"
+
 //////////////////
 //  RESKINS  !  //
 //////////////////

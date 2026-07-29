@@ -3,8 +3,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////// DRINKS BELOW, Beer is up there though, along with cola. Cap'n Pete's Cuban Spiced Rum////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Rougetown Reagents - Ported from Dreamkeep
+//Roguetown Reagents - Ported from Dreamkeep
 /datum/reagent/consumable/acorn_powder
+	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_CAFFEINE
 	name = "Acorn Powder"
 	description = "A bitter fine powder."
 	color = "#dcb137"
@@ -16,6 +18,8 @@
 	..()
 
 /datum/reagent/consumable/Acoffee
+	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_CAFFEINE
 	name = "Acorn Coffee"
 	description = "A nice bitter stimulating brew"
 	color = "#800000"

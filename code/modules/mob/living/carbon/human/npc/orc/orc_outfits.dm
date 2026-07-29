@@ -17,15 +17,15 @@
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/footsoldier
 
 /mob/living/carbon/human/species/orc/npc/marauder
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/marauder
 
 /mob/living/carbon/human/species/orc/npc/berserker
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/berserker
 
 /mob/living/carbon/human/species/orc/npc/warlord
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DEADLY
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/warlord
 
 // Underarmored orc with incomplete protection, bone axe / spear, and slow speed

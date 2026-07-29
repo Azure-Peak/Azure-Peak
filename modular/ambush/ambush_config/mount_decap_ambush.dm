@@ -2,29 +2,37 @@
 	mob_types = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 2
 	)
-	threat_point = 2 * THREAT_DANGEROUS
+	threat_point = 2 * THREAT_DEADLY
 	faction_tag = "wildlife"
 
 /datum/ambush_config/trio_of_highwaymen
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 3
 	)
-	threat_point = 3 * THREAT_MODERATE
+	threat_point = 3 * THREAT_HIGH
 	faction_tag = "bandits"
 
 /datum/ambush_config/singular_minotaur
 	mob_types = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 1
 	)
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_ELITE
 	faction_tag = "wildlife"
 
 /datum/ambush_config/duo_minotaur
 	mob_types = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 2
 	)
-	threat_point = 2 * THREAT_DANGEROUS
+	threat_point = 2 * THREAT_ELITE
 	faction_tag = "wildlife"
+
+/datum/ambush_config/road_knight_escort
+	mob_types = list(
+		/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 1,
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 2
+	)
+	threat_point = THREAT_DEADLY + 2 * THREAT_HIGH
+	faction_tag = "bandits"
 
 /datum/ambush_config/medium_skeleton_party
 	mob_types = list(

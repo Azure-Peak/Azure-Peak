@@ -1,4 +1,4 @@
-// Deleted the flavorful desc from Vanderlin until I can think of a better desc. 
+// Deleted the flavorful desc from Vanderlin until I can think of a better desc.
 /obj/item/recipe_book/leatherworking
 	name = "The Tanned Hide Tome: Mastery of Leather and Craft"
 	wiki_name = "Leatherworking"
@@ -7,7 +7,7 @@
 
 	types = list(
 	/datum/crafting_recipe/roguetown/tallow,
-	/datum/crafting_recipe/roguetown/leather, 		
+	/datum/crafting_recipe/roguetown/leather,
 	)
 
 /obj/item/recipe_book/sewing
@@ -38,9 +38,9 @@
 	types = list(/datum/crafting_recipe/roguetown/engineering)
 
 // I gave up I will make better names later lol
-// Was gonna do a carpenter + masonry handbook but 
+// Was gonna do a carpenter + masonry handbook but
 // Both are under structures so I will just make them one and add categories
-// Later 
+// Later
 /obj/item/recipe_book/builder
 	name = "The Builder's Handbook - For Carpenters and Masons"
 	wiki_name = "Building"
@@ -56,7 +56,7 @@
 		/datum/crafting_recipe/roguetown/turfs/brick/wall,
 		/datum/crafting_recipe/roguetown/turfs/brick/window,
 
-		/datum/crafting_recipe/roguetown/turfs/fancywindow,		
+		/datum/crafting_recipe/roguetown/turfs/fancywindow,
 		/datum/crafting_recipe/roguetown/turfs/fancywindow/openclose,
 
 		/datum/crafting_recipe/roguetown/turfs/hay,
@@ -114,11 +114,7 @@
 	name = "Tips, Tricks, & Triumphs: The Novice's Handbook To Azuria"
 	wiki_name = "Survival"
 	desc = "A heftsome tome, filled to the brim with all the information you'd need to survive within Azuria. The golden bookmark seems to always lead you \
-	to the page you needed the most, no matter how you flip it. </br>‎  </br>Check out Azure Peak's official wikipedia - https://azurepeak.miraheze.org/wiki/Main_Page - for \
-	whatever comes to mind. </br>‎  </br>This particular tome can be recycled into the Stockpile for a small amount of free \
-	mammons. </br>‎  </br>Activate the tome in your hand to open a searchable glossary, filled with most basic crafting recipes.  </br>‎  </br>Click the 'Mechanics' \
-	tab to reveal a wide variety of tips and tricks, for getting started. Be warned, it's quite a lot; be prepared to scroll around, or hold shift while scrolling down \
-	to compact more information into your chatbox's frame."
+	to the page you needed the most, no matter how you flip it. By shift-clicking it and opening the included 'Mechanics' tab, you can learn all the basics needed to survive."
 	icon_state = "starterguide_0"
 	base_icon_state = "starterguide"
 	sellprice = 5
@@ -130,6 +126,7 @@
 
 /obj/item/recipe_book/survival/get_mechanics_examine(mob/user)
 	. = ..()
+	. += span_info("Try checking out Azure Peak's official wikipedia - https://azurepeak.miraheze.org/wiki/Main_Page - for anything else you might wish to learn about.")
 	. += span_info("Examining things will display a small blurb in the chatbox. If present, clicking the blurb's 'Mechanics' tab or '(?)' button will reveal more detailed information about the thing-in-question.")
 	. += span_info("In particular, many things will have detailed tutorials about core mechanics inside of their 'Mechanics' tab. A bed can explain how sleeping works, a tree can explain how climbing works, and so-on. Examine the world around you to decipher its secrets.")
 	. += span_info("Adventurers, Pilgrims, and other newcomers usually spawn to the south of Town. Following the cobblestone road - and any signs of civilization - will eventually lead you there.")
@@ -142,7 +139,6 @@
 	. += span_info("Pressing 'V', by default, lets you GET UP and LAY DOWN. This can be used to recover energy and stamina, represented by the blue and green bars on your HUD. Pace yourself, lest you be caught off-guard.")
 	. += span_info("This tome can be turned into the Stockpile, traditionally located in a small alcove between the Innhouse and Smithy, for some coinage.")
 	. += span_info("If you're ever stumped, try asking a question through the 'Mentorhelp' verb in the 'Admin' tab, located in your screen's top-right corner. Alternatively, try asking in the Discord's #mentor-talk channel.")
-	. += span_info("Likewise, try checking out Azure Peak's official wikipedia - https://azurepeak.miraheze.org/wiki/Main_Page - for anything else you might wish to learn about.")
 	. += span_info("And most importantly.. have fun!")
 
 // TBD - Cauldron Recipes
@@ -159,7 +155,7 @@
 		/datum/alch_grind_recipe,
 		/datum/alch_cauldron_recipe
 		)
- 
+
 /obj/item/recipe_book/brewing
 	name = "The Brewer's Compendium"
 	wiki_name = "Brewing"
@@ -186,7 +182,8 @@
 		/datum/book_entry/cooking_basics,
 		/datum/book_entry/cooking_ingredients,
 		/datum/book_entry/cooking_pies,
-		/datum/book_entry/cooking_deepfry
+		/datum/book_entry/cooking_deepfry,
+		/datum/book_entry/cuisine
 	)
 
 /obj/item/recipe_book/magic

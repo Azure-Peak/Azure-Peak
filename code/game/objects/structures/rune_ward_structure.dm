@@ -96,8 +96,7 @@
 	playsound(src, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 80, TRUE)
 	new /obj/effect/hotspot(get_turf(src))
 	L.Slowdown(4)
-	L.adjust_fire_stacks(6)
-	L.ignite_mob()
+	apply_scorch_stack(L, 4, BODY_ZONE_CHEST)
 
 /obj/structure/rune_ward/chill
 	name = "frost rune"

@@ -1160,23 +1160,23 @@
 
 /datum/sprite_accessory/hair/head/mcsqueeb
 	name = "Ye Old McSqueeb"
-	icon_state = "mcsqueeb"	
+	icon_state = "mcsqueeb"
 
 /datum/sprite_accessory/hair/head/highlander
 	name = "Highlander"
-	icon_state = "highlander"	
+	icon_state = "highlander"
 
 /datum/sprite_accessory/hair/head/royalcurls
 	name = "Royal Curls"
-	icon_state = "royalcurls"	
+	icon_state = "royalcurls"
 
 /datum/sprite_accessory/hair/head/dreadlocksmessy
 	name = "Dreadlocks Messy"
-	icon_state = "dreadlong"	
+	icon_state = "dreadlong"
 
 /datum/sprite_accessory/hair/head/suave
 	name = "Suave"
-	icon_state = "suave"	
+	icon_state = "suave"
 
 /datum/sprite_accessory/hair/head/kusanagi_alt
 	name = "Kusanagi (Alt)"
@@ -1710,6 +1710,10 @@
 /datum/sprite_accessory/hair/head/lizbeth
 	name = "Lizbeth"
 	icon_state = "lizbeth"
+
+/datum/sprite_accessory/hair/head/skunky
+	name = "Skunky"
+	icon_state = "skunky"
 
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian

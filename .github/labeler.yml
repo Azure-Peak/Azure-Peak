@@ -1,43 +1,43 @@
 Administration:
-- changed-files:
-  - any-glob-to-any-file: admin/**
+  - changed-files:
+      - any-glob-to-any-file: admin/**
 
 Code:
-- changed-files:
-  - any-glob-to-any-file: code/**
+  - changed-files:
+      - any-glob-to-any-file: code/**
 
 Code Maintenance:
-- changed-files:
-  - any-glob-to-any-file:
-    - controllers/**
-    - code/__DEFINES/**
-    - code/__HELPERS/**
+  - changed-files:
+      - any-glob-to-any-file:
+          - controllers/**
+          - code/__DEFINES/**
+          - code/__HELPERS/**
 
 Sound:
-- changed-files: 
-  - any-glob-to-any-file: sound/**
+  - changed-files:
+      - any-glob-to-any-file: sound/**
 
 Sprite:
-- changed-files:
-  - any-glob-to-any-file: icons/**
+  - changed-files:
+      - any-glob-to-any-file: icons/**
 
 Mapping:
-- changed-files:
-  - any-glob-to-any-file: _maps/**
+  - changed-files:
+      - any-glob-to-any-file: _maps/**
 
 Documentation:
-- changed-files:
-  - any-glob-to-any-file:
-    - .github/**
-    - README.md**
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/**
+          - README.md**
 
 Balance:
-- changed-files:
-  - any-glob-to-any-file:
-    - code/modules/jobs/job_types/roguetown/**
-    - code/modules/spells/**
-    - code/modules/clothing/**
-    - code/game/objects/items/rogueweapon/**
+  - changed-files:
+      - any-glob-to-any-file:
+          - code/modules/jobs/job_types/roguetown/**
+          - code/modules/spells/**
+          - code/modules/clothing/**
+          - code/game/objects/items/rogueweapon/**
 
 TGS:
   - changed-files:
@@ -46,3 +46,7 @@ TGS:
           - code/__DEFINES/tgs.config.dm
           - code/modules/discord/tgs_commands.dm
           - code/modules/tgs/**
+Donator:
+  - changed-files:
+      - any-glob-to-any-file:
+          - code/datums/loadout/loadout_donators.dm

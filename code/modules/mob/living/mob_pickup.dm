@@ -8,6 +8,7 @@
 /obj/item/mob_item/Initialize()
 	. = ..()
 	RegisterSignal(src, COMSIG_QDELETING, PROC_REF(revert))
+	become_hearing_sensitive()
 
 /obj/item/mob_item/container_resist(mob/living/user)
 	. = ..()

@@ -194,10 +194,11 @@
 
 	level = 5
 	research_cost = 4
+	vitae_cost = 250
 	minimal_generation = GENERATION_ANCILLAE
 	check_flags = COVEN_CHECK_CONSCIOUS | COVEN_CHECK_CAPABLE | COVEN_CHECK_IMMOBILE | COVEN_CHECK_SPEAK
 	duration_length = 3 SECONDS
-	cooldown_length = 30 SECONDS
+	cooldown_length = 60 SECONDS
 
 /datum/coven_power/siren/shattering_crescendo/activate()
 	. = ..()

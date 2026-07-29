@@ -1,0 +1,7 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - image: "deleted and cleaned up some unused icons in general spells."
+  - image: "Added recolored scroll backgrounds for Xylix/Necra/Eora/Baotha."
+  - image: "Adjusted some of Necra/Xylix/Eora's spell icons."
+  - refactor: "moved some sprites from general spells to their respective miracle icon files."

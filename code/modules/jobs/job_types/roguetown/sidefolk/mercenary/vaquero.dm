@@ -32,9 +32,6 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
-	subclass_virtues = list(
-		/datum/virtue/utility/riding
-	)
 
 /datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H, dummy)
 	if(should_wear_femme_clothes(H))

@@ -1,0 +1,7 @@
+author: "zeroisthebiggay"
+delete-after: True
+changes:
+  - qol: "Polished items will now tell you what stage they are on exactly, rather than stages two and three being lumped together."
+  - qol: "Each stage gives you a hint on what needs to be done next in the examine text."
+  - qol: "Polish will yell at you and prevent you from applying it if you are attempting to apply it to an item that isn't at maximum integrity."
+  - qol: "If an item is dyed or has a color value of anything other than pure white, polish won't forcibly alter its color. This means you can polish dyed items without fucking up the dye. This is major QOL for anyone who has either tried to polish their dyed or armor, or has had their armor polished, dyed, broken, and then have to reapply the polish."

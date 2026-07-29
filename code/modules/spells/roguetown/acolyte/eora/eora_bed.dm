@@ -56,7 +56,7 @@
 		if(current_oxy > max_oxy)
 			max_oxy = current_oxy
 			priority_target = L
-			max_brute = current_brute 
+			max_brute = current_brute
 
 		else if(current_oxy == max_oxy && !priority_target)
 			if(current_brute > max_brute)
@@ -105,6 +105,7 @@
 	name = "Eora's Rest"
 	desc = "Summon a sacred Eoran bed to provide sanctuary and soothe the wounded. \
 	You may only maintain a limited amount of beds at a time depending on miracle skill. Summoning a new one will cause the oldest one to vanish."
+	background_icon = 'icons/mob/actions/eoramiracles.dmi'
 	button_icon = 'icons/mob/actions/eoramiracles.dmi'
 	button_icon_state = "eorabed" // Replace with your icon state
 	sound = 'sound/magic/holyshield.ogg'

@@ -16,7 +16,6 @@
 	flags_inv = HIDEBOOB
 	experimental_inhand = TRUE
 	salvage_amount = 2
-
 	grid_width = 64
 	grid_height = 64
 
@@ -77,6 +76,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	material_category = ARMOR_MAT_LEATHER //So it doesn't make plate armor noises taking damage
 	sewrepair = TRUE
 	adjustable = CAN_CADJUST
 
@@ -185,9 +185,10 @@
 
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
 	name = "aesthetic custom-fit silk shirt"
-	armor_class = ARMOR_CLASS_NONE
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+
+/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/apothshirt
 	name = "apothecary shirt"

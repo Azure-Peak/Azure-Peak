@@ -878,6 +878,10 @@
 	name = "light"
 	icon_state = "inlight"
 
+/datum/intent/hand/convert
+	name = "convert"
+	icon_state = "inbless"
+
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT
 
