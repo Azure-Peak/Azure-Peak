@@ -83,7 +83,6 @@ export function CulinaryPreferences(props) {
     <Window
       width={420}
       height={600}
-      theme="parchment"
       title="Culinary Preferences"
     >
       <Window.Content scrollable>

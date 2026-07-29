@@ -81,7 +81,7 @@ export const Calendar = () => {
   };
 
   return (
-    <Window width={620} height={680} title="Calendar" theme="parchment">
+    <Window width={620} height={680} title="Calendar">
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The Valmorian Calendar</div>

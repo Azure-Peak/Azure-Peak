@@ -393,7 +393,7 @@ export const MigrantPanel = () => {
     : undefined;
 
   return (
-    <Window width={760} height={680} theme="parchment">
+    <Window width={760} height={680}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>Find a Purpose</div>

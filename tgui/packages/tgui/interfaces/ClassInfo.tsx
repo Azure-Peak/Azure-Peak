@@ -228,7 +228,7 @@ export function ClassInfo(props) {
   const { data } = useBackend<Data>();
   if (data.jester) {
     return (
-      <Window width={475} height={420} theme="parchment" title={data.title}>
+      <Window width={475} height={420} title={data.title}>
         <Window.Content>
           <Box textAlign="center" color="#d151ab" mt={2}>
             <Box>
@@ -259,7 +259,7 @@ export function ClassInfo(props) {
     );
   }
   return (
-    <Window width={520} height={650} theme="parchment" title={data.title}>
+    <Window width={520} height={650} title={data.title}>
       <Window.Content scrollable>
         {data.subclasses.length > 0 && (
           <Section title="Subclasses">

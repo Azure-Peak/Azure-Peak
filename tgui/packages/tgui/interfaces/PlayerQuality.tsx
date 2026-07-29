@@ -31,7 +31,7 @@ type Data = {
 export function PlayerQuality(props) {
   const { data } = useBackend<Data>();
   return (
-    <Window width={420} height={560} theme="parchment" title="Player Quality">
+    <Window width={420} height={560} title="Player Quality">
       <Window.Content scrollable>
         <Section textAlign="center">
           <Box bold>{data.ckey}</Box>

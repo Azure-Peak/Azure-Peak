@@ -140,7 +140,7 @@ const CustomizerCard = (props: { customizer: Customizer }) => {
 export function CharacterCustomizer(props) {
   const { data } = useBackend<Data>();
   return (
-    <Window width={700} height={730} theme="parchment" title="Customization">
+    <Window width={700} height={730} title="Customization">
       <Window.Content scrollable>
         <Stack wrap>
           {data.customizers.map((customizer) => (

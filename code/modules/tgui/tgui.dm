@@ -268,7 +268,6 @@
 			"fancy" = user.client.prefs.tgui_fancy,
 			"locked" = user.client.prefs.tgui_lock,
 			"theme" = user.client.prefs.tgui_theme,
-			"parchment_skin" = user.client.prefs.parchment_skin,
 			"scale" = TRUE,
 		),
 		"client" = list(

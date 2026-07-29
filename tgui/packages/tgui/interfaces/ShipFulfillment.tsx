@@ -360,7 +360,7 @@ export const ShipFulfillment = () => {
   const { manifests, middleman_cut_percent, can_manage } = data;
 
   return (
-    <Window width={620} height={680} theme="parchment">
+    <Window width={620} height={680}>
       <Window.Content scrollable>
         <div style={{ ...pageStyle, position: 'relative' }}>
           <button

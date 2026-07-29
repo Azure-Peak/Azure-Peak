@@ -4,6 +4,7 @@ import {
   Button,
   ByondUi,
   Divider,
+  Dropdown,
   Input,
   Modal,
   Section,
@@ -24,6 +25,7 @@ type VirtueData = {
 
 type FlawData = {
   name: string;
+  desc: string | null;
   index: number;
   warning: BooleanLike;
 };
@@ -81,7 +83,7 @@ type VillainsData = {
 
 type SettingsData = {
   tgui_theme: string;
-  parchment_skin: string;
+  tgui_theme_options: { key: string; name: string }[];
   statbrowser_theme: string;
   ambientocclusion: BooleanLike;
   windowflashing: BooleanLike;
@@ -749,18 +751,22 @@ const SettingsTab = (props) => {
     <Stack fill>
       <Stack.Item grow basis={0}>
         <Section fill scrollable title="Display">
-          <PrefRow
-            label="TGUI Theme"
-            value={s.tgui_theme}
-            pref="tgui_theme"
-            task=""
-          />
-          <PrefRow
-            label="Parchment"
-            value={s.parchment_skin}
-            pref="parchment_skin"
-            task=""
-          />
+          <Stack align="center">
+            <Stack.Item width="105px" color="label">
+              TGUI Theme
+            </Stack.Item>
+            <Stack.Item grow>
+              <Dropdown
+                width="15em"
+                selected={s.tgui_theme}
+                options={s.tgui_theme_options.map((o) => ({
+                  value: o.key,
+                  displayText: o.name,
+                }))}
+                onSelected={(value) => act('set_tgui_theme', { theme: value })}
+              />
+            </Stack.Item>
+          </Stack>
           <PrefRow
             label="Panel Theme"
             value={s.statbrowser_theme}
@@ -1274,7 +1280,7 @@ export const CharacterSheet = (props) => {
   }, []);
 
   return (
-    <Window width={1280} height={720} theme="parchment" title="Character Sheet">
+    <Window width={1280} height={720} title="Character Sheet">
       <Window.Content>
         <Stack fill vertical>
           {/* Tab bar + header badges */}
@@ -1486,6 +1492,7 @@ export const CharacterSheet = (props) => {
                             <Button
                               color="transparent"
                               textColor={flaw.warning ? 'bad' : undefined}
+                              tooltip={flaw.desc}
                               onClick={() =>
                                 act('link', {
                                   preference: 'charflaw',

@@ -52,7 +52,7 @@ export const LoadoutMenu = () => {
 
   if (!data.categories || !data.items) {
     return (
-      <Window width={780} height={600} theme="parchment">
+      <Window width={780} height={600}>
         <Window.Content>
           <Stack align="center" justify="center" fill>
             <Stack.Item fontSize={1.5}>Loading loadout data...</Stack.Item>
@@ -63,7 +63,7 @@ export const LoadoutMenu = () => {
   }
 
   return (
-    <Window width={780} height={600} theme="parchment">
+    <Window width={780} height={600}>
       <Window.Content>
         <LoadoutDisplay />
       </Window.Content>

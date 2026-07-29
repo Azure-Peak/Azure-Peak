@@ -80,7 +80,6 @@ export const GnollCustomizer = () => {
     <Window
       width={460}
       height={640}
-      theme="parchment"
       title="Gnoll Customization"
     >
       <Window.Content scrollable>

@@ -137,7 +137,7 @@
 			if(index > accessory.color_keys)
 				return
 			var/list/color_list = color_string_to_list(entry.accessory_colors)
-			var/new_color = color_pick_sanitized(user, "Choose your accessory color:", "Character Preference","[color_list[index]]")
+			var/new_color = color_pick_native(user, "Choose your accessory color:", "Character Preference","[color_list[index]]")
 			if(!new_color)
 				return
 			color_list[index] = sanitize_hexcolor(new_color, 6, TRUE)

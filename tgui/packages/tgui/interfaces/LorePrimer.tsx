@@ -17,7 +17,7 @@ type Data = {
 export function LorePrimer(props) {
   const { data } = useBackend<Data>();
   return (
-    <Window width={650} height={780} theme="parchment" title="Lore Primer">
+    <Window width={650} height={780} title="Lore Primer">
       <Window.Content scrollable>
         <Section>
           {/* Server-authored lore text (strings/rt/rp_prompt.txt), rendered as-is to keep its legacy formatting */}

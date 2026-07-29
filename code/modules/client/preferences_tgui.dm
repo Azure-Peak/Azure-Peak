@@ -1,5 +1,8 @@
 /proc/get_tgui_themes()
 	var/static/list/themes = list(
+		"parchment" = "Parchment",
+		"parchment_leatherbound" = "Parchment (Leatherbound)",
+		"parchment_vellum" = "Parchment (Vellum)",
 		"azure_default" = "Ascendant",
 		"azure_ascendant" = "New Ascendant",
 		"azure_green" = "Oaken",
@@ -12,33 +15,29 @@
 	)
 	return themes
 
-/proc/get_parchment_skins()
-	var/static/list/skins = list(
-		"vellum" = "Vellum",
-		"parchment" = "Parchment",
-		"leatherbound" = "Leatherbound",
-	)
-	return skins
+/// Sets and saves the tgui theme, then re-sends configs so every open window
+/// restyles immediately (the theme rides in the payload sent at window open).
+/datum/preferences/proc/set_tgui_theme(new_theme)
+	if(!(new_theme in get_tgui_themes()))
+		return FALSE
+	tgui_theme = new_theme
+	save_preferences()
+	var/mob/M = parent?.mob
+	if(M)
+		for(var/datum/tgui/ui as anything in M.tgui_open_uis)
+			ui.send_full_update(force = TRUE)
+	return TRUE
 
-/proc/sanitize_parchment_skin(value)
-	var/list/skins = get_parchment_skins()
-	if(value in skins)
-		return value
-	return "leatherbound"
-
-/datum/preferences/proc/get_parchment_skin_display_name()
-	var/list/skins = get_parchment_skins()
-	return skins[parchment_skin] || skins["leatherbound"]
-
-/datum/preferences/proc/cycle_parchment_skin()
-	var/list/skins = get_parchment_skins()
-	var/list/keys = list()
-	for(var/k in skins)
-		keys += k
-	var/idx = keys.Find(parchment_skin)
-	if(!idx)
-		idx = 1
-	parchment_skin = keys[(idx % keys.len) + 1]
+/// Legacy menu path: pick a theme from a list input.
+/datum/preferences/proc/pick_tgui_theme(mob/user)
+	var/list/themes = get_tgui_themes()
+	var/list/by_name = list()
+	for(var/key in themes)
+		by_name[themes[key]] = key
+	var/choice = tgui_input_list(user, "Choose your TGUI theme:", "TGUI Theme", by_name, themes[tgui_theme])
+	if(!choice)
+		return
+	set_tgui_theme(by_name[choice])
 
 /proc/get_statbrowser_themes()
 	var/static/list/themes = list(
@@ -71,7 +70,3 @@
 	var/list/themes = get_tgui_themes()
 	return themes[tgui_theme] || tgui_theme
 
-// Open the theme picker with live preview
-/datum/preferences/proc/setTguiStyle(mob/user)
-	var/datum/theme_picker/picker = new(user)
-	picker.ui_interact(user)

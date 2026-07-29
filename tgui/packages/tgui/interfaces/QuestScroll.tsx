@@ -334,7 +334,6 @@ export const QuestScroll = () => {
         title="Contract Scroll"
         width={520}
         height={620}
-        theme="parchment"
       >
         <Window.Content scrollable>
           <div style={parchment}>
@@ -408,7 +407,7 @@ export const QuestScroll = () => {
   const hasRecoveryAddendum = isOutlawry && !!data.recovery_shipment;
 
   return (
-    <Window title="Contract Scroll" width={520} height={680} theme="parchment">
+    <Window title="Contract Scroll" width={520} height={680}>
       <Window.Content scrollable>
         <div style={parchment}>
           {data.title && <div style={titleHint}>{data.title}</div>}

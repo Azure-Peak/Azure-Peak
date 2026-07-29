@@ -437,7 +437,7 @@ export const Talkstatue = () => {
   const [tab, setTab] = useState<Tab>('mercs');
   const activeTab: Tab = tab === 'wretches' && !wretchVisible ? 'mercs' : tab;
   return (
-    <Window width={620} height={680} theme="parchment">
+    <Window width={620} height={680}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The Talking Statue</div>

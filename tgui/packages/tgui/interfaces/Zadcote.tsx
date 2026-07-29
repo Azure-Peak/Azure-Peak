@@ -780,7 +780,7 @@ export const Zadcote = () => {
   const [tab, setTab] = useState<'slots' | 'log'>('slots');
 
   return (
-    <Window title="Zadcote" width={720} height={760} theme="parchment">
+    <Window title="Zadcote" width={720} height={760}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <ReserveHeader data={data} onHelp={() => act('help')} act={act} />

@@ -79,7 +79,6 @@ export const TextInputModal = (props) => {
       title={title}
       width={windowWidth}
       height={windowHeight}
-      theme="parchment"
     >
       {timeout && <Loader value={timeout} />}
       <Window.Content onKeyDown={handleKeyDown}>

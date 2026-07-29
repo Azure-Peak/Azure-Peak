@@ -76,7 +76,7 @@ export function TriumphBuyMenu(props) {
   const [category, setCategory] = useState(data.categories[0]);
   const items = data.items[category] || [];
   return (
-    <Window width={520} height={700} theme="parchment" title="Triumph Buys">
+    <Window width={520} height={700} title="Triumph Buys">
       <Window.Content scrollable>
         <NoticeBox info>I have {data.triumphs} Triumphs</NoticeBox>
         <Tabs>

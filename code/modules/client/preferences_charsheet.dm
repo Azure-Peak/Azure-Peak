@@ -71,6 +71,13 @@
 /datum/preferences/ui_data(mob/user)
 	var/list/data = list()
 
+	// The legacy menu initialized these inside its render; the tgui sheet must do
+	// the same or virtue clicks and virtue-restricted job checks runtime on null.
+	if(!virtue)
+		virtue = GLOB.virtues[/datum/virtue/none]
+	if(!virtuetwo)
+		virtuetwo = GLOB.virtues[/datum/virtue/none]
+
 	// Header badges
 	var/list/pq_display = get_playerquality_display(get_playerquality(user.ckey))
 	data["pq"] = pq_display["label"]
@@ -150,6 +157,7 @@
 			continue
 		flaw_list += list(list(
 			"name" = "[cf]",
+			"desc" = cf.desc,
 			"index" = i,
 			"warning" = (cf.needs_extra_vice && !has_extra_vice),
 		))
@@ -288,7 +296,7 @@
 		if(length(job.virtue_restrictions) || length(job.vice_restrictions))
 			var/list/restricted_list = list()
 			if(length(job.virtue_restrictions))
-				if(virtue.type in job.virtue_restrictions)
+				if(virtue && (virtue.type in job.virtue_restrictions))
 					restricted_list += virtue.name
 				if(virtuetwo && (virtuetwo.type in job.virtue_restrictions))
 					restricted_list += virtuetwo.name
@@ -307,7 +315,7 @@
 			job_unavailable = new_player.IsJobUnavailable(job.title, latejoin = FALSE)
 		var/static/list/acceptable_unavailables = list(JOB_AVAILABLE, JOB_UNAVAILABLE_SLOTFULL)
 		if(!(job_unavailable in acceptable_unavailables))
-			entry["locked"] = "Unavailable"
+			entry["locked"] = get_job_unavailable_error_message(job_unavailable, job.title, user)
 			entry["lock_color"] = "grey"
 			job_list += list(entry)
 			continue
@@ -375,9 +383,13 @@
 
 /// Game Settings tab - display options.
 /datum/preferences/proc/charsheet_settings_data(mob/user)
+	var/list/theme_options = list()
+	var/list/all_themes = get_tgui_themes()
+	for(var/key in all_themes)
+		theme_options += list(list("key" = key, "name" = all_themes[key]))
 	return list(
-		"tgui_theme" = get_tgui_theme_display_name(),
-		"parchment_skin" = get_parchment_skin_display_name(),
+		"tgui_theme" = tgui_theme,
+		"tgui_theme_options" = theme_options,
 		"statbrowser_theme" = get_statbrowser_theme_display_name(),
 		"ambientocclusion" = !!ambientocclusion,
 		"windowflashing" = !!windowflashing,
@@ -454,6 +466,11 @@
 				href_list[key] = "[params[key]]"
 			process_link(user, href_list)
 			update_preview_icon()
+			return TRUE
+
+		// Theme dropdown: applies instantly to every open window and saves.
+		if("set_tgui_theme")
+			set_tgui_theme(params["theme"])
 			return TRUE
 
 		if("refresh_preview")

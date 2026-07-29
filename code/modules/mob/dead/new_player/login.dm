@@ -15,7 +15,12 @@
 	sight |= SEE_TURFS
 
 	addtimer(CALLBACK(src, PROC_REF(do_after_login)), 4 SECONDS)
-	new_player_panel()
+	// Opening the sheet the instant Login runs races the client's webview/asset
+	// (re)initialization — especially on reconnect — and the window dies as a grey
+	// box. Give the client a moment to come up first, and retry after the zombie
+	// window ping timeout (4s) would have cleaned up a failed first attempt.
+	addtimer(CALLBACK(src, PROC_REF(new_player_panel)), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(retry_player_panel)), 8 SECONDS)
 
 	if(client)
 		client.playtitlemusic()

@@ -76,7 +76,7 @@ const helpButtonStyle = {
 export const Zadcage = () => {
   const { act, data } = useBackend<ZadcageData>();
   return (
-    <Window title="Zadcage" width={480} height={560} theme="parchment">
+    <Window title="Zadcage" width={480} height={560}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <button style={helpButtonStyle} onClick={() => act('help')}>

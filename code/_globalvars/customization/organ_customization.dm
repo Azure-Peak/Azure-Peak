@@ -24,3 +24,11 @@ GLOBAL_LIST_INIT(customizers, build_customizers())
 	color = sanitize_hexcolor(color)
 
 	return color
+
+/// Same contract as color_pick_sanitized() but uses BYOND's native color dialog,
+/// matching the eye color picker in the customizer menu.
+/proc/color_pick_native(mob/user, description, title, default_value)
+	var/color = input(user, description, title, default_value) as color|null
+	if(!color)
+		return
+	return sanitize_hexcolor(color)

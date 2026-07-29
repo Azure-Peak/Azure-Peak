@@ -66,6 +66,17 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		if(client.prefs)
 			client.prefs.ShowChoices(src, 4)
 
+/// The panel opened at Login can die as a zombie window when the client's webview
+/// wasn't ready yet (common on reconnect); the framework closes it after its ping
+/// timeout but nothing reopens it. Called on a delay to catch and retry that case.
+/mob/dead/new_player/proc/retry_player_panel()
+	if(!client?.prefs)
+		return
+	if(SStgui.get_open_ui(src, client.prefs))
+		return // First open made it; nothing to do.
+	client.prefs.charsheet_tgui_active = FALSE
+	new_player_panel()
+
 /mob/dead/new_player/Topic(href, href_list[])
 	if(src != usr)
 		return 0
@@ -209,7 +220,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	set category = "IC.Memory"
 	GLOB.lore_primer.ui_interact(src)
 
-/proc/get_job_unavailable_error_message(retval, jobtitle)
+/proc/get_job_unavailable_error_message(retval, jobtitle, mob/the_user = usr)
 	switch(retval)
 		if(JOB_AVAILABLE)
 			return "[jobtitle] is available."
@@ -234,18 +245,19 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		if(JOB_UNAVAILABLE_LASTCLASS)
 			return "You have played [jobtitle] recently."
 		if(JOB_UNAVAILABLE_JOB_COOLDOWN)
-			if(usr.ckey in GLOB.job_respawn_delays)
-				var/remaining_time = round((GLOB.job_respawn_delays[usr.ckey] - world.time) / 10)
+			if(the_user?.ckey && (the_user.ckey in GLOB.job_respawn_delays))
+				var/remaining_time = round((GLOB.job_respawn_delays[the_user.ckey] - world.time) / 10)
 				return "You must wait [remaining_time] seconds before playing as an [jobtitle] again."
+			return "You must wait before playing as an [jobtitle] again."
 		if(JOB_UNAVAILABLE_VIRTUESVICE)
 			return "[jobtitle] is restricted by your Virtues or Vices."
 		if(JOB_UNAVAILABLE_PQ)
 			var/datum/job/job = SSjob.GetJob(jobtitle)
 			if(job && !isnull(job.min_pq))
-				var/player_pq = get_playerquality(usr?.ckey)
+				var/player_pq = get_playerquality(the_user?.ckey)
 				return "You do not meet the Player Quality requirement for [jobtitle]. (Required: [job.min_pq], Your PQ: [player_pq])"
 			else if(job && !isnull(job.max_pq))
-				var/player_pq = get_playerquality(usr?.ckey)
+				var/player_pq = get_playerquality(the_user?.ckey)
 				return "You exceed the Player Quality requirement for [jobtitle]. (Maximum: [job.max_pq], Your PQ: [player_pq])"
 			return "You do not meet the Player Quality requirement for [jobtitle]."
 	return "Error: Unknown job availability."
