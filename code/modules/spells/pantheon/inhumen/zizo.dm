@@ -422,7 +422,7 @@
 
 /datum/stressevent/zizospite
 	timer = 3 MINUTES
-	stressadd = 8 //technically 16, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one can't chain + is slightly weaker in exchange for (1) forced freakout + hallucinations.
+	stressadd = 8 //technically 16, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one goes away WITH the status effect, so its not as long lingering nor spammable indefinitely.
 	desc = span_boldred("I FEEL A HORRIBLE CHILL DOWN MY SPINE! MY MYND IS FILLED WITH HORRIFYING VISIONS.")
 
 /datum/stressevent/zizospitelesser
