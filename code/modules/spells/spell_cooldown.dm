@@ -694,6 +694,11 @@
 			owner.balloon_alert(owner, "Too distracted riding to cast!")
 		return FALSE
 
+	if((spell_requirements & SPELL_REQUIRES_CMODE) && !owner.cmode)
+		if(feedback)
+			owner.balloon_alert(owner, "Only in combat mode!")
+		return FALSE
+
 	for(var/datum/action/cooldown/spell/spell in owner.actions)
 		if(spell == src)
 			continue
@@ -758,6 +763,12 @@
 	if(click_to_activate && !self_cast_possible)
 		if(cast_on == owner)
 			owner.balloon_alert(owner, "Can't self cast!")
+			return FALSE
+
+	if((spell_requirements & SPELL_REQUIRES_TARGET_CMODE) && isliving(cast_on))
+		var/mob/living/living_target = cast_on
+		if(!living_target.cmode)
+			owner.balloon_alert(owner, "They aren't ready to fight!")
 			return FALSE
 
 	return TRUE
