@@ -1,9 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - rscadd: "Vampiric armor, skin armor that is restored by damaging armor and picking up shedded shards."
-  - balance: "Gnolls now have vampiric armor rather than regenerating armor."
-  - rscadd: "Blood fury for gnolls upon picking up shedded armor shards. Increases strength, con, decreases spd, int"
-  - balance: "Gnolls lose longstriders whilst affected by blood fury bonuses"
-  - balance: "Gnolls lose battle ready unless affected by blood fury bonuses"
-  - balance: "Non shaman gnolls gain nopainstun when maxing out blood fury bonuses"

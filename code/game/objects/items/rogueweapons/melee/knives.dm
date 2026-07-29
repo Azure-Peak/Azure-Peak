@@ -755,6 +755,7 @@
 	icon_state = "bs_dagger"
 	sheathe_icon = "bs_dagger"
 	force = 22
+	max_integrity = 180
 	max_blade_int = 250
 	smeltresult = /obj/item/ingot/blacksteel
 
@@ -766,6 +767,7 @@
 	sheathe_icon = "bs_misericorde"
 	force = 25
 	wdefense = 4
+	max_integrity = 180
 	max_blade_int = 300
 
 /obj/item/rogueweapon/huntingknife/throwingknife/blacksteel

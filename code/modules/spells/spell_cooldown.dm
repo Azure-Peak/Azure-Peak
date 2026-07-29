@@ -694,6 +694,11 @@
 			owner.balloon_alert(owner, "Too distracted riding to cast!")
 		return FALSE
 
+	if((spell_requirements & SPELL_REQUIRES_CMODE) && !owner.cmode)
+		if(feedback)
+			owner.balloon_alert(owner, "Only in combat mode!")
+		return FALSE
+
 	for(var/datum/action/cooldown/spell/spell in owner.actions)
 		if(spell == src)
 			continue
@@ -706,7 +711,11 @@
 		return FALSE
 
 	// Certain spells are not allowed on the centcom zlevel
-	var/turf/caster_turf = get_turf(owner)
+	var/turf/caster_turf = owner.loc
+	if(!istype(caster_turf))
+		if(feedback)
+			owner.balloon_alert(owner, "Cannot cast here!")
+		return FALSE // no spell casting when you're inside something please
 	if((spell_requirements & SPELL_REQUIRES_STATION) && is_centcom_level(caster_turf.z))
 		if(feedback)
 			owner.balloon_alert(owner, "Cannot cast here!")
@@ -754,6 +763,12 @@
 	if(click_to_activate && !self_cast_possible)
 		if(cast_on == owner)
 			owner.balloon_alert(owner, "Can't self cast!")
+			return FALSE
+
+	if((spell_requirements & SPELL_REQUIRES_TARGET_CMODE) && isliving(cast_on))
+		var/mob/living/living_target = cast_on
+		if(!living_target.cmode)
+			owner.balloon_alert(owner, "They aren't ready to fight!")
 			return FALSE
 
 	return TRUE

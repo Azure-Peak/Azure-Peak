@@ -337,6 +337,14 @@
 	name = "Gift - Regional, Shadowy Pants (Tall Humanoid Only)"
 	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
 
+/datum/loadout_item/donator/universal/regional/trophyfurs
+	name = "Gift - Regional, Trophy Robes"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout
+
+/datum/loadout_item/donator/universal/regional/hatangacoat
+	name = "Gift - Regional, Hatanga Coat"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
+
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -590,7 +598,7 @@
 /datum/loadout_item/donator/lmwevil/brassbeak
 	name = "Donator Item - Brass Beak Mask"
 	path = /obj/item/enchantingkit/lmwevil_brassbeak
-	ckeywhitelist = list("lmwevil")
+	ckeywhitelist = list("lmwevil", "theeternalflame")
 
 /datum/loadout_item/donator/shudderfly/eoranspike
 	name = "Donator Kit - Eoran Spike"
@@ -707,17 +715,17 @@
 /datum/loadout_item/donator/nero_sword
 	name = "Donator Kit - Sylvan Longsword"
 	path = /obj/item/enchantingkit/weapon/nero_lsword
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple")
 
 /datum/loadout_item/donator/nero_dagger
 	name = "Donator Kit - Sylvan Dagger"
 	path = /obj/item/enchantingkit/weapon/nero_dagger
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple")
 
 /datum/loadout_item/donator/nero_sabre
 	name = "Donator Kit - Sylvan Sabre"
 	path = /obj/item/enchantingkit/weapon/nero_sabre
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple")
 
 /datum/loadout_item/donator/des_gaebolg
 	name = "Dontaor Kit - Gae Bolg"

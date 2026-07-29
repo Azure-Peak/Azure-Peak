@@ -172,7 +172,7 @@
 	for(var/item_type in current_required_items)
 		var/needed = current_required_items[item_type]
 		var/have = available_items[item_type] || 0
-		
+
 		if(have < needed) {
 			var/obj/item/I = item_type
 			var/amount_needed = needed - have
@@ -286,7 +286,7 @@
 	var/timed_cooldown
 
 /obj/effect/proc_holder/spell/invoked/summon_dreamfiend_curse/cast(list/targets, mob/living/user)
-	if (world.time < timed_cooldown) 
+	if (world.time < timed_cooldown)
 		to_chat(user, span_warning("You must gather your strength before you are ready to confront your terror!"))
 		to_chat(user, span_warning("Time remaining: [max(0, timed_cooldown - world.time)/10] seconds."))
 		revert_cast()
@@ -334,6 +334,8 @@
 	)
 	debuff_type = /datum/status_effect/debuff/metabolic_acceleration
 	sound = 'sound/magic/heartbeat.ogg'
+	overlay_icon = 'icons/mob/actions/eoramiracles.dmi'
+	action_icon = 'icons/mob/actions/eoramiracles.dmi'
 	overlay_state = "eora_revive"
 
 /atom/movable/screen/alert/status_effect/nutrition_drain
@@ -374,6 +376,8 @@
 	desc = "Resurrects the chosen target, bringing them back from the dead. Side effects may include crippling weaknesses from other godly rites, ending up \
 	butt-naked in the middle of the kingdom's throne room, and much, much, more. </br>Unlike a regular Healing miracle, \
 	this can affect - and resurrect - devout Psydonians as well."
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	//we don't adjust the overlay, intended to be disguised as regular anastasis. its funnier that way.
 	debuff_type = /datum/status_effect/debuff/random_revival
 	alt_required_items = list(
 		/obj/item/clothing/neck/roguetown/psicross/wood = 1

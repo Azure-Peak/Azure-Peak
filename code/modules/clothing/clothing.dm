@@ -733,9 +733,12 @@ BLIND     // can't see anything
 /// Please do NOT use this with medium or heavy AC armor if you can, glamour plate armor is not an intuitive good thing.
 /obj/item/clothing/proc/loadoutize()
 	armor_class = ARMOR_CLASS_NONE
-	armor = ARMOR_CLOTHING
+	if(armor)
+		qdel(armor)
+		armor = new /datum/armor()
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	if((grid_width > 64 )|| (grid_height > 64))	// We're an item that's 2+ tiles across / tall.
+	obj_integrity = max_integrity
+	if((grid_width > 64 ) || (grid_height > 64))	// We're an item that's 2+ tiles across / tall.
 		// We make it fit into generic 2x2 aesthetic storage. Warning. May cause weirdness if we start loadoutizing everything all willy-nilly.
 		grid_width = 64
 		grid_height = 64
