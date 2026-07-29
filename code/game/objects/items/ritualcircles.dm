@@ -1140,8 +1140,10 @@
 				to_chat(user, span_warning("This ritual requires an assassin's profane dagger to be placed upon the rune."))
 				return
 			// placeholder to prevent you from just kicking them down grabbing it & running the fuck away
-			if(pissdagger.dominator.stat != DEAD)
-				to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
+			if(pissdagger.dominator)
+				if(pissdagger.dominator.stat != DEAD)
+					to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
+					return
 
 			user.visible_message(span_warning("[user] places the dagger in the center of the rune, drawing spectral strands of Lux up through the air!"))
 			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)

@@ -10,6 +10,7 @@
 	antag_hud_type = ANTAG_HUD_TRAITOR
 	antag_hud_name = "assassin"
 	show_name_in_check_antagonists = TRUE
+	show_in_antagpanel = TRUE
 	storyteller_antag_flags = STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_SOFT
 	override_candidatereq = TRUE
 	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
@@ -184,6 +185,7 @@
 	owner.put_in_active_hand(new_dagger, TRUE)
 	var/datum/antagonist/assassin/my_owner = owner.mind.has_antag_datum(/datum/antagonist/assassin, TRUE)
 	my_owner.my_dagger = new_dagger
+	new_dagger.dominator = owner
 	// little more flavor cus its cool
 	var/static/list/lines = list(
 		"I'M SO EXCITED!",

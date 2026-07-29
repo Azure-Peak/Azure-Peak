@@ -1311,22 +1311,26 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
 	. = ..()
 	var/picked_message = "Help us..."
+
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if (!HAS_TRAIT(H, TRAIT_ASSASSIN)) // Non-assassins don't like holding the profane dagger.
-			H.add_stress(/datum/stressevent/profane)
-			to_chat(M, "<span class='danger'>Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!</span>")
-			picked_message = pick(na_pleads)
-		else
-			// fallback incase an admin needs to spawn a new dagger for a given assassin
-			if(!dominator)
-				dominator = H
+		if(HAS_TRAIT(H, TRAIT_ASSASSIN))
+			// as a fallback, in case an admin spawns a new dagger for someone, we'll allow new ones to be taken on pickup().
+			// check one: does dagger already have a master?
+			if(!src.dominator)
 				var/datum/antagonist/assassin/ass = H.mind.has_antag_datum(/datum/antagonist/assassin)
-				// old dagger MUST be destroyed for a new one. for debug reasons.
-				if(!ass.my_dagger)
-					to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU ARE THE LORD OF THIS WASTELAND!\"</i>"))
-					return
+				if(ass)
+					if(!ass.my_dagger)
+						dominator = H
+						ass.my_dagger = src
+						to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU ARE THE LORD OF THIS WASTELAND!\"</i>"))
+						return
 			picked_message = pick(last_words)
+		else
+			H.add_stress(/datum/stressevent/profane)
+			to_chat(H, span_danger("Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness."))
+			picked_message = pick(na_pleads)
+		// whispers in the walls and such
 		if(world.time >= last_spoken + 3 SECONDS)
 			to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"[picked_message]\"</i>"))
 			last_spoken = world.time
@@ -1334,12 +1338,13 @@
 // make sure you call release_profane_souls ANYTIME it gets destroyed
 // R_P_S no longer destroys the dagger, instead, this is shatter_dagger() to avoid runtimes associated w/ destroy()
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/Destroy()
-	if(stored_souls)
+	if(stored_souls.len)
 		release_profane_souls()
 	if(dominator)
 		to_chat(dominator, span_cult("I hear a faint screaming-- blood drips. My dagger has been destroyed."))
 		var/datum/antagonist/assassin/ass = dominator.mind.has_antag_datum(/datum/antagonist/assassin)
-		ass.my_dagger = null
+		if(ass)
+			ass.my_dagger = null
 	. = ..()
 
 
@@ -1408,7 +1413,7 @@
 		if(preliminary_face_steal_check(target, user))
 			// do it, if we can
 			human_user.copy_physical_features(target) // this needs replacement to more changeling type shit later
-			to_chat(user, span_purple("I take on a new face.."))
+			to_chat(user, span_purple("I take on a new face..."))
 		// they die either way
 		die_motherfucker_die(target)
 
