@@ -4,22 +4,27 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 
-type Tier = 'easy' | 'medium' | 'hard';
+type Tier = 'medium' | 'hard';
 
 type Delivery = 'hand' | 'board';
 
-const TIER_ORDER: Tier[] = ['easy', 'medium', 'hard'];
+const TIER_ORDER: Tier[] = ['medium', 'hard'];
 
 const TIER_LABELS: Record<Tier, string> = {
-  easy: 'Easy',
   medium: 'Medium',
   hard: 'Hard',
 };
 
 type TierSummary = {
   bearer_summary: string;
-  poster_summary: string;
   cost: number;
+};
+
+type Variety = {
+  key: string;
+  label: string;
+  blurb: string;
+  poster_summaries: Record<Tier, string>;
 };
 
 type Posting = {
@@ -31,6 +36,7 @@ type Posting = {
   eligible_jobs: string[];
   crown_funded: BooleanLike;
   tiers: Record<Tier, TierSummary>;
+  varieties: Variety[];
 };
 
 type TownerData = {
@@ -67,19 +73,23 @@ const RulesBlock = (props: { rules?: string[] }) => {
   );
 };
 
-const TierSummaryBlock = (props: { summary?: TierSummary }) => {
-  if (!props.summary) return null;
+const SummaryBlock = (props: { bearer?: string; poster?: string }) => {
+  if (!props.bearer && !props.poster) return null;
   return (
     <div
       className="ContractLedger__CardObjective"
       style={{ marginTop: 6, fontSize: '0.9em', opacity: 0.85 }}
     >
-      <div>
-        <b>To bearer:</b> {props.summary.bearer_summary}.
-      </div>
-      <div>
-        <b>To poster:</b> {props.summary.poster_summary}.
-      </div>
+      {props.bearer && (
+        <div>
+          <b>To bearer:</b> {props.bearer}.
+        </div>
+      )}
+      {props.poster && (
+        <div>
+          <b>To poster:</b> {props.poster}.
+        </div>
+      )}
     </div>
   );
 };
@@ -88,10 +98,16 @@ const ActivePostingCard = (props: {
   posting: Posting;
   balance: number;
   purseBalance: number;
-  onPost: (tier: Tier, delivery: Delivery) => void;
+  onPost: (tier: Tier, delivery: Delivery, variety: string) => void;
 }) => {
-  const [tier, setTier] = useState<Tier>('easy');
-  const [delivery, setDelivery] = useState<Delivery>('board');
+  const [tier, setTier] = useState<Tier>('medium');
+  const [delivery, setDelivery] = useState<Delivery>('hand');
+  const varieties = props.posting.varieties || [];
+  const [varietyKey, setVarietyKey] = useState<string>(
+    varieties.length > 0 ? varieties[0].key : '',
+  );
+  const selectedVariety =
+    varieties.find((v) => v.key === varietyKey) || varieties[0];
   const summary = props.posting.tiers[tier];
   const cost = summary ? summary.cost : 0;
   const crown = !!props.posting.crown_funded;
@@ -110,8 +126,32 @@ const ActivePostingCard = (props: {
         </div>
       )}
       <RulesBlock rules={props.posting.rules} />
-      <TierSummaryBlock summary={summary} />
-      <div className="ContractLedger__CardRow" style={{ marginTop: 8 }}>
+      {varieties.length > 1 && (
+        <div
+          className="ContractLedger__CardRow"
+          style={{ marginTop: 8, flexWrap: 'wrap', justifyContent: 'flex-start' }}
+        >
+          {varieties.map((v) => (
+            <Button
+              key={v.key}
+              selected={selectedVariety?.key === v.key}
+              onClick={() => setVarietyKey(v.key)}
+              style={toggleStyle(selectedVariety?.key === v.key)}
+              tooltip={v.blurb}
+            >
+              {v.label}
+            </Button>
+          ))}
+        </div>
+      )}
+      <SummaryBlock
+        bearer={summary?.bearer_summary}
+        poster={selectedVariety?.poster_summaries?.[tier]}
+      />
+      <div
+        className="ContractLedger__CardRow"
+        style={{ marginTop: 8, justifyContent: 'flex-start' }}
+      >
         {TIER_ORDER.map((t) => (
           <Button
             key={t}
@@ -123,15 +163,10 @@ const ActivePostingCard = (props: {
           </Button>
         ))}
       </div>
-      <div className="ContractLedger__CardRow" style={{ marginTop: 6 }}>
-        <Button
-          selected={delivery === 'board'}
-          onClick={() => setDelivery('board')}
-          style={toggleStyle(delivery === 'board')}
-          tooltip="Pin it to the ledger."
-        >
-          Post to board
-        </Button>
+      <div
+        className="ContractLedger__CardRow"
+        style={{ marginTop: 6, justifyContent: 'flex-start' }}
+      >
         <Button
           selected={delivery === 'hand'}
           onClick={() => setDelivery('hand')}
@@ -139,6 +174,14 @@ const ActivePostingCard = (props: {
           tooltip="Take the writ in hand and give it to someone yourself."
         >
           Writ in hand
+        </Button>
+        <Button
+          selected={delivery === 'board'}
+          onClick={() => setDelivery('board')}
+          style={toggleStyle(delivery === 'board')}
+          tooltip="Pin it to the ledger."
+        >
+          Post to board
         </Button>
       </div>
       <div className="ContractLedger__CardFooter">
@@ -153,7 +196,9 @@ const ActivePostingCard = (props: {
                 : `You need ${cost}m on account.`
               : undefined
           }
-          onClick={() => props.onPost(tier, delivery)}
+          onClick={() =>
+            props.onPost(tier, delivery, selectedVariety?.key || '')
+          }
         >
           {delivery === 'hand' ? 'Draw up' : 'Post'} ({cost}m)
         </button>
@@ -167,6 +212,7 @@ const ViewOnlyPostingCard = (props: { posting: Posting }) => {
     props.posting.eligible_jobs.length > 0
       ? props.posting.eligible_jobs.join(', ')
       : 'unknown';
+  const varieties = props.posting.varieties || [];
   return (
     <div className="ContractLedger__Card" style={{ width: 300, opacity: 0.65 }}>
       <div className="ContractLedger__CardTitle">{props.posting.label}</div>
@@ -180,11 +226,24 @@ const ViewOnlyPostingCard = (props: { posting: Posting }) => {
           >
             <b>
               {TIER_LABELS[t]} ({props.posting.tiers[t]?.cost}m):
-            </b>
+            </b>{' '}
+            {props.posting.tiers[t]?.bearer_summary}.
           </div>
-          <TierSummaryBlock summary={props.posting.tiers[t]} />
         </div>
       ))}
+      {varieties.length > 0 && (
+        <div
+          className="ContractLedger__CardObjective"
+          style={{ marginTop: 6, fontSize: '0.85em', opacity: 0.8 }}
+        >
+          <b>Veins:</b>
+          {varieties.map((v) => (
+            <div key={v.key}>
+              - {v.label}: {v.blurb}
+            </div>
+          ))}
+        </div>
+      )}
       <div className="ContractLedger__CardRow" style={{ marginTop: 8 }}>
         <span className="ContractLedger__CardLabel">Posted by:</span>
         <span className="ContractLedger__CardValue">{jobs}</span>
@@ -197,8 +256,13 @@ export const TownerPostingPanel = () => {
   const { act, data } = useBackend<TownerData>();
   const postings = data.towner_postings || [];
 
-  const post = (postingType: string, tier: Tier, delivery: Delivery) => {
-    act('compose_towner', { type: postingType, tier, delivery });
+  const post = (
+    postingType: string,
+    tier: Tier,
+    delivery: Delivery,
+    variety: string,
+  ) => {
+    act('compose_towner', { type: postingType, tier, delivery, variety });
   };
 
   const yourPostings = postings.filter((p) => !!p.eligible);
@@ -248,7 +312,7 @@ export const TownerPostingPanel = () => {
                 posting={p}
                 balance={data.balance}
                 purseBalance={data.towner_purse_balance ?? 0}
-                onPost={(t, d) => post(p.type, t, d)}
+                onPost={(t, d, v) => post(p.type, t, d, v)}
               />
             ))}
           </div>

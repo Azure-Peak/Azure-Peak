@@ -11,8 +11,6 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/list/boss_mob_types = list()
 	var/list/boss_title_templates = list()
 	var/boss_name_file
-	/// Blockade defense pool. Bestial factions stay out — multi-wave timed fights need
-	/// mobs that can pathfind and coordinate.
 	var/can_blockade = FALSE
 	var/category = FACTION_CAT_HUMANOID
 	var/list/crime_weights
@@ -59,8 +57,6 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		return null
 	return pickweight(mob_types)
 
-/// At least one non-petty crime is guaranteed when any are available, so a writ
-/// composed from a pool that includes petty entries still reads as a real death-warrant.
 /datum/quest_faction/proc/pick_crimes(count = 3)
 	if(!length(crime_weights) || count <= 0)
 		return list()

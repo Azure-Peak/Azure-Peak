@@ -9,26 +9,48 @@ GLOBAL_LIST_INIT(towner_smith_caravan_factions, list(
 	QUEST_FACTION_BLEAKISLE_REAVER,
 ))
 
-GLOBAL_LIST_INIT(towner_smith_caravan_bundle_ranges, list(
-	TOWNER_POSTING_TIER_EASY = list(
-		"iron" = list(6, 9),
-		"bronze" = list(3, 5),
-		"steel" = list(2, 4),
+GLOBAL_LIST_INIT(towner_smith_caravan_varieties, list(
+	CARAVAN_VARIETY_IRON = list(
+		"label" = "Iron & Steel",
+		"blurb" = "Iron and steel ingots.",
+		"tiers" = list(
+			TOWNER_POSTING_TIER_MEDIUM = list(
+				list("path" = /obj/item/ingot/iron, "min" = 11, "max" = 15, "noun" = "iron"),
+				list("path" = /obj/item/ingot/steel, "min" = 5, "max" = 8, "noun" = "steel"),
+			),
+			TOWNER_POSTING_TIER_HARD = list(
+				list("path" = /obj/item/ingot/iron, "min" = 18, "max" = 24, "noun" = "iron"),
+				list("path" = /obj/item/ingot/steel, "min" = 10, "max" = 14, "noun" = "steel"),
+			),
+		),
 	),
-	TOWNER_POSTING_TIER_MEDIUM = list(
-		"iron" = list(11, 15),
-		"bronze" = list(5, 8),
-		"steel" = list(5, 8),
+	CARAVAN_VARIETY_BRONZE = list(
+		"label" = "Bronze",
+		"blurb" = "Cast bronze ingots.",
+		"tiers" = list(
+			TOWNER_POSTING_TIER_MEDIUM = list(
+				list("path" = /obj/item/ingot/bronze, "min" = 8, "max" = 10, "noun" = "bronze"),
+			),
+			TOWNER_POSTING_TIER_HARD = list(
+				list("path" = /obj/item/ingot/bronze, "min" = 14, "max" = 16, "noun" = "bronze"),
+			),
+		),
 	),
-	TOWNER_POSTING_TIER_HARD = list(
-		"iron" = list(18, 24),
-		"bronze" = list(9, 13),
-		"steel" = list(10, 14),
+	CARAVAN_VARIETY_BULLION = list(
+		"label" = "Bullion",
+		"blurb" = "A strongbox of gold bullion.",
+		"tiers" = list(
+			TOWNER_POSTING_TIER_MEDIUM = list(
+				list("path" = /obj/item/ingot/gold, "min" = 3, "max" = 4, "noun" = "gold"),
+			),
+			TOWNER_POSTING_TIER_HARD = list(
+				list("path" = /obj/item/ingot/gold, "min" = 6, "max" = 7, "noun" = "gold"),
+			),
+		),
 	),
 ))
 
 GLOBAL_LIST_INIT(towner_caravan_tier_tp, list(
-	TOWNER_POSTING_TIER_EASY = TOWNER_CARAVAN_TP_BUDGET_EASY,
 	TOWNER_POSTING_TIER_MEDIUM = TOWNER_CARAVAN_TP_BUDGET_MEDIUM,
 	TOWNER_POSTING_TIER_HARD = TOWNER_CARAVAN_TP_BUDGET_HARD,
 ))
@@ -40,8 +62,11 @@ GLOBAL_LIST_INIT(towner_caravan_tier_tp, list(
 /datum/quest/kill/recovery/towner/smith_caravan/get_eligible_regions()
 	return GLOB.towner_smith_caravan_regions
 
+/datum/quest/kill/recovery/towner/smith_caravan/get_varieties()
+	return GLOB.towner_smith_caravan_varieties
+
 /datum/quest/kill/recovery/towner/smith_caravan/get_tier_tp_budget()
-	return GLOB.towner_caravan_tier_tp[posting_tier] || TOWNER_CARAVAN_TP_BUDGET_EASY
+	return GLOB.towner_caravan_tier_tp[posting_tier] || TOWNER_CARAVAN_TP_BUDGET_MEDIUM
 
 /datum/quest/kill/recovery/towner/smith_caravan/get_title()
 	if(title)
@@ -76,9 +101,8 @@ GLOBAL_LIST_INIT(towner_caravan_tier_tp, list(
 	return get_quest_faction(picked_id)
 
 /datum/quest/kill/recovery/towner/smith_caravan/build_bundle()
-	var/list/ranges = GLOB.towner_smith_caravan_bundle_ranges[posting_tier] || GLOB.towner_smith_caravan_bundle_ranges[TOWNER_POSTING_TIER_EASY]
-	var/list/bundle = list()
-	bundle[/obj/item/ingot/iron] = rand(ranges["iron"][1], ranges["iron"][2])
-	bundle[/obj/item/ingot/bronze] = rand(ranges["bronze"][1], ranges["bronze"][2])
-	bundle[/obj/item/ingot/steel] = rand(ranges["steel"][1], ranges["steel"][2])
-	return bundle
+	var/list/meta = GLOB.towner_smith_caravan_varieties[effective_variety()]
+	var/list/tiers = meta?["tiers"]
+	if(!tiers)
+		return list()
+	return resolve_bundle_spec(tiers[posting_tier] || tiers[TOWNER_POSTING_TIER_MEDIUM])
