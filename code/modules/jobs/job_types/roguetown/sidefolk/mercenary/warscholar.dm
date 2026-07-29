@@ -67,7 +67,7 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/flashlight/flare/torch
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -187,7 +187,7 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex
 	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/flashlight/flare/torch
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -269,7 +269,7 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/flashlight/flare/torch
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals

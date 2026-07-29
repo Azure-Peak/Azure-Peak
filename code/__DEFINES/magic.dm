@@ -58,6 +58,10 @@
 #define SPELL_REQUIRES_SAME_Z (1 << 8)
 /// Whether the spell can be cast while buckled to a living mount (on horseback).
 #define SPELL_CASTABLE_WHILE_MOUNTED (1 << 9)
+/// Whether the spell requires the caster to be in combat mode.
+#define SPELL_REQUIRES_CMODE (1 << 10)
+/// Whether the spell requires the TARGET to be in combat mode.
+#define SPELL_REQUIRES_TARGET_CMODE (1 << 11)
 
 /// Default magic resistance that blocks normal magic
 #define MAGIC_RESISTANCE (1 << 0)

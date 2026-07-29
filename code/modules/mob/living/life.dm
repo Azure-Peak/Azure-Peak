@@ -98,7 +98,7 @@
 		return
 
 	handle_environment()
-	
+
 	//Random events (vomiting etc)
 	handle_random_events()
 
@@ -151,7 +151,7 @@
 				return
 			if(istype(drownrelay.loc, /turf/open/water))
 				handle_inwater(drownrelay.loc, extinguish = FALSE, force_drown = TRUE)
-			if(istype(loc, /turf/open/water)) // Extinguish ourselves if our body is in water.	
+			if(istype(loc, /turf/open/water)) // Extinguish ourselves if our body is in water.
 				extinguish_mob()
 			return
 	. =..()
@@ -172,7 +172,7 @@
 
 /mob/living/proc/handle_random_events()
 	//random painstun
-	if(!stat && (!HAS_TRAIT(src, TRAIT_NOPAINSTUN || !HAS_TRAIT(src, TRAIT_IRONMAN))))
+	if(!stat && !HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_IRONMAN))
 		if(world.time > mob_timers["painstun"] + 600)
 			if(getBruteLoss() + getFireLoss() >= (STAWIL * 10))
 				var/probby = 53 - (STAWIL * 2)

@@ -1,4 +1,5 @@
 /obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced
+	dish_type = DISH_FRUIT
 	name = "apple slice"
 	icon = 'modular/Neu_Food/icons/raw/raw_fruit.dmi'
 	icon_state = "apple_sliced"

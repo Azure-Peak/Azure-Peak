@@ -217,7 +217,7 @@
 	name = "bronze sling bullet"
 	damage = 45
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze
-	speed = 0.25 // Faster! 
+	speed = 0.25 // Faster!
 	icon_state = "bronzeslingbullet_proj"
 
 /obj/projectile/bullet/reusable/sling_bullet/iron
@@ -330,15 +330,15 @@
 
 /obj/projectile/bullet/sling_bullet/fire_pot
 	name = "fire pot"
-	damage = 10
+	damage = 20
 	damage_type = BURN
 	icon = 'icons/roguetown/weapons/ranged/sling_proj.dmi'
 	icon_state = "pot_proj"
 	range = 15
 	hitsound = 'sound/combat/hits/blunt/bluntsmall (1).ogg'
 	embedchance = 0
-	woundclass = BCLASS_BLUNT
-	flag = "blunt"
+	woundclass = BCLASS_BURN
+	flag = "fire"
 	speed = HEAVY_AMMO_SPEED
 	min_range = MIN_BULLET_RANGE
 	max_range = MAX_BULLET_RANGE
@@ -348,12 +348,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		M.adjust_fire_stacks(2)
-		M.adjustFireLoss(10)
-		M.ignite_mob()
-	var/turf/T = get_turf(target)
-	if(T)
-		new /obj/effect/hotspot(T, null, null, 15)
+		apply_scorch_stack(M, 2, def_zone)
 
 // GUNPOWDER AMMO
 /obj/projectile/bullet/reusable/bullet

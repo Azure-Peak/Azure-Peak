@@ -108,6 +108,9 @@
 /obj/item/reagent_containers/glass/bottle/alchemical/restoration
 	list_reagents = list(/datum/reagent/medicine/restoration = 30)
 
+/obj/item/reagent_containers/glass/bottle/alchemical/water
+	list_reagents = list(/datum/reagent/water = 30)
+
 //////////////////////////
 /// ALCOHOLIC BOTTLES ///
 //////////////////////////

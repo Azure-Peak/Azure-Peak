@@ -262,6 +262,11 @@
 
 /datum/component/gnoll_combat_tracker/proc/can_cast_stealth()
 	// Returns TRUE if 1 minute has passed
+	var/mob/living/carbon/human/H = parent
+	var/datum/status_effect/vampiric_fury/F = H.has_status_effect(/datum/status_effect/vampiric_fury)
+	if(F)
+		to_chat(H, span_userdanger("You are too furious to concentrate on stealth!"))
+		return FALSE
 	return (world.time >= last_damage_time + GNOLL_STEALTH_TIMER)
 
 /datum/component/gnoll_combat_tracker/proc/get_recent_damage()
@@ -314,3 +319,180 @@
 #undef GNOLL_STEALTH_TIMER
 #undef GNOLL_ABDUCT_TIMER
 #undef GNOLL_ABDUCT_DAMAGE_TRESHOLD
+
+/datum/action/cooldown/spell/gnoll/consume
+	name = "Consume"
+	desc = "Feast on flesh, bones, or bodies to recover from battle. Cast on yourself to consume items in hand, or on a corpse to begin to consume it. More effective on animal corpses. Can heal others when targeting them."
+	fluff_desc = "The hunger for flesh is eternal in Gnolls. They hunt to sate this desire, endlessly, for they are Graggar's chosen."
+	button_icon = 'icons/mob/actions/gnollmiracles.dmi'
+	button_icon_state = "consume"
+	glow_intensity = 0
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+	// I like showing icons ok?
+	charge_time = 0.1 SECONDS
+	charge_required = TRUE
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	spell_color = "#6d0000"
+
+	primary_resource_cost = NONE
+
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	/// Internal counter for meat consumption loops
+	var/consume_counter = 0
+
+/datum/action/cooldown/spell/gnoll/consume/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+
+	// corpse eating
+	if(isliving(cast_on) && !(cast_on == owner))
+		var/mob/living/corpse = cast_on
+		var/was_player = null
+		if(ishuman(corpse))
+			var/mob/living/carbon/human/C = cast_on
+			was_player = C.mind || C.last_mind || C.ckey
+
+		// If it's a corpse and was not a player
+		if(corpse.stat == DEAD && !was_player)
+			var/is_animal = istype(corpse, /mob/living/simple_animal)
+			if(is_animal)
+				var/mob/living/simple_animal/animal = corpse
+				if(animal.initial_butcher_count > 0 && length(animal.butcher_results) < animal.initial_butcher_count)
+					to_chat(owner, span_warning("This creature has already been partially butchered! There's not enough left to consume."))
+					return FALSE
+			
+			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
+			if(do_after(owner, 20 SECONDS, corpse))
+				corpse.gib()
+				to_chat(owner, span_notice("You finish consuming [corpse.name], restoring your physical form."))
+				H.apply_status_effect(/datum/status_effect/buff/healing, 20)
+				if(is_animal)
+					heal_gnoll(H, 100) 
+					restore_armor_integrity(H, 80) 
+				else
+					restore_armor_integrity(H, 35)
+			return TRUE
+
+	// Healing others and self.
+	var/obj/item/reagent_containers/food/snacks/rogue/meat_to_eat = null
+	var/meat_base_armor_heal = 3
+	var/meat_base_heal = 7
+	var/obj/item/held_item = owner.get_active_held_item()
+	if(istype(held_item, /obj/item/reagent_containers/food/snacks/rogue/meat) || istype(held_item, /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
+		meat_to_eat = held_item
+
+	if(istype(meat_to_eat, /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
+		meat_base_armor_heal = 1.5
+		meat_base_heal = 3.5
+
+	if(!meat_to_eat)
+		to_chat(H, span_warning("You need to target corpses, yourself, or an ally while holding meat to eat or feed!"))
+		return FALSE
+
+	var/mob/living/carbon/human/receiver = owner
+	if(ishuman(cast_on) && cast_on != owner)
+		receiver = cast_on
+
+	var/holy_level = owner.get_skill_level(/datum/skill/magic/holy)
+	var/heal_multiplier = 1
+
+	if(receiver != owner)
+		if(holy_level > 4)
+			heal_multiplier = 1.3
+		else if(holy_level > 2)
+			heal_multiplier = 1.0
+		else
+			heal_multiplier = 0.6
+	var/receiver_is_gnoll = (receiver.dna?.species?.type == /datum/species/gnoll)
+
+	if(consume_counter == 0)
+		if(receiver == owner)
+			to_chat(owner, span_notice("You begin to consume the [meat_to_eat.name], savoring the taste of fresh meat."))
+		else
+			to_chat(owner, span_notice("You begin feeding the [meat_to_eat.name] to [receiver.name]."))
+			to_chat(receiver, span_notice("[owner.name] begins feeding you [meat_to_eat.name]."))
+	else
+		to_chat(owner, span_notice("You continue consuming the [meat_to_eat.name]... ([consume_counter]/10)"))
+
+	while(consume_counter < 10)
+		if(QDELETED(meat_to_eat) || (meat_to_eat.loc != owner && meat_to_eat != cast_on))
+			to_chat(owner, span_warning("You stop consuming - the meat is gone!"))
+			return FALSE
+		if(!do_after(owner, 2 SECONDS, receiver))
+			to_chat(owner, span_warning("The feeding process was interrupted."))
+			return FALSE
+
+		consume_counter++
+		if(prob(40))
+			playsound(receiver.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
+
+		heal_gnoll(receiver, meat_base_heal * heal_multiplier)
+		if(receiver_is_gnoll)
+			restore_armor_integrity(receiver, meat_base_armor_heal * heal_multiplier)
+
+		var/obj/effect/temp_visual/heal/heal_effect = new /obj/effect/temp_visual/heal_rogue(get_turf(receiver))
+		heal_effect.color = "#FF0000"
+
+		if(consume_counter < 10 && prob(25))
+			if(receiver == owner)
+				to_chat(owner, span_notice("You continue consuming the [meat_to_eat.name]..."))
+			else
+				to_chat(owner, span_notice("You continue feeding [receiver.name]..."))
+
+	var/meat_name = meat_to_eat ? meat_to_eat.name : "meat"
+	if(!QDELETED(meat_to_eat))
+		qdel(meat_to_eat)
+		
+	if(receiver == owner)
+		to_chat(owner, span_notice("You gluttonously gobble down the [meat_name], feeling reinvigorated."))
+	else
+		to_chat(owner, span_notice("You finish feeding the [meat_name] to [receiver.name]."))
+		to_chat(receiver, span_notice("[owner.name] finishes feeding you the [meat_name], leaving you reinvigorated."))
+
+	consume_counter = 0
+	return TRUE
+
+/datum/action/cooldown/spell/gnoll/consume/proc/heal_gnoll(mob/living/carbon/human/H, heal_amt = 7)
+	if(!H)
+		return
+
+	if(H.blood_volume < BLOOD_VOLUME_NORMAL)
+		H.blood_volume = min(H.blood_volume + heal_amt, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = H.get_wounds()
+	if(length(wCount))
+		H.heal_wounds(heal_amt)
+		H.update_damage_overlays()
+	H.adjustBruteLoss(-heal_amt, 0)
+	H.adjustFireLoss(-heal_amt, 0)
+	H.adjustOxyLoss(-heal_amt, 0)
+	H.adjustToxLoss(-heal_amt, 0)
+	H.adjustOrganLoss(ORGAN_SLOT_BRAIN, -heal_amt)
+	H.adjustCloneLoss(-heal_amt, 0)
+	// 280 for a full piece of meat.
+	// 400 for a corpse.
+	H.energy_add(heal_amt * 4)
+
+/datum/action/cooldown/spell/gnoll/consume/proc/restore_armor_integrity(mob/living/carbon/human/H, percent)
+	if(!H)
+		return
+
+	if(!H.skin_armor)
+		return
+
+	var/obj/item/clothing/suit/roguetown/armor/skin_armor = H.skin_armor
+	if(!istype(skin_armor))
+		return
+
+	var/heal_amount = round(skin_armor.max_integrity * (percent / 100))
+
+	skin_armor.obj_integrity = min(skin_armor.obj_integrity + heal_amount, skin_armor.max_integrity)
+
+	if(skin_armor.obj_broken && skin_armor.obj_integrity > 0)
+		skin_armor.obj_fix(null, FALSE)

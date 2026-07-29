@@ -101,7 +101,7 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex //Yes, the item is spelled this way in the code.
 		if("Bare Skin")
-			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple
 	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/inquisitionmanor = 1,
