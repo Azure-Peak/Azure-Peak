@@ -68,6 +68,9 @@
 	var/obj/item/bodypart/O = get_bodypart(BODY_ZONE_HEAD)
 	if( !O || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || !real_name || (O.skeletonized && !HAS_TRAIT(src, TRAIT_FACELESS_KNOWN) && !mind?.has_antag_datum(/datum/antagonist/lich)))	//disfigured. use id-name if possible
 		return if_no_face
+	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
+	if(ID)
+		return ID.identity.name
 	return real_name
 
 //gets name from ID or PDA itself, ID inside PDA doesn't matter

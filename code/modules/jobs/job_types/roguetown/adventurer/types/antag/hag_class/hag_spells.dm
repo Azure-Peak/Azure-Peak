@@ -44,7 +44,7 @@
 		return FALSE
 
 /obj/effect/proc_holder/spell/invoked/spiritual_siphon/get_spell_statistics(mob/living/user)
-	. = ..() 
+	. = ..()
 
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
 	if(!H || !length(H.stored_materials) && !length(H.prepared_boons))
@@ -77,7 +77,7 @@
 
 		if(!found_any)
 			boon_html += span_info("- None ready.")
-		
+
 		boon_html += "</details>"
 		. += boon_html
 
@@ -135,7 +135,7 @@
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/proc/toggle_boon_selection(boon_type_string)
 	var/datum/component/hag_curio_tracker/H = ranged_ability_user.GetComponent(/datum/component/hag_curio_tracker)
 	var/list/registry = H.boon_registry[active_victim_name]
-	
+
 	for(var/datum/hag_boon/B in registry)
 		if("[B.type]" == boon_type_string)
 			if(B in selected_boons)
@@ -148,7 +148,7 @@
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
 	if(!H)
 		return FALSE
-	
+
 	var/list/victims_data = list()
 	for(var/t_name in H.boon_registry)
 		var/list/boons = list()
@@ -161,12 +161,12 @@
 				"selected" = (B in selected_boons),
 				"transmutable" = B.transmutable
 			))
-		
+
 		victims_data += list(list(
 			"name" = t_name,
 			"boons" = boons
 		))
-		
+
 	return list(
 		"victims" = victims_data,
 		"curse_options" = H.get_available_curses_data(),
@@ -178,7 +178,7 @@
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	// to_chat(ui.user, "DEBUG: Action [action] received. Params: [json_encode(params)]")
 	// to_chat(world, "DEBUG: Action [action] received. Params: [json_encode(params)]")
-	
+
 	var/mob/living/user = ui.user
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
 
@@ -186,11 +186,11 @@
 		if("toggle_boon")
 			var/boon_id = params["id"]
 			var/v_name = params["victim_name"]
-			
+
 			if(active_victim_name != v_name)
 				selected_boons.Cut()
 				active_victim_name = v_name
-			
+
 			var/list/registry = H.boon_registry[v_name]
 			for(var/datum/hag_boon/B in registry)
 				if("[B.type]" == boon_id)
@@ -200,7 +200,7 @@
 					else
 						selected_boons += B
 					return TRUE
-		
+
 		if("select_curse")
 			selected_curse_path = params["path"]
 			return TRUE
@@ -274,7 +274,7 @@
 /obj/effect/proc_holder/spell/invoked/resurrect/hag
 	name = "Thorny Regrowth"
 	desc = "Knit a fallen soul back into a body using parasitic vines. The target is revived, but incurs a 50-point debt to your Curio."
-	recharge_time = 10 MINUTES 
+	recharge_time = 10 MINUTES
 	sound = 'sound/hag/hag_cackles.ogg'
 	required_structure = /obj/structure/roguemachine/mossmother
 	required_items = list()
@@ -348,14 +348,14 @@
 				if(found_mob in ML.members)
 					already_linked = TRUE
 					break
-			
+
 			if(already_linked)
 				to_chat(user, span_warning("[found_mob.real_name]'s mind is already bound by another thread! I cannot reach them."))
 				continue
 
 			coven_members += found_mob
-			possible -= target_name 
-		
+			possible -= target_name
+
 		if(!possible.len)
 			break
 
@@ -389,3 +389,86 @@
 			to_chat(M, span_warning("The coven web snaps and withers..."))
 	GLOB.mindlinks -= C
 	qdel(C)
+
+/obj/effect/proc_holder/spell/invoked/take_name
+	name = "Onomastic Siphon"
+	desc = "Steals the target's name and identity, so long as they give it to you freely. It will become a boon you can bestow, at a cost of 20 points. Must be cast ONLY after you trick or convince the target into 'giving you' their name, even if only technically; for example, if they respond to 'May I have your name?' with just their name, that counts; but if they say 'You may call me XYZ', it doesn't. Has a check to prevent someone masked from giving you a fake name you have no way of knowing is fake, but otherwise, THE RESPONSIBILITY IS ON YOU TO USE THIS PROPERLY. Using this inappropriately will be considered bad faith and punished appropriately."
+	invocation_type = "whisper"
+	invocations = list("Give me all that you are.")
+	recharge_time = 5 SECONDS
+	range = 4
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_up"
+	var/confirmed_read = FALSE
+	var/list/not_part_of_names = list( // titles n such just in case people don't listen
+		"dame",
+		"ser",
+		"lord",
+		"lady",
+		"of",
+		"azure",
+		"azuria",
+	)
+
+/obj/effect/proc_holder/spell/invoked/take_name/cast(list/targets, mob/living/user)
+	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
+	if(!H)
+		to_chat(user, span_warning("How did you even get access to this without being a hag?"))
+		return FALSE
+
+	var/mob/living/carbon/human/victim = targets[1]
+	if(!ishuman(victim))
+		to_chat(user, span_warning("I need to cast this on a person!"))
+		return FALSE
+
+	if(user == victim)
+		to_chat(user, span_warning("I can't take my own name!"))
+		return FALSE
+
+	if(!victim.client)
+		to_chat(user, span_warning("They're not aware enough to give me their name!"))
+		return FALSE
+
+	if(!confirmed_read) // i know how you people are
+		if(alert(user, "Have you read the description of this spell? It contains EXTREMELY important information about its use. Please, PLEASE read it, or you might do something rule-breaking.", "Confirmation", "Stop", "Proceed") != "Proceed")
+			return FALSE
+		confirmed_read = TRUE
+
+	var/name2check = tgui_input_text(user, "What name did they give you? (Don't include titles; just the first or last name alone is fine, as long as it's what they gave you)", max_length=MAX_NAME_LEN, encode=FALSE) // we do not want html formatting to fuck up apostrophes and the like
+
+	var/list/check_strings = splittext(name2check, regex(@"\b"))
+	var/list/name_strings = splittext(victim.real_name, regex(@"\b"))
+	var/found = FALSE
+	for(var/substr in name_strings)
+		if(length(substr)<=2)
+			continue
+		if(not_part_of_names.Find(substr))
+			continue
+		for(var/checkstr in check_strings)
+			if(length(checkstr)<=2)
+				continue
+			if(not_part_of_names.Find(checkstr))
+				continue
+			if(checkstr == substr)
+				to_chat(user, "")
+				found = TRUE
+				break
+	if(!found)
+		to_chat(user, span_warning("That's not the right name! They fooled me!"))
+		return FALSE
+
+	var/datum/hag_identity/ID = new /datum/hag_identity( // yoink
+		victim.real_name, victim.voice_color, victim.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_TRAIT, victim.mob_descriptors), victim.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_STATURE, victim.mob_descriptors), victim.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, victim.mob_descriptors), victim.custom_descriptors[12], victim.custom_descriptors[10], victim.custom_descriptors[9], HAS_TRAIT(victim, TRAIT_NOBLE)
+	)
+
+	H.stored_names[ID.name] = ID
+	H.prepared_boons[/datum/hag_boon/name] = (H.prepared_boons[/datum/hag_boon/name] || 0) + 1
+	victim.AddComponent(/datum/component/hag_name, new /datum/hag_identity())
+
+	message_admins("NAMESTEAL: [user.real_name] ([user.ckey]) has stolen [victim.real_name] ([victim.ckey])'s name.")
+	log_game("NAMESTEAL: [user.real_name] ([user.ckey]) has stolen [victim.real_name] ([victim.ckey])'s name.")
+
+	to_chat(victim, span_boldwarning("What manner of trickery is this? My name... why can't I recall my name?!")) // let them know shit's gone down
+	to_chat(user, span_danger("Their name is now mine... I can hoard it for my own use, or bestow it upon another."))
+	return TRUE

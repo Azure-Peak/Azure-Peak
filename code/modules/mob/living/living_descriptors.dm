@@ -13,6 +13,9 @@
 		mob_descriptors = null
 
 /mob/living/proc/get_descriptor_type(var/desired_type)
+	var/datum/component/hag_name/identitytheft = GetComponent(/datum/component/hag_name)
+	if(ispath(desired_type, /datum/mob_descriptor/voice) && identitytheft)
+		return MOB_DESCRIPTOR(identitytheft.identity.descriptor_voice)
 	for(var/datum/mob_descriptor/descriptor as anything in mob_descriptors)
 		if(ispath(descriptor, desired_type))
 			return MOB_DESCRIPTOR(descriptor)
@@ -28,7 +31,14 @@
 	if(extras)
 		descriptors += extras
 	var/list/passed_descriptors = list()
+	var/datum/component/hag_name/identitytheft = GetComponent(/datum/component/hag_name)
 	for(var/desc_type in descriptors)
+		if(ispath(desc_type, /datum/mob_descriptor/trait) && identitytheft)
+			desc_type = identitytheft.identity.descriptor_trait
+		if(ispath(desc_type, /datum/mob_descriptor/stature) && identitytheft)
+			desc_type = identitytheft.identity.descriptor_stature
+		if(ispath(desc_type, /datum/mob_descriptor/voice) && identitytheft)
+			desc_type = identitytheft.identity.descriptor_voice
 		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(desc_type)
 		if(is_obscured && !descriptor.show_obscured)
 			continue
@@ -47,7 +57,14 @@
 	if(extras)
 		descriptors += extras
 	var/list/passed_descriptors = list()
+	var/datum/component/hag_name/identitytheft = GetComponent(/datum/component/hag_name)
 	for(var/desc_type in descriptors)
+		if(ispath(desc_type, /datum/mob_descriptor/trait) && identitytheft)
+			desc_type = identitytheft.identity.descriptor_trait
+		if(ispath(desc_type, /datum/mob_descriptor/stature) && identitytheft)
+			desc_type = identitytheft.identity.descriptor_stature
+		if(ispath(desc_type, /datum/mob_descriptor/voice) && identitytheft)
+			desc_type = identitytheft.identity.descriptor_voice
 		var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(desc_type)
 		if(!descriptor.can_describe(src))
 			continue

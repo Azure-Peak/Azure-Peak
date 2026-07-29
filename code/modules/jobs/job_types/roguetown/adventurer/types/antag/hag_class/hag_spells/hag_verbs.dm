@@ -8,7 +8,7 @@
 		return
 
 	to_chat(src, span_notice("You press your feet to the earth, seeking the Mother's pulse..."))
-	
+
 	if(do_after(src, 1 SECONDS, target = src))
 		var/obj/structure/roguemachine/mossmother/closest_tree
 		var/min_dist = INFINITY
@@ -16,7 +16,7 @@
 
 		for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
 			var/turf/tree_turf = get_turf(tree)
-			if(!tree_turf) 
+			if(!tree_turf)
 				continue
 
 			var/dist = get_dist_euclidean(my_turf, tree_turf)
@@ -44,3 +44,31 @@
 			src.playsound_local(src.loc, 'sound/magic/heartbeat.ogg', 75, TRUE)
 		else
 			to_chat(src, span_warning("The earth is hollow and silent. You are beyond the reach of the Mossmother."))
+
+/mob/living/carbon/human/proc/adopt_name()
+	set name = "Adopt Name"
+	set category = "RoleUnique.Hag"
+	set desc = "Take on one of your collected names for a time, or restore your original name. You won't be able to give it away until you return to your original name."
+
+	var/datum/component/hag_curio_tracker/HCT = GetComponent(/datum/component/hag_curio_tracker)
+
+	// Just in case.
+	if(stat || !HAS_TRAIT(src, TRAIT_ANCIENT_HAG) || !HCT)
+		return
+
+	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
+	if(ID) // we're already wearing a name, take it off
+		to_chat(src, span_warning("I cease mimicking the presence of [ID.identity.name]."))
+		var/datum/hag_identity/identity = ID.identity
+		HCT.stored_names[ID.identity.name] = ID.identity
+		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 0) + 1
+		qdel(ID)
+	else // we want to put on a name
+		var/response = tgui_input_list(src, "Which name to adopt?", "Don a visage", HCT.stored_names)
+		if(!response)
+			return
+		var/datum/hag_identity/identity = HCT.stored_names[response]
+		if(!identity)
+			return
+		AddComponent(/datum/component/hag_name, identity)
+		to_chat(src, span_warning("I assume the mantle of [identity.name]."))
