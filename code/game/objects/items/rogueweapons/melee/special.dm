@@ -1320,8 +1320,8 @@
 		else
 			// fallback incase an admin needs to spawn a new dagger for a given assassin
 			if(!dominator)
-				dominator = M
-				var/datum/antagonist/assassin/ass = M.has_antag_datum(/datum/antagonist/assassin)
+				dominator = H
+				var/datum/antagonist/assassin/ass = H.mind.has_antag_datum(/datum/antagonist/assassin)
 				// old dagger MUST be destroyed for a new one. for debug reasons.
 				if(!ass.my_dagger)
 					to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU ARE THE LORD OF THIS WASTELAND!\"</i>"))
@@ -1338,8 +1338,8 @@
 		release_profane_souls()
 	if(dominator)
 		to_chat(dominator, span_cult("I hear a faint screaming-- blood drips. My dagger has been destroyed."))
-		var/datum/antagonist/assassin/ass = dominator.has_antag_datum(/datum/antagonist/assassin)
-		my_dagger = null
+		var/datum/antagonist/assassin/ass = dominator.mind.has_antag_datum(/datum/antagonist/assassin)
+		ass.my_dagger = null
 	. = ..()
 
 
