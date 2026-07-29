@@ -912,6 +912,20 @@ h2.alert {
 	font-family: "Romeodn", "Pterra";
 	font-size: 100%;
 }
+/* Accent font spans (Emerald Summit) */
+.sandwauk {
+	font-family: "Persian", "Pterra";
+	font-size: 140%;
+	letter-spacing: 2px;
+}
+.kazenaccent {
+	font-family: "Asiana", "Pterra";
+	font-size: 100%;
+}
+.posh {
+	font-family: "Parisish", "Pterra";
+	font-size: 130%;
+}
 
 .torture {
 	color: #42ff20;

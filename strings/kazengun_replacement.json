@@ -1,0 +1,40 @@
+{
+    "full": {
+		"knight": "kouken",
+		"knights": "kouken",
+		"mercenaries": "hangyaku",
+		"mercenary": "hangyaku",
+		"bandit": "hangyaku",
+		"bandits": "hangyaku",
+		"lord": "daimyo",
+		"lords": "daimyo",
+		"Astrata": "Aisata",
+		"Necra": "Neriko",
+		"Malum": "Mamuke",
+		"Ravox": "Ratake",
+		"Pestra": "Pesiko",
+		"Noc": "Noishi",
+		"Dendor": "Denno",
+		"Abyssor": "Abysawa",
+		"Eora": "Eori",
+		"Xylix": "Xyji",
+		"Psydon": "Saidon",
+		"Graggar": "Gaiyuke",
+		"Matthios": "Matoko",
+		"Boatha": "Baosumi",
+		"Zizo": "Zimiko"
+
+    },
+    "start": {
+
+    },
+    "end": {
+
+    },
+	"multiword": {
+
+	},
+    "syllable": {
+
+    }
+}

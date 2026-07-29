@@ -185,6 +185,7 @@
 	// Voice & bark
 	data["voice_type"] = voice_type
 	data["voice_pack"] = voice_pack || "Default"
+	data["char_accent"] = char_accent || "No accent"
 	data["voice_pitch"] = voice_pitch
 	var/datum/bark/B = GLOB.bark_list[bark_id]
 	data["bark_name"] = B ? initial(B.name) : "INVALID"

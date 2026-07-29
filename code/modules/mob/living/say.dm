@@ -228,10 +228,14 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		var/datum/language/L = GLOB.language_datum_instances[language]
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
+			var/list/stuff
 			if(H.dna?.species)
-				var/list/stuff = H.dna.species.get_span_language(L)
-				if(stuff)
-					spans |= stuff
+				stuff = H.dna.species.get_span_language(L)
+			// Font-based accents apply when speaking Common with no species span
+			if(!length(stuff) && L.type == /datum/language/common && H.char_accent)
+				stuff = GLOB.accent_spans[H.char_accent]
+			if(stuff)
+				spans |= stuff
 		else
 			spans |= L.spans
 

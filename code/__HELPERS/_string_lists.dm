@@ -24,6 +24,16 @@ GLOBAL_VAR(string_filename_current_key)
 	else
 		CRASH("strings list not found: [directory]/[filename], index=[key]")
 
+/// Like strings() but returns null instead of crashing when the key is absent.
+/// Accent jsons don't all define every replacement category (multiword, syllable...).
+/proc/strings_safe(filename as text, key as text, directory = "strings")
+	if(!fexists("[directory]/[filename]"))
+		return null
+	load_strings_file(filename, directory)
+	if((filename in GLOB.string_cache) && (key in GLOB.string_cache[filename]))
+		return GLOB.string_cache[filename][key]
+	return null
+
 /proc/strings_subkey_lookup(match, group1)
 	return pick_list(GLOB.string_filename_current_key, group1)
 
