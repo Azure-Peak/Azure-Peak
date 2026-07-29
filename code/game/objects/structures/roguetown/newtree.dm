@@ -106,11 +106,12 @@
 				if(CH)
 					myskill += 1
 			used_time = max(70 - (myskill * 10) - (L.STASPD * 3), (HAS_TRAIT(L, TRAIT_WOODWALKER) ? 15 : 30))
+		if(!L.start_climb())
+			return
 		playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 		user.visible_message(span_warning("[user] starts to climb [src]."), span_warning("I start to climb [src]..."))
-		L.mid_climb = TRUE
-		var/climbed = do_after(L, used_time, target = src)
-		L.mid_climb = FALSE
+		var/climbed = do_after(L, used_time, target = src, extra_checks = L.climb_check_callback())
+		L.end_climb()
 		if(climbed)
 			var/pulling = user.pulling
 			if(ismob(pulling))

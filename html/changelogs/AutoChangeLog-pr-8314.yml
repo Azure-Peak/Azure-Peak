@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - image: "All Hierophant's Naledi equipment is now greyscale and can be dyed."
+  - bugfix: "Fixed several incorrect onmob sprites."

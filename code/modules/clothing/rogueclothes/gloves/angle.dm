@@ -27,8 +27,10 @@
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout
 	name = "aesthetic grenzelhoft gloves"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
+
+/obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	name = "forge gauntlets"
@@ -50,9 +52,10 @@
 
 /obj/item/clothing/gloves/roguetown/angle/freifechter/loadout
 	name = "aesthetic fencing gloves"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
 
+/obj/item/clothing/gloves/roguetown/angle/freifechter/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/gloves/roguetown/angle/feld
 	name = "feldsher's gloves"

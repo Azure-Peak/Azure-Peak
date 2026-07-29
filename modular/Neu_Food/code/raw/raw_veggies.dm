@@ -27,6 +27,7 @@
 	cooked_smell = /datum/pollutant/food/baked_potato
 
 /obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced
+	dish_type = DISH_VEGETABLE
 	name = "cucumber slice"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "cucumber_slices" // TG Sprite, replace it
