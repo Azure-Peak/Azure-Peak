@@ -4,6 +4,7 @@
 	faction = list(FACTION_NEUTRAL)
 	ambushable = FALSE
 	dodgetime = 25
+	cmode = 1 // See conjured_attacker.dm - humans default cmode to 0 and checkdefense() bails on it.
 	var/loadout = "swordsman"
 	var/arcane_scale = 3
 	var/gear_tier = 1
