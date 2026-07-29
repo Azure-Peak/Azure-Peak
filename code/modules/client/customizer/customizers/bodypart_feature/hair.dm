@@ -735,7 +735,7 @@
 	var/datum/customizer_entry/hair/hair_entry = entry
 	switch(href_list["customizer_task"])
 		if("hair_color")
-			var/new_color = color_pick_sanitized(user, "Choose your hair color:", "Character Preference", hair_entry.hair_color)
+			var/new_color = color_pick_native(user, "Choose your hair color:", "Character Preference", hair_entry.hair_color)
 			if(!new_color)
 				return
 			hair_entry.hair_color = sanitize_hexcolor(new_color, 6, TRUE)
@@ -754,7 +754,7 @@
 		if("natural_gradient_color")
 			if(!natgrad)
 				return
-			var/new_color = color_pick_sanitized(user, "Choose your natural gradient color:", "Character Preference", hair_entry.natural_color)
+			var/new_color = color_pick_native(user, "Choose your natural gradient color:", "Character Preference", hair_entry.natural_color)
 			if(!new_color)
 				return
 			hair_entry.natural_color = sanitize_hexcolor(new_color, 6, TRUE)
@@ -771,7 +771,7 @@
 		if("dye_gradient_color")
 			if(!dyegrad)
 				return
-			var/new_color = color_pick_sanitized(user, "Choose your dye gradient color:", "Character Preference", hair_entry.dye_color)
+			var/new_color = color_pick_native(user, "Choose your dye gradient color:", "Character Preference", hair_entry.dye_color)
 			if(!new_color)
 				return
 			hair_entry.dye_color = sanitize_hexcolor(new_color, 6, TRUE)
