@@ -88,6 +88,12 @@
 	var/datum/weakref/reward_rune_ref
 	var/chosen_reward_path = null
 	var/bonus_reward_path = null
+	/// World time when the vision quest was initialized
+	var/creation_time = 0
+	/// Number of times sleeping has triggered a scry vision
+	var/sleep_scry_count = 0
+	/// World time when sleep scry was last triggered
+	var/last_sleep_scry_time = 0
 
 /datum/component/vision_quest_tracker/Initialize(datum/vision_quest/quest_datum, mob/target_mob, obj/structure/roguemachine/ritual_rune/rune, chosen_reward, bonus_reward)
 	if(!istype(quest_datum, /datum/vision_quest) || !istype(target_mob) || !istype(rune))
@@ -108,8 +114,10 @@
 	seeker = parent
 	chosen_reward_path = chosen_reward
 	bonus_reward_path = bonus_reward
+	creation_time = world.time
 
 	RegisterSignal(parent, COMSIG_MOB_SAY, PROC_REF(on_say))
+	RegisterSignal(parent, COMSIG_MOB_SLEEP, PROC_REF(on_mob_sleep))
 	to_chat(seeker, span_purple("Vision granted: [quest.name]"))
 	to_chat(seeker, span_notice("[quest.description]"))
 	to_chat(seeker, span_purple("The vision unfolds before you:"))
@@ -139,6 +147,26 @@
 			complete_quest()
 		else
 			to_chat(seeker, span_warning("The vision flickers - you are not close enough to [target.real_name] or they are not present."))
+
+/datum/component/vision_quest_tracker/proc/on_mob_sleep(datum/source)
+	SIGNAL_HANDLER
+
+	if(world.time > creation_time + 10 MINUTES)
+		to_chat(seeker, span_notice("It's been too long since the initial vision.. my dreams cannot summon my vision's target again."))
+		return
+
+	if(sleep_scry_count >= 2)
+		to_chat(seeker, span_notice("I've muddied the waters of the dream too much, I cannot see my vision's target in my dreams again."))
+		return
+
+	if(last_sleep_scry_time && world.time < last_sleep_scry_time + 1 MINUTES)
+		return
+
+	sleep_scry_count++
+	last_sleep_scry_time = world.time
+
+	to_chat(seeker, span_purple("Your slumber pulls you back into the vision..."))
+	temporary_target_scry()
 
 /datum/component/vision_quest_tracker/proc/sanitize_speech_phrase(phrase)
 	var/cleaned = lowertext(phrase)

@@ -158,6 +158,31 @@
 		"By the salt and the tide, awaken!"
 	)
 
+/datum/abyssal_ritual/robes
+	name = "Paint robes (Sea Pattern)"
+	desc = "Offer up three simple undervestments to have the paints of the pool infuse them with a new look."
+	base_channel_time = 150
+	required_ingredients = list(
+		/obj/item/clothing/suit/roguetown/shirt/undershirt/priest = 3,
+		/obj/item/dream_material/parchment_raw = 3
+	)
+	reward_items = list(
+		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3
+	)
+	invocation_phases  = list(
+		"Paints swirl and swell.",
+		"Robes to paint anew three.",
+		"Abyssor brings new dreads upon the sands."
+	)
+
+/datum/abyssal_ritual/robes/rain
+	name = "Paint robes (Rain Pattern)"
+	desc = "Offer up three simple undervestments to have the paints of the pool infuse them with a new look."
+	base_channel_time = 150
+	reward_items = list(
+		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3
+	)
+
 /datum/abyssal_ritual/communal_viscosity
 	name = "Commune Umbral Gift"
 	desc = "Whispers abyssal truths into the minds of all nearby channelers. Grants the 'Gift of Umbral Paint' spell to any conscious individual present who does not already possess it."
