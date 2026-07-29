@@ -398,7 +398,23 @@
 	icon_state = "desertgown"
 	item_state = "desertgown"
 	color = null
+	detail_color = null
+	detail_tag = "_detail"
+	naledicolor = TRUE
 	storage = FALSE
+
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout
 	name = "aesthetic hierophant's kandys"
@@ -414,9 +430,25 @@
 	icon_state = "monkcloth"
 	item_state = "monkcloth"
 	color = null
+	detail_color = null
+	detail_tag = "_detail"
+	naledicolor = TRUE
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
 	storage = FALSE
+
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout
 	name = "aesthetic pontifex's qaba"

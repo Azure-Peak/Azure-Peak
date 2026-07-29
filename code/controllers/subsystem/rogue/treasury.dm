@@ -104,8 +104,8 @@ SUBSYSTEM_DEF(treasury)
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
 	/// A feature for the Steward to unlock once the Crown's trade volume reaches 10k
-	/// Basically help automate the import, fitting in line with my idea of active trade 
-	/// Converting to passive convenience later. Later on I might gate it through a 
+	/// Basically help automate the import, fitting in line with my idea of active trade
+	/// Converting to passive convenience later. Later on I might gate it through a
 	/// Total trade volumes converting into multiple chooseable upgrades but for now
 	/// It just automatically unlock an upgrade with no real choice
 	var/royal_custom_unlocked = FALSE
@@ -719,7 +719,7 @@ SUBSYSTEM_DEF(treasury)
 		return POLL_TAX_CAT_INQUISITION
 	if((H.job in GLOB.church_positions) || HAS_TRAIT(H, TRAIT_AGENT_CHURCH))
 		return POLL_TAX_CAT_CLERGY
-	if(H.job in GLOB.courtier_positions)
+	if((H.job in GLOB.courtier_positions) || H.job == "Court Agent")
 		return POLL_TAX_CAT_COURTIER
 	if((H.job in GLOB.garrison_positions) || H.job == "Squire")
 		return POLL_TAX_CAT_GARRISON

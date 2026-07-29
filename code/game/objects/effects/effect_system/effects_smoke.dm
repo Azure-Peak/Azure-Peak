@@ -199,9 +199,7 @@
 /obj/effect/particle_effect/smoke/fire_gas/smoke_mob(mob/living/carbon/M)
 	breathin = FALSE
 	if(..())
-		M.adjustFireLoss(6, 0)
-		M.adjust_fire_stacks(3)
-		M.ignite_mob()
+		apply_scorch_stack(M, 2, BODY_ZONE_CHEST)
 		M.emote("scream")
 		return TRUE
 

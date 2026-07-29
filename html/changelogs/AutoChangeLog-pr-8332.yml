@@ -1,0 +1,5 @@
+author: "YakumoChen"
+delete-after: True
+changes:
+  - rscadd: "Added allspice to merchant"
+  - balance: "Merchant sugar is cheaper (less cheap than stockpile of course)"

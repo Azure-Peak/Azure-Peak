@@ -215,7 +215,7 @@
 #define COMSIG_MOB_KICKED_SUCCESSFUL "mob_kicked_successful" //from /mob/living/proc/try_kick(). Sent to target after a kick lands (past dodge/parry).
 
 // Aspect
-#define ASPECT_RESET_BUDGET 12
+#define ASPECT_RESET_BUDGET 4
 #define ASPECT_RESET_COST_MAJOR 4
 #define ASPECT_RESET_COST_MINOR 2
 #define ASPECT_RESET_COST_UTILITY 1
