@@ -47,22 +47,25 @@
 		)
 		if(!entry.disabled)
 			if(choice.sprite_accessories && entry.accessory_type)
+				// Imported/stale saves can reference accessories or color counts that no
+				// longer exist here — degrade gracefully instead of runtiming the menu blank.
 				var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(entry.accessory_type)
-				card["accessory"] = list(
-					"name" = accessory.name,
-					"multiple" = length(choice.sprite_accessories) > 1,
-				)
-				if(choice.allows_accessory_color_customization && !accessory.color_disabled)
-					var/list/color_list = color_string_to_list(entry.accessory_colors)
-					var/list/colors = list()
-					for(var/index in 1 to accessory.color_keys)
-						var/named_index = (accessory.color_keys == 1) ? accessory.color_key_name : accessory.color_key_names[index]
-						colors += list(list(
-							"index" = index,
-							"name" = named_index,
-							"color" = color_list[index],
-						))
-					card["colors"] = colors
+				if(accessory)
+					card["accessory"] = list(
+						"name" = accessory.name,
+						"multiple" = length(choice.sprite_accessories) > 1,
+					)
+					if(choice.allows_accessory_color_customization && !accessory.color_disabled)
+						var/list/color_list = color_string_to_list(entry.accessory_colors)
+						var/list/colors = list()
+						for(var/index in 1 to accessory.color_keys)
+							var/named_index = (accessory.color_keys == 1) ? accessory.color_key_name : LAZYACCESS(accessory.color_key_names, index)
+							colors += list(list(
+								"index" = index,
+								"name" = named_index || "Color [index]",
+								"color" = (index <= length(color_list)) ? color_list[index] : "FFFFFF",
+							))
+						card["colors"] = colors
 			card["extra"] = choice.get_extra_pref_controls(prefs, entry)
 		customizers_out += list(card)
 	data["customizers"] = customizers_out
