@@ -71,6 +71,13 @@
 /datum/preferences/ui_data(mob/user)
 	var/list/data = list()
 
+	// The legacy menu initialized these inside its render; the tgui sheet must do
+	// the same or virtue clicks and virtue-restricted job checks runtime on null.
+	if(!virtue)
+		virtue = GLOB.virtues[/datum/virtue/none]
+	if(!virtuetwo)
+		virtuetwo = GLOB.virtues[/datum/virtue/none]
+
 	// Header badges
 	var/list/pq_display = get_playerquality_display(get_playerquality(user.ckey))
 	data["pq"] = pq_display["label"]
@@ -288,7 +295,7 @@
 		if(length(job.virtue_restrictions) || length(job.vice_restrictions))
 			var/list/restricted_list = list()
 			if(length(job.virtue_restrictions))
-				if(virtue.type in job.virtue_restrictions)
+				if(virtue && (virtue.type in job.virtue_restrictions))
 					restricted_list += virtue.name
 				if(virtuetwo && (virtuetwo.type in job.virtue_restrictions))
 					restricted_list += virtuetwo.name
