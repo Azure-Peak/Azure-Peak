@@ -242,7 +242,7 @@
 	outfit = /datum/outfit/job/roguetown/neophyte/basic
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_JACKOFALLTRADES, TRAIT_SELF_RELIANCE, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_FOOD_STIPEND, TRAIT_CAUTIOUS_FISHER)
+	traits_applied = list(TRAIT_JACKOFALLTRADES, TRAIT_SELF_RELIANCE, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_ROYAL_SUBSIDY, TRAIT_CAUTIOUS_FISHER)
 	subclass_stats = list(
 		STATKEY_SPD = 2, // awful stats to compensate its utility
 		STATKEY_WIL = 2,
