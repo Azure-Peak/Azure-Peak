@@ -314,7 +314,7 @@
 			job_unavailable = new_player.IsJobUnavailable(job.title, latejoin = FALSE)
 		var/static/list/acceptable_unavailables = list(JOB_AVAILABLE, JOB_UNAVAILABLE_SLOTFULL)
 		if(!(job_unavailable in acceptable_unavailables))
-			entry["locked"] = "Unavailable"
+			entry["locked"] = get_job_unavailable_error_message(job_unavailable, job.title, user)
 			entry["lock_color"] = "grey"
 			job_list += list(entry)
 			continue
