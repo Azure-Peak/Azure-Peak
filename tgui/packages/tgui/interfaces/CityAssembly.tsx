@@ -251,7 +251,6 @@ export const CityAssembly = () => {
       title="The City Assembly"
       width={780}
       height={740}
-      theme="parchment"
     >
       <Window.Content scrollable>
         <div style={pageStyle}>

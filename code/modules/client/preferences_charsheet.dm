@@ -383,9 +383,13 @@
 
 /// Game Settings tab - display options.
 /datum/preferences/proc/charsheet_settings_data(mob/user)
+	var/list/theme_options = list()
+	var/list/all_themes = get_tgui_themes()
+	for(var/key in all_themes)
+		theme_options += list(list("key" = key, "name" = all_themes[key]))
 	return list(
-		"tgui_theme" = get_tgui_theme_display_name(),
-		"parchment_skin" = get_parchment_skin_display_name(),
+		"tgui_theme" = tgui_theme,
+		"tgui_theme_options" = theme_options,
 		"statbrowser_theme" = get_statbrowser_theme_display_name(),
 		"ambientocclusion" = !!ambientocclusion,
 		"windowflashing" = !!windowflashing,
@@ -462,6 +466,11 @@
 				href_list[key] = "[params[key]]"
 			process_link(user, href_list)
 			update_preview_icon()
+			return TRUE
+
+		// Theme dropdown: applies instantly to every open window and saves.
+		if("set_tgui_theme")
+			set_tgui_theme(params["theme"])
 			return TRUE
 
 		if("refresh_preview")

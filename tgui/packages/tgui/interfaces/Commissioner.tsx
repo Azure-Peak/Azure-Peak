@@ -35,7 +35,7 @@ export const Commissioner = () => {
   if (activeTab === 'config' && !isGuildmaster) activeTab = 'browse';
 
   return (
-    <Window width={880} height={720} theme="parchment">
+    <Window width={880} height={720}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The Commissioner</div>

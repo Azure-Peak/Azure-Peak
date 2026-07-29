@@ -176,7 +176,7 @@ export const TaxSetter = (props: any, context: any) => {
   const projection = data.pollProjection;
 
   return (
-    <Window width={760} height={640} title="Tax Roll" theme="parchment">
+    <Window width={760} height={640} title="Tax Roll">
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div

@@ -54,7 +54,7 @@ export const Goldface = () => {
 
   if (!isCommand) {
     return (
-      <Window width={880} height={800} theme="parchment">
+      <Window width={880} height={800}>
         <Window.Content scrollable>
           <div
             style={{
@@ -91,7 +91,7 @@ export const Goldface = () => {
   }
 
   return (
-    <Window width={880} height={800} theme="parchment">
+    <Window width={880} height={800}>
       <Window.Content scrollable>
         <div style={{ position: 'relative' }}>
           <div style={tabBarStyle}>

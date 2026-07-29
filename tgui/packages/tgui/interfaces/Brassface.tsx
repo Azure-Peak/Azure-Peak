@@ -46,7 +46,7 @@ export const Brassface = () => {
 
   if (locked && !isPublic) {
     return (
-      <Window width={720} height={760} theme="parchment">
+      <Window width={720} height={760}>
         <Window.Content scrollable>
           <LockedView motto={data.motto} canRead={canRead} />
         </Window.Content>
@@ -55,7 +55,7 @@ export const Brassface = () => {
   }
 
   return (
-    <Window width={720} height={760} theme="parchment">
+    <Window width={720} height={760}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <Header

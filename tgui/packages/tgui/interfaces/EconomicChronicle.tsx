@@ -17,7 +17,7 @@ import type { EconomicChronicleData } from './EconomicChronicle/types';
 export const EconomicChronicle = () => {
   const { data } = useBackend<EconomicChronicleData>();
   return (
-    <Window title="Realm Economics" width={920} height={660} theme="parchment">
+    <Window title="Realm Economics" width={920} height={660}>
       <Window.Content scrollable>
         <div style={{ zoom: 1.15 }}>
           <div style={compactPageStyle}>

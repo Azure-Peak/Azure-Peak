@@ -19,7 +19,6 @@ export function TriumphLeaderboard(props) {
     <Window
       width={340}
       height={520}
-      theme="parchment"
       title="Champions of Valmoria"
     >
       <Window.Content scrollable>

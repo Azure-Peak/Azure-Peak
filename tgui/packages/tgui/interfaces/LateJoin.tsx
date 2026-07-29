@@ -106,7 +106,7 @@ const JobRow = (props: { job: JobEntry }) => {
 export function LateJoin(props) {
   const { act, data } = useBackend<Data>();
   return (
-    <Window width={720} height={620} theme="parchment" title="Choose Class">
+    <Window width={720} height={620} title="Choose Class">
       <Window.Content scrollable>
         <NoticeBox info>Round Duration: {data.round_duration}</NoticeBox>
         {data.sieges.map((siege) => (

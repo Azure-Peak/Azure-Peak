@@ -57,7 +57,7 @@ export const Navigator = () => {
   const isSmuggler = !!data.is_smuggler;
 
   return (
-    <Window title="Navigator" width={720} height={760} theme="parchment">
+    <Window title="Navigator" width={720} height={760}>
       <Window.Content scrollable>
         <div style={{ ...pageStyle, position: 'relative' }}>
           <button

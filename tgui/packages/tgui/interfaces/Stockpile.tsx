@@ -264,7 +264,7 @@ export const Stockpile = () => {
     : data.stocks.filter((r) => r.category === data.category);
   const noDeposit = !!data.no_deposit;
   return (
-    <Window width={780} height={720} theme="parchment">
+    <Window width={780} height={720}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>{data.title || 'Town Stockpile'}</div>

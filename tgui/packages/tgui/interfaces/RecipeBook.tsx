@@ -105,7 +105,6 @@ export const RecipeBook = () => {
     <Window
       width={1150}
       height={810}
-      theme="parchment"
       title={
         data.page === 'book' && data.current_book_title
           ? `Encyclopedia - ${data.current_book_title}`

@@ -21,7 +21,7 @@ export const Noticeboard = () => {
   const [tab, setTab] = useState<TabKey>('postings');
 
   return (
-    <Window title="Noticeboard" width={1000} height={760} theme="parchment">
+    <Window title="Noticeboard" width={1000} height={760}>
       <Window.Content scrollable>
         <div style={{ ...pageStyle, position: 'relative' }}>
           <button

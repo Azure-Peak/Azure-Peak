@@ -1761,7 +1761,6 @@
 #include "code\modules\client\preferences_toggles.dm"
 #include "code\modules\client\round_end_panel.dm"
 #include "code\modules\client\roundendmanifest.dm"
-#include "code\modules\client\theme_picker.dm"
 #include "code\modules\client\customizer\customizer.dm"
 #include "code\modules\client\customizer\customizer_choice.dm"
 #include "code\modules\client\customizer\customizer_entry.dm"

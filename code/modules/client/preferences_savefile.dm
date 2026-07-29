@@ -151,6 +151,19 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["legacy_prefs_menu"]	>> legacy_prefs_menu
 	S["tgui_theme"]			>> tgui_theme
 	S["parchment_skin"]		>> parchment_skin
+	// Parchment skins are folded into the theme list. Migrate the old skin pref,
+	// and treat the old never-applied azure_default default as unset so nobody's
+	// windows change look out from under them.
+	if(!tgui_theme || tgui_theme == "azure_default")
+		switch(parchment_skin)
+			if("parchment")
+				tgui_theme = "parchment"
+			if("vellum")
+				tgui_theme = "parchment_vellum"
+			else // leatherbound was the old default skin
+				tgui_theme = "parchment_leatherbound"
+	if(!(tgui_theme in get_tgui_themes()))
+		tgui_theme = "parchment_leatherbound"
 	S["statbrowser_theme"]	>> statbrowser_theme
 	S["preferred_ui_language"] >> preferred_ui_language
 	S["buttons_locked"]		>> buttons_locked
@@ -231,7 +244,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	tgui_lock		= sanitize_integer(tgui_lock, 0, 1, initial(tgui_lock))
 	legacy_prefs_menu	= sanitize_integer(legacy_prefs_menu, 0, 1, initial(legacy_prefs_menu))
 	tgui_theme		= sanitize_text(tgui_theme, initial(tgui_theme))
-	parchment_skin	= sanitize_parchment_skin(parchment_skin)
 	statbrowser_theme = sanitize_statbrowser_theme(statbrowser_theme)
 	preferred_ui_language = sanitize_preferred_ui_language(preferred_ui_language)
 	buttons_locked	= sanitize_integer(buttons_locked, 0, 1, initial(buttons_locked))

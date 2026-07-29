@@ -47,7 +47,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/tgui_lock = TRUE
 	/// TRUE if the player opted out of the tgui character sheet back to the legacy preferences window.
 	var/legacy_prefs_menu = FALSE
-	var/tgui_theme = "azure_default"
+	var/tgui_theme = "parchment_leatherbound"
 	var/parchment_skin = "leatherbound"
 	var/statbrowser_theme = "light"
 	var/windowflashing = TRUE
@@ -762,7 +762,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<table><tr><td width='340px' valign='top'>"
 			dat += "<h2>Display</h2>"
 			dat += "<b>TGUI Theme:</b> <a href='?_src_=prefs;preference=tgui_theme'>[get_tgui_theme_display_name()]</a><br>"
-			dat += "<b>Parchment Theme:</b> <a href='?_src_=prefs;preference=parchment_skin'>[get_parchment_skin_display_name()]</a><br>"
 			dat += "<b>Panel Theme:</b> <a href='?_src_=prefs;preference=statbrowser_theme'>[get_statbrowser_theme_display_name()]</a><br>"
 			dat += "<b>UI Mode:</b> <a href='?_src_=prefs;preference=tgui_ui_prefs;task=menu'>[tgui_pref ? "TGUI" : "Legacy"]</a><br>"
 			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
@@ -2939,9 +2938,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("tgui_lock")
 					tgui_lock = !tgui_lock
 				if("tgui_theme")
-					setTguiStyle(user)
-				if("parchment_skin")
-					cycle_parchment_skin()
+					pick_tgui_theme(user)
 				if("statbrowser_theme")
 					cycle_statbrowser_theme()
 					user.client?.apply_statbrowser_theme()

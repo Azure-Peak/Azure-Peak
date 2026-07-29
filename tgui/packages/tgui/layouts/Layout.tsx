@@ -5,7 +5,6 @@
  */
 
 import { useEffect, useRef } from 'react';
-import { useBackend } from 'tgui/backend';
 import type { Box } from 'tgui-core/components';
 import { addScrollableNode, removeScrollableNode } from 'tgui-core/events';
 import { classes } from 'tgui-core/react';
@@ -18,21 +17,17 @@ type Props = Partial<{
 }> &
   BoxProps;
 
-const PARCHMENT_VARIANTS: Record<string, (cfg: any) => string> = {
-  parchment: (cfg) => {
-    const skin = cfg?.window?.parchment_skin;
-    if (skin === 'leatherbound') return 'parchment-leatherbound';
-    if (skin === 'vellum') return 'parchment-vellum';
-    return 'parchment';
-  },
+// Theme keys whose CSS class name differs from the key itself.
+const THEME_CLASSES: Record<string, string> = {
+  parchment_leatherbound: 'parchment-leatherbound',
+  parchment_vellum: 'parchment-vellum',
 };
 
 export function Layout(props: Props) {
-  const { className, theme = 'azure_default', children, ...rest } = props;
-  const { config } = useBackend();
+  const { className, theme = 'parchment_leatherbound', children, ...rest } =
+    props;
 
-  const resolveVariant = PARCHMENT_VARIANTS[theme];
-  const resolvedTheme = resolveVariant ? resolveVariant(config) : theme;
+  const resolvedTheme = THEME_CLASSES[theme] || theme;
 
   const themeClass = `theme-${resolvedTheme}`;
 

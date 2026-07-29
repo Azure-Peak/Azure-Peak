@@ -23,7 +23,7 @@ type Data = {
 export function BodyMarkings(props) {
   const { act, data } = useBackend<Data>();
   return (
-    <Window width={560} height={700} theme="parchment" title="Markings">
+    <Window width={560} height={700} title="Markings">
       <Window.Content scrollable>
         <Section>
           <Button onClick={() => act('use_preset')}>Use a preset</Button>

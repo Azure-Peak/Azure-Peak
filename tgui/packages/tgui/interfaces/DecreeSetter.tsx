@@ -245,7 +245,6 @@ export const DecreeSetter = () => {
       width={620}
       height={720}
       title="Charters of the Realm"
-      theme="parchment"
     >
       <Window.Content scrollable>
         <div style={pageStyle}>

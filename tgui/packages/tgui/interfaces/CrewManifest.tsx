@@ -20,7 +20,7 @@ type Data = {
 export function CrewManifest(props) {
   const { data } = useBackend<Data>();
   return (
-    <Window width={400} height={550} theme="parchment" title="Crew Manifest">
+    <Window width={400} height={550} title="Crew Manifest">
       <Window.Content scrollable>
         {data.manifest.length === 0 && (
           <NoticeBox>Nobody has arrived yet.</NoticeBox>

@@ -180,7 +180,7 @@ export const Scrapper = () => {
   const { act, data } = useBackend<Data>();
   const isKeyholder = !!data.is_keyholder;
   return (
-    <Window width={isKeyholder ? 780 : 480} height={620} theme="parchment">
+    <Window width={isKeyholder ? 780 : 480} height={620}>
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The Scrapper</div>

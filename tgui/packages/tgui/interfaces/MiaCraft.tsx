@@ -291,7 +291,7 @@ export const MiaCraft = () => {
   );
 
   return (
-    <Window width={560} height={760} theme="parchment" title="Crafting">
+    <Window width={560} height={760} title="Crafting">
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div

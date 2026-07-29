@@ -26,7 +26,7 @@ type Data = {
 export function CharacterDescriptors(props) {
   const { act, data } = useBackend<Data>();
   return (
-    <Window width={400} height={560} theme="parchment" title="Describe Myself">
+    <Window width={400} height={560} title="Describe Myself">
       <Window.Content scrollable>
         <Section
           title="Descriptors"
