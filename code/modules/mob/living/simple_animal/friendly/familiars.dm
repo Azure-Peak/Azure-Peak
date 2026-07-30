@@ -7,7 +7,7 @@
 // if you add mechanical differences between the subtypes i will find you.
 
 /*
-	Familiar list and buffs below. 
+	Familiar list and buffs below.
 	Sprites by Diltyrr (those aren't good gah)
 
 	Quick AI pictures idea for each of them : https://imgbox.com/g/MvanomKazA
@@ -161,6 +161,12 @@
 	src.forceMove(vestige)
 	vestige.desc = "The vestige of [src.name], a fallen [GLOB.familiar_display_names[src.type]]. Likely worth a lot to the magos that summoned [src.p_them()]!"
 
+/mob/living/simple_animal/pet/familiar/void/revive(full_heal, admin_revive)
+	if(..()) // successful revive
+		if(essences_consumed.Find("fae")) // flight is lost on death
+			movement_type = FLYING
+		. = TRUE
+
 /mob/living/simple_animal/pet/familiar/proc/TryAddFlight()
 	if(movement_type & (FLYING | FLOATING))
 		add_verb(src, list(/mob/living/simple_animal/proc/fly_up,
@@ -174,7 +180,7 @@
 	for(var/obj/item/grabbing/grab in grabbedby) //Grabbed by the mouth
 		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
 			return FALSE
-			
+
 	return TRUE
 
 /mob/living/simple_animal/pet/familiar/is_literate()
@@ -412,7 +418,7 @@
 						qdel(ing)
 					src.reagents.add_reagent(/datum/reagent/yuck, min(reagents.maximum_volume - reagents.total_volume, 90)) // do not overfill
 					// Learn from your failure (Yeah you can technically still grind this way you just blow through a lot of ingredients)
-					familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE) 
+					familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 					return
 				for(var/obj/item/ing in src.ingredients)
 					qdel(ing)
@@ -567,7 +573,7 @@
 	maxHealth = WOLF_HEALTH_UNDEAD // more durable than the others
 	health = WOLF_HEALTH_UNDEAD
 	speak_emote = list ("rumbles", "grinds")
-	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental) 
+	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental)
 	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
 	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elementalt2
 	valid_healing_items = list(/obj/item/magic/elemental)
@@ -615,7 +621,7 @@
 	var/list/ret = ..()
 	var/knows = FALSE
 	knows |= istype(user, /mob/living/simple_animal/pet/familiar)
-	// kind of horrid but this ensures only "proper" casters get to be knowers 
+	// kind of horrid but this ensures only "proper" casters get to be knowers
 	if(user.mind)
 		knows |= (user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"])
 	if(knows)

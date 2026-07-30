@@ -312,6 +312,12 @@
 	color_keys = 2
 	color_key_names = list("Snout", "Inner")
 
+/datum/sprite_accessory/snout/vskunk
+	name = "Skunk"
+	icon_state = "vskunk"
+	color_keys = 3
+	color_key_names = list("Snout", "Stripe", "Nose")
+
 /******************************************
 **************** Snouts *******************
 *************but higher up*****************/

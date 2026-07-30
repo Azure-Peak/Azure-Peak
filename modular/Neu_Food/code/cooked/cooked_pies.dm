@@ -11,6 +11,7 @@
 	var/stunning = FALSE
 
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked
+	cuisine = CUISINE_NORTH_IMPERIAL
 	icon_state = "pie"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_AND_HALF_MEALS)
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/pieslice
@@ -61,6 +62,8 @@
 		qdel(M)
 
 /obj/item/reagent_containers/food/snacks/rogue/pieslice
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_PIE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("pie" = 1)
 	name = "pie slice"
@@ -103,6 +106,7 @@
 
 // -------------- SPIDER PIE --------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/spider
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
 	name = "de-scallax pie"
 	desc = "A delicious, homemade pie made with the inside of a spider. It was often used as a gesture of reconciliation between drow clans. Still needs to be sliced."
 	icon_state = "spiderpie"
@@ -192,6 +196,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/pieslice/pumpkin
 	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_VEGETABLE|DISH_PIE
 	name = "pumpkin pie slice"
 	desc = "A delicious slice of homemade pie, made with pumpkin and cheese."
 	icon_state = "pumpkinslice"

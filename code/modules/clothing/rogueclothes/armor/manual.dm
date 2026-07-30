@@ -31,13 +31,16 @@
 		return
 	qdel(src)
 
-/obj/item/clothing/suit/roguetown/armor/manual/proc/armour_regen(var/repair_percent = 0.2 * max_integrity)
+/obj/item/clothing/suit/roguetown/armor/manual/proc/armour_regen(var/repair_percent = 0.35 * max_integrity)
     if(obj_integrity >= max_integrity)
         to_chat(loc, span_notice(repairmsg_end))
     to_chat(loc, span_notice(repairmsg_continue))
     obj_integrity = min(obj_integrity + repair_percent, max_integrity)
     if(obj_broken)
         obj_fix(full_repair = FALSE)
+
+//35% repair per proc, procs taking ~10-11s for sewing, pushup set, or meditation emote. Thus ~30-33s to fullrepair.
+
 
 
 /*
@@ -56,12 +59,50 @@
 
 	. += span_info("Repairable via push-up emotes.")
 
-/obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
-	armor = ARMOR_LEATHER
 
-/obj/item/clothing/suit/roguetown/armor/manual/pushups/leather/good // Honestly wasn't even sure what the diff was to the parent of this subtype, this one actually is GOOD and it's for Berzerker
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian
 	armor = ARMOR_LEATHER
-	max_integrity = 400 //Now actually matches desciple and bersekers unarmed discpline armor int, drawback is it doesnt natrually regen without push-ups
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //Identical to a glued-on hardened leather coat, with bonus arm-hand-foot coverage.
+
+/*
+ * MEDITATION ARMOUR - Currently no trigger for the repair proc, thus unused and should not be used.
+ */
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation
+    name = "harmonious skin"
+    desc = "Exotic skin armor that can be renewed via meditation. If you see this ingame, something went wrong."
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/get_mechanics_examine(mob/user)
+	. = ..()
+
+	. += span_info("Repairable via meditate emotes.")
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats
+	resistance_flags = FIRE_PROOF
+	icon_state = "easttats"
+	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD //This does not cover eyes/nose/mouth/neck.
+	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	//allowed_race = NON_DWARVEN_RACE_TYPES
+
+	repairmsg_end = "The tattoos flow more calmly, as the meditation renews their strength."
+	repairmsg_continue = "The tattoos mend some of their abuse..."
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma
+	name = "bouhoi bujeog tattoos"
+	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
+	armor = ARMOR_PLATE //Great defence, while it lasts.
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE //1.17x integrity (350) vs baseline skin armor (300).
+	//Perk of being a mercenary kinda-powerclass, and dealing with the Honorbound restrictions (no metal armor, no gambesons).
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
+	name = "seon-mul tattoos"
+	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150 //1.5x integrity (450) vs baseline leather skin armor (300).
+	//Perk of being a wretch powerclass, and dealing with the Honorbound restrictions (no metal armor, no gambesons).
 
 
 /*
@@ -92,7 +133,7 @@
 	if(!repair_check(user, I))
 		return FALSE
 
-	if(!do_after(user, 5 SECONDS, target = src))
+	if(!do_after(user, 10 SECONDS, target = src))
 		return FALSE
 
 	armour_regen()
@@ -112,20 +153,6 @@
 
 	return TRUE
 
-
-/obj/item/clothing/suit/roguetown/armor/manual/sewable/confessor
-	name = "arbalist's skin"
-	desc = "Taut lyke the bow I draw."
-	armor = ARMOR_PADDED_BAD
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	repair_items = list(
-		/obj/item/needle = 'sound/foley/sewflesh.ogg',
-		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
-		/obj/item/needle/bronze = 'sound/foley/sewflesh.ogg',
-		/obj/item/needle/pestra = 'sound/foley/sewflesh.ogg',
-		/obj/item/rogueweapon/surgery/cautery = 'sound/surgery/cautery1.ogg'
-	)
-
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/repair_check(mob/user, obj/item/I)
 	. = ..()
 
@@ -139,3 +166,114 @@
 			return FALSE
 
 	return TRUE
+
+
+
+//PADDED
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded
+	name = "sewable skin armor"
+	desc = "This should not spawn naturally. If you see this ingame, something went wrong."
+	armor = ARMOR_PADDED
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //Identical to a glued-on gambeson in armor slot, with bonus hand+foot coverage.
+	repair_items = list(
+		/obj/item/needle = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/bronze = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/pestra = 'sound/foley/sewflesh.ogg',
+		/obj/item/rogueweapon/surgery/cautery = 'sound/surgery/cautery1.ogg'
+	)
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/barbarian
+	name = "hardened skin"
+	desc = "Toughened from abuse. My mettle remains."
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/gladiator
+	name = "pit-hardened skin"
+	desc = "Are you not entertained?!"
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/bailiff
+	name = "scar-marred skin"
+	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //1.2x integrity (300) vs baseline padded skin armor (250).
+	//Perk of being a MAA kinda-powerclass. Basically just a heavy gambeson.
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monke
+	name = "trained skin"
+	desc = "They say I've taken the first step on a path older than memory.\
+	</br>Aeon, Psydon, Adonai… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
+	</br>The world is said to be held together by His sacrifice. I can't imagine something like that, but the Disciples say it is true.\
+	</br>I came here because I wanted purpose, something solid to believe in.\
+	</br>They tell me doubt is natural, and that understanding comes with time.\
+	</br>For now, I will listen, learn, and try to live in a way that does not waste what was given to us."
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monk
+	name = "tough skin"
+	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //0.8x integrity (200) vs baseline padded skin armor (250).
+	//Tax for being an advent with utility miracles.
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/confessor
+	name = "arbalist's skin"
+	desc = "Taut lyke the bow I draw."
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //0.8x integrity (200) vs baseline padded skin armor (250).
+	//Tax for being shirt slot.
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple
+	name = "enduring skin"
+	desc = "It's far more than just an oath. \
+	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
+	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
+	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
+	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
+	</br>Happiness must be fought for."
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 100 //1.6x integrity (400) vs baseline padded skin armor (250).
+	//Perk of being a psy-templar powerclass.
+
+
+//LEATHER
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/leather
+	name = "sewable skin armor"
+	desc = "This should not spawn naturally. If you see this ingame, something went wrong."
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //Identical to a glued-on hardened leather coat, with bonus arm-hand-foot coverage.
+	repair_items = list(
+		/obj/item/needle = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/bronze = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/pestra = 'sound/foley/sewflesh.ogg',
+		/obj/item/rogueweapon/surgery/cautery = 'sound/surgery/cautery1.ogg'
+	)
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/leather/berzerker
+	name = "unstoppable skin"
+	desc = "I've endured enough. The onslaught has lost its meaning."
+	blocking_behavior = SAMEWEAR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150 //1.5x integrity (450) vs baseline leather skin armor (300).
+	//Perk of being a wretch powerclass.
+
+
+//MAILLE
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/maille
+	name = "sewable skin armor"
+	desc = "This should not spawn naturally. If you see this ingame, something went wrong."
+	armor = ARMOR_MAILLE
+	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+	repair_items = list(
+		/obj/item/needle = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/bronze = 'sound/foley/sewflesh.ogg',
+		/obj/item/needle/pestra = 'sound/foley/sewflesh.ogg',
+		/obj/item/rogueweapon/surgery/cautery = 'sound/surgery/cautery1.ogg'
+	)
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/maille/berzerkerchest
+	name = "unstoppable chest"
+	desc = "The callouses could stop arrows! But only so many."
+	slot_flags = ITEM_SLOT_ARMOR
+	armor = ARMOR_MAILLE
+	resistance_flags = FLAMMABLE
+	blocksound = SOFTHIT
+	blocking_behavior = SAMEWEAR
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST

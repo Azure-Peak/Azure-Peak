@@ -19,6 +19,7 @@ export type LedgerEntry = {
   to: string;
   amount: number;
   reason: string;
+  count: number;
 };
 
 export type LedgerPage = {

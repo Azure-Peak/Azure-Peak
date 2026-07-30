@@ -4,11 +4,7 @@
 # In the event that people are to be informed of changes
 # to the same file or dir, add them to the end of under Multiple Owners
 
-/icons @Takyon69
-/code/modules/jobs/job_types @ChungusGamer666
-/code/modules/mob/living/carbon/human @ChungusGamer666
-/code/modules/mob/living/carbon/spirit @NGGJamie
-/code/modules/underworld @NGGJamie
+
 # TGS
 /code/__DEFINES/tgs.dm @izac112
 /code/__DEFINES/tgs.config.dm @izac112
@@ -16,3 +12,58 @@
 /code/modules/tgs/ @izac112
 # Config
 /config/ @izac112
+
+
+# Subsystems / Master Controller
+# This also happens to cover pretty much any subsystem economy related
+# No I am not an expert I am just conscripted into this role
+/code/controllers/failsafe.dm @WeNeedMorePhoron
+/code/controllers/master.dm @WeNeedMorePhoron
+/code/controllers/subsystem.dm @WeNeedMorePhoron
+/code/controllers/subsystem/ @WeNeedMorePhoron
+# Economy, Questing, Contracts, PVE, Crafting, Smithing
+/code/__DEFINES/economy/ @WeNeedMorePhoron
+/code/__DEFINES/loot_pools.dm @WeNeedMorePhoron
+/code/modules/banking/ @WeNeedMorePhoron
+/code/modules/cargo/ @WeNeedMorePhoron
+/code/modules/crafting/recipe_books/ @WeNeedMorePhoron
+/code/modules/roguetown/roguecrafting/ @WeNeedMorePhoron
+/code/modules/roguetown/roguejobs/blacksmith/ @WeNeedMorePhoron
+/code/modules/roguetown/roguejobs/mages/ @WeNeedMorePhoron
+/code/modules/roguetown/roguemachine/ @WeNeedMorePhoron
+/code/modules/roguetown/roguestock/ @WeNeedMorePhoron
+# Politics / Governance
+# Both built wholesale in single PRs, every file in them is mine
+/code/datums/usurpation_rite/ @WeNeedMorePhoron
+/code/modules/politics/ @WeNeedMorePhoron
+# Icon Updating
+/code/__HELPERS/icons.dm @WeNeedMorePhoron
+update_icons.dm @WeNeedMorePhoron
+# Spells (Wizard, Spellblade, Spellfist, etc)
+# Means I own the entirety of spells now, joy. Should split by divine or something, but honestly it is fine. Pinging Lamas won't work AFAIK because he is not part of the org
+/code/__DEFINES/magic.dm @WeNeedMorePhoron
+/code/__DEFINES/spell_defines.dm @WeNeedMorePhoron
+/code/modules/spells/ @WeNeedMorePhoron
+# AI Behavior
+/code/__DEFINES/ai/ @WeNeedMorePhoron
+/code/datums/ai/ @WeNeedMorePhoron
+/code/modules/mob/living/carbon/human/npc/ @WeNeedMorePhoron
+# Bestiary (also covers hostile.dm, the simple mob AI) - PVE
+/code/modules/mob/living/simple_animal/ @WeNeedMorePhoron
+# Threat / Spawning / Ambush
+# Aka PVE
+/code/__DEFINES/regional_threat.dm @WeNeedMorePhoron
+/code/datums/components/spawner.dm @WeNeedMorePhoron
+/code/game/objects/effects/spawners/ @WeNeedMorePhoron
+/code/game/objects/structures/spawner.dm @WeNeedMorePhoron
+/code/modules/events/raids/ @WeNeedMorePhoron
+/code/modules/mob/living/ambush.dm @WeNeedMorePhoron
+# Admin Tooling
+# My own panels living in a dir I otherwise do not own
+/code/modules/admin/verbs/ @WeNeedMorePhoron
+# TGUI
+/code/modules/tgui/ @WeNeedMorePhoron
+/code/modules/tgui_input/ @WeNeedMorePhoron
+/code/modules/tgui_panel/ @WeNeedMorePhoron
+/interface/ @WeNeedMorePhoron
+/tgui/ @WeNeedMorePhoron

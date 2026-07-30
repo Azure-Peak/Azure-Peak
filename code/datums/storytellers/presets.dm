@@ -89,7 +89,7 @@
 /datum/storyteller/gamemode/guaranteed_antag
 	name = "High Intensity"
 	vote_desc = "Guaranteed hard antagonist. Some soft antagonists remain."
-	desc = "Guaranteed roundstart hard antag. Wretches up to 8. Gnolls max 2. Hag present. Dreamwalker may roll."
+	desc = "Guaranteed roundstart hard antag. Wretches up to 8. Gnolls max 2. Hag present."
 	welcome_text = "A cold dread settles over the town.."
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
@@ -98,7 +98,7 @@
 	roundstart_prob = 100
 	block_hard = FALSE
 	block_soft = FALSE
-	allow_dreamwalker = TRUE
+	allow_dreamwalker = FALSE
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	wretch_slot_cap = 9
 
@@ -125,7 +125,7 @@
 	preset_pool = GAMEMODE_POOL_NOANTAG
 	block_hard = TRUE
 	block_soft = FALSE
-	allow_dreamwalker = TRUE
+	allow_dreamwalker = FALSE
 	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC	// max 3
 	wretch_slot_cap = 12
 	roundstart_prob = 50

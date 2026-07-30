@@ -207,9 +207,10 @@
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 //	if(adjusted_climb_time)
 //		user.visible_message(span_warning("[user] starts climbing onto [src]."), span_warning("I start climbing onto [src]..."))
+	if(!user.start_climb())
+		return
 	structureclimber = user
-	user.mid_climb = TRUE
-	if(do_mob(user, user, adjusted_climb_time))
+	if(do_mob(user, user, adjusted_climb_time, extra_checks = user.climb_check_callback()))
 		if(src.loc) //Checking if structure has been destroyed
 			if(do_climb(user))
 				user.visible_message(span_warning("[user] climbs onto [src]."), \
@@ -224,7 +225,7 @@
 				. = 1
 			else
 				to_chat(user, span_warning("I fail to climb onto [src]."))
-	user.mid_climb = FALSE
+	user.end_climb()
 	structureclimber = null
 
 // You can path over a dense structure if it's climbable.

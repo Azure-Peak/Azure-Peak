@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Canceling a spell now applies half / full cost of its resources and half its cooldown, but no more than 10 seconds."

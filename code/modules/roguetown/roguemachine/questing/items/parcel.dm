@@ -7,8 +7,6 @@
 	grid_height = 32
 	grid_width = 32
 	dropshrink = 0.6
-	/// Items contained in this parcel. Courier quests pack a single item, Recovery quests pack
-	/// 4-6. Released to the turf when an authorized recipient unwraps the seal.
 	var/list/obj/item/contained_items = list()
 	var/list/allowed_jobs = list()
 	var/delivery_area_type

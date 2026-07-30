@@ -6,6 +6,8 @@
 	var/amount
 	var/currency
 	var/reason
+	var/count = 1
+	var/time_created = 0
 
 /datum/treasury_entry/New(entry_kind, datum/fund/from_fund, datum/fund/to_fund, entry_amount, entry_reason, from_label)
 	. = ..()
@@ -17,6 +19,8 @@
 	to_name = to_fund ? to_fund.name : "void"
 	var/datum/fund/source = from_fund || to_fund
 	currency = source?.currency
+	time_created = world.time
+	count = 1
 
 /datum/treasury_entry/proc/format()
 	var/suffix = reason ? " ([reason])" : ""
