@@ -98,13 +98,13 @@
 	var/is_guild = is_guild_family(M)
 	var/was_friend = (M in friends)
 	var/legacy_announced = length(enemies)	//the retaliate parent only says "calms down" if its own enemies list was filled
-	if(!aggressive && M.used_intent.type == INTENT_HELP && !was_friend && is_guild)
+	if(!aggressive && M.used_intent?.type == INTENT_HELP && !was_friend && is_guild)
 		friends += M
 		was_friend = TRUE
 	. = ..()
 	if(aggressive)
 		return
-	switch(M.used_intent.type)
+	switch(M.used_intent?.type)
 		if(INTENT_HARM)
 			if(!HAS_TRAIT(M, TRAIT_PACIFISM))
 				ai_controller?.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, M)

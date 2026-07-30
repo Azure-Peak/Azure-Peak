@@ -146,8 +146,8 @@
 		return
 
 	if(choice == "Desire")
-		var/desire = input(src, "What is the desire?", "Desire") as null|text
-		if(isnull(desire))
+		var/desire = stripped_input(src, "What is the desire?", "Desire")
+		if(!desire)
 			return
 		var/message = "You [degree == "mild" ? "slightly" : degree == "moderate" ? "moderately" : "strongly"] want to help [src.real_name] fulfil their wish to [desire]"
 		if(!length(message) || copytext(message, length(message)) != ".")
@@ -159,8 +159,8 @@
 		return
 
 	if(choice == "Dread")
-		var/dread = input(src, "What are you dreading?", "Dread") as null|text
-		if(isnull(dread))
+		var/dread = stripped_input(src, "What are you dreading?", "Dread")
+		if(!dread)
 			return
 		var/message = "You feel [degree]ly negatively preoccupied with the prospect of [dread]."
 		if(!length(message) || copytext(message, length(message)) != ".")

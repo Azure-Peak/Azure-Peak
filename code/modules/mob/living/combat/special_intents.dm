@@ -173,7 +173,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		if((get_dist(get_turf(source), get_turf(target)) > range) || source.z != target.z)
 			to_chat(source, span_warning("It's too far!"))
 			return FALSE
-	if(!turf_reachable(get_turf(target)))
+	if(!turf_reachable(get_turf(target), get_turf(source)))
 		to_chat(source, span_warning("Something is in the way!"))
 		return FALSE
 	return TRUE
@@ -213,8 +213,9 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 				continue
 
 ///Returns FALSE if a dense or opaque turf sits between the attacker and T — Specials cannot reach through walls.
-/datum/special_intent/proc/turf_reachable(turf/T)
-	var/turf/source = get_turf(howner)
+///check_range() runs before deploy() assigns howner, so it must pass its own from-turf explicitly.
+/datum/special_intent/proc/turf_reachable(turf/T, turf/from)
+	var/turf/source = from || get_turf(howner)
 	if(!source || source == T)
 		return TRUE
 	for(var/turf/inter in getline(source, T))
