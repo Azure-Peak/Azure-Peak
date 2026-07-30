@@ -24243,6 +24243,7 @@
 /obj/structure/table/wood/poor/alt_alt{
 	color = "#C4A484"
 	},
+/obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/greeddungeon)
 "eBi" = (
@@ -34088,10 +34089,10 @@
 /turf/open/transparent/openspace,
 /area/rogue/indoors/inq)
 "gse" = (
-/obj/effect/spawner/lootdrop/heavy_armor_spawner,
 /obj/structure/table/wood/poor/alt_alt{
 	color = "#C4A484"
 	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/greeddungeon)
 "gsg" = (
@@ -39239,10 +39240,6 @@
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/water/swamp,
 /area/rogue/under/cave)
-"hqr" = (
-/obj/effect/spawner/lootdrop/heavy_armor_spawner,
-/turf/open/floor/rogue/blocks/stonered/tiny,
-/area/rogue/under/cave/greeddungeon)
 "hqs" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -52895,6 +52892,7 @@
 	color = "#C4A484"
 	},
 /obj/item/forgeable/gold/bug,
+/obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/greeddungeon)
 "jNP" = (
@@ -58180,6 +58178,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/cave/northern)
+"kMo" = (
+/obj/effect/spawner/lootdrop/peasant_weapon_spawner,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/cave/greeddungeon)
 "kMr" = (
 /obj/structure/fluff/traveltile/lich{
 	aportalgoesto = "lichin";
@@ -62677,10 +62679,6 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"lzA" = (
-/obj/effect/spawner/lootdrop/heavy_armor_spawner,
-/turf/open/floor/rogue/blocks/stonered,
-/area/rogue/under/cave/greeddungeon)
 "lzC" = (
 /obj/structure/chair/bench/church{
 	dir = 1
@@ -67754,6 +67752,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/heavy_armor_spawner,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/cave/greeddungeon)
 "mtv" = (
@@ -91171,6 +91170,13 @@
 	dir = 4
 	},
 /area/rogue/indoors/town)
+"qJm" = (
+/obj/machinery/light/rogue/torchholder{
+	pixel_y = 32
+	},
+/obj/effect/spawner/lootdrop/peasant_weapon_spawner,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/cave/greeddungeon)
 "qJp" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/grassyel,
@@ -94514,7 +94520,6 @@
 "rry" = (
 /obj/structure/closet/crate/chest/neu_fancy,
 /obj/item/enchantmentscroll/superior/smithing,
-/obj/item/rogueweapon/hammer/iron/uniqueDriftiron,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/north)
 "rrz" = (
@@ -103791,6 +103796,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/cave/skeletoncrypt)
+"tak" = (
+/obj/effect/spawner/lootdrop/peasant_weapon_spawner,
+/turf/open/floor/rogue/blocks/stonered/tiny,
+/area/rogue/under/cave/greeddungeon)
 "tal" = (
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -110069,10 +110078,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
-"ujd" = (
-/mob/living/carbon/human/species/human/northern/deranged_knight/matthios,
-/turf/open/floor/rogue/blocks/stonered,
-/area/rogue/under/cave/greeddungeondeep)
 "ujh" = (
 /obj/structure/lever/wall{
 	dir = 4;
@@ -118255,6 +118260,7 @@
 /obj/structure/table/wood/poor/alt_alt{
 	color = "#C4A484"
 	},
+/obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/cave/greeddungeon)
 "vLc" = (
@@ -180360,8 +180366,8 @@ vFa
 gnN
 eGP
 jht
+wkK
 xPj
-ujd
 dlM
 ise
 sci
@@ -181264,7 +181270,7 @@ vFa
 nAJ
 rCR
 mkO
-mkO
+lMK
 oLe
 mkO
 xPj
@@ -181717,7 +181723,7 @@ gnN
 xwy
 xPj
 qdr
-ujd
+xPj
 oIV
 wHH
 xPj
@@ -311051,7 +311057,7 @@ wkh
 wkh
 ycW
 rxm
-qXD
+rxm
 hXU
 rqR
 jZW
@@ -312392,7 +312398,7 @@ tsB
 ujm
 jZW
 jZW
-rxm
+kMo
 rxm
 fSN
 oeU
@@ -321883,7 +321889,7 @@ rOx
 jZW
 bYc
 jZW
-mBn
+qJm
 fSN
 rxm
 jZW
@@ -325503,7 +325509,7 @@ fSN
 jZW
 fSN
 fSN
-lzA
+rxm
 iDs
 jZW
 fSN
@@ -325521,7 +325527,7 @@ rOx
 rOx
 jZW
 jZW
-lzA
+qXD
 jZW
 sXq
 xnp
@@ -325954,7 +325960,7 @@ wJq
 hLP
 bYc
 xFK
-fSN
+tak
 jZW
 jZW
 bmi
@@ -328226,7 +328232,7 @@ jZW
 jZW
 jZW
 rxm
-hqr
+fSN
 mzm
 rxm
 iGK
