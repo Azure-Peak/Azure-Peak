@@ -2332,3 +2332,12 @@ As Excaliber."
 	<font color='1B1B2A'>'Even though He may be gone, we have not lost the ability to Endure hardship.'</font>"
 	icon_state = "athena_psyrapier"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// Octus
+/obj/item/rogueweapon/greatsword/falling_star
+    name = "Falling Star"
+    desc = "A curved executioner's blade designated as suicidal because of its ridiculously unwieldy nature. \
+	Its niche gained popularity among Graggarite warlords for its sheer raw force and homage to the Darkstar, a descending omen of devastation and war. \
+	The curved blade design makes it suitable for swings and chops, but poor for stabbing victims."
+    icon = 'icons/obj/items/donor_weapons_64.dmi'
+    icon_state = "fallingstar"

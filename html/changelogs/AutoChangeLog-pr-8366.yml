@@ -1,0 +1,4 @@
+author: "zeroisthebiggay"
+delete-after: True
+changes:
+  - bugfix: "unpurpleifies strong health potions and different water types"
