@@ -1,4 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - qol: "\"togglefullscreen\" verb is now \"Toggle Fullscreen\" for easier searching & command bar usage"

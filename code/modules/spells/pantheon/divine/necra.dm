@@ -5,6 +5,8 @@
 /obj/effect/proc_holder/spell/invoked/avert
 	name = "Borrowed Time"
 	desc = "Shield your fellow man from the Undermaiden's gaze, preventing them from slipping into death for as long as your faith and fatigue may muster."
+	action_icon = 'icons/mob/actions/necramiracles.dmi'
+	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
 	overlay_state = "borrowtime"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
@@ -64,6 +66,8 @@
 	name = "Abrogation"
 	desc = "Debuffs targeted undead as long as they remain near you, slowly getting set on fire if they stay."
 	range = 8
+	action_icon = 'icons/mob/actions/necramiracles.dmi'
+	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
 	overlay_state = "necra"
 	releasedrain = 30
 	chargedloop = /datum/looping_sound/invokeholy
@@ -194,7 +198,9 @@
 /obj/effect/proc_holder/spell/self/locate_dead
 	name = "Locate Corpse"
 	desc = "Invoke the Undermaiden's guidance to sense the direction of those within her domain who lack proper burial. She may also reveal the earthbound, though seeking those newly claimed risks her displeasure.<br><br>Costs 20 Devotion to use, and the sustain cost varies on corpse freshness."
-	overlay_state = "necraeye"
+	action_icon = 'icons/mob/actions/necramiracles.dmi'
+	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
+	overlay_state = "locatecorpse"
 	sound = 'sound/magic/whiteflame.ogg'
 	cast_without_targets = TRUE
 	miracle = TRUE
@@ -380,10 +386,10 @@ var/global/mob/_corpse_sort_ref = null
 
 		if(is_deadite && C.stat != DEAD)
 			corpse_name += " (!!☣︎!!)"
-		
+
 		else if(is_deadite)
 			corpse_name += " (☣︎)"
-		
+
 		else if(is_skeleton)
 			corpse_name += " (☠)"
 
@@ -515,7 +521,7 @@ var/global/mob/_corpse_sort_ref = null
 		src.necra_tracked_corpse = null
 		STOP_PROCESSING(SSprocessing, src)
 		return
-	
+
 	if(necra_tracked_corpse?.mind && !necra_tracked_corpse.mind.has_antag_datum(/datum/antagonist/zombie) && necra_tracked_corpse.stat != DEAD)
 		to_chat(src, span_purple("<i>The Undermaiden's interest wanes, you briefly sense your bounty back from undeath, alive once more.</i>"))
 		src.necra_tracked_corpse = null
@@ -542,7 +548,7 @@ var/global/mob/_corpse_sort_ref = null
 
 	src.necra_score = score
 	src.necra_judgement = judgement
-	
+
 	// --- Devotion cost ---
 	var/devotion_cost = 2
 	switch(judgement)
@@ -658,7 +664,7 @@ var/global/mob/_corpse_sort_ref = null
 		to_chat(src, span_warning(msg))
 		src.adjustOxyLoss(20)
 		if(src.hallucination < 200)
-			src.hallucination += 50	
+			src.hallucination += 50
 		if(prob(20))
 			switch(rand(1,5))
 				if(1) // CRITICAL HIIIIT!!!
@@ -803,7 +809,7 @@ var/global/mob/_corpse_sort_ref = null
 
 	if(judgement == NECRA_APPROVES)
 		msg += " - <b>[dist]</b> meters"
-	
+
 	msg += "."
 
 	to_chat(src, span_warning(msg))
@@ -891,6 +897,8 @@ var/global/mob/_corpse_sort_ref = null
 	invocation_type = "whisper"
 	invocations = list("Undermaiden guide my gaze...")
 	associated_skill = /datum/skill/magic/holy
+	action_icon = 'icons/mob/actions/necramiracles.dmi'
+	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
 	overlay_state = "necraeye"
 	miracle = TRUE
 	devotion_cost = 30
@@ -1017,7 +1025,7 @@ var/global/mob/_corpse_sort_ref = null
 	no_early_release = TRUE
 	charging_slowdown = 1
 	chargedloop = /datum/looping_sound/invokeholy
-	gesture_required = TRUE 
+	gesture_required = TRUE
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 90 SECONDS
 	hide_charge_effect = TRUE
@@ -1051,7 +1059,7 @@ var/global/mob/_corpse_sort_ref = null
 			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_step(user, NORTH),user)
 			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_step(user, SOUTH),user)
 		for(var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/swarm in view(2, user))
-			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target) 
+			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
 		return TRUE
 	revert_cast()
 	return FALSE

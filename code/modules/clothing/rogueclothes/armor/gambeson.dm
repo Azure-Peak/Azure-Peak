@@ -300,6 +300,7 @@
 	icon_state = "desertrobe"
 	item_state = "desertrobe"
 	desc = "A thick robe intervowen with spell-laced fabrics. Thick and protective while remaining light and breezy; the perfect gear for protecting one from the threats of the sun, the desert and the daemons, yet still allowing one to cast spells aptly."
+	color = null
 	naledicolor = TRUE
 	shiftable = FALSE
 
