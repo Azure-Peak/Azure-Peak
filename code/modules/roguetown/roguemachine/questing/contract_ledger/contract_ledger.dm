@@ -8,10 +8,7 @@
 	max_integrity = 0
 	layer = ABOVE_MOB_LAYER
 	layer = GAME_PLANE_UPPER
-	/// Turf south of the ledger, marked with a drop-here decal. Retrieval-quest items carry a
-	/// component that consumes them on any tile bearing this decal.
 	var/input_point
-	/// Directive quota tracking. Reset when GLOB.dayspassed advances past directives_day_stamp.
 	var/directives_issued_today = 0
 	var/directives_day_stamp = -1
 
@@ -27,8 +24,6 @@
 	SSquestpool.registered_ledgers -= src
 	return ..()
 
-/// Lazy-reset of the daily directive quota. Called wherever directive state is read or
-/// mutated — cheap comparison, auto-rolls over when GLOB.dayspassed advances.
 /obj/structure/roguemachine/contractledger/proc/refresh_directive_quota()
 	if(directives_day_stamp != GLOB.dayspassed)
 		directives_day_stamp = GLOB.dayspassed
@@ -187,9 +182,6 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	"Clerk",
 ))
 
-/// TRUE if the user has standing to commission defense writs - either by job, or by sitting as
-/// the current Regent (Regent inherits commission authority for the duration of their regency,
-/// so a Consort or Prince crowned by the Titan gains access they wouldn't otherwise have).
 /obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
 	if(!user)
 		return FALSE

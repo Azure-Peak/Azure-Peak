@@ -40,7 +40,6 @@
 	// Pop every spawner this quest owns at once so the whole encounter materializes together.
 	quest.pop_all_spawners()
 
-/// Materializes the contained mob onto our turf with the warning flash + sound.
 /obj/effect/quest_spawn/proc/reveal_contained()
 	if(!contained_atom)
 		return

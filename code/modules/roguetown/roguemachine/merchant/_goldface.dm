@@ -186,9 +186,9 @@
 		return SSmerchant_trade.silverface_margin_percent / 100
 	return extra_fee
 
-/obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA)
+/obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA, mob/living/carbon/human/H)
 	var/cost = PA.cost + PA.cost * get_effective_fee()
-	if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+	if(!is_tax_exempt(H))
 		cost += compute_pack_tax(PA)
 	return round(cost)
 
@@ -252,8 +252,8 @@
 			return
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))	
-		return			
+	if(istype(P, /obj/item/roguecoin/inqcoin))
+		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
 		qdel(P)
@@ -298,7 +298,7 @@
 	var/can_read = istype(H) ? H.can_read(src, TRUE) : FALSE
 	var/is_proprietor = istype(H) && (H.job in profit_id)
 	var/is_agent_viewer = !is_proprietor && is_chartered_agent(H)
-	var/dodging = (upgrade_flags & UPGRADE_NOTAX) || bypass_tax
+	var/dodging = is_tax_exempt(H)
 	data["motto"] = motto
 	data["budget"] = budget
 	data["locked"] = locked ? TRUE : FALSE
@@ -326,7 +326,7 @@
 	data["result_cap"] = search_result_cap
 	var/list/packs_data = list()
 	var/total_matches = 0
-	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+	var/tariff_active = !is_tax_exempt(H)
 	if(search_query != "")
 		var/needle = lowertext(search_query)
 		var/list/matches = list()
@@ -569,7 +569,7 @@
 
 /obj/structure/roguemachine/goldface/proc/build_cultural_stock_data(mob/living/carbon/human/viewer)
 	var/list/result = list()
-	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+	var/tariff_active = !is_tax_exempt(viewer)
 	var/tariff_rate = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF)
 	var/kin_realm = SSmerchant_trade?.current_kinship_realm
 	var/agent_kin_realm = SSmerchant_trade?.get_agent_personal_kinship_realm(viewer)
@@ -607,7 +607,7 @@
 	var/list/result = list()
 	if(!SSmerchant_trade)
 		return result
-	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+	var/tariff_active = !is_tax_exempt(viewer)
 	var/tariff_rate = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF)
 	for(var/cid in SSmerchant_trade.catalogs)
 		var/datum/merchant_catalog/C = SSmerchant_trade.catalogs[cid]
@@ -722,8 +722,11 @@
 				return TRUE
 			if(is_public && locked)
 				return TRUE
-			var/cost = compute_pack_price(PA)
-			var/tax_amt = compute_pack_tax(PA)
+			var/has_stipend = HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY)
+			var/cost = compute_pack_price(PA, H)
+			var/tax_amt = has_stipend ? 0 : compute_pack_tax(PA)
+			if(has_stipend)
+				cost -= compute_pack_tax(PA)
 			if(budget < cost)
 				say("Not enough!")
 				return TRUE
@@ -731,7 +734,7 @@
 			record_round_statistic(value_record_key, cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
-			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+			if(!(is_tax_exempt(H)))
 				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
 				SStreasury.apply_concordat_tithe(cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
@@ -798,7 +801,7 @@
 					kin_saving = pre_kin - discounted_base
 			var/tax_amt = round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * discounted_base)
 			var/total_cost = discounted_base
-			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+			if(!is_tax_exempt(H))
 				total_cost += tax_amt
 			if(budget < total_cost)
 				say("Not enough!")
@@ -809,7 +812,7 @@
 			budget -= total_cost
 			record_round_statistic(value_record_key, total_cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
-			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+			if(!is_tax_exempt(H))
 				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
 				SStreasury.apply_concordat_tithe(total_cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
@@ -824,7 +827,7 @@
 				if(istype(spawned))
 					spawned.atc_sealed = TRUE
 			source_ship.favor_earned += discounted_base
-			var/tariff_active_cultural = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+			var/tariff_active_cultural = !is_tax_exempt(H)
 			to_chat(H, span_notice("You buy [PA.name] from [source_ship.ship_name] for [total_cost]m[tariff_active_cultural && tax_amt > 0 ? " (incl. [tax_amt]m Crown duty)" : ""][kin_saving > 0 ? " (Kinship saved [kin_saving]m)" : ""]."))
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
@@ -854,7 +857,7 @@
 				var/pre_kin = base_cost
 				base_cost = max(1, round(base_cost * CATALOG_KIN_BUY_MULT))
 				kin_saving = pre_kin - base_cost
-			var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+			var/tariff_active = !is_tax_exempt(H)
 			var/tax_amt = round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * base_cost)
 			var/total_cost = base_cost
 			if(tariff_active)
@@ -921,7 +924,7 @@
 					var/kin_unit = max(1, round(unit_cost * kin_mult))
 					gross = kin_unit * qty
 					kin_saving = pre_kin - gross
-			var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+			var/tariff_active = !is_tax_exempt(H)
 			var/tariff_float = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * gross
 			var/total_cost = gross + (tariff_active ? round(tariff_float) : 0)
 			if(budget < total_cost)
@@ -1079,5 +1082,14 @@
 /obj/structure/roguemachine/goldface/Initialize()
 	. = ..()
 	update_icon()
+
+/obj/structure/roguemachine/goldface/proc/is_tax_exempt(mob/living/carbon/human/H) // communism was actually kinda tight!!!!
+	if(bypass_tax)
+		return TRUE
+	if(upgrade_flags & UPGRADE_NOTAX)
+		return TRUE
+	if(istype(H) && HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
+		return TRUE
+	return FALSE
 
 #undef UPGRADE_NOTAX
