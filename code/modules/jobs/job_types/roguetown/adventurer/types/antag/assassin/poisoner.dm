@@ -58,9 +58,9 @@
 					/obj/item/reagent_containers/glass/bottle/rogue/stampoison = 1,
 					/obj/item/recipe_book/alchemy = 1,
 					)
-	mask = /obj/item/clothing/mask/rogue/physician
+	mask = /obj/item/clothing/mask/rogue/physician/phys
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-	head = /obj/item/clothing/head/roguetown/physician/phys
+	head = /obj/item/clothing/head/roguetown/physician
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 
 	if(!istype(H.patron, /datum/patron/inhumen/graggar))
