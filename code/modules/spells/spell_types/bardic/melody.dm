@@ -1,6 +1,7 @@
 // ---- Base Song Spell (new action cooldown system) ----
 
 /datum/action/cooldown/spell/song
+	source_aspect = /datum/magic_aspect/pseudo/bardic
 	button_icon = 'icons/mob/actions/bardsongs.dmi'
 	button_icon_state = "melody_t1_base"
 	sound = 'sound/magic/buffrollaccent.ogg'

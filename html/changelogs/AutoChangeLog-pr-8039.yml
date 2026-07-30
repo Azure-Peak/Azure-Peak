@@ -1,0 +1,9 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added new lich skeleton cleric class, \"Sectarian\". It has 3 slots and is a mixed lesser-mage/missionary-esc weaker cleric hybrid, designed to heal and support other skeletons."
+  - rscadd: "Added a new heretical examine for obvious zizite clothing, currently used for Sectarian attire."
+  - rscadd: "Adjusted style for lich skeleton sappers"
+  - balance: "lich/necromancy/unholy robes are marked as suspicious designs of Zizo. These are only suspicious to give you more RP leeway vs fragging gear like plate armor you have to go out of your own way to get."
+  - balance: "lich ballistarries gets a mid-level pouch of ancient coin. Not... anyone would accept that as coinage, right?"
+  - bugfix: "padded undervestments no longer make plate armor noises."

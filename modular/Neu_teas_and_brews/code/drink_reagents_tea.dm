@@ -2,6 +2,7 @@
 // basic tea, utilises adjusted soup code
 // PORT TO AZURE COMMENT: When I originally added this to vanderlin, I had to axe existing teas, In good conciousness I refuse to touch it here because it doest conflict and I refuse to refactor entire thing. Goodluck to whoever does tho.
 /datum/reagent/consumable/tea/
+	drink_type = DRINKTYPE_CAFFEINE
 	name = "Generic tea"
 	description = "A common concept of a generic tea made from whatever, by whoever."
 	reagent_state = LIQUID
@@ -12,7 +13,7 @@
 	taste_mult = 3
 	nutriment_factor = 1
 	hydration_factor = 1
-	quality = 1
+	quality = DRINK_VERYGOOD
 	alpha = 153
 
 /datum/reagent/consumable/tea/on_mob_life(mob/living/carbon/M)
@@ -21,6 +22,7 @@
 	..()
 
 /datum/reagent/consumable/tea/taraxamint
+	cuisine = CUISINE_SOUTHEASTERN
 	name = "Taraxacum-Mentha tea"
 	description = "Soothing herbal green tea, rumored to help ease burns, liver issues and help with head traumas"
 	color = "#acaf01"
@@ -43,6 +45,7 @@
 	..()
 
 /datum/reagent/consumable/tea/utricasalvia
+	cuisine = CUISINE_SOUTHEASTERN
 	name = "Urtica-Salvia tea"
 	description = "Deep, velvet tea. Taste of tingling sour fruits. Used by a traditional remedy by common folk to recover from bruises and burns. Some even say it can heal wounds."
 	color = "#451853"
@@ -128,6 +131,8 @@
 	. = 1
 
 /datum/reagent/consumable/tea/compot
+	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_JUICE
 	name = "Compot"
 	description = "Drink of Gronnic origin, dried fruit is made into nutritious sweet delicacy they partake regardless of status."
 	color = "#cca358"
@@ -144,6 +149,7 @@
 	..()
 
 /datum/reagent/consumable/tea/sbiten
+	cuisine = CUISINE_NORTHERN
 	name = "Sbiten" //not a typo
 	description = "Marvel of Gronnic cuisine, rivals even well aged liquors in how enjoyable it is. Honey is infused with spices and then diluted in hot water. Highly luxurious item in the North."
 	reagent_state = LIQUID

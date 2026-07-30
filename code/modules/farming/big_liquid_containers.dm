@@ -162,7 +162,7 @@
 
 /obj/structure/fermentation_keg/rose_tea/Initialize()
 	. = ..()
-	reagents.add_reagent(/datum/reagent/water/rosewater, 900)
+	reagents.add_reagent(/datum/reagent/consumable/rosewater, 900)
 
 /obj/structure/fermentation_keg/spicedwine
 	name = "fragrant barrel"

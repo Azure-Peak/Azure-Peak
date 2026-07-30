@@ -577,6 +577,13 @@
 	var/base = cooldown_time
 	var/newcd = base
 
+	// Dominant faith adjust
+	if(istype(living_owner) && (primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && !ispath(living_owner.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(living_owner.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			newcd -= base * DOMINANT_FAITH_ADJUST
+		else
+			newcd += base * DOMINANT_FAITH_ADJUST
+
 	// Stat scaling
 	var/stat_value = get_caster_stat(living_owner)
 	if(stat_value > SPELL_SCALING_THRESHOLD)
@@ -648,10 +655,33 @@
 			owner.balloon_alert(owner, "Can't focus on casting...")
 		return FALSE
 
+	if(HAS_TRAIT(owner, TRAIT_SPELL_VAMPIRE_BLOCK))
+		if(feedback)
+			owner.balloon_alert(owner, "My vitae drowns out the spell!")
+		return FALSE
+
 	if(HAS_TRAIT(owner, TRAIT_NOC_CURSE))
 		if(feedback)
 			owner.balloon_alert(owner, "My magicka has left me...")
 		return FALSE
+
+	if(owner.mind?.has_spellmiracle_block_antag())
+		if(primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION)
+			if(feedback)
+				owner.balloon_alert(owner, "The gods reject what I am!")
+			return FALSE
+		if(source_aspect)
+			if(feedback)
+				owner.balloon_alert(owner, "The arcyne rejects what I am!")
+			return FALSE
+
+	// Vampires may only use T1 and lesser miracles, for self heal and disguise, more powerful miracles are denied - If you metacheck this I'll skrill you.
+	if(owner.mind?.has_antag_datum(/datum/antagonist/vampire))
+		var/vamp_miracle_tier = get_miracle_tier(type)
+		if(!isnull(vamp_miracle_tier) && vamp_miracle_tier > CLERIC_T1)
+			if(feedback)
+				owner.balloon_alert(owner, "I cannot disguise my nature to use such powers!")
+			return FALSE
 
 	var/mob/living/living_owner = owner
 	if(istype(living_owner) && living_owner.has_status_effect(/datum/status_effect/debuff/exposed))
@@ -1501,6 +1531,11 @@
 	var/base = cooldown_time
 	var/stat_value = get_caster_stat(user)
 	var/stat_label = get_stat_label()
+	if((primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			breakdown += span_smallgreen("  Dominant faith: -[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
+		else
+			breakdown += span_smallred("  Suppressed faith: +[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
 	if(stat_value > SPELL_SCALING_THRESHOLD)
 		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
@@ -1699,7 +1734,7 @@
 		return FALSE
 	if(target == owner)
 		return FALSE
-	if(isnull(attacker) && ispath(associated_skill, /datum/skill/magic/arcane))
+	if(isnull(attacker))
 		attacker = owner
 	return target.guard_deflect_spell(name, no_message, attacker)
 

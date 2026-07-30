@@ -29,7 +29,7 @@
 		usr.client.prefs.ShowChoices(usr, 4)
 
 /client/verb/toggle_fullscreen()
-	set name = "ToggleFullscreen"
+	set name = "Toggle Fullscreen"
 	set category = "Preferences.Options"
 	set desc = ""
 	if(prefs)

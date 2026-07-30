@@ -167,6 +167,7 @@
 	damage = 15
 	damage_type = BRUTE
 	nodamage = FALSE
+	expose_caster_on_deflect = TRUE
 	armor_penetration = PEN_BSTEEL
 	range = SPELL_RANGE_PROJECTILE
 	speed = MAGE_PROJ_FAST
@@ -189,6 +190,9 @@
 		return BULLET_ACT_BLOCK
 
 	if(out_of_effective_range())
+		return
+	if(blocked >= 100)
+		qdel(src)
 		return
 	try_embed_target(L)
 	qdel(src)

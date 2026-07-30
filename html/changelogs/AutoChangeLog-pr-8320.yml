@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "You can no longer make yourself uninterruptable from climbing by climbing multiple time"

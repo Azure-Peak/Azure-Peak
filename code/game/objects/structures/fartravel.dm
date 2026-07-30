@@ -62,6 +62,7 @@
 		for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
 			if(removing_bounty.target == departing_mob.real_name)
 				GLOB.head_bounties -= removing_bounty
+	GLOB.dominant_faith_tracker.handle_removal(departing_mob)
 	if(SSticker.rulermob == departing_mob)
 		SSticker.rulermob = null
 	if(SSticker.regentmob == departing_mob)
