@@ -202,6 +202,7 @@
 	data["mcolor2"] = features["mcolor2"]
 	data["mcolor3"] = features["mcolor3"]
 	data["body_size"] = features["body_size"] * 100
+	data["size_locked"] = istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size)
 	data["headshot"] = headshot_link
 
 	var/examine_theme_name = "None (Use Viewer's)"
