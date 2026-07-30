@@ -109,11 +109,7 @@
 			C.visible_message(span_danger("Critical resistance! [C]'s [src.name] hangs on by a thread!</span>"))
 			return FALSE
 
-	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
-	if(affecting && dismember_wound && !isooze(C))
-		affecting.add_wound(dismember_wound)
-	else if(affecting && dismember_wound && isooze(C))
-		C.visible_message(span_danger("[C]'s wound closes rapidly to stem the flow of plasm."))
+	//The stump wound is applied in drop_limb() now, so every violent sever path bleeds — not just this one.
 	playsound(C, pick(dismemsound), 50, FALSE, -1)
 
 	var/stress2give = /datum/stressevent/viewdismember
@@ -224,12 +220,27 @@
 	return TRUE
 
 //limb removal. The "special" argument is used for swapping a limb with a new one without the effects of losing a limb kicking in.
-/obj/item/bodypart/proc/drop_limb(special)
+///special: clean detach for rendering dummies/prosthetic swaps (also keeps organs inside the owner).
+///surgical: a deliberate, tended severing (amputation surgery) — no stump wound.
+/obj/item/bodypart/proc/drop_limb(special, surgical)
 	if(!owner)
 		return FALSE
 
 	var/atom/drop_location = owner.drop_location()
 	var/mob/living/carbon/was_owner = owner
+
+	//Any violent sever leaves a bleeding stump on the chest. Lives here rather than in dismember()
+	//so grab twist-offs, spells and flaws bleed too. Skipped for: clean/surgical detachment,
+	//prosthetics, corpses, oozes (self-sealing), and dullahans losing the head they live without.
+	if(!special && !surgical && dismember_wound && was_owner.stat != DEAD && status != BODYPART_ROBOTIC \
+		&& !(body_zone == BODY_ZONE_HEAD && isdullahan(was_owner)))
+		var/obj/item/bodypart/affecting = was_owner.get_bodypart(BODY_ZONE_CHEST)
+		if(affecting && affecting != src)
+			if(isooze(was_owner))
+				was_owner.visible_message(span_danger("[was_owner]'s wound closes rapidly to stem the flow of plasm."))
+			else
+				affecting.add_wound(dismember_wound)
+
 	update_limb(dropping_limb = TRUE)
 
 	if(length(wounds))
