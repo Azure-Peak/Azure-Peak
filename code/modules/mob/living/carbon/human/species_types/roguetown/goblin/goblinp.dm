@@ -7,6 +7,7 @@
 	origin_default = /datum/virtue/origin/gronn
 	origin = "Gronn"
 	base_name = "Godtouched"
+	sub_name = "Goblin"
 	is_subrace = TRUE
 	desc_title = "Goblin"
 	desc = "Goblins are a short race of humanoids with large ears and typically green skin. \

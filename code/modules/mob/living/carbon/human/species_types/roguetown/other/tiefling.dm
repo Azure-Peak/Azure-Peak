@@ -7,6 +7,7 @@
 	origin_default = /datum/virtue/origin/etrusca
 	origin = "Etrusca"
 	base_name = "Godtouched"
+	sub_name = "Tiefling"
 	is_subrace = TRUE
 	desc_title = "Tiefling"
 	desc = "The offspring of demons with mortal races, a consequence of demonic incursions into the mortal realm and dark pacts. \

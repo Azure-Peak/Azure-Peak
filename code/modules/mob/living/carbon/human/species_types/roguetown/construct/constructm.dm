@@ -7,6 +7,7 @@
 	origin_default = /datum/virtue/origin/naledi
 	origin = "Naledi"
 	base_name = "Godtouched"
+	sub_name = "Metal Construct"
 	is_subrace = TRUE
 	desc_title = "Metallic Construct"
 	desc = "Masterworks of artifice, metal constructs are as the name implies- entirely constructed by mortal hands. They are beings not of flesh and blood, but cold metal and the arcyne. Constructs are said to originate from works of Zizo, and they hail from the far-off lands of the Southern Empty- a great city of artifice, where the only artificers capable of understanding what is necessary to create the constructs live. For some reason, they have found themselves travelling out of the empty, as of late. Children of the Resonator Siphon."
