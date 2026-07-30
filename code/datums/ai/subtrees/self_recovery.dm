@@ -29,3 +29,20 @@
 
 /datum/ai_planning_subtree/simple_self_recovery/genericanimal
 	heal_message = " licks their wounds."
+
+///Skittish pet version: like a real animal, it won't settle down to lick its wounds while it
+///still holds a grudge or while a conscious human looms nearby.
+/datum/ai_planning_subtree/simple_self_recovery/genericanimal/pet
+	///How close a human can be before the pet feels too watched to rest.
+	var/wary_range = 3
+
+/datum/ai_planning_subtree/simple_self_recovery/genericanimal/pet/SelectBehaviors(datum/ai_controller/controller, delta_time)
+	var/mob/living/pawn = controller.pawn
+	if(QDELETED(pawn))
+		return
+	if(LAZYLEN(controller.blackboard[BB_BASIC_MOB_RETALIATE_LIST]))
+		return	//still angry — fight first, lick later
+	for(var/mob/living/carbon/human/H in view(wary_range, pawn))
+		if(H.stat == CONSCIOUS)
+			return	//too watched to rest
+	return ..()
