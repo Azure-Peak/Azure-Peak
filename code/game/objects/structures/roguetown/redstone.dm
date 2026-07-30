@@ -807,9 +807,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		return
 	changing_state = TRUE
 	togg = !togg
+	// Unlike its floorhatch parent, the gatehatch is invisible by design (blank "gatehatch"
+	// state) - never swap icon_state here, or it lands on the nonexistent ""+"0"/"1" states
+	// and every hatch tile shows the missing-icon error once the gate cycles.
 	if(togg)
 		sleep(delay2open)
-		icon_state = "[base_state]0"
 		set_is_platform(FALSE)
 		obj_flags &= ~BLOCK_Z_IN_UP
 		var/turf/T = loc
@@ -820,7 +822,6 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		changing_state = FALSE
 	else
 		sleep(delay2close)
-		icon_state = "[base_state]1"
 		set_is_platform(TRUE)
 		obj_flags |= BLOCK_Z_IN_UP
 		sleep(40-delay2close)
