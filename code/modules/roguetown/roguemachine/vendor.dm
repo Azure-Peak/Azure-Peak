@@ -479,7 +479,7 @@
 /obj/structure/roguemachine/vendor/keep_princes/Initialize()
 	. = ..()
 
-	for (var/X in list(/obj/item/roguekey/heir/one, /obj/item/roguekey/heir/two))
+	for (var/X in list(/obj/item/roguekey/heir, /obj/item/roguekey/heir)) //heir1/heir2 lockids have no doors on dun_world_2; the shared heir key is what the heir rooms actually use.
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
