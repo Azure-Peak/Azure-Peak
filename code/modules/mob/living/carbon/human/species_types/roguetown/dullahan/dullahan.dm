@@ -23,6 +23,7 @@
 		/obj/item/bodypart/taur/goat,
 	)
 	base_name = "Godtouched"
+	sub_name = "Revenant"
 	is_subrace = TRUE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 	default_features = MANDATORY_FEATURE_LIST
@@ -399,9 +400,21 @@
 		return null
 	if(user.is_holding(head))
 		return head
-	if(get_turf(head) == get_turf(user))
+	if(user.Adjacent(head))	//same turf, or next to it (including on an adjacent table)
 		return head
 	return null
+
+///A dullahan's detached head, wherever it happens to be. Reach checks are the caller's business.
+/proc/get_detached_dullahan_head(mob/living/carbon/human/dullahan_mob)
+	if(!istype(dullahan_mob) || !isdullahan(dullahan_mob))
+		return null
+	var/datum/species/dullahan/species = dullahan_mob.dna?.species
+	if(!istype(species))
+		return null
+	var/obj/item/bodypart/head/dullahan/head = species.my_head
+	if(!head || head.owner)
+		return null
+	return head
 
 /datum/species/dullahan/proc/get_nodrop_head()
 	var/obj/item/bodypart/head/dullahan/head = my_head

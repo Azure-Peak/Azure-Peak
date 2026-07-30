@@ -2,10 +2,11 @@
 	name = "Fuck their throat"
 	stamina_cost = 1.0
 	intensity = 4
+	works_on_detached_head = TRUE	//the throat comes off with the head
 	debug_erp_panel_verb = FALSE //So yes whoever comes after me, do this properly.
 
 /datum/sex_action/sex/throat/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	if(user == target)
+	if(user == target && !detached_head_self_service(user))
 		return FALSE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
@@ -19,7 +20,7 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	if(user == target)
+	if(user == target && !detached_head_self_service(user))
 		return FALSE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
@@ -32,7 +33,7 @@
 	return TRUE
 
 /datum/sex_action/sex/throat/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] slides [user.p_their()] pintle into [target]'s throat!")
+	return span_warning("[user] slides [user.p_their()] pintle into [tgt_head_poss(user, target)] throat!")
 
 /datum/sex_action/sex/throat/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
@@ -40,7 +41,7 @@
 /datum/sex_action/sex/throat/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	var/is_knotting = sex_session.do_knot_action
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "knot-fucks" : "fucks"] [target]'s throat."))
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "knot-fucks" : "fucks"] [tgt_head_poss(user, target)] throat."))
 
 /datum/sex_action/sex/throat/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
@@ -59,13 +60,13 @@
 	sex_session.handle_passive_ejaculation()
 
 /datum/sex_action/sex/throat/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(span_love("[user] cums into [target]'s throat!"))
+	user.visible_message(span_love("[user] cums into [tgt_head_poss(user, target)] throat!"))
 	user.virginity = FALSE
 	return "into"
 
 
 /datum/sex_action/sex/throat/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] pintle out of [target]'s throat.")
+	return span_warning("[user] pulls [user.p_their()] pintle out of [tgt_head_poss(user, target)] throat.")
 
 /datum/sex_action/sex/throat/get_knot_count()
 	return 1
@@ -84,7 +85,7 @@
 	return ..()
 
 /datum/sex_action/sex/throat/double/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] slides [user.p_their()] pintles into [target]'s throat!")
+	return span_warning("[user] slides [user.p_their()] pintles into [tgt_head_poss(user, target)] throat!")
 
 /datum/sex_action/sex/throat/double/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
@@ -92,7 +93,7 @@
 /datum/sex_action/sex/throat/double/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	var/is_knotting = sex_session.do_knot_action
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "double-knots" : "double-fucks"] [target]'s throat."))
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "double-knots" : "double-fucks"] [tgt_head_poss(user, target)] throat."))
 
 /datum/sex_action/sex/throat/double/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
@@ -111,7 +112,7 @@
 	sex_session.handle_passive_ejaculation()
 
 /datum/sex_action/sex/throat/double/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] pintles out of [target]'s throat.")
+	return span_warning("[user] pulls [user.p_their()] pintles out of [tgt_head_poss(user, target)] throat.")
 
 /datum/sex_action/sex/throat/double/get_knot_count()
 	return 2

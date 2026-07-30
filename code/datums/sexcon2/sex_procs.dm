@@ -37,15 +37,19 @@
 	SEND_SIGNAL(user, COMSIG_SEX_JOSTLE, target)
 	SEND_SIGNAL(target, COMSIG_SEX_JOSTLE, user)
 
-/mob/living/proc/start_sex_session(mob/living/target)
+/mob/living/proc/start_sex_session(mob/living/target, head_focus = FALSE)
 	if(!target)
 		return
 	var/datum/sex_session/old_session = get_sex_session(src, target)
 	if(old_session)
+		if(old_session.head_focus != head_focus)	//reopened via the other route - refilter the menu
+			old_session.head_focus = head_focus
+			old_session.update_static_data(src)
 		old_session.ui_interact(src)
 		return old_session
 
 	var/datum/sex_session/session = new /datum/sex_session(src, target)
+	session.head_focus = head_focus
 	LAZYADD(GLOB.sex_sessions, session)
 	session.ui_interact(src)
 	return session
@@ -75,14 +79,20 @@
 
 	if(!istype(human_user))
 		return
-	if(user.mmb_intent)
-		return ..()
-	if(!istype(dragged))
+	// Need to drag yourself to the target. While in Revenant vision the head IS the self:
+	// a headless dullahan viewing through their head may drag it onto a body in its reach.
+	var/dragging_self = (dragged == user)
+	if(!dragging_self && istype(dragged, /obj/item/bodypart/head/dullahan))
+		var/obj/item/bodypart/head/dullahan/dragged_head = dragged
+		if(!dragged_head.owner && dragged_head.original_owner == user)
+			var/obj/item/organ/dullahan_vision/vision = human_user.getorganslot(ORGAN_SLOT_HUD)
+			if(vision?.viewing_head && dragged_head.Adjacent(target))
+				dragging_self = TRUE
+	if(!dragging_self)
+		if(user.mmb_intent)
+			return ..() // Not an ERP drag - let the selected MMB intent have the drop.
 		return
-	// Need to drag yourself to the target.
-	if(dragged != user)
-		return
-	if(!human_user.can_do_sex)
+	if(!human_user.can_do_sex())
 		to_chat(user, "<span class='warning'>I can't do this.</span>")
 		return
 	var/may_bang = client && client.prefs && client.prefs.sexable == TRUE
@@ -118,7 +128,7 @@
 	return !is_mouth_covered()
 
 /mob/living/carbon/human/has_mouth()
-	return get_bodypart(BODY_ZONE_HEAD)
+	return get_bodypart(BODY_ZONE_HEAD) || reachable_detached_dullahan_head(src, src)	//a headless dullahan's held/nearby head is their mouth
 
 /mob/living/carbon/human/has_hands() // technically should be an and but i'll replicate original behavior
 	return get_bodypart(BODY_ZONE_L_ARM) || get_bodypart(BODY_ZONE_R_ARM)

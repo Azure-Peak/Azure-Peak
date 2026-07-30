@@ -252,7 +252,7 @@ GLOBAL_LIST_EMPTY(species_list)
  * interrupt - whether to interrupt a prior do_after or not
 */
 
-/proc/do_after(mob/user, delay, needhand = TRUE, atom/target = null, progress = TRUE, datum/callback/extra_checks = null, same_direction = FALSE, no_interrupt = FALSE, allow_movement = FALSE)
+/proc/do_after(mob/user, delay, needhand = TRUE, atom/target = null, progress = TRUE, datum/callback/extra_checks = null, same_direction = FALSE, no_interrupt = FALSE, allow_movement = FALSE, atom/progress_anchor = null)
 	if(!user)
 		return FALSE
 
@@ -283,7 +283,7 @@ GLOBAL_LIST_EMPTY(species_list)
 
 	var/datum/progressbar/progbar
 	if (progress)
-		progbar = new(user, delay, user)
+		progbar = new(user, delay, progress_anchor || user)	//anchor lets the bar ride something other than the actor, e.g. a dullahan's working head
 
 	var/endtime = world.time + delay
 	var/starttime = world.time
