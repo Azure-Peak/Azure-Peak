@@ -284,7 +284,9 @@
 	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight)
 
 /obj/item/storage/keyring/squire
-	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/manor)
+	// garrison: the squire's quarters are garrison-locked on dun_world_2 (ES gave squires the full
+	// guard set - armory and dungeon too; we keep it to just their own door).
+	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/garrison)
 
 //////////////
 // GARRISON //
