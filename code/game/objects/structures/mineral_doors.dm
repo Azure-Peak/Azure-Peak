@@ -497,13 +497,30 @@
 	if(istype(src, /obj/structure/mineral_door/wood/deadbolt) || istype(src, /obj/structure/mineral_door/wood/deadbolt/shutter))
 		return ..()
 
-	// Check if user has a key in hand or belt slots
+	// A held key or keyring is an explicit choice - use it and only it, and let trykeylock() give
+	// its own specific wrong-key feedback. Without this, holding the wrong key silently fell back
+	// to whatever the belt search found, which made the held key meaningless.
+	var/obj/item/held = user.get_active_held_item()
+	if(istype(held, /obj/item/roguekey) || istype(held, /obj/item/storage/keyring))
+		trykeylock(held, user)
+		return
+
+	// Nothing key-like in hand - search the belt for a match as a convenience.
 	var/obj/item/key_item = find_key_for_door(user)
 	if(key_item)
 		trykeylock(key_item, user)
 		return
 
-	// If no key found, fall back to parent behavior
+	// No matching key anywhere on them. Say so instead of failing silently - a right-click on a
+	// keylock door is a deliberate attempt to work the lock, and ES's donjon doors give the same
+	// feedback. Rattle only when it's actually locked, so an unlocked door doesn't play lock sounds.
+	if(keylock && !brokenstate)
+		to_chat(user, span_warning("I don't have the right key for this door."))
+		if(locked)
+			door_rattle()
+		return
+
+	// Not a keylock door - fall back to parent behavior
 	return ..()
 
 /// Returns TRUE for a key that opens this door (matching hash or a master key).
