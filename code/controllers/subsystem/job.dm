@@ -100,6 +100,9 @@ SUBSYSTEM_DEF(job)
 			return FALSE
 		if(is_banned_from(player.ckey, rank) || QDELETED(player))
 			return FALSE
+		if(!player.check_agevet())
+			JobDebug("AR failed, player is not ID verified, Player: [player], Rank: [rank]")
+			return FALSE
 		if(!job.player_old_enough(player.client))
 			return FALSE
 		if(job.required_playtime_remaining(player.client))

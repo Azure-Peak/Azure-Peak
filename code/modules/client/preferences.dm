@@ -909,7 +909,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<a class='linkOff' href='byond://?src=[REF(N)];late_join=1'>JOINLATE</a>"
 			dat += " - <a href='?_src_=prefs;preference=migrants'>MIGRATION</a>"
 			dat += "<br><a href='?_src_=prefs;preference=manifest'>ACTORS</a>"
-			dat += " - <a href='?_src_=prefs;preference=observe'>VOYEUR</a>"
+			if(user.check_agevet())
+				dat += " - <a href='?_src_=prefs;preference=observe'>VOYEUR</a>"
+			else
+				dat += " - <a class='linkOff' href='?_src_=prefs;preference=observe'>VOYEUR</a>"
 	else
 		dat += "<a href='?_src_=prefs;preference=finished'>DONE</a>"
 	dat += "</center>"
@@ -1020,6 +1023,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if((titles_pref == TITLES_F) && job.f_title)
 				used_name = "[job.f_title]"
 			lastJob = job
+			if(!user.check_agevet())
+				HTML += "[used_name]</td> <td><font color=red> NOT ID VERIFIED </font></td></tr>"
+				continue
 			if(is_banned_from(user.ckey, rank))
 				HTML += "[used_name]</td> <td><a href='?_src_=prefs;bancheck=[rank]'> BANNED</a></td></tr>"
 				continue
@@ -1219,6 +1225,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 /datum/preferences/proc/UpdateJobPreference(mob/user, role, desiredLvl)
 	if(!SSjob || SSjob.occupations.len <= 0)
+		return
+	if(!user.check_agevet())
+		to_chat(user, span_boldwarning(AGEVET_DENIED_MESSAGE))
 		return
 	var/datum/job/job = SSjob.GetJob(role)
 
@@ -3059,6 +3068,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					return
 
 				if("observe")
+					if(!user.check_agevet())
+						to_chat(user, span_boldwarning(AGEVET_DENIED_MESSAGE))
+						return
 					var/mob/dead/new_player/P = user
 					P.make_me_an_observer()
 					return
