@@ -56,3 +56,27 @@
 	ceiling_protected = TRUE
 	deathsight_message = "a dark cave where Abyssor's dream echoes"
 	detail_text = DETAIL_TEXT_ORC_RUIN
+
+/area/rogue/under/cave/greeddungeon
+	name = "The Hospitable Tomb"
+	loot_budget = LOOT_BUDGET_GREEDUNGEONTOP
+	icon_state = "under"
+	first_time_text = "THE HOSPITABLE TOMB"
+	droning_sound = 'sound/music/area/dungeon.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	ceiling_protected = TRUE
+	deathsight_message = "a tomb for all the greedy."
+	detail_text = DETAIL_TEXT_GREEDDUNGEONTOP
+
+/area/rogue/under/cave/greeddungeondeep
+	name = "The Droning Depths"
+	loot_budget = LOOT_BUDGET_GREEDUNGEONDEEP
+	icon_state = "under"
+	first_time_text = "THE DRONING DEPTHS"
+	droning_sound = 'sound/music/area/dungeon.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	ceiling_protected = TRUE
+	deathsight_message = "a tomb for all the greedy."
+	detail_text = DETAIL_TEXT_GREEDDUNGEONDEEP

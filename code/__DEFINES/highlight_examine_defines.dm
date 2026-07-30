@@ -42,8 +42,11 @@
 
 // Vampire Lord Items - General theme is mysterious but a bad omen
 #define HERESYDESC_VAMPIRE "An unnatural enchanted armor piece of solid gilbranze that crackles with strange energies"
-#define HERESYDESC_VAMPIRE_CROWN "An unnatural enchanted crown that crackles with strange energies" 
+#define HERESYDESC_VAMPIRE_CROWN "An unnatural enchanted crown that crackles with strange energies"
 #define HERESYDESC_VAMPIRE_SWORD "An unnatural sword of some unknown alloy that crackles with strange energies"
+
+// Vheslyn Cult Remnants - Comprehending this hurts, and reminds you of things that you should not know
+#define HERESYDESC_VHES_SWORD "The implications make your head spin. There is an uncomfortable truth that you cannot grasp, yet it's proof is plainly visible."
 
 // Inquisitional gear
 #define HERESYDESC_INQUIS_WHISPERER "A blatently unusual design of ring...? that seems to whisper" //Only shows while not equipped on ring slot
@@ -64,13 +67,13 @@
 /** For items that are both blatantly heretical AND actively dangerous.
 * Items should be marked with this if the expected response to seeing someone
 * carrying them is to quickly escalate to violence.
-* 
+*
 * i.e. heretic armor, avantyne weapons
 */
 #define EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING 1
 /** For items that are heretical and will get you in trouble if you're caught with them,
 * but not enough for people to jump straight to violence on sight without probable cause.
-* 
+*
 * i.e. Ascendant amulets
 */
 #define EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS 2
