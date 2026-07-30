@@ -479,6 +479,21 @@
 	is_animal = TRUE
 	show_runechat = FALSE
 
+/datum/emote/living/yap
+	key = "yap"
+	key_third_person = "yaps"
+	message = "yaps!"
+	emote_type = EMOTE_AUDIBLE
+	message_muffled = "makes a muffled yap!"
+	is_animal = TRUE
+	show_runechat = FALSE
+
+/mob/living/carbon/human/verb/emote_yap()
+	set name = "Yap"
+	set category = "Emotes.Noises"
+
+	emote("yap", intentional = TRUE)
+
 /mob/living/carbon/human/proc/emote_yip()
 	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/lizard))
 		set name = "Yip"
