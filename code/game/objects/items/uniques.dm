@@ -6,7 +6,7 @@
 	name = "Miscreed"
 	desc = "Blessed silver, now stained by the blood of profane rites, all performed in the name of the Ten. Even the purest teachings may be twisted by those who hear only what they wish. This blade begs to be cleansed."
 
-/obj/item/rogueweapon/hammer/iron/unique_Driftiron
+/obj/item/rogueweapon/hammer/iron/uniqueDriftiron
 	name = "Driftiron"
 	desc = "A smithing hammer forged from metal quenched in the sea. The scent of salt still clings to its head, worn smooth from years spent shaping blades for raiders and marauders. Countless weapons have passed beneath its strikes, each carrying a little of the ocean's ruthlessness."
 	max_integrity = 400
