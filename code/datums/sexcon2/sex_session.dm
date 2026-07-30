@@ -1,3 +1,8 @@
+/// How long a session with no running action lingers before it is reaped. Sessions used to live
+/// forever - nothing ever qdel'd one - which left stale partners on the panel and made
+/// start_sex_session() hand back a dead session instead of opening a new one.
+#define SEX_SESSION_IDLE_TIMEOUT (4 MINUTES)
+
 /datum/sex_session //! TODO SEX SOUNDS
 	/// The initiating user
 	var/mob/living/carbon/human/user
@@ -17,6 +22,8 @@
 	var/do_until_finished = TRUE
 	///inactivity bumps
 	var/inactivity = 0
+	/// Timer id for the idle reap, so starting an action can cancel it.
+	var/reap_timer
 	/// Reference to the collective this session belongs to
 	var/datum/collective_message/collective = null
 	///have we just climaxed?
@@ -43,8 +50,33 @@
 	RegisterSignal(user, COMSIG_SEX_CLIMAX, PROC_REF(on_climax))
 	RegisterSignal(user, COMSIG_SEX_AROUSAL_CHANGED, PROC_REF(on_arousal_changed), TRUE)
 
+	// A session outlives neither participant, and doesn't outlive going idle.
+	RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(on_participant_deleted))
+	if(target && target != user)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(on_participant_deleted))
+	schedule_idle_reap()
+
+/// Either the initiator or the target is being deleted, so the session can't continue.
+/datum/sex_session/proc/on_participant_deleted(datum/source)
+	SIGNAL_HANDLER
+	qdel(src)
+
+/// (Re)arms the idle reap. Firing while an action is running is harmless - stop_current_action()
+/// arms it again once that action ends.
+/datum/sex_session/proc/schedule_idle_reap()
+	reap_timer = addtimer(CALLBACK(src, PROC_REF(reap_if_idle)), SEX_SESSION_IDLE_TIMEOUT, TIMER_UNIQUE|TIMER_OVERRIDE|TIMER_STOPPABLE)
+
+/datum/sex_session/proc/reap_if_idle()
+	if(current_action)
+		return
+	qdel(src)
+
 /datum/sex_session/Destroy(force, ...)
-	UnregisterSignal(user, list(COMSIG_SEX_CLIMAX, COMSIG_SEX_AROUSAL_CHANGED))
+	deltimer(reap_timer)
+	SStgui.close_uis(src)
+	UnregisterSignal(user, list(COMSIG_SEX_CLIMAX, COMSIG_SEX_AROUSAL_CHANGED, COMSIG_PARENT_QDELETING))
+	if(target && target != user)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	if(collective)
 		collective.sessions -= src
 		// If this was the last session in the collective, remove the collective
@@ -93,6 +125,8 @@
 	desire_stop = FALSE
 	current_action = action_type
 	inactivity = 0
+	// Don't reap a session that's actively doing something.
+	deltimer(reap_timer)
 	var/datum/sex_action/action = SEX_ACTION(current_action)
 	log_combat(user, target, "Started sex action: [action.name] with [target.name].")
 	INVOKE_ASYNC(src, PROC_REF(sex_action_loop))
@@ -166,6 +200,7 @@
 	action.on_finish(user, target)
 	desire_stop = FALSE
 	current_action = null
+	schedule_idle_reap()
 
 /datum/sex_session/proc/can_perform_action(action_type, performing = FALSE)
 	if(!action_type)
@@ -513,3 +548,5 @@
 
 /datum/sex_session/proc/set_current_force(new_force)
 	force = clamp(new_force, SEX_FORCE_MIN, SEX_FORCE_MAX)
+
+#undef SEX_SESSION_IDLE_TIMEOUT

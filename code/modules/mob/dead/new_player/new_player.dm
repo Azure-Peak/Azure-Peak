@@ -110,6 +110,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		var/is_pregame = SSticker.current_state <= GAME_STATE_PREGAME
 		if(tready == PLAYER_NOT_READY && SSticker.job_change_locked)
 			return
+		if((tready == PLAYER_READY_TO_PLAY || tready == PLAYER_READY_TO_OBSERVE) && !check_agevet())
+			to_chat(src, span_boldwarning(AGEVET_DENIED_MESSAGE))
+			return
 		if(is_pregame)
 			if(tready == PLAYER_READY_TO_PLAY)
 				if(!length(client.prefs.job_preferences) && client.prefs.joblessrole != BERANDOMJOB)
@@ -139,6 +142,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		new_player_panel()
 
 	if(href_list["late_join"])
+		if(!check_agevet())
+			to_chat(usr, span_boldwarning(AGEVET_DENIED_MESSAGE))
+			return
 		if(!SSticker?.IsRoundInProgress())
 			to_chat(usr, span_boldwarning("The game is starting. You cannot join yet."))
 			return
@@ -251,6 +257,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			return "You must wait before playing as an [jobtitle] again."
 		if(JOB_UNAVAILABLE_VIRTUESVICE)
 			return "[jobtitle] is restricted by your Virtues or Vices."
+		if(JOB_UNAVAILABLE_AGEVET)
+			return AGEVET_DENIED_MESSAGE
 		if(JOB_UNAVAILABLE_PQ)
 			var/datum/job/job = SSjob.GetJob(jobtitle)
 			if(job && !isnull(job.min_pq))
@@ -266,6 +274,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 /mob/dead/new_player/proc/IsJobUnavailable(rank, latejoin = FALSE)
 	if(QDELETED(src))
 		return JOB_UNAVAILABLE_GENERIC
+	if(!check_agevet())
+		return JOB_UNAVAILABLE_AGEVET
 	if(rank == "Siege Skeleton")
 		return has_world_trait(/datum/world_trait/skeleton_siege) ? JOB_AVAILABLE : JOB_UNAVAILABLE_GENERIC
 	if(rank == "Goblin")

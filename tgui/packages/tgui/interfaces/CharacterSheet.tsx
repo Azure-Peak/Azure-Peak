@@ -1881,6 +1881,12 @@ export const CharacterSheet = (props) => {
                     <>
                       <Button
                         selected={data.ready === PLAYER_READY_TO_PLAY}
+                        disabled={!data.age_verified}
+                        tooltip={
+                          !data.age_verified
+                            ? 'You must be ID verified by staff to enter the round.'
+                            : undefined
+                        }
                         color="teal"
                         onClick={() =>
                           act('ready', { state: PLAYER_READY_TO_PLAY })
@@ -1900,7 +1906,12 @@ export const CharacterSheet = (props) => {
                   ) : (
                     <>
                       <Button
-                        disabled={!!data.is_migrant}
+                        disabled={!!data.is_migrant || !data.age_verified}
+                        tooltip={
+                          !data.age_verified
+                            ? 'You must be ID verified by staff to enter the round.'
+                            : undefined
+                        }
                         color="teal"
                         onClick={() => act('late_join')}
                       >
@@ -1917,6 +1928,12 @@ export const CharacterSheet = (props) => {
                         ACTORS
                       </Button>
                       <Button
+                        disabled={!data.age_verified}
+                        tooltip={
+                          !data.age_verified
+                            ? 'You must be ID verified by staff to observe.'
+                            : undefined
+                        }
                         onClick={() => act('link', { preference: 'observe' })}
                       >
                         VOYEUR

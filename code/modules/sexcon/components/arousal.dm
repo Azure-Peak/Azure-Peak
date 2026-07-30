@@ -63,13 +63,10 @@
 /datum/component/arousal/proc/set_arousal(datum/source, amount, forced = FALSE)
 	if(amount > arousal)
 		last_arousal_increase_time = world.time
-	var/clamp_max = MAX_AROUSAL
-	var/mob/user = parent
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		clamp_max = THRILLSEEKER_THRESHOLD
-		if(forced)
-			clamp_max = 50
-	arousal = clamp(amount, 0, clamp_max)
+	// Thrillseekers used to be clamped below the ejaculation thresholds here, which meant they could
+	// never climax at all. They now use the same ceiling as everyone else; the flaw's identity is that
+	// combat also arouses them (see adjust_arousal_special) and that fighting is what sates the vice.
+	arousal = clamp(amount, 0, MAX_AROUSAL)
 	update_arousal_effects()
 	try_ejaculate()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
@@ -90,8 +87,10 @@
 		return arousal
 	if(arousal > 0)
 		arousal *= arousal_multiplier
-	return set_arousal_special(source, arousal + amount, THRILLSEEKER_THRESHOLD)
+	return set_arousal_special(source, arousal + amount)
 
+/// Arousal gained from combat rather than sex. Same ceiling and climax rules as set_arousal(); the
+/// only difference is the refractory window, so a long fight doesn't retrigger endlessly.
 /datum/component/arousal/proc/set_arousal_special(datum/source, amount, limit)
 	if(last_ejaculation_time > world.time - (3 MINUTES))	//Short break to not cover the screen in pink too quickly.
 		return
@@ -102,13 +101,11 @@
 		clamp_max = limit
 	arousal = clamp(amount, 0, clamp_max)
 	update_arousal_effects()
+	try_ejaculate()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
 	return arousal
 
 /datum/component/arousal/proc/freeze_arousal(datum/source, freeze_state = null)
-	var/mob/user = parent
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		return
 	if(freeze_state == null)
 		arousal_frozen = !arousal_frozen
 	else
@@ -159,16 +156,24 @@
 	var/mob/living/mob = parent
 	var/list/parent_sessions = return_sessions_with_user(parent)
 	var/datum/sex_session/highest_priority = return_highest_priority_action(parent_sessions, parent)
-	var/mob/living/carbon/human/climaxer
-	var/mob/living/carbon/human/partner 
-	var/datum/sex_action/action = SEX_ACTION(highest_priority.current_action)
+	// No session, or none with a running action - climaxing alone. The old code dereferenced
+	// highest_priority here and only checked it for null fifteen lines further down, so every
+	// sessionless climax runtimed instead of happening.
+	var/mob/living/carbon/human/climaxer = ishuman(parent) ? parent : null
+	var/mob/living/carbon/human/partner
+	var/datum/sex_action/action
 
-	if(action.flipped)
-		climaxer = highest_priority.target
-		partner = highest_priority.user
-	else
-		climaxer = highest_priority.user
-		partner = highest_priority.target
+	if(highest_priority)
+		action = SEX_ACTION(highest_priority.current_action)
+		if(action?.flipped)
+			climaxer = highest_priority.target
+			partner = highest_priority.user
+		else
+			climaxer = highest_priority.user
+			partner = highest_priority.target
+
+	if(!climaxer)
+		return
 
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the climaxer has a penis but no testicles
@@ -176,12 +181,12 @@
 		mob.visible_message(span_love("[mob] climaxes, yet nothing is released!"))
 		after_ejaculation(action, climaxer, partner)
 		return
-	if(!highest_priority)
+	if(!action)
 		mob.visible_message(span_love("[mob] makes a mess!"))
 		var/turf/turf = get_turf(parent)
 		new /obj/effect/decal/cleanable/coom(turf)
 		after_ejaculation(action, climaxer, partner)
-	else	
+	else
 		var/return_message = action.handle_climax_message(climaxer, partner)
 		if(!return_message)
 			mob.visible_message(span_love("[mob] makes a mess!"))
@@ -233,19 +238,13 @@
 	if(action)
 		intensity = action.intensity
 		if(!action.masturbation) //If the action's masturbation, no good lover bonus
-			if(HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
+			//HAS_TRAIT dereferences its target, and a solo climax has no partner
+			if(partner && HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
 				intensity += 1
 
-	if(climaxer.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		var/datum/charflaw/addiction/thrill = climaxer.get_flaw(/datum/charflaw/addiction/thrillseeker)
-		climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
-		last_ejaculation_time = world.time
-		if(!thrill.sated)
-			climaxer.add_stress(/datum/stressevent/thrillsex)
-		if(prob(10))
-			climaxer.emote("groan", forced = TRUE)
-		return	
-
+	// Thrillseekers previously bailed out here with a consolation-prize stress event and none of the
+	// benefits below. They now climax like anyone else - fighting is still what sates their vice
+	// (see bodypart_wounds.dm), sex simply isn't worthless to them any more.
 	climaxer.emote("moan", forced = TRUE)
 	climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
@@ -254,7 +253,8 @@
 		return
 
 	climaxer.sate_addiction(/datum/charflaw/addiction/lovefiend)
-	partner.sate_addiction(/datum/charflaw/addiction/lovefiend)
+	// Solo climaxes have no partner - see ejaculate().
+	partner?.sate_addiction(/datum/charflaw/addiction/lovefiend)
 
 	switch(intensity)
 		if(1) //Should only be achievable with masturbation
@@ -270,7 +270,7 @@
 		else //This should not trigger but just in case
 			climaxer.add_stress(/datum/stressevent/cumok)
 
-	if(HAS_TRAIT(partner, TRAIT_GOODLOVER) && intensity >= 4)
+	if(partner && HAS_TRAIT(partner, TRAIT_GOODLOVER) && intensity >= 4)
 		if(!climaxer.mob_timers["cumtri"])
 			climaxer.mob_timers["cumtri"] = world.time
 			climaxer.adjust_triumphs(1)
