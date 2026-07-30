@@ -46,7 +46,7 @@
 	/// Does the patient need to be lying down?
 	var/lying_required = FALSE
 	/// Does this step allow self surgery?
-	var/self_operable = TRUE
+	var/self_operable = FALSE
 	/// Acceptable mob types for this surgery
 	var/list/target_mobtypes = list(/mob/living/carbon)
 
@@ -94,6 +94,8 @@
 	if(!user || !target)
 		return FALSE
 	if(!user.Adjacent(target))
+		return FALSE
+	if(!self_operable && (user == target))
 		return FALSE
 	if(!tool_check(user, tool))
 		return FALSE
@@ -144,9 +146,6 @@
 
 /datum/surgery_step/proc/validate_target(mob/user, mob/living/target, target_zone, datum/intent/intent)
 	SHOULD_CALL_PARENT(TRUE)
-	if(!self_operable && (user == target))
-		return FALSE
-
 	if(target_mobtypes)
 		var/valid_mobtype = FALSE
 		for(var/mobtype in target_mobtypes)

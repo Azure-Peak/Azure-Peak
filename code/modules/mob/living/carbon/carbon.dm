@@ -130,6 +130,8 @@
 			if(done_step?.try_op(user, src, user.zone_selected, I, user.used_intent, try_to_fail))
 				return TRUE
 		if(I.item_flags & SURGICAL_TOOL)
+			if(user == src)
+				to_chat(user, span_warning("I can't operate on myself."))
 			return TRUE
 	/*
 	for(var/datum/surgery/S in surgeries)
