@@ -78,9 +78,21 @@
 			dx = rotated[1]
 			dy = rotated[2]
 		var/turf/T = locate(base_turf.x + dx, base_turf.y + dy, base_turf.z)
-		if(T && isturf(T) && !T.density)
+		if(T && isturf(T) && !T.density && cleave_turf_reachable(user, T))
 			turfs += T
 	return turfs
+
+///Returns FALSE if a dense or opaque turf sits between the user and T — cleaves cannot cut through walls.
+/datum/cleave_pattern/proc/cleave_turf_reachable(mob/living/user, turf/T)
+	var/turf/source = get_turf(user)
+	if(!source || source == T)
+		return TRUE
+	for(var/turf/inter in getline(source, T))
+		if(inter == source || inter == T)
+			continue
+		if(inter.density || inter.opacity)
+			return FALSE
+	return TRUE
 
 /datum/cleave_pattern/proc/count_cleave_targets(mob/living/user, mob/living/primary, list/cleave_turfs)
 	var/count = 0
