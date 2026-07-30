@@ -266,6 +266,11 @@
 			"lock_color" = null,
 			"bancheck" = FALSE,
 		)
+		if(!user.check_agevet())
+			entry["locked"] = "NOT ID VERIFIED"
+			entry["lock_color"] = "bad"
+			job_list += list(entry)
+			continue
 		if(is_banned_from(user.ckey, rank))
 			entry["locked"] = "BANNED"
 			entry["lock_color"] = "bad"
@@ -496,6 +501,9 @@
 			var/tready = isnum(params["state"]) ? params["state"] : text2num(params["state"])
 			if(tready == PLAYER_NOT_READY && SSticker.job_change_locked)
 				return TRUE
+			if((tready == PLAYER_READY_TO_PLAY || tready == PLAYER_READY_TO_OBSERVE) && !N.check_agevet())
+				to_chat(N, span_boldwarning(AGEVET_DENIED_MESSAGE))
+				return TRUE
 			if(SSticker.current_state <= GAME_STATE_PREGAME)
 				if(tready == PLAYER_READY_TO_PLAY)
 					if(!length(job_preferences) && joblessrole != BERANDOMJOB)
@@ -519,6 +527,9 @@
 		if("late_join")
 			var/mob/dead/new_player/N = user
 			if(!istype(N))
+				return TRUE
+			if(!N.check_agevet())
+				to_chat(N, span_boldwarning(AGEVET_DENIED_MESSAGE))
 				return TRUE
 			if(!SSticker?.IsRoundInProgress())
 				to_chat(N, span_boldwarning("The game is starting. You cannot join yet."))

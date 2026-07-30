@@ -13,6 +13,10 @@
 #define JOB_UNAVAILABLE_SLOTFULL 12
 #define JOB_UNAVAILABLE_VIRTUESVICE 13
 #define JOB_UNAVAILABLE_PQ 14
+#define JOB_UNAVAILABLE_AGEVET 15
+
+/// Shown wherever an un-vetted player is denied a class. Keep it in one place so the wording stays consistent.
+#define AGEVET_DENIED_MESSAGE "You must be ID verified by staff before you can pick a class or enter the round. Check the VERIFIED button in character setup for instructions."
 
 #define DEFAULT_RELIGION "Christianity"
 #define DEFAULT_DEITY "Zizus Psyst"
