@@ -1,7 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - refactor: "TRAIT_FOOD_STIPEND -> TRAIT_ROYAL_SUBSIDY"
-  - rscadd: "Added a check that makes all Steward Ledger spam be bundled in 1 line."
-  - balance: "Royal Subsidy does not let you sell things to the Stockpile anymore. Royal Subsidy ignores taxes, you're omega-hired my dude."
-  - bugfix: "Royal Subsidy lets you import things from the Stockpile."
