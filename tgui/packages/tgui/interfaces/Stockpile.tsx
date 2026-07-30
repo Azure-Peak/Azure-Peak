@@ -113,7 +113,7 @@ const StockRowView = (props: {
   const canImport =
     !row.withdraw_disabled &&
     row.import_price > 0 &&
-    row.import_price <= data.budget;
+    (row.import_price <= data.budget || !!data.food_stipend);
   return (
     <div
       style={{
@@ -240,9 +240,11 @@ const StockRowView = (props: {
           title={
             row.import_price <= 0
               ? 'No region has supply of this good today.'
-              : data.charter_active
-                ? 'Import directly. Pays duty to the Crown.'
-                : 'Import directly. The surcharge covers transport.'
+              : !!data.food_stipend && row.import_price > data.budget
+                ? 'Food stipend covers this import through the treasury.'
+                : data.charter_active
+                  ? 'Import directly. Pays duty to the Crown.'
+                  : 'Import directly. The surcharge covers transport.'
           }
         >
           {row.import_price > 0 ? `Import ${row.import_price}m` : 'NO SUPPLY'}

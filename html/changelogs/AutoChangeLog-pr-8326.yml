@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - balance: "Court Agents are now in the courtier tax bracket, i.e. they don't get taxed by default"
