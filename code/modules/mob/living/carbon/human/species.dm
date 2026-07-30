@@ -775,6 +775,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				return FALSE
 			if(is_nudist)
 				return FALSE
+			// As with shoes: the taur lower body replaces the legs entirely, so leg coverings
+			// can't be worn. Mirrors ES's lamian-tail pants gate.
+			if(is_taur)
+				return FALSE
 			if( !(I.slot_flags & ITEM_SLOT_PANTS) )
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)

@@ -65,6 +65,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
 	/datum/species/ooze,\
+	/datum/species/taur,\
+	/datum/species/lamia,\
+	/datum/species/drider,\
   /datum/species/dwarf/gnome\
 )
 
@@ -102,6 +105,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/anthromorph,\
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
+	/datum/species/taur,\
+	/datum/species/lamia,\
+	/datum/species/drider,\
 
 #define RACES_SHUNNED \
 	/datum/species/anthromorphsmall,\
@@ -278,6 +284,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
+	/datum/species/taur,\
+	/datum/species/lamia,\
+	/datum/species/drider,\
 )
 
 #define CLOTHED_RACES_TYPES list(\
@@ -307,6 +316,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
 	/datum/species/dwarf/gnome,\
+	/datum/species/taur,\
+	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/ooze\
 )
 // Non-dwarf non-kobold non-goblin mostly
@@ -331,6 +343,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/halforc,\
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
+	/datum/species/taur,\
+	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/ooze,\
 )
 // Non-elf non-dwarf non-kobold non-goblin mostly
@@ -349,6 +364,9 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/construct/metal,\
 	/datum/species/dullahan,\
+	/datum/species/taur,\
+	/datum/species/lamia,\
+	/datum/species/drider,\
 	/datum/species/ooze,\
 )
 

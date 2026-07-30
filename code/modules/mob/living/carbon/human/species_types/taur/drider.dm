@@ -118,9 +118,11 @@
 
 /datum/species/drider/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
-	// copy_to() re-runs Taurize afterwards with the player's chosen colour; this guarantees the
-	// spider body exists even on paths that never touch preferences (admin species swaps, wabbajack).
-	C.Taurize(mandatory_taur_type)
+	// Only if they haven't got one already. copy_to() Taurizes with the player's chosen colour, and
+	// this call uses the default, so an unconditional call here disagrees on colour, fails Taurize's
+	// same-part short circuit, and drops+reattaches the lower body every time the species is applied.
+	if(!C.get_taur_tail())
+		C.Taurize(mandatory_taur_type)
 	C.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE) // scuttling across walls and webs
 
 /datum/species/drider/on_species_loss(mob/living/carbon/C)
@@ -128,4 +130,7 @@
 	C.ensure_not_taur()
 
 /datum/species/drider/spec_fully_heal(mob/living/carbon/human/H)
-	H.Taurize(mandatory_taur_type)
+	// Restore the lower body if it's somehow gone, but don't rebuild an existing one - that would
+	// reset the player's chosen colour to the default on every heal.
+	if(!H.get_taur_tail())
+		H.Taurize(mandatory_taur_type)
