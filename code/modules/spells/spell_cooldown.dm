@@ -192,6 +192,7 @@
 	/// If FALSE (default), spell uses hold-and-release: hold middle-click to charge, release to cast.
 	var/charge_then_click = FALSE
 	var/blocks_defense_while_channeling = FALSE
+	var/cancel_penalty_mult = 1
 
 	/// Lore/flavor text. Shown on hover in spell lists, always shown in detailed examine.
 	var/fluff_desc = ""
@@ -404,8 +405,8 @@
 /datum/action/cooldown/spell/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
 	if(click_to_activate)
 		if(currently_charging || charged)
-			cancel_casting()
-			on_who.balloon_alert(on_who, "Channeling was interrupted!")
+			if(!cancel_casting(voluntary = refund_cooldown))
+				on_who.balloon_alert(on_who, "Channeling was interrupted!")
 		on_deactivation(on_who, refund_cooldown = refund_cooldown)
 
 		// Clean up our own MOUSEDOWN/MOUSEUP and any lingering mob-level charge signals
@@ -1095,7 +1096,7 @@
 
 /// When finish charging the spell called from set_click_ability or try_casting
 /// This does not mean we succeeded in charging the spell just that we did mouseUp/ended the do_after
-/datum/action/cooldown/spell/proc/on_end_charge(success)
+/datum/action/cooldown/spell/proc/on_end_charge(success, quiet = FALSE)
 	if(owner)
 		owner.tempfixeye = FALSE
 		if(!owner.fixedeye)
@@ -1105,7 +1106,7 @@
 	if(success)
 		charged = TRUE
 		return
-	if(owner)
+	if(owner && !quiet)
 		owner.balloon_alert(owner, "Channeling was interrupted!")
 
 /// End the charging cycle
@@ -1203,16 +1204,56 @@
 	if(SW && SW.duration != -1)
 		SW.duration = max(SW.duration, world.time + (charge_swingdelay_duration || 20))
 
+/datum/action/cooldown/spell/proc/is_cancel_penalized()
+	if(!cancel_penalty_mult)
+		return FALSE
+	if(!source_aspect || ispath(source_aspect, /datum/magic_aspect/pseudo))
+		return FALSE
+	return TRUE
+
+/datum/action/cooldown/spell/proc/past_cancel_commitment()
+	if(fully_charged || charged)
+		return TRUE
+	if(charge_target_time <= 0 || !charge_started_at)
+		return FALSE
+	return (world.time - charge_started_at) >= max(charge_target_time * CANCEL_GRACE_FRACTION, CANCEL_GRACE_MINIMUM)
+
+/datum/action/cooldown/spell/proc/apply_cancel_penalty(was_fully_charged)
+	if(!owner)
+		return
+
+	var/penalty_cooldown = min(round(get_adjusted_cooldown() * CANCEL_PENALTY_COOLDOWN * cancel_penalty_mult), CANCEL_PENALTY_COOLDOWN_MAX)
+	if(penalty_cooldown > 0)
+		StartCooldown(penalty_cooldown)
+
+	owner.balloon_alert(owner, was_fully_charged ? "Canceled! Full cost applied!" : "Canceled! Partial cost applied!")
+
+	// Last, because a drain that caps the stamina bar emotes and sleeps.
+	var/cost_mult = (was_fully_charged ? CANCEL_PENALTY_COST_CHARGED : CANCEL_PENALTY_COST_PARTIAL) * cancel_penalty_mult
+	invoke_resource_cost(primary_resource_type, primary_resource_cost * cost_mult)
+	invoke_resource_cost(secondary_resource_type, secondary_resource_cost * cost_mult)
+
 /// Cancel casting and all its effects.
-/datum/action/cooldown/spell/proc/cancel_casting()
+/// [voluntary] must only be TRUE when the caster themselves backed out.
+/datum/action/cooldown/spell/proc/cancel_casting(voluntary = FALSE)
 	if(QDELETED(src)) // Timer
 		return
 	if(auto_cancel_timer)
 		deltimer(auto_cancel_timer)
 		auto_cancel_timer = null
+
+	var/penalise = voluntary && is_cancel_penalized() && past_cancel_commitment()
+	var/was_fully_charged = fully_charged || charged
+
 	charged = FALSE
 	end_charging() // end_charging() handles MOUSEDOWN re-registrations
 	reset_spell_cooldown()
+
+	if(!penalise)
+		return FALSE
+	// Async so the stamina drain (which can emote) leaves the SIGNAL_HANDLER call stack.
+	INVOKE_ASYNC(src, PROC_REF(apply_cancel_penalty), was_fully_charged)
+	return TRUE
 
 /// Checks if the current OWNER of the spell is in a valid state to say the spell's invocation
 /datum/action/cooldown/spell/proc/can_invoke(feedback = TRUE)
@@ -1695,7 +1736,11 @@
 			owner.balloon_alert(owner, "Spell ready — middle-click target!")
 		return
 
-	if(!on_end_charge(success)) // Give them another try — end_charging() already re-registered MOUSEDOWN
+	var/penalised = !success && is_cancel_penalized() && past_cancel_commitment()
+	if(penalised)
+		INVOKE_ASYNC(src, PROC_REF(apply_cancel_penalty), fully_charged)
+
+	if(!on_end_charge(success, quiet = penalised)) // Give them another try — end_charging() already re-registered MOUSEDOWN
 		return
 
 	var/list/modifiers = params2list(params)
