@@ -226,16 +226,12 @@
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/fae/user)
 	. = ..()
-	if(!user) // literally how
+	if(!user || !user.reagents) // literally how
 		revert_cast()
 		return FALSE
 	var/atom/target = targets.len?targets[1]:null
 	if(!targets.len || !(isliving(target) || target.is_refillable()) || !target.reagents)
 		to_chat(user, span_notice("I need to select a valid target to bite!"))
-		revert_cast()
-		return FALSE
-	if(!user.reagents || user.reagents.total_volume == 0)
-		to_chat(user, span_notice("I need to have a potion in my stomach to inject!"))
 		revert_cast()
 		return FALSE
 	if(!isliving(target))

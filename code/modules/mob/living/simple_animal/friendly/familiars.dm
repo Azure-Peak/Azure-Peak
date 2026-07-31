@@ -418,12 +418,9 @@
 	return ret
 
 /mob/living/simple_animal/pet/familiar/fae/attackby(obj/item/I, mob/user, params)
-	to_chat(world, span_warning("getting here"))
 	if(istype(I, /obj/item/reagent_containers) && tier >= 2)
-		to_chat(world, span_warning("getting here 2"))
 		var/datum/reagents/container_reagents=I.reagents
 		if(istype(container_reagents) && user.used_intent.type == INTENT_POUR && container_reagents.total_volume>0 && !reagents.holder_full())
-			to_chat(world, span_warning("getting here 3 [container_reagents] [user.used_intent.type]"))
 			user.visible_message(
 				span_notice("[user] begins feeding [src] from [I]..."),
 				span_notice("I begin feeding [src] from [I]...")
