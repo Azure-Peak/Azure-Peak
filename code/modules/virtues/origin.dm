@@ -13,8 +13,7 @@
 	desc = "I hail from the rich isle of Valmoria, a mercantile port in the great Sybaran Sea. Ships from frozen Gronn or burning Nadeli all pass through our harbor, and a walk down our pier could take you to any shore in the world.<br>"
 	restricted = FALSE
 	added_languages = list(/datum/language/oldvalmorian)
-	origin_desc =
-	"Crowning a great volcanic island straddling the sea lanes of the ancient empires, the city-state of Valmoria has returned to prominence in recent centuries as a \
+	origin_desc = "Crowning a great volcanic island straddling the sea lanes of the ancient empires, the city-state of Valmoria has returned to prominence in recent centuries as a \
 	merchant's haven from the troubles of distant regimes. Heading the Valmorian League, a confederation of far-flung port cities across the known world, Valmoria is a \
 	cosmopolitan gem of the old nobility, merchant elite, wayfaring pilgrims and thrillseeking adventurers.<br> \
 	The island was long the stomping ground of warring empires from the splintering of old Etruscan city-states from the Sybaran Empire to far more ancient incursions \
