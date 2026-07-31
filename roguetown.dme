@@ -3563,7 +3563,6 @@
 #include "modular\emerald_summit\code\cosmetics.dm"
 #include "modular\emerald_summit\code\drugmachine.dm"
 #include "modular\emerald_summit\code\falling_leaves.dm"
-#include "modular\emerald_summit\code\farm_animals.dm"
 #include "modular\emerald_summit\code\feet.dm"
 #include "modular\emerald_summit\code\fiend.dm"
 #include "modular\emerald_summit\code\fireaxe.dm"
