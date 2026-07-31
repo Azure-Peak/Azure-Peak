@@ -191,7 +191,7 @@
 
 /datum/action/cooldown/spell/fae_brew
 	name = "Alchemical Stomach"
-	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill."
+	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill. Click yourself (or have someone else click you) with reagents to add them, or empty hand to remove them."
 	button_icon_state = "create_campfire"
 
 	click_to_activate = FALSE
@@ -218,7 +218,7 @@
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite
 	name = "Alchemical Bite" // placeholder
-	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach. Cast on a reagent container to transfer its contents into your stomach, or fill it if it's empty."
+	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach. Cast on a reagent container to transfer its contents into your stomach, or fill it if it's empty. You can also drink from containers directly to similar effect."
 	range = 1
 	recharge_time = 10 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
