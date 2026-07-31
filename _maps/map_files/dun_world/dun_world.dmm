@@ -4414,6 +4414,10 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
+"aRM" = (
+/obj/effect/spawner/lootdrop/armored_wrists_spawner,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/menagerie)
 "aRN" = (
 /obj/structure/fluff/railing/corner/south_east,
 /obj/structure/fluff/railing/corner/south_west,
@@ -18477,6 +18481,10 @@
 /obj/machinery/light/rogue/firebowl/church,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
+"dvC" = (
+/obj/structure/pillory/reinforced,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/menagerie)
 "dvE" = (
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/blocks,
@@ -20397,6 +20405,15 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
+"dOg" = (
+/obj/structure/fluff/walldeco/chains{
+	icon_state = "chains3"
+	},
+/mob/living/carbon/human/species/hobgoblin/npc{
+	faction = list("undead")
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/menagerie)
 "dOl" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -65098,6 +65115,13 @@
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
+"lMC" = (
+/obj/structure/lever/wall{
+	pixel_x = 10;
+	redstone_id = "greed_dung_gate_1"
+	},
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/cave/menagerie)
 "lME" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -71948,7 +71972,9 @@
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/beach)
 "nan" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/cow,
+/mob/living/simple_animal/hostile/retaliate/rogue/cow{
+	faction = list("undead")
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/menagerie)
 "nao" = (
@@ -86697,9 +86723,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/spider)
 "pHy" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/wounded/chained{
-	faction = list("undead")
-	},
+/mob/living/carbon/human/species/goblin/npc/large/moon,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/menagerie)
 "pHz" = (
@@ -105201,6 +105225,12 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/inq/office)
+"sYv" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/wounded/chained{
+	faction = list("undead")
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/cave/menagerie)
 "sYw" = (
 /obj/structure/fluff/railing/corner/south_east,
 /obj/structure/fluff/railing/corner/south_west,
@@ -106042,6 +106072,12 @@
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/exposed/church)
+"tgs" = (
+/obj/structure/mineral_door/bars{
+	locked = 1
+	},
+/turf/open/floor/rogue/crawl_space,
+/area/rogue/under/cave/menagerie)
 "tgt" = (
 /obj/machinery/light/rogue/torchholder/r,
 /obj/structure/bed/rogue/inn/hay,
@@ -108516,6 +108552,12 @@
 /obj/item/rope/chain,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/tavern)
+"tDq" = (
+/obj/structure/fluff/walldeco/chains{
+	icon_state = "chains8"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/menagerie)
 "tDr" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -112330,6 +112372,17 @@
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
+"uoe" = (
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter{
+	faction = list("undead")
+	},
+/obj/structure/lever/wall{
+	pixel_x = -16;
+	redstone_id = "greed_dung_gate_3";
+	dir = 1
+	},
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/cave/menagerie)
 "uoi" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/stairs{
@@ -122089,10 +122142,6 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
-"weq" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/goat,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave/menagerie)
 "weu" = (
 /obj/structure/chair/stool/rogue,
 /obj/effect/landmark/start/courtagent,
@@ -128767,6 +128816,10 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors)
+"xqI" = (
+/mob/living/carbon/human/species/goblin/npc/moon,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/menagerie)
 "xqJ" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
 /turf/open/floor/rogue/blocks,
@@ -312015,9 +312068,9 @@ onF
 tIH
 ujm
 bYc
-rxm
+ghc
 pMk
-dqB
+tDq
 tdl
 oeU
 bYc
@@ -312471,7 +312524,7 @@ rxm
 kLx
 dqB
 dqB
-jzp
+xqI
 vZq
 jZW
 jZW
@@ -313820,12 +313873,12 @@ cHA
 qnW
 bYc
 dos
-dqB
+eBg
 bVH
 pMk
 pvX
 pMk
-dqB
+xqI
 bYc
 ujm
 ujm
@@ -314264,20 +314317,20 @@ tsB
 ujm
 jZW
 cHA
+sYv
 qnW
-weq
 vHJ
 cHA
 nan
 cHA
 bYc
-dqB
+tDq
 pHy
 dqB
 pMk
 fSN
 pMk
-jzp
+dqB
 jZW
 ujm
 onF
@@ -315181,7 +315234,7 @@ bYc
 wQU
 fSN
 pMk
-jzp
+xqI
 jZW
 jZW
 jZW
@@ -315634,7 +315687,7 @@ rxm
 fSN
 pMk
 vfu
-dqB
+qXD
 dos
 jZW
 gOo
@@ -318750,14 +318803,14 @@ qPv
 tsB
 tsB
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
 jZW
-gWf
+dos
+dqB
+dOg
+eBg
+aRM
+wgQ
+rxm
 rxm
 rxm
 rxm
@@ -319202,13 +319255,13 @@ qPv
 qPv
 tsB
 tsB
-tsB
-tsB
-tsB
-tsB
-tsB
-ujm
 jZW
+dqB
+dqB
+dqB
+dvC
+dqB
+wgQ
 fSN
 rxm
 rxm
@@ -319227,7 +319280,7 @@ fqL
 dhd
 nsn
 jZW
-rxm
+gWf
 fSN
 bYc
 jZW
@@ -319654,13 +319707,13 @@ qPv
 qPv
 qPv
 qPv
-qPv
-qPv
-qPv
-qPv
-qPv
-ujm
 jZW
+jzp
+dqB
+dqB
+dqB
+dqB
+tgs
 rxm
 fSN
 fSN
@@ -320106,13 +320159,13 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-ujm
 jZW
+tdl
+dqB
+qXD
+jzp
+dqB
+wgQ
 rxm
 xtN
 fSN
@@ -321483,7 +321536,7 @@ jHs
 jZW
 mzv
 qpT
-ktR
+uoe
 eGy
 moV
 kEB
@@ -322412,7 +322465,7 @@ fSN
 fSN
 fSN
 bJY
-rxm
+lMC
 jpg
 moV
 kEB
