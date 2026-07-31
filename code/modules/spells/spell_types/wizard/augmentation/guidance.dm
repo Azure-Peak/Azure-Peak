@@ -11,6 +11,7 @@
 
 	point_cost = 2
 	charge_time = 0 // Special
+	charge_required = FALSE // the augment_buff parent charges; clear the flag or New() complains
 
 	self_cast_cooldown_multiplier = 1.5
 

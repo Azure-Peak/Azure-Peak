@@ -1177,7 +1177,8 @@
 		seer = TRUE
 
 	if(HAS_TRAIT(src, TRAIT_DUSTRUNNER))
-		var/mob/living/living_examiner = examiner
+		//patron lives on /mob/living, and ghosts examine too -- ?. guards null, not the wrong type.
+		var/mob/living/living_examiner = isliving(examiner) ? examiner : null
 		if(HAS_TRAIT(examiner, TRAIT_DUSTRUNNER))
 			heretic_text += "Fellow runner. The dust moves."
 		else if(living_examiner?.patron?.type == /datum/patron/inhumen/matthios)

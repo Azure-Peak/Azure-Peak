@@ -51,7 +51,7 @@
 /obj/structure/roguetent/CanAStarPass(ID, to_dir, atom/movable/caller)
 	if(!density)
 		return TRUE
-	if(HAS_TRAIT(caller, TRAIT_BASHDOORS))
+	if(caller && HAS_TRAIT(caller, TRAIT_BASHDOORS)) //pathing sweeps pass no caller at all
 		return TRUE
 	return ishuman(caller)
 

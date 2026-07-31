@@ -292,7 +292,7 @@
 		return TRUE
 	if(!anchored)
 		return FALSE
-	if(HAS_TRAIT(caller, TRAIT_BASHDOORS))
+	if(caller && HAS_TRAIT(caller, TRAIT_BASHDOORS)) //pathing sweeps pass no caller at all
 		return TRUE // bash into it!
 	// it's openable
 	return ishuman(caller) && !locked // only humantype mobs can open doors, as funny as it'd be for a volf to walk in on you ERPing

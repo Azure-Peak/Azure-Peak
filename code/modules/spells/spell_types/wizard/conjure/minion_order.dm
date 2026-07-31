@@ -29,6 +29,7 @@
 
 	primary_resource_type = SPELL_COST_NONE
 	cooldown_time = 1 SECONDS
+	charge_required = FALSE // instant cast; the base default is TRUE and warns without a charge time
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 3
