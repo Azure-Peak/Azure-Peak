@@ -218,7 +218,7 @@
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite
 	name = "Alchemical Bite" // placeholder
-	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach."
+	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach. Cast on a reagent container to transfer its contents into your stomach, or fill it if it's empty."
 	range = 1
 	recharge_time = 10 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
