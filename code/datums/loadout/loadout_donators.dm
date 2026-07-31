@@ -782,6 +782,11 @@
 	path = /obj/item/enchantingkit/spaz_helm
 	ckeywhitelist = list("seniorspaz")
 
+/datum/loadout_item/donator/lime_helm
+	name = "Donator Kit - Serpentine Bascinet"
+	path = /obj/item/enchantingkit/limetease
+	ckeywhitelist = list("limetease", "simplypoodle")
+
 /datum/loadout_item/donator/gazelleskull
 	name = "Donator Item - Gazelle Skull"
 	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull

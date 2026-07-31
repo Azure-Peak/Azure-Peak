@@ -1994,6 +1994,27 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
+// LimeTease
+/obj/item/clothing/head/roguetown/helmet/sallet/visored/limetease
+	name = "serpentine bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor. Loosely resembles a drakynn or some sort of sea serpent."
+	icon_state = "limehelm"
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	icon = 'icons/clothing/donor_clothes.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm/limetease
+	name = "serpentine bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor. Loosely resembles a drakynn or some sort of sea serpent."
+	icon_state = "limehelm"
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	icon = 'icons/clothing/donor_clothes.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+
 /obj/item/clothing/head/roguetown/octopus/ComponentInitialize()
 	..()
 	AddComponent(/datum/component/adjustable_clothing, \
