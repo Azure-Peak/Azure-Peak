@@ -10,7 +10,7 @@
 /datum/virtue/origin/valmoria
 	name = "Valmorian"
 	origin_name = "Valmoria"
-	desc = "I hail from the rich isle of Valmoria, a mercantile port in the great Sybaran Sea. Ships from frozen Gronn or burning Nadeli all pass through our harbor, and a walk down our pier could take you to any shore in the world.<br>"
+	desc = "I hail from the rich isle of Valmoria, a mercantile port in the great Sybaran Sea. Ships from frozen Gronn to burning Nadeli all pass through our harbor, and a walk down our pier could take you to any shore in the world.<br>"
 	restricted = FALSE
 	added_languages = list(/datum/language/oldvalmorian)
 	origin_desc = "Crowning a great volcanic island straddling the sea lanes of the ancient empires, the city-state of Valmoria has returned to prominence in recent centuries as a \
