@@ -197,7 +197,10 @@
 	if(length(allowed_ages) && !(H.age in allowed_ages))
 		return FALSE
 
-	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
+	// H.patron can legitimately be null here. Dereferencing it runtimes, and a runtime in this proc
+	// returns null - which the caller reads as "requirements not met", so EVERY class with an
+	// allowed_patrons list drops out at once and the player lands in class select with no options.
+	if(length(allowed_patrons) && !(H.patron?.type in allowed_patrons))
 		return FALSE
 
 	if(length(virtue_limits) && H.client)

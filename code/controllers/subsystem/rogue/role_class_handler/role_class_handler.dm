@@ -78,6 +78,20 @@ SUBSYSTEM_DEF(role_class_handler)
 	We will cache it per server session via an assc list with a ckey leading to the datum.
 */
 /datum/controller/subsystem/role_class_handler/proc/setup_class_handler(mob/living/carbon/human/H, advclass_rolls_override = null, register_id = null)
+	if(!H?.client)
+		log_game("CLASS HANDLER WARNING: [H] has no client, skipping advclass setup")
+		return
+
+	// Nothing to roll. Latejoin calls this for every human (new_player.dm), but a job with no
+	// advclass categories has no class menu at all - Jester, Consort, the vampire roles. Building a
+	// handler for one ends in assemble_the_CLASSES() finding zero options, which calls
+	// returntolobby() mid-spawn: the player is bounced to the main menu while their body stays in
+	// the round, unequipped. That is what the "0 CLASS SELECT OPTIONS" report actually was.
+	if(!advclass_rolls_override)
+		var/datum/job/roguetown/no_classes_job = SSjob.GetJob(H.job)
+		if(!no_classes_job || !length(no_classes_job.advclass_cat_rolls))
+			return
+
 	if(!register_id)
 		if(H.job == "Towner")
 			register_id = "towner"

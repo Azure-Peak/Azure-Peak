@@ -16,9 +16,8 @@
 	use_skin_tone_wording_for_examine = FALSE
 	max_age = "???"
 
+	// The serpent and spider bodies belong to the Lamia and Drider species; see taur/taur.dm.
 	allowed_taur_types = list(
-		/obj/item/bodypart/taur/lamia,
-		/obj/item/bodypart/taur/spider,
 		/obj/item/bodypart/taur/horse,
 		/obj/item/bodypart/taur/goat,
 	)

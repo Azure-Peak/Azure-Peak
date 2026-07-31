@@ -161,8 +161,15 @@
 
 
 	if(!rolled_classes.len)
+		// Say what actually happened. The bare version of this message told an admin nothing about
+		// which job, species or category was involved, so every report of it started from scratch.
+		var/list/tried_cats = list()
+		for(var/cat_key in class_cat_alloc_attempts)
+			tried_cats += "[cat_key]"
+		message_admins("CLASS_SELECT_HANDLER HAD PERSON WITH 0 CLASS SELECT OPTIONS. THIS IS REALLY BAD! RETURNED THEM TO LOBBY - \
+			ckey=[linked_client?.ckey] job=[H?.job] species=[H?.dna?.species?.type] patron=[H?.patron?.type] \
+			gender=[H?.gender] age=[H?.age] categories=[tried_cats.len ? jointext(tried_cats, ", ") : "NONE"]")
 		linked_client.mob.returntolobby()
-		message_admins("CLASS_SELECT_HANDLER HAD PERSON WITH 0 CLASS SELECT OPTIONS. THIS IS REALLY BAD! RETURNED THEM TO LOBBY")
 
 	if(rolled_classes.len == 1)
 		SSrole_class_handler.finish_class_handler(linked_client.mob, pick(rolled_classes), src, plus_power, special_selected)

@@ -241,7 +241,9 @@
 		M.adjustToxLoss(-12, 0)
 	for(var/datum/reagent/R in M.reagents.reagent_list)
 		if(R.harmful)
-			holder.remove_reagent(R, 3)
+			// remove_reagent() matches on R.type == reagent, so passing the datum here matched
+			// nothing and the strong antidote never purged anything. See the weak antidote above.
+			holder.remove_reagent(R.type, 3)
 	..()
 	. = 1
 

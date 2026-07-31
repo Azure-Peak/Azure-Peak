@@ -880,7 +880,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["feature_lizard_legs"]	= sanitize_inlist(features["legs"], GLOB.legs_list, "Normal Legs")
 	var/list/valid_taur_types = pref_species.get_taur_list()
 	if(!(taur_type in valid_taur_types))
-		taur_type = null
+		// Species whose whole body plan is the taur lower body (lamia, drider) fall back to their
+		// own body rather than to legs, so a stale or absent save can't strand them legless.
+		taur_type = pref_species.mandatory_taur_type
 	taur_color = sanitize_hexcolor(taur_color, 6, 0)
 
 	S["body_markings"] >> body_markings

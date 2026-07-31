@@ -45,9 +45,8 @@
 	max_age = 850
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,OLDGREY)
-	allowed_taur_types = list(
-		/obj/item/bodypart/taur/spider,
-	)
+	// The spider body now belongs solely to the Drider species (species_types/taur/drider.dm), so
+	// there is exactly one route to it.
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE
 	disliked_food = NONE

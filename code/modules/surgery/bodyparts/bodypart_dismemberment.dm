@@ -570,6 +570,11 @@
 
 /mob/living/carbon/regenerate_limbs(noheal, list/excluded_limbs)
 	var/list/limb_list = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
+	// A taur lower body sits in BODY_ZONE_TAUR and replaces both legs, so the leg zones legitimately
+	// read as missing here. Regrowing them attaches human legs on top of the taur body - visible as
+	// leg sprites drawn over the tail - and Taurize's same-part short circuit won't clear them.
+	if(get_taur_tail())
+		limb_list -= list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
 	if(excluded_limbs)
 		limb_list -= excluded_limbs
 	for(var/Z in limb_list)

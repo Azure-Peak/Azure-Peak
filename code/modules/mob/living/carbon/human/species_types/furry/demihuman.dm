@@ -13,9 +13,8 @@
 	skin_tone_wording = "Ancestry"
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS_PARTSONLY)
+	// The serpent and spider bodies belong to the Lamia and Drider species; see taur/taur.dm.
 	allowed_taur_types = list(
-		/obj/item/bodypart/taur/lamia,
-		/obj/item/bodypart/taur/spider,
 		/obj/item/bodypart/taur/horse,
 		/obj/item/bodypart/taur/goat,
 	)
