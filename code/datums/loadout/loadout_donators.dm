@@ -811,3 +811,8 @@
 	name = "Donator Item - Longest Night Cloak"
 	path = /obj/item/clothing/cloak/longest_night
 	ckeywhitelist = list("shiroseschnee")
+
+/datum/loadout_item/donator/falling_star
+	name = "Donator Kit - Falling Star"
+	path = /obj/item/enchantingkit/weapon/falling_star
+	ckeywhitelist = list("octus")

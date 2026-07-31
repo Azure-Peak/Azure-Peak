@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - server: "truncates who column in the banning database so banning is still possible on high pop"

@@ -103,6 +103,92 @@
 	log_game("[key_name(user)] sent a message to [key_name(summoner)] with contents [message]")
 	return TRUE
 
+/datum/action/cooldown/spell/rootcheck
+	name = "Nature's Bounty"
+	desc = "Invigorate the lyfe in a small area, causing hidden roots to bear fruit instantly."
+	button_icon_state = "ensnare"
+
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	cooldown_time = 10 MINUTES
+
+	primary_resource_type = SPELL_COST_NONE
+	spell_requirements = NONE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	var/static/list/rootpool = list( // basically most crops, including poison berries. also a few alchemically-useful things. and junk items to make it less useful
+		/obj/item/natural/fibers,
+		/obj/item/grown/log/tree/stick,
+		/obj/item/natural/thorn,
+		/obj/item/natural/chaff/wheat, // what, you thought it'd be usable? nah you have to shuck that yourself, it's freshly-grown
+		/obj/item/natural/chaff/oat,
+		/obj/item/natural/chaff/rice,
+		/obj/item/reagent_containers/food/snacks/grown/maize,
+		/obj/item/reagent_containers/food/snacks/grown/apple,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/pear,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/lemon,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/lime,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/plum,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/strawberry,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/tomato,
+		/obj/item/reagent_containers/food/snacks/grown/nut,
+		/obj/item/reagent_containers/food/snacks/grown/sugarcane,
+		/obj/item/reagent_containers/food/snacks/grown/vegetable/turnip,
+		/obj/item/reagent_containers/food/snacks/grown/sunflower,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed,
+		/obj/item/reagent_containers/food/snacks/grown/onion/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/cabbage/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/potato/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/garlick/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/poppy,
+		/obj/item/reagent_containers/food/snacks/grown/coffee,
+		/obj/item/reagent_containers/food/snacks/grown/tea,
+		/obj/item/reagent_containers/food/snacks/grown/carrot,
+		/obj/item/reagent_containers/food/snacks/grown/cucumber,
+		/obj/item/reagent_containers/food/snacks/grown/eggplant,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
+		/obj/item/alch/atropa, // herbs, synergizes with fae brew and makes the food potential less strong
+		/obj/item/alch/matricaria,
+		/obj/item/alch/symphitum,
+		/obj/item/alch/taraxacum,
+		/obj/item/alch/euphrasia,
+		/obj/item/alch/paris,
+		/obj/item/alch/calendula,
+		/obj/item/alch/mentha,
+		/obj/item/alch/urtica,
+		/obj/item/alch/salvia,
+		/obj/item/alch/hypericum,
+		/obj/item/alch/benedictus,
+		/obj/item/alch/valeriana,
+		/obj/item/alch/artemisia,
+		/obj/item/alch/rosa,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+	)
+
+/datum/action/cooldown/spell/rootcheck/cast(atom/cast_on)
+	. = ..()
+	var/turf/target = get_turf(cast_on)
+	target.visible_message(span_notice("Hidden roots tremble underfoot as crops flourish before your very eyes, bursting through the ground!"))
+	if(!target)
+		return FALSE
+	for(var/i in 1 to 3)
+		var/obj/item/path = pick(rootpool)
+		new path(target)
+
+/datum/action/cooldown/spell/invisibility/fae
+	name = "Fey Shroud"
+	desc = "Cloak yourself, blending into the surroundings. Attacking, being attacked, or casting another ability will break your stealth."
+	click_to_activate = FALSE
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+
 /datum/action/cooldown/spell/fae_brew
 	name = "Alchemical Stomach"
 	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill."
@@ -157,7 +243,7 @@
 			span_notice("[user.name] gently bites the top of [targets[1]], filling it with an alchemical cocktail..."),
 			span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
 		)
-		// we're not biting a mob, so we can loop for convenience 
+		// we're not biting a mob, so we can loop for convenience
 		while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
 			user.visible_message(
 				span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
@@ -233,6 +319,11 @@
 
 /datum/action/cooldown/spell/magicians_stone/elemental
 	name = "Create Stone"
+	fluff_desc = ""
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/aetherknife/elemental
+	name = "Shape Knife"
 	fluff_desc = ""
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
