@@ -275,15 +275,8 @@
 	. += span_warning("Keys and other important items cannot be stored in the bin. Containers with these items within will also be rejected.")
 
 /obj/item/litterbin/attackby(obj/item/I, mob/user, params)
-	// hardening: lets make sure that important items that we designate in a helper proc do not go in
-	if(!item_verification_check(I))
-		to_chat(user, span_warning("This item is important! It will not go into the bin!"))
-		return
-	// move it into bin, add item to list. idk why we cant just check contents for it but the cryogenic sleeper code from other servers
-	// did something similar to this & i dont want to risk it!
-	I.forceMove(src)
-	stored_items += I
-	to_chat(user, span_info("I store [I] in the litterbin."))
+	if(add_item(I, user))
+		to_chat(user, span_info("I store [I] in the litterbin."))
 
 /obj/item/litterbin/attack_hand(mob/user)
 	. = ..()
@@ -301,11 +294,30 @@
 		to_chat(user, span_warning("This item is not within the bin!"))
 		return
 
+	if(take_out_item(I, user))
+		to_chat(user, span_notice("I retrieve [I]!"))
+
+/obj/item/litterbin/proc/add_item(obj/item/I, mob/user)
+	if(!I)
+		return FALSE
+	// hardening: lets make sure that important items that we designate in a helper proc do not go in
+	if(!item_verification_check(I))
+		to_chat(user, span_warning("This item is important! It will not go into the bin!"))
+		return
+	// move it into bin, add item to list. idk why we cant just check contents for it but the cryogenic sleeper code from other servers
+	// did something similar to this & i dont want to risk it!
+	I.forceMove(src)
+	stored_items += I
+	return TRUE
+
+/obj/item/litterbin/proc/take_out_item(obj/item/I, mob/user)
+	if(!I)
+		return FALSE
 	// idk why u have to forcemove this shit out of the bin before you put in hand but u do
 	I.forceMove(get_turf(src))
 	user.put_in_active_hand(I)
 	stored_items -= I
-	to_chat(user, span_notice("I retrieve [I]!"))
+	return TRUE
 
 // expandable proc for later. we re-use this when we loop thru objs w/ storage.
 // returns true if the if statements are not met. this is probably expensive as fuck but idk what else to do
