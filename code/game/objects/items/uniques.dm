@@ -623,14 +623,14 @@
 			user.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 			user.change_stat(STATKEY_INT, 2)
 			user.change_stat(STATKEY_PER, 1)
-			ADD_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+			ADD_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_NOSTINK)
 			to_chat(user, span_notice("Your mind expands, but something horrible lingers at the edge of your vision."))
 		else
 			active_item = TRUE
 			legendaryarcane = TRUE
 			user.change_stat(STATKEY_INT, 2)
 			user.change_stat(STATKEY_PER, 1)
-			ADD_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+			ADD_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_NOSTINK)
 			to_chat(user, span_warning("Your mind expands slightly, but something horrible lingers at the edge of your vision."))
 	else
 		to_chat(user, span_warning("This helmet feels uncomfortable."))
@@ -644,7 +644,7 @@
 				H.adjust_skillrank(/datum/skill/magic/arcane, -1, TRUE)
 			user.change_stat(STATKEY_INT, -2)
 			user.change_stat(STATKEY_PER, -1)
-			REMOVE_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+			REMOVE_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_NOSTINK)
 			to_chat(H, span_notice("You breathe a sigh of relief. The torment has faded."))
 			active_item = FALSE
 		else
