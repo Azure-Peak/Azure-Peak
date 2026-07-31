@@ -1600,3 +1600,25 @@
       without fucking up the dye. This is major QOL for anyone who has either tried
       to polish their dyed or armor, or has had their armor polished, dyed, broken,
       and then have to reapply the polish.
+2026-07-31:
+  DeciDesu:
+  - rscadd: Added new donor greatsword sprite for Deci
+  KatTheFox:
+  - bugfix: Dye brushes can now be properly crafted with all types of fur. Same for
+      polishing brushes.
+  WeNeedMorePhoron:
+  - rscadd: Canceling a spell now applies half / full cost of its resources and half
+      its cooldown, but no more than 10 seconds.
+  YakumoChen:
+  - balance: Zero skill music is actually grating to listen to. Who knew!
+  borneblood:
+  - bugfix: Matthios amulet will no longer reset its icon when dropped.
+  - balance: Matthios amulet now grants Thieves' Cant to other ascendants. If worn
+      by a Freeman undisguised, also grants +1 LUC.
+  eirenxiv:
+  - bugfix: fixed arcyne trickster not showing up in class preview
+  mumblemancer:
+  - bugfix: anthraxi silk pants and webbed shirts will now actually appear in the
+      merchant's underdark imports
+  zeroisthebiggay:
+  - bugfix: unpurpleifies strong health potions and different water types
