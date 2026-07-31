@@ -96,6 +96,8 @@
 	for(var/i in 1 to projectiles_per_fire)
 		var/obj/projectile/to_fire = new projectile_type(owner.loc)
 		ready_projectile(to_fire, target, owner, i)
+		if(QDELETED(to_fire)) //target was destroyed by an earlier shot and left no turf to aim at
+			continue
 		if(istype(to_fire, /obj/projectile/magic/seeker_orb/greater))
 			var/obj/projectile/magic/seeker_orb/greater/orb = to_fire
 			orb.volley = volley
@@ -107,8 +109,16 @@
 	for(var/i in 1 to flurry_shots)
 		if(QDELETED(src) || QDELETED(owner) || !isturf(owner.loc))
 			return
+		//The stream sleeps between shots, so the target can die mid-volley; keep spraying at the
+		//tile it fell on rather than at a deleted reference.
+		if(QDELETED(target))
+			target = get_turf(target)
+			if(!target)
+				return
 		var/obj/projectile/to_fire = new projectile_type(owner.loc)
 		ready_projectile(to_fire, target, owner, i)
+		if(QDELETED(to_fire))
+			continue
 		if(flurry_spread)
 			var/base_angle = to_fire.Angle
 			if(isnull(base_angle))

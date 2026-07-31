@@ -70,8 +70,13 @@
 
 /obj/structure/Destroy()
 	if(hidingspot) //if I don't do this, it deletes the player too
+		//Never skip the move on a nullspaced structure: the occupant is a player, and leaving them
+		//inside a datum being destroyed strands them with no loc. Fall back before giving up.
+		var/turf/eject_to = get_turf(src) || get_turf(loc)
 		for(var/mob/living/M in src)
-			M.forceMove(get_turf(src))
+			var/turf/destination = eject_to || M.drop_location()
+			if(destination)
+				M.forceMove(destination)
 	if(isturf(loc))
 		for(var/mob/living/user in loc)
 			if(climb_offset)
@@ -238,8 +243,10 @@
 		if(occupied)
 			var/mob/living/M = locate() in src
 			if(M)
-				M.forceMove(get_turf(src))
-				occupied = FALSE
+				var/turf/destination = get_turf(src) || M.drop_location()
+				if(destination)
+					M.forceMove(destination)
+			occupied = FALSE //clear the flag either way, or the structure stays occupied forever
 
 	if(!(resistance_flags & INDESTRUCTIBLE))
 		if(obj_broken)

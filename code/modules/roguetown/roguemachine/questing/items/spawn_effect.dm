@@ -42,17 +42,28 @@
 
 /// Materializes the contained mob onto our turf with the warning flash + sound.
 /obj/effect/quest_spawn/proc/reveal_contained()
-	if(!contained_atom)
+	if(QDELETED(contained_atom))
+		contained_atom = null
+		qdel(src)
 		return
 
-	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = get_turf(src), icon_state = "mobwarning", layer = 18)
+	// The caller clears its spawner list unconditionally, so a pod that declines to pop is
+	// forgotten forever and its objective becomes unreachable. Always end up deleted: our
+	// Destroy() disposes of the occupant, which fails the quest loudly instead of stranding it.
+	var/turf/destination = get_turf(src) || get_turf(contained_atom)
+	if(!destination)
+		stack_trace("quest_spawn had no turf to reveal [contained_atom] onto")
+		qdel(src)
+		return
+
+	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = destination, icon_state = "mobwarning", layer = 18)
 	I.layer = 18
 	I.plane = 18
 	I.alpha = 125
 	I.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	flick_overlay_view(I, 5 SECONDS)
 
-	contained_atom.forceMove(get_turf(src))
+	contained_atom.forceMove(destination)
 	contained_atom = null
 
 	playsound(loc, "plantcross", 100, FALSE, 3)
