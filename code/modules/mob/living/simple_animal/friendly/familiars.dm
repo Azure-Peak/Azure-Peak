@@ -418,20 +418,23 @@
 	return ret
 
 /mob/living/simple_animal/pet/familiar/fae/attackby(obj/item/I, mob/user, params)
+	to_chat(world, span_warning("getting here"))
 	if(istype(I, /obj/item/reagent_containers) && tier >= 2)
+		to_chat(world, span_warning("getting here 2"))
 		var/datum/reagents/container_reagents=I.reagents
 		if(istype(container_reagents) && user.used_intent.type == INTENT_POUR && container_reagents.total_volume>0 && !reagents.holder_full())
+			to_chat(world, span_warning("getting here 3 [container_reagents] [user.used_intent.type]"))
 			user.visible_message(
-				span_notice("I begin feeding [src] from [I]..."),
-				span_notice("[user] begins feeding [src] from [I]...")
+				span_notice("[user] begins feeding [src] from [I]..."),
+				span_notice("I begin feeding [src] from [I]...")
 			)
 			while(!reagents.holder_full() && do_mob(user, src, 1 SECONDS) && container_reagents.trans_to(src,5,transfered_by=user))
 				user.visible_message(
-					span_notice("I feed [src] from [I]..."),
-					span_notice("[user] feeds [src] from [I]...")
+					span_notice("[user] feeds [src] from [I]..."),
+					span_notice("I feed [src] from [I]...")
 				)
 		else if(istype(container_reagents) && user.used_intent.type == /datum/intent/fill)
-			src.visible_message(,
+			src.visible_message(
 				span_notice("I begin filling [user]'s [I.name]..."),
 				span_notice("[src] begins filling [user]'s [I.name]...")
 			)
