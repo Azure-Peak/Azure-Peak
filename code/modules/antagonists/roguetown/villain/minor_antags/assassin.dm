@@ -103,9 +103,16 @@
 		if(L == assassin || istype(L, /mob/living/carbon/human/dummy))
 			continue
 		var/is_hunted = L.has_flaw(/datum/charflaw/targeted)
-		var/is_valid_prey = is_hunted
+		var/is_trapped = HAS_TRAIT(L, TRAIT_CLAIMED_BY_DARKSTAR)
+		var/is_valid_prey = is_hunted && !is_trapped
+
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
+			var/target_job = L.get_role_title()
+			if(target_job)
+				entry_name += " - [target_job]"
+			else
+				entry_name += " - Unknown"
 			possible_targets[entry_name] = L
 
 	if(!length(possible_targets))
@@ -131,10 +138,38 @@
 	var/turf/user_turf = get_turf(user)
 	var/turf/target_turf = get_turf(tracked_target)
 
+// TODO: override all logic if get_turf returns a turf in an area that is unreachable by normal means such as vampire lord manor
+// add separate logic for handlign (wretch camp?)
+
+
 	if(!user_turf)
 		return span_warning("Something is wrong. Where am I...?")
 	if(!target_turf)
 		return span_warning("Something is wrong. My target seems to have disappeared...")
+
+	// this specifically checks for if the TARGET is in one of these places because i do not think it is realistic that an assassin
+	// would be in any of them minus the bandit camp, maybe. if they cast it & bugs out wtv i dont think the rare chance is worth
+	// making this proc any more expensive
+	var/area/target_area = get_area(target)
+
+	if(istype(target_area, /area/rogue/indoors/deathsedge))
+		return "I hear veiled whispers. My target is within Necra's Domain. Their exact location is hidden..."
+	if(istype(target_area, /area/rogue/indoors/banditcamp))
+		return "Jingling coin. Merriment and ale. I can smell the Free-God's domain. I will not be able to find their exact location."
+	if(istype(target_area, /area/rogue/indoors/vampire_manor))
+		return "I see a vision of a manor, bats, and a glowing red eye. My target's exact location is protected."
+	if(istype(target_area, /area/rogue/indoors/ravoxarena))
+		return "Clamorous battle-- my head hurts... my target has been transported into Ravox's domain!"
+	if(istype(target_area, /area/rogue/indoors/lich_start))
+		return "A chill creeps up my spine. It reminds me of the Zizoid Cults of old. Perhaps my target is near a liche...?"
+	if(istype(target_area, /area/rogue/indoors/eventarea))
+		return "My HEART POUNDS. My target is hidden somewhere special. How are they hiding from me...?"
+	if(istype(target_area, /area/rogue/underworld))
+		return "Something is deeply, deeply wrong. My senses tell me my target is already dead... or elsewhere in the Underworld."
+
+
+
+
 	// hacked quest code. they get a proper homing beacon cus this only goes off 1/ a min.
 
 	var/z_level_hint = ""
