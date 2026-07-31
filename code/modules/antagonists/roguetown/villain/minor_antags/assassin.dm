@@ -138,37 +138,19 @@
 	var/turf/user_turf = get_turf(user)
 	var/turf/target_turf = get_turf(tracked_target)
 
-// TODO: override all logic if get_turf returns a turf in an area that is unreachable by normal means such as vampire lord manor
-// add separate logic for handlign (wretch camp?)
-
-
 	if(!user_turf)
 		return span_warning("Something is wrong. Where am I...?")
 	if(!target_turf)
 		return span_warning("Something is wrong. My target seems to have disappeared...")
 
-	// this specifically checks for if the TARGET is in one of these places because i do not think it is realistic that an assassin
-	// would be in any of them minus the bandit camp, maybe. if they cast it & bugs out wtv i dont think the rare chance is worth
-	// making this proc any more expensive
-	var/area/target_area = get_area(target)
-
-	if(istype(target_area, /area/rogue/indoors/deathsedge))
-		return "I hear veiled whispers. My target is within Necra's Domain. Their exact location is hidden..."
-	if(istype(target_area, /area/rogue/indoors/banditcamp))
-		return "Jingling coin. Merriment and ale. I can smell the Free-God's domain. I will not be able to find their exact location."
-	if(istype(target_area, /area/rogue/indoors/vampire_manor))
-		return "I see a vision of a manor, bats, and a glowing red eye. My target's exact location is protected."
-	if(istype(target_area, /area/rogue/indoors/ravoxarena))
-		return "Clamorous battle-- my head hurts... my target has been transported into Ravox's domain!"
-	if(istype(target_area, /area/rogue/indoors/lich_start))
-		return "A chill creeps up my spine. It reminds me of the Zizoid Cults of old. Perhaps my target is near a liche...?"
-	if(istype(target_area, /area/rogue/indoors/eventarea))
-		return "My HEART POUNDS. My target is hidden somewhere special. How are they hiding from me...?"
-	if(istype(target_area, /area/rogue/underworld))
-		return "Something is deeply, deeply wrong. My senses tell me my target is already dead... or elsewhere in the Underworld."
-
-
-
+	// we are in a forbidden realm, stop the proc.
+	if(are_you_ready_to_enter_my_dark_realm(get_area(user)))
+		return span_warning("The location I am in bears some sort of protective workings. I will not be able to search for a target within this domain.")
+	// if the target is in a forbidden realm, give some info then stop the proc.
+	var/dark_realm_target_text = are_you_ready_to_enter_my_dark_realm(get_area(tracked_target))
+	if(dark_realm_target_text)
+		to_chat(user, span_cult("...something is wrong. I feel a tingle, a vision."))
+		return span_warning(dark_realm_target_text)
 
 	// hacked quest code. they get a proper homing beacon cus this only goes off 1/ a min.
 
@@ -202,6 +184,42 @@
 			distance_text = "far away"
 
 	return "[tracked_target.real_name] is [distance_text], [distance] paces to the [direction_text] [z_level_hint]."
+
+/// Pass an area to this proc and it will return a string if the area is equal to any given "off-level" map. It returns FALSE, otherwise.
+/datum/action/cooldown/spell/assassin/proc/are_you_ready_to_enter_my_dark_realm(area/target_area)
+	// LIST OF ALL AREAS THAT ARE USED IN PLACES W/O BEING ON LIKE-- THE SAME Z LEVEL. TO PREVENT WEIRD Z-LEVEL SHIT W/ THE TRACKING. WE JUST
+	// RETURN A STRING = SOMETHING AKIN TO DEATH WHISPERS. THIS KINDA SUCKS ASS BUT UNLESS WE GOT A DEFINE FOR THE Z LEVELS USED ONLY IN A READIBLE
+	// ACCESSIBLE MANNER IDK HOW ELSE TO CHECK IT.
+	var/static/list/forbidden_realms = list(
+	// WRETCH
+	/area/rogue/under/cave/inhumen = "I recognize this place. My target is somewhere beneath the abode for Wretches and Scumbags... likely within the defiled chapel.",
+	/area/rogue/outdoors/woods/wretch_lair = "I recognize this place. My target is somewhere beneath the abode for Wretches and Scumbags.",
+	// BANDITS
+	/area/rogue/indoors/banditcamp = "Jingling coin. Merriment and ale. I can smell the Free-God's domain. He steals away my ability to see clearly.",
+	// VAMPIRE
+	/area/rogue/indoors/vampire_manor = "I see a vision of a manor, bats, and a glowing red eye. My target's exact location is protected.",
+	/area/rogue/outdoors/woods/vampire_lair = "I see a vision of a manor, bats, and a glowing red eye. My target's exact location is protected.",
+	// LICH-BASED STUFF
+	/area/rogue/indoors/lich_start = "A chill creeps up my spine. It reminds me of the Zizoid Cults of old. Perhaps my target is near a liche...?",
+	/area/rogue/under/cave/licharena = "A chill creeps up my spine. It reminds me of the Zizoid Cults of old. Perhaps my target is near a liche...?",
+	// UNDERWORLD
+	/area/rogue/indoors/deathsedge = "I hear veiled whispers. My target is within Necra's Domain.",
+	/area/rogue/underworld = "Something is deeply, deeply wrong. My senses tell me my target is somewhere in the Underworld.",
+	// SPECIAL
+	/area/rogue/indoors/eventarea = "My HEART POUNDS. My target is hidden somewhere special.",
+	/area/rogue/indoors/ravoxarena = "Clamorous battle! My head hurts... my target has been transported into Ravox's domain!",
+	// HAG
+	/area/rogue/indoors/shelter/bog_hag = "The foul magicks of faerie-creachers surrounds my target. A hag has taken what I desire."
+	)
+	if(!target_area)
+		return FALSE
+	for(var/path in forbidden_realms)
+		if(istype(target_area, path))
+			return forbidden_realms[path]
+	return FALSE
+	// in the long term it is (probably) for the best if assassins get a spot on the wretch-map w/ some sort of idol where they can recall
+	// their dagger if it's in any of these areas.
+
 
 /datum/action/cooldown/spell/assassin/get_dagger
 	name = "Summon Dagger"
@@ -313,6 +331,15 @@
 	if(!target_turf)
 		return span_warning("My dagger is unbound, missing, or destroyed!")
 	// hacked quest code. they get a proper homing beacon cus this only goes off 1/ a min.
+
+	if(are_you_ready_to_enter_my_dark_realm(get_area(user)))
+		return span_warning("The location I am in bears some sort of protective workings. I will not be able to search for my knife within this domain.")
+	// if the knife is in a forbidden realm, give some info then stop the proc.
+	var/dark_realm_target_text = are_you_ready_to_enter_my_dark_realm(get_area(evil_dagger))
+	if(dark_realm_target_text)
+		to_chat(span_cult("...something is wrong. I feel a tingle, a vision."))
+		return span_warning(dark_realm_target_text)
+
 
 	var/z_level_hint = ""
 	if(target_turf.z != user_turf.z)
