@@ -42,8 +42,8 @@
 #define LOOT_BUDGET_ARAIGNEE 		    300
 #define LOOT_BUDGET_BOGMANFORT          1200
 #define LOOT_BUDGET_SKELETONFORT        800
-#define LOOT_BUDGET_GREEDUNGEONTOP      1500
-#define LOOT_BUDGET_GREEDUNGEONDEEP     4000
+#define LOOT_BUDGET_MENAGERIE           2000
+#define LOOT_BUDGET_DRONINGDEEP         4000
 
 // ---- Spawner Loot Values (mammons) ----
 // Expected mammon value of what each spawner category rolls.

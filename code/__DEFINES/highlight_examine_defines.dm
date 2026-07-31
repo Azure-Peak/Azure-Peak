@@ -46,7 +46,7 @@
 #define HERESYDESC_VAMPIRE_SWORD "An unnatural sword of some unknown alloy that crackles with strange energies"
 
 // Vheslyn Cult Remnants - Comprehending this hurts, and reminds you of things that you should not know
-#define HERESYDESC_VHES_SWORD "The implications make your head spin. There is an uncomfortable truth that you cannot grasp, yet it's proof is plainly visible."
+#define HERESYDESC_VHESLYN "The implications make your head spin. There is an uncomfortable truth that you cannot grasp, yet it's proof is plainly visible."
 
 // Inquisitional gear
 #define HERESYDESC_INQUIS_WHISPERER "A blatently unusual design of ring...? that seems to whisper" //Only shows while not equipped on ring slot

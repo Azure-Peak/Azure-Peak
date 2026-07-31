@@ -15,7 +15,7 @@
 	name = "Lyfesaver"
 	desc = "A well-worn, two-pronged fishing spear. It reeks of fish and is crusted with rust, brine, and the stubborn residue of countless catches. By all rights, it should have fallen apart years ago, yet it endures through diligent maintenance and sheer luck alone. A true Lyfesaver."
 	fishingMods = list(
-		"commonFishingMod" = 1.2,
+		"commonFishingMod" = 1,
 		"rareFishingMod" = 1.6,
 		"treasureFishingMod" = 0.2,
 		"trashFishingMod" = 0,
@@ -69,10 +69,30 @@
 	name = "Mchanga"
 	desc = "Mchanga is fashioned from a massive sea shell, polished smooth by patient hands and countless tides. With every swing, it emits a low, haunting call, somewhere between a whistle and the cry of a distant seabird. The sound carries farther than one would expect, announcing each strike before it lands. Whether this was an intentional feature or a quirk of the shell's construction is unknown."
 	max_integrity = 200
+	swingsound = list('sound/combat/wooshes/blunt/shovel_swing.ogg','sound/combat/wooshes/blunt/shovel_swing2.ogg')
+	drop_sound = 'sound/foley/dropsound/shovel_drop.ogg'
 
 /obj/item/fishingrod/blacksteel/uniqueDeepdredger
 	name = "Deepdredger"
 	desc = "Women fear me, fish fear me, men turn their eyes away from me as I walk. No beast dare makes a sound in my presence, I am alone on this barren land."
+	var/active_item = FALSE
+
+/obj/item/fishingrod/blacksteel/uniqueDeepdredger/equipped(mob/living/user)
+	. = ..()
+	if(active_item)
+		return
+	active_item = TRUE
+	user.change_stat(STATKEY_LCK, 3)
+	to_chat(user, span_suppradio("You feel lucky."))
+
+/obj/item/fishingrod/blacksteel/uniqueDeepdredger/dropped(mob/living/user)
+	. = ..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	user.change_stat(STATKEY_LCK, -3)
+	to_chat(user, span_suicide("The luck fades."))
+
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bronze/uniqueFortress
 	name = "Fortress"
@@ -103,6 +123,40 @@
 	name = "Gluttonous Bite"
 	desc = "There is nothing magical about the cleaver, yet holding it makes you crave pork. Long, sinewy pork."
 	max_blade_int = 250
+	var/active_item = FALSE
+	var/legendcooking = FALSE
+
+/obj/item/rogueweapon/huntingknife/cleaver/uniqueGluttonousBite/equipped(mob/living/user)
+	. = ..()
+	if(active_item)
+		return
+	var/current_cooking = user.get_skill_level(/datum/skill/craft/cooking)
+	if(current_cooking)
+		if(current_cooking < 6)
+			active_item = TRUE
+			legendcooking = FALSE
+			user.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+			ADD_TRAIT(user, TRAIT_ORGAN_EATER, TRAIT_GENERIC)
+			to_chat(user, span_notice("Culinary secrets open up to you. Not all of them pleasant."))
+		else
+			active_item = TRUE
+			legendcooking = TRUE
+			to_chat(user, span_warning("A faint glimmer of knowledge itches at your mind, but you are set in your ways."))
+	else
+		to_chat(user, span_warning("The cleaver feels unremarkable in your hands."))
+
+/obj/item/rogueweapon/huntingknife/cleaver/uniqueGluttonousBite/dropped(mob/living/user)
+	. = ..()
+	if(active_item)
+		if(user.get_skill_level(/datum/skill/craft/cooking))
+			var/mob/living/carbon/human/H = user
+			if(!legendcooking)
+				H.adjust_skillrank(/datum/skill/craft/cooking, -1, TRUE)
+				REMOVE_TRAIT(user, TRAIT_ORGAN_EATER, TRAIT_GENERIC)
+			to_chat(H, span_notice("Culinary secrets fade."))
+			active_item = FALSE
+		else
+			return
 
 /obj/item/rogueweapon/mace/warhammer/bronze/decorated/uniqueDaShinyWhacker
 	name = "Da Shiny Whacker"
@@ -124,6 +178,23 @@
 /obj/item/clothing/ring/aalloy/uniqueTarnishedKeepsake
 	name = "tarnished keepsake"
 	desc = "A frayed coil of bronze, worn smooth by years of handling. It must have meant something to someone once. An empty gem setting rests at its center, and a faint melancholy clings to the otherwise mundane trinket."
+	var/active_item = FALSE
+
+/obj/item/clothing/ring/aalloy/uniqueTarnishedKeepsake/equipped(mob/living/user)
+	. = ..()
+	if(active_item)
+		return
+	active_item = TRUE
+	user.change_stat(STATKEY_LCK, 1)
+	to_chat(user, span_suppradio("You a sliver of luck."))
+
+/obj/item/clothing/ring/aalloy/uniqueTarnishedKeepsake/dropped(mob/living/user)
+	. = ..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	user.change_stat(STATKEY_LCK, -1)
+	to_chat(user, span_suicide("The luck fades."))
 
 /obj/item/rogueweapon/halberd/bone/uniqueGnawedHalberd
 	name = "gnawed halberd"
@@ -476,7 +547,7 @@
 	max_integrity = 250
 
 /obj/item/rogueweapon/sword/silver/decorated/uniqueVhes/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VHES_SWORD)
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VHESLYN)
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish/uniqueProgress
 	name = "Progress"
@@ -537,6 +608,50 @@
 /obj/item/clothing/head/roguetown/helmet/headcage/uniquePrisonOfTheMind
 	name = "prison of the mind"
 	desc = "The screams of its previous owner were silenced when their tongue was severed. Their treachery was blinded when their eyes were taken. Deafened by age and robbed of every means to perceive the world, they were left trapped within themselves. A fate worse than death."
+	var/active_item = FALSE
+	var/legendaryarcane = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/headcage/uniquePrisonOfTheMind/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item || slot != SLOT_HEAD)
+		return
+	var/current_arcane = user.get_skill_level(/datum/skill/magic/arcane)
+	if(current_arcane)
+		if(current_arcane < 6)
+			active_item = TRUE
+			legendaryarcane = FALSE
+			user.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
+			user.change_stat(STATKEY_INT, 2)
+			user.change_stat(STATKEY_PER, 1)
+			ADD_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+			to_chat(user, span_notice("Your mind expands, but something horrible lingers at the edge of your vision."))
+		else
+			active_item = TRUE
+			legendaryarcane = TRUE
+			user.change_stat(STATKEY_INT, 2)
+			user.change_stat(STATKEY_PER, 1)
+			ADD_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+			to_chat(user, span_warning("Your mind expands slightly, but something horrible lingers at the edge of your vision."))
+	else
+		to_chat(user, span_warning("This helmet feels uncomfortable."))
+
+/obj/item/clothing/head/roguetown/helmet/headcage/uniquePrisonOfTheMind/dropped(mob/living/user)
+	. = ..()
+	if(active_item)
+		if(user.get_skill_level(/datum/skill/magic/arcane))
+			var/mob/living/carbon/human/H = user
+			if(!legendaryarcane)
+				H.adjust_skillrank(/datum/skill/magic/arcane, -1, TRUE)
+			user.change_stat(STATKEY_INT, -2)
+			user.change_stat(STATKEY_PER, -1)
+			REMOVE_TRAIT(user, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+			to_chat(H, span_notice("You breathe a sigh of relief. The torment has faded."))
+			active_item = FALSE
+		else
+			return
+
+/obj/item/clothing/head/roguetown/helmet/headcage/uniquePrisonOfTheMind/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VHESLYN)
 
 /obj/item/rogueweapon/spear/lance/blacksteel/uniqueResplendence
 	name = "Resplendence"

@@ -57,26 +57,26 @@
 	deathsight_message = "a dark cave where Abyssor's dream echoes"
 	detail_text = DETAIL_TEXT_ORC_RUIN
 
-/area/rogue/under/cave/greeddungeon
-	name = "The Hospitable Tomb"
-	loot_budget = LOOT_BUDGET_GREEDUNGEONTOP
+/area/rogue/under/cave/menagerie
+	name = "The Menagerie"
+	loot_budget = LOOT_BUDGET_MENAGERIE
 	icon_state = "under"
-	first_time_text = "THE HOSPITABLE TOMB"
+	first_time_text = "THE MENAGERIE"
 	droning_sound = 'sound/music/area/dungeon.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	ceiling_protected = TRUE
-	deathsight_message = "a tomb for all the greedy."
-	detail_text = DETAIL_TEXT_GREEDDUNGEONTOP
+	deathsight_message = "a dark cave where Abyssor's dream echoes"
+	detail_text = DETAIL_TEXT_MENAGERIE
 
-/area/rogue/under/cave/greeddungeondeep
+/area/rogue/under/cave/droningdeep
 	name = "The Droning Depths"
-	loot_budget = LOOT_BUDGET_GREEDUNGEONDEEP
+	loot_budget = LOOT_BUDGET_DRONINGDEEP
 	icon_state = "under"
 	first_time_text = "THE DRONING DEPTHS"
 	droning_sound = 'sound/music/area/dungeon.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	ceiling_protected = TRUE
-	deathsight_message = "a tomb for all the greedy."
-	detail_text = DETAIL_TEXT_GREEDDUNGEONDEEP
+	deathsight_message = "a dark cave where Abyssor's dream echoes"
+	detail_text = DETAIL_TEXT_DRONINGDEEP
