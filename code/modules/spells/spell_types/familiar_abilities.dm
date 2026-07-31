@@ -191,7 +191,7 @@
 
 /datum/action/cooldown/spell/fae_brew
 	name = "Alchemical Stomach"
-	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill."
+	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill. Click yourself (or have someone else click you) with reagents to add them, or empty hand to remove them."
 	button_icon_state = "create_campfire"
 
 	click_to_activate = FALSE
@@ -218,7 +218,7 @@
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite
 	name = "Alchemical Bite" // placeholder
-	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach."
+	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach. Cast on a reagent container to transfer its contents into your stomach, or fill it if it's empty. You can also drink from containers directly to similar effect."
 	range = 1
 	recharge_time = 10 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
@@ -226,7 +226,7 @@
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/fae/user)
 	. = ..()
-	if(!user) // literally how
+	if(!user || !user.reagents) // literally how
 		revert_cast()
 		return FALSE
 	var/atom/target = targets.len?targets[1]:null
@@ -234,26 +234,41 @@
 		to_chat(user, span_notice("I need to select a valid target to bite!"))
 		revert_cast()
 		return FALSE
-	if(!user.reagents || user.reagents.total_volume == 0)
-		to_chat(user, span_notice("I need to have a potion in my stomach to inject!"))
-		revert_cast()
-		return FALSE
-	if(!isliving(targets[1]))
-		user.visible_message(
-			span_notice("[user.name] gently bites the top of [targets[1]], filling it with an alchemical cocktail..."),
-			span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
-		)
-		// we're not biting a mob, so we can loop for convenience
-		while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+	if(!isliving(target))
+		if(user.reagents.total_volume && (!target.reagents.holder_full()))
 			user.visible_message(
-				span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
-				span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
+				span_notice("[user.name] gently bites the top of [targets[1]], filling it with an alchemical cocktail..."),
+				span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
 			)
-		user.visible_message(
-			span_notice("[user.name] lets go of [targets[1]]."),
-			span_notice("You let go of [targets[1]].")
-		)
-		return TRUE
+			// we're not biting a mob, so we can loop for convenience
+			while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+				user.visible_message(
+					span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
+					span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
+				)
+			user.visible_message(
+				span_notice("[user.name] lets go of [targets[1]]."),
+				span_notice("You let go of [targets[1]].")
+			)
+			return TRUE
+		else if(target.reagents.total_volume && (!user.reagents.holder_full())) // suckle it up!
+			user.visible_message(
+				span_notice("[user.name] latches onto [targets[1]], beginning to drink..."),
+				span_notice("You latch onto [targets[1]], and begin to drink...")
+			)
+			// we're not biting a mob, so we can loop for convenience
+			while(do_after(user, 1 SECONDS, FALSE, target) && target.reagents.trans_to(user, 5, transfered_by = user))
+				user.visible_message(
+					span_notice("[user.name] drinks from [targets[1]]..."),
+					span_notice("You drink from [targets[1]]...")
+				)
+			user.visible_message(
+				span_notice("[user.name] lets go of [targets[1]]."),
+				span_notice("You let go of [targets[1]].")
+			)
+			return TRUE
+		return FALSE
+
 	var/mob/living/living_target = targets[1]
 	user.visible_message(
 		span_notice("[user.name] attempts to bite [living_target.name]!"),
