@@ -17,7 +17,9 @@ GLOBAL_LIST_INIT(familiar_types, list(
 				"Whisper Stoat" = /mob/living/simple_animal/pet/familiar/fae/whisper_stoat,
 				"Thornback Turtle" = /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle,
 				"Brass Thrum" = /mob/living/simple_animal/pet/familiar/elemental/brass_thrum,
-				"Gemspire Beetle" = /mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle
+				"Gemspire Beetle" = /mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle,
+				"Infernal Armour" = /mob/living/simple_animal/pet/familiar/infernal/armour,
+				"Infernal Blade" = /mob/living/simple_animal/pet/familiar/infernal/sword,
 ))
 
 GLOBAL_LIST_INIT(familiar_display_names, list(
@@ -39,7 +41,9 @@ GLOBAL_LIST_INIT(familiar_display_names, list(
 				/mob/living/simple_animal/pet/familiar/fae/whisper_stoat = "Whisper Stoat",
 				/mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtle",
     			/mob/living/simple_animal/pet/familiar/elemental/brass_thrum = "Brass Thrum",
-    			/mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle = "Gemspire Beetle"
+    			/mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle = "Gemspire Beetle",
+				/mob/living/simple_animal/pet/familiar/infernal/armour	= "Infernal Armour",
+				/mob/living/simple_animal/pet/familiar/infernal/sword	= "Infernal Blade"
 ))
 
 GLOBAL_LIST_INIT(familiar_lore_blurbs, list(
@@ -61,7 +65,9 @@ GLOBAL_LIST_INIT(familiar_lore_blurbs, list(
     /mob/living/simple_animal/pet/familiar/fae/whisper_stoat = "Whisper Stoats are subtle and insightful, listening to thoughts and secrets. They are trusted confidants and clever companions.",
     /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtles are sturdy guardians, embodying endurance and protection. They are slow to anger but steadfast in defense of their friends.",
     /mob/living/simple_animal/pet/familiar/elemental/brass_thrum = "A elemental spider-like creature of brass and whirring gears, its movements precise and accompanied by a faint, rhythmic hum.",
-    /mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle = "A four-legged, spider-like automaton adorned with crystalline spires, blending arcane energy with intricate clockwork."
+    /mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle = "A four-legged, spider-like automaton adorned with crystalline spires, blending arcane energy with intricate clockwork.",
+	/mob/living/simple_animal/pet/familiar/infernal/armour = "A suit of armour held together by infernal energies, serving those who are brave enough to tame it.",
+	/mob/living/simple_animal/pet/familiar/infernal/sword = "A cursed sword from deepest pits of underworld, its loyalty is as fickle as lifespan of its masters.",
 	))
 
 GLOBAL_LIST_INIT(fae_familiars, list(
@@ -79,7 +85,9 @@ GLOBAL_LIST_INIT(fae_familiars, list(
 GLOBAL_LIST_INIT(infernal_familiars, list(
 	"Hellhound" = /mob/living/simple_animal/pet/familiar/infernal,
 	"Ashcoiler" = /mob/living/simple_animal/pet/familiar/infernal/ashcoiler,
-	"Emberdrake" = /mob/living/simple_animal/pet/familiar/infernal/emberdrake
+	"Emberdrake" = /mob/living/simple_animal/pet/familiar/infernal/emberdrake,
+	"Infernal Armour" = /mob/living/simple_animal/pet/familiar/infernal/armour,
+	"Infernal Blade" = /mob/living/simple_animal/pet/familiar/infernal/sword,
 ))
 
 GLOBAL_LIST_INIT(elemental_familiars, list(

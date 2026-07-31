@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Fae familiar abilities have been reshuffled, both potion abilities are now at tier 2. In tier 1 they now get rootcheck (bootcheck but plants) and invis. Elemental gets aetherknife at base tier."
+  - bugfix: "The message displayed when a familiar seeks to be summoned now actually tells you how to do so."

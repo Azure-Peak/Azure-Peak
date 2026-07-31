@@ -98,6 +98,19 @@
 	// Create the new form
 	var/mob/living/shape = new shapeshift_type(get_turf(caster))
 
+	// simples use gender directly instead of pronouns; copied from familiar-binding which had the exact same issue
+	switch(caster.pronouns ? caster.pronouns : THEY_THEM)
+		if(SHE_HER)
+			shape.gender=FEMALE
+		if(HE_HIM)
+			shape.gender=MALE
+		if(THEY_THEM)
+			shape.gender=PLURAL
+		if(IT_ITS)
+			shape.gender=NEUTER
+		else
+			shape.gender=NEUTER
+
 	// Create holder INSIDE the new form, passing shape explicitly
 	H = new /obj/shapeshift_holder(shape, src, caster, shape)
 
