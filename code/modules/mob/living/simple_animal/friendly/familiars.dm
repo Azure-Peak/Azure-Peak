@@ -272,10 +272,10 @@
 	movement_type = FLYING
 	t1_spell = list(/datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae)
 	t2_spell = list(/datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
-	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance, and force hidden crops to bloom at your command.")
+	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance.")
 	tierup_messages = list(
-		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite."),
-		span_info("You now act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
+		span_info("You may now blend into your surroundings at will, and force hidden crops to bloom at your command."),
+		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite. You may also act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
 	)
 	valid_healing_items = list(/obj/item/magic/fae)
 	planar_origin = "fae"
