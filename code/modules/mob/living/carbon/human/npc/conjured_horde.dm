@@ -1,5 +1,6 @@
 /mob/living/carbon/human/species/goblin/npc/conjured
 	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/conjured
+	cmode = 1 // See conjured_attacker.dm - humans default cmode to 0 and checkdefense() bails on it.
 	var/datum/weakref/summoner_ref
 	var/arcane_scale = 3
 	var/gear_tier = 1

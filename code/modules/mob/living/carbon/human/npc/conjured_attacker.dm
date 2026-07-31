@@ -4,6 +4,10 @@
 	faction = list(FACTION_NEUTRAL)
 	ambushable = FALSE
 	dodgetime = 20
+	// checkdefense() bails on !cmode, and unlike simple animals humans default it to 0. The aggro
+	// system only raises it once a target is acquired, so a summon could not defend itself before
+	// its first aggro scan, or any time it lost its target.
+	cmode = 1
 	var/loadout = "sabre"
 	var/arcane_scale = 3
 	var/gear_tier = 1

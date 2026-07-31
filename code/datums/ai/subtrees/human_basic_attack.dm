@@ -74,11 +74,20 @@
 		if(isweapon(offhand) && !istype(offhand, /obj/item/rogueweapon/shield))
 			pawn.swap_hand()
 	else if(!isweapon(held_item))
-		pawn.swap_hand()
-		if(pawn.belt)
-			for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
-				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
-					break
+		// An empty active hand also fails isweapon(), so this used to swap on every setup() - once
+		// per 0.2s - whether or not swapping achieved anything, and then handed a null item to
+		// equip_to_slot_if_possible(). That is the hand ping-ponging seen on single-weapon NPCs.
+		if(!held_item)
+			// Nothing in hand: only worth swapping if the off hand is actually holding a weapon.
+			if(isweapon(pawn.get_inactive_held_item()))
+				pawn.swap_hand()
+		else
+			// Junk in the weapon hand: move it aside and stow it if there's belt room.
+			pawn.swap_hand()
+			if(pawn.belt)
+				for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
+					if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
+						break
 
 	var/list/possible_intents = list()
 	for(var/datum/intent/intent as anything in pawn.possible_a_intents)

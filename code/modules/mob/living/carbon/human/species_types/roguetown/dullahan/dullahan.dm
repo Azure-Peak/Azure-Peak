@@ -22,6 +22,7 @@
 		/obj/item/bodypart/taur/goat,
 	)
 	base_name = "Godtouched"
+	sub_name = "Revenant"
 	is_subrace = TRUE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 	default_features = MANDATORY_FEATURE_LIST
@@ -375,6 +376,44 @@
 
 	return success_flags
 */
+
+/// Returns a dullahan's head when it is detached AND within the user's reach - same turf, or held.
+/// A detached head is still part of its owner, so for ERP reach checks it stands in for a body that
+/// is somewhere else entirely. Returns null for anyone who isn't a dullahan with a loose head nearby.
+///
+/// The commented-out on_erp_location_accessible() above is the signal-based version of this idea,
+/// from the older sexcon. It can't be revived as-is: every ERP_* / SKIP_* define it relies on is
+/// absent from this codebase. This proc is the same behaviour without the hook.
+/proc/reachable_detached_dullahan_head(mob/living/carbon/human/target, mob/living/user)
+	if(!user || !istype(target) || !isdullahan(target))
+		return null
+	// A head is only a partner while someone is home. Corpses and mindless heads are just meat.
+	if(target.stat == DEAD || !target.mind || !target.client)
+		return null
+	var/datum/species/dullahan/dullahan = target.dna?.species
+	if(!istype(dullahan))
+		return null
+	var/obj/item/bodypart/head/dullahan/head = dullahan.my_head
+	// owner is set while the head is attached; a detached head has none.
+	if(!head || head.owner)
+		return null
+	if(user.is_holding(head))
+		return head
+	if(user.Adjacent(head))	//same turf, or next to it (including on an adjacent table)
+		return head
+	return null
+
+///A dullahan's detached head, wherever it happens to be. Reach checks are the caller's business.
+/proc/get_detached_dullahan_head(mob/living/carbon/human/dullahan_mob)
+	if(!istype(dullahan_mob) || !isdullahan(dullahan_mob))
+		return null
+	var/datum/species/dullahan/species = dullahan_mob.dna?.species
+	if(!istype(species))
+		return null
+	var/obj/item/bodypart/head/dullahan/head = species.my_head
+	if(!head || head.owner)
+		return null
+	return head
 
 /datum/species/dullahan/proc/get_nodrop_head()
 	var/obj/item/bodypart/head/dullahan/head = my_head

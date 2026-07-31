@@ -14,6 +14,9 @@
 	var/datum/sex_action/current_action = null
 	/// Enum of desired speed
 	var/speed = SEX_SPEED_MID
+	/// TRUE when this session was opened by dropping onto a detached dullahan head - the menu
+	/// then only offers head-appropriate (mouth) actions, not the target's whole body.
+	var/head_focus = FALSE
 	/// Enum of desired force
 	var/force = SEX_FORCE_MID
 	/// Makes genital arousal automatic by default
@@ -165,7 +168,12 @@
 			break
 
 		var/do_time = action.do_time / get_speed_multiplier()
-		if(!do_after(user, do_time, target = target))
+		// When the severed head is the working part (mouth-gives), the progress dots belong
+		// over it, not the distant body. Throat and other body-gives stay on the person.
+		var/atom/progress_anchor
+		if(action.works_via_own_detached_head)
+			progress_anchor = get_detached_dullahan_head(user)
+		if(!do_after(user, do_time, target = target, progress_anchor = progress_anchor))
 			break
 
 		if(current_action == null || performed_action_type != current_action)
@@ -218,16 +226,31 @@
 		return FALSE
 	if(user.stat != CONSCIOUS)
 		return FALSE
-	if(!user.Adjacent(target) && !action.ranged_action)
+	// A dullahan whose head is in your hands is reachable even though their body isn't. The head
+	// then stands in for the body's position, so the proximity and grab gates below are measured
+	// against the head instead - the body could be a floor away and it wouldn't matter.
+	// Only relevant when the body itself is out of reach - if you can touch them normally, nothing
+	// here applies and the head is just a head.
+	var/obj/item/bodypart/head/detached_head = user.Adjacent(target) ? null : reachable_detached_dullahan_head(target, user)
+	if(detached_head && !action.works_on_detached_head)
+		return FALSE // Everything but their mouth is somewhere else.
+	// Mirror case: the user is a headless dullahan whose own head sits beside (or in the hands
+	// of) the target - their mouth can give from there even though their body is far away.
+	var/obj/item/bodypart/head/working_head
+	if(!user.Adjacent(target) && !detached_head && user != target)
+		working_head = reachable_detached_dullahan_head(user, target)
+	if(working_head && !action.works_via_own_detached_head)
+		return FALSE // Only their mouth made the trip.
+	if(!user.Adjacent(target) && !action.ranged_action && !detached_head && !working_head)
 		return FALSE
 	if(action.check_incapacitated && user.incapacitated())
 		return FALSE
-	if(action.check_same_tile)
+	if(action.check_same_tile && !detached_head && !working_head)
 		var/same_tile = (get_turf(user) == get_turf(target))
 		var/grab_bypass = (action.aggro_grab_instead_same_tile && user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
 		if(!same_tile && !grab_bypass)
 			return FALSE
-	if(action.require_grab)
+	if(action.require_grab && !detached_head && !working_head)
 		var/grabstate = user.get_highest_grab_state_on(target)
 		if(grabstate == null || grabstate < action.required_grab_state)
 			return FALSE
@@ -380,6 +403,8 @@
 	var/list/actions = list()
 	for(var/action_type in GLOB.sex_actions)
 		var/datum/sex_action/action = SEX_ACTION(action_type)
+		if(head_focus && !action.works_on_detached_head)
+			continue //a session on a severed head only deals in the head
 		if(!action.shows_on_menu(user, target))
 			continue
 		actions += list(list(
@@ -432,6 +457,8 @@
 	var/list/can_perform = list()
 	for(var/action_type in GLOB.sex_actions)
 		var/datum/sex_action/action = SEX_ACTION(action_type)
+		if(head_focus && !action.works_on_detached_head)
+			continue //a session on a severed head only deals in the head
 		if(!action.shows_on_menu(user, target))
 			continue
 		if(can_perform_action(action_type))
@@ -497,7 +524,7 @@
 		SStgui.update_uis(src)
 
 /datum/sex_session/proc/get_sex_session_header_text()
-	return "Interacting with [target?.name || "Unknown"]..."
+	return "Interacting with [target?.name || "Unknown"][head_focus ? "'s head" : ""]..."
 
 /datum/sex_session/proc/get_session_tab_content()
 	var/list/content = list()

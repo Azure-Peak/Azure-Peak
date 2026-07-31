@@ -459,10 +459,18 @@
 			var/obj/item/organ/dullahan_vision/vision = getorganslot(ORGAN_SLOT_HUD)
 
 			if(vision && vision.viewing_head && user_head.eyes)
+				//Looking through the detached head: clean, unbordered sight.
 				. = user_head.eyes.tint
+				clear_fullscreen("dullahan_vision")
+			else if(user_head.eyes)
+				//Default headless state: the body still perceives, but strangely - curse border.
+				. = user_head.eyes.tint
+				overlay_fullscreen("dullahan_vision", /atom/movable/screen/fullscreen/curse/dullahan)
 			else
-				. = INFINITY
+				. = INFINITY //no eyes anywhere - nothing to see with
+				clear_fullscreen("dullahan_vision")
 			return
+		clear_fullscreen("dullahan_vision") //head is back on
 
 	. = ..()
 	if(glasses)

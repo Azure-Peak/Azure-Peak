@@ -54,9 +54,13 @@
 
 	var/obj/item/bodypart/head/dullahan/head = user_species.my_head
 
+	//Body view (default, curse border) <-> looking through the head (clean).
 	if(viewing_head)
 		viewing_head = FALSE
 		user.reset_perspective()
 	else
 		viewing_head = TRUE
 		user.reset_perspective(head)
+	// get_total_tint() keys off viewing_head; without a recompute the old vision state
+	// (computed while the flag pointed the other way) simply persists.
+	user.update_sight()

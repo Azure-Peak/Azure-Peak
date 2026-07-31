@@ -191,6 +191,11 @@
 	layer = CURSE_LAYER
 	plane = FULLSCREEN_PLANE
 
+// Border for a headless Dullahan's vision. Uses the "curse1" state so it doesn't disturb the
+// global curse overlay (which uses "curse").
+/atom/movable/screen/fullscreen/curse/dullahan
+	icon_state = "curse1"
+
 /atom/movable/screen/fullscreen/flashholder
 	icon_state = ""
 	layer = CRIT_LAYER

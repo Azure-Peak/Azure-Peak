@@ -3,20 +3,33 @@
 	var/list/head_items = list()
 
 // Support dropping yourself on a detached head. Check sexcon_helpers for original code with docs.
-/obj/item/bodypart/head/dullahan/MiddleMouseDrop_T(atom/movable/dragged, mob/living/user)
-	var/mob/living/carbon/human/target = src.original_owner
-	if(user.mmb_intent)
-		return ..()
-	// Maybe call target.MiddleMouseDrop_T() instead, may have side effects and so opted not to.
+// This lives on both the left and middle drag: middle-drag alone was unreliable, because any player
+// with an MMB intent selected (bite, kick, jump - a persistent toggle) fell through to ..() instead.
+/obj/item/bodypart/head/dullahan/MouseDrop_T(atom/movable/dragged, mob/living/user)
+	. = ..()
+	try_head_sex_menu(dragged, user)
 
+/obj/item/bodypart/head/dullahan/MiddleMouseDrop_T(atom/movable/dragged, mob/living/user)
+	if(user.mmb_intent)
+		return ..() // Let the selected MMB intent have it; the left-drag route still works.
+	// Maybe call target.MiddleMouseDrop_T() instead, may have side effects and so opted not to.
+	try_head_sex_menu(dragged, user)
+
+/obj/item/bodypart/head/dullahan/proc/try_head_sex_menu(atom/movable/dragged, mob/living/user)
+	var/mob/living/carbon/human/target = src.original_owner
 	if(!istype(dragged))
 		return
 	if(dragged != user)
 		return
+	if(!target) // A head with no owner on record has nobody to open a session against.
+		return
+	if(target.stat == DEAD || !target.mind)
+		to_chat(user, span_warning("[src] is lifeless. There is nobody home."))
+		return
 	if(!user.can_do_sex())
 		to_chat(user, "<span class='warning'>I can't do this.</span>")
 		return
-	if(!user.client.prefs.sexable)
+	if(!user.client?.prefs?.sexable)
 		to_chat(user, "<span class='warning'>I don't want to touch [target]. (Your ERP preference, in the options)</span>")
 		return
 	if(!target.client || !target.client.prefs)
@@ -28,7 +41,7 @@
 		to_chat(target, "<span class='warning'>[user] failed to touch you. (Your ERP preference, in the options)</span>")
 		log_combat(user, target, "tried unwanted ERP menu against")
 		return
-	user.start_sex_session(target)
+	user.start_sex_session(target, TRUE) //head_focus - the menu only offers head actions
 
 // Attach head.
 /obj/item/bodypart/head/dullahan/melee_attack_chain(mob/living/carbon/human/user, mob/living/carbon/human/target, params)
@@ -91,9 +104,12 @@
 		user.put_in_active_hand(my_head)
 
 		var/obj/item/organ/dullahan_vision/vision = user.getorganslot(ORGAN_SLOT_HUD)
-		vision.viewing_head = TRUE
+		if(vision)
+			vision.viewing_head = FALSE	//default headless state is bordered body-vision; the organ button switches to the head
 
-		user.reset_perspective(my_head)
+		// The eye organ's removal during drop_limb() recomputed tint mid-detach; recompute now
+		// that the headless state is fully set up, or the stale blindness persists.
+		user.update_sight()
 
 // Stop powergamers from putting their heads in containers for free.
 /obj/item/bodypart/head/dullahan/on_enter_storage(datum/component/storage/concrete/S)
@@ -321,7 +337,8 @@
 
 	var/obj/item/organ/dullahan_vision/vision = original_owner.getorganslot(ORGAN_SLOT_HUD)
 	if(vision)
-		vision.viewing_head = TRUE
+		vision.viewing_head = FALSE	//default headless state is bordered body-vision
+	original_owner.update_sight() //recompute now that the headless state is fully set up
 
 	var/turf/location = C.loc
 	if(istype(location))

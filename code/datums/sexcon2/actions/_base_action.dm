@@ -58,6 +58,14 @@
 	var/masturbation = FALSE
 	///Whenever or not you need to be adjacent to someone to use it
 	var/ranged_action = FALSE
+	/// Whether this action still makes sense against a dullahan's severed head, with the rest of
+	/// them somewhere else. Default deny: only the mouth is present, so anything involving the body
+	/// must stay unavailable. Opt in per action rather than trying to infer it from body zones -
+	/// a handful of actions never call check_location_accessible() and would otherwise slip past.
+	var/works_on_detached_head = FALSE
+	/// Whether the USER can give this act through their own detached head lying next to the
+	/// target while their body is elsewhere - mouth-gives only, never body-gives like throat.
+	var/works_via_own_detached_head = FALSE
 	///Whenever it should be actually displayed on the panel or not
 	var/debug_erp_panel_verb = TRUE
 
@@ -93,17 +101,57 @@
 /datum/sex_action/proc/get_knot_count()
 	return 0
 
+///A headless dullahan with their own detached head in reach (held, same turf, or adjacent) can
+///aim its mouth at their own body — Emerald Summit allowed exactly this in every mouth-on-body
+///action's self-target check.
+/datum/sex_action/proc/detached_head_self_service(mob/living/carbon/human/user)
+	return !!reachable_detached_dullahan_head(user, user)
+
+///"[target]'s" in flavor text, or "[user.p_their()] own" when self-serving via severed head.
+/datum/sex_action/proc/tgt_poss(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(user == target)
+		return "[user.p_their()] own"
+	return "[target]'s"
+
+///For actions on the severed head itself: "their severed head's" when self, else "[target]'s".
+/datum/sex_action/proc/tgt_head_poss(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	if(user == target)
+		return "[user.p_their()] severed head's"
+	return "[target]'s"
+
 /datum/sex_action/proc/check_location_accessible(mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
 	var/obj/item/bodypart/bodypart = target.get_bodypart(location)
 	var/self_target = FALSE
 	if(target == user)
 		self_target = TRUE
 
+	// A headless dullahan has no head bodypart on the mob, so head-aimed actions find nothing and
+	// bail — including their OWN mouth when giving. Whenever the detached head is within reach
+	// (held or same turf), it stands in for the missing head, adjacent or not: the head IS their
+	// mouth. When the body itself is out of reach, only the head is present, so any other zone is
+	// refused and the head substitution also waives the body-position gates below.
+	var/via_detached_head = FALSE
+	if(check_zone(location) == BODY_ZONE_HEAD)
+		if(!bodypart)
+			var/obj/item/bodypart/loose_head = reachable_detached_dullahan_head(target, user)
+			if(!loose_head && target == user)
+				//Checking your own mouth: it exists wherever the head is - the head's
+				//proximity to the session partner is enforced by the session gates.
+				loose_head = get_detached_dullahan_head(user)
+			if(loose_head)
+				bodypart = loose_head
+				via_detached_head = !user.Adjacent(target)
+	else if(!user.Adjacent(target) && reachable_detached_dullahan_head(target, user))
+		return FALSE
+
 	if(!bodypart)
 		return FALSE
 
 	if(user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
 		return TRUE //Battlefuck buff
+
+	if(via_detached_head)
+		return get_location_accessible(target, location = location, grabs = grabs, skipundies = skipundies)
 
 	if(src.check_same_tile && (user != target || self_target))
 		var/same_tile = (get_turf(user) == get_turf(target))
@@ -235,6 +283,21 @@
 
 /datum/sex_action/proc/do_onomatopoeia(mob/living/carbon/human/user)
 	user.balloon_alert_to_viewers("Plap!", x_offset = rand(-15, 15), y_offset = rand(0, 25))
+
+///When self-serving, the severed head does the physical work: it gets the hump animation and
+///the hearts - not the body. Returns FALSE if there is no reachable head, so callers can fall
+///back to the normal body animation.
+/datum/sex_action/proc/do_self_head_effects(mob/living/carbon/human/user)
+	var/obj/item/bodypart/head/dullahan/head = reachable_detached_dullahan_head(user, user)
+	if(!head)
+		return FALSE
+	do_thrust_animate(head, user)
+	for(var/i in 1 to rand(1, 2))
+		if(!user.cmode)
+			new /obj/effect/temp_visual/heart/sex_effects(get_turf(head))
+		else
+			new /obj/effect/temp_visual/heart/sex_effects/red_heart(get_turf(head))
+	return TRUE
 
 /datum/sex_action/proc/show_sex_effects(mob/living/carbon/human/user)
 	for(var/i in 1 to rand(1, 3))

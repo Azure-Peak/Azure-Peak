@@ -7,6 +7,7 @@
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
 	base_name = "Godtouched"
+	sub_name = "Aasimar"
 	desc_title = "Aasimar"
 	desc = "Aasimar are born of a rare union between Humens and Angels. \
 	They bear the mark of their celestial touch through their many varying physical features. \
