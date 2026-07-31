@@ -123,21 +123,21 @@
 
 /datum/stressevent/music
 	timer = 1 MINUTES
-	stressadd = -1
-	desc = span_green("This music is quite relaxing.")
+	stressadd = 1
+	desc = span_green("This music is quite grating. It struggles to sound how it intends.")
 
 /datum/stressevent/music/two
-	stressadd = -2
+	stressadd = -1
 	desc = span_green("This music is very relaxing!")
 	timer = 2 MINUTES
 
 /datum/stressevent/music/three
-	stressadd = -2
+	stressadd = -1
 	desc = span_green("This music drains away my stress.")
 	timer = 4 MINUTES
 
 /datum/stressevent/music/four
-	stressadd = -3
+	stressadd = -2
 	desc = span_green("This music is great!")
 	timer = 6 MINUTES
 

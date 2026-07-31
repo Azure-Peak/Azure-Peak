@@ -1511,3 +1511,114 @@
   - balance: lich ballistarries gets a mid-level pouch of ancient coin. Not... anyone
       would accept that as coinage, right?
   - bugfix: padded undervestments no longer make plate armor noises.
+2026-07-30:
+  Doomtail:
+  - rscadd: Added one new hairstyle and snout option
+  FeniaFox:
+  - balance: Increased integrity of blacksteel daggers from 80 (iron tier) to 144
+      (steel tier + ~20%).
+  KatTheFox:
+  - rscadd: Voyeur no longer requires sating other peoples' vices to sate. You now
+      just need to do anything that gives them a sufficiently-strong mood buff; basic
+      things like being full or hydrated or basic-level good food won't work, but
+      higher tier foods and high-skill music should.
+  - balance: Court Agents are now in the courtier tax bracket, i.e. they don't get
+      taxed by default
+  - bugfix: Removing items from storage while standing on open space - flying, climbing,
+      walking on leaves with woodwalker - no longer drops the items on people below
+      you in the same tick they get put in your hand, which could be exploited to
+      infinitely brick people to death with only 1 brick
+  - bugfix: Void familiars no longer lose flight when dying and reviving
+  - bugfix: Picked up mobs should no longer be or become deaf
+  Quinalion:
+  - image: All Hierophant's Naledi equipment is now greyscale and can be dyed.
+  - bugfix: Fixed several incorrect onmob sprites.
+  Ryan180602:
+  - bugfix: bugs with Tug of War, Provocation, Judgement.
+  - rscadd: Trial of Glory/Wits under Provocation.
+  - balance: Tug of War is now a projectile that gives 2s off-bal + 1s stun to the
+      pulled and tugs them back (ofc).
+  - balance: Ravox miracles like Challenge need combat mode.
+  SomeDeviant:
+  - bugfix: fixed casting from inside objects
+  TankTheBirb:
+  - rscadd: 'Changed the adjust_fire_stacks proc to adjust_scorch_stack on the following
+      weapons: Militia Spear special reed attack, Sling Fire pots, burning gas belchers,
+      and Fire rune from the utility spell Rune Ward.'
+  WeNeedMorePhoron:
+  - server: Made WeNeedMorePhoron (myself) the codeowners of subsyste, economics system,
+      politics, PVE, AI, icon updates, tgui, spells and crafting so that less PRs
+      touching these domains will slip pass by accident without review.
+  - balance: Change 12 points reset aspect budget back to 4 for mage
+  - rscadd: Redid Towner Quests again, this time there's variations you can pick for
+      different ore veins / caravan types. Removed the Easy difficulty, rebalanced
+      to just medium. Made the two options mostly equal.
+  - rscadd: Redid Blockade Balance, now they no longer multiplies massively by region.
+      They now have 180 TP per wave and should have some varieties in composition.
+      They scales by 20% per additional person in sight spotted - up to 5. So if you
+      bring 5, rewards and amount of enemies fought should scale slightly.
+  - rscadd: Cleaned up an issue where quest on spawn had a legacy function that blanketly
+      applied quest faction to every mobs nearby, including toward Conjured Summons,
+      making them completely useless in blockade fight.
+  YakumoChen:
+  - rscadd: Added allspice to merchant
+  - balance: Merchant sugar is cheaper (less cheap than stockpile of course)
+  - balance: rebalanced peppermill recipe to cooking 5(M) instead of carpentry 4(E)
+  borneblood:
+  - refactor: TRAIT_FOOD_STIPEND -> TRAIT_ROYAL_SUBSIDY
+  - rscadd: Added a check that makes all Steward Ledger spam be bundled in 1 line.
+  - balance: Royal Subsidy does not let you sell things to the Stockpile anymore.
+      Royal Subsidy ignores taxes, you're omega-hired my dude.
+  - bugfix: Royal Subsidy lets you import things from the Stockpile.
+  - bugfix: Enduring and Construct traits work again.
+  - bugfix: Blackblooded Inquisitors are less dramatic now.
+  changelingonberry:
+  - server: truncates who column in the banning database so banning is still possible
+      on high pop
+  - bugfix: you can no longer spam repair items to speed it up
+  radarseas:
+  - rscdel: You can no longer kill Zaelorian and Baotha in the underdark. The Otavan
+      Orthodoxy would lyke to remind you no such names have existed amongst drowkynd
+      nor, ever will exist and that this is but a fungus induced mass-hallucination.
+  - image: deleted and cleaned up some unused icons in general spells.
+  - image: Added recolored scroll backgrounds for Xylix/Necra/Eora/Baotha.
+  - image: Adjusted some of Necra/Xylix/Eora's spell icons.
+  - refactor: moved some sprites from general spells to their respective miracle icon
+      files.
+  twinklover22:
+  - balance: blunt intent added to daybreak
+  - bugfix: whip blunt strike description
+  zeroisthebiggay:
+  - qol: Polished items will now tell you what stage they are on exactly, rather than
+      stages two and three being lumped together.
+  - qol: Each stage gives you a hint on what needs to be done next in the examine
+      text.
+  - qol: Polish will yell at you and prevent you from applying it if you are attempting
+      to apply it to an item that isn't at maximum integrity.
+  - qol: If an item is dyed or has a color value of anything other than pure white,
+      polish won't forcibly alter its color. This means you can polish dyed items
+      without fucking up the dye. This is major QOL for anyone who has either tried
+      to polish their dyed or armor, or has had their armor polished, dyed, broken,
+      and then have to reapply the polish.
+2026-07-31:
+  DeciDesu:
+  - rscadd: Added new donor greatsword sprite for Deci
+  KatTheFox:
+  - bugfix: Dye brushes can now be properly crafted with all types of fur. Same for
+      polishing brushes.
+  WeNeedMorePhoron:
+  - rscadd: Canceling a spell now applies half / full cost of its resources and half
+      its cooldown, but no more than 10 seconds.
+  YakumoChen:
+  - balance: Zero skill music is actually grating to listen to. Who knew!
+  borneblood:
+  - bugfix: Matthios amulet will no longer reset its icon when dropped.
+  - balance: Matthios amulet now grants Thieves' Cant to other ascendants. If worn
+      by a Freeman undisguised, also grants +1 LUC.
+  eirenxiv:
+  - bugfix: fixed arcyne trickster not showing up in class preview
+  mumblemancer:
+  - bugfix: anthraxi silk pants and webbed shirts will now actually appear in the
+      merchant's underdark imports
+  zeroisthebiggay:
+  - bugfix: unpurpleifies strong health potions and different water types

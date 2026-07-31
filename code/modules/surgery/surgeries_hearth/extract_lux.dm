@@ -28,6 +28,11 @@
 
 /datum/surgery_step/extract_lux/validate_target(mob/user, mob/living/target, target_zone, datum/intent/intent)
 	. = ..()
+	if(!.)
+		return
+	if(user == target)
+		to_chat(user, span_warning("I cannot carve the lux from my own heart."))
+		return FALSE
 	if(target.stat == DEAD)
 		to_chat(user, "They're dead!")
 		return FALSE
