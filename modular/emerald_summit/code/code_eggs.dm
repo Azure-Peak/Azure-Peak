@@ -1,33 +1,7 @@
-// Emerald Summit port — extracted from modular/Neu_Farming/code/eggs.dm
-
+// Emerald Summit map-compat alias. ES's repo extracted Neu_Farming's egg under this bare
+// typepath, and dun_world_2.dmm places 31 of them - but every recipe, the chicken laying,
+// hatching and rot logic key off /snacks/rogue/egg, so mapped eggs failed every istype().
+// Rather than editing the map, the ES path is now simply a child of the real egg: identical
+// behavior inherited wholesale, and istype(egg, /snacks/rogue/egg) holds.
 /obj/item/reagent_containers/food/snacks/egg
-	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
-	name = "egg"
-	desc = "A raw egg."
-	icon_state = "egg"
-	dropshrink = 0.8
-	list_reagents = list(/datum/reagent/consumable/eggyolk = 5)
-	cooked_type = null
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried
-	filling_color = "#F0E68C"
-	foodtype = MEAT
-	grind_results = list()
-	rotprocess = 15 MINUTES
-
-	var/fertile = FALSE
-
-/obj/item/reagent_containers/food/snacks/egg/become_rotten()
-	. = ..()
-	if(.)
-		fertile = FALSE
-
-/obj/item/reagent_containers/food/snacks/egg/Crossed(mob/living/carbon/human/H)
-	..()
-	if(istype(H))
-		var/turf/T = get_turf(src)
-		var/obj/O = new /obj/effect/decal/cleanable/food/egg_smudge(T)
-		O.pixel_x = rand(-8,8)
-		O.pixel_y = rand(-8,8)
-		visible_message("<span class='warning'>[H] crushes [src] underfoot.</span>")
-		qdel(src)
-
+	parent_type = /obj/item/reagent_containers/food/snacks/rogue/egg

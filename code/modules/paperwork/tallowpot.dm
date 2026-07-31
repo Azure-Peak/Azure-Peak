@@ -80,9 +80,13 @@
 /obj/item/tallowpot/update_icon()
 	. = ..()
 	if(tallow)
-		icon_state = "[initial(icon_state)]_[tallow_color]_filled"
+		//Plain tallow's pigment token is "white" (which the signet ring states use), but the pot's
+		//dmi names its plain variant "classic" - without this mapping a plain-filled pot composes
+		//"tallowpot_white_filled", which doesn't exist, and the pot turns invisible.
+		var/pot_color = (tallow_color == "white") ? "classic" : tallow_color
+		icon_state = "[initial(icon_state)]_[pot_color]_filled"
 		if(heatedup)
-			icon_state = "[initial(icon_state)]_[tallow_color]_melted"
+			icon_state = "[initial(icon_state)]_[pot_color]_melted"
 	else
 		icon_state = "[initial(icon_state)]"
 
