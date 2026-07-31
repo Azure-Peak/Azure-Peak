@@ -51,5 +51,5 @@
 		span_notice("[user] severs [target]'s [parse_zone(target_zone)]!"),
 		span_notice("[user] severs [target]'s [parse_zone(target_zone)]!"))
 	var/obj/item/bodypart/target_limb = target.get_bodypart(check_zone(target_zone))
-	target_limb?.drop_limb()
+	target_limb?.drop_limb(FALSE, TRUE)	//surgical — a tended amputation leaves no bleeding stump
 	return TRUE

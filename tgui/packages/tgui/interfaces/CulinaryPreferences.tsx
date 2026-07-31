@@ -132,7 +132,7 @@ export function CulinaryPreferences(props) {
               autoFocus
               placeholder="Search..."
               value={search}
-              onInput={(_, value) => setSearch(value)}
+              onChange={(value) => setSearch(value)}
               mb={1}
             />
             {filtered.map((entry) => (

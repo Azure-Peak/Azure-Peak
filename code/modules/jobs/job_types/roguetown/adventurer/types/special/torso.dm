@@ -48,5 +48,5 @@
 	for(var/obj/item/bodypart/limb in H.bodyparts)
 		if(limb.body_zone in safe_bodyzones)
 			continue
-		limb.drop_limb()
+		limb.drop_limb(FALSE, TRUE)	//surgical: roundstart body shaping, not a fresh wound
 		qdel(limb)

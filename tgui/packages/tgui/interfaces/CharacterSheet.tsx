@@ -188,6 +188,7 @@ type Data = {
   mcolor2: string;
   mcolor3: string;
   body_size: number;
+  size_locked: BooleanLike;
   headshot: string | null;
   examine_theme: string;
   flavortext_short: BooleanLike;
@@ -231,10 +232,11 @@ const PrefRow = (props: {
   pref: string;
   task?: string;
   color?: string;
+  disabled?: boolean;
   extra?: ReactNode;
 }) => {
   const { act } = useBackend<Data>();
-  const { label, value, pref, task = 'input', color, extra } = props;
+  const { label, value, pref, task = 'input', color, disabled, extra } = props;
   return (
     <Stack align="center">
       <Stack.Item width="105px" color="label">
@@ -244,6 +246,7 @@ const PrefRow = (props: {
         <Button
           color="transparent"
           textColor={color}
+          disabled={disabled}
           onClick={() => act('link', { preference: pref, task })}
         >
           {value}
@@ -1744,8 +1747,13 @@ export const CharacterSheet = (props) => {
                                 />
                                 <PrefRow
                                   label="Sprite Scale"
-                                  value={`${data.body_size}%`}
+                                  value={
+                                    data.size_locked
+                                      ? 'Set by virtue'
+                                      : `${data.body_size}%`
+                                  }
                                   pref="body_size"
+                                  disabled={!!data.size_locked}
                                 />
                                 <PrefRow
                                   label="Markings"

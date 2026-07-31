@@ -192,6 +192,11 @@
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
 
+/datum/virtue/utility/hollow/apply_to_human(mob/living/carbon/human/recipient)
+	//Mirror the voice_type selection logic: masculine identity gets the male pack, everything else the female one.
+	var/masc = (recipient.voice_type == VOICE_TYPE_MASC) || (!recipient.voice_type && recipient.gender != FEMALE)
+	recipient.voicepack_override = masc ? new /datum/voicepack/hollow() : new /datum/voicepack/hollow_fem()
+
 /datum/virtue/utility/deadened
 	name = "Deadened"
 	desc = "Some terrible incident colours my past, and now, I feel nothing."

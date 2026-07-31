@@ -10,7 +10,6 @@
 	resistance_flags = FIRE_PROOF
 	is_silver = TRUE
 	var/miracle_use = 0
-	var/success = 0
 
 /obj/item/quicksilver/luxinfused
 	name = "absolving silver"
@@ -38,11 +37,15 @@
 		to_chat(user, span_warning("[M] does not have the mind to benefit from the holy anointment."))
 		return
 
-	if(HAS_TRAIT(M, TRAIT_SILVER_BLESSED))
+	var/datum/antagonist/werewolf/Were = M.mind.has_antag_datum(/datum/antagonist/werewolf/)
+	var/datum/antagonist/werewolf/lesser/Wereless = M.mind.has_antag_datum(/datum/antagonist/werewolf/lesser/)
+	var/datum/antagonist/vampire/Vamp = M.mind.has_antag_datum(/datum/antagonist/vampire)
+
+	if(HAS_TRAIT(M, TRAIT_SILVER_BLESSED) && !Vamp && !Were) //Elves, inquisitors and the like carry this trait innately — it must never block curing an actual vampire or werewolf.
 		to_chat(user, span_warning("Upon closer inspection, [M] is already anointed with quicksilver."))
 		return
 
-	if(!inquisitor && !user.get_skill_level(/datum/skill/magic/holy) >= SKILL_EXP_EXPERT)
+	if(!inquisitor && user.get_skill_level(/datum/skill/magic/holy) < SKILL_EXP_EXPERT)
 		to_chat(user, span_warning("I do not have the divine knowledge to properly apply [src]."))
 		return
 
@@ -69,16 +72,13 @@
 		to_chat(user, span_warning("I need a holy cross nearby to properly apply this.")) //Like Anastasis
 		return
 
-	var/datum/antagonist/werewolf/Were = M.mind.has_antag_datum(/datum/antagonist/werewolf/)
-	var/datum/antagonist/werewolf/lesser/Wereless = M.mind.has_antag_datum(/datum/antagonist/werewolf/lesser/)
-	var/datum/antagonist/vampire/Vamp = M.mind.has_antag_datum(/datum/antagonist/vampire)
-
+	var/success = FALSE
 	user.visible_message(span_notice("[user] begins to anoint [M] with [src]."))
 	if(do_after(user, 10 SECONDS, target = M))
 		if(!Were && !Vamp)
 			user.visible_message(span_notice("[user] anoints [M]'s brow with [src]."))
 			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
-			success = 1
+			success = TRUE
 		else
 			to_chat(M, span_userdanger("This silver concoction burns! It threatens to undo me!"))
 			M.emote("agony", forced = TRUE)
@@ -87,7 +87,7 @@
 			user.visible_message(span_danger("[src] bursts into flames on [M]'s brow, yet [user] vies to complete the anointment."))
 			if(do_after(user, 10 SECONDS, target = M))
 				user.visible_message(span_danger("[user] anoints [M]'s brow with [src]."))
-				success = 1
+				success = TRUE
 	if(!success)
 		return
 

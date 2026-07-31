@@ -207,7 +207,7 @@
 	id = "druqks"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
 	effectedstats = list(STATKEY_INT = 5,STATKEY_SPD = 3,STATKEY_LCK = -5)
-	duration = 2 MINUTES
+	duration = -1	//The reagent reapplies this every life tick and removes it on end-metabolize; a fixed duration only shows a countdown that lies.
 
 /datum/status_effect/buff/druqks/on_apply()
 	. = ..()
@@ -240,7 +240,7 @@
 	icon_state = "acid"
 
 /datum/status_effect/buff/baothablessing
-	id = "druqks"
+	id = "baothablessing"	//Must not share an id with the druqks buff — same-id effects overwrite each other.
 	alert_type = /atom/movable/screen/alert/status_effect/buff/baothablessing
 	duration = 2 MINUTES
 
@@ -338,7 +338,7 @@
 	id = "starsugar"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
 	effectedstats = list(STATKEY_SPD = 4, STATKEY_WIL = 4, STATKEY_INT = -3, STATKEY_CON = -3)
-	duration = 80 SECONDS
+	duration = -1	//The reagent reapplies this every life tick and removes it on end-metabolize; a fixed duration only shows a countdown that lies.
 	var/originalcmode = ""
 
 /datum/status_effect/buff/starsugar/on_apply()
@@ -395,7 +395,7 @@
 	icon_state = "weed"
 
 /datum/status_effect/buff/vitae
-	id = "druqks"
+	id = "vitae"	//Must not share an id with the druqks buff — same-id effects overwrite each other.
 	alert_type = /atom/movable/screen/alert/status_effect/buff/vitae
 	effectedstats = list(STATKEY_LCK = 2)
 	duration = 1 MINUTES

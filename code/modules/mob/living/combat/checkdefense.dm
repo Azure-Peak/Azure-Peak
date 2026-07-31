@@ -24,6 +24,8 @@
 		return FALSE
 	if(!(mobility_flags & MOBILITY_MOVE))
 		return FALSE
+	if(!(mobility_flags & MOBILITY_STAND) && !buckled) //no dodging or parrying from the floor
+		return FALSE
 
 
 	if(client && used_intent)

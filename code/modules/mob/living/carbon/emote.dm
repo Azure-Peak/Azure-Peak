@@ -76,6 +76,12 @@
 	message_mime = "appears to moan!"
 	emote_type = EMOTE_AUDIBLE
 
+/mob/living/carbon/human/verb/emote_moan()
+	set name = "Moan"
+	set category = "Emotes.Noises"
+
+	emote("moan", intentional = TRUE)
+
 /datum/emote/living/carbon/roll
 	key = "roll"
 	key_third_person = "rolls"

@@ -115,7 +115,7 @@
 	var/seconds_left = round(remaining_deciseconds / (1 SECONDS), 0.1)
 	if(seconds_left >= 60)
 		var/mins = round(seconds_left / 60)
-		var/secs = round(seconds_left) % 60
+		var/secs = FLOOR(seconds_left, 1) % 60	//round(x, 1) rounds to nearest and would flip 1:59 to 1:00 at the minute boundary; both parts must floor.
 		maptext_holder.maptext = MAPTEXT("[mins]:[secs < 10 ? "0[secs]" : "[secs]"]")
 	else
 		maptext_holder.maptext = MAPTEXT("[seconds_left]s")

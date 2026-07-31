@@ -8,7 +8,7 @@
 	var/mob/living/carbon/human/H = user
 	var/obj/item/bodypart/O = H.get_bodypart(lost_zone)
 	if(O)
-		O.drop_limb()
+		O.drop_limb(FALSE, TRUE)	//surgical: an old, long-healed loss — no fresh bleeding stump
 		qdel(O)
 	return
 

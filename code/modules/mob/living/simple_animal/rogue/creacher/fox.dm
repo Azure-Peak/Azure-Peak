@@ -78,6 +78,65 @@
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 
+//Mapped tame foxes (aggressive = 0, e.g. Mimi) predate the volf controller, which never reads
+//that var. Keep the Emerald Summit behavior: docile, but fights back when struck.
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/InitializeAIController()
+	if(!aggressive)
+		tame = TRUE	//enables the retaliate-parent petting/friends handling
+		ai_controller = /datum/ai_controller/generic/pet_retaliate
+		AddElement(/datum/element/ai_retaliate)
+	return ..()
+
+//Two gaps the parent chain leaves for tame foxes: relay_attackers only registers punches from
+//attackers in cmode, and the parent's pet-to-calm only clears the legacy enemies list, not the
+//AI controller's retaliate list.
+///The Guild of Craft raised her — its members are always her friends.
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/proc/is_guild_family(mob/living/carbon/human/M)
+	return M.mind?.assigned_role in list("Guildmaster", "Guildsman")
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/attack_hand(mob/living/carbon/human/M)
+	var/is_guild = is_guild_family(M)
+	var/was_friend = (M in friends)
+	var/legacy_announced = length(enemies)	//the retaliate parent only says "calms down" if its own enemies list was filled
+	if(!aggressive && M.used_intent?.type == INTENT_HELP && !was_friend && is_guild)
+		friends += M
+		was_friend = TRUE
+	. = ..()
+	if(aggressive)
+		return
+	switch(M.used_intent?.type)
+		if(INTENT_HARM)
+			if(!HAS_TRAIT(M, TRAIT_PACIFISM))
+				ai_controller?.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, M)
+		if(INTENT_HELP)
+			if(stat != CONSCIOUS)
+				return
+			//The retaliate parent befriends anyone who pets her while calm; strangers must earn it with food instead.
+			if(!was_friend && !is_guild && (M in friends))
+				friends -= M
+			if(LAZYLEN(ai_controller?.blackboard[BB_BASIC_MOB_RETALIATE_LIST]))
+				if(!(M in friends))	//the parent already told them she doesn't react
+					return
+				ai_controller.clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
+				ai_controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+				ai_controller.CancelActions()
+				LoseTarget()	//the new-AI attack sets the legacy target var too — it drives the "is currently targeting you!" examine line
+				if(!legacy_announced)
+					visible_message(span_notice("[src] calms down."))
+			if(M in friends)
+				new /obj/effect/temp_visual/heart(loc)
+
+//Feeding her a sausage is how outsiders win her over.
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/attackby(obj/item/O, mob/living/user, params)
+	var/offering_treat = !aggressive && stat == CONSCIOUS && istype(O, /obj/item/reagent_containers/food/snacks/rogue/meat/sausage)
+	. = ..()
+	if(!offering_treat || !QDELETED(O))	//QDELETED means she actually ate it
+		return
+	if(ishuman(user) && !(user in friends))
+		friends += user
+		visible_message(span_notice("[src] happily gobbles up the treat and nuzzles [user]."), null, null, COMBAT_MESSAGE_RANGE)
+	new /obj/effect/temp_visual/heart(loc)
+
 /obj/effect/decal/remains/fox
 	name = "remains"
 	desc = "A wily fox perished here. Never is a beast spry or clever enough, in the end."

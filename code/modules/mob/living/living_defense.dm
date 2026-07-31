@@ -339,6 +339,8 @@
 		SEND_SIGNAL(I, COMSIG_MOVABLE_IMPACT_ZONE, src, zone)
 		if(SEND_SIGNAL(src, COMSIG_LIVING_IMPACT_ZONE, I, zone) & COMPONENT_CANCEL_THROW)
 			return FALSE
+		//The atom-level hitby we never chain to is what fires this; without it, thrown hits are invisible to relay_attackers (retaliate lists, aggro boards).
+		SEND_SIGNAL(src, COMSIG_ATOM_HITBY, I, skipcatch, hitpush, blocked, throwingdatum, damage_flag)
 		if(!blocked)
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = I.armor_penetration, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()

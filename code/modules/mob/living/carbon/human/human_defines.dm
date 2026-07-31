@@ -152,6 +152,8 @@
 	rot_type = /datum/component/rot/corpse
 
 	var/voice_type = null // LETHALSTONE EDIT: defines what sound pack we use. keep this null so mobs resort to their typical gender typing - preferences set this
+	///A voicepack that beats both the species soundpacks and voice_type — e.g. the Hollow virtue's unliving rasp.
+	var/datum/voicepack/voicepack_override
 	var/datum/statpack/statpack = null // Lethalstone Port - statpacks for greater customization
 	var/second_voice	// Virtue-specific. Can be swapped to / from and changed.
 	var/original_voice

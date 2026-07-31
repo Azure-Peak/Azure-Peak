@@ -173,6 +173,9 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		if((get_dist(get_turf(source), get_turf(target)) > range) || source.z != target.z)
 			to_chat(source, span_warning("It's too far!"))
 			return FALSE
+	if(!turf_reachable(get_turf(target), get_turf(source)))
+		to_chat(source, span_warning("Something is in the way!"))
+		return FALSE
 	return TRUE
 
 /datum/special_intent/proc/check_reqs(mob/living/carbon/human/user, obj/item/I)
@@ -209,6 +212,19 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 			else
 				continue
 
+///Returns FALSE if a dense or opaque turf sits between the attacker and T — Specials cannot reach through walls.
+///check_range() runs before deploy() assigns howner, so it must pass its own from-turf explicitly.
+/datum/special_intent/proc/turf_reachable(turf/T, turf/from)
+	var/turf/source = from || get_turf(howner)
+	if(!source || source == T)
+		return TRUE
+	for(var/turf/inter in getline(source, T))
+		if(inter == source || inter == T)
+			continue
+		if(inter.density || inter.opacity)
+			return FALSE
+	return TRUE
+
 ///Gathers up the grid from tile_coordinates and puts the turfs into affected_turfs. Does not draw anything, yet.
 /datum/special_intent/proc/_create_grid()
 	var/turf/origin = use_clickloc ? click_loc : (get_step(get_turf(howner), howner.dir))	//Origin is either target or 1 step in the dir of howner.
@@ -233,7 +249,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 					dx = dy
 					dy = -holder
 		var/turf/step = locate((origin.x + dx), (origin.y + dy), origin.z)
-		if(step && isturf(step) && !step.density)	//We try to avoid doing Specials in walls.
+		if(step && isturf(step) && !step.density && turf_reachable(step))	//We try to avoid doing Specials in, or through, walls.
 			var/list/timerlist
 			if(dtimer)
 				timerlist = affected_turfs[dtimer]
@@ -411,7 +427,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	var/turf/block_upper = locate(x_upper, y_upper, origin.z)
 	if(isnull(block_lower) || isnull(block_upper))
 		CRASH("Rectangle Special was called with invalid corner turfs. Potentially used near the map's edge?")
-	newtiles = block(block_lower, block_upper)
+	for(var/turf/T in block(block_lower, block_upper))
+		if(T.density || !turf_reachable(T))
+			continue
+		newtiles += T
 	return newtiles
 
 /*

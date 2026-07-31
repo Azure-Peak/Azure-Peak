@@ -328,11 +328,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.
 /datum/wound/proc/set_bleed_rate(amount)
-	if(!owner)
+	if(!owner && !bodypart_owner)	//a bodypart-attached wound can still cache its bleed even mid-transfer
 		return
 
 	// do simple bleeding
-	if(owner.simple_wounds?.len)
+	if(owner?.simple_wounds?.len)
 		owner.simple_bleeding -= bleed_rate
 		bleed_rate = amount
 		owner.simple_bleeding += bleed_rate

@@ -1192,6 +1192,12 @@
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
 
+/mob/living/carbon/human/verb/emote_sneeze()
+	set name = "Sneeze"
+	set category = "Emotes.Noises"
+
+	emote("sneeze", intentional = TRUE)
+
 /datum/emote/living/hmph
 	key = "hmph"
 	key_third_person = "hmphs"
@@ -1199,6 +1205,12 @@
 	message_muffled = "makes a muffled sneeze."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/emote_hmph()
+	set name = "Hmph"
+	set category = "Emotes.Noises"
+
+	emote("hmph", intentional = TRUE)
 
 /datum/emote/living/pleased
 	key = "pleased"

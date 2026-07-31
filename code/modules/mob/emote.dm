@@ -125,6 +125,11 @@
 	mob_type_allowed_typecache = list(/mob/living, /mob/dead/observer)
 	mob_type_ignore_stat_typecache = list(/mob/dead/observer)
 
+/mob/living/carbon/human/verb/emote_spin()
+	set name = "Spin"
+	set category = "Emotes"
+	emote("spin", intentional = TRUE)
+
 /datum/emote/living/carbon/human/spin/can_run_emote(mob/user, status_check = TRUE , intentional)
 	return FALSE
 

@@ -717,7 +717,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=char_accent;task=input'>[char_accent]</a>"
 			dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
-			dat += "<br><b>Sprite Scale:</b><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a>"
+			if(istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size))
+				dat += "<br><b>Sprite Scale:</b> <span style='color: #7a7a7a;'>Set by virtue</span>"
+			else
+				dat += "<br><b>Sprite Scale:</b><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a>"
 			dat += "<br><b>Markings:</b> <a href='?_src_=prefs;preference=markings;task=menu'>Change</a>"
 			dat += "<br><b>Descriptors:</b> <a href='?_src_=prefs;preference=descriptors;task=menu'>Change</a>"
 
@@ -2624,6 +2627,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtue = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
+						if(istype(virtue, /datum/virtue/size))
+							features["body_size"] = BODY_SIZE_NORMAL //size virtues own the sprite scale; a custom size would stack with theirs
 						if(!istype(virtue, /datum/virtue/combat/second_chance) && !istype(virtuetwo, /datum/virtue/combat/second_chance))
 							if(skin_tone == SKIN_COLOR_ROT)
 								var/new_tone = random_skin_tone()
@@ -2656,6 +2661,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
 						virtuetwo = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
+						if(istype(virtuetwo, /datum/virtue/size))
+							features["body_size"] = BODY_SIZE_NORMAL //size virtues own the sprite scale; a custom size would stack with theirs
 						if(!istype(virtue, /datum/virtue/combat/second_chance) && !istype(virtuetwo, /datum/virtue/combat/second_chance))
 							if(skin_tone == SKIN_COLOR_ROT)
 								var/new_tone = random_skin_tone()
@@ -2707,10 +2714,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							race_bonus = choice
 
 				if("body_size")
-					var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
-					if(new_body_size)
-						new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
-						features["body_size"] = new_body_size
+					if(istype(virtue, /datum/virtue/size) || istype(virtuetwo, /datum/virtue/size) || istype(virtue_origin, /datum/virtue/size))
+						to_chat(user, span_purple("Unable to change sprite size due to virtue."))
+					else
+						var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
+						if(new_body_size)
+							new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
+							features["body_size"] = new_body_size
 
 				if("taur_color")
 					var/new_taur_color = color_pick_sanitized(user, "Choose your character's taur color:", "Character Preference", "#"+taur_color)
@@ -3154,11 +3164,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	if(charflaws.len)
 		var/obj/item/bodypart/O = character.get_bodypart(BODY_ZONE_R_ARM)
 		if(O)
-			O.drop_limb()
+			O.drop_limb(FALSE, TRUE)	//surgical: regeneration housekeeping must not leave bleeding chest stumps
 			qdel(O)
 		O = character.get_bodypart(BODY_ZONE_L_ARM)
 		if(O)
-			O.drop_limb()
+			O.drop_limb(FALSE, TRUE)
 			qdel(O)
 		character.regenerate_limb(BODY_ZONE_R_ARM)
 		character.regenerate_limb(BODY_ZONE_L_ARM)

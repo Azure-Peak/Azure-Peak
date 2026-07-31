@@ -225,6 +225,10 @@
 						else if (H.dna.species.soundpack_m)
 							possible_sounds = H.dna.species.soundpack_m.get_sound(key, modifier)
 			// LETHALSTONE ADDITION END
+			if(H.voicepack_override)	//e.g. Hollow Lyfe — overrides species packs and voice identity alike
+				var/override_sounds = H.voicepack_override.get_sound(key, modifier)
+				if(override_sounds)	//keys the override pack lacks fall back to the normal voice rather than silence
+					possible_sounds = override_sounds
 			if(possible_sounds)
 				if(islist(possible_sounds))
 					var/list/PS = possible_sounds
