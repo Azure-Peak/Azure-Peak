@@ -17,7 +17,7 @@
 	var/granted_spell
 
 /obj/item/bodypart/taur/lamia
-	granted_traits = list(TRAIT_VENOMOUS)
+	granted_traits = list(TRAIT_VENOMOUS, TRAIT_TAIL_KICK)
 
 /obj/item/bodypart/taur/spider
 	granted_traits = list(TRAIT_VENOMOUS, TRAIT_WEBWALK)
