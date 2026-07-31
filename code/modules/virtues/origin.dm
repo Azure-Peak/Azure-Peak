@@ -10,15 +10,16 @@
 /datum/virtue/origin/valmoria
 	name = "Valmorian"
 	origin_name = "Valmoria"
-	desc = "I originate from the settled lands of Valmoria, an independent kingdom sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and ancient ruins, the Duchy is uniquely situated at the forefront of many worldly affairs - both past and present.<br>"
+	desc = "I hail from the rich isle of Valmoria, a mercantile port in the great Sybaran Sea. Ships from frozen Gronn to burning Nadeli all pass through our harbor, and a walk down our pier could take you to any shore in the world.<br>"
 	restricted = FALSE
 	added_languages = list(/datum/language/oldvalmorian)
-	origin_desc = "Originally unsettled, Valmoria's forested plateaus bore witness to the greatest miracle in history; the Comet Syon, which saved the world from complete \
-	destruction. The missile's resting place - just off Valmoria's coast - established the locale as a holy site for worshippers of both Psydon and the Pantheon, which \
-	eventually led to a Celestian-funded displacement of its ancestral elven inhabitants. The recent surge of villainous monsters and misfortune is said to be attributed \
-	to such injustices; a belated curse from Dendor's scornful hand. </br> Valmoria houses a uniquely diverse culture, born from generations-upon-generations of pilgrims \
-	from all over Psydonia. Likewise, the lesser kingdom's proximity to the Comet Syon has spawned a deluge of anomalous quirks in both the land and its people; a facet \
-	that has drawn the attention of both opportunistic villains and desperate heroes."
+	origin_desc = "Crowning a great volcanic island straddling the sea lanes of the ancient empires, the city-state of Valmoria has returned to prominence in recent centuries as a \
+	merchant's haven from the troubles of distant regimes. Heading the Valmorian League, a confederation of far-flung port cities across the known world, Valmoria is a \
+	cosmopolitan gem of the old nobility, merchant elite, wayfaring pilgrims and thrillseeking adventurers.<br> \
+	The island was long the stomping ground of warring empires from the splintering of old Etruscan city-states from the Sybaran Empire to far more ancient incursions \
+	of Querni pirates and even Hammerhold raiders. Accustomed to temporary rulers and passing loyalties, the petty nobles, wealthy merchants and holy men have formed a \
+	comfortable arrangement by which whatever power-that-be assumes the Ducal title never sits too restfully on the throne.<br> \
+	After so many centuries of schemes and usurpers, there arose a saying on the isle; when the game is over, the king and the pawn go in the same box."
 
 /datum/virtue/origin/grenzelhoft
 	name = "Grenzelhoftian"
