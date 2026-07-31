@@ -67,6 +67,7 @@
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
 	rot_type = null // no rotting inside vestiges please
 	var/datum/voicepack/voice_pack
+	var/obj/item/wear_neck // they can wear pouches please this time can this actually work
 
 /datum/status_effect/buff/healing/familiar
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/familiar
@@ -174,7 +175,103 @@
 
 // they can wear pouches and amulets around their neck, for sovl
 /mob/living/simple_animal/pet/familiar/can_equip(obj/item/I, slot, disable_warning, bypass_equip_delay_self)
-	return slot == SLOT_NECK
+	if(slot == SLOT_NECK)
+		if(wear_neck)
+			return FALSE
+		if( !(I.slot_flags & ITEM_SLOT_NECK) )
+			return FALSE
+		return TRUE
+	return FALSE
+
+/mob/living/simple_animal/pet/familiar/equip_to_slot(obj/item/I, slot, initial)
+	if(!slot)
+		return
+	if(!istype(I))
+		return
+
+	var/index = get_held_index_of_item(I)
+	if(index)
+		held_items[index] = null
+
+	if(I.pulledby)
+		I.pulledby.stop_pulling()
+
+	I.screen_loc = null
+	if(client)
+		client.screen -= I
+	if(observers && observers.len)
+		for(var/M in observers)
+			var/mob/dead/observe = M
+			if(observe.client)
+				observe.client.screen -= I
+	I.forceMove(src)
+	I.layer = ABOVE_HUD_LAYER
+	I.plane = ABOVE_HUD_PLANE
+	I.appearance_flags |= NO_CLIENT_COLOR
+	var/not_handled = FALSE
+	switch(slot)
+		if(SLOT_NECK)
+			wear_neck = I
+			update_inv_neck(I)
+		else
+			not_handled = TRUE
+
+	//Item has been handled at this point and equipped callback can be safely called
+	//We cannot call it for items that have not been handled as they are not yet correctly
+	//in a slot
+	if(!not_handled)
+		I.equipped(src, slot)
+
+	if(hud_used)
+		hud_used.throw_icon?.update_icon()
+		hud_used.give_intent?.update_icon()
+
+	return not_handled
+
+/mob/living/simple_animal/pet/familiar/update_inv_neck()
+	remove_overlay(NECK_LAYER)
+
+	if(client && hud_used && hud_used.inv_slots[SLOT_NECK])
+		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_NECK]
+		inv.update_icon()
+
+	if(wear_neck)
+		overlays_standing[NECK_LAYER] = wear_neck.build_worn_icon(default_layer = NECK_LAYER, default_icon_file = 'icons/roguetown/clothing/neck.dmi')
+		update_hud_neck(wear_neck)
+
+	apply_overlay(NECK_LAYER)
+
+/mob/living/simple_animal/pet/familiar/proc/update_hud_neck(obj/item/I)
+	I.screen_loc = rogueui_neck
+	if(client && hud_used && hud_used.hud_shown)
+		if(hud_used.inventory_shown)
+			client.screen += I
+	update_observer_view(I,1)
+
+/mob/living/simple_animal/pet/familiar/proc/update_observer_view(obj/item/I, inventory)
+	if(observers && observers.len)
+		for(var/M in observers)
+			var/mob/dead/observe = M
+			if(observe.client && observe.client.eye == src)
+				if(observe.hud_used)
+					if(inventory && !observe.hud_used.inventory_shown)
+						continue
+					observe.client.screen += I
+			else
+				observers -= observe
+				if(!observers.len)
+					observers = null
+					break
+
+/mob/living/simple_animal/pet/familiar/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE)
+	. = ..() //Sets the default return value to what the parent returns.
+	if(!. || !I) //We don't want to set anything to null if the parent returned 0.
+		return
+	if(I == wear_neck)
+		wear_neck = null
+		if(!QDELETED(src))
+			update_inv_neck(I)
+
 
 /mob/living/simple_animal/pet/familiar/proc/can_bite()
 	for(var/obj/item/grabbing/grab in grabbedby) //Grabbed by the mouth
@@ -321,7 +418,7 @@
 	return ret
 
 /mob/living/simple_animal/pet/familiar/fae/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/reagent_containers) && tier >= 1)
+	if(istype(I, /obj/item/reagent_containers) && tier >= 2)
 		var/datum/reagents/container_reagents=I.reagents
 		if(istype(container_reagents) && user.used_intent.type == INTENT_POUR && container_reagents.total_volume>0 && !reagents.holder_full())
 			user.visible_message(
@@ -365,7 +462,7 @@
 		I.loc = M.loc
 		M.put_in_active_hand(I)
 		if(M == src)
-			M.visible_message("<span class='info'>[src] retrieves [I] from [src.p_their()] stomach.</span>")
+			M.visible_message("<span class='info'>[src] spits out [I].</span>")
 		else
 			M.visible_message("<span class='info'>[src] spits [I] into [M]'s hand.</span>")
 		return
@@ -413,6 +510,8 @@
 					brewing = 0
 					src.visible_message(span_info("[src] needs their summoner's alchemical knowledge to brew anything."))
 					return
+				to_chat(world, span_warning("[found_recipe.skill_required]"))
+				to_chat(world, span_warning("[familiar_summoner?.get_skill_level(/datum/skill/craft/alchemy)]"))
 				if(found_recipe.skill_required > familiar_summoner?.get_skill_level(/datum/skill/craft/alchemy))
 					brewing = 0
 					src.visible_message(span_warning("[src] emits a gurgling noise, the ingredients melding into a disgusting mess! Perhaps a more skilled alchemist is needed for this recipe."))
