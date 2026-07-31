@@ -42,6 +42,8 @@
 	owner.special_items["Sack Mask"] = evil_mask
 	var/datum/action/cooldown/spell/assassin/get_dagger/A = new
 	A.Grant(owner.current)
+	playsound_local(owner.current, 'sound/villain/littlescary.ogg', 40)
+
 	return ..()
 
 
