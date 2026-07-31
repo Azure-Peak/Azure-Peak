@@ -241,7 +241,9 @@
 	keys = list(/obj/item/roguekey/royal, /obj/item/roguekey/manor, /obj/item/roguekey/heir, /obj/item/roguekey/vault, /obj/item/roguekey/steward, /obj/item/roguekey/hand)
 
 /obj/item/storage/keyring/heir
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/heir)
+	// royal + garrison follow ES's heir ring for the dun_world_2 map - the prince could not enter
+	// the royal quarters without them.
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/heir, /obj/item/roguekey/royal, /obj/item/roguekey/garrison)
 
 /////////////
 // COUNCIL //
@@ -253,19 +255,23 @@
 	keys = list(/obj/item/roguekey/manor)
 
 /obj/item/storage/keyring/steward
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/steward)
+	// garrison + graveyard follow ES's steward ring - stewards, clerks and councillors administer
+	// both on dun_world_2 (the graveyard alone has 9 locked doors).
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/steward, /obj/item/roguekey/garrison, /obj/item/roguekey/graveyard)
 
 /obj/item/storage/keyring/archivist
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/archive, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/archive)
 
 /obj/item/storage/keyring/magician
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/apothecary, /obj/item/roguekey/mage, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+	// The tower key (ES modular pack) opens the mage tower's five locks on dun_world_2 - ES's mage
+	// ring carries it. University keys removed: only the retired dun_world map has university doors.
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/apothecary, /obj/item/roguekey/mage, /obj/item/roguekey/tower)
 
 /obj/item/storage/keyring/seneschal //Housekeeper, more of a reason to attack them too by antags
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/garrison)
 
 /obj/item/storage/keyring/jester //Might infact be hilarious, might be horrid, who knows
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university, /obj/item/roguekey/walls)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/walls)
 
 /////////////
 // RETINUE //
@@ -278,7 +284,9 @@
 	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight)
 
 /obj/item/storage/keyring/squire
-	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/manor)
+	// garrison: the squire's quarters are garrison-locked on dun_world_2 (ES gave squires the full
+	// guard set - armory and dungeon too; we keep it to just their own door).
+	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/garrison)
 
 //////////////
 // GARRISON //
@@ -331,7 +339,9 @@
 //////////////
 
 /obj/item/storage/keyring/apprentice
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+	// tower: see the magician ring above - without it the apprentice was locked out of their own
+	// workplace on dun_world_2.
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/tower)
 
 /obj/item/storage/keyring/merchant
 	keys = list(/obj/item/roguekey/merchant, /obj/item/roguekey/shop)
@@ -347,10 +357,12 @@
 
 /obj/item/storage/keyring/apothecary
 	// The physician key is included because dun_world_2 has no separate apothecary building - they work out of the physician's.
-	keys = list(/obj/item/roguekey/apothecary, /obj/item/roguekey/physician, /obj/item/roguekey/keeper, /obj/item/roguekey/university)
+	keys = list(/obj/item/roguekey/apothecary, /obj/item/roguekey/physician, /obj/item/roguekey/keeper)
 
 /obj/item/storage/keyring/physician
-	keys = list(/obj/item/roguekey/physician, /obj/item/roguekey/apothecary, /obj/item/roguekey/keeper, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+	// manor + garrison follow ES's physician ring for dun_world_2, where the physician treats the
+	// court and garrison. No beast sanctum key - the heartbeast is the keeper's business.
+	keys = list(/obj/item/roguekey/physician, /obj/item/roguekey/apothecary, /obj/item/roguekey/manor, /obj/item/roguekey/garrison)
 
 /obj/item/storage/keyring/guildmaster //All access to crafter's guild + tailor
 	keys = list(/obj/item/roguekey/crafterguild, /obj/item/roguekey/tailor, /obj/item/roguekey/craftermaster)
