@@ -51,7 +51,6 @@
 		eyes = new /obj/item/organ/eyes/night_vision/zombie
 		eyes.Insert(H)
 		H.ambushable = FALSE
-		H.underwear = "Nude"
 		for(var/datum/charflaw/cf in H.charflaws)
 			H.charflaws.Remove(cf)
 			QDEL_NULL(cf)

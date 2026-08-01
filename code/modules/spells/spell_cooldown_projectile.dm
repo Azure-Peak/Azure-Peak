@@ -53,12 +53,23 @@
 		var/active_type = (arc_mode && projectile_type_arc) ? projectile_type_arc : projectile_type
 		var/obj/projectile/to_fire = new active_type(owner.loc)
 		ready_projectile(to_fire, target, owner, i)
+		if(QDELETED(to_fire)) //ready_projectile deletes the projectile if it could not be aimed
+			continue
 		to_fire.fire()
 	return TRUE
 
 /// Configure the projectile before firing. Override for spell-specific setup (e.g., spread angles).
 /// iteration is the 1-indexed projectile number within this volley.
 /datum/action/cooldown/spell/projectile/proc/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
+	// Volleys fire several projectiles from one loop, and each shot resolves before the next is
+	// prepared -- so an earlier shot can destroy the target mid-volley. Fall back to the spot the
+	// target last occupied rather than aiming at nothing. Only for an already-lost target: aiming
+	// at a turf on purpose would break arc mode and stop shots hitting anyone lying down.
+	if(QDELETED(target))
+		target = get_turf(target)
+		if(!target)
+			qdel(to_fire)
+			return
 	to_fire.firer = user
 	to_fire.fired_from = get_turf(user)
 	to_fire.def_zone = user.zone_selected
@@ -81,10 +92,11 @@
 		var/obj/item/rogueweapon/best_implement = get_held_implement(user)
 		best_implement?.attune_implement(spell_color, attunement_school)
 
-	to_fire.preparePixelProjectile(target, user)
-
-	// Register hit signal so the spell knows when the projectile connects
+	// Registered before aiming: preparePixelProjectile() deletes the projectile when it cannot
+	// resolve a target, and registering onto a deleted datum leaves us holding a hard reference.
 	RegisterSignal(to_fire, COMSIG_PROJECTILE_SELF_ON_HIT, PROC_REF(on_cast_hit))
+
+	to_fire.preparePixelProjectile(target, user)
 
 /// Signal handler for when our projectile hits something.
 /datum/action/cooldown/spell/projectile/proc/on_cast_hit(atom/source, mob/firer, atom/hit, angle)
