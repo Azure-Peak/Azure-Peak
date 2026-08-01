@@ -1,0 +1,5 @@
+author: "7erracotta"
+delete-after: True
+changes:
+  - rscadd: "Added amulets"
+  - balance: " added more things to clutter loot pools"

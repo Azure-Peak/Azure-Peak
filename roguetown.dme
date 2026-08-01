@@ -248,6 +248,7 @@
 #include "code\__HELPERS\filters.dm"
 #include "code\__HELPERS\fishing_hunting.dm"
 #include "code\__HELPERS\game.dm"
+#include "code\__HELPERS\hair_customization.dm"
 #include "code\__HELPERS\global_lists.dm"
 #include "code\__HELPERS\heap.dm"
 #include "code\__HELPERS\icon_smoothing.dm"

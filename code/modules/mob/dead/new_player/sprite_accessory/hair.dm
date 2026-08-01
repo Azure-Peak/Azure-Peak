@@ -161,10 +161,6 @@
 	name = "Bun (Large)"
 	icon_state = "bun-large"
 
-/datum/sprite_accessory/hair/head/manbun
-	name = "Bun (Manbun)"
-	icon_state = "bun-manbun"
-
 /datum/sprite_accessory/hair/head/tightbun
 	name = "Bun (Tight)"
 	icon_state = "bun-tight"
@@ -296,10 +292,6 @@
 /datum/sprite_accessory/hair/head/highfade
 	name = "Fade (High)"
 	icon_state = "fade-high"
-
-/datum/sprite_accessory/hair/head/baldfade
-	name = "Fade (Bald)"
-	icon_state = "fade-bald"
 
 /datum/sprite_accessory/hair/head/father
 	name = "Father"
@@ -445,10 +437,6 @@
 /datum/sprite_accessory/hair/head/reversemohawk
 	name = "Mohawk (Reverse)"
 	icon_state = "mohawk-reverse"
-
-/datum/sprite_accessory/hair/head/shavedmohawk
-	name = "Mohawk (Shaved)"
-	icon_state = "mohawk-shaved"
 
 /datum/sprite_accessory/hair/head/unshavenmohawk
 	name = "Mohawk (Big)"

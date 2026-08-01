@@ -1,0 +1,4 @@
+author: "Clem-The-Duck"
+delete-after: True
+changes:
+  - rscadd: "Changes the cloth footwraps sprite"

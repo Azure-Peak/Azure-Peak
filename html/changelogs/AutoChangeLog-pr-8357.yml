@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "New snouthelm variants."
+  - qol: "MMB clothing interactions and altclick interaction with mask save state."

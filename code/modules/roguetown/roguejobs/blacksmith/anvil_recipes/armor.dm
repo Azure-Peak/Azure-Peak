@@ -860,6 +860,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/iron/sallet/visor_snouted
+	name = "Sallet, Visored, Snouted, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/snouted
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/iron/kettle_legacy
 	name = "Valorian Kettle Helmet, Iron"
 	req_bar = /obj/item/ingot/iron
@@ -977,6 +984,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/iron/helmetroundface_snouted
+	name = "Bascinet, Roundface, Snouted, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron/snouted
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/iron/etruscanbascinet
 	name = "Bascinet, Klappvisier, Iron (+1 Iron)"
 	req_bar = /obj/item/ingot/iron
@@ -989,6 +1003,13 @@
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/iron
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
+/datum/anvil_recipe/armor/iron/helmetarmet_snouted
+	name = "Armet, Snouted, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/iron/snouted
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/iron/slittedkettle
@@ -1376,6 +1397,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/steel/helmetsallv_snouted
+	name = "Sallet, Visored, Snouted, Steel (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/steel/helmetbuc
 	name = "Bucket Helmet, Steel (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
@@ -1424,6 +1452,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/steel/helmetroundface_snouted
+	name = "Bascinet, Roundface, Snouted, Steel (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/steel/etruscanbascinet
 	name = "Bascinet, Klappvisier, Steel (+1 Steel)"
 	req_bar = /obj/item/ingot/steel
@@ -1450,6 +1485,13 @@
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
+/datum/anvil_recipe/armor/steel/helmetarmet_snouted
+	name = "Armet, Snouted, Steel (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/steel/slittedkettle
@@ -1710,6 +1752,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/holysteel/nochelm_snouted
+	name = "Noccian Helmet, Snouted (+1 Holy Steel, +1 Cured Leather, +1 Amulet of Noc)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured, /obj/item/clothing/neck/roguetown/psicross/noc)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm/snouted
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/holysteel/dendorhelm
 	name = "Dendorite Helmet (+1 Holy Steel, +1 Cured Leather, +1 Amulet of Dendor)"
 	req_bar = /obj/item/ingot/steelholy
@@ -1807,6 +1856,12 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/blessedsilver/helmvolfpsy
+	name = "Psydonic Volfskulle Bascinet"
+	req_bar = /obj/item/ingot/silverblessed
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/psydonic
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/blessedsilver/helmetabso
 	name = "Psydonian Conical Greathelm (+2 Blessed Silver)"
 	req_bar = /obj/item/ingot/silverblessed
@@ -1866,6 +1921,12 @@
 	name = "Psydonic Sallet"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
+/datum/anvil_recipe/armor/blessedsilver/helmvolfpsy/inq
+	name = "Psydonic Volfskulle Bascinet"
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/psydonic
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmbucketpsy/inq

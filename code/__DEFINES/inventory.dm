@@ -169,6 +169,9 @@
 #define HIDESNOUT		(1<<15)
 #define HIDEWINGS		(1<<16)
 
+/// Check for occluding hair.
+#define HAIR_OCCLUDING_FLAGS (HIDEHAIR|HIDEEARS|HIDEFACE|HIDESNOUT)
+
 //blocking_behavior var on clothing items
 #define BLOCKBOOTS		(1<<0)
 #define BLOCKGLOVES		(1<<1)

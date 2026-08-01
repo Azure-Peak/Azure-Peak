@@ -241,6 +241,8 @@
 #define COMSIG_MOB_DEATH "mob_death"							//from base of mob/death(): (gibbed)
 #define COMSIG_MOB_TRY_BARK "try_bark"
 #define COMSIG_MOB_TRY_EMOTE "try_emote"
+#define COMSIG_MOB_EMOTED "mob_emoted"							//from /mob/proc/emote() when a keyed emote is intentionally invoked
+#define COMSIG_MOB_MEDITATED "mob_meditated"						//from /datum/emote/living/meditate/run_emote() when a meditation focus completes uninterrupted: ()
 #define COMSIG_MOB_MODIFY_AGGRO_LINES "comsig_mob_modify_aggro_lines"
 #define COMSIG_MOB_MODIFY_DEATH_LINES "comsig_mob_modify_death_lines"
 
@@ -256,7 +258,7 @@
 	#define COMPONENT_BLOCK_MAGIC 1
 #define COMSIG_MOB_HUD_CREATED "mob_hud_created"				//from base of mob/create_mob_hud(): ()
 #define COMSIG_MOB_ATTACK_HAND "mob_attack_hand"				//from base of
-#define COMSIG_MOB_ATTACK_BITE "mob_attack_bite"				
+#define COMSIG_MOB_ATTACK_BITE "mob_attack_bite"
 #define COMSIG_MOB_ATTACKED_BY_HAND	"mob_attacked_by_hand"		//from base of datum/species/proc/spec_attack_hand(mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
 #define COMSIG_MOB_ATTACKED_BY_BITE	"mob_attacked_by_bite"		//from base of /datum/intent/bite/on_mmb(atom/target, mob/living/user, params): (mob/living/user)
 	#define COMPONENT_HAND_NO_ATTACK 1

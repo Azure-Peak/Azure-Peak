@@ -1,0 +1,21 @@
+2026-08-01:
+  KatTheFox:
+  - rscadd: Fae familiar abilities have been reshuffled, both potion abilities are
+      now at tier 2. In tier 1 they now get rootcheck (bootcheck but plants) and invis.
+      Elemental gets aetherknife at base tier.
+  - bugfix: The message displayed when a familiar seeks to be summoned now actually
+      tells you how to do so.
+  - bugfix: Your character's pronouns are now preserved when shapeshifting (e.g. wildshape,
+      zad form)
+  Lamasmaster:
+  - rscadd: '2 infernal summons: Armour and a Sword'
+  WeNeedMorePhoron:
+  - rscadd: You can no longer self extract lux from yourself
+  borneblood:
+  - rscadd: Added a single-use pressure plate object.
+  eirenxiv:
+  - balance: gives swashbuckler apprentice trapmaking
+  - rscadd: Added Hardened Leather Footwraps to Gold/Silverface
+  radarseas:
+  - image: added/modified abscond + new xylix revival icon
+  - bugfix: my dumbass forgot to check Xylix getting anastasis Icon, FUCK.
