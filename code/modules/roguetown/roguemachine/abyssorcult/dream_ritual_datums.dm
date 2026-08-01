@@ -313,4 +313,21 @@
 		H.remove_movespeed_modifier(MOVESPEED_ID_WATERLOG_SLOW)
 	return ..()
 
+/datum/abyssal_ritual/dream_knife
+	name = "Create Dream Knife"
+	desc = "Drags the sharped edges of Abyssor's dream into that of a knife's blade."
+	base_channel_time = 50
+
+	required_ingredients = list(
+		/obj/item/dream_material/dream_blade = 1,
+		/obj/item/rogueweapon/huntingknife
+
+	)
+	reward_items = list(
+		/obj/item/rogueweapon/huntingknife/paint = 1
+	)
+	invocation_phases  = list(
+		"#Cut through the silence."
+	)
+
 #undef MOVESPEED_ID_WATERLOG_SLOW

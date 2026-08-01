@@ -51,30 +51,35 @@
 	if(!abyssorite_count && !holy_count)
 		return discounted_ingredients
 
+	// Only dream items can be discounted
+	var/list/dream_item_keys = list()
+	for(var/req_type in discounted_ingredients)
+		if(ispath(req_type, /obj/item/dream_material) && discounted_ingredients[req_type] > 0)
+			dream_item_keys += req_type
+
+	var/dream_total = 0
+	for(var/req_type in dream_item_keys)
+		dream_total += discounted_ingredients[req_type]
+
 	var/items_to_discount = 0
 
-	if(total_items >= 3)
+	if(dream_total >= 3)
 		if(prob(20 * abyssorite_count) || prob(15 * holy_count))
 			items_to_discount++
 		if(prob(15 * abyssorite_count) || prob(12 * holy_count))
 			items_to_discount++
-	else if(total_items == 2)
+	else if(dream_total == 2)
 		if(prob(15 * abyssorite_count) || prob(12 * holy_count))
 			items_to_discount++
 
-	items_to_discount = min(items_to_discount, total_items - 1)
+	items_to_discount = min(items_to_discount, dream_total - 1)
 
-	while(items_to_discount > 0)
-		var/list/valid_keys = list()
-		for(var/req_type in discounted_ingredients)
-			if(discounted_ingredients[req_type] > 0)
-				valid_keys += req_type
-		if(!length(valid_keys))
-			break
-		var/chosen_key = pick(valid_keys)
+	while(items_to_discount > 0 && length(dream_item_keys))
+		var/chosen_key = pick(dream_item_keys)
 		discounted_ingredients[chosen_key]--
 		if(discounted_ingredients[chosen_key] <= 0)
 			discounted_ingredients -= chosen_key
+			dream_item_keys -= chosen_key
 		items_to_discount--
 
 	return discounted_ingredients

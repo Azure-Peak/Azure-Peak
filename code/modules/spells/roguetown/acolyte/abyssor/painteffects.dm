@@ -194,6 +194,12 @@
 	id = "ink_leak"
 	duration = 8 SECONDS
 	var/datum/weakref/caster_ref
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ink_leak
+
+/atom/movable/screen/alert/status_effect/debuff/ink_leak
+	name = "Ink Leaking"
+	desc = "My skin is bleeding paint."
+	icon_state = "debuff"
 
 /datum/status_effect/debuff/ink_leak/on_creation(mob/living/new_owner, mob/living/caster)
 	// We always want the caster on the offchance someone is given miracles like this one, but doesn't have paint affinity.

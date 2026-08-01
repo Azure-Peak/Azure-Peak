@@ -76,12 +76,12 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
 	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg'
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
-	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 
 // Trades utility skills for ever so slightly more stats, combat skills and equipment. T3.
 // Basically the world's worst leader just to not pump church's combat capabilities too much.

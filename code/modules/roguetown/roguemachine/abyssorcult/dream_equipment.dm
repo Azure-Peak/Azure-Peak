@@ -100,3 +100,39 @@
 	if(loc == user && ishuman(user))
 		var/mob/living/carbon/human/H = user
 		H.update_inv_head()
+
+/obj/item/rogueweapon/huntingknife/paint
+	name = "painted knife"
+	desc = "A simple functional knife made out of paints hardened into a pointy edge. It seems to be able to be used to attune itself with magical paints."
+	icon_state = "paint_dagger"
+	icon = 'icons/roguetown/weapons/dream_weapons.dmi'
+	item_state = "paint_dagger"
+	var/enchant_cooldown
+
+/obj/item/rogueweapon/huntingknife/paint/attack_self(mob/user)
+	. = ..()
+	if(.)
+		return TRUE
+
+	if(world.time < enchant_cooldown)
+		var/time_left = (enchant_cooldown - world.time) / (1 MINUTES)
+		var/minutes_left = round(time_left, 0.1)
+		to_chat(user, span_warning("[src] feels inert. It will take about [minutes_left] more minute\s before it can be empowered again."))
+		return TRUE
+
+	if(AddComponent(/datum/component/umbral_enchant, user))
+		visible_message(span_purple("[src]'s aura turns purple, oozing thick droplets of paint."), span_purple("The [src] in my hand starts oozing abyssal paint."))
+		enchant_cooldown = world.time + 2 MINUTES
+		return TRUE
+	else
+		to_chat(user, span_warning("[src] fails to take the abyssal enchantment!"))
+		return FALSE
+
+/obj/item/rogueweapon/huntingknife/paint/examine(mob/user)
+	. = ..()
+	if(enchant_cooldown && world.time < enchant_cooldown)
+		var/time_left = (enchant_cooldown - world.time) / (1 MINUTES)
+		var/minutes_left = round(time_left, 0.1)
+		. += span_notice("It feels inert. About [minutes_left] more minute\s required before it can ooze paint again.")
+	else
+		. += span_notice("Focusing on it feels like it could empower the blade with abyssal energy.")
