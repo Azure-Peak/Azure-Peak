@@ -4,6 +4,10 @@
 // ROGUETRAITS (description when rmb skills button)
 #define TRAIT_WEBWALK "Webwalker"
 #define TRAIT_VENOMOUS "Venomous"
+/// Kicks are tail sweeps: twice the shove distance, and the messaging says tail rather than feet.
+/// ES's equivalent (TRAIT_LAMIAN_TAIL) also gates reaching into fires, bins, cauldrons and mineral
+/// doors — none of which are ported here, so this is kick-only for now.
+#define TRAIT_TAIL_KICK "Tail Sweep"
 #define TRAIT_NOSTINK "Dead Nose"
 #define TRAIT_ZJUMP "High Jumping"
 #define TRAIT_JESTERPHOBIA "Jesterphobic"
@@ -366,6 +370,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CHOSEN = "Astrata choose you to represent her glory.",
 	TRAIT_WEBWALK = "I can move freely between webs.",
 	TRAIT_VENOMOUS = span_necrosis("Venom flows through my fangs. Chewing upon my prey enfeebles them."),
+	TRAIT_TAIL_KICK = "My tail sweeps where others would kick, and it throws them twice as far.",
 	TRAIT_NOSTINK = span_dead("My nose is numb to the smell of decay."),
 	TRAIT_ZJUMP = "Time to reach a new high.",
 	TRAIT_JESTERPHOBIA = span_warning("I have a severe irrational fear of Jesters"),

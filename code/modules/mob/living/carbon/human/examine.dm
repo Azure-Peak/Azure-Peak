@@ -340,6 +340,20 @@
 			str = "[m3] something on [m2] wrists!"
 		. += str
 
+	//taur lower-body hide - same readout the gnoll pelt and harpy leg skin get
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/lamia_legs))
+		var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/lamia_legs/legskin = skin_armor
+		var/chitinous = istype(legskin, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/lamia_legs/drider)
+		var/skin_line
+		if(is_stupid)
+			skin_line = chitinous ? "[m3] creepy crawly legs!" : "[m3] a big snake bottom!"
+		else
+			skin_line = chitinous ? "[m3] a carapace of hard chitin." : "[m3] a long tail sheathed in thick scales."
+			var/integrity_str = legskin.integrity_check(is_smart)
+			if(integrity_str)
+				skin_line += " [integrity_str]"
+		. += skin_line
+
 	//arcyne ward
 	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward))
 		var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/ward = skin_armor

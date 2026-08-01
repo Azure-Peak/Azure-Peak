@@ -23,9 +23,11 @@
 	the body of a hoofed beast. No two taur tribes agree on which beast is the truest, and so they have \
 	spread across the southern reaches, some bearing the barrel and hooves of a saiga, others the cloven \
 	legs of a goat. Strong of frame and long of stride, they cannot abide boots upon their hooves. \
-	Their serpentine and spider-bodied cousins keep to their own kind - see the Lamia and the Drider.<br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-1 SPD</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +1 STR</b></span> </br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Longstrider, Strong stomach</span></b>"
+	Their serpentine and spider-bodied cousins keep to their own kind - see the Lamia and the Drider."
+	//VALMORIAN: no stat or trait lines in desc - set_new_race() already prints race_bonus and
+	//inherent_traits underneath it, so anything repeated here shows up twice. Only mechanics that
+	//nothing else announces belong in mechanics_explanations.
+	mechanics_explanations = list("Their hooved lower body cannot wear boots or pants.")
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR, LIPS, HAIR, OLDGREY, MUTCOLORS)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

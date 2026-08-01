@@ -21,9 +21,14 @@
 	A humanoid torso rising from the body of a great spider. Driders are reclusive weavers of the deep \
 	woods, caverns and ruins, scuttling across walls and webs with unsettling ease. Shunned for their \
 	monstrous shape, most keep to the wilds and the dark, though a rare few walk among the other races. \
-	They move freely across the webs of their kin.<br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>-1 SPD, -1 PER</span> |<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'> +2 CON</b></span> </br> \
-	<span style='color: #cc0f0f;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>Can't wear boots</span> | <span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'>Venomous, Webmaker, Longstrider, Webwalker, Skilled Climber, Strong stomach, Cave Dweller</span></b>"
+	They move freely across the webs of their kin."
+	//VALMORIAN: no stat or trait lines in desc - set_new_race() already prints race_bonus and
+	//inherent_traits underneath it. Venom, webwalking and Weave Web come from the taur bodypart
+	//rather than inherent_traits, so the auto-printer never mentions them; listed here instead.
+	mechanics_explanations = list("Their spider body cannot wear boots or pants.",
+		"Chewing on prey with their fangs injects venom.",
+		"They can weave webs, and cross any web freely.",
+		"Their chitin acts as natural armour, and mends itself over time.")
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR, LIPS, HAIR, OLDGREY, MUTCOLORS)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
