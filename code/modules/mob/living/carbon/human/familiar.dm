@@ -174,7 +174,7 @@
 	H.remove_overlay(DAMAGE_LAYER)
 	return TRUE
 
-/mob/living/carbon/human/species/familiar/death(gibbed, nocutscene)
+/mob/living/carbon/human/species/familiar/death(gibbed, nocutscene = FALSE)
 	. = ..(gibbed, nocutscene)
 	if(gibbed)
 		return .
