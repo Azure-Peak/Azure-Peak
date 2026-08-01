@@ -33,6 +33,7 @@
 		TRAIT_NOSTINK,
 		TRAIT_DODGEEXPERT,
 		TRAIT_STEELHEARTED,
+		TRAIT_DECEIVING_MEEKNESS,
 	)
 
 /datum/antagonist/assassin/on_gain()
