@@ -17,8 +17,8 @@
 	var/mob/living/user = owner
 	if(!istype(user))
 		return FALSE
-	var/mob/living/simple_animal/pet/familiar/familiar
-	for(var/mob/living/simple_animal/pet/familiar/familiar_check in GLOB.player_list)
+	var/mob/living/carbon/human/species/familiar/familiar
+	for(var/mob/living/carbon/human/species/familiar/familiar_check in GLOB.player_list)
 		if(familiar_check.familiar_summoner == user)
 			familiar = familiar_check
 	if(!familiar || !familiar.mind)
@@ -36,7 +36,7 @@
 	log_game("[key_name(user)] sent a message to [key_name(familiar)] with contents [message]")
 	return TRUE
 
-/datum/action/cooldown/spell/message_familiar/proc/track_vestige(mob/living/user, mob/living/simple_animal/pet/familiar/fam)
+/datum/action/cooldown/spell/message_familiar/proc/track_vestige(mob/living/user, mob/living/carbon/human/species/familiar/fam)
 	user.visible_message(span_notice("[user] closes [user.p_their()] eyes and reaches out through the veil..."), span_notice("I close my eyes and attune to the flow of the veil..."))
 	if(!do_after(user, 2 SECONDS, target = user))
 		to_chat(user, span_warning("Your concentration breaks."))
@@ -84,7 +84,7 @@
 
 /datum/action/cooldown/spell/message_summoner/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/simple_animal/pet/familiar/user = owner
+	var/mob/living/carbon/human/species/familiar/user = owner
 	if(!istype(user))
 		return FALSE
 
@@ -187,7 +187,6 @@
 	name = "Fey Shroud"
 	desc = "Cloak yourself, blending into the surroundings. Attacking, being attacked, or casting another ability will break your stealth."
 	click_to_activate = FALSE
-	spell_requirements = SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/fae_brew
 	name = "Alchemical Stomach"
@@ -203,7 +202,7 @@
 	spell_requirements = NONE
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
-/datum/action/cooldown/spell/fae_brew/cast(mob/living/simple_animal/pet/familiar/fae/user)
+/datum/action/cooldown/spell/fae_brew/cast(mob/living/carbon/human/species/familiar/fae/user)
 	. = ..()
 	if(!istype(user))
 		return FALSE
@@ -213,7 +212,6 @@
 /datum/action/cooldown/spell/projectile/lesser_fetch/fae
 	name = "Grasp of Nature"
 	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 	invocations = list("Recolligere silva")
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite
@@ -224,7 +222,7 @@
 	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
 	overlay_icon_state = "wither"
 
-/obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/fae/user)
+/obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/carbon/human/species/familiar/fae/user)
 	. = ..()
 	if(!user || !user.reagents) // literally how
 		revert_cast()
@@ -293,7 +291,7 @@
 	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	overlay_icon_state = "spitfire"
 
-/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/infernal/user)
+/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/carbon/human/species/familiar/infernal/user)
 	. = ..()
 	if(!user) // literally how
 		revert_cast()
@@ -335,12 +333,6 @@
 /datum/action/cooldown/spell/magicians_stone/elemental
 	name = "Create Stone"
 	fluff_desc = ""
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/aetherknife/elemental
-	name = "Shape Knife"
-	fluff_desc = ""
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /obj/item/rogueweapon/woodstaff/implement/greater/elemental
 	name = "Staff of the Binder"
@@ -350,7 +342,6 @@
 /datum/action/cooldown/spell/arcyne_forge/elemental
 	name = "Earthen Forge"
 	desc = "Shape your earthen form into a tool or weapon. When the item breaks, you will revert to your original form. Cast again to manually revert."
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 	conjure_options = list(
 		// Staff
 		"Staff of the Binder" = /obj/item/rogueweapon/woodstaff/implement/greater/elemental,
@@ -389,7 +380,7 @@
 
 /datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/simple_animal/pet/familiar/H = owner
+	var/mob/living/carbon/human/species/familiar/H = owner
 	if(!istype(H))
 		return FALSE
 
@@ -479,7 +470,7 @@
 
 /datum/action/cooldown/spell/arcyne_forge/elementalt2/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/simple_animal/pet/familiar/elemental/H = owner
+	var/mob/living/carbon/human/species/familiar/elemental/H = owner
 	if(!istype(H))
 		return FALSE
 
@@ -519,7 +510,7 @@
 	overlay_icon = 'icons/mob/actions/hagspells.dmi'
 	overlay_icon_state = "hand_up"
 
-/obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
+/obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
 	. = ..()
 	if(!user) // literally how
 		revert_cast()
@@ -527,7 +518,7 @@
 	if(!targets.len)
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
-	var/mob/living/simple_animal/pet/familiar/target = targets[1]
+	var/mob/living/carbon/human/species/familiar/target = targets[1]
 	if(!istype(target))
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
@@ -549,11 +540,11 @@
 		return FALSE
 	// we have a mindless familiar: let's see if it's actually valid for us
 	var/essence_to_grant = null
-	if(istype(target, /mob/living/simple_animal/pet/familiar/fae))
+	if(istype(target, /mob/living/carbon/human/species/familiar/fae))
 		essence_to_grant = "fae"
-	else if(istype(target, /mob/living/simple_animal/pet/familiar/infernal))
+	else if(istype(target, /mob/living/carbon/human/species/familiar/infernal))
 		essence_to_grant = "infernal"
-	else if(istype(target, /mob/living/simple_animal/pet/familiar/elemental))
+	else if(istype(target, /mob/living/carbon/human/species/familiar/elemental))
 		essence_to_grant = "elemental"
 	else
 		// kin... hubris begets hubris, in the end
@@ -625,7 +616,7 @@
 		hit_mob.apply_damage(damage = 3, damagetype = BURN)
 	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
 
-/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
+/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
 	user.face_atom(targets[1])
 	user.move_resist = MOVE_FORCE_VERY_STRONG
 	if(do_after(user,1 SECONDS, target=user))
@@ -670,7 +661,6 @@
 	name = "Grasp of the Void"
 	desc = "Grasp a freestanding item with your arcyne power, drawing it towards you. Doesn't work on living targets."
 	invocations = list("Nihilo, recolligere")
-
 
 /datum/action/cooldown/spell/magicians_stone/elemental/void
 	name = "Harvest Stone"

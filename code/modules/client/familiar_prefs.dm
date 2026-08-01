@@ -18,10 +18,10 @@
 	prefs = passed_prefs
 	familiar_names = alist()
 	familiar_species = alist(
-		"fae" = /mob/living/simple_animal/pet/familiar/fae,
-		"infernal" = /mob/living/simple_animal/pet/familiar/infernal,
-		"elemental" = /mob/living/simple_animal/pet/familiar/elemental,
-		"void" = /mob/living/simple_animal/pet/familiar/void
+		"fae" = /mob/living/carbon/human/species/familiar/fae,
+		"infernal" = /mob/living/carbon/human/species/familiar/infernal,
+		"elemental" = /mob/living/carbon/human/species/familiar/elemental,
+		"void" = /mob/living/carbon/human/species/familiar/void
 	)
 	familiar_flavortexts = alist()
 	familiar_pronouns = alist(

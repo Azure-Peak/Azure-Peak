@@ -443,6 +443,15 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			to_chat(usr, "<span class='info'>Any tales of intrigue of this one are reserved to the nobility...</span>")
 		return
 
+	if(href_list["task"] == "view_fam_headshot")
+		if(!ismob(usr))
+			return
+		var/datum/examine_panel/familiar/mob_examine_panel = new(src)
+		mob_examine_panel.holder = src
+		mob_examine_panel.viewing = usr
+		mob_examine_panel.ui_interact(usr)
+		return
+
 	return ..() //end of this massive fucking chain. TODO: make the hud chain not spooky. - Yeah, great job doing that. - I made it worse sorry guys.
 
 /// Renders an armor tier as colored dots.

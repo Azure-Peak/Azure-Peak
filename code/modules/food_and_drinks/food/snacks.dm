@@ -219,7 +219,7 @@ All foods are distributed among various categories. Use common sense.
 			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
 		initialize_cooked_food(result, 1)
 		return result
-	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove) || istype(A,/mob/living/simple_animal/pet/familiar/infernal))
+	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove) || istype(A,/mob/living/carbon/human/species/familiar/infernal))
 		var/obj/item/result
 		if(fried_type)
 			result = new fried_type(A)
@@ -283,7 +283,7 @@ All foods are distributed among various categories. Use common sense.
 						H.duration += 2 SECONDS
 				else
 					eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
-		
+
 		if(faretype >= FAVORITE_FOOD_MINFARE && ((cuisine & human_eater.favorite_cuisine) || (dish_type & human_eater.favorite_dish)))
 			if(human_eater.add_stress(/datum/stressevent/favourite_food))
 				new /obj/effect/temp_visual/heart(get_turf(human_eater))
