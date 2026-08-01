@@ -97,13 +97,13 @@
 				)
 		else if(istype(container_reagents) && user.used_intent.type == /datum/intent/fill)
 			src.visible_message(
-				span_notice("I begin filling [user]'s [I.name]..."),
-				span_notice("[src] begins filling [user]'s [I.name]...")
+				span_notice("[src] begins filling [user]'s [I.name]..."),
+				span_notice("I begin filling [user]'s [I.name]...")
 			)
 			while(!container_reagents.holder_full() && do_mob(user, src, 1 SECONDS) && reagents.trans_to(I,5,transfered_by=user))
 				src.visible_message(
-					span_notice("I fill [I] with some of my solution..."),
-					span_notice("[src] fills [I] with some solution...")
+					span_notice("[src] fills [I] with some solution..."),
+					span_notice("I fill [I] with some of my solution...")
 				)
 	else if(istype(I, /obj/item/alch) && tier >= 2)
 		if(ingredients.len >= maxingredients)
