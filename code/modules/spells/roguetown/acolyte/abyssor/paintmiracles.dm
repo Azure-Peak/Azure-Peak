@@ -23,37 +23,14 @@
 	devotion_cost = 25
 	associated_skill = /datum/skill/magic/holy
 
-	var/active_duration = 7 SECONDS
-
 /datum/action/cooldown/spell/ink_presence/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/user = owner
 	if(!user)
 		return FALSE
 
-	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/generate_ink_trail)
-	addtimer(CALLBACK(src, .proc/stop_ink_presence, user), active_duration)
+	user.apply_status_effect(/datum/status_effect/buff/ink_presence)
 	return TRUE
-
-/datum/action/cooldown/spell/ink_presence/proc/generate_ink_trail(mob/living/user, turf/old_turf, dir)
-	SIGNAL_HANDLER
-	if(!user || user.stat != CONSCIOUS)
-		return
-	var/turf/current_turf = get_turf(user)
-	if(!current_turf || !isopenturf(current_turf))
-		return
-
-	var/obj/effect/ink_trail/existing_trail = locate(/obj/effect/ink_trail) in current_turf
-
-	if(existing_trail)
-		existing_trail.refresh_lifetime()
-	else
-		new /obj/effect/ink_trail(current_turf, user)
-		user.apply_status_effect(/datum/status_effect/buff/ink_surge)
-
-/datum/action/cooldown/spell/ink_presence/proc/stop_ink_presence(mob/living/user)
-	if(user)
-		UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 
 /datum/action/cooldown/spell/paint_blessing
 	name = "Paint Attunement"

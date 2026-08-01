@@ -114,6 +114,41 @@
 // STATUS EFFECT DEFINITIONS
 // ==========================================
 
+/datum/status_effect/buff/ink_presence
+	id = "ink_presence"
+	duration = 7 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/ink_presence
+
+/atom/movable/screen/alert/status_effect/buff/ink_presence
+	name = "Ink Presence"
+	desc = "I'm leaking ink!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/ink_presence/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/generate_ink_trail)
+
+/datum/status_effect/buff/ink_presence/on_remove()
+	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
+	return ..()
+
+/datum/status_effect/buff/ink_presence/proc/generate_ink_trail(turf/old_turf, dir)
+	SIGNAL_HANDLER
+	if(!owner || owner.stat != CONSCIOUS)
+		return
+
+	var/turf/current_turf = get_turf(owner)
+	if(!current_turf || !isopenturf(current_turf))
+		return
+
+	var/obj/effect/ink_trail/existing_trail = locate(/obj/effect/ink_trail) in current_turf
+
+	if(existing_trail)
+		existing_trail.refresh_lifetime()
+	else
+		new /obj/effect/ink_trail(current_turf, owner)
+		owner.apply_status_effect(/datum/status_effect/buff/ink_surge)
+
 /datum/status_effect/buff/ink_surge
 	id = "ink_surge"
 	duration = 1.5 SECONDS

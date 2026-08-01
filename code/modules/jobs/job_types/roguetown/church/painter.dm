@@ -81,6 +81,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
 
 // Trades utility skills for ever so slightly more stats, combat skills and equipment. T3.
 // Basically the world's worst leader just to not pump church's combat capabilities too much.

@@ -582,7 +582,7 @@
 	if(.)
 		var/turf/T = get_turf(src)
 		if(T)
-			T.visible_message(span_danger("\The [src] turns completely to paint dust and dissipates immediately from the shot's force!"))
+			T.visible_message(span_danger("\The [src] turns to paint dust from the shot's force!"))
 		qdel(src)
 
 /obj/item/ammo_box/magazine/internal/shot/bow/paint
