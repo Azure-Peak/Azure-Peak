@@ -226,7 +226,7 @@
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_INT = 4,
-		STATKEY_PER = 2
+		STATKEY_PER = 3
 	)
 	age_mod = /datum/class_age_mod/grenzel_mage
 	subclass_skills = list(
