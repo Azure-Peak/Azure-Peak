@@ -36,8 +36,9 @@
 		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOMOOD,
 		TRAIT_NOHUNGER,
-		TRAIT_HARDDISMEMBER, //Decapping Volfs causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
+		TRAIT_NODISMEMBER, //Decapping Volfs causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects due to them transforming when killed/stepping on shards.
+		TRAIT_NOMETABOLISM, // partly to avoid potion jank, mostly because fae need to store reagents inside themselves
 		TRAIT_CICERONE, // alchemy familiar
 		TRAIT_KNEESTINGER_IMMUNITY, // they're literally nature spirits
 		TRAIT_KEENEARS, // to fit with their recon focus
@@ -46,6 +47,7 @@
 /mob/living/carbon/human/species/familiar/fae/Initialize()
 	. = ..()
 	create_reagents(90, TRANSPARENT)
+	adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE)
 
 /mob/living/carbon/human/species/familiar/fae/is_aligned_leyline(obj/structure/leyline/ley)
 	return istype(ley, /obj/structure/leyline/normal/grove)
@@ -58,7 +60,7 @@
 		if(reagents.flags & TRANSPARENT)
 			if(length(reagents.reagent_list))
 				if(user.can_see_reagents() || (user.Adjacent(src) && (user.get_skill_level(/datum/skill/craft/alchemy) >= 2 || HAS_TRAIT(user, TRAIT_CICERONE)))) //Show each individual reagent
-					ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"]:")
+					ret.Insert(LAZYLEN(ret)-1, "[src.p_they(TRUE)] contain[src.gender==PLURAL?"":"s"]:")
 					for(var/datum/reagent/R in reagents.reagent_list)
 						ret.Insert(LAZYLEN(ret)-1, "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>")
 				else //Otherwise, just show the total volume
@@ -68,14 +70,14 @@
 						total_volume += R.volume
 					reagent_color = mix_color_from_reagents(reagents.reagent_list)
 					if(total_volume < 1)
-						ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>")
+						ret.Insert(LAZYLEN(ret)-1, "[src.p_they(TRUE)] contain[src.gender==PLURAL?"":"s"] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>")
 					else
-						ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
+						ret.Insert(LAZYLEN(ret)-1, "[src.p_they(TRUE)] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
 			else
 				ret.Insert(LAZYLEN(ret)-1, "[src]'s stomach is empty.")
 		else if(reagents.flags & AMOUNT_VISIBLE)
 			if(reagents.total_volume)
-				ret.Insert(LAZYLEN(ret)-1, span_notice("[src.p_they()] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
+				ret.Insert(LAZYLEN(ret)-1, span_notice("[src.p_they(TRUE)] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
 			else
 				ret.Insert(LAZYLEN(ret)-1, span_danger("[src]'s stomach is empty."))
 	return ret
@@ -169,13 +171,7 @@
 				var/datum/alch_cauldron_recipe/found_recipe = new result_path
 				var/amt2raise = familiar_summoner?.STAINT*2
 				// Handle skillgating
-				if(!familiar_summoner)
-					brewing = 0
-					src.visible_message(span_info("[src] needs their summoner's alchemical knowledge to brew anything."))
-					return
-				to_chat(world, span_warning("[found_recipe.skill_required]"))
-				to_chat(world, span_warning("[familiar_summoner?.get_skill_level(/datum/skill/craft/alchemy)]"))
-				if(found_recipe.skill_required > familiar_summoner?.get_skill_level(/datum/skill/craft/alchemy))
+				if(found_recipe.skill_required > max((familiar_summoner?.get_skill_level(/datum/skill/craft/alchemy) || 0), get_skill_level(/datum/skill/craft/alchemy)))
 					brewing = 0
 					src.visible_message(span_warning("[src] emits a gurgling noise, the ingredients melding into a disgusting mess! Perhaps a more skilled alchemist is needed for this recipe."))
 					for(var/obj/item/ing in src.ingredients)
