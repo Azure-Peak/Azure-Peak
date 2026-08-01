@@ -80711,6 +80711,13 @@
 /obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/physician)
+"oZw" = (
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Abyssal Grotto";
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/cave/abyssor/inner)
 "oZA" = (
 /obj/effect/decal/cobble/mossy{
 	dir = 8
@@ -86431,6 +86438,12 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/southwest)
+"qdr" = (
+/obj/structure/roguemachine/withdraw{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/cave/abyssor/inner)
 "qdv" = (
 /obj/effect/landmark/chest_or_mimic/locked_or_trapped,
 /turf/open/floor/rogue/metal/barograte,
@@ -146952,7 +146965,7 @@ nma
 nma
 rfP
 pdX
-pOm
+qdr
 uaS
 qyl
 vEZ
@@ -147856,7 +147869,7 @@ nma
 nma
 rfP
 pdX
-pOm
+oZw
 uaS
 uaS
 vEZ
