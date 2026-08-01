@@ -12,6 +12,7 @@
 	var/list/familiar_ooc_notes_display
 	var/list/familiar_ooc_extra
 	var/list/familiar_ooc_extra_link
+	var/cur_plane
 
 /datum/familiar_prefs/New(datum/preferences/passed_prefs)
 	. = ..()
@@ -37,8 +38,11 @@
 	familiar_ooc_notes_display = list()
 	familiar_ooc_extra = list()
 	familiar_ooc_extra_link = list()
+	cur_plane = "fae"
 
 /datum/familiar_prefs/proc/fam_show_ui()
+	if(!cur_plane)
+		cur_plane = "fae"
 	var/client/client = prefs?.parent
 	if (!client)
 		return
@@ -59,30 +63,30 @@
 		"elemental" = "Elemental",
 		"void" = "Void"
 	)
-	for(var/planar_origin in list("fae","infernal","elemental","void"))
-		var/list/planar_list = GLOB.planar_lists[planar_origin]
-		dat += "<br><div align='center'><font size=4 color='#bbbbbb'>[pretty_plane_names[planar_origin]] Preferences</font></div>"
-		dat += "<br><b>Familiar Name:</b> <a href='?_src_=familiar_prefs;preference=familiar_names;task=input;planar_origin=[planar_origin]'>[(src.familiar_names[planar_origin] ? src.familiar_names[planar_origin] : "")] (Set name)</a>"
-		var/selected_pronoun = (src.familiar_pronouns[planar_origin] ? (pronoun_display[src.familiar_pronouns[planar_origin]] ? pronoun_display[src.familiar_pronouns[planar_origin]] : "they/them") : "they/them")
-		dat += "<br><b>Pronouns:</b> <a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=select;planar_origin=[planar_origin]'>[selected_pronoun]</a>"
+	var/list/planar_list = GLOB.planar_lists[cur_plane]
+	dat += "<br><div align='center'><font size=4 color='#bbbbbb'>[pretty_plane_names[cur_plane]] Preferences</font></div>"
+	dat += "<br><b>Familiar Name:</b> <a href='?_src_=familiar_prefs;preference=familiar_names;task=input;planar_origin=[cur_plane]'>[(src.familiar_names[cur_plane] ? src.familiar_names[cur_plane] : "")] (Set name)</a>"
+	var/selected_pronoun = (src.familiar_pronouns[cur_plane] ? (pronoun_display[src.familiar_pronouns[cur_plane]] ? pronoun_display[src.familiar_pronouns[cur_plane]] : "they/them") : "they/them")
+	dat += "<br><b>Pronouns:</b> <a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=select;planar_origin=[cur_plane]'>[selected_pronoun]</a>"
 
-		var/display_name = "None selected"
-		// void drakelings only have one type, so displaying this selection would be moot
-		if(planar_list && planar_list.len > 1)
-			for (var/name in planar_list)
-				if (planar_list[name] == familiar_species[planar_origin])
-					display_name = name
-					break
-			dat += "<br><b>Selected Familiar Type:</b> <a href='?_src_=familiar_prefs;preference=familiar_species;task=select;planar_origin=[planar_origin]'>[display_name]</a>"
+	var/display_name = "None selected"
+	// void drakelings only have one type, so displaying this selection would be moot
+	if(planar_list && planar_list.len > 1)
+		for (var/name in planar_list)
+			if (planar_list[name] == familiar_species[cur_plane])
+				display_name = name
+				break
+		dat += "<br><b>Selected Familiar Type:</b> <a href='?_src_=familiar_prefs;preference=familiar_species;task=select;planar_origin=[cur_plane]'>[display_name]</a>"
 
-		// however, we *do* want to display their lore blurb
-		if (familiar_species[planar_origin])
-			var/lore_blurb = GLOB.familiar_lore_blurbs[familiar_species[planar_origin]]
-			if (lore_blurb)
-				dat += "<br><i><b>Lore inspiration:</b> [lore_blurb]</i>"
-		dat += "<br><b>Examine settings:</b> <a href='?_src_=familiar_prefs;preference=familiar_examine;task=select;planar_origin=[planar_origin]'>Open</a>"
+	// however, we *do* want to display their lore blurb
+	if (familiar_species[cur_plane])
+		var/lore_blurb = GLOB.familiar_lore_blurbs[familiar_species[cur_plane]]
+		if (lore_blurb)
+			dat += "<br><i><b>Lore inspiration:</b> [lore_blurb]</i>"
+	dat += "<br><b>Examine settings:</b> <a href='?_src_=familiar_prefs;preference=familiar_examine;task=select;planar_origin=[cur_plane]'>Open</a>"
+	dat += "<br><a href='?_src_=familiar_prefs;preference=plane;planar_origin=[cur_plane];dir=prev'>Prev</a>\t<a href='?_src_=familiar_prefs;preference=plane;planar_origin=[cur_plane];dir=next'>Next</a>"
 	dat += "<br><br><i>Press this button to send a hint to all arcyne users that you are available and wish to be summoned:</i> <a href='?_src_=familiar_prefs;preference=pulse'>Pulse</a>"
-	var/datum/browser/popup = new(client?.mob, "Familiar Preferences", "<center>Familiar Preferences</center>", 900, 900)
+	var/datum/browser/popup = new(client?.mob, "Familiar Preferences", "<center>Familiar Preferences</center>", 900, 450)
 	popup.set_window_options("can_close=1")
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
@@ -95,6 +99,15 @@
 	var/planar_origin = href_list["planar_origin"]
 
 	switch(href_list["preference"])
+		if("plane")
+			var/idx
+			if(href_list["dir"]=="next")
+				idx = (GLOB.planar_lists.Find(planar_origin) % length(GLOB.planar_lists)) + 1 // i. i hate this. i fucking hate 1-indexing what is this shit
+			else
+				idx = GLOB.planar_lists.Find(planar_origin) - 1
+				if(idx == 0)
+					idx = length(GLOB.planar_lists)
+			cur_plane = GLOB.planar_lists[idx]
 		if("familiar_names")
 			var/new_name = input(user, "Choose your Familiar character's name:", "Identity") as text|null
 			if(new_name)
