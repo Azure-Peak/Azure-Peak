@@ -985,6 +985,11 @@
 	max_integrity = 2000
 	over_state = "dunjonopen"
 	var/viewportdir
+	///Whether this door actually has a peek slot. Subtypes without one skip the whole interaction.
+	var/has_viewport = TRUE
+	///Viewport state. Kept separate from opacity because the door owns opacity and resets it on
+	///every open/close - see set_opacity() below.
+	var/window_closed = TRUE
 	kickthresh = 15
 	locksound = 'sound/foley/doors/lockmetal.ogg'
 	unlocksound = 'sound/foley/doors/lockmetal.ogg'
@@ -1007,12 +1012,11 @@
 	repair_cost_first = /obj/item/natural/stone
 	repair_cost_second = /obj/item/natural/stone
 	repair_skill = /datum/skill/craft/masonry
-
-// Stone donjon doors have no viewport. The attack_right override that used to sit here only existed
-// to suppress the old right-click viewport, and blocked the parent's key handling on an empty hand
-// while it was at it - the viewport is on MiddleClick now, so right-click just uses the parent.
-/obj/structure/mineral_door/wood/donjon/stone/view_toggle(mob/user)
-	return
+	// Solid stone - no peek slot. This replaces a view_toggle() override that returned silently:
+	// the door still inherited the viewport MiddleClick, so middle-clicking one announced "the
+	// viewport doesn't toggle from this side" about a viewport it never had, and did nothing at
+	// all from the correct side. has_viewport skips the interaction outright instead.
+	has_viewport = FALSE
 
 /obj/structure/mineral_door/wood/donjon/Initialize()
 	viewportdir = dir
@@ -1024,6 +1028,8 @@
 // find_key_for_door() lookup - so keys carried in a belt could not work the lock, only keys in hand.
 /obj/structure/mineral_door/wood/donjon/MiddleClick(mob/user, params)
 	. = ..()
+	if(!has_viewport) //nothing to slide - stay silent rather than describing a slot that isn't there
+		return
 	if(!user.Adjacent(src))
 		return
 	if(user.get_active_held_item())
@@ -1040,19 +1046,30 @@
 
 /obj/structure/mineral_door/wood/donjon/get_mechanics_examine(mob/user)
 	. = ..()
+	if(!has_viewport)
+		return
 	. += span_info("Middle-clicking the door with an empty hand, from the side the viewport slides on, will open or close it. This requires no MMB intent to be selected.")
 
 /obj/structure/mineral_door/wood/donjon/proc/view_toggle(mob/user)
-	if(door_opened)
+	if(door_opened || !has_viewport)
 		return
-	if(opacity)
-		to_chat(user, span_info("I slide the viewport open."))
-		set_opacity(FALSE)
-		playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
-	else
-		to_chat(user, span_info("I slide the viewport closed."))
-		set_opacity(TRUE)
-		playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
+	window_closed = !window_closed
+	to_chat(user, span_info("I slide the viewport [window_closed ? "closed" : "open"]."))
+	set_opacity(window_closed)
+	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
+
+// The viewport used to track its state in the door's own opacity var, which the door overwrites on
+// every close (Close, force_closed, setAnchored, obj_break, and the repair path all call
+// set_opacity(TRUE) on a non-windowed door). An open slot silently snapped shut the moment anyone
+// used the door, so it looked like the viewport only worked on some doors. window_closed owns the
+// state now, and this keeps a slid-open viewport see-through when the door shuts.
+/obj/structure/mineral_door/wood/donjon/set_opacity(new_opacity)
+	//Redirect before the parent runs rather than reassigning opacity after it. /atom/set_opacity()
+	//skips its turf lighting recalc when the value is unchanged, so writing the var behind its back
+	//leaves the turf still cached as opaque - see-through in the var, solid to actual vision.
+	if(has_viewport && !window_closed)
+		new_opacity = FALSE
+	return ..()
 
 /obj/structure/mineral_door/wood/donjon/stone/broken
 	desc = "A broken stone door from an era bygone. A new one must be constructed in its place."
