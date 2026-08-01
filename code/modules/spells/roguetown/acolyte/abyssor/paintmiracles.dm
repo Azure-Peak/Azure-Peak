@@ -57,7 +57,7 @@
 
 /datum/action/cooldown/spell/paint_blessing
 	name = "Paint Attunement"
-	desc = "Conduct a lengthy attunement mracle to bind an ally to your paint trails. Targets cannot move during the ritual. Casting without a direct target allows you to manage or revoke existing blessings."
+	desc = "Conduct a lengthy attunement miracle to bind an ally to your paint trails. Targets cannot move during the ritual. Casting without a direct target allows you to manage or revoke existing blessings."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	background_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	button_icon_state = "paint_bless"
