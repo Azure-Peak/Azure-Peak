@@ -172,7 +172,7 @@
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
 	charge_time = 0.7 SECONDS
-	cooldown_time = 60 SECONDS
+	cooldown_time = 35 SECONDS
 	devotion_cost = 25
 	associated_skill = /datum/skill/magic/holy
 
