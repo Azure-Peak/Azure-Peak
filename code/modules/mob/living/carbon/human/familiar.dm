@@ -182,7 +182,6 @@
 	vestige.stored_familiar = src
 	src.forceMove(vestige)
 	vestige.desc = "The vestige of [src.name], a fallen [GLOB.familiar_display_names[src.type]]. Likely worth a lot to the magos that summoned [src.p_them()]!"
-	emote("deathgasp")
 	if(familiar_summoner)
 		to_chat(familiar_summoner, span_warning("[src.name] has fallen, and your bond dims. They may be recalled yet, should you recover their vestige."))
 
