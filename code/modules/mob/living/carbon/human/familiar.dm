@@ -174,8 +174,8 @@
 	H.remove_overlay(DAMAGE_LAYER)
 	return TRUE
 
-/mob/living/carbon/human/species/familiar/death(gibbed)
-	. = ..(gibbed)
+/mob/living/carbon/human/species/familiar/death(gibbed, nocutscene)
+	. = ..(gibbed, nocutscene)
 	if(gibbed)
 		return .
 	var/obj/item/magic/familiar/familiar_vestige/vestige = new /obj/item/magic/familiar/familiar_vestige(loc)
