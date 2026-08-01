@@ -282,4 +282,7 @@
 		ret.Insert(ret.len-1, "<a href='?src=[REF(src)];task=view_fam_headshot;'>Examine closer</a>")
 	return ret
 
+/mob/living/carbon/human/species/familiar/can_be_held(mob/by)
+	return TRUE
+
 #undef FAMILIAR_SEE_IN_DARK

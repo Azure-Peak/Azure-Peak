@@ -5,6 +5,7 @@
 	var/alist/familiar_species
 	var/alist/familiar_flavortexts
 	var/alist/familiar_pronouns
+	var/alist/familiar_voice_colors
 	var/list/familiar_flavortext
 	var/list/familiar_flavortext_display
 	var/list/familiar_headshot_link
@@ -31,6 +32,12 @@
 		"elemental" = THEY_THEM,
 		"void" = THEY_THEM
 	)
+	familiar_voice_colors = alist(
+		"fae" = "#a0a0a0",
+		"infernal" = "#a0a0a0",
+		"elemental" = "#a0a0a0",
+		"void" = "#a0a0a0"
+	)
 	familiar_flavortext = list()
 	familiar_flavortext_display = list()
 	familiar_headshot_link = list()
@@ -48,6 +55,13 @@
 		return
 	if(!familiar_names) // this is an old prefs object; re-instantiate it so the new fields aren't null
 		src.New(prefs)
+	if(!familiar_voice_colors) // pre-carbonization prefs object, we don't need to wipe prefs but do add voice colors
+		familiar_voice_colors = alist(
+		"fae" = "#a0a0a0",
+		"infernal" = "#a0a0a0",
+		"elemental" = "#a0a0a0",
+		"void" = "#a0a0a0"
+	)
 	var/list/dat = list()
 	var/list/pronoun_display = list(
 		HE_HIM = "he/him",
@@ -68,6 +82,7 @@
 	dat += "<br><b>Familiar Name:</b> <a href='?_src_=familiar_prefs;preference=familiar_names;task=input;planar_origin=[cur_plane]'>[(src.familiar_names[cur_plane] ? src.familiar_names[cur_plane] : "")] (Set name)</a>"
 	var/selected_pronoun = (src.familiar_pronouns[cur_plane] ? (pronoun_display[src.familiar_pronouns[cur_plane]] ? pronoun_display[src.familiar_pronouns[cur_plane]] : "they/them") : "they/them")
 	dat += "<br><b>Pronouns:</b> <a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=select;planar_origin=[cur_plane]'>[selected_pronoun]</a>"
+	dat += "<br><b>Voice Color:</b> <a href='?_src_=familiar_prefs;preference=voice;task=select;planar_origin=[cur_plane]'><font color='[familiar_voice_colors[cur_plane]]'>Change</font></a>"
 
 	var/display_name = "None selected"
 	// void drakelings only have one type, so displaying this selection would be moot
@@ -246,6 +261,16 @@
 			log_game("[user] has set their Familiar OOC Extra to '[link]'.")
 			setup_examine_window(user,planar_origin)
 			return
+
+		if("voice")
+			var/voice_color = familiar_voice_colors[planar_origin]
+			var/new_voice = input(user, "Choose your character's voice color:", "Character Preference","#"+voice_color) as color|null
+			if(new_voice)
+				if(color_hex2num(new_voice) < 230)
+					to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
+					return
+				voice_color = sanitize_hexcolor(new_voice)
+				familiar_voice_colors[planar_origin] = voice_color
 
 		if("pulse")
 			if(user.ckey in GLOB.familiar_advertised)

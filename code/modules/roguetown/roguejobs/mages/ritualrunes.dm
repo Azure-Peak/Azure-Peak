@@ -513,6 +513,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 			fam.familiar_summoner = user
 			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
 			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
+			fam.voice_color = prefs.familiar_voice_colors[plane]
 			switch(prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM) // why is our gender handling so bad for simples
 				if(SHE_HER)
 					fam.gender=FEMALE
