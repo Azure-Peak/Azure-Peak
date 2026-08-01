@@ -493,6 +493,10 @@
 
 	if((isliving(user))&&(user?.movement_type == FLYING))
 		negate_slowdown = TRUE
+	for(var/obj/item/stick in user.held_items)	// a staff you're leaning on, not fighting with, steadies you over rough ground
+		if(stick.walking_stick && !stick.wielded && !user.cmode)
+			negate_slowdown = TRUE
+			break
 	if(HAS_TRAIT(user, TRAIT_LONGSTRIDER))
 		negate_slowdown = TRUE
 
