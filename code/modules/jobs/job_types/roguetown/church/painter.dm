@@ -31,7 +31,7 @@
 	outfit = /datum/outfit/job/roguetown/herald
 	category_tags = list(CTAG_ACOLYTE)
 	allowed_patrons = list(/datum/patron/divine/abyssor)
-	traits_applied = list(TRAIT_INK_AFFINITY, TRAIT_WATERBREATHING)
+	traits_applied = list(TRAIT_WATERBREATHING)
 	// Let's not let the entire church be abysorrite encouraged.
 	maximum_possible_slots = 3
 	subclass_stats = list(
@@ -77,6 +77,7 @@
 	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg'
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
@@ -161,7 +162,7 @@
 	tutorial = "One of Abyssor's sentinels dedicated to the path of the dream painter. You are amongst the protectors of the cult, keeping your fellow cultists safe from dreamfiends. You are beholden to the word of the Bishop whose basement you dwell in."
 	outfit = /datum/outfit/job/roguetown/maris
 	allowed_patrons = list(/datum/patron/divine/abyssor)
-	traits_applied = list(TRAIT_INK_AFFINITY, TRAIT_WATERBREATHING, TRAIT_CIVILIZEDBARBARIAN)
+	traits_applied = list(TRAIT_WATERBREATHING, TRAIT_CIVILIZEDBARBARIAN)
 	category_tags = list(CTAG_TEMPLAR)
 	maximum_possible_slots = 1
 	subclass_stats = list(
@@ -208,6 +209,7 @@
 		/obj/item/mini_flagpole/church
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
