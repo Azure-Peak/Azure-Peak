@@ -19,6 +19,11 @@
 	path = /obj/item/clothing/cloak/tabard/stabard/surcoat/short
 	sort_category = "Cloaks"
 
+/datum/loadout_item/guardhood
+	name = "Guard Hood"
+	path = /obj/item/clothing/cloak/tabard/stabard/guardhood
+	sort_category = "Cloaks"
+
 /datum/loadout_item/pouched_suspenders
 	name = "Pouched Suspenders"
 	path = /obj/item/clothing/cloak/suspenders
