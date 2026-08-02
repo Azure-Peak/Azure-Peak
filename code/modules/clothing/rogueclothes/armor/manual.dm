@@ -276,9 +276,8 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
-//Psy-monk skin is equivalent to a chest-only light gambeson and a second chest-and-limbs gambeson. Slightly tougher than non-psydonic monks, due to more limited miracle set and more manual repair.
+//Psy-monk skin is equivalent to a chest-only gambeson and a second chest-and-limbs gambeson. Noticably tougher than non-psydonic monks, due to more limited miracle set and more manual repair.
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/confessor
 	name = "arbalist's skin"
