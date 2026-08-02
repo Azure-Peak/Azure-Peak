@@ -167,7 +167,8 @@
 		/obj/item/dream_material/parchment_raw = 3
 	)
 	reward_items = list(
-		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3
+		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3,
+		/obj/item/clothing/head/roguetown/roguehood/abyssor_painter = 3
 	)
 	invocation_phases  = list(
 		"Paints swirl and swell.",
@@ -180,7 +181,8 @@
 	desc = "Offer up three simple undervestments to have the paints of the pool infuse them with a new look."
 	base_channel_time = 150
 	reward_items = list(
-		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3
+		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3,
+		/obj/item/clothing/head/roguetown/roguehood/abyssor_painter = 3
 	)
 
 /datum/abyssal_ritual/communal_viscosity
