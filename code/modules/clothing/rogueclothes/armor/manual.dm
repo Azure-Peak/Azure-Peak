@@ -75,7 +75,42 @@
 
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian
 	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //Identical to a glued-on hardened leather coat, with bonus arm-hand-foot coverage.
+	slot_flags = ITEM_SLOT_ARMOR
+	blocking_behavior = SAMEWEAR
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian/chest
+	name = "muscular chest"
+	armor = ARMOR_LEATHER
+	slot_flags = ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+
+//Barbarian skin equates to a hardened leather armor on the chest, and another 2/3rds of one layering over chest and limbs. Integ matches leather armor + a light gambeson, decent but not spectacular.
+
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer
+	name = "rough skin"
+	desc = ""
+	allowed_race = list(
+		/datum/species/dwarf,
+		/datum/species/dwarf/mountain
+		)
+	armor = ARMOR_MAILLE
+	slot_flags = ITEM_SLOT_ARMOR
+	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD
+	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD
+	blade_dulling = DULLING_BASHCHOP
+	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+	repairmsg_end = "Your skin looks just as shiny as ever, like it might stop the blow of a fully grown troll once more."
+    repairmsg_continue = "The thick skin cover starts to bulge and repair tears"
+
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer/obj_destruction()
+	visible_message(span_bloody("The dwarf flinches from the blow!"), vision_distance = 3) // visual que for breaking
+
+//Slayer skin equates to a light maille hauberk layering over chest, limbs, and head. (Not neck, ears, face). Shirtless trait makes adding a chest-only underlayer tricky.
+
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation
 	name = "harmonious skin"
@@ -400,7 +435,7 @@
 	desc = "I've endured enough. The onslaught has lost its meaning."
 	blocking_behavior = SAMEWEAR
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150 //1.5x integrity (450) vs baseline leather skin armor (300).
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ANTAG //1.5x integrity (450) vs baseline leather skin armor (300).
 	//Perk of being a wretch powerclass.
 
 //MAILLE

@@ -85,8 +85,6 @@
 #define ARMOR_INT_CHEST_PLATE_STEELLIGHT 450
 #define ARMOR_INT_CHEST_PLATE_PSYDON 400 // You get free training, less int
 #define ARMOR_INT_CHEST_PLATE_IRON 375
-#define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350
-#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 50 //Light AC brigandine parts get -50, Heavy AC brigandine parts get +50.
 #define ARMOR_INT_CHEST_PLATE_IRONLIGHT 325
 #define ARMOR_INT_CHEST_PLATE_DECREPIT 250
 #define ARMOR_INT_CHEST_PLATE_DECREPITLIGHT 200
@@ -96,15 +94,22 @@
 #define ARMOR_INT_CHEST_MEDIUM_STEEL 300
 #define ARMOR_INT_CHEST_MEDIUM_IRON 225
 #define ARMOR_INT_CHEST_MEDIUM_SCALE 200 // More coverage, less integrity
+#define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350 //weaker protection, more integrity.
+#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 50 //Light AC brigandine parts get -50, Heavy AC brigandine parts get +50.
 #define ARMOR_INT_CHEST_MEDIUM_DECREPIT 150
 
 // LIGHT
+#define ARMOR_INT_CHEST_LIGHT_ANTAG 450 //Currently only used by baotha robe & berzerker skin.
+#define ARMOR_INT_CHEST_LIGHT_ELITE 350 // Fancy rare exceptions that make tradeoffs in other places.
 #define ARMOR_INT_CHEST_LIGHT_MASTER 300 // High tier cloth / leather armor
 #define ARMOR_INT_CHEST_LIGHT_MEDIUM 250 // Medium tier cloth / leather armor
 #define ARMOR_INT_CHEST_LIGHT_BASE 200
+#define ARMOR_INT_CHEST_LIGHT_BRONZE 180
 #define ARMOR_INT_CHEST_LIGHT_STEEL 180
 #define ARMOR_INT_CHEST_LIGHT_IRON 180
 #define ARMOR_INT_CHEST_CIVILIAN 100
+#define ARMOR_INT_LIGHT_FENCER_MODIFIER 35 //bonus integrity for Fencer items over standard light armor.
+#define ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER 30 //Penalty for studded leather, bonus for various other variants.
 
 // LEG PIECES - Leg Armor
 #define ARMOR_INT_LEG_ANTAG 600
@@ -150,7 +155,7 @@
 #define ARMOR_PADDED_BAD list("blunt" = DR_MEDIUM, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE)
 
 // LIGHT ARMOR - Split into two sidegrades: PADDED VS LEATHER
-// PADDED: Best Blunt protection, Bodkin immune. But Axe CHOP (MEDIUM) and most thrusts (LIGHT) get through. 
+// PADDED: Best Blunt protection, Bodkin immune. But Axe CHOP (MEDIUM) and most thrusts (LIGHT) get through.
 // LEATHER: Decent Blunt DR. Axe CHOP (MEDIUM), sword thrust (MEDIUM) and bodkin (HEAVY) get through. Better vs stab than padded, worse vs piercing.
 #define ARMOR_PADDED list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_BSTEEL, "fire" = DR_LIGHT)
 #define ARMOR_LEATHER_NPC list("blunt" = DR_HEAVY, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_MEDIUM, "fire" = DR_MEDIUM)
@@ -169,7 +174,7 @@
 // MAILLE — Chainmail. Medium: Plate level protection but weak vs Bodkin (100% through)
 #define ARMOR_MAILLE list("blunt" = DR_MEDIUM, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE)
 
-// PLATE — Cuirass, plate. All plate-tier items; differentiated by integrity, not rating. Spear (PEN_HEAVY) gets 20% through stab. Bodkin goes through 100% - MEDIUM rating. Weak vs Blunt. 
+// PLATE — Cuirass, plate. All plate-tier items; differentiated by integrity, not rating. Spear (PEN_HEAVY) gets 20% through stab. Bodkin goes through 100% - MEDIUM rating. Weak vs Blunt.
 #define ARMOR_PLATE list("blunt" = DR_LIGHT, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_MEDIUM, "fire" = DR_NONE)
 
 // BSTEEL — Blacksteel, antagonist. DBLOCK_BSTEEL (4).
@@ -177,7 +182,7 @@
 #define ARMOR_PLATE_BSTEEL list("blunt" = DR_MEDIUM, "slash" = DBLOCK_BSTEEL, "stab" = DBLOCK_BSTEEL, "piercing" = DBLOCK_BSTEEL, "fire" = DR_LIGHT)
 
 //Antag / Special / Unique armor defines
-// If you DO NOT have a VERY VERY good design reasons for why your armor should varies 
+// If you DO NOT have a VERY VERY good design reasons for why your armor should varies
 // Please do not add it and use an existing one, so to prevent armor bloat and keep armor
 // reasonable and intuitive.
 #define ARMOR_REGENERATING_BROKEN list("blunt" = DR_LIGHT, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE)

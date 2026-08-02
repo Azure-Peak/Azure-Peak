@@ -34,7 +34,7 @@
 	desc = "A sleeveless maille shirt, fashioned from dozens of interlinked bronze rings. It's light enough to comfortably tuck underneath a \
 	blouse, yet tough enough to thwart the razor-sharp edges of unwelcomed company. For the discerning traveler - ideally, from an antique land."
 	icon_state = "bhaubyrnie"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON - 30
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 	armor = ARMOR_BRONZE
 
