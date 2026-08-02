@@ -80,8 +80,9 @@
 					gloves = /obj/item/clothing/gloves/roguetown/angle
 					shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //dwarves like to blow up my patience
 			if("Enchanted Inks")
-				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
-				shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest
+				neck = /obj/item/clothing/neck/roguetown/leather
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalkerchest
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				ADD_TRAIT(H, TRAIT_HONORBOUND, TRAIT_GENERIC)

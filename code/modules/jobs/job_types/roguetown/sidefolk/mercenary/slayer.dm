@@ -8,7 +8,7 @@
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "Only the dwarves who swore an Oath to the ten may become Trollslayers." // dwarf exclusive and will force Ravox
 
-	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_SHIRTLESS) //TRAIT_SHIRTLESS prevents equip on the head, armor and shirt slots and enables class-specific weapons
+	traits_applied = list(TRAIT_CRITICAL_RESISTANCE) //TRAIT_SHIRTLESS is gone, but skin armors block armor, shirt, and head slots still.
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 5,
@@ -27,6 +27,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, // Butcher trolls
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, // Sew up the countless holes you will be receiving
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE, //bare minimum so they can use silverfaces and the like
 	)
 	adv_stat_ceiling = list(STAT_STRENGTH = 12) // I'm sorry but you're not grabbing muscular and aiming chest with 12 speed 17 strength swift intent spam.
 
@@ -39,6 +40,8 @@
 		to_chat(H, span_warning("You are a Slayer - an elite hunter of monsters, hailing from the windy peaks of the dwarven Mountainhomes. Your devotion is matched only by your unbridled fury. You forgo defense, entrusting your life to the Ten and make a living by selling your trophies."))
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/axedance)
 		armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer
+		shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/chest
+		head = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/head
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 		backr = /obj/item/storage/backpack/rogue/satchel
 		belt = /obj/item/storage/belt/rogue/leather/slayer
@@ -58,6 +61,50 @@
 				backl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer
 				beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+
+
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer
+	name = "rough skin"
+	desc = ""
+	allowed_race = list(
+		/datum/species/dwarf,
+		/datum/species/dwarf/mountain
+		)
+	armor = ARMOR_MAILLE
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD
+	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD
+	blade_dulling = DULLING_BASHCHOP
+	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+
+	repairmsg_end = "Your skin looks just as shiny as ever, like it might stop the blow of a fully grown troll once more."
+	repairmsg_continue = "The thick skin cover starts to bulge and repair tears"
+
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer/obj_destruction()
+	visible_message(span_bloody("The dwarf flinches from the blow!"), vision_distance = 3) // visual que for breaking
+
+/obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/chest
+	name = "toughened chest"
+	desc = "Toughened from abuse. Resting will restore it's strength."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN //This is a bonus, more than a real layer. Will help with stray arrows.
+
+/obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/head
+	name = "hard skull"
+	desc = "Accustomed to taking heavy blows. Resting will restore it's strength."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT //clonk. Would have used a wood-hit sound if one existed.
+	body_parts_covered = COVERAGE_HEAD //head, skull, ears. No face or neck protection.
+	body_parts_inherent = COVERAGE_HEAD
+	max_integrity = ARMOR_INT_HELMET_CLOTH //the primary skin also covers head, so this is a bonus, not a real helmet.
+
+//Slayer skin equates to a light maille hauberk layering over chest, limbs, and head (Not neck, ears, face), that regens via pushups. Additionally, has a second chest-only layer (half a light gambeson) and a sliver of leather integ for it's thick skull, both restored by resting.
+
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer
 	name = "slayer axe"

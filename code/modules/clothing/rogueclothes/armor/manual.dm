@@ -75,42 +75,11 @@
 
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian
 	armor = ARMOR_LEATHER
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
-
-/obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian/chest
-	name = "muscular chest"
-	armor = ARMOR_LEATHER
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	blocking_behavior = SAMEWEAR
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Barbarian skin equates to a hardened leather armor on the chest, and another 2/3rds of one layering over chest and limbs. Integ matches leather armor + a light gambeson, decent but not spectacular.
-
-/obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer
-	name = "rough skin"
-	desc = ""
-	allowed_race = list(
-		/datum/species/dwarf,
-		/datum/species/dwarf/mountain
-		)
-	armor = ARMOR_MAILLE
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD
-	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD
-	blade_dulling = DULLING_BASHCHOP
-	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
-
-	repairmsg_end = "Your skin looks just as shiny as ever, like it might stop the blow of a fully grown troll once more."
-	repairmsg_continue = "The thick skin cover starts to bulge and repair tears"
-
-/obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer/obj_destruction()
-	visible_message(span_bloody("The dwarf flinches from the blow!"), vision_distance = 3) // visual que for breaking
-
-//Slayer skin equates to a light maille hauberk layering over chest, limbs, and head. (Not neck, ears, face). Shirtless trait makes adding a chest-only underlayer tricky.
+//Muscle barbarian skin equates to a gambeson on the chest, and a suit of hardened leather layering over chest and limbs. Only the latter regens via pushups.
 
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation
@@ -146,9 +115,6 @@
 	icon_state = "easttats"
 	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD | NECK //This does not cover eyes/nose/mouth. Use a mask.
 	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD | NECK
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	//allowed_race = NON_DWARVEN_RACE_TYPES
 
 	repairmsg_end = "The tattoos flow more calmly, as the meditation renews their strength."
@@ -157,16 +123,21 @@
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma
 	name = "bouhoi bujeog tattoos"
 	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PLATE //Will stop most things, but will also pop fast.
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL //Steel hauberk that trades away blunt resist for arrow/bolt resist.
 
-/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/rumachest
 	name = "bouhoi bujeog core"
 	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon_state = null
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
 	armor = ARMOR_BRIGANDINE //Fallback once the main skin pops, you will get stabbed through this.
@@ -178,22 +149,27 @@
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
 	name = "seon-mul tattoos"
 	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	armor = ARMOR_LEATHER
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor with full-body coverage.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //A slightly-better leather armor with full-body coverage.
 
-/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalkerchest
 	name = "seon-mul core"
 	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
+	icon_state = null
 	armor = ARMOR_LEATHER
-	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //A slightly-weaker leather armor.
 
-//Mistwalker skin equates to two layers of hardened leather armor, relatively simple. Should last well, while getting penetrated fairly often, allowing the role's special trait to scale.
+//Mistwalker skin equates to roughly two layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
 
 
 /*
@@ -431,11 +407,26 @@
 	name = "resting skin armor"
 	desc = "This should not spawn naturally. If you see this ingame, something went wrong."
 	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //Identical to a glued-on gambeson in armor slot, with bonus hand+foot coverage.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //Identical to a glued-on gambeson with bonus hand+foot coverage.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/barbarian
 	name = "hardened skin"
-	desc = "Toughened from abuse. My mettle remains."
+	desc = "Toughened from abuse. My mettle remains. Resting will restore it's strength."
+	lot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+
+/obj/item/clothing/suit/roguetown/armor/manual/resting/padded/barbarian/chest
+	name = "toughened chest"
+	desc = "Toughened from abuse. My mettle remains. Resting will restore it's strength."
+	armor = ARMOR_PADDED
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+
+//Baseline barbarian skin is equivalent to a chest-only gambeson and a second chest-and-limbs gambeson. Slightly less integ than the muscle variant, but easier to manage.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/gladiator
 	name = "pit-hardened skin"

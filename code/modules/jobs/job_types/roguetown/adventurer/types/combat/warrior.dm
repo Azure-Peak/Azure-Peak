@@ -312,10 +312,11 @@
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/barbarian
+			shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/barbarian/chest
 		if ("Discipline - Bodybuilder") //its actually not that bad now
 			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian
-			shirt = /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian/chest
+			shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/barbarian/chest
 			r_hand = /obj/item/rogueweapon/greatsword/iron
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
