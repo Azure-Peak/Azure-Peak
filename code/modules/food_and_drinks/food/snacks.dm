@@ -432,7 +432,7 @@ All foods are distributed among various categories. Use common sense.
 				to_chat(user, span_warning("[M] doesn't seem to have a mouth!"))
 				return
 
-		if(reagents)								//Handle ingestion of the reagent.
+		if(reagents && !istype(M, /mob/living/carbon/human/species/familiar/fae)) //Handle ingestion of the reagent.
 			if(M.satiety > -200)
 				M.satiety -= junkiness
 			playsound(M.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
