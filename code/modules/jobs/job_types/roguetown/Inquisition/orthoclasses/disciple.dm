@@ -2,7 +2,7 @@
 	name = "Disciple"
 	tutorial = "Psydonite monks, practiced in both martiality and scripture. Spilling blood on sacred grounds is considered 'sinful' to the clergymen, though no qualms are spared towards knocking someone's lights out."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/disciple
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ORTHODOXIST)
@@ -98,7 +98,8 @@
 	id = /obj/item/clothing/ring/signet/psy
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple //a heavy gambeson.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest //another heavy gambeson, chest-only. Lots of integ here, but expect to get stabbed and cut through it.
 
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)

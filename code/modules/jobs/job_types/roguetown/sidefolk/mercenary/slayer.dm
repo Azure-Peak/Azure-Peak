@@ -104,7 +104,7 @@
 	body_parts_inherent = COVERAGE_HEAD
 	max_integrity = ARMOR_INT_HELMET_CLOTH //the primary skin also covers head, so this is a bonus, not a real helmet.
 
-//Slayer skin equates to a light maille hauberk layering over chest, limbs, and head (Not neck, ears, face), that regens via pushups. Additionally, has a second chest-only layer (half a light gambeson) and a sliver of leather integ for it's thick skull, both restored by resting.
+//Slayer skin equates to a light maille hauberk layering over chest, limbs, and head (Not neck, ears, face), that regens via pushups. Additionally, has a second chest-only layer (half a light gambeson) and a sliver of integ for it's thick skull, both restored by resting.
 
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer

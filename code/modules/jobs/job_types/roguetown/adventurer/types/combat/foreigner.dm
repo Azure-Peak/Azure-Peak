@@ -641,10 +641,11 @@
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //Lite!Barbarian.
 				head = /obj/item/clothing/head/roguetown/helmet/bronzegladiator
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
-				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/gladiator
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/gladiator
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/gladiator/chest
 				pants = /obj/item/clothing/under/roguetown/loincloth/brown
-				shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator
 				belt = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
+				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo untill someone figures out how to grant it.
 			if("Shieldbearer - Well-Armored & Maille Training")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				head = /obj/item/clothing/head/roguetown/helmet/heavy/bronze

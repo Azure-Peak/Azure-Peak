@@ -622,11 +622,11 @@
 	item_state = "kazscabdagger"
 	valid_blade = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 	associated_skill = /datum/skill/combat/knives
-	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
 	can_parry = TRUE
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/carpentry
-	wdefense = 4
+	wdefense = 6 //40% of attacks will pass through vs equal skill foe, compared to 20% for hwando scabbard or 10% for parry dagger/buckler.
 	max_integrity = 220
 
 

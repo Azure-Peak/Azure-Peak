@@ -132,7 +132,7 @@
 	armor = ARMOR_PLATE //Will stop most things, but will also pop fast.
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL //Steel hauberk that trades away blunt resist for arrow/bolt resist.
 
-/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/rumachest
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest
 	name = "bouhoi bujeog core"
 	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
 	icon_state = null
@@ -157,7 +157,7 @@
 	blocking_behavior = SAMEWEAR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //A slightly-better leather armor with full-body coverage.
 
-/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalkerchest
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest
 	name = "seon-mul core"
 	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
 	icon_state = null
@@ -177,7 +177,7 @@
  */
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable
-	repair_fraction = 0.20 //20% per 5s of sewing, ~25s to full.
+	repair_fraction = 0.25 //25% per 6s of sewing, ~24s to full. Have to mend both layers seperately.
 	var/list/repair_items[] = list(
 		/obj/item/needle = 'sound/foley/sewflesh.ogg',
 		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
@@ -201,7 +201,7 @@
 	if(!repair_check(user, I))
 		return FALSE
 
-	if(!do_after(user, 5 SECONDS, target = src))
+	if(!do_after(user, 6 SECONDS, target = src))
 		return FALSE
 
 	armour_regen()
@@ -276,16 +276,18 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
-//Psy-monk skin is equivalent to a chest-only gambeson and a second chest-and-limbs gambeson.
+//Psy-monk skin is equivalent to a chest-only light gambeson and a second chest-and-limbs gambeson. Slightly tougher than non-psydonic monks, due to more limited miracle set and more manual repair.
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/confessor
 	name = "arbalist's skin"
 	desc = "Taut lyke the bow I draw."
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //0.8x integrity (200) vs baseline padded skin armor (250).
-	//Tax for being shirt slot.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
+
+//Confessor skin is equivalent to a light gambeson, and uniquely allows layering armor over the top of it.
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple
 	name = "enduring skin"
@@ -297,8 +299,23 @@
 	</br>Happiness must be fought for."
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 100 //1.6x integrity (400) vs baseline padded skin armor (250).
-	//Perk of being a psy-templar powerclass.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest
+	name = "enduring chest"
+	desc = "It's far more than just an oath. \
+	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
+	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
+	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
+	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
+	</br>Happiness must be fought for."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+
+//Disciple skin is equivalent to a chest-only heavy gambeson and a second chest-and-limbs heavy gambeson. Very durable, still easy to stab through. Trying to blunt-force these guys to death is a bad idea, bleed them out instead.
 
 
 /*
@@ -383,9 +400,9 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
-//Monk skin is equivalent to a chest-only light gambeson (50% integ, just exists to make focusing chest less optimal) and a second chest-and-limbs light gambeson.
+//Monk skin is equivalent to a chest-only light gambeson and a second chest-and-limbs light gambeson. Weaker than other advents, due to miracles.
 
 
 /*
@@ -452,7 +469,7 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/barbarian/chest
-	name = "toughened chest"
+	name = "hardened chest"
 	desc = "Toughened from abuse. My mettle remains. Resting will restore it's strength."
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
@@ -487,7 +504,7 @@
 	lot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff/chest
 	name = "scar-hardened chest"
@@ -500,7 +517,7 @@
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Bailiff skin is equivalent to a chest-only leather armor and a chest-and-limbs heavy gambeson. Slightly better than adventurer equivalents, given that other MAA start with layered plate-and-maille.
+//Bailiff skin is equivalent to a chest-only leather armor and a chest-and-limbs gambeson. Slightly better than adventurer equivalents, given that other MAA start with layered plate-and-maille.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/thug
 	name = "calloused skin"

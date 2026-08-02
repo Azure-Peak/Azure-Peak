@@ -6,7 +6,7 @@
 	Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 	His will be done."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/sojourner
 	subclass_languages = list(/datum/language/otavan, /datum/language/celestial)
 	category_tags = list(CTAG_ORTHODOXIST)
@@ -101,7 +101,8 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex //Yes, the item is spelled this way in the code.
 		if("Bare Skin")
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple //both of these are basically heavy gambesons.
+			shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest //Tougher to start than armor, but unable to upgrade to leather or brigadine.
 	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/inquisitionmanor = 1,
