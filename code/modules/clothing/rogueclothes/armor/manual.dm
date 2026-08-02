@@ -167,9 +167,9 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //A slightly-weaker leather armor.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor.
 
-//Mistwalker skin equates to roughly two layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
+//Mistwalker skin equates to just above two layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
 
 
 /*
@@ -239,6 +239,8 @@
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded
 	name = "sewable skin armor"
 	desc = "This should not spawn naturally. If you see this ingame, something went wrong."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //Identical to a glued-on gambeson in armor slot, with bonus hand+foot coverage.
 	repair_items = list(
@@ -257,10 +259,31 @@
 	</br>I came here because I wanted purpose, something solid to believe in.\
 	</br>They tell me doubt is natural, and that understanding comes with time.\
 	</br>For now, I will listen, learn, and try to live in a way that does not waste what was given to us."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+
+/obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monke/chest
+	name = "trained chest"
+	desc = "They say I've taken the first step on a path older than memory.\
+	</br>Aeon, Psydon, Adonai… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
+	</br>The world is said to be held together by His sacrifice. I can't imagine something like that, but the Disciples say it is true.\
+	</br>I came here because I wanted purpose, something solid to believe in.\
+	</br>They tell me doubt is natural, and that understanding comes with time.\
+	</br>For now, I will listen, learn, and try to live in a way that does not waste what was given to us."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+
+//Psy-monk skin is equivalent to a chest-only gambeson and a second chest-and-limbs gambeson.
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/confessor
 	name = "arbalist's skin"
 	desc = "Taut lyke the bow I draw."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //0.8x integrity (200) vs baseline padded skin armor (250).
 	//Tax for being shirt slot.
 
@@ -272,6 +295,8 @@
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
 	</br>Happiness must be fought for."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 100 //1.6x integrity (400) vs baseline padded skin armor (250).
 	//Perk of being a psy-templar powerclass.
 
@@ -446,6 +471,7 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/gladiator/chest
+	name = "pit-hardened chest"
 	desc = "Are you not entertained?!"
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
