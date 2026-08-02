@@ -55,6 +55,10 @@
 	toggle_icon_state = TRUE
 	sewrepair = TRUE
 
+/obj/item/clothing/neck/roguetown/coif/padded/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
 /obj/item/clothing/neck/roguetown/coif/heavypadding
 	name = "heavy padded coif"
 	desc = "A padded gambeson's coif, bearing the distinct dorpel-styled stitchwork of its larger cousin. When layered properly, it can last through even the busiest of daes."
@@ -72,6 +76,8 @@
 	sewrepair = TRUE
 
 /obj/item/clothing/neck/roguetown/coif/heavypadding/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	return
 
 /obj/item/clothing/neck/roguetown/coif/heavypadding/AdjustClothes(mob/user)

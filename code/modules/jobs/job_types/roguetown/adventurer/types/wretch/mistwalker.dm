@@ -41,7 +41,7 @@
 
 /datum/outfit/job/roguetown/wretch/mistwalker/pre_equip(mob/living/carbon/human/H)
 	..()
-	
+
 	change_origin(H, /datum/virtue/origin/kazengun, "guardian duty")
 	to_chat(H, span_warning("Failed in your duty, outcast from whence you came you wander. Only the steel in your hand can be trusted."))
 
@@ -80,9 +80,9 @@
 					gloves = /obj/item/clothing/gloves/roguetown/angle
 					shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //dwarves like to blow up my patience
 			if("Enchanted Inks")
-				neck = /obj/item/clothing/neck/roguetown/coif/heavypadding/black
-				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker //they don't get stronger swords like ruma, let them have the +50 integ
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest
+				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				ADD_TRAIT(H, TRAIT_HONORBOUND, TRAIT_GENERIC)
 				if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)

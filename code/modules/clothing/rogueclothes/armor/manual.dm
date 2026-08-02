@@ -75,14 +75,14 @@
 
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian
 	armor = ARMOR_LEATHER
-	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	blocking_behavior = SAMEWEAR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian/chest
 	name = "muscular chest"
 	armor = ARMOR_LEATHER
-	slot_flags = ITEM_SLOT_SHIRT
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	blocking_behavior = SAMEWEAR
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
@@ -98,13 +98,14 @@
 		/datum/species/dwarf/mountain
 		)
 	armor = ARMOR_MAILLE
-	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD
 	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD
 	blade_dulling = DULLING_BASHCHOP
 	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+
 	repairmsg_end = "Your skin looks just as shiny as ever, like it might stop the blow of a fully grown troll once more."
-    repairmsg_continue = "The thick skin cover starts to bulge and repair tears"
+	repairmsg_continue = "The thick skin cover starts to bulge and repair tears"
 
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer/obj_destruction()
 	visible_message(span_bloody("The dwarf flinches from the blow!"), vision_distance = 3) // visual que for breaking
@@ -140,11 +141,11 @@
 		return
 	armour_regen()
 
-/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats //Only for roles with Honorbound, as the restrictions offset the better head coverage.
 	resistance_flags = FIRE_PROOF
 	icon_state = "easttats"
-	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD //This does not cover eyes/nose/mouth/neck.
-	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD
+	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD | NECK //This does not cover eyes/nose/mouth. Use a mask.
+	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD | NECK
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
@@ -156,16 +157,43 @@
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma
 	name = "bouhoi bujeog tattoos"
 	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
-	armor = ARMOR_PLATE //Great defence, while it lasts.
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE //1.17x integrity (350) vs baseline skin armor (300).
-	//Perk of being a mercenary kinda-powerclass, and dealing with the Honorbound restrictions (no metal armor, no gambesons).
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	blocking_behavior = SAMEWEAR
+	armor = ARMOR_PLATE //Will stop most things, but will also pop fast.
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL //Steel hauberk that trades away blunt resist for arrow/bolt resist.
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest
+	name = "bouhoi bujeog core"
+	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	blocking_behavior = SAMEWEAR
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+	armor = ARMOR_BRIGANDINE //Fallback once the main skin pops, you will get stabbed through this.
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER //Identical to a suit of light brig.
+
+//Ruma skin equates to a set of light brigadine over a steel hauberk that trades away blunt resist for arrow/bolt resist. Would normally be medium AC, but you pay for that with honorbound restrictions instead (no arming caps, coifs, or any form of metal armor). Gun-in/Seonjang also have an innate speed penalty, and the Sasu lacks Dodge Expert.
+
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
 	name = "seon-mul tattoos"
 	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
 	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150 //1.5x integrity (450) vs baseline leather skin armor (300).
-	//Perk of being a wretch powerclass, and dealing with the Honorbound restrictions (no metal armor, no gambesons).
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	blocking_behavior = SAMEWEAR
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor with full-body coverage.
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest
+	name = "seon-mul core"
+	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
+	armor = ARMOR_LEATHER
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	blocking_behavior = SAMEWEAR
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor.
+
+//Mistwalker skin equates to two layers of hardened leather armor, relatively simple. Should last well, while getting penetrated fairly often, allowing the role's special trait to scale.
 
 
 /*
@@ -448,7 +476,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/maille/berzerkerchest
 	name = "unstoppable chest"
 	desc = "The callouses could stop arrows! But only so many."
-	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	armor = ARMOR_MAILLE
 	resistance_flags = FLAMMABLE
 	blocksound = SOFTHIT
