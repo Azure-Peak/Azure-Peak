@@ -34,6 +34,7 @@
 	var/list/speak_emote = list()
 	var/binded = FALSE
 	var/voiceclips = list() // list of sounds that'll be chosen to play when we talk
+	can_do_sex = FALSE // I HATE YOU ALL???
 
 	// stats: should be squishy, but able to keep up with their summoner
 	STACON = 5 // might be too low? it's more than skeletons...

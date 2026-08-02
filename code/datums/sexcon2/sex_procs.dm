@@ -82,7 +82,7 @@
 	// Need to drag yourself to the target.
 	if(dragged != user)
 		return
-	if(!human_user.can_do_sex)
+	if(!(human_user.can_do_sex && target.can_do_sex))
 		to_chat(user, "<span class='warning'>I can't do this.</span>")
 		return
 	var/may_bang = client && client.prefs && client.prefs.sexable == TRUE
