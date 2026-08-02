@@ -324,7 +324,7 @@
 		H.STASTR = 12
 		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
 		H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //Needed at expert else we lose our duel blades by falling over in water cause heavy
-		cloak = /obj/item/clothing/cloak/hierophant
+		cloak = /obj/item/clothing/cloak/tabard/toga/lich
 		mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 		head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
@@ -416,7 +416,7 @@
 	H.STASPD = 10
 	H.STACON = 4
 	H.STAWIL = 7
-	H.STAPER = 13
+	H.STAPER = 11
 	H.STAINT = 1
 	name = "Skeleton Archer"
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy

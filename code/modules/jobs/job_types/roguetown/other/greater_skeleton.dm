@@ -255,6 +255,7 @@ NECRO SKELETONS
 
 	var/helmets = list(
 		"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron,
+		"Snouted Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/snouted,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,
 		"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
 		"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,

@@ -1663,6 +1663,87 @@
 	desc = "A dainty amulet made out of fine porcelain, donnable on both the neck and wrist."
 	toggle_icon_state = FALSE
 
+/obj/item/clothing/neck/roguetown/carved/silveramber
+	name = "silver amber amulet"
+	icon_state = "silver_amber"
+	desc = "A luxurious silver amulet encrusted with a polished piece of amber, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/silveronyxa
+	name = "silver onyxa amulet"
+	icon_state = "silver_onyxa"
+	desc = "A luxurious silver amulet encrusted with a polished piece of onxya, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/silverrose
+	name = "silver rosestone amulet"
+	icon_state = "silver_rose"
+	desc = "A luxurious silver amulet encrusted with a polished piece of rosestone, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/silveropal
+	name = "silver opal amulet"
+	icon_state = "silver_opal"
+	desc = "A luxurious silver amulet encrusted with a polished piece of opal, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/silverjade
+	name = "silver jade amulet"
+	icon_state = "silver_jade"
+	desc = "A luxurious silver amulet encrusted with a polished piece of jade, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/silverturq
+	name = "silver cerulite amulet"
+	icon_state = "silver_turq"
+	desc = "A luxurious silver amulet encrusted with a polished piece of cerulite, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/silvercoral
+	name = "silver heartstone amulet"
+	icon_state = "silver_coral"
+	desc = "A luxurious silver amulet encrusted with a polished piece of heartstone, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/silvershell
+	name = "silver shell amulet"
+	icon_state = "silver_shell"
+	desc = "A luxurious silver amulet encrusted with a polished piece of heartstone, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/goldshell
+	name = "golden shell amulet"
+	icon_state = "gold_shell"
+	desc = "A luxurious golden amulet encrusted with a polished piece of clam shell, donnable both on neck and wrist."
+
+
+/obj/item/clothing/neck/roguetown/carved/goldonyxa
+	name = "golden onyxa amulet"
+	icon_state = "gold_onyxa"
+	desc = "A luxurious golden amulet encrusted with a polished piece of onxya, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/goldrose
+	name = "golden rosestone amulet"
+	icon_state = "gold_rose"
+	desc = "A luxurious golden amulet encrusted with a polished piece of rosestone, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/goldopal
+	name = "golden opal amulet"
+	icon_state = "gold_opal"
+	desc = "A luxurious golden amulet encrusted with a polished piece of opal, donnable both on neck and wrist."
+
+/obj/clothing/neck/roguetown/carved/goldjade
+	name = "golden jade amulet"
+	icon_state = "gold_jade"
+	desc = "A luxurious golden amulet encrusted with a polished piece of jade, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/goldturq
+	name = "golden cerulite amulet"
+	icon_state = "gold_turq"
+	desc = "A luxurious golden amulet encrusted with a polished piece of cerulite, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/goldcoral
+	name = "golden heartstone amulet"
+	icon_state = "gold_coral"
+	desc = "A luxurious golden amulet encrusted with a polished piece of heartstone, donnable both on neck and wrist."
+
+/obj/item/clothing/neck/roguetown/carved/goldamber
+	name = "golden amber amulet"
+	icon_state = "gold_amber"
+	desc = "A luxurious golden amulet encrusted with a polished piece of amber, donnable both on neck and wrist."
+
 /obj/item/clothing/neck/roguetown/collar/prisoner
 	name = "castifico collar"
 	icon_state = "castifico_collar"

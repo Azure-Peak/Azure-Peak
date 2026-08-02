@@ -771,6 +771,9 @@
 		seeing_mob.client.screen -= removed
 	if(isitem(removed))
 		var/obj/item/removed_item = removed
+		if(!(removed_item.item_flags & FLOATING_ITEM))
+			addtimer(CALLBACK(removed_item, TYPE_PROC_REF(/obj/item, remove_floating)), 1)
+			removed_item.item_flags |= FLOATING_ITEM
 		removed_item.item_flags &= ~IN_STORAGE
 		if(ismob(parent.loc))
 			carrying_mob = parent.loc

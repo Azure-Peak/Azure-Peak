@@ -1,4 +1,3 @@
-/// Goblin goon pool used when the goblin warlord variant fires on a bounty quest.
 GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	/mob/living/carbon/human/species/goblin/npc,
 	/mob/living/carbon/human/species/goblin/npc,
@@ -11,10 +10,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	tp_budget = QUEST_TP_BUDGET_BOUNTY_GOONS
 	threat_bands_cleared = QUEST_BANDS_BOUNTY
 	required_fellowship_size = 2
-	/// Generated boss name for title/objective. Set at preview.
 	var/boss_name
-	/// If TRUE, the boss is a large goblin and goons are drawn from quest_bounty_goblin_goons
-	/// instead of the region faction. Rolled at preview time.
 	var/goblin_warlord_variant = FALSE
 
 /datum/quest/kill/bounty/preview(obj/effect/landmark/quest_spawner/landmark)
@@ -69,7 +65,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : tp_budget
 	return (boss_threat * QUEST_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT)
 
-/// Override — bounty progress is fixed at 1 (the boss), regardless of goon count.
 /datum/quest/kill/bounty/estimate_mob_count()
 	return 1
 
@@ -81,8 +76,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	spawn_boss(landmark)
 	spawn_goons(landmark)
 	progress_required = 1
-	// Rename the boss mob after a delay so subtype after_creation() doesn't clobber it.
-	// Some subtypes (e.g. large_goblin) call after_creation on a 1s timer and set their own name.
 	addtimer(CALLBACK(src, PROC_REF(apply_boss_name)), 2 SECONDS)
 	return TRUE
 
@@ -103,7 +96,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
 	register_spawner(spawn_effect)
 	add_tracked_atom(boss)
-	landmark.add_quest_faction_to_nearby_mobs(spawn_turf)
 
 /datum/quest/kill/bounty/proc/apply_boss_name()
 	for(var/datum/weakref/ref in tracked_atoms)
@@ -115,8 +107,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		M.real_name = boss_name
 		M.name = boss_name
 
-/// Spawn goons alongside the bounty boss. Uses goblin horde pool for the warlord variant;
-/// otherwise spends TP budget drawing from the region faction.
 /datum/quest/kill/bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark)
 	if(goblin_warlord_variant)
 		spawn_goblin_horde(landmark)
@@ -140,7 +130,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		register_spawner(spawn_effect)
 		total_spawned_tp += initial(goon.threat_point) || 0
 
-/// Spawns 5-9 mixed goblin goons for the goblin warlord variant.
 /datum/quest/kill/bounty/proc/spawn_goblin_horde(obj/effect/landmark/quest_spawner/landmark)
 	total_spawned_tp = 0
 	for(var/i in 1 to rand(5, 9))

@@ -81,7 +81,7 @@
 					shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //dwarves like to blow up my patience
 			if("Enchanted Inks")
 				neck = /obj/item/clothing/neck/roguetown/coif/heavypadding/black
-				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats/mistwalker //they don't get stronger swords like ruma, let them have the +50 integ
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker //they don't get stronger swords like ruma, let them have the +50 integ
 				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				ADD_TRAIT(H, TRAIT_HONORBOUND, TRAIT_GENERIC)

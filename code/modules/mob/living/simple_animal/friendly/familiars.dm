@@ -7,7 +7,7 @@
 // if you add mechanical differences between the subtypes i will find you.
 
 /*
-	Familiar list and buffs below. 
+	Familiar list and buffs below.
 	Sprites by Diltyrr (those aren't good gah)
 
 	Quick AI pictures idea for each of them : https://imgbox.com/g/MvanomKazA
@@ -58,10 +58,10 @@
 	var/tier = 0 // increments once per dae survived; gates the stronger abilities
 	var/mob/living/carbon/familiar_summoner = null
 	var/inherent_spell = null
-	var/t1_spell = null
+	var/t1_spell = list()
 	var/tutorial_message = null
 	var/tierup_messages = list()
-	var/t2_spell = null
+	var/t2_spell = list()
 	var/summoning_emote = null
 	var/list/valid_healing_items = list() // what planar materials can heal you?
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
@@ -161,6 +161,12 @@
 	src.forceMove(vestige)
 	vestige.desc = "The vestige of [src.name], a fallen [GLOB.familiar_display_names[src.type]]. Likely worth a lot to the magos that summoned [src.p_them()]!"
 
+/mob/living/simple_animal/pet/familiar/void/revive(full_heal, admin_revive)
+	if(..()) // successful revive
+		if(essences_consumed.Find("fae")) // flight is lost on death
+			movement_type = FLYING
+		. = TRUE
+
 /mob/living/simple_animal/pet/familiar/proc/TryAddFlight()
 	if(movement_type & (FLYING | FLOATING))
 		add_verb(src, list(/mob/living/simple_animal/proc/fly_up,
@@ -174,21 +180,23 @@
 	for(var/obj/item/grabbing/grab in grabbedby) //Grabbed by the mouth
 		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
 			return FALSE
-			
+
 	return TRUE
 
 /mob/living/simple_animal/pet/familiar/is_literate()
 	return TRUE
 
 /mob/living/simple_animal/pet/familiar/proc/grant_tier_abilities(tier)
-	if(tier==1 && t1_spell)
-		var/spell_instance = new t1_spell
-		if(spell_instance && src.mind)
-			src.mind.AddSpell(spell_instance)
-	if(tier==2 && t2_spell)
-		var/spell_instance = new t2_spell
-		if(spell_instance && src.mind)
-			src.mind.AddSpell(spell_instance)
+	if(tier==1 && length(t1_spell))
+		for(var/path in t1_spell)
+			var/spell_instance = new path
+			if(spell_instance && src.mind)
+				src.mind.AddSpell(spell_instance)
+	if(tier==2 && length(t2_spell))
+		for(var/path in t2_spell)
+			var/spell_instance = new path
+			if(spell_instance && src.mind)
+				src.mind.AddSpell(spell_instance)
 	return
 
 /mob/living/simple_animal/pet/familiar/proc/debug_force_tierup()
@@ -262,9 +270,9 @@
 	pass_flags = PASSTABLE | PASSMOB
 	inherent_spell = list(/datum/action/cooldown/spell/projectile/lesser_fetch/fae)
 	movement_type = FLYING
-	t1_spell = /obj/effect/proc_holder/spell/invoked/reagent_bite
-	t2_spell = /datum/action/cooldown/spell/fae_brew
-	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance.")
+	t1_spell = list(/datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae)
+	t2_spell = list(/datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
+	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance, and force hidden crops to bloom at your command.")
 	tierup_messages = list(
 		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite."),
 		span_info("You now act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
@@ -412,7 +420,7 @@
 						qdel(ing)
 					src.reagents.add_reagent(/datum/reagent/yuck, min(reagents.maximum_volume - reagents.total_volume, 90)) // do not overfill
 					// Learn from your failure (Yeah you can technically still grind this way you just blow through a lot of ingredients)
-					familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE) 
+					familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 					return
 				for(var/obj/item/ing in src.ingredients)
 					qdel(ing)
@@ -451,8 +459,8 @@
 		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
-	t1_spell = /datum/action/cooldown/spell/matthios/raze/infernal
-	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
+	t1_spell = list(/datum/action/cooldown/spell/matthios/raze/infernal)
+	t2_spell = list(/obj/effect/proc_holder/spell/self/infernal_surge)
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 	valid_healing_items = list(/obj/item/magic/infernal)
@@ -567,9 +575,9 @@
 	maxHealth = WOLF_HEALTH_UNDEAD // more durable than the others
 	health = WOLF_HEALTH_UNDEAD
 	speak_emote = list ("rumbles", "grinds")
-	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental) 
-	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
-	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elementalt2
+	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental, /datum/action/cooldown/spell/aetherknife/elemental) // you can at least prep food n such with this right
+	t1_spell = list(/datum/action/cooldown/spell/arcyne_forge/elemental)
+	t2_spell = list(/datum/action/cooldown/spell/arcyne_forge/elementalt2)
 	valid_healing_items = list(/obj/item/magic/elemental)
 	tierup_messages = list(
 		span_info("You can now shape your earthen form into tools and weapons, including those capable of repairing equipment."),
@@ -615,7 +623,7 @@
 	var/list/ret = ..()
 	var/knows = FALSE
 	knows |= istype(user, /mob/living/simple_animal/pet/familiar)
-	// kind of horrid but this ensures only "proper" casters get to be knowers 
+	// kind of horrid but this ensures only "proper" casters get to be knowers
 	if(user.mind)
 		knows |= (user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"])
 	if(knows)
@@ -631,6 +639,7 @@
 			src.movement_type = FLYING
 			TryAddFlight()
 			src.mind.AddSpell(new /datum/action/cooldown/spell/projectile/lesser_fetch/fae/void)
+			src.mind.AddSpell(new /datum/action/cooldown/spell/invisibility/fae)
 		if("infernal") // nerfed abberant beam, fire res
 			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an abberant beam to blast your foes."))
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
@@ -785,6 +794,24 @@
     icon_living = "drone_gem"
     summoning_emote = "A faint chime as a gem-encrusted mechanical beetle scuttles into view."
     speak_emote = "chimes"
+
+/mob/living/simple_animal/pet/familiar/infernal/armour
+	name = "Infernal Armour"
+	desc = "A suit of accursed armour, its host long swallowed by infernal flames yet the form remains, restless and ready to serve yet another master."
+	summoning_emote = "A loud thud rings across as long dormant armour flashes with unlyfe."
+	animal_species = "Infernal Armour"
+	icon_state = "infernal_armour"
+	icon_living = "infernal_armour"
+	speak_emote = list("crackles")
+
+/mob/living/simple_animal/pet/familiar/infernal/sword
+	name = "Infernal Blade"
+	desc = "A sword once belonging to a hero lost in pits of the underworld upon his demise. It is said to feed upon souls of those who touch it - willing or not."
+	summoning_emote = "A blade raises from the deepest pits, singing against the wind."
+	animal_species = "Infernal Blade"
+	icon_state = "infernal_blade"
+	icon_living = "infernal_blade"
+	speak_emote = list("sings")
 
 #undef FAMILIAR_SEE_IN_DARK
 #undef FAMILIAR_MIN_BODYTEMP

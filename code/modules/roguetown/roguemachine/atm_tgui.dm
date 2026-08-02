@@ -20,6 +20,7 @@
 			"counterparty" = counterparty,
 			"amount" = E.amount,
 			"reason" = E.reason || "",
+			"count" = E.count || 1,
 		))
 	return out
 

@@ -86,8 +86,11 @@
 			r_hand = null
 			wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			neck = /obj/item/quiver/sling/stone
+			armor = /obj/item/clothing/suit/roguetown/shirt/rags
+			head = null
 			H.STACON -= 1
 			H.STAWIL -= 1
+			H.STAPER = 6
 			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		if("flail")
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, skill, TRUE)
@@ -100,8 +103,11 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/bows, skill, TRUE)
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			backl = /obj/item/quiver/conjured_stone
+			armor = /obj/item/clothing/suit/roguetown/shirt/rags
+			head = null
 			H.STACON -= 1
 			H.STAWIL -= 1
+			H.STAPER = 6
 			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		else
 			r_hand = /obj/item/rogueweapon/sword/stone
