@@ -33,7 +33,6 @@
 		TRAIT_NOSTINK,
 		TRAIT_DODGEEXPERT,
 		TRAIT_STEELHEARTED,
-		TRAIT_DECEIVING_MEEKNESS,
 	)
 
 /datum/antagonist/assassin/on_gain()
@@ -44,6 +43,8 @@
 	var/datum/action/cooldown/spell/assassin/get_dagger/A = new
 	A.Grant(owner.current)
 	owner.current.playsound_local(owner.current,'sound/villain/littlescary.ogg', 40)
+	// temporary to see how this goes. i think it might help w/ how they need to toggle a lot of their features.
+	apply_virtue(owner.current, new /datum/virtue/combat/guarded)
 
 	return ..()
 

@@ -39,9 +39,6 @@
 		TRAIT_ANTISCRYING,
 	)
 	virtue_restrictions = list(
-		// these may be removed later depending on how i go about the whole "anyone can be an assassin" thing. we'll see.
-		/datum/virtue/utility/noble,
-		/datum/virtue/utility/notable,
 		/datum/virtue/utility/feytouched
 	)
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
