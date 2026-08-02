@@ -332,6 +332,7 @@
 
 /datum/status_effect/debuff/ink_spike
 	id = "ink_spike"
+	// As long as you have the status, you can't be hit by the puddles again.
 	duration = 10 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ink_spike
 	var/ink_damage = INK_SPIKE_CONSCIOUS_DAMAGE

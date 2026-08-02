@@ -57,13 +57,37 @@
 
 	if(is_mismatched || is_far)
 		if(!out_of_range)
+			var/obj/structure/dream_pylon/new_pylon
+			for(var/obj/structure/dream_pylon/nearby_pylon in range(max_range, owner))
+				if(nearby_pylon == P || QDELETED(nearby_pylon))
+					continue
+				if(nearby_pylon.infusion_payload == type)
+					new_pylon = nearby_pylon
+					break
+
+			if(new_pylon)
+				pylon_ref = WEAKREF(new_pylon)
+
+				if(pylon_outline)
+					if(owner?.client)
+						owner.client.images -= pylon_outline
+					qdel(pylon_outline)
+					pylon_outline = null
+
+				var/new_color = new_pylon.pylon_color ? new_pylon.pylon_color : "#7A288A"
+				update_pylon_outline(new_pylon, new_color)
+
+				if(prob(50))
+					to_chat(owner, span_notice("Your infusion latches onto a nearby matching pylon!"))
+
+				total_effective_consumed += effective_time_consumed
+				return
 			out_of_range = TRUE
 			if(is_mismatched)
 				to_chat(owner, span_warning("The source pylon's essence no longer matches your infusion! Your link begins decaying rapidly."))
 			else
 				to_chat(owner, span_warning("You have wandered too far from the pylon! Your infusion begins decaying rapidly."))
 			update_pylon_outline(P, COLOR_RED)
-
 		effective_time_consumed = time_passed * decay_multiplier
 		duration -= time_passed * (decay_multiplier - 1)
 

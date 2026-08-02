@@ -31,6 +31,7 @@
 	. += span_info("You can interact with a pylon to return a buff prematurely.")
 	. += span_info("Pylons can be infused by skilled painter abyssorites to restore some charge, once per seed.")
 	. += span_info("Inserting a new dream seed will fully recharge a pylon, and allow it to be recharged via infusion again.")
+	. += span_info("Pylons with the same infusion type can support said infusion if you step out of range of one, and into another.")
 
 /obj/structure/dream_pylon/Initialize(mapload)
 	. = ..()
