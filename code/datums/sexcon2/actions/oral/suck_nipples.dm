@@ -61,4 +61,13 @@
 	sex_session.perform_sex_action(target, 1, 3, TRUE)
 	sex_session.handle_passive_ejaculation(target)
 
-//No we really don't need remnants of milking code in here.
+	//VALMORIAN: re-ported from Emerald Summit - a lactating target leaks into the sucker's mouth.
+	var/obj/item/organ/breasts/breasts = target.getorganslot(ORGAN_SLOT_BREASTS)
+	if(!breasts?.lactating)
+		return
+	var/milk_to_add = min(max(breasts.breast_size, 1), breasts.milk_stored)
+	if(milk_to_add > 0 && prob(25))
+		user.reagents.add_reagent(/datum/reagent/consumable/milk, milk_to_add)
+		breasts.milk_stored -= milk_to_add
+		to_chat(user, span_notice("I can taste milk."))
+		to_chat(target, span_notice("I can feel milk leak from my buds."))

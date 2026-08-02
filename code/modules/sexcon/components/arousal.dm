@@ -198,6 +198,66 @@
 		if(action.knot_on_finish)
 			action.try_knot_on_climax(mob, partner)
 
+//VALMORIAN: milking-into-a-container, ported from Emerald Summit's sex_controller. ES kept these on
+//its monolithic sexcon; here they live with the rest of the climax handling.
+/datum/component/arousal/proc/get_semen_volume()
+	var/mob/living/mob = parent
+	var/obj/item/organ/testicles/testes = mob.getorganslot(ORGAN_SLOT_TESTICLES)
+	if(!testes)
+		return 0
+	var/volume
+	switch(testes.ball_size)
+		if(MIN_TESTICLES_SIZE)
+			volume = 2
+		if(MAX_TESTICLES_SIZE)
+			volume = 4
+		else
+			volume = 3
+	if(HAS_TRAIT(mob, TRAIT_GOODLOVER))
+		volume = floor(volume * 1.5)
+
+	var/obj/item/organ/penis/shaft = mob.getorganslot(ORGAN_SLOT_PENIS)
+	//VALMORIAN: ES also listed EQUINE_KNOTTED and TAPERED_KNOTTED; VI's penis type enum has neither.
+	if(shaft?.penis_type in list(PENIS_TYPE_KNOTTED, PENIS_TYPE_EQUINE, PENIS_TYPE_TAPERED_DOUBLE_KNOTTED, PENIS_TYPE_BARBED_KNOTTED))
+		volume += 1
+
+	return volume
+
+/datum/component/arousal/proc/can_ejaculate()
+	var/mob/living/mob = parent
+	if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && !mob.getorganslot(ORGAN_SLOT_VAGINA))
+		return FALSE
+	if(HAS_TRAIT(mob, TRAIT_LIMPDICK))
+		return FALSE
+	return TRUE
+
+/datum/component/arousal/proc/check_active_ejaculation()
+	if(arousal < ACTIVE_EJAC_THRESHOLD)
+		return FALSE
+	if(is_spent())
+		return FALSE
+	if(!can_ejaculate())
+		return FALSE
+	return TRUE
+
+/datum/component/arousal/proc/ejaculate_container(obj/item/reagent_containers/glass/container)
+	var/mob/living/carbon/human/mob = parent
+	if(!istype(mob) || !istype(container))
+		return
+	log_combat(mob, mob, "Ejaculated into a container")
+	mob.visible_message(span_love("[mob] spills into [container]!"))
+	playsound(mob, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+	if(mob.getorganslot(ORGAN_SLOT_PENIS))
+		container.reagents.add_reagent(/datum/reagent/erpjuice/cum, get_semen_volume())
+	else
+		container.reagents.add_reagent(/datum/reagent/erpjuice/femcum, 2)
+	after_ejaculation(null, mob, null)
+
+/datum/component/arousal/proc/handle_cock_milking(mob/living/carbon/human/milker)
+	if(!check_active_ejaculation())
+		return
+	ejaculate_container(milker.get_active_held_item())
+
 /datum/component/arousal/proc/ejaculate_special()
 	var/mob/living/mob = parent
 	after_ejaculation_special(mob)

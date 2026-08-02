@@ -972,6 +972,7 @@
 #include "code\datums\sexcon2\actions\masturbation\other\_base.dm"
 #include "code\datums\sexcon2\actions\masturbation\other\anus.dm"
 #include "code\datums\sexcon2\actions\masturbation\other\clit.dm"
+#include "code\datums\sexcon2\actions\masturbation\other\milk_genitals.dm"
 #include "code\datums\sexcon2\actions\masturbation\other\penis.dm"
 #include "code\datums\sexcon2\actions\masturbation\other\vagina.dm"
 #include "code\datums\sexcon2\actions\masturbation\other\magic\godhand.dm"
