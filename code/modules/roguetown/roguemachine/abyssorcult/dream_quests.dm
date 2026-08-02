@@ -414,3 +414,36 @@
 		"learn to carry your sins"
 	)
 	valid_roles = list("Templar", "Knight", "Sergeant", "Men-at-arms", "Squire", "Mercenary", "Warden")
+
+/datum/vision_quest/orthodoxist_echo
+	name = "Psydonic Vision"
+	description = "A psydonite stands in Abyssor's gaze. You are the prophet, you will deliver his missive."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
+	)
+	target_description = "an Orthodoxist"
+	summary = "A psydonite's faith in the light of a true vision."
+	vision_text = "The mists part to reveal an Orthodoxist straining their ears against an empty shell, listening for a dead whisper. \
+	They seek a voice, no one answers, yet they persist desperately. \
+	Confront them, and make them hear them realise they are not listening in vain. \
+	\n\nSuddenly, you stand in a hollow abyss. Gradually, the sides illuminate to show a shimmering pearlescent hue. Like the inside of a seashell. \
+	In the center rests another. The shell of a hermit crab. Though no crustacean rests within, instead the fingers of a hand extend from the opening. \
+	Alongside the lingering chime of a voice spoken millennia ago, still bouncing off the shell walls. \
+	The speaker has moved beyond, yet the song stays trapped in the depths forever. \
+	When you return, the orthodoxist yet listens. You direct them to clamber into the shell, for His voice does not pierce the armor of ignorance. \
+	O Psydon, your voice remains long after the throat quiets."
+	possible_phrases = list(
+		"The ocean holds His echo",
+		"Psydon's song endures",
+		"Listen to the shell, Psydon calls"
+	)
+	valid_roles = list("Orthodoxist","Inquisitor","Absolver")
