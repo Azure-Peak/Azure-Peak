@@ -120,7 +120,7 @@
 	..()
 	id = /obj/item/clothing/ring/silver
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 	cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_leader
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssor_painter
@@ -130,27 +130,25 @@
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
-	beltr = /obj/item/storage/keyring/acolyte
+	beltr = /obj/item/storage/backpack/rogue/satchel/short
 	shoes = /obj/item/clothing/shoes/roguetown/footwraps/padded
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
-		/obj/item/mini_flagpole/church
+		/obj/item/mini_flagpole/church,
+		/obj/item/storage/keyring/acolyte
 		)
 	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
-	var/weapons = list("Discipline - Unarmed","Knuckledusters","Quarterstaff","Sylveric Trident")
+	var/weapons = list("Discipline - Unarmed","Knuckledusters","Sylveric Trident")
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
 		if("Discipline - Unarmed")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/bandages/pugilist(H))
+			r_hand = /obj/item/clothing/gloves/roguetown/bandages/pugilist
 		if("Knuckledusters")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
-		if("Quarterstaff")
-			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
-			backr = /obj/item/rogueweapon/scabbard/gwstrap
+			r_hand = /obj/item/clothing/gloves/roguetown/knuckles
 		if("Sylveric Trident")
 			r_hand = /obj/item/rogueweapon/spear/trident/dreamscape_trident
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
@@ -158,6 +156,13 @@
 			if(H.mind)
 				// Basically bind weapon for dream items. Works on the trident.
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_bind)
+	var/brushes = list("Offensive Brush", "Healing Brush")
+	var/brush_choice = input(H,"Choose your ritualistic brush.", "TAKE UP FAITH") as anything in brushes
+	switch(brush_choice)
+		if("Offensive Brush")
+			l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint
+		if("Healing Brush")
+			l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal
 
 // Templar monk equivalent
 // No dodge expert, relies on parrying and higher con instead
@@ -209,7 +214,8 @@
 	shoes = /obj/item/clothing/shoes/roguetown/footwraps/padded
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
-		/obj/item/mini_flagpole/church
+		/obj/item/mini_flagpole/church,
+		/obj/item/rogueweapon/huntingknife/paint
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
