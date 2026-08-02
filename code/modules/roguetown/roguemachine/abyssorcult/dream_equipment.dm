@@ -175,6 +175,7 @@
 	var/paint_consume_buff = FALSE
 	var/paint_deny_buff = FALSE
 	var/paint_color = "#580000"
+	var/paint_apply_to_pulled = FALSE
 
 /datum/special_intent/ground_smash/paint_line/healing
 	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are offbalanced and slowed. Converts existing paint trails on hit into healing paints that can affect even those without paint affinity."
@@ -183,6 +184,7 @@
 	paint_consume_buff = TRUE
 	paint_deny_buff = TRUE
 	paint_color = "#b6e6b6"
+	paint_apply_to_pulled = TRUE
 
 /datum/special_intent/ground_smash/paint_line/apply_hit(turf/T)
 	. = ..()
@@ -199,6 +201,7 @@
 		existing_trail.color = paint_color
 		existing_trail.consume_buff = paint_consume_buff
 		existing_trail.deny_buff = paint_deny_buff
+		existing_trail.apply_to_pulled = paint_apply_to_pulled
 		if(howner)
 			existing_trail.caster_ref = WEAKREF(howner)
 		if(HAS_TRAIT(howner, TRAIT_INK_AFFINITY))

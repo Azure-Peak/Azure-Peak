@@ -32,6 +32,8 @@
 	var/consume_buff = FALSE
 	/// Whether trails are consumed when someone unattuned walks over them.
 	var/deny_buff = FALSE
+	/// Whether the trail effects also apply to any living mob being pulled by the user stepping on it.
+	var/apply_to_pulled = FALSE
 
 /obj/effect/ink_trail/ex_act()
 	return
@@ -89,9 +91,17 @@
 
 /obj/effect/ink_trail/Crossed(atom/movable/AM)
 	. = ..()
-	if(!AM.throwing)
-		if(isliving(AM))
-			trigger_ink_effect(AM)
+	if(AM.throwing || !isliving(AM))
+		return
+	var/mob/living/L = AM
+	// If configured, attempt to hit the pulled mob first
+	if(apply_to_pulled && isliving(L.pulling))
+		var/mob/living/pulled_mob = L.pulling
+		if(pulled_mob.stat == CONSCIOUS)
+			trigger_ink_effect(pulled_mob)
+			return
+	// Otherwise, apply to the person stepping on it
+	trigger_ink_effect(L)
 
 /obj/effect/ink_trail/proc/trigger_ink_effect(mob/living/L)
 	if(!L || L.stat != CONSCIOUS)

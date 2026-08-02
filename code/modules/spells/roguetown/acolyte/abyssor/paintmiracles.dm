@@ -218,7 +218,7 @@
 
 /datum/action/cooldown/spell/transmute_ink
 	name = "Purifying Wave"
-	desc = "Purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned. The more paint affected (up to 10), the longer the cooldown."
+	desc = "Purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned. The more paint affected (up to 10), the longer the cooldown. If you pull targets, those attuned will get healed in your stead. If you use a paint brush staff, you can heal via pulling regardless."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	background_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	button_icon_state = "paint_heal"
@@ -261,6 +261,7 @@
 		trail.consume_buff = TRUE
 		trail.deny_buff = TRUE
 		trail.refresh_lifetime(15 SECONDS)
+		trail.apply_to_pulled = TRUE
 		affected_count++
 
 	if(affected_count > 0)

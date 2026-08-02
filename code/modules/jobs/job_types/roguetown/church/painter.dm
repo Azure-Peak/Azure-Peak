@@ -88,7 +88,7 @@
 // Trades utility skills for ever so slightly more stats, combat skills and equipment. T3.
 // Basically the world's worst leader just to not pump church's combat capabilities too much.
 /datum/advclass/voice
-	name = "Voice of the seas"
+	name = "Voice of the Seas"
 	tutorial = "One of Abyssor's visionaries dedicated to the path of the dream painter. You are amongst the exhalted of the cult, leading this little branch of abyssorite misfits. Keep in mind your authority does not reach past the cult, and you are beholden to the word of the Bishop whose basement you dwell in. Perhaps you can recruit some of the loyal abyssorites around here."
 	outfit = /datum/outfit/job/roguetown/voice
 	category_tags = list(CTAG_PAINTER)
@@ -170,8 +170,7 @@
 	category_tags = list(CTAG_TEMPLAR)
 	maximum_possible_slots = 1
 	subclass_stats = list(
-		STATKEY_STR = -1,
-		STATKEY_CON = 3,
+		STATKEY_CON = 2,
 		STATKEY_WIL = 3,
 		STATKEY_SPD = 1,
 		STATKEY_PER = 1,
