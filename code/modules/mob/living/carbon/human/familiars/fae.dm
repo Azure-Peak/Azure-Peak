@@ -43,6 +43,8 @@
 		TRAIT_KNEESTINGER_IMMUNITY, // they're literally nature spirits
 		TRAIT_KEENEARS, // to fit with their recon focus
 	)
+	origin = "The Faewyld"
+	origin_default = /datum/virtue/origin/familiar/fae
 
 /mob/living/carbon/human/species/familiar/fae/Initialize()
 	. = ..()

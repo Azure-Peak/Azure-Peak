@@ -67,7 +67,7 @@
 // ----- Familiar Binding -----
 
 /datum/runeritual/binding/infernal
-	name = "Bind Lesser Infernal"
+	name = "Bind Lesser Daemon"
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/carbon/human/species/familiar/infernal

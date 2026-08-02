@@ -2635,6 +2635,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (istype(V, /datum/virtue/origin/racial))
 							if(!(pref_species.type in V.races))
 								continue
+						if (istype(V, /datum/virtue/origin/familiar))
+							continue
 						virtue_choices[V.name] = V
 					var/result = tgui_input_list(user, "From where do you come?", "ORIGINS",virtue_choices)
 

@@ -21,6 +21,8 @@
 /datum/species/familiar/elemental
 	name = "Elemental"
 	id = "elemental"
+	origin = "The Depths"
+	origin_default = /datum/virtue/origin/familiar/elemental
 
 // so they can actually do repairs
 /mob/living/carbon/human/species/familiar/elemental/Initialize()

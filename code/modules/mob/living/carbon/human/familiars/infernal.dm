@@ -38,6 +38,8 @@
 		TRAIT_TOXIMMUNE,
 		TRAIT_SILVER_WEAK,
 	)
+	origin = "The Hells"
+	origin_default = /datum/virtue/origin/familiar/infernal
 
 // they get to glow because they're on fire
 /mob/living/carbon/human/species/familiar/infernal/Initialize()
@@ -53,9 +55,10 @@
 
 // in case it wasn't obvious enough that this is license for people to be mad at you
 // update 2026-04-16: it wasn't obvious enough STILL. have some role-specific prodding to do some conflict
+// update 2026-08-02: maybe the role-specific text is enough actually
 /mob/living/carbon/human/species/familiar/infernal/examine(mob/user)
 	var/list/ret = ..()
-	ret.Insert(2,span_userdanger("A DAEMON...!"))
+	// ret.Insert(2,span_userdanger("A DAEMON...!"))
 	if(HAS_TRAIT(user, TRAIT_CLERGY))
 		ret.Insert(3, span_notice("Vile Archdevil-spawn! Binding such things is forbidden! Brook not daemonbinders!"))
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
