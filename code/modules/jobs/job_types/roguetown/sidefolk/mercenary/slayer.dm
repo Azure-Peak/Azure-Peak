@@ -39,9 +39,9 @@
 	if(H.mind)
 		to_chat(H, span_warning("You are a Slayer - an elite hunter of monsters, hailing from the windy peaks of the dwarven Mountainhomes. Your devotion is matched only by your unbridled fury. You forgo defense, entrusting your life to the Ten and make a living by selling your trophies."))
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/axedance)
-		armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer
-		shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/chest
-		head = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/head
+		armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer //light iron maille
+		shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/slayer //half a light gambeson
+		head = /obj/item/clothing/suit/roguetown/armor/manual/resting/slayer/head //basic arming cap
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 		backr = /obj/item/storage/backpack/rogue/satchel
 		belt = /obj/item/storage/belt/rogue/leather/slayer
@@ -83,7 +83,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/slayer/obj_destruction()
 	visible_message(span_bloody("The dwarf flinches from the blow!"), vision_distance = 3) // visual que for breaking
 
-/obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/chest
+/obj/item/clothing/suit/roguetown/armor/manual/resting/slayer
 	name = "toughened chest"
 	desc = "Toughened from abuse. Resting will restore it's strength."
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
@@ -91,12 +91,13 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN //This is a bonus, more than a real layer. Will help with stray arrows.
 
-/obj/item/clothing/suit/roguetown/armor/manual/resting/padded/slayer/head
+/obj/item/clothing/suit/roguetown/armor/manual/resting/slayer/head
 	name = "hard skull"
 	desc = "Accustomed to taking heavy blows. Resting will restore it's strength."
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	slot_flags = ITEM_SLOT_HEAD
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT //clonk. Would have used a wood-hit sound if one existed.
 	body_parts_covered = COVERAGE_HEAD //head, skull, ears. No face or neck protection.
