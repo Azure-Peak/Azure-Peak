@@ -330,4 +330,42 @@
 		"#Cut through the silence."
 	)
 
+/datum/abyssal_ritual/create_paintbrush
+	name = "Create Sacred Paintbrush (Offense)"
+	desc = "Infuses a quarterstaff with the essence of the pool, transforming it into a sacred paintbrush capable of unleashing paint-imbued attacks."
+	base_channel_time = 80
+
+	required_ingredients = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel = 1,
+		/obj/item/dream_material/dream_effigy = 1,
+		/obj/item/dream_material/dream_blade = 1
+	)
+	reward_items = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint = 1
+	)
+	invocation_phases = list(
+		"#Let the brush carve a path through the waking world.",
+		"#Simple tool, now a true implement of the faithful.",
+		"#Create a rift in their formations."
+	)
+
+/datum/abyssal_ritual/create_paintbrush/healing
+	name = "Create Sacred Paintbrush (Healing)"
+	desc = "Infuses a quarterstaff with restorative abyssal paints, creating a paintbrush that can mend wounds while still serving as a decent weapon."
+	base_channel_time = 80
+
+	required_ingredients = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel = 1,
+		/obj/item/dream_material/dream_effigy = 1,
+		/obj/item/dream_material/dream_blade = 1
+	)
+	reward_items = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal = 1
+	)
+	invocation_phases = list(
+		"#Abyssor's touch brings salvation.",
+		"#By the tide, let pain recede.",
+		"#Heal the broken, strengthen the faithful."
+	)
+
 #undef MOVESPEED_ID_WATERLOG_SLOW

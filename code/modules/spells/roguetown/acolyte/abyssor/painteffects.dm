@@ -6,6 +6,9 @@
 // 1.5/2/2.5/3/3.5/4
 #define INK_HEAL_BASE                1
 #define INK_HEAL_PER_STACK           0.5
+#define INK_SPIKE_MINDLESS_DAMAGE 60
+#define INK_SPIKE_CONSCIOUS_DAMAGE 20
+#define INK_SPIKE_AFFINITY_DAMAGE 8
 
 /obj/effect/ink_trail
 	name = "paint trail"
@@ -326,6 +329,84 @@
 	name = "Umbral Knitting"
 	desc = "Pure abyssal ink is surging through my wounds. Taking damage will break down the concentration faster."
 	icon_state = "buff"
+
+/datum/status_effect/debuff/ink_spike
+	id = "ink_spike"
+	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ink_spike
+	var/ink_damage = INK_SPIKE_CONSCIOUS_DAMAGE
+
+/datum/status_effect/debuff/ink_spike/weak
+	ink_damage = INK_SPIKE_AFFINITY_DAMAGE
+
+/atom/movable/screen/alert/status_effect/debuff/ink_spike
+	name = "Umbral Spikes"
+	desc = "Sharp ink needles pierce through my flesh."
+	icon_state = "debuff"
+
+/datum/status_effect/debuff/ink_spike/refresh()
+	// Deliberately do not refresh
+	return FALSE
+
+/datum/status_effect/debuff/ink_spike/on_apply()
+	. = ..()
+	if(!isliving(owner))
+		return
+
+	var/mob/living/target = owner
+
+	if(isanimal(target))
+		target.visible_message(span_purple("Erupting paint spikes tear violently through the [target]!"))
+		target.adjustBruteLoss(INK_SPIKE_MINDLESS_DAMAGE)
+		return
+
+	var/damage_to_deal = ink_damage
+	if(ishuman(target))
+		var/mob/living/carbon/human/C = target
+		var/chosen_zone = pick(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+		chosen_zone = check_zone(chosen_zone)
+		var/obj/item/bodypart/hit_part = C.get_bodypart(chosen_zone)
+		if(!target.mind || !target.ckey)
+			damage_to_deal = INK_SPIKE_MINDLESS_DAMAGE
+
+		if(!hit_part)
+			hit_part = C.get_bodypart(BODY_ZONE_CHEST)
+
+		if(hit_part)
+			C.visible_message(
+				span_purple("Sharp tendrils of paint burst upward and stab into [C]'s [hit_part.name]!"),
+				span_danger("Sharp tendrils of paint burst upward and stab into your [hit_part.name]!")
+			)
+
+			// We kind of just check if there's any armor or not.
+			// I do not know why, but only BCLASS_PICK works, instead of BCLASS_STAB.
+			var/armor_tier = C.getarmor(chosen_zone, BCLASS_PICK)
+			var/bclass_to_use = (armor_tier > 0) ? BCLASS_BLUNT : BCLASS_PICK
+
+			// If armored, simply deal a blunt hit to the armor piece that blocked us.
+			if(armor_tier > 0)
+				var/obj/item/clothing/armor_piece = C.get_best_worn_armor(chosen_zone, BCLASS_PICK)
+				if(armor_piece)
+					armor_piece.take_damage(damage_to_deal, BRUTE, bclass_to_use, 0)
+
+			// If unarmored, stab whoever walked on us.
+			if(!armor_tier)
+				hit_part.bodypart_attacked_by(
+					bclass = bclass_to_use,
+					dam = damage_to_deal,
+					user = null,
+					zone_precise = chosen_zone,
+					silent = FALSE,
+					crit_message = TRUE
+				)
+		else
+			C.take_bodypart_damage(brute = damage_to_deal)
+	else
+		target.adjustBruteLoss(damage_to_deal)
+
+#undef INK_SPIKE_MINDLESS_DAMAGE
+#undef INK_SPIKE_CONSCIOUS_DAMAGE
+#undef INK_SPIKE_AFFINITY_DAMAGE
 
 #undef COLOR_LUMINOUS_ABYSSAL_INK
 

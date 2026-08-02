@@ -68,12 +68,14 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/storage/keyring/acolyte
 	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/rogueweapon/scabbard/gwstrap
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	pants = /obj/item/clothing/under/roguetown/tights
 	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea
 	head = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
+	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal
 	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg'
 	if(H.mind)
@@ -134,6 +136,7 @@
 		/obj/item/ritechalk = 1,
 		/obj/item/mini_flagpole/church
 		)
+	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)
 	if(H.mind)
@@ -176,7 +179,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
@@ -221,6 +224,6 @@
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/bandages/pugilist(H))
 		if("Knuckledusters")
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
-		if("Quarterstaff")
-			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel
+		if("Paintbrush")
+			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint
 			backr = /obj/item/rogueweapon/scabbard/gwstrap

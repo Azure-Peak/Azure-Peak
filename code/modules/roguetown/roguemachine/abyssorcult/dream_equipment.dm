@@ -136,3 +136,74 @@
 		. += span_notice("It feels inert. About [minutes_left] more minute\s required before it can ooze paint again.")
 	else
 		. += span_notice("Focusing on it feels like it could empower the blade with abyssal energy.")
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint
+	name = "sacred paintbrush"
+	desc = "A divine paintbrush of a comical size. The blunt end is quite serviceable as an offensive implement, whilst the brush end lets Abyssorite painted harness their miracles."
+	icon_state = "brush"
+	icon = 'icons/roguetown/weapons/dream_weapons64.dmi'
+	item_state = "brush"
+	// Meant to be slightly better than a normal steel Qstaff, worse than silver/bsteel however.
+	max_integrity = 225
+	special = /datum/special_intent/ground_smash/paint_line
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal
+	name = "sacred paintbrush"
+	desc = "A divine paintbrush of a comical size. The blunt end is quite serviceable as an offensive implement, whilst the brush end lets Abyssorite painted harness their miracles."
+	icon_state = "brush_heal"
+	icon = 'icons/roguetown/weapons/dream_weapons64.dmi'
+	item_state = "brush_heal"
+	// More defense oriented than the other one.
+	force_wielded = 22
+	max_integrity = 275
+	special = /datum/special_intent/ground_smash/paint_line/healing
+
+/datum/special_intent/ground_smash/paint_line
+	name = "Paint Wave"
+	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are offbalanced and slowed. Converts existing paint trails on hit into spiked traps."
+	// 6 tiles straight ahead with 0.1s staggering
+	tile_coordinates = list(
+		list(0, 0, 0 SECONDS),
+		list(0, 1, 0.1 SECONDS),
+		list(0, 2, 0.2 SECONDS),
+		list(0, 3, 0.3 SECONDS),
+		list(0, 4, 0.4 SECONDS),
+		list(0, 5, 0.5 SECONDS)
+	)
+	var/paint_payload_buff = /datum/status_effect/debuff/ink_spike/weak
+	var/paint_payload_debuff = /datum/status_effect/debuff/ink_spike
+	var/paint_consume_buff = FALSE
+	var/paint_deny_buff = FALSE
+	var/paint_color = "#580000"
+
+/datum/special_intent/ground_smash/paint_line/healing
+	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are offbalanced and slowed. Converts existing paint trails on hit into healing paints that can affect even those without paint affinity."
+	paint_payload_buff = /datum/status_effect/buff/umbral_recovery
+	paint_payload_debuff = /datum/status_effect/buff/umbral_recovery
+	paint_consume_buff = TRUE
+	paint_deny_buff = TRUE
+	paint_color = "#b6e6b6"
+
+/datum/special_intent/ground_smash/paint_line/apply_hit(turf/T)
+	. = ..()
+
+	if(!T || !isopenturf(T))
+		return
+
+	var/obj/effect/ink_trail/existing_trail = locate(/obj/effect/ink_trail) in T
+
+	if(existing_trail)
+		existing_trail.buff_payload = paint_payload_buff
+		existing_trail.debuff_payload = paint_payload_debuff
+		existing_trail.icon_state = "paint_gray"
+		existing_trail.color = paint_color
+		existing_trail.consume_buff = paint_consume_buff
+		existing_trail.deny_buff = paint_deny_buff
+		if(howner)
+			existing_trail.caster_ref = WEAKREF(howner)
+		if(HAS_TRAIT(howner, TRAIT_INK_AFFINITY))
+			existing_trail.refresh_lifetime(15 SECONDS)
+		else
+			existing_trail.refresh_lifetime(8 SECONDS)
+	else
+		new /obj/effect/ink_trail(T, howner)
