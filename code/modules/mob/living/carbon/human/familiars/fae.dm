@@ -93,7 +93,10 @@
 		if(!user.transferItemToLoc(I,src))
 			to_chat(user, "<span class='warning'>[I] is stuck to my hand!</span>")
 			return FALSE
-		to_chat(user, "<span class='info'>I feed [I] to [src].</span>")
+		if(user == src)
+			to_chat(user, "<span class='info'>I eat [I].</span>")
+		else
+			to_chat(user, "<span class='info'>I feed [I] to [src].</span>")
 		ingredients += I
 		return TRUE
 	. = ..()
