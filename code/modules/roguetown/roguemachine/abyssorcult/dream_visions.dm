@@ -220,6 +220,6 @@
 	eye.forceMove(target_turf)
 	eye.scry_center_turf = target_turf
 
-	to_chat(seeker, span_purple("Your mind pierces the veil to glimpse your target... You have 4 seconds."))
-	addtimer(CALLBACK(eye, TYPE_PROC_REF(/mob/dead/observer/eye/arcane, cancel_scry)), 4 SECONDS)
+	to_chat(seeker, span_purple("Your mind pierces the veil to glimpse your target... You have 6 seconds."))
+	addtimer(CALLBACK(eye, TYPE_PROC_REF(/mob/dead/observer/eye/arcane, cancel_scry)), 6 SECONDS)
 	return TRUE
