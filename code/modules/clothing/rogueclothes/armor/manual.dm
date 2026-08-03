@@ -80,7 +80,7 @@
 	blocking_behavior = SAMEWEAR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Muscle barbarian skin equates to a heavy gambeson on the chest, and a suit of hardened leather layering over chest and limbs. Only the latter regens via pushups, but it does so quite rapidly (~20-22sec fullrepair).
+//Muscle barbarian skin equates to a leather on the chest, and a second leather armor layering over chest and limbs. Only the latter regens via pushups, but it does so quite rapidly (~20-22sec fullrepair).
 
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation
@@ -276,8 +276,10 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Psy-monk skin is equivalent to a chest-only gambeson and a second chest-and-limbs gambeson. Noticably tougher than non-psydonic monks, due to more limited miracle set and more manual repair.
+//Psy-monk skin is equivalent to a chest-only leather armor and a second chest-and-limbs gambeson. Noticably tougher than non-psydonic monks, due to more limited miracle set and more manual repair.
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/confessor
 	name = "arbalist's skin"
@@ -459,9 +461,10 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
-//Monk skin is equivalent to a chest-only light gambeson and a second chest-and-limbs light gambeson. Weaker than other advents, due to miracles. Have to use resting for this second layer, since the prayer repair does not work on two layers at once, like the meditation system.
+//Monk skin is equivalent to a chest-only light leather armor and a second chest-and-limbs light gambeson. Weaker than other advents, due to miracles. Have to use resting for this second layer, since the prayer repair does not work on two layers at once, like the meditation system.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/barbarian
 	name = "hardened skin"
@@ -479,9 +482,10 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Baseline barbarian skin is equivalent to a chest-only heavy gambeson and a second chest-and-limbs gambeson. Slightly less protection than the muscle variant, but easier to manage.
+//Baseline barbarian skin is equivalent to a chest-only leather armor and a second chest-and-limbs gambeson.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/gladiator
 	name = "pit-hardened skin"
