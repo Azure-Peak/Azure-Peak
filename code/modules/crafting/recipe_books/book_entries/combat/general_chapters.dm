@@ -104,7 +104,7 @@
 		<ul>
 			<li><b>STR</b>: Improves the damage you deal on your weapon, and the effectiveness of your penetrative attacks on strength scaling weapon. Softcaps at [STRENGTH_SOFTCAP] - every point up to it is worth [round(STRENGTH_MULT * 100)]% damage, every point past it only [round(STRENGTH_CAPPEDMULT * 100)]%.</li>
 			<li><b>PER</b>: Improves the damage you deal with scaling ranged weapon like Bow or Slings, improves your ROF with these weapons. And increases your chance of hitting a precise bodypart significantly. Softcaps at [RANGED_STAT_SOFTCAP], at [round(RANGED_STAT_MULT * 100)]% per point up to it and [round(RANGED_STAT_CAPPEDMULT * 100)]% past it.</li>
-			<li><b>INT</b>: Improves the chance of your FEINTING or not being FEINTED. Also useful for Mages in particular for reducing the cooldown and stamina cost of their spells - [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off each per point above [SPELL_SCALING_THRESHOLD], no longer improving past [SPELL_POSITIVE_SCALING_THRESHOLD]. Below [SPELL_SCALING_THRESHOLD], the same rate works against you instead.</li>
+			<li><b>INT</b>: Improves the chance of your FEINTING or not being FEINTED. Also useful for Mages in particular for reducing the cooldown and stamina cost of their spells - [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off each per point above [SPELL_SCALING_THRESHOLD], no longer improving past [SPELL_POSITIVE_SCALING_THRESHOLD]. Below [SPELL_SCALING_THRESHOLD], it scales iinto the negative.</li>
 			<li><b>CON</b>: Increases the effective HP of your limbs and makes them harder to disable or score a critical wound on.</li>
 			<li><b>WIL</b>: Increases your Energy and Stamina pool, and also increases your pain tolerance. Stamina starts at [WILLPOWER_STARTING_STAMINA] and moves [WILLPOWER_MODIFIER] for every point above or below 10.</li>
 			<li><b>SPD</b>: Increases your Movement speed, and also makes SWIFT balance weapon more effective.</li>
@@ -149,6 +149,17 @@
 /datum/book_entry/combat_common/resources/inner_book_html(mob/user)
 	return {"
 		<div>
+		<p>On your HUD is a blue and green bar. The blue bar indicates how much Energy you have, whereas the green bar indicates how much Stamina you have.</p>
+
+		<p>Shift Clicking them shows the actual number, but is not recommended in combat.</p>
+
+		<p>Parrying, Dodging and Attacking will spend your stamina. Certain actions such as spells or miracles will also deplete your stamina, and occasionally some attacks will also attack them directly. When you use stamina, it stops your regeneration briefly, requiring you to disengage and not use any actions like attacking or defending that deplete your stamina to regenerate. Sometimes, as an advanced tactic, certain players will turn off their combat mode in order to avoid parrying / dodging to regenerate their stamina in an emergency. This is a risky tactic but viable.</p>
+
+		<p>If your Stamina is completely depleted, you become exhausted, and are stunned briefly. You are rendered immobilized and vulnerable to being kicked down and assaulted by your enemies. Try to prevent it from going to 0 at all costs.</p>
+
+		<p>Spending your Stamina pulls from your Energy pool at a 1 to 1 ratio. As your Energy pool is depleted, your speed at which you regenerate stamina is proportionally lowered - a full Energy bar recovers stamina five times as fast as an empty one. This eventually requires you to disengage, sleep / rest next to a campfire to regenerate, or consume a mana potion in order to restore your combat endurance.</p>
+
+		<p>Having no Energy at all means you cannot run.</p>
 		</div>
 	"}
 
@@ -159,6 +170,30 @@
 /datum/book_entry/combat_common/defense/inner_book_html(mob/user)
 	return {"
 		<div>
+		<h3>Parry / Dodge</h3>
+		<p>Above the "Combat" button is the Parry / Dodge button. Parry and Dodge are the primary way you extend your durability in melee combat. When an enemy attacks you with their weapon in melee, you will attempt to Parry or Dodge them.</p>
+
+		<p>Parrying or Dodging has a minimum cooldown of [CLICK_CD_MELEE / 10] second between each attempt, exactly equal to the normal attack speed of most weapons. DEFEND Stance removes the delay, at the cost of potentially exhausting yourself and depleting your weapon's durability and or your stamina faster.</p>
+
+		<p>To parry, you must have a weapon held in your hand. Your parry percentage is calculated by a comparison of your weapon's defense, and your opponents skills and yours. In general, a rule of thumb is that your parry chance does not go above 90%, and that it is equal to your Weapon Defense +/- 20% per level of difference in you and your opponents weapon defense.</p>
+
+		<p>Parrying a weapon costs you durability and sharpness, if applicable. A blunt weapon / shield costs you [INTEG_PARRY_DECAY_NOSHARP] flat integrity, whereas parrying with a sharp weapon costs you [INTEG_PARRY_DECAY] integrity and [SHARPNESS_ONHIT_DECAY] sharpness. A weapon held in your off-hand always pays the blunt rate of [INTEG_PARRY_DECAY_NOSHARP], sharp or not. This forces you to sharpen up and repair your weapon or switch it mid combat. Parrying also costs a moderate amount of stamina: [BASE_PARRY_STAMINA_DRAIN].</p>
+
+		<p>Parrying generally works better with weapons that are good at parrying and the user is skilled in, or with a shield.</p>
+
+		<p>Characters skilled in unarmed combat parry with their bracers instead if they have one and do not have a competing weapon in their hand with more than 0 WDefense. Knuckles and bandages serve the same purpose. The default parry chance is disastrously low at 20%, but it raises to 80% (Equal to a DEFENSE value of 8) if they are an Expert Pugilist. Your unarmed skill adds on top of both.</p>
+
+		<p>Dodge costs more stamina, and compares your speed versus theirs. If you are a dodge expert, your dodge chance caps out at [90 + MAX_DODGE_CEIL]%. It lowers with each dodge, down as far as [90 + MAX_DODGE_FLOOR]%. Scoring hits will allow it to increase over time.</p>
+
+		<p>Dodging works much better with classes that are built for it with Dodge Expert trait, and when there's a large difference of speed between you and your opponent. It also works well if you are wielding weapons that have very very poor defenses.</p>
+
+		<h3>Vision Cones and Parrying</h3>
+		<p>By default, your character has a vision cone that extends to 270 degrees. This determines what you can see and at what angle you can parry from. Melee Attacks outside of your vision range cannot be parried against. Dodge does not care about this.</p>
+
+		<p>Wearing certain helmets or masks will restrict your vision to the frontal 180 degrees arc. A few rare ones will restrict it to 90 degrees. This will decrease your combat awareness and make it easier for opponents who get around you to bypass your parry.</p>
+
+		<h3>Defense Readiness</h3>
+		<p>On top of your stamina / energy bar is a light. If the light is gone, you cannot dodge or parry. If it is red, it means you are in combat and cannot perform certain stealthy actions for [IN_COMBAT_DELAY / 10] seconds. You will also be unable to benefit from energy regeneration from a campfire / fireplace briefly.</p>
 		</div>
 	"}
 
