@@ -392,17 +392,6 @@
 	blocking_behavior = SAMEWEAR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
-/obj/item/clothing/suit/roguetown/armor/manual/emote/prayer/monk/chest
-	name = "tough chest"
-	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
-	armor = ARMOR_PADDED
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	blocking_behavior = SAMEWEAR
-	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
-
 //Monk skin is equivalent to a chest-only light gambeson and a second chest-and-limbs light gambeson. Weaker than other advents, due to miracles.
 
 
@@ -460,6 +449,19 @@
 			if(istype(O, bed_path))
 				return TRUE
 	return FALSE
+
+/obj/item/clothing/suit/roguetown/armor/manual/resting/monk/chest
+	name = "tough chest"
+	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
+	armor = ARMOR_PADDED
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	blocking_behavior = SAMEWEAR
+	blocksound = SOFTHIT
+	body_parts_covered = COVERAGE_TORSO
+	body_parts_inherent = COVERAGE_TORSO
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
+
+//Monk skin is equivalent to a chest-only light gambeson and a second chest-and-limbs light gambeson. Weaker than other advents, due to miracles. Have to use resting for this second layer, since the prayer repair does not work on two layers at once, like the meditation system.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/barbarian
 	name = "hardened skin"
