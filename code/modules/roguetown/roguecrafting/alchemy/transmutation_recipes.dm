@@ -438,7 +438,7 @@
 	input_items = list(/obj/item/roguegem/diamond = 2, /obj/item/rogueore/gold = 2)
 	skill_required = SKILL_LEVEL_LEGENDARY
 	output_items = list(/obj/item/riddleofsteel = 1)
-	materia_aspects = list(/datum/materia_aspect/gold)
+	materia_aspects = list(/datum/materia_aspect/solar)
 
 /datum/transmutation_recipe/rubedo/nitevision
 	name = "Lunar Quintessence"
