@@ -24848,19 +24848,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/druidsgrove)
-"eMj" = (
-/obj/structure/table/wood/poor,
-/obj/item/rogueweapon/huntingknife,
-/obj/item/needle{
-	pixel_x = -7;
-	pixel_y = 5
-	},
-/obj/item/storage/roguebag{
-	pixel_x = 8;
-	pixel_y = -5
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave/abyssor/inner)
 "eMl" = (
 /obj/structure/fermentation_keg/random/beer,
 /turf/open/floor/rogue/tile,
@@ -26843,6 +26830,11 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/exposed/town/keep/unbuildable)
+"feM" = (
+/obj/machinery/light/rogue/hearth,
+/obj/item/reagent_containers/glass/bucket/pot,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/abyssor/inner)
 "feN" = (
 /obj/structure/fluff/statue/tdummy,
 /turf/open/floor/rogue/dirt,
@@ -46050,6 +46042,10 @@
 /obj/structure/fluff/psycross/psycrucifix/stone,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"iJv" = (
+/obj/item/flint,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/abyssor/inner)
 "iJD" = (
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -54451,6 +54447,19 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/river/flow/east,
 /area/rogue/druidsgrove)
+"kjT" = (
+/obj/structure/table/wood/poor,
+/obj/item/rogueweapon/huntingknife,
+/obj/item/needle{
+	pixel_x = -7;
+	pixel_y = 5
+	},
+/obj/item/storage/roguebag{
+	pixel_x = 8;
+	pixel_y = -5
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/abyssor/inner)
 "kjU" = (
 /obj/structure/trap/bomb,
 /obj/structure/roguerock,
@@ -101485,11 +101494,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/underdark/south)
-"sTI" = (
-/obj/machinery/light/rogue/hearth,
-/obj/item/reagent_containers/glass/bucket/pot,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave/abyssor/inner)
 "sTK" = (
 /obj/structure/rack/rogue,
 /obj/item/quiver/bolt/standard,
@@ -144718,9 +144722,9 @@ oUV
 qyl
 eHu
 jgx
-sTI
-sTI
-eMj
+feM
+feM
+kjT
 uaS
 uaS
 oUV
@@ -145171,7 +145175,7 @@ uaS
 jgx
 dOH
 vEZ
-vEZ
+iJv
 vEZ
 ofp
 uaS
