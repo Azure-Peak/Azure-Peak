@@ -71,9 +71,9 @@
 		<p>To sew a bleeding wound, aim for the bleeding zone on yourself or another and then left click. Higher Medicine skill drastically improves effectiveness. No Medicine Skill makes it very slow.</p>
 
 		<h3>Hunger and Thirst</h3>
-		<p>Keep yourself topped up on nutrition. You can search bushes for jackberries that can make for basic food for non-nobles. Take only one bite at a time, and if you taste they are bitter, refrain from biting any further and remember that color is poisonous for the week. Sometimes, the poisonous and normal jackberries can have the same color. You can also buy and barter for food from other roles in town. Spending energy and just existing both use up your Energy, which draws from your nutrition. You can eat up ahead of time a little to keep yourself topped up.</p>
+		<p>Keep yourself topped up on nutrition. You can search bushes for jacksberries that can make for basic food for non-nobles. Take only one bite at a time, and if you taste they are bitter, refrain from biting any further and remember that color is poisonous for the week. Sometimes, the poisonous and normal jacksberries can have the same color. You can also buy and barter for food from other roles in town. Spending energy and just existing both use up your Energy, which draws from your nutrition. You can eat up ahead of time a little to keep yourself topped up.</p>
 
-		<p>Your character also becomes thirsty with time. You can get water by using a bucket from a well and then drinking from it by clicking on yourself. You can also BITE a CLEAN, FLOWING river tile (not stagnant water!) to drink from it. Certain fruit - notably Jackberries, also provide a small amount of water.</p>
+		<p>Your character also becomes thirsty with time. You can get water by using a bucket from a well and then drinking from it by clicking on yourself. You can also BITE a CLEAN, FLOWING river tile (not stagnant water!) to drink from it. You technically can drink sewage and swamp water the same way, but it will poison you and kill you without the traits for it. Certain fruit - notably jacksberries, also provide a small amount of water.</p>
 
 		<h3>Sleeping and Dream Points</h3>
 		<p>You can sleep by closing your eyes and then laying down on the ground.</p>
@@ -125,12 +125,12 @@
 		<ul>
 			<li><b>Mask</b>: Used to cover your mouth and often used to put on additional armor for your face.</li>
 			<li><b>Helmet</b>: Used to put on a helmet. Most helmets have an Aesthetic Storage accessible by right click that allows you to put on masks and hats with no armor value to customize your look.</li>
-			<li><b>Mouth</b>: Used for cigarettes or putting a Rosa in your mouth, to charm the dashing denizens of Azurea.</li>
+			<li><b>Mouth</b>: Used for cigarettes or putting a Rosa in your mouth, to charm the dashing denizens of Azurea. You can also hold a knife or a coin in there.</li>
 			<li><b>Back Right and Back Left</b>: On the row below. These are used to hold satchels (Can be accessed with left click while moving), backpacks (Which need to be taken off before being accessible but hold much more), certain weapons, shields, quivers, bows, and greatweapon strap, which can store large polearms at the cost of needing a lot of time to take it on and off.</li>
 			<li><b>Cloak</b>: Used for an aesthetic cloak that can also store a small amount of small items. Commonly used for tabard, jupons etc. to signify your allegiance. Cloaks with customization options like the tabard can be customized with right click with a heraldry of your choice.</li>
 			<li><b>Neck</b>: Used for neck armor like Bevor, Gorget etc, can also be used to hang on a pouch.</li>
 			<li><b>Armor</b>: The outer layer of your chest armor slot. Usually where one part of your most important armor is. Certain items like Gambeson or Hauberk can be layered in either slot - but the same type of item cannot appear twice in both the Shirt and the Armor slot. When you are short on mammons and gears, the armor and shirt slot is often the most cost effective place to layer on armor first.</li>
-			<li><b>Wrists</b>: Used for bracers, which exclusively protect your arms. It is also vital for unarmed classes to parry. Can also be used to carry a sling.</li>
+			<li><b>Wrists</b>: Used for bracers, which exclusively protect your arms. It is also vital for unarmed classes to parry. Can also be used to carry a sling, an amulet, or a knife sheath.</li>
 			<li><b>Ring</b>: Used for carrying certain type of valuable rings, communication rings often used by retinue or burghers like scomstone / houndstone. Certain type of loot only rings can also be worn here to improve your character's stats.</li>
 			<li><b>Shirt</b>: The inner armor slot, certain type of underarmor such as gambeson, hauberk, haubergeon can be worn underneath here.</li>
 			<li><b>Gloves</b>: Used for gloves, which exclusively protect your hands. As a rule of thumb, there generally isn't more than one layer of armor on this slot.</li>
