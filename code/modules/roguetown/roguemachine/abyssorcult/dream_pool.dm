@@ -204,14 +204,20 @@
 		return FALSE
 	return (get_turf(leader) in outer_rim)
 
-/obj/structure/roguemachine/dream_pool/proc/spawn_deep_one_wave(list/deep_ones_left, list/landing_spots)
-	if(!length(deep_ones_left) || !length(landing_spots))
+/obj/structure/roguemachine/dream_pool/proc/spawn_deep_one_wave(spawns_remaining, list/landing_spots)
+	if(spawns_remaining <= 0 || !length(landing_spots))
 		return
 
-	var/deep_one_path = deep_ones_left[1]
-	deep_ones_left -= deep_one_path
+	var/static/list/deep_ones_pool = list(
+		/mob/living/simple_animal/hostile/rogue/deepone,
+		/mob/living/simple_animal/hostile/rogue/deepone/arm,
+		/mob/living/simple_animal/hostile/rogue/deepone/spit,
+		/mob/living/simple_animal/hostile/rogue/deepone/wiz
+	)
 
+	var/deep_one_path = pick(deep_ones_pool)
 	var/turf/spawn_turf = pick(landing_spots)
+
 	var/mob/living/D = new deep_one_path(spawn_turf)
 	if(D)
 		D.setDir(pick(NORTH, SOUTH, EAST, WEST))
@@ -220,8 +226,10 @@
 		if(prob(50))
 			generate_inundation_loot(spawn_turf)
 
-	if(length(deep_ones_left))
-		addtimer(CALLBACK(src, PROC_REF(spawn_deep_one_wave), deep_ones_left, landing_spots), 1 SECONDS)
+	spawns_remaining--
+
+	if(spawns_remaining > 0)
+		addtimer(CALLBACK(src, PROC_REF(spawn_deep_one_wave), spawns_remaining, landing_spots), 1 SECONDS)
 
 /obj/structure/roguemachine/dream_pool/proc/generate_inundation_loot(turf/spawn_turf)
 	if(!spawn_turf)

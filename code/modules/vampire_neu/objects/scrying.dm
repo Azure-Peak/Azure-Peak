@@ -194,14 +194,8 @@
 				M.apply_status_effect(/datum/status_effect/debuff/waterlogged)
 			to_chat(M, span_purple("A terrifying, dark tidal wave pulls you into the pool vortex and forcefully slams you onto the shore!"))
 
-	var/list/deep_ones = list(
-		/mob/living/simple_animal/hostile/rogue/deepone,
-		/mob/living/simple_animal/hostile/rogue/deepone/arm,
-		/mob/living/simple_animal/hostile/rogue/deepone/spit,
-		/mob/living/simple_animal/hostile/rogue/deepone/wiz,
-		/mob/living/simple_animal/hostile/rogue/dreamfiend,
-		/mob/living/simple_animal/hostile/rogue/dreamfiend
-	)
+	// Base 5 spawns + 0.75 per alive traveler, rounded to the nearest whole number
+	var/total_spawns = 5 + round(length(travelers) * 0.75)
 
-	addtimer(CALLBACK(source_pool, TYPE_PROC_REF(/obj/structure/roguemachine/dream_pool, spawn_deep_one_wave), deep_ones, landing_spots), 4 SECONDS)
+	addtimer(CALLBACK(source_pool, TYPE_PROC_REF(/obj/structure/roguemachine/dream_pool, spawn_deep_one_wave), total_spawns, landing_spots), 4 SECONDS)
 	cancel_scry()
