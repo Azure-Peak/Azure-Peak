@@ -50,7 +50,7 @@
 
 		<p>Running into solid objects like a tree will knock you down and running into boulders can trip you.</p>
 
-		<p>You can toggle SNEAK mode by clicking on the SNEAK button. By default, it is not bound. Your ability to sneak depends on your "Sneaking" skills. Higher sneaking skills make you move faster while sneaking. Sneaking has the advantage of rendering you semi transparent and hard to detect when you are in the dark, but is broken by being near a light source. It also allows you to avoid maneaters or triggering ambushes in the wild.</p>
+		<p>You can toggle SNEAK mode by clicking on the SNEAK button. By default, it is not bound. Your ability to sneak depends on your "Sneaking" skills. Higher sneaking skills make you move faster while sneaking. Sneaking renders you completely invisible when you are in the dark. In a lit area it does nothing for you while you are standing, though laying down while sneaking will make you partly transparent. It is broken by being near a light source. It also allows you to avoid maneaters or triggering ambushes in the wild.</p>
 
 		<p>Right clicking on the EYE allows you to look around for hidden objects. By default, this stops your movement, though the Sleuth virtue can allow you to track and move at the same time.</p>
 		</div>
@@ -99,7 +99,7 @@
 		<div>
 		<p>Your character has different stats, based on your role, your race, and your chosen Statpack, if any.</p>
 
-		<p>Most of these have a softcap at [STRENGTH_SOFTCAP] or [RANGED_STAT_SOFTCAP] beyond which its effect scales less aggressively.</p>
+		<p>STR and PER have a softcap, at [STRENGTH_SOFTCAP] and [RANGED_STAT_SOFTCAP] respectively, beyond which their effect scales less aggressively. The rest have no softcap and scale flat all the way up.</p>
 
 		<ul>
 			<li><b>STR</b>: Improves the damage you deal on your weapon, and the effectiveness of your penetrative attacks on strength scaling weapon. Softcaps at [STRENGTH_SOFTCAP] - every point up to it is worth [round(STRENGTH_MULT * 100)]% damage, every point past it only [round(STRENGTH_CAPPEDMULT * 100)]%.</li>
@@ -108,7 +108,7 @@
 			<li><b>CON</b>: Increases the effective HP of your limbs and makes them harder to disable or score a critical wound on.</li>
 			<li><b>WIL</b>: Increases your Energy and Stamina pool, and also increases your pain tolerance. Stamina starts at [WILLPOWER_STARTING_STAMINA] and moves [WILLPOWER_MODIFIER] for every point above or below 10.</li>
 			<li><b>SPD</b>: Increases your Movement speed, and also makes SWIFT balance weapon more effective.</li>
-			<li><b>FOR</b>: Increases your chance of scoring critical wounds once armor is breached and the limb is sufficiently damaged. Positive effects are small, but it has a devastating effect when in the negative and causes you to miss a large proportion of your attack.</li>
+			<li><b>FOR</b>: Increases your chance of scoring critical wounds once the limb is sufficiently damaged. Positive effects are small, but it has a devastating effect when in the negative and causes you to miss a large proportion of your attack.</li>
 		</ul>
 		</div>
 	"}
@@ -134,9 +134,9 @@
 			<li><b>Ring</b>: Used for carrying certain type of valuable rings, communication rings often used by retinue or burghers like scomstone / houndstone. Certain type of loot only rings can also be worn here to improve your character's stats.</li>
 			<li><b>Shirt</b>: The inner armor slot, certain type of underarmor such as gambeson, hauberk, haubergeon can be worn underneath here.</li>
 			<li><b>Gloves</b>: Used for gloves, which exclusively protect your hands. As a rule of thumb, there generally isn't more than one layer of armor on this slot.</li>
-			<li><b>Trou (Trousers / Pants)</b>: Used for armor which covers the legs and generally also groin.</li>
 			<li><b>Belt</b>: The belt slot is used for a belt that can hold a small amount of items. Having a belt on is also essential to access your two hip slots - they are unusable otherwise.</li>
 			<li><b>Hip Slots</b>: Split into left and right. These are used to hold swords, weapons, quivers, and tools. Swords need to be holstered in a scabbard to be drawn instantly, otherwise drawing them will take more time. As the saying goes, a sword without a scabbard is a troublesome gift.</li>
+			<li><b>Trou (Trousers / Pants)</b>: Used for armor which covers the legs and generally also groin.</li>
 			<li><b>Boots</b>: Used for boots that protect exclusively your feet. Follow the same rules - there generally isn't more than one layer of armor on this slot.</li>
 		</ul>
 		</div>
@@ -173,7 +173,7 @@
 		<h3>Parry / Dodge</h3>
 		<p>Above the "Combat" button is the Parry / Dodge button. Parry and Dodge are the primary way you extend your durability in melee combat. When an enemy attacks you with their weapon in melee, you will attempt to Parry or Dodge them.</p>
 
-		<p>Parrying or Dodging has a minimum cooldown of [CLICK_CD_MELEE / 10] second between each attempt, exactly equal to the normal attack speed of most weapons. DEFEND Stance removes the delay, at the cost of potentially exhausting yourself and depleting your weapon's durability and or your stamina faster.</p>
+		<p>Parrying has a minimum cooldown of [CLICK_CD_MELEE / 10] second between each attempt, exactly equal to the normal attack speed of most weapons. DEFEND Stance removes that delay, at the cost of potentially exhausting yourself and depleting your weapon's durability and or your stamina faster. Dodge has no cooldown of its own - it only picks one up from being baited, feinted, or caught outside your vision cone, and DEFEND does not clear it.</p>
 
 		<p>To parry, you must have a weapon held in your hand. Your parry percentage is calculated by a comparison of your weapon's defense, and your opponents skills and yours. In general, a rule of thumb is that your parry chance does not go above 90%, and that it is equal to your Weapon Defense at [PARRY_PER_WDEF_POINT]% a point, +/- [PARRY_PER_SKILL_LEVEL]% per level of difference in skill between you and your opponent.</p>
 
@@ -209,7 +209,7 @@
 
 		<p>Going in order from top to bottom:</p>
 		<ul>
-			<li><b>Head</b>: This is a zone that is covered generally by a helmet and is often an effective zone to be aiming at, though it runs you the risk of being baited - which will be explained in <i>Stances, Exposure & Vulnerability</i>. A head wound and fracture tends to be very effective in putting down and stunning an opponent, and is commonly known as a "Skullcrack" in community language. A skullcrack is split into two stages - the first stage paralyzes them, and a second hit will generally confirm it. The Head zone shares HP with its precise zone.</li>
+			<li><b>Head</b>: This is a zone that is covered generally by a helmet and is often an effective zone to be aiming at, though it runs you the risk of being baited - which will be explained in <i>Stances, Exposure & Vulnerability</i>. A head wound and fracture tends to be very effective in putting down and stunning an opponent, and is commonly known as a "Skullcrack" in community language. A skullcrack is split into two stages - the first stage knocks them out briefly, and a second hit shatters the skull and paralyzes them. The Head zone shares HP with its precise zone.</li>
 			<li><b>Eyes, Nose, Ears and Mouth</b>: These are special subzones of the head. The Nose and Eyes are useful to aim for in opponents whose faces are uncovered - making visor / mask a good idea.</li>
 			<li><b>Chest</b>: Attacking the chest makes you immune to being baited, and is a safe default option even if not stunningly effective.</li>
 			<li><b>Groin / Stomach</b>: These, especially the groin, are the most niche zones. The stomach is occasionally aimed for what is known as a "gutspill" wound with cutting weapons, which spills out the opponent's guts and makes it excessively hard to recover from in combat. It is an aiming zone of the last resort generally reserved for NPCs you do not care about, or players that you really need to put down.</li>
@@ -257,7 +257,7 @@
 
 		<p>To deal with bleeding, you can use a needle to sew up the wound, bandage prepared by cloth to bandage the wound and slow it down, health potion (Known commonly as Red, and Lyfeblood IC) to heal the wounds. Clean Water can replenish your blood rapidly and allow you to survive otherwise fatal bleeding and is generally used for stabilization.</p>
 
-		<p>Grabbing the spot that is bleeding with a free hand, and aggressively (By clicking twice) will reduce the rate you bleed quickly.</p>
+		<p>Grabbing the spot that is bleeding with a free hand will reduce the rate you bleed quickly, and upgrading that into an aggressive grab reduces it further. Grabbing it with your other hand as well cuts it down more again - the two hands multiply together.</p>
 
 		<h3>Pain</h3>
 		<p>Being hit with certain wounds causes your character to be in pain, represented by your screen flashing red at various intensity.</p>
@@ -308,7 +308,7 @@
 		<h3>Armor Class</h3>
 		<p>Armor is classified into four types of Armor Class. Armor Class currently only applies to Head, Armor, Shirt and Trousers (Pants) slot armor.</p>
 
-		<p>Wearing Armor you are not trained for will make you get knocked down when dodging and greatly reduce your parry chance. It also means you cannot run nor jump.</p>
+		<p>Wearing Armor you are not trained for will make you get knocked down when dodging and greatly reduce your parry chance. It also means you cannot run, and your jump is cut down to a tile next to you at a heavy stamina cost, making it nearly useless.</p>
 		<ul>
 			<li><b>NONE</b>: No armor is present.</li>
 			<li><b>LIGHT</b>: Light Armor. Everyone can wear them, it does not impair your mobility nor your abilities to dodge.</li>
@@ -346,10 +346,10 @@
 		<h3>Reading a Weapon's Statistics</h3>
 		<p>All melee weapons can be examined by Shift-Click, and then clicking on (?), this shows a number of useful information:</p>
 		<ul>
-			<li><b>MIN.STR</b>: Minimum Strength needed to wield the weapon effectively. Halved on most weapons when wielded. To be changed later.</li>
+			<li><b>MIN.STR</b>: Minimum Strength needed to wield the weapon effectively. Halved on every weapon when wielded. To be changed later.</li>
 			<li><b>FORCE / WIELDED FORCE</b>: What is the damage in number the weapon does one handed and wielded. Strength moves it by [round(STRENGTH_MULT * 100)]% per point away from 10, dropping to [round(STRENGTH_CAPPEDMULT * 100)]% per point once you are at [STRENGTH_SOFTCAP] or above.</li>
 			<li><b>BALANCE</b>: A SWIFT balanced weapon has an easier time targeting harder to hit zones and reduce parry chance based on speed differences - capped at [SWIFTCAP_PRECISE]% against precise zones, [SWIFTCAP_LIMBS]% against large limbs, and only [SWIFTCAP_CHEST]% against the chest. A HEAVY balanced weapon is easier to dodge and inflict stamina damage on other parry-ers, at [abs(STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL)] per level of strength difference.</li>
-			<li><b>LENGTH</b>: The length of the weapon, which determines what body parts it can strike. SHORT weapons aim better, at +[ACC_SHORT_WEAPON_BONUS], whereas LONG weapons can reach the feet. GREAT weapons can reach anywhere even if you are on the ground.</li>
+			<li><b>LENGTH</b>: The length of the weapon, which determines what body parts it can strike. SHORT weapons aim better, at +[ACC_SHORT_WEAPON_BONUS]. LONG weapons can reach the chest and down from the ground, whereas GREAT weapons can reach anywhere even if you are on the ground.</li>
 			<li><b>TWO-HANDED</b>: Whether it can be two-handed (Click on the weapon to grip it, or press the Q / E while it is in your left / right hand respectively while the other hand is empty).</li>
 			<li><b>DEFENSE</b>: The baseline parry abilities of the weapon. Higher is better - each point is worth [PARRY_PER_WDEF_POINT]% parry chance, and the figure shifts by [PARRY_PER_SKILL_LEVEL]% per level of skill difference between you and your attacker. A lot of weapons that are wieldable have more force and defense when wielded.</li>
 			<li><b>ALT-GRIP</b>: Certain weapons, like the Longsword, have access to even more intents through ALTERNATIVE GRIP, accessible by several hotkeys.</li>
@@ -377,7 +377,7 @@
 			<li><b>Attack Delay</b>: How long it takes for the attack to land on the opponent after you click. Your opponent must be in range of your weapon after the delay. This is often used for more powerful attacks.</li>
 			<li><b>Delay Type</b>: Normal Attack Delay has no effect. DIFFICULT attack delay, also known as YELLOW intent, will reduce your parry / dodge chance drastically. RIGID can be canceled by you being attacked and leave you completely open to being attacked. RIGID Intent usually has powerful effects but is hard to pull off.</li>
 			<li><b>Integrity Modifier</b>: How much integrity and shield damage is multiplied by when attacking armor. Does nothing to flesh damage.</li>
-			<li><b>Demolition Modifier</b>: How much damage is multiplied by when attacking a structure like door or shield. In case both Integrity and Demolition modifier are present, the higher one prevails in the calculation instead of stacking.</li>
+			<li><b>Demolition Modifier</b>: How much damage is multiplied by when attacking a structure like a door. Only the demolition modifier does anything against a structure. Integrity modifier matters on a shield being parried with, where the higher of the two is taken instead of the two stacking.</li>
 			<li><b>Cleave</b>: Certain attacks hit more than one tile and will explain its pattern and how many it can hit.</li>
 		</ul>
 		</div>
@@ -432,7 +432,7 @@
 		<p>Most stances have an attached RMB mechanic.</p>
 		<ul>
 			<li><b>WEAK</b>: Your attack lands for only [round(WEAK_STANCE_DMG_MULT * 100)]% of its usual damage, and will never critically hit or dismember. Right Click in this stance will attempt to steal from a target. Also used for attempting surgery outside of Combat Mode.</li>
-			<li><b>DEFEND</b>: Removes the delay between dodge / parry. RMB when not grabbing anything and holding a weapon allows you to RIPOSTE, which has a chapter of its own.</li>
+			<li><b>DEFEND</b>: Removes the delay between parries. RMB when not grabbing anything and holding a weapon allows you to RIPOSTE, which has a chapter of its own.</li>
 			<li><b>SWIFT</b>: Makes your attack [round((1 - CLICK_CD_MOD_SWIFT) * 100)]% faster, but also much less accurate at -[ACC_SWIFT_PENALTY]. It also exhausts you and depletes your stamina on attack, by an extra [EXTRA_STAMDRAIN_SWIFSTRONG].</li>
 			<li><b>STRONG</b>: Makes your attack stronger and costs them more sharpness and integrity to defend against - [STRONG_SHP_BONUS] more sharpness and [STRONG_INTG_BONUS] more integrity on every parry they make - at the cost of the same extra [EXTRA_STAMDRAIN_SWIFSTRONG] stamina. Your attack deals +[round(STRONG_STANCE_DMG_BONUS * 100)]% damage, and crits more readily with brutal attacks.</li>
 			<li><b>AIMED</b>: Makes your attack [round((CLICK_CD_MOD_AIMED - 1) * 100)]% slower but improves the accuracy of your attacks significantly, by +[ACC_AIMED_BONUS]. RMB allows you to BAIT an opponent.</li>
@@ -471,7 +471,7 @@
 		<ul>
 			<li><b>BITE</b> allows you to bite an opponent if your mouth is exposed. It is generally an extremely niche tactic in battle. More commonly, it is useful for BITING from river or non-stagnant water to drink. It is inadvisable to BITE into Lava or Acid.</li>
 			<li><b>JUMP</b> allows you to jump over a one tile gap, or fence. If you toggle RUN, you will LEAP and cross 3 - 4 tiles, but without Acrobatic trait, a LEAP will be unpredictable and can be somewhat deadly.</li>
-			<li><b>KICK</b> allows you to kick an opponent, which comes out after a short delay. KICK renders you off-balance which allows them to kick you back if they react fast enough. Kicking someone into a wall or into someone else will knock them down. Kicking someone who is off-balance will knock them down from a standing position. Kick must be aimed at a place you can reach. Expert Pugilists (Unarmed Classes) can kick anywhere on the body.</li>
+			<li><b>KICK</b> allows you to kick an opponent, which comes out after a short delay. KICK renders you off-balance which allows them to kick you back if they react fast enough. Kicking someone into a wall or into someone else will knock them down. Kicking someone who is off-balance will knock them down from a standing position. Kick must be aimed at a place you can reach. Expert Pugilists (Unarmed Classes) can also kick the head.</li>
 			<li><b>SPECIAL</b> activates the special attack on your weapon if you are skilled enough (Journeyman or above) in it.</li>
 		</ul>
 
@@ -504,7 +504,7 @@
 
 		<p>A Riposte must be done in combat mode. It makes the next melee or magical projectile / spell that hits you deal no damage, and gives you a significant amount of stamina - enough to put you back to at least half a green bar however empty you were.</p>
 
-		<p>If it is done to a melee weapon, it will deplete your opponent's weapon durability and sharpness. If it is done to an unarmed attack, it will damage your opponent's hands. It will expose them for a devastating follow-up attack and slow them down. That exposure is short - three seconds - so the follow-up has to be ready before you take the blow, not thought about afterwards.</p>
+		<p>If it is done to a melee weapon, it will deplete your opponent's weapon durability (Blunt Weapon) or sharpness (Sharp Weapon). If it is done to an unarmed attack, it does not hurt their hands. It will expose them for a devastating follow-up attack and slow them down. That exposure is short - three seconds - so the follow-up has to be ready before you take the blow, not thought about afterwards.</p>
 
 		<p>Both will give you a temporary boost in willpower and constitution, +1 of each for eighteen seconds, alongside a dulling of pain and a little blood back.</p>
 
@@ -536,9 +536,8 @@
 		<h3>Bow</h3>
 		<p>Bows are rapid-firing, exhausting weapons that deal PIERCING damage. Bows are split into:</p>
 		<ul>
-			<li><b>Crude Selfbow</b>, generally inferior and not used on players.</li>
-			<li><b>Recurve Bow</b>, fast and the default bow.</li>
-			<li><b>Longbow</b>, requiring a minimum STR of 10 to wield effectively, each arrow dealing a significantly higher amount of damage in exchange for a lower ROF.</li>
+			<li><b>Crude Selfbow and Recurve Bow</b>, fast and the default bow. They shoot exactly the same.</li>
+			<li><b>Longbow</b>, scaling slightly with STR, each arrow dealing a significantly higher amount of damage in exchange for a lower ROF.</li>
 		</ul>
 
 		<p>The most common arrows are Broadhead Arrows, which deal a large amount of integrity and normal damage but cannot pierce most armor. Bodkin Arrows pierce through armor and can bleed an opponent out or inflict critical wounds through armor, but have a much lower base damage.</p>
@@ -554,7 +553,7 @@
 
 		<p>Bolts are carried in quivers. Unlike bows, they cannot be quick-loaded by clicking the quiver, you must manually RMB the quiver to take the bolt out then load it into the crossbow.</p>
 
-		<p>Variants include Slurbows, which are underpowered Crossbows that can be reloaded on the move, and Siegebows, which are devastating bows that are extremely awkward to load and use and are limited to certain classes.</p>
+		<p>Variants include Slurbows, which are underpowered Crossbows that can be reloaded on the move, and Siegebows, which are devastating bows that are extremely awkward to load and use. Only certain classes start with one, but anyone can craft or buy them.</p>
 
 		<h3>Slings</h3>
 		<p>Slings are a fast, cheap alternative to bow. Their projectiles inflict blunt damage, making them great against metallic armor but not so great against light armor.</p>
@@ -590,7 +589,6 @@
 			<li><b>Stamina</b> is the most common type of resource.</li>
 			<li><b>Energy</b> is used by certain spells that would otherwise drain the entire Stamina Bar.</li>
 			<li><b>Devotion</b> is used often on top of Stamina cost, for Miracles, spells of divine origin. Devotion is harder to regain and maintain mid combat than Stamina, usually.</li>
-			<li><b>Blood</b> is used by vampires exclusively for their own mechanics.</li>
 			<li>Other resources may exist or be added to at some point.</li>
 		</ul>
 
@@ -599,7 +597,7 @@
 		<h3>Mages</h3>
 		<p>Mages in AP operate under a Major-Minor-Utilities aspect system. They use their spellbook to pick what kind of Major Aspect they specialize in, which determines their offensive potential and some utilities.</p>
 
-		<p>Minor Aspects determine their defensive potential.</p>
+		<p>Minor Aspects augment their defensive potential and give utilities, and extremely rarely, some offensive potential.</p>
 
 		<p>Utilities give out utilities spells.</p>
 
@@ -621,7 +619,7 @@
 		<h3>Spellblades</h3>
 		<p>Spellblades are martial characters playing pretend to be a mage, or a mage playing pretend to be a martial, depending on your point of view.</p>
 
-		<p>Spellblades are known as Azurcaephan IC, and have a very limited set of restricted moves based on the specialization that they chose on the start of the week.</p>
+		<p>Spellblades are known as Azurcaephan IC, and have a very limited set of restricted moves based on the specialization that they chose at spawn.</p>
 
 		<p>They generally start with less rare stats and worse armor than pure martial fighters, but are great in dueling scenarios. Their gameplay is much closer to a martial with fancy abilities than an archetypical mage fighting at range.</p>
 
@@ -637,8 +635,8 @@
 		<ul>
 			<li><b>T1</b> Miracles are usually not dramatically effective, and are granted to Adventuring Paladins and certain classes.</li>
 			<li><b>T2</b> Miracles are usually where the more effective miracles start to show up. They are granted to Church Templars and certain holy roles with town or with an antagonistic nature.</li>
-			<li><b>T3</b> Miracles are generally reserved for Acolytes or Missionary and full caster divine class, and are often the most effective part of the caster's toolkit.</li>
-			<li><b>T4</b> Miracles are rarely accessed except by Acolyte and certain Ascendant heretics.</li>
+			<li><b>T3</b> Miracles are reserved for the Adventurer Missionary, and are often the most effective part of the caster's toolkit.</li>
+			<li><b>T4</b> Miracles are what the Acolyte and most of the church roles get.</li>
 		</ul>
 
 		<p>The DIVINE PANTHEON (The TENS) - the primary gods worshipped in this settings, offer a unique toolkit based on the god you selected as your PRIMARY (not your sole, Tennites are not monotheistic) patron.</p>

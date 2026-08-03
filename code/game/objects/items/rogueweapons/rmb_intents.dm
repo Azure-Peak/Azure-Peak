@@ -243,7 +243,8 @@
 		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
 
-	perc = CLAMP(perc, 10, 90)
+	if(perc)
+		perc = CLAMP(perc, 10, 90)
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
