@@ -539,7 +539,7 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
-	armor = ARMOR_lEATHER
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
 //Thug skin is equivalent to a chest-only hardened leather armor (2/3rds integ) and a second chest-and-limbs light gambeson.
