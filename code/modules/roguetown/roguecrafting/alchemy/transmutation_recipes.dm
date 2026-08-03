@@ -170,7 +170,7 @@
 
 /datum/transmutation_recipe/nigredo/soap
 	name = "Fat Saponification (Soap)"
-	output_items = list(/obj/item/soap = 1)	// kris get the nigredo catalyst
+	output_items = list(/obj/item/soap = 6)	// kris get the nigredo catalyst
 	input_items = list(/obj/item/reagent_containers/food/snacks/fat = 1, /obj/item/reagent_containers/powder/salt = 1) // sodium.
 	unique_sellable = TRUE
 
@@ -515,5 +515,5 @@
 	name = "Salving Embrace (Healing Soap)"
 	materia_aspects = list(/datum/materia_aspect/water)
 	input_items = list(/obj/item/alch/rosa = 1, /obj/item/alch/salvia = 1, /obj/item/soap = 1) // eoran herbs infused into soap. simple, but definitively eoran
-	output_items = list(/obj/item/alch/rubedo_reagent/mending = 1)
+	output_items = list(/obj/item/soap/alch = 1)
 	unique_sellable = TRUE
