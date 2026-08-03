@@ -339,10 +339,19 @@
 	desc = "A mage's staff crowned with the spirit-gem of a familiar. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
 	icon_state = "sapphirestaff"
 
-/datum/action/cooldown/spell/arcyne_forge/elemental
+/datum/action/cooldown/spell/earthen_forge
 	name = "Earthen Forge"
 	desc = "Shape your earthen form into a tool or weapon. When the item breaks, you will revert to your original form. Cast again to manually revert."
-	conjure_options = list(
+
+	button_icon = 'icons/mob/actions/mage_conjure.dmi'
+	button_icon_state = "arcyne_forge"
+	spell_color = GLOW_COLOR_METAL
+	glow_intensity = GLOW_INTENSITY_LOW
+	attunement_school = ASPECT_NAME_FERRAMANCY
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CONJURE
+	var/list/conjure_options = list(
 		// Staff
 		"Staff of the Binder" = /obj/item/rogueweapon/woodstaff/implement/greater/elemental,
 		// Weapons
@@ -376,9 +385,16 @@
 		"Needle" = /obj/item/needle
 	)
 	cooldown_time = 30 SECONDS
-	charge_required = FALSE
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
+	charge_required = TRUE
+	charge_time = 2 SECONDS
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_sound = 'sound/magic/charging.ogg'
+
+	var/obj/item/conjured_item
+
+/datum/action/cooldown/spell/earthen_forge/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/species/familiar/H = owner
 	if(!istype(H))
@@ -414,16 +430,16 @@
 	conjured_item = R
 	return TRUE
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert_perspective()
+/datum/action/cooldown/spell/earthen_forge/proc/revert_perspective()
 	owner.reset_perspective()
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert()
+/datum/action/cooldown/spell/earthen_forge/proc/revert()
 	if(conjured_item)
 		owner.forceMove(get_turf(owner))
 		owner.status_flags &= ~GODMODE
 		QDEL_NULL(conjured_item)
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/void // lmao
+/datum/action/cooldown/spell/earthen_forge/void // lmao
 	name = "Void Forge"
 	desc = "Shape your ever-malleable form into a tool or weapon. When the item breaks, you will revert to your original form. Cast again to manually revert."
 
@@ -431,7 +447,6 @@
 	name = "Greater Earthen Shaping"
 	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
 	Only one conjured item can exist at a time - conjuring a new one destroys the old."
-	cooldown_time = 5 MINUTES
 	charge_required = TRUE
 	conjure_options = list(
 		// Weapons
@@ -465,42 +480,6 @@
 		"Needle" = /obj/item/needle
 	)
 	cooldown_time = 30 SECONDS
-	charge_required = FALSE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/arcyne_forge/elementalt2/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/species/familiar/elemental/H = owner
-	if(!istype(H))
-		return FALSE
-
-	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
-	if(!choice)
-		return FALSE
-
-	// Destroy previous conjured item
-	if(conjured_item && !QDELETED(conjured_item))
-		conjured_item.visible_message(span_warning("[conjured_item] shimmers and fades away!"))
-		qdel(conjured_item)
-
-	var/item_path = conjure_options[choice]
-	var/obj/item/R = new item_path(H.drop_location())
-
-	// Halve durability
-	R.max_integrity = round(R.max_integrity * 0.5)
-	R.obj_integrity = R.max_integrity
-
-	// Mark as conjured — no salvage, no smelting
-	R.smeltresult = null
-	R.salvage_result = null
-	R.fiber_salvage = FALSE
-
-	// Conjured glow
-	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN, FALSE, H, src)
-
-	H.put_in_hands(R)
-	conjured_item = R
-	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/consume
 	name = "Consume"

@@ -55,7 +55,7 @@
 			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
 			src.STACON += 2
 			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental/void)
-			src.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge/elemental/void)
+			src.mind.AddSpell(new /datum/action/cooldown/spell/earthen_forge/void)
 
 /mob/living/carbon/human/species/familiar/void/revive(full_heal, admin_revive)
 	if(..()) // successful revive
