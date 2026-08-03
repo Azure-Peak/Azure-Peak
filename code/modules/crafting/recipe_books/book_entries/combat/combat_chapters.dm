@@ -84,6 +84,43 @@
 /datum/book_entry/combat_fighting/stances/inner_book_html(mob/user)
 	return {"
 		<div>
+		<h3>Exposure and Vulnerability</h3>
+		<p>The Vulnerable status, represented by a grey shattered shield on top of someone, means they are unable to parry or dodge the next attack and it has a small multiplier to their damage - [VULN_INTEG_MOD]x plus a flat [VULN_INTEG_FLAT] against whatever armor covers the zone.</p>
+
+		<p>The Exposed status, represented by a red shattered shield, means they are unable to parry or dodge the next attack and it will add a devastating multiplier to the damage of the attack - [EXPOSED_INTEG_MOD]x plus a flat [EXPOSED_INTEG_FLAT].</p>
+
+		<p>Both multipliers land on armor integrity. Both also make you easier to hit by +[ACC_OPENED_TARGET_BONUS] accuracy, and both last ten seconds if nobody spends them sooner. Certain sources will make them last less.</p>
+
+		<h3>Stances</h3>
+		<p>On the left of your UI is your character's STANCES. Feint is the default STANCES. You can examine and learn more about them by left clicking it, and then shift + right clicking every stance that pops up.</p>
+
+		<p>Most stances have an attached RMB mechanic.</p>
+		<ul>
+			<li><b>WEAK</b>: -1 Strength to your attack, will never critically hit. Right Click in this stance will attempt to steal from a target. Also used for attempting surgery outside of Combat Mode.</li>
+			<li><b>DEFEND</b>: Removes the delay between dodge / parry. RMB when not grabbing anything and holding a weapon allows you to RIPOSTE, which has a chapter of its own.</li>
+			<li><b>SWIFT</b>: Makes your attack [round((1 - CLICK_CD_MOD_SWIFT) * 100)]% faster, but also much less accurate at -[ACC_SWIFT_PENALTY]. It also exhausts you and depletes your stamina on attack, by an extra [EXTRA_STAMDRAIN_SWIFSTRONG].</li>
+			<li><b>STRONG</b>: Makes your attack stronger and costs them more sharpness and integrity to defend against - [STRONG_SHP_BONUS] more sharpness and [STRONG_INTG_BONUS] more integrity on every parry they make - at the cost of the same extra [EXTRA_STAMDRAIN_SWIFSTRONG] stamina. It also carries +1 Strength that ignores the usual limits, and crits more readily with brutal attacks.</li>
+			<li><b>AIMED</b>: Makes your attack [round((CLICK_CD_MOD_AIMED - 1) * 100)]% slower but improves the accuracy of your attacks significantly, by +[ACC_AIMED_BONUS]. RMB allows you to BAIT an opponent.</li>
+			<li><b>FEINT</b>: Allows you to feint your opponent, which calculates your intelligence and skills versus theirs, and potentially allows you to open them up for a single vulnerable / exposed attack.</li>
+		</ul>
+
+		<h3>Bait</h3>
+		<p>Bait is done by RMB on the AIMED stance. If your opponent happens to be aiming the same zone as you are at the same time, you will successfully bait them.</p>
+
+		<p>This will cost them a large slice of their stamina bar - a third of it through heavy armor, a quarter through light or medium, a fifth if they wear none at all - and leave them EXPOSED to your attack. They are also slowed, briefly immobilized, and locked out of attacking for five seconds, and any spell they were channeling is interrupted.</p>
+
+		<p>If you bait someone successfully a second time before they shake it off, then you will render them Off Balance for two seconds, which allows you to kick them down into the ground, often giving you a decisive advantage in a fight. The count resets if you fail a bait, or if you land the second one. Otherwise they must stay out of combat mode for a full thirty seconds to shake it off - flicking Combat Mode off and straight back on will not do it, and each time they drop it the thirty seconds starts over.</p>
+
+		<p>Failing a bait is punished. If their aim does not match yours, or either of you is aiming at the chest, you groan, losing a fifth of your own stamina bar, and reset any progress made on them.</p>
+
+		<p>Aiming for the head and baiting it will also count for any subzones on the head, like ears or eyes. This does not apply to any other limbs. Bait carries a [BAIT_RCLICK_CD / 10] second cooldown.</p>
+
+		<h3>Feint</h3>
+		<p>Feinting is done by RMB on the FEINT stance. It compares your weapon skills, intelligence versus your opponent and then if it is high enough, renders them VULNERABLE or EXPOSED to a followup hit. The odds are clamped between 10% and 90%.</p>
+
+		<p>As a result, high intelligence characters have a far easier time feinting and far harder time being FEINTED. Except when someone is riposting, in which case a FEINT is guaranteed - though breaking a guard that way costs you a much longer [(BASE_RCLICK_CD + 10 SECONDS) / 10] second cooldown rather than the usual one.</p>
+
+		<p>It has a cooldown of [FEINT_RCLICK_CD / 10] seconds. Feinting someone who cannot see you does nothing at all and merely wastes five seconds. Someone you have already feinted cannot be feinted again while it lasts.</p>
 		</div>
 	"}
 
@@ -94,6 +131,28 @@
 /datum/book_entry/combat_fighting/special/inner_book_html(mob/user)
 	return {"
 		<div>
+		<h3>Middle Click Intent</h3>
+		<p>BITE, JUMP, KICK and SPECIAL are your middle-click intents, which are intents your character will perform when you middle click.</p>
+		<ul>
+			<li><b>BITE</b> allows you to bite an opponent if your mouth is exposed. It is generally an extremely niche tactic in battle. More commonly, it is useful for BITING from river or non-stagnant water to drink. It is inadvisable to BITE into Lava or Acid.</li>
+			<li><b>JUMP</b> allows you to jump over a one tile gap, or fence. If you toggle RUN, you will LEAP and cross 3 - 4 tiles, but without Acrobatic trait, a LEAP will be unpredictable and can be somewhat deadly.</li>
+			<li><b>KICK</b> allows you to kick an opponent, which comes out after a short delay. KICK renders you off-balance which allows them to kick you back if they react fast enough. Kicking someone into a wall or into someone else will knock them down. Kicking someone who is off-balance will knock them down from a standing position. Kick must be aimed at a place you can reach. Expert Pugilists (Unarmed Classes) can kick anywhere on the body.</li>
+			<li><b>SPECIAL</b> activates the special attack on your weapon if you are skilled enough (Journeyman or above) in it.</li>
+		</ul>
+
+		<h3>Specials</h3>
+		<p>Many Melee Weapons have a Special Attack attached to them that can be activated by Special intent. More details can be found by using it.</p>
+
+		<h3>Binds</h3>
+		<p>When you parry a weapon blow, the game checks the zone you are aiming at against the zone they swung for. If the two belong to the same group, your weapons bind.</p>
+
+		<p>The groups are coarser than the aiming doll. The whole face counts as one, each arm counts with its hand, each leg with its own foot, and the chest, stomach and groin all count as the torso. The neck is alone. So guarding an arm will catch a swing at that hand, but guarding the left arm will never catch a swing at the right.</p>
+
+		<p>A bind demands a real weapon in both your hands and theirs - unarmed skill weapons cannot bind, you must be at least Journeyman skills with what you are holding. Bind is certain, except for torso vs torso, which binds rarely.</p>
+
+		<p>Winning a bind improves your parrying for ten seconds, you recover a slice of stamina, and while it is in effect takes no integrity damage from parrying at all. Your attacker is staggered for a moment and their next swing is slowed.</p>
+
+		<p>Once a bind ends there is a [BIND_CD / 10] second wait before you can win another.</p>
 		</div>
 	"}
 
