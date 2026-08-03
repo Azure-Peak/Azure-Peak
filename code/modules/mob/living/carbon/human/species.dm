@@ -1373,7 +1373,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				user.changeMaxDodge(3)
 			if(target.mind)
 				target.dodgetime = (clamp(target.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
-				target.changeMaxDodge(5)
+				target.changeMaxDodge(5, clamp = TRUE)
 
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -1897,6 +1897,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				user.changeMaxDodge(1)
 		if(!nodmg)
 			post_reduction_dmg = (post_weakness_dmg - armor_block)
+			var/has_vuln_or_exposed = (H.has_status_effect(/datum/status_effect/debuff/exposed) || H.has_status_effect(/datum/status_effect/debuff/vulnerable))
 			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, post_reduction_dmg, user, selzone, crit_message = TRUE, weapon = I, pen_info = pen_info_check)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
@@ -1922,7 +1923,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				user.changeMaxDodge(3)
 			if(H.mind)
 				H.dodgetime = (clamp(H.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
-				H.changeMaxDodge(5)
+				if(!has_vuln_or_exposed)
+					H.changeMaxDodge(5, clamp = TRUE)
+					
 //		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
 //			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
 //			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)

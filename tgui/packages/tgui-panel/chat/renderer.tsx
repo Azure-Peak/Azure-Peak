@@ -26,7 +26,7 @@ import {
   MESSAGE_TYPES,
 } from './constants';
 import { canPageAcceptType, createMessage, isSameMessage } from './model';
-import { highlightNode, linkifyNode } from './replaceInTextNode';
+import { highlightNode } from './replaceInTextNode';
 
 const logger = createLogger('chatRenderer');
 
@@ -63,6 +63,35 @@ function createReconnectedNode() {
   const node = document.createElement('div');
   node.className = 'Chat__reconnected';
   return node;
+}
+
+const ALLOWED_LINK_PROTOCOLS = ['http:', 'https:', 'byond:'];
+
+/**
+ * Blocks navigation for any anchor that is not a topic link or an
+ * absolute http(s)/byond link. Chat HTML is server-authored, but a
+ * malformed or scheme-less href would otherwise navigate the whole
+ * panel away from the chat document.
+ */
+function handleLinkClick(e: MouseEvent) {
+  const target = e.target as Element | null;
+  const anchor = target?.closest?.('a');
+  if (!anchor) {
+    return;
+  }
+  const href = anchor.getAttribute('href');
+  if (!href) {
+    return;
+  }
+  if (href.startsWith('?')) {
+    return;
+  }
+  const protocol = href.slice(0, href.indexOf(':') + 1).toLowerCase();
+  if (ALLOWED_LINK_PROTOCOLS.includes(protocol)) {
+    return;
+  }
+  e.preventDefault();
+  logger.log('blocked navigation to an untrusted chat link', href);
 }
 
 function handleImageError(e) {
@@ -148,6 +177,8 @@ class ChatRenderer {
         logger.debug('tracking', this.scrollTracking);
       }
     };
+    // Guard against navigating the panel away via a chat link
+    document.addEventListener('click', handleLinkClick, true);
     // Periodic message pruning
     setInterval(() => this.pruneMessages(), MESSAGE_PRUNE_INTERVAL);
   }
@@ -487,11 +518,6 @@ class ChatRenderer {
                 node.className += ' ChatMessage--highlighted';
               }
             });
-        }
-        // Linkify text
-        const linkifyNodes = node.querySelectorAll('.linkify');
-        for (let i = 0; i < linkifyNodes.length; ++i) {
-          linkifyNode(linkifyNodes[i]);
         }
         // Assign an image error handler
         if (now < message.createdAt + IMAGE_RETRY_MESSAGE_AGE) {

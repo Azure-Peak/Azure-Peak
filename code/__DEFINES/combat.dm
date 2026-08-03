@@ -477,8 +477,10 @@ Medical defines
 #define PROB_ATTACK_EMOTE_NPC 10
 
 #define MAX_DODGE_CEIL 5
+#define MAX_DODGE_START 0	// We start at (presumed) 90%
 #define MAX_DODGE_FLOOR -15
 #define DODGE_EXPERT_BASE_CAP 90	//What a Dodge Expert with SPD above 10 is hardset to, before max_dodge is added on top.
+#define MAX_DODGE_CLAMP -5 // at 85%. Base is 90%.
 
 /*
 	Melee Accuracy Defines. See resolve_aimed_zone() and melee_accuracy_check().
