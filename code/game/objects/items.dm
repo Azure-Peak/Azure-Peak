@@ -504,15 +504,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explaindef"])
-		var/output = span_info("Each point of defense adds 10% to your parry chance.\n\
-		Your parry chance is increased by 20% per skill level in the weapon, and reduced by 20% per skill level of your attacker.\n\
+		var/output = span_info("Each point of defense adds [PARRY_PER_WDEF_POINT]% to your parry chance.\n\
+		Your parry chance is increased by [PARRY_PER_SKILL_LEVEL]% per skill level in the weapon, and reduced by [PARRY_PER_SKILL_LEVEL]% per skill level of your attacker.\n\
 		Defense is often increased when you wield a weapon two-handed.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
 
 	if(href_list["explainlength"])
-		var/output = span_info("A short weapon gains +10% accuracy on hitting any bodypart and can only attack the legs from the ground.\n\
+		var/output = span_info("A short weapon gains +[ACC_SHORT_WEAPON_BONUS]% accuracy on hitting any bodypart and can only attack the legs from the ground.\n\
 		A long weapon can hit chest or below from the ground, and can hit the feet while standing.\n\
 		A great weapon can hit any bodypart from anywhere.")
 		if(!usr.client.prefs.no_examine_blocks)
@@ -531,8 +531,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			output = examine_block(output)
 		to_chat(usr, output)
 
-	var/additional_explanation = "This determines the damage dealt by this weapon. Force is increased / decreased by strength above / below 10 by 10% per point of difference,\n\
-	Each point of strength at 15 or above only applies an additional +3% damage, except on punches. Damage is also multiplied by damage factor on intents. \n\
+	var/additional_explanation = "This determines the damage dealt by this weapon. Force is increased / decreased by strength above / below 10 by [round(STRENGTH_MULT * 100)]% per point of difference,\n\
+	Each point of strength at [STRENGTH_SOFTCAP + 1] or above only applies an additional +[round(STRENGTH_CAPPEDMULT * 100)]% damage, except on punches. Damage is also multiplied by damage factor on intents. \n\
 	Both multipliers are applied to the base number, and do not multiply each other. Reduced sharpness decreases the contribution of strength.\n\
 	Armor penetration on an intent determines whether an attack penetrates the target's armor. Armor penetrating attacks deal less damage to the armor itself."
 	if(href_list["showforce"])

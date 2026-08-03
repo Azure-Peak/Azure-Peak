@@ -350,7 +350,10 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define UNARMED_DAMAGE_DEFAULT		15
 #define UNARMED_DAMAGE_CIVILBARB	5
 
-//Base weapon-defense for an unarmed parry. Multiplied by 10 to become a parry percentage.
+#define PARRY_PER_WDEF_POINT 10
+#define PARRY_PER_SKILL_LEVEL 20
+
+//Base weapon-defense for an unarmed parry. Multiplied by PARRY_PER_WDEF_POINT to become a parry percentage.
 #define UNARMED_BASE_WDEF_BARE 2		// Bare fists — still bad, but not hopeless
 #define UNARMED_BASE_WDEF_EQUIPPED 8	// Bracers / knuckles / bandages — 80 base parry for expert pugilists
 
@@ -427,7 +430,7 @@ Medical defines
 #define CONSTITUTION_BLEEDRATE_MOD 0.05	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
 #define CONSTITUTION_BLEEDRATE_CAP 20	//The CON value up to which we get a bleedrate reduction.
 
-#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL 
+#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL
 #define WILLPOWER_MODIFIER	5	//How much stamina (flat value) we gain (or lose) for every WIL above / below 10.
 
 #define SPEED_MOVSPD_MOD 0.075	//Multiplicative modifier for our speed, per point (for both <10 and >10 values)
@@ -441,7 +444,7 @@ Medical defines
 #define CRIT_ARMOUR_THRESHOLD 0.35 // ratio of obj_integrity and max_integrity for zone armour. Beyond this, crits are prevented.
 
 /*
-	Critical Resistance Defines 
+	Critical Resistance Defines
 */
 // Normal classes are guaranteed 4 resists, NPC 1, noblood / revenant 1
 #define CRIT_RESISTANCE_STACKS_PLAYER 4
