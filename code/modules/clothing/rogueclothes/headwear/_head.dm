@@ -18,13 +18,23 @@
 	var/overarmor = TRUE
 	throw_on_break = TRUE
 
+/obj/item/clothing/head/roguetown/get_detail_state(base_state)
+	if(!base_state)
+		return base_state
+	if(findtext(base_state, "_s_t"))
+		return replacetext(base_state, "_s_t", "_t")
+	if(copytext(base_state, -2) == "_s")
+		return copytext(base_state, 1, -2)
+	return base_state
+
 /obj/item/clothing/head/roguetown/equipped(mob/user, slot)
 	. = ..()
 	user.update_fov_angles()
 	if(slot != SLOT_HEAD && !mask_override)
 		flags_inv = null
 	else
-		flags_inv = initial(flags_inv)
+		flags_inv = adjust_inv_flags(initial(flags_inv))
+	restore_snout()
 
 /obj/item/clothing/head/roguetown/dropped(mob/user)
 	. = ..()

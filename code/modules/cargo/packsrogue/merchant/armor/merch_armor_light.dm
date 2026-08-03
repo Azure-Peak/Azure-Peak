@@ -156,6 +156,11 @@
 	cost = 15 // 2 cloth + 1 fiber, same recipe cost as the padded mittens
 	contains = list(/obj/item/clothing/shoes/roguetown/footwraps/padded)
 
+/datum/supply_pack/rogue/light_armor/hleatherfootwraps
+	name = "Footwraps, Hardened Leather"
+	cost = 20 //same as hardened leather boots
+	contains = list(/obj/item/clothing/shoes/roguetown/footwraps/hleather)
+
 /datum/supply_pack/rogue/light_armor/lightgambesonskirt
 	name = "Gambesoned Kilt, Light"
 	cost = 18

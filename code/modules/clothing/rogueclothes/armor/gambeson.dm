@@ -219,9 +219,10 @@
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
 	name = "aesthetic fencing shirt"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	name = "shepherd's shirt"
@@ -232,6 +233,14 @@
 	name = "padded caftan"
 	desc = "A long overcoat commonly worn in Naledi, Kazengun, and Aavnr - but mostly associated with steppesmen. This specific kind rivals a padded gambeson in protection."
 	icon_state = "chargah"
+	color = "#ffffff"
+	boobed = TRUE
+	shiftable = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hatanga
+	name = "beast-hide coat"
+	desc = "Layered robes reinforced with quilted padding and stitched hides from formidable beasts."
+	icon_state = "hatanga"
 	color = "#ffffff"
 	boobed = TRUE
 	shiftable = FALSE
@@ -282,8 +291,10 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
 	name = "aesthetic grenzelhoftian hip-shirt"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	name = "padded desert coat"
@@ -297,14 +308,16 @@
 	icon_state = "desertrobe"
 	item_state = "desertrobe"
 	desc = "A thick robe intervowen with spell-laced fabrics. Thick and protective while remaining light and breezy; the perfect gear for protecting one from the threats of the sun, the desert and the daemons, yet still allowing one to cast spells aptly."
+	color = null
 	naledicolor = TRUE
 	shiftable = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
 	name = "aesthetic hierophant's shawl"
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor_class = ARMOR_CLASS_NONE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	name = "pontifex's kaftan"
@@ -339,9 +352,10 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
 	name = "aesthetic stalker robe"
-	armor_class = ARMOR_CLASS_NONE
-	armor = ARMOR_CLOTHING
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize()
+	. = ..()
+	loadoutize()
 //Hand's gambeson, looks fancy
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand

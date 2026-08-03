@@ -102,6 +102,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/datum/embedding_behavior/embedding
 	var/is_embedded = FALSE
+	var/atom/embedded_host = null
 
 	var/flags_cover = 0 //for flags such as GLASSESCOVERSEYES
 	var/heat = 0
@@ -447,11 +448,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	for(var/X in actions)
 		qdel(X)
 	if(is_embedded)
-		if(isbodypart(loc))
-			var/obj/item/bodypart/embedded_part = loc
+		var/atom/host = embedded_host || loc
+		if(isbodypart(host))
+			var/obj/item/bodypart/embedded_part = host
 			embedded_part.remove_embedded_object(src)
-		else if(isliving(loc))
-			var/mob/living/embedded_mob = loc
+		else if(isliving(host))
+			var/mob/living/embedded_mob = host
 			embedded_mob.simple_remove_embedded_object(src)
 	return ..()
 
@@ -1946,3 +1948,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
 			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null
+
+/obj/item/can_zFall(turf/source, levels, turf/target, direction)
+	if(item_flags & FLOATING_ITEM)
+		return FALSE
+	. = ..()
+
+/obj/item/proc/remove_floating() // needed for timers
+	item_flags &= ~FLOATING_ITEM

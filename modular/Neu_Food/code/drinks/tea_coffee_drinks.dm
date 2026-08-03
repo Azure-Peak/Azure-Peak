@@ -103,6 +103,7 @@
 	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/reagent_containers/food/snacks/grown/rogue/chocolate_spiced
+	cuisine = CUISINE_RANESHENI
 	name = "spiced chocolate"
 	desc = "A spiced sliver of heaven, awaiting to be brewed into a velvetly rich drink."
 	icon = 'modular/Neu_Food/icons/drinks.dmi'

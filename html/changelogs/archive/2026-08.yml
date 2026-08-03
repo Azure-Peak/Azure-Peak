@@ -1,0 +1,72 @@
+2026-08-01:
+  KatTheFox:
+  - rscadd: Fae familiar abilities have been reshuffled, both potion abilities are
+      now at tier 2. In tier 1 they now get rootcheck (bootcheck but plants) and invis.
+      Elemental gets aetherknife at base tier.
+  - bugfix: The message displayed when a familiar seeks to be summoned now actually
+      tells you how to do so.
+  - bugfix: Your character's pronouns are now preserved when shapeshifting (e.g. wildshape,
+      zad form)
+  Lamasmaster:
+  - rscadd: '2 infernal summons: Armour and a Sword'
+  WeNeedMorePhoron:
+  - rscadd: You can no longer self extract lux from yourself
+  borneblood:
+  - rscadd: Added a single-use pressure plate object.
+  eirenxiv:
+  - balance: gives swashbuckler apprentice trapmaking
+  - rscadd: Added Hardened Leather Footwraps to Gold/Silverface
+  radarseas:
+  - image: added/modified abscond + new xylix revival icon
+  - bugfix: my dumbass forgot to check Xylix getting anastasis Icon, FUCK.
+2026-08-02:
+  7erracotta:
+  - rscadd: Added amulets
+  - balance: ' added more things to clutter loot pools'
+  Clem-The-Duck:
+  - rscadd: Changes the cloth footwraps sprite
+  Quinalion:
+  - rscadd: Adds the elvish dirk, a Black Oak-themed reskin of the steel dagger.
+  - rscadd: Adds a new visual variant for Black Oak hardened leather coat.
+  - rscadd: Black Oak mercenaries now carry black satchels.
+  - balance: All Black Oak classes now have the padded gambesons.
+  - balance: Black Oaken Guardian now have the Woodwalker trait.
+  - image: Updated Elvish Glaive sprites.
+  - code_imp: Removes unused dark elvish dagger code.
+  Ryan180602:
+  - bugfix: cleanup hair editor
+  - qol: allows turf-click attacks for all melee intents.
+  - rscadd: framework for emote and rest skin repair.
+  - balance: shifts and changes how most skin armour repair themselves.
+  - rscadd: New snouthelm variants.
+  - qol: MMB clothing interactions and altclick interaction with mask save state.
+  WeNeedMorePhoron:
+  - rscdel: Remove the use bandage (doesn't really exists in most case) and use healing
+      potions from NPC, which can feel pretty unfair as they chug like crazy
+  - rscadd: Reduced the rate of fire of most archer by reworking to a new formula
+      that presume 1.5 seconds is used to click the quiver and a minimum aim time
+      of 0.5 s, removed special arrows, reduced incidence of bodkin arrows massively
+      on high tier archers and removed it entirely from low tier archers. Reduced
+      ammo supplies of most NPC archers. This should result in them feeling fairer
+      to fight and less machinegunny. A mistake made in the old formula resulted in
+      most hitting the minimum floor of 2 seconds ROF.
+  - rscdel: Stopped NPC from looting gears they won't use and cleaned up some code.
+  - rscadd: Slightly buff the earlier waves in a blockade and rewards
+  - balance: Holding onto a spell pass 1 seconds strains you up to 5 seconds for forced
+      cancel
+2026-08-03:
+  EmilitiaEnnehrt:
+  - bugfix: fixes elvish glaive pixelshift
+  KatTheFox:
+  - bugfix: Wings will now render below tails from the south specifically. This fix
+      only applies to new character slots or if you change your character's species
+      to something else and back. Which will reset all your customization. Yeah.
+  Ketrai:
+  - rscadd: Ranger cloak dyable & forest green in triumph store.
+  WeNeedMorePhoron:
+  - rscdel: Links in OOC chat etc. are no longer automatically linkified for security
+      reasons.
+  borneblood:
+  - bugfix: Bees can now timeout when pursuing bad plants.
+  - rscadd: Examining Apiary gives you a few more insights on how your bees are doing.
+      Magnifying glasses also improved.

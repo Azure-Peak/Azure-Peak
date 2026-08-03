@@ -178,12 +178,20 @@
 	if(prob(30)) // ranged
 		belt = /obj/item/storage/belt/rogue/leather
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-		backl = /obj/item/quiver/arrows
+		backl = /obj/item/quiver/npc
 		r_hand = /obj/item/rogueweapon/sword/iron
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
+		armor = /obj/item/clothing/suit/roguetown/shirt/rags
+		head = null
+		neck = null
+		gloves = /obj/item/clothing/gloves/roguetown/leather
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+		pants = /obj/item/clothing/under/roguetown/trou/leather
+		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		H.STASTR -= 2
-		H.STAPER += 3
+		H.STAPER = 11
 	else if(prob(25)) // tossblade
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
@@ -456,10 +464,17 @@
 /datum/outfit/job/roguetown/human/northern/bog_deserters/archer/pre_equip(mob/living/carbon/human/H)
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-	backl = /obj/item/quiver/arrows
-	beltr = /obj/item/quiver/arrows
+	backl = /obj/item/quiver/npc
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
+	armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	head = null
+	neck = null
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.STASTR = rand(10, 12)
-	H.STAPER = 14
+	H.STAPER = 11
 	H.STACON -= 1
 	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
@@ -479,8 +494,16 @@
 /datum/outfit/job/roguetown/human/northern/bog_deserters/crossbowman/pre_equip(mob/living/carbon/human/H)
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	backl = /obj/item/quiver/bolt/standard
-	H.STAPER = 13
+	backl = /obj/item/quiver/bolt/npc
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
+	armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	head = null
+	neck = null
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	H.STAPER = 11
 	H.STACON -= 1
 	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)

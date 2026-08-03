@@ -300,6 +300,13 @@
 		if(FARE_LAVISH)
 			lines += "Quality: Lavish."
 
+	var/list/cuisine_names = culinary_flags_names(GLOB.culinary_cuisines, proto.cuisine)
+	if(length(cuisine_names))
+		lines += "Cuisine: [english_list(cuisine_names)]."
+	var/list/dish_names = culinary_flags_names(GLOB.culinary_dishes, proto.dish_type)
+	if(length(dish_names))
+		lines += "Dish type: [english_list(dish_names)]."
+
 	var/list/declared_reagents = proto.list_reagents
 	if(proto.get_nutrition() > 0)
 		lines += "Nutrition: [proto.get_nutrition_to_text()]."

@@ -342,6 +342,7 @@
 /obj/projectile/magic/blowingdust
 	name = "unholy dust"
 	icon_state = "spark"
+	expose_caster_on_deflect = TRUE
 	nodamage = FALSE
 	damage = 1
 	poisontype = /datum/reagent/herozium
@@ -376,15 +377,17 @@
 	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
 
 
-/obj/projectile/magic/blowingdust/on_hit(target, mob/living/M)
+/obj/projectile/magic/blowingdust/on_hit(target, blocked = FALSE)
 	. = ..()
-	if(!istype(M))
+	if(!isliving(target))
 		return
 	if(out_of_effective_range())
 		return
-	if(target)
-		to_chat(target, span_warning("Gah! Something.. got in my - eyes.."))
-		M.blur_eyes(2)
+	if(blocked >= 100)
+		return
+	var/mob/living/M = target
+	to_chat(M, span_warning("Gah! Something.. got in my - eyes.."))
+	M.blur_eyes(2)
 
 // T2 - clears all stress. Forget your worries, pookie bear.
 /obj/effect/proc_holder/spell/invoked/lasthigh

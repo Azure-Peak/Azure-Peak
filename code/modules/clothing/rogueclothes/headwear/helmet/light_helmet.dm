@@ -81,20 +81,8 @@
 	if(!istype(loc, /mob/living/carbon))
 		return
 	var/mob/living/carbon/H = user
-	if(icon_state == "[initial(icon_state)]_snout")
-		icon_state = initial(icon_state)
+	if(toggle_snout())
 		H.update_inv_head()
-		update_icon()
-		return
-
-	var/icon/J = new('icons/roguetown/clothing/onmob/head.dmi')
-	var/list/istates = J.IconStates()
-	for(var/icon_s in istates)
-		if(findtext(icon_s, "[icon_state]_snout"))
-			icon_state += "_snout"
-			H.update_inv_head()
-			update_icon()
-			return
 
 /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
@@ -189,14 +177,14 @@
 /obj/item/clothing/head/roguetown/grenzelhofthat/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
 	if(get_altdetail_tag())
-		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][altdetail_tag]"))
 		pic2.appearance_flags = RESET_COLOR
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()
@@ -204,8 +192,10 @@
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/loadout
 	name = "aesthetic grenzelhoft plume hat"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
+
+/obj/item/clothing/head/roguetown/grenzelhofthat/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 //................ Briar Thorns ............... //	- Dendor Briar
 /obj/item/clothing/head/roguetown/briarthorns
@@ -243,5 +233,7 @@
 
 /obj/item/clothing/head/roguetown/mentorhat/loadout
 	name = "aesthetic worn bamboo hat"
-	max_integrity = ARMOR_INT_CHEST_CIVILIAN
-	armor = ARMOR_CLOTHING
+
+/obj/item/clothing/head/roguetown/mentorhat/loadout/Initialize()
+	. = ..()
+	loadoutize()

@@ -1,11 +1,15 @@
 /datum/outfit/job/roguetown/orc/npc/archer/pre_equip(mob/living/carbon/human/H)
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-	backl = /obj/item/quiver/arrows
+	backl = /obj/item/quiver/npc
 	l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 	r_hand = null
+	armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	head = null
+	mask = null
+	neck = null
 	H.STASTR -= 2
-	H.STAPER += 3
+	H.STAPER = 6
 	H.STACON -= 1
 	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)

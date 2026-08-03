@@ -100,7 +100,7 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/blade_storm)
 			if("phalangite")
 				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
@@ -137,7 +137,9 @@
 				"Bucket Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
 				"Knight Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
 				"Armet"					= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
+				"Snouted Armet"					= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted,
 				"Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+				"Snouted Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
 				"Klappvisier Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 				"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 				"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,

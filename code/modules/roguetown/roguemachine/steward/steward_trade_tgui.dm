@@ -123,6 +123,7 @@
 			"to" = E.to_name,
 			"amount" = E.amount,
 			"reason" = E.reason || "",
+			"count" = E.count || 1,
 		))
 	return list(
 		"entries" = entries,

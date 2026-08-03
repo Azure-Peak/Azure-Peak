@@ -8,7 +8,7 @@
 	icon = 'icons/roguetown/weapons/whips32.dmi'
 	sharpness = IS_BLUNT
 	//dropshrink = 0.75
-	wlength = WLENGTH_LONG
+	wlength = WLENGTH_GREAT // It has a 3 reach attack.
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BELT
 	associated_skill = /datum/skill/combat/whipsflails
@@ -73,14 +73,21 @@
 
 //Bludgeon = Sidegrade of the Crack that functions like a ranged mace. Unique to the Nagaika, or the Steppsman's whip.
 /datum/intent/whip/crack/blunt
-	name = "bludgeon"
-	blade_class = BCLASS_BLUNT
-	penfactor = PEN_NONE
-	recovery = 6
-	reach = 2			//Less range than a normal whip by 1 compared to crack.
-	icon_state = "instrike"
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+    name = "bludgeon"
+    desc = "Wind up and deliver a powerful strike with the reinforced tip of your whip, shortening your reach but increasing the power. </br>Strikes deliver powerful blunt damage, lacking any cutting power but increasing damage against integrity."
+    blade_class = BCLASS_BLUNT
+    penfactor = PEN_NONE
+    recovery = 6
+    reach = 2            //Less range than a normal whip by 1 compared to crack.
+    icon_state = "instrike"
+    item_d_type = "blunt"
+    intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+/datum/intent/flail/smash/ranged/psywhip
+    name = "Meteor Strike"
+    desc = "Swing the weight of your whip around your body, using the angular momentum to deliver a devastating strike, propelling your enemy back and savaging them at the same time."
+    chargedrain = 0 //The charge time is indicative of a warmup, not a hold.
+    chargedloop = /datum/looping_sound/flailswing
+    keep_looping = FALSE
 
 //Punish = Non-lethal sorta damage.
 /datum/intent/whip/punish
@@ -106,7 +113,7 @@
 	desc = "A short but heavy leather whip, sporting a blunt reinforced tip and a longer handle."
 	icon_state = "nagaika"
 	force = 25		//Same as a cudgel/sword for intent purposes. Basically a 2 range cudgel while one-handing.
-	possible_item_intents = list(/datum/intent/whip/crack/blunt, /datum/intent/whip/lash, /datum/intent/sword/strike)
+	possible_item_intents = list(/datum/intent/whip/lash, /datum/intent/whip/crack/blunt, /datum/intent/sword/strike)
 	wdefense = 1	//Akin to a cudgel, still terrible at parrying though. Better than nothing I guess; thing is used irl as a counter-weapon to knives.
 
 /obj/item/rogueweapon/whip/xylix
@@ -156,7 +163,7 @@
 	icon_state = "psywhip"
 	is_silver = TRUE
 	force = 25
-	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
+	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish, /datum/intent/flail/smash/ranged/psywhip)
 	minstr = 11
 	wdefense = 0
 	anvilrepair = /datum/skill/craft/weaponsmithing

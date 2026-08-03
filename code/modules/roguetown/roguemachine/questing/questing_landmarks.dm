@@ -25,15 +25,16 @@
 	SSquestpool?.unregister_landmark(src)
 	return ..()
 
-/obj/effect/landmark/quest_spawner/proc/add_quest_faction_to_nearby_mobs(turf/center)
-	for(var/mob/living/M in view(7, center))
-		if(!M.ckey && !("quest" in M.faction))
-			M.faction |= "quest"
-
 /obj/effect/landmark/quest_spawner/proc/get_safe_spawn_turf()
 	var/list/possible_turfs = list()
+	var/turf/origin = get_turf(src)
+	if(!origin)
+		return null
 	for(var/turf/open/floor/T in view(7, src))
-		if(T.density || istransparentturf(T))
+		if(T.z != origin.z)
+			continue
+
+		if(T.density)
 			continue
 
 		if(get_area(T) != get_area(src)) //No more spawning in guild room...
@@ -48,7 +49,7 @@
 			continue
 
 		possible_turfs += T
-	return length(possible_turfs) ? pick(possible_turfs) : get_turf(src)
+	return length(possible_turfs) ? pick(possible_turfs) : origin
 
 /obj/effect/landmark/quest_spawner/generic
 	name = "generic quest landmark"

@@ -359,32 +359,36 @@
 			arrows += A
 	update_icon()
 
-// Broadhead with a very low chance of bodkin
 /obj/item/quiver/randomfill/skeleton
 	fill_table = list(
-		/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy = 55,
-		/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy = 5
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 100
 	)
-
 
 /obj/item/quiver/randomfill/highwayman
 	fill_table = list(
-		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 70,
-		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 15,
-		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder = 5,
-		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic = 5,
-		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire = 5
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 100,
+
 	)
 
-// Slightly higher quality with weight toward kinetic and steel
 /obj/item/quiver/randomfill/reaver
 	fill_table = list(
-		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 50,
-		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 30,
-		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder = 5,
-		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic = 10,
-		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire = 5
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 80,
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 15,
 	)
+
+/obj/item/quiver/npc
+	var/fill_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
+
+/obj/item/quiver/npc/Initialize()
+	. = ..()
+	if(fill_type)
+		for(var/i in 1 to max_storage)
+			var/obj/item/ammo_casing/caseless/rogue/arrow/A = new fill_type()
+			arrows += A
+	update_icon()
+
+/obj/item/quiver/npc/stone
+	fill_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 
 //////////// Note - silver quivers and bolt pouches shouldn't be obtainable through normal circumstances.
 // BOLTS  // For now, they should only be available as uncraftable singles.
@@ -468,6 +472,16 @@
 		icon_state = "boltpouch0"
 
 /obj/item/quiver/bolt/standard/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/npc
+	max_storage = 8
+
+/obj/item/quiver/bolt/npc/Initialize()
 	..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/bolt/A = new()
@@ -791,6 +805,16 @@
 	return
 
 /obj/item/quiver/sling/stone/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/npc
+	max_storage = 20
+
+/obj/item/quiver/sling/npc/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/A = new()

@@ -258,7 +258,7 @@
 									"ATC" = GLOB.atc_positions,
 									"Sidefolk" = GLOB.sidefolk_positions,
 									"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT),
-									"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL),
+									"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER),
 									"Lesser Antagonst Positions" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE))
 									//ADD BACK DARK ELF AND MANIAC TO THE LIST IF THEY ARE EVER REENABLED
 		for(var/department in long_job_lists)
@@ -464,7 +464,7 @@
 	for(var/client/C in clients_online)
 		if(C.holder) //deadmins aren't included since they wouldn't show up on adminwho
 			admins_online += C
-	var/who = clients_online.Join(", ")
+	var/who = copytext(clients_online.Join(", "), 1, 2049)
 	var/adminwho = admins_online.Join(", ")
 	var/kn = key_name(usr)
 	var/kna = key_name_admin(usr)
