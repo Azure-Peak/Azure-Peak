@@ -247,7 +247,7 @@
 	required_ingredients = list(
 		/obj/item/dream_material/dream_star = 1,
 		/obj/item/dream_material/dream_shards = 1,
-		/obj/item/dream_material/parchment_dream = 1
+		/obj/item/dream_material/parchment_gold = 1
 	)
 
 	invocation_phases = list(
