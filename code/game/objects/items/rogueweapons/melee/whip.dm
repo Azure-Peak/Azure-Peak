@@ -8,7 +8,7 @@
 	icon = 'icons/roguetown/weapons/whips32.dmi'
 	sharpness = IS_BLUNT
 	//dropshrink = 0.75
-	wlength = WLENGTH_LONG
+	wlength = WLENGTH_GREAT // It has a 3 reach attack.
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BELT
 	associated_skill = /datum/skill/combat/whipsflails

@@ -22,7 +22,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
 	hold_drain = 1

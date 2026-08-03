@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Links in OOC chat etc. are no longer automatically linkified for security reasons."

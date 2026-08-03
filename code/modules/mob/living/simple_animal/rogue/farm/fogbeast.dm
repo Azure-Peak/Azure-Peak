@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male
 	health = 380
 	maxHealth = 380
-	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/food/snacks/grown/oat, /obj/item/reagent_containers/food/snacks/grown/apple)
+	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/food/snacks/grown/oat, /obj/item/reagent_containers/food/snacks/grown/apple,/obj/item/reagent_containers/food/snacks/grown/maize)
 	tame_chance = 15
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
