@@ -676,7 +676,7 @@
 
 		<p>In general, it is highly frowned upon if not outright disallowed to simply walk back to a revival place and then just lie down without a fight, putting up an earnest fight - which you do not need to put all your efforts into unless you want to, is a minimum requirement.</p>
 
-		<p>Being a deadite is not a straight upgrade. Your wounds close on their own as long as nothing has set you alight, but you are stiff and stupid with it - you cannot bait, feint, riposte or use the STRONG stance's right click at all, you cannot throw anything, you cannot climb anything more involved than a rock wall, and jumping puts you on the floor when you land. A rotted body also carries -3 CON and -8 INT until it is cured.</p>
+		<p>Becoming a deadite makes you unable to feint or use any special actions or weapons, but make you able to regenerate. You also suffer a crippling STAT debuff.</p>
 
 		<p>After you are restrained, a surgeon can then open your chest up to burn the rot from your body, thus removing the deadite status.</p>
 
@@ -688,7 +688,7 @@
 			<li><b>Revival Rituals</b>: The Church, with access to certain materials can also revive someone from the death, though they take a normal penalty.</li>
 		</ul>
 
-		<p>The penalty is Revival Sickness - [REVIVED_DEBUFF_DURATION / 600] minutes of -1 to every single stat you have. It stacks with the rot debuff if your body had begun to turn, so a long stint as a deadite followed by a ritual revival leaves you debuffed for a while.</p>
+		<p>After non-chair revival, you gain Revival Sickness - [REVIVED_DEBUFF_DURATION / 600] minutes of -1 to every single stat you have. It stacks with the rot debuff if your body had begun to turn, so naturally rotting instead of becoming revived, followed by a ritual revival will hit you with a significant amount of debuff. You are encouraged to take it easy for a while and seek non combat roleplay after.</p>
 
 		<p>For a brief period after revival, being slain again will results in you becoming permanently unrevivable for the round. You get [DEATHMARK_GRACE_PERIOD / 600] minutes of grace first, and only then does the penalty applies for [PERMADEATH_DURATION / 600] minutes.</p>
 		</div>
