@@ -2011,6 +2011,8 @@
 		return
 	if(user.incapacitated())
 		return
+	if(user == src)
+		return
 	if(can_be_held(user))
 		mob_try_pickup(user)
 
