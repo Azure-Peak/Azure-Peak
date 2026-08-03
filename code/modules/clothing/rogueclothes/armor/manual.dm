@@ -80,7 +80,7 @@
 	blocking_behavior = SAMEWEAR
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Muscle barbarian skin equates to a gambeson on the chest, and a suit of hardened leather layering over chest and limbs. Only the latter regens via pushups, but it does so quite rapidly (~20-22sec fullrepair).
+//Muscle barbarian skin equates to a heavy gambeson on the chest, and a suit of hardened leather layering over chest and limbs. Only the latter regens via pushups, but it does so quite rapidly (~20-22sec fullrepair).
 
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation
@@ -313,8 +313,10 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Disciple skin is equivalent to a chest-only heavy gambeson and a second chest-and-limbs heavy gambeson. Very durable, still easy to stab through. Trying to blunt-force these guys to death is a bad idea, bleed them out instead.
+//Disciple skin is equivalent to a chest-only hardened leather armor and a chest-and-limbs heavy gambeson. Durable, but nothing any random dodge expert or mage cannot obtain, and inferior to light brig.
 
 
 /*
@@ -462,7 +464,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/barbarian
 	name = "hardened skin"
 	desc = "Toughened from abuse. My mettle remains. Resting will restore it's strength."
-	lot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
@@ -475,13 +477,14 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Baseline barbarian skin is equivalent to a chest-only gambeson and a second chest-and-limbs gambeson. Slightly less integ than the muscle variant, but easier to manage.
+//Baseline barbarian skin is equivalent to a chest-only heavy gambeson and a second chest-and-limbs gambeson. Slightly less protection than the muscle variant, but easier to manage.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/gladiator
 	name = "pit-hardened skin"
 	desc = "Are you not entertained?!"
-	lot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
@@ -494,13 +497,15 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Gladiator skin is equivalent to a chest-only gambeson and a second chest-and-limbs gambeson.
+//Gladiator skin is equivalent to a chest-only hardened leather armor and a second chest-and-limbs gambeson.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff
 	name = "scar-marred skin"
 	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
-	lot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
@@ -516,12 +521,12 @@
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Bailiff skin is equivalent to a chest-only leather armor and a chest-and-limbs gambeson. Slightly better than adventurer equivalents, given that other MAA start with layered plate-and-maille.
+//Bailiff skin is equivalent to a chest-only hardened leather armor and a chest-and-limbs heavy gambeson. Slightly better than adventurer equivalents, given that other MAA start with layered plate-and-maille.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/thug
 	name = "calloused skin"
 	desc = "A brawler's hide, thickened by a hard life. A spell of rest is enough to knit it whole again."
-	lot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
@@ -534,10 +539,10 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	body_parts_inherent = COVERAGE_TORSO
-	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	armor = ARMOR_lEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
-//Thug skin is equivalent to a chest-only gambeson and a second chest-and-limbs light gambeson.
+//Thug skin is equivalent to a chest-only hardened leather armor (2/3rds integ) and a second chest-and-limbs light gambeson.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/berzerker
 	name = "unstoppable skin"
