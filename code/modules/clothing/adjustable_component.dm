@@ -85,7 +85,7 @@
 			flags_removed = null
 	C.body_parts_covered_dynamic = flags_open
 	C.body_parts_covered_dynamic &= ~flags_removed
-	C.flags_inv = flags_inv_open
+	C.flags_inv = C.adjust_inv_flags(flags_inv_open)
 	C.flags_cover = flags_cover_open
 	C.block2add = fov_open
 	C.icon_state = "[initial(C.icon_state)]_t"
@@ -99,7 +99,7 @@
 			flags_removed = null
 	C.body_parts_covered_dynamic = C.body_parts_covered
 	C.body_parts_covered_dynamic &= ~flags_removed
-	C.flags_inv = initial(C.flags_inv)
+	C.flags_inv = C.adjust_inv_flags(initial(C.flags_inv))
 	C.flags_cover = initial(C.flags_cover)
 	C.block2add = initial(C.block2add)
 	C.icon_state = "[initial(C.icon_state)]"

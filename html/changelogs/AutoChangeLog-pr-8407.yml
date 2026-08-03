@@ -1,0 +1,7 @@
+author: "EmilitiaEnnehrt"
+delete-after: True
+changes:
+  - rscadd: "Adds craftable zigboxes."
+  - rscadd: "Allows oat and rice grain to be made into grain bait."
+  - rscadd: "Chickens now also eat rice."
+  - rscadd: "Cows, fogbeasts, and saigas now also eat corn."

@@ -1,8 +1,11 @@
 /datum/action/cooldown/spell/bonechill
 	name = "Bone Chill"
-	desc = "Chill the chosen target with a burst of necrotic magicka. Applies a strong slowdown effect to the chosen target, alongside further reducing their Strength and Speed."
-	button_icon = 'icons/mob/actions/actions_spells.dmi'
+	desc = "Chill the chosen target with a burst of necrotic magicka. Applies a strong slowdown effect to the chosen target if living, alongside further reducing their Strength and Speed. Heals undead instead on the targeted limb. Cannot self-cast."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "bonechill"
+	spell_color = GLOW_COLOR_ZIZO
+
 	cast_range = 7
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_tier = 2

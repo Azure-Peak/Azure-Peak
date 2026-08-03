@@ -290,7 +290,7 @@
 /datum/crafting_recipe/roguetown/leather/leathermask
 	name = "leather mask"
 	display_category = ITEM_CAT_ARMOR_MASKS
-	result = /obj/item/clothing/mask/rogue/leather
+	result = /obj/item/clothing/mask/rogue/facemask/leather
 	reqs = list(/obj/item/natural/hide/cured = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 1

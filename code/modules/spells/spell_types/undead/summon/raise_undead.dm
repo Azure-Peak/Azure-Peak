@@ -3,9 +3,12 @@
 	desc = "Raise a single greater skeleton that serves you. They are imbued with a fragment of a soul and is more intelligent than usual, simple-minded lesser undead.\n\
 	Should the spell fails to find a suitable soul, a mindless undead will be summoned in its place with decrepit equipment.\n\
 	This will only happen if you are in combat mode, to avoid any accident."
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "skeleton_greater"
+
 	clothes_req = FALSE
 	range = 7
-	overlay_state = "animate"
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
 	chargetime = 60

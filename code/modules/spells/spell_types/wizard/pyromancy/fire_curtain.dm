@@ -172,7 +172,7 @@
 		arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE)
 	else
 		var/fallback_zone = check_zone(hit_zone)
-		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, flat_integ = TRUE)
+		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, no_debuff = TRUE)
 		L.apply_damage(tick_damage, BURN, fallback_zone, armor_block)
 	apply_scorch_stack(L, 1, hit_zone)
 	L.emote("pain", forced = TRUE)
