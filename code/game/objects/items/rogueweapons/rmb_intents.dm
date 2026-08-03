@@ -175,7 +175,7 @@
 
 /datum/rmb_intent/swift
 	name = "swift"
-	desc = "Your attacks have less recovery time but are less accurate."
+	desc = "Your attacks have less recovery time but are less accurate.\nDrains extra stamina from anyone dodging you, most of all while their dodge is fresh. Does not work with a HEAVY balanced weapon."
 	icon_state = "rmbswift"
 
 /datum/rmb_intent/special

@@ -183,7 +183,13 @@
 
 		<p>Characters skilled in unarmed combat parry with their bracers instead if they have one and do not have a competing weapon in their hand with more than 0 WDefense. Knuckles and bandages serve the same purpose. The default parry chance is disastrously low at [UNARMED_BASE_WDEF_BARE * 10]%, but it raises to [UNARMED_BASE_WDEF_EQUIPPED * 10]% (Equal to a DEFENSE value of [UNARMED_BASE_WDEF_EQUIPPED]) if they are an Expert Pugilist. Your unarmed skill adds on top of both.</p>
 
-		<p>Dodge costs more stamina, and compares your speed versus theirs. If you are a dodge expert, your dodge chance caps out at [DODGE_EXPERT_BASE_CAP + MAX_DODGE_CEIL]%. It lowers with each dodge, down as far as [DODGE_EXPERT_BASE_CAP + MAX_DODGE_FLOOR]%. Scoring hits will allow it to increase over time.</p>
+		<p>Dodge costs more stamina, and compares your speed versus theirs. If you are a dodge expert, your dodge chance starts at [DODGE_EXPERT_BASE_CAP + MAX_DODGE_START]% and lowers with each dodge, down as far as [DODGE_EXPERT_BASE_CAP + MAX_DODGE_FLOOR]%. Scoring hits will allow it to increase over time, up to a ceiling of [DODGE_EXPERT_BASE_CAP + MAX_DODGE_CEIL]%.</p>
+
+		<p>Taking a wound also gives back some dodge percentage, up to [DODGE_EXPERT_BASE_CAP + MAX_DODGE_CLAMP]%. Being Exposed or Vulnerable when it lands won't give you anything.</p>
+
+		<p>If your opponent is faster than you, every point of SPD they have on you costs you extra stamina - unless the weapon in your own hands is HEAVY balanced, which exempts you from it entirely. Being outskilled costs you on top of that, and an opponent in SWIFT stance drains you hardest while your dodge is freshest, tapering to nothing once you have built up some dodge cooldown. So a fast, skilled attacker in SWIFT can wear a dodger down even while missing.</p>
+
+		<p>If either opponents is unarmed, neither of these penalties apply.</p>
 
 		<p>Dodging works much better with classes that are built for it with Dodge Expert trait, and when there's a large difference of speed between you and your opponent. It also works well if you are wielding weapons that have very very poor defenses.</p>
 
@@ -433,7 +439,7 @@
 		<ul>
 			<li><b>WEAK</b>: Your attack lands for only [round(WEAK_STANCE_DMG_MULT * 100)]% of its usual damage, and will never critically hit or dismember. Right Click in this stance will attempt to steal from a target. Also used for attempting surgery outside of Combat Mode.</li>
 			<li><b>DEFEND</b>: Removes the delay between parries. RMB when not grabbing anything and holding a weapon allows you to RIPOSTE, which has a chapter of its own.</li>
-			<li><b>SWIFT</b>: Makes your attack [round((1 - CLICK_CD_MOD_SWIFT) * 100)]% faster, but also much less accurate at -[ACC_SWIFT_PENALTY]. It also exhausts you and depletes your stamina on attack, by an extra [EXTRA_STAMDRAIN_SWIFSTRONG].</li>
+			<li><b>SWIFT</b>: Makes your attack [round((1 - CLICK_CD_MOD_SWIFT) * 100)]% faster, but also much less accurate at -[ACC_SWIFT_PENALTY]. It also exhausts you and depletes your stamina on attack, by an extra [EXTRA_STAMDRAIN_SWIFSTRONG]. In exchange it is the anti-dodge stance: swinging SWIFT drains a dodger's stamina hard, most of all while their dodge is still fresh, so long as you are not holding a HEAVY balanced weapon.</li>
 			<li><b>STRONG</b>: Makes your attack stronger and costs them more sharpness and integrity to defend against - [STRONG_SHP_BONUS] more sharpness and [STRONG_INTG_BONUS] more integrity on every parry they make - at the cost of the same extra [EXTRA_STAMDRAIN_SWIFSTRONG] stamina. Your attack deals +[round(STRONG_STANCE_DMG_BONUS * 100)]% damage, and crits more readily with brutal attacks.</li>
 			<li><b>AIMED</b>: Makes your attack [round((CLICK_CD_MOD_AIMED - 1) * 100)]% slower but improves the accuracy of your attacks significantly, by +[ACC_AIMED_BONUS]. RMB allows you to BAIT an opponent.</li>
 			<li><b>FEINT</b>: Allows you to feint your opponent, which calculates your intelligence and skills versus theirs, and potentially allows you to open them up for a single vulnerable / exposed attack.</li>
