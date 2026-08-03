@@ -257,4 +257,4 @@
 	base_icon_state = "basic_book"
 	can_spawn = FALSE
 	wiki_only = TRUE
-	types = list(/datum/book_entry/combat_common, /datum/book_entry/combat_fighting)
+	types = list(/datum/book_entry/combat)
