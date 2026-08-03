@@ -577,13 +577,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explainpenfactor"])
-		var/output = span_info("Armor Penetration determines whether this attack goes through armor.\n\
+		var/output = span_info("Armor Penetration determines how much of this attack goes through armor.\n\
 		Each armor piece has a blocking tier (Light, Medium, Heavy, Blacksteel).\n\
-		Penetration > armor tier: 100% damage goes through.\n\
-		Penetration = armor tier: 20% damage through. Armor absorbs remaining %.\n\
-		Penetration < armor tier: Fully blocked.\n\
+		Penetration below the armor tier: fully blocked.\n\
+		Penetration at or above the armor tier: Only a portion go through, and the armor absorbs the rest as integrity damage.\n\
+		The wider the gap between your penetration and the armor tier, the more damage gets through. Strength is used to determine how much of the penetration go through. Swift Balance weapon may use Speed instead.\n\
+		A dulled weapon penetrates worse, and a chunked one cannot penetrate at all.\n\
+		Piercing damage (arrows, bolts) ignores those modifiers and uses fixed amounts based on whether penetration matches or exceeds the tier.\n\
 		All attacks go through armor with no protection of that type, including attacks with no armor penetration.\n\
-		Blunt / Burn / Acid attacks bypass this system entirely and use damage reduction instead.")
+		Blunt and Burn attacks bypass this system entirely and use damage reduction instead.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
