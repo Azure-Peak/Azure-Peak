@@ -637,7 +637,9 @@
 
 		<p>Lesser Miracles are very useful for healing away small amount of wounds or stabilizing someone, but generally cannot reverse death or heal someone completely on its own. In that aspect, Surgery or Alchemical Healing is much better.</p>
 
-		<p>Based on the patrons you chose and the class, you will have access to different TIERS of miracles. Each tier is gated behind devotion - [CLERIC_REQ_1] for the first, [CLERIC_REQ_2] for the second, [CLERIC_REQ_3] for the third and [CLERIC_REQ_4] for the fourth. Miracles can be seen by clicking on the MIRACLES part of the Encyclopedia.</p>
+		<p>Based on the patrons you chose and the class, you will have access to different TIERS of miracles. Your class decides which tier you begin at and how much devotion you can store. It cannot be raised in round.</p>
+
+		<p>Miracles can be seen by clicking on the MIRACLES part of the Encyclopedia.</p>
 
 		<ul>
 			<li><b>T1</b> Miracles are usually not dramatically effective, and are granted to Adventuring Paladins and certain classes.</li>
