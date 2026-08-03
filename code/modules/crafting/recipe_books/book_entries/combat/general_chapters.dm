@@ -175,7 +175,7 @@
 
 		<p>Parrying or Dodging has a minimum cooldown of [CLICK_CD_MELEE / 10] second between each attempt, exactly equal to the normal attack speed of most weapons. DEFEND Stance removes the delay, at the cost of potentially exhausting yourself and depleting your weapon's durability and or your stamina faster.</p>
 
-		<p>To parry, you must have a weapon held in your hand. Your parry percentage is calculated by a comparison of your weapon's defense, and your opponents skills and yours. In general, a rule of thumb is that your parry chance does not go above 90%, and that it is equal to your Weapon Defense +/- 20% per level of difference in you and your opponents weapon defense.</p>
+		<p>To parry, you must have a weapon held in your hand. Your parry percentage is calculated by a comparison of your weapon's defense, and your opponents skills and yours. In general, a rule of thumb is that your parry chance does not go above 90%, and that it is equal to your Weapon Defense at [PARRY_PER_WDEF_POINT]% a point, +/- [PARRY_PER_SKILL_LEVEL]% per level of difference in skill between you and your opponent.</p>
 
 		<p>Parrying a weapon costs you durability and sharpness, if applicable. A blunt weapon / shield costs you [INTEG_PARRY_DECAY_NOSHARP] flat integrity, whereas parrying with a sharp weapon costs you [INTEG_PARRY_DECAY] integrity and [SHARPNESS_ONHIT_DECAY] sharpness. A weapon held in your off-hand always pays the blunt rate of [INTEG_PARRY_DECAY_NOSHARP], sharp or not. This forces you to sharpen up and repair your weapon or switch it mid combat. Parrying also costs a moderate amount of stamina: [BASE_PARRY_STAMINA_DRAIN].</p>
 

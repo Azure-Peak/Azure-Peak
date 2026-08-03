@@ -148,9 +148,9 @@
 
 		<p>The groups are coarser than the aiming doll. The whole face counts as one, each arm counts with its hand, each leg with its own foot, and the chest, stomach and groin all count as the torso. The neck is alone. So guarding an arm will catch a swing at that hand, but guarding the left arm will never catch a swing at the right.</p>
 
-		<p>A bind demands a real weapon in both your hands and theirs - unarmed skill weapons cannot bind, you must be at least Journeyman skills with what you are holding. Bind is certain, except for torso vs torso, which binds rarely.</p>
+		<p>A bind demands a real weapon in both your hands and theirs - unarmed skill weapons cannot bind, and you must be at least Journeyman skill with what you are holding. Bind is certain, except for torso vs torso, which binds rarely.</p>
 
-		<p>Winning a bind improves your parrying for ten seconds, you recover a slice of stamina, and while it is in effect takes no integrity damage from parrying at all. Your attacker is staggered for a moment and their next swing is slowed.</p>
+		<p>Winning a bind improves your parrying for ten seconds, you recover a slice of stamina, and while it is in effect your weapon takes no integrity damage from parrying at all. Your attacker is staggered for a moment and their next swing is slowed.</p>
 
 		<p>Once a bind ends there is a [BIND_CD / 10] second wait before you can win another.</p>
 		</div>
@@ -163,6 +163,27 @@
 /datum/book_entry/combat_fighting/riposte/inner_book_html(mob/user)
 	return {"
 		<div>
+		<p>Riposte can also be accessed by the Guard Keybind, default <b>G</b>. This is highly useful when defending against an opponent.</p>
+
+		<p>A Riposte must be done in combat mode. It makes the next melee or magical projectile / spell that hits you deal no damage, and gives you a significant amount of stamina - enough to put you back to at least half a green bar however empty you were.</p>
+
+		<p>If it is done to a melee weapon, it will deplete your opponent's weapon durability and sharpness. If it is done to an unarmed attack, it will damage your opponent's hands. It will expose them for a devastating follow-up attack and slow them down. That exposure is short - three seconds - so the follow-up has to be ready before you take the blow, not thought about afterwards.</p>
+
+		<p>Both will give you a temporary boost in willpower and constitution, +1 of each for eighteen seconds, alongside a dulling of pain and a little blood back.</p>
+
+		<p>If it is done to a magical projectile, it will reflect it. If it is done to a magical spell that appears on the ground, it will generally reduce or remove its effects.</p>
+
+		<p>Riposting a spell successfully generally exposes and slows down the caster and renders them vulnerable. If it is a projectile spell, it is often reflected back in their direction, exempting beam like spells, which are simply blocked.</p>
+
+		<p>Riposting a Spell imposes a [BASE_RCLICK_CD * 0.5 / 10] second cooldown, whereas Melee imposes a longer [BASE_RCLICK_CD / 10] second cooldown.</p>
+
+		<p>Riposting lasts for six seconds, and can be broken by using it up or FEINTING you. Feinting someone RIPOSTING is guaranteed, and is one of its primary counters - though it costs the feinter a [(BASE_RCLICK_CD + 10 SECONDS) / 10] second cooldown to do it.</p>
+
+		<p>Attacking while Riposting will cost you a significant amount of stamina and cancel it. Specifically, striking someone who has no guard of their own while yours is up is treated as squandering it, and costs you [BAD_GUARD_FATIGUE_DRAIN]% of your green bar. Letting the guard simply expire costs the same. Jumping, kicking, being kicked, or firing a gun will all break it too.</p>
+
+		<p>Riposte can be canceled ahead of time by swapping your hand, straining you but leaving you with less room for your opponent to expose.</p>
+
+		<p>Two people who strike each other while both have a guard raised will Clash instead, which can disarm one or both of them dramatically.</p>
 		</div>
 	"}
 
@@ -173,6 +194,35 @@
 /datum/book_entry/combat_fighting/ranged/inner_book_html(mob/user)
 	return {"
 		<div>
+		<p>Ranged Weapons are split into three main families. Both bows and slings lean on Perception, which raises both their damage and their rate of fire at [round(RANGED_STAT_MULT * 100)]% per point up to [RANGED_STAT_SOFTCAP], and [round(RANGED_STAT_CAPPEDMULT * 100)]% per point beyond it.</p>
+
+		<h3>Bow</h3>
+		<p>Bows are rapid-firing, exhausting weapons that deal PIERCING damage. Bows are split into:</p>
+		<ul>
+			<li><b>Crude Selfbow</b>, generally inferior and not used on players.</li>
+			<li><b>Recurve Bow</b>, fast and the default bow.</li>
+			<li><b>Longbow</b>, requiring a minimum STR of 10 to wield effectively, each arrow dealing a significantly higher amount of damage in exchange for a lower ROF.</li>
+		</ul>
+
+		<p>The most common arrows are Broadhead Arrows, which deal a large amount of integrity and normal damage but cannot pierce most armor. Bodkin Arrows pierce through armor and can bleed an opponent out or inflict critical wounds through armor, but have a much lower base damage.</p>
+
+		<p>There are also special arrows available by crafting and using a Runic Flask.</p>
+
+		<p>Bows must be charged after nocking an arrow. You can nock an arrow quickly by left clicking a quiver. Charging for too long and not releasing will deplete your stamina rapidly.</p>
+
+		<h3>Crossbow</h3>
+		<p>Crossbows can be kept loaded on your back and then shot rapidly, and aim can be held indefinitely without issue. However, reloading a crossbow immobilizes you. Crossbows do not scale their damage to perception, unlike the other two weapons. Perception does however improve their accuracy and reload speed.</p>
+
+		<p>Crossbow Bolts pierce nearly all armor by default.</p>
+
+		<p>Bolts are carried in quivers. Unlike bows, they cannot be quick-loaded by clicking the quiver, you must manually RMB the quiver to take the bolt out then load it into the crossbow.</p>
+
+		<p>Variants include Slurbows, which are underpowered Crossbows that can be reloaded on the move, and Siegebows, which are devastating bows that are extremely awkward to load and use and are limited to certain classes.</p>
+
+		<h3>Slings</h3>
+		<p>Slings are a fast, cheap alternative to bow. Their projectiles inflict blunt damage, making them great against metallic armor but not so great against light armor.</p>
+
+		<p>Slings are compact, and can be used one handed unlike a bow - they load straight from the pouch even with your offhand full. Their sling bullet pouch carries 40 bullets as opposed to a quiver carrying 20 arrows. Their ammo is generally cheaper to come by, too.</p>
 		</div>
 	"}
 
@@ -183,5 +233,81 @@
 /datum/book_entry/combat_fighting/archetypes/inner_book_html(mob/user)
 	return {"
 		<div>
+		<p>Most of the above sections cover typical pure melee fighters (using weapons), also known as "Martials" in common parlance. Other archetypes also exist in combat that deviate in various ways.</p>
+
+		<h3>Unarmed</h3>
+		<p>To be expanded on later.</p>
+
+		<h3>Ranger</h3>
+		<p>Rangers are classes that have access to stats and can effectively use Ranged Weapons. Most Ranger classes are also competent fighters in melee.</p>
+
+		<h3>Spellcasters</h3>
+		<p>Spellcasters are the most common types of fighters that deviate from the norm, asides from ranged skirmishers. Spellcasters in this section refers in a broad sense to mechanical spell, not whether the spell is sourced from bardic, divine or arcyne source, which is an IC distinction.</p>
+
+		<p>A Spellcaster generally uses special abilities that are keyed to Alt-1 to Alt-9 hotkeys and can also be selected by left clicking. They are activated by middle-click. Some abilities need to be charged by middle click and then holding and then releasing them.</p>
+
+		<p>Abilities on the hotbar can be rearranged by activating Rearrangement Mode. This is done by Ctrl-Clicking one of the abilities there. This allow you to click and drag to reorganize the abilities, without risks of accidentally activating one of them</p>
+
+		<p>Non-Instant Spellcast in AP will show an indicator above the user's head, usually with the spell to forewarn the receivee of any spellcast. They will often have loud invocations and indications of the cast. Spellcasts usually cost some resources:</p>
+		<ul>
+			<li><b>Stamina</b> is the most common type of resource.</li>
+			<li><b>Energy</b> is used by certain spells that would otherwise drain the entire Stamina Bar.</li>
+			<li><b>Devotion</b> is used often on top of Stamina cost, for Miracles, spells of divine origin. Devotion is harder to regain and maintain mid combat than Stamina, usually.</li>
+			<li><b>Blood</b> is used by vampires exclusively for their own mechanics.</li>
+			<li>Other resources may exist or be added to at some point.</li>
+		</ul>
+
+		<p>Intelligence sharpens all of it. Every point above 10 takes [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off both the cooldown and the stamina cost of a spell, up to [SPELL_POSITIVE_SCALING_THRESHOLD], and every point below 10 adds the same back on.</p>
+
+		<h3>Mages</h3>
+		<p>Mages in AP operate under a Major-Minor-Utilities aspect system. They use their spellbook to pick what kind of Major Aspect they specialize in, which determines their offensive potential and some utilities.</p>
+
+		<p>Minor Aspects determine their defensive potential.</p>
+
+		<p>Utilities give out utilities spells.</p>
+
+		<p>Mages are generally slowed down by using their offensive spells and become more vulnerable to their parry / dodge being bypassed while charging up, and their spells can often be countered by a RIPOSTE that opens them up.</p>
+
+		<p>Most mages can only use light armor, and mages in general do not have access to any healing source. Wearing medium armor also costs any caster a [round(MEDIUM_ARMOR_CD_PENALTY * 100)]% penalty to their cooldowns.</p>
+
+		<p>In exchange, mages have great offensive potential and utilities that generally do not care about parry or dodging, being treated as ranged attack.</p>
+
+		<p>"Spell List" in the Encyclopedia lets you learn more about them.</p>
+
+		<h3>Bards</h3>
+		<p>Bards are a supportive role that can use their songs to support their allies that they choose in their audience.</p>
+
+		<p>Some of them are decent melee fighters, though they seldomly match a full on martial fighter in martial alone.</p>
+
+		<p>They also have Resonance / Resonating Strikes, which allows them to inflict some magic like effects on their opponents.</p>
+
+		<h3>Spellblades</h3>
+		<p>Spellblades are martial characters playing pretend to be a mage, or a mage playing pretend to be a martial, depending on your point of view.</p>
+
+		<p>Spellblades are known as Azurcaephan IC, and have a very limited set of restricted moves based on the specialization that they chose on the start of the week.</p>
+
+		<p>They generally start with less rare stats and worse armor than pure martial fighters, but are great in dueling scenarios. Their gameplay is much closer to a martial with fancy abilities than an archetypical mage fighting at range.</p>
+
+		<h3>Divine Casters</h3>
+		<p>Divine Casters are holy casters who have devoted themselves to one of the many gods in our settings.</p>
+
+		<p>They have access to Orison, small utilities spells, and Lesser Miracle, which heals a target including themselves.</p>
+
+		<p>Lesser Miracles are very useful for healing away small amount of wounds or stabilizing someone, but generally cannot reverse death or heal someone completely on its own. In that aspect, Surgery or Alchemical Healing is much better.</p>
+
+		<p>Based on the patrons you chose and the class, you will have access to different TIERS of miracles. Each tier is gated behind devotion - [CLERIC_REQ_1] for the first, [CLERIC_REQ_2] for the second, [CLERIC_REQ_3] for the third and [CLERIC_REQ_4] for the fourth. Miracles can be seen by clicking on the MIRACLES part of the Encyclopedia.</p>
+
+		<ul>
+			<li><b>T1</b> Miracles are usually not dramatically effective, and are granted to Adventuring Paladins and certain classes.</li>
+			<li><b>T2</b> Miracles are usually where the more effective miracles start to show up. They are granted to Church Templars and certain holy roles with town or with an antagonistic nature.</li>
+			<li><b>T3</b> Miracles are generally reserved for Acolytes or Missionary and full caster divine class, and are often the most effective part of the caster's toolkit.</li>
+			<li><b>T4</b> Miracles are rarely accessed except by Acolyte and certain Ascendant heretics.</li>
+		</ul>
+
+		<p>The DIVINE PANTHEON (The TENS) - the primary gods worshipped in this settings, offer a unique toolkit based on the god you selected as your PRIMARY (not your sole, Tennites are not monotheistic) patron.</p>
+
+		<p>The ASCENDANTS - the antagonistic gods that stand in opposition to the TENS, offer their own toolkit, often more powerful than the TENs, but always illegal to use in the open. You will bear all consequences including possible choosing to use it in Town or in front of people whose job is to root out heresies and heathens.</p>
+
+		<p>GENEISISM, also known as PSYDONISM, is belief in the one true ontologically good god that created the setting, and whose status is uncertain and may or may not be dead, and certainly inactive and non-intervening. Their miracles generally rely on sheer willpower, and leave the status of whether Psydon is alive or not in doubt due to the ambiguity of its effects.</p>
 		</div>
 	"}
