@@ -177,7 +177,7 @@
  */
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable
-	repair_fraction = 0.25 //25% per 6s of sewing, ~24s to full. Have to mend both layers seperately.
+	repair_fraction = 0.35 //35% per 7s of sewing, ~21s to full. Have to mend both layers seperately.
 	var/list/repair_items[] = list(
 		/obj/item/needle = 'sound/foley/sewflesh.ogg',
 		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
@@ -201,7 +201,7 @@
 	if(!repair_check(user, I))
 		return FALSE
 
-	if(!do_after(user, 6 SECONDS, target = src))
+	if(!do_after(user, 7 SECONDS, target = src))
 		return FALSE
 
 	armour_regen()
