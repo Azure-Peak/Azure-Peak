@@ -24848,6 +24848,19 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/druidsgrove)
+"eMj" = (
+/obj/structure/table/wood/poor,
+/obj/item/rogueweapon/huntingknife,
+/obj/item/needle{
+	pixel_x = -7;
+	pixel_y = 5
+	},
+/obj/item/storage/roguebag{
+	pixel_x = 8;
+	pixel_y = -5
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/abyssor/inner)
 "eMl" = (
 /obj/structure/fermentation_keg/random/beer,
 /turf/open/floor/rogue/tile,
@@ -101472,6 +101485,11 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/underdark/south)
+"sTI" = (
+/obj/machinery/light/rogue/hearth,
+/obj/item/reagent_containers/glass/bucket/pot,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/abyssor/inner)
 "sTK" = (
 /obj/structure/rack/rogue,
 /obj/item/quiver/bolt/standard,
@@ -144249,9 +144267,9 @@ qyl
 qyl
 qyl
 qyl
-oUV
-oUV
-oUV
+qyl
+qyl
+qyl
 oUV
 oUV
 bKF
@@ -144700,11 +144718,11 @@ oUV
 qyl
 eHu
 jgx
-qyl
-qyl
-oUV
-oUV
-oUV
+sTI
+sTI
+eMj
+uaS
+uaS
 oUV
 qyl
 qyl
@@ -145153,9 +145171,9 @@ uaS
 jgx
 dOH
 vEZ
-qyl
-uaS
-uaS
+vEZ
+vEZ
+ofp
 uaS
 uaS
 qyl
@@ -148774,7 +148792,7 @@ pdX
 pdX
 pdX
 vEZ
-ofp
+vEZ
 uaS
 vEZ
 qyl
