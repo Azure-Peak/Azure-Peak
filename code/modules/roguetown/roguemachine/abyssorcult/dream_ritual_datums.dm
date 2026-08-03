@@ -354,13 +354,7 @@
 /datum/abyssal_ritual/create_paintbrush/healing
 	name = "Create Sacred Paintbrush (Healing)"
 	desc = "Infuses a quarterstaff with restorative abyssal paints, creating a paintbrush that can mend wounds while still serving as a decent weapon."
-	base_channel_time = 80
 
-	required_ingredients = list(
-		/obj/item/rogueweapon/woodstaff/quarterstaff/steel = 1,
-		/obj/item/dream_material/dream_effigy = 1,
-		/obj/item/dream_material/dream_blade = 1
-	)
 	reward_items = list(
 		/obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal = 1
 	)
@@ -368,6 +362,24 @@
 		"#Abyssor's touch brings salvation.",
 		"#By the tide, let pain recede.",
 		"#Heal the broken, strengthen the faithful."
+	)
+
+/datum/abyssal_ritual/abyssal_scrolls
+	name = "Create Abyssal Tongue Scrolls"
+	desc = "Infuses some imagined parchment."
+	base_channel_time = 80
+
+	required_ingredients = list(
+		/obj/item/dream_material/parchment_raw = 3,
+		/obj/item/dream_material/dream_effigy = 1
+	)
+	reward_items = list(
+		/obj/item/dream_material/parchment_abyssal = 3
+	)
+	invocation_phases = list(
+		"#At the bottom lie hidden truths.",
+		"#The ancient tongue from the distant past.",
+		"#Remember the words, honor the words."
 	)
 
 #undef MOVESPEED_ID_WATERLOG_SLOW

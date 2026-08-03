@@ -210,3 +210,31 @@
 			existing_trail.refresh_lifetime(8 SECONDS)
 	else
 		new /obj/effect/ink_trail(T, howner)
+
+/obj/item/dream_material/parchment_abyssal
+	name = "abyssal parchment"
+	desc = "A piece of paper engraved with words that swirl rather than flow."
+	icon_state = "scroll"
+
+/obj/item/dream_material/parchment_abyssal/attack_self(mob/user)
+	. = ..()
+	if(.)
+		return TRUE
+
+	if(user && ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(!H.can_speak_in_language(/datum/language/abyssal))
+			to_chat(H, span_purple("You begin to study the scroll, it's almost as if the words engrave themselves onto your mind's eye."))
+			if(do_after(H, 8 SECONDS))
+				H.grant_language(/datum/language/abyssal)
+				to_chat(H, span_purple("As you study the abyssal script, the guttural tones of the Abyssal language suddenly make sense to you."))
+				visible_message(span_notice("[user] studies [src], their eyes glowing briefly as they absorb the knowledge of the scroll."))
+				qdel(src)
+			return TRUE
+		else
+			to_chat(H, span_warning("You already understand the abyssal text written upon [src]."))
+		return TRUE
+
+/obj/item/dream_material/parchment_abyssal/examine(mob/user)
+	. = ..()
+	. += span_purple("Using this item will decipher its ancient text, granting you knowledge of the Abyssal tongue.")
