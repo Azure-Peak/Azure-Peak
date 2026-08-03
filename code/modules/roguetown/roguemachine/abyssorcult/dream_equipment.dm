@@ -158,6 +158,14 @@
 	max_integrity = 275
 	special = /datum/special_intent/ground_smash/paint_line/healing
 
+/obj/effect/spawner/lootdrop/roguetown/random_paint_staff
+	icon_state = "cot"
+	loot = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint = 1,
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal = 1
+	)
+	lootcount = 1
+
 /datum/special_intent/ground_smash/paint_line
 	name = "Paint Wave"
 	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are offbalanced and slowed. Converts existing paint trails on hit into spiked traps."
