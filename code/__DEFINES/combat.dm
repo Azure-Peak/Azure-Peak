@@ -350,6 +350,10 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define UNARMED_DAMAGE_DEFAULT		15
 #define UNARMED_DAMAGE_CIVILBARB	5
 
+//Base weapon-defense for an unarmed parry. Multiplied by 10 to become a parry percentage.
+#define UNARMED_BASE_WDEF_BARE 2		// Bare fists — still bad, but not hopeless
+#define UNARMED_BASE_WDEF_EQUIPPED 8	// Bracers / knuckles / bandages — 80 base parry for expert pugilists
+
 /// Damage multiplier of silver weapons against mobs with TRAIT_SIMPLE_WOUNDS
 #define SILVER_SIMPLEMOB_DAM_MULT 3
 
@@ -470,6 +474,31 @@ Medical defines
 
 #define MAX_DODGE_CEIL 5
 #define MAX_DODGE_FLOOR -15
+#define DODGE_EXPERT_BASE_CAP 90	//What a Dodge Expert with SPD above 10 is hardset to, before max_dodge is added on top.
+
+/*
+	Melee Accuracy Defines. See resolve_aimed_zone() and melee_accuracy_check().
+*/
+#define ACC_MAJOR_ZONE_BONUS 10			//Aiming at a major limb rather than one of its precise subzones.
+#define ACC_FACE_SUBZONE_PENALTY 24		//Aiming at a face subzone on a player.
+#define ACC_PER_BONUS_PER_POINT 8		//Accuracy gained per PER above 10.
+#define ACC_PER_BONUS_CAP 40			//Ceiling on the PER bonus. Reached at PER 15.
+#define ACC_PER_PENALTY_PER_POINT 10	//Accuracy lost per PER below 10. Deliberately harsher than the bonus.
+#define ACC_SKILL_BONUS_PER_LEVEL 8		//Accuracy per level of the weapon's associated skill.
+#define ACC_STAB_BONUS 10
+#define ACC_PICK_BONUS 15
+#define ACC_CUT_BONUS 6
+#define ACC_BLUNT_PRECISE_PENALTY 10	//Blunt and smash aimed at a precise subzone. A mace can't hit the eyes very well.
+#define ACC_SHORT_WEAPON_BONUS 10		//SHORT weapons, and unarmed, aim better.
+#define ACC_AIMED_BONUS 20				//AIMED stance.
+#define ACC_SWIFT_PENALTY 20			//SWIFT stance.
+#define ACC_GRABBED_BONUS 10			//Target is held in a passive grab.
+#define ACC_AGGRESSIVE_GRAB_BONUS 20	//Target is held in an aggressive grab or better.
+#define ACC_PRONE_TARGET_BONUS 30		//Target is off their feet.
+#define ACC_OPENED_TARGET_BONUS 20		//Target is Exposed or Vulnerable.
+#define ACC_PRONE_ATTACKER_LEG_BONUS 5	//Attacking legs or feet while we are prone ourselves.
+#define ACC_MIN 5						//Accuracy is always clamped between these two.
+#define ACC_MAX 95
 
 // How long we can't use stealth & other misc. things for
 #define IN_COMBAT_DELAY 10 SECONDS

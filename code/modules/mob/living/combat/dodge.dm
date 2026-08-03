@@ -204,7 +204,7 @@
 				drained += 3	//We drain extra stam if we're being attacked by swift stance
 
 		if(has_trait && H.mind && !ignore_DE_bonus && H.STASPD > 10)
-			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
+			prob2defend = DODGE_EXPERT_BASE_CAP	//We cap it out if we have Dodge Expert as a Player.
 
 		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait && H.mind)
 			if(istype(mainh, /obj/item/rogueweapon/shield) || istype(offh, /obj/item/rogueweapon/shield))	//why do I have to pre-empt the worst of you

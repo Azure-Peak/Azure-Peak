@@ -4,7 +4,7 @@
 	icon = 'icons/mob/human_parts.dmi'
 	icon_state = "default_human_head"
 	slot_flags = ITEM_SLOT_HIP
-	max_damage = 200
+	max_damage = BODYPART_MAX_DAMAGE_LIMB
 	body_zone = BODY_ZONE_HEAD
 	body_part = HEAD
 	w_class = WEIGHT_CLASS_NORMAL //Quite a hefty load

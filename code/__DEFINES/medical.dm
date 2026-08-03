@@ -1,4 +1,8 @@
 //body damage zones
+// Baseline Health for body parts.
+#define BODYPART_MAX_DAMAGE_CHEST 300
+#define BODYPART_MAX_DAMAGE_LIMB 200	//Head, arms and legs all share this.
+
 #define BODY_ZONE_HEAD		"head"
 #define BODY_ZONE_CHEST		"chest"
 #define BODY_ZONE_L_ARM		"l_arm"
@@ -138,7 +142,7 @@
 #define WOUND_SEVERITY_BIOHAZARD 6
 
 /// Wound severity is determined by bleed rate (default)
-#define SEVERITY_TYPE_BLEED "bleed" 
+#define SEVERITY_TYPE_BLEED "bleed"
 /// Wound severity is determined by the wound's hp (alternative)
 #define SEVERITY_TYPE_WHP "whp"
 /// Wound severity is determined by how burnt the host limb is (burn_dam as a percent of max_damage)

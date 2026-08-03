@@ -181,9 +181,9 @@
 
 		<p>Parrying generally works better with weapons that are good at parrying and the user is skilled in, or with a shield.</p>
 
-		<p>Characters skilled in unarmed combat parry with their bracers instead if they have one and do not have a competing weapon in their hand with more than 0 WDefense. Knuckles and bandages serve the same purpose. The default parry chance is disastrously low at 20%, but it raises to 80% (Equal to a DEFENSE value of 8) if they are an Expert Pugilist. Your unarmed skill adds on top of both.</p>
+		<p>Characters skilled in unarmed combat parry with their bracers instead if they have one and do not have a competing weapon in their hand with more than 0 WDefense. Knuckles and bandages serve the same purpose. The default parry chance is disastrously low at [UNARMED_BASE_WDEF_BARE * 10]%, but it raises to [UNARMED_BASE_WDEF_EQUIPPED * 10]% (Equal to a DEFENSE value of [UNARMED_BASE_WDEF_EQUIPPED]) if they are an Expert Pugilist. Your unarmed skill adds on top of both.</p>
 
-		<p>Dodge costs more stamina, and compares your speed versus theirs. If you are a dodge expert, your dodge chance caps out at [90 + MAX_DODGE_CEIL]%. It lowers with each dodge, down as far as [90 + MAX_DODGE_FLOOR]%. Scoring hits will allow it to increase over time.</p>
+		<p>Dodge costs more stamina, and compares your speed versus theirs. If you are a dodge expert, your dodge chance caps out at [DODGE_EXPERT_BASE_CAP + MAX_DODGE_CEIL]%. It lowers with each dodge, down as far as [DODGE_EXPERT_BASE_CAP + MAX_DODGE_FLOOR]%. Scoring hits will allow it to increase over time.</p>
 
 		<p>Dodging works much better with classes that are built for it with Dodge Expert trait, and when there's a large difference of speed between you and your opponent. It also works well if you are wielding weapons that have very very poor defenses.</p>
 
@@ -218,11 +218,13 @@
 		</ul>
 
 		<h3>Accuracy</h3>
-		<p>Attacks aimed at the chest always hit the chest. Attacks aimed elsewhere must roll for accuracy, which depends on the type of attacks (Stab being the most precise at +10, Cut a bit less at +6, and Blunt taking a -10 penalty when aimed at a precise zone), your skills (Higher = More accurate, +8 per level), perception (Each adding a significant amount of accuracy up to 15 - +8 a point, to a ceiling of +40). Aiming at a major limb also improves accuracy by +10 while more precise zones are harder to aim for, especially on the face, which costs you -24 against another player.</p>
+		<p>Attacks aimed at the chest always hit the chest. Attacks aimed elsewhere must roll for accuracy, which depends on the type of attacks (Stab being the most precise at +[ACC_STAB_BONUS], Cut a bit less at +[ACC_CUT_BONUS], and Blunt taking a -[ACC_BLUNT_PRECISE_PENALTY] penalty when aimed at a precise zone), your skills (Higher = More accurate, +[ACC_SKILL_BONUS_PER_LEVEL] per level), perception (Each adding a significant amount of accuracy up to [RANGED_STAT_SOFTCAP] - +[ACC_PER_BONUS_PER_POINT] a point, to a ceiling of +[ACC_PER_BONUS_CAP]). Aiming at a major limb also improves accuracy by +[ACC_MAJOR_ZONE_BONUS] while more precise zones are harder to aim for, especially on the face, which costs you -[ACC_FACE_SUBZONE_PENALTY] against another player.</p>
 
-		<p>Perception below 10 hurts far more than it helps above it - every point under costs you -10 rather than gaining +8. The final chance is clamped between 5% and 95%.</p>
+		<p>Perception below 10 hurts far more than it helps above it - every point under costs you -[ACC_PER_PENALTY_PER_POINT] rather than gaining +[ACC_PER_BONUS_PER_POINT]. The final chance is clamped between [ACC_MIN]% and [ACC_MAX]%.</p>
 
-		<p>SHORT weapons also aim better, at +10.</p>
+		<p>A target you have knocked down is worth +[ACC_PRONE_TARGET_BONUS], one you have Exposed or made Vulnerable +[ACC_OPENED_TARGET_BONUS], and one held in an aggressive grab +[ACC_AGGRESSIVE_GRAB_BONUS].</p>
+
+		<p>SHORT weapons also aim better, at +[ACC_SHORT_WEAPON_BONUS].</p>
 		</div>
 	"}
 
@@ -248,7 +250,7 @@
 			<li><b>L / R Legs</b>: Leg + Feet (Each leg is an independent pool of its own).</li>
 		</ul>
 
-		<p>The torso is the toughest at 300, and the rest are the same in terms of HP at 200. Every limb scales with your Constitution - at CON 10 those are the numbers you get, and each point above or below moves them by a tenth.</p>
+		<p>The torso is the toughest at [BODYPART_MAX_DAMAGE_CHEST], and the rest are the same in terms of HP at [BODYPART_MAX_DAMAGE_LIMB]. Every limb scales with your Constitution. Each point above or below 10 moves them by 10%.</p>
 
 		<h3>Bleeding</h3>
 		<p>Most creatures and players bleed and can die from bleeding out and then the oxygen loss that results, though you should not refer to it as oxygen loss in an in character manner. As you lose blood, your stats are impaired until you are finally knocked out and must be helped by someone else to have a chance of survival.</p>
@@ -273,5 +275,65 @@
 /datum/book_entry/combat_common/armor/inner_book_html(mob/user)
 	return {"
 		<div>
+		<h3>Reading an Armor's Statistics</h3>
+		<p>You can view your Armor's statistics by shift clicking it and clicking on the (?). It will show its:</p>
+		<ul>
+			<li><b>Effectiveness</b> vs various damage types.</li>
+			<li><b>Coverage</b>: What parts it covers, self-explanatory.</li>
+			<li><b>Durability</b> (In terms of percentage and absolute value): Its effective HP number vs attacks.</li>
+			<li><b>Armor Class</b> (If any): See Below.</li>
+			<li><b>Movement Speed Cap</b>: Your SPD (Speed) stat scales up how fast you can move, but medium / heavy armor limits how much it can effectively contribute. Light Armor has no such restrictions.</li>
+		</ul>
+
+		<h3>Damage Types, Armor Effectiveness and Penetration</h3>
+		<p>Attacks can be classified by damage type and their effectiveness vs armor.</p>
+
+		<p>Nearly all damages can be classified into the following types:</p>
+
+		<h3>Absorb / Reduction Types</h3>
+		<p>This category contains two damage types, each with its own unique rules. Both are reduced by the armor's rating rather than being blocked outright - the multiplier is 1 / (1 + 0.2 x tier), so a tier [DR_MEDIUM] rating leaves [round(100 / (1 + (0.2 * DR_MEDIUM)))]% of the damage and the best light armor at tier [DR_ULTRA] leaves [round(100 / (1 + (0.2 * DR_ULTRA)))]%.</p>
+		<ul>
+			<li><b>Blunt</b>: Blunt Attacks tend to cause a lot of pain when they get through armor, and cause fractures that can disable the limbs. It is often aimed for on the head or chest for maximum effectiveness. As a rule of thumb, Blunt Attacks NEVER penetrate armor. They often come with devastating integrity modifier that makes them exceptionally effective vs metal armor - blunt carries a [BLUNT_DEFAULT_INT_DAMAGEFACTOR]x integrity multiplier by default. Blunt Attack is a damage reduction type of damage, and light armor in particular are very good at reducing the effective damage of blunt attack. Blunt attacks, uniquely, will also carry through a significant portion of their damage to underlaying armor layers (but not flesh) when attacking.</li>
+			<li><b>Burn</b>: Burn attacks tend to be exclusively used by magical spells and certain divine miracles. Its damage too, is effectively reduced by the armor's rating. It does not penetrate just like Blunt. However, it does not carry through its damage to underlaying layers like Blunt - it lands on a single layer instead. Worn metal armor absorbs fire even when it shows no fire rating at all. Burn wounds tend to cause decent amount of pain and bleeding and can be sewn shut.</li>
+		</ul>
+
+		<h3>Blocking Types</h3>
+		<p>Blocking types of damage do not suffer from damage reduction versus any kind of armor, and instead its damage is applied 1 to 1 to the armor itself. Its secondary property is Penetration, which determines if the attack goes through the armor and attacks the limbs behind it directly. Penetration below the armor's blocking tier is stopped dead, penetration equal to it lets a fraction through, and penetration above it passes fully.</p>
+		<ul>
+			<li><b>Slashing</b>: Slashing attacks tend to cause a lot of bleeding and cause artery critical wounds, which makes an opponent bleed out rapidly. They often come with weapons that can strike swiftly like swords, or hard like axe. Slashing attacks tend to not have the abilities to penetrate armor, but have a lot of raw damage.</li>
+			<li><b>Stabbing</b>: Stabbing attacks tend to be less deadly than attacks caused by slashing, but can cause bone fractures that disable the limbs. They often come with weapons that can stab through light or heavy armor like Daggers, Stabbing Swords and Polearms. Stabbing attacks tend to be effective versus light armor by causing punctures and bleed through it, in exchange for lower effectiveness versus cutting attacks.</li>
+			<li><b>Piercing</b>: Piercing is a variant of stabbing with its own armor value, used by arrows and certain spells. It causes puncture wounds that are like Stabbing, but live in a different armor track. Light Armor tends to be great against Piercing attacks.</li>
+		</ul>
+
+		<h3>Armor Class</h3>
+		<p>Armor is classified into four types of Armor Class. Armor Class currently only applies to Head, Armor, Shirt and Trousers (Pants) slot armor.</p>
+
+		<p>Wearing Armor you are not trained for will make you get knocked down when dodging and greatly reduce your parry chance. It also means you cannot run nor jump.</p>
+		<ul>
+			<li><b>NONE</b>: No armor is present.</li>
+			<li><b>LIGHT</b>: Light Armor. Everyone can wear them, it does not impair your mobility nor your abilities to dodge.</li>
+			<li><b>MEDIUM</b>: Medium Armor. It requires Medium Armor Training - also known as Maille Training IC. And generally protects better against penetrative wounds. It slows down your speed to [AC_MEDIUM_SPDCAP] SPD at max. Higher-end metal helmets can sometimes require Medium Armor Training.</li>
+			<li><b>HEAVY</b>: Heavy Armor. It requires Heavy Armor Training, also known as Plate Training IC. It generally has higher integrity than their medium counterpart and otherwise shares the same type of protection, being both metallic armor, but restricts your speed bonus to no more than [AC_HEAVY_SPDCAP] SPD. Plate Armor in specific tends to take a much longer time to take off and put on.</li>
+		</ul>
+
+		<h3>Repairing Armor</h3>
+		<p>Armor becomes damaged in time through combat and must be repaired to keep up protection. Broken armor still have some integrity left. If struck sufficiently while on the ground multiple time, it will be destroyed permanently. This is difficult to do.</p>
+
+		<p>To repair armor, you generally need to take them off, and put them on a table.</p>
+
+		<p>Light Armor is repaired by Sewing / Leatherworking, and is done by left clicking a needle on top of it. Light Armor requires less skills - and it is generally easier to learn in round in game to repair. Failing light armor repair will damage it and reset your progress until you acquire sufficient skills.</p>
+
+		<p>Metallic (Medium / Heavy) Armor (And Weapons) are repaired by Armorsmithing / Weaponsmithing, and repaired by a hammer. A basic stone hammer can be made from a small log (Gained from cutting down a tree and then chopping a large piece of log) and a stone (Found everywhere on the ground) in your crafting menu.</p>
+
+		<p>Non-crafting roles are generally limited to APPRENTICE level in the crafting skills used to repair armor. Skilled workers, or those with the appropriate Virtues can repair much quicker.</p>
+
+		<p>Skilless repair, especially metallic one, is extremely ineffective and slow, taking a long time to repair effectively.</p>
+
+		<h3>Sewing Kits, Scrap Kits and Armor Plates</h3>
+		<p>Sewing Kit, Scrap Kit / Armor Plates allow you to repair textile / metallic armor / weapons without having the skills effectively.</p>
+
+		<p>Sewing Kit can be used while standing, whereas Scrap Kit / Armor Plates must be used while the object of target is on a table. It allows you to repair effectively without the skills, while gaining proficiency in said skills. Eventually, you can gain enough to repair without the aid of a kit.</p>
+
+		<p>Repairing gears this way will deplete the durability of the kit. Once used up, they disappear and you must buy or craft a new one.</p>
 		</div>
 	"}
