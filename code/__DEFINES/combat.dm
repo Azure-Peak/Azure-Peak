@@ -321,6 +321,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define DAMAGE_PRECISION 0.1
 
 #define STRONG_STANCE_DMG_BONUS 0.15
+#define WEAK_STANCE_DMG_MULT 0.2
 #define STRONG_SHP_BONUS 3
 #define STRONG_INTG_BONUS 3
 

@@ -291,14 +291,14 @@
 		<p>Nearly all damages can be classified into the following types:</p>
 
 		<h3>Absorb / Reduction Types</h3>
-		<p>This category contains two damage types, each with its own unique rules. Both are reduced by the armor's rating rather than being blocked outright - the multiplier is 1 / (1 + 0.2 x tier), so a tier [DR_MEDIUM] rating leaves [round(100 / (1 + (0.2 * DR_MEDIUM)))]% of the damage and the best light armor at tier [DR_ULTRA] leaves [round(100 / (1 + (0.2 * DR_ULTRA)))]%.</p>
+		<p>This category contains two damage types, each with its own unique rules. If the zone has any armor on it at all, none of the damage reaches your HP. The armor's rating decides how much integrity the armor loses instead, at a multiplier of 1 / (1 + 0.2 x tier), so a tier [DR_MEDIUM] rating leaves [round(100 / (1 + (0.2 * DR_MEDIUM)))]% of it and the best light armor at tier [DR_ULTRA] leaves [round(100 / (1 + (0.2 * DR_ULTRA)))]%.</p>
 		<ul>
 			<li><b>Blunt</b>: Blunt Attacks tend to cause a lot of pain when they get through armor, and cause fractures that can disable the limbs. It is often aimed for on the head or chest for maximum effectiveness. As a rule of thumb, Blunt Attacks NEVER penetrate armor. They often come with devastating integrity modifier that makes them exceptionally effective vs metal armor - blunt carries a [BLUNT_DEFAULT_INT_DAMAGEFACTOR]x integrity multiplier by default. Blunt Attack is a damage reduction type of damage, and light armor in particular are very good at reducing the effective damage of blunt attack. Blunt attacks, uniquely, will also carry through a significant portion of their damage to underlaying armor layers (but not flesh) when attacking.</li>
 			<li><b>Burn</b>: Burn attacks tend to be exclusively used by magical spells and certain divine miracles. Its damage too, is effectively reduced by the armor's rating. It does not penetrate just like Blunt. However, it does not carry through its damage to underlaying layers like Blunt - it lands on a single layer instead. Worn metal armor absorbs fire even when it shows no fire rating at all. Burn wounds tend to cause decent amount of pain and bleeding and can be sewn shut.</li>
 		</ul>
 
 		<h3>Blocking Types</h3>
-		<p>Blocking types of damage do not suffer from damage reduction versus any kind of armor, and instead its damage is applied 1 to 1 to the armor itself. Its secondary property is Penetration, which determines if the attack goes through the armor and attacks the limbs behind it directly. Penetration below the armor's blocking tier is stopped dead, penetration equal to it lets a fraction through, and penetration above it passes fully.</p>
+		<p>Blocking types of damage do not suffer from damage reduction versus any kind of armor, and instead its damage is applied 1 to 1 to the armor itself. Its secondary property is Penetration, which determines if the attack goes through the armor and attacks the limbs behind it directly. Penetration below the armor's blocking tier is stopped dead. Penetration at or above it gets damage through, scaled by how many pips of advantage you have at [round(PEN_PASSTHROUGH_RATIO * 100)]% each, up to [PEN_PASSTHROUGH_CAP] pips - so [round(PEN_PASSTHROUGH_RATIO * PEN_PASSTHROUGH_CAP * 100)]% through at the very most, never all of it.</p>
 		<ul>
 			<li><b>Slashing</b>: Slashing attacks tend to cause a lot of bleeding and cause artery critical wounds, which makes an opponent bleed out rapidly. They often come with weapons that can strike swiftly like swords, or hard like axe. Slashing attacks tend to not have the abilities to penetrate armor, but have a lot of raw damage.</li>
 			<li><b>Stabbing</b>: Stabbing attacks tend to be less deadly than attacks caused by slashing, but can cause bone fractures that disable the limbs. They often come with weapons that can stab through light or heavy armor like Daggers, Stabbing Swords and Polearms. Stabbing attacks tend to be effective versus light armor by causing punctures and bleed through it, in exchange for lower effectiveness versus cutting attacks.</li>
@@ -420,9 +420,9 @@
 	return {"
 		<div>
 		<h3>Exposure and Vulnerability</h3>
-		<p>The Vulnerable status, represented by a grey shattered shield on top of someone, means they are unable to parry or dodge the next attack and it has a small multiplier to their damage - [VULN_INTEG_MOD]x plus a flat [VULN_INTEG_FLAT] against whatever armor covers the zone.</p>
+		<p>The Vulnerable status, represented by a grey shattered shield on top of someone, means they are unable to parry or dodge the next attack and it has a small multiplier to their damage - [VULN_INTEG_MOD]x against whatever armor covers the zone.</p>
 
-		<p>The Exposed status, represented by a red shattered shield, means they are unable to parry or dodge the next attack and it will add a devastating multiplier to the damage of the attack - [EXPOSED_INTEG_MOD]x plus a flat [EXPOSED_INTEG_FLAT].</p>
+		<p>The Exposed status, represented by a red shattered shield, means they are unable to parry or dodge the next attack and it will add a devastating multiplier to the damage of the attack - [EXPOSED_INTEG_MOD]x.</p>
 
 		<p>Both multipliers land on armor integrity. Both also make you easier to hit by +[ACC_OPENED_TARGET_BONUS] accuracy, and both last ten seconds if nobody spends them sooner. Certain sources will make them last less.</p>
 
@@ -431,10 +431,10 @@
 
 		<p>Most stances have an attached RMB mechanic.</p>
 		<ul>
-			<li><b>WEAK</b>: -1 Strength to your attack, will never critically hit. Right Click in this stance will attempt to steal from a target. Also used for attempting surgery outside of Combat Mode.</li>
+			<li><b>WEAK</b>: Your attack lands for only [round(WEAK_STANCE_DMG_MULT * 100)]% of its usual damage, and will never critically hit or dismember. Right Click in this stance will attempt to steal from a target. Also used for attempting surgery outside of Combat Mode.</li>
 			<li><b>DEFEND</b>: Removes the delay between dodge / parry. RMB when not grabbing anything and holding a weapon allows you to RIPOSTE, which has a chapter of its own.</li>
 			<li><b>SWIFT</b>: Makes your attack [round((1 - CLICK_CD_MOD_SWIFT) * 100)]% faster, but also much less accurate at -[ACC_SWIFT_PENALTY]. It also exhausts you and depletes your stamina on attack, by an extra [EXTRA_STAMDRAIN_SWIFSTRONG].</li>
-			<li><b>STRONG</b>: Makes your attack stronger and costs them more sharpness and integrity to defend against - [STRONG_SHP_BONUS] more sharpness and [STRONG_INTG_BONUS] more integrity on every parry they make - at the cost of the same extra [EXTRA_STAMDRAIN_SWIFSTRONG] stamina. It also carries +1 Strength that ignores the usual limits, and crits more readily with brutal attacks.</li>
+			<li><b>STRONG</b>: Makes your attack stronger and costs them more sharpness and integrity to defend against - [STRONG_SHP_BONUS] more sharpness and [STRONG_INTG_BONUS] more integrity on every parry they make - at the cost of the same extra [EXTRA_STAMDRAIN_SWIFSTRONG] stamina. Your attack deals +[round(STRONG_STANCE_DMG_BONUS * 100)]% damage, and crits more readily with brutal attacks.</li>
 			<li><b>AIMED</b>: Makes your attack [round((CLICK_CD_MOD_AIMED - 1) * 100)]% slower but improves the accuracy of your attacks significantly, by +[ACC_AIMED_BONUS]. RMB allows you to BAIT an opponent.</li>
 			<li><b>FEINT</b>: Allows you to feint your opponent, which calculates your intelligence and skills versus theirs, and potentially allows you to open them up for a single vulnerable / exposed attack.</li>
 		</ul>
@@ -481,13 +481,15 @@
 		<h3>Binds</h3>
 		<p>When you parry a weapon blow, the game checks the zone you are aiming at against the zone they swung for. If the two belong to the same group, your weapons bind.</p>
 
-		<p>The groups are coarser than the aiming doll. The whole face counts as one, each arm counts with its hand, each leg with its own foot, and the chest, stomach and groin all count as the torso. The neck is alone. So guarding an arm will catch a swing at that hand, but guarding the left arm will never catch a swing at the right.</p>
+		<p>Your guard zone is grouped, but their swing is not. Guarding an arm or its hand catches a swing at that hand. Guarding a leg or its foot catches a swing at that foot. Guarding the chest, stomach or groin catches a swing at the stomach or groin. Guarding the head or any face zone catches a swing at a face zone. The neck is alone. Guarding the left arm will never catch a swing at the right.</p>
 
-		<p>A bind demands a real weapon in your hands and theirs - unarmed skill weapons cannot bind, and you must have at least Journeyman skill with what you are holding. Bind is certain, except for torso vs torso, which binds rarely.</p>
+		<p>Note that the attacker has to be aiming at a precise zone for any of this to fire. A swing at the plain chest, arm, leg or head binds nothing, so chest against chest never binds at all.</p>
+
+		<p>A bind demands a real weapon in your hands and theirs - unarmed skill weapons cannot bind, and you must have at least Journeyman skill with what you are holding. Meeting all that, the bind is certain.</p>
 
 		<p>Winning a bind improves your parrying for ten seconds, you recover a slice of stamina, and while it is in effect your weapon takes no integrity damage from parrying at all. Your attacker is staggered for a moment and their next swing is slowed.</p>
 
-		<p>Once a bind ends there is a [BIND_CD / 10] second wait before you can win another.</p>
+		<p>The [BIND_CD / 10] second cooldown starts when the bind starts, not when it ends, so in practice you wait about five seconds after one drops before you can win another.</p>
 		</div>
 	"}
 
@@ -514,7 +516,7 @@
 
 		<p>Riposting lasts for six seconds, and can be broken by using it up or FEINTING you. Feinting someone RIPOSTING is guaranteed, and is one of its primary counters - though it costs the feinter a [(BASE_RCLICK_CD + 10 SECONDS) / 10] second cooldown to do it.</p>
 
-		<p>Attacking while Riposting will cost you a significant amount of stamina and cancel it. Specifically, striking someone who has no guard of their own while yours is up is treated as squandering it, and costs you [BAD_GUARD_FATIGUE_DRAIN]% of your green bar. Letting the guard simply expire costs the same. Jumping, kicking, being kicked, or firing a gun will all break it too.</p>
+		<p>Attacking while Riposting will cost you a significant amount of stamina and cancel it. Specifically, striking someone who has no guard of their own while yours is up is treated as squandering it, and costs you [BAD_GUARD_FATIGUE_DRAIN]% of your green bar. Jumping, kicking, being kicked, or shooting a ranged weapon  will all break it too. Letting it simply expire costs you nothing but the cooldown.</p>
 
 		<p>Riposte can be canceled ahead of time by swapping your hand, straining you but leaving you with less room for your opponent to expose.</p>
 
@@ -529,7 +531,7 @@
 /datum/book_entry/combat/ranged/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>Ranged Weapons are split into three main families. Both bows and slings lean on Perception, which raises both their damage and their rate of fire at [round(RANGED_STAT_MULT * 100)]% per point up to [RANGED_STAT_SOFTCAP], and [round(RANGED_STAT_CAPPEDMULT * 100)]% per point beyond it.</p>
+		<p>Ranged Weapons are split into three main families. Both bows and slings lean on Perception, which raises their damage at [round(RANGED_STAT_MULT * 100)]% per point up to [RANGED_STAT_SOFTCAP], and [round(RANGED_STAT_CAPPEDMULT * 100)]% per point beyond it. Perception also cuts their draw time, though that is a flat reduction with no softcap on it.</p>
 
 		<h3>Bow</h3>
 		<p>Bows are rapid-firing, exhausting weapons that deal PIERCING damage. Bows are split into:</p>
@@ -592,7 +594,7 @@
 			<li>Other resources may exist or be added to at some point.</li>
 		</ul>
 
-		<p>Intelligence sharpens all of it. Every point above 10 takes [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off both the cooldown and the stamina cost of a spell, up to [SPELL_POSITIVE_SCALING_THRESHOLD], and every point below 10 adds the same back on.</p>
+		<p>Intelligence improves  arcyne casting. Every point above 10 takes [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off both the cooldown and the stamina cost of a spell, up to [SPELL_POSITIVE_SCALING_THRESHOLD], and every point below 10 adds the same back on. Miracles are the exception - they do not scale with any stat, so a low INT cleric is not punished for it.</p>
 
 		<h3>Mages</h3>
 		<p>Mages in AP operate under a Major-Minor-Utilities aspect system. They use their spellbook to pick what kind of Major Aspect they specialize in, which determines their offensive potential and some utilities.</p>
@@ -603,7 +605,7 @@
 
 		<p>Mages are generally slowed down by using their offensive spells and become more vulnerable to their parry / dodge being bypassed while charging up, and their spells can often be countered by a RIPOSTE that opens them up.</p>
 
-		<p>Most mages can only use light armor, and mages in general do not have access to any healing source. Wearing medium armor also costs any caster a [round(MEDIUM_ARMOR_CD_PENALTY * 100)]% penalty to their cooldowns.</p>
+		<p>Most mages can only use light armor, and mages in general do not have access to any healing source. Wearing armor you are not trained for costs a caster a [round(UNTRAINED_ARMOR_CD_PENALTY * 100)]% penalty to their cooldowns and stamina cost. A caster who does have the training pays only [round(MEDIUM_ARMOR_CD_PENALTY * 100)]%, and [round(HEAVY_ARMOR_CD_PENALTY * 100)]% for heavy armor, in the rarer case of heavy armor wearing casters.</p>
 
 		<p>In exchange, mages have great offensive potential and utilities that generally do not care about parry or dodging, being treated as ranged attack.</p>
 
