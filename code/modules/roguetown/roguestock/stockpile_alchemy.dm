@@ -16,6 +16,15 @@
 	stockpile_limit = 20
 	category = "Alchemy"
 
+/datum/roguestock/stockpile/tailbone
+	name = "Tail Bones"
+	desc = "Bones from a creacher's tail, commonly ground into a dust for alchemy or fertilizer."
+	item_type = /obj/item/alch/bone
+	trade_good_id = TRADE_GOOD_TAIL_BONE
+	importexport_amt = 5
+	stockpile_limit = 20
+	category = "Alchemy"
+
 /datum/roguestock/stockpile/calendula
 	name = "Calendula"
 	desc = "Golden marigold flowers prized by apothecaries for healing salves."

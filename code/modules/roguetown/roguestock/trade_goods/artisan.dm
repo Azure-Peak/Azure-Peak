@@ -48,6 +48,6 @@
 	name = "Tail Bone"
 	category = TRADE_CATEGORY_ARTISAN
 	behavior = TRADE_BEHAVIOR_RAW
-	base_price = SELLPRICE_DENDOR_ESSENCE
+	base_price = SELLPRICE_TAIL_BONE
 	source_region_id = TRADE_REGION_BLACKHOLT
 	item_type = /obj/item/alch/bone
