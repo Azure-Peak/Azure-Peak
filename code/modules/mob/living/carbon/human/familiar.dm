@@ -102,6 +102,9 @@
 		verb_say = pick(speak_emote)
 	. = ..()
 
+/mob/living/carbon/human/species/familiar/has_extractable_lux()
+	return FALSE
+
 /datum/species/familiar
 	name = "base familiar"
 	id = "familiar"
