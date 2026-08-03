@@ -62,6 +62,14 @@
 		return EVENT_CANT_RUN
 	return ..()
 
+// override that includes removal of targeted & hunted individuals. i have 0 clue if this'll work nor how to test it.
+/datum/round_event_control/antagonist/solo/assassins/trim_candidates(list/candidates)
+	candidates = ..()
+	for(var/mob/living/candidate in candidates)
+		if(candidate.has_flaw(/datum/charflaw/targeted) || candidate.has_flaw(/datum/charflaw/hunted))
+			candidates -= candidate
+	return candidates
+
 /datum/round_event/antagonist/solo/assassins/start()
 	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
 	assassin_job.total_positions = length(setup_minds)
