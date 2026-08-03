@@ -14,6 +14,7 @@
 			<li><b>Shift Click</b> to examine an object or person. Clicking a (?) or opening a "Mechanics" link tends to give more explanation.</li>
 			<li><b>Right Clicking</b> someone with an object in hand OFFERS it to them. Doing it while sneaking will offer it stealthily. Combat Mode (see below) ensures you do not offer it by accident and use your stance's right click (More in the stances and special section).</li>
 			<li><b>Holding Right Click</b> lets you turn around in place to where you are looking at, unless it is done to an object that has a specific right click override.</li>
+			<li><b>Click Dragging</b> someone from their sprite onto your own opens their equipment, letting you strip items off them or put items onto them.</li>
 			<li>Pressing <b>F</b> turns you into "Locked Eyes" mode, locking your character to face the direction you are facing instead of turning fluidly to face where you are moving. Moving in a direction you are not facing slows you down. This can be tactically toggled on and off by advanced players to ensure they are facing their enemy.</li>
 			<li><b>Z</b> drops an item, and can be used to release a Grab too.</li>
 			<li><b>Q</b> and <b>E</b> swap between your left and right hand.</li>
@@ -84,7 +85,7 @@
 
 		<p>Sleeping every night gives you Dream Points, which can be used to purchase and level up skills in round that will reset at the end of a round. What skills are rolled and available to level up during sleep depends on RNG - with most crafting skills being able to be randomly leveled up to Journeyman this way. Some (mostly crafting) skills are gated entirely beyond virtue and can only be leveled up to Journeyman and none beyond this way.</p>
 
-		<p>Training certain skills in round beyond Apprentice will "bank" those XP up to 2 levels above, requiring you to spend dream points to unlock it. High intelligence increases your dream points - each point of INT is worth [DREAM_DUST_PER_INT] dream dust on top of the [BASE_DREAM_DUST] you get for sleeping at all, and every [BASE_DREAM_DUST] dust is one Dream Point.</p>
+		<p>Training certain skills in round beyond Apprentice will "bank" those XP up to 2 levels above, requiring you to spend dream points to unlock it. A night's rest gives dream points. Being intelligent, and being in a good mood yields more dream points.</p>
 
 		<p>Dream Points that are not used are banked for the next night, and so is any leftover dust that did not round up into a whole point. Sleeping is not necessary mechanically for most people except for healing or skilling up.</p>
 		</div>
@@ -103,10 +104,10 @@
 
 		<ul>
 			<li><b>STR</b>: Improves the damage you deal on your weapon, and the effectiveness of your penetrative attacks on strength scaling weapon. Softcaps at [STRENGTH_SOFTCAP] - every point up to it is worth [round(STRENGTH_MULT * 100)]% damage, every point past it only [round(STRENGTH_CAPPEDMULT * 100)]%.</li>
-			<li><b>PER</b>: Improves the damage you deal with scaling ranged weapon like Bow or Slings, improves your ROF with these weapons. And increases your chance of hitting a precise bodypart significantly. Softcaps at [RANGED_STAT_SOFTCAP], at [round(RANGED_STAT_MULT * 100)]% per point up to it and [round(RANGED_STAT_CAPPEDMULT * 100)]% past it.</li>
-			<li><b>INT</b>: Improves the chance of your FEINTING or not being FEINTED. Also useful for Mages in particular for reducing the cooldown and stamina cost of their spells - [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off each per point above [SPELL_SCALING_THRESHOLD], no longer improving past [SPELL_POSITIVE_SCALING_THRESHOLD]. Below [SPELL_SCALING_THRESHOLD], it scales iinto the negative.</li>
+			<li><b>PER</b>: Improves the damage you deal with scaling ranged weapon like Bow or Slings, improves your ROF with these weapons. And increases your chance of hitting a precise bodypart significantly. Like STR, it pays well up to its softcap at [RANGED_STAT_SOFTCAP] and much less after.</li>
+			<li><b>INT</b>: Improves the chance of your FEINTING or not being FEINTED. Also useful for Mages in particular for reducing the cooldown and stamina cost of their spells - [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off each per point above [SPELL_SCALING_THRESHOLD], no longer improving past [SPELL_POSITIVE_SCALING_THRESHOLD]. Below [SPELL_SCALING_THRESHOLD], it scales into the negative.</li>
 			<li><b>CON</b>: Increases the effective HP of your limbs and makes them harder to disable or score a critical wound on.</li>
-			<li><b>WIL</b>: Increases your Energy and Stamina pool, and also increases your pain tolerance. Stamina starts at [WILLPOWER_STARTING_STAMINA] and moves [WILLPOWER_MODIFIER] for every point above or below 10.</li>
+			<li><b>WIL</b>: Increases your Energy and Stamina pool, and also increases your pain tolerance. Every point above or below average widens or narrows those pools appreciably.</li>
 			<li><b>SPD</b>: Increases your Movement speed, and also makes SWIFT balance weapon more effective.</li>
 			<li><b>FOR</b>: Increases your chance of scoring critical wounds once the limb is sufficiently damaged. Positive effects are small, but it has a devastating effect when in the negative and causes you to miss a large proportion of your attack.</li>
 		</ul>
@@ -177,15 +178,15 @@
 
 		<p>To parry, you must have a weapon held in your hand. Your parry percentage is calculated by a comparison of your weapon's defense, and your opponents skills and yours. In general, a rule of thumb is that your parry chance does not go above 90%, and that it is equal to your Weapon Defense at [PARRY_PER_WDEF_POINT]% a point, +/- [PARRY_PER_SKILL_LEVEL]% per level of difference in skill between you and your opponent.</p>
 
-		<p>Parrying a weapon costs you durability and sharpness, if applicable. A blunt weapon / shield costs you [INTEG_PARRY_DECAY_NOSHARP] flat integrity, whereas parrying with a sharp weapon costs you [INTEG_PARRY_DECAY] integrity and [SHARPNESS_ONHIT_DECAY] sharpness. A weapon held in your off-hand always pays the blunt rate of [INTEG_PARRY_DECAY_NOSHARP], sharp or not. This forces you to sharpen up and repair your weapon or switch it mid combat. Parrying also costs a moderate amount of stamina: [BASE_PARRY_STAMINA_DRAIN].</p>
+		<p>Parrying a weapon costs you durability and sharpness, if applicable. A blunt weapon / shield costs you [INTEG_PARRY_DECAY_NOSHARP] flat integrity, whereas parrying with a sharp weapon costs you [INTEG_PARRY_DECAY] integrity and [SHARPNESS_ONHIT_DECAY] sharpness. A weapon held in your off-hand always pays the blunt rate of [INTEG_PARRY_DECAY_NOSHARP], sharp or not. This forces you to sharpen up and repair your weapon or switch it mid combat. Parrying also costs a moderate amount of stamina.</p>
 
 		<p>Parrying generally works better with weapons that are good at parrying and the user is skilled in, or with a shield.</p>
 
-		<p>Characters skilled in unarmed combat parry with their bracers instead if they have one and do not have a competing weapon in their hand with more than 0 WDefense. Knuckles and bandages serve the same purpose. The default parry chance is disastrously low at [UNARMED_BASE_WDEF_BARE * 10]%, but it raises to [UNARMED_BASE_WDEF_EQUIPPED * 10]% (Equal to a DEFENSE value of [UNARMED_BASE_WDEF_EQUIPPED]) if they are an Expert Pugilist. Your unarmed skill adds on top of both.</p>
+		<p>Characters skilled in unarmed combat parry with their bracers instead if they have one and do not have a competing weapon in their hand with more than 0 WDefense. Knuckles and bandages serve the same purpose. Bare Fists make for extremely poor defense, unless they are an Expert Pugilist with a bracers, in which case they can parry as well as a decent weapon. Bare Your unarmed skill adds on top of both.</p>
 
-		<p>Dodge costs more stamina, and compares your speed versus theirs. If you are a dodge expert, your dodge chance starts at [DODGE_EXPERT_BASE_CAP + MAX_DODGE_START]% and lowers with each dodge, down as far as [DODGE_EXPERT_BASE_CAP + MAX_DODGE_FLOOR]%. Scoring hits will allow it to increase over time, up to a ceiling of [DODGE_EXPERT_BASE_CAP + MAX_DODGE_CEIL]%.</p>
+		<p>Dodge costs more stamina, and compares your speed versus theirs. A dodge expert begins a fight very hard to touch, but every dodge you make wears that down, and a long exchange will drag it well below where it started. Landing hits of your own builds it back up over time, a little past its opening value at best.</p>
 
-		<p>Taking a wound also gives back some dodge percentage, up to [DODGE_EXPERT_BASE_CAP + MAX_DODGE_CLAMP]%. Being Exposed or Vulnerable when it lands won't give you anything.</p>
+		<p>Taking a wound also refunds some dodge, though never quite back to full. Being Exposed or Vulnerable when it lands won't give you anything.</p>
 
 		<p>If your opponent is faster than you, every point of SPD they have on you costs you extra stamina - unless the weapon in your own hands is HEAVY balanced, which exempts you from it entirely. Being outskilled costs you on top of that, and an opponent in SWIFT stance drains you hardest while your dodge is freshest, tapering to nothing once you have built up some dodge cooldown. So a fast, skilled attacker in SWIFT can wear a dodger down even while missing.</p>
 
@@ -224,13 +225,13 @@
 		</ul>
 
 		<h3>Accuracy</h3>
-		<p>Attacks aimed at the chest always hit the chest. Attacks aimed elsewhere must roll for accuracy, which depends on the type of attacks (Stab being the most precise at +[ACC_STAB_BONUS], Cut a bit less at +[ACC_CUT_BONUS], and Blunt taking a -[ACC_BLUNT_PRECISE_PENALTY] penalty when aimed at a precise zone), your skills (Higher = More accurate, +[ACC_SKILL_BONUS_PER_LEVEL] per level), perception (Each adding a significant amount of accuracy up to [RANGED_STAT_SOFTCAP] - +[ACC_PER_BONUS_PER_POINT] a point, to a ceiling of +[ACC_PER_BONUS_CAP]). Aiming at a major limb also improves accuracy by +[ACC_MAJOR_ZONE_BONUS] while more precise zones are harder to aim for, especially on the face, which costs you -[ACC_FACE_SUBZONE_PENALTY] against another player.</p>
+		<p>Attacks aimed at the chest always hit the chest. Attacks aimed elsewhere must roll for accuracy. A Stab has the most accuracy, a Cut is slightly less reliable, and Blunt attacks do not benefit at all. Skill increases accuracy at +[ACC_SKILL_BONUS_PER_LEVEL] per level, and Perception above 10 matters as much as skills until it goes past [RANGED_STAT_SOFTCAP]. Perception below 10 will lower your hit rate significantly.</p>
 
-		<p>Perception below 10 hurts far more than it helps above it - every point under costs you -[ACC_PER_PENALTY_PER_POINT] rather than gaining +[ACC_PER_BONUS_PER_POINT]. The final chance is clamped between [ACC_MIN]% and [ACC_MAX]%.</p>
+		<p>The zone matters as much as the blow. Aiming for a whole limb, like a head or leg or arm, will always be easier to hit the subzone. Picking out parts of someone's face is the hardest target of all.</p>
 
-		<p>A target you have knocked down is worth +[ACC_PRONE_TARGET_BONUS], one you have Exposed or made Vulnerable +[ACC_OPENED_TARGET_BONUS], and one held in an aggressive grab +[ACC_AGGRESSIVE_GRAB_BONUS].</p>
+		<p>No matter how good or bad your aim is, its effects are clamped</p>
 
-		<p>SHORT weapons also aim better, at +[ACC_SHORT_WEAPON_BONUS].</p>
+		<p>A target you have Exposed, made Vulnerable, or held in an aggressive grab is far easier to strike precisely. Someone off their feet is easier to aim at, too. SHORT weapons also aim better, at +[ACC_SHORT_WEAPON_BONUS].</p>
 		</div>
 	"}
 
@@ -246,7 +247,7 @@
 
 		<p>Certain armor piercing weapons can cause critical wounds if the limb behind it is sufficiently damaged.</p>
 
-		<p>Once it crosses a certain threshold - [round(CRIT_DISMEMBER_DAMAGE_THRESHOLD * 100)]% of that limb's HP - critical wounds will start rolling, which can be highly crippling and end the fight. Most body parts have unique critical wounds dependent on the damage types that attacked you and the part itself.</p>
+		<p>Once a limb has taken enough punishment, critical wounds will start rolling on it, which can be highly crippling and end the fight. Most body parts have unique critical wounds dependent on the damage types that attacked you and the part itself.</p>
 
 		<p>The body is split into organs / limbs that share HP with each other, each having numerous subzones:</p>
 		<ul>
@@ -256,7 +257,7 @@
 			<li><b>L / R Legs</b>: Leg + Feet (Each leg is an independent pool of its own).</li>
 		</ul>
 
-		<p>The torso is the toughest at [BODYPART_MAX_DAMAGE_CHEST], and the rest are the same in terms of HP at [BODYPART_MAX_DAMAGE_LIMB]. Every limb scales with your Constitution. Each point above or below 10 moves them by 10%.</p>
+		<p>The torso the toughest body part to aim at, and remaining limbs and heads are of the same toughness. Their health scales with your Constitution, and high Constitution characters will survive markably longer after their armor is broken.</p>
 
 		<h3>Bleeding</h3>
 		<p>Most creatures and players bleed and can die from bleeding out and then the oxygen loss that results, though you should not refer to it as oxygen loss in an in character manner. As you lose blood, your stats are impaired until you are finally knocked out and must be helped by someone else to have a chance of survival.</p>
@@ -297,14 +298,14 @@
 		<p>Nearly all damages can be classified into the following types:</p>
 
 		<h3>Absorb / Reduction Types</h3>
-		<p>This category contains two damage types, each with its own unique rules. If the zone has any armor on it at all, none of the damage reaches your HP. The armor's rating decides how much integrity the armor loses instead, at a multiplier of 1 / (1 + 0.2 x tier), so a tier [DR_MEDIUM] rating leaves [round(100 / (1 + (0.2 * DR_MEDIUM)))]% of it and the best light armor at tier [DR_ULTRA] leaves [round(100 / (1 + (0.2 * DR_ULTRA)))]%.</p>
+		<p>This category contains two damage types, each with its own unique rules. If the zone has any armor on it at all, none of the damage reaches your HP. The armor's rating decides how much integrity the armor loses instead - the better the rating, the smaller the actual damage that the armor takes. No rating will completely prevent damage.</p>
 		<ul>
-			<li><b>Blunt</b>: Blunt Attacks tend to cause a lot of pain when they get through armor, and cause fractures that can disable the limbs. It is often aimed for on the head or chest for maximum effectiveness. As a rule of thumb, Blunt Attacks NEVER penetrate armor. They often come with devastating integrity modifier that makes them exceptionally effective vs metal armor - blunt carries a [BLUNT_DEFAULT_INT_DAMAGEFACTOR]x integrity multiplier by default. Blunt Attack is a damage reduction type of damage, and light armor in particular are very good at reducing the effective damage of blunt attack. Blunt attacks, uniquely, will also carry through a significant portion of their damage to underlaying armor layers (but not flesh) when attacking.</li>
+			<li><b>Blunt</b>: Blunt Attacks tend to cause a lot of pain when they get through armor, and cause fractures that can disable the limbs. It is often aimed for on the head or chest for maximum effectiveness. As a rule of thumb, Blunt Attacks NEVER penetrate armor. They come with a devastating integrity modifier by default that makes them exceptionally effective vs metal armor. Blunt Attack is a damage reduction type of damage, and light armor in particular are very good at reducing the effective damage of blunt attack. Blunt attacks, uniquely, will also carry through a significant portion of their damage to underlaying armor layers (but not flesh) when attacking.</li>
 			<li><b>Burn</b>: Burn attacks tend to be exclusively used by magical spells and certain divine miracles. Its damage too, is effectively reduced by the armor's rating. It does not penetrate just like Blunt. However, it does not carry through its damage to underlaying layers like Blunt - it lands on a single layer instead. Worn metal armor absorbs fire even when it shows no fire rating at all. Burn wounds tend to cause decent amount of pain and bleeding and can be sewn shut.</li>
 		</ul>
 
 		<h3>Blocking Types</h3>
-		<p>Blocking types of damage do not suffer from damage reduction versus any kind of armor, and instead its damage is applied 1 to 1 to the armor itself. Its secondary property is Penetration, which determines if the attack goes through the armor and attacks the limbs behind it directly. Penetration below the armor's blocking tier is stopped dead. Penetration at or above it gets damage through, scaled by how many pips of advantage you have at [round(PEN_PASSTHROUGH_RATIO * 100)]% each, up to [PEN_PASSTHROUGH_CAP] pips - so [round(PEN_PASSTHROUGH_RATIO * PEN_PASSTHROUGH_CAP * 100)]% through at the very most, never all of it.</p>
+		<p>Blocking types of damage do not suffer from damage reduction versus any kind of armor, and instead its damage is applied 1 to 1 to the armor itself. Its secondary property is Penetration, which determines if the attack goes through the armor and attacks the limbs behind it directly. Penetration below the armor's blocking tier is stopped dead. Penetration that meets or beats it get some damage through. The greater the armor is outmatched and the stronger your Strength / Speed are, the more go through. So long as armor exists, the full damage will never go through.</p>
 		<ul>
 			<li><b>Slashing</b>: Slashing attacks tend to cause a lot of bleeding and cause artery critical wounds, which makes an opponent bleed out rapidly. They often come with weapons that can strike swiftly like swords, or hard like axe. Slashing attacks tend to not have the abilities to penetrate armor, but have a lot of raw damage.</li>
 			<li><b>Stabbing</b>: Stabbing attacks tend to be less deadly than attacks caused by slashing, but can cause bone fractures that disable the limbs. They often come with weapons that can stab through light or heavy armor like Daggers, Stabbing Swords and Polearms. Stabbing attacks tend to be effective versus light armor by causing punctures and bleed through it, in exchange for lower effectiveness versus cutting attacks.</li>
@@ -353,7 +354,7 @@
 		<p>All melee weapons can be examined by Shift-Click, and then clicking on (?), this shows a number of useful information:</p>
 		<ul>
 			<li><b>MIN.STR</b>: Minimum Strength needed to wield the weapon effectively. Halved on every weapon when wielded. To be changed later.</li>
-			<li><b>FORCE / WIELDED FORCE</b>: What is the damage in number the weapon does one handed and wielded. Strength moves it by [round(STRENGTH_MULT * 100)]% per point away from 10, dropping to [round(STRENGTH_CAPPEDMULT * 100)]% per point once you are at [STRENGTH_SOFTCAP] or above.</li>
+			<li><b>FORCE / WIELDED FORCE</b>: How hard the weapon strikes one handed and wielded, shown as a word, with the underlying figure available by clicking the (?) beside it. Strength moves it by [round(STRENGTH_MULT * 100)]% per point away from 10, dropping to [round(STRENGTH_CAPPEDMULT * 100)]% per point once you are at [STRENGTH_SOFTCAP] or above.</li>
 			<li><b>BALANCE</b>: A SWIFT balanced weapon has an easier time targeting harder to hit zones and reduce parry chance based on speed differences - capped at [SWIFTCAP_PRECISE]% against precise zones, [SWIFTCAP_LIMBS]% against large limbs, and only [SWIFTCAP_CHEST]% against the chest. A HEAVY balanced weapon is easier to dodge and inflict stamina damage on other parry-ers, at [abs(STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL)] per level of strength difference.</li>
 			<li><b>LENGTH</b>: The length of the weapon, which determines what body parts it can strike. SHORT weapons aim better, at +[ACC_SHORT_WEAPON_BONUS]. LONG weapons can reach the chest and down from the ground, whereas GREAT weapons can reach anywhere even if you are on the ground.</li>
 			<li><b>TWO-HANDED</b>: Whether it can be two-handed (Click on the weapon to grip it, or press the Q / E while it is in your left / right hand respectively while the other hand is empty).</li>
@@ -376,10 +377,10 @@
 			<li><b>Effective Range</b>: Certain intents like spear's Stab have an Effective Range, known as a "Sweetspot", if it hits out of it, it loses damage and its penetrative power.</li>
 			<li><b>Damage</b>: The damage multiplier, if any. None = 1. Applied on the weapon.</li>
 			<li><b>Charge Time</b>: This means there's a charge up to this attack.</li>
-			<li><b>Armor Penetration</b>: Measured in Armor Type and "Pips". Equal penetration to the defending armor means partial armor, whereas more penetration means much more of the damage carries through. Each pip of advantage is worth [round(PEN_PASSTHROUGH_RATIO * 100)]% of the damage, up to [PEN_PASSTHROUGH_CAP] pips, and your Strength adds pips of its own.</li>
+			<li><b>Armor Penetration</b>: Measured in Armor Type and "Pips". Equal penetration to the defending armor means partial armor, whereas more penetration means much more of the damage carries through. Every pip you hold over the armor widens that share, up to a limit, and your Strength adds pips of its own.</li>
 			<li><b>Drain While Charged</b>: Additional stamina drain when this is charged.</li>
 			<li><b>Drain on Release / Miss</b>: Stamina drained when you miss / release the attack.</li>
-			<li><b>Attack Speed</b>: The delay before you can click again after making an attack. Sluggish is [CLICK_CD_CHARGED / 10] second. Normal is [CLICK_CD_MELEE / 10] second, Quick is [CLICK_CD_QUICK / 10] and Very Quick is [CLICK_CD_FAST / 10]. Certain more powerful attacks have higher delay, like polearm stab.</li>
+			<li><b>Attack Speed</b>: The delay before you can click again after making an attack, given from slowest to fastest as Sluggish, Normal, Quick and Very Quick. Certain more powerful attacks have higher delay, like polearm stab.</li>
 			<li><b>Attack Delay</b>: How long it takes for the attack to land on the opponent after you click. Your opponent must be in range of your weapon after the delay. This is often used for more powerful attacks.</li>
 			<li><b>Delay Type</b>: Normal Attack Delay has no effect. DIFFICULT attack delay, also known as YELLOW intent, will reduce your parry / dodge chance drastically. RIGID can be canceled by you being attacked and leave you completely open to being attacked. RIGID Intent usually has powerful effects but is hard to pull off.</li>
 			<li><b>Integrity Modifier</b>: How much integrity and shield damage is multiplied by when attacking armor. Does nothing to flesh damage.</li>
@@ -426,11 +427,11 @@
 	return {"
 		<div>
 		<h3>Exposure and Vulnerability</h3>
-		<p>The Vulnerable status, represented by a grey shattered shield on top of someone, means they are unable to parry or dodge the next attack and it has a small multiplier to their damage - [VULN_INTEG_MOD]x against whatever armor covers the zone.</p>
+		<p>The Vulnerable status, represented by a grey shattered shield on top of someone, means they are unable to parry or dodge the next attack, and that attack lands somewhat harder than it otherwise would against whatever armor covers the zone.</p>
 
-		<p>The Exposed status, represented by a red shattered shield, means they are unable to parry or dodge the next attack and it will add a devastating multiplier to the damage of the attack - [EXPOSED_INTEG_MOD]x.</p>
+		<p>The Exposed status, represented by a red shattered shield, means they are unable to parry or dodge the next attack. Exposure causes attack to land dramatically harder than Vulnerable.</p>
 
-		<p>Both multipliers land on armor integrity. Both also make you easier to hit by +[ACC_OPENED_TARGET_BONUS] accuracy, and both last ten seconds if nobody spends them sooner. Certain sources will make them last less.</p>
+		<p>Both multipliers land on armor integrity. Both also make you considerably easier to hit, and both last ten seconds if nobody spends them sooner. Certain sources will make them last less.</p>
 
 		<h3>Stances</h3>
 		<p>On the left of your UI is your character's STANCES. Feint is the default STANCES. You can examine and learn more about them by left clicking it, and then shift + right clicking every stance that pops up.</p>
@@ -439,20 +440,20 @@
 		<ul>
 			<li><b>WEAK</b>: Your attack lands for only [round(WEAK_STANCE_DMG_MULT * 100)]% of its usual damage, and will never critically hit or dismember. Right Click in this stance will attempt to steal from a target. Also used for attempting surgery outside of Combat Mode.</li>
 			<li><b>DEFEND</b>: Removes the delay between parries. RMB when not grabbing anything and holding a weapon allows you to RIPOSTE, which has a chapter of its own.</li>
-			<li><b>SWIFT</b>: Makes your attack [round((1 - CLICK_CD_MOD_SWIFT) * 100)]% faster, but also much less accurate at -[ACC_SWIFT_PENALTY]. It also exhausts you and depletes your stamina on attack, by an extra [EXTRA_STAMDRAIN_SWIFSTRONG]. In exchange it is the anti-dodge stance: swinging SWIFT drains a dodger's stamina hard, most of all while their dodge is still fresh, so long as you are not holding a HEAVY balanced weapon.</li>
-			<li><b>STRONG</b>: Makes your attack stronger and costs them more sharpness and integrity to defend against - [STRONG_SHP_BONUS] more sharpness and [STRONG_INTG_BONUS] more integrity on every parry they make - at the cost of the same extra [EXTRA_STAMDRAIN_SWIFSTRONG] stamina. Your attack deals +[round(STRONG_STANCE_DMG_BONUS * 100)]% damage, and crits more readily with brutal attacks.</li>
-			<li><b>AIMED</b>: Makes your attack [round((CLICK_CD_MOD_AIMED - 1) * 100)]% slower but improves the accuracy of your attacks significantly, by +[ACC_AIMED_BONUS]. RMB allows you to BAIT an opponent.</li>
+			<li><b>SWIFT</b>: Makes your attack markedly faster, but also much less accurate, and each swing costs you extra stamina on top. In exchange it is the anti-dodge stance: It will drains a dodger's stamina hard, wheile their dodge is fresh, so long as you are not holding a HEAVY balanced weapon.</li>
+			<li><b>STRONG</b>: Makes your attack stronger and costs them considerably more sharpness and integrity to defend against on every parry they make, at the cost of the same extra stamina SWIFT demands. Your attack deals +[round(STRONG_STANCE_DMG_BONUS * 100)]% damage, and crits more readily with brutal attacks.</li>
+			<li><b>AIMED</b>: Makes your attack slower but improves the accuracy of your attacks significantly. RMB allows you to BAIT an opponent.</li>
 			<li><b>FEINT</b>: Allows you to feint your opponent, which calculates your intelligence and skills versus theirs, and potentially allows you to open them up for a single vulnerable / exposed attack.</li>
 		</ul>
 
 		<h3>Bait</h3>
 		<p>Bait is done by RMB on the AIMED stance. If your opponent happens to be aiming the same zone as you are at the same time, you will successfully bait them.</p>
 
-		<p>This will cost them a large slice of their stamina bar - a third of it through heavy armor, a quarter through light or medium, a fifth if they wear none at all - and leave them EXPOSED to your attack. They are also slowed, briefly immobilized, and locked out of attacking for five seconds, and any spell they were channeling is interrupted.</p>
+		<p>This will cost them a large slice of their stamina bar - the heavier the armor they are wearing, the more it takes out of them, and a man in plate suffers worst of all - and leave them EXPOSED to your attack. They are also slowed, briefly immobilized, and locked out of attacking for five seconds, and any spell they were channeling is interrupted.</p>
 
 		<p>If you bait someone successfully a second time before they shake it off, then you will render them Off Balance for two seconds, which allows you to kick them down into the ground, often giving you a decisive advantage in a fight. The count resets if you fail a bait, or if you land the second one. Otherwise they must stay out of combat mode for a full thirty seconds to shake it off - flicking Combat Mode off and straight back on will not do it, and each time they drop it the thirty seconds starts over.</p>
 
-		<p>Failing a bait is punished. If their aim does not match yours, or either of you is aiming at the chest, you groan, losing a fifth of your own stamina bar, and reset any progress made on them.</p>
+		<p>Failing a bait is punished. If their aim does not match yours, or either of you is aiming at the chest, you groan, lose a good part of your own stamina bar, and reset any progress made on them.</p>
 
 		<p>Aiming for the head and baiting it will also count for any subzones on the head, like ears or eyes. This does not apply to any other limbs. Bait carries a [BAIT_RCLICK_CD / 10] second cooldown.</p>
 
@@ -688,5 +689,21 @@
 		<p>The penalty is Revival Sickness - [REVIVED_DEBUFF_DURATION / 600] minutes of -1 to every single stat you have. It stacks with the rot debuff if your body had begun to turn, so a long stint as a deadite followed by a ritual revival leaves you debuffed for a while.</p>
 
 		<p>For a brief period after revival, being slain again will results in you becoming permanently unrevivable for the round. You get [DEATHMARK_GRACE_PERIOD / 600] minutes of grace first, and only then does the penalty applies for [PERMADEATH_DURATION / 600] minutes.</p>
+		</div>
+	"}
+
+
+/datum/book_entry/combat/misc
+	name = "18. Misc. Tips"
+
+/datum/book_entry/combat/misc/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>Other advices</p>
+
+		<ul>
+			<li>Middle-Clicking at the groin while it is exposed will remove your underwear.</li>
+			<li>Middle-Click dragging yourself onto another player begins mechanical intimacy, provided both of you have consented to it. Your middle-click intent must be unset for the drag to be read as such, and the person you drag onto must have their ERP Panel enabled - it is found under Preferences -> Options as "Toggle ERP Panel", and is off unless you turn it on. Attempting it on someone who has not enabled it simply fails and tells you both so. It is entirely opt-in on their side, so respect the answer the panel gives you.</li>
+		</ul>
 		</div>
 	"}
