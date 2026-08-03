@@ -1,4 +1,3 @@
-#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	//Time before death -> raised as zombie (when outside of the city)
 										//(This isn't exact time. Extended 5 -> 7 because only takes 2-3 min in testing at 5.)
 
 #define CORPSE_ROT_START_TIME 5 MINUTES
@@ -190,7 +189,6 @@
 	volume = 50
 	extra_range = 0
 
-#undef DEAD_TO_ZOMBIE_TIME
 #undef CORPSE_ROT_START_TIME
 #undef CORPSE_SKELETONIZE_TIME
 #undef CORPSE_DUST_TIME
