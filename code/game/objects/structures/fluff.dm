@@ -1062,16 +1062,19 @@
 			ingredients += bundlethethird
 	var/list/materiaful_items = list()
 	for(var/obj/item/I in single_items) // ...then single items that don't contain needed materia, to avoid edge cases where an item could work for ingredient and materia, causing the first one to pick it to win...
+		var/cont = FALSE
+		if(needed_items[I.type]<=0)
+			continue
 		for(var/aspect as anything in I.materia)
-			if(needed_items[I]<=0)
-				continue
 			if(R.materia_aspects.Find(aspect))
 				materiaful_items += I
-				continue
-			ingredients += I
-			needed_items[I.type] -= 1
+				cont = TRUE
+		if(cont)
+			continue
+		ingredients += I
+		needed_items[I.type] -= 1
 	for(var/obj/item/I in materiaful_items) // ...then the rest
-		if(needed_items[I]<=0)
+		if(needed_items[I.type]<=0)
 			continue
 		ingredients += I
 		needed_items[I.type] -= 1
