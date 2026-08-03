@@ -391,8 +391,7 @@
 	head = /obj/item/clothing/head/roguetown/menacing/executioner
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	mask = /obj/item/clothing/head/roguetown/roguehood/black
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff/chest //hardened leather armor, chest-only.
-	shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff //heavy gambeson
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants

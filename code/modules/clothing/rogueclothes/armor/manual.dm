@@ -505,23 +505,11 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff
 	name = "scar-marred skin"
 	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	blocking_behavior = SAMEWEAR
+	slot_flags = ITEM_SLOT_ARMOR
 	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
-
-/obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff/chest
-	name = "scar-hardened chest"
-	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	blocking_behavior = SAMEWEAR
-	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
-	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
-//Bailiff skin is equivalent to a chest-only hardened leather armor and a chest-and-limbs heavy gambeson. Slightly better than adventurer equivalents, given that other MAA start with layered plate-and-maille.
+//bailiff left as-is during skin armor layering pass, on request of managing dev.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/thug
 	name = "calloused skin"
