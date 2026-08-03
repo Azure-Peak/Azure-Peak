@@ -1208,6 +1208,9 @@
 						. += crafting_item
 	for(var/slot in list(SLOT_R_STORE, SLOT_L_STORE))
 		. += user.get_item_by_slot(slot)
+	for(var/obj/item/I in .)
+		if(!I.can_craft_with())
+			. -= I
 
 /obj/structure/fluff/alch/trans/ui_static_data(mob/user)
 	var/list/data = list()
