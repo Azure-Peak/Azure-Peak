@@ -204,6 +204,25 @@
 /datum/book_entry/combat_common/aiming/inner_book_html(mob/user)
 	return {"
 		<div>
+		<h3>The Aiming Doll and the Zones</h3>
+		<p>On the top left is a Gargoyle known as the aiming doll. The place highlighted by blue is the place your character is currently aiming at. It also determines what you visibly look at while looking at another character with Shift-Click.</p>
+
+		<p>Going in order from top to bottom:</p>
+		<ul>
+			<li><b>Head</b>: This is a zone that is covered generally by a helmet and is often an effective zone to be aiming at, though it runs you the risk of being baited - which will be explained in <i>Stances, Exposure & Vulnerability</i>. A head wound and fracture tends to be very effective in putting down and stunning an opponent, and is commonly known as a "Skullcrack" in community language. A skullcrack is split into two stages - the first stage paralyzes them, and a second hit will generally confirm it. The Head zone shares HP with its precise zone.</li>
+			<li><b>Eyes, Nose, Ears and Mouth</b>: These are special subzones of the head. The Nose and Eyes are useful to aim for in opponents whose faces are uncovered - making visor / mask a good idea.</li>
+			<li><b>Chest</b>: Attacking the chest makes you immune to being baited, and is a safe default option even if not stunningly effective.</li>
+			<li><b>Groin / Stomach</b>: These, especially the groin, are the most niche zones. The stomach is occasionally aimed for what is known as a "gutspill" wound with cutting weapons, which spills out the opponent's guts and makes it excessively hard to recover from in combat. It is an aiming zone of the last resort generally reserved for NPCs you do not care about, or players that you really need to put down.</li>
+			<li><b>Arms</b>: A disabled arm / hand tends to disable your opponents from using their weapons. Using a cutting / chopping weapon with sufficient force can also cut it off. Aiming for the hand is effectively the same as aiming for the arm, and contributes to the same pool, at risk of making your intent a bit more obvious and requiring more perception to back it up.</li>
+			<li><b>Legs</b>: A disabled leg / feet will slow down your opponent or knock them down, potentially setting them up to be slain at your leisure. Like arms, it can be cut off. Aiming for the feet is effectively the same as aiming for the legs, at risk of making your intent a bit more obvious and requiring more perception to back it up.</li>
+		</ul>
+
+		<h3>Accuracy</h3>
+		<p>Attacks aimed at the chest always hit the chest. Attacks aimed elsewhere must roll for accuracy, which depends on the type of attacks (Stab being the most precise at +10, Cut a bit less at +6, and Blunt taking a -10 penalty when aimed at a precise zone), your skills (Higher = More accurate, +8 per level), perception (Each adding a significant amount of accuracy up to 15 - +8 a point, to a ceiling of +40). Aiming at a major limb also improves accuracy by +10 while more precise zones are harder to aim for, especially on the face, which costs you -24 against another player.</p>
+
+		<p>Perception below 10 hurts far more than it helps above it - every point under costs you -10 rather than gaining +8. The final chance is clamped between 5% and 95%.</p>
+
+		<p>SHORT weapons also aim better, at +10.</p>
 		</div>
 	"}
 
@@ -214,6 +233,36 @@
 /datum/book_entry/combat_common/wounds/inner_book_html(mob/user)
 	return {"
 		<div>
+		<h3>Health and Critical Wounds</h3>
+		<p>Once armor is broken, weapons and attacks will start attacking your limbs directly. This can cause bleeding, pain, and decrease the effective HP of your limbs.</p>
+
+		<p>Certain armor piercing weapons can cause critical wounds if the limb behind it is sufficiently damaged.</p>
+
+		<p>Once it crosses a certain threshold - [round(CRIT_DISMEMBER_DAMAGE_THRESHOLD * 100)]% of that limb's HP - critical wounds will start rolling, which can be highly crippling and end the fight. Most body parts have unique critical wounds dependent on the damage types that attacked you and the part itself.</p>
+
+		<p>The body is split into organs / limbs that share HP with each other, each having numerous subzones:</p>
+		<ul>
+			<li><b>Head</b>: Head, Eyes, Nose, Ears, Mouth.</li>
+			<li><b>Torso</b>: Chest, Stomach, Groin.</li>
+			<li><b>L / R Arms</b>: Arm + Hand (Each arm is an independent pool of its own).</li>
+			<li><b>L / R Legs</b>: Leg + Feet (Each leg is an independent pool of its own).</li>
+		</ul>
+
+		<p>The torso is the toughest at 300, and the rest are the same in terms of HP at 200. Every limb scales with your Constitution - at CON 10 those are the numbers you get, and each point above or below moves them by a tenth.</p>
+
+		<h3>Bleeding</h3>
+		<p>Most creatures and players bleed and can die from bleeding out and then the oxygen loss that results, though you should not refer to it as oxygen loss in an in character manner. As you lose blood, your stats are impaired until you are finally knocked out and must be helped by someone else to have a chance of survival.</p>
+
+		<p>To deal with bleeding, you can use a needle to sew up the wound, bandage prepared by cloth to bandage the wound and slow it down, health potion (Known commonly as Red, and Lyfeblood IC) to heal the wounds. Clean Water can replenish your blood rapidly and allow you to survive otherwise fatal bleeding and is generally used for stabilization.</p>
+
+		<p>Grabbing the spot that is bleeding with a free hand, and aggressively (By clicking twice) will reduce the rate you bleed quickly.</p>
+
+		<h3>Pain</h3>
+		<p>Being hit with certain wounds causes your character to be in pain, represented by your screen flashing red at various intensity.</p>
+
+		<p>If your character is sufficiently pained, you will slow down, or at worst, scream in pain and then become knocked down and vulnerable.</p>
+
+		<p>Higher Willpower alongside certain traits and classes lowers your chances of being knocked down or slowed by pain. Some classes and certain undeads are outright immune to its effect.</p>
 		</div>
 	"}
 
