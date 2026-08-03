@@ -396,29 +396,29 @@
 /datum/transmutation_recipe/xanthosis/toper
 	name = "Toper Harmonization"
 	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/amethyst = 1) // gold is 50, toper is 34 - not to mention the amythorz
-	output_items = list(/obj/item/roguegem/yellow)
+	output_items = list(/obj/item/roguegem/yellow = 1)
 
 /datum/transmutation_recipe/xanthosis/gemerald
 	name = "Gemerald Harmonization"
 	input_items = list(/obj/item/roguegem/yellow = 1) // toper sells for 34, gemerald is 42 - adding a minimum of 10 mammons for solaris you're left with a 2 mammon loss
 	materia_aspects = list(/datum/materia_aspect/solar, /datum/materia_aspect/arcyne)
-	output_items = list(/obj/item/roguegem/green)
+	output_items = list(/obj/item/roguegem/green = 1)
 
 /datum/transmutation_recipe/xanthosis/saffira
 	name = "Saffira Harmonization"
 	input_items = list(/obj/item/roguegem/green = 1) // gemerald is 42 mammons, saffira 56; add 10 for the cheapest source of solaris, and you're only making 4 mammons at best
 	materia_aspects = list(/datum/materia_aspect/solar, /datum/materia_aspect/arcyne)
-	output_items = list(/obj/item/roguegem/blue)
+	output_items = list(/obj/item/roguegem/blue = 1)
 
 /datum/transmutation_recipe/xanthosis/blortz
 	name = "Blortz Harmonization"
 	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/blue = 1) // gold is 50, saffira 56, blortz 88
-	output_items = list(/obj/item/roguegem/turq)
+	output_items = list(/obj/item/roguegem/turq = 1)
 
 /datum/transmutation_recipe/xanthosis/dorpel
 	name = "Dorpel Harmonization"
 	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/turq = 1) // gold is 50, blortz 88, dorpel 121. only a 17 mammon loss this time. hooray? you're almost there
-	output_items = list(/obj/item/roguegem/diamond)
+	output_items = list(/obj/item/roguegem/diamond = 1)
 
 // RUBEDO: lit 'reddening'. the final stage of the great work, its recipes unite the spiritual and physical to create potent alchemical reagents
 // with a divine resonance; also riddle of steel is here bcs malum!
