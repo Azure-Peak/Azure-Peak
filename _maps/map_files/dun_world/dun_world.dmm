@@ -39282,6 +39282,8 @@
 /area/rogue/under/cave/his_vault)
 "hxo" = (
 /obj/structure/table/wood/poor,
+/obj/effect/spawner/lootdrop/roguetown/random_paint_staff,
+/obj/item/rogueweapon/hammer/stone,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/abyssor/inner)
 "hxq" = (
