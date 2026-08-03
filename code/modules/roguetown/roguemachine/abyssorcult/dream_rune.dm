@@ -23,6 +23,7 @@
 	. += span_nicegreen("Lose track of your target? You can receive another glimpse by sleeping on a bed, for up to 10 minutes since receiving the first vision. A total of two bonus glimpses is allowed per vision.")
 	. += span_info("Everyone on the direct edge of the dream pool can join rituals, but only those with novice+ holy skill can help gain ritual discounts.")
 	. += span_info("Some rituals affect everyone nearby. The more valid participants, the more materials might get discounted.")
+	. += span_nicegreen("Under role unique verbs, you can recall the details of your quests as well, in case you've forgotten the phrase.")
 
 /obj/structure/roguemachine/ritual_rune/proc/attempt_pool_link()
 	if(linked_pool)
@@ -197,16 +198,16 @@
 		return pick(valid_targets)
 
 	// DEBUG ONLY
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H == seeker || H.stat == DEAD)
-			continue
-		if(!H.mind || !H.mind.assigned_role)
-			continue
-		if(Q.is_valid_target(H, seeker))
-			valid_targets += H
+	// for(var/mob/living/carbon/human/H in GLOB.human_list)
+	// 	if(H == seeker || H.stat == DEAD)
+	// 		continue
+	// 	if(!H.mind || !H.mind.assigned_role)
+	// 		continue
+	// 	if(Q.is_valid_target(H, seeker))
+	// 		valid_targets += H
 
-	if(length(valid_targets))
-		return pick(valid_targets)
+	// if(length(valid_targets))
+	// 	return pick(valid_targets)
 
 	return null
 

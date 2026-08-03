@@ -116,6 +116,10 @@
 	bonus_reward_path = bonus_reward
 	creation_time = world.time
 
+	if(ishuman(seeker))
+		var/mob/living/carbon/human/H = seeker
+		H.verbs += /mob/living/carbon/human/proc/recall_vision_quest
+
 	RegisterSignal(parent, COMSIG_MOB_SAY, PROC_REF(on_say))
 	RegisterSignal(parent, COMSIG_MOB_SLEEP, PROC_REF(on_mob_sleep))
 	to_chat(seeker, span_purple("Vision granted: [quest.name]"))
@@ -124,7 +128,7 @@
 	to_chat(seeker, span_notice("[quest.vision_text]"))
 	var/mob/target = target_ref?.resolve()
 	if(target)
-		to_chat(seeker, span_warning("You must say \"[quest.required_phrase]\" within two tiles of [target.real_name]."))
+		to_chat(seeker, span_boldnotice("You must say \"[quest.required_phrase]\" within two tiles of [target.real_name]."))
 		temporary_target_scry()
 	else
 		to_chat(seeker, span_warning("The vision's target has faded from this world..."))
@@ -195,6 +199,9 @@
 	qdel(src)
 
 /datum/component/vision_quest_tracker/Destroy()
+	if(ishuman(seeker))
+		var/mob/living/carbon/human/H = seeker
+		H.verbs -= /mob/living/carbon/human/proc/recall_vision_quest
 	UnregisterSignal(parent, COMSIG_MOB_SAY)
 	quest = null
 	target_ref = null
@@ -223,3 +230,24 @@
 	to_chat(seeker, span_purple("Your mind pierces the veil to glimpse your target... You have 6 seconds."))
 	addtimer(CALLBACK(eye, TYPE_PROC_REF(/mob/dead/observer/eye/arcane, cancel_scry)), 6 SECONDS)
 	return TRUE
+
+/mob/living/carbon/human/proc/recall_vision_quest()
+	set name = "Recall Vision Quest"
+	set category = "RoleUnique.Cleric"
+	set desc = "Recall the required phrase, target details, and objectives for your active vision quest."
+
+	var/datum/component/vision_quest_tracker/tracker = GetComponent(/datum/component/vision_quest_tracker)
+	if(!tracker || !tracker.quest)
+		to_chat(src, span_warning("You do not currently have an active vision quest."))
+		return
+
+	var/datum/vision_quest/Q = tracker.quest
+	var/mob/target = tracker.target_ref?.resolve()
+
+	to_chat(src, span_purple("--- Vision Quest: [Q.name] ---"))
+	to_chat(src, span_notice("Summary: [Q.summary]"))
+	if(target)
+		to_chat(src, span_boldnotice("Target: [target.real_name]"))
+		to_chat(src, span_boldnotice("Required Phrase: \"[Q.required_phrase]\" (Must say within 2 tiles)"))
+	else
+		to_chat(src, span_danger("Target: [Q.target_description] (Faded from this world)"))
