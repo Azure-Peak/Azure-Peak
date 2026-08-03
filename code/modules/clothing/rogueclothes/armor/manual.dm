@@ -508,15 +508,6 @@
 
 //Gladiator skin is equivalent to a chest-only hardened leather armor and a second chest-and-limbs gambeson.
 
-/obj/item/clothing/suit/roguetown/armor/manual/resting/bailiff
-	name = "scar-marred skin"
-	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
-	slot_flags = ITEM_SLOT_ARMOR
-	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-
-//bailiff left as-is during skin armor layering pass, on request of managing dev.
-
 /obj/item/clothing/suit/roguetown/armor/manual/resting/thug
 	name = "calloused skin"
 	desc = "A brawler's hide, thickened by a hard life. A spell of rest is enough to knit it whole again."
