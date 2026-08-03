@@ -70,8 +70,8 @@
 		)
 	armor = ARMOR_MAILLE
 	slot_flags = ITEM_SLOT_ARMOR
-	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD
-	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD
+	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD | NECK //This does not cover eyes/nose/mouth.
+	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD | NECK
 	blade_dulling = DULLING_BASHCHOP
 	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
 

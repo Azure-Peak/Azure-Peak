@@ -99,7 +99,7 @@
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple //a heavy gambeson.
-	shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest //another heavy gambeson, chest-only. Lots of integ here, but expect to get stabbed and cut through it.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest //a heardened leather armor, chest-only.
 
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)

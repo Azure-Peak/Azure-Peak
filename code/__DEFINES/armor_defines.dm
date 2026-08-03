@@ -100,7 +100,7 @@
 
 // LIGHT
 #define ARMOR_INT_CHEST_LIGHT_ANTAG 450 //Currently only used by baotha robe & berzerker skin.
-#define ARMOR_INT_CHEST_LIGHT_ELITE 350 // Fancy rare exceptions that make tradeoffs in other places.
+#define ARMOR_INT_CHEST_LIGHT_ELITE 375 // Fancy rare exceptions that make tradeoffs in other places.
 #define ARMOR_INT_CHEST_LIGHT_MASTER 300 // High tier cloth / leather armor
 #define ARMOR_INT_CHEST_LIGHT_MEDIUM 250 // Medium tier cloth / leather armor
 #define ARMOR_INT_CHEST_LIGHT_BASE 200
