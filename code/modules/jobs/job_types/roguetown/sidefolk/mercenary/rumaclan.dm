@@ -38,7 +38,7 @@
 	beltl = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
 	l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	cloak = /obj/item/clothing/cloak/eastcloak1
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //steel hauberk that also has coif coverage, basically.
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //scalemail
 	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest //light brigadine.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
@@ -91,7 +91,7 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	cloak = /obj/item/clothing/cloak/eastcloak1
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //steel hauberk that also has coif coverage, basically.
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //scalemail
 	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest //light brigadine.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
