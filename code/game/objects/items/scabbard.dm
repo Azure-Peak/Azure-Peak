@@ -626,7 +626,7 @@
 	can_parry = TRUE
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/carpentry
-	wdefense = 6 //40% of attacks will pass through vs equal skill foe, compared to 20% for hwando scabbard or 10% for parry dagger/buckler.
+	wdefense = 4
 	max_integrity = 220
 
 

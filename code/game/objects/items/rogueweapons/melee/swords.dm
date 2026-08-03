@@ -2241,7 +2241,7 @@
 	icon_state = "eastsword2"
 	force = 27
 	max_integrity = 200
-	sharpness_mod = 1.5 //it is +2 force over the normal hwando, +50% decay should compensate. In-fight sharpening will struggle w scabbard juggling.
+	sharpness_mod = 2
 	sellprice = 50
 
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
@@ -2250,7 +2250,7 @@
 	icon_state = "eastsword3"
 	force = 27
 	max_integrity = 200
-	sharpness_mod = 1.5 //it is +2 force over the normal hwando, +50% decay should compensate. In-fight sharpening will struggle w scabbard juggling.
+	sharpness_mod = 2
 	sellprice = 150
 
 /obj/item/rogueweapon/sword/sabre/wodao
