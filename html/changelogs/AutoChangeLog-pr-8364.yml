@@ -1,0 +1,8 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Pyromancy now get a choice spell between Spitfire or Ultio as their poke spell, a reworked version of an old spell made by Swagmeyer."
+  - balance: "Bleed rate adjusted to 10 on charred crit from 5."
+  - balance: "Remove insta death on proccing two burn crits. oops."
+  - balance: "Projectiles and Arcyne Strike (I.e. most new spells) will no longer pop exposed / vulnerable, requiring a staff tap to interact"
+  - rscadd: "Frost Shards back to Yellow Penalty (Parry Penalty), Rimecast back to Cancel (Red). Their primary spell is easily cancelable which makes it feel very very meh to uise."

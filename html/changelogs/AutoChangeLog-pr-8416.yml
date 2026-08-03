@@ -1,0 +1,5 @@
+author: "EmilitiaEnnehrt"
+delete-after: True
+changes:
+  - code_imp: "Half-kin, Wild-kin, and Verminvolk can use Lizard and Fluvian sound emotes."
+  - code_imp: "Lizard and Fluvian can use some of Wild-tongue emotes."

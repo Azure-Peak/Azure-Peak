@@ -12,6 +12,7 @@ import {
   subtitleStyle,
   titleStyle,
 } from './common/parchment';
+import { AdvancedView } from './StewardTrade/AdvancedView';
 import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
 import { ATCLoanBanner } from './StewardTrade/ATCLoanBanner';
 import { AutoImportView } from './StewardTrade/AutoImportView';
@@ -159,6 +160,14 @@ export const StewardTrade = () => {
           {tab === 'petition' && <PetitionView data={data} />}
           {tab === 'ledger' && <LedgerView data={data} />}
           {tab === 'royal_custom' && <RoyalCustomPanel />}
+          {tab === 'advanced' && (
+            <SequesteredOverlay
+              active={!!data.sequestration?.active}
+              label="Advanced"
+            >
+              <AdvancedView data={data} />
+            </SequesteredOverlay>
+          )}
         </div>
         <TradeModal
           request={tradeRequest}

@@ -54,3 +54,19 @@
   - rscadd: Slightly buff the earlier waves in a blockade and rewards
   - balance: Holding onto a spell pass 1 seconds strains you up to 5 seconds for forced
       cancel
+2026-08-03:
+  EmilitiaEnnehrt:
+  - bugfix: fixes elvish glaive pixelshift
+  KatTheFox:
+  - bugfix: Wings will now render below tails from the south specifically. This fix
+      only applies to new character slots or if you change your character's species
+      to something else and back. Which will reset all your customization. Yeah.
+  Ketrai:
+  - rscadd: Ranger cloak dyable & forest green in triumph store.
+  WeNeedMorePhoron:
+  - rscdel: Links in OOC chat etc. are no longer automatically linkified for security
+      reasons.
+  borneblood:
+  - bugfix: Bees can now timeout when pursuing bad plants.
+  - rscadd: Examining Apiary gives you a few more insights on how your bees are doing.
+      Magnifying glasses also improved.

@@ -44,11 +44,11 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	r_hand = /obj/item/rogueweapon/spear
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/rogueweapon/hammer/iron = 1, 
-		/obj/item/rogueweapon/tongs = 1, 
-		/obj/item/storage/belt/rogue/pouch/coins/mid = 1, 
+		/obj/item/rogueweapon/hammer/iron = 1,
+		/obj/item/rogueweapon/tongs = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/repair_kit/metal = 1,
 		/obj/item/repair_kit = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
@@ -76,6 +76,7 @@
 	H.change_stat(STATKEY_SPD, 1) // 9 weighted
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
+		H.grant_language(/datum/language/undead)
 
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in list("Crossbow", "Bow", "Sling")
 	var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in list("Light Armor", "Medium Armor")
@@ -122,7 +123,7 @@
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	l_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 2,
@@ -148,11 +149,12 @@
 	H.change_stat(STATKEY_PER, 2)
 	H.change_stat(STATKEY_INT, 3)
 	H.change_stat(STATKEY_CON, 2)
-	H.change_stat(STATKEY_WIL, 2) 
+	H.change_stat(STATKEY_WIL, 2)
 	H.change_stat(STATKEY_SPD, -1) // 11 weighted
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/zizosquire)
+		H.grant_language(/datum/language/undead)
 
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
