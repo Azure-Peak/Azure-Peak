@@ -97,6 +97,19 @@
 /datum/book_entry/combat_common/stats/inner_book_html(mob/user)
 	return {"
 		<div>
+		<p>Your character has different stats, based on your role, your race, and your chosen Statpack, if any.</p>
+
+		<p>Most of these have a softcap at [STRENGTH_SOFTCAP] or [RANGED_STAT_SOFTCAP] beyond which its effect scales less aggressively.</p>
+
+		<ul>
+			<li><b>STR</b>: Improves the damage you deal on your weapon, and the effectiveness of your penetrative attacks on strength scaling weapon. Softcaps at [STRENGTH_SOFTCAP] - every point up to it is worth [round(STRENGTH_MULT * 100)]% damage, every point past it only [round(STRENGTH_CAPPEDMULT * 100)]%.</li>
+			<li><b>PER</b>: Improves the damage you deal with scaling ranged weapon like Bow or Slings, improves your ROF with these weapons. And increases your chance of hitting a precise bodypart significantly. Softcaps at [RANGED_STAT_SOFTCAP], at [round(RANGED_STAT_MULT * 100)]% per point up to it and [round(RANGED_STAT_CAPPEDMULT * 100)]% past it.</li>
+			<li><b>INT</b>: Improves the chance of your FEINTING or not being FEINTED. Also useful for Mages in particular for reducing the cooldown and stamina cost of their spells - [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off each per point above [SPELL_SCALING_THRESHOLD], no longer improving past [SPELL_POSITIVE_SCALING_THRESHOLD]. Below [SPELL_SCALING_THRESHOLD], the same rate works against you instead.</li>
+			<li><b>CON</b>: Increases the effective HP of your limbs and makes them harder to disable or score a critical wound on.</li>
+			<li><b>WIL</b>: Increases your Energy and Stamina pool, and also increases your pain tolerance. Stamina starts at [WILLPOWER_STARTING_STAMINA] and moves [WILLPOWER_MODIFIER] for every point above or below 10.</li>
+			<li><b>SPD</b>: Increases your Movement speed, and also makes SWIFT balance weapon more effective.</li>
+			<li><b>FOR</b>: Increases your chance of scoring critical wounds once armor is breached and the limb is sufficiently damaged. Positive effects are small, but it has a devastating effect when in the negative and causes you to miss a large proportion of your attack.</li>
+		</ul>
 		</div>
 	"}
 
@@ -107,6 +120,25 @@
 /datum/book_entry/combat_common/inventory/inner_book_html(mob/user)
 	return {"
 		<div>
+		<p>On the left occupying the bottom half of your screen is your character's equipment slots. These are generally used to equip armor or gear. Hovering over the empty part of the armor UI tells you its name - even if there's armor on top. Starting from top to bottom:</p>
+
+		<ul>
+			<li><b>Mask</b>: Used to cover your mouth and often used to put on additional armor for your face.</li>
+			<li><b>Helmet</b>: Used to put on a helmet. Most helmets have an Aesthetic Storage accessible by right click that allows you to put on masks and hats with no armor value to customize your look.</li>
+			<li><b>Mouth</b>: Used for cigarettes or putting a Rosa in your mouth, to charm the dashing denizens of Azurea.</li>
+			<li><b>Back Right and Back Left</b>: On the row below. These are used to hold satchels (Can be accessed with left click while moving), backpacks (Which need to be taken off before being accessible but hold much more), certain weapons, shields, quivers, bows, and greatweapon strap, which can store large polearms at the cost of needing a lot of time to take it on and off.</li>
+			<li><b>Cloak</b>: Used for an aesthetic cloak that can also store a small amount of small items. Commonly used for tabard, jupons etc. to signify your allegiance. Cloaks with customization options like the tabard can be customized with right click with a heraldry of your choice.</li>
+			<li><b>Neck</b>: Used for neck armor like Bevor, Gorget etc, can also be used to hang on a pouch.</li>
+			<li><b>Armor</b>: The outer layer of your chest armor slot. Usually where one part of your most important armor is. Certain items like Gambeson or Hauberk can be layered in either slot - but the same type of item cannot appear twice in both the Shirt and the Armor slot. When you are short on mammons and gears, the armor and shirt slot is often the most cost effective place to layer on armor first.</li>
+			<li><b>Wrists</b>: Used for bracers, which exclusively protect your arms. It is also vital for unarmed classes to parry. Can also be used to carry a sling.</li>
+			<li><b>Ring</b>: Used for carrying certain type of valuable rings, communication rings often used by retinue or burghers like scomstone / houndstone. Certain type of loot only rings can also be worn here to improve your character's stats.</li>
+			<li><b>Shirt</b>: The inner armor slot, certain type of underarmor such as gambeson, hauberk, haubergeon can be worn underneath here.</li>
+			<li><b>Gloves</b>: Used for gloves, which exclusively protect your hands. As a rule of thumb, there generally isn't more than one layer of armor on this slot.</li>
+			<li><b>Trou (Trousers / Pants)</b>: Used for armor which covers the legs and generally also groin.</li>
+			<li><b>Belt</b>: The belt slot is used for a belt that can hold a small amount of items. Having a belt on is also essential to access your two hip slots - they are unusable otherwise.</li>
+			<li><b>Hip Slots</b>: Split into left and right. These are used to hold swords, weapons, quivers, and tools. Swords need to be holstered in a scabbard to be drawn instantly, otherwise drawing them will take more time. As the saying goes, a sword without a scabbard is a troublesome gift.</li>
+			<li><b>Boots</b>: Used for boots that protect exclusively your feet. Follow the same rules - there generally isn't more than one layer of armor on this slot.</li>
+		</ul>
 		</div>
 	"}
 
