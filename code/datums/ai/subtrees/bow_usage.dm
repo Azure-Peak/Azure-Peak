@@ -115,7 +115,8 @@
 			controller.set_blackboard_key(BB_ARCHER_NPC_REPOSITION_UNTIL, world.time + ARCHER_NPC_REPOSITION_TIME)
 
 	var/draw_slow = _bow_draw_slowdown(bow)
-	if(draw_slow && world.time < controller.blackboard[BB_ARCHER_NPC_NEXT_SHOT])
+	var/next_shot = controller.blackboard[BB_ARCHER_NPC_NEXT_SHOT]
+	if(draw_slow && world.time < next_shot && world.time >= (next_shot - bow.get_npc_drawtime(pawn)))
 		pawn.add_movespeed_modifier(MOVESPEED_ID_CHARGING, update = TRUE, priority = 100, override = TRUE, multiplicative_slowdown = draw_slow, movetypes = GROUND)
 	else
 		pawn.remove_movespeed_modifier(MOVESPEED_ID_CHARGING)
@@ -218,6 +219,15 @@
 		var/slow = initial(intent_type.charging_slowdown)
 		if(slow)
 			return slow
+	return 0
+
+/proc/_bow_draw_stamina(obj/item/gun/ballistic/revolver/grenadelauncher/bow)
+	for(var/datum/intent/intent_type as anything in bow.possible_item_intents)
+		if(!ispath(intent_type, /datum/intent))
+			continue
+		var/drain = initial(intent_type.chargedrain)
+		if(drain)
+			return drain
 	return 0
 
 /proc/_find_archer_bow(mob/living/carbon/human/pawn)
@@ -337,6 +347,9 @@
 	return FALSE
 
 /proc/_loose_arrow(mob/living/carbon/human/pawn, atom/target, obj/item/gun/ballistic/revolver/grenadelauncher/bow)
+	var/draw_drain = _bow_draw_stamina(bow)
+	if(draw_drain)
+		pawn.stamina_add(draw_drain * (bow.get_npc_drawtime(pawn) / (1 SECONDS)))
 	var/should_arc = FALSE
 	var/turf/pt = get_turf(pawn)
 	var/turf/tt = get_turf(target)

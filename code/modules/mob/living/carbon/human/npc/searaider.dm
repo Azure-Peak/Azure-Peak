@@ -168,7 +168,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 
 /mob/living/carbon/human/species/human/northern/searaider/archer/after_creation()
 	..()
-	STAPER = 12
+	STAPER = 10
 	STAINT = 8
 	STASTR = 12 // These are archers
 	for(var/obj/item/I in held_items)
@@ -187,12 +187,12 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-	backl = /obj/item/quiver/arrows
+	backl = /obj/item/quiver/npc
 	r_hand = /obj/item/rogueweapon/sword/iron
 	H.STASPD = 9
 	H.STACON = 7
 	H.STAWIL = 7
-	H.STAPER = 13
+	H.STAPER = 11
 	H.STAINT = 1
 	H.STASTR = 12
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)

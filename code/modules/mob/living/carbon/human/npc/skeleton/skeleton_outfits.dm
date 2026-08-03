@@ -416,7 +416,7 @@
 	H.STASPD = 10
 	H.STACON = 4
 	H.STAWIL = 7
-	H.STAPER = 13
+	H.STAPER = 11
 	H.STAINT = 1
 	name = "Skeleton Archer"
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
