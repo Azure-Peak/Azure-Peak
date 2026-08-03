@@ -263,7 +263,7 @@ GLOBAL_LIST_INIT(exp_jobsmap, list(
 
 GLOBAL_LIST_INIT(exp_specialmap, list(
 	EXP_TYPE_LIVING = list(), // all living mobs
-	EXP_TYPE_ANTAG = list(ROLE_MANIAC, ROLE_PREBEL, ROLE_BANDIT, ROLE_ASPIRANT, ROLE_WEREWOLF, ROLE_NBEAST, ROLE_VAMPIRE, ROLE_LICH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_ASSASSIN, ROLE_HAG),
+	EXP_TYPE_ANTAG = list(ROLE_MANIAC, ROLE_PREBEL, ROLE_REBEL_LEADER, ROLE_BANDIT, ROLE_ASPIRANT, ROLE_WEREWOLF, ROLE_NBEAST, ROLE_VAMPIRE, ROLE_LICH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_ASSASSIN, ROLE_HAG),
 	EXP_TYPE_SPECIAL = list("Lifebringer","Ash Walker","Exile","Servant Golem","Free Golem","Hermit","Translocated Vet","Escaped Prisoner","Hotel Staff","SuperFriend","Space Syndicate","Ancient Crew","Space Doctor","Space Bartender","Beach Bum","Skeleton","Zombie","Space Bar Patron","Lavaland Syndicate","Ghost Role"), // Ghost roles
 	EXP_TYPE_GHOST = list() // dead people, observers
 ))

@@ -135,7 +135,7 @@
 		if("familiar_examine")
 			setup_examine_window(user,planar_origin)
 			return
-		
+
 		if("familiar_headshot")
 			to_chat(user, "<span class='notice'>Please use a relatively SFW image of the head and shoulder area to maintain immersion level. <b>Do not use a real life photo or unserious images.</b></span>")
 			to_chat(user, "<span class='notice'>Ensure it's a direct image link. The photo will be resized to 325x325 pixels.</span>")
@@ -242,7 +242,7 @@
 				if(!advertisee.client)
 					continue
 				if(HAS_TRAIT(advertisee, TRAIT_ARCYNE))
-					to_chat(advertisee, span_info("The leylines pulse beneath your feet... a new familiar strains against the veil, seeking to be summoned!"))
+					to_chat(advertisee, span_info("The leylines pulse beneath your feet... a new familiar strains against the veil, seeking to be summoned! (You can summon most familiars at no cost by drawing a binding rune; it doesn't need to be near a leyline.)"))
 			to_chat(user, span_notice("All alive arcyne users have been notified; you may send out another pulse in 10 minutes."))
 			GLOB.familiar_advertised += user.ckey
 			addtimer(CALLBACK(src, PROC_REF(remove_ckey), user.ckey), 10 MINUTES)

@@ -1,5 +1,4 @@
 GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
-	TOWNER_POSTING_TIER_EASY = TOWNER_POSTING_COST_EASY,
 	TOWNER_POSTING_TIER_MEDIUM = TOWNER_POSTING_COST_MEDIUM,
 	TOWNER_POSTING_TIER_HARD = TOWNER_POSTING_COST_HARD,
 ))
@@ -93,31 +92,54 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		return "combat & distance pay + [bonus]m bonus"
 	return "combat & distance pay"
 
-/proc/towner_tier_summary(posting_type, tier)
+/proc/towner_variety_table(posting_type)
 	switch(posting_type)
 		if(QUEST_TOWNER_SMITH_CARAVAN)
-			var/list/ranges = GLOB.towner_smith_caravan_bundle_ranges[tier]
-			var/poster_summary = "?"
-			if(ranges)
-				poster_summary = "[ranges["iron"][1]]-[ranges["iron"][2]] iron, [ranges["bronze"][1]]-[ranges["bronze"][2]] bronze, [ranges["steel"][1]]-[ranges["steel"][2]] steel"
-			return list(
-				"bearer_summary" = towner_bearer_summary(tier),
-				"poster_summary" = poster_summary,
-			)
+			return GLOB.towner_smith_caravan_varieties
 		if(QUEST_TOWNER_MINER_OREVEIN)
-			var/poster_summary
-			switch(tier)
-				if(TOWNER_POSTING_TIER_HARD)
-					poster_summary = "26-34 iron, 14-18 coal, 5-8 cinnabar, 3-5 gold, and two or three gems"
-				if(TOWNER_POSTING_TIER_MEDIUM)
-					poster_summary = "18-24 iron, 10-14 coal, 3-4 cinnabar, a bar or two of gold, and a good chance of a gem"
-				else
-					poster_summary = "13-18 iron, 8-11 coal, with a fair chance of gold"
-			return list(
-				"bearer_summary" = towner_bearer_summary(tier),
-				"poster_summary" = poster_summary,
-			)
-	return list("bearer_summary" = "?", "poster_summary" = "?")
+			return GLOB.towner_orevein_varieties
+	return null
+
+/proc/towner_default_variety(posting_type)
+	var/list/vtable = towner_variety_table(posting_type)
+	if(!length(vtable))
+		return null
+	return vtable[1]
+
+/proc/towner_spec_summary(list/spec)
+	if(!length(spec))
+		return "a modest haul"
+	var/list/parts = list()
+	for(var/list/entry in spec)
+		var/noun = entry["noun"] || "goods"
+		var/lo = entry["min"]
+		var/hi = entry["max"]
+		if(entry["prob"] != null && entry["prob"] < 100)
+			parts += "a chance of [noun]"
+		else if(lo == hi)
+			parts += "[lo] [noun]"
+		else
+			parts += "[lo]-[hi] [noun]"
+	return english_list(parts)
+
+/proc/towner_variety_listing(posting_type)
+	var/list/vtable = towner_variety_table(posting_type)
+	if(!length(vtable))
+		return list()
+	var/list/out = list()
+	for(var/key in vtable)
+		var/list/meta = vtable[key]
+		var/list/poster_summaries = list()
+		var/list/meta_tiers = meta["tiers"]
+		for(var/tier in GLOB.towner_posting_tier_costs)
+			poster_summaries[tier] = towner_spec_summary(meta_tiers?[tier])
+		out += list(list(
+			"key" = key,
+			"label" = meta["label"],
+			"blurb" = meta["blurb"],
+			"poster_summaries" = poster_summaries,
+		))
+	return out
 
 /proc/build_towner_posting_listing(mob/user)
 	var/list/out = list()
@@ -127,9 +149,10 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		var/cost_mult = crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1
 		var/list/tiers = list()
 		for(var/tier in GLOB.towner_posting_tier_costs)
-			var/list/summary = towner_tier_summary(posting_type, tier)
-			summary["cost"] = GLOB.towner_posting_tier_costs[tier] * cost_mult
-			tiers[tier] = summary
+			tiers[tier] = list(
+				"cost" = GLOB.towner_posting_tier_costs[tier] * cost_mult,
+				"bearer_summary" = towner_bearer_summary(tier),
+			)
 		out += list(list(
 			"type" = posting_type,
 			"label" = desc["label"],
@@ -139,6 +162,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 			"eligible_jobs" = towner_advclass_names(desc["postable_advclasses"]),
 			"crown_funded" = crown_funded ? TRUE : FALSE,
 			"tiers" = tiers,
+			"varieties" = towner_variety_listing(posting_type),
 		))
 	return out
 
@@ -165,6 +189,14 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	if(!(tier in GLOB.towner_posting_tier_costs))
 		to_chat(poster, span_warning("That posting tier is not recognised."))
 		return
+
+	var/variety = params["variety"]
+	var/list/vtable = towner_variety_table(chosen_type)
+	if(length(vtable))
+		if(!variety || !(variety in vtable))
+			variety = vtable[1]
+	else
+		variety = null
 	var/crown_funded = towner_posting_is_crown_funded(poster, chosen_type)
 	var/cost = GLOB.towner_posting_tier_costs[tier] * (crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1)
 	if(!cost)
@@ -196,7 +228,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 			return
 
 	var/to_hand = (params["delivery"] == "hand")
-	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand)
+	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand, variety)
 	if(!dispatched)
 		if(crown_funded)
 			SStreasury.mint(SStreasury.discretionary_fund, cost, "crown towner commission refund (issue failure)")

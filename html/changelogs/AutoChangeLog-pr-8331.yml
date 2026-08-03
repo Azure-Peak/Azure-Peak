@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - server: "Made WeNeedMorePhoron (myself) the codeowners of subsyste, economics system, politics, PVE, AI, icon updates, tgui, spells and crafting so that less PRs touching these domains will slip pass by accident without review."

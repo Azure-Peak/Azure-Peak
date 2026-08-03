@@ -1,6 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Removing items from storage while standing on open space - flying, climbing, walking on leaves with woodwalker - no longer drops the items on people below you in the same tick they get put in your hand, which could be exploited to infinitely brick people to death with only 1 brick"
-  - bugfix: "Void familiars no longer lose flight when dying and reviving"
-  - bugfix: "Picked up mobs should no longer be or become deaf"

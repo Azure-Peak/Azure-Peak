@@ -570,7 +570,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	accept_message = "FOR THE CROWN!"
 	refuse_message = "I refuse."
 	recharge_time = 100
-	applied_traits = list(TRAIT_FOOD_STIPEND)
+	applied_traits = list(TRAIT_ROYAL_SUBSIDY)
 
 /obj/effect/proc_holder/spell/self/convertrole/bog
 	name = "Recruit Warden"

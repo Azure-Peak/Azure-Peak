@@ -395,7 +395,7 @@
 
 /datum/status_effect/buff/champion/on_creation()
 	spawn(5) // sob doesnt work without this??
-		examine_text = "<font color='yellow'>SUBJECTPRONOUN is the Champion Of [owner.mind.ward.real_name]!"
+		examine_text = "<font color='yellow'>SUBJECTPRONOUN is the Champion Of [owner.mind.ward.real_name]!</font>"
 	return ..()
 
 /datum/status_effect/buff/champion/tick()

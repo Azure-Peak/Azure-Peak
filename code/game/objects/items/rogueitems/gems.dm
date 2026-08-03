@@ -37,7 +37,7 @@
 			return
 	else
 		return ..()
-		
+
 	return ..()
 
 /obj/item/roguegem/green
@@ -162,9 +162,9 @@
 
 /obj/item/roguegem/random/Initialize()
 	..()
-	var/newgem = list(/obj/item/roguegem/ruby = 5, 
-		/obj/item/roguegem/green = 15, 
-		/obj/item/roguegem/blue = 10, 
+	var/newgem = list(/obj/item/roguegem/ruby = 5,
+		/obj/item/roguegem/green = 15,
+		/obj/item/roguegem/blue = 10,
 		/obj/item/roguegem/yellow = 20,
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguegem/diamond = 5,

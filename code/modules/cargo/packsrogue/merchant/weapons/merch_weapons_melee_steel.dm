@@ -195,6 +195,11 @@
 	cost = 105 // 3 Steel Ingot
 	contains = list(/obj/item/rogueweapon/mace/maul/grand)
 
+/datum/supply_pack/rogue/steel_weapons/quarterstaff
+	name = "Quarterstaff"
+	cost = 45 // 1 Steel Ingot, 1 Small Log
+	contains = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel)
+
 /datum/supply_pack/rogue/steel_weapons/partizan
 	name = "Partizan"
 	cost = 80 // 2 Steel Ingot, 1 Small Log. Slight increase cuz gated behind skill 4

@@ -68,6 +68,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/lacrima)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo) //Sure I guess
 		wretch_select_bounty(H)
 	H.grant_language(/datum/language/undead)
 

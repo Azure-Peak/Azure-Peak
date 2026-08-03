@@ -24,8 +24,10 @@
 	/// Extra fatigue removed on missing the target, or if the enemy dodges.
 	var/misscost = 1
 	var/tranged = 0
-	/// Turns of auto-aim as well as the 'swoosh'.
+	/// Turns of auto-aim as well as the attack anim.
 	var/noaa = FALSE
+	/// Restores turf-click auto-aim on a noaa intent silently (so without the attack anim).
+	var/force_autoaim = FALSE
 	var/warnie = ""
 	var/pointer = 'icons/effects/mousemice/human_attack.dmi'
 	/// Invoked clickCD.
@@ -676,6 +678,7 @@
 	attack_verb = list("shoves", "pushes")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	misscost = 5
 	item_d_type = "blunt"
@@ -702,6 +705,7 @@
 	attack_verb = list("grabs")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	releasedrain = 2
 	misscost = 8

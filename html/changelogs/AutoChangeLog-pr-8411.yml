@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Makes Whips Great instead of Long for weapon length, which make sense given it has a 3 tiles attack."

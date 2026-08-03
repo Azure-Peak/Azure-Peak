@@ -182,35 +182,3 @@ export function highlightNode(
   }
   return n;
 }
-
-// Linkify
-// --------------------------------------------------------
-
-const URL_REGEX =
-  /(?:(?:https?:\/\/)|(?:www\.))(?:[^ ]*?\.[^ ]*?)+[-A-Za-z0-9+&@#/%?=~_|$!:,.;(){}]+/gi;
-
-/**
- * Highlights the text in the node based on the provided regular expression.
- */
-export function linkifyNode(node: Node): number {
-  let n = 0;
-  const childNodes = node.childNodes;
-  for (let i = 0; i < childNodes.length; i++) {
-    const node = childNodes[i];
-    const tag = String(node.nodeName).toLowerCase();
-    // Is a text node
-    if (node.nodeType === 3) {
-      n += linkifyTextNode(node);
-    } else if (tag !== 'a') {
-      n += linkifyNode(node);
-    }
-  }
-  return n;
-}
-
-const linkifyTextNode = replaceInTextNode(URL_REGEX, null, (text) => {
-  const node = document.createElement('a');
-  node.href = text;
-  node.textContent = text;
-  return node;
-});
