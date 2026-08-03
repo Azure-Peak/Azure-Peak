@@ -124,7 +124,7 @@
 /datum/stressevent/music
 	timer = 1 MINUTES
 	stressadd = 1
-	desc = span_green("This music is quite grating. It struggles to sound how it intends.")
+	desc = span_red("This music is quite grating. It struggles to sound how it intends.")
 
 /datum/stressevent/music/two
 	stressadd = -1

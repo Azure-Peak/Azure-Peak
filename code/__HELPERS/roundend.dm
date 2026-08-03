@@ -246,10 +246,6 @@
 						"Whether with loss or life, kingdom survives... for now.",
 						"The people of Azuria prepare to look forward; their actions locked in the impermeable past.")
 
-	if(SSmapping.retainer.head_rebel_decree)
-		end_reason = "The rebellious peasants have taken control of Azuria's throne, shepherding forth the beginning of a new community!"
-
-
 	if(end_reason)
 		to_chat(world, span_bigbold("[end_reason]."))
 	else

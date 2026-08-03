@@ -958,3 +958,22 @@
 		)
 	result_item = null
 	exact_type = TRUE
+
+/obj/item/clothing/cloak/rangercloak
+	name = "ranger cloak"
+	desc = "A traditionally elven cloak said to help blend in with the woods."
+	icon_state = "ranger"
+	item_state = "ranger"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
+	resistance_flags = FIRE_PROOF
+
+/obj/item/clothing/cloak/rangercloak/gray
+	name = "cloth ranger cloak"
+	desc = "A traditionally elven cloak said to help blend in with the shadows."
+	icon_state = "ranger_gray"
+	item_state = "ranger_gray"

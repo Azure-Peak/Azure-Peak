@@ -60,17 +60,17 @@
 /datum/outfit/job/roguetown/wretch/pariah/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/trophyfur
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven
 	shoes = /obj/item/clothing/shoes/roguetown/boots/elven_boots
 	cloak = /obj/item/clothing/cloak/forrestercloak
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/elven_gloves
 	belt = /obj/item/storage/belt/rogue/leather/black
-	backl = /obj/item/storage/backpack/rogue/satchel
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+	backl = /obj/item/storage/backpack/rogue/satchel/black
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hatanga
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
+	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/elvish
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
@@ -122,9 +122,17 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
+	var/helmets = list(
+		"Woad Elven Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light,
+		"Elven Barbute"				= /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak,
+		"Winged Elven Barbute"		= /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak,
+	)
+	var/helmchoice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
+	head = helmets[helmchoice]
+
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Steel Dagger")
+			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Elvish Dirk")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
@@ -138,10 +146,10 @@
 				if("Elvish Curveblade")
 					r_hand = /obj/item/rogueweapon/greatsword/elvish
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
-				if("Steel Dagger")
-					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+				if("Elvish Dirk")
+					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/elvish
 					backr = /obj/item/rogueweapon/shield/wood
-			if(weapon_choice == "Steel Dagger")
+			if(weapon_choice == "Elvish Dirk")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -173,15 +181,5 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-
-	var/helmets = list("Woad Elven Barbute", "Elven Barbute", "Winged Elven Barbute")
-	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
-	switch(helmet_choice)
-		if("Woad Elven Barbute")
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light, SLOT_HEAD, TRUE)
-		if("Elven Barbute")
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak, SLOT_HEAD, TRUE)
-		if("Winged Elven Barbute")
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak, SLOT_HEAD, TRUE)
 
 	wretch_select_bounty(H)

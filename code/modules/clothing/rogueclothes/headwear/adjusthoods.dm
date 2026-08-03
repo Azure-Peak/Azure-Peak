@@ -36,6 +36,7 @@
 		flags_inv &= ~HIDEHAIR
 	else
 		flags_inv |= HIDEHAIR
+	persist_inv_flags(HIDEHAIR)
 	user.update_inv_wear_mask()
 	user.update_inv_head()
 
@@ -526,7 +527,7 @@
 /obj/item/clothing/head/roguetown/roguehood/studded/retinue/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
