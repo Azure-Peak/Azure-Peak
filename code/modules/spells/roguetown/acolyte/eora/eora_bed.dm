@@ -165,6 +165,10 @@
 		to_chat(user, span_warning("The ground here is unsuitable for a sanctuary."))
 		return FALSE
 
+	if(locate(/obj/structure/bed) in T)
+		to_chat(user, span_warning("There is already a bed here!"))
+		return FALSE
+
 	var/max_beds = get_max_beds(user)
 
 	for(var/datum/weakref/W in bed_refs)
