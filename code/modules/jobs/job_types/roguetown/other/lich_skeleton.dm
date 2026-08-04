@@ -344,7 +344,7 @@ LICH SKELETONS
 	H.energy = H.max_energy
 
 // Fragile Non-Combat crafter/demolishing artificer goon with a seige-use cavet. Worse weapons + very little armor but does base-building. Fortnite.
-// Has a unique extra varient calcic outburst choice that destroys walls and does a huge amount of damage on exploding but takes 8 seconds to prime, on top of their regular varient. 
+// Has a unique extra varient calcic outburst choice that destroys walls and does a huge amount of damage on exploding but takes 8 seconds to prime, on top of their regular varient.
 /datum/advclass/greater_skeleton/lich/sapper
 	name = "Ancient 'Broken Bone' Sapper"
 	tutorial = "Simple. Obedient. Like an ant in a colony. Toil, fortify, smelt, labor and destroy to the tune of your master's whims. After all; what good is an army if it hasn't a sword-nor-shield to wield?"
@@ -883,8 +883,6 @@ LICH SKELETONS
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MAJOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)	//Major acolyte-level regeneration, capped to T1 since Zizo miracles don't work w/ lich's skeleton spam
 	//up this if the miracle set is less about summonspam and knockdowns in future, please. They're meant to be a templar level caster vs heretic wretch. So T2 casters. No revival miracles.
 	//Starts w/1000 devotion, capped out. Cooldowns still balance this out. On-par w/zeretic spellblade devotion wise + ability (Outside of light snuff).
-
-	H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle) //We don't have blood, QOL since we can't use this.
 
 	// Reorder undead eyes action to the end, hacky but makes it easier to focus.
 	var/obj/item/organ/eyes/existing_eyes = H.getorganslot(ORGAN_SLOT_EYES)
