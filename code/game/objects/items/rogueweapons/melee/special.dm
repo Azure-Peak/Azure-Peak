@@ -1303,6 +1303,10 @@
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
 		. += "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"...here we are!\"</i>")
+	else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
+		. += span_gamedeadsay("This is the VILE DAGGER of a SOUL-THIEF! SLAY IT'S MASTER and BREAK IT by invoking a Necran ritual upon it!")
+	if(stored_souls.len)
+		. += span_gamedeadsay("You can hear [stored_souls.len] souls screaming from within...")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/rmb_self(mob/user)
 	. = ..()
