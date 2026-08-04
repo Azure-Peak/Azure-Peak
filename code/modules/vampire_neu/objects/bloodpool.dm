@@ -1,10 +1,9 @@
-#define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly above your ability to buy roundstart.
+#define VAMPCOST_ONE 5000 //heavily chopped down, intended we avoid grind. -> Champions + Grab Immunity
 #define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
-#define VAMPCOST_THREE 7500 //Grab immunity, leave moderately high. This is where they become a major threat.
-#define VAMPCOST_FOUR 14000 //Intended to be rather high as its hyperwar mode with sunkill, has to be moderately expensive but affordable so vlord can afford it and upgrade their personal powers through using them passively, for the war to come.
+#define VAMPCOST_THREE 7500 //Sunkill, leave moderately high. This is where they become a major threat.
 #define ARMOR_COST 5000 //Fairly cheap cause it comes behind a rite cost. We want this mid-early game. One-Time only ritual. Unlocks at Second Upgrade.
 #define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame. //MOVED TO AUTOMATIC ON FULLPOWER UPGRADE//
-#define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
+#define SERVANT_COST 600 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored. Very cheap cause these are non-combatants vs guards, massive skill + statline + ability/trait differences.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
 #define SERVANT_T3_COST 4000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Unlocks at Second Upgrade.
 
@@ -41,10 +40,11 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	var/datum/clan/owner_clan
 	var/list/nonvampire_vitae_snapshots = list()
 
+	//add projects for lord here. Remember VL has a LOT already going for it. don't over-bloat this list.
 	var/list/active_projects = list()
 	var/list/available_project_types = list(
 		/datum/vampire_project/servant/servant_t1,
-		/datum/vampire_project/servant/servant_t2, //Powerful servants come with second vlord upgrade. Plus armor can be bought at that point.
+		/datum/vampire_project/servant/servant_t2, //Powerful servants come with first vlord upgrade. Plus armor can be bought at second point.
 		/datum/vampire_project/power_growth,
 	)
 	var/sunstolen = FALSE
@@ -301,13 +301,13 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	current = max(current - SERVANT_COST, 0)
 	GLOB.crimson_crucible_personal_servant_summons[vampire_ref] = TRUE
 	SStgui.update_uis(src)
-	if(!project.summon("Vampire Servant", src, "Do you want to play as a vampire's weak servant?"))
+	if(!project.summon("Vampire Servant", src, "Do you want to play as a vampire's personal servant?"))
 		current = min(current + SERVANT_COST, CRUCIBLE_MAX_BLOOD)
 		GLOB.crimson_crucible_personal_servant_summons -= vampire_ref
 		SStgui.update_uis(src)
 		qdel(project)
 		return
-	to_chat(user, span_greentext("The crucible answers my call. My one weak servant rises from the blood."))
+	to_chat(user, span_greentext("The crucible answers my call. My one personal servant rises from the blood."))
 	qdel(project)
 
 /obj/structure/vampire/bloodpool/proc/get_project_contribution_text(datum/vampire_project/project, max_contribution, is_lord, is_vampire)
@@ -614,7 +614,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	if(!project_type)
 		return
 	if(!is_crucible_lord(user))
-		to_chat(user, span_warning("Only the Methuselah can direct vitae into rituals. I can only offer blood to the crucible cup."))
+		to_chat(user, span_warning("Only a Methuselah can direct vitae into greater rituals. I can only offer blood to the crucible cup."))
 		return
 
 	var/max_contribution = get_project_max_contribution(project, user)
@@ -695,7 +695,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 
 /obj/structure/vampire/bloodpool/proc/start_new_project(project_type, mob/living/user)
 	if(!is_crucible_lord(user))
-		to_chat(user, span_warning("Only the Methuselah can begin new rituals."))
+		to_chat(user, span_warning("Only a Methuselah can begin new greater rituals."))
 		return
 
 	var/datum/vampire_project/project = new project_type()
@@ -720,7 +720,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 
 /obj/structure/vampire/bloodpool/proc/handle_project_contribution(mob/living/user)
 	if(!is_crucible_lord(user))
-		to_chat(user, span_warning("Only the Methuselah can direct vitae into rituals. I can only offer blood to the crucible cup."))
+		to_chat(user, span_warning("Only a Methuselah can direct vitae into greater rituals. I can only offer blood to the crucible cup."))
 		return
 	if(!active_projects.len)
 		to_chat(user, span_warning("No active projects to contribute to."))
@@ -833,7 +833,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 
 /datum/vampire_project/proc/handle_contribution(mob/living/user)
 	if(!bloodpool?.is_crucible_lord(user))
-		to_chat(user, span_warning("Only the Methuselah can direct vitae into rituals."))
+		to_chat(user, span_warning("Only a Methuselah can direct vitae into greater rituals."))
 		return
 
 	var/max_contribution = min(user.bloodpool, total_cost - paid_amount)
@@ -844,7 +844,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	if(!contribution || contribution < 1)
 		return
 
-	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a 
+	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a
 	contribution = clamp(contribution, 0, max_contribution)
 
 	if(user.bloodpool < contribution)
@@ -889,7 +889,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 /datum/vampire_project/power_growth
 	display_name = "Rite of Stirring"
 	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land."
-	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks Champions"
+	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks Champions + Grab Immunity"
 	total_cost = VAMPCOST_ONE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -926,8 +926,8 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 		var/datum/antagonist/vampire/lord/lord = user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
-			to_chat(user, span_greentext("My power grows through collective sacrifice."))
-			to_chat(user, span_warning("I should further develop my vampiric potencies and regain my ancient set of armor.")) //Subtle Que for Newer players, that despite the next upgrade seeming quite close, you should invest into potencies + armor for later.
+			to_chat(user, span_greentext("My power grows through collective sacrifice, I am nearing completion"))
+			to_chat(user, span_warning("I am stronger than ever, I am now immune to grabs.")) //Trait hints
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
@@ -937,9 +937,9 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 			break
 
 /datum/vampire_project/power_growth_3
-	display_name = "Rite of Dominion"
-	description = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land."
-	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit."
+	display_name = "Rite of Sovereignty"
+	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one."
+	mechanics_description = "+2 to all stats for thralls +2 to lorde + 1000 lorde and thrall vitae pool limit. Kills the Sun and loudly announces your presence."
 	total_cost = VAMPCOST_THREE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -949,45 +949,16 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 		var/datum/antagonist/vampire/lord/lord = user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
-			to_chat(user, span_greentext("My power grows through collective sacrifice, I am nearing completion."))
-			to_chat(user, span_warning("I am stronger than ever, I am now immune to grabs.")) //Trait hints
-			for(var/S in MOBSTATS)
-				lord_body.change_stat(S, 2)
-			ADD_TRAIT(lord_body, TRAIT_GRABIMMUNE, TRAIT_GENERIC) //You're reaching solo-antagonist levels of godhood here.
-			lord_body.maxbloodpool += 1000
-			bloodpool.available_project_types -= /datum/vampire_project/power_growth_3
-			bloodpool.available_project_types += /datum/vampire_project/power_growth_4
-			break
-
-/datum/vampire_project/power_growth_4
-	display_name = "Rite of Sovereignty"
-	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one."
-	mechanics_description = "+2 to all stats for thralls +2 to lorde + 1000 lorde and thrall vitae pool limit. Kills the Sun and loudly announces your presence."
-	total_cost = VAMPCOST_FOUR
-	completion_sound = 'sound/misc/batsound.ogg'
-
-/datum/vampire_project/power_growth_4/on_complete()
-	// Find nearby vampire lords who can level up
-	for(var/mob/living/user in range(1, bloodpool))
-		var/datum/antagonist/vampire/lord/lord = user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
-		if(lord && !lord.ascended)
-			var/mob/living/carbon/human/lord_body = user
-			for(var/S in MOBSTATS)
-				lord_body.change_stat(S, 2)
-			ADD_TRAIT(lord_body, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //I mean, you worked for it. You're now the OG vlord once more, go nuts! The lorde of mass-fragging once more.
-			ADD_TRAIT(lord_body, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC) //Kneestinger + other shock sources resistance. Far less hardstuns at this point will stop them.
-			SSticker.sunsteal(initiator_clan?.clan_leader) //Universally ensures the town knows a literal calamity is about to show up.
-			lord_body.maxbloodpool += 1000
 			to_chat(user, span_userdanger("I AM ANCIENT, I AM THE LAND. EVEN THE SUN BOWS TO ME.")) //SEND WORD. THE END IS HERE.
 			to_chat(user, span_warning("I will no longer tire nor feel, stamina will no longer affect me, shocks will no longer affect me.")) //Trait hints
-			lord.ascended = TRUE
-			var/list/all_subordinates = user.clan_position.get_all_subordinates()
-			for(var/mob/living/carbon/human/subordinate_body  in all_subordinates)
-				subordinate_body.maxbloodpool += 1000
-				for(var/S in MOBSTATS)
-					subordinate_body.change_stat(S, 2)
-
-			bloodpool.available_project_types -= /datum/vampire_project/power_growth_4
+			for(var/S in MOBSTATS)
+				lord_body.change_stat(S, 2)
+			ADD_TRAIT(lord_body, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //You're now the OG vlord once more, you are exposed to the entire server knowing of your existance.
+			ADD_TRAIT(lord_body, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC) //No hardstunning them, fuck off. Lich has this for that reasoning too.
+			SSticker.sunsteal(initiator_clan?.clan_leader) //Universally ensures the town knows a literal calamity is about to show up.
+			lord_body.maxbloodpool += 1000
+			lord_body.maxbloodpool += 1000
+			bloodpool.available_project_types -= /datum/vampire_project/power_growth_3
 			break
 
 /datum/vampire_project/armor_crafting

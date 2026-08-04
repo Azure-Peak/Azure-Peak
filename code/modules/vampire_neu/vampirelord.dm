@@ -44,10 +44,10 @@
 	//Progress dominion has an undead check anyway, so don't worry about them not worshipping Zizo. She'd do it out of spite anyway.
 	add_verb(H, /mob/living/carbon/human/proc/demand_submission)
 	add_verb(H, /mob/living/carbon/human/proc/punish_spawn)
-	H.maxbloodpool += 3000
-	H.adjust_bloodpool(3000)
+	H.maxbloodpool += 4000
+	H.adjust_bloodpool(4000)
 	for(var/S in MOBSTATS)
-		H.change_stat(S, 2)
+		H.change_stat(S, 4)
 	H.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient walking calamities, no take backs.
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
@@ -57,6 +57,7 @@
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_GRABIMMUNE, TRAIT_GENERIC) //Melee-orientated antagonist, can only use vamp potencies and vitae magicka.
 	ADD_TRAIT(H, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC) //Heavy-Antag Role, lets you repair your armor with tools + level to journeyman.
 	ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC) //Stops you getting moodnuked and dropping your weapon non-stop. I didn't want to have to give them this off-the-bat but after seeing this happen, yeaaaah.
 	H.update_move_intent_slowdown()
