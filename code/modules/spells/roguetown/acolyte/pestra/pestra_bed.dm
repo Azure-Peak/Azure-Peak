@@ -51,7 +51,7 @@
 
 		if(prob(15))
 			to_chat(owner, span_danger("You feel like your vitality is being sapped!"))
-		owner.adjustBruteLoss(1 * 2, 0)
+		owner.adjustBruteLoss(2, 0)
 		owner.adjustToxLoss(1, 0)
 		return
 
