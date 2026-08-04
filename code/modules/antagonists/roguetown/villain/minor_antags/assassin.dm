@@ -289,8 +289,7 @@
 	spell_requirements = SPELL_REQUIRES_HUMAN
 	charge_required = FALSE
 	cooldown_time = 20 SECONDS
-	button_icon_state = "find_dagger"
-
+	button_icon_state = "find_dagger_alt"
 
 /datum/action/cooldown/spell/assassin/find_dagger/after_cast(atom/cast_on)
 	. = ..()
