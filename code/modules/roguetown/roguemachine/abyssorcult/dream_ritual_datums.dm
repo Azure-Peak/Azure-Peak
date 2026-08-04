@@ -7,7 +7,7 @@
 		/obj/item/dream_material/dream_spike = 3
 	)
 	reward_items = list(
-		/obj/item/dream_material/dream_seed = 1
+		/obj/item/dream_material/dream_seed = 3
 	)
 	invocation_phases  = list(
 		"#Depth coral, bloom for us."
@@ -25,7 +25,7 @@
 		/obj/item/dream_material/dream_ring = 2
 	)
 	reward_items = list(
-		/obj/item/dream_material/dream_seed/fortune = 1
+		/obj/item/dream_material/dream_seed/fortune = 2
 	)
 	invocation_phases = list(
 		"#Depths full of lost fortunes, dredge up some treasures."
@@ -39,7 +39,7 @@
 		/obj/item/dream_material/dream_fishes = 2
 	)
 	reward_items = list(
-		/obj/item/dream_material/dream_seed/perception = 1
+		/obj/item/dream_material/dream_seed/perception = 2
 	)
 	invocation_phases = list(
 		"#Open eyes of the deep, see through the dark water."
@@ -53,7 +53,7 @@
 		/obj/item/dream_material/dream_effigy = 2
 	)
 	reward_items = list(
-		/obj/item/dream_material/dream_seed/sneaky = 1
+		/obj/item/dream_material/dream_seed/sneaky = 2
 	)
 	invocation_phases = list(
 		"#The abyss swallows light, leaving nothing behind."
@@ -67,7 +67,7 @@
 		/obj/item/dream_material/dream_star = 1
 	)
 	reward_items = list(
-		/obj/item/dream_material/dream_seed/strength = 1
+		/obj/item/dream_material/dream_seed/strength = 2
 	)
 	invocation_phases = list(
 		"#Crush them beneath the weight of ten thousand leagues."
@@ -81,7 +81,7 @@
 		/obj/item/dream_material/dream_shards = 1
 	)
 	reward_items = list(
-		/obj/item/dream_material/dream_seed/speed = 1
+		/obj/item/dream_material/dream_seed/speed = 2
 	)
 	invocation_phases = list(
 		"#Currents flow fast, rip through the waves like a phantom."
