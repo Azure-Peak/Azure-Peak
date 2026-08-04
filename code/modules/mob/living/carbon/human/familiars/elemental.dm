@@ -7,7 +7,7 @@
 
 	speak_emote = list ("rumbles", "grinds")
 	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental)
-	t1_spell = list(/datum/action/cooldown/spell/earthen_forge)
+	t1_spell = list(/datum/action/cooldown/spell/earthen_forge, /datum/action/cooldown/spell/earthen_forge/wall)
 	t2_spell = list(/datum/action/cooldown/spell/arcyne_forge/elementalt2)
 	valid_healing_items = list(/obj/item/magic/elemental)
 	tierup_messages = list(

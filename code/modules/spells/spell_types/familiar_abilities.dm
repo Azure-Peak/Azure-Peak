@@ -419,7 +419,7 @@
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
 
-	var/obj/item/conjured_item
+	var/obj/conjured_item
 
 /datum/action/cooldown/spell/earthen_forge/cast(atom/cast_on)
 	. = ..()
@@ -444,17 +444,19 @@
 		return FALSE
 
 	var/item_path = conjure_options[choice]
-	var/obj/item/R = new item_path(H.drop_location())
+	var/obj/R = new item_path(H.drop_location())
+	var/obj/item/I = R
 
 	R.obj_integrity = R.max_integrity
 	owner.status_flags |= GODMODE
-	// Mark as conjured — no salvage, no smelting
-	R.smeltresult = null
-	R.salvage_result = null
-	R.fiber_salvage = FALSE
+	if(isitem(R))
+		// Mark as conjured — no salvage, no smelting
+		I.smeltresult = null
+		I.salvage_result = null
+		I.fiber_salvage = FALSE
 
-	// Conjured glow
-	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
+		// Conjured glow
+		I.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
 	RegisterSignal(R, COMSIG_ITEM_BROKEN, PROC_REF(revert))
 	RegisterSignal(H, COMSIG_LIVING_RESIST, PROC_REF(revert))
 	RegisterSignal(R, COMSIG_ITEM_DROPPED, PROC_REF(revert_perspective))
@@ -462,16 +464,18 @@
 	conjured_item = R
 	H.reset_perspective(R)
 	R.become_hearing_sensitive()
-	update_cone_show()
+	H.update_cone_show()
 	return TRUE
 
 /datum/action/cooldown/spell/earthen_forge/proc/revert_perspective()
 	owner.reset_perspective()
+	owner.update_cone_show()
 
 /datum/action/cooldown/spell/earthen_forge/proc/revert()
 	if(conjured_item)
 		owner.forceMove(get_turf(owner))
 		owner.status_flags &= ~GODMODE
+		owner.update_cone_show()
 		QDEL_NULL(conjured_item)
 
 /datum/action/cooldown/spell/earthen_forge/infernal
@@ -481,6 +485,21 @@
 	conjure_options = list(
 		// Staff
 		"Infernal Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/infernal,
+	)
+
+/obj/structure/arcyne_wall/greater/elemental
+	desc = "The mason did an excellent job etching details into this wall."
+	name = "decorated stone wall"
+	icon_state = "decostone-b"
+	icon = 'icons/turf/roguewall.dmi'
+	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
+
+/datum/action/cooldown/spell/earthen_forge/wall
+	name = "Wall Forme"
+	desc = "Become a bulwark, drawing earth into yourself to block off a passage. None shall proceed while you yet stand."
+
+	conjure_options = list(
+		"Wall" = /obj/structure/arcyne_wall/greater/elemental,
 	)
 
 /datum/action/cooldown/spell/earthen_forge/void // lmao
