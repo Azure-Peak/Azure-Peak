@@ -1032,6 +1032,12 @@
 			user.mind.add_sleep_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 	return TRUE
 
+/// returns the array index of the path I is a child path of, or null if it's not in the list
+/obj/structure/fluff/alch/trans/proc/find_in_reqs(obj/item/I, list/reqs)
+	for(var/path in reqs)
+		if(ispath(I.type, path))
+			return path
+
 /obj/structure/fluff/alch/trans/proc/gather_ingredients(mob/living/carbon/human/user, datum/transmutation_recipe/R) // sure am glad we cache this
 	var/list/ingredients = list()
 	var/list/needed_items = R.input_items.Copy()
@@ -1041,7 +1047,7 @@
 	for(var/obj/item/I in env_items)
 		if(R.validate_ingredient(I))
 			return list(I) // this is a snowflake recipe
-		if(I.can_craft_with() && (needed_items[I.type] || R.validate_ingredient(I)))
+		if(I.can_craft_with() && (find_in_reqs(I, needed_items) || R.validate_ingredient(I)))
 			single_items += I
 		else if(istype(I, /obj/item/natural/bundle) || R.validate_ingredient(I))
 			var/obj/item/natural/bundle/B = I
@@ -1063,7 +1069,8 @@
 	var/list/materiaful_items = list()
 	for(var/obj/item/I in single_items) // ...then single items that don't contain needed materia, to avoid edge cases where an item could work for ingredient and materia, causing the first one to pick it to win...
 		var/cont = FALSE
-		if(needed_items[I.type]<=0)
+		var/used_as = find_in_reqs(I, needed_items)
+		if(needed_items[used_as]<=0)
 			continue
 		for(var/aspect as anything in I.materia)
 			if(R.materia_aspects.Find(aspect))
@@ -1072,12 +1079,13 @@
 		if(cont)
 			continue
 		ingredients += I
-		needed_items[I.type] -= 1
+		needed_items[used_as] -= 1
 	for(var/obj/item/I in materiaful_items) // ...then the rest
-		if(needed_items[I.type]<=0)
+		var/used_as = find_in_reqs(I, needed_items)
+		if(needed_items[used_as]<=0)
 			continue
 		ingredients += I
-		needed_items[I.type] -= 1
+		needed_items[used_as] -= 1
 	// after we've checked all the valid items, if we're short, no dice
 	for(var/path in needed_items)
 		if(needed_items[path])
