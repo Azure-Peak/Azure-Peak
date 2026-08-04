@@ -130,6 +130,8 @@ SUBSYSTEM_DEF(chimeric_tech)
 	if(node.is_recipe_node)
 		update_recipes_for_tech(string_id)
 
+	notify_players_of_unlock(node)
+
 	return "Successfully unlocked [node.name]!"
 
 /datum/controller/subsystem/chimeric_tech/proc/update_recipes_for_tech(var/tech_id)
@@ -164,12 +166,12 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 	var/advanced_healing_path = "HEAL_TIER1"
 	var/enhanced_healing_path = "HEAL_TIER2"
-	
+
 	if(get_node_status(advanced_healing_path))
 		multiplier = 1.0
 	if(get_node_status(enhanced_healing_path))
 		multiplier = 1.25
-	
+
 	return multiplier
 
 /datum/controller/subsystem/chimeric_tech/proc/get_resurrection_multiplier()
@@ -217,8 +219,19 @@ SUBSYSTEM_DEF(chimeric_tech)
 		update_recipes_for_tech(string_id)
 
 	if(!silent)
+		notify_players_of_unlock(node)
 		log_admin("Chimeric Tech: Node '[node.name]' ([string_id]) was force-unlocked via proc.")
 	return "Successfully force-unlocked [node.name]."
+
+/datum/controller/subsystem/chimeric_tech/proc/notify_players_of_unlock(datum/chimeric_tech_node/node)
+	if(!node.should_notify)
+		return
+
+	var/message = node.unlock_message ? node.unlock_message : "A new chimeric truth reveals itself: [node.name]!"
+
+	for(var/mob/living/M in GLOB.player_list)
+		if(node.notify_condition(M))
+			to_chat(M, span_nicegreen(message))
 
 #undef CHIMERIC_CACHE_TECH
 #undef CHIMERIC_CACHE_ECHOES

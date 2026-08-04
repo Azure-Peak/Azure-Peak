@@ -198,10 +198,12 @@
 		apply_visuals()
 		parent_mob.apply_status_effect(/datum/status_effect/buff/black_rot_carrier)
 		to_chat(parent_mob, span_notice("You allow the black rot to surface, manifesting its aura."))
+		REMOVE_TRAIT(parent_mob, TRAIT_SPELLCOCKBLOCK, INNATE_TRAIT)
 	else
 		remove_visuals()
 		parent_mob.remove_status_effect(/datum/status_effect/buff/black_rot_carrier)
-		to_chat(parent_mob, span_warning("You suppress the black rot within yourself, hiding its presence."))
+		to_chat(parent_mob, span_warning("You suppress your connection to Pestra, hiding its presence."))
+		ADD_TRAIT(parent_mob, TRAIT_SPELLCOCKBLOCK, INNATE_TRAIT)
 
 /datum/component/infestation_black_rot/proc/on_attack_success(mob/living/user, mob/living/target)
 	SIGNAL_HANDLER

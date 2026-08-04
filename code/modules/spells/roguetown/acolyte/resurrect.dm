@@ -32,6 +32,26 @@
 	var/matthios = FALSE
 	priest_excluded = TRUE
 
+/obj/effect/proc_holder/spell/invoked/resurrect/get_spell_statistics(mob/living/user)
+	. = ..()
+	var/list/needed_items = get_current_required_items()
+
+	if(!length(needed_items))
+		. += span_notice("<b>Required Components:</b> None.")
+		return
+
+	var/has_alt_reduction = SSchimeric_tech.has_revival_cost_reduction() && length(alt_required_items)
+	var/cost_header = "Required Components" + (has_alt_reduction ? " (Reduced Cost Active):" : ":")
+
+	. += "<br><span class='notice'><b>[cost_header]</b></span>"
+
+	for(var/item_path in needed_items)
+		var/amount = needed_items[item_path]
+		var/obj/item/item_datum = item_path
+		var/item_name = initial(item_datum.name)
+
+		. += span_info("- [amount]x [item_name][amount > 1 ? "s" : ""]")
+
 /obj/effect/proc_holder/spell/invoked/resurrect/start_recharge()
 	var/old_recharge = recharge_time
 	recharge_time = initial(recharge_time) * SSchimeric_tech.get_resurrection_multiplier()

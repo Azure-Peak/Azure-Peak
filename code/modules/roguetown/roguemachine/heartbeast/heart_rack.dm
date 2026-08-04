@@ -125,6 +125,7 @@
 	. = ..()
 
 	var/has_canisters = FALSE
+	var/has_broken = FALSE
 	for(var/i in 1 to 6)
 		var/obj/item/heart_canister/canister = slots[i]
 		if(canister)
@@ -132,6 +133,8 @@
 				. += span_notice("It contains:")
 				has_canisters = TRUE
 			. += span_notice("- [canister.name] in the [slot_types[i]] slot")
+			if(canister.broken)
+				has_broken = TRUE
 		else
 			. += span_notice("- an empty void in the [slot_types[i]] slot")
 
