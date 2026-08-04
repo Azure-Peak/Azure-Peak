@@ -541,7 +541,7 @@
 
 // Progress: Arcyne knowledge (2 minor aspects, 4 utilities). No skeletonization. -- Kunai: I made this more distinctive from Undeath, now it also gives you some traits to give a better progress vibe.
 // Unlife: Full skeletonization (minus head) + MOB_UNDEAD, grants bonechill and raise_deadite. -- Kunai: We already have raise_deadite, so it's a moot point to give them the Necromancer version of it. Just gave them bonemend and a few more traits to give the vibe of a 'half-lich'.
-// Both paths grant undead language and TRAIT_ARCYNE. One-time use - cannot be cast again after completion.
+// Both paths grant undead language and TRAIT_ARCYNE. One-time use - cannot be cast again after completion. If you outsmart and try to exploit this, we kill you horrifically.
 
 /*
 SOEP
