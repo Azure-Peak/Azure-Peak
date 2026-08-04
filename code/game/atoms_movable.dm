@@ -1021,13 +1021,6 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 	icon = 'icons/effects/effects.dmi'
 	duration = 3
 
-/atom/movable/proc/do_warning()
-	var/image/I
-	I = image('icons/effects/effects.dmi', src, "mobwarning", src.layer + 0.1)
-	I.pixel_y = 16
-	flick_overlay(I, GLOB.clients, 5)
-
-
 /atom/movable/vv_get_dropdown()
 	. = ..()
 	. += "<option value='?_src_=holder;[HrefToken()];adminplayerobservefollow=[REF(src)]'>Follow</option>"
@@ -1047,19 +1040,14 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 		return
 	if(on && !(movement_type & FLOATING))
 		setMovetype(movement_type | FLOATING)
-		INVOKE_ASYNC(src, PROC_REF(float_bob))
+		float_bob()
 	else if(!on && (movement_type & FLOATING))
 		setMovetype(movement_type & ~FLOATING)
 		animate(src, pixel_y = base_pixel_y, time = 5)
 
-// Oscillates pixel_y between base+2 and base-2 using absolute targets while FLOATING is set.
-// Absolute values prevent drift; the loop survives icon-state changes that cancel animate chains.
 /atom/movable/proc/float_bob()
-	var/bob_up = TRUE
-	while(!QDELETED(src) && (movement_type & FLOATING))
-		animate(src, pixel_y = base_pixel_y + (bob_up ? 2 : -2), time = 10, easing = SINE_EASING)
-		bob_up = !bob_up
-		sleep(10)
+	animate(src, pixel_y = base_pixel_y + 2, time = 10, easing = SINE_EASING, loop = -1)
+	animate(pixel_y = base_pixel_y - 2, time = 10, easing = SINE_EASING)
 
 /* Language procs */
 /atom/movable/proc/get_language_holder(shadow=TRUE)
@@ -1189,12 +1177,12 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 		to_x = -32
 	if(!direction)
 		to_y = 16
-	flick_overlay(I, GLOB.clients, 6)
+	var/atom/movable/flick_visual/pickup = T.flick_overlay_view(I, 6)
 	var/matrix/M = new
 	M.Turn(pick(-30, 30))
-	animate(I, alpha = 175, pixel_x = to_x, pixel_y = to_y, time = 3, transform = M, easing = CUBIC_EASING)
+	animate(pickup, alpha = 175, pixel_x = to_x, pixel_y = to_y, time = 3, transform = M, easing = CUBIC_EASING)
 	sleep(1)
-	animate(I, alpha = 0, transform = matrix(), time = 1)
+	animate(pickup, alpha = 0, transform = matrix(), time = 1)
 
 /atom/movable/Exited(atom/movable/gone, atom/newLoc)
 	. = ..()

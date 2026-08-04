@@ -328,8 +328,7 @@ const ComposeView = () => {
           title={disabledReason}
           onClick={dispatch}
         >
-          Whisper Rumor ({pts(cost)})
-          {lucrative ? ' - lucrative' : ''}
+          Whisper Rumor ({pts(cost)}){lucrative ? ' - lucrative' : ''}
         </button>
       </div>
     </>

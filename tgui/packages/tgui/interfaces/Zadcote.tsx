@@ -6,23 +6,23 @@ import { Window } from '../layouts';
 import {
   BUTTON_BG,
   cardStyle,
-  fieldRowStyle,
   FONT_BODY,
   FONT_LEAD,
   FONT_SMALL,
   FONT_TITLE,
+  fieldRowStyle,
   INK,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
-  pageStyle,
   PARCHMENT_SHADOW,
+  pageStyle,
   rulerStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
   subtitleStyle,
   titleStyle,
 } from './common/parchment';
@@ -115,10 +115,7 @@ const captionStyle = {
   fontSize: FONT_BODY,
 };
 
-const HeaderStat = (props: {
-  label: string;
-  value: React.ReactNode;
-}) => (
+const HeaderStat = (props: { label: string; value: React.ReactNode }) => (
   <div style={{ flex: 1, minWidth: 0 }}>
     <div
       style={{
@@ -142,19 +139,27 @@ const ReserveHeader = (props: {
   act: (action: string, payload?: Record<string, unknown>) => void;
 }) => {
   const { data, onHelp, act } = props;
-  const lowReserve = data.reserve <= Math.max(2, Math.floor(data.reserve_start * 0.2));
+  const lowReserve =
+    data.reserve <= Math.max(2, Math.floor(data.reserve_start * 0.2));
   const bombsReady = data.bomb_cooldown_remaining <= 0;
   return (
     <div style={{ position: 'relative' }}>
       <button
         type="button"
         title="Open the zadcote handbook"
-        style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 8 }}
+        style={{
+          ...inkButtonStyle({}),
+          position: 'absolute',
+          top: 8,
+          right: 8,
+        }}
         onClick={onHelp}
       >
         ?
       </button>
-      <div style={{ ...titleStyle, paddingRight: '40px' }}>{data.motto || 'Zadcote'}</div>
+      <div style={{ ...titleStyle, paddingRight: '40px' }}>
+        {data.motto || 'Zadcote'}
+      </div>
       <div style={subtitleStyle}>A flock of trained zads at your call.</div>
       <hr style={rulerStyle} />
       <div style={cardStyle}>
@@ -163,7 +168,12 @@ const ReserveHeader = (props: {
             label="Reserve"
             value={
               <>
-                <span style={{ color: lowReserve ? SEAL_RED : INK, fontWeight: 'bold' }}>
+                <span
+                  style={{
+                    color: lowReserve ? SEAL_RED : INK,
+                    fontWeight: 'bold',
+                  }}
+                >
                   {data.reserve}
                 </span>
                 <span style={{ color: INK_SOFT }}> / {data.reserve_start}</span>
@@ -184,7 +194,10 @@ const ReserveHeader = (props: {
             value={
               <>
                 <span style={{ fontWeight: 'bold' }}>{data.bomb_stock}</span>
-                <span style={{ color: INK_SOFT }}> / {data.bomb_stock_cap}</span>
+                <span style={{ color: INK_SOFT }}>
+                  {' '}
+                  / {data.bomb_stock_cap}
+                </span>
               </>
             }
           />
@@ -202,12 +215,27 @@ const ReserveHeader = (props: {
             <HeaderStat
               label="Scrying fund"
               value={
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    gap: '8px',
+                  }}
+                >
                   <div>
-                    <span style={{ color: data.voyeur_fund < data.voyeur_cost ? SEAL_RED : INK, fontWeight: 'bold' }}>
+                    <span
+                      style={{
+                        color:
+                          data.voyeur_fund < data.voyeur_cost ? SEAL_RED : INK,
+                        fontWeight: 'bold',
+                      }}
+                    >
                       {data.voyeur_fund}m
                     </span>
-                    <span style={{ color: INK_SOFT }}> ({data.voyeur_cost}m / scry)</span>
+                    <span style={{ color: INK_SOFT }}>
+                      {' '}
+                      ({data.voyeur_cost}m / scry)
+                    </span>
                   </div>
                   <button
                     type="button"
@@ -238,7 +266,8 @@ const ReserveHeader = (props: {
 const StatusPill = (props: { slot: ZadcoteSlot }) => {
   const { slot } = props;
   if (slot.in_flight) {
-    const direction = slot.flight_direction === 'return' ? 'returning' : 'outbound';
+    const direction =
+      slot.flight_direction === 'return' ? 'returning' : 'outbound';
     const arriving = slot.flight_arrival_seconds ?? 0;
     return (
       <span
@@ -345,7 +374,8 @@ const SendPanel = (props: {
   const [bombCaw, setBombCaw] = useState('');
   const [selectedRefs, setSelectedRefs] = useState<Record<string, boolean>>({});
 
-  const bombsAvailable = data.bomb_stock > 0 && data.bomb_cooldown_remaining <= 0;
+  const bombsAvailable =
+    data.bomb_stock > 0 && data.bomb_cooldown_remaining <= 0;
   const bombOptions = bombsAvailable
     ? [0, 1, 2, 3].filter((n) => n <= data.bomb_stock)
     : [0];
@@ -360,9 +390,11 @@ const SendPanel = (props: {
     if (!slot.bonded) return 'No cage is bonded to this slot.';
     if (slot.in_flight) return 'A flight is already on this slot.';
     if (slot.cage_occupied) return 'That zadcage is already occupied.';
-    if (slot.cage_has_payload) return 'Unclaimed parcels still sit in that cage.';
+    if (slot.cage_has_payload)
+      return 'Unclaimed parcels still sit in that cage.';
     if (data.flights >= data.flight_cap) return 'Too many flights in the air.';
-    if (data.reserve < effectiveZads) return `Only ${data.reserve} zads remain in the cote.`;
+    if (data.reserve < effectiveZads)
+      return `Only ${data.reserve} zads remain in the cote.`;
     if (overLimit) return `Message exceeds ${MESSAGE_MAX} characters.`;
     return null;
   })();
@@ -480,7 +512,10 @@ const SendPanel = (props: {
                   checked={on}
                   disabled={disabled}
                   onChange={() =>
-                    setSelectedRefs((prev) => ({ ...prev, [item.ref]: !prev[item.ref] }))
+                    setSelectedRefs((prev) => ({
+                      ...prev,
+                      [item.ref]: !prev[item.ref],
+                    }))
                   }
                 />
                 <span>{item.name}</span>
@@ -513,7 +548,9 @@ const SendPanel = (props: {
             }}
             disabled={bombs > 0}
           />
-          <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, marginTop: '4px' }}>
+          <div
+            style={{ color: INK_FAINT, fontSize: FONT_SMALL, marginTop: '4px' }}
+          >
             {effectiveZads === 1
               ? '1 zad: tiny or small parcel.'
               : effectiveZads === 2
@@ -592,7 +629,15 @@ const SlotNameField = (props: {
 
   const dirty = draft.trim() !== slot.name.trim();
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1, minWidth: 0 }}>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+        flex: 1,
+        minWidth: 0,
+      }}
+    >
       <span
         style={{
           color: INK_SOFT,
@@ -638,7 +683,8 @@ const SlotRow = (props: {
   const { data, slot, expanded, onToggle, act } = props;
   const canSever = slot.bonded && !slot.severed;
   const fundsOk = data.voyeur_fund >= data.voyeur_cost;
-  const canVoyeur = data.allows_voyeur && slot.bonded && !slot.severed && fundsOk;
+  const canVoyeur =
+    data.allows_voyeur && slot.bonded && !slot.severed && fundsOk;
   return (
     <div
       style={{
@@ -743,7 +789,8 @@ export const Zadcote = () => {
               Zadlinks
             </TabButton>
             <TabButton active={tab === 'log'} onClick={() => setTab('log')}>
-              Mail Ledger {data.mail_log.length > 0 ? `(${data.mail_log.length})` : ''}
+              Mail Ledger{' '}
+              {data.mail_log.length > 0 ? `(${data.mail_log.length})` : ''}
             </TabButton>
           </div>
           {tab === 'slots' && (
@@ -767,7 +814,9 @@ export const Zadcote = () => {
                     slot={slot}
                     expanded={expandedSlot === slot.slot}
                     onToggle={() =>
-                      setExpandedSlot((prev) => (prev === slot.slot ? null : slot.slot))
+                      setExpandedSlot((prev) =>
+                        prev === slot.slot ? null : slot.slot,
+                      )
                     }
                     act={act}
                   />
@@ -861,8 +910,22 @@ const MailColumn = (props: {
                 if (hasMessage) setExpandedIdx(expanded ? null : idx);
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '6px' }}>
-                <span style={{ fontWeight: 'bold', color: INK, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                  gap: '6px',
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: 'bold',
+                    color: INK,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
                   #{entry.slot} {entry.sender}
                   {hasMessage && (
                     <span style={{ color: INK_FAINT, marginLeft: '4px' }}>
@@ -870,7 +933,14 @@ const MailColumn = (props: {
                     </span>
                   )}
                 </span>
-                <span style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontFamily: 'monospace', flexShrink: 0 }}>
+                <span
+                  style={{
+                    color: INK_FAINT,
+                    fontSize: FONT_SMALL,
+                    fontFamily: 'monospace',
+                    flexShrink: 0,
+                  }}
+                >
                   {entry.stamp}
                 </span>
               </div>
@@ -884,24 +954,51 @@ const MailColumn = (props: {
                       ? 'Summoned'
                       : 'Sent';
                 return (
-                  <div style={{ color: INK_SOFT, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
+                  <div
+                    style={{
+                      color: INK_SOFT,
+                      fontSize: FONT_SMALL,
+                      paddingLeft: '8px',
+                    }}
+                  >
                     {verb}: {zads} zad{zads === 1 ? '' : 's'}
                   </div>
                 );
               })()}
               {entry.items && entry.items.length > 0 ? (
-                <div style={{ color: INK_SOFT, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
-                  {entry.kind === 'sent' ? 'Carried' : 'Brought'}: {entry.items.join(', ')}
+                <div
+                  style={{
+                    color: INK_SOFT,
+                    fontSize: FONT_SMALL,
+                    paddingLeft: '8px',
+                  }}
+                >
+                  {entry.kind === 'sent' ? 'Carried' : 'Brought'}:{' '}
+                  {entry.items.join(', ')}
                 </div>
               ) : null}
               {entry.kind === 'sent' && (entry.bombs ?? 0) > 0 ? (
-                <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
-                  {entry.bombs} bottlebomb{entry.bombs === 1 ? '' : 's'} attached
+                <div
+                  style={{
+                    color: SEAL_RED,
+                    fontSize: FONT_SMALL,
+                    paddingLeft: '8px',
+                  }}
+                >
+                  {entry.bombs} bottlebomb{entry.bombs === 1 ? '' : 's'}{' '}
+                  attached
                 </div>
               ) : null}
               {entry.kind === 'returned' && (entry.lost ?? 0) > 0 ? (
-                <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
-                  {entry.lost} of {entry.zads_used} zad{entry.zads_used === 1 ? '' : 's'} lost to exhaustion
+                <div
+                  style={{
+                    color: SEAL_RED,
+                    fontSize: FONT_SMALL,
+                    paddingLeft: '8px',
+                  }}
+                >
+                  {entry.lost} of {entry.zads_used} zad
+                  {entry.zads_used === 1 ? '' : 's'} lost to exhaustion
                 </div>
               ) : null}
               {hasMessage && expanded && (

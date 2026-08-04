@@ -4,13 +4,13 @@ import {
   INK,
   INK_FAINT,
   INK_SOFT,
-  pageStyle,
   PARCHMENT_SHADOW,
+  pageStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from '../../common/parchment';
 import type { FundLogEntry, HarborData } from '../types';
 
@@ -127,8 +127,19 @@ export const LedgerTab = (props: { harbor?: HarborData }) => {
     <div style={pageStyle}>
       <BalanceCard balance={ledger.merchant_fund_balance} />
 
-      <div style={{ ...cardStyle, marginTop: '0', marginBottom: '6px', padding: '6px 12px' }}>
-        <div style={{ ...sectionHeaderStyle, marginTop: 0, marginBottom: '4px' }}>Week Audit</div>
+      <div
+        style={{
+          ...cardStyle,
+          marginTop: '0',
+          marginBottom: '6px',
+          padding: '6px 12px',
+        }}
+      >
+        <div
+          style={{ ...sectionHeaderStyle, marginTop: 0, marginBottom: '4px' }}
+        >
+          Week Audit
+        </div>
         <div
           style={{
             display: 'grid',
@@ -161,8 +172,19 @@ export const LedgerTab = (props: { harbor?: HarborData }) => {
         </div>
       </div>
 
-      <div style={{ ...cardStyle, marginTop: '0', marginBottom: '6px', padding: '6px 12px' }}>
-        <div style={{ ...sectionHeaderStyle, marginTop: 0, marginBottom: '4px' }}>Recent Fund Movements</div>
+      <div
+        style={{
+          ...cardStyle,
+          marginTop: '0',
+          marginBottom: '6px',
+          padding: '6px 12px',
+        }}
+      >
+        <div
+          style={{ ...sectionHeaderStyle, marginTop: 0, marginBottom: '4px' }}
+        >
+          Recent Fund Movements
+        </div>
         {ledger.fund_log.length === 0 ? (
           <div style={{ ...noteStyle, padding: '4px 0' }}>
             No movements recorded yet this week.
@@ -179,20 +201,46 @@ export const LedgerTab = (props: { harbor?: HarborData }) => {
         )}
       </div>
 
-      <div style={{ ...cardStyle, marginTop: '0', marginBottom: '6px', padding: '6px 12px' }}>
-        <div style={{ ...sectionHeaderStyle, marginTop: 0, marginBottom: '4px' }}>Silverface Margin</div>
+      <div
+        style={{
+          ...cardStyle,
+          marginTop: '0',
+          marginBottom: '6px',
+          padding: '6px 12px',
+        }}
+      >
+        <div
+          style={{ ...sectionHeaderStyle, marginTop: 0, marginBottom: '4px' }}
+        >
+          Silverface Margin
+        </div>
         {harbor.favor.gnome_unlocked ? (
           <>
             <div style={{ ...noteStyle, marginBottom: '4px' }}>
-              By writ of the Azurean Guild of Gnomes Porters, the public stalls now run under their hand. They take their cost in labour and remit the margin of <b>+{ledger.silverface_margin_percent}%</b> on every sale unto the Merchant Fund. Adjust the rate from the Management tab as you see fit.
+              By writ of the Azurean Guild of Gnomes Porters, the public stalls
+              now run under their hand. They take their cost in labour and remit
+              the margin of <b>+{ledger.silverface_margin_percent}%</b> on every
+              sale unto the Merchant Fund. Adjust the rate from the Management
+              tab as you see fit.
             </div>
-            <div style={{ color: INK_FAINT, fontSize: FONT_BODY, fontStyle: 'italic' }}>
-              A heavier margin fattens the Fund per sale; a lighter one draws more buyers to the stalls.
+            <div
+              style={{
+                color: INK_FAINT,
+                fontSize: FONT_BODY,
+                fontStyle: 'italic',
+              }}
+            >
+              A heavier margin fattens the Fund per sale; a lighter one draws
+              more buyers to the stalls.
             </div>
           </>
         ) : (
           <div style={noteStyle}>
-            By standing pact, the Azurean Guild of Porters and Stevedores hold the margin upon a fixed measure of trade each week. Should you push enough goods through the Company&apos;s books, your standing shall earn the right to call in their Gnomes - who will take their wage in labour alone and remit the margin to your Fund.
+            By standing pact, the Azurean Guild of Porters and Stevedores hold
+            the margin upon a fixed measure of trade each week. Should you push
+            enough goods through the Company&apos;s books, your standing shall
+            earn the right to call in their Gnomes - who will take their wage in
+            labour alone and remit the margin to your Fund.
           </div>
         )}
       </div>

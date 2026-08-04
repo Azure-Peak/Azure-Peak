@@ -42,7 +42,7 @@ export const RecipeBookSidebar = memo((props: Props) => {
     const seen = new Set<string>();
     return recipes.filter((r) => {
       const matchCat = category === 'All' || r.category === category;
-      const matchSearch = !query || (r.name && r.name.toLowerCase().includes(query));
+      const matchSearch = !query || r.name?.toLowerCase().includes(query);
       if (!matchCat || !matchSearch) return false;
       if (category === 'All') {
         if (seen.has(r.path)) return false;
@@ -77,7 +77,9 @@ export const RecipeBookSidebar = memo((props: Props) => {
                 })}
               </Section>
             </Stack.Item>
-            <Stack.Item style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}>
+            <Stack.Item
+              style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}
+            >
               <button
                 type="button"
                 style={{
@@ -119,7 +121,9 @@ export const RecipeBookSidebar = memo((props: Props) => {
               )}
             </Section>
           </Stack.Item>
-          <Stack.Item style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}>
+          <Stack.Item
+            style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}
+          >
             <input
               type="text"
               placeholder="Search..."
@@ -134,7 +138,9 @@ export const RecipeBookSidebar = memo((props: Props) => {
             />
           </Stack.Item>
           {!hasCategories && (
-            <Stack.Item style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}>
+            <Stack.Item
+              style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}
+            >
               <button
                 type="button"
                 style={{

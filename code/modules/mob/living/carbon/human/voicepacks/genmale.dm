@@ -125,6 +125,8 @@
 				used = 'sound/vo/psst.ogg'
 			if("meow")
 				used = list('sound/vo/mobs/cat/cat_meow1.ogg', 'sound/vo/mobs/cat/cat_meow2.ogg', 'sound/vo/mobs/cat/cat_meow3.ogg', 'sound/vo/mobs/cat/cat_meow4.ogg')
+			if("mreow")
+				used = list('sound/vo/mobs/cat/cat_meow4.ogg')
 			if("mrrp")
 				used = list('sound/vo/mobs/cat/mrrp.ogg')
 			if("caw")

@@ -100,6 +100,13 @@
 				"jingle" = TRUE
 			)
 
+		if(/datum/patron/mossmother)
+			return list(
+				"message" = "with a primordial energy that seems to take root...",
+				"arousal_mult" = 3,
+				"pain" = 10
+			)
+
 	return list(
 		"message" = "",
 		"arousal_mult" = 2,

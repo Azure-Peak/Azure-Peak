@@ -65,17 +65,6 @@
 	if(sellprice && !no_head_bounty)
 		. += span_notice("This head seems to be wanted by the Judiciary of Azuria. It can be turned in at a HEADEATER.")
 
-/obj/item/bodypart/head/drop_limb(special)
-	. = ..()
-	if(. && no_head_bounty && !special)
-		addtimer(CALLBACK(src, PROC_REF(dust_contract_head)), QUEST_HEAD_DUST_DELAY)
-
-/obj/item/bodypart/head/proc/dust_contract_head()
-	if(QDELETED(src))
-		return
-	dust_animation()
-	QDEL_IN(src, 1.2 SECONDS)
-
 /obj/item/bodypart/head/grabbedintents(mob/living/user, precise)
 	var/used_limb = precise
 	switch(used_limb)

@@ -318,5 +318,5 @@
 
 /datum/supply_pack/rogue/armor_steel/refitkit_slimarmor_steel
 	name = "Refitter's Kit, Slim Plated Armor"
-	cost = 50 // 1 Ingots
-	contains = list(/datum/anvil_recipe/armor/steel/refitkit_slimmedsteel)
+	cost = 25 // Entirely cosmetic. Shouldn't break the bank.
+	contains = list(/obj/item/enchantingkit/craftable_armorkit_slimmedsteel)

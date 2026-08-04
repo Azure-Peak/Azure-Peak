@@ -110,6 +110,10 @@
 	W.set_nutrition(nutrition)
 	W.set_hydration(hydration)
 
+	// tired debuff transfer
+	if(has_status_effect(/datum/status_effect/debuff/sleepytime))
+		W.apply_status_effect(/datum/status_effect/debuff/sleepytime)
+
 	mind.transfer_to(W)
 	skills?.known_skills = list()
 	skills?.skill_experience = list()
@@ -193,6 +197,10 @@
 
 	W.set_nutrition(nutrition)
 	W.set_hydration(hydration)
+
+// tired debuff transfer
+	if(has_status_effect(/datum/status_effect/debuff/sleepytime))
+		W.apply_status_effect(/datum/status_effect/debuff/sleepytime)
 
 	W.forceMove(get_turf(src))
 	mind.transfer_to(W)

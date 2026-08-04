@@ -109,7 +109,10 @@
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_DECEIVING_MEEKNESS, TRAIT_MEDIUMARMOR) //peasant levy turned mercenary. the underdog.
+	traits_applied = list(TRAIT_MEDIUMARMOR) //peasant levy turned mercenary. the underdog.
+	subclass_virtues = list(
+		/datum/virtue/combat/guarded
+	)
 	cmode_music = 'sound/music/combat_kazengite.ogg'
 	subclass_stats = list(
 		STATKEY_STR = 2,

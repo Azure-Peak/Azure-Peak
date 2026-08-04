@@ -70,7 +70,7 @@
 
 /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/desertrider
 	name = "desert rider's sash"
-	desc = "A luxuriant golden chain worn about the shoulders or neck, a sign of high honor in distant Raneshan. Some claim these are a testament to the origins of the Desert Riders in distant slave-fighting pits, but \
+	desc = "A luxuriant golden chain worn about the shoulders or neck, a sign of high honor in distant Raneshen. Some claim these are a testament to the origins of the Desert Riders in distant slave-fighting pits, but \
 	others think them marks of favor from the highest echelons of the Empire. The desert riders confirm neither rumour."
 	icon_state = "rider_sash"
 

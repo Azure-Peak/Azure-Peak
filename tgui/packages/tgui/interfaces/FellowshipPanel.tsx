@@ -139,7 +139,9 @@ const FellowshipView = () => {
           <Stack>
             <Stack.Item grow>
               {data.leader_present ? (
-                <>Led by <b>{data.leader_name}</b></>
+                <>
+                  Led by <b>{data.leader_name}</b>
+                </>
               ) : (
                 <i>Leaderless (the founder is gone).</i>
               )}
@@ -152,11 +154,7 @@ const FellowshipView = () => {
             </Stack.Item>
             <Stack.Item>
               {isLeader ? (
-                <Button
-                  icon="ban"
-                  color="bad"
-                  onClick={() => act('disband')}
-                >
+                <Button icon="ban" color="bad" onClick={() => act('disband')}>
                   Disband
                 </Button>
               ) : (
@@ -229,7 +227,8 @@ const FellowshipView = () => {
                       {inv.name}
                       <span style={{ opacity: 0.6 }}>
                         {' '}
-                        &middot; {secondsLeft(inv.expires_at, data.server_time)}s left
+                        &middot; {secondsLeft(inv.expires_at, data.server_time)}
+                        s left
                       </span>
                     </Table.Cell>
                     <Table.Cell collapsing>

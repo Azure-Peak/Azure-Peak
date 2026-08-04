@@ -8,14 +8,15 @@
 	origin = "Otava"
 	base_name = "Godtouched"
 	desc_title = "Aasimar"
-	desc = "Aasimar are born of a rare union between Humens and Angels. \
-	They bear the mark of their celestial touch through their many varying physical features. \
-	Their looks resemble the traditional characteristics of whichever of the Gods their Angel parent was associated with. \
-	Most commonly, Aasimar are similar to Humens, albeit taller, and commonly possess an uncanny beauty. \
-	When compared to the average Humen, they have strangely colored skin and are more physically frail. \
-	Because of their upbringing, they make for natural conduits for godly powers. \
-	Azure Peak's populace holds them with a mixture of uneasy mixture of fear and respect. \
-	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen..."
+	desc = "Creations of the gods and their angels, most Aasimar bear bindings and compulsions, placed \
+	upon them by their creators; they are ageless so long as they abide by these. Aasimar of the Four do not bear bindings. \
+	It is believed to be inevitable that an Aasimar will eventually break these bindings, and begin to age, for as the Yils pass they will grow more and more \
+	independent, until they are as people fully. Rare Aasimar resulting from offspring of an Aasimar (or angel) and a mortal are ageless \
+	without bindings. In extremely rare cases, Aasimar may be created from a divine blessing placed upon a mortal. \
+	Aasimar vary wildly in appearance, being made of anything from starstone to metal, flesh, clay, or wood. Some are made of beauty and love incarnate, \
+	others cold and pale but living flesh. Some bear the pointed ears of Elves, from heritage. Some may also be born with wings, though \
+	a number of these Aasimar purposefully remove their own wings, particularly those among the Psydonic, for they believe removing them \
+	brings them closer to Humenity and in some cases that they are undeserving of something that brings them closer to angels."
 
 	max_age = "???"
 

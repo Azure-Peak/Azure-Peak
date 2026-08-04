@@ -132,5 +132,4 @@ export const SectionTitle = (props: { children: ReactNode }) => (
   <div style={compactSectionHeader}>{props.children}</div>
 );
 
-export const formatPct = (n: number | null) =>
-  n === null ? 'n/a' : `${n}%`;
+export const formatPct = (n: number | null) => (n === null ? 'n/a' : `${n}%`);

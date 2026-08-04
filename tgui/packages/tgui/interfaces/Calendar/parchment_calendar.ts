@@ -1,11 +1,6 @@
 import type { CSSProperties } from 'react';
 
-import {
-  FONT_BODY,
-  INK,
-  INK_FAINT,
-  SERIF,
-} from '../common/parchment';
+import { FONT_BODY, INK, INK_FAINT, SERIF } from '../common/parchment';
 
 export const AMBER_TINT_SOFT = 'rgba(200,170,100,0.08)';
 export const AMBER_TINT = 'rgba(200,170,100,0.25)';

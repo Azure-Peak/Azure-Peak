@@ -74,17 +74,8 @@
 				L.visible_message(span_warning("The dark magic fades away around [L]!"))
 				playsound(damage_turf, 'sound/magic/magic_nulled.ogg', 100)
 				continue
-			var/datum/status_effect/buff/clash/guard = L.has_status_effect(/datum/status_effect/buff/clash)
-			if(guard)
-				guard.deflected_spell = TRUE
-				L.remove_status_effect(/datum/status_effect/buff/clash)
-				L.apply_status_effect(/datum/status_effect/buff/parry_buffer)
+			if(spell_guard_check(L, TRUE))
 				L.visible_message(span_warning("[L] resists the withering curse!"))
-				var/obj/item/held = L.get_active_held_item()
-				if(held?.parrysound)
-					playsound(get_turf(L), pick(held.parrysound), 100)
-				else
-					playsound(get_turf(L), pick(L.parry_sound), 100)
 				continue
 			L.apply_status_effect(/datum/status_effect/buff/witherd)
 

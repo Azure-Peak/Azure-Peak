@@ -57,7 +57,7 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1, 
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 2,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
@@ -126,7 +126,11 @@
 	H.grant_language(/datum/language/grenzelhoftian)
 
 	var/weapons = list("Zweihander","Kriegmesser & Buckler","Halberd","Partizan")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice
+	if(H.client)
+		weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	if(!weapon_choice)
+		weapon_choice = "Zweihander"
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Zweihander")

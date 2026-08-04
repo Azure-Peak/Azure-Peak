@@ -31,6 +31,7 @@
 	var/mobility_flags = MOBILITY_FLAGS_DEFAULT
 
 	var/resting = FALSE
+	var/rest_locked_until = 0
 	var/wallpressed = FALSE
 	var/climbing = FALSE
 
@@ -235,6 +236,10 @@
 	var/mid_climb = FALSE
 	/// This one's for when you're choking to death.
 	var/last_gasp
+	/// Fixes to the hunger/thirst nonsense, stuffing them in species rather than mob.
+	var/hunger_stage
+	var/thirst_stage
+	var/vitae_stage
 
 	/// Had to put this here because attack() is not used solely by humans. That's fucked up, manne.
 	var/dualwield_attack_count = 0

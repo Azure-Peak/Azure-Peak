@@ -11,6 +11,7 @@
 
 	cooldown_time = 15 SECONDS
 	shared_cooldown = "ferramancy_strike"
+	shared_cooldown_mult = 0.5
 	charging_slowdown = 1
 
 	associated_skill = /datum/skill/magic/arcane
@@ -35,7 +36,7 @@
 /datum/action/cooldown/spell/ferramancy_strike/falling_crescent/get_sweep_bands()
 	return list(
 		list(list(1, 0), list(1, 1), list(1, 2)),
-		list(list(0, 1), list(0, 2)),
+		list(list(0, 1), list(0, 2), list(0, 3)),
 		list(list(-1, 0), list(-1, 1), list(-1, 2)),
 	)
 
@@ -53,7 +54,7 @@
 	invocations = list("Hasta Perforans!")
 	blade_class = BCLASS_STAB
 	strike_armor_pen = PEN_HEAVY
-	windup_time = TELEGRAPH_AREA_DENIAL
+	windup_time = 8
 	stop_at_dense = TRUE
 	damage = 35
 	var/line_length = 5

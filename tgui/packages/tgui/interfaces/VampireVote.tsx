@@ -1,10 +1,10 @@
 import {
+  Box,
   Button,
   LabeledList,
   Section,
-  TimeDisplay,
-  Box,
   Stack,
+  TimeDisplay,
 } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
@@ -12,16 +12,17 @@ import { Window } from '../layouts';
 
 enum PrefToColorEnum {
   null = 'red',
-  'low' = 'orange',
-  'medium' = 'green',
-  'high' = 'red',
+  low = 'orange',
+  medium = 'green',
+  // biome-ignore lint/suspicious/noDuplicateEnumValues: we do infact want null and high to both be red
+  high = 'red',
 }
 
 enum PrefToTextEnum {
   null = 'NEVER',
-  'low' = '+',
-  'medium' = '++',
-  'high' = '+++',
+  low = '+',
+  medium = '++',
+  high = '+++',
 }
 
 interface Clan {

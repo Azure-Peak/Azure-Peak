@@ -54,13 +54,18 @@ export const GronnWrit = (props: {
 
   let subject: React.ReactNode;
   if (named) subject = <b>{named}</b>;
-  else if (ringleader)
-    { subject = (
+  else if (ringleader) {
+    subject = (
       <>
         a {band} of {folk} under one called <b>{ringleader}</b>
       </>
-    ); }
-  else subject = <>a {band} of {folk}</>;
+    );
+  } else
+    subject = (
+      <>
+        a {band} of {folk}
+      </>
+    );
 
   return (
     <>
@@ -79,7 +84,8 @@ export const GronnWrit = (props: {
           <ul style={indictmentList}>
             {crimes.map((c, i) => (
               <li key={i} style={indictmentItem}>
-                {capitalize(c)};
+                {capitalize(c)}
+                {';'}
               </li>
             ))}
           </ul>
@@ -87,11 +93,10 @@ export const GronnWrit = (props: {
       )}
       <p style={writParagraph}>
         By writ of the {rulerTitle}, and by counsel of the Holy See, let{' '}
-        {subject} be declared{' '}
-        <span style={caputLupinum}>ANATHEMA</span>: cut off from the body of
-        the faithful, harboured by no temple, mourned by no priest. Pursue them
-        upon the strand and the cliff; let them not gain the sea before steel
-        finds them.
+        {subject} be declared <span style={caputLupinum}>ANATHEMA</span>: cut
+        off from the body of the faithful, harboured by no temple, mourned by no
+        priest. Pursue them upon the strand and the cliff; let them not gain the
+        sea before steel finds them.
       </p>
       <p style={writParagraph}>
         Upon their death the writ shall fall silent and mark itself; return it

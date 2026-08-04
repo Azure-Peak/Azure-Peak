@@ -94,6 +94,7 @@
 	woundclass = BCLASS_BURN
 	nodamage = FALSE
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	speed = 0.3
 	flag = "fire"
 	light_outer_range = 5
@@ -110,7 +111,7 @@
 	arcshot = TRUE
 
 
-/obj/projectile/magic/arc_bolt/on_hit(target)
+/obj/projectile/magic/arc_bolt/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -124,9 +125,10 @@
 			if(out_of_effective_range())
 				qdel(src)
 				return
-			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-			if(arcs)
-				arc_to_targets(L)
+			if(blocked < 100)
+				L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
+				if(arcs)
+					arc_to_targets(L)
 	else if(isatom(target))
 		var/atom/A = target
 		A.fire_act()
@@ -174,6 +176,8 @@
 	if(!L.mind && !ishuman(L))
 		actual_damage *= npc_simple_damage_mult
 	var/mob/living/carbon/human/caster = firer
+	if(L.guard_deflect_spell("Arc Bolt", TRUE, caster))
+		return
 	if(istype(caster) && ishuman(L))
 		arcyne_strike(caster, L, null, actual_damage, def_zone, BCLASS_BURN, \
 			spell_name = "Arc Bolt", damage_type = BURN, npc_simple_damage_mult = 1, \

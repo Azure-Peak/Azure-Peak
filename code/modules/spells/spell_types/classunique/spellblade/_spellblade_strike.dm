@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/telegraphed_strike/spellblade
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_MEDIUM

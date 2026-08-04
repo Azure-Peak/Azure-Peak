@@ -572,8 +572,3 @@
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/cand
     icon_state = "decostone-cand-red"
-
-/turf/closed/dungeon_void
-	name = "thick dungeon shroud"
-	icon = 'icons/turf/roguewall.dmi'
-	icon_state = "shroud1"

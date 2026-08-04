@@ -15,6 +15,9 @@
 	var/visor_flags = 0			//flags that are added/removed when an item is adjusted up/down
 	var/visor_flags_inv = 0		//same as visor_flags, but for flags_inv
 	var/visor_flags_cover = 0	//same as above, but for flags_cover
+	var/adjusted_inv_mask = NONE
+	var/adjusted_inv_value = NONE
+	var/snouted = FALSE
 //what to toggle when toggled with weldingvisortoggle()
 	var/visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT | VISOR_VISIONFLAGS | VISOR_DARKNESSVIEW | VISOR_INVISVIEW
 	lefthand_file = 'icons/mob/inhands/clothing_lefthand.dmi'
@@ -69,6 +72,7 @@
 	var/altdetail_tag
 	var/detail_color
 	var/altdetail_color
+	var/mutable_appearance/detail_overlay
 	var/boobed_detail = TRUE
 	var/sleeved_detail = TRUE
 	var/malumblessed_c = FALSE
@@ -97,6 +101,41 @@
 	if(heat_protection)
 		. += span_info("It looks like it will protect me from the <b>heat</b>.")
 
+/obj/item/clothing/proc/persist_inv_flags(flag)
+	adjusted_inv_mask |= flag
+	adjusted_inv_value &= ~flag
+	adjusted_inv_value |= (flags_inv & flag)
+
+/obj/item/clothing/proc/adjust_inv_flags(base)
+	if(!adjusted_inv_mask)
+		return base
+	return (base & ~adjusted_inv_mask) | (adjusted_inv_value & adjusted_inv_mask)
+
+/obj/item/clothing/proc/is_snoutable()
+	if(!mob_overlay_icon)
+		return FALSE
+	var/icon/worn = new(mob_overlay_icon)
+	return ("[initial(icon_state)]_snout" in worn.IconStates())
+
+/obj/item/clothing/proc/toggle_snout()
+	if(snouted)
+		snouted = FALSE
+		icon_state = initial(icon_state)
+	else
+		if(!is_snoutable())
+			return FALSE
+		snouted = TRUE
+		icon_state = "[initial(icon_state)]_snout"
+	update_icon()
+	return TRUE
+
+/obj/item/clothing/proc/restore_snout()
+	if(snouted)
+		icon_state = "[initial(icon_state)]_snout"
+
+/obj/item/proc/get_detail_state(base_state)
+	return base_state
+
 /obj/item/proc/get_detail_tag() //this is for extra layers on clothes
 	return detail_tag
 
@@ -108,6 +147,22 @@
 
 /obj/item/proc/get_altdetail_color() //this is for extra layers on clothes
 	return altdetail_color
+
+/obj/item/proc/refresh_detail_overlay()
+	if(detail_overlay)
+		cut_overlay(detail_overlay)
+		detail_overlay = null
+	if(!get_detail_tag())
+		return
+	var/detail_state = "[icon_state][detail_tag]"
+	if(!icon_exists(icon, detail_state))
+		detail_state = "[initial(icon_state)][detail_tag]"
+	var/mutable_appearance/pic = mutable_appearance(icon(icon, detail_state))
+	pic.appearance_flags = RESET_COLOR
+	if(get_detail_color())
+		pic.color = get_detail_color()
+	add_overlay(pic)
+	detail_overlay = pic
 
 /obj/item/clothing/get_mechanics_examine(mob/user)
 	. = ..()
@@ -682,14 +737,8 @@ BLIND     // can't see anything
 	str += "[colorgrade_rating("🪓 SLASH", armor.slash, elaborate = TRUE)] | "
 	str += "[colorgrade_rating("🗡️ STAB", armor.stab, elaborate = TRUE)] | "
 	str += "[colorgrade_rating("🏹 PIERCE", armor.piercing, elaborate = TRUE)]"
-	if(armor.fire > NONE || armor.acid > NONE)
-		str += "<br><b>RESIST:</b> "
-		var/list/resists = list()
-		if(armor.fire > NONE)
-			resists += colorgrade_rating("🔥 FIRE", armor.fire, elaborate = TRUE)
-		if(armor.acid > NONE)
-			resists += colorgrade_rating("🧪 ACID", armor.acid, elaborate = TRUE)
-		str += resists.Join(" | ")
+	if(armor.fire > NONE)
+		str += "<br><b>RESIST:</b> [colorgrade_rating("🔥 FIRE", armor.fire, elaborate = TRUE)]"
 
 	if(examine_highlight_status)
 		var/heresy_desc = get_examine_highlight_description(examine_highlight_status)
@@ -716,3 +765,18 @@ BLIND     // can't see anything
 			return VISMSG_ARMOR_INT_STAGETWO
 		if(0 to 0.24)
 			return VISMSG_ARMOR_INT_STAGETHREE
+
+
+/// Pardon the goofy name, but this proc in essence turns the item into an aesthetic-only loadout variant.
+/// Please do NOT use this with medium or heavy AC armor if you can, glamour plate armor is not an intuitive good thing.
+/obj/item/clothing/proc/loadoutize()
+	armor_class = ARMOR_CLASS_NONE
+	if(armor)
+		qdel(armor)
+		armor = new /datum/armor()
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	obj_integrity = max_integrity
+	if((grid_width > 64 ) || (grid_height > 64))	// We're an item that's 2+ tiles across / tall.
+		// We make it fit into generic 2x2 aesthetic storage. Warning. May cause weirdness if we start loadoutizing everything all willy-nilly.
+		grid_width = 64
+		grid_height = 64

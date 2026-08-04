@@ -63,7 +63,7 @@
 		<h3>Region and Reward</h3>
 		<p>Defense commissions pay out in proportion to the threat they spawn. Each threat region carries a <b>reward multiplier</b> (surfaced in the commission UI beside the region name): Azure Basin at x0.75, Azure Grove at x1.0, Azurean Coast at x1.2, Terrorbog / Mount Decapitation / Underdark at x1.5. A Bounty in Terrorbog costs the same draft as a Bounty in Azure Basin - but the Terrorbog commission pays the bearer roughly twice as much. The Steward can use this to steer adventurers toward regions the realm most needs cleared.</p>
 
-		<p><b>Blockade Writs</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m draft regardless of region, but the writ's payout is multiplied by the region's reward multiplier. For example: A Mount Decapitation blockade writ costs [BLOCKADE_SCROLL_PLEDGE_COST]m and pays out [round(BLOCKADE_SCROLL_REWARD * 1.5)]m on completion. Difficulty of Blockade Writ are technically stationary - though some regions are inherently more difficult than others due to the composition within. </p>
+		<p><b>Blockade Writs</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m draft regardless of region. The writ pays a base of [BLOCKADE_SCROLL_REWARD]m, plus a flat travel stipend based on distance. The waves are the same strength everywhere, though may varies in actual threat due to regional faction composition. Having an additional 4th or 5th person 4 or 5 person tackling the blockade raises the rewards and the challenge slightly per person. </p>
 
 		<p>Multiple blockades may stand at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
 

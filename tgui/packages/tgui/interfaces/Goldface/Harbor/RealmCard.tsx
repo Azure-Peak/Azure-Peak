@@ -64,8 +64,8 @@ export const CategoryPill = (props: { name: string }) => (
 
 const deltaSuffix = (delta: number) => {
   if (!delta) return '';
-  if (delta > 0) return ' ' + '+'.repeat(Math.min(delta, 4));
-  return ' ' + '-'.repeat(Math.min(-delta, 4));
+  if (delta > 0) return ` ${'+'.repeat(Math.min(delta, 4))}`;
+  return ` ${'-'.repeat(Math.min(-delta, 4))}`;
 };
 
 export const GoodPill = (props: {
@@ -83,7 +83,8 @@ export const GoodPill = (props: {
   const tooltipParts: string[] = [];
   tooltipParts.push(rare ? 'Sometimes' : 'Always');
   if (addedOnly) tooltipParts.push('introduced by an event');
-  if (delta > 0) tooltipParts.push(`boosted by ${delta} event${delta > 1 ? 's' : ''}`);
+  if (delta > 0)
+    tooltipParts.push(`boosted by ${delta} event${delta > 1 ? 's' : ''}`);
   if (delta < 0)
     tooltipParts.push(`suppressed by ${-delta} event${-delta > 1 ? 's' : ''}`);
   if (removed) tooltipParts.push('removed by an event');
@@ -153,12 +154,7 @@ export const RealmCard = (props: { realm: HarborRealm }) => {
               />
             ))}
             {realm.rare_buys.map((g) => (
-              <GoodPill
-                key={`br-${g.name}`}
-                good={g}
-                rare
-                color={SEAL_GREEN}
-              />
+              <GoodPill key={`br-${g.name}`} good={g} rare color={SEAL_GREEN} />
             ))}
           </>
         )}
@@ -178,12 +174,7 @@ export const RealmCard = (props: { realm: HarborRealm }) => {
               />
             ))}
             {realm.rare_sells.map((g) => (
-              <GoodPill
-                key={`sr-${g.name}`}
-                good={g}
-                rare
-                color={SEAL_RED}
-              />
+              <GoodPill key={`sr-${g.name}`} good={g} rare color={SEAL_RED} />
             ))}
           </>
         )}
@@ -191,4 +182,3 @@ export const RealmCard = (props: { realm: HarborRealm }) => {
     </div>
   );
 };
-

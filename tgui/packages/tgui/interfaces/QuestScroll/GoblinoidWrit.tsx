@@ -51,9 +51,9 @@ export const GoblinoidWrit = (props: {
         weighing.
       </p>
       <p style={writParagraph}>
-        <span style={caputLupinum}>SLAY THEM</span>, root and branch, where
-        they nest. The writ knows the brood and shall mark itself when the
-        deed is done.
+        <span style={caputLupinum}>SLAY THEM</span>, root and branch, where they
+        nest. The writ knows the brood and shall mark itself when the deed is
+        done.
       </p>
       <p style={writParagraph}>
         Return the writ to the Contract Ledger and the bounty of{' '}

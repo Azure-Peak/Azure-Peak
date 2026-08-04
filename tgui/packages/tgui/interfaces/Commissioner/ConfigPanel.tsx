@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { NumberInput } from 'tgui-core/components';
 
 import {
-  fieldRowStyle,
   FONT_BODY,
+  fieldRowStyle,
   INK,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
   PARCHMENT_SHADOW,
   SEAL_AMBER,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from '../common/parchment';
 import type { ActFn, CommissionerData, MaterialEntry } from './types';
 
@@ -72,10 +72,7 @@ const MarginRow = (props: {
   );
 };
 
-const MaterialRow = (props: {
-  material: MaterialEntry;
-  act: ActFn;
-}) => {
+const MaterialRow = (props: { material: MaterialEntry; act: ActFn }) => {
   const { material, act } = props;
   const [draft, setDraft] = useState(material.price);
   const enabled = !!material.enabled;
@@ -143,10 +140,7 @@ const MaterialRow = (props: {
   );
 };
 
-export const ConfigPanel = (props: {
-  data: CommissionerData;
-  act: ActFn;
-}) => {
+export const ConfigPanel = (props: { data: CommissionerData; act: ActFn }) => {
   const { data, act } = props;
   return (
     <>
@@ -203,10 +197,7 @@ export const ConfigPanel = (props: {
   );
 };
 
-const MaterialColumns = (props: {
-  materials: MaterialEntry[];
-  act: ActFn;
-}) => {
+const MaterialColumns = (props: { materials: MaterialEntry[]; act: ActFn }) => {
   const { materials, act } = props;
   const priority = materials.filter((m) => !!m.priority);
   const other = materials.filter((m) => !m.priority);

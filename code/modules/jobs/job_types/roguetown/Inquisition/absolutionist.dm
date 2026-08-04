@@ -17,6 +17,7 @@
 	wanderer_examine = FALSE
 	advjob_examine = FALSE
 	give_bank_account = 15
+	vice_restrictions = list(/datum/charflaw/silverweakness)
 
 	job_traits = list(
 		TRAIT_NOPAINSTUN,
@@ -82,7 +83,6 @@
 			H.mind.RemoveSpell(/datum/action/cooldown/spell/psydon/respite)
 			H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_psydon)
 
 /datum/outfit/job/roguetown/absolver/basic/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -115,58 +115,3 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
-
-/obj/effect/proc_holder/spell/invoked/convert_psydon
-	name = "REDEEM"
-	desc = "Absolve the wayward and lost of their sins, bringing them back into His fold.  </br>‎  </br>Offers a chance for the target to willingly renounce their faith and allegiance, in favor of becoming a worshipper of Psydon. In the right circumstance, this can save a heretic or apostate from a far less peaceful end."
-	invocations = list("Allfather, accept your wayward child once more.")
-	invocation_type = "whisper"
-	sound = 'sound/magic/bless.ogg'
-	devotion_cost = 100
-	recharge_time = 20 MINUTES
-	chargetime = 10 SECONDS
-	associated_skill = /datum/skill/magic/holy
-	overlay_state = "convert_heretic"
-
-/obj/effect/proc_holder/spell/invoked/convert_psydon/cast(list/targets, mob/living/carbon/human/user)
-	var/mob/living/carbon/human/target = targets[1]
-
-	if(!ishuman(target))
-		revert_cast()
-		return FALSE
-
-	if(target.cmode)
-		revert_cast()
-		return FALSE
-
-	if(istype(target.patron, /datum/patron/old_god))
-		to_chat(user, span_warning("[target] is already faithful to Psydon!"))
-		revert_cast()
-		return FALSE
-
-	if(alert(target, "[user.real_name] offers you the chance to renounce your sins, and to worship Psydon once more. Do you take it?", "REDEMPTION OR REFUSAL", "Yes", "No") != "Yes")
-		to_chat(user, span_warning("[target] has refused your offer of redemption."))
-		revert_cast()
-		return FALSE
-
-
-	if(target.devotion) //Remove all granted miracles and does NOT replace them, since Psydonic "miracles" don't work the same way and your old skills don't help with it.
-
-		for(var/obj/effect/proc_holder/spell/S in target.devotion.granted_spells)
-			target.mind.RemoveSpell(S)
-		for(var/datum/action/cooldown/S in target.devotion.granted_spells)
-			target.mind.RemoveSpell(S)
-
-		target.devotion.Destroy()
-		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
-		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
-
-	// Convert to PSYDON
-	target.patron = new user.patron.type()
-
-	message_admins("PSYDONIC CONVERSION: [user.real_name] ([user.ckey]) has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
-	log_game("PSYDONIC CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
-	to_chat(user, span_hypnophrase("Your offer of redemption to [target.name] has been accepted, and their former allegiances have been renounced in favor of [user.patron.name]!"))
-	to_chat(target, span_hypnophrase("As you embrace [user.patron.name], a strange sensation stirs within your heart; a dull warmth, inexplicable yet immediate. Despite everything you've done, He still loves you."))
-	playsound(loc, 'sound/misc/otavanlament.ogg', 100, FALSE, -1)
-	return TRUE

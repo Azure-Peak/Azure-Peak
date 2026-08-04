@@ -11,15 +11,15 @@ import {
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
-  pageStyle,
   PARCHMENT_SHADOW,
+  pageStyle,
   rulerStyle,
   SEAL_AMBER,
   SEAL_BLUE,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
   subtitleStyle,
   tabBarStyle,
   tabStyle,
@@ -106,11 +106,7 @@ const RosterRow = (props: {
       </div>
       <span style={badgeStyle(color)}>{entry.status}</span>
       {action && (
-        <button
-          type="button"
-          style={inkButtonStyle()}
-          onClick={action.onClick}
-        >
+        <button type="button" style={inkButtonStyle()} onClick={action.onClick}>
           {action.label}
         </button>
       )}
@@ -127,7 +123,15 @@ const OwnControls = (props: {
   extraButtons?: React.ReactNode;
   act: ActFn;
 }) => {
-  const { myEntry, registeredLabel, statusOptions, setAction, editAction, extraButtons, act } = props;
+  const {
+    myEntry,
+    registeredLabel,
+    statusOptions,
+    setAction,
+    editAction,
+    extraButtons,
+    act,
+  } = props;
   return (
     <div
       style={{
@@ -187,8 +191,8 @@ const OwnControls = (props: {
 const MercTab = (props: { data: Data; act: ActFn }) => {
   const { data, act } = props;
   const myEntry = data.mercenaries.find((e) => e.key === data.my_key);
-  const sortedByStatus = [...data.mercenaries].sort((a, b) =>
-    a.status.localeCompare(b.status) || a.name.localeCompare(b.name),
+  const sortedByStatus = [...data.mercenaries].sort(
+    (a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name),
   );
   return (
     <>
@@ -341,8 +345,8 @@ const AdventurerTab = (props: { data: Data; act: ActFn }) => {
 const WretchTab = (props: { data: Data; act: ActFn }) => {
   const { data, act } = props;
   const myEntry = data.wretches.find((e) => e.key === data.my_key);
-  const sortedByStatus = [...data.wretches].sort((a, b) =>
-    a.status.localeCompare(b.status) || a.name.localeCompare(b.name),
+  const sortedByStatus = [...data.wretches].sort(
+    (a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name),
   );
   return (
     <>
@@ -431,8 +435,7 @@ export const Talkstatue = () => {
   const { act, data } = useBackend<Data>();
   const wretchVisible = !!data.is_wretch || !!data.is_bathhouse;
   const [tab, setTab] = useState<Tab>('mercs');
-  const activeTab: Tab =
-    tab === 'wretches' && !wretchVisible ? 'mercs' : tab;
+  const activeTab: Tab = tab === 'wretches' && !wretchVisible ? 'mercs' : tab;
   return (
     <Window width={620} height={680} theme="parchment">
       <Window.Content scrollable>

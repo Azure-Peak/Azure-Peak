@@ -34,11 +34,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if ((istype(src, /obj/structure/pressure_plate)) || (istype(src, /obj/structure/lever)))
 		trigger_structure = TRUE
 		reaction_structure = FALSE
-	else 
+	else
 		reaction_structure = TRUE
 		trigger_structure = FALSE
 	//can't link a launcher while its locked
-	if (istype(src, /obj/structure/englauncher)) 
+	if (istype(src, /obj/structure/englauncher))
 		var obj/structure/englauncher/launchercheck = src
 		if(launchercheck.locked)
 			to_chat(user, span_warning("It's locked!"))
@@ -48,7 +48,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if ((istype(multitool.buffer, /obj/structure/pressure_plate)) || (istype(multitool.buffer, /obj/structure/lever)))
 		trigger_buffer = TRUE
 		reaction_buffer = FALSE
-	else 
+	else
 		if (isnull(multitool.buffer)) //we need to check if the buffer is empty
 			reaction_buffer = FALSE
 			trigger_buffer = FALSE
@@ -173,7 +173,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
-			levername = input("What name would you like to carve into the lever?")
+			levername = sanitize(input("What name would you like to carve into the lever?"))
 			if (levername)
 				name = levername + "(lever)"
 				desc = "A lever with a name carved into it."
@@ -210,12 +210,24 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	icon_state = "leverwall[toggled]"
 
 /obj/structure/lever/bookcase
-	name = "Bookcase"
+	name = "bookcase"
 	desc = "Refuge for few, an irrelevance to most."
 	icon_state = "booklever0"
 
+/obj/structure/lever/bookcase/examine(mob/user)
+	. = ..()
+	if(!isliving(user))
+		return
+	var/mob/living/L = user
+	if(HAS_TRAIT(L, TRAIT_INQUISITION))
+		. += span_notice("You recognize the subtle signs of a concealed mechanism, hidden in plain sight.")
+	else if(L.STAPER >= 15)
+		. += span_notice("There may be more to this shelf than meets the eye.")
+		L.emote("huh")
+
 /obj/structure/lever/bookcase/get_mechanics_examine(mob/user)
-	return
+	. = ..()
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
 /obj/structure/lever/bookcase/attack_hand(mob/user)
 	if(isliving(user))
@@ -305,7 +317,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/platename
-			platename = input("What name would you like to carve into the plate?")
+			platename = sanitize(input("What name would you like to carve into the plate?"))
 			if (platename)
 				name = platename + "(plate)"
 				desc = "a plate with a name carved into it"
@@ -317,7 +329,6 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
 		to_chat(user, span_warning("You most use both hands to rename plates."))
 
-
 /*
 /obj/structure/pressure_plate/attack_hand(mob/user) //commented out for now, they're stuposed to be anchored structures for dungeons. End of vanderlin traps port. Maybe an artificer subtype craft in the future.
 	. = ..()
@@ -327,8 +338,33 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		anchored = !anchored
 */
 
+/obj/structure/pressure_plate/once
+	name = "rusty pressure plate"
+	desc = "Be careful. Stepping on this could either mean a bomb exploding or a door closing on you. Luckily, it seems to have only one last wheeze before it's stuck."
+	var/triggered = FALSE
+
+/obj/structure/pressure_plate/once/Crossed(atom/movable/AM)
+	. = ..()
+	if(triggered)
+		return
+	if(!anchored)
+		return
+	if(!isliving(AM))
+		return
+	triggered = TRUE
+	var/mob/living/L = AM
+	to_chat(L, "<span class='info'>I feel something permanently click beneath me.</span>")
+	AM.log_message("has activated a permanent pressure plate", LOG_GAME)
+	playsound(src, 'sound/misc/pressurepad_down.ogg', 35, extrarange = 2)
+	triggerplate()
+
+/obj/structure/pressure_plate/once/triggerplate()
+	for(var/obj/structure/O in redstone_attached)
+		spawn(0)
+			O.redstone_triggered()
+
 /obj/structure/englauncher
-	name = "Engineer's Launcher" 
+	name = "Engineer's Launcher"
 	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
@@ -355,7 +391,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/rattlesound = 'sound/foley/doors/lockrattle.ogg'
 	var/masterkey = TRUE //if masterkey can open this regardless
 	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
-	
+
 /obj/structure/englauncher/Initialize()
 	. = ..()
 	update_icon()
@@ -403,7 +439,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the launcher.</span>")
 		if(do_after(user, 10))
 			var/launchername
-			launchername = input("What name would you like to carve into the launcher?")
+			launchername = sanitize(input("What name would you like to carve into the launcher?"))
 			if (launchername)
 				name = launchername + "(launcher)"
 				desc = "a launcher with a name carved into it"
@@ -632,7 +668,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/turf/start = get_step(src, firedirection)
 	if(!start)
 		return
-	
+
 
 	// Build target turf by walking firedirection from start
 	var/turf/target = start
@@ -662,7 +698,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 					var/datum/effect_system/smoke_spread/chem/smoke = new
 					if(spreadmode)
 						smoke.set_up(R, 3, T, FALSE)
-					else 
+					else
 						smoke.set_up(R, 1, T, FALSE)
 					smoke.start()
 
@@ -775,8 +811,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/floordoor/gatehatch
 	name = ""
 	desc = ""
-	base_state = ""
-	icon_state = ""
+	base_state = "gatehatch"
+	icon_state = "gatehatch1"
 	var/changing_state = FALSE
 	var/delay2open = 0
 	var/delay2close = 0
@@ -833,7 +869,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/hatchname
-			hatchname = input("What name would you like to carve into the hatch?")
+			hatchname = sanitize(input("What name would you like to carve into the hatch?"))
 			if (hatchname)
 				name = hatchname + "(hatch)"
 				desc = "a hatch with a name carved into it"

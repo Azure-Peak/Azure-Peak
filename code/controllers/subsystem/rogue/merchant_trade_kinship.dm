@@ -4,7 +4,7 @@
 	switch(origin_name)
 		if("Avar")
 			return REALM_AAVNR
-		if("Raneshan")
+		if("Raneshen")
 			return REALM_RANESHEN
 		if("Grenzelhoft")
 			return REALM_GRENZELHOFT

@@ -44,6 +44,7 @@
 // ---- Base Rhythm Spell (activated - primes your next melee hit) ----
 
 /datum/action/cooldown/spell/rhythm
+	source_aspect = /datum/magic_aspect/pseudo/bardic
 	name = "Rhythm"
 	desc = "Attune your blade to a rhythm. Your next melee hit within 8 seconds will trigger its effect."
 	button_icon = 'icons/mob/actions/bardsongs.dmi'

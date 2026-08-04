@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/augment_buff/fortitude
 	name = "Fortitude"
-	desc = "Harden one's humors to the fatigues of the body. (-25% Stamina Usage)"
+	desc = "Harden one's humors to the fatigues of the body. (-15% Stamina Usage)"
 	button_icon_state = "fortitude"
 
 	invocations = list("Tenax")

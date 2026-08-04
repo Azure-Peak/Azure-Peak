@@ -47,7 +47,8 @@ export const Hermes = (props: any, context: any) => {
   const [letterContent, setLetterContent] = useState('');
 
   const isFree = !!free_send_ready;
-  const canSendLetter = recipient.length > 0 && (isFree || balance >= letter_cost);
+  const canSendLetter =
+    recipient.length > 0 && (isFree || balance >= letter_cost);
   const canBuyPaper = balance >= paper_cost;
   const canBuyQuill = balance >= quill_cost;
   const canSendTube = letterContent.length > 0;

@@ -190,7 +190,7 @@
 			return
 
 		var/prename = held_items[matches[1]]["NAME"]
-		var/newname = input(usr, "SET A NEW NAME FOR THIS PRODUCT", src, prename)
+		var/newname = sanitize(input(usr, "SET A NEW NAME FOR THIS PRODUCT", src, prename))
 		// explicit null check: input returns null on cancel; empty string allowed? we block empty.
 		if(newname != null && newname != "")
 			for(var/obj/item/I in matches)

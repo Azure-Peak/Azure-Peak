@@ -4,7 +4,7 @@
 // over 20 seconds. See residual_focus.dm and spell_cooldown.dm Activate() for the hook.
 //
 // Staff: Two-handed, best durability and parry. Melee defensive option.
-// Tome: One-handed, lighter, less durable, and able to project a temporary Aegis.
+// Tome: One-handed, lighter, less durable. Rebinds aspect spells;
 //
 // Tiers:
 //   Lesser  (Toper/Amethyst gems) - 20% refund, lowest durability
@@ -56,20 +56,17 @@
 GLOBAL_LIST_INIT(implement_choices, list(
 		"lesser" = list(
 			"Toper Staff" = /obj/item/rogueweapon/woodstaff/implement,
-			"Amythorz Staff" = /obj/item/rogueweapon/woodstaff/implement/amethyst,
-			"Lesser Tome" = /obj/item/rogueweapon/spellbook
+			"Amythorz Staff" = /obj/item/rogueweapon/woodstaff/implement/amethyst
 			),
 		"greater" = list(
 			"Gemerald Staff" = /obj/item/rogueweapon/woodstaff/implement/greater,
 			"Rontz Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/ruby,
 			"Blortz Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/quartz,
-			"Saffira Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/sapphire,
-			"Greater Tome" = /obj/item/rogueweapon/spellbook/greater
+			"Saffira Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/sapphire
 			),
 		"grand" = list(
 			"Dorpel Staff" = /obj/item/rogueweapon/woodstaff/implement/grand,
-			"Staff of the Riddlesteel" = /obj/item/rogueweapon/woodstaff/implement/grand/riddle,
-			"Grand Tome" = /obj/item/rogueweapon/spellbook/grand
+			"Staff of the Riddlesteel" = /obj/item/rogueweapon/woodstaff/implement/grand/riddle
 			)
 		))
 

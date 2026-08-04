@@ -16,7 +16,7 @@
 	taste_description = "rancid iron"
 	taste_mult = 1.5
 	glass_name = "glass of dirty tomato juice"
-
+/*
 /datum/reagent/blood/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
@@ -40,7 +40,7 @@
 		if(data["blood_DNA"] != mix_data["blood_DNA"])
 			data["cloneable"] = 0 //On mix, consider the genetic sampling unviable for pod cloning if the DNA sample doesn't match.
 	return 1
-
+*/
 /datum/reagent/blood/reaction_turf(turf/T, reac_volume)//splash the blood all over the place
 	if(!istype(T))
 		return
@@ -57,20 +57,30 @@
 	if(method == INGEST) // Make sure you DRANK the blood before giving damage
 		..()
 
-/datum/reagent/blood/on_mob_life(mob/living/carbon/H)//I hate you
+/datum/reagent/blood/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER))
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
+		if(ishuman(H))
+			var/mob/living/carbon/human/Hu = H
+			Hu.adjust_hydration(8)
+			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD))
+				Hu.reagents.add_reagent(/datum/reagent/medicine/healthpot/zarum/blood, 0.5) // this is a fraction of a fraction in the end, I didn't heal too much from local tests, it's more for situations where you don't have food in pve
 		return
-	H.add_nausea(12) //Over 8 units will cause puking
+	H.add_nausea(12)
+	H.adjustToxLoss(2)
 
 /datum/reagent/blood/shitty/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if (method == INGEST)
 		..()
 /datum/reagent/blood/shitty/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) && HAS_TRAIT(H, TRAIT_WILD_EATER))
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
+		if(ishuman(H))
+			var/mob/living/carbon/human/Hu = H
+			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
 		return
 	H.add_nausea(18) //Do not drink dirty blood!
+	H.adjustToxLoss(4)
 
 /datum/reagent/blood/green
 	color = "#05af01"
@@ -85,7 +95,7 @@
 /datum/reagent/water
 	name = "Water"
 	description = "An ubiquitous chemical substance that is composed of hydrogen and oxygen."
-	color = "#6a9295c6"
+	color = "#6a9295"
 	taste_description = "water"
 	var/cooling_temperature = 2
 	glass_icon_state = "glass_clear"
@@ -115,7 +125,7 @@
 
 /datum/reagent/water/gross
 	taste_description = "something vile"
-	color = "#98934bc6"
+	color = "#98934b"
 	harmful = TRUE
 /datum/reagent/water/gross/sewage
 	taste_description = "repulsive sulfur and decaying shit"
@@ -147,11 +157,11 @@
 
 /datum/reagent/water/bathwater
 	taste_description = "bathwater"
-	color = "#c9e5eec6"
+	color = "#c9e5ee"
 
 /datum/reagent/water/salty
 	taste_description = "salt"
-	color = "#417ac5c6"
+	color = "#417ac5"
 
 /datum/reagent/water/salty/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(method == INGEST) // Make sure you DRANK the salty water before losing hydration

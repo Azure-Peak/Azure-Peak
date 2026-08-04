@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/recall_weapon
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Recall Weapon"
 	desc = "Recall your bound weapon to your hand from anywhere."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
@@ -45,6 +46,9 @@
 	if(bound_weapon.is_embedded && istype(bound_weapon.loc, /obj/item/bodypart))
 		var/obj/item/bodypart/BP = bound_weapon.loc
 		BP.remove_embedded_object(bound_weapon)
+	else if(bound_weapon.is_embedded && isliving(bound_weapon.loc))
+		var/mob/living/simple_holder = bound_weapon.loc
+		simple_holder.simple_remove_embedded_object(bound_weapon)
 	else if(ismob(bound_weapon.loc))
 		var/mob/holder = bound_weapon.loc
 		holder.dropItemToGround(bound_weapon, TRUE)

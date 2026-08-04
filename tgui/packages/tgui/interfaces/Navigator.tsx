@@ -2,10 +2,10 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   cardStyle,
+  FONT_BODY,
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -19,7 +19,7 @@ import {
   titleStyle,
 } from './common/parchment';
 import { MarketView } from './Noticeboard/AvisaSections/MarketSection';
-import { type MarketData } from './Noticeboard/types';
+import type { MarketData } from './Noticeboard/types';
 
 type NavigatorData = {
   motto: string;
@@ -63,7 +63,12 @@ export const Navigator = () => {
           <button
             type="button"
             title="Open the economy guidebook"
-            style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 8 }}
+            style={{
+              ...inkButtonStyle({}),
+              position: 'absolute',
+              top: 8,
+              right: 8,
+            }}
             onClick={() => act('help')}
           >
             ?
@@ -71,7 +76,12 @@ export const Navigator = () => {
           <button
             type="button"
             title="Refresh market data (5s cooldown)"
-            style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 40 }}
+            style={{
+              ...inkButtonStyle({}),
+              position: 'absolute',
+              top: 8,
+              right: 40,
+            }}
             onClick={() => act('refresh_market')}
           >
             ↻
@@ -80,9 +90,7 @@ export const Navigator = () => {
           <div style={subtitleStyle}>
             Next balloon in {formatCountdown(data.next_airlift_seconds)}
             {data.handler_fee_percent > 0 && (
-              <>
-                {' '}- handler&apos;s fee {data.handler_fee_percent}%
-              </>
+              <> - handler&apos;s fee {data.handler_fee_percent}%</>
             )}
           </div>
           <hr style={rulerStyle} />
@@ -105,7 +113,13 @@ export const Navigator = () => {
               </div>
               <div style={fieldRowStyle}>
                 <div style={fieldLabelStyle}>Crown duty</div>
-                <div style={{ ...fieldValueStyle, color: INK_FAINT, fontStyle: 'italic' }}>
+                <div
+                  style={{
+                    ...fieldValueStyle,
+                    color: INK_FAINT,
+                    fontStyle: 'italic',
+                  }}
+                >
                   None - the balloon flies dark.
                 </div>
               </div>
@@ -146,7 +160,9 @@ export const Navigator = () => {
                     <span
                       style={{
                         marginLeft: 10,
-                        color: data.pay_merchant_share ? SEAL_GREEN : SEAL_AMBER,
+                        color: data.pay_merchant_share
+                          ? SEAL_GREEN
+                          : SEAL_AMBER,
                         fontWeight: 'bold',
                       }}
                     >
@@ -198,7 +214,11 @@ export const Navigator = () => {
                 lineHeight: 1.4,
               }}
             >
-              <b style={{ color: SEAL_AMBER }}>Saturated valuables?</b> If the Valuables warehouse is choked and no ship hungers for them, consider the Stewardry&apos;s stockpile for minting, the bathhouse, or a shadier facilitator willing to take such things off your hands.
+              <b style={{ color: SEAL_AMBER }}>Saturated valuables?</b> If the
+              Valuables warehouse is choked and no ship hungers for them,
+              consider the Stewardry&apos;s stockpile for minting, the
+              bathhouse, or a shadier facilitator willing to take such things
+              off your hands.
             </div>
           )}
 
@@ -207,9 +227,7 @@ export const Navigator = () => {
             headerLabel={
               isSmuggler ? 'State of the Shadow Market' : 'State of the Markets'
             }
-            headerNote={
-              isSmuggler ? 'Shadow pool - off the books' : undefined
-            }
+            headerNote={isSmuggler ? 'Shadow pool - off the books' : undefined}
           />
         </div>
       </Window.Content>

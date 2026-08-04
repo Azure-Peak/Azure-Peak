@@ -2,9 +2,9 @@
 	name = "Consume Organs"
 	triumph_count = 0
 	var/organs_consumed = 0
-	var/hearts_consumed = 0
-	var/organs_required = 2
-	var/hearts_required = 1
+//	var/hearts_consumed = 0
+	var/organs_required = 10
+//	var/hearts_required = 1
 
 /datum/objective/consume_organs/on_creation()
 	. = ..()
@@ -17,7 +17,7 @@
 		UnregisterSignal(owner.current, COMSIG_ORGAN_CONSUMED)
 	return ..()
 
-/datum/objective/consume_organs/proc/on_organ_consumed(datum/source, organ_type)
+/datum/objective/consume_organs/proc/on_organ_consumed(datum/source, organ_type, obj/item/organ/organ_inside)
 	SIGNAL_HANDLER
 	if(completed)
 		return
@@ -27,20 +27,20 @@
 	if(organs_view <= 0)//stop take negative numbers
 		organs_view = 0
 
-	if(hearts_consumed <= hearts_required)
-		if(ispath(organ_type, /obj/item/reagent_containers/food/snacks/organ/heart))
-			hearts_consumed++
-			to_chat(owner.current, span_cult("You feel Graggar's pleasure as you consume a heart!"))
+//	if(hearts_consumed <= hearts_required)
+//		if(ispath(organ_type, /obj/item/reagent_containers/food/snacks/organ/heart))
+//			hearts_consumed++
+//			to_chat(owner.current, span_cult("You feel Graggar's pleasure as you consume a heart!"))
 	if(organs_consumed < organs_required) 
-		to_chat(owner.current, span_notice("Organ consumed! [organs_view] more organ\s needed."))
-	if(organs_consumed >= organs_required %% hearts_consumed < hearts_required)
-		to_chat(owner.current, span_cult("That will be enough! I NEED A HEART!"))
+		to_chat(owner.current, span_danger("The flesh of men... Satisfying, but this hunger can only be sated by [organs_view] more organ\s..."))
+//	if(organs_consumed >= organs_required && hearts_consumed < hearts_required)
+//		to_chat(owner.current, span_cult("That will be enough! I NEED A HEART!"))
 
-	if(organs_consumed >= organs_required && hearts_consumed >= hearts_required)
+	if(organs_consumed >= organs_required)
 		complete_objective()
 
 /datum/objective/consume_organs/proc/complete_objective()
-	to_chat(owner.current, span_greentext("You have consumed enough organs and hearts to satisfy Graggar!"))
+	to_chat(owner.current, span_danger("TRIUMPH! Engorged with flesh, the unnatural hunger fades! The DARKSTAR smiles upon me!"))
 	owner.current.adjust_triumphs(1)
 	completed = TRUE
 	adjust_storyteller_influence("Graggar", 15)
@@ -48,4 +48,4 @@
 	UnregisterSignal(owner.current, COMSIG_ORGAN_CONSUMED)
 
 /datum/objective/consume_organs/update_explanation_text()
-	explanation_text = "Consume [organs_required] organ\s, including [hearts_required] heart\s, to appease Graggar!"
+	explanation_text = "Consume [organs_required] organ\s to appease Graggar!"

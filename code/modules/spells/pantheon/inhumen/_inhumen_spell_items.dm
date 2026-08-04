@@ -493,15 +493,15 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	if(istype(I, /obj/item/rogueore))
 		var/obj/item/rogueore/O = I
-		return O.sellprice
+		return O.get_real_price()
 
 	if(istype(I, /obj/item/roguegem))
 		var/obj/item/roguegem/G = I
-		return G.sellprice
+		return G.get_real_price()
 
 	if(istype(I, /obj/item/riddleofsteel))
 		var/obj/item/riddleofsteel/R = I
-		return R.sellprice
+		return R.get_real_price()
 
 	return 0
 
@@ -1559,47 +1559,62 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	desc = "He was ever the one to make you ask questions: Why are we still here? Just to suffer? Nae. We are here to make a change. And a change we shall make, together."
 	icon_state = "matthios"
 	resistance_flags = FIRE_PROOF
-	slot_flags = ITEM_SLOT_NECK || ITEM_SLOT_RING
+	slot_flags = ITEM_SLOT_NECK | ITEM_SLOT_RING
 	smeltresult = /obj/item/ash
 	aura_color = "#ffe761"
+	var/stolen_fyre = FALSE
 	var/grant_chant = FALSE
 	var/active_item = FALSE
-	var/stolen_fyre = FALSE
+	var/swap_type = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/astrata
+	var/swap_message = "The gilded amulet transmutates to a different form. You feel a smile, as you profane Her fyre the same way as He did."
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/proc/swap_form(mob/living/carbon/human/user)
+	var/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/new_amulet = new swap_type(user.loc)
+	if(user.is_holding(src))
+		user.temporarilyRemoveItemFromInventory(src)
+		user.put_in_hands(new_amulet)
+	else
+		new_amulet.forceMove(get_turf(user))
+	qdel(src)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/examine(mob/user)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_FREEMAN) && stolen_fyre)
-		. += span_notice("<i>As coin begets coin, so too does Her pride beget ruin. She believes Her will absolute, yet She stands as anything but. The theft of Her fyre was merely the first proof. The future belongs to the free. To humenkind. Not to the rule of a weak tyrant and their blood-bound puppets.</i>")
 	if(HAS_TRAIT(user, TRAIT_FREEMAN))
+		. += span_notice("<i>As coin begets coin, so too does Her pride beget ruin. She believes Her will absolute, yet She stands as anything but. The theft of Her fyre was merely the first proof. The future belongs to the free. To humenkind. Not to the rule of a weak tyrant and their blood-bound puppets.</i>")
 		. += span_warning("This amulet can be swapped into another form by using it on your hand.")
+		. += span_warning("Grants +1 LUC if you use it while undisguised.")
 
-/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/attack_self(mob/user)
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/attack_self(mob/living/carbon/human/user)
 	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		return
 	if(!do_after(user, 1 SECONDS))
 		return
-	stolen_fyre = !stolen_fyre
+	to_chat(user, span_warning(swap_message))
+	playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
+	swap_form(user)
 
-	if(stolen_fyre)
-		name = "ornate amulet of Astrata"
-		desc = "Her command is absolute, and Her tyranny is unmarrable. Reclaim this world, child of mine, from those who'd seek to destroy it."
-		icon_state = "astrata_g"
-		to_chat(user, span_warning("The gilded amulet transmutates to a different form. You feel a smile, as you profane Her fyre the same way as He did."))
-		playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
-	else
-		name = "ornate amulet of Matthios"
-		desc = "He was ever the one to make you ask questions: Why are we still here? Just to suffer? Nae. We are here to make a change. And a change we shall make, together."
-		icon_state = "matthios"
-		to_chat(user, span_warning("The gilded amulet settles back into familiar weight. You feel a grin, as He commends you for your boldness."))
-		playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ICON)
 
-	update_icon()
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/astrata
+	name = "ornate amulet of Astrata"
+	desc = "Her command is absolute, and Her tyranny is unmarrable. Reclaim this world, child of mine, from those who'd seek to destroy it."
+	icon_state = "astrata_g"
+	aura_color = null
+	swap_type = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded
+	swap_message = "The gilded amulet settles back into familiar weight. You feel a grin, as He commends you for your boldness."
+	stolen_fyre = TRUE
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/astrata/get_examine_highlight_status()
+	return null
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(obj_broken || active_item)
 		return
-	if((slot == SLOT_NECK || slot == SLOT_RING) && HAS_TRAIT(user, TRAIT_FREEMAN))
+	if((slot == SLOT_NECK || slot == SLOT_RING) && user.patron && (user.patron.type in ALL_INHUMEN_PATRONS))
+		if(!stolen_fyre && HAS_TRAIT(user, TRAIT_FREEMAN))
+			user.change_stat(STATKEY_LCK, 1, "matthios_boldness")
 		active_item = TRUE
 		if(!user.has_language(/datum/language/thievescant))
 			to_chat(user, span_info("You gain insight on Thieves' Cant.<br><br><i>Keep in mind these are 'words' that come out as gestures, so blend it between normal speech to make it not so obvious.<br><font color=yellow>(Prefix: ,y)</font></i>"))
@@ -1613,18 +1628,12 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(!active_item)
 		return
 	active_item = FALSE
+	if(!stolen_fyre && HAS_TRAIT(user, TRAIT_FREEMAN))
+		user.change_stat(STATKEY_LCK, 0, "matthios_boldness")
 	if(grant_chant)
 		to_chat(user, span_info("The knowledge fades from my mind."))
 		user.remove_language(/datum/language/thievescant)
 		grant_chant = FALSE
-
-/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/get_examine_highlight_status()
-	// If we have stolen fyre, it looks like an ornate Astratan amulet. Disguised...
-	if(stolen_fyre)
-		return null
-	// Otherwise, it's an undisguised and GAUDY Matthiosian amulet. Very obvious.
-	else
-		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
 	name = "gilded fingerless gloves"

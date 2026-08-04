@@ -8,7 +8,7 @@ import { GrimoireTabBar } from './Grimoire/GrimoireTabBar';
 import { GrimoireUtilitiesDetail } from './Grimoire/GrimoireUtilitiesDetail';
 import { GrimoireUtilityList } from './Grimoire/GrimoireUtilityList';
 import { cls } from './Grimoire/helpers';
-import { type Aspect, type Data, type Tab } from './Grimoire/types';
+import type { Aspect, Data, Tab } from './Grimoire/types';
 
 export const GrimoireAspectPicker = () => {
   const { data, act } = useBackend<Data>();
@@ -27,6 +27,7 @@ export const GrimoireAspectPicker = () => {
     selected_utilities = [],
     locked_aspects = [],
     staged_choices = {},
+    live_choices = {},
     pointbuy_selections = {},
     spent_budgets = {},
     all_selected_spells = [],
@@ -34,6 +35,7 @@ export const GrimoireAspectPicker = () => {
     utility_points_spent = 0,
     reset_budget = 4,
     reset_budget_max = 4,
+    reset_costs = { major: 4, minor: 2, utility: 1, choice: 2 },
     staged_unbind_aspects = [],
     staged_unbind_utilities = [],
     known_utilities = [],
@@ -94,8 +96,7 @@ export const GrimoireAspectPicker = () => {
   const utilitiesFull = utility_points_spent >= max_utilities;
 
   const allFilled =
-    attuned_majors.length >= max_majors &&
-    attuned_minors.length >= max_minors;
+    attuned_majors.length >= max_majors && attuned_minors.length >= max_minors;
   const hasAny = attuned_majors.length > 0 || attuned_minors.length > 0;
   const hasUnbinds =
     staged_unbind_aspects.length > 0 || staged_unbind_utilities.length > 0;
@@ -129,9 +130,7 @@ export const GrimoireAspectPicker = () => {
 
   const getSealLabel = (): string => {
     if (!initial_setup && hasUnbinds) {
-      return sealReady
-        ? 'Seal the Circuit'
-        : 'Confirm Changes';
+      return sealReady ? 'Seal the Circuit' : 'Confirm Changes';
     }
     if (utilityOnly) {
       return sealReady
@@ -207,6 +206,7 @@ export const GrimoireAspectPicker = () => {
                   pointsBudget={max_utilities}
                   initialSetup={initial_setup}
                   resetBudget={reset_budget}
+                  utilityUnbindCost={reset_costs.utility}
                   allSelectedSpells={all_selected_spells}
                   act={wrappedAct}
                   readOnly={read_only}
@@ -238,6 +238,7 @@ export const GrimoireAspectPicker = () => {
                     pointsBudget={max_utilities}
                     initialSetup={initial_setup}
                     resetBudget={reset_budget}
+                    resetBudgetMax={reset_budget_max}
                     readOnly={read_only}
                   />
                 ) : (
@@ -251,14 +252,15 @@ export const GrimoireAspectPicker = () => {
                     aspect={selected}
                     isAttuned={false}
                     isLocked={true}
-  
                     isPendingUnbind={false}
                     slotsFull={true}
                     tab={tab}
                     userTier={user_tier}
                     initialSetup={initial_setup}
                     resetBudget={0}
+                    resetCosts={reset_costs}
                     stagedChoices={{}}
+                    liveChoices={{}}
                     pointbuySelections={{}}
                     allSelectedSpells={all_selected_spells}
                     claimedGroups={claimed_groups}
@@ -279,14 +281,15 @@ export const GrimoireAspectPicker = () => {
                   aspect={selected}
                   isAttuned={isAttuned}
                   isLocked={isLocked}
-
                   isPendingUnbind={isPendingUnbind}
                   slotsFull={slotsFull}
                   tab={tab}
                   userTier={user_tier}
                   initialSetup={initial_setup}
                   resetBudget={reset_budget}
+                  resetCosts={reset_costs}
                   stagedChoices={staged_choices}
+                  liveChoices={live_choices}
                   pointbuySelections={pointbuy_selections}
                   allSelectedSpells={all_selected_spells}
                   claimedGroups={claimed_groups}

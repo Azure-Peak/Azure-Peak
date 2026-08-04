@@ -250,11 +250,31 @@
 			var/M_rname = html_encode(M.real_name)
 			var/M_key = html_encode(M.key)
 			var/M_voice = ""
+			var/M_stature = ""
+			var/M_trait = ""
 			if(isliving(M))
 				var/mob/living/L = M
-				var/datum/mob_descriptor/voice/voice_descriptor = L.get_descriptor_type(/datum/mob_descriptor/voice)
-				if(voice_descriptor)
-					M_voice = html_encode(voice_descriptor.name)
+				if(istype(L, /mob/living/carbon/human))
+					var/mob/living/carbon/human/H = L
+					M_voice = html_encode(H.get_alt_name(TRUE))
+				var/datum/mob_descriptor/stature/stature_descriptor = L.get_descriptor_type(/datum/mob_descriptor/stature)
+				if(stature_descriptor)
+					if(istype(stature_descriptor, /datum/mob_descriptor/stature/custom))
+						var/datum/mob_descriptor/stature/custom/SD = stature_descriptor
+						if(SD.can_describe(L))
+							var/datum/custom_descriptor_entry/entry = L.custom_descriptors[SD.custom_index]
+							M_stature = html_encode(entry.content_text)
+					if(M_stature == "")
+						M_stature = html_encode(stature_descriptor.name)
+				var/datum/mob_descriptor/trait/trait_descriptor = L.get_descriptor_type(/datum/mob_descriptor/trait)
+				if(trait_descriptor)
+					if(istype(trait_descriptor, /datum/mob_descriptor/trait/custom))
+						var/datum/mob_descriptor/trait/custom/TD = trait_descriptor
+						if(TD.can_describe(L))
+							var/datum/custom_descriptor_entry/entry = L.custom_descriptors[TD.custom_index]
+							M_trait = html_encode(entry.content_text)
+					if(M_trait == "")
+						M_trait = html_encode(trait_descriptor.name)
 			var/previous_names = ""
 			if(M_key)
 				var/datum/player_details/P = GLOB.player_details[ckey(M_key)]
@@ -271,8 +291,8 @@
 						<a id='link[i]'
 						onmouseover='expand("item[i]","[M_job]","[M_name]","[M_rname]","[previous_names]","[M_key]","[M.lastKnownIP]",[is_antagonist],"[REF(M)]")'
 						>
-						<b id='search[i]'>[M_name] - [M_rname] - [M_key] ([M_job])[M_voice ? " \[[M_voice] voice\]" : ""]</b>
-						<span hidden class='filter_data'>[M_name] [M_rname] [M_key] [M_job] [previous_names] [M_voice]</span>
+						<b id='search[i]'>[M_name] - [M_rname] - [M_key] ([M_job])[M_stature ? " \[[capitalize(M_trait)] [capitalize(M_stature)]\]" : ""][M_voice ? " \[[M_voice]\]" : ""]</b>
+						<span hidden class='filter_data'>[M_name] [M_rname] [M_key] [M_job] [previous_names] [M_voice] [M_stature] [M_trait]</span>
 						</a>
 						<br><span id='item[i]'></span>
 					</td>

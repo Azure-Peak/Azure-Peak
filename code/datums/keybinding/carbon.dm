@@ -381,13 +381,20 @@
 	if(!iscarbon(user.mob))
 		return FALSE
 	var/mob/living/carbon/C = user.mob
-	var/list/datum/action/actions = C.actions
-	if(actions.len < action_taken) // Dodge a runtime
-		return FALSE
-	var/datum/action/action = actions[action_taken]
-	if(!action)
-		return FALSE
-	action.Trigger()
+	var/datum/hud/H = C.hud_used
+	if(H?.rearrange_mode)
+		H.rearrange_hint(C)
+		return TRUE
+	var/count = 0
+	for(var/datum/action/A as anything in C.actions)
+		var/atom/movable/screen/movable/action_button/B = H ? A.viewers[H] : null
+		if(B && B.moved)
+			continue
+		count++
+		if(count == action_taken)
+			A.Trigger()
+			return TRUE
+	return FALSE
 
 /datum/keybinding/carbon/actions/action_1
 	hotkey_keys = list("Alt1")
@@ -445,7 +452,7 @@
 	category = CATEGORY_CARBON
 	action_taken = 7
 
-	
+
 /datum/keybinding/carbon/actions/action_8
 	hotkey_keys = list("Alt8")
 	name = "action_8"
@@ -454,7 +461,7 @@
 	category = CATEGORY_CARBON
 	action_taken = 8
 
-	
+
 /datum/keybinding/carbon/actions/action_9
 	hotkey_keys = list("Alt9")
 	name = "action_9"

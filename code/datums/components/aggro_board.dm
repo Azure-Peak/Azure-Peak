@@ -93,8 +93,7 @@
 	AI_THINK(victim, "AGGRO: +[threat_to_add] from [attacker]")
 	add_threat(victim, attacker, threat_to_add)
 
-	if(victim.ai_controller.ai_status == AI_STATUS_IDLE)
-		victim.ai_controller.set_ai_status(AI_STATUS_ON)
+	victim.ai_controller.wake_for_combat()
 
 /// Clears the aggro table when the mob dies
 /datum/component/ai_aggro_system/proc/on_death(mob/living/source)
@@ -112,6 +111,8 @@
 	if(!victim?.ai_controller || !attacker)
 		return
 	if(attacker == victim)
+		return
+	if(victim.faction_check_mob(attacker))
 		return
 
 	var/list/aggro_table = victim.ai_controller.blackboard[BB_MOB_AGGRO_TABLE]
@@ -134,10 +135,9 @@
 	if(!victim.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
 		victim.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, attacker)
 
-	// Any threat addition should wake the AI from IDLE — otherwise NPCs that get aggro
+	// Any threat addition should wake the AI - otherwise NPCs that get aggro
 	// via call_for_help, proximity scans, or provocation miracles stay stuck staring.
-	if(victim.ai_controller.ai_status == AI_STATUS_IDLE)
-		victim.ai_controller.set_ai_status(AI_STATUS_ON)
+	victim.ai_controller.wake_for_combat()
 
 	// Update highest threat mob
 	update_highest_threat(victim)

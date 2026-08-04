@@ -51,13 +51,7 @@
 		update_icon()
 
 /obj/item/rogueweapon/spear/lance/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
+	refresh_detail_overlay()
 
 /obj/item/rogueweapon/spear/lance/attack_self(mob/living/user)
 	. = ..()
@@ -66,7 +60,7 @@
 /obj/item/rogueweapon/spear/lance/blacksteel
 	name = "blacksteel lance"
 	desc = "A magnificent lance of blacksteel, designed to be wielded on saigaback in jousting tournaments. Even so, it isn't uncommon to see it \
-	being handled on foot as a pike by Grenzelhoft's blacksteel-armored knights. Wrap a length of cloth around the shaft to bare your heraldry."
+	being handled on foot as a pike by Grenzelhoft's blacksteel-armored knights. Wrap a length of cloth around the shaft to bear your heraldry."
 	icon_state = "bs_lance"
 	force = 20
 	force_wielded = 25

@@ -1,46 +1,24 @@
+import { useSetAtom } from 'jotai';
 import type { PropsWithChildren } from 'react';
 import { Button, Icon } from 'tgui-core/components';
-import { UI_DISABLED, UI_INTERACTIVE, UI_UPDATE } from 'tgui-core/constants';
 import { type BooleanLike, classes } from 'tgui-core/react';
 import { toTitleCase } from 'tgui-core/string';
-
-import { globalStore } from '../backend';
-import { toggleKitchenSink } from '../debug/actions';
+import { kitchenSinkAtom } from '../events/store';
 
 type TitleBarProps = Partial<{
   className: string;
   title: string;
   status: number;
-  fancy: BooleanLike;
   canClose: BooleanLike;
   onClose: (e) => void;
   onDragStart: (e) => void;
 }> &
   PropsWithChildren;
 
-function statusToColor(status: number): string {
-  switch (status) {
-    case UI_INTERACTIVE:
-      return 'good';
-    case UI_UPDATE:
-      return 'average';
-    case UI_DISABLED:
-    default:
-      return 'bad';
-  }
-}
-
 export function TitleBar(props: TitleBarProps) {
-  const {
-    className,
-    title,
-    canClose,
-    fancy,
-    onDragStart,
-    onClose,
-    children,
-  } = props;
-  const dispatch = globalStore.dispatch;
+  const { className, title, canClose, onDragStart, onClose, children } = props;
+
+  const setKitchenSink = useSetAtom(kitchenSinkAtom);
 
   const finalTitle =
     (typeof title === 'string' &&
@@ -52,7 +30,7 @@ export function TitleBar(props: TitleBarProps) {
     <div className={classes(['TitleBar', className])}>
       <div
         className="TitleBar__dragZone"
-        onMouseDown={(e) => fancy && onDragStart && onDragStart(e)}
+        onMouseDown={(e) => onDragStart?.(e)}
       />
       <div className="TitleBar__title">{finalTitle}</div>
       {!!children && <div className="TitleBar__buttons">{children}</div>}
@@ -60,10 +38,10 @@ export function TitleBar(props: TitleBarProps) {
         <Button
           className="TitleBar__buttons TitleBar__KitchenSink"
           icon="bug"
-          onClick={() => dispatch(toggleKitchenSink())}
+          onClick={() => setKitchenSink((prev) => !prev)}
         />
       )}
-      {Boolean(fancy && canClose) && (
+      {!!canClose && (
         <div className="TitleBar__close" onClick={onClose}>
           <Icon className="TitleBar__close--icon" name="times" />
         </div>

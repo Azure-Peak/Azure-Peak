@@ -124,6 +124,11 @@
 	cost = 50 // 2 Iron Ingot, 1 Small Log, 1 Chain
 	contains = list(/obj/item/rogueweapon/flail/peasantwarflail/iron)
 
+/datum/supply_pack/rogue/iron_weapons/longswordiron
+	name = "Bastard Sword"
+	cost = 45 // 2 Iron Ingot, 1 Small Log
+	contains = list(/obj/item/rogueweapon/sword/long/iron)
+
 /datum/supply_pack/rogue/iron_weapons/lucerne
 	name = "Lucerne Hammer"
 	cost = 45 // 2 Iron Ingot, 1 Small Log
@@ -133,6 +138,11 @@
 	name = "Goedendag"
 	cost = 40 // 2 Iron Ingot
 	contains = list(/obj/item/rogueweapon/mace/goden)
+
+/datum/supply_pack/rogue/iron_weapons/quarterstaff
+	name = "Quarterstaff"
+	cost = 30 // 1 Iron Ingot, 1 Small Log
+	contains = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron)
 
 /datum/supply_pack/rogue/iron_weapons/maul
 	name = "Maul"
@@ -156,7 +166,7 @@
 
 /datum/supply_pack/rogue/iron_weapons/ironshield
 	name = "Shield, Iron"
-	cost = 40 // 2 iron 
+	cost = 40 // 2 iron
 	contains = list(/obj/item/rogueweapon/shield/iron)
 
 /datum/supply_pack/rogue/iron_weapons/towershield

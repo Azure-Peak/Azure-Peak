@@ -53,17 +53,13 @@
 	if(action == "send_tube")
 		var/mob/user = usr
 		var/content = params["content"]
-		var/sentfrom = params["sender"]
-		if(!sentfrom)
-			sentfrom = "Anonymous"
 		if(length(content) > 2000)
 			to_chat(user, span_warning("Letter too long."))
 			return TRUE
-		var/obj/item/paper/P = new
-		P.info += content
-		P.mailer = sentfrom
-		P.mailedto = "Clandestine Tube"
-		P.update_icon()
+		var/obj/item/paper/P = build_sanitized_letter(params["sender"], "Clandestine Tube", content)
+		if(!P.mailer)
+			P.mailer = "Anonymous"
+		var/sentfrom = P.mailer
 		if(!send_through_tube(P, user, sentfrom))
 			qdel(P)
 		return TRUE
@@ -85,7 +81,7 @@
 		return
 	if(alert(user, "Send through the tube?",,"YES","NO") != "YES")
 		return
-	var/sentfrom = input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null)
+	var/sentfrom = sanitize(input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null))
 	if(!sentfrom)
 		sentfrom = "Anonymous"
 	P.mailer = sentfrom

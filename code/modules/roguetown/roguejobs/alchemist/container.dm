@@ -1,15 +1,12 @@
 
 /obj/item/reagent_containers/glass/bottle/rogue/healthpot
 	list_reagents = list(/datum/reagent/medicine/healthpot = 50)
-	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
 /obj/item/reagent_containers/glass/bottle/rogue/healthpotnew
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 50)
-	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
 /obj/item/reagent_containers/glass/bottle/rogue/restoration
 	list_reagents = list(/datum/reagent/medicine/restoration = 50)
-	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
 /obj/item/reagent_containers/glass/bottle/rogue/manapot
 	list_reagents = list(/datum/reagent/medicine/manapot = 50)
@@ -43,10 +40,10 @@
 	list_reagents = list(/datum/reagent/medicine/strongmana = 50)
 
 /obj/item/reagent_containers/glass/bottle/rogue/stampot
-	list_reagents = list(/datum/reagent/medicine/stampot = 50)
+	list_reagents = list(/datum/reagent/medicine/stampot = 30)
 
 /obj/item/reagent_containers/glass/bottle/rogue/strongstampot
-	list_reagents = list(/datum/reagent/medicine/strongstam = 50)
+	list_reagents = list(/datum/reagent/medicine/strongstam = 30)
 
 /obj/item/reagent_containers/glass/bottle/rogue/antidote
 	list_reagents = list(/datum/reagent/medicine/antidote = 50)
@@ -107,6 +104,9 @@
 
 /obj/item/reagent_containers/glass/bottle/alchemical/restoration
 	list_reagents = list(/datum/reagent/medicine/restoration = 30)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/water
+	list_reagents = list(/datum/reagent/water = 30)
 
 //////////////////////////
 /// ALCOHOLIC BOTTLES ///

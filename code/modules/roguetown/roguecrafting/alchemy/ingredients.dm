@@ -277,7 +277,6 @@
 	name = "sui dust"
 	desc = "A long mix of herbs resulting in a special dust. For you. Use it while held."
 	icon_state = "transisdust"
-	sellprice = 12
 
 /obj/item/alch/transisdust/attack_self(mob/living/user)
 	..()

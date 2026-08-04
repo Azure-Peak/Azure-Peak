@@ -63,6 +63,7 @@
 	name = "air blade (cut)"
 	icon_state = "air_blade_cut"
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	damage = 40
 	flag = "slash"
 	woundclass = BCLASS_CUT

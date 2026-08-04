@@ -87,23 +87,33 @@
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
 
+	if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE))
+		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
+		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
+
 	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs in discomfort, the miracle dissipates."), span_artery("A dull warmth spreads through your body, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		spelltarget.emote("pain")
-		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
 		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
 
 	if(spelltarget.has_status_effect(/datum/status_effect/buff/healing))
 		to_chat(owner, span_warning("They are already under the effects of a healing aura!"))
 		return FALSE
 
 	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
+
+	// Vampires has no benefits from miracles
+	if(spelltarget.mind?.has_antag_datum(/datum/antagonist/vampire))
+		spelltarget.visible_message(span_info("Healing energies envelop [spelltarget]!"), span_notice("I am bathed in healing choral hymns!"))
+		return TRUE
 
 	if(H.patron?.undead_hater && (spelltarget.mob_biotypes & MOB_UNDEAD))
 		// We simply do nothing to avoid healing being used to vamp/skelly check!
@@ -204,11 +214,9 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs in pain, the miracle dissipates."), span_artery("You feel a dull pain spreading through your body, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		spelltarget.emote("pain")
-		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
 		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
@@ -366,7 +374,7 @@
 		if(target.blood_volume >= BLOOD_VOLUME_NORMAL)
 			to_chat(UH, span_warning("Their lyfeblood is at capacity. There is no need."))
 			return FALSE
-			
+
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)

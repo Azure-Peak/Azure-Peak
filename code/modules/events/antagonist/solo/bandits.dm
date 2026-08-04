@@ -66,7 +66,7 @@
 		H.unequip_everything()
 
 		SSrole_class_handler.setup_class_handler(H, list(CTAG_BANDIT = 20))
-		H.advsetup = TRUE
+		H.set_advsetup(TRUE)
 		H.hud_used?.set_advclass()
 
 	SSrole_class_handler.bandits_in_round = TRUE

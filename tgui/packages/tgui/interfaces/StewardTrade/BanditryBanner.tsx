@@ -1,10 +1,10 @@
-import type { BanditryProjection } from './types';
 import {
   bannerStyle,
   FONT_BODY,
   SEAL_AMBER,
   SEAL_RED_SOFT,
 } from '../common/parchment';
+import type { BanditryProjection } from './types';
 
 export const BanditryBanner = (props: { projection: BanditryProjection }) => {
   const p = props.projection;

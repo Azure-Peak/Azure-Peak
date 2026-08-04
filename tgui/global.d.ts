@@ -4,6 +4,10 @@
  * @license MIT
  */
 
+// this is important to have because it's not a normal @types/ package
+// and typescript will get grumpy about the runtime API like require.context
+/// <reference types="@rspack/core/module" />
+
 // Webpack asset modules.
 // Should match extensions used in webpack config.
 declare module '*.png' {
@@ -17,6 +21,11 @@ declare module '*.jpg' {
 }
 
 declare module '*.svg' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.scss' {
   const content: string;
   export default content;
 }
@@ -62,6 +71,11 @@ type ByondType = {
    * It is recommended that you keep this ON to detect hard to find bugs.
    */
   strictMode: boolean;
+
+  /**
+   * The external URL for the IndexedDB IFrame to use as the origin
+   */
+  storageCdn: string;
 
   /**
    * Makes a BYOND call.
@@ -172,7 +186,7 @@ type ByondType = {
   /**
    * Maps icons to their ref
    */
-  iconRefMap: Record<string, string>;
+  iconRefMap: Record<string, string | undefined>;
 
   /**
    * Downloads a blob, platform-agnostic
@@ -184,12 +198,11 @@ type ByondType = {
  * Object that provides access to Byond Skin API and is available in
  * any tgui application.
  */
-const Byond: ByondType;
+const Byond: ByondType = {};
 
 interface Window {
   Byond: ByondType;
-  __store__: Store<unknown, AnyAction>;
-  __augmentStack__: (store: Store) => StackAugmentor;
+  __augmentStack__: (stack: string, error?: Error) => string;
 
   // IE IndexedDB stuff.
   msIndexedDB: IDBFactory;
@@ -200,7 +213,5 @@ interface Window {
   domainStorage: Storage;
   serverStorage: Storage;
 
-  // TGUI stuff
-  
-  __chatRenderer__: ChatRenderer;
+  __chatRenderer__: any;
 }

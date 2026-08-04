@@ -1,7 +1,11 @@
 /datum/action/cooldown/spell/conjure_summon/primordial
 	name = "Conjure Primordial"
 	desc = "Conjure a Primordial to fight at your side. Toggle its element with Shift+G while the spell is selected: Flame, Water, or Air. \
-	It grows mightier with your skill at Arcyne Armament - upgrading at Expert, and further at Master. You can maintain only one at a time - recast to re-summon, or use Dismiss Conjuration to release it safely."
+	It grows mightier with your skill at Arcyne Armament - upgrading at Expert, and further at Master.\
+	You may summon three types of Primordial:\n\
+	- Flame - An elemental of moderate health and damage, able to breathe a searing blast of fire in front of them.\n\
+	- Water - A slow elemental with high health able to flood the ground and bog down enemies\n\
+	- Air - A fast elemental with the highest melee damage, lowest health able to throw targets back with a gust of wind and slows them down"
 	button_icon_state = "primetriangle"
 	invocations = list("Exsurge, primordiale!")
 	summon_noun = "primordial"
@@ -19,9 +23,8 @@
 	return conjured
 
 /datum/action/cooldown/spell/conjure_summon/primordial/proc/scale_primordial(mob/living/simple_animal/hostile/retaliate/rogue/primordial/P, mob/living/user)
-	var/lvl = clamp(user.get_skill_level(/datum/skill/combat/arcyne), 1, 6)
 	var/tier = get_summon_tier(user)
-	var/mult = 0.7 + (lvl * 0.1) + (tier - 1) * 0.25
+	var/mult = 1 + (tier - 1) * 0.2
 	P.maxHealth = round(P.maxHealth * mult)
 	P.health = P.maxHealth
 	P.melee_damage_lower = round(P.melee_damage_lower * mult)

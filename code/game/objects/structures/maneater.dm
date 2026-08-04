@@ -124,6 +124,9 @@
 		var/list/limb_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 		var/zone = null
 		var/obj/item/bodypart/limb = null
+		var/maneater_armor_damage = 500
+		if(HAS_TRAIT(victim, TRAIT_TOUGH_COOKIE))
+			maneater_armor_damage = 250
 		while(length(limb_zones) && !limb)
 			zone = pick(limb_zones)
 			limb_zones -= zone
@@ -134,14 +137,18 @@
 				if(limb.dismember(damage = 20))
 					seednutrition += 25
 			else
-				victim.apply_damage(60, BRUTE, zone, victim.run_armor_check(zone, BCLASS_CUT, damage = 500))
+				victim.apply_damage(60, BRUTE, zone, victim.run_armor_check(zone, BCLASS_CUT, damage = maneater_armor_damage))
 		else
 			var/core_zone = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD)
-			victim.apply_damage(60, BRUTE, core_zone, victim.run_armor_check(core_zone, BCLASS_CUT, damage = 500))
+			victim.apply_damage(60, BRUTE, core_zone, victim.run_armor_check(core_zone, BCLASS_CUT, damage = maneater_armor_damage))
 
 	if(victim.stat == DEAD || victim.stat == UNCONSCIOUS)
 		if(!victim.mind)
-			victim.gib()
+			if(isanimal(victim))
+				var/mob/living/simple_animal/A = victim
+				A.gib_with_novice_butchery()
+			else
+				victim.gib()
 			seednutrition += 50
 			return
 		maneater_spit_out(victim)
@@ -228,7 +235,7 @@
 
 		return TRUE
 
-	
+
 
 
 //JUVENILE MANEATER

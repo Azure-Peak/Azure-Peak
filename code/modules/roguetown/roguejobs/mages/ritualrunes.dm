@@ -791,6 +791,8 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 	for(var/turf/T in get_hear(field_radius, centerpoint))
 		if(T.density)
 			continue
+		if(istype(T, /turf/open/water))
+			continue
 		if(locate(/obj/effect/verglas) in T)
 			continue
 		field += new /obj/effect/verglas(T, 0)

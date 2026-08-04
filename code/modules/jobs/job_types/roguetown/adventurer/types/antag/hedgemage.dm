@@ -1,9 +1,9 @@
 /datum/advclass/hedgemage //mage class - like the adventurer mage, but more evil.
 	name = "Hedge Mage"
 	tutorial = "Those fools at the academy laughed at you and cast you from the ivory tower of higher learning and magickal practice. No matter - you will ascend to great power one day, but first you need wealth - vast amounts of it. Show those fools in the town what REAL magic looks like.\n\n\
-	Though you have not reached true mastery in the arcyne arts, you are strong enough to attune yourself to two major aspects at once, and is just a step short of rivalling an Archmagos in power."
+	You have gaine the power of the spell of Mastery in the arcyne arts, though you are not strong enough to attune yourself to two major aspects at once."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/bandit/hedgemage
 	category_tags = list(CTAG_BANDIT)
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
@@ -13,7 +13,7 @@
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_WIL = 3,
-		STATKEY_PER = 2, // Adv mage get 2 perception so whatever. It is useful for aiming body parts but have no direct synergy with spells. 
+		STATKEY_PER = 2, // Adv mage get 2 perception so whatever. It is useful for aiming body parts but have no direct synergy with spells.
 		STATKEY_LCK = 2,
 		STATKEY_SPD = 1,
 		STATKEY_CON = 1,

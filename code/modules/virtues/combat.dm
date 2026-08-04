@@ -178,6 +178,7 @@
 	max_choices = 1
 	restricted = TRUE
 	races = list(/datum/species/construct/metal, /datum/species/gnoll)
+	
 	choice_costs = list(0, 0)
 
 	extra_choices = list(
@@ -188,7 +189,7 @@
 	choice_tooltips = list(
 		SC_ROTCURED = "<font color='#4a8d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe.<br><br><font color=red>(Grants Easy Dismember, Painless, Breathless, Deathless, Poison Immune, Deadite Immune, Silver Weakness.)<font color=white><br><br>(Additionally, you can eat brains, you don't suffer nausea, and your heart does not beat.)</font>",
 		SC_PALLID = "<font color='#8d4848'>I was once afflicted with vampirism, but was cured by somethign short of divine intervention. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me. Traces I hope will fade in time.<br><br><font color=red>(Grants Darkvision, Breathless, Deadite Immunity and Silver Weakness.)<br><br><font color=white>(Additionally, being outdoors causes stress.)</font>",
-		SC_BLACKBLOOD = "<font color='#8b488d'>I was once a nite-creacher, be it lycanthrope or vampyre, before the Otavan Inquisition subdued and exported me as a test subject of an experimental \"cure\" for my Quicksilver-resistant taint. This intense therapy had me warped, inside, outside, body and mind, into something 'idealistically' humen-like for Otavan standards, even if I am now no different than a sentient, hollowed ghoul.<br><br><font color=red>(Grants Darkvision, Strong Bite, Inhumen Digestion, and Silver Weakness.)<br><br><font color=white>(Additionally, healing miracles do not work on you, but consuming any food will grant a minor healing buff. You bleed slower and passively recover from wounds (while not hungry). You will feel stressed when exposed to Sunlight, and panic while being around or interacting with members of the Inquisition.)",
+		SC_BLACKBLOOD = "<font color='#8b488d'>I was once a nite-creacher, be it lycanthrope or vampyre, before the Otavan Inquisition subdued and exported me as a test subject of an experimental \"cure\" for my Quicksilver-resistant taint. This intense therapy had me warped, inside, outside, body and mind, into something 'idealistically' humen-like for Otavan standards, even if I am now no different than a sentient, hollowed ghoul.<br><br><font color=red>(Grants Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion, and Silver Weakness.)<br><br><font color=white>(Additionally, consuming any food will grant a minor healing buff. You bleed slower and passively recover from wounds (while not hungry). You will feel stressed when exposed to Sunlight, and panic while being around or interacting with members of the Inquisition.)",
 	)
 
 /datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
@@ -224,6 +225,7 @@
 				
 				if(SC_BLACKBLOOD)
 					ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_HALFHEAL, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_STRONGBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
@@ -231,7 +233,7 @@
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.</font>")
 
 					// blackened blood, finally
-					recipient.dna.species.blood_color = "#4b2e2e"
+					recipient.dna.species.blood_color = "#530000"
 
 					// inquisition trauma goes here
 					if(!(recipient.patron?.type == /datum/patron/old_god))

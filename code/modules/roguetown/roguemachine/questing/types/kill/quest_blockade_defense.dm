@@ -1,30 +1,22 @@
 /datum/quest/kill/blockade_defense
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	quest_difficulty = QUEST_DIFFICULTY_HARD
-	tp_budget = BLOCKADE_WAVE_1_TP
+	tp_budget = BLOCKADE_WAVE_BASE_TP
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE
 	required_fellowship_size = 0
 
 	var/current_wave = 0
 	var/wave_timer_id
-	/// Chat-ping timers. Fire at 2 min and 30 s left so the bearer is warned before forfeit.
 	var/wave_warn_2m_id
 	var/wave_warn_30s_id
 	var/datum/weakref/wave_landmark_ref
 	var/datum/weakref/blockade_ref
-	/// TRUE after materialize() arms the quest and before the bearer has triggered wave 1
-	/// by entering the landmark's proximity. Prevents double-fire via check_arrival.
 	var/armed = FALSE
-	var/list/wave_budgets = list(BLOCKADE_WAVE_1_TP, BLOCKADE_WAVE_2_TP, BLOCKADE_WAVE_3_TP)
-	/// Auto-fail timer that fires if the bearer never reaches the landmark. Without this, a writ
-	/// stashed in a drawer or handed to someone who never travels keeps the blockade slot locked
-	/// until round-end.
+	var/max_defenders_seen = 0
+	var/current_archetype = BLOCKADE_ARCHETYPE_WARBAND
+	var/wave_boss_name
 	var/arm_timer_id
-	/// world.time at which the writ was issued. Used by the Steward's ledger to gate recall
-	/// within BLOCKADE_RECALL_WINDOW_DS.
 	var/issued_at = 0
-	/// Fund the commission draft was burned from, so a recall can mint the cost back to the
-	/// correct pot. Null for directives (which burned nothing).
 	var/datum/fund/funding_fund
 	var/funding_cost = 0
 	var/warrant_consumed = 0
@@ -32,7 +24,6 @@
 /datum/quest/kill/blockade_defense/get_scroll_type()
 	return /obj/item/quest_writ/blockade
 
-/// Faction is forced by the blockade, not rolled from threat weights.
 /datum/quest/kill/blockade_defense/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
@@ -92,9 +83,6 @@
 			data["blockade_timer_label"] = label
 			data["blockade_timer_seconds"] = round(left / 10)
 
-/// Compass target: live wave mobs when present, otherwise the landmark itself. The base impl
-/// iterates tracked_atoms (spawned mobs), which is empty while armed (before wave 1) and between
-/// waves — the scroll would whisper "location unknown" right when the bearer most needs it.
 /datum/quest/kill/blockade_defense/get_target_location()
 	var/turf/from_mobs = ..()
 	if(from_mobs)
@@ -102,12 +90,9 @@
 	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
 	return landmark ? get_turf(landmark) : null
 
-/// Reward is set at issue time (BLOCKADE_SCROLL_REWARD × region tp_budget_multiplier).
 /datum/quest/kill/blockade_defense/calculate_reward(turf/origin_turf, turf/target_turf)
 	return reward_amount
 
-/// Materialize arms the quest but does NOT spawn wave 1. The scroll's process() tick polls
-/// check_arrival() and fires wave 1 once the bearer is in proximity to the landmark.
 /datum/quest/kill/blockade_defense/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()
 	if(!landmark)
@@ -122,7 +107,6 @@
 		return
 	fail_quest("arm_timeout")
 
-/// Called from the scroll's process tick. Tests bearer proximity; fires wave 1 on arrival.
 /datum/quest/kill/blockade_defense/proc/check_arrival(mob/bearer)
 	if(!armed || failed || complete)
 		return
@@ -146,6 +130,89 @@
 	announce_to_bearer("<b>You have reached the blockade.</b> Ready yourselves.")
 	spawn_wave(1)
 
+/datum/quest/kill/blockade_defense/proc/count_defenders(obj/effect/landmark/quest_spawner/landmark)
+	if(!landmark)
+		return BLOCKADE_DEFENDER_SCALE_MIN
+	var/turf/center = get_turf(landmark)
+	if(!center)
+		return BLOCKADE_DEFENDER_SCALE_MIN
+	var/count = 0
+	for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
+		if(!L.client)
+			continue
+		if(L.stat == DEAD)
+			continue
+		count++
+	return count
+
+/datum/quest/kill/blockade_defense/proc/wave_tp_budget(defenders, wave_num)
+	var/n = clamp(defenders, BLOCKADE_DEFENDER_SCALE_MIN, BLOCKADE_DEFENDER_SCALE_MAX)
+	var/mult = 1 + (n - BLOCKADE_DEFENDER_SCALE_MIN) * BLOCKADE_TP_PER_EXTRA_DEFENDER
+	if(wave_num < BLOCKADE_TOTAL_WAVES)
+		mult *= BLOCKADE_EARLY_WAVE_TP_MULT
+	return round(BLOCKADE_WAVE_BASE_TP * mult)
+
+/datum/quest/kill/blockade_defense/proc/reward_turnout_mult()
+	var/n = clamp(max_defenders_seen, BLOCKADE_DEFENDER_SCALE_MIN, BLOCKADE_DEFENDER_SCALE_MAX)
+	return 1 + (n - BLOCKADE_DEFENDER_SCALE_MIN) * BLOCKADE_REWARD_PER_EXTRA_DEFENDER
+
+/datum/quest/kill/blockade_defense/compose_candidates()
+	var/list/base = faction.mob_types.Copy()
+	if(current_archetype == BLOCKADE_ARCHETYPE_WARBAND)
+		return base
+	var/favor_expensive = (current_archetype == BLOCKADE_ARCHETYPE_ELITE)
+	var/list/out = list()
+	for(var/path in base)
+		var/tp = max(initial_threat_point(path), 1)
+		var/ratio = favor_expensive ? (tp / BLOCKADE_ARCHETYPE_PIVOT_TP) : (BLOCKADE_ARCHETYPE_PIVOT_TP / tp)
+		out[path] = max(1, round(base[path] * (ratio ** BLOCKADE_ARCHETYPE_BIAS_STRENGTH)))
+	return out
+
+/datum/quest/kill/blockade_defense/proc/priciest_mob_type()
+	var/best_path
+	var/best_tp = 0
+	for(var/path in faction.mob_types)
+		var/tp = initial_threat_point(path)
+		if(tp > best_tp)
+			best_tp = tp
+			best_path = path
+	return best_path
+
+/datum/quest/kill/blockade_defense/proc/spawn_wave_boss(obj/effect/landmark/quest_spawner/landmark)
+	if(!faction)
+		return
+	var/boss_type = faction.pick_boss_mob_type() || priciest_mob_type()
+	if(!boss_type)
+		return
+	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
+	if(!spawn_turf)
+		return
+	var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
+	var/mob/living/boss = new boss_type(spawn_effect)
+	boss.faction |= "quest"
+	if(faction.faction_tag)
+		boss.faction |= faction.faction_tag
+	boss.mark_contract_spawned()
+	boss.AddComponent(/datum/component/quest_object/kill, src)
+	ADD_TRAIT(boss, TRAIT_FRESHSPAWN, "[type]")
+	addtimer(TRAIT_CALLBACK_REMOVE(boss, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
+	spawn_effect.contained_atom = boss
+	spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
+	register_spawner(spawn_effect)
+	add_tracked_atom(boss)
+	total_spawned_tp += initial(boss.threat_point) || 0
+	progress_required += 1
+	if(faction.boss_name_file)
+		wave_boss_name = faction.generate_boss_name()
+		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), 2 SECONDS)
+
+/datum/quest/kill/blockade_defense/proc/apply_wave_boss_name(datum/weakref/boss_ref, boss_name)
+	var/mob/living/boss = boss_ref?.resolve()
+	if(QDELETED(boss) || !boss_name)
+		return
+	boss.real_name = boss_name
+	boss.name = boss_name
+
 /datum/quest/kill/blockade_defense/proc/spawn_wave(wave_num)
 	if(failed || complete)
 		return
@@ -156,11 +223,16 @@
 		fail_quest("landmark_lost")
 		return
 	current_wave = wave_num
-	tp_budget = wave_budgets[wave_num]
+	var/defenders = count_defenders(landmark)
+	max_defenders_seen = max(max_defenders_seen, defenders)
+	tp_budget = wave_tp_budget(defenders, wave_num)
+	current_archetype = pickweight(BLOCKADE_ARCHETYPE_WEIGHTS)
 	total_spawned_tp = 0
 	progress_current = 0
 	progress_required = 1
 	spawn_kill_mobs(landmark)
+	if(wave_num >= BLOCKADE_TOTAL_WAVES)
+		spawn_wave_boss(landmark)
 	if(progress_required <= 0)
 		fail_quest("composition_empty")
 		return
@@ -171,8 +243,19 @@
 		wave_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_time_left), wave_num, "two minutes"), BLOCKADE_WAVE_TIMER_DS - (2 MINUTES), TIMER_STOPPABLE)
 	if(BLOCKADE_WAVE_TIMER_DS > (30 SECONDS))
 		wave_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_time_left), wave_num, "thirty seconds"), BLOCKADE_WAVE_TIMER_DS - (30 SECONDS), TIMER_STOPPABLE)
-	announce_to_bearer("<b>Wave [wave_num]/[BLOCKADE_TOTAL_WAVES]</b> descends on you. You have [BLOCKADE_WAVE_TIMER_DS / 600] minutes.")
+	announce_to_bearer("<b>Wave [wave_num]/[BLOCKADE_TOTAL_WAVES]</b> [wave_flavor()] You have [BLOCKADE_WAVE_TIMER_DS / 600] minutes.")
 	quest_scroll?.update_quest_text()
+
+/datum/quest/kill/blockade_defense/proc/wave_flavor()
+	var/who = faction ? faction.name_plural : "raiders"
+	if(current_wave >= BLOCKADE_TOTAL_WAVES && wave_boss_name)
+		return "descends on you - [wave_boss_name] leads the [who]."
+	switch(current_archetype)
+		if(BLOCKADE_ARCHETYPE_SWARM)
+			return "breaks over you - a tide of [who]."
+		if(BLOCKADE_ARCHETYPE_ELITE)
+			return "advances - a hardened [faction ? faction.group_word : "band"] of [who]."
+	return "descends on you - a [faction ? faction.group_word : "band"] of [who]."
 
 /datum/quest/kill/blockade_defense/proc/warn_time_left(wave_num, label)
 	if(failed || complete)
@@ -231,20 +314,11 @@
 	if(S && !QDELETED(S))
 		qdel(S)
 
-/// Reason the writ cannot be recalled right now, or null if it can. Single source of truth
-/// for both the DM recall handler and the Steward's TGUI flavor copy. Recall policy:
-/// the bearer gets an uninterrupted BLOCKADE_RECALL_WINDOW_DS to reach the blockade; only
-/// after that window, and only if they still haven't engaged (armed == TRUE), may the
-/// Steward yank the writ and refund the draft. Once a wave has started the fellowship
-/// owns the outcome regardless of elapsed time.
 /datum/quest/kill/blockade_defense/proc/recall_blocker()
 	if(failed)
 		return "the writ has already lapsed"
 	if(complete)
 		return "the blockade is already broken"
-	// current_wave > 0 means a wave has actually spawned - the fellowship is committed.
-	// armed == FALSE before the scroll is opened (pre-claim), so we can't use !armed
-	// here or an untouched writ would incorrectly read as "already engaged".
 	if(current_wave > 0)
 		return "the fellowship has already engaged the blockade"
 	if(!issued_at)
@@ -259,9 +333,6 @@
 /datum/quest/kill/blockade_defense/proc/can_recall()
 	return isnull(recall_blocker())
 
-/// Steward-initiated cancellation. Refunds the original funding draft (if any), then
-/// tears down the quest by deleting the scroll - Destroy handles qdeling the quest datum
-/// and the blockade's weakref self-heals.
 /datum/quest/kill/blockade_defense/proc/recall(mob/recaller, reason = "recalled")
 	if(!can_recall())
 		return FALSE
@@ -297,9 +368,6 @@
 			continue
 		qdel(M)
 
-/// Reward pays immediately on last-wave clear (not at noticeboard turn-in) so the
-/// fellowship doesn't have to risk the scroll on the trip home. Scroll burns afterward
-/// to prevent double-minting at the contract ledger.
 /datum/quest/kill/blockade_defense/mark_complete()
 	..()
 	clear_wave_timers()
@@ -312,7 +380,7 @@
 		B.active_quest_ref = null
 		SSeconomy.clear_blockade(B, "cleared")
 	var/mob/lead = quest_receiver_reference?.resolve()
-	var/payout = reward_amount
+	var/payout = round(reward_amount * reward_turnout_mult())
 	if(payout > 0)
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/lead_account = SStreasury.get_account(lead)

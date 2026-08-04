@@ -25,6 +25,7 @@
 #define ORC_HEALTH 100
 
 #define RAT_HEALTH 65
+#define RAT_HEALTH_UNDEAD 150
 
 #define SKELETON_HEALTH 100
 

@@ -23,7 +23,7 @@ const WRAP_NOTES = [
   'In the yil 1514 AP. There is a Grand Duchy built on-',
   'In the yil 1514 AP. In the yil 1514 AP. In the yil 1514 AP.',
   'Psydon? Where art thee, Psydon? The yil remains the same, but the world is not as it was.',
-  'Haven\'t we been here before? So many familiar sights, familiar faces, heart broken and mended, men killed and resurrected. The yil is the same?',
+  "Haven't we been here before? So many familiar sights, familiar faces, heart broken and mended, men killed and resurrected. The yil is the same?",
   'What',
   'Time has folded back upon itself once more.',
 ];
@@ -56,8 +56,7 @@ export const Calendar = () => {
 
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
-  const viewingToday =
-    view_month === today_month && view_year === today_year;
+  const viewingToday = view_month === today_month && view_year === today_year;
   const currentMeta = months.find((m) => m.number === view_month);
   const monthName = currentMeta?.name ?? `Month ${view_month}`;
   const seasonLine = currentMeta

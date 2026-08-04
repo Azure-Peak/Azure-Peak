@@ -18,11 +18,11 @@ export const SETTINGS_TABS = [
     id: 'chatPage',
     name: 'Chat Tabs',
   },
-  // {
-  //   id: 'statPanel',
-  //   name: 'Stat Panel',
-  // },
-];
+  {
+    id: 'statPanel',
+    name: 'Stat Panel',
+  },
+] as const;
 
 export const FONTS_DISABLED = 'Default';
 
@@ -38,6 +38,6 @@ export const FONTS = [
   'Trebuchet MS',
   'Courier New',
   'Lucida Console',
-];
+] as const;
 
 export const WARN_AFTER_HIGHLIGHT_AMT = 10;

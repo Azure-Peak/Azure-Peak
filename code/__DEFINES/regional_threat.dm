@@ -17,11 +17,12 @@
 /// Threat Point tiers for ambush mobs. Base unit: 10 = one wolf.
 #define THREAT_TRASH 8       // Fox, raccoon, bigrat, mire crawler, all goblins — trivial critters
 #define THREAT_LOW 10        // Wolf, bobcat, badger, honeyspider, supereasy skeleton, medium skeleton
-#define THREAT_MODERATE 14   // Mossback, mole, easy/pirate/bogguard skeleton, highwayman, searaider, militia deserter, basic bog deserter
-#define THREAT_HIGH 20       // Bog deserter (basic), deepone, orc footsoldier, mutated spider
-#define THREAT_TOUGH 25      // Upgraded bog deserter, hard skeleton, orc berserker/marauder, drow raider, deepone spit/wiz
-#define THREAT_DANGEROUS 30  // Troll, bog troll, minotaur, direbear, drider
-#define THREAT_ELITE 50      // mirespider lurker/paralytic, dwarf skeleton — boss-tier mobs
+#define THREAT_MODERATE 14   // Mossback, mole, easy/pirate/bogguard skeleton, hobgoblin, militia deserter
+#define THREAT_HIGH 20       // Highwayman + archer/crossbowman, orc footsoldier/archer, deepone, mutated spider
+#define THREAT_TOUGH 25      // Searaider + archer, mount reaver, hard skeleton, drow raider, deepone spit/wiz
+#define THREAT_DANGEROUS 30  // Bog deserter, orc berserker/marauder, troll, bog troll, drider
+#define THREAT_DEADLY 40     // Searaider huscarl, road knight, sharpshooter, orc warlord, direbear — champion-tier
+#define THREAT_ELITE 50      // Minotaur, mirespider lurker/paralytic, dwarf skeleton — boss-tier mobs
 
 /// Conversion: one "band" in the Noticeboard IC description equals this many threat points.
 #define THREAT_POINTS_PER_BAND 50

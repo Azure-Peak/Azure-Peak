@@ -103,7 +103,7 @@
 	update_icon()
 
 /obj/structure/mannequin/attack_hand(mob/living/user)
-	if(user.a_intent.name == "punch")
+	if(istype(user.a_intent, /datum/intent/unarmed/punch))
 		if(!tipped_over)
 			TipOver()
 			return

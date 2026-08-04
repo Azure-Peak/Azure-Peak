@@ -88,14 +88,16 @@
 
 	. = ..()
 
-	AddComponent(/datum/component/arousal)
-
-
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_blood))
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/footstep, footstep_type, 1, 2)
 	GLOB.human_list += src
 	unarmed_special = new /datum/special_intent/upper_cut()
+
+/mob/living/carbon/human/Login()
+	. = ..()
+	if(!GetComponent(/datum/component/arousal))
+		AddComponent(/datum/component/arousal)
 
 /mob/living/carbon/human/ZImpactDamage(turf/T, levels)
 	var/obj/item/bodypart/affecting
@@ -950,32 +952,6 @@
 		remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 		remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN_FLYING)
 
-/mob/living/carbon/human/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		remove_status_effect(/datum/status_effect/debuff/hungryt1)
-		remove_status_effect(/datum/status_effect/debuff/hungryt2)
-		remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		return FALSE
-	return ..()
-
-/mob/living/carbon/human/set_nutrition(change) //Seriously fuck you oldcoders.
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		return FALSE
-	return ..()
-
-/mob/living/carbon/human/adjust_hydration(change)
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
-		return FALSE
-	return ..()
-
-/mob/living/carbon/human/set_hydration(change)
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		return FALSE
-	return ..()
-
 /// copies the physical cosmetic features of another human mob.
 /mob/living/carbon/human/proc/copy_physical_features(mob/living/carbon/human/target)
 	if(!istype(target))
@@ -1071,8 +1047,6 @@
 		if(!("[turf.z]" in GLOB.weatherproof_z_levels))
 			if(SSmapping.level_has_any_trait(turf.z, list(ZTRAIT_IGNORE_WEATHER_TRAIT)))
 				GLOB.weatherproof_z_levels |= "[turf.z]"
-		if("[turf.z]" in GLOB.weatherproof_z_levels)
-			SSmatthios_mobs.register_mob(src)
 
 //Vrell - Moving this here to fix load order bugs
 /mob/living/carbon/human/has_penis()

@@ -53,7 +53,7 @@
 			return
 		mind.heretic_nickname = nickname
 
-	var/msg = input(src, "What would you like to tell your fellow believers?", "Commune") as text|null
+	var/msg = sanitize(input(src, "What would you like to tell your fellow believers?", "Commune") as text|null)
 	if(!msg)
 		return
 

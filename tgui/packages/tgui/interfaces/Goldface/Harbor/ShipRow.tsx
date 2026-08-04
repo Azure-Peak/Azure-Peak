@@ -183,7 +183,9 @@ const SupplyLineRow = (props: {
   const hasKin =
     line.kin_offered_price !== undefined &&
     line.kin_offered_price < line.offered_price;
-  const unitPrice = hasKin ? (line.kin_offered_price as number) : line.offered_price;
+  const unitPrice = hasKin
+    ? (line.kin_offered_price as number)
+    : line.offered_price;
   const totalCost = unitPrice * safeQty;
   const cantAfford = budget < totalCost;
   const soldOut = remaining <= 0;
@@ -222,7 +224,9 @@ const SupplyLineRow = (props: {
           <span style={{ color: SEAL_GREEN }}>{unitPrice}m</span>
         </span>
       ) : (
-        <span style={{ flex: '0 0 auto', color: SEAL_AMBER, fontWeight: 'bold' }}>
+        <span
+          style={{ flex: '0 0 auto', color: SEAL_AMBER, fontWeight: 'bold' }}
+        >
           {line.offered_price}m
         </span>
       )}
@@ -332,7 +336,9 @@ export const ShipRow = (props: Props) => {
           {ship.captain_name && (
             <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
               Captain {ship.captain_name}
-              {ship.port_of_origin ? ` - sailing from ${ship.port_of_origin}` : ''}
+              {ship.port_of_origin
+                ? ` - sailing from ${ship.port_of_origin}`
+                : ''}
             </div>
           )}
           {!ship.captain_name && ship.port_of_origin && (
@@ -382,15 +388,14 @@ export const ShipRow = (props: Props) => {
                 {ship.realm_id}
               </button>
             ) : (
-              <span style={{ color: SEAL_AMBER }}>
-                {ship.realm_id}
-              </span>
+              <span style={{ color: SEAL_AMBER }}>{ship.realm_id}</span>
             )}
             <span style={{ color: INK_FAINT }}> &middot; </span>
             {ship.ship_type} &middot; {ship.tonnage}t
             {ship.tonnage_mult > 1.0 && (
               <span style={{ color: SEAL_AMBER }}>
-                {' '}({ship.tonnage_mult.toFixed(2)}x)
+                {' '}
+                ({ship.tonnage_mult.toFixed(2)}x)
               </span>
             )}
             {realm && realmOpen && (
@@ -565,7 +570,13 @@ export const ShipRow = (props: Props) => {
                 ));
               })()
             ) : (
-              <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontStyle: 'italic' }}>
+              <div
+                style={{
+                  color: INK_FAINT,
+                  fontSize: FONT_SMALL,
+                  fontStyle: 'italic',
+                }}
+              >
                 Nothing wanted.
               </div>
             )}
@@ -597,7 +608,13 @@ export const ShipRow = (props: Props) => {
                 />
               ))
             ) : (
-              <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontStyle: 'italic' }}>
+              <div
+                style={{
+                  color: INK_FAINT,
+                  fontSize: FONT_SMALL,
+                  fontStyle: 'italic',
+                }}
+              >
                 Nothing on offer.
               </div>
             )}

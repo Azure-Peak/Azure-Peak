@@ -62,10 +62,10 @@
 
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
 #define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
-#define STRENGTH_CAPPEDMULT 0.05	//STR multiplier per STR point past the softcap
+#define STRENGTH_CAPPEDMULT 0.03	//STR multiplier per STR point past the softcap
 #define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
 #define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
-#define RANGED_STAT_CAPPEDMULT 0.05	//PER multiplier per point past the softcap. 0.05 = 5% per point.
+#define RANGED_STAT_CAPPEDMULT 0.03	//PER multiplier per point past the softcap. 0.03 = 3% per point.
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
@@ -334,6 +334,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //Weapon values
 #define NONBLUNT_BLUNT_DAMFACTOR 0.6 // Damage factor when a non blunt weapon is used with blunt intent. Meant to make it worse than a real one.
 #define BLUNT_DEFAULT_INT_DAMAGEFACTOR 1.6 // Universal blunt intent integrity damage factor. Replaces Roguepen
+#define SPELL_BLUNT_INT_DAMAGEFACTOR 1.3 // Blunt integrity damage factor for spell projectiles
 #define PUNCH_INT_DAMAGEFACTOR 1.2 // Reduced integrity damage for unarmed punches cuz they're really fast
 // Integrity & Sharpness Value
 #define INTEG_PARRY_DECAY			1	//Default integrity decay on parry.
@@ -360,8 +361,6 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
 #define EXPOSED_INTEG_MOD 2.5	//Multiplier for melee integrity / simple-mob damage if we hit an Exposed target.
 #define VULN_INTEG_MOD 1.3		//Multiplier for melee integrity / simple-mob damage if we hit a Vulnerable target.
-#define EXPOSED_INTEG_FLAT 45	//Flat integrity damage added when hitting an Exposed target.
-#define VULN_INTEG_FLAT 20		//Flat integrity damage added when hitting a Vulnerable target.
 #define BASE_RCLICK_CD 30 SECONDS
 #define BAIT_RCLICK_CD 20 SECONDS
 #define BIND_CD 15 SECONDS
@@ -468,7 +467,9 @@ Medical defines
 #define PROB_ATTACK_EMOTE_NPC 10
 
 #define MAX_DODGE_CEIL 5
+#define MAX_DODGE_START 0	// We start at (presumed) 90%
 #define MAX_DODGE_FLOOR -15
+#define MAX_DODGE_CLAMP -5 // at 85%. Base is 90%.
 
 // How long we can't use stealth & other misc. things for
 #define IN_COMBAT_DELAY 10 SECONDS

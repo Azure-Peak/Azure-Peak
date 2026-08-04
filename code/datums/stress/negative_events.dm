@@ -557,3 +557,9 @@
 	timer = 30 SECONDS
 	stressadd = 6
 	desc = list(span_boldred("TEETH?!"), span_boldred("IT'S ALIVE!!"), span_boldred("NO, NO, NO!!"), span_boldred("GET BACK!!"), span_boldred("MONSTER!!"), span_boldred("IT MOVED!!"), span_boldred("DON'T TOUCH THE CHEST!!"), span_boldred("IT'S NOT A CHEST!!"), span_boldred("CARKIN', A MIMIC!!"), span_boldred("I'M NEVER OPENING A CHEST AGAIN!!"))
+
+/// The gods are alive and watching you now, idk what you expected going to the church for
+/datum/stressevent/blessed_evil
+	timer = 15 MINUTES
+	stressadd = 2
+	desc = span_artery("I feel a judgmental presence watching over me with disgust. I don't like this.")

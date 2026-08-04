@@ -187,6 +187,12 @@
 	grid_width = 32
 	sellprice = 10
 
+/obj/item/natural/head/rous/undead
+	name = "deadite rous head"
+	desc = "The head of an unusually large, undead rat."
+	icon_state = "deadroushead"
+	sellprice = 25
+
 /obj/item/natural/head/honeyspider
 	name = "honeyspider head"
 	desc = "The head of a venomous honeyspider."

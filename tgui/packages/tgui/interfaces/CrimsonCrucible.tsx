@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useBackend } from 'tgui/backend';
+import { suspendStart } from 'tgui/events/handlers/suspense';
+import { Window } from 'tgui/layouts';
 import {
   Box,
   Button,
@@ -7,9 +10,6 @@ import {
   Section,
   Stack,
 } from 'tgui-core/components';
-
-import { backendSuspendStart, globalStore, useBackend } from '../backend';
-import { Window } from '../layouts';
 
 type Project = {
   ref: string;
@@ -57,7 +57,10 @@ type CrucibleData = {
   i18nOverrides?: Record<string, string> | null;
 };
 
-type Translator = (key: string, vars?: Record<string, string | number>) => string;
+type Translator = (
+  key: string,
+  vars?: Record<string, string | number>,
+) => string;
 
 const FALLBACK_LANG = 'en';
 
@@ -83,7 +86,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     newRituals: 'New Rituals',
     emptyActive: 'The crucible is silent. No ritual has begun.',
     mortalNote:
-      "The crucible accepts blood into the cup. Only the Methuselah can direct it into rituals.",
+      'The crucible accepts blood into the cup. Only the Methuselah can direct it into rituals.',
     nonLordNote:
       'Only the Methuselah can begin or direct rituals. Other vampires may fill the cup and answer one weak servant call.',
     noRituals: 'No rituals are available.',
@@ -120,13 +123,16 @@ const localizeContribution = (text: string, t: Translator): string => {
   if (!text) return text;
   let m: RegExpMatchArray | null;
   if (
+    // biome-ignore lint/suspicious/noAssignInExpressions: Easiest way to do this
     (m = text.match(/^Can direct up to (\d+) vitae; the cup is spent first$/))
   ) {
     return t('contributionDirect', { n: m[1] });
   }
+  // biome-ignore lint/suspicious/noAssignInExpressions: Easiest way to do this
   if ((m = text.match(/^Can contribute up to (\d+) vitae$/))) {
     return t('contributionVitae', { n: m[1] });
   }
+  // biome-ignore lint/suspicious/noAssignInExpressions: Easiest way to do this
   if ((m = text.match(/^Will sacrifice (\d+) vitae and (\d+) blood$/))) {
     return t('contributionBlood', { vitae: m[1], blood: m[2] });
   }
@@ -216,7 +222,7 @@ const setCrucibleWindowSize = (expanded: boolean) => {
 };
 
 const closeCrucibleWindow = () => {
-  globalStore.dispatch(backendSuspendStart());
+  suspendStart();
 };
 
 const shellStyle = {
@@ -528,9 +534,7 @@ export const CrimsonCrucible = () => {
                   t={t}
                 />
               )}
-              {showLordEmptyState ? (
-                <EmptyState text={t('noRituals')} />
-              ) : null}
+              {showLordEmptyState ? <EmptyState text={t('noRituals')} /> : null}
             </Section>
           </Box>
         </Box>

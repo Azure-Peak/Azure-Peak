@@ -102,6 +102,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/datum/embedding_behavior/embedding
 	var/is_embedded = FALSE
+	var/atom/embedded_host = null
 
 	var/flags_cover = 0 //for flags such as GLASSESCOVERSEYES
 	var/heat = 0
@@ -158,7 +159,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// Original values for vars overridden by the active alt grip state.
 	var/list/alt_grip_restore_vars
 	///intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
-	var/list/gripped_intents 
+	var/list/gripped_intents
 	var/force_wielded = 0
 	var/gripsprite = FALSE //use alternate grip sprite for inhand
 	var/wieldsound = FALSE
@@ -332,6 +333,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					B.apply()
 				if (obj_broken)
 					update_damaged_state()
+			if(override_state)
+				icon_state = "[override_state][gripsprite ? "1" : ""]"
+			refresh_detail_overlay()
 			return
 		if(wielded)
 			if(gripsprite)
@@ -345,6 +349,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					update_damaged_state()
 			if(override_state)
 				icon_state = "[override_state]1"
+			refresh_detail_overlay()
 			return
 		if(gripsprite)
 			if(!override_state)
@@ -356,6 +361,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				B.remove()
 				B.generate_appearance()
 				B.apply()
+			refresh_detail_overlay()
 			if (obj_broken)
 				update_damaged_state()
 
@@ -440,11 +446,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	for(var/X in actions)
 		qdel(X)
 	if(is_embedded)
-		if(isbodypart(loc))
-			var/obj/item/bodypart/embedded_part = loc
+		var/atom/host = embedded_host || loc
+		if(isbodypart(host))
+			var/obj/item/bodypart/embedded_part = host
 			embedded_part.remove_embedded_object(src)
-		else if(isliving(loc))
-			var/mob/living/embedded_mob = loc
+		else if(isliving(host))
+			var/mob/living/embedded_mob = host
 			embedded_mob.simple_remove_embedded_object(src)
 	return ..()
 
@@ -1540,8 +1547,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(user.get_active_held_item() == src)
 		user.update_a_intents()
 	user.changeNext_move(CLICK_CD_RAPID)
-	if(override_state)
-		apply_override_state(override_state)
 	return TRUE
 
 /obj/item/proc/altgrip(mob/living/carbon/user)
@@ -1616,7 +1621,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				var/defense = "[SPAN_TOOLTIP("Each tier increases effective HP of the armor by 20%. Absorbed attacks never reach HP. The armor must be broken first.", "<u><b>ABSORB:</b></u>")] [colorgrade_rating("BLUNT", def_armor.blunt, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
 				defense += "[SPAN_TOOLTIP("Each tier reduces damage by 20% of base. Reduced damage still reaches HP. Armor absorbs what was blocked.", "<u><b>REDUCE:</b></u>")] [colorgrade_rating("BURN", def_armor.fire, elaborate = TRUE, max_tier = 5)]"
-				defense += " | [colorgrade_rating("ACID", def_armor.acid, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
 				defense += "[SPAN_TOOLTIP("Blocks attacks below this tier (Armor takes all damage). Same tier penetrates 20% (80% goes to armor). Exceeding tier penetrates fully.", "<u><b>BLOCK:</b></u>")] "
 				defense += "[colorgrade_rating("SLASH", def_armor.slash, elaborate = TRUE)] | "
@@ -1822,7 +1826,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 * - Second: A short description explaining in-character why this item has that status.
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
-* 
+*
 * If this returns null, the item will not be shown as heretical.*/
 /obj/item/proc/get_examine_highlight_status()
 	return null
@@ -1842,7 +1846,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return get_examine_highlight_labeled_string(severity, "[allcaps ? uppertext(highlight_itis) : highlight_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc]")
 	return null
 
-/// Returns `label_string` HTML formatted depending on the provided highlight status (see `code\__DEFINES\highlight_examine_defines.dm`). 
+/// Returns `label_string` HTML formatted depending on the provided highlight status (see `code\__DEFINES\highlight_examine_defines.dm`).
 /obj/item/proc/get_examine_highlight_labeled_string(examine_highlight_type, label_string)
 	if(!examine_highlight_type || !label_string)
 		return null
@@ -1850,7 +1854,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/highlight_symbol = get_examine_highlight_symbol(examine_highlight_type)
 	return "<font color = '[highlight_color]'>[highlight_symbol] [label_string] [highlight_symbol]</font>"
 
-/// Returns a full HTML-formatted tooltip string whose contents depend on the given highlight status type (See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`). 
+/// Returns a full HTML-formatted tooltip string whose contents depend on the given highlight status type (See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`).
 /obj/item/proc/get_examine_highlight_tooltip_string(list/examine_highlight_status)
 	if(!examine_highlight_status)
 		return null
@@ -1859,7 +1863,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	return "[highlight_reason]<br>[highlight_explanation]"
 
-/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`.
 /obj/item/proc/get_examine_highlight_adjective(highlight_type)
 	switch(highlight_type)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
@@ -1880,7 +1884,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return "ALARMINGLY ODD"
 	return null
 
-/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`.
 /obj/item/proc/get_examine_highlight_explanation(highlight_type)
 	switch(highlight_type)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
@@ -1901,7 +1905,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_VERYODD
 	return null
 
-/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`.
 /obj/item/proc/get_examine_highlight_color(highlight_type)
 	switch(highlight_type)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
@@ -1921,8 +1925,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
 			return COLOR_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null
-	
-/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`.
 /obj/item/proc/get_examine_highlight_symbol(highlight_type)
 	switch(highlight_type)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
@@ -1942,3 +1946,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
 			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null
+
+/obj/item/can_zFall(turf/source, levels, turf/target, direction)
+	if(item_flags & FLOATING_ITEM)
+		return FALSE
+	. = ..()
+
+/obj/item/proc/remove_floating() // needed for timers
+	item_flags &= ~FLOATING_ITEM

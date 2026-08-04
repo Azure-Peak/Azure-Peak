@@ -4,6 +4,7 @@
 	var/effect_type = null
 	var/cooldown_time
 	var/next_use = 0
+	var/hit_counter = 0
 
 /datum/component/dream_weapon/Initialize(effect_type, cooldown_time)
 	. = ..()
@@ -22,12 +23,18 @@
 	if(!effect_type)
 		return
 
+	hit_counter++
+	if(hit_counter < 3)
+		return
+
 	// Check cooldown
 	if(world.time < next_use)
 		return
 
 	if(!ishuman(target))
 		return
+
+	hit_counter = 0
 
 	var/mob/living/carbon/human/H = target
 
@@ -42,9 +49,12 @@
 			apply_frost_stack(H, 2)
 			target.visible_message(span_warning("[source] freezes [target] with scalding ice!"))
 		if("poison")
-			if(H.reagents)
-				H.reagents.add_reagent(/datum/reagent/berrypoison, 2)
-				target.visible_message(span_warning("[source] injects [target] with vile ooze!"))
+			var/datum/status_effect/black_rot/R = H.has_status_effect(/datum/status_effect/black_rot)
+			if(R)
+				R.add_stack(5)
+			else
+				H.apply_status_effect(/datum/status_effect/black_rot, 5)
+			target.visible_message(span_warning("[source] seeps black rot into [target]!"))
 
 	// Set cooldown
 	next_use = world.time + cooldown_time
@@ -406,7 +416,7 @@
 	// Create shard at Player's turf, tell it where to slide to
 	playsound(L, 'sound/combat/sharpness_loss1.ogg', 75, TRUE)
 	new shard_type(center, shard_duration, shard_amount, chosen_spawn)
-	
+
 	if(prob(40))
 		L.visible_message(span_boldnotice("[L.name] sheds a fragile looking shard of their armor. It seems to yearn to return to the whole."))
 
@@ -416,12 +426,12 @@
 
 	for(var/obj/O in T)
 		if(O.density)
-			return FALSE	
+			return FALSE
 	return TRUE
 
 /datum/component/dreamwalker_repair/proc/repair_from_shard(amount)
 	var/remaining_repair = amount
-	
+
 	// Continue repairing as long as we have juice and items to fix
 	while(remaining_repair > 0)
 		var/obj/item/most_broken = null
@@ -450,7 +460,7 @@
 
 		most_broken.update_icon()
 
-		if(needed > applied) 
+		if(needed > applied)
 			break // This item took all remaining repair but isn't full yet
 
 /datum/component/dreamwalker_repair/Destroy()

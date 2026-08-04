@@ -11,6 +11,9 @@
 	var/milk_stored = 0
 	var/milk_max = 75
 
+/obj/item/organ/breasts/get_cache_key()
+	return "[..()]-[breast_size]"
+
 /obj/item/organ/breasts/New()
 	..()
 	milk_max = max(75, breast_size * 100)

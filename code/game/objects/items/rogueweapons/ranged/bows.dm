@@ -88,7 +88,7 @@
 	var/newtime = (10 - user.get_skill_level(ranged_skill) * 2) + (10 - user.STASTR / 2) + (20 - user.STAPER)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(ARCHER_NPC_MIN_BOW_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
+	return max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME
 
 //bow objs ฅ^•ﻌ•^ฅ
 
@@ -101,7 +101,6 @@
 	icon_state = "bow"
 	item_state = "bow"
 	experimental_onhip = TRUE
-	flags_ai_inventory = AI_ITEM_GUN
 	experimental_onback = TRUE
 	possible_item_intents = list(
 		/datum/intent/shoot/bow,
@@ -126,6 +125,7 @@
 	var/ranged_skill = /datum/skill/combat/bows
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
+	. = ..()
 	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
 

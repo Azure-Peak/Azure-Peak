@@ -195,3 +195,29 @@
 
 /datum/action/cooldown/spell/mending/lesser
 	exclusive_group = "mending"
+
+/datum/action/cooldown/spell/mending/malum
+	name = "Reforge"
+	desc = "Uses divine power to mend an item, prosthetic or artificial being. Effect of repair scales off of your Intelligence."
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon_state = "repair"
+	spell_color = GLOW_COLOR_MALUM
+	sparks_amt = 1
+
+	invocations = list("Reforge")
+	invocation_type = INVOCATION_SHOUT
+
+	repair_percent = 0.30
+	point_cost = 0
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/malum, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)

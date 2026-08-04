@@ -7,13 +7,13 @@ import {
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
-  pageStyle,
   PARCHMENT_SHADOW,
+  pageStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from '../../common/parchment';
 import type {
   ActFn,
@@ -44,11 +44,7 @@ const noteStyle = {
   lineHeight: 1.4,
 };
 
-const LevyControl = (props: {
-  current: number;
-  cap: number;
-  act: ActFn;
-}) => {
+const LevyControl = (props: { current: number; cap: number; act: ActFn }) => {
   const { current, cap, act } = props;
   const [draft, setDraft] = useState<string>(String(current));
   const numeric = Number(draft);
@@ -108,10 +104,7 @@ const LevyControl = (props: {
   );
 };
 
-const GnomeMarginControl = (props: {
-  current: number;
-  act: ActFn;
-}) => {
+const GnomeMarginControl = (props: { current: number; act: ActFn }) => {
   const { current, act } = props;
   const [draft, setDraft] = useState<string>(String(current));
   const numeric = Number(draft);
@@ -122,8 +115,8 @@ const GnomeMarginControl = (props: {
       <div style={sectionHeaderStyle}>Silverface Margin</div>
       <div style={{ ...noteStyle, marginBottom: '8px' }}>
         The Company Gnomes price every Silverface stall at base cost plus this
-        margin. The margin flows to the Merchant Fund. Higher rates earn more per
-        sale but drive customers off; lower rates win volume.
+        margin. The margin flows to the Merchant Fund. Higher rates earn more
+        per sale but drive customers off; lower rates win volume.
       </div>
       <div
         style={{
@@ -171,7 +164,10 @@ const GnomeMarginControl = (props: {
   );
 };
 
-const outcomeStyles: Record<FavorLedgerEntry['outcome'], { label: string; color: string }> = {
+const outcomeStyles: Record<
+  FavorLedgerEntry['outcome'],
+  { label: string; color: string }
+> = {
   honored: { label: 'HONORED', color: SEAL_GREEN },
   partial: { label: 'PARTIAL', color: SEAL_AMBER },
   dishonored: { label: 'DISHONORED', color: SEAL_RED },
@@ -179,7 +175,8 @@ const outcomeStyles: Record<FavorLedgerEntry['outcome'], { label: string; color:
 
 const TriumphLever = (props: { favor: FavorData }) => {
   const { favor } = props;
-  const { high_water, triumph_bonus, triumph_cap, bracket_next, brackets } = favor;
+  const { high_water, triumph_bonus, triumph_cap, bracket_next, brackets } =
+    favor;
   const atCap = triumph_bonus >= triumph_cap || bracket_next === 0;
   return (
     <div style={{ marginBottom: '10px' }}>
@@ -194,7 +191,10 @@ const TriumphLever = (props: { favor: FavorData }) => {
         <span style={labelStyle}>Triumph Bonus</span>
         <span style={{ ...valueStyle, fontWeight: 'bold' }}>
           +{triumph_bonus}
-          <span style={{ color: INK_SOFT, fontWeight: 'normal' }}> / +{triumph_cap}</span>
+          <span style={{ color: INK_SOFT, fontWeight: 'normal' }}>
+            {' '}
+            / +{triumph_cap}
+          </span>
         </span>
       </div>
       <div
@@ -278,8 +278,16 @@ const LedgerRow = (props: { entry: FavorLedgerEntry }) => {
       <span style={{ color: style.color, fontWeight: 'bold' }}>
         {style.label}
       </span>
-      <span style={{ color: INK, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-        {entry.ship_name} <span style={{ color: INK_SOFT }}>- {entry.realm_label}</span>
+      <span
+        style={{
+          color: INK,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {entry.ship_name}{' '}
+        <span style={{ color: INK_SOFT }}>- {entry.realm_label}</span>
         {entry.refunded_hail ? (
           <span style={{ color: SEAL_GREEN }}> (hail refunded)</span>
         ) : null}
@@ -291,7 +299,8 @@ const LedgerRow = (props: { entry: FavorLedgerEntry }) => {
           fontWeight: 'bold',
         }}
       >
-        {sign}{entry.awarded}m
+        {sign}
+        {entry.awarded}m
       </span>
     </div>
   );
@@ -330,15 +339,23 @@ const SinkButton = (props: {
           marginBottom: '4px',
         }}
       >
-        <span style={{ ...labelStyle, color: INK, fontSize: FONT_BODY }}>{label}</span>
+        <span style={{ ...labelStyle, color: INK, fontSize: FONT_BODY }}>
+          {label}
+        </span>
         <span style={{ ...valueStyle, fontWeight: 'bold' }}>
           {done ? (
             <span style={{ color: SEAL_GREEN }}>{doneLabel}</span>
           ) : (
             <>
               {cost}m
-              <span style={{ color: canAfford ? INK_SOFT : SEAL_RED, fontWeight: 'normal' }}>
-                {' '}({current}m on hand)
+              <span
+                style={{
+                  color: canAfford ? INK_SOFT : SEAL_RED,
+                  fontWeight: 'normal',
+                }}
+              >
+                {' '}
+                ({current}m on hand)
               </span>
             </>
           )}
@@ -354,7 +371,11 @@ const SinkButton = (props: {
           act(action, params);
         }}
       >
-        {done ? 'Already in effect' : canAfford ? 'Spend favor' : 'Not enough favor'}
+        {done
+          ? 'Already in effect'
+          : canAfford
+            ? 'Spend favor'
+            : 'Not enough favor'}
       </button>
     </div>
   );
@@ -370,8 +391,10 @@ const FavorCard = (props: {
     <div style={{ ...cardStyle, marginTop: '8px' }}>
       <div style={sectionHeaderStyle}>Standing with the Company</div>
       <div style={{ ...noteStyle, marginBottom: '8px' }}>
-        Earned by sending ships off satisfied or passive trades through Silverface, Goldface and Navigator (At 0.5x value). Spent on Company favors. Volume hit
-        also determines the Merchant and Shopshands end of round triumph bonus - spending favor does not subtract from it.
+        Earned by sending ships off satisfied or passive trades through
+        Silverface, Goldface and Navigator (At 0.5x value). Spent on Company
+        favors. Volume hit also determines the Merchant and Shopshands end of
+        round triumph bonus - spending favor does not subtract from it.
       </div>
       <div
         style={{
@@ -409,31 +432,47 @@ const FavorCard = (props: {
         }}
       >
         <span style={{ color: INK }}>Ship send-offs</span>
-        <span style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}>
+        <span
+          style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}
+        >
           +{favor.from_sendoffs}m
         </span>
         <span style={{ color: INK }}>Navigator trade</span>
-        <span style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}>
+        <span
+          style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}
+        >
           +{favor.from_navigator}m
         </span>
         <span style={{ color: INK }}>Goldface imports</span>
-        <span style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}>
+        <span
+          style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}
+        >
           +{favor.from_goldface}m
         </span>
         <span style={{ color: INK }}>Silverface imports</span>
-        <span style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}>
+        <span
+          style={{ color: SEAL_GREEN, fontWeight: 'bold', textAlign: 'right' }}
+        >
           +{favor.from_silverface}m
         </span>
         {favor.penalties > 0 && (
           <>
             <span style={{ color: INK }}>Dishonor penalties</span>
-            <span style={{ color: SEAL_RED, fontWeight: 'bold', textAlign: 'right' }}>
+            <span
+              style={{
+                color: SEAL_RED,
+                fontWeight: 'bold',
+                textAlign: 'right',
+              }}
+            >
               -{favor.penalties}m
             </span>
           </>
         )}
         <span style={{ color: INK_SOFT }}>Lyfetime peak</span>
-        <span style={{ color: SEAL_AMBER, fontWeight: 'bold', textAlign: 'right' }}>
+        <span
+          style={{ color: SEAL_AMBER, fontWeight: 'bold', textAlign: 'right' }}
+        >
           {favor.high_water}m
         </span>
       </div>
@@ -453,9 +492,7 @@ const FavorCard = (props: {
           No ships sent off yet this week.
         </div>
       ) : (
-        favor.ledger.map((entry, idx) => (
-          <LedgerRow key={idx} entry={entry} />
-        ))
+        favor.ledger.map((entry, idx) => <LedgerRow key={idx} entry={entry} />)
       )}
       <div
         style={{
@@ -500,10 +537,7 @@ const FavorCard = (props: {
           act={act}
         />
       ) : (
-        <AutoHailerToggle
-          on={!!favor.auto_hailer_on}
-          act={act}
-        />
+        <AutoHailerToggle on={!!favor.auto_hailer_on} act={act} />
       )}
       {/* TODO: flavor - charter button label + flavor (catalog.desc from DM, origin note inline) */}
       {catalogs.map((catalog) => (
@@ -529,10 +563,7 @@ const FavorCard = (props: {
   );
 };
 
-const AutoHailerToggle = (props: {
-  on: boolean;
-  act: ActFn;
-}) => {
+const AutoHailerToggle = (props: { on: boolean; act: ActFn }) => {
   const { on, act } = props;
   return (
     <div
@@ -564,7 +595,10 @@ const AutoHailerToggle = (props: {
         </span>
       </div>
       <div style={{ ...noteStyle, marginBottom: '6px' }}>
-        While the crew works, ships are hailed up to the daily cap and dismissed once they have honored their tonnage or sat in port a full day. <b>Dishonored dismissals will sink your favor into the red</b> - leave it on, and you may return to a debt.
+        While the crew works, ships are hailed up to the daily cap and dismissed
+        once they have honored their tonnage or sat in port a full day.{' '}
+        <b>Dishonored dismissals will sink your favor into the red</b> - leave
+        it on, and you may return to a debt.
       </div>
       <button
         type="button"
@@ -577,10 +611,7 @@ const AutoHailerToggle = (props: {
   );
 };
 
-export const ManagementTab = (props: {
-  harbor?: HarborData;
-  act: ActFn;
-}) => {
+export const ManagementTab = (props: { harbor?: HarborData; act: ActFn }) => {
   const { harbor, act } = props;
   if (!harbor) {
     return (

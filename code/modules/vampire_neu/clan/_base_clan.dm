@@ -591,9 +591,9 @@ And it also helps for the character set panel
 	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/blood_disgust
-	name = "Sanguine Curse"
-	desc = "<span class='warning'>This type of blood does not go down well.</span>\n"
-	icon_state = "hunger2"
+	name = "Incompatible Blood"
+	desc = "<span class='artery'>This taste is so REPULSIVE it PHYSICALLY HURTS to drink...</span>\n"
+	icon_state = "vbloodx"
 
 /datum/status_effect/debuff/blood_disgust/on_apply()
 	. = ..()
@@ -606,7 +606,7 @@ And it also helps for the character set panel
 	owner.remove_stress(/datum/stressevent/bad_blood)
 
 /datum/stressevent/bad_blood
-	desc = span_warning("That blood was revolting!")
+	desc = span_artery("That blood was revolting! It churns and burns within me...")
 	stressadd = 3
 	max_stacks = 10
 	stressadd_per_extra_stack = 3

@@ -94,57 +94,57 @@ export const Goldface = () => {
     <Window width={880} height={800} theme="parchment">
       <Window.Content scrollable>
         <div style={{ position: 'relative' }}>
-        <div style={tabBarStyle}>
-          <div
-            style={tabStyle(activeTab === 'goods')}
-            onClick={() => setTab('goods')}
-          >
-            Goods
+          <div style={tabBarStyle}>
+            <div
+              style={tabStyle(activeTab === 'goods')}
+              onClick={() => setTab('goods')}
+            >
+              Goods
+            </div>
+            {canSeeHarborTabs && (
+              <div
+                style={tabStyle(activeTab === 'cultural')}
+                onClick={() => setTab('cultural')}
+              >
+                Cultural Stock
+              </div>
+            )}
+            {canSeeHarborTabs && (
+              <div
+                style={tabStyle(activeTab === 'harbor')}
+                onClick={() => setTab('harbor')}
+              >
+                Harbor
+              </div>
+            )}
+            {canSeeMerchantTabs && (
+              <div
+                style={tabStyle(activeTab === 'market')}
+                onClick={() => setTab('market')}
+              >
+                Market
+              </div>
+            )}
+            {canSeeMerchantTabs && (
+              <div
+                style={tabStyle(activeTab === 'management')}
+                onClick={() => setTab('management')}
+              >
+                Management
+              </div>
+            )}
+            {canSeeMerchantTabs && (
+              <div
+                style={tabStyle(activeTab === 'ledger')}
+                onClick={() => setTab('ledger')}
+              >
+                Ledger
+              </div>
+            )}
           </div>
-          {canSeeHarborTabs && (
-            <div
-              style={tabStyle(activeTab === 'cultural')}
-              onClick={() => setTab('cultural')}
-            >
-              Cultural Stock
-            </div>
-          )}
-          {canSeeHarborTabs && (
-            <div
-              style={tabStyle(activeTab === 'harbor')}
-              onClick={() => setTab('harbor')}
-            >
-              Harbor
-            </div>
-          )}
-          {canSeeMerchantTabs && (
-            <div
-              style={tabStyle(activeTab === 'market')}
-              onClick={() => setTab('market')}
-            >
-              Market
-            </div>
-          )}
-          {canSeeMerchantTabs && (
-            <div
-              style={tabStyle(activeTab === 'management')}
-              onClick={() => setTab('management')}
-            >
-              Management
-            </div>
-          )}
-          {canSeeMerchantTabs && (
-            <div
-              style={tabStyle(activeTab === 'ledger')}
-              onClick={() => setTab('ledger')}
-            >
-              Ledger
-            </div>
-          )}
-        </div>
-        <div style={{ position: 'absolute', right: 0, top: '10px' }}>
-          {helpButton}
-        </div>
+          <div style={{ position: 'absolute', right: 0, top: '10px' }}>
+            {helpButton}
+          </div>
         </div>
         {mammonBar}
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}

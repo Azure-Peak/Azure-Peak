@@ -9,7 +9,7 @@ import {
   sectionHeaderStyle,
 } from '../common/parchment';
 import { PaginatedLog } from './PaginatedLog';
-import { type TabProps } from './types';
+import type { TabProps } from './types';
 
 export const LedgerTab = ({ data }: TabProps) => {
   const personal = data.active_loan;
@@ -18,11 +18,7 @@ export const LedgerTab = ({ data }: TabProps) => {
   return (
     <div style={cardStyle}>
       <div style={sectionHeaderStyle}>My Debts</div>
-      {!personal && (
-        <div style={{ color: INK_SOFT }}>
-          You owe no debts.
-        </div>
-      )}
+      {!personal && <div style={{ color: INK_SOFT }}>You owe no debts.</div>}
       {!!personal && (
         <div style={fieldRowStyle}>
           <div style={fieldLabelStyle}>{personal.creditor}</div>

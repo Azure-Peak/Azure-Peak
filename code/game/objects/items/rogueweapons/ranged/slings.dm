@@ -70,13 +70,12 @@
 	var/newtime = 20 - (user.get_skill_level(/datum/skill/combat/slings) * 1.5) - (user.STAPER / 2) - (user.STASTR / 5)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(ARCHER_NPC_MIN_SLING_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
+	return max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME
 
 //objs
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	name = "sling"
-	flags_ai_inventory = AI_ITEM_GUN
 	desc = "Twisted fibers manifest into a strung pouch capable of hurling stones afar."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "sling"
@@ -106,6 +105,7 @@
 	var/bonus_stone_force = 0 //above comment is relevant. a magical stone's bonus force is kept on the sling itself and changed accordingly
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/get_mechanics_examine(mob/user)
+	. = ..()
 	. += span_info("Slings increase in damage and accuracy the higher your <b>PERCEPTION</b> and <b>STRENGTH</b>.")
 	. += span_info("Slings can be loaded directly from a pouch while your offhand is occupied by another item.")
 

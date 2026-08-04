@@ -164,7 +164,6 @@
 	skillcraft = /datum/skill/craft/sewing
 
 /obj/item/storage/roguebag/crafted
-	sellprice = 4
 
 /datum/crafting_recipe/roguetown/survival/pipe
 	name = "wood pipe"
@@ -206,6 +205,13 @@
 		)
 	structurecraft = /obj/machinery/tanningrack
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/zigbox
+	name = "zigbox"
+	result = /obj/item/storage/belt/rogue/pouch/zigarrete
+	reqs = list(/obj/item/paper/scroll = 2)
+	req_table = TRUE
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/prosthetic/woodleftarm
 	name = "wood arm (L)"
@@ -350,6 +356,7 @@
 		/obj/item/natural/fur = 1
 		)
 	craftdiff = 1
+	subtype_reqs = TRUE
 
 /datum/crafting_recipe/roguetown/survival/whetstone
 	name = "whetstone"

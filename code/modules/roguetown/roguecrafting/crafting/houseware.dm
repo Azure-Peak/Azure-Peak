@@ -113,9 +113,9 @@
 	result = list(
 		/obj/item/reagent_containers/peppermill
 		)
-	reqs = list(/obj/item/grown/log/tree/small = 1, /obj/item/natural/whetstone = 1, /obj/item/reagent_containers/food/snacks/pepper = 5) //Currently unrefillable, so see this as an equal exchange.
-	skillcraft = /datum/skill/craft/carpentry //If this feels a bit too oppressive, try reducing the difficulty level a bit. Remember that it shouldn't be easier to obtain than importing, otherwise.
-	craftdiff = 4
+	reqs = list(/obj/item/grown/log/tree/small = 1, /obj/item/reagent_containers/food/snacks/pepper = 5) //Currently unrefillable, so see this as an equal exchange.
+	skillcraft = /datum/skill/craft/cooking //If this feels a bit too oppressive, try reducing the difficulty level a bit. Remember that it shouldn't be easier to obtain than importing, otherwise.
+	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/survival/woodtray
 	name = "wooden trays (x2)"

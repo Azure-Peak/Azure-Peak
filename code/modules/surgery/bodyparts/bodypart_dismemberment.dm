@@ -292,8 +292,18 @@
 		qdel(src)
 		return TRUE
 
+	if(!special && was_owner?.contract_spawned)
+		sellprice = 0
+		addtimer(CALLBACK(src, PROC_REF(dust_contract_limb)), QUEST_HEAD_DUST_DELAY)
+
 	forceMove(drop_location)
 	return TRUE
+
+/obj/item/bodypart/proc/dust_contract_limb()
+	if(QDELETED(src))
+		return
+	dust_animation()
+	QDEL_IN(src, 1.2 SECONDS)
 
 //when a limb is dropped, the internal organs are removed from the mob and put into the limb
 /obj/item/organ/proc/transfer_to_limb(obj/item/bodypart/LB, mob/living/carbon/C)

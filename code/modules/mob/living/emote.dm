@@ -59,13 +59,13 @@
 	if(!prayer)
 		return
 
-	//If God can hear your prayer (long enough, no bad words, etc.)
-	if(patron.hear_prayer(follower, prayer))
-		// Stops prayers if you don't meet your patron's requirements to pray.
-		if(!patron?.can_pray(follower))
-			return
-		else
-			follower.sate_addiction(/datum/charflaw/addiction/godfearing)
+	// Stops prayers if you don't meet your patron's requirements to pray.
+	if(!patron?.can_pray(follower))
+		return
+	//If your patron can hear your prayer (long enough, no bad words, etc.)
+	if(!patron.hear_prayer(follower, prayer))
+		return
+	follower.sate_addiction(/datum/charflaw/addiction/godfearing)
 
 	/* admin stuff - tells you the followers name, key, and what patron they follow */
 	var/follower_ident = "[follower.key]/([follower.real_name]) (follower of [patron])"
@@ -92,18 +92,19 @@
 
 /datum/emote/living/meditate/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
+	to_chat(user, span_green("You focus inwards..."))
+	for(var/cycle in 1 to 3)
+		if(!do_after(user, 10 SECONDS))
+			return
+		SEND_SIGNAL(user, COMSIG_MOB_MEDITATED)
 	if(HAS_TRAIT(user, TRAIT_IRONMAN))
-		to_chat(user, span_green("You focus inwards..."))
-		if(do_after(user, 1 MINUTES))
-			var/mob/living/U = user
-			var/percent = U.max_energy * 0.3
-			user.add_stress(/datum/stressevent/meditation_ironman)
-			user.energy_add(percent)
-			playsound(user, 'sound/misc/machineyes.ogg', 25)
+		var/mob/living/U = user
+		var/percent = U.max_energy * 0.3
+		user.add_stress(/datum/stressevent/meditation_ironman)
+		user.energy_add(percent)
+		playsound(user, 'sound/misc/machineyes.ogg', 25)
 	else
-		to_chat(user, span_green("You focus inwards..."))
-		if(do_after(user, 1 MINUTES))
-			user.add_stress(/datum/stressevent/meditation)
+		user.add_stress(/datum/stressevent/meditation)
 
 /datum/emote/living/bow
 	key = "bow"
@@ -499,10 +500,12 @@
 				message_param = "kisses %t deeply."
 			else if(H.zone_selected == BODY_ZONE_PRECISE_EARS)
 				message_param = "kisses %t on the ear."
-				var/mob/living/carbon/human/E = target
-				if(iself(E) || ishalfelf(E) || isdarkelf(E))
-					if(!E.cmode)
-						to_chat(target, span_love("It tickles..."))
+				if(!HAS_TRAIT(target, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(target, TRAIT_NOMOOD))
+					var/mob/living/carbon/human/E = target
+					if(iself(E) || ishalfelf(E) || isdarkelf(E) || issunelf(E))
+						if(!E.cmode)
+							to_chat(target, span_love("It tickles..."))
+							E.emote("eflick", intentional = TRUE)
 			else if(H.zone_selected == BODY_ZONE_PRECISE_R_EYE || H.zone_selected == BODY_ZONE_PRECISE_L_EYE)
 				message_param = "kisses %t on the brow."
 			else if(H.zone_selected == BODY_ZONE_PRECISE_SKULL)
@@ -550,10 +553,12 @@
 				message_param = "licks %t lips."
 			else if(J.zone_selected == BODY_ZONE_PRECISE_EARS)
 				message_param = "licks the ear of %t."
-				var/mob/living/carbon/human/O = target
-				if(iself(O) || ishalfelf(O) || isdarkelf(O))
-					if(!O.cmode)
-						to_chat(target, span_love("It tickles..."))
+				if(!HAS_TRAIT(target, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(target, TRAIT_NOMOOD))
+					var/mob/living/carbon/human/O = target
+					if(iself(O) || ishalfelf(O) || isdarkelf(O) || issunelf(O))
+						if(!O.cmode)
+							to_chat(target, span_love("It tickles..."))
+							O.emote("eflick", intentional = TRUE)
 			else if(J.zone_selected == BODY_ZONE_PRECISE_GROIN)
 				message_param = "licks %t between the legs."
 				to_chat(target, span_love("That feels nice..."))
@@ -1234,6 +1239,12 @@
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
 
+/mob/living/carbon/human/verb/emote_sniff()
+	set name = "Sniff"
+	set category = "Emotes.Noises"
+
+	emote("sniff", intentional = TRUE)
+
 /datum/emote/living/snore
 	key = "snore"
 	key_third_person = "snores"
@@ -1625,7 +1636,7 @@
 
 		switch(key)
 			if("strength")
-				success = living.stat_roll(STAT_STRENGTH, chance_per_point, modifier_sum) 
+				success = living.stat_roll(STAT_STRENGTH, chance_per_point, modifier_sum)
 				chance = living.get_stat(STAT_STRENGTH)
 			if("perception")
 				success = living.stat_roll(STAT_PERCEPTION, chance_per_point, modifier_sum)

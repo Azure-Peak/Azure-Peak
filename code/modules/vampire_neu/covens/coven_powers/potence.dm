@@ -16,6 +16,26 @@
 		/datum/coven_power/potence/five
 	)
 
+/datum/coven_power/potence/activate(atom/target)
+	. = ..()
+	owner.apply_status_effect(/datum/status_effect/buff/potence, level)
+	if(level > 2)
+		owner.visible_message(span_warning("[owner] tenses their muscles, looking exceptionally stronger!"))
+		if(level > 3)
+			ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_VAMPIRE)
+			ADD_TRAIT(owner, TRAIT_ZJUMP, TRAIT_VAMPIRE)
+			ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE1, TRAIT_VAMPIRE)
+
+/datum/coven_power/potence/deactivate(atom/target, direct)
+	. = ..()
+	owner.remove_status_effect(/datum/status_effect/buff/potence)
+	if(level > 2)
+		owner.visible_message(span_warning("[owner] relaxes their body."))
+		if(level > 3)
+			REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_VAMPIRE)
+			REMOVE_TRAIT(owner, TRAIT_ZJUMP, TRAIT_VAMPIRE)
+			REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE1, TRAIT_VAMPIRE)
+
 /datum/coven_power/potence/do_caster_notification(target)
 	to_chat(owner, span_warning("You feel your blood surge through your muscles, empowering your body."))
 
@@ -36,13 +56,11 @@
 
 /datum/coven_power/potence/one/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 8
-	owner.potence_weapon_buff = 1
+	owner.dna.species.punch_damage += 2
 
 /datum/coven_power/potence/one/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 8
-	owner.potence_weapon_buff = 0
+	owner.dna.species.punch_damage -= 2
 	do_deactivation_notification()
 
 //POTENCE 2
@@ -60,13 +78,11 @@
 
 /datum/coven_power/potence/two/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 16
-	owner.potence_weapon_buff = 2
+	owner.dna.species.punch_damage += 4
 
 /datum/coven_power/potence/two/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 16
-	owner.potence_weapon_buff = 0
+	owner.dna.species.punch_damage -= 4
 	do_deactivation_notification()
 
 //POTENCE 3
@@ -83,13 +99,11 @@
 
 /datum/coven_power/potence/three/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 24
-	owner.potence_weapon_buff = 3
+	owner.dna.species.punch_damage += 6
 
 /datum/coven_power/potence/three/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 24
-	owner.potence_weapon_buff = 0
+	owner.dna.species.punch_damage -= 6
 	do_deactivation_notification()
 
 //POTENCE 4
@@ -106,13 +120,11 @@
 
 /datum/coven_power/potence/four/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 32
-	owner.potence_weapon_buff = 4
+	owner.dna.species.punch_damage += 8
 
 /datum/coven_power/potence/four/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 32
-	owner.potence_weapon_buff = 0
+	owner.dna.species.punch_damage -= 8
 	do_deactivation_notification()
 
 
@@ -130,11 +142,9 @@
 
 /datum/coven_power/potence/five/activate()
 	. = ..()
-	owner.dna.species.punch_damage += 40
-	owner.potence_weapon_buff = 5
+	owner.dna.species.punch_damage += 10
 
 /datum/coven_power/potence/five/deactivate()
 	. = ..()
-	owner.dna.species.punch_damage -= 40
-	owner.potence_weapon_buff = 0
+	owner.dna.species.punch_damage -= 10
 	do_deactivation_notification()

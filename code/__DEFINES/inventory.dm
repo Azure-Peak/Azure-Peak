@@ -169,6 +169,9 @@
 #define HIDESNOUT		(1<<15)
 #define HIDEWINGS		(1<<16)
 
+/// Check for occluding hair.
+#define HAIR_OCCLUDING_FLAGS (HIDEHAIR|HIDEEARS|HIDEFACE|HIDESNOUT)
+
 //blocking_behavior var on clothing items
 #define BLOCKBOOTS		(1<<0)
 #define BLOCKGLOVES		(1<<1)
@@ -210,6 +213,7 @@
 #define BELOW_HEAD	(CHEST | GROIN | VITALS | ARMS | HANDS | LEGS | FEET)
 #define BELOW_CHEST	(GROIN | VITALS | LEGS | FEET) //for water
 #define FULL_BODY	(FULL_HEAD | NECK | BELOW_HEAD)
+#define FULL_BODY_NO_CHEST	(GROIN | VITALS | LEGS | FEET | ARMS | HANDS | FULL_HEAD | NECK)
 
 //defines for the index of hands
 #define LEFT_HANDS 1

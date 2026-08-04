@@ -65,7 +65,7 @@
 
 	H.visible_message(span_boldwarning("[H] calls down a massive storm of lightning!"))
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE, 6)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, H, aoe_range, GTSTRIKE_DAMAGE, src, "Greater Thunderstrike", H), GTSTRIKE_TELEGRAPH)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, H, aoe_range, GTSTRIKE_DAMAGE, src, "Greater Thunderstrike"), GTSTRIKE_TELEGRAPH)
 	return TRUE
 
 #undef GTSTRIKE_DAMAGE

@@ -14,7 +14,7 @@ import {
 import { AvisaTab } from './Noticeboard/AvisaTab';
 import { PostingsTab } from './Noticeboard/PostingsTab';
 import { RosterTab } from './Noticeboard/RosterTab';
-import { type NoticeboardData, type TabKey } from './Noticeboard/types';
+import type { NoticeboardData, TabKey } from './Noticeboard/types';
 
 export const Noticeboard = () => {
   const { data, act } = useBackend<NoticeboardData>();
@@ -27,14 +27,20 @@ export const Noticeboard = () => {
           <button
             type="button"
             title="Refresh market data (5s cooldown)"
-            style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 8 }}
+            style={{
+              ...inkButtonStyle({}),
+              position: 'absolute',
+              top: 8,
+              right: 8,
+            }}
             onClick={() => act('refresh_market')}
           >
             ↻
           </button>
           <div style={titleStyle}>The Notice Board</div>
           <div style={subtitleStyle}>
-            of {data.realm_name || 'the realm'} &middot; postings of the realm and her commons
+            of {data.realm_name || 'the realm'} &middot; postings of the realm
+            and her commons
           </div>
           <hr style={rulerStyle} />
 

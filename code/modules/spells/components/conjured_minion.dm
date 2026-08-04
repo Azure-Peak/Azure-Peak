@@ -3,21 +3,25 @@
 /datum/component/conjured_minion
 	var/datum/weakref/summoner_ref
 	var/recoil_energy_floor = 200
-	var/recoil_debuff = TRUE
+	var/recoil_severity = CONJURE_RECOIL_FULL
+	var/recoil_stamina_only = FALSE
 	var/dismissing = FALSE
 	var/leash_range = 12
 	var/next_leash_message = 0
 	var/base_alpha = 255
 	var/untether_strain = 0
-	var/untether_max = 5
+	var/untether_max = 10
 	var/tether_timer
 
-/datum/component/conjured_minion/Initialize(mob/living/summoner, energy_floor = 200, apply_debuff = TRUE)
+/datum/component/conjured_minion/Initialize(mob/living/summoner, energy_floor = 200, severity = CONJURE_RECOIL_FULL, stamina_only = FALSE)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
+	var/mob/living/minion = parent
+	minion.mark_contract_spawned()
 	summoner_ref = WEAKREF(summoner)
 	recoil_energy_floor = energy_floor
-	recoil_debuff = apply_debuff
+	recoil_severity = severity
+	recoil_stamina_only = stamina_only
 	if(isliving(summoner))
 		summoner.add_summoned_minion(parent)
 	ADD_TRAIT(parent, TRAIT_CONJURED_SUMMON, REF(src))
@@ -25,6 +29,7 @@
 	RegisterSignal(parent, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(check_leash))
 	if(ishuman(parent))
 		apply_phantasmal()
+		seal_organs()
 		RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	var/mob/living/M = parent
 	base_alpha = M.alpha
@@ -63,7 +68,10 @@
 	var/mob/living/summoner = summoner_ref?.resolve()
 	if(!summoner || summoner.stat == DEAD)
 		return
-	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(apply_conjure_recoil), summoner, recoil_energy_floor, recoil_debuff)
+	if(untether_strain > 0 || summoner.z != source.z || get_dist(source, summoner) > leash_range)
+		to_chat(summoner, span_warning("A dull ache echoes down the leyline - [source] has perished beyond the tether's reach."))
+		return
+	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(apply_conjure_recoil), summoner, recoil_energy_floor, recoil_severity, 1, TRUE, recoil_stamina_only)
 
 /datum/component/conjured_minion/proc/check_leash(atom/movable/source, atom/newloc)
 	SIGNAL_HANDLER
@@ -81,7 +89,7 @@
 		return
 	if(M.ckey && world.time > next_leash_message)
 		next_leash_message = world.time + 3 SECONDS
-		to_chat(M, span_warning("The tether binding you to your abandoned flesh draws taut - you can stray no further from your body."))
+		to_chat(M, span_warning("The tether binding you to your body stops you from moving further.."))
 	return COMPONENT_MOVABLE_BLOCK_PRE_MOVE
 
 /datum/component/conjured_minion/proc/check_tether()
@@ -117,10 +125,15 @@
 
 /datum/component/conjured_minion/proc/strain_tether(mob/living/M)
 	untether_strain++
+	var/mob/living/summoner = summoner_ref?.resolve()
 	if(untether_strain == 1)
 		M.visible_message(span_warning("[M] flickers, its form straining against the distant leyline."))
-	M.alpha = max(50, M.alpha - 24)
-	M.add_movespeed_modifier(CONJURE_UNTETHER_ID, update = TRUE, override = TRUE, multiplicative_slowdown = min(untether_strain, untether_max) * 0.6)
+		if(summoner)
+			to_chat(summoner, span_warning("I feel the tether to [M] strain - my servant is beyond my reach."))
+	M.alpha = max(50, M.alpha - 12)
+	M.add_movespeed_modifier(CONJURE_UNTETHER_ID, update = TRUE, override = TRUE, multiplicative_slowdown = min(untether_strain, 2) * 0.6)
+	if(untether_strain == untether_max - 2 && summoner)
+		to_chat(summoner, span_userdanger("The tether to [M] is fraying - it will unravel unless I close the distance!"))
 	if(untether_strain < untether_max)
 		return
 	if(M.ckey)
@@ -134,6 +147,11 @@
 	M.remove_movespeed_modifier(CONJURE_UNTETHER_ID)
 	M.alpha = base_alpha
 	M.visible_message(span_notice("[M] steadies as its master's presence returns."))
+
+/datum/component/conjured_minion/proc/seal_organs()
+	var/mob/living/carbon/human/H = parent
+	for(var/obj/item/organ/organ as anything in H.internal_organs)
+		organ.organ_flags |= ORGAN_INTERNAL_ONLY | ORGAN_SURGERY_HIDDEN
 
 /datum/component/conjured_minion/proc/apply_phantasmal()
 	var/mob/living/M = parent

@@ -165,7 +165,6 @@
 						/obj/item/recipe_book/engineering = 1,
 						/obj/item/recipe_book/ceramics = 1,
 						/obj/item/recipe_book/builder = 1,
-						/obj/item/recipe_book/survival = 1,
 						/obj/item/clothing/mask/rogue/spectacles/golden = 1, //putting them in the bag because bad eye sight virtue strips these
 						/obj/item/contraption/linker = 1,
 						/obj/item/mini_flagpole/artificer = 1,
@@ -235,7 +234,6 @@
 						/obj/item/dye_brush = 1,
 						/obj/item/recipe_book/engineering = 1,
 						/obj/item/recipe_book/builder = 1,
-						/obj/item/recipe_book/survival = 1,
 						/obj/item/roguekey/crafterguild = 1,
 						/obj/item/mini_flagpole/blacksmith = 1,
 						/obj/item/mini_flagpole/artificer = 1,

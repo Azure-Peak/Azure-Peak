@@ -98,6 +98,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/attack_verb = "punch"	// punch-specific attack verb
 	var/sound/attack_sound = 'sound/combat/hits/punch/punch (1).ogg'
 	var/sound/miss_sound = 'sound/blank.ogg'
+	/// Associative list of IC claw-style names to cosmetic punch intent paths. Null means this species cannot justify natural claws. Wort wort wort
+	var/list/cosmetic_claw_types
 
 	var/enflamed_icon = "Standing"
 
@@ -513,10 +515,17 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	for(var/language_type in languages)
 		C.grant_language(language_type)
 
+	if(length(cosmetic_claw_types) && ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(!H.cosmetic_claws_configured && (INTENT_HARM in H.base_intents))
+			add_verb(H, /mob/living/carbon/human/verb/choose_cosmetic_claws)
+
 	SEND_SIGNAL(C, COMSIG_SPECIES_GAIN, src, old_species)
 
 
 /datum/species/proc/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
+	remove_verb(C, /mob/living/carbon/human/verb/choose_cosmetic_claws)
+	C.cosmetic_claw_intent = null
 	if(C.dna.species.exotic_bloodtype)
 		C.dna.blood_type = random_blood_type()
 	if(DIGITIGRADE in species_traits)
@@ -962,164 +971,154 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 ////////
 
 /datum/species/proc/handle_digestion(mob/living/carbon/human/H)
-	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
-//	if(HAS_TRAIT_FROM(H, TRAIT_FAT, OBESITY))//I share my pain, past coder.
-//		if(H.overeatduration < 100)
-//			to_chat(H, span_notice("I feel fit again!"))
-//			REMOVE_TRAIT(H, TRAIT_FAT, OBESITY)
-//			H.remove_movespeed_modifier(MOVESPEED_ID_FAT)
-//			H.update_inv_w_uniform()
-//			H.update_inv_wear_suit()
-//	else
-//		if(H.overeatduration >= 100)
-//			to_chat(H, span_danger("I suddenly feel blubbery!"))
-//			ADD_TRAIT(H, TRAIT_FAT, OBESITY)
-//			H.add_movespeed_modifier(MOVESPEED_ID_FAT, multiplicative_slowdown = 1.5)
-//			H.update_inv_w_uniform()
-//			H.update_inv_wear_suit()
 
-	// nutrition decrease and satiety
-	if (H.nutrition > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
-		// THEY HUNGER
+	if(H.nutrition > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 		var/hunger_rate = HUNGER_FACTOR
-/*		if(H.satiety > MAX_SATIETY)
-			H.satiety = MAX_SATIETY
-		else if(H.satiety > 0)
-			H.satiety--
-		else if(H.satiety < -MAX_SATIETY)
-			H.satiety = -MAX_SATIETY
-		else if(H.satiety < 0)
-			H.satiety++
-			if(prob(round(-H.satiety/40)))
-				H.Jitter(5)
-			hunger_rate = 10 * HUNGER_FACTOR*/
-//		hunger_rate *= H.physiology.hunger_mod
 		H.adjust_nutrition(-hunger_rate)
-
 		var/obj/item/organ/breasts/breasts = H.has_breasts()
-		if(breasts)
-			if(H.nutrition > NUTRITION_LEVEL_HUNGRY && breasts.lactating && breasts.milk_max > breasts.milk_stored) //Vrell - numbers may need to be tweaked for balance but hey this works for now.
+
+		if(breasts && breasts.lactating)
+			if(H.nutrition > NUTRITION_LEVEL_HUNGRY && breasts.milk_stored < breasts.milk_max)
 				var/milk_to_make = min(hunger_rate, breasts.milk_max - breasts.milk_stored)
 				breasts.milk_stored += milk_to_make
 				H.adjust_nutrition(-milk_to_make)
 
-			else if(H.nutrition < NUTRITION_LEVEL_STARVING && breasts.lactating) //Vrell - If starving, your milk drains automatically to slow your starvation.
+			else if(H.nutrition < NUTRITION_LEVEL_STARVING && breasts.milk_stored > 0)
 				var/milk_to_take = min(hunger_rate, breasts.milk_stored)
 				breasts.milk_stored -= milk_to_take
 				H.adjust_nutrition(milk_to_take)
 
-	if (H.hydration > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
-		// THEY HUNGER
-		var/hunger_rate = HUNGER_FACTOR
-//		hunger_rate *= H.physiology.hunger_mod
-		H.adjust_hydration(-hunger_rate)
+	if(H.hydration > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 
+		var/hydration_rate = HUNGER_FACTOR
+		H.adjust_hydration(-hydration_rate)
 
-	if (H.nutrition > NUTRITION_LEVEL_FULL)
-		if(H.overeatduration < 600) //capped so people don't take forever to unfat
+	if(H.nutrition > NUTRITION_LEVEL_FULL)
+		if(H.overeatduration < 600)
 			H.overeatduration++
 	else
 		if(H.overeatduration > 1)
-			H.overeatduration -= 2 //doubled the unfat rate
+			H.overeatduration -= 2
 
-	//metabolism change
-//	if(H.nutrition > NUTRITION_LEVEL_FAT)
-//		H.metabolism_efficiency = 1
-//	else if(H.nutrition > NUTRITION_LEVEL_FED && H.satiety > 80)
-//		if(H.metabolism_efficiency != 1.25 && !HAS_TRAIT(H, TRAIT_NOHUNGER))
-//			to_chat(H, span_notice("I feel vigorous."))
-//			H.metabolism_efficiency = 1.25
-//	else if(H.nutrition < NUTRITION_LEVEL_STARVING + 50)
-//		if(H.metabolism_efficiency != 0.8)
-//			to_chat(H, span_notice("I feel sluggish."))
-//		H.metabolism_efficiency = 0.8
-//	else
-//		if(H.metabolism_efficiency == 1.25)
-//			to_chat(H, span_notice("I no longer feel vigorous."))
-//		H.metabolism_efficiency = 1
-
-	//Hunger slowdown for if mood isn't enabled
-//	if(CONFIG_GET(flag/disable_human_mood))
-//		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
-//			var/hungry = (500 - H.nutrition) / 5 //So overeat would be 100 and default level would be 80
-//			if(hungry >= 70)
-//				H.add_movespeed_modifier(MOVESPEED_ID_HUNGRY, override = TRUE, multiplicative_slowdown = (hungry / 50))
-//			else if(isethereal(H))
-//				var/datum/species/ethereal/E = H.dna.species
-//				if(E.get_charge(H) <= ETHEREAL_CHARGE_NORMAL)
-//					H.add_movespeed_modifier(MOVESPEED_ID_HUNGRY, override = TRUE, multiplicative_slowdown = (1.5 * (1 - E.get_charge(H) / 100)))
-//			else
-//				H.remove_movespeed_modifier(MOVESPEED_ID_HUNGRY)
-
-	if(HAS_TRAIT(H, TRAIT_NOHUNGER)) //hunger is for BABIES
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
 		H.nutrition = NUTRITION_LEVEL_DEATHLESS
 		H.hydration = HYDRATION_LEVEL_DEATHLESS
 
-	switch(H.nutrition)
-//		if(NUTRITION_LEVEL_FAT to INFINITY) //currently disabled/999999 define
-//			if(H.energy >= H.max_energy)
-//				H.apply_status_effect(/datum/status_effect/debuff/fat)
-		if(NUTRITION_LEVEL_FAT to INFINITY)
-			H.add_stress(/datum/stressevent/stuffed)
-			H.remove_stress_list(list(/datum/stressevent/peckish,/datum/stressevent/hungry,/datum/stressevent/starving))
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(NUTRITION_LEVEL_FED to NUTRITION_LEVEL_FAT)
-			H.remove_stress_list(list(/datum/stressevent/peckish,/datum/stressevent/hungry,/datum/stressevent/starving))
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(NUTRITION_LEVEL_HUNGRY to NUTRITION_LEVEL_FED)
-			H.add_stress(/datum/stressevent/peckish)
-			H.remove_stress_list(list(/datum/stressevent/stuffed,/datum/stressevent/hungry,/datum/stressevent/starving))
-			H.apply_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_HUNGRY)
-			H.add_stress(/datum/stressevent/hungry)
-			H.remove_stress_list(list(/datum/stressevent/stuffed,/datum/stressevent/peckish,/datum/stressevent/starving))
-			H.apply_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(0 to NUTRITION_LEVEL_STARVING)
-			H.add_stress(/datum/stressevent/starving)
-			H.remove_stress_list(list(/datum/stressevent/stuffed,/datum/stressevent/peckish,/datum/stressevent/hungry))
-			H.apply_status_effect(/datum/status_effect/debuff/hungryt3)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			if(prob(3))
-				playsound(get_turf(H), pick('sound/vo/hungry1.ogg','sound/vo/hungry2.ogg','sound/vo/hungry3.ogg'), 100, TRUE, -1)
+	update_needs(H)
 
+/datum/species/proc/get_hunger_stage(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
+		return 0
+	switch(H.nutrition)
+		if(NUTRITION_LEVEL_FAT to INFINITY)
+			return -1
+		if(NUTRITION_LEVEL_FED to NUTRITION_LEVEL_FAT)
+			return 0
+		if(NUTRITION_LEVEL_HUNGRY to NUTRITION_LEVEL_FED)
+			return 1
+		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_HUNGRY)
+			return 2
+		if(0 to NUTRITION_LEVEL_STARVING)
+			return 3
+	return 0
+
+/datum/species/proc/get_thirst_stage(mob/living/carbon/human/H)
+
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
+		return 0
 	switch(H.hydration)
-//		if(HYDRATION_LEVEL_WATERLOGGED to INFINITY)
-//			H.apply_status_effect(/datum/status_effect/debuff/waterlogged)
 		if(HYDRATION_LEVEL_HYDRATED to INFINITY)
-			H.add_stress(/datum/stressevent/hydrated)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+			return -1
 		if(HYDRATION_LEVEL_SMALLTHIRST to HYDRATION_LEVEL_HYDRATED)
-			H.remove_stress_list(list(/datum/stressevent/drym,/datum/stressevent/thirst,/datum/stressevent/parched))
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+			return 0
 		if(HYDRATION_LEVEL_THIRSTY to HYDRATION_LEVEL_SMALLTHIRST)
-			H.add_stress(/datum/stressevent/drym)
-			H.remove_stress_list(list(/datum/stressevent/parched,/datum/stressevent/thirst))
-			H.apply_status_effect(/datum/status_effect/debuff/thirstyt1)
+			return 1
 		if(HYDRATION_LEVEL_DEHYDRATED to HYDRATION_LEVEL_THIRSTY)
-			H.add_stress(/datum/stressevent/thirst)
-			H.remove_stress_list(list(/datum/stressevent/parched,/datum/stressevent/drym))
-			H.apply_status_effect(/datum/status_effect/debuff/thirstyt2)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+			return 2
 		if(0 to HYDRATION_LEVEL_DEHYDRATED)
-			H.add_stress(/datum/stressevent/parched)
-			H.remove_stress_list(list(/datum/stressevent/thirst,/datum/stressevent/drym))
-			H.apply_status_effect(/datum/status_effect/debuff/thirstyt3)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+			return 3
+	return 0
+
+
+/datum/species/proc/get_vitae_stage(mob/living/carbon/human/H)
+	switch(H.bloodpool)
+		if(VITAE_LEVEL_HUNGRY to VITAE_LEVEL_FED)
+			return 1
+		if(VITAE_LEVEL_STARVING to VITAE_LEVEL_HUNGRY)
+			return 2
+		if(-INFINITY to VITAE_LEVEL_STARVING)
+			return 3
+	return 0
+
+/datum/species/proc/set_need_tier(mob/living/carbon/human/H, tier, t1, t2, t3)
+	if(tier != 1)
+		H.remove_status_effect(t1)
+	if(tier != 2)
+		H.remove_status_effect(t2)
+	if(tier != 3)
+		H.remove_status_effect(t3)
+
+	switch(tier)
+		if(1)
+			H.apply_status_effect(t1)
+		if(2)
+			H.apply_status_effect(t2)
+		if(3)
+			H.apply_status_effect(t3)
+
+
+/datum/species/proc/update_needs(mob/living/carbon/human/H)
+	var/new_hunger_stage = get_hunger_stage(H)
+
+	if(new_hunger_stage != H.hunger_stage)
+		H.hunger_stage = new_hunger_stage
+		set_need_tier(H, new_hunger_stage, /datum/status_effect/debuff/hungryt1, /datum/status_effect/debuff/hungryt2,/datum/status_effect/debuff/hungryt3)
+
+		switch(new_hunger_stage)
+			if(-1)
+				H.add_stress(/datum/stressevent/stuffed)
+				H.remove_stress_list(list(/datum/stressevent/peckish, /datum/stressevent/hungry, /datum/stressevent/starving))
+			if(0)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/peckish, /datum/stressevent/hungry, /datum/stressevent/starving))
+			if(1)
+				H.add_stress(/datum/stressevent/peckish)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/hungry, /datum/stressevent/starving))
+			if(2)
+				H.add_stress(/datum/stressevent/hungry)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/peckish, /datum/stressevent/starving))
+			if(3)
+				H.add_stress(/datum/stressevent/starving)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/peckish, /datum/stressevent/hungry))
+				if(prob(3))
+					playsound(
+						get_turf(H), pick('sound/vo/hungry1.ogg', 'sound/vo/hungry2.ogg', 'sound/vo/hungry3.ogg'), 100, TRUE, -1)
+
+	var/new_thirst_stage = get_thirst_stage(H)
+	if(new_thirst_stage != H.thirst_stage)
+		H.thirst_stage = new_thirst_stage
+		set_need_tier(H, new_thirst_stage, /datum/status_effect/debuff/thirstyt1, /datum/status_effect/debuff/thirstyt2,/datum/status_effect/debuff/thirstyt3)
+
+		switch(new_thirst_stage)
+			if(-1)
+				H.add_stress(/datum/stressevent/hydrated)
+				H.remove_stress_list(list(/datum/stressevent/drym, /datum/stressevent/thirst, /datum/stressevent/parched))
+			if(0)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/drym, /datum/stressevent/thirst,/datum/stressevent/parched))
+			if(1)
+				H.add_stress(/datum/stressevent/drym)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/thirst, /datum/stressevent/parched))
+			if(2)
+				H.add_stress(/datum/stressevent/thirst)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/drym, /datum/stressevent/parched))
+			if(3)
+				H.add_stress(/datum/stressevent/parched)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/drym, /datum/stressevent/thirst))
+
+	var/new_vitae_stage = get_vitae_stage(H)
+	if(new_vitae_stage != H.vitae_stage)
+		H.vitae_stage = new_vitae_stage
+		set_need_tier(H, new_vitae_stage,/datum/status_effect/debuff/vthirstt1, /datum/status_effect/debuff/vthirstt2,/datum/status_effect/debuff/vthirstt3)
+
 
 /datum/species/proc/update_health_hud(mob/living/carbon/human/H)
 	return 0
@@ -1250,11 +1249,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			user.bad_guard(span_suicide("I tried to strike while focused on defense whole! It drains me!"), cheesy = TRUE)
 			return
 
-		if(target.has_status_effect(/datum/status_effect/buff/skulduggery) && ishuman(user))
-			var/obj/item/IM = target.get_active_held_item()
-			target.process_skd(user, IM)
-			return
-
 		var/mob/living/carbon/human/H = target
 		H.process_golgatha_rebuke(user)
 
@@ -1361,14 +1355,25 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			log_combat(user, target, "got a stun punch with their previous punch")*/
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.forcesay(GLOB.hit_appends)
-		if(!nodmg)
+		if(user.cosmetic_claw_intent)
+			// The selected claw sound describes the motion, not the impact. Armor supplies its own material hit sound;
+			// an attack which reaches flesh still needs the ordinary unarmed flesh impact beneath the cosmetic woosh.
 			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
+			if(!nodmg)
+				playsound(target.loc, pick(
+					'sound/combat/hits/punch/punch_hard (1).ogg',
+					'sound/combat/hits/punch/punch_hard (2).ogg',
+					'sound/combat/hits/punch/punch_hard (3).ogg',
+				), 100, FALSE)
+		else if(!nodmg)
+			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
+		if(!nodmg)
 			if(user.mind)
 				user.dodgetime = (clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE))
 				user.changeMaxDodge(3)
 			if(target.mind)
 				target.dodgetime = (clamp(target.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
-				target.changeMaxDodge(5)
+				target.changeMaxDodge(5, clamp = TRUE)
 
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -1647,9 +1652,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					target.throw_at(throwtarget, 2, 2)
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them back!"),
 				span_danger(
-					"I'm knocked [user.pulledby ? "down" : "back"] from a kick by [user.name]!"), 
-					span_hear("I hear aggressive shuffling followed by a loud thud!"), 
-					COMBAT_MESSAGE_RANGE, 
+					"I'm knocked [user.pulledby ? "down" : "back"] from a kick by [user.name]!"),
+					span_hear("I hear aggressive shuffling followed by a loud thud!"),
+					COMBAT_MESSAGE_RANGE,
 					user
 				)
 				to_chat(user, span_danger("I kick [target.name], knocking them back!"))
@@ -1661,8 +1666,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them down!"),
 				span_danger(
 					"I'm knocked down from a kick by [user.name]!"),
-					span_hear("I hear aggressive shuffling followed by a loud thud!"), 
-					COMBAT_MESSAGE_RANGE, 
+					span_hear("I hear aggressive shuffling followed by a loud thud!"),
+					COMBAT_MESSAGE_RANGE,
 					user
 				)
 				to_chat(user, span_danger("I kick [target.name], knocking them down!"))
@@ -1785,7 +1790,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	if(!affecting)
 		return
-	
+
 	var/datum/status_effect/buff/clash/limbguard/LG = H.has_status_effect(/datum/status_effect/buff/clash/limbguard)
 	if(LG)
 		if(LG.protected_zone == selzone && LG.is_active)	// We "missed" into limbguard's protected zone.
@@ -1859,8 +1864,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		user.resolve_combataware(H, "[bodyzone2readablezone(selzone)]...", aim_text)
 
 	if(H.client?.prefs.combat_toggles & HITZONE_TEXT)
-		H.balloon_alert(H, "[bodyzone2readablezone(selzone)]...") 
-		
+		H.balloon_alert(H, "[bodyzone2readablezone(selzone)]...")
+
 	var/pen_info_check = get_pen_info(H, user, H.get_best_worn_armor(def_zone, int.item_d_type), def_zone, int.item_d_type, int.penfactor, I)
 	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=bladec, intdamfactor = used_intfactor, used_weapon = I, pen_info = pen_info_check)
 
@@ -1886,12 +1891,13 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(I)
 				I.remove_bintegrity(1)
 				I.take_damage(1, BRUTE, I.d_type)
-			
+
 			if(user.mind && user.goodluck(4) && user.d_intent == INTENT_DODGE)
 				user.changeNext_def(clamp(user.dodgetime - 1, 0, CLICK_CD_DODGE))
 				user.changeMaxDodge(1)
 		if(!nodmg)
 			post_reduction_dmg = (post_weakness_dmg - armor_block)
+			var/has_vuln_or_exposed = (H.has_status_effect(/datum/status_effect/debuff/exposed) || H.has_status_effect(/datum/status_effect/debuff/vulnerable))
 			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, post_reduction_dmg, user, selzone, crit_message = TRUE, weapon = I, pen_info = pen_info_check)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
@@ -1917,7 +1923,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				user.changeMaxDodge(3)
 			if(H.mind)
 				H.dodgetime = (clamp(H.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
-				H.changeMaxDodge(5)
+				if(!has_vuln_or_exposed)
+					H.changeMaxDodge(5, clamp = TRUE)
+					
 //		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
 //			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
 //			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
@@ -2014,6 +2022,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.emote("painmoan", forced = TRUE)
 			H.visible_message(span_combatsecondarybp("<b>[H]</b> lets go of their hold!"))
 			H.stop_pulling(TRUE)
+
+	if(user != H && user.mind && H.mind)	// Maso / Sadism check. No self-hits, it's already very easy to fulfill like this.
+		var/painpercent = H.get_complex_pain() / H.pain_threshold
+		if(painpercent >= 100)
+			if(H.get_flaw(/datum/charflaw/addiction/masochist))
+				H.sate_addiction(/datum/charflaw/addiction/masochist)
+			if(user.get_flaw(/datum/charflaw/addiction/sadist))
+				user.sate_addiction(/datum/charflaw/addiction/sadist)
 	return TRUE
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)
@@ -2053,11 +2069,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 							H.emote("painscream")
 						else
 							H.emote("pain")
-				if(damage_amount > (H.STACON * 3.5) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN)) //We want this effect only on heavy hits.
+				if(damage_amount > (H.STACON * 3.5) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !HAS_TRAIT(H, TRAIT_IRONMAN)) //We want this effect only on heavy hits.
 					H.Immobilize(5) //The fastest you can swing a weapon is once each 0.6 seconds, anything higher than 0.5 Immob. opens the door for stunlocking (see: katar).
 					shake_camera(H, 2, 2)
 					H.stuttering += 5
-				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN))
+				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !HAS_TRAIT(H, TRAIT_IRONMAN))
 					H.Slowdown(clamp(damage_amount/10, 1, 5))
 					shake_camera(H, 1, 1)
 				if(H.show_redflash())
@@ -2242,7 +2258,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(H.stat < UNCONSCIOUS && prob(min(burn_damage * 4, 100)))
 		H.emote("pain")
 
-	var/obj/item/bodypart/BP = pick(H.bodyparts)
+	var/obj/item/bodypart/BP // concentrate fire on one limb at a time
+	for(var/obj/item/bodypart/candidate as anything in H.bodyparts)
+		if(QDELETED(candidate))
+			continue
+		if(!BP || candidate.burn_dam > BP.burn_dam)
+			BP = candidate
 	if(!BP)
 		return
 	BP.receive_damage(0, burn_damage)
@@ -2556,3 +2577,33 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return jointext(ret_languages, " | ")
 	else
 		return null
+
+/datum/species/proc/can_flick_ears(mob/living/carbon/human/H)
+	if(!H) //Somewhere in the core code we're getting those procs with H being null
+		return FALSE
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	if(!E || E.is_flicking) // We're already in a flicking animation
+		return FALSE
+	if(E.can_flick)
+		return TRUE
+	return FALSE
+
+/datum/species/proc/is_flicking_ears(mob/living/carbon/human/H)
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	if(!E || E.is_flicking) // We're already in a flicking animation
+		return TRUE
+
+/datum/species/proc/perform_flick_ears(mob/living/carbon/human/H)
+	if(!H)
+		return FALSE
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	E.is_flicking = TRUE
+	H.update_body_parts(TRUE)
+	addtimer(CALLBACK(src, PROC_REF(stop_flick_ears), H), 0.5 SECONDS)
+
+/datum/species/proc/stop_flick_ears(mob/living/carbon/human/H)
+	if(!H)
+		return FALSE
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	E.is_flicking = FALSE
+	H.update_body_parts(TRUE)

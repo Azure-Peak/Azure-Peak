@@ -42,18 +42,25 @@
 
 /datum/component/arousal/process(dt)
 	handle_charge(dt * 1)
-	if(!can_lose_arousal())
-		return
-	adjust_arousal(parent, dt * -1)
+	if(can_lose_arousal())
+		adjust_arousal(parent, dt * -1)
+	if(arousal <= 0 && charge >= SEX_MAX_CHARGE)
+		return PROCESS_KILL
 
 /// Checks if our parent has a client and adjusts processing.
 /datum/component/arousal/proc/check_processing()
 	SIGNAL_HANDLER
 	var/mob/parent_mob = parent
 	if(parent_mob.client)
-		START_PROCESSING(SSobj, src)
+		wake_processing()
 	else
 		STOP_PROCESSING(SSobj, src)
+
+/// Starts processing only when there is something to process, arousal to decay or charge to regain.
+/datum/component/arousal/proc/wake_processing()
+	var/mob/parent_mob = parent
+	if(parent_mob.client && (arousal > 0 || charge < SEX_MAX_CHARGE))
+		START_PROCESSING(SSobj, src)
 
 /datum/component/arousal/proc/can_lose_arousal()
 	if(last_arousal_increase_time + AROUSAL_TIME_TO_UNHORNY > world.time)
@@ -69,7 +76,11 @@
 		clamp_max = THRILLSEEKER_THRESHOLD
 		if(forced)
 			clamp_max = 50
-	arousal = clamp(amount, 0, clamp_max)
+	var/new_arousal = clamp(amount, 0, clamp_max)
+	if(!new_arousal && !arousal)
+		return arousal
+	arousal = new_arousal
+	wake_processing()
 	update_arousal_effects()
 	try_ejaculate()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
@@ -101,6 +112,7 @@
 	if(limit)
 		clamp_max = limit
 	arousal = clamp(amount, 0, clamp_max)
+	wake_processing()
 	update_arousal_effects()
 	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
 	return arousal
@@ -228,6 +240,7 @@
 	SEND_SIGNAL(climaxer, COMSIG_SEX_CLIMAX)
 
 	charge = max(0, charge - CHARGE_FOR_CLIMAX)
+	wake_processing()
 
 	var/intensity
 	if(action)
@@ -284,6 +297,7 @@
 /datum/component/arousal/proc/set_charge(amount)
 	var/empty = (charge < CHARGE_FOR_CLIMAX)
 	charge = clamp(amount, 0, SEX_MAX_CHARGE)
+	wake_processing()
 	var/after_empty = (charge < CHARGE_FOR_CLIMAX)
 	if(empty && !after_empty)
 		to_chat(parent, span_notice("I feel like I'm not so spent anymore"))

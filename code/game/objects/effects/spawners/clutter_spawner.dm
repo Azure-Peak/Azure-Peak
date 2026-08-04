@@ -28,6 +28,10 @@
 		/obj/item/roguestatue/iron = 1,
 		/obj/item/repair_kit/bad = 1,
 		/obj/item/repair_kit/metal/bad = 1,
+		/obj/item/natural/clay/porcelain/display = 1,
+		/obj/item/natural/clay/porcelain/duck = 1,
+		/obj/item/natural/clay/porcelain/bauble = 1,
+		/obj/item/natural/clay/porcelain/figurine = 1,
 	)
 
 /obj/effect/spawner/lootdrop/valuable_clutter_spawner
@@ -86,6 +90,10 @@
 		/obj/item/kitchen/spoon/tin = 1,
 		/obj/item/reagent_containers/glass/bowl = 1,
 		/obj/item/reagent_containers/glass/bowl/iron = 1,
+		/obj/item/reagent_containers/glass/bowl/carved/porcelain = 1,
+		/obj/item/kitchen/fork/carved/porcelain = 1,
+		/obj/item/kitchen/spoon/carved/porcelain = 1,
+		/obj/item/cooking/platter/carved/porcelain = 1,
 	)
 
 /obj/effect/spawner/lootdrop/valuable_tableware_spawner
@@ -130,6 +138,9 @@
 		/obj/item/clothing/neck/roguetown/psicross/pearl = 3,
 		/obj/item/clothing/neck/roguetown/horus = 1,
 		/obj/item/clothing/neck/roguetown/luckcharm = 1,
+		/obj/item/clothing/neck/roguetown/carved/shellamulet = 3,
+		/obj/item/clothing/neck/roguetown/carved/roseamulet = 1,
+
 	)
 
 /obj/effect/spawner/lootdrop/valuable_jewelry_spawner
@@ -166,6 +177,24 @@
 		/obj/item/clothing/ring/statrontz = 2,
 		/obj/item/clothing/neck/roguetown/psicross/malum/secret = 1,
 		/obj/item/clothing/neck/roguetown/psicross/weeping = 1,
+		/obj/item/heelkit = 1,
+		/obj/clothing/neck/roguetown/carved/goldjade = 2,
+		/obj/item/clothing/neck/roguetown/carved/goldshell = 6,
+		/obj/item/clothing/neck/roguetown/carved/goldturq = 3,
+		/obj/item/clothing/neck/roguetown/carved/goldopal = 1,
+		/obj/item/clothing/neck/roguetown/carved/goldamber = 5,
+		/obj/item/clothing/neck/roguetown/carved/goldonyxa = 6,
+		/obj/item/clothing/neck/roguetown/carved/goldcoral = 4,
+		/obj/item/clothing/neck/roguetown/carved/goldrose = 5,
+		/obj/item/clothing/neck/roguetown/carved/silveramber = 5,
+		/obj/item/clothing/neck/roguetown/carved/silveronyxa = 8,
+		/obj/item/clothing/neck/roguetown/carved/silvershell = 10,
+		/obj/item/clothing/neck/roguetown/carved/silveropal = 2,
+		/obj/item/clothing/neck/roguetown/carved/silverturq = 3,
+		/obj/item/clothing/neck/roguetown/carved/silverrose = 7,
+		/obj/item/clothing/neck/roguetown/carved/silverjade = 4,
+		/obj/item/clothing/neck/roguetown/carved/silvercoral = 5,
+
 	) //'Stat_' and 'Psicross_' rings at '2' or below provide statbuffs, and should be kept rare. Move to a seperate drop table if they become too common. Likeliest find is from high-end dungeons and mimics.
 
 /obj/effect/spawner/lootdrop/puzzlebox_rings

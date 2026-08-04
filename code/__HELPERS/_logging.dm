@@ -4,8 +4,12 @@
 #define SEND_SOUND(target, sound) DIRECT_OUTPUT(target, sound)
 #define SEND_TEXT(target, text) DIRECT_OUTPUT(target, text)
 #define WRITE_FILE(file, text) DIRECT_OUTPUT(file, text)
-#define WRITE_LOG(log, text) text2file(text,log) //rustg_log_write
 #define logtime time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")
+
+//This is an external call, "true" and "false" are how rust parses out booleans
+#define WRITE_LOG(log, text) rustg_log_write(log, text, "true")
+#define WRITE_LOG_NO_FORMAT(log, text) rustg_log_write(log, text, "false")
+#define SET_SERIALIZATION_SEMVER(semver_list, semver) semver_list[type] = semver
 
 //print a warning message to world.log
 #define WARNING(MSG) warning("[MSG] in [__FILE__] at line [__LINE__] src: [UNLINT(src)] usr: [usr].")
@@ -26,83 +30,63 @@
 #define testing(msg)
 #endif
 
+#if defined(UNIT_TESTS) || defined(SPACEMAN_DMM)
 /proc/log_test(text)
-#ifdef UNIT_TESTS
 	WRITE_LOG(GLOB.test_log, text)
 	SEND_TEXT(world.log, text)
 #endif
 
-
-/* Items with ADMINPRIVATE prefixed are stripped from public logs. */
 /proc/log_admin(text)
 	GLOB.admin_log.Add(text)
-	if (CONFIG_GET(flag/log_admin))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] ADMIN: [text]")
+	logger.Log(LOG_CATEGORY_ADMIN, text)
 
 /proc/log_admin_private(text)
 	GLOB.admin_log.Add(text)
-	if (CONFIG_GET(flag/log_admin))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] ADMINPRIVATE: [text]")
+	logger.Log(LOG_CATEGORY_ADMIN_PRIVATE, text)
 
 /proc/log_adminsay(text)
 	GLOB.admin_log.Add(text)
-	if (CONFIG_GET(flag/log_adminchat))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] ADMINPRIVATE: ASAY: [text]")
+	logger.Log(LOG_CATEGORY_ADMIN_PRIVATE_ASAY, text)
 
 /proc/log_dsay(text)
-	if (CONFIG_GET(flag/log_adminchat))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] ADMIN: DSAY: [text]")
+	logger.Log(LOG_CATEGORY_ADMIN_DSAY, text)
 
-
-/* All other items are public. */
+/// Logging for generic/unsorted game messages
 /proc/log_game(text)
-	if (CONFIG_GET(flag/log_game))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] GAME: [text]")
-
-/proc/log_craft(text)
-	if (CONFIG_GET(flag/log_game))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] CRAFT: [text]")
+	logger.Log(LOG_CATEGORY_GAME, text)
 
 /proc/log_mecha(text)
-	if (CONFIG_GET(flag/log_mecha))
-		WRITE_LOG(GLOB.world_mecha_log, "\[[logtime]] MECHA: [text]")
+	CRASH("Deprecated log_mecha")
 
 /proc/log_virus(text)
-	if (CONFIG_GET(flag/log_virus))
-		WRITE_LOG(GLOB.world_virus_log, "\[[logtime]] VIRUS: [text]")
+	CRASH("Deprecated log_virus")
 
 /proc/log_cloning(text, mob/initiator)
-	if(CONFIG_GET(flag/log_cloning))
-		WRITE_LOG(GLOB.world_cloning_log, "\[[logtime]] CLONING: [text]")
+	CRASH("Deprecated log_cloning")
 
 /proc/log_paper(text)
-	WRITE_LOG(GLOB.world_paper_log, "\[[logtime]] PAPER: [text]")
+	logger.Log(LOG_CATEGORY_GAME_PAPER, text)
 
 /proc/log_asset(text)
-	WRITE_LOG(GLOB.world_asset_log, "\[[logtime]] ASSET: [text]")
+	logger.Log(LOG_CATEGORY_DEBUG_ASSET, text)
 
 /proc/log_access(text)
-	if (CONFIG_GET(flag/log_access))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] ACCESS: [text]")
+	logger.Log(LOG_CATEGORY_GAME_ACCESS, text)
 
 /proc/log_law(text)
-	if (CONFIG_GET(flag/log_law))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] LAW: [text]")
+	CRASH("Deprecated log_law")
 
 /proc/log_seen_internal(text)
-	WRITE_LOG(GLOB.world_seen_log, "\[[logtime]] SEEN: [text]")
+	// Do nothing! 
 
 /proc/log_attack(text)
-	if (CONFIG_GET(flag/log_attack))
-		WRITE_LOG(GLOB.world_attack_log, "\[[logtime]] ATTACK: [text]")
+	logger.Log(LOG_CATEGORY_ATTACK, text)
 
-/proc/log_manifest(ckey, datum/mind/mind,mob/body, latejoin = FALSE)
-	if (CONFIG_GET(flag/log_manifest))
-		WRITE_LOG(GLOB.world_manifest_log, "\[[logtime]] [ckey] \\ [body.real_name] \\ [mind.assigned_role] \\ [mind.special_role ? mind.special_role : "NONE"] \\ [latejoin ? "LATEJOIN":"ROUNDSTART"]")
+/proc/log_manifest(ckey, datum/mind/mind, mob/body, latejoin = FALSE)
+	logger.Log(LOG_CATEGORY_MANIFEST, "[ckey] \\ [body.real_name] \\ [mind.assigned_role] \\ [mind.special_role ? mind.special_role : "NONE"] \\ [latejoin ? "LATEJOIN":"ROUNDSTART"]")
 
 /proc/log_quest(ckey, datum/mind/mind, mob/body, text)
-	if (CONFIG_GET(flag/log_law))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] QUEST: [ckey] \\ [body.real_name] \\ [text]")
+	logger.Log(LOG_CATEGORY_QUEST, "[ckey] \\ [body.real_name] \\ [text]")
 
 /proc/log_bomber(atom/user, details, atom/bomb, additional_details, message_admins = TRUE)
 	var/bomb_message = "[details][bomb ? " [bomb.name] at [AREACOORD(bomb)]": ""][additional_details ? " [additional_details]" : ""]."
@@ -119,101 +103,87 @@
 		message_admins("[user ? "[ADMIN_LOOKUPFLW(user)] at [ADMIN_VERBOSEJMP(user)] " : ""][details][bomb ? " [bomb.name] at [ADMIN_VERBOSEJMP(bomb)]": ""][additional_details ? " [additional_details]" : ""].")
 
 /proc/log_say(text)
-	if (CONFIG_GET(flag/log_say))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] SAY: [text]")
+	logger.Log(LOG_CATEGORY_GAME_SAY, text)
 
 /proc/log_npc_say(text)
-	if (CONFIG_GET(flag/log_npc_say))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] NPC SAY: [text]")
+    logger.Log(LOG_CATEGORY_GAME_SAY, text)
 
 /proc/log_ooc(text)
-	if (CONFIG_GET(flag/log_ooc))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] OOC: [text]")
+	logger.Log(LOG_CATEGORY_GAME_OOC, text)
 
 /proc/log_looc(text)
-	if (CONFIG_GET(flag/log_looc))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] LOOC: [text]")
+	logger.Log(LOG_CATEGORY_GAME_LOOC, text)
 
 /proc/log_whisper(text)
-	if (CONFIG_GET(flag/log_whisper))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] WHISPER: [text]")
+	logger.Log(LOG_CATEGORY_GAME_WHISPER, text)
 
 /proc/log_emote(text)
-	if (CONFIG_GET(flag/log_emote))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] EMOTE: [text]")
+	logger.Log(LOG_CATEGORY_GAME_EMOTE, text)
 
 /proc/log_prayer(text)
-	if (CONFIG_GET(flag/log_prayer))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] PRAY: [text]")
+	logger.Log(LOG_CATEGORY_GAME_PRAYER, text)
 
 /proc/log_pda(text)
-	if (CONFIG_GET(flag/log_pda))
-		WRITE_LOG(GLOB.world_pda_log, "\[[logtime]] PDA: [text]")
+	CRASH("Deprecated log_pda")
 
 /proc/log_comment(text)
-	if (CONFIG_GET(flag/log_pda))
-		//reusing the PDA option because I really don't think news comments are worth a config option
-		WRITE_LOG(GLOB.world_pda_log, "\[[logtime]] COMMENT: [text]")
+	CRASH("Deprecated log_comment")
 
 /proc/log_telecomms(text)
-	if (CONFIG_GET(flag/log_telecomms))
-		WRITE_LOG(GLOB.world_telecomms_log, "\[[logtime]] TCOMMS: [text]")
+	CRASH("Deprecated log_telecomms")
 
 /proc/log_chat(text)
-	if (CONFIG_GET(flag/log_pda))
-		//same thing here
-		WRITE_LOG(GLOB.world_pda_log, "\[[logtime]] CHAT: [text]")
+	CRASH("Deprecated log_chat")
+
+/proc/log_craft(text)
+	logger.Log(LOG_CATEGORY_GAME_CRAFT, text)
 
 /proc/log_vote(text)
-	if (CONFIG_GET(flag/log_vote))
-		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] VOTE: [text]")
-
+	logger.Log(LOG_CATEGORY_GAME_VOTE, text)
 
 /proc/log_topic(text)
-	WRITE_LOG(GLOB.world_game_log, "\[[logtime]] TOPIC: [text]")
+	logger.Log(LOG_CATEGORY_GAME_TOPIC, text)
 
 /proc/log_href(text)
-	WRITE_LOG(GLOB.world_href_log, "\[[logtime]] HREF: [text]")
+	logger.Log(LOG_CATEGORY_HREF, text)
 
 /proc/log_sql(text)
-	WRITE_LOG(GLOB.sql_error_log, "\[[logtime]] SQL: [text]")
+	logger.Log(LOG_CATEGORY_DEBUG_SQL, text)
 
-/proc/log_qdel(text)
-	WRITE_LOG(GLOB.world_qdel_log, "\[[logtime]] QDEL: [text]")
+/proc/log_qdel(text, list/data)
+	logger.Log(LOG_CATEGORY_QDEL, text, data)
 
 /proc/log_query_debug(text)
-	WRITE_LOG(GLOB.query_debug_log, "\[[logtime]] SQL: [text]")
+	log_sql(text)
 
 /proc/log_job_debug(text)
-	if (CONFIG_GET(flag/log_job_debug))
-		WRITE_LOG(GLOB.world_job_debug_log, "\[[logtime]] JOB: [text]")
+	logger.Log(LOG_CATEGORY_DEBUG_JOB, text)
 
 /* Log to both DD and the logfile. */
 /proc/log_world(text)
 #ifdef USE_CUSTOM_ERROR_HANDLER
-	WRITE_LOG(GLOB.world_runtime_log, "\[[logtime]] [text]")
+	logger.Log(LOG_CATEGORY_RUNTIME, text)
 #endif
 	SEND_TEXT(world.log, text)
 
 /* Log to the logfile only. */
 /proc/log_runtime(text)
-	WRITE_LOG(GLOB.world_runtime_log, "\[[logtime]] [text]")
+	logger.Log(LOG_CATEGORY_RUNTIME, text)
 
 /* Rarely gets called; just here in case the config breaks. */
 /proc/log_config(text)
-	WRITE_LOG(GLOB.config_error_log, "\[[logtime]] [text]")
+	logger.Log(LOG_CATEGORY_CONFIG, text)
 	SEND_TEXT(world.log, text)
 
 /proc/log_mapping(text)
-	WRITE_LOG(GLOB.world_map_error_log, "\[[logtime]] [text]")
+	logger.Log(LOG_CATEGORY_DEBUG_MAPPING, text)
 
 /proc/log_character(text)
-	WRITE_LOG(GLOB.character_list_log, "\[[logtime]] [text]")
+	logger.Log(LOG_CATEGORY_CHARACTER, text)
 
 /proc/log_hunted(text)
-	WRITE_LOG(GLOB.hunted_log, "\[[logtime]] [text]")
+	logger.Log(LOG_CATEGORY_HUNTED, text)
 
-/* ui logging */
 /**
  * Appends a tgui-related log entry. All arguments are optional.
  */
@@ -224,6 +194,7 @@
 	datum/tgui_window/window,
 	datum/src_object,
 )
+
 	var/entry = ""
 	// Insert user info
 	if(!user)
@@ -248,11 +219,10 @@
 	// Insert message
 	if(message)
 		entry += "\n[message]"
-	WRITE_LOG(GLOB.tgui_log, "\[[logtime]] [entry]")
+	logger.Log(LOG_CATEGORY_HREF_TGUI, entry)
 
-/* storyteller logging */
 /proc/log_storyteller(text, list/data)
-	WRITE_LOG(GLOB.world_game_log, "STORYTELLERS: [text]")
+	log_game("STORYTELLERS: [text]")
 
 /* For logging round startup. */
 /proc/start_log(log)
@@ -261,7 +231,7 @@
 /* Close open log handles. This should be called as late as possible, and no logging should hapen after. */
 /proc/shutdown_logging()
 	rustg_log_close_all()
-
+	logger.shutdown_logging()
 
 /* Helper procs for building detailed log lines */
 /proc/key_name(whom, include_link = null, include_name = TRUE)

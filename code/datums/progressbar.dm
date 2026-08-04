@@ -4,6 +4,7 @@
 /datum/progressbar
 	var/goal = 1
 	var/last_progress = 0
+	var/last_percent = 0
 	var/image/bar
 	var/shown = 0
 	var/mob/user
@@ -41,7 +42,10 @@
 /datum/progressbar/proc/update(progress)
 	progress = CLAMP(progress, 0, goal)
 	last_progress = progress
-	bar.icon_state = "prog_bar_[round(((progress / goal) * 100), 5)]"
+	var/percent = round(((progress / goal) * 100), 5)
+	if(percent != last_percent)
+		last_percent = percent
+		bar.icon_state = "prog_bar_[percent]"
 	if (!shown)
 		shown = TRUE
 

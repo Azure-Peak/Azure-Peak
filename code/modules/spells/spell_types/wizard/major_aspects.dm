@@ -19,7 +19,18 @@
 		"Ignis, a me discedere!",
 	)
 	fixed_spells = list(
+		/datum/action/cooldown/spell/telegraphed_strike/dragons_breath,
+		/datum/action/cooldown/spell/projectile/fireball/barrage,
+		/datum/action/cooldown/spell/fire_curtain,
+		/datum/action/cooldown/spell/projectile/smoke_burst,
+		/datum/action/cooldown/spell/create_campfire,
+	)
+	choice_spells = list(
 		/datum/action/cooldown/spell/projectile/spitfire,
+		/datum/action/cooldown/spell/ultio,
+	)
+	spell_order = list(
+		ASPECT_CHOICE,
 		/datum/action/cooldown/spell/telegraphed_strike/dragons_breath,
 		/datum/action/cooldown/spell/projectile/fireball/barrage,
 		/datum/action/cooldown/spell/fire_curtain,
@@ -130,9 +141,9 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/gravel_blast,
-		/datum/action/cooldown/spell/emergence,
-		/datum/action/cooldown/spell/projectile/boulder_strike,
-		/datum/action/cooldown/spell/ensnare,
+		/datum/action/cooldown/spell/tumult,
+		/datum/action/cooldown/spell/menhir,
+		/datum/action/cooldown/spell/geas,
 		/datum/action/cooldown/spell/magicians_stone,
 	)
 	variants = list(
@@ -171,6 +182,7 @@
 		/datum/action/cooldown/spell/gravity,
 		/datum/action/cooldown/spell/telegraphed_strike/kinetic_burst,
 		/datum/action/cooldown/spell/greater_cleaning,
+		/datum/action/cooldown/spell/levitation,
 	)
 	variants = list(
 		"mastery" = list(
@@ -197,11 +209,11 @@
 		"Telum, a me discedere!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/basic_offensive,
-		/datum/action/cooldown/spell/projectile/arcyne_salvo,
-		/datum/action/cooldown/spell/telegraphed_strike/crossing_blast,
+		/datum/action/cooldown/spell/projectile/arcyne_volley,
+		/datum/action/cooldown/spell/void_beam,
 		/datum/action/cooldown/spell/arcyne_burst,
-		/datum/action/cooldown/spell/greater_cleaning, // placeholder free utility - replace with Recall once implemented
+		/datum/action/cooldown/spell/circumdatum,
+		/datum/action/cooldown/spell/greater_cleaning,
 	)
 	variants = list(
 		"mastery" = list(
@@ -236,9 +248,8 @@
 		/datum/action/cooldown/spell/ferramancy_strike/falling_crescent,
 		/datum/action/cooldown/spell/ferramancy_strike/sorcerers_lance,
 		/datum/action/cooldown/spell/ferramancy_strike/heavens_hammer,
-		/datum/action/cooldown/spell/projectile/stygian_efflorescence,
 		/datum/action/cooldown/spell/form_blade,
-		/datum/action/cooldown/spell/conjure_arcyne_ward/ironhide,
+		/datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 		/datum/action/cooldown/spell/bind_armament,
 		/datum/action/cooldown/spell/arcyne_forge,
 		/datum/action/cooldown/spell/mending,
@@ -306,37 +317,42 @@
 		"Vocatio, a me discedere!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/basic_offensive, // If too op I will give them bolt instead
 		/datum/action/cooldown/spell/minion_order/conjurer,
+		/datum/action/cooldown/spell/command_word/fray,
+		/datum/action/cooldown/spell/command_word/harry,
+		/datum/action/cooldown/spell/command_word/quicken,
+		/datum/action/cooldown/spell/command_word/beckon,
 		/datum/action/cooldown/spell/minion_mark,
 		/datum/action/cooldown/spell/conjure_recall,
 		/datum/action/cooldown/spell/conjure_dismiss,
-		/datum/action/cooldown/spell/augment_buff/grasp,
-		/datum/action/cooldown/spell/forcewall,
-		/datum/action/cooldown/spell/augment_buff/surge,
-		/datum/action/cooldown/spell/augment_buff/guidance,
-		/datum/action/cooldown/spell/augment_buff/blood_rush,
 		/datum/action/cooldown/spell/conjure_projection,
 	)
 	choice_spells = list(
 		/datum/action/cooldown/spell/conjure_summon/primordial,
 		/datum/action/cooldown/spell/conjure_summon/champion,
-		/datum/action/cooldown/spell/conjure_summon/champion/goblin,
+		/datum/action/cooldown/spell/conjure_summon/attacker,
 		/datum/action/cooldown/spell/conjure_summon/hordes,
+		/datum/action/cooldown/spell/conjure_summon/peasant_swarm,
+	)
+	mastery_choice_spells = list(
+		/datum/action/cooldown/spell/conjure_summon/peasant_swarm,
 	)
 	spell_order = list(
-		/datum/action/cooldown/spell/projectile/basic_offensive,
-		ASPECT_CHOICE,
 		/datum/action/cooldown/spell/minion_order/conjurer,
+		/datum/action/cooldown/spell/command_word/fray,
+		/datum/action/cooldown/spell/command_word/harry,
+		/datum/action/cooldown/spell/command_word/quicken,
+		/datum/action/cooldown/spell/command_word/beckon,
+		ASPECT_CHOICE,
 		/datum/action/cooldown/spell/minion_mark,
 		/datum/action/cooldown/spell/conjure_projection,
 		/datum/action/cooldown/spell/conjure_recall,
 		/datum/action/cooldown/spell/conjure_dismiss,
-		/datum/action/cooldown/spell/augment_buff/grasp,
-		/datum/action/cooldown/spell/forcewall,
-		/datum/action/cooldown/spell/augment_buff/surge,
-		/datum/action/cooldown/spell/augment_buff/guidance,
-		/datum/action/cooldown/spell/augment_buff/blood_rush,
+	)
+	variants = list(
+		"gefechtsgelehrter" = list(
+			/datum/action/cooldown/spell/conjure_summon/champion = /datum/action/cooldown/spell/conjure_summon/doppelsoldner,
+		),
 	)
 
 /datum/magic_aspect/augmentation

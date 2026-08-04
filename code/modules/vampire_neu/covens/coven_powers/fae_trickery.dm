@@ -230,19 +230,20 @@
 		if(!C.apply_damage(5, BRUTE, BODY_ZONE_HEAD, C.run_armor_check(BODY_ZONE_HEAD, "stab", armor_penetration = PEN_NONE, damage = 5)))
 			to_chat(C, VISMSG_ARMOR_BLOCKED)
 
-/obj/fae_trickery_trap
+/obj/structure/fae_trickery_trap
 	name = "fae trap"
 	desc = "Creates a fae trap to protect your domain."
 	anchored = TRUE
 	density = FALSE
-	alpha = 64
+	max_integrity = 20
+	alpha = 25
 	icon = 'icons/effects/clan.dmi'
 	icon_state = "rune1"
 	color = "#4182ad"
 	var/unique = FALSE
 	var/mob/owner
 
-/obj/fae_trickery_trap/Crossed(atom/movable/AM, oldloc)
+/obj/structure/fae_trickery_trap/Crossed(atom/movable/AM, oldloc)
 	..()
 	if(isliving(AM) && owner)
 		if(AM != owner)
@@ -253,11 +254,12 @@
 					throw_target = get_edge_target_turf(AM, pick(GLOB.cardinals))
 				else
 					throw_target = get_edge_target_turf(AM, get_dir(AM, oldloc))
-				L.apply_damage(20, BRUTE)
+				L.apply_damage(45, BRUTE)
+				L.OffBalance (2 SECONDS)
 				AM.throw_at(throw_target, rand(8,10), 4, owner, spin = TRUE)
 				qdel(src)
 
-/obj/fae_trickery_trap/disorient
+/obj/structure/fae_trickery_trap/disorient
 	name = "fae trap"
 	desc = "Creates a fae trap to protect your domain."
 	anchored = TRUE
@@ -265,7 +267,7 @@
 	unique = TRUE
 	icon_state = "rune2"
 
-/obj/fae_trickery_trap/disorient/Crossed(atom/movable/AM)
+/obj/structure/fae_trickery_trap/disorient/Crossed(atom/movable/AM)
 	..()
 	if(isliving(AM) && owner)
 		if(AM != owner)
@@ -281,7 +283,7 @@
 					animate(whole_screen, transform = matrix(), time = 0.5 SECONDS, easing = QUAD_EASING)
 			qdel(src)
 
-/obj/fae_trickery_trap/drop
+/obj/structure/fae_trickery_trap/drop
 	name = "fae trap"
 	desc = "Creates a fae trap to protect your domain."
 	anchored = TRUE
@@ -289,7 +291,7 @@
 	unique = TRUE
 	icon_state = "rune3"
 
-/obj/fae_trickery_trap/drop/Crossed(mob/living/carbon/AM)
+/obj/structure/fae_trickery_trap/drop/Crossed(mob/living/carbon/AM)
 	..()
 	if(iscarbon(AM) && owner)
 		if(AM != owner)
@@ -325,13 +327,13 @@
 
 	switch(try_trap)
 		if("Brutal")
-			var/obj/fae_trickery_trap/trap = new (get_turf(owner))
+			var/obj/structure/fae_trickery_trap/trap = new (get_turf(owner))
 			trap.owner = owner
 		if("Spin")
-			var/obj/fae_trickery_trap/disorient/trap = new (get_turf(owner))
+			var/obj/structure/fae_trickery_trap/disorient/trap = new (get_turf(owner))
 			trap.owner = owner
 		if("Drop")
-			var/obj/fae_trickery_trap/drop/trap = new (get_turf(owner))
+			var/obj/structure/fae_trickery_trap/drop/trap = new (get_turf(owner))
 			trap.owner = owner
 
 //RIDDLE PHANTASTIQUE

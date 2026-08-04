@@ -44,6 +44,9 @@
 	icon_state = "warlock"
 	storage = FALSE
 
+/obj/item/clothing/suit/roguetown/shirt/robe/unholy/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_MISC) //So Lich/Necro aren't immedately fragged, but the robes are blatently not normal
+
 /obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich
 	name = "ominous robes"
 	desc = "An otherworldly veil, whispering a hundred paradoxical answers to the ultimate question. Her hand guides your grandest missive; to bring forth progress, no matter the cost."
@@ -293,7 +296,6 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/merchant
 	name = "guilder jacket"
 	icon_state = "merrobe"
-	sellprice = 30
 	color = null
 
 /obj/item/clothing/suit/roguetown/shirt/robe/nun
@@ -396,18 +398,64 @@
 	icon_state = "desertgown"
 	item_state = "desertgown"
 	color = null
+	detail_color = null
+	detail_tag = "_detail"
+	naledicolor = TRUE
 	storage = FALSE
 
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout
+	name = "aesthetic hierophant's kandys"
+
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout/Initialize()
+	. = ..()
+	loadoutize()
+
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
-	name = "pointfex's qaba"
+	name = "pontifex's qaba"
 	desc = "A slimmed down, tighter fitting robe made of fine silks and fabrics. Somehow you feel more mobile in it than in the nude. Despite the light fabric, it offers decent protection."
 	armor = ARMOR_PADDED
 	icon_state = "monkcloth"
 	item_state = "monkcloth"
 	color = null
+	detail_color = null
+	detail_tag = "_detail"
+	naledicolor = TRUE
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
 	storage = FALSE
+
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout
+	name = "aesthetic pontifex's qaba"
+
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/robe/feld
 	name = "feldsher's robe"
@@ -456,5 +504,5 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	color = CLOTHING_WHITE
 
-	
-	
+
+

@@ -234,7 +234,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 			has_old_ad = TRUE
 		var/msg = input("Set an advertisement for what kind of roleplay you are looking to engage in. Others will be able to see it with the Roleplay Ad (View) command. Do not abuse this. Leave empty and press OK to remove your roleplay ad.", "I LOVE TO ROLEPLAY") as message|null
 		if(msg)
-			LAZYSET(GLOB.roleplay_ads,C.mobid,"<b>[C.real_name]</b> - [msg]<BR>")
+			LAZYSET(GLOB.roleplay_ads,C.mobid,"<b>[C.real_name]</b> - [html_encode(msg)]<BR>")
 			to_chat(C, span_info("Roleplay ad set."))
 			log_game("[C] has set their Roleplay Ad to '[msg]'.")
 			for(var/client/advertisee in (GLOB.clients - src))

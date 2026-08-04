@@ -65,4 +65,3 @@
 	desc = "A mixture of washed sand, crushed stones and ash. It glistens against the light, and could be turned into precious glass by smelting it in a furnace."
 	smeltresult = /obj/item/natural/glass 	// Smelted in a furnace, like a ore.
 	grind_results = list(/datum/reagent/iron = 15)
-	sellprice = 5
