@@ -883,7 +883,7 @@
 		to_chat(user, span_warning("I can't get [with] onto the table for processing!"))
 		return
 	for(var/obj/item/alch/catalyst/path as anything in typesof(/obj/item/alch/catalyst))
-		if(path::seed_item && path::seed_item == with.type)
+		if(path::seed_item && ispath(with.type, path::seed_item))
 			current_recipe=path
 			seed_item = with
 			seed_item.forceMove(src)
