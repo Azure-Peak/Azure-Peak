@@ -460,7 +460,9 @@
 	RegisterSignal(R, COMSIG_ITEM_DROPPED, PROC_REF(revert_perspective))
 	H.forceMove(R)
 	conjured_item = R
+	H.reset_perspective(R)
 	R.become_hearing_sensitive()
+	update_cone_show()
 	return TRUE
 
 /datum/action/cooldown/spell/earthen_forge/proc/revert_perspective()
