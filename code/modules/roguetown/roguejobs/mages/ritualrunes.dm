@@ -514,17 +514,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
 			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
 			fam.voice_color = prefs.familiar_voice_colors[plane]
-			switch(prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM) // why is our gender handling so bad for simples
-				if(SHE_HER)
-					fam.gender=FEMALE
-				if(HE_HIM)
-					fam.gender=MALE
-				if(THEY_THEM)
-					fam.gender=PLURAL
-				if(IT_ITS)
-					fam.gender=NEUTER
-				else
-					fam.gender=NEUTER
+			fam.gender = FEMALE // allows them to wear clothing, needed because of legacy code. i hate - whatever
 			src.visible_message(span_notice("[fam.summoning_emote]"))
 
 			if(isnewplayer(chosen))
