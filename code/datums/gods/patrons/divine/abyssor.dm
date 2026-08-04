@@ -29,7 +29,7 @@
 		/datum/action/cooldown/spell/transmute_ink					= CLERIC_T3,
 		/obj/effect/proc_holder/spell/invoked/call_dreamfiend		= CLERIC_T3,
 		/datum/action/cooldown/spell/recharge_pylon					= CLERIC_T4,
-		/obj/effect/proc_holder/spell/invoked/resurrect/abyssor		= CLERIC_T4,
+		/obj/effect/proc_holder/spell/invoked/resurrect/dream		= CLERIC_T4,
 	)
 	confess_lines = list(
 		"ABYSSOR COMMANDS THE WAVES!",

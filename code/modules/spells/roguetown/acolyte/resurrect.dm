@@ -172,7 +172,7 @@
 	for(var/item_type in current_required_items)
 		var/needed = current_required_items[item_type]
 		var/have = available_items[item_type] || 0
-		
+
 		if(have < needed) {
 			var/obj/item/I = item_type
 			var/amount_needed = needed - have
@@ -286,7 +286,7 @@
 	var/timed_cooldown
 
 /obj/effect/proc_holder/spell/invoked/summon_dreamfiend_curse/cast(list/targets, mob/living/user)
-	if (world.time < timed_cooldown) 
+	if (world.time < timed_cooldown)
 		to_chat(user, span_warning("You must gather your strength before you are ready to confront your terror!"))
 		to_chat(user, span_warning("Time remaining: [max(0, timed_cooldown - world.time)/10] seconds."))
 		revert_cast()
@@ -656,3 +656,40 @@
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "revive"
+
+/obj/effect/proc_holder/spell/invoked/resurrect/dream
+	name = "Oneiric Rite of Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. \
+	Converts material used into random higher tier materials. \
+	The resurrected target will be tethered to a dream entity. They must invoke the daemon and kill it to be freed from their curse. \
+	Requires ocean water near."
+	sound = 'sound/magic/chime.ogg'
+
+	required_items = list(
+		/obj/item/dream_material/dream_spike = 1,
+		/obj/item/dream_material/parchment_raw = 1,
+		/obj/item/dream_material/dream_ring = 1
+	)
+	alt_required_items = list(
+		/obj/item/dream_material/dream_seed = 1
+	)
+
+	debuff_type = /datum/status_effect/debuff/dreamfiend_curse
+	required_structure = /turf/open/water/ocean
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_state = "paint_revive"
+
+/obj/effect/proc_holder/spell/invoked/resurrect/dream/cast(list/targets, mob/living/user)
+	. = ..()
+	if(.)
+		var/turf/T = get_turf(user)
+		if(T)
+			var/static/list/t2_items = list(
+				/obj/item/dream_material/dream_effigy,
+				/obj/item/dream_material/dream_fishes,
+				/obj/item/dream_material/dream_blade
+			)
+			for(var/i in 1 to 3)
+				var/chosen_type = pick(t2_items)
+				new chosen_type(T)
