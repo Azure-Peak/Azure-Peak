@@ -42,6 +42,13 @@
 	if(!istype(repairkit))
 		return FALSE
 
+	if(caster.used_intent.type == /datum/intent/hand/sharpen)
+		var/obj/item/I = victim
+		if(!isitem(victim) || !I.max_blade_int)
+			to_chat(caster, span_warning("I can't sharpen that."))
+			return FALSE
+		return sharpen_item(I, caster)
+
 	if(isitem(victim))
 		var/obj/item/I = victim
 		return repair_item(I, caster)
@@ -70,6 +77,36 @@
 
 	to_chat(caster, span_warning("There is nothing here that magic can mend."))
 	return FALSE
+
+/datum/action/cooldown/spell/touch/conjure_repairkit/proc/sharpen_item(obj/item/I, mob/living/carbon/caster)
+	var/loopcount = round(I.max_blade_int / 21, 1) + 1
+	sharpen(I, caster, 0.3)
+	caster.changeNext_move(CLICK_CD_WRESTLING)
+	if(I.blade_int >= I.max_blade_int)
+		to_chat(caster, span_info("Fully sharpened."))
+		return FALSE
+	for(var/i in 1 to loopcount)
+		if(I.blade_int >= I.max_blade_int)
+			to_chat(caster, span_info("Fully sharpened."))
+			break
+		if(do_after(caster, 1.5 SECONDS, same_direction = TRUE))
+			sharpen(I, caster)
+		else
+			break
+	return FALSE
+
+/datum/action/cooldown/spell/touch/conjure_repairkit/proc/sharpen(obj/item/I, mob/living/carbon/caster, factor)
+	playsound(I.loc, pick('sound/items/sharpen_long1.ogg','sound/items/sharpen_long2.ogg'), 100, TRUE)
+	caster.changeNext_move(CLICK_CD_MELEE)
+	caster.visible_message(span_notice("[caster] sharpens [I]!"))
+	I.degrade_bintegrity(0.5)
+	I.add_bintegrity((21 * factor), caster)
+
+	if(prob(80))
+		var/datum/effect_system/spark_spread/S = new()
+		var/turf/front = get_step(caster,caster.dir)
+		S.set_up(1, 1, front)
+		S.start()
 
 /datum/action/cooldown/spell/touch/conjure_repairkit/proc/repair_item(obj/item/I, mob/living/carbon/caster)
 	if(!I.sewrepair && !I.anvilrepair)
@@ -166,7 +203,7 @@
 	icon_state = "grabbing_greyscale"
 	color = "#fd943f"
 	desc = "A conjured focus for a magos's will, allowing them to repair arms-and-armor without a smith-or-tailor's equipment - or expertise."
-	possible_item_intents = list(/datum/intent/hand/use)
+	possible_item_intents = list(/datum/intent/hand/mend, /datum/intent/hand/sharpen)
 	experimental_inhand = FALSE
 
 /obj/item/melee/new_touch_attack/arcyne_repairkit/afterattack(atom/target, mob/living/carbon/user, proximity)

@@ -876,8 +876,13 @@
 	name = "light"
 	icon_state = "inlight"
 
-/datum/intent/hand/use
-	name = "use"
+/datum/intent/hand/mend
+	name = "mend"
+	icon_state = "inmend"
+
+/datum/intent/hand/sharpen
+	name = "sharpen"
+	icon_state = "inuse"
 
 /datum/intent/hand/convert
 	name = "convert"
