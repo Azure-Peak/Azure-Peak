@@ -1307,7 +1307,7 @@
 		. += span_gamedeadsay("This is the VILE DAGGER of a SOUL-THIEF! SLAY IT'S MASTER and BREAK IT by invoking a Necran ritual upon it!")
 	if(stored_souls.len)
 		// tried some bullshit w/ the expression being in here like the pale aura from dnr for practice
-		. += span_gamedeadsay("You can hear [stored_souls.len] soul[soul.souls.len > 1 ? "s" : ""] screaming from within...")
+		. += span_gamedeadsay("You can hear [stored_souls.len] soul[stored_souls.len > 1 ? "s" : ""] screaming from within...")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/rmb_self(mob/user)
 	. = ..()
