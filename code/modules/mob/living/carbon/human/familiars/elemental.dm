@@ -31,6 +31,8 @@
 	src.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE)
+	src.adjust_skillrank_up_to(/datum/skill/craft/carpentry, SKILL_LEVEL_EXPERT) // they can build stuff
+	src.adjust_skillrank_up_to(/datum/skill/craft/masonry, SKILL_LEVEL_EXPERT)
 
 /mob/living/carbon/human/species/familiar/elemental/is_aligned_leyline(obj/structure/leyline/ley)
 	return istype(ley, /obj/structure/leyline/normal/coast)

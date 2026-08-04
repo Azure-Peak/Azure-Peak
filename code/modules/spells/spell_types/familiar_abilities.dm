@@ -335,9 +335,36 @@
 	fluff_desc = ""
 
 /obj/item/rogueweapon/woodstaff/implement/greater/elemental
-	name = "Staff of the Binder"
+	name = "\improper Staff of the Binder"
+	base_implement_name = "\improper Bound Staff" // will become "Bound Staff of Frost" etc
 	desc = "A mage's staff crowned with the spirit-gem of a familiar. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
 	icon_state = "sapphirestaff"
+
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal
+	name = "\improper Staff of the Daemonbinder"
+	base_implement_name = "\improper Infernal Staff" // "Infernal Staff of Flame" etc
+	desc = "A mage's staff that shimmers with eternal malice. It is perpetually warm to the touch; holding it inspires an urge to unleash one's most powerful magic. Merely a touch from it is enough to spark flame. It captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
+	icon_state = "rubystaff"
+	var/sparkcd = 0
+
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
+	if(!proximity)
+		return
+	if(world.time < sparkcd + 10)
+		return
+	sparkcd = world.time
+	playsound(user, 'sound/items/flint.ogg', 100, FALSE)
+
+	if (ismob(A))
+		A.spark_act()
+	else
+		A.fire_act(3,3)
+	user.flash_fullscreen("whiteflash")
+	to_chat(user, span_notice("\The [src] produces an igniting spark!"))
+
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "It shimmers with abyssal flame!")
 
 /datum/action/cooldown/spell/earthen_forge
 	name = "Earthen Forge"
@@ -407,7 +434,12 @@
 	else if (!isturf(H.loc))
 		return FALSE // no casting this from the orb
 
-	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
+	var/choice
+	if(length(conjure_options) > 1)
+		choice = tgui_input_list(H, "Choose what to conjure", name, conjure_options)
+	else
+		choice = conjure_options[1]
+
 	if(!choice)
 		return FALSE
 
@@ -439,6 +471,15 @@
 		owner.forceMove(get_turf(owner))
 		owner.status_flags &= ~GODMODE
 		QDEL_NULL(conjured_item)
+
+/datum/action/cooldown/spell/earthen_forge/infernal
+	name = "Arcyne Attunement"
+	desc = "Lend your summoner the means to burn the world down, taking the form of a powerful staff that channels flame exquisitely."
+
+	conjure_options = list(
+		// Staff
+		"Infernal Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/infernal,
+	)
 
 /datum/action/cooldown/spell/earthen_forge/void // lmao
 	name = "Void Forge"
