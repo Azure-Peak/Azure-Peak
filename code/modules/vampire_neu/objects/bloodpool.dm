@@ -44,7 +44,8 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	var/list/active_projects = list()
 	var/list/available_project_types = list(
 		/datum/vampire_project/servant/servant_t1,
-		/datum/vampire_project/servant/servant_t2, //Powerful servants come with first vlord upgrade. Plus armor can be bought at second point.
+		/datum/vampire_project/servant/servant_t2,
+		/datum/vampire_project/servant/servant_t3,
 		/datum/vampire_project/power_growth,
 	)
 	var/sunstolen = FALSE
@@ -889,7 +890,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 /datum/vampire_project/power_growth
 	display_name = "Rite of Stirring"
 	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land."
-	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks Champions + Grab Immunity"
+	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit"
 	total_cost = VAMPCOST_ONE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -908,7 +909,6 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
-			bloodpool.available_project_types += /datum/vampire_project/servant/servant_t3 //Stronger commander roles, cheapened so they're locked behind first upgrade rite as to encourage sending them out to thrall people.
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_2
 			break
