@@ -9,7 +9,7 @@
 	name = "Heretic Azurcaephan"
 	tutorial = "Branded a heretic for your unorthodox beliefs, you turned to an ancient art native to Azurea — the way of the Azurcaephan, a Spellblade. You combined your patron's gifts with martial discipline, forging yourself into a warrior-mage unlike any other. Unlike other spellblades, you know how to wield such terrifying power together with armor. The Church brands you a heretic, the Necromancers call you a fool, the Oaks see only deviation. Let them. One cut at a time, you shall carve your mark upon this world."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	allowed_patrons = list(/datum/patron/inhumen/zizo, /datum/patron/divine/noc)
 	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellblade
 	maximum_possible_slots = 2 // Team rocket!!!
@@ -19,7 +19,7 @@
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = 1, // Weighted 7. But a very nice statblock
-		STATKEY_PER = 1, 
+		STATKEY_PER = 1,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 2, // With 2 Wil they should not be struggling
 	)
@@ -233,6 +233,8 @@
 		if(/datum/patron/inhumen/zizo)
 			H.grant_language(/datum/language/undead)
 			ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
+			H.equip_to_slot_or_del(new /obj/item/book/rogue/bibble/zizo,SLOT_IN_BACKPACK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/iron, SLOT_RING, TRUE)
 		if(/datum/patron/divine/noc)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc(H), SLOT_RING, TRUE)
 

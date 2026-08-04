@@ -4,6 +4,8 @@
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "skeleton_formation"
+
+	spell_color = GLOW_COLOR_ZIZO
 	cast_range = 7
 	sound = 'sound/magic/magnet.ogg'
 	primary_resource_cost = 40

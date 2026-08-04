@@ -151,6 +151,11 @@
 	timer = 10 MINUTES
 	desc = span_boldgreen("This music is exceptional! Bravo!")
 
+/datum/stressevent/music/musicbox
+	stressadd = -1
+	desc = span_green("This music is very relaxing.")
+	timer = 1 MINUTES
+
 /datum/stressevent/vblood
 	stressadd = -5
 	desc = span_boldred("Virgin blood sates my thirst!")

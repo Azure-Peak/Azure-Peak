@@ -3320,6 +3320,7 @@
 #include "code\modules\spells\spell_types\wizard\pyromancy\fire_strike.dm"
 #include "code\modules\spells\spell_types\wizard\pyromancy\smoke_burst.dm"
 #include "code\modules\spells\spell_types\wizard\pyromancy\spitfire.dm"
+#include "code\modules\spells\spell_types\wizard\pyromancy\ultio.dm"
 #include "code\modules\spells\spell_types\wizard\pyromancy\wyrmfire.dm"
 #include "code\modules\spells\spell_types\wizard\telomancy\arcyne_barrage.dm"
 #include "code\modules\spells\spell_types\wizard\telomancy\arcyne_burst.dm"

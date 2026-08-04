@@ -137,11 +137,12 @@
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon, pen_info, no_crit = FALSE)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon, pen_info, no_crit = FALSE, no_debuff = FALSE)
 	RETURN_TYPE(/datum/wound)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return null
 	var/do_crit = TRUE
+	var/debuff_applies = !no_debuff && !istype(weapon, /obj/projectile)
 	var/acheck_dflag
 	switch(bclass)
 		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PUNCH)
@@ -173,7 +174,7 @@
 	if(no_crit)
 		do_crit = FALSE
 
-	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor, pen_info)
+	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor, pen_info, debuff_applies)
 
 	if(do_crit)
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
@@ -216,22 +217,23 @@
 		var/mob/living/carbon/human/human_owner = owner
 		human_owner.hud_used?.stressies?.flick_pain(FALSE)
 
-	if(owner?.has_status_effect(/datum/status_effect/debuff/exposed))
-		playsound(owner, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-		owner.remove_status_effect(/datum/status_effect/debuff/exposed)
-		visible_message(span_danger("[src] suffers a savage hit while exposed!"))
-		if(!do_crit)	//We aren't already screaming from a crit.
-			owner.emote("painmoan", forced = TRUE)
-	else if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
-		playsound(owner, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
-		owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
-		visible_message(span_combatprimary("[src] is struck while vulnerable!"))
-		if(!do_crit)	//We aren't already screaming from a crit.
-			owner.emote("pain", forced = TRUE)
+	if(debuff_applies)
+		if(owner?.has_status_effect(/datum/status_effect/debuff/exposed))
+			playsound(owner, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+			owner.remove_status_effect(/datum/status_effect/debuff/exposed)
+			visible_message(span_danger("[src] suffers a savage hit while exposed!"))
+			if(!do_crit)	//We aren't already screaming from a crit.
+				owner.emote("painmoan", forced = TRUE)
+		else if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
+			playsound(owner, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+			owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
+			visible_message(span_combatprimary("[src] is struck while vulnerable!"))
+			if(!do_crit)	//We aren't already screaming from a crit.
+				owner.emote("pain", forced = TRUE)
 
 	return dynwound
 
-/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor, pen_info)
+/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor, pen_info, debuff_applies = TRUE)
 	var/woundtype
 	switch(bclass)
 		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PUNCH, BCLASS_TWIST)
@@ -255,7 +257,7 @@
 	if(isooze(owner) && is_ooze_wound(woundtype))
 		woundtype = /datum/wound/dynamic/ooze
 	var/datum/wound/dynwound = has_wound(woundtype)
-	var/exposed = owner.has_status_effect(/datum/status_effect/debuff/exposed)
+	var/exposed = debuff_applies && owner.has_status_effect(/datum/status_effect/debuff/exposed)
 	if(!isnull(dynwound))
 		dynwound.upgrade(dam, armor, exposed, pen_info)
 	else

@@ -58,7 +58,7 @@
 	in_combat_until = world.time + num
 	hud_used?.defdelay?.mark_dirty()
 
-/mob/living/proc/changeMaxDodge(num)
+/mob/living/proc/changeMaxDodge(num, clamp = FALSE)
 	if(num < 0)
 		if(max_dodge <= MAX_DODGE_FLOOR)
 			return
@@ -66,7 +66,13 @@
 	if(num > 0)
 		if(max_dodge >= MAX_DODGE_CEIL)
 			return
-		max_dodge = CLAMP((max_dodge + num), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
+		var/newmax = max_dodge + num
+		if(clamp)
+			if(newmax > MAX_DODGE_CLAMP && max_dodge < MAX_DODGE_CLAMP) 
+			// We had less than the clamp, and we are set to gain above the clamp, we override. 
+			// Mainly used to clamp compensatory dodge increases, NOT offensive ones.
+				newmax = MAX_DODGE_CLAMP
+		max_dodge = CLAMP((newmax), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
 
 /*
 	Before anything else, defer these calls to a per-mobtype handler.  This allows us to

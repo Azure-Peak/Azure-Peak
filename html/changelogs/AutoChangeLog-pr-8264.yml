@@ -1,0 +1,7 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Penetrative damage now scales more harshly when dealing direct body damage."
+  - balance: "Swift-balanced weapons now use either STR or SPD, whichever is higher for pen purposes."
+  - balance: "Stat-scaling for pen damage purposes is now capped at 14."
+  - balance: "Sharpness-based weapons that are under 20% sharpness (\"chunked\") can no longer penetrate."

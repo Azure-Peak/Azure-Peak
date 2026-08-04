@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Renamed player facing harem window to shrafa window, a new name that does not have any orientalist implication to it."

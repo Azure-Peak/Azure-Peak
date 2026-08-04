@@ -614,7 +614,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 	name = "decrepit zcross"
-	desc = "'Progress. Ascension. Destiny. A mandate, commanded by God, to be fufilled by Man. She called us forth from the edge of reality - and with Her dying breath, rasped out the final truth; the fire is gone, and the world will soon follow.'"
+	desc = "A symbol of progress from an era that had reason to believe in it."
 	icon_state = "zcross_a"
 	color = "#bb9696"
 	chunkcolor = "#532e25"
@@ -649,7 +649,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 	name = "inverted psycross"
-	desc = "A symbol of progress from an era that had reason to believe in it."
+	desc = "'Progress commands sacrifice!'"
 	icon_state = "zcross_iron"
 	resistance_flags = FIRE_PROOF
 
