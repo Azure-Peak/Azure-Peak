@@ -25,6 +25,13 @@
 	var/turf/scry_center_turf
 	/// The maximum tile distance from the center turf allowed
 	var/scry_range = 2
+	var/scry_verbs = list(
+		/mob/dead/observer/eye/arcane/proc/scry_tele,
+		/mob/dead/observer/eye/arcane/proc/cancel_scry,
+		/mob/dead/observer/eye/arcane/proc/eye_down,
+		/mob/dead/observer/eye/arcane/proc/eye_up,
+		/mob/dead/observer/eye/arcane/proc/vampire_telepathy,
+	)
 
 /mob/dead/observer/eye/arcane/proc/scry_tele()
 	set category = "RoleUnique.Arcane Eye"
@@ -39,12 +46,8 @@
 
 /mob/dead/observer/eye/arcane/Initialize()
 	. = ..()
-	add_verb(src, list(
-		/mob/dead/observer/eye/arcane/proc/scry_tele,
-		/mob/dead/observer/eye/arcane/proc/cancel_scry,
-		/mob/dead/observer/eye/arcane/proc/eye_down,
-		/mob/dead/observer/eye/arcane/proc/eye_up,
-		/mob/dead/observer/eye/arcane/proc/vampire_telepathy))
+	if(length(scry_verbs))
+		add_verb(src, scry_verbs)
 	name = "Arcane Eye"
 
 /mob/dead/observer/eye/arcane/proc/cancel_scry()
@@ -125,6 +128,11 @@
 /mob/dead/observer/eye/arcane/beach
 	name = "Abyssal Inundation Eye"
 	var/obj/structure/roguemachine/dream_pool/source_pool
+	scry_verbs = list(
+		/mob/dead/observer/eye/arcane/proc/cancel_scry,
+		/mob/dead/observer/eye/arcane/proc/eye_down,
+		/mob/dead/observer/eye/arcane/proc/eye_up,
+	)
 
 /mob/dead/observer/eye/arcane/beach/Initialize()
 	. = ..()
