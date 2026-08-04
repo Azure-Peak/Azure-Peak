@@ -145,47 +145,13 @@
 	cooldown_time = 33 SECONDS
 	required_items = null
 
-///////////////////
-// T1 - Wyldcall //
-///////////////////
-
-/datum/action/cooldown/spell/conjure_summon/dendor_wolf
-	name = "Wyldcall"
-	desc = "Conjure a Primordial to fight at your side. Toggle its element with Shift+G while the spell is selected: Flame, Water, or Air. \
-	It grows mightier with your skill at Arcyne Armament - upgrading at Expert, and further at Master. You can maintain only one at a time - recast to re-summon, or use Dismiss Conjuration to release it safely."
-	button_icon_state = "primetriangle"
-	invocations = list("Volp :3")
-	sound = 'sound/magic/dendor_summon.ogg'
-	summon_noun = "dyrevolf"
-	recoil_energy_floor = 150
-	modes = list(
-		list("name" = "Ancient", "tag" = "ANCIENT", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/ancient, "color" = GLOW_COLOR_DENDOR, "invocation" = "Ancient one, rise!"),
-		//list("name" = "Water", "tag" = "WATER", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/water, "color" = GLOW_COLOR_ICE, "invocation" = "Exsurge, unda!"),
-		//list("name" = "Air", "tag" = "AIR", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/air, "color" = "#cfe8ff", "invocation" = "Exsurge, ventus!"),
-	)
-
-/datum/action/cooldown/spell/conjure_summon/dendor_wolf/spawn_summon(turf/T, mob/living/user)
-	var/mob_path = modes[current_mode]["path"]
-	var/mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/conjured = new mob_path(T, user)
-	scale_dyrevolf(conjured, user)
-	return conjured
-
-/datum/action/cooldown/spell/conjure_summon/dendor_wolf/proc/scale_dyrevolf(mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/P, mob/living/user)
-	var/lvl = clamp(user.get_skill_level(/datum/skill/magic/holy), 1, 6)
-	var/tier = get_summon_tier(user)
-	var/mult = 0.7 + (lvl * 0.1) + (tier - 1) * 0.25
-	P.maxHealth = round(P.maxHealth * mult)
-	P.health = P.maxHealth
-	P.melee_damage_lower = round(P.melee_damage_lower * mult)
-	P.melee_damage_upper = round(P.melee_damage_upper * mult)
-
 ////////////////////////
-// T2 - Howl (Dendor) //
+// T1 - Howl (Dendor) //
 ////////////////////////
 
 /datum/action/cooldown/spell/dendor/howl
 	name = "Primal Howl"
-	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution while taking away willpower and constitution from ascendant worshippers."
+	desc = "Unleash a howl, scaring lesser creechers away from you and ."
 	sound = 'sound/magic/dendor_howl.ogg'
 
 	click_to_activate = FALSE
@@ -196,12 +162,14 @@
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("By Ravox, stand and fight!")
+	invocations = list("I got that dog in me!")
 
 	charge_required = FALSE
 	cooldown_time = 5 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/scareable_factions = list("saiga", "chickens", "cows", "goats", "wolfs", "spiders", "rats", "fae", "trolls")
 
 /datum/action/cooldown/spell/dendor/howl/cast(atom/cast_on)
 	. = ..()
@@ -222,6 +190,53 @@
 			continue
 		target.apply_status_effect(/datum/status_effect/buff/call_to_arms)
 	return TRUE
+
+	var/scared = FALSE
+	for(var/mob/living/simple_animal/hostile/retaliate/animal in get_hearers_in_view(7, usr))
+		if(faction_check(animal.faction, scareable_factions))
+			animal.aggressive = FALSE
+			if(animal.ai_controller)
+				animal.ai_controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+				animal.ai_controller.clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
+				animal.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEEING, TRUE)
+				animal.ai_controller.set_blackboard_key(BB_BASIC_MOB_NEXT_FLEEING, world.time + 10 SECONDS)
+			user.emote("warcry")
+			to_chat(usr, "with the yell, the [animal] flees from you.")
+	return scared
+
+///////////////////
+// T2 - Wyldcall //
+///////////////////
+
+/datum/action/cooldown/spell/conjure_summon/dendor_wolf
+	name = "Wyldcall"
+	desc = "Conjure a dyrevolf to your side, a Dendorite's best friend and a guardian.\
+	Its strenght is scaled against the caster's HOLY SKILL."
+	button_icon_state = "primetriangle"
+	invocations = list("Volp :3")
+	sound = 'sound/magic/dendor_summon.ogg'
+	summon_noun = "dyrevolf"
+	recoil_energy_floor = 200
+	modes = list(
+		list("name" = "Ancient", "tag" = "ANCIENT", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/ancient, "color" = GLOW_COLOR_DENDOR, "invocation" = "Ancient one, rise!"),
+		//list("name" = "Water", "tag" = "WATER", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/water, "color" = GLOW_COLOR_ICE, "invocation" = "Exsurge, unda!"),
+		//list("name" = "Air", "tag" = "AIR", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/air, "color" = "#cfe8ff", "invocation" = "Exsurge, ventus!"), //Maybe later but not anytime soon.
+	)
+
+/datum/action/cooldown/spell/conjure_summon/dendor_wolf/spawn_summon(turf/T, mob/living/user)
+	var/mob_path = modes[current_mode]["path"]
+	var/mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/conjured = new mob_path(T, user)
+	scale_dyrevolf(conjured, user)
+	return conjured
+
+/datum/action/cooldown/spell/conjure_summon/dendor_wolf/proc/scale_dyrevolf(mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/P, mob/living/user)
+	var/lvl = clamp(user.get_skill_level(/datum/skill/magic/holy), 1, 6)
+	var/tier = get_summon_tier(user)
+	var/mult = 0.7 + (lvl * 0.1) + (tier - 1) * 0.25
+	P.maxHealth = round(P.maxHealth * mult)
+	P.health = P.maxHealth
+	P.melee_damage_lower = round(P.melee_damage_lower * mult)
+	P.melee_damage_upper = round(P.melee_damage_upper * mult)
 
 
 
@@ -391,7 +406,7 @@
 	if (!user.has_language(/datum/language/beast))
 		user.grant_language(/datum/language/beast)
 		to_chat(user, span_boldnotice("The vestige of the hidden moon high above reveals His truth: the knowledge of beast-tongue was in me all along."))
-	
+
 	if (!first_cast)
 		to_chat(user, span_boldwarning("So it is murmured in the Earth and Air: the Call of the Moon is sacred, and to share knowledge gleaned from it with those not of Him is a SIN."))
 		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))

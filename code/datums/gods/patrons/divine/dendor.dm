@@ -9,12 +9,12 @@
 					/datum/action/cooldown/spell/dendor/bless					= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
-					/datum/action/cooldown/spell/conjure_summon/dendor_wolf		= CLERIC_T1,
-					/datum/action/cooldown/spell/minion_order/conjurer			= CLERIC_T1,
-					/datum/action/cooldown/spell/conjure_dismiss				= CLERIC_T1,
-					/datum/action/cooldown/spell/dendor/howl					= CLERIC_T2,
-					/*datum/action/cooldown/spell/dendor/sprout 				= CLERIC_T2,
-					/datum/action/cooldown/spell/dendor/shape					= CLERIC_T3,
+					/datum/action/cooldown/spell/dendor/howl					= CLERIC_T1,
+					//datum/action/cooldown/spell/dendor/sprout 				= CLERIC_T2,
+					/datum/action/cooldown/spell/conjure_summon/dendor_wolf		= CLERIC_T2,
+					/datum/action/cooldown/spell/minion_order/conjurer			= CLERIC_T2,
+					/datum/action/cooldown/spell/conjure_dismiss				= CLERIC_T2,
+					/*datum/action/cooldown/spell/dendor/shape					= CLERIC_T3,
 					/datum/action/cooldown/spell/dendor/cocoon					= CLERIC_T3,
 					/datum/action/cooldown/spell/dendor/feral_impulse			= CLERIC_T4,*/
 					/obj/effect/proc_holder/spell/invoked/resurrect/dendor		= CLERIC_T4,
@@ -38,7 +38,7 @@
 		"Denno"
 	)
 
-// In grove, bog, cross, or ritual chalk 
+// In grove, bog, cross, or ritual chalk
 // Yes, he is NOT calling the master cus he's unique. Whole bog is his prayer zone. Druids exist for a reason instead of in the church.
 /datum/patron/divine/dendor/can_pray(mob/living/follower)
 	. = ..()
@@ -58,7 +58,7 @@
 		return TRUE
 	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Pantheon Cross for the Treefather to hear my prays..."))
 	return FALSE
-	
+
 /datum/patron/divine/dendor/on_gain(mob/living/H)
 	. = ..()
 	H.AddComponent(/datum/component/wise_tree_alert)
@@ -73,7 +73,7 @@
 )
 	*message_out = span_info("A rush of primal energy spirals about [target]!")
 	*message_self = span_notice("I'm infused with primal energies!")
-				
+
 	var/list/natural_stuff = list(/obj/structure/flora/roguegrass, /obj/structure/flora/roguetree, /obj/structure/flora/rogueshroom, /obj/structure/soil, /obj/structure/flora/newtree, /obj/structure/flora/tree, /obj/structure/glowshroom)
 	var/bonus = 0
 
