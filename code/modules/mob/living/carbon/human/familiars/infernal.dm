@@ -30,6 +30,7 @@
 		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOMOOD,
 		TRAIT_NOHUNGER,
+		TRAIT_NOPAIN,
 		TRAIT_NODISMEMBER, //Decapping Volfs causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
 		TRAIT_CRITICAL_WEAKNESS, // ...this should prevent them from being literally unkillable, though
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects due to them transforming when killed/stepping on shards.
