@@ -114,6 +114,8 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		return
 
 	if(href_list["undiesthing"]) //canUseTopic check for this is handled by mob/Topic()
+		if(NO_UNDERWEAR in dna.species.species_traits)
+			return
 		if(!get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
 			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
 			return
@@ -130,6 +132,8 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			underwear = null
 
 	if(href_list["legwearsthing"]) //canUseTopic check for this is handled by mob/Topic()
+		if(NO_UNDERWEAR in dna.species.species_traits)
+			return
 		if(!get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
 			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
 			return
