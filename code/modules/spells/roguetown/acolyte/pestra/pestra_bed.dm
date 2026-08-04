@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/summon_bed/pestra
 	name = "Pestra's Rest"
 	desc = "Summon a bed of black rose petals to tend to the deceased and punish non-believers. \
-	You can only maintain 1 bed at a time."
+	You can only maintain 1 bed at a time. Prevents deadite infection from reanimating corpses laid on the bed."
 	background_icon = 'icons/mob/actions/pestraspells.dmi'
 	button_icon = 'icons/mob/actions/pestraspells.dmi'
 	button_icon_state = "pestrabed"
