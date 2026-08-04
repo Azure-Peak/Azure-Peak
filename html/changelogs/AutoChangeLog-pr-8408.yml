@@ -1,4 +1,0 @@
-author: "EmilitiaEnnehrt"
-delete-after: True
-changes:
-  - bugfix: "fixes a missing delimiter in champion's text."

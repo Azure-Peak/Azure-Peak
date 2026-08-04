@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - qol: "10 SPD is now the minimum for dodge mechanics to fully function. (Down from 11)"
+  - qol: "Dodging simple mobs with Dodge Expert is now easier."

@@ -1,5 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - code_imp: "Removed unnecessary vars from the Duelist, Maille, and Fluted Maille masks and goggles."
-  - refactor: "Standardized the affected equipment to match the implementation of other chainmail items."

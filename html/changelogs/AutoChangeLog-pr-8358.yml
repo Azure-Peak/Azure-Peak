@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Steward / Clerk can now bypass withdraw limit they set themselves"
-  - rscadd: "Improved the interface for Stewardry to give them more options and lower the tedium needed for certain type of economic controls / import / export to saturation point."
-  - rscadd: "Added cloth production to Kingsfield and Rosawood"
