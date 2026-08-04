@@ -31,7 +31,7 @@
 	stored_mob.reset_perspective()
 	if(!QDELING(src))
 		qdel(src)
-	update_cone_show()
+	stored_mob.update_cone_show()
 	return TRUE
 
 /mob/living/proc/become_item()
