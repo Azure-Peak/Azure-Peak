@@ -99,7 +99,7 @@
 		var/obj/item/heart_canister/canister = slots[i]
 		if(canister)
 			options["Remove [canister.name]"] = i
-	
+
 	if(!options.len)
 		to_chat(user, span_warning("The rack is empty."))
 		return
@@ -137,6 +137,10 @@
 
 	if(!has_canisters)
 		. += span_notice("All slots are empty.")
+	if(crystal_intensity >= 1)
+		. += span_boldnotice("The crystal shines with a brilliant, perfect red radiance!")
+	if(has_broken)
+		. += span_warning("One of the canisters inside is shattered, causing the crystal to flicker!")
 
 /obj/structure/stone_rack/proc/advance_calibration()
 	for(var/obj/item/heart_canister/canister in slots)
