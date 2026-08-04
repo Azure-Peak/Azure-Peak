@@ -1072,7 +1072,6 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 #undef VAMPCOST_ONE
 #undef VAMPCOST_TWO
 #undef VAMPCOST_THREE
-#undef VAMPCOST_FOUR
 #undef ARMOR_COST
 #undef SUN_STEAL_COST
 #undef SERVANT_COST
