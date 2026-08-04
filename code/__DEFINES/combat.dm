@@ -369,8 +369,6 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
 #define EXPOSED_INTEG_MOD 2.5	//Multiplier for melee integrity / simple-mob damage if we hit an Exposed target.
 #define VULN_INTEG_MOD 1.3		//Multiplier for melee integrity / simple-mob damage if we hit a Vulnerable target.
-#define EXPOSED_INTEG_FLAT 45	//Flat integrity damage added when hitting an Exposed target.
-#define VULN_INTEG_FLAT 20		//Flat integrity damage added when hitting a Vulnerable target.
 #define BASE_RCLICK_CD 30 SECONDS
 #define BAIT_RCLICK_CD 20 SECONDS
 #define BIND_CD 15 SECONDS

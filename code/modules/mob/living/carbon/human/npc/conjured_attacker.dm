@@ -100,7 +100,7 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	mask = /obj/item/clothing/mask/rogue/padded
+	mask = /obj/item/clothing/mask/rogue/facemask/padded
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather

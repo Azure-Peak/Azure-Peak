@@ -25,7 +25,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_swingdelay_duration = 6 SECONDS
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
