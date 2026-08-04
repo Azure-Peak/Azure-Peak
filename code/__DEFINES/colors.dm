@@ -88,6 +88,7 @@
 #define CLOTHING_EGGPLANT			"#5d4356"
 #define CLOTHING_GOLD				"#f9a602"
 #define CLOTHING_GOLD_METALLIC		"#b0955d"
+#define CLOTHING_GILDED				"#f6b66e"
 #define CLOTHING_GULF_BLUE			"#7bb6b0"
 #define CLOTHING_LIGHT_GREY			"#999999"
 #define CLOTHING_MADDER				"#d74c34"
@@ -99,6 +100,7 @@
 #define CLOTHING_MAROON				"#550000"
 #define CLOTHING_OLIVE				"#98bf64"
 #define CLOTHING_ORCHIL				"#66023c"
+#define CLOTHING_OTAVAN_BROWN		"#553a39"
 #define CLOTHING_PEASANT_BROWN		"#685542"
 #define CLOTHING_PERIWINKLE_BLUE	"#8f99fb"
 #define CLOTHING_RED_OCHRE			"#913831"
@@ -112,7 +114,6 @@
 #define CLOTHING_YELLOW_OCHRE		"#cb9d06"
 #define CLOTHING_YELLOW_WELD		"#f4c430"
 #define CLOTHING_YARROW				"#f0cb76"
-
 #define CLOTHING_WET CLOTHING_DUNKED_WATER
 
 // Species blood color
@@ -146,6 +147,7 @@
 	"Eggplant" = CLOTHING_EGGPLANT,					\
 	"Gold" = CLOTHING_GOLD,							\
 	"Gold Metallic" = CLOTHING_GOLD_METALLIC,		\
+	"Gilded" = CLOTHING_GILDED,						\
 	"Gulf Blue" = CLOTHING_GULF_BLUE,				\
 	"Light Grey" = CLOTHING_LIGHT_GREY,				\
 	"Madder" = CLOTHING_MADDER,						\
@@ -157,6 +159,7 @@
 	"Maroon" = CLOTHING_MAROON,						\
 	"Olive" = CLOTHING_OLIVE,						\
 	"Orchil" = CLOTHING_ORCHIL,						\
+	"Otavan Brown" = CLOTHING_OTAVAN_BROWN,			\
 	"Peasant Brown" = CLOTHING_PEASANT_BROWN,		\
 	"Periwinkle Blue" = CLOTHING_PERIWINKLE_BLUE,	\
 	"Red Ochre" = CLOTHING_RED_OCHRE,				\

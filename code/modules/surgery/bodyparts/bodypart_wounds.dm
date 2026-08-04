@@ -137,11 +137,12 @@
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon, pen_info, no_crit = FALSE)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon, pen_info, no_crit = FALSE, no_debuff = FALSE)
 	RETURN_TYPE(/datum/wound)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return null
 	var/do_crit = TRUE
+	var/debuff_applies = !no_debuff && !istype(weapon, /obj/projectile)
 	var/acheck_dflag
 	switch(bclass)
 		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PUNCH)
@@ -173,7 +174,7 @@
 	if(no_crit)
 		do_crit = FALSE
 
-	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor, pen_info)
+	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor, pen_info, debuff_applies)
 
 	if(do_crit)
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
@@ -216,22 +217,23 @@
 		var/mob/living/carbon/human/human_owner = owner
 		human_owner.hud_used?.stressies?.flick_pain(FALSE)
 
-	if(owner?.has_status_effect(/datum/status_effect/debuff/exposed))
-		playsound(owner, 'sound/combat/exposed_pop.ogg', 100, TRUE)
-		owner.remove_status_effect(/datum/status_effect/debuff/exposed)
-		visible_message(span_danger("[src] suffers a savage hit while exposed!"))
-		if(!do_crit)	//We aren't already screaming from a crit.
-			owner.emote("painmoan", forced = TRUE)
-	else if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
-		playsound(owner, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
-		owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
-		visible_message(span_combatprimary("[src] is struck while vulnerable!"))
-		if(!do_crit)	//We aren't already screaming from a crit.
-			owner.emote("pain", forced = TRUE)
+	if(debuff_applies)
+		if(owner?.has_status_effect(/datum/status_effect/debuff/exposed))
+			playsound(owner, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+			owner.remove_status_effect(/datum/status_effect/debuff/exposed)
+			visible_message(span_danger("[src] suffers a savage hit while exposed!"))
+			if(!do_crit)	//We aren't already screaming from a crit.
+				owner.emote("painmoan", forced = TRUE)
+		else if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
+			playsound(owner, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+			owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
+			visible_message(span_combatprimary("[src] is struck while vulnerable!"))
+			if(!do_crit)	//We aren't already screaming from a crit.
+				owner.emote("pain", forced = TRUE)
 
 	return dynwound
 
-/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor, pen_info)
+/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor, pen_info, debuff_applies = TRUE)
 	var/woundtype
 	switch(bclass)
 		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PUNCH, BCLASS_TWIST)
@@ -255,7 +257,7 @@
 	if(isooze(owner) && is_ooze_wound(woundtype))
 		woundtype = /datum/wound/dynamic/ooze
 	var/datum/wound/dynwound = has_wound(woundtype)
-	var/exposed = owner.has_status_effect(/datum/status_effect/debuff/exposed)
+	var/exposed = debuff_applies && owner.has_status_effect(/datum/status_effect/debuff/exposed)
 	if(!isnull(dynwound))
 		dynwound.upgrade(dam, armor, exposed, pen_info)
 	else
@@ -618,6 +620,7 @@
 		record_round_statistic(STATS_LEECHES_EMBEDDED)
 	LAZYADD(embedded_objects, embedder)
 	embedder.is_embedded = TRUE
+	embedder.embedded_host = src
 	embedder.forceMove(src)
 	if(owner)
 		embedder.add_mob_blood(owner)
@@ -635,6 +638,7 @@
 			if(ranged)
 				playsound(owner, 'sound/combat/brutal_impalement.ogg', 100, vary = TRUE)
 		update_disabled()
+		update_bleed_hud()
 		if(embedder.is_silver && HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/datum/component/silverbless/psyblessed = embedder.GetComponent(/datum/component/silverbless)
 			owner.adjust_fire_stacks(1, psyblessed?.is_blessed ? /datum/status_effect/fire_handler/fire_stacks/sunder/blessed : /datum/status_effect/fire_handler/fire_stacks/sunder)
@@ -652,11 +656,13 @@
 
 	LAZYREMOVE(embedded_objects, embedder)
 	embedder.is_embedded = FALSE
+	embedder.embedded_host = null
 	if(QDELETED(embedder))
 		if(owner)
 			if(!owner.has_embedded_objects())
 				owner.clear_alert("embeddedobject")
 			update_disabled()
+			update_bleed_hud()
 		return TRUE
 
 	var/atom/drop_loc = owner?.drop_location() || drop_location()
@@ -672,7 +678,13 @@
 		if(!owner.has_embedded_objects())
 			owner.clear_alert("embeddedobject")
 		update_disabled()
+		update_bleed_hud()
 	return TRUE
+
+/obj/item/bodypart/proc/update_bleed_hud()
+	var/datum/hud/hud_used = owner?.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
 
 /obj/item/bodypart/proc/try_bandage(obj/item/new_bandage)
 	if(!new_bandage)

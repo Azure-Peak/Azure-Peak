@@ -69,7 +69,7 @@
 	icon_state = "dendormask"
 	item_state = "dendormask"
 	icon = 'icons/roguetown/clothing/head.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' 
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
 	body_parts_covered = MOUTH
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
@@ -106,9 +106,6 @@
 	icon_state = "dungeoneer"
 	color = null
 
-/obj/item/clothing/head/roguetown/menacing/executioner/ComponentInitialize()
-	AddComponent(/datum/component/armour_filtering/positive, TRAIT_JAILOR, "dungeoneer")
-
 /obj/item/clothing/head/roguetown/jester
 	name = "jester's hat"
 	desc = "A funny-looking hat with jingly bells attached to it."
@@ -126,7 +123,7 @@
 /obj/item/clothing/head/roguetown/jester/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -156,4 +153,5 @@
 		flags_inv &= ~HIDE_HEADTOP
 	else
 		flags_inv |= HIDE_HEADTOP
+	persist_inv_flags(HIDE_HEADTOP)
 	user.update_inv_head()

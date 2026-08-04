@@ -1316,7 +1316,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 #undef ADMINSWARNED_AT
 
 /client/proc/check_panel_loaded()
-	if(stat_panel.is_ready())
+	if(stat_panel.is_ready() && !stat_panel.fatally_errored)
 		return
 	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='byond://?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
 

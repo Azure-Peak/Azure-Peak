@@ -114,7 +114,7 @@
 
 /datum/intent/dagger/cut/blunt
 	blade_class = BCLASS_BLUNT
-	
+
 /datum/intent/dagger/thrust/blunt
 	blade_class = BCLASS_BLUNT
 
@@ -482,7 +482,7 @@
 	no_early_release = TRUE
 	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
 	item_d_type = "slash"
-	misscost = 5 
+	misscost = 5
 	intent_intdamage_factor = 0.05
 
 /obj/item/rogueweapon/huntingknife/idagger
@@ -616,7 +616,7 @@
 	force = 25
 	max_integrity = 250
 	max_blade_int = 300
-	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0) 
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/zizo
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/zizo/Initialize()
@@ -634,7 +634,7 @@
 	force = 25
 	max_integrity = 250
 	max_blade_int = 300
-	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0) 
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/rogueweapon/huntingknife/combat/graggar/Initialize()
@@ -652,7 +652,7 @@
 	force = 25
 	max_integrity = 250
 	max_blade_int = 300
-	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0) 
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/matthios
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/matthios/Initialize()
@@ -670,7 +670,7 @@
 	force = 25
 	max_integrity = 250
 	max_blade_int = 300
-	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0) 
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/baotha
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/baotha/Initialize()
@@ -691,7 +691,7 @@
 	force = 25
 	max_integrity = 250
 	max_blade_int = 300
-	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 50, "embedded_fall_chance" = 0) 
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 50, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/huntingknife/idagger/avantyne/get_examine_highlight_status()
@@ -755,6 +755,7 @@
 	icon_state = "bs_dagger"
 	sheathe_icon = "bs_dagger"
 	force = 22
+	max_integrity = 180
 	max_blade_int = 250
 	smeltresult = /obj/item/ingot/blacksteel
 
@@ -766,6 +767,7 @@
 	sheathe_icon = "bs_misericorde"
 	force = 25
 	wdefense = 4
+	max_integrity = 180
 	max_blade_int = 300
 
 /obj/item/rogueweapon/huntingknife/throwingknife/blacksteel
@@ -849,6 +851,12 @@
 	icon_state = "bonedagger"
 	sheathe_icon = "bonedagger"
 	smeltresult = null
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/elvish
+	name = "elvish dirk"
+	desc = "A wave-bladed dagger of Elven design, whose elegant steel craftsmanship is only rivaled by its deceptive lethality."
+	icon_state = "elfsdagger"
+	sheathe_icon = "elfdagger"
 
 /obj/item/rogueweapon/huntingknife/idagger/silver
 	name = "silver dagger"
@@ -1043,27 +1051,16 @@
 	force = 22 //One of the rare silver-edged weapons that has a positive damage boost, due to it requiring both silver and gold to create.
 	icon_state = "elfdagger"
 	sheathe_icon = "elfdagger"
-	item_state = "elfdag"
-	last_used = 0
 	smeltresult = /obj/item/ingot/gold
 	smelt_bar_num = 1
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish/poopknife
 	name = "thine majesty's nitesoil-cleaver"
 	desc = "A heraldric accompaniment to the chamberpot, and the most closely-guarded secret in all of Azuria. It is said that this once belonged to the Duke's eldest ancestor, who - in a fit of constipatory labor - had unwittingly realized another use for their wave-bladed trophy. Clinging to its silvered edge is a thin layer of otherworldly ash, refusing to yield to neither soap-nor-rag."
-	force = 15 //On the FIRST ROUND this was added, someone managed to kill the Vampire Lord with the Poop Knife. Reducing the force 
+	force = 15 //On the FIRST ROUND this was added, someone managed to kill the Vampire Lord with the Poop Knife. Reducing the force
 	max_integrity = 50 //Should render to ~100, at most. More fragile than alloyed knives. You know why.
 	max_blade_int = 333 //Exceedingly sharp. Ditto.
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/bronze, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/combat) //Seax's intents, for self-explanatory reasons.
-
-/obj/item/rogueweapon/huntingknife/idagger/silver/elvish/drow
-	name = "dark elvish dagger"
-	desc = "A once-elegant mithril dagger, who's sunless presence has long since been overshadowed by its vicious bite."
-	force = 18 
-	last_used = 0
-	is_silver = FALSE //Intended, as it's technically not silver - or at the very least, so divorced from traditional silver that it no longer retains its properties.
-	smeltresult = /obj/item/ingot/drow
-	smelt_bar_num = 1
 
 /obj/item/rogueweapon/huntingknife/idagger/navaja
 	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut,  /datum/intent/dagger/thrust/pick)
@@ -1274,7 +1271,7 @@
 		added_blade_int = 0,\
 		added_int = 100,\
 		added_def = 3,\
-	)	
+	)
 
 /obj/item/rogueweapon/huntingknife/throwingknife/triumph
 	name = "knife"
@@ -1308,7 +1305,7 @@
 	icon_state = "sscissors"
 	smeltresult = /obj/item/ingot/steel
 	is_tool = TRUE
-	
+
 /datum/intent/snip // The salvaging intent!
 	name = "snip"
 	desc = "Target a piece of clothing to sheer it apart. Sheered clothing is destroyed in the process, but provides some salvaged materials in turn. The amount of salvaged materials gained from sheered clothing scales with your Sewing skill. </br>Target the head-or-skull of someone else to begin grooming their hair. This can be used to give someone a completely new hairstyle, or to shave away whatever hair they have."

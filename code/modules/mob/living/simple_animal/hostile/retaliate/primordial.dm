@@ -241,7 +241,7 @@
 		return
 	if(L.guard_deflect_spell("the searing blast", FALSE, src))
 		return
-	var/armor_block = L.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = blast_damage, flat_integ = TRUE)
+	var/armor_block = L.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = blast_damage, no_debuff = TRUE)
 	L.apply_damage(blast_damage, BURN, BODY_ZONE_CHEST, armor_block)
 	apply_scorch_stack(L, 1)
 	L.apply_status_effect(/datum/status_effect/debuff/vulnerable, blast_vulnerable_time)

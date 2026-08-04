@@ -5,7 +5,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/assassin/ranger
 	category_tags = list(CTAG_ASSASSIN)
-	traits_applied = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)	// Master of the Forest - Tosses them a bone for wilderness chases.
+	traits_applied = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN, TRAIT_UNCONVERTIBLE)	// Master of the Forest - Tosses them a bone for wilderness chases.
 	// Weighted 14
 	subclass_stats = list(
 		STATKEY_PER = 4,

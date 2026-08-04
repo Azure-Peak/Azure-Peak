@@ -207,10 +207,16 @@ SUBSYSTEM_DEF(economy)
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]
 		region.produces_today = list()
 		region.demands_today = list()
+		region.produces_day_start = list()
+		region.demands_day_start = list()
 		for(var/good_id in region.produces)
-			region.produces_today[good_id] = max(1, round(region.produces[good_id] * pop_mult))
+			var/produced_units = max(1, round(region.produces[good_id] * pop_mult))
+			region.produces_today[good_id] = produced_units
+			region.produces_day_start[good_id] = produced_units
 		for(var/good_id in region.demands)
-			region.demands_today[good_id] = max(1, round(region.demands[good_id] * pop_mult))
+			var/demanded_units = max(1, round(region.demands[good_id] * pop_mult))
+			region.demands_today[good_id] = demanded_units
+			region.demands_day_start[good_id] = demanded_units
 	SStreasury.dirty_market_view()
 
 	var/list/expired = list()
@@ -853,7 +859,7 @@ SUBSYSTEM_DEF(economy)
 		return null
 	return SStreasury.stockpile_by_trade_good[good_id]
 
-/datum/controller/subsystem/economy/proc/manual_import(mob/user, region_id, good_id, quantity)
+/datum/controller/subsystem/economy/proc/manual_import(mob/user, region_id, good_id, quantity, stipend = FALSE)
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
 	if(!region)
 		return 0
@@ -884,8 +890,17 @@ SUBSYSTEM_DEF(economy)
 		return 0
 
 	var/actor_suffix = user ? " by [user.real_name]" : ""
-	var/import_label = user ? "Manual Import" : "Auto Import"
-	SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]")
+	var/import_label
+	if(stipend)
+		import_label = "Subsidy Import"
+	else
+		import_label = user ? "Manual Import" : "Auto Import"
+
+	if(quantity > 1)
+		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]")
+	else
+		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [tg.name] from [region.name][actor_suffix]")
+
 	region.produces_today[good_id] = produces_today - quantity
 	var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
 	if(stockpile_entry)

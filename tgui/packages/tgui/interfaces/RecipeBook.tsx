@@ -220,7 +220,7 @@ const BookPage = () => {
     }
     const arr = Array.from(cats);
     const rank = (c: string) =>
-      c === 'Instructions' ? -2 : c === 'All' ? -1 : 0;
+      c === 'Instructions' ? -3 : c === 'Cuisines' ? -2 : c === 'All' ? -1 : 0;
     arr.sort((a, b) => {
       const diff = rank(a) - rank(b);
       if (diff !== 0) return diff;

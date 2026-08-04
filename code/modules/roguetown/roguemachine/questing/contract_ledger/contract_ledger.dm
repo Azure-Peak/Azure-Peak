@@ -8,10 +8,7 @@
 	max_integrity = 0
 	layer = ABOVE_MOB_LAYER
 	layer = GAME_PLANE_UPPER
-	/// Turf south of the ledger, marked with a drop-here decal. Retrieval-quest items carry a
-	/// component that consumes them on any tile bearing this decal.
 	var/input_point
-	/// Directive quota tracking. Reset when GLOB.dayspassed advances past directives_day_stamp.
 	var/directives_issued_today = 0
 	var/directives_day_stamp = -1
 
@@ -27,8 +24,6 @@
 	SSquestpool.registered_ledgers -= src
 	return ..()
 
-/// Lazy-reset of the daily directive quota. Called wherever directive state is read or
-/// mutated — cheap comparison, auto-rolls over when GLOB.dayspassed advances.
 /obj/structure/roguemachine/contractledger/proc/refresh_directive_quota()
 	if(directives_day_stamp != GLOB.dayspassed)
 		directives_day_stamp = GLOB.dayspassed
@@ -43,6 +38,7 @@
 	. += span_info("Heads taken from <b>contract targets</b> carry no bounty - the contract's reward is payment in full. Beasts and brigands you hunt outside a contract still fetch coin at a HEADEATER.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here, spending Rumor Points to seed retrieval, courier, and light kill jobs across the realm.")
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
+	. += span_info("<b>Townsfolk</b> may post contracts of their own using their own coin. It can be pinned to the board or handed over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission any of them, but it will draw from the Crown's Purse at double the price. Only the poster may open what is recovered.")
 	. += span_info("Your <b>fellowship</b> may turn in contracts you hold on your behalf, should you fall in battle. The reward and levy is credited to the one who turns it in, using their tax exempt status, if any.")
 	. += span_info("The <b>[english_list(GLOB.contract_proxy_officials)]</b> may turn in any completed contract on the holder's behalf, crediting the reward to the holder's own account. They take no cut.")
 
@@ -168,6 +164,7 @@
 		data["directives_issued_today"] = directives_issued_today
 	if("towner" in dynamic_roles)
 		data["towner_postings"] = build_towner_posting_listing(user)
+		data["towner_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 	return data
 
 GLOBAL_LIST_INIT(crown_authority_roles, list(
@@ -185,9 +182,6 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	"Clerk",
 ))
 
-/// TRUE if the user has standing to commission defense writs - either by job, or by sitting as
-/// the current Regent (Regent inherits commission authority for the duration of their regency,
-/// so a Consort or Prince crowned by the Titan gains access they wouldn't otherwise have).
 /obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
 	if(!user)
 		return FALSE

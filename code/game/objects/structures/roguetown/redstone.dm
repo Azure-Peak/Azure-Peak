@@ -173,7 +173,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
-			levername = input("What name would you like to carve into the lever?")
+			levername = sanitize(input("What name would you like to carve into the lever?"))
 			if (levername)
 				name = levername + "(lever)"
 				desc = "A lever with a name carved into it."
@@ -317,7 +317,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/platename
-			platename = input("What name would you like to carve into the plate?")
+			platename = sanitize(input("What name would you like to carve into the plate?"))
 			if (platename)
 				name = platename + "(plate)"
 				desc = "a plate with a name carved into it"
@@ -329,7 +329,6 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
 		to_chat(user, span_warning("You most use both hands to rename plates."))
 
-
 /*
 /obj/structure/pressure_plate/attack_hand(mob/user) //commented out for now, they're stuposed to be anchored structures for dungeons. End of vanderlin traps port. Maybe an artificer subtype craft in the future.
 	. = ..()
@@ -338,6 +337,31 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		triggerplate()
 		anchored = !anchored
 */
+
+/obj/structure/pressure_plate/once
+	name = "rusty pressure plate"
+	desc = "Be careful. Stepping on this could either mean a bomb exploding or a door closing on you. Luckily, it seems to have only one last wheeze before it's stuck."
+	var/triggered = FALSE
+
+/obj/structure/pressure_plate/once/Crossed(atom/movable/AM)
+	. = ..()
+	if(triggered)
+		return
+	if(!anchored)
+		return
+	if(!isliving(AM))
+		return
+	triggered = TRUE
+	var/mob/living/L = AM
+	to_chat(L, "<span class='info'>I feel something permanently click beneath me.</span>")
+	AM.log_message("has activated a permanent pressure plate", LOG_GAME)
+	playsound(src, 'sound/misc/pressurepad_down.ogg', 35, extrarange = 2)
+	triggerplate()
+
+/obj/structure/pressure_plate/once/triggerplate()
+	for(var/obj/structure/O in redstone_attached)
+		spawn(0)
+			O.redstone_triggered()
 
 /obj/structure/englauncher
 	name = "Engineer's Launcher"
@@ -415,7 +439,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the launcher.</span>")
 		if(do_after(user, 10))
 			var/launchername
-			launchername = input("What name would you like to carve into the launcher?")
+			launchername = sanitize(input("What name would you like to carve into the launcher?"))
 			if (launchername)
 				name = launchername + "(launcher)"
 				desc = "a launcher with a name carved into it"
@@ -845,7 +869,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/hatchname
-			hatchname = input("What name would you like to carve into the hatch?")
+			hatchname = sanitize(input("What name would you like to carve into the hatch?"))
 			if (hatchname)
 				name = hatchname + "(hatch)"
 				desc = "a hatch with a name carved into it"

@@ -11,7 +11,7 @@
 /datum/fellowship/New(mob/living/founder, chosen_name)
 	if(!istype(founder) || !chosen_name)
 		CRASH("Fellowship created without founder or name")
-	name = chosen_name
+	name = sanitize(chosen_name)
 	faction_tag = "[FELLOWSHIP_FACTION_PREFIX][ckey(chosen_name)]"
 	leader = WEAKREF(founder)
 	created_time = world.time

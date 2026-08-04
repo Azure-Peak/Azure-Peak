@@ -566,9 +566,9 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	var/list/parts = list()
 	var/list/source_files = list(
 		"code/modules/roguetown/roguestock/pricing_engine.dm",
-		"code/__DEFINES/pricing_defines.dm",
-		"code/__DEFINES/item_categories.dm",
-		"code/__DEFINES/trade_goods.dm",
+		"code/__DEFINES/economy/pricing_defines.dm",
+		"code/__DEFINES/economy/item_categories.dm",
+		"code/__DEFINES/economy/trade_goods.dm",
 		"code/controllers/subsystem/rogue/cooking/cooking_recipes.dm",
 	)
 	for(var/path in source_files)

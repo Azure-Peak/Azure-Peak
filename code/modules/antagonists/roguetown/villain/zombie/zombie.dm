@@ -78,79 +78,6 @@
 	if(istype(examined_datum, /datum/antagonist/lich))
 		return span_boldnotice("Another deadite.")
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/atom/movable/screen/alert/status_effect/buff/zombified //Our stat handling "buff
-	name = "zombified"
-	desc = "HUNGER, MUST, HAVE, FLESH"
-	icon_state = "poison"
-
-/datum/status_effect/buff/zombified
-	id = "zombified"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/zombified
-
-/datum/status_effect/buff/zombified/on_apply()
-  /*So how does this work, simply put - we check if you have X stat, if not we take our number and take away your stat from this
-
-  That means we always have the stat change number as our buff/debuff to change your stats to this, its quite a fussy thing to work with
-  But this means that we can keep applying this buff until you de-zombify, constantly changing your statline.
-  Its janky and frankly I would much rather we re-factored buffs to modify an "effective" statline
-  
-  As we can then change your "true" statline for antag roles properly currently our only "reasonable" method that we have is using buffs
-  to inefficently do math to figure out our difference and pray it works, this...
-  
-  isn't super effective as you can imagine and isn't without flaw. - A good example is debuff/buff before turning will...
-  change our statline since this doesn't update, this is unfortnately an issue with buffs but this is the closet to fixing it..
-
-  Blame Blackstone era roguecode's statcaps for /not/ having a seperated /true/ statline vs buffed one. 
-  */
-
-	effectedstats = list(
-		STATKEY_STR = (14 - owner.STASTR),
-		STATKEY_SPD = (5 - owner.STASPD),
-		STATKEY_INT = (1 - owner.STAINT),
-		STATKEY_CON = (12 - owner.STACON),
-		STATKEY_WIL = (13 - owner.STAWIL),
-		STATKEY_PER = (13 - owner.STAPER)
-		)
-	. = ..()
-	return TRUE
-
-/datum/status_effect/buff/zombified/on_remove()
-	. = ..()
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//Housekeeping/saving variables from pre-zombie
-
-/*Death transformation process goes:
-	death ->
-	/mob/living/carbon/human/death(gibbed) ->
-	zombie_check_can_convert() ->
-	zombie.on_gain() ->
-	rotting.dm process ->
-	time passes ->
-	zombie.wake_zombie() ->
-	transform
-*/
-/*
-	Deadite transformation is 2 ways. First is on the initial bite (low chance) and second is on being chewed on.
-
-	Initial bite is: other_mobs.dm, /mob/living/carbon/onbite(mob/living/carbon/human/user) ->
-	bite_victim.zombie_infect_attempt() ->
-	attempt_zombie_infection(src, "bite", ZOMBIE_BITE_CONVERSION_TIME) -> rng check here
-	time passes ->
-	wake_zombie.
-
-	Wound transformation goes: grabbing.dm, /obj/item/grabbing/bite/proc/bitelimb(mob/living/carbon/human/user) ->
-	/datum/wound/proc/zombie_infect_attempt() ->
-	human_owner.attempt_zombie_infection(src, "wound", zombie_infection_time) ->
-	time passes ->
-	wake_zombie
-
-	Infection transformation process goes -> infection -> timered transform in zombie_infect_attempt() [drink red/holy water and kill timer?] -> /datum/antagonist/zombie/proc/wake_zombie -> zombietransform
-*/
-
 /datum/antagonist/zombie/on_gain(admin_granted = FALSE)
 	var/mob/living/carbon/human/zombie = owner?.current
 	if(zombie)
@@ -201,7 +128,6 @@
 									 // There is a better way to maintain it but needs overhaul. Will cover the two methods of zombie
 		GLOB.alive_mob_list += zombie// in both cure rot and medicine.
 
-		zombie.remove_status_effect(/datum/status_effect/buff/zombified)
 		zombie.cmode_music = cmode_music
 
 		for(var/trait in traits_zombie)
@@ -250,7 +176,6 @@
 
 	revived = TRUE //so we can die for real later
 	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for zombies to tell, fellow zombies.
-	zombie.apply_status_effect(/datum/status_effect/buff/zombified) //Handle our stats
 
 	zombie.grant_language(/datum/language/undead) //Now we give you the language.
 	var/datum/language_holder/language_holder = zombie.get_language_holder()
@@ -381,6 +306,8 @@
 	zombie.update_mobility()
 	zombie.update_sight()
 	zombie.reload_fullscreen()
+	zombie.handle_blood()
+	zombie.refresh_blood_debuffs()
 	transform_zombie()
 	if(zombie.stat >= DEAD)
 		//could not revive
@@ -482,7 +409,7 @@
 	ADD_TRAIT(owner, TRAIT_IGNORESLOWDOWN, id)
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	ADD_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
-	to_chat(owner, span_userdanger("I feel my body tense up immensely in response to this hunger, tendrils of darkness crawling under my skin.")) 
+	to_chat(owner, span_userdanger("I feel my body tense up immensely in response to this hunger, tendrils of darkness crawling under my skin."))
 
 /datum/status_effect/debuff/deadite_grace/on_remove()
 	. = ..()

@@ -24,8 +24,10 @@
 	/// Extra fatigue removed on missing the target, or if the enemy dodges.
 	var/misscost = 1
 	var/tranged = 0
-	/// Turns of auto-aim as well as the 'swoosh'.
+	/// Turns of auto-aim as well as the attack anim.
 	var/noaa = FALSE
+	/// Restores turf-click auto-aim on a noaa intent silently (so without the attack anim).
+	var/force_autoaim = FALSE
 	var/warnie = ""
 	var/pointer = 'icons/effects/mousemice/human_attack.dmi'
 	/// Invoked clickCD.
@@ -224,7 +226,7 @@
 				inspec += SPAN_TOOLTIP("The swing will reduce my defense by a significant amount.", "<font color='#dab141'><u>Difficult</u></font>")
 			if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
 				inspec += SPAN_TOOLTIP("I will have no chance to defend while swinging, and a strike against me will interrupt it.", "<font color='#a70d0d'><u>Rigid</u></font>")
-		
+
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"
 		inspec += "\n  Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
@@ -466,7 +468,7 @@
 	clickcd = 4 // Just like knife pick!
 	swingdelay = 1
 	releasedrain = 0 //no stamina loss, as charges are lost as it drills
-	
+
 /datum/intent/pick/bad	//One-handed intents
 	name = "sluggish pick"
 	icon_state = "inpick"
@@ -540,7 +542,7 @@
 	charging_slowdown = 3
 	warnoffset = 20
 	var/strength_check = FALSE //used when we fire HEAVY bows
-	
+
 /datum/intent/proc/arc_check()
 	return FALSE
 
@@ -622,6 +624,35 @@
 			M.taunted(user)
 	return
 
+/// A punch with claw visual only. All damage, armor, wound, timing, stamina, and parry behavior remains inherited from punch.
+/datum/intent/unarmed/punch/cosmetic_claw
+	name = "cosmetic claw (punch)"
+	desc = "A punch delivered with natural claws. Its presentation changes, but it behaves exactly like PUNCH."
+	animname = ATTACK_EFFECT_CLAW
+	hitsound = "bluntwooshmed"
+	miss_text = "throw a clawed punch at the air"
+	miss_sound = "bluntwooshmed"
+
+/datum/intent/unarmed/punch/cosmetic_claw/retractable
+	attack_verb = list("swipes", "rakes", "grazes")
+	miss_text = "swipe retractable claws through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/hooked
+	attack_verb = list("gouges", "hooks", "rakes")
+	miss_text = "swipe hooked claws through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/heavy
+	attack_verb = list("swipes", "buffets", "rakes")
+	miss_text = "swing heavy claws through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/talons
+	attack_verb = list("gouges", "rakes", "scores")
+	miss_text = "lash sharp talons through the air"
+
+/datum/intent/unarmed/punch/cosmetic_claw/chitinous
+	attack_verb = list("scrapes", "scythes", "rakes")
+	miss_text = "scrape chitinous claws through the air"
+
 /datum/intent/unarmed/claw
 	name = "claw"
 	//icon_state
@@ -639,7 +670,7 @@
 	miss_text = "claw at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
-	
+
 
 /datum/intent/unarmed/shove
 	name = "shove"
@@ -647,6 +678,7 @@
 	attack_verb = list("shoves", "pushes")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	misscost = 5
 	item_d_type = "blunt"
@@ -673,6 +705,7 @@
 	attack_verb = list("grabs")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	releasedrain = 2
 	misscost = 8
@@ -842,6 +875,10 @@
 /datum/intent/hand/light
 	name = "light"
 	icon_state = "inlight"
+
+/datum/intent/hand/convert
+	name = "convert"
+	icon_state = "inbless"
 
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT

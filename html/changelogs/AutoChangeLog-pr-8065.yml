@@ -1,6 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - balance: "Throwing knives have 80% embed chance."
-  - balance: "Broadheads and Bodkins do +5 damage."
-  - qol: "Examining a projectile, or a bow/xbow with a projectile will show you the sweetspot."

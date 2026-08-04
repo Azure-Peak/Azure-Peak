@@ -102,8 +102,12 @@
 			icon_bundle.Insert(icon_states[icon_state], icon_state)
 
 		accessory_icon_cache[key] = icon_bundle
+		// Colours are part of the key, so this is unbounded without a cap.
+		trim_cache(accessory_icon_cache, SPRITE_ACCESSORY_ICON_CACHE_LEN)
 
-	var/icon/cached_icon = icon(accessory_icon_cache[key])
+	// Appearances only reference the icon and nothing here mutates it, so hand out the cached
+	// object rather than deep copying the whole bundle on every single cache hit.
+	var/icon/cached_icon = accessory_icon_cache[key]
 	/// Generate mutable appearances from the icon
 	var/appearance_list = list()
 	if(relevant_layers)
@@ -125,14 +129,12 @@
 	var/list/color_list = color_string_to_list(color_string)
 	if(!color_list)
 		color_list = list()
-	if(color_list.len < color_keys)
-		//stack_trace("Sprite accessory [type] was passed an insufficient amount of colors.")
-		while(color_list.len < color_keys)
-			color_list += "#FFFFFF"
-	else if(color_list.len > color_keys)
-		//stack_trace("Sprite accessory [type] was passed too much of colors.")
-		while(color_list.len > color_keys)
-			color_list -= color_list[color_list.len]
+	while(color_list.len < color_keys)
+		color_list += "#FFFFFF"
+	if(color_list.len > color_keys)
+		// Truncate by index. Removing by value here would drop every entry matching the last
+		// colour, leaving fewer colours than color_keys and runtimeing in generate_icon_state().
+		color_list.Cut(color_keys + 1)
 	return color_list_to_string(color_list)
 
 /datum/sprite_accessory/proc/generate_icon_states(overlay_icon_state, color_string)

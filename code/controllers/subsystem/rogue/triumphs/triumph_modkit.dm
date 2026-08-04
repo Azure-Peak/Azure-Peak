@@ -213,6 +213,16 @@
 		)
 	result_item = null
 
+
+/obj/item/enchantingkit/triumph_weaponkit_psyswords
+	name = "'Slimguarded Psydonic Longsword' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to agnosticize the crossguard of a Psydonic Longsword or Enduring Longsword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/oldpsysword		= /obj/item/rogueweapon/sword/long/oldpsysword/triumph_slim,
+		/obj/item/rogueweapon/sword/long/psysword			= /obj/item/rogueweapon/sword/long/psysword/triumph_slim
+		)
+	result_item = null
+
 /obj/item/enchantingkit/triumph_transmutekit_armorkinis
 	name = "'Armorkini' transmutation elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to turn a set of Hide Armor, Leather Armor, Studded Leather Armor, Haubergeon, or Plate Armor into their corseted equivalents."
@@ -752,6 +762,14 @@
 	icon_state = "hatchetlegacy"
 	desc = "'What is that rag for, anyways?'"
 
+/obj/item/rogueweapon/sword/long/psysword/triumph_slim
+	icon_state = "slimpsysword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/sword/long/oldpsysword/triumph_slim
+	icon_state = "slimopsysword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
 /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 	name = "double-headed axe"
 	desc = "'For Karl!'"
@@ -940,3 +958,22 @@
 		)
 	result_item = null
 	exact_type = TRUE
+
+/obj/item/clothing/cloak/rangercloak
+	name = "ranger cloak"
+	desc = "A traditionally elven cloak said to help blend in with the woods."
+	icon_state = "ranger"
+	item_state = "ranger"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
+	resistance_flags = FIRE_PROOF
+
+/obj/item/clothing/cloak/rangercloak/gray
+	name = "cloth ranger cloak"
+	desc = "A traditionally elven cloak said to help blend in with the shadows."
+	icon_state = "ranger_gray"
+	item_state = "ranger_gray"

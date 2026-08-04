@@ -70,7 +70,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	H.STASPD = 14
 	H.STACON = 12
 	H.STAWIL = 12
-	H.STAPER = 16
+	H.STAPER = 14
 	H.STAINT = 12
 	H.STALUC = 12
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -84,7 +84,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	r_hand = /obj/item/rogueweapon/sword/short/iron
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
-	backl = /obj/item/quiver/bodkin
+	backl = /obj/item/quiver/npc
 	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)

@@ -343,6 +343,7 @@
 /obj/item/clothing/wrists/roguetown/gem
 	name = "gem bracelet base"
 	desc = "You shouldn't be seeing this."
+	body_parts_covered = ARMS
 	slot_flags = ITEM_SLOT_WRISTS
 	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_SIDE_CLOTH

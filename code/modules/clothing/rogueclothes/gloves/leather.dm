@@ -53,6 +53,13 @@
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
+/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout
+	name = "aesthetic shadowy fingerless gloves"
+
+/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout/Initialize()
+	. = ..()
+	loadoutize()
+
 /obj/item/clothing/gloves/roguetown/fingerless_leather
 	name = "fingerless leather gloves"
 	desc = "A pair of protective gloves favored by lockshimmers, laborers, and smokers for maintaining \
@@ -96,7 +103,7 @@
 	armor = ARMOR_LEATHER
 	icon_state = "psydongloves"
 	item_state = "psydongloves"
-	salvage_result = /obj/item/natural/hide/cured	
+	salvage_result = /obj/item/natural/hide/cured
 	allowed_race = ALL_RACES_TYPES
 
 // Eastern gloves

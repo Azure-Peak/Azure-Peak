@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Optimized calculation of the heaviest armor worn on body. Report any oddities with swimming stamina drain, jumping and / or speed cap. etc."
-  - rscadd: "Optimized item underlay, report any oddity with your tetris inventory."
-  - rscadd: "Optimized flick overlays used in pickup animations and emote overlays to not send to the entire server. Report any oddities."
-  - rscadd: "Optimized the arousal system to no longer process when unneeded. Report any oddities."

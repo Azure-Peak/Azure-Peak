@@ -5,7 +5,7 @@
 	volume = 100
 	falloff = 2
 	extra_range = 5
-	var/stress2give = /datum/stressevent/music
+	var/stress2give = /datum/stressevent/music/musicbox
 	persistent_loop = TRUE
 	channel = CHANNEL_CMUSIC
 

@@ -108,6 +108,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/list/learned_recipes
 
 	var/list/special_items = list()
+	var/list/special_items_metadata = list()
 
 	var/list/areas_entered = list()
 
@@ -583,6 +584,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				if(A.type == datum_type)
 					return A
 
+
+/datum/mind/proc/has_spellmiracle_block_antag()
+	for(var/antag_type in SPELLMIRACLE_BLOCK_ANTAGS)
+		if(has_antag_datum(antag_type))
+			return TRUE
+	return FALSE
 
 /datum/mind/proc/remove_traitor()
 	remove_antag_datum(/datum/antagonist/traitor)
@@ -1396,7 +1403,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			if(item)
 				if(user.Adjacent(host_object))
 					if(user.mind.special_items[item])
-						var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
+						// Don't charge for non-triumph derived item of the same name
+						var/base_name = item
+						var/datum/loadout_item/LI
+						if(copytext(item, -length(TRIUMPH_STASH_SUFFIX)) == TRIUMPH_STASH_SUFFIX)
+							base_name = copytext(item, 1, length(item) - length(TRIUMPH_STASH_SUFFIX) + 1)
+							LI = GLOB.loadout_items_by_name[base_name]
 						if(LI?.triumph_cost)
 							var/discounted_cost = max(0, LI.triumph_cost - user.mind.triumph_discount_remaining)
 							if(discounted_cost > 0 && user.get_triumphs() < discounted_cost)
@@ -1413,7 +1425,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 							I.special_item = TRUE
 							I.smeltresult = /obj/item/ash
 							I.salvage_result = /obj/item/ash
-						var/list/metadata = user.client?.prefs?.gear_list?[item]
+						var/list/metadata = user.mind.special_items_metadata[base_name]
 						if(islist(metadata))
 							if(metadata["color"])
 								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)
@@ -1422,7 +1434,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 							if(metadata["altdetail_color"] && I.altdetail_tag)
 								I.altdetail_color = metadata["altdetail_color"]
 							if(metadata["custom_name"])
-								I.name = metadata["custom_name"]
+								I.name = sanitize(metadata["custom_name"])
 							if(metadata["custom_desc"])
-								I.desc = metadata["custom_desc"]
+								I.desc = html_encode(metadata["custom_desc"])
 							I.update_icon()

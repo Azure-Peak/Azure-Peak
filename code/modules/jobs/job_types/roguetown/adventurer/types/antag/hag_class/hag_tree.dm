@@ -111,7 +111,7 @@
 
 	// Message the hag
 	if(href_list["action"] == "message")
-		var/input = input(usr, "WHAT DO YOU SAY?", "THE ROOTS HEAR ALL") as text|null
+		var/input = sanitize(input(usr, "WHAT DO YOU SAY?", "THE ROOTS HEAR ALL") as text|null)
 		if(!input)
 			return
 		if(!usr.key)

@@ -85,6 +85,8 @@ SUBSYSTEM_DEF(nightshift)
 		var/turf/current_turf = M.loc
 		if(!current_turf.can_see_sky())
 			continue
+		if(HAS_TRAIT(M, TRAIT_UNFORGIVABLE)) //Doesn't affect cultists of Vheslyn
+			continue
 		M.fire_act(1, 5)
 		CHECK_TICK
 

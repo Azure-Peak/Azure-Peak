@@ -693,8 +693,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 
 /obj/item/clothing/cloak/tabard/stabard/guard
-	name = "guard tabard"
-	desc = "A tabard with the lord's heraldic colors."
+	desc = "An outer garment with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
@@ -800,7 +799,7 @@
 	body_parts_covered = CHEST
 
 /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
-	desc = "A surcoat with the lord's heraldic colors."
+	desc = "A jupon with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
@@ -1515,7 +1514,7 @@
 //Short hoods for guards
 
 /obj/item/clothing/cloak/tabard/stabard/guardhood
-	name = "guard hood"
+	name = "hood"
 	desc = "A hood with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_spl"
@@ -1585,7 +1584,24 @@
 	name = "hierophant's sash"
 	icon_state = "naledisash"
 	item_state = "naledisash"
+	color = null
+	detail_color = null
+	detail_tag = "_detail"
+	naledicolor = TRUE
 	desc = "A limp piece of fabric traditionally used to fasten bags that are too baggy, but in modern days has become more of a fashion statement than anything."
+
+/obj/item/clothing/cloak/hierophant/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/hierophant/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/cloak/tabard/stabard/grenzelmage
 	name = "grenzelhoftian magos mantle"

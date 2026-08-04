@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Purged a massive amount of hardset sell prices (more later) and added a unit test to harden against it. Also prevented crafting recipe from ever setting hardset sellprice again in code."
-  - rscadd: "Numerous abilities like appraisal, matthios eyes, lirvasian abilities etc. now uses the real and actual price instead of hardset sell price and should work with crafted items."

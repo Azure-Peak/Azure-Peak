@@ -36,7 +36,7 @@
 // DONATOR
 /datum/stew_recipe/azurosa_tea
 	inputs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried/azure)
-	output = /datum/reagent/water/azurosa_tea
+	output = /datum/reagent/consumable/azurosa_tea
 	cooktime = STEW_COOKING_TIME / 4
 
 // STANDARD
@@ -506,12 +506,12 @@
 // DRINKS
 /datum/stew_recipe/rose_tea
 	inputs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried)
-	output = /datum/reagent/water/rosewater
+	output = /datum/reagent/consumable/rosewater
 	cooktime = STEW_COOKING_TIME / 4 // Ultra fast
 
 /datum/stew_recipe/rose_tea_spiced
 	inputs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_spiced)
-	output = /datum/reagent/water/rosewater_spiced
+	output = /datum/reagent/consumable/rosewater_spiced
 	cooktime = STEW_COOKING_TIME / 3
 
 /datum/stew_recipe/coffee

@@ -4,6 +4,10 @@
  * @license MIT
  */
 
+// this is important to have because it's not a normal @types/ package
+// and typescript will get grumpy about the runtime API like require.context
+/// <reference types="@rspack/core/module" />
+
 // Webpack asset modules.
 // Should match extensions used in webpack config.
 declare module '*.png' {
@@ -17,6 +21,11 @@ declare module '*.jpg' {
 }
 
 declare module '*.svg' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.scss' {
   const content: string;
   export default content;
 }

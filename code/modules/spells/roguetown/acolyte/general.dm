@@ -110,6 +110,11 @@
 
 	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
 
+	// Vampires has no benefits from miracles
+	if(spelltarget.mind?.has_antag_datum(/datum/antagonist/vampire))
+		spelltarget.visible_message(span_info("Healing energies envelop [spelltarget]!"), span_notice("I am bathed in healing choral hymns!"))
+		return TRUE
+
 	if(H.patron?.undead_hater && (spelltarget.mob_biotypes & MOB_UNDEAD))
 		// We simply do nothing to avoid healing being used to vamp/skelly check!
 		var/message_out_undead = span_info("Healing energies envelop [spelltarget]!")

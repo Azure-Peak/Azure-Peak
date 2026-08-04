@@ -83,7 +83,7 @@
 	setAngle(Angle + CLAMP(diff, -homing_turn_speed, homing_turn_speed))
 	return TRUE
 
-/obj/projectile/magic/seeker_orb/on_hit(target)
+/obj/projectile/magic/seeker_orb/on_hit(target, blocked = FALSE)
 	if(length(impact_sounds))
 		hitsound = pick(impact_sounds)
 	if(ismob(target))
@@ -95,7 +95,8 @@
 			return BULLET_ACT_BLOCK
 		if(out_of_effective_range())
 			return
-		M.apply_status_effect(/datum/status_effect/debuff/seeker_marked)
+		if(blocked < 100)
+			M.apply_status_effect(/datum/status_effect/debuff/seeker_marked)
 	. = ..()
 
 /datum/status_effect/debuff/seeker_marked

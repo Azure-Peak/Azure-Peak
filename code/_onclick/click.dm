@@ -58,7 +58,7 @@
 	in_combat_until = world.time + num
 	hud_used?.defdelay?.mark_dirty()
 
-/mob/living/proc/changeMaxDodge(num)
+/mob/living/proc/changeMaxDodge(num, clamp = FALSE)
 	if(num < 0)
 		if(max_dodge <= MAX_DODGE_FLOOR)
 			return
@@ -66,7 +66,13 @@
 	if(num > 0)
 		if(max_dodge >= MAX_DODGE_CEIL)
 			return
-		max_dodge = CLAMP((max_dodge + num), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
+		var/newmax = max_dodge + num
+		if(clamp)
+			if(newmax > MAX_DODGE_CLAMP && max_dodge < MAX_DODGE_CLAMP) 
+			// We had less than the clamp, and we are set to gain above the clamp, we override. 
+			// Mainly used to clamp compensatory dodge increases, NOT offensive ones.
+				newmax = MAX_DODGE_CLAMP
+		max_dodge = CLAMP((newmax), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
 
 /*
 	Before anything else, defer these calls to a per-mobtype handler.  This allows us to
@@ -335,7 +341,7 @@
 		if(can_reach)
 			if(isopenturf(A))
 				var/turf/T = A
-				if(used_intent.noaa)
+				if(used_intent.noaa && !used_intent.force_autoaim)
 					resolveAdjacentClick(A,W,params,used_hand)
 					return
 				if(T)
@@ -346,15 +352,21 @@
 						target = M
 						break
 					if(target)
-						if(target.Adjacent(src) || (used_intent.effective_range_type && CanReach(target, W)))
-							if(used_intent.cleave)
-								used_intent.cleave.show_cleave_visuals(src, T)
-							else
-								do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
+						//CanReach already honours used_intent.reach, so this covers reach 2+ intents
+						if(target.Adjacent(src) || CanReach(target, W))
+							if(!used_intent.noaa)
+								if(used_intent.cleave)
+									used_intent.cleave.show_cleave_visuals(src, T)
+								else
+									do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 							resolveAdjacentClick(target,W,params,used_hand)
 							atkswinging = null
 							//update_warning()
 							return
+					if(used_intent.noaa) //force_autoaim intent with nothing to aim at, hit the turf like it always did
+						resolveAdjacentClick(A,W,params,used_hand)
+						atkswinging = null
+						return
 					if(cmode)
 						resolveAdjacentClick(T,W,params,used_hand) //hit the turf
 					if(!used_intent.noaa)

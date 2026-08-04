@@ -175,7 +175,13 @@
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/highwayman
-	beltr = /obj/item/quiver/randomfill/highwayman
+	armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	head = null
+	mask = null
+	neck = null
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	H.STAPER = 13
 	H.STACON -= 1
 	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)

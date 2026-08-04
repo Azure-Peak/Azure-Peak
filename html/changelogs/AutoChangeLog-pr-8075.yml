@@ -1,5 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - qol: "Triumph cost for loadout items is now deducted when the item is actually retrieved from storage, not at round start, while preserving the donator discount pool across all retrievals in the round."
-  - bugfix: "Fixed loadout items from still being sellable when they arent bought with triumph."

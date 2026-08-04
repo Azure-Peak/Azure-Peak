@@ -98,6 +98,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/attack_verb = "punch"	// punch-specific attack verb
 	var/sound/attack_sound = 'sound/combat/hits/punch/punch (1).ogg'
 	var/sound/miss_sound = 'sound/blank.ogg'
+	/// Associative list of IC claw-style names to cosmetic punch intent paths. Null means this species cannot justify natural claws. Wort wort wort
+	var/list/cosmetic_claw_types
 
 	var/enflamed_icon = "Standing"
 
@@ -513,10 +515,17 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	for(var/language_type in languages)
 		C.grant_language(language_type)
 
+	if(length(cosmetic_claw_types) && ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(!H.cosmetic_claws_configured && (INTENT_HARM in H.base_intents))
+			add_verb(H, /mob/living/carbon/human/verb/choose_cosmetic_claws)
+
 	SEND_SIGNAL(C, COMSIG_SPECIES_GAIN, src, old_species)
 
 
 /datum/species/proc/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
+	remove_verb(C, /mob/living/carbon/human/verb/choose_cosmetic_claws)
+	C.cosmetic_claw_intent = null
 	if(C.dna.species.exotic_bloodtype)
 		C.dna.blood_type = random_blood_type()
 	if(DIGITIGRADE in species_traits)
@@ -1346,14 +1355,25 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			log_combat(user, target, "got a stun punch with their previous punch")*/
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.forcesay(GLOB.hit_appends)
-		if(!nodmg)
+		if(user.cosmetic_claw_intent)
+			// The selected claw sound describes the motion, not the impact. Armor supplies its own material hit sound;
+			// an attack which reaches flesh still needs the ordinary unarmed flesh impact beneath the cosmetic woosh.
 			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
+			if(!nodmg)
+				playsound(target.loc, pick(
+					'sound/combat/hits/punch/punch_hard (1).ogg',
+					'sound/combat/hits/punch/punch_hard (2).ogg',
+					'sound/combat/hits/punch/punch_hard (3).ogg',
+				), 100, FALSE)
+		else if(!nodmg)
+			playsound(target.loc, user.used_intent.hitsound, 100, FALSE)
+		if(!nodmg)
 			if(user.mind)
 				user.dodgetime = (clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE))
 				user.changeMaxDodge(3)
 			if(target.mind)
 				target.dodgetime = (clamp(target.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
-				target.changeMaxDodge(5)
+				target.changeMaxDodge(5, clamp = TRUE)
 
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -1877,6 +1897,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				user.changeMaxDodge(1)
 		if(!nodmg)
 			post_reduction_dmg = (post_weakness_dmg - armor_block)
+			var/has_vuln_or_exposed = (H.has_status_effect(/datum/status_effect/debuff/exposed) || H.has_status_effect(/datum/status_effect/debuff/vulnerable))
 			var/datum/wound/crit_wound = affecting.bodypart_attacked_by(user.used_intent.blade_class, post_reduction_dmg, user, selzone, crit_message = TRUE, weapon = I, pen_info = pen_info_check)
 			if(should_embed_weapon(crit_wound, I))
 				var/can_impale = TRUE
@@ -1902,7 +1923,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				user.changeMaxDodge(3)
 			if(H.mind)
 				H.dodgetime = (clamp(H.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
-				H.changeMaxDodge(5)
+				if(!has_vuln_or_exposed)
+					H.changeMaxDodge(5, clamp = TRUE)
+					
 //		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
 //			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
 //			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
@@ -1999,6 +2022,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.emote("painmoan", forced = TRUE)
 			H.visible_message(span_combatsecondarybp("<b>[H]</b> lets go of their hold!"))
 			H.stop_pulling(TRUE)
+
+	if(user != H && user.mind && H.mind)	// Maso / Sadism check. No self-hits, it's already very easy to fulfill like this.
+		var/painpercent = H.get_complex_pain() / H.pain_threshold
+		if(painpercent >= 100)
+			if(H.get_flaw(/datum/charflaw/addiction/masochist))
+				H.sate_addiction(/datum/charflaw/addiction/masochist)
+			if(user.get_flaw(/datum/charflaw/addiction/sadist))
+				user.sate_addiction(/datum/charflaw/addiction/sadist)
 	return TRUE
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)
@@ -2038,11 +2069,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 							H.emote("painscream")
 						else
 							H.emote("pain")
-				if(damage_amount > (H.STACON * 3.5) && (!HAS_TRAIT(H, TRAIT_NOPAINSTUN) || !HAS_TRAIT(H, TRAIT_IRONMAN))) //We want this effect only on heavy hits.
+				if(damage_amount > (H.STACON * 3.5) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !HAS_TRAIT(H, TRAIT_IRONMAN)) //We want this effect only on heavy hits.
 					H.Immobilize(5) //The fastest you can swing a weapon is once each 0.6 seconds, anything higher than 0.5 Immob. opens the door for stunlocking (see: katar).
 					shake_camera(H, 2, 2)
 					H.stuttering += 5
-				if(damage_amount > 10 && (!HAS_TRAIT(H, TRAIT_NOPAINSTUN) || !HAS_TRAIT(H, TRAIT_IRONMAN)))
+				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !HAS_TRAIT(H, TRAIT_IRONMAN))
 					H.Slowdown(clamp(damage_amount/10, 1, 5))
 					shake_camera(H, 1, 1)
 				if(H.show_redflash())

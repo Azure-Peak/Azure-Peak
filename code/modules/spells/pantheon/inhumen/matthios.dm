@@ -119,7 +119,7 @@
 		//enables thieves' cant when worn on neck
 		"Gilded Amulet of Matthios" = list(
 			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
-			m_cooldown = 30 MINUTES,
+			m_cooldown = 1 MINUTES,
 			m_devotion = 50,
 			m_rank = SKILL_LEVEL_NONE,
 			category = "Gilded Tools",
@@ -589,6 +589,7 @@
 	button_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	button_icon_state = "secularbarter"
 	sound = null
+	associated_skill = /datum/skill/misc/reading
 
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_ADJACENT

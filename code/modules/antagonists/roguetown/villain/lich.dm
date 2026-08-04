@@ -51,7 +51,9 @@
 		TRAIT_ARCYNE,
 		TRAIT_SELF_SUSTENANCE,
 		TRAIT_ALCHEMY_EXPERT,
-		TRAIT_SILVER_WEAK
+		TRAIT_SILVER_WEAK,
+		TRAIT_UNCONVERTIBLE,
+		TRAIT_BADTRAINER
 		)
 
 /datum/antagonist/lich/get_antag_cap_weight()
@@ -138,6 +140,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE) //Better than Skeles in swords, Zizo armor sets grant a sword.
 	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE) //If they take medium set, they can use the shield, very well.
 	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 6, TRUE) //always gets legendary knives regardless of specialisation.
+	H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_MASTER, TRUE)
 
 	//Mobility Nessessities
 	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 3, TRUE) //Above bandits/wretch, despite infinite stamina.
@@ -190,6 +193,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bestowcant/lich)
 		// Other role required spells.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
@@ -200,7 +204,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //Zombifies dead people
 		// Our Utility Spells
 		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo)
 		// This is probably a bad idea, but let's live a little.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)
 		// Consistancy as they're basically a ruler in the hierarchy above Necromancers
@@ -388,6 +392,9 @@
 		qdel(src)
 
 /obj/effect/proc_holder/spell/self/lich_announce
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon_state = "lich_command"
 	name = "Command Will"
 	desc = "Bellow a commandment, which will be heard by all undead creechers - irregardless of their location - underneath your command."
 	recharge_time = 20 SECONDS
@@ -396,7 +403,7 @@
 	if(user.stat)
 		return FALSE
 
-	var/calltext = input("Send Your Will To Your Undead", "UNDEAD ANNOUNCE") as text|null
+	var/calltext = sanitize(input("Send Your Will To Your Undead", "UNDEAD ANNOUNCE") as text|null)
 	if(!calltext)
 		return FALSE
 
@@ -415,6 +422,7 @@
 /datum/action/cooldown/spell/summon_terrorhog
 	name = "Summon Terrorhog"
 	desc = "First cast allows you to name your very own, loyal Terrorhog. Second cast lets you summon a Terrorhog. This is a single use spell when uses to summon. Beware, drooling feral hogs do not cease their rampage until they are dead, and cannot be leashed properly."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/classuniquespells/lichspells.dmi'
 	button_icon_state = "hog"
 
@@ -497,7 +505,7 @@
 	src.icon_state = initial(path_cast.icon_state)
 	src.pixel_x = initial(path_cast.pixel_x)
 	src.pixel_y = initial(path_cast.pixel_y)
-	src.color = "#777777" 
+	src.color = "#777777"
 	animate(src, alpha = 200, time = spawn_delay, easing = EASE_IN)
 	playsound(src, 'sound/misc/jumpscare (4).ogg', 50, TRUE)
 	addtimer(CALLBACK(src, PROC_REF(finalize_spawn_terrorhog)), spawn_delay)

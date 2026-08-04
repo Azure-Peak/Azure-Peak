@@ -16,7 +16,6 @@
 	flags_inv = HIDEBOOB
 	experimental_inhand = TRUE
 	salvage_amount = 2
-
 	grid_width = 64
 	grid_height = 64
 
@@ -28,6 +27,7 @@
 		flags_inv &= ~HIDEWINGS
 	else
 		flags_inv |= HIDEWINGS
+	persist_inv_flags(HIDEWINGS)
 	H.update_inv_armor()
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt
@@ -77,6 +77,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	material_category = ARMOR_MAT_LEATHER //So it doesn't make plate armor noises taking damage
 	sewrepair = TRUE
 	adjustable = CAN_CADJUST
 
@@ -182,6 +183,13 @@
 	desc = "A sleeveless shirt woven from glossy material. Custom-fit for its (now deceased) wearer."
 	allowed_race = list(/datum/species/elf/dark/raider)
 	sellprice = 10
+
+/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
+	name = "aesthetic custom-fit silk shirt"
+
+/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/apothshirt
 	name = "apothecary shirt"

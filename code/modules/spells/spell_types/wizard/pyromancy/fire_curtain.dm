@@ -7,7 +7,8 @@
 	desc = "Conjure a 5x2 curtain of flame at a target location, perpendicular to your facing. \
 	After a 2-second telegraph, the fire erupts. Burning for 10 seconds. \
 	The fire does not block movement but will burn anything that passes through or stands in it. \
-	You are not immune to your own curtain."
+	You are not immune to your own curtain.\n\
+	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	button_icon_state = "fire_curtain"
 	sound = 'sound/magic/fireball.ogg'
 	spell_color = GLOW_COLOR_FIRE
@@ -171,7 +172,7 @@
 		arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE)
 	else
 		var/fallback_zone = check_zone(hit_zone)
-		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, flat_integ = TRUE)
+		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, no_debuff = TRUE)
 		L.apply_damage(tick_damage, BURN, fallback_zone, armor_block)
 	apply_scorch_stack(L, 1, hit_zone)
 	L.emote("pain", forced = TRUE)
