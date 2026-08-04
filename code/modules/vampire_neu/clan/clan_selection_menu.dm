@@ -54,15 +54,14 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 			clans += list(clan_to_ui(clan_type, C))
 		qdel(C)
 
-	if(!user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)) //Remove this if shit breaks. PREVENTS CATTIFF VLORD, TAKE A REAL BLOODLINE. YOU'RE NOT A VAGRANT. STOP MINMAXXING YOUR POTENCIES.
-		clans += list(list(
+	clans += list(list(
 			"id" = "custom",
 			"name" = "Customised Caitiff Clan",
 			"desc" = "Forge your own cursed bloodline outside the ancient houses. The elders will not claim you, but neither will their chains bind you.",
 			"curse" = "Unstable legacy.",
-			"downside" = "Have no ancient house to shelter your name.",
-			"bloodPreference" = "Your hunger is your own.",
-			"tagline" = "Forge your own cursed bloodline",
+			"downside" = "Have no ancient house to shelter your name. Your clan has no additional defining traits.",
+			"bloodPreference" = "You'll drink anything that moves almost.",
+			"tagline" = "Forge your own cursed lowborne bloodline",
 			"icon" = null,
 			"isCustom" = TRUE,
 			"covens" = list(),
@@ -71,7 +70,7 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 			"lordTraits" = list(),
 			"clanTraits" = list(),
 			"vitaeBonus" = 0
-		))
+	))
 
 	var/lang = user?.client?.preferred_ui_language || DEFAULT_PREFERRED_UI_LANGUAGE
 	data["clans"] = clans
