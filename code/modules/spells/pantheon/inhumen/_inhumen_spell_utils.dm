@@ -50,8 +50,7 @@
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
-		//Our Spells
-		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/zizo)
+		//Our Extra Spell -> Analyise construct/building durability. Zizo-Unique Progress aspect, niché use but y'know. Lady of Artifice and all.
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)
 		//gigajank to ensure we get both Profane Bone + Strip Knowledge at once for this path
 		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/stripknowledgeorprofane)
@@ -60,6 +59,8 @@
 		//re-add our stuff
 		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/stripknowledge)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/zizo/profane)
+		//we lose divine blast, we don't need debuffs on top of 4+ offensives w/ magic/miracle
+		user.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -118,6 +119,8 @@
 		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation/zizo)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bone_cataclysm)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
+		//we lose divine blast, we don't need debuffs on top of magic on top of being immune to bloodloss
+		user.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 		grant_poke_spell(user)
 
 	user.visible_message(

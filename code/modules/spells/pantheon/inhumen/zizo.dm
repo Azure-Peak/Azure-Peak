@@ -543,8 +543,16 @@
 // Unlife: Full skeletonization (minus head) + MOB_UNDEAD, grants bonechill and raise_deadite. -- Kunai: We already have raise_deadite, so it's a moot point to give them the Necromancer version of it. Just gave them bonemend and a few more traits to give the vibe of a 'half-lich'.
 // Both paths grant undead language and TRAIT_ARCYNE. One-time use - cannot be cast again after completion.
 
-//SOEP -- Undeath gets: miracle-raise undead, bone catacalysm + raise deadite + classic undeath traits. Offensive varient w/ silver weakness and stamina-control for functional immortality.
-//SOEP -- Progress gets: rapid skill leveling, ability to consume lux into health and stamina, more utility points for casting. Defensive varient w/ focus on talent and assistance.
+/*
+SOEP
+ -- Undeath gets: miracle-raise undead, bone catacalysm + raise deadite + classic undeath traits. Offensive varient w/ silver weakness and stamina-control for functional immortality.
+ -- Progress gets: rapid skill leveling, ability to consume lux into health and stamina, more utility points for casting. Defensive varient w/ focus on talent and assistance.
+ -- Both paths will LOSE divine blast if you have it, you don't get to chain 4 offensive spells w/ debuffs and magic all at once. Nessessary, Zizo's divine blast is strong enough to make up for it partly.
+
+ -- Int reduction/Profane both on Progress is still strong tho (you can bleed out w/ this), as well as spite to weaken a singluar target a fair-bit. Nessessary, to keep up w/ undeath route.
+ -- If missionaries become too problematic, give a ritualist trait-check and if you lack it we remove spite on doing rituos and move that over so zeretics can have it but not adv missionaries.
+
+ */
 
 /datum/action/cooldown/spell/zizo/rituos
 	name = "Rituos"
@@ -829,15 +837,6 @@
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	range = SPELL_RANGE_GROUND //Longer than regular diagnosis range. Progress Baby!
 	antimagic_allowed = FALSE //Arcane, duh.
-
-// Diagnosis (T?) - Progress Path: Reflavored version of Pestra's diagnosis, it basically does what you'd expect. Has a highly inefficent cost for some unique perks like extra range.
-/obj/effect/proc_holder/spell/invoked/diagnose/zizo
-	name = "Profane Diagnosis"
-	desc = "Call upon Enochian magicka and Zizo's stolen medical knowledge to read the body's humors and hidden ailments at a sizable distance. Reveals a target's condition with perfect clarity. To perceive one's blood content, all you'll need is but an incision."
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	range = SPELL_RANGE_GROUND //Longer than regular diagnosis range. Progress Baby!
-	devotion_cost = 15 //Significantly more expensive (3x)
 
 // Enochian Analyze (T?) - Progress Path: A long-range miracle version of the spell engineering goggles give you, Progress Baby!
 /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo
