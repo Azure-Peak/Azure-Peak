@@ -19,7 +19,7 @@ jobs:
           key: ${{ runner.os }}-spacemandmm-${{ hashFiles('dependencies.sh') }}
           restore-keys: |
             ${{ runner.os }}-spacemandmm-
-      
+
       - name: Setup Bun
         uses: ./.github/actions/setup_bun
 
@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-bootstrap-${{ hashFiles('tools/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-bootstrap-
-  
+
       - name: Restore Rust cache
         uses: actions/cache@v4
         with:
@@ -68,7 +68,7 @@ jobs:
         run: |
           tools/bootstrap/python tools/ticked_file_enforcement/ticked_file_enforcement.py < tools/ticked_file_enforcement/schemas/roguetown_dme.json
           tools/bootstrap/python tools/ticked_file_enforcement/ticked_file_enforcement.py < tools/ticked_file_enforcement/schemas/unit_tests.json
-      
+
       - name: Check Define Sanity
         if: steps.linter-setup.conclusion == 'success' && !cancelled()
         run: tools/bootstrap/python -m define_sanity.check
@@ -86,7 +86,7 @@ jobs:
         if: steps.linter-setup.conclusion == 'success' && !cancelled()
         run: |
           tools/bootstrap/python -m mapmerge2.dmm_test
-          tools/bootstrap/python -m tools.maplint.source 
+          tools/bootstrap/python -m tools.maplint.source
 
       - name: Check Cutter
         if: steps.linter-setup.conclusion == 'success' && !cancelled()
@@ -109,7 +109,6 @@ jobs:
       #   if: steps.linter-setup.conclusion == 'success' && !cancelled()
       #   run: bash tools/ci/check_misc.sh
 
-      # TODO: Re-enable this once I actually go down to fix TGUI React Issues
-      # - name: Run TGUI Checks
-      #   if: steps.linter-setup.conclusion == 'success' && !cancelled()
-      #   run: tools/build/build.sh --ci lint tgui-test
+      - name: Run TGUI Checks
+        if: steps.linter-setup.conclusion == 'success' && !cancelled()
+        run: tools/build/build.sh --ci lint tgui-test

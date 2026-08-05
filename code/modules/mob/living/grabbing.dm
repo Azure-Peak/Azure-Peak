@@ -19,6 +19,7 @@
 	var/handaction
 	var/bleed_suppressing = 0.25 //multiplier for how much we suppress bleeding, can accumulate so two grabs means 50% less bleeding; each grab being 25% basically.
 	var/chokehold = FALSE
+	var/sippy = FALSE
 	experimental_inhand = FALSE
 
 /atom/movable //reference to all obj/item/grabbing
@@ -514,7 +515,9 @@
 		var/obj/item/I = locate(sublimb_grabbed) in L.embedded_objects
 		if(QDELETED(I) || QDELETED(L) || !L.remove_embedded_object(I))
 			return FALSE
-		L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class) //It hurts to rip it out, get surgery you dingus.
+
+		if(!(HAS_TRAIT(M, TRAIT_LEECHRESIST) && istype(I, /obj/item/natural/worms/leech)))
+			L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier * I.w_class) //It hurts to rip it out, get surgery you dingus.
 		user.dropItemToGround(src) // this will unset vars like limb_grabbed
 		user.put_in_hands(I)
 		C.emote("paincrit", TRUE)

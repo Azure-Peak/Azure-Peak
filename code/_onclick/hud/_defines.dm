@@ -64,10 +64,10 @@
 #define ui_borg_album "CENTER+4:21,SOUTH:5"			//borgs
 #define ui_borg_language_menu "CENTER+4:21,SOUTH+1:5"	//borgs
 
-#define ui_monkey_head "CENTER-5:13,SOUTH:5"	//monkey
-#define ui_monkey_mask "CENTER-4:14,SOUTH:5"	//monkey
-#define ui_monkey_neck "CENTER-3:15,SOUTH:5"	//monkey
-#define ui_monkey_back "CENTER-2:16,SOUTH:5"	//monkey
+#define ui_spirit_head "CENTER-5:13,SOUTH:5"	//spirit
+#define ui_spirit_mask "CENTER-4:14,SOUTH:5"	//spirit
+#define ui_spirit_back "CENTER-2:16,SOUTH:5"	//spirit
+#define ui_spirit_neck "CENTER-3:15,SOUTH:5"	//spirit
 
 #define ui_drone_drop "CENTER+1:18,SOUTH:5"     //maintenance drones
 #define ui_drone_pull "CENTER+2:2,SOUTH:5"      //maintenance drones
@@ -185,7 +185,6 @@
 #define rogueui_stam "WEST-1:0,CENTER+4"
 #define rogueui_blood "WEST-1:6,CENTER+4:17"
 #define rogueui_vitae "WEST-5,CENTER+2"
-#define rogueui_breath "WEST,CENTER+2"
 #define rogueui_feint  "WEST-1:-6,SOUTH+10:15"
 
 #define rogueui_cmode "WEST-1:-16,CENTER+1"

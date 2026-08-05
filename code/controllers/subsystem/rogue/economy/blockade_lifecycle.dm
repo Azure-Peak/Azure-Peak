@@ -17,7 +17,7 @@
 		return null
 	return pickweight(eligible)
 
-/datum/controller/subsystem/economy/proc/roll_blockade()
+/datum/controller/subsystem/economy/proc/roll_blockade(replenish = FALSE)
 	var/list/candidates = list()
 	for(var/region_id in GLOB.economic_regions)
 		var/datum/economic_region/ER = GLOB.economic_regions[region_id]
@@ -25,12 +25,16 @@
 			continue
 		if(ER.is_region_blockaded)
 			continue
+		if(replenish && !ER.blockade_replenish_eligible)
+			continue
 		if(ER.day_last_cleared >= 0 && (GLOB.dayspassed - ER.day_last_cleared) < BLOCKADE_RECLEAR_COOLDOWN)
 			continue
 		var/datum/threat_region/TR = SSregionthreat.get_region(ER.threat_region_id)
 		if(!TR)
 			continue
 		if(!pick_blockade_faction_for(TR))
+			continue
+		if(!SSquestpool.has_landmark_for_region(QUEST_BLOCKADE_DEFENSE, ER.threat_region_id))
 			continue
 		candidates += region_id
 	if(!length(candidates))
@@ -41,14 +45,25 @@
 	var/fid = pick_blockade_faction_for(TR)
 	if(!fid)
 		return null
+	return place_blockade(chosen_id, fid)
+
+/datum/controller/subsystem/economy/proc/place_blockade(region_id, faction_id)
+	var/datum/economic_region/ER = GLOB.economic_regions[region_id]
+	if(!ER)
+		return null
+	if(find_blockade_for_region(region_id))
+		return null
+	if(!SSquestpool.has_landmark_for_region(QUEST_BLOCKADE_DEFENSE, ER.threat_region_id))
+		return null
 
 	var/datum/blockade/B = new()
-	B.region_id = chosen_id
+	B.region_id = region_id
 	B.threat_region_name = ER.threat_region_id
-	B.faction_id = fid
+	B.faction_id = faction_id
 	B.day_started = GLOB.dayspassed
 	GLOB.active_blockades += B
 	ER.is_region_blockaded = TRUE
+	SStreasury.dirty_market_view()
 	record_round_statistic(STATS_BLOCKADES_FIRED, 1)
 	if(daily_report_diff)
 		var/list/fired = daily_report_diff["blockades_fired"]
@@ -64,6 +79,7 @@
 	if(ER)
 		ER.is_region_blockaded = FALSE
 		ER.day_last_cleared = GLOB.dayspassed
+		SStreasury.dirty_market_view()
 	GLOB.active_blockades -= B
 	if(reason == "cleared")
 		record_round_statistic(STATS_BLOCKADES_CLEARED, 1)
@@ -78,6 +94,19 @@
 	for(var/i in 1 to count)
 		if(!roll_blockade())
 			break
+
+/datum/controller/subsystem/economy/proc/tick_blockade_replenish()
+	if(GLOB.dayspassed < BLOCKADE_REPLENISH_FIRST_DAY || GLOB.dayspassed > BLOCKADE_REPLENISH_LAST_DAY)
+		return
+	if(length(GLOB.active_blockades) >= BLOCKADE_REPLENISH_FLOOR)
+		return
+	var/budget = clamp(BLOCKADE_REPLENISH_BUDGET_BASE + round(get_effective_player_count() * BLOCKADE_REPLENISH_BUDGET_PER_PLAYER), BLOCKADE_REPLENISH_BUDGET_BASE, BLOCKADE_REPLENISH_BUDGET_MAX)
+	if(blockade_replenish_spent >= budget)
+		return
+	if(!prob(BLOCKADE_REPLENISH_DAILY_CHANCE))
+		return
+	if(roll_blockade(replenish = TRUE))
+		blockade_replenish_spent++
 
 /datum/controller/subsystem/economy/proc/announce_blockade_start(datum/blockade/B)
 	var/datum/economic_region/ER = B.get_region()

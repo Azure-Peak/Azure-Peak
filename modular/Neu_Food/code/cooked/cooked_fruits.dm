@@ -1,6 +1,7 @@
 // Food that is primarily made out of a cooked fruit component.
 /*	.............   Cooked pumpkin   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed
+	dish_type = DISH_VEGETABLE
 	name = "cooked pumpkin mash"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_fruits.dmi'
 	icon_state = "pumpkinmash"
@@ -8,5 +9,5 @@
 	faretype = FARE_POOR
 	portable = FALSE
 	bitesize = 3
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	rotprocess = SHELFLIFE_LONG

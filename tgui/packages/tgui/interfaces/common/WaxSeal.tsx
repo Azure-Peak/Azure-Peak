@@ -61,14 +61,7 @@ type WaxSealProps = {
 };
 
 export const WaxSeal = (props: WaxSealProps) => {
-  const {
-    label,
-    mark,
-    royal = false,
-    color = 'red',
-    size = 54,
-    style,
-  } = props;
+  const { label, mark, royal = false, color = 'red', size = 54, style } = props;
   const palette = PALETTES[color];
   const glyph = mark ?? label.trim().charAt(0).toUpperCase();
 
@@ -146,7 +139,7 @@ export const WaxSeal = (props: WaxSealProps) => {
       ) : (
         <text
           fill={palette.glyph}
-          fontFamily='"Palatino Linotype", "Times New Roman", serif'
+          fontFamily='"Lora", Georgia, serif'
           fontSize="30"
           fontWeight="700"
           stroke={palette.detail}

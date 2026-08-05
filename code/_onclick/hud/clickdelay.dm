@@ -55,7 +55,7 @@
 
 /atom/movable/screen/action_bar/defensedelay
 	name = "defense readiness"
-	desc = "My readiness to defend. If the light is gone, I cannot dodge or parry."
+	desc = "My readiness in combat. If the light is gone, I cannot dodge or parry. If it is red, I am in combat, and cannot perform certain stealthy actions."
 	icon = 'icons/mob/roguehud.dmi'
 	icon_state = "defdelay0"
 	mouse_opacity = TRUE
@@ -73,6 +73,9 @@
 			if((L.last_parry + L.parrydelay) > world.time)
 				icon_state = "defdelay1"
 				return TRUE
+	if(L.in_combat_until > world.time)
+		icon_state = "defdelay0c"
+		return TRUE
 	icon_state = "defdelay0"
 	return FALSE
 

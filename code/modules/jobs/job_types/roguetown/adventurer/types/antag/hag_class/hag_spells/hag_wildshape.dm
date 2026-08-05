@@ -24,6 +24,8 @@
 
 /mob/living/carbon/human/species/wildshape/hag
 	name = "True Hag"
+	gender = NEUTER
+	pronouns = IT_ITS
 	race = /datum/species/hag_true_form
 	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
@@ -31,6 +33,11 @@
 	wildshape_icon = 'icons/mob/unique_shapeshifts/hag_shape.dmi'
 	wildshape_icon_state = "hag"
 	pixel_x = -16
+
+/mob/living/carbon/human/species/wildshape/hag/after_creation()
+	..()
+	real_name = "Mirebeast"
+	name = real_name
 
 /obj/item/clothing/suit/roguetown/armor/skin_armor/hag_skin
 	slot_flags = null
@@ -75,9 +82,7 @@
 		TRAIT_HARDDISMEMBER,
 		TRAIT_PIERCEIMMUNE,
 		TRAIT_LONGSTRIDER,
-		TRAIT_KNEESTINGER_IMMUNITY,
-		TRAIT_LEECHIMMUNE,
-		TRAIT_AZURENATIVE
+		TRAIT_BOGWALKER
 	)
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
 	nojumpsuit = 1
@@ -105,6 +110,7 @@
 	possible_shapes = list(
 		/mob/living/carbon/human/species/wildshape/hag
 	)
+	disallowed_equipment_type = list(/obj/item/rogueweapon)
 
 /obj/effect/proc_holder/spell/self/wildshape/hag_true_form/cast(list/targets, mob/living/carbon/human/user = usr)
 	if(!COOLDOWN_FINISHED(user, hag_transform_lockout))

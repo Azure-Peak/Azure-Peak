@@ -4,6 +4,7 @@
 	bottle_name = "wheat beer"
 	bottle_desc = "A bottle of locally-brewed wheat beer. Has a light flavor. Staple of the west."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/beer
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/beer
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 6)
 	brewed_amount = 6
@@ -15,6 +16,7 @@
 	bottle_name = "oat ale"
 	bottle_desc = "A bottle of locally-brewed oat ale. Has a rich, hearty flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/ale
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/beer_oat
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/oat = 6)
 
 /datum/brewing_recipe/beer/rice
@@ -22,4 +24,5 @@
 	bottle_name = "rice wine"
 	bottle_desc = "A bottle of locally-brewed rice wine. Has a sweet, umami flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/ricewine
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/rice = 6)

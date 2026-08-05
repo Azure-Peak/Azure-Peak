@@ -99,7 +99,7 @@
 	icon_state = "grimace_box"
 	var/fluff_desc = null
 	var/list/finished_ckeys = list()
-	var/dice_roll = null
+	var/looted_box = FALSE
 	sellprice = 150
 
 	grid_width = 32
@@ -107,31 +107,31 @@
 
 /obj/item/mundane/puzzlebox/impossible/Initialize()
 	. = ..()
-	dice_roll = rand(11,20)
 	fluff_desc = pick("It, frankly, looks nearly impossible.","Its centerpiece is that of Astrata banishing a heretic from this world.","Without doubt, this is rather befuddling.","It looks arcane and nearly-impossible.","Why do I feel like I could try for hours and not succeed at this?","Even a bored archivist would probably have trouble with this one.","It looks nearly impossible.")
 	desc += "[fluff_desc]"
 
 /obj/item/mundane/puzzlebox/impossible/attack_self(mob/living/user)
 	var/ckey = user.ckey
+	if(looted_box)
+		to_chat(user, span_notice("This puzzlebox has already yielded its contents, all that remains past the open slider is an empty void."))
+		return
 	if(ckey in finished_ckeys)
 		to_chat(user, span_warning("I've already tried my hand at [src]."))
 		return
 	playsound(src.loc, 'sound/items/wood_sharpen.ogg', 75, TRUE)
 	playsound(src.loc, 'sound/items/visor.ogg', 75, TRUE)
-	if (alert(user, "My fingers trace the outside of this box. It looks nearly impossible. Do I try to solve it?", "ROGUETOWN", "Yes", "No") != "Yes")
+	if(alert(user, "My fingers trace the outside of this box. It looks nearly impossible. Do I try to solve it?", "ROGUETOWN", "Yes", "No") != "Yes")
 		return
 	if(do_after(user,100, target = src))
-		if((dice_roll) + 4 <= user.STAINT)
+		var/success_chance = clamp(10 + user.STAINT, 10, 30)
+		if(prob(success_chance))
 			to_chat(user, span_notice("After much deliberation, I solve \the [src]!"))
 			user.add_stress(/datum/stressevent/puzzle_impossible)
 			finished_ckeys += ckey
 			playsound(src.loc, 'sound/foley/doors/lockrattle.ogg', 75, TRUE)
-			to_chat(user, span_notice("As I pop open \the [src], I feel a tingling wave run from my head to my feet. A piece of an azure crystal tumbles out. When I grab it, it's gone- and I suddenly feel invigorated."))
-			user.STAINT += rand(1,5)
-			user.STASTR += rand(1,5)
-			user.STASPD += rand(1,5)
-			user.STACON += rand(1,5)
-			user.STAWIL += rand(1,5)
+			to_chat(user, span_notice("As I pop open \the [src], I feel a tingling wave run from my head to my feet. Excitement bubbling in my core as two particularly rare rings tumble forth!"))
+			new /obj/effect/spawner/lootdrop/puzzlebox_rings(get_turf(src))
+			looted_box = TRUE
 			finished_ckeys += ckey
 			playsound(src.loc, 'sound/foley/doors/lock.ogg', 75, TRUE)
 			playsound(src.loc, 'sound/items/visor.ogg', 75, TRUE)
@@ -165,19 +165,19 @@
 	menu_item = pick(1,2,3,4,5) //get the meal. rand does not work for this and i have no idea why.
 	switch(menu_item)
 		if(1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS, /datum/reagent/drug/space_drugs = 2, /datum/reagent/berrypoison = 1)
+			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL, /datum/reagent/drug/space_drugs = 2, /datum/reagent/berrypoison = 1)
 			tastes = list("salty bitter syrup" = 2, "bad mushrooms" = 1)
 		if(2)
-			list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE, /datum/reagent/medicine/stronghealth = 1, /datum/reagent/water/salty = 3)
+			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER, /datum/reagent/medicine/stronghealth = 1, /datum/reagent/water/salty = 3)
 			tastes = list("overpoweringly salty rous meat" = 2)
 		if(3)
-			list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE, /datum/reagent/medicine/stronghealth = 3, /datum/reagent/water/salty = 3)
+			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF, /datum/reagent/medicine/stronghealth = 3, /datum/reagent/water/salty = 3)
 			tastes = list("cabbit meat" = 1, "thin stew" = 1)
 		if(4)
-			list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE, /datum/reagent/medicine/stronghealth = 3, /datum/reagent/medicine/strongmana = 3, /datum/reagent/water/salty = 3)
+			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF, /datum/reagent/medicine/stronghealth = 3, /datum/reagent/medicine/strongmana = 3, /datum/reagent/water/salty = 3)
 			tastes = list("salt" = 2, "saiga meat" = 1, "vegetables" = 1)
 		if(5)
-			list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD, /datum/reagent/medicine/stronghealth = 6, /datum/reagent/medicine/strongmana = 6)
+			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS, /datum/reagent/medicine/stronghealth = 6, /datum/reagent/medicine/strongmana = 6)
 			tastes = list("hearty meat stew" = 1, "fresh vegetables" = 1)
 	. = ..()
 

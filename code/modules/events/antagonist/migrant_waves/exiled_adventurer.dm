@@ -20,13 +20,15 @@
 
 /datum/migrant_wave/werewolf
 	name = "Exiled Adventurer (Verevolf)"
-	roles = list(
+	track = MIGRANT_TRACK_EVENT
+	required_roles = list(
 		/datum/migrant_role/werewolf = 1,
 	)
 	can_roll = FALSE
 
 /datum/migrant_role/werewolf
-	name = "Adventurer"
+	name = "Verevolf"
+	role_category = "Adventurer"
 	antag_datum = /datum/antagonist/werewolf
 	advclass_cat_rolls = list(CTAG_ADVENTURER = 5)
 
@@ -52,18 +54,20 @@
 
 /datum/migrant_wave/vampire
 	name = "Exiled Adventurer (Vampire)"
-	roles = list(
+	track = MIGRANT_TRACK_EVENT
+	required_roles = list(
 		/datum/migrant_role/vampire = 1,
 	)
 	can_roll = FALSE
 
 /datum/migrant_role/vampire
-	name = "Adventurer"
+	name = "Vampire"
+	role_category = "Adventurer"
 	antag_datum = /datum/antagonist/vampire
 	advclass_cat_rolls = list(CTAG_ADVENTURER = 5)
 
 /datum/round_event_control/antagonist/migrant_wave/unbound_death_knight
-	name = "Death knight (Unbound)"
+	name = "Death Knight (Unbound)"
 	wave_type = /datum/migrant_wave/unbound_death_knight
 
 	weight = 6
@@ -84,13 +88,15 @@
 
 /datum/migrant_wave/unbound_death_knight
 	name = "Death knight (Unbound)"
-	roles = list(
+	track = MIGRANT_TRACK_EVENT
+	required_roles = list(
 		/datum/migrant_role/unbound_death_knight = 1,
 	)
 	can_roll = FALSE
 
 /datum/migrant_role/unbound_death_knight
-	name = "Adventurer"
+	name = "Death Knight"
+	role_category = "Adventurer"
 	antag_datum = /datum/antagonist/unbound_death_knight
 	advclass_cat_rolls = null
 
@@ -111,12 +117,14 @@
 
 /datum/migrant_wave/unbound_spellblade
 	name = "Ancient Spellblade (Unbound)"
-	roles = list(
+	track = MIGRANT_TRACK_EVENT
+	required_roles = list(
 		/datum/migrant_role/unbound_spellblade = 1,
 	)
 	can_roll = FALSE
 
 /datum/migrant_role/unbound_spellblade
-	name = "Adventurer"
+	name = "Spellblade"
+	role_category = "Adventurer"
 	antag_datum = /datum/antagonist/unbound_spellblade
 	advclass_cat_rolls = null

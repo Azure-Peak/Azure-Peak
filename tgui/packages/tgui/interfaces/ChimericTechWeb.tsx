@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 import {
   Box,
   Button,
@@ -58,10 +58,11 @@ export const ChimericTechWeb = (props) => {
       }
       return true;
     })
-    .sort((a, b) => 
-      (b.can_afford as any) - (a.can_afford as any) ||
-      a.required_tier - b.required_tier ||
-      a.name.localeCompare(b.name)
+    .sort(
+      (a, b) =>
+        (b.can_afford as any) - (a.can_afford as any) ||
+        a.required_tier - b.required_tier ||
+        a.name.localeCompare(b.name),
     );
 
   // Filter History Tab
@@ -79,19 +80,31 @@ export const ChimericTechWeb = (props) => {
         <Section>
           <Stack align="center" justify="space-between">
             <Stack.Item>
-               <Box color="label">Points: <Box inline color="white" bold>{points}</Box></Box>
-               <Box color="label">Tier: <Box inline color="white" bold>{tier}</Box></Box>
+              <Box color="label">
+                Points:{' '}
+                <Box inline color="white" bold>
+                  {points}
+                </Box>
+              </Box>
+              <Box color="label">
+                Tier:{' '}
+                <Box inline color="white" bold>
+                  {tier}
+                </Box>
+              </Box>
             </Stack.Item>
             <Stack.Item>
               <Tabs>
-                <Tabs.Tab 
-                  selected={tab === 'research'} 
-                  onClick={() => setTab('research')}>
+                <Tabs.Tab
+                  selected={tab === 'research'}
+                  onClick={() => setTab('research')}
+                >
                   Available ({choices.length})
                 </Tabs.Tab>
-                <Tabs.Tab 
-                  selected={tab === 'history'} 
-                  onClick={() => setTab('history')}>
+                <Tabs.Tab
+                  selected={tab === 'history'}
+                  onClick={() => setTab('history')}
+                >
                   Unlocked ({unlocked.length})
                 </Tabs.Tab>
               </Tabs>
@@ -109,17 +122,23 @@ export const ChimericTechWeb = (props) => {
               <NoticeBox>No research matches your search.</NoticeBox>
             )}
             {filteredChoices.map((node) => (
-              <Box 
-                key={node.path} 
-                mb={1} 
-                py={1} 
+              <Box
+                key={node.path}
+                mb={1}
+                py={1}
                 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
               >
                 <Stack align="center">
                   <Stack.Item grow>
-                    <Box bold fontSize="1.1em" color="teal">{node.name}</Box>
-                    <Box color="label">Tier {node.required_tier} | Cost {node.cost}</Box>
-                    <Box italic color="gray">{node.desc}</Box>
+                    <Box bold fontSize="1.1em" color="teal">
+                      {node.name}
+                    </Box>
+                    <Box color="label">
+                      Tier {node.required_tier} | Cost {node.cost}
+                    </Box>
+                    <Box italic color="gray">
+                      {node.desc}
+                    </Box>
                   </Stack.Item>
                   <Stack.Item>
                     <Button
@@ -139,7 +158,7 @@ export const ChimericTechWeb = (props) => {
 
         {/* History View */}
         {tab === 'history' && (
-          <Section 
+          <Section
             title="Unlocked Knowledge"
             buttons={<SearchBar search={search} setSearch={setSearch} />}
           >
@@ -147,15 +166,21 @@ export const ChimericTechWeb = (props) => {
               <NoticeBox>No discovered technologies found.</NoticeBox>
             )}
             {filteredUnlocked.map((node, i) => (
-              <Box 
-                key={i} 
-                mb={1} 
-                py={1} 
+              <Box
+                key={i}
+                mb={1}
+                py={1}
                 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
               >
-                <Box bold color="good">{node.name}</Box>
-                <Box color="label" fontSize="0.9em">Tier {node.tier}</Box>
-                <Box color="white" mt={0.5}>{node.desc}</Box>
+                <Box bold color="good">
+                  {node.name}
+                </Box>
+                <Box color="label" fontSize="0.9em">
+                  Tier {node.tier}
+                </Box>
+                <Box color="white" mt={0.5}>
+                  {node.desc}
+                </Box>
               </Box>
             ))}
           </Section>

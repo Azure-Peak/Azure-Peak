@@ -56,6 +56,14 @@
 	name = "Custom #2"
 	custom_index = 2
 
+/datum/mob_descriptor/prominent/custom/three
+	name = "Custom #3"
+	custom_index = 3
+
+/datum/mob_descriptor/prominent/custom/four
+	name = "Custom #4"
+	custom_index = 4
+
 /datum/mob_descriptor/prominent/hunched_over
 	name = "Hunched Over"
 	verbage = "%ARE%"

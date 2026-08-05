@@ -1,6 +1,5 @@
 GLOBAL_LIST_INIT(creamable, typecacheof(list(
 	/mob/living/carbon/human,
-	/mob/living/carbon/monkey,
 	/mob/living/simple_animal/pet/dog/corgi,
 	/mob/living/silicon/ai)))
 
@@ -26,8 +25,6 @@ GLOBAL_LIST_INIT(creamable, typecacheof(list(
 			creamface.icon_state = "creampie_lizard"
 		else
 			creamface.icon_state = "creampie_human"
-	else if(ismonkey(parent))
-		creamface.icon_state = "creampie_monkey"
 	else if(iscorgi(parent))
 		creamface.icon_state = "creampie_corgi"
 

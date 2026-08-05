@@ -67,6 +67,32 @@
 		return
 	return locate(T.x, T.y, T.z + offset)
 
+/// Like get_turf_above, but for a list of turfs all on the same Z-level.
+/datum/controller/subsystem/mapping/proc/get_same_z_turfs_above(list/turf/turfs)
+	if(!initialized || !LAZYLEN(turfs))
+		return
+	var/turf/first_turf = turfs[1]
+	var/offset = multiz_levels[first_turf.z][Z_LEVEL_UP]
+	if(!offset)
+		return
+	offset += first_turf.z
+	. = list()
+	for(var/turf/old_turf as anything in turfs)
+		. += locate(old_turf.x, old_turf.y, offset)
+
+/// Like get_turf_below, but for a list of turfs all on the same Z-level.
+/datum/controller/subsystem/mapping/proc/get_same_z_turfs_below(list/turf/turfs)
+	if(!initialized || !LAZYLEN(turfs))
+		return
+	var/turf/first_turf = turfs[1]
+	var/offset = multiz_levels[first_turf.z][Z_LEVEL_DOWN]
+	if(!offset)
+		return
+	offset = first_turf.z - offset
+	. = list()
+	for(var/turf/old_turf as anything in turfs)
+		. += locate(old_turf.x, old_turf.y, offset)
+
 // Prefer not to use this one too often
 /datum/controller/subsystem/mapping/proc/get_station_center()
 	var/station_z = levels_by_trait(ZTRAIT_STATION)[1]

@@ -124,15 +124,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/machinery/attack_paw(mob/living/user)
-	if(user.used_intent.type != INTENT_HARM)
-		return attack_hand(user)
-	else
-		user.changeNext_move(CLICK_CD_MELEE)
-//		user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
-		user.visible_message("<span class='danger'>[user.name] smashes against \the [src.name] with its paws.</span>", null, null, COMBAT_MESSAGE_RANGE)
-		take_damage(4, BRUTE, "blunt", 1)
-
 /obj/machinery/_try_interact(mob/user)
 	return ..()
 
@@ -304,8 +295,10 @@
 	adjusted_climb_time -= user.STASPD * 2
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 
+	if(!user.start_climb())
+		return
 	structureclimber = user
-	if(do_mob(user, user, adjusted_climb_time))
+	if(do_mob(user, user, adjusted_climb_time, extra_checks = user.climb_check_callback()))
 		if(src.loc) //Checking if structure has been destroyed
 			if(do_climb(user))
 				user.visible_message("<span class='warning'>[user] climbs onto [src].</span>", \
@@ -318,4 +311,5 @@
 				. = 1
 			else
 				to_chat(user, "<span class='warning'>I fail to climb onto [src].</span>")
+	user.end_climb()
 	structureclimber = null

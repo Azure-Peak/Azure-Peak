@@ -25,85 +25,63 @@
 
 /datum/supply_pack/rogue/ranged_weapons/hurlbat
 	name = "Hurlbat"
-	cost = 50 // 1 Steel Ingot, but a pretty strong weapon. 
+	cost = 50 // 1 Steel Ingot, but a pretty strong weapon.
 	contains = list(/obj/item/rogueweapon/stoneaxe/hurlbat)
 
 /datum/supply_pack/rogue/ranged_weapons/crossbow
 	name = "Crossbow"
 	cost = 30
-	contains = list(
-					/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
-				)
+	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
 
 /datum/supply_pack/rogue/ranged_weapons/crossbow/slurbow
 	name = "Slurbow"
 	cost = 30
-	contains = list(
-					/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow,
-				)
+	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow)
 
 /datum/supply_pack/rogue/ranged_weapons/recurvebow
 	name = "Bow, Recurve"
 	cost = 20
-	contains = list(
-					/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve,
-				)
+	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve)
 
 /datum/supply_pack/rogue/ranged_weapons/longbow
 	name = "Bow, Longbow"
 	cost = 45
-	contains = list(
-					/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow,
-				)
+	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow)
 
 /datum/supply_pack/rogue/ranged_weapons/quiver
 	name = "Quiver"
 	cost = 5
-	contains = list(
-					/obj/item/quiver,
-				)
+	contains = list(/obj/item/quiver)
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/arrows
 	name = "Quiver of Arrows"
 	cost = 35 // 2 Iron Ingots
-	contains = list(
-					/obj/item/quiver/arrows,
-				)
+	contains = list(/obj/item/quiver/arrows)
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/barrows
 	name = "Quiver of Bodkin Arrows"
 	cost = 100 // 2 Steel Ingots + Sticks
-	contains = list(
-					/obj/item/quiver/bodkin,
-				)
+	contains = list(/obj/item/quiver/bodkin)
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/poisonarrows
 	name = "Quiver of Poison Arrows"
-	cost = 100 
-	contains = list(
-					/obj/item/quiver/poisonarrows,
-				)
+	cost = 100
+	contains = list(/obj/item/quiver/poisonarrows)
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/bolts
 	name = "Quiver of Bolts"
 	cost = 35 // 2 Iron Ingots
-	contains = list(
-					/obj/item/quiver/bolt/standard
-				)
+	contains = list(/obj/item/quiver/bolt/standard)
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/lightbolts
 	name = "Quiver of Light Bolts"
 	cost = 30
-	contains = list(
-					/obj/item/quiver/bolt/light
-				)
+	contains = list(/obj/item/quiver/bolt/light)
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/pyrobolts
 	name = "Quiver of Pyroclastic Bolts"
 	cost = 100
-	contains = list(
-					/obj/item/quiver/bolt/pyro,
-				)
+	contains = list(/obj/item/quiver/bolt/pyro)
 
 /datum/supply_pack/rogue/ranged_weapons/slingandpouch
 	name = "Sling and Pouch"
@@ -117,13 +95,9 @@
 /datum/supply_pack/rogue/ranged_weapons/slingiron
 	name = "Sling Bullets Pouch, Iron"
 	cost = 35 // 2 Iron Ingots
-	contains = list(
-					/obj/item/quiver/sling/iron,
-				)
+	contains = list(/obj/item/quiver/sling/iron)
 
 /datum/supply_pack/rogue/ranged_weapons/net
 	name = "Net"
 	cost = 20
-	contains = list(
-					/obj/item/net,
-				)
+	contains = list(/obj/item/net)

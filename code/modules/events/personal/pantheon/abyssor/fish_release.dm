@@ -38,6 +38,8 @@
 			continue
 		if(H.get_skill_level(/datum/skill/labor/fishing) < 2)
 			continue
+		if(!H.client.prefs || H.client.prefs?.no_storyteller_events)
+			continue
 		valid_targets += H
 
 	if(!valid_targets.len)

@@ -7,7 +7,7 @@
 		TOOL_SCALPEL = 80,
 		TOOL_SHARP = 60,
 	) // 60% success with any sharp item.
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	time = 1.6 SECONDS
 	surgery_flags = SURGERY_BLOODY
 	surgery_flags_blocked = SURGERY_INCISED
@@ -27,6 +27,9 @@
 		span_notice("Blood pools around the incision in [target]'s [parse_zone(target_zone)]."))
 	var/obj/item/bodypart/gotten_part = target.get_bodypart(check_zone(target_zone))
 	if(gotten_part)
+		if(target.has_status_effect(/datum/status_effect/debuff/deadite_grace))
+			target.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
+			display_results(user, target, span_necrosis("[target] seizes violently as their rotting frame locks up in a grisly spasm!"), span_necrosis("[target] seizes violently as their rotting frame locks up in a grisly spasm!"))
 		gotten_part.add_wound(/datum/wound/slash/incision)
 	return TRUE
 

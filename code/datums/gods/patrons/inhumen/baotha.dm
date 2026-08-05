@@ -27,13 +27,22 @@
 	traits_tier = list(TRAIT_CRACKHEAD = CLERIC_T1)
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/baotha_cross_stone, /datum/crafting_recipe/roguetown/structure/baotha_cross_meat)
 
+	titles = list(
+		"Lady of Heartbreak",
+		"Scarlet Lady",
+		"Baosumi",
+		"Thorns", // Queen of thorns, Lady of thorns, etc etc.
+		"Belladoth",
+		"Beladoth" //SOMEONE WILL MISPELL IT, I JUST KNOW IT.
+	)
+
 /datum/patron/inhumen/baotha/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer in the Zzzzzzzurch(!)
 	if(istype(get_area(follower), /area/rogue/under/cave/inhumen))
 		return TRUE
 	// Allows prayer near EEEVIL psycross
-	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
+	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
 			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
 			return FALSE

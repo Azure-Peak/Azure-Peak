@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/cataclysm
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Cataclysm"
 	desc = "Let the mountain fall. Conjure a hammer of pure arcyne force and hurl it at a target area. \
 		On impact it explodes, crushing everyone in a 5x5 area for 75 blunt damage and leaving them Vulnerable. \
@@ -21,7 +22,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
 	charge_time = CHARGETIME_MAJOR
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = 1
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 60 SECONDS

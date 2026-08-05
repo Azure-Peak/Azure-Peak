@@ -148,7 +148,7 @@
 
 /obj/structure/roguemachine/hag_cauldron/proc/handle_varnish(obj/item/I, mob/user)
 	if(is_item_enchanted(I))
-		to_chat(user, span_warning("[I] is already saturated with hag's power! To add more would shatter it."))
+		to_chat(user, span_warning("[I] is already saturated with the Mossmother's power! To add more would shatter it."))
 		return FALSE
 
 	to_chat(user, span_notice("You begin dipping [I] into the viscous varnish..."))

@@ -4,6 +4,7 @@ import { useBackend } from '../../backend';
 import {
   badgeStyle,
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -31,10 +32,11 @@ export const PetitionView = (props: { data: Data }) => {
     petition_categories[0]?.id ?? null,
   );
 
-  const selectedCat = petition_categories.find((c) => c.id === selectedCategory);
+  const selectedCat = petition_categories.find(
+    (c) => c.id === selectedCategory,
+  );
 
-  const cannotAct =
-    !petition.is_steward_role || !!petition.is_alderman_acting;
+  const cannotAct = !petition.is_steward_role || !!petition.is_alderman_acting;
 
   const cannotActReason = petition.is_alderman_acting
     ? "The Alderman's writ does not extend to petitioning the trade hall."
@@ -49,15 +51,14 @@ export const PetitionView = (props: { data: Data }) => {
       <div
         style={{
           color: INK_SOFT,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginBottom: '10px',
-          fontStyle: 'italic',
           lineHeight: '1.5em',
         }}
       >
         Send envoys to a regional trade hall to commission a Standing Order of
-        your choosing. Costs Burgher Pledge. The hall takes a {petition_tax_pct}%
-        margin on petitioned orders &mdash; the price of certainty. The exact
+        your choosing. Costs Burgher Pledge. The hall takes a {petition_tax_pct}
+        % margin on petitioned orders &mdash; the price of certainty. The exact
         item mix is still set by the hall.
       </div>
 
@@ -69,7 +70,6 @@ export const PetitionView = (props: { data: Data }) => {
             ...cardStyle,
             borderLeft: `4px solid ${SEAL_RED}`,
             color: SEAL_RED,
-            fontStyle: 'italic',
           }}
         >
           {cannotActReason}
@@ -111,9 +111,8 @@ export const PetitionView = (props: { data: Data }) => {
       <div
         style={{
           marginTop: '14px',
-          color: INK_FAINT,
-          fontSize: '11px',
-          fontStyle: 'italic',
+          color: INK_SOFT,
+          fontSize: FONT_BODY,
           lineHeight: '1.5em',
         }}
       >
@@ -139,7 +138,7 @@ const PetitionStatusStrip = (props: { data: Data }) => {
         marginBottom: '10px',
         background: 'rgba(120,90,40,0.08)',
         border: `1px solid ${INK_FAINT}`,
-        fontSize: '12px',
+        fontSize: FONT_BODY,
         color: INK,
       }}
     >
@@ -182,13 +181,15 @@ const CategoryList = (props: {
               background: isSel
                 ? 'rgba(168,114,196,0.12)'
                 : 'rgba(120,90,40,0.05)',
-              fontSize: '12px',
+              fontSize: FONT_BODY,
             }}
           >
-            <div style={{ fontWeight: 'bold', color: INK, marginBottom: '2px' }}>
+            <div
+              style={{ fontWeight: 'bold', color: INK, marginBottom: '2px' }}
+            >
               {c.label}
             </div>
-            <div style={{ color: SEAL_AMBER, fontSize: '11px' }}>
+            <div style={{ color: SEAL_AMBER, fontSize: FONT_BODY }}>
               {c.cost}p pledge
             </div>
           </div>
@@ -229,14 +230,12 @@ const RegionPicker = (props: {
         }}
       >
         <div style={{ marginBottom: '4px' }}>
-          <span style={{ fontWeight: 'bold', fontSize: '14px' }}>
+          <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>
             {category.label}
           </span>
           <span style={badgeStyle(SEAL_AMBER)}>{category.cost}p</span>
         </div>
-        <div
-          style={{ color: INK_SOFT, fontSize: '12px', fontStyle: 'italic' }}
-        >
+        <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
           {category.description}
         </div>
       </div>
@@ -276,14 +275,15 @@ const RegionPicker = (props: {
                 borderBottom: `1px dotted ${INK_FAINT}`,
               }}
             >
-              <div style={{ flex: '1 1 auto', color: INK, fontSize: '12px' }}>
+              <div
+                style={{ flex: '1 1 auto', color: INK, fontSize: FONT_BODY }}
+              >
                 <span style={{ fontWeight: 'bold' }}>{regionName}</span>
                 {!eligible && (
                   <span
                     style={{
                       color: SEAL_RED,
-                      fontStyle: 'italic',
-                      fontSize: '11px',
+                      fontSize: FONT_BODY,
                       marginLeft: '6px',
                     }}
                   >

@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 	. = ..()
 	antag = source_antag
 	vampdude = source_user
-	selected_clan_type = /datum/clan/nosferatu
+	selected_clan_type = /datum/clan/crimson_fang
 
 /datum/vampire_clan_selection_menu/Destroy()
 	antag = null
@@ -76,7 +76,7 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 	data["clans"] = clans
 	data["selectedClanId"] = selected_is_custom ? "custom" : "[selected_clan_type]"
 	data["pendingCustomName"] = pending_custom_name
-	data["defaultClanName"] = "Nosferatu"
+	data["defaultClanName"] = "Crimson Fang"
 	data["language"] = lang
 	data["i18nOverrides"] = GLOB.vampire_clan_selection_i18n[lang]
 	return data
@@ -119,7 +119,7 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 			else
 				var/clan_type = selected_clan_type
 				if(!is_valid_selectable_clan(clan_type))
-					clan_type = /datum/clan/nosferatu
+					clan_type = /datum/clan/crimson_fang
 				antag.finalize_clan_selection(vampdude, clan_type)
 
 			SStgui.close_uis(src)

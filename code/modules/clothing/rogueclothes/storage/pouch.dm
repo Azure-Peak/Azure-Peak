@@ -284,6 +284,36 @@
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(A)
 
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/aalloy/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/mid/PopulateContents()
+	. = ..()
+	for(var/i in 1 to 2) //hilarious
+		var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
+		if(istype(A))
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
+				SSwardrobe.recycle_object(A)
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/aalloy/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich/PopulateContents()
+	. = ..()
+	for(var/i in 1 to 3) //hilarious
+		var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
+		if(istype(A))
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
+				SSwardrobe.recycle_object(A)
+
 /obj/item/storage/belt/rogue/pouch/food/PopulateContents()
 	new /obj/item/reagent_containers/food/snacks/rogue/crackerscooked(src)
 
@@ -292,6 +322,7 @@
 /obj/item/storage/belt/rogue/pouch/healing/PopulateContents()
 	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
 	new /obj/item/reagent_containers/glass/bottle/alchemical/healthpot(src)
+	new /obj/item/reagent_containers/glass/bottle/alchemical/water(src)
 	new /obj/item/needle(src)
 
 /obj/item/storage/belt/rogue/pouch/alchemy
@@ -301,7 +332,7 @@
 	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
 	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
 	new /obj/item/needle(src)
-  
+
 /obj/item/storage/belt/rogue/pouch/zigarrete
 	name = "zig box"
 	desc = "Used to hold someone's zigs and flints."

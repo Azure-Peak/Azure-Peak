@@ -7,7 +7,6 @@
 	item_state = "roguepants"
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
-	sellprice = 18
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
@@ -64,6 +63,13 @@
 	..()
 	update_icon()
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout
+	name = "aesthetic fencing breeches"
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout/Initialize()
+	. = ..()
+	loadoutize()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
 	name = "grenzelhoftian paumpers"
 	desc = "Padded pants for extra comfort and protection, adorned in vibrant colors."
@@ -91,6 +97,10 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_pants()
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/Initialize()
+	. = ..()
+	update_icon()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
@@ -100,6 +110,13 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout
+	name = "aesthetic grenzelhoftian paumpers"
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout/Initialize()
+	. = ..()
+	loadoutize()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	name = "cut-throat's pants"
 	desc = "Foreign pants, with leather insewns."
@@ -107,12 +124,26 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
+	name = "aesthetic cut-throat's pants"
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout/Initialize()
+	. = ..()
+	loadoutize()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	name = "strange ripped pants"
 	desc = "Weird pants typically worn by the destitute in Kazengun. Or, those looking to make a fashion statement."
 	icon_state = "eastpants2"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout
+	name = "aesthetic strange ripped pants"
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout/Initialize()
+	. = ..()
+	loadoutize()
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun //no, not 'eastpants3', silly!
 	name = "gambeson trousers"
@@ -127,10 +158,22 @@
 	icon_state = "shadowpants"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
+	name = "aesthetic shadowy silk tights"
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout/Initialize()
+	. = ..()
+	loadoutize()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	name = "custom-fit silk tights"
 	desc = "Form-fitting legwear. Almost too form-fitting. Custom-fit for its (now deceased) wearer."
 	allowed_race = list(/datum/species/elf/dark/raider)
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/spymaster
+	name = "hand's tights"
+	desc = "Tailored from fine, unreflective silk that clings close to the form."
+	icon_state = "handpants"
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	name = "bronze chain skirt"

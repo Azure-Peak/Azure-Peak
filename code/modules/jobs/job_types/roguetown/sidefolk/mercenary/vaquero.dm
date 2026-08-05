@@ -6,7 +6,10 @@
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	subclass_languages = list(/datum/language/etruscan)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
+	traits_applied = list(TRAIT_DODGEEXPERT)
+	subclass_virtues = list(
+		/datum/virtue/combat/guarded
+	)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
@@ -28,9 +31,6 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
-	)
-	subclass_virtues = list(
-		/datum/virtue/utility/riding
 	)
 
 /datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H, dummy)
@@ -65,8 +65,8 @@
 					/obj/item/rogueweapon/scabbard/sheath = 1
 					)
 	if(H.mind)
-		var/instrument = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute", "Psyaltery")
-		var/instrument_choice = input(H, "Choose your instrument.", "TAKE UP SONGS") as anything in instrument
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
+		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
 		H.set_blindness(0)
 		switch(instrument_choice)
 			if("Harp")
@@ -83,10 +83,14 @@
 				backr = /obj/item/rogue/instrument/viola
 			if("Vocal Talisman")
 				backr = /obj/item/rogue/instrument/vocals
-			if("Flute")
-				backr = /obj/item/rogue/instrument/flute
 			if("Psyaltery")
 				backr = /obj/item/rogue/instrument/psyaltery
+			if("Flute")
+				backr = /obj/item/rogue/instrument/flute
+			if("Drum")
+				backr = /obj/item/rogue/instrument/drum
+			if("Shamisen")
+				backr = /obj/item/rogue/instrument/shamisen
 		var/weapons = list("Maille Training","Bardic Inspiration")
 		var/weapon_choice = input(H, "Choose your discipline.", "TAKE A PATH") as anything in weapons
 		switch(weapon_choice)
@@ -95,4 +99,5 @@
 			if("Bardic Inspiration")
 				var/datum/inspiration/I = new /datum/inspiration(H)
 				I.grant_inspiration(H, bard_tier = BARD_T1)
+				H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery) //I guess all the other bards have it too?
 	H.merctype = 13

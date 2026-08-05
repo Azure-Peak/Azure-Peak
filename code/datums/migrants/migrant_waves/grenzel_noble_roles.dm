@@ -13,7 +13,7 @@
 /datum/advclass/grenzel_envoy
 	name = "Envoy"
 	outfit = /datum/outfit/job/roguetown/grenzel/envoy
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_INTELLECTUAL)
 	category_tags = list(CTAG_GRENZEL_ENVOY)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -57,7 +57,7 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1, 
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 2,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
@@ -126,7 +126,11 @@
 	H.grant_language(/datum/language/grenzelhoftian)
 
 	var/weapons = list("Zweihander","Kriegmesser & Buckler","Halberd","Partizan")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice
+	if(H.client)
+		weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	if(!weapon_choice)
+		weapon_choice = "Zweihander"
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Zweihander")
@@ -187,7 +191,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest

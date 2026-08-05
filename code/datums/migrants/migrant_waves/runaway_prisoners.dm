@@ -2,40 +2,17 @@
 
 /datum/migrant_wave/runaway_prisoners
 	name = "Runaway Prisoners"
+	track = MIGRANT_TRACK_SPECIAL
 	max_spawns = 1
-	shared_wave_type = /datum/migrant_wave/runaway_prisoners
-	downgrade_wave = /datum/migrant_wave/runaway_prisoners_down_one
 	weight = 50
-	roles = list(
-		/datum/migrant_role/runaway_prisoner = 4
+	required_roles = list(
+		/datum/migrant_role/runaway_prisoner = 1
 	)
-	greet_text = "You've been rotting for years in a cell. Though you escaped, you have nothing - your body atrophied, your mind dulled. But one thing you kknow clearlyu - you are not going back." 
-
-/datum/migrant_wave/runaway_prisoners_down_one
-	name = "Runaway Prisoners"
-	can_roll = FALSE
-	shared_wave_type = /datum/migrant_wave/runaway_prisoners
-	downgrade_wave = /datum/migrant_wave/runaway_prisoners_down_two
-	roles = list(
+	optional_roles = list(
 		/datum/migrant_role/runaway_prisoner = 3
 	)
-
-/datum/migrant_wave/runaway_prisoners_down_two
-	name = "Runaway Prisoners"
-	can_roll = FALSE
-	shared_wave_type = /datum/migrant_wave/runaway_prisoners
-	downgrade_wave = /datum/migrant_wave/runaway_prisoners_down_three
-	roles = list(
-		/datum/migrant_role/runaway_prisoner = 3
-	)
-
-/datum/migrant_wave/runaway_prisoners_down_three
-	name = "Runaway Prisoners"
-	can_roll = FALSE
-	shared_wave_type = /datum/migrant_wave/runaway_prisoners
-	roles = list(
-		/datum/migrant_role/runaway_prisoner = 2
-	)
+	min_optional_fills = 0
+	greet_text = "You've been rotting for years in a cell. Though you escaped, you have nothing - your body atrophied, your mind dulled. But one thing you kknow clearly - you are not going back."
 
 /datum/migrant_role/runaway_prisoner
 	name = "Escaped Prisoner"
@@ -131,7 +108,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/staves = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,

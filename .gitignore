@@ -199,6 +199,7 @@ Temporary Items
 #Visual studio stuff
 *.vscode/*
 !/.vscode/extensions.json
+!/.vscode/settings.json
 !/.vscode/tasks.json
 !/.vscode/launch.json
 tools/MapAtmosFixer/MapAtmosFixer/obj/*
@@ -221,6 +222,9 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 # ezdb
 /db/
 
+#ai stuffs
+.claude/
+
 # Ignore everything in the config folder, but NOT the example or music jukeboxes.
 # Also ignore custom music and title screens (amend as appropriate)
 /config/*
@@ -237,3 +241,6 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 !/config/title_screens/images/exclude
 
 *.test.dme
+
+# JavaScript tools
+**/node_modules

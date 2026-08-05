@@ -12,7 +12,6 @@
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
 	max_integrity = 0
-	sellprice = 15
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64

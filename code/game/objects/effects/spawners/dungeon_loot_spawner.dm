@@ -152,7 +152,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
 		/obj/item/reagent_containers/food/snacks/butterslice = 3,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 3,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 3,
 
 	)
 	lootcount = 1
@@ -244,7 +244,8 @@
 		/obj/item/storage/bag/tray = 3,
 		/obj/item/mundane/puzzlebox/medium = 2,
 		/obj/item/mundane/puzzlebox/easy = 2,
-		/obj/item/mundane/puzzlebox/impossible = 1
+		/obj/item/mundane/puzzlebox/impossible = 1,
+		/obj/item/heelkit = 1
 	)
 	lootcount = 1
 
@@ -362,7 +363,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
 		/obj/item/reagent_containers/food/snacks/butterslice = 3,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 3
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 3
 	)
 	lootcount = 2
 
@@ -371,8 +372,6 @@
 	loot_value = LOOT_VALUE_DUNGEON_SPELLS
 	junk_loot = list(/obj/item/paper/scroll = 5, /obj/item/ash = 3)
 	loot = list(
-		/obj/item/book/granter/arcane_aspect/utility = 5,
-		/obj/item/book/granter/arcane_aspect/minor = 3,
 		/obj/item/book/granter/spell/bonechill = 2,
 	)
 	lootcount = 1

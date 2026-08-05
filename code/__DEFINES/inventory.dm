@@ -178,6 +178,7 @@
 #define BLOCKPANTS		(1<<5)
 #define BLOCKCLOAK		(1<<6)
 #define BULKYBLOCKS		(1<<7)
+#define SAMEWEAR		(1<<8)
 
 //bitflags for clothing coverage - also used for limbs
 #define HEAD		(1<<0)
@@ -209,6 +210,7 @@
 #define BELOW_HEAD	(CHEST | GROIN | VITALS | ARMS | HANDS | LEGS | FEET)
 #define BELOW_CHEST	(GROIN | VITALS | LEGS | FEET) //for water
 #define FULL_BODY	(FULL_HEAD | NECK | BELOW_HEAD)
+#define FULL_BODY_NO_CHEST	(GROIN | VITALS | LEGS | FEET | ARMS | HANDS | FULL_HEAD | NECK)
 
 //defines for the index of hands
 #define LEFT_HANDS 1

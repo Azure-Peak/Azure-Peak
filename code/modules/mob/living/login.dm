@@ -4,7 +4,8 @@
 	if(client)
 		client.update_ooc_verb_visibility()
 		if(stat == DEAD)
-			client.verbs.Add(GLOB.ghost_verbs)
+			add_verb(client, GLOB.ghost_verbs)
+			client.init_verbs()
 	//Mind updates
 	sync_mind()
 	mind.show_memory(src, 0)
@@ -16,6 +17,7 @@
 	update_spd()
 
 	update_sight()
+	RegisterSignal(src, GLOB.sight_trait_signals, PROC_REF(on_sight_trait_change), override = TRUE)
 //	if (client && (stat == DEAD))
 //		client.ghostize()
 

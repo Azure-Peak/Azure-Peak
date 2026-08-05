@@ -454,9 +454,6 @@
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	toggle(user)
 
-/obj/structure/closet/attack_paw(mob/user)
-	return attack_hand(user)
-
 // tk grab then use on self
 /obj/structure/closet/attack_self_tk(mob/user)
 	return attack_hand(user)

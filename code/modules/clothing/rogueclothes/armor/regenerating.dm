@@ -5,6 +5,7 @@
 	desc = "Abstract parent. Contact developer if you see this."
 	icon_state = null
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	unenchantable = TRUE
 
 	/// Feedback messages
 	var/repairmsg_begin = "My armour begins to slowly mend its abuse.."
@@ -16,6 +17,9 @@
 	var/repair_time
 	/// Holder for timer
 	var/reptimer
+
+	/// Holder for disruption timer
+	var/disrupttimer
 
 	/// To make repairs relative or not.
 	/// In other words, if you use relative repairing then it will use a different repair interval.
@@ -39,10 +43,34 @@
 	var/interrupt_dflag
 	var/interrupt_ddir
 
+	/// Regen cost vars
+	var/blue_to_integ_ratio = 0
+	var/is_disrupted = FALSE
+
 /obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
 	. = ..()
 	if(auto_repair_mode)
 		setup_auto_repair()
+	addtimer(CALLBACK(src, PROC_REF(check_owner)), 5 SECONDS)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/check_owner()
+	if(!ishuman(loc))
+		return
+	var/mob/living/L = loc
+	RegisterSignal(L, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(process_attack))
+	RegisterSignal(L, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(process_attack))
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+	is_disrupted = TRUE
+	if(reptimer)
+		deltimer(reptimer)
+	disrupttimer = addtimer(CALLBACK(src, PROC_REF(revert_disrupt)), 60 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/revert_disrupt()
+	if(is_disrupted)
+		is_disrupted = FALSE
+		to_chat(loc, repairmsg_begin)
+		armour_regen()
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
@@ -52,6 +80,9 @@
 		to_chat(loc, span_notice(repairmsg_stop))
 		deltimer(reptimer)
 		reptimer = null
+
+	if(is_disrupted)
+		return
 
 	// If relative repair mode is on, use the interval instead of repairing 20% every repair_time seconds
 	var/wait_time = relative_repair_mode ? relative_repair_interval : repair_time
@@ -90,6 +121,11 @@
 		next_tick_time = repair_time
 
 	obj_integrity = min(obj_integrity + repair_amount, max_integrity)
+
+	if(ishuman(loc))
+		var/mob/living/L = loc
+		var/energycost = blue_to_integ_ratio * repair_amount
+		L.energy_add(-energycost)
 
 	// Fix armor so it can still be interrupted from regenerating
 	if(obj_broken && obj_integrity > 0)
@@ -152,7 +188,7 @@
 
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
-	name = "disciple's skin"
+	name = "enduring skin" //Unused now, just here for inheritance (primarily the tithebound).
 	desc = "It's far more than just an oath. \
 	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
@@ -175,22 +211,6 @@
 	max_integrity = 450
 	repair_time = 20 SECONDS
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
-	name = "barbarian's skin"
-	desc = "Toughened from abuse. My mettle remains."
-	max_integrity = 200
-	repair_time = 25 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
-	name = "berserker's skin"
-	desc = "I've endured enough. The onslaught has lost its meaning."
-	armor = ARMOR_LEATHER
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
-	name = "executioneer's skin"
-	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
-	max_integrity = 250
-
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats
 	name = "bouhoi bujeog tattoos"
 	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder."
@@ -202,7 +222,7 @@
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	allowed_race = NON_DWARVEN_RACE_TYPES
+	//allowed_race = NON_DWARVEN_RACE_TYPES
 	max_integrity = 350
 
 	repairmsg_begin = "The tattoos begin to slowly mend their abuse..."
@@ -213,8 +233,9 @@
 	interrupt_damount = 20
 	repair_time = 30 SECONDS
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/gladiator
-	name = "gladiator's skin"
-	desc = "Are you not entertained?!"
-	max_integrity = 200
-	repair_time = 25 SECONDS
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats/mistwalker
+	name = "seon-mul tattoos"
+	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
+	armor = ARMOR_LEATHER
+	max_integrity = 450
+

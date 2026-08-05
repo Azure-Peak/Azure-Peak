@@ -104,11 +104,6 @@
 	action_intent.screen_loc = rogueui_intents
 	static_inventory += action_intent
 
-//	clock = new /atom/movable/screen/time
-//	clock.hud = src
-//	clock.screen_loc = rogueui_clock
-//	static_inventory += clock
-
 	stressies = new /atom/movable/screen/stress
 	stressies.hud = src
 	stressies.screen_loc = rogueui_stress
@@ -131,6 +126,7 @@
 
 	def_intent = new /atom/movable/screen/def_intent
 	def_intent.hud = src
+	def_intent.update_icon()
 	static_inventory += def_intent
 
 	cmode_button = new /atom/movable/screen/cmode
@@ -417,11 +413,6 @@
 
 	feint_bar = new /atom/movable/screen/feint()
 	infodisplay += feint_bar
-
-	breath_bar = new /atom/movable/screen/bloodpool/breath()
-	breath_bar.hud = src
-	static_inventory += breath_bar
-	breath_bar.alpha = 0
 
 	for(var/atom/movable/screen/inventory/inv in (static_inventory + toggleable_inventory))
 		if(inv.slot_id)
@@ -781,7 +772,6 @@
 
 
 /mob/living/carbon/human/verb/toggle_hotkey_verbs()
-	set category = "OOC"
 	set name = "Toggle hotkey buttons"
 	set desc = ""
 	set hidden = 1

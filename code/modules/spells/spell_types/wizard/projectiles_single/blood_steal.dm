@@ -24,9 +24,11 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/blood
 	cost = 3
+	human_req = TRUE
 
 /obj/projectile/magic/bloodsteal
 	name = "blood steal"
+	expose_caster_on_deflect = TRUE
 	tracer_type = /obj/effect/projectile/tracer/bloodsteal
 	muzzle_type = null
 	impact_type = null
@@ -41,7 +43,7 @@
 	light_outer_range = 7
 
 
-/obj/projectile/magic/bloodsteal/on_hit(target)
+/obj/projectile/magic/bloodsteal/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -50,7 +52,9 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		if(ishuman(target))
+		if(out_of_effective_range())
+			return
+		if(ishuman(target) && blocked < 100)
 			var/mob/living/carbon/human/H = target
 			H.blood_volume = max(H.blood_volume-45, 0)
 			H.handle_blood()

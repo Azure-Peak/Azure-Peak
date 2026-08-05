@@ -17,7 +17,6 @@
 /// Absolute mammon ceiling on any single fine levied against a Bull-protected subject.
 #define GOLDEN_BULL_DAILY_FINE_CAP 50
 
-/// How many patronage benefactors a single granter may hold declared at one time.
-#define PATRONAGE_CAP_PER_ROUND 20
-/// Cooldown between patronage grants by the same granter.
+#define PATRONAGE_CAP_BENEFACTOR 20
+#define PATRONAGE_CAP_WRIT 5
 #define PATRONAGE_GRANT_COOLDOWN (5 MINUTES)

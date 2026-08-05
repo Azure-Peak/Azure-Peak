@@ -1,5 +1,6 @@
 /datum/job/roguetown
 	display_order = JDO_LORD
+	vice_restrictions = list(/datum/charflaw/wanted)
 
 /datum/job/roguetown/New()
 	. = ..()
@@ -8,6 +9,9 @@
 			peopleiknow += X
 			peopleknowme += X
 		for(var/X in GLOB.burgher_positions)
+			peopleiknow += X
+			peopleknowme += X
+		for(var/X in GLOB.atc_positions)
 			peopleiknow += X
 			peopleknowme += X
 		for(var/X in GLOB.church_positions)
@@ -50,8 +54,19 @@
 	/// Can select equipment after you spawn in.
 	var/has_loadout = FALSE
 
+/datum/outfit/job/roguetown/proc/snouthelm_pick(mob/living/carbon/human/H, plain_path, snouted_path)
+	if(!H || !H.mind)
+		return plain_path
+	var/list/visages = list("Standard" = plain_path, "Snouted" = snouted_path)
+	var/choice = input(H, "Choose your helm's visage.", "TAKE UP HELMS") as anything in visages
+	if(!choice)
+		return plain_path
+	return visages[choice]
+
 /datum/outfit/job/roguetown/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
+	if(!visualsOnly && H.real_name)
+		H.faction |= "[H.real_name]_faction"
 	var/datum/patron/old_patron = H.patron
 	if(length(allowed_patrons) && (!old_patron || !(old_patron.type in allowed_patrons)))
 		var/list/datum/patron/possiblegods = list()
@@ -98,12 +113,19 @@
 		var/datum/triumph_buy/thing = SStriumphs.post_equip_calls[list_key]
 		thing.on_activate(H)
 	if(has_loadout && H.mind)
-		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
+		addtimer(CALLBACK(src, PROC_REF(run_loadout_and_finalize), H), 50)
 	return
+
+/datum/outfit/job/roguetown/proc/run_loadout_and_finalize(mob/living/carbon/human/H)
+	if(!H?.client)
+		return
+	choose_loadout(H)
+	// Re-evaluate the readyup repair kit now that loadout-based armor traits (if any) have been applied.
+	// Late joiners skip the readyup bonus entirely, so only refresh the kit when one was actually granted.
+	if(H?.mind && (H.mind.special_items["Fabric Patch (Repair kit)"] || H.mind.special_items["Metal Scrap (Repair kit)"]))
+		var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
+		J?.set_readyup_repair_kit(H)
 
 /datum/outfit/job/roguetown/proc/choose_loadout(mob/living/carbon/human/H)
 	if(!has_loadout)
-		return
-	if(!H.client)
-		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
 		return

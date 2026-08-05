@@ -71,7 +71,6 @@
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/infernal
-	required_atoms = list(/obj/item/magic/infernal/fang = 2)
 	invocation = "Appare, spiritus infernus!"
 
 /datum/runeritual/binding/fae
@@ -79,7 +78,6 @@
 	desc =	 "Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/fae
-	required_atoms = list(/obj/item/magic/fae/iridescentscale = 2)
 	invocation = "Appare, spiritus silvae!"
 
 /datum/runeritual/binding/elemental
@@ -87,7 +85,6 @@
 	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/elemental
-	required_atoms = list(/obj/item/magic/elemental/shard = 2)
 	invocation = "Appare, spiritus terrae!"
 
 /datum/runeritual/binding/void
@@ -105,6 +102,7 @@
 	icon_state = "bluestream_fade"
 
 // some familiar-binders get to aurafarm too. as a treat
+// we need to use the leyline here, so this search logic is in fact different from the generic 'requires leyline' logic
 /datum/runeritual/binding/void/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	var/list/chants = list(
 		"Vacuum spectat.",
@@ -157,12 +155,19 @@
 /datum/runeritual/binding/revive_familiar
 	name = "Revive Familiar"
 	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane. Requires the vestige dropped upon their death."
-	required_atoms = list(/obj/item/magic/melded/t1 = 1, /obj/item/magic/familiar/familiar_vestige = 1)
+	required_atoms = list(/obj/item/magic/familiar/familiar_vestige = 1) // free revive as long as you return them to a leyline; no field revivals but no grinding either
 	blacklisted = FALSE
 	invocation = "Redeo, spiritus fidus!" // "return, loyal spirit"
 
 /datum/runeritual/binding/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = FALSE
+	var/obj/structure/leyline/leyline
+	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
+		leyline = L
+		break
+	if(!leyline)
+		to_chat(user, span_warning("There is no leyline nearby. Draw your circle closer to a leyline."))
+		return FALSE
 	for(var/obj/item/magic/familiar/familiar_vestige/vestige in selected_atoms)
 		if(vestige.stored_familiar)
 			if(!vestige.stored_familiar.client)
@@ -207,9 +212,12 @@
 
 	var/exit_msg
 	if(isdead(fam))
-		exit_msg = "[fam.name]'s corpse vanishes in a puff of smoke."
+		exit_msg = "[fam.name]'s vestige vanishes in a puff of smoke."
 	else
 		exit_msg = "[fam.name] looks in the direction of [user.name] one last time, before opening a portal and vanishing into it."
+	var/obj/item/vestige = fam.loc // can actually be a conjured weapon, vestige, or orb
+	if(istype(vestige))
+		QDEL_NULL(vestige)
 	fam.visible_message(span_warning(exit_msg))
 	QDEL_NULL(fam)
 	return TRUE

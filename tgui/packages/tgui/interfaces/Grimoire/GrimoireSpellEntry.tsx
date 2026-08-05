@@ -1,5 +1,5 @@
 import { stripHtml } from './helpers';
-import { type Spell } from './types';
+import type { Spell } from './types';
 
 export const GrimoireSpellEntry = ({ spell }: { spell: Spell }) => (
   <div className="AspectPicker__spell-entry">

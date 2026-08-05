@@ -134,8 +134,7 @@
 
 ///Clears the affected_turfs lazylist, removing from its contents the effects of being near the light.
 /datum/component/overlay_lighting/proc/clean_old_turfs()
-	for(var/t in affected_turfs)
-		var/turf/lit_turf = t
+	for(var/turf/lit_turf as anything in affected_turfs)
 		lit_turf.dynamic_lumcount -= lum_power
 	affected_turfs = null
 
@@ -144,9 +143,16 @@
 /datum/component/overlay_lighting/proc/get_new_turfs()
 	if(!current_holder)
 		return
-	for(var/turf/lit_turf in view(lumcount_range, get_turf(current_holder)))
-		lit_turf.dynamic_lumcount += lum_power
-		LAZYADD(affected_turfs, lit_turf)
+	LAZYINITLIST(affected_turfs)
+	if(range <= 2) // lumcount_range is just range rounded up, so range <= 2 is basically lumcount_range < 3
+		//Range here is 1 because actual range of lighting mask is 1 tile even if it says that range is 2
+		for(var/turf/lit_turf as anything in RANGE_TURFS(1, current_holder.loc))
+			lit_turf.dynamic_lumcount += lum_power
+			affected_turfs += lit_turf
+	else
+		for(var/turf/lit_turf in view(lumcount_range, get_turf(current_holder)))
+			lit_turf.dynamic_lumcount += lum_power
+			affected_turfs += lit_turf
 
 
 ///Clears the old affected turfs and populates the new ones.
@@ -273,14 +279,13 @@
 
 
 ///Changes the range which the light reaches. 0 means no light, 9 is the maximum value.
-/datum/component/overlay_lighting/proc/set_range(atom/source, old_inner_range, old_outer_range)
+/datum/component/overlay_lighting/proc/set_range(atom/source, new_inner_range, new_outer_range)
 	SIGNAL_HANDLER
-	var/new_range = source.light_outer_range
-	if(range == new_range)
+	if(range == new_outer_range)
 		return
 	if(range == 0)
 		turn_off()
-	range = clamp(CEILING(new_range, 0.5), 1, 9)
+	range = clamp(CEILING(new_outer_range, 0.5), 1, 9)
 	var/pixel_bounds = ((range - 1) * 64) + 32
 	lumcount_range = CEILING(range, 1)
 	visible_mask.icon = light_overlays["[pixel_bounds]"]

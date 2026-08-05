@@ -38,6 +38,7 @@
 		TRAIT_LIMBATTACHMENT,
 		TRAIT_KEENEARS,
 		TRAIT_SILVER_WEAK,
+		TRAIT_ZOMBIE_IMMUNE,
 	)
 	clane_covens = list(
 		/datum/coven/obfuscate,

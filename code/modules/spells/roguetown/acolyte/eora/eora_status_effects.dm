@@ -170,7 +170,7 @@
 
 		if (M.mind)
 			waiting_for_prompt = TRUE
-			if(alert(M, "Are you ready to face the world, once more?", "Revival", "I must go on", "Let me rest") != "I must go on")
+			if(alert(M, "Are you ready to face the world, once more?", "HAS YOUR TIME COME?", "I must go on!", "Let me rest..") != "I must go on!")
 				M.visible_message(span_warning("[M]'s body shudders but falls still again."))
 				M.remove_status_effect(src)
 				return
@@ -189,7 +189,14 @@
 		M.mind.remove_antag_datum(/datum/antagonist/zombie)
 		M.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
 		M.apply_status_effect(/datum/status_effect/debuff/revived)
+		addtimer(CALLBACK(src, PROC_REF(deathmark), M), 5 MINUTES) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
 		M.remove_status_effect(src)
+
+/datum/status_effect/buff/eoran_balm_effect/proc/deathmark(mob/living/victim)
+	if(victim.stat != DEAD)
+		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.play_permadeath_indicator()
+		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
 #define POM_FILTER "pom_aura"
 

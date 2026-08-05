@@ -59,7 +59,7 @@ export const BlockadeTimer = (props: { label: string; seconds: number }) => {
       <span style={marginaliaLabel}>{props.label}:</span>
       <span
         style={{
-          color: danger ? 'hsl(0, 65%, 35%)' : 'hsl(25, 55%, 22%)',
+          color: danger ? 'var(--p-seal-red)' : 'var(--p-ink)',
           fontFamily: "'Courier New', monospace",
           fontWeight: 'bold',
         }}

@@ -67,11 +67,10 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltr = /obj/item/storage/keyring/soilson
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/flint = 1,
@@ -103,6 +102,7 @@
 			else
 				r_hand = seeds[seed_choice]
 		H.set_blindness(0)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/blesscrop/secular)
 
 /obj/item/storage/roguebag/farmer_berries
 	populate_contents = list(

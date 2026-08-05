@@ -20,6 +20,8 @@
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
+	if(mapload)
+		resistance_flags |= INDESTRUCTIBLE
 	return
 
 /obj/structure/stairs/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)
@@ -106,6 +108,7 @@
 /obj/structure/stairs/d/OnCrafted(dirin, mob/user)
 	dir = turn(dirin, 180)
 	var/turf/partner = get_step_multiz(get_turf(src), DOWN)
+	log_craft("[user.real_name], ([user.ckey]) has built stairs at [get_turf(src)], [AREACOORD(src)]")
 	partner = get_step(partner, dirin)
 	if(isopenturf(partner))
 		var/obj/stairs = new /obj/structure/stairs(partner)
@@ -117,6 +120,7 @@
 /obj/structure/stairs/stone/d/OnCrafted(dirin, mob/user)
 	dir = turn(dirin, 180)
 	var/turf/partner = get_step_multiz(get_turf(src), DOWN)
+	log_craft("[user.real_name], ([user.ckey]) has built stairs at [get_turf(src)], [AREACOORD(src)]")
 	partner = get_step(partner, dirin)
 	if(isopenturf(partner))
 		var/obj/stairs = new /obj/structure/stairs/stone(partner)

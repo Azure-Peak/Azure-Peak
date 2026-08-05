@@ -47,7 +47,7 @@
 		var/deploy_speed = get_skill_delay(user.get_skill_level(/datum/skill/labor/fishing), 0.5, slowest = 6) //in seconds
 		if(caught)
 			user.visible_message(span_notice("[user] begins to harvest from the cage..."), \
-								span_notice("I begin harvesting the from the cage..."))
+								span_notice("I begin harvesting from the cage..."))
 			if(do_after(user, deploy_speed, target = src))
 				add_sleep_experience(user, /datum/skill/labor/fishing, 20)
 				record_featured_stat(FEATURED_STATS_FISHERS, user)

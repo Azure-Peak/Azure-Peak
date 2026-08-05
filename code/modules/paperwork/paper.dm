@@ -8,7 +8,7 @@
 #ifdef TESTSERVER
 
 /client/verb/textperp()
-	set category = "PAPER"
+	set category = "IC.Paper"
 	set name = "textper+"
 	set desc = ""
 
@@ -25,7 +25,7 @@
 			P.read(mob)
 
 /client/verb/textperm()
-	set category = "PAPER"
+	set category = "IC.Paper"
 	set name = "textper-"
 	set desc = ""
 
@@ -135,6 +135,21 @@
 		/datum/crafting_recipe/roguetown/cooking/sigsweet,
 		/datum/crafting_recipe/roguetown/cooking/sigdry,
 		/datum/crafting_recipe/roguetown/cooking/rocknutdry,
+		/datum/crafting_recipe/roguetown/cooking/menthadry,
+		/datum/crafting_recipe/roguetown/cooking/blackberrydry,
+		/datum/crafting_recipe/roguetown/cooking/appledry,
+		/datum/crafting_recipe/roguetown/cooking/menthaappledry,
+		/datum/crafting_recipe/roguetown/cooking/chocolatedry,
+		/datum/crafting_recipe/roguetown/cooking/strawberrydry,
+		/datum/crafting_recipe/roguetown/cooking/carrotdry,
+		/datum/crafting_recipe/roguetown/cooking/limedry,
+		/datum/crafting_recipe/roguetown/cooking/salviadry,
+		/datum/crafting_recipe/roguetown/cooking/salviavalerianadry,
+		/datum/crafting_recipe/roguetown/cooking/calenduladry,
+		/datum/crafting_recipe/roguetown/cooking/jacksberriesdry,
+		/datum/crafting_recipe/roguetown/cooking/jacksberriespoisondry,
+		/datum/crafting_recipe/roguetown/cooking/abyssdry,
+		/datum/crafting_recipe/roguetown/cooking/zigardry,
 		)
 
 	AddElement(
@@ -245,7 +260,7 @@
 		victim.visible_message(span_notice("[user] opens the [src]."))
 		to_chat(user, span_warning("This parchment is full of strange symbols that start to glow. How odd. Wait-"))
 		sleep(5)
-		victim.adjust_fire_stacks(15)
+		victim.adjust_fire_stacks(6)
 		victim.ignite_mob()
 		victim.visible_message(span_danger("[user] bursts into flames upon reading [src]!"))
 	read(user)
@@ -386,7 +401,7 @@
 			victim.visible_message(span_notice("[usr] opens the [src]."))
 			to_chat(usr, span_warning("This parchment is full of strange symbols that start to glow. How odd. Wait-"))
 			sleep(5)
-			victim.adjust_fire_stacks(15)
+			victim.adjust_fire_stacks(6)
 			victim.ignite_mob()
 			victim.visible_message(span_danger("[usr] bursts into flames upon reading [src]!"))
 		read(usr)

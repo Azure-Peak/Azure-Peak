@@ -45,7 +45,7 @@
 	can_sew = TRUE
 	can_cauterize = TRUE
 	passive_healing = 0.5
-	severity_names = list(
+	severity_stages = list(
 		"shallow" = 3,
 		"deep" = 8,
 		"gnarly" = 12,
@@ -73,7 +73,7 @@
 	sew_threshold += (dam * BITE_UPG_SEWRATE)
 	woundpain += (dam * BITE_UPG_PAINRATE)
 	armor_check(armor, BITE_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef BITE_UPG_BLEEDRATE

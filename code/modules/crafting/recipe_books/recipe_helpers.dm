@@ -13,7 +13,9 @@
 	var/datum/temp_recipe
 	var/category
 
-	if(ispath(path, /datum/crafting_recipe))
+	if(ispath(path, /datum/crafting_recipe/roguetown/cooking))
+		category = initial(path:category) || FOOD_CAT_DRYING
+	else if(ispath(path, /datum/crafting_recipe))
 		temp_recipe = new path()
 		var/datum/crafting_recipe/r = temp_recipe
 		category = r.category
@@ -37,6 +39,10 @@
 		temp_recipe = new path()
 		var/datum/brewing_recipe/r = temp_recipe
 		category = r.category
+	else if(ispath(path, /datum/food_recipe))
+		category = initial(path:book_category)
+	else if(ispath(path, /datum/stew_recipe))
+		category = FOOD_CAT_STEW
 	else if(ispath(path, /datum/runeritual))
 		temp_recipe = new path()
 		var/datum/runeritual/r = temp_recipe
@@ -54,9 +60,21 @@
 		qdel(temp_recipe)
 	return category
 
+/proc/recipe_path_priority(path)
+	if(ispath(path, /datum/book_entry))
+		return initial(path:book_priority)
+	return 0
+
+/proc/cmp_wiki_recipe_entries(list/a, list/b)
+	if(a["priority"] != b["priority"])
+		return b["priority"] - a["priority"]
+	return sorttext(b["name"], a["name"])
+
 /proc/should_hide_recipe(path)
 	if(ispath(path, /datum/hag_boon))
 		return !initial(path:hag_is_valid)
+	if(ispath(path, /datum/crafting_recipe/roguetown/cooking) && ispath(initial(path:result), /obj/item/clothing))
+		return TRUE
 	if(ispath(path, /datum/crafting_recipe))
 		var/datum/crafting_recipe/recipe = path
 		if(initial(recipe.hides_from_books))
@@ -68,6 +86,10 @@
 	if(ispath(path, /datum/runeritual))
 		var/datum/runeritual/ritual = path
 		if(initial(ritual.blacklisted))
+			return TRUE
+	if(ispath(path, /datum/food_recipe))
+		var/datum/food_recipe/recipe = path
+		if(initial(recipe.hidden))
 			return TRUE
 	return FALSE
 
@@ -92,8 +114,17 @@
 	return categories
 
 /proc/generate_recipe_detail_html(path, mob/user)
+	if(istext(path) && SScooking?.auto_single_lookup[path])
+		var/datum/food_recipe/single_cook/auto = SScooking.auto_single_lookup[path]
+		return auto.build_entry_data()
 	if(!ispath(path))
 		return "<div class='recipe-content'><p>Invalid recipe selected.</p></div>"
+
+	if(ispath(path, /datum/food_recipe))
+		var/datum/food_recipe/r = new path()
+		var/list/entry_data = r.build_entry_data()
+		qdel(r)
+		return entry_data
 
 	var/html = "<div class='recipe-content'>"
 	var/recipe_name = "Unknown Recipe"
@@ -142,6 +173,16 @@
 		temp_recipe = new path()
 		var/datum/brewing_recipe/r = temp_recipe
 		recipe_name = initial(r.name)
+		recipe_html = r.generate_html(user)
+	else if(ispath(path, /datum/food_recipe))
+		temp_recipe = new path()
+		var/datum/food_recipe/r = temp_recipe
+		recipe_name = initial(r.name)
+		recipe_html = r.generate_html(user)
+	else if(ispath(path, /datum/stew_recipe))
+		temp_recipe = new path()
+		var/datum/stew_recipe/r = temp_recipe
+		recipe_name = r.name
 		recipe_html = r.generate_html(user)
 	else if(ispath(path, /datum/runeritual))
 		temp_recipe = new path()
@@ -238,3 +279,33 @@
 	"}
 	return html
 
+
+/proc/describe_item_transforms(atom/path)
+	if(!ispath(path, /obj/item/reagent_containers/food/snacks))
+		return ""
+	var/obj/item/reagent_containers/food/snacks/proto = path
+	var/list/parts = list()
+	var/cooked = initial(proto.cooked_type)
+	if(cooked && cooked != path)
+		var/atom/c = cooked
+		parts += "bakes into [initial(c.name)]"
+	var/fried = initial(proto.fried_type)
+	if(fried && fried != path && fried != cooked)
+		var/atom/f = fried
+		parts += "fries into [initial(f.name)]"
+	var/sliced = initial(proto.slice_path)
+	if(sliced && sliced != path)
+		var/atom/s = sliced
+		var/count = initial(proto.slices_num) || 1
+		parts += "slices into [count] x [initial(s.name)]"
+	var/dfried = initial(proto.deep_fried_type)
+	if(dfried && dfried != path)
+		var/atom/d = dfried
+		parts += "deep fries into [initial(d.name)]"
+	var/dboiled = initial(proto.boiled_type)
+	if(dboiled && dboiled != path)
+		var/atom/b = dboiled
+		parts += "boils into [initial(b.name)]"
+	if(!length(parts))
+		return ""
+	return "<br>Becomes: [parts.Join("; ")]."

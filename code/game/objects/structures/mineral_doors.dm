@@ -178,9 +178,7 @@
 				to_chat(user, span_boldnotice("Only town residents can claim this house."))
 				return FALSE
 	if(resident_advclass)
-		if(!human.advjob)
-			return FALSE
-		var/datum/advclass/advclass = SSrole_class_handler.get_advclass_by_name(human.advjob)
+		var/datum/advclass/advclass = human.get_advclass_datum()
 		if(!advclass)
 			return FALSE
 		if(!(advclass.type in resident_advclass))
@@ -258,9 +256,6 @@
 				else
 					addtimer(CALLBACK(src, PROC_REF(Close), FALSE), 25)
 
-
-/obj/structure/mineral_door/attack_paw(mob/user)
-	return attack_hand(user)
 
 /obj/structure/mineral_door/attack_hand(mob/user)
 	. = ..()
@@ -422,7 +417,7 @@
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 			user.visible_message("<span class='info'>[user] Carves a name into the door.</span>")
 			if(do_after(user, 10))
-				doorname = input("What name would you like to carve into the door?")
+				doorname = sanitize(input("What name would you like to carve into the door?"))
 				if (doorname)
 					name = doorname + "(door)"
 					desc = "a door with a name carved into it"
@@ -445,6 +440,9 @@
 		var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, T)
 		if(new_track)
 			new_track.handle_creation(user)
+		if(user?.ckey)
+			message_admins("[user.real_name] [obj_destroyed ? "destroyed" : "broke"] [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)] [ADMIN_JMP(src)]")
+			log_admin("[user.real_name] [obj_destroyed ? "destroyed" : "broke"] [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 
 /obj/structure/mineral_door/proc/repairdoor(obj/item/I, mob/user)
 	if(brokenstate)
@@ -470,7 +468,7 @@
 						playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 						icon_state = "[base_state]"
 						density = TRUE
-						opacity = TRUE
+						set_opacity(TRUE)
 						brokenstate = FALSE
 						obj_broken = FALSE
 						obj_integrity = max_integrity
@@ -600,8 +598,8 @@
 
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
-			message_admins("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name]. [ADMIN_JMP(src)]")
-			log_admin("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name].")
+			message_admins("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)] [ADMIN_JMP(src)]")
+			log_admin("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 
 		while(!QDELETED(I) &&(lockprogress < locktreshold))
 			if(!do_after(user, picktime, target = src))
@@ -619,8 +617,8 @@
 					to_chat(user, "<span class='deadsay'>The locking mechanism gives.</span>")
 					if(ishuman(user))
 						var/mob/living/carbon/human/H = user
-						message_admins("[H.real_name]([key_name(user)]) successfully lockpicked [src.name] & [locked ? "unlocked" : "locked"] it. [ADMIN_JMP(src)]")
-						log_admin("[H.real_name]([key_name(user)]) successfully lockpicked [src.name].")
+						message_admins("[H.real_name]([key_name(user)]) successfully lockpicked [src.name] & [locked ? "unlocked" : "locked"] it at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)] [ADMIN_JMP(src)]")
+						log_admin("[H.real_name]([key_name(user)]) successfully lockpicked [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 						record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 						record_round_statistic(STATS_LOCKS_PICKED)
 						var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))
@@ -672,7 +670,7 @@
 	if(!brokenstate)
 		icon_state = "[base_state]br"
 		density = FALSE
-		opacity = FALSE
+		set_opacity(FALSE)
 		brokenstate = TRUE
 	..()
 
@@ -934,11 +932,11 @@
 		return
 	if(opacity)
 		to_chat(user, span_info("I slide the viewport open."))
-		opacity = FALSE
+		set_opacity(FALSE)
 		playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
 	else
 		to_chat(user, span_info("I slide the viewport closed."))
-		opacity = TRUE
+		set_opacity(TRUE)
 		playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
 
 /obj/structure/mineral_door/wood/donjon/stone/broken
@@ -1040,15 +1038,15 @@
 	require_noble_trait = TRUE
 
 /obj/structure/mineral_door/wood/towner/blacksmith
-	resident_advclass = list(/datum/advclass/blacksmith)
+	resident_advclass = list(/datum/advclass/blacksmith, /datum/advclass/masterblacksmith)
 	lockid = "towner_blacksmith"
 
 /obj/structure/mineral_door/wood/towner/cheesemaker
-	resident_advclass = list(/datum/advclass/cheesemaker)
+	resident_advclass = list(/datum/advclass/cheesemaker, /datum/advclass/masterchef)
 	lockid = "towner_cheesemaker"
 
 /obj/structure/mineral_door/wood/towner/miner
-	resident_advclass = list(/datum/advclass/miner)
+	resident_advclass = list(/datum/advclass/miner, /datum/advclass/minermaster)
 	lockid = "towner_miner"
 
 /obj/structure/mineral_door/wood/towner/seamstress
@@ -1060,7 +1058,7 @@
 	lockid = "towner_woodworker"
 
 /obj/structure/mineral_door/wood/towner/fisher
-	resident_advclass = list(/datum/advclass/fisher)
+	resident_advclass = list(/datum/advclass/fisher, /datum/advclass/fishermaster)
 	lockid = "towner_fisher"
 
 /obj/structure/mineral_door/wood/towner/hunter

@@ -45,7 +45,11 @@ export const BeastWrit = (props: {
         {crimes.map((c, i) => (
           <span key={i}>
             {c}
-            {i < crimes.length - 2 ? ', ' : i === crimes.length - 2 ? ', and ' : ''}
+            {i < crimes.length - 2
+              ? ', '
+              : i === crimes.length - 2
+                ? ', and '
+                : ''}
           </span>
         ))}
         .

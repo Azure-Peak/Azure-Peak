@@ -27,7 +27,7 @@
 	tutorial = "A knighted champion of a fallen and forgotten kingdom. You can almost remember the old tymes since your last great battle, your unmatched prowess, your elegence with any-would-be weapon and all the dread your mere presence brought; now you arise from a fallen kingdom in servitude to your lord, once more. Make their vision, become reality."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampdeathknight
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOBLE, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_UNCONVERTIBLE)
 	category_tags = list(CTAG_VAMPSPAWN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -37,7 +37,7 @@
 		STATKEY_PER = 3,
 		STATKEY_LCK = 1,
 		STATKEY_SPD = -1,
-		// 11 (10 without luck) weighted statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
+		// 11 (10 without luck) point statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
 	)
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
@@ -68,10 +68,10 @@
 	..()
 	to_chat(H, span_warning("A knighted champion of a fallen and forgotten kingdom. You can almost remember the old tymes since your last great battle, your unmatched prowess, your elegence with any-would-be weapon and all the dread your mere presence brought; now you arise from a fallen kingdom in servitude to your lord, once more. Make their vision, become reality."))
 
-	H.verbs |= /mob/proc/haltyell_exhausting //Knight gets to halt people
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight() //Aura
+	add_verb(H, /mob/proc/haltyell_exhausting) //Knight gets to halt people
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight] //Aura
 
-	cloak = /obj/item/clothing/cloak/tabard/vampknight
+	cloak = /obj/item/clothing/cloak/tabard/vamp
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/bevor
@@ -120,7 +120,8 @@
 			if("Grand Mace + Longsword")
 				r_hand = /obj/item/rogueweapon/sword/long
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
-				backl = /obj/item/rogueweapon/mace/goden/steel
+				l_hand = /obj/item/rogueweapon/mace/goden/steel
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Sabre + Recurve Bow")
 				l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre
@@ -151,13 +152,15 @@
 			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
 			"Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+			"Snouted Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
+			"Snouted Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted,
 			"Hounskull Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 			"Etruscan Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
 			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
-			"Volf-Face Helm"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
+			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"None"
 		)
 		var/helmchoice = input(H, "Choose your Helm.", "A VISAGE TO TERRIFYING THE LYVING") as anything in helmets
@@ -192,7 +195,7 @@
 	tutorial = "You are a noble of a long fallen and forgotten kingdom, trained in maile and footwork alike. You can almost remember the days of listening to the quietest whispers in your court, you were once a vault of intrique in your own right before the previous collapse. Yet your talents will see another era of use and with it, your master's vision shalt become reality."
 	outfit = /datum/outfit/job/roguetown/other/vampnoble
 	subclass_languages = list(/datum/language/thievescant)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_NOBLE, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_LIGHT_STEP, TRAIT_KEENEARS, TRAIT_PERFECT_TRACKER) //The perfect spy, advisor and assassin, all in one.
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_NOBLE, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_LIGHT_STEP, TRAIT_KEENEARS, TRAIT_PERFECT_TRACKER, TRAIT_UNCONVERTIBLE) //The perfect spy, advisor and assassin, all in one.
 	category_tags = list(CTAG_VAMPSPAWN)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -200,7 +203,7 @@
 		STATKEY_SPD = 2,
 		STATKEY_PER = 3,
 		STATKEY_LCK = 4, //only the lucky outlive the ranks of common fodder in a vamp's court
-		// 13 (9 without luck factored in for flavor) weighted statline, mostly put into speed + int; still no con buff though, the luckiest person to ever outlyve you by who-knows-how-many-yills
+		// 13 (9 without luck factored in for flavor) point statline, mostly put into speed + int; still no con buff though, the luckiest person to ever outlyve you by who-knows-how-many-yills
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
@@ -232,7 +235,7 @@
 	if(H.mind)
 		H.set_blindness(0)
 		var/choice_list = list("Royal (Light Armor /w dress + Skilled Appraisal)", "Royal (Light Armor /w shirt + Skilled Appraisal)", "Noble (Light Armor + Skilled Appraisal)", "Suitor/Consort (Medium Armor)")
-		var/choice = input(H, "What is your disguise?", "WHAT MASQUERADE DO YOU BARE?") as anything in choice_list
+		var/choice = input(H, "What is your disguise?", "WHAT MASQUERADE DO YOU BEAR?") as anything in choice_list
 
 		switch(choice)
 			if("Royal (Light Armor /w dress + Skilled Appraisal)") //You get a bit extra for the part with the lighter loadouts.
@@ -240,7 +243,7 @@
 				belt = /obj/item/storage/belt/rogue/leather/black //stylish belt
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble //regal appearance
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				r_hand = /obj/item/rogueweapon/scabbard/sword/royal
 				armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
@@ -249,24 +252,24 @@
 				belt = /obj/item/storage/belt/rogue/leather/black //stylish belt
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble //regal appearance
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				r_hand = /obj/item/rogueweapon/scabbard/sword/royal
 				armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 			if("Noble (Light Armor + Skilled Appraisal)")
 				head = /obj/item/clothing/head/roguetown/chaperon/noble //nobility look
 				cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				belt = /obj/item/storage/belt/rogue/leather/steel //similar to spymaster hand
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask //hidden face
+				mask = /obj/item/clothing/mask/rogue/lordmask //hidden face
 				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 			if("Suitor/Consort (Medium Armor)") //lose a free trait for better armor starting off.
 				head = /obj/item/clothing/head/roguetown/nyle/consortcrown //suitor/consort look
 				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 				cloak = /obj/item/clothing/cloak/half/red
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				belt = /obj/item/storage/belt/rogue/leather //on-par with valiant
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble
@@ -313,5 +316,8 @@
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble
 	color = "#883030"
 
-/obj/item/clothing/cloak/tabard/vampknight
-	color = CLOTHING_BLACK
+/obj/item/clothing/cloak/tabard/vamp
+	desc = "A checkered pattern of white fabrics and red silks, inlined seamlessly with silks befit for one under a lord with true opulance, not any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
+	color = CLOTHING_WHITE
+	detail_tag = "_quad"
+	detail_color = CLOTHING_RED

@@ -19,7 +19,7 @@ GLOBAL_PROTECT(agevetted_list)
 	return FALSE
 
 /client/proc/agevet_player()
-	set category = "-Server-"
+	set category = "Server"
 	set name = "BC - Add Age Vetted"
 
 	if(!check_rights())

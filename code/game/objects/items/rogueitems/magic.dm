@@ -196,7 +196,7 @@
 		return
 	message_admins("SCRYING: [user.real_name] ([user.ckey]) has used the scrying orb to leer at [target.real_name] ([target.ckey])")
 	log_game("SCRYING: [user.real_name] ([user.ckey]) has used the scrying orb to leer at [target.real_name] ([target.ckey])")
-	var/mob/dead/observer/screye/S = user.scry_ghost()
+	var/mob/dead/observer/eye/screye/S = user.scry_ghost()
 	if(!S)
 		return
 	S.ManualFollow(target)

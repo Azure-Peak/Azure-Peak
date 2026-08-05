@@ -16,7 +16,15 @@
 	var/npc_force_arc = FALSE // Set by AI to force arc shot over allies
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/proc/get_npc_chargetime(mob/living/user)
-	return ARCHER_NPC_SIMULATED_CHARGETIME * ARCHER_NPC_ROF_PENALTY
+	return ARCHER_NPC_SIMULATED_CHARGETIME
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/proc/get_npc_drawtime(mob/living/user)
+	return max(0, get_npc_chargetime(user) - ARCHER_NPC_NOCK_TIME)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/get_mechanics_examine(mob/user)
+	. = ..()
+	if(chambered)
+		. += chambered.get_sweetspot_examine("The loaded [chambered.name]")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/attackby(obj/item/A, mob/user, params)
 	. = ..()

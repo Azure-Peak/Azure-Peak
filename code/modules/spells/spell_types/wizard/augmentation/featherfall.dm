@@ -19,16 +19,17 @@
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_time = 1 SECONDS
-	charge_drain = 0
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	hold_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 2 MINUTES
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1
 
-	point_cost = 2
+	point_cost = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z

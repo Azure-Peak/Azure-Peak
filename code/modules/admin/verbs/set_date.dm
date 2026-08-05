@@ -1,5 +1,5 @@
 /client/proc/cmd_admin_set_ic_date()
-	set category = "-Special Verbs-"
+	set category = "Admin.Special"
 	set name = "Set IC Date"
 
 	if(!check_rights(R_ADMIN))

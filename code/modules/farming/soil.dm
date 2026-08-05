@@ -158,28 +158,31 @@ GLOBAL_LIST_EMPTY(soil_list)
 
 /obj/structure/soil/proc/try_handle_watering(obj/item/attacking_item, mob/user, params)
 	var/water_amount = 0
-	if(istype(attacking_item, /obj/item/reagent_containers))
+	if(istype(attacking_item, /obj/item/reagent_containers) || istype(attacking_item, /obj/item/melee/new_touch_attack/orison))
 		if(water >= MAX_PLANT_WATER * 0.8)
 			to_chat(user, span_warning("The soil is already wet!"))
 			return TRUE
-		var/obj/item/reagent_containers/container = attacking_item
-		if(container.reagents.has_reagent(/datum/reagent/water, 10))
-			container.reagents.remove_reagent(/datum/reagent/water, 10)
-			water_amount = 150
-		else if(container.reagents.has_reagent(/datum/reagent/water/gross, 10))
-			container.reagents.remove_reagent(/datum/reagent/water/gross, 10)
-			water_amount = 150
-		else
-			to_chat(user, span_warning("There's no water in \the [container]!"))
+		if(istype(attacking_item, /obj/item/melee/new_touch_attack/orison))
+			water_amount = 300
+		if(istype(attacking_item, /obj/item/reagent_containers))
+			var/obj/item/reagent_containers/container = attacking_item
+			if(container.reagents.has_reagent(/datum/reagent/water, 10))
+				container.reagents.remove_reagent(/datum/reagent/water, 10)
+				water_amount = 150
+			else if(container.reagents.has_reagent(/datum/reagent/water/gross, 10))
+				container.reagents.remove_reagent(/datum/reagent/water/gross, 10)
+				water_amount = 150
+			else
+				to_chat(user, span_warning("There's no water in \the [container]!"))
+				return TRUE
+		if(water_amount > 0)
+			var/list/wash = list('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg')
+			playsound(user, pick_n_take(wash), 100, FALSE)
+			to_chat(user, span_notice("I water the soil."))
+			adjust_water(water_amount)
+			update_icon()
+			needs_icon_update = FALSE
 			return TRUE
-	if(water_amount > 0)
-		var/list/wash = list('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg')
-		playsound(user, pick_n_take(wash), 100, FALSE)
-		to_chat(user, span_notice("I water the soil."))
-		adjust_water(water_amount)
-		update_icon()
-		needs_icon_update = FALSE
-		return TRUE
 	return FALSE
 
 /obj/structure/soil/proc/try_handle_fertilizing(obj/item/attacking_item, mob/user, params)

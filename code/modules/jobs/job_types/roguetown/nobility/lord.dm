@@ -10,7 +10,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = JCOLOR_NOBLE
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)
 	allowed_sexes = list(MALE, FEMALE)
 	advclass_cat_rolls = list(CTAG_LORD = 20)
 
@@ -42,6 +42,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/advclass/lord/mage,
 		/datum/advclass/lord/inbred
 	)
+
 
 /datum/outfit/job/roguetown/lord
 	job_bitflag = BITFLAG_ROYALTY
@@ -112,7 +113,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/client/player = H?.client
 	if(player.prefs)
 		if(!istype(player.prefs.virtue_origin, /datum/virtue/origin/azuria) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/grenzelhoft) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/otava) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/etrusca))
-			var/list/new_origins = list("Azuria" = /datum/virtue/origin/azuria, 
+			var/list/new_origins = list("Azuria" = /datum/virtue/origin/azuria,
 			"Grenzelhoft" = /datum/virtue/origin/grenzelhoft,
 			"Otava" = /datum/virtue/origin/otava,
 			"Etrusca" = /datum/virtue/origin/etrusca)
@@ -163,7 +164,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
 	)
-	
+
 	subclass_stashed_items = list(
 		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
 		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
@@ -246,7 +247,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
-		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -268,9 +270,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord/mage/pre_equip(mob/living/carbon/human/H)
 	..()
+	l_hand = /obj/item/rogueweapon/lordscepter
 	backr = /obj/item/storage/backpack/rogue/satchel
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/book/spellbook = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/chalk = 1, /obj/item/hunting_map/white_stag = 1,)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rogueweapon/spellbook = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/chalk = 1, /obj/item/hunting_map/white_stag = 1,)
 
 /**
 	Inbred Lord subclass. A joke class, evolution of the Inbred Wastrel.
@@ -472,6 +475,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/refuse_message = "I refuse."
 	ignore_los = 1 // this needs to ignore normal "range", it looks like
 	range = 3
+	/// traits to apply on recruitment - currently only used to let new maids use the vomitorium to cook
+	/// since that's an administrative thing not an innate trait
+	var/applied_traits = list()
 
 /obj/effect/proc_holder/spell/self/convertrole/cast(list/targets,mob/user = usr)
 	. = ..()
@@ -504,7 +510,13 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	//only migrants and peasants
 	if(!(recruit.job in GLOB.peasant_positions) && \
 		!(recruit.job in GLOB.burgher_positions) && \
-		!(recruit.job in GLOB.wanderer_positions))
+		!(recruit.job in GLOB.wanderer_positions) && \
+		//unique case to re-allow deserters to recruit wretches but technically applies to all-antags + convert verbs.
+		//Its actually kinda lowkey cool and lets antagonists actually pull some genuine espionage.
+		//Think vlord maid getting hired into the keep, bandit somehow convincing nobles to make them a watchman, etc.
+		!(recruit.job in GLOB.antagonist_positions))
+		return FALSE
+	if(recruit.cmode) //We probably don't want to accidentally flashbang this mid-fight.
 		return FALSE
 	//need to see their damn face
 	if(!recruit.get_face_name(null))
@@ -518,15 +530,20 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/prompt = alert(recruit, "Do you wish to become a [new_role]?", "[recruitment_faction] Recruitment", "Yes", "No")
 	if(QDELETED(recruit) || QDELETED(recruiter) || !(recruiter in get_hearers_in_view(recruitment_range, recruit)))
 		return FALSE
-	if(prompt != "Yes")
+	if(prompt != "Yes") //If they deny, we forcesay here.
 		if(refuse_message)
 			recruit.say(refuse_message, forced = "[name]")
 		return FALSE
-	if(accept_message)
+	if(accept_message) //If they accept, we forcesay here.
 		recruit.say(accept_message, forced = "[name]")
-	if(new_role)
+	if(new_role) //We assign our role here. + log it.
 		recruit.job = new_role
+		recruit.override_advclass_examine = TRUE // makes your servants display as 'servant' instead of like. 'witch' or w/e
+		for(var/trait in applied_traits)
+			ADD_TRAIT(recruit, trait, JOB_TRAIT)
 		SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, recruiter, recruit, new_role)
+		message_admins("ROLE RECRUITMENT: [recruiter.real_name] ([recruiter.ckey]) has converted [recruit.real_name] ([recruit.ckey]) to [new_role]")
+		log_game("ROLE RECRUITMENT: [recruiter.real_name] ([recruiter.ckey]) has converted [recruit.real_name] ([recruit.ckey]) to [new_role]")
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/convertrole/guard
@@ -542,7 +559,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	. = ..()
 	if(!.)
 		return
-	recruit.verbs |= /mob/proc/haltyell
+	add_verb(recruit, /mob/proc/haltyell)
 
 /obj/effect/proc_holder/spell/self/convertrole/servant
 	name = "Recruit Servant"
@@ -553,6 +570,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	accept_message = "FOR THE CROWN!"
 	refuse_message = "I refuse."
 	recharge_time = 100
+	applied_traits = list(TRAIT_ROYAL_SUBSIDY)
 
 /obj/effect/proc_holder/spell/self/convertrole/bog
 	name = "Recruit Warden"

@@ -126,4 +126,4 @@
 	. = ..()
 	owner.visible_message("<font color='red'>[owner]'s eyes turn blank, like they are not even here.</font>", "<font color='red'>I begin to channel my consciousness into a psychic projection.</font>")
 	if(do_after(owner, 6 SECONDS, src))
-		owner.scry(can_reenter_corpse = 1, force_respawn = FALSE)
+		owner.scry_ghost(/mob/dead/observer/eye/arcane)

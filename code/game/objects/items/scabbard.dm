@@ -40,6 +40,10 @@
 
 	var/sheathe_time = 0.1 SECONDS
 	var/sheathe_sound = 'sound/foley/equip/scabbard_holster.ogg'
+	/// If true, this weapon's examine highlights (see `get_examine_highlight_status()`) will not reveal the weapon stored in it.
+	var/hides_weapon = TRUE
+	// Prevent special scabbards from being stripped
+	var/cant_strip = FALSE
 
 /obj/item/rogueweapon/scabbard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -56,6 +60,19 @@
 /obj/item/rogueweapon/scabbard/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/holster, (valid_blade ? valid_blade : null), (length(valid_blades) ? valid_blades : null), (length(invalid_blades) ? invalid_blades : null))
+
+/obj/item/rogueweapon/scabbard/get_examine_highlight_status()
+	if(hides_weapon)
+		return null
+	// If we have a weapon holstered, return the status of the weapon instead
+	var/obj/item/sheathed_weapon = hol_comp?.sheathed
+	var/list/highlight_status = sheathed_weapon?.get_examine_highlight_status()
+	if(!sheathed_weapon || !highlight_status)
+		return null
+	// Change the wording of the status a bit to specify that it's the sheathed weapon being highlighted!
+	var/sheathed_desc = highlight_status[2]
+	sheathed_desc = "It holds \a [sheathed_weapon.name]: [sheathed_desc]"
+	return list(highlight_status[1], sheathed_desc)
 
 /obj/item/rogueweapon/scabbard/attack_obj(obj/O, mob/living/user)
 	return FALSE
@@ -170,7 +187,6 @@
 
 	force = 3
 	max_integrity = 500
-	sellprice = 2
 
 	invalid_blades = list(
 		/obj/item/rogueweapon/huntingknife/idagger/stake,
@@ -378,7 +394,6 @@
 	sewrepair = FALSE
 	wdefense = 2
 	max_integrity = 50
-	sellprice = 50
 	resistance_flags = null
 
 /obj/item/rogueweapon/scabbard/sheath/royal
@@ -390,7 +405,6 @@
 	can_parry = TRUE
 	sewrepair = FALSE
 	wdefense = 4
-	sellprice = 100
 	resistance_flags = null
 
 ///////////////////////
@@ -414,9 +428,10 @@
 
 	force = 7
 	max_integrity = 750
-	sellprice = 3
 
 /obj/item/rogueweapon/scabbard/sword/MiddleClick(mob/user)
+	if(cant_strip)
+		return FALSE
 	if(hol_comp.sheathed)
 		to_chat(user, span_notice("There's something inside!"))
 		return
@@ -525,8 +540,8 @@
 	sewrepair = FALSE
 	wdefense = 4
 	max_integrity = 75
-	sellprice = 50
 	resistance_flags = null
+	cant_strip = TRUE
 
 /obj/item/rogueweapon/scabbard/sword/royal
 	name = "gold-decorated scabbard"
@@ -538,8 +553,8 @@
 	sewrepair = FALSE
 	wdefense = 6
 	max_integrity = 150
-	sellprice = 100
 	resistance_flags = null
+	cant_strip = TRUE
 
 //
 
@@ -555,8 +570,10 @@
 	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
 	can_parry = TRUE
 	sewrepair = FALSE
+	anvilrepair = /datum/skill/craft/carpentry
 	wdefense = 8
 	special = /datum/special_intent/limbguard
+	cant_strip = TRUE
 
 	max_integrity = 200
 
@@ -595,7 +612,7 @@
 	icon_state = "kazscabyuruku"
 	item_state = "kazscabyuruku"
 	valid_blade = /obj/item/rogueweapon/sword/short/kazengun
-	wdefense = 4
+	wdefense = 7
 	special = null
 
 /obj/item/rogueweapon/scabbard/sheath/kazengun
@@ -608,9 +625,10 @@
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
 	sewrepair = FALSE
-	wdefense = 3
+	anvilrepair = /datum/skill/craft/carpentry
+	wdefense = 4
+	max_integrity = 220
 
-	max_integrity = 0
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician
 	name = "fancy cane"
@@ -619,6 +637,7 @@
 	item_state = "doccanesheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/courtphysician
 	sellprice = 45
+	cant_strip = TRUE
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/getonmobprop(tag)
 	. = ..()
@@ -721,7 +740,6 @@
 	sheathe_time = 2 SECONDS
 
 	max_integrity = 0
-	sellprice = 15
 
 /obj/item/rogueweapon/scabbard/gwstrap/ComponentInitialize()
 	AddComponent(/datum/component/holster/gwstrap, FALSE, FALSE, FALSE, sheathe_time)

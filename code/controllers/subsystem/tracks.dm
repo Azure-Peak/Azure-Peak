@@ -24,7 +24,7 @@ PROCESSING_SUBSYSTEM_DEF(tracks)
 
 /datum/controller/subsystem/processing/tracks/stat_entry()
 	if(processing)
-		..("P:[length(processing)] | Pool:[length(track_pool)+length(structure_track_pool)+length(thievescant_pool)] | R:[tracks_recycled] | N:[tracks_created]")
+		return ..("P:[length(processing)] | Pool:[length(track_pool)+length(structure_track_pool)+length(thievescant_pool)] | R:[tracks_recycled] | N:[tracks_created]")
 
 /datum/controller/subsystem/processing/tracks/fire(resumed = 0)
 	if (!resumed)

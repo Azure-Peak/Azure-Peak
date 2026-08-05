@@ -21,7 +21,8 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	hold_drain = 1
 	// Very high slowdown to make it offensively less useful
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY 
 	charge_sound = 'sound/magic/charging.ogg'
@@ -38,6 +39,7 @@
 	var/repulse_force = MOVE_FORCE_EXTREMELY_STRONG
 	var/showsparkles = TRUE
 	var/floor_slam_damage = 90
+	displayed_damage = 90
 	var/push_range = 1
 
 /datum/action/cooldown/spell/repulse/cast(atom/cast_on)

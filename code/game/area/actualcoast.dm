@@ -19,28 +19,37 @@
 	name = "Central Coast"
 	ambush_mobs = list(
 		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 15,
 		new /datum/ambush_config/triple_deepone = 30,
 		new /datum/ambush_config/deepone_party = 20,
 	)
 	first_time_text = "CENTRAL COAST"
+	threat_region = THREAT_REGION_AZURE_GROVE
 
 /area/rogue/outdoors/beach/north
 	name = "Northern Coast"
 	ambush_mobs = list(
 		/mob/living/carbon/human/species/human/northern/searaider/ambush = 10,
+		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 3,
+		/mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush = 3,
 		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/carbon/human/species/orc/npc/berserker = 10,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40,
+		new /datum/ambush_config/huscarl_raiding_party = 3
 	)
 	first_time_text = "NORTHERN COAST"
+	threat_region = THREAT_REGION_AZUREAN_COAST
 
 /area/rogue/outdoors/beach/south
 	name = "Southern Coast"
 	ambush_mobs = list(
 		/mob/living/carbon/human/species/human/northern/searaider/ambush = 5,
+		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 2,
 		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 15,
 		new /datum/ambush_config/triple_deepone = 30,
@@ -48,3 +57,4 @@
 	)
 	first_time_text = "SOUTHERN COAST"
 	detail_text = DETAIL_TEXT_CITY_COAST
+	threat_region = THREAT_REGION_AZURE_BASIN

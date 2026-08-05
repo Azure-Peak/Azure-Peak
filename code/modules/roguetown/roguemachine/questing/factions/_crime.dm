@@ -29,7 +29,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the drinking of wine kept for the temple-cup",
-		"the draining of altar-vintage, sealed for the rites",
+		"the draining of altar vintage, sealed for the rites",
 	)
 
 /datum/quest_crime/petty_alms_theft
@@ -37,7 +37,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the theft of food set aside for pilgrims and the poor",
-		"the eating of bread laid out for the alms-bowl",
+		"the eating of bread laid out for the alms bowl",
 	)
 
 /datum/quest_crime/petty_relieving
@@ -46,6 +46,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	phrasings = list(
 		"the fouling of a wayside shrine in plain sight",
 		"the fouling of a roadside cairn dedicated to the Tens",
+		"the fouling, and relief of one's bowels, upon a sign commissioned by the very Duke."
 	)
 
 /datum/quest_crime/petty_chicken
@@ -53,7 +54,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the carrying-off of a cottar's hen",
-		"the seizing of poultry from a bereaved holder's coop",
+		"the seizing of poultry from a holder's coop",
 	)
 
 /datum/quest_crime/petty_orchard
@@ -76,8 +77,8 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	id = CRIME_PETTY_PRIEST_MOCKING
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"the open mocking of a priest in the market-square",
-		"the singing of unseemly verses about a Censor of the Tens",
+		"the open mocking of a priest in the market square",
+		"the singing of unseemly verses about a Priest of the Tens",
 	)
 
 /datum/quest_crime/petty_drinking_temple
@@ -85,14 +86,14 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the staggering, drunken, into the temple at midnight",
-		"the loud quarrel raised within the temple-precinct, for sport",
+		"the loud quarrel raised within the temple, for sport",
 	)
 
 /datum/quest_crime/petty_brawl
 	id = CRIME_PETTY_BRAWL
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"the brawling in tavern, in defiance of the Guards",
+		"the brawling in tavern, in defiance of the Duke's peace",
 		"the smiting of a lawful man over a spilled cup",
 	)
 
@@ -116,7 +117,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	id = CRIME_PETTY_SIGNPOST
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"the casting-down of a Duke's signpost upon the road",
+		"the casting down of a Duke's signpost upon the road",
 		"the defacing of milestones along the Duke's Road, with rude words",
 	)
 
@@ -148,8 +149,8 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	id = CRIME_PETTY_TOMBSTONE_INSULT
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"the carving of unkind verse upon a tombstone, an insult to Necra's keeping",
-		"the daubing of mock and rhyme upon a graveplate, that the dead lie ill at peace",
+		"the carving of unkind verse upon a tombstone",
+		"the daubing of mock and rhyme upon a tombstone, that the dead lie ill at peace",
 	)
 
 
@@ -174,7 +175,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the robbery of pilgrims bearing offerings to the shrines",
-		"the seizing of alms-pouches from those upon the holy road",
+		"the seizing of alms pouches from those upon the holy journey",
 	)
 
 /datum/quest_crime/murder_stealth
@@ -191,7 +192,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	id = CRIME_MURDER_WATCH
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
-		"the murder of a sworn man of the Guard",
+		"the murder of a sworn man of the Retinue",
 		"the slaying of an officer set in the Duke's keeping",
 	)
 
@@ -219,7 +220,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	phrasings = list(
 		"the burning of a granary in time of want",
 		"setting torch to common stores, that hunger fall upon the folk",
-		"the burning of a granary in time of want, that Dendor's grain rot into ash before hungry mouths",
+		"the burning of a granary in time of want, that Astrata's grain burns into ash before hungry mouths",
 	)
 
 /datum/quest_crime/burglary

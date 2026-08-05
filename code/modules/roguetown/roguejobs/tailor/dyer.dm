@@ -31,7 +31,18 @@ var/list/used_colors
 			/obj/item/reagent_containers/glass/cup/claycup,
 			/obj/item/reagent_containers/glass/bottle/claybottle,
 			/obj/item/roguestatue/clay,
-			/obj/item/roguestatue/glass
+			/obj/item/roguestatue/glass,
+			/obj/item/natural/clay/porcelain,
+			/obj/item/clothing/neck/roguetown/carved/porcelainamulet,
+			/obj/item/clothing/ring/porcelain,
+			/obj/item/clothing/head/roguetown/circlet/carvedgem/porcelain,
+			/obj/item/reagent_containers/glass/cup/carved/porcelainfancy,
+			/obj/item/reagent_containers/glass/cup/carved/porcelain,
+			/obj/item/reagent_containers/glass/bowl/carved/porcelain,
+			/obj/item/kitchen/spoon/carved/porcelain,
+			/obj/item/kitchen/fork/carved/porcelain,
+			/obj/item/cooking/platter/carved/porcelain,
+			/obj/item/reagent_containers/glass/bucket/pot/porcelain
 			)
 
 /obj/machinery/gear_painter/Initialize()
@@ -241,6 +252,8 @@ var/list/used_colors
 		var/obj/item/inserted_item = inserted
 		inserted.add_atom_colour(activecolor, FIXED_COLOUR_PRIORITY)
 		inserted_item.update_icon()
+		if(inserted_item.glaze_bonus_pct > 0 && !inserted_item.glazed)
+			inserted_item.glazed = TRUE
 		playsound(src, "bubbles", 50, 1)
 		interact(usr)
 
@@ -309,7 +322,7 @@ var/list/used_colors
 	desc = "A sizeable brush made of the finest mane-hairs. Thick dye adheres to it well."
 	icon_state = "dbrush"
 	w_class = WEIGHT_CLASS_SMALL
-	dropshrink = 0.8
+	dropshrink = 0.7
 	grid_width = 32
 	grid_height = 32
 
@@ -356,6 +369,53 @@ var/list/used_colors
 		dye = hexdye
 
 	update_icon()
+
+/obj/item/dye_brush/pre_attack(atom/A, mob/living/user, params)
+    if(..())
+        return TRUE
+    var/obj/item/target = A
+    if(!istype(target) || target.glazed || !target.icon)
+        return FALSE
+
+    var/static/list/glaze_finishes = list(
+        "Clear glaze" = "glazed",
+        "Kintsugi glaze" = "shattergold"
+    )
+
+    var/list/choices = list()
+    for(var/finish in glaze_finishes)
+        if(icon_exists(target.icon, "[target.icon_state]_[glaze_finishes[finish]]"))
+            choices += finish
+    if(!length(choices))
+        return FALSE
+
+    if(target.reagents && target.reagents.total_volume)
+        to_chat(user, span_notice("I can't glaze [target] while it has liquid in it."))
+        return TRUE
+
+    var/choice = choices[1]
+    if(length(choices) > 1)
+        choice = tgui_input_list(user, "Which finish shall I glaze [target] with?", "Glazing", choices)
+    if(!choice)
+        return TRUE
+
+    if(QDELETED(target) || target.glazed || !in_range(target, user))
+        return TRUE
+
+    if(!do_after(user, 3 SECONDS, target = target))
+        return TRUE
+    if(target.glazed)
+        return TRUE
+
+    target.glazed = TRUE
+    target.glaze_suffix = glaze_finishes[choice]
+    target.glaze_bonus_flat = rand(5, 15)
+    target.icon_state = "[target.icon_state]_[target.glaze_suffix]"
+    target.update_icon()
+    playsound(loc, "sound/foley/scrubbing[pick(1,2)].ogg", 60, TRUE)
+    user.visible_message(span_notice("[user] glazes [target]."), \
+        span_notice("I glaze [target] with [lowertext(choice)]."))
+    return TRUE
 
 /obj/item/dye_brush/attack_turf(turf/T, mob/living/user)
 	if(!iswallturf(T))

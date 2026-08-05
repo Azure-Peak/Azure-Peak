@@ -441,6 +441,7 @@ ROUNDSTART_RACES elfc
 ROUNDSTART_RACES halforc 
 ROUNDSTART_RACES aasimar
 ROUNDSTART_RACES dullahan
+ROUNDSTART_RACES ooze
 
 ## Races that are a meme and should not be accessible in normal gameplay, unless you are insane
 #ROUNDSTART_RACES goblin

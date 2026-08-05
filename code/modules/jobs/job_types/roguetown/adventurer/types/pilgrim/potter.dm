@@ -3,6 +3,7 @@
 	tutorial = "You are a skilled artisan in the manipulation of ceramics, \
 	and their fashioning into a multitude of different objects and valuables, including glass."
 	allowed_sexes = list(MALE, FEMALE)
+	forbidden_races = list(RACES_DESPISED)
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/potter
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
@@ -47,7 +48,7 @@
 
 	backpack_contents = list(
 		/obj/item/natural/clay = 3,
-		/obj/item/natural/clay/glassbatch = 1,
+		/obj/item/natural/glassbatch = 1,
 		/obj/item/rogueore/coal = 1,
 		/obj/item/roguegear = 1,
 		/obj/item/dye_brush = 1,

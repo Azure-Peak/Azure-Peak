@@ -151,3 +151,17 @@
 			update_icon()
 	else
 		return ..()
+
+/obj/machinery/light/rogue/oven/attack_right(mob/user)
+	var/obj/item/held = user.get_active_held_item()
+	var/obj/item/rogueweapon/bakers_peel/peel
+	if(istype(held, /obj/item/rogueweapon/bakers_peel))
+		peel = held
+		if(peel.insert_into_oven(src, user))
+			return TRUE
+	held = user.get_inactive_held_item()
+	if(istype(held, /obj/item/rogueweapon/bakers_peel))
+		peel = held
+		if(peel.insert_into_oven(src, user))
+			return TRUE
+	return ..()

@@ -176,10 +176,15 @@
 
 	var/townie_contract_gate_exempt = FALSE
 
-/// Either flag exempts. Job-level is "this whole job has no town rotation" (Adventurer,
-/// Mercenary, Vagabond, Court Agent). Advclass-level is "this specific subclass deserves
-/// the exemption within an otherwise non-exempt job" (Hunter / Witch / Levy / Thug under
-/// Pilgrim). Pilgrim/Blacksmith etc. land at FALSE on both sides.
+	///
+	var/quest_claim_barred = FALSE
+
+/proc/is_quest_claim_barred(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	return J?.quest_claim_barred ? TRUE : FALSE
+
 /proc/is_townie_contract_gate_exempt(mob/user)
 	if(!user?.mind)
 		return FALSE
@@ -264,10 +269,7 @@
 
 		if(H.mind)
 			H.mind?.special_items["Pouch of Coins"] = /obj/item/storage/belt/rogue/pouch/coins/readyuppouch
-			if (HAS_TRAIT(H, TRAIT_MEDIUMARMOR) || HAS_TRAIT(H, TRAIT_HEAVYARMOR))
-				H.mind?.special_items["Metal Scrap (Repair kit)"] = /obj/item/repair_kit/metal/bad
-			else
-				H.mind?.special_items["Fabric Patch (Repair kit)"] = /obj/item/repair_kit/bad
+			set_readyup_repair_kit(H)
 
 		to_chat(M, span_notice("Rising early, you made sure to pack a pouch of coins in your stash and eat a hearty breakfast before starting your day. A true TRIUMPH!"))
 
@@ -290,8 +292,8 @@
 			SStreasury.noble_incomes[H] = noble_income
 			SStreasury.grant_estate_income(H, noble_income, TRUE)
 
-	if(show_in_credits)
-		SScrediticons.processing += H
+	if(show_in_credits && H.ckey && isnull(SScrediticons.processing[H.ckey]))
+		SScrediticons.processing[H.ckey] = FALSE
 
 	if(cmode_music)
 		H.cmode_music = cmode_music
@@ -309,6 +311,17 @@
 		hugboxify_for_class_selection(H)
 
 	log_admin("[H.key]/([H.real_name]) has joined as [H.mind.assigned_role].")
+
+/// Sets the ready-up repair kit stash entry based on the mob's current armor traits.
+/// Safe to call multiple times — later calls overwrite earlier ones, so loadout-based armor picks can re-run this to upgrade the kit after choose_loadout finishes.
+/datum/job/proc/set_readyup_repair_kit(mob/living/carbon/human/H)
+	if(!H?.mind)
+		return
+	if(HAS_TRAIT(H, TRAIT_MEDIUMARMOR) || HAS_TRAIT(H, TRAIT_HEAVYARMOR))
+		H.mind.special_items -= "Fabric Patch (Repair kit)"
+		H.mind.special_items["Metal Scrap (Repair kit)"] = /obj/item/repair_kit/metal/bad
+	else
+		H.mind.special_items["Fabric Patch (Repair kit)"] = /obj/item/repair_kit/bad
 
 /// Called when a player permanently leaves the round (via returntolobby). Handles slot reopening and respawn delays.
 /datum/job/proc/on_round_removal(mob/M)
@@ -338,18 +351,18 @@
 	var/datum/job/J = SSjob.GetJob(mind.assigned_role)
 	var/used_title = get_role_title()
 
-	GLOB.credits_icons[thename] = list()
 	var/client/C = client
 	var/datum/preferences/P = C.prefs
 	var/icon/I
 	if(generate_for_adv_class)
-		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, list(SOUTH), human_gear_override = src)
+		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_CREDITS, list(SOUTH), human_gear_override = src)
 	else if (P)
-		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, list(SOUTH))
+		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_CREDITS, list(SOUTH))
 	if(I)
 		var/icon/female_s = icon("icon"='icons/mob/clothing/under/masking_helpers.dmi', "icon_state"="credits")
 		I.Blend(female_s, ICON_MULTIPLY)
 		I.Scale(96,96)
+		GLOB.credits_icons[thename] = list()
 		GLOB.credits_icons[thename]["title"] = used_title
 		GLOB.credits_icons[thename]["icon"] = I
 		GLOB.credits_icons[thename]["vc"] = voice_color
@@ -502,7 +515,7 @@
 	var/list/statcl
 	if(length(stat_ceilings))
 		statcl = stat_ceilings
-	var/datum/advclass/advclass = SSrole_class_handler.get_advclass_by_name(H.advjob)
+	var/datum/advclass/advclass = H.get_advclass_datum()
 	if(advclass && length(advclass.adv_stat_ceiling))
 		statcl = advclass.adv_stat_ceiling
 
@@ -516,7 +529,7 @@
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)
 	if(!H.mind)
 		return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
-	else 
+	else
 		return (H.clothes_pref == CLOTHES_M)
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
@@ -715,24 +728,12 @@
 			var/advdat = ""
 			var/datum/advclass/subclasspath = adv
 			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
-			var/found_issue = FALSE
-			if(length(subclass.virtue_limits))
-				for(var/virtuetype in subclass.virtue_limits)
-					if(istype(player.prefs.virtue, virtuetype))
-						advdat += "[player.prefs.virtue.name]<br>"
-						found_issue = TRUE
-					if(istype(player.prefs.virtuetwo, virtuetype))
-						advdat += "[player.prefs.virtuetwo.name]<br>"
-						found_issue = TRUE
-
-			if(length(subclass.vice_limits))
-				for(var/vicetype in subclass.vice_limits)
-					for(var/vice in player.prefs.charflaws)
-						var/datum/charflaw/cf = vice
-						if(istype(vice, vicetype))
-							advdat += "[cf.name]<br>"
-							found_issue = TRUE
-			if(found_issue)
+			if(!subclass)
+				continue
+			var/list/restriction_names = subclass.get_prefs_restriction_names(player)
+			if(length(restriction_names))
+				for(var/restriction_name in restriction_names)
+					advdat += "[restriction_name]<br>"
 				dat += "<font color = '#e4e1e1'><b>[subclass::name]</b></font><br>"
 				dat += advdat
 		var/datum/browser/popup = new(usr, "subclassslots", "<div style='text-align: center'>Subclass Incompatibilities</div>", nwidth = 200, nheight = 300)
@@ -761,13 +762,23 @@
 	for(var/adv in job_subclasses)
 		var/datum/advclass/subclasspath = adv
 		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
-		if(length(subclass.virtue_limits))
-			for(var/virtuetype in subclass.virtue_limits)
-				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype))
-					return TRUE
+		if(!subclass)
+			continue
+		if(length(subclass.get_prefs_restriction_names(player)))
+			return TRUE
 
-		if(length(subclass.vice_limits))
-			for(var/vicetype in subclass.vice_limits)
-				for(var/vice in player.prefs.charflaws)
-					if(istype(vice, vicetype))
-						return TRUE
+/datum/job/proc/prefs_all_subclasses_restricted(client/player)
+	if(!player?.prefs)
+		return FALSE
+	if(!length(job_subclasses))
+		return FALSE
+	var/checked_subclass = FALSE
+	for(var/adv in job_subclasses)
+		var/datum/advclass/subclasspath = adv
+		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+		if(!subclass)
+			continue
+		checked_subclass = TRUE
+		if(!length(subclass.get_prefs_restriction_names(player)))
+			return FALSE
+	return checked_subclass

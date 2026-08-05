@@ -61,8 +61,12 @@
 	var/list/allowed_storytellers
 	/// Shared storyteller antag classification used by storyteller blocking/conflict helpers.
 	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
-	/// Storyteller-specific guaranteed role mapping for antagonist events.
-	var/storyteller_guarantee_flags = STORYTELLER_FAVOR_NONE
+	/// Optional label for this event in the gamemode vote pills.
+	var/storyteller_pill_label
+	/// What shows up at the end round display.
+	var/storyteller_rumour_name
+	/// Lets events under the same antag datum be handled differently.
+	var/storyteller_slot_key
 
 
 /datum/round_event_control/proc/valid_for_map()
@@ -72,8 +76,7 @@
 	var/string
 	if(roundstart && (world.time-SSticker.round_start_time >= 2 MINUTES))
 		string += "Roundstart"
-	var/current_storyteller_type = SSgamemode?.get_storyteller_type(roundstart)
-	if(length(allowed_storytellers) && !(current_storyteller_type in allowed_storytellers))
+	if(length(allowed_storytellers) && !(SSgamemode?.ruling_god in allowed_storytellers))
 		if(string)
 			string += ","
 		string += "Wrong God"
@@ -128,8 +131,7 @@
 	if(length(todreq) && !(GLOB.tod in todreq))
 		return FALSE
 	if(length(allowed_storytellers))
-		var/current_storyteller_type = SSgamemode?.get_storyteller_type(roundstart)
-		if(!(current_storyteller_type in allowed_storytellers))
+		if(!(SSgamemode?.ruling_god in allowed_storytellers))
 			return FALSE
 	if(req_omen)
 		if(!GLOB.badomens.len)

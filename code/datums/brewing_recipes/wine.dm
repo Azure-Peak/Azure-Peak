@@ -4,6 +4,7 @@
 	bottle_name = "jackberry wine"
 	bottle_desc = "A bottle of locally-brewed jackberry wine. Has a sweet, fruity flavor with a hint of tartness."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/jackberrywine
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/jack_wine
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 6)
 	brewed_amount = 6
@@ -22,6 +23,7 @@
 	bottle_name = "umeshu wine"
 	bottle_desc = "A bottle of locally-brewed plum wine. Has a sweet, slightly sour flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/plum_wine
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/plum_wine
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/fruit/plum = 4, /obj/item/reagent_containers/food/snacks/sugar = 2)
 	brewed_amount = 6
@@ -40,6 +42,7 @@
 	bottle_name = "tangerine wine"
 	bottle_desc = "A bottle of locally-brewed tangerine wine. Has a bittersweet, citrusy flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/tangerine
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/tangerine_wine
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine = 4, /obj/item/reagent_containers/food/snacks/sugar = 2)
 	brewed_amount = 6
@@ -76,6 +79,7 @@
 	bottle_name = "blackberry wine"
 	bottle_desc = "A bottle of locally-brewed blackberry wine. Has a bitter, tart flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/blackberry
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/blackberry_wine
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry = 4, /obj/item/reagent_containers/food/snacks/sugar = 2)
 	brewed_amount = 6
@@ -94,6 +98,7 @@
 	bottle_name = "azurian whip-wine" // knockoff divine whip wine (magical penis wine)
 	bottle_desc = "A bottle of locally-brewed Whipwine. Said to be based off a Kazengun recipe. It has a particularly... leathery flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/whipwine
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/whipwine
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(/obj/item/alch/atropa = 1, /obj/item/reagent_containers/food/snacks/sugar = 1, /obj/item/alch/matricaria = 1,
 						 /obj/item/alch/paris = 1, /obj/item/rogueweapon/whip = 1) // poisonous herbs, sugar, and an actual whip. the power of Mistranslations...
@@ -107,6 +112,7 @@
 	bottle_name = "luxintebere" // knockoff divine whip wine (magical penis wine)
 	bottle_desc = "A potentially heretickal brew, Lux, when fermented, breaks down into Vitae, which can further ferment into a delectable wine."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/luxwine
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/luxintenebre
 	needed_reagents = list(/datum/reagent/water = 198) // standard
 	needed_items = list(/obj/item/reagent_containers/lux_impure = 1, /obj/item/reagent_containers/food/snacks/sugar = 2,
 						 /obj/item/alch/calendula = 1) // a single lux, sugar, and a healing herb. seems fair 2 me.
@@ -120,6 +126,7 @@
 	bottle_name = "spiced wine"
 	bottle_desc = "A bottle of locally-brewed spiced jackberry wine. Traditionally reserved for the holidaes, it still remains deliciously rich and aromatic all yil-round. Championed as a remedy for childhood ailments and injuries, courtesy of dwarven mothers."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/spicedwine
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/winespiced
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2, /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine = 1,
 						/obj/item/reagent_containers/food/snacks/sugar = 1, /obj/item/reagent_containers/food/snacks/pumpkinspice = 1, /obj/item/reagent_containers/food/snacks/grown/nut = 1)

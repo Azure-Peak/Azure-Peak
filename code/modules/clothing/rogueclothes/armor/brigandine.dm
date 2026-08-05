@@ -135,6 +135,16 @@
 	armor_class = ARMOR_CLASS_HEAVY
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
 
+/obj/item/clothing/suit/roguetown/armor/brigandine/heavy/iron
+	name = "iron coat of plates"
+	desc = "A heavyweight coat-of-plates, adorned with a pair of iron vambraces and faulds."
+	icon_state = "icoat_of_plates"
+	blocksound = PLATEHIT
+	smelt_bar_num = 2
+	armor_class = ARMOR_CLASS_HEAVY
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE
+	smeltresult = /obj/item/ingot/iron
+
 /obj/item/clothing/suit/roguetown/armor/brigandine/banneret
 	name = "knight banneret's brigandine"
 	desc = "A resplendant coat-of-plates, gilded and veiled in dyeable silk. Only the finest of Azuria's Knights has been entrusted with this beautiful article."
@@ -161,6 +171,8 @@
 	detail_tag = "_detail"
 	color = "#FFFFFF"
 	detail_color = "#FFFFFF"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	sleeved_detail = TRUE
 	var/picked = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/haraate/attack_right(mob/user)

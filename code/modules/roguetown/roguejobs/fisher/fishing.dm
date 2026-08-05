@@ -1,7 +1,8 @@
 /proc/getfishingloot(var/mob/living/carbon/human/fisherman, var/list/modlist, turf/target, var/skill_power = 1)
 	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
 	var/salwt_coast = list(/turf/open/water/ocean)
-	var/salwt_deep = list(/turf/open/water/ocean/deep)
+	var/salwt_deep = list(/turf/open/water/ocean/deep, /turf/open/water/ocean/deep/dark)
+	var/salwt_abyssal = list(/turf/open/water/ocean/abyssal)
 	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
 	if(ishuman(fisherman))
 		if(fisherman.patron.type == /datum/patron/divine/abyssor)
@@ -25,6 +26,8 @@
 		fishingloot = pickweightAllowZero(createCoastalSeaFishWeightListModlist(modlist))
 	else if(target.type in salwt_deep)
 		fishingloot = pickweightAllowZero(createDeepSeaFishWeightListModlist(modlist))
+	else if(target.type in salwt_abyssal)
+		fishingloot = pickweightAllowZero(createAbyssalSeaFishWeightListModlist(modlist))
 	else if(target.type in mud)
 		fishingloot = pickweightAllowZero(createMudFishWeightListModlist(modlist))
 	return fishingloot
@@ -38,7 +41,7 @@
 		if(fisherman.STALUC > 10)
 			var/trait_bonus = 0
 			if(HAS_TRAIT(fisherman, TRAIT_CAUTIOUS_FISHER))
-				trait_bonus = 0.20
+				trait_bonus = 0.30
 			var/tier1_bonus = min(fisherman.STALUC - 10, 5) // 5% bonus per point up until 15
 			var/tier2_bonus = max(fisherman.STALUC - 15, 0) // 1% bonus per point past 15
 			var/total_bonus = ((tier1_bonus * 0.05) + (tier2_bonus * 0.01) + (trait_bonus)) * skill_power

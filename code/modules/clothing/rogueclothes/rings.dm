@@ -1,5 +1,3 @@
-
-
 /obj/item/clothing/ring
 	name = "ring"
 	desc = "The only one to rule them all."
@@ -16,6 +14,7 @@
 	drop_sound = 'sound/foley/coinphy (1).ogg'
 	salvage_result = null
 	alternate_worn_layer = NECK_LAYER
+	no_loot_taint = TRUE
 	var/overarmor
 
 /obj/item/clothing/ring/MiddleClick(mob/user, params)
@@ -37,19 +36,16 @@
 	name = "decrepit ring"
 	desc = "A coil of frayed bronze."
 	icon_state = "ring_a"
-	sellprice = 11
 
 /obj/item/clothing/ring/bronze
 	name = "bronze ring"
 	desc = "A ring of bronzen resiliance."
 	icon_state = "ring_b"
-	sellprice = 22
 
 /obj/item/clothing/ring/silver
 	name = "silver ring"
 	desc = "A ring of silvered glimmerance."
 	icon_state = "ring_s"
-	sellprice = 33
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -63,65 +59,61 @@
 	name = "gold ring"
 	desc = "A ring of golden beauty."
 	icon_state = "ring_g"
-	sellprice = 45
 
 /obj/item/clothing/ring/blacksteel
 	name = "blacksteel ring"
 	desc = "A ring of mythical blacksteel."
 	icon_state = "ring_bs"
-	sellprice = 70
 
 /obj/item/clothing/ring/jade
 	name = "jade ring"
 	desc = "A ring of emeraldesque wisdom."
 	icon_state = "ring_jade"
-	sellprice = 60
 
 /obj/item/clothing/ring/coral
 	name = "heartstone ring"
 	desc = "A ring of aeotal fortitude."
 	icon_state = "ring_coral"
-	sellprice = 70
 
 /obj/item/clothing/ring/onyxa
 	name = "onyxa ring"
 	desc = "A ring of obsidianic mystique."
 	icon_state = "ring_onyxa"
-	sellprice = 40
 
 /obj/item/clothing/ring/shell
 	name = "shell ring"
 	desc = "A ring of pearled surprise."
 	icon_state = "ring_shell"
-	sellprice = 20
 
 /obj/item/clothing/ring/amber
 	name = "amber ring"
 	desc = "A ring of sunglossed wonder."
 	icon_state = "ring_amber"
-	sellprice = 20
 
 /obj/item/clothing/ring/turq
 	name = "cerulite ring"
 	desc = "A ring of aquatic fascination."
 	icon_state = "ring_turq"
-	sellprice = 85
 
 /obj/item/clothing/ring/rose
 	name = "rosestone ring"
 	desc = "A ring of chiseled love."
 	icon_state = "ring_rose"
-	sellprice = 25
 
 /obj/item/clothing/ring/opal
 	name = "opal ring"
 	desc = "A ring of evershifting hues."
 	icon_state = "ring_opal"
-	sellprice = 90
+
+/obj/item/clothing/ring/porcelain
+	name = "porcelain ring"
+	desc = "A ring of shining porcelain."
+	icon_state = "ring_porcelain"
+	toggle_icon_state = FALSE
 
 /obj/item/clothing/ring/active
 	var/active = FALSE
-	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. The runic enigma pulsates with crimson light, rendering me invulnerable to arcynic violence!"
+	desc = "A golden ring that bears a runic enigma, capable of nullifying all incoming magicka. The runic enigma pulsates with crimson light, rendering me invulnerable to arcynic violence!"
 	var/cooldowny
 	var/cdtime
 	var/activetime
@@ -158,7 +150,7 @@
 /obj/item/clothing/ring/active/nomag
 	name = "ring of null magic"
 	icon_state = "ruby"
-	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. Unfortuantely, like with most magic rings, its powers can only be used sparingly."
+	desc = "A golden ring that bears a runic enigma, capable of nullifying all incoming magicka. Unfortuantely, like with most magic rings, its powers can only be used sparingly."
 	activate_sound = 'sound/magic/antimagic.ogg'
 	cdtime = 10 MINUTES
 	activetime = 30 SECONDS
@@ -193,82 +185,96 @@
 	icon_state = "g_ring_emerald"
 	desc = "A beautiful golden ring with a polished gemerald set into it."
 	smeltresult = /obj/item/roguegem/green
-	sellprice = 195
 
 /obj/item/clothing/ring/ruby
 	name = "rontz ring"
 	icon_state = "g_ring_ruby"
 	desc = "A beautiful golden ring with a polished rontz set into it."
 	smeltresult = /obj/item/roguegem/ruby
-	sellprice = 255
 
 /obj/item/clothing/ring/topaz
 	name = "toper ring"
 	icon_state = "g_ring_topaz"
 	desc = "A beautiful golden ring with a polished toper set into it."
 	smeltresult = /obj/item/roguegem/yellow
-	sellprice = 180
 
 /obj/item/clothing/ring/quartz
 	name = "blortz ring"
 	icon_state = "g_ring_quartz"
 	desc = "A beautiful golden ring with a polished blortz set into it."
 	smeltresult = /obj/item/roguegem/blue
-	sellprice = 245
 
 /obj/item/clothing/ring/sapphire
 	name = "saffira ring"
 	icon_state = "g_ring_sapphire"
 	desc = "A beautiful golden ring with a polished saffira set into it."
 	smeltresult = /obj/item/roguegem/violet
-	sellprice = 200
 
 /obj/item/clothing/ring/diamond
 	name = "dorpel ring"
 	icon_state = "g_ring_diamond"
 	desc = "A beautiful golden ring with a polished dorpel set into it."
 	smeltresult = /obj/item/roguegem/diamond
-	sellprice = 270
+
+///
 
 /obj/item/clothing/ring/signet
-	name = "signet ring"
-	icon_state = "signet_stamp"
-	desc = "A ring of opulent gold, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, and a fresh bead of redtallow rests in the underside."
-	sellprice = 135
+	name = "gold signet ring"
+	icon_state = "signet"
+	desc = "A ring of opulent gold, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, and a fresh bead of tallow rests in the underside."
+	var/tallowed = FALSE
+	var/tallow_color = "red"
 
 /obj/item/clothing/ring/signet/get_mechanics_examine(mob/user)
     . = ..()
     . += span_info("Certain letters can be folded and stamped with the ring, which proves minor financial benefits.")
     . += span_info("Pressed upon a quest scroll by a Steward, Clerk, or Grand Duke, the ring stamps it LEVY EXEMPT - waiving the Crown's Contract Levy on its reward.")
 
+/obj/item/clothing/ring/signet/attack_right(mob/user)
+	. = ..()
+	if(tallowed)
+		if(alert(user, "SCRAPE THE TALLOW OFF?", "SIGNET RING", "YES", "NO") != "NO")
+			tallowed = FALSE
+			update_icon()
 
-/obj/item/clothing/ring/signet/alt
-	name = "silver signet ring"
-	icon_state = "signet_alt_stamp"
-	desc = "A ring of glistening silver, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, a bead of redtallow nested in the underside."
-	sellprice = 80
+/obj/item/clothing/ring/signet/update_icon()
+	. = ..()
+	if(tallowed)
+		icon_state = "[initial(icon_state)]_[tallow_color]_stamp"
+	else
+		icon_state = initial(icon_state)
 
 /obj/item/clothing/ring/signet/silver
-	name = "blessed silver signet ring"
-	icon_state = "signet_silver_stamp"
-	desc = "A ring of blessed silver, bearing the Archbishop's symbol. Its face is cut to seal writs of religious importance, a bead of redtallow nested in the underside."
-	sellprice = 90
+	name = "silver signet ring"
+	icon_state = "signet_silver"
+	desc = "A ring of glistening silver, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, a bead of tallow nested in the underside."
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
-/obj/item/clothing/ring/signet/silver/get_mechanics_examine(mob/user)
+/obj/item/clothing/ring/signet/psy
+	name = "psydonian signet ring"
+	icon_state = "psysignet"
+	desc = "A ring of blessed silver, bearing the Archbishop's symbol. Its face is cut to seal writs of religious importance, a bead of tallow nested in the underside."
+	is_silver = TRUE
+
+/obj/item/clothing/ring/signet/psy/get_mechanics_examine(mob/user)
     . = ..()
     . += span_info("Stamping a folded ACCUSATION or CONFESSION will increase the amount of MARQUES it'll reward, once sent through the HERMES.")
     . += span_info("Packing an INDEXER into an ACCUSATION or CONFESSION before folding-and-stamping it will further amplify this financial bonus.")
 
+/obj/item/clothing/ring/signet/psy/g
+	name = "psydonian gold signet ring"
+	icon_state = "psysignet_gold"
+	desc = "A ring of opulent gold, embodying the Naledian belief in Psydon's eternity. Its face is cut to seal writs of religious importance, a bead of tallow nested in the underside."
+	is_silver = FALSE
 
-//silver rings
+///
+
 /obj/item/clothing/ring/emeralds
 	name = "silver gemerald ring"
 	desc = "A glimmering silver ring with a polished gemerald set into it."
 	icon_state = "s_ring_emerald"
 	smeltresult = /obj/item/roguegem/green
-	sellprice = 155
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -277,7 +283,6 @@
 	desc = "A glimmering silver ring with a polished rontz set into it."
 	icon_state = "s_ring_ruby"
 	smeltresult = /obj/item/roguegem/ruby
-	sellprice = 215
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -286,7 +291,6 @@
 	desc = "A glimmering silver ring with a polished toper set into it."
 	icon_state = "s_ring_topaz"
 	smeltresult = /obj/item/roguegem/yellow
-	sellprice = 140
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -295,7 +299,6 @@
 	desc = "A glimmering silver ring with a polished blortz set into it."
 	icon_state = "s_ring_quartz"
 	smeltresult = /obj/item/roguegem/blue
-	sellprice = 205
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -304,7 +307,6 @@
 	desc = "A glimmering silver ring with a polished saffira set into it."
 	icon_state = "s_ring_sapphire"
 	smeltresult = /obj/item/roguegem/violet
-	sellprice = 160
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -313,7 +315,6 @@
 	desc = "A glimmering silver ring with a polished dorpel set into it."
 	icon_state = "s_ring_diamond"
 	smeltresult = /obj/item/roguegem/diamond
-	sellprice = 230
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -321,7 +322,6 @@
 	name = "duelist's ring"
 	desc = "Born out of duelists desire for theatrics, this ring denotes a proposal — an honorable duel, with stakes set ahigh.\nIf both duelists wear this ring, successful baits will off balance them, and clashing disarms will never be unlikely.\n<i>'You shall know his name. You shall know his purpose. You shall die.'</i>"
 	icon_state = "ring_duel"
-	sellprice = 10
 
 /////////////////////////
 // Wedding Rings/Bands //
@@ -333,7 +333,6 @@
 	name = "silver weddingband"
 	desc = "A glimmering weddingband of silver, ornately decorated with the engravings of a lover's name."
 	icon_state = "s_ring_wedding"
-	sellprice = 3	//You don't get to smelt this down or sell it. No free mams for a loadout item.
 	var/choicename = FALSE
 	var/choicedesc = FALSE
 	is_silver = FALSE //Love wins.
@@ -540,6 +539,15 @@
 		active_item = FALSE
 	return
 
+/obj/item/clothing/ring/statgemerald/antiquarian
+	sellprice = 30
+	desc = "A gemerald ring, glimmering with verdant brilliance. The closer your hand drifts to it, the stronger that the wind howls. The precious stone has chipped with long use, and is quite worthless except in its magick."
+/obj/item/clothing/ring/statonyx/antiquarian
+	sellprice = 30
+	desc = "An onyx ring, shining with violet determination. The closer your hand drifts to it, the faster your heart pounds. The precious stone has chipped with long use, and is quite worthless except in its magick."
+/obj/item/clothing/ring/statamythortz/antiquarian
+	sellprice = 30
+	desc = "A saffira ring, crackling with azuric fascination. The closer your hand drifts to it, the clearer your mind becomes. The precious stone has chipped with long use, and is quite worthless except in its magick."
 ///
 
 /obj/item/clothing/ring/statdorpel

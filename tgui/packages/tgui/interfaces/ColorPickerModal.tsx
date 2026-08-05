@@ -5,8 +5,8 @@
  */
 
 import {
-  hexToHsva,
   type HsvaColor,
+  hexToHsva,
   hsvaToHex,
   hsvaToHslString,
   hsvaToRgba,
@@ -58,7 +58,8 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = () => {
     named_presets,
   } = data;
   let { title } = data;
-  const hasNamedPresets = named_presets && Object.keys(named_presets).length > 0;
+  const hasNamedPresets =
+    named_presets && Object.keys(named_presets).length > 0;
 
   const [selectedColor, setSelectedColor] = useState<HsvaColor>(
     hexToHsva(default_color),
@@ -79,12 +80,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = () => {
   }
 
   return (
-    <Window
-      height={windowHeight}
-      title={title}
-      width={600}
-      theme="generic"
-    >
+    <Window height={windowHeight} title={title} width={600} theme="generic">
       {!!timeout && <Loader value={timeout} />}
       <Window.Content>
         <Stack fill vertical>

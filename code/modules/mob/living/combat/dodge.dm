@@ -113,6 +113,8 @@
 	var/theirskill = 0
 	var/drained = 8
 	var/drained_npc = 5
+	var/mainh = get_active_held_item()
+	var/offh = get_inactive_held_item()
 	if(ishuman(src))
 		H = src
 		IL = H.get_active_held_item()
@@ -141,12 +143,15 @@
 	if(src.client)
 		log_combat(src, user, "dodged against")
 	if(L)
-		if(has_trait && is_in_cone)
-			prob2defend = prob2defend + (L.STASPD * 15)
-		else
-			prob2defend = prob2defend + (L.STASPD * 10)
+		prob2defend = prob2defend + (L.STASPD * 10)
 	if(U)
-		prob2defend = prob2defend - (U.STASPD * 10)
+		var/dodgemod = 10
+		// This is to compensate for getting swarmed / flanked by simplemobs which can (somewhat)
+		// Occur more frequently. DE users will be able to dodge those a bit better even if DE
+		// Behaviour doesn't trigger.
+		if(has_trait && !U.mind && !UH)
+			dodgemod = 5
+		prob2defend = prob2defend - (U.STASPD * dodgemod)
 	if(I)
 		if(I.wbalance == WBALANCE_SWIFT && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
@@ -173,27 +178,7 @@
 						prob2defend = prob2defend - ((U.STASPD - L.STASPD) * 10)
 
 
-		if(HAS_TRAIT(L, TRAIT_GUIDANCE))
-			prob2defend += FULL_GUIDANCE_CHANCE
-		else if(HAS_TRAIT(L, TRAIT_LESSER_GUIDANCE))
-			prob2defend += LESSER_GUIDANCE_CHANCE
 
-		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
-			prob2defend -= FULL_GUIDANCE_CHANCE
-			ignore_DE_bonus = TRUE
-		else if(HAS_TRAIT(U, TRAIT_LESSER_GUIDANCE))
-			prob2defend -= LESSER_GUIDANCE_CHANCE
-
-		if(HAS_TRAIT(L, TRAIT_REVERSE_GUIDANCE))
-			prob2defend -= FULL_GUIDANCE_CHANCE
-		else if(HAS_TRAIT(L, TRAIT_LESSER_REVERSE_GUIDANCE))
-			prob2defend -= LESSER_GUIDANCE_CHANCE
-
-		if(HAS_TRAIT(U, TRAIT_REVERSE_GUIDANCE))
-			prob2defend += FULL_GUIDANCE_CHANCE
-		else if(HAS_TRAIT(U, TRAIT_LESSER_REVERSE_GUIDANCE))
-			prob2defend += LESSER_GUIDANCE_CHANCE
-		
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 			prob2defend -= 40
 			ignore_DE_bonus = TRUE
@@ -211,82 +196,57 @@
 			if(HAS_TRAIT(UH, TRAIT_FENCERDEXTERITY))
 				prob2defend -= 10
 				ignore_DE_bonus = TRUE
-		
+
 		if(!is_in_cone)
 			ignore_DE_bonus = TRUE
 
+		if(L.STASPD <= 9)
+			ignore_DE_bonus = TRUE
+
 		if(I && IL)	//Skilldiff applies extra stamloss, tentative
-			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(IL.associated_skill))
+			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(IL.associated_skill)) * 2
 
 			if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
-				drained += 3	//We drain extra stam if we're being attacked by swift stance
+				// We drain extra stam if we're being attacked by swift stance, inversely based on our dodgetime
+				// This is quite tentative and the numbers can be whatever, but this is meant to make Swift a good option
+				// Without allowing "just spam them down" to work all that well.
+				if(dodgetime <= CLICK_CD_FAST)
+					drained += (abs(round((CLICK_CD_HEAVY - dodgetime) / 2)))
 
-		if(has_trait && H.mind && !ignore_DE_bonus && H.STASPD > 10)
+		if(has_trait && H.mind && !ignore_DE_bonus)
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
 
-		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait && H.mind)
+		if(H.STASPD < U.STASPD)
+			if(IL && IL.wbalance != WBALANCE_HEAVY)
+				drained += (U.STASPD - H.STASPD)
 
-			var/mainh = get_active_held_item()
-			var/offh = get_inactive_held_item()
+		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait && H.mind)
 			if(istype(mainh, /obj/item/rogueweapon/shield) || istype(offh, /obj/item/rogueweapon/shield))	//why do I have to pre-empt the worst of you
 				if(!istype(mainh, /obj/item/rogueweapon/shield/buckler) && !istype(offh, /obj/item/rogueweapon/shield/buckler))
 					max_dodge = MAX_DODGE_FLOOR
 					L.changeNext_def(CLICK_CD_DODGE)
 		prob2defend = clamp((prob2defend + max_dodge), 5, (90 + max_dodge))
 
-		//------------Dual Wielding Checks------------
-		var/attacker_dualw
-		var/defender_dualw
-		var/extradefroll
-		var/mainhand = L.get_active_held_item()
-		var/offhand	= L.get_inactive_held_item()
-
-		//Dual Wielder defense disadvantage
-		if(mainhand && offhand)
-			if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && istype(offhand, mainhand))
-				extradefroll = prob(prob2defend)
-				defender_dualw = TRUE
-
-		//dual-wielder attack advantage
-		var/obj/item/mainh = U.get_active_held_item()
-		var/obj/item/offh = U.get_inactive_held_item()
-		if(mainh && offh && HAS_TRAIT(U, TRAIT_DUALWIELDER))
-			if(istype(mainh, offh))
-				attacker_dualw = TRUE
-		//----------Dual Wielding check end---------
-
-		var/attacker_feedback 
+		// Dual wield drawback (-5%)
+		var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && H.can_dualwield(mainh, offh)
+		if(dualwield_penalty)
+			prob2defend = max(prob2defend - 5, 0)
 
 		if(src.client?.prefs.showrolls)
 			var/text = "Roll to dodge... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
-			if((defender_dualw || attacker_dualw))
-				if(defender_dualw && attacker_dualw)
-					text += " Our dual wielding cancels out!"
-				else//If we're defending against or as a dual wielder, we roll disadv. But if we're both dual wielding it cancels out.
-					text += " Twice! Disadvantage! [!HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "([(prob2defend / 100) * (prob2defend / 100) * 100]%)" : ""]"
-			to_chat(src, span_info("[text]"))
 
-		if(user.client?.prefs.showrolls && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && has_trait && client)
-			to_chat(user, span_info("Their roll to dodge was... [prob2defend]%"))
+			if(dualwield_penalty)
+				text += " (-5%)"
+
+			to_chat(src, span_info(text))
 
 		if(L.has_status_effect(/datum/status_effect/swingdelay/penalty))
 			prob2defend = clamp(prob2defend - 50, 5, 90)
 
 		var/dodge_status = FALSE
-		if((!defender_dualw && !attacker_dualw) || (defender_dualw && attacker_dualw)) //They cancel each other out
-			if(attacker_feedback)
-				attacker_feedback = "Advantage cancelled out!"
-			if(prob(prob2defend))
-				dodge_status = TRUE
-		else if(attacker_dualw)
-			if(prob(prob2defend))
-				dodge_status = TRUE
-		else if(defender_dualw)
-			if(prob(prob2defend) && extradefroll)
-				dodge_status = TRUE
 
-		if(attacker_feedback)
-			to_chat(user, span_info("[attacker_feedback]"))
+		if(prob(prob2defend))
+			dodge_status = TRUE
 
 		if(!dodge_status)
 			return FALSE

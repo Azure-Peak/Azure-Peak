@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/fist_of_psydon
+	source_aspect = /datum/magic_aspect/pseudo/spellfist
 	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	button_icon_state = "fist_of_psydon"
 	name = "Fist of Psydon"
@@ -22,7 +23,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS
@@ -40,13 +41,13 @@
 	var/area_of_effect = 1 // 1-tile radius = 3x3
 	var/telegraph_delay = TELEGRAPH_DODGEABLE
 
-/datum/action/cooldown/spell/fist_of_psydon/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/fist_of_psydon/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/carbon/human/H = user
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
 
-	var/turf/T = get_turf(targets[1])
+	var/turf/T = get_turf(cast_on)
 	if(!T)
 		return FALSE
 

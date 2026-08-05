@@ -7,6 +7,7 @@
 	max_integrity = 200
 	integrity_failure = ARMOR_INTEG_FAILURE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	has_item_quality = TRUE
 	///What level of bright light protection item has.
 	var/flash_protect = FLASH_PROTECTION_NONE
 	var/tint = 0				//Sets the item's level of visual impairment tint, normally set to the same as flash_protect
@@ -14,6 +15,9 @@
 	var/visor_flags = 0			//flags that are added/removed when an item is adjusted up/down
 	var/visor_flags_inv = 0		//same as visor_flags, but for flags_inv
 	var/visor_flags_cover = 0	//same as above, but for flags_cover
+	var/adjusted_inv_mask = NONE
+	var/adjusted_inv_value = NONE
+	var/snouted = FALSE
 //what to toggle when toggled with weldingvisortoggle()
 	var/visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT | VISOR_VISIONFLAGS | VISOR_DARKNESSVIEW | VISOR_INVISVIEW
 	lefthand_file = 'icons/mob/inhands/clothing_lefthand.dmi'
@@ -49,11 +53,12 @@
 	var/dynamic_fhair_suffix = ""//mask > head for facial hair
 	edelay_type = 0
 	var/list/allowed_sex = list(MALE,FEMALE)
+
 	var/list/allowed_race = CLOTHED_RACES_TYPES
 	var/immune_to_genderswap = FALSE
 	var/armor_class = ARMOR_CLASS_NONE
 
-	sellprice = 1
+	var/blood_color = null
 	var/naledicolor = FALSE
 	var/chunkcolor = "#5e5e5e"
 	var/material_category = ARMOR_MAT_LEATHER
@@ -67,9 +72,11 @@
 	var/altdetail_tag
 	var/detail_color
 	var/altdetail_color
+	var/mutable_appearance/detail_overlay
 	var/boobed_detail = TRUE
 	var/sleeved_detail = TRUE
 	var/malumblessed_c = FALSE
+	var/list/worn_offsets = null  // in case it needs an extra offset to fit in a 32x32 .dmi file. Originally made by Sigma.
 	var/list/original_armor //For restoring broken armor
 
 /obj/item/clothing/New()
@@ -94,6 +101,41 @@
 	if(heat_protection)
 		. += span_info("It looks like it will protect me from the <b>heat</b>.")
 
+/obj/item/clothing/proc/persist_inv_flags(flag)
+	adjusted_inv_mask |= flag
+	adjusted_inv_value &= ~flag
+	adjusted_inv_value |= (flags_inv & flag)
+
+/obj/item/clothing/proc/adjust_inv_flags(base)
+	if(!adjusted_inv_mask)
+		return base
+	return (base & ~adjusted_inv_mask) | (adjusted_inv_value & adjusted_inv_mask)
+
+/obj/item/clothing/proc/is_snoutable()
+	if(!mob_overlay_icon)
+		return FALSE
+	var/icon/worn = new(mob_overlay_icon)
+	return ("[initial(icon_state)]_snout" in worn.IconStates())
+
+/obj/item/clothing/proc/toggle_snout()
+	if(snouted)
+		snouted = FALSE
+		icon_state = initial(icon_state)
+	else
+		if(!is_snoutable())
+			return FALSE
+		snouted = TRUE
+		icon_state = "[initial(icon_state)]_snout"
+	update_icon()
+	return TRUE
+
+/obj/item/clothing/proc/restore_snout()
+	if(snouted)
+		icon_state = "[initial(icon_state)]_snout"
+
+/obj/item/proc/get_detail_state(base_state)
+	return base_state
+
 /obj/item/proc/get_detail_tag() //this is for extra layers on clothes
 	return detail_tag
 
@@ -105,6 +147,22 @@
 
 /obj/item/proc/get_altdetail_color() //this is for extra layers on clothes
 	return altdetail_color
+
+/obj/item/proc/refresh_detail_overlay()
+	if(detail_overlay)
+		cut_overlay(detail_overlay)
+		detail_overlay = null
+	if(!get_detail_tag())
+		return
+	var/detail_state = "[icon_state][detail_tag]"
+	if(!icon_exists(icon, detail_state))
+		detail_state = "[initial(icon_state)][detail_tag]"
+	var/mutable_appearance/pic = mutable_appearance(icon(icon, detail_state))
+	pic.appearance_flags = RESET_COLOR
+	if(get_detail_color())
+		pic.color = get_detail_color()
+	add_overlay(pic)
+	detail_overlay = pic
 
 /obj/item/clothing/get_mechanics_examine(mob/user)
 	. = ..()
@@ -158,6 +216,9 @@
 			if(r_sleeve_status == SLEEVE_TORN)
 				to_chat(user, span_info("It's torn away."))
 				return
+			if(!salvage_result)
+				to_chat(user, span_warning("[src] cannot be torn."))
+				return
 			if(!do_after(user, 20, target = user))
 				return
 			if(prob(L.STASTR * 8))
@@ -180,6 +241,9 @@
 				return
 			if(l_sleeve_status == SLEEVE_TORN)
 				to_chat(user, span_info("It's torn away."))
+				return
+			if(!salvage_result)
+				to_chat(user, span_warning("[src] cannot be torn."))
 				return
 			if(!do_after(user, 20, target = user))
 				return
@@ -358,6 +422,38 @@
 		how_cool_are_your_threads += "</span>"
 		. += how_cool_are_your_threads.Join()
 */
+/// Proc that handles flinging off equipment when broken. NPCs have it happen to them way more frequently.
+/obj/item/clothing/proc/get_flung_off()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		if(!H.get_tempo_bonus(TEMPO_TAG_EQUIPTOSS))
+			return
+		var/max_range = (H.mind ? 2 : 3)
+		var/throwprob = (H.mind ? 8 : 80) + ((10 - H.STALUC))	// More FOR we have the less likely it is to happen.
+		if(!prob(throwprob))
+			return
+		perform_fling(H, max_range)
+
+/// Proc mostly for admins to use that omits probabilities. We could use an arg in the proc above, but navigating proccall is simpler without them.
+/obj/item/clothing/proc/get_flung_off_forced()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		var/max_range = rand(2, 3)
+		perform_fling(H, max_range)
+
+/// Actual proc for flinging the item off. This shouldn't really 'fail' if it is getting called.
+/obj/item/clothing/proc/perform_fling(mob/living/carbon/human/H, max_range)
+	if(H.dropItemToGround(src, silent = TRUE))
+		H.update_fov_angles()
+		if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
+			do_sparks(2, TRUE, get_turf(H))
+		var/turnangle = (prob(10) ? 180 : prob(50) ? 270 : 90)
+		var/turndir = turn(H.dir, turnangle)
+		var/dist = rand(1, max_range)
+		var/current_turf = get_turf(H)
+		var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
+		playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
+		throw_at(target_turf, dist, 6, H, FALSE)
 
 /obj/item/clothing/obj_break(damage_flag)
 	original_armor = armor
@@ -366,26 +462,13 @@
 		if(armorlist[x] > 0)
 			armorlist[x] = 0
 	..()
-	if(throw_on_break && !HAS_TRAIT(src, TRAIT_NODROP))
+	if(!HAS_TRAIT(src, TRAIT_NODROP))
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = loc
-			if(!H.get_tempo_bonus(TEMPO_TAG_EQUIPTOSS))
-				return
-			var/max_range = (H.mind ? 2 : 3)
-			var/throwprob = (H.mind ? 8 : 80) + ((10 - H.STALUC))	// More FOR we have the less likely it is to happen.
-			if(!prob(throwprob))
-				return
-			if(H.dropItemToGround(src, silent = TRUE))
-				H.update_fov_angles()
-				if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
-					do_sparks(2, TRUE, get_turf(H))
-				var/turnangle = (prob(10) ? 180 : prob(50) ? 270 : 90)
-				var/turndir = turn(H.dir, turnangle)
-				var/dist = rand(1, max_range)
-				var/current_turf = get_turf(H)
-				var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
-				playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
-				throw_at(target_turf, dist, 6, H, FALSE)
+			if(HAS_TRAIT(H, TRAIT_ARMOR_BREAK))
+				get_flung_off_forced()
+	if(throw_on_break && !HAS_TRAIT(src, TRAIT_NODROP))
+		get_flung_off()
 
 /obj/item/clothing/obj_fix(mob/user, full_repair = TRUE)
 	..()
@@ -469,7 +552,7 @@ BLIND     // can't see anything
 	if(..())
 		return 1
 
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE))
 		return
 	else
 		if(attached_accessory)
@@ -628,12 +711,25 @@ BLIND     // can't see anything
 	return examine_text
 
 /obj/item/clothing/generate_tooltip(examine_text)
+	var/examine_highlight_status = get_examine_highlight_status()
 	if(!armor)	// No armor
-		return examine_text
+		if(examine_highlight_status)
+			var/severity = examine_highlight_status[1]
+			var/labeled_string = get_examine_highlight_labeled_string(severity, examine_text)
+			var/tooltip_string = get_examine_highlight_tooltip_string(examine_highlight_status)
+			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
+		else
+			return examine_text
 
 	// Fake armor
 	if(armor.getRating("slash") == 0 && armor.getRating("stab") == 0 && armor.getRating("blunt") == 0 && armor.getRating("piercing") == 0)
-		return examine_text
+		if(examine_highlight_status)
+			var/severity = examine_highlight_status[1]
+			var/labeled_string = get_examine_highlight_labeled_string(severity, examine_text)
+			var/tooltip_string = get_examine_highlight_tooltip_string(examine_highlight_status)
+			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
+		else
+			return examine_text
 
 	var/str
 	str += "<b>ABSORPTION:</b> [colorgrade_rating("🔨 BLUNT", armor.blunt, elaborate = TRUE, max_tier = 5)]<br>"
@@ -641,17 +737,19 @@ BLIND     // can't see anything
 	str += "[colorgrade_rating("🪓 SLASH", armor.slash, elaborate = TRUE)] | "
 	str += "[colorgrade_rating("🗡️ STAB", armor.stab, elaborate = TRUE)] | "
 	str += "[colorgrade_rating("🏹 PIERCE", armor.piercing, elaborate = TRUE)]"
-	if(armor.fire > NONE || armor.acid > NONE)
-		str += "<br><b>RESIST:</b> "
-		var/list/resists = list()
-		if(armor.fire > NONE)
-			resists += colorgrade_rating("🔥 FIRE", armor.fire, elaborate = TRUE)
-		if(armor.acid > NONE)
-			resists += colorgrade_rating("🧪 ACID", armor.acid, elaborate = TRUE)
-		str += resists.Join(" | ")
+	if(armor.fire > NONE)
+		str += "<br><b>RESIST:</b> [colorgrade_rating("🔥 FIRE", armor.fire, elaborate = TRUE)]"
 
-	//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
-	examine_text = "<font color = '#808080'>[examine_text]</font>"
+	if(examine_highlight_status)
+		var/heresy_desc = get_examine_highlight_description(examine_highlight_status)
+		var/severity = examine_highlight_status[1]
+		if(heresy_desc)
+			str += "<br>" + heresy_desc
+			str += "<br>" + get_examine_highlight_explanation(severity)
+		examine_text = get_examine_highlight_labeled_string(severity, examine_text)
+	else
+		//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
+		examine_text = "<font color = '#808080'>[examine_text]</font>"
 	return SPAN_TOOLTIP_DANGEROUS_HTML(str, examine_text)
 
 /obj/item/clothing/proc/get_armor_integ()
@@ -667,3 +765,18 @@ BLIND     // can't see anything
 			return VISMSG_ARMOR_INT_STAGETWO
 		if(0 to 0.24)
 			return VISMSG_ARMOR_INT_STAGETHREE
+
+
+/// Pardon the goofy name, but this proc in essence turns the item into an aesthetic-only loadout variant.
+/// Please do NOT use this with medium or heavy AC armor if you can, glamour plate armor is not an intuitive good thing.
+/obj/item/clothing/proc/loadoutize()
+	armor_class = ARMOR_CLASS_NONE
+	if(armor)
+		qdel(armor)
+		armor = new /datum/armor()
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	obj_integrity = max_integrity
+	if((grid_width > 64 ) || (grid_height > 64))	// We're an item that's 2+ tiles across / tall.
+		// We make it fit into generic 2x2 aesthetic storage. Warning. May cause weirdness if we start loadoutizing everything all willy-nilly.
+		grid_width = 64
+		grid_height = 64

@@ -20,34 +20,39 @@
 	)
 	craftdiff = 3
 
+
 /datum/crafting_recipe/roguetown/survival/repairkitclothbad
 	name = "fabric patch" //9 fiber
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	result = /obj/item/repair_kit/bad
 	reqs = list(
 		/obj/item/natural/cloth = 2,
 		/obj/item/natural/fibers = 2,
 		/obj/item/rope = 1,
 		)
-	craftdiff = 3
+	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/survival/repairkitmetalingot
-	name = "empty metal kit (iron bar)"
+	name = "empty metal repair kit (iron bar)"
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	result = /obj/item/armorkit_empty
 	reqs = list(
 		/obj/item/ingot/iron = 1,
 		)
-	craftdiff = 3
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/repairkitmetalscrap
-	name = "empty metal kit (scrap)"
+	name = "empty metal repair kit (iron scrap)"
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	result = /obj/item/armorkit_empty
 	reqs = list(
 		/obj/item/scrap = 3,
 		)
-	craftdiff = 3
+	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/survival/repairkitcloth
 	name = "sewing kit"
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	result = /obj/item/repair_kit
 	reqs = list(
 		/obj/item/natural/cloth = 4,
@@ -74,6 +79,15 @@
 	verbage_simple = "sew"
 	verbage = "sews"
 	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/survival/clothbelt/upgraded
+	name = "pouch-fitted cloth belt"
+	result = /obj/item/storage/belt/rogue/leather/cloth/upgraded
+	reqs = list(/obj/item/storage/belt/rogue/leather/cloth = 1,
+				/obj/item/storage/belt/rogue/pouch = 1)
+	craftdiff = 1
+	verbage_simple = "tie"
+	verbage = "tie"
 
 /datum/crafting_recipe/roguetown/survival/clothbelt
 	name = "cloth belt"
@@ -103,6 +117,15 @@
 	result = /obj/item/storage/belt/rogue/leather/rope
 	reqs = list(/obj/item/rope = 1)
 	craftdiff = 0
+	verbage_simple = "tie"
+	verbage = "ties"
+
+/datum/crafting_recipe/roguetown/survival/ropebelt/upgraded
+	name = "pouch-fitted rope belt"
+	result = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	reqs = list(/obj/item/storage/belt/rogue/leather/rope = 1,
+				/obj/item/storage/belt/rogue/pouch = 1)
+	craftdiff = 1
 	verbage_simple = "tie"
 	verbage = "ties"
 
@@ -141,7 +164,6 @@
 	skillcraft = /datum/skill/craft/sewing
 
 /obj/item/storage/roguebag/crafted
-	sellprice = 4
 
 /datum/crafting_recipe/roguetown/survival/pipe
 	name = "wood pipe"
@@ -149,7 +171,6 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /obj/item/clothing/mask/cigarette/pipe/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/survival/broom
 	name = "broom"
@@ -162,6 +183,7 @@
 
 /datum/crafting_recipe/roguetown/survival/book_crafting_kit
 	name = "book crafting kit"
+	display_category = ITEM_CAT_BOOK_WRIT
 	result = /obj/item/book_crafting_kit
 	reqs = list(
 		/obj/item/natural/hide = 2,
@@ -183,6 +205,13 @@
 		)
 	structurecraft = /obj/machinery/tanningrack
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/zigbox
+	name = "zigbox"
+	result = /obj/item/storage/belt/rogue/pouch/zigarrete
+	reqs = list(/obj/item/paper/scroll = 2)
+	req_table = TRUE
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/prosthetic/woodleftarm
 	name = "wood arm (L)"
@@ -225,6 +254,19 @@
 	req_table = TRUE
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/survival/tarot_deck_majorarcana
+	name = "tarot deck (major arcana)"
+	result = list(/obj/item/toy/cards/deck/tarot/majorarcana)
+	reqs = list(
+		/obj/item/paper/scroll = 3,
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/ash = 1,
+		)
+	skillcraft = /datum/skill/misc/reading
+	tools = list(/obj/item/natural/feather)
+	req_table = TRUE
+	craftdiff = 2
+
 // Woodcutting recipe
 /datum/crafting_recipe/roguetown/survival/lumberjacking
 	skillcraft = /datum/skill/labor/lumberjacking
@@ -232,6 +274,7 @@
 
 /datum/crafting_recipe/roguetown/survival/lumberjacking/cart_upgrade
 	name = "woodcutters wheelbrace"
+	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/item/cart_upgrade/level_1
 	reqs = list(
 		/obj/item/grown/log/tree/small = 2,
@@ -241,6 +284,7 @@
 
 /datum/crafting_recipe/roguetown/survival/lumberjacking/cart_upgrade2
 	name = "reinforced woodcutters wheelbrace"
+	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/item/cart_upgrade/level_2
 	reqs = list(
 		/obj/item/grown/log/tree/small = 4,
@@ -252,6 +296,7 @@
 
 /datum/crafting_recipe/hair_dye
     name = "hair dye cream"
+    display_category = ITEM_CAT_TOOLS_SUNDRIES
     result = /obj/item/hair_dye_cream
     reqs = list(
         /obj/item/reagent_containers/glass/bowl = 1,
@@ -304,12 +349,14 @@
 
 /datum/crafting_recipe/roguetown/survival/dye_brush
 	name = "dye brush"
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
 	result = /obj/item/dye_brush
 	reqs = list(
 		/obj/item/grown/log/tree/stick = 2,
 		/obj/item/natural/fur = 1
 		)
 	craftdiff = 1
+	subtype_reqs = TRUE
 
 /datum/crafting_recipe/roguetown/survival/whetstone
 	name = "whetstone"
@@ -371,6 +418,25 @@
 		)
 	craftdiff = 1
 
+/datum/crafting_recipe/roguetown/survival/hotrock
+	name = "assemble stones into hotrock"
+	result = /obj/item/cooking/pan/stone
+	reqs =  list(/obj/item/natural/stone = 4)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/hotrock_whetstone
+	name = "combine whetstones into hotrock"
+	result = /obj/item/cooking/pan/stone
+	reqs =  list(/obj/item/natural/whetstone = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/hotrock_boulder
+	name = "chisel boulder into hotrock"
+	result = /obj/item/cooking/pan/stone
+	reqs =  list(/obj/item/natural/rock = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = 2
+
 // Unfortunately there's no good category for it, yet.
 // I don't want ration paper to be too expensive, making wrapped food underused
 // So instead, ration paper is a very cheap recipe with parchment and tallow (instead of full fat) that makes 2 wrapper
@@ -389,55 +455,3 @@
 		)
 	skillcraft = /datum/skill/craft/cooking
 	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/survival/cheele
-	name = "cheele"
-	result = list(
-		/obj/item/natural/worms/leech/cheele
-		)
-	reqs = list(
-		/obj/item/reagent_containers/lux = 1,
-		/obj/item/natural/worms/leech = 1,
-		)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = SKILL_LEVEL_EXPERT
-
-/datum/crafting_recipe/roguetown/survival/purify_lux
-	name = "purify lux"
-	result = list(
-		/obj/item/heart_blood_canister,
-		/obj/item/reagent_containers/lux,
-		)
-	reqs = list(
-		/obj/item/reagent_containers/lux_impure = 1,
-		/obj/item/heart_blood_canister/filled = 1,
-		)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = 2
-
-/datum/crafting_recipe/roguetown/survival/purify_lux_vials
-	name = "purify lux (vials)"
-	result = list(
-		/obj/item/reagent_containers/lux,
-		/obj/item/heart_blood_vial,
-		/obj/item/heart_blood_vial,
-		/obj/item/heart_blood_vial,
-		)
-	reqs = list(
-		/obj/item/reagent_containers/lux_impure = 1,
-		/obj/item/heart_blood_vial/filled = 3,
-		)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = 2
-
-/datum/crafting_recipe/roguetown/survival/bandage
-	name = "bandages (medicine)"
-	result = list(
-		/obj/item/natural/cloth/bandage
-	)
-	reqs = list(
-		/obj/item/natural/cloth = 1,
-		/obj/item/natural/silk = 1,
-		/obj/item/ash = 1)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = 2

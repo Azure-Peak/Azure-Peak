@@ -28,6 +28,10 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 /atom/movable
 	var/sellprice = 0 //sanitize this somewhere so it cant be decimals
 	var/static_price = FALSE
+	var/looted = FALSE
+	var/no_loot_taint = FALSE
+	/// An item spawned via the handle_special_items_retrieval proc, that is not triumph
+	var/special_item = FALSE
 
 /atom/movable/proc/randomize_price()
 	if(sellprice)
@@ -37,9 +41,32 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 	return sellprice
 
 /atom/movable/proc/get_real_price()
+	if (special_item)
+		return 0
 	if(sellprice == initial(sellprice))
 		randomize_price()
+	if(!static_price && !sellprice && initial(sellprice) == 0)
+		var/derived = GLOB.derived_sellprices?[type]
+		if(!derived)
+			derived = lookup_derived_subtype_price(type)
+		if(derived)
+			sellprice = derived
+			randomize_price()
+	if(looted)
+		return max(1, round(sellprice * LOOTED_SELL_MULT))
 	return sellprice
+
+/proc/lookup_derived_subtype_price(typepath)
+	if(!GLOB.derived_sellprices)
+		return 0
+	var/parent_path = typepath
+	while(parent_path)
+		parent_path = type2parent(parent_path)
+		if(!parent_path)
+			return 0
+		var/parent_price = GLOB.derived_sellprices[parent_path]
+		if(parent_price)
+			return parent_price
 
 // For appraisal purposes only - calculates total value including contents
 // Used by SEEPRICES trait for examining containers
@@ -84,9 +111,10 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 //				sold = E.sell_object(thing, report, dry_run, allowed_categories , apply_elastic)
 //				report.exported_atoms += " [thing.name]"
 //				break
-		if(thing.get_real_price() > 0)
-			newbudget += thing.sellprice
-			report.total_value[thing] += thing.sellprice
+		var/real_price = thing.get_real_price()
+		if(real_price > 0)
+			newbudget += real_price
+			report.total_value[thing] += real_price
 			report.total_amount[thing] += 1
 			report.exported_atoms += " [thing.name]"
 			sold = TRUE

@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { useEffect, useState } from 'react';
 import { TextArea } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
+  BUTTON_BG,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -122,8 +124,6 @@ const formatCountdown = (seconds: number): string => {
   return `${m}m ${s.toString().padStart(2, '0')}s`;
 };
 
-// ─ Compact ballot styles ────────────────────────────────────────────
-
 const ballotRowStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'baseline',
@@ -136,15 +136,12 @@ const ballotRowStyle: CSSProperties = {
 const rowLabelStyle: CSSProperties = {
   minWidth: '110px',
   color: INK,
-  fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontWeight: 'bold',
 };
 
 const rowHintStyle: CSSProperties = {
-  color: INK_FAINT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  color: INK_SOFT,
+  fontSize: FONT_BODY,
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -152,9 +149,7 @@ const rowHintStyle: CSSProperties = {
 
 const previewStyle: CSSProperties = {
   color: INK_SOFT,
-  fontSize: '11px',
-  fontVariant: 'small-caps',
-  letterSpacing: '1px',
+  fontSize: FONT_BODY,
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -165,9 +160,7 @@ const headerBarStyle: CSSProperties = {
   justifyContent: 'space-between',
   alignItems: 'baseline',
   color: INK_SOFT,
-  fontVariant: 'small-caps',
-  letterSpacing: '1px',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   marginBottom: '4px',
 };
 
@@ -177,10 +170,8 @@ const quorumBannerStyle = (quorate: boolean): CSSProperties => ({
   color: quorate ? SEAL_GREEN : SEAL_RED,
   padding: '4px 10px',
   marginBottom: '10px',
-  fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontWeight: 'bold',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   textAlign: 'center',
 });
 
@@ -202,8 +193,7 @@ const aldermanRowStyle: CSSProperties = {
 const standLinkStyle: CSSProperties = {
   cursor: 'pointer',
   color: INK_SOFT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   textDecoration: 'underline',
   marginTop: '4px',
 };
@@ -223,21 +213,19 @@ const candidateNameStyle: CSSProperties = {
 
 const candidateJobStyle: CSSProperties = {
   color: INK_SOFT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
 };
 
 const candidatePledgeStyle: CSSProperties = {
-  color: INK_FAINT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  color: INK_SOFT,
+  fontSize: FONT_BODY,
   flexBasis: '100%',
   paddingLeft: '28px',
 };
 
 const tallyChipStyle: CSSProperties = {
   color: INK_SOFT,
-  fontSize: '10px',
+  fontSize: FONT_BODY,
   fontWeight: 'normal',
   marginLeft: '2px',
 };
@@ -253,16 +241,18 @@ export const CityAssembly = () => {
     const t = setInterval(() => setTick((n) => n + 1), 1000);
     return () => clearInterval(t);
   }, []);
-  const countdown = Math.max(
-    0,
-    (data.next_resolution_seconds || 0) - tick,
-  );
+  const countdown = Math.max(0, (data.next_resolution_seconds || 0) - tick);
 
   const canVote = !data.is_outlaw && data.my_weight_doubled > 0;
   const hasAlderman = !!data.current_alderman;
 
   return (
-    <Window title="The City Assembly" width={780} height={740} theme="parchment">
+    <Window
+      title="The City Assembly"
+      width={780}
+      height={740}
+      theme="parchment"
+    >
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The City Assembly</div>
@@ -279,8 +269,8 @@ export const CityAssembly = () => {
                 : ` • resolves at ${data.next_resolution}`}
             </span>
             <span>
-              {data.voter_count} voter{data.voter_count === 1 ? '' : 's'} &middot;
-              your weight {formatWeight(data.my_weight_doubled)}
+              {data.voter_count} voter{data.voter_count === 1 ? '' : 's'}{' '}
+              &middot; your weight {formatWeight(data.my_weight_doubled)}
               {data.is_censured ? ' (censured)' : ''}
               {data.is_outlaw ? ' (outlaw)' : ''}
             </span>
@@ -321,7 +311,7 @@ export const CityAssembly = () => {
 
           <BracketRow
             label="Trade"
-            hint="Set the Alderman's daily Crown spending cap."
+            hint="Set the Alderman's daily Crown spending cap. (Taken from the Crowns' Purse, not the Burgher's Pledge.)"
             motion={MOTION_TRADE}
             brackets={data.trade_brackets}
             suffix="m"
@@ -340,8 +330,6 @@ export const CityAssembly = () => {
             tally={data.tallies?.defense_auth}
             disabled={!canVote}
           />
-
-          {/* Poll Tax disabled pending anti-dodge design. */}
 
           {hasAlderman ? (
             <>
@@ -368,7 +356,8 @@ export const CityAssembly = () => {
             style={{ ...standLinkStyle, marginTop: '12px' }}
             onClick={() => setHistoryOpen(!historyOpen)}
           >
-            {historyOpen ? 'Hide record' : 'Show record'} ({data.history.length})
+            {historyOpen ? 'Hide record' : 'Show record'} ({data.history.length}
+            )
           </div>
           {historyOpen && <HistoryBlock history={data.history} />}
         </div>
@@ -376,8 +365,6 @@ export const CityAssembly = () => {
     </Window>
   );
 };
-
-// ─ Alderman-only status strip ───────────────────────────────────────
 
 const AldermanStrip = (props: {
   warrant: Warrant;
@@ -389,8 +376,6 @@ const AldermanStrip = (props: {
     <div style={aldermanPanelStyle}>
       <div
         style={{
-          fontVariant: 'small-caps',
-          letterSpacing: '2px',
           color: SEAL_AMBER,
           fontWeight: 'bold',
           marginBottom: '4px',
@@ -401,16 +386,25 @@ const AldermanStrip = (props: {
       <div style={aldermanRowStyle}>
         <span>Trade warrant</span>
         <span>
-          <b>{props.warrant.trade_remaining}m</b> of {props.warrant.trade_cap}m remaining today
+          <b>{props.warrant.trade_remaining}m</b> of {props.warrant.trade_cap}m
+          remaining today
         </span>
       </div>
       <div style={aldermanRowStyle}>
         <span>Defense warrant</span>
         <span>
-          <b>{props.warrant.defense_remaining}p</b> of {props.warrant.defense_cap}p remaining today
+          <b>{props.warrant.defense_remaining}p</b> of{' '}
+          {props.warrant.defense_cap}p remaining today
         </span>
       </div>
-      <div style={{ marginTop: '6px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+      <div
+        style={{
+          marginTop: '6px',
+          display: 'flex',
+          gap: '6px',
+          flexWrap: 'wrap',
+        }}
+      >
         <button
           type="button"
           style={inkButtonStyle({
@@ -439,8 +433,6 @@ const AldermanStrip = (props: {
   );
 };
 
-// ─ Election ballot row ──────────────────────────────────────────────
-
 type ElectionRowProps = {
   data: Data;
   canVote: boolean;
@@ -462,7 +454,7 @@ const ElectionRow = (props: ElectionRowProps) => {
   const tally = data.tallies?.election;
 
   const leaderLabel = (() => {
-    if (!tally || !tally.leader_key || tally.total === 0) return null;
+    if (!tally?.leader_key || tally.total === 0) return null;
     if (tally.leader_key === NO_ALDERMAN) return 'NO ALDERMAN leads';
     const match = data.candidates.find((c) => c.ref === tally.leader_key);
     if (match) return `${match.name} leads`;
@@ -474,9 +466,7 @@ const ElectionRow = (props: ElectionRowProps) => {
       <span style={rowLabelStyle}>Alderman</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         {data.candidates.length === 0 && (
-          <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
-            No one has stood yet.
-          </div>
+          <div style={{ color: INK_SOFT }}>No one has stood yet.</div>
         )}
         {data.candidates.map((c) => {
           const selected = mySelection === c.ref;
@@ -497,12 +487,12 @@ const ElectionRow = (props: ElectionRowProps) => {
               <span style={candidateNameStyle}>{c.name}</span>
               <span style={candidateJobStyle}>&ldquo;{c.job}&rdquo;</span>
               {c.is_alderman ? (
-                <span style={{ color: SEAL_AMBER, fontSize: '11px' }}>
+                <span style={{ color: SEAL_AMBER, fontSize: FONT_BODY }}>
                   (sitting)
                 </span>
               ) : null}
               {c.is_me ? (
-                <span style={{ color: INK_SOFT, fontSize: '11px' }}>
+                <span style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
                   (you)
                 </span>
               ) : null}
@@ -543,15 +533,13 @@ const ElectionRow = (props: ElectionRowProps) => {
 
         {leaderLabel ? (
           <div style={previewStyle}>
-            &rarr; {leaderLabel} ({formatWeight(tally?.total ?? 0)} total weight)
+            &rarr; {leaderLabel} ({formatWeight(tally?.total ?? 0)} total
+            weight)
           </div>
         ) : null}
 
         {canStand && !props.standOpen ? (
-          <div
-            style={standLinkStyle}
-            onClick={() => props.setStandOpen(true)}
-          >
+          <div style={standLinkStyle} onClick={() => props.setStandOpen(true)}>
             {amCandidate ? 'Update my pledge...' : 'Stand for the chair...'}
           </div>
         ) : null}
@@ -570,11 +558,11 @@ const ElectionRow = (props: ElectionRowProps) => {
               onChange={(v) => props.setPledgeDraft(v)}
               placeholder="Your pledge (max 300 characters)..."
               style={{
-                background: 'rgba(255,248,220,0.6)',
+                background: BUTTON_BG,
                 border: `1px solid ${INK_FAINT}`,
                 padding: '4px 6px',
                 fontFamily: SERIF,
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 color: INK,
                 minHeight: '50px',
                 width: '100%',
@@ -605,8 +593,6 @@ const ElectionRow = (props: ElectionRowProps) => {
     </div>
   );
 };
-
-// ─ Bracket ballot row ───────────────────────────────────────────────
 
 type BracketRowProps = {
   label: string;
@@ -689,8 +675,6 @@ const BracketRow = (props: BracketRowProps) => {
   );
 };
 
-// ─ YAE/NAY ballot row (recall, censure) ─────────────────────────────
-
 type YaeNayProps = {
   label: string;
   hint: string;
@@ -756,12 +740,10 @@ const YaeNayRow = (props: YaeNayProps) => {
   );
 };
 
-// ─ History (collapsed by default) ───────────────────────────────────
-
 const HistoryBlock = (props: { history: HistoryEntry[] }) => {
   if (props.history.length === 0) {
     return (
-      <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: '6px' }}>
+      <div style={{ color: INK_SOFT, marginTop: '6px' }}>
         No sessions have yet been written into the record.
       </div>
     );
@@ -777,11 +759,17 @@ const HistoryBlock = (props: { history: HistoryEntry[] }) => {
             marginBottom: '8px',
           }}
         >
-          <div style={{ color: INK_SOFT, fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '1px' }}>
+          <div
+            style={{
+              color: INK_SOFT,
+              fontSize: FONT_BODY,
+              letterSpacing: '1px',
+            }}
+          >
             Session {h.session} &mdash; Day {h.day}
           </div>
           <div
-            style={{ color: INK, lineHeight: 1.5, fontSize: '12px' }}
+            style={{ color: INK, lineHeight: 1.5, fontSize: FONT_BODY }}
             dangerouslySetInnerHTML={{ __html: h.text }}
           />
         </div>

@@ -138,8 +138,8 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
-	name = "crusader greathelm"
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided_alt
+	name = "templar bucket helmet"
 	desc = "A gold-plated bucket helm adorned with symbol of Astrata, beacon of hope worn during crusades. \
 	Sacrificial Hero, fear not your enemy; it is only the first tilt."
 	worn_x_dimension = 64
@@ -147,3 +147,9 @@
 	icon_state = "crusader_bucket"//Edit of a Stonekeep sprite
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
+	unenchantable = TRUE
+	smeltresult = null
+
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#79d5ff", "alpha" = 120, "size" = 1)) //Enchanted look.

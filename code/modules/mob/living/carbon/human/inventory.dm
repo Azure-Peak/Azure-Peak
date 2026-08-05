@@ -233,6 +233,8 @@
 		. += thing?.slowdown
 
 /mob/living/carbon/human/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE)
+	if(I && no_move && !force && HAS_TRAIT(I, TRAIT_NODROP) && HAS_TRAIT(src, TRAIT_CONJURED_SUMMON))
+		force = TRUE
 	var/index = get_held_index_of_item(I)
 	. = ..() //See mob.dm for an explanation on this and some rage about people copypasting instead of calling ..() like they should.
 	if(!. || !I)
@@ -349,6 +351,8 @@
 		if(!QDELETED(src))
 			update_inv_mouth()
 
+	worn_ac_dirty = TRUE
+
 	// Armor class warning — must run after slot vars are nulled so check_armor_skill() sees the correct state
 	if(!QDELETED(src) && istype(I, /obj/item/clothing))
 		var/obj/item/clothing/C = I
@@ -392,7 +396,21 @@
 	if(!O)
 		return 0
 
-	return O.equip(src, visualsOnly)
+	. = O.equip(src, visualsOnly)
+	if(!visualsOnly)
+		// Recalculate pain threshold for NPC since they set STAWIL directly
+		if(ai_controller)
+			recalculate_pain_threshold()
+		if(!client && !mind)
+			taints_loot = TRUE
+		if(taints_loot)
+			flag_worn_as_looted()
+
+/mob/living/carbon/human/proc/flag_worn_as_looted()
+	for(var/obj/item/I in get_equipped_items(TRUE) + held_items)
+		if(I.no_loot_taint)
+			continue
+		I.mark_as_looted()
 
 
 //delete all equipment without dropping anything

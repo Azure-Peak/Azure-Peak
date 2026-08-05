@@ -130,7 +130,6 @@ GLOBAL_LIST_INIT(church_positions, list( //Church of the Ten
 ))
 
 GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you.
-	"Merchant",
 	"Guildmaster",
 	"Guildsman",
 	"Tailor",
@@ -138,13 +137,28 @@ GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you
 	"Apothecary",
 	"Innkeeper",
 	"Bathmaster",
-	"Town Crier",
 	"Magicians Associate",
 ))
+
+GLOBAL_LIST_INIT(atc_positions, list( //Azurian Trading Company - Merchant's chapter and their help.
+	"Merchant",
+	"Shophand",
+))
+
+// Semantic helper: "is this job town-economy" (Burghers + ATC). Use this for role checks
+// where Merchant and Shophand should be treated alongside artisans/Cityfolk.
+/proc/is_townfolk_job(job)
+	return (job in GLOB.burgher_positions) || (job in GLOB.atc_positions)
 
 GLOBAL_LIST_INIT(bathhouse_positions, list(
 	"Bathmaster",
 	"Bathhouse Attendant",
+))
+
+GLOBAL_LIST_INIT(tavern_positions, list(
+	"Innkeeper",
+	"Tapster",
+	"Cook",
 ))
 
 GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
@@ -152,7 +166,6 @@ GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
 	"Cook",
 	"Tapster",
 	"Servant",
-	"Shophand",
 	"Soilson",
 	"Towner",
 ))
@@ -229,6 +242,7 @@ GLOBAL_LIST_INIT(job_assignment_order, get_job_assignment_order())
 	sorting_order += GLOB.garrison_positions
 	sorting_order += GLOB.church_positions
 	sorting_order += GLOB.burgher_positions
+	sorting_order += GLOB.atc_positions
 	sorting_order += GLOB.peasant_positions
 	sorting_order += GLOB.sidefolk_positions
 	sorting_order += GLOB.antagonist_positions
@@ -249,7 +263,7 @@ GLOBAL_LIST_INIT(exp_jobsmap, list(
 
 GLOBAL_LIST_INIT(exp_specialmap, list(
 	EXP_TYPE_LIVING = list(), // all living mobs
-	EXP_TYPE_ANTAG = list(ROLE_MANIAC, ROLE_PREBEL, ROLE_BANDIT, ROLE_ASPIRANT, ROLE_WEREWOLF, ROLE_NBEAST, ROLE_VAMPIRE, ROLE_LICH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_ASSASSIN, ROLE_HAG),
+	EXP_TYPE_ANTAG = list(ROLE_MANIAC, ROLE_PREBEL, ROLE_REBEL_LEADER, ROLE_BANDIT, ROLE_ASPIRANT, ROLE_WEREWOLF, ROLE_NBEAST, ROLE_VAMPIRE, ROLE_LICH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_ASSASSIN, ROLE_HAG),
 	EXP_TYPE_SPECIAL = list("Lifebringer","Ash Walker","Exile","Servant Golem","Free Golem","Hermit","Translocated Vet","Escaped Prisoner","Hotel Staff","SuperFriend","Space Syndicate","Ancient Crew","Space Doctor","Space Bartender","Beach Bum","Skeleton","Zombie","Space Bar Patron","Lavaland Syndicate","Ghost Role"), // Ghost roles
 	EXP_TYPE_GHOST = list() // dead people, observers
 ))

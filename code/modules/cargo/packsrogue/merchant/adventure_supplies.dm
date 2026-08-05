@@ -77,17 +77,17 @@
 
 /datum/supply_pack/rogue/adventure_supplies/small_tent
 	name = "Small Tent Kit"
-	cost = 50
+	cost = 30
 	contains = list(/obj/item/tent_kit)
 
 /datum/supply_pack/rogue/adventure_supplies/ger
 	name = "Ger Kit"
-	cost = 100
+	cost = 75
 	contains = list(/obj/item/tent_kit/ger)
 
 /datum/supply_pack/rogue/adventure_supplies/yurt
 	name = "Yurt Kit"
-	cost = 200
+	cost = 150
 	contains = list(/obj/item/tent_kit/yurt)
 
 // If adding more, make new category for maps.
@@ -100,3 +100,8 @@
 	name = "Boars Map"
 	cost = 50
 	contains = list(/obj/item/hunting_map/boars)
+
+/datum/supply_pack/rogue/adventure_supplies/grapplinghook
+	name = "Grappling Hook"
+	cost = 320
+	contains = list(/obj/item/grapplinghook)

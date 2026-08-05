@@ -70,13 +70,12 @@
 	var/newtime = 20 - (user.get_skill_level(/datum/skill/combat/slings) * 1.5) - (user.STAPER / 2) - (user.STASTR / 5)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(0.5, newtime) * ARCHER_NPC_ROF_PENALTY
+	return max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME
 
 //objs
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	name = "sling"
-	flags_ai_inventory = AI_ITEM_GUN
 	desc = "Twisted fibers manifest into a strung pouch capable of hurling stones afar."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "sling"
@@ -106,6 +105,7 @@
 	var/bonus_stone_force = 0 //above comment is relevant. a magical stone's bonus force is kept on the sling itself and changed accordingly
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/get_mechanics_examine(mob/user)
+	. = ..()
 	. += span_info("Slings increase in damage and accuracy the higher your <b>PERCEPTION</b> and <b>STRENGTH</b>.")
 	. += span_info("Slings can be loaded directly from a pouch while your offhand is occupied by another item.")
 
@@ -226,3 +226,55 @@
 	caliber = "slingbullet"
 	max_ammo = 1
 	start_empty = TRUE
+
+// RESKINS GO BELOW. THIS IS MOSTLY FOR FLAVOR/SOVL. P L E A S E DON'T MAKE THIS ANY DIFFERENT FROM YOUR NORMAL SLING, THANK YOU.
+
+/datum/intent/swing/sling/can_charge(atom/clicked_object)
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/sling/S = masteritem
+	if(!S?.chambered)
+		return FALSE
+
+	return ..()
+
+/datum/intent/swing/sling/wood/prewarning()
+	if(mastermob)
+		mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
+		playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
+
+/datum/intent/arc/sling/wood/prewarning()
+	if(mastermob)
+		mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
+		playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/wood/update_icon()
+	. = ..()
+
+	cut_overlays()
+
+	if(chambered)
+		icon_state = "[initial(icon_state)]_ready"
+	else
+		icon_state = initial(icon_state)
+
+	if(!ismob(loc))
+		return
+
+	var/mob/M = loc
+	M.update_inv_hands()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/wood // sling reskin that uses bow draw noise instead of swing overhead
+	name = "slingshot"
+	desc = "A forked branch fitted with braided cords and a leather cup. Favored by farmhands and village youths alike, it casts stones by drawing the cords taut and releasing them with a sharp snap. Crude in appearance, yet surprisingly effective in practiced hands."
+	icon_state = "altsling"
+	item_state = "altsling"
+	possible_item_intents = list(/datum/intent/swing/sling/wood, /datum/intent/arc/sling/wood, INTENT_GENERIC)
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BELT | ITEM_SLOT_NECK | ITEM_SLOT_BACK
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/bog/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This sling uses a forked frame instead of overhead rotation, allowing stones to be launched by drawing the cords back and releasing. This is just fluff, it behaves exactly as a sling should.")
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/wood/bog // aura farming
+	name = "bogbark slingshot"
+	desc = "A slingshot carved from bogbark wood, its dark frame warped by years spent drinking from the Terrorbog's foul waters. Old dents, scrapes, and dark stains mark its limbs. The weapon is said to have felled more than a few trolls before being recovered from the pulverized remains of a Levy deep within the mire. Whether the stories are true or not, the wood feels unnaturally sturdy in the hand."
+	aura_color = "#00ff00"

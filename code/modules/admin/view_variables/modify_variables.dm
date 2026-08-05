@@ -111,6 +111,9 @@ GLOBAL_PROTECT(VVpixelmovement)
 /client/proc/mod_list(list/L, atom/O, original_name, objectvar, index, autodetect_class = FALSE)
 	if(!check_rights(R_VAREDIT))
 		return
+	if(istype(L, /alist))
+		debug_variables(L)
+		return
 	if(!istype(L, /list))
 		to_chat(src, "Not a List.")
 		return
@@ -387,3 +390,104 @@ GLOBAL_PROTECT(VVpixelmovement)
 	message_admins(msg)
 	admin_ticket_log(O, msg)
 	return TRUE
+
+/proc/index_alist_key(alist/A, index)
+	if(index < 1)
+		return null
+	var/i = 0
+	for(var/key in A)
+		i++
+		if(i == index)
+			return key
+	return null
+
+/client/proc/mod_alist(alist/A, datum/O, original_name, objectvar, enum_index, autodetect_class = FALSE)
+	if(!check_rights(R_VAREDIT))
+		return
+	if(!istype(A, /alist))
+		to_chat(src, "Not an alist.")
+		return
+	var/key = index_alist_key(A, enum_index)
+	if(isnull(key))
+		to_chat(src, "That alist entry no longer exists.")
+		return
+	var/current_value = A[key]
+
+	var/prompt = alert(src, "Edit the entry's key or its associated value?", "Alist Entry", "Value", "Key", "Cancel")
+	if(prompt == "Cancel" || !prompt)
+		return
+
+	if(prompt == "Key")
+		var/list/KK = vv_get_value(restricted_classes = list(VV_RESTORE_DEFAULT, VV_NULL), var_name = objectvar)
+		if(!KK["class"])
+			return
+		var/new_key = KK["value"]
+		if(isnull(new_key))
+			to_chat(src, "Alist keys can't be null.")
+			return
+		if(new_key == key)
+			return
+		if(new_key in A)
+			if(alert(src, "Key \[[new_key]] already exists and will be overwritten. Continue?", "Confirm", "Yes", "No") != "Yes")
+				return
+		A.Remove(key)
+		A[new_key] = current_value
+		log_world("### alistVarEdit by [src]: [(O ? O.type : "/alist")] [objectvar]: KEY [html_encode("[key]")] => [html_encode("[new_key]")]")
+		log_admin("[key_name(src)] modified [original_name]'s [objectvar]: KEY [key] => [new_key]")
+		message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: KEY [key] => [new_key]")
+		return
+
+	var/default = vv_get_class(objectvar, current_value)
+	to_chat(src, "Variable appears to be <b>[uppertext(default)]</b>.")
+	to_chat(src, "Variable contains: [current_value]")
+	var/class
+	if(autodetect_class && default != VV_NULL)
+		if(default == VV_TEXT)
+			default = VV_MESSAGE
+		class = default
+	var/list/LL = vv_get_value(class, default, current_value, restricted_classes = list(VV_RESTORE_DEFAULT))
+	class = LL["class"]
+	if(!class)
+		return
+	var/new_value = LL["value"]
+	if(class == VV_MESSAGE)
+		class = VV_TEXT
+	if(class == VV_TEXT)
+		var/list/varsvars = vv_parse_text(O, new_value)
+		for(var/V in varsvars)
+			new_value = replacetext(new_value, "\[[V]]", "[O.vars[V]]")
+	A[key] = new_value
+	log_world("### alistVarEdit by [src]: [(O ? O.type : "/alist")] [objectvar]: \[[html_encode("[key]")]] => [html_encode("[new_value]")]")
+	log_admin("[key_name(src)] modified [original_name]'s [objectvar]: [key] => [new_value]")
+	message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: [key] => [new_value]")
+
+/client/proc/mod_alist_add(alist/A, datum/O, original_name, objectvar)
+	if(!check_rights(R_VAREDIT))
+		return
+	if(!istype(A, /alist))
+		to_chat(src, "Not an alist.")
+		return
+	to_chat(src, "Choose the new entry's KEY:")
+	var/list/KK = vv_get_value(restricted_classes = list(VV_RESTORE_DEFAULT, VV_NULL))
+	if(!KK["class"])
+		return
+	var/new_key = KK["value"]
+	if(isnull(new_key))
+		to_chat(src, "Alist keys can't be null.")
+		return
+	if(new_key in A)
+		if(alert(src, "Key \[[new_key]] already exists and will be overwritten. Continue?", "Confirm", "Yes", "No") != "Yes")
+			return
+	to_chat(src, "Choose the new entry's VALUE:")
+	var/list/VAL = vv_get_value(restricted_classes = list(VV_RESTORE_DEFAULT))
+	if(!VAL["class"])
+		return
+	var/new_value = VAL["value"]
+	if(VAL["class"] == VV_TEXT || VAL["class"] == VV_MESSAGE)
+		var/list/varsvars = vv_parse_text(O, new_value)
+		for(var/V in varsvars)
+			new_value = replacetext(new_value, "\[[V]]", "[O.vars[V]]")
+	A[new_key] = new_value
+	log_world("### alistVarEdit by [src]: [(O ? O.type : "/alist")] [objectvar]: ADDED \[[html_encode("[new_key]")]] = [html_encode("[new_value]")]")
+	log_admin("[key_name(src)] modified [original_name]'s [objectvar]: ADDED [new_key]=[new_value]")
+	message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: ADDED [new_key]=[new_value]")

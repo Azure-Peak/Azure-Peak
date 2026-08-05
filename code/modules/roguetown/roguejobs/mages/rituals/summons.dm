@@ -344,13 +344,13 @@
 // Only powerful leylines (Bog) have max_tier = 5, so it can only be performed there.
 
 /datum/runeritual/summoning/leyline_encounter/void_dragon
-	name = "Supreme Ritual of Void Dragon Calling"
+	name = "Supreme Ritual of Void Drake Calling"
 	desc = "Tear open the deepest layer of the veil, reaching beyond all planes. There is only one thing that dwells there. Requires a confluence of power from all three realms."
 	blacklisted = FALSE
 	tier = 5
 	req_invokers = 3
 	alignment = "void"
-	required_atoms = list(/obj/item/magic/artifact = 5, /obj/item/magic/melded/t4 = 1, /obj/item/magic/voidstone = 3, /obj/item/magic/leyline = 3)
+	required_atoms = list(/obj/item/magic/artifact = 5, /obj/item/magic/fae/sylvanessence = 1, /obj/item/magic/infernal/flame = 1, /obj/item/magic/elemental/relic = 1, /obj/item/magic/voidstone = 3, /obj/item/magic/leyline = 3)
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon)
 	base_primary_count = 1
 	gone_wrong_extra = 0
@@ -360,7 +360,7 @@
 
 /datum/runeritual/summoning/leyline_encounter/void_dragon/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	if(GLOB.dayspassed < 4)
-		to_chat(user, span_warning("The veil is not yet thin enough for such a ritual. The void dragon can only be called later in the week."))
+		to_chat(user, span_warning("The veil is not yet thin enough for such a ritual. The void drake can only be called later in the week."))
 		return FALSE
 	return ..()
 

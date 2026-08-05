@@ -23,6 +23,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
+	weapon_cast_penalized = FALSE
 	charge_time = CHARGETIME_POKE
 	cooldown_time = 10 SECONDS
 

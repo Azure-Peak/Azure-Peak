@@ -51,7 +51,7 @@
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = TRUE
-	severity_names = list(
+	severity_stages = list(
 		"shallow" = 3,
 		"deep" = 6,
 		"gnarly" = 9,
@@ -85,7 +85,7 @@
 	sew_threshold += (dam * PUNC_UPG_SEWRATE)
 	woundpain += (dam * PUNC_UPG_PAINRATE)
 	armor_check(armor, PUNC_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef PUNC_UPG_WHPRATE
@@ -108,7 +108,7 @@
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = FALSE
-	severity_names = list(
+	severity_stages = list(
 		"shallow" = 2,
 		"deep" = 4,
 		"gnarly" = 8,
@@ -137,7 +137,7 @@
 	sew_threshold += (dam * GOUGE_UPG_SEWRATE)
 	woundpain += (dam * GOUGE_UPG_PAINRATE)
 	armor_check(armor, GOUGE_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef GOUGE_UPG_BLEEDRATE

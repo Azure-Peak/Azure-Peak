@@ -1,41 +1,3 @@
-//Make a component to do things like gravity/flying checks
-///Manages the loop caused by being on a conveyor belt
-///Prevents movement while you're floating, etc
-///Takes the direction to move, delay between steps, and time before starting to move as arguments
-/datum/component/convey
-	var/living_parent = FALSE
-	var/speed
-
-/datum/component/convey/Initialize(direction, speed, start_delay)
-	if(!ismovable(parent))
-		return COMPONENT_INCOMPATIBLE
-
-	living_parent = isliving(parent)
-	src.speed = speed
-	if(!start_delay)
-		start_delay = speed
-	var/atom/movable/moving_parent = parent
-	var/datum/move_loop/loop = SSmove_manager.move(moving_parent, direction, delay = start_delay, subsystem = SSconveyors, flags=MOVEMENT_LOOP_IGNORE_PRIORITY)
-	RegisterSignal(loop, COMSIG_MOVELOOP_PREPROCESS_CHECK, PROC_REF(should_move))
-	RegisterSignal(loop, COMSIG_PARENT_QDELETING, PROC_REF(loop_ended))
-
-/datum/component/convey/proc/should_move(datum/move_loop/source)
-	SIGNAL_HANDLER
-	source.delay = speed //We use the default delay
-	if(living_parent)
-		var/mob/living/moving_mob = parent
-		if((moving_mob.movement_type & FLYING) && !moving_mob.stat)
-			return MOVELOOP_SKIP_STEP
-	var/atom/movable/moving_parent = parent
-	if(moving_parent.anchored)
-		return MOVELOOP_SKIP_STEP
-
-/datum/component/convey/proc/loop_ended(datum/source)
-	SIGNAL_HANDLER
-	if(QDELETED(src))
-		return
-	qdel(src)
-
 /obj/structure/roller
 	name = "roller"
 	desc = "A rotating roller that moves items in one direction. Can be powered by rotation from the sides."
@@ -46,7 +8,7 @@
 	layer = BELOW_OPEN_DOOR_LAYER
 	rotation_structure = TRUE
 	stress_use = 0
-	initialize_dirs = CONN_DIR_LEFT | CONN_DIR_RIGHT | CONN_DIR_FORWARD | CONN_DIR_FLIP
+	initialize_dirs = CONN_DIR_LEFT | CONN_DIR_RIGHT //| CONN_DIR_FORWARD | CONN_DIR_FLIP
 
 	var/operating = FALSE
 	var/movedir
@@ -58,8 +20,9 @@
 	movedir = dir
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
-		COMSIG_ATOM_EXIT = PROC_REF(roller_exit),
+		COMSIG_ATOM_EXITED = PROC_REF(conveyable_exit),
+		COMSIG_ATOM_ENTERED = PROC_REF(conveyable_enter),
+		COMSIG_ATOM_AFTER_SUCCESSFUL_INITIALIZED_ON = PROC_REF(conveyable_enter)
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -67,9 +30,13 @@
 
 /obj/structure/roller/LateInitialize()
 	. = ..()
+	movedir = dir
 	set_connection_dir()
 	find_rotation_network()
 	build_roller_chain()
+
+/obj/structure/roller/set_connection_dir()
+	dpdir = turn(dir, 90) | turn(dir, -90) | movedir | REVERSE_DIR(movedir)
 
 /obj/structure/roller/Destroy()
 	for(var/obj/structure/roller/connected in connected_rollers)
@@ -133,24 +100,14 @@
 /obj/structure/roller/set_rotations_per_minute(rpm)
 	if(rotations_per_minute == rpm)
 		return FALSE
-
-	rotations_per_minute = rpm
-
-	if(rpm > 0)
-		operating = TRUE
-	else
-		operating = FALSE
+	rotations_per_minute = min(rpm, 32)
+	operating = rotations_per_minute > 0
+	if(!operating)
 		for(var/atom/movable/movable in loc)
 			stop_conveying(movable)
 
 	vand_update_appearance()
-	propagate_rotation()
 	return TRUE
-
-/obj/structure/roller/proc/propagate_rotation()
-	for(var/obj/structure/roller/connected in connected_rollers)
-		if(connected.rotations_per_minute != rotations_per_minute)
-			connected.set_rotations_per_minute(rotations_per_minute)
 
 /obj/structure/roller/proc/build_roller_chain()
 	var/turf/forward_turf = get_step(src, movedir)
@@ -166,52 +123,51 @@
 	var/clamprpm = clamp(rotations_per_minute,0,32) //limiting RPM down
 	return max(1, (10 / (clamprpm / 16))) // Returns deciseconds
 
-/obj/structure/roller/proc/on_entered(datum/source, atom/movable/entering_atom)
+/obj/structure/roller/proc/conveyable_enter(datum/source, atom/movable/entering_atom)
 	SIGNAL_HANDLER
+	if(entering_atom.loc != loc) // If we are not on the same turf (order of operations memes) go to hell
+		return
 
 	if(!operating || !rotations_per_minute)
-		return
-
-	if(!ismovable(entering_atom))
-		return
-
-	var/static/list/unconveyables = typecacheof(list(/obj/effect, /mob/dead))
-	if(is_type_in_typecache(entering_atom, unconveyables))
-		return
-
-	if(entering_atom.anchored || entering_atom == src)
+		stop_conveying(entering_atom)
 		return
 
 	start_conveying(entering_atom)
 
 /obj/structure/roller/proc/start_conveying(atom/movable/moving)
-	if(QDELETED(moving))
-		return
+    if(QDELETED(moving))
+        return
 
-	var/datum/move_loop/move/existing_loop = SSmove_manager.processing_on(moving, SSconveyors)
-	if(existing_loop)
-		existing_loop.direction = movedir
-		existing_loop.delay = get_move_delay()
-		return
+    var/static/list/unconveyables = typecacheof(list(/obj/effect, /mob/dead))
+    if(!istype(moving) || is_type_in_typecache(moving, unconveyables) || moving.anchored || moving == src)
+        return
 
-	moving.AddComponent(/datum/component/convey, movedir, get_move_delay())
+    SSmove_manager.stop_looping(moving, SSconveyors)
+
+    moving.AddComponent(/datum/component/convey, movedir, get_move_delay())
 
 /obj/structure/roller/proc/stop_conveying(atom/movable/thing)
 	if(!ismovable(thing))
 		return
 	SSmove_manager.stop_looping(thing, SSconveyors)
 
-/obj/structure/roller/proc/roller_exit(datum/source, atom/movable/exiting_atom, turf/exit_turf)
-	SIGNAL_HANDLER
+/obj/structure/roller/proc/conveyable_exit(datum/source, atom/convayable, direction)
+    SIGNAL_HANDLER
+    if(!ismovable(convayable))
+        return
 
-	if(!ismovable(exiting_atom))
-		return
+    var/obj/structure/roller/next_roller = locate(/obj/structure/roller) in get_step(src, direction)
+    var/chained_handoff = next_roller && next_roller.operating && \
+                          (direction == movedir) && (next_roller.movedir == movedir)
 
-	var/obj/structure/roller/next_roller = locate(/obj/structure/roller) in exit_turf
+    if(chained_handoff)
+        return 
 
-	// Stop conveying if no operating roller in exit direction
-	if(!next_roller || !next_roller.operating)
-		stop_conveying(exiting_atom)
+    if(convayable.z != z || !isturf(convayable.loc))
+        stop_conveying(convayable)
+        return
+
+    stop_conveying(convayable)
 
 /obj/structure/roller/wrench_act(mob/living/user, obj/item/tool)
 	tool.play_tool_sound(src, 50)
@@ -250,4 +206,3 @@
 		return
 	rotate_roller(user)
 	return TRUE
-

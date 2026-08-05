@@ -4,7 +4,7 @@
 	invocations = list("Blood shall feed the flowers!")
 	invocation_type = "shout"
 	overlay_state = "tamebeast"
-	human_req = FALSE
+	human_req = TRUE
 	range = -1
 	include_user = TRUE
 	recharge_time = 120 SECONDS // cause too little is cheaty, too much is pain
@@ -37,7 +37,7 @@
 	invocations = list("Spin and Skitter!")
 	invocation_type = "shout"
 	overlay_state = "tamebeast"
-	human_req = FALSE
+	human_req = TRUE
 	range = -1
 	include_user = TRUE
 	recharge_time = 60 SECONDS

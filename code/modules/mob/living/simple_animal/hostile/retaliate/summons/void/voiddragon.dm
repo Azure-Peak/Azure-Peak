@@ -10,7 +10,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_GUIDANCE, TRAIT_GENERIC)	//The voiddragon rends
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)	//parrying the voiddragon should be hard
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)	//no wounding the void dragon
@@ -60,7 +59,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon
-	name = "void dragon"
+	name = "void drake"
 	desc = "An ancient creature from a bygone age. Now would be a good time to run."
 	health = 5000
 	maxHealth = 5000
@@ -77,7 +76,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	environment_smash = ENVIRONMENT_SMASH_WALLS
 	base_intents = list(/datum/intent/unarmed/dragonclaw)
 	faction = list(FACTION_ABBERANT)
-	death_loot = list(/obj/item/clothing/ring/dragon_ring = 3, /obj/item/book/granter/arcane_aspect/minor = 2, /obj/item/book/granter/arcane_aspect/major = 1)
+	death_loot = list(/obj/item/clothing/ring/dragon_ring = 4)
 	obj_damage = 400	//Behold, nothing shall keep the dragon out
 	melee_damage_lower = 80
 	melee_damage_upper = 80

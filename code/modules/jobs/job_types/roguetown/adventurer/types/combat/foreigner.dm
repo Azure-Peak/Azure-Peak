@@ -23,7 +23,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE, 
+		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/adventurer/foreigner/pre_equip(mob/living/carbon/human/H)
@@ -38,7 +38,6 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/flashlight/flare/torch/lantern,
 		)
 	H.set_blindness(0)
@@ -96,7 +95,6 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/bomb/smoke = 3,
 		)
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
@@ -132,11 +130,12 @@
 	tutorial = "An exile from the Holy See of Otava, accused of heresy and cast out of your homeland as penance. \
 	Some consider yours a fate worse than death; the metal alloy mask seared onto your face serving as a permanent reminder of your sins. \
 	You are a living example of what becomes of those who stand in defiance of the Otavan inquisition."
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/repentant
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	forbidden_races = list()
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_CON = 3,
@@ -166,27 +165,25 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
-	belt = /obj/item/storage/belt/rogue/leather/rope/dark
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/rogueweapon/whip
-	backpack_contents = list(/obj/item/recipe_book/survival = 1, 
-						/obj/item/rogueweapon/huntingknife = 1)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife = 1)
 
 /datum/advclass/foreigner/refugee
 	name = "Naledi Refugee"
-	tutorial = "An asylum-seeker from the war-torn deserts of Naledi, driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."
-	
+	tutorial = "An asylum-seeker from the war-torn deserts of Naledi. Once destined for a seminary, war and displacement robbed you of your future. Though no Hierophant, Vizier, or Pontifex, fragments of your training remain."
+
 	outfit = /datum/outfit/job/roguetown/adventurer/refugee
 	subclass_languages = list(/datum/language/celestial)
 	cmode_music = 'sound/music/warscholar.ogg'
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT)
-	subclass_stats = list(
-		STATKEY_SPD = 2,
-		STATKEY_PER = 1,
-		STATKEY_WIL = 1,
-		STATKEY_INT = 1,
-	)
+	traits_applied = list(TRAIT_STEELHEARTED)
+	forbidden_races = list()
+	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+
+	subclass_stats = list(STATKEY_SPD = 2, STATKEY_PER = 1, STATKEY_WIL = 1)
+
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
@@ -194,35 +191,107 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 	)
 
 /datum/outfit/job/roguetown/adventurer/refugee/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("An asylum-seeker from the war-torn deserts of Naledi, \
-	driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."))
-	mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
-	r_hand = /obj/item/rogueweapon/spear/assegai
-	backl = /obj/item/rogueweapon/scabbard/gwstrap
-	backr = /obj/item/storage/backpack/rogue/satchel
-	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
-	shoes = /obj/item/clothing/shoes/roguetown/sandals
+	backl = /obj/item/storage/backpack/rogue/satchel
+	id = /obj/item/clothing/neck/roguetown/psicross/naledi
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
+	shoes = /obj/item/clothing/shoes/roguetown/footwraps/padded
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian
 	pants = /obj/item/clothing/under/roguetown/skirt/black
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black
 	beltr = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(/obj/item/recipe_book/survival = 1, 
-						/obj/item/rogueweapon/huntingknife = 1)
+	mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
+
+	var/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Wandering Yogi (Vizier)")
+	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
+	switch(path)
+		if("Refugee (Default)")
+			to_chat(H, span_warning("An asylum-seeker from the war-torn deserts of Naledi, \
+			driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."))
+			r_hand = /obj/item/rogueweapon/spear/assegai
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+
+		if("Seminary Dropout (Hierophant)")
+			H.set_patron(/datum/patron/old_god)
+			to_chat(H, span_warning("A promising Magos in the study halls, until envy turned to accusation. Branded Djinn-touched by your peers, you fled Naledi before the deepest secrets of the Hierophants were yours, left with only incomplete theories."))
+			r_hand = /obj/item/rogueweapon/woodstaff/implement
+			head = /obj/item/clothing/head/roguetown/roguehood/hierophant
+			cloak = /obj/item/clothing/cloak/hierophant
+			backpack_contents += list(/obj/item/rogueweapon/spellbook = 1)
+			backpack_contents += list(/obj/item/chalk = 1)
+
+			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_NOVICE, TRUE)
+
+			H.change_stat(STATKEY_INT, 3)
+			H.change_stat(STATKEY_PER, -1)
+			H.change_stat(STATKEY_SPD, -1)
+			H.change_stat(STATKEY_CON, -1)
+
+			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+
+			if(H.mind)
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 4))
+				H.mind.AddSpell(new /datum/action/cooldown/spell/ley_lines)
+
+		if("Wandering Yogi (Vizier)")
+			H.set_patron(/datum/patron/old_god)
+			to_chat(H, span_warning("A Vizier healer in training, you practiced Origin Magyck to restore body and spirit in Psydon’s name. Your work drew suspicion, and you were cast out before completing your vows, now wandering in exile with only fragments of the art."))
+			r_hand = /obj/item/rogueweapon/woodstaff/implement
+			shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
+			cloak = /obj/item/clothing/cloak/raincloak/white
+			head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/white
+
+			backpack_contents += list(/obj/item/chalk = 1)
+
+			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/crafting, SKILL_LEVEL_NOVICE, TRUE)
+
+			H.change_stat(STATKEY_INT, 2)
+			H.change_stat(STATKEY_LCK, 1)
+			H.change_stat(STATKEY_CON, -2)
+			H.change_stat(STATKEY_WIL, -1)
+
+			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_MEDICINE_EXPERT, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+
+			if(H.mind)
+				grant_poke_spell(H)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration/lesser)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+				H.mind.setup_mage_aspects(list("ward" = TRUE, "mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 6, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation)))
 
 /datum/advclass/foreigner/slaver
 	name = "Ranesheni Slaver"
 	tutorial = "In parts of Psydonia, the practice of slavery is still a common sight. \
 	You hail from the Ranesheni Empire, where the market of flesh is ancient and unbroken, and your coin is earned in the trade of living souls."
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/slaver
 	subclass_languages = list(/datum/language/raneshi)
+	forbidden_races = list()
 	cmode_music = 'sound/music/combat_desertrider.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
@@ -261,9 +330,8 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/rogueweapon/sword/long/shotel
-	backpack_contents = list(/obj/item/rope/chain = 2, 
-							/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
-							/obj/item/recipe_book/survival = 1, 
+	backpack_contents = list(/obj/item/rope/chain = 2,
+							/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 							/obj/item/rogueweapon/huntingknife = 1)
 
 
@@ -272,8 +340,9 @@
 	tutorial = "You're a simple shepherd hailing from Aavnr's Free City, taking a pilgrimage or having fled for one reason or another. You can easily fend for yourself in the wilderness, and with enough practice, fend for yourself in combat against even armoured opponents with your traditional axe."
 	extra_context = "This class is for experienced adventurers with a solid grasp on footwork and stamina management. Your weapon has special intents you can juggle through to make fights easier... Sometimes."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	subclass_languages = list(/datum/language/aavnic)
+	forbidden_races = list()
 	outfit = /datum/outfit/job/roguetown/adventurer/freishepherd
 	traits_applied = list()
 	cmode_music = 'sound/music/frei_shepherd.ogg'
@@ -321,9 +390,10 @@
 	tutorial = "You're an itinerant weapons expert that was trained in a Grenzelhoftian fencing school, carrying with you your weapon, your skillset, your pride... And not much else, frankly."
 	extra_context = "This is a freeform class that's meant to evoke a similar feeling to playing a Freifechter, your equipment and skillset is limited compared to other classes - this is by design - but you start with cool weapons."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/fencerguy
 	subclass_languages = list(/datum/language/grenzelhoftian)
+	forbidden_races = list()
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	traits_applied = list(TRAIT_INTELLECTUAL, TRAIT_FENCERDEXTERITY)
 	subclass_stats = list(
@@ -377,7 +447,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
 		)
@@ -398,15 +467,16 @@
 	tutorial = "Gladiators from the arenas of Raneshen and Lirvas, reenactors from the curtain-dazzled courts of Otava and Grenzelhoft, and \
 	shieldbearers from the outermost reaches of Psydonia itself; all are unified in their subconscious pursuit of entertaining something greater \
 	than themselves. You are a skilled combatant from beyond Azuria, who - for one reason or another - is intimately familiar with fighting in ancient equipment."
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/bronzeclad
 	cmode_music = 'sound/music/combat_thespian.ogg'
 	maximum_possible_slots = 3 //Should be categorically rarer to see than Iron- and Steel-clad adventurers. Tickles the powerscale ala the Exorcist, albeit to a wider extent with its potential combinations.
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_BLOOD_RESISTANCE)
+	forbidden_races = list()
 	subclass_stats = list(
-		STATKEY_STR = 1, //Abbreviated to +1/+3/+2/-2 for short. Seven statpoints weighed against a two- (or rather, four-) point penalty in Speed. This is intentional, as the Thespian has a lot of room to stretch their proverbial wings. 
-		STATKEY_WIL = 3, 
-		STATKEY_CON = 2, 
+		STATKEY_STR = 1, //Abbreviated to +1/+3/+2/-2 for short. Seven statpoints weighed against a two- (or rather, four-) point penalty in Speed. This is intentional, as the Thespian has a lot of room to stretch their proverbial wings.
+		STATKEY_WIL = 3,
+		STATKEY_CON = 2,
 		STATKEY_SPD = -2,
 	)
 	subclass_skills = list(
@@ -506,7 +576,7 @@
 			if("Axegauntlet + Shortsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltr = /obj/item/rogueweapon/sword/short/gladius 
+				beltr = /obj/item/rogueweapon/sword/short/gladius
 				r_hand = /obj/item/rogueweapon/katar/bronze/gladiator
 				backr = /obj/item/rogueweapon/scabbard/sword/strap
 				gloves = /obj/item/clothing/gloves/roguetown/bandages
@@ -571,7 +641,7 @@
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //Lite!Barbarian.
 				head = /obj/item/clothing/head/roguetown/helmet/bronzegladiator
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
-				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/gladiator
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/gladiator
 				pants = /obj/item/clothing/under/roguetown/loincloth/brown
 				shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator
 				belt = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
@@ -591,13 +661,12 @@
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/bronze
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/full/bronze/alt
 				pants = /obj/item/clothing/under/roguetown/loincloth/brown
-				cloak = /obj/item/clothing/cloak/cape/red 
+				cloak = /obj/item/clothing/cloak/cape/red
 				belt = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/bronze
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/huntingknife/bronze = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -687,7 +756,6 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/elvish/autumn = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
@@ -806,7 +874,7 @@
 	icon_state = "awelfchestalt"
 	item_state = "awelfchestalt"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //-33% durability hit, with 300 instead of 500HP.
-	body_parts_covered = CHEST | VITALS | LEGS 
+	body_parts_covered = CHEST | VITALS | LEGS
 
 /obj/item/clothing/gloves/roguetown/elven_gloves/autumn
 	name = "autumnwoad elven gloves"
@@ -814,7 +882,7 @@
 	mystically preserved in a state of perpetual autumnage. Crimson vines and leaves poke out from \
 	its living joints, wicking away sweat like a sponge to water. </br>'Through autumn's golden gown \
 	we used to kick our way, you always loved this time of year..'"
-	
+
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "awelfhand"
@@ -827,7 +895,7 @@
 	of perpetual autumnage. It is said that a Black Oak's armor will only fully blossom once they've \
 	earned the mantle of guardianship; to forsake one's oath to nature is to dispell the ancient songs, \
 	and to let the bark wither away. </br>'..those fallen leaves lie undisturbed now, 'cause you're not here!'"
-	
+
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "awelfshoes"

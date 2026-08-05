@@ -38,6 +38,12 @@
 	)
 	storyteller = /datum/storyteller/xylix
 
+	titles = list(
+		"Tragedian",
+		"Xyji",
+		"Luck"
+	)
+
 // Near a gambling machine, cross, or within the church
 /datum/patron/divine/xylix/can_pray(mob/living/follower)
 	. = ..()

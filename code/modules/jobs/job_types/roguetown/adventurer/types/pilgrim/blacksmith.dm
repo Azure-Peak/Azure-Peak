@@ -1,9 +1,10 @@
 /datum/advclass/blacksmith
 	name = "Blacksmith"
 	tutorial = "A skilled blacksmith, able to forge capable weapons for warriors in the bog, \
-	only after building a forge for themselves of course"
+	only after building a forge for themselves of course."
 	allowed_sexes = list(MALE, FEMALE)
-	
+	forbidden_races = list(RACES_DESPISED)
+
 	outfit = /datum/outfit/job/roguetown/adventurer/blacksmith
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
@@ -57,7 +58,6 @@
 					/obj/item/rogueore/iron = 5,
 					/obj/item/flashlight/flare/torch = 1,
 					/obj/item/recipe_book/blacksmithing = 1,
-					/obj/item/recipe_book/survival = 1,
 					/obj/item/rogueweapon/scabbard/sheath = 1,
 					/obj/item/blueprint/mace_mushroom = 1
 				)
@@ -70,7 +70,6 @@
 					/obj/item/rogueore/tin = 2,
 					/obj/item/flashlight/flare/torch = 1,
 					/obj/item/recipe_book/blacksmithing = 1,
-					/obj/item/recipe_book/survival = 1,
 					/obj/item/rogueweapon/scabbard/sheath = 1,
 					/obj/item/blueprint/mace_mushroom = 1
 				)

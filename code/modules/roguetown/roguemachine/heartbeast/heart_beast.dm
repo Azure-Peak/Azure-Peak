@@ -141,7 +141,7 @@
 	for(var/turf/T in dense_turfs)
 		if(T)
 			T.density = initial(T.density)
-			T.opacity = initial(T.opacity)
+			T.set_opacity(initial(T.opacity))
 	return ..()
 
 /obj/structure/roguemachine/chimeric_heart_beast/attackby(obj/item/I, mob/user, params)

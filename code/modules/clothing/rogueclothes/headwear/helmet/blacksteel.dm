@@ -1,7 +1,8 @@
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	name = "blacksteel armet"
-	desc = "A magnificent greathelm of blacksteel, bearing the handiwork of Psydonia's finest blacksmiths. Beneath the visor most-assuredly lays a legendary guise; be it a commander's glare, a conquerer's sneer, or a champion's observance."
+	desc = "A magnificent greathelm of blacksteel, bearing the handiwork of Psydonia's finest blacksmiths. Beneath the \
+	visor most-assuredly lays a legendary guise; be it a commander's glare, a conquerer's sneer, or a champion's observance."
 	icon_state = "bplatehelm"
 	item_state = "bplatehelm"
 	adjustable = CAN_CADJUST
@@ -40,13 +41,13 @@
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
 	if(get_altdetail_tag())
-		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][altdetail_tag]"))
 		pic2.appearance_flags = RESET_COLOR
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()
@@ -54,7 +55,10 @@
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel
 	name = "blacksteel bucket helm"
-	desc = "An antiquated greathelm of blacksteel, crested with a thick and luscious plume. How much will it take for your faith to sway - and how little will it be? Will you clasp to the atrocities of the past and believe yourself unredeemable, or will you mantle the burden of doing what is right? </br>‎  </br>It is never too late to change; for the better, and for the worse."
+	desc = "An antiquated greathelm of blacksteel, crested with a thick and luscious plume. How much will it take for \
+	your faith to sway - and how little will it be? Will you clasp to the atrocities of the past and believe yourself \
+	unredeemable, or will you mantle the burden of doing what is right? </br>‎  </br>It is never too late to \
+	change; for the better, and for the worse."
 	icon_state = "bkhelm"
 	item_state = "bkhelm"
 	body_parts_covered = FULL_HEAD
@@ -105,6 +109,7 @@
 	block2add = FOV_DEFAULT
 	flags_cover = null
 	flags_inv = null
+	smeltresult = /obj/item/ingot/bsslag
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns/attack_self(mob/living/user)
 	. = ..()
@@ -120,3 +125,34 @@
 	else
 		user.visible_message(span_warning("[user] stops reshaping [src]."))
 		return
+
+/obj/item/clothing/head/roguetown/helmet/blacksteel/psychains
+	name = "length of psydonian chains"
+	desc = "Chains fashioned from blacksteel, ritualistically worn atop helmets to testify one's unshatterable bond to Him."
+	icon_state = "psychains"
+	armor = ARMOR_PLATE_BSTEEL
+	body_parts_covered = HAIR
+	max_integrity = ARMOR_INT_SIDE_COVERAGE_BONUS //Translates into 50INT. Tremendously weaker - intended for aesthetics above all else.
+	alternate_worn_layer  = 8.9 //On top of helmet
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	armor_class = ARMOR_CLASS_NONE
+	block2add = FOV_DEFAULT
+	flags_cover = null
+	flags_inv = null
+	smeltresult = /obj/item/ingot/bsslag
+
+/obj/item/clothing/neck/roguetown/bevor/blacksteel
+	name = "ancient blacksteel neckguard"
+	desc = "An antiquated bevor of blacksteel, unfettered in both pristineness and protection. What good comes from creation, if you never \
+	stop to savor it? </br>‎  </br>A lyfe with labor has meaning; a lyfe dedicated to labor, none."
+	icon_state = "bsneckguardclassic"
+	smeltresult = /obj/item/ingot/blacksteel
+	armor = ARMOR_PLATE_BSTEEL
+	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
+	anvilrepair = /datum/skill/craft/armorsmithing
+
+/obj/item/clothing/neck/roguetown/bevor/blacksteel/modern
+	name = "blacksteel neckguard"
+	desc = "A magnificent gorget of blacksteel, unfettered in both pristineness and protection. The alloyed plates covering the jawline are beheld \
+	to an ornate mechanism, allowing them to be easily retracted back into the gorget without issue."
+	icon_state = "bsneckguard"

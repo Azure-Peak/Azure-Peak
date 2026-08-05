@@ -47,6 +47,16 @@
 
 /obj/item/flashlight/attack(mob/living/carbon/M, mob/living/carbon/human/user)
 	add_fingerprint(user)
+	if(on)
+		if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+			var/obj/item/clothing/mask/cigarette/cig = help_light_cig(M)
+			if(cig)
+				if(!cig.lit)
+					if(M == user)
+						cig.attackby(src, user)
+					else
+						cig.light(span_notice("[user] holds [src] out for [M], and lights [cig]."))
+				return 1
 	return ..()
 
 // FLARES
@@ -145,8 +155,6 @@
 	var/should_self_destruct = TRUE
 	max_integrity = 50
 	fuel = 30 MINUTES
-	light_depth = 0
-	light_height = 0
 	grid_width = 32
 	grid_height = 32
 	experimental_onhip = TRUE
@@ -162,9 +170,10 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/flashlight/flare/torch/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Ovens, hearths, braziers, scones, candles, bushes, grasspatches, and other certain structures can be set alight by left-clicking them while on the 'USE' intent.")
-    . += span_info("Standing in front of an unignited light source while sharpening a blade - or striking two stones together - can eventually reignite it.")
+	. = ..()
+	. += span_info("Ovens, hearths, braziers, scones, candles, bushes, grasspatches, and other certain structures can be set alight by left-clicking them while on the 'USE' intent.")
+	. += span_info("Standing in front of an unignited light source while sharpening a blade - or striking two stones together - can eventually reignite it.")
+	. += span_info("Click on a person while targeting their mouth zone to light their smoke.")
 
 /obj/item/flashlight/flare/torch/Initialize()
 	GLOB.weather_act_upon_list += src
@@ -348,6 +357,7 @@
 	name = "bronze handlamptern"
 	icon_state = "lesserbronzelamp"
 	desc = "A light to guide the way, and a cage to carry your flame."
+	on = FALSE
 
 /obj/item/flashlight/flare/torch/lantern/bronzelamptern
 	name = "bronze lamptern"
@@ -425,7 +435,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	light_color = "#ffb272ff"
 	on = FALSE
-
 	slot_flags = ITEM_SLOT_HEAD
 	flags_inv = HIDEFACE|HIDEEARS|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	body_parts_covered = FULL_HEAD|NECK
@@ -433,13 +442,13 @@
 	block2add = FOV_BEHIND
 	equip_delay_self = 3 SECONDS
 	unequip_delay_self = 3 SECONDS
-
 	force = 1
 	on_damage = 3
 	wdefense = 1 //The pumpkin has a chance of getting in the way of strikes.
 	fuel = 0 MINUTES
 	should_self_destruct = FALSE
 	sellprice = 8 //Allows a minor business to bloom from them. This may require adjustments.
+	dropshrink = null
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/examine(mob/user)
 	. = ..()
@@ -486,6 +495,9 @@
 	icon_state = "pumpkinlampz"
 	item_state = "pumpkinlampz"
 	light_color = "#ceff72ff"
+
+/obj/item/flashlight/flare/torch/lantern/pumpkin/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "GREAT GOOGLY MOOGLY, THAT PUMPKIN IS PRAISING SHE OF Z!")
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/grin
 	name = "smiling pumpkin lamptern"

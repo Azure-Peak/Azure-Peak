@@ -44,19 +44,19 @@
 /datum/status_effect/vampire_spawn_protection
 	id = "vampire_spawn_protection"
 	duration = 5 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/vampire_spawn_protection
+	alert_type = /atom/movable/screen/alert/status_effect/buff/vampire_spawn_protection
 
-/atom/movable/screen/alert/status_effect/vampire_spawn_protection
-	name = "Sun Protection"
-	desc = "The sun cannot harm me... for now."
+/atom/movable/screen/alert/status_effect/buff/vampire_spawn_protection
+	name = "Averted Gaze"
+	desc = "The blood of my sacrificed victim still obscures my presence before the Sun-Tyrant. Until it dries, Her gaze cannot reach me."
 	icon_state = "buff"
 
 /datum/status_effect/vampire_spawn_protection/on_apply()
-	ADD_TRAIT(owner, TRAIT_WEATHER_PROTECTED, "vampire_spawn_protection")
+	ADD_TRAIT(owner, TRAIT_VAMPIRE_SPAWN_PROTECTION, "vampire_spawn_protection")
 	return TRUE
 
 /datum/status_effect/vampire_spawn_protection/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_WEATHER_PROTECTED, "vampire_spawn_protection")
+	REMOVE_TRAIT(owner, TRAIT_VAMPIRE_SPAWN_PROTECTION, "vampire_spawn_protection")
 	if(isliving(owner))
 		to_chat(owner, span_warning("My spawn protection has faded. The sun will burn me now."))
 
@@ -420,5 +420,5 @@
 /atom/movable/screen/alert/status_effect/buff/weapon_bind_buff
 	name = "Weapon Bind"
 	desc = "Our weapons binded in my favour! I knew right where they were gonna hit me! My parrying is improved for a short while!"
-	icon = 'icons/mob/combat_debuffs.dmi'
+	icon = 'icons/mob/screen_alert_combat.dmi'
 	icon_state = "weapon_bind_buff"

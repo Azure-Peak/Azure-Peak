@@ -41,6 +41,7 @@
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DEATHLESS, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NO_VOICEPACK_OVERRIDE, TRAIT_GENERIC) //No sexy moaning skeletons W/Dainty.
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC)
@@ -52,8 +53,8 @@
 
 	// Skeleton voicepack
 	if(dna?.species)
-		dna.species.soundpack_m = new /datum/voicepack/skeleton()
-		dna.species.soundpack_f = new /datum/voicepack/skeleton()
+		dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/skeleton]
+		dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/skeleton]
 
 	// Undead language
 	grant_language(/datum/language/undead)

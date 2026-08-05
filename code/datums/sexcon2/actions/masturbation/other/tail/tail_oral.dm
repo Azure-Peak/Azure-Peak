@@ -38,9 +38,12 @@
 	sex_locks |= new /datum/sex_session_lock(user, ORGAN_SLOT_TAIL)
 	sex_locks |= new /datum/sex_session_lock(target, BODY_ZONE_PRECISE_MOUTH)
 
-/datum/sex_action/masturbate/other/tailjob_oral/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/masturbate/other/tailjob_oral/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] prods [target]'s throat with [user.p_their()] tail..."))
+
+/datum/sex_action/masturbate/other/tailjob_oral/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	playsound(user, 'sound/misc/mat/fingering.ogg', 30, TRUE, -2, ignore_walls = FALSE)
 
 	sex_session.perform_sex_action(target, 3, 7, TRUE)

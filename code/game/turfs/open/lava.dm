@@ -166,7 +166,7 @@
 			var/mob/living/carbon/C = user
 			to_chat(C, span_userdanger("OH SWEET PSYDON, WHY DID I THINK THIS WAS A GOOD IDEA???"))
 			C.flash_fullscreen("redflash3")
-			C.emote("agony", forced = TRUE)
+			C.emote("superagony", forced = TRUE)
 			C.adjust_fire_stacks(500) //you deserve this.
 			C.ignite_mob()
 			C.adjustFireLoss(1000) //you, literally, deserve this.
@@ -253,5 +253,5 @@
 			var/mob/living/carbon/C = user
 			to_chat(C, span_userdanger("OH SWEET PSYDON, WHY DID I THINK THIS WAS A GOOD IDEA???"))
 			C.flash_fullscreen("redflash3")
-			C.emote("agony", forced = TRUE)
+			C.emote("superagony", forced = TRUE)
 			C.gib() //YOU. LITERALLY. DESERVE THIS.

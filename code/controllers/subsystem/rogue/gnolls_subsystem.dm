@@ -32,14 +32,10 @@ SUBSYSTEM_DEF(gnoll_scaling)
 
 	var/mode = get_gnoll_scaling()
 	var/target_slots = 1
-
-	switch(mode)
-		if(GNOLL_SCALING_SINGLE)
-			target_slots = 1
-		if(GNOLL_SCALING_FLAT)
-			target_slots = 2
-		if(GNOLL_SCALING_DYNAMIC)
-			target_slots = 3
+	if(!SSgamemode.allow_vote && !isnull(SSgamemode.admin_slots["Gnoll"]))
+		target_slots = max(0, SSgamemode.admin_slots["Gnoll"])
+	else
+		target_slots = gnoll_scaled_slots(mode)
 	desired_gnoll_slots = target_slots
 
 	// Increase this automatically even if no further people with hunted join.

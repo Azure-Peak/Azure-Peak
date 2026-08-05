@@ -22,6 +22,7 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 // ---- Vicious Mockery Projectile Spell ----
 
 /datum/action/cooldown/spell/projectile/vicious_mockery
+	source_aspect = /datum/magic_aspect/pseudo/bardic
 	name = "Vicious Mockery"
 	desc = "Hurl a musical insult at your target. Stacks up to 2 times, increasingly reducing their stats."
 	button_icon = 'icons/mob/actions/xylixmiracles.dmi'
@@ -37,6 +38,7 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
+	weapon_cast_penalized = FALSE
 	charge_time = CHARGETIME_POKE
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	cooldown_time = MOCKERY_COOLDOWN
@@ -63,8 +65,9 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 	range = 8
 	hitsound = 'sound/magic/mockery.ogg'
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 
-/obj/projectile/magic/mockery_note/on_hit(target)
+/obj/projectile/magic/mockery_note/on_hit(target, blocked = FALSE)
 	if(ismob(target))
 		var/mob/living/M = target
 		if(M.anti_magic_check(TRUE, TRUE))
@@ -76,6 +79,10 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 			visible_message(span_warning("The insult falls on deaf ears!"))
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
+		if(blocked >= 100)
+			return ..()
 		// Stack the debuff
 		var/datum/status_effect/debuff/mockery_stack/existing = M.has_status_effect(/datum/status_effect/debuff/mockery_stack)
 		if(existing)

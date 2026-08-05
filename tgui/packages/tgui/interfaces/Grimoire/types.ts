@@ -4,6 +4,8 @@ export type Spell = {
   desc: string;
   fluff_desc: string;
   cost: number;
+  exclusive_group?: string | null;
+  mastery_only?: boolean;
 };
 
 export type VariantSwap = {
@@ -31,6 +33,13 @@ export type Aspect = {
   variants: Variant[];
 };
 
+export type ResetCosts = {
+  major: number;
+  minor: number;
+  utility: number;
+  choice: number;
+};
+
 export type Data = {
   read_only: boolean;
   major_aspects: Aspect[];
@@ -46,12 +55,15 @@ export type Data = {
   selected_utilities: string[];
   locked_aspects: string[];
   staged_choices: Record<string, string>;
+  live_choices: Record<string, string>;
   pointbuy_selections: Record<string, string[]>;
   all_selected_spells: string[];
+  claimed_groups: Record<string, string>;
   spent_budgets: Record<string, number>;
   utility_points_spent: number;
   reset_budget: number;
   reset_budget_max: number;
+  reset_costs: ResetCosts;
   resets_used: number;
   staged_unbind_aspects: string[];
   staged_unbind_utilities: string[];

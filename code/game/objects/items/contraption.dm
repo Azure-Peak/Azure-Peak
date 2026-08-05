@@ -310,7 +310,7 @@
 		var/obj/result = new randomingot(get_turf(I))
 		result.dir = newdir
 		qdel(I)
-	else 
+	else
 		to_chat(user, span_info("The [name] refuses to function."))
 		playsound(user, 'sound/items/flint.ogg', 100, FALSE)
 		flick(off_icon, src)
@@ -549,7 +549,6 @@
 	force = 21
 	force_wielded = 28
 	max_integrity = 700
-	force_wielded = 19
 	icon_state = "drill"
 	lefthand_file = 'icons/mob/inhands/weapons/hammers_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/hammers_righthand.dmi'
@@ -605,7 +604,7 @@
 			to_chat(user, span_notice("Time to wind things up"))
 			active_item = TRUE
 			return
-		else 
+		else
 			if(active_item)
 				active_item = FALSE
 				user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineerwindup)

@@ -92,9 +92,8 @@
 		/datum/hag_boon/trait/civil_barbarian,
 		/datum/hag_boon/trait/water_breathing,
 		/datum/hag_boon/trait/sharper_blades,
-		/datum/hag_boon/trait/guidance,
 		/datum/hag_boon/trait/good_trainer,
-		/datum/hag_boon/trait/counter_counterspell,
+		// /datum/hag_boon/trait/counter_counterspell,
 		/datum/hag_boon/trait/keen_ears,
 		/datum/hag_boon/trait/hard_dismember,
 		/datum/hag_boon/trait/no_pain,
@@ -102,6 +101,7 @@
 		/datum/hag_boon/trait/azure_native,
 		/datum/hag_boon/trait/matthios_eyes,
 		/datum/hag_boon/trait/wood_walker,
+		/datum/hag_boon/trait/bogwalker,
 		/datum/hag_boon/trait/unbound_strength,
 		/datum/hag_boon/trait/jack_of_all_trades,
 		/datum/hag_boon/trait/expert_medicine,
@@ -162,6 +162,7 @@
 		/datum/crafting_recipe/roguetown/alchemy/hag/crawling_moss,
 		/datum/crafting_recipe/roguetown/alchemy/hag/stormy_moss,
 		/datum/crafting_recipe/roguetown/alchemy/hag/corrosive_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/sprouting_moss,
 
 		// --- Mid Rarity Mosses ---
 		/datum/crafting_recipe/roguetown/alchemy/hag/lustrous_moss,

@@ -26,7 +26,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/astrata
 	name = "dawnbringer"
-	desc = "A blade forged in the name of the Sun Tyrant. Radiant, sharp, and imbued with a glimmering sheen.\
+	desc = "A blade forged in the name of the Sun Tyrant. Radiant, sharp, and imbued with a glimmering sheen. \
 	For when Her order demands it."
 	icon = 'icons/roguetown/weapons/templar_daggers32.dmi'
 	icon_state = "astrata_dagger"

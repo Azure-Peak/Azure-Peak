@@ -2,6 +2,11 @@
 	keep_local_name = TRUE
 	assets = list(
 		"pterra.ttf" = 'interface/fonts/pterra.ttf',
+		"lora-regular.ttf" = 'interface/fonts/lora-regular.ttf',
+		"lora-italic.ttf" = 'interface/fonts/lora-italic.ttf',
+		"lora-bold.ttf" = 'interface/fonts/lora-bold.ttf',
+		"lora-medium.ttf" = 'interface/fonts/lora-medium.ttf',
+		"medievalsharp.ttf" = 'interface/fonts/medievalsharp.ttf',
 		"chiseld.ttf" = 'interface/fonts/chiseld.ttf',
 		"blackmoor.ttf" = 'interface/fonts/blackmoor.ttf',
 		"handwrite.ttf" = 'interface/fonts/handwrite.ttf',

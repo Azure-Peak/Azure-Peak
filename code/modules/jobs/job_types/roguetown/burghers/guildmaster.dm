@@ -66,6 +66,7 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT, //setting to higher level to counter an antag trap maker
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/guildmaster
 	has_loadout = TRUE

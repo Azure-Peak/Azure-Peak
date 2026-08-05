@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+  font-family: 'Lora', Georgia, serif;
 }
 
 .ContractLedger__Header {
@@ -250,7 +250,7 @@
 
 // Wax-seal sign button
 .ContractLedger__SignButton {
-  font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+  font-family: 'Lora', Georgia, serif;
   font-weight: bold;
   font-size: 0.85em;
   text-transform: uppercase;
@@ -294,7 +294,7 @@
 // Active contracts strip at bottom
 .ContractLedger__ActiveStrip {
   flex-shrink: 0;
-  padding: 8px 16px;
+  padding: 8px 16px 40px;
   border-top: 1px solid rgba(200, 170, 100, 0.15);
   color: rgba(200, 180, 130, 0.8);
 }
@@ -420,7 +420,7 @@
 
 .ContractLedger__InnkeeperSelect {
   flex: 1;
-  font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 0.95em;
   color: hsl(28, 52%, 20%);
   background-color: hsla(46, 44%, 96%, 0.9);

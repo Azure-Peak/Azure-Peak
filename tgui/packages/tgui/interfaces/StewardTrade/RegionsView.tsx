@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
 import { useBackend } from '../../backend';
-import { groupByCategory } from './helpers';
-import type { Data, RegionFlow, RegionRow } from './types';
 import {
   badgeStyle,
   cardStyle,
+  FONT_BODY,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
@@ -15,12 +14,12 @@ import {
   SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
+import { groupByCategory } from './helpers';
+import type { Data, RegionFlow, RegionRow } from './types';
 
-// ── Regions view ─────────────────────────────────────────────────
 export const RegionsView = (props: { data: Data }) => {
   const { region_rows, region_catalog } = props.data;
 
-  // Sort: blockaded first (demand attention), then alphabetical by name.
   const sorted = [...region_rows].sort((a, b) => {
     if (!!a.blockaded !== !!b.blockaded) return a.blockaded ? -1 : 1;
     const an = region_catalog[a.region_id]?.name ?? a.region_id;
@@ -38,14 +37,12 @@ export const RegionsView = (props: { data: Data }) => {
   );
 };
 
-// ── Single region card ───────────────────────────────────────────
 const RegionCard = (props: { region: RegionRow; data: Data }) => {
   const { act } = useBackend<Data>();
   const { region, data } = props;
   const meta = data.region_catalog[region.region_id];
   const regionName = meta?.name ?? region.region_id;
   const description = meta?.description;
-  // Blockaded regions open by default so the Steward sees what's cut off.
   const [expanded, setExpanded] = useState<boolean>(!!region.blockaded);
 
   const producesCount = region.produces.length;
@@ -69,16 +66,18 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
           gap: '6px',
         }}
       >
-        <span style={{ color: INK_FAINT, fontSize: '10px', width: '10px' }}>
+        <span style={{ color: INK_FAINT, fontSize: FONT_BODY, width: '10px' }}>
           {expanded ? '▼' : '▶'}
         </span>
-        <span style={{ fontWeight: 'bold', fontSize: '14px' }}>
+        <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>
           {regionName}
         </span>
         {!!region.blockaded && (
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}
-        <span style={{ color: INK_FAINT, fontSize: '11px', marginLeft: 'auto' }}>
+        <span
+          style={{ color: INK_FAINT, fontSize: FONT_BODY, marginLeft: 'auto' }}
+        >
           {producesCount} produces &middot; {demandsCount} demands
         </span>
       </div>
@@ -87,9 +86,8 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
           {description && (
             <div
               style={{
-                fontStyle: 'italic',
                 color: INK_SOFT,
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 margin: '6px 0 4px 16px',
               }}
             >
@@ -155,7 +153,6 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
   );
 };
 
-// ── One side of the two-column region layout ────────────────────
 const FlowColumn = (props: {
   title: string;
   color: string;
@@ -169,18 +166,17 @@ const FlowColumn = (props: {
         <div
           style={{
             color: INK_SOFT,
-            fontVariant: 'small-caps',
             fontWeight: 'bold',
             borderBottom: `1px solid ${INK_FAINT}`,
             paddingBottom: '2px',
             marginBottom: '4px',
-            fontSize: '12px',
+            fontSize: FONT_BODY,
           }}
         >
           {title}
         </div>
         <div
-          style={{ fontStyle: 'italic', color: INK_FAINT, fontSize: '11px' }}
+          style={{ fontStyle: 'italic', color: INK_FAINT, fontSize: FONT_BODY }}
         >
           none
         </div>
@@ -195,12 +191,11 @@ const FlowColumn = (props: {
       <div
         style={{
           color: INK_SOFT,
-          fontVariant: 'small-caps',
           fontWeight: 'bold',
           borderBottom: `1px solid ${INK_FAINT}`,
           paddingBottom: '2px',
           marginBottom: '4px',
-          fontSize: '12px',
+          fontSize: FONT_BODY,
         }}
       >
         {title} &middot; {flows.length}
@@ -209,10 +204,8 @@ const FlowColumn = (props: {
         <div key={category} style={{ marginBottom: '4px' }}>
           <div
             style={{
-              fontVariant: 'small-caps',
               color: INK_FAINT,
-              fontSize: '10px',
-              letterSpacing: '0.5px',
+              fontSize: FONT_BODY,
             }}
           >
             {label}
@@ -221,7 +214,7 @@ const FlowColumn = (props: {
             <div
               key={f.good_id}
               style={{
-                fontSize: '11px',
+                fontSize: FONT_BODY,
                 display: 'flex',
                 justifyContent: 'space-between',
                 padding: '1px 4px',

@@ -36,9 +36,12 @@
 	user.visible_message(span_love("[user] cums over [target]'s thighs!"))
 	return "onto"
 
-/datum/sex_action/sex/other/thighjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/sex/other/thighjob/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] jerks [target]'s pintle with [user.p_their()] thighs..."))
+
+/datum/sex_action/sex/other/thighjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	playsound(user, 'sound/misc/mat/fingering.ogg', 30, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(target, user)
 

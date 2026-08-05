@@ -23,16 +23,6 @@
 		active_item = FALSE
 		to_chat(user, span_notice("I feel mundane once more"))
 
-/datum/magic_item/superior/unbreaking
-	name = "unbreaking"
-	description = "It feels as strong as blacksteel"
-	glow_color = "#808080"
-
-/datum/magic_item/superior/unbreaking/on_apply(var/obj/item/i)
-	.=..()
-	i.max_integrity += 100
-	i.obj_integrity += 100
-
 /datum/magic_item/superior/featherstep
 	name = "feather step"
 	description = "It feels as light as a feather"
@@ -57,29 +47,6 @@
 		active_item = FALSE
 		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "[type]")
 		user.change_stat(STATKEY_SPD, 0, "featherstep_enchant")
-		to_chat(user, span_notice("I feel mundane once more"))
-
-/datum/magic_item/superior/fireresist
-	name = "fire resistance"
-	description = "It seems to be absorbing heat!"
-	glow_color = "#FF4500"
-	var/active_item = FALSE
-
-/datum/magic_item/superior/fireresist/on_equip(var/obj/item/i, var/mob/living/user, slot)
-	. = ..()
-	if(slot == ITEM_SLOT_HANDS)
-		return
-	if(active_item)
-		return
-	else
-		active_item = TRUE
-		ADD_TRAIT(user, TRAIT_FIRE_RESIST, "[type]")
-		to_chat(user, span_notice("I feel fire-resistant!"))
-
-/datum/magic_item/superior/fireresist/on_drop(var/obj/item/i, var/mob/living/user)
-	if(active_item)
-		active_item = FALSE
-		REMOVE_TRAIT(user, TRAIT_FIRE_RESIST, "[type]")
 		to_chat(user, span_notice("I feel mundane once more"))
 
 /datum/magic_item/superior/climbing

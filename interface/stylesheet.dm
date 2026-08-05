@@ -183,7 +183,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 
 .monkeyhive				{color: #774704;}
 .monkeylead				{color: #774704;	font-size: 2;}
-
+.racialstatinfo			{color: #6a8cb7;	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;	font-weight: bold;}
 .dead					{color: #b280df;}
 .bloody					{color: #cc0f0f;}
 .artery					{color: #9B5455;}

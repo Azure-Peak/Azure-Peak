@@ -1,6 +1,12 @@
 /obj/effect/overlay
 	name = "overlay"
 
+/obj/effect/overlay/dump_harddel_info()
+	if(harddel_deets_dumped)
+		return
+	harddel_deets_dumped = TRUE
+	return "Overlay type: [type] - icon: [icon] - icon_state: [icon_state] - name: \"[name]\" - layer: [layer] - vis_contents: [length(vis_contents)] [loc ? "loc.type: [loc.type] ([loc.x],[loc.y],[loc.z])" : "loc: NULLSPACE"]"
+
 /obj/effect/overlay/beam//Not actually a projectile, just an effect.
 	name="beam"
 	icon='icons/effects/beam.dmi'

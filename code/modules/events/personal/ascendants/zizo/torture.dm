@@ -34,6 +34,8 @@
 			continue
 		if(!human_mob.patron || !istype(human_mob.patron, /datum/patron/inhumen/zizo))
 			continue
+		if(!human_mob.client.prefs || human_mob.client.prefs?.no_storyteller_events)
+			continue
 		valid_targets += human_mob
 
 	if(!valid_targets.len)
@@ -44,7 +46,7 @@
 	var/datum/objective/torture/new_objective = new(owner = chosen_one.mind)
 	chosen_one.mind.add_personal_objective(new_objective)
 
-	chosen_one.verbs |= /mob/living/carbon/human/proc/revelations
+	add_verb(chosen_one, /mob/living/carbon/human/proc/revelations)
 
 	to_chat(chosen_one, span_userdanger("YOU ARE GOD'S CHOSEN!"))
 	to_chat(chosen_one, span_biginfo("Zizo demands suffering! Extract information through pain to earn Zizo's favor!"))

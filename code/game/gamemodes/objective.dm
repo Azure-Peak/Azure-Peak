@@ -544,8 +544,6 @@ GLOBAL_LIST_EMPTY(possible_items)
 			captured_amount+=0.5
 			continue
 		captured_amount+=1
-	for(var/mob/living/carbon/monkey/M in A)//Monkeys are almost worthless, you failure.
-		captured_amount+=0.1
 
 	return captured_amount >= target_amount
 

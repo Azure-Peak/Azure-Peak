@@ -39,8 +39,18 @@ export const MESSAGE_TYPE_ADMINLOG = 'adminlog';
 export const MESSAGE_TYPE_ATTACKLOG = 'attacklog';
 export const MESSAGE_TYPE_DEBUG = 'debug';
 
+type MessageType = {
+  type: string;
+  name: string;
+  description: string;
+} & Partial<{
+  selector: string;
+  important: boolean;
+  admin: boolean;
+}>;
+
 // Metadata for each message type
-export const MESSAGE_TYPES = [
+export const MESSAGE_TYPES: MessageType[] = [
   // Always-on types
   {
     type: MESSAGE_TYPE_SYSTEM,
@@ -54,7 +64,7 @@ export const MESSAGE_TYPES = [
     type: MESSAGE_TYPE_LOCALCHAT,
     name: 'Local',
     description: 'In-character local messages (say, emote, etc)',
-    selector: '.say, .emote',
+    selector: '.say, .emote, .game-emote',
   },
   {
     type: MESSAGE_TYPE_RADIO,
@@ -74,7 +84,7 @@ export const MESSAGE_TYPES = [
     name: 'Info',
     description: 'Non-urgent messages from the game and items',
     selector:
-      '.notice:not(.pm), .adminnotice, .info, .sinister, .cult, .infoplain, .announce, .hear, .smallnotice, .holoparasite, .boldnotice',
+      '.notice:not(.pm), .adminnotice, .info, .sinister, .cult, .infoplain, .announce, .hear, .smallnotice, .holoparasite, .boldnotice, .motd',
   },
   {
     type: MESSAGE_TYPE_WARNING,
@@ -137,7 +147,7 @@ export const MESSAGE_TYPES = [
     type: MESSAGE_TYPE_ADMINLOG,
     name: 'Admin Log',
     description: 'ADMIN LOG: Urist McAdmin has jumped to coordinates X, Y, Z',
-    selector: '.log_message',
+    selector: '.admin',
     admin: true,
   },
   {

@@ -6,6 +6,7 @@ GLOBAL_LIST_EMPTY(active_blockades)
 	var/faction_id
 	var/day_started = 0
 	var/datum/weakref/active_scroll_ref
+	var/datum/weakref/active_quest_ref
 
 /datum/blockade/proc/get_region()
 	return GLOB.economic_regions[region_id]
@@ -21,5 +22,8 @@ GLOBAL_LIST_EMPTY(active_blockades)
 	return get_quest_faction(faction_id)
 
 /datum/blockade/proc/has_active_scroll()
+	var/datum/quest/Q = active_quest_ref?.resolve()
+	if(Q && !QDELETED(Q))
+		return TRUE
 	var/obj/item/quest_writ/S = active_scroll_ref?.resolve()
 	return !QDELETED(S)

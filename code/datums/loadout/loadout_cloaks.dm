@@ -19,6 +19,11 @@
 	path = /obj/item/clothing/cloak/tabard/stabard/surcoat/short
 	sort_category = "Cloaks"
 
+/datum/loadout_item/pouched_suspenders
+	name = "Pouched Suspenders"
+	path = /obj/item/clothing/cloak/suspenders
+	sort_category = "Cloaks"
+
 /datum/loadout_item/cape
 	name = "Cape"
 	path = /obj/item/clothing/cloak/cape
@@ -114,6 +119,11 @@
 	path = /obj/item/clothing/cloak/poncho
 	sort_category = "Cloaks"
 
+/datum/loadout_item/toga
+	name = "Toga"
+	path = /obj/item/clothing/cloak/tabard/toga
+	sort_category = "Cloaks"
+
 /datum/loadout_item/aproncook
 	name = "Apron, Cooking"
 	path = /obj/item/clothing/cloak/apron/cook
@@ -124,9 +134,14 @@
 	path = /obj/item/clothing/cloak/poncho/fancycoat
 	sort_category = "Cloaks"
 
-/datum/loadout_item/goldenordercloak
-	name = "Golden Order Cloak"
-	path = /obj/item/clothing/cloak/cape/inquisitor
+/datum/loadout_item/cloakgoldenorder
+	name = "Cloak, Golden Order"
+	path = /obj/item/clothing/cloak/cape/inquisitorgold
+	sort_category = "Cloaks"
+
+/datum/loadout_item/cloaksilverorder
+	name = "Cloak, Silver Order"
+	path = /obj/item/clothing/cloak/cape/inquisitorsilver
 	sort_category = "Cloaks"
 
 /datum/loadout_item/surcoatheavy
@@ -177,4 +192,19 @@
 /datum/loadout_item/maidapron
 	name = "Maid Apron"
 	path = /obj/item/clothing/cloak/apron/waist/fancymaid
+	sort_category = "Cloaks"
+
+/datum/loadout_item/wicker
+	name = "Wicker Cloak"
+	path = /obj/item/clothing/cloak/wickercloak
+	sort_category = "Cloaks"
+
+/datum/loadout_item/ranger_cloak
+	name = "Ranger Cloak, Forest Green"
+	path = /obj/item/clothing/cloak/rangercloak
+	sort_category = "Cloaks"
+
+/datum/loadout_item/ranger_cloak_gray
+	name = "Ranger Cloak, Neutral Gray"
+	path = /obj/item/clothing/cloak/rangercloak/gray
 	sort_category = "Cloaks"

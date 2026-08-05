@@ -109,20 +109,57 @@
 		popup.open()
 		return
 
+	// Message the hag
+	if(href_list["action"] == "message")
+		var/input = sanitize(input(usr, "WHAT DO YOU SAY?", "THE ROOTS HEAR ALL") as text|null)
+		if(!input)
+			return
+		if(!usr.key)
+			return
+		to_chat(usr, span_info("The roots shudder softly, carrying your message away..."))
+		for(var/mob/living/H in GLOB.active_hags)
+			to_chat(H, span_notice("You hear [usr.real_name]'s voice faintly through the roots... \"[input]\""))
+		return
 	// Actual Harvesting
 	if(href_list["harvest"])
 		var/path = text2path(href_list["harvest"])
 		var/is_hag = text2num(href_list["hag"])
 		var/list/stock = is_hag ? hag_stock : public_stock
-		
-		if(harvesting || stock[path] <= 0) return
-
+	
+		if(harvesting)
+			return
+	
 		harvesting = TRUE
-		to_chat(usr, span_notice("You begin to carefully knit the moss from the roots..."))
-		
-		if(do_after(usr, 1 SECONDS, target = src))
-			if(stock[path] > 0)
-				stock[path]--
+		var/harvest_count = 0
+		var/current_path = path
+	
+		// Keep harvesting until all stock is empty or user stops
+		while(TRUE)
+			// Check if user is still alive and nearby
+			if(!usr || QDELETED(usr) || !usr.canUseTopic(src, BE_CLOSE))
+				break
+
+			// Check if current path has stock
+			if(stock[current_path] <= 0)
+				// Find any non-empty path
+				var/found = FALSE
+				for(var/p in stock)
+					if(stock[p] > 0)
+						current_path = p
+						found = TRUE
+						break
+				if(!found)
+					break // No more moss available
+
+			to_chat(usr, span_notice("You continue to knit the moss from the roots..."))
+
+			if(!do_after(usr, 1 SECONDS, target = src))
+				break // User stopped or was interrupted
+
+			if(stock[current_path] > 0)
+				stock[current_path]--
+				harvest_count++
+
 				var/obj/structure/roguemachine/mossmother/destination_tree = null
 				var/is_fey = HAS_TRAIT(usr, TRAIT_FEYTOUCHED)
 				if(is_fey)
@@ -131,19 +168,23 @@
 						if(istype(A, /area/rogue/indoors/shelter/bog_hag))
 							destination_tree = T
 							break
+
 				if((is_fey || is_hag) && destination_tree)
-					new path(get_turf(destination_tree))
+					new current_path(get_turf(destination_tree))
 					if(is_fey && prob(30))
 						to_chat(usr, span_notice("The moss dissolves into the roots, flowing back toward the Hag's hearth as a silent tribute..."))
 					var/obj/effect/temp_visual/heal/H_energy = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(destination_tree))
 					H_energy.color = "#4b5320"
 				else
-					// Standard harvest (Mortal or if the Hut Tree somehow doesn't exist)
-					new path(get_turf(src))
-					to_chat(usr, span_notice("You successfully pluck the moss."))
-
+					new current_path(get_turf(src))
 		harvesting = FALSE
-		// Refresh the specific window
+
+		if(harvest_count > 0)
+			to_chat(usr, span_notice("You harvested [harvest_count] pieces of moss."))
+		else
+			to_chat(usr, span_warning("You stop harvesting."))
+
+		// Refresh the specific window with updated stock
 		var/datum/browser/popup = new(usr, "moss_window", (is_hag ? "THE VEIL OF ROOTS" : "COMMON BLOSSOMS"), 400, 500)
 		popup.set_content(get_contents(is_hag))
 		popup.open()
@@ -168,6 +209,8 @@
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	else if (HAS_TRAIT(user, TRAIT_ROOT_WALKER))
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
+	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && length(GLOB.active_hags))
+		contents += "<a href='?src=[REF(src)];action=message'>[span_boldnotice("Whisper to the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
 	popup.set_content(contents)
@@ -179,6 +222,7 @@
 
 		if(tracker && !tracker.hag_teleport_check())
 			to_chat(user, span_warning("Your soul is still too frayed from your last return to walk the deep roots. Wait a bit longer..."))
+			to_chat(user, span_warning("You will be sufficiently recovered in [round((tracker.last_revive_time + 5 MINUTES - world.time) / 10)] seconds."))
 			return
 
 		var/dat = "<center>THE DEEP ROOTS<BR>--------------<BR>"
@@ -279,7 +323,7 @@
 			var/remaining = (cooldown_until - world.time) / 10
 			to_chat(user, span_warning("The Mossmother is satiated. It will not hunger again for another [round(remaining)] seconds."))
 			return
-		to_chat(user, span_boldgreen("You start to feed the tree lux"))
+		to_chat(user, span_boldgreen("You start to feed the tree lux."))
 		if(!do_after(user, 2 SECONDS))
 			return
 		if(world.time < cooldown_until)
@@ -291,15 +335,22 @@
 
 
 		qdel(W)
-		check_fey_ascension(user)
+		check_fey_ascension(!is_impure, user)
 		feed_the_network(is_impure, user)
 		return
 	return ..()
 
-/obj/structure/roguemachine/mossmother/proc/check_fey_ascension(mob/living/user)
+/obj/structure/roguemachine/mossmother/proc/check_fey_ascension(pure = FALSE, mob/living/user)
+	var/did_something = FALSE
 	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_ROOT_WALKER))
 		ADD_TRAIT(user, TRAIT_ROOT_WALKER, TRAIT_HAG_BOON)
 		to_chat(user, span_userdanger("As the Lux flows, the roots under your feet soften. You feel the map of the bog etched into your mind. You can now walk the deep paths."))
+		did_something = TRUE
+	if(pure && HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_BOGWALKER))
+		ADD_TRAIT(user, TRAIT_BOGWALKER, TRAIT_HAG_BOON)
+		to_chat(user, span_userdanger("As the roots drink the purified Lux, the heart of the bog beats in response. You feel a renewed kinship. The bog's wrath turns its gaze from you."))
+		did_something = TRUE
+	if(did_something)
 		playsound(src, 'sound/magic/ahh1.ogg', 50, TRUE)
 
 /obj/structure/roguemachine/mossmother/proc/feed_the_network(is_impure = FALSE, mob/living/feeder)
@@ -344,6 +395,7 @@
 	icon_state = "moss_blank"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 	color = "#00e2d7"
+	sellprice = 1
 
 /obj/item/alch/hag_moss
 	name = "Generic moss"
@@ -435,6 +487,12 @@
 	boon_path = /datum/hag_boon/trait/wyrd_labourer
 	desc = "This moss looks strong, tough, as if the very leaves themselves have muscles."
 	color = "#683700"
+
+/obj/item/alch/hag_moss/enchanted/sprouting
+	name = "Sprouting Moss"
+	boon_path = /datum/hag_boon/trait/bogwalker
+	desc = "Tiny offshoots bud from this moss, swaying towards anything within reach."
+	color = "#3cd300"
 
 /obj/item/alch/hag_moss/enchanted/crawling
 	name = "Crawling Moss"

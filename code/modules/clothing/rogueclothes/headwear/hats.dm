@@ -149,7 +149,7 @@
 /obj/item/clothing/head/roguetown/chaperon/noble/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -172,6 +172,11 @@
 	desc = "A noble's chaperon made for the guildmaster."
 	color = "#1b1717ff"
 	detail_color = "#b68e37ff"
+
+/obj/item/clothing/head/roguetown/chaperon/noble/aristocratotava
+	desc = "A noble's chaperon made for a traveling noble from Otava. \"Purity afloat!\""
+	color = "#1f1818ff"
+	detail_color = "#dbe6e5ff"
 
 /obj/item/clothing/head/roguetown/chaperon/noble/hand
 	name = "hand's chaperon"
@@ -247,6 +252,11 @@
 	sewrepair = TRUE
 	//dropshrink = 0.75
 	dynamic_hair_suffix = null
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/head/roguetown/headband/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, HEAD|HAIR|EARS, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_HEAD)
 
 /obj/item/clothing/head/roguetown/headband/bloodied
 	name = "bloodied headband"
@@ -291,7 +301,7 @@
 	dynamic_hair_suffix = null
 
 /obj/item/clothing/head/roguetown/headband/monk
-	name = "monk's headband"
+	name = "padded headband"
 	desc = "A winding length of cloth, meticulously lined with heavy leather strips. Errant impacts are thwarted, yet not a degree of vision is impaired; valuable traits, for the Monk who must enlighten their villains with a white-knuckled sermon. </br>'..I kick ass for the Lord!'"
 	icon_state = "headband"
 	color = "#bfb8a9"
@@ -305,7 +315,7 @@
 	dynamic_hair_suffix = null
 
 /obj/item/clothing/head/roguetown/headband/monk/barbarian
-	name = "hunter's headband"
+	name = "roughspun headband"
 	desc = "A winding length of cloth, meticulously lined with heavy leather strips. Errant impacts are thwarted, yet not a degree of vision is impaired; valuable traits, for those who have taken the mantle of confronting monsters with overwhelming strength. </br>'..All it takes for evil to triumph is for good men to do nothing.'"
 	max_integrity = ARMOR_INT_HELMET_LEATHER //Far less durable than the Monk's variant. Remember that the Barbarian retrieves solid weapon skills and armor, even as a pugilist.
 
@@ -353,7 +363,6 @@
 	name = "nemes"
 	desc = "A foreign silk headdress."
 	icon_state = "headdress"
-	sellprice = 10
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/headdress/alt
@@ -364,7 +373,6 @@
 	name = "nun's veil"
 	desc = "A humble hat for the faithful."
 	icon_state = "nun"
-	sellprice = 5
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/hennin
@@ -389,6 +397,15 @@
 	color = COLOR_ALMOST_BLACK	
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
+
+/obj/item/clothing/head/roguetown/duelhat/aristocrat
+	name = "noble's feathered hat"
+	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
+	icon_state = "duelhat"
+	sewrepair = TRUE
+	color = COLOR_ORANGE
+	detail_tag = "_detail"
+	detail_color = COLOR_RED
 
 /obj/item/clothing/head/roguetown/wizhat
 	name = "wizard hat"
@@ -462,6 +479,7 @@
 /obj/item/clothing/head/roguetown/witchhat
 	name = "witch hat"
 	desc = "Fair is foul, and foul is fair; Hover through the fog and filthy air."
+	adjustable = CAN_CADJUST
 	icon_state = "witch"
 	item_state = "witch"
 	detail_tag = "_detail"
@@ -470,6 +488,13 @@
 	sewrepair = TRUE
 	color = CLOTHING_BLACK
 	detail_color = CLOTHING_BROWN
+
+/obj/item/clothing/head/roguetown/witchhat/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, null, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_HEAD)
+
+/obj/item/clothing/head/roguetown/witchhat/mageblue
+	color = CLOTHING_MAGE_BLUE
 
 /obj/item/clothing/head/roguetown/witchhat/old
 	name = "decrepit witch hat"
@@ -554,7 +579,7 @@
 /obj/item/clothing/head/roguetown/veiled/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -599,7 +624,7 @@
 /obj/item/clothing/head/roguetown/courtphysician/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -620,7 +645,7 @@
 /obj/item/clothing/head/roguetown/courtphysician/female/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()

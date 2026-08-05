@@ -69,7 +69,7 @@
 		take_overall_damage(amount, 0, 0, updating_health, required_status)
 	else
 		if(has_status_effect(/datum/status_effect/buff/fortify))
-			amount *= 1.5
+			amount *= 1.3
 		heal_overall_damage(abs(amount), 0, 0, required_status ? required_status : BODYPART_ORGANIC, updating_health)
 	return amount
 
@@ -80,7 +80,7 @@
 		take_overall_damage(0, amount, 0, updating_health, required_status)
 	else
 		if(has_status_effect(/datum/status_effect/buff/fortify))
-			amount *= 1.5
+			amount *= 1.3
 		heal_overall_damage(0, abs(amount), 0, required_status ? required_status : BODYPART_ORGANIC, updating_health)
 	return amount
 
@@ -95,7 +95,7 @@
 	if(HAS_TRAIT(src, TRAIT_TOXIMMUNE)) //Prevents toxin damage, but not healing
 		amount = min(amount, 0)
 	if(has_status_effect(/datum/status_effect/buff/fortify) && amount < 0)
-		amount *= 1.5
+		amount *= 1.3
 	return ..()
 
 /mob/living/carbon/getStaminaLoss()
@@ -200,9 +200,9 @@
 /mob/living/carbon/heal_overall_damage(brute = 0, burn = 0, stamina = 0, required_status, updating_health = TRUE)
 	var/list/obj/item/bodypart/parts = get_damaged_bodyparts(brute, burn, stamina, required_status)
 	if(has_status_effect(/datum/status_effect/buff/fortify))
-		brute *= 1.5
-		burn *= 1.5
-		stamina *= 1.5
+		brute *= 1.3
+		burn *= 1.3
+		stamina *= 1.3
 
 	var/update = NONE
 	while(length(parts) && (brute > 0 || burn > 0 || stamina > 0))

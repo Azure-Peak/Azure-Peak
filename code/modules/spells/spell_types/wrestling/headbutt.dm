@@ -37,10 +37,8 @@
 
 	var/original_user_pixel_x = user.pixel_x
 	var/original_user_pixel_y = user.pixel_y
-	var/original_user_transform = user.transform
 	var/original_target_pixel_x = target.pixel_x
 	var/original_target_pixel_y = target.pixel_y
-	var/original_target_transform = target.transform
 
 	to_chat(user, span_notice("You line up with [target]!"))
 	to_chat(target, span_userdanger("[user] winds up for a headbutt!"))
@@ -115,16 +113,16 @@
 		tracker.channeling_throw = FALSE
 		user.stop_pulling(TRUE)
 		to_chat(user, span_notice("I'm interupted!"))
-		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, transform = original_user_transform, time = 1 SECONDS) // reset animation
-		animate(target, pixel_x = original_target_pixel_x, pixel_y = original_target_pixel_y, transform = original_target_transform, time = 1 SECONDS) // reset animation
+		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, time = 1 SECONDS) // reset animation
+		animate(target, pixel_x = original_target_pixel_x, pixel_y = original_target_pixel_y, time = 1 SECONDS) // reset animation
 		revert_cast()
 
 		return FALSE
 
 	if(!do_after(user, channel_time, target = target)) //saftey check
 		tracker.channeling_throw = FALSE
-		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, transform = original_user_transform, time = 1 SECONDS) // reset animation
-		animate(target, pixel_x = original_target_pixel_x, pixel_y = original_target_pixel_y, transform = original_target_transform, time = 1 SECONDS) // reset animation
+		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, time = 1 SECONDS) // reset animation
+		animate(target, pixel_x = original_target_pixel_x, pixel_y = original_target_pixel_y, time = 1 SECONDS) // reset animation
 		revert_cast()
 
 		return FALSE

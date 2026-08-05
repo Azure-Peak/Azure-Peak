@@ -34,11 +34,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if ((istype(src, /obj/structure/pressure_plate)) || (istype(src, /obj/structure/lever)))
 		trigger_structure = TRUE
 		reaction_structure = FALSE
-	else 
+	else
 		reaction_structure = TRUE
 		trigger_structure = FALSE
 	//can't link a launcher while its locked
-	if (istype(src, /obj/structure/englauncher)) 
+	if (istype(src, /obj/structure/englauncher))
 		var obj/structure/englauncher/launchercheck = src
 		if(launchercheck.locked)
 			to_chat(user, span_warning("It's locked!"))
@@ -48,7 +48,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if ((istype(multitool.buffer, /obj/structure/pressure_plate)) || (istype(multitool.buffer, /obj/structure/lever)))
 		trigger_buffer = TRUE
 		reaction_buffer = FALSE
-	else 
+	else
 		if (isnull(multitool.buffer)) //we need to check if the buffer is empty
 			reaction_buffer = FALSE
 			trigger_buffer = FALSE
@@ -173,7 +173,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
-			levername = input("What name would you like to carve into the lever?")
+			levername = sanitize(input("What name would you like to carve into the lever?"))
 			if (levername)
 				name = levername + "(lever)"
 				desc = "A lever with a name carved into it."
@@ -208,6 +208,44 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/lever/wall/onkick(mob/user)
 	. = ..()
 	icon_state = "leverwall[toggled]"
+
+/obj/structure/lever/bookcase
+	name = "bookcase"
+	desc = "Refuge for few, an irrelevance to most."
+	icon_state = "booklever0"
+
+/obj/structure/lever/bookcase/examine(mob/user)
+	. = ..()
+	if(!isliving(user))
+		return
+	var/mob/living/L = user
+	if(HAS_TRAIT(L, TRAIT_INQUISITION))
+		. += span_notice("You recognize the subtle signs of a concealed mechanism, hidden in plain sight.")
+	else if(L.STAPER >= 15)
+		. += span_notice("There may be more to this shelf than meets the eye.")
+		L.emote("huh")
+
+/obj/structure/lever/bookcase/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
+
+/obj/structure/lever/bookcase/attack_hand(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_INQUISITION) || L.STAPER >= 15)
+			L.changeNext_move(CLICK_CD_MELEE)
+			var/used_time = 100 - (L.STASTR * 10)
+			user.visible_message(span_warning("[user] pulls the book out of place."))
+			log_game("[key_name(user)] pulled the lever with redstone id \"[redstone_id]\"")
+			if(do_after(user, used_time, target = user))
+				for(var/obj/structure/O in redstone_attached)
+					spawn(0) O.redstone_triggered()
+				toggled = !toggled
+				icon_state = "booklever[toggled]"
+				playsound(src, 'sound/foley/lever.ogg', 100, extrarange = 3)
+
+/obj/structure/lever/bookcase/onkick(mob/user)
+	return
 
 /obj/structure/lever/hidden
 	icon = null
@@ -279,7 +317,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/platename
-			platename = input("What name would you like to carve into the plate?")
+			platename = sanitize(input("What name would you like to carve into the plate?"))
 			if (platename)
 				name = platename + "(plate)"
 				desc = "a plate with a name carved into it"
@@ -291,7 +329,6 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
 		to_chat(user, span_warning("You most use both hands to rename plates."))
 
-
 /*
 /obj/structure/pressure_plate/attack_hand(mob/user) //commented out for now, they're stuposed to be anchored structures for dungeons. End of vanderlin traps port. Maybe an artificer subtype craft in the future.
 	. = ..()
@@ -301,8 +338,33 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		anchored = !anchored
 */
 
+/obj/structure/pressure_plate/once
+	name = "rusty pressure plate"
+	desc = "Be careful. Stepping on this could either mean a bomb exploding or a door closing on you. Luckily, it seems to have only one last wheeze before it's stuck."
+	var/triggered = FALSE
+
+/obj/structure/pressure_plate/once/Crossed(atom/movable/AM)
+	. = ..()
+	if(triggered)
+		return
+	if(!anchored)
+		return
+	if(!isliving(AM))
+		return
+	triggered = TRUE
+	var/mob/living/L = AM
+	to_chat(L, "<span class='info'>I feel something permanently click beneath me.</span>")
+	AM.log_message("has activated a permanent pressure plate", LOG_GAME)
+	playsound(src, 'sound/misc/pressurepad_down.ogg', 35, extrarange = 2)
+	triggerplate()
+
+/obj/structure/pressure_plate/once/triggerplate()
+	for(var/obj/structure/O in redstone_attached)
+		spawn(0)
+			O.redstone_triggered()
+
 /obj/structure/englauncher
-	name = "Engineer's Launcher" 
+	name = "Engineer's Launcher"
 	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
@@ -329,7 +391,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/rattlesound = 'sound/foley/doors/lockrattle.ogg'
 	var/masterkey = TRUE //if masterkey can open this regardless
 	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
-	
+
 /obj/structure/englauncher/Initialize()
 	. = ..()
 	update_icon()
@@ -345,7 +407,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/englauncher/proc/can_user_rotate(mob/user)
 	var/mob/living/L = user
 	if(istype(L))
-		if(!user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+		if(!user.canUseTopic(src, BE_CLOSE))
 			return FALSE
 		else
 			return TRUE
@@ -377,7 +439,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the launcher.</span>")
 		if(do_after(user, 10))
 			var/launchername
-			launchername = input("What name would you like to carve into the launcher?")
+			launchername = sanitize(input("What name would you like to carve into the launcher?"))
 			if (launchername)
 				name = launchername + "(launcher)"
 				desc = "a launcher with a name carved into it"
@@ -457,11 +519,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			say("WRENCH OR HAMMER REQUIRED")
 		return
 
-/obj/structure/englauncher/attackby(obj/item/I, mob/user, params)
+/obj/structure/englauncher/attackby(obj/item/I, mob/living/user, params)
 	user.changeNext_move(CLICK_CD_FAST)
 	if(istype(I, /obj/item/roguekey) || istype(I, /obj/item/storage/keyring))
 		if(!locked)
-			to_chat(user, span_warning("It won't turn this way. Try turning to the right."))
+			to_chat(user, span_warning("It won't turn this way. Try turning to the left."))
 			playsound(src, rattlesound, 100)
 			return
 		else
@@ -471,16 +533,39 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		to_chat(user, span_warning("It's locked!"))
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
-	if(!containment && (istype(I,/obj/item/reagent_containers) || istype(I, /obj/item/bomb) || istype(I, /obj/item/flint))) //loading in items
+
+	// Reagent containers, bombs, flint, and impact grenades load directly
+	if(!containment && (istype(I, /obj/item/reagent_containers) || istype(I, /obj/item/bomb) || istype(I, /obj/item/impact_grenade) || istype(I, /obj/item/flint)))
 		if(!user.transferItemToLoc(I, src))
 			return ..()
 		containment = I
 		playsound(src, 'sound/misc/chestclose.ogg', 25)
 		update_icon()
 		return TRUE
-	if(!ammo && istype(I, /obj/item/quiver)) //loading in quivers of ammo to fire
-		if (istype(I, /obj/item/quiver/javelin) || istype(I, /obj/item/quiver/sling)) //javelin don't work and sling seem too low cost to be balanced
-			return
+
+	// Bags/storage: accept if they contain bombs or grenades
+	if(!containment && istype(I, /obj/item/storage))
+		var/obj/item/storage/bag = I
+		var/has_throwable = FALSE
+		for(var/obj/item/thing in bag.contents)
+			if(istype(thing, /obj/item/bomb) || istype(thing, /obj/item/impact_grenade))
+				has_throwable = TRUE
+				break
+		if(has_throwable)
+			if(!user.transferItemToLoc(I, src))
+				return ..()
+			containment = I
+			playsound(src, 'sound/misc/chestclose.ogg', 25)
+			update_icon()
+			return TRUE
+		to_chat(user, span_warning("The launcher can't fire anything out of that bag."))
+		return TRUE
+
+	// Quivers: allow all ammo types including javelins; block only slings
+	if(!ammo && istype(I, /obj/item/quiver))
+		if(istype(I, /obj/item/quiver/sling))
+			to_chat(user, span_warning("The launcher can't fire sling bullets."))
+			return TRUE
 		if(!user.transferItemToLoc(I, src))
 			return
 		playsound(src, 'sound/misc/chestclose.ogg', 25)
@@ -488,43 +573,119 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		ammo = I
 		update_icon()
 		return TRUE
+
 	return ..()
 
 /obj/structure/englauncher/redstone_triggered(mob/user)
 	if(!containment)
 		return
-	var/turf/front = get_step(src, firedirection)
 
+	// Bag of throwables — pull and throw the first viable item
+	if(istype(containment, /obj/item/storage))
+		var/obj/item/storage/bag = containment
+		var/obj/item/throwable
+		for(var/obj/item/thing in bag.contents)
+			if(istype(thing, /obj/item/bomb) || istype(thing, /obj/item/impact_grenade))
+				throwable = thing
+				break
+		if(throwable)
+			// Use COMSIG_TRY_STORAGE_TAKE to properly remove from the bag's
+			// storage component so its slot tracking stays consistent.
+			// forceMove alone bypasses the component and leaves ghost slots.
+			SEND_SIGNAL(bag, COMSIG_TRY_STORAGE_TAKE, throwable, get_turf(src), TRUE)
+			launch_throwable(throwable)
+		if(!bag.contents.len)
+			// Bag is empty — eject it back onto the turf.
+			// forceMove is correct here: the bag is held directly in containment,
+			// not inside another storage component, so no slot tracking to update.
+			bag.forceMove(get_turf(src))
+			containment = null
+			ammo = null
+			update_icon()
+		return
+
+	// Single bomb — light and throw
 	if(istype(containment, /obj/item/bomb))
-		var/obj/item/bomb/bomba = containment
-		bomba.light()
+		var/obj/item/bomb/B = containment
+		containment = null
+		update_icon()
+		B.forceMove(get_turf(src))
+		B.light()
+		launch_throwable(B)
+		return
+
+	// Impact grenade — throw directly (impact on landing)
+	if(istype(containment, /obj/item/impact_grenade))
+		var/obj/item/impact_grenade/G = containment
+		containment = null
+		update_icon()
+		G.forceMove(get_turf(src))
+		launch_throwable(G)
+		return
+
 	if(istype(containment, /obj/item/reagent_containers))
 		container_aerosolize(containment, firedirection)
+		return
+
 	if(istype(containment, /obj/item/flint))
+		var/turf/front = get_step(src, firedirection)
 		var/datum/effect_system/spark_spread/S = new()
 		S.set_up(1, 1, front)
 		S.start()
+		return
+
+	// Quiver of arrows/bolts/javelins
 	if(istype(containment, /obj/item/quiver))
-		var/bodyzone =  BODY_ZONE_CHEST
-		bodyzone =  pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+		var/bodyzone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 		quiver_fire(firedirection, bodyzone)
 		if(spreadmode)
-			bodyzone =  pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+			bodyzone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 			quiver_fire(firedirectiontwo, bodyzone)
-			bodyzone =  pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+			bodyzone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 			quiver_fire(firedirectionthree, bodyzone)
-
-/obj/structure/englauncher/proc/quiver_fire(var/launcher_direction, var/launcher_bodyzone)
-	if(!ammo)
 		return
-	if(ammo.arrows.len)
-		for(var/obj/item/ammo_casing/BT in ammo.arrows)
-			//if(istype(BT, gun_ammo))
-			ammo.arrows -= BT
-			BT.fire_casing(get_step(src, launcher_direction), src, null, null, null, launcher_bodyzone, 0,  src)
-			ammo.contents -= BT
-			ammo.update_icon()
-			break		
+
+/obj/structure/englauncher/proc/quiver_fire(launcher_direction, launcher_bodyzone)
+	if(!ammo || !ammo.arrows.len)
+		return
+	var/obj/item/ammo_casing/caseless/rogue/AR = ammo.arrows[1]
+	ammo.arrows -= AR
+
+	// Javelins are thrown as physical items rather than fired as casings
+	if(istype(AR, /obj/item/ammo_casing/caseless/rogue/javelin))
+		AR.forceMove(get_turf(src))
+		launch_throwable(AR)
+	else
+		AR.fire_casing(get_step(src, launcher_direction), src, null, null, null, launcher_bodyzone, 0, src)
+		ammo.contents -= AR
+
+	ammo.update_icon()
+
+
+/obj/structure/englauncher/proc/launch_throwable(obj/item/I)
+	// Place the item one step ahead of the launcher so throw_at has a valid
+	// direction vector (item loc != target turf).
+	var/turf/start = get_step(src, firedirection)
+	if(!start)
+		return
+
+
+	// Build target turf by walking firedirection from start
+	var/turf/target = start
+	for(var/i in 1 to 6)
+		var/turf/next = get_step(target, firedirection)
+		if(!next)
+			break
+		target = next
+
+	if(!is_blocked_turf(start))
+		I.forceMove(start)
+	// Temporarily clear anchored in case something set it
+	I.anchored = FALSE
+	playsound(start, 'sound/misc/hiss.ogg', 75, TRUE)
+	// Pass null thrower — passing a structure breaks the mob/thrower typecheck
+	// Use MOVE_FORCE_STRONG to ensure move_resist doesn't block the throw
+	I.throw_at(target, 7, 3, null, FALSE, FALSE, null, MOVE_FORCE_STRONG)
 
 /obj/structure/englauncher/proc/container_aerosolize(var/launcher_liquid, var/launcher_direction)
 	var/turf/T = get_step(src, launcher_direction) //check for turf
@@ -537,7 +698,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 					var/datum/effect_system/smoke_spread/chem/smoke = new
 					if(spreadmode)
 						smoke.set_up(R, 3, T, FALSE)
-					else 
+					else
 						smoke.set_up(R, 1, T, FALSE)
 					smoke.start()
 
@@ -620,7 +781,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	return ..()
 */
 /obj/structure/floordoor/obj_break(damage_flag)
-	obj_flags = null
+	set_is_platform(FALSE)
+	obj_flags &= ~BLOCK_Z_IN_UP
 	..()
 
 /obj/structure/floordoor/redstone_triggered(mob/user)
@@ -629,26 +791,28 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	togg = !togg
 	if(togg)
 		icon_state = "[base_state]0"
-		obj_flags = null
+		set_is_platform(FALSE)
+		obj_flags &= ~BLOCK_Z_IN_UP
 		var/turf/T = loc
 		if(istype(T))
 			for(var/atom/movable/M in loc)
 				T.Entered(M)
 	else
 		icon_state = "[base_state]1"
-		obj_flags = BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+		set_is_platform(TRUE)
+		obj_flags |= BLOCK_Z_IN_UP
 
 /obj/structure/floordoor/open
-		icon_state = "floorhatch0"
-		base_state = "floorhatch"
-		togg = TRUE
-		obj_flags = null
+	icon_state = "floorhatch0"
+	base_state = "floorhatch"
+	togg = TRUE
+	obj_flags = null
 
 /obj/structure/floordoor/gatehatch
 	name = ""
 	desc = ""
-	base_state = ""
-	icon_state = ""
+	base_state = "gatehatch"
+	icon_state = "gatehatch1"
 	var/changing_state = FALSE
 	var/delay2open = 0
 	var/delay2close = 0
@@ -670,7 +834,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if(togg)
 		sleep(delay2open)
 		icon_state = "[base_state]0"
-		obj_flags = null
+		set_is_platform(FALSE)
+		obj_flags &= ~BLOCK_Z_IN_UP
 		var/turf/T = loc
 		if(istype(T))
 			for(var/atom/movable/M in loc)
@@ -680,7 +845,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	else
 		sleep(delay2close)
 		icon_state = "[base_state]1"
-		obj_flags = BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+		set_is_platform(TRUE)
+		obj_flags |= BLOCK_Z_IN_UP
 		sleep(40-delay2close)
 		changing_state = FALSE
 
@@ -703,7 +869,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/hatchname
-			hatchname = input("What name would you like to carve into the hatch?")
+			hatchname = sanitize(input("What name would you like to carve into the hatch?"))
 			if (hatchname)
 				name = hatchname + "(hatch)"
 				desc = "a hatch with a name carved into it"

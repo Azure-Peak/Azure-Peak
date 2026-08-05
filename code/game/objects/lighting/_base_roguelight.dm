@@ -13,6 +13,7 @@
 	var/crossfire = TRUE
 	var/can_damage = TRUE
 	var/roundstart_forbid = FALSE
+	var/refueling = FALSE
 
 /obj/machinery/light/rogue/Initialize()
 	if(soundloop)
@@ -100,10 +101,23 @@
 			var/turf/T = loc
 			T.trigger_weather(src)
 
+/obj/machinery/light/rogue/CanAStarPass(ID, to_dir, atom/movable/caller)
+	if(on && crossfire && isliving(caller))
+		var/mob/living/crosser = caller
+		if(!(crosser.movement_type & (FLYING|FLOATING)) && !HAS_TRAIT(crosser, TRAIT_NOFIRE))
+			return FALSE
+	return ..()
+
 /obj/machinery/light/rogue/Crossed(atom/movable/AM, oldLoc)
 	..()
 	if(crossfire)
 		if(on)
+			if(isliving(AM))
+				var/mob/living/L = AM
+				if(L.is_jumping)
+					return
+				if(L.movement_type & (FLYING|FLOATING))
+					return
 			AM.fire_act(1,5)
 
 /obj/machinery/light/rogue/spark_act()
@@ -122,7 +136,7 @@
 					qdel(W)
 				return TRUE
 		if(istype(W, /obj/item/reagent_containers/food/snacks))
-			if(istype(W, /obj/item/reagent_containers/food/snacks/egg))
+			if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/egg))
 				to_chat(user, "<span class='warning'>I wouldn't be able to cook this over the fire...</span>")
 				return FALSE
 			var/obj/item/A = user.get_inactive_held_item()
@@ -161,33 +175,61 @@
 							break
 					return
 	if(W.firefuel && !no_refuel)
-		if(W.smeltresult) // For things with actual smelt results - functionally no differences
-			if(alert(usr, "Fuel [src] with [W]?", "ROGUETOWN", "Fuel", "Smelt") != "Fuel")
-				return TRUE
-		if(alert(usr, "Fuel [src] with [W]?", "ROGUETOWN", "Yes", "No") != "Yes")
+		if(refueling)
 			return TRUE
-		if(!W)
-			return
+
+		refueling = TRUE
+
+		var/choice
+
+		if(W.smeltresult)
+			choice = alert(user, "Fuel [src] with [W]?", "ROGUETOWN", "Fuel", "Smelt")
+			if(choice != "Fuel")
+				refueling = FALSE
+				return TRUE
+
+		if(alert(user, "Fuel [src] with [W]?", "ROGUETOWN", "Yes", "No") != "Yes")
+			refueling = FALSE
+			return TRUE
+
+		if(!W || QDELETED(W))
+			refueling = FALSE
+			return TRUE
+
 		if(user.get_active_held_item() != W)
 			to_chat(user, span_warning("That item is no longer in my hand..."))
-			return
-
-		user.dropItemToGround(W)
+			refueling = FALSE
+			return TRUE
 
 		if(initial(fueluse))
 			if(fueluse > initial(fueluse) - 5 SECONDS)
 				to_chat(user, "<span class='warning'>[src] is fully fueled.</span>")
-				return
+				refueling = FALSE
+				return TRUE
 		else
 			if(!on)
-				return
+				refueling = FALSE
+				return TRUE
+
+		var/fuel_amount = W.firefuel
+
+		user.dropItemToGround(W)
+
+		if(!W || QDELETED(W))
+			refueling = FALSE
+			return TRUE
+
 		qdel(W)
+
 		user.visible_message("<span class='warning'>[user] feeds [W] to [src].</span>")
+
 		if(initial(fueluse))
-			fueluse = fueluse + W.firefuel
-			if(fueluse > initial(fueluse)) //keep it at the max
+			fueluse += fuel_amount
+			if(fueluse > initial(fueluse))
 				fueluse = initial(fueluse)
-		return
+
+		refueling = FALSE
+		return TRUE
 	else
 		if(on)
 			if(istype(W, /obj/item/natural/dirtclod))
@@ -207,3 +249,9 @@
 	if(!can_damage)
 		return
 	. = ..()
+
+/obj/machinery/light/rogue/broken_sparks(start_only = FALSE)
+	return
+
+/obj/machinery/light/rogue/break_light_tube(skip_sound_and_sparks = 0)
+	return ..(TRUE)

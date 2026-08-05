@@ -6,3 +6,8 @@
 	#define COMPONENT_TURF_DENY_MOVEMENT  (1<<1)
 #define COMSIG_TURF_ENTERED "turf_entered"
 #define COMSIG_TURF_EXITED "turf_exited"
+
+///from /datum/element/footstep/prepare_step(): (list/steps)
+#define COMSIG_TURF_PREPARE_STEP_SOUND "turf_prepare_step_sound"
+	//stops element/footstep/proc/prepare_step() from returning null if the turf itself has no sound
+	#define FOOTSTEP_OVERRIDEN (1<<0)

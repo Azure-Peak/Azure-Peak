@@ -7,8 +7,13 @@
 	can_blockade = FALSE
 	category = FACTION_CAT_GOBLINOID
 	mob_types = list(
-		/mob/living/carbon/human/species/goblin/npc/ambush = 90,
-		/mob/living/simple_animal/hostile/retaliate/rogue/troll = 10,
+		/mob/living/carbon/human/species/goblin/npc/ambush = 63,
+		/mob/living/carbon/human/species/goblin/npc/archer = 16, // archer+slinger+bomber ~30% of goblins
+		/mob/living/carbon/human/species/goblin/npc/slinger = 6,
+		/mob/living/carbon/human/species/goblin/npc/bomber = 7,
+		/mob/living/carbon/human/species/goblin/npc/large = 5,
+		/mob/living/carbon/human/species/hobgoblin/npc/ambush = 15,
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll = 5,
 		/mob/living/carbon/human/species/goblin/npc/ambush/cave = 5,
 	)
 	boss_mob_types = list(

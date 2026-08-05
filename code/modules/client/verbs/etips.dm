@@ -1,7 +1,6 @@
 /client/verb/toggle_tips()
 	set name = "Toggle Examine Tooltips"
 	set desc = ""
-	set category = "Preferences"
 	set hidden = 1
 	if(!holder)
 		return
@@ -12,7 +11,6 @@
 /client/verb/change_tip_delay()
 	set name = "Set Examine Tooltip Delay"
 	set desc = ""
-	set category = "Preferences"
 	set hidden = 1
 	if(!holder)
 		return

@@ -126,6 +126,8 @@
 		is_jumping = FALSE
 		if(jroot && !HAS_TRAIT(src, TRAIT_ZJUMP))	//Jesters and werewolves don't get immobilized at all
 			Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 5 : 10))	//Acrobatics get half the time
+			if(HAS_TRAIT(src, TRAIT_DEADITE)) //Non-Jester deadites collapse and fall over on landing, you're literally rotting apart.
+				Knockdown(10)
 		if(isopenturf(src.loc))
 			var/turf/open/T = src.loc
 			if(T.landsound)

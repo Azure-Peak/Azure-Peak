@@ -14,8 +14,12 @@
 	/// that should all count as the same shipment - e.g. enchantment scrolls.
 	var/accept_subtypes = FALSE
 	var/global_price_mod = 1.0
-	var/mint_eligible = FALSE
+	var/derive_price = FALSE
 	var/crown_accepts = TRUE
+	/// Optional override for the market-pool ITEM_CAT_* this good's item_type maps to.
+	/// Used for trade goods whose item_type isn't crafted (e.g. fish), so the recipe walker
+	/// never tags them. The pricing engine writes this into GLOB.derived_categories during init.
+	var/display_category
 	// Potion-only: alchemical orders match any reagent container holding at least
 	// required_volume units of reagent_type. The container is consumed on fulfillment.
 	var/reagent_type

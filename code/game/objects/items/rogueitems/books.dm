@@ -167,9 +167,12 @@
 		user.put_in_active_hand(C)
 	..()
 
+//Tennite Bible
 /obj/item/book/rogue/bibble
 	name = "The Verses and Acts of the Ten"
-	desc = "The collected verses and acts of the DIVINE PANTHEON. Split into three parts.</br>VISAGE - The OLD, THE FIRST ACTS OF THE TEN UPON PSYDONIA, BEFORE THE COMET SYON </br>DECANOMICON - THE ERA OF GLEAM, THE HOLY CELESTIAL EMPIRE - </br>NEW DAWN - Modern Era, the foundation of the HOLY SEE and ONWARDS."
+	desc = "The collected verses and acts of the DIVINE PANTHEON. Split into three parts. </br>VISAGE - The OLD, THE FIRST ACTS \
+	OF THE TEN UPON PSYDONIA, BEFORE THE COMET SYON </br>DECANOMICON - THE ERA OF GLEAM, THE HOLY CELESTIAL EMPIRE - </br>NEW DAWN \
+	- Modern Era, the foundation of the HOLY SEE and ONWARDS."
 	icon_state = "bibble_0"
 	base_icon_state = "bibble"
 	title = "The Verses and Acts of the Ten"
@@ -177,6 +180,7 @@
 	possible_item_intents = list(
 		/datum/intent/use,
 		/datum/intent/bless,
+		/datum/intent/mace/strike/wood, //Beating someone over the head with a particularly heavy bible? Say it ain't so!
 	)
 
 /obj/item/book/rogue/bibble/read(mob/user)
@@ -243,9 +247,14 @@
     . += span_info("Anointing a silver weapon will bless it, greatly increasing the power of its critical hits and debuffs against sunderable opponents.")
     . += span_info("Anointing a person will bless them, imparting a temporary bonus to their Fortune.")
 
+//Psydonic Bible
 /obj/item/book/rogue/bibble/psy
-	name = "Tome of Psydon"
-	desc = "'And HE WEEPS. Not for you, not for me, but for it all.' </br>A leatherbound tome, chronicling the beliefs held by the Orthodoxy; the largest Psydonic denomination in the world. The 'Harlaus Press', a recent invention by Otava's clergymen, has ensured that no corner of Psydonia would remain unlit by His teachings. Inside are three seperate testaments, each marked with a velvet strap.. </br>PSALMS - TESTAMENTS OF CLERICAL WISDOM, COMMANDING INTERPRETATION. </br>GENESIS - TESTAMENTS OF PSYDONIA'S CREATION, FOR WHAT ONCE WAS. </br>INVOCATIONS - TESTAMENTS OF WILL, TO EXORCISE AND CHANT."
+	name = "The Book"
+	desc = "'And He weeps. Not for you, not for me, but for it all.' </br>A leatherbound tome, chronicling the \
+	beliefs held by the Orthodoxy; the largest Psydonic denomination in the world. The 'Harlaus Press', a recent \
+	invention by Otava's clergymen, has ensured that no corner of Psydonia would remain unlit by His teachings. Inside \
+	are three seperate testaments, each marked with a velvet strap.. </br>PSALMS - TESTAMENTS OF CLERICAL WISDOM, COMMANDING \
+	INTERPRETATION. </br>GENESIS - TESTAMENTS OF PSYDONIA'S CREATION, FOR WHAT ONCE WAS. </br>INVOCATIONS - TESTAMENTS OF WILL, TO EXORCISE AND CHANT."
 	icon_state = "psyble_0"
 	base_icon_state = "psyble"
 	title = "psyble"
@@ -290,6 +299,72 @@
 			sect = "sect2"
 		if("INVOCATIONS")
 			sect = "sect3"
+
+/obj/item/book/rogue/bibble/psy/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("It can be used in-hand to preach from three seperate testaments.")
+    . += span_info("Use middle-mouse button to switch between testaments of the book.")
+
+//Zizonic Bible
+/obj/item/book/rogue/bibble/zizo
+	name = "The Verses and Chants of Zizo"
+	desc = "<font color='ff0000'>'She called us forth from the edge of reality - and with Her dying breath, rasped out the final truth; the fire is gone, and the world will soon follow.'</font> \
+	</br>An old, dusty leatherbound tome; a strip of velvet silk threaded into the leather resembling a zcross made out of avantyne upon the cover. \
+	chronicling the beliefs held throughout the collective of the Cabal which could mutually agree on the same matters; \
+	such tomes are often considered major contraband in most of Psydonia and oft burned, even by followers of Noc. \
+	Even to this dae its unknown how such tomes keep circulating, presumably from some unknown printing press or two somewhere; \
+	but they are seldom found outside of the black market. Inside are two seperate testaments. </br> \
+	</br>PROGRESS - TESTAMENTS OF PROGRESS, HER TRUTH, FAITH. \
+	</br>SACRIFICE - TESTAMENTS OF UNDEATH, NECROMANCY, ASCENSION."
+	icon_state = "zible_0"
+	base_icon_state = "zible"
+	title = "ziyble"
+	dat = "gott.json"
+	var/sect = "sect1"
+
+/obj/item/book/rogue/bibble/zizo/attack(mob/living/M, mob/user)
+	return
+
+/obj/item/book/rogue/bibble/zizo/read(mob/living/carbon/human/user)
+	if(!open)
+		to_chat(user, span_info("Open it first."))
+		return FALSE
+	if(!user.client || !user.hud_used)
+		return
+	if(!user.hud_used.reads)
+		return
+	if(!user.can_read(src))
+		return
+	if(in_range(user, src) || isobserver(user))
+		user.changeNext_move(CLICK_CD_MELEE)
+		var/m
+		if(sect)
+			var/list/verses = world.file2list("strings/zizo[sect].txt")
+			m = pick(verses)
+			if(m)
+				user.say(m)
+
+/obj/item/book/rogue/bibble/zizo/MiddleClick(mob/user, params)
+	. = ..()
+	var/sects = list("PROGRESS", "SACRIFICE")
+	var/sect_choice = input(user, "SELECT YOUR TESTAMENT", "PROGRESS COMMANDS SACRIFICE.") as anything in sects
+	switch(sect_choice)
+		if("PROGRESS")
+			sect = "sect1"
+		if("SACRIFICE")
+			sect = "sect2"
+
+/obj/item/book/rogue/bibble/zizo/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("It can be used in-hand to preach from two seperate testaments.")
+    . += span_info("Use middle-mouse button to switch between testaments of the book.")
+
+/obj/item/book/rogue/bibble/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "TOME") //intended, sure-cut sign you worship Zizo. (Also to avoid unintended bug of bishop blessing people w/it.)
+
+/obj/item/book/rogue/bibble/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_RELIC) //black market good, very few and far between.
 
 /datum/status_effect/buff/blessed
 	id = "blessed"
@@ -500,14 +575,14 @@
 	var/is_in_round_player_generated
 	var/list/book_icons = list(
 	"Sickly green with embossed bronze" = "book8",
-	"White with embossed obsidian" = "book7",
-	"Black with embossed quartz" = "book6",
-	"Blue with embossed ruby" = "book5",
-	"Green with embossed amethyst" = "book4",
-	"Purple with embossed emerald" = "book3",
-	"Red with embossed sapphire" = "book2",
-	"Brown with embossed gold" = "book1",
-	"Brown without embossed material" = "basic_book")
+	"Red with embossed toper" = "book7",
+	"Purple with embossed obsidian" = "book6",
+	"Brown with embossed obsidian" = "book5",
+	"Yellow without embossed material" = "book4",
+	"Blue without embossed material" = "book3",
+	"Red without embossed material" = "book2",
+	"Black without embossed material" = "book",
+	"Green without embossed material" = "basic_book")
 	name = "unknown title"
 	desc = "Penned by an unknown author."
 	icon_state = "basic_book_0"
@@ -620,6 +695,7 @@
 	var/compiled_pages = null
 	var/list/page_texts = list()
 	var/qdel_source = FALSE
+	dropshrink = 0.8
 
 /obj/item/manuscript/examine()
 	. = ..()
@@ -639,7 +715,7 @@
 		return
 	var/obj/item/paper/P = I
 	if(!(P.info))
-		to_chat(user, "the paper needs to contain text to be added to a manuscript!")
+		to_chat(user, "The paper needs to contain text to be added to a manuscript!")
 		return
 	if(number_of_pages == 8)
 		to_chat(user, "The manuscript pile cannot surpass 8 pages!")
@@ -760,3 +836,4 @@
 	desc = "Apply on a written manuscript to create a book."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "book_crafting_kit"
+	dropshrink = 0.7

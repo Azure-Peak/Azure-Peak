@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/caedo
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Caedo"
 	desc = "In the old tongue, caedo - to strike or to cut down. Dash forward at blinding speed, \
 		leaving afterimages that strike every enemy in your path. \
@@ -21,7 +22,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS

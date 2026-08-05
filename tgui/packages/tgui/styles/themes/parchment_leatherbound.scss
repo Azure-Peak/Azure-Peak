@@ -1,0 +1,151 @@
+@use 'azure_base' as *;
+
+.theme-parchment-leatherbound:root {
+  @include azure-theme((
+    'base':            #2a2118,
+    'base-light':      #332a1e,
+    'base-dark':       #1f1810,
+    'section':         rgba(60, 48, 32, 0.30),
+    'section-title':   #d4c090,
+    'text':            #d4c090,
+    'label':           #a89060,
+    'accent':          rgba(160, 130, 80, 0.35),
+    'accent-bright':   rgba(200, 170, 100, 0.55),
+    'border':          rgba(160, 130, 80, 0.35),
+    'btn-text':        #d4c090,
+    'btn-selected':    rgba(180, 145, 85, 0.55),
+    'btn-disabled':    #6a5a40,
+    'scrollbar-thumb': rgba(160, 130, 80, 0.45),
+    'glow':            rgba(200, 170, 100, 0.15),
+    'link':            #c8a050,
+    'link-visited':    #b08840,
+    'link-hover':      #e6c270,
+  ), '../assets/azure_default/topbar_red.svg');
+
+  --font-family: 'Lora', Georgia, serif;
+
+  --p-font-tiny: 12px;
+  --p-font-small: 12px;
+  --p-font-body: 13px;
+  --p-font-lead: 13px;
+  --p-font-title: 14px;
+  --p-font-head: 15px;
+
+  --p-title: #b5654a;
+  --p-title-font: 'MedievalSharp', Georgia, serif;
+
+  --p-bg: #2a2118;
+  --p-bg-deep: #332a1e;
+  --p-bg-shadow: #4a3a24;
+  --p-ink: #d4c090;
+  --p-ink-soft: #a89060;
+  --p-ink-faint: #7a6444;
+  --p-seal-red: #a04848;
+  --p-seal-red-soft: #8a3c3c;
+  --p-seal-green: #6a9560;
+  --p-seal-blue: #5a7ca8;
+  --p-seal-amber: #c8a050;
+  --p-button-bg: rgba(80, 64, 40, 0.28);
+  --p-tab-active-bg: rgba(180, 145, 85, 0.55);
+  --p-card-bg: rgba(60, 48, 32, 0.40);
+  --p-card-shadow: rgba(0, 0, 0, 0.45);
+  --p-banner-bg: rgba(160, 72, 72, 0.20);
+  --p-banner-bg-soft: rgba(160, 72, 72, 0.12);
+  --p-badge-text: #f7eccb;
+
+  &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content,
+  .Window__contentPadding {
+    background: #2a2118 !important;
+    background-image: none !important;
+  }
+
+  .Window__contentPadding {
+    margin: 0;
+    height: 100%;
+  }
+
+  .TitleBar {
+    background-color: #1f1810;
+    border-bottom: 1px solid rgba(160, 130, 80, 0.40);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50);
+  }
+
+  .TitleBar__title {
+    color: var(--p-title);
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+
+  .TitleBar__close {
+    color: rgba(200, 170, 100, 0.55);
+
+    &:hover {
+      color: rgba(220, 120, 120, 0.95);
+      background-color: rgba(160, 72, 72, 0.25);
+    }
+  }
+
+  .Section {
+    background: rgba(60, 48, 32, 0.40);
+    border: 1px solid rgba(160, 130, 80, 0.30);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .Section__title {
+    color: var(--p-title);
+    letter-spacing: 1px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(160, 130, 80, 0.40);
+  }
+
+  .Button {
+    border-color: rgba(160, 130, 80, 0.45);
+    background: rgba(80, 64, 40, 0.28);
+    color: #d4c090;
+    box-shadow: none;
+
+    &:hover {
+      border-color: rgba(200, 170, 100, 0.65);
+      background: rgba(100, 80, 50, 0.45);
+      box-shadow: 0 0 6px rgba(200, 170, 100, 0.20);
+    }
+
+    &:active {
+      box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.55);
+    }
+  }
+
+  .LabeledList__label {
+    color: #a89060;
+  }
+
+  .LabeledList__content {
+    color: #d4c090;
+  }
+
+  .Input {
+    background-color: #1a1410;
+    border: 2px solid rgba(200, 170, 100, 0.55);
+    outline: 1px solid rgba(0, 0, 0, 0.6);
+    color: #f0dca8;
+
+    &:focus-within {
+      border-color: #e6c270;
+      box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.05),
+        0 0 5px rgba(230, 194, 112, 0.45);
+    }
+  }
+
+  .Input__input::placeholder,
+  .Input input::placeholder {
+    color: rgba(212, 192, 144, 0.45);
+  }
+
+  .toc-link:hover {
+    text-decoration: underline;
+    color: var(--p-ink);
+  }
+}

@@ -354,11 +354,6 @@
 	user_unbuckle_mob(user, user)
 	. = ..()
 
-/obj/structure/vine/attack_paw(mob/living/user)
-	for(var/datum/vine_mutation/SM in mutations)
-		SM.on_hit(src, user)
-	user_unbuckle_mob(user,user)
-
 /datum/vine_controller
 	var/list/obj/structure/vine/vines
 	var/obj/structure/flora/roguetree/evil/tree
@@ -556,4 +551,6 @@
 		if(("vines" in M.faction) || ("plants" in M.faction))
 			. = TRUE
 		else if (HAS_TRAIT(M, TRAIT_KNEESTINGER_IMMUNITY))
+			. = TRUE
+		else if (HAS_TRAIT(M, TRAIT_BOGWALKER))
 			. = TRUE

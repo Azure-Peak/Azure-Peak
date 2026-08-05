@@ -1,3 +1,5 @@
+#define LEDGER_PAGE_SIZE 50
+
 /obj/structure/roguemachine/steward/ui_state(mob/user)
 	// The sitting Alderman acts remotely from the Notice Board - they cannot physically reach the
 	// locked Stewardry. For them, swap adjacency for a conscious-and-alive check; access is gated
@@ -88,7 +90,49 @@
 	data["petition_tax_pct"] = round((1 - PETITION_TAX_MULT) * 100)
 	data["petitions_per_day"] = PETITIONS_PER_DAY
 
+	var/list/lview = ledger_view[user.ckey]
+	if(lview && lview["open"])
+		data["ledger_page"] = build_ledger_page(user.ckey)
+
 	return data
+
+/obj/structure/roguemachine/steward/proc/build_ledger_page(ckey)
+	var/list/lview = ledger_view[ckey]
+	var/page = max(1, lview ? (lview["page"] || 1) : 1)
+	var/filter = lview ? (lview["filter"] || "") : ""
+	var/window_start = (page - 1) * LEDGER_PAGE_SIZE + 1
+	var/window_end = page * LEDGER_PAGE_SIZE
+	var/list/entries = list()
+	var/matched = 0
+	var/total = length(SStreasury.ledger)
+	var/crown_name = SStreasury.discretionary_fund?.name
+	for(var/i = total to 1 step -1)
+		var/datum/treasury_entry/E = SStreasury.ledger[i]
+		if(crown_name && E.from_name != crown_name && E.to_name != crown_name)
+			continue
+		if(filter && !findtext(E.reason, filter) && !findtext(E.from_name, filter) && !findtext(E.to_name, filter))
+			continue
+		matched++
+		if(matched < window_start)
+			continue
+		if(matched > window_end)
+			break
+		entries += list(list(
+			"kind" = E.kind,
+			"from" = E.from_name,
+			"to" = E.to_name,
+			"amount" = E.amount,
+			"reason" = E.reason || "",
+			"count" = E.count || 1,
+		))
+	return list(
+		"entries" = entries,
+		"page" = page,
+		"page_size" = LEDGER_PAGE_SIZE,
+		"shown" = length(entries),
+		"has_more" = (matched > window_end) ? TRUE : FALSE,
+		"filtered" = filter ? TRUE : FALSE,
+	)
 
 /obj/structure/roguemachine/steward/ui_data(mob/user)
 	var/list/data = list()
@@ -96,6 +140,10 @@
 	data["day"] = GLOB.dayspassed
 	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
 	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
+	data["royal_custom_unlocked"] = SStreasury?.royal_custom_unlocked ? TRUE : FALSE
+	data["royal_custom_margin"] = SStreasury?.royal_custom_margin
+	data["royal_custom_threshold"] = SStreasury?.royal_custom_threshold
+	data["royal_custom_volume"] = SStreasury?.economic_output || 0
 
 	// Alderman-acting view: expose the warrant so the TGUI can render it prominently. Only
 	// populated when the viewer is the sitting Alderman - the Steward doesn't need a warrant
@@ -140,27 +188,29 @@
 		))
 	data["active_events"] = events
 
-	// Active standing orders. Items carry only good_id + counts; the TSX looks up the
-	// good's label/name via the static good_catalog.
 	var/list/orders = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(O.is_fulfilled)
 			continue
 		var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
 		var/is_blockaded = order_region?.is_region_blockaded ? TRUE : FALSE
-		var/is_warehouse = (SSeconomy.order_is_equipment(O) || SSeconomy.order_is_alchemical(O)) ? TRUE : FALSE
 		var/days_left = max(0, O.day_expires - GLOB.dayspassed)
 
 		var/list/items = list()
 		var/can_fulfill = TRUE
 		var/shortfall = ""
 		var/delivered_value = 0
+		var/has_warehouse = FALSE
+		var/has_stockpile = FALSE
 		for(var/good_id in O.required_items)
 			var/needed = O.required_items[good_id]
 			var/have = 0
-			if(is_warehouse)
+			var/route = SSeconomy.get_good_route(good_id)
+			if(route == "warehouse")
+				has_warehouse = TRUE
 				have = needed
 			else
+				has_stockpile = TRUE
 				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
 				have = entry ? entry.stockpile_amount : 0
 				if(have < needed)
@@ -175,12 +225,14 @@
 				"good_id" = good_id,
 				"needed" = needed,
 				"have" = have,
+				"route" = route,
 			))
 
+		// Partial settlement applies only to the stockpile portion's coverage; warehouse goods are all-or-nothing.
 		var/can_partial = FALSE
 		var/partial_pct = 0
 		var/partial_payout_preview = 0
-		if(!is_warehouse && !can_fulfill && O.total_payout > 0)
+		if(has_stockpile && !can_fulfill && O.total_payout > 0)
 			var/petitioned_value = O.petitioned ? round(delivered_value * PETITION_TAX_MULT) : delivered_value
 			var/coverage = petitioned_value / O.total_payout
 			if(coverage >= STANDING_ORDER_PARTIAL_THRESHOLD)
@@ -194,7 +246,8 @@
 			"description" = O.description,
 			"region_id" = O.region_id,
 			"region_blockaded" = is_blockaded,
-			"is_equipment" = is_warehouse,
+			"has_warehouse" = has_warehouse,
+			"has_stockpile" = has_stockpile,
 			"days_left" = days_left,
 			"payout" = O.total_payout,
 			"items" = items,
@@ -204,105 +257,84 @@
 			"can_partial" = can_partial,
 			"partial_pct" = partial_pct,
 			"partial_payout_preview" = partial_payout_preview,
+			"pair_id" = O.pair_id,
+			"pair_label" = O.pair_label,
 		))
 	data["active_orders"] = orders
 
-	// Market rows — strip static fields (name, importable — come from good_catalog) and
-	// keep only mutable state (stock, event tag, best import/export region + prices).
-	var/list/event_tag_by_good = list()
-	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		for(var/gid in E.affected_goods)
-			event_tag_by_good[gid] = E.event_type
-
-	var/list/market_rows = list()
-	var/total_arbitrage_potential = 0
-	for(var/good_id in GLOB.trade_goods)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(!tg)
-			continue
-		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
-		if(!entry)
-			continue
-		entry.refresh_auto_price()
-
-		var/event_tag = ""
-		if(event_tag_by_good[good_id] == ECON_EVENT_SHORTAGE)
-			event_tag = "SHORTAGE"
-		else if(event_tag_by_good[good_id] == ECON_EVENT_OVERSUPPLY)
-			event_tag = "GLUT"
-
-		var/margin_per_unit = max(0, entry.withdraw_price - entry.payout_price)
-		var/arbitrage_potential = margin_per_unit * entry.stockpile_amount
-		total_arbitrage_potential += arbitrage_potential
-
-		var/list/row = list(
-			"good_id" = good_id,
-			"stock" = entry.stockpile_amount,
-			"stock_limit" = entry.stockpile_limit,
-			"event_tag" = event_tag,
-			"import_regions" = tg.importable ? build_market_import_regions(good_id) : list(),
-			"export_regions" = build_market_export_regions(good_id),
-			// Stockpile management state (read by Steward; visible-only to Alderman).
-			"buy_price" = entry.payout_price,
-			"sell_price" = entry.withdraw_price,
-			"market_buy_price" = entry.get_market_deposit_price(),
-			"market_sell_price" = entry.get_market_withdraw_price(),
-			"automatic_price" = entry.automatic_price ? TRUE : FALSE,
-			"automatic_limit" = entry.automatic_limit ? TRUE : FALSE,
-			"accepting" = entry.accept_toggle_enabled ? TRUE : FALSE,
-			"withdraw_disabled" = entry.withdraw_disabled ? TRUE : FALSE,
-			"margin_per_unit" = margin_per_unit,
-			"arbitrage_potential" = arbitrage_potential,
-		)
-
-		market_rows += list(row)
-	data["market_rows"] = market_rows
-	data["total_arbitrage_potential"] = total_arbitrage_potential
+	// Caching more for performance
+	if(SStreasury.market_view_dirty || isnull(SStreasury.cached_market_rows))
+		rebuild_market_view()
+	data["market_rows"] = SStreasury.cached_market_rows
+	data["total_arbitrage_potential"] = SStreasury.cached_total_arbitrage_potential
 	data["autoexport_percentage"] = round(SStreasury.autoexport_percentage * 100)
+	data["region_rows"] = SStreasury.cached_region_rows
 
-	// Region rows — strip static fields (name, description — come from region_catalog)
-	// and keep only mutable state (blockade flag, produces_today, demands_today).
-	var/list/region_rows = list()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		var/list/produces = list()
-		for(var/good_id in region.produces)
-			if(!GLOB.trade_goods[good_id])
-				continue
-			produces += list(list(
-				"good_id" = good_id,
-				"total" = region.produces[good_id],
-				"today" = region.produces_today[good_id] || 0,
-			))
-		var/list/demands = list()
-		for(var/good_id in region.demands)
-			if(!GLOB.trade_goods[good_id])
-				continue
-			demands += list(list(
-				"good_id" = good_id,
-				"total" = region.demands[good_id],
-				"today" = region.demands_today[good_id] || 0,
-			))
-		region_rows += list(list(
-			"region_id" = region_id,
-			"blockaded" = region.is_region_blockaded ? TRUE : FALSE,
-			"produces" = produces,
-			"demands" = demands,
-		))
-	data["region_rows"] = region_rows
+	var/autoexport_barred = 0
+	for(var/datum/roguestock/A as anything in SStreasury.stockpile_datums)
+		if(A.autoexport_disabled)
+			autoexport_barred++
+	var/shortage_goods_open = 0
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.event_type != ECON_EVENT_SHORTAGE)
+			continue
+		for(var/good_id in E.affected_goods)
+			var/datum/roguestock/A = SStreasury.stockpile_by_trade_good[good_id]
+			if(A && !A.autoexport_disabled)
+				shortage_goods_open++
+	data["autoexport_barred"] = autoexport_barred
+	data["shortage_goods_open"] = shortage_goods_open
 
 	data["auto_import"] = build_auto_import_data()
 
 	var/list/petition_state = list()
+	var/petitions_remaining = SSeconomy.petitions_remaining_today()
 	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
-	petition_state["petitions_remaining"] = SSeconomy.petitions_remaining_today()
+	petition_state["petitions_remaining"] = petitions_remaining
 	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
 	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
 	var/list/eligibility = list()
+	var/pool_full = (GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
+	var/pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
+	var/pledge_missing = !SStreasury.burgher_pledge_fund
+	var/list/orders_by_region = list()
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		orders_by_region[O.region_id] = (orders_by_region[O.region_id] || 0) + 1
 	for(var/cat_id in GLOB.petition_categories)
-		eligibility[cat_id] = list()
+		var/list/cat = GLOB.petition_categories[cat_id]
+		var/cost = cat["cost"]
+		var/list/templates = cat["templates"]
+		var/list/per_region = list()
+		eligibility[cat_id] = per_region
 		for(var/region_id in GLOB.economic_regions)
-			eligibility[cat_id][region_id] = SSeconomy.petition_blocker(region_id, cat_id) || ""
+			var/datum/economic_region/region = GLOB.economic_regions[region_id]
+			var/blocker = ""
+			if(petitions_remaining <= 0)
+				blocker = "the trade hall has already heard a petition today"
+			else if(!region)
+				blocker = "unknown region"
+			else if(region.is_region_blockaded)
+				blocker = "[region.name] is blockaded - the road is closed to envoys"
+			else if(region.day_last_cleared >= 0 && (GLOB.dayspassed - region.day_last_cleared) < PETITION_BLOCKADE_RECOVERY_DAYS)
+				var/wait_days = PETITION_BLOCKADE_RECOVERY_DAYS - (GLOB.dayspassed - region.day_last_cleared)
+				blocker = "[region.name]'s contacts are still scattered - wait [wait_days]d more"
+			else if(pool_full)
+				blocker = "the warehouse manifest is full - fulfill orders first"
+			else if((orders_by_region[region_id] || 0) >= STANDING_ORDERS_MAX_PER_REGION)
+				blocker = "[region.name] already has [orders_by_region[region_id]] active orders"
+			else if(pledge_missing)
+				blocker = "the Burgher Pledge is not yet established"
+			else if(pledge_balance < cost)
+				blocker = "the Burgher Pledge cannot cover [cost]m"
+			else
+				var/has_template = FALSE
+				for(var/template_path in templates)
+					if(template_path in region.possible_standing_order_types)
+						has_template = TRUE
+						break
+				if(!has_template)
+					blocker = "[region.name]'s trade hall does not deal in [cat["label"]]"
+			per_region[region_id] = blocker
 	petition_state["eligibility"] = eligibility
 	data["petition"] = petition_state
 
@@ -329,16 +361,100 @@
 
 	return data
 
-/// Enumerates every region producing good_id, with current next-unit import price and
-/// capacity. Sorted ascending by price so entry 1 is the "best buy." Blockade multiplier
-/// is baked into unit_price (no separate flag needed for ranking), but is_blockaded is
-/// still exposed so the UI can badge it.
+/// Rebuild SStreasury's cached_market_rows + cached_region_rows + cached_total_arbitrage_potential
+/// from current world state and clear market_view_dirty. Heavy work (~3ms); called only when
+/// invalidated by a trade action, stockpile mutation, blockade flip, day reset, or economic
+/// event boundary. event_tag_by_good is pre-built by the ui_data caller from the small, hot
+/// active_events list.
+/obj/structure/roguemachine/steward/proc/rebuild_market_view(list/event_tag_by_good)
+	if(isnull(event_tag_by_good))
+		event_tag_by_good = list()
+		for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+			for(var/gid in E.affected_goods)
+				event_tag_by_good[gid] = E.event_type
+
+	var/list/market_rows = list()
+	var/total_arbitrage_potential = 0
+	var/list/market_stockpile_entries = SStreasury.stockpile_by_trade_good
+	var/list/producers = SSeconomy.goods_with_producers
+	var/list/demanders = SSeconomy.goods_with_demand
+	for(var/good_id in market_stockpile_entries)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(!tg)
+			continue
+		var/datum/roguestock/entry = market_stockpile_entries[good_id]
+		if(!entry)
+			continue
+
+		var/event_tag = ""
+		if(event_tag_by_good[good_id] == ECON_EVENT_SHORTAGE)
+			event_tag = "SHORTAGE"
+		else if(event_tag_by_good[good_id] == ECON_EVENT_OVERSUPPLY)
+			event_tag = "GLUT"
+
+		var/margin_per_unit = max(0, entry.withdraw_price - entry.payout_price)
+		var/arbitrage_potential = margin_per_unit * entry.stockpile_amount
+		total_arbitrage_potential += arbitrage_potential
+
+		market_rows += list(list(
+			"good_id" = good_id,
+			"stock" = entry.stockpile_amount,
+			"stock_limit" = entry.stockpile_limit,
+			"event_tag" = event_tag,
+			"import_regions" = (tg.importable && producers[good_id]) ? build_market_import_regions(good_id) : list(),
+			"export_regions" = demanders[good_id] ? build_market_export_regions(good_id) : list(),
+			"buy_price" = entry.payout_price,
+			"sell_price" = entry.withdraw_price,
+			"market_buy_price" = entry.cached_market_deposit_price || entry.payout_price,
+			"market_sell_price" = entry.cached_market_withdraw_price || entry.withdraw_price,
+			"automatic_price" = entry.automatic_price ? TRUE : FALSE,
+			"automatic_limit" = entry.automatic_limit ? TRUE : FALSE,
+			"accepting" = entry.accept_toggle_enabled ? TRUE : FALSE,
+			"withdraw_disabled" = entry.withdraw_disabled ? TRUE : FALSE,
+			"autoexport_disabled" = entry.autoexport_disabled ? TRUE : FALSE,
+			"margin_per_unit" = margin_per_unit,
+			"arbitrage_potential" = arbitrage_potential,
+		))
+
+	var/list/region_rows = list()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		var/list/produces = list()
+		for(var/good_id in region.produces)
+			if(!GLOB.trade_goods[good_id])
+				continue
+			produces += list(list(
+				"good_id" = good_id,
+				"total" = region.get_day_capacity_total(good_id, TRUE),
+				"today" = region.get_day_capacity(good_id, TRUE),
+			))
+		var/list/demands = list()
+		for(var/good_id in region.demands)
+			if(!GLOB.trade_goods[good_id])
+				continue
+			demands += list(list(
+				"good_id" = good_id,
+				"total" = region.get_day_capacity_total(good_id, FALSE),
+				"today" = region.get_day_capacity(good_id, FALSE),
+			))
+		region_rows += list(list(
+			"region_id" = region_id,
+			"blockaded" = region.is_region_blockaded ? TRUE : FALSE,
+			"produces" = produces,
+			"demands" = demands,
+		))
+
+	SStreasury.cached_market_rows = market_rows
+	SStreasury.cached_region_rows = region_rows
+	SStreasury.cached_total_arbitrage_potential = total_arbitrage_potential
+	SStreasury.market_view_dirty = FALSE
+
 /obj/structure/roguemachine/steward/proc/build_market_import_regions(good_id)
 	var/list/out = list()
 	for(var/rid in GLOB.economic_regions)
 		var/datum/economic_region/r = GLOB.economic_regions[rid]
-		var/pace = r.produces[good_id] || 0
-		if(pace <= 0)
+		var/pace = r.produces[good_id]
+		if(!pace)
 			continue
 		var/today = r.produces_today[good_id] || 0
 		var/starting_index = max(0, pace - today)
@@ -346,11 +462,11 @@
 		out += list(list(
 			"region_id" = rid,
 			"unit_price" = price,
-			"capacity_today" = today,
-			"capacity_total" = pace,
+			"capacity_today" = r.get_day_capacity(good_id, TRUE),
+			"capacity_total" = r.get_day_capacity_total(good_id, TRUE),
+			"batch_capacity" = r.get_batch_capacity(good_id, TRUE),
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))
-	// Insertion sort by unit_price ascending. At most ~9 entries so O(n^2) is negligible.
 	for(var/i in 1 to length(out) - 1)
 		for(var/j in (i + 1) to length(out))
 			if(out[j]["unit_price"] < out[i]["unit_price"])
@@ -359,13 +475,12 @@
 				out[j] = swap
 	return out
 
-/// As above, but for export destinations. Sorted descending by price (best sell first).
 /obj/structure/roguemachine/steward/proc/build_market_export_regions(good_id)
 	var/list/out = list()
 	for(var/rid in GLOB.economic_regions)
 		var/datum/economic_region/r = GLOB.economic_regions[rid]
-		var/pace = r.demands[good_id] || 0
-		if(pace <= 0)
+		var/pace = r.demands[good_id]
+		if(!pace)
 			continue
 		var/today = r.demands_today[good_id] || 0
 		var/starting_index = max(0, pace - today)
@@ -373,11 +488,11 @@
 		out += list(list(
 			"region_id" = rid,
 			"unit_price" = price,
-			"capacity_today" = today,
-			"capacity_total" = pace,
+			"capacity_today" = r.get_day_capacity(good_id, FALSE),
+			"capacity_total" = r.get_day_capacity_total(good_id, FALSE),
+			"batch_capacity" = r.get_batch_capacity(good_id, FALSE),
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))
-	// Descending by unit_price (highest = best sell).
 	for(var/i in 1 to length(out) - 1)
 		for(var/j in (i + 1) to length(out))
 			if(out[j]["unit_price"] > out[i]["unit_price"])
@@ -387,6 +502,8 @@
 	return out
 
 /obj/structure/roguemachine/steward/proc/build_auto_import_data()
+	if(!SStreasury.auto_import_view_dirty && !isnull(SStreasury.cached_auto_import_data))
+		return SStreasury.cached_auto_import_data
 	var/list/essentials = list()
 	for(var/good_id in AUTO_IMPORT_ESSENTIALS)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -399,26 +516,19 @@
 			"stock" = entry ? entry.stockpile_amount : 0,
 		))
 
-	// "Other goods" shown in the tab: importable trade goods the Crown can actually deposit
-	// (has a stockpile entry that accepts them) and that have at least one producing region.
-	// Essentials are filtered out because they appear in the top panel.
 	var/list/others = list()
-	for(var/good_id in GLOB.trade_goods)
+	var/list/stockpile_entries = SStreasury.stockpile_by_trade_good
+	var/list/producers = SSeconomy.goods_with_producers
+	for(var/good_id in stockpile_entries)
 		if(good_id in AUTO_IMPORT_ESSENTIALS)
+			continue
+		if(!producers[good_id])
 			continue
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(!tg || !tg.importable)
 			continue
-		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+		var/datum/roguestock/entry = stockpile_entries[good_id]
 		if(!entry || !entry.accept_toggle_enabled)
-			continue
-		var/has_producer = FALSE
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(region.produces[good_id])
-				has_producer = TRUE
-				break
-		if(!has_producer)
 			continue
 		others += list(list(
 			"good_id" = good_id,
@@ -434,7 +544,7 @@
 			"lines" = lines || list(),
 		))
 
-	return list(
+	SStreasury.cached_auto_import_data = list(
 		"today_spent" = SStreasury.auto_import_daily_spent,
 		"purse_floor" = SStreasury.auto_import_purse_floor,
 		"floor_target" = AUTO_IMPORT_FLOOR,
@@ -444,6 +554,8 @@
 		"others" = others,
 		"history" = history,
 	)
+	SStreasury.auto_import_view_dirty = FALSE
+	return SStreasury.cached_auto_import_data
 
 /// Trade-control actions blocked during sequestration. Petitions, order fulfillment,
 /// and read-only quote actions are deliberately excluded so the Steward can still
@@ -460,6 +572,13 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	"toggle_auto_limit",
 	"toggle_stockpile_accept",
 	"toggle_withdraw_disabled",
+	"toggle_autoexport_disabled",
+	"allow_withdraw_category",
+	"bar_withdraw_category",
+	"allow_autoexport_category",
+	"bar_autoexport_category",
+	"bar_autoexport_shortages",
+	"allow_autoexport_all",
 	"set_buy_price",
 	"set_sell_price",
 	"set_stockpile_limit",
@@ -489,6 +608,8 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	if(SStreasury.is_in_receivership() && (action in GLOB.steward_trade_sequestration_locked_actions))
 		to_chat(usr, span_warning("The Azurian Trading Company holds the Crown's commerce in sequestration. Petition, tax, and fine are your remaining instruments."))
 		return TRUE
+	if(action == "fulfill_order" || (action in GLOB.steward_trade_sequestration_locked_actions))
+		SStreasury.dirty_market_view()
 	switch(action)
 		if("fulfill_order")
 			if(!COOLDOWN_FINISHED(src, fulfill_retry_cooldown))
@@ -507,14 +628,26 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 					if(confirm == "Yes")
 						var/list/partial_result = SSeconomy.fulfill_order(usr, O, TRUE)
 						if(islist(partial_result) && partial_result["status"] == "partial")
-							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m).")
+							var/pq_delta = partial_result["quality_delta"]
+							var/pq_suffix = ""
+							if(pq_delta > 0)
+								pq_suffix = " (quality bonus: +[pq_delta]m)"
+							else if(pq_delta < 0)
+								pq_suffix = " (quality penalty: [pq_delta]m)"
+							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m)[pq_suffix].")
 							playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 						else
 							COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
 					SStgui.update_uis(src)
 					return TRUE
 				if(islist(result) && result["status"] == "full")
-					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m).")
+					var/q_delta = result["quality_delta"]
+					var/q_suffix = ""
+					if(q_delta > 0)
+						q_suffix = " (quality bonus: +[q_delta]m)"
+					else if(q_delta < 0)
+						q_suffix = " (quality penalty: [q_delta]m)"
+					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m)[q_suffix].")
 					playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 				else
 					COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
@@ -605,6 +738,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
 			if(D)
 				D.accept_toggle_enabled = !D.accept_toggle_enabled
+				SStreasury.dirty_market_view()
 			SStgui.update_uis(src)
 			return TRUE
 		if("toggle_withdraw_disabled")
@@ -613,6 +747,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
 			if(D)
 				D.withdraw_disabled = !D.withdraw_disabled
+				SStreasury.dirty_market_view()
 			SStgui.update_uis(src)
 			return TRUE
 		if("set_buy_price")
@@ -706,6 +841,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				if(!tg || tg.category != category)
 					continue
 				A.accept_toggle_enabled = TRUE
+			SStreasury.dirty_market_view()
 			SStgui.update_uis(src)
 			return TRUE
 		if("reject_category")
@@ -721,6 +857,78 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				if(!tg || tg.category != category)
 					continue
 				A.accept_toggle_enabled = FALSE
+			SStreasury.dirty_market_view()
+			SStgui.update_uis(src)
+			return TRUE
+		if("allow_withdraw_category", "bar_withdraw_category")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			if(!category)
+				return TRUE
+			var/barred = (action == "bar_withdraw_category")
+			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.withdraw_disabled = barred
+			SStreasury.dirty_market_view()
+			SStgui.update_uis(src)
+			return TRUE
+		if("allow_autoexport_category", "bar_autoexport_category")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			if(!category)
+				return TRUE
+			var/barred = (action == "bar_autoexport_category")
+			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.autoexport_disabled = barred
+			SStreasury.dirty_market_view()
+			SStgui.update_uis(src)
+			return TRUE
+		if("bar_autoexport_shortages")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/barred_count = 0
+			for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+				if(E.event_type != ECON_EVENT_SHORTAGE)
+					continue
+				for(var/good_id in E.affected_goods)
+					var/datum/roguestock/A = SStreasury.stockpile_by_trade_good[good_id]
+					if(!A || A.autoexport_disabled)
+						continue
+					A.autoexport_disabled = TRUE
+					barred_count++
+			SStreasury.dirty_market_view()
+			if(barred_count)
+				to_chat(usr, span_info("Autoexport barred on [barred_count] good\s under shortage."))
+			else
+				to_chat(usr, span_warning("No shortage goods left to bar."))
+			SStgui.update_uis(src)
+			return TRUE
+		if("allow_autoexport_all")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			for(var/datum/roguestock/A as anything in SStreasury.stockpile_datums)
+				A.autoexport_disabled = FALSE
+			SStreasury.dirty_market_view()
+			SStgui.update_uis(src)
+			return TRUE
+		if("toggle_autoexport_disabled")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			if(D)
+				D.autoexport_disabled = !D.autoexport_disabled
+				SStreasury.dirty_market_view()
 			SStgui.update_uis(src)
 			return TRUE
 		if("multiply_all_buy")
@@ -822,6 +1030,8 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			for(var/datum/roguestock/D in SStreasury.stockpile_datums)
 				if(!D.trade_good_id || !D.automatic_price || !D.importexport_amt)
 					continue
+				if(D.autoexport_disabled)
+					continue
 				var/datum/trade_good/tg = GLOB.trade_goods[D.trade_good_id]
 				if(!tg || tg.category != category)
 					continue
@@ -887,3 +1097,42 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				visible_message(span_notice("[src] stamps a sealed writ. The wax bears the mark of the Azurian Trading Company."))
 			SStgui.update_uis(src)
 			return TRUE
+		if("set_royal_custom_margin")
+			if(!SStreasury.royal_custom_unlocked)
+				return TRUE
+			var/n = text2num("[params["value"]]")
+			if(isnum(n))
+				SStreasury.royal_custom_margin = clamp(round(n), 0, 500)
+			return TRUE
+		if("ledger_open")
+			ledger_view[usr.ckey] = list("open" = TRUE, "page" = 1, "filter" = "")
+			update_static_data(usr)
+			return TRUE
+		if("ledger_close")
+			var/list/lview = ledger_view[usr.ckey]
+			if(lview)
+				lview["open"] = FALSE
+			return TRUE
+		if("ledger_page")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			lview["page"] = max(1, text2num("[params["page"]]") || 1)
+			update_static_data(usr)
+			return TRUE
+		if("ledger_filter")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			lview["filter"] = trim("[params["filter"]]")
+			lview["page"] = 1
+			update_static_data(usr)
+			return TRUE
+		if("ledger_refresh")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			update_static_data(usr)
+			return TRUE
+
+#undef LEDGER_PAGE_SIZE

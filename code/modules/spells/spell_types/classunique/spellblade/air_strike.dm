@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/air_strike
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Air Strike"
 	desc = "Your blade passes into the immaterial and the leyline carries it forth, striking up to 4 tiles away. \
 	Brief telegraph before the strike lands - aim where they will be. \
@@ -24,7 +25,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
 	charge_time = 1
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS

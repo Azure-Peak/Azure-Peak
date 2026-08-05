@@ -20,7 +20,6 @@
 	muteinmouth = TRUE
 	var/listening = TRUE
 	var/speaking = TRUE
-	var/loudmouth_listening = TRUE
 	sellprice = 200
 	grid_width = 32
 	grid_height = 32
@@ -30,15 +29,9 @@
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	if(loudmouth_listening)
-		to_chat(user, span_info("I quell the Loudmouth's prattling on the scomstone. It may be muted entirely still."))
-		loudmouth_listening = FALSE
-	else
-		listening = !listening
-		speaking = !speaking
-		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
-		if(listening)
-			loudmouth_listening = TRUE
+	listening = !listening
+	speaking = !speaking
+	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
 	update_icon()
 	if(listening)
 		icon_state = "listenstone"

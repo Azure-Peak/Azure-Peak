@@ -27,6 +27,25 @@
 	var/list/statindex = list()
 	var/datum/patron/patron = /datum/patron/godless
 
+/mob/living/get_stats_tab_items()
+	return list(
+		"STR: \Roman[STASTR]",
+		"PER: \Roman[STAPER]",
+		"INT: \Roman[STAINT]",
+		"CON: \Roman[STACON]",
+		"WIL: \Roman[STAWIL]",
+		"SPD: \Roman[STASPD]",
+		"FOR: \Roman[STALUC]",
+		"PATRON: [patron]",
+	)
+
+/mob/living/carbon/human/get_stats_tab_items()
+	. = ..()
+	if(mind)
+		var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
+		if(VD)
+			. += "Vitae: [bloodpool]"
+
 /mob/living/proc/init_faith()
 	set_patron(/datum/patron/godless)
 

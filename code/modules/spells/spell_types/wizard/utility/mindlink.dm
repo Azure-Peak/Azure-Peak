@@ -1,5 +1,5 @@
 /datum/action/cooldown/spell/mindlink
-	button_icon = 'icons/mob/actions/roguespells.dmi'
+	button_icon = 'icons/mob/actions/mage_utilities.dmi'
 	name = "Mindlink"
 	desc = "Establish a telepathic link with an ally for three minutes. Use ,Y before a message to communicate telepathically."
 	button_icon_state = "mindlink"
@@ -18,7 +18,7 @@
 
 	charge_required = TRUE
 	charge_time = 2 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 3 MINUTES

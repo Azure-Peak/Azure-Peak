@@ -23,9 +23,14 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	var/is_region_blockaded = FALSE
 	/// Null = this region cannot be blockaded.
 	var/threat_region_id
+	// Ensure this region won't replenish blockade. Used only for Kingsfield because Kingsfield blockade is devastating and shouldn't repeat mid round.
+	var/blockade_replenish_eligible = TRUE
 
 	var/list/produces_today = list()
 	var/list/demands_today = list()
+
+	var/list/produces_day_start = list()
+	var/list/demands_day_start = list()
 
 	/// -1 = never cleared. Otherwise the cooldown window runs from this day.
 	var/day_last_cleared = -1
@@ -34,21 +39,41 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	. = ..()
 	produces_today = produces.Copy()
 	demands_today = demands.Copy()
+	produces_day_start = produces.Copy()
+	demands_day_start = demands.Copy()
 	if(!associated_marker_id)
 		associated_marker_id = "[region_id]_blockade"
+
+/datum/economic_region/proc/get_day_capacity(good_id, importing)
+	var/list/today = importing ? produces_today : demands_today
+	return max(0, today[good_id] || 0)
+
+/datum/economic_region/proc/get_day_capacity_total(good_id, importing)
+	var/list/day_start = importing ? produces_day_start : demands_day_start
+	return max(0, day_start[good_id] || 0)
+
+/datum/economic_region/proc/get_batch_capacity(good_id, importing)
+	var/pace = (importing ? produces[good_id] : demands[good_id]) || 0
+	if(pace <= 0)
+		return 0
+	return clamp((importing ? produces_today[good_id] : demands_today[good_id]) || 0, 0, pace)
 
 /datum/economic_region/kingsfield
 	region_id = TRADE_REGION_KINGSFIELD
 	name = "Kingsfield"
 	subtitle = "The Royal Demesne, Heartland of Azuria"
+	blockade_replenish_eligible = FALSE
 	description = "The royal demesne of the Duke of Azuria, and their most valuable possession besides Azure Peak itself. A stretch of land some ten miles across the south bank of River Azur, home to dozens of agricultural settlements, hamlets, and smaller market towns. Its lands are rich, and its people aplenty. The agricultural heartland of Azuria, producing most of its grain, meat, and dairy, imported into Azure Peak daily and re-exported for profit. Many of Azure Peak's residents keep estates here. The Duke, owning most of the land directly, claims a tithe of ten percent of all produce from the region, and at least a quarter on any land directly owned by the Crown, as is their perogative, making this region vital to the Crown's coffers."
-	threat_region_id = THREAT_REGION_AZURE_BASIN
+	threat_region_id = THREAT_REGION_AZURE_GROVE
 	produces = list(
 		TRADE_GOOD_GRAIN = TG_SUPPLY_LOCAL_GRAIN,
 		TRADE_GOOD_OATS = TG_SUPPLY_FOREIGN_GRAIN,
 		TRADE_GOOD_RICE = TG_SUPPLY_FOREIGN_GRAIN,
+		TRADE_GOOD_MAIZE = TG_SUPPLY_FOREIGN_GRAIN,
 		TRADE_GOOD_MEAT = TG_SUPPLY_MEAT_BULK,
 		TRADE_GOOD_PORK = TG_SUPPLY_MEAT_STAPLE,
+		TRADE_GOOD_HAM = TG_SUPPLY_MEAT_STAPLE,
+		TRADE_GOOD_PORK_BELLY = TG_SUPPLY_MEAT_STAPLE,
 		TRADE_GOOD_POULTRY = TG_SUPPLY_MEAT_STAPLE,
 		TRADE_GOOD_RABBIT = TG_SUPPLY_MEAT_STAPLE,
 		TRADE_GOOD_EGG = TG_SUPPLY_MEAT_BULK,
@@ -62,11 +87,11 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_CARROT = TG_SUPPLY_COMMON_VEG,
 		TRADE_GOOD_TURNIP = TG_SUPPLY_COMMON_VEG,
 		TRADE_GOOD_PUMPKIN = 2, // literal: trickle supply, not a staple
+		TRADE_GOOD_CLOTH = TG_SUPPLY_CLOTH,
 	)
 	demands = list(
 		TRADE_GOOD_PUMPKIN = 2, // literal: small local appetite for eating
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
-		TRADE_GOOD_CLOTH = TG_DEMAND_CLOTH,
 		TRADE_GOOD_SALT = TG_DEMAND_SALT,
 		TRADE_GOOD_IRON_ORE = TG_DEMAND_IRON,
 		TRADE_GOOD_COPPER_ORE = TG_DEMAND_TIN_BRONZE,
@@ -82,6 +107,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_POPPY = TG_DEMAND_SPECIALTY_HERB,
 		TRADE_GOOD_DENDOR_ESSENCE = 3, // literal: deliberately scarce, not category-bound
 		TRADE_GOOD_VISCERA = TG_DEMAND_SPECIALTY_HERB,
+		TRADE_GOOD_SINEW = TG_DEMAND_SPECIALTY_HERB,
 		TRADE_GOOD_HIDE = TG_DEMAND_LEATHER,
 		TRADE_GOOD_FUR = TG_DEMAND_LEATHER,
 		TRADE_GOOD_CURED_LEATHER = TG_DEMAND_LEATHER,
@@ -110,6 +136,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	produces = list(
 		TRADE_GOOD_WOOD = TG_SUPPLY_CHEAP_RAW_MAT,
 		TRADE_GOOD_FIBERS = TG_SUPPLY_FIBERS,
+		TRADE_GOOD_CLOTH = 4,
 		TRADE_GOOD_HIDE = TG_SUPPLY_LEATHER,
 		TRADE_GOOD_FUR = TG_SUPPLY_LEATHER,
 		TRADE_GOOD_CURED_LEATHER = TG_SUPPLY_LEATHER,
@@ -125,7 +152,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	name = "Rockhill"
 	subtitle = "The Orchards, Vintners and Herbalists of the Ridge"
 	description = "A cluster of orchards and herb gardens to the north of Azuria, sheltered by a ridge that makes the climate there milder than it has any right to be. The many rolling hills of the county make for poor grain land but excellent orchard land. Rockhill wine and liquor are renowned throughout Azuria, and some are exported beyond. It is a quiet, quaint, agricultural county, dotted with noble estates. Rockhill apple brandy is the realm's most counterfeited drink. Every other inn from Bleakcoast to Heartfelt claims to serve it, but perhaps only a third of them actually do. The county is also known for its many country manor, with perhaps three quarter of the noble houses of the realm owning at least one in Rockhill."
-	threat_region_id = THREAT_REGION_MOUNT_DECAP
+	threat_region_id = THREAT_REGION_AZUREAN_COAST
 	produces = list(
 		TRADE_GOOD_APPLE = TG_SUPPLY_LOCAL_FRUIT,
 		TRADE_GOOD_PEAR = TG_SUPPLY_LOCAL_FRUIT,
@@ -173,6 +200,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	produces = list(
 		TRADE_GOOD_SILK = TG_SUPPLY_SILK,
 		TRADE_GOOD_VISCERA = TG_SUPPLY_SPECIALTY_HERB,
+		TRADE_GOOD_SINEW = TG_SUPPLY_SPECIALTY_HERB,
 		TRADE_GOOD_DENDOR_ESSENCE = 1, // literal: deliberately scarce, not category-bound
 		TRADE_GOOD_CALENDULA = TG_SUPPLY_SPECIALTY_HERB,
 		TRADE_GOOD_CLAY = TG_SUPPLY_CHEAP_RAW_MAT,
@@ -221,9 +249,13 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	demands = list(
 		TRADE_GOOD_STEEL_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_COPPER_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_TIN_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_CLOTH = TG_DEMAND_CLOTH,
 		TRADE_GOOD_MEAT = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_PORK = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_HAM = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_PORK_BELLY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_POULTRY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_EGG = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_FAT = TG_DEMAND_MEAT_STAPLE,
@@ -231,6 +263,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_GRAIN = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_OATS = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_RICE = TG_DEMAND_LOCAL_GRAIN,
+		TRADE_GOOD_MAIZE = TG_SUPPLY_LOCAL_GRAIN,
 		TRADE_GOOD_POTATO = TG_DEMAND_COMMON_VEG,
 		TRADE_GOOD_ONION = TG_DEMAND_COMMON_VEG,
 		TRADE_GOOD_CARROT = TG_DEMAND_COMMON_VEG,
@@ -253,6 +286,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	demands = list(
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_STEEL_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_COPPER_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_TIN_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_FUR = TG_DEMAND_LEATHER,
 		TRADE_GOOD_HIDE = TG_DEMAND_LEATHER,
 		TRADE_GOOD_CURED_LEATHER = TG_DEMAND_LEATHER,
@@ -261,6 +296,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_OATS = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_MEAT = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_PORK = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_HAM = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_PORK_BELLY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_POULTRY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_BUTTER = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_CHEESE = TG_DEMAND_MEAT_STAPLE,
@@ -296,6 +333,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_EGG = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_GRAIN = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_RICE = TG_DEMAND_LOCAL_GRAIN,
+		TRADE_GOOD_MAIZE = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_APPLE = TG_DEMAND_LOCAL_FRUIT,
 		TRADE_GOOD_PEAR = TG_DEMAND_LOCAL_FRUIT,
 		TRADE_GOOD_JACKSBERRY = TG_DEMAND_LOCAL_FRUIT,

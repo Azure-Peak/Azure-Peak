@@ -373,7 +373,9 @@ const LoadoutDisplay = () => {
             <Table>
               <Table.Row header>
                 <Table.Cell pl={2.5}>Name</Table.Cell>
-                <Table.Cell collapsing textAlign="center">Cost</Table.Cell>
+                <Table.Cell collapsing textAlign="center">
+                  Cost
+                </Table.Cell>
                 <Table.Cell>Description</Table.Cell>
               </Table.Row>
               {filteredItems.map((item) => {
@@ -438,12 +440,10 @@ const LoadoutDisplay = () => {
                   </Table.Row>,
                   isSelected && (
                     <TweakRow
-                      key={item.name + '_tweak'}
+                      key={`${item.name}_tweak`}
                       itemName={item.name}
                       meta={meta}
-                      colorChannels={
-                        channelsMap.get(item.name) || ['primary']
-                      }
+                      colorChannels={channelsMap.get(item.name) || ['primary']}
                     />
                   ),
                 ];
@@ -461,12 +461,28 @@ const LoadoutDisplay = () => {
               <ClearAllButton selectedCount={selected.length} />
             </Stack.Item>
             <Stack.Item grow>
-              <Box inline bold fontSize={0.95} color={total_cost >= max_points ? 'bad' : undefined} mr={1.5}>
+              <Box
+                inline
+                bold
+                fontSize={0.95}
+                color={total_cost >= max_points ? 'bad' : undefined}
+                mr={1.5}
+              >
                 Budget: {total_cost}/{max_points}
               </Box>
-              <Box inline bold fontSize={0.95} color={effective_triumph_cost > player_triumphs ? 'bad' : 'gold'} mr={1.5}>
+              <Box
+                inline
+                bold
+                fontSize={0.95}
+                color={
+                  effective_triumph_cost > player_triumphs ? 'bad' : 'gold'
+                }
+                mr={1.5}
+              >
                 Triumphs:{' '}
-                {is_donator && triumph_discount > 0 && total_triumph_cost > 0 ? (
+                {is_donator &&
+                triumph_discount > 0 &&
+                total_triumph_cost > 0 ? (
                   <>
                     {total_triumph_cost}
                     <Box inline color="green" ml={0.5}>
@@ -483,12 +499,15 @@ const LoadoutDisplay = () => {
               </Box>
               {!!is_donator && (
                 <Box inline bold fontSize={0.85} color="gold" mr={1.5}>
-                  <Box inline mr={0.5}>&#9733;</Box>
+                  <Box inline mr={0.5}>
+                    &#9733;
+                  </Box>
                   Donator - +{donator_bonus} budget, {triumph_discount} TRI free
                 </Box>
               )}
               <Box inline color="label" fontSize={0.85}>
-                Free loadout items cannot be sold, smelted, or salvaged. Triumph items are exempt.
+                Free loadout items cannot be sold, smelted, or salvaged. Triumph
+                items are exempt.
               </Box>
             </Stack.Item>
             <Stack.Item>

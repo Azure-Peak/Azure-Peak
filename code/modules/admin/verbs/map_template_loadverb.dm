@@ -1,5 +1,5 @@
 /client/proc/map_template_load()
-	set category = "-GameMaster-"
+	set category = "Game Master"
 	set name = "Map template - Place"
 
 	var/datum/map_template/template
@@ -27,7 +27,7 @@
 	images -= preview
 
 /client/proc/map_template_upload()
-	set category = "-GameMaster-"
+	set category = "Game Master"
 	set name = "Map Template - Upload"
 
 	var/map = input(src, "Choose a Map Template to upload to template storage","Upload Map Template") as null|file

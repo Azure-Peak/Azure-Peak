@@ -3,9 +3,12 @@
 	desc = "Raise a single greater skeleton that serves you. They are imbued with a fragment of a soul and is more intelligent than usual, simple-minded lesser undead.\n\
 	Should the spell fails to find a suitable soul, a mindless undead will be summoned in its place with decrepit equipment.\n\
 	This will only happen if you are in combat mode, to avoid any accident."
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "skeleton_greater"
+
 	clothes_req = FALSE
 	range = 7
-	overlay_state = "animate"
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
 	chargetime = 60
@@ -26,7 +29,7 @@
 		return FALSE
 
 	var/turf/T = get_turf(targets[1])
-	if(!isopenturf(T))
+	if(!isopenturf(T) || T.is_blocked_turf())
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		revert_cast()
 		return FALSE
@@ -36,7 +39,7 @@
 		var/message = "The depths are hollow."
 		if(user.cmode)
 			message += " A decrepit skeleton rises instead."
-			backup_summon(T)
+			backup_summon(T, user)
 		to_chat(user, span_warning(message))
 		return TRUE
 
@@ -56,15 +59,18 @@
 	target.visible_message(span_warning("[target]'s eyes light up with an eerie glow!"))
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "FORTIFIED SKELETON"), 3 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, select_skeleton_features)), 7 SECONDS)
 	target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/raise_undead/proc/backup_summon(var/turf/T)
+/obj/effect/proc_holder/spell/invoked/raise_undead/proc/backup_summon(var/turf/T, mob/living/user)
 	var/skeleton_roll = rand(1, 3)
+	var/mob/living/skeletonnew
 	// 66% chance of medium 33% of heavy
 	switch(skeleton_roll)
 		if(1 to 2) // 66% chance
-			new /mob/living/carbon/human/species/skeleton/npc/medium(T)
+			skeletonnew = new /mob/living/carbon/human/species/skeleton/npc/medium(T)
 		if(3) // 33% chance
-			new /mob/living/carbon/human/species/skeleton/npc/hard(T)
+			skeletonnew = new /mob/living/carbon/human/species/skeleton/npc/hard(T)
+	apply_mob_lifespan(skeletonnew, user)
 	return TRUE

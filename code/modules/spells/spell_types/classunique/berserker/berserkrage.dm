@@ -17,6 +17,7 @@
 	return ragedmgbuff
 
 /obj/effect/proc_holder/spell/self/rage
+	source_aspect = /datum/magic_aspect/pseudo/berserker
 	name = "RAGE"
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
 	antimagic_allowed = TRUE
@@ -91,7 +92,7 @@
 	var/tech_healing_modifier = 1
 
 /datum/status_effect/buff/rage_stamina/tick()
-	if(owner.construct)
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/stamheal = healing_on_tick
 	owner.energy_add(stamheal)

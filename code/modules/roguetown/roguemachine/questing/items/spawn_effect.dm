@@ -34,13 +34,22 @@
 	if(!istype(quest))
 		return
 
-	if(get_dist(get_turf(src), get_turf(quest.quest_scroll_ref?.resolve())) > 7)
+	var/turf/our_turf = get_turf(src)
+	var/turf/scroll_turf = get_turf(quest.quest_scroll_ref?.resolve())
+	if(!our_turf || !scroll_turf)
+		return
+
+	// Matches blockade_defense's check_arrival() - get_dist alone lets a bearer one level up
+	// or down trip the pod.
+	if(our_turf.z != scroll_turf.z)
+		return
+
+	if(get_dist(our_turf, scroll_turf) > 7)
 		return
 
 	// Pop every spawner this quest owns at once so the whole encounter materializes together.
 	quest.pop_all_spawners()
 
-/// Materializes the contained mob onto our turf with the warning flash + sound.
 /obj/effect/quest_spawn/proc/reveal_contained()
 	if(!contained_atom)
 		return

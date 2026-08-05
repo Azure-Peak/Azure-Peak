@@ -1,3 +1,10 @@
+// Multiplier to standardize values per second to how long a prayer loop takes
+#define PRAYER_DEVOTION_TIME_MULT 3
+// Amount of devotion before holy skill is factored in per prayer loop
+#define PRAYER_DEVOTION_BASE 0.5 * PRAYER_DEVOTION_TIME_MULT
+// Amount of devotion per holy skill level per prayer loop
+#define PRAYER_DEVOTION_SKILL 1 * PRAYER_DEVOTION_TIME_MULT
+
 // Cleric Holder Datums
 /datum/devotion
 	/// Mob that owns this datum
@@ -20,8 +27,8 @@
 	var/passive_devotion_gain = 0
 	/// How much progression is gained per process call
 	var/passive_progression_gain = 0
-	/// How much devotion is gained per prayer cycle
-	var/prayer_effectiveness = 2
+	/// How much % devotion is gained per prayer cycle
+	var/prayer_effectiveness = 1
 	/// Spells we have granted thus far
 	var/list/granted_spells
 
@@ -39,6 +46,12 @@
 	. = ..()
 	if (patron.type == /datum/patron/inhumen/zizo || patron.type == /datum/patron/divine/necra)
 		REMOVE_TRAIT(holder, TRAIT_DEATHSIGHT, "devotion")
+
+	if(length(patron.traits_tier))
+		for(var/trait in patron.traits_tier)
+			var/required_tier = patron.traits_tier[trait]
+			if(required_tier <= level)
+				REMOVE_TRAIT(holder, trait, ROUNDSTART_TRAIT)
 	holder?.hud_used?.shutdown_bloodpool()
 	holder?.devotion = null
 	holder = null
@@ -100,7 +113,7 @@
 	if(patron)
 		if(length(patron.miracles))
 			for(var/spell_type in patron.miracles)
-				var/required_tier = patron.miracles[spell_type]			
+				var/required_tier = patron.miracles[spell_type]
 				if(required_tier <= level)
 					if(holder.mind.has_spell(spell_type))
 						continue
@@ -118,6 +131,19 @@
 						to_chat(holder, span_boldnotice("I have unlocked a new trait: [trait]"))
 					ADD_TRAIT(holder, trait, ROUNDSTART_TRAIT)
 
+GLOBAL_LIST_EMPTY(miracle_tiers)
+
+/proc/get_miracle_tier(miracle_type)
+	if(!length(GLOB.miracle_tiers))
+		for(var/patron_key in GLOB.patronlist)
+			var/datum/patron/patron = GLOB.patronlist[patron_key]
+			if(!islist(patron.miracles))
+				continue
+			for(var/mtype in patron.miracles)
+				var/tier = patron.miracles[mtype]
+				if(isnull(GLOB.miracle_tiers[mtype]) || tier < GLOB.miracle_tiers[mtype])
+					GLOB.miracle_tiers[mtype] = tier
+	return GLOB.miracle_tiers[miracle_type]
 
 //The main proc that distributes all the needed devotion tweaks to the given class.
 //cleric_tier 		- The cleric tier that the holder will get spells of immediately.
@@ -141,12 +167,12 @@
 		update_devotion(max_devotion, CLERIC_REQ_4, silent = TRUE)
 	else
 		update_devotion(50, 50, silent = TRUE)
-	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+	add_verb(H, list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray))
 
 // Debug verb
 /mob/living/carbon/human/proc/devotionchange()
 	set name = "(DEBUG)Change Devotion"
-	set category = "-Special Verbs-"
+	set category = "Admin.Special"
 
 	if(!devotion)
 		return FALSE
@@ -159,7 +185,7 @@
 
 /mob/living/carbon/human/proc/devotionreport()
 	set name = "Check Devotion"
-	set category = "Cleric"
+	set category = "RoleUnique.Cleric"
 
 	if(!devotion)
 		return FALSE
@@ -169,23 +195,24 @@
 
 /mob/living/carbon/human/proc/clericpray()
 	set name = "Give Prayer"
-	set category = "Cleric"
+	set category = "RoleUnique.Cleric"
 
 	if(!devotion)
 		return FALSE
 
 	var/prayersesh = 0
-	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [devotion.patron.name].")
+	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [istype(devotion.patron, /datum/patron/divine/undivided) ? "the Ten" : devotion.patron.name].")
 	for(var/i in 1 to 50)
 		if(devotion.devotion >= devotion.max_devotion)
 			to_chat(src, span_warning("I have reached the limit of my devotion..."))
 			break
 		if(!do_after(src, 30))
 			break
-		var/devotion_multiplier = 1
+		// Values standardized for 3 seconds.
+		var/devotion_multiplier = PRAYER_DEVOTION_BASE
 		if(mind)
-			devotion_multiplier += (get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
-		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier)
+			devotion_multiplier += (get_skill_level(/datum/skill/magic/holy) * PRAYER_DEVOTION_TIME_MULT)
+		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier, 0.1)
 		devotion.update_devotion(prayer_effectiveness, prayer_effectiveness)
 		prayersesh += prayer_effectiveness
 	visible_message("[src] concludes their prayer.", "I conclude my prayer.")
@@ -194,7 +221,7 @@
 
 /mob/living/carbon/human/proc/changevoice()
 	set name = "Change Second Voice (Can only use Once!)"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
 	if(!V)
@@ -216,19 +243,19 @@
 	V.second_color = sanitize_hexcolor(newcolor)
 	V.second_desc_path = voice_options[picked_name]
 	to_chat(src, span_notice("Second voice configured: Color [V.second_color] with the '[picked_name]' description."))
-	src.verbs -= /mob/living/carbon/human/proc/changevoice
+	remove_verb(src, /mob/living/carbon/human/proc/changevoice)
 	return TRUE
 
 /mob/living/carbon/human/proc/swapvoice()
 	set name = "Swap Voice"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
 	V.toggle_voice()
 
 /mob/living/carbon/human/proc/toggleblindness()
 	set name = "Toggle Colorblindness"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	if(!get_client_color(/datum/client_colour/monochrome))
 		add_client_colour(/datum/client_colour/monochrome)
@@ -237,10 +264,10 @@
 
 /mob/living/carbon/human/proc/togglecombatawareness()
 	set name = "Toggle Combat Awareness"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	if(HAS_TRAIT(src, TRAIT_COMBAT_AWARE))
-		REMOVE_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE) 
+		REMOVE_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE)
 	else
 		ADD_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE)
 	to_chat(src, "I will see [HAS_TRAIT(src, TRAIT_COMBAT_AWARE) ? "more" : "less"] combat information now.")
@@ -248,7 +275,7 @@
 
 /mob/living/carbon/human/proc/toggle_descriptors()
 	set name = "Toggle Anonimity"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	show_descriptors = !show_descriptors
 	to_chat(src, "My identifying features are [show_descriptors ? "no longer " : ""]obscured.")
@@ -259,10 +286,10 @@
 
 /mob/living/carbon/human/proc/toggle_guarded()
 	set name = "Toggle Guarded"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
-		REMOVE_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE) 
+		REMOVE_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	else
 		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")
@@ -271,7 +298,7 @@
 // Not actually a virtue, but kept in the category for convenience. Miner-role only. Component handles all of the messaging and logic, this is just a wrapper, basically.
 /mob/living/carbon/human/proc/toggle_oresight()
 	set name = "Toggle (Ore Sight)"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
 	if(COS)
@@ -279,8 +306,12 @@
 
 /mob/living/carbon/human/proc/range_oresight()
 	set name = "Change Range (Ore Sight)"
-	set category = "Virtue"
+	set category = "RoleUnique.Virtue"
 
 	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
 	if(COS)
 		COS.change_range()
+
+#undef PRAYER_DEVOTION_TIME_MULT
+#undef PRAYER_DEVOTION_BASE
+#undef PRAYER_DEVOTION_SKILL

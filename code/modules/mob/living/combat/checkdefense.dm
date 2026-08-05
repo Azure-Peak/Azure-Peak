@@ -8,6 +8,12 @@
 			swing_state = FALSE
 			return FALSE
 
+	if(mid_climb)
+		interrupt_climb()
+
+	changeNext_inCombat(IN_COMBAT_DELAY)
+	user.changeNext_inCombat(IN_COMBAT_DELAY)
+
 	if(!cmode)
 		return FALSE
 	if(stat)
@@ -48,4 +54,28 @@
 			return attempt_parry(intenty, user)
 		if(INTENT_DODGE)
 			return attempt_dodge(intenty, user)
+
+/mob/living/proc/start_climb()
+	if(doing || mid_climb)
+		return FALSE
+	mid_climb = TRUE
+	return TRUE
+
+/mob/living/proc/end_climb()
+	mid_climb = FALSE
+	return TRUE
+
+/mob/living/proc/climb_check()
+	return mid_climb
+
+/mob/living/proc/climb_check_callback()
+	return CALLBACK(src, PROC_REF(climb_check))
+
+/mob/living/proc/interrupt_climb()
+	if(!mid_climb)
+		return FALSE
+	end_climb()
+	playsound(src, 'sound/combat/swingdelay_disrupted.ogg', 100, TRUE)
+	visible_message(span_warning("[src]'s grip is broken!"), span_warning("My grip is broken!"))
+	return TRUE
 			

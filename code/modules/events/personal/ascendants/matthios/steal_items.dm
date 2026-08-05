@@ -42,6 +42,8 @@
 			continue
 		if(human_mob.get_skill_level(/datum/skill/misc/stealing) < 2)
 			continue
+		if(!human_mob.client.prefs || human_mob.client.prefs?.no_storyteller_events)
+			continue
 		valid_targets += human_mob
 
 	if(!valid_targets.len)

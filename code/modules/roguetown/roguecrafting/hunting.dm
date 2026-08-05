@@ -1,9 +1,32 @@
 /datum/crafting_recipe/roguetown/hunting
 	abstract_type = /datum/crafting_recipe/roguetown/hunting/
+	display_category = ITEM_CAT_TOOLS_FIELD
 	skillcraft = /datum/skill/misc/hunting
+	// I don't want people to use this to substitute actual hunting
+	xp_modifier = 0.1
+
+/datum/crafting_recipe/roguetown/hunting/baito
+	name = "bait (oats)"
+	result = /obj/item/bait
+	reqs = list(
+		/obj/item/storage/roguebag = 1,
+		/obj/item/reagent_containers/food/snacks/grown/oat = 2,
+		)
+	subtype_reqs = TRUE
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/hunting/baitr
+	name = "bait (rice)"
+	result = /obj/item/bait
+	reqs = list(
+		/obj/item/storage/roguebag = 1,
+		/obj/item/reagent_containers/food/snacks/grown/rice = 2,
+		)
+	subtype_reqs = TRUE
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/hunting/bait
-	name = "bait"
+	name = "bait (wheat)"
 	result = /obj/item/bait
 	reqs = list(
 		/obj/item/storage/roguebag = 1,

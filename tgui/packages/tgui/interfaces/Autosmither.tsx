@@ -139,7 +139,9 @@ type AutosmitherContentProps = {
 
 const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
   const { recipes = [], current_recipes = [], machine_on } = data;
-  const [selectedRef, setSelectedRef] = useState<string | null>(recipes[0]?.ref || null);
+  const [selectedRef, setSelectedRef] = useState<string | null>(
+    recipes[0]?.ref || null,
+  );
   const [amount, setAmount] = useState(1);
   const [searchText, setSearchText] = useState('');
 
@@ -205,10 +207,7 @@ const AutosmitherContent = ({ data }: AutosmitherContentProps) => {
       />
       <Stack fill>
         <Stack.Item basis="30%" mr={1}>
-          <CurrentQueueSection
-            machineOn={machine_on}
-            queue={current_recipes}
-          />
+          <CurrentQueueSection machineOn={machine_on} queue={current_recipes} />
         </Stack.Item>
         <Stack.Item basis="5%" mr={1}>
           <QuoteRail lines={quoteColumns[0]} />
@@ -289,7 +288,6 @@ const QuoteRail = ({ lines }: QuoteRailProps) => {
               style={{
                 writingMode: 'vertical-rl',
                 textOrientation: 'mixed',
-                letterSpacing: '0.08em',
                 color: '#c9c1ab',
                 minHeight: '100%',
                 display: 'flex',
@@ -311,7 +309,10 @@ type CurrentQueueSectionProps = {
   queue: QueueEntry[];
 };
 
-const CurrentQueueSection = ({ machineOn, queue }: CurrentQueueSectionProps) => {
+const CurrentQueueSection = ({
+  machineOn,
+  queue,
+}: CurrentQueueSectionProps) => {
   const { act } = useBackend<Data>();
 
   return (
@@ -321,7 +322,9 @@ const CurrentQueueSection = ({ machineOn, queue }: CurrentQueueSectionProps) => 
       scrollable
       buttons={
         <Box bold color={machineOn ? STATUS_COLORS.on : STATUS_COLORS.off}>
-          {machineOn ? MACHINE_ACTIVITY_LABELS.active : MACHINE_ACTIVITY_LABELS.inactive}
+          {machineOn
+            ? MACHINE_ACTIVITY_LABELS.active
+            : MACHINE_ACTIVITY_LABELS.inactive}
         </Box>
       }
     >
@@ -334,7 +337,6 @@ const CurrentQueueSection = ({ machineOn, queue }: CurrentQueueSectionProps) => 
             background: '#2c2f33',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             color: '#d8d3c2',
-            letterSpacing: '0.05em',
           }}
         >
           Malum holds you in His cradle. Do not kick Him in the guts.
@@ -395,9 +397,10 @@ const ActiveCenterPanel = ({
   neededProgress,
 }: ActiveCenterPanelProps) => {
   const { act } = useBackend<Data>();
-  const progressPercent = neededProgress > 0
-    ? Math.min(100, Math.round((progress / neededProgress) * 100))
-    : 0;
+  const progressPercent =
+    neededProgress > 0
+      ? Math.min(100, Math.round((progress / neededProgress) * 100))
+      : 0;
 
   return (
     <Stack vertical fill>
@@ -409,7 +412,6 @@ const ActiveCenterPanel = ({
             fontSize={2}
             style={{
               color: STATUS_COLORS[statusState],
-              letterSpacing: '0.12em',
             }}
           >
             {STATUS_LABELS[statusState]}
@@ -423,9 +425,12 @@ const ActiveCenterPanel = ({
               border: '1px solid rgba(255, 255, 255, 0.08)',
             }}
           >
-            <Box bold mb={0.5}>Progress</Box>
+            <Box bold mb={0.5}>
+              Progress
+            </Box>
             <Box color="label">
-              {progressPercent}% complete ({Math.round(progress)}/{neededProgress || 0})
+              {progressPercent}% complete ({Math.round(progress)}/
+              {neededProgress || 0})
             </Box>
           </Box>
           <Box mt={1}>
@@ -435,11 +440,7 @@ const ActiveCenterPanel = ({
       </Stack.Item>
       <Stack.Item grow basis={0}>
         {selectedRecipe ? (
-          <Section
-            title={selectedRecipe.name}
-            fill
-            scrollable
-          >
+          <Section title={selectedRecipe.name} fill scrollable>
             <Stack vertical fill>
               <Stack.Item>
                 <Stack align="center">
@@ -454,13 +455,19 @@ const ActiveCenterPanel = ({
                 </Stack>
               </Stack.Item>
               <Stack.Item mt={1}>
-                <Box bold mb={1}>Required Materials</Box>
+                <Box bold mb={1}>
+                  Required Materials
+                </Box>
                 {selectedRecipe.requirements.map((requirement) => {
                   const availableCount = hopperCounts[requirement.key] || 0;
                   const hasEnough = availableCount >= requirement.amount;
 
                   return (
-                    <Stack key={`${requirement.key}-${requirement.amount}`} align="center" mb={0.5}>
+                    <Stack
+                      key={`${requirement.key}-${requirement.amount}`}
+                      align="center"
+                      mb={0.5}
+                    >
                       <Stack.Item>
                         <Box className={requirement.icon} mr={1} inline />
                       </Stack.Item>
@@ -485,7 +492,9 @@ const ActiveCenterPanel = ({
                 })}
               </Stack.Item>
               <Stack.Item mt={2}>
-                <Box bold mb={1}>Queue Amount</Box>
+                <Box bold mb={1}>
+                  Queue Amount
+                </Box>
                 <Stack align="center" justify="space-between">
                   <Stack.Item>
                     <Button onClick={() => setAmount(Math.max(1, amount - 5))}>
@@ -518,7 +527,9 @@ const ActiveCenterPanel = ({
                 <Button.Confirm
                   fluid
                   color="good"
-                  onClick={() => act('add_recipe', { ref: selectedRecipe.ref, amount })}
+                  onClick={() =>
+                    act('add_recipe', { ref: selectedRecipe.ref, amount })
+                  }
                 >
                   Add {amount} To Queue
                 </Button.Confirm>
@@ -527,7 +538,9 @@ const ActiveCenterPanel = ({
           </Section>
         ) : (
           <Section title="No Recipe Selected" fill>
-            <NoticeBox>Select a recipe from the right to preview its inputs.</NoticeBox>
+            <NoticeBox>
+              Select a recipe from the right to preview its inputs.
+            </NoticeBox>
           </Section>
         )}
       </Stack.Item>
@@ -540,7 +553,10 @@ type OffCenterPanelProps = {
   machinePowered: boolean;
 };
 
-const OffCenterPanel = ({ controlsLocked, machinePowered }: OffCenterPanelProps) => {
+const OffCenterPanel = ({
+  controlsLocked,
+  machinePowered,
+}: OffCenterPanelProps) => {
   return (
     <Section fill>
       <Stack fill align="center" justify="center">
@@ -559,12 +575,11 @@ const OffCenterPanel = ({ controlsLocked, machinePowered }: OffCenterPanelProps)
               fontSize={1.8}
               style={{
                 color: '#d8d3c2',
-                letterSpacing: '0.14em',
               }}
             >
               {machinePowered
                 ? 'MALUM AWAITS YOUR BLOOD, SWEAT AND DEVOTION'
-                : 'MALUM\'S FORCE OF LYFE DOES NOT FLOW'}
+                : "MALUM'S FORCE OF LYFE DOES NOT FLOW"}
             </Box>
             <Box
               mt={2}
@@ -572,7 +587,6 @@ const OffCenterPanel = ({ controlsLocked, machinePowered }: OffCenterPanelProps)
               fontSize={2.2}
               style={{
                 color: STATUS_COLORS.off,
-                letterSpacing: '0.18em',
               }}
             >
               {MACHINE_ACTIVITY_LABELS.inactive}
@@ -605,29 +619,17 @@ const ControlRack = ({ controlsLocked }: ControlRackProps) => {
       <Stack.Item>
         <Stack>
           <Stack.Item grow>
-            <Button
-              fluid
-              disabled={isLocked}
-              onClick={() => act('lever')}
-            >
+            <Button fluid disabled={isLocked} onClick={() => act('lever')}>
               Pull Lever
             </Button>
           </Stack.Item>
           <Stack.Item grow>
-            <Button
-              fluid
-              disabled={isLocked}
-              onClick={() => act('button')}
-            >
+            <Button fluid disabled={isLocked} onClick={() => act('button')}>
               Push Buttons
             </Button>
           </Stack.Item>
           <Stack.Item grow>
-            <Button
-              fluid
-              disabled={isLocked}
-              onClick={() => act('dial')}
-            >
+            <Button fluid disabled={isLocked} onClick={() => act('dial')}>
               Fiddle Dials
             </Button>
           </Stack.Item>
@@ -671,11 +673,7 @@ const RecipePickerSection = ({
       </Stack.Item>
       <Stack.Item grow basis={0} mt={1}>
         <Section title="What I Can Provide" fill scrollable>
-          {!recipes.length && (
-            <NoticeBox>
-              No matching recipes.
-            </NoticeBox>
-          )}
+          {!recipes.length && <NoticeBox>No matching recipes.</NoticeBox>}
           {recipes.map((recipe) => (
             <Button
               key={recipe.ref}

@@ -170,8 +170,8 @@
 				return
 			if(curfile)
 				playing = TRUE
-				soundloop.mid_sounds = list(curfile)
-				soundloop.cursound = null
+				soundloop.set_mid_sounds(list(curfile))
+				soundloop.mid_length = rustg_sound_length("[curfile]")
 				soundloop.start()
 				user.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)
 				record_round_statistic(STATS_SONGS_PLAYED)
@@ -203,12 +203,12 @@
 								bandinstrumentspersonal.curfile = bandinstrumentspersonal.song_list[bandinstrumentspersonal.curfile]
 			if(do_after(user, 1))
 				for(var/obj/item/rogue/instrument/bandinstrumentsband in instrumentsintheband)
-					if(!curfile)
+					if(!bandinstrumentsband.curfile)
 						return
 					bandinstrumentsband.playing = TRUE
 					bandinstrumentsband.groupplaying = TRUE
-					bandinstrumentsband.soundloop.mid_sounds = bandinstrumentsband.curfile
-					bandinstrumentsband.soundloop.cursound = null
+					bandinstrumentsband.soundloop.mid_length = rustg_sound_length("[bandinstrumentsband.curfile]")
+					bandinstrumentsband.soundloop.set_mid_sounds(list(bandinstrumentsband.curfile))
 					bandinstrumentsband.soundloop.start()
 					for(var/mob/living/carbon/human/A in bandmates)
 						A.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)
@@ -322,7 +322,6 @@
 	"Bard Dance" = 'sound/music/instruments/viola (7).ogg', // BG3 Song
 	"Old Time Battles" = 'sound/music/instruments/viola (8).ogg') // BG3 Song
 
-
 /obj/item/rogue/instrument/vocals
 	name = "vocalist's talisman"
 	desc = "This talisman emanates a soft shimmer of light. When held, it can amplify and even change a bard's voice."
@@ -352,7 +351,6 @@
 	"A Rambling Tongue" = 'sound/music/instruments/shamisen A Rambling Tongue.ogg',
 	"Ashitaka" = 'sound/music/instruments/shamisen The Legend of Ashitaka.ogg',
 	"Daimyo Dreamwalker" = 'sound/music/instruments/shamisen Daimyo Dreamwalker.ogg',
-	"Emperor of Flame" = 'sound/music/instruments/shamisen Emperor of Flame.ogg',
 	"Fire Phoenix" = 'sound/music/instruments/shamisen Fire Phoenix.ogg',
 	"Kaiju Islands" = 'sound/music/instruments/shamisen Kaiju Islands.ogg',
 	"Lavender Village" = 'sound/music/instruments/shamisen Lavender Village.ogg',
@@ -370,8 +368,6 @@
 	"Season" = 'sound/music/instruments/shamisen (6).ogg',
 	"Parade" = 'sound/music/instruments/shamisen (7).ogg',
 	"Koshiro" = 'sound/music/instruments/shamisen (8).ogg')
-
-
 
 /obj/item/rogue/instrument/psyaltery
 	name = "psyaltery"

@@ -21,9 +21,6 @@
 	can_buckle = 1
 	max_integrity = 250
 
-/obj/structure/kitchenspike/attack_paw(mob/user)
-	return attack_hand(user)
-
 /obj/structure/kitchenspike/crowbar_act(mob/living/user, obj/item/I)
 	if(has_buckled_mobs())
 		to_chat(user, span_warning("I can't do that while something's on the spike!"))

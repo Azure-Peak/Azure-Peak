@@ -5,7 +5,6 @@
 	slot_flags = null
 	dropshrink = 0.6
 	firefuel = 30 SECONDS
-	sellprice = 2
 	textper = 108
 	maxlen = 2000
 	throw_range = 3
@@ -260,8 +259,8 @@
 /obj/item/paper/inqslip/accusation/get_mechanics_examine(mob/user)
     . = ..()
     . += span_info("ACCUSATIONS are used by the Holy Psydonic Inquisition to mail INDEXERS back to Otava, either for cataloguing or for further haemological faith-testing.")
-    . += span_info("Left click yourself, while bleeding from anywhere on the body, to sign the ACCUSATION.")
-    . += span_info("Once signed, left-clicking the ACCUSATION with a filled INDEXER will combine them into a foldable package.")
+    . += span_info("Left click yourself, while bleeding from anywhere on the body, to sign the ACCUSATION. This is OPTIONAL.")
+    . += span_info("If or if not signed, left-clicking the ACCUSATION with a filled INDEXER will combine them into a foldable package.")
     . += span_info("Activate in your hand, once packaged together, to fold the ACCUSATION-INDEXER into a letter. This letter can then be mailed to Otava through the HERMES.")
     . += span_info("Stamping a folded letter with redtallow will increase the amount of MARQUES that're rewarded upon mailage.")
     . += span_info("The amount of rewarded MARQUES are determined by whether the INDEXEE is revealed to be a PANTHEONIST, ASCENDANT, or NITEBEASTE.")
@@ -295,13 +294,13 @@
     . += span_info("Successfully mailing a SLIP will reward the sender with MARQUES. The amount of rewarded MARQUES increases, depending on whether you're an Orthodoxist, Absolver, or Inquisitor.")
 
 /obj/item/paper/inqslip/arrival/ortho
-	marquevalue = 4
+	marquevalue = 8 //At least two Orthodoxists can afford one relic, should they be understaffed and outgunned.
 
 /obj/item/paper/inqslip/arrival/inq
-	marquevalue = 10
+	marquevalue = 16 //Allows for the purchasing of one relic, or a couple lesser items from the Marquette.
 
 /obj/item/paper/inqslip/arrival/abso
-	marquevalue = 6
+	marquevalue = 16 //Ditto.
 
 /obj/item/paper/inqslip/proc/attemptsign(mob/user, mob/living/carbon/human/M)
 	if(sliptype == 2)
@@ -353,18 +352,27 @@
 		attemptsign(M, user)
 
 /obj/item/paper/inqslip/attack_self(mob/user)
-	if(!signed)
-		to_chat(user, span_warning("It hasn't been signed yet. Why would I seal it?"))
-		return
 	if(waxed)
-		to_chat(user, span_notice("It's been sealed. It's ready to send back to Otava."))
+		to_chat(user, span_notice("It's been sealed. It's ready to send back to Otava through a HERMES."))
 		return
-	else if(!sealed)
-		sealed = TRUE
-		update_icon()
-	else
+
+	if(sealed)
 		sealed = FALSE
 		update_icon()
+		return
+
+	if(sliptype == 0) // ACCUSATION do be this now
+		if(!signed && !paired)
+			to_chat(user, span_warning("It requires either a signature or a filled INDEXER before it can be sealed."))
+			return
+
+	else
+		if(!signed)
+			to_chat(user, span_warning("It hasn't been signed yet. Why would I seal it?"))
+			return
+
+	sealed = TRUE
+	update_icon()
 
 /obj/item/paper/inqslip/attack_right(mob/user)
 	. = ..()
@@ -401,17 +409,28 @@
 		signee = user
 
 /obj/item/paper/inqslip/attacked_by(obj/item/I, mob/living/user)
-	if(istype(I, /obj/item/clothing/ring/signet))
+	if(istype(I, /obj/item/clothing/ring/signet/psy))
+		var/obj/item/clothing/ring/signet/psy/S = I
 		if(waxed)
 			to_chat(user,  span_warning("It's already wax-sealed."))
 			return
-		if(!sealed)
+		if(S.tallowed && sealed && S.tallow_color == "red")
+			waxed = TRUE
+			update_icon()
+			S.tallowed = FALSE
+			S.update_icon()
+			playsound(src, 'sound/items/inqslip_sealed.ogg', 75, TRUE, 4)
+			marquevalue += 2
+		else if(S.tallowed && sealed && S.tallow_color != "red")
+			to_chat(user,  span_warning("I need to use redtallow to seal this properly."))
+		else if(S.tallowed && !sealed && S.tallow_color == "red")
 			to_chat(user,  span_warning("I need to fold the [src] first."))
-			return
-		waxed = TRUE
-		update_icon()
-		playsound(src, 'sound/items/inqslip_sealed.ogg', 75, TRUE, 4)
-		marquevalue += 2
+		else
+			to_chat(user,  span_warning("The ring hasn't been waxed."))
+	else if(istype(I, /obj/item/clothing/ring/signet))
+		to_chat(user, span_warning("The [src] can only be stamped with a signet ring bearing the Archbishop's symbol."))
+		return
+	..()
 
 	if(sliptype != 1)
 		if(istype(I, /obj/item/inqarticles/indexer))

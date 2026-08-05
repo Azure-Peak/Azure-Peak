@@ -31,7 +31,13 @@
 	if(!.)
 		return
 	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
+	// Hard antags always require the population minimum - never bypassed, even by an admin-opened slot.
 	if(is_hard_roundstart && players_amt < HARD_ANTAG_MIN_POP)
+		return FALSE
+	// When an admin opens a specific set of hard antags, only those may roll at roundstart (no fallback villain).
+	var/admin_slot = SSgamemode.get_admin_slot(antag_datum, storyteller_slot_key)
+	var/admin_opened = !isnull(admin_slot) && admin_slot > 0
+	if(is_hard_roundstart && !admin_opened && length(SSgamemode.opened_hard_antags()))
 		return FALSE
 	var/antag_amt = get_antag_amount()
 	if(antag_amt <= 0)
@@ -42,9 +48,19 @@
 
 /datum/round_event_control/antagonist/solo/proc/get_antag_amount()
 	var/people = SSgamemode.get_correct_popcount()
+	var/is_villain = (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
+	var/admin_slot = SSgamemode.get_admin_slot(antag_datum, storyteller_slot_key)
+	if(!isnull(admin_slot))
+		admin_slot = max(0, admin_slot)
+		if(is_villain)
+			return admin_slot
+		if(!SSgamemode.soft_scaling)
+			return admin_slot
+		return SSgamemode.storyteller_scale_slots(admin_slot, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum))
 	var/storyteller_cap = SSgamemode.story_antag_slot_cap(antag_datum, roundstart = roundstart)
-	if(storyteller_cap > 0)
-		return SSgamemode.storyteller_scale_slots(storyteller_cap, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum))
+	if(storyteller_cap)
+		var/scaling_mult = is_villain ? SSgamemode.hard_antag_mult() : 1
+		return SSgamemode.storyteller_scale_slots(storyteller_cap, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum), scaling_mult)
 	var/amount = base_antags + FLOOR(people / denominator, 1)
 	return min(amount, maximum_antags)
 
@@ -125,6 +141,12 @@
 			candidates += antag_mind.current
 			SSgamemode.roundstart_antag_minds -= antag_mind
 			log_storyteller("Roundstart antag_mind, [antag_mind]")
+	
+	if(prompted_picking)
+		// Trying a callback here to avoid hanging the event logic.
+		INVOKE_ASYNC(src, PROC_REF(poll_and_assign), possible_candidates)
+		setup = TRUE // We tell the controller we started successfully
+		return
 
 	//guh
 	var/list/cliented_list = list()
@@ -270,3 +292,44 @@
 	new_character.key = ghost_player.key
 
 	return new_character
+
+/// POLLING LOGIC BELOW.
+
+/datum/round_event/antagonist/solo/proc/poll_and_assign(list/mob/living/possible_candidates)
+	var/datum/round_event_control/antagonist/solo/cast_control = control
+	var/list/willing_candidates = list()
+	var/poll_time = 20 SECONDS
+
+	for(var/mob/living/L in possible_candidates)
+		if(!L.client)
+			continue
+		INVOKE_ASYNC(src, PROC_REF(ask_candidate), L, willing_candidates, poll_time)
+
+	sleep(poll_time)
+
+	for(var/mob/M in willing_candidates)
+		if(QDELETED(M) || !M.client || (M.stat == DEAD && !istype(M, /mob/dead/observer)))
+			willing_candidates -= M
+
+	if(!length(willing_candidates))
+		message_admins("STORYTELLER: [cast_control.name] failed - poll returned no willing candidates.")
+		return
+
+	var/requested_count = cast_control.get_antag_amount()
+	while(length(willing_candidates) && setup_minds.len < requested_count)
+		var/mob/chosen = pick_n_take(willing_candidates)
+
+		if(!chosen.mind)
+			chosen.mind = new /datum/mind(chosen.key)
+
+		setup_minds += chosen.mind
+		chosen.mind.special_role = antag_flag
+		add_datum_to_mind(chosen.mind) 
+	message_admins("STORYTELLER: [cast_control.name] poll finished. [setup_minds.len] antags spawned.")
+
+/datum/round_event/antagonist/solo/proc/ask_candidate(mob/M, list/willing_list, poll_time)
+	var/ask_text = "The storyteller is requesting a [antag_flag]. Would you like to play this role?"
+	var/choice = tgui_alert(M, ask_text, "Antagonist Request", list("Yes", "No"), poll_time)
+	
+	if(choice == "Yes")
+		willing_list += M

@@ -207,8 +207,10 @@
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 //	if(adjusted_climb_time)
 //		user.visible_message(span_warning("[user] starts climbing onto [src]."), span_warning("I start climbing onto [src]..."))
+	if(!user.start_climb())
+		return
 	structureclimber = user
-	if(do_mob(user, user, adjusted_climb_time))
+	if(do_mob(user, user, adjusted_climb_time, extra_checks = user.climb_check_callback()))
 		if(src.loc) //Checking if structure has been destroyed
 			if(do_climb(user))
 				user.visible_message(span_warning("[user] climbs onto [src]."), \
@@ -223,6 +225,7 @@
 				. = 1
 			else
 				to_chat(user, span_warning("I fail to climb onto [src]."))
+	user.end_climb()
 	structureclimber = null
 
 // You can path over a dense structure if it's climbable.
@@ -256,3 +259,13 @@
 				return  "It appears heavily damaged."
 			if(1 to 25)
 				return  span_warning("It's falling apart!")
+
+/obj/structure/proc/set_climbable(new_climbable)
+	if(new_climbable == climbable)
+		return
+	var/turf/our_turf = get_turf(src)
+	climbable = new_climbable
+	if(climbable)
+		our_turf.climbable_atom_count++
+	else
+		our_turf.climbable_atom_count--

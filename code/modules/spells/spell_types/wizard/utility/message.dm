@@ -17,7 +17,7 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 60 SECONDS
@@ -65,7 +65,7 @@
 		if(alert(user, "Transmit as a wordlessly projected vision or as a whispered message?", "", "Projection", "Message") == "Projection")
 			is_projection = TRUE
 
-		var/message = input(user, "You successfully make a connection! [is_projection ? "What sensory vision are you trying to send into their mind?" : "What are you trying to whisper into their mind?"]")
+		var/message = sanitize(input(user, "You successfully make a connection! [is_projection ? "What sensory vision are you trying to send into their mind?" : "What are you trying to whisper into their mind?"]"))
 		if(!message)
 			return FALSE
 

@@ -15,7 +15,7 @@
 
 /datum/skill/craft/weaponsmithing
 	name = "Weaponsmithing"
-	desc = "Determins whether you can smith various weapons. Required to repair weapons successfully on tables."
+	desc = "Determines whether you can smith various weapons. Required to repair weapons successfully on tables. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...tempered in gold and void, sharpened only by the sun and moon, your creation is finally complete. This one... This one will pierce the heavens...",
 		"...sweat drips down your brow and your arms ache with every strike, but at last, the blade is forged. A masterpiece of steel and gold, adorned with rontz gems...",
@@ -23,22 +23,22 @@
 	)
 	expert_name = "Weaponsmith"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/armorsmithing
 	name = "Armorsmithing"
-	desc = "Determines whether you can smith various armor. Required to repair armor successfully on tables."
+	desc = "Determines whether you can smith various armor. Required to repair armor successfully on tables. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...you stand amidst the deadite horde, their tooth and claw unable to dent your armor. Your creation. Your masterpiece...",
 		"...the veteran's armor, battered beyond recognition, mirrors the scars upon his body. Yet, without your craft, he'd have fallen long ago. With skilled hands and a half a day's work, the armor is reborn - stronger than the day it was forged..."
 	)
 	expert_name = "Armorsmith"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/blacksmithing
 	name = "Blacksmithing"
-	desc = "Determines whether you can smith various non-weapons and armor items. Required to repair them successfully on table."
+	desc = "Determines whether you can smith various non-weapons and armor items. Required to repair them successfully on table. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...you bow your head to the old master who scolds you for your wastefulness having left the forges unattended through the night...",
 		"...you hammer away at a strange blue metal. It tempts you, begging to be formed into a crown of secrets...",
@@ -46,7 +46,7 @@
 	)
 	expert_name = "Blacksmith"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/smelting
 	name = "Smelting"
@@ -59,7 +59,7 @@
 	)
 	expert_name = "Smelter"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 
 /datum/skill/craft/carpentry
@@ -75,7 +75,7 @@
 
 /datum/skill/craft/masonry
 	name = "Masonry"
-	desc = "Determines whether you can craft various stone items, gems and repair them."
+	desc = "Determines whether you can craft various stone items, gems and repair them. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...a fortress. Impenetrable. Everlasting. Brick by brick. Layer by layer. Stone upon stone. This is your magnum opus. This is the way of creation...",
 		"...'3, 4 and 5 lead to the corner of 90.' your master, a wizened old elf adrift in the void, shows you how their mason's square indicates straight and strange corners alike..."
@@ -85,7 +85,7 @@
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY,
-	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/traps
 	name = "Trapmaking"
@@ -106,7 +106,7 @@
 	)
 	expert_name = "Engineer"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 
 /datum/skill/craft/cooking
@@ -119,13 +119,13 @@
 	)
 	expert_name = "Cook"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY, 
-	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY, 
-	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
+	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY,
+	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/sewing
 	name = "Sewing"
-	desc = "Determines whether you can craft various sewing-related items and repair them."
+	desc = "Determines whether you can craft various sewing-related items and repair them. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...as the years go by, the mantra becomes increasingly oppressive. Stitch, sew, cut ties, stitch, sew, thread the needle twice...",
 		"...you turn over the fabric, and within the two layers of the gown, you hide a secret stitched into the gown, your initials, hidden within. A forbidden mark in some cultures... you never liked the bride much..."
@@ -134,12 +134,12 @@
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_SEWING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_JOURNEYMAN,
-	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN, 
-	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,
+	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/tanning
 	name = "Skincrafting"
-	desc = "Determines whether you can craft or repair various leather items. Reduces the work time on the tanning rack and improves minimum yield per hide by 1 per skill level. Also increases chance of getting an essence of wilderness from tanning hide."
+	desc = "Determines whether you can craft or repair various leather items. Reduces the work time on the tanning rack and improves minimum yield per hide by 1 per skill level. Also increases chance of getting an essence of wilderness from tanning hide. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...your knife scrapes away at skin, flesh and fat, cleaning up the piece of hide so that it may be made into a wonderful cloak for the lord...",
 		"...the hunter, their voice as rough as bark and their skin weathered like grain lets out a hearty laugh as he shows you his stitching..."
@@ -148,12 +148,12 @@
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_SEWING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY,
-	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,  
-	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,
+	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/ceramics
 	name = "Pottery"
-	desc = "Handles crafting and making of clay into vases and other fine-craft works."
+	desc = "Handles crafting and making of clay into vases and other fine-craft works. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...the wheel spins, and spins.. yet you watch as a work of art grows from its center...",
 		"...a slab of clay is molded into a beautiful statue. A testiment to Malum's blessings, and Xylix's insperation. A pure work of beauty..."
@@ -162,8 +162,8 @@
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY,
-	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
-	
+	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_SELF_RELIANCE = SKILL_LEVEL_JOURNEYMAN)
+
 /datum/skill/craft/alchemy
 	name = "Alchemy"
 	desc = "Determines what kind of potions you can brew and the types of transmutation and alchemy recipes you have access to"

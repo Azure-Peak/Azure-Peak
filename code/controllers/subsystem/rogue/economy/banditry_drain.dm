@@ -1,10 +1,6 @@
 // TEMPORARY: banditry drain is a placeholder consequence until proper raid/siege
 // content ships. Delete this file when raids land. See BANDITRY_DRAIN_* in economy.dm.
 
-/// Snapshot of the next banditry tick. Returns list("total" = m, "lines" = list(strings),
-/// "debt" = m). Drain is a flat amount per contributing region. The Crown's Purse will
-/// not be cut below BANDITRY_DEBT_FLOOR; the unpaid remainder accrues as banditry_debt
-/// and skims all future treasury inflow until paid.
 /datum/controller/subsystem/economy/proc/preview_banditry_drain()
 	var/list/result = list("total" = 0, "lines" = list(), "debt" = SStreasury?.banditry_debt || 0)
 	var/pop = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)

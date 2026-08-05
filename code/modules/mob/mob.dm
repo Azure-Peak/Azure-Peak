@@ -40,15 +40,14 @@ GLOBAL_VAR_INIT(mobids, 1)
 		for(var/M in observers)
 			var/mob/dead/observe = M
 			observe.reset_perspective(null)
-	qdel(hud_used)
-	for(var/cc in client_colours)
-		qdel(cc)
+	QDEL_NULL(hud_used)
+	QDEL_LIST(client_colours)
 	used_intent = null
-	used_rmb_intent = null
 	if(a_intent && a_intent.mastermob == src)
 		a_intent.mastermob = null
 	a_intent = null
 	o_intent = null
+	possible_mmb_intents = null
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
 	QDEL_NULL(mmb_intent)
@@ -57,16 +56,11 @@ GLOBAL_VAR_INIT(mobids, 1)
 	for(var/datum/action/A in actions)
 		A.Remove(src)
 	actions = null
-	SScrediticons.processing -= src
-	SScrediticons.currentrun -= src
 	SStreasury.remove_person(src) // Call me overly cautious I dunno when they giving dogs bank account
 	if(skills && skills.current == src)
 		var/datum/skill_holder/my_skill = skills
 		my_skill.current = null
 		QDEL_NULL(skills)
-	client_colours = null
-	last_reach_target = null
-	last_reach_tool = null
 	if(active_storage)
 		active_storage.hide_from(src)
 	ghostize(drawskip=TRUE)
@@ -485,7 +479,6 @@ GLOBAL_VAR_INIT(mobids, 1)
   */
 /mob/verb/examinate(atom/A as mob|obj|turf in view()) //It used to be oview(12), but I can't really say why
 	set name = "Examine"
-	set category = "IC"
 	set hidden = 1
 
 	if(isturf(A) && !(sight & SEE_TURFS) && !(A in view(client ? client.view : world.view, src)))
@@ -521,11 +514,11 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(result)
 		var/list/mechanics_result = A.get_mechanics_examine(src)
 		if(length(mechanics_result))
-			var/mechanics_result_str = "<details><summary>Mechanics</summary>"
+			var/list/mech_lines = list()
 			for(var/line in mechanics_result)
-				mechanics_result_str += " - " + line + "\n"
-			mechanics_result_str += "</details>"
-			result += mechanics_result_str
+				mech_lines += "<span class='smallnotice'> - </span>[line]"
+			var/mechanics_result_str = "<details><summary><span class='smallnotice'>Mechanics</span></summary>[mech_lines.Join("<br>")]</details>"
+			result[result.len] += mechanics_result_str // append to last line so the join doesn't insert a blank line before the dropdown
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
 
@@ -586,7 +579,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/memory()
 	set name = "Notes"
-	set category = "Memory"
+	set category = "IC.Memory"
 	set desc = ""
 	if(mind)
 		mind.show_memory(src)
@@ -598,7 +591,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/add_memory(msg as message)
 	set name = "AddNote"
-	set category = "Memory"
+	set category = "IC.Memory"
 	if(mind)
 		if (world.time < memory_throttle_time)
 			return
@@ -619,7 +612,6 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/abandon_mob()
 	set name = "{ABANDON MOB}"
-	set category = "Options"
 	set hidden = 1
 	if(!check_rights(0))
 		return
@@ -755,111 +747,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/is_muzzled()
 	return 0
 
-/**
- * Output an update to the stat panel for the client
- *
- * calculates client ping, round id, server time, time dilation and other data about the round
- * and puts it in the mob status panel on a regular loop
- */
-/mob/Stat()
-	..()
-
-	if(!client)
-		return
-
-	var/datum/controller/subsystem/statpanel/SS = SSstatpanel
-
-	if(statpanel("RoundInfo"))
-		for(var/line in SS.base_roundinfo_text)
-			stat(null, line)
-
-		if(client.holder)
-			for(var/line in SS.debug_roundinfo_text)
-				stat(null, line)
-
-		stat(null, SS.ic_date_text)
-		stat(null, SS.timeofday_text)
-		stat(null, "PING: [round(client.lastping,1)]ms (AVG: [round(client.avgping,1)]ms)")
-		stat(null, SS.td_info_text)
-
-		if(check_rights(R_ADMIN,0))
-			for(var/line in SS.admin_roundinfo_text)
-				stat(null, line)
-
-	if(client?.holder && check_rights(R_DEBUG, 0))
-		if(statpanel("MC"))
-			var/turf/T = get_turf(client.eye)
-			stat("Location:", COORD(T))
-			for(var/line in SSstatpanel.mc_info_text)
-				stat(null, line)
-
-			GLOB.stat_entry()
-			config.stat_entry()
-			if(Master)
-				Master.stat_entry()
-			else
-				stat("Master Controller:", "ERROR")
-			if(Failsafe)
-				Failsafe.stat_entry()
-			else
-				stat("Failsafe Controller:", "ERROR")
-				
-			stat(null)
-
-			for(var/entry in SSstatpanel.mc_cache)
-				var/datum/controller/subsystem/SSsub = entry["subsystem"]
-				stat(entry["title"], SSsub.statclick.update(entry["msg"]))
-				
-		if(statpanel("Tickets"))
-			GLOB.ahelp_tickets.stat_entry()
-
-		if(length(GLOB.sdql2_queries))
-			if(statpanel("SDQL2"))
-				stat("Access Global SDQL2 List", GLOB.sdql2_vv_statobj)
-				for(var/i in GLOB.sdql2_queries)
-					var/datum/SDQL2_query/Q = i
-					Q.generate_stat()
-
-	if(listed_turf && client)
-		if(!TurfAdjacent(listed_turf))
-			listed_turf = null
-		else
-			statpanel(listed_turf.name, null, listed_turf)
-
-			var/list/overrides = list()
-			for(var/image/I in client.images)
-				if(I.loc && I.loc.loc == listed_turf && I.override)
-					overrides += I.loc
-
-			for(var/atom/A in listed_turf)
-				if(!A.mouse_opacity)
-					continue
-				if(A.invisibility > see_invisible)
-					continue
-				if(overrides.len && (A in overrides))
-					continue
-
-				statpanel(listed_turf.name, null, A)
-
-//	if(mind)
-//		add_spells_to_statpanel(mind.spell_list)
-//	add_spells_to_statpanel(mob_spell_list)
-
-/**
- * Convert a list of spells into a displyable list for the statpanel
- *
- * Shows charge and other important info
- */
-/mob/proc/add_spells_to_statpanel(list/spells)
-	for(var/obj/effect/proc_holder/spell/S in spells)
-		if(S.can_be_cast_by(src))
-			switch(S.charge_type)
-				if("recharge")
-					statpanel("[S.panel]","[S.charge_counter/10.0]/[S.recharge_time/10]",S)
-				if("charges")
-					statpanel("[S.panel]","[S.charge_counter]/[S.recharge_time]",S)
-				if("holdervar")
-					statpanel("[S.panel]","[S.holder_var_type] [S.holder_var_amount]",S)
 
 #define MOB_FACE_DIRECTION_DELAY 1
 
@@ -875,6 +762,8 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * we are not restrained
  */
 /mob/proc/canface(atom/A)
+	if(facing_locked)
+		return FALSE
 	if(client)
 		if(world.time < client.last_turn)
 			return FALSE
@@ -1113,9 +1002,17 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!("[REF(target)]" in faction_src))
 			faction_target -= "[REF(target)]" //same thing here.
 		return faction_check(faction_src, faction_target, TRUE)
-	var/list/faction2use = target.faction.Copy()
-	faction2use += target.name
-	return faction_check(faction, faction2use, FALSE)
+	if(HAS_TRAIT(target, TRAIT_NOPVE))
+		return TRUE // don't bother checking anyone who's exempt from pve entirely
+	// Avoid lit allocations by scanning factions directly for better perf.
+	var/list/their_faction = target.faction
+	var/their_name = target.name
+	for(var/f in faction)
+		if(f == their_name)
+			return TRUE
+		if(f in their_faction)
+			return TRUE
+	return FALSE
 /*
  * Compare two lists of factions, returning true if any match
  *
@@ -1317,7 +1214,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(stat != CONSCIOUS)
 		to_chat(src, span_warning("I can't set my pose right now."))
 		return
-	var/new_pose = tgui_input_text(src, "Set your character's pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE,  encode = FALSE, bigmodal = TRUE, max_length = 256)
+	var/new_pose = tgui_input_text(src, "Set your character's pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE,  encode = TRUE, bigmodal = TRUE, max_length = 256)
 	if(isnull(new_pose))
 		return
 
@@ -1420,3 +1317,15 @@ GLOBAL_VAR_INIT(mobids, 1)
 	canon_client = null
 
 #undef MOB_FACE_DIRECTION_DELAY
+
+/// Adds this list to the output to the stat browser
+/mob/proc/get_status_tab_items()
+	. = list("") //we want to offset unique stuff from standard stuff
+	SEND_SIGNAL(src, COMSIG_MOB_GET_STATUS_TAB_ITEMS, .)
+	if(client)
+		. += list(list("IC DATE: ", "[get_current_ic_date_as_string()] (CLICK FOR CALENDAR)", "src=[REF(client)];statbrowser_calendar=1"))
+		. += list(list("tod", GLOB.tod, "IC TIME: [get_current_ic_time_as_string()]"))
+	return .
+
+/mob/proc/get_stats_tab_items()
+	return list()

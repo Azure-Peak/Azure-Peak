@@ -1,7 +1,8 @@
 // Raw meat from land animals.
 /obj/item/reagent_containers/food/snacks/rogue/meat
+	dish_type = DISH_MEAT
 	eat_effect = /datum/status_effect/debuff/uncookedfood
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	name = "meat"
 	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
 	icon_state = "meatslab"
@@ -17,7 +18,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
 	eat_effect = /datum/status_effect/debuff/rotfood
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	name = "rotten meat"
 	desc = "This was once edible. It is now only a putrid mess, except to the most steadfast \
 	of stomachs."
@@ -31,24 +32,9 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten/can_craft_with()
 	return TRUE
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/attackby(obj/item/I, mob/living/user)
-	update_cooktime(user)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(istype(I, /obj/item/kitchen/rollingpin))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
-			to_chat(user, span_notice("Tenderizing [src] into a nitzel."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/nitzel(loc)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
-	else 
-		return ..()
-
 /* ............. Generic Steak ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak
+	cuisine = CUISINE_NORTH_IMPERIAL
 	ingredient_size = 2
 	name = "raw meat"
 	icon_state = "meatsteak"
@@ -65,16 +51,30 @@
 
 /* ............. Pork (Fatty Sprite) ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty //pork
+	cuisine = CUISINE_NORTH_IMPERIAL
 	name = "raw pigflesh"
 	icon_state = "pork"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
 	slices_num = 2
-	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
+	slice_bclass = BCLASS_CHOP
 	chopping_sound = TRUE
 	cooked_smell = /datum/pollutant/food/fried_meat
 
+/* ............. Pork Belly ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly
+	cuisine = CUISINE_NORTH_IMPERIAL
+	name = "pork belly"
+	icon_state = "pork_belly"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	slices_num = 4
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
+	slice_sound = TRUE
+	cooked_smell = /datum/pollutant/food/fried_bacon
+
 /* ............. Bacon ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
+	cuisine = CUISINE_NORTH_IMPERIAL
 	name = "raw bacon"
 	icon_state = "bacon"
 	slice_path = null
@@ -90,27 +90,14 @@
 	icon_state = "spidermeat"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
-	slice_path = null
-	slices_num = 0
-
-/obj/item/reagent_containers/food/snacks/rogue/meat/spider/attackby(obj/item/I, mob/living/user)
-	update_cooktime(user)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(istype(I, /obj/item/kitchen/rollingpin))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
-			to_chat(user, span_notice("Tenderizing [src] into a schnitzel."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/schnitzel(loc)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
-	else 
-		return ..()
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	slices_num = 2
+	cooked_smell = /datum/pollutant/food/fried_spidermeat
+	tastes = list("slimy insectoid" = 1)
 
 /* ............. Whole Bird ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry
+	dish_type = DISH_POULTRY
 	name = "plucked bird"
 	icon_state = "halfchicken"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet
@@ -132,24 +119,10 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/attackby(obj/item/I, mob/living/user)
-	update_cooktime(user)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(istype(I, /obj/item/kitchen/rollingpin))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
-			to_chat(user, span_notice("Tenderizing [src]."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender(loc)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
-	else
-		return ..()
-
 /* ............. Crab Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/crab
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "crab meat"
 	desc = "A chunk of raw crab meat, absolutely wonderful."
 	icon_state = "crabmeatraw"
@@ -160,24 +133,9 @@
 	ingredient_size = 1
 	cooked_smell = /datum/pollutant/food/fried_crab
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/crab/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
-			to_chat(user, "<span class='notice'>Covering the crab with butterdough...</span>")
-			if(do_after(user,short_cooktime, target = src))
-				user.mind.add_sleep_experience(/datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/crabcakeraw(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put it on a table!"))
-		return TRUE
-	. = ..()
-
 /* ............. Cabbit Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "raw cabbit meat"
 	icon_state = "cabbitcutlet"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit
@@ -187,30 +145,42 @@
 	ingredient_size = 1
 
 /* ............. Volf Meat ................*/
-/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf
+/obj/item/reagent_containers/food/snacks/rogue/meat/wolf
+	cuisine = CUISINE_NORTHERN
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw volf meat"
 	icon_state = "volfstrip"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 
 /* ............. Rous Meat ................*/
-/obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat
+/obj/item/reagent_containers/food/snacks/rogue/meat/rat
+	cuisine = CUISINE_NORTHERN
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw rous meat"
 	desc = "A delicacy for some races, whilst others will turn up their nose at such... Sewer meat."
 	icon_state = "rat"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
 
 /* ............. Bear Meat ................*/
-/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear
+/obj/item/reagent_containers/food/snacks/rogue/meat/bear
+	cuisine = CUISINE_NORTHERN
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw bear meat"
 	desc = "Grow some hair on yer chest lad!"
 	icon_state = "bear"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
 
 /* ............. Troll Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll
@@ -224,6 +194,8 @@
 
 /* ............. fish chop ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "fish filet"
 	desc = "A filet of fish. All of them are the same inside."
 	icon_state = "fish_filet"
@@ -236,6 +208,8 @@
 
 /* .........   Shellfish    ................. */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "shellfish meat"
 	desc = "Meat from a crustacean. Salty with a different texture than most fishmeat. Chop to create mince, bake or fry to make fried shellfish meat"
 	icon_state = "shellfish_meat"
@@ -264,62 +238,32 @@
 	..()
 	qdel(src)
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/mince))
-		if(isturf(loc)&& (found_table))
-			to_chat(user, span_notice("Stuffing a wiener..."))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/meat/sausage(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work on it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/fat))
-		if(isturf(loc)&& (found_table))
-			to_chat(user, span_notice("Stuffing a wiener..."))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/meat/sausage(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work on it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
-		if(isturf(loc)&& (found_table))
-			to_chat(user, span_notice("Preparing a tartar..."))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/tartar(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work on it."))
-	else
-		return ..()
-
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
 	name = "minced meat"
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "minced fish"
 	icon_state = "fishmince"
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	name = "minced spidermeat"
+	icon_state = "spidermince"
+
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "minced cabbit"
 	icon_state = "meatmince"
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry
+	dish_type = DISH_MEAT|DISH_POULTRY
 	name = "minced poultry"
 	icon_state = "meatmince"
 	cooked_smell = /datum/pollutant/food/cooked_chicken
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/sausage
+	cuisine = CUISINE_NORTH_IMPERIAL
 	name = "raw sausage"
 	icon_state = "raw_sausage"
 	ingredient_size = 1
@@ -327,24 +271,27 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
 	cooked_smell = /datum/pollutant/food/fried_sausage
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage/attackby(obj/item/I, mob/living/user)
-	update_cooktime(user)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(istype(I, /obj/item/kitchen/rollingpin))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
-			to_chat(user, span_notice("Tenderizing [src]."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/wienernitzel(loc)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
-	else
-		return ..()
+/* ............. Underdark Cuisine ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball //If you will add another meatball, consider refactoring this into a more general meatball object with variables for the type of meat, the name, and the icon.
+	name = "raw spidermeatball"
+	desc = "A meatball made from minced spidermeat. It's a bit chewy, but not bad if you can get past the idea of eating spiders."
+	icon_state = "raw_spidermeatball"
+	ingredient_size = 1
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/cooked
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/cooked
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise
+	name = "raw spider surprise"
+	desc = "A meatball made from minced spidermeat and flour. It looks like a normal meatball, but you can see the occasional leg or eyeball poking out of the sides."
+	icon_state = "raw_spider_surprise"
+	ingredient_size = 1
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
 
 /* ............. fish chop ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "fish filet"
 	desc = "A filet of fish. All of them are the same inside."
 	icon_state = "fish_filet"
@@ -356,6 +303,8 @@
 
 /* .........   Shellfish    ................. */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "shellfish meat"
 	desc = "Meat from a crustacean. Salty with a different texture than most fishmeat. Chop to create mince, bake or fry to make fried shellfish meat"
 	icon_state = "shellfish_meat"
@@ -376,6 +325,7 @@
 
 /* ............. Cabbit Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "raw cabbit meat"
 	icon_state = "cabbitcutlet"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit
@@ -385,13 +335,17 @@
 	ingredient_size = 1
 
 /* ............. Volf Meat ................*/
-/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf
+/obj/item/reagent_containers/food/snacks/rogue/meat/wolf
+	cuisine = CUISINE_NORTHERN
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw volf meat"
 	desc = "Meat taken from a volf. Stringy, tough, and gamey - but edible."
 	icon_state = "volfstrip"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 
 // Do NOT add this to the stockpile, they have other uses and are unique in how they're obtained.
 /* ............. Gnoll Meat ................*/
@@ -475,3 +429,51 @@
 	name = "raw boar ham"
 	desc = "A bramblesnout that is no longer trying to end you. Raw and ready to be steamed."
 	icon_state = "ham_boar"
+
+// Raw mushroom from weird underdarky places
+/obj/item/reagent_containers/food/snacks/rogue/mushroom
+	eat_effect = null
+	//Not really filling uncooked.
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
+	bitesize = 3
+	name = "mushroom flesh"
+	desc = "A common piece of mushroom flesh. Often called Vesse-de-Vouivre by the drow of the underdark. It has a strong, earthy odor to it. Definitely better to cook this..."
+	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
+	icon_state = "mushroom"
+	slice_batch = TRUE
+	rotprocess = SHELFLIFE_DECENT
+	chopping_sound = TRUE
+	//can't believe it's not a vegetable.
+	foodtype = MEAT
+	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
+	cooked_smell = /datum/pollutant/food/fried_mushroom
+	tastes = list("wyvern and natural gas" = 1)
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked
+
+/* ............. Humanoid Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
+	name = "raw long pig"
+	desc = "Perfect cut of swine flesh, raw and ready to be steamed. It seems oddly longer than a swine limb's length, however."
+	icon_state = "longpig"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/humanoid/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/humanoid/fried
+	cooked_smell = /datum/pollutant/food/humanoid
+	tastes = list("pork(?)" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
+	name = "minced long pig"
+	desc = "Meat sliced many times both with and against the grain, producing a fine mince. Oh wait a minute..."
+	icon_state = "longpigmince"
+	tastes = list("minced pork(?)" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid_salted
+	name = "salted minced long pig"
+	desc = "Meat sliced many times both with and against the grain, producing a fine mince. Blend with a suitable amount of salt. Oh wait a minute..."
+	icon_state = "pigsalt"
+	rotprocess = SHELFLIFE_LONG
+	tastes = list("salted pork(?)" = 1)

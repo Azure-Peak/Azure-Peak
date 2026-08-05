@@ -32,6 +32,6 @@
 			if(_T)
 				_T = get_turf(_T)
 				if(isfloorturf(_T))
-					new /mob/living/carbon/human/species/skeleton/npc(_T)
+					new /mob/living/carbon/human/species/skeleton/npc/mediumspread(_T) //Slightly rougher skeletons with good gear, can actually kill people.
 
 	return

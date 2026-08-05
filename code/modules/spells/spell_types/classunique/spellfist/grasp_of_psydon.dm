@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/grasp_of_psydon
+	source_aspect = /datum/magic_aspect/pseudo/spellfist
 	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	button_icon_state = "grasp_of_psydon"
 	name = "Grasp of Psydon"
@@ -20,7 +21,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
 	charge_time = 0.5 SECONDS
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 20 SECONDS

@@ -13,10 +13,30 @@ export type RegionCatalogEntry = {
   description: string;
 };
 
+export type LedgerEntry = {
+  kind: string; // mint | burn | transfer | micro | ...
+  from: string;
+  to: string;
+  amount: number;
+  reason: string;
+  count: number;
+};
+
+export type LedgerPage = {
+  entries: LedgerEntry[];
+  page: number;
+  page_size: number;
+  shown: number;
+  has_more: BooleanLike;
+  filtered: BooleanLike;
+};
+
 export type StaticData = {
   order_pool_cap: number;
   good_catalog: Record<string, GoodCatalogEntry>;
   region_catalog: Record<string, RegionCatalogEntry>;
+  // Only present while the user has the Ledger tab open (server gates it on ledger_view).
+  ledger_page?: LedgerPage;
 };
 
 // --- Dynamic state (re-shipped on each ui_data) ----------------------------
@@ -25,6 +45,7 @@ export type OrderItem = {
   good_id: string;
   needed: number;
   have: number;
+  route: 'warehouse' | 'stockpile';
 };
 
 export type Order = {
@@ -33,7 +54,8 @@ export type Order = {
   description: string;
   region_id: string;
   region_blockaded: BooleanLike;
-  is_equipment: BooleanLike;
+  has_warehouse: BooleanLike;
+  has_stockpile: BooleanLike;
   days_left: number;
   payout: number;
   items: OrderItem[];
@@ -43,6 +65,8 @@ export type Order = {
   can_partial: BooleanLike;
   partial_pct: number;
   partial_payout_preview: number;
+  pair_id: string | null;
+  pair_label: string | null;
 };
 
 export type EconomicEvent = {
@@ -66,6 +90,7 @@ export type MarketRegionOption = {
   unit_price: number;
   capacity_today: number;
   capacity_total: number;
+  batch_capacity: number;
   is_blockaded: BooleanLike;
 };
 
@@ -86,6 +111,7 @@ export type MarketRow = {
   automatic_limit: BooleanLike;
   accepting: BooleanLike;
   withdraw_disabled: BooleanLike;
+  autoexport_disabled: BooleanLike;
   margin_per_unit: number;
   arbitrage_potential: number;
 };
@@ -144,7 +170,9 @@ export type TradeQuote = {
   quantity: number;
   max_units: number;
   daily_pace: number;
+  batch_capacity: number;
   capacity_today: number;
+  capacity_total: number;
   base_unit_price: number;
   base_subtotal: number;
   escalation_subtotal: number;
@@ -213,12 +241,18 @@ export type Data = StaticData & {
   trade_quote: TradeQuote | null;
   total_arbitrage_potential: number;
   autoexport_percentage: number;
+  autoexport_barred: number;
+  shortage_goods_open: number;
   petition_categories: PetitionCategory[];
   petition_tax_pct: number;
   petitions_per_day: number;
   petition: PetitionState;
   sequestration: SequestrationState;
   atc_loan: AtcLoanState;
+  royal_custom_unlocked: BooleanLike;
+  royal_custom_margin: number;
+  royal_custom_threshold: number;
+  royal_custom_volume: number;
 };
 
 export type TabKey =
@@ -226,4 +260,7 @@ export type TabKey =
   | 'market'
   | 'regions'
   | 'auto_import'
-  | 'petition';
+  | 'petition'
+  | 'ledger'
+  | 'royal_custom'
+  | 'advanced';

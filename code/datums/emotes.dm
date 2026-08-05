@@ -3,7 +3,6 @@
 	var/key_third_person = "" //This will also call the emote
 	var/message = "" //Message displayed when emote is used
 	var/message_mime = "" //Message displayed if the user is a mime
-	var/message_monkey = "" //Message displayed if the user is a monkey
 	var/message_simple = "" //Message to display if the user is a simple_animal
 	var/message_param = "" //Message to display if a param was given
 	var/message_muffled = null //Message to display if the user is muffled
@@ -32,6 +31,9 @@
 
 	/// Whether this emote is filtered by our "hear animal noises" preference.
 	var/is_animal = FALSE
+
+	/// If true, emote will check for detached trait and not run if the user has it and the emote wasn't intentional. Used for emotes that require emotional investment to make sense, like crying or laughing.
+	var/needs_emotion = FALSE
 
 	/// For ranged targeted emotes, range of 2 is for adjacents
 	var/targetrange = 2 
@@ -150,6 +152,7 @@
 			pre_color_msg = trim(replacetext(pre_color_msg, "$n", "[emotelocation]"))
 		else
 			msg = "[styled_name] [msg]"
+		msg = "<span class='game-emote'>[msg]</span>"
 		for(var/mob/M in GLOB.dead_mob_list)
 			if(!M.client || isnewplayer(M))
 				continue
@@ -237,8 +240,16 @@
 		else
 			// familiars get to do emotes with their weird planar being anatomy, so that they can caw and such
 			if(istype(user, /mob/living/simple_animal/pet/familiar))
-				var/datum/voicepack/pack2use = (user.gender==MALE)? /datum/voicepack/male : /datum/voicepack/female
-				return pack2use.get_sound(key)
+				var/mob/living/simple_animal/pet/familiar/fam = user
+				if(!fam.voice_pack)
+					return
+				var/possible_sounds = fam.voice_pack.get_sound(key)
+				var/used_sound
+				if(islist(possible_sounds))
+					used_sound = pick(possible_sounds)
+				else
+					used_sound = possible_sounds
+				return used_sound
 			return user.get_sound(key)
 
 /mob/living/proc/get_sound(input)
@@ -251,6 +262,8 @@
 		msg = replacetext(msg, "them", user.p_them())
 	if(findtext(msg, "%s"))
 		msg = replacetext(msg, "%s", user.p_s())
+	if(findtext(msg, "themselves"))
+		msg = replacetext(msg, "themselves", user.p_themselves())
 	return msg
 
 /datum/emote/proc/select_message_type(mob/user, intentional)
@@ -267,8 +280,6 @@
 			. = message_muffled
 	if(user.mind && user.mind.miming && message_mime)
 		. = message_mime
-	else if(ismonkey(user) && message_monkey)
-		. = message_monkey
 	else if(isanimal(user) && message_simple)
 		. = message_simple
 
@@ -306,6 +317,9 @@
 				return FALSE
 //			to_chat(user, span_warning("I cannot [key] while restrained!"))
 			return FALSE
+
+	if(needs_emotion && HAS_TRAIT(user, TRAIT_DETACHED) && !intentional)
+		return FALSE
 
 	if(intentional && HAS_TRAIT(user, TRAIT_EMOTEMUTE))
 		return FALSE

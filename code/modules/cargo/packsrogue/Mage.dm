@@ -164,7 +164,7 @@
 /datum/supply_pack/rogue/Mage/book
 	name = "Spellbook"
 	cost = 80
-	contains = list(/obj/item/book/spellbook)
+	contains = list(/obj/item/rogueweapon/spellbook)
 
 /datum/supply_pack/rogue/bandit/Mage/cinnabar
 	name = "Cinnabar Ore"

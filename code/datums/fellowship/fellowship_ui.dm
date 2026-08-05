@@ -62,6 +62,7 @@
 			"is_self" = (M == holder),
 		))
 	data["members"] = member_data
+	data["total_summons"] = F.count_summons()
 	var/list/invite_data = list()
 	for(var/invitee_name in F.pending_invites)
 		var/list/entry = F.pending_invites[invitee_name]
@@ -171,7 +172,13 @@
 			continue
 		if(F.has_member(H))
 			continue
-		candidates[H.real_name] = H
+		var/display = H.get_visible_name()
+		var/label = display
+		var/suffix = 2
+		while(label in candidates)
+			label = "[display] ([suffix])"
+			suffix++
+		candidates[label] = H
 	if(!length(candidates))
 		to_chat(holder, span_warning("There is no one nearby you can invite."))
 		return TRUE

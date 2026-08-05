@@ -24,10 +24,8 @@ const sealBannerStyle: React.CSSProperties = {
 };
 
 const sealCaptionStyle: React.CSSProperties = {
-  fontVariant: 'small-caps',
-  letterSpacing: '2px',
   fontSize: '0.72em',
-  color: 'hsl(28, 50%, 25%)',
+  color: 'var(--p-ink-soft)',
   fontWeight: 'bold',
 };
 
@@ -35,7 +33,12 @@ export const SealBannerView = (props: { seal: SealBanner }) => {
   const { seal } = props;
   return (
     <div style={sealBannerStyle}>
-      <WaxSeal mark={seal.mark} label={seal.label} color={seal.color} size={48} />
+      <WaxSeal
+        mark={seal.mark}
+        label={seal.label}
+        color={seal.color}
+        size={48}
+      />
       <div style={sealCaptionStyle}>{seal.label}</div>
     </div>
   );

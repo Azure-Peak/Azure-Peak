@@ -86,7 +86,7 @@
 /obj/structure/closet/crate/miningcar/proc/smack(mob/living/smacked, damage_mod = 1, momentum_mod = 1.5)
 	ASSERT(momentum_mod >= 1)
 	var/cartdamage = damage_mod * momentum //we calculate the damage mod * the speed we're going
-	cartdamage = CLAMP(cartdamage, 0, 50) //we max the damage at 50
+	cartdamage = CLAMP(cartdamage, 0, 100) //we max the damage at 100
 	if(!smacked.apply_damage(cartdamage, BRUTE, BODY_ZONE_CHEST))
 		return
 	if(obj_integrity <= max_integrity * 0.05)
@@ -236,7 +236,7 @@
 	if(!on_rails || momentum > 0)
 		return
 
-	obj_flags |= BLOCK_Z_OUT_DOWN
+	set_is_platform(TRUE)
 	var/movedir = bumped_atom.dir
 	var/turf/next_turf = get_step(src, movedir)
 	if(!can_travel_on_turf(next_turf, movedir))
@@ -280,7 +280,7 @@
 	if(momentum <= 0)
 		stack_trace("Mine cart moving on 0 momentum!")
 		SSmove_manager.stop_looping(src, SSminecarts)
-		obj_flags &= ~BLOCK_Z_OUT_DOWN
+		set_is_platform(FALSE)
 		momentum = 0
 		return MOVELOOP_SKIP_STEP
 	// Forced to not move
@@ -334,7 +334,7 @@
 
 	// Can't go straight and cant turn = STOP
 	SSmove_manager.stop_looping(src, SSminecarts)
-	obj_flags &= ~BLOCK_Z_OUT_DOWN
+	set_is_platform(FALSE)
 	if(momentum >= 12)
 		visible_message(span_warning("[src] comes to a violent halt!"))
 		throw_contents()
@@ -355,16 +355,16 @@
 			else
 				visible_message(span_notice("[src] comes to a stop."))
 			SSmove_manager.stop_looping(src, SSminecarts)
-			obj_flags &= ~BLOCK_Z_OUT_DOWN
+			set_is_platform(FALSE)
 			momentum = 0
 			return
 		check_powered()
-		momentum -= 1
+		momentum -= 0.25 //this controls the momentum decay rate. 
 
 	// No more momentum = STOP
 	if(momentum <= 0)
 		SSmove_manager.stop_looping(src, SSminecarts)
-		obj_flags &= ~BLOCK_Z_OUT_DOWN
+		set_is_platform(FALSE)
 		momentum = 0
 		visible_message(span_notice("[src] comes to a slow stop."))
 		return

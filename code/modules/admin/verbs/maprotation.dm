@@ -1,5 +1,4 @@
 /client/proc/forcerandomrotate()
-	set category = "-Server-"
 	set name = "Trigger Random Map Rotation"
 	set hidden = 1 // Only one map
 	var/rotate = alert("Force a random map rotation to trigger?", "Rotate map?", "Yes", "Cancel")
@@ -11,7 +10,7 @@
 	SSmapping.maprotate()
 
 /client/proc/adminchangemap()
-	set category = "-Server-"
+	set category = "Server"
 	set name = "Change Map"
 	var/list/maprotatechoices = list()
 	for (var/map in config.maplist)

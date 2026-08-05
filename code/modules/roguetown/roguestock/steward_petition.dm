@@ -22,7 +22,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		"cost" = PETITION_COST_MATERIALS,
 		"templates" = list(
 			/datum/standing_order/demand_smithing,
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_textile,
 			/datum/standing_order/demand_artificery,
 			/datum/standing_order/demand_fine_joinery,
@@ -48,7 +48,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 			/datum/standing_order/demand_court_finery,
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast,
+			/datum/standing_order/demand_great_feast_proteins,
 		),
 	)
 	cats[PETITION_CATEGORY_ALCHEMY] = list(
@@ -68,7 +68,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		"cost" = PETITION_COST_MASTERWORK,
 		"templates" = list(
 			/datum/standing_order/demand_artificed_panoply,
-			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_tournament_arms,
 			/datum/standing_order/demand_trophy_heads,
 		),
 	)
@@ -100,9 +100,15 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 	if(GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
 		return "the warehouse manifest is full - fulfill orders first"
 	var/active_in_region = 0
+	var/list/seen_pairs = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-		if(O.region_id == region_id)
-			active_in_region++
+		if(O.region_id != region_id)
+			continue
+		if(O.pair_id)
+			if(seen_pairs[O.pair_id])
+				continue
+			seen_pairs[O.pair_id] = TRUE
+		active_in_region++
 	if(active_in_region >= STANDING_ORDERS_MAX_PER_REGION)
 		return "[region.name] already has [active_in_region] active orders"
 	var/list/eligible = list()
@@ -143,7 +149,12 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 			eligible += template_path
 	var/template = pick(eligible)
 	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (get_effective_player_count() * STANDING_ORDER_POP_SCALE_PER_PLAYER))
-	var/datum/standing_order/O = instantiate_standing_order(template, region, order_size_mult, petitioned = TRUE)
+	var/datum/standing_order/probe = template
+	var/datum/standing_order/O
+	if(initial(probe.pair_sibling_type))
+		O = instantiate_standing_order_pair(template, initial(probe.pair_sibling_type), region, order_size_mult, petitioned = TRUE)
+	else
+		O = instantiate_standing_order(template, region, order_size_mult, petitioned = TRUE)
 	if(!O)
 		SStreasury.mint(SStreasury.burgher_pledge_fund, cost, "Steward petition refund - empty roll")
 		record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)

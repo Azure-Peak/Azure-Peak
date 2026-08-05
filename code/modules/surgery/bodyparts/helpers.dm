@@ -189,27 +189,6 @@
 			L.change_bodypart_status(BODYPART_ROBOTIC)
 	. = L
 
-/mob/living/carbon/monkey/newBodyPart(zone, robotic, fixed_icon)
-	var/obj/item/bodypart/L
-	switch(zone)
-		if(BODY_ZONE_L_ARM)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/l_arm/monkey)
-		if(BODY_ZONE_R_ARM)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/r_arm/monkey)
-		if(BODY_ZONE_HEAD)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/head/monkey)
-		if(BODY_ZONE_L_LEG)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/l_leg/monkey)
-		if(BODY_ZONE_R_LEG)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/r_leg/monkey)
-		if(BODY_ZONE_CHEST)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/chest/monkey)
-	if(L)
-		L.update_limb(fixed_icon, src)
-		if(robotic)
-			L.change_bodypart_status(BODYPART_ROBOTIC)
-	. = L
-
 /mob/living/carbon/proc/Digitigrade_Leg_Swap(swap_back)
 	var/body_plan_changed = FALSE
 	for(var/X in bodyparts)
@@ -254,26 +233,36 @@
 			qdel(O)
 			needs_new_legs = TRUE
 
-	if(needs_new_legs)
-		var/obj/item/bodypart/N
-		N = new /obj/item/bodypart/l_leg
-		N.attach_limb(src)
+	// Short circuit the check for new legs and
+	// icon regeneration when you are not a taur
+	// Which is the majority of characters
+	if(!needs_new_legs)
+		return
 
-		N = new /obj/item/bodypart/r_leg
-		N.attach_limb(src)
+	var/obj/item/bodypart/N
+	N = new /obj/item/bodypart/l_leg
+	N.attach_limb(src)
+
+	N = new /obj/item/bodypart/r_leg
+	N.attach_limb(src)
 
 	// make sure we unapply our clipmasks
 	regenerate_icons()
 	set_resting(FALSE)
 
 /mob/living/carbon/proc/Taurize(taur_type = /obj/item/bodypart/taur/horse, color = "#ffffff")
+	// Same taur part short circuit to save on taurize cost because it occupies up to 8 - 9 ms out of a 20 ms call of preview
+	var/obj/item/bodypart/taur/existing = get_taur_tail()
+	if(existing && existing.type == taur_type && existing.taur_color == color)
+		return
+
 	for(var/X in bodyparts)
 		var/obj/item/bodypart/O = X
 		// drop taur tails too
 		if(O.body_part == LEG_LEFT || O.body_part == LEG_RIGHT || O.body_zone == BODY_ZONE_TAUR)
 			O.drop_limb(1)
 			qdel(O)
-	
+
 	var/obj/item/bodypart/taur/T = new taur_type()
 	T.taur_color = color
 	T.attach_limb(src)

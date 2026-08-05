@@ -64,3 +64,7 @@
 
 // Poll tax debt behavior on failure: if payer cannot afford, skip quietly (no trait/debt).
 #define ASSEMBLY_POLL_SKIP_INSOLVENT TRUE
+
+// These jobs cannot hold office due to abuse potentials by 
+// direct import / export that benefits their roles massively
+#define ASSEMBLY_OFFICE_INELIGIBLE_JOBS list("Merchant", "Shophand", "Bathmaster", "Bathhouse Attendant")

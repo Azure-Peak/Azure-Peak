@@ -14,6 +14,7 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/arcyne_forge,
+		/datum/action/cooldown/spell/mending,
 	)
 
 /datum/magic_aspect/exowardry
@@ -34,23 +35,6 @@
 		/datum/action/cooldown/spell/forcewall,
 	)
 
-/datum/magic_aspect/aegiscraft
-	name = "Aegiscraft"
-	latin_name = "Minor Aspectus Aegidis"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_ARCANE
-	binding_chants = list(
-		"Let me the shield that will protect me.",
-		"Aegis, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I set aside the shield, peace be with me.",
-		"Aegis, me relinquere!",
-	)
-	choice_spells = list(
-		/datum/action/cooldown/spell/conjure_aegis,
-	)
 
 /datum/magic_aspect/displacement
 	name = "Displacement"
@@ -67,7 +51,7 @@
 		"Translatio, me relinquere!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/blink,
+		/datum/action/cooldown/spell/phase,
 	)
 
 /datum/magic_aspect/autowardry
@@ -89,29 +73,13 @@
 		/datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 	)
 
-/datum/magic_aspect/lesser_kinesis
-	name = "Lesser Kinesis"
-	latin_name = "Minor Aspectus Vis"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_KINESIS
-	binding_chants = list(
-		"Let me push and pull at the threads of force.",
-		"Vis Minor, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I release the threads of force.",
-		"Vis Minor, me relinquere!",
-	)
-	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/fetch,
-		/datum/action/cooldown/spell/projectile/repel,
-	)
-
 /datum/magic_aspect/lesser_augmentation
 	name = "Lesser Augmentation"
 	latin_name = "Minor Aspectus Augmenti"
-	desc = "TODO"
+	desc = "Scholars debate whether Augmentation is a first, second, or even third-order school. Its adherents consider themselves third-order - \
+	with the honor of imitating the divine by augmenting the boundless potential of the humen form. Its spells are focused on enhancing the body, \
+	never the mind directly - for the mind is the true province of the divine, and one cannot use magycks to enhance one's own ability to wield magycks so bluntly. \
+	Woe betides those who face a warrior sharpened by the arcyne."
 	aspect_type = ASPECT_MINOR
 	school_color = GLOW_COLOR_BUFF
 	binding_chants = list(
@@ -122,19 +90,18 @@
 		"I calm the potent within.",
 		"Augmentum, me relinquere!",
 	)
-	pointbuy_budget = 4
-	// Budget: 1x 3-cost or 2x 2-cost or 1x 2-cost + fillers
+	pointbuy_budget = 6
 	pointbuy_spells = list(
-		/datum/action/cooldown/spell/haste,
 		/datum/action/cooldown/spell/darkvision,
-		/datum/action/cooldown/spell/stoneskin,
-		/datum/action/cooldown/spell/hawks_eyes,
-		/datum/action/cooldown/spell/giants_strength,
-		/datum/action/cooldown/spell/guidance,
+		/datum/action/cooldown/spell/augment_buff/blood_rush,
+		/datum/action/cooldown/spell/augment_buff/guidance,
 		/datum/action/cooldown/spell/featherfall,
-		/datum/action/cooldown/spell/enlarge,
+		/datum/action/cooldown/spell/augment_buff/enlarge,
 		/datum/action/cooldown/spell/leap,
 		/datum/action/cooldown/spell/nondetection,
+		/datum/action/cooldown/spell/augment_buff/surge,
+		/datum/action/cooldown/spell/augment_buff/precognition,
+		/datum/action/cooldown/spell/augment_buff/grasp,
 		// 1-cost utility filler
 		/datum/action/cooldown/spell/light,
 		/datum/action/cooldown/spell/mending,
@@ -156,7 +123,7 @@
 		"Illusio, me relinquere!",
 	)
 	fixed_spells = list(
-		/obj/effect/proc_holder/spell/invoked/invisibility,
+		/datum/action/cooldown/spell/invisibility,
 	)
 
 /datum/magic_aspect/hearthcraft
@@ -176,6 +143,24 @@
 	fixed_spells = list(
 		/datum/action/cooldown/spell/great_shelter,
 		/datum/action/cooldown/spell/create_campfire,
+	)
+
+/datum/magic_aspect/aegiscraft
+	name = "Aegiscraft"
+	latin_name = "Minor Aspectus Aegidis"
+	desc = "The art of projecting a shield of raw arcyne force. The shield offers some much needed external protection for a wise magi. "
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_ARCANE
+	binding_chants = list(
+		"Let me form the shield upon which my foes will fall.",
+		"Aegis, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I relinquish my shield. Let me face my foes with naught but my flesh.",
+		"Aegis, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/conjure_aegis,
 	)
 
 /datum/magic_aspect/hex

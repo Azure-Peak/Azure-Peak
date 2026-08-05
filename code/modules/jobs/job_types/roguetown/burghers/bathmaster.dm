@@ -29,6 +29,7 @@
 		/datum/advclass/bathmaster
 	)
 
+
 /datum/advclass/bathmaster
 	name = "Bathmaster"
 	tutorial = "You are renting out the bathhouse in a joint operation with the Innkeep. You provide security for the bathwenches and help them to find work--when you're not being a trouble-making rake that others suffer to tolerate."
@@ -58,6 +59,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/bathmaster/basic/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -81,7 +83,7 @@
 
 	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
-		H.dna.species.soundpack_m = new /datum/voicepack/male/zeth()
+		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/zeth]
 	else if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/armordress/alt
 	if(H.mind)

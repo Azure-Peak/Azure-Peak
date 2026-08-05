@@ -40,8 +40,6 @@
 	var/lootnumber = 1
 	for(i=0, i<lootnumber, i++)
 		loot.Add(pickweight(list(
-		/obj/item/book/granter/arcane_aspect/utility = 5,
-		/obj/item/book/granter/arcane_aspect/minor = 3,
 		/obj/item/book/granter/spell/bonechill = 2)))
 	return ..()
 

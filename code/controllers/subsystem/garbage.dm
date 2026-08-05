@@ -39,6 +39,7 @@ SUBSYSTEM_DEF(garbage)
 
 	var/highest_del_time = 0
 	var/highest_del_tickusage = 0
+	var/highest_del_type_string = ""
 
 	var/list/pass_counts
 	var/list/fail_counts
@@ -51,6 +52,9 @@ SUBSYSTEM_DEF(garbage)
 	var/list/reference_find_on_fail = list()
 	#endif
 
+	/// Toggle for enabling/disabling hard deletes. Objects that don't explicitly request hard deletion with this disabled will leak.
+	var/enable_hard_deletes = FALSE
+	var/list/failed_hard_deletes = list()
 
 /datum/controller/subsystem/garbage/PreInit()
 	queues = new(GC_QUEUE_COUNT)
@@ -60,6 +64,11 @@ SUBSYSTEM_DEF(garbage)
 		queues[i] = list()
 		pass_counts[i] = 0
 		fail_counts[i] = 0
+
+/datum/controller/subsystem/garbage/Initialize(start_timeofday)
+	. = ..()
+	if(CONFIG_GET(flag/hard_deletes_enabled))
+		enable_hard_deletes = TRUE
 
 /datum/controller/subsystem/garbage/stat_entry(msg)
 	var/list/counts = list()
@@ -83,27 +92,40 @@ SUBSYSTEM_DEF(garbage)
 
 /datum/controller/subsystem/garbage/Shutdown()
 	//Adds the del() log to the qdel log file
-	var/list/dellog = list()
+	var/list/del_log = list()
+
+	if(highest_del_type_string)
+		del_log += "Highest hard-delete this round: [highest_del_tickusage] ticks ([highest_del_type_string])"
 
 	//sort by how long it's wasted hard deleting
 	sortTim(items, cmp=/proc/cmp_qdel_item_time, associative = TRUE)
 	for(var/path in items)
 		var/datum/qdel_item/I = items[path]
-		dellog += "Path: [path]"
+		var/list/entry = list()
+		del_log[path] = entry
+		if (I.qdel_flags & QDEL_ITEM_SUSPENDED_FOR_LAG)
+			del_log += "\tSUSPENDED FOR LAG"
 		if (I.failures)
-			dellog += "\tFailures: [I.failures]"
-		dellog += "\tqdel() Count: [I.qdels]"
-		dellog += "\tDestroy() Cost: [I.destroy_time]ms"
+			entry["Failures"] = I.failures
+		entry["qdel() Count"] = I.qdels
+		entry["Destroy() Cost (ms)"] = I.destroy_time
+
 		if (I.hard_deletes)
-			dellog += "\tTotal Hard Deletes [I.hard_deletes]"
-			dellog += "\tTime Spent Hard Deleting: [I.hard_delete_time]ms"
+			entry["Total Hard Deletes"] = I.hard_deletes
+			entry["Time Spend Hard Deleting (ms)"] = I.hard_delete_time
+			entry["Highest Time Spent Hard Deleting (ms)"] = I.hard_delete_max
+			if (I.hard_deletes_over_threshold)
+				entry["Hard Deletes Over Threshold"] = I.hard_deletes_over_threshold
 		if (I.slept_destroy)
-			dellog += "\tSleeps: [I.slept_destroy]"
+			entry["Total Sleeps"] = I.slept_destroy
 		if (I.no_respect_force)
-			dellog += "\tIgnored force: [I.no_respect_force] times"
+			entry["Total Ignored Force"] = I.no_respect_force
 		if (I.no_hint)
-			dellog += "\tNo hint: [I.no_hint] times"
-	log_qdel(dellog.Join("\n"))
+			entry["Total No Hint"] = I.no_hint
+
+		if(LAZYLEN(I.extra_details))
+			del_log += "\tExtra Info:\n\t\t- [I.extra_details.Join("\n\t\t- ")]"
+	log_qdel("", del_log)
 
 /datum/controller/subsystem/garbage/fire()
 	//the fact that this resets its processing each fire (rather then resume where it left off) is intentional.
@@ -188,6 +210,9 @@ SUBSYSTEM_DEF(garbage)
 				#endif
 				var/type = D.type
 				var/datum/qdel_item/I = items[type]
+				var/detail = D.dump_harddel_info()
+				if(detail)
+					LAZYADD(I.extra_details, detail)
 				#ifdef TESTING
 				log_world("## TESTING: GC: -- \ref[D] | [type] was unable to be GC'd --")
 				for(var/c in GLOB.admins) //Using here would fill the logs with ADMIN_VV garbage
@@ -201,8 +226,15 @@ SUBSYSTEM_DEF(garbage)
 				continue
 				#endif
 				I.failures++
+				if(I.qdel_flags & QDEL_ITEM_SUSPENDED_FOR_LAG)
+					#ifdef LEGACY_REFERENCE_TRACKING
+					// We do not have the modern TG ref tracking PR on main
+					// This does nothing, and should not be added to until it is ported
+					#endif
+					continue
 			if (GC_QUEUE_HARDDELETE)
-				HardDelete(D)
+				if(!HardDelete(D))
+					D = null
 				if (MC_TICK_CHECK)
 					break
 				continue
@@ -230,7 +262,12 @@ SUBSYSTEM_DEF(garbage)
 	queue[++queue.len] = list(gctime, refid) // not += for byond reasons
 
 //this is mainly to separate things profile wise.
-/datum/controller/subsystem/garbage/proc/HardDelete(datum/D)
+/datum/controller/subsystem/garbage/proc/HardDelete(datum/D, override = FALSE)
+	if(!D)
+		return
+	if(!enable_hard_deletes && !override)
+		failed_hard_deletes |= D
+		return
 	var/time = world.timeofday
 	var/tick = TICK_USAGE
 	var/ticktime = world.time
@@ -238,28 +275,42 @@ SUBSYSTEM_DEF(garbage)
 	++totaldels
 	var/type = D.type
 	var/refID = "\ref[D]"
+	var/datum/qdel_item/I = items[type]
+	var/detail = D.dump_harddel_info()
+	if(detail)
+		LAZYADD(I.extra_details, detail)
 
 	del(D)
 
 	tick = (TICK_USAGE-tick+((world.time-ticktime)/world.tick_lag*100))
 
-	var/datum/qdel_item/I = items[type]
-
 	I.hard_deletes++
 	I.hard_delete_time += TICK_DELTA_TO_MS(tick)
-
-
+	if(TICK_DELTA_TO_MS(tick) > I.hard_delete_max)
+		I.hard_delete_max = TICK_DELTA_TO_MS(tick)
 	if (tick > highest_del_tickusage)
 		highest_del_tickusage = tick
+		highest_del_type_string = "[type]"
+	
 	time = world.timeofday - time
 	if (!time && TICK_DELTA_TO_MS(tick) > 1)
 		time = TICK_DELTA_TO_MS(tick)/100
 	if (time > highest_del_time)
 		highest_del_time = time
-	if (time > 10)
-		log_game("Error: [type]([refID]) took longer than 1 second to delete (took [time/10] seconds to delete)")
-		message_admins("Error: [type]([refID]) took longer than 1 second to delete (took [time/10] seconds to delete).")
+	// Vanderlin garbage.dm:319-330. `time` is deciseconds (world.timeofday delta).
+	if(time > 1) // >0.1s: postpone the GC regardless of threshold config
 		postpone(time)
+	var/threshold = CONFIG_GET(number/hard_deletes_overrun_threshold)
+	if(threshold && (time > threshold * 10)) // threshold is seconds; time is deciseconds
+		if(!(I.qdel_flags & QDEL_ITEM_ADMINS_WARNED))
+			log_game("Error: [type]([refID]) took longer than [threshold] seconds to delete (took [round(time/10, 0.1)] seconds to delete)")
+			message_admins("Error: [type]([refID]) took longer than [threshold] seconds to delete (took [round(time/10, 0.1)] seconds to delete).")
+			I.qdel_flags |= QDEL_ITEM_ADMINS_WARNED
+		I.hard_deletes_over_threshold++
+		var/overrun_limit = CONFIG_GET(number/hard_deletes_overrun_limit)
+		if(overrun_limit && I.hard_deletes_over_threshold >= overrun_limit)
+			I.qdel_flags |= QDEL_ITEM_SUSPENDED_FOR_LAG
+	return TRUE
 
 /datum/controller/subsystem/garbage/Recover()
 	if (istype(SSgarbage.queues))
@@ -274,9 +325,13 @@ SUBSYSTEM_DEF(garbage)
 	var/failures = 0		//Times it was queued for soft deletion but failed to soft delete.
 	var/hard_deletes = 0 	//Different from failures because it also includes QDEL_HINT_HARDDEL deletions
 	var/hard_delete_time = 0//Total amount of milliseconds spent hard deleting this type.
+	var/hard_delete_max = 0	//Highest time spent hard_deleting this in ms.
+	var/hard_deletes_over_threshold = 0	//Number of times hard deletes took longer than the configured threshold
 	var/no_respect_force = 0//Number of times it's not respected force=TRUE
 	var/no_hint = 0			//Number of times it's not even bother to give a qdel hint
 	var/slept_destroy = 0	//Number of times it's slept in its destroy
+	var/qdel_flags = 0		//Bitfield of QDEL_ITEM_* flags
+	var/list/extra_details	//Lazylist of string metadata about the deleted objects
 
 /datum/qdel_item/New(mytype)
 	name = "[mytype]"
@@ -287,6 +342,12 @@ SUBSYSTEM_DEF(garbage)
 /// Datums passed to this will be given a chance to clean up references to allow the GC to collect them.
 /proc/qdel(datum/D, force=FALSE, ...)
 	if(!istype(D))
+		if(isnull(D))
+			return
+		else if(islist(D))
+			stack_trace("Lists should not be directly passed to qdel! You likely want either list.Cut(), QDEL_LIST(list), QDEL_LIST_ASSOC(list), or QDEL_LIST_ASSOC_VAL(list)")
+		else if(D != world)
+			stack_trace("Tried to qdel possibly invalid value: [D]")
 		del(D)
 		return
 
@@ -327,7 +388,7 @@ SUBSYSTEM_DEF(garbage)
 			if (QDEL_HINT_HARDDEL)		//qdel should assume this object won't gc, and queue a hard delete
 				SSgarbage.Queue(D, GC_QUEUE_HARDDELETE)
 			if (QDEL_HINT_HARDDEL_NOW)	//qdel should assume this object won't gc, and hard del it post haste.
-				SSgarbage.HardDelete(D)
+				SSgarbage.HardDelete(D, override = TRUE)
 			#ifdef LEGACY_REFERENCE_TRACKING
 			if (QDEL_HINT_FINDREFERENCE) //qdel will, if LEGACY_REFERENCE_TRACKING is enabled, display all references to this object, then queue the object for deletion.
 				SSgarbage.Queue(D)

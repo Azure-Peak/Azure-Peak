@@ -9,13 +9,18 @@
 	var/list/fixed_spells = list()
 	/// Choice spells - pick exactly one. Granted FIRST (before fixed) so they appear first on the action bar.
 	var/list/choice_spells = list()
+	/// Subset of choice_spells only selectable at Mastery (T4). Still live in choice_spells for the grant/swap machinery.
+	var/list/mastery_choice_spells = list()
 	/// Pointbuy are optionals - for point buy aspect
 	var/list/pointbuy_spells = list()
 	var/pointbuy_budget = 0
+	/// When set, spells are granted in this order. Empty = legacy choice-first-then-fixed.
+	var/list/spell_order = list()
 	/// Named variant spell swaps. Assoc list: variant_name = list(base_path = replacement_path, ...)
 	/// "mastery" is automatically applied for T4 casters.
-	/// Other variants (e.g. "grenzelhoftian") are passed in via attune_aspect().
+	/// Other variants (e.g. "gefechtsgelehrter") are passed in via attune_aspect().
 	var/list/variants = list()
+	var/applied_variant
 	var/school_color
 	/// Major: Latin, English, Latin. Minor: Latin, English.
 	var/list/binding_chants = list()
@@ -39,21 +44,48 @@
 	mark_aspect_spell(new_spell)
 	target.AddSpell(new_spell)
 
+/datum/magic_aspect/proc/grant_fixed_one(datum/mind/target, spell_path)
+	if(!spell_path || target.has_spell(spell_path))
+		return null
+	var/datum/new_spell = new spell_path
+	mark_aspect_spell(new_spell)
+	target.AddSpell(new_spell)
+	return new_spell
+
 /datum/magic_aspect/proc/grant_spells(datum/mind/target)
 	var/list/granted = list()
 	for(var/spell_path in fixed_spells)
-		if(target.has_spell(spell_path))
-			continue
-		var/datum/new_spell = new spell_path
-		mark_aspect_spell(new_spell)
-		target.AddSpell(new_spell)
-		granted += new_spell
+		var/datum/new_spell = grant_fixed_one(target, spell_path)
+		if(new_spell)
+			granted += new_spell
 	return granted
+
+/// Grant this aspect's spells in spell_order (manifest) order when defined; the resolved choice pick
+/// slots in at the ASPECT_CHOICE token. Falls back to choice-first-then-fixed when no manifest is set.
+/datum/magic_aspect/proc/grant_ordered(datum/mind/target, choice_spell)
+	if(!length(spell_order))
+		if(choice_spell)
+			grant_choice_spell(target, choice_spell)
+		grant_spells(target)
+		return
+	for(var/entry in spell_order)
+		if(entry == ASPECT_CHOICE)
+			if(choice_spell)
+				grant_choice_spell(target, choice_spell)
+		else if(entry == ASPECT_POINTBUY)
+			continue
+		else
+			grant_fixed_one(target, entry)
+	for(var/spell_path in fixed_spells)
+		grant_fixed_one(target, spell_path)
+	if(choice_spell && !target.has_spell(choice_spell))
+		grant_choice_spell(target, choice_spell)
 
 /// Apply a named variant's spell swaps. T4 casters automatically get "mastery".
 /datum/magic_aspect/proc/apply_variant(datum/mind/target, variant_name)
 	if(!variant_name || !length(variants) || !(variant_name in variants))
 		return
+	applied_variant = variant_name
 	var/list/swaps = variants[variant_name]
 	if(!length(swaps))
 		return
@@ -70,23 +102,24 @@
 			// Find position in spell_list to preserve order
 			var/spell_index = target.spell_list.Find(existing)
 			target.RemoveSpell(existing)
-			var/datum/upgraded = new upgrade_path
+			var/datum/action/cooldown/spell/upgraded = new upgrade_path
 			// Tag the spell desc with variant name for display — don't change the name
-			if(istype(upgraded, /datum/action/cooldown/spell))
-				var/datum/action/cooldown/spell/S = upgraded
-				S.desc = "[S.desc]\n<b>Variant:</b> [capitalize(variant_name)]"
+			upgraded.desc = "[upgraded.desc]\n<b>Variant:</b> [capitalize(variant_name)]"
 			mark_aspect_spell(upgraded)
 			// Insert at original position instead of appending
 			if(spell_index && spell_index <= length(target.spell_list) + 1)
 				target.spell_list.Insert(spell_index, upgraded)
-				if(istype(upgraded, /datum/action/cooldown/spell))
-					var/datum/action/cooldown/spell/S = upgraded
-					S.Grant(target.current)
-				else if(istype(upgraded, /obj/effect/proc_holder/spell))
-					var/obj/effect/proc_holder/spell/S = upgraded
-					S.action.Grant(target.current)
+				upgraded.Grant(target.current)
 			else
 				target.AddSpell(upgraded)
+	target.rebuild_action_order()
+
+/// Resolve a base choice-spell path to the spell actually granted, accounting for the applied variant swap.
+/datum/magic_aspect/proc/resolve_variant_spell(base_path)
+	if(!base_path || !applied_variant || !(applied_variant in variants))
+		return base_path
+	var/list/swaps = variants[applied_variant]
+	return swaps[base_path] || base_path
 
 /// Revoke all spells granted by this aspect.
 /// skip_spells: flat list of spell paths that should NOT be removed (granted by another source).
@@ -119,15 +152,14 @@
 		if(existing)
 			target.RemoveSpell(existing)
 
-/datum/magic_aspect/proc/mark_aspect_spell(datum/spell_instance)
-	if(istype(spell_instance, /obj/effect/proc_holder/spell))
-		var/obj/effect/proc_holder/spell/S = spell_instance
-		S.refundable = FALSE
-		S.source_aspect = type
-	else if(istype(spell_instance, /datum/action/cooldown/spell))
+/proc/mark_spell_source_aspect(datum/spell_instance, aspect_path)
+	if(istype(spell_instance, /datum/action/cooldown/spell))
 		var/datum/action/cooldown/spell/S = spell_instance
 		S.refundable = FALSE
-		S.source_aspect = type
+		S.source_aspect = aspect_path
+
+/datum/magic_aspect/proc/mark_aspect_spell(datum/spell_instance)
+	mark_spell_source_aspect(spell_instance, type)
 
 /// Perform the binding or unbinding chant. Returns TRUE if completed, FALSE if interrupted.
 /// Each line is spoken aloud with a 2-second do_after between them.
@@ -141,8 +173,40 @@
 			return FALSE
 	return TRUE
 
+/datum/magic_aspect/pseudo
+	aspect_type = ASPECT_PSEUDO
+
+/datum/magic_aspect/pseudo/wards
+	name = "Warding"
+// Pseudo aspect meant for gating purpose
+
+/datum/magic_aspect/pseudo/spellblade
+	name = "Spellblade"
+
+/datum/magic_aspect/pseudo/spellfist
+	name = "Spellfist"
+
+/datum/magic_aspect/pseudo/bardic
+	name = "Bardic"
+
+/datum/magic_aspect/pseudo/vizier
+	name = "Vizier"
+
+/datum/magic_aspect/pseudo/hierophant
+	name = "Hierophant"
+
+/datum/magic_aspect/pseudo/luminary
+	name = "Luminary"
+
+/datum/magic_aspect/pseudo/desertrider
+	name = "Desert Rider"
+
+/datum/magic_aspect/pseudo/berserker
+	name = "Berserker"
+
 GLOBAL_LIST_INIT(magic_aspects_major, init_magic_aspects(ASPECT_MAJOR))
 GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
+GLOBAL_LIST_INIT(magic_aspect_singletons, init_magic_aspect_singletons())
 
 /proc/init_magic_aspects(filter_type)
 	var/list/result = list()
@@ -150,4 +214,10 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 		var/datum/magic_aspect/A = path
 		if(initial(A.aspect_type) == filter_type)
 			result += path
+	return result
+
+/proc/init_magic_aspect_singletons()
+	var/list/result = list()
+	for(var/path in subtypesof(/datum/magic_aspect))
+		result[path] = new path
 	return result

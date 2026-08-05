@@ -36,7 +36,7 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	direct			(bool)					If true plays directly to provided atoms instead of from them
 */
 /datum/looping_sound
-	var/datum/weakref/parent // weakref to the atom we belong to
+	var/atom/parent // the atom we belong to
 	var/mid_sounds
 	var/mid_length = 1
 	var/start_sound
@@ -90,7 +90,12 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 		group.last_iter++
 		channel = picked_channel
 
-	parent = WEAKREF(_parent)
+	if(start_sound && !istype(start_sound, /sound))
+		start_sound = sound(start_sound)
+
+	mid_sounds = canonize_sounds(mid_sounds)
+
+	parent = _parent
 	direct = _direct
 
 	if(_channel)
@@ -100,6 +105,21 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 
 	if(start_immediately)
 		start()
+
+/// Takes in a list of sound files, returns a list of corresponding sound datums.
+/datum/looping_sound/proc/canonize_sounds(input_sounds)
+	. = list()
+	for(var/sound_candidate in input_sounds)
+		if(isfile(sound_candidate))
+			. += sound(sound_candidate)
+		else if(istype(sound_candidate, /sound))
+			. += sound_candidate
+		else if(islist(sound_candidate))
+			. += list(canonize_sounds(sound_candidate))
+
+/datum/looping_sound/proc/set_mid_sounds(list/new_mid_sounds)
+	mid_sounds = canonize_sounds(new_mid_sounds)
+	cursound = null
 
 /datum/looping_sound/Destroy()
 	stop()
@@ -156,50 +176,38 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 //		timerid = addtimer(CALLBACK(src, PROC_REF(sound_loop), world.time), mid_length, TIMER_CLIENT_TIME | TIMER_STOPPABLE | TIMER_LOOP)
 
 /datum/looping_sound/proc/play(soundfile)
-	var/sound/S = soundfile
-	if(!istype(S))
-		S = sound(soundfile)
-	if(direct)
-		S.channel = channel
-		S.volume = volume
-	var/atom/thing = parent.resolve()
-	if (!thing)
+	if (!parent)
 		return
 
 	starttime = world.time
 
 	if(direct)
-		if(ismob(thing))
-			var/mob/mob = thing
-			if(filter_pref && mob.client)
-				if(!(mob.client.prefs.toggles & filter_pref))
-					return
-			mob.playsound_local(mob, S, volume, vary, frequency, falloff, repeat = src, channel = channel)
-	else
-		var/list/R = playsound(thing, S, volume, vary, extra_range, falloff, frequency, channel, ignore_walls = ignore_walls, repeat = src, pref_toggle = (filter_pref ? filter_pref : null))
-		if(!R || !R.len)
-			R = list()
-		for(var/datum/weakref/listener_ref in thingshearing)
-			var/mob/M = listener_ref.resolve()
-			if(!M || !M.client)
-				thingshearing -= listener_ref
-				continue
-			if(!(M in R) || M.IsSleeping())// they are out of range
-				var/list/L = M.client.played_loops[src]
-				if(L)
-					var/sound/SD = L["SOUND"]
-					if(SD)
-						if(persistent_loop)
-							L["MUTESTATUS"] = TRUE
-							L["VOL"] = 0
-							M.mute_sound(SD)
-							//M.play_ambience()
-						else
-							M.client.played_loops -= src
-							thingshearing -= listener_ref
-							M.stop_sound_channel(SD.channel)
-			else
-				on_hear_sound(M)
+		if(ismob(parent))
+			var/mob/mob = parent
+			mob.playsound_local(mob, soundfile, volume, vary, frequency, falloff, repeat = src, channel = channel)
+		return
+	var/list/R = playsound(parent, soundfile, volume, vary, extra_range, falloff, frequency, channel, ignore_walls = ignore_walls, repeat = src)
+	for(var/datum/weakref/listener_ref in thingshearing)
+		var/mob/M = listener_ref.resolve()
+		if(!M?.client)
+			thingshearing -= listener_ref
+			continue
+		if(!(M in R) || M.IsSleeping())// they are out of range
+			var/list/L = M.client.played_loops[src]
+			if(L)
+				var/sound/SD = L["SOUND"]
+				if(SD)
+					if(persistent_loop)
+						L["MUTESTATUS"] = TRUE
+						L["VOL"] = 0
+						M.mute_sound(SD)
+						//M.play_ambience()
+					else
+						M.client.played_loops -= src
+						thingshearing -= listener_ref
+						M.stop_sound_channel(SD.channel)
+		else
+			on_hear_sound(M)
 
 /datum/looping_sound/proc/on_hear_sound(mob/M)
 	if(!persistent_loop || !M?.client)
@@ -218,7 +226,7 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 
 /datum/looping_sound/proc/get_sound(starttime, _mid_sounds)
 	. = _mid_sounds || mid_sounds
-	while(!isfile(.) && !isnull(.))
+	while(islist(.) && !isnull(.))
 		. = pickweight(.)
 
 /datum/looping_sound/proc/on_start()
@@ -273,20 +281,15 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 					M.client.played_loops -= src
 					thingshearing -= listener_ref
 	else
-		var/mob/P = parent.resolve()
+		var/mob/P = parent
 		if(P && P.client)
 			P.stop_sound_channel(channel) //This is mostly used for weather
 
 /datum/looping_sound/proc/set_parent(new_parent)
-	var/atom/real_parent = parent.resolve()
-
-	if(real_parent)
-		UnregisterSignal(real_parent, COMSIG_PARENT_QDELETING)
+	if(parent)
+		UnregisterSignal(parent, COMSIG_PARENT_QDELETING)
 	if(new_parent)
-		if(istype(new_parent, /datum/weakref)) // probably shouldn't happen but it does, so?
-			var/datum/weakref/passed_weakref = new_parent
-			new_parent = passed_weakref.resolve()
-		parent = WEAKREF(new_parent)
+		parent = new_parent
 		RegisterSignal(new_parent, COMSIG_PARENT_QDELETING, PROC_REF(handle_parent_del))
 
 /datum/looping_sound/proc/handle_parent_del(datum/source)

@@ -127,14 +127,18 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			client.dsay(message)
 		return
 
-	if(message_mode == MODE_SING)
+	// autopunctuation
+	if(!client?.prefs?.no_autopunctuate)
+		message = autopunct_bare(message)
+
+	if(message_mode == MODE_SING || HAS_TRAIT(src, TRAIT_MUSES_GRACE))
 	#if DM_VERSION < 513
 		var/randomnote = "~"
 	#else
 		var/randomnote = pick("&#9835;", "&#9834;", "&#9836;")
 	#endif
 		spans |= SPAN_SINGING
-		message = "[randomnote] [message] [randomnote]"
+		message = "[randomnote] [capitalize(message)] [randomnote]"
 
 	if(stat == DEAD)
 		say_dead(original_message)
@@ -245,10 +249,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		message = uppertext(message)
 	if(!message)
 		return
-
-	// autopunctuation
-	if(!client?.prefs?.no_autopunctuate)
-		message = autopunct_bare(message)
 
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)
@@ -548,6 +548,23 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), I, speech_bubble_recipients, 30)
 
+	//Listening gets trimmed here if a vocal bark's present. If anyone ever makes this proc return listening, make sure to instead initialize a copy of listening in here to avoid wonkiness
+	if(SEND_SIGNAL(src, COMSIG_MOVABLE_QUEUE_BARK, listening, args) || vocal_bark || vocal_bark_id)
+		for(var/mob/M in listening)
+			if(!M.client)
+				continue
+			if((M.client.prefs.mute_barks))
+				listening -= M
+		var/is_yell = Zs_yell || Zs_all
+		var/barks = min(round((LAZYLEN(message) / vocal_speed)) + 1, BARK_MAX_BARKS)
+		var/total_delay = 0
+		vocal_current_bark = world.time
+		for(var/i in 1 to barks)
+			if(total_delay > BARK_MAX_TIME)
+				break
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/movable, bark), listening, message_range, (vocal_volume * (is_yell ? 1.5 : 1)), BARK_DO_VARY(vocal_pitch, vocal_pitch_range), vocal_current_bark), total_delay)
+			total_delay += rand(DS2TICKS(vocal_speed / BARK_SPEED_BASELINE), DS2TICKS(vocal_speed / BARK_SPEED_BASELINE) + DS2TICKS((vocal_speed / BARK_SPEED_BASELINE) * (is_yell ? 0.5 : 1))) TICKS
+
 /mob/proc/binarycheck()
 	return FALSE
 
@@ -649,7 +666,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		. = "stammers"
 	else if(derpspeech)
 		. = "gibbers"
-	else if(message_mode == MODE_SING)
+	else if(message_mode == MODE_SING || HAS_TRAIT(src, TRAIT_MUSES_GRACE))
 		. = verb_sing
 	else
 		. = ..()

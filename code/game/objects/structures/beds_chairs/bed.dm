@@ -34,7 +34,7 @@
 	var/mob/living/L = user
 
 	if(istype(L))
-		if(!user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+		if(!user.canUseTopic(src, BE_CLOSE, FALSE))
 			return FALSE
 		else
 			return TRUE
@@ -65,9 +65,6 @@
 			new buildstacktype(loc,buildstackamount)
 	..()
 
-/obj/structure/bed/attack_paw(mob/user)
-	return attack_hand(user)
-
 /obj/structure/bed/attackby(obj/item/W, mob/user, params)
 	if(W.tool_behaviour == TOOL_WRENCH && !(flags_1&NODECONSTRUCT_1))
 		W.play_tool_sound(src)
@@ -75,7 +72,7 @@
 	else
 		return ..()
 
-/obj/strucutre/bed/post_buckle_mob(mob/living/M)
+/obj/structure/bed/post_buckle_mob(mob/living/M)
 	. = ..()
 	M.update_cone_show()
 

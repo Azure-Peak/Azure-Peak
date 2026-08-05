@@ -41,7 +41,7 @@
 /obj/structure/flora/newtree/obj_destruction(damage_flag)//this proc is stupidly long for a destruction proc
 	var/turf/NT = get_turf(src)
 	var/turf/UPNT = get_step_multiz(src, UP)
-	src.obj_flags = CAN_BE_HIT | BLOCK_Z_IN_UP //so the logs actually fall when pulled by zfall
+	set_is_platform(FALSE) //so the logs actually fall when pulled by zfall
 	if(burnt)
 		damage_flag = "fire"
 
@@ -57,13 +57,13 @@
 				var/turf/BI = get_step(B, DI)
 				for(var/obj/structure/flora/newbranch/bi in BI)//2 tile end branch
 					if(bi.dir == DI)
-						bi.obj_flags = CAN_BE_HIT
+						bi.set_is_platform(FALSE)
 						bi.obj_destruction(damage_flag)
 					for(var/atom/bio in BI)
 						BI.zFall(bio)
 				for(var/obj/structure/flora/newleaf/bil in BI)//2 tile end leaf
 					bil.obj_destruction(damage_flag)
-				BRANCH.obj_flags = CAN_BE_HIT 
+				BRANCH.set_is_platform(FALSE)
 				BRANCH.obj_destruction(damage_flag)
 			for(var/atom/BRA in B)//unload a sack of rocks on a branch and stand under it, it'll be funny bro
 				B.zFall(BRA)
@@ -106,9 +106,13 @@
 				if(CH)
 					myskill += 1
 			used_time = max(70 - (myskill * 10) - (L.STASPD * 3), (HAS_TRAIT(L, TRAIT_WOODWALKER) ? 15 : 30))
+		if(!L.start_climb())
+			return
 		playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 		user.visible_message(span_warning("[user] starts to climb [src]."), span_warning("I start to climb [src]..."))
-		if(do_after(L, used_time, target = src))
+		var/climbed = do_after(L, used_time, target = src, extra_checks = L.climb_check_callback())
+		L.end_climb()
+		if(climbed)
 			var/pulling = user.pulling
 			if(ismob(pulling))
 				user.pulling.forceMove(target)
@@ -158,6 +162,8 @@
 		T.update_icon()
 
 /obj/structure/flora/newtree/proc/build_branches()
+	if(istype(get_turf(src), /turf/open/floor) && prob(90)) // We only want branches in the upper layers
+		return
 	for(var/D in GLOB.cardinals)
 		var/turf/NT = get_step(src, D)
 		if(istype(NT, /turf/open/transparent/openspace))
@@ -197,6 +203,86 @@
 				var/obj/structure/flora/newleaf/corner/T = new(NT)
 				T.dir = D
 
+#define ZTAG_UP "up"
+#define ZTAG_TOP "top"
+
+/obj/structure/flora/newtree/attackby(obj/item/I, mob/user, params)
+	if(user.mind && ishuman(user) && I)
+		var/mob/living/L = user
+		if(L.used_intent && L.used_intent.blade_class == BCLASS_CHOP && I.force_dynamic >= 25)
+			var/list/goobers
+			var/turf/Tsource = get_turf(src)
+			var/turf/Tzup = get_step_multiz(Tsource, UP)
+			var/turf/Tztop
+			if(Tzup)
+				Tztop = get_step_multiz(Tzup, UP)
+			if(Tzup)
+				goobers = list()
+				for(var/mob/living/carbon/human/H in get_hearers_in_range(2, Tzup, RECURSIVE_CONTENTS_CLIENT_MOBS))
+					if(!H || !ishuman(H))
+						continue
+					goobers[H] = ZTAG_UP
+			if(Tztop)
+				for(var/mob/living/carbon/human/H in get_hearers_in_range(2, Tztop, RECURSIVE_CONTENTS_CLIENT_MOBS))
+					if(!H || !ishuman(H))
+						continue
+					goobers[H] = ZTAG_TOP
+
+			if(length(goobers))
+				for(var/mob/living/carbon/human/H in goobers)
+					var/worn_ac = H.highest_ac_worn(FALSE, FALSE)
+					if(HAS_TRAIT(H, TRAIT_WOODWALKER) && worn_ac > 0)
+						var/turf/T = get_turf(H)
+						var/tossed = FALSE
+						for(var/leaf in T.contents)
+							if(istype(leaf, /obj/structure/flora/newleaf))
+								toss_a_guy(H)
+								tossed = TRUE
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+								break
+						if(tossed)
+							continue
+					if(HAS_TRAIT(H, TRAIT_WOODWALKER) && worn_ac < ARMOR_CLASS_MEDIUM)
+						continue
+					if(goobers[H] == ZTAG_TOP)
+						if(worn_ac <= ARMOR_CLASS_MEDIUM && prob(30 + (10 * (H.STALUC - 10))))
+							continue
+						toss_a_guy(H)
+						to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+					if(goobers[H] == ZTAG_UP)
+						if(worn_ac == ARMOR_CLASS_HEAVY)
+							if(prob(10))
+								continue
+							if(prob(30))
+								toss_a_guy(H)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+							else
+								H.Immobilize(2 SECONDS)
+								H.OffBalance(3 SECONDS)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+						if(worn_ac == ARMOR_CLASS_MEDIUM)
+							if(prob(40))
+								continue
+							if(prob(10))
+								toss_a_guy(H)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+							else
+								H.Immobilize(1 SECONDS)
+								H.OffBalance(1 SECONDS)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+	. = ..()
+
+#undef ZTAG_UP
+#undef ZTAG_TOP
+
+/obj/structure/flora/newtree/proc/toss_a_guy(mob/living/carbon/human/H)
+	H.Knockdown(2 SECONDS)
+	H.Stun(2 SECONDS)
+	var/dir = pick(GLOB.alldirs)
+	var/range = rand(2, 3)
+	var/turf/T_throw = get_ranged_target_turf(H, dir, range)
+	H.safe_throw_at(T_throw, range, 1, H, force = MOVE_FORCE_EXTREMELY_STRONG)
+	to_chat(H, span_boldwarning("THE TREE SHIFTS UNDERNEATH! I LOST MY BALANCE!"))
 
 ///BRANCHES
 

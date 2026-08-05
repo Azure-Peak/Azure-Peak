@@ -5,7 +5,7 @@
 	volume = 100
 	falloff = 2
 	extra_range = 5
-	var/stress2give = /datum/stressevent/music
+	var/stress2give = /datum/stressevent/music/musicbox
 	persistent_loop = TRUE
 	channel = CHANNEL_CMUSIC
 
@@ -124,8 +124,7 @@
 	if(!playing)
 		if(curfile)
 			playing = TRUE
-			soundloop.mid_sounds = list(curfile)
-			soundloop.cursound = null
+			soundloop.set_mid_sounds(list(curfile))
 			soundloop.start()
 	else
 		playing = FALSE

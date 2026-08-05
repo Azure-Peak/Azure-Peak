@@ -41,14 +41,15 @@
 		var/mob/living/L = the_target
 		if(living_mob.summoner && living_mob.summoner == the_target.name) // won't attack whomever summoned it
 			return FALSE
-		if(faction_check(living_mob, L) || L.stat)
+		// Short circuits the expensive faction check call if they are dead
+		if(L.stat || faction_check(living_mob, L))
 			return FALSE
 		return TRUE
 
 	return FALSE
 
 /datum/targetting_datum/basic/proc/faction_check(mob/living/living_mob, mob/living/the_target)
-	return living_mob.faction_check_mob(the_target, exact_match = FALSE)
+	return living_mob.faction_check_mob(the_target, FALSE)
 
 /// Subtype which doesn't care about faction
 /// Mobs which retaliate but don't otherwise target seek should just attack anything which annoys them
@@ -56,3 +57,20 @@
 
 /datum/targetting_datum/basic/ignore_faction/faction_check(mob/living/living_mob, mob/living/the_target)
 	return FALSE
+
+GLOBAL_DATUM_INIT(conjured_targetting, /datum/targetting_datum/basic/conjured, new)
+
+/datum/targetting_datum/basic/conjured
+
+/datum/targetting_datum/basic/conjured/can_attack(mob/living/living_mob, atom/the_target)
+	. = ..()
+	if(!.)
+		return FALSE
+	var/datum/component/conjured_minion/comp = living_mob.GetComponent(/datum/component/conjured_minion)
+	if(!comp)
+		return TRUE
+	var/mob/living/summoner = comp.summoner_ref?.resolve()
+	if(!summoner || summoner.z != living_mob.z)
+		return TRUE
+	if(get_dist(the_target, summoner) > comp.leash_range + 1)
+		return FALSE

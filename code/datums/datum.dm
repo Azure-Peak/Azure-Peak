@@ -57,6 +57,10 @@
 	var/last_find_references = 0
 #endif
 
+	// If we have called dump_harddel_info already. Used to avoid duped calls (since we call it immediately in some cases on failure to process)
+	// Create and destroy is weird and I wanna cover my bases
+	var/harddel_deets_dumped = FALSE
+
 #ifdef DATUMVAR_DEBUGGING_MODE
 	var/list/cached_vars
 #endif
@@ -130,9 +134,15 @@
 			if(length(comps))
 				for(var/i in comps)
 					var/datum/component/comp = i
+					if(!comp)
+						stack_trace("null entry in comp_lookup\[[sig]\] on [type] during clear_signal_refs - upstream RegisterSignal/UnregisterSignal corruption")
+						continue
 					comp.UnregisterSignal(src, sig)
 			else
 				var/datum/component/comp = comps
+				if(!comp)
+					stack_trace("null scalar in comp_lookup\[[sig]\] on [type] during clear_signal_refs - upstream RegisterSignal/UnregisterSignal corruption")
+					continue
 				comp.UnregisterSignal(src, sig)
 		comp_lookup = lookup = null
 
@@ -167,16 +177,24 @@
 #endif
 
 ///Return a LIST for serialize_datum to encode! Not the actual json!
-/datum/proc/serialize_list(list/options)
-	CRASH("Attempted to serialize datum [src] of type [type] without serialize_list being implemented!")
+///Return a LIST for serialize_datum to encode! Not the actual json!
+/datum/proc/serialize_list(list/options, list/semvers)
+	SHOULD_CALL_PARENT(TRUE)
 
-///Accepts a LIST from deserialize_datum. Should return src or another datum.
+	. = list()
+	.["tag"] = tag
+
+	SET_SERIALIZATION_SEMVER(semvers, "1.0.0")
+	return .
+
+///Accepts a LIST from deserialize_datum. Should return whether or not the deserialization was successful.
 /datum/proc/deserialize_list(json, list/options)
-	CRASH("Attempted to deserialize datum [src] of type [type] without deserialize_list being implemented!")
+	SHOULD_CALL_PARENT(TRUE)
+	return TRUE
 
 ///Serializes into JSON. Does not encode type.
 /datum/proc/serialize_json(list/options)
-	. = serialize_list(options)
+	. = serialize_list(options, list())
 	if(!islist(.))
 		. = null
 	else
@@ -222,13 +240,12 @@
 				return
 		else if(!ispath(jsonlist["DATUM_TYPE"], target_type))
 			return
-	var/typeofdatum = jsonlist["DATUM_TYPE"]			//BYOND won't directly read if this is just put in the line below, and will instead runtime because it thinks you're trying to make a new list?
+	var/typeofdatum = jsonlist["DATUM_TYPE"] //BYOND won't directly read if this is just put in the line below, and will instead runtime because it thinks you're trying to make a new list?
 	var/datum/D = new typeofdatum
-	var/datum/returned = D.deserialize_list(jsonlist, options)
-	if(!istype(returned, /datum))
+	if(!D.deserialize_list(jsonlist, options))
 		qdel(D)
 	else
-		return returned
+		return D
 
 /**
   * Callback called by a timer to end an associative-list-indexed cooldown.
@@ -264,3 +281,16 @@
 /// Returns whether a type is an abstract type.
 /proc/is_abstract(datum/datum_type)
 	return (initial(datum_type.abstract_type) == datum_type)
+
+/// Return text from this proc to provide extra context to hard deletes that happen to it
+/// Optional, you should use this for cases where replication is difficult and extra context is required
+/// Can be called more then once per object, use harddel_deets_dumped to avoid duplicate calls (I am so sorry)
+/datum/proc/dump_harddel_info()
+	return
+
+///images are pretty generic, this should help a bit with tracking harddels related to them
+/image/dump_harddel_info()
+	if(harddel_deets_dumped)
+		return
+	harddel_deets_dumped = TRUE
+	return "Image icon: [icon] - icon_state: [icon_state] [loc ? "loc: [loc] ([loc.x],[loc.y],[loc.z])" : ""]"

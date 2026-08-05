@@ -265,7 +265,9 @@
 	var/turf/T = get_turf(owner)
 	new /obj/effect/temp_visual/bleed/explode(T)
 	for(var/d in GLOB.alldirs)
-		new /obj/effect/temp_visual/dir_setting/bloodsplatter(T, d)
+		var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(T, d)
+		var/mob/living/L = owner
+		splatter.set_blood_color(L?.get_blood_color())
 	playsound(T, "desceration", 100, TRUE, -1)
 
 /datum/status_effect/neck_slice
@@ -873,7 +875,7 @@
 	name = "Vulnerable"
 	desc = "A mistake. I can be hit through my parry and dodge to a lighter effect!"
 	icon_state = "vulnerable"
-	icon = 'icons/mob/combat_debuffs.dmi'
+	icon = 'icons/mob/screen_alert_combat.dmi'
 
 /datum/status_effect/debuff/vulnerable
 	id = "nofeintlite"

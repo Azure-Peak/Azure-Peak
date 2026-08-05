@@ -39,14 +39,14 @@
 	name = "Egg"
 	cost = 20
 	contains = list(
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
 				)
 
 /datum/supply_pack/rogue/food/coffee
@@ -129,6 +129,16 @@
 	contains = list(
 					/obj/item/reagent_containers/food/snacks/sugar,
 					/obj/item/reagent_containers/food/snacks/sugar,
+					/obj/item/reagent_containers/food/snacks/sugar,
+					/obj/item/reagent_containers/food/snacks/sugar,
+					/obj/item/reagent_containers/food/snacks/sugar,
+				)
+
+/datum/supply_pack/rogue/food/allspice
+	name = "Allspice"
+	cost = 50 //about double the price of its crafting ingredients
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/allspice,
 				)
 
 /datum/supply_pack/rogue/food/chocolate

@@ -3,109 +3,113 @@
 	slot = MOB_DESCRIPTOR_SLOT_STATURE
 
 /datum/mob_descriptor/stature/man
-	name = "Man/Woman"
+	name = "Man"
 
-/datum/mob_descriptor/stature/man/get_description(mob/living/described)
-	switch(described.pronouns)
-		if(SHE_HER)
-			return "woman"
-		if(HE_HIM)
-			return "man"
-		if(THEY_THEM)
-			return "person"
-		else
-			return "creacher"
+/datum/mob_descriptor/stature/woman
+	name = "Woman"
 
+/datum/mob_descriptor/stature/person
+	name = "Person"
 
 /datum/mob_descriptor/stature/gentleman
-	name = "Gentleman/Gentlewoman"
-/datum/mob_descriptor/stature/gentleman/get_description(mob/living/described)
-	switch(described.pronouns)
-		if(SHE_HER)
-			return "gentlewoman"
-		if(HE_HIM)
-			return "gentleman"
-		if(THEY_THEM)
-			return "gentleperson"
-		else
-			return "gentlecreacher"
+	name = "Gentleman"
+
+/datum/mob_descriptor/stature/gentlewoman
+	name = "Gentlewoman"
+
+/datum/mob_descriptor/stature/gentleperson
+	name = "Gentleperson"
+
 /datum/mob_descriptor/stature/patriarch
-	name = "Patriarch/Matriarch"
-/datum/mob_descriptor/stature/patriarch/get_description(mob/living/described)
-	switch(described.pronouns)
-		if(SHE_HER)
-			return "matriarch"
-		if(HE_HIM)
-			return "patriarch"
-		if(THEY_THEM)
-			return "hierarch"
-		else
-			return "hierarch"
+	name = "Patriarch"
+
+/datum/mob_descriptor/stature/matriarch
+	name = "Matriarch"
+
+/datum/mob_descriptor/stature/hierarch
+	name = "Hierarch"
+
 /datum/mob_descriptor/stature/hag
-	name = "Hag/Codger"
-/datum/mob_descriptor/stature/hag/get_description(mob/living/described)
-	switch(described.pronouns)
-		if(SHE_HER)
-			return "hag"
-		if(HE_HIM)
-			return "codger"
-		if(THEY_THEM)
-			return "senior"
-		else
-			return "elder"
+	name = "Hag"
+
+/datum/mob_descriptor/stature/codger
+	name = "Codger"
+
+/datum/mob_descriptor/stature/senior
+	name = "Senior"
+
+/datum/mob_descriptor/stature/elder
+	name = "Elder"
+
 /datum/mob_descriptor/stature/villain
-	name = "Villain/Villainess"
-/datum/mob_descriptor/stature/villain/get_description(mob/living/described)
-	switch(described.pronouns)
-		if(SHE_HER)
-			return "villainess"
-		if(HE_HIM)
-			return "villain"
-		if(THEY_THEM)
-			return "antagonist"
-		else
-			return "antagonist"
+	name = "Villain"
+
+/datum/mob_descriptor/stature/villainess
+	name = "Villainess"
+
+/datum/mob_descriptor/stature/antagonist
+	name = "Antagonist"
 
 /datum/mob_descriptor/stature/thug
 	name = "Thug"
+
 /datum/mob_descriptor/stature/knave
 	name = "Knave"
+
 /datum/mob_descriptor/stature/wench
 	name = "Wench"
+
 /datum/mob_descriptor/stature/snob
 	name = "Snob"
+
 /datum/mob_descriptor/stature/slob
 	name = "Slob"
+
 /datum/mob_descriptor/stature/brute
 	name = "Brute"
+
 /datum/mob_descriptor/stature/highbrow
 	name = "Highbrow"
+
 /datum/mob_descriptor/stature/scholar
 	name = "Scholar"
+
 /datum/mob_descriptor/stature/rogue
 	name = "Rogue"
+
 /datum/mob_descriptor/stature/hermit
 	name = "Hermit"
+
 /datum/mob_descriptor/stature/pushover
 	name = "Pushover"
+
 /datum/mob_descriptor/stature/beguiler
 	name = "Beguiler"
+
 /datum/mob_descriptor/stature/daredevil
 	name = "Daredevil"
+
 /datum/mob_descriptor/stature/valiant
 	name = "Valiant"
+
 /datum/mob_descriptor/stature/adventurer
 	name = "Adventurer"
+
 /datum/mob_descriptor/stature/fiend
 	name = "Fiend"
+
 /datum/mob_descriptor/stature/stoic
 	name = "Stoic"
+
 /datum/mob_descriptor/stature/stooge
 	name = "Stooge"
+
 /datum/mob_descriptor/stature/fool
 	name = "Fool"
+
 /datum/mob_descriptor/stature/bookworm
 	name = "Bookworm"
+
 /datum/mob_descriptor/stature/lowlife
 	name = "Lowlife"
 
@@ -239,3 +243,107 @@
 
 /datum/mob_descriptor/stature/swashbuckler
 	name = "Swashbuckler"
+
+/datum/mob_descriptor/stature/harlot
+	name = "Harlot"
+
+/datum/mob_descriptor/stature/strumpet
+	name = "Strumpet"
+
+/datum/mob_descriptor/stature/hussy
+	name = "Hussy"
+
+/datum/mob_descriptor/stature/slattern
+	name = "Slattern"
+
+/datum/mob_descriptor/stature/gourmand
+	name = "Gourmand"
+
+/datum/mob_descriptor/stature/sovereign
+	name = "Sovereign"
+
+/datum/mob_descriptor/stature/savage
+	name = "Savage"
+
+/datum/mob_descriptor/stature/drifter
+	name = "Drifter"
+
+/datum/mob_descriptor/stature/fanatic
+	name = "Fanatic"
+
+/datum/mob_descriptor/stature/maniac
+	name = "Maniac"
+
+/datum/mob_descriptor/stature/provocateur
+	name = "Provocateur"
+
+/datum/mob_descriptor/stature/scavenger
+	name = "Scavenger"
+
+/datum/mob_descriptor/stature/pariah
+	name = "Pariah"
+
+/datum/mob_descriptor/stature/fugitive
+	name = "Fugitive"
+
+/datum/mob_descriptor/stature/cutpurse
+	name = "Cutpurse"
+
+/datum/mob_descriptor/stature/anarchist
+	name = "Anarchist"
+
+/datum/mob_descriptor/stature/warlord
+	name = "Warlord"
+
+/datum/mob_descriptor/stature/drunkard
+	name = "Drunkard"
+
+/datum/mob_descriptor/stature/moron
+	name = "Moron"
+
+/datum/mob_descriptor/stature/simpleton
+	name = "Simpleton"
+
+/datum/mob_descriptor/stature/bitch
+	name = "Bitch"
+
+/datum/mob_descriptor/stature/numbskull
+	name = "Numbskull"
+
+/datum/mob_descriptor/stature/gambler
+	name = "Gambler"
+
+/datum/mob_descriptor/stature/reprobate
+	name = "Reprobate"
+
+/datum/mob_descriptor/stature/spendthrift
+	name = "Spendthrift"
+
+/datum/mob_descriptor/stature/liability
+	name = "Liability"
+
+/datum/mob_descriptor/stature/idiot
+	name = "Idiot"
+
+/datum/mob_descriptor/stature/lamb
+	name = "Lamb"
+
+/datum/mob_descriptor/stature/assailant
+	name = "Assailant"
+
+/datum/mob_descriptor/stature/survivor
+	name = "Survivor"
+
+/datum/mob_descriptor/stature/custom
+	var/custom_index
+
+/datum/mob_descriptor/stature/custom/can_describe(mob/living/described)
+	return length(described.custom_descriptors) >= custom_index
+
+/datum/mob_descriptor/stature/custom/get_description(mob/living/described)
+	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	return entry.content_text
+
+/datum/mob_descriptor/stature/custom/ten
+	name = "Custom Stature"
+	custom_index = 10

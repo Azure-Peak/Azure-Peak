@@ -3,8 +3,8 @@
  * @copyright 2020 Aleksej Komarov
  * @license MIT
  */
-import React from "react";
-import { Box, Section, Tooltip } from "tgui-core/components";
+import type React from 'react';
+import type { Box, Section, Tooltip } from 'tgui-core/components';
 /**
  * Re-exports props from tgui-core so we can freely use them in our wrappers.
  */
@@ -17,7 +17,5 @@ export type TooltipProps = React.ComponentProps<typeof Tooltip>;
  * Re-exports everything from this folder
  */
 
-
 export { Interactive } from './Interactive';
-export { NanoMap } from './NanoMap';
 export { Pointer } from './Pointer';

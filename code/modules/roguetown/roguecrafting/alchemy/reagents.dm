@@ -9,8 +9,11 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
 	var/list/wCount = M.get_wounds()
@@ -25,9 +28,23 @@
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
+/datum/reagent/medicine/healthpot/zarum/blood
+	name = "Blackened Sludge"
+	description = "A fairly disgusting, bubbling mess of an unknown origin that seems to be constantly fermenting onto itself, exhuding a foul smell."
+	color = "#241a1a"
+	taste_description = "sins of Otava"
+	scent_description = "dark darker yet darker"
+
+/datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
+	name = "Honeyed Zarum"
+	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."
+	color = "#dd9700"
+	taste_description = "sweet-sour fish-glazed honey"
+	scent_description = "sweet fermented pungence"
+
 /datum/reagent/medicine/healthpot/zarum
 	name = "Zarum"
-	description = "A fermented sauce of fish innards and vinegear, which gradually regenerates all types of damage."
+	description = "A fermented sauce of fish innards and vinegar, which gradually regenerates all types of damage."
 	reagent_state = LIQUID
 	color = "#891305"
 	var/nutriment_factor = 16
@@ -38,6 +55,8 @@
 	var/hydration = 4
 
 /datum/reagent/medicine/healthpot/zarum/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
@@ -59,12 +78,15 @@
 /datum/reagent/medicine/stronghealth
 	name = "Strong Health Potion"
 	description = "Quickly regenerates all types of damage."
-	color = "#820000be"
+	color = "#820000"
 	taste_description = "rich lifeblood"
 	scent_description = "metal"
 	metabolization_rate = REAGENTS_METABOLISM * 2
+	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/stronghealth, 2) //No overhealing.
 	var/list/wCount = M.get_wounds()
@@ -90,6 +112,7 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/strongmana, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/manapot/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
@@ -103,15 +126,46 @@
 	taste_description = "raw power"
 	scent_description = "berries"
 	metabolization_rate = REAGENTS_METABOLISM * 3
+	conflicting_reagent_types = list(/datum/reagent/medicine/manapot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/strongmana/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(120)
 	..()
 
+/datum/reagent/medicine/restoration
+	name = "Restoration Potion"
+	description = "Simultaneously regenerates health and energy. Inherits a higher potency than common lifeblood and manna, but remains inferior to stronger brews."
+	color = "#ff8da1"
+	taste_description = "reinvigorative creaminess"
+	scent_description = "strawberries in liqour"
+	metabolization_rate = REAGENTS_METABOLISM * 2
+	// Restoration is a hybrid of the health and mana families, so it conflicts with both.
+	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
+
+/datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		return ..()
+	if(volume >= 60)
+		M.reagents.remove_reagent(/datum/reagent/medicine/restoration, 2) //No overhealing.
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(3)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-3, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1.75 * REAGENTS_EFFECT_MULTIPLIER)
+	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
+		M.energy_add(60)
+	..()
+
+// Stamina potion no longer grant green bar directly which led to it being far too powerful when abused
 /datum/reagent/medicine/stampot
-	name = "Stamina Potion"
-	description = "Gradually regenerates stamina."
+	name = "Fortitude Potion"
+	description = "Hardens the humors against fatigue, granting Fortitude for a short while."
 	reagent_state = LIQUID
 	color = "#129c00"
 	taste_description = "sweet tea"
@@ -119,30 +173,28 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/strongstam)
 
 /datum/reagent/medicine/stampot/on_mob_life(mob/living/carbon/M)
-	if(volume >= 60)
-		M.reagents.remove_reagent(/datum/reagent/medicine/stampot, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
-	if(volume > 0.99)
-		M.stamina_add(-20)
-	..()
-	. = 1
+	if(volume > 0)
+		M.apply_status_effect(/datum/status_effect/buff/alch/statbuff/fortitude, volume * 20 SECONDS)
+		holder.remove_reagent(type, volume)
+	return TRUE
 
 /datum/reagent/medicine/strongstam
-	name = "Strong Stamina Potion"
-	description = "Rapidly regenerates stamina."
+	name = "Strong Fortitude Potion"
+	description = "Rapidly hardens the humors against fatigue, granting Fortitude for a short while."
 	color = "#13df00"
 	taste_description = "sparkly static"
 	scent_description = "grass"
 	metabolization_rate = REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/stampot)
 
 /datum/reagent/medicine/strongstam/on_mob_life(mob/living/carbon/M)
-	if(volume >= 60)
-		M.reagents.remove_reagent(/datum/reagent/medicine/strongstam, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
-	if(volume > 0.99)
-		M.stamina_add(-50)
-	..()
-	. = 1
+	if(volume > 0)
+		M.apply_status_effect(/datum/status_effect/buff/alch/statbuff/fortitude, volume * 40 SECONDS)
+		holder.remove_reagent(type, volume)
+	return TRUE
 
 /** Design Note: Antidotes are meant to last as long as the poison, and purge them much quicker
  Having a 1 to 1 antidote to poison where you have to tailor defense to an increasing amount of attack
@@ -152,12 +204,13 @@
 **/
 /datum/reagent/medicine/antidote
 	name = "Antidote"
-	description = ""
+	description = "Gradually purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#00ff00"
 	taste_description = "sickly sweet"
 	scent_description = "medicine"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/strong_antidote)
 
 /datum/reagent/medicine/antidote/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
@@ -172,12 +225,13 @@
 // About 3 time as potent as antidote
 /datum/reagent/medicine/strong_antidote
 	name = "Strong Antidote"
-	description = ""
+	description = "Rapidly purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#004200"
 	taste_description = "dirt"
 	scent_description = "medicine"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/antidote)
 
 /datum/reagent/medicine/strong_antidote/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
@@ -188,21 +242,24 @@
 	..()
 	. = 1
 
-/* Buff potions
-	Previously, it would apply a status effect to the mob lasting for 93 / 300 seconds and remove everything
-	However it meant that putting it in an alchemical vial was a trap as it sipped 9 units instead of 5 units that is the required minimum.
-	And removed any excessive potion inside the body. This has been changed to apply a 3 seconds buff to the mob, but have much lower
-	metabolization rate, so that the duration of the buff depends on how long you last.
-	Roughly tested. At Metabolization Rate 1. 10 units sip (1/3 of a vial) last 20 seconds.
-	To make this somewhat equal to the old system, base metabolization rate is 0.1 - making it last 200 seconds - 600 seconds if you sip an entire vial.
-	This is 2x on weaker potions (Intelligence, Fortune). However, overdose threshold is now 30 units so you can only drink one vial at once.
-	And potion stacking is not possible without neutralizing itself.
-*/
 /datum/reagent/buff
 	description = ""
 	reagent_state = LIQUID
 	metabolization_rate = REAGENTS_METABOLISM * 0.1
 	overdose_threshold = 33
+	// All stat buffs conflict with each other: only one buff potion's effect can be active at a time.
+	// (Self is excluded by the purge logic, so a buff never purges itself despite matching its own parent type.)
+	conflicting_reagent_types = list(/datum/reagent/buff)
+	var/buff_type
+	var/duration_per_unit = 1 MINUTES
+
+/datum/reagent/buff/on_mob_life(mob/living/carbon/M)
+	if(!buff_type)
+		return ..()
+	if(volume > 0)
+		M.apply_status_effect(buff_type, volume * duration_per_unit)
+		holder.remove_reagent(type, volume)
+	return TRUE
 
 /datum/reagent/buff/overdose_process(mob/living/carbon/M)
 	. = ..()
@@ -210,83 +267,74 @@
 	if(!HAS_TRAIT(M, TRAIT_CRACKHEAD)) // Baothan get to stack more of one potion in their body, but not multiple
 		M.adjustToxLoss(3)
 
-/datum/reagent/buff/on_mob_life(mob/living/carbon/M)
-	for(var/datum/reagent/R in M.reagents.reagent_list)
-		if(istype(R, /datum/reagent/buff) && R != src)
-			holder.remove_reagent(R.type, 10)
-			// Rapidly purge stacking buffs
-	..()
-
 /datum/reagent/buff/strength
 	name = STATKEY_STR
 	color = "#ff9000"
 	taste_description = "old meat"
 	scent_description = "meat"
-
-/datum/reagent/buff/strength/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/strengthpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/strengthpot
 
 /datum/reagent/buff/perception
 	name = STATKEY_PER
 	color = "#ffff00"
 	taste_description = "cat piss"
 	scent_description = "urine"
-	metabolization_rate = REAGENTS_METABOLISM * 0.05
-
-/datum/reagent/buff/perception/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/perceptionpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/perceptionpot
 
 /datum/reagent/buff/intelligence
 	name = STATKEY_INT
 	color = "#438127"
 	taste_description = "bog water"
 	scent_description = "moss"
-	metabolization_rate = REAGENTS_METABOLISM * 0.05
-
-/datum/reagent/buff/intelligence/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/intelligencepot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/intelligencepot
 
 /datum/reagent/buff/constitution
 	name = STATKEY_CON
 	color = "#130604"
 	taste_description = "bile"
 	scent_description = "vomit"
-
-/datum/reagent/buff/constitution/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/constitutionpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/constitutionpot
 
 /datum/reagent/buff/endurance
 	name = STATKEY_WIL
 	color = "#ffff00"
 	taste_description = "oversweetened milk"
-
-/datum/reagent/buff/endurance/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/endurancepot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/endurancepot
 
 /datum/reagent/buff/speed
 	name = STATKEY_SPD
 	color = "#ffff00"
 	taste_description = "raw egg yolk"
 	scent_description = "sweat"
-
-/datum/reagent/buff/speed/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/speedpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/speedpot
 
 /datum/reagent/buff/fortune
 	name = STATKEY_LCK
 	color = "#ffff00"
 	taste_description = "sour lemons"
 	scent_description = "citrus"
-	metabolization_rate = REAGENTS_METABOLISM * 0.05
+	buff_type = /datum/status_effect/buff/alch/statbuff/fortunepot
 
-/datum/reagent/buff/fortune/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/fortunepot)
+/* Ruined Potion
+	When two conflicting potions end up in the same container (or the same body),
+	they neutralize each other into this useless sludge.
+*/
+/datum/reagent/ruined_potion
+	name = "Odd water"
+	description = "A foul mess of conflicting alchemical essences that tried to push nature too far. Utterly useless."
+	reagent_state = LIQUID
+	color = "#6b5d4f" // muddy brownish-green
+	taste_description = "bitter failure"
+	scent_description = "rancid alchemical waste"
+	metabolization_rate = REAGENTS_METABOLISM
+	overdose_threshold = 0
+	can_synth = FALSE 
+
+/datum/reagent/ruined_potion/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NASTY_EATER))
+		return
+	if(volume > 0.99)
+		M.add_nausea(2) // Drinking ruined potions is unpleasant but not dangerous.
 	return ..()
 
 //Poisons
@@ -379,6 +427,17 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 		M.add_nausea(9)
 		M.adjustToxLoss(2)
 	return ..()
+
+/datum/reagent/sleep_powder
+	name = "Sleep Poison"
+	description = ""
+	color = "#ddd3df" // rgb: 96, 165, 132
+	metabolization_rate = 1
+	taste_description = "numbing mintiness"
+
+/datum/reagent/sleep_powder/on_mob_metabolize(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/debuff/knockout)
+	..()
 
 /datum/reagent/stampoison
 	name = "Stamina Poison"

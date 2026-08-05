@@ -266,7 +266,7 @@
 		return FALSE
 
 /datum/keybinding/living/search
-	hotkey_keys = list("ShiftG")
+	hotkey_keys = list() // Unbound by default; ShiftG was freed for the spell alt-mode toggle. Rebind to taste.
 	name = "search"
 	full_name = "Search"
 	description = "Search the area around you for hidden items or compartments."

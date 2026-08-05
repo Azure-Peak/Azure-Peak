@@ -8,8 +8,8 @@
 	var/last_use_time = 0
 	var/use_cooldown = 300 // 30 seconds
 	var/list/active_skeletons = list() //List of active skeletons stored here.
-	var/max_summons = 2 //Maximum amount of skeletons that can be summoned at one time.
-	var/max_charges = 2 //Maximum amount of charges the crystal can hold.
+	var/max_summons = 6 //Maximum amount of skeletons that can be summoned at one time.
+	var/max_charges = 3 //Maximum amount of charges the crystal can hold.
 	var/current_charges = 2
 	grid_height = 32
 	grid_width = 32
@@ -109,6 +109,7 @@
 	target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "GREATER SKELETON"), 3 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, select_skeleton_features)), 7 SECONDS)
 
 	if(current_charges <= 0)
 		to_chat(user, span_notice("The crystal dims, its power spent."))
@@ -116,7 +117,7 @@
 		to_chat(user, span_notice("The crystal's glow lessens. [current_charges] use\s remain."))
 
 	user.flash_fullscreen("redflash1")
-	playsound(src, "shatter", 50, TRUE)
+	playsound(src, "sound/magic/fleshtostone.ogg", 50, TRUE)
 
 	return TRUE
 

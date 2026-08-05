@@ -7,8 +7,9 @@
 	can_blockade = TRUE
 	category = FACTION_CAT_UNDEAD
 	mob_types = list(
-		/mob/living/carbon/human/species/skeleton/npc/mediumspread = 50,
-		/mob/living/carbon/human/species/skeleton/npc/hardspread = 50,
+		/mob/living/carbon/human/species/skeleton/npc/mediumspread = 45,
+		/mob/living/carbon/human/species/skeleton/npc/hardspread = 40,
+		/mob/living/carbon/human/species/skeleton/npc/archer = 15,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/skeleton/npc/dungeon/lich = 100,

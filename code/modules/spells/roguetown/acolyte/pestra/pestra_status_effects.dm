@@ -47,6 +47,8 @@
 	return ..()
 
 /datum/status_effect/buff/divine_rebirth_healing/tick()
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
 	var/time_progress = (duration - time_left) / duration
 	time_left -= tick_interval
 	// This shouldn't ever dip below 5, but let's use MAX for safety anyways
@@ -55,20 +57,18 @@
 	H.color = outline_colour
 	do_sprite_shake(owner, 3, 3, 15, 1)
 
-	if(!owner.construct)
-		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-			owner.blood_volume = min(owner.blood_volume + healing_strength, BLOOD_VOLUME_NORMAL)
-
-		var/list/wounds = owner.get_wounds()
-		if(length(wounds) > 0)
-			owner.heal_wounds(healing_strength)
-			owner.update_damage_overlays()
-		owner.adjustBruteLoss(-healing_strength, 0)
-		owner.adjustFireLoss(-healing_strength, 0)
-		owner.adjustOxyLoss(-healing_strength, 0)
-		owner.adjustToxLoss(-healing_strength, 0)
-		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_strength)
-		owner.adjustCloneLoss(-healing_strength, 0)
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume + healing_strength, BLOOD_VOLUME_NORMAL)
+	var/list/wounds = owner.get_wounds()
+	if(length(wounds) > 0)
+		owner.heal_wounds(healing_strength)
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(-healing_strength, 0)
+	owner.adjustFireLoss(-healing_strength, 0)
+	owner.adjustOxyLoss(-healing_strength, 0)
+	owner.adjustToxLoss(-healing_strength, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_strength)
+	owner.adjustCloneLoss(-healing_strength, 0)
 
 	if(ishuman(owner) && limbs_regenerated < max_limbs_to_regenerate)
 		var/mob/living/carbon/human/human_owner = owner
@@ -127,28 +127,28 @@
 	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_strength, src)
 
 /datum/status_effect/buff/pestra_care/tick()
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = effect_colour
 
-	if(!owner.construct)
-		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-			owner.blood_volume = min(owner.blood_volume + healing_strength, BLOOD_VOLUME_NORMAL)
-
-		var/list/wounds = owner.get_wounds()
-		if(length(wounds) > 0)
-			owner.heal_wounds(healing_strength)
-			owner.update_damage_overlays()
-		owner.adjustBruteLoss(-healing_strength, 0)
-		owner.adjustFireLoss(-healing_strength, 0)
-		owner.adjustOxyLoss(-healing_strength, 0)
-		owner.adjustToxLoss(-healing_strength, 0)
-		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_strength)
-		owner.adjustCloneLoss(-healing_strength, 0)
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume + healing_strength, BLOOD_VOLUME_NORMAL)
+	var/list/wounds = owner.get_wounds()
+	if(length(wounds) > 0)
+		owner.heal_wounds(healing_strength)
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(-healing_strength, 0)
+	owner.adjustFireLoss(-healing_strength, 0)
+	owner.adjustOxyLoss(-healing_strength, 0)
+	owner.adjustToxLoss(-healing_strength, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_strength)
+	owner.adjustCloneLoss(-healing_strength, 0)
 
 /atom/movable/screen/alert/status_effect/buff/pestra_care
 	name = "Pestra's embrace"
 	desc = "It's like something is wriggling around inside of me, but it's making me feel better..."
-	icon_state = "divine_heal"
+	icon_state = "buff"
 
 #define PLAGUE_GLOW_FILTER "plague_glow_filter"
 
@@ -208,7 +208,7 @@
 /datum/status_effect/black_rot_debility
 	id = "black_rot_debility"
 	alert_type = /atom/movable/screen/alert/status_effect/black_rot_debility
-	duration = 50 SECONDS
+	duration = 15 SECONDS
 	effectedstats = list(
 		STATKEY_CON = -1,
 		STATKEY_STR = -1

@@ -11,6 +11,8 @@
 	///This can be a list OR a soundfile OR null. Determines whatever sound gets played.
 	var/footstep_sounds
 	var/last_sound
+	///keen_footstep effects currently marking our position for listeners.
+	var/list/active_prints
 
 /datum/component/footstep/Initialize(footstep_type_ = FOOTSTEP_MOB_BAREFOOT, volume_ = 0.5, e_range_ = -1)
 	if(!isliving(parent))
@@ -35,6 +37,10 @@
 		if(FOOTSTEP_MOB_SLIME)
 			footstep_sounds = 'sound/blank.ogg'
 	RegisterSignal(parent, list(COMSIG_MOVABLE_MOVED), PROC_REF(play_simplestep)) //Note that this doesn't get called for humans.
+
+/datum/component/footstep/Destroy(force, silent)
+	clear_prints()
+	return ..()
 
 ///Prepares a footstep. Determines if it should get played. Returns the turf it should get played on. Note that it is always a /turf/open
 /datum/component/footstep/proc/prepare_step()
@@ -98,48 +104,82 @@
 	playsound(T, pick(footstep_sounds[turf_footstep][1]), footstep_sounds[turf_footstep][2], FALSE, footstep_sounds[turf_footstep][3] + e_range)
 
 /datum/component/footstep/proc/play_humanstep()
-	var/turf/open/T = prepare_step()
-	if(!T)
+	var/turf/open/step_location = prepare_step()
+	if(!step_location)
 		return
 	if(HAS_TRAIT(parent, TRAIT_SILENT_FOOTSTEPS))
 		return
-	var/mob/living/carbon/human/H = parent
-	var/feetCover = (H.wear_armor && (H.wear_armor.body_parts_covered & FEET)) || (H.wear_pants && (H.wear_pants.body_parts_covered & FEET))
-
+	var/mob/living/carbon/human/human_parent = parent
+	var/feetCover = (human_parent.wear_armor?.body_parts_covered | human_parent.wear_pants?.body_parts_covered) & FEET
 	var/used_sound
 	var/list/used_footsteps
-	var/obj/item/clothing/shoes/humshoes = H.shoes
+	var/obj/item/clothing/shoes/humshoes = human_parent.shoes
+	var/used_volume = 0
+	var/used_extra_range = 0
+	var/do_vary = FALSE
+	var/feet_covered = ((istype(humshoes) && !humshoes?.is_barefoot) || feetCover)
+	// decide between normal or bare step sounds based on shoe and armor coverage
+	var/list/used_step_list = feet_covered ? GLOB.footstep : GLOB.barefootstep
+	var/turf_used_step = feet_covered ? step_location.footstep : step_location.barefootstep
+	var/list/step_data = used_step_list[turf_used_step]
+	//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
+	if((LAZYLEN(step_data) < 3))
+		testing("SOME silly guy GAVE AN INVALID [feet_covered ? "FOOTSTEP" : "BAREFOOTSTEP"] VALUE ([turf_used_step]) TO [step_location.type]!!! FIX THIS SHIT!!!")
+		return
+	used_footsteps = step_data[1]
+	used_volume = step_data[2]
+	used_extra_range = step_data[3]
+	do_vary = !feet_covered // only barefoot gets the pitch variation
+	// this is fine without an explicit copy because it doesn't mutate the existing list
+	used_sound = pick(used_footsteps - last_sound) || last_sound
+	last_sound = used_sound
 
-	if((istype(humshoes) && !humshoes?.is_barefoot) || feetCover) //are we wearing shoes, and do they actually cover the sole
-		//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
-		if(!GLOB.footstep[T.footstep] || (LAZYLEN(GLOB.footstep[T.footstep]) < 3))
-			return
-		used_footsteps = GLOB.footstep[T.footstep][1]
-		used_footsteps = used_footsteps.Copy()
-		used_sound = pick_n_take(used_footsteps)
-		if(used_sound == last_sound)
-			if(used_footsteps.len)
-				used_sound = pick(used_footsteps)
-		if(!used_sound)
-			used_sound = last_sound
-		last_sound = used_sound
-		playsound(T, used_sound,
-			GLOB.footstep[T.footstep][2],
-			FALSE,
-			GLOB.footstep[T.footstep][3] + e_range)
-	else
-		//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
-		if(!GLOB.barefootstep[T.barefootstep] || (LAZYLEN(GLOB.barefootstep[T.barefootstep]) < 3))
-			return
-		used_footsteps = GLOB.barefootstep[T.barefootstep][1]
-		used_footsteps = used_footsteps.Copy()
-		used_sound = pick_n_take(used_footsteps)
-		if(used_sound == last_sound)
-			used_sound = pick(used_footsteps)
-		if(!used_sound)
-			used_sound = last_sound
-		last_sound = used_sound
-		playsound(T, used_sound,
-			GLOB.barefootstep[T.barefootstep][2],
-			TRUE,
-			GLOB.barefootstep[T.barefootstep][3] + e_range)
+	if(humshoes)
+		var/datum/component/item_equipped_movement_rustle/RSTL = humshoes.GetComponent(/datum/component/item_equipped_movement_rustle)
+		var/override_sound = FALSE
+		if(humshoes.stepnoise_flag & STEPNOISE_HEELS)	// Bit shoddy workaround, but this will still reveal all the footsteps to keen ears.
+			switch(turf_used_step)
+				if(FOOTSTEP_FLOOR, FOOTSTEP_STONE, FOOTSTEP_PLATING, FOOTSTEP_WOOD, FOOTSTEP_LAVA)
+					override_sound = TRUE
+		if(humshoes.stepnoise_flag & STEPNOISE_NONE)
+			override_sound = TRUE
+		if(override_sound)
+			used_sound = 'sound/blank.ogg'
+		if(RSTL)
+			RSTL.set_override(override_sound ? FALSE : TRUE)
+
+	var/list/heard = playsound(step_location, used_sound,
+		volume * used_volume,
+		do_vary,
+		used_extra_range + e_range)
+	reveal_footstep(step_location, heard)
+
+/datum/component/footstep/proc/reveal_footstep(turf/T, list/heard)
+	clear_prints()
+	if(!length(heard))
+		return
+	var/mob/living/mover = parent
+	for(var/mob/living/listener in heard)
+		if(listener == mover)
+			continue
+		if(!listener.client || listener.stat != CONSCIOUS)
+			continue
+		if(!HAS_TRAIT(listener, TRAIT_KEENEARS) && !vision_obscured(listener))
+			continue
+		if(!vision_obscured(listener) && listener.can_see_cone(mover))
+			continue
+		var/obj/effect/temp_visual/keen_footstep/print = new(T, listener, mover.dir)
+		LAZYADD(active_prints, print)
+		RegisterSignal(print, COMSIG_PARENT_QDELETING, PROC_REF(on_print_deleted))
+
+///A print we were tracking got deleted on its own (e.g. its turf was destroyed); drop our reference.
+/datum/component/footstep/proc/on_print_deleted(obj/effect/temp_visual/keen_footstep/print)
+	SIGNAL_HANDLER
+	LAZYREMOVE(active_prints, print)
+
+///Wipes the footprints marking our previous position.
+/datum/component/footstep/proc/clear_prints()
+	for(var/obj/effect/temp_visual/keen_footstep/print as anything in active_prints)
+		UnregisterSignal(print, COMSIG_PARENT_QDELETING) //Unregister first so qdel doesn't mutate active_prints while we iterate it.
+		qdel(print)
+	active_prints = null

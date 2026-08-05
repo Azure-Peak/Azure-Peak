@@ -60,7 +60,7 @@
  */
 /datum/tgui/New(mob/user, datum/src_object, interface, title, ui_x, ui_y)
 	log_tgui(user,
-		"new [interface] fancy [TRUE]",
+		"new [interface]",
 		src_object = src_object)
 	src.user = user
 	src.src_object = src_object
@@ -101,7 +101,6 @@
 	if(!window.is_ready())
 		window.initialize(
 			strict_mode = TRUE,
-			fancy = TRUE, // user.client.prefs.read_preference(/datum/preference/toggle/tgui_fancy),
 			assets = list(
 				get_asset_datum(/datum/asset/simple/tgui),
 			))
@@ -161,7 +160,7 @@
  * public
  *
  * Closes all ByondUI elements, left dangling by a forceful TGUI exit,
- * such as via Alt+F4, closing in non-fancy mode, or terminating the process
+ * such as via Alt+F4, closing or terminating the process
  *
  */
 /datum/tgui/proc/terminate_byondui_elements()
@@ -251,6 +250,8 @@
  * return list
  */
 /datum/tgui/proc/get_payload(custom_data, with_data, with_static_data)
+	if(!user?.client)
+		return list()
 	var/list/json_data = list()
 	json_data["config"] = list(
 		"title" = title,
@@ -263,9 +264,9 @@
 		"window" = list(
 			"key" = window_key,
 			"size" = window_size,
-			"fancy" = user.client.prefs.tgui_fancy,
 			"locked" = user.client.prefs.tgui_lock,
 			"theme" = user.client.prefs.tgui_theme,
+			"parchment_skin" = user.client.prefs.parchment_skin,
 			"scale" = TRUE,
 		),
 		"client" = list(

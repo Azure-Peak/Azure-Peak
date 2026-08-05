@@ -575,7 +575,7 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 		platform.horizontal_speed = 0.1
 		base_horizontal_speed = 0.1
 		horizontal_speed = 0.1
-		platform.obj_flags &= ~BLOCK_Z_OUT_DOWN
+		platform.set_is_platform(FALSE)
 		platform.alpha = 0
 		for(var/atom/movable/movable in platform.lift_load)
 			if(ismob(movable))
@@ -589,7 +589,7 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 
 		for(var/obj/structure/industrial_lift/tram/moving_platform in platform.moving_lifts)
 			moving_platform.horizontal_speed = 0.1
-			moving_platform.obj_flags &= ~BLOCK_Z_OUT_DOWN
+			moving_platform.set_is_platform(FALSE)
 			moving_platform.alpha = 0
 
 /datum/lift_master/tram/proc/show_tram()
@@ -598,7 +598,7 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 		platform.horizontal_speed = 4
 		base_horizontal_speed = 4
 		horizontal_speed = 4
-		platform.obj_flags |= BLOCK_Z_OUT_DOWN
+		platform.set_is_platform(TRUE)
 		platform.alpha = 255
 		for(var/atom/movable/movable in objects_pre_alpha)
 			movable.alpha = objects_pre_alpha[movable]
@@ -608,7 +608,7 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 
 		for(var/obj/structure/industrial_lift/tram/moving_platform in platform.moving_lifts)
 			moving_platform.horizontal_speed = 4
-			moving_platform.obj_flags |= BLOCK_Z_OUT_DOWN
+			moving_platform.set_is_platform(TRUE)
 			moving_platform.alpha = 255
 
 /datum/lift_master/tram/proc/try_process_order()

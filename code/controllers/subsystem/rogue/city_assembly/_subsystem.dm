@@ -144,6 +144,8 @@ SUBSYSTEM_DEF(city_assembly)
 		return FALSE
 	if(HAS_TRAIT(user, TRAIT_ALDERMAN_CENSURED))
 		return FALSE
+	if(user.job in ASSEMBLY_OFFICE_INELIGIBLE_JOBS)
+		return FALSE
 	return TRUE
 
 /datum/controller/subsystem/city_assembly/proc/get_vote_weight(mob/living/carbon/human/user)
@@ -302,7 +304,6 @@ SUBSYSTEM_DEF(city_assembly)
 		"[prefix]The Alderman's seat has been vacated - the citizenry must choose anew at the next session.",
 		ASSEMBLY_ANNOUNCE_TITLE,
 		'sound/misc/royal_decree.ogg',
-		"Town Crier",
 	)
 
 /datum/controller/subsystem/city_assembly/proc/refresh_warrant()
@@ -340,6 +341,17 @@ SUBSYSTEM_DEF(city_assembly)
 	log_game("CITY ASSEMBLY WARRANT: defense -[amount]p by [key_name(actor)] ([reason]). Remaining: [current_warrant.defense_remaining]p.")
 	return TRUE
 
+/datum/controller/subsystem/city_assembly/proc/refund_defense(amount, mob/actor, reason = "")
+	if(amount <= 0)
+		return FALSE
+	if(!current_warrant)
+		return FALSE
+	if(!resolve_get_alderman())
+		return FALSE
+	current_warrant.defense_remaining = min(current_warrant.defense_daily_cap, current_warrant.defense_remaining + amount)
+	log_game("CITY ASSEMBLY WARRANT: defense +[amount]p refunded by [key_name(actor)] ([reason]). Remaining: [current_warrant.defense_remaining]p.")
+	return TRUE
+
 /datum/controller/subsystem/city_assembly/proc/is_alderman(mob/user)
 	var/mob/current = resolve_get_alderman()
 	return current && current == user
@@ -350,6 +362,5 @@ SUBSYSTEM_DEF(city_assembly)
 		body,
 		ASSEMBLY_ANNOUNCE_TITLE,
 		'sound/misc/royal_decree.ogg',
-		"Town Crier",
 		strip_html = FALSE,
 	)

@@ -65,13 +65,6 @@
 	reagent_type = /datum/reagent/medicine/strong_antidote
 	required_volume = 30
 
-/datum/trade_good/potion/strength
-	id = TRADE_GOOD_STRENGTH_POTION
-	name = "Strength Potion - 30dr bottle"
-	base_price = SELLPRICE_BUFF_POTION
-	reagent_type = /datum/reagent/buff/strength
-	required_volume = 30
-
 /datum/trade_good/potion/perception
 	id = TRADE_GOOD_PERCEPTION_POTION
 	name = "Perception Potion - 30dr bottle"

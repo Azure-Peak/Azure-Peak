@@ -15,15 +15,36 @@
 	see_in_dark = 6
 	move_to_delay = 8
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/swine/hog
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2, /obj/item/alch/sinew = 2, /obj/item/natural/bone = 4, /obj/item/alch/viscera = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
-						/obj/item/reagent_containers/food/snacks/fat = 2, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 3, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2, /obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 6,
-						/obj/item/reagent_containers/food/snacks/fat = 4, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 4, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2, /obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2)//We get fat instead of hide - pig hide is terrible for much of anything.
+	botched_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
+		/obj/item/alch/sinew = 2,
+		/obj/item/natural/bone = 4,
+		/obj/item/alch/viscera = 1,
+	)
+	butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 1,
+		/obj/item/reagent_containers/food/snacks/fat = 2,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 3,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2,
+	)
+	perfect_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 6,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 2,
+		/obj/item/reagent_containers/food/snacks/fat = 4,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 4,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2,
+	)//We get fat instead of hide - pig hide is terrible for much of anything.
 
 	health = 140
 	maxHealth = 140
-	food_type = list(/obj/item/reagent_containers/food/snacks/grown/oat,/obj/item/reagent_containers/food/snacks/grown/potato/rogue,/obj/item/reagent_containers/food/snacks/rogue/meat)//Omnivores / Give me your öats bröther for I am starving.
+	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat,/obj/item/reagent_containers/food/snacks/grown/oat,/obj/item/reagent_containers/food/snacks/grown/potato/rogue,/obj/item/reagent_containers/food/snacks/rogue/meat)//Omnivores / Give me your öats bröther for I am starving.
 	tame_chance = 25
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
@@ -137,11 +158,32 @@
 	speak_chance = 1
 	turns_per_move = 5
 	see_in_dark = 6
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2, /obj/item/alch/sinew = 2, /obj/item/natural/bone = 4, /obj/item/alch/viscera = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
-						/obj/item/reagent_containers/food/snacks/fat = 2, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 3, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2, /obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 6,
-						/obj/item/reagent_containers/food/snacks/fat = 4, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 4, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2, /obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2)//We get fat instead of hide - pig hide is terrible for much of anything.
+	botched_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
+		/obj/item/alch/sinew = 2,
+		/obj/item/natural/bone = 4,
+		/obj/item/alch/viscera = 1,
+	)
+	butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 1,
+		/obj/item/reagent_containers/food/snacks/fat = 2,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 3,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2,
+	)
+	perfect_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 6,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 2,
+		/obj/item/reagent_containers/food/snacks/fat = 4,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 4,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2,
+	)//We get fat instead of hide - pig hide is terrible for much of anything.
 	faction = list(FACTION_PIGS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_same = 0
@@ -155,7 +197,7 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
-	food_type = list(/obj/item/reagent_containers/food/snacks/grown/oat,/obj/item/reagent_containers/food/snacks/grown/potato/rogue,/obj/item/reagent_containers/food/snacks/rogue/meat)//Omnivores / Give me your öats bröther for I am starving.
+	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat,/obj/item/reagent_containers/food/snacks/grown/oat,/obj/item/reagent_containers/food/snacks/grown/potato/rogue,/obj/item/reagent_containers/food/snacks/rogue/meat)//Omnivores / Give me your öats bröther for I am starving.
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
 	STACON = 15

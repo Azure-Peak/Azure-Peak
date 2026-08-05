@@ -94,7 +94,7 @@
 	if(!activated)
 		activated = TRUE
 		density = FALSE
-		opacity = FALSE
+		set_opacity(FALSE)
 
 /obj/structure/dungeontool/mover //moves mobs and objs in the dir, checks every 1.5 seconds, used for monster closet
 	name = "mob mover"

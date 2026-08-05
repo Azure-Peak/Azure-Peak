@@ -4,7 +4,7 @@
 	/// Time until transformation completes
 	var/transformation_time
 	var/message_cooldown_time
-	var/message_cooldown_amount = 20 SECONDS
+	var/message_cooldown_amount = 40 SECONDS //Total of 8 messages if we somehow go the entire length infected
 	/// Whether this infection came from a living host (Aka, did we die and get infected that way?)
 	var/infected_wake = FALSE
 	// Doesn't hurt making this a static list.
@@ -16,6 +16,9 @@
 		"I keep hearing whispers. Is she calling for me?",
 		"My joints ache with a strange stiffness. It hurts to move.",
 		"My mind is fraying, who am I?",
+		"My skin is forming patches of decay and necrosis. I feel like I'm being eaten from the inside out.",
+		"I feel a horrible headache, the world spins around me briefly",
+		"A brief urge to bite into something floods my mind, before I collect myself again.",
 		"I can feel my pulse slowing. I've never felt this calm.",
 		"There's a strange numbness spreading through my limbs, I'm bleeding but I can't tell where.",
 		"I can smell my own flesh, it smells foul."
@@ -26,6 +29,7 @@
 	transformation_time = world.time + time_to_transform
 	message_cooldown_time = world.time + message_cooldown_amount
 	infected_wake = infected_wake_flag
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, "zombie_infection_traits") //Creepy ambience during Infection.
 
 /datum/status_effect/zombie_infection/tick()
 	if(QDELETED(owner))
@@ -51,6 +55,7 @@
 		H.zombie_check_can_convert()
 		var/datum/antagonist/zombie/zombie_antag = H.mind?.has_antag_datum(/datum/antagonist/zombie)
 		if(zombie_antag && !zombie_antag.has_turned)
+			H.visible_message(span_warning("[H] suddenly collapses as a blackened oily-like substance drips out of their eyes and mouth."))
 			zombie_antag.wake_zombie(infected_wake)
 			owner.remove_status_effect(/datum/status_effect/zombie_infection)
 
@@ -73,10 +78,14 @@
 	H.vomit(1, blood = TRUE, stun = FALSE)
 	return TRUE
 
+/datum/status_effect/zombie_infection/on_remove() //For trait/stat debuffs potentally in future to be removed via
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, "zombie_infection_traits")
+
 /atom/movable/screen/alert/status_effect/zombie_infection
 	name = "Zombie Infection"
 	desc = "You feel a coldness spreading through your body. You're turning into one of -them-!"
-	icon_state = "zombie"
+	icon_state = "poison"
 
 // Updated proc to use status effect
 /mob/living/carbon/human/proc/attempt_zombie_infection(mob/living/carbon/human/source, infection_type, wake_delay = 0)

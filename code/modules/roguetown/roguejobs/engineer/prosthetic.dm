@@ -159,7 +159,6 @@
 	max_damage = 20
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	sellprice = 30
 	fingers = FALSE //can't swing weapons but can pick stuff up and punch
 	anvilrepair = /datum/skill/craft/carpentry
 	dismember_wound = /datum/wound/bruise/large
@@ -179,7 +178,6 @@
 	max_integrity = 300
 	brute_reduction = 5
 	burn_reduction = 5
-	sellprice = 30
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/iron
 
@@ -198,7 +196,6 @@
 	max_integrity = 300
 	brute_reduction = 10
 	burn_reduction = 10
-	sellprice = 40
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/steel
 
@@ -217,7 +214,6 @@
 	max_damage = 110
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 350
-	sellprice = 30
 	fingers = TRUE // it acts like a normal arm
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/bronze
@@ -237,7 +233,6 @@
 	w_class = WEIGHT_CLASS_BULKY
 	max_integrity = 300
 	fingers = TRUE
-	sellprice = 70
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
 
@@ -258,7 +253,6 @@
 	max_damage = 40
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	sellprice = 30
 	fingers = FALSE //can't swing weapons but can pick stuff up and punch
 	anvilrepair = /datum/skill/craft/carpentry
 	dismember_wound = /datum/wound/bruise/large
@@ -278,7 +272,6 @@
 	max_integrity = 300
 	brute_reduction = 5
 	burn_reduction = 5
-	sellprice = 30
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/iron
 
@@ -297,7 +290,6 @@
 	max_integrity = 300
 	brute_reduction = 10
 	burn_reduction = 10
-	sellprice = 40
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/steel
 
@@ -316,7 +308,6 @@
 	max_damage = 110
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 350
-	sellprice = 30
 	fingers = TRUE // it acts like a normal arm
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/bronze
@@ -336,7 +327,6 @@
 	w_class = WEIGHT_CLASS_BULKY
 	max_integrity = 300
 	fingers = TRUE
-	sellprice = 70
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
 
@@ -359,9 +349,9 @@
 	brute_reduction = 0
 	burn_reduction = 0
 	max_damage = 40
+	organ_slowdown = 0.05 // -5%
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	sellprice = 30
 	anvilrepair = /datum/skill/craft/carpentry
 	dismember_wound = /datum/wound/bruise/large
 
@@ -377,10 +367,9 @@
 	max_damage = 150
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.2
+	organ_slowdown = 0.2 // -20%
 	brute_reduction = 5
 	burn_reduction = 5
-	sellprice = 30
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/iron
 
@@ -396,10 +385,9 @@
 	max_damage = 200
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.1
+	organ_slowdown = 0.1 // -10%
 	brute_reduction = 10
 	burn_reduction = 10
-	sellprice = 40
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/steel
 
@@ -417,7 +405,7 @@
 	max_damage = 220
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 350
-	sellprice = 30
+	organ_slowdown = 0.15 // -15%
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/bronze
 
@@ -434,7 +422,6 @@
 	w_class = WEIGHT_CLASS_BULKY
 	max_integrity = 300
 	organ_slowdown = 0
-	sellprice = 70
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
 
@@ -453,9 +440,9 @@
 	brute_reduction = 0
 	burn_reduction = 0
 	max_damage = 40
+	organ_slowdown = 0.05 // -5%
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	sellprice = 30
 	anvilrepair = /datum/skill/craft/carpentry
 	dismember_wound = /datum/wound/bruise/large
 
@@ -472,10 +459,9 @@
 	max_damage = 150
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.2
+	organ_slowdown = 0.2 // -20%
 	brute_reduction = 5
 	burn_reduction = 5
-	sellprice = 30
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/iron
 
@@ -492,10 +478,9 @@
 	max_damage = 200
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
-	organ_slowdown = 1.1
+	organ_slowdown = 0.1 // -10%
 	brute_reduction = 10
 	burn_reduction = 10
-	sellprice = 40
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/steel
 
@@ -514,7 +499,7 @@
 	max_damage = 220
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 350
-	sellprice = 30
+	organ_slowdown = 0.15 // -15%
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/bronze
 
@@ -532,7 +517,6 @@
 	w_class = WEIGHT_CLASS_BULKY
 	max_integrity = 300
 	organ_slowdown = 0
-	sellprice = 70
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
 

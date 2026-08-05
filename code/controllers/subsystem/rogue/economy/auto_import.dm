@@ -50,6 +50,7 @@
 /// have rolled, so auto-import sees fresh daily pace and current price_mods.
 /datum/controller/subsystem/treasury/proc/run_auto_import_tick()
 	auto_import_daily_spent = 0
+	dirty_auto_import_view()
 	var/list/today_lines = list()
 
 	for(var/good_id in AUTO_IMPORT_ESSENTIALS)
@@ -69,6 +70,7 @@
 	))
 	if(length(auto_import_daily_history) > AUTO_IMPORT_HISTORY_DAYS)
 		auto_import_daily_history.Cut(1, length(auto_import_daily_history) - AUTO_IMPORT_HISTORY_DAYS + 1)
+	dirty_auto_import_view()
 
 /datum/controller/subsystem/treasury/proc/process_auto_import_for_good(good_id, list/today_lines)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]

@@ -120,9 +120,6 @@
 /datum/language_holder/alien
 	languages = list(/datum/language/xenocommon)
 
-/datum/language_holder/monkey
-	languages = list(/datum/language/monkey)
-
 /datum/language_holder/swarmer
 	languages = list(/datum/language/swarmer)
 

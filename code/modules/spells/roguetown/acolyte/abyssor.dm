@@ -491,8 +491,8 @@
 	. = ..()
 	var/turf/T = get_turf(targets[1])
 	if(isopenturf(T))
-		if(!user.mind.has_spell(/obj/effect/proc_holder/spell/invoked/minion_order))
-			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+		if(!user.mind.has_spell(/datum/action/cooldown/spell/minion_order))
+			user.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 		QDEL_NULL(summoned)
 		summoned = new /mob/living/simple_animal/hostile/retaliate/rogue/mossback(T, user, townercrab)
 		return TRUE

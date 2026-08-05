@@ -104,12 +104,11 @@
 
 // These spells can only be gotten from the "Guide for Advanced Mimery series" for Mime Traitors.
 
-/obj/effect/proc_holder/spell/targeted/forcewall/mime
+/obj/effect/proc_holder/spell/targeted/mime/blockade
 	name = "Invisible Blockade"
 	desc = ""
 	school = "mime"
 	panel = "Mime"
-	wall_type = /obj/effect/forcefield/mime/advanced
 	invocation_type = "emote"
 	invocation_emote_self = "<span class='notice'>I form a blockade in front of myself.</span>"
 	recharge_time = 600
@@ -121,8 +120,18 @@
 
 	action_icon_state = "invisible_blockade"
 	action_background_icon_state = "bg_mime"
+	var/wall_type = /obj/effect/forcefield/mime/advanced
 
-/obj/effect/proc_holder/spell/targeted/forcewall/mime/Click()
+/obj/effect/proc_holder/spell/targeted/mime/blockade/cast(list/targets, mob/user = usr)
+	new wall_type(get_turf(user))
+	if(user.dir == SOUTH || user.dir == NORTH)
+		new wall_type(get_step(user, EAST))
+		new wall_type(get_step(user, WEST))
+	else
+		new wall_type(get_step(user, NORTH))
+		new wall_type(get_step(user, SOUTH))
+
+/obj/effect/proc_holder/spell/targeted/mime/blockade/Click()
 	if(usr && usr.mind)
 		if(!usr.mind.miming)
 			to_chat(usr, "<span class='warning'>I must dedicate myself to silence first!</span>")
@@ -133,7 +142,7 @@
 	..()
 
 /obj/item/book/granter/spell/mimery_blockade
-	spell = /obj/effect/proc_holder/spell/targeted/forcewall/mime
+	spell = /obj/effect/proc_holder/spell/targeted/mime/blockade
 	spellname = "Invisible Blockade"
 	name = "Guide to Advanced Mimery Vol 1"
 	desc = ""

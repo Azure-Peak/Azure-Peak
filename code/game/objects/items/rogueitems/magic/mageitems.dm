@@ -57,7 +57,7 @@
 	var/chosen_keyword
 
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user))
+	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		to_chat(user, span_cult("Nothing comes in mind to draw with the chalk."))
 		return
 
@@ -128,7 +128,7 @@
 	filter(type="drop_shadow", x=0, y=0, size=2, offset=1, color=rgb(128, 0, 128, 1))
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user))
+	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		return
 	if(!is_bled)
 		playsound(loc, get_sfx("genslash"), 100, TRUE)
@@ -331,6 +331,7 @@
 	name = "sending stone"
 	desc = "One of a pair of sending stones."
 	var/obj/item/natural/stone/sending/paired_with
+	obj_flags = UNIQUE_RENAME
 
 /obj/item/natural/stone/sending/attack_self(mob/user)
 	var/input_text = input(user, "Enter your message:", "Message")

@@ -26,12 +26,10 @@
 	/// subtrees via their own planning_subtrees list.
 	planning_subtrees = list(
 		// /datum/ai_planning_subtree/pet_planning, - TEMP COMMENT OUT
+		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/call_for_help,
 		/datum/ai_planning_subtree/generic_break_restraints,
-		/datum/ai_planning_subtree/use_powder,
-		/datum/ai_planning_subtree/use_bandage,
 		/datum/ai_planning_subtree/use_throwable,
-		/datum/ai_planning_subtree/use_healing_drink,
 		/datum/ai_planning_subtree/generic_wield,
 		/datum/ai_planning_subtree/kick_attack,
 		/datum/ai_planning_subtree/generic_resist,
@@ -117,14 +115,15 @@
 		BB_ARCHER_NPC_EQUIPMENT_CACHE_EXPIRY = 0,
 		BB_ARCHER_NPC_TARGET_ARROW = null,
 		BB_ARCHER_NPC_STASHED_WEAPON = null,
+		BB_ARCHER_NPC_NEXT_SHOT = 0,
+		BB_ARCHER_NPC_REPOSITION_TURF = null,
+		BB_ARCHER_NPC_REPOSITION_UNTIL = 0,
 	)
 	planning_subtrees = list(
+		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/call_for_help,
 		/datum/ai_planning_subtree/generic_break_restraints,
-		/datum/ai_planning_subtree/use_powder,
-		/datum/ai_planning_subtree/use_bandage,
 		/datum/ai_planning_subtree/use_throwable,
-		/datum/ai_planning_subtree/use_healing_drink,
 		/datum/ai_planning_subtree/generic_wield,
 		/datum/ai_planning_subtree/kick_attack,
 		/datum/ai_planning_subtree/generic_resist,
@@ -142,3 +141,26 @@
 		/datum/ai_planning_subtree/retrieve_arrows,
 		/datum/ai_planning_subtree/loot,
 	)
+
+
+/proc/npc_technique_cd(mob/living/user, base_cd)
+	if(HAS_TRAIT(user, TRAIT_CONJURED_SUMMON))
+		return base_cd / 1.5
+	return base_cd
+
+// Make it so that every other human NPC in view attacking the same target inherits the cooldown, so that they cannot be chained.
+/proc/propagate_technique_cd(mob/living/user, atom/target, bb_key, cd_end, specialcd_duration = 0)
+	if(!target)
+		return
+	for(var/mob/living/carbon/human/ally in view(5, user))
+		if(ally == user || ally.client || ally.stat == DEAD)
+			continue
+		var/datum/ai_controller/AC = ally.ai_controller
+		if(!istype(AC, /datum/ai_controller/human_npc))
+			continue
+		if(AC.blackboard[BB_BASIC_MOB_CURRENT_TARGET] != target)
+			continue
+		if(bb_key)
+			AC.set_blackboard_key(bb_key, max(AC.blackboard[bb_key] || 0, cd_end))
+		if(specialcd_duration)
+			ally.apply_status_effect(/datum/status_effect/debuff/specialcd, specialcd_duration)

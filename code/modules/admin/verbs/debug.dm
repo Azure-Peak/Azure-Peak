@@ -16,7 +16,6 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Toggle Debug Two") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
-
 /* 21st Sept 2010
 Updated by Skie -- Still not perfect but better!
 Stuff you can't do:
@@ -26,7 +25,7 @@ Because if you select a player mob as owner it tries to do the proc for
 But you can call procs that are of type /mob/living/carbon/human/proc/ for that player.
 */
 /client/proc/cmd_admin_animalize(mob/M in GLOB.mob_list)
-	set category = "-GameMaster-"
+	set category = "Game Master"
 	set name = "Make Simple Animal"
 
 	if(!SSticker.HasRoundStarted())
@@ -69,7 +68,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "Delete All") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_assume_direct_control(mob/M in GLOB.mob_list)
-	set category = "-Admin-"
+	set category = "Admin.Admin"
 	set name = "Direct control..."
 	set desc = ""
 
@@ -88,7 +87,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Assume Direct Control") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_areatest(on_station)
-	set category = "Mapping"
+	set category = "Debug.Mapping"
 	set name = "Test Areas"
 
 	var/list/dat = list()
@@ -201,18 +200,18 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 
 /client/proc/cmd_admin_areatest_station()
-	set category = "Mapping"
+	set category = "Debug.Mapping"
 	set name = "Test Areas (STATION Z)"
 	cmd_admin_areatest(TRUE)
 
 /client/proc/cmd_admin_areatest_all()
-	set category = "Mapping"
+	set category = "Debug.Mapping"
 	set name = "Test Areas (ALL)"
 	cmd_admin_areatest(FALSE)
 
 /client/proc/cmd_admin_dress(mob/M in GLOB.mob_list)
-	set category = "-GameMaster-"
-	set name = "Select Loadout"
+	set category = "Game Master"
+	set name = "Loadout Manager"
 	if(!(ishuman(M) || isobserver(M)))
 		alert("Invalid mob")
 		return
@@ -276,6 +275,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	body += "<b>Apply Components:</b><br>"
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_stats;target=[REF(H)]'>Apply Stats</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_equipment_spells;target=[REF(H)]'>Apply Equipment/Spells</A> | "
+	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=add_remove_spell;target=[REF(H)]'>Add/Remove Spell</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_skills;target=[REF(H)]'>Apply Skills</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_traits;target=[REF(H)]'>Apply Traits</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_examine_title;target=[REF(H)]'>Apply Examine Title</A><br>"
@@ -581,7 +581,9 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			if(alert(usr, "This will reset [H.name] to a blank state, removing all equipment, skills, examine title, traits, and resetting stats. Continue?", "Confirm Clean Slate", "Yes", "No") == "Yes")
 				clean_slate_mob(H)
 				show_loadout_panel(H)
-	
+		if("add_remove_spell")
+			add_remove_spell(H)
+			show_loadout_panel(H)
 	return TRUE
 
 /client/proc/robust_dress_shop()
@@ -773,6 +775,9 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	// Call after_spawn if job exists (latejoin=TRUE to skip spawn protection and ready-up bonuses)
 	if(job_datum && hascall(job_datum, "after_spawn"))
 		H.islatejoin = TRUE  // Mark as latejoin to prevent ready-up bonuses
+		job_datum.announce_latejoin = FALSE 
+		job_datum.hidden_job = TRUE
+		job_datum.show_in_credits = FALSE
 		job_datum.after_spawn(H, H, TRUE)
 	
 	// Call after_spawn for migrant roles if it exists
@@ -784,7 +789,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	
 	// Clean up any advclass selection hugbox state that may have been applied by after_spawn
 	// This must happen AFTER after_spawn since that proc may apply hugbox for advclass selection
-	H.advsetup = 0
+	H.set_advsetup(FALSE)
 	H.invisibility = 0
 	H.cure_blind("advsetup")
 	if(H.status_flags & GODMODE)
@@ -1120,7 +1125,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	
 	// Clear spells and aspect config if they have a mind
 	if(H.mind)
-		for(var/obj/effect/proc_holder/spell/S in H.mind.spell_list)
+		for(var/S in H.mind.spell_list)
 			H.mind.RemoveSpell(S)
 		H.mind.mage_aspect_config = null
 		H.mind.major_aspects = null
@@ -1360,12 +1365,16 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		if (I.hard_deletes)
 			dellog += "<li>Total Hard Deletes [I.hard_deletes]</li>"
 			dellog += "<li>Time Spent Hard Deleting: [I.hard_delete_time]ms</li>"
+			dellog += "<li>Highest Time Spent Hard Deleting: [I.hard_delete_max]ms</li>"
 		if (I.slept_destroy)
 			dellog += "<li>Sleeps: [I.slept_destroy]</li>"
 		if (I.no_respect_force)
 			dellog += "<li>Ignored force: [I.no_respect_force]</li>"
 		if (I.no_hint)
 			dellog += "<li>No hint: [I.no_hint]</li>"
+		if(LAZYLEN(I.extra_details))
+			var/details = I.extra_details.Join("</li><li>")
+			dellog += "<li>Extra Info: <ul><li>[details]</li></ul>"
 		dellog += "</ul></li>"
 
 	dellog += "</ol>"
@@ -1465,7 +1474,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	log_admin("[key_name(src)] pumped a random event.")
 
 /client/proc/start_line_profiling()
-	set category = "Profile"
+	set category = "Debug.Profile"
 	set name = "Start Line Profiling"
 	set desc = ""
 
@@ -1476,7 +1485,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	log_admin("[key_name(src)] started line by line profiling.")
 
 /client/proc/stop_line_profiling()
-	set category = "Profile"
+	set category = "Debug.Profile"
 	set name = "Stops Line Profiling"
 	set desc = ""
 
@@ -1487,7 +1496,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	log_admin("[key_name(src)] stopped line by line profiling.")
 
 /client/proc/show_line_profiling()
-	set category = "Profile"
+	set category = "Debug.Profile"
 	set name = "Show Line Profiling"
 	set desc = ""
 
@@ -1502,6 +1511,18 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	sort = sortlist[sort]
 	profile_show(src, sort)
 
+/client/proc/show_sendmaps_profiling()
+	set category = "Debug.Profile"
+	set name = "Show SendMaps Profiling"
+	set desc = ""
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	src << link("?debug=profile&type=sendmaps&window=test")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Show SendMaps Profiling")
+	log_admin("[key_name(src)] opened sendmaps profiling.")
+
 /client/proc/reload_configuration()
 	set category = "Debug"
 	set name = "Reload Configuration"
@@ -1510,3 +1531,47 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		return
 	if(alert(usr, "Are you absolutely sure you want to reload the configuration from the default path on the disk, wiping any in-round modificatoins?", "Really reset?", "No", "Yes") == "Yes")
 		config.admin_reload()
+
+/client/proc/add_remove_spell(mob/living/carbon/human/H)	
+	switch(alert(usr, "Add or remove a spell from [H.name]?", "Add/Remove Spell", "Add", "Remove", "Cancel"))
+		if("Add")
+			loadout_add_spell(H)
+		if("Remove")
+			var/spell = tgui_input_list(usr,"Select Spell to Remove", "Spell Remover", H.mind.spell_list)
+			if(spell)
+				var/spell_name = null
+				if(istype(spell, /datum/action))
+					var/datum/action/S = spell
+					spell_name = S.name
+				else if(istype(spell, /obj))
+					var/obj/S = spell
+					spell_name = S.name
+				H.mind.RemoveSpell(spell)
+				message_admins("[key_name_admin(usr)] has removed [spell_name] from [ADMIN_LOOKUPFLW(H)].")
+				log_admin("[key_name(usr)] has removed [spell_name] from [key_name(H)].")
+
+/client/proc/loadout_add_spell(mob/T)
+	var/list/spells = list()
+	for(var/path in subtypesof(/datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/S = path
+		spells["[initial(S.name)] ([path])"] = path
+	for(var/path in subtypesof(/obj/effect/proc_holder))
+		var/obj/effect/proc_holder/S = path
+		spells["[initial(S.name)] ([path])"] = path
+	var/selected = tgui_input_list(usr, "Select Spell to Add", "Spell Adder", sortList(spells))
+	if(!selected)
+		return null
+	var/path = spells[selected]
+	var/datum/spell = new path
+	if(T.mind)
+		T.mind.AddSpell(spell, T)
+	else
+		if(istype(spell, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = spell
+			action_spell.Grant(T)
+		else
+			T.AddSpell(spell)
+		message_admins(span_danger("Spells given to mindless mobs will not be transferred in mindswap or cloning!"))
+	message_admins("[key_name_admin(usr)] has granted [selected] to [ADMIN_LOOKUPFLW(T)].")
+	log_admin("[key_name(usr)] has granted [selected] to [key_name(T)].")
+	return selected

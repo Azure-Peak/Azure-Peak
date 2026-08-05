@@ -13,9 +13,8 @@
 	item_type = /obj/item/ingot/copper
 	trade_good_id = TRADE_GOOD_COPPER_INGOT
 	importexport_amt = 5
-	stockpile_limit = 15
+	stockpile_limit = 10
 	category = "Refined"
-	accept_toggle_enabled = FALSE
 
 /datum/roguestock/stockpile/tin_ingot
 	name = "Tin Ingot"
@@ -23,9 +22,8 @@
 	item_type = /obj/item/ingot/tin
 	trade_good_id = TRADE_GOOD_TIN_INGOT
 	importexport_amt = 5
-	stockpile_limit = 15
+	stockpile_limit = 10
 	category = "Refined"
-	accept_toggle_enabled = FALSE
 
 /datum/roguestock/stockpile/steel_ingot
 	name = "Steel Ingot"

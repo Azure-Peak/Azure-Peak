@@ -1,10 +1,3 @@
-/// Recovery quest "lost shipment" table, keyed by destination area.
-/// Each entry has a display name, item path, and per-entry min/max count so cheaper goods
-/// show up in bulk and rarer/costlier ones come as single caches.
-/// When a Recovery quest materializes for a given destination, it:
-///   1. Picks one of this list's entries (RNG — Innkeeper sets destination, not specific good)
-///   2. Spawns rand(entry.min, entry.max) of that item
-///   3. Packs them into a sealed parcel that only destination staff can open
 GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	// Smith / Dwarfin Guild: raw materials for crafting
 	/area/rogue/indoors/town/dwarfin = list(
@@ -58,11 +51,8 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	tp_budget = QUEST_TP_BUDGET_RECOVERY
 	threat_bands_cleared = QUEST_BANDS_RECOVERY
 	kills_count_progress = FALSE
-	/// Override destination — Rumor dispatcher can pre-set this. If null, chosen at preview.
 	var/area/override_destination
-	/// Display name of the shipment, set at preview from the picked entry.
 	var/shipment_name
-	/// Count of items actually packed (4-6).
 	var/shipment_count = 0
 
 /datum/quest/kill/recovery/get_base_reward()

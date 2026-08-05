@@ -111,10 +111,6 @@
 	if(!QDELETED(src) && !density)
 		..()
 
-/turf/closed/wall/attack_paw(mob/living/user)
-	user.changeNext_move(CLICK_CD_MELEE)
-	return attack_hand(user)
-
 
 /turf/closed/wall/attack_animal(mob/living/simple_animal/M)
 	M.changeNext_move(CLICK_CD_MELEE)

@@ -93,6 +93,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/death(gibbed)
 	..()
 	update_icon()
+	if(!QDELETED(src))
+		src.AddComponent(/datum/component/deadite_animal_reanimation)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/get_sound(input)
 	switch(input)

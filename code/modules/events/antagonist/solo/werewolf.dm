@@ -9,7 +9,7 @@
 	antag_flag = ROLE_WEREWOLF
 	shared_occurence_type = SHARED_HIGH_THREAT
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
-	storyteller_guarantee_flags = STORYTELLER_FAVOR_WEREWOLF
+	storyteller_rumour_name = "werewolves"
 
 	denominator = 50
 

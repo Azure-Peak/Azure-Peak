@@ -33,6 +33,26 @@
 	. = ..()
 	AddComponent(/datum/component/hag_magical_item, /datum/hag_boon/item/wyrd_cross)
 
+/obj/item/clothing/neck/roguetown/psicross/hag/get_examine_highlight_status()
+	// If the cross is not disguised
+	if(!mimic_type)
+		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "The cross's silhouette shifts. That's no psycross... What is that?!")
+	// If it is disguised, check to see if it appears like one of the heretical amulets and present it accordingly
+	else
+		if(is_zizo_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+		if(is_graggar_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
+		if(is_baotha_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
+		if(is_matthios_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
+		if(is_gronn_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
+		// If it isn't disguised as anything heretical, present it as the "totally innocent" amulet it pretends to be
+		return null
+
+
 /obj/item/clothing/neck/roguetown/psicross/hag/attack_self(mob/user)
 	. = ..()
 	if(can_use_wyrd_power(user, TRUE))

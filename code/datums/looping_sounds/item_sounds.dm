@@ -72,8 +72,10 @@
 /datum/looping_sound/boatloop
 	mid_sounds = list('sound/ambience/boat (1).ogg','sound/ambience/boat (2).ogg')
 	mid_length = 60
-	volume = 100
+	volume = 25
 	extra_range = -1
+	ignore_walls = FALSE
+	filter_pref = SOUND_MIDI
 
 /datum/looping_sound/psydonmusicboxsound
 	mid_sounds = list('sound/magic/psydonmusicbox.ogg')

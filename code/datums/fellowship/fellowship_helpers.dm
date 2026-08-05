@@ -12,6 +12,14 @@
 			return FALSE
 	return TRUE
 
+/proc/shares_fellowship(mob/living/A, mob/living/B)
+	if(!istype(A) || !istype(B))
+		return FALSE
+	var/datum/fellowship/F = A.current_fellowship
+	if(!F)
+		return FALSE
+	return F == B.current_fellowship
+
 /proc/apply_fellowship_faction(mob/living/summoner, mob/living/summoned)
 	if(!istype(summoner) || !istype(summoned))
 		return

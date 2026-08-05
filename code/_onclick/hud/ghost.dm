@@ -35,7 +35,7 @@
 		G.follow()
 	else
 		if(G.client)
-			if(istype(G, /mob/dead/observer/rogue/arcaneeye))
+			if(isscryeye(G) || G.trapped)
 				return
 			if(alert("Travel with the boatman?", "", "Yes", "No") == "Yes")
 				G.returntolobby(0)

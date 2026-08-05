@@ -23,6 +23,7 @@
 	var/list/strings = list()
 
 GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
+GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 
 /proc/build_crimson_crucible_i18n()
 	. = list()
@@ -57,7 +58,7 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	to_chat(user, span_boldnotice("Blood level: [current]"))
 
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
-		. += span_bloody("A Crucible used for your projects, all Vampires can contribute their vitae towards projects you set. Only you can contribute the last 100 needed to finish a project.")
+		. += span_bloody("A Crucible used for your projects. Others may fill the cup, but only you can direct vitae into rituals.")
 
 	// Show active projects
 	if(active_projects.len)
@@ -98,6 +99,7 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	var/is_vampire = is_crucible_vampire(living_user)
 	var/list/active_project_data = list()
 	var/list/available_project_data = list()
+	var/list/personal_servant_project = null
 	var/committed_vitae = 0
 
 	if(istype(living_user) && !is_vampire)
@@ -110,7 +112,7 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 
 		var/remaining = max(project.total_cost - project.paid_amount, 0)
 		var/max_contribution = istype(living_user) ? get_project_max_contribution(project, living_user) : 0
-		var/can_contribute = can_accept_vitae_contribution(project, max_contribution, is_vampire)
+		var/can_contribute = is_lord && can_accept_vitae_contribution(project, max_contribution, is_vampire)
 		var/list/contributor_names = list()
 		for(var/mob/living/contributor in project.contributors)
 			var/contributor_name = contributor.real_name
@@ -160,6 +162,24 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 			))
 			qdel(project)
 
+	if(is_vampire && istype(human_user))
+		var/datum/vampire_project/servant/servant_t1/project = new /datum/vampire_project/servant/servant_t1()
+		var/locked_reason = get_personal_servant_locked_reason(human_user)
+		var/list/project_copy = get_project_ui_copy(project)
+		personal_servant_project = list(
+			"type_path" = "personal_servant",
+			"name" = project.display_name,
+			"description" = project_copy["description"],
+			"mechanics" = project_copy["mechanics"],
+			"cost" = project.total_cost,
+			"isLordOnly" = FALSE,
+			"accessText" = "(personal call)",
+			"accessSeal" = "1",
+			"canStart" = !locked_reason,
+			"lockedReason" = locked_reason,
+		)
+		qdel(project)
+
 	data["bloodLevel"] = current
 	data["maxBlood"] = max(CRUCIBLE_MAX_BLOOD, current)
 	data["committedVitae"] = committed_vitae
@@ -170,7 +190,8 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	data["maxCupDeposit"] = max_cup_deposit
 	data["activeProjects"] = active_project_data
 	data["availableProjects"] = available_project_data
-	var/lang = user?.client?.preferred_ui_language || DEFAULT_PREFERRED_UI_LANGUAGE
+	data["personalServantProject"] = personal_servant_project
+	var/lang = user?.client?.preferred_ui_language || "en"
 	data["language"] = lang
 	data["i18nOverrides"] = GLOB.crimson_crucible_i18n[lang]
 	return data
@@ -211,6 +232,9 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 		if("deposit_blood")
 			deposit_blood_to_cup(user)
 			return TRUE
+		if("summon_weak_servant")
+			summon_personal_servant(user)
+			return TRUE
 		if("cancel_project")
 			if(!is_crucible_lord(user))
 				to_chat(user, span_warning("Only the Methuselah can cancel rituals."))
@@ -235,14 +259,56 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	var/mob/living/carbon/human/human_user = user
 	if(!istype(human_user))
 		return FALSE
-	if(human_user.clan?.clan_leader == human_user)
-		return TRUE
 	return !!human_user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 
 /obj/structure/vampire/bloodpool/proc/is_crucible_vampire(mob/living/user)
+	return !!get_crucible_vampire(user)
+
+/obj/structure/vampire/bloodpool/proc/get_crucible_vampire(mob/living/user)
 	if(!istype(user))
-		return FALSE
-	return !!user.mind?.has_antag_datum(/datum/antagonist/vampire)
+		return null
+	return user.mind?.has_antag_datum(/datum/antagonist/vampire)
+
+/obj/structure/vampire/bloodpool/proc/get_personal_servant_locked_reason(mob/living/user)
+	var/datum/antagonist/vampire/vampire = get_crucible_vampire(user)
+	if(!vampire)
+		return "Only vampires can make this call."
+	var/vampire_ref = REF(vampire)
+	if(GLOB.crimson_crucible_personal_servant_summons[vampire_ref])
+		return "This call has already been answered."
+	if(!user.clan)
+		return "The crucible cannot bind a servant before my bloodline is chosen."
+	if(current < SERVANT_COST)
+		return "The crucible needs [SERVANT_COST] vitae in the cup."
+	return ""
+
+/obj/structure/vampire/bloodpool/proc/can_summon_personal_servant(mob/living/user)
+	return !get_personal_servant_locked_reason(user)
+
+/obj/structure/vampire/bloodpool/proc/summon_personal_servant(mob/living/user)
+	var/locked_reason = get_personal_servant_locked_reason(user)
+	if(locked_reason)
+		to_chat(user, span_warning(locked_reason))
+		return
+	var/datum/antagonist/vampire/vampire = get_crucible_vampire(user)
+	if(!vampire)
+		return
+	var/vampire_ref = REF(vampire)
+	var/datum/vampire_project/servant/servant_t1/project = new /datum/vampire_project/servant/servant_t1()
+	project.bloodpool = src
+	project.initiator = user
+	project.initiator_clan = user.clan
+	current = max(current - SERVANT_COST, 0)
+	GLOB.crimson_crucible_personal_servant_summons[vampire_ref] = TRUE
+	SStgui.update_uis(src)
+	if(!project.summon("Vampire Servant", src, "Do you want to play as a vampire's weak servant?"))
+		current = min(current + SERVANT_COST, CRUCIBLE_MAX_BLOOD)
+		GLOB.crimson_crucible_personal_servant_summons -= vampire_ref
+		SStgui.update_uis(src)
+		qdel(project)
+		return
+	to_chat(user, span_greentext("The crucible answers my call. My one weak servant rises from the blood."))
+	qdel(project)
 
 /obj/structure/vampire/bloodpool/proc/get_project_contribution_text(datum/vampire_project/project, max_contribution, is_lord, is_vampire)
 	if(is_vampire)
@@ -430,13 +496,12 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 /obj/structure/vampire/bloodpool/proc/get_project_max_contribution(datum/vampire_project/project, mob/living/user)
 	if(!project || !istype(user))
 		return 0
+	if(!is_crucible_lord(user))
+		return 0
 
 	var/is_vampire = is_crucible_vampire(user)
 	var/max_contribution = min(get_available_vitae_for_contribution(user, is_vampire), max(project.total_cost - project.paid_amount, 0))
-	if(is_vampire)
-		if(!is_crucible_lord(user) && project.display_name != "Wicked Plate" && project.display_name != "World Anchor")
-			max_contribution = min(max_contribution, max((project.total_cost - project.paid_amount) - 100, 0))
-	else
+	if(!is_vampire)
 		max_contribution = min(max_contribution, get_blood_limited_vitae(user))
 	if(max_contribution < 0)
 		max_contribution = 0
@@ -548,6 +613,9 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	var/project_type = get_active_project_type(project)
 	if(!project_type)
 		return
+	if(!is_crucible_lord(user))
+		to_chat(user, span_warning("Only the Methuselah can direct vitae into rituals. I can only offer blood to the crucible cup."))
+		return
 
 	var/max_contribution = get_project_max_contribution(project, user)
 	var/is_vampire = is_crucible_vampire(user)
@@ -626,6 +694,10 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 		SStgui.update_uis(src)
 
 /obj/structure/vampire/bloodpool/proc/start_new_project(project_type, mob/living/user)
+	if(!is_crucible_lord(user))
+		to_chat(user, span_warning("Only the Methuselah can begin new rituals."))
+		return
+
 	var/datum/vampire_project/project = new project_type()
 
 	if(!project.can_start(user, src))
@@ -647,6 +719,9 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	to_chat(user, span_greentext("Started project: [project.display_name]. Begin contributing vitae to progress."))
 
 /obj/structure/vampire/bloodpool/proc/handle_project_contribution(mob/living/user)
+	if(!is_crucible_lord(user))
+		to_chat(user, span_warning("Only the Methuselah can direct vitae into rituals. I can only offer blood to the crucible cup."))
+		return
 	if(!active_projects.len)
 		to_chat(user, span_warning("No active projects to contribute to."))
 		return
@@ -741,7 +816,7 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	if(can_be_initiated_by == INITIATE_ANYONE)
 		return TRUE
 	else if(can_be_initiated_by == INITIATE_LORDE)
-		if(user.clan?.clan_leader == user)
+		if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
 			return TRUE
 		else
 			if(!silent)
@@ -757,11 +832,11 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 	return
 
 /datum/vampire_project/proc/handle_contribution(mob/living/user)
-	var/datum/antagonist/vampire/lord/lord = user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
+	if(!bloodpool?.is_crucible_lord(user))
+		to_chat(user, span_warning("Only the Methuselah can direct vitae into rituals."))
+		return
+
 	var/max_contribution = min(user.bloodpool, total_cost - paid_amount)
-	if(!lord)
-		if(display_name != "Wicked Plate" || display_name != "World Anchor")
-			max_contribution = min(user.bloodpool, (total_cost - paid_amount) - 100)
 
 	var/contribution = input(user, "How much vitae to contribute? (Max: [max_contribution])", "CONTRIBUTION") as num|null
 
@@ -950,9 +1025,11 @@ GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
 //
 //	SSticker.sunsteal(initiator_clan?.clan_leader)
 
-/datum/vampire_project/servant/proc/summon(type, atom/feedback_atom)
+/datum/vampire_project/servant/proc/summon(type, atom/feedback_atom, poll_prompt)
 	feedback_atom.visible_message("The crucible stirs, summoning a servant from the realms beyond...")
-	var/list/candidates = pollGhostCandidates("Do you want to play as a Vampire Lord's [type]?", ROLE_VAMPIRE_SUMMON, null, null, 30 SECONDS, POLL_IGNORE_VL_SERVANT)
+	if(!poll_prompt)
+		poll_prompt = "Do you want to play as a Vampire Lord's [type]?"
+	var/list/candidates = pollGhostCandidates(poll_prompt, ROLE_VAMPIRE_SUMMON, null, null, 30 SECONDS, POLL_IGNORE_VL_SERVANT)
 	if(!LAZYLEN(candidates))
 		feedback_atom.visible_message("But alas, the depths are hollow...")
 		return FALSE

@@ -549,19 +549,22 @@
 	// Prefer climbing climbable obstacles over smashing them.
 	// Both /obj/structure (tables) and /obj/machinery (hearths) define climbable separately.
 	var/turf/next_turf = get_step(src, dir_to_target)
-	for(var/obj/structure/S in next_turf)
-		if(S.climbable)
-			S.climb_structure(src)
-			return
+	if(next_turf?.climbable_atom_count > 0)
+		for(var/obj/structure/S in next_turf)
+			if(S.climbable)
+				S.climb_structure(src)
+				return
 	for(var/obj/machinery/M in next_turf)
 		if(M.climbable)
 			M.climb_structure(src)
 			return
-	for(var/obj/structure/S in get_turf(src))
-		if(S.climbable)
-			S.climb_structure(src)
-			return
-	for(var/obj/machinery/M in get_turf(src))
+	var/turf/our_turf = get_turf(src)
+	if(our_turf.climbable_atom_count > 0)
+		for(var/obj/structure/S in our_turf)
+			if(S.climbable)
+				S.climb_structure(src)
+				return
+	for(var/obj/machinery/M in our_turf)
 		if(M.climbable)
 			M.climb_structure(src)
 			return

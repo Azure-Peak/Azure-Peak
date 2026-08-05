@@ -27,6 +27,7 @@
 	cooked_smell = /datum/pollutant/food/baked_potato
 
 /obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced
+	dish_type = DISH_VEGETABLE
 	name = "cucumber slice"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "cucumber_slices" // TG Sprite, replace it
@@ -47,3 +48,13 @@
 	name = "cleaned turnip"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "turnip_sliced"
+
+/obj/item/reagent_containers/food/snacks/rogue/pesto
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_VEGETABLE
+	name = "pesto"
+	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
+	icon_state = "pesto"
+	desc = "A luxurious local blend of rocknut, oil, and garlick. A blend invented by immigrants from Navarno. It's best served in a noodle dish."
+	tastes = list("fresh nutty savoriness" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/water/blessed = 1, /datum/reagent/drug/nicotine = 1, /datum/reagent/consumable/acorn_powder = 4)

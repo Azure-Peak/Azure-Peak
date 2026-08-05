@@ -33,6 +33,39 @@
   src: url('~roguefont/pterra.ttf');
 }
 
+@font-face {
+  font-family: 'Lora';
+  src: url('~roguefont/lora-regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('~roguefont/lora-italic.ttf');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('~roguefont/lora-medium.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('~roguefont/lora-bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MedievalSharp';
+  src: url('~roguefont/medievalsharp.ttf');
+}
+
 @mixin azure-theme($colors, $topbar-svg) {
   // ── Core variables ──────────────────────────────────────────────
   --color-base: #{map.get($colors, 'base')};
@@ -87,7 +120,7 @@
 
   .TitleBar__title {
     padding-left: 12px;
-    font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+    font-family: 'Lora', Georgia, serif;
     font-size: 15px;
     color: #{map.get($colors, 'section-title')};
     font-weight: bolder;
@@ -125,7 +158,7 @@
   }
 
   .Section__titleText {
-    font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+    font-family: 'Lora', Georgia, serif;
     letter-spacing: 2px;
     text-transform: uppercase;
   }
@@ -135,47 +168,29 @@
     color: #{map.get($colors, 'link-visited')};
   }
 
-  // ── Buttons — wood plank style ──────────────────────────────────
   .Button {
-    transition: all 0.3s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
     --color-text: #{map.get($colors, 'btn-text')};
     min-height: 1.667em;
     line-height: 1.667em;
     background-color: map.get($colors, 'border');
-    border: 2px solid map.get($colors, 'accent');
-    outline: 1px solid color.adjust(map.get($colors, 'border'), $lightness: -6%);
-    outline-offset: -3px;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
-    // Raised: light top-left edge, dark bottom-right, drop shadow beneath
-    box-shadow:
-      inset 1px 1px 0 rgba(255, 255, 255, 0.12),
-      inset -1px -1px 0 rgba(0, 0, 0, 0.2),
-      0 2px 0 color.adjust(map.get($colors, 'border'), $lightness: -10%),
-      0 3px 6px rgba(0, 0, 0, 0.25);
+    border: 1px solid map.get($colors, 'accent');
+    outline: none;
+    text-shadow: none;
+    box-shadow: none;
 
     &:hover {
       background-color: color.adjust(map.get($colors, 'border'), $lightness: 6%);
       border-color: map.get($colors, 'accent-bright');
-      outline-color: color.adjust(map.get($colors, 'border'), $lightness: -3%);
     }
 
     &:active {
-      // Pressed in
-      box-shadow:
-        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
-        inset -1px -1px 0 rgba(255, 255, 255, 0.03);
-      outline-offset: -2px;
-      transform: translateY(1px);
+      background-color: color.adjust(map.get($colors, 'border'), $lightness: -3%);
     }
 
     &.Button--selected {
-      // Carved recess
       background-color: map.get($colors, 'btn-selected');
       border-color: map.get($colors, 'accent');
-      outline-color: color.adjust(map.get($colors, 'btn-selected'), $lightness: -4%);
-      box-shadow:
-        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
-        inset -1px -1px 0 rgba(255, 255, 255, 0.04);
     }
   }
 

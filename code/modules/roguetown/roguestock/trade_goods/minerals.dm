@@ -77,4 +77,4 @@
 	behavior = TRADE_BEHAVIOR_RAW
 	base_price = SELLPRICE_GLASS_BATCH
 	source_region_id = TRADE_REGION_DAFTSMARCH
-	item_type = /obj/item/natural/clay/glassbatch
+	item_type = /obj/item/natural/glassbatch

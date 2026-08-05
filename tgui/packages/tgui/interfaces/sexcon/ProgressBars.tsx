@@ -16,7 +16,9 @@ const CustomProgressBar = (props: CustomProgressBarProps) => {
   return (
     <Stack align="center">
       <Stack.Item>
-        <Box bold mr={1} minWidth="70px">{label}:</Box>
+        <Box bold mr={1} minWidth="70px">
+          {label}:
+        </Box>
       </Stack.Item>
       <Stack.Item grow>
         <Box

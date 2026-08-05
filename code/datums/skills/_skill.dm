@@ -12,6 +12,9 @@
 	// Can this skill be randomly chosen when the player is sleeping? Restricted to Level 2.
 	var/randomable_dream_xp = TRUE
 
+	// Can this skill be trained through sleep/dreams at all? Skills gated to a granting profession (e.g. Arcyne Armament) set this FALSE.
+	var/learnable_in_sleep = TRUE
+
 	var/max_skillbook_level = 6
 
 	// Name for the expert level of this skill on Homesteader

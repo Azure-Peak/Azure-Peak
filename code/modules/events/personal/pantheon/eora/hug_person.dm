@@ -42,6 +42,8 @@
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(!istype(H) || H.stat == DEAD || !H.client)
 			continue
+		if(!H.client.prefs || H.client.prefs?.no_storyteller_events)
+			continue
 		if(H.patron && istype(H.patron, /datum/patron/divine/eora))
 			valid_targets += H
 

@@ -2,13 +2,39 @@
 	name = "Nobility"
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom."
 	restricted = TRUE
+	max_choices = 1
 	races = list(/datum/species/construct, /datum/species/dullahan)
 	added_traits = list(TRAIT_NOBLE, TRAIT_EXPERT_HUNTER)
 	added_skills = list(list(/datum/skill/misc/reading, 1, 6))
-	added_stashed_items = list("Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble,
-								"Hefty Coinpurse" = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch)
+	added_stashed_items = list("Hefty Coinpurse" = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch)
+	choice_costs = list(0)
+	extra_choices = list(
+		"Gold Ring" = /obj/item/clothing/ring/gold/triumph,                                        //Golden Ring, Ornate
+		"Golden Circlet" = /obj/item/clothing/head/roguetown/circlet/triumph,                      //Golden Circlet, Ornate
+		"Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble,                  //Golden Amulet
+		"Silver Scabbard" = /obj/item/rogueweapon/scabbard/sword/noble,                            //Decorated Scabbard, Silver
+		"Silver Sheath" = /obj/item/rogueweapon/scabbard/sheath/noble,                             //Decorated Sheath, Silver
+		"Golden Psycross" = /obj/item/clothing/neck/roguetown/psicross/g/triumph,                  //Golden Psycross, Ornate
+		"Golden Astratan Psycross" = /obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph, //Golden Astratan Amulet, Ornate
+		"Golden Signet Ring" = /obj/item/clothing/ring/signet/triumph,                             //Golden Signet Ring, Ornate
+		"Gilded Dress Shirt" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince,         //Gilded Dress Shirt
+		"Pristine Dress" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess,           //Pristine Dress
+		"Royal Sleeves" = /obj/item/clothing/wrists/roguetown/royalsleeves,                        //Royal Sleeves
+		"Golden Halfmask" = /obj/item/clothing/mask/rogue/lordmask/triumph,                        //Golden Halfmask, Ornate
+		"Golden Mask" = /obj/item/clothing/mask/rogue/facemask/goldmask/triumph,                   //Golden Mask, Ornate
+		"Crestless Golden Mask" = /obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph,        //Crestless Golden Mask, Ornate
+		"Lordly Cloak" = /obj/item/clothing/cloak/lordcloak,                                       //Lordly Cloak
+		"Ladylike Cloak" = /obj/item/clothing/cloak/lordcloak/ladycloak,                           //Ladylike Cloak
+		"Golden Scabbard" = /obj/item/rogueweapon/scabbard/sword/royal,                            //Decorated Scabbard, Golden
+		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,                             //Decorated Sheath, Golden
+		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph                             //Golden Dorpel Ring, Ornate
+	)
+
 
 /datum/virtue/utility/noble/apply_to_human(mob/living/carbon/human/recipient)
+	for(var/choice in picked_choices)
+		if(ispath(extra_choices[choice], /obj/item))
+			recipient.mind?.special_items[choice] = extra_choices[choice]
 	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 		return
 	var/already_has_income = !isnull(SStreasury.noble_incomes[recipient])
@@ -47,6 +73,9 @@
 			if(NOTABLE_BEAUTY)
 				ADD_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
 				ADD_TRAIT(recipient, TRAIT_GOODLOVER, TRAIT_VIRTUE)
+				if(isdullahan(recipient))
+					REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
 				recipient.mind?.special_items["Hand Mirror"] = /obj/item/handmirror
 			if(NOTABLE_STASH)
 				recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
@@ -166,7 +195,7 @@
 /datum/virtue/utility/deadened
 	name = "Deadened"
 	desc = "Some terrible incident colours my past, and now, I feel nothing."
-	added_traits = list(TRAIT_NOMOOD)
+	added_traits = list(TRAIT_NOMOOD, TRAIT_DETACHED)
 
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
@@ -202,7 +231,7 @@
 					if(recipient.has_flaw(/datum/charflaw/colorblind))
 						to_chat(recipient, "Your eyes have become permanently colorblind.")
 					else if(recipient.charflaws.len)
-						recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
+						add_verb(recipient, /mob/living/carbon/human/proc/toggleblindness)
 			else if(ispath(extra_choices[choice], /datum/skill))
 				if(extra_choices[choice] == /datum/skill/misc/sneaking)
 					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
@@ -212,8 +241,8 @@
 				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
 			else if(choice == "Second Voice")
-				recipient.verbs += /mob/living/carbon/human/proc/changevoice
-				recipient.verbs += /mob/living/carbon/human/proc/swapvoice
+				add_verb(recipient, /mob/living/carbon/human/proc/changevoice)
+				add_verb(recipient, /mob/living/carbon/human/proc/swapvoice)
 				recipient.AddComponent(/datum/component/voice_handler)
 
 /datum/virtue/utility/performer
@@ -313,34 +342,37 @@
 
 /datum/virtue/utility/bronzelimbs/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
-	if(triumph_check(recipient))
-		var/obj/item/bodypart/to_attach
-		var/zone
-		for(var/choice in picked_choices)
-			switch(choice)
-				if("Right Arm")
-					to_attach = /obj/item/bodypart/r_arm/prosthetic/bronzeright
-					zone = BODY_ZONE_R_ARM
-				if("Left Arm")
-					to_attach = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
-					zone = BODY_ZONE_L_ARM
-				if("Right Leg")
-					to_attach = /obj/item/bodypart/r_leg/prosthetic/bronzeright
-					zone = BODY_ZONE_R_LEG
-				if("Left Leg")
-					to_attach = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
-					zone = BODY_ZONE_L_LEG
-			var/obj/item/bodypart/O = recipient.get_bodypart(zone)
-			if(O)
-				O.drop_limb()
-				qdel(O)
-			if(recipient.charflaws.len)
-				var/obj/item/bodypart/BP = new to_attach()
-				BP.attach_limb(recipient)
+	if(!triumph_check(recipient))
+		to_chat(recipient, span_warning("Sorry Ser, we don't \"give\" credit. Come back when you're a little, mmmmm... TRIUMPHant."))
+		return
+	for(var/choice in picked_choices)
+		var/to_attach = null
+		var/zone = null
+		switch(choice)
+			if("Right Arm")
+				to_attach = /obj/item/bodypart/r_arm/prosthetic/bronzeright
+				zone = BODY_ZONE_R_ARM
+			if("Left Arm")
+				to_attach = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
+				zone = BODY_ZONE_L_ARM
+			if("Right Leg")
+				to_attach = /obj/item/bodypart/r_leg/prosthetic/bronzeright
+				zone = BODY_ZONE_R_LEG
+			if("Left Leg")
+				to_attach = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
+				zone = BODY_ZONE_L_LEG
+		if(!to_attach || !zone)
+			continue
+		var/obj/item/bodypart/old_limb = recipient.get_bodypart(zone)
+		if(old_limb)
+			old_limb.drop_limb()
+			qdel(old_limb)
+		var/obj/item/bodypart/new_limb = new to_attach()
+		new_limb.attach_limb(recipient)
 
 /datum/virtue/utility/woodwalker
 	name = "Woodwalker"
-	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling, and I can gather twice as many things from bushes."
+	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling."
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
 
 /datum/virtue/heretic/zchurch_keyholder
@@ -348,17 +380,12 @@
 	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
 	added_traits = list(TRAIT_ZURCH)
 
-/datum/virtue/utility/mountable
-	name = "Mountable"
-	desc = "You have trained and become fit enough to function as a suitable mount. People may ride you as they would a saiga."
-	added_traits = list(TRAIT_MOUNTABLE)
-
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.
 // Hags don't get a boon on this person, that's perhaps a choice to add later.
 /datum/virtue/utility/feytouched
 	name = "Feytouched"
-	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
+	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
 	added_traits = list(TRAIT_FEYTOUCHED)
 	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),
@@ -377,5 +404,5 @@
 		hag_mind.i_know_person(recipient)
 		recipient.mind.i_know_person(hag_mind)
 		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulse in the roots... [recipient.real_name] is walking the lands this week."))
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name] is walking the lands this week."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))

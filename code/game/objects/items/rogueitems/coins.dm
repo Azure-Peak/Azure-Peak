@@ -108,6 +108,8 @@
 		if(quantity == 1)
 			amt_text = ""
 		var/amount = input(user, "How many [plural_name] to split?[amt_text]", null, round(quantity/2, 1)) as null|num
+		if(QDELETED(user) || QDELETED(src) || !user.Adjacent(src)) // if coins were consumed/user was deleted/moved away, don't split
+			return
 		amount = clamp(amount, 0, quantity)
 		amount = round(amount, 1) // no taking non-integer coins
 		if(!amount)
@@ -261,6 +263,10 @@
 /obj/item/roguecoin/aalloy/pile/Initialize()
 	. = ..()
 	set_quantity(rand(4,19))
+
+/obj/item/roguecoin/aalloy/pile/rich/Initialize()
+	. = ..()
+	set_quantity(rand(8,19)) //Hilarious
 
 /obj/item/roguecoin/copper/pile/Initialize()
 	. = ..()

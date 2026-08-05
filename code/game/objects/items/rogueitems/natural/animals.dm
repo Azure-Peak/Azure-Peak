@@ -10,6 +10,7 @@
 	resistance_flags = FLAMMABLE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sellprice = 8
+	dropshrink = 0.9
 
 /obj/item/natural/hide/get_mechanics_examine(mob/user)
 	. = ..()
@@ -42,8 +43,8 @@
 	resistance_flags = FLAMMABLE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	color = "#5c5243"
-	sellprice = 18
 	experimental_inhand = TRUE
+	dropshrink = 0.9
 
 /obj/item/natural/fur/goat
 	desc = "Fur from a humble gote."
@@ -110,7 +111,6 @@
 	resistance_flags = FIRE_PROOF
 	force = 0
 	throwforce = 0
-	sellprice = 10
 	var/storage_type = /datum/component/storage/concrete/roguetown/saddle
 
 /obj/item/natural/saddle/Initialize()
@@ -145,6 +145,9 @@
 	var/can_saddle = FALSE
 	var/obj/item/ssaddle
 	var/simple_detect_bonus = 0 // A flat percentage bonus to our ability to detect sneaking people only. Use in lieu of giving mobs huge STAPER bonuses if you want them to be observant.
+
+/mob/living/simple_animal/can_be_held(mob/by)
+	return mob_size <= MOB_SIZE_SMALL
 
 /obj/item/natural/bone
 	name = "bone"
@@ -181,7 +184,6 @@
 	name = "cured leather"
 	icon_state = "leather"
 	desc = "A hide piece that has been cured and may now be worked."
-	sellprice = 7
 	bundletype = /obj/item/natural/bundle/curred_hide
 
 /obj/item/natural/hide/cured/Initialize()
@@ -214,6 +216,7 @@
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_SMALL
 	sellprice = 20
+	dropshrink = 0.6
 
 /obj/item/natural/rabbitsfoot
 	name = "rabbit's foot"

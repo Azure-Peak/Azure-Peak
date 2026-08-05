@@ -79,6 +79,9 @@
 		return ..()
 
 	if(istype(target, /turf/open/water))
+		if(user.get_skill_level(/datum/skill/labor/fishing) >= SKILL_LEVEL_EXPERT)
+			if(!baited)
+				find_bait(user)
 		if(user.used_intent.type == ROD_CAST && !user.doing)
 			if(target in range(user,5))
 				user.visible_message("<span class='warning'>[user] casts a line!</span>", \
@@ -143,6 +146,19 @@
 					to_chat(user, "<span class='warning'>I must stand still to fish.</span>")
 			update_icon()
 
+/obj/item/fishingrod/proc/find_bait(mob/user)
+	if(!user)
+		return
+	var/turf/T = get_turf(user)
+	if(!T)
+		return
+	for(var/obj/item/I in view(1, T))
+		if(I.isbait)
+			src.attackby(I, user)
+			user.playsound_local(T, 'sound/combat/vite.ogg', 100, TRUE)
+			break
+
+
 /obj/item/fishingrod/update_icon()
 	cut_overlays()
 	if(baited)
@@ -159,6 +175,12 @@
 	desc = "A tool of religious importance, used by wide-brimmed priests who offer wriggling sacrifices to the endless waves beneath."
 	icon_state = "bronzerod"
 	max_integrity = 200
+
+/obj/item/fishingrod/blacksteel
+	name = "blacksteel fishing rod"
+	desc = "G'morning! Nice dae for fishin', ain't it? Hu-hah!"
+	icon_state = "blacksteelrod"
+	max_integrity = 333
 
 /obj/item/fishingrod/aalloy
 	name = "decrepit fishing rod"

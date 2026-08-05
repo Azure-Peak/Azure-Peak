@@ -17,6 +17,9 @@
 		return //No ghosts or incapacitated folk allowed to do this.
 	if(!ishuman(dropping))
 		return //Only humans have job slots to be freed.
+	if(HAS_TRAIT(dropping, TRAIT_CONJURED_SUMMON))
+		to_chat(user, "<span class='warning'>This is not your true body, why are you leaving?</span>")
+		return
 	if(in_use) // Someone's already going in.
 		return
 	var/mob/living/carbon/human/departing_mob = dropping
@@ -40,7 +43,7 @@
 		mob_job = SSjob.GetJob(departing_mob.mind.assigned_role)
 		if(mob_job)
 			mob_job.current_positions = max(0, mob_job.current_positions - 1)
-			var/target_job = SSrole_class_handler.get_advclass_by_name(user.advjob)
+			var/datum/advclass/target_job = departing_mob.get_advclass_datum()
 			if(target_job)
 				SSrole_class_handler.adjust_class_amount(target_job, -1)
 	if(!length(departing_mob.contents))
@@ -59,6 +62,7 @@
 		for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
 			if(removing_bounty.target == departing_mob.real_name)
 				GLOB.head_bounties -= removing_bounty
+	GLOB.dominant_faith_tracker.handle_removal(departing_mob)
 	if(SSticker.rulermob == departing_mob)
 		SSticker.rulermob = null
 	if(SSticker.regentmob == departing_mob)
@@ -101,4 +105,3 @@
 		for(var/thing in embeds)
 			QDEL_NULL(thing)
 	QDEL_NULL(departing_mob)
-

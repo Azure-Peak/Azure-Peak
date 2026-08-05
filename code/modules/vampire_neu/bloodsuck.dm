@@ -20,10 +20,10 @@
 		to_chat(src, span_warning("I can only drink blood from living, intelligent beings!"))
 		return
 	if(victim.dna?.species && (NOBLOOD in victim.dna.species.species_traits))
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("They have no blood."))
 		return
 	if(victim.blood_volume <= 0)
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("Sigh. No blood left."))
 		return
 
 	var/datum/antagonist/vampire/VDrinker = mind.has_antag_datum(/datum/antagonist/vampire)
@@ -31,12 +31,6 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
-		if(VDrinker && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
-			to_chat(src, span_userdanger("SILVER! HISSS!!!"))
-			return
-		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
-			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
-			return
 		human_victim.add_bite_animation()
 
 	last_drinkblood_use = world.time
@@ -53,19 +47,47 @@
 	to_chat(src, span_warning("I drink from [victim]'s [parse_zone(sublimb_grabbed)]."))
 	log_combat(src, victim, "drank blood from ")
 
-	if(!VDrinker)
-		if(!HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_NASTY_EATER))
+	var/tox_drained = min(victim.getToxLoss(), 3) // no leeches? no problem!
+	if(tox_drained > 0)
+		victim.adjustToxLoss(-tox_drained)
+		src.adjustToxLoss(tox_drained)
+
+	if(!(VDrinker || HAS_TRAIT(src, TRAIT_BLACKBLOOD)))
+		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER)))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
 
-	if(victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
+	if(VDrinker && istype(victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver) || HAS_TRAIT(victim, TRAIT_SILVER_BLESSED))
+		to_chat(src, span_userdanger("SILVER! MY BANE!"))
+		src.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/sunder)
+		src.Stun(5)
+		src.ignite_mob()
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(1 SECONDS, 2 SECONDS))
+		return
+
+	if(HAS_TRAIT(victim, TRAIT_BLACKBLOOD) || victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
 		to_chat(src, span_danger("I'm going to puke..."))
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
 
+	// some code witchcraft for blood ingest transfer, fuck sake
+	var/blood_amount = max(1, round(BLOOD_VOLUME_MAXIMUM * 0.01))
+	blood_amount = min(blood_amount, victim.blood_volume)
+	victim.blood_volume = max(victim.blood_volume - blood_amount, 0)
+	victim.handle_blood()
+	var/datum/reagents/temp = new(blood_amount)
+	temp.my_atom = src
+	temp.add_reagent(/datum/reagent/blood, blood_amount)
+	var/datum/reagent/blood/B = temp.has_reagent(/datum/reagent/blood)
+	if(B)
+		B.data = victim.get_blood_data()
+	temp.trans_to(src, blood_amount, TRUE, TRUE, FALSE, src, FALSE, INGEST)
+	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+		return
+
 	if(VVictim)
-		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
+		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [uppertext(victim)].</b>"))
 
 	var/blood_handle
 	if(victim.stat == DEAD)
@@ -85,7 +107,7 @@
 
 	if(victim.bloodpool > 0)
 		var/used_vitae = 150
-		victim.blood_volume = max(victim.blood_volume - 45, 0)
+		victim.blood_volume = max(victim.blood_volume - 45, 0) // good fucking lord vampires are hungy, 50 blood per cycle?
 		if(victim.bloodpool < used_vitae)  // We assume they're left with 250 vitae or less, so we take it all
 			used_vitae = victim.bloodpool
 			to_chat(src, span_warning("...But alas, only leftovers..."))
@@ -103,7 +125,7 @@
 			to_chat(src, span_danger("I have... Consumed my kindred!"))
 			if(VVictim.generation > VDrinker.generation)
 				VDrinker.generation = VVictim.generation
-			VDrinker.research_points += VVictim.research_points
+			VDrinker.research_points += VVictim.research_spent
 			victim.death()
 			victim.adjustBruteLoss(-50, TRUE)
 			victim.adjustFireLoss(-50, TRUE)
@@ -116,13 +138,13 @@
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
-		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation == GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation <= GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
 			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
 				to_chat(src, span_warning("I cannot sire anymore thralls.."))
 			else
-				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF ASTRATA", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
 					to_chat(src, span_warning("I decide [victim] is unworthy."))
 				else
 					visible_message(span_danger("[src] begins channeling their energies to [victim]!"))
@@ -165,8 +187,8 @@
 
 	var/vampire_choice = tgui_alert(
 		src,
-		"Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.",
-		"THE CURSE OF KAIN",
+		"Would you like to rise as a lycker spawn? Warning: refusal may or may not mortally wound you.",
+		"THE CURSE OF ASTRATA",
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT
 	)
@@ -216,7 +238,8 @@
 	mind?.remove_antag_datum(/datum/antagonist/zombie)
 
 	if(client)
-		client.verbs.Remove(GLOB.ghost_verbs)
+		remove_verb(client, GLOB.ghost_verbs)
+		client.init_verbs()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))

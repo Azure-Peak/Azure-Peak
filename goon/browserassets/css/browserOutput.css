@@ -969,6 +969,12 @@ h2.alert {
 	font-weight: bold;
 }
 
+.racialstatinfo {
+	color: #6a8cb7;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+	font-weight: bold;
+}
+
 .icon {
 	height: 1em;
 	width: auto;

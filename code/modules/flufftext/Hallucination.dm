@@ -1165,7 +1165,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	carbon.Hear(composed, obj, lang, picked_message)
 
 	if(prob(20))
-		carbon.emote("whimper")
+		carbon.emote("whimper", forced = TRUE)
 
 	qdel(src)
 
@@ -1281,11 +1281,11 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	to_chat(victim, span_userdanger(pick("MY HEART STOPS BEATING!", "I CAN'T FEEL MY HEART!", "WHERE IS MY HEART?")))
 
 	victim.freakout_hud_skew()
-	victim.emote("scream")
+	victim.emote("scream", forced = TRUE)
 	victim.flash_fullscreen("stressflash")
 	victim.Jitter(10)
 	victim.energy_add(-2)
 
 	qdel(src)
- 
+
 #undef HAL_LINES_FILE

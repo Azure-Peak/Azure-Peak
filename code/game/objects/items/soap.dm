@@ -12,6 +12,7 @@
 	throw_speed = 1
 	throw_range = 1
 	grind_results = list(/datum/reagent/lye = 10)
+	dropshrink = 0.7
 	var/cleanspeed = 20 //as fast as 5 arcyne Prestidigitation
 	var/uses = 100
 

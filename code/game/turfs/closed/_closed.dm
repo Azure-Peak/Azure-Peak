@@ -163,9 +163,6 @@
 					above.ScrapeAway()
 	. = ..()
 
-/turf/closed/attack_paw(mob/user)
-	return attack_hand(user)
-
 /turf/closed/attack_hand(mob/user)
 	if(wallclimb)
 		if(isliving(user))
@@ -242,15 +239,22 @@
 							helping_items += rope.name
 							has_wall_ladder = TRUE
 							break
+				if(HAS_TRAIT(L, TRAIT_DEADITE) && climbdiff > 1) //Deadites CANNOT climb... Anything more complex than rock walls
+					to_chat(user, span_warning("...What?"))
+					return
 
 				if(myskill < climbdiff)
 					to_chat(user, span_warning("I'm not capable of climbing this wall."))
 					return
 				used_time = max(70 - (myskill * 10) - (L.STASPD * 3), 30)
+			if(!L.start_climb())
+				return
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				playsound(user, climbsound, 100, TRUE)
 			user.visible_message(span_warning("[user] starts to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]."), span_warning("I start to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]..."))
-			if(do_after(L, used_time, target = src))
+			var/climbed = do_after(L, used_time, target = src, extra_checks = L.climb_check_callback())
+			L.end_climb()
+			if(climbed)
 				var/pulling = user.pulling
 				var/mob/living/carbon/human/climber = user
 				var/baseline_stamina_cost = 30 // have to disable stamina regen while on wall bruh in energystamina.dm

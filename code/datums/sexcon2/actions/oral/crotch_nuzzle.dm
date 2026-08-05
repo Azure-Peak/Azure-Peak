@@ -42,9 +42,12 @@
 	user.visible_message(span_love("[user] cums over [target]'s face!"))
 	return "onto"
 
-/datum/sex_action/oral/crotch_nuzzle/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/oral/crotch_nuzzle/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] nuzzles [target]'s crotch..."))
+
+/datum/sex_action/oral/crotch_nuzzle/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 
 	sex_session.perform_sex_action(target, 0.5, 0, TRUE)
 	sex_session.handle_passive_ejaculation(target)

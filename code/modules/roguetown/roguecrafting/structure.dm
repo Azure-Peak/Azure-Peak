@@ -1,6 +1,7 @@
 
 /datum/crafting_recipe/roguetown/structure
 	abstract_type = /datum/crafting_recipe/roguetown/structure
+	display_category = ITEM_CAT_DECORATION
 	req_table = FALSE
 	subtype_reqs = TRUE
 	craftsound = 'sound/foley/Building-01.ogg'
@@ -292,7 +293,6 @@
 	skillcraft = /datum/skill/craft/carpentry
 
 /obj/structure/fermentation_keg/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/meathook
 	name = "meathook"
@@ -334,7 +334,6 @@
 	skillcraft = /datum/skill/craft/carpentry
 
 /obj/item/chair/rogue/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/parkbenchleft
 	name = "park bench (left)"
@@ -619,7 +618,6 @@
 //---------
 
 /obj/item/chair/rogue/fancy/crafted
-	sellprice = 12
 
 /datum/crafting_recipe/roguetown/structure/stool
 	name = "wooden stool"
@@ -631,7 +629,6 @@
 	verbage = "constructs"
 
 /obj/item/chair/stool/bar/rogue/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/anvil
 	name = "anvil"
@@ -932,7 +929,6 @@
 
 /obj/structure/closet/crate/chest/crafted
 	keylock = FALSE
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/closet
 	name = "closet"
@@ -964,7 +960,6 @@
 	craftdiff = 1
 
 /obj/structure/closet/crate/roguecloset/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/campfire
 	name = "campfire"
@@ -1120,6 +1115,16 @@
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
+
+/datum/crafting_recipe/roguetown/structure/bakers_trough
+	name = "baker's trough"
+	category = "Misc"
+	result = /obj/structure/bakers_trough
+	reqs = list(/obj/item/grown/log/tree/small = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/structure/fancytableblack
 	name = "fancy wooden table(black)"

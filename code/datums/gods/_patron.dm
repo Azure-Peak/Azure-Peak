@@ -9,6 +9,8 @@ GLOBAL_LIST_EMPTY(prayers)
 /datum/patron
 	/// Name of the god
 	var/name
+	/// Common titles of the god - used for prayers
+	var/list/titles = list()
 	/// Domain of the god, such as earth, fire, water, murder etc
 	var/domain = "Bad coding practices"
 	/// Description of the god
@@ -28,7 +30,7 @@ GLOBAL_LIST_EMPTY(prayers)
 	/// Assoc list of miracles it grants. Type = Cleric_Tier
 	var/list/miracles = list()
 	/// List of words that this god considers profane. (Master for all faiths. Inhumen have their own list.)
-	var/list/profane_words = list("zizo","matthios","graggar","baotha","cock","dick","fuck","shit","pussy","cuck","cunt","asshole","pintle")
+	var/list/profane_words = list("zizo","matthios","graggar","baotha","cock","dick","fuck","shit","pussy","cuck","cunt","asshole","pintle","vheslyn")
 
 	/// List of traits associated with rank. Trait = Cleric_Tier
 	var/list/traits_tier = list()
@@ -40,7 +42,7 @@ GLOBAL_LIST_EMPTY(prayers)
 		ADD_TRAIT(pious, trait, "[type]")
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.grant_language(/datum/language/tricksterscant)
-		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+		add_verb(pious, /mob/living/carbon/human/proc/emote_ffsalute)
 	if(HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
 
@@ -109,8 +111,10 @@ GLOBAL_LIST_EMPTY(prayers)
     GLOB.prayers |= prayer
     record_round_statistic(STATS_PRAYERS_MADE)
 
-    if(findtext(prayer, name))
-        reward_prayer(follower)
+    for(var/title in (follower.patron.titles + patron_name))
+        if(findtext(prayer, title))
+            reward_prayer(follower)
+            return . 
 
 /// The follower has somehow offended the patron and is now being punished.
 /datum/patron/proc/punish_prayer(mob/living/follower)

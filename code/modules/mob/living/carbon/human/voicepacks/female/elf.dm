@@ -19,6 +19,8 @@
 				used = list('sound/vo/female/elf/gasp (1).ogg','sound/vo/female/elf/gasp (2).ogg','sound/vo/female/elf/gasp (3).ogg')
 			if("groan")
 				used = 'sound/vo/female/elf/groan.ogg'
+			if("giggle")
+				used = list('sound/vo/female/elf/giggle (1).ogg','sound/vo/female/elf/giggle (2).ogg')
 			if("haltyell")
 				used = 'sound/vo/female/elf/haltyell.ogg'
 			if("hmm")

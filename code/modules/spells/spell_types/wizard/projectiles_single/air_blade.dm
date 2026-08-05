@@ -33,6 +33,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	cost = 3 // Just in case
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/airblade/cast(list/targets, mob/user = user)
 	var/mob/living/carbon/human/H = user
@@ -62,6 +63,7 @@
 	name = "air blade (cut)"
 	icon_state = "air_blade_cut"
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	damage = 40
 	flag = "slash"
 	woundclass = BCLASS_CUT

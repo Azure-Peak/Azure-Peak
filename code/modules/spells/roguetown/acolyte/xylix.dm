@@ -15,7 +15,7 @@
 /obj/effect/proc_holder/spell/invoked/ventriloquism/cast(list/targets, mob/user = usr)
 	if(isobj(targets[1]))
 		var/obj/target = targets[1]
-		var/input_message = input(usr, "What shall [target] say?", src) as null|text
+		var/input_message = sanitize(input(usr, "What shall [target] say?", src) as null|text)
 		target.say("[input_message]", language = /datum/language/common)
 		return TRUE
 	revert_cast()
@@ -40,6 +40,7 @@
 	recharge_time = 30 SECONDS
 	var/firstcast = TRUE
 	var/icon/clone_icon
+	ignore_combat_tag = TRUE
 
 /obj/effect/proc_holder/spell/invoked/mastersillusion/cast(list/targets, mob/living/carbon/human/user = usr)
 	if(firstcast)

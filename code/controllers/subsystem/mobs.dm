@@ -20,7 +20,7 @@ SUBSYSTEM_DEF(mobs)
 	var/npc_humans = GLOB.human_list.len - players
 	var/simple = GLOB.mob_living_list.len - GLOB.human_list.len
 	var/no_ai = GLOB.mob_living_list.len - active - idle - off
-	..("T:[GLOB.mob_living_list.len] PL:[players] NH:[npc_humans] S:[simple] | A:[active] I:[idle] O:[off] N:[no_ai]")
+	return ..("T:[GLOB.mob_living_list.len] PL:[players] NH:[npc_humans] S:[simple] | A:[active] I:[idle] O:[off] N:[no_ai]")
 
 /datum/controller/subsystem/mobs/proc/MaxZChanged()
 	if (!islist(clients_by_zlevel))
@@ -94,4 +94,4 @@ SUBSYSTEM_DEF(mobs_dead)
 			return
 		
 /datum/controller/subsystem/mobs_dead/stat_entry(msg)
-	..("C:[dead_mobs]")
+	return ..("C:[dead_mobs]")

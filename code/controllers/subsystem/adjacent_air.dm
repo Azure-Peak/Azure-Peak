@@ -8,9 +8,9 @@ SUBSYSTEM_DEF(adjacent_air)
 
 /datum/controller/subsystem/adjacent_air/stat_entry()
 	#ifdef TESTING
-	..("P:[length(queue)], S:[GLOB.atmos_adjacent_savings[1]], T:[GLOB.atmos_adjacent_savings[2]]")
+	return ..("P:[length(queue)], S:[GLOB.atmos_adjacent_savings[1]], T:[GLOB.atmos_adjacent_savings[2]]")
 	#else
-	..("P:[length(queue)]")
+	return ..("P:[length(queue)]")
 	#endif
 
 /datum/controller/subsystem/adjacent_air/Initialize()
@@ -54,7 +54,6 @@ SUBSYSTEM_DEF(adjacent_air)
 	var/obj/effect/abstract/liquid_turf/liquids
 	var/liquid_height = 0
 	var/turf_height = 0
-	var/path_weight = 0
 
 /turf/open
 	var/obj/effect/hotspot/active_hotspot

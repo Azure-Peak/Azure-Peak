@@ -170,6 +170,9 @@ SUBSYSTEM_DEF(job)
 					break
 			if(has_restricted_vice)
 				continue
+		if(job.prefs_all_subclasses_restricted(player.client))
+			JobDebug("FOC incompatible with advclass virtues/vices, Player: [player], Job: [job.title]")
+			continue
 		if(job.plevel_req > player.client.patreonlevel())
 			JobDebug("FOC incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
@@ -259,6 +262,9 @@ SUBSYSTEM_DEF(job)
 					break
 			if(has_restricted_vice)
 				continue
+		if(job.prefs_all_subclasses_restricted(player.client))
+			JobDebug("GRJ incompatible with advclass virtues/vices, Player: [player], Job: [job.title]")
+			continue
 
 		if(job.plevel_req > player.client.patreonlevel())
 			JobDebug("GRJ incompatible with PATREON LEVEL, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
@@ -509,6 +515,9 @@ SUBSYSTEM_DEF(job)
 							break
 					if(has_restricted_vice)
 						continue
+				if(job.prefs_all_subclasses_restricted(player.client))
+					JobDebug("DO incompatible with advclass virtues/vices, Player: [player], Job: [job.title]")
+					continue
 
 				#ifdef USES_PQ
 				if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq))
@@ -614,6 +623,8 @@ SUBSYSTEM_DEF(job)
 							break
 					if(has_restricted_vice)
 						continue
+				if(job.prefs_all_subclasses_restricted(player.client))
+					continue
 
 				#ifdef USES_PQ
 				if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq) && level != JP_LOW) //since its required people on low can roll for it

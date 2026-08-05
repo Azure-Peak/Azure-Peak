@@ -3,6 +3,7 @@
 /obj/item/rogueweapon
 	name = ""
 	desc = ""
+	has_item_quality = TRUE
 	icon_state = "sabre"
 	item_state = "sabre"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
@@ -17,7 +18,6 @@
 	possible_item_intents = list(SWORD_CUT, SWORD_THRUST)
 	can_parry = TRUE
 	wlength = WLENGTH_NORMAL
-	sellprice = 1
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	break_sound = 'sound/foley/breaksound.ogg'
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -45,7 +45,9 @@
 	
 	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
 	var/is_tool = FALSE
-
+	/// sigh
+	var/hoe_damage = null //the durability damage recieved for every work cycle
+	var/work_time = 3 SECONDS // the time it takes to make new soil or till soil
 
 /obj/item/rogueweapon/Initialize()
 	. = ..()
@@ -60,6 +62,8 @@
 	if(istype(src, /obj/item/rogueweapon/shield))
 		return
 	if(implement_refund)
+		return
+	if(ispath(associated_skill, /datum/skill/combat/staves) || ispath(associated_skill, /datum/skill/combat/arcyne))
 		return
 	if(isliving(user))
 		var/mob/living/L = user

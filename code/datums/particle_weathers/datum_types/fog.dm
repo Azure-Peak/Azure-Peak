@@ -1,17 +1,16 @@
 //Fog
 /particles/weather/fog
 	icon 				   = 'icons/effects/96x96.dmi'
-	icon_state             = list("smoke-static" = 5)
+	icon_state             = list("smoke-static" = 5, "smoke-static-alt" = 5)
 	gradient               = list(0,"#a1a1a1e3",100,"#e2dcd8e3","loop")
 	color                  = 0
 	color_change		   = generator("num",0,3)
 	position               = generator("box", list(-500,-256,0), list(500,500,0))
-	gravity                = list(-5 -1, 0.1)
+	gravity                = list(-1, 0.1)
 	drift                  = generator("circle", 0, 3) // Some random movement for variation
 	friction               = 0.3  // shed 30% of velocity and drift every 0.1s
 	//Weather effects, max values
-	maxSpawning           = 120
-	maxSpawning           = 40
+	maxSpawning           = 35
 	wind                   = 5
 
 

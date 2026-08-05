@@ -34,6 +34,8 @@
 			continue
 		if(!H.patron || !istype(H.patron, /datum/patron/divine/abyssor))
 			continue
+		if(!H.client.prefs || H.client.prefs?.no_storyteller_events)
+			continue
 		valid_targets += H
 
 	if(!valid_targets.len)

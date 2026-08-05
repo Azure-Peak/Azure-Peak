@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
 import { useBackend } from '../../backend';
-import { groupByCategory } from './helpers';
 import {
+  BUTTON_BG,
   badgeStyle,
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -17,6 +18,7 @@ import {
   subTabBarStyle,
   subTabStyle,
 } from '../common/parchment';
+import { groupByCategory } from './helpers';
 import type { AutoImportRow, Data } from './types';
 
 export const AutoImportView = (props: { data: Data }) => {
@@ -47,7 +49,8 @@ export const AutoImportView = (props: { data: Data }) => {
     groupedOthers[0]?.category ?? '',
   );
   const activeGroup =
-    groupedOthers.find((g) => g.category === activeCategory) ?? groupedOthers[0];
+    groupedOthers.find((g) => g.category === activeCategory) ??
+    groupedOthers[0];
 
   return (
     <div>
@@ -64,7 +67,7 @@ export const AutoImportView = (props: { data: Data }) => {
           }}
         >
           <div>
-            <div style={{ fontSize: '12px', color: INK_SOFT }}>
+            <div style={{ fontSize: FONT_BODY, color: INK_SOFT }}>
               Today&apos;s spend:{' '}
               <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
                 {today_spent}m
@@ -72,14 +75,16 @@ export const AutoImportView = (props: { data: Data }) => {
               &middot; Goods on standing import:{' '}
               <span style={{ fontWeight: 'bold' }}>{activeCount}</span>
             </div>
-            <div style={{ fontSize: '11px', color: INK_FAINT, fontStyle: 'italic' }}>
-              Tops up each good by {batch_size} units every 6 minutes when stock is
-              below {floor_target}, skipping when a unit would cost more than{' '}
+            <div style={{ fontSize: FONT_BODY, color: INK_SOFT }}>
+              Tops up each good by {batch_size} units every 6 minutes when stock
+              is below {floor_target}, skipping when a unit would cost more than{' '}
               {max_price_mult}x its base price.
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ color: INK_FAINT, fontSize: '12px' }}>Purse floor:</span>
+            <span style={{ color: INK_FAINT, fontSize: FONT_BODY }}>
+              Purse floor:
+            </span>
             <input
               type="number"
               value={floorDraft}
@@ -89,10 +94,10 @@ export const AutoImportView = (props: { data: Data }) => {
               style={{
                 width: '80px',
                 fontFamily: 'inherit',
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 padding: '2px 4px',
                 border: `1px solid ${INK_FAINT}`,
-                background: 'rgba(255,248,220,0.55)',
+                background: BUTTON_BG,
                 color: INK,
                 opacity: aldermanActing ? 0.55 : 1,
               }}
@@ -101,7 +106,10 @@ export const AutoImportView = (props: { data: Data }) => {
             />
             <button
               type="button"
-              style={inkButtonStyle({ color: SEAL_BLUE, disabled: aldermanActing })}
+              style={inkButtonStyle({
+                color: SEAL_BLUE,
+                disabled: aldermanActing,
+              })}
               disabled={aldermanActing}
               onClick={() => {
                 const amount = Number(floorDraft);
@@ -114,7 +122,10 @@ export const AutoImportView = (props: { data: Data }) => {
             </button>
             <button
               type="button"
-              style={inkButtonStyle({ color: SEAL_RED, disabled: aldermanActing })}
+              style={inkButtonStyle({
+                color: SEAL_RED,
+                disabled: aldermanActing,
+              })}
               disabled={aldermanActing}
               onClick={() => act('kill_switch_auto_import')}
               title={
@@ -131,7 +142,9 @@ export const AutoImportView = (props: { data: Data }) => {
 
       <div style={sectionHeaderStyle}>Essentials (on by default)</div>
       {essentials.length === 0 ? (
-        <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>
+        <div
+          style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}
+        >
           No essentials configured.
         </div>
       ) : (
@@ -143,16 +156,16 @@ export const AutoImportView = (props: { data: Data }) => {
             floorTarget={floor_target}
             disabled={aldermanActing}
             disabledTitle={aldermanBlockTitle}
-            onToggle={() =>
-              act('toggle_auto_import', { good_id: row.good_id })
-            }
+            onToggle={() => act('toggle_auto_import', { good_id: row.good_id })}
           />
         ))
       )}
 
       <div style={sectionHeaderStyle}>Other Goods</div>
       {groupedOthers.length === 0 ? (
-        <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>
+        <div
+          style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}
+        >
           No other goods may be placed on standing import at present.
         </div>
       ) : (
@@ -164,7 +177,8 @@ export const AutoImportView = (props: { data: Data }) => {
                 style={subTabStyle(g.category === activeGroup?.category)}
                 onClick={() => setActiveCategory(g.category)}
               >
-                {g.label} ({g.rows.filter((r) => r.active).length}/{g.rows.length})
+                {g.label} ({g.rows.filter((r) => r.active).length}/
+                {g.rows.length})
               </div>
             ))}
           </div>
@@ -189,10 +203,12 @@ export const AutoImportView = (props: { data: Data }) => {
       )}
 
       <div style={sectionHeaderStyle}>
-        Recent Activity (last {history.length || 0} day{history.length === 1 ? '' : 's'})
+        Tally (last {history.length || 0} day{history.length === 1 ? '' : 's'})
       </div>
       {history.length === 0 ? (
-        <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>
+        <div
+          style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}
+        >
           No auto-import history yet. First tick will record here.
         </div>
       ) : (
@@ -211,11 +227,17 @@ export const AutoImportView = (props: { data: Data }) => {
               </span>
             </div>
             {entry.lines.length === 0 ? (
-              <div style={{ color: INK_FAINT, fontSize: '11px', fontStyle: 'italic' }}>
+              <div
+                style={{
+                  color: INK_FAINT,
+                  fontSize: FONT_BODY,
+                  fontStyle: 'italic',
+                }}
+              >
                 No auto-import activity.
               </div>
             ) : (
-              <div style={{ fontSize: '11px', color: INK_SOFT }}>
+              <div style={{ fontSize: FONT_BODY, color: INK_SOFT }}>
                 {entry.lines.map((line, i) => (
                   <div key={i}>{line}</div>
                 ))}
@@ -262,13 +284,13 @@ const ToggleRow = (props: {
         {row.active && low && (
           <span style={badgeStyle(SEAL_BLUE)}>will top up</span>
         )}
-        {!row.active && (
-          <span style={badgeStyle(INK_FAINT)}>off</span>
-        )}
+        {!row.active && <span style={badgeStyle(INK_FAINT)}>off</span>}
       </div>
-      <div style={{ fontSize: '11px', color: INK_FAINT }}>
+      <div style={{ fontSize: FONT_BODY, color: INK_FAINT }}>
         Stock:{' '}
-        <span style={{ color: low ? SEAL_RED : SEAL_GREEN, fontWeight: 'bold' }}>
+        <span
+          style={{ color: low ? SEAL_RED : SEAL_GREEN, fontWeight: 'bold' }}
+        >
           {row.stock}
         </span>{' '}
         / target {floorTarget}

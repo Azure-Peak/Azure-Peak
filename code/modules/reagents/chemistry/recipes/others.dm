@@ -198,14 +198,6 @@
 	required_reagents = list(/datum/reagent/fuel/oil = 1)
 	required_temp = 480
 
-/datum/chemical_reaction/monkey
-	name = "monkey"
-	id = "monkey"
-	required_reagents = list(/datum/reagent/monkey_powder = 30, /datum/reagent/water = 1)
-
-/datum/chemical_reaction/monkey/on_reaction(datum/reagents/holder, created_volume)
-	var/location = get_turf(holder.my_atom)
-	new /mob/living/carbon/monkey(location)
 //water electrolysis
 /datum/chemical_reaction/hair_dye
 	name = /datum/reagent/hair_dye

@@ -17,6 +17,7 @@
 	rotprocess = null
 	static_debris = list(/obj/item/natural/feather=1)
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/friedcrow
+	slot_flags = SLOT_BACK
 
 /obj/item/reagent_containers/food/snacks/rogue/friedcrow
 	name = "fried zad"

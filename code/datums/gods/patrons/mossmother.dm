@@ -1,10 +1,11 @@
 /datum/patron/mossmother
 	name = "The Mossmother"
-	domain = "Hags, primordial evyl, poisoned boons and eternal life."
+	domain = "Hags, Primordial Evyls, Poisoned Boons, and Eternal Lyfe"
 	desc = "The mother of all hags. Murmured by hags to have been defeated in times long past, but her spirit carries on in the soil. Old grievances will be settled."
 	worshippers = "Hags"
 	associated_faith = /datum/faith/mossmother
 	preference_accessible = FALSE
+	profane_words = list("cock","dick","fuck","shit","pussy","cuck","cunt","asshole", "pintle", "vheslyn") //Same as Inhuman list
 	undead_hater = FALSE
 	confess_lines = list(
 		"THE MOSSMOTHER SEES YOU!",
@@ -14,12 +15,12 @@
 		"I AM THE LAND. YOU SHOULD BE THANKING ME FOR THREADING IT.",
 	)
 
-/datum/patron/godless/can_pray(mob/living/follower)
+/datum/patron/mossmother/can_pray(mob/living/follower)
 	. = ..()
 	to_chat(follower, span_danger("I do not need to pray to the Mossmother, she is with me always."))
 	return FALSE	//heathen
 
-/datum/patron/godless/on_lesser_heal(
+/datum/patron/mossmother/on_lesser_heal(
     mob/living/user,
     mob/living/target,
     message_out,

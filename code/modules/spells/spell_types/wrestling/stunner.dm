@@ -68,9 +68,7 @@
 	var/original_user_pixel_x = user.pixel_x
 	var/original_user_pixel_y = user.pixel_y
 	var/original_user_pixel_z = user.pixel_z
-	var/original_user_transform = user.transform
 	var/original_target_pixel_z = target.pixel_z
-	var/original_target_transform = target.transform
 	
 	
 	// lifting both user and target upwards
@@ -81,7 +79,7 @@
 	animate(target, pixel_z = original_target_pixel_z + 11, time = 5) // we shouldnt animate people on the floor because they break. so you body slam them or w/e
 	
 	//  drop back down after a short delay
-	var/drop_timer = addtimer(CALLBACK(src, PROC_REF(drop_both), user, target, original_user_pixel_z, original_target_pixel_z, original_user_transform, original_target_transform), 5)
+	var/drop_timer = addtimer(CALLBACK(src, PROC_REF(drop_both), user, target, original_user_pixel_z, original_target_pixel_z), 5, TIMER_STOPPABLE)
 
 
 
@@ -90,8 +88,8 @@
 		user.stop_pulling(TRUE)
 		to_chat(user, span_notice("I'm interupted!"))
 		deltimer(drop_timer)
-		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, pixel_z = original_user_pixel_z, transform = original_user_transform, time = 1 SECONDS) // reset animation
-		animate(target, pixel_z = original_target_pixel_z, transform = original_target_transform, time = 1 SECONDS) // reset animation
+		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, pixel_z = original_user_pixel_z, time = 1 SECONDS) // reset animation
+		animate(target, pixel_z = original_target_pixel_z, time = 1 SECONDS) // reset animation
 		revert_cast()
 
 		return FALSE
@@ -99,8 +97,8 @@
 	if(!do_after(user, channel_time, target = target)) //saftey check
 		tracker.channeling_throw = FALSE
 		deltimer(drop_timer)
-		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, pixel_z = original_user_pixel_z, transform = original_user_transform, time = 1 SECONDS) // reset animation
-		animate(target, pixel_z = original_target_pixel_z, transform = original_target_transform, time = 1 SECONDS) // reset animation
+		animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, pixel_z = original_user_pixel_z, time = 1 SECONDS) // reset animation
+		animate(target, pixel_z = original_target_pixel_z, time = 1 SECONDS) // reset animation
 		revert_cast()
 
 		return FALSE
@@ -141,9 +139,9 @@
 	tracker.channeling_throw = FALSE
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/stunner/proc/drop_both(mob/living/user, mob/living/target, original_user_pixel_x, original_user_pixel_y, original_user_pixel_z, original_target_pixel_z, original_user_transform, original_target_transform)
-	animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, pixel_z = original_user_pixel_z, transform = original_user_transform, time = 5)
-	animate(target, pixel_z = original_target_pixel_z, transform = original_target_transform, time = 5)
+/obj/effect/proc_holder/spell/invoked/stunner/proc/drop_both(mob/living/user, mob/living/target, original_user_pixel_x, original_user_pixel_y, original_user_pixel_z, original_target_pixel_z)
+	animate(user, pixel_x = original_user_pixel_x, pixel_y = original_user_pixel_y, pixel_z = original_user_pixel_z, time = 5)
+	animate(target, pixel_z = original_target_pixel_z, time = 5)
 
 /datum/component/wrestle_combat_tracker // keeps track of if were channeling or not, used for all wrestling spells
 	channeling_throw = FALSE

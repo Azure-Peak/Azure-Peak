@@ -32,11 +32,23 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	if(HAS_BLOOD_DNA(src))
 		used_index += "_b"
 	var/static/list/onmob_sprites = list()
-	var/icon/onmob = onmob_sprites["[tag][behind][mirrored][used_index]"]
+	var/cache_key = "[type]|[icon]|[tag]|[current_alt_grip?.type]|[behind]|[mirrored]|[used_index]|[get_onmob_overlay_signature()]"
+	var/icon/onmob = onmob_sprites[cache_key]
 	if(!onmob || force_reupdate_inhand)
 		onmob = fcopy_rsc(generateonmob(tag, prop, behind, mirrored))
-		onmob_sprites["[tag][behind][mirrored][used_index]"] = onmob
+		onmob_sprites[cache_key] = onmob
+		force_reupdate_inhand = FALSE
 	return onmob
+
+/obj/item/proc/get_onmob_overlay_signature()
+	if(!length(overlays))
+		return ""
+	var/static/list/plane_whitelist = list(FLOAT_PLANE, GAME_PLANE, FLOOR_PLANE)
+	var/list/sig = list()
+	for(var/mutable_appearance/overlay as anything in overlays)
+		if(overlay.plane in plane_whitelist)
+			sig += "\ref[overlay]"
+	return sig.Join(",")
 
 /obj/item/proc/get_extra_onmob_index()
 	//perhaps in the future: force items like flasks to use getflaticon to get their filled states and drinking cups too. that's all
@@ -50,7 +62,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 ///Mob ref is only needed for their dir to know how to rotate it and for the throw proc.
 /obj/item/proc/get_deflected(mob/deflector)
 	var/turnangle = (prob(50) ? 270 : 90)
-	if(prob(10))	
+	if(prob(10))
 		turnangle = 0 //Right back at thee
 	var/turndir = turn(deflector.dir, turnangle)
 	var/dist = rand(1, 6)
@@ -814,7 +826,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	LI.update_inv_back()
 
 /client/verb/give_me_money()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "GiveMeMoney"
 	if(mob)
 		var/turf/T = get_turf(mob)
@@ -822,7 +834,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 			new /obj/item/coin/gold/pile(T)
 /*
 /client/verb/wwolf()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "Werewolf"
 	if(mob.mind)
 		if(mob.mind.has_antag_datum(/datum/antagonist/werewolf, TRUE))
@@ -833,7 +845,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 */
 
 /client/verb/zoomtest()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "ZoomTest"
 	if(mob)
 		if(iscarbon(mob))
@@ -847,7 +859,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 				animate(transform = -newmatrix, time = 5, easing = QUAD_EASING)
 
 /client/verb/zoomteststop()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "ZoomTestEnd"
 	if(mob)
 		if(iscarbon(mob))

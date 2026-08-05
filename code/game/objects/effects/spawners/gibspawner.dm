@@ -19,6 +19,8 @@
 		stack_trace("Gib list dir length mismatch!")
 		return
 
+	var/bcolor = source_mob?.get_blood_color() || BLOOD_COLOR_RED
+
 	var/obj/effect/decal/cleanable/blood/gibs/gib = null
 
 	if(sound_to_play && isnum(sound_vol))
@@ -45,7 +47,7 @@
 		if(gibamounts[i])
 			for(var/j = 1, j<= gibamounts[i], j++)
 				var/gibType = gibtypes[i]
-				gib = new gibType(loc)
+				gib = new gibType(loc, bcolor)
 
 				gib.add_blood_DNA(dna_to_add)
 

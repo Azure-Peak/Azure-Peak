@@ -4,6 +4,7 @@
 #define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         15
 #define HUMAN_NPC_WEAKPOINT_CACHE_DURATION      (6 SECONDS)
 #define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         15  // base chance, INT-scaled. Was 35 — too spammy
+#define HUMAN_NPC_SPECIAL_EVAL_INTERVAL         (5 SECONDS)
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
 #define HUMAN_NPC_MIN_INT_FOR_TACTICS        8   // minimum INT to use weapon specials or feint
@@ -29,6 +30,12 @@
 // Both are INT-scaled via AI_INT_SCALE_PROB — dumber NPCs whiff more and track less.
 #define HUMAN_NPC_WHIFF_FLOOR_CHANCE         8   // % chance to whiff even when target is stationary
 #define HUMAN_NPC_TRACK_CEILING_CHANCE       40  // % chance to still land a hit when target moved off the snapshot
+// Consecutive swings an NPC commits to the same body zone before re-picking.
+
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE         9
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN   12
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT       15
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER       18
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -42,10 +49,7 @@
 	if(istype(pawn))
 		// If we're disarmed and a weapon is reachable nearby, skip melee planning so find_weapon
 		// can run (it's the next subtree). Otherwise we'd just punch the target empty-handed forever.
-		var/obj/item/r_held = pawn.get_item_for_held_index(1)
-		var/obj/item/l_held = pawn.get_item_for_held_index(2)
-		var/has_weapon = istype(r_held, /obj/item/rogueweapon) || istype(l_held, /obj/item/rogueweapon)
-		if(!has_weapon)
+		if(!ai_npc_has_weapon(pawn))
 			for(var/obj/item/rogueweapon/nearby_weapon in view(7, pawn))
 				if(!isturf(nearby_weapon.loc))
 					continue
@@ -72,9 +76,9 @@
 			pawn.swap_hand()
 	else if(!isweapon(held_item))
 		pawn.swap_hand()
-		for(var/slot in list(ITEM_SLOT_BACK, ITEM_SLOT_HIP, ITEM_SLOT_BELT, ITEM_SLOT_BACK_L, ITEM_SLOT_BACK_R))
-			if(!pawn.get_item_by_slot(slot))
-				if(pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
+		if(pawn.belt)
+			for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
+				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
 					break
 
 	var/list/possible_intents = list()
@@ -144,8 +148,10 @@
 		if(feint_ready && technique_ready && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
-			controller.set_blackboard_key(BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + HUMAN_NPC_FEINT_COOLDOWN)
+			var/feint_cd = npc_technique_cd(pawn, HUMAN_NPC_FEINT_COOLDOWN)
+			controller.set_blackboard_key(BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + feint_cd)
 			controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
+			propagate_technique_cd(pawn, target, BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + feint_cd)
 		#ifdef NPC_THINK_DEBUG
 		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint) && !feint_ready)
 			AI_THINK(pawn, "FEINT: on cooldown ([controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] - world.time]ds remaining)")
@@ -283,6 +289,13 @@
 
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_choose_attack_zone(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target)
+	var/forced_zone = controller.blackboard[BB_FORCED_ATTACK_ZONE]
+	if(forced_zone)
+		var/forced_aim = _zone_to_aimheight(forced_zone)
+		if(forced_aim)
+			pawn.aimheight_change(forced_aim)
+		pawn.zone_selected = forced_zone
+		return
 	var/list/wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
 	if(wp && world.time < wp[2] && wp[3] == target)
 		var/aimheight = _zone_to_aimheight(wp[1])
@@ -296,14 +309,14 @@
 	var/skill_level = SKILL_LEVEL_NONE
 	if(held?.associated_skill)
 		skill_level = pawn.get_skill_level(held.associated_skill)
-	var/switch_threshold = 3
+	var/switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
 	switch(skill_level)
 		if(SKILL_LEVEL_JOURNEYMAN)
-			switch_threshold = 4
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
 		if(SKILL_LEVEL_EXPERT)
-			switch_threshold = 5
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
 		if(SKILL_LEVEL_MASTER to INFINITY)
-			switch_threshold = 6
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
 
 	var/counter = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
 	if(counter < switch_threshold)
@@ -363,9 +376,6 @@
 	if(!istype(held_weapon, /obj/item/rogueweapon) || !held_weapon:special)
 		return FALSE
 
-	if(!AI_INT_SCALE_PROB(pawn, HUMAN_NPC_WEAPON_SPECIAL_CHANCE))
-		return FALSE
-
 	var/datum/special_intent/special = held_weapon:special
 	if(special.stamcost)
 		var/cost = (special.stamcost < 1) ? (pawn.max_stamina * special.stamcost) : special.stamcost
@@ -375,20 +385,38 @@
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	if(!target)
 		return FALSE
-	var/obj/item/weapon = pawn.get_active_held_item()
-	if(!weapon)
+
+	// Certain special will judge its own usage conditions on the battlefield, others just guarantee a fire
+	var/use_chance = special.npc_use_chance(pawn, target)
+	if(isnull(use_chance))
+		use_chance = HUMAN_NPC_WEAPON_SPECIAL_CHANCE
+	if(use_chance <= 0)
 		return FALSE
-	if(!special.check_reqs(pawn, weapon))
+	if(use_chance < 100)
+		var/next_eval = controller.blackboard[BB_HUMAN_NPC_SPECIAL_EVAL_AT]
+		if(next_eval && world.time < next_eval)
+			return FALSE
+		if(!AI_INT_SCALE_PROB(pawn, use_chance))
+			controller.set_blackboard_key(BB_HUMAN_NPC_SPECIAL_EVAL_AT, world.time + HUMAN_NPC_SPECIAL_EVAL_INTERVAL)
+			return FALSE
+		AI_THINK(pawn, "SPECIAL: rolled [use_chance]% and passed")
+	else
+		AI_THINK(pawn, "SPECIAL: conditions met, firing [special.name] immediately")
+
+	if(!special.check_reqs(pawn, held_weapon))
 		return FALSE
 	if(!special.apply_cost(pawn))
 		return FALSE
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
-	special.deploy(pawn, weapon, target)
+	special.deploy(pawn, held_weapon, target)
 	controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
 	// AI penalty: re-stamp the special cooldown longer than the player baseline so NPCs
 	// can't chain specials as tightly as a human player could. Override replaces the
-	// debuff applied inside deploy() with our extended version.
-	special.apply_cooldown(special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY, override = TRUE)
+	// debuff applied inside deploy() with our extended version. Conjured summons keep
+	// the player-baseline cooldown via npc_technique_cd.
+	var/special_cd = npc_technique_cd(pawn, special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY)
+	special.apply_cooldown(special_cd, override = TRUE)
+	propagate_technique_cd(pawn, target, specialcd_duration = special_cd)
 	// Recovery: block the next swing for longer than a normal attack so specials don't chain
 	if(pawn.next_click < world.time + pawn.used_intent?.clickcd * 1.8)
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * 1.8)
@@ -581,6 +609,7 @@
 #undef HUMAN_NPC_WEAKPOINT_SCAN_CHANCE
 #undef HUMAN_NPC_WEAKPOINT_CACHE_DURATION
 #undef HUMAN_NPC_WEAPON_SPECIAL_CHANCE
+#undef HUMAN_NPC_SPECIAL_EVAL_INTERVAL
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
 #undef HUMAN_NPC_MIN_INT_FOR_TACTICS
@@ -594,3 +623,7 @@
 #undef HUMAN_NPC_REACTION_PER_STAT_POINT
 #undef HUMAN_NPC_WHIFF_FLOOR_CHANCE
 #undef HUMAN_NPC_TRACK_CEILING_CHANCE
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER

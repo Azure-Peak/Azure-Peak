@@ -13,7 +13,8 @@
 /datum/action/cooldown/spell/projectile
 	abstract_type = /datum/action/cooldown/spell/projectile
 	self_cast_possible = FALSE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC // Projectiles travel physically, no same-Z restriction
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
+	allow_cross_z = TRUE // Projectiles may cross Z-levels, normally.
 
 	/// What projectile we create when we shoot our spell.
 	var/obj/projectile/projectile_type = /obj/projectile/magic/teleport
@@ -23,6 +24,8 @@
 	var/projectiles_per_fire = 1
 	/// Whether this spell is currently set to fire in arc mode.
 	var/arc_mode = FALSE
+	/// If TRUE, a non-click (facing-direction) cast snaps the aim to the nearest cardinal direction.
+	var/cardinal_aim = FALSE
 
 /datum/action/cooldown/spell/projectile/generate_wiki_html(mob/user)
 	if(!displayed_damage && projectile_type)
@@ -38,7 +41,8 @@
 	var/atom/target = cast_on
 	// For non-click spells, resolve target in the caster's facing direction
 	if(!click_to_activate)
-		target = get_ranged_target_turf(owner, owner.dir, cast_range)
+		var/aim_dir = cardinal_aim ? angle2dir_cardinal(dir2angle(owner.dir)) : owner.dir
+		target = get_ranged_target_turf(owner, aim_dir, cast_range)
 
 	fire_projectile(target)
 	return TRUE
@@ -94,7 +98,10 @@
 		to_chat(user, span_warning("[name] cannot be arced."))
 		return
 	arc_mode = !arc_mode
-	to_chat(user, span_notice("[name] arc mode [arc_mode ? "enabled" : "disabled"]."))
+	if(arc_mode)
+		to_chat(user, span_notice("[name] arc mode enabled - aim above or below to lob the shot across elevations."))
+	else
+		to_chat(user, span_notice("[name] arc mode disabled."))
 	update_arc_maptext()
 
 /// Updates the ARC maptext indicator on the spell's action button.
@@ -131,4 +138,6 @@
 			stats += span_info("Damage: [proj_damage] x[projectiles_per_fire]")
 		else
 			stats += span_info("Damage: [proj_damage]")
+	if(projectile_type_arc)
+		stats += span_info("Arc Mode (toggle with Shift+G): lobs the shot across elevations - aim at a target a level above or below, or at an opening over them.")
 	return stats

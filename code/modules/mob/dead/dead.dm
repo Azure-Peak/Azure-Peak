@@ -18,7 +18,7 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	prepare_huds()
 
 	if(length(CONFIG_GET(keyed_list/cross_server)))
-		verbs += /mob/dead/proc/server_hop
+		add_verb(src, /mob/dead/proc/server_hop)
 	set_focus(src)
 	return INITIALIZE_HINT_NORMAL
 
@@ -48,7 +48,7 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	Moved(oldloc, NONE, TRUE)
 
 
-/mob/dead/new_player/proc/lobby_refresh()
+/mob/dead/new_player/proc/lobby_refresh(job_list_html)
 	set waitfor = 0
 //	src << browse(null, "window=lobby_window")
 
@@ -81,42 +81,7 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 
 	dat += "</center>"
 
-	var/list/job_list = list()
-	var/list/ready_players_by_job = list()
-	var/list/wanderer_jobs = list(
-		"Adventurer",
-		"Wretch",
-		"Court Agent"
-	)
-	var/list/count_only_job = list(
-		"Hag"
-	)
-
-	for (var/mob/dead/new_player/player in GLOB.player_list)
-		if (player.client?.ckey in GLOB.hiderole)
-			continue
-		var/job_choice = player.client?.prefs?.job_preferences
-		if (job_choice)
-			for (var/job_name in job_choice)
-				if (job_choice[job_name] == JP_HIGH)
-					if (job_name in wanderer_jobs)
-						job_name = "Wanderer"
-					if (player.ready == PLAYER_READY_TO_PLAY)
-						if (!ready_players_by_job[job_name])
-							ready_players_by_job[job_name] = list()
-						ready_players_by_job[job_name] += player.client.prefs.real_name
-						break
-
-	for (var/job_name in ready_players_by_job)
-		var/list/job_players = ready_players_by_job[job_name]
-		if (job_name in count_only_job)
-			job_list += "<B>[job_name]</B> ([job_players.len])<br>"
-		else
-			job_list += "<B>[job_name]</B> ([job_players.len]) - [job_players.Join(", ")]<br>"
-	
-	sortTim(job_list, cmp = GLOBAL_PROC_REF(cmp_text_asc))
-
-	dat += job_list
+	dat += job_list_html
 	var/datum/browser/popup = new(src, "lobby_window", "<div align='center'>LOBBY</div>", 330, 430)
 	popup.set_window_options("can_close=1;can_minimize=0;can_maximize=0;can_resize=1;")
 	popup.set_content(dat.Join())
@@ -130,7 +95,6 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 		popup.open(FALSE)
 
 /mob/dead/proc/server_hop()
-	set category = "OOC"
 	set name = "Server Hop!"
 	set desc= "Jump to the other server"
 	set hidden = 1
@@ -140,7 +104,7 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	var/pick
 	switch(csa.len)
 		if(0)
-			verbs -= /mob/dead/proc/server_hop
+			remove_verb(src, /mob/dead/proc/server_hop)
 			to_chat(src, span_notice("Server Hop has been disabled."))
 		if(1)
 			pick = csa[1]

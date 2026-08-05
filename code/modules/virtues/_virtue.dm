@@ -77,15 +77,15 @@ GLOBAL_LIST_EMPTY(virtues)
 
 /datum/virtue/proc/triumph_check(mob/living/carbon/human/recipient)
 	if(length(extra_choices))
-		var/total_cost
-		for(var/i in 1 to length(picked_choices))
+		var/total_cost = 0
+		for(var/i in 1 to min(length(picked_choices), length(choice_costs)))
 			if(choice_costs[i] > 0)
 				total_cost += choice_costs[i]
-		if(recipient.get_triumphs() > total_cost)
+		if(total_cost)
+			if(recipient.get_triumphs() < total_cost)
+				to_chat(recipient, span_notice("Not enough Triumphs for [name]. It has not been applied."))
+				return FALSE
 			recipient.adjust_triumphs(-total_cost)
-		else
-			to_chat(recipient, span_notice("Not enough Triumphs for a virtue. It has not been applied."))
-			return FALSE
 	for(var/choice in picked_choices)
 		record_featured_object_stat(FEATURED_STATS_SUBVIRTUES, choice)
 	return TRUE
@@ -169,7 +169,10 @@ GLOBAL_LIST_EMPTY(virtues)
 	if (!recipient.mind)
 		return FALSE
 
-	// we should check to see if they have triumphs first but i can't be fucked
+	if (recipient.get_triumphs() < triumph_cost)
+		to_chat(recipient, span_notice("Not enough Triumphs for [name]. It has not been applied."))
+		return FALSE
+
 	recipient.adjust_triumphs(-triumph_cost, FALSE)
 	return TRUE
 

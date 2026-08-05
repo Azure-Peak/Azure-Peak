@@ -7,7 +7,7 @@
 // if you add mechanical differences between the subtypes i will find you.
 
 /*
-	Familiar list and buffs below. 
+	Familiar list and buffs below.
 	Sprites by Diltyrr (those aren't good gah)
 
 	Quick AI pictures idea for each of them : https://imgbox.com/g/MvanomKazA
@@ -36,6 +36,7 @@
 	mob_size = MOB_SIZE_SMALL
 	density = FALSE
 	see_in_dark = FAMILIAR_SEE_IN_DARK
+	lighting_alpha = LIGHTING_PLANE_ALPHA_INVISIBLE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	minbodytemp = FAMILIAR_MIN_BODYTEMP
 	maxbodytemp = FAMILIAR_MAX_BODYTEMP
@@ -57,23 +58,59 @@
 	var/tier = 0 // increments once per dae survived; gates the stronger abilities
 	var/mob/living/carbon/familiar_summoner = null
 	var/inherent_spell = null
-	var/t1_spell = null
+	var/t1_spell = list()
 	var/tutorial_message = null
 	var/tierup_messages = list()
-	var/t2_spell = null
+	var/t2_spell = list()
 	var/summoning_emote = null
 	var/list/valid_healing_items = list() // what planar materials can heal you?
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
 	rot_type = null // no rotting inside vestiges please
-	
+	var/datum/voicepack/voice_pack
+
+/datum/status_effect/buff/healing/familiar
+	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/familiar
+
+/atom/movable/screen/alert/status_effect/buff/healing/familiar
+	name = "Planar Respite"
+	desc = "Drawing energy from my home plane to restore myself."
+
+// slight perf gains over list iteration for all types
+/mob/living/simple_animal/pet/familiar/proc/is_aligned_leyline(obj/structure/leyline/ley)
+	return FALSE
+
 //As far as I am aware, you cannot pat out fire as a familiar at least not in time for it to not kill you, this seems fair.
 /mob/living/simple_animal/pet/familiar/fire_act(added, maxstacks)
 	. = ..()
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living, extinguish_mob)), 1 SECONDS)
 
+// leying down gives healing
+/mob/living/simple_animal/pet/familiar/Life()
+	. = ..()
+	if(!resting || !isturf(loc) || has_status_effect(/datum/status_effect/buff/healing/familiar))
+		return .
+	for(var/obj/structure/leyline/ley in loc)
+		// bog leylines are high-tier healing for all familiars, otherwise you need to use the one aligned to your plane to get the bonus
+		var/is_high_tier = ley.max_tier==5 || is_aligned_leyline(ley)
+		// full recovery takes 20 seconds, or 10 seconds on high tier; we don't want to force people to sit around forever familiars don't have much health anywae
+		var/healing_factor = maxHealth/(is_high_tier ? 100 : 200)
+		apply_status_effect(/datum/status_effect/buff/healing/familiar, healing_factor)
+		// only do this once; if there are multiple leylines on a tile uh why lol
+		// (checking every leyline for the highest tier healing in this hypothetical scenario would not be worth the performance hit)
+		return .
+
 // if they are within the orb, they should not be able to commit recursion
 /mob/living/simple_animal/pet/familiar/restrained(ignore_grab)
 	return !isturf(src.loc)
+
+/mob/living/simple_animal/pet/familiar/become_item()
+	var/obj/item/mob_item/orb = ..()
+	orb.slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_RING // little pendant-esque thing
+	orb.filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = GLOW_COLOR_ARCANE)
+	orb.desc = "A small orb, containing the spirit of [name]."
+	orb.can_container = TRUE
+	orb.w_class = WEIGHT_CLASS_SMALL
+	return orb
 
 /mob/living/simple_animal/pet/familiar/Initialize()
 	. = ..()
@@ -84,18 +121,56 @@
 	AddComponent(/datum/component/footstep, footstep_type)
 	TryAddFlight()
 	icon_dead = icon_living // to prevent sprite updating weirdness with vestige revival
+	grant_languages() // we're pAI equivalent extraplanar beings and this avoids weird edge cases like infernals not speaking infernal
+
+// minor bit of organization to not clutter Initialize since uh,
+// there are a lot of languages we do not want to give like (checks) EAL holy shit why is that still in our code???
+// anyway the logic here is anything that's virtue-selectable, plus some more niche languages (undercommon, abyssal, zizochant) but not
+// thieves cant since it's not a language you learn so much as signals for a trade
+/mob/living/simple_animal/pet/familiar/proc/grant_languages()
+	var/static/list/familiar_languages = list(
+		/datum/language/elvish,
+		/datum/language/dwarvish,
+		/datum/language/orcish,
+		/datum/language/hellspeak,
+		/datum/language/draconic,
+		/datum/language/celestial,
+		/datum/language/raneshi,
+		/datum/language/grenzelhoftian,
+		/datum/language/kazengunese,
+		/datum/language/lingyuese,
+		/datum/language/etruscan,
+		/datum/language/gronnic,
+		/datum/language/otavan,
+		/datum/language/aavnic,
+		/datum/language/undercommon,
+		/datum/language/oldazurian,
+		/datum/language/abyssal,
+		/datum/language/beast,
+		/datum/language/undead,
+	)
+	for(var/L in familiar_languages)
+		grant_language(L)
 
 /mob/living/simple_animal/pet/familiar/death(gibbed)
 	. = ..(gibbed)
+	if(gibbed)
+		return .
 	var/obj/item/magic/familiar/familiar_vestige/vestige = new /obj/item/magic/familiar/familiar_vestige(loc)
 	vestige.stored_familiar = src
 	src.forceMove(vestige)
 	vestige.desc = "The vestige of [src.name], a fallen [GLOB.familiar_display_names[src.type]]. Likely worth a lot to the magos that summoned [src.p_them()]!"
 
+/mob/living/simple_animal/pet/familiar/void/revive(full_heal, admin_revive)
+	if(..()) // successful revive
+		if(essences_consumed.Find("fae")) // flight is lost on death
+			movement_type = FLYING
+		. = TRUE
+
 /mob/living/simple_animal/pet/familiar/proc/TryAddFlight()
 	if(movement_type & (FLYING | FLOATING))
-		verbs += list(/mob/living/simple_animal/proc/fly_up,
-		/mob/living/simple_animal/proc/fly_down)
+		add_verb(src, list(/mob/living/simple_animal/proc/fly_up,
+		/mob/living/simple_animal/proc/fly_down))
 
 // they can wear pouches and amulets around their neck, for sovl
 /mob/living/simple_animal/pet/familiar/can_equip(obj/item/I, slot, disable_warning, bypass_equip_delay_self)
@@ -105,21 +180,23 @@
 	for(var/obj/item/grabbing/grab in grabbedby) //Grabbed by the mouth
 		if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
 			return FALSE
-			
+
 	return TRUE
 
 /mob/living/simple_animal/pet/familiar/is_literate()
 	return TRUE
 
 /mob/living/simple_animal/pet/familiar/proc/grant_tier_abilities(tier)
-	if(tier==1 && t1_spell)
-		var/spell_instance = new t1_spell
-		if(spell_instance && src.mind)
-			src.mind.AddSpell(spell_instance)
-	if(tier==2 && t2_spell)
-		var/spell_instance = new t2_spell
-		if(spell_instance && src.mind)
-			src.mind.AddSpell(spell_instance)
+	if(tier==1 && length(t1_spell))
+		for(var/path in t1_spell)
+			var/spell_instance = new path
+			if(spell_instance && src.mind)
+				src.mind.AddSpell(spell_instance)
+	if(tier==2 && length(t2_spell))
+		for(var/path in t2_spell)
+			var/spell_instance = new path
+			if(spell_instance && src.mind)
+				src.mind.AddSpell(spell_instance)
 	return
 
 /mob/living/simple_animal/pet/familiar/proc/debug_force_tierup()
@@ -193,9 +270,9 @@
 	pass_flags = PASSTABLE | PASSMOB
 	inherent_spell = list(/datum/action/cooldown/spell/projectile/lesser_fetch/fae)
 	movement_type = FLYING
-	t1_spell = /obj/effect/proc_holder/spell/invoked/reagent_bite
-	t2_spell = /datum/action/cooldown/spell/fae_brew
-	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance.")
+	t1_spell = list(/datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae)
+	t2_spell = list(/datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
+	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance, and force hidden crops to bloom at your command.")
 	tierup_messages = list(
 		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite."),
 		span_info("You now act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
@@ -209,6 +286,9 @@
 	ADD_TRAIT(src, TRAIT_CICERONE, TRAIT_GENERIC) // alchemy familiar
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC) // they're literally nature spirits
 	ADD_TRAIT(src, TRAIT_KEENEARS, TRAIT_GENERIC) // to fit with their recon focus
+
+/mob/living/simple_animal/pet/familiar/fae/is_aligned_leyline(obj/structure/leyline/ley)
+	return istype(ley, /obj/structure/leyline/normal/grove)
 
 /mob/living/simple_animal/pet/familiar/fae/examine(mob/user)
 	var/list/ret = ..()
@@ -278,13 +358,16 @@
 		return TRUE
 	. = ..()
 
-/mob/living/simple_animal/pet/familiar/fae/attack_hand(mob/living/carbon/human/M)
+/mob/living/simple_animal/pet/familiar/fae/attack_hand(mob/living/M)
 	if(ingredients.len)
 		var/obj/item/I = ingredients[ingredients.len]
 		ingredients -= I
 		I.loc = M.loc
 		M.put_in_active_hand(I)
-		M.visible_message("<span class='info'>[src] spits [I] into [M]'s hand.</span>")
+		if(M == src)
+			M.visible_message("<span class='info'>[src] retrieves [I] from [src.p_their()] stomach.</span>")
+		else
+			M.visible_message("<span class='info'>[src] spits [I] into [M]'s hand.</span>")
 		return
 	. = ..()
 
@@ -337,7 +420,7 @@
 						qdel(ing)
 					src.reagents.add_reagent(/datum/reagent/yuck, min(reagents.maximum_volume - reagents.total_volume, 90)) // do not overfill
 					// Learn from your failure (Yeah you can technically still grind this way you just blow through a lot of ingredients)
-					familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE) 
+					familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 					return
 				for(var/obj/item/ing in src.ingredients)
 					qdel(ing)
@@ -372,11 +455,12 @@
 	speak_emote = list("growls","crackles")
 	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you.")
 	tierup_messages = list(
-		span_info("You can now bring a mote of infernal flame to bear with a bite, igniting anything you desire."),
-		span_info("As your flame grows, you can manifest it more directly, surging around you to burn anything unfortunate enough to be nearby.")
+		span_info("You can now breathe flame, conjuring a line of hellfire in front of you."),
+		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
-	t1_spell = /obj/effect/proc_holder/spell/invoked/incendiary_bite
-	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
+	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
+	t1_spell = list(/datum/action/cooldown/spell/matthios/raze/infernal)
+	t2_spell = list(/obj/effect/proc_holder/spell/self/infernal_surge)
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 	valid_healing_items = list(/obj/item/magic/infernal)
@@ -389,6 +473,14 @@
 	src.set_light_color(LIGHT_COLOR_FIRE)
 	if(src.light_system == STATIC_LIGHT)
 		src.update_light()
+	ADD_TRAIT(src, TRAIT_NOFIRE, "[type]")
+	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	weather_immunities += "lava"
+
+/mob/living/simple_animal/pet/familiar/infernal/is_aligned_leyline(obj/structure/leyline/ley)
+	return istype(ley, /obj/structure/leyline/normal/decap)
 
 // in case it wasn't obvious enough that this is license for people to be mad at you
 // update 2026-04-16: it wasn't obvious enough STILL. have some role-specific prodding to do some conflict
@@ -406,7 +498,7 @@
 	var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	for(var/mob/living/carbon/human/human in hearers_in_range)
 		var/distance = get_dist(src, human)
-		if(distance > healing_range || human.construct)
+		if(distance > healing_range || HAS_TRAIT(owner, TRAIT_NOREGEN) || HAS_TRAIT(human, TRAIT_IRONMAN))
 			continue
 		if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
 			to_chat(human, span_info("The warmth of [src.name]'s flames comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))
@@ -431,7 +523,7 @@
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
 	var/cooktime_divisor = get_cooktime_divisor(cs)
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
-		if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+		if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 			to_chat(user, "<span class='warning'>I wouldn't be able to cook this over the fire...</span>")
 			return FALSE
 		var/obj/item/A = user.get_inactive_held_item()
@@ -445,7 +537,6 @@
 			if(foundstab)
 				var/prob2spoil = 33
 				if(cs)
-					to_chat(world,span_warning("[cs]"))
 					prob2spoil = 1
 				var/already_rolled = FALSE
 				user.visible_message("<span class='notice'>[user] starts to cook [I] over [src.name]'s flame...</span>")
@@ -484,9 +575,9 @@
 	maxHealth = WOLF_HEALTH_UNDEAD // more durable than the others
 	health = WOLF_HEALTH_UNDEAD
 	speak_emote = list ("rumbles", "grinds")
-	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental) 
-	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
-	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elemental/t2
+	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental, /datum/action/cooldown/spell/aetherknife/elemental) // you can at least prep food n such with this right
+	t1_spell = list(/datum/action/cooldown/spell/arcyne_forge/elemental)
+	t2_spell = list(/datum/action/cooldown/spell/arcyne_forge/elementalt2)
 	valid_healing_items = list(/obj/item/magic/elemental)
 	tierup_messages = list(
 		span_info("You can now shape your earthen form into tools and weapons, including those capable of repairing equipment."),
@@ -501,6 +592,9 @@
 	src.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE)
+
+/mob/living/simple_animal/pet/familiar/elemental/is_aligned_leyline(obj/structure/leyline/ley)
+	return istype(ley, /obj/structure/leyline/normal/coast)
 
 /mob/living/simple_animal/pet/familiar/void
 	name = "Void Drakeling"
@@ -517,6 +611,9 @@
 	valid_healing_items = list(/obj/item/magic/fae, /obj/item/magic/elemental, /obj/item/magic/infernal) // hungy
 	planar_origin = "void"
 
+/mob/living/simple_animal/pet/familiar/void/is_aligned_leyline(obj/structure/leyline/ley)
+	return !istype(ley, /obj/structure/leyline/tamed)
+
 /mob/living/simple_animal/pet/familiar/void/fire_act(added, maxstacks)
 	if(essences_consumed.Find("infernal"))
 		return FALSE
@@ -526,7 +623,7 @@
 	var/list/ret = ..()
 	var/knows = FALSE
 	knows |= istype(user, /mob/living/simple_animal/pet/familiar)
-	// kind of horrid but this ensures only "proper" casters get to be knowers 
+	// kind of horrid but this ensures only "proper" casters get to be knowers
 	if(user.mind)
 		knows |= (user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"])
 	if(knows)
@@ -542,16 +639,18 @@
 			src.movement_type = FLYING
 			TryAddFlight()
 			src.mind.AddSpell(new /datum/action/cooldown/spell/projectile/lesser_fetch/fae/void)
+			src.mind.AddSpell(new /datum/action/cooldown/spell/invisibility/fae)
 		if("infernal") // nerfed abberant beam, fire res
 			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an abberant beam to blast your foes."))
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
 		if("elemental") // stat buff, inherits spell
-			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself."))
+			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
 			src.maxHealth = WOLF_HEALTH_UNDEAD
 			src.health = WOLF_HEALTH_UNDEAD
 			src.STACON += 2
 			src.STAWIL += 2
 			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental/void)
+			src.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge/elemental/void)
 
 /mob/living/simple_animal/pet/familiar/elemental/pondstone_toad
     name = "Pondstone Toad"
@@ -695,6 +794,24 @@
     icon_living = "drone_gem"
     summoning_emote = "A faint chime as a gem-encrusted mechanical beetle scuttles into view."
     speak_emote = "chimes"
+
+/mob/living/simple_animal/pet/familiar/infernal/armour
+	name = "Infernal Armour"
+	desc = "A suit of accursed armour, its host long swallowed by infernal flames yet the form remains, restless and ready to serve yet another master."
+	summoning_emote = "A loud thud rings across as long dormant armour flashes with unlyfe."
+	animal_species = "Infernal Armour"
+	icon_state = "infernal_armour"
+	icon_living = "infernal_armour"
+	speak_emote = list("crackles")
+
+/mob/living/simple_animal/pet/familiar/infernal/sword
+	name = "Infernal Blade"
+	desc = "A sword once belonging to a hero lost in pits of the underworld upon his demise. It is said to feed upon souls of those who touch it - willing or not."
+	summoning_emote = "A blade raises from the deepest pits, singing against the wind."
+	animal_species = "Infernal Blade"
+	icon_state = "infernal_blade"
+	icon_living = "infernal_blade"
+	speak_emote = list("sings")
 
 #undef FAMILIAR_SEE_IN_DARK
 #undef FAMILIAR_MIN_BODYTEMP

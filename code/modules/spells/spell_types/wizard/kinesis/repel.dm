@@ -20,7 +20,8 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MINOR
-	charge_drain = 0
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 15 SECONDS
@@ -28,6 +29,9 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_LOW
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	allow_cross_z = FALSE
 
 /datum/action/cooldown/spell/projectile/repel/cast(atom/cast_on)
 	if(ishuman(owner))
@@ -47,6 +51,7 @@
 
 /obj/projectile/magic/repel
 	name = "bolt of repeling"
+	expose_caster_on_deflect = TRUE
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "curseblob"
 	flag = "blunt"
@@ -54,14 +59,16 @@
 	range = 15
 	cannot_cross_z = TRUE
 
-/obj/projectile/magic/repel/on_hit(target)
+/obj/projectile/magic/repel/on_hit(target, blocked = FALSE)
 	var/atom/throw_target = get_edge_target_turf(firer, get_dir(firer, target))
 	if(isliving(target))
 		var/mob/living/L = target
 		if(L.anti_magic_check() || !firer)
 			L.visible_message(span_warning("[src] vanishes on contact with [target]!"))
 			return BULLET_ACT_BLOCK
-		L.throw_at(throw_target, 7, 4)
+		if(blocked >= 100)
+			return
+		L.throw_at(throw_target, out_of_effective_range() ? 3 : 7, 4)
 	else
 		if(isitem(target))
 			var/obj/item/I = target

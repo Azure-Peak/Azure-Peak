@@ -39,6 +39,8 @@
 		var/mob/living/user = human_mob
 		if(user.get_skill_level(/datum/skill/craft/crafting) < 1)
 			continue
+		if(!human_mob.client.prefs || human_mob.client.prefs?.no_storyteller_events)
+			continue
 		valid_targets += human_mob
 
 	if(!valid_targets.len)

@@ -88,6 +88,11 @@
 	cost = 80
 	contains = list(/obj/item/storage/belt/rogue/surgery_bag)
 
+/datum/supply_pack/rogue/tools/surgeonsbagempty
+	name = "Surgeon's bag, Empty"
+	cost = 15
+	contains = list(/obj/item/storage/belt/rogue/surgery_bag/empty)
+
 /datum/supply_pack/rogue/tools/soapps
 	name = "Soap"
 	cost = 10
@@ -243,3 +248,23 @@
 	name = "Prosthetic Wood Leg (R)"
 	cost = 15
 	contains = list(/obj/item/bodypart/r_leg/prosthetic)
+
+/datum/supply_pack/rogue/tools/prbronze
+	name = "Prosthetic (Bronze)"
+	cost = 60
+	contains = list(/obj/item/contraption/bronzeprosthetic)
+
+/datum/supply_pack/rogue/tools/priron
+	name = "Prosthetic (Iron)"
+	cost = 60
+	contains = list(/obj/item/contraption/ironprosthetic)
+
+/datum/supply_pack/rogue/tools/prsteel
+	name = "Prosthetic (Steel)"
+	cost = 80
+	contains = list(/obj/item/contraption/steelprosthetic)
+
+/datum/supply_pack/rogue/tools/pot
+	name = "Iron Pot"
+	cost = 12
+	contains = list(/obj/item/reagent_containers/glass/bucket/pot)

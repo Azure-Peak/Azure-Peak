@@ -1,0 +1,311 @@
+[
+  {
+    "id": "azurian_new_yil",
+    "title": "Azurian New Yil",
+    "desc": "The first dae and month of the Azurian Calendar, shared in common with the Grenzelhoftian and Etruscan calendar.\n\nLike any sensible calendar system, it starts at the end of Winter and the start of Spring. It is the traditional dae where one undertakes a thorough clearing of their house, and the community huddles together in the biggest, warmest hall for a mid-day feast and drinks, then huddles for smaller, more private gatherings. Psydonians say this is the dae where Psydon created the world, but varying calendar dates across the world put this thought to doubt.\n\nIt is said that a child born this dae is blessed. Many couples do try for a child in the month of Astrata - specifically on the 14th or 15th dae of Astrata - to try for a child to be born during this utmost lucky month. Elven couples don't usually bother. And for some odd reasons, most children tend to be born 2 to 3 months later.",
+    "reminder": "Tis time to gather your friends, feast and make merry!",
+    "recur_month": 1,
+    "recur_day": 1,
+    "duration_days": 2,
+    "color_tag": "#a86a2a"
+  },
+  {
+    "id": "first_furrow",
+    "title": "First Furrow",
+    "desc": "A simple festival to mark the traditional first ploughing of the yil. Before daylight (for no one wishes to miss furrow time for ceremony), a plough is oft dragged to the local church or temple, and then blessed by a local priest, before being driven through one symbolic furrow. Then the real furrowing begins in earnest. Village elders oft pour ale, beer, or wine into the freshly cut earth, and the lord themselves will recite two prayers in honor of Astrata and Dendor, asking for a good yil of harvest. A peasant is oft dressed up to follow the plough, and starts asking for coins from onlookers.",
+    "reminder": "Tis time for the bishop to bless the ploughs!",
+    "recur_month": 1,
+    "recur_day": 15,
+    "duration_days": 1,
+    "color_tag": "#7a5a2a"
+  },
+  {
+    "id": "parent_daes",
+    "title": "Parent's Daes",
+    "desc": "On Parent's Daes, heads of household oft come to renew their oaths to their lord and to the gods of their land - the Ten, mostly, but some do pray to Psydon. It is not oft practiced amongst the ascendants, except amongst Zizites, who oft renew their personal allegiance to Zizo (for the more necromantic inclined) and to Progress itself as a concept (for the more progress inclined). The eldest child who has not yet come of age is given a token of their station - tool, weapons, or a ring. Tradition holds that one shall gift no more and no less than three gifts to one's child, and should one's children's gift-daes overlap, then both must be gifted to be reminded of their future obligations as an adult. Amongst the nobles and the burghers who remind them, these gifts continue every yil from age six until thirty, and longer still for elves - who variably end it between the seventieth or the hundredth yil of their long lyfe.",
+    "reminder": "Renew your oaths to your masters and grant gifts to your servants!",
+    "recur_month": 1,
+    "recur_day": 25,
+    "duration_days": 1,
+    "color_tag": "#6a4a2a"
+  },
+  {
+    "id": "peace_daes",
+    "title": "Peace Daes",
+    "desc": "Eora taught us to love. And so on the third dae of her month and the fourth, it is the dae in which old foes should reconcile, slights and grudges forgiven, and duels are deferred or canceled, oft settled with a symbolic match of Azurian poker or chess instead. This is also the first dae in which pardons are traditionally given by rulers for minor crimes. Executions are, as a rule, generally never done on these two daes. It is for this reason that the Fifth of Eora gained a notoriety for the spree of executions that follows for the unlucky ones whose sentences were not commuted or pardoned. Winter's hard times drive many folks to destitution and crimes. Those who are not forgiven die in the month of love.",
+    "reminders": [
+		"Todae is a good dae to forgive your foes and settle grudges",
+		"A dae yet remains for those unforgiven. Tomorrow, kill those who sully Her love."
+    ],
+    "recur_month": 2,
+    "recur_day": 3,
+    "duration_days": 2,
+    "color_tag": "#3a8a4a"
+  },
+  {
+    "id": "weddings_week",
+    "title": "Wedding's Week",
+    "desc": "Wedding's Week - the second week of the 2nd month of the yil. This is the week in which many couples wed, and dowries (brides and grooms alike) are exchanged. Couples to be oft exchange gifts of various sorts, and even platonic friends do the same.\n\nIn Psydonia, many realms practice the exchange of dowries in both direction, including Azuria herself. Dowries are made of equal values if the two are of the roughly same class and situation - following the following rules:\n\n- Those of higher class or more wealth give more than they receive, those who belong to a longer living race give more (Much more in case of an elf marrying a humen, which seems rather common!). Common dowry gifts are land, livestocks, cheese, wine and household goods.\n\nAmongst the burghers and notables of this land, chocolate and sugared candies have become popular as gifts on this dae. But for the commoner, such indulgences are without their reach. One book recommends that you can fascinate a lover-to-be with a gift of wreath from wild gathered calendula, a block of aged cheese, a dozen and one eggs preserved in alkaline clay, and a piece of durable bronze cookware, like a pot.",
+    "reminder": "Wed thy beloved and trade gifts!",
+    "recur_month": 2,
+    "recur_day": 8,
+    "duration_days": 7,
+    "color_tag": "#b94a6a"
+  },
+  {
+    "id": "blessing_of_first_greens",
+    "title": "Blessing of First Greens",
+    "desc": "The first vegetables of the yil reach the table, most often peas, broad beans, cabbages and herbs. A vegetable-focused feast is oft held, with fresh green salad and slices of hard-boiled eggs garnished with fresh herbs. These are served with wine vinegar (from Rockhill), and salad oil. The rich eat it with truffles. Priests oft walk the boundary of their land and ask the gods to bless it, and the farmer's crops are oft blessed on this dae. In recent time, some priests have stuck to blessing safe lands behind the walls, much to the chagrin of most farmers who live on unwalled lands.",
+    "reminder": "Time for salad and eggs!",
+    "recur_month": 3,
+    "recur_day": 5,
+    "duration_days": 1,
+    "color_tag": "#7aa84a"
+  },
+  {
+    "id": "great_hunt",
+    "title": "Great Hunt",
+    "desc": "The festival of the Great Hunt begins in the third week of Dendor, and is said to be inherited from a Rosawoodian festival of similar nature. Lords open their private hunting grounds to the commoners for one morning, while wardens watch to make sure no one misuses Dendor's blessing, the common quota being one deer for a group of twenty, one boar for a group of ten, or four birds or two hares or rakuns for those who live alone. Mummers and druids in stag-mask or a stag's form parade throughout villages, pressing their antlers or head against small children who oft put wreath around them or feed them early fruits and jams. In the evening, a feast is oft held, sometimes paid for by the lord, with game meat being served. Druids oft bless the bows of hunters on this dae every yil, while the morning's first kill is presented to the druids as offering - one-tenth fresh and the others preserved in salt or fat. On this dae, only the meat of game is supposed to be eaten. Fishes do not count. Fishes can be eaten every dae, and so are barnacle gooses, which is a type of fish. Excluding war and extraordinary acts of Psydon, these three daes see the highest rate of accidental noble death coupled with the consumption of their bodies by wild animals, leading to resurrection becoming impossible.",
+    "reminder": "Tis a good dae to hunt and feast on Dendor's bounty!",
+    "recur_month": 3,
+    "recur_day": 22,
+    "duration_days": 3,
+    "color_tag": "#5a8a3a"
+  },
+  {
+	"id": "matthiosmas",
+    "title": "Hornet's Eve",
+    "desc": "Psysmas...in the middle of summer?! Hornet's Eve is a Matthiosan holiday that sees the exchange of gifts among His family. On this dae, Freedmen refrain from their usual, laudible struggle of stealing from the rich and giving to the impoverished. Instead, they hold jolly festivals and plays where they hand out gifts, blessed by Matthios himself, to all in equity; a glimpse of how life could be should the greed of mortals not tear them apart. A common appearance is a re-enactment of the play of Jolly Saint Lucius, a man who stole from a greedy, corrupt warlord that took over a town, and helped re-appoint the lawfully-voted freedmen back to power! Hooray, Matthiosma- I mean, Hornet's Eve!",
+    "reminder": "Hornet's Eve Midsummer! Time to be jolly and give gifts to all in maganimity!",
+	"recur_month": 4,
+    "recur_day": 3,
+    "duration_days": 1,
+	"color_tag": "#c98a2a"
+  },	
+  {
+    "id": "sunhigh",
+    "title": "Sunhigh",
+    "desc": "The traditional festival of summer solstice, oft called the Midsummer Feast by commoners. On the first dae, the local priests and notables oft prepare alms with the latest fruits and food of summer.\n\nIn Azuria, the commonly served foods include: strawberries, blackberries and raspberries, served with cold sliced cucumber. Plums and tangerines, draped with fresh honey. Fresh bread of new summer wheat, oft served with lamb or mutton, eels and river fishes in stew or pan fried. Salmon are most popular, for they return from Abyssor's seas to spawn in the rivers of Azuria, and are the fattest and most bountiful in this season. Minced salmon pies, fried salmon, salmon steaks - everything is served with salmon. The lucky or rich one will have raw fatty salmon in this style, methodically prepared and chilled by Magos for safety, then served with a dip of fermented fish sauce in traditional Azurian style and perhaps with honey and berries, though such meals tend to disappear surprisingly quickly when a druid is involved in the feast. Honeycakes are oft served to the nobles, in Ranesheni style with added sugar. And of course, cheeses of all kinds on rich platter.\n\nOn the second dae, a statue of Astrata is borne upon a palanquin from her church to the city's administrative center, and then symbolically marched through its many streets in a circuit by the assembled clergy before returning to its main church. The statue is wreathed in flowers along the way, and wishes are placed upon it - the nobles getting first pick during the procession. Then it is marched unto the church, the wishes are stored in a box to be burnt at Sunwake come next midwinter, and the statue properly reseated in its place.\n\nOn the third dae, a reverse circuit begins with a statue or symbol of Noc, who is paraded through and then set in front of the seat of power, as Astrata herself will be paraded back at Sunwake come midwinter. A second feast is oft held, smaller than the first dae's, and consists of simple, fatty fried meat and breads, to fill one's stomach up for the autumn and winter to come. Sunhigh also marks the date range in which a couple trying for a child to be born on 1 Psyrise should partake in conception.",
+    "reminders": [
+      "Midsummer Feast! Time for salmon, fruits and honeycakes!",
+      "It is time to march Astrata's procession around the city from the Church.",
+      "It is time for a procession of Noc to march to the Keep, and a hearty feast with fried meat and breads!"
+    ],
+    "recur_month": 4,
+    "recur_day": 13,
+    "duration_days": 3,
+    "color_tag": "#c98a2a"
+  },
+  {
+    "id": "shearing_week",
+    "title": "Shearing Week",
+    "desc": "On Shearing Week, flocks of sheep and goats are brought down from the hills surrounding Azuria. They are sheared, counted, and their wools sold. Those sheep and ewes who are too old, or whose body did not survive winter, are slaughtered, and a feast of mutton and cheese is served in the middle of the week. A lot of ale and wine are drunk around this time.",
+    "reminder": "Tis a good time for woolen clothes and mutton stews!",
+    "recur_month": 4,
+    "recur_day": 22,
+    "duration_days": 7,
+    "color_tag": "#c8b878"
+  },
+  {
+    "id": "fools_fair",
+    "title": "Fool's Fair",
+    "desc": "On these two daes, a fool, drunk or traveller is crowned the Lord of the Dae; their decrees must be obeyed until sundown (so long as it is harmless and not contrary to morals). In some traditions, the positions of lords and servants are reversed - though the servants still cook the food, the lords perform the serving. By modern times, the traditions have modified quite a bit - now they take turns pouring and serving each other foods.",
+    "reminder": "Let us crown a fool and obey their decrees until sundown!",
+    "recur_month": 5,
+    "recur_day": 16,
+    "duration_days": 2,
+    "color_tag": "#7a4aa2"
+  },
+  {
+    "id": "first_harvest",
+    "title": "First Harvest",
+    "desc": "The first wheat is harvested traditionally around this dae, and the first loaf is ground on this dae. The first summer tournament of the yil is held around this time, with hearty stews, bread and ale - suitable for warriors and hardy farmers alike - served as the main food. It oft lasts for three daes, and the winners of each day's event are given the honor of giving the first knead of breads or pies made from the finest flour. A fattened animal is often slaughtered by the winner next, and then its meat cooked. The goods of both are then carried to the local Church, where it is offered symbolically to the gods - the first slice of pie or bread, and the first cut of meat, halved and reserved for the highest ranking priest and the winner, then the rest shared amongst the clergy. Food from the rest of the animal and breads baked after are then shared with the commonfolks. In Azuria, the feast is split into three parts: archery on the first dae, to honor Elven traditions; magicks on the second; and melee on the third. The melee is, however, the most popular, and increasingly, like all tournaments, it has become a bout of three daes of melee, with the old traditions of Azuria set aside for invigorating and brutal melee combat.",
+    "reminders": [
+      "It is harvesting season m'lord! Time for archery contests!",
+      "Tis magickal season m'lord! Time for magos duels!",
+      "Feast! Melee! Cold steel! More feasting!"
+    ],
+    "recur_month": 6,
+    "recur_day": 1,
+    "duration_days": 3,
+    "color_tag": "#8b2020"
+  },
+  {
+    "id": "levy_dae",
+    "title": "Levy Dae",
+    "desc": "First established in the yil 1493 in an attempt to re-establish a standing army for Azuria's defense, Levy Dae is a time where the Grand Duke's men ride throughout the lands, selecting the finest men and women and creechurs who have not been drafted into the Grand Duke's army yet. They are tailed by knights, who select the most promising of both noble and peasant scions to take them in as their own scions. Magi and clergy often follow the procession behind. Though it is called the Levy Dae, this merely marks the time where the lord's men set out - they run a circuit for the next two weeks. This dae was called Squire's Dae before its repurposing for the general defense of the realm. It is a beloved and behated dae - for a peasant's scion may rise to become a knight and gain mobility in Astrata's order, or Noc's knowledge, or be provided for by the Church. Yet the very same dae also oft robs them of their own children to an early meeting with Necra. The levy of 1494 was met with widespread riots and resistances, with several lords and knights lynched, the memories of the great casualties Azuria suffered in the wars prior still fresh in the people's minds.",
+    "reminder": "All men, women and creechurs must serve the realm.",
+    "recur_month": 6,
+    "recur_day": 14,
+    "duration_days": 1,
+    "color_tag": "#6a2020"
+  },
+  {
+    "id": "vinefest",
+    "title": "Vinefest",
+    "desc": "A traditional festival held during autumn, dating back hundreds if not thousands of yils. Grapes and apples are brought in for pressing, and last yil's vintage is drunk and shared. For commoners, they brew their own ale, mead, cider and wines - Azuria having an abundance of bounty and alcohols of every kinds. For nobles, they oft celebrate with spirits or imported vintage instead. Drunkenness - and a bit of disorderliness - is tolerated throughout the realm, even for the clergy. On the last dae of Vinefest, it is said that one would have good fortune if they sleep with their stomach full and their head light.",
+    "reminder": "Drink and be merry! Even the clergy can get drunk todae!",
+    "recur_month": 7,
+    "recur_day": 15,
+    "duration_days": 3,
+    "color_tag": "#722a4a"
+  },
+  {
+    "id": "harvestfest",
+    "title": "Harvestfest",
+    "desc": "The traditional start of the harvesting season, though Azure Peak itself has lands that are farmed for all twelve months of the yil. Traditionally, the last sheaf of wheat is formed into a doll, called Psydon's Maiden, and is woven a little dress of rags and cloth. Those who don't farm throw it into a well for well-wishing, while those who do farm keep it until the next spring's first sowing, where she is plowed into the ground. Despite most adherents identifying Psydon as male, for some odd reasons, the doll is always seen as a she. It just always has been that way. Three daes of celebration with baked goods follow the harvest, with the best and finest breads saved for the nobles, though one loaf is oft baked from the finest wheat and kept rather than sold at the market, to be eaten and shared by the family. Most feasts are communal during the harvestfest, with leftovers from the previous week's vinefest being shared and drunk together. Syonfall is a month of revelry and celebration, and Harvestfest caps the end of it.",
+    "reminder": "Tis time to celebrate the harvest! Bake the bread bread and share it with your neighbors!",
+    "recur_month": 7,
+    "recur_day": 24,
+    "duration_days": 3,
+    "color_tag": "#a86d2a"
+  },
+  {
+    "id": "warding_week",
+    "title": "Warding Week",
+    "desc": "On the first three daes of Pestra's month, one wards off the coming of the diseases and rot brought by Pestra by washing their house and cleaning it, with the richer ones using salt and vinegar. A procession is oft formed, starting from the village or city apothecary or physician's house, who starts it with a symbolic blessing of 'Pestra Bless Ye', and then the procession walks about the boundary of the fields, banging on drums and cymbals as they pass through, to scare off crows and rats. Then, they return, and the physician admits eight patients ill with sickness or injury, to be consulted and healed for free in Pestra's name.",
+    "reminder": "It is a good dae to scrub the houses, street, and to receive treatments in Pestra's name.",
+    "recur_month": 8,
+    "recur_day": 1,
+    "duration_days": 3,
+    "color_tag": "#5a8a78"
+  },
+  {
+    "id": "second_herring",
+    "title": "Second Herring",
+    "desc": "On the second week of Pestra, sea herrings migrate en masse unto the shore of Azuria to spawn, while river herring's juveniles swim out into the estuary. They number in the millions, and they are caught en masse, with salt brought down from the mountains and salt fields by the barrels, as they are preserved and salted on the shore. Foreign ships are abundant, and they buy up the herrings en masse for provisions, with Grenzelhoftian and Aavnic ships being the most common. Meals of smoked herring on bread are commonly enjoyed during this time. The nobles dine on caviar, pickled roe, and barnacle goose.",
+    "reminder": "The herring run! Oh goodness there are so many fishes!",
+    "recur_month": 8,
+    "recur_day": 12,
+    "duration_days": 5,
+    "color_tag": "#3a6a78"
+  },
+  {
+    "id": "pestras_dae",
+    "title": "Pestra's Dae",
+    "desc": "On Pestra's Dae, both the rich and poor are to fast, to remind one of the plights of the poor and the sick, and to steel one's body against excess, especially from the previous month. The rules hold that on this dae no flesh of beasts that walk on land shall be eaten, nor of birds that fly, nor of any creature that gives milk. Grains, fishes, shelled things, and creatures of the water are permitted. Plain food of grains is to be served alongside water and fishes, and alms are to be given to the sick, begging and impoverished. Nobles, burghers and clergy gift alms out to the poor, oft in the form of eight zennies. The rich and wealthy, observant as they are in the name of Astrata's order, follow these rules most strictly. The menu served at the table of the Count of Riverside on Pestra's Dae, 1511 AP, as recorded in the Royal Archives:\n\n- Fresh oysters on the half-shell, four dozen, with vinegar and pepper.\n- Five salmons poached in white wine, served cold with caper and mentha sauce, in Dendor's style.\n- A 20-inch pie of eels and leeks, glazed with egg-yolk before baking.\n- A great pottage of clams, crayfishes and river prawns, spiced with saffron from Raneshen, chili from Lingyue, pepper from Naledi, and thickened with milk from Aavnr.\n- Fatty beaver-tails roasted with honey and almonds and salted perfectly.\n- A platter of barnacle gooses, slow-roasted with Otavan apples and Ranesheni quinces.\n- Fifteen buttery lobsters, peppered and salted and laid with cheese.\n- A cheese-board with eight domestic cheeses and ten imported ones. All of them from goats.\n- Custards, tarts of preserved tangerines, sugared almonds, and four kinds of wine to water down the food.\n\nThe Count of Riverside is said to have observed the fast with great devotion, and received a vision from Pestra herself on a new art of surgery.\n\nThe fast is broken at dawn the next dae with hearty azurian fish and clam stews with potatoes and breads, served without questions to whomever comes by at the local churches. Nobles who see themselves as in touch with the commoners often attend or even participate in such almsgiving.",
+    "reminders": [
+      "Fast in Pestra's name - no flesh of beasts that walk on land or of birds that fly.",
+      "The fast breaks at dawn. Hearty food for the needy, alms for the poor."
+    ],
+    "recur_month": 8,
+    "recur_day": 22,
+    "duration_days": 2,
+    "color_tag": "#7a6a5a"
+  },
+  {
+    "id": "offering_week",
+    "title": "Offering Week",
+    "desc": "Offering Week marks the end of the harvesting season, and the beginning of ten daes of offerings and animal sacrifices to the gods. In Otava, this week is seven daes long; in Tennite countries, it stretches ten daes, one for each of the Ten, starting with Astrata and ending with Eora. Each dae, a fattened animal is brought to the altar of the church and slaughtered in front of the temple's steps (the interior not being dirtyable), and then its flesh offered to the gods before being cooked and shared with the clergy and then other attendants. The best cuts from the ribs are oft reserved for the Bishop or the highest ranked Priest first, then the Martyr. Meat is salted, blood-puddings and sausages are made, and every dae ends with a feast where the main courses are offal boiled with flour and oatmeal and whatever spices the farmer can afford. Geese are oft caught at the edge of the terrorbog, alongside spiders which are meticulously prepared for the notables' table. For the poorer, they oft settle for a duck or a particularly fat chicken to end Offering Week with, and of course, a slice or two of delicious hog or cattle meat from the clergy every dae, should they have any to spare. Lords customarily host a feast of their own for their retainers and soldiers - to be denied an invitation to the Offering Week Feast is considered a snub at best and an accusation of disloyalty at worst.",
+    "reminders": [
+      "Astrata's dae. Slaughter a fattened beast at the temple's steps and offer its meat to the nobles.",
+	  "Noc's dae. Deep fried foods for he hath given us the knowledge of deep frying. So sayeth the priests.",
+	  "Abyssor's dae. Fishes and barnacle geeses to be offered and eaten todae.",
+      "Dendor's dae of offering. Wild games and spiders shall be offered and shared.",
+      "Eora's dae! Chocolate! Sugar! Sweetest of treats for everyone!",
+	  "Malum's dae. Hearty stews, breads and wines for the stout and hardworking.",
+	  "Ravox's dae. The realm's strongest warrior shall perform the sacrifice and share the meat equally with the rich and the poor.",
+	  "Necra's dae. Slaughter a beast, salt its meat, and turns its hide into book and leather for remembrance.",
+      "Pestra's dae. Smoke sausages and salumoi and drink medicinal stews.",
+	  "Xylix's dae. Sacrifice and eat whatever you want."
+    ],
+    "recur_month": 9,
+    "recur_day": 4,
+    "duration_days": 10,
+    "color_tag": "#8a4a3a"
+  },
+  {
+    "id": "dae_of_vigil",
+    "title": "Dae of Vigil",
+    "desc": "The Dae of Vigil was originally a dae which honored an ancient battle in Tarichea's time, but no one remembered what it was about, not even the surviving elves of Azuria in Rosawood. After the War of 1492, it was repurposed to honor all the war dead, as many of Azuria's nobles, common soldiers, and adventurers levied by the thousands had fallen in battle during the war and could not be brought back with Astrata's light. Bells toll at dawn, noon and dusk, and the names of those who have fallen in service of the Grand Duchy are read aloud at the temples. Those who have lost loved ones in service within this generation are allowed to tie a black ribbon on their door, and they are offered foods and donations in their honor. Those who have served for five yils or more in the Grand Duchy's forces are honored with free drinks at the inns, while armed men and women in good standing with the Duchy oft receive discount on food and drink - including armed mercenaries and adventurers. Necra's clergy lead a procession to the cemetery, to the sections reserved for the honorable war dead, reciting litanies in their name. Music is banned after sundown and punishable by public beating the next dae.",
+    "reminder": "Honor those who died for Azuria - tie a black ribbon and no music after sundown.",
+    "recur_month": 9,
+    "recur_day": 18,
+    "duration_days": 1,
+    "color_tag": "#4a3a5a"
+  },
+  {
+    "id": "memorial_tournament",
+    "title": "Memorial Tournament",
+    "desc": "Held on the last week of Necra, the tournament is held in memory of those who died and have fallen in the daes of the Duchy's service. The first tournament starts at dawn, and everyone enters naming or dedicating themselves to one who has fallen in battle, even if not in service to the Grand Duchy - or, if fortunate enough that no one in their family or close friends have died in battle, or their stations are high enough they know many, it is often dedicated to those who have fallen in a particular war, or to the dead warriors generally. Naming no one is a faux pas, and is a mark of great social shame. Rather than silence and mourning, it celebrates their deeds through lively battle. These tournaments always have four cohorts - knights and squires, in honor of those whose life's goal is to fight; armed clergy and templars, in honor of those who pray and fight; levymen and armsmen, in honor of those who work, pray and still fight. And of course, mercenaries and adventurers, who fight, fight, and die.\n\nBesides the Grand Tournament, the Archery Tournament and Magitoss are held alongside for those who are less inclined toward melee. Every dae, after the end of festivities in mid-afternoon, feasts are often held. Unlike most feasts held traditionally in Azuria, invitations to the manor are selective and oft limited to those who fight. But with the abundance of armed adventurers and the general rule of bringing your friends, spouse and servants along, these feasts end up just as big and merry as others.",
+    "reminder": "Tournament! Honor a fallen and fight in you and their name!",
+    "recur_month": 9,
+    "recur_day": 25,
+    "duration_days": 4,
+    "color_tag": "#6a4a3a"
+  },
+  {
+    "id": "induction_dae",
+    "title": "Induction Dae",
+    "desc": "Induction Dae is the traditional dae upon which new students and apprentices are inducted into their university or guild. Their actual entering is dated to the end of Pestra's month, where the harvesting season ends. After they settle in and learn the first of their crafts, their masters would formally declare them apprentices on this dae, draping laurels and sashes over them. To have your coat ripped from you on Induction Dae is a great dishonor, and implies you would be driven from your place of learning in shame in the middle of winter back home. It is a drastic measure reserved only for the most disobedient and incompetent of apprentices, and even disappointing apprentices are oft housed and kept until next Spring - their chance to make good before risking expulsion from their place of learning.",
+    "reminder": "Time to take in new apprentices and students.",
+    "recur_month": 10,
+    "recur_day": 15,
+    "duration_days": 1,
+    "color_tag": "#5a4a7a"
+  },
+  {
+    "id": "sunwake",
+    "title": "Sunwake",
+    "desc": "The festival of winter solstice, celebrated in Astrata's name. On the first dae, the statue of Noc is covered in a shroud and then taken away in the middle of the night to the Church - known as the night procession. The local libraries and places of learning open their doors, and the teachers and the literate give stories of Noc's many blessings, knowledge, and magicks to any who would listen, oft serving simple breads with fruit jams and ham as refreshment.\n\nOn the second dae, a long series of festivals begins, starting with a carrying of Astrata's statue back to the seat of power, veiled in a shroud, before being revealed in much fanfare. Then, at the very spot the statue lays, beggars and nobles alike are invited to a great feast hosted by the Church and the notables, though heavy snow oft gets in the way and it is held indoors nearby. Delicious, hearty Azurian stew is served with potatoes, breadpieces and salted pork. An overabundance of roasted, grilled and stewed river fishes and sea fishes, for Abyssor's bounty does not end with the season, unlike Dendor's.\n\nIn the section reserved for the nobles, they oft feast on games hunted in the forests of Azuria, taken from their nests in winter by hunters trudging through snow for the remaining fattened animals - and when they all come back lean, the household chefs mince them with fat and butter preserved from autumn to make indulgent meatpies for the well to do. All these are served with dried tangerines, fruits, and jams preserved in the autumn. The wishes from Sunhigh are burnt publicly in front of the statue, and it is said those whose smoke rises the highest will be heard by Astrata herself - and even a commoner might find themselves elevated to nobility.\n\nThroughout the great feast, choirs and songs of praising are sung, in glory of Noc and Astrata. The feast extends into the third and last dae, and ends only when a pinch of the last harvest's wheat is thrown into the hearth at the dusk of the third dae. And thus everyone returns to home, their bellies filled and spirits high, to spend their time with their family, to look forward to the coming of Astrata again, and the end of the longest nights.",
+    "reminders": [
+      "March Noc back to the Church. Place of learning shall open their door, and give lectures and knowledge to those willing to listen.",
+      "Astrata returns! Burn the wishes of sunhigh and may your dream be heard by the most orderly of goddess.",
+      "Last dae of Sunwake. Throw a pinch of wheat into the hearth for good luck."
+    ],
+    "recur_month": 10,
+    "recur_day": 26,
+    "duration_days": 3,
+    "color_tag": "#c98a2a"
+  },
+  {
+    "id": "stormbidding",
+    "title": "The Stormbidding",
+    "desc": "During the festival of Stormbidding, sailors and fishermen carry the previous daes' catches and release them alive back into the ocean, and cast ropes, offerings of food from the land, and salt. The same prayers are done at wells or rivers, to calm Abyssor's wrath. During the three daes, one is forbidden to catch fish, to give them time to recover.",
+    "reminder": "Release a fish unto the ocean! Do not fish, lest you provoke the Dreamer's wrath.",
+    "recur_month": 11,
+    "recur_day": 3,
+    "duration_days": 3,
+    "color_tag": "#2e4a78"
+  },
+  {
+    "id": "drinkhale",
+    "title": "Drinkhale",
+    "desc": "On the dae of Drinkhale, drinkers go from house to house to share a bowl of spiced wines, and sing songs while the clergy bless fruit trees for the next yil's crops. Blessed ciders and wines (ciders for fruit trees, wines for grapes) are carried in a large silver bowl. A new brew is added to the bowl for each household that is visited. A goblet is dipped to cup the liquor and then toasted against the trees or the vines themselves for each field, and then drunk on the spot. To avoid excessive drunkenness, more than one churchman usually participates and the drinks are shared with villagers or townspeople alike. The clergy and drinkers carrying the bowl have a new brew added for every house they pass, and by the last house it is a chaos of a hundred houses' own brews. The drinkers' procession shares their bowl with the whole village, while the clergy's own bowl is drunk communally amongst the holy people.",
+    "reminder": "Take a bowl and walk house to house for wines and brews. Blesses the orchards, the farms and make merry!",
+    "recur_month": 11,
+    "recur_day": 22,
+    "duration_days": 1,
+    "color_tag": "#5a3a8a"
+  },
+  {
+    "id": "dae_of_pardons",
+    "title": "Dae of Pardons",
+    "desc": "On the first dae of the month, a mass pardon is held by the Crown or the local Lord and Clergy for those who are guilty of petty offenses. Commutations are offered for greater crimes, and to have great crimes or even treasons forgiven or commuted is an act of great mercy, not to be forgotten. It is also on this dae where weregild for murders are offered to the family of the bereaved, so that they can, in turn, pardon the killer with the assent of the clergy or the bishop. Debts older than seven yils and no more than two hundred mammons are forgiven, should the debtor stand at the courthouse or the church from dawn to dusk for forgiveness.",
+    "reminder": "Ravox preaches mercy. By the Grand Duke's mercy, some may receive pardons, have their debts cleared, or settle their killings for weregild.",
+    "recur_month": 12,
+    "recur_day": 1,
+    "duration_days": 1,
+    "color_tag": "#3b6a35"
+  },
+  {
+    "id": "candledae",
+    "title": "Candle Dae",
+    "desc": "On Candle Dae, the local lord is to sponsor the purchase of one candle or one pot of tallow for each household - measuring no less than half a pound, and it is to be delivered. A candle is made and lit at sunset and kept burning until midnight, and the people give prayers unto the gods, the clergy and the local lord's good health, in hope that the daes keep growing longer and the nights shorter. Traditionally, sweet fried breads are served on this dae for dinner.",
+    "reminder": "LLight a candle at sunset keep it burning till midnight - pray for the lord's good health and for the dae to lengthen.",
+    "recur_month": 12,
+    "recur_day": 14,
+    "duration_days": 1,
+    "color_tag": "#caaa4a"
+  },
+  {
+    "id": "headsmans_dae",
+    "title": "Headsman's Dae",
+    "desc": "On the last dae and last month of the yil is the Headsman's Dae. Capital sentences not carried out earlier in the yil are carried out at once, with the guilty walked to the execution field to be beheaded or otherwise executed. Those guilty of Graggarite heresy are traditionally drowned, so as not to shed blood. Should there be too many criminals, the most skilled of wandering swordsmen are hired as executioners to hurry it up. It is a bad omen to start a yil with execution, and surviving Headsman's Dae oft means staying your execution for another yil - or having it commuted into imprisonment. Families of the condemned conspire to have the paperwork delayed, or the executioner drunk and passed out on this dae.",
+    "reminder": "Let us dispatch of criminals, heretics and traitors heads before the new yil begins. No blood shed after midnight!",
+    "recur_month": 12,
+    "recur_day": 28,
+    "duration_days": 1,
+    "color_tag": "#5a1a1a"
+  }
+]

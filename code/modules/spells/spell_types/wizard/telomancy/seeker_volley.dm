@@ -23,8 +23,9 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS
 
@@ -32,6 +33,8 @@
 	spell_tier = 2
 	attunement_school = ASPECT_NAME_TELOMANCY
 	spell_impact_intensity = SPELL_IMPACT_LOW
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 /datum/action/cooldown/spell/projectile/seeker_volley/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
@@ -49,17 +52,20 @@
 	icon_state = "seeker_orb"
 	damage = 5
 	damage_type = BRUTE
+	nodamage = FALSE
 	woundclass = BCLASS_BLUNT
 	flag = "blunt"
 	range = 16
 	speed = MAGE_PROJ_SLOW
 	accuracy = 100
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	npc_simple_damage_mult = 1.5
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intdamfactor = 1
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	homing_turn_speed = 35
 	homing_inaccuracy_max = 12
+	var/list/impact_sounds = list('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
 
 /obj/projectile/magic/seeker_orb/prehit(atom/target)
 	if(isliving(target) && target != original)
@@ -77,8 +83,9 @@
 	setAngle(Angle + CLAMP(diff, -homing_turn_speed, homing_turn_speed))
 	return TRUE
 
-/obj/projectile/magic/seeker_orb/on_hit(target)
-	hitsound = pick('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
+/obj/projectile/magic/seeker_orb/on_hit(target, blocked = FALSE)
+	if(length(impact_sounds))
+		hitsound = pick(impact_sounds)
 	if(ismob(target))
 		var/mob/living/M = target
 		if(M.anti_magic_check())
@@ -86,7 +93,10 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		M.apply_status_effect(/datum/status_effect/debuff/seeker_marked)
+		if(out_of_effective_range())
+			return
+		if(blocked < 100)
+			M.apply_status_effect(/datum/status_effect/debuff/seeker_marked)
 	. = ..()
 
 /datum/status_effect/debuff/seeker_marked

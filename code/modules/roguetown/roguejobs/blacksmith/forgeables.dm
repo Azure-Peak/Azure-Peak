@@ -29,7 +29,6 @@
 	name = "golden zigtray"
 	desc = "An zigtray forged out of gold. Truly, this is the pinnacle of zig extinguishment."
 	icon_state = "ashtray_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -37,7 +36,6 @@
 	name = "golden urn"
 	desc = "A decorative golden urn, it looks quite simple given the material it was made out of."
 	icon_state = "urn_gold"
-	sellprice = 120
 	grid_width = 32
 	grid_height = 64
 
@@ -45,7 +43,6 @@
 	name = "golden canister"
 	desc = "A canister forged out of gold."
 	icon_state = "oil_gold"
-	sellprice = 60
 	grid_width = 64
 	grid_height = 32
 
@@ -53,7 +50,6 @@
 	name = "golden bust"
 	desc = "A hefty golden bust of a humenoid head."
 	icon_state = "bust_gold"
-	sellprice = 120
 	grid_width = 64
 	grid_height = 64
 
@@ -61,7 +57,6 @@
 	name = "golden obelisk"
 	desc = "An obelisk forged out of gold."
 	icon_state = "obelisk_gold"
-	sellprice = 120
 	grid_width = 32
 	grid_height = 64
 
@@ -69,7 +64,6 @@
 	name = "golden figurine"
 	desc = "A plain golden figurine of a humenoid."
 	icon_state = "figurine_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -77,7 +71,6 @@
 	name = "golden duck"
 	desc = "A lovely little duck, forged out of gold."
 	icon_state = "duck_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -85,7 +78,6 @@
 	name = "golden fish figurine"
 	desc = "A golden figured made to resemble a fish."
 	icon_state = "fish_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 	
@@ -93,7 +85,6 @@
 	name = "golden saiga figurine"
 	desc = "A golden figurine made to resemble a saiga."
 	icon_state = "saiga_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -101,7 +92,6 @@
 	name = "golden elven totem"
 	desc = "A dazzling elven totem, forged out of gold."
 	icon_state = "elven_gold"
-	sellprice = 120
 	grid_width = 32
 	grid_height = 64
 
@@ -109,7 +99,6 @@
 	name = "golden comb"
 	desc = "A luxurious comb forged out of gold."
 	icon_state = "comb_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -117,7 +106,6 @@
 	name = "golden cameo" 
 	desc = "A cameo forged out of gold depicting...someone? use your imagination on who it could be."
 	icon_state = "cameo_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -125,7 +113,6 @@
 	name = "golden caryatid"
 	desc = "A type of statue that originated in Etrusca, this one is forged out of gold."
 	icon_state = "caryatid_gold"
-	sellprice = 120
 	grid_width = 32
 	grid_height = 32
 
@@ -133,7 +120,6 @@
 	name = "golden vase"
 	desc = "A golden vase, perfect for decorating one's living quarters."
 	icon_state = "vase_gold"
-	sellprice = 120
 	grid_width = 32
 	grid_height = 64
 
@@ -141,7 +127,6 @@
 	name = "golden tablet"
 	desc = "A tablet forged out of gold."
 	icon_state = "tablet_gold"
-	sellprice = 120
 	grid_width = 32
 	grid_height = 32
 
@@ -149,7 +134,6 @@
 	name = "golden insect charm"
 	desc = "A gold charm depicting a flying insect."
 	icon_state = "bug_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -157,7 +141,6 @@
 	name = "golden scale"
 	desc = "A golden scale, meant for weighing things."
 	icon_state = "scale_gold"
-	sellprice = 120
 	grid_width = 32
 	grid_height = 64
 
@@ -165,7 +148,6 @@
 	name = "large golden urn"
 	desc = "A large decorative urn forged out of gold."
 	icon_state = "bigurn_gold"
-	sellprice = 180
 	grid_width = 64
 	grid_height = 64
 
@@ -173,7 +155,6 @@
 	name = "golden talisman"
 	desc = "A talisman meant to ward off evil spirits, this one is forged out of gold."
 	icon_state = "talisman_gold"
-	sellprice = 60
 	grid_width = 32
 	grid_height = 32
 
@@ -183,7 +164,6 @@
 	name = "silver zigtray"
 	desc = "An zigtray forged out of silver. Truly, this is the pinnacle of zig extinguishment."
 	icon_state = "ashtray_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -191,7 +171,6 @@
 	name = "silver urn"
 	desc = "A decorative silver urn, it looks quite simple given the material it was made out of."
 	icon_state = "urn_silver"
-	sellprice = 90
 	grid_width = 32
 	grid_height = 64
 
@@ -199,7 +178,6 @@
 	name = "silver canister"
 	desc = "A canister forged out of silver."
 	icon_state = "oil_silver"
-	sellprice = 30
 	grid_width = 64
 	grid_height = 32
 
@@ -207,7 +185,6 @@
 	name = "silver bust"
 	desc = "A hefty silver bust of a humenoid head."
 	icon_state = "bust_silver"
-	sellprice = 90
 	grid_width = 64
 	grid_height = 64
 
@@ -215,7 +192,6 @@
 	name = "silver obelisk"
 	desc = "An obelisk forged out of silver."
 	icon_state = "obelisk_silver"
-	sellprice = 90
 	grid_width = 32
 	grid_height = 64
 
@@ -223,7 +199,6 @@
 	name = "silver figurine"
 	desc = "A plain silver figurine of a humenoid."
 	icon_state = "figurine_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -231,7 +206,6 @@
 	name = "silver duck"
 	desc = "A lovely little duck, forged out of silver."
 	icon_state = "duck_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -239,7 +213,6 @@
 	name = "silver fish figurine"
 	desc = "A silver figured made to resemble a fish."
 	icon_state = "fish_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 	
@@ -247,7 +220,6 @@
 	name = "silver saiga figurine"
 	desc = "A silver figurine made to resemble a saiga."
 	icon_state = "saiga_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -255,7 +227,6 @@
 	name = "silver elven totem"
 	desc = "A dazzling elven totem, forged out of silver."
 	icon_state = "elven_silver"
-	sellprice = 90
 	grid_width = 32
 	grid_height = 64
 
@@ -263,7 +234,6 @@
 	name = "silver comb"
 	desc = "A luxurious comb forged out of silver."
 	icon_state = "comb_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -271,7 +241,6 @@
 	name = "silver cameo" 
 	desc = "A cameo forged out of silver depicting...someone? use your imagination on who it could be."
 	icon_state = "cameo_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -279,7 +248,6 @@
 	name = "silver caryatid"
 	desc = "A type of statue that originated in Etrusca, this one is forged out of silver."
 	icon_state = "caryatid_silver"
-	sellprice = 90
 	grid_width = 32
 	grid_height = 32
 
@@ -287,7 +255,6 @@
 	name = "silver vase"
 	desc = "A silver vase, perfect for decorating one's living quarters."
 	icon_state = "vase_silver"
-	sellprice = 90
 	grid_width = 32
 	grid_height = 64
 
@@ -295,7 +262,6 @@
 	name = "silver tablet"
 	desc = "A tablet forged out of silver."
 	icon_state = "tablet_silver"
-	sellprice = 90
 	grid_width = 32
 	grid_height = 32
 
@@ -303,7 +269,6 @@
 	name = "silver insect charm"
 	desc = "A silver charm depicting a flying insect."
 	icon_state = "bug_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -311,7 +276,6 @@
 	name = "silver scale"
 	desc = "A silver scale, meant for weighing things."
 	icon_state = "scale_silver"
-	sellprice = 90
 	grid_width = 32
 	grid_height = 64
 
@@ -319,7 +283,6 @@
 	name = "large silver urn"
 	desc = "A large decorative urn forged out of silver."
 	icon_state = "bigurn_silver"
-	sellprice = 120
 	grid_width = 64
 	grid_height = 64
 
@@ -327,7 +290,6 @@
 	name = "silver talisman"
 	desc = "A talisman meant to ward off evil spirits, this one is forged out of silver."
 	icon_state = "talisman_silver"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -337,7 +299,6 @@
 	name = "bronze zigtray"
 	desc = "An zigtray forged out of bronze. Truly, this is the pinnacle of zig extinguishment."
 	icon_state = "ashtray_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 
@@ -345,7 +306,6 @@
 	name = "bronze urn"
 	desc = "A decorative bronze urn, it looks quite simple given the material it was made out of."
 	icon_state = "urn_bronze"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 64
 
@@ -353,7 +313,6 @@
 	name = "bronze canister"
 	desc = "A canister forged out of bronze."
 	icon_state = "oil_bronze"
-	sellprice = 15
 	grid_width = 64
 	grid_height = 32
 
@@ -361,7 +320,6 @@
 	name = "bronze bust"
 	desc = "A hefty bronze bust of a humenoid head."
 	icon_state = "bust_bronze"
-	sellprice = 30
 	grid_width = 64
 	grid_height = 64
 
@@ -369,7 +327,6 @@
 	name = "bronze obelisk"
 	desc = "An obelisk forged out of bronze."
 	icon_state = "obelisk_bronze"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 64
 
@@ -377,7 +334,6 @@
 	name = "bronze figurine"
 	desc = "A plain bronze figurine of a humenoid."
 	icon_state = "figurine_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 
@@ -385,7 +341,6 @@
 	name = "bronze duck"
 	desc = "A lovely little duck, forged out of bronze."
 	icon_state = "duck_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 
@@ -393,7 +348,6 @@
 	name = "bronze fish figurine"
 	desc = "A bronze figured made to resemble a fish."
 	icon_state = "fish_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 	
@@ -401,7 +355,6 @@
 	name = "bronze saiga figurine"
 	desc = "A bronze figurine made to resemble a saiga."
 	icon_state = "saiga_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 
@@ -409,7 +362,6 @@
 	name = "bronze elven totem"
 	desc = "A dazzling elven totem, forged out of bronze."
 	icon_state = "elven_bronze"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 64
 
@@ -417,7 +369,6 @@
 	name = "bronze comb"
 	desc = "A luxurious comb forged out of bronze."
 	icon_state = "comb_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 
@@ -425,7 +376,6 @@
 	name = "bronze cameo" 
 	desc = "A cameo forged out of bronze depicting...someone? use your imagination on who it could be."
 	icon_state = "cameo_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 
@@ -433,7 +383,6 @@
 	name = "bronze caryatid"
 	desc = "A type of statue that originated in Etrusca, this one is forged out of bronze."
 	icon_state = "caryatid_bronze"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -441,7 +390,6 @@
 	name = "bronze vase"
 	desc = "A bronze vase, perfect for decorating one's living quarters."
 	icon_state = "vase_bronze"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 64
 
@@ -449,7 +397,6 @@
 	name = "bronze tablet"
 	desc = "A tablet forged out of bronze."
 	icon_state = "tablet_bronze"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 32
 
@@ -457,7 +404,6 @@
 	name = "bronze insect charm"
 	desc = "A bronze charm depicting a flying insect."
 	icon_state = "bug_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32
 
@@ -465,7 +411,6 @@
 	name = "bronze scale"
 	desc = "A bronze scale, meant for weighing things."
 	icon_state = "scale_bronze"
-	sellprice = 30
 	grid_width = 32
 	grid_height = 64
 
@@ -473,7 +418,6 @@
 	name = "large bronze urn"
 	desc = "A large decorative urn forged out of bronze."
 	icon_state = "bigurn_bronze"
-	sellprice = 60
 	grid_width = 64
 	grid_height = 64
 
@@ -481,6 +425,5 @@
 	name = "bronze talisman"
 	desc = "A talisman meant to ward off evil spirits, this one is forged out of bronze."
 	icon_state = "talisman_bronze"
-	sellprice = 15
 	grid_width = 32
 	grid_height = 32

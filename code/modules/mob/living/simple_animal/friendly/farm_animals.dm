@@ -243,7 +243,7 @@
 	speak_chance = 2
 	turns_per_move = 3
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat = 1)
-	var/egg_type = /obj/item/reagent_containers/food/snacks/egg
+	var/egg_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/food/snacks/grown/oat)
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
@@ -286,7 +286,7 @@
 	return ..()
 
 /mob/living/simple_animal/chicken/attackby(obj/item/O, mob/user, params)
-	if(is_type_in_list(O, food_type)) //feedin' dem chickens
+	if(food_typecache?[O.type]) //feedin' dem chickens
 		if(!stat && eggsleft < 8)
 			var/feedmsg = "[user] feeds [O] to [name]! [pick(feedMessages)]"
 			user.visible_message(feedmsg)
@@ -311,8 +311,8 @@
 			if(chicken_count < MAX_CHICKENS && prob(25))
 				START_PROCESSING(SSobj, E)
 
-/obj/item/reagent_containers/food/snacks/egg/var/amount_grown = 0
-/obj/item/reagent_containers/food/snacks/egg/process()
+/obj/item/reagent_containers/food/snacks/rogue/egg/var/amount_grown = 0
+/obj/item/reagent_containers/food/snacks/rogue/egg/process()
 	..()
 	if(fertile)
 		if(isturf(loc))

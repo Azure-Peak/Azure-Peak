@@ -95,9 +95,22 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	if(istype(P, /obj/item/paper))
 		to_chat(user, span_warning("The magical energies prevent you from combining this with other scrolls."))
 		return
-	if(istype(P, /obj/item/clothing/ring/signet))
-		stamp_with_signet(P, user)
+	if(istype(P, /obj/item/clothing/ring/signet/psy))
+		to_chat(user, span_warning("The scroll can only be stamped with a signet ring bearing the Lord's symbol."))
 		return
+	if(istype(P, /obj/item/clothing/ring/signet))
+		var/obj/item/clothing/ring/signet/S = P
+		if(S.tallowed && S.tallow_color == "black")
+			S.tallowed = FALSE
+			S.update_icon()
+			stamp_with_signet(P, user)
+			return
+		else if(S.tallowed && S.tallow_color != "black")
+			to_chat(user, span_warning("I need to use blacktallow to seal this properly."))
+			return
+		else
+			to_chat(user, span_warning("The ring hasn't been waxed."))
+			return
 	..()
 
 /obj/item/quest_writ/proc/stamp_with_signet(obj/item/clothing/ring/signet/ring, mob/living/carbon/human/user)
@@ -210,6 +223,8 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["progress_required"] = Q.progress_required
 	data["is_rumor"] = Q.source == QUEST_SOURCE_RUMOR
 	data["is_defense"] = Q.source == QUEST_SOURCE_DEFENSE
+	data["is_towner"] = Q.source == QUEST_SOURCE_TOWNER
+	data["guild_cut_exempt"] = Q.guild_cut_exempt
 	Q.populate_scroll_ui_static_data(data)
 	return data
 

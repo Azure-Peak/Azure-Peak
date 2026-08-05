@@ -14,8 +14,49 @@
 #define MOB_DESCRIPTOR_SLOT_HEIGHT 14
 #define MOB_DESCRIPTOR_SLOT_TRAIT 15
 
-#define CUSTOM_DESCRIPTOR_AMOUNT 2
+#define CUSTOM_DESCRIPTOR_AMOUNT 12
 #define CUSTOM_DESCRIPTOR_TEXT_LENGTH 32
+
+#define CUSTOM_DESCRIPTOR_TYPE_LIST list(\
+	/datum/mob_descriptor/prominent/custom/one,\
+	/datum/mob_descriptor/prominent/custom/two,\
+	/datum/mob_descriptor/prominent/custom/three,\
+	/datum/mob_descriptor/prominent/custom/four,\
+	/datum/mob_descriptor/face/custom/five,\
+	/datum/mob_descriptor/face_exp/custom/six,\
+	/datum/mob_descriptor/body/custom/seven,\
+	/datum/mob_descriptor/skin/custom/eight,\
+	/datum/mob_descriptor/voice/custom/nine,\
+	/datum/mob_descriptor/stature/custom/ten,\
+	/datum/mob_descriptor/height/custom/eleven,\
+	/datum/mob_descriptor/trait/custom/twelve\
+)
+
+#define CUSTOM_DESCRIPTOR_SHOWS_PREFIX list(\
+	/datum/mob_descriptor/prominent/custom/one,\
+	/datum/mob_descriptor/prominent/custom/two,\
+	/datum/mob_descriptor/prominent/custom/three,\
+	/datum/mob_descriptor/prominent/custom/four,\
+	/datum/mob_descriptor/face/custom/five,\
+	/datum/mob_descriptor/voice/custom/nine,\
+	/datum/mob_descriptor/height/custom/eleven\
+)
+
+#define CUSTOM_DESCRIPTOR_ARTICLE_ONLY list(\
+	/datum/mob_descriptor/face/custom/five,\
+	/datum/mob_descriptor/voice/custom/nine,\
+	/datum/mob_descriptor/height/custom/eleven\
+)
+
+#define CUSTOM_ARTICLE_INPUT_LIST list(\
+	"a" = CUSTOM_PREFIX_HAS_A,\
+	"an" = CUSTOM_PREFIX_HAS_AN\
+)
+
+#define CUSTOM_ARTICLE_TRANSLATION_LIST list(\
+	"[CUSTOM_PREFIX_HAS_A]" = "a",\
+	"[CUSTOM_PREFIX_HAS_AN]" = "an"\
+)
 
 #define CUSTOM_PREFIX_HAS_A 1
 #define CUSTOM_PREFIX_HAS_AN 2

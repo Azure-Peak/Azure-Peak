@@ -34,9 +34,75 @@ import {
   titleHint,
   WRIT_TYPE_CARRIAGE,
   WRIT_TYPE_RECOVERY,
+  WRIT_TYPE_TOWNER,
   writBody,
 } from './QuestScroll/shared';
+import { TownerWrit } from './QuestScroll/TownerWrit';
 import { UndeadWrit } from './QuestScroll/UndeadWrit';
+
+type MarginaliaSectionProps = {
+  data: QuestScrollData;
+  showProgress: boolean;
+  hasWhisper: boolean;
+  hasBlockadeTimer: boolean;
+  hasHuntTimer: boolean;
+};
+
+const MarginaliaSection = (props: MarginaliaSectionProps) => {
+  const { data, showProgress, hasWhisper, hasBlockadeTimer, hasHuntTimer } =
+    props;
+  return (
+    <Marginalia>
+      {hasWhisper && (
+        <WhisperLine
+          compass={data.compass_direction || ''}
+          zHint={data.z_hint}
+        />
+      )}
+      {showProgress &&
+        (data.writ_type === WRIT_TYPE_RECOVERY ? (
+          <RetrievalProgressLine
+            done={data.progress_current ?? 0}
+            total={data.progress_required ?? 1}
+            noun={
+              data.fetch_item ? `${data.fetch_item}s` : 'goods of the realm'
+            }
+          />
+        ) : (
+          <ProgressLine
+            done={data.progress_current ?? 0}
+            total={data.progress_required ?? 1}
+            noun={data.faction_progress_noun || 'foes'}
+          />
+        ))}
+      {hasBlockadeTimer && (
+        <BlockadeTimer
+          label={data.blockade_timer_label || ''}
+          seconds={data.blockade_timer_seconds ?? 0}
+        />
+      )}
+      {hasHuntTimer && (
+        <BlockadeTimer
+          label={data.hunt_timer_label || ''}
+          seconds={data.hunt_timer_seconds ?? 0}
+        />
+      )}
+      {!!data.blockade_armed && !data.blockade_timer_label && (
+        <div style={marginaliaLine}>
+          <i>Travel to the blockade, waves descend on arrival.</i>
+        </div>
+      )}
+      {!!data.is_towner && !data.complete && (
+        <div style={marginaliaLine}>
+          <i>
+            Only {data.issued_by || 'the poster'} can open what you recover -
+            carry it back to them.
+          </i>
+        </div>
+      )}
+    </Marginalia>
+  );
+};
 
 type WritBodyProps = {
   data: QuestScrollData;
@@ -109,6 +175,16 @@ const WritBody = (props: WritBodyProps) => {
         pickupRegion={data.pickup_region}
         destination={data.delivery_destination}
         deliveryItem={data.delivery_item}
+        {...rewardProps}
+        {...sealProps}
+      />
+    );
+  }
+  if (data.writ_type === WRIT_TYPE_TOWNER) {
+    return (
+      <TownerWrit
+        intro={data.towner_intro}
+        sealNote={data.towner_seal_note}
         {...rewardProps}
         {...sealProps}
       />
@@ -193,7 +269,12 @@ export const QuestScroll = () => {
 
   if (data.empty) {
     return (
-      <Window title="Contract Scroll" width={520} height={620} theme="parchment">
+      <Window
+        title="Contract Scroll"
+        width={520}
+        height={620}
+        theme="parchment"
+      >
         <Window.Content scrollable>
           <div style={parchment}>
             <div style={{ textAlign: 'center', fontStyle: 'italic' }}>
@@ -224,20 +305,20 @@ export const QuestScroll = () => {
     !!data.blockade_timer_label && (data.blockade_timer_seconds ?? 0) > 0;
   const hasHuntTimer =
     !!data.hunt_timer_label && (data.hunt_timer_seconds ?? 0) > 0;
+  const hasTownerSeal = !!data.is_towner && !data.complete;
   const hasMarginalia =
     hasWhisper ||
     showProgress ||
     hasBlockadeTimer ||
     hasHuntTimer ||
-    !!data.blockade_armed;
+    !!data.blockade_armed ||
+    hasTownerSeal;
   const hasSealBanners = !!(data.is_defense || data.levy_exempt);
 
   const isOutlawry =
     data.writ_type !== WRIT_TYPE_RECOVERY &&
-    data.writ_type !== WRIT_TYPE_CARRIAGE;
-  // BOG_DESERTER falls through to the humanoid renderer. Its distinction is
-  // force_oath_breach set composer-side, which makes the corruption-of-blood clause
-  // always render under the licence-to-slay.
+    data.writ_type !== WRIT_TYPE_CARRIAGE &&
+    data.writ_type !== WRIT_TYPE_TOWNER;
   const hasRecoveryAddendum = isOutlawry && !!data.recovery_shipment;
 
   return (
@@ -263,49 +344,13 @@ export const QuestScroll = () => {
           </div>
 
           {hasMarginalia && (
-            <Marginalia>
-              {hasWhisper && (
-                <WhisperLine
-                  compass={data.compass_direction || ''}
-                  zHint={data.z_hint}
-                />
-              )}
-              {showProgress &&
-                (data.writ_type === WRIT_TYPE_RECOVERY ? (
-                  <RetrievalProgressLine
-                    done={data.progress_current ?? 0}
-                    total={data.progress_required ?? 1}
-                    noun={
-                      data.fetch_item
-                        ? `${data.fetch_item}s`
-                        : 'goods of the realm'
-                    }
-                  />
-                ) : (
-                  <ProgressLine
-                    done={data.progress_current ?? 0}
-                    total={data.progress_required ?? 1}
-                    noun={data.faction_progress_noun || 'foes'}
-                  />
-                ))}
-              {hasBlockadeTimer && (
-                <BlockadeTimer
-                  label={data.blockade_timer_label || ''}
-                  seconds={data.blockade_timer_seconds ?? 0}
-                />
-              )}
-              {hasHuntTimer && (
-                <BlockadeTimer
-                  label={data.hunt_timer_label || ''}
-                  seconds={data.hunt_timer_seconds ?? 0}
-                />
-              )}
-              {!!data.blockade_armed && !data.blockade_timer_label && (
-                <div style={marginaliaLine}>
-                  <i>Travel to the blockade, waves descend on arrival.</i>
-                </div>
-              )}
-            </Marginalia>
+            <MarginaliaSection
+              data={data}
+              showProgress={showProgress}
+              hasWhisper={hasWhisper}
+              hasBlockadeTimer={hasBlockadeTimer}
+              hasHuntTimer={hasHuntTimer}
+            />
           )}
 
           {data.complete ? (
@@ -318,7 +363,6 @@ export const QuestScroll = () => {
               <div
                 style={{
                   textAlign: 'center',
-                  fontStyle: 'italic',
                   fontSize: '0.9em',
                   marginTop: '4px',
                   color: 'hsl(30, 35%, 40%)',
@@ -345,7 +389,6 @@ export const QuestScroll = () => {
                   fontStyle: 'italic',
                   color: 'hsl(130, 45%, 28%)',
                   fontSize: '0.92em',
-                  letterSpacing: '0.5px',
                 }}
               >
                 By Royal Seal and Ducal Prerogative, the bearer of this writ is

@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useRef } from 'react';
+import { useBackend } from 'tgui/backend';
 import type { Box } from 'tgui-core/components';
 import { addScrollableNode, removeScrollableNode } from 'tgui-core/events';
 import { classes } from 'tgui-core/react';
@@ -17,11 +18,24 @@ type Props = Partial<{
 }> &
   BoxProps;
 
+const PARCHMENT_VARIANTS: Record<string, (cfg: any) => string> = {
+  parchment: (cfg) => {
+    const skin = cfg?.window?.parchment_skin;
+    if (skin === 'leatherbound') return 'parchment-leatherbound';
+    if (skin === 'vellum') return 'parchment-vellum';
+    return 'parchment';
+  },
+};
+
 export function Layout(props: Props) {
   const { className, theme = 'azure_default', children, ...rest } = props;
+  const { config } = useBackend();
 
-  const themeClass = `theme-${theme}`;
-  
+  const resolveVariant = PARCHMENT_VARIANTS[theme];
+  const resolvedTheme = resolveVariant ? resolveVariant(config) : theme;
+
+  const themeClass = `theme-${resolvedTheme}`;
+
   useEffect(() => {
     document.documentElement.className = themeClass;
   }, [themeClass]);
@@ -66,7 +80,6 @@ function LayoutContent(props: ContentProps) {
         'Layout__content',
         scrollable && 'Layout__content--scrollable',
         className,
-
         computeBoxClassName(rest),
       ])}
       ref={node}

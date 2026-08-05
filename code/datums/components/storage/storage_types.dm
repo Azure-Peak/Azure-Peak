@@ -25,8 +25,13 @@
 	can_hold = typecacheof(list(
 	/obj/item/rogueweapon/surgery,
 	/obj/item/needle,
+	/obj/item/rogueweapon/huntingknife/stoneknife,
+	/obj/item/reagent_containers/glass/bottle/rogue/beer,
+	/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab,
+	/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum,
 	/obj/item/natural/worms/leech,
 	/obj/item/reagent_containers/lux,
+	/obj/item/reagent_containers/lux_impure,
 	/obj/item/natural/bundle/cloth/bandage,
 	/obj/item/natural/cloth))
 
@@ -145,6 +150,8 @@
 		/obj/item/alch/sinew,
 		/obj/item/alch/viscera,
 		/obj/item/alch/bone,
+		/obj/item/alch/horn,
+		/obj/item/reagent_containers/spidervenom_inert,
 		/obj/item/natural/head // this only works for animal heads
 		))
 

@@ -21,7 +21,7 @@
 // AP Note: Right click secondary cast is NOT PROPERLY IMPLEMENTED. It is just stubbed out
 
 /datum/action/cooldown/spell/touch
-	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE
 	charge_required = FALSE
 	has_visual_effects = FALSE
 	click_to_activate = FALSE

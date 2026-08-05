@@ -37,6 +37,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
+	neck = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE? WE NEED TO USE MIRACLES SIRE.
 	backpack_contents = list(
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,
@@ -46,6 +47,7 @@
 	id = /obj/item/mattcoin
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
+	H.mind.AddSpell(new /datum/action/cooldown/spell/matthios/raze)
 	var/subtype = list("Chosen of Matthios", "Golden Serpent")
 	if(H.mind)
 		var/subtype_choice = input(H, "Choose your path.", "TAKE UP ARMS") as anything in subtype

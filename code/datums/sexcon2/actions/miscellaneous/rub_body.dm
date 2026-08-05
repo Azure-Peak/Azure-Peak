@@ -36,9 +36,12 @@
 	var/locked = user.get_active_precise_hand()
 	sex_locks |= new /datum/sex_session_lock(user, locked)
 
-/datum/sex_action/miscellaneous/rub_body/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/miscellaneous/rub_body/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] rubs [target]'s body..."))
+
+/datum/sex_action/miscellaneous/rub_body/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.make_sucking_noise()
 
 	sex_session.perform_sex_action(target, 0.5, 0, TRUE)

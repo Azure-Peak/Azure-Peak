@@ -67,7 +67,7 @@
 	beltr = /obj/item/rogueweapon/whip/spiderwhip	
 	beltl = /obj/item/rope/chain
 
-	H.faction += "spider_lowers"
+	H.faction += FACTION_SPIDER_LOWERS
 
 	if(H.mind)
 		var/riding = list("Spidertamer (Tameable Spider Mount)", "Shroomwalker (+I to Athletics)")
@@ -145,7 +145,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
 
-	H.faction += "spider_lowers"
+	H.faction += FACTION_SPIDER_LOWERS
 
 	if(H.mind)
 		var/weapon = list("Bow & Poisoned Arrows", "Dual Sabres")

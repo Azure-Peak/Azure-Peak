@@ -8,8 +8,8 @@
 	icon_state = "signalhorn"
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK
 	w_class = WEIGHT_CLASS_NORMAL
-	grid_height = 32
-	grid_width = 64
+	grid_height = 64
+	grid_width = 32
 
 /obj/item/signal_horn/examine()
 	. = ..()
@@ -51,7 +51,7 @@
 /obj/item/signal_horn/proc/sound_horn(mob/living/user)
 	user.visible_message(span_userdanger("[user] blows the horn!"))
 	switch(user.job)
-		if("Warden")
+		if("Warden", "Levy", "Towner")
 			playsound(src, 'sound/items/horn/bogguardhorn.ogg', 100, TRUE)
 		if("Watchman", "Sergeant", "Man at Arms")
 			playsound(src, 'sound/items/horn/wardenhorn.ogg', 100, TRUE)
@@ -94,7 +94,7 @@
 				dirtext = "although I cannot make out an exact direction"
 
 		switch(user.job)
-			if("Warden")
+			if("Warden", "Towner", "Levy")
 				player.playsound_local(get_turf(player), 'sound/items/horn/bogguardhorn.ogg', 35, FALSE, pressure_affected = FALSE)
 			if("Watchman", "Sergeant", "Man at Arms")
 				player.playsound_local(get_turf(player), 'sound/items/horn/wardenhorn.ogg', 35, FALSE, pressure_affected = FALSE)

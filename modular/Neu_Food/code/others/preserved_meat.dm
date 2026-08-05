@@ -1,5 +1,6 @@
 // -------------- SALUMOI (dwarven smoked sausage) -----------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/salami
+	cuisine = CUISINE_ETRUSCAN|CUISINE_NORTH_IMPERIAL
 	name = "salumoi"
 	desc = "A salted sausage, said to last for ten yils before spoiling. As the legend goes, dwarven caravans used this 'travel food' to create the first sandwich: a slice of bread, crowned with this sliceable meat."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
@@ -10,7 +11,7 @@
 	bitesize = 7
 	slice_batch = FALSE
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/salami/slice
 	tastes = list("salted meat" = 1)
 	rotprocess = null
@@ -41,12 +42,13 @@
 	icon_state = "salumoi_slice"
 	faretype = FARE_NEUTRAL
 	fried_type = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	bitesize = 2
 	tastes = list("salted meat" = 1)
 
 // -------------- COPPIETTE (dried meat) -----------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_RANESHENI
 	eat_effect = null
 	name = "coppiette"
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
@@ -58,7 +60,7 @@
 	slice_path = null
 	tastes = list("salted meat" = 1)
 	rotprocess = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette/On_Consume(mob/living/eater)
 	..()
@@ -72,6 +74,8 @@
 		icon_state = "jerk1"
 
 /obj/item/reagent_containers/food/snacks/rogue/lemoncoppiette
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_RANESHENI
+	dish_type = DISH_MEAT
 	eat_effect = null
 	name = "lemony stickets"
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
@@ -85,7 +89,7 @@
 	slice_path = null
 	tastes = list("lip-puckering sweetness" = 1, "an unfortunate aftertaste of burnt wood" = 1)
 	rotprocess = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 
 /obj/item/reagent_containers/food/snacks/rogue/lemoncoppiette/On_Consume(mob/living/eater)
 	..()
@@ -104,7 +108,7 @@
 	desc = "Salted pork fat, slabbed and ready for a slicing. A classic amongst the peasantry's pantry, when leaner cuts of meat are scarce. Quite delicious if watered down."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
 	icon_state = "salo4"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	bitesize = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/fat/salo/slice
 	faretype = FARE_IMPOVERISHED
@@ -136,7 +140,7 @@
 	bitesize = 2
 	slices_num = FALSE
 	slice_path = FALSE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 
 // ------------ PEMMICAN - BROTHBRICK --------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/brothbrique
@@ -152,7 +156,7 @@
 	bitesize = 6
 	slice_batch = FALSE
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/brothbrique/slice
 	tastes = list("salted meat" = 1, "dried berries" = 1, "a slightly greasy aftertaste" = 1)
 	rotprocess = null
@@ -180,7 +184,7 @@
 	bitesize = 3
 	slices_num = FALSE
 	slice_path = FALSE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 
 // ------------ HELLFIRE STEW - SALO N' TACK --------------
 /obj/item/reagent_containers/food/snacks/balefire
@@ -189,7 +193,7 @@
 	its portions can be further divvied up with a knife and stewed into a remarkably hearty broth."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
 	icon_state = "balefire4"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	bitesize = 4
 	slice_path = /obj/item/reagent_containers/food/snacks/balefire/slice
 	faretype = FARE_NEUTRAL
@@ -223,10 +227,12 @@
 	bitesize = 2
 	slices_num = FALSE
 	slice_path = FALSE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL * 2)
 
 // -------------- DRIED FISH FILET -----------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "dried fish filet"
 	desc = "A slab of aquatic meat, salted harder than the living thing was. A staple of any traveler alongside coastal regions, make sure to pack enough water with it."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
@@ -235,6 +241,6 @@
 	fried_type = null
 	bitesize = 3
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	tastes = list("salted fish" = 1)
 	rotprocess = null

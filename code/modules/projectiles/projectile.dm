@@ -11,6 +11,7 @@
 	pass_flags = PASSTABLE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	movement_type = FLYING
+	light_system = MOVABLE_LIGHT
 	//The sound this plays on impact.
 	var/hitsound = 'sound/blank.ogg'
 	var/hitsound_wall = ""
@@ -122,6 +123,8 @@
 	var/reflectable = NONE // Can it be reflected or not?
 	/// Whether this projectile can be deflected by Guard (clash status). Opt-in per subtype.
 	var/guard_deflectable = FALSE
+	/// If TRUE, Guard-deflecting this projectile exposes its firer (riposte punish). Arcyne/wizard bolts opt in.
+	var/expose_caster_on_deflect = FALSE
 		//Effects
 	var/stun = 0
 	var/knockdown = 0
@@ -135,19 +138,20 @@
 	var/stamina = 0
 	var/jitter = 0
 	var/dismemberment = 0 //The higher the number, the greater the bonus to dismembering. 0 will not dismember at all.
+	var/dismember_by_default = FALSE
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 
 	var/temporary_unstoppable_movement = FALSE
 
 	var/woundclass = null
+	/// If TRUE, this projectile applies wounds but never rolls a critical hit.
+	var/no_crit = FALSE
 	var/embedchance = 0
 	var/obj/item/dropped = null
 	var/ammo_type
 
 	var/arcshot = FALSE
-	var/diagonal_step = 0
-	var/diagonal_target_z = 0
 	// Is this projectile blacklisted from crossing z-level
 	var/cannot_cross_z = 0
 	var/poisontype
@@ -157,55 +161,28 @@
 	var/accuracy = 65 //How likely the project will hit it's intended target area. Decreases over distance moved, increased from perception.
 	var/bonus_accuracy = 0 //bonus accuracy that cannot be affected by range drop off.
 
-	var/target_z = 0
-
-	/// Min tile distance for full damage/AP.
+	/// Min tile distance for full damage.
 	var/min_range = 0
-	/// Max tile distance for full damage/AP.
+	/// Max tile distance for full damage.
 	var/max_range = 0
 	/// Falloff factor for damage. Multiplicative.
 	var/dam_falloff_factor = 1
+	var/suppress_effects_past_range = FALSE
 
 /obj/projectile/proc/handle_drop()
 	return
+
+
+/obj/projectile/proc/out_of_effective_range()
+	return suppress_effects_past_range && max_range && check_range(get_turf(src))
 
 /obj/projectile/Initialize()
 	. = ..()
 	permutated = list()
 	decayedRange = range
 
-/obj/projectile/proc/get_nearest_open_turf(turf/center, max_range)
-	for(var/i in 0 to max_range)
-		for(var/turf/T in range(i, center))
-			if(!T.density && !has_dense_content(T))
-				return T
-	return null
-
-/obj/projectile/proc/has_dense_content(turf/T)
-	for(var/atom/A in T)
-		if(A.density && A != src && A != firer)
-			return TRUE
-	return FALSE
-
 /obj/projectile/proc/Range()
 	range--
-	if(diagonal_step && diagonal_target_z && z != diagonal_target_z)
-		if((decayedRange - range) >= diagonal_step)
-			var/turf/T = locate(x, y, diagonal_target_z)
-			if(T)
-				if(T.density || has_dense_content(T))
-					T = get_nearest_open_turf(T, 3)
-				
-				if(T)
-					trajectory_ignore_forcemove = TRUE
-					forceMove(T)
-					trajectory_ignore_forcemove = FALSE
-					if(trajectory)
-						trajectory.z = T.z
-				else
-					qdel(src)
-					return
-
 	if(accuracy > 20) //so there is always a somewhat prevalent chance to hit the target, despite distance.
 		accuracy -= 10
 	if(range <= 0 && loc)
@@ -284,7 +261,8 @@
 			var/splatter_dir = dir
 			if(starting)
 				splatter_dir = get_dir(starting, target_loca)
-			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
+			var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(target_loca, splatter_dir)
+			splatter.set_blood_color(L.get_blood_color())
 			if(prob(33))
 				L.add_splatter_floor(target_loca)
 
@@ -611,7 +589,13 @@
 	if(zc)
 		after_z_change(old, target)
 
-/obj/projectile/proc/after_z_change(atom/olcloc, atom/newloc)
+/obj/projectile/proc/after_z_change(atom/oldloc, atom/newloc)
+	if(!isturf(oldloc) || !isturf(newloc))
+		return
+	if(newloc.z < oldloc.z)
+		visible_message(span_warning("[src] comes arcing down from above!"))
+	else if(newloc.z > oldloc.z)
+		visible_message(span_warning("[src] comes arcing up from below!"))
 
 /obj/projectile/proc/before_z_change(atom/oldloc, atom/newloc)
 
@@ -684,25 +668,9 @@
 		else if(T != loc)
 			step_towards(src, T)
 			hitscan_last = loc
-		
-		if(arcshot && starting && target_z && z > target_z)
-			var/tx = starting.x + xo
-			var/ty = starting.y + yo
-			
-			if(get_dist(loc, locate(tx, ty, z)) == 0)
-				var/turf/below = locate(x, y, target_z)
-				if(below)
-					var/old = loc
-					before_z_change(loc, below)
-					trajectory_ignore_forcemove = TRUE
-					forceMove(below)
-					trajectory_ignore_forcemove = FALSE
-					after_z_change(old, loc)
-					if(trajectory)
-						trajectory.z = below.z
-					forcemoved = TRUE
-					hitscan_last = loc
 
+	if(QDELETED(src) || !trajectory)
+		return
 	if(!hitscanning && !forcemoved)
 		pixel_x = trajectory.return_px() - trajectory.mpx * trajectory_multiplier * SSprojectiles.global_iterations_per_move
 		pixel_y = trajectory.return_py() - trajectory.mpy * trajectory_multiplier * SSprojectiles.global_iterations_per_move
@@ -774,18 +742,16 @@
 	var/turf/start_loc = curloc
 
 	if(targloc && curloc)
-		target_z = targloc.z
-		if(arcshot)
-			if(targloc.z > curloc.z)
-				var/turf/above = get_step_multiz(curloc, UP)
-				if(above)
-					curloc = above
-					start_loc = above
-		else
-			if(targloc.z != curloc.z && !cannot_cross_z)
-				var/dist = get_dist_euclidian(curloc, targloc)
-				diagonal_step = max(1, round(dist / 2))
-				diagonal_target_z = targloc.z
+		if(arcshot && targloc.z > curloc.z)
+			var/turf/above = get_step_multiz(curloc, UP)
+			if(above)
+				curloc = above
+				start_loc = above
+		else if(arcshot && targloc.z < curloc.z)
+			var/turf/hole = locate(targloc.x, targloc.y, curloc.z)
+			if(istype(hole, /turf/open/transparent/openspace))
+				target = hole
+				targloc = hole
 
 	trajectory_ignore_forcemove = TRUE
 	forceMove(start_loc)
@@ -800,7 +766,7 @@
 			accuracy = max(5, accuracy * BUCKLE_PENALTY)
 			bonus_accuracy = max(0, bonus_accuracy * BUCKLE_PENALTY)
 
-	if(targloc || !params)
+	if(targloc && !params)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		setAngle(Get_Angle(src, targloc) + spread)

@@ -82,10 +82,10 @@
 		<b>Arcanic Melds</b> are crafted by combining one material from each of the three realms at the same tier.
 		This means you need to fight creatures at leylines of different alignments - or trade with other mages.
 	</p>
-	<h2>Binding Creatures:</h2>
+	<h2>Binding Familiars:</h2>
 	<p>
-		To bind a creature to your service, draw a <b>Binding Array</b> (or Greater Binding Array for the third and fourth circles)
-		and supply realm materials, arcanic melds, and runed artifacts. The bound creature can then be
+		To bind a familiar to your service, draw a <b>Binding Array</b>
+		and supply realm materials. The bound creature can then be
 		released from a summoning circle to serve you.
 	</p>
 	<h3>Other Materials</h3>

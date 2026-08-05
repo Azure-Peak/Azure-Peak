@@ -6,7 +6,6 @@
 /mob/verb/say_typing_indicator()
 	set name = "say_indicator"
 	set hidden = TRUE
-	set category = "IC"
 	
 	display_typing_indicator()
 	var/message = input(usr, "", "say") as text|null
@@ -18,7 +17,6 @@
 
 /mob/verb/say_verb(message as text)
 	set name = "Say"
-	set category = "IC"
 	set hidden = 1
 
 	if(!length(message))
@@ -33,7 +31,6 @@
 ///Whisper verb
 /mob/verb/whisper_verb(message as text)
 	set name = "Whisper"
-	set category = "IC"
 	set hidden = 1
 
 	if(GLOB.say_disabled)	//This is here to try to identify lag problems
@@ -49,7 +46,6 @@
 /mob/verb/me_typing_indicator()
 	set name = "me_indicator"
 	set hidden = TRUE
-	set category = "IC"
 
 	display_typing_indicator()
 	var/message = input(usr, "", "me") as text|null
@@ -63,7 +59,6 @@
 ///The me emote verb
 /mob/verb/me_verb(message as text)
 	set name = "Me"
-	set category = "IC"
 	set hidden = 1
 #ifndef MATURESERVER
 	return
@@ -83,7 +78,6 @@
 
 /mob/verb/me_big_verb_indicator()
 	set name = "me_big_indicator"
-	set category = "IC"
 	set hidden = 1
 
 	display_typing_indicator()
@@ -97,7 +91,6 @@
 ///The me emote verb
 /mob/verb/me_big_verb(message as message)
 	set name = "Me(big)"
-	set category = "IC"
 	set hidden = 1
 #ifndef MATURESERVER
 	return

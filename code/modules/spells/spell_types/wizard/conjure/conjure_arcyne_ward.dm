@@ -3,6 +3,7 @@
 #define UPGRADE_ARCYNE_INTEGRITY 300
 
 /datum/action/cooldown/spell/conjure_arcyne_ward
+	source_aspect = /datum/magic_aspect/pseudo/wards
 	name = "Conjure Arcyne Ward"
 	desc = "Conjure an invisible arcyne ward that covers your entire body. Cast again to dismiss it. \
 	The ward withdraws from areas where you wear real armor, leaving those to your equipment instead - \
@@ -22,7 +23,7 @@
 	click_to_activate = FALSE
 
 	// 70 stamina (green bar) drained up-front at charge start — see on_start_charge().
-	// 130-ish energy (blue bar) drained over the charge via charge_drain (5/tick * 5Hz * 6s = 150).
+	// 130-ish energy (blue bar) drained over the charge via hold_drain (5/tick * 5Hz * 6s = 150).
 	// Total resource drain is heavy to prevent in-combat re-cast abuse.
 	primary_resource_type = SPELL_COST_ENERGY
 	primary_resource_cost = 130
@@ -33,6 +34,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	charge_time = 6 SECONDS
 	charge_slowdown = 3
 	charge_sound = 'sound/magic/charging.ogg'
@@ -43,7 +45,8 @@
 	point_cost = 2
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/conjured_ward
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward
@@ -144,7 +147,7 @@
 /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide
 	name = "Conjure Dragonhide Ward"
 	desc = "Conjure a dragonhide ward - an upgraded arcyne ward hardened with draconic scales. \
-	Grants fire resistance, halving fire damage and causing flames to burn out faster and bolsters constitution. 300 integrity. \
+	Grants fire resistance, halving fire damage and causing flames to burn out faster. 300 integrity. \
 	Otherwise functions as a standard arcyne ward - yields coverage to real armor, does not regenerate. \
 	Cast again to dismiss. Cooldown begins when dismissed or destroyed."
 	button_icon_state = "conjure_dragonhide"
@@ -153,13 +156,14 @@
 	dismiss_invocation = "Draconis Dissipo!"
 	regen_invocation = "Draconis Restauro!"
 	point_cost = 4
+	exclusive_group = "arcyne_ward"
 	ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/dragonhide
 	regen_spell_type = /datum/action/cooldown/spell/regenerate_arcyne_ward/dragonhide
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide
 	name = "Conjure Crystalhide Ward"
 	desc = "Conjure a crystalhide ward - an upgraded arcyne ward crystallized with leyline energy. \
-	Grants brigandine-tier protection and bolsters intelligence. Shatters violently when broken, knocking back nearby foes. 300 integrity. \
+	Grants brigandine-tier protection. Shatters violently when broken, knocking back nearby foes. 300 integrity. \
 	Otherwise functions as a standard arcyne ward - yields coverage to real armor, does not regenerate. \
 	Cast again to dismiss. Cooldown begins when dismissed or destroyed."
 	button_icon_state = "conjure_dragonhide"
@@ -167,18 +171,20 @@
 	invocations = list("Psymagia Congrego!")
 	dismiss_invocation = "Psymagia Dissipo!"
 	regen_invocation = "Psymagia Restauro!"
-	charge_time = 5 SECONDS
+	charge_time = 6 SECONDS
 	point_cost = 4
 	spell_tier = 3
+	exclusive_group = "arcyne_ward"
 	ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/crystalhide
 	regen_spell_type = /datum/action/cooldown/spell/regenerate_arcyne_ward/crystalhide
 
 // --- Regenerate Arcyne Ward (paired spell, granted while a ward is active) ---
 
 /datum/action/cooldown/spell/regenerate_arcyne_ward
+	source_aspect = /datum/magic_aspect/pseudo/wards
 	name = "Regenerate Arcyne Ward"
 	desc = "Channel a restoration on my active Arcyne Ward, returning it to full integrity. \
-	The channel takes 6 seconds and costs stamina and energy proportional to how damaged the ward is - \
+	The channel takes 10 seconds and costs stamina and energy proportional to how damaged the ward is - \
 	a nearly-full ward costs almost nothing, a shattered one costs nearly as much as a fresh cast. \
 	While channeling this spell, I cannot parry or dodge."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
@@ -196,8 +202,9 @@
 	var/upfront_stamina_cost = 70
 
 	charge_required = TRUE
-	charge_time = 6 SECONDS
-	charge_drain = 5
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_time = 10 SECONDS
+	hold_drain = 1
 	charge_slowdown = 3
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 2 MINUTES
@@ -206,7 +213,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	/// Back-reference to the conjure spell that owns this action, set by grant_regen_action().
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/parent_spell
@@ -263,16 +270,16 @@
 
 	var/damage_ratio = get_damage_ratio()
 	var/saved_upfront = upfront_stamina_cost
-	var/saved_drain = charge_drain
+	var/saved_drain = hold_drain
 	var/saved_primary = primary_resource_cost
 	upfront_stamina_cost = round(upfront_stamina_cost * damage_ratio)
-	charge_drain = round(charge_drain * damage_ratio)
+	hold_drain = round(hold_drain * damage_ratio)
 	primary_resource_cost = round(primary_resource_cost * damage_ratio)
 
 	. = ..()
 
 	upfront_stamina_cost = saved_upfront
-	charge_drain = saved_drain
+	hold_drain = saved_drain
 	primary_resource_cost = saved_primary
 
 /datum/action/cooldown/spell/regenerate_arcyne_ward/on_start_charge()
@@ -297,6 +304,7 @@
 		ward.obj_fix(H, full_repair = TRUE)
 	else
 		ward.obj_integrity = ward.max_integrity
+	ward.recalculate_coverage(force_full = TRUE)
 	return TRUE
 
 /datum/action/cooldown/spell/regenerate_arcyne_ward/dragonhide
@@ -325,26 +333,31 @@
 
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/linked_spell
 	var/mob/living/carbon/human/ward_owner
-	var/coverage_locked = FALSE
 	var/dismissed = FALSE
 	var/ward_color = GLOW_COLOR_ARCANE
 	var/arcyne_armor_tier = ARCYNE_WARD_TIER_BASE
+	var/yields_to_armor = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/setup_ward(mob/living/carbon/human/H)
 	ward_owner = H
 	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_owner_equip_change))
 	RegisterSignal(H, COMSIG_MOB_DROPITEM, PROC_REF(on_owner_equip_change))
-	recalculate_coverage()
+	recalculate_coverage(force_full = TRUE)
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/on_owner_equip_change(datum/source, obj/item/item)
 	SIGNAL_HANDLER
 	addtimer(CALLBACK(src, PROC_REF(recalculate_coverage)), 1)
 
-/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/recalculate_coverage()
+/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/recalculate_coverage(force_full = FALSE)
 	if(QDELETED(src) || !ward_owner)
 		return
 
 	var/new_coverage = COVERAGE_FULL_BODY_ACTUAL
+
+	if(!yields_to_armor)
+		body_parts_covered_dynamic = new_coverage
+		return
+
 	var/mob/living/carbon/human/H = ward_owner
 
 	if(has_real_armor(H.head))
@@ -368,18 +381,26 @@
 	if(has_real_armor(H.shoes))
 		new_coverage &= ~(FOOT_LEFT | FOOT_RIGHT)
 
-	if(coverage_locked)
+	if(!force_full)
 		new_coverage &= body_parts_covered_dynamic
 	body_parts_covered_dynamic = new_coverage
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/has_real_armor(obj/item/clothing/C, coverage_check)
 	if(!C || !istype(C))
 		return FALSE
-	if(C.armor_class <= ARMOR_CLASS_NONE)
+	if(!piece_is_armor(C))
 		return FALSE
 	if(coverage_check)
 		return (C.body_parts_covered_dynamic & coverage_check)
 	return TRUE
+
+/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/piece_is_armor(obj/item/clothing/C)
+	if(C.armor_class > ARMOR_CLASS_NONE)
+		return TRUE
+	if(!C.armor)
+		return FALSE
+	return (C.armor.getRating("blunt") > 0 || C.armor.getRating("slash") > 0 \
+		|| C.armor.getRating("stab") > 0 || C.armor.getRating("piercing") > 0)
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	if(ward_owner && damage_amount > 0)
@@ -389,7 +410,6 @@
 		flash_ward()
 		if(prob(50))
 			do_sparks(2, FALSE, T)
-	coverage_locked = TRUE
 	return ..()
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/flash_ward()

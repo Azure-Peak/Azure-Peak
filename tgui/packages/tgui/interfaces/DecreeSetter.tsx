@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   badgeStyle,
   cardStyle,
-  inkButtonStyle,
+  FONT_BODY,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
+  inkButtonStyle,
   pageStyle,
   rulerStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
+  SERIF,
   subtitleStyle,
   tabBarStyle,
   tabStyle,
@@ -66,9 +69,7 @@ const cardHeaderStyle: React.CSSProperties = {
 };
 
 const cardTitleStyle: React.CSSProperties = {
-  fontVariant: 'small-caps',
-  letterSpacing: '2px',
-  fontSize: '15px',
+  fontSize: FONT_TITLE,
   fontWeight: 'bold',
   color: INK,
   flex: 1,
@@ -76,20 +77,18 @@ const cardTitleStyle: React.CSSProperties = {
 
 const cardYearStyle: React.CSSProperties = {
   color: INK_FAINT,
-  fontStyle: 'italic',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
 };
 
 const mechanicalStyle: React.CSSProperties = {
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   color: INK,
   margin: '4px 0 6px',
 };
 
 const flavorToggleStyle: React.CSSProperties = {
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   color: INK_SOFT,
-  fontStyle: 'italic',
   cursor: 'pointer',
   userSelect: 'none',
   display: 'inline-block',
@@ -97,20 +96,19 @@ const flavorToggleStyle: React.CSSProperties = {
 };
 
 const flavorBodyStyle: React.CSSProperties = {
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   color: INK,
   marginTop: '6px',
   whiteSpace: 'pre-wrap',
   borderTop: `1px dashed ${INK_FAINT}`,
   paddingTop: '6px',
-  fontFamily: '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
+  fontFamily: SERIF,
   lineHeight: 1.55,
 };
 
 const proclamationNoteStyle: React.CSSProperties = {
   textAlign: 'center',
-  fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   color: SEAL_AMBER,
   margin: '4px 0 8px',
 };
@@ -208,7 +206,7 @@ const DecreeCard = (props: DecreeCardProps) => {
         <div style={mechanicalStyle}>{decree.mechanical}</div>
       )}
       {onCooldown && (
-        <div style={{ fontSize: '11px', color: SEAL_AMBER, fontStyle: 'italic' }}>
+        <div style={{ fontSize: FONT_BODY, color: SEAL_AMBER }}>
           Cooldown: {formatCooldown(cooldownLeft)}
         </div>
       )}
@@ -266,7 +264,10 @@ export const DecreeSetter = () => {
           )}
 
           <div style={tabBarStyle}>
-            <div style={tabStyle(tab === 'ancient')} onClick={() => setTab('ancient')}>
+            <div
+              style={tabStyle(tab === 'ancient')}
+              onClick={() => setTab('ancient')}
+            >
               {CATEGORY_LABELS.ancient} ({ancient.length})
             </div>
             <div style={tabStyle(tab === 'new')} onClick={() => setTab('new')}>
@@ -278,8 +279,7 @@ export const DecreeSetter = () => {
             <div
               style={{
                 textAlign: 'center',
-                fontStyle: 'italic',
-                color: INK_FAINT,
+                color: INK_SOFT,
                 padding: '20px',
               }}
             >

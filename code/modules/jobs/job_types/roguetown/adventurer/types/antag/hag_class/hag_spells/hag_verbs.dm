@@ -1,6 +1,6 @@
 /mob/living/carbon/human/proc/commune_with_roots()
 	set name = "Commune with Roots"
-	set category = "Hag"
+	set category = "RoleUnique.Hag"
 	set desc = "Press your feet to the soil to hear the Mossmother's heartbeat."
 
 	// Just in case.

@@ -9,11 +9,11 @@
 	ambushable = FALSE
 	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	base_intents = list(/datum/intent/simple/bite/bear)
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear = 1, 
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 1, 
 									/obj/item/natural/hide = 1, 
 									/obj/item/natural/fur/direbear = 1, 
 									/obj/item/natural/bone = 3)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear = 2,
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 2,
 									/obj/item/reagent_containers/food/snacks/fat = 1,
 									/obj/item/natural/hide = 2,
 									/obj/item/natural/fur/direbear = 1,
@@ -21,7 +21,7 @@
 									/obj/item/alch/bone = 1, 
 									/obj/item/alch/viscera = 2,
 									/obj/item/natural/bone = 4)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear = 3,
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 3,
 									/obj/item/reagent_containers/food/snacks/fat = 2,
 									/obj/item/natural/hide = 3,
 									/obj/item/natural/fur/direbear = 2,
@@ -31,7 +31,7 @@
 									/obj/item/natural/bone = 4)
 	head_butcher = /obj/item/natural/head/direbear
 	faction = list(FACTION_BEARS)		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DEADLY
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!

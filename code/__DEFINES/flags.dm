@@ -92,6 +92,9 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 /// When moving, will Bump()/Cross() everything, but won't be stopped.
 #define UNSTOPPABLE		(1<<4)
 
+#define MOVETYPES_NOT_TOUCHING_GROUND (FLOATING | FLYING)
+#define MOVETYPES_FLOATING_ANIMATION (FLOATING | FLYING)
+
 //Fire and Acid stuff, for resistance_flags
 #define LAVA_PROOF		(1<<0)
 /// 100% immune to fire damage (but not necessarily to lava or heat)
@@ -150,3 +153,8 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 //alternate appearance flags
 #define AA_TARGET_SEE_APPEARANCE (1<<0)
 #define AA_MATCH_TARGET_OVERLAYS (1<<1)
+
+// walking noise related flags
+#define STEPNOISE_ALL (1<<0)
+#define STEPNOISE_HEELS (1<<1)
+#define STEPNOISE_NONE (1<<2)

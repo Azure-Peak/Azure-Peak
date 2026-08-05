@@ -15,7 +15,8 @@
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit = 3, 
 							/obj/item/alch/sinew = 1,
 							/obj/item/alch/bone = 1,
-							/obj/item/natural/fur/rabbit = 1)
+							/obj/item/natural/fur/rabbit = 1,
+							/obj/item/natural/rabbitsfoot = 0)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit = 4, 
 							/obj/item/alch/sinew = 1,
 							/obj/item/alch/bone = 1,
@@ -37,3 +38,8 @@
 	gender = PLURAL
 	icon = 'icons/roguetown/mob/cabbit.dmi'
 	icon_state = "cabbit_remains"
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/death(gibbed)
+	. = ..()
+	if(!QDELETED(src) && !gibbed)
+		src.AddComponent(/datum/component/deadite_animal_reanimation)

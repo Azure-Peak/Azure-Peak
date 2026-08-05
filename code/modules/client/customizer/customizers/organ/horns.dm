@@ -67,6 +67,7 @@
 		/datum/sprite_accessory/horns/large/dukely_antlers,
 		/datum/sprite_accessory/horns/large/short_antlers,
 		/datum/sprite_accessory/horns/large/branching_antlers,
+		/datum/sprite_accessory/horns/large/wide_antlers,
 		/datum/sprite_accessory/horns/large/pronghorn,
 		/datum/sprite_accessory/horns/large/spire,
 		/datum/sprite_accessory/horns/large/highrise
@@ -129,6 +130,7 @@
 		/datum/sprite_accessory/horns/large/dukely_antlers,
 		/datum/sprite_accessory/horns/large/short_antlers,
 		/datum/sprite_accessory/horns/large/branching_antlers,
+		/datum/sprite_accessory/horns/large/wide_antlers,
 		/datum/sprite_accessory/horns/large/pronghorn,
 		/datum/sprite_accessory/horns/large/spire,
 		/datum/sprite_accessory/horns/large/highrise
@@ -194,6 +196,7 @@
 		/datum/sprite_accessory/horns/large/dukely_antlers,
 		/datum/sprite_accessory/horns/large/short_antlers,
 		/datum/sprite_accessory/horns/large/branching_antlers,
+		/datum/sprite_accessory/horns/large/wide_antlers,
 		/datum/sprite_accessory/horns/large/pronghorn,
 		/datum/sprite_accessory/horns/large/spire,
 		/datum/sprite_accessory/horns/large/highrise
@@ -259,6 +262,7 @@
 		/datum/sprite_accessory/horns/large/dukely_antlers,
 		/datum/sprite_accessory/horns/large/short_antlers,
 		/datum/sprite_accessory/horns/large/branching_antlers,
+		/datum/sprite_accessory/horns/large/wide_antlers,
 		/datum/sprite_accessory/horns/large/pronghorn,
 		/datum/sprite_accessory/horns/large/spire,
 		/datum/sprite_accessory/horns/large/highrise

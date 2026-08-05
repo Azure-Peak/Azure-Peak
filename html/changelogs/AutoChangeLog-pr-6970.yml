@@ -1,6 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Swift Balance now requires the attacker to be wearing light armor to work."
-  - balance: "Parrying with a Swift Balanced weapon while having nothing in the off-hand will give a small boost in defense."
-  - balance: "Swift Balance's parry penalty now scales based on the targeting zone of the attacker. The harder it is to hit, the harder it is to defend against."

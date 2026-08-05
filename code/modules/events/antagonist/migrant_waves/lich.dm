@@ -20,7 +20,8 @@
 
 /datum/migrant_wave/lich
 	name = "Wandering Lich"
-	roles = list(
+	track = MIGRANT_TRACK_EVENT
+	required_roles = list(
 		/datum/migrant_role/lich = 1,
 	)
 	can_roll = FALSE
