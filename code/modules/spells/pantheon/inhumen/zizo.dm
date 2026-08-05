@@ -200,6 +200,20 @@ corpses and discarded junk*/
 
 // T0: Snuffs out fires/lights around area of the caster, greater range with higher HOLY skill. Also made it give you darksight for a few seconds, since I assume this being an escape tool.
 
+/datum/action/cooldown/spell/zizo/snuff_lights
+	name = "Snuff Lights"
+	desc = "Extinguish most light sources within 2 range. For 5 seconds, you will also hone your Darksight. Both effects scale up from Miracle skill."
+	fluff_desc = "Flame, light, purity... all arrogant lies of the Living. Wretched falsehoods peddled by the Ten to keep mortals fearful of the dark. They are intrusions; frail comforts that convince men they are safe from what waits beyond their sight. Zizo's first revelation was simple: light is not needed to see. Truth does not shine. It festers in the dark, waiting for those willing to behold it."
+	button_icon_state = "snufflight"
+	associated_stat = null
+	charge_required = FALSE
+	click_to_activate = FALSE
+	cooldown_time = 40 SECONDS
+	primary_resource_cost = 30
+	secondary_resource_cost = 10
+	sound = 'sound/magic/zizo_snuff.ogg'
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	var/snuff_range = 2
 
 /datum/action/cooldown/spell/zizo/snuff_lights/cast(atom/cast_on)
 	. = ..()
