@@ -14,6 +14,10 @@
 	var/pollinating = FALSE
 	var/turf/last_pollinated
 
+	var/target_move_failures = 0
+	var/max_target_move_failures = 3
+	var/list/bad_targets = list()
+
 	// Bee genetics variables
 	var/bee_efficiency = 1.0 // Pollen collection multiplier
 	var/bee_aggression = 0 // Chance to attack on disturbance (0-100)
@@ -53,7 +57,9 @@
 	// Handle movement and merging
 	if(merge_target)
 		var/turf/turf = get_step_towards2(src, merge_target)
-		Move(turf, get_dir(src, turf))
+		if(!Move(turf, get_dir(src, turf)))
+			return
+
 		if(get_dist(merge_target, src) == 0)
 			merge_target.bee_count += bee_count
 			merge_target.update_overlays()
@@ -63,14 +69,39 @@
 			return
 
 	if(target)
-		var/turf/turf = get_step_towards2(src, target)
-		Move(turf, get_dir(src, turf))
-		if(get_dist(target, src) == 0)
-			if(istype(target, /obj/structure/apiary))
-				enter_hive()
-				return
-			target = null
-			try_pollinate()
+		// Check whether the current target is blacklisted.
+		if(bad_targets[target])
+			if(world.time < bad_targets[target])
+				target = null
+				target_move_failures = 0
+			else
+				bad_targets -= target
+
+		if(target)
+			var/turf/turf = get_step_towards2(src, target)
+
+			if(!Move(turf, get_dir(src, turf)))
+				target_move_failures++
+
+				if(target_move_failures >= max_target_move_failures)
+					// Target appears unreachable. Blacklist it for 1 minute.
+					bad_targets[target] = world.time + 1 MINUTES
+					target_move_failures = 0
+					target = null
+
+					// Immediately try to find another target.
+					if(hive)
+						hive.give_bee_target()
+				else
+					return
+
+			if(target && get_dist(target, src) == 0)
+				if(istype(target, /obj/structure/apiary))
+					enter_hive()
+					return
+
+				target = null
+				try_pollinate()
 
 	if(agitated)
 		if(agitation_countdown > 0)
@@ -81,6 +112,9 @@
 			attacked_mobs.Cut()
 
 /obj/effect/bees/proc/enter_hive()
+	if(!hive)
+		return
+
 	hive.bee_objects -= src
 	hive.sleeping_bees += bee_count
 	hive.outside_bees -= bee_count
@@ -88,6 +122,7 @@
 	hive.on_bee_enter(bee_count)
 	hive = null
 	target = null
+	target_move_failures = 0
 	qdel(src)
 
 /obj/effect/bees/proc/try_pollinate()
@@ -130,7 +165,11 @@
 		return_to_hive()
 
 /obj/effect/bees/proc/return_to_hive()
+	if(!hive)
+		return
+
 	target = hive
+	target_move_failures = 0
 
 /obj/effect/bees/proc/attack_nearby_targets()
 	if(pollinating || merge_target)
@@ -246,7 +285,28 @@
 		"addictive" = /obj/item/reagent_containers/food/snacks/rogue/honey/healing,
 	)
 
+/obj/structure/apiary/examine(mob/user)
+	. = ..()
 
+	if(queen_bee)
+		. += span_green("A queen is present within the hive, her quiet presence seeming to keep the colony in order.")
+	else
+		. += span_artery("There is no queen within the hive. The colony seems strangely unsettled.")
+
+	if(sleeping_bees > 0)
+		. += span_blue("You can hear the soft, muffled hum of sleeping bees within.")
+
+	if(stored_combs <= 0)
+		. += span_notice("There are no honeycombs ready to harvest.")
+	else if(stored_combs >= 5)
+		. += span_greentext("The hive is full to brimming with honey, swollen with the fruits of the colony's labor.")
+	else if(stored_combs >= 3)
+		. += span_green("Several heavy honeycombs fill the hive, rich with the promise of sweet honey.")
+	else
+		. += span_notice("A little honeycomb can be seen within the hive, though there is still room for more.")
+
+	if(pollen > 0)
+		. += span_blue("A warm, sweet scent of pollen and wax clings to the hive.")
 
 /obj/structure/apiary/Initialize()
 	. = ..()
@@ -346,7 +406,7 @@
 	stored_combs = 0
 	update_icon_state()
 
-/obj/structure/apiary/attackby(obj/item/I, mob/user, params) 
+/obj/structure/apiary/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/queen_bee))
 		if(queen_bee)
 			to_chat(user, span_warning("There's already a queen!"))
@@ -574,18 +634,37 @@
 
 /obj/structure/apiary/proc/give_bee_target()
 	var/list/targets = list()
+
 	for(var/obj/structure/soil/soil in view(7, src))
 		if(!soil.plant)
 			continue
 		targets |= soil
+
 	for(var/obj/structure/flora/roguegrass/herb/herb in view(7, src))
 		targets |= herb
+
+	if(!targets.len)
+		return
 
 	for(var/obj/effect/bees/bee in bee_objects)
 		if(bee.pollinating || bee.target)
 			continue
-		if(targets.len)
-			bee.target = pick(targets)
+
+		var/list/valid_targets = list()
+
+		for(var/atom/possible_target in targets)
+			// Target is currently blacklisted by this bee.
+			if(bee.bad_targets[possible_target])
+				if(world.time < bee.bad_targets[possible_target])
+					continue
+
+				// Blacklist expired.
+				bee.bad_targets -= possible_target
+
+			valid_targets += possible_target
+
+		if(valid_targets.len)
+			bee.target = pick(valid_targets)
 
 /obj/structure/apiary/proc/try_create_bees()
 	if(!comb_progress)
@@ -765,40 +844,114 @@
 	if(!proximity)
 		return
 
-	if(istype(target, /obj/structure/apiary))
-		var/obj/structure/apiary/A = target
+	if(!istype(target, /obj/structure/apiary))
+		return
 
-		to_chat(user, span_notice("You carefully inspect [A]."))
+	var/obj/structure/apiary/A = target
 
-		if(A.has_disease)
-			switch(A.disease_type)
-				if("varroa_mites")
-					to_chat(user, span_warning("You spot tiny mites crawling on the bees!"))
-				if("foulbrood")
-					to_chat(user, span_warning("The honeycomb has a foul smell and appears discolored!"))
-				if("wax_moths")
-					to_chat(user, span_warning("You see small moths and their larvae in the hive!"))
+	to_chat(user, span_notice("<i>You carefully examine [A] through [src], studying the bees, comb, and workings of the hive.</i>"))
+	// Honeycomb
+	if(A.stored_combs <= 0)
+		to_chat(user, span_notice("- There are no finished honeycombs ready for harvest."))
+	else if(A.stored_combs >= 5)
+		to_chat(user, span_greentext("- The combs are packed tightly together and heavy with honey. The hive is full to brimming."))
+	else if(A.stored_combs >= 3)
+		to_chat(user, span_green("- Several substantial combs are visible, capped and heavy with honey."))
+	else
+		to_chat(user, span_notice("- A small amount of finished honeycomb is visible among the working bees."))
+	// Queen
+	if(A.queen_bee)
+		var/obj/item/queen_bee/Q = A.queen_bee
 
-			// Report severity
-			if(A.disease_severity < 30)
-				to_chat(user, span_notice("The infection appears to be mild."))
-			else if(A.disease_severity < 70)
-				to_chat(user, span_warning("The infection is moderately severe."))
-			else
-				to_chat(user, span_danger("The infection is very severe! The colony may collapse soon!"))
+		if(Q.queen_health >= 80)
+			to_chat(user, span_green("- The queen appears healthy and vigorous, moving steadily among the colony."))
+		else if(Q.queen_health >= 50)
+			to_chat(user, span_yellow("- The queen appears somewhat worn. Her movements are slower than those of a thriving queen."))
+		else if(Q.queen_health > 20)
+			to_chat(user, span_red("- The queen looks frail and sluggish. The colony may soon begin to suffer for it."))
 		else
-			to_chat(user, span_notice("The bees appear to be healthy."))
+			to_chat(user, span_artery("- The queen appears extremely weak. Her condition is poor and she may not survive much longer."))
 
-
-		// Report on bee count
-		if(A.bee_count + A.outside_bees == 0)
-			to_chat(user, span_warning("The hive is empty!"))
-		else if(A.bee_count + A.outside_bees < 5)
-			to_chat(user, span_warning("The colony is very small."))
-		else if(A.bee_count + A.outside_bees < 15)
-			to_chat(user, span_notice("The colony is moderate in size."))
+		if(Q.queen_age < 10)
+			to_chat(user, span_green("- She appears relatively young, with a strong and active colony gathered around her."))
+		else if(Q.queen_age < 21)
+			to_chat(user, span_blue("- She appears mature, with the settled bearing of an established queen."))
 		else
-			to_chat(user, span_notice("The colony is thriving with many bees!"))
+			to_chat(user, span_artery("- She appears quite old. The colony's queen is well into the latter part of her life."))
+
+	else
+		to_chat(user, span_artery("- No queen can be found. The bees appear disorganized, and there are signs that the colony is without its usual center."))
+	// Colony activity
+	var/total_bees = A.bee_count + A.outside_bees + A.sleeping_bees
+
+	if(total_bees <= 0)
+		to_chat(user, span_artery("- There is no noticeable bee activity within or around the hive."))
+	else if(total_bees < 5)
+		to_chat(user, span_yellow("- The colony is very small. Only a few bees appear to be tending the hive."))
+	else if(total_bees < 15)
+		to_chat(user, span_green("- The colony appears moderately active, with a steady hum coming from within."))
+	else if(total_bees < 25)
+		to_chat(user, span_green("- The colony is bustling with activity. Bees are moving constantly through the hive."))
+	else
+		to_chat(user, span_greentext("- The colony is exceptionally busy, with a deep and vigorous hum coming from the hive."))
+	// Sleeping bees
+	if(A.sleeping_bees > 0)
+		if(A.sleeping_bees >= 10)
+			to_chat(user, span_blue("- A considerable number of bees appear to be resting deeper within the hive."))
+		else
+			to_chat(user, span_blue("- Some bees appear to be resting within the hive between bouts of work."))
+	// Wax and comb production
+	if(A.comb_progress >= 75)
+		to_chat(user, span_blue("- The bees are actively building and filling fresh comb. Wax work appears particularly vigorous."))
+	else if(A.comb_progress >= 30)
+		to_chat(user, span_blue("- There are signs of ongoing comb construction, with fresh wax being worked into the hive."))
+	else if(A.comb_progress > 1)
+		to_chat(user, span_blue("- A little fresh wax is being worked, though the colony does not appear to be producing comb particularly rapidly."))
+	// Pollen stores
+	if(A.pollen >= 75)
+		to_chat(user, span_greentext("- The hive contains abundant pollen stores. The colony has clearly been foraging successfully."))
+	else if(A.pollen >= 30)
+		to_chat(user, span_green("- A healthy amount of pollen has been brought into the hive."))
+	else if(A.pollen > 0)
+		to_chat(user, span_green("- There is some pollen stored within the hive, though the reserves are modest."))
+	else
+		to_chat(user, span_yellow("- Very little pollen can be found within the hive. The colony's recent foraging appears poor."))
+	// Disease
+	if(A.has_disease)
+		switch(A.disease_type)
+			if("varroa_mites")
+				to_chat(user, span_artery("- You spot tiny mites moving among the bees and along the comb."))
+			if("foulbrood")
+				to_chat(user, span_artery("- Some of the brood and comb appear discolored and unhealthy, with an unmistakable foul smell."))
+			if("wax_moths")
+				to_chat(user, span_artery("- You find the telltale silk trails, larvae, and damaged wax associated with moth infestation."))
+
+		if(A.disease_severity < 30)
+			to_chat(user, span_artery("- The signs of infestation are present, but appear relatively mild."))
+		else if(A.disease_severity < 70)
+			to_chat(user, span_artery("- The infestation is clearly established and is beginning to affect the colony."))
+		else
+			to_chat(user, span_artery("- The infestation is severe. The colony is visibly suffering and may be approaching collapse."))
+
+	else
+		to_chat(user, span_green("- No obvious signs of disease or infestation can be found."))
+	// Swarming
+	if(A.swarm_progress >= 80)
+		to_chat(user, span_artery("- The bees appear unusually restless and crowded. The colony may be preparing to swarm."))
+	else if(A.swarm_progress >= 40)
+		to_chat(user, span_yellow("- There is a noticeable restlessness among the bees, though no swarm appears imminent."))
+	to_chat(user, span_blue("------------"))
+	// General colony condition
+	if(!A.queen_bee)
+		to_chat(user, span_yellow("- Overall, the colony appears poorly organized without a queen to anchor it."))
+	else if(A.has_disease && A.disease_severity >= 70)
+		to_chat(user, span_artery("- Overall, the colony appears unhealthy and badly troubled by disease."))
+	else if(A.bee_count + A.outside_bees >= 20 && A.stored_combs >= 3 && A.pollen >= 30)
+		to_chat(user, span_greentext("- Overall, this appears to be a thriving and productive colony."))
+	else if(A.bee_count + A.outside_bees >= 10)
+		to_chat(user, span_green("- Overall, the colony appears stable and reasonably productive."))
+	else
+		to_chat(user, span_yellow("- Overall, the colony appears small and somewhat fragile."))
 
 /obj/item/bee_treatment
 	name = "bee medication"

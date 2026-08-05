@@ -143,6 +143,12 @@
 #define CANCEL_GRACE_FRACTION 0.3 // How many decisecond you have to cancel a spell quickly
 #define CANCEL_GRACE_MINIMUM 3
 
+// Holding a fully charged spell. Grace is free, then the hold destabilizes until it tears loose.
+#define SPELL_HOLD_GRACE 1 SECONDS // How long you may hold a spell without penalty
+#define SPELL_HOLD_MAX 5 SECONDS // Total before the spell fizzles out
+#define SPELL_HOLD_TEAR_COST 2.5 // Cost multiplier if it fizzles out - forcing you to commit or cancel it
+#define SPELL_HOLD_DRAIN_RAMP 3 // How much extra hold drain ramp up as you hold onto a spell
+
 // Spell impact visual intensity tiers
 #define SPELL_IMPACT_NONE   0  // No impact visual
 #define SPELL_IMPACT_LOW    1  // 2 wisps — minor pokes, utility
@@ -222,7 +228,7 @@
 #define COMSIG_MOB_KICKED_SUCCESSFUL "mob_kicked_successful" //from /mob/living/proc/try_kick(). Sent to target after a kick lands (past dodge/parry).
 
 // Aspect
-#define ASPECT_RESET_BUDGET 4
+#define ASPECT_RESET_BUDGET 6
 #define ASPECT_RESET_COST_MAJOR 4
 #define ASPECT_RESET_COST_MINOR 2
 #define ASPECT_RESET_COST_UTILITY 1

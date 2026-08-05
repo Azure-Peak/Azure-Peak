@@ -338,8 +338,8 @@
 	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
 
 /datum/loadout_item/donator/universal/regional/trophyfurs
-	name = "Gift - Regional, Trophy Furs"
-	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/trophyfur/loadout
+	name = "Gift - Regional, Trophy Robes"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout
 
 /datum/loadout_item/donator/universal/regional/hatangacoat
 	name = "Gift - Regional, Hatanga Coat"
@@ -781,6 +781,11 @@
 	name = "Donator Kit - Hound-Nosed Bascinet"
 	path = /obj/item/enchantingkit/spaz_helm
 	ckeywhitelist = list("seniorspaz")
+
+/datum/loadout_item/donator/lime_helm
+	name = "Donator Kit - Serpentine Bascinet"
+	path = /obj/item/enchantingkit/limetease
+	ckeywhitelist = list("limetease", "simplypoodle")
 
 /datum/loadout_item/donator/gazelleskull
 	name = "Donator Item - Gazelle Skull"

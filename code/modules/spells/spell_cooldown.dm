@@ -154,9 +154,15 @@
 	 * Per-tick cost to hold the spell once charged. Charge-up itself is free.
 	 *
 	 * Drained every SSfastprocess tick (wait = 2, i.e. 5x/second) from the moment
-	 * the charge bar completes until the spell is cast or dropped.
+	 * hold_grace_time expires until the spell is cast or dropped.
 	 */
 	var/hold_drain = 1
+	var/hold_grace_time = SPELL_HOLD_GRACE
+	var/hold_max_time = SPELL_HOLD_MAX
+	var/fully_charged_at = 0
+	var/hold_instability = 0
+	var/hold_warned = 0
+	var/next_hold_shake = 0
 	/// Time to charge.
 	var/charge_time = 0
 	/// Slowdown while charging.
@@ -259,18 +265,30 @@
 		if(!can_cast_spell(TRUE))
 			cancel_casting()
 			return PROCESS_KILL
+		if(is_held_ready())
+			if(!fully_charged_at)
+				fully_charged_at = world.time
+			var/held_for = world.time - fully_charged_at
+			if(held_for < hold_grace_time)
+				refresh_charge_intent()
+				return
+			if(has_hold_cap() && held_for >= hold_max_time)
+				tear_loose()
+				return PROCESS_KILL
+			handle_hold_instability(held_for)
 		if(hold_drain)
+			var/ramped_drain = hold_drain * (1 + (hold_instability * SPELL_HOLD_DRAIN_RAMP))
 			if(primary_resource_type == SPELL_COST_STAMINA && iscarbon(owner))
 				var/mob/living/carbon/C = owner
 				if(C.stamina >= C.max_stamina)
 					owner.balloon_alert(owner, "Too exhausted to hold the spell!")
-					cancel_casting()
+					cancel_casting(voluntary = is_held_ready())
 					return PROCESS_KILL
-			if(!check_resource_available(primary_resource_type, hold_drain))
+			if(!check_resource_available(primary_resource_type, ramped_drain))
 				owner.balloon_alert(owner, "I cannot hold the spell any longer!")
-				cancel_casting()
+				cancel_casting(voluntary = is_held_ready())
 				return PROCESS_KILL
-			invoke_resource_cost(primary_resource_type, hold_drain)
+			invoke_resource_cost(primary_resource_type, ramped_drain)
 		refresh_charge_intent()
 		return
 
@@ -295,6 +313,7 @@
 	// Charge goal reached — enter the held phase; keep processing so hold_drain bleeds while held.
 	if(world.time > (charge_started_at + charge_target_time))
 		fully_charged = TRUE
+		fully_charged_at = world.time
 		if(owner.client)
 			owner.client.mouse_pointer_icon = 'icons/effects/mousemice/swang/acharged.dmi'
 			if(hide_charge_effect)
@@ -1051,6 +1070,10 @@
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
 	fully_charged = FALSE
+	fully_charged_at = 0
+	hold_instability = 0
+	hold_warned = 0
+	next_hold_shake = 0
 	if(owner)
 		owner.tempfixeye = TRUE
 		if(!owner.fixedeye)
@@ -1113,6 +1136,9 @@
 /datum/action/cooldown/spell/proc/end_charging()
 	currently_charging = FALSE
 	fully_charged = FALSE
+	fully_charged_at = 0
+	hold_warned = 0
+	next_hold_shake = 0
 	charge_started_at = null
 	charge_target_time = null
 	// Only drop the cache if we're not about to enter the "charged, waiting to fire" phase
@@ -1204,6 +1230,42 @@
 	if(SW && SW.duration != -1)
 		SW.duration = max(SW.duration, world.time + (charge_swingdelay_duration || 20))
 
+/datum/action/cooldown/spell/proc/is_held_ready()
+	return charge_required && click_to_activate
+
+/datum/action/cooldown/spell/proc/has_hold_cap()
+	return is_held_ready() && !charge_then_click && hold_max_time > hold_grace_time
+
+/datum/action/cooldown/spell/proc/handle_hold_instability(held_for)
+	if(!has_hold_cap())
+		return
+	hold_instability = clamp((held_for - hold_grace_time) / (hold_max_time - hold_grace_time), 0, 1)
+
+	var/mob/living/living_owner = owner
+	if(!istype(living_owner))
+		return
+
+	if(world.time >= next_hold_shake)
+		living_owner.do_jitter_animation(round(hold_instability * 300))
+		shake_camera(living_owner, 2, 0.05 + (hold_instability * 0.15))
+		next_hold_shake = world.time + round(9 - (hold_instability * 6), 1)
+
+	if(!hold_warned)
+		hold_warned = 1
+		living_owner.balloon_alert_to_viewers("<font color='#d4d36c'>Straining</font>")
+	else if(hold_warned < 2 && hold_instability >= 0.66)
+		hold_warned = 2
+		living_owner.balloon_alert_to_viewers("<font color='#a8665a'>Unraveling</font>")
+
+/datum/action/cooldown/spell/proc/tear_loose()
+	var/mob/living/living_owner = owner
+	if(istype(living_owner))
+		living_owner.do_jitter_animation(600)
+		shake_camera(living_owner, 4, 0.4)
+		living_owner.balloon_alert_to_viewers("<font color='#bb2b2b'>The spell unravels!</font>", "<font color='#bb2b2b'>The spell unravels — the backlash guts me!</font>")
+		playsound(living_owner, 'sound/magic/magic_nulled.ogg', 60, TRUE)
+	cancel_casting(voluntary = TRUE, cost_mult_override = SPELL_HOLD_TEAR_COST)
+
 /datum/action/cooldown/spell/proc/is_cancel_penalized()
 	if(!cancel_penalty_mult)
 		return FALSE
@@ -1218,7 +1280,7 @@
 		return FALSE
 	return (world.time - charge_started_at) >= max(charge_target_time * CANCEL_GRACE_FRACTION, CANCEL_GRACE_MINIMUM)
 
-/datum/action/cooldown/spell/proc/apply_cancel_penalty(was_fully_charged)
+/datum/action/cooldown/spell/proc/apply_cancel_penalty(was_fully_charged, cost_mult_override = 0)
 	if(!owner)
 		return
 
@@ -1226,16 +1288,17 @@
 	if(penalty_cooldown > 0)
 		StartCooldown(penalty_cooldown)
 
-	owner.balloon_alert(owner, was_fully_charged ? "Canceled! Full cost applied!" : "Canceled! Partial cost applied!")
+	if(!cost_mult_override)
+		owner.balloon_alert(owner, was_fully_charged ? "Canceled! Full cost applied!" : "Canceled! Partial cost applied!")
 
 	// Last, because a drain that caps the stamina bar emotes and sleeps.
-	var/cost_mult = (was_fully_charged ? CANCEL_PENALTY_COST_CHARGED : CANCEL_PENALTY_COST_PARTIAL) * cancel_penalty_mult
+	var/cost_mult = (cost_mult_override || (was_fully_charged ? CANCEL_PENALTY_COST_CHARGED : CANCEL_PENALTY_COST_PARTIAL)) * cancel_penalty_mult
 	invoke_resource_cost(primary_resource_type, primary_resource_cost * cost_mult)
 	invoke_resource_cost(secondary_resource_type, secondary_resource_cost * cost_mult)
 
 /// Cancel casting and all its effects.
 /// [voluntary] must only be TRUE when the caster themselves backed out.
-/datum/action/cooldown/spell/proc/cancel_casting(voluntary = FALSE)
+/datum/action/cooldown/spell/proc/cancel_casting(voluntary = FALSE, cost_mult_override = 0)
 	if(QDELETED(src)) // Timer
 		return
 	if(auto_cancel_timer)
@@ -1252,7 +1315,7 @@
 	if(!penalise)
 		return FALSE
 	// Async so the stamina drain (which can emote) leaves the SIGNAL_HANDLER call stack.
-	INVOKE_ASYNC(src, PROC_REF(apply_cancel_penalty), was_fully_charged)
+	INVOKE_ASYNC(src, PROC_REF(apply_cancel_penalty), was_fully_charged, cost_mult_override)
 	return TRUE
 
 /// Checks if the current OWNER of the spell is in a valid state to say the spell's invocation
@@ -1384,8 +1447,7 @@
 	return TRUE
 
 /// Charge the owner with the cost of the spell. Drains both primary and secondary resources.
-/// Returns the sum of stamina + energy spent (devotion/blood are excluded — the return
-/// feeds the implement refund pool, which only tracks the two mundane resource bars).
+/// Returns the sum of stamina + energy spent. Refund does not touch devotion / blood.
 /datum/action/cooldown/spell/proc/invoke_cost()
 	if(!owner)
 		return
@@ -1508,6 +1570,9 @@
 		stats += span_info("Charge time: Instant")
 		if(HAS_TRAIT(user, TRAIT_SWIFTCAST))
 			stats += span_info(" <font color='#8c00ff'>(Swiftcast)</font>")
+
+	if(display_charge > 0 && has_hold_cap())
+		stats += span_info("Hold: [DisplayTimeText(hold_grace_time)] free, then it destabilizes and drains ever faster until it tears loose at [DisplayTimeText(hold_max_time)]")
 
 	// Cooldown
 	stats += get_cooldown_stat_lines(user)
@@ -1727,6 +1792,7 @@
 		// Charge complete — transition to "click to cast" mode, still bleeding hold_drain while held.
 		on_end_charge(TRUE)
 		fully_charged = TRUE
+		fully_charged_at = world.time
 		START_PROCESSING(SSfastprocess, src)
 		charge_started_at = 0
 		UnregisterSignal(source, list(COMSIG_CLIENT_MOUSEUP, COMSIG_CLIENT_MOUSEDOWN))

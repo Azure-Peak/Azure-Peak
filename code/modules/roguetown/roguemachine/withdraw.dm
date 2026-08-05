@@ -56,6 +56,7 @@
 	data["compact"] = withdraw_tab.compact ? TRUE : FALSE
 	data["categories"] = withdraw_tab.categories
 	data["category"] = withdraw_tab.current_category
+	data["fiscal_authority"] = has_fiscal_authority(user) ? TRUE : FALSE
 	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)) ? TRUE : FALSE
 	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
 	data["treasury_floor"] = SStreasury.stockpile_purchase_floor

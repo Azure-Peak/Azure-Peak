@@ -1,8 +1,11 @@
 /datum/action/cooldown/spell/eyebite
 	name = "Eyebite"
 	desc = "Manipulate the shadows within a chosen target's eye into jagged, gnashing teeth. Temporarily blinds the chosen target, while moderately damaging them."
-	button_icon = 'icons/mob/actions/actions_spells.dmi'
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "blind"
+	spell_color = GLOW_COLOR_ZIZO
+
 	cast_range = 7
 	sound = 'sound/items/beartrap.ogg'
 	primary_resource_cost = 30
