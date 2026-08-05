@@ -277,8 +277,6 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/psydon/enduring_blast)
 
 	if(scion) // scion gets the ability to wield arcyne armaments, mostly for sovl, it's the same as just giving them a weapon and the skill to wield it, but this makes it more personal
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_armament)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
 
 	if(sage) // sage-only
@@ -289,6 +287,10 @@
 
 	if(!sage) // neither scions nor mystics can bloodmiracle, that's for sage, who is 'the' cleric among them
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
+
+	if(scion) // scion gets the ability to wield arcyne armaments, mostly for sovl, it's the same as just giving them a weapon and the skill to wield it, but this makes it more personal
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_armament)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 
 /proc/setup_mystic_weapon(mob/living/carbon/human/H, include_quarterstaff = TRUE)
 	if(!H.mind)
