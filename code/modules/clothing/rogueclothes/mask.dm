@@ -216,7 +216,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_CLOTH
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
 	body_parts_covered = FACE|HEAD
@@ -234,7 +234,7 @@
 	name = "iron mask"
 	desc = "A simple, utilitarian mask designed to protect the face from oncoming blows."
 	icon_state = "imask"
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -254,14 +254,14 @@
 	desc = "Expressionless steel sits where a face ought to be. It is better to be \
 	safe than to be known."
 	icon_state = "smask"
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_STEEL
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	name = "strange mask"
 	desc = "It is said that the original version of this mask was used for obscure rituals prior to the fall of the Empire of the Holy Celestia, and now it has been repurposed as a veil for the cunning hand of the Otavan Orthodoxy.<br> <br>Others say it is a piece of heresy, a necessary evil, capable of keeping its user safe from left-handed magicks. You can taste copper whenever you draw breath."
 	icon_state = "confessormask"
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_STEEL
 	equip_sound = 'sound/items/confessormaskon.ogg'
 	smeltresult = /obj/item/ingot/steel
 	var/worn = FALSE
@@ -336,7 +336,7 @@
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
@@ -382,7 +382,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	icon_state = "bronzemask"
 	item_state = "bronzemask"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 
 /obj/item/clothing/mask/rogue/facemask/bronze/classic
@@ -431,7 +431,7 @@
 /obj/item/clothing/mask/rogue/facemask/steel/steppesman
 	name = "steppesman war mask"
 	desc = "A steel mask shaped like the face of a rather charismatic fellow! Pronounced cheeks, a nose, and a large mustache. Well, people outside of Aavnr don't think you'd look charismatic at all wearing this."
-	max_integrity = 250
+	max_integrity = ARMOR_INT_MASK_STEEL + 50
 	icon_state = "steppemask"
 	layer = HEAD_LAYER
 
@@ -539,7 +539,7 @@
 	name = "skull mask"
 	desc = "A mask in the shape of a skull, designed to terrify."
 	icon_state = "skullmask"
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_BONE
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
@@ -821,7 +821,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_CLOTH
 	armor = ARMOR_PADDED
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
@@ -838,7 +838,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	max_integrity = 250 //slightly more durable than the padded mask
+	max_integrity = ARMOR_INT_MASK_LEATHER //slightly more durable than the padded mask
 	armor = ARMOR_LEATHER
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
@@ -858,7 +858,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_IRON_MAILLE
 	armor = ARMOR_MAILLE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
@@ -874,7 +874,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	max_integrity = 250 //maille's get less defense but more durability than fullplate masks
+	max_integrity = ARMOR_INT_MASK_STEEL_MAILLE //maille's get less defense but more durability than fullplate masks
 	armor = ARMOR_MAILLE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE

@@ -95,11 +95,11 @@
 #define ARMOR_INT_CHEST_MEDIUM_IRON 225
 #define ARMOR_INT_CHEST_MEDIUM_SCALE 200 // More coverage, less integrity
 #define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350 //weaker protection, more integrity.
-#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 50 //Light AC brigandine parts get -50, Heavy AC brigandine parts get +50.
+#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 50 //Deducted from Light AC brigandine parts, added to Heavy AC brigandine parts.
 #define ARMOR_INT_CHEST_MEDIUM_DECREPIT 150
 
 // LIGHT
-#define ARMOR_INT_CHEST_LIGHT_ANTAG 450 //Currently only used by baotha robe & berzerker skin.
+#define ARMOR_INT_CHEST_LIGHT_ANTAG 450 //Currently only used by baotha robe, iconoclaust skin, & berzerker skin.
 #define ARMOR_INT_CHEST_LIGHT_ELITE 375 // Fancy rare exceptions that make tradeoffs in other places.
 #define ARMOR_INT_CHEST_LIGHT_MASTER 300 // High tier cloth / leather armor
 #define ARMOR_INT_CHEST_LIGHT_MEDIUM 250 // Medium tier cloth / leather armor
@@ -139,6 +139,16 @@
 #define ARMOR_INT_SIDE_GOLDPLUS 10 // Integrity for royal variants of golden / cermemonial pieces
 #define ARMOR_INT_SIDE_GOLD 5 // Integrity for golden / ceremonial pieces
 #define ARMOR_INT_SIDE_COVERAGE_BONUS 50 //bonus integrity for side pieces lacking coverage, eg. gorgets
+
+//MASKS - Facemasks
+#define ARMOR_INT_MASK_BRONZE 150 //Integrity for bronze facemasks.
+#define ARMOR_INT_MASK_STEEL 200 //Integrity for steel facemasks. Less defence than plate, more integ.
+#define ARMOR_INT_MASK_IRON 100 //Integrity for iron facemasks.
+#define ARMOR_INT_MASK_STEEL_MAILLE 250 //Integrity for steel maille facemasks. Less defence than plate masks, more integ.
+#define ARMOR_INT_MASK_IRON_MAILLE 150 //Integrity for iron maille facemasks.
+#define ARMOR_INT_MASK_LEATHER 250 //Integrity for leather facemasks.
+#define ARMOR_INT_MASK_CLOTH 200 //Integrity for cloth facemasks.
+#define ARMOR_INT_MASK_BONE 100 //Integrity for bone/skull facemasks.
 
 /*--------------------\
 | ARMOR VALUE DEFINES |

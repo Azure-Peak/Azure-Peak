@@ -196,7 +196,7 @@
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
 	</br>Happiness must be fought for."
 	armor = ARMOR_PADDED
-	max_integrity = 400
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
 	repair_time = 20 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/iconoclast
@@ -208,6 +208,6 @@
 	Oh no, not me, I never lost control.</br> \
 	You're face to face, with the man who sold the world."
 	armor = ARMOR_DRAGONSKIN
-	max_integrity = 450
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ANTAG
 	repair_time = 20 SECONDS
 
