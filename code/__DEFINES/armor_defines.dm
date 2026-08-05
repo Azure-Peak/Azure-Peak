@@ -142,7 +142,7 @@
 
 //MASKS - Facemasks
 #define ARMOR_INT_MASK_BRONZE 150 //Integrity for bronze facemasks.
-#define ARMOR_INT_MASK_STEEL 200 //Integrity for steel facemasks. Less defence than plate, more integ.
+#define ARMOR_INT_MASK_STEEL 200 //Integrity for steel facemasks.
 #define ARMOR_INT_MASK_IRON 100 //Integrity for iron facemasks.
 #define ARMOR_INT_MASK_STEEL_MAILLE 250 //Integrity for steel maille facemasks. Less defence than plate masks, more integ.
 #define ARMOR_INT_MASK_IRON_MAILLE 150 //Integrity for iron maille facemasks.
