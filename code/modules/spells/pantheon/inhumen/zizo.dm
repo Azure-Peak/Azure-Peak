@@ -199,25 +199,9 @@ corpses and discarded junk*/
 	return TRUE
 
 // T0: Snuffs out fires/lights around area of the caster, greater range with higher HOLY skill. Also made it give you darksight for a few seconds, since I assume this being an escape tool.
-/obj/effect/proc_holder/spell/self/zizo_snuff
-	name = "Snuff Lights"
-	desc = "Extinguish all lights in range, with your Miracle skill increasing the range."
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "snufflight"
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/magic/zizo_snuff.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 30
-	range = 2
 
-/obj/effect/proc_holder/spell/self/zizo_snuff/cast(list/targets, mob/living/carbon/user = usr)
+
+/datum/action/cooldown/spell/zizo/snuff_lights/cast(atom/cast_on)
 	. = ..()
 
 	if(!ishuman(owner))

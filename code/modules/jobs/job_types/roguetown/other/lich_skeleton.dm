@@ -434,7 +434,8 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if("Black Cloak") //No hood because spectacles.
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 	if(H.mind) // giving them access to Enochian
 		var/datum/devotion/new_faith = new /datum/devotion(H, H.patron)
 		new_faith.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = (CLERIC_REQ_1 - 10))

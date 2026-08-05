@@ -68,7 +68,6 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	var/uses_today = 0
 	var/last_reset_day = 0
 	var/max_tier = 0
-	var/last_used_for_teleport = -LEYLINE_TELEPORT_COOLDOWN
 	var/sabotaged = FALSE
 
 /obj/structure/leyline/Initialize()

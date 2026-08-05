@@ -65,7 +65,7 @@
 		//rip the bag of bribery, say hello to pouch of smuggling
 		"Pouch of Smuggling" = list(
 			path = /obj/item/storage/belt/rogue/pouch/matthios,
-			m_cooldown = 0, // I FUCKING HATE WHEN THEY DON'T REPORT ABUSE CASES MANNNnnnNNNNEEEEE
+			m_cooldown = 10 MINUTES,
 			m_devotion = 100,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Rogue Arts",
@@ -74,7 +74,7 @@
 		//like a pouch of smuggling, but smugglier
 		"Bag of Smuggling" = list(
 			path = /obj/item/storage/backpack/rogue/backpack/matthios,
-			m_cooldown = 0,
+			m_cooldown = -1,
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Rogue Arts",

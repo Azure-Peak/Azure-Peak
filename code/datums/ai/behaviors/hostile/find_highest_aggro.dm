@@ -107,9 +107,6 @@
 			var/extra_chance = low_hp ? 30 : 0
 			if(!living_mob.npc_detect_sneak(pot_target, extra_chance))
 				continue
-		//hope this works, this will force skip the mob from being added to the list if same faction - Kunai
-		if(pot_target.faction_check_mob(living_mob))
-			continue
 		filtered_targets += pot_target
 		if(!chosen_target && pot_target.client)
 			chosen_target = pot_target
