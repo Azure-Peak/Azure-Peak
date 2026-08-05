@@ -11,7 +11,7 @@
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	townie_contract_gate_exempt = TRUE
 	townie_contract_gate_hide_in_list = TRUE
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_SEEDKNOW, TRAIT_ALCHEMY_EXPERT)
 
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -29,6 +29,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE,
@@ -80,7 +81,7 @@
 	name = "Sage"
 	tutorial = "I was fated to become a Cleric initiate, until one irreversible death taught me that even faith has its limits. Shaken, I could no longer deepen my bonds with the Divine, and so I wandered beyond the flock. There I unravelled the mysteries of the Arcyne, and learned to fill what faith left wanting. Now I trust neither miracle nor magic alone, but know the wisdom of using both."
 	outfit = /datum/outfit/job/roguetown/adventurer/sage
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_SEEDKNOW, TRAIT_ALCHEMY_EXPERT)
 
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -96,13 +97,14 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
@@ -143,7 +145,7 @@
 	name = "Scion"
 	tutorial = "A kindness gave me faith, and I swore my blade to the divine and my life to its purpose. Although soon the road of faith taught me that faith and steel alone were not enough. So I studied the Arcyne alongside my miracles. For an oath is not kept by knowing one's limits, but by overcoming them."
 	outfit = /datum/outfit/job/roguetown/adventurer/scion
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_SEEDKNOW, TRAIT_ALCHEMY_EXPERT, TRAIT_STEELHEARTED)
 
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -160,6 +162,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE,
