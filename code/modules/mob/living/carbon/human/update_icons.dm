@@ -1928,7 +1928,7 @@ generate/load female uniform sprites matching all previously decided variables
 		if(BP.skeletonized)
 			. += "skeletonized"
 		for(var/datum/bodypart_feature/feature as anything in BP.bodypart_features)
-			. += feature.get_cache_key()
+			. += feature.get_cache_key(BP)
 		for(var/marking_name in BP.markings)
 			. += "mark[marking_name]-[BP.markings[marking_name]]"
 		for(var/marking_name in BP.aux_markings)

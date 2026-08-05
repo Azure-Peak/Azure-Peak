@@ -29,7 +29,7 @@
 	for(var/i in 1 to length(chant_lines))
 		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
 		user.adjustBruteLoss(15)
-		user.emote(pick("Progress" ? list("whimper", "painmoan", "gag", "choke") : list("painscream", "agony", "paincrit", "choke")))
+		user.emote(pick("Progress" ? list("whimper", "painmoan", "gag", "choke") : list("painscream", "superagony", "paincrit", "choke")))
 		if(i > 1)
 			shake_camera(user, min(i * 2, 3), i)
 
@@ -45,21 +45,10 @@
 	if(user.mind)
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
 		new /obj/effect/temp_visual/zizorite(get_turf(user))
-		//Our Traits
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
-		//Our Spells
-		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/zizo)
-		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)
-		//gigajank to ensure we get both Profane Bone + Strip Knowledge at once for this path
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/stripknowledgeorprofane)
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/stripknowledge)
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/zizo/profane)
-		//re-add our stuff
-		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/stripknowledge)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/zizo/profane)
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -67,9 +56,9 @@
 		span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!")
 	)
 
-	to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Magos now, but..."))
+	to_chat(user, span_purple("You have performed the Rituos to perfection. By all rights, you should now be a full-fledged Magos... and yet..."))
 	sleep(30)
-	to_chat(user, "<i>...I still can barely comprehend beyond a mere firm grasp upon the arcane...? Why?</i>")
+	to_chat(user, "<i>...Why do I still struggle to comprehend anything beyond a mere grasp of the arcane? What am I missing?</i>")
 
 /datum/action/cooldown/spell/zizo/rituos/proc/apply_unlife_path(mob/living/carbon/human/user)
 
@@ -99,8 +88,7 @@
 	var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
 	playsound(user.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
 	torso?.skeletonize(FALSE)
-	//give ourselves undead eyes since we basically are a walking corpse.
-	//advantage of that its slightly easier to see in the darkness too.
+
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(user,1)
@@ -115,9 +103,6 @@
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation/zizo)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bone_cataclysm)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -125,7 +110,7 @@
 		span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!")
 	)
 
-	to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
+	to_chat(user, span_purple("You have performed the Rituos to perfection. You should be a full-fledged Lich by now... and yet..."))
 	sleep(30)
 	to_chat(user, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
 
