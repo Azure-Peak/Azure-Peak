@@ -22,7 +22,7 @@
 
 	age_mod = /datum/class_age_mod/mystic
 
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/mending), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/arcyne_forge, /datum/action/cooldown/spell/mending), "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -89,7 +89,7 @@
 		STATKEY_WIL = 1,
 	)
 
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/mending), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/arcyne_forge, /datum/action/cooldown/spell/mending), "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -152,7 +152,7 @@
 		STATKEY_LCK = 1,
 	)
 
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/mending), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/arcyne_forge, /datum/action/cooldown/spell/mending), "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
@@ -310,16 +310,16 @@
 
 	switch(weapon_choice)
 		if("Staff")
-			H.put_in_r_hand(new /obj/item/rogueweapon/woodstaff/implement)
+			H.put_in_r_hand(new /obj/item/rogueweapon/woodstaff/implement, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 		if("Tome")
-			H.put_in_r_hand(new /obj/item/rogueweapon/spellbook)
+			H.put_in_r_hand(new /obj/item/rogueweapon/spellbook, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 		if("Quarterstaff")
-			H.put_in_r_hand(new /obj/item/rogueweapon/woodstaff/quarterstaff/iron)
+			H.put_in_r_hand(new /obj/item/rogueweapon/woodstaff/quarterstaff/iron, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, ITEM_SLOT_BACK_R)
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
