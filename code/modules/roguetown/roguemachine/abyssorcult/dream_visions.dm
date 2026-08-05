@@ -129,6 +129,7 @@
 	var/mob/target = target_ref?.resolve()
 	if(target)
 		to_chat(seeker, span_boldnotice("You must say \"[quest.required_phrase]\" within two tiles of [target.real_name]."))
+		to_chat(seeker, span_danger("Do not cause harm to [target.real_name], the waves demand you deliver the message, interfering with prophecy can be dangerous."))
 		temporary_target_scry()
 	else
 		to_chat(seeker, span_warning("The vision's target has faded from this world..."))
