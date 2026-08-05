@@ -1,36 +1,46 @@
+////////////////////////////////////////////////////////////////////////////////
+/// MYSTIC
+////////////////////////////////////////////////////////////////////////////////
+
 /datum/advclass/mystic
 	name = "Mystic"
-	tutorial = "I have spent my youth deepening my faith, only to be lured by the way of the magi, to the great regret of my family and scorn of the Church, they will treat my wounds but they wont ever accept me within the fold"
+	tutorial = "I was a Magos initiate who delved deep into the mysteries of the divine, seeking to uncover the secrets behind the miracles. Yet no matter how deeply I studied, I found nothing of significance, for true faith is not a mystery to be solved, but something that cannot be studied."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/adventurer/mystic
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	townie_contract_gate_exempt = TRUE
 	townie_contract_gate_hide_in_list = TRUE
-	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT) //so they can produce red+ and blue+
-	subclass_stats = list( //only class with a 7 point spread to compensate their lack offensive cantrip
-			STATKEY_INT = 3,
-			STATKEY_CON = 2,
-			STATKEY_WIL = 2,
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE, TRAIT_ALCHEMY_EXPERT)
+
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_WIL = 1,
+		STATKEY_SPD = 1,
+		STATKEY_LCK = 1,
 	)
+
 	age_mod = /datum/class_age_mod/mystic
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4)
+
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/mending), "ward" = TRUE)
+
 	subclass_skills = list(
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/mystic/pre_equip(mob/living/carbon/human/H)
-	..()
-	to_chat(H, span_warning("I have spent my youth deepening my faith, only to be lured by the way of the magi, to the great regret of my family and scorn of the Church, they will treat my wounds but they wont ever accept me within the fold"))
-	head = /obj/item/clothing/head/roguetown/roguehood/mage
+/datum/outfit/job/roguetown/adventurer/mystic
+	head = /obj/item/clothing/head/roguetown/witchhat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -39,7 +49,14 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/backpack
+
+/datum/outfit/job/roguetown/adventurer/mystic/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	to_chat(H, span_warning("I was a Magos initiate who delved deep into the mysteries of the divine, seeking to uncover the secrets behind the miracles. Yet no matter how deeply I studied, I found nothing of significance, for true faith is not a mystery to be solved, but something that cannot be studied."))
+
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
+
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/folding_alchcauldron_stored = 1,
@@ -48,136 +65,49 @@
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/rogueweapon/spellbook = 1,
 		/obj/item/chalk = 1,
-		)
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
-
-	if(H.mind)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
-
-	switch(H.patron?.type)
-		if(/datum/patron/divine/undivided)
-			var/list/heal = list("Greater Miracle (Divine)", "Fortifying Vapors (Secular)")
-			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(highheal_options)
-				if("Greater Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-
-		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
-			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
-			H.emote("cry")
-
-		else
-			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
-			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(heal_options)
-				if("Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-
-
-	if(H.mind)
-		var/weapons = list("Lesser Staff", "Lesser Tome", "Quarterstaff")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		switch(weapon_choice)
-			if("Lesser Staff")
-				r_hand = /obj/item/rogueweapon/woodstaff/implement
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			if("Lesser Tome")
-				r_hand = /obj/item/rogueweapon/spellbook
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			if("Quarterstaff")
-				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
-
-	switch(H.patron?.type)
-		if(/datum/patron/old_god)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-		if(/datum/patron/divine/astrata)
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
-		if(/datum/patron/divine/noc)
-			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-		if(/datum/patron/divine/abyssor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			H.grant_language(/datum/language/abyssal)
-		if(/datum/patron/divine/dendor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
-		if(/datum/patron/divine/necra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
-		if(/datum/patron/divine/pestra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
-		if(/datum/patron/divine/ravox)
-			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
-		if(/datum/patron/divine/malum)
-			neck = /obj/item/clothing/neck/roguetown/psicross/malum
-		if(/datum/patron/divine/eora)
-			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/divine/xylix)
-			neck = /obj/item/clothing/neck/roguetown/luckcharm
-			H.cmode_music = 'sound/music/combat_jester.ogg'
-
-/datum/advclass/mystic/resilientsoul
-	name = "Sage"
-	tutorial = "I have spent my youth studying both the Arcyne in secret and Miraculous ways in the open, and developed my mastery of shielding and preserving lyfe under my care. to the great displeasure of the Church they will still treat my wounds but will never welcome me back amoung the flock."
-	allowed_sexes = list(MALE, FEMALE)
-	outfit = /datum/outfit/job/roguetown/adventurer/resilient
-	class_select_category = CLASS_CAT_MYSTIC
-	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
-	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
-	subclass_stats = list(
-			STATKEY_STR = -1,
-			STATKEY_INT = 2,
-			STATKEY_CON = 3,
-			STATKEY_WIL = 3,
 	)
-	age_mod = /datum/class_age_mod/mystic
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation))
+
+	setup_mystic_healing(H)
+	setup_mystic_weapon(H, TRUE)
+	setup_mystic_patron(H)
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// SAGE
+////////////////////////////////////////////////////////////////////////////////
+
+/datum/advclass/mystic/sage
+	name = "Sage"
+	tutorial = "I was fated to become a Cleric initiate, until one irreversible death taught me that even faith has its limits. Shaken, I could no longer deepen my bonds with the Divine, and so I wandered beyond the flock. There I unravelled the mysteries of the Arcyne, and learned to fill what faith left wanting. Now I trust neither miracle nor magic alone, but know the wisdom of using both."
+	outfit = /datum/outfit/job/roguetown/adventurer/sage
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT)
+
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_CON = 1,
+		STATKEY_SPD = 1,
+		STATKEY_WIL = 1,
+	)
+
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/mending), "ward" = TRUE)
+
 	subclass_skills = list(
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
+		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, //limited at apprentice, they have tools to reduce damage taken and slowing down bleeding
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/resilient/pre_equip(mob/living/carbon/human/H)
-	..()
-	to_chat(H, span_warning("I have spent my youth studying both the Arcyne in secret and Miraculous ways in the open, and developed my mastery of shielding and preserving lyfe under my care. to the great displeasure of the Church they will still treat my wounds but will never welcome me back amoung the flock."))
-	head = /obj/item/clothing/head/roguetown/roguehood/mage
+/datum/outfit/job/roguetown/adventurer/sage
+	head = /obj/item/clothing/head/roguetown/witchhat
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -186,234 +116,274 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
+
+/datum/outfit/job/roguetown/adventurer/sage/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	to_chat(H, span_warning("I was fated to become a Cleric initiate, until one irreversible death taught me that even faith has its limits. Shaken, I could no longer deepen my bonds with the Divine, and so I wandered beyond the flock. There I unravelled the mysteries of the Arcyne, and learned to fill what faith left wanting. Now I trust neither miracle nor magic alone, but know the wisdom of using both."))
+
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
+
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/spellbook = 1,
 		/obj/item/chalk = 1,
-		)
-
-	grant_poke_spell(H)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/augment_buff/blood_rush)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
-	if(H.mind)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
-
-	switch(H.patron?.type)
-		if(/datum/patron/divine/undivided)
-			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Medical)")
-			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(highheal_options)
-				if("Greater Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-
-		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
-			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
-			H.emote("cry")
-
-		else
-			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
-			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(heal_options)
-				if("Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-
-	if(H.mind)
-		var/weapons = list("Lesser Staff", "Lesser Tome")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-		switch(weapon_choice)
-			if("Lesser Staff")
-				r_hand = /obj/item/rogueweapon/woodstaff/implement
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			if("Lesser Tome")
-				r_hand = /obj/item/rogueweapon/spellbook
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
-
-	switch(H.patron?.type)
-		if(/datum/patron/old_god)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-		if(/datum/patron/divine/astrata)
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
-		if(/datum/patron/divine/noc)
-			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-		if(/datum/patron/divine/abyssor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			H.grant_language(/datum/language/abyssal)
-		if(/datum/patron/divine/dendor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
-		if(/datum/patron/divine/necra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
-		if(/datum/patron/divine/pestra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
-		if(/datum/patron/divine/ravox)
-			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
-		if(/datum/patron/divine/malum)
-			neck = /obj/item/clothing/neck/roguetown/psicross/malum
-		if(/datum/patron/divine/eora)
-			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/divine/xylix)
-			neck = /obj/item/clothing/neck/roguetown/luckcharm
-			H.cmode_music = 'sound/music/combat_jester.ogg'
-
-/datum/advclass/mystic/holyblade
-	name = "Luminary"
-	tutorial = "I have spent my youth deepening my faith and one day a spellblade was under my care at the church, after they recovered they taught me a thing of two of the arcyne, abandoning my duties for but a few daes infuriated the Bishop that banished me from the flock, they will still gladely treat my wounds in their infinite goodness."
-	allowed_sexes = list(MALE, FEMALE)
-	outfit = /datum/outfit/job/roguetown/adventurer/holyblade
-	class_select_category = CLASS_CAT_MYSTIC
-	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
-	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
-	subclass_stats = list(
-			STATKEY_PER = 2,
-			STATKEY_INT = 1,
-			STATKEY_CON = 2,
-			STATKEY_WIL = 2,
 	)
-	age_mod = /datum/class_age_mod/mystic
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 2)
+
+	setup_mystic_healing(H, sage = TRUE)
+	setup_mystic_weapon(H, FALSE)
+	setup_mystic_patron(H)
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// SCION
+////////////////////////////////////////////////////////////////////////////////
+
+/datum/advclass/mystic/scion
+	name = "Scion"
+	tutorial = "A kindness gave me faith, and I swore my blade to the divine and my life to its purpose. Although soon the road of faith taught me that faith and steel alone were not enough. So I studied the Arcyne alongside my miracles. For an oath is not kept by knowing one's limits, but by overcoming them."
+	outfit = /datum/outfit/job/roguetown/adventurer/scion
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE, TRAIT_STEELHEARTED)
+
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_STR = 1,
+		STATKEY_SPD = 1,
+		STATKEY_LCK = 1,
+	)
+
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/mending), "ward" = TRUE)
+
 	subclass_skills = list(
+		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
+		/datum/skill/magic/holy = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/adventurer/holyblade/pre_equip(mob/living/carbon/human/H)
-	..()
-	to_chat(H, span_warning("I have spent my youth deepening my faith and one day a spellblade was under my care at the church, after they recovered they taught me a thing of two of the arcyne, abandoning my duties for but a few daes infuriated the Bishop that banished me from the flock, they will still gladely treat my wounds in their infinite goodness."))
-	head = /obj/item/clothing/head/roguetown/roguehood/mage
+/datum/outfit/job/roguetown/adventurer/scion
+	head = /obj/item/clothing/head/roguetown/headband/monk
+	neck = /obj/item/clothing/neck/roguetown/bevor/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
-	neck = /obj/item/clothing/neck/roguetown/coif/padded
+
+/datum/outfit/job/roguetown/adventurer/scion/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	to_chat(H, span_warning("A kindness gave me faith, and I swore my blade to the divine and my life to its purpose. Although soon the road of faith taught me that faith and steel alone were not enough. So I studied the Arcyne alongside my miracles. For an oath is not kept by knowing one's limits, but by overcoming them."))
+
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
+
+	setup_mystic_healing(H, scion = TRUE)
+	setup_mystic_patron(H, TRUE)
 
 	if(H.mind)
-		var/weapons = list("Arming Sword", "Shortsword + Shield", "Mace + Shield", "Quarterstaff", "Spear") // you may want to upgrade for a better sword
+		var/list/weapons = list(
+			"Arming Sword",
+			"Rapier",
+			"Shortsword + Shield",
+			"Mace + Shield",
+			"Quarterstaff",
+			"Axe",
+			"Spear",
+			"Combat Knife",
+			"Knuckledusters",
+		)
+
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+
 		switch(weapon_choice)
 			if("Arming Sword")
 				r_hand = /obj/item/rogueweapon/sword
 				beltr = /obj/item/rogueweapon/scabbard/sword
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
+
+			if("Rapier")
+				r_hand = /obj/item/rogueweapon/sword
+				beltr = /obj/item/rogueweapon/scabbard/sword
+
 			if("Shortsword + Shield")
 				r_hand = /obj/item/rogueweapon/sword/short
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				backr = /obj/item/rogueweapon/shield/wood
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
-			if("Quarterstaff")
-				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+
 			if("Mace + Shield")
 				r_hand = /obj/item/rogueweapon/mace
 				backr = /obj/item/rogueweapon/shield/wood
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 3, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+
+			if("Quarterstaff")
+				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+
+			if("Axe")
+				r_hand = /obj/item/rogueweapon/spear
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+
 			if("Spear")
 				r_hand = /obj/item/rogueweapon/spear
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
 
-	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
+			if("Combat Knife")
+				r_hand = /obj/item/rogueweapon/huntingknife/combat
+				backr = /obj/item/rogueweapon/scabbard/sheath
+
+			if("Knuckledusters")
+				r_hand = /obj/item/rogueweapon/knuckledusters
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/spellbook = 1,
 		/obj/item/chalk = 1,
-		)
-	grant_poke_spell(H)
+	)
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// MYSTIC - SHARED SYSTEMS
+////////////////////////////////////////////////////////////////////////////////
+
+/proc/setup_mystic_healing(mob/living/carbon/human/H, sage = FALSE, scion = FALSE)
+	if(!H.mind)
+		return
+
+	if(!scion && !sage) // mystic-only, gets the cooler magic spell for poking
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_volley)
+
+	if(!sage) // sage doesn't get this anymore to make them feel more diff than mystic
+		grant_poke_spell(H)
+
+	if(H.patron?.type in ALL_DIVINE_PATRONS) // shared between the three
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+	if(H.patron?.type in ALL_INHUMEN_PATRONS)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
+	if(H.patron?.type in OLD_GOD_PATRON) // lol
+		H.mind.AddSpell(new /datum/action/cooldown/spell/psydon/enduring_blast)
+
+	if(scion) // scion gets the ability to wield arcyne armaments, mostly for sovl, it's the same as just giving them a weapon and the skill to wield it, but this makes it more personal
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_armament)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+
+	if(sage) // sage-only
+		H.mind.AddSpell(/datum/action/cooldown/spell/bestow_ward)
+
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
-	if(H.mind)
+	C.grant_miracles( H, cleric_tier = CLERIC_T1, passive_gain = sage ? CLERIC_REGEN_MINOR : CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
+
+	if(!sage) // neither scions nor mystics can bloodmiracle, that's for sage, who is 'the' cleric among them
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/selfbuff)
+
+/proc/setup_mystic_weapon(mob/living/carbon/human/H, include_quarterstaff = TRUE)
+	if(!H.mind)
+		return
+
+	var/list/weapons
+
+	if(include_quarterstaff)
+		weapons = list("Staff", "Tome", "Quarterstaff")
+	else
+		weapons = list("Staff", "Tome")
+
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+
+	switch(weapon_choice)
+		if("Staff")
+			H.put_in_r_hand(new /obj/item/rogueweapon/woodstaff/implement)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+
+		if("Tome")
+			H.put_in_r_hand(new /obj/item/rogueweapon/spellbook)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+
+		if("Quarterstaff")
+			H.put_in_r_hand(new /obj/item/rogueweapon/woodstaff/quarterstaff/iron)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, ITEM_SLOT_BACK_R)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+
+/proc/setup_mystic_patron(mob/living/carbon/human/H)
+	var/obj/item/clothing/neck/roguetown/patron_item
+
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
-			id = /obj/item/clothing/neck/roguetown/psicross
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross
+
 		if(/datum/patron/divine/undivided)
-			id = /obj/item/clothing/neck/roguetown/psicross/undivided
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/undivided
+
 		if(/datum/patron/divine/astrata)
-			id = /obj/item/clothing/neck/roguetown/psicross/astrata
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/astrata
 			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
+
 		if(/datum/patron/divine/noc)
-			id = /obj/item/clothing/neck/roguetown/psicross/noc
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/noc
+
 		if(/datum/patron/divine/abyssor)
-			id = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/abyssor
 			H.grant_language(/datum/language/abyssal)
+
 		if(/datum/patron/divine/dendor)
-			id = /obj/item/clothing/neck/roguetown/psicross/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/dendor
+			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
+
 		if(/datum/patron/divine/necra)
-			id = /obj/item/clothing/neck/roguetown/psicross/necra
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/necra
 			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
+
 		if(/datum/patron/divine/pestra)
-			id = /obj/item/clothing/neck/roguetown/psicross/pestra
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/pestra
+
 		if(/datum/patron/divine/ravox)
-			id = /obj/item/clothing/neck/roguetown/psicross/ravox
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/ravox
+
 		if(/datum/patron/divine/malum)
-			id = /obj/item/clothing/neck/roguetown/psicross/malum
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/malum
+
 		if(/datum/patron/divine/eora)
-			id = /obj/item/clothing/neck/roguetown/psicross/eora
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
+
 		if(/datum/patron/inhumen/zizo)
-			id = /obj/item/clothing/neck/roguetown/psicross
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+
 		if(/datum/patron/inhumen/matthios)
-			id = /obj/item/clothing/neck/roguetown/psicross
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+
 		if(/datum/patron/inhumen/graggar)
-			id = /obj/item/clothing/neck/roguetown/psicross
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+
 		if(/datum/patron/inhumen/baotha)
-			id = /obj/item/clothing/neck/roguetown/psicross
+			patron_item = new /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+
 		if(/datum/patron/divine/xylix)
-			id = /obj/item/clothing/neck/roguetown/luckcharm
+			patron_item = new /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
+
+	if(patron_item)
+		H.equip_to_slot_or_del(patron_item, ITEM_SLOT_RING)
