@@ -8,13 +8,13 @@
 					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
-					/datum/action/cooldown/spell/zizo/stripknowledgeorprofane			= CLERIC_T1, //progress rituos will grant both.
-					/datum/action/cooldown/spell/zizo/spite	 							= CLERIC_T2,
-					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T2,
-					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3, //this dictates your T3 miracle path.
+					/datum/action/cooldown/spell/projectile/zizo/profane				= CLERIC_T1,
+					/datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm		= CLERIC_T2,
+					/datum/action/cooldown/spell/zizo/bone_cataclysm					= CLERIC_T2,
+					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T3,
+					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T3,
 					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,
-					/datum/action/cooldown/spell/zizo/bestowcant						= CLERIC_T4
 	)
 	confess_lines = list(
 		"PRAISE ZIZO!",

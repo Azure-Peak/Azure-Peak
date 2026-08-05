@@ -1,4 +1,0 @@
-author: "EmilitiaEnnehrt"
-delete-after: True
-changes:
-  - bugfix: "Gembracers now covers arms, previously broken."
