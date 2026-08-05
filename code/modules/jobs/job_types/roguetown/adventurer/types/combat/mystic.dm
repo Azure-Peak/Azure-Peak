@@ -212,7 +212,7 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword
 
 			if("Rapier")
-				r_hand = /obj/item/rogueweapon/sword
+				r_hand = /obj/item/rogueweapon/sword/rapier
 				beltr = /obj/item/rogueweapon/scabbard/sword
 
 			if("Shortsword + Shield")
@@ -231,7 +231,7 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 
 			if("Axe")
-				r_hand = /obj/item/rogueweapon/spear
+				r_hand = /obj/item/rogueweapon/stoneaxe/battle
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 
 			if("Spear")
@@ -242,11 +242,15 @@
 				r_hand = /obj/item/rogueweapon/huntingknife/combat
 				backr = /obj/item/rogueweapon/scabbard/sheath
 
-			if("Knuckledusters")
-				r_hand = /obj/item/rogueweapon/knuckledusters
+			if("Knuckledusters") // this one will have to be quirky, ugh
+				gloves = /obj/item/clothing/gloves/roguetown/knuckles
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.mind.RemoveSpell(new /datum/action/cooldown/spell/bind_armament)
+				H.mind.RemoveSpell(new /datum/action/cooldown/spell/bind_weapon)
+				H.mind.RemoveSpell(new /datum/action/cooldown/spell/recall_weapon)
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_WEAPONLESS, TRAIT_GENERIC)
 
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
