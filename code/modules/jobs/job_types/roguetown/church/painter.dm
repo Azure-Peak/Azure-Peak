@@ -115,7 +115,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE // fish fillet drying
 	)
 	subclass_languages = list(/datum/language/abyssal)
 
@@ -196,7 +196,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE, // fish fillet drying
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE, // fish fillet drying
 	)
 	subclass_languages = list(/datum/language/abyssal)
 
