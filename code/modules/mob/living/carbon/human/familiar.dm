@@ -105,6 +105,9 @@
 /mob/living/carbon/human/species/familiar/has_extractable_lux()
 	return FALSE
 
+/mob/living/carbon/human/species/familiar/can_piggyback(mob/living/carbon/target)
+	return FALSE
+
 /datum/species/familiar
 	name = "base familiar"
 	id = "familiar"
