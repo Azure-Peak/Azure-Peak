@@ -124,6 +124,11 @@
 
 /mob/dead/observer/eye/arcane/abyssor
 	limited_scry = TRUE
+	scry_verbs = list(
+		/mob/dead/observer/eye/arcane/proc/cancel_scry,
+		/mob/dead/observer/eye/arcane/proc/eye_down,
+		/mob/dead/observer/eye/arcane/proc/eye_up,
+	)
 
 /mob/dead/observer/eye/arcane/beach
 	name = "Abyssal Inundation Eye"
