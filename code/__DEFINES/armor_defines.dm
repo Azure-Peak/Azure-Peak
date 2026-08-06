@@ -96,21 +96,21 @@
 #define ARMOR_INT_CHEST_MEDIUM_IRON 225
 #define ARMOR_INT_CHEST_MEDIUM_SCALE 200 // More coverage, less integrity
 #define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350 //weaker protection, more integrity.
-#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 50 //Deducted from Light AC brigandine parts, added to Heavy AC brigandine parts.
+#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 100 //Deducted from Light AC brigandine parts, added to Heavy AC brigandine parts.
 #define ARMOR_INT_CHEST_MEDIUM_DECREPIT 150
 
 // LIGHT
-#define ARMOR_INT_CHEST_LIGHT_ANTAG 450 //Currently only used by baotha robe, iconoclaust skin, & berzerker skin.
-#define ARMOR_INT_CHEST_LIGHT_ELITE 375 // Fancy rare exceptions that make tradeoffs in other places.
-#define ARMOR_INT_CHEST_LIGHT_MASTER 300 // High tier cloth / leather armor
-#define ARMOR_INT_CHEST_LIGHT_MEDIUM 250 // Medium tier cloth / leather armor
-#define ARMOR_INT_CHEST_LIGHT_BASE 200
+#define ARMOR_INT_CHEST_LIGHT_ANTAG 360 //1.5x Master. Currently only used by baotha robe, iconoclaust skin, mistwalker skin, & berzerker skin.
+#define ARMOR_INT_CHEST_LIGHT_ELITE 300 //1.25x Master. Snowflake top-tier light armor
+#define ARMOR_INT_CHEST_LIGHT_MASTER 240 // High tier cloth / leather armor
+#define ARMOR_INT_CHEST_LIGHT_MEDIUM 200 // Medium tier cloth / leather armor
+#define ARMOR_INT_CHEST_LIGHT_BASE 160
 #define ARMOR_INT_CHEST_LIGHT_BRONZE 180
 #define ARMOR_INT_CHEST_LIGHT_STEEL 180
-#define ARMOR_INT_CHEST_LIGHT_IRON 180
+#define ARMOR_INT_CHEST_LIGHT_IRON 150
 #define ARMOR_INT_CHEST_CIVILIAN 100
-#define ARMOR_INT_LIGHT_FENCER_MODIFIER 35 //bonus integrity for Fencer items over standard light armor.
-#define ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER 30 //Penalty for studded leather, bonus for various other variants.
+#define ARMOR_INT_LIGHT_FENCER_MODIFIER 30 //bonus integrity for Fencer items over standard light armor.
+#define ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER 25 //Penalty for studded leather, bonus for various other variants.
 
 // LEG PIECES - Leg Armor
 #define ARMOR_INT_LEG_ANTAG 600
@@ -147,8 +147,8 @@
 #define ARMOR_INT_MASK_IRON 100 //Integrity for iron facemasks.
 #define ARMOR_INT_MASK_STEEL_MAILLE 250 //Integrity for steel maille facemasks. Less defence than plate masks, more integ.
 #define ARMOR_INT_MASK_IRON_MAILLE 150 //Integrity for iron maille facemasks.
-#define ARMOR_INT_MASK_LEATHER 250 //Integrity for leather facemasks.
-#define ARMOR_INT_MASK_CLOTH 200 //Integrity for cloth facemasks.
+#define ARMOR_INT_MASK_LEATHER 180 //Integrity for leather facemasks.
+#define ARMOR_INT_MASK_CLOTH 150 //Integrity for cloth facemasks.
 #define ARMOR_INT_MASK_BONE 100 //Integrity for bone/skull facemasks.
 
 /*--------------------\
