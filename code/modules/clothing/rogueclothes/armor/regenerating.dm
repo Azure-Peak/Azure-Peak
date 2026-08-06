@@ -170,6 +170,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	blocksound = SOFTUNDERHIT
 	armor = ARMOR_PADDED
+	blocking_behavior = BLOCKSHIRT | BLOCKARMOR
 
 	repairmsg_begin = "My skin begins to slowly mend its abuse.."
 	repairmsg_continue = "My skin mends some of its abuse.."
@@ -188,7 +189,7 @@
 
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
-	name = "enduring skin" //Unused now, just here for inheritance (primarily the tithebound).
+	name = "enduring skin" //Now only a parent for the Lirvan tithebound; the jobs use the manual sewable version.
 	desc = "It's far more than just an oath. \
 	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \

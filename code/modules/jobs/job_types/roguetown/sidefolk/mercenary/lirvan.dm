@@ -125,6 +125,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	repair_time = 30 SECONDS
 	armor = ARMOR_PLATE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | HANDS | FEET | COVERAGE_HEAD //all but eyes/nose, seems fair.
+	blocking_behavior = null
 
 
 #define LIRVAN_BLING_FILTER "lirvan_titheaura"

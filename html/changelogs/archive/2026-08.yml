@@ -70,3 +70,107 @@
   - bugfix: Bees can now timeout when pursuing bad plants.
   - rscadd: Examining Apiary gives you a few more insights on how your bees are doing.
       Magnifying glasses also improved.
+2026-08-04:
+  EmilitiaEnnehrt:
+  - rscadd: Adds quarterstaffs to Smithy's Silverface.
+  - rscadd: Adds empty surgeon bag to Silverface.
+  - bugfix: fixes a missing delimiter in champion's text.
+  - rscadd: Adds craftable zigboxes.
+  - rscadd: Allows oat and rice grain to be made into grain bait.
+  - rscadd: Chickens now also eat rice.
+  - rscadd: Cows, fogbeasts, and saigas now also eat corn.
+  - code_imp: Half-kin, Wild-kin, and Verminvolk can use Lizard and Fluvian sound
+      emotes.
+  - code_imp: Lizard and Fluvian can use some of Wild-tongue emotes.
+  FreeStylaLT:
+  - balance: Dodge now starts at 90% rather than 95%. Pity Dodge recovery from being
+      struck can no longer exceed 85%.
+  - balance: Swift stance is now more effective vs dodge.
+  - balance: Weapon Skill difference between the target and attacker is now more effective
+      vs dodge. This currently does not apply to pure unarmed.
+  - balance: SPD difference between target and attacker is now more effective vs dodge.
+  - bugfix: Fixed dodge not working correctly when fighting simple mobs.
+  Lamasmaster:
+  - balance: Bailiff
+  Quinalion:
+  - code_imp: Removed unnecessary vars from the Duelist, Maille, and Fluted Maille
+      masks and goggles.
+  - refactor: Standardized the affected equipment to match the implementation of other
+      chainmail items.
+  Ryan180602:
+  - bugfix: fix up peasant rebellion
+  WeNeedMorePhoron:
+  - rscadd: Makes Whips Great instead of Long for weapon length, which make sense
+      given it has a 3 tiles attack.
+  - rscadd: Pyromancy now get a choice spell between Spitfire or Ultio as their poke
+      spell, a reworked version of an old spell made by Swagmeyer.
+  - balance: Bleed rate adjusted to 10 on charred crit from 5.
+  - balance: Remove insta death on proccing two burn crits. oops.
+  - balance: Projectiles and Arcyne Strike (I.e. most new spells) will no longer pop
+      exposed / vulnerable, requiring a staff tap to interact
+  - rscadd: Frost Shards back to Yellow Penalty (Parry Penalty), Rimecast back to
+      Cancel (Red). Their primary spell is easily cancelable which makes it feel very
+      very meh to uise.
+  - rscadd: Steward / Clerk can now bypass withdraw limit they set themselves
+  - rscadd: Improved the interface for Stewardry to give them more options and lower
+      the tedium needed for certain type of economic controls / import / export to
+      saturation point.
+  - rscadd: Added cloth production to Kingsfield and Rosawood
+  radarseas:
+  - rscadd: Added new miracles for Zizo.
+  - rscadd: tweaked various descriptions and such involving certain Zizite items.
+  - rscadd: rejection from rituos is slightly tuned up and a little bit more flashier
+  - rscadd: Zizo rituals are flashier and snuff out the lighting once completed successfully.
+  - rscadd: Added two more rituals to Zizo, "Progressive Trance" and "Insightful Chant".
+  - rscadd: Added a contraband bible, exclusive intentionally to Zizite heretics and
+      Zpellblades (not unbound).
+  - rscadd: Zizo's patron has changed confession lines + vague description tweaks
+      to better fit with the lore. Instead of ZIZO for the sake of Zizo. She's properly
+      the lady of Artifice, Undeath, Progress and Left-handed Magicks.
+  - rscdel: Armament rites no longer give you a round long -2 debuff to all stats
+      when done on another, you already have a 2hr long unique-cooldown as-is that
+      prevents you mass-distributing it.
+  - balance: armament rite extended cooldowns now apply to Gnolls/Spies as well as
+      regular heretics. I know what you are.
+  - balance: Zeretic statline has been shuffled over to +1 WIL, +1 INT +1 PER from
+      +1 per/str/con, since burns are less of an applicable factor + its a spellcaster
+      hybrid that gets shadowed by Noc since rituos no longer grants majors.
+  - rscadd: Added a fuckhuge of new sprites/respites for Zizo-related left-handed
+      magicks or sprite-shifts to make it clearer that its unholy magicka.
+  - balance: Zizo's miracles are slightly different now on-average.
+  - balance: any inhumen cross can be used for interrogations.
+  - balance: unknightly migrant wave has Zizocant now.
+  - balance: heretics get iron zcrosses vs decrepit, not it means much.
+  - balance: necromancer now has diagnose (overdue tbh) this version is 7 tiles vs
+      4. Lich gets this version instead too.
+  - image: added/modified around some sprites, for necromancers and w/ever
+2026-08-05:
+  EmilitiaEnnehrt:
+  - bugfix: Gembracers now covers arms, previously broken.
+  FreeStylaLT:
+  - balance: Penetrative damage now scales more harshly when dealing direct body damage.
+  - balance: Swift-balanced weapons now use either STR or SPD, whichever is higher
+      for pen purposes.
+  - balance: Stat-scaling for pen damage purposes is now capped at 14.
+  - balance: Sharpness-based weapons that are under 20% sharpness ("chunked") can
+      no longer penetrate.
+  - qol: 10 SPD is now the minimum for dodge mechanics to fully function. (Down from
+      11)
+  - qol: Dodging simple mobs with Dodge Expert is now easier.
+  KatTheFox:
+  - bugfix: blessing food no longer lowers its quality
+  WeNeedMorePhoron:
+  - rscadd: Renamed player facing harem window to shrafa window, a new name that does
+      not have any orientalist implication to it.
+  changelingonberry:
+  - admin: custom descriptors now display in the player panel
+2026-08-06:
+  Ketrai:
+  - bugfix: fixed hunting tracks spawning on lava & water tiles
+  Ryan180602:
+  - bugfix: hair pixel layering
+  borneblood:
+  - bugfix: Fixed a bunch of oddities in Dual Wielder. Report any oddities remaining.
+  - refactor: Zizo skeleton summoning is fixed (again x6) by reworking the spell.
+  - rscdel: The new Zizo spells have been reverted temporarily for reorganization
+      purposes, they'll be back shortly.

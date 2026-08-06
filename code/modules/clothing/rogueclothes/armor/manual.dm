@@ -18,6 +18,7 @@
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	unenchantable = TRUE
+	blocking_behavior = BLOCKSHIRT | BLOCKARMOR // Skins block layering real armor (armor_class > NONE); plain shirts still layer. Arbalist/berserker override below.
 
 	var/repairmsg_end = "My skin has become taut with newfound vigor!"
 	var/repairmsg_continue = "My armour mends some of its abuse.."
@@ -543,7 +544,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	resistance_flags = FLAMMABLE
 	blocksound = SOFTHIT
-	blocking_behavior = SAMEWEAR
+	blocking_behavior = BLOCKSHIRT | BLOCKARMOR | SAMEWEAR // Unlayerable with outside armor, but pairs with the unstoppable skin.
 	body_parts_covered = COVERAGE_VEST
 	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_MAILLE

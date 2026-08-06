@@ -19,6 +19,7 @@ export const ExaminePanel = (props) => {
     is_donator,
     character_name,
     is_playing,
+    song_title,
     has_song,
     img_gallery,
     nsfw_img_gallery,
@@ -72,8 +73,10 @@ export const ExaminePanel = (props) => {
             tooltipPosition="bottom-start"
             onClick={() => act('toggle')}
             disabled={!has_song}
-            selected={!is_playing}
-          />
+            selected={is_playing}
+          >
+            {song_title ?? null}
+          </Button>
         </>
       }
     >

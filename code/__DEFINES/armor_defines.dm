@@ -44,7 +44,8 @@
 #define ARMOR_DBLOCK_TYPES list("slash", "stab", "piercing")
 
 // Penetration passthrough fractions
-#define PEN_PASSTHROUGH_RATIO	0.1		// How much damage will go through per pen point (+ per relevant stat above 10). 0.1 = 10%
+#define PEN_PASSTHROUGH_MINIMUM 0.4
+#define PEN_PASSTHROUGH_RATIO	0.05		// How much damage will go through per pen point (+ per relevant stat above 10). 0.1 = 10%
 #define PEN_PASSTHROUGH_PROJ_EQUAL 0.2
 #define PEN_PASSTHROUGH_PROJ_MORE 0.8
 #define PEN_PASSTHROUGH_CAP	8			// How many "dots" maximum (pen vs armor, + 1 dot per relevant stat above 10)
@@ -71,8 +72,8 @@
 #define ARMOR_INT_HELMET_BRONZE 350 //More integrity, less protection.
 #define ARMOR_INT_HELMET_STEEL 300
 #define ARMOR_INT_HELMET_IRON 225
-#define ARMOR_INT_HELMET_HARDLEATHER 250
-#define ARMOR_INT_HELMET_LEATHER 200
+#define ARMOR_INT_HELMET_HARDLEATHER 200
+#define ARMOR_INT_HELMET_LEATHER 150
 #define ARMOR_INT_HELMET_CLOTH 100
 
 // Chest / Armor Pieces
@@ -122,8 +123,8 @@
 #define ARMOR_INT_LEG_BRIGANDINE 250
 #define ARMOR_INT_LEG_IRON_CHAIN 225
 #define ARMOR_INT_LEG_DECREPIT_CHAIN 150
-#define ARMOR_INT_LEG_HARDLEATHER 250
-#define ARMOR_INT_LEG_LEATHER 200
+#define ARMOR_INT_LEG_HARDLEATHER 200
+#define ARMOR_INT_LEG_LEATHER 150
 #define ARMOR_INT_LEG_CLOTH 10
 
 // SIDE PIECES - Non-Chest armor
@@ -132,8 +133,8 @@
 #define ARMOR_INT_SIDE_BRONZE 250 // Integrity for bronze pieces
 #define ARMOR_INT_SIDE_STEEL 300 // Integrity for steel pieces
 #define ARMOR_INT_SIDE_IRON 225 // Integrity for iron pieces
-#define ARMOR_INT_SIDE_HARDLEATHER 250 // Integrity for hardened leather pieces
-#define ARMOR_INT_SIDE_LEATHER 200 // Integrity for leather / copper pieces
+#define ARMOR_INT_SIDE_HARDLEATHER 200
+#define ARMOR_INT_SIDE_LEATHER 150 // Integrity for leather / copper pieces
 #define ARMOR_INT_SIDE_DECREPIT 150 // Integrity for decrepit pieces
 #define ARMOR_INT_SIDE_CLOTH 100 // Integrity for cloth / aesthetic oriented pieces
 #define ARMOR_INT_SIDE_GOLDPLUS 10 // Integrity for royal variants of golden / cermemonial pieces

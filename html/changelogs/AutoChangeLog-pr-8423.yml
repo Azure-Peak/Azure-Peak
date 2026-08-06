@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - bugfix: "Fixed dodge not working correctly when fighting simple mobs."

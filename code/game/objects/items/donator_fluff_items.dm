@@ -2359,7 +2359,24 @@ As Excaliber."
 	icon_state = "athena_psyrapier"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-// Octus
+// ATICIUS
+/obj/item/rogueweapon/sword/long/aticius
+	name = "\improper For Love's Sake"
+	desc = "An oversized cleaver, fashioned out of polished gilbranze. A psycruciform starguard fits at the hilt, where a strip of cloth has been tied, dyed in Eoran pink.<br>\
+	The metal is not alive. Perhaps it never will be. Perhaps that is the point. A blade for a tyme that is not now, and may never be - yet it is here, and undeniable.<br>\
+	'Liebe. Do you know how long forever is?'<br>\
+	'Liebe. This is a promise to remember. From me, to you.'<br>\
+	'I promise that, 'til the sands are amaranthine and Noc wanders darkly...'<br>\
+	'That I will be here with you. For love's sake.'"
+	icon_state = "fls"
+	sheathe_icon = "fls"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/sword/long/aticius/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GILBRANZE_ARTIFICE)
+
+// OCTUS
 /obj/item/rogueweapon/greatsword/falling_star
     name = "Falling Star"
     desc = "A curved executioner's blade designated as suicidal because of its ridiculously unwieldy nature. \
