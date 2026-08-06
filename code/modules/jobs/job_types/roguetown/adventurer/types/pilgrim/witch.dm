@@ -2,18 +2,19 @@
 	name = "Witch"
 	tutorial = "You are a witch, seen as wisefolk to some and a demon to many. Ostracized and sequestered for wrongthinks or outright heresy, your potions are what the commonfolk turn to when all else fails, and for this they tolerate you — at an arm's length. Take care not to end 'pon a pyre, for the church condemns your left handed arts."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/witch
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_WITCH, TRAIT_ALCHEMY_EXPERT)
 	townie_contract_gate_exempt = TRUE
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_SPD = 2,
 		STATKEY_LCK = 1
 	)
 	age_mod = /datum/class_age_mod/witch
-	
+
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
@@ -39,68 +40,25 @@
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 
-	var/classes = list("Old Magick", "Godsblood", "Mystagogue")
-	var/classchoice = input(H, "How do your powers manifest?", "THE OLD WAYS") as anything in classes
-
 	var/shapeshifts = list("Zad", "Cat", "Cat (Black)", "Bat", "Lesser Volf", "Cabbit", "Small Rous", "Lesser Venard")
 	var/shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
-
-	switch (classchoice)
-		if("Old Magick")
-			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
-			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
-			backl = /obj/item/storage/backpack/rogue/satchel
-			backr = choose_implement(H, "lesser")
-			backpack_contents = list(
-								/obj/item/rogueweapon/spellbook = 1,
-								/obj/item/reagent_containers/glass/mortar = 1,
-								/obj/item/pestle = 1,
-								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
-								)
-			if (H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
-		if("Godsblood")
-			//miracle witch: capped at t2 miracles. cannot pray to regain devo, but has high innate regen because of it (2 instead of 1 from major)
-			var/datum/devotion/D = new /datum/devotion/(H, H.patron)
-			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
-			D.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_2)
-			D.max_devotion *= 0.5
-			neck = /obj/item/clothing/neck/roguetown/psicross/wood
-			backl = /obj/item/storage/backpack/rogue/satchel
-			backpack_contents = list(
-								/obj/item/reagent_containers/glass/mortar = 1,
-								/obj/item/pestle = 1,
-								/obj/item/candle/yellow = 2,
-								)
-			if (H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
-		if("Mystagogue")
-			// hybrid arcane/holy witch with t1 arcane and t1 miracles
-			var/datum/devotion/D = new /datum/devotion/(H, H.patron)
-			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
-			D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
-			D.max_devotion *= 0.5
-			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
-			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
-			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3))
-			neck = /obj/item/clothing/neck/roguetown/psicross/wood
-			backl = /obj/item/storage/backpack/rogue/satchel
-			backpack_contents = list(
-								/obj/item/rogueweapon/spellbook = 1,
-								/obj/item/reagent_containers/glass/mortar = 1,
-								/obj/item/pestle = 1,
-								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
-								)
-			if (H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
-				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+	H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	if(H.mind)
+		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = choose_implement(H, "lesser")
+	backpack_contents = list(
+		/obj/item/rogueweapon/spellbook = 1,
+		/obj/item/reagent_containers/glass/mortar = 1,
+		/obj/item/pestle = 1,
+		/obj/item/candle/yellow = 2,
+		/obj/item/chalk = 1
+		)
+	if (H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
 	if(H.mind)
 		switch (shapeshiftchoice)
 			if("Zad")
@@ -119,9 +77,6 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/rous)
 			if("Cabbit")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit)
-		switch (classchoice)
-			if("Mystagogue")
-				grant_poke_spell(H)
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
