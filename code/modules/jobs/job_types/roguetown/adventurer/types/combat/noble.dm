@@ -516,15 +516,15 @@
 		STATKEY_PER = 1,
 		STATKEY_SPD = 1,
 	)
-	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+	subclass_skills = list(	//Push come to shove, they can always rely on knives.
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -537,36 +537,91 @@
 /datum/outfit/job/roguetown/adventurer/squire/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a squire who has traveled far in search of a master to train you and a lord to knight you."))
-	head = /obj/item/clothing/head/roguetown/roguehood
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	cloak = /obj/item/clothing/cloak/tabard/stabard
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+	backpack_contents = list(		//no money, go find a master!
 		/obj/item/rogueweapon/hammer/iron = 1,
 		/obj/item/repair_kit/metal = 1,
 		/obj/item/repair_kit = 1,
 		/obj/item/armor_brush = 1,
 		/obj/item/polishing_cream = 1,
+		/obj/item/rogueweapon/huntingknife/idagger = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 	)
 	if(H.mind)
 		var/armors = list("Light Armor","Medium Armor")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors
+		var/armor_choice = input(H, "Choose your armor.", "DRESS UP!") as anything in armors
 		switch(armor_choice)
-			if("Light Armor")
+			if("Light Armor")	//For the ones who like Speed
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
 				pants = /obj/item/clothing/under/roguetown/trou/leather
-				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-				beltr = /obj/item/rogueweapon/huntingknife/idagger
+				gloves = /obj/item/clothing/gloves/roguetown/angle
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-			if("Medium Armor")
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-				beltr = /obj/item/rogueweapon/sword/iron
+			if("Medium Armor")	//Arguably a 'weaker' armor start, but better mix and matching later on
+				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
+				pants = /obj/item/clothing/under/roguetown/trou/leather
+				gloves = /obj/item/clothing/gloves/roguetown/angle
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+		var/weapon = list("Spear","Shortsword & Shield","Arming Sword","Mace & Shield","Axe & Shield","Flail & Shield","Messer & Shield","Bow & Quiver","Crossbow & Quiver","Staker Launcher & Quiver")
+		var/weapon_choice = input(H, "Choose your weapon.", "PICK IT UP!") as anything in weapon
+		switch(weapon_choice)
+			if("Spear")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/spear
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Shortsword & Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/sword/short/iron
+				backr = /obj/item/rogueweapon/shield/tower
+				beltr = /obj/item/rogueweapon/scabbard/sword
+			if("Arming Sword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/sword/iron
+				beltr = /obj/item/rogueweapon/scabbard/sword
+			if("Mace & Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/mace
+				backr = /obj/item/rogueweapon/shield/tower
+			if("Axe & Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
+				backr = /obj/item/rogueweapon/shield/tower
+			if("Flail & Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/flail
+				backr = /obj/item/rogueweapon/shield/tower
+			if("Messer & Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/sword/short/messer
+				backr = /obj/item/rogueweapon/shield/tower
+			if("Bow & Quiver")
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic
+				backr = /obj/item/quiver/arrows
+			if("Crossbow & Quiver")
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				backr = /obj/item/quiver/bolt
+			if("Staker Launcher & Quiver")
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker
+				beltr = /obj/item/quiver/bolt/stake/standard
+		var/helmets = list(
+			"Sallet" 	= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
+			"Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
+			"Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/iron,
+			"Chain Coif"		= /obj/item/clothing/neck/roguetown/chaincoif/iron,
+			"None"
+			)
+		var/helmchoice = input(H, "Protect Thine Head.", "STRAP IT!") as anything in helmets
+		if(helmchoice != "None")
+			head = helmets[helmchoice]
+	H.set_blindness(0)
 	H.set_blindness(0)
