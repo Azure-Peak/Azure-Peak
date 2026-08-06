@@ -73,7 +73,7 @@
 	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD | NECK //This does not cover eyes/nose/mouth.
 	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD | NECK
 	blade_dulling = DULLING_BASHCHOP
-	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL
 
 	repairmsg_end = "Your skin looks just as shiny as ever, like it might stop the blow of a fully grown troll once more."
 	repairmsg_continue = "The thick skin cover starts to bulge and repair tears"
