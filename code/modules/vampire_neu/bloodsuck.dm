@@ -53,7 +53,7 @@
 		src.adjustToxLoss(tox_drained)
 
 	if(!(VDrinker || HAS_TRAIT(src, TRAIT_BLACKBLOOD)))
-		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER)))
+		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER) || HAS_TRAIT(src, TRAIT_SUN_AVERSE)))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return

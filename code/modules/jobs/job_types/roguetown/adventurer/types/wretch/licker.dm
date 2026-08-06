@@ -36,13 +36,13 @@
 		to_chat(H, span_danger("You are playing an Antagonist role. By choosing to spawn as a Wretch, you are expected to actively create conflict with other players. Failing to play this role with the appropriate gravitas may result in punishment for Low Roleplay standards.")) //giving this notice, since its part of the bounty system
 		//leaving the below in if people want to give lickers outlaw/bounty status again, this will keep it off the trader roles but combat roles will have to choose a bounty
 		/*var/list/traderjobs = list("Aristocrat",
-									"Scholar", 
-								   "Peddler", 
-								   "Jeweler", 
-								   "Harlequin", 
-								   "Doomsayer", 
-								   "Cuisiner", 
-								   "Brewer") 
+									"Scholar",
+								   "Peddler",
+								   "Jeweler",
+								   "Harlequin",
+								   "Doomsayer",
+								   "Cuisiner",
+								   "Brewer")
 		if(H.advjob in traderjobs)
 			REMOVE_TRAIT(H, TRAIT_OUTLAW, JOB_TRAIT) //removing since these are non-combat roles and they need to be able to use the stocks and miesters to blend in
 			to_chat(H, span_danger("You are playing an Antagonist role. By choosing to spawn as a Wretch, you are expected to actively create conflict with other players. Failing to play this role with the appropriate gravitas may result in punishment for Low Roleplay standards.")) //giving this notice, since its part of the bounty system
@@ -54,15 +54,30 @@
 
 /datum/reagent/vampsolution
 	metabolization_rate = 0.5
+	var/stun_timer
 
 /datum/reagent/vampsolution/on_mob_life(mob/living/carbon/M)
 	M.set_drugginess(30)
+
 	if(prob(5))
 		if(M.gender == FEMALE)
-			M.emote(pick("twitch_s","giggle"))
+			M.emote(pick("twitch_s", "giggle"))
 		else
-			M.emote(pick("twitch_s","chuckle"))
+			M.emote(pick("twitch_s", "chuckle"))
+
 	M.apply_status_effect(/datum/status_effect/debuff/vampbite)
+
+	// NPCs, low-WIL characters, or those with certain unsated addictions can be overwhelmed by the bite and stunned briefly.
+	if((!M.mind || M.STAWIL < 10 || M.has_status_effect(/datum/status_effect/debuff/addiction/nympho) || M.has_status_effect(/datum/status_effect/debuff/addiction/junkie) || M.has_status_effect(/datum/status_effect/debuff/addiction/masochist)) && world.time >= stun_timer)
+		if(HAS_TRAIT(M, TRAIT_PSYDONIAN_GRIT) && prob(50)) // endvre as a final bulletproof vest against being stunned
+			to_chat(M, span_purple(pick("NO! I ENDURE!", "PSYDON, grant me strength. I will not yield!", "My flesh may falter. My faith will not.", "I have suffered worse than this. I WILL ENDURE.", "Your temptations mean nothing. PSYDON endures within ME!", "Pain is fleeting. Psydon is eternal.", "I shall not break. I shall not yield. I ENDURE.", "The sensation washes over me, but my resolve remains UNBROKEN.", "Psydon did not carry me this far for me to surrender now.", "I bite down on the good feeling and endure. FOR PSYDON!", "My mynd is mine. My will is mine. I YIELD TO NONE!", "Let the weakness pass. Let the flesh scream. I ENDURE.")))
+		else
+			to_chat(M, span_green(pick("I... I can't think straight anymore...", "Gods... my resolve is slipping...", "No... no, I'm losing my grip...", "I can't... I can't fight this feeling...", "That's enough... I give in...", "My will... it's just gone...", "Why can't I resist this...?", "I... I'm folding...", "Stop... please... I can't keep myself together...", "That bite... it broke something in me...", "I can't make myself pull away...", "Everything in my head is going soft...", "I know I should resist... so why can't I?", "My thoughts are falling apart...", "I... I surrender. I can't help it...", "Whatever strength I had left... it's gone...", "I can't hold myself together anymore...", "My resolve is completely gone...", "I was going to fight... I really was...", "I can't even remember why I was resisting...", "Gods, my knees are weak... my head is spinning...", "I'm trying to resist... I'm really trying...", "I've lost the will to fight this...", "That's it... you've broken my resolve...", "I... I don't think I can say no anymore...", "My mind is screaming at me to resist, but I can't...", "I've completely lost my nerve...", "I can't keep pretending I'm in control...", "My thoughts are just... slipping away...", "I should be fighting this... but I can't...", "All that bravado, and now look at me...", "I thought I was stronger-willed than this...", "My resolve lasted all of a heartbeat...", "I've completely folded...", "There's nothing left in me to resist with...", "I... yield. Gods help me, I yield...")))
+		M.Stun(3 SECONDS)
+		M.Immobilize(3 SECONDS)
+		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		stun_timer = world.time + 6 SECONDS
+
 	..()
 
 /atom/movable/screen/fullscreen/vampsolution

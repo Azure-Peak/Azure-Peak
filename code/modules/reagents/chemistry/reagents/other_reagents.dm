@@ -63,8 +63,8 @@
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(8)
-			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD))
-				Hu.reagents.add_reagent(/datum/reagent/medicine/healthpot/zarum/blood, 0.5) // this is a fraction of a fraction in the end, I didn't heal too much from local tests, it's more for situations where you don't have food in pve
+			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD) && HAS_TRAIT(Hu, TRAIT_SUN_AVERSE)) // now only bbamps allowed to do this
+				Hu.reagents.add_reagent(/datum/reagent/medicine/healthpot/zarum/blood, 1) // this is a fraction of a fraction in the end, I didn't heal too much from local tests, it's more for situations where you don't have food in pve
 		return
 	H.add_nausea(12)
 	H.adjustToxLoss(2)
@@ -243,7 +243,7 @@
 		if(hotspot)
 			new /obj/effect/temp_visual/small_smoke(T)
 			qdel(hotspot)
-	
+
 	if(iswallturf(T))
 		if(!T.color)
 			return

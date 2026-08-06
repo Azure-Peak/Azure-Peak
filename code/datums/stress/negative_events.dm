@@ -533,6 +533,16 @@
 	stressadd = 1
 	desc = span_red("I'm shielded from the the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
 
+/datum/stressevent/moon_sensitivity
+	timer = 2 MINUTES
+	stressadd = 10
+	desc = span_red("<b><i>The moonlight is driving me crazy! It's too dangerous outside!</b></i>")
+
+/datum/stressevent/lesser_moon_sensitivity
+	timer = 2 MINUTES
+	stressadd = 1
+	desc = span_red("I'm shielded from the the moonlight, but something still stirs...") // always a hater, aren't ya?! shame on u, astrata shames u
+
 /datum/stressevent/inq_trauma
 	timer = 3 MINUTES
 	stressadd = 4
