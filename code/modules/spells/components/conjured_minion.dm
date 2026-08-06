@@ -167,6 +167,15 @@
 	return rgb(parts[1] + (255 - parts[1]) * blend, parts[2] + (255 - parts[2]) * blend, parts[3] + (255 - parts[3]) * blend)
 
 /datum/component/conjured_minion/proc/get_phantom_color()
+	if(istype(parent, /mob/living/carbon/human/species/skeleton))
+		var/list/palette = list("#9B59FF", "#FF3030")
+		var/mob/living/summoner = summoner_ref?.resolve()
+		var/key = summoner ? "[summoner.real_name]" : "zizo"
+		var/hash = 0
+		for(var/i in 1 to length(key))
+			hash += text2ascii(key, i)
+		return palette[(hash % length(palette)) + 1]
+
 	var/mob/living/summoner = summoner_ref?.resolve()
 	var/key = summoner ? "[summoner.real_name]" : "arcyne"
 	var/hash = 0
@@ -178,6 +187,11 @@
 /datum/component/conjured_minion/proc/on_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
 	var/mob/living/summoner = summoner_ref?.resolve()
+
+	if(istype(parent, /mob/living/carbon/human/species/skeleton))
+		examine_list += span_notice("An unnatural skeleton, its form seems bound by <font color='#ff0000'>Avantyne</font>, and the will of [summoner ? summoner.real_name : "an unknown magus"].")
+		return
+
 	examine_list += span_notice("A phantasmal servant, bound to the will of [summoner ? summoner.real_name : "an unknown magus"].")
 
 #undef CONJURE_UNTETHER_ID

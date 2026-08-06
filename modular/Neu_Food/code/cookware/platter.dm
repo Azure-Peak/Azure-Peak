@@ -22,7 +22,7 @@
 /*
 NEW SYSTEM
 What it does:
-	- The platter stays intact, adds object on top of it. 
+	- The platter stays intact, adds object on top of it.
 	- Examining the platter tells you what is on the platter
 	- Adds food overlay to the platre
 	- Can remove item with right click
@@ -50,7 +50,7 @@ What it does:
 			else
 				to_chat(user, span_info("Something is already on this [initial(name)]! Remove it first."))
 		else
-			return ..()	
+			return ..()
 
 
 /obj/item/cooking/platter/attack(mob/living/M, mob/living/user, def_zone)
@@ -195,4 +195,3 @@ What it does:
 	name = "porcelain platter"
 	desc = "A fancy platter made out of porcelain."
 	icon_state = "platter_porcelain"
-	sellprice = 10

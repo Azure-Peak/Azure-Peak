@@ -46,6 +46,7 @@
 				/obj/item/reagent_containers/food/snacks/grown/wheat,
 				/obj/item/reagent_containers/food/snacks/grown/oat,
 				/obj/item/reagent_containers/food/snacks/grown/apple,
+				/obj/item/reagent_containers/food/snacks/grown/maize
 				)
 	tame_chance = 25
 	bonus_tame_chance = 15

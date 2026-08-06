@@ -42,7 +42,7 @@
 
 		<ul>
 			<li><b>Defense Commissions</b> - drawn against the Pledge or the Crown's Purse, posted to boards or handed to a bearer.</li>
-			<li><b>Blockade Writs</b> - given to a fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT]. The Steward may recall an unanswered writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes, recovering the draft.</li>
+			<li><b>Blockade Writs</b> - given to a fellowship of at least [BLOCKADE_FELLOWSHIP_REQUIREMENT]. The Steward may recall an unanswered writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes, recovering the draft.</li>
 			<li><b>Requests</b> - daily quota of [COMMISSION_REQUESTS_PER_DAY] reward-less commissions, Steward-only.</li>
 		</ul>
 
@@ -63,9 +63,10 @@
 		<h3>Region and Reward</h3>
 		<p>Defense commissions pay out in proportion to the threat they spawn. Each threat region carries a <b>reward multiplier</b> (surfaced in the commission UI beside the region name): Azure Basin at x0.75, Azure Grove at x1.0, Azurean Coast at x1.2, Terrorbog / Mount Decapitation / Underdark at x1.5. A Bounty in Terrorbog costs the same draft as a Bounty in Azure Basin - but the Terrorbog commission pays the bearer roughly twice as much. The Steward can use this to steer adventurers toward regions the realm most needs cleared.</p>
 
-		<p><b>Blockade Writs</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m draft regardless of region. The writ pays a base of [BLOCKADE_SCROLL_REWARD]m, plus a flat travel stipend based on distance. The waves are the same strength everywhere, though may varies in actual threat due to regional faction composition. Having an additional 4th or 5th person 4 or 5 person tackling the blockade raises the rewards and the challenge slightly per person. </p>
+		<p><b>Blockade Writs</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m draft regardless of region. The writ pays a base of [BLOCKADE_SCROLL_REWARD]m, plus a flat travel stipend based on distance. The waves are the same strength everywhere, though the actual threat varies with regional faction composition. Each additional person beyond the 3rd in range of the blockade, up to the 6th, increases the wave's strength and the payout.</p>
 
-		<p>Multiple blockades may stand at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
+
+		<p>Multiple blockades may exist at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
 
 		<p>The Steward may recall an unanswered Blockade Writ after 15 minutes. An accepted writ has a 30-minute completion timer before it is automatically forfeit. Each wave adds 10 minutes. Wave timers are independent of the recall timer - once a Writ is taken, the bearer must finish it promptly.</p>
 		</div>

@@ -145,9 +145,11 @@
 		count++
 	return count
 
-/datum/quest/kill/blockade_defense/proc/wave_tp_budget(defenders)
+/datum/quest/kill/blockade_defense/proc/wave_tp_budget(defenders, wave_num)
 	var/n = clamp(defenders, BLOCKADE_DEFENDER_SCALE_MIN, BLOCKADE_DEFENDER_SCALE_MAX)
 	var/mult = 1 + (n - BLOCKADE_DEFENDER_SCALE_MIN) * BLOCKADE_TP_PER_EXTRA_DEFENDER
+	if(wave_num < BLOCKADE_TOTAL_WAVES)
+		mult *= BLOCKADE_EARLY_WAVE_TP_MULT
 	return round(BLOCKADE_WAVE_BASE_TP * mult)
 
 /datum/quest/kill/blockade_defense/proc/reward_turnout_mult()
@@ -223,7 +225,7 @@
 	current_wave = wave_num
 	var/defenders = count_defenders(landmark)
 	max_defenders_seen = max(max_defenders_seen, defenders)
-	tp_budget = wave_tp_budget(defenders)
+	tp_budget = wave_tp_budget(defenders, wave_num)
 	current_archetype = pickweight(BLOCKADE_ARCHETYPE_WEIGHTS)
 	total_spawned_tp = 0
 	progress_current = 0

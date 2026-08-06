@@ -4,10 +4,17 @@
 /proc/dismiss_conjured_minion(mob/living/M)
 	if(QDELETED(M))
 		return
+
 	var/datum/component/conjured_minion/minion = M.GetComponent(/datum/component/conjured_minion)
 	if(minion)
 		minion.dismissing = TRUE
+
 	M.ai_controller?.set_ai_status(AI_STATUS_OFF)
+
+	if(istype(M, /mob/living/carbon/human/species/skeleton))
+		M.dust()
+		return
+
 	M.visible_message(span_notice("[M] unravels, dissolving back into the leyline."))
 	animate(M, alpha = 0, time = CONJURE_DISMISS_FADE_TIME)
 	QDEL_IN(M, CONJURE_DISMISS_FADE_TIME)

@@ -377,7 +377,8 @@
 	butt-naked in the middle of the kingdom's throne room, and much, much, more. </br>Unlike a regular Healing miracle, \
 	this can affect - and resurrect - devout Psydonians as well."
 	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
-	//we don't adjust the overlay, intended to be disguised as regular anastasis. its funnier that way.
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "revive"
 	debuff_type = /datum/status_effect/debuff/random_revival
 	alt_required_items = list(
 		/obj/item/clothing/neck/roguetown/psicross/wood = 1

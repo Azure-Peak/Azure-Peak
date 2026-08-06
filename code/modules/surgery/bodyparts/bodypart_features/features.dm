@@ -9,7 +9,9 @@
 	var/custom_mask_version = 0
 	/// Cached composed custom hair overlay for the current `colormasks` list.
 	var/icon/custom_overlay_icon
-	/// Version of custom masks used to build custom_overlay_icon.
+	/// Cached content fingerprint of `colormasks`, see get_custom_mask_hash().
+	var/custom_mask_hash
+	/// Version of custom masks the cached derivatives were built from.
 	var/custom_overlay_key = -1
 	/// Fallback reference check in case future code mutates masks without bumping a version.
 	var/list/custom_overlay_ref
@@ -20,55 +22,82 @@
 /datum/bodypart_feature/hair/bodypart_overlays(mutable_appearance/standing)
 	add_gradient_overlay(standing, natural_gradient, natural_color)
 	add_gradient_overlay(standing, hair_dye_gradient, hair_dye_color)
-	add_custom_overlay(standing)
 
-/datum/bodypart_feature/hair/get_cache_key()
-	return "[accessory_type]-[accessory_colors]-[natural_gradient]-[natural_color]-[hair_dye_gradient]-[hair_dye_color]-[custom_mask_version]"
+/// Check for obscure flags.
+/datum/bodypart_feature/hair/proc/custom_pixels_covered(obj/item/bodypart/bodypart)
+	var/mob/living/carbon/human/human = bodypart?.owner
+	if(!istype(human))
+		return FALSE
+	if(human.head && (human.head.body_parts_covered & HEAD))
+		return TRUE
+	if(human.wear_mask && (human.wear_mask.body_parts_covered & HEAD))
+		return TRUE
+	return FALSE
 
-/datum/bodypart_feature/hair/proc/get_custom_mask()
-	var/list/custom_masks = hairmask_layers_fast(colormasks)
-	if(custom_masks)
-		return custom_masks
-	return hairmask_layers(colormasks)
-
-/datum/bodypart_feature/hair/proc/add_custom_overlay(mutable_appearance/standing)
-	if(!islist(colormasks) || !colormasks.len)
-		custom_overlay_icon = null
-		custom_overlay_key = -1
-		custom_overlay_ref = null
+/datum/bodypart_feature/hair/extra_bodypart_overlays(obj/item/bodypart/bodypart)
+	var/icon/custom_icon = get_custom_overlay_icon()
+	if(!custom_icon)
 		return
-	var/icon/custom_icon = custom_overlay_icon
-	if(!custom_icon || custom_overlay_key != custom_mask_version || custom_overlay_ref != colormasks)
-		var/list/custom_masks = get_custom_mask()
-		if(!custom_masks)
-			custom_overlay_icon = null
-			custom_overlay_key = -1
-			custom_overlay_ref = null
-			return
-		var/static/icon/blank_overlay_icon
-		if(!blank_overlay_icon)
-			blank_overlay_icon = icon('icons/effects/effects.dmi', "nothing")
-		if(!blank_overlay_icon)
-			return
-		custom_icon = icon(blank_overlay_icon)
-		if(!custom_icon)
-			return
-		for(var/preview_dir in hair_preview_dirs())
-			var/icon/partial = icon(blank_overlay_icon)
-			if(!partial)
-				continue
-			for(var/color in custom_masks)
-				var/mask = hairmask_get_fast(custom_masks[color], preview_dir)
-				if(mask)
-					hairmask_drawbits_fast(partial, mask, color)
-			custom_icon.Insert(partial, dir = preview_dir)
-		custom_overlay_icon = custom_icon
-		custom_overlay_key = custom_mask_version
-		custom_overlay_ref = colormasks
-	var/mutable_appearance/custom_appear = mutable_appearance(custom_icon)
-	custom_appear.pixel_x = -standing.pixel_x
-	custom_appear.pixel_y = -standing.pixel_y
-	standing.overlays += custom_appear
+	var/pixel_layer = custom_pixels_covered(bodypart) ? CUSTOM_HAIR_COVERED_LAYER : CUSTOM_HAIR_LAYER
+	return list(mutable_appearance(custom_icon, layer = -pixel_layer))
+
+/// Derives cache from bodyparts_covered.
+/datum/bodypart_feature/hair/get_cache_key(obj/item/bodypart/bodypart)
+	. = "[accessory_type]-[accessory_colors]-[natural_gradient]-[natural_color]-[hair_dye_gradient]-[hair_dye_color]"
+	var/mask_hash = get_custom_mask_hash()
+	if(!mask_hash)
+		return .
+	return "[.]-[mask_hash]-[custom_pixels_covered(bodypart)]"
+
+/// Drops the cached mask derivatives when they no longer describe the current mask data.
+/datum/bodypart_feature/hair/proc/validate_custom_cache()
+	if(custom_overlay_key == custom_mask_version && custom_overlay_ref == colormasks)
+		return
+	custom_overlay_icon = null
+	custom_mask_hash = null
+	custom_overlay_key = custom_mask_version
+	custom_overlay_ref = colormasks
+
+/// Fingerprint of the painted pixels. The limb icon cache this feeds is shared by every mob on the
+/// server, so the key has to describe the actual mask content: an edit counter collides between any
+/// two characters that painted the same number of times on the same style and colour.
+/datum/bodypart_feature/hair/proc/get_custom_mask_hash()
+	if(!length(colormasks))
+		return null
+	validate_custom_cache()
+	if(!custom_mask_hash)
+		custom_mask_hash = md5(json_encode(colormasks))
+	return custom_mask_hash
+
+/// Composes (and caches) the painted pixels of every direction into a single directional icon.
+/datum/bodypart_feature/hair/proc/get_custom_overlay_icon()
+	if(!length(colormasks))
+		return null
+	validate_custom_cache()
+	if(custom_overlay_icon)
+		return custom_overlay_icon
+	var/list/custom_masks = hairmask_layers(colormasks)
+	if(!custom_masks)
+		return null
+	var/static/icon/blank_overlay_icon
+	if(!blank_overlay_icon)
+		blank_overlay_icon = icon('icons/effects/effects.dmi', "nothing")
+	if(!blank_overlay_icon)
+		return null
+	var/icon/custom_icon = icon(blank_overlay_icon)
+	if(!custom_icon)
+		return null
+	for(var/preview_dir in GLOB.hair_preview_dirs)
+		var/icon/partial = icon(blank_overlay_icon)
+		if(!partial)
+			continue
+		for(var/color in custom_masks)
+			var/mask = hairmask_get(custom_masks[color], preview_dir)
+			if(mask)
+				hairmask_drawbits(partial, mask, color)
+		custom_icon.Insert(partial, dir = preview_dir)
+	custom_overlay_icon = custom_icon
+	return custom_icon
 
 /datum/bodypart_feature/hair/proc/add_gradient_overlay(mutable_appearance/standing, gradient_type, gradient_color)
 	if(gradient_type == /datum/hair_gradient/none || isnull(gradient_type))
@@ -90,6 +119,7 @@
 		gradient_icon.Blend(hair_icon, ICON_ADD)
 		blended_gradient = gradient_icon
 		blended_gradient_cache[cache_key] = blended_gradient
+		trim_cache(blended_gradient_cache, HAIR_GRADIENT_ICON_CACHE_LEN)
 	var/mutable_appearance/gradient_appear = mutable_appearance(blended_gradient)
 	gradient_appear.color = sanitize_hexcolor(gradient_color, 6, TRUE, "#FFFFFF")
 	standing.overlays += gradient_appear

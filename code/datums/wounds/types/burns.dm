@@ -80,7 +80,7 @@
 	sewn_whp = 25
 	woundpain = 80
 	sewn_woundpain = 30
-	bleed_rate = 5
+	bleed_rate = 10 // Let's make it actually do something ok
 	sewn_bleed_rate = 0.5
 	sew_threshold = 120
 	mob_overlay = ""
@@ -107,16 +107,6 @@
 	affected.Paralyze(15)
 	shake_camera(affected, 2, 2)
 	playsound(affected, 'sound/health/burning.ogg', 60, TRUE)
-	var/burn_crit_count = 0
-	for(var/datum/wound/charring/char_wound in affected.get_wounds())
-		burn_crit_count++
-	if(burn_crit_count >= 2)
-		affected.visible_message(span_boldwarning("[affected]'s body is consumed by searing burns!"))
-		to_chat(affected, span_boldwarning("The searing heat overwhelms my body!"))
-		affected.emote("deathgasp", TRUE)
-		affected.death()
-	else
-		to_chat(affected, span_userdanger("Searing heat scorches through me - another burn like this will be fatal!"))
 
 /datum/wound/charring/sew_wound()
 	. = ..()

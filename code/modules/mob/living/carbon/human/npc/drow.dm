@@ -242,13 +242,13 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	mask = /obj/item/clothing/mask/rogue/facemask
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-	backl = /obj/item/quiver/arrows
+	backl = /obj/item/quiver/npc
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 	H.STASTR = 10
 	H.STASPD = 13
 	H.STACON = 8
 	H.STAWIL = 7
-	H.STAPER = 13
+	H.STAPER = 11
 	H.STAINT = 10
 	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)

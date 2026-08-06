@@ -110,7 +110,7 @@
 	quality = F.faretype
 	bitesize_mod = 1 / F.bitesize
 	patron = patron_init
-	F.faretype = clamp(skill, 1, 5)
+	F.faretype = max(clamp(skill, 1, 5), quality)
 	if(skill < 5 || patron.type != /datum/patron/divine/eora)
 		F.add_filter(BLESSED_FOOD_FILTER, 1, list("type" = "outline", "color" = "#ff00ff", "size" = 1))
 	else
