@@ -1,7 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Dodge now starts at 90% rather than 95%. Pity Dodge recovery from being struck can no longer exceed 85%."
-  - balance: "Swift stance is now more effective vs dodge."
-  - balance: "Weapon Skill difference between the target and attacker is now more effective vs dodge. This currently does not apply to pure unarmed."
-  - balance: "SPD difference between target and attacker is now more effective vs dodge."

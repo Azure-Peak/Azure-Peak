@@ -13,7 +13,7 @@
 	of raiders - each wave must fall within ten minutes, and the writ lapses entirely if the \
 	bearer dawdles too long before reaching the blockade. Hand this writ over to a \
 	fellow-adventurer and they may initiate the contract; pin it to the Grand Contract Ledger and \
-	it will demand a full Fellowship of three."
+	it will demand a Fellowship of three at the least. Every additional person at the blockade, until the sixth, will attracts more enemies and rewards."
 	icon_state = "scroll_quest_info"
 	base_icon_state = "scroll_quest"
 	var/last_arrival_check = 0

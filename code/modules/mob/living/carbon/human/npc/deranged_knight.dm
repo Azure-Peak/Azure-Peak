@@ -138,16 +138,16 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	H.STAINT = 12
 	H.STALUC = 10
 
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //No more swimming cheese
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE) //No more swimming cheese
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	if(prob(60))
 		var/voicepack_choice = rand(1, 6)

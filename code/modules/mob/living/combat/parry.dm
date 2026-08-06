@@ -1,6 +1,4 @@
 // Unarmed base weapon defense equivalents — fed into the same (skill * 20) + (wdef * 10) formula as weapons
-#define UNARMED_BASE_WDEF_BARE 2		// Bare fists — still bad, but not hopeless
-#define UNARMED_BASE_WDEF_EQUIPPED 8	// Bracers / knuckles / bandages — 80 base parry for expert pugilists
 
 /mob/living/proc/attempt_parry(datum/intent/intenty, mob/living/user)
 	var/prob2defend = user.defprob
@@ -66,12 +64,12 @@
 
 	if(mainhand)
 		if(mainhand.can_parry)
-			mainhand_defense += (H.get_skill_level(mainhand.associated_skill) * 20)
-			mainhand_defense += (mainhand.wdefense_dynamic * 10)
+			mainhand_defense += (H.get_skill_level(mainhand.associated_skill) * PARRY_PER_SKILL_LEVEL)
+			mainhand_defense += (mainhand.wdefense_dynamic * PARRY_PER_WDEF_POINT)
 	if(offhand)
 		if(offhand.can_parry)
-			offhand_defense += (H.get_skill_level(offhand.associated_skill) * 20)
-			offhand_defense += (offhand.wdefense_dynamic * 10)
+			offhand_defense += (H.get_skill_level(offhand.associated_skill) * PARRY_PER_SKILL_LEVEL)
+			offhand_defense += (offhand.wdefense_dynamic * PARRY_PER_WDEF_POINT)
 
 	if(mainhand_defense >= offhand_defense)
 		highest_defense += mainhand_defense
@@ -92,16 +90,16 @@
 	var/obj/K = H.get_item_by_slot(SLOT_GLOVES)
 	var/is_pugilist = HAS_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN) // Only expert pugilists get the generous unarmed wdef
 	if(istype(B, /obj/item/clothing/wrists/roguetown/bracers))
-		unarmed_defense = (unarmed_skill * 20) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * 10)
+		unarmed_defense = (unarmed_skill * PARRY_PER_SKILL_LEVEL) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * PARRY_PER_WDEF_POINT)
 		unarmed_bracers = B
 	else if(istype(K, /obj/item/clothing/gloves/roguetown/knuckles))
-		unarmed_defense = (unarmed_skill * 20) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * 10)
+		unarmed_defense = (unarmed_skill * PARRY_PER_SKILL_LEVEL) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * PARRY_PER_WDEF_POINT)
 		unarmed_knuckles = K
 	else if(istype(K, /obj/item/clothing/gloves/roguetown/bandages))
-		unarmed_defense = (unarmed_skill * 20) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * 10)
+		unarmed_defense = (unarmed_skill * PARRY_PER_SKILL_LEVEL) + ((is_pugilist ? UNARMED_BASE_WDEF_EQUIPPED : UNARMED_BASE_WDEF_BARE) * PARRY_PER_WDEF_POINT)
 		unarmed_bandages = K
 	else
-		unarmed_defense = (unarmed_skill * 20) + (UNARMED_BASE_WDEF_BARE * 10)
+		unarmed_defense = (unarmed_skill * PARRY_PER_SKILL_LEVEL) + (UNARMED_BASE_WDEF_BARE * PARRY_PER_WDEF_POINT)
 
 	// If held weapon uses unarmed skill (katar, etc), allow unarmed parry fallback
 	var/allow_unarmed_fallback = FALSE
@@ -144,7 +142,7 @@
 		if(intenty.sharpness_penalty)
 			intenty.masteritem.remove_bintegrity(intenty.sharpness_penalty)
 
-		prob2defend -= (attacker_skill * 20)
+		prob2defend -= (attacker_skill * PARRY_PER_SKILL_LEVEL)
 		if(att_swift_capable)
 			if(!has_status_effect(/datum/status_effect/buff/weapon_binded))
 				if((intenty.masteritem.wbalance == WBALANCE_SWIFT) && (user.STASPD > src.STASPD)) //enemy weapon is quick, so get a bonus based on spddiff
@@ -169,7 +167,7 @@
 					prob2defend -= finalmod
 	else
 		attacker_skill = U.get_skill_level(/datum/skill/combat/unarmed)
-		prob2defend -= (attacker_skill * 20)
+		prob2defend -= (attacker_skill * PARRY_PER_SKILL_LEVEL)
 		if(user.STASPD > src.STASPD) //unarmed is inherently swift
 			var/spdmod = ((user.STASPD - src.STASPD) * 10)
 			var/permod = ((src.STAPER - user.STAPER) * 10)
@@ -467,5 +465,3 @@
 			return pick('sound/foley/binds/bind_heavy1.ogg','sound/foley/binds/bind_heavy2.ogg','sound/foley/binds/bind_heavy3.ogg','sound/foley/binds/bind_heavy4.ogg','sound/foley/binds/bind_heavy5.ogg','sound/foley/binds/bind_heavy6.ogg','sound/foley/binds/bind_heavy7.ogg','sound/foley/binds/bind_heavy8.ogg','sound/foley/binds/bind_heavy9.ogg','sound/foley/binds/bind_heavy10.ogg','sound/foley/binds/bind_heavy11.ogg','sound/foley/binds/bind_heavy12.ogg')
 		if(WBALANCE_SWIFT)
 			return pick('sound/foley/binds/bind_swift1.ogg','sound/foley/binds/bind_swift2.ogg','sound/foley/binds/bind_swift3.ogg','sound/foley/binds/bind_swift4.ogg','sound/foley/binds/bind_swift5.ogg','sound/foley/binds/bind_swift6.ogg')
-#undef UNARMED_BASE_WDEF_BARE
-#undef UNARMED_BASE_WDEF_EQUIPPED

@@ -85,10 +85,10 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	r_hand = /obj/item/rogueweapon/mace/steel
 	l_hand = /obj/item/rogueweapon/shield/tower
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight] //HUZZAR!!
 	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]

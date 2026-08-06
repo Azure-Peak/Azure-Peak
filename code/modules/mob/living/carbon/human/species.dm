@@ -704,6 +704,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if(istype(H.cloak, I.type))
 					return FALSE
 			if(H.wear_shirt)
+				var/obj/item/clothing/incoming_armor = I
+				if((H.wear_shirt.blocking_behavior & BLOCKARMOR) && istype(incoming_armor) && (incoming_armor.armor_class != ARMOR_CLASS_NONE) && !((I.blocking_behavior & SAMEWEAR) && (H.wear_shirt.blocking_behavior & SAMEWEAR)))
+					return FALSE
+				if((I.blocking_behavior & BLOCKSHIRT) && (H.wear_shirt.armor_class != ARMOR_CLASS_NONE) && !((I.blocking_behavior & SAMEWEAR) && (H.wear_shirt.blocking_behavior & SAMEWEAR)))
+					return FALSE
 				if(H.wear_shirt.blocking_behavior & BULKYBLOCKS)
 					return FALSE
 				if(istype(H.wear_shirt, I.type))
@@ -796,6 +801,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if(H.wear_armor)
 					return FALSE
 			if(H.wear_armor)
+				var/obj/item/clothing/incoming_shirt = I
+				if((H.wear_armor.blocking_behavior & BLOCKSHIRT) && istype(incoming_shirt) && (incoming_shirt.armor_class != ARMOR_CLASS_NONE) && !((I.blocking_behavior & SAMEWEAR) && (H.wear_armor.blocking_behavior & SAMEWEAR)))
+					return FALSE
+				if((I.blocking_behavior & BLOCKARMOR) && (H.wear_armor.armor_class != ARMOR_CLASS_NONE) && !((I.blocking_behavior & SAMEWEAR) && (H.wear_armor.blocking_behavior & SAMEWEAR)))
+					return FALSE
 				if(istype(H.wear_armor, I.type))
 					if(!(I.blocking_behavior & SAMEWEAR))
 						return FALSE

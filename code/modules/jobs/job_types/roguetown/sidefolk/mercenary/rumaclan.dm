@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
 	cmode_music = 'sound/music/combat_Kazengun_Runaway_Chariot.ogg'
 	subclass_stats = list(
@@ -58,7 +58,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan_sasu
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
 	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
 	subclass_stats = list(
 		STATKEY_SPD = 4,

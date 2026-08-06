@@ -1,3 +1,9 @@
+/datum/action/cooldown/spell/conjure_summon/zizo
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
+
 /datum/action/cooldown/spell/projectile/zizo
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
@@ -337,138 +343,98 @@
 	limb.add_embedded_object(S, FALSE, TRUE, TRUE)
 	playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
 
-/////////////////
-// T2 - Spite  //
-/////////////////
-// - A stronger sidegrade to undivided's gallows humor, it loses chainability + longer cooldown for straight up making people freak out + stat debuff. Yes this is churn emotions.
-// - Gallows humor is still /better/ if we considerable how spammable vs this, but you've the advantage of combining this w/ avantyne usually, or whatever else miracle/gear-wise.
-/datum/action/cooldown/spell/zizo/spite
-	name = "Spite"
-	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily, lessening their will and shattering their mynd with dreadful visions. Slows and weakens the will of the myndless significantly."
-	fluff_desc = "It is no mistake that the faithful of Zizo are to some degree affected by her spite towards those that would dare, undo her greatest work to become. The very thought manifested forcefully in detail of what's to come would break the minds of most, or at worst leave them a hollow husk of what they were. Oft' shattering one's perception of reality and falsehood alyke."
-	button_icon_state = "spite"
-	sound = 'sound/misc/sudden noise.ogg'
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-	primary_resource_cost = 100 //100 devotion, 10 uses for heretic, 5 for templar-grade, 7 for missionary adv. Not accounting for devotion regen + cooldown.
-	secondary_resource_cost = 30
+// RAISE LESSER SKELETON SWARM (T2)
+/datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm
+	name = "Raise Lesser Skeletons"
+	desc = "Invoke raw Enochian magicka to bind loose bones into two simple skeletal thralls. Their crude physiology is held together purely by magic; unable to be incapacitated, they shall stand until they crumble into spare bones. Toggle their armaments with Shift+G: Sword and Shield, Spear, or Two Daggers. Each one killed gives a partial recoil."
+	fluff_desc = "The faithful of Zizo do not raise the dead, they mock life by proving how little of it is truly required. Flesh decays, thought falters, and souls flee screaming into the arms of Necra, yet bone remains obedient. Through the language of ancient Enochian words of power, scattered remains are lashed together into a parody of mortal form, animated not by purpose or memory, but by the simple joy of defying the natural order."
 
-	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_GROUND
-	self_cast_possible = FALSE
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "skeleton_formation"
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	spell_color = GLOW_COLOR_ZIZO
 
-	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
-
-	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
-
-	invocation_type = INVOCATION_SHOUT
-	invocations = list("Suffer for Zizo!")
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 60
+	secondary_resource_type = SPELL_COST_ENERGY
+	secondary_resource_cost = 40
 
 	charge_required = TRUE
-	weapon_cast_penalized = TRUE
-	charge_time = 3 SECONDS
-	hold_drain = 0
+	weapon_cast_penalized = FALSE
+	charge_time = 2 SECONDS
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
-	cooldown_time = 4 MINUTES //No back to back, spamming this vs undivided. Also a very, very potent miracle for disabling someone, but not as good as Matthios equalize.
+	cooldown_time = 30 SECONDS
 
-	spell_flags = SPELL_PSYDON
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	associated_skill = /datum/skill/magic/holy
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-/datum/action/cooldown/spell/zizo/spite/cast(atom/cast_on)
+	summon_noun = "skeleton"
+	max_summons = 4
+	summons_per_cast = 1
+
+	recoil_energy_floor = 500
+	recoil_severity = CONJURE_RECOIL_PARTIAL
+
+	invocation_type = null
+	invocations = null
+	modes = list(list("name" = "Sword and Shield", "tag" = "SWD", "loadout" = "sword_shield", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Scutum et Gladius!"),
+		list("name" = "Spear", "tag" = "SPR", "loadout" = "spear", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Hasta!"),
+		list("name" = "Two Daggers", "tag" = "2DG", "loadout" = "dual_daggers", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Pugiones!"),
+	)
+
+/datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm/spawn_summon(turf/T, mob/living/user)
+	var/turf/dest = T
+	var/list/open = list()
+
+	for(var/turf/open/candidate in range(1, T))
+		if(!candidate.is_blocked_turf())
+			open += candidate
+
+	if(length(open))
+		dest = pick(open)
+
+	var/mob/living/carbon/human/species/skeleton/conjured/skeleton = new(dest)
+	skeleton.summoner_ref = WEAKREF(user)
+	skeleton.arcane_scale = clamp(user.get_skill_level(/datum/skill/magic/holy), 1, 6)
+	skeleton.gear_tier = get_summon_tier(user)
+	skeleton.loadout = modes[current_mode]["loadout"]
+
+	skeleton.add_filter("zizo_conjure_glow", 2, list("outline", "size" = 2, "color" = "#9B59FF"))
+
+	return skeleton
+
+/datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/carbon/human/H = owner
-	if(!istype(H))
+	if(!.)
 		return FALSE
-
-	var/mob/living/spelltarget = cast_on
-
-	if(!isliving(spelltarget))
-		show_visible_message(owner, "You can only cast this on living beings.")
-		return FALSE
-	if(spelltarget.anti_magic_check(TRUE, TRUE))
-		return FALSE
-	if(spell_guard_check(spelltarget, TRUE))
-		spelltarget.visible_message(span_warning("[spelltarget] shrugs off the unholy spite!"))
-		return TRUE
-	if(!spelltarget.can_hear()) // They need to be able to hear you.
-		return FALSE
-	if(spelltarget.mind) //Players freak the fuck out
-		if(!HAS_TRAIT(spelltarget, TRAIT_CABAL)) //HATE. LET ME TELL YOU HOW MUCH I HATE-
-			to_chat(spelltarget, span_purple(pick("<br>WORTHLESS, THAT'S ALL YOU ARE.<br>","<br>YOU WILL ROT WITH EVERYTHING ELSE, ITS YOUR FAULT.<br>","<br>TRY. IT MEANS NOTHING. EXCEPT OF WHAT I REMAKE OF YOU.<br>","<br>EVERYTHING YOU DO IS POINTLESS IN THE END.<br>","<br>YOU BRING ONLY OBLIVION, UNTO YOURSELF. FOOL.<br>")))
-			spelltarget.add_stress(/datum/stressevent/zizospite)
-
-		if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE)) //Vheslynites get a unique interaction text-wise... They don't give two fucks though, they already know what they are.
-			to_chat(spelltarget, span_purple(pick("<br>I HATE YOU.<br>","<br>WHY, WHY. WHY MUST YOU MAKE ME SUFFER?<br>","<br>I HATE YOU, I HATE YOU.<br>","<br>HATRED, THAT IS ALL YOU DESERVE.<br>","<br>UNFORGIVABLE. UNFORGIVABLE.<br>")))
-			//No effect (past status effect), the needle is in your mynd already, you are already insane beyond all hope and caring is not something you do.
-			//Since we're in 99% of cases a hard antagonist, we still cost your cooldown and pretend that you affected us.
-
-		if(HAS_TRAIT(spelltarget, TRAIT_CABAL)) //Zizites get that disappointed Zizo stare, less effect
-			to_chat(spelltarget, span_warning("A familar gaze of Progress bares down on you with spite."))
-			spelltarget.add_stress(/datum/stressevent/zizospitelesser)
-
-		//this is what seperates it most, you are guarrenteed to lose your concentration briefly.
-		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
-			spelltarget.Slowdown(10) //Replaces the previous guarrenteed freakout
-			spelltarget.Jitter(30)
-			spelltarget.playsound_local(get_turf(spelltarget), 'sound/misc/zizo.ogg', 200)
-
-	if(!spelltarget.mind) //NPCs just get knocked over and hit with a firmer stat debuff varient from a mind check on the status effect.
-		spelltarget.emote("scream")
-		spelltarget.Jitter(20)
-		spelltarget.Knockdown(20) //long-ish to substitute for lack of hallucinations
-
-	spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
 	return TRUE
 
-/datum/stressevent/zizospite
-	timer = 3 MINUTES
-	stressadd = 8 //technically 16, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one goes away WITH the status effect, so its not as long lingering nor spammable indefinitely.
-	desc = span_boldred("I FEEL A HORRIBLE CHILL DOWN MY SPINE! MY MYND IS FILLED WITH HORRIFYING VISIONS.")
+/datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm/dismiss_summons(list/mobs)
+	for(var/mob/living/M in mobs)
+		dismiss_zizo_skeleton(M)
 
-/datum/stressevent/zizospitelesser
-	timer = 2 MINUTES
-	stressadd = 6 //technically 12, as it doubles from TRAIT_BAD_MOOD.
-	desc = span_boldred("I feel Zizo's spite and anger gaze upon me briefly.")
+/proc/dismiss_zizo_skeleton(mob/living/M)
+	if(QDELETED(M))
+		return
 
-#define ZIZOSPITE_FILTER "zizospite"
+	var/datum/component/conjured_minion/minion = M.GetComponent(/datum/component/conjured_minion)
+	if(minion)
+		minion.dismissing = TRUE
 
-/datum/status_effect/debuff/zizospite
-	id = "zizospite"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/zizospite
-	duration = 3 MINUTES
-	var/outline_colour = "#a02727"
+	M.ai_controller?.set_ai_status(AI_STATUS_OFF)
 
-/atom/movable/screen/alert/status_effect/debuff/zizospite
-	name = "Spite"
-	desc = "<span class='warning'>A hateful gaze of eternal malice bares on me. My mynd's clarity betrays me.</span>\n"
-	icon_state = "zizospite"
+	M.visible_message(span_notice("[M] collapses into a heap of bones and dust."))
 
-/datum/status_effect/debuff/zizospite/on_apply()
-	. = ..()
-	var/filter = owner.get_filter(ZIZOSPITE_FILTER)
-	if(!filter)
-		owner.add_filter(ZIZOSPITE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
-	ADD_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
-	if(owner.mind) //players get less debuff, NPCs moreso
-		owner.update_stress()
-		effectedstats = list(STATKEY_WIL = -1)
-	else
-		effectedstats = list(STATKEY_SPD = -2, STATKEY_WIL = -2) //NPCs get hit with a harder debuff to account for no stress
+	var/turf/T = get_turf(M)
 
-/datum/status_effect/debuff/zizospite/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
-	if(owner.mind)
-		owner.update_stress()
-	owner.remove_filter(ZIZOSPITE_FILTER)
-	return ..()
+	// Preserve the actual human remains before deleting the skeleton.
+	new /obj/effect/decal/remains/human(T)
 
-#undef ZIZOSPITE_FILTER
+	qdel(M)
 
-///////////////////
-// T2 - Tame Undead  //
-///////////////////
-// - A forced Gravemark on a hostile NPC undead, make use of the lost and wandering, every single one of the dead has their use for you. One way or another.
-// - Basically a miracle version of the spell, a nessessity to keep that warlock/undead patron aspect niché. If you want full summoner however, go undeath rituos for it.
+// TAME UNDEAD (T3) - I don't know why this is a T3, being just a forced Gravemark on a hostile NPC undead.
 /datum/action/cooldown/spell/tame_undead/zizo
 	associated_skill = /datum/skill/magic/holy
 	primary_resource_cost = 100
@@ -632,43 +598,45 @@
 	cooldown_time = 1.5 MINUTES
 	primary_resource_cost = 50
 	secondary_resource_cost = 50
-	invocations = list("Solve ossa, redite ad pulverem!")
+	invocations = list(",w Solve ossa, redite ad pulverem!")
 	invocation_type = INVOCATION_SHOUT
 	sound = 'sound/magic/swap.ogg'
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 /datum/action/cooldown/spell/zizo/bone_cataclysm/cast(atom/cast_on)
 	. = ..()
+	if(!.)
+		return FALSE
+
 	var/list/valid_skeletons = list()
-	var/faction_tag = "[REF(owner)]_faction"
 	var/mob/living/caster = owner
-	for(var/mob/living/L in view(9, owner))
-		if(QDELETED(L))
+
+	for(var/mob/living/carbon/human/species/skeleton/conjured/S in view(9, owner))
+		if(QDELETED(S))
 			continue
-		if(L.stat == DEAD)
-			continue
-		if(istype(L, /mob/living/simple_animal/hostile/rogue/skeleton))
-			var/mob/living/simple_animal/hostile/rogue/skeleton/S = L
-			if(S.summoner != owner.real_name)
-				continue
-			valid_skeletons += S
+		if(S.stat == DEAD)
 			continue
 
-		if(istype(L, /mob/living/carbon/human/species/skeleton))
-			if(L.mind?.current)
-				if(!(faction_tag in L.mind.current.faction))
-					continue
-			else
-				if(!(faction_tag in L.faction))
-					continue
-			valid_skeletons += L
+		var/datum/component/conjured_minion/minion = S.GetComponent(/datum/component/conjured_minion)
+		if(!minion)
+			continue
 
-	if(!valid_skeletons.len)
+		var/mob/living/summoner = minion.summoner_ref?.resolve()
+		if(summoner != owner)
+			continue
+
+		valid_skeletons += S
+
+	if(!length(valid_skeletons))
 		owner.balloon_alert(owner, "No bound skeletons nearby!")
 		return FALSE
 
 	if(owner.cmode)
-		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin violently rattling apart!"), span_userdanger("I prime my undead servants to violently explode."))
+		owner.visible_message(
+			span_danger("[owner] raises their hand as nearby skeletons begin violently rattling apart!"),
+			span_userdanger("I prime my undead servants to violently explode.")
+		)
+
 		for(var/mob/living/S in valid_skeletons)
 			S.Jitter(100)
 			var/datum/beam/B = caster.Beam(S, icon_state = "necra_beam", time = 50, maxdistance = 20)
@@ -676,18 +644,22 @@
 
 		return TRUE
 
-	else
-		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin calmly rattling apart!"), span_userdanger("I sacrifice my undead servants, and sap their energy."))
-		for(var/mob/living/S in valid_skeletons)
-			S.Jitter(100)
-			var/datum/beam/B = caster.Beam(S,icon_state = "necra_beam",	time = 30, maxdistance = 20)
-			addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S, caster, B), rand(2 SECONDS, 3 SECONDS))
+	owner.visible_message(
+		span_danger("[owner] raises their hand as nearby skeletons begin calmly rattling apart!"),
+		span_userdanger("I sacrifice my undead servants, and sap their energy.")
+	)
 
-		return TRUE
+	for(var/mob/living/S in valid_skeletons)
+		S.Jitter(100)
+		var/datum/beam/B = caster.Beam(S, icon_state = "necra_beam", time = 30, maxdistance = 20)
+		addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S, caster, B), rand(2 SECONDS, 3 SECONDS))
+
+	return TRUE
 
 /datum/action/cooldown/spell/zizo/bone_cataclysm/proc/explode_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
 	if(B)
 		B.End()
+
 	if(!S || QDELETED(S))
 		return
 	if(!caster || QDELETED(caster))
@@ -703,11 +675,11 @@
 	new /obj/effect/temp_visual/explosion(T)
 	playsound(T, 'sound/misc/explode/explosion.ogg', 50)
 
-// Repulse copypasta for more chupatz, will affect you too, just not do damage.
 	var/list/thrownatoms = list()
 	for(var/turf/nearby in get_hear(1, T))
 		for(var/atom/movable/AM in nearby)
 			thrownatoms += AM
+
 	for(var/atom/movable/AM in thrownatoms)
 		if(QDELETED(AM))
 			continue
@@ -715,22 +687,28 @@
 			continue
 		if(AM.anchored)
 			continue
+
 		if(isliving(AM))
 			var/mob/living/M = AM
 			if(M == owner)
 				continue
+
 			if(M.mind?.current)
 				if(faction_tag in M.mind.current.faction)
 					continue
 			else
 				if(faction_tag in M.faction)
 					continue
-			if(!M.mind && M.resting && M.stat != CONSCIOUS) // to finish off NPCs in a cooler way
+
+			if(!M.mind && M.resting && M.stat != CONSCIOUS)
 				M.gib(TRUE, TRUE, TRUE, FALSE)
+
 			if(!M.mind)
 				M.Stun(50)
+
 			M.set_resting(TRUE, TRUE)
 			to_chat(M, span_danger("The blast hurls you backwards!"))
+
 		var/atom/throwtarget = get_edge_target_turf(T, get_dir(T, get_step_away(AM, T)))
 		AM.safe_throw_at(throwtarget, 2, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
@@ -739,6 +717,7 @@
 			continue
 		if(C == owner)
 			continue
+
 		if(C.mind?.current)
 			if(faction_tag in C.mind.current.faction)
 				continue
@@ -751,7 +730,7 @@
 		var/max_splinters
 
 		switch(dist)
-			if(0,1)
+			if(0, 1)
 				min_splinters = 3
 				max_splinters = 4
 			if(2)
@@ -762,64 +741,51 @@
 				max_splinters = 2
 			else
 				continue
+
 		var/splinter_count = rand(min_splinters, max_splinters)
-		C.adjustBruteLoss(rand(10,20))
+		C.adjustBruteLoss(rand(10, 20))
 
 		for(var/i in 1 to splinter_count)
 			if(!length(C.bodyparts))
 				break
+
 			var/obj/item/bodypart/limb = pick(C.bodyparts)
 			var/obj/item/bone/profane_splinter/P = new
 			limb.add_embedded_object(P, FALSE, TRUE)
+
 		C.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
 		C.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
+
 	new /obj/effect/decal/remains/human(T)
 	qdel(S)
 
-/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/despawn_skeleton(mob/living/S,	mob/living/caster, datum/beam/B)
+/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/despawn_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
 	if(B)
 		B.End()
+
 	if(!S || QDELETED(S))
 		return
 	if(!caster || QDELETED(caster))
 		return
+
 	var/turf/T = get_turf(S)
 	if(!T)
 		return
-	S.visible_message(span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"), span_warning("Ashes to ashes, dust to dust..."))
+
+	S.visible_message(
+		span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"),
+		span_warning("Ashes to ashes, dust to dust...")
+	)
+
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
 	caster.energy_add(120)
 	caster.stamina_add(-50)
-	new /obj/item/ash(T)
-	new /obj/item/ash(T)
-	qdel(S)
 
-// RAISE LESSER SKELETON (T?) - Undeath path: The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill. Granted W/ Undeath Rituos
-/datum/action/cooldown/spell/raise_undead_formation/zizo
-	name = "Raise Lesser Skeleton"
-	desc = "Invoke raw Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
-	fluff_desc = "The faithful of Zizo do not raise the dead, they mock life by proving how little of it is truly required. Flesh decays, thought falters, and souls flee screaming into the arms of Necra, yet bone remains obedient. Through the language of ancient Enochian words of power, scattered remains are lashed together into a parody of mortal form, animated not by purpose or memory, but by the simple joy of defying the natural order."
-	background_icon = 'icons/mob/actions/zizomiracles.dmi'
-	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-	button_icon_state = "skeleton"
-	spell_color = GLOW_COLOR_ZIZO
-	primary_resource_cost = 60
-	secondary_resource_cost = 40
-	charge_required = TRUE
-	weapon_cast_penalized = TRUE
-	charge_time = 2 SECONDS
-	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/chargingold.ogg'
-	cooldown_time = 30 SECONDS
-	cabal_affine = TRUE
-	miracle = TRUE
-	to_spawn = 1
-	invocation_type = null
-	invocations = null
-	associated_skill = /datum/skill/magic/holy
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	new /obj/item/ash(T)
+	new /obj/item/ash(T)
+
+	qdel(S)
 
 //Reskin + Flavor of diagnose spell w/ some different flavor. Used for Necromancers/Lich.
 /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo

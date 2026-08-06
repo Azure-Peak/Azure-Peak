@@ -47,6 +47,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY, TRAIT_MARRIAGE_CAPABLE)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
 	job_subclasses = list(/datum/advclass/bishop)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/bishop
 	name = "Bishop"
@@ -403,7 +404,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return TRUE
 
 	if (inputty in GLOB.excommunicated_players)
-		return //No stacking	
+		return //No stacking
 
 	if (H.real_name == inputty)
 		if (!COOLDOWN_FINISHED(src, priest_apostasy))

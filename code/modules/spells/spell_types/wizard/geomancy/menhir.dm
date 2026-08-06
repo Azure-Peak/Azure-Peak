@@ -143,7 +143,7 @@
 	QDEL_IN(pillar, pillar_lifetime)
 
 /datum/action/cooldown/spell/menhir/proc/strike_mob(mob/living/carbon/human/H, mob/living/L, dmg)
-	if(L == H || QDELETED(L))
+	if(QDELETED(L))
 		return
 	if(L.anti_magic_check())
 		return

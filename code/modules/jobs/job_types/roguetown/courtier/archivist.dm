@@ -35,6 +35,7 @@
 	job_subclasses = list(
 		/datum/advclass/archivist
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/archivist
 	name = "Archivist"

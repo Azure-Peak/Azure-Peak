@@ -45,6 +45,7 @@
 	job_subclasses = list(
 		/datum/advclass/hag,
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/job/roguetown/hag/special_job_check(mob/dead/new_player/player)
 	if(!hag_slots_open())

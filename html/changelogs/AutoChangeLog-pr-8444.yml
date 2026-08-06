@@ -1,0 +1,4 @@
+author: "Ryumi"
+delete-after: True
+changes:
+  - qol: "Examine windows now display the character's custom song title, if they have one set."
