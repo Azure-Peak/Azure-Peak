@@ -98,7 +98,7 @@
 	id = /obj/item/clothing/ring/signet/psy
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple //a heavy gambeson.
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple //a slightly-better heavy gambeson.
 	shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest //a heardened leather armor, chest-only.
 
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
