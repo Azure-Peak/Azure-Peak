@@ -736,7 +736,7 @@ SPECIALS START HERE
 
 /datum/special_intent/quarterstaff_sweep
 	name = "Quarterstaff Sweep"
-	desc = "Sweep a five-tile frontal arc, knocking foes back and exposing them. Aims for the targeted zone."
+	desc = "Sweep a five-tile frontal arc, knocking foes back and leaving them vulnerable. Aims for the targeted zone."
 	tile_coordinates = list(list(-1,-1), list(1,-1), list(-1,0), list(0,0), list(1,0))
 	post_icon_state = "sweep_fx"
 	pre_icon_state = "trap"
@@ -746,7 +746,7 @@ SPECIALS START HERE
 	cooldown = 15 SECONDS
 	requires_wielding = TRUE
 	stamcost = 20
-	var/exposed_dur = 3 SECONDS
+	var/vulnerable_dur = 3 SECONDS
 	var/dam
 
 /datum/special_intent/quarterstaff_sweep/npc_use_chance(mob/living/user, atom/target)
@@ -767,7 +767,7 @@ SPECIALS START HERE
 		L.safe_throw_at(throwtarget, 1, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 		var/hit_zone = get_aimed_zone(L)
 		apply_generic_weapon_damage(L, dam, "blunt", hit_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
-		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
+		L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vulnerable_dur)
 	..()
 
 #define AXE_SWING_GRID_DEFAULT 	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))

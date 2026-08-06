@@ -18,7 +18,7 @@
 
 /obj/item/magic/familiar
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
-	var/mob/living/simple_animal/pet/familiar/stored_familiar
+	var/mob/living/carbon/human/species/familiar/stored_familiar
 
 /obj/item/magic/familiar/dropped(mob/user, silent)
 	. = ..()

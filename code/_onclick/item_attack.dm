@@ -494,7 +494,7 @@
 		newforce += (I.force_dynamic * STRONG_STANCE_DMG_BONUS)
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
-		newforce = (newforce * 0.2)
+		newforce = (newforce * WEAK_STANCE_DMG_MULT)
 
 	newforce = CLAMP(newforce, user.used_intent.min_intent_damage, user.used_intent.max_intent_damage)
 

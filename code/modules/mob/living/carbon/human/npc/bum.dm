@@ -43,15 +43,15 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 
 /datum/outfit/job/roguetown/bum_npc/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.adjust_skillrank(/datum/skill/combat/knives, rand(0,3), TRUE) // Exceedingly trash mobs, ...sometimes
-	H.adjust_skillrank(/datum/skill/combat/polearms, rand(0,3), TRUE)
-	H.adjust_skillrank(/datum/skill/combat/staves, rand(0,3), TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, rand(0,3), TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, rand(0,3), TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, rand(0,3), TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, rand(0,3), TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, rand(2,5), TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, rand(2,5), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, rand(SKILL_LEVEL_NONE, SKILL_LEVEL_JOURNEYMAN), TRUE) // Exceedingly trash mobs, ...sometimes
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, rand(SKILL_LEVEL_NONE, SKILL_LEVEL_JOURNEYMAN), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, rand(SKILL_LEVEL_NONE, SKILL_LEVEL_JOURNEYMAN), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, rand(SKILL_LEVEL_NONE, SKILL_LEVEL_JOURNEYMAN), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, rand(SKILL_LEVEL_NONE, SKILL_LEVEL_JOURNEYMAN), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, rand(SKILL_LEVEL_NONE, SKILL_LEVEL_JOURNEYMAN), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, rand(SKILL_LEVEL_NONE, SKILL_LEVEL_JOURNEYMAN), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, rand(SKILL_LEVEL_APPRENTICE, SKILL_LEVEL_MASTER), TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, rand(SKILL_LEVEL_APPRENTICE, SKILL_LEVEL_MASTER), TRUE)
 
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	if(prob(70))

@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have to access client prefs midgame
+
 // Race list means RESTRICTED from the LISTED races.
 /datum/virtue/origin/unknown
 	name = "Nowhere"
@@ -272,3 +274,24 @@
 
 /datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.dna.species.origin = origin_name
+
+// Familiar origins
+/datum/virtue/origin/familiar/fae
+	name = "Fae"
+	origin_name = "The Faewyld"
+	origin_desc = "Little and less is known about where the fae come from. Some say another plane, layered over Psydonia; others say merely hidden groves, tucked far away from mortal sight. All that is certain is that wherever they come from, they rarely seem to leave."
+
+/datum/virtue/origin/familiar/elemental
+	name = "Elemental"
+	origin_name = "The Depths"
+	origin_desc = "Little and less is known about where elementals come from. Some say another plane, layered over Psydonia; others say they're merely deep underground, far below the caves-and-tunnels of mortals. All that is certain is that wherever they come from, they rarely seem to leave."
+
+/datum/virtue/origin/familiar/void
+	name = "Voidborn"
+	origin_name = "The Void"
+	origin_desc = "Little and less is known about the origin of void beings. Some magi claim it is the space between realms, filled with unfathomable predators; others claim it is the far past. Whatever the case, seeing a voidborn being can only mean two things: a powerful magos has been at work here, and you are in danger."
+
+/datum/virtue/origin/familiar/infernal
+	name = "Infernal"
+	origin_name = "The Hells"
+	origin_desc = "Infernals are tight-lipped about their home, and mortals tend to prefer sylver'd blades to questions. All that is known is that every being that crawls out of the hellish pits bears a deep-rooted malice towards Psydonia and all that dwell upon it."

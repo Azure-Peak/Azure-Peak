@@ -59,6 +59,7 @@
 	data["compact"] = withdraw_tab.compact ? TRUE : FALSE
 	data["categories"] = categories
 	data["category"] = withdraw_tab.current_category
+	data["fiscal_authority"] = has_fiscal_authority(user) ? TRUE : FALSE
 	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)) ? TRUE : FALSE
 	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
 	data["treasury_floor"] = SStreasury.stockpile_purchase_floor
@@ -155,6 +156,8 @@
 /obj/structure/roguemachine/stockpile/proc/try_auto_export_units(datum/roguestock/D, units)
 	if(!D || !D.trade_good_id || units <= 0)
 		return 0
+	if(D.autoexport_disabled)
+		return 0
 	if(D.stockpile_amount < units)
 		return 0
 	var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
@@ -238,7 +241,10 @@
 					if(try_auto_export_units(R, bundle_amt) <= 0)
 						R.stockpile_amount -= bundle_amt
 						if(message)
-							say("The Crown's [R.name] stockpile is full and region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+							if(R.autoexport_disabled)
+								say("The Crown's [R.name] stockpile is full, autoexport disabled, take it elsewhere.")
+							else
+								say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
 						return
 					auto_exported = TRUE
 				SStreasury.dirty_market_view()
@@ -281,7 +287,10 @@
 				if(try_auto_export_units(R, 1) <= 0)
 					R.stockpile_amount -= 1
 					if(message)
-						say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+						if(R.autoexport_disabled)
+							say("The Crown's [R.name] stockpile is full, autoexport disabled, take it elsewhere.")
+						else
+							say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
 					return
 				auto_exported = TRUE
 			R.refresh_auto_price()

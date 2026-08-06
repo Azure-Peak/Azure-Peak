@@ -43,7 +43,7 @@
 		return FALSE
 	D.refresh_auto_price()
 	var/total_price = D.withdraw_price
-	if(D.withdraw_disabled)
+	if(D.withdraw_disabled && !has_fiscal_authority(user))
 		parent_structure.say("Not available.")
 		return FALSE
 	if(D.stockpile_amount <= 0)
@@ -73,7 +73,7 @@
 /datum/withdraw_tab/proc/do_direct_import(datum/roguestock/D, mob/user)
 	if(!D || !ishuman(user) || !parent_structure)
 		return FALSE
-	if(D.withdraw_disabled)
+	if(D.withdraw_disabled && !has_fiscal_authority(user))
 		parent_structure.say("Not available.")
 		return FALSE
 	if(!D.trade_good_id)

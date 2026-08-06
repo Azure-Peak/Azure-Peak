@@ -198,6 +198,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin
 	slot_flags = null
+	blocking_behavior = null
 	name = "verewolf's skin"
 	desc = "an impenetrable hide of dendor's fury"
 	icon_state = null

@@ -27,6 +27,7 @@
 	job_subclasses = list(
 		/datum/advclass/sergeant/sergeant
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/outfit/job/roguetown/sergeant
 	job_bitflag = BITFLAG_GARRISON

@@ -439,17 +439,6 @@
 	desc = "My ritual is complete, yet not without cost. I must gift my lux tyme to recover, before I can conduct another rite."
 	icon_state = "rituos_cooldown"
 
-/datum/status_effect/debuff/lux_exhausted
-	id = "lux_exhausted"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/lux_exhausted
-	effectedstats = list(STATKEY_STR = -2, STATKEY_WIL = -2, STATKEY_LCK = -2)
-	duration = 2 HOURS
-
-/atom/movable/screen/alert/status_effect/debuff/lux_exhausted
-	name = "Rituos Langouria"
-	desc = "Body and will alike, sacrificed to complete the rites for another. Your will shall be done, but it will be quite some time before your lux can sustain another rite."
-	icon_state = "rituos_exchange"
-
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended_heavy
@@ -480,7 +469,7 @@
 	id = "revived" //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/revived
 	effectedstats = list(STATKEY_STR = -1, STATKEY_PER = -1, STATKEY_INT = -1, STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)
-	duration = 15 MINUTES		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
+	duration = REVIVED_DEBUFF_DURATION		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
 
 /atom/movable/screen/alert/status_effect/debuff/revived
 	name = "Revived" //Formerly 'Revival Sickness'.
@@ -558,7 +547,7 @@
 /datum/status_effect/debuff/permadeath
 	id = "permadeath"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath
-	duration = 10 MINUTES //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
+	duration = PERMADEATH_DURATION //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
 	examine_text = "<font color='#b40000'>SUBJECTPRONOUN appears haunted by an unseen burden. It feels as though their spirit hangs by the thinnest of threads. Another death may well be their last.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath
@@ -660,14 +649,6 @@
 	name = "Frozen"
 	desc = "An intense cold has seized my body! I can barely move."
 	icon_state = "muscles"
-
-/// wrestler verison of daze////
-/datum/status_effect/debuff/dazed/stunner
-	id = "discombobulated"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed
-	effectedstats = list(STATKEY_CON = -2, STATKEY_INT = -2)
-	duration = 15 SECONDS
-	status_type = STATUS_EFFECT_REFRESH
 
 ///// Freifechter Daze Variants /////
 /datum/status_effect/debuff/dazed/longsword
@@ -846,16 +827,6 @@
 /atom/movable/screen/alert/status_effect/debuff/shamanhood
 	name = "Lost Hood"
 	desc = "The sacred hood is lost. I feel frail and sapped without it."
-
-/datum/status_effect/debuff/lost_dungeoneer_hood
-	id = "dungeoneerhood"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/dungeoneer_hood
-	effectedstats = list(STATKEY_STR = -3, STATKEY_LCK = -3)
-
-/atom/movable/screen/alert/status_effect/debuff/dungeoneer_hood
-	name = "Gnarly Visage"
-	desc = "I am a repulsive freek looked down upon by everyone else. I'd do best to hide my visage once more."
-	icon_state = "muscles"
 
 ///////////////////////
 /// CLIMBING STUFF ///

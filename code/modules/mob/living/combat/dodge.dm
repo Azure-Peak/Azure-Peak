@@ -143,12 +143,15 @@
 	if(src.client)
 		log_combat(src, user, "dodged against")
 	if(L)
-		if(has_trait && is_in_cone)
-			prob2defend = prob2defend + (L.STASPD * 15)
-		else
-			prob2defend = prob2defend + (L.STASPD * 10)
+		prob2defend = prob2defend + (L.STASPD * 10)
 	if(U)
-		prob2defend = prob2defend - (U.STASPD * 10)
+		var/dodgemod = 10
+		// This is to compensate for getting swarmed / flanked by simplemobs which can (somewhat)
+		// Occur more frequently. DE users will be able to dodge those a bit better even if DE
+		// Behaviour doesn't trigger.
+		if(has_trait && !U.mind && !UH)
+			dodgemod = 5
+		prob2defend = prob2defend - (U.STASPD * dodgemod)
 	if(I)
 		if(I.wbalance == WBALANCE_SWIFT && U.STASPD > L.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( I.wbalance * ((U.STASPD - L.STASPD) * 10) )
@@ -175,7 +178,7 @@
 						prob2defend = prob2defend - ((U.STASPD - L.STASPD) * 10)
 
 
-		
+
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 			prob2defend -= 40
 			ignore_DE_bonus = TRUE
@@ -193,18 +196,29 @@
 			if(HAS_TRAIT(UH, TRAIT_FENCERDEXTERITY))
 				prob2defend -= 10
 				ignore_DE_bonus = TRUE
-		
+
 		if(!is_in_cone)
 			ignore_DE_bonus = TRUE
 
+		if(L.STASPD <= 9)
+			ignore_DE_bonus = TRUE
+
 		if(I && IL)	//Skilldiff applies extra stamloss, tentative
-			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(IL.associated_skill))
+			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(IL.associated_skill)) * 2
 
 			if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
-				drained += 3	//We drain extra stam if we're being attacked by swift stance
+				// We drain extra stam if we're being attacked by swift stance, inversely based on our dodgetime
+				// This is quite tentative and the numbers can be whatever, but this is meant to make Swift a good option
+				// Without allowing "just spam them down" to work all that well.
+				if(dodgetime <= CLICK_CD_FAST)
+					drained += (abs(round((CLICK_CD_HEAVY - dodgetime) / 2)))
 
-		if(has_trait && H.mind && !ignore_DE_bonus && H.STASPD > 10)
-			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
+		if(has_trait && H.mind && !ignore_DE_bonus)
+			prob2defend = DODGE_EXPERT_BASE_CAP	//We cap it out if we have Dodge Expert as a Player.
+
+		if(H.STASPD < U.STASPD)
+			if(IL && IL.wbalance != WBALANCE_HEAVY)
+				drained += (U.STASPD - H.STASPD)
 
 		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait && H.mind)
 			if(istype(mainh, /obj/item/rogueweapon/shield) || istype(offh, /obj/item/rogueweapon/shield))	//why do I have to pre-empt the worst of you

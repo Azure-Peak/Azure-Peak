@@ -1,0 +1,8 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added a 17 chapters, around 11k words OOC Combat Guide to the Encyclopedia, which primes you on the basics of combat in AP. Also performed some fixes / tweaks to deal with bugs and inconsistency found while building the guide:"
+  - rscadd: "Long Weapon can no longer reach the head from the ground, this niche is reserved for GREAT weapons, thus making them actually differentiate and match the descriptions"
+  - rscadd: "Grabbing a bleeding wound gave out 0.25x bleed rate instead of 0.5x and then reinforcing did nothing. This meant aggressive grab was useless before even if the code tell you otherwise. Fixed it so that the default rate is 0.5x and then reinforcing an aggressive grab makes it 0.25x."
+  - rscadd: "Feint's guaranteed fail condition (feinting someone out of sight, and feinting someone who has just been feinted) now properly make the chance 0% instead of clamping to 10%"
+  - rscadd: "WEAK / STRONG Stance's description falsely said it gives you +1 / -1 STR, this has been corrected to give the actual percentage value they gives."

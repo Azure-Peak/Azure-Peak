@@ -527,6 +527,8 @@ SUBSYSTEM_DEF(treasury)
 	for(var/datum/roguestock/D in stockpile_datums)
 		if(!D.importexport_amt || D.trade_good_id)
 			continue
+		if(D.autoexport_disabled)
+			continue
 		if((autoexport_percentage * D.stockpile_limit) >= D.stockpile_amount)
 			continue
 		if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
@@ -552,6 +554,8 @@ SUBSYSTEM_DEF(treasury)
 		if(!D.trade_good_id)
 			continue
 		if(!D.automatic_price)
+			continue
+		if(D.autoexport_disabled)
 			continue
 		if(!D.importexport_amt)
 			continue
