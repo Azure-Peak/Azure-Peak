@@ -96,7 +96,6 @@
 #define TRAIT_PURITAN_ADVENTURER "Interrogator"
 #define TRAIT_HEARTFELT "Heartfelt"
 #define TRAIT_MIRROR_MAGIC "Mirror Magic"
-#define TRAIT_WITCH "They fear me, but I am useful to them."
 #define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_EXCOMMUNICATED "Excommunicated"
