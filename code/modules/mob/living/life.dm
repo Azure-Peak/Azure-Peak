@@ -60,19 +60,22 @@
 	if(!stat && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		if(has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
 			return
+		if(!getBruteLoss() && !get_wounds() && blood_volume >= BLOOD_VOLUME_NORMAL) // so we don't starve 2 death 4 no reisins
+			return
 
 		var/sun_averse = HAS_TRAIT(src, TRAIT_SUN_AVERSE) && has_stress_event(/datum/stressevent/sun_sensitivity)
 		var/moon_averse = HAS_TRAIT(src, TRAIT_MOON_AVERSE) && has_stress_event(/datum/stressevent/moon_sensitivity)
-		var/healing_multiplier = max(0.5 ** ((owner.in_combat_until > world.time) + cmode + (sun_averse || moon_averse) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
+		// Each active penalty halves regeneration, with a minimum of 15% effectiveness, square roots baybee
+		var/healing_multiplier = max(0.5 ** ((in_combat_until > world.time) + cmode + (sun_averse || moon_averse) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
 
 		for(var/datum/wound/wound as anything in get_wounds())
 			if(wound.bleed_rate > 0)
 				var/bleed_heal = max(wound.bleed_rate * 0.2, 0.1) * healing_multiplier
-				wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0.05))
+				wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0.025))
 				if(wound.bleed_rate <= 0 && wound.sew_threshold)
 					wound.sew_progress = wound.sew_threshold
 					wound.sew_wound()
-
+		// drains both, but only needs one to be filled in particular to let me regen
 		var/can_regen = FALSE
 		if(sun_averse)
 			can_regen = hydration > HYDRATION_LEVEL_DEHYDRATED
@@ -86,8 +89,8 @@
 				hydration = max(0, hydration - (NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier))
 
 		if(can_regen)
-			heal_overall_damage(1 * healing_multiplier, 0, 0)
-			blood_volume = min(blood_volume + healing_multiplier, BLOOD_VOLUME_MAXIMUM)
+			heal_overall_damage(2 * healing_multiplier, 0, 0)
+			blood_volume = min(blood_volume + (2 * healing_multiplier), BLOOD_VOLUME_MAXIMUM)
 			handle_wounds()
 			for(var/datum/wound/wound as anything in get_wounds())
 				if(!istype(wound, /datum/wound/slash/incision))
