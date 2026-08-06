@@ -131,7 +131,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PLATE //Will stop most things, but will also pop fast.
-	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL + 50 //Similar to a suit of scale mail, now doing duty as a metal coif as well.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE + ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER //Not getting penned means it soaks full damage, and that combines with heavy blunt vulnerability to make it pop surprisingly fast.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest
 	name = "bouhoi bujeog core"
@@ -145,7 +145,7 @@
 	armor = ARMOR_BRIGANDINE //Fallback once the main skin pops, you will get stabbed through this.
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER //Identical to a suit of light brig.
 
-//Ruma skin equates to a set of light brigadine over a steel scalemail + chain coif. Would normally be medium AC, but you pay for that with honorbound restrictions instead (no arming caps, coifs, or any form of metal armor). Gun-in/Seonjang also have an innate speed penalty, and the Sasu lacks Dodge Expert.
+//Ruma skin roughly equates to a set of light brigadine over a steel maille + chain coif (albiet worse vs blunt, better vs pierce). Would normally be medium AC, but you pay for that with honorbound restrictions instead (no arming caps, coifs, or any form of metal armor). Gun-in/Seonjang also have an innate speed penalty, and the Sasu lacks Dodge Expert.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
 	name = "seon-mul tattoos"
@@ -156,7 +156,7 @@
 	armor = ARMOR_LEATHER
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //A slightly-better leather armor with full-body coverage.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ANTAG //A 50% better leather armor with full-body coverage.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest
 	name = "seon-mul core"
@@ -170,7 +170,7 @@
 	body_parts_inherent = COVERAGE_TORSO
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor.
 
-//Mistwalker skin equates to 2.25 layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
+//Mistwalker skin equates to 2.5 layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
 
 
 /*
