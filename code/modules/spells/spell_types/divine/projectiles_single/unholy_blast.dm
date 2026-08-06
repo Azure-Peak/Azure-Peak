@@ -70,6 +70,10 @@
 				qdel(src)
 				return
 			if(blocked < 100)
+				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+					L.visible_message("<font color='white'>Divine power staggers [H]!</font>")
+					L.Immobilize(3 SECONDS)
+					L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 				apply_divine_damage(L)
 				var/datum/action/cooldown/spell/projectile/unholy_blast/S = source_spell
 				if(S && S.can_apply_god_bonus())
@@ -94,7 +98,7 @@
 	if(!L.mind)
 		damage_to_do += 50
 	var/mob/living/carbon/human/caster = firer
-	if(L.guard_deflect_spell("Divine Blast", TRUE, caster))
+	if(L.guard_deflect_spell("Unholy Blast", TRUE, caster))
 		return
 	if(istype(caster) && ishuman(L))
 		arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, npc_simple_damage_mult = 1, skip_animation = TRUE)
@@ -108,13 +112,21 @@
 
 	switch(caster.patron?.type)
 		if(/datum/patron/inhumen/zizo)
-			L.adjustBruteLoss(10)
+			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
+			L.ignite_mob()
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		if(/datum/patron/inhumen/graggar)
-			L.adjustBruteLoss(10)
+			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
+			L.ignite_mob()
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		if(/datum/patron/inhumen/matthios)
-			L.adjustBruteLoss(10)
+			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
+			L.ignite_mob()
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		if(/datum/patron/inhumen/baotha)
-			L.adjustBruteLoss(10)
+			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
+			L.ignite_mob()
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 
 /datum/action/cooldown/spell/projectile/unholy_blast/Grant(mob/grant_to)
 	. = ..()
