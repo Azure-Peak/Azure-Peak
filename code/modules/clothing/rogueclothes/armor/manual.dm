@@ -17,6 +17,7 @@
 	blocksound = SOFTUNDERHIT
 	armor = ARMOR_PADDED
 	unenchantable = TRUE
+	blocking_behavior = BLOCKSHIRT | BLOCKARMOR // Skins block layering real armor (armor_class > NONE); plain shirts still layer. Arbalist/berserker override below.
 
 	var/repairmsg_end = "My skin has become taut with newfound vigor!"
 	var/repairmsg_continue = "My armour mends some of its abuse.."
@@ -122,14 +123,14 @@
 	name = "bouhoi bujeog tattoos"
 	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
 	armor = ARMOR_PLATE //Great defence, while it lasts.
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE //1.17x integrity (350) vs baseline skin armor (300).
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //Our value: 200 (was PLATE_BRIGANDINE 350).
 	//Perk of being a mercenary kinda-powerclass, and dealing with the Honorbound restrictions (no metal armor, no gambesons).
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
 	name = "seon-mul tattoos"
 	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
 	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150 //1.5x integrity (450) vs baseline leather skin armor (300).
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //Our value: 300 (was LIGHT_MASTER+150).
 	//Perk of being a wretch powerclass, and dealing with the Honorbound restrictions (no metal armor, no gambesons).
 
 
@@ -222,8 +223,9 @@
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/confessor
 	name = "arbalist's skin"
 	desc = "Taut lyke the bow I draw."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //0.8x integrity (200) vs baseline padded skin armor (250).
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN //Our value: 100 (was LIGHT_BASE).
 	//Tax for being shirt slot.
+	blocking_behavior = null // Exception: may be layered under real armor (the confessor wears it with a cuirass).
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple
 	name = "enduring skin"
@@ -233,7 +235,7 @@
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
 	</br>Happiness must be fought for."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 100 //1.6x integrity (400) vs baseline padded skin armor (250).
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //Our value: 300 (was LIGHT_MASTER+100).
 	//Perk of being a psy-templar powerclass.
 
 
@@ -305,7 +307,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/emote/prayer/monk
 	name = "tough skin"
 	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //0.8x integrity (200) vs baseline padded skin armor (250).
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //Our value: 200 (was LIGHT_BASE).
 	//Tax for being an advent with utility miracles.
 
 /*
@@ -381,7 +383,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/bailiff
 	name = "scar-marred skin"
 	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //1.2x integrity (300) vs baseline padded skin armor (250).
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //Our value: 200 (was LIGHT_MASTER).
 	//Perk of being a MAA kinda-powerclass. Basically just a heavy gambeson.
 
 //LEATHER
@@ -398,9 +400,9 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/leather/berzerker
 	name = "unstoppable skin"
 	desc = "I've endured enough. The onslaught has lost its meaning."
-	blocking_behavior = SAMEWEAR
+	blocking_behavior = BLOCKSHIRT | BLOCKARMOR | SAMEWEAR // Unlayerable with outside armor, but pairs with the unstoppable chest.
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150 //1.5x integrity (450) vs baseline leather skin armor (300).
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //Our value: 300 (was LIGHT_MASTER+150).
 	//Perk of being a wretch powerclass.
 
 //MAILLE
@@ -408,7 +410,7 @@
 	name = "resting skin armor"
 	desc = "This should not spawn naturally. If you see this ingame, something went wrong."
 	armor = ARMOR_MAILLE
-	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //Our value: 160 (was LIGHT_IRON 150).
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/maille/berzerkerchest
 	name = "unstoppable chest"
@@ -417,6 +419,6 @@
 	armor = ARMOR_MAILLE
 	resistance_flags = FLAMMABLE
 	blocksound = SOFTHIT
-	blocking_behavior = SAMEWEAR
+	blocking_behavior = BLOCKSHIRT | BLOCKARMOR | SAMEWEAR // Unlayerable with outside armor, but pairs with the unstoppable skin.
 	body_parts_covered = COVERAGE_VEST
 	body_parts_inherent = COVERAGE_VEST

@@ -1,10 +1,10 @@
-// Heretic Spellfist - Wretch spellfist 
+// Heretic Spellfist - Wretch spellfist
 // You get T1 as a toolkit for self sustain. NOT A WRESTLING CLASS
 /datum/advclass/wretch/heretic_spellfist
 	name = "Heretic Spellfist"
 	tutorial = "You are a Heretic Spellfist, a battlemage that combines arcyne magyck with martial prowess to enhance yourself in unarmed combat. Your art descends from the Pontifexes of Naledi, warrior-monks who first learned to channel arcyne power through their fists — though the technique has since spread to radical Psydonite sects and Lingyuese monasteries alike. In your journey to power, you have managed to gain the blessing of a divine patron, granting you access to miracles to further augment your abilities. Come what may. With Faith, Fists and Magyck, all will be overcome."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellfist
 	maximum_possible_slots = 2
 	class_select_category = CLASS_CAT_BATTLEMAGE
@@ -19,6 +19,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT, // Bare-handed abilities no weapon and read AA. Match unarmed.
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,

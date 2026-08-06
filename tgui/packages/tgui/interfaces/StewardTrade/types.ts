@@ -90,6 +90,7 @@ export type MarketRegionOption = {
   unit_price: number;
   capacity_today: number;
   capacity_total: number;
+  batch_capacity: number;
   is_blockaded: BooleanLike;
 };
 
@@ -110,6 +111,7 @@ export type MarketRow = {
   automatic_limit: BooleanLike;
   accepting: BooleanLike;
   withdraw_disabled: BooleanLike;
+  autoexport_disabled: BooleanLike;
   margin_per_unit: number;
   arbitrage_potential: number;
 };
@@ -168,7 +170,9 @@ export type TradeQuote = {
   quantity: number;
   max_units: number;
   daily_pace: number;
+  batch_capacity: number;
   capacity_today: number;
+  capacity_total: number;
   base_unit_price: number;
   base_subtotal: number;
   escalation_subtotal: number;
@@ -237,6 +241,8 @@ export type Data = StaticData & {
   trade_quote: TradeQuote | null;
   total_arbitrage_potential: number;
   autoexport_percentage: number;
+  autoexport_barred: number;
+  shortage_goods_open: number;
   petition_categories: PetitionCategory[];
   petition_tax_pct: number;
   petitions_per_day: number;
@@ -256,4 +262,5 @@ export type TabKey =
   | 'auto_import'
   | 'petition'
   | 'ledger'
-  | 'royal_custom';
+  | 'royal_custom'
+  | 'advanced';

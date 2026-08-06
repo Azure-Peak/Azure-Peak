@@ -527,6 +527,13 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_HFT_KNIGHT "CAT_HFT_KNIGHT"  // Heartfelt Knight Class - Handles Heartfelt Knight class selector.
 #define CTAG_HFT_RETINUE "CAT_HFT_RETINUE"  // Heartfelt Retinue Class - Handles Heartfelt Retinue class selector.
 
+// Pentarchy wave archetype tags; between them they cover every mercenary subclass exactly once.
+#define CTAG_MERCPARTY_VANGUARD "CAT_MERCPARTY_VANGUARD"  // line soldiers
+#define CTAG_MERCPARTY_BULWARK "CAT_MERCPARTY_BULWARK"  // bruisers / tanks
+#define CTAG_MERCPARTY_MARKSMAN "CAT_MERCPARTY_MARKSMAN"  // ranged skirmishers
+#define CTAG_MERCPARTY_BRAVO "CAT_MERCPARTY_BRAVO"  // duelists / hunters
+#define CTAG_MERCPARTY_WARMAGE "CAT_MERCPARTY_WARMAGE"  // battle casters
+
 // List of mono-class categories. Only here for standardisation sake, but can be added on if desired.
 #define CTAG_BISHOP			"CAT_BISHOP"
 #define CTAG_MARTYR			"CAT_MARTYR"

@@ -34,6 +34,7 @@
 	job_subclasses = list(
 		/datum/advclass/absolver
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/absolver
 	name = "Absolver"
@@ -48,7 +49,7 @@
 		STATKEY_SPD = -2 //A fairly unorthodox statspread, but one that's compensated by the Absolver's shtick of (mostly) forced pacifism and healing-through-damage-transferance.
 	)
 	subclass_skills = list(
-		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT, // Healing skills. Lesser than the Priest, but still commendable. 
+		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT, // Healing skills. Lesser than the Priest, but still commendable.
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,

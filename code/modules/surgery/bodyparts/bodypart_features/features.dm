@@ -23,12 +23,16 @@
 	add_gradient_overlay(standing, natural_gradient, natural_color)
 	add_gradient_overlay(standing, hair_dye_gradient, hair_dye_color)
 
-/// Checks obscured flags to dictate layering.
+/// Check for obscure flags.
 /datum/bodypart_feature/hair/proc/custom_pixels_covered(obj/item/bodypart/bodypart)
 	var/mob/living/carbon/human/human = bodypart?.owner
 	if(!istype(human))
 		return FALSE
-	return !!(human.obscured_flags & HAIR_OCCLUDING_FLAGS)
+	if(human.head && (human.head.body_parts_covered & HEAD))
+		return TRUE
+	if(human.wear_mask && (human.wear_mask.body_parts_covered & HEAD))
+		return TRUE
+	return FALSE
 
 /datum/bodypart_feature/hair/extra_bodypart_overlays(obj/item/bodypart/bodypart)
 	var/icon/custom_icon = get_custom_overlay_icon()
@@ -37,8 +41,13 @@
 	var/pixel_layer = custom_pixels_covered(bodypart) ? CUSTOM_HAIR_COVERED_LAYER : CUSTOM_HAIR_LAYER
 	return list(mutable_appearance(custom_icon, layer = -pixel_layer))
 
-/datum/bodypart_feature/hair/get_cache_key()
-	return "[accessory_type]-[accessory_colors]-[natural_gradient]-[natural_color]-[hair_dye_gradient]-[hair_dye_color]-[get_custom_mask_hash()]"
+/// Derives cache from bodyparts_covered.
+/datum/bodypart_feature/hair/get_cache_key(obj/item/bodypart/bodypart)
+	. = "[accessory_type]-[accessory_colors]-[natural_gradient]-[natural_color]-[hair_dye_gradient]-[hair_dye_color]"
+	var/mask_hash = get_custom_mask_hash()
+	if(!mask_hash)
+		return .
+	return "[.]-[mask_hash]-[custom_pixels_covered(bodypart)]"
 
 /// Drops the cached mask derivatives when they no longer describe the current mask data.
 /datum/bodypart_feature/hair/proc/validate_custom_cache()

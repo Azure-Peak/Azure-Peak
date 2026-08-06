@@ -40,7 +40,7 @@
 		appearances += extra_appearances
 	return appearances
 
-/datum/bodypart_feature/proc/get_cache_key()
+/datum/bodypart_feature/proc/get_cache_key(obj/item/bodypart/bodypart)
 	return "[accessory_type]-[accessory_colors]"
 
 /// Sets an accessory type and optionally colors too.

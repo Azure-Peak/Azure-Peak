@@ -76,6 +76,12 @@ export const TabBar = (props: {
       >
         Royal Custom
       </div>
+      <div
+        style={tabStyle(tab === 'advanced')}
+        onClick={() => onSwitch('advanced')}
+      >
+        Advanced
+      </div>
     </div>
   );
 };

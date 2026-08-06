@@ -278,7 +278,7 @@
 
 	var/setparrytime = 12
 	var/dodgetime = 0
-	var/max_dodge = MAX_DODGE_CEIL
+	var/max_dodge = MAX_DODGE_START
 	var/parrydelay = 12
 	var/magearmor = 0
 

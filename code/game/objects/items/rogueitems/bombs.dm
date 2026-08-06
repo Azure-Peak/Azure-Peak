@@ -82,7 +82,7 @@
 		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
 			continue
 		target.mob_timers[MT_BOMB_HIT] = world.time
-		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, flat_integ = TRUE)
+		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
 		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
 		apply_scorch_stack(target, 3)
 	if(spawn_shard)

@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Blockade now scales threat and rewards up to the sixth instead of the fifth person."

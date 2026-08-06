@@ -442,13 +442,13 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 		if(busy)
 			to_chat(user, span_warning("I am already attempting to bind this familiar! I must have patience..."))
 			return
-		var/mob/living/simple_animal/pet/familiar/S = summoned_mob
+		var/mob/living/carbon/human/species/familiar/S = summoned_mob
 		if(!S || QDELETED(S))
 			to_chat(user, span_warning("The containment has already faded."))
 			summoned_mob = null
 			return
 		var/plane = S.planar_origin
-		for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
+		for(var/mob/living/carbon/human/species/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
 			if(existing_fam.familiar_summoner == user)
 				to_chat(user, span_warning("You can only bind one familiar at once!"))
 				return FALSE
@@ -509,26 +509,12 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 			qdel(S)
 			summoned_mob = null
 			var/to_summon = prefs.familiar_species[plane]
-			var/mob/living/simple_animal/pet/familiar/fam = new to_summon(loc)
+			var/mob/living/carbon/human/species/familiar/fam = new to_summon(loc)
 			fam.familiar_summoner = user
 			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
 			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
-			switch(prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM) // why is our gender handling so bad for simples
-				if(SHE_HER)
-					fam.gender=FEMALE
-				if(HE_HIM)
-					fam.gender=MALE
-				if(THEY_THEM)
-					fam.gender=PLURAL
-				if(IT_ITS)
-					fam.gender=NEUTER
-				else
-					fam.gender=NEUTER
-			// needs 2 be done here because we trans the gender mid-ritual
-			if(fam.gender == MALE)
-				fam.voice_pack = GLOB.voice_packs[/datum/voicepack/male]
-			else
-				fam.voice_pack = GLOB.voice_packs[/datum/voicepack/female]
+			fam.voice_color = prefs.familiar_voice_colors[plane]
+			fam.gender = FEMALE // allows them to wear clothing, needed because of legacy code. i hate - whatever
 			src.visible_message(span_notice("[fam.summoning_emote]"))
 
 			if(isnewplayer(chosen))
@@ -557,21 +543,18 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 						var/obj/effect/proc_holder/spell/spell_instance = new spell_path
 						if(spell_instance)
 							mind_datum.AddSpell(spell_instance)
-			fam.can_have_ai = FALSE
-			fam.AIStatus = AI_OFF
-			fam.stop_automated_movement = TRUE
-			fam.stop_automated_movement_when_pulled = TRUE
-			fam.wander = FALSE
 			fam.cmode = FALSE
-
+			fam.mind.i_know_person(user)
+			user.mind.i_know_person(fam)
+			fam.STASPD = min(user.STASPD + (fam.planar_origin=="fae" ? 3 : 0), 20) // so they can always keep up with their summoner
 			var/faction_to_add = "[user.mind.current.real_name]_faction"
 			fam.faction |= faction_to_add
 			var/tutorial = null
-			if(istype(fam,/mob/living/simple_animal/pet/familiar/fae))
+			if(istype(fam,/mob/living/carbon/human/species/familiar/fae))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The faewyld is a primal place, and those that grow beyond their station are often pruned... for those of little power like yourself, the mortal realm is a safer place to grow. Serve your summoner, learn from this realm, and return stronger."
-			else if(istype(fam,/mob/living/simple_animal/pet/familiar/infernal))
+			else if(istype(fam,/mob/living/carbon/human/species/familiar/infernal))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The hells are a brutal place, and those with ambition beyond their ability are often culled... for those of little power like yourself, the mortal realm is a safer place to refuel. Serve your summoner, learn from this realm, and return stronger."
-			else if(istype(fam,/mob/living/simple_animal/pet/familiar/elemental))
+			else if(istype(fam,/mob/living/carbon/human/species/familiar/elemental))
 				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The depths are an unchanging place, and pebbles that stick up are eroded down... for those of little power like yourself, the mortal realm is a safer place to accumulate. Serve your summoner, learn from this realm, and return stronger."
 			else
 				tutorial = "You are a Void Drakeling: a being entirely new to this world, and all others. A fragment of draconic power torn from elsewhere, if you are ever to become as strong as what you were once part of, you must sate this hunger. Serve your creator, and be voracious; planar beings shall be the fuel for your ascension."
@@ -600,7 +583,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 	. = ..()
 	if(summoned_mob && (input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as anything in list("Yes","No") | null)=="Yes")
 		busy = FALSE
-		if(istype(summoned_mob,/mob/living/simple_animal/pet/familiar/void))
+		if(istype(summoned_mob,/mob/living/carbon/human/species/familiar/void))
 			var/list/refund_costs = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
 			for(var/index in refund_costs)
 				for(var/i in 1 to refund_costs[index])

@@ -5,6 +5,7 @@
 	var/alist/familiar_species
 	var/alist/familiar_flavortexts
 	var/alist/familiar_pronouns
+	var/alist/familiar_voice_colors
 	var/list/familiar_flavortext
 	var/list/familiar_flavortext_display
 	var/list/familiar_headshot_link
@@ -12,16 +13,17 @@
 	var/list/familiar_ooc_notes_display
 	var/list/familiar_ooc_extra
 	var/list/familiar_ooc_extra_link
+	var/cur_plane
 
 /datum/familiar_prefs/New(datum/preferences/passed_prefs)
 	. = ..()
 	prefs = passed_prefs
 	familiar_names = alist()
 	familiar_species = alist(
-		"fae" = /mob/living/simple_animal/pet/familiar/fae,
-		"infernal" = /mob/living/simple_animal/pet/familiar/infernal,
-		"elemental" = /mob/living/simple_animal/pet/familiar/elemental,
-		"void" = /mob/living/simple_animal/pet/familiar/void
+		"fae" = /mob/living/carbon/human/species/familiar/fae,
+		"infernal" = /mob/living/carbon/human/species/familiar/infernal,
+		"elemental" = /mob/living/carbon/human/species/familiar/elemental,
+		"void" = /mob/living/carbon/human/species/familiar/void
 	)
 	familiar_flavortexts = alist()
 	familiar_pronouns = alist(
@@ -30,6 +32,12 @@
 		"elemental" = THEY_THEM,
 		"void" = THEY_THEM
 	)
+	familiar_voice_colors = alist(
+		"fae" = "#a0a0a0",
+		"infernal" = "#a0a0a0",
+		"elemental" = "#a0a0a0",
+		"void" = "#a0a0a0"
+	)
 	familiar_flavortext = list()
 	familiar_flavortext_display = list()
 	familiar_headshot_link = list()
@@ -37,13 +45,23 @@
 	familiar_ooc_notes_display = list()
 	familiar_ooc_extra = list()
 	familiar_ooc_extra_link = list()
+	cur_plane = "fae"
 
 /datum/familiar_prefs/proc/fam_show_ui()
+	if(!cur_plane)
+		cur_plane = "fae"
 	var/client/client = prefs?.parent
 	if (!client)
 		return
 	if(!familiar_names) // this is an old prefs object; re-instantiate it so the new fields aren't null
 		src.New(prefs)
+	if(!familiar_voice_colors) // pre-carbonization prefs object, we don't need to wipe prefs but do add voice colors
+		familiar_voice_colors = alist(
+		"fae" = "#a0a0a0",
+		"infernal" = "#a0a0a0",
+		"elemental" = "#a0a0a0",
+		"void" = "#a0a0a0"
+	)
 	var/list/dat = list()
 	var/list/pronoun_display = list(
 		HE_HIM = "he/him",
@@ -59,30 +77,31 @@
 		"elemental" = "Elemental",
 		"void" = "Void"
 	)
-	for(var/planar_origin in list("fae","infernal","elemental","void"))
-		var/list/planar_list = GLOB.planar_lists[planar_origin]
-		dat += "<br><div align='center'><font size=4 color='#bbbbbb'>[pretty_plane_names[planar_origin]] Preferences</font></div>"
-		dat += "<br><b>Familiar Name:</b> <a href='?_src_=familiar_prefs;preference=familiar_names;task=input;planar_origin=[planar_origin]'>[(src.familiar_names[planar_origin] ? src.familiar_names[planar_origin] : "")] (Set name)</a>"
-		var/selected_pronoun = (src.familiar_pronouns[planar_origin] ? (pronoun_display[src.familiar_pronouns[planar_origin]] ? pronoun_display[src.familiar_pronouns[planar_origin]] : "they/them") : "they/them")
-		dat += "<br><b>Pronouns:</b> <a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=select;planar_origin=[planar_origin]'>[selected_pronoun]</a>"
+	var/list/planar_list = GLOB.planar_lists[cur_plane]
+	dat += "<br><div align='center'><font size=4 color='#bbbbbb'>[pretty_plane_names[cur_plane]] Preferences</font></div>"
+	dat += "<br><b>Familiar Name:</b> <a href='?_src_=familiar_prefs;preference=familiar_names;task=input;planar_origin=[cur_plane]'>[(src.familiar_names[cur_plane] ? src.familiar_names[cur_plane] : "")] (Set name)</a>"
+	var/selected_pronoun = (src.familiar_pronouns[cur_plane] ? (pronoun_display[src.familiar_pronouns[cur_plane]] ? pronoun_display[src.familiar_pronouns[cur_plane]] : "they/them") : "they/them")
+	dat += "<br><b>Pronouns:</b> <a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=select;planar_origin=[cur_plane]'>[selected_pronoun]</a>"
+	dat += "<br><b>Voice Color:</b> <a href='?_src_=familiar_prefs;preference=voice;task=select;planar_origin=[cur_plane]'><font color='[familiar_voice_colors[cur_plane]]'>Change</font></a>"
 
-		var/display_name = "None selected"
-		// void drakelings only have one type, so displaying this selection would be moot
-		if(planar_list && planar_list.len > 1)
-			for (var/name in planar_list)
-				if (planar_list[name] == familiar_species[planar_origin])
-					display_name = name
-					break
-			dat += "<br><b>Selected Familiar Type:</b> <a href='?_src_=familiar_prefs;preference=familiar_species;task=select;planar_origin=[planar_origin]'>[display_name]</a>"
+	var/display_name = "None selected"
+	// void drakelings only have one type, so displaying this selection would be moot
+	if(planar_list && planar_list.len > 1)
+		for (var/name in planar_list)
+			if (planar_list[name] == familiar_species[cur_plane])
+				display_name = name
+				break
+		dat += "<br><b>Selected Familiar Type:</b> <a href='?_src_=familiar_prefs;preference=familiar_species;task=select;planar_origin=[cur_plane]'>[display_name]</a>"
 
-		// however, we *do* want to display their lore blurb
-		if (familiar_species[planar_origin])
-			var/lore_blurb = GLOB.familiar_lore_blurbs[familiar_species[planar_origin]]
-			if (lore_blurb)
-				dat += "<br><i><b>Lore inspiration:</b> [lore_blurb]</i>"
-		dat += "<br><b>Examine settings:</b> <a href='?_src_=familiar_prefs;preference=familiar_examine;task=select;planar_origin=[planar_origin]'>Open</a>"
+	// however, we *do* want to display their lore blurb
+	if (familiar_species[cur_plane])
+		var/lore_blurb = GLOB.familiar_lore_blurbs[familiar_species[cur_plane]]
+		if (lore_blurb)
+			dat += "<br><i><b>Lore inspiration:</b> [lore_blurb]</i>"
+	dat += "<br><b>Examine settings:</b> <a href='?_src_=familiar_prefs;preference=familiar_examine;task=select;planar_origin=[cur_plane]'>Open</a>"
+	dat += "<br><a href='?_src_=familiar_prefs;preference=plane;planar_origin=[cur_plane];dir=prev'>Prev</a>\t<a href='?_src_=familiar_prefs;preference=plane;planar_origin=[cur_plane];dir=next'>Next</a>"
 	dat += "<br><br><i>Press this button to send a hint to all arcyne users that you are available and wish to be summoned:</i> <a href='?_src_=familiar_prefs;preference=pulse'>Pulse</a>"
-	var/datum/browser/popup = new(client?.mob, "Familiar Preferences", "<center>Familiar Preferences</center>", 900, 900)
+	var/datum/browser/popup = new(client?.mob, "Familiar Preferences", "<center>Familiar Preferences</center>", 900, 450)
 	popup.set_window_options("can_close=1")
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
@@ -95,6 +114,15 @@
 	var/planar_origin = href_list["planar_origin"]
 
 	switch(href_list["preference"])
+		if("plane")
+			var/idx
+			if(href_list["dir"]=="next")
+				idx = (GLOB.planar_lists.Find(planar_origin) % length(GLOB.planar_lists)) + 1 // i. i hate this. i fucking hate 1-indexing what is this shit
+			else
+				idx = GLOB.planar_lists.Find(planar_origin) - 1
+				if(idx == 0)
+					idx = length(GLOB.planar_lists)
+			cur_plane = GLOB.planar_lists[idx]
 		if("familiar_names")
 			var/new_name = input(user, "Choose your Familiar character's name:", "Identity") as text|null
 			if(new_name)
@@ -234,15 +262,58 @@
 			setup_examine_window(user,planar_origin)
 			return
 
+		if("voice")
+			var/voice_color = familiar_voice_colors[planar_origin]
+			var/new_voice = input(user, "Choose your character's voice color:", "Character Preference","#"+voice_color) as color|null
+			if(new_voice)
+				if(color_hex2num(new_voice) < 230)
+					to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
+					return
+				voice_color = sanitize_hexcolor(new_voice)
+				familiar_voice_colors[planar_origin] = voice_color
+
 		if("pulse")
 			if(user.ckey in GLOB.familiar_advertised)
 				to_chat(user, span_info("You have already advertised your presence recently; have patience."))
 				return
+			var/counts = list(0,0,0,0)
+			var/list/candidates = list()
+			for(var/mob/dead/observer/G in GLOB.player_list)
+				if(isscryeye(G))
+					continue
+				candidates += G
+
+			for(var/mob/living/carbon/spirit/bigchungus in GLOB.player_list)
+				candidates += bigchungus
+
+			for(var/mob/dead/new_player/lobby_nerd in GLOB.player_list)
+				candidates += lobby_nerd
+
+			for(var/mob/candidate in candidates)
+				var/client/client_ref = candidate.client
+				if(!istype(client_ref))
+					continue
+				if(GLOB.character_ckey_list.Find(candidate.ckey))
+					continue // if they're actually in round, don't count them, since they can't be summoned
+				if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
+					var/datum/familiar_prefs/prefs = client_ref.prefs.familiar_prefs
+					if(!prefs.familiar_names)
+						prefs.New(client_ref.prefs)
+						continue
+					if(prefs.familiar_names["fae"])
+						counts[1]++
+					if(prefs.familiar_names["infernal"])
+						counts[2]++
+					if(prefs.familiar_names["elemental"])
+						counts[3]++
+					if(prefs.familiar_names["void"])
+						counts[4]++
+			var/message = "The leylines pulse beneath your feet... a new familiar strains against the veil, seeking to be summoned! (You can summon most familiars at no cost by drawing a binding rune; it doesn't need to be near a leyline. There are currently [counts[1]] fae spirits, [counts[1]] infernal spirits, [counts[3]] elemental spirits, and [counts[4]] void spirits waiting to be summoned.)"
 			for(var/mob/living/carbon/human/advertisee in GLOB.alive_mob_list)
 				if(!advertisee.client)
 					continue
 				if(HAS_TRAIT(advertisee, TRAIT_ARCYNE))
-					to_chat(advertisee, span_info("The leylines pulse beneath your feet... a new familiar strains against the veil, seeking to be summoned! (You can summon most familiars at no cost by drawing a binding rune; it doesn't need to be near a leyline.)"))
+					to_chat(advertisee, span_info(message))
 			to_chat(user, span_notice("All alive arcyne users have been notified; you may send out another pulse in 10 minutes."))
 			GLOB.familiar_advertised += user.ckey
 			addtimer(CALLBACK(src, PROC_REF(remove_ckey), user.ckey), 10 MINUTES)

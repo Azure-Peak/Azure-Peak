@@ -31,6 +31,7 @@
 	job_subclasses = list(
 		/datum/advclass/courtmage
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/courtmage
 	name = "Court Magician"

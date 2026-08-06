@@ -1,5 +1,18 @@
 //intent datums ฅ^•ﻌ•^ฅ
 
+/proc/bow_draw_sound(chargetime)
+	switch(chargetime)
+		if(0 to 6)
+			return 'sound/combat/Ranged/bow-draw-01-4ds.ogg'
+		if(6 to 10)
+			return 'sound/combat/Ranged/bow-draw-01-8ds.ogg'
+		if(10 to 14)
+			return 'sound/combat/Ranged/bow-draw-01-12ds.ogg'
+		if(14 to 19)
+			return 'sound/combat/Ranged/bow-draw-01.ogg'
+		else
+			return 'sound/combat/Ranged/bow-draw-01-22ds.ogg'
+
 /datum/intent/shoot/bow
 	chargetime = 1 //used for edge cases only, /datum/intent/shoot/bow/get_chargetime handles the actual number
 	chargedrain = 2
@@ -17,7 +30,7 @@
 /datum/intent/shoot/bow/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/Ranged/bow-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/shoot/bow/get_chargetime() //this handles how long it takes for us to fully aim our bow. damage is handled below in /obj/item/gun/ballistic/revolver/grenadelauncher/bow/process_fire
 	if(mastermob && chargetime)
@@ -59,7 +72,7 @@
 /datum/intent/arc/bow/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
-		playsound(mastermob, pick('sound/combat/Ranged/bow-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/arc/bow/get_chargetime() //same calc as above, but with a higher absolute floor for how fast you can shoot
 	if(mastermob && chargetime)

@@ -1,0 +1,6 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Reduce integrity range of light armour."
+  - balance: "most skin armour is now manual instead of regenerating."
+  - balance: "most skin armour is mutually exclusive to other armour in shirt/armour slot."
