@@ -573,7 +573,7 @@
 				pants = /obj/item/clothing/under/roguetown/trou/leather
 				gloves = /obj/item/clothing/gloves/roguetown/angle
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-		var/weapon = list("Spear","Shortsword & Shield","Arming Sword","Mace & Shield","Axe & Shield","Flail & Shield","Messer & Shield","Bow & Quiver","Crossbow & Quiver","Staker Launcher & Quiver")
+		var/weapon = list("Spear","Shortsword & Shield","Arming Sword","Mace & Shield","Axe & Shield","Flail & Shield","Messer & Shield","Bow & Quiver","Crossbow & Quiver","Sling & Iron Balls")
 		var/weapon_choice = input(H, "Choose your weapon.", "PICK IT UP!") as anything in weapon
 		switch(weapon_choice)
 			if("Spear")
