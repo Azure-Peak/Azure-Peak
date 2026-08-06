@@ -1708,7 +1708,6 @@
 	icon_state = "gold_shell"
 	desc = "A luxurious golden amulet encrusted with a polished piece of clam shell, donnable both on neck and wrist."
 
-
 /obj/item/clothing/neck/roguetown/carved/goldonyxa
 	name = "golden onyxa amulet"
 	icon_state = "gold_onyxa"
