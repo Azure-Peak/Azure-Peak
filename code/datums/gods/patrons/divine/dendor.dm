@@ -10,10 +10,8 @@
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/dendor/howl					= CLERIC_T1,
-					//datum/action/cooldown/spell/dendor/sprout 				= CLERIC_T2,
-					/datum/action/cooldown/spell/conjure_summon/dendor_wolf		= CLERIC_T2,
-					/datum/action/cooldown/spell/minion_order/conjurer			= CLERIC_T2,
-					/datum/action/cooldown/spell/conjure_dismiss				= CLERIC_T2,
+					/datum/action/cooldown/spell/dendor/pounce 					= CLERIC_T2,
+					/datum/action/cooldown/spell/dendor/sprout 					= CLERIC_T2,
 					/*datum/action/cooldown/spell/dendor/shape					= CLERIC_T3,
 					/datum/action/cooldown/spell/dendor/cocoon					= CLERIC_T3,
 					/datum/action/cooldown/spell/dendor/feral_impulse			= CLERIC_T4,*/

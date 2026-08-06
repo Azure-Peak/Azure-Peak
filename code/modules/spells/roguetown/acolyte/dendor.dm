@@ -151,7 +151,8 @@
 
 /datum/action/cooldown/spell/dendor/howl
 	name = "Primal Howl"
-	desc = "Unleash a howl, scaring lesser creechers away from you and ."
+	desc = "Unleash a primal howl, striking fear into nearby creechers."
+	button_icon_state = "wyldhowl"
 	sound = 'sound/magic/dendor_howl.ogg'
 
 	click_to_activate = FALSE
@@ -162,14 +163,14 @@
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("I got that dog in me!")
+	invocations = list("Face your fears!")
 
-	charge_required = FALSE
-	cooldown_time = 5 MINUTES
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = 1
+	cooldown_time = 3 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-	var/scareable_factions = list("saiga", "chickens", "cows", "goats", "wolfs", "spiders", "rats", "fae", "trolls")
 
 /datum/action/cooldown/spell/dendor/howl/cast(atom/cast_on)
 	. = ..()
@@ -178,31 +179,212 @@
 		return FALSE
 
 	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
-		if(istype(target.patron, /datum/patron/inhumen))
-			target.apply_status_effect(/datum/status_effect/debuff/call_to_arms)	//Debuffs inhumen worshipers.
+		if(!target.mind)
+			target.apply_status_effect(/datum/status_effect/debuff/wyldhowl/mindless)
 			continue
-		if(istype(target.patron, /datum/patron/old_god))
-			to_chat(target, span_danger("You feel a hot-wave wash over you, leaving as quickly as it came.."))	//No effect on Psydonians!
+		if(!istype(target.patron, /datum/patron/divine))
+			target.apply_status_effect(/datum/status_effect/debuff/wyldhowl)
 			continue
 		if(!owner.faction_check_mob(target))
 			continue
 		if(target.mob_biotypes & MOB_UNDEAD)
 			continue
-		target.apply_status_effect(/datum/status_effect/buff/call_to_arms)
 	return TRUE
 
-	var/scared = FALSE
-	for(var/mob/living/simple_animal/hostile/retaliate/animal in get_hearers_in_view(7, usr))
-		if(faction_check(animal.faction, scareable_factions))
-			animal.aggressive = FALSE
-			if(animal.ai_controller)
-				animal.ai_controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
-				animal.ai_controller.clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
-				animal.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEEING, TRUE)
-				animal.ai_controller.set_blackboard_key(BB_BASIC_MOB_NEXT_FLEEING, world.time + 10 SECONDS)
-			user.emote("warcry")
-			to_chat(usr, "with the yell, the [animal] flees from you.")
-	return scared
+/datum/status_effect/debuff/wyldhowl
+	id = "wyldhowl"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/wyldhowl
+	effectedstats = list(STATKEY_SPD = -2)
+	duration = 1 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/wyldhowl
+	name = "Dendor's Wyldhowl"
+	desc = "Primal fear strikes my heart.."
+	icon_state = "wyldhowl"
+
+/datum/status_effect/debuff/wyldhowl/mindless
+	id = "wyldhowl_mindless"
+
+/datum/status_effect/debuff/wyldhowl/mindless/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+
+/datum/status_effect/debuff/wyldhowl/mindless/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+
+/////////////////
+// T2 - Pounce //
+/////////////////
+
+/datum/action/cooldown/spell/dendor/pounce
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
+	name = "Pounce"
+	desc = "Infuse mana into your legs, dashing forward four paces - \
+		ramming everyone in your path to the sides for no damage."
+	button_icon_state = "pounce"
+	sound = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SB_MOBILITY
+
+	invocations = list()
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/charge_steps = 4
+	var/step_delay = 2
+
+/datum/action/cooldown/spell/dendor/pounce/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/facing = H.dir
+	var/turf/start = get_turf(H)
+	var/turf/first_step = get_step(start, facing)
+	if(!first_step || first_step.density)
+		to_chat(H, span_warning("There's no room to charge!"))
+		return FALSE
+
+	if(H.buckled)
+		H.buckled.unbuckle_mob(H, TRUE)
+
+	H.say("Disperse!", forced = "spell", language = /datum/language/common)
+	H.visible_message(
+		span_warning("[H] barrels forward!"),
+		span_notice("I charge!"))
+	playsound(start, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 60, TRUE)
+
+	// Compute perpendicular directions for side-shoving
+	var/list/perp_dirs = get_perpendicular_dirs(facing)
+	var/shove_toggle = 0
+
+	var/steps_taken = 0
+	for(var/i in 1 to charge_steps)
+		if(H.stat != CONSCIOUS || H.IsParalyzed() || H.IsStun() || QDELETED(H))
+			break
+		var/turf/next = get_step(get_turf(H), facing)
+		if(!next || next.density)
+			break
+
+		var/blocked = FALSE
+		for(var/obj/structure/S in next.contents)
+			if(S.density)
+				blocked = TRUE
+				break
+		if(blocked)
+			break
+
+		// Shove mobs on the next tile to the sides before stepping in
+		for(var/mob/living/victim in next)
+			if(victim == H || victim.stat == DEAD)
+				continue
+			var/shove_dir = perp_dirs[(shove_toggle % 2) + 1]
+			shove_toggle++
+			var/turf/shove_dest = get_step(get_turf(victim), shove_dir)
+			if(shove_dest && !shove_dest.density)
+				victim.safe_throw_at(shove_dest, 1, 1, H, force = MOVE_FORCE_STRONG)
+				victim.visible_message(span_warning("[victim] is shoved aside by [H]'s charge!"))
+
+		step(H, facing)
+		steps_taken++
+		new /obj/effect/temp_visual/kinetic_blast(get_turf(H))
+
+		if(i < charge_steps)
+			sleep(step_delay)
+
+	if(steps_taken == 0)
+		to_chat(H, span_warning("My charge is blocked!"))
+		return FALSE
+
+	log_combat(H, null, "used Charge!")
+	return TRUE
+
+/datum/action/cooldown/spell/dendor/pounce/proc/get_perpendicular_dirs(dir)
+	switch(dir)
+		if(NORTH, SOUTH)
+			return list(WEST, EAST)
+		if(EAST, WEST)
+			return list(NORTH, SOUTH)
+		if(NORTHEAST)
+			return list(NORTHWEST, SOUTHEAST)
+		if(NORTHWEST)
+			return list(NORTHEAST, SOUTHWEST)
+		if(SOUTHEAST)
+			return list(NORTHEAST, SOUTHWEST)
+		if(SOUTHWEST)
+			return list(NORTHWEST, SOUTHEAST)
+	return list(WEST, EAST)
+
+/////////////////
+// T2 - Sprout //
+/////////////////
+
+/datum/action/cooldown/spell/dendor/sprout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ///////////////////
 // T2 - Wyldcall //
@@ -237,70 +419,6 @@
 	P.health = P.maxHealth
 	P.melee_damage_lower = round(P.melee_damage_lower * mult)
 	P.melee_damage_upper = round(P.melee_damage_upper * mult)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /////////////////////
 // T? - Tame Beast //
