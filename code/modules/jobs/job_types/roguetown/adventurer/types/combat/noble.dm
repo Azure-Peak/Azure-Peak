@@ -516,15 +516,16 @@
 		STATKEY_PER = 1,
 		STATKEY_SPD = 1,
 	)
-	subclass_skills = list(	//Push come to shove, they can always rely on knives.
+	subclass_skills = list(	//Push come to shove, they can always rely on knives and swords.
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/crossbows, SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/slings, SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
@@ -580,12 +581,10 @@
 				r_hand = /obj/item/rogueweapon/spear
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Shortsword & Shield")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/short/iron
 				backl = /obj/item/rogueweapon/shield/tower
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Arming Sword")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/iron
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Mace & Shield")
@@ -593,7 +592,7 @@
 				r_hand = /obj/item/rogueweapon/mace
 				backl = /obj/item/rogueweapon/shield/tower
 			if("Axe & Shield")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
 				backl = /obj/item/rogueweapon/shield/tower
 			if("Flail & Shield")
@@ -601,7 +600,6 @@
 				r_hand = /obj/item/rogueweapon/flail
 				backl = /obj/item/rogueweapon/shield/tower
 			if("Messer & Shield")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/short/messer
 				backl = /obj/item/rogueweapon/shield/tower
 			if("Bow & Quiver")
@@ -612,10 +610,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				backl = /obj/item/quiver/bolt
-			if("Staker Launcher & Quiver")
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker
-				beltr = /obj/item/quiver/bolt/stake/standard
+			if("Sling & Iron Balls")
+				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+				beltr = /obj/item/quiver/sling/iron
 		var/helmets = list(
 			"Sallet" 	= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
 			"Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
