@@ -685,6 +685,8 @@
 			id = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
 		else
 			id = /obj/item/clothing/ring/bronze
+	if(isconstruct(H))
+		H.change_stat(STATKEY_SPD, 2)
 
 /datum/advclass/foreigner/lesserblackoak
 	name = "Azurian Grovewalker"
