@@ -8,7 +8,7 @@
 	subclass_languages = list(/datum/language/aavnic)//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	allowed_patrons = list(/datum/patron/old_god)
 	class_select_category = CLASS_CAT_AAVNR
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BRAVO)
 	cmode_music = 'sound/music/frei_fencer.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_INTELLECTUAL, TRAIT_LONGSWORDSMAN, TRAIT_FENCERDEXTERITY)
 	subclass_stats = list(
@@ -72,7 +72,7 @@
 	subclass_languages = list(/datum/language/aavnic)//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	allowed_patrons = list(/datum/patron/old_god)
 	class_select_category = CLASS_CAT_AAVNR
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	cmode_music = 'sound/music/frei_fencer.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_FENCERDEXTERITY, TRAIT_INTELLECTUAL)
 	subclass_stats = list(
@@ -130,7 +130,7 @@
 	subclass_languages = list(/datum/language/aavnic)//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	allowed_patrons = list(/datum/patron/old_god)
 	class_select_category = CLASS_CAT_AAVNR
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BRAVO)
 	cmode_music = 'sound/music/frei_sabre.ogg'
 	traits_applied = list(TRAIT_BADTRAINER, TRAIT_INTELLECTUAL, TRAIT_FENCERDEXTERITY, TRAIT_SABRIST)
 	subclass_stats = list(

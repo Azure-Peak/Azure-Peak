@@ -109,7 +109,7 @@
 	if (!msg)
 		return
 
-	M.adjust_triumphs(msg)
+	M.adjust_triumphs(msg, TRUE, "Adjust Triumphs (admin verb) by [usr.ckey]")
 	log_text = "by [msg], from [old_triumphs] to [old_triumphs + msg]"
 
 	log_admin("[key_name(usr)]: Modified [M.ckey]'s Triumphs [log_text]")

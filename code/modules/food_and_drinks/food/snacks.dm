@@ -219,7 +219,7 @@ All foods are distributed among various categories. Use common sense.
 			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
 		initialize_cooked_food(result, 1)
 		return result
-	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove) || istype(A,/mob/living/simple_animal/pet/familiar/infernal))
+	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove) || istype(A,/mob/living/carbon/human/species/familiar/infernal))
 		var/obj/item/result
 		if(fried_type)
 			result = new fried_type(A)
@@ -431,7 +431,7 @@ All foods are distributed among various categories. Use common sense.
 				to_chat(user, span_warning("[M] doesn't seem to have a mouth!"))
 				return
 
-		if(reagents)								//Handle ingestion of the reagent.
+		if(reagents && !istype(M, /mob/living/carbon/human/species/familiar/fae)) //Handle ingestion of the reagent.
 			if(M.satiety > -200)
 				M.satiety -= junkiness
 			playsound(M.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)

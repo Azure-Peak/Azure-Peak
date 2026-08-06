@@ -179,6 +179,46 @@
 	///
 	var/quest_claim_barred = FALSE
 
+	///Whether this class has additional preferences specific to it, like bounties for wretch. Make sure to also put handling for it in the job's /Topic! See wretch.dm for an example. Note that this is true-by-default because the default handler handles advclass selection
+	var/has_subprefs = TRUE
+
+	/// Default state of the subprefs; for most roles, this will just be the subclass selection.
+	var/list/default_subprefs = list("favorite_advclass" = null)
+
+///Returns the client's subprefs list for this job, initializing it if it does not exist. Will be null if the client or prefs are null.
+/datum/job/proc/get_roleprefs(client/C)
+	if(!C)
+		return
+	var/datum/preferences/prefs = C.prefs
+	if(!prefs)
+		return
+	if(!prefs.job_subprefs || !islist(prefs.job_subprefs))
+		prefs.job_subprefs = list()
+	if(!prefs.job_subprefs[title])
+		prefs.job_subprefs[title] = default_subprefs.Copy()
+	return prefs.job_subprefs[title]
+
+/datum/job/proc/update_subprefs_window(mob/user)
+	if(!advclass_cat_rolls)
+		return
+	var/client/C = usr.client
+	if(!C || !C.prefs)
+		return
+	var/list/roleprefs = get_roleprefs(C)
+	var/datum/advclass/favorite = roleprefs["favorite_advclass"]
+	var/favorite_name = favorite ? favorite::name : "Choose"
+	var/HTML = {"
+		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a>
+		<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
+	"}
+	// the fact that the window width/height will be different each time is the main reason this isn't all done in a parent proc on /datum/job
+	var/datum/browser/popup = new(user, "[JOB_SUBPREFS_WINDOW_ID]", "<div align='center'>[title] Preferences</div>", 500, 250)
+	popup.set_content(HTML)
+	popup.open(FALSE)
+	if(winexists(usr, "[JOB_SUBPREFS_WINDOW_ID]"))
+		winset(usr, "[JOB_SUBPREFS_WINDOW_ID]", "focus=true")
+
 /proc/is_quest_claim_barred(mob/user)
 	if(!user?.mind)
 		return FALSE
@@ -741,6 +781,37 @@
 		popup.open(FALSE)
 		if(winexists(usr, "subclassslots"))
 			winset(usr, "subclassslots", "focus=true")
+	if(href_list["subprefs"]) // display the html for the actual input box here
+		update_subprefs_window(usr)
+	if(href_list["subprefsexit"])
+		usr << browse(null, "window=[JOB_SUBPREFS_WINDOW_ID]") // close subprefs window
+	if(!advclass_cat_rolls)
+		return
+	var/client/C = usr.client
+	if(!C)
+		return
+	var/datum/preferences/prefs = C.prefs
+	if(!prefs)
+		return
+	if(!prefs.job_subprefs || !islist(prefs.job_subprefs))
+		prefs.job_subprefs = list()
+	if(!prefs.job_subprefs[title])
+		prefs.job_subprefs[title] = default_subprefs.Copy()
+	var/list/roleprefs = prefs.job_subprefs[title]
+
+	if(href_list["class"])
+		var/list/class_sel = list()
+		for(var/ctag in advclass_cat_rolls)
+			var/list/subsystem_ctag_list = SSrole_class_handler.sorted_class_categories[ctag]
+			for(var/datum/advclass/advdatum in subsystem_ctag_list)
+				class_sel[advdatum.name] = advdatum.type
+		var/input = class_sel[tgui_input_list(usr, "What path do your talents follow?", "Subclass Select", class_sel)]
+		if(input)
+			roleprefs["favorite_advclass"] = input
+		update_subprefs_window(usr)
+	if(href_list["subprefsreset"])
+		prefs.job_subprefs[title] = default_subprefs.Copy()
+		update_subprefs_window(usr)
 	. = ..()
 
 /datum/job/proc/has_limited_subclasses()

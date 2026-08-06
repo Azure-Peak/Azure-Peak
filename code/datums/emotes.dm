@@ -36,7 +36,7 @@
 	var/needs_emotion = FALSE
 
 	/// For ranged targeted emotes, range of 2 is for adjacents
-	var/targetrange = 2 
+	var/targetrange = 2
 
 	/// Whether this emote will ONLY go through a few walls on the same z-level.
 	var/is_quiet = FALSE
@@ -237,20 +237,6 @@
 					used_sound = possible_sounds
 				H.last_sound = used_sound
 				return used_sound
-		else
-			// familiars get to do emotes with their weird planar being anatomy, so that they can caw and such
-			if(istype(user, /mob/living/simple_animal/pet/familiar))
-				var/mob/living/simple_animal/pet/familiar/fam = user
-				if(!fam.voice_pack)
-					return
-				var/possible_sounds = fam.voice_pack.get_sound(key)
-				var/used_sound
-				if(islist(possible_sounds))
-					used_sound = pick(possible_sounds)
-				else
-					used_sound = possible_sounds
-				return used_sound
-			return user.get_sound(key)
 
 /mob/living/proc/get_sound(input)
 	return

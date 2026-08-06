@@ -243,7 +243,7 @@
 	// check_click_intercept passes raw params string, not a list — parse it
 	if(istext(modifiers))
 		modifiers = params2list(modifiers)
-	if(!LAZYACCESS(modifiers, MIDDLE_CLICK))
+	if(LAZYACCESS(modifiers, BUTTON_CHANGED) != MIDDLE_CLICK)
 		return FALSE
 	if(!IsAvailable(TRUE))
 		return FALSE

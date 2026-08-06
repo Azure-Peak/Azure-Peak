@@ -50,7 +50,7 @@
 	var/is_naked = FALSE
 	var/obscured = FALSE
 
-	var/mob/living/simple_animal/pet/familiar/fam = holder
+	var/mob/living/carbon/human/species/familiar/fam = holder
 	var/datum/preferences/prefs = holder.client?.prefs
 	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
 

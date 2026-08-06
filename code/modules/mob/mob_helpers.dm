@@ -73,7 +73,7 @@
 	if(check_face_subzone(zone))
 		return BODY_ZONE_HEAD
 	return zone
-		
+
 /proc/check_bind_subzone(zone_def)
 	if(!zone_def)
 		return FALSE
@@ -124,21 +124,10 @@
 /// Returns the targeting zone equivalent of a given bodypart. Kudos to you if you find a use for this.
 /proc/bodypart_to_zone(part)
 	var/obj/item/bodypart/B = part
-	switch(B::type)
-		if(/obj/item/bodypart/chest)
-			return BODY_ZONE_CHEST
-		if(/obj/item/bodypart/head)
-			return BODY_ZONE_HEAD
-		if(/obj/item/bodypart/l_arm)
-			return BODY_ZONE_L_ARM
-		if(/obj/item/bodypart/r_arm)
-			return BODY_ZONE_R_ARM
-		if(/obj/item/bodypart/l_leg)
-			return BODY_ZONE_L_LEG
-		if(/obj/item/bodypart/r_leg)
-			return BODY_ZONE_R_LEG
-		else
-			return BODY_ZONE_CHEST
+	switch(B?.body_zone)
+		if(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_TAUR)
+			return B.body_zone
+	return BODY_ZONE_CHEST
 
 /**
   * Return the zone or randomly, another valid zone
@@ -857,14 +846,16 @@
 /mob/proc/select_organ_slot(choice)
 	organ_slot_selected = choice
 
+// Must stay the exact inverse of aimheight_change()'s table. Any drift and clicking a zone
+// on the HUD then scrolling the aim wheel jumps to a different limb than the one shown.
 /mob/proc/select_zone(choice)
 	zone_selected = choice
 	switch(choice)
-		if(BODY_ZONE_PRECISE_SKULL)
-			aimheight = 19
-		if(BODY_ZONE_PRECISE_EARS)
-			aimheight = 18
 		if(BODY_ZONE_HEAD)
+			aimheight = 19
+		if(BODY_ZONE_PRECISE_SKULL)
+			aimheight = 18
+		if(BODY_ZONE_PRECISE_EARS)
 			aimheight = 17
 		if(BODY_ZONE_PRECISE_R_EYE)
 			aimheight = 16
@@ -884,17 +875,17 @@
 			aimheight = 9
 		if(BODY_ZONE_R_ARM)
 			aimheight = 8
-		if(BODY_ZONE_PRECISE_R_HAND)
-			aimheight = 7
 		if(BODY_ZONE_L_ARM)
+			aimheight = 7
+		if(BODY_ZONE_PRECISE_R_HAND)
 			aimheight = 6
 		if(BODY_ZONE_PRECISE_L_HAND)
 			aimheight = 5
 		if(BODY_ZONE_R_LEG)
 			aimheight = 4
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			aimheight = 3
 		if(BODY_ZONE_L_LEG)
+			aimheight = 3
+		if(BODY_ZONE_PRECISE_R_FOOT)
 			aimheight = 2
 		if(BODY_ZONE_PRECISE_L_FOOT)
 			aimheight = 1

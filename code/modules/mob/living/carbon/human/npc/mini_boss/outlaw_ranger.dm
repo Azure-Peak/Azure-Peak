@@ -85,10 +85,10 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	r_hand = /obj/item/rogueweapon/sword/short/iron
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 	backl = /obj/item/quiver/npc
-	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] //Aura
 	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
