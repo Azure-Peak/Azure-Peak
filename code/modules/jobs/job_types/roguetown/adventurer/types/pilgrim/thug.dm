@@ -192,7 +192,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/thug //light gambeson.
-	shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/thug/chest //gambeson. Decent chest integ, expect to get stabbed.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/thug/chest //leather armor with gambeson integ.
 	backpack_contents = list(
 				/obj/item/rogueweapon/huntingknife = 1,
 				/obj/item/recipe_book/leatherworking = 1,
