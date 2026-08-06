@@ -301,7 +301,7 @@
 	</br>Happiness must be fought for."
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest
 	name = "enduring chest"
