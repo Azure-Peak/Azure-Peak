@@ -489,7 +489,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
-	extra_context = "This subclass can pick from a wide array of bronze weapons, armor, and origins to specialize in. Bronze armor - while easily pierced - is exceptionally durable and resistant against critical hits. A total of four Disciplines are available, each providing a different trait and armoring-tier."
+	extra_context = "This subclass can pick from a wide array of bronze weapons, armor, and origins to specialize in. Bronze armor - while easily pierced - is exceptionally durable and resistant against critical hits. A total of four Disciplines are available, each providing a different trait and armoring-tier. Metal Constructs have the innate speed malus removed due to their innately durable nature."
 
 /datum/outfit/job/roguetown/adventurer/bronzeclad/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
