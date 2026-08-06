@@ -8,12 +8,14 @@
 
 /obj/item/rogueweapon/hammer/iron/uniqueDriftiron
 	name = "Driftiron"
-	desc = "A smithing hammer forged from metal quenched in the sea. The scent of salt still clings to its head, worn smooth from years spent shaping blades for raiders and marauders. Countless weapons have passed beneath its strikes, each carrying a little of the ocean's ruthlessness."
+	desc = "A smithing hammer forged from metal quenched in the sea. The scent of salt still clings to its head, worn smooth from years spent shaping blades for raiders and marauders. Countless weapons have passed beneath its strikes, each carrying a little of the ocean's ruthlessness.\
+			</br>It feels sturdier."
 	max_integrity = 400
 
 /obj/item/rogueweapon/fishspear/uniqueLyfesaver
 	name = "Lyfesaver"
-	desc = "A well-worn, two-pronged fishing spear. It reeks of fish and is crusted with rust, brine, and the stubborn residue of countless catches. By all rights, it should have fallen apart years ago, yet it endures through diligent maintenance and sheer luck alone. A true Lyfesaver."
+	desc = "A well-worn, two-pronged fishing spear. It reeks of fish and is crusted with rust, brine, and the stubborn residue of countless catches. By all rights, it should have fallen apart years ago, yet it endures through diligent maintenance and sheer luck alone. A true Lyfesaver. \
+			</br>You feel like you could fish better with it."
 	fishingMods = list(
 		"commonFishingMod" = 1,
 		"rareFishingMod" = 1.6,
@@ -26,29 +28,34 @@
 
 /obj/item/satchel_bomb/uniqueAssurance
 	name = "Assurance"
-	desc = "Either I get what I want, or neither of us are walking out of this in one piece."
+	desc = "Either I get what I want, or neither of us are walking out of this in one piece. \
+			</br>It feels particularly stuffed with explosives, but the fuse is short."
 	fuze = 30
 	PVE_damage = 400
 
 /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded/uniqueDoVesKin
 	name = "Do Ves Kin"
-	desc = "Hammerholdian design, dented by a drakkyn's claws. It's sharpened rim bids you to hold your head to the sky."
+	desc = "Hammerholdian design, dented by a drakkyn's claws. \
+			</br>It feels like it could take a few more hits."
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON + 50
 
 /obj/item/rogueweapon/pick/steel/uniqueDeepstrike
 	name = "Deepstrike"
-	desc = "A sturdy steel pickaxe abandoned to rust in the murk. It shares its name with a tool favored by many a confident suitor."
+	desc = "A sturdy steel pickaxe abandoned to rust in the murk. It shares its name with a tool favored by many a confident suitor. \
+			</br> It feels like it could take down stone in fewer strikes."
 	force = 25
 	force_wielded = 32
 
 /obj/item/rogueweapon/sword/short/messer/onyxa/uniqueNehnemi
 	name = "Nehnemi"
-	desc = "Nehnemi, the Wanderer. A macuahuitl of flawless Onyxa recovered from a sealed crate adrift upon the sea. No ship claimed it, no markings revealed its origin, and no owner came seeking its return. The wood of the crate rotted, the nails corroded, and the sea erased every clue. Only the weapon endured, as though it had not been lost at all, but merely traveling."
+	desc = "Nehnemi, the Wanderer. A macuahuitl of flawless Onyxa recovered from a sealed crate adrift upon the sea. No ship claimed it, no markings revealed its origin, and no owner came seeking its return. The wood of the crate rotted, the nails corroded, and the sea erased every clue. Only the weapon endured, as though it had not been lost at all, but merely traveling.\
+			</br>It feels like it could take a few more hits."
 	max_integrity = 200
 
 /obj/item/rogueweapon/woodstaff/implement/grand/riddle/uniqueVestige
 	name = "Vestige"
-	desc = "A staff of polished wood, carved with the sigils of a long-forgotten order. It hums faintly with residual magic, a whisper of the power it once commanded. One shudders to think what it could do in it's glory-daes."
+	desc = "A staff of polished wood, carved with the sigils of a long-forgotten order. It hums faintly with residual magic, a whisper of the power it once commanded. One shudders to think what it could do in it's glory-daes.\
+			</br>It feels like it could take a few more hits and that it could be used to cast spells more effectively."
 	max_integrity = 400
 	implement_refund = 0.4
 
@@ -58,7 +65,8 @@
 
 /obj/item/cooking/pan/bronze/uniqueMealbringer
 	name = "Mealbringer the Devastatingly Blunteous"
-	desc = "Undented. Unbroken. Its flawless non-stick surface and carefully wrought curves ensure not a single drop of oil can find its wielder. Yet its true purpose is not in the kitchen, but in caving in the skulls of those who would scorn the labor of a master chef. Cook and Serve until it is done."
+	desc = "Undented. Unbroken. Its flawless non-stick surface and carefully wrought curves ensure not a single drop of oil can find its wielder. Yet its true purpose is not in the kitchen, but in caving in the skulls of those who would scorn the labor of a master chef. Cook and Serve until it is done.\
+			</br>It feels like it could strike with a bit more force."
 	force = 30
 
 /obj/item/clothing/neck/roguetown/psicross/pearl/uniqueDreamingPlea
@@ -67,14 +75,16 @@
 
 /obj/item/rogueweapon/mace/cudgel/shellrungu/uniqueMchanga
 	name = "Mchanga"
-	desc = "Mchanga is fashioned from a massive sea shell, polished smooth by patient hands and countless tides. With every swing, it emits a low, haunting call, somewhere between a whistle and the cry of a distant seabird. The sound carries farther than one would expect, announcing each strike before it lands. Whether this was an intentional feature or a quirk of the shell's construction is unknown."
+	desc = "Mchanga is fashioned from a massive sea shell, polished smooth by patient hands and countless tides. With every swing, it emits a low, haunting call, somewhere between a whistle and the cry of a distant seabird. The sound carries farther than one would expect, announcing each strike before it lands. Whether this was an intentional feature or a quirk of the shell's construction is unknown.\
+			</br>It feels like it could take a few more hits."
 	max_integrity = 200
 	swingsound = list('sound/combat/wooshes/blunt/shovel_swing.ogg','sound/combat/wooshes/blunt/shovel_swing2.ogg')
 	drop_sound = 'sound/foley/dropsound/shovel_drop.ogg'
 
 /obj/item/fishingrod/blacksteel/uniqueDeepdredger
 	name = "Deepdredger"
-	desc = "Women fear me, fish fear me, men turn their eyes away from me as I walk. No beast dare makes a sound in my presence, I am alone on this barren land."
+	desc = "Women fear me, fish fear me, men turn their eyes away from me as I walk. No beast dare makes a sound in my presence, I am alone on this barren land.\
+			</br>It feels lucky."
 	var/active_item = FALSE
 
 /obj/item/fishingrod/blacksteel/uniqueDeepdredger/equipped(mob/living/user)
@@ -96,7 +106,8 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bronze/uniqueFortress
 	name = "Fortress"
-	desc = "Heavy and cumbersome, this enduring suit of bronze plate grants its wearer the resilience of heroes long past. Woe to those who shatter themselves against you, immovable bulwark. Stand firm and valiant. Never yield your back to the enemy, and let the innocent find refuge at your side."
+	desc = "Heavy and cumbersome, this enduring suit of bronze plate grants its wearer the resilience of heroes long past. Woe to those who shatter themselves against you, immovable bulwark. Stand firm and valiant. Never yield your back to the enemy, and let the innocent find refuge at your side.\
+			</br> It feels like it could take a few more hits."
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRONZE + 100
 
 /obj/item/rogueweapon/shield/iron/bone/uniqueCongealedScraps
@@ -116,12 +127,14 @@
 
 /obj/item/rogueweapon/huntingknife/combat/kris/uniqueTrustedCompanion
 	name = "Trusted Companion"
-	desc = "Worn with use, jagged as a volf's teeth. This dagger has changed hands as frequently as it's taken lyves."
+	desc = "Worn with use, jagged as a volf's teeth. This dagger has changed hands as frequently as it's taken lyves. \
+			</br>It feels sharper than it should."
 	max_blade_int = 300
 
 /obj/item/rogueweapon/huntingknife/cleaver/uniqueGluttonousBite
 	name = "Gluttonous Bite"
-	desc = "There is nothing magical about the cleaver, yet holding it makes you crave pork. Long, sinewy pork."
+	desc = "There is a faint enchantment to this cleaver. Holding it makes you crave pork. Long, sinewy pork.\
+			</br>It feels sharper and like it could help you cook better."
 	max_blade_int = 250
 	var/active_item = FALSE
 	var/legendcooking = FALSE
@@ -172,12 +185,14 @@
 
 /obj/item/rogueweapon/woodstaff/implement/uniqueLostApprenticeStaff
 	name = "lost apprentice's staff"
-	desc = "A simple staff topped with an ornamental finial, crafted more carefully than skillfully. The wood bears the marks of repeated use, while the toper remains polished by years of anxious hands and restless study. It belonged to an apprentice once. Judging by the quality of the repairs, the staff survived far more mistakes than its owner cared to admit."
+	desc = "A simple staff topped with an ornamental finial, crafted more carefully than skillfully. The wood bears the marks of repeated use, while the toper remains polished by years of anxious hands and restless study. It belonged to an apprentice once. Judging by the quality of the repairs, the staff survived far more mistakes than its owner cared to admit.\
+			</br>It feels like it could be used to cast spells more effectively, if only by a little."
 	implement_refund = 0.21
 
 /obj/item/clothing/ring/aalloy/uniqueTarnishedKeepsake
 	name = "tarnished keepsake"
-	desc = "A frayed coil of bronze, worn smooth by years of handling. It must have meant something to someone once. An empty gem setting rests at its center, and a faint melancholy clings to the otherwise mundane trinket."
+	desc = "A frayed coil of bronze, worn smooth by years of handling. It must have meant something to someone once. An empty gem setting rests at its center, and a faint melancholy clings to the otherwise mundane trinket.\
+			</br>It feels like it could make you a bit luckier."
 	var/active_item = FALSE
 
 /obj/item/clothing/ring/aalloy/uniqueTarnishedKeepsake/equipped(mob/living/user)
@@ -186,7 +201,7 @@
 		return
 	active_item = TRUE
 	user.change_stat(STATKEY_LCK, 1)
-	to_chat(user, span_suppradio("You a sliver of luck."))
+	to_chat(user, span_suppradio("You feel a sliver of luck."))
 
 /obj/item/clothing/ring/aalloy/uniqueTarnishedKeepsake/dropped(mob/living/user)
 	. = ..()
@@ -202,24 +217,28 @@
 
 /obj/item/rogueweapon/sword/stone/uniqueEkskallibor
 	name = "Ekskallibor"
-	desc = "A sharp rock tied to a stick with strips of leather and an almost offensive amount of confidence. By all reasonable measures, it should be firewood. The goblins call it Ekskallibor, and speak of it with the reverence usually reserved for legendary artifacts. According to tribal tradition, it was pulled from a mound of mud by a hero of unmatched strength, wisdom, and personal hygiene. Closer inspection suggests it was more likely assembled from whatever happened to be nearby. The goblins reject this assessment entirely. After all, if it has a name, a legend, and can cave in a skull, what more could a weapon possibly need?"
+	desc = "A sharp rock tied to a stick with strips of leather and an almost offensive amount of confidence. By all reasonable measures, it should be firewood. The goblins call it Ekskallibor, and speak of it with the reverence usually reserved for legendary artifacts. According to tribal tradition, it was pulled from a mound of mud by a hero of unmatched strength, wisdom, and personal hygiene. Closer inspection suggests it was more likely assembled from whatever happened to be nearby. The goblins reject this assessment entirely. After all, if it has a name, a legend, and can cave in a skull, what more could a weapon possibly need?\
+			</br>It feels sturdier and stronger than your average stone sword."
 	max_integrity = 100
 	force = 19
 	force_wielded = 27
 
 /obj/item/rogueweapon/shield/wood/deprived/uniquePropaSheeld
 	name = "Propa Sheeld"
-	desc = "A collection of wooden planks lashed together and confidently declared a shield. The craftsmanship is unmistakably goblin in origin: crude, improvised, and surprisingly functional. Against arrows, it performs adequately. Against axes, less so. Against goblin standards, it is a masterwork."
+	desc = "A collection of wooden planks lashed together and confidently declared a shield. The craftsmanship is unmistakably goblin in origin: crude, improvised, and surprisingly functional. Against arrows, it performs adequately. Against axes, less so. Against goblin standards, it is a masterwork.\
+			</br>It feels like it could take a few more hits."
 	max_integrity = 250
 
 /obj/item/tntstick/uniqueBoomySticka
 	name = "Boomy Sticka"
-	desc = "A tightly wrapped stick of blastpowder recovered from a goblin camp. The fuse has been shortened repeatedly, suggesting its previous owners valued enthusiasm over caution. Miraculously, it remains unexploded. Equally miraculously, so did the goblins."
+	desc = "A tightly wrapped stick of blastpowder recovered from a goblin camp. The fuse has been shortened repeatedly, suggesting its previous owners valued enthusiasm over caution. Miraculously, it remains unexploded. Equally miraculously, so did the goblins.\
+			</br>It's fuse is dangerously short!"
 	fuze = 5
 
 /obj/item/rogueweapon/mace/woodclub/deprived/uniqueBurntClub
 	name = "burnt club"
-	desc = "Forged in fire and heat. Unfortunately it's made of wood, so that wasn't the best of ideas."
+	desc = "Forged in fire and heat. Unfortunately it's made of wood, so that wasn't the best of ideas.\
+			</br>It can't be burnt any further."
 	resistance_flags = FIRE_PROOF
 
 /obj/item/broom/uniqueFlyingBroom
@@ -228,7 +247,8 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy/uniqueSiegebreaker
 	name = "Siegebreaker"
-	desc = "In its prime, this siege weapon broke stone as readily as flesh. May no wall deny your passage while it remains in hand. Its gears groan with eager intent, and the pulley endures untouched by the rust that claimed the rest."
+	desc = "In its prime, this siege weapon broke stone as readily as flesh. May no wall deny your passage while it remains in hand. Its gears groan with eager intent, and the pulley endures untouched by the rust that claimed the rest.\
+			</br>The mechanisms operate with surprising speed."
 	reloadtime = 100
 	chargingspeed = 50
 
@@ -240,7 +260,8 @@
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn/uniqueCarrion
 	name = "Carrion"
-	desc = "A rugged leather helmet reinforced with bands of iron and crowned by the front half of a weathered skull. Time has stripped away any clue as to the creature it once belonged to, though its hollow gaze remains unsettlingly intact."
+	desc = "A rugged leather helmet reinforced with bands of iron and crowned by the front half of a weathered skull. Time has stripped away any clue as to the creature it once belonged to, though its hollow gaze remains unsettlingly intact.\
+			</br>It feels like it could take a few more hits."
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON + 30
 
 /obj/item/rogueweapon/stoneaxe/battle/steppesman/uniqueLodinkinni
@@ -253,7 +274,8 @@
 
 /obj/item/clothing/head/roguetown/helmet/sallet/beastskull/uniqueMonstersDemise
 	name = "Monster's Demise"
-	desc = "Eyeless and malformed, yet still crowned with vicious teeth. This skull belonged to the progenitor of something dreadful, a thing that may yet walk these lands. It is ancient enough to have crumbled to dust, but the bone remains unnaturally thick and unyielding."
+	desc = "Eyeless and malformed, yet still crowned with vicious teeth. This skull belonged to the progenitor of something dreadful, a thing that may yet walk these lands. It is ancient enough to have crumbled to dust, but the bone remains unnaturally thick and unyielding.\
+			</br>It feels like it could take a few more hits."
 	max_integrity = ARMOR_INT_HELMET_STEEL + 50
 
 /obj/item/clothing/head/roguetown/helmet/heavy/astratan/uniqueRadiance
@@ -282,7 +304,8 @@
 
 /obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/uniqueAxiom
 	name = "Axiom"
-	desc = "A grand staff of polished blacksteel, recovered from the sanctum of a lich. The metal gleams with a dark, flawless sheen, unmarred by rust, age, or the countless years it spent beside its master. The staff bears the name Axiom. Not a boast, nor a threat, but a statement. An axiom is a truth accepted without proof, the foundation upon which all other conclusions are built. One cannot help but wonder what truth the lich considered so self-evident that it deserved to be wrought into blacksteel. The answer may be as simple as this: all things end. Some merely take longer to admit it."
+	desc = "A grand staff of polished blacksteel, recovered from the sanctum of a lich. The metal gleams with a dark, flawless sheen, unmarred by rust, age, or the countless years it spent beside its master. The staff bears the name Axiom. Not a boast, nor a threat, but a statement. An axiom is a truth accepted without proof, the foundation upon which all other conclusions are built. One cannot help but wonder what truth the lich considered so self-evident that it deserved to be wrought into blacksteel. The answer may be as simple as this: all things end. Some merely take longer to admit it.\
+			</br>This staff allows casting spells with supreme efficiency."
 	implement_refund = 0.5
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/stalker/uniqueFang
@@ -295,12 +318,14 @@
 
 /obj/item/rogueweapon/shield/tower/spidershield/uniqueCarapace
 	name = "Carapace"
-	desc = "Fashioned from the chitin of a primordial arachnid, this shield remains as resilient as the creature from which it was taken. It serves as a bulwark against those foolish enough to challenge the Many-Legged Ones."
+	desc = "Fashioned from the chitin of a primordial arachnid, this shield remains as resilient as the creature from which it was taken. It serves as a bulwark against those foolish enough to challenge the Many-Legged Ones.\
+			</br>It feels like it could take a few more hits."
 	max_integrity = 350
 
 /obj/item/rogueweapon/spear/improvisedbillhook/uniqueDismounter
 	name = "Dismounter"
-	desc = "A sturdy billhook named Dismounter, its blade scarred by hard use and more than a few poorly judged impacts. The hook remains keen despite the wear, though the haft bears enough repairs to suggest its wielder was often closer to the action than intended."
+	desc = "A sturdy billhook named Dismounter, its blade scarred by hard use and more than a few poorly judged impacts. The hook remains keen despite the wear, though the haft bears enough repairs to suggest its wielder was often closer to the action than intended.\
+			</br>It feelss sharper."
 	max_blade_int = 250
 
 /obj/item/rogueweapon/stoneaxe/battle/ice/uniqueFrostBite
@@ -326,17 +351,20 @@
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/blacksteel/uniqueDiscipline
 	name = "Discipline"
-	name = "A solid rod of blacksteel capped with heavy, bulbous ends. Nearly unbreakable, this quarterstaff delivers punishment with relentless efficiency. Its name is Discipline, and it is eager to impart the lesson."
+	desc = "A solid rod of blacksteel capped with heavy, bulbous ends. Nearly unbreakable, this quarterstaff delivers punishment with relentless efficiency. Its name is Discipline, and it is eager to impart the lesson.\
+			</br>It feels significantly sturdier."
 	max_integrity = 600
 
 /obj/item/forgeable/gold/scale/uniqueSaclesOfGreed
 	name = "Scales of Greed"
-	desc = "A set of golden scales bearing the name Scales of Greed. They are beautifully made, perfectly balanced, and utterly honest in all matters save one. The longer they are held, the more precious every coin appears and the more painful every loss becomes. In the hand they are surprisingly light. Upon the heart, they are crushing."
+	desc = "A set of golden scales bearing the name Scales of Greed. They are beautifully made, perfectly balanced, and utterly honest in all matters save one. The longer they are held, the more precious every coin appears and the more painful every loss becomes. In the hand they are surprisingly light. Upon the heart, they are crushing.\
+			</br>It feels very valuable."
 	sellprice = 500
 
 /obj/item/staff/stick/uniqueLostCane
 	name = "lost cane"
-	desc = "Carved from a single length of polished wood, this cane once belonged to a gentleman of some refinement. The journey that carried it here has long since been forgotten."
+	desc = "Carved from a single length of polished wood, this cane once belonged to a gentleman of some refinement. The journey that carried it here has long since been forgotten.\
+			</br>It feels like it could help you walk better. It looks fairly expensive."
 	walking_stick = TRUE
 	sellprice = 100
 
@@ -346,7 +374,8 @@
 
 /obj/item/clothing/gloves/roguetown/otavan/psygloves/uniqueStickyfingers
 	name = "Stickyfingers"
-	desc = "A pair of leather gauntlets draped in old spider silk. The webbing never seems to tear completely, instead clinging stubbornly to the wearer and anything they touch. They are not particularly durable, nor especially impressive to look upon. Yet objects have a curious habit of ending up in the wearer's hands. Coin purses loosen, clasps come undone, and unattended valuables seem just a little easier to acquire. Whether the silk possesses some subtle enchantment or merely encourages bad habits is a matter of debate. Most owners prefer not to discuss where they found them."
+	desc = "A pair of leather gauntlets draped in old spider silk. The webbing never seems to tear completely, instead clinging stubbornly to the wearer and anything they touch. They are not particularly durable, nor especially impressive to look upon. Yet objects have a curious habit of ending up in the wearer's hands. Coin purses loosen, clasps come undone, and unattended valuables seem just a little easier to acquire. Whether the silk possesses some subtle enchantment or merely encourages bad habits is a matter of debate. Most owners prefer not to discuss where they found them.\
+			</br>It feels like they would help you steal better, but only just barely."
 	var/active_item = FALSE
 	var/expertstealing = FALSE
 
@@ -392,7 +421,8 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/warden_machete/uniqueReedfeller
 	name = "Reedfeller"
-	desc = "It bears within it a burning hatred for reeds. Fell them. Fell them all."
+	desc = "It bears within it a burning hatred for reeds. Fell them. Fell them all.\
+			</br>It feels sturdier and sharper."
 	max_integrity = 250
 	max_blade_int = 250
 
@@ -430,7 +460,8 @@
 
 /obj/item/clothing/head/roguetown/nyle/consortcrown/uniqueBentCirclet
 	name = "bent circlet"
-	desc = "Inlaid gemstones and opulent craftsmanship cannot change one simple fact: a troll stepped on it."
+	desc = "Inlaid gemstones and opulent craftsmanship cannot change one simple fact: a troll stepped on it.\
+			</br>It looks like it's value has been diminished."
 	sellprice = 50
 
 /obj/item/clothing/mask/rogue/skullmask/uniqueOldChiefsSkull
@@ -451,7 +482,8 @@
 
 /obj/item/roguegem/turq/uniqueSicklyCerulite
 	name = "sickly cerulite"
-	desc = "A malformed shard of cerulite whose swirling reflections never seem to settle into a coherent shape. Colors twist and coil beneath its surface like something alive, drawing the eye despite every instinct to look away. Prolonged observation brings with it a subtle nausea, as though the mind rejects what it is seeing. The sensation rarely grows beyond mild discomfort, yet few can gaze upon the stone for long without feeling unwell. Whether the flaw lies within the cerulite or within the viewer is a matter of some debate."
+	desc = "A malformed shard of cerulite whose swirling reflections never seem to settle into a coherent shape. Colors twist and coil beneath its surface like something alive, drawing the eye despite every instinct to look away. Prolonged observation brings with it a subtle nausea, as though the mind rejects what it is seeing. The sensation rarely grows beyond mild discomfort, yet few can gaze upon the stone for long without feeling unwell. Whether the flaw lies within the cerulite or within the viewer is a matter of some debate.\
+			</br>It looks like it's value has been diminished."
 	sellprice =  45
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated/uniqueMoorhauer
@@ -464,17 +496,20 @@
 
 /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/uniqueMudtrudgers
 	name = "Mudtrudgers"
-	desc = "Their greatest virtue is a simple one. Even in the oppressive muck and stagnant waters of the bog, these boots keep the wearer's feet perfectly dry."
+	desc = "Their greatest virtue is a simple one. Even in the oppressive muck and stagnant waters of the bog, these boots keep the wearer's feet perfectly dry.\
+			</br>They feel like they could take a few more hits."
 	max_integrity = ARMOR_INT_HELMET_HARDLEATHER + 50
 
 /obj/item/rogueweapon/pick/paalloy/uniqueDefiant
 	name = "defiant pickaxe"
-	desc = "A well-worn mining pick bearing the name Defiant. It once belonged to a miner who challenged a giant mole for dominion over a rich vein of ore. Refusing to concede even as the tunnel collapsed around them, he saw the contest through to its bitter end. The mole survived to claim victory."
+	desc = "A well-worn mining pick bearing the name Defiant. It once belonged to a miner who challenged a giant mole for dominion over a rich vein of ore. Refusing to concede even as the tunnel collapsed around them, he saw the contest through to its bitter end. The mole survived to claim victory.\
+			</br>It feels significantly sturdier."
 	max_integrity = 600
 
 /obj/item/clothing/gloves/roguetown/plate/paalloy/uniqueJudgementAndSentence
 	name = "Judgement & Sentence"
-	desc = "A pair of battered plate gauntlets worn smooth by decades of hard use. Their former owner had little patience for courts or deliberation, preferring to render Judgment with one fist and Sentence with the other. Time has dulled neither."
+	desc = "A pair of battered plate gauntlets worn smooth by decades of hard use. Their former owner had little patience for courts or deliberation, preferring to render Judgment with one fist and Sentence with the other. Time has dulled neither.\
+			</br>Their knuckles are bloodied and sharp. Hitting someone with these would hurt."
 	unarmed_bonus = 8
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic/uniqueLongshot
@@ -490,13 +525,15 @@
 
 /obj/item/legwears/silk/white/uniqueSpidersilkStockings
 	name = "spidersilk stockings"
-	desc = "Did spiders make these? The fabric is remarkably uniform, woven as though from a single impossibly long strand. Whatever their origin, these stockings are sinfully luxurious."
+	desc = "Did spiders make these? The fabric is remarkably uniform, woven as though from a single impossibly long strand. Whatever their origin, these stockings are sinfully luxurious.\
+			</br>They look moderately expensive."
 	sellprice = 30
 
 /obj/item/rogueweapon/sword/long/oldpsysword/uniqueAdamant
 	name = "Adamant"
-	desc = "This longsword has endured wars, neglect, and generations of owners. The steel bears countless scars, yet none severe enough to claim it. Many hands have wielded it, and many finer swords have been buried in their stead. It remains. It endures. A mundane blade by all appearances, yet it carries within it the resolve of countless warriors whose determination held Psydonia together throughout His slumber. May their strength inspire you."
-	max_integrity = 250
+	desc = "This longsword has endured wars, neglect, and generations of owners. The steel bears countless scars, yet none severe enough to claim it. Many hands have wielded it, and many finer swords have been buried in their stead. It remains. It endures. A mundane blade by all appearances, yet it carries within it the resolve of countless warriors whose determination held Psydonia together throughout His slumber. May their strength inspire you.\
+			</br>It feels significantly sturdier."
+	max_integrity = 300
 
 /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron/uniqueDraftsmarch
 	name = "Draftsmarch"
@@ -543,8 +580,9 @@
 
 /obj/item/rogueweapon/sword/silver/decorated/uniqueVhes
 	name = "Vhes"
-	desc = "A decorated khadga of polished silver, its broad blade etched with intricate patterns that seem to writhe at the edge of vision. The weapon bears the name Vhes, though no record of its owner survives. It sits perfectly in the hand, balanced with an ease that feels almost unnatural. A strange familiarity clings to it. Those versed in forbidden lore may find their thoughts drifting toward cycles, recurrence, and the image of a serpent devouring its own tail, though few could say precisely why."
-	max_integrity = 250
+	desc = "A decorated khadga of polished silver, its broad blade etched with intricate patterns that seem to writhe at the edge of vision. The weapon bears the name Vhes, though no record of its owner survives. It sits perfectly in the hand, balanced with an ease that feels almost unnatural. A strange familiarity clings to it. Those versed in forbidden lore may find their thoughts drifting toward cycles, recurrence, and the image of a serpent devouring its own tail, though few could say precisely why.\
+			</br>It feels significantly sturdier."
+	max_integrity = 300
 
 /obj/item/rogueweapon/sword/silver/decorated/uniqueVhes/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VHESLYN)
@@ -563,7 +601,8 @@
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/minotaur/uniqueGulletgrinder
 	name = "Gulletgrinder"
-	desc = "A massive double-headed axe favored by minotaur warriors. Its twin blades are broad enough to cleave shield and bearer alike, but its grim name comes from a more deliberate craft. One hook drags prey close; the other finishes the work. Gulletgrinder is not a title earned lightly."
+	desc = "A massive double-headed axe favored by minotaur warriors. Its twin blades are broad enough to cleave shield and bearer alike, but its grim name comes from a more deliberate craft. One hook drags prey close; the other finishes the work. Gulletgrinder is not a title earned lightly.\
+			</br>It feels sturdier."
 	max_integrity = 300
 
 /obj/item/clothing/mask/rogue/spectacles/sglasses/uniqueLostScholarsSpectacles
@@ -601,13 +640,15 @@
 
 /obj/item/rogueweapon/spear/boar/uniqueGutskewer
 	name = "Gutskewer"
-	desc = "A broad-bladed spear whose name leaves little room for interpretation. Gutskewer was not crafted for elegant duels or heroic charges, but for the brutal reality of close combat, where a few inches of steel can decide the fate of a warrior."
+	desc = "A broad-bladed spear whose name leaves little room for interpretation. Gutskewer was not crafted for elegant duels or heroic charges, but for the brutal reality of close combat, where a few inches of steel can decide the fate of a warrior.\
+			</br>It feels sharper, and it's edge is particularly potent when wielded with both hands."
 	force_wielded = 35
 	max_blade_int = 250
 
 /obj/item/clothing/head/roguetown/helmet/headcage/uniquePrisonOfTheMind
 	name = "prison of the mind"
-	desc = "The screams of its previous owner were silenced when their tongue was severed. Their treachery was blinded when their eyes were taken. Deafened by age and robbed of every means to perceive the world, they were left trapped within themselves. A fate worse than death."
+	desc = "The screams of its previous owner were silenced when their tongue was severed. Their treachery was blinded when their eyes were taken. Deafened by age and robbed of every means to perceive the world, they were left trapped within themselves. A fate worse than death.\
+			</br>It feels like it could help you think better, but at a terrible cost."
 	var/active_item = FALSE
 	var/legendaryarcane = FALSE
 
