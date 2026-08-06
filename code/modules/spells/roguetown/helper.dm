@@ -12,6 +12,4 @@
 		return 1
 	if(HAS_TRAIT(target, TRAIT_DEPRAVED))
 		return 1
-	if(HAS_TRAIT(target, TRAIT_WITCH))		//Not evil but you know, witch.
-		return 1
 	return 0
