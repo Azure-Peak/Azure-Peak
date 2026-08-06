@@ -523,6 +523,8 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/crossbows, SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
@@ -530,7 +532,8 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
 	)
 	extra_context = "Chooses between Light Armor (Dodge Expert) and Medium Armor."
 
@@ -579,7 +582,7 @@
 			if("Shortsword & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/short/iron
-				backr = /obj/item/rogueweapon/shield/tower
+				backl = /obj/item/rogueweapon/shield/tower
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Arming Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -588,27 +591,27 @@
 			if("Mace & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/mace
-				backr = /obj/item/rogueweapon/shield/tower
+				backl = /obj/item/rogueweapon/shield/tower
 			if("Axe & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
-				backr = /obj/item/rogueweapon/shield/tower
+				backl = /obj/item/rogueweapon/shield/tower
 			if("Flail & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/flail
-				backr = /obj/item/rogueweapon/shield/tower
+				backl = /obj/item/rogueweapon/shield/tower
 			if("Messer & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/short/messer
-				backr = /obj/item/rogueweapon/shield/tower
+				backl = /obj/item/rogueweapon/shield/tower
 			if("Bow & Quiver")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic
-				backr = /obj/item/quiver/arrows
+				backl = /obj/item/quiver/arrows
 			if("Crossbow & Quiver")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				backr = /obj/item/quiver/bolt
+				backl = /obj/item/quiver/bolt
 			if("Staker Launcher & Quiver")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker
