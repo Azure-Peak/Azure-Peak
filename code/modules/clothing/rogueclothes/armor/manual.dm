@@ -131,7 +131,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_PLATE //Will stop most things, but will also pop fast.
-	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL + 50 //Similar to a suit of scale mail
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL + 50 //Similar to a suit of scale mail, now doing duty as a metal coif as well.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest
 	name = "bouhoi bujeog core"
@@ -145,7 +145,7 @@
 	armor = ARMOR_BRIGANDINE //Fallback once the main skin pops, you will get stabbed through this.
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER //Identical to a suit of light brig.
 
-//Ruma skin equates to a set of light brigadine over a steel scalemail. Would normally be medium AC, but you pay for that with honorbound restrictions instead (no arming caps, coifs, or any form of metal armor). Gun-in/Seonjang also have an innate speed penalty, and the Sasu lacks Dodge Expert.
+//Ruma skin equates to a set of light brigadine over a steel scalemail + chain coif. Would normally be medium AC, but you pay for that with honorbound restrictions instead (no arming caps, coifs, or any form of metal armor). Gun-in/Seonjang also have an innate speed penalty, and the Sasu lacks Dodge Expert.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker
 	name = "seon-mul tattoos"
@@ -156,7 +156,7 @@
 	armor = ARMOR_LEATHER
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_ANTAG //A slightly-better leather armor with full-body coverage.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //A slightly-better leather armor with full-body coverage.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest
 	name = "seon-mul core"
@@ -170,7 +170,7 @@
 	body_parts_inherent = COVERAGE_TORSO
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor.
 
-//Mistwalker skin equates to just above two layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
+//Mistwalker skin equates to 2.25 layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
 
 
 /*
@@ -287,7 +287,7 @@
 	desc = "Taut lyke the bow I draw."
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 
 //Confessor skin is equivalent to a light gambeson, and uniquely allows layering armor over the top of it.
 

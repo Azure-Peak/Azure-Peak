@@ -100,7 +100,7 @@
 #define ARMOR_INT_CHEST_MEDIUM_DECREPIT 150
 
 // LIGHT
-#define ARMOR_INT_CHEST_LIGHT_ANTAG 360 //1.5x Master. Currently only used by baotha robe, iconoclaust skin, mistwalker skin, & berzerker skin.
+#define ARMOR_INT_CHEST_LIGHT_ANTAG 360 //1.5x Master. Currently only used by baotha robe, iconoclaust skin, & berzerker skin.
 #define ARMOR_INT_CHEST_LIGHT_ELITE 300 //1.25x Master. Snowflake top-tier light armor
 #define ARMOR_INT_CHEST_LIGHT_MASTER 240 // High tier cloth / leather armor
 #define ARMOR_INT_CHEST_LIGHT_MEDIUM 200 // Medium tier cloth / leather armor
