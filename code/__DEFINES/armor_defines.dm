@@ -145,11 +145,14 @@
 #define ARMOR_INT_MASK_BRONZE 150 //Integrity for bronze facemasks.
 #define ARMOR_INT_MASK_STEEL 200 //Integrity for steel facemasks.
 #define ARMOR_INT_MASK_IRON 100 //Integrity for iron facemasks.
+#define ARMOR_INT_MASK_GOLD 150 //Integrity for gold facemasks. No idea why so durable when they have iron protection also.
 #define ARMOR_INT_MASK_STEEL_MAILLE 250 //Integrity for steel maille facemasks. Less defence than plate masks, more integ.
 #define ARMOR_INT_MASK_IRON_MAILLE 150 //Integrity for iron maille facemasks.
 #define ARMOR_INT_MASK_LEATHER 180 //Integrity for leather facemasks.
 #define ARMOR_INT_MASK_CLOTH 150 //Integrity for cloth facemasks.
+#define ARMOR_INT_MASK_WOOD 100 //Integrity for carved wood facemasks.
 #define ARMOR_INT_MASK_BONE 100 //Integrity for bone/skull facemasks.
+#define ARMOR_INT_MASK_STONE 50 //Integrity for carved stone facemasks.
 
 /*--------------------\
 | ARMOR VALUE DEFINES |

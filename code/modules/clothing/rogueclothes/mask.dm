@@ -443,13 +443,13 @@
 /obj/item/clothing/mask/rogue/facemask/goldmask
 	name = "gold mask"
 	icon_state = "goldmask"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_GOLD
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/goldmaskc
 	name = "gold mask"
 	icon_state = "goldmaskc"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_GOLD
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_oni
@@ -457,24 +457,28 @@
 	desc = "A wood mask carved in the visage of demons said to stalk the mountains of Kazengun."
 	icon_state = "oni"
 	stack_fovs = FALSE
+	max_integrity = ARMOR_INT_MASK_WOOD
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
 	name = "kitsune mask"
 	desc = "A wood mask carved in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
 	icon_state = "kitsune"
 	stack_fovs = FALSE
+	max_integrity = ARMOR_INT_MASK_WOOD
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun
 	name = "soldier's half-mask"
 	desc = "\"The first lesson of war is that it would be better to live in peace.\""
 	block2add = null
 	armor = ARMOR_PLATE // because it's only half
+	max_integrity = ARMOR_INT_MASK_IRON
 	icon_state = "kazengunmouthguard"
 	item_state = "kazengunmouthguard"
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "ogre mask"
 	desc = "\"The second lesson: Rich men have dreams. Poor men die to make them come true.\""
+	max_integrity = ARMOR_INT_MASK_IRON
 	icon_state = "kazengunfaceguard"
 	item_state = "kazengunfaceguard"
 
@@ -584,7 +588,7 @@
 	item_state = "naledimask"
 	icon_state = "naledimask"
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Armored to protect the wearer's face."
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	armor = ARMOR_PLATE
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
@@ -598,7 +602,7 @@
 	item_state = "naledimask"
 	icon_state = "naledimask"
 	desc = "A golden mask, gnarled by the sustained agonies of djinnic corruption; yet as long as its Naledian hexes endure, so too will its wearer. Hand-fitted shingles flank the sides to repel incoming strikes. </br>'..Clad with the stereotype of abruptly disappearing without any forewarning, the typical Sojourner is in constant pursuit of diversifying their erudition. One might arrive to learn the local witch's recipe of sanctifying atropa extract and spend yils in the community trying to master it, while another might work alongside the region's Orthodoxic chapter to slay a lycker lord in exchange for his archive, only to vanish the very next day..'"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_IRON + 50
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
@@ -669,7 +673,7 @@
 	name = "carved mask"
 	icon_state = "ancientmask"
 	desc = "You shouldn't be seeing this."
-	max_integrity = 50
+	max_integrity = ARMOR_INT_MASK_STONE
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -729,7 +733,7 @@
 	item_state = "xylixmask"
 	icon_state = "xylixmask"
 	desc = "A ceramic mask, forever stuck with the joyful smile its patron god favors. While it will shatter easily from blows, its smug countenance shall taunt its foes."
-	max_integrity = 50
+	max_integrity = ARMOR_INT_MASK_STONE
 	armor = null
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
