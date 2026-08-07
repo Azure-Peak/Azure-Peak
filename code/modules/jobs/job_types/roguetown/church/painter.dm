@@ -81,7 +81,7 @@
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg'
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
