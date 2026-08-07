@@ -68,8 +68,8 @@
 			return
 		var/newmax = max_dodge + num
 		if(clamp)
-			if(newmax > MAX_DODGE_CLAMP && max_dodge < MAX_DODGE_CLAMP) 
-			// We had less than the clamp, and we are set to gain above the clamp, we override. 
+			if(newmax > MAX_DODGE_CLAMP && max_dodge < MAX_DODGE_CLAMP)
+			// We had less than the clamp, and we are set to gain above the clamp, we override.
 			// Mainly used to clamp compensatory dodge increases, NOT offensive ones.
 				newmax = MAX_DODGE_CLAMP
 		max_dodge = CLAMP((newmax), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
@@ -130,7 +130,7 @@
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, params) & COMSIG_MOB_CANCEL_CLICKON)
 		return
-	
+
 	var/mob/living/L = src
 	if(L?.wallpressed && L.m_intent == MOVE_INTENT_SNEAK && !istype(L.loc, /turf/open/transparent/openspace))
 		to_chat(src, span_warning("You need to step away from the wall first."))
@@ -466,7 +466,8 @@
 	if(offhand.associated_skill)
 		if(get_skill_level(offhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
-
+	if(mainhand.force <= 9 || offhand.force <= 9) // should prevent things that have tiny damage from being used, those are often tools anyway.
+		return FALSE
 	return TRUE
 
 /mob/living/proc/process_dualwield(atom/A, obj/item/attack_weapon, params)
@@ -512,13 +513,16 @@
 
 		if(stamina_add(3))
 			balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
-			visible_message("<font color='#ffc400'>Dual Hit!</font>", "<font color='#ffc400'>Dual Hit!</font>")
+			to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
+			to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
 			if(attack_weapon && offhand)
 				offhand.melee_attack_chain(src, A, params)
 			else
 				UnarmedAttack(A, TRUE, params)
-
+		playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
+		playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
 		dualwield_processing = FALSE
+		swap_hand()
 		return
 
 	// Build combo
@@ -547,7 +551,7 @@
 			else if(istype(rmb_intent, /datum/rmb_intent/swift))
 				adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 			changeNext_move(adf)
-		
+
 		UnarmedAttack(A,1,params)
 
 	var/invis_timer = mob_timers[MT_INVISIBILITY]

@@ -17,8 +17,8 @@
 	// Hidden waves are only queueable while an admin has them forced and forming.
 	if(wave.hidden && !SSmigrants.is_forced_forming(wave_type))
 		return
-	if(role_type && !SSmigrants.can_be_role(prefs.parent, role_type))
-		to_chat(prefs.parent, span_warning("You can't be this role. (Wrong species, gender, or age.)"))
+	if(role_type && !SSmigrants.can_fill_role(prefs.parent, role_type))
+		to_chat(prefs.parent, span_warning("Your character can't be this role. (Wrong species, faith, age, or reputation.)"))
 		return
 	queued_wave = wave_type
 	queued_role = role_type
@@ -90,6 +90,8 @@
 		var/datum/migrant_wave/wave = MIGRANT_WAVE(wave_type)
 		if(wave.hidden || !wave.can_roll || wave.is_raid)
 			continue
+		if(wave.triumph_only) // doesn't compete in the natural roll, so keep it out of the odds math
+			continue
 		track_total_weight[wave.track] += SSmigrants.calculate_triumph_weight(wave)
 
 	var/list/waves = list()
@@ -106,7 +108,7 @@
 		if(wave.min_round_time && (world.time - SSticker.round_start_time) < wave.min_round_time)
 			locked_until = SSticker.round_start_time + wave.min_round_time
 		var/total = track_total_weight[wave.track]
-		var/roll_chance = total ? round((SSmigrants.calculate_triumph_weight(wave) / total) * 100, 0.1) : 0
+		var/roll_chance = (total && !wave.triumph_only) ? round((SSmigrants.calculate_triumph_weight(wave) / total) * 100, 0.1) : 0
 		waves += list(list(
 			"ref" = "[wave_type]",
 			"name" = wave.name,
@@ -135,6 +137,23 @@
 
 /datum/migrant_pref/proc/build_role_entry(role_type, amount, kind)
 	var/datum/migrant_role/role = MIGRANT_ROLE(role_type)
+	var/list/pool = SSmigrants.get_role_pool(role_type)
+	var/enumerate = length(pool) && length(pool) <= MIGRANT_ROLE_OPTION_LIMIT
+	var/list/options = list()
+	var/playable_count = 0
+	for(var/datum/advclass/advclass as anything in pool)
+		var/reason = advclass.prefs_lock_reason(prefs)
+		if(isnull(reason))
+			playable_count++
+		if(enumerate)
+			options += list(list(
+				"name" = advclass.name,
+				"playable" = isnull(reason),
+				"reason" = reason,
+			))
+	var/can_be = SSmigrants.can_be_role(prefs.parent, role_type)
+	if(length(pool) && !playable_count)
+		can_be = FALSE
 	return list(
 		"ref" = "[role_type]",
 		"name" = role.name,
@@ -142,8 +161,11 @@
 		"kind" = kind,
 		"stars" = SSmigrants.get_stars_on_role(role_type),
 		"queued" = (queued_role == role_type),
-		"can_be" = SSmigrants.can_be_role(prefs.parent, role_type),
+		"can_be" = can_be,
 		"desc" = role.greet_text,
+		"options" = options,
+		"option_count" = length(pool),
+		"playable_count" = playable_count,
 	)
 
 /datum/migrant_pref/ui_act(action, list/params)
@@ -182,7 +204,7 @@
 		to_chat(client, span_warning("You don't have any triumph to contribute!"))
 		return
 	var/player_contribution = wave.triumph_contributions[client.ckey] ? wave.triumph_contributions[client.ckey] : 0
-	var/max_contribute = min(current_triumph, 25)
+	var/max_contribute = min(current_triumph, 100)
 	var/amount = tgui_input_number(client, "Contribute triumph to '[wave.name]'?\n\nYour triumph: [current_triumph]\nYour contribution: [player_contribution]\nWave total: [wave.triumph_total]/[wave.triumph_threshold]", "Triumph Contribution", max_value = max_contribute, min_value = 1)
 	if(!amount || amount <= 0 || amount > max_contribute)
 		return

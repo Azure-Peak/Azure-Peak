@@ -48,6 +48,7 @@
 //parent variable to projectiles
 /obj/projectile
   var/is_silver_proj = FALSE //Self-explanatory.
+  var/datum/action/cooldown/spell/source_spell
 
 //handles the infliction of special effects upon projectile impact, such as silver-blighting
 /obj/projectile/proc/do_special_projectile_effect(firer, obj/item/bodypart/affecting, mob/living/victim, selzone)

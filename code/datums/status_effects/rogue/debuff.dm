@@ -469,7 +469,7 @@
 	id = "revived" //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/revived
 	effectedstats = list(STATKEY_STR = -1, STATKEY_PER = -1, STATKEY_INT = -1, STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)
-	duration = 15 MINUTES		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
+	duration = REVIVED_DEBUFF_DURATION		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
 
 /atom/movable/screen/alert/status_effect/debuff/revived
 	name = "Revived" //Formerly 'Revival Sickness'.
@@ -547,7 +547,7 @@
 /datum/status_effect/debuff/permadeath
 	id = "permadeath"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath
-	duration = 10 MINUTES //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
+	duration = PERMADEATH_DURATION //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
 	examine_text = "<font color='#b40000'>SUBJECTPRONOUN appears haunted by an unseen burden. It feels as though their spirit hangs by the thinnest of threads. Another death may well be their last.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath
@@ -649,14 +649,6 @@
 	name = "Frozen"
 	desc = "An intense cold has seized my body! I can barely move."
 	icon_state = "muscles"
-
-/// wrestler verison of daze////
-/datum/status_effect/debuff/dazed/stunner
-	id = "discombobulated"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed
-	effectedstats = list(STATKEY_CON = -2, STATKEY_INT = -2)
-	duration = 15 SECONDS
-	status_type = STATUS_EFFECT_REFRESH
 
 ///// Freifechter Daze Variants /////
 /datum/status_effect/debuff/dazed/longsword

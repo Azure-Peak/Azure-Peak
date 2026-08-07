@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Mirror transform now supports full tail color customization, alongside skin color, snouts, and fluff."

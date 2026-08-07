@@ -949,6 +949,14 @@
 	)
 	result_item = /obj/item/rogueweapon/sword/rapier/athena
 
+//Aticius - For Love's Sake
+/obj/item/enchantingkit/aticius_fls
+	name = "'For Love's Sake' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/sword/long/aticius
+
 //Octus - Falling Star
 /obj/item/enchantingkit/weapon/falling_star
 	name = "'Falling Star' morphing elixer"

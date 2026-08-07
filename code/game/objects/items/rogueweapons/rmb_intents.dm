@@ -133,7 +133,7 @@
 
 /datum/rmb_intent/strong
 	name = "strong"
-	desc = "Your attacks have +1 STR extra damage that ignores limits. Your attacks will cost the enemy more sharpness and integrity to defend against. Higher critrate with brutal attacks. Intentionally fails surgery steps.\nCosts more stamina per hit."
+	desc = "Your attacks deal +15% damage. Your attacks will cost the enemy more sharpness and integrity to defend against. Higher critrate with brutal attacks. Intentionally fails surgery steps.\nCosts more stamina per hit."
 	icon_state = "rmbstrong"
 	adjacency = FALSE
 	prioritize_turfs = TRUE
@@ -178,7 +178,7 @@
 
 /datum/rmb_intent/swift
 	name = "swift"
-	desc = "Your attacks have less recovery time but are less accurate."
+	desc = "Your attacks have less recovery time but are less accurate.\nDrains extra stamina from anyone dodging you, most of all while their dodge is fresh. Does not work with a HEAVY balanced weapon."
 	icon_state = "rmbswift"
 
 /datum/rmb_intent/special
@@ -249,7 +249,8 @@
 		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
 
-	perc = CLAMP(perc, 10, 90)
+	if(perc)
+		perc = CLAMP(perc, 10, 90)
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
@@ -314,7 +315,7 @@
 
 /datum/rmb_intent/weak
 	name = "weak"
-	desc = "Your attacks have -1 strength and will never critically-hit. Useful for longer punishments, play-fighting, and bloodletting.\nRight click will attempt to steal from the target."
+	desc = "Your attacks deal 20% damage and will never critically-hit. Useful for longer punishments, play-fighting, and bloodletting.\nRight click will attempt to steal from the target."
 	icon_state = "rmbweak"
 
 /datum/rmb_intent/weak/special_attack(mob/living/carbon/human/user, mob/living/carbon/human/target)

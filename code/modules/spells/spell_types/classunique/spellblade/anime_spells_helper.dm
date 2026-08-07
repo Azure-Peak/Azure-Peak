@@ -35,16 +35,22 @@ without going through the click pipeline, so spells can deliver weapon-style str
 	if(!def_zone)
 		def_zone = user.zone_selected || BODY_ZONE_CHEST
 
-	// Zone accuracy uses the same system as ranged — precise zones are capped.
-	// Base accuracy from PER/INT: 60 base + 10 per point of PER above 10 + 10 per point of INT above 10
-	// Below 10 penalizes instead. A class-intended spellblade (PER ~12, INT ~12) gets ~100 base accuracy.
-	// This feeds into bullet_hit_accuracy_check which caps ultra-precise at 50%, precise at 75%, face at 30%.
 	// exact_zone bypasses the roll entirely, striking precisely where the caster aimed.
 	if(!exact_zone && def_zone != BODY_ZONE_CHEST && isliving(target))
-		var/base_accuracy = 60
-		base_accuracy += (user.STAPER - 10) * 10
-		base_accuracy += (user.STAINT - 10) * 10
-		def_zone = target.bullet_hit_accuracy_check(base_accuracy, def_zone)
+		// A bound weapon carries arcyne as its own skill, so Bind Armament transfers accuracy onto it.
+		var/datum/skill/accuracy_skill = weapon?.associated_skill || /datum/skill/combat/arcyne
+		var/accuracy_bonus = user.get_skill_level(accuracy_skill) * 8
+		switch(blade_class)
+			if(BCLASS_STAB)
+				accuracy_bonus += 10
+			if(BCLASS_CUT)
+				accuracy_bonus += 6
+			if(BCLASS_BLUNT)
+				if(check_zone(def_zone) != def_zone)
+					accuracy_bonus -= 10
+		if(weapon?.wlength == WLENGTH_SHORT)
+			accuracy_bonus += 10
+		def_zone = resolve_aimed_zone(def_zone, user, target, accuracy_bonus)
 
 	if(iscarbon(target))
 		var/mob/living/carbon/C = target
@@ -64,6 +70,11 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			visual_effect = ATTACK_EFFECT_MECHFIRE
 	if(!skip_animation)
 		user.do_attack_animation(target, visual_effect, weapon, item_animation_override = anim_type)
+
+	var/datum/status_effect/buff/clash/limbguard/LG = target.has_status_effect(/datum/status_effect/buff/clash/limbguard)
+	if(LG?.is_active && LG.protected_zone == def_zone && user != target)
+		LG.process_attack(target, target, user, weapon, def_zone)
+		return 0
 
 	// Optional shield check — blocked like a projectile (shield takes 25% as integrity damage).
 	if(allow_shield_check && ishuman(target))

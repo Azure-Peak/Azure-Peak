@@ -71,7 +71,7 @@
 		lurker = L
 		break
 	}
-	
+
 	if(lurker && ai_controller)
 		ai_controller.set_blackboard_key(BB_FOLLOW_TARGET, lurker)
 
@@ -149,7 +149,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker
-	icon = 'icons/mob/mirespider_big.dmi'
+	icon = 'icons/mob/mirespider_new.dmi'
 	desc = "An unusually large and dangerous mire crawler, these lumbering creatures tend to find smaller specimens gravitating to them for safety - or perhaps simply to hunt more efficiently."
 	name = "mire lurker"
 	icon_state = "lurker"
@@ -166,7 +166,7 @@
 	base_intents = list(/datum/intent/simple/bite/mirespider_lurker)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
 						/obj/item/natural/hide = 2,
-						/obj/item/natural/silk = 1, 
+						/obj/item/natural/silk = 1,
 						/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 3,
@@ -220,7 +220,7 @@
 	projectiletype = /obj/projectile/bullet/spider_shroom
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
 						/obj/item/natural/hide = 2,
-						/obj/item/natural/silk = 1, 
+						/obj/item/natural/silk = 1,
 						/obj/item/reagent_containers/powder/ozium = 1,
 						/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
@@ -289,7 +289,7 @@
 
 	base_intents = list(/datum/intent/simple/bite/mirespider_paralytic)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 1,
-						/obj/item/natural/silk = 1, 
+						/obj/item/natural/silk = 1,
 						/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
 						/obj/item/natural/hide = 1,
