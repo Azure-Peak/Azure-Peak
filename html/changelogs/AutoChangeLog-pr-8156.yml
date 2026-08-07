@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Added the Pentarchy special mercenary wave which can roll naturally rarely and be bought for 55 triumphs, once per round, and the trios of mercenaries generic wave which is purchase only and can be bought for 66 triumphs, once per round."
-  - admin: "Added better logging for triumphs modification"

@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Slightly increased the grace timer before straining / forced cancel for holding onto a spell"
-  - rscadd: "Modified and cleaned up how spell audio que works, such that charging sound cuts out the moment it is charged and now we use a new charged sound with a bit of silence cut out"
-  - rscadd: "Modified and changed how the audio que for charging a sling / bow works. It should be snappier and will reuse the nock / loading sound to indicate it is done charging. There's now sound variations based on how fast your actual calculated draw speed is."
-  - rscadd: "Added lag compensation for spell charging and archery / sling charging. Moved them back onto the faster, dedicated mouse charge system to hopefully make it more reliable and not compete with fast processing for proper icon indicator."
