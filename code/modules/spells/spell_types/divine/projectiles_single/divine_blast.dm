@@ -71,7 +71,7 @@
 				return
 			if(blocked < 100)
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !L.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-					L.visible_message("<font color='white'>Divine power rebukes [L]!</font>")
+					L.visible_message("<font color='white'>Divine power rebukes [L]!!</font>")
 					L.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/divine)
 					L.ignite_mob()
 				apply_divine_damage(L)
