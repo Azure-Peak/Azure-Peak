@@ -65,7 +65,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "sun robe"
 	desc = "Just as Her radiance rises upon each morning, so too will order reign across the kingdoms."
-	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	body_parts_covered = CHEST|GROIN|LEGS|VITALS
 	icon_state = "astratarobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
@@ -80,7 +80,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "undivided robe"
 	desc = "Undivided, we stand - a Pantheon of Ten, shepherding Psydonia's flock towards providence."
-	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	body_parts_covered = CHEST|GROIN|LEGS|VITALS
 	icon_state = "undividedrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
@@ -94,7 +94,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "undivided clerical robe"
 	desc = "Undivided, we walk - a Pantheon of Ten, guiding Psydonia's wanderers towards providence."
-	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	body_parts_covered = CHEST|GROIN|LEGS|VITALS
 	icon_state = "tenclericrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
@@ -108,7 +108,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "ravox robe"
 	desc = "None are above justice; none are beneath redemption."
-	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	body_parts_covered = CHEST|GROIN|LEGS|VITALS
 	icon_state = "ravoxrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'

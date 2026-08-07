@@ -199,6 +199,10 @@
 	path = /obj/item/clothing/cloak/wickercloak
 	sort_category = "Cloaks"
 
+/datum/loadout_item/sash
+	name = "sash"
+	path = /obj/item/clothing/cloak/sash
+
 /datum/loadout_item/ranger_cloak
 	name = "Ranger Cloak, Forest Green"
 	path = /obj/item/clothing/cloak/rangercloak

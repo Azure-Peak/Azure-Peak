@@ -14,6 +14,21 @@
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/sewing/turban
+	name = "turban"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/turban)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
+
+/datum/crafting_recipe/roguetown/sewing/torsosash
+	name = "sash"
+	category = "Robes"
+	result = list(/obj/item/clothing/cloak/sash)
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/sewing/tiyon
 	name = "tiyon"
 	category = "Hats"

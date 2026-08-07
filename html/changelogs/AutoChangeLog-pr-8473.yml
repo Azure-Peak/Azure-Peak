@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Several antags - and familiars - can no longer become werewolfs through bites. I hate this."

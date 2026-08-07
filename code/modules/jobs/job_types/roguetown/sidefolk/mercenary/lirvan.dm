@@ -5,7 +5,7 @@
 	forbidden_races = list(RACES_LIRVAS) //no wildkin; i'd like to allow snek/liznerd wildkin, but i don't have a way of mechanically enforcing that
 	outfit = /datum/outfit/job/roguetown/mercenary/lirvanmerc
 	class_select_category = CLASS_CAT_RACIAL
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_MEDIUMARMOR)
 	cmode_music = 'sound/music/combat_matthios.ogg'
 	maximum_possible_slots = 2
@@ -125,6 +125,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	repair_time = 30 SECONDS
 	armor = ARMOR_PLATE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | HANDS | FEET | COVERAGE_HEAD //all but eyes/nose, seems fair.
+	blocking_behavior = null
 
 
 #define LIRVAN_BLING_FILTER "lirvan_titheaura"

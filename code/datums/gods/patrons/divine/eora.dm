@@ -25,7 +25,9 @@
 	storyteller = /datum/storyteller/eora
 	titles = list(
 		"Mother", // have seen people call her this, or variants like 'Great Mother', ic. she doesn't really get titles though
-		"Eori"
+		"Eori",
+		"Heart", // e.g. "heart-mother"
+		"Love" // e.g. "lady of love"
 	)
 
 // Near a psycross, by an eoran sacred tree, inside the church, at the eoran shrine, holding poppy flowers, or has pacifism trait

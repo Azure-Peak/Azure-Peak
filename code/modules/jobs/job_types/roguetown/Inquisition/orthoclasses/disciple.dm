@@ -77,17 +77,6 @@
 			if("Knuckledusters")
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/knuckledusters/psy
-		var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves for non-magic guys.
-		var/technique_choice = input(H,"Choose your TECHNIQUE.", "DECIMATE AND DOMINATE WITH FLAIR.") as anything in techniques
-		switch(technique_choice)
-			if("Dropkick - Pushback + Extra Damage")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
-			if("Chokeslam - Stamina Damage")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
-			if("Stunner - Dazed Debuff")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
-			if("Headbutt - Vulnerable Debuff")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns

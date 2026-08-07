@@ -23,6 +23,8 @@
 		/datum/sprite_accessory/horns/simple,
 		/datum/sprite_accessory/horns/short,
 		/datum/sprite_accessory/horns/curled,
+		/datum/sprite_accessory/horns/zard,
+		/datum/sprite_accessory/horns/zard_cloth,
 		/datum/sprite_accessory/horns/ram,
 		/datum/sprite_accessory/horns/angler,
 		/datum/sprite_accessory/horns/guilmon,

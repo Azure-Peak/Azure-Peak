@@ -24,10 +24,13 @@
 	titles = list(
 		"Treefather",
 		"Tree-Father",
-		"Denno"
+		"Denno",
+		"Diantuoshen", // lingyue
+		"Volf-skinned", // fjall
+		"Volfskinned"
 	)
 
-// In grove, bog, cross, or ritual chalk 
+// In grove, bog, cross, or ritual chalk
 // Yes, he is NOT calling the master cus he's unique. Whole bog is his prayer zone. Druids exist for a reason instead of in the church.
 /datum/patron/divine/dendor/can_pray(mob/living/follower)
 	. = ..()
@@ -47,7 +50,7 @@
 		return TRUE
 	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Pantheon Cross for the Treefather to hear my prays..."))
 	return FALSE
-	
+
 /datum/patron/divine/dendor/on_gain(mob/living/H)
 	. = ..()
 	H.AddComponent(/datum/component/wise_tree_alert)
@@ -62,7 +65,7 @@
 )
 	*message_out = span_info("A rush of primal energy spirals about [target]!")
 	*message_self = span_notice("I'm infused with primal energies!")
-				
+
 	var/list/natural_stuff = list(/obj/structure/flora/roguegrass, /obj/structure/flora/roguetree, /obj/structure/flora/rogueshroom, /obj/structure/soil, /obj/structure/flora/newtree, /obj/structure/flora/tree, /obj/structure/glowshroom)
 	var/bonus = 0
 

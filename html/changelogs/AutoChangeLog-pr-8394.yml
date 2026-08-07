@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - refactor: "Zizo skeleton summoning is fixed (again x6) by reworking the spell."
-  - rscdel: "The new Zizo spells have been reverted temporarily for reorganization purposes, they'll be back shortly."
