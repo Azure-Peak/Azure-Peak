@@ -504,15 +504,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explaindef"])
-		var/output = span_info("Each point of defense adds 10% to your parry chance.\n\
-		Your parry chance is increased by 20% per skill level in the weapon, and reduced by 20% per skill level of your attacker.\n\
+		var/output = span_info("Each point of defense adds [PARRY_PER_WDEF_POINT]% to your parry chance.\n\
+		Your parry chance is increased by [PARRY_PER_SKILL_LEVEL]% per skill level in the weapon, and reduced by [PARRY_PER_SKILL_LEVEL]% per skill level of your attacker.\n\
 		Defense is often increased when you wield a weapon two-handed.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
 
 	if(href_list["explainlength"])
-		var/output = span_info("A short weapon gains +10% accuracy on hitting any bodypart and can only attack the legs from the ground.\n\
+		var/output = span_info("A short weapon gains +[ACC_SHORT_WEAPON_BONUS]% accuracy on hitting any bodypart and can only attack the legs from the ground.\n\
 		A long weapon can hit chest or below from the ground, and can hit the feet while standing.\n\
 		A great weapon can hit any bodypart from anywhere.")
 		if(!usr.client.prefs.no_examine_blocks)
@@ -531,8 +531,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			output = examine_block(output)
 		to_chat(usr, output)
 
-	var/additional_explanation = "This determines the damage dealt by this weapon. Force is increased / decreased by strength above / below 10 by 10% per point of difference,\n\
-	Each point of strength at 15 or above only applies an additional +3% damage, except on punches. Damage is also multiplied by damage factor on intents. \n\
+	var/additional_explanation = "This determines the damage dealt by this weapon. Force is increased / decreased by strength above / below 10 by [round(STRENGTH_MULT * 100)]% per point of difference,\n\
+	Each point of strength at [STRENGTH_SOFTCAP + 1] or above only applies an additional +[round(STRENGTH_CAPPEDMULT * 100)]% damage, except on punches. Damage is also multiplied by damage factor on intents. \n\
 	Both multipliers are applied to the base number, and do not multiply each other. Reduced sharpness decreases the contribution of strength.\n\
 	Armor penetration on an intent determines whether an attack penetrates the target's armor. Armor penetrating attacks deal less damage to the armor itself."
 	if(href_list["showforce"])
@@ -577,13 +577,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explainpenfactor"])
-		var/output = span_info("Armor Penetration determines whether this attack goes through armor.\n\
+		var/output = span_info("Armor Penetration determines how much of this attack goes through armor.\n\
 		Each armor piece has a blocking tier (Light, Medium, Heavy, Blacksteel).\n\
-		Penetration > armor tier: 100% damage goes through.\n\
-		Penetration = armor tier: 20% damage through. Armor absorbs remaining %.\n\
-		Penetration < armor tier: Fully blocked.\n\
+		Penetration below the armor tier: fully blocked.\n\
+		Penetration at or above the armor tier: Only a portion go through, and the armor absorbs the rest as integrity damage.\n\
+		The wider the gap between your penetration and the armor tier, the more damage gets through. Strength is used to determine how much of the penetration go through. Swift Balance weapon may use Speed instead.\n\
+		A dulled weapon penetrates worse, and a chunked one cannot penetrate at all.\n\
+		Piercing damage (arrows, bolts) ignores those modifiers and uses fixed amounts based on whether penetration matches or exceeds the tier.\n\
 		All attacks go through armor with no protection of that type, including attacks with no armor penetration.\n\
-		Blunt / Burn / Acid attacks bypass this system entirely and use damage reduction instead.")
+		Blunt and Burn attacks bypass this system entirely and use damage reduction instead.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)

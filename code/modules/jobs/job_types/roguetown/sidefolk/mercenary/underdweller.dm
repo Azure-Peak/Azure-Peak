@@ -6,7 +6,7 @@
 	forbidden_races = list(RACES_UNDERDARK)
 	outfit = /datum/outfit/job/roguetown/mercenary/underdweller
 	class_select_category = CLASS_CAT_RACIAL
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_CAVEDWELLER, TRAIT_ALCHEMY_EXPERT) //No bomb expert, only supply. Axes/mining expert.
 	subclass_stats = list(
 		STATKEY_CON = 2,

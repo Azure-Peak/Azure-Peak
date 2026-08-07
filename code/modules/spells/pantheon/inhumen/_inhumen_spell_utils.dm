@@ -49,6 +49,7 @@
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+		ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -74,6 +75,7 @@
 	ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]")
 	ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
 	ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+	ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 
 	for(var/obj/item/bodypart/part in user.bodyparts)
 		if(istype(part, /obj/item/bodypart/head))

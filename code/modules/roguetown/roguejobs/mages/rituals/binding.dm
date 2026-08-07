@@ -22,7 +22,7 @@
 		to_chat(user, span_warning("The binding array has been destroyed! The ritual fizzles."))
 		return FALSE
 	// special case: only highly skilled mages can safely perform this act of hubris
-	if(mob_to_bind == /mob/living/simple_animal/pet/familiar/void && !(user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"]))
+	if(mob_to_bind == /mob/living/carbon/human/species/familiar/void && !(user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"]))
 		user.visible_message(span_boldwarning("The ritual spirals out of control! The void stares back, unappreciative of your hubris!"))
 		playsound(loc, 'sound/magic/cosmic_expansion.ogg', 100, TRUE, 14)
 		var/list/valid_turfs = list()
@@ -50,7 +50,7 @@
 	return bound
 
 /datum/runeritual/binding/proc/bind_ritual_mob(mob/living/user, turf/loc, mob/living/mob_to_bind)
-	var/mob/living/simple_animal/pet/familiar/binded
+	var/mob/living/carbon/human/species/familiar/binded
 	if(isliving(mob_to_bind))
 		binded = mob_to_bind
 	else
@@ -67,31 +67,31 @@
 // ----- Familiar Binding -----
 
 /datum/runeritual/binding/infernal
-	name = "Bind Lesser Infernal"
+	name = "Bind Lesser Daemon"
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/simple_animal/pet/familiar/infernal
+	mob_to_bind = /mob/living/carbon/human/species/familiar/infernal
 	invocation = "Appare, spiritus infernus!"
 
 /datum/runeritual/binding/fae
 	name = "Bind Lesser Fae"
 	desc =	 "Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/simple_animal/pet/familiar/fae
+	mob_to_bind = /mob/living/carbon/human/species/familiar/fae
 	invocation = "Appare, spiritus silvae!"
 
 /datum/runeritual/binding/elemental
 	name = "Bind Lesser Elemental"
 	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/simple_animal/pet/familiar/elemental
+	mob_to_bind = /mob/living/carbon/human/species/familiar/elemental
 	invocation = "Appare, spiritus terrae!"
 
 /datum/runeritual/binding/void
 	name = "Bind Void Drakeling"
 	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/simple_animal/pet/familiar/void
+	mob_to_bind = /mob/living/carbon/human/species/familiar/void
 	// 1 shard instead of 2 means if you summon in the bog you'll still have an extra 2 shards to make something cool with as a reward
 	required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
 
@@ -177,7 +177,6 @@
 				vestige.stored_familiar.loc = loc
 				vestige.stored_familiar.grab_ghost(force = TRUE)
 				vestige.stored_familiar.familiar_summoner = user
-				vestige.stored_familiar.icon_state = vestige.stored_familiar.icon_living
 				vestige.stored_familiar.update_icon()
 				vestige.stored_familiar.visible_message(span_notice("[vestige.stored_familiar.name] is restored to life by [user]'s magic!"))
 				vestige.stored_familiar = null
@@ -191,8 +190,8 @@
 
 /datum/runeritual/binding/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = ..()
-	var/mob/living/simple_animal/pet/familiar/fam
-	for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
+	var/mob/living/carbon/human/species/familiar/fam
+	for(var/mob/living/carbon/human/species/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
 		if(existing_fam.familiar_summoner == user)
 			fam = existing_fam
 	if(!istype(fam))

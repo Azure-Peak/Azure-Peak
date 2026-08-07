@@ -21,8 +21,8 @@
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/guard_dummy)
-	adjust_skillrank(/datum/skill/combat/swords, 6, TRUE)
-	adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
+	adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_LEGENDARY, TRUE)
+	adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_LEGENDARY, TRUE)
 	cmode = TRUE
 	apply_status_effect(/datum/status_effect/buff/clash/test_dummy)
 

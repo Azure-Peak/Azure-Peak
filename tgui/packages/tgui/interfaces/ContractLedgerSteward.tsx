@@ -563,7 +563,9 @@ const ComposeView = () => {
         <div className="ContractLedger__InnkeeperFlavor">
           Blockade writs are always drawn to your hand. Pin to the Grand
           Contract Ledger to require a Fellowship of three; keep in hand to
-          dispatch a trusted party directly.
+          dispatch a trusted party directly. Each defender past the third who
+          stands at the blockade, up to six, raises both the waves and the
+          payout by 20%.
         </div>
       )}
 

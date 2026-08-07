@@ -29,7 +29,8 @@
 		"Thief-of-Fyre",
 		"Thief-of-Fire", // aaaaaaaa
 		"Lord", // catchall for various titles of his
-		"Matoko"
+		"Matoko",
+		"Bear" // fjall
 	)
 
 // When near coin of at least 100 mammon, zchurch, bad-cross, or ritual talk

@@ -5,6 +5,7 @@
 	chargetime = 0
 	warnie = "aimwarn"
 	warnoffset = 0
+	ready_sound = 'sound/magic/charge_ready.ogg'
 
 /datum/intent/spell/can_charge(atom/clicked_object)
 	var/obj/effect/proc_holder/spell/spell_ability = mastermob.ranged_ability

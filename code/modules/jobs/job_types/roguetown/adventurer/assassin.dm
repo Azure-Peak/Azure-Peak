@@ -9,7 +9,7 @@
 	min_pq = 10		// was going to put this higher but realized bandit's only 3 pq and wretch is fucking 10 so whatever
 	max_pq = null
 	antag_job = TRUE
-	
+
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
 
 	outfit = null
@@ -39,7 +39,7 @@
 		TRAIT_ANTISCRYING,
 	)
 	cmode_music = 'sound/music/cmode/antag/combat_assassin.ogg'
-	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build 
+	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build
 	job_subclasses = list(
 		/datum/advclass/assassin_ranger,
 		/datum/advclass/assassin_poisoner,
@@ -64,7 +64,7 @@
 		H.grant_language(/datum/language/thievescant)
 		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "ASSASSIN"), 5 SECONDS)
 		var/wanted = list("I am a notorious criminal", "I am a nobody")
-		var/wanted_choice = input("Are you a known criminal?") as anything in wanted
+		var/wanted_choice = input(H, "Are you a known criminal?") as anything in wanted
 		switch(wanted_choice)
 			if("I am a notorious criminal") //Extra challenge for those who want it
 				bandit_select_bounty(H)

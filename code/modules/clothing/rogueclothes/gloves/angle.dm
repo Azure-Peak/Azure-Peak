@@ -47,7 +47,7 @@
 	desc = "A pair of hardened leather gloves used by fencers who aren't exactly convinced of losing a finger to a particularly strong feder cut. The inside is padded for extra durability."
 	icon_state = "freigloves"
 	item_state = "freigloves"
-	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	color = null
 
 /obj/item/clothing/gloves/roguetown/angle/freifechter/loadout

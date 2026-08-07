@@ -16,7 +16,10 @@
 	set name = "Adjust Own Triumphs"
 	var/input = input(src, "how much") as num
 	if(mob && input)
-		mob.adjust_triumphs(input)
+		var/old_triumphs = mob.get_triumphs()
+		mob.adjust_triumphs(input, TRUE, "Adjust Own Triumphs (admin verb)")
+		log_admin("[key_name(src)]: Modified own Triumphs by [input], from [old_triumphs] to [old_triumphs + input]")
+		message_admins(span_adminnotice("[key_name_admin(src)]: Modified own Triumphs by [input], from [old_triumphs] to [old_triumphs + input]"))
 
 
 

@@ -821,3 +821,8 @@
 	name = "Donator Kit - Falling Star"
 	path = /obj/item/enchantingkit/weapon/falling_star
 	ckeywhitelist = list("octus")
+
+/datum/loadout_item/donator/aticius_fls
+	name = "Donator Kit - For Love's Sake"
+	path = /obj/item/enchantingkit/aticius_fls
+	ckeywhitelist = list("aticius")
