@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Familiar flavortexts now properly use markdown. You'll need to edit/save your familiar FT for this to take effect."

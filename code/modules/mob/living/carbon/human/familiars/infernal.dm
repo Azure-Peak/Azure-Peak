@@ -40,6 +40,10 @@
 		TRAIT_NOBREATH,
 		TRAIT_TOXIMMUNE,
 		TRAIT_SILVER_WEAK,
+		TRAIT_NOWW, // no antag familiars pls
+		TRAIT_UNLYCKERABLE,
+		TRAIT_ZOMBIE_IMMUNE,
+		TRAIT_UNCONVERTIBLE,
 	)
 	origin = "The Hells"
 	origin_default = /datum/virtue/origin/familiar/infernal
