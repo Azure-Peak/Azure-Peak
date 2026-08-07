@@ -85,20 +85,20 @@
 			door.set_opacity(TRUE)
 			door.brokenstate = FALSE
 			door.obj_broken = FALSE
-			door.repair_state = 0								
+			door.repair_state = 0
 			if((S.obj_integrity + repair_points) > S.max_integrity)
 				var/need_points = (S.max_integrity - S.obj_integrity)
 				S.obj_integrity += need_points
 			else
 				S.obj_integrity += repair_points
 			owner.visible_message(span_notice("[owner] point on [door.name] and repair this."), \
-			span_notice("I point on [door.name]. Malum blessing!"))	
+			span_notice("I point on [door.name]. Malum blessing!"))
 			return TRUE
 
 		if(istype(S, /obj/structure/roguewindow/))
 			var/obj/structure/roguewindow/window = S
 			if(window.obj_integrity < window.max_integrity)
-				//to_chat(owner, span_warning("[window.obj_integrity]"))	
+				//to_chat(owner, span_warning("[window.obj_integrity]"))
 				owner.visible_message(span_notice("[owner] starts concentrating on [window.name]."),
 				span_notice("I start concentrating on [window.name]."))
 				playsound(owner, 'sound/misc/wood_saw.ogg', 100, TRUE)
@@ -113,9 +113,9 @@
 					var/need_points = (S.max_integrity - S.obj_integrity)
 					S.obj_integrity += need_points
 				else
-					S.obj_integrity += repair_points					
+					S.obj_integrity += repair_points
 				owner.visible_message(span_notice("[owner] point on [window.name] and repair this."), \
-				span_notice("I point on [window.name]. Malum blessing!"))	
+				span_notice("I point on [window.name]. Malum blessing!"))
 				return TRUE
 		else
 			if(!do_after(owner, (150 / skill), target = S))
@@ -141,26 +141,26 @@
 	return FALSE
 
 //////////////////////////////
-// T1 - Vigorious Exchange. //
+// T1 - Vigorous Sexchange. //
 //////////////////////////////
 
-/datum/action/cooldown/spell/malum/vigorousexchange
-	name = "Vigorous Exchange"
-	desc = "Restores the target's Energy, twice as effective on someone else."
+/datum/action/cooldown/spell/malum/vigoroussexchange
+	name = "Vigorous Sexchange"
+	desc = "Restores the target's Energy, twice as effective on someone else. The target may also assent to having their flesh reforged into the opposite sex. A riposte rebounds the reforging onto the caster."
 	fluff_desc = "Behind every great work is a hard-working master, dilligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
 	button_icon_state = "vigorousexchange"
 	sound = 'sound/magic/undivided_recuperation.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_GROUND
+	cast_range = SPELL_RANGE_ADJACENT
 	self_cast_possible = TRUE
 
 	primary_resource_cost = SPELLCOST_MIRACLE
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	//invocations = list("Through flame and ash, let vigor rise, by Malum’s hand, let strength reprise!")
+	invocations = list("Through flame and ash, blood and flesh, by Malum’s hand, remold the body, reforge the mind, rejuvenate their strength. Pintle unto Gudgeon, Gudgeon unto Pintle!")
 	invocation_type = INVOCATION_NONE
 
 	charge_required = TRUE
@@ -171,7 +171,9 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-/datum/action/cooldown/spell/malum/vigorousexchange/cast(atom/cast_on)
+	var/assent_time = 10 SECONDS
+
+/datum/action/cooldown/spell/malum/vigoroussexchange/cast(atom/cast_on)
 	. = ..()
 	var/const/energytoregen = 200
 
@@ -184,6 +186,9 @@
 	if (!isliving(spelltarget))
 		show_visible_message(owner, "You can only cast this on living beings.")
 		return FALSE
+	if (spell_guard_check(spelltarget))
+		offer_reforging(H)
+		return TRUE
 	if (spelltarget == H)
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) / 2)//You only get half
 		show_visible_message(owner, "<font color='orange'>As [owner] intones the incantation, vibrant flames swirl around them.", "<font color='orange'>As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
@@ -191,6 +196,33 @@
 		owner.energy_add(-(energytoregen * (owner.get_skill_level(associated_skill))))
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) * 2)
 		show_visible_message(spelltarget, "<font color='orange'>As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [spelltarget].", "<font color='orange'>As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
+
+	offer_reforging(spelltarget)
+
+/datum/action/cooldown/spell/malum/vigoroussexchange/proc/offer_reforging(mob/living/subject)
+	var/mob/living/carbon/human/reforged = subject
+	if(!istype(reforged) || !reforged.client)
+		return FALSE
+
+	var/becoming = (reforged.gender == FEMALE) ? "a man" : "a woman"
+	var/list/assented = list(reforged)
+	// Poll window rather than alert(): it can't steal focus or intercept clicks mid-fight.
+	showCandidatePollWindow(reforged, assent_time, "[owner.real_name]'s miracle offers to  remake you as [becoming]. THIS PERMANENTLY CHANGES YOUR SEX. Do you assent?", assented, null, world.time, flashwindow = FALSE)
+	if(!do_mob(owner, reforged, assent_time, can_move = FALSE))
+		to_chat(owner, span_warning("I lose my grip on the working."))
+		return FALSE
+	if(!length(assented))
+		to_chat(owner, span_warning("[reforged] is content."))
+		return FALSE
+
+	reforged.gender = (reforged.gender == FEMALE) ? MALE : FEMALE
+	reforged.dna?.update_ui_block(DNA_GENDER_BLOCK)
+	reforged.update_body()
+	reforged.update_hair()
+	reforged.update_body_parts()
+	playsound(reforged, 'sound/items/quench_barrel1.ogg', 100, TRUE)
+	reforged.visible_message(span_notice("[reforged] is remade."), span_notice("I am remade."))
+	return TRUE
 
 
 /////////////////////
@@ -392,7 +424,7 @@
 			if(target.get_item_by_slot(SLOT_ARMOR))
 				target_item = target.get_item_by_slot(SLOT_ARMOR)
 			else if (target.get_item_by_slot(SLOT_SHIRT))
-				target_item = target.get_item_by_slot(SLOT_SHIRT)	
+				target_item = target.get_item_by_slot(SLOT_SHIRT)
 		if (BODY_ZONE_PRECISE_NECK)
 			target_item = target.get_item_by_slot(SLOT_NECK)
 		if (BODY_ZONE_PRECISE_R_EYE)
@@ -453,7 +485,7 @@
 	var/obj/item/armor = target.get_item_by_slot(SLOT_ARMOR)
 	var/obj/item/shirt = target.get_item_by_slot(SLOT_SHIRT)
 	var/armor_can_heat = armor && armor.smeltresult && armor.smeltresult != /obj/item/ash
-	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt 
+	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt
 	var/damage_to_apply = 20 // How much damage should your armor burning you should do.
 	if (user.zone_selected == BODY_ZONE_CHEST)
 		if (armor_can_heat && (!shirt_can_heat && shirt))
