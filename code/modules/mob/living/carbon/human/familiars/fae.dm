@@ -46,6 +46,10 @@
 		TRAIT_CICERONE, // alchemy familiar
 		TRAIT_KNEESTINGER_IMMUNITY, // they're literally nature spirits
 		TRAIT_KEENEARS, // to fit with their recon focus
+		TRAIT_NOWW, // no antag familiars pls
+		TRAIT_UNLYCKERABLE,
+		TRAIT_ZOMBIE_IMMUNE,
+		TRAIT_UNCONVERTIBLE,
 	)
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/familiar/fae
