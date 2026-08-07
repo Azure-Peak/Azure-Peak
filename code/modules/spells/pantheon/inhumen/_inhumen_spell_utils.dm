@@ -29,8 +29,7 @@
 	for(var/i in 1 to length(chant_lines))
 		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
 		user.adjustBruteLoss(15)
-		user.emote(pick("Progress" ? list("whimper", "painmoan", "gag", "choke") : list("painscream", "agony", "paincrit", "choke")))
-
+		user.emote(pick("Progress" ? list("whimper", "painmoan", "gag", "choke") : list("painscream", "superagony", "paincrit", "choke")))
 		if(i > 1)
 			shake_camera(user, min(i * 2, 3), i)
 
@@ -45,16 +44,22 @@
 
 	if(user.mind)
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
+		new /obj/effect/temp_visual/zizorite(get_turf(user))
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+		ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 		grant_poke_spell(user)
 
 	user.visible_message(
 		span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"),
 		span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!")
 	)
+
+	to_chat(user, span_purple("You have performed the Rituos to perfection. By all rights, you should now be a full-fledged Magos... and yet..."))
+	sleep(30)
+	to_chat(user, "<i>...Why do I still struggle to comprehend anything beyond a mere grasp of the arcane? What am I missing?</i>")
 
 /datum/action/cooldown/spell/zizo/rituos/proc/apply_unlife_path(mob/living/carbon/human/user)
 
@@ -70,6 +75,7 @@
 	ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]")
 	ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
 	ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+	ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 
 	for(var/obj/item/bodypart/part in user.bodyparts)
 		if(istype(part, /obj/item/bodypart/head))
@@ -78,11 +84,19 @@
 		part.skeletonize(FALSE)
 		user.update_body_parts()
 		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+		new /obj/effect/temp_visual/zizorite(get_turf(user))
 		sleep(15)
 
 	var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
 	playsound(user.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
 	torso?.skeletonize(FALSE)
+
+	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.Remove(user,1)
+		QDEL_NULL(eyes)
+	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
+	eyes.Insert(user)
 	user.update_body_parts()
 
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
@@ -98,68 +112,86 @@
 		span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!")
 	)
 
-	to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
+	to_chat(user, span_purple("You have performed the Rituos to perfection. You should be a full-fledged Lich by now... and yet..."))
 	sleep(30)
 	to_chat(user, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
 
 /mob/living/carbon/human/proc/zizo_spam_rejection()
 	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!<br>"), span_userdanger("The Work collapses in on itself...! Something has gone terribly WRONG!<br>"))
 	to_chat(src, span_artery("<br><br>OH. IT'S YOU.<br><br>"))
+	src.playsound_local(get_turf(src), 'sound/magic/scryed_on.ogg', 200)
+	if(!HAS_TRAIT(src, TRAIT_NOMOOD))
+		src.freak_out()
 	sleep(30)
-	to_chat(src, span_artery("DO YOU THINK I DON'T NOTICE?<br><br>"))
+	to_chat(src, span_purple("DO YOU THINK I DON'T NOTICE?<br><br>"))
 	sleep(20)
-	to_chat(src, span_artery("PATHETIC.<br><br>"))
+	to_chat(src, span_purple("PATHETIC.<br><br>"))
 	sleep(20)
-	to_chat(src, span_artery("YOU ARE NOT CLEVER. YOU ARE INSOLENT.<br><br>"))
+	to_chat(src, span_purple("YOU ARE NOT CLEVER. YOU ARE INSOLENT.<br><br>"))
 	sleep(20)
-	to_chat(src, span_artery("AND I HATE INSOLENT THINGS.<br><br>"))
+	to_chat(src, span_purple("AND I HATE INSOLENT THINGS.<br><br>"))
 	sleep(20)
-	to_chat(src, span_artery("KINDLY, UNDO YOURSELF."))
+	to_chat(src, span_purple("KINDLY, UNDO YOURSELF."))
+	new /obj/effect/temp_visual/zizorite(get_turf(src))
 	Stun(100)
 	Knockdown(100)
 	emote("superagony")
+	src.playsound_local(get_turf(src), 'sound/magic/scryed_on.ogg', 200)
 	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
 	to_chat(src, span_userdanger("--MY LUX- NO-! SHE SEES IT! SHE SEES WHAT I TRIED TO DO-!! SHIT!!!"))
 	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
 	sleep(50)
+	new /obj/effect/temp_visual/zizorite(get_turf(src))
 	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
 	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
-	gib()
 	visible_message(span_userdanger("[src] suddenly explodes into a pile or gore and remains!"), span_artery("The Lesser Work rejects you entirely. A hopeful lesson for another timeline."))
+	gib()
 
 /mob/living/carbon/human/proc/zizo_vampire_rejection()
 	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!<br>"),
 	span_userdanger("The Work rejects my cursed blood!<br>"))
-	to_chat(src, span_artery("<br><br>OH. WONDERFUL. I KNOW WHAT YOU ARE ATTEMPTING.<br><br>"))
+	src.playsound_local(get_turf(src), 'sound/magic/scryed_on.ogg', 200)
+	if(!HAS_TRAIT(src, TRAIT_NOMOOD))
+		src.freak_out()
+	to_chat(src, span_purple("<br><br>OH. WONDERFUL. I KNOW WHAT YOU ARE ATTEMPTING.<br><br>"))
 	sleep(40)
-	to_chat(src, span_artery("YOU THINK SO LITTLE OF MY WORK? INSOLENT FOOL.<br><br>"))
+	to_chat(src, span_purple("YOU THINK SO LITTLE OF MY WORK? INSOLENT FOOL.<br><br>"))
+	sleep(15)
+	to_chat(src, span_purple("YOU HAVE NOT DISCOVERED SOME HIDDEN TRUTH.<br><br>"))
+	sleep(15)
+	to_chat(src, span_purple("YOU HAVE NOT FOUND A LOOPHOLE.<br><br>"))
+	sleep(15)
+	to_chat(src, span_purple("YOU HAVE NOT OUTWITTED ME.<br><br>"))
+	sleep(15)
+	to_chat(src, span_purple("YOU HAVE MERELY WASTED MY TIME.<br><br>"))
 	sleep(20)
-	to_chat(src, span_artery("YOU HAVE NOT DISCOVERED SOME HIDDEN TRUTH.<br><br>"))
+	to_chat(src, span_purple("MY PRECIOUS TIME.<br><br>"))
 	sleep(20)
-	to_chat(src, span_artery("YOU HAVE NOT FOUND A LOOPHOLE.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("YOU HAVE NOT OUTWITTED ME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("YOU HAVE MERELY WASTED MY TIME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("MY PRECIOUS TIME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("SO. ALLOW ME TO REPAY THE FAVOR."))
+	to_chat(src, span_purple("SO. ALLOW ME TO REPAY THE FAVOR."))
+	new /obj/effect/temp_visual/zizorite(get_turf(src))
 	Stun(40)
 	Knockdown(40)
 	emote("superagony")
+	src.playsound_local(get_turf(src), 'sound/magic/scryed_on.ogg', 200)
 	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
 	to_chat(src, span_userdanger("--MY LUX IS BEING TORN OFF THROUGH MY HEAD!! MY HEAD!! MYHEADMYHEADMYHEADMYHEADMYHEHEAHEHEA!!"))
 	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
 	sleep(50)
+	new /obj/effect/temp_visual/zizorite(get_turf(src))
 	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
 	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
 	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
 	head?.skeletonize(TRUE)
 	update_body()
-	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as their face is torn away, leaving only a hollow skull..."))
+	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as their face is torn away, leaving only a hollow skull..."), span_artery("The Lesser Work rejects you entirely. A hopeful lesson for another timeline."))
 	sleep(20)
-	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
+	visible_message(span_userdanger("Their Lux has been completely and utterly annihilated..."), span_userdanger("Your lux has been completely and utterly annihilated..."))
+	sleep(100) //Give everyone a good window to be traumatised horribly + clear away death screen, for that EXTRA spite of spite
+	new /obj/effect/temp_visual/zizorite(get_turf(src))
+	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
+	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
+	visible_message(span_userdanger("[src] suddenly explodes into a pile or gore and remains!"))
+	gib()
 
 ////////////
 //MATTHIOS//
@@ -311,12 +343,12 @@
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), target, weapon)
 	return COMPONENT_ITEM_NO_ATTACK
 
-/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity) 
-	SIGNAL_HANDLER 
-	if(!isliving(target) || target == owner) 
-		return 
-	var/mob/living/L = target 
-	if(L.stat == DEAD) 
+/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!isliving(target) || target == owner)
+		return
+	var/mob/living/L = target
+	if(L.stat == DEAD)
 		return
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), L, null)
 	return COMPONENT_HAND_NO_ATTACK
@@ -397,4 +429,4 @@
 	transform = M
 	animate(src, pixel_x = pixel_x + rand(-16,16), pixel_y = pixel_y + rand(8,20), alpha = 0, time = duration, easing = EASE_OUT)
 
-#undef MAMMON_FILTER 
+#undef MAMMON_FILTER

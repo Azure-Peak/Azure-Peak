@@ -26,7 +26,8 @@
 		"Tyrant",
 		"Overtyrant",
 		"Sun", // should match any sort of Sun(x) title
-		"Aisata"
+		"Aisata",
+		"Airishen" // lingyue
 	)
 
 // In daylight, church, cross, or ritual chalk.

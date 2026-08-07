@@ -13,7 +13,7 @@
 	class_select_category = CLASS_CAT_HFT_GUARD
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_HEARTFELT) // MAA footman W/O Guardsman Trait
 	subclass_stats = list( //
-		STATKEY_STR = 2, 
+		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 1,
 	)
@@ -55,7 +55,7 @@
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Warhammer & Shield","Axe & Shield","Halberd","Greataxe")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Warhammer & Shield")
@@ -81,24 +81,26 @@
 	)
 	add_verb(H, /mob/proc/haltyell)
 
-	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
-	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Snouted Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
+	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
-		if("Volf Plate Helmet") 
+		if("Volf Plate Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
-		if("Visored Sallet")	
+		if("Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
+		if("Snouted Visored Sallet")
+			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
 		if("Slitted Kettle") 
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
-		if("Simple Helmet")		
+		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet
-		if("Kettle Helmet")		
+		if("Kettle Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/kettle
-		if("Sallet Helmet")		
+		if("Sallet Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet
-		if("Winged Helmet") 
+		if("Winged Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/winged
 		else //In case they DC or don't choose close the panel, etc
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
@@ -118,7 +120,7 @@
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 2,
-		STATKEY_LCK = 2	
+		STATKEY_LCK = 2
 	)
 
 	subclass_skills = list(
@@ -156,7 +158,7 @@
 
 	H.adjust_blindness(-3)
 	var/weapons = list("Crossbow","Bow","Sling")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Crossbow")
@@ -184,24 +186,26 @@
 	)
 	add_verb(H, /mob/proc/haltyell)
 
-	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
-	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Snouted Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
+	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
-		if("Volf Plate Helmet") 
+		if("Volf Plate Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
-		if("Visored Sallet")	
+		if("Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
+		if("Snouted Visored Sallet")
+			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
 		if("Slitted Kettle") 
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
-		if("Simple Helmet")		
+		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet
-		if("Kettle Helmet")		
+		if("Kettle Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/kettle
-		if("Sallet Helmet")		
+		if("Sallet Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet
-		if("Winged Helmet") 
+		if("Winged Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/winged
 		else //In case they DC or don't choose close the panel, etc
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
@@ -232,11 +236,11 @@
 	cmode_music = 'sound/music/combat_squire.ogg'
 
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,		
+		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,		
+		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -263,16 +267,16 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger = 1,  
+		/obj/item/rogueweapon/huntingknife/idagger = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/rogueweapon/hammer/iron = 1,
 		/obj/item/polishing_cream = 1,
 		/obj/item/armor_brush = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
-	) 
+	)
 
 	var/weapons = list("Sword & Shield","Mace & Shield","Spear","Crossbow", "Bow")
-	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Sword & Shield")
@@ -300,24 +304,26 @@
 			beltr = /obj/item/rogueweapon/sword
 			backl = /obj/item/rogueweapon/shield/iron
 
-	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
-	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
+	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Snouted Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
+	var/helmet_choice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmet
 	switch(helmet_choice)
 		if("Etruscan Bascinet")
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan
-		if("Volf Plate Helmet") 
+		if("Volf Plate Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
-		if("Visored Sallet")	
+		if("Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
+		if("Snouted Visored Sallet")
+			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
 		if("Slitted Kettle") 
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
-		if("Simple Helmet")		
+		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet
-		if("Kettle Helmet")		
+		if("Kettle Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/kettle
-		if("Sallet Helmet")		
+		if("Sallet Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet
-		if("Winged Helmet") 
+		if("Winged Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet/winged
 		else //In case they DC or don't choose close the panel, etc
 			head = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan

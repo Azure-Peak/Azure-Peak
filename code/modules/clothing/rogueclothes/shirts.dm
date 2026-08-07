@@ -27,6 +27,7 @@
 		flags_inv &= ~HIDEWINGS
 	else
 		flags_inv |= HIDEWINGS
+	persist_inv_flags(HIDEWINGS)
 	H.update_inv_armor()
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt

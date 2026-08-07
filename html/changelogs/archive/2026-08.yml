@@ -1,0 +1,253 @@
+2026-08-01:
+  KatTheFox:
+  - rscadd: Fae familiar abilities have been reshuffled, both potion abilities are
+      now at tier 2. In tier 1 they now get rootcheck (bootcheck but plants) and invis.
+      Elemental gets aetherknife at base tier.
+  - bugfix: The message displayed when a familiar seeks to be summoned now actually
+      tells you how to do so.
+  - bugfix: Your character's pronouns are now preserved when shapeshifting (e.g. wildshape,
+      zad form)
+  Lamasmaster:
+  - rscadd: '2 infernal summons: Armour and a Sword'
+  WeNeedMorePhoron:
+  - rscadd: You can no longer self extract lux from yourself
+  borneblood:
+  - rscadd: Added a single-use pressure plate object.
+  eirenxiv:
+  - balance: gives swashbuckler apprentice trapmaking
+  - rscadd: Added Hardened Leather Footwraps to Gold/Silverface
+  radarseas:
+  - image: added/modified abscond + new xylix revival icon
+  - bugfix: my dumbass forgot to check Xylix getting anastasis Icon, FUCK.
+2026-08-02:
+  7erracotta:
+  - rscadd: Added amulets
+  - balance: ' added more things to clutter loot pools'
+  Clem-The-Duck:
+  - rscadd: Changes the cloth footwraps sprite
+  Quinalion:
+  - rscadd: Adds the elvish dirk, a Black Oak-themed reskin of the steel dagger.
+  - rscadd: Adds a new visual variant for Black Oak hardened leather coat.
+  - rscadd: Black Oak mercenaries now carry black satchels.
+  - balance: All Black Oak classes now have the padded gambesons.
+  - balance: Black Oaken Guardian now have the Woodwalker trait.
+  - image: Updated Elvish Glaive sprites.
+  - code_imp: Removes unused dark elvish dagger code.
+  Ryan180602:
+  - bugfix: cleanup hair editor
+  - qol: allows turf-click attacks for all melee intents.
+  - rscadd: framework for emote and rest skin repair.
+  - balance: shifts and changes how most skin armour repair themselves.
+  - rscadd: New snouthelm variants.
+  - qol: MMB clothing interactions and altclick interaction with mask save state.
+  WeNeedMorePhoron:
+  - rscdel: Remove the use bandage (doesn't really exists in most case) and use healing
+      potions from NPC, which can feel pretty unfair as they chug like crazy
+  - rscadd: Reduced the rate of fire of most archer by reworking to a new formula
+      that presume 1.5 seconds is used to click the quiver and a minimum aim time
+      of 0.5 s, removed special arrows, reduced incidence of bodkin arrows massively
+      on high tier archers and removed it entirely from low tier archers. Reduced
+      ammo supplies of most NPC archers. This should result in them feeling fairer
+      to fight and less machinegunny. A mistake made in the old formula resulted in
+      most hitting the minimum floor of 2 seconds ROF.
+  - rscdel: Stopped NPC from looting gears they won't use and cleaned up some code.
+  - rscadd: Slightly buff the earlier waves in a blockade and rewards
+  - balance: Holding onto a spell pass 1 seconds strains you up to 5 seconds for forced
+      cancel
+2026-08-03:
+  EmilitiaEnnehrt:
+  - bugfix: fixes elvish glaive pixelshift
+  KatTheFox:
+  - bugfix: Wings will now render below tails from the south specifically. This fix
+      only applies to new character slots or if you change your character's species
+      to something else and back. Which will reset all your customization. Yeah.
+  Ketrai:
+  - rscadd: Ranger cloak dyable & forest green in triumph store.
+  WeNeedMorePhoron:
+  - rscdel: Links in OOC chat etc. are no longer automatically linkified for security
+      reasons.
+  borneblood:
+  - bugfix: Bees can now timeout when pursuing bad plants.
+  - rscadd: Examining Apiary gives you a few more insights on how your bees are doing.
+      Magnifying glasses also improved.
+2026-08-04:
+  EmilitiaEnnehrt:
+  - rscadd: Adds quarterstaffs to Smithy's Silverface.
+  - rscadd: Adds empty surgeon bag to Silverface.
+  - bugfix: fixes a missing delimiter in champion's text.
+  - rscadd: Adds craftable zigboxes.
+  - rscadd: Allows oat and rice grain to be made into grain bait.
+  - rscadd: Chickens now also eat rice.
+  - rscadd: Cows, fogbeasts, and saigas now also eat corn.
+  - code_imp: Half-kin, Wild-kin, and Verminvolk can use Lizard and Fluvian sound
+      emotes.
+  - code_imp: Lizard and Fluvian can use some of Wild-tongue emotes.
+  FreeStylaLT:
+  - balance: Dodge now starts at 90% rather than 95%. Pity Dodge recovery from being
+      struck can no longer exceed 85%.
+  - balance: Swift stance is now more effective vs dodge.
+  - balance: Weapon Skill difference between the target and attacker is now more effective
+      vs dodge. This currently does not apply to pure unarmed.
+  - balance: SPD difference between target and attacker is now more effective vs dodge.
+  - bugfix: Fixed dodge not working correctly when fighting simple mobs.
+  Lamasmaster:
+  - balance: Bailiff
+  Quinalion:
+  - code_imp: Removed unnecessary vars from the Duelist, Maille, and Fluted Maille
+      masks and goggles.
+  - refactor: Standardized the affected equipment to match the implementation of other
+      chainmail items.
+  Ryan180602:
+  - bugfix: fix up peasant rebellion
+  WeNeedMorePhoron:
+  - rscadd: Makes Whips Great instead of Long for weapon length, which make sense
+      given it has a 3 tiles attack.
+  - rscadd: Pyromancy now get a choice spell between Spitfire or Ultio as their poke
+      spell, a reworked version of an old spell made by Swagmeyer.
+  - balance: Bleed rate adjusted to 10 on charred crit from 5.
+  - balance: Remove insta death on proccing two burn crits. oops.
+  - balance: Projectiles and Arcyne Strike (I.e. most new spells) will no longer pop
+      exposed / vulnerable, requiring a staff tap to interact
+  - rscadd: Frost Shards back to Yellow Penalty (Parry Penalty), Rimecast back to
+      Cancel (Red). Their primary spell is easily cancelable which makes it feel very
+      very meh to uise.
+  - rscadd: Steward / Clerk can now bypass withdraw limit they set themselves
+  - rscadd: Improved the interface for Stewardry to give them more options and lower
+      the tedium needed for certain type of economic controls / import / export to
+      saturation point.
+  - rscadd: Added cloth production to Kingsfield and Rosawood
+  radarseas:
+  - rscadd: Added new miracles for Zizo.
+  - rscadd: tweaked various descriptions and such involving certain Zizite items.
+  - rscadd: rejection from rituos is slightly tuned up and a little bit more flashier
+  - rscadd: Zizo rituals are flashier and snuff out the lighting once completed successfully.
+  - rscadd: Added two more rituals to Zizo, "Progressive Trance" and "Insightful Chant".
+  - rscadd: Added a contraband bible, exclusive intentionally to Zizite heretics and
+      Zpellblades (not unbound).
+  - rscadd: Zizo's patron has changed confession lines + vague description tweaks
+      to better fit with the lore. Instead of ZIZO for the sake of Zizo. She's properly
+      the lady of Artifice, Undeath, Progress and Left-handed Magicks.
+  - rscdel: Armament rites no longer give you a round long -2 debuff to all stats
+      when done on another, you already have a 2hr long unique-cooldown as-is that
+      prevents you mass-distributing it.
+  - balance: armament rite extended cooldowns now apply to Gnolls/Spies as well as
+      regular heretics. I know what you are.
+  - balance: Zeretic statline has been shuffled over to +1 WIL, +1 INT +1 PER from
+      +1 per/str/con, since burns are less of an applicable factor + its a spellcaster
+      hybrid that gets shadowed by Noc since rituos no longer grants majors.
+  - rscadd: Added a fuckhuge of new sprites/respites for Zizo-related left-handed
+      magicks or sprite-shifts to make it clearer that its unholy magicka.
+  - balance: Zizo's miracles are slightly different now on-average.
+  - balance: any inhumen cross can be used for interrogations.
+  - balance: unknightly migrant wave has Zizocant now.
+  - balance: heretics get iron zcrosses vs decrepit, not it means much.
+  - balance: necromancer now has diagnose (overdue tbh) this version is 7 tiles vs
+      4. Lich gets this version instead too.
+  - image: added/modified around some sprites, for necromancers and w/ever
+2026-08-05:
+  EmilitiaEnnehrt:
+  - bugfix: Gembracers now covers arms, previously broken.
+  FreeStylaLT:
+  - balance: Penetrative damage now scales more harshly when dealing direct body damage.
+  - balance: Swift-balanced weapons now use either STR or SPD, whichever is higher
+      for pen purposes.
+  - balance: Stat-scaling for pen damage purposes is now capped at 14.
+  - balance: Sharpness-based weapons that are under 20% sharpness ("chunked") can
+      no longer penetrate.
+  - qol: 10 SPD is now the minimum for dodge mechanics to fully function. (Down from
+      11)
+  - qol: Dodging simple mobs with Dodge Expert is now easier.
+  KatTheFox:
+  - bugfix: blessing food no longer lowers its quality
+  WeNeedMorePhoron:
+  - rscadd: Renamed player facing harem window to shrafa window, a new name that does
+      not have any orientalist implication to it.
+  changelingonberry:
+  - admin: custom descriptors now display in the player panel
+2026-08-06:
+  Ketrai:
+  - bugfix: fixed hunting tracks spawning on lava & water tiles
+  Ryan180602:
+  - bugfix: hair pixel layering
+  borneblood:
+  - bugfix: Fixed a bunch of oddities in Dual Wielder. Report any oddities remaining.
+  - refactor: Zizo skeleton summoning is fixed (again x6) by reworking the spell.
+  - rscdel: The new Zizo spells have been reverted temporarily for reorganization
+      purposes, they'll be back shortly.
+2026-08-07:
+  7erracotta:
+  - rscadd: 'Added new clothing items /:cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  KatTheFox:
+  - rscdel: Mimics revealing themselves or being attacked no longer forces all characters
+      in a 4-tile radius to scream and freak out.
+  - code_imp: Familiars are now humanmobs, instead of simplemobs. This vaguely means
+      they'll be able to interact with more things like you'd expect, but might also
+      induce some wyrd bugs - report any broken interactions.
+  - rscadd: The familiar preferences window has been touched up; it now displays one
+      plane's settings as a time and can be cycled. Familiars can now also set their
+      voice color.
+  - bugfix: Fae familiars no longer get misleading tutorial text; it's been updated
+      to match their new ability tiering. Their spell descriptions have also been
+      updated to clarify their mechanics.
+  - bugfix: Fae familiars can now remove reagents from themselves, and can drink (and
+      be fed) from containers as intended. Reagent bite also now works to fill and
+      empty containers, and says as much in its description.
+  - bugfix: Familiars can now wear neck items like pouches and amulets on their neck.
+      For real this time, we promise.
+  - bugfix: The "globally disable the panel for this type of mob" variable now actually...
+      works on both ends, instead of only being checked for the initiator.
+  - bugfix: Origin lore examines are now cached at roundstart, so they don't display
+      incorrectly in certain cases, and will work while you're AFK.
+  Ryan180602:
+  - balance: Reduce integrity range of light armour.
+  - balance: most skin armour is now manual instead of regenerating.
+  - balance: most skin armour is mutually exclusive to other armour in shirt/armour
+      slot.
+  - rscadd: donor item
+  Ryumi:
+  - qol: Examine windows now display the character's custom song title, if they have
+      one set.
+  WeNeedMorePhoron:
+  - rscadd: Added the Pentarchy special mercenary wave which can roll naturally rarely
+      and be bought for 55 triumphs, once per round, and the trios of mercenaries
+      generic wave which is purchase only and can be bought for 66 triumphs, once
+      per round.
+  - admin: Added better logging for triumphs modification
+  - rscadd: 'Added a 17 chapters, around 11k words OOC Combat Guide to the Encyclopedia,
+      which primes you on the basics of combat in AP. Also performed some fixes /
+      tweaks to deal with bugs and inconsistency found while building the guide:'
+  - rscadd: Long Weapon can no longer reach the head from the ground, this niche is
+      reserved for GREAT weapons, thus making them actually differentiate and match
+      the descriptions
+  - rscadd: Grabbing a bleeding wound gave out 0.25x bleed rate instead of 0.5x and
+      then reinforcing did nothing. This meant aggressive grab was useless before
+      even if the code tell you otherwise. Fixed it so that the default rate is 0.5x
+      and then reinforcing an aggressive grab makes it 0.25x.
+  - rscadd: Feint's guaranteed fail condition (feinting someone out of sight, and
+      feinting someone who has just been feinted) now properly make the chance 0%
+      instead of clamping to 10%
+  - rscadd: WEAK / STRONG Stance's description falsely said it gives you +1 / -1 STR,
+      this has been corrected to give the actual percentage value they gives.
+  - rscadd: Blockade now scales threat and rewards up to the sixth instead of the
+      fifth person.
+  - balance: Slightly increased the grace timer before straining / forced cancel for
+      holding onto a spell
+  - rscadd: Modified and cleaned up how spell audio que works, such that charging
+      sound cuts out the moment it is charged and now we use a new charged sound with
+      a bit of silence cut out
+  - rscadd: Modified and changed how the audio que for charging a sling / bow works.
+      It should be snappier and will reuse the nock / loading sound to indicate it
+      is done charging. There's now sound variations based on how fast your actual
+      calculated draw speed is.
+  - rscadd: Added lag compensation for spell charging and archery / sling charging.
+      Moved them back onto the faster, dedicated mouse charge system to hopefully
+      make it more reliable and not compete with fast processing for proper icon indicator.

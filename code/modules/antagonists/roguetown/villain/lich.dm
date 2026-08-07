@@ -53,6 +53,7 @@
 		TRAIT_ALCHEMY_EXPERT,
 		TRAIT_SILVER_WEAK,
 		TRAIT_UNCONVERTIBLE,
+		TRAIT_NOWW,
 		TRAIT_BADTRAINER
 		)
 
@@ -193,6 +194,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bestowcant/lich)
 		// Other role required spells.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
@@ -203,7 +205,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //Zombifies dead people
 		// Our Utility Spells
 		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo)
 		// This is probably a bad idea, but let's live a little.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)
 		// Consistancy as they're basically a ruler in the hierarchy above Necromancers
@@ -391,6 +393,9 @@
 		qdel(src)
 
 /obj/effect/proc_holder/spell/self/lich_announce
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon_state = "lich_command"
 	name = "Command Will"
 	desc = "Bellow a commandment, which will be heard by all undead creechers - irregardless of their location - underneath your command."
 	recharge_time = 20 SECONDS
@@ -418,6 +423,7 @@
 /datum/action/cooldown/spell/summon_terrorhog
 	name = "Summon Terrorhog"
 	desc = "First cast allows you to name your very own, loyal Terrorhog. Second cast lets you summon a Terrorhog. This is a single use spell when uses to summon. Beware, drooling feral hogs do not cease their rampage until they are dead, and cannot be leashed properly."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/classuniquespells/lichspells.dmi'
 	button_icon_state = "hog"
 

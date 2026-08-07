@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Soulshot and Lesser Soulshot removed from poke spells options. It was designed for mage schools without as much rotational offensive power, it never should've been accessible as a regular poke spells."
+  - rscadd: "Arcyne Lance poke spell now have an icon, again"

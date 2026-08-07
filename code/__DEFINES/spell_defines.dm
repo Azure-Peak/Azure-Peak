@@ -65,11 +65,11 @@
 #define SPELLCOST_MAJOR_AOE          30
 #define SPELLCOST_SINGLE_CC          30
 #define SPELLCOST_UTILITY_BUFF       20 // We want actual cost
-#define SPELLCOST_STAT_BUFF          20 // We want actual cost 
+#define SPELLCOST_STAT_BUFF          20 // We want actual cost
 #define SPELLCOST_BRUSH 			 50 // For blood rush spells, which I don't want to become an overly easy trade for stamina
 #define SPELLCOST_SURGE 			 65 // For surge spells, which is pretty damn powerful
 #define SPELLCOST_AUGURY             10 // Augury card is cheap
-#define SPELLCOST_CONJURE            20	
+#define SPELLCOST_CONJURE            20
 #define SPELLCOST_TELEPORT           15
 #define SPELLCOST_MINOR_SUMMON       30
 #define SPELLCOST_MAJOR_SUMMON       50
@@ -135,6 +135,19 @@
 
 #define SPELL_COOLDOWN_POKE 6 SECONDS
 #define SPELL_COOLDOWN_BIG_WHOOPER 18 SECONDS
+
+#define CANCEL_PENALTY_COST_PARTIAL 0.5 // Resource cost you take for canceling a partial charge
+#define CANCEL_PENALTY_COST_CHARGED 1 // Full charge = same cost as just tossing it out
+#define CANCEL_PENALTY_COOLDOWN 0.5
+#define CANCEL_PENALTY_COOLDOWN_MAX 5 SECONDS // We don't want high CD spell to penalize you too hard
+#define CANCEL_GRACE_FRACTION 0.3 // How many decisecond you have to cancel a spell quickly
+#define CANCEL_GRACE_MINIMUM 3
+
+// Holding a fully charged spell. Grace is free, then the hold destabilizes until it tears loose.
+#define SPELL_HOLD_GRACE 1.5 SECONDS // How long you may hold a spell without penalty
+#define SPELL_HOLD_MAX 6 SECONDS // Total before the spell fizzles out
+#define SPELL_HOLD_TEAR_COST 2 // Cost multiplier if it fizzles out - forcing you to commit or cancel it
+#define SPELL_HOLD_DRAIN_RAMP 3 // How much extra hold drain ramp up as you hold onto a spell
 
 // Spell impact visual intensity tiers
 #define SPELL_IMPACT_NONE   0  // No impact visual
@@ -215,7 +228,7 @@
 #define COMSIG_MOB_KICKED_SUCCESSFUL "mob_kicked_successful" //from /mob/living/proc/try_kick(). Sent to target after a kick lands (past dodge/parry).
 
 // Aspect
-#define ASPECT_RESET_BUDGET 12
+#define ASPECT_RESET_BUDGET 6
 #define ASPECT_RESET_COST_MAJOR 4
 #define ASPECT_RESET_COST_MINOR 2
 #define ASPECT_RESET_COST_UTILITY 1

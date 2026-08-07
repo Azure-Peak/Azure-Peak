@@ -118,8 +118,8 @@
 	bolt.fired_from = get_turf(H)
 	bolt.def_zone = BODY_ZONE_CHEST
 	bolt.spell_impact_intensity = SPELL_IMPACT_MEDIUM
-	bolt.accuracy += (H.STAINT - 9) * 4
-	bolt.bonus_accuracy += (H.STAINT - 8) * 3
+	bolt.accuracy += (H.STAPER - 9) * 4
+	bolt.bonus_accuracy += (H.STAPER - 8) * 3
 	if(H.mind)
 		bolt.bonus_accuracy += (H.get_skill_level(associated_skill) * 5)
 	bolt.setAngle(angle)

@@ -1,5 +1,14 @@
 //intents
 
+/proc/sling_draw_sound(chargetime)
+	switch(chargetime)
+		if(0 to 7)
+			return 'sound/combat/Ranged/sling-draw-01-5ds.ogg'
+		if(7 to 11)
+			return 'sound/combat/Ranged/sling-draw-01.ogg'
+		else
+			return 'sound/combat/Ranged/sling-draw-01-14ds.ogg'
+
 /datum/intent/swing/sling
 	chargetime = 1 //used for edge cases only, /datum/intent/shoot/sling/get_chargetime handles the actual number
 	chargedrain = 1.5
@@ -14,7 +23,7 @@
 /datum/intent/swing/sling/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] swings [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/Ranged/sling-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/swing/sling/get_chargetime() //determines swing length. damage is in /obj/item/gun/ballistic/revolver/grenadelauncher/sling/process_fire
 	if(mastermob && chargetime)
@@ -37,6 +46,7 @@
 	chargetime = 1
 	chargedrain = 1.5
 	charging_slowdown = 3
+	ready_sound = 'sound/foley/slingload.ogg'
 
 /datum/intent/arc/sling/can_charge(atom/clicked_object)
 	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
@@ -47,7 +57,7 @@
 /datum/intent/arc/sling/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] swings [masteritem] in an arc!"))
-		playsound(mastermob, pick('sound/combat/Ranged/sling-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/arc/sling/get_chargetime() //same calculations as swing but with a greater base for throwing through teammates
 	if(mastermob && chargetime)
@@ -70,13 +80,12 @@
 	var/newtime = 20 - (user.get_skill_level(/datum/skill/combat/slings) * 1.5) - (user.STAPER / 2) - (user.STASTR / 5)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(ARCHER_NPC_MIN_SLING_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
+	return max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME
 
 //objs
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	name = "sling"
-	flags_ai_inventory = AI_ITEM_GUN
 	desc = "Twisted fibers manifest into a strung pouch capable of hurling stones afar."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "sling"

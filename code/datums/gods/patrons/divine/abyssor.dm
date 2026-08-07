@@ -40,8 +40,11 @@
 		"Dreamer",
 		"Abysawa",
 		"Forgotten One",
-		"Deepfather",
 		"Siren",
+		"Abysawa",
+		"Aiboshen", // lingyue
+		"Deepfather", // used by painter content
+		"Kraken" // fjall
 	)
 
 	storyteller = /datum/storyteller/abyssor

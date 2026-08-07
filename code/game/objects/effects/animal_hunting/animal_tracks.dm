@@ -116,7 +116,7 @@
 
 /obj/effect/hunting_track/proc/setup_hunter_visibility()
 	// Make the physical object invisible to everyone else
-	invisibility = INVISIBILITY_MAXIMUM 
+	invisibility = INVISIBILITY_MAXIMUM
 
 	for(var/datum/weakref/W in party_refs)
 		var/mob/living/L = W.resolve()
@@ -181,7 +181,7 @@
 	var/base_dy = clamp(src.y - user.y, -1, 1)
 
 	if(!base_dx && !base_dy)
-		base_dy = 1 
+		base_dy = 1
 
 	var/list/search_patterns = list(
 		list(base_dx, base_dy),   // Forward
@@ -251,7 +251,7 @@
 				next_trail.hunt_category = src.hunt_category
 				next_trail.locked_track_icon = src.locked_track_icon
 				next_trail.linked_areas = src.linked_areas
-				next_trail.color = "#ff9100" 
+				next_trail.color = "#ff9100"
 				next_trail.linked_areas = src.linked_areas
 				next_trail.plane = GAME_PLANE_HIGHEST
 				next_trail.setup_hunter_visibility()
@@ -304,7 +304,7 @@
 	// Update the track's state
 	party_refs = valid_party
 	hunter_ref = WEAKREF(current_leader)
-	
+
 	return highest_skill
 
 /obj/effect/hunting_track/proc/distribute_party_exp(base_amount)
@@ -351,6 +351,8 @@
 	if(!T || T.density)
 		return FALSE
 	if(istransparentturf(T))
+		return FALSE
+	if(istype(T, /turf/open/lava) || istype(T, /turf/open/water))
 		return FALSE
 	// Check for wall-like objects
 	if(T.is_blocked_turf())

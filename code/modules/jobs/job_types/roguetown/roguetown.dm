@@ -54,6 +54,15 @@
 	/// Can select equipment after you spawn in.
 	var/has_loadout = FALSE
 
+/datum/outfit/job/roguetown/proc/snouthelm_pick(mob/living/carbon/human/H, plain_path, snouted_path)
+	if(!H || !H.mind)
+		return plain_path
+	var/list/visages = list("Standard" = plain_path, "Snouted" = snouted_path)
+	var/choice = input(H, "Choose your helm's visage.", "TAKE UP HELMS") as anything in visages
+	if(!choice)
+		return plain_path
+	return visages[choice]
+
 /datum/outfit/job/roguetown/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
 	if(!visualsOnly && H.real_name)

@@ -334,6 +334,8 @@
 	)
 	debuff_type = /datum/status_effect/debuff/metabolic_acceleration
 	sound = 'sound/magic/heartbeat.ogg'
+	overlay_icon = 'icons/mob/actions/eoramiracles.dmi'
+	action_icon = 'icons/mob/actions/eoramiracles.dmi'
 	overlay_state = "eora_revive"
 
 /atom/movable/screen/alert/status_effect/nutrition_drain
@@ -374,6 +376,9 @@
 	desc = "Resurrects the chosen target, bringing them back from the dead. Side effects may include crippling weaknesses from other godly rites, ending up \
 	butt-naked in the middle of the kingdom's throne room, and much, much, more. </br>Unlike a regular Healing miracle, \
 	this can affect - and resurrect - devout Psydonians as well."
+	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
+	overlay_state = "revive"
 	debuff_type = /datum/status_effect/debuff/random_revival
 	alt_required_items = list(
 		/obj/item/clothing/neck/roguetown/psicross/wood = 1

@@ -27,6 +27,7 @@
 	cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
 	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_EXPERT_HUNTER)
 	job_subclasses = list(/datum/advclass/warden/warden)
+	has_subprefs = FALSE // only one subclass
 
 /datum/outfit/job/roguetown/warden
 	neck = /obj/item/clothing/neck/roguetown/coif/padded

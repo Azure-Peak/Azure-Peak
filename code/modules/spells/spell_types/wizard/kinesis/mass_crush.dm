@@ -73,8 +73,6 @@
 	for(var/turf/T in range(aoe_range, centerpoint))
 		new /obj/effect/temp_visual/kinetic_blast(T)
 		for(var/mob/living/L in T.contents)
-			if(L == owner)
-				continue
 			if(L.anti_magic_check())
 				L.visible_message(span_warning("The gravity fades away around [L]!"))
 				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)

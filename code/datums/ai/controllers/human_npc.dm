@@ -11,7 +11,9 @@
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_PET_TARGETING_DATUM = new /datum/targetting_datum/basic/not_friends(),
 
-		BB_HUMAN_NPC_ATTACK_ZONE_COUNTER = 0,  // how many times we've hit the same zone
+		BB_HUMAN_NPC_SWINGS_TAKEN = 0,         // swings this engagement, gates the special opener
+		BB_HUMAN_NPC_SWINGS_TARGET = null,     // who the above is counting against
+		BB_HUMAN_NPC_ZONE_COMMIT_COUNTER = 0,  // swings spent on the current self-picked zone
 		BB_HUMAN_NPC_LAST_ATTACK_ZONE = null,  // last zone we attacked
 		BB_HUMAN_NPC_WEAKPOINT = null,         // cached weakpoint zone if we found one
 		BB_HUMAN_NPC_JUMP_COOLDOWN = 0,        // world.time when we can next jump
@@ -29,10 +31,7 @@
 		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/call_for_help,
 		/datum/ai_planning_subtree/generic_break_restraints,
-		/datum/ai_planning_subtree/use_powder,
-		/datum/ai_planning_subtree/use_bandage,
 		/datum/ai_planning_subtree/use_throwable,
-		/datum/ai_planning_subtree/use_healing_drink,
 		/datum/ai_planning_subtree/generic_wield,
 		/datum/ai_planning_subtree/kick_attack,
 		/datum/ai_planning_subtree/generic_resist,
@@ -101,7 +100,9 @@
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_PET_TARGETING_DATUM = new /datum/targetting_datum/basic/not_friends(),
 
-		BB_HUMAN_NPC_ATTACK_ZONE_COUNTER = 0,
+		BB_HUMAN_NPC_SWINGS_TAKEN = 0,
+		BB_HUMAN_NPC_SWINGS_TARGET = null,
+		BB_HUMAN_NPC_ZONE_COMMIT_COUNTER = 0,
 		BB_HUMAN_NPC_LAST_ATTACK_ZONE = null,
 		BB_HUMAN_NPC_WEAKPOINT = null,
 		BB_HUMAN_NPC_JUMP_COOLDOWN = 0,
@@ -126,10 +127,7 @@
 		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/call_for_help,
 		/datum/ai_planning_subtree/generic_break_restraints,
-		/datum/ai_planning_subtree/use_powder,
-		/datum/ai_planning_subtree/use_bandage,
 		/datum/ai_planning_subtree/use_throwable,
-		/datum/ai_planning_subtree/use_healing_drink,
 		/datum/ai_planning_subtree/generic_wield,
 		/datum/ai_planning_subtree/kick_attack,
 		/datum/ai_planning_subtree/generic_resist,

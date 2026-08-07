@@ -58,7 +58,7 @@
 	in_combat_until = world.time + num
 	hud_used?.defdelay?.mark_dirty()
 
-/mob/living/proc/changeMaxDodge(num)
+/mob/living/proc/changeMaxDodge(num, clamp = FALSE)
 	if(num < 0)
 		if(max_dodge <= MAX_DODGE_FLOOR)
 			return
@@ -66,7 +66,13 @@
 	if(num > 0)
 		if(max_dodge >= MAX_DODGE_CEIL)
 			return
-		max_dodge = CLAMP((max_dodge + num), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
+		var/newmax = max_dodge + num
+		if(clamp)
+			if(newmax > MAX_DODGE_CLAMP && max_dodge < MAX_DODGE_CLAMP)
+			// We had less than the clamp, and we are set to gain above the clamp, we override.
+			// Mainly used to clamp compensatory dodge increases, NOT offensive ones.
+				newmax = MAX_DODGE_CLAMP
+		max_dodge = CLAMP((newmax), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
 
 /*
 	Before anything else, defer these calls to a per-mobtype handler.  This allows us to
@@ -124,7 +130,7 @@
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, params) & COMSIG_MOB_CANCEL_CLICKON)
 		return
-	
+
 	var/mob/living/L = src
 	if(L?.wallpressed && L.m_intent == MOVE_INTENT_SNEAK && !istype(L.loc, /turf/open/transparent/openspace))
 		to_chat(src, span_warning("You need to step away from the wall first."))
@@ -335,7 +341,7 @@
 		if(can_reach)
 			if(isopenturf(A))
 				var/turf/T = A
-				if(used_intent.noaa)
+				if(used_intent.noaa && !used_intent.force_autoaim)
 					resolveAdjacentClick(A,W,params,used_hand)
 					return
 				if(T)
@@ -346,15 +352,21 @@
 						target = M
 						break
 					if(target)
-						if(target.Adjacent(src) || (used_intent.effective_range_type && CanReach(target, W)))
-							if(used_intent.cleave)
-								used_intent.cleave.show_cleave_visuals(src, T)
-							else
-								do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
+						//CanReach already honours used_intent.reach, so this covers reach 2+ intents
+						if(target.Adjacent(src) || CanReach(target, W))
+							if(!used_intent.noaa)
+								if(used_intent.cleave)
+									used_intent.cleave.show_cleave_visuals(src, T)
+								else
+									do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 							resolveAdjacentClick(target,W,params,used_hand)
 							atkswinging = null
 							//update_warning()
 							return
+					if(used_intent.noaa) //force_autoaim intent with nothing to aim at, hit the turf like it always did
+						resolveAdjacentClick(A,W,params,used_hand)
+						atkswinging = null
+						return
 					if(cmode)
 						resolveAdjacentClick(T,W,params,used_hand) //hit the turf
 					if(!used_intent.noaa)
@@ -454,7 +466,8 @@
 	if(offhand.associated_skill)
 		if(get_skill_level(offhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
-
+	if(mainhand.force <= 9 || offhand.force <= 9) // should prevent things that have tiny damage from being used, those are often tools anyway.
+		return FALSE
 	return TRUE
 
 /mob/living/proc/process_dualwield(atom/A, obj/item/attack_weapon, params)
@@ -500,13 +513,16 @@
 
 		if(stamina_add(3))
 			balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
-			visible_message("<font color='#ffc400'>Dual Hit!</font>", "<font color='#ffc400'>Dual Hit!</font>")
+			to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
+			to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
 			if(attack_weapon && offhand)
 				offhand.melee_attack_chain(src, A, params)
 			else
 				UnarmedAttack(A, TRUE, params)
-
+		playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
+		playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
 		dualwield_processing = FALSE
+		swap_hand()
 		return
 
 	// Build combo
@@ -535,7 +551,7 @@
 			else if(istype(rmb_intent, /datum/rmb_intent/swift))
 				adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
 			changeNext_move(adf)
-		
+
 		UnarmedAttack(A,1,params)
 
 	var/invis_timer = mob_timers[MT_INVISIBILITY]

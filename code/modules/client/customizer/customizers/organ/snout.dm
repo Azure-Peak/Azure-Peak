@@ -234,6 +234,7 @@
 		/datum/sprite_accessory/snout/shortnosed,
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
+		/datum/sprite_accessory/snout/vskunk,
 		)
 
 /datum/customizer_choice/organ/snout/anthro/dullahan
@@ -326,6 +327,7 @@
 		/datum/sprite_accessory/snout/shortnosed,
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
+		/datum/sprite_accessory/snout/vskunk,
 		)
 
 /datum/customizer_choice/organ/snout/anthro/slime
@@ -419,6 +421,7 @@
 		/datum/sprite_accessory/snout/shortnosed,
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
+		/datum/sprite_accessory/snout/vskunk,
 		)
 
 /datum/customizer/organ/snout/akula

@@ -889,6 +889,15 @@
 	)
 	result_item = null
 
+//limetease - VizSallet/AbyssorTemplarHelm
+/obj/item/enchantingkit/limetease
+	name = "'visored sallet - abyssor templar' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/sallet/visored					= /obj/item/clothing/head/roguetown/helmet/sallet/visored/limetease,
+		/obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm			= /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm/limetease,
+	)
+	result_item = null
+
 //MortoSasye - Ice Staffs
 /obj/item/enchantingkit/morto_staff
 	name = "'Frozen Vow' morphing elixir"
@@ -939,3 +948,20 @@
 		/obj/item/rogueweapon/sword/rapier
 	)
 	result_item = /obj/item/rogueweapon/sword/rapier/athena
+
+//Aticius - For Love's Sake
+/obj/item/enchantingkit/aticius_fls
+	name = "'For Love's Sake' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/sword/long/aticius
+
+//Octus - Falling Star
+/obj/item/enchantingkit/weapon/falling_star
+	name = "'Falling Star' morphing elixer"
+	target_items = list(
+		/obj/item/rogueweapon/greatsword,
+		/obj/item/rogueweapon/greatsword/paalloy
+	)
+	result_item = /obj/item/rogueweapon/greatsword/falling_star

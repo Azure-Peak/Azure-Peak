@@ -110,8 +110,6 @@
 /obj/effect/frozen_mist/proc/initial_frost(turf/center)
 	for(var/turf/T in range(effect_radius, center))
 		for(var/mob/living/L in T.contents)
-			if(L == caster)
-				continue
 			if(L.anti_magic_check())
 				continue
 			apply_frost_stack(L, 1)
@@ -141,8 +139,6 @@
 			new /obj/effect/temp_visual/small_smoke(T)
 			qdel(hotspot)
 		for(var/mob/living/L in T.contents)
-			if(L == caster)
-				continue
 			if(L.anti_magic_check())
 				continue
 			apply_frost_stack(L, 1)

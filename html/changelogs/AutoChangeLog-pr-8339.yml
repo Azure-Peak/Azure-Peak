@@ -1,0 +1,5 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - balance: "Divine/Unholy Blast behaves like Arc Bolt now."
+  - refactor: " Divine/Unholy Blast refactored to action/cooldown, finally."

@@ -7,6 +7,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	dodgetime = 30
 	d_intent = INTENT_PARRY
 	blood_toll_bucket = STATS_KILLED_HIGHWAYMEN
+	var/highwayman_outfit = /datum/outfit/job/roguetown/human/species/human/northern/highwayman
 
 /mob/living/carbon/human/species/human/northern/highwayman/ambush
 	threat_point = THREAT_HIGH
@@ -16,31 +17,31 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	name = "mount reaver"
 	threat_point = THREAT_TOUGH
 	ambush_faction = "bandits"
+	highwayman_outfit = /datum/outfit/job/roguetown/human/species/human/northern/highwayman/mount_reaver
 
 /mob/living/carbon/human/species/human/northern/highwayman/mount_reaver/after_creation()
 	..()
 	job = "Mount Reaver"
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/mount_reaver)
 
 /mob/living/carbon/human/species/human/northern/highwayman/archer
 	ai_controller = /datum/ai_controller/human_npc/archer
 	threat_point = THREAT_HIGH
 	ambush_faction = "bandits"
+	highwayman_outfit = /datum/outfit/job/roguetown/human/species/human/northern/highwayman/archer
 
 /mob/living/carbon/human/species/human/northern/highwayman/archer/after_creation()
 	..()
 	job = "Highwayman Archer"
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/archer)
 
 /mob/living/carbon/human/species/human/northern/highwayman/crossbowman
 	ai_controller = /datum/ai_controller/human_npc/archer
 	threat_point = THREAT_HIGH
 	ambush_faction = "bandits"
+	highwayman_outfit = /datum/outfit/job/roguetown/human/species/human/northern/highwayman/crossbowman
 
 /mob/living/carbon/human/species/human/northern/highwayman/crossbowman/after_creation()
 	..()
 	job = "Highwayman Crossbowman"
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/crossbowman)
 
 
 
@@ -64,7 +65,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman)
+	equipOutfit(new highwayman_outfit)
 	dna.species.handle_body(src)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = HEAD_BOUNTY_HIGHWAYMAN
@@ -174,17 +175,17 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			if(prob(65)) //More likely but loses upgrade for shield pick
 				l_hand = /obj/item/rogueweapon/shield/buckler/palloy
 
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/staves, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE) // Trash mobs, untrained.
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE) // Trash mobs, untrained.
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 
 	if(prob(30))
 		var/voicepack_choice = rand(1, 4)
@@ -202,7 +203,8 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 
-/datum/outfit/job/roguetown/human/species/human/northern/mount_reaver/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/human/species/human/northern/highwayman/mount_reaver/pre_equip(mob/living/carbon/human/H)
+	..()
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	mask = /obj/item/clothing/mask/rogue/ragmask/black //Guarrenteed vs before
 	if(prob(15)) //On top of the other 10%, a lot higher chance to be using this.
@@ -215,49 +217,63 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	H.STAINT = 10 //Higher, due to losing their bombs cause of how inhereting the loadout works.
 	// Rest of the random gear is handled via subtyping regular highwaymen, this includes our weaponry picks. Which yes, means a slight downgrade.
 
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/staves, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
-// Overrides only the weapon loadout on top of the base highwayman gear (no ..(), so clothing/stats
-// from after_creation's first equip stay). The melee sidearm covers the close-range handoff.
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	head = null
+	mask = null
+	neck = null
 	r_hand = /obj/item/rogueweapon/sword/short/iron
+	l_hand = null
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/highwayman
-	H.STAPER += 3
+	H.STAPER = 9
 	H.STACON -= 1
 	H.STAWIL -= 1
-	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/crossbowman/pre_equip(mob/living/carbon/human/H)
+	..()
+	armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	head = null
+	mask = null
+	neck = null
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger
+	l_hand = null
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	backl = /obj/item/quiver/bolt/standard
-	H.STAPER += 3
+	backl = /obj/item/quiver/bolt/npc
+	H.STAPER = 9
 	H.STACON -= 1
 	H.STAWIL -= 1
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 
 /mob/living/carbon/human/species/human/northern/highwayman/road_knight
 	threat_point = THREAT_DEADLY
 	ambush_faction = "bandits"
+	highwayman_outfit = /datum/outfit/job/roguetown/human/species/human/northern/highwayman/road_knight
 
 /mob/living/carbon/human/species/human/northern/highwayman/road_knight/after_creation()
 	..()
 	job = "Road Knight"
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BADTRAINER, TRAIT_GENERIC)
-	for(var/obj/item/old in get_equipped_items() + held_items)
-		qdel(old)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/road_knight)
 	regenerate_icons()
 	for(var/obj/item/gear in get_equipped_items() + held_items)
 		lock_gear_piece(gear, "road_knight_gear")
@@ -268,6 +284,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		REMOVE_TRAIT(gear, TRAIT_NODROP, "road_knight_gear")
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/road_knight/pre_equip(mob/living/carbon/human/H)
+	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/iron
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
@@ -286,24 +303,22 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	H.STAWIL = 10
 	H.STAPER = 10
 	H.STAINT = 8
-	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 /mob/living/carbon/human/species/human/northern/highwayman/sharpshooter
 	ai_controller = /datum/ai_controller/human_npc/archer
 	threat_point = THREAT_DEADLY
 	ambush_faction = "bandits"
+	highwayman_outfit = /datum/outfit/job/roguetown/human/species/human/northern/highwayman/sharpshooter
 
 /mob/living/carbon/human/species/human/northern/highwayman/sharpshooter/after_creation()
 	..()
 	job = "Highwayman Sharpshooter"
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BADTRAINER, TRAIT_GENERIC)
-	for(var/obj/item/old in get_equipped_items() + held_items)
-		qdel(old)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/sharpshooter)
 	regenerate_icons()
 	for(var/obj/item/gear in get_equipped_items())
 		if(gear == backr || gear == backl)
@@ -316,6 +331,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		REMOVE_TRAIT(gear, TRAIT_NODROP, "sharpshooter_gear")
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/sharpshooter/pre_equip(mob/living/carbon/human/H)
+	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
@@ -326,17 +342,18 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	cloak = /obj/item/clothing/cloak/raincloak/green
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/quiver/randomfill/reaver
 	beltr = /obj/item/rogueweapon/sword/short/iron
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/reaver
+	r_hand = null
+	l_hand = null
 	H.STASTR = 12
 	H.STASPD = 10
 	H.STACON = 7
 	H.STAWIL = 8
-	H.STAPER = 15
+	H.STAPER = 13
 	H.STAINT = 8
-	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)

@@ -111,7 +111,9 @@
 #define SPT_PROB(prob_per_second_percent, seconds_per_tick) (prob(100*SPT_PROB_RATE((prob_per_second_percent)/100, (seconds_per_tick))))
 
 #define BB_HUMAN_BEG_TARGET "human_beg_target"
-#define BB_HUMAN_NPC_ATTACK_ZONE_COUNTER "human_npc_attack_zone_counter"
+#define BB_HUMAN_NPC_SWINGS_TAKEN        "human_npc_swings_taken"
+#define BB_HUMAN_NPC_SWINGS_TARGET       "human_npc_swings_target"
+#define BB_HUMAN_NPC_ZONE_COMMIT_COUNTER "human_npc_zone_commit_counter"
 #define BB_HUMAN_NPC_LAST_ATTACK_ZONE    "human_npc_last_attack_zone"
 #define BB_HUMAN_NPC_WEAKPOINT           "human_npc_weakpoint"
 #define BB_HUMAN_NPC_JUMP_COOLDOWN       "human_npc_jump_cooldown"
@@ -151,19 +153,21 @@
 #define BB_MUG_TARGET_ITEM "mug_rootbeer"
 
 #define ARCHER_NPC_EQUIPMENT_CACHE_TIME (40 SECONDS)
-#define ARCHER_NPC_MIN_RANGE            4 
-#define ARCHER_NPC_KITE_FLOOR           1   
+#define ARCHER_NPC_MIN_RANGE            4
+#define ARCHER_NPC_KITE_FLOOR           1
 #define ARCHER_NPC_KITE_RANGE           3
 #define ARCHER_NPC_SHOOT_RANGE          6
-#define ARCHER_NPC_ROF_PENALTY          1.3
-#define ARCHER_NPC_BASE_SPREAD          25 
+// We want to somewhat simulate an actual draw. A Nock Time has no slowdown and simulate mouse
+// travelling to click on the Quiver, the min aim time simulate the process of holding the bow and
+// then actually aiming at the target and is added to the draw time, and the draw time is the
+// actual mechanical limiter
+#define ARCHER_NPC_NOCK_TIME            (1.5 SECONDS)
+#define ARCHER_NPC_MIN_AIM_TIME         (0.4 SECONDS)
+#define ARCHER_NPC_BASE_SPREAD          25
 #define ARCHER_NPC_RETREAT_PROJECT      4
 #define ARCHER_NPC_REPOSITION_TIME      (0.6 SECONDS) // how long a post-shot random juke commits before the straight retreat resumes
 #define ARCHER_NPC_ARROW_SEARCH_RANGE   9
 #define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback bow charge time
-#define ARCHER_NPC_MIN_CROSSBOW_CHARGETIME  3 SECONDS // crossbows are slower to fire
-#define ARCHER_NPC_MIN_BOW_CHARGETIME        2.0 SECONDS
-#define ARCHER_NPC_MIN_SLING_CHARGETIME     2.0 SECONDS
 #define ARCHER_NPC_SPREAD_PER_POINT     7     // spread per PER point below 15
 #define ARCHER_NPC_ARC_SPREAD_PENALTY   20    // extra spread when arcing over allies
 
@@ -173,32 +177,10 @@
 #define BB_FIND_TARGETS_FIELD(type) "bb_find_targets_field_[type]"
 
 
-#define AI_ITEM_BANDAGE         (1<<0)   // stops bleeding, applied to self/others
-#define AI_ITEM_HEALING_DRINK   (1<<1)   // drinkable healing reagent container
-#define AI_ITEM_FOOD            (1<<2)   // edible
-#define AI_ITEM_POWDER          (1<<3)   // snortable /obj/item/reagent_containers/powder
-#define AI_ITEM_KEY             (1<<4)
-#define AI_ITEM_TOOL            (1<<5)
-#define AI_ITEM_AMMO            (1<<6)
-#define AI_ITEM_GRENADE         (1<<7)
-#define AI_ITEM_MELEE           (1<<8)
-#define AI_ITEM_GUN             (1<<9)
-#define AI_ITEM_DRINK           (1<<10)  // generic drinkable (not necessarily healing)
-#define AI_ITEM_THROWING        (1<<11)
-#define AI_ITEM_QUIVER          (1<<12)
+#define AI_ITEM_THROWING        (1<<0)
+#define AI_ITEM_QUIVER          (1<<1)
 
 GLOBAL_LIST_INIT(ai_item_flags, list(
-	AI_ITEM_BANDAGE,
-	AI_ITEM_HEALING_DRINK,
-	AI_ITEM_FOOD,
-	AI_ITEM_POWDER,
-	AI_ITEM_KEY,
-	AI_ITEM_TOOL,
-	AI_ITEM_AMMO,
-	AI_ITEM_GRENADE,
-	AI_ITEM_MELEE,
-	AI_ITEM_GUN,
-	AI_ITEM_DRINK,
 	AI_ITEM_THROWING,
 	AI_ITEM_QUIVER,
 ))

@@ -123,16 +123,18 @@
 	. = ..()
 	switch(polished)
 		if(1)
-			. += span_info("It has some polishing compound on it.")
-		if(2, 3)
-			. += span_info("It's been thoroughly brushed.")
+			. += span_info("It has some polishing compound on it. <i>It needs a coarse brushing.</i>")
+		if(2)
+			. += span_info("It's been roughly brushed. <i>It needs a fine brushing.</i>")
+		if(3)
+			. += span_info("It's been thoroughly brushed. <i>It needs a wash.</i>")
 		if(4)
 			. += span_green("It's been nicely polished.")
 
 /obj/item/polishing_cream
 	icon = 'icons/roguetown/items/misc.dmi'
 	name = "polishing cream"
-	desc = "A pure silver compound made for making the best metals shine."
+	desc = "A pure silver compound made for making even the worst metals shine."
 	icon_state = "cream"
 	w_class = WEIGHT_CLASS_SMALL
 	dropshrink = 0.8
@@ -150,13 +152,17 @@
 	var/obj/item/thing = O
 	if(!thing.anvilrepair)
 		return ..()
-	if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE) || user.get_skill_level(thing.anvilrepair)) && thing.polished == 0 && obj_integrity <= max_integrity)
+	if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE) || user.get_skill_level(thing.anvilrepair)) && thing.polished == 0)
+		if(thing.obj_integrity < thing.max_integrity)
+			user.balloon_alert(user, "<font color = '#ffffff'>Repair it fully first!</font>")
+			return
 		to_chat(user, span_info("I start applying some compound to \the [thing]..."))
 		if(do_after(user, 50 - user.STASPD*2, target = O))
 			thing.polished = 1
 			uses--
-			thing.remove_atom_colour(FIXED_COLOUR_PRIORITY)
-			thing.add_atom_colour("#635e65", FIXED_COLOUR_PRIORITY)
+			if((thing.color == null) || (thing.color == "#ffffff"))
+				thing.remove_atom_colour(FIXED_COLOUR_PRIORITY)
+				thing.add_atom_colour("#635e65", FIXED_COLOUR_PRIORITY)
 			thing.RegisterSignal(thing, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(remove_polish))
 			if(uses <= 8)
 				smeltresult = null
@@ -167,7 +173,7 @@
 /obj/item/armor_brush
 	icon = 'icons/roguetown/items/misc.dmi'
 	name = "fine brush"
-	desc = "A coarse brush for scrubbing armor thoroughly. Made of the finest Lupin hair."
+	desc = "A two-sided brush for scrubbing armor thoroughly. Made of the finest Lupin hair."
 	icon_state = "brush_0"
 	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = null
@@ -205,8 +211,9 @@
 			playsound(loc,"sound/foley/scrubbing[pick(1,2)].ogg", 100, TRUE)
 			if(do_after(user, 50 - user.STASTR*1.5, target = O))
 				thing.polished = 2
-				thing.remove_atom_colour(FIXED_COLOUR_PRIORITY)
-				thing.add_atom_colour("#9e9e9e", FIXED_COLOUR_PRIORITY)
+				if(thing.color == "#635e65")
+					thing.remove_atom_colour(FIXED_COLOUR_PRIORITY)
+					thing.add_atom_colour("#9e9e9e", FIXED_COLOUR_PRIORITY)
 
 	else if(thing.polished == 2 && !roughness)
 		if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE) || user.get_skill_level(thing.anvilrepair)))
@@ -214,8 +221,9 @@
 			playsound(loc,"sound/foley/scrubbing[pick(1,2)].ogg", 100, TRUE)
 			if(do_after(user, 50 - user.STASTR*1.5, target = O))
 				thing.polished = 3
-				thing.remove_atom_colour(FIXED_COLOUR_PRIORITY)
-				thing.add_atom_colour("#cccccc", FIXED_COLOUR_PRIORITY)
+				if(thing.color == "#9e9e9e")
+					thing.remove_atom_colour(FIXED_COLOUR_PRIORITY)
+					thing.add_atom_colour("#cccccc", FIXED_COLOUR_PRIORITY)
 
 /obj/item/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	. = ..()
@@ -237,8 +245,8 @@
 /obj/item/proc/remove_polish(datum/source, strength) // kill polska
 	if(polished == 3 && obj_integrity >= max_integrity)
 		polished = 4
-		remove_atom_colour(FIXED_COLOUR_PRIORITY)
-		add_atom_colour("#ffffff", FIXED_COLOUR_PRIORITY)
+		if(color == "#cccccc")
+			remove_atom_colour(FIXED_COLOUR_PRIORITY)
 		polish_bonus = ceil(max_integrity * 0.10)
 		max_integrity += polish_bonus
 		obj_integrity += polish_bonus
@@ -251,8 +259,9 @@
 	else if(polished < 4)
 		polished = 0
 		polish_bonus = 0
-		remove_atom_colour(FIXED_COLOUR_PRIORITY)
-		UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
+		if((color == "#635e65") || (color == "#9e9e9e") || (color == "#cccccc"))
+			remove_atom_colour(FIXED_COLOUR_PRIORITY)
+			UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
 
 /obj/effect/temp_visual/armor_glint
 	name = "glint"
@@ -295,4 +304,4 @@
 
 /datum/component/metal_glint/proc/stop_process()
 	STOP_PROCESSING(SSobj, src)
- 
+
