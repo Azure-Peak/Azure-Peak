@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/seonjang
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BRAVO)
 	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
 	cmode_music = 'sound/music/combat_Kazengun_Overlord.ogg'
 	maximum_possible_slots = 1

@@ -6,7 +6,7 @@
 	forbidden_races = list(RACES_GRUDGE)
 	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer
 	class_select_category = CLASS_CAT_RACIAL
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "This subclass is race-limited to: Dwarves."
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT) //Another one off exception for a combat role
@@ -73,7 +73,7 @@
 	forbidden_races = list(RACES_GRUDGE)
 	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier
 	class_select_category = CLASS_CAT_RACIAL
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "This subclass is race-limited to: Dwarves."
 	traits_applied = list(TRAIT_HEAVYARMOR)

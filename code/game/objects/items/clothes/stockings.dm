@@ -23,6 +23,8 @@
 /obj/item/legwears/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+		if(NO_UNDERWEAR in H.dna.species.species_traits)
+			return
 		if(!H.legwear_socks)
 			if(!get_location_accessible(H, BODY_ZONE_PRECISE_L_FOOT))
 				return

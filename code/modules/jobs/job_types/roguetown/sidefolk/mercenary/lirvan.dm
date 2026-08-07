@@ -5,7 +5,7 @@
 	forbidden_races = list(RACES_LIRVAS) //no wildkin; i'd like to allow snek/liznerd wildkin, but i don't have a way of mechanically enforcing that
 	outfit = /datum/outfit/job/roguetown/mercenary/lirvanmerc
 	class_select_category = CLASS_CAT_RACIAL
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_MEDIUMARMOR)
 	cmode_music = 'sound/music/combat_matthios.ogg'
 	maximum_possible_slots = 2

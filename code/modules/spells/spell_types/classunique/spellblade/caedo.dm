@@ -147,6 +147,8 @@
 /datum/action/cooldown/spell/caedo/proc/second_strike(mob/living/carbon/human/user, mob/living/victim, obj/item/weapon, def_zone)
 	if(!user || QDELETED(user) || !victim || QDELETED(victim) || victim.stat == DEAD)
 		return
+	if(spell_guard_check(victim, FALSE, user))
+		return
 	var/total_damage = strike_damage
 	arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
 	var/turf/victim_turf = get_turf(victim)

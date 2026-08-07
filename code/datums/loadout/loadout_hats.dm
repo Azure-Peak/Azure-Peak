@@ -38,7 +38,7 @@
 	name = "Durag"
 	path = /obj/item/clothing/head/roguetown/durag
 	sort_category = "Hats"
-	
+
 /datum/loadout_item/strawhat
 	name = "Straw Hat"
 	path = /obj/item/clothing/head/roguetown/strawhat
@@ -219,7 +219,7 @@
 	name = "Shawl"
 	path = /obj/item/clothing/head/roguetown/shawl
 	sort_category = "Hats"
-  
+
 /datum/loadout_item/maidband
 	name = "Maid Headdress"
 	path = /obj/item/clothing/head/roguetown/maidhead
@@ -232,5 +232,10 @@
 
 /datum/loadout_item/loudmouth_headgear
 	name = "Loudmouth's Headcover"
+	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
+	sort_category = "Hats"
+
+/datum/loadout_item/turban
+	name = "Turban"
 	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
 	sort_category = "Hats"

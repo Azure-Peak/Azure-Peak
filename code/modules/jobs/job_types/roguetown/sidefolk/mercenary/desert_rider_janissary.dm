@@ -5,7 +5,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider
 	class_select_category = CLASS_CAT_RANESHENI
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)
 	cmode_music = 'sound/music/combat_desertrider.ogg'
 	subclass_languages = list(/datum/language/raneshi)
 	traits_applied = list(TRAIT_MEDIUMARMOR)

@@ -133,7 +133,7 @@
 
 	if(pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS)
 		// Don't open with a special — need a few normal swings first
-		var/attacks_done = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
+		var/attacks_done = controller.blackboard[BB_HUMAN_NPC_SWINGS_TAKEN]
 		if(attacks_done >= 2 && _try_weapon_special(controller))
 			return
 
@@ -289,6 +289,15 @@
 
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_choose_attack_zone(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target)
+	// Every path below is one swing, and the special opener doesn't care which zone we picked,
+	// so account for it once here instead of in each branch. Zeroing on a target change is what
+	// keeps "don't open with a special" meaning per fight rather than per mob lifetime.
+	if(controller.blackboard[BB_HUMAN_NPC_SWINGS_TARGET] != target)
+		controller.set_blackboard_key(BB_HUMAN_NPC_SWINGS_TARGET, target)
+		controller.set_blackboard_key(BB_HUMAN_NPC_SWINGS_TAKEN, 0)
+		controller.set_blackboard_key(BB_HUMAN_NPC_ZONE_COMMIT_COUNTER, 0)
+	controller.set_blackboard_key(BB_HUMAN_NPC_SWINGS_TAKEN, controller.blackboard[BB_HUMAN_NPC_SWINGS_TAKEN] + 1)
+
 	var/forced_zone = controller.blackboard[BB_FORCED_ATTACK_ZONE]
 	if(forced_zone)
 		var/forced_aim = _zone_to_aimheight(forced_zone)
@@ -297,11 +306,11 @@
 		pawn.zone_selected = forced_zone
 		return
 	var/list/wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
-	if(wp && world.time < wp[2] && wp[3] == target)
-		var/aimheight = _zone_to_aimheight(wp[1])
-		if(aimheight)
-			pawn.aimheight_change(aimheight)
-			AI_THINK(pawn, "ZONE: hitting cached weakpoint [wp[1]] (aim [aimheight])")
+	if(_weakpoint_lock_valid(controller, target))
+		// Reuse the aimheight resolved at scan time. Re-deriving it per swing re-rolls the
+		// zone every attack, which is the whole reason a cached weakpoint looked like noise.
+		pawn.aimheight_change(wp[4])
+		AI_THINK(pawn, "ZONE: hitting cached weakpoint [wp[1]] (aim [wp[4]])")
 		return
 
 	// Skilled fighters commit to a zone longer before switching
@@ -318,13 +327,13 @@
 		if(SKILL_LEVEL_MASTER to INFINITY)
 			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
 
-	var/counter = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
+	var/counter = controller.blackboard[BB_HUMAN_NPC_ZONE_COMMIT_COUNTER]
 	if(counter < switch_threshold)
-		controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_ZONE_COUNTER, counter + 1)
+		controller.set_blackboard_key(BB_HUMAN_NPC_ZONE_COMMIT_COUNTER, counter + 1)
 		AI_THINK(pawn, "ZONE: committing to current zone ([counter+1]/[switch_threshold], skill [skill_level])")
 		return
 
-	controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_ZONE_COUNTER, 0)
+	controller.set_blackboard_key(BB_HUMAN_NPC_ZONE_COMMIT_COUNTER, 0)
 	controller.clear_blackboard_key(BB_HUMAN_NPC_WEAKPOINT)
 	AI_THINK(pawn, "ZONE: switching up! (skill [skill_level], threshold was [switch_threshold])")
 
@@ -343,12 +352,10 @@
 	if(skill_level >= SKILL_LEVEL_APPRENTICE && isliving(target))
 		_scan_for_weakpoint(controller, pawn, target)
 		wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
-		if(wp)
-			var/aimheight = _zone_to_aimheight(wp[1])
-			if(aimheight)
-				pawn.aimheight_change(aimheight)
-				AI_THINK(pawn, "ZONE: re-scan found weakpoint [wp[1]] (aim [aimheight])")
-				return
+		if(length(wp) >= 4)
+			pawn.aimheight_change(wp[4])
+			AI_THINK(pawn, "ZONE: re-scan found weakpoint [wp[1]] (aim [wp[4]])")
+			return
 		AI_THINK(pawn, "ZONE: re-scan found nothing, going random")
 
 	// Skilled fighters favor the chest - it's practical and reliable
@@ -422,10 +429,56 @@
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * 1.8)
 	return TRUE
 
-/// Scan target bodyparts for wounded (brute/burn > 20) or unarmored zones.
-/// Caches as list(zone, expiry_time, target_ref).
+GLOBAL_LIST_INIT(npc_weakpoint_subzones, list(
+	BODY_ZONE_HEAD = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_NECK),
+	BODY_ZONE_CHEST = list(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_STOMACH, BODY_ZONE_PRECISE_GROIN),
+	BODY_ZONE_L_ARM = list(BODY_ZONE_L_ARM, BODY_ZONE_PRECISE_L_HAND),
+	BODY_ZONE_R_ARM = list(BODY_ZONE_R_ARM, BODY_ZONE_PRECISE_R_HAND),
+	BODY_ZONE_L_LEG = list(BODY_ZONE_L_LEG, BODY_ZONE_PRECISE_L_FOOT),
+	BODY_ZONE_R_LEG = list(BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT),
+))
+
+GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
+	BODY_ZONE_PRECISE_NECK = 10, // We really don't want the mass decap incident of 2026
+	BODY_ZONE_HEAD = 25,
+	BODY_ZONE_CHEST = 25,
+	BODY_ZONE_PRECISE_STOMACH = 20,
+	BODY_ZONE_PRECISE_GROIN = 15,
+	BODY_ZONE_L_ARM = 15,
+	BODY_ZONE_R_ARM = 15,
+	BODY_ZONE_L_LEG = 15,
+	BODY_ZONE_R_LEG = 15,
+	BODY_ZONE_PRECISE_L_HAND = 15,
+	BODY_ZONE_PRECISE_R_HAND = 15,
+	BODY_ZONE_PRECISE_L_FOOT = 15,
+	BODY_ZONE_PRECISE_R_FOOT = 15,
+))
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_pick_weighted_zone(list/zones)
+	if(!length(zones))
+		return null
+	var/list/weighted = list()
+	for(var/zone in zones)
+		weighted[zone] = GLOB.npc_weakpoint_zone_weights[zone] || 10
+	return pickweight(weighted)
+
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_weakpoint_lock_valid(datum/ai_controller/controller, mob/living/target)
+	var/list/wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
+	if(length(wp) < 4)
+		return FALSE
+	if(world.time >= wp[2] || wp[3] != target)
+		return FALSE
+	if(iscarbon(target))
+		var/mob/living/carbon/carbon_target = target
+		if(!carbon_target.get_bodypart(check_zone(wp[1])))
+			return FALSE
+	return TRUE
+
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_scan_for_weakpoint(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target)
 	if(!istype(target, /mob/living/carbon/human))
+		return
+	if(_weakpoint_lock_valid(controller, target))
 		return
 	var/mob/living/carbon/human/htarget = target
 
@@ -451,30 +504,33 @@
 		if(!part)
 			continue
 
-		//requires trained eye AND good perception
-		if(skill_level >= SKILL_LEVEL_JOURNEYMAN && pawn.STAPER >= 10)
-			if(part.brute_dam > 20 || part.burn_dam > 20)
-				wounded += part.body_zone
+		var/wound_visible = (part.brute_dam > 40 || part.burn_dam > 40)
+		if(!wound_visible && skill_level >= SKILL_LEVEL_JOURNEYMAN && pawn.STAPER >= 10)
+			wound_visible = (part.brute_dam > 20 || part.burn_dam > 20)
 
-		var/obj/item/clothing/worn = htarget.get_best_worn_armor(part.body_zone, armor_rating)
-		if(!worn)
-			exposed += part.body_zone
-			continue
+		for(var/zone in (GLOB.npc_weakpoint_subzones[part.body_zone] || list(part.body_zone)))
+			if(wound_visible)
+				wounded += zone
 
-		// Basic+ fighters read armor and seek soft coverage for their damage type
-		if(skill_level >= SKILL_LEVEL_NOVICE)
-			var/rating = worn.armor.getRating(armor_rating)
-			if(rating < 25)
-				soft += part.body_zone
+			var/obj/item/clothing/worn = htarget.get_best_worn_armor(zone, armor_rating)
+			if(!worn)
+				exposed += zone
+				continue
+
+			// Basic+ fighters read armor and seek soft coverage for their damage type
+			if(skill_level >= SKILL_LEVEL_NOVICE)
+				var/rating = worn.armor.getRating(armor_rating)
+				if(rating < 25)
+					soft += zone
 
 	// Priority: wounded > bare exposed > soft armor coverage > armored fallback (experts only)
 	var/chosen = null
 	if(length(wounded))
-		chosen = pick(wounded)
+		chosen = _pick_weighted_zone(wounded)
 	else if(length(exposed))
-		chosen = pick(exposed)
+		chosen = _pick_weighted_zone(exposed)
 	else if(length(soft))
-		chosen = pick(soft)
+		chosen = _pick_weighted_zone(soft)
 	else if(skill_level >= SKILL_LEVEL_EXPERT)
 		// Expert fallback: just pick whatever zone has the lowest resistance for our damage type
 		var/lowest_rating = INFINITY
@@ -482,32 +538,35 @@
 		for(var/obj/item/bodypart/part in htarget.bodyparts)
 			if(!part)
 				continue
-			var/obj/item/clothing/fallback_armor = htarget.get_best_worn_armor(part.body_zone, armor_rating)
-			if(!fallback_armor)
-				continue
-			var/rating = fallback_armor.armor.getRating(armor_rating)
-			if(rating < lowest_rating)
-				lowest_rating = rating
-				lowest_zone = part.body_zone
+			for(var/zone in (GLOB.npc_weakpoint_subzones[part.body_zone] || list(part.body_zone)))
+				var/obj/item/clothing/fallback_armor = htarget.get_best_worn_armor(zone, armor_rating)
+				if(!fallback_armor)
+					continue
+				var/rating = fallback_armor.armor.getRating(armor_rating)
+				if(rating < lowest_rating)
+					lowest_rating = rating
+					lowest_zone = zone
 		chosen = lowest_zone
 
 	if(!chosen)
 		AI_THINK(pawn, "SCAN: no weakpoint found (wounded=[length(wounded)] exposed=[length(exposed)] soft=[length(soft)], skill [skill_level])")
 		return
 
-	AI_THINK(pawn, "SCAN: targeting [chosen] (skill [skill_level])")
+	var/aimheight = _zone_to_aimheight(chosen)
+	if(!aimheight)
+		AI_THINK(pawn, "SCAN: [chosen] has no aimheight mapping, discarding")
+		return
 
-	// Skill scales how long the targeting solution stays valid
-	//longer weapons can maintain solutions longer
-	// since the fighter isn't scrambling to stay close
+	AI_THINK(pawn, "SCAN: targeting [chosen] (aim [aimheight], skill [skill_level])")
+
 	var/cache_duration = HUMAN_NPC_WEAKPOINT_CACHE_DURATION
 	switch(skill_level)
 		if(SKILL_LEVEL_NONE)
-			cache_duration *= 0.1
+			cache_duration *= 0.35
 		if(SKILL_LEVEL_NOVICE)
-			cache_duration *= 0.5
+			cache_duration *= 0.6
 		if(SKILL_LEVEL_APPRENTICE)
-			cache_duration *= 0.75
+			cache_duration *= 0.8
 		if(SKILL_LEVEL_JOURNEYMAN)
 			cache_duration *= 1.0
 		if(SKILL_LEVEL_EXPERT)
@@ -525,19 +584,50 @@
 		chosen,
 		world.time + cache_duration,
 		target,
+		aimheight,
 	))
 
-/// Zone string -> aimheight int.
+
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_zone_to_aimheight(zone)
 	switch(zone)
 		if(BODY_ZONE_HEAD)
-			return rand(12, 19)
+			return 19
+		if(BODY_ZONE_PRECISE_SKULL)
+			return 18
+		if(BODY_ZONE_PRECISE_EARS)
+			return 17
+		if(BODY_ZONE_PRECISE_R_EYE)
+			return 16
+		if(BODY_ZONE_PRECISE_L_EYE)
+			return 15
+		if(BODY_ZONE_PRECISE_NOSE)
+			return 14
+		if(BODY_ZONE_PRECISE_MOUTH)
+			return 13
+		if(BODY_ZONE_PRECISE_NECK)
+			return 12
 		if(BODY_ZONE_CHEST)
-			return rand(9, 11)
-		if(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM)
-			return rand(5, 8)
-		if(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-			return rand(1, 4)
+			return 11
+		if(BODY_ZONE_PRECISE_STOMACH)
+			return 10
+		if(BODY_ZONE_PRECISE_GROIN)
+			return 9
+		if(BODY_ZONE_R_ARM)
+			return 8
+		if(BODY_ZONE_L_ARM)
+			return 7
+		if(BODY_ZONE_PRECISE_R_HAND)
+			return 6
+		if(BODY_ZONE_PRECISE_L_HAND)
+			return 5
+		if(BODY_ZONE_R_LEG)
+			return 4
+		if(BODY_ZONE_L_LEG)
+			return 3
+		if(BODY_ZONE_PRECISE_R_FOOT)
+			return 2
+		if(BODY_ZONE_PRECISE_L_FOOT)
+			return 1
 	return null
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_try_backstep(mob/living/carbon/human/pawn, atom/target)
