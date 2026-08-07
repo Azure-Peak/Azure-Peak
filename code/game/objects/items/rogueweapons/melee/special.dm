@@ -1316,6 +1316,18 @@
 		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU'RE GOING TO PAY FOR THIS!\"</i>"))
 		last_spoken = world.time
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This is a dagger used by the ASSASSIN antagonist. Targets who have the \"TARGETED\" vice can be soul-trapped \
+	within it by use of it's PECULATE intent. If you are an assassin, slay your target, or wait until they have produced a \"BLED OUT\" \
+	message in order to sap them with it.")
+	. += span_info("PECULATE steals the face of any valid being, TARGETED or not. It is still a little buggy. It will not work on NPCs, revenants, \
+	or oozelings. Their souls will still be trapped if they are valid, however.")
+	. += span_info("BREAKING the dagger requires the assassin to be slain. A Necran Rite must be performed with the dagger in the center.")
+	. += span_info("Breaking the dagger will restore the souls, allowing any ghosts who are still present in-round to be returned to their \
+	bodies and revived.")
+
+
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
 	. = ..()
