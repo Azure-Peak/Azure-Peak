@@ -1392,8 +1392,8 @@
 		// send a message. everyone know what we're doing.
 		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... \
 												STOP [human_user.p_them()]!!"),
-							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty. \
-							\n\"De-za-kh...\""))
+							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty.") + span_artery("\
+							\n \n\"De-za-kh...\""))
 
 		// INITIATE GRAGGAR BEAM.
 		var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
@@ -1404,13 +1404,13 @@
 			qdel(transfer_beam)
 			return
 		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-		to_chat(user, span_cult("\"...a-da-sh...\""))
+		to_chat(user, span_artery("\"...a-da-sh...\""))
 
 		if(!do_after(user, 5 SECONDS, target = target))
 			qdel(transfer_beam)
 			return
 		playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
-		to_chat(user, span_cult("\"...ba-a-ha-v!\""))
+		to_chat(user, span_artery("\"...ba-a-ha-v!\""))
 
 		if(!user.client)
 			qdel(transfer_beam)
