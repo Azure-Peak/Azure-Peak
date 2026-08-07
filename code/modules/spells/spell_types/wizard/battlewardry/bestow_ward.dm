@@ -173,3 +173,33 @@
 	if(ward_owner)
 		ward_owner.remove_filter("bestowed_ward_glow")
 	..()
+
+
+
+/datum/action/cooldown/spell/bestow_ward/malum
+	name = "Divine Ward"
+	desc = "Channel divine energy to wrap an ally in a protective ward. The ward covers their entire body with light armor, \
+	layering coverage over any real armor they wear. The ward lasts for 3 minutes or until destroyed. \
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon = 'icons/mob/actions/malummiracles.dmi'
+	spell_color = GLOW_COLOR_MALUM
+	sparks_amt = 3 //God of fire
+	attunement_school = null
+	ignore_armor_penalty = TRUE
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+	invocations = list("Divine protection bestowed upon thee!")
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+
+	spell_tier = 0
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/malum, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)

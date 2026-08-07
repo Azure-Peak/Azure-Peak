@@ -12,8 +12,8 @@
 					/datum/action/cooldown/spell/malum/vigorousexchange		= CLERIC_T1,
 					/datum/action/cooldown/spell/arcyne_forge/miracle		= CLERIC_T1,
 					/datum/action/cooldown/spell/malum/hammerfall			= CLERIC_T2,
-					/datum/action/cooldown/spell/mending/malum				= CLERIC_T2,
-					/datum/action/cooldown/spell/malum/heatmetal			= CLERIC_T3,
+					/datum/action/cooldown/spell/malum/heatmetal			= CLERIC_T2,
+					/datum/action/cooldown/spell/bestow_ward/malum			= CLERIC_T3,
 					/datum/action/cooldown/spell/malum_blessing				= CLERIC_T3,
 					/datum/action/cooldown/spell/malum/fortress				= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/malum	= CLERIC_T4,
@@ -26,7 +26,7 @@
 	storyteller = /datum/storyteller/malum
 
 	titles = list(
-		"Forgefather", 
+		"Forgefather",
 		"Maker",
 		"Mamuke"
 		)

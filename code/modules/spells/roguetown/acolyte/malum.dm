@@ -85,20 +85,20 @@
 			door.set_opacity(TRUE)
 			door.brokenstate = FALSE
 			door.obj_broken = FALSE
-			door.repair_state = 0								
+			door.repair_state = 0
 			if((S.obj_integrity + repair_points) > S.max_integrity)
 				var/need_points = (S.max_integrity - S.obj_integrity)
 				S.obj_integrity += need_points
 			else
 				S.obj_integrity += repair_points
 			owner.visible_message(span_notice("[owner] point on [door.name] and repair this."), \
-			span_notice("I point on [door.name]. Malum blessing!"))	
+			span_notice("I point on [door.name]. Malum blessing!"))
 			return TRUE
 
 		if(istype(S, /obj/structure/roguewindow/))
 			var/obj/structure/roguewindow/window = S
 			if(window.obj_integrity < window.max_integrity)
-				//to_chat(owner, span_warning("[window.obj_integrity]"))	
+				//to_chat(owner, span_warning("[window.obj_integrity]"))
 				owner.visible_message(span_notice("[owner] starts concentrating on [window.name]."),
 				span_notice("I start concentrating on [window.name]."))
 				playsound(owner, 'sound/misc/wood_saw.ogg', 100, TRUE)
@@ -113,9 +113,9 @@
 					var/need_points = (S.max_integrity - S.obj_integrity)
 					S.obj_integrity += need_points
 				else
-					S.obj_integrity += repair_points					
+					S.obj_integrity += repair_points
 				owner.visible_message(span_notice("[owner] point on [window.name] and repair this."), \
-				span_notice("I point on [window.name]. Malum blessing!"))	
+				span_notice("I point on [window.name]. Malum blessing!"))
 				return TRUE
 		else
 			if(!do_after(owner, (150 / skill), target = S))
@@ -305,7 +305,7 @@
 	duration = 50
 
 /////////////////////
-// T3 - Heat Metal //
+// T2 - Heat Metal //
 /////////////////////
 
 /datum/action/cooldown/spell/malum/heatmetal
@@ -392,7 +392,7 @@
 			if(target.get_item_by_slot(SLOT_ARMOR))
 				target_item = target.get_item_by_slot(SLOT_ARMOR)
 			else if (target.get_item_by_slot(SLOT_SHIRT))
-				target_item = target.get_item_by_slot(SLOT_SHIRT)	
+				target_item = target.get_item_by_slot(SLOT_SHIRT)
 		if (BODY_ZONE_PRECISE_NECK)
 			target_item = target.get_item_by_slot(SLOT_NECK)
 		if (BODY_ZONE_PRECISE_R_EYE)
@@ -453,7 +453,7 @@
 	var/obj/item/armor = target.get_item_by_slot(SLOT_ARMOR)
 	var/obj/item/shirt = target.get_item_by_slot(SLOT_SHIRT)
 	var/armor_can_heat = armor && armor.smeltresult && armor.smeltresult != /obj/item/ash
-	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt 
+	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt
 	var/damage_to_apply = 20 // How much damage should your armor burning you should do.
 	if (user.zone_selected == BODY_ZONE_CHEST)
 		if (armor_can_heat && (!shirt_can_heat && shirt))
