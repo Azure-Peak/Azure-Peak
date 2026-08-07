@@ -604,7 +604,7 @@
 /mob/living/carbon/proc/vomit(lost_nutrition = 50, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE, harm = FALSE, force = FALSE)
 	if(HAS_TRAIT(src, TRAIT_IRONMAN))
 		return TRUE
-	
+
 	if(HAS_TRAIT(src, TRAIT_TOXINLOVER) && !force)
 		return TRUE
 
@@ -985,31 +985,34 @@
 		overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, severity)
 	else
 		clear_fullscreen("brute")*/
+	var/hurtdamage = 0
 	if(show_redflash())
-		var/hurtdamage = ((get_complex_pain() / (STAWIL * 10)) * 100) //what percent out of 100 to max pain
-		if(hurtdamage > 5) //float
-			var/severity = 0
-			switch(hurtdamage)
-				if(5 to 20)
-					severity = 1
-				if(20 to 40)
-					severity = 2
-				if(40 to 60)
-					severity = 3
-					overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
-				if(60 to 80)
-					severity = 4
-					overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
-				if(80 to 99)
-					severity = 5
-					overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
-				if(99 to INFINITY)
-					severity = 6
-					overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
-			overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, severity)
+		// Divide by 0 prevention, for sanity sake.
+		hurtdamage = ((get_complex_pain() / (max(STAWIL, 1) * 10)) * 100) //what percent out of 100 to max pain
+	if(hurtdamage > 5) //float
+		var/severity = 0
+		switch(hurtdamage)
+			if(5 to 20)
+				severity = 1
+			if(20 to 40)
+				severity = 2
+			if(40 to 60)
+				severity = 3
+			if(60 to 80)
+				severity = 4
+			if(80 to 99)
+				severity = 5
+			if(99 to INFINITY)
+				severity = 6
+		overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, severity)
+		//drops to 30 stops rapid health changes at this threshold from spamming the overlay.
+		if(hurtdamage >= 40 || (screens["painflash"] && hurtdamage > 30))
+			overlay_fullscreen("painflash", /atom/movable/screen/fullscreen/painflash)
 		else
-			clear_fullscreen("brute")
 			clear_fullscreen("painflash")
+	else
+		clear_fullscreen("brute")
+		clear_fullscreen("painflash")
 
 /mob/living/carbon/update_health_hud(shown_health_amount)
 	if(!client || !hud_used)

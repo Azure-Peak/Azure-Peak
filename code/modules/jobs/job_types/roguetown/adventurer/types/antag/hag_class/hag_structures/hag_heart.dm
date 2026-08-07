@@ -17,7 +17,7 @@
 	var/static/alist/rite_requirements = alist(
 		1 = list(/obj/item/reagent_containers/lux = 2, /obj/item/reagent_containers/food/snacks/fish/creepy_squid = 1, /obj/item/reagent_containers/glass/bottle/rogue/elfblue = 1),
 		2 = list(/obj/item/rogueweapon/sword/rapier/lord = 1, /obj/item/magic/voidstone = 1, /obj/item/blueprint/mace_mushroom = 1),
-		3 = list(/obj/item/rogueore/lithmyc = 1, /obj/item/roguegem/blood_diamond = 1, /obj/item/reagent_containers/food/snacks/eoran_aril/ashen = 1, /obj/item/ingot/lithmyc = 1, /obj/item/rogueweapon/mace/mushroom = 1, /obj/item/rogueweapon/spear/dreamscape_trident = 1),
+		3 = list(/obj/item/rogueore/lithmyc = 1, /obj/item/roguegem/blood_diamond = 1, /obj/item/reagent_containers/food/snacks/eoran_aril/ashen = 1, /obj/item/ingot/lithmyc = 1, /obj/item/rogueweapon/mace/mushroom = 1, /obj/item/rogueweapon/spear/trident/dreamscape_trident = 1),
 	)
 	var/list/delivered_items = list()
 	var/rite_started = FALSE
@@ -103,7 +103,7 @@
 
 // 	var/list/current_reqs = rite_requirements[current_stage]
 // 	var/path_to_check = I.type
-	
+
 // 	// Check if the item matches any requirement for this stage
 // 	var/is_valid_contribution = FALSE
 // 	for(var/req_path in current_reqs)
@@ -133,10 +133,10 @@
 // 		to_chat(user, span_boldnotice("The heart has been satiated with [initial(path_to_check:name)] for this stage!"))
 // 		current_stage++
 // 		delivered_items.Cut() // Clear for the next stage
-		
+
 // 		if(current_stage > max_stages)
 // 			to_chat(user, span_boldnotice("The tithes are complete! The heart is ready to channel your spite."))
-	
+
 // 	return TRUE
 
 // /obj/structure/roguemachine/hag_heart/attack_hand(mob/living/user)
@@ -163,7 +163,7 @@
 		return
 
 	chosen_rite = rites[selection]
-	
+
 	priority_announce("A terrible, ancient cackle echoes across the land. The Grand Rite of [chosen_rite.name] has begun!", "The Mossmother Stirs")
 	for(var/mob/M in GLOB.player_list)
 		M.playsound_local(M, 'sound/hag/hag_cackles.ogg', 100, FALSE)

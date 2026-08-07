@@ -17,6 +17,20 @@
 					/obj/effect/proc_holder/spell/invoked/abyssal_infusion		= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/abyssor		= CLERIC_T4,
 	)
+	var/paint_miracles = list(
+		/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
+		/obj/effect/proc_holder/spell/invoked/aquatic_compulsion	= CLERIC_T0,
+		/obj/effect/proc_holder/spell/self/abyssor_wind				= CLERIC_T0,
+		/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+		/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
+		/datum/action/cooldown/spell/ink_presence					= CLERIC_T1,
+		/datum/action/cooldown/spell/paint_blessing					= CLERIC_T1,
+		/datum/action/cooldown/spell/umbral_viscosity				= CLERIC_T2,
+		/datum/action/cooldown/spell/transmute_ink					= CLERIC_T3,
+		/obj/effect/proc_holder/spell/invoked/call_dreamfiend		= CLERIC_T3,
+		/datum/action/cooldown/spell/recharge_pylon					= CLERIC_T4,
+		/obj/effect/proc_holder/spell/invoked/resurrect/dream		= CLERIC_T4,
+	)
 	confess_lines = list(
 		"ABYSSOR COMMANDS THE WAVES!",
 		"THE OCEAN'S FURY IS ABYSSOR'S WILL!",
@@ -24,7 +38,9 @@
 	)
 	titles = list(
 		"Dreamer",
+		"Abysawa",
 		"Forgotten One",
+		"Siren",
 		"Abysawa",
 		"Aiboshen", // lingyue
 		"Deepfather", // used by painter content

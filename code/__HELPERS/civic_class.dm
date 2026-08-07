@@ -25,7 +25,7 @@
 			return "TOWN_PEASANT"
 		if("Innkeeper", "Guildsman", "Archivist", "Apothecary", "Tailor", "Physician", "Tradesmith", "Magicians Associate", "Burgher", "Resident", "Keeper")
 			return "TOWN_BURGHER"
-		if("Priest", "Vice Priest", "Acolyte", "Druid", "Sexton", "Templar", "Martyr", "Clergy")
+		if("Priest", "Vice Priest", "Acolyte", "Druid", "Sexton", "Templar", "Martyr", "Clergy", "Painter")
 			return "TOWN_CLERGY"
 		if("Court Magician", "Merchant", "Guildmaster", "Bishop", "Bathmaster", "Head Physician", "Town Elder")
 			return "TOWN_NOTABLE"
