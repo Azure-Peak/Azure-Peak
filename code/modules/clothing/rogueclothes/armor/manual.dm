@@ -140,8 +140,8 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_BRIGANDINE //Fallback once the main skin pops, you will get stabbed through this.
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER //Identical to a suit of light brig.
 
@@ -166,8 +166,8 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor.
 
 //Mistwalker skin equates to 2.5 layers of hardened leather armor, relatively simple. Should last well while getting penetrated fairly often, allowing the role's special trait to scale.
@@ -275,8 +275,8 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
@@ -301,7 +301,7 @@
 	</br>Happiness must be fought for."
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
-	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
 /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest
 	name = "enduring chest"
@@ -314,8 +314,8 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
@@ -456,12 +456,11 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/monk/chest
 	name = "tough chest"
 	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
-	armor = ARMOR_PADDED
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
@@ -481,8 +480,8 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
@@ -502,8 +501,8 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
@@ -523,8 +522,8 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_TORSO
-	body_parts_inherent = COVERAGE_TORSO
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
@@ -536,7 +535,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	blocking_behavior = SAMEWEAR
 	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_ANTAG
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/berzerker/chest
 	name = "unstoppable chest"
@@ -548,6 +547,6 @@
 	body_parts_covered = COVERAGE_VEST
 	body_parts_inherent = COVERAGE_VEST
 	armor = ARMOR_MAILLE
-	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL
 
 //Berzerker skin is equivalent to a chest-only light maille and a chest-and-limbs hardened leather armor (150% integ).
