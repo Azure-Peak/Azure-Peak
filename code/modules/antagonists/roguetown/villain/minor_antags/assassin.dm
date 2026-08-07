@@ -37,22 +37,28 @@
 
 /datum/antagonist/assassin/on_gain()
 	owner.current.cmode_music = list('sound/music/cmode/antag/combat_thewall.ogg') // placeholder until a violent way is released
-	to_chat(owner, span_cult("I hear a singing. HE awaits sacrifice. Death to the world, in the name of the Dark Star."))
 	var/evil_mask = /obj/item/clothing/mask/rogue/sack
 	owner.special_items["Sack Mask"] = evil_mask
 	var/datum/action/cooldown/spell/assassin/get_dagger/A = new
 	A.Grant(owner.current)
-	owner.current.playsound_local(owner.current,'sound/villain/littlescary.ogg', 10)
 	// temporary to see how this goes. i think it might help w/ how they need to toggle a lot of their features.
 	apply_virtue(owner.current, new /datum/virtue/combat/guarded)
+	// prevents ear-explosions & THE TEXTWALL. hopefully.
+	addtimer(CALLBACK(src, PROC_REF(greet)), 12 SECONDS)
 
 	return ..()
 
+/datum/antagonist/assassin/greet()
+	to_chat(owner, span_cult("I hear a singing. HE awaits sacrifice. Death to the world, in the name of the Dark Star."))
+	to_chat(owner, span_artery("Summon your dagger. Keep it close. Sense HIS TARGETED, slay them, and PECULATE their being into your blade."))
+	owner.current.playsound_local(owner.current,'sound/villain/littlescary.ogg', 10)
 
-/datum/antagonist/assassin/on_removal()
-	if(!silent && owner.current)
-		to_chat(owner.current,span_danger("The red fog in my mind fades away... my memories as a killer are missing! Who am I, again?"))
-	return ..()
+
+
+/datum/antagonist/assassin/farewell()
+	. = ..()
+	to_chat(owner.current,span_danger("The red fog in my mind fades away... my memories as a killer are missing! Who am I, again?"))
+
 
 /datum/antagonist/assassin/roundend_report()
 	var/traitorwin = FALSE
@@ -61,7 +67,7 @@
 			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = I
 			for(var/datum/profane_soul_data/soul in pissdagger.stored_souls) // Each trapped soul is announced to the server
 				if(soul)
-					to_chat(world, "The soul of [soul.name] has been stolen for Graggar by [owner.name].<span class='greentext'>DAMNATION!</span>")
+					to_chat(world, span_artery("The soul of [soul.name] has been stolen for GRAGGAR by [owner.name]. <span class='greentext'>DAMNATION!</span>"))
 					traitorwin = TRUE
 
 	if(!considered_alive(owner))
