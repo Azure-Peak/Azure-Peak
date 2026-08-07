@@ -28,6 +28,8 @@
 	if(bprv & BODYPART_LIFE_UPDATE_HEALTH)
 		update_stamina() //needs to go before updatehealth to remove stamcrit
 		updatehealth()
+	if(client)
+		update_damage_hud()
 	if (times_fired % 3 == 0) // every 3rd tick, fire stress handler. it isn't time-critical, so we don't particularly need it to go EVERY tick
 		update_stress()
 	handle_nausea()
