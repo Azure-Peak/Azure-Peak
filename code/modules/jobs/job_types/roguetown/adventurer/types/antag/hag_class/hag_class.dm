@@ -10,7 +10,8 @@
 						  TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
 						  TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
 						  TRAIT_DARKVISION, TRAIT_NOHUNGER,
-						  TRAIT_TECHNOPHOBE, TRAIT_NOPVE, TRAIT_UNCONVERTIBLE)
+						  TRAIT_TECHNOPHOBE, TRAIT_NOPVE, TRAIT_UNCONVERTIBLE,
+						  TRAIT_NOWW)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -169,7 +170,7 @@
 
 	if(!istype(A, /area/rogue/outdoors/bog) && !istype(A, /area/rogue/indoors/shelter/bog) && !istype(A, /area/rogue/indoors/shelter/bog_hag))
 		to_chat(L, span_userdanger("The air is too pure! My monstrous form cannot sustain itself away from the Mother's roots!"))
-		
+
 		// Find the shapeshift holder and force a restore
 		var/obj/shapeshift_holder/H = locate() in L
 		if(H)

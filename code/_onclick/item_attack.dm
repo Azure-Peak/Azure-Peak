@@ -28,13 +28,19 @@
 		// even less aggressive; allows use of tools but not weapons
 		if(HAS_TRAIT(user, TRAIT_TINYPAWS))
 			var/obj/item/rogueweapon/weapon = src
-			if(istype(weapon) && !weapon.is_tool)
-				to_chat(user, span_warning("I am too small to properly wield a weapon."))
-				return
+			if(istype(weapon) && (!weapon.is_tool || ismob(target)))
+				var/exception = FALSE
+				if(weapon.is_tool && istype(user, /mob/living/carbon/human/species/familiar/elemental))
+					var/datum/action/cooldown/spell/arcyne_forge/elementalt2/spell = user.mind?.get_spell(/datum/action/cooldown/spell/arcyne_forge/elementalt2, TRUE)
+					if(spell && (spell.conjured_item == src))
+						exception = TRUE // elemental familiars can swing, but ONLY their conjured shittyiron weapons.
+				if(!exception)
+					to_chat(user, span_warning("I am too small to properly wield a weapon."))
+					return
 		// Uniquely reskinned variant, for those who don't happen to be familiars.Add a comment on  line R34Add diff commentMarkdown input:  edit mode selected.WritePreviewAdd a suggestionHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
 		if(HAS_TRAIT(user, TRAIT_WEAPONLESS))
 			var/obj/item/rogueweapon/weapon = src
-			if(istype(weapon) && !weapon.is_tool)
+			if(istype(weapon) && (!weapon.is_tool || ismob(target)))
 				to_chat(user, span_warning("I cannot properly wield this weapon."))
 				return
 	if(tool_behaviour && target.tool_act(user, src, tool_behaviour))
@@ -127,12 +133,12 @@
 
 
 	if(item_flags & NOBLUDGEON)
-		return FALSE	
+		return FALSE
 
 	if(force && HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
 		return
-	
+
 	if(force && user.has_status_effect(/datum/status_effect/debuff/deadite_grace) && M.mind)
 		to_chat(user, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
 		user.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
@@ -168,7 +174,7 @@
 		if(user.add_swingdelay(cached_intent))
 			sleep(cached_intent.swingdelay)
 
-	// Getting struck w/ /disrupt swingdelay type sets our swing_state to false. 
+	// Getting struck w/ /disrupt swingdelay type sets our swing_state to false.
 	// If we had the effect, but not the bool, we were interrupted. (Or something else went wrong.)
 	if(user.is_swinging() && !user.swing_state)
 		return
@@ -216,7 +222,7 @@
 			user.adjust_blurriness(3)
 			user.adjustBruteLoss(5)
 			user.apply_status_effect(/datum/status_effect/churned, M)
-	
+
 	//Niche signal for post-swingdelay attacks when we want to care about those.
 	_attacker_signal = null
 	_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, M, user, src)
@@ -260,7 +266,7 @@
 
 		user.changeMaxDodge(2)
 		user.dodgetime = clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE)
-				
+
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 
 	execute_cleave(user, get_turf(M), M)
@@ -339,7 +345,7 @@
 
 	if(!istype(user))
 		return newforce
-	
+
 	var/dullness_ratio
 	if(I.max_blade_int && I.sharpness != IS_BLUNT)
 		dullness_ratio = I.blade_int / I.max_blade_int
@@ -603,7 +609,7 @@
 
 	if(multiplier)
 		newforce = newforce * multiplier
-	
+
 	take_damage(newforce, I.damtype, I.d_type, 1)
 	if(newforce > 1)
 		I.take_damage(1, BRUTE, I.d_type)

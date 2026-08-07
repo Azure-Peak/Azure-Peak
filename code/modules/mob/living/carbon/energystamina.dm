@@ -7,7 +7,7 @@
 				delay = 13
 			if("night", "dusk")
 				delay = 16
-	if(world.time > last_fatigued + delay) //regen fatigue 
+	if(world.time > last_fatigued + delay) //regen fatigue
 		var/added = energy / max_energy
 		added = round(-10 + (added * - 40))
 		if(src.climbing) // no stam regen while climbing guh
@@ -262,24 +262,6 @@
 				continue
 			animate(whole_screen, transform = newmatrix, time = 3, easing = QUAD_EASING)
 			animate(transform = -newmatrix, time = 40, easing = QUAD_EASING)
-
-/mob/living/carbon/proc/freak_out_mimic(mob/target)
-	if(mob_timers["freakout"])
-		if(world.time < mob_timers["freakout"] + 10 SECONDS)
-			flash_fullscreen("stressflash")
-			return
-	if(HAS_TRAIT(src, TRAIT_NOMOOD))
-		return
-	mob_timers["freakout"] = world.time
-	shake_camera(src, 1, 3)
-	flash_fullscreen("stressflash")
-	changeNext_move(CLICK_CD_EXHAUSTED)
-	add_stress(/datum/stressevent/mimic_jumpscare)
-	var/randdelay = rand(5, 150)
-	var/balloon_text = pick("<font color='#ffffff'>WHAT IS THAT?!</font>","<font color='#ffffff'>WTF?!</font>","<font color='#ffffff'>WHAT?!</font>","<font color='#ffffff'>WHAT THE-?!</font>","<font color='#ffffff'>MIMIC?!</font>","<font color='#ffffff'>SERIOUSLY?!</font>","<font color='#ffffff'>REALLY?!</font>",)
-	spawn(randdelay)
-		balloon_alert_to_viewers(balloon_text, balloon_text, DEFAULT_MESSAGE_RANGE)
-		emote("scream", forced = TRUE)
 
 /mob/living/proc/stamina_reset()
 	stamina = 0

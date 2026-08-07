@@ -3,7 +3,7 @@
 	name = "Arcyne Lance"
 	desc = "Hurl a spectral arcyne lance that pierces through up to 3 targets without losing momentum. \
 	Toggle arc mode (Shift+G) to lob over obstacles at reduced damage. Arced projectiles will not pierce multiple targets."
-	button_icon_state = "arcyne_lance"
+	button_icon_state = "sorcerers_lance"
 	sound = 'sound/magic/scrapeblade.ogg'
 	spell_color = GLOW_COLOR_METAL
 	glow_intensity = GLOW_INTENSITY_MEDIUM
