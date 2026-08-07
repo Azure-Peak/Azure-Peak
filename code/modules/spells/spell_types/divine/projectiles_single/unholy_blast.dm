@@ -70,8 +70,8 @@
 				qdel(src)
 				return
 			if(blocked < 100)
-				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-					L.visible_message("<font color='white'>Divine power staggers [H]!</font>")
+				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !L.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+					L.visible_message("<font color='white'>Divine power staggers [L]!</font>")
 					L.Immobilize(3 SECONDS)
 					L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 				apply_divine_damage(L)
