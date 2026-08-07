@@ -114,8 +114,8 @@
 			mask =  /obj/item/clothing/head/roguetown/roguehood/nochood
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
 		if(/datum/patron/divine/abyssor)
-			mask = /obj/item/clothing/head/roguetown/roguehood/abyssor
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
+			mask = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter
 		if(/datum/patron/divine/dendor)
 			mask = /obj/item/clothing/head/roguetown/dendormask
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
@@ -675,8 +675,9 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC) // So that they can take arcyne potential and not break.
 		if(/datum/patron/divine/abyssor)
-			head = /obj/item/clothing/head/roguetown/roguehood/abyssor
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
+			head = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter
+			l_hand = /obj/item/abyssal_marker/tidal
 			H.adjust_skillrank(/datum/skill/labor/fishing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
@@ -796,9 +797,9 @@
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 	if(istype(H.patron, /datum/patron/divine))
-		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 	if(istype(H.patron, /datum/patron/inhumen))
-		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/unholy_blast)
 	if(istype(H.patron, /datum/patron/old_god))
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/psydon/enduring_blast) //99% rock chance, 1% boulder, hilarious.
 	switch(H.patron?.type)

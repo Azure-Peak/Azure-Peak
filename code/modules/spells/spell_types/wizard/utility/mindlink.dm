@@ -98,8 +98,8 @@
 	if(!link)
 		return
 
-	to_chat(link.owner, span_warning("The mindlink with [link.target] fades away..."))
-	to_chat(link.target, span_warning("The mindlink with [link.owner] fades away..."))
+	to_chat(link.owner, span_notice("The mindlink with [link.target] fades away..."))
+	to_chat(link.target, span_notice("The mindlink with [link.owner] fades away..."))
 
 	GLOB.mindlinks -= link
 	qdel(link)

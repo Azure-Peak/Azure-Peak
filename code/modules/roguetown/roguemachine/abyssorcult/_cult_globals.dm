@@ -1,0 +1,3 @@
+GLOBAL_LIST_EMPTY(abyssal_rituals)
+
+GLOBAL_LIST_EMPTY(all_vision_quests)

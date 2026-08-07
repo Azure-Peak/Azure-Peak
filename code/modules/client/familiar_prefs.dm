@@ -186,7 +186,7 @@
 
 		if("familiar_flavortext")
 			to_chat(user, "<span class='notice'><b>Flavortext should not include nonphysical nonsensory attributes such as backstory or internal thoughts.</b></span>")
-			var/new_flavortext = input(user, "Input your Familiar character description:", "Flavortext", familiar_flavortext[planar_origin]) as message|null
+			var/new_flavortext = tgui_input_text(user, "Input your familiar description:", "Flavortext", familiar_flavortext[planar_origin], multiline = TRUE,  encode = FALSE, bigmodal = TRUE)
 			if(new_flavortext == null)
 				return
 			if(new_flavortext == "")
@@ -196,7 +196,7 @@
 				setup_examine_window(user,planar_origin)
 				return
 			familiar_flavortext[planar_origin] = new_flavortext
-			var/ft = html_encode(parsemarkdown_basic(familiar_flavortext[planar_origin]))
+			var/ft = parsemarkdown_basic(html_encode(familiar_flavortext[planar_origin]))
 			ft = replacetext(ft, "\n", "<BR>")
 			familiar_flavortext_display[planar_origin] = ft
 			to_chat(user, "<span class='notice'>Successfully updated familiar flavortext</span>")

@@ -62,6 +62,7 @@
 	to_fire.firer = user
 	to_fire.fired_from = get_turf(user)
 	to_fire.def_zone = user.zone_selected
+	to_fire.source_spell = src
 
 	// Propagate spell impact intensity to the projectile
 	if(istype(to_fire, /obj/projectile/magic))

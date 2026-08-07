@@ -174,3 +174,80 @@
   - refactor: Zizo skeleton summoning is fixed (again x6) by reworking the spell.
   - rscdel: The new Zizo spells have been reverted temporarily for reorganization
       purposes, they'll be back shortly.
+2026-08-07:
+  7erracotta:
+  - rscadd: 'Added new clothing items /:cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  KatTheFox:
+  - rscdel: Mimics revealing themselves or being attacked no longer forces all characters
+      in a 4-tile radius to scream and freak out.
+  - code_imp: Familiars are now humanmobs, instead of simplemobs. This vaguely means
+      they'll be able to interact with more things like you'd expect, but might also
+      induce some wyrd bugs - report any broken interactions.
+  - rscadd: The familiar preferences window has been touched up; it now displays one
+      plane's settings as a time and can be cycled. Familiars can now also set their
+      voice color.
+  - bugfix: Fae familiars no longer get misleading tutorial text; it's been updated
+      to match their new ability tiering. Their spell descriptions have also been
+      updated to clarify their mechanics.
+  - bugfix: Fae familiars can now remove reagents from themselves, and can drink (and
+      be fed) from containers as intended. Reagent bite also now works to fill and
+      empty containers, and says as much in its description.
+  - bugfix: Familiars can now wear neck items like pouches and amulets on their neck.
+      For real this time, we promise.
+  - bugfix: The "globally disable the panel for this type of mob" variable now actually...
+      works on both ends, instead of only being checked for the initiator.
+  - bugfix: Origin lore examines are now cached at roundstart, so they don't display
+      incorrectly in certain cases, and will work while you're AFK.
+  Ryan180602:
+  - balance: Reduce integrity range of light armour.
+  - balance: most skin armour is now manual instead of regenerating.
+  - balance: most skin armour is mutually exclusive to other armour in shirt/armour
+      slot.
+  - rscadd: donor item
+  Ryumi:
+  - qol: Examine windows now display the character's custom song title, if they have
+      one set.
+  WeNeedMorePhoron:
+  - rscadd: Added the Pentarchy special mercenary wave which can roll naturally rarely
+      and be bought for 55 triumphs, once per round, and the trios of mercenaries
+      generic wave which is purchase only and can be bought for 66 triumphs, once
+      per round.
+  - admin: Added better logging for triumphs modification
+  - rscadd: 'Added a 17 chapters, around 11k words OOC Combat Guide to the Encyclopedia,
+      which primes you on the basics of combat in AP. Also performed some fixes /
+      tweaks to deal with bugs and inconsistency found while building the guide:'
+  - rscadd: Long Weapon can no longer reach the head from the ground, this niche is
+      reserved for GREAT weapons, thus making them actually differentiate and match
+      the descriptions
+  - rscadd: Grabbing a bleeding wound gave out 0.25x bleed rate instead of 0.5x and
+      then reinforcing did nothing. This meant aggressive grab was useless before
+      even if the code tell you otherwise. Fixed it so that the default rate is 0.5x
+      and then reinforcing an aggressive grab makes it 0.25x.
+  - rscadd: Feint's guaranteed fail condition (feinting someone out of sight, and
+      feinting someone who has just been feinted) now properly make the chance 0%
+      instead of clamping to 10%
+  - rscadd: WEAK / STRONG Stance's description falsely said it gives you +1 / -1 STR,
+      this has been corrected to give the actual percentage value they gives.
+  - rscadd: Blockade now scales threat and rewards up to the sixth instead of the
+      fifth person.
+  - balance: Slightly increased the grace timer before straining / forced cancel for
+      holding onto a spell
+  - rscadd: Modified and cleaned up how spell audio que works, such that charging
+      sound cuts out the moment it is charged and now we use a new charged sound with
+      a bit of silence cut out
+  - rscadd: Modified and changed how the audio que for charging a sling / bow works.
+      It should be snappier and will reuse the nock / loading sound to indicate it
+      is done charging. There's now sound variations based on how fast your actual
+      calculated draw speed is.
+  - rscadd: Added lag compensation for spell charging and archery / sling charging.
+      Moved them back onto the faster, dedicated mouse charge system to hopefully
+      make it more reliable and not compete with fast processing for proper icon indicator.
