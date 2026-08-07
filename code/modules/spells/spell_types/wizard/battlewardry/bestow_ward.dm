@@ -179,7 +179,7 @@
 /datum/action/cooldown/spell/bestow_ward/malum
 	name = "Divine Ward"
 	desc = "Channel divine energy to wrap an ally in a protective ward. The ward covers their entire body with light armor, \
-	layering coverage over any real armor they wear. The ward lasts for 3 minutes or until destroyed. \
+	layering coverage over any real armor they wear. The ward lasts for 3 minutes or until destroyed."
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
 	spell_color = GLOW_COLOR_MALUM
@@ -192,7 +192,7 @@
 
 	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
-	invocations = list("Divine protection bestowed upon thee!")
+	invocations = "Divine protection bestowed upon thee!"
 
 	has_visual_effects = FALSE
 	spell_impact_intensity = SPELL_IMPACT_NONE
