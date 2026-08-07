@@ -43,7 +43,6 @@
 	H.set_patron(/datum/patron/godless) //FORESAKEN BY GODS, THYNE OWN DIVINITY CARVED BY MYNE OWN HANDS.
 	//Progress dominion has an undead check anyway, so don't worry about them not worshipping Zizo. She'd do it out of spite anyway.
 	add_verb(H, /mob/living/carbon/human/proc/demand_submission)
-	add_verb(H, /mob/living/carbon/human/proc/punish_spawn)
 	H.maxbloodpool += 4000
 	H.adjust_bloodpool(4000)
 	for(var/S in MOBSTATS)
