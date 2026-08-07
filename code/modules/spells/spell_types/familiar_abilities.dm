@@ -17,8 +17,8 @@
 	var/mob/living/user = owner
 	if(!istype(user))
 		return FALSE
-	var/mob/living/simple_animal/pet/familiar/familiar
-	for(var/mob/living/simple_animal/pet/familiar/familiar_check in GLOB.player_list)
+	var/mob/living/carbon/human/species/familiar/familiar
+	for(var/mob/living/carbon/human/species/familiar/familiar_check in GLOB.player_list)
 		if(familiar_check.familiar_summoner == user)
 			familiar = familiar_check
 	if(!familiar || !familiar.mind)
@@ -36,7 +36,7 @@
 	log_game("[key_name(user)] sent a message to [key_name(familiar)] with contents [message]")
 	return TRUE
 
-/datum/action/cooldown/spell/message_familiar/proc/track_vestige(mob/living/user, mob/living/simple_animal/pet/familiar/fam)
+/datum/action/cooldown/spell/message_familiar/proc/track_vestige(mob/living/user, mob/living/carbon/human/species/familiar/fam)
 	user.visible_message(span_notice("[user] closes [user.p_their()] eyes and reaches out through the veil..."), span_notice("I close my eyes and attune to the flow of the veil..."))
 	if(!do_after(user, 2 SECONDS, target = user))
 		to_chat(user, span_warning("Your concentration breaks."))
@@ -84,7 +84,7 @@
 
 /datum/action/cooldown/spell/message_summoner/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/simple_animal/pet/familiar/user = owner
+	var/mob/living/carbon/human/species/familiar/user = owner
 	if(!istype(user))
 		return FALSE
 
@@ -103,9 +103,94 @@
 	log_game("[key_name(user)] sent a message to [key_name(summoner)] with contents [message]")
 	return TRUE
 
+/datum/action/cooldown/spell/rootcheck
+	name = "Nature's Bounty"
+	desc = "Invigorate the lyfe in a small area, causing hidden roots to bear fruit instantly."
+	button_icon_state = "ensnare"
+
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	cooldown_time = 10 MINUTES
+
+	primary_resource_type = SPELL_COST_NONE
+	spell_requirements = NONE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	var/static/list/rootpool = list( // basically most crops, including poison berries. also a few alchemically-useful things. and junk items to make it less useful
+		/obj/item/natural/fibers,
+		/obj/item/grown/log/tree/stick,
+		/obj/item/natural/thorn,
+		/obj/item/natural/chaff/wheat, // what, you thought it'd be usable? nah you have to shuck that yourself, it's freshly-grown
+		/obj/item/natural/chaff/oat,
+		/obj/item/natural/chaff/rice,
+		/obj/item/reagent_containers/food/snacks/grown/maize,
+		/obj/item/reagent_containers/food/snacks/grown/apple,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/pear,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/lemon,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/lime,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/plum,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/strawberry,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/tomato,
+		/obj/item/reagent_containers/food/snacks/grown/nut,
+		/obj/item/reagent_containers/food/snacks/grown/sugarcane,
+		/obj/item/reagent_containers/food/snacks/grown/vegetable/turnip,
+		/obj/item/reagent_containers/food/snacks/grown/sunflower,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed,
+		/obj/item/reagent_containers/food/snacks/grown/onion/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/cabbage/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/potato/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/garlick/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/poppy,
+		/obj/item/reagent_containers/food/snacks/grown/coffee,
+		/obj/item/reagent_containers/food/snacks/grown/tea,
+		/obj/item/reagent_containers/food/snacks/grown/carrot,
+		/obj/item/reagent_containers/food/snacks/grown/cucumber,
+		/obj/item/reagent_containers/food/snacks/grown/eggplant,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
+		/obj/item/alch/atropa, // herbs, synergizes with fae brew and makes the food potential less strong
+		/obj/item/alch/matricaria,
+		/obj/item/alch/symphitum,
+		/obj/item/alch/taraxacum,
+		/obj/item/alch/euphrasia,
+		/obj/item/alch/paris,
+		/obj/item/alch/calendula,
+		/obj/item/alch/mentha,
+		/obj/item/alch/urtica,
+		/obj/item/alch/salvia,
+		/obj/item/alch/hypericum,
+		/obj/item/alch/benedictus,
+		/obj/item/alch/valeriana,
+		/obj/item/alch/artemisia,
+		/obj/item/alch/rosa,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+	)
+
+/datum/action/cooldown/spell/rootcheck/cast(atom/cast_on)
+	. = ..()
+	var/turf/target = get_turf(cast_on)
+	target.visible_message(span_notice("Hidden roots tremble underfoot as crops flourish before your very eyes, bursting through the ground!"))
+	if(!target)
+		return FALSE
+	for(var/i in 1 to 3)
+		var/obj/item/path = pick(rootpool)
+		new path(target)
+
+/datum/action/cooldown/spell/invisibility/fae
+	name = "Fey Shroud"
+	desc = "Cloak yourself, blending into the surroundings. Attacking, being attacked, or casting another ability will break your stealth."
+	click_to_activate = FALSE
+
 /datum/action/cooldown/spell/fae_brew
 	name = "Alchemical Stomach"
-	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill."
+	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill. Click yourself (or have someone else click you) with reagents to add them, or empty hand to remove them."
 	button_icon_state = "create_campfire"
 
 	click_to_activate = FALSE
@@ -117,7 +202,7 @@
 	spell_requirements = NONE
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
-/datum/action/cooldown/spell/fae_brew/cast(mob/living/simple_animal/pet/familiar/fae/user)
+/datum/action/cooldown/spell/fae_brew/cast(mob/living/carbon/human/species/familiar/fae/user)
 	. = ..()
 	if(!istype(user))
 		return FALSE
@@ -127,20 +212,19 @@
 /datum/action/cooldown/spell/projectile/lesser_fetch/fae
 	name = "Grasp of Nature"
 	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 	invocations = list("Recolligere silva")
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite
 	name = "Alchemical Bite" // placeholder
-	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach."
+	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach. Cast on a reagent container to transfer its contents into your stomach, or fill it if it's empty. You can also drink from containers directly to similar effect."
 	range = 1
 	recharge_time = 10 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
 	overlay_icon_state = "wither"
 
-/obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/fae/user)
+/obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/carbon/human/species/familiar/fae/user)
 	. = ..()
-	if(!user) // literally how
+	if(!user || !user.reagents) // literally how
 		revert_cast()
 		return FALSE
 	var/atom/target = targets.len?targets[1]:null
@@ -148,26 +232,41 @@
 		to_chat(user, span_notice("I need to select a valid target to bite!"))
 		revert_cast()
 		return FALSE
-	if(!user.reagents || user.reagents.total_volume == 0)
-		to_chat(user, span_notice("I need to have a potion in my stomach to inject!"))
-		revert_cast()
-		return FALSE
-	if(!isliving(targets[1]))
-		user.visible_message(
-			span_notice("[user.name] gently bites the top of [targets[1]], filling it with an alchemical cocktail..."),
-			span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
-		)
-		// we're not biting a mob, so we can loop for convenience 
-		while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+	if(!isliving(target))
+		if(user.reagents.total_volume && (!target.reagents.holder_full()))
 			user.visible_message(
-				span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
-				span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
+				span_notice("[user.name] gently bites the top of [targets[1]], filling it with an alchemical cocktail..."),
+				span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
 			)
-		user.visible_message(
-			span_notice("[user.name] lets go of [targets[1]]."),
-			span_notice("You let go of [targets[1]].")
-		)
-		return TRUE
+			// we're not biting a mob, so we can loop for convenience
+			while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+				user.visible_message(
+					span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
+					span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
+				)
+			user.visible_message(
+				span_notice("[user.name] lets go of [targets[1]]."),
+				span_notice("You let go of [targets[1]].")
+			)
+			return TRUE
+		else if(target.reagents.total_volume && (!user.reagents.holder_full())) // suckle it up!
+			user.visible_message(
+				span_notice("[user.name] latches onto [targets[1]], beginning to drink..."),
+				span_notice("You latch onto [targets[1]], and begin to drink...")
+			)
+			// we're not biting a mob, so we can loop for convenience
+			while(do_after(user, 1 SECONDS, FALSE, target) && target.reagents.trans_to(user, 5, transfered_by = user))
+				user.visible_message(
+					span_notice("[user.name] drinks from [targets[1]]..."),
+					span_notice("You drink from [targets[1]]...")
+				)
+			user.visible_message(
+				span_notice("[user.name] lets go of [targets[1]]."),
+				span_notice("You let go of [targets[1]].")
+			)
+			return TRUE
+		return FALSE
+
 	var/mob/living/living_target = targets[1]
 	user.visible_message(
 		span_notice("[user.name] attempts to bite [living_target.name]!"),
@@ -192,7 +291,7 @@
 	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	overlay_icon_state = "spitfire"
 
-/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/infernal/user)
+/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/carbon/human/species/familiar/infernal/user)
 	. = ..()
 	if(!user) // literally how
 		revert_cast()
@@ -234,18 +333,52 @@
 /datum/action/cooldown/spell/magicians_stone/elemental
 	name = "Create Stone"
 	fluff_desc = ""
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /obj/item/rogueweapon/woodstaff/implement/greater/elemental
-	name = "Staff of the Binder"
+	name = "\improper Staff of the Binder"
+	base_implement_name = "\improper Bound Staff" // will become "Bound Staff of Frost" etc
 	desc = "A mage's staff crowned with the spirit-gem of a familiar. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
 	icon_state = "sapphirestaff"
 
-/datum/action/cooldown/spell/arcyne_forge/elemental
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal
+	name = "\improper Staff of the Daemonbinder"
+	base_implement_name = "\improper Infernal Staff" // "Infernal Staff of Flame" etc
+	desc = "A mage's staff that shimmers with eternal malice. It is perpetually warm to the touch; holding it inspires an urge to unleash one's most powerful magic. Merely a touch from it is enough to spark flame. It captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
+	icon_state = "rubystaff"
+	var/sparkcd = 0
+
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
+	if(!proximity)
+		return
+	if(world.time < sparkcd + 10)
+		return
+	sparkcd = world.time
+	playsound(user, 'sound/items/flint.ogg', 100, FALSE)
+
+	if (ismob(A))
+		A.spark_act()
+	else
+		A.fire_act(3,3)
+	user.flash_fullscreen("whiteflash")
+	to_chat(user, span_notice("\The [src] produces an igniting spark!"))
+
+/obj/item/rogueweapon/woodstaff/implement/greater/infernal/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "It shimmers with abyssal flame!")
+
+/datum/action/cooldown/spell/earthen_forge
 	name = "Earthen Forge"
 	desc = "Shape your earthen form into a tool or weapon. When the item breaks, you will revert to your original form. Cast again to manually revert."
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
-	conjure_options = list(
+
+	button_icon = 'icons/mob/actions/mage_conjure.dmi'
+	button_icon_state = "arcyne_forge"
+	spell_color = GLOW_COLOR_METAL
+	glow_intensity = GLOW_INTENSITY_LOW
+	attunement_school = ASPECT_NAME_FERRAMANCY
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CONJURE
+	var/list/conjure_options = list(
 		// Staff
 		"Staff of the Binder" = /obj/item/rogueweapon/woodstaff/implement/greater/elemental,
 		// Weapons
@@ -279,11 +412,18 @@
 		"Needle" = /obj/item/needle
 	)
 	cooldown_time = 30 SECONDS
-	charge_required = FALSE
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
+	charge_required = TRUE
+	charge_time = 2 SECONDS
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_sound = 'sound/magic/charging.ogg'
+
+	var/obj/conjured_item
+
+/datum/action/cooldown/spell/earthen_forge/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/simple_animal/pet/familiar/H = owner
+	var/mob/living/carbon/human/species/familiar/H = owner
 	if(!istype(H))
 		return FALSE
 
@@ -294,39 +434,75 @@
 	else if (!isturf(H.loc))
 		return FALSE // no casting this from the orb
 
-	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
+	var/choice
+	if(length(conjure_options) > 1)
+		choice = tgui_input_list(H, "Choose what to conjure", name, conjure_options)
+	else
+		choice = conjure_options[1]
+
 	if(!choice)
 		return FALSE
 
 	var/item_path = conjure_options[choice]
-	var/obj/item/R = new item_path(H.drop_location())
+	var/obj/R = new item_path(H.drop_location())
+	var/obj/item/I = R
 
 	R.obj_integrity = R.max_integrity
 	owner.status_flags |= GODMODE
-	// Mark as conjured — no salvage, no smelting
-	R.smeltresult = null
-	R.salvage_result = null
-	R.fiber_salvage = FALSE
+	if(isitem(R))
+		// Mark as conjured — no salvage, no smelting
+		I.smeltresult = null
+		I.salvage_result = null
+		I.fiber_salvage = FALSE
 
-	// Conjured glow
-	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
+		// Conjured glow
+		I.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
 	RegisterSignal(R, COMSIG_ITEM_BROKEN, PROC_REF(revert))
 	RegisterSignal(H, COMSIG_LIVING_RESIST, PROC_REF(revert))
 	RegisterSignal(R, COMSIG_ITEM_DROPPED, PROC_REF(revert_perspective))
 	H.forceMove(R)
 	conjured_item = R
+	H.reset_perspective(R)
+	R.become_hearing_sensitive()
+	H.update_cone_show()
 	return TRUE
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert_perspective()
+/datum/action/cooldown/spell/earthen_forge/proc/revert_perspective()
 	owner.reset_perspective()
+	owner.update_cone_show()
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert()
+/datum/action/cooldown/spell/earthen_forge/proc/revert()
 	if(conjured_item)
 		owner.forceMove(get_turf(owner))
 		owner.status_flags &= ~GODMODE
+		owner.update_cone_show()
 		QDEL_NULL(conjured_item)
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/void // lmao
+/datum/action/cooldown/spell/earthen_forge/infernal
+	name = "Arcyne Attunement"
+	desc = "Lend your summoner the means to burn the world down, taking the form of a powerful staff that channels flame exquisitely."
+
+	conjure_options = list(
+		// Staff
+		"Infernal Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/infernal,
+	)
+
+/obj/structure/arcyne_wall/greater/elemental
+	desc = "The mason did an excellent job etching details into this wall."
+	name = "decorated stone wall"
+	icon_state = "decostone-b"
+	icon = 'icons/turf/roguewall.dmi'
+	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
+
+/datum/action/cooldown/spell/earthen_forge/wall
+	name = "Wall Forme"
+	desc = "Become a bulwark, drawing earth into yourself to block off a passage. None shall proceed while you yet stand."
+
+	conjure_options = list(
+		"Wall" = /obj/structure/arcyne_wall/greater/elemental,
+	)
+
+/datum/action/cooldown/spell/earthen_forge/void // lmao
 	name = "Void Forge"
 	desc = "Shape your ever-malleable form into a tool or weapon. When the item breaks, you will revert to your original form. Cast again to manually revert."
 
@@ -334,7 +510,6 @@
 	name = "Greater Earthen Shaping"
 	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
 	Only one conjured item can exist at a time - conjuring a new one destroys the old."
-	cooldown_time = 5 MINUTES
 	charge_required = TRUE
 	conjure_options = list(
 		// Weapons
@@ -368,42 +543,6 @@
 		"Needle" = /obj/item/needle
 	)
 	cooldown_time = 30 SECONDS
-	charge_required = FALSE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/arcyne_forge/elementalt2/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/simple_animal/pet/familiar/elemental/H = owner
-	if(!istype(H))
-		return FALSE
-
-	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
-	if(!choice)
-		return FALSE
-
-	// Destroy previous conjured item
-	if(conjured_item && !QDELETED(conjured_item))
-		conjured_item.visible_message(span_warning("[conjured_item] shimmers and fades away!"))
-		qdel(conjured_item)
-
-	var/item_path = conjure_options[choice]
-	var/obj/item/R = new item_path(H.drop_location())
-
-	// Halve durability
-	R.max_integrity = round(R.max_integrity * 0.5)
-	R.obj_integrity = R.max_integrity
-
-	// Mark as conjured — no salvage, no smelting
-	R.smeltresult = null
-	R.salvage_result = null
-	R.fiber_salvage = FALSE
-
-	// Conjured glow
-	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN, FALSE, H, src)
-
-	H.put_in_hands(R)
-	conjured_item = R
-	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/consume
 	name = "Consume"
@@ -413,7 +552,7 @@
 	overlay_icon = 'icons/mob/actions/hagspells.dmi'
 	overlay_icon_state = "hand_up"
 
-/obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
+/obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
 	. = ..()
 	if(!user) // literally how
 		revert_cast()
@@ -421,7 +560,7 @@
 	if(!targets.len)
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
-	var/mob/living/simple_animal/pet/familiar/target = targets[1]
+	var/mob/living/carbon/human/species/familiar/target = targets[1]
 	if(!istype(target))
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
 		return FALSE
@@ -443,11 +582,11 @@
 		return FALSE
 	// we have a mindless familiar: let's see if it's actually valid for us
 	var/essence_to_grant = null
-	if(istype(target, /mob/living/simple_animal/pet/familiar/fae))
+	if(istype(target, /mob/living/carbon/human/species/familiar/fae))
 		essence_to_grant = "fae"
-	else if(istype(target, /mob/living/simple_animal/pet/familiar/infernal))
+	else if(istype(target, /mob/living/carbon/human/species/familiar/infernal))
 		essence_to_grant = "infernal"
-	else if(istype(target, /mob/living/simple_animal/pet/familiar/elemental))
+	else if(istype(target, /mob/living/carbon/human/species/familiar/elemental))
 		essence_to_grant = "elemental"
 	else
 		// kin... hubris begets hubris, in the end
@@ -519,7 +658,7 @@
 		hit_mob.apply_damage(damage = 3, damagetype = BURN)
 	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
 
-/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
+/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
 	user.face_atom(targets[1])
 	user.move_resist = MOVE_FORCE_VERY_STRONG
 	if(do_after(user,1 SECONDS, target=user))
@@ -564,7 +703,6 @@
 	name = "Grasp of the Void"
 	desc = "Grasp a freestanding item with your arcyne power, drawing it towards you. Doesn't work on living targets."
 	invocations = list("Nihilo, recolligere")
-
 
 /datum/action/cooldown/spell/magicians_stone/elemental/void
 	name = "Harvest Stone"

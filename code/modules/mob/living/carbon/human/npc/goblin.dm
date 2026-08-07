@@ -369,17 +369,17 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	else
 		head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
 	//Our skills get bumped from (2) apprentice to (3) journeyman
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 2, TRUE) // Still Trash Mob
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 3, TRUE) //Give players a way to use their stone knives, NPCs hit better.
-	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 3, TRUE) //So players can break dorpels, NPCs hit better.
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) // Still Trash Mob
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE) //Give players a way to use their stone knives, NPCs hit better.
+	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE) //So players can break dorpels, NPCs hit better.
 
 /datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -447,15 +447,15 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			if(prob(20))
 				r_hand = /obj/item/rogueweapon/flail
 				l_hand = /obj/item/rogueweapon/shield/wood
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 2, TRUE) // Trash mob
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) // Trash mob
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 	//Upto is nessessary so latejoin goblins on raids don't have EXPERT SKILLS WHAAAAAAAAAT
 
 /datum/outfit/job/roguetown/npc/goblin/archer/pre_equip(mob/living/carbon/human/H)
@@ -463,13 +463,13 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 	l_hand = null
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-	backl = /obj/item/quiver/stonearrows
+	backl = /obj/item/quiver/npc/stone
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.STASTR = 6
-	H.STAPER = 11
+	H.STAPER = 7
 	H.STACON -= 1
 	H.STAWIL -= 1
-	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
 /datum/outfit/job/roguetown/npc/goblin/slinger/pre_equip(mob/living/carbon/human/H)
@@ -479,11 +479,12 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	backr = null
 	backl = null
 	wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-	neck = /obj/item/quiver/sling/stone
+	neck = /obj/item/quiver/sling/npc
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.STACON -= 1
 	H.STAWIL -= 1
-	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
+	H.STAPER = 6
+	H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
 /mob/living/carbon/human/species/goblin/npc/bomber

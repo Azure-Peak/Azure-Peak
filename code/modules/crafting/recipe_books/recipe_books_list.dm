@@ -239,7 +239,7 @@
 
 /obj/item/recipe_book/treasury_primer
 	name = "The Comprehensive Guide to the Azvrian Economy"
-	desc = "A plain-bound ledger-book, issued to Crown officers on appointment."
+	desc = "A ledger, issued to Crown officers on appointment."
 	wiki_name = "Economy"
 	wiki_section = "Guides"
 	icon_state = "basic_book_0"
@@ -247,3 +247,14 @@
 	can_spawn = FALSE
 	wiki_only = TRUE
 	types = list(/datum/book_entry/treasury_general, /datum/book_entry/treasury_realm, /datum/book_entry/treasury_merchant, /datum/book_entry/treasury_underground)
+
+/obj/item/recipe_book/combat_primer
+	name = "The Comprehensive Guide to Combat, 1508 Edition"
+	desc = "A scuffed manual of combat."
+	wiki_name = "Combat"
+	wiki_section = "Guides"
+	icon_state = "basic_book_0"
+	base_icon_state = "basic_book"
+	can_spawn = FALSE
+	wiki_only = TRUE
+	types = list(/datum/book_entry/combat)

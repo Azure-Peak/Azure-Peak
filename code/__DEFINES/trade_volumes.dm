@@ -19,6 +19,7 @@
 #define TG_SUPPLY_PRECIOUS_METAL     5  // Gold ore, silver ore
 #define TG_SUPPLY_SPECIALTY_HERB     4  // Calendula, poppy, viscera
 #define TG_SUPPLY_FIBERS             8  // Rosawood fibers - secondary bulk
+#define TG_SUPPLY_CLOTH              6
 #define TG_SUPPLY_SILK               4  // Blackholt silk
 #define TG_SUPPLY_LEATHER            5  // Hide, fur, cured leather
 #define TG_SUPPLY_SALT               6  // Daftsmarch salt
@@ -32,7 +33,7 @@
 #define TG_SUPPLY_REFINED_INGOTS     6  // Hagenwald's iron/steel/copper/tin ingots
 
 // ---- Demand (what a consuming region buys per day) ----
-// Most categories mirror supply. Some are demand-only (REFINED_INGOTS, GEM, CLOTH, some ESSENCE).
+// Most categories mirror supply. Some are demand-only (REFINED_INGOTS, GEM, some ESSENCE).
 #define TG_DEMAND_LOCAL_GRAIN        6  // Forts and cold regions eat bread hard
 #define TG_DEMAND_LOCAL_FRUIT        5
 #define TG_DEMAND_RARE_FRUIT         3
@@ -41,7 +42,7 @@
 #define TG_DEMAND_TIN_BRONZE         4
 #define TG_DEMAND_PRECIOUS_METAL     4  // Kingsfield appetite for gold/silver/cinnabar
 #define TG_DEMAND_SPECIALTY_HERB     4
-#define TG_DEMAND_CLOTH              6  // Demand-only; cloth is crafted from fibers
+#define TG_DEMAND_CLOTH              6  // Woven in Kingsfield and Rosawood
 #define TG_DEMAND_SILK               4
 #define TG_DEMAND_LEATHER            4
 #define TG_DEMAND_SALT               5

@@ -56,6 +56,7 @@
 #define CLOAK_LAYER				17		//only when looking north or west/east
 #define HOOD_LAYER				16
 #define HAIR_LAYER				15		//TODO: make part of head layer?
+#define CUSTOM_HAIR_COVERED_LAYER 14.9  // WHY ARE TOP SNOUTS LIKE THIS I HATE FURRIES
 #define MASK_LAYER				14
 #define HAIREXTRA_LAYER			13
 #define MOUTH_LAYER				12
@@ -65,6 +66,7 @@
 #define HANDCUFF_LAYER			8
 #define LEGCUFF_LAYER			7
 #define BODY_FRONT_LAYER		6
+#define CUSTOM_HAIR_LAYER		5.9
 #define BODY_FRONT_FRONT_LAYER	5
 #define HALO_LAYER				4		//blood cult ascended halo, because there's currently no better solution for adding/removing
 #define SUNDER_LAYER			3
@@ -506,3 +508,7 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 // Zombie infection defines
 #define ZOMBIE_INFECTION_PROBABILITY 20 	/// Zombie infection probability for bites on a wound
 #define ZOMBIE_INFECTION_TIME 2 MINUTES	/// Time taken until zombie infection kicks in (unit wakes up as a zombie)
+#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	/// Time spent dead before rising as a deadite.
+#define REVIVED_DEBUFF_DURATION 15 MINUTES	/// Revival Sickness.
+#define DEATHMARK_GRACE_PERIOD 5 MINUTES	/// Grace after a chair revival before the deathmark is checked for and applied.
+#define PERMADEATH_DURATION 10 MINUTES	/// How long the deathmark lasts once it lands. Dying inside it is permanent for the round.

@@ -36,6 +36,7 @@
 		TRAIT_STRENGTH_UNCAPPED,
 		TRAIT_DREAMWALKER,
 		TRAIT_UNLYCKERABLE,
+		TRAIT_NOWW,
 		TRAIT_UNCONVERTIBLE
 		)
 
@@ -71,7 +72,7 @@
 	owner.current.STACON = src.STACON
 	owner.current.STALUC = src.STALUC
 	//Dreamfiends fear them up close.
-	var/mob/living/carbon/human/body = owner.current 
+	var/mob/living/carbon/human/body = owner.current
 	body.faction |= "dream"
 	for (var/trait in traits_dreamwalker)
 		ADD_TRAIT(body, trait, "[type]")

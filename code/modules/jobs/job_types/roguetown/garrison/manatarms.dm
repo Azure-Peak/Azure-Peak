@@ -359,7 +359,7 @@
 	maximum_possible_slots = 1 //Had one dungeoneer before, this is how many we get to keep still.
 
 	category_tags = list(CTAG_MENATARMS)
-	traits_applied = list(TRAIT_JAILOR, TRAIT_CIVILIZEDBARBARIAN)//This is surely going to be funny
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)//This is surely going to be funny
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
@@ -367,8 +367,8 @@
 		STATKEY_INT = -1//Old dungeoneer statspread more or less
 	)
 	subclass_skills = list(
-		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, // Still can have a cudgel.
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,//Primary way they are meant to dispose of ppl
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, //hilarious
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,//Funny
@@ -388,16 +388,17 @@
 /datum/outfit/job/roguetown/manorguard/bailiff/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	head = /obj/item/clothing/head/roguetown/menacing/executioner
-	neck = /obj/item/clothing/neck/roguetown/gorget
-	mask = /obj/item/clothing/head/roguetown/roguehood/black
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/bailiff
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/leather
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	beltl = /obj/item/rogueweapon/mace/cudgel
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
+	neck = /obj/item/clothing/neck/roguetown/bevor/iron
+	mask = /obj/item/clothing/mask/rogue/ragmask/black
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
+	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
+	pants = /obj/item/clothing/under/roguetown/brigandinelegs
+	beltl = /obj/item/rogueweapon/flail
 	beltr = /obj/item/rogueweapon/whip/antique
-	backl = /obj/item/rogueweapon/sword/long/exe/cloth
+	backl = /obj/item/rogueweapon/shield/iron
 
 	H.adjust_blindness(-3)
 	if(H.mind)

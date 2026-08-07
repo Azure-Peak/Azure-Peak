@@ -50,5 +50,6 @@
 		flags_inv &= ~HIDETAIL
 	else
 		flags_inv |= HIDETAIL
+	persist_inv_flags(HIDETAIL)
 	H.update_inv_pants()
 

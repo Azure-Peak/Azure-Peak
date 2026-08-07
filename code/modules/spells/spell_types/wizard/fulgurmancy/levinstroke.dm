@@ -17,13 +17,13 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MINOR
 	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 20 SECONDS
+	cooldown_time = 30 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2

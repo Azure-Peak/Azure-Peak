@@ -321,6 +321,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define DAMAGE_PRECISION 0.1
 
 #define STRONG_STANCE_DMG_BONUS 0.15
+#define WEAK_STANCE_DMG_MULT 0.2
 #define STRONG_SHP_BONUS 3
 #define STRONG_INTG_BONUS 3
 
@@ -350,6 +351,13 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define UNARMED_DAMAGE_DEFAULT		15
 #define UNARMED_DAMAGE_CIVILBARB	5
 
+#define PARRY_PER_WDEF_POINT 10
+#define PARRY_PER_SKILL_LEVEL 20
+
+//Base weapon-defense for an unarmed parry. Multiplied by PARRY_PER_WDEF_POINT to become a parry percentage.
+#define UNARMED_BASE_WDEF_BARE 2		// Bare fists — still bad, but not hopeless
+#define UNARMED_BASE_WDEF_EQUIPPED 8	// Bracers / knuckles / bandages — 80 base parry for expert pugilists
+
 /// Damage multiplier of silver weapons against mobs with TRAIT_SIMPLE_WOUNDS
 #define SILVER_SIMPLEMOB_DAM_MULT 3
 
@@ -361,8 +369,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
 #define EXPOSED_INTEG_MOD 2.5	//Multiplier for melee integrity / simple-mob damage if we hit an Exposed target.
 #define VULN_INTEG_MOD 1.3		//Multiplier for melee integrity / simple-mob damage if we hit a Vulnerable target.
-#define EXPOSED_INTEG_FLAT 45	//Flat integrity damage added when hitting an Exposed target.
-#define VULN_INTEG_FLAT 20		//Flat integrity damage added when hitting a Vulnerable target.
+#define EXPOSED_CAST_LOCKOUT 4 SECONDS	// Cap on how long Exposed can deny casting
 #define BASE_RCLICK_CD 30 SECONDS
 #define BAIT_RCLICK_CD 20 SECONDS
 #define BIND_CD 15 SECONDS
@@ -423,7 +430,7 @@ Medical defines
 #define CONSTITUTION_BLEEDRATE_MOD 0.05	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
 #define CONSTITUTION_BLEEDRATE_CAP 20	//The CON value up to which we get a bleedrate reduction.
 
-#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL 
+#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL
 #define WILLPOWER_MODIFIER	5	//How much stamina (flat value) we gain (or lose) for every WIL above / below 10.
 
 #define SPEED_MOVSPD_MOD 0.075	//Multiplicative modifier for our speed, per point (for both <10 and >10 values)
@@ -437,7 +444,7 @@ Medical defines
 #define CRIT_ARMOUR_THRESHOLD 0.35 // ratio of obj_integrity and max_integrity for zone armour. Beyond this, crits are prevented.
 
 /*
-	Critical Resistance Defines 
+	Critical Resistance Defines
 */
 // Normal classes are guaranteed 4 resists, NPC 1, noblood / revenant 1
 #define CRIT_RESISTANCE_STACKS_PLAYER 4
@@ -469,7 +476,34 @@ Medical defines
 #define PROB_ATTACK_EMOTE_NPC 10
 
 #define MAX_DODGE_CEIL 5
+#define MAX_DODGE_START 0	// We start at (presumed) 90%
 #define MAX_DODGE_FLOOR -15
+#define DODGE_EXPERT_BASE_CAP 90	//What a Dodge Expert with SPD above 10 is hardset to, before max_dodge is added on top.
+#define MAX_DODGE_CLAMP -5 // at 85%. Base is 90%.
+
+/*
+	Melee Accuracy Defines. See resolve_aimed_zone() and melee_accuracy_check().
+*/
+#define ACC_MAJOR_ZONE_BONUS 10			//Aiming at a major limb rather than one of its precise subzones.
+#define ACC_FACE_SUBZONE_PENALTY 24		//Aiming at a face subzone on a player.
+#define ACC_PER_BONUS_PER_POINT 8		//Accuracy gained per PER above 10.
+#define ACC_PER_BONUS_CAP 40			//Ceiling on the PER bonus. Reached at PER 15.
+#define ACC_PER_PENALTY_PER_POINT 10	//Accuracy lost per PER below 10. Deliberately harsher than the bonus.
+#define ACC_SKILL_BONUS_PER_LEVEL 8		//Accuracy per level of the weapon's associated skill.
+#define ACC_STAB_BONUS 10
+#define ACC_PICK_BONUS 15
+#define ACC_CUT_BONUS 6
+#define ACC_BLUNT_PRECISE_PENALTY 10	//Blunt and smash aimed at a precise subzone. A mace can't hit the eyes very well.
+#define ACC_SHORT_WEAPON_BONUS 10		//SHORT weapons, and unarmed, aim better.
+#define ACC_AIMED_BONUS 20				//AIMED stance.
+#define ACC_SWIFT_PENALTY 20			//SWIFT stance.
+#define ACC_GRABBED_BONUS 10			//Target is held in a passive grab.
+#define ACC_AGGRESSIVE_GRAB_BONUS 20	//Target is held in an aggressive grab or better.
+#define ACC_PRONE_TARGET_BONUS 30		//Target is off their feet.
+#define ACC_OPENED_TARGET_BONUS 20		//Target is Exposed or Vulnerable.
+#define ACC_PRONE_ATTACKER_LEG_BONUS 5	//Attacking legs or feet while we are prone ourselves.
+#define ACC_MIN 5						//Accuracy is always clamped between these two.
+#define ACC_MAX 95
 
 // How long we can't use stealth & other misc. things for
 #define IN_COMBAT_DELAY 10 SECONDS

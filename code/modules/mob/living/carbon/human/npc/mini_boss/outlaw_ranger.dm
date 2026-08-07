@@ -70,7 +70,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	H.STASPD = 14
 	H.STACON = 12
 	H.STAWIL = 12
-	H.STAPER = 16
+	H.STAPER = 14
 	H.STAINT = 12
 	H.STALUC = 12
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -84,11 +84,11 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	r_hand = /obj/item/rogueweapon/sword/short/iron
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
-	backl = /obj/item/quiver/bodkin
-	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	backl = /obj/item/quiver/npc
+	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] //Aura
 	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]

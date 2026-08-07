@@ -2,10 +2,10 @@
 	name = "Steppesman"
 	tutorial = "Once serving a Hetmen from the frontiers, you have been rented out as a mercenary in the distant realm of Azuria to bring coin home. There are three things you value most; saigas, freedom, and money."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/steppesman
 	class_select_category = CLASS_CAT_AAVNR
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	subclass_languages = list(/datum/language/aavnic)
 	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
@@ -71,12 +71,12 @@
 				H.change_stat(STATKEY_SPD, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] 	//Fits in my head all too well.
-				var/masks = list(				
+				var/masks = list(
 				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 				"None"
 		)
-				var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
+				var/maskchoice = input(H, "What fits your face?", "MASK SELECTION") as anything in masks
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
 			if("Árkász - Elite Sapper")	//Tl;dr - medium armor sappers with less mobility in exchange for their different statblock and equipment.
@@ -108,12 +108,12 @@
 				H.change_stat(STATKEY_SPD, -2)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
-				var/masks = list(				
+				var/masks = list(
 				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 				"None"
 		)
-				var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
+				var/maskchoice = input(H, "What fits your face?", "MASK SELECTION") as anything in masks
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
 			if("Druzhina - Light Archer")	//Tl;dr - light armor class for Tatar-style archery. Has 'Druzhina' as a name cus czech/polish influence, couldn't think of better one.
@@ -143,7 +143,7 @@
 				H.change_stat(STATKEY_WIL, 2)
 				H.change_stat(STATKEY_SPD, 2)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-			if("Kozak - Light Infantry")		//Tl;dr - Old Steppesman whip build, light armor, be the glass canon you always wanted to be. Live your life, king. 
+			if("Kozak - Light Infantry")		//Tl;dr - Old Steppesman whip build, light armor, be the glass canon you always wanted to be. Live your life, king.
 				H.set_blindness(0)
 				to_chat(H, span_warning("Being a Kozak is not a title one earns, nor is born with. It's a way of life. Known to be eccentric, living life on the edge - but living as free as possible. Skilled with whips, these madmen are the bane of civilized warriors."))
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -170,5 +170,5 @@
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]		//Semi-crazed warrior vibe.
-		
+
 	H.merctype = 11

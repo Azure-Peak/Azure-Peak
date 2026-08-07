@@ -24,8 +24,12 @@
 	/// Extra fatigue removed on missing the target, or if the enemy dodges.
 	var/misscost = 1
 	var/tranged = 0
-	/// Turns of auto-aim as well as the 'swoosh'.
+	/// Sound played to the charger when a charge/draw reaches full. Null = no sound.
+	var/ready_sound
+	/// Turns of auto-aim as well as the attack anim.
 	var/noaa = FALSE
+	/// Restores turf-click auto-aim on a noaa intent silently (so without the attack anim).
+	var/force_autoaim = FALSE
 	var/warnie = ""
 	var/pointer = 'icons/effects/mousemice/human_attack.dmi'
 	/// Invoked clickCD.
@@ -224,7 +228,7 @@
 				inspec += SPAN_TOOLTIP("The swing will reduce my defense by a significant amount.", "<font color='#dab141'><u>Difficult</u></font>")
 			if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
 				inspec += SPAN_TOOLTIP("I will have no chance to defend while swinging, and a strike against me will interrupt it.", "<font color='#a70d0d'><u>Rigid</u></font>")
-		
+
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"
 		inspec += "\n  Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
@@ -466,7 +470,7 @@
 	clickcd = 4 // Just like knife pick!
 	swingdelay = 1
 	releasedrain = 0 //no stamina loss, as charges are lost as it drills
-	
+
 /datum/intent/pick/bad	//One-handed intents
 	name = "sluggish pick"
 	icon_state = "inpick"
@@ -515,6 +519,7 @@
 	icon_state = "inshoot"
 	tranged = 1
 	warnie = "aimwarn"
+	ready_sound = 'sound/foley/nockarrow.ogg'
 	item_d_type = "stab"
 	chargetime = 0.1
 	no_early_release = FALSE
@@ -533,6 +538,7 @@
 	icon_state = "inarc"
 	tranged = 1
 	warnie = "aimwarn"
+	ready_sound = 'sound/foley/nockarrow.ogg'
 	item_d_type = "blunt"
 	chargetime = 0
 	no_early_release = FALSE
@@ -540,7 +546,7 @@
 	charging_slowdown = 3
 	warnoffset = 20
 	var/strength_check = FALSE //used when we fire HEAVY bows
-	
+
 /datum/intent/proc/arc_check()
 	return FALSE
 
@@ -556,6 +562,7 @@
 	icon_state = "inshoot"
 	tranged = 1
 	warnie = "aimwarn"
+	ready_sound = 'sound/foley/slingload.ogg'
 	item_d_type = "stab"
 	chargetime = 0.1
 	no_early_release = FALSE
@@ -668,7 +675,7 @@
 	miss_text = "claw at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
-	
+
 
 /datum/intent/unarmed/shove
 	name = "shove"
@@ -676,6 +683,7 @@
 	attack_verb = list("shoves", "pushes")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	misscost = 5
 	item_d_type = "blunt"
@@ -702,6 +710,7 @@
 	attack_verb = list("grabs")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	releasedrain = 2
 	misscost = 8
