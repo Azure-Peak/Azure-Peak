@@ -48,7 +48,7 @@
 	)
 
 /datum/round_event_control/antagonist/migrant_wave/vampire/preRunEvent()
-	if(is_storyteller_villain_blocked())
+	if(is_storyteller_villain_blocked(FALSE))
 		return EVENT_CANT_RUN
 	return ..()
 

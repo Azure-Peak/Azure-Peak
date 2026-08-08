@@ -399,6 +399,28 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	delete_after_roundstart = FALSE
 	jobspawn_override = list("Wretch")
 
+/obj/effect/landmark/start/heretic
+	name = "heretic"
+	icon_state = "arrow"
+	jobspawn_override = list("Heretic")
+
+/obj/effect/landmark/start/hereticlate
+	name = "heretic"
+	icon_state = "arrow"
+	delete_after_roundstart = FALSE
+	jobspawn_override = list("Heretic")
+
+/obj/effect/landmark/start/outcast
+	name = "outcast"
+	icon_state = "arrow"
+	jobspawn_override = list("Outcast")
+
+/obj/effect/landmark/start/outcastlate
+	name = "outcast"
+	icon_state = "arrow"
+	delete_after_roundstart = FALSE
+	jobspawn_override = list("Outcast")
+
 /obj/effect/landmark/start/hag
 	name = "hag"
 	icon_state = "arrow"

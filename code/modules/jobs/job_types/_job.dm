@@ -241,7 +241,7 @@
 	return TRUE
 
 /datum/job/proc/uses_storyteller_slot_caps()
-	return title in list("Wretch", "Gnoll", "Assassin")
+	return title in list("Wretch", "Heretic", "Gnoll", "Assassin")
 
 /datum/job/proc/get_used_title(mob/player)
 	var/titles = player.titles_pref
@@ -288,12 +288,12 @@
 
 	for(var/X in peopleknowme)
 		for(var/datum/mind/MF in get_minds(X))
-			if(isnull(H.mind?.special_role) && (MF?.special_role in list(ROLE_VAMPIRE, ROLE_NBEAST, ROLE_BANDIT, ROLE_LICH, ROLE_WRETCH, ROLE_UNBOUND_DEATHKNIGHT)))
+			if(isnull(H.mind?.special_role) && (MF?.special_role in list(ROLE_VAMPIRE, ROLE_NBEAST, ROLE_BANDIT, ROLE_LICH, ROLE_WRETCH, ROLE_HERETIC, ROLE_UNBOUND_DEATHKNIGHT)))
 				continue
 			H.mind.person_knows_me(MF)
 	for(var/X in peopleiknow)
 		for(var/datum/mind/MF in get_minds(X))
-			if(isnull(H.mind?.special_role) && (MF?.special_role in list(ROLE_VAMPIRE, ROLE_NBEAST, ROLE_BANDIT, ROLE_LICH, ROLE_WRETCH, ROLE_UNBOUND_DEATHKNIGHT)))
+			if(isnull(H.mind?.special_role) && (MF?.special_role in list(ROLE_VAMPIRE, ROLE_NBEAST, ROLE_BANDIT, ROLE_LICH, ROLE_WRETCH, ROLE_HERETIC, ROLE_UNBOUND_DEATHKNIGHT)))
 				continue
 			H.mind.i_know_person(MF)
 

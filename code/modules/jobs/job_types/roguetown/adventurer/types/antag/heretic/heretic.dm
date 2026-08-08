@@ -1,11 +1,10 @@
-/datum/advclass/wretch/heretic
-	name = "Heretic"
+/datum/advclass/heretic/heretic // the one that started it all.
+	name = "Heretic Paladin"
 	tutorial = "You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."
 	allowed_sexes = list(MALE, FEMALE)
 
-	outfit = /datum/outfit/job/roguetown/wretch/heretic
-	class_select_category = CLASS_CAT_CLERIC
-	category_tags = list(CTAG_WRETCH)
+	outfit = /datum/outfit/job/roguetown/heretic/heretic
+	category_tags = list(CTAG_HERETIC)
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_HEAVYARMOR)
 	maximum_possible_slots = 2 //Ppl dont like heavy armor antags.
 	subclass_stats = list(
@@ -37,22 +36,22 @@
 	extra_context = "This subclass gains the Wound Heal miracle."
 	tempo_capable = FALSE
 
-/datum/advclass/wretch/heretic/get_vice_limits(mob/living/carbon/human/H)
+/datum/advclass/heretic/heretic/get_vice_limits(mob/living/carbon/human/H)
 	. = ..()
 	if(istype(H.patron, /datum/patron/old_god) || HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 		if(!(/datum/charflaw/silverweakness in .))
 			. += /datum/charflaw/silverweakness
 
-/datum/advclass/wretch/heretic/get_prefs_vice_limits(client/player)
+/datum/advclass/heretic/heretic/get_prefs_vice_limits(client/player)
 	. = ..()
 	if(istype(player?.prefs?.selected_patron, /datum/patron/old_god))
 		if(!(/datum/charflaw/silverweakness in .))
 			. += /datum/charflaw/silverweakness
 
-/datum/outfit/job/roguetown/wretch/heretic
+/datum/outfit/job/roguetown/heretic/heretic
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/wretch/heretic/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/heretic/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.set_blindness(0)
@@ -103,7 +102,7 @@
 			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles. Templar equivalent.
 		else
 			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
-		wretch_select_bounty(H)
+		outcast_select_bounty(H)
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
@@ -127,7 +126,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 		)
-/datum/outfit/job/roguetown/wretch/heretic/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/heretic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 
 		// This list exists here so it can be overwritten later. This is really stupid and should probably
@@ -302,10 +301,10 @@
 	H.equip_to_slot_or_del(new /obj/item/clothing/wrists/roguetown/bracers, SLOT_WRISTS, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/armor, SLOT_SHOES, TRUE)
 
-/datum/advclass/wretch/heretic/spy
+/datum/advclass/heretic/heretic/spy
 	name = "Heretic Spy"
 	tutorial = "Nimble of dagger and foot both, you are the shadowy herald of the cabal. They will not see you coming."
-	outfit = /datum/outfit/job/roguetown/wretch/hereticspy
+	outfit = /datum/outfit/job/roguetown/heretic/hereticspy
 	maximum_possible_slots = 2 //Ppl dont like rogue antags.
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
@@ -338,10 +337,10 @@
 	tempo_capable = FALSE
 
 
-/datum/outfit/job/roguetown/wretch/hereticspy
+/datum/outfit/job/roguetown/heretic/hereticspy
 	has_loadout = TRUE
 
-/datum/outfit/job/roguetown/wretch/hereticspy/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/hereticspy/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Nimble of dagger and foot both, you are the shadowy herald of the cabal. They will not see you coming."))
 	cloak = /obj/item/clothing/cloak/raincloak/mortus
@@ -427,7 +426,7 @@
 			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles. Templar equivalent.
 		else
 			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
-		wretch_select_bounty(H)
+		outcast_select_bounty(H)
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
@@ -436,7 +435,7 @@
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 
-/datum/outfit/job/roguetown/wretch/hereticspy/choose_loadout(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/hereticspy/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)

@@ -23,7 +23,6 @@
 		"LIVE, LAUGH, LOVE!",
 		"BAOTHA IS MY JOY!",
 	)
-	storyteller = /datum/storyteller/baotha
 	traits_tier = list(TRAIT_CRACKHEAD = CLERIC_T1)
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/baotha_cross_stone, /datum/crafting_recipe/roguetown/structure/baotha_cross_meat)
 

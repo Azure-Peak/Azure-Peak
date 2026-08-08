@@ -33,6 +33,22 @@
 	///Is this a bandit bounty?
 	var/bandit
 
+// like a bounty but less severe
+/datum/exile
+	var/target
+	var/target_race
+	var/gender
+	var/target_body_type
+	var/target_body
+	var/target_body_prefix
+	var/target_height
+	var/target_voice
+	var/target_voice_prefix
+	var/reason
+
+	/// Whats displayed when consulting the bounties
+	var/banner
+
 /obj/structure/roguemachine/bounty/attack_hand(mob/user)
 
 	if(!ishuman(user)) return
@@ -42,12 +58,17 @@
 
 	// Main Menu
 	var/list/choices = list("Consult Bounties", "Set Bounty", "Print List of Bounties", "Remove Bounty")
+	if(is_crown_enforcer(user.job))
+		choices += "View Exiles"
 	var/selection = input(user, "The Excidium listens", src) as null|anything in choices
 
 	switch(selection)
 
 		if("Consult Bounties")
 			consult_bounties(H)
+
+		if("View Exiles")
+			view_exiles(H)
 
 		if("Set Bounty")
 			set_bounty(H)
@@ -78,6 +99,23 @@
 		popup.open()
 	else
 		say("No bounties are currently active.")
+
+///Shows all outlaw reasons to the user.
+/obj/structure/roguemachine/bounty/proc/view_exiles(mob/living/carbon/human/user)
+	var/bounty_found = FALSE
+	var/consult_menu
+	consult_menu += "<center>EXILES<BR>"
+	consult_menu += "--------------<BR>"
+	for(var/datum/exile/saved_bounty in GLOB.outcast_exiles)
+		consult_menu += saved_bounty.banner
+		bounty_found = TRUE
+
+	if(bounty_found)
+		var/datum/browser/popup = new(user, "EXILES", "", 500, 300)
+		popup.set_content(consult_menu)
+		popup.open()
+	else
+		say("No exiles are currently active.")
 
 /obj/structure/roguemachine/bounty/proc/remove_bounty(mob/living/carbon/human/user)
 	var/list/bounty_list = list()
@@ -204,6 +242,32 @@
 	compose_bounty(new_bounty)
 	GLOB.head_bounties += new_bounty
 
+/proc/add_exile(target_realname, race, gender, descriptor_height, descriptor_body, descriptor_voice, reason)
+	var/datum/exile/new_bounty = new /datum/exile
+	new_bounty.target = target_realname
+	new_bounty.reason = html_encode(reason)
+	new_bounty.target_race = race
+	new_bounty.target_height = lowertext(descriptor_height)
+	new_bounty.target_body = lowertext(descriptor_body)
+	if(descriptor_body == "Average" || descriptor_body == "Athletic")
+		var/bro_unreal = "an "
+		new_bounty.target_body_prefix = lowertext(bro_unreal += descriptor_body)
+	else
+		var/bro_real = "a "
+		new_bounty.target_body_prefix = lowertext(bro_real += descriptor_body)
+	if(descriptor_voice == "Ordinary" || descriptor_voice == "Androgynous")
+		var/bro_unreal = "an "
+		new_bounty.target_voice_prefix = lowertext(bro_unreal += descriptor_voice)
+	else
+		var/bro_real = "a "
+		new_bounty.target_voice_prefix = lowertext(bro_real += descriptor_voice)
+	if(gender == MALE)
+		new_bounty.target_body_type = "masculine"
+	else
+		new_bounty.target_body_type = "feminine"
+	compose_exile(new_bounty)
+	GLOB.outcast_exiles += new_bounty
+
 ///Composes a random bounty banner based on the given bounty info.
 ///@param new_bounty:  The bounty datum.
 /proc/compose_bounty(datum/bounty/new_bounty)
@@ -211,6 +275,16 @@
 	new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"
 	new_bounty.banner += "They are belonging to the '[new_bounty.target_race]' race.<BR>"
 	new_bounty.banner += "Going by the following description: they are of '[new_bounty.target_height]' height, of a '[new_bounty.target_body_type]' build and they have '[new_bounty.target_body_prefix]' physique. They speak with '[new_bounty.target_voice_prefix]' voice.<BR>"
+	new_bounty.banner += "--------------<BR>"
+
+///Composes a random exile banner based on the given exile info.
+///@param new_bounty:  The exile datum.
+/proc/compose_exile(datum/exile/new_bounty)
+	new_bounty.banner += "The Crown of Azuria hath declared '[new_bounty.target]' outcast; they are hereby exiled, and unwelcome within our lands.<BR>"
+	new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"
+	new_bounty.banner += "They are belonging to the '[new_bounty.target_race]' race.<BR>"
+	new_bounty.banner += "Going by the following description: they are of '[new_bounty.target_height]' height, of a '[new_bounty.target_body_type]' build and they have '[new_bounty.target_body_prefix]' physique. They speak with '[new_bounty.target_voice_prefix]' voice.<BR>"
+	new_bounty.banner += "Risk not thyself for such a wretch, but should they violate such exile, our past leniency may be reconsidered.<BR>"
 	new_bounty.banner += "--------------<BR>"
 
 /obj/structure/roguemachine/bounty/proc/print_bounty_scroll(mob/living/carbon/human/user)

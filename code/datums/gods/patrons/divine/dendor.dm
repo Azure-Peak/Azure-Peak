@@ -20,7 +20,6 @@
 		"THE TREEFATHER BRINGS BOUNTY!",
 		"I ANSWER THE CALL OF THE WILD!",
 	)
-	storyteller = /datum/storyteller/dendor
 	titles = list(
 		"Treefather",
 		"Tree-Father",

@@ -1,11 +1,10 @@
-/datum/advclass/wretch/ancient_deathknight
+/datum/advclass/heretic/ancient_deathknight
 	name = "Unbound Ancient Death Knight"
 	tutorial = "You were once a Death Knight - a warrior risen from death to serve a master. How long you have been dead - you do not remember anymore. And you find yourself severed from any master's command. Why do you fight? Does it matter? All that you know is to move forward. The world sees you as an abomination. Seek your own path."
 	allowed_sexes = list(MALE, FEMALE)
-	
-	outfit = /datum/outfit/job/roguetown/wretch/ancient_deathknight
-	class_select_category = CLASS_CAT_ACCURSED
-	category_tags = list(CTAG_WRETCH)
+
+	outfit = /datum/outfit/job/roguetown/heretic/ancient_deathknight
+	category_tags = list(CTAG_HERETIC)
 	maximum_possible_slots = 2 // Two so that the gimmick isn't overdone
 	applies_post_equipment = TRUE
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_SHATTER_KILL, TRAIT_BLOODLOSS_IMMUNE, TRAIT_DUSTABLE)
@@ -32,7 +31,7 @@
 	adv_stat_ceiling = list(STAT_INTELLIGENCE = 8, STAT_SPEED = 9, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + decent skills vs vamp
 	extra_context = "This class is unable to be revived and all forms of death will dust you."
 
-/datum/outfit/job/roguetown/wretch/ancient_deathknight/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/ancient_deathknight/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.become_skeleton()
@@ -80,7 +79,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
-			
+
 	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in list("Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
 	switch(weapon_choice)
 		if("Longsword + Shield")

@@ -6,7 +6,6 @@
 	earliest_start = 15 MINUTES
 	max_occurrences = 2
 	min_players = 20
-	allowed_storytellers = list(/datum/storyteller/necra)
 
 /datum/round_event/necra_requiem/start()
 	SSmapping.add_world_trait(/datum/world_trait/necra_requiem, 15 MINUTES)

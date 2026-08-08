@@ -7,7 +7,7 @@
 	roundstart = TRUE
 	antag_flag = ROLE_PREBEL
 	shared_occurence_type = SHARED_HIGH_THREAT
-	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_INTERNAL
 	storyteller_rumour_name = "rebels"
 
 	base_antags = REBELLION_ROUNDSTART_TOTAL
@@ -67,7 +67,7 @@
 	return get_leader_candidates() | get_convert_candidates()
 
 /datum/round_event_control/antagonist/solo/rebel/preRunEvent()
-	if(is_storyteller_villain_blocked())
+	if(is_storyteller_villain_blocked(FALSE))
 		return EVENT_CANT_RUN
 	return ..()
 

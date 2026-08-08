@@ -3,7 +3,7 @@
 	roundend_category = "Lich"
 	antagpanel_category = "Lich"
 	job_rank = ROLE_LICH
-	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_EXTERNAL
 	confess_lines = list(
 		"I WILL LIVE ETERNAL!",
 		"I AM BEHIND COUNTLESS PHYLACTERIES!",

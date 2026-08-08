@@ -16,26 +16,31 @@
 /proc/active_preset()
 	return SSgamemode?.get_storyteller(TRUE)
 
-/proc/is_storyteller_villain_blocked()
+/proc/is_storyteller_villain_blocked(external = TRUE)
 	var/datum/storyteller/preset = active_preset()
-	return preset?.block_hard
+	return (external ? (preset?.block_external_hard) : (preset?.block_internal_hard))
 
-/proc/is_storyteller_soft_antag_blocked()
+/proc/is_storyteller_soft_antag_blocked(external = FALSE)
 	var/datum/storyteller/preset = active_preset()
-	return preset?.block_soft
+	return (external ? (preset?.block_external_soft) : (preset?.block_internal_soft))
 
 /proc/enforce_storyteller_soft_antag_slots()
-	if(!is_storyteller_soft_antag_blocked())
-		return
-	for(var/job_title in list("Wretch", "Gnoll", "Assassin"))
-		var/datum/job/blocked_job = SSjob.GetJob(job_title)
-		if(!blocked_job)
+	var/list/soft_antags = list(
+		list("Licker", "Gnoll", "Assassin"), // "internal" soft antags, aka the ones designed to infiltrate or hit single targets
+		list("Wretch", "Heretic") // "external" soft antags, aka the ones that tend to deathball
+		)
+	for(var/idx in 1 to 2)
+		if(!is_storyteller_soft_antag_blocked(idx - 1))
 			continue
-		if(blocked_job.admin_slot_override)
-			continue
-		var/allowed_slots = max(0, blocked_job.current_positions)
-		blocked_job.total_positions = allowed_slots
-		blocked_job.spawn_positions = allowed_slots
+		for(var/job_title in (soft_antags[idx]))
+			var/datum/job/blocked_job = SSjob.GetJob(job_title)
+			if(!blocked_job)
+				continue
+			if(blocked_job.admin_slot_override)
+				continue
+			var/allowed_slots = max(0, blocked_job.current_positions)
+			blocked_job.total_positions = allowed_slots
+			blocked_job.spawn_positions = allowed_slots
 
 /proc/is_roundstart_roles_blocked_storyteller()
 	// The whole roundstart injection roll is only skipped when nothing can spawn at all - hard antags blocked
@@ -43,7 +48,7 @@
 	var/datum/storyteller/preset = active_preset()
 	if(!preset)
 		return FALSE
-	return preset.block_hard && !preset.allow_dreamwalker
+	return preset.block_external_hard && preset.block_internal_hard && !preset.allow_dreamwalker
 
 SUBSYSTEM_DEF(gamemode)
 	name = "Gamemode"
@@ -218,7 +223,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/holy_warrior = 0
 	var/half_combatant = 0
 	/// Calculated effective pop after weighing garrison & holy warriors at 3x, acolytes at 2x
-	var/effective_pop = 0 
+	var/effective_pop = 0
 
 	/// Is storyteller secret or not
 	var/secret_storyteller = FALSE
@@ -234,6 +239,9 @@ SUBSYSTEM_DEF(gamemode)
 	/// Admin per-antag roundstart slot overrides. null = derive from preset; a number = hard override.
 	var/list/admin_slots = list(
 		"Wretch" = null,
+		"Outcast" = null,
+		"Heretic" = null,
+		"Licker" = null,
 		"Gnoll" = null,
 		"Hag" = null,
 		"Assassin" = null,
@@ -305,14 +313,6 @@ SUBSYSTEM_DEF(gamemode)
 	. = ..()
 
 /datum/controller/subsystem/gamemode/fire(resumed = FALSE)
-	if(last_devotion_check < world.time)
-		// Every hour, re-evaluate which god holds the majority of the town's patrons. That god becomes the
-		// "ruling god" whose divine interventions can roll - decoupled from the gamemode preset. So over a 3-hour
-		// round this fires ~3 times and the ruling faith can shift as worship does. (refresh_alive_stats inside
-		// rebuilds patron_follower_counts.)
-		update_ruling_god()
-		last_devotion_check = world.time + 1 HOURS
-
 	if(SSticker.HasRoundStarted() && (world.time - SSticker.round_start_time) >= ROUNDSTART_VALID_TIMEFRAME)
 		can_run_roundstart = FALSE
 	else if(current_roundstart_event && length(current_roundstart_event.preferred_events)) //note that this implementation is made for preferred_events being other roundstart events
@@ -613,6 +613,7 @@ SUBSYSTEM_DEF(gamemode)
 /// Spawns admin-opened SOFT roundstart injection antags (the Assassin) alongside - not instead of - the single
 /// hard antag roll, so soft and hard antags can coexist under admin fine-tuning. Runs right after the main
 /// roundstart antag roll. The Assassin still needs a Hunted player and willing candidates to actually fill.
+/// Special case: If we're on medium intensity and no hard antag rolled, we get 2 extra lycker slots.
 /datum/controller/subsystem/gamemode/proc/spawn_extra_antags()
 	if(halted_storyteller)
 		return
@@ -631,7 +632,7 @@ SUBSYSTEM_DEF(gamemode)
 			// Admin sandbox: only the assassin slot the admin explicitly opened.
 			if(istype(ec, /datum/round_event_control/antagonist/solo/assassins) && (admin_slots["Assassin"] || 0) > 0)
 				spawn_it = TRUE
-		else if(preset.guaranteed_hard && !preset.block_soft)
+		else if(preset.guaranteed_hard && !preset.block_internal_soft) // assassins r 'internal' threats
 			// Guaranteed-villain preset: the villain took the main injection slot, so the allowed soft antags
 			// (assassin / dreamwalker) each get an independent RNG chance to spawn alongside it.
 			if(istype(ec, /datum/round_event_control/antagonist/solo/dreamwalker) && !preset.allow_dreamwalker)
@@ -641,6 +642,14 @@ SUBSYSTEM_DEF(gamemode)
 			continue
 		log_storyteller("Spawning bonus roundstart soft antag [ec.name] alongside the main roll.")
 		TriggerEvent(ec, TRUE)
+	if(current_storyteller.type == /datum/storyteller/gamemode/no_antag) // not using istype because it needs to not happen on low intensity
+		for(var/datum/round_event_control/antagonist/solo/ec in event_pools[EVENT_TRACK_CHARACTER_INJECTION])
+			if(!ec.roundstart || !ec.occurrences || !(ec.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN))
+				continue
+			// if we get here: there was a roundstart hard antag rolled, so we do nothing
+			return
+		// we didn't roll any, so you get some slots
+		current_storyteller.lycker_slots += 2
 
 /// Schedules an event to run later.
 /datum/controller/subsystem/gamemode/proc/schedule_event(datum/round_event_control/passed_event, passed_time, passed_cost, passed_ignore, passed_announce, _forced = FALSE)
@@ -910,18 +919,24 @@ SUBSYSTEM_DEF(gamemode)
 	var/datum/storyteller/preset = storytellers?[storyteller_type]
 	if(!preset)
 		return misc
-	if(preset.block_hard)
-		misc += "Hard antags disabled"
-	else if(preset.guaranteed_hard)
+	if(preset.block_external_hard)
+		misc += "External hard antags disabled"
+	if(preset.block_external_hard)
+		misc += "Internal hard antags disabled"
+	if(preset.guaranteed_hard)
 		misc += "Guaranteed roundstart hard antag (needs pop >= [HARD_ANTAG_MIN_POP] for a major one)"
 		if(preset.hard_mult > 1)
 			misc += "Hard antag counts scale [preset.hard_mult]x harder with pop"
-	if(preset.block_soft)
-		misc += "No soft antags (wretch/gnoll/assassin)"
+	if(preset.block_external_soft)
+		misc += "No 'external' soft antags (wretch/heretic)"
 	else
 		misc += "Wretch cap [preset.wretch_slot_cap][preset.wretch_slot_cap > 5 ? " (scales)" : " (fixed)"]"
+		misc += "Heretic slots: [preset.heretic_slots]"
+	if(preset.block_internal_soft)
+		misc += "No 'internal' soft antags (lycker/gnoll/assassin)"
+	else
+		misc += "Lycker slots: [preset.lycker_slots]"
 	misc += "Hag slots: [preset.hag_slots]"
-	misc += "Dreamwalker: [preset.allow_dreamwalker ? "may roll" : "disabled"]"
 	return misc
 
 /// Gnoll head-count a preset opens, from its scaling mode.
@@ -944,12 +959,17 @@ SUBSYSTEM_DEF(gamemode)
 	var/datum/storyteller/preset = storytellers?[storyteller_type]
 	if(!preset)
 		return caps
-	if(!preset.block_soft)
+	if(!preset.block_external_soft)
 		if(preset.wretch_slot_cap > 0)
 			caps["Wretch"] = preset.wretch_slot_cap
+		if(preset.heretic_slots)
+			caps["Heretic"] = preset.heretic_slots
+	if(!preset.block_internal_soft)
 		var/gnolls = preset_gnoll_count(preset)
 		if(gnolls > 0)
 			caps["Gnoll"] = gnolls
+		if(preset.lycker_slots)
+			caps["Licker"] = preset.lycker_slots
 	if(preset.hag_slots > 0)
 		caps["Hag"] = preset.hag_slots
 	var/list/seen = list()
@@ -961,11 +981,12 @@ SUBSYSTEM_DEF(gamemode)
 		var/label = ec.storyteller_pill_label || initial(antag_datum:name)
 		if(label in seen)
 			continue
-		if(ec.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
-			if(preset.block_hard)
-				continue
-		else
-			if(preset.block_soft)
+		if((ec.storyteller_antag_flags & STORYTELLER_ANTAG_EXTERNAL) && preset.block_external_hard)
+			continue
+		else if((ec.storyteller_antag_flags & STORYTELLER_ANTAG_INTERNAL) && preset.block_internal_hard)
+			continue
+		else // literally only assassin, with dreamwalker gone
+			if(preset.block_internal_soft)
 				continue
 			if(preset.starting_point_multipliers[EVENT_TRACK_CHARACTER_INJECTION] <= 0 && !preset.guaranteed_hard)
 				continue
@@ -1001,7 +1022,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/dat = list()
 	dat += "<div style='font-family:Verdana,sans-serif;font-size:12px;line-height:1.35;color:#e8e8e8;padding:4px 6px;'>"
 	dat += "<div style='font-size:14px;font-weight:bold;margin-bottom:4px;'>[storyboy.name]</div>"
-	dat += "<div style='margin-bottom:6px;color:#cfcfcf;'>[storyboy.vote_desc]</div>"
+	dat += "<div style='margin-bottom:6px;color:#cfcfcf;'>[storyboy.desc]</div>"
 	dat += "<div><b>This round:</b> [length(misc) ? english_list(misc) : "None"]</div>"
 	dat += "</div>"
 	return jointext(dat, "")
@@ -1102,9 +1123,11 @@ SUBSYSTEM_DEF(gamemode)
 	if(!preset)
 		return STORYTELLER_ANTAG_NONE
 	var/flags = STORYTELLER_ANTAG_NONE
-	if(preset.block_hard)
-		flags |= STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
-	if(preset.block_soft)
+	if(preset.block_external_hard)
+		flags |= STORYTELLER_ANTAG_EXTERNAL
+	if(preset.block_internal_hard)
+		flags |= STORYTELLER_ANTAG_INTERNAL
+	if(preset.block_internal_soft)
 		flags |= STORYTELLER_ANTAG_SOFT
 	return flags
 
@@ -1350,8 +1373,12 @@ SUBSYSTEM_DEF(gamemode)
 		return "Assassin"
 	if(ispath(antag_datum, /datum/antagonist/gnoll))
 		return "Gnoll"
+	if(ispath(antag_datum, /datum/antagonist/lycker))
+		return "Licker"
 	if(ispath(antag_datum, /datum/antagonist/wretch))
 		return "Wretch"
+	if(ispath(antag_datum, /datum/antagonist/heretic))
+		return "Heretic"
 	if(ispath(antag_datum, /datum/antagonist/prebel))
 		return "Rebel"
 	return null
@@ -1482,9 +1509,6 @@ SUBSYSTEM_DEF(gamemode)
 	if(!isnull(val))
 		return "[val]"
 	switch(antag_name)
-		if("Wretch")
-			var/list/ws = calculate_wretch_scaling()
-			return "auto: [ws["final_slots"]]"
 		if("Gnoll")
 			var/list/gs = gnollslot_calc()
 			return "auto: [gs["final_slots"]]"
@@ -1553,13 +1577,6 @@ SUBSYSTEM_DEF(gamemode)
 
 	// Job Scaling Info
 	dat += "<BR><b>--- Job Scaling ---</b>"
-	var/list/wretch_scaling = calculate_wretch_scaling()
-	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
-	var/wretch_cap = wretch_scaling["cap"] || 10
-	dat += "<BR>Wretch Slots: [wretch_job?.current_positions]/[wretch_job?.total_positions] - T1: [wretch_scaling["tier1_slots"]]/[wretch_cap], T2: +[wretch_scaling["tier2_extra"]] / 5 = [wretch_scaling["final_slots"]] final (cap [wretch_cap])"
-	dat += "<BR>&nbsp;&nbsp;Garrison: [wretch_scaling["garrison"]], Holy Warriors: [wretch_scaling["holy_warrior"]], Acolytes: [wretch_scaling["acolyte"]] (half weight), Combat Total: [wretch_scaling["combat_total"]] (T2 inactive while cap <= 10)"
-	if(wretch_scaling["major_antag_active"])
-		dat += "<BR>&nbsp;&nbsp;<font color='red'>MAJOR ANTAG ACTIVE (VL/LICH) — Tier 2 locked, max 10</font>"
 
 	var/list/adv_scaling = calculate_adventurer_scaling()
 	var/datum/job/adv_job = SSjob.GetJob("Adventurer")
@@ -1946,32 +1963,6 @@ SUBSYSTEM_DEF(gamemode)
 			listed.occurrences++
 			listed.last_round_occurrences++
 
-/// Hourly call for tallying ruling patron.
-/datum/controller/subsystem/gamemode/proc/update_ruling_god()
-	refresh_alive_stats()
-	var/datum/storyteller/reigning = ruling_god ? storytellers[ruling_god] : null
-	var/best_count = reigning ? (GLOB.patron_follower_counts[reigning.name] || 0) : 0
-	var/new_god = ruling_god
-	for(var/god_type in storytellers)
-		if(god_type == ruling_god)
-			continue
-		var/datum/storyteller/god = storytellers[god_type]
-		if(istype(god, /datum/storyteller/gamemode))	// gamemode presets are not deities - never a ruling god
-			continue
-		var/count = GLOB.patron_follower_counts[god.name] || 0
-		if(count > best_count)
-			best_count = count
-			new_god = god_type
-	if(!new_god)
-		new_god = /datum/storyteller/astrata
-	if(new_god == ruling_god)
-		return
-	ruling_god = new_god
-	var/datum/storyteller/crowned = storytellers[ruling_god]
-	crowned.times_chosen++
-	GLOB.featured_stats[FEATURED_STATS_STORYTELLERS]["entries"][crowned.name] = crowned.times_chosen
-	log_storyteller("Divine interventions now favour [crowned.name] ([best_count] follower\s).")
-
 /// Refreshes statistics regarding alive statuses of certain professions or antags, like nobles
 /datum/controller/subsystem/gamemode/proc/refresh_alive_stats(roundstart = FALSE)
 	if(SSticker.current_state == GAME_STATE_FINISHED)
@@ -2263,7 +2254,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/total_influence = get_follower_influence(chosen_storyteller)
 	for(var/influence_factor in initialized_storyteller.influence_factors)
 		total_influence += calculate_specific_influence(chosen_storyteller, influence_factor)
-	
+
 	total_influence += initialized_storyteller.bonus_points
 
 	return total_influence

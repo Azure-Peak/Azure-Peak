@@ -8,7 +8,7 @@
 	roundstart = TRUE
 	antag_flag = ROLE_VAMPIRE
 	shared_occurence_type = SHARED_HIGH_THREAT
-	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_antag_flags = STORYTELLER_ANTAG_INTERNAL
 	storyteller_pill_label = "Masquerade"
 	storyteller_rumour_name = "a vampire masquerade"
 	storyteller_slot_key = "Masquerade"

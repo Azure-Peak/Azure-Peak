@@ -18,7 +18,7 @@
 	increase_votepwr = FALSE
 	rogue_enabled = TRUE
 	has_tempo = TRUE
-	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_INTERNAL
 	override_candidatereq = TRUE
 	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
 	storyteller_slot_scaling = REBELLION_ROUNDSTART_TOTAL
@@ -516,7 +516,7 @@
 			if("Brigand (battleaxe and flail / banded iron plate)")
 				hand_items += /obj/item/rogueweapon/stoneaxe/battle
 				sack_items += list(
-					/obj/item/rogueweapon/flail, 
+					/obj/item/rogueweapon/flail,
 					/obj/item/clothing/suit/roguetown/armor/plate/iron/banded
 				)
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
@@ -525,7 +525,7 @@
 			if("Blackblade (longsword and shield / iron cuirass)")
 				hand_items += /obj/item/rogueweapon/sword/long
 				sack_items += list(
-					/obj/item/rogueweapon/shield/iron, 
+					/obj/item/rogueweapon/shield/iron,
 					/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 				)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -533,7 +533,7 @@
 			if("Poacher (longbow and dagger)")
 				hand_items += /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 				sack_items += list(
-					/obj/item/quiver/arrows, 
+					/obj/item/quiver/arrows,
 					/obj/item/rogueweapon/huntingknife/idagger
 				)
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)

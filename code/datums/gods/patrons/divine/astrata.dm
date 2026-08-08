@@ -21,7 +21,6 @@
 		"ASTRATA BRINGS LAW!",
 		"I SERVE THE GLORY OF THE SUN!",
 	)
-	storyteller = /datum/storyteller/astrata
 	titles = list(
 		"Tyrant",
 		"Overtyrant",

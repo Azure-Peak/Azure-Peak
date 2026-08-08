@@ -31,14 +31,10 @@
 	virtue_restrictions = list(/datum/virtue/heretic/zchurch_keyholder, /datum/virtue/combat/second_chance) //all wretch classes automatically get this /// oh boi incoming a massive tsunami of hatemails for this
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLAW, TRAIT_HERESIARCH, TRAIT_SELF_SUSTENANCE, TRAIT_ZURCH)
 	job_subclasses = list(
-		/datum/advclass/wretch/licker,
 		/datum/advclass/wretch/deserter,
 		/datum/advclass/wretch/deserter/generic,
 		/datum/advclass/wretch/berserker,
 		/datum/advclass/wretch/roguemage,
-		/datum/advclass/wretch/necromancer,
-		/datum/advclass/wretch/heretic,
-		/datum/advclass/wretch/heretic/spy,
 		/datum/advclass/wretch/outlaw,
 		/datum/advclass/wretch/poacher,
 		/datum/advclass/wretch/plaguebearer,
@@ -47,9 +43,6 @@
 		/datum/advclass/wretch/vigilante,
 		/datum/advclass/wretch/munitioneer,
 		/datum/advclass/wretch/pariah,
-		/datum/advclass/wretch/heretic_spellblade,
-		/datum/advclass/wretch/ancient_spellblade,
-		/datum/advclass/wretch/ancient_deathknight,
 		/datum/advclass/wretch/slasher,
 		/datum/advclass/wretch/maestro
 	)
@@ -105,12 +98,12 @@
 		winset(usr, "[JOB_SUBPREFS_WINDOW_ID]", "focus=true")
 
 /datum/job/roguetown/wretch/special_job_check(mob/dead/new_player/player)
-	if(is_storyteller_soft_antag_blocked())
+	if(is_storyteller_soft_antag_blocked(TRUE))
 		return FALSE
 	return ..()
 
 /datum/job/roguetown/wretch/special_check_latejoin(client/C)
-	if(is_storyteller_soft_antag_blocked())
+	if(is_storyteller_soft_antag_blocked(TRUE))
 		return FALSE
 	return ..()
 
@@ -222,7 +215,7 @@
 	result["acolyte"] = acolyte_count
 	result["combat_total"] = combat_count
 
-	if(is_storyteller_soft_antag_blocked())
+	if(is_storyteller_soft_antag_blocked(TRUE))
 		result["tier1_slots"] = 0
 		result["major_antag_active"] = FALSE
 		result["tier2_extra"] = 0
@@ -290,40 +283,3 @@
 		return
 	wretch_job.current_positions = max(0, wretch_job.current_positions - 1)
 	update_scaling_slots()
-
-/// Returns an assoc list with intermediate adventurer scaling values for admin display.
-/// If override_player_count is provided (e.g. from readied player count at roundstart), use that instead of the live joined list.
-/proc/calculate_adventurer_scaling(override_player_count)
-	var/list/result = list()
-	var/player_count = override_player_count || length(GLOB.joined_player_list)
-	result["player_count"] = player_count
-
-	// Adventurer slots absorb the wretch headroom each pantheon forfeits below the original 15-slot ceiling.
-	var/cap = SSgamemode.current_storyteller?.wretch_slot_cap
-	if(isnull(cap))
-		cap = 10
-	var/wretch_offset = max(0, 15 - cap)
-	result["wretch_offset"] = wretch_offset
-
-	var/slots = 20 + wretch_offset
-	if(player_count > 70)
-		slots += floor((player_count - 70) / 10) * 2
-	slots = min(slots, 40 + wretch_offset)
-	result["final_slots"] = slots
-
-	return result
-
-/proc/update_adventurer_slots(override_player_count)
-	var/datum/job/adventurer_job = SSjob.GetJob("Adventurer")
-	if(!adventurer_job)
-		return
-	var/list/scaling = calculate_adventurer_scaling(override_player_count)
-	var/slots = scaling["final_slots"]
-	// Never reduce below current value, so admin-opened slots aren't overwritten.
-	adventurer_job.total_positions = max(adventurer_job.total_positions, slots)
-	adventurer_job.spawn_positions = max(adventurer_job.spawn_positions, slots)
-
-/// Convenience proc to update both wretch and adventurer scaling in one call.
-/proc/update_scaling_slots(override_player_count)
-	update_wretch_slots(override_player_count)
-	update_adventurer_slots(override_player_count)

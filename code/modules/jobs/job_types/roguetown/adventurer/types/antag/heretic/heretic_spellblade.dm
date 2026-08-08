@@ -1,20 +1,19 @@
-// Heretic Spellblade — wretch spellblade variant open to Noc and Zizo.
+// Heretic Spellblade — heretic spellblade variant open to Noc and Zizo.
 // Medium armor + T1 caster (healing/profane) instead of dodge expert.
 // Your miracle is MEANT to suck - your main ability is having
 // Medium armor + better stats than regular Slade + Spellblade abilities
 // And lesser heal is a bonus on top
 // Keep it thematically consistent - Only Patron lock Noc / Zizo
 // Don't let any other patrons have it
-/datum/advclass/wretch/heretic_spellblade
+/datum/advclass/heretic/heretic_spellblade
 	name = "Heretic Azurcaephan"
 	tutorial = "Branded a heretic for your unorthodox beliefs, you turned to an ancient art native to Azurea — the way of the Azurcaephan, a Spellblade. You combined your patron's gifts with martial discipline, forging yourself into a warrior-mage unlike any other. Unlike other spellblades, you know how to wield such terrifying power together with armor. The Church brands you a heretic, the Necromancers call you a fool, the Oaks see only deviation. Let them. One cut at a time, you shall carve your mark upon this world."
 	allowed_sexes = list(MALE, FEMALE)
 
 	allowed_patrons = list(/datum/patron/inhumen/zizo, /datum/patron/divine/noc)
-	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellblade
+	outfit = /datum/outfit/job/roguetown/heretic/heretic_spellblade
 	maximum_possible_slots = 2 // Team rocket!!!
-	class_select_category = CLASS_CAT_BATTLEMAGE
-	category_tags = list(CTAG_WRETCH)
+	category_tags = list(CTAG_HERETIC)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -39,10 +38,10 @@
 		"Armor Plates" = /obj/item/repair_kit/metal,
 	)
 
-/datum/outfit/job/roguetown/wretch/heretic_spellblade
+/datum/outfit/job/roguetown/heretic/heretic_spellblade
 	var/subclass_selected
 
-/datum/outfit/job/roguetown/wretch/heretic_spellblade/Topic(href, href_list)
+/datum/outfit/job/roguetown/heretic/heretic_spellblade/Topic(href, href_list)
 	. = ..()
 	if(href_list["subclass"])
 		subclass_selected = href_list["subclass"]
@@ -50,7 +49,7 @@
 		if(!subclass_selected)
 			subclass_selected = "blade"
 
-/datum/outfit/job/roguetown/wretch/heretic_spellblade/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/heretic_spellblade/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/roguehood
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -241,4 +240,4 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)
 	//Minor regen, T1 only. Cannot progress beyond that (hah). Mostly for self healing.
-	wretch_select_bounty(H)
+	outcast_select_bounty(H)

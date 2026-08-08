@@ -11128,6 +11128,13 @@
 /obj/item/rogueweapon/tongs,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
+"chM" = (
+/obj/structure/chair/wood/rogue/chair3{
+	dir = 8
+	},
+/obj/effect/landmark/start/outcast,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors)
 "chR" = (
 /obj/structure/table/wood/long_table/right,
 /obj/item/natural/cloth,
@@ -74943,6 +74950,11 @@
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
+"nZq" = (
+/obj/effect/landmark/start/outcast,
+/obj/effect/landmark/start/outcastlate,
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/beach/forest/south)
 "nZs" = (
 /obj/structure/roguemachine/scomm{
 	scom_tag = "Inn - Arena"
@@ -88544,8 +88556,8 @@
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/manor)
 "qxT" = (
-/mob/living/carbon/human/species/skeleton/npc/medium,
-/turf/open/floor/rogue/blocks,
+/obj/effect/landmark/start/outcast,
+/turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest/south)
 "qxW" = (
 /obj/structure/table/wood/long_table,
@@ -92212,6 +92224,13 @@
 /obj/structure/fluff/railing/wood/west,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/woods/southeast)
+"rgJ" = (
+/obj/structure/chair/wood/rogue/chair3{
+	dir = 4
+	},
+/obj/effect/landmark/start/outcast,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors)
 "rgM" = (
 /obj/structure/flora/roguetree/stump/log,
 /turf/open/water/cleanshallow,
@@ -112454,6 +112473,11 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/manor)
+"uWn" = (
+/obj/structure/chair/stool/rogue,
+/obj/effect/landmark/start/outcast,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors)
 "uWq" = (
 /obj/structure/flora/hotspring_rocks/small/three,
 /turf/open/floor/rogue/grass,
@@ -118425,6 +118449,7 @@
 "weu" = (
 /obj/structure/chair/stool/rogue,
 /obj/effect/landmark/start/courtagent,
+/obj/effect/landmark/start/outcast,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "wez" = (
@@ -322643,7 +322668,7 @@ ppS
 usj
 mxk
 wwj
-pfz
+uWn
 usj
 jmn
 vUP
@@ -437903,7 +437928,7 @@ usj
 bWX
 usj
 usj
-fOf
+rgJ
 vdW
 hRZ
 hRZ
@@ -438807,7 +438832,7 @@ voK
 tdu
 usj
 usj
-qtr
+chM
 vdW
 hRZ
 hRZ
@@ -439711,7 +439736,7 @@ fRY
 tdu
 usj
 usj
-fOf
+rgJ
 vdW
 hRZ
 oMQ
@@ -440615,7 +440640,7 @@ mxk
 nTi
 mMD
 usj
-qtr
+chM
 vdW
 hRZ
 hRZ
@@ -442377,8 +442402,8 @@ eTa
 eTa
 eTa
 sKV
+qxT
 oal
-msz
 kKe
 eTa
 eTa
@@ -442826,7 +442851,7 @@ eTa
 eTa
 sFl
 oal
-oal
+qxT
 oal
 oal
 oal
@@ -445541,7 +445566,7 @@ dmC
 idM
 idM
 idM
-idM
+nZq
 idM
 idM
 kkf
@@ -445991,8 +446016,8 @@ oal
 eVa
 jmx
 idM
+nZq
 idM
-qxT
 idM
 ofI
 eVa

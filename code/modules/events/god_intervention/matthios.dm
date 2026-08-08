@@ -6,7 +6,6 @@
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
 	min_players = 20
-	allowed_storytellers = list(/datum/storyteller/matthios)
 
 /datum/round_event/matthios_fingers/start()
 	SSmapping.add_world_trait(/datum/world_trait/matthios_fingers, 20 MINUTES)

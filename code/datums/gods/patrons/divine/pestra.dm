@@ -22,7 +22,6 @@
 		"DECAY IS A CONTINUATION OF LIFE!",
 		"MY AFFLICTION IS MY TESTAMENT!",
 	)
-	storyteller = /datum/storyteller/pestra
 
 	titles = list(
 		"Lady of Pestilence", // yeah, i have no idea. what do people even call Pestra?

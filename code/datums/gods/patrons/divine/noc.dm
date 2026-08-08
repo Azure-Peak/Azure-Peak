@@ -21,7 +21,6 @@
 		"I SEEK THE MYSTERIES OF THE MOON!",
 	)
 	traits_tier = list(TRAIT_DARKVISION = CLERIC_T1)
-	storyteller = /datum/storyteller/noc
 
 	titles = list(
 		"Nite-Scholar",

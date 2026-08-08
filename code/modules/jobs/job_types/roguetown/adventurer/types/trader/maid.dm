@@ -3,7 +3,7 @@
 	tutorial = "A surviving servant of a destroyed dynasty, an exile, or a spy, one way or another, your skills will help you serve. The rest is to find your master."
 	outfit = /datum/outfit/job/roguetown/adventurer/servant
 	allowed_sexes = list(MALE, FEMALE)
-	category_tags = list(CTAG_TRADER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
+	category_tags = list(CTAG_TRADER, CTAG_COURTAGENT, CTAG_LICKER)
 	class_select_category = CLASS_CAT_TRADER
 
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_KEENEARS)

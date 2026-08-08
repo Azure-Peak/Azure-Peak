@@ -2,10 +2,10 @@
 	name = "Torso"
 	tutorial = "Some horrible accident in the forest took away all of your limbs!\nSurvival will be a true TRIUMPH."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/torso
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_DISABLED, CTAG_LICKER_WRETCH)
+	category_tags = list(CTAG_DISABLED, CTAG_LICKER)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_WIL = 3,

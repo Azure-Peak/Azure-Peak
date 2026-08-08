@@ -21,7 +21,6 @@
 		"THROUGH VIOLENCE, DIVINITY!",
 		"THE GOD OF CONQUEST DEMANDS BLOOD!",
 	)
-	storyteller = /datum/storyteller/graggar
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/graggar_cross_stone, /datum/crafting_recipe/roguetown/structure/graggar_cross_meat)
 
 	titles = list(

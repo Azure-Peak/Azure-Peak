@@ -453,6 +453,7 @@ GLOBAL_LIST_EMPTY(confessors)
 #define FAMILY_FULL 3
 
 GLOBAL_LIST_EMPTY(head_bounties)
+GLOBAL_LIST_EMPTY(outcast_exiles)
 GLOBAL_LIST_EMPTY(noticeboard_notices)
 GLOBAL_LIST_EMPTY(noticeboard_listings)
 GLOBAL_LIST_EMPTY(job_respawn_delays)
@@ -486,7 +487,9 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_INQUSITOR		"CAT_INQUISITOR"	// For Inquisitor subclasses
 #define CTAG_ABSOLVER		"CAT_ABSOLVER"		// For Absolver (sub)class
 #define CTAG_COURTAGENT		"CAT_COURTAGENT"	// Court agent classes
+#define CTAG_OUTCAST		"CAT_OUTCAST"		// Outcast classes untethered from adventurer
 #define CTAG_WRETCH			"CAT_WRETCH"		// Wretch classes untethered from adventurer
+#define CTAG_HERETIC		"CAT_HERETIC"		// Heretic classes untethered from adventurer
 #define CTAG_TRADER			"CAT_TRADER"		// Trader classes untethered from adventurer
 #define CTAG_LSKELETON		"CAT_LSKELETON"		// Lich Fortified Skeleton classes
 #define CTAG_NSKELETON		"CAT_NSKELETON"		// Necromancer Greater Skeleton classes
@@ -494,7 +497,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_VAMPSERVANT	"CAT_VAMPSERVANT"	// Vampire lord bloodpool servant classes
 #define CTAG_VAMPGUARD		"CAT_VAMPGUARD"		// Vampire Lord bloodpool guard classes
 #define CTAG_VAMPSPAWN		"CAT_VAMPSPAWN"		// Vampire Lord bloodpool elite classes
-#define CTAG_LICKER_WRETCH  "CAT_LICKER_WRETCH" // Licker wretch. Nuff said.
+#define CTAG_LICKER  		"CAT_LICKER" 		// Licker. Nuff said.
+#define CTAG_VAMPIRE		"CAT_VAMPIRE"		// The actual vampire _job_ that then puts you in one of the CTAG_LICKER roles. i know, it's wyrd.
 #define CTAG_GNOLL			"CAT_GNOLL"			// Wretch-esque gnolls, graggar's chosen.
 #define CTAG_GNOLL_IMPURE	"CAT_GNOLL_IMPURE"	// Reward for beating enough gnolls.
 #define CTAG_HAG			"CAT_HAG"
@@ -594,7 +598,6 @@ GLOBAL_LIST_EMPTY(round_join_times)
 
 //Wretch categories
 #define CLASS_CAT_ACCURSED "Accursed"
-#define CLASS_CAT_BATTLEMAGE "Battlemage"
 
 //Mercenary categories
 #define CLASS_CAT_ETRUSCA "Etrusca"

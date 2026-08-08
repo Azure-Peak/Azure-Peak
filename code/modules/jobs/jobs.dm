@@ -119,6 +119,10 @@ GLOBAL_LIST_INIT(garrison_positions, list( //Guards
 	"Watchman",
 ))
 
+// Helper: "is this job an agent of the crown/law". used for seeing destitute status as well as outcasts
+/proc/is_crown_enforcer(job)
+	return (job in GLOB.garrison_positions) || (job in GLOB.retinue_positions) || (job in GLOB.courtier_positions) || (job in GLOB.noble_positions)
+
 GLOBAL_LIST_INIT(church_positions, list( //Church of the Ten
 	"Bishop",
 	"Martyr",
@@ -184,12 +188,14 @@ GLOBAL_LIST_INIT(wanderer_positions, list( //Homeless
 	"Adventurer",
 	"Court Agent",
 	"Trader",
+	"Outcast",
 ))
 
 GLOBAL_LIST_INIT(antagonist_positions, list( //Mostly lesser antagonists
 	"Assassin",
 	"Bandit",
 	"Wretch",
+	"Heretic",
 	"Gnoll",
 	"Hag",
 ))

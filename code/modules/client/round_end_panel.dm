@@ -44,55 +44,6 @@
 	var/next_stat = stat_keys[(current_index % length(stat_keys)) + 1]
 	var/prev_stat = stat_keys[current_index == 1 ? length(stat_keys) : (current_index - 1)]
 
-	// Influential deities section
-	var/max_influence = -INFINITY
-	var/max_chosen = 0
-	var/datum/storyteller/most_influential
-	var/datum/storyteller/most_frequent
-
-	for(var/storyteller_name in SSgamemode.storytellers)
-		var/datum/storyteller/initialized_storyteller = SSgamemode.storytellers[storyteller_name]
-		if(!initialized_storyteller)
-			continue
-		if(istype(initialized_storyteller, /datum/storyteller/gamemode))
-			continue
-
-		var/influence = SSgamemode.calculate_storyteller_influence(initialized_storyteller.type)
-		if(influence > max_influence)
-			max_influence = influence
-			most_influential = initialized_storyteller
-
-		if(initialized_storyteller.times_chosen > max_chosen)
-			max_chosen = initialized_storyteller.times_chosen
-			most_frequent = initialized_storyteller
-		else if(initialized_storyteller.times_chosen == max_chosen)
-			if(!most_frequent || influence > SSgamemode.calculate_storyteller_influence(most_frequent.type))
-				most_frequent = initialized_storyteller
-			else if(influence == SSgamemode.calculate_storyteller_influence(most_frequent.type) && prob(50))
-				most_frequent = initialized_storyteller
-
-	// Gods display
-	data += "<div style='text-align: center; margin: 25px auto; width: 80%; max-width: 800px;'>"
-
-	if(max_influence <= 0 && max_chosen <= 0)
-		data += "<div style='font-size: 1.2em; font-weight: bold; margin-bottom: 12px;'>"
-		data += "No <span style='color: #bd1717;'>Gods</span>, No <span style='color: #bd1717;'>Masters</span>"
-		data += "</div>"
-	else
-		if(most_influential == most_frequent && max_influence > 0)
-			data += "<div style='font-size: 1.2em; font-weight: bold; margin-bottom: 12px;'>"
-			data += "The most dominant God was <span style='color:[most_influential.color_theme];'>[most_influential.name]</span>"
-			data += "</div>"
-		else
-			if(max_influence > 0)
-				data += "<div style='font-size: 1.2em; font-weight: bold; margin-bottom: 12px;'>"
-				data += "The most influential God is <span style='color:[most_influential.color_theme];'>[most_influential.name]</span>"
-				data += "</div>"
-			if(max_chosen > 0)
-				data += "<div style='font-size: 1.2em; font-weight: bold; margin-bottom: 12px;'>"
-				data += "The longest reigning God was <span style='color:[most_frequent.color_theme];'>[most_frequent.name]</span>"
-				data += "</div>"
-
 	data += "<div style='border-top: 1.5px solid #444; margin: 15px auto; width: 100%;'></div>"
 	data += "</div>"
 
@@ -115,7 +66,7 @@
 	// Centered container with left-aligned content
 	data += "<div style='text-align: center;'>"
 	data += "<div style='display: inline-block; text-align: left; margin-left: auto; margin-right: auto;'>"
-	
+
 	var/stat_is_object = GLOB.featured_stats[current_featured]["object_stat"]
 	var/stat_is_admin_only = GLOB.featured_stats[current_featured]["admin_only"]
 	var/has_entries = length(GLOB.featured_stats[current_featured]["entries"])
@@ -264,7 +215,7 @@
 	data += "<div style='margin: 35px;'>"
 	switch(tab)
 		if("Gods")
-		
+
 			// Gods' Interventions Section
 			data += "<div>"
 			data += "<div style='text-align: center; color: #e0e0f0; font-size: 1.2em; margin-bottom: 10px;'>GODS' INTERVENTIONS</div>"
@@ -362,7 +313,7 @@
 
 				data += "</div>"
 
-		
+
 		if("Messages")
 			data += "<div style='display: table; width: 100%; table-layout: fixed;'>"
 			data += "<div style='display: table-row;'>"
@@ -878,7 +829,7 @@
 	var/list/faith_color = list(/datum/faith/divine = "#28908C", /datum/faith/inhumen = "#46254a", /datum/faith/old_god = "#47636d")
 	var/text_color = ((GLOB.dominant_faith_tracker.dominant_faith == /datum/faith/divine) ? "#E1C562" : "#d0d0d0")
 	var/border_color = ((GLOB.dominant_faith_tracker.dominant_faith == /datum/faith/divine) ? "#E1C562" : "#99b2b1")
-	
+
 	data += "<div style='width: 42.5%; margin: 0 auto 30px; border: 2px solid [border_color]; background: [faith_color[GLOB.dominant_faith_tracker.dominant_faith]]; color: [text_color]; max-height: 420px;'>"
 	data += "<div style='text-align: center; font-size: 1.3em; padding: 12px;'><b>DOMINANT FAITH: [GLOB.faithlist[GLOB.dominant_faith_tracker.dominant_faith]]</b></div>"
 	data += "<div style='padding: 0 15px 15px 15px;'>"
@@ -907,176 +858,10 @@
 	data += "</div>"
 	data += "</div></div></div>"
 
-	// Psydon Section
-	var/psydonite_user = FALSE
-	if(mob)
-		if(isliving(mob))
-			var/mob/living/living_user_mob = mob
-			if(istype(living_user_mob.patron, /datum/patron/old_god))
-				psydonite_user = TRUE
-
-	var/psydon_followers = GLOB.patron_follower_counts["Psydon"] || 0
-	var/largest_religion = (psydon_followers > 0)
-	if(largest_religion)
-		for(var/patron in GLOB.patron_follower_counts)
-			if(patron == "Psydon")
-				continue
-			if(GLOB.patron_follower_counts[patron] >= psydon_followers)
-				largest_religion = FALSE
-				break
-	var/apostasy_followers = GLOB.patron_follower_counts["Godless"] || 0
-	var/psydonite_monarch = GLOB.azure_round_stats[STATS_MONARCH_PATRON] == "Psydon" ? TRUE : FALSE
-	var/psydon_influence = (psydon_followers * 20) + (GLOB.confessors.len * 20) + (GLOB.azure_round_stats[STATS_HUMEN_DEATHS] * -10) + (GLOB.azure_round_stats[STATS_ALIVE_TIEFLINGS] * -20) + (psydonite_monarch ? (psydonite_monarch * 500) : -250) + (largest_religion? (largest_religion * 500) : -250) + (GLOB.azure_round_stats[STATS_PSYCROSS_USERS] * 10) + (apostasy_followers * -20) + (GLOB.azure_round_stats[STATS_LUX_HARVESTED] * -50) + (psydonite_user ? 10000 : -10000)
-
-	data += "<div style='width: 42.5%; margin: 0 auto 30px; border: 2px solid #99b2b1; background: #47636d; color: #d0d0d0; max-height: 420px;'>"
-	data += "<div style='text-align: center; font-size: 1.3em; padding: 12px;'><b>PSYDON</b></div>"
-	data += "<div style='padding: 0 15px 15px 15px;'>"
-	data += "<div style='background: #1b1b2a; border-radius: 4px; padding: 12px;'>"
-	data += "<div style='display: flex;'>"
-
-	data += "<div style='flex: 1; padding-right: 10px;'>"
-	data += "Number of followers: [psydon_followers] ([get_colored_influence_value(psydon_followers * 20)])<br>"
-	data += "People wearing psycross: [GLOB.azure_round_stats[STATS_PSYCROSS_USERS]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_PSYCROSS_USERS] * 10)])<br>"
-	data += "Number of confessions: [GLOB.confessors.len] ([get_colored_influence_value(GLOB.confessors.len * 20)])<br>"
-	data += "Largest faith: [largest_religion ? "YES" : "NO"] ([get_colored_influence_value(largest_religion ? 500 : -250)])<br>"
-	data += "Psydonite monarch: [psydonite_monarch ? "YES" : "NO"] ([get_colored_influence_value((psydonite_monarch ? (psydonite_monarch * 500) : -250))])<br>"
-	data += "</div>"
-
-	data += "<div style='flex: 1; padding-left: 60px;'>"
-	data += "Number of apostates: [apostasy_followers] ([get_colored_influence_value(apostasy_followers * -20)])<br>"
-	data += "Humen deaths: [GLOB.azure_round_stats[STATS_HUMEN_DEATHS]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_HUMEN_DEATHS] * -10)])<br>"
-	data += "Largest faith: [largest_religion ? "YES" : "NO"] ([get_colored_influence_value(largest_religion ? 500 : -250)])<br>"
-	data += "Lux harvested: [GLOB.azure_round_stats[STATS_LUX_HARVESTED]] ([get_colored_influence_value(GLOB.azure_round_stats[STATS_LUX_HARVESTED] * -50)])<br>"
-	data += "God's status: [psydonite_user ? "ALIVE" : "DEAD"] ([get_colored_influence_value(psydonite_user ? 10000 : -10000)])<br>"
-	data += "</div>"
-
-	data += "</div>"
-
-	data += "<div style='border-top: 1px solid #444; margin: 12px 0 8px 0;'></div>"
-	data += "<div style='text-align: center;'>Total Influence: [get_colored_influence_value(psydon_influence)]</div>"
-	data += "</div></div></div>"
-
-	// The Ten Section
-
-	data += "<div style='text-align: center; font-size: 1.3em; color: #c0a828; margin: 20px 0 10px 0;'><b>THE TEN</b></div>"
-	data += "<div style='border-top: 3px solid #404040; margin: 0 auto 30px; width: 91.5%;'></div>"
-
-	data += "<div style='width: 91.5%; margin: 0 auto 40px;'>"
-	data += "<div style='display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 30px;'>"
-
-	// Astrata
-	data += god_ui_block("ASTRATA", "#e7a962", "#642705", /datum/storyteller/astrata, debug)
-
-	// Dendor
-	data += god_ui_block("DENDOR", "#412938", "#66745c", /datum/storyteller/dendor, debug)
-
-	// Ravox
-	data += god_ui_block("RAVOX", "#2c232d", "#710f0f", /datum/storyteller/ravox, debug)
-
-	// Eora
-	data += god_ui_block("EORA", "#a95063", "#e7c3da", /datum/storyteller/eora, debug)
-
-	// Necra
-	data += god_ui_block("NECRA", "#2a2459", "#4c82a8", /datum/storyteller/necra, debug)
-
-	data += "</div>"
-
-	data += "<div style='display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;'>"
-
-	// Noc
-	data += god_ui_block("NOC", "#4e72a1", "#282137", /datum/storyteller/noc, debug)
-
-	// Abyssor
-	data += god_ui_block("ABYSSOR", "#50090f", "#bbace0", /datum/storyteller/abyssor, debug)
-
-	// Malum
-	data += god_ui_block("MALUM", "#3d4139", "#955454", /datum/storyteller/malum, debug)
-
-	// Xylix
-	data += god_ui_block("XYLIX", "#7e632c", "#f6feff", /datum/storyteller/xylix, debug)
-
-	// Pestra
-	data += god_ui_block("PESTRA", "#517b27", "#1b2a2a", /datum/storyteller/pestra, debug)
-
-	data += "</div></div>"
-
-	// Inhumen Gods Section
-
-	data += "<div style='text-align: center; font-size: 1.3em; color: #AA0000; margin: 20px 0 10px 0;'><b>INHUMEN GODS</b></div>"
-	data += "<div style='border-top: 3px solid #404040; margin: 0 auto 30px; width: 91.5%;'></div>"
-
-	data += "<div style='width: 91.5%; margin: 0 auto;'>"
-	data += "<div style='display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 20px; margin-bottom: 20px;'>"
-
-	// Matthios
-	data += god_ui_block("MATTHIOS", "#20202e", "#99b2b1", /datum/storyteller/matthios, debug)
-
-	// Baotha
-	data += god_ui_block("BAOTHA", "#46254a", "#e2abee", /datum/storyteller/baotha, debug)
-
-	// Graggar
-	data += god_ui_block("GRAGGAR", "#3b5e51", "#99bbc7", /datum/storyteller/graggar, debug)
-
-	// Zizo
-	data += god_ui_block("ZIZO", "#661239", "#ed9da3", /datum/storyteller/zizo, debug)
-
-	data += "</div></div>"
-
 	src.mob << browse(null, "window=azure_roundend")
 	var/datum/browser/popup = new(src.mob, "vanderlin_influences", "<center>Gods' influences</center>", 1325, 875)
 	popup.set_content(data.Join())
 	popup.open()
-
-/// UI block to format information about storyteller god and his influences
-/proc/god_ui_block(name, bg_color, title_color, datum/storyteller/storyteller, debug = FALSE)
-	var/total_influence = SSgamemode.calculate_storyteller_influence(storyteller)
-	var/datum/storyteller/initialized_storyteller = SSgamemode.storytellers[storyteller]
-	if(!initialized_storyteller)
-		return
-
-	var/dynamic_content = ""
-	var/followers = GLOB.patron_follower_counts[initialized_storyteller.name] || 0
-
-	if(!debug)
-		dynamic_content += "Number of followers: [followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(storyteller))])<br>"
-		for(var/stat in initialized_storyteller.influence_factors)
-			var/list/stat_data = initialized_storyteller.influence_factors[stat]
-			var/stat_value = GLOB.azure_round_stats[stat] || 0
-
-			dynamic_content += "[stat_data["name"]] [round(stat_value)] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(storyteller, stat))])<br>"
-	else
-		dynamic_content += "<div style='color: #FFFF00;'><b>DEBUG MODE</b></div>"
-		dynamic_content += "Total reigns: [initialized_storyteller.times_chosen]<br>"
-		dynamic_content += "Number of followers: [followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(storyteller))])<br>"
-
-		var/datum/storyteller/prototype = new storyteller
-		for(var/set_name in prototype.influence_sets)
-			var/list/current_set = prototype.influence_sets[set_name]
-			for(var/stat in current_set)
-				var/list/stat_data = current_set[stat]
-				var/stat_value = GLOB.azure_round_stats[stat] || 0
-				var/influence_value = stat_value * stat_data["points"]
-				var/is_active = (stat in initialized_storyteller.influence_factors)
-
-				dynamic_content += "<span style='color: [is_active ? "#88f088" : "#f79090"];'>"
-				dynamic_content += "[stat_data["name"]] [round(stat_value)] ([get_colored_influence_value(influence_value)])</span><br>"
-		qdel(prototype)
-
-	var/suffix = initialized_storyteller.bonus_points >= 0 ? "from wanting to rule" : "from long reign exhaustion"
-	var/bonus_display = "<div>([get_colored_influence_value(round(initialized_storyteller.bonus_points))] [suffix])</div>"
-
-	return {"
-	<div style='border:6px solid [bg_color]; background:[bg_color]; border-radius:6px; height:100%';>
-		<div style='font-weight:bold; font-size:1.2em; padding:8px; color:[title_color]'>[name]</div>
-		<div style='padding:8px; background:#111; border-radius:0 0 4px 4px;'>
-			<div style='margin-bottom:8px;'>[dynamic_content]</div>
-			<div style='border-top:1px solid #444; padding-top:6px;'>
-				<div>Total Influence: [get_colored_influence_value(total_influence)]</div>
-				[bonus_display]
-			</div>
-		</div>
-	</div>
-	"}
 
 /// Colors resulting number depending on its value, with the operator attached
 /proc/get_colored_influence_value(num)

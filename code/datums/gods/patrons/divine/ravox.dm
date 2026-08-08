@@ -22,12 +22,11 @@
 		"THROUGH STRIFE, GRACE!",
 		"THROUGH PERSISTENCE, GLORY!",
 	)
-	storyteller = /datum/storyteller/ravox
 	COOLDOWN_DECLARE(lesser_heal_buff_cooldown)
 
 	titles = list(
 		"Justiciar",
-		"Justicar", // it is misspelled ingame enough that we should probably accept this too 
+		"Justicar", // it is misspelled ingame enough that we should probably accept this too
 		"Ratake"
 	)
 
@@ -64,10 +63,10 @@
 
 	if(istype(target.rmb_intent, /datum/rmb_intent/strong))
 		bonus++
-	
+
 	if(istype(target.get_active_held_item(), /obj/item/rogueweapon))
 		bonus += 0.5
-	
+
 	if(target == user && target.blood_volume <= BLOOD_VOLUME_OKAY && COOLDOWN_FINISHED(src, lesser_heal_buff_cooldown))
 		user.emote("warcry")
 		user.blood_volume += BLOOD_VOLUME_SURVIVE / 3
