@@ -265,7 +265,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Eh...", "Malum?", "Just sounds like a spell to fix things, right?")
+	remarks = list("Opus artis...", "Fractum, sed scientia...", "Luceat sicut caelum lunae...")
 
 /obj/item/book/granter/spell/mending/onlearned(mob/living/carbon/user)
 	..()
@@ -284,7 +284,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Eh...", "Let there be light...", "I can see in the dark now!")
+	remarks = list("Donum Astrata...", "Condensatum...", "Tenebrae fugient...")
 
 /obj/item/book/granter/spell/light/onlearned(mob/living/carbon/user)
 	..()
@@ -303,7 +303,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Oh-", "Hello?", "I can hear the voices of a distant mind!")
+	remarks = list("Vox alterius...", "Mente mea aperta...", "Vox vocat...")
 
 /obj/item/book/granter/spell/mindlink/onlearned(mob/living/carbon/user)
 	..()
@@ -322,7 +322,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Ribbit...", "Croak.", "I can jump really high now!")
+	remarks = list("Crura amphibii...", "Mens leporis...", "Praedatoris saltus...")
 
 /obj/item/book/granter/spell/leap/onlearned(mob/living/carbon/user)
 	..()
@@ -341,7 +341,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Omosign", "Crossigna", "I can see in the dark now!")
+	remarks = list("Oculus felis...", "Umbrae moventur...", "Nihil nunc celari potest...")
 
 /obj/item/book/granter/spell/darkvision/onlearned(mob/living/carbon/user)
 	..()
@@ -360,7 +360,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Bwoing!", "Yippee!", "I can survive falls from great heights now!")
+	remarks = list("Vola ut papilio...", "Munera felina...", "Aer cadutam tuam mollificat...")
 
 /obj/item/book/granter/spell/featherfall/onlearned(mob/living/carbon/user)
 	..()
@@ -379,7 +379,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Bwoing!", "Yippee!", "I can survive falls from great heights now!")
+	remarks = list("Sermo mutus...", "Mea locatio...", "Amico dato...")
 
 /obj/item/book/granter/spell/message/onlearned(mob/living/carbon/user)
 	..()
@@ -398,7 +398,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("The clouds look great from this view.", "The Ground shrinks,", "And now- I have the urge to step on someone...")
+	remarks = list("A minore ad maius...", "pondus insuportabile...", "Confringere inimicos tuos...")
 
 /obj/item/book/granter/spell/enlarge/onlearned(mob/living/carbon/user)
 	..()
@@ -417,7 +417,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("R'ch", "T'h", "Tr'th...")
+	remarks = list("Mens aperta...", "ut verum videas...", "De occultis arcanis mundi...")
 
 /obj/item/book/granter/spell/guidance/onlearned(mob/living/carbon/user)
 	..()
@@ -436,7 +436,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Rocc!", "Booga...", "Ooga...")
+	remarks = list("Lapis aedificii...", "cum fissuris...", "incantatus...")
 
 /obj/item/book/granter/spell/magiciansbrick/onlearned(mob/living/carbon/user)
 	..()
@@ -455,7 +455,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Fate of the world...", "What influences you,", "The future of us all...")
+	remarks = list("Fatum mundi...", "quid te afficit...", "hac hebdomade...")
 
 /obj/item/book/granter/spell/readomen/onlearned(mob/living/carbon/user)
 	..()
@@ -474,7 +474,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("Ashes traced into a pattern,", "Given lyfe from the Arcyne,", "Shock, Trap, Burn...")
+	remarks = list("manet combustum...", "vita data...", "Fulgur, ure, conglacia...")
 
 /obj/item/book/granter/spell/runeward/onlearned(mob/living/carbon/user)
 	..()
@@ -493,7 +493,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	oneuse = TRUE
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
-	remarks = list("The secrets of the past...", "Books with history,", "Hearing the past, Present, and Future...")
+	remarks = list("Disce ex libris...", "Libri Historiae...", "Ex erroribus discens...")
 
 /obj/item/book/granter/spell/transcribe/onlearned(mob/living/carbon/user)
 	..()
