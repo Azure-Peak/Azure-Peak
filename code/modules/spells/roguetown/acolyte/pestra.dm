@@ -368,9 +368,8 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	miracle = TRUE
-
+	invocation_type = "whisper"
 	invocations = list("Rot, take them!")
-	invocation_type = "shout" //can be none, whisper, emote and shout
 	var/datum/component/infestation_charges/charge_component
 
 /obj/effect/proc_holder/spell/invoked/infestation/on_gain(mob/living/user)
