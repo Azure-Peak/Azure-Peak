@@ -141,7 +141,7 @@
 	. = ..()
 	if(!user.mind)
 		return
-	
+
 	for(var/crafting_recipe_type in crafting_recipe_types)
 		var/datum/crafting_recipe/R = crafting_recipe_type
 		user.mind.teach_crafting_recipe(crafting_recipe_type)
@@ -248,6 +248,254 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	remarks = list("Mediolanum ventis..", "Sana damnatorum..", "Frigidus ossa mortuorum..")
 
 /obj/item/book/granter/spell/bonechill/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+
+/obj/item/book/granter/spell/mending
+	name = "Scroll of Mending"
+	spell = /datum/action/cooldown/spell/mending
+	spellname = "Mending"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Eh...", "Malum?", "Just sounds like a spell to fix things, right?")
+
+/obj/item/book/granter/spell/mending/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/light
+	name = "Scroll of Light"
+	spell = /datum/action/cooldown/spell/light
+	spellname = "Light"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Eh...", "Let there be light...", "I can see in the dark now!")
+
+/obj/item/book/granter/spell/light/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/mindlink /// Seems a little OP as SCOMS are nerfed currently, won't put it into loot piles for now- Unless public uproar screams at me to add it in, then I'll add it in. -Le Suffering Mime Coder
+	name = "Scroll of Mind Link"
+	spell = /datum/action/cooldown/spell/mindlink
+	spellname = "Mind Link"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Oh-", "Hello?", "I can hear the voices of a distant mind!")
+
+/obj/item/book/granter/spell/mindlink/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/leap
+	name = "Scroll of Leap"
+	spell = /datum/action/cooldown/spell/leap
+	spellname = "Leap"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Ribbit...", "Croak.", "I can jump really high now!")
+
+/obj/item/book/granter/spell/leap/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/darkvision
+	name = "Scroll of Dark Vision"
+	spell = /datum/action/cooldown/spell/darkvision
+	spellname = "Dark Vision"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Omosign", "Crossigna", "I can see in the dark now!")
+
+/obj/item/book/granter/spell/darkvision/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/featherfall
+	name = "Scroll of Feather Fall"
+	spell = /datum/action/cooldown/spell/featherfall
+	spellname = "Feather Fall"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Bwoing!", "Yippee!", "I can survive falls from great heights now!")
+
+/obj/item/book/granter/spell/featherfall/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/message
+	name = "Scroll of Message"
+	spell = /datum/action/cooldown/spell/message
+	spellname = "Message"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Bwoing!", "Yippee!", "I can survive falls from great heights now!")
+
+/obj/item/book/granter/spell/message/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/enlarge
+	name = "Scroll of Enlarge"
+	spell = /datum/action/cooldown/spell/augment_buff/enlarge
+	spellname = "Enlarge"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("The clouds look great from this view.", "The Ground shrinks,", "And now- I have the urge to step on someone...")
+
+/obj/item/book/granter/spell/enlarge/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+	/obj/item/book/granter/spell/guidance
+	name = "Scroll of Guidance"
+	spell = /datum/action/cooldown/spell/augment_buff/guidance
+	spellname = "Guidance"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("R'ch", "T'h", "Tr'th...")
+
+/obj/item/book/granter/spell/guidance/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/magiciansbrick
+	name = "Scroll of Magician's Brick"
+	spell = /datum/action/cooldown/spell/magicians_brick
+	spellname = "Magician's Brick"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Rocc!", "Booga...", "Ooga...")
+
+/obj/item/book/granter/spell/magiciansbrick/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/readomen
+	name = "Scroll of Read Omen"
+	spell = /datum/action/cooldown/spell/readomen
+	spellname = "Read Omen"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Fate of the world...", "What influences you,", "The future of us all...")
+
+/obj/item/book/granter/spell/readomen/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/runeward
+	name = "Scroll of Rune Ward"
+	spell = /datum/action/cooldown/spell/touch/rune_ward
+	spellname = "Rune Ward"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Ashes traced into a pattern,", "Given lyfe from the Arcyne,", "Shock, Trap, Burn...")
+
+/obj/item/book/granter/spell/runeward/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/transcribe
+	name = "Scroll of Transcribe"
+	spell = /datum/action/cooldown/spell/transcribe
+	spellname = "Transcribe"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("The secrets of the past...", "Books with history,", "Hearing the past, Present, and Future...")
+
+/obj/item/book/granter/spell/transcribe/onlearned(mob/living/carbon/user)
 	..()
 	if(oneuse)
 		name = "siphoned scroll"

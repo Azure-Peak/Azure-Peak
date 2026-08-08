@@ -373,5 +373,17 @@
 	junk_loot = list(/obj/item/paper/scroll = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/book/granter/spell/bonechill = 2,
+		/obj/item/book/granter/spell/mending = 1,
+		/obj/item/book/granter/spell/light = 2,
+		/obj/item/book/granter/spell/leap = 1,
+		/obj/item/book/granter/spell/featherfall = 1,
+		/obj/item/book/granter/spell/darkvision = 3,
+		/obj/item/book/granter/spell/message = 3,
+		/obj/item/book/granter/spell/enlarge = 1,
+		/obj/item/book/granter/spell/readomen = 2,
+		/obj/item/book/granter/spell/transcribe = 3,
+		/obj/item/book/granter/spell/guidance = 1,
+		/obj/item/book/granter/spell/magiciansbrick = 2,
+		/obj/item/book/granter/spell/runeward = 2,
 	)
 	lootcount = 1

@@ -40,7 +40,19 @@
 	var/lootnumber = 1
 	for(i=0, i<lootnumber, i++)
 		loot.Add(pickweight(list(
-		/obj/item/book/granter/spell/bonechill = 2)))
+		/obj/item/book/granter/spell/bonechill = 2,
+		/obj/item/book/granter/spell/mending = 1,
+		/obj/item/book/granter/spell/light = 2,
+		/obj/item/book/granter/spell/leap = 1,
+		/obj/item/book/granter/spell/featherfall = 1,
+		/obj/item/book/granter/spell/darkvision = 3,
+		/obj/item/book/granter/spell/message = 3,
+		/obj/item/book/granter/spell/enlarge = 1,
+		/obj/item/book/granter/spell/readomen = 2,
+		/obj/item/book/granter/spell/transcribe = 3,
+		/obj/item/book/granter/spell/guidance = 1,
+		/obj/item/book/granter/spell/magiciansbrick = 2,
+		/obj/item/book/granter/spell/runeward = 2,)))
 	return ..()
 
 /obj/structure/loot/pile/attack_hand(mob/user)
