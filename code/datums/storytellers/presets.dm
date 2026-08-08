@@ -109,7 +109,7 @@
 /datum/storyteller/gamemode/guaranteed_antag/wretch
 	name = "Tempered Intensity"
 	vote_desc = "Wretch and heretic slots, but no hard antag."
-	desc = "No hard antag. Heretics up to 2 and Wretches up to 6. Lycker max 4. Gnoll max 1. Hag present."
+	desc = "No hard antag. Heretics up to 2 and Wretches up to 6. Lycker max 4. Gnoll max 3. Hag present."
 	color_theme = "#7a1f1f"
 	guaranteed_hard = FALSE
 	guarantees_roundstart_roleset = FALSE
@@ -118,7 +118,7 @@
 	block_external_hard = TRUE
 	block_internal_hard = TRUE
 	allow_dreamwalker = FALSE
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE	// max 1
+	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC	// max 3
 	heretic_slots = 2
 	wretch_slot_cap = 6
 	lycker_slots = 4
