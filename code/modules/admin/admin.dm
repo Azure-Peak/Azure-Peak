@@ -241,7 +241,7 @@
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=fortune'>-</a></li>"
 		body += "</ul>"
 		body += "</div>"
-		
+
 		// Patron Section
 		body += "<div id='patron-section'>"
 		body += "<h3>Patron</h3>"
@@ -258,7 +258,7 @@
 			body += "<li>[initial(P.name)] "
 			body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];set_patron=[REF(M)];patron=[patron_type]'>Set</a></li>"
 		body += "</ul></div>"
-		
+
 
 		body += "</div>"
 		body += "</div>"
@@ -369,7 +369,7 @@
 
 	if(!check_rights())
 		return
-	
+
 	if(!M.ckey)
 		to_chat(src, span_warning("There is no ckey attached to this mob."))
 		return
@@ -933,7 +933,7 @@ GLOBAL_VAR_INIT(extend_round_timestamp, 0)
 	if(!check_rights(R_ADMIN))
 		return
 
-	if(alert("Prolong the end of the round by 30 minutes. This delays the vote, or delays the end after the vote is successful. Are you sure?",,"Yes","Cancel") == "Cancel")
+	if(alert("Prolong the end of the round by 45 minutes. This delays the vote, or delays the end after the vote is successful. Are you sure?",,"Yes","Cancel") == "Cancel")
 		return
 
 	if(world.time < GLOB.extend_round_timestamp + (1 MINUTES))
@@ -947,6 +947,6 @@ GLOBAL_VAR_INIT(extend_round_timestamp, 0)
 		SSgamemode.round_ends_at += ROUND_EXTENSION_TIME
 	else //We push back the automated endround vote.
 		GLOB.round_timer = GLOB.round_timer + ROUND_EXTENSION_TIME
-	log_admin("[key_name(usr)] extended the round by 30 minutes.")
-	message_admins("[key_name(usr)] extended the round by 30 minutes.")
+	log_admin("[key_name(usr)] extended the round by 45 minutes.")
+	message_admins("[key_name(usr)] extended the round by 45 minutes.")
 	GLOB.extend_round_timestamp = world.time
