@@ -239,3 +239,8 @@
 	name = "Turban"
 	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
 	sort_category = "Hats"
+
+/datum/loadout_item/duelisthat
+	name = "Dashing Feathered Hat"
+	path = /obj/item/clothing/head/roguetown/duelisthat
+	sort_category = "Hats"
