@@ -72,6 +72,8 @@
 	var/gnoll_armor_icon = "beserker"
 
 /datum/species/gnoll/send_voice(mob/living/carbon/human/H)
+	if(H.m_intent == MOVE_INTENT_SNEAK)
+		return
 	playsound(get_turf(H), pick('sound/vo/mobs/wwolf/wolftalk1.ogg','sound/vo/mobs/wwolf/wolftalk2.ogg'), 100, TRUE, -1)
 
 /datum/species/gnoll/regenerate_icons(mob/living/carbon/human/H)
