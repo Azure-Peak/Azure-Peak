@@ -30,6 +30,7 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 	job_subclasses = list(
 		/datum/advclass/merchant
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/job/roguetown/merchant/after_spawn(mob/living/H, mob/M, latejoin)
 	. = ..()

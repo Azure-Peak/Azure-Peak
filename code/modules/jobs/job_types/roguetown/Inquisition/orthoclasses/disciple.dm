@@ -2,15 +2,13 @@
 	name = "Disciple"
 	tutorial = "Psydonite monks, practiced in both martiality and scripture. Spilling blood on sacred grounds is considered 'sinful' to the clergymen, though no qualms are spared towards knocking someone's lights out."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/disciple
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ORTHODOXIST)
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
-		TRAIT_BLOOD_RESISTANCE,
-		TRAIT_STEELHEARTED,
-		TRAIT_INQUISITION
+		TRAIT_BLOOD_RESISTANCE
 	)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -77,17 +75,6 @@
 			if("Knuckledusters")
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/knuckledusters/psy
-		var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves for non-magic guys.
-		var/technique_choice = input(H,"Choose your TECHNIQUE.", "DECIMATE AND DOMINATE WITH FLAIR.") as anything in techniques
-		switch(technique_choice)
-			if("Dropkick - Pushback + Extra Damage")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
-			if("Chokeslam - Stamina Damage")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
-			if("Stunner - Dazed Debuff")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
-			if("Headbutt - Vulnerable Debuff")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns

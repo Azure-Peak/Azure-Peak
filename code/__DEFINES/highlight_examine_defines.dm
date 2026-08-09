@@ -36,13 +36,14 @@
 #define HERESYDESC_DREAMWALKER_WEAPON "An enchanced weapon from Abyssor's dream, wielded by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
 #define HERESYDESC_DREAMWALKER_ARMOR "An armor piece from Abyssor's dream, worn by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
 
-// Misc items
+// Misc items / Donor
 #define HERESYDESC_GRONN "A symbol of the North's archaic beliefs"
+#define HERESYDESC_GILBRANZE_ARTIFICE "A blade of polished gilbranze in extraordinary quality. Someone's Artifice..?" // ATICIUS DONOR
 #define HERESYDESC_WEEPING_CROSS "It is ensnared in a perpetual state of half-coagulation, the alloy cracked and bleeding"
 
 // Vampire Lord Items - General theme is mysterious but a bad omen
 #define HERESYDESC_VAMPIRE "An unnatural enchanted armor piece of solid gilbranze that crackles with strange energies"
-#define HERESYDESC_VAMPIRE_CROWN "An unnatural enchanted crown that crackles with strange energies" 
+#define HERESYDESC_VAMPIRE_CROWN "An unnatural enchanted crown that crackles with strange energies"
 #define HERESYDESC_VAMPIRE_SWORD "An unnatural sword of some unknown alloy that crackles with strange energies"
 
 // Inquisitional gear
@@ -64,13 +65,13 @@
 /** For items that are both blatantly heretical AND actively dangerous.
 * Items should be marked with this if the expected response to seeing someone
 * carrying them is to quickly escalate to violence.
-* 
+*
 * i.e. heretic armor, avantyne weapons
 */
 #define EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING 1
 /** For items that are heretical and will get you in trouble if you're caught with them,
 * but not enough for people to jump straight to violence on sight without probable cause.
-* 
+*
 * i.e. Ascendant amulets
 */
 #define EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS 2

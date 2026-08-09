@@ -22,34 +22,34 @@
 	var/chance2hit = 0
 
 	if(check_zone(zone) == zone)
-		chance2hit += 10
+		chance2hit += ACC_MAJOR_ZONE_BONUS
 
 	if(check_face_subzone(zone) && target.mind)
-		chance2hit -= 24
+		chance2hit -= ACC_FACE_SUBZONE_PENALTY
 
 	if(user.STAPER > 10)
-		chance2hit += (min((user.STAPER - 10) * 8, 40))
+		chance2hit += (min((user.STAPER - 10) * ACC_PER_BONUS_PER_POINT, ACC_PER_BONUS_CAP))
 
 	if(user.STAPER < 10)
-		chance2hit -= ((10 - user.STAPER) * 10)
+		chance2hit -= ((10 - user.STAPER) * ACC_PER_PENALTY_PER_POINT)
 
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		chance2hit -= 40
 
 	if(target.pulledby || target.pulling)
-		chance2hit += target.pulledby?.grab_state > GRAB_PASSIVE ? 20 : 10
+		chance2hit += target.pulledby?.grab_state > GRAB_PASSIVE ? ACC_AGGRESSIVE_GRAB_BONUS : ACC_GRABBED_BONUS
 
 	if(!(target.mobility_flags & MOBILITY_STAND))
-		chance2hit += 30
+		chance2hit += ACC_PRONE_TARGET_BONUS
 
 	if(target.has_status_effect(/datum/status_effect/debuff/exposed) || target.has_status_effect(/datum/status_effect/debuff/vulnerable))
-		chance2hit += 20
+		chance2hit += ACC_OPENED_TARGET_BONUS
 
 	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
-		chance2hit += 5
+		chance2hit += ACC_PRONE_ATTACKER_LEG_BONUS
 	chance2hit += accuracy_bonus
 
-	chance2hit = CLAMP(chance2hit, 5, 95)
+	chance2hit = CLAMP(chance2hit, ACC_MIN, ACC_MAX)
 
 	if(prob(chance2hit))
 		return zone
@@ -74,30 +74,30 @@
 		return
 	var/bonus = 0
 
-	bonus += (user.get_skill_level(associated_skill) * 8)
+	bonus += (user.get_skill_level(associated_skill) * ACC_SKILL_BONUS_PER_LEVEL)
 
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
-			bonus += 10
+			bonus += ACC_STAB_BONUS
 		if(used_intent.blade_class == BCLASS_PICK)
-			bonus += 15
+			bonus += ACC_PICK_BONUS
 		if(used_intent.blade_class == BCLASS_CUT)
-			bonus += 6
+			bonus += ACC_CUT_BONUS
 		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
-			bonus -= 10
+			bonus -= ACC_BLUNT_PRECISE_PENALTY
 		if(used_intent.accuracy_modifier)
 			bonus += used_intent.accuracy_modifier
 
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
-			bonus += 10
+			bonus += ACC_SHORT_WEAPON_BONUS
 	else if(used_intent?.unarmed) // Unarmed is inherently short-range
-		bonus += 10
+		bonus += ACC_SHORT_WEAPON_BONUS
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
-		bonus += 20
+		bonus += ACC_AIMED_BONUS
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
-		bonus -= 20
+		bonus -= ACC_SWIFT_PENALTY
 
 	return resolve_aimed_zone(zone, user, target, bonus)
 

@@ -5,7 +5,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/gronn
 	class_select_category = CLASS_CAT_GRONN
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
 	extra_context = "This subclass has 2 loadouts with various stats, skills & equipment."
@@ -134,7 +134,7 @@
 	maximum_possible_slots = 1 //Hopefully this works.
 	outfit = /datum/outfit/job/roguetown/mercenary/gronn_heavy
 	class_select_category = CLASS_CAT_GRONN
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)

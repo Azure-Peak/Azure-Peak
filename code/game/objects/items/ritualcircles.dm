@@ -584,7 +584,7 @@
 			new_weapon = new /obj/item/rogueweapon/greataxe/dreamscape(user.loc)
 			skill_to_teach = /datum/skill/combat/axes
 		if("Thunderous Trident")
-			new_weapon = new /obj/item/rogueweapon/spear/dreamscape_trident(user.loc)
+			new_weapon = new /obj/item/rogueweapon/spear/trident/dreamscape_trident(user.loc)
 			skill_to_teach = /datum/skill/combat/polearms
 
 	if(new_weapon)

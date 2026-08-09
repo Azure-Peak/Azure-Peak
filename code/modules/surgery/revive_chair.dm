@@ -320,8 +320,7 @@
 
 		// Apply debuffs
 		occupant.mind.remove_antag_datum(/datum/antagonist/zombie)
-		occupant.apply_status_effect(/atom/movable/screen/alert/status_effect/debuff/revived)
-		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), 5 MINUTES) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
+		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), DEATHMARK_GRACE_PERIOD) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
 		return TRUE
 	
 /obj/structure/chair/frankenstein/proc/deathmark(mob/living/victim)

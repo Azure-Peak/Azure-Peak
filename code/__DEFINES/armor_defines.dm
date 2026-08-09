@@ -72,8 +72,8 @@
 #define ARMOR_INT_HELMET_BRONZE 350 //More integrity, less protection.
 #define ARMOR_INT_HELMET_STEEL 300
 #define ARMOR_INT_HELMET_IRON 225
-#define ARMOR_INT_HELMET_HARDLEATHER 250
-#define ARMOR_INT_HELMET_LEATHER 200
+#define ARMOR_INT_HELMET_HARDLEATHER 200
+#define ARMOR_INT_HELMET_LEATHER 150
 #define ARMOR_INT_HELMET_CLOTH 100
 
 // Chest / Armor Pieces
@@ -87,7 +87,7 @@
 #define ARMOR_INT_CHEST_PLATE_PSYDON 400 // You get free training, less int
 #define ARMOR_INT_CHEST_PLATE_IRON 375
 #define ARMOR_INT_CHEST_PLATE_BRIGANDINE 350
-#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 50 //Light AC brigandine parts get -50, Heavy AC brigandine parts get +50.
+#define ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER 100
 #define ARMOR_INT_CHEST_PLATE_IRONLIGHT 325
 #define ARMOR_INT_CHEST_PLATE_DECREPIT 250
 #define ARMOR_INT_CHEST_PLATE_DECREPITLIGHT 200
@@ -100,11 +100,12 @@
 #define ARMOR_INT_CHEST_MEDIUM_DECREPIT 150
 
 // LIGHT
-#define ARMOR_INT_CHEST_LIGHT_MASTER 300 // High tier cloth / leather armor
-#define ARMOR_INT_CHEST_LIGHT_MEDIUM 250 // Medium tier cloth / leather armor
-#define ARMOR_INT_CHEST_LIGHT_BASE 200
-#define ARMOR_INT_CHEST_LIGHT_STEEL 180
-#define ARMOR_INT_CHEST_LIGHT_IRON 180
+#define ARMOR_INT_CHEST_LIGHT_ELITE 300 // Snowflake top-tier light armor
+#define ARMOR_INT_CHEST_LIGHT_MASTER 240 // High tier cloth / leather armor
+#define ARMOR_INT_CHEST_LIGHT_MEDIUM 200 // Medium tier cloth / leather armor
+#define ARMOR_INT_CHEST_LIGHT_BASE 160
+#define ARMOR_INT_CHEST_LIGHT_STEEL 150
+#define ARMOR_INT_CHEST_LIGHT_IRON 150
 #define ARMOR_INT_CHEST_CIVILIAN 100
 
 // LEG PIECES - Leg Armor
@@ -118,8 +119,8 @@
 #define ARMOR_INT_LEG_BRIGANDINE 250
 #define ARMOR_INT_LEG_IRON_CHAIN 225
 #define ARMOR_INT_LEG_DECREPIT_CHAIN 150
-#define ARMOR_INT_LEG_HARDLEATHER 250
-#define ARMOR_INT_LEG_LEATHER 200
+#define ARMOR_INT_LEG_HARDLEATHER 200
+#define ARMOR_INT_LEG_LEATHER 150
 #define ARMOR_INT_LEG_CLOTH 10
 
 // SIDE PIECES - Non-Chest armor
@@ -128,8 +129,8 @@
 #define ARMOR_INT_SIDE_BRONZE 250 // Integrity for bronze pieces
 #define ARMOR_INT_SIDE_STEEL 300 // Integrity for steel pieces
 #define ARMOR_INT_SIDE_IRON 225 // Integrity for iron pieces
-#define ARMOR_INT_SIDE_HARDLEATHER 250 // Integrity for hardened leather pieces
-#define ARMOR_INT_SIDE_LEATHER 200 // Integrity for leather / copper pieces
+#define ARMOR_INT_SIDE_HARDLEATHER 200
+#define ARMOR_INT_SIDE_LEATHER 150 // Integrity for leather / copper pieces
 #define ARMOR_INT_SIDE_DECREPIT 150 // Integrity for decrepit pieces
 #define ARMOR_INT_SIDE_CLOTH 100 // Integrity for cloth / aesthetic oriented pieces
 #define ARMOR_INT_SIDE_GOLDPLUS 10 // Integrity for royal variants of golden / cermemonial pieces
@@ -158,7 +159,6 @@
 #define ARMOR_LEATHER list("blunt" = DR_ULTRA, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_MEDIUM)
 
 // LIGHT ARMOR - SNOWFLAKE. Not comfortable with them, but not touching it atm.
-#define ARMOR_DRAGONSKIN list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_MEDIUM, "fire" = DR_MEDIUM) // Iconoclast dragon skin. Fire resistant.
 #define ARMOR_DRAGONHIDE list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_MEDIUM) // snowflake armor for dragonhide - a bit worse than hard leather but w/ decent fire resist
 
 // BRIGANDINE — All brigandine parts. Better blunt and arrow padding than plate, but sword stabs and above will pen. Best light armor gets for melee. Medium/heavy classes should still wear maille under it!

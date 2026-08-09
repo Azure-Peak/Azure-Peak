@@ -50,7 +50,7 @@
 	var/is_naked = FALSE
 	var/obscured = FALSE
 
-	var/mob/living/simple_animal/pet/familiar/fam = holder
+	var/mob/living/carbon/human/species/familiar/fam = holder
 	var/datum/preferences/prefs = holder.client?.prefs
 	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
 
@@ -91,7 +91,7 @@
 	return data
 
 /datum/examine_panel/familiar/ui_data(mob/user)
-	var/list/data = list( 
+	var/list/data = list(
 		"is_playing" = is_playing,
 	)
 	return data
@@ -108,6 +108,7 @@
 	var/list/nsfw_img_gallery = list()
 	var/char_name
 	var/song_url
+	var/song_title
 	var/has_song = FALSE
 	var/is_vet = FALSE
 	var/is_naked = FALSE
@@ -125,6 +126,7 @@
 		ooc_notes_nsfw += holder_human.erpprefs_cached
 		char_name = holder_human.name
 		song_url = holder_human.ooc_extra
+		song_title = holder_human.song_title
 		is_vet = holder_human.check_agevet()
 		if(!obscured)
 			if(vampireplayer && (!SEND_SIGNAL(holder_human, COMSIG_DISGUISE_STATUS))&& !isnull(holder_human.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
@@ -146,6 +148,7 @@
 		flavor_text_nsfw = pref.nsfwflavortext_cached
 		ooc_notes = pref.ooc_notes_cached
 		ooc_notes_nsfw = pref.erpprefs_cached
+		song_title = pref.song_title
 		if(vampireplayer && (!SEND_SIGNAL(pref, COMSIG_DISGUISE_STATUS))&& !isnull(pref.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
 			headshot = pref.vampire_headshot_link
 		else if (lichplayer && !isnull(pref.lich_headshot_link))//Lich with a valid headshot
@@ -195,6 +198,7 @@
 		"is_donator" = is_donator(holder.ckey),
 		"is_naked" = is_naked,
 		"examine_theme" = char_examine_theme,
+		"song_title" = has_song ? song_title : null
 	)
 	return data
 

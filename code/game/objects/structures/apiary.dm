@@ -1024,7 +1024,7 @@
 	desc = "Sweet honey with subtle relaxing properties."
 	icon_state = "greyscale_honey"
 	honey_color = COLOR_GREEN_GRAY
-	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/consumable/nutriment = 3, /datum/reagent/drug/space_drugs = 2)
+	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/consumable/nutriment = 3, /datum/reagent/drug/swampweed = 2)
 
 /obj/item/reagent_containers/food/snacks/rogue/honey/healing
 	name = "medicinal honey"

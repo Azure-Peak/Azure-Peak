@@ -79,8 +79,6 @@
 		A.fire_act()
 
 	for(var/mob/living/L in target_turf)
-		if(L == caster)
-			continue
 		if(L.anti_magic_check())
 			L.visible_message(span_warning("The flames sputter out around [L]!"))
 			playsound(target_turf, 'sound/magic/magic_nulled.ogg', 100)
