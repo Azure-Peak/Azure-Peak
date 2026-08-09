@@ -1,0 +1,8 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Fixed a bug where sheathed items were improperly stored in nullspace, leading to them being inaccessible by features like the Azurcaephan's recall."
+  - bugfix: "Fixed an exploit involving offering and sheathing items at the same time to later teleport them to you."
+  - bugfix: "Added several layers of redundant checks to futureproof against exploits similar to the aforementioned but using different code paths."
+  - bugfix: "Fixed an exploit involving use of fellowship invites to detect invisible/stealthed players."
+  - bugfix: "Fixed improper syntax in Squire-Errant and Iconoclast skill lists that was causing Adv and Bandit previews respectively to runtime."

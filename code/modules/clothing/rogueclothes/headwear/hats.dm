@@ -413,6 +413,13 @@
 	icon_state = "duelisthat"
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/flamboyant
+	name = "flamboyant hat"
+	desc = "A luxurious purple feathered hat with wide brim."
+	icon_state = "flamboyant"
+	item_state = "flamboyant"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/wizhat
 	name = "wizard hat"
 	desc = "Used to distinguish dangerous wizards from senile old men."
