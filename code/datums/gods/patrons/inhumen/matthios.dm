@@ -5,16 +5,17 @@
 	worshippers = "Highwaymen, Alchemists, Downtrodden Peasants, and Merchants"
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/sewing/bandithood, /datum/crafting_recipe/roguetown/structure/matthios_cross_stone, /datum/crafting_recipe/roguetown/structure/matthios_cross_meat)
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
-	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
-					/datum/action/cooldown/spell/matthios/freemans_tools		= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
-					/datum/action/cooldown/spell/matthios/mammonite				= CLERIC_T1,
-					/datum/action/cooldown/spell/matthios/transact				= CLERIC_T2,
-					/datum/action/cooldown/spell/matthios/barter				= CLERIC_T2,
-					/datum/action/cooldown/spell/matthios/equalize				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/matthios	= CLERIC_T3,
-					/datum/action/cooldown/spell/matthios/churn					= CLERIC_T4
+	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
+					/datum/action/cooldown/spell/matthios/freemans_tools				= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
+					/datum/action/cooldown/spell/matthios/mammonite						= CLERIC_T1,
+					/datum/action/cooldown/spell/matthios/transact						= CLERIC_T2,
+					/datum/action/cooldown/spell/matthios/barter						= CLERIC_T2,
+					/datum/action/cooldown/spell/matthios/equalize						= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/resurrect/matthios			= CLERIC_T3,
+					/datum/action/cooldown/spell/projectile/matthios/gilded_flames 		= CLERIC_T3,
+					/datum/action/cooldown/spell/matthios/churn							= CLERIC_T4
 	)
 	confess_lines = list(
 		"MATTHIOS STEALS FROM THE WORTHLESS!",
