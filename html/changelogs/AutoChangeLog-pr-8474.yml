@@ -1,5 +1,0 @@
-author: "Nova"
-delete-after: True
-changes:
-  - bugfix: "fixed the pref \"Toggle Red Flash Overlay\" not always working"
-  - bugfix: "fixed red pain flash overlay being stuck on screen when uninjured."

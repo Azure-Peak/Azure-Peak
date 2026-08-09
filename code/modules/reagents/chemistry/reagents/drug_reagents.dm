@@ -4,13 +4,14 @@
 	taste_description = "bitterness"
 	var/trippy = TRUE //Does this drug make you trip?
 
-/datum/reagent/drug/space_drugs
-	name = "Space drugs"
-	description = "An illegal chemical compound used as drug."
-	color = "#60A584" // rgb: 96, 165, 132
+/datum/reagent/drug/swampweed
+	name = "Swamp Oil"
+	description = "The crushed or liquidated essence of the swampweed plant. Produces vivid hallucinations... and, some say, enhances the mentalisms."
+	color = "#388151" // rgb: 96, 165, 132
 	overdose_threshold = 30
+	taste_description = "muddy jacksberries" // apparently weed can taste like berries. idfk get someone who smokes big loud 2 revise this.
 
-/datum/reagent/drug/space_drugs/on_mob_life(mob/living/carbon/M)
+/datum/reagent/drug/swampweed/on_mob_life(mob/living/carbon/M)
 	M.set_drugginess(30)
 	if(prob(5))
 		if(M.gender == FEMALE)
@@ -21,7 +22,7 @@
 	M.sate_addiction(/datum/charflaw/addiction/smoker)
 	..()
 
-/datum/reagent/drug/space_drugs/on_mob_end_metabolize(mob/living/M)
+/datum/reagent/drug/swampweed/on_mob_end_metabolize(mob/living/M)
 	M.clear_fullscreen("weedsm")
 
 /*
@@ -29,7 +30,7 @@
 		SSdroning.play_area_sound(get_area(M), M.client)
 */
 
-/datum/reagent/drug/space_drugs/on_mob_metabolize(mob/living/M)
+/datum/reagent/drug/swampweed/on_mob_metabolize(mob/living/M)
 	..()
 	M.set_drugginess(30)
 	M.overlay_fullscreen("weedsm", /atom/movable/screen/fullscreen/weedsm)
@@ -52,19 +53,19 @@
 //			if(L.has_status_effect(/datum/status_effect/buff/weed))
 	filters += filter(type="angular_blur",x=5,y=5,size=1)
 
-/datum/reagent/drug/space_drugs/overdose_start(mob/living/M)
+/datum/reagent/drug/swampweed/overdose_start(mob/living/M)
 	to_chat(M, "<span class='danger'>I start tripping hard!</span>")
 
-/datum/reagent/drug/space_drugs/overdose_process(mob/living/M)
+/datum/reagent/drug/swampweed/overdose_process(mob/living/M)
 	M.adjustToxLoss(0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	M.adjustOxyLoss(1.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
-/datum/reagent/drug/nicotine
-	name = "Nicotine"
-	description = "Slightly reduces stun times. If overdosed it will deal toxin and oxygen damage."
+/datum/reagent/drug/westleach
+	name = "Westleach Extract"
+	description = "An extract of the westleach plant. Provides a stimulating effect pleasant to many."
 	reagent_state = LIQUID
-	color = "#60A584" // rgb: 96, 165, 132
+	color = "#d8e29e" // rgb: 96, 165, 132
 	addiction_threshold = 999
 	taste_description = "smoke"
 	trippy = FALSE
@@ -72,21 +73,21 @@
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 
 
-/datum/reagent/drug/nicotine/on_mob_end_metabolize(mob/living/M)
+/datum/reagent/drug/westleach/on_mob_end_metabolize(mob/living/M)
 //	M.remove_stress(/datum/stressevent/pweed)
 	..()
 
-/datum/reagent/drug/nicotine/on_mob_metabolize(mob/living/M)
+/datum/reagent/drug/westleach/on_mob_metabolize(mob/living/M)
 	var/mob/living/carbon/V = M
 	V.add_stress(/datum/stressevent/pweed)
 	..()
 
-/datum/reagent/drug/nicotine/on_mob_life(mob/living/carbon/M)
+/datum/reagent/drug/westleach/on_mob_life(mob/living/carbon/M)
 	M.sate_addiction(/datum/charflaw/addiction/smoker)
 	..()
 	. = 1
 
-/datum/reagent/drug/nicotine/overdose_process(mob/living/M)
+/datum/reagent/drug/westleach/overdose_process(mob/living/M)
 	M.adjustToxLoss(0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	M.adjustOxyLoss(1.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
@@ -377,7 +378,7 @@
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
-	
+
 /datum/reagent/drug/blackberry
 	name = "Blackberry"
 	description = "Extract from the blackberry. Produces a sweet-tart sensation."
@@ -406,8 +407,8 @@
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
-	
-/datum/reagent/drug/apple 
+
+/datum/reagent/drug/apple
 	name = "Apple"
 	description = "Extract from the apple. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
@@ -435,8 +436,8 @@
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
-	
-/datum/reagent/drug/chocolate 
+
+/datum/reagent/drug/chocolate
 	name = "Chocolate"
 	description = "Extract from the chocolate. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
@@ -464,8 +465,8 @@
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
-	
-/datum/reagent/drug/strawberry 
+
+/datum/reagent/drug/strawberry
 	name = "Strawberry"
 	description = "Extract from the strawberry. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
@@ -493,8 +494,8 @@
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
-	
-/datum/reagent/drug/carrot  
+
+/datum/reagent/drug/carrot
 	name = "Carrot"
 	description = "Extract from the carrot. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
@@ -522,7 +523,7 @@
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
-	
+
 /datum/reagent/drug/lime
 	name = "Lime"
 	description = "Extract from the lime. Produces a sourness and coolness sensation."
@@ -551,7 +552,7 @@
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
-	
+
 /datum/reagent/drug/salvia
 	name = "Salvia"
 	description = "Extract from the salvia. Produces a spicy, earthy and bitter sensation."
