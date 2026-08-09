@@ -1,0 +1,4 @@
+author: "KitsuneQueen"
+delete-after: True
+changes:
+  - bugfix: "Padded masks no longer smelt into iron bars. Our arcyne wizards are still working on how this was even possible."

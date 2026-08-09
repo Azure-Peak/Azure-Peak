@@ -60,6 +60,7 @@
 #define DRUID		(1<<3)
 #define ACOLYTE		(1<<4)
 #define SEXTON		(1<<5)
+#define PAINTER		(1<<6)
 
 #define BURGHERS			(1<<5)
 
@@ -175,6 +176,7 @@
 #define JDO_DRUID 5.3
 #define JDO_ACOLYTE 5.4
 #define JDO_SEXTON 5.5
+#define JDO_PAINTER 5.6
 
 // Azurian Trading Company
 #define JDO_MERCHANT 6

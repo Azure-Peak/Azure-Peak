@@ -167,7 +167,7 @@
 		if("familiar_headshot")
 			to_chat(user, "<span class='notice'>Please use a relatively SFW image of the head and shoulder area to maintain immersion level. <b>Do not use a real life photo or unserious images.</b></span>")
 			to_chat(user, "<span class='notice'>Ensure it's a direct image link. The photo will be resized to 325x325 pixels.</span>")
-			var/new_headshot_link = input(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", familiar_headshot_link[planar_origin]) as text|null
+			var/new_headshot_link = trim(tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", familiar_headshot_link[planar_origin], max_length = MAX_MESSAGE_LEN, multiline = TRUE, encode = FALSE, bigmodal = TRUE), MAX_MESSAGE_LEN)
 			if(new_headshot_link == null)
 				return
 			if(new_headshot_link == "")
@@ -186,7 +186,7 @@
 
 		if("familiar_flavortext")
 			to_chat(user, "<span class='notice'><b>Flavortext should not include nonphysical nonsensory attributes such as backstory or internal thoughts.</b></span>")
-			var/new_flavortext = input(user, "Input your Familiar character description:", "Flavortext", familiar_flavortext[planar_origin]) as message|null
+			var/new_flavortext = trim(tgui_input_text(user, "Input your Familiar character description:", "Flavortext", familiar_flavortext[planar_origin], max_length = MAX_NOTE_SIZE, multiline = TRUE, encode = FALSE, bigmodal = TRUE), MAX_NOTE_SIZE)
 			if(new_flavortext == null)
 				return
 			if(new_flavortext == "")
@@ -196,7 +196,7 @@
 				setup_examine_window(user,planar_origin)
 				return
 			familiar_flavortext[planar_origin] = new_flavortext
-			var/ft = html_encode(parsemarkdown_basic(familiar_flavortext[planar_origin]))
+			var/ft = parsemarkdown_basic(html_encode(familiar_flavortext[planar_origin]))
 			ft = replacetext(ft, "\n", "<BR>")
 			familiar_flavortext_display[planar_origin] = ft
 			to_chat(user, "<span class='notice'>Successfully updated familiar flavortext</span>")
@@ -205,7 +205,7 @@
 			return
 
 		if("familiar_ooc_notes")
-			var/new_ooc_notes = input(user, "Input your OOC preferences:", "OOC notes", familiar_ooc_notes[planar_origin]) as message|null
+			var/new_ooc_notes = trim(tgui_input_text(user, "Input your OOC preferences:", "OOC notes", familiar_ooc_notes[planar_origin], max_length = MAX_NOTE_SIZE, multiline = TRUE, encode = FALSE, bigmodal = TRUE), MAX_NOTE_SIZE)
 			if(new_ooc_notes == null)
 				return
 			if(new_ooc_notes == "")
@@ -226,7 +226,7 @@
 			to_chat(user, "<span class='notice'>Add a link to an mp3, mp4, or jpg/png (catbox, discord, etc).</span>")
 			to_chat(user, "<span class='notice'>Videos are resized to ~300x300. Abuse = ban.</span>")
 			to_chat(user, "<font color='#d6d6d6'>Leave a single space to delete it.</font>")
-			var/link = input(user, "Input the accessory link (https)", "Familiar OOC Extra", familiar_ooc_extra_link[planar_origin]) as text|null
+			var/link = trim(tgui_input_text(user, "Input the accessory link (https)", "Familiar OOC Extra", familiar_ooc_extra_link[planar_origin], max_length = MAX_MESSAGE_LEN, encode = FALSE), MAX_MESSAGE_LEN)
 			if(link == null)
 				return
 			if(link == "")
