@@ -310,7 +310,6 @@
 				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)")
 			if(!full_on_arrival)
 				R.stockpile_amount += 1
-			R.stockpile_amount += 1 //stacked logs need to check for multiple
 			SStreasury.dirty_market_view()
 			qdel(I)
 			if(message == TRUE)

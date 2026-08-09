@@ -2,7 +2,7 @@
 	name = "Confessor"
 	tutorial = "Psydonite hunters, unmatched in the fields of subterfuge and investigation. There is no suspect too powerful to investigate, no room too guarded to infiltrate, and no weakness too hidden to exploit."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/confessor
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
@@ -12,9 +12,7 @@
 		TRAIT_BLACKBAGGER,
 		TRAIT_PERFECT_TRACKER,
 		TRAIT_PSYDONITE,
-		TRAIT_SLEUTH,
-		TRAIT_STEELHEARTED,
-		TRAIT_INQUISITION
+		TRAIT_SLEUTH
 	)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
@@ -68,7 +66,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 			if("Psydonic Flanged Mace")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		var/armors = list("Confessor - Dodge Expert, Complete Coverage", "Arbalist - Master Crossbows, +III STR / -III SPD")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
