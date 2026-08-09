@@ -236,9 +236,7 @@
 	if(iscarbon(spelltarget) && !spelltarget.has_status_effect(/datum/status_effect/buff/fortify))
 		spelltarget.apply_status_effect(/datum/status_effect/buff/fortify)
 	else
-		spelltarget.adjustBruteLoss(-25)
-		spelltarget.adjustFireLoss(-25)
-		spelltarget.adjustOxyLoss(-15)
+		to_chat(owner, span_danger("They already possess the blessing."))
 
 	return TRUE
 
@@ -268,6 +266,7 @@
 	charge_time = 1 SECONDS
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	cooldown_time = 2 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
@@ -348,6 +347,7 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = FALSE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	cooldown_time = 1 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
@@ -529,7 +529,6 @@
 		//Noc is fine as is
 		//Pestra has actually nothing, son 😢
 		/datum/action/cooldown/spell/ravox/battlecry::name					= /datum/action/cooldown/spell/ravox/battlecry,
-		/datum/action/cooldown/spell/undivided/gallow_humor::name			= /datum/action/cooldown/spell/undivided/gallow_humor,
 		/obj/effect/proc_holder/spell/targeted/touch/parlor_trick::name		= /obj/effect/proc_holder/spell/targeted/touch/parlor_trick
 	)
 

@@ -1253,7 +1253,7 @@
 /datum/status_effect/buff/guidinglight/undivided
 	id = "guidinglight"//Admitedly don't want this to stack with Astrata's one because that would result in a flashbang.
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guidinglight/undivided
-	duration = -1
+	duration = 3 MINUTES
 	status_type = STATUS_EFFECT_REFRESH
 	effectedstats = list(STATKEY_LCK = 1)
 	examine_text = "SUBJECTPRONOUN carries Their Light!"
