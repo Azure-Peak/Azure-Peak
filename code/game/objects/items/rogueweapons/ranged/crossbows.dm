@@ -316,7 +316,6 @@
 	movingreload = TRUE
 	onehanded = TRUE
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_HIP
-	penfactor = -1	//Reduces bolt penetration by one tier. A PEN_MEDIUM bolt becomes PEN_LIGHT.
 	w_class = WEIGHT_CLASS_SMALL
 	wdefense = 2
 	max_integrity = 80
@@ -396,7 +395,7 @@
 	item_state = "ancientheavybow"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic
-	name = "Providence"
+	name = "\"Providence\""
 	desc = "In the hands of Saint Augustere, this specially-hewn siegebow felled the traitorous Archbishop of Rockhill; \
 	mere moments before the completion of a terrible ritual. Decades later, it has been called into action once more \
 	to destroy those who'd seek to sacrifice His greatest works. May thy aim be true, childe o' God - and thy judgement, unfettered."
@@ -408,7 +407,7 @@
 	item_state = "relicpsyheavybow"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic/marque
-	name = "Epistle"
+	name = "\"Epistle\""
 	desc = "'I cannot explain what happened in those halls, your eminence..' </br>'..I can only have faith that I did the right thing.'"
 
 //

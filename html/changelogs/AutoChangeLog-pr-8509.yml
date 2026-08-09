@@ -1,0 +1,5 @@
+author: "SnubbyNotSorry"
+delete-after: True
+changes:
+  - balance: "reduced price of surgeon's bag in the goldface and silverface"
+  - bugfix: "fixed sanguine hats and shoes not being repairable"

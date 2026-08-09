@@ -59,28 +59,8 @@
 	path = /obj/item/clothing/head/roguetown/wizhat
 	sort_category = "Hats"
 
-/datum/loadout_item/wizhat/red
-	name = "Wizard Hat (Red)"
-	path = /obj/item/clothing/head/roguetown/wizhat/red
-	sort_category = "Hats"
-
-/datum/loadout_item/wizhat/yellow
-	name = "Wizard Hat (Yellow)"
-	path = /obj/item/clothing/head/roguetown/wizhat/yellow
-	sort_category = "Hats"
-
-/datum/loadout_item/wizhat/green
-	name = "Wizard Hat (Green)"
-	path = /obj/item/clothing/head/roguetown/wizhat/green
-	sort_category = "Hats"
-
-/datum/loadout_item/wizhat/black
-	name = "Wizard Hat (Black)"
-	path = /obj/item/clothing/head/roguetown/wizhat/black
-	sort_category = "Hats"
-
 /datum/loadout_item/wizhat/gen
-	name = "Wizard Hat (Generic)"
+	name = "Wizard Hat (No Brim)"
 	path = /obj/item/clothing/head/roguetown/wizhat/gen
 	sort_category = "Hats"
 
@@ -238,4 +218,9 @@
 /datum/loadout_item/turban
 	name = "Turban"
 	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
+	sort_category = "Hats"
+
+/datum/loadout_item/flamboyant
+	name = "Flamboyant Hat"
+	path = /obj/item/clothing/head/roguetown/flamboyant
 	sort_category = "Hats"

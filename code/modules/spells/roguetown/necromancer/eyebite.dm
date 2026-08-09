@@ -13,7 +13,7 @@
 	charge_required = TRUE
 	charge_time = 15
 	associated_skill = /datum/skill/magic/arcane
-	cooldown_time = 15 SECONDS
+	cooldown_time = 35 SECONDS
 	spell_requirements = SPELL_REQUIRES_SAME_Z
 	self_cast_possible = FALSE
 	zizo_spell = TRUE
@@ -24,8 +24,10 @@
 /datum/action/cooldown/spell/eyebite/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/target = cast_on
+	if(target.has_status_effect(STATUS_EFFECT_BLINDED))
+		owner.visible_message(span_warning("They are already blind!"))
+		return TRUE
+	target.apply_status_effect(STATUS_EFFECT_BLINDED)
 	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcane teeth biting into my eyes!"))
 	target.adjustBruteLoss(30)
-	target.blind_eyes(2)
-	target.blur_eyes(10)
 	return TRUE

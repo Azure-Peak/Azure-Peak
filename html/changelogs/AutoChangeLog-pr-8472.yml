@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Familiars can no longer attack mobs with tools, with the exception of elementals and their own conjured tools."
