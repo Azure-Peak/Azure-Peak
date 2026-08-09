@@ -13,7 +13,7 @@
 	penfactor = PEN_NONE
 	chargetime = 0
 	swingdelay = 0
-	clickcd = CLICK_CD_QUICK
+	clickcd = CLICK_CD_FAST //ever so slightly quicker than a stab, so as to not just be a worse intent.
 	item_d_type = "slash"
 
 // Training dagger-exclusive(?) slash. Could potentially be reused for other blunt-edged handweapons.
@@ -22,6 +22,7 @@
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	penfactor = PEN_NONE
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	clickcd = CLICK_CD_QUICK
 
 /// For unusually heavy daggers with a strong cutting edge.
 /datum/intent/dagger/cut/heavy
@@ -29,6 +30,7 @@
 	damfactor = 1.2
 	penfactor = PEN_MEDIUM
 	clickcd = 11
+	clickcd = CLICK_CD_QUICK //slower than normal cut due to the higher damage.
 
 /datum/intent/dagger/thrust
 	name = "thrust"
