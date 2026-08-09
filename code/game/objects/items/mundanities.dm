@@ -165,7 +165,7 @@
 	menu_item = pick(1,2,3,4,5) //get the meal. rand does not work for this and i have no idea why.
 	switch(menu_item)
 		if(1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL, /datum/reagent/drug/space_drugs = 2, /datum/reagent/berrypoison = 1)
+			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL, /datum/reagent/drug/swampweed = 2, /datum/reagent/berrypoison = 1)
 			tastes = list("salty bitter syrup" = 2, "bad mushrooms" = 1)
 		if(2)
 			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER, /datum/reagent/medicine/stronghealth = 1, /datum/reagent/water/salty = 3)

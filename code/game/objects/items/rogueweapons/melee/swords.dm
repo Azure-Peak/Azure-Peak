@@ -1777,10 +1777,10 @@
 	)
 
 /obj/item/rogueweapon/sword/rapier/psy/relic
-	name = "Eucharist"
+	name = "\"Eucharist\""
 	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly \
-	skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b> Silver-dipped steel \
-	crowned upon a basket hilt that keeps righteous hands safe from harm."
+	skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b>Silver-dipped steel \
+	crowned upon a basket hilt that keeps righteous hands safe from harm.</b>"
 	icon_state = "psyrapier"
 	sheathe_icon = "psyrapier"
 	max_integrity = 300
@@ -1844,7 +1844,7 @@
 	force_wielded = 0
 
 /obj/item/rogueweapon/sword/rapier/hand
-	name = "dark sister"
+	name = "\"Dark Sister\""
 	desc = "A tool made for nobler tasks than shedding blood, discreet and ever ready, as you should be too."
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "staffblade"
@@ -1865,7 +1865,7 @@
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/sword/rapier/avantyne/relic
-	name = "Damnatio"
+	name = "\"Damnatio\""
 	desc = "Stemmed holiness, malformed beneath an otherworldly parasite. Such a necessary rite either commands not the will of \
 	a fearsome warlock, but of the Man whose faith in God has crumbled beyond repair. 'What have I done?' </br>'How did I sink?' </br>'From the holiest high..' </br>'..to the direst brink..'"
 	icon_state = "zizorapier"
@@ -2016,7 +2016,7 @@
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/rogueweapon/sword/long/oathkeeper
-	name = "Oathkeeper"
+	name = "\"Oathkeeper\""
 	desc = "An ornate golden longsword with a ruby embedded in the hilt, given to the Knight Commander for their valiant service to the crown."
 	sellprice = 140
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike)
@@ -2043,7 +2043,7 @@
 				return list("shrink" = 0.45,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/rogueweapon/sword/long/hand
-	name = "Azurefyre"
+	name = "\"Azurefyre\""
 	desc = "The Blade fit for the Hand, wielded in service to the crown and never mistaken for another."
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike)
 	icon = 'icons/roguetown/weapons/special/hand64.dmi'
@@ -2212,7 +2212,7 @@
 	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/long/deep, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
 
 /obj/item/rogueweapon/sword/long/kriegmesser/pestran
-	name = "Cleansing Edge"
+	name = "\"Cleansing Edge\""
 	desc = "A cut in time saves a life."
 	icon_state = "pestranmesser"
 	sheathe_icon = "pestranmesser"
@@ -2433,7 +2433,7 @@
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/sword/sabre/banneret // just a better sabre, unique banneret weapon
-	name = "'Edict'"
+	name = "\"Edict\""
 	desc = "A lavish blacksteel sabre, inlaid with gold along the hilt and crossguard. The blade bears an inscription,\"FIAT JUSTITIA\"."
 	icon_state = "capsabre"
 	icon = 'icons/roguetown/weapons/special/captain.dmi'
@@ -2444,7 +2444,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 
 /obj/item/rogueweapon/sword/sabre/bane
-	name = "Bane's Edge"
+	name = "\"Bane's Edge\""
 	desc = "A stained sabre made of blacksteel, its edge is coated in long-dried blood as well as poison."
 	icon_state = "poisonsaber"
 	force = 25

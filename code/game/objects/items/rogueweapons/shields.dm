@@ -476,7 +476,7 @@
 	unenchantable = TRUE
 
 /obj/item/rogueweapon/shield/tower/metal/psy
-	name = "Covenant"
+	name = "\"Covenant\""
 	desc = "'A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock.' </br>A blessed silver pavise, capable of thwarting the deadliness of \
 	even the hottest balefires. The one who wields it shall never falter; and the ones behind them shall never suffer."
 	icon_state = "psyshield"
@@ -619,7 +619,7 @@
 
 // unique, better buckler for champion
 /obj/item/rogueweapon/shield/buckler/banneret
-	name = "'Aegis'"
+	name = "\"Aegis\""
 	desc = "A special buckler made out of blacksteel for the Knight Banneret, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
 	icon_state = "capbuckler"
 	icon = 'icons/roguetown/weapons/special/captain.dmi'

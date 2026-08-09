@@ -739,7 +739,7 @@
 	icon_state = "keeperkris"
 
 /obj/item/rogueweapon/huntingknife/idagger/dtace
-	name = "'De Tace'"
+	name = "\"De Tace\""
 	desc = "The right hand of the right hand, this narrow length of steel serves as a quick solution to petty greviences."
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "sdaggerhand"
@@ -804,7 +804,7 @@
 	max_integrity = 200
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying/hand
-	name = "'Repeta'"
+	name = "\"Repeta\""
 	desc = "The left hand of the right hand, this sturdy length of steel serves as a perfect counterpart to any offense."
 	force = 12
 	throwforce = 12

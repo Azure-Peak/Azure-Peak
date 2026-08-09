@@ -239,3 +239,8 @@
 	name = "Turban"
 	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
 	sort_category = "Hats"
+
+/datum/loadout_item/flamboyant
+	name = "Flamboyant Hat"
+	path = /obj/item/clothing/head/roguetown/flamboyant
+	sort_category = "Hats"

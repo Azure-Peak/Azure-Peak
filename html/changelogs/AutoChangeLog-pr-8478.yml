@@ -1,4 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "fixed bathhouse windows being invisible"

@@ -1,4 +1,0 @@
-author: "EmilitiaEnnehrt"
-delete-after: True
-changes:
-  - bugfix: "Some religious robes should no longer delete sleeves from shirts and gloves underneath when worn on armor slot."
