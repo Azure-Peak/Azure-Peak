@@ -332,7 +332,7 @@
 
 /datum/action/cooldown/spell/undivided/perseverance
 	name = "Perseverance"
-	desc = "Slows down bleed rate of living beings as well calming them down."
+	desc = "Slow down the bleed rate, increase clotting speed and decrease pain of wounds on a targeted limb, as well giving slight stress reduction to living beings."
 	fluff_desc = "Born of an union between compassion of Eora and persistance of Ravox, the couple heeds pleas of dying warriors as well the innocents lost to ravages of war offering them but a mote of respite and chance at lyfe."
 	button_icon_state = "perseverance"
 	sound = 'sound/magic/undivided_perserverance.ogg'

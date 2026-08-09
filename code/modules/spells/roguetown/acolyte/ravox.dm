@@ -811,7 +811,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 
 /datum/action/cooldown/spell/ravox/persistence
 	name = "Persistence"
-	desc = "Harms Undead and encourages the livings wounds to close faster."
+	desc = "To living beings staunch bleed rate, increase clotting speed and numb the pain of wounds on a targetted limb. To undead beings the effects are reversed."
 	button_icon_state = "persistence"
 	sound = 'sound/magic/persistence.ogg'
 

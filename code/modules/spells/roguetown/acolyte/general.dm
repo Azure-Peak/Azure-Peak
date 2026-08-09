@@ -175,7 +175,7 @@
 
 /datum/action/cooldown/spell/miracle/fortify
 	name = "Fortify"
-	desc = "Amplifies all incoming sources of healing for the chosen target. Combining this with the 'Miracle' blessing allows for the mending \
+	desc = "Amplifies all incoming sources of healing by 30% for the chosen target. Combining this with the 'Miracle' blessing allows for the mending \
 	of more extreme injuries. </br>Most healing Miracles cannot affect devoted Psydonians."
 	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
 	button_icon_state = "fortify"
