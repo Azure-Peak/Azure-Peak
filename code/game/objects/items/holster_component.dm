@@ -138,10 +138,10 @@
 		return FALSE
 
 	var/obj/item/rogueweapon/drawnitem = sheathed
-	sheathed = null
 	drawnitem.forceMove(user.loc)
 	drawnitem.pickup(user)
 	user.put_in_hands(drawnitem)
+	sheathed = null
 	update_icon(user)
 
 	user.visible_message(
