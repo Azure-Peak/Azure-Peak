@@ -251,3 +251,54 @@
   - rscadd: Added lag compensation for spell charging and archery / sling charging.
       Moved them back onto the faster, dedicated mouse charge system to hopefully
       make it more reliable and not compete with fast processing for proper icon indicator.
+2026-08-08:
+  EmilitiaEnnehrt:
+  - qol: Mindlink fading is now more noticable.
+  - bugfix: Some religious robes should no longer delete sleeves from shirts and gloves
+      underneath when worn on armor slot.
+  KatTheFox:
+  - bugfix: Several antags - and familiars - can no longer become werewolfs through
+      bites. I hate this.
+  - rscadd: More titles now work to pray to certain gods, including "Deepfather" for
+      Abyssor, the Lingyuese titles for gods that have them, and the Gronn/Fjall names
+      for the Four
+  - bugfix: Familiar flavortexts now properly use markdown. You'll need to edit/save
+      your familiar FT for this to take effect.
+  - rscadd: Mirror transform now supports full tail color customization, alongside
+      skin color, snouts, and fluff.
+  - bugfix: Familiars can no longer attack mobs with tools, with the exception of
+      elementals and their own conjured tools.
+  Ketrai:
+  - rscadd: Abyssor cult, new abyssor miracle path.
+  Lamasmaster:
+  - rscadd: 3 types of frills (zardish) and 2 types of horns (zardish) to Zardmen
+  - rscdel: Iconoclast Golden Serpent Alt Loadout
+  - balance: Base Iconoclast combat skills
+  Nova:
+  - bugfix: fixed the pref "Toggle Red Flash Overlay" not always working
+  - bugfix: fixed red pain flash overlay being stuck on screen when uninjured.
+  - qol: Passive healing no longer closes surgery sites.
+  Ollanius:
+  - bugfix: Bronze Astratan amulets now properly show up when worn.
+  Ruediger4:
+  - balance: squire errant class update - tweaks skills, starting loadout options,
+      and gear.
+  WeNeedMorePhoron:
+  - rscadd: Fixes stockpile bulk sell duplication
+  - rscadd: Ported the ability to middle click with an instrument in your hand to
+      add / remove people from your audience as a bard.
+  - rscdel: Soulshot and Lesser Soulshot removed from poke spells options. It was
+      designed for mage schools without as much rotational offensive power, it never
+      should've been accessible as a regular poke spells.
+  - rscadd: Arcyne Lance poke spell now have an icon, again
+  - balance: Levinstroke CD from 20 -> 30 seconds, now slowdown penalty of small instead
+      of none, consistent with blink, and a SWINGDELAY_CANCEL
+  - balance: Lightning Bolt no longer applies -2 SPD as a debuff
+  borneblood:
+  - balance: Divine/Unholy Blast behaves like Arc Bolt now.
+  - refactor: ' Divine/Unholy Blast refactored to action/cooldown, finally.'
+  mumblemancer:
+  - rscadd: new lines for navigator and npcs
+  - bugfix: headeater is now The headeater instead of the headeater
+  radarseas:
+  - bugfix: fixed bathhouse windows being invisible
