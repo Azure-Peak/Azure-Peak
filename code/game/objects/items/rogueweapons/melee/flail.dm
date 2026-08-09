@@ -91,7 +91,7 @@
 	var/maxrange = 4
 
 /datum/intent/flail/smash/spec_on_apply_effect(mob/living/H, mob/living/user, params)
-	var/chungus_khan_str = user.STASTR 
+	var/chungus_khan_str = user.STASTR
 	if(H.has_status_effect(/datum/status_effect/debuff/yeetcd))
 		return // Recently knocked back, cannot be knocked back again yet
 	if(chungus_khan_str < 10)
@@ -269,7 +269,7 @@
 	)
 
 /obj/item/rogueweapon/flail/sflail/psyflail/relic
-	name = "Consecratia"
+	name = "\"Consecratia\""
 	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."
 	icon_state = "psymorningstar"
 	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)

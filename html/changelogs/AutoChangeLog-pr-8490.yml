@@ -1,0 +1,5 @@
+author: "FeniaFox"
+delete-after: True
+changes:
+  - rscadd: "Added a polishing brush + pot of polishing cream to the starting gear of retinue squires."
+  - balance: "Dropped the skill gate on polishing brushes from expert engineering to apprentice engineering."

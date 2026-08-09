@@ -316,6 +316,7 @@
 #define TRAIT_VAMPIRE_SPAWN_PROTECTION "Vampire Spawn Protection"
 #define TRAIT_WHITE_STAG "Stag Protection"
 #define TRAIT_EDIT_DESCRIPTORS "Edit Descriptors"
+#define TRAIT_INK_AFFINITY "Paint Affinity"
 
 // Economic Roles Traits
 // Most of these should NOT be given to any true combat roles (I.E. anything with Dexpert or Miracle / Good Magic) with very few exceptions
@@ -618,12 +619,13 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
+	TRAIT_INK_AFFINITY = span_info("I can thread sacred abyssorite paint splotches safely, and benefit from them."),
 	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
 	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
 	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect."),
 	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
 	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
-	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!")
+	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
 ))
 
 // trait accessor defines
@@ -885,6 +887,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define VEHICLE_TRAIT "vehicle" // inherited from riding vehicles
 #define INNATE_TRAIT "innate"
 #define POULTICE_TRAIT "poultice"
+#define TRAIT_INFUSION "infusion"
 
 // unique trait sources, still defines
 #define TRAIT_FORTITUDE "Fortitude"

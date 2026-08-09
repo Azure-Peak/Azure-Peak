@@ -1437,6 +1437,14 @@
 	toggle_icon_state = TRUE
 	smeltresult = /obj/item/ingot/component/zizo
 
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "HELMET")
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
@@ -1446,7 +1454,6 @@
 	wearer the clarity of a predator, blinding them to everything but the object of their malice."
 	icon_state = "zizofrogmouth"
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
-	body_parts_covered = HEAD|EARS|HAIR
 	adjustable = CANT_CADJUST
 	smeltresult = /obj/item/ingot/component/zizo
 
@@ -1465,19 +1472,8 @@
 	icon_state = "zizobascinet"
 	item_state = "zizobascinet"
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
-	body_parts_covered = HEAD|EARS|HAIR
 	adjustable = CANT_CADJUST
 	smeltresult = /obj/item/ingot/component/zizo
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "HELMET")
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
 /*
 /obj/item/clothing/head/roguetown/helmet/heavy/avantyne
