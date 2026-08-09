@@ -206,6 +206,7 @@
 	message = "gulps."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = TRUE
+	needs_emotion = TRUE
 
 /mob/living/carbon/human/verb/gulp()
 	set name = "Gulp"

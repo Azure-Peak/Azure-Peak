@@ -302,3 +302,7 @@
   - bugfix: headeater is now The headeater instead of the headeater
   radarseas:
   - bugfix: fixed bathhouse windows being invisible
+2026-08-09:
+  Lamasmaster:
+  - balance: Eyebite cooldown 15 > 35 seconds
+  - bugfix: Eyebite & Blindness grenades not using modern BLIND effect.
