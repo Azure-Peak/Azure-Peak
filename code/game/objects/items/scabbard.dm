@@ -191,8 +191,6 @@
 	invalid_blades = list(
 		/obj/item/rogueweapon/huntingknife/idagger/stake,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/stake,
-		// sheathes break dagger-tracking. keep it here until .loc can return a component.
-		/obj/item/rogueweapon/huntingknife/idagger/steel/profane
 		)
 
 /obj/item/rogueweapon/scabbard/sheath/getonmobprop(tag)

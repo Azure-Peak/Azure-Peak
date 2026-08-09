@@ -1252,10 +1252,6 @@
 	// maybe add TRAIT_NOEMBED on initalize??? Fuck IDK man
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE
-	// KNOWN BUG: find dagger does not work when the dagger is put into a scabbard. until this is fixed, please leave these values intact!!
-	equip_delay_self = 0
-	unequip_delay_self = 0
-	// END OF BUG STOPGAP
 	var/last_spoken = 0 // prevent chatspam
 	is_important = TRUE // do not let it be sold or whatever
 	sellprice = 0
