@@ -2808,17 +2808,6 @@
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
-"aBP" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/turf/closed/wall/mineral/rogue/craftstone,
-/area/rogue/under/cave/abyssor/inner)
 "aBQ" = (
 /obj/structure/mineral_door/wood/towner/generic/two_keys,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -12405,17 +12394,6 @@
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
-"cpe" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave/abyssor/inner)
 "cpf" = (
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach)
@@ -43574,17 +43552,6 @@
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/dukecourt)
-"hXs" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/turf/open/floor/rogue/churchrough,
-/area/rogue/under/cave/abyssor/inner)
 "hXw" = (
 /obj/machinery/light/rogue/campfire/fireplace{
 	pixel_x = 32;
@@ -58330,17 +58297,6 @@
 /obj/structure/fermentation_keg,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
-"kCJ" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/under/cave/abyssor/inner)
 "kCK" = (
 /obj/structure/flagpole,
 /turf/open/floor/rogue/cobblerock,
@@ -61402,14 +61358,6 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/druidsgrove)
 "ler" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/structure/roguemachine/dream_pool{
 	redstone_id = "dreampool"
 	},
@@ -70884,18 +70832,6 @@
 "mJD" = (
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep/unbuildable)
-"mJE" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/light/rogue/firebowl/standing/blue,
-/turf/open/floor/rogue/churchrough,
-/area/rogue/under/cave/abyssor/inner)
 "mJG" = (
 /obj/structure/rack/rogue,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
@@ -72917,17 +72853,6 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/druidsgrove)
-"nfr" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/turf/open/rebound,
-/area/rogue/under/cave/abyssor/inner)
 "nfu" = (
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/dirt,
@@ -103475,7 +103400,6 @@
 "sFF" = (
 /obj/machinery/light/rogue/torchholder/l,
 /obj/structure/closet/crate/chest/neu_fancy,
-/obj/item/rogueweapon/spear/dreamscape_trident,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
@@ -106301,14 +106225,6 @@
 	},
 /area/rogue/indoors/town/magician)
 "teO" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/structure/stairs/stone{
 	dir = 4
 	},
@@ -115308,17 +115224,6 @@
 "uLQ" = (
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/outdoors/mountains)
-"uLR" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/under/cave/abyssor/inner)
 "uLS" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/clothing/head/roguetown/wizhat/random,
@@ -117593,21 +117498,6 @@
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
-"vhH" = (
-/obj/structure/glowshroom{
-	color = "#87CEEB"
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/effect/decal/cobbleedge{
-	dir = 9;
-	pixel_x = 4
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave/abyssor/inner)
 "vhK" = (
 /obj/structure/table/wood/fancy/black,
 /obj/structure/fluff/littlebanners/bluewhite{
@@ -130423,10 +130313,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/cave/menagerie)
-"xAk" = (
-/obj/structure/fermentation_keg/random/water,
-/turf/closed/wall/mineral/rogue/pipe/corners/four,
-/area/rogue/under/town/sewer)
 "xAm" = (
 /obj/structure/barricade{
 	color = "#633b3b"
@@ -150765,7 +150651,7 @@ bmT
 bmT
 bmT
 cIl
-uLR
+bmT
 bmT
 bmT
 oVE
@@ -151213,7 +151099,7 @@ wkk
 dTD
 rpv
 rpv
-mJE
+sCb
 ksU
 eDD
 kYD
@@ -151667,10 +151553,10 @@ rpv
 euR
 eDD
 eDD
-nfr
 wjH
-nfr
-hXs
+wjH
+wjH
+eDD
 bmT
 sro
 dTD
@@ -152121,7 +152007,7 @@ kNr
 nMZ
 wjH
 ler
-nfr
+wjH
 kYD
 wcr
 qlV
@@ -152570,11 +152456,11 @@ dTD
 qoS
 euR
 eDD
-hXs
+eDD
 wjH
-nfr
 wjH
-hXs
+wjH
+eDD
 bmT
 lmH
 dTD
@@ -153028,7 +152914,7 @@ kYD
 eDD
 ksU
 bmT
-cpe
+oVE
 oVE
 dTD
 oVE
@@ -153478,7 +153364,7 @@ bmT
 bmT
 teO
 bmT
-uLR
+bmT
 bmT
 oVE
 oVE
@@ -153931,10 +153817,10 @@ bmT
 rpv
 rpv
 rpv
-kCJ
+rpv
 tgq
 dTD
-aBP
+dTD
 dRE
 icm
 cqm
@@ -155740,7 +155626,7 @@ rpv
 niO
 pRV
 oVE
-vhH
+pys
 dTD
 ylh
 mMx
@@ -174730,7 +174616,7 @@ fju
 gau
 iZp
 iZp
-xAk
+tZm
 smL
 smL
 smL
