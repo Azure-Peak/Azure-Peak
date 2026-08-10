@@ -84,15 +84,6 @@ export const compactPageStyle: CSSProperties = {
   lineHeight: 1.3,
 };
 
-export const compactSectionHeader: CSSProperties = {
-  fontSize: FONT_BODY,
-  color: INK,
-  fontWeight: 'bold',
-  borderBottom: `1px solid ${INK_FAINT}`,
-  paddingBottom: '1px',
-  marginTop: '3px',
-  marginBottom: '4px',
-};
 
 export const compactHeaderCell: CSSProperties = {
   padding: '2px 6px 2px 0',
@@ -128,8 +119,5 @@ export const Breakdown = (props: { children: ReactNode }) => (
   <div style={breakdownStyle}>{props.children}</div>
 );
 
-export const SectionTitle = (props: { children: ReactNode }) => (
-  <div style={compactSectionHeader}>{props.children}</div>
-);
 
 

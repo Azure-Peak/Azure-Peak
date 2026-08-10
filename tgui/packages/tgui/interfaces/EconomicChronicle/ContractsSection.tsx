@@ -7,7 +7,6 @@ import {
   dividedTwoColumnLayout,
   dividerStyle,
   Row,
-  SectionTitle,
   twoColTable,
   verticalDividerStyle,
 } from './styles';
@@ -112,8 +111,8 @@ export const ContractsSection = (props: Props) => {
       : null;
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>Guild Contracts &amp; Royal Favors</SectionTitle>
       <SummarySegment
+        title="Guild Contracts &amp; Royal Favors"
         items={[
           { label: 'Issued', value: c.generated_total },
           { label: 'Taken', value: c.taken_total },

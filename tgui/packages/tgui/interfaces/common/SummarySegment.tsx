@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 
 import {
+  FONT_BODY,
   FONT_LEAD,
   INK,
   INK_FAINT,
@@ -18,6 +19,7 @@ export type SummaryItem = {
 type SummarySegmentProps = {
   items: SummaryItem[];
   title?: string;
+  subtitle?: string;
 };
 
 const segmentStyle: CSSProperties = {
@@ -32,8 +34,15 @@ const headingStyle: CSSProperties = {
   fontSize: FONT_LEAD,
   color: SEAL_RED,
   fontWeight: 'bold',
-  letterSpacing: '3px',
-  marginBottom: '3px',
+  letterSpacing: '1px',
+};
+
+const subheadingStyle: CSSProperties = {
+  fontFamily: SERIF,
+  fontSize: FONT_BODY,
+  color: INK_SOFT,
+  fontStyle: 'italic',
+  marginBottom: '2px',
 };
 
 const bodyStyle: CSSProperties = {
@@ -45,12 +54,15 @@ const bodyStyle: CSSProperties = {
 
 export const SummarySegment = (props: SummarySegmentProps) => {
   const shown = props.items.filter((item) => item.value != null);
-  if (!shown.length) {
+  if (!shown.length && !props.title) {
     return null;
   }
   return (
     <div style={segmentStyle}>
-      <div style={headingStyle}>{props.title || 'SUMMARY'}</div>
+      {!!props.title && <div style={headingStyle}>{props.title}</div>}
+      {!!props.subtitle && (
+        <div style={subheadingStyle}>{props.subtitle}</div>
+      )}
       <div style={bodyStyle}>
         {shown.map((item, i) => (
           <span key={item.label}>

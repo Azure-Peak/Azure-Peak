@@ -1,17 +1,12 @@
 import { formatPct, formatSigned, signColor } from '../common/format';
-import {
-  FONT_BODY,
-  SEAL_GREEN,
-  SEAL_RED,
-  subtitleStyle,
-} from '../common/parchment';
+import { SEAL_GREEN, SEAL_RED } from '../common/parchment';
 import { SummarySegment } from '../common/SummarySegment';
 import {
   Breakdown,
+  columnSubheadStyle,
   compactCardStyle,
   dividerStyle,
   Row,
-  SectionTitle,
   twoColTable,
   twoColumnLayout,
 } from './styles';
@@ -22,10 +17,11 @@ type Props = {
   balance: number;
 };
 
-const RevenueColumn = (props: { t: TreasurySnapshot }) => {
+const TaxationColumn = (props: { t: TreasurySnapshot }) => {
   const { t } = props;
   return (
     <div>
+      <div style={columnSubheadStyle}>Taxation</div>
       <table style={twoColTable}>
         <tbody>
           <Row label="Rural Taxes Collected" value={t.rural_taxes} />
@@ -52,6 +48,15 @@ const RevenueColumn = (props: { t: TreasurySnapshot }) => {
         &bull; Export Duty {t.royal.export_duty} &bull; Other{' '}
         {t.royal.other_fees}
       </Breakdown>
+    </div>
+  );
+};
+
+const CommerceColumn = (props: { t: TreasurySnapshot }) => {
+  const { t } = props;
+  return (
+    <div>
+      <div style={columnSubheadStyle}>Commerce</div>
       <table style={twoColTable}>
         <tbody>
           <Row label="Stockpile Exports" value={t.stockpile_exports} />
@@ -68,23 +73,40 @@ const RevenueColumn = (props: { t: TreasurySnapshot }) => {
       <table style={twoColTable}>
         <tbody>
           <Row label="Shortages Ended Early" value={t.shortages_ended} />
-        </tbody>
-      </table>
-      <div style={dividerStyle} />
-      <table style={twoColTable}>
-        <tbody>
-          <Row
-            label="Total Revenue"
-            value={t.total_revenue}
-            color={SEAL_GREEN}
-          />
+          <Row label="Trade Balance" value={formatSigned(t.trade_balance)} color={signColor(t.trade_balance)} />
+          <Row label="Foreign Trade Volume" value={t.foreign_trade_volume} />
         </tbody>
       </table>
     </div>
   );
 };
 
-const ExpensesColumn = (props: { t: TreasurySnapshot }) => {
+const NotCollectedColumn = (props: { t: TreasurySnapshot }) => {
+  const { t } = props;
+  return (
+    <div>
+      <div style={columnSubheadStyle}>Not Collected</div>
+      <table style={twoColTable}>
+        <tbody>
+          <Row label="Forgone Revenue" value={t.exempt.total} />
+          <Row
+            label="Royal Taxes Evaded"
+            value={t.taxes_evaded}
+            color={SEAL_RED}
+          />
+          <Row label="Forgone Share" value={formatPct(t.exemption_share)} />
+        </tbody>
+      </table>
+      <Breakdown>
+        Contract {t.exempt.contract} &bull; Headeater {t.exempt.headeater}{' '}
+        &bull; Import {t.exempt.import} &bull; Export {t.exempt.export} &bull;
+        Fines {t.exempt.fines} &bull; Poll Tax {t.exempt.poll_tax}
+      </Breakdown>
+    </div>
+  );
+};
+
+const ObligationsColumn = (props: { t: TreasurySnapshot }) => {
   const { t } = props;
   const debtLabel = t.bankruptcy_count > 0 ? 'Receivership' : 'Arrears';
   const debtColor = t.bankruptcy_count > 0 ? '#c0392b' : '#e07b39';
@@ -101,8 +123,9 @@ const ExpensesColumn = (props: { t: TreasurySnapshot }) => {
   const showForfeiture = t.forfeiture_amount > 0 || t.forfeiture_count > 0;
   return (
     <div>
+      <div style={columnSubheadStyle}>Obligations</div>
       {t.banditry_owed > 0 && (
-        <Breakdown>{t.banditry_owed} still owed</Breakdown>
+        <Breakdown>Banditry: {t.banditry_owed} still owed</Breakdown>
       )}
       {showDebtRow && (
         <table style={twoColTable}>
@@ -133,64 +156,25 @@ const ExpensesColumn = (props: { t: TreasurySnapshot }) => {
           )}
         </>
       )}
-      <table style={twoColTable}>
-        <tbody>
-          <Row label="Forgone Revenue" value={t.exempt.total} />
-        </tbody>
-      </table>
-      <Breakdown>
-        Contract {t.exempt.contract} &bull; Headeater {t.exempt.headeater}{' '}
-        &bull; Import {t.exempt.import} &bull; Export {t.exempt.export} &bull;
-        Fines {t.exempt.fines} &bull; Poll Tax {t.exempt.poll_tax}
-      </Breakdown>
-      <div style={dividerStyle} />
-      <table style={twoColTable}>
-        <tbody>
-          <Row
-            label="Total Expenses"
-            value={t.total_expenses}
-            color={SEAL_RED}
-          />
-        </tbody>
-      </table>
-      <Breakdown>itemised by recipient under Crown Expenses</Breakdown>
-    </div>
-  );
-};
-
-const RealmInsight = (props: { t: TreasurySnapshot }) => {
-  const { t } = props;
-  return (
-    <div
-      style={{
-        ...subtitleStyle,
-        marginTop: '6px',
-        marginBottom: 0,
-        textAlign: 'left',
-        fontSize: FONT_BODY,
-      }}
-    >
-      <table style={twoColTable}>
-        <tbody>
-          <Row
-            label="Trade Balance"
-            value={formatSigned(t.trade_balance)}
-            color={signColor(t.trade_balance)}
-          />
-          <Row label="Foreign Trade Volume" value={t.foreign_trade_volume} />
-          <Row label="Forgone Share" value={formatPct(t.exemption_share)} />
-        </tbody>
-      </table>
     </div>
   );
 };
 
 export const TreasurySection = (props: Props) => {
   const { t, balance } = props;
+  const hasObligations =
+    t.banditry_owed > 0 ||
+    t.bankruptcy_count > 0 ||
+    t.arrears_count > 0 ||
+    t.treasury_debt_repaid > 0 ||
+    t.treasury_debt_owed > 0 ||
+    t.forfeiture_amount > 0 ||
+    t.forfeiture_count > 0;
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>Realm&apos;s Treasury - balance: {balance}</SectionTitle>
       <SummarySegment
+        title="Realm's Treasury"
+        subtitle={`Balance: ${balance}`}
         items={[
           { label: 'Opened', value: t.starting },
           { label: 'Closed', value: balance },
@@ -199,11 +183,7 @@ export const TreasurySection = (props: Props) => {
             value: formatSigned(t.net_treasury),
             color: signColor(t.net_treasury),
           },
-          {
-            label: 'Revenue',
-            value: t.total_revenue,
-            color: SEAL_GREEN,
-          },
+          { label: 'Revenue', value: t.total_revenue, color: SEAL_GREEN },
           { label: 'Expenses', value: t.total_expenses, color: SEAL_RED },
           {
             label: 'Tax rate',
@@ -215,10 +195,28 @@ export const TreasurySection = (props: Props) => {
         ]}
       />
       <div style={twoColumnLayout}>
-        <RevenueColumn t={t} />
-        <ExpensesColumn t={t} />
+        <TaxationColumn t={t} />
+        <CommerceColumn t={t} />
       </div>
-      <RealmInsight t={t} />
+      <div style={dividerStyle} />
+      <div style={twoColumnLayout}>
+        <table style={twoColTable}>
+          <tbody>
+            <Row
+              label="Total Revenue"
+              value={t.total_revenue}
+              color={SEAL_GREEN}
+            />
+            <Row
+              label="Total Expenses"
+              value={t.total_expenses}
+              color={SEAL_RED}
+            />
+          </tbody>
+        </table>
+        <NotCollectedColumn t={t} />
+      </div>
+      {hasObligations && <ObligationsColumn t={t} />}
     </div>
   );
 };

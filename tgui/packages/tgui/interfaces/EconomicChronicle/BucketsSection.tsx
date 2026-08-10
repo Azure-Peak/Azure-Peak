@@ -5,7 +5,6 @@ import {
   compactDataCell,
   compactHeaderCell,
   dividedTwoColumnLayout,
-  SectionTitle,
   twoColTable,
   verticalDividerStyle,
 } from './styles';
@@ -116,8 +115,8 @@ export const BucketsSection = (props: Props) => {
   const bmSold = b.black_market.reduce((sum, r) => sum + r.sold, 0);
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>Navigator Buckets</SectionTitle>
       <SummarySegment
+        title="Navigator Buckets"
         items={[
           { label: 'Real market sold', value: realSold },
           { label: 'Saturation cleared', value: realRelieved },

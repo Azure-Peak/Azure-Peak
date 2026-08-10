@@ -17,7 +17,6 @@ import {
   compactCardStyle,
   compactDataCell,
   compactHeaderCell,
-  SectionTitle,
   twoColTable,
 } from './styles';
 import type { MaterialFlowColumn, MaterialFlowSnapshot } from './types';
@@ -121,8 +120,8 @@ export const MaterialsSection = (props: Props) => {
   const netTotal = shown.reduce((sum, r) => sum + r.net, 0);
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>Material Flow</SectionTitle>
       <SummarySegment
+        title="Material Flow"
         items={[
           { label: 'Open demand', value: m.total_open },
           { label: 'Commissions', value: `${m.total_mammons}m` },

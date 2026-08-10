@@ -13,7 +13,6 @@ import {
   compactDataCell,
   compactHeaderCell,
   dividedTwoColumnLayout,
-  SectionTitle,
   twoColTable,
   verticalDividerStyle,
 } from './styles';
@@ -97,8 +96,8 @@ export const CrownExpensesSection = (props: Props) => {
   }
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>Crown Expenses</SectionTitle>
       <SummarySegment
+        title="Crown Expenses"
         items={[{ label: 'Total drawn', value: `${c.total}m`, color: SEAL_RED }]}
       />
       {c.groups.length === 0 ? (

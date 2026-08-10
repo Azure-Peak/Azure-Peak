@@ -6,7 +6,6 @@ import {
   columnSubheadStyle,
   compactCardStyle,
   Row,
-  SectionTitle,
   twoColTable,
   twoColumnLayout,
 } from './styles';
@@ -64,6 +63,16 @@ const TradeMarketsColumn = (props: Props) => {
           <Row label="Company Gnomes Margin" value={e.gnome_margin} />
         </tbody>
       </table>
+      <div style={{ ...columnSubheadStyle, marginTop: '6px' }}>Levy</div>
+      <table style={twoColTable}>
+        <tbody>
+          <Row
+            label="Merchant's Levy Collected"
+            value={e.merchant_levy_collected}
+          />
+          <Row label="Crown Duty on Levy" value={e.merchant_levy_taxed} />
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -73,8 +82,8 @@ export const MerchantSection = (props: Props) => {
   const balance = e.trade_exported_total - e.trade_imported;
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>Merchant Trade</SectionTitle>
       <SummarySegment
+        title="Merchant Trade"
         items={[
           {
             label: 'Trade balance',

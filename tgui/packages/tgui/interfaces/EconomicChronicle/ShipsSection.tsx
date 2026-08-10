@@ -5,7 +5,6 @@ import {
   compactDataCell,
   compactHeaderCell,
   dividedTwoColumnLayout,
-  SectionTitle,
   twoColTable,
   verticalDividerStyle,
 } from './styles';
@@ -66,11 +65,9 @@ export const ShipsSection = (props: Props) => {
   const totalFavor = s.realms.reduce((sum, r) => sum + r.favor_earned, 0);
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>
-        Foreign Ship Activity - {s.total_hails} hail
-        {s.total_hails === 1 ? '' : 's'}
-      </SectionTitle>
       <SummarySegment
+        title="Foreign Ship Activity"
+        subtitle={`${s.total_hails} hail${s.total_hails === 1 ? '' : 's'}`}
         items={[
           {
             label: 'Realms traded with',
