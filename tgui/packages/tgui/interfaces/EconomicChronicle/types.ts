@@ -170,11 +170,27 @@ export type MaterialSupplyRow = {
   value: number;
 };
 
+export type MaterialDemandBlock = {
+  source: string;
+  rows: MaterialDemandRow[];
+  demanded: number;
+  fulfilled: number;
+  mammons: number;
+};
+
+export type MaterialSupplyBlock = {
+  source: string;
+  rows: MaterialSupplyRow[];
+  units: number;
+  value: number;
+};
+
 export type MaterialFlowSnapshot = {
-  demand: MaterialDemandRow[];
-  supply: MaterialSupplyRow[];
+  demand: MaterialDemandBlock[];
+  supply: MaterialSupplyBlock[];
   total_demanded: number;
   total_fulfilled: number;
+  total_mammons: number;
   total_units: number;
   total_value: number;
   fulfillment_rate: number | null;

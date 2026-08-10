@@ -42,10 +42,10 @@ export const EconomicChronicle = () => {
               balance={data.treasury_balance}
             />
             <EconomySection e={data.economy} />
-            <MaterialsSection m={data.materials} />
             <ShipsSection s={data.ships} />
             <BucketsSection b={data.buckets} />
             <ContractsSection c={data.contracts} rf={data.royal_favors} />
+            <MaterialsSection m={data.materials} />
           </div>
         </div>
       </Window.Content>

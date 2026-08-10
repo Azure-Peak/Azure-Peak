@@ -177,6 +177,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		ITEM_CAT_ENG_MISC,
 	)
 	var/list/group_order = list("Armor", "Weapons", "Tools", "Valuables", "Decoration", "Engineering", "Other")
+	var/flow_source = MATERIAL_SOURCE_COMMISSIONER
 
 /obj/structure/roguemachine/escrow/Initialize()
 	. = ..()
@@ -972,10 +973,11 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	if(forced)
 		notify_commissioner(O, "The guildmaster has released the stalled claim on your commission at [src].")
 
-/obj/structure/roguemachine/escrow/proc/record_order_materials_fulfilled(datum/escrow_order/O, ratio = 1)
+/obj/structure/roguemachine/escrow/proc/record_order_materials_fulfilled(datum/escrow_order/O, ratio = 1, mammons = 0)
 	var/list/tally = O.material_tally(src)
 	for(var/path in tally)
-		record_material_demand_fulfilled(path, ratio >= 1 ? tally[path] : round(tally[path] * ratio))
+		record_material_demand_fulfilled(flow_source, path, ratio >= 1 ? tally[path] : round(tally[path] * ratio))
+	record_commission_mammons(flow_source, mammons)
 
 /obj/structure/roguemachine/escrow/proc/settle_partial_order(datum/escrow_order/O, mob/user)
 	if(!O || O.status != "claimed" || escrow_key(user) != O.smith_name)
@@ -995,8 +997,8 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		complete_order(O, user)
 		return
 	var/progress_ratio = done_count / needed_count
-	record_order_materials_fulfilled(O, progress_ratio)
 	var/smith_payout = round(O.deposited * progress_ratio * (100 - ESCROW_PARTIAL_HAIRCUT_PERCENT) / 100)
+	record_order_materials_fulfilled(O, progress_ratio, smith_payout)
 	var/commissioner_refund = O.deposited - smith_payout
 	var/turf/T = get_turf(src)
 	for(var/obj/item/I in O.delivered_items)
@@ -1021,8 +1023,8 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		to_chat(user, span_warning("The order is not yet complete."))
 		return
 	O.status = "complete"
-	record_order_materials_fulfilled(O)
 	var/payout = O.deposited
+	record_order_materials_fulfilled(O, 1, payout)
 	O.deposited = 0
 	budget -= payout
 	budget2change(payout, user)
@@ -1079,6 +1081,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	name = "TAILORING COMMISSIONER"
 	desc = "A brass-plated commission board for the weavers' and tailors' guild. Coin held in escrow until the work is delivered."
 	keycontrol = list("tailor", "crafterguild", "craftermaster")
+	flow_source = MATERIAL_SOURCE_TAILOR_COMMISSIONER
 	allowed_categories = list(
 		ITEM_CAT_GARMENT_COMMON,
 		ITEM_CAT_GARMENT_FINE,

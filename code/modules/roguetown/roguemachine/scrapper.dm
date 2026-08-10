@@ -21,6 +21,7 @@
 	var/bark_dirty = TRUE
 	var/next_bark = 0
 	var/recycle_sound = 'sound/misc/smelter_fin.ogg'
+	var/flow_source = MATERIAL_SOURCE_SMITH_SCRAPPER
 
 /obj/structure/roguemachine/scrapper/Initialize()
 	. = ..()
@@ -212,7 +213,7 @@
 	material_held[path] = held + units
 	budget -= total_price
 	bark_dirty = TRUE
-	record_material_scrapped(path, units, total_price)
+	record_material_scrapped(flow_source, path, units, total_price)
 	qdel(I)
 	for(var/i in 1 to units)
 		new path(src)
@@ -425,6 +426,7 @@
 	desc = "A brass-trimmed contraption with a hopper above and an iron strongbox beneath. Takes whatever a tailor can rework into fabrics."
 	seed_budget = 50
 	recycle_sound = 'sound/foley/cloth_rip.ogg'
+	flow_source = MATERIAL_SOURCE_RAG_PICKER
 
 /obj/structure/roguemachine/scrapper/tailor/populate_defaults()
 	material_prices = list(

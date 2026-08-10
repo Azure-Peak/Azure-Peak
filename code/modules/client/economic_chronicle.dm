@@ -32,52 +32,89 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 /datum/economic_chronicle/proc/build_material_flow_snapshot()
 	var/list/outstanding = build_material_demand_outstanding()
 	var/list/fulfilled = GLOB.material_demand_fulfilled
-	var/list/demand_paths = list()
-	for(var/path in outstanding)
-		demand_paths |= path
-	for(var/path in fulfilled)
-		demand_paths |= path
 	var/total_demanded = 0
 	var/total_fulfilled = 0
+	var/total_mammons = 0
 	var/list/demand_out = list()
-	for(var/path in demand_paths)
-		var/done = fulfilled[path] || 0
-		var/demanded = (outstanding[path] || 0) + done
-		if(demanded <= 0)
+	for(var/source in GLOB.material_flow_source_order)
+		var/list/open_bucket = outstanding[source]
+		var/list/done_bucket = fulfilled[source]
+		var/list/paths = list()
+		for(var/path in open_bucket)
+			paths |= path
+		for(var/path in done_bucket)
+			paths |= path
+		var/list/rows = list()
+		var/block_demanded = 0
+		var/block_fulfilled = 0
+		for(var/path in paths)
+			var/done = done_bucket ? (done_bucket[path] || 0) : 0
+			var/demanded = (open_bucket ? (open_bucket[path] || 0) : 0) + done
+			if(demanded <= 0)
+				continue
+			block_demanded += demanded
+			block_fulfilled += done
+			rows += list(list(
+				"name" = material_flow_name(path),
+				"demanded" = demanded,
+				"fulfilled" = done,
+			))
+		if(!length(rows))
 			continue
-		total_demanded += demanded
-		total_fulfilled += done
+		sortTim(rows, GLOBAL_PROC_REF(cmp_material_demand_desc))
+		total_demanded += block_demanded
+		total_fulfilled += block_fulfilled
 		demand_out += list(list(
-			"name" = material_flow_name(path),
-			"demanded" = demanded,
-			"fulfilled" = done,
+			"source" = source,
+			"rows" = rows,
+			"demanded" = block_demanded,
+			"fulfilled" = block_fulfilled,
+			"mammons" = GLOB.commission_mammons_paid[source] || 0,
 		))
-	if(length(demand_out))
-		sortTim(demand_out, GLOBAL_PROC_REF(cmp_material_demand_desc))
+	for(var/source in GLOB.commission_mammons_paid)
+		total_mammons += GLOB.commission_mammons_paid[source]
 
 	var/total_units = 0
 	var/total_value = 0
 	var/list/supply_out = list()
-	for(var/path in GLOB.material_scrap_supplied)
-		var/units = GLOB.material_scrap_supplied[path] || 0
-		if(units <= 0)
+	for(var/source in GLOB.material_flow_source_order)
+		var/list/bucket = GLOB.material_scrap_supplied[source]
+		if(!length(bucket))
 			continue
-		var/value = GLOB.material_scrap_value[path] || 0
-		total_units += units
-		total_value += value
+		var/list/value_bucket = GLOB.material_scrap_value[source]
+		var/list/rows = list()
+		var/block_units = 0
+		var/block_value = 0
+		for(var/path in bucket)
+			var/units = bucket[path] || 0
+			if(units <= 0)
+				continue
+			var/value = value_bucket ? (value_bucket[path] || 0) : 0
+			block_units += units
+			block_value += value
+			rows += list(list(
+				"name" = material_flow_name(path),
+				"units" = units,
+				"value" = value,
+			))
+		if(!length(rows))
+			continue
+		sortTim(rows, GLOBAL_PROC_REF(cmp_material_supply_desc))
+		total_units += block_units
+		total_value += block_value
 		supply_out += list(list(
-			"name" = material_flow_name(path),
-			"units" = units,
-			"value" = value,
+			"source" = source,
+			"rows" = rows,
+			"units" = block_units,
+			"value" = block_value,
 		))
-	if(length(supply_out))
-		sortTim(supply_out, GLOBAL_PROC_REF(cmp_material_supply_desc))
 
 	return list(
 		"demand" = demand_out,
 		"supply" = supply_out,
 		"total_demanded" = total_demanded,
 		"total_fulfilled" = total_fulfilled,
+		"total_mammons" = total_mammons,
 		"total_units" = total_units,
 		"total_value" = total_value,
 		"fulfillment_rate" = total_demanded > 0 ? round((total_fulfilled / total_demanded) * 100, 0.1) : null,

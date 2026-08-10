@@ -1,4 +1,12 @@
-import { FONT_BODY, INK_FAINT, INK_SOFT, subtitleStyle } from '../common/parchment';
+import { Fragment } from 'react';
+
+import {
+  FONT_BODY,
+  INK_FAINT,
+  INK_SOFT,
+  SEAL_AMBER,
+  subtitleStyle,
+} from '../common/parchment';
 import {
   compactCardStyle,
   compactDataCell,
@@ -9,11 +17,7 @@ import {
   twoColTable,
   verticalDividerStyle,
 } from './styles';
-import type {
-  MaterialDemandRow,
-  MaterialFlowSnapshot,
-  MaterialSupplyRow,
-} from './types';
+import type { MaterialDemandBlock, MaterialFlowSnapshot, MaterialSupplyBlock } from './types';
 
 type Props = {
   m: MaterialFlowSnapshot;
@@ -33,10 +37,41 @@ const emptyStyle = {
   padding: '2px 0',
 } as const;
 
-const DemandTable = (props: { rows: MaterialDemandRow[] }) => (
+const sourceLabelCell = {
+  ...compactDataCell,
+  color: SEAL_AMBER,
+  paddingTop: '3px',
+  paddingRight: 0,
+} as const;
+
+const dividerCell = {
+  borderTop: `1px dashed ${INK_FAINT}`,
+  padding: 0,
+  height: '4px',
+} as const;
+
+const rightCell = {
+  ...compactDataCell,
+  textAlign: 'right',
+} as const;
+
+const rightSoftCell = {
+  ...compactDataCell,
+  textAlign: 'right',
+  color: INK_SOFT,
+  paddingRight: 0,
+} as const;
+
+const Divider = () => (
+  <tr>
+    <td colSpan={3} style={dividerCell} />
+  </tr>
+);
+
+const DemandTable = (props: { blocks: MaterialDemandBlock[] }) => (
   <div>
-    <div style={subTitle}>Demanded — Commissioner</div>
-    {props.rows.length === 0 ? (
+    <div style={subTitle}>Commissioned Demand</div>
+    {props.blocks.length === 0 ? (
       <div style={emptyStyle}>No commissions were posted.</div>
     ) : (
       <table style={twoColTable}>
@@ -56,23 +91,27 @@ const DemandTable = (props: { rows: MaterialDemandRow[] }) => (
           </tr>
         </thead>
         <tbody>
-          {props.rows.map((row) => (
-            <tr key={row.name}>
-              <td style={compactDataCell}>{row.name}</td>
-              <td style={{ ...compactDataCell, textAlign: 'right' }}>
-                {row.fulfilled}
-              </td>
-              <td
-                style={{
-                  ...compactDataCell,
-                  textAlign: 'right',
-                  color: INK_SOFT,
-                  paddingRight: 0,
-                }}
-              >
-                {row.demanded}
-              </td>
-            </tr>
+          {props.blocks.map((block, i) => (
+            <Fragment key={block.source}>
+              {i > 0 && <Divider />}
+              <tr>
+                <td colSpan={2} style={sourceLabelCell}>
+                  {block.source}
+                </td>
+                <td style={{ ...sourceLabelCell, textAlign: 'right' }}>
+                  {block.mammons}m
+                </td>
+              </tr>
+              {block.rows.map((row) => (
+                <tr key={row.name}>
+                  <td style={{ ...compactDataCell, paddingLeft: '10px' }}>
+                    {row.name}
+                  </td>
+                  <td style={rightCell}>{row.fulfilled}</td>
+                  <td style={rightSoftCell}>{row.demanded}</td>
+                </tr>
+              ))}
+            </Fragment>
           ))}
         </tbody>
       </table>
@@ -80,10 +119,10 @@ const DemandTable = (props: { rows: MaterialDemandRow[] }) => (
   </div>
 );
 
-const SupplyTable = (props: { rows: MaterialSupplyRow[] }) => (
+const SupplyTable = (props: { blocks: MaterialSupplyBlock[] }) => (
   <div>
-    <div style={subTitle}>Scrap Supplied — Rag-Picker &amp; Scrapper</div>
-    {props.rows.length === 0 ? (
+    <div style={subTitle}>Scrap Supplied</div>
+    {props.blocks.length === 0 ? (
       <div style={emptyStyle}>Nothing was fed to the scrappers.</div>
     ) : (
       <table style={twoColTable}>
@@ -103,23 +142,27 @@ const SupplyTable = (props: { rows: MaterialSupplyRow[] }) => (
           </tr>
         </thead>
         <tbody>
-          {props.rows.map((row) => (
-            <tr key={row.name}>
-              <td style={compactDataCell}>{row.name}</td>
-              <td style={{ ...compactDataCell, textAlign: 'right' }}>
-                {row.units}
-              </td>
-              <td
-                style={{
-                  ...compactDataCell,
-                  textAlign: 'right',
-                  color: INK_SOFT,
-                  paddingRight: 0,
-                }}
-              >
-                {row.value}
-              </td>
-            </tr>
+          {props.blocks.map((block, i) => (
+            <Fragment key={block.source}>
+              {i > 0 && <Divider />}
+              <tr>
+                <td colSpan={2} style={sourceLabelCell}>
+                  {block.source}
+                </td>
+                <td style={{ ...sourceLabelCell, textAlign: 'right' }}>
+                  {block.value}m
+                </td>
+              </tr>
+              {block.rows.map((row) => (
+                <tr key={row.name}>
+                  <td style={{ ...compactDataCell, paddingLeft: '10px' }}>
+                    {row.name}
+                  </td>
+                  <td style={rightCell}>{row.units}</td>
+                  <td style={rightSoftCell}>{row.value}</td>
+                </tr>
+              ))}
+            </Fragment>
           ))}
         </tbody>
       </table>
@@ -133,9 +176,9 @@ export const MaterialsSection = (props: Props) => {
     <div style={compactCardStyle}>
       <SectionTitle>Material Flow</SectionTitle>
       <div style={dividedTwoColumnLayout}>
-        <DemandTable rows={m.demand} />
+        <DemandTable blocks={m.demand} />
         <div style={verticalDividerStyle} />
-        <SupplyTable rows={m.supply} />
+        <SupplyTable blocks={m.supply} />
       </div>
       <div
         style={{
@@ -147,8 +190,8 @@ export const MaterialsSection = (props: Props) => {
         }}
       >
         Commissioned {m.total_fulfilled} of {m.total_demanded} units (
-        {formatPct(m.fulfillment_rate)}) &bull; Scrapped {m.total_units} units
-        for {m.total_value}m
+        {formatPct(m.fulfillment_rate)}) for {m.total_mammons}m &bull; Scrapped{' '}
+        {m.total_units} units for {m.total_value}m
       </div>
     </div>
   );
