@@ -196,6 +196,8 @@ export type MaterialFlowSnapshot = {
   fulfillment_rate: number | null;
 };
 
+export type ChronicleTab = 'realm' | 'trade' | 'materials';
+
 export type EconomicChronicleData = {
   treasury_balance: number;
   treasury: TreasurySnapshot;
