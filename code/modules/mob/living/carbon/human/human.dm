@@ -174,6 +174,10 @@
 
 	dat += "<table>"
 
+	if(is_unclaimed_corpse())
+		dat += "<tr><td><A href='?src=[REF(src)];strip_all=1'><B>Loot Everything</B></A></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
+
 	if(handcuffed)
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'>Remove [handcuffed]</A></td></tr>"
 	if(legcuffed)

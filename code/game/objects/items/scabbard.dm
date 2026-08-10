@@ -736,7 +736,7 @@
 
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
-	strip_delay = 2 SECONDS
+	strip_delay = STRIP_DELAY_FAST
 	sheathe_time = 2 SECONDS
 
 	max_integrity = 0

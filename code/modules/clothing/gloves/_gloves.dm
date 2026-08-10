@@ -8,7 +8,7 @@
 	slot_flags = ITEM_SLOT_GLOVES
 	attack_verb = list("challenged")
 	var/transfer_prints = FALSE
-	strip_delay = 20
+	strip_delay = STRIP_DELAY_FAST
 	equip_delay_other = 40
 	bloody_icon_state = "bloodyhands"
 

@@ -156,17 +156,21 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		var/obj/item/place_item = usr.get_active_held_item() // Item to place in the pocket, if it's empty
 
 		var/delay_denominator = 1
+		var/pocket_delay_mult = 1 // Only scales looting
 		if(pocket_item && !(pocket_item.item_flags & ABSTRACT))
 			if(HAS_TRAIT(pocket_item, TRAIT_NODROP))
 				to_chat(usr, "<span class='warning'>I try to empty [src]'s [pocket_side] pocket, it seems to be stuck!</span>")
 			to_chat(usr, "<span class='notice'>I try to empty [src]'s [pocket_side] pocket.</span>")
+			if(isliving(usr))
+				var/mob/living/rummager = usr
+				pocket_delay_mult = rummager.get_strip_delay_mult(src, pocket_item)
 		else if(place_item && place_item.mob_can_equip(src, usr, pocket_id, 1) && !(place_item.item_flags & ABSTRACT))
 			to_chat(usr, "<span class='notice'>I try to place [place_item] into [src]'s [pocket_side] pocket.</span>")
 			delay_denominator = 4
 		else
 			return
 
-		if(do_mob(usr, src, POCKET_STRIP_DELAY/delay_denominator)) //placing an item into the pocket is 4 times faster
+		if(do_mob(usr, src, POCKET_STRIP_DELAY * pocket_delay_mult / delay_denominator)) //placing an item into the pocket is 4 times faster
 			if(pocket_item)
 				if(pocket_item == (pocket_id == SLOT_R_STORE ? r_store : l_store)) //item still in the pocket we search
 					dropItemToGround(pocket_item)

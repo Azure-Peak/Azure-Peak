@@ -20,7 +20,7 @@
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	alternate_worn_layer = UNDER_CLOAK_LAYER
-	strip_delay = 20
+	strip_delay = STRIP_DELAY_FAST
 	var/max_storage = 10
 	var/list/tweps = list()
 	sewrepair = TRUE
@@ -173,7 +173,7 @@
 	desc = ""
 	icon_state = "bombstrap0"
 	item_state = "bombstrap"
-	strip_delay = 20
+	strip_delay = STRIP_DELAY_FAST
 	max_storage = 10
 	var/list/fill_list = list() //use for custome fill that
 	storable_types = list(

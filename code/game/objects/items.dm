@@ -89,7 +89,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/inv_storage_delay = 0 //In deciseconds, how long an item takes to store in/pull out of a mob storage item (like, bags).
 	var/edelay_type = 1 //if 1, can be moving while equipping (for helmets etc)
 	var/equip_delay_other = 20 //In deciseconds, how long an item takes to put on another person
-	var/strip_delay = 40 //In deciseconds, how long an item takes to remove from another person
+	var/strip_delay = STRIP_DELAY_NORMAL //How long an item takes to remove from another person. Use the STRIP_DELAY_* tiers.
 	var/breakouttime = 0 // greater than 15 str get this isnstead
 	var/slipouttime = 0
 

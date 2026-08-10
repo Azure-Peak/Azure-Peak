@@ -1127,7 +1127,7 @@ Inquisitorial armory down here
 	equip_delay_self = 360 SECONDS
 	max_integrity = 10000 // No breaking it. NO CHEAP FRAGS.
 	body_parts_inherent = FULL_HEAD
-	strip_delay = 10
+	strip_delay = STRIP_DELAY_TRIVIAL
 	slot_flags = ITEM_SLOT_HEAD
 	body_parts_covered = FULL_HEAD
 	w_class = WEIGHT_CLASS_NORMAL
