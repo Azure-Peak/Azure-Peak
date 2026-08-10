@@ -302,7 +302,7 @@
 					r_hand = /obj/item/rogueweapon/greatsword/elvish
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Elvish Dirk")
-					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/elvish
+					r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/elvish
 					backr = /obj/item/rogueweapon/shield/wood
 			if(weapon_choice == "Elvish Dirk")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)

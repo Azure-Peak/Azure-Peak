@@ -184,7 +184,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		faction -= FACTION_UNDEAD
 		faction -= FACTION_SKELETON
 		faction -= FACTION_DUNDEAD
-		faction -= "Skeleton_faction"
 
 	switch(loadout)
 		if("sword_shield")

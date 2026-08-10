@@ -88,7 +88,7 @@
 /obj/item/reagent_containers/pill/happy
 	name = "happy pill"
 	desc = ""
-	list_reagents = list(/datum/reagent/consumable/sugar = 10, /datum/reagent/drug/space_drugs = 10)
+	list_reagents = list(/datum/reagent/consumable/sugar = 10, /datum/reagent/drug/swampweed = 10)
 	icon_state = "pill_happy"
 
 
