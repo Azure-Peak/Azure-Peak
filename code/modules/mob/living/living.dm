@@ -1492,7 +1492,7 @@
 	var/strip_delayed = what.strip_delay * get_strip_delay_mult(who, what)
 	if(enhanced_strip)
 		strip_delayed = 0.1 SECONDS
-	if(do_after(src, strip_delayed, who))
+	if(do_after(src, strip_delayed, TRUE, who))
 		if(what && (Adjacent(who) || (enhanced_strip && (get_dist(src, who) <= 3))))
 			enhanced_strip = FALSE
 			if(islist(where))
