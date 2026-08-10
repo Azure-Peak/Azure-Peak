@@ -14,6 +14,7 @@ import { BucketsSection } from './EconomicChronicle/BucketsSection';
 import { ContractsSection } from './EconomicChronicle/ContractsSection';
 import { EconomySection } from './EconomicChronicle/EconomySection';
 import { MaterialsSection } from './EconomicChronicle/MaterialsSection';
+import { MerchantSection } from './EconomicChronicle/MerchantSection';
 import { ShipsSection } from './EconomicChronicle/ShipsSection';
 import { compactPageStyle } from './EconomicChronicle/styles';
 import { TreasurySection } from './EconomicChronicle/TreasurySection';
@@ -79,6 +80,7 @@ export const EconomicChronicle = () => {
             )}
             {tab === 'trade' && (
               <>
+                <MerchantSection e={data.economy} />
                 <ShipsSection s={data.ships} />
                 <BucketsSection b={data.buckets} />
               </>

@@ -1,5 +1,6 @@
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { formatRatioPct } from './common/format';
 import {
   cardStyle,
   FONT_BODY,
@@ -52,7 +53,7 @@ export const Navigator = () => {
   const { data, act } = useBackend<NavigatorData>();
   const readable = !!data.is_readable;
   const motto = readable ? data.motto : obscure(data.motto);
-  const dutyRatePct = Math.round((data.duty_rate || 0) * 100);
+  const dutyRatePct = formatRatioPct(data.duty_rate || 0);
   const isProprietor = !!data.is_proprietor;
   const isSmuggler = !!data.is_smuggler;
 
@@ -129,7 +130,7 @@ export const Navigator = () => {
               <div style={fieldRowStyle}>
                 <div style={fieldLabelStyle}>Crown export duty</div>
                 <div style={fieldValueStyle}>
-                  <span style={{ fontWeight: 'bold' }}>{dutyRatePct}%</span>
+                  <span style={{ fontWeight: 'bold' }}>{dutyRatePct}</span>
                   {isProprietor && (
                     <span
                       style={{

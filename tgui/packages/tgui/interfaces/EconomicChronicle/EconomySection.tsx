@@ -1,12 +1,13 @@
-import { SEAL_RED } from '../common/parchment';
+import { formatSigned, signColor } from '../common/format';
+import { SEAL_GREEN, SEAL_RED } from '../common/parchment';
+import { SummarySegment } from '../common/SummarySegment';
 import {
-  Breakdown,
   columnSubheadStyle,
   compactCardStyle,
   Row,
   SectionTitle,
-  threeColumnLayout,
   twoColTable,
+  twoColumnLayout,
 } from './styles';
 import type { EconomySnapshot } from './types';
 
@@ -53,61 +54,34 @@ const RoyalCrownColumn = (props: Props) => {
           />
         </tbody>
       </table>
-      <div style={{ ...columnSubheadStyle, marginTop: '6px' }}>Vendors</div>
-      <table style={twoColTable}>
-        <tbody>
-          <Row label="GOLDFACE Imports" value={e.goldface} />
-          <Row label="SILVERFACE Imports" value={e.silverface} />
-          <Row label="COPPERFACE Imports" value={e.copperface} />
-          <Row label="PURITY Imports" value={e.purity} />
-        </tbody>
-      </table>
-    </div>
-  );
-};
-
-const TradeMarketsColumn = (props: Props) => {
-  const { e } = props;
-  return (
-    <div>
-      <div style={columnSubheadStyle}>Trade &amp; Markets</div>
-      <table style={twoColTable}>
-        <tbody>
-          <Row label="Trade Value Exported" value={e.trade_exported_total} />
-        </tbody>
-      </table>
-      <Breakdown>
-        Real Market {e.trade_exported_real} &bull; Black Market{' '}
-        {e.trade_exported_bm}
-      </Breakdown>
-      <table style={twoColTable}>
-        <tbody>
-          <Row label="Trade Value Imported" value={e.trade_imported} />
-          <Row label="Company Gnomes Margin" value={e.gnome_margin} />
-          <Row label="Favor - Send-offs" value={e.favor_from_sendoffs} />
-          <Row label="Favor - Navigator" value={e.favor_from_navigator} />
-          <Row label="Favor - Goldface" value={e.favor_from_goldface} />
-          <Row label="Favor - Silverface" value={e.favor_from_silverface} />
-          <Row
-            label="Favor - Penalties"
-            value={e.favor_penalties}
-            color={SEAL_RED}
-          />
-          <Row label="Favor - Lifetime Peak" value={e.favor_high} />
-        </tbody>
-      </table>
     </div>
   );
 };
 
 export const EconomySection = (props: Props) => {
+  const { e } = props;
+  const netFlow = e.mammons_deposited - e.mammons_withdrawn;
   return (
     <div style={compactCardStyle}>
       <SectionTitle>Economy</SectionTitle>
-      <div style={threeColumnLayout}>
-        <GeneralMammonsColumn e={props.e} />
-        <RoyalCrownColumn e={props.e} />
-        <TradeMarketsColumn e={props.e} />
+      <SummarySegment
+        items={[
+          { label: 'Circulating', value: e.mammons_held },
+          {
+            label: 'Banked net',
+            value: formatSigned(netFlow),
+            color: signColor(netFlow),
+          },
+          {
+            label: 'Levy collected',
+            value: e.merchant_levy_collected,
+            color: SEAL_GREEN,
+          },
+        ]}
+      />
+      <div style={twoColumnLayout}>
+        <GeneralMammonsColumn e={e} />
+        <RoyalCrownColumn e={e} />
       </div>
     </div>
   );

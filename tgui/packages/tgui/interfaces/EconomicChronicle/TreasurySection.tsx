@@ -1,14 +1,15 @@
+import { formatPct, formatSigned, signColor } from '../common/format';
 import {
   FONT_BODY,
   SEAL_GREEN,
   SEAL_RED,
   subtitleStyle,
 } from '../common/parchment';
+import { SummarySegment } from '../common/SummarySegment';
 import {
   Breakdown,
   compactCardStyle,
   dividerStyle,
-  formatPct,
   Row,
   SectionTitle,
   twoColTable,
@@ -171,10 +172,6 @@ const ExpensesColumn = (props: { t: TreasurySnapshot }) => {
 
 const RealmInsight = (props: { t: TreasurySnapshot }) => {
   const { t } = props;
-  const netColor = t.net_treasury >= 0 ? SEAL_GREEN : SEAL_RED;
-  const tradeColor = t.trade_balance >= 0 ? SEAL_GREEN : SEAL_RED;
-  const netSign = t.net_treasury >= 0 ? '+' : '';
-  const tradeSign = t.trade_balance >= 0 ? '+' : '';
   return (
     <div
       style={{
@@ -188,20 +185,11 @@ const RealmInsight = (props: { t: TreasurySnapshot }) => {
       <table style={twoColTable}>
         <tbody>
           <Row
-            label="Net Treasury Result"
-            value={`${netSign}${t.net_treasury}`}
-            color={netColor}
-          />
-          <Row
             label="Trade Balance"
-            value={`${tradeSign}${t.trade_balance}`}
-            color={tradeColor}
+            value={formatSigned(t.trade_balance)}
+            color={signColor(t.trade_balance)}
           />
           <Row label="Foreign Trade Volume" value={t.foreign_trade_volume} />
-          <Row
-            label="Effective Tax Rate"
-            value={formatPct(t.effective_tax_rate)}
-          />
           <Row label="Forgone Share" value={formatPct(t.exemption_share)} />
         </tbody>
       </table>
@@ -214,6 +202,28 @@ export const TreasurySection = (props: Props) => {
   return (
     <div style={compactCardStyle}>
       <SectionTitle>Realm&apos;s Treasury - balance: {balance}</SectionTitle>
+      <SummarySegment
+        items={[
+          {
+            label: 'Net result',
+            value: formatSigned(t.net_treasury),
+            color: signColor(t.net_treasury),
+          },
+          {
+            label: 'Revenue',
+            value: t.total_revenue,
+            color: SEAL_GREEN,
+          },
+          { label: 'Expenses', value: t.total_expenses, color: SEAL_RED },
+          {
+            label: 'Tax rate',
+            value:
+              t.effective_tax_rate === null
+                ? null
+                : formatPct(t.effective_tax_rate),
+          },
+        ]}
+      />
       <div style={twoColumnLayout}>
         <RevenueColumn t={t} />
         <ExpensesColumn t={t} />

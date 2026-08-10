@@ -1,4 +1,5 @@
-import { INK_SOFT } from '../common/parchment';
+import { INK_SOFT, SEAL_GREEN } from '../common/parchment';
+import { SummarySegment } from '../common/SummarySegment';
 import {
   compactCardStyle,
   compactDataCell,
@@ -60,12 +61,28 @@ export const ShipsSection = (props: Props) => {
   const midpoint = Math.ceil(s.realms.length / 2);
   const leftHalf = s.realms.slice(0, midpoint);
   const rightHalf = s.realms.slice(midpoint);
+  const tradedWith = s.realms.filter((r) => r.hails > 0).length;
+  const busiest = s.realms.find((r) => r.hails > 0);
+  const totalFavor = s.realms.reduce((sum, r) => sum + r.favor_earned, 0);
   return (
     <div style={compactCardStyle}>
       <SectionTitle>
         Foreign Ship Activity - {s.total_hails} hail
         {s.total_hails === 1 ? '' : 's'}
       </SectionTitle>
+      <SummarySegment
+        items={[
+          {
+            label: 'Realms traded with',
+            value: `${tradedWith} of ${s.realms.length}`,
+          },
+          {
+            label: 'Busiest',
+            value: busiest ? `${busiest.name} (${busiest.hails})` : null,
+          },
+          { label: 'Favor earned', value: totalFavor, color: SEAL_GREEN },
+        ]}
+      />
       <div style={dividedTwoColumnLayout}>
         <RealmTable rows={leftHalf} />
         <div style={verticalDividerStyle} />

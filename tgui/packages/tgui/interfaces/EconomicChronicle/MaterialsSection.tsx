@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 
+import { withPct } from '../common/format';
 import {
   FONT_BODY,
   INK_FAINT,
@@ -7,12 +8,12 @@ import {
   SEAL_AMBER,
   subtitleStyle,
 } from '../common/parchment';
+import { SummarySegment } from '../common/SummarySegment';
 import {
   compactCardStyle,
   compactDataCell,
   compactHeaderCell,
   dividedTwoColumnLayout,
-  formatPct,
   SectionTitle,
   twoColTable,
   verticalDividerStyle,
@@ -175,23 +176,24 @@ export const MaterialsSection = (props: Props) => {
   return (
     <div style={compactCardStyle}>
       <SectionTitle>Material Flow</SectionTitle>
+      <SummarySegment
+        items={[
+          {
+            label: 'Commissioned',
+            value: withPct(
+              `${m.total_fulfilled}/${m.total_demanded}`,
+              m.fulfillment_rate,
+            ),
+          },
+          { label: 'Paid', value: `${m.total_mammons}m` },
+          { label: 'Scrapped', value: `${m.total_units} units` },
+          { label: 'Scrap value', value: `${m.total_value}m` },
+        ]}
+      />
       <div style={dividedTwoColumnLayout}>
         <DemandTable blocks={m.demand} />
         <div style={verticalDividerStyle} />
         <SupplyTable blocks={m.supply} />
-      </div>
-      <div
-        style={{
-          color: INK_SOFT,
-          fontSize: FONT_BODY,
-          borderTop: `1px dotted ${INK_FAINT}`,
-          marginTop: '4px',
-          paddingTop: '2px',
-        }}
-      >
-        Commissioned {m.total_fulfilled} of {m.total_demanded} units (
-        {formatPct(m.fulfillment_rate)}) for {m.total_mammons}m &bull; Scrapped{' '}
-        {m.total_units} units for {m.total_value}m
       </div>
     </div>
   );
