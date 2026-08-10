@@ -12,10 +12,12 @@ import {
   compactCardStyle,
   compactDataCell,
   compactHeaderCell,
+  dividedTwoColumnLayout,
   SectionTitle,
   twoColTable,
+  verticalDividerStyle,
 } from './styles';
-import type { CrownExpenseSnapshot } from './types';
+import type { CrownExpenseGroup, CrownExpenseSnapshot } from './types';
 
 type Props = {
   c: CrownExpenseSnapshot;
@@ -46,8 +48,53 @@ const amountCell = {
   paddingRight: 0,
 } as const;
 
+const ExpenseTable = (props: { groups: CrownExpenseGroup[] }) => (
+  <table style={twoColTable}>
+    <thead>
+      <tr>
+        <td style={compactHeaderCell}>Expense</td>
+        <td
+          style={{ ...compactHeaderCell, textAlign: 'right', paddingRight: 0 }}
+        >
+          Mammons
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      {props.groups.map((group) => (
+        <Fragment key={group.name}>
+          <tr>
+            <td style={mechanismCell}>{group.name}</td>
+            <td style={{ ...amountCell, ...mechanismCell }}>{group.total}m</td>
+          </tr>
+          {group.rows.map((row) => (
+            <tr key={row.name}>
+              <td style={roleCell}>{row.name}</td>
+              <td style={{ ...amountCell, color: INK }}>{row.amount}m</td>
+            </tr>
+          ))}
+        </Fragment>
+      ))}
+    </tbody>
+  </table>
+);
+
 export const CrownExpensesSection = (props: Props) => {
   const { c } = props;
+  // Balance by rendered line count
+  const weight = (g: CrownExpenseGroup) => g.rows.length + 1;
+  const totalWeight = c.groups.reduce((sum, g) => sum + weight(g), 0);
+  const left: CrownExpenseGroup[] = [];
+  const right: CrownExpenseGroup[] = [];
+  let filled = 0;
+  for (const group of c.groups) {
+    if (filled < totalWeight / 2) {
+      left.push(group);
+    } else {
+      right.push(group);
+    }
+    filled += weight(group);
+  }
   return (
     <div style={compactCardStyle}>
       <SectionTitle>Crown Expenses</SectionTitle>
@@ -56,37 +103,14 @@ export const CrownExpensesSection = (props: Props) => {
       />
       {c.groups.length === 0 ? (
         <div style={emptyStyle}>Nothing was drawn from the Crown&apos;s Purse.</div>
+      ) : right.length === 0 ? (
+        <ExpenseTable groups={left} />
       ) : (
-        <table style={twoColTable}>
-          <thead>
-            <tr>
-              <td style={compactHeaderCell}>Expense</td>
-              <td
-                style={{ ...compactHeaderCell, textAlign: 'right', paddingRight: 0 }}
-              >
-                Mammons
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            {c.groups.map((group) => (
-              <Fragment key={group.name}>
-                <tr>
-                  <td style={mechanismCell}>{group.name}</td>
-                  <td style={{ ...amountCell, ...mechanismCell }}>
-                    {group.total}m
-                  </td>
-                </tr>
-                {group.rows.map((row) => (
-                  <tr key={row.name}>
-                    <td style={roleCell}>{row.name}</td>
-                    <td style={{ ...amountCell, color: INK }}>{row.amount}m</td>
-                  </tr>
-                ))}
-              </Fragment>
-            ))}
-          </tbody>
-        </table>
+        <div style={dividedTwoColumnLayout}>
+          <ExpenseTable groups={left} />
+          <div style={verticalDividerStyle} />
+          <ExpenseTable groups={right} />
+        </div>
       )}
     </div>
   );

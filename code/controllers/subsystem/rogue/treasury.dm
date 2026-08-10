@@ -705,7 +705,10 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/withdraw_money_treasury(amt, target)
 	if(!amt)
 		return FALSE
-	return burn(discretionary_fund, amt, "withdrawn by [target]")
+	if(!burn(discretionary_fund, amt, "withdrawn by [target]"))
+		return FALSE
+	record_treasury_expense(TREASURY_FLOW_WITHDRAWAL, ismob(target) ? treasury_role_of(target) : "Unknown", amt)
+	return TRUE
 
 /datum/controller/subsystem/treasury/proc/get_poll_tax_category(mob/living/H)
 	if(!H)

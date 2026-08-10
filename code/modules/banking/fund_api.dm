@@ -262,6 +262,7 @@
 		return
 	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])"))
 		concordat_tithe_debt -= skim
+		record_treasury_expense(TREASURY_FLOW_TITHE, "Church", skim)
 
 /datum/controller/subsystem/treasury/proc/compute_bathhouse_tithe(base_amount, rate)
 	if(base_amount <= 0 || rate <= 0)
