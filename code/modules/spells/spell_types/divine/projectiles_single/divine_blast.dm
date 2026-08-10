@@ -3,7 +3,7 @@
 	button_icon = 'icons/mob/actions/genericmiracles.dmi'
 	button_icon_state = "dblast"
 	name = "Divine Blast"
-	desc = "Release a blast of sheer divine energy at your enemies. Deals more damage to apostates, undead, and simple-minded creatures. Toggle firing mode (Shift+G): Focus or Arc."
+	desc = "Release a blast of sheer divine energy at your enemies. Deals more damage to conformists, undead, and simple-minded creatures. Once every 30 seconds, your God may smite the target, inflicting debilitating effects that are especially potent against the mindless. Incapacitated mindless are disintegrated by the blast.<br><br>Toggle firing mode (Shift+G): Focus or Arc."
 	fluff_desc = "Among the first miracles bestowed upon the faithful is the ability to channel their patron's essence into a focused blast of divine power. Though simple in execution, it is a versatile expression of a deity's will, carrying forth a fragment of the patron's true nature."
 	sound = 'sound/magic/vlightning.ogg'
 	spell_color = GLOW_COLOR_LIGHTNING
@@ -15,7 +15,7 @@
 	primary_resource_cost = 25
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
-	charge_time = CHARGETIME_MAJOR
+	charge_time = CHARGETIME_MINOR
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_swingdelay_type = SWINGDELAY_PENALTY
@@ -34,13 +34,13 @@
 
 /obj/projectile/energy/divineblast
 	name = "divine blast"
-	tracer_type = /obj/effect/projectile/tracer/wormhole
+	tracer_type = /obj/effect/projectile/tracer/tracer/beam_rifle
 	muzzle_type = null
 	impact_type = null
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 52
+	damage = 32
 	max_range = MAGE_LONG_PROJ_RANGE
 	damage_type = BURN
 	guard_deflectable = TRUE
@@ -48,11 +48,11 @@
 	speed = 0.3
 	flag = "fire"
 	light_outer_range = 4
-	color = "#00a3d4"
+	color = "#00f7ff"
 
 /obj/projectile/energy/divineblast/arc
 	name = "arced divine blast"
-	damage = 32
+	damage = 22
 	arcshot = TRUE
 
 /obj/projectile/energy/divineblast/on_hit(target, blocked = FALSE)
@@ -70,6 +70,13 @@
 				qdel(src)
 				return
 			if(blocked < 100)
+				if(!L.mind && L.stat) // executes NPCs that are incapacitated, to make cleaning up blockades a lil better
+					var/turf/target_turf = get_turf(L)
+					new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+					playsound(target_turf, 'sound/magic/lightning.ogg', 80)
+					L.dust() // divines are polite & leave stuff for necrans
+					qdel(src)
+					return
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !L.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 					L.visible_message("<font color='white'>Divine power rebukes [L]!</font>")
 					L.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/divine)
@@ -106,55 +113,29 @@
 		L.apply_damage(damage_to_do, BURN)
 
 /obj/projectile/energy/divineblast/proc/apply_god_bonus(mob/living/L)
+	L.visible_message("'#00aeff'--Divine Smite!!")
 	var/mob/living/carbon/human/caster = firer
 	if(!istype(caster))
 		return
-
-	switch(caster.patron?.type)
-		if(/datum/patron/divine/undivided)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/astrata)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/noc)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/dendor)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/abyssor)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/ravox)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/necra)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/xylix)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/pestra)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/malum)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		if(/datum/patron/divine/eora)
-			L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/divine)
-			L.ignite_mob()
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+	var/godless = !L.mind
+	var/fire_stacks = godless ? 10 : 5
+	var/CC_timer = godless ? 8 : 4
+	if(godless)
+		L.emote("superagony")
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		if(H.dna?.species)
+			H.Immobilize(1 SECONDS)
+	else
+		L.Immobilize(1 SECONDS)
+	var/turf/target_turf = get_turf(L)
+	new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+	playsound(target_turf, 'sound/magic/lightning.ogg', 80)
+	L.adjust_fire_stacks(fire_stacks, /datum/status_effect/fire_handler/fire_stacks/divine)
+	L.ignite_mob()
+	L.apply_status_effect(/datum/status_effect/debuff/exposed, CC_timer SECONDS)
+	L.apply_status_effect(/datum/status_effect/debuff/clickcd, CC_timer SECONDS)
+	L.Slowdown(CC_timer)
 
 /datum/action/cooldown/spell/projectile/divine_blast/Grant(mob/grant_to)
 	. = ..()
