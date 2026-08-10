@@ -111,7 +111,9 @@
 #define SPT_PROB(prob_per_second_percent, seconds_per_tick) (prob(100*SPT_PROB_RATE((prob_per_second_percent)/100, (seconds_per_tick))))
 
 #define BB_HUMAN_BEG_TARGET "human_beg_target"
-#define BB_HUMAN_NPC_ATTACK_ZONE_COUNTER "human_npc_attack_zone_counter"
+#define BB_HUMAN_NPC_SWINGS_TAKEN        "human_npc_swings_taken"
+#define BB_HUMAN_NPC_SWINGS_TARGET       "human_npc_swings_target"
+#define BB_HUMAN_NPC_ZONE_COMMIT_COUNTER "human_npc_zone_commit_counter"
 #define BB_HUMAN_NPC_LAST_ATTACK_ZONE    "human_npc_last_attack_zone"
 #define BB_HUMAN_NPC_WEAKPOINT           "human_npc_weakpoint"
 #define BB_HUMAN_NPC_JUMP_COOLDOWN       "human_npc_jump_cooldown"

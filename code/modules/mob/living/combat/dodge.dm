@@ -214,7 +214,7 @@
 					drained += (abs(round((CLICK_CD_HEAVY - dodgetime) / 2)))
 
 		if(has_trait && H.mind && !ignore_DE_bonus)
-			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
+			prob2defend = DODGE_EXPERT_BASE_CAP	//We cap it out if we have Dodge Expert as a Player.
 
 		if(H.STASPD < U.STASPD)
 			if(IL && IL.wbalance != WBALANCE_HEAVY)

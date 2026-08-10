@@ -74,8 +74,6 @@
 			S.take_damage(structural_damage, BRUTE, "blunt", object_damage_multiplier = 2)
 		T.take_damage(structural_damage, BRUTE, "blunt", object_damage_multiplier = 2)
 		for(var/mob/living/L in T.contents)
-			if(L == owner)
-				continue
 			if(L.anti_magic_check())
 				continue
 			if(spell_guard_check(L, TRUE))

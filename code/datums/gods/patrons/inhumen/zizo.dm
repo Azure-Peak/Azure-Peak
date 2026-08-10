@@ -31,9 +31,13 @@
 		"Lady of Bones",
 		"Dame of Bones",
 		"Arch Lych",
+		"Archlych", // sometimes this is one word instead of two
+		"Archlich",
 		"Arch Lich",
 		"Pale Lady",
-		"Zimiko"
+		"Architect",
+		"Zimiko",
+		"Wolf", // fjall
 	)
 
 /datum/patron/inhumen/zizo/post_equip(mob/living/pious)

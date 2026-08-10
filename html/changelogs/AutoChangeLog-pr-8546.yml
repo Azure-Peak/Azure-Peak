@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - rscadd: "Studded Leather Hood can now be bought from merchant vendors."

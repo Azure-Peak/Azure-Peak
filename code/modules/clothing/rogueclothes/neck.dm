@@ -1383,7 +1383,8 @@
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 */ // Combine with #ffc960 to make an easier, do-it-yourself version of Gilded items without the need for exotic sprites.
 
-//
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
 
 /obj/item/clothing/neck/roguetown/bevor/zizo
 	name = "avantyne bevor"
@@ -1402,19 +1403,8 @@
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
 */ // Combine with #c1b18d to make an easier, do-it-yourself version of Avantyne items without the need for exotic sprites.
 
-/obj/item/clothing/neck/roguetown/bevor/zizo/heavy
-	name = "fused avantyne bevor"
-	desc = "An avantyne neckguard fused into the flesh of the neck, akin to a second skin, yet impossible to remove. The sacred leyline of sinew and spirit protected from severance."
-
-/obj/item/clothing/neck/roguetown/bevor/zizo/heavy/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/neck/roguetown/bevor/zizo/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
+/obj/item/clothing/neck/roguetown/bevor/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 //
 
@@ -1431,6 +1421,11 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
 */ // Combine with #ddc0a7 to make an easier, do-it-yourself version of Vicious items without the need for exotic sprites.
+
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+
+//
 
 /obj/item/clothing/neck/roguetown/coif/baotha
 	name = "saccharine veil"
@@ -1707,7 +1702,6 @@
 	name = "golden shell amulet"
 	icon_state = "gold_shell"
 	desc = "A luxurious golden amulet encrusted with a polished piece of clam shell, donnable both on neck and wrist."
-
 
 /obj/item/clothing/neck/roguetown/carved/goldonyxa
 	name = "golden onyxa amulet"

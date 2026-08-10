@@ -62,17 +62,18 @@
 	to_fire.firer = user
 	to_fire.fired_from = get_turf(user)
 	to_fire.def_zone = user.zone_selected
+	to_fire.source_spell = src
 
 	// Propagate spell impact intensity to the projectile
 	if(istype(to_fire, /obj/projectile/magic))
 		var/obj/projectile/magic/M = to_fire
 		M.spell_impact_intensity = spell_impact_intensity
 
-	// Accuracy from INT and skill, matching the old proc_holder system
+	// Accuracy from PER and skill, matching the old proc_holder system
 	if(isliving(user))
 		var/mob/living/L = user
-		to_fire.accuracy += (L.STAINT - 9) * 4
-		to_fire.bonus_accuracy += (L.STAINT - 8) * 3
+		to_fire.accuracy += (L.STAPER - 9) * 4
+		to_fire.bonus_accuracy += (L.STAPER - 8) * 3
 		if(L.mind)
 			to_fire.bonus_accuracy += (L.get_skill_level(associated_skill) * 5)
 

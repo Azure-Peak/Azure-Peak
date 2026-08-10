@@ -6,7 +6,7 @@
 	extra_range = 8
 	falloff = 0
 	persistent_loop = TRUE
-	var/stress2give = /datum/stressevent/music/musicbox
+	var/stress2give = /datum/stressevent/musicbox
 	channel = CHANNEL_JUKEBOX
 
 /datum/looping_sound/musloop/on_hear_sound(mob/M)

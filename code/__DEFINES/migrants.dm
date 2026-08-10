@@ -6,6 +6,9 @@
 #define MIGRANT_TRACK_TRIUMPH "triumph"
 #define MIGRANT_TRACK_EVENT "event"
 
+// This show per character limits, beyond that it just shows numbers of role.
+#define MIGRANT_ROLE_OPTION_LIMIT 16
+
 #define MIGRANT_NOBILITY \
 	/datum/migrant_role/heartfelt/lord,\
 	/datum/migrant_role/heartfelt/hand,\

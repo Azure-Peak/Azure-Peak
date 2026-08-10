@@ -33,7 +33,9 @@
 		"Baosumi",
 		"Thorns", // Queen of thorns, Lady of thorns, etc etc.
 		"Belladoth",
-		"Beladoth" //SOMEONE WILL MISPELL IT, I JUST KNOW IT.
+		"Beladoth", //SOMEONE WILL MISPELL IT, I JUST KNOW IT.
+		"Leopard", // fjall
+		"Solace", // bigger part of her new lore, i.e. lady of solace
 	)
 
 /datum/patron/inhumen/baotha/can_pray(mob/living/follower)

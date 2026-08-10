@@ -153,7 +153,7 @@
 	icon_state = "applenutcake"
 	slices_num = 8
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/applenutcakeslice
-	list_reagents = list(/datum/reagent/consumable/nutriment = 48, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/nicotine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 48, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/westleach = 1)
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"apple"=1,"nutty"=1)
 	foodtype = GRAIN | DAIRY | SUGAR | FRUIT
@@ -581,7 +581,7 @@
 	icon_state = "rocknutcake"
 	slices_num = 8
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/rocknutcakeslice
-	list_reagents = list(/datum/reagent/consumable/nutriment = 48, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/nicotine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 48, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/westleach = 1)
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"nutty"=1)
 	foodtype = GRAIN | DAIRY | SUGAR | FRUIT

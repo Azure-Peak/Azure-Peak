@@ -886,7 +886,6 @@
 		alert(usr, "Target has no mind!") // Optional Error check that may or may not be neccessary
 	GLOB.chosen_names -= H.real_name
 	LAZYREMOVE(GLOB.actors_list, H.mobid)
-	LAZYREMOVE(GLOB.roleplay_ads, H.mobid)
 	H.returntolobby()
 
 

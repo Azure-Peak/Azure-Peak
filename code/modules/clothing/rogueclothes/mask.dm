@@ -68,9 +68,6 @@
 	max_integrity = 300
 	var/lensmoved = FALSE
 
-/obj/item/clothing/mask/rogue/spectacles/inq/spawnpair
-	lensmoved = TRUE
-
 /obj/item/clothing/mask/rogue/spectacles/inq/equipped(mob/user, slot)
 	..()
 	if(slot == SLOT_WEAR_MASK || slot == SLOT_HEAD)
@@ -89,12 +86,13 @@
 
 /obj/item/clothing/mask/rogue/spectacles/inq/attack_right(mob/user, slot)
 	..()
-
 	if(!lensmoved)
+		playsound(user, 'sound/items/inqglassesoff.ogg', 80)
 		to_chat(user, span_info("You discreetly slide the inner lenses out of the way."))
 		REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 		lensmoved = TRUE
 		return
+	playsound(user, 'sound/items/inqglasseson.ogg', 80)
 	to_chat(user, span_info("You discreetly slide the inner lenses back into place."))
 	ADD_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 	lensmoved = FALSE
@@ -216,7 +214,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 200
+	max_integrity = 150
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
 	body_parts_covered = FACE|HEAD
@@ -314,10 +312,12 @@
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed/attack_right(mob/user, slot)
 	..()
 	if(!lensmoved)
+		playsound(user, 'sound/items/inqglassesoff.ogg', 80)
 		to_chat(user, span_info("You discreetly slide the inner lenses out of the way."))
 		REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 		lensmoved = TRUE
 		return
+	playsound(user, 'sound/items/inqglasseson.ogg', 80)
 	to_chat(user, span_info("You discreetly slide the inner lenses back into place."))
 	ADD_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 	lensmoved = FALSE
@@ -821,12 +821,13 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 200
+	max_integrity = 150
 	armor = ARMOR_PADDED
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/fibers
 	salvage_amount = 1
+	smeltresult = /obj/item/ash
 
 /obj/item/clothing/mask/rogue/facemask/padded/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
@@ -838,12 +839,13 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	max_integrity = 250 //slightly more durable than the padded mask
+	max_integrity = 180
 	armor = ARMOR_LEATHER
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
+	smeltresult = /obj/item/ash
 
 /obj/item/clothing/mask/rogue/facemask/leather/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask

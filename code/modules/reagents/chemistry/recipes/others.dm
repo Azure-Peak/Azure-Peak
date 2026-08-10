@@ -203,7 +203,7 @@
 	name = /datum/reagent/hair_dye
 	id = /datum/reagent/hair_dye
 	results = list(/datum/reagent/hair_dye = 5)
-	required_reagents = list(/datum/reagent/colorful_reagent = 1, /datum/reagent/uranium/radium = 1, /datum/reagent/drug/space_drugs = 1)
+	required_reagents = list(/datum/reagent/colorful_reagent = 1, /datum/reagent/uranium/radium = 1, /datum/reagent/drug/swampweed = 1)
 
 /datum/chemical_reaction/concentrated_barbers_aid
 	name = /datum/reagent/concentrated_barbers_aid

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -24,6 +24,12 @@ import {
   titleStyle,
 } from './common/parchment';
 
+type RoleOption = {
+  name: string;
+  playable: BooleanLike;
+  reason: string | null;
+};
+
 type Role = {
   ref: string;
   name: string;
@@ -33,6 +39,9 @@ type Role = {
   queued: BooleanLike;
   can_be: BooleanLike;
   desc: string;
+  options: RoleOption[];
+  option_count: number;
+  playable_count: number;
 };
 
 const KIND_LABEL: Record<Role['kind'], string> = {
@@ -97,8 +106,54 @@ const fmtClock = (deciseconds: number): string => {
 const kindColor = (kind: Role['kind']): string =>
   kind === 'required' ? SEAL_AMBER : SEAL_BLUE;
 
-const roleTooltip = (role: Role): string =>
-  role.desc ? `[${KIND_LABEL[role.kind]}] ${role.desc}` : '';
+const roleTooltip = (role: Role): string => {
+  const lines: string[] = [];
+  if (role.desc) {
+    lines.push(`[${KIND_LABEL[role.kind]}] ${role.desc}`);
+  }
+  if (role.options && role.options.length > 0) {
+    const playable = role.options
+      .filter((o) => o.playable)
+      .map((o) => o.name);
+    const locked = role.options
+      .filter((o) => !o.playable)
+      .map((o) => `${o.name}${o.reason ? ` (${o.reason})` : ''}`);
+    if (playable.length > 0) {
+      lines.push(`✓ You can play: ${playable.join(', ')}`);
+    }
+    if (locked.length > 0) {
+      lines.push(`✗ Locked: ${locked.join(', ')}`);
+    }
+  } else if (role.option_count > 0) {
+    lines.push(
+      `${role.playable_count} of ${role.option_count} classes available to your character`,
+    );
+  }
+  return lines.join('\n');
+};
+
+const RoleOptions = (props: { role: Role }) => {
+  const { role } = props;
+  if (role.option_count <= 0) {
+    return null;
+  }
+  const allPlayable = role.playable_count >= role.option_count;
+  return (
+    <div
+      title={roleTooltip(role)}
+      style={{
+        fontSize: '10px',
+        color: allPlayable ? SEAL_GREEN : SEAL_AMBER,
+        margin: '1px 0 2px 6px',
+        cursor: 'help',
+      }}
+    >
+      {allPlayable ? '✓ ' : ''}
+      You can play {role.playable_count} of {role.option_count} classes
+      {role.playable_count < role.option_count ? ' — hover to see which' : ''}
+    </div>
+  );
+};
 
 const QueueRoleRow = (props: {
   waveRef: string;
@@ -109,38 +164,33 @@ const QueueRoleRow = (props: {
   const { waveRef, waveQueued, role, act } = props;
   const claimed = !!waveQueued && !!role.queued;
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'baseline',
-        gap: '6px',
-        padding: '2px 4px',
-        fontFamily: SERIF,
-      }}
-    >
-      <button
-        type="button"
-        title={roleTooltip(role)}
-        style={{
-          ...inkButtonStyle({
-            disabled: !role.can_be,
-            color: claimed ? SEAL_GREEN : INK,
-          }),
-          flex: 1,
-          textAlign: 'left',
-          fontWeight: claimed ? 'bold' : 'normal',
-        }}
-        disabled={!role.can_be}
-        onClick={() => act('queue_role', { wave: waveRef, role: role.ref })}
-      >
-        {claimed ? '✓ ' : ''}
-        {role.name} <span style={{ color: INK_SOFT }}>x{role.amount}</span>
-      </button>
-      {role.stars > 0 && (
-        <span style={{ color: SEAL_AMBER, fontSize: '11px' }}>
-          {'★'.repeat(Math.min(role.stars, 5))}
-        </span>
-      )}
+    <div style={{ padding: '2px 4px', fontFamily: SERIF }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+        <button
+          type="button"
+          title={roleTooltip(role)}
+          style={{
+            ...inkButtonStyle({
+              disabled: !role.can_be,
+              color: claimed ? SEAL_GREEN : INK,
+            }),
+            flex: 1,
+            textAlign: 'left',
+            fontWeight: claimed ? 'bold' : 'normal',
+          }}
+          disabled={!role.can_be}
+          onClick={() => act('queue_role', { wave: waveRef, role: role.ref })}
+        >
+          {claimed ? '✓ ' : ''}
+          {role.name} <span style={{ color: INK_SOFT }}>x{role.amount}</span>
+        </button>
+        {role.stars > 0 && (
+          <span style={{ color: SEAL_AMBER, fontSize: '11px' }}>
+            {'★'.repeat(Math.min(role.stars, 5))}
+          </span>
+        )}
+      </div>
+      <RoleOptions role={role} />
     </div>
   );
 };
@@ -158,6 +208,14 @@ const StaticRoleLine = (props: { roles: Role[] }) => {
           {i > 0 && ', '}
           <span style={{ color: kindColor(r.kind) }}>{r.name}</span>
           {r.amount > 1 ? ` x${r.amount}` : ''}
+          {r.option_count > 0 && (
+            <span
+              style={{ color: r.playable_count < r.option_count ? SEAL_AMBER : INK_FAINT }}
+            >
+              {' '}
+              ({r.playable_count}/{r.option_count})
+            </span>
+          )}
         </span>
       ))}
     </div>
@@ -202,7 +260,7 @@ const FormingRoster = (props: {
         {forming.name}
       </div>
       <div style={{ color: SEAL_GREEN, fontSize: '12px', marginBottom: '3px' }}>
-        Arrives in {fmtClock(forming.arrival_at - now)}
+        Wave forms in {fmtClock(forming.arrival_at - now)}
       </div>
       {required.length > 0 && (
         <>
@@ -323,10 +381,14 @@ const PurchaseCard = (props: { wave: WaveInfo; now: number; act: ActFn }) => {
             <span style={{ color: SEAL_AMBER }}> (ready!)</span>
           )}
         </span>
-        <span style={{ fontSize: '11px', color: INK_SOFT }}>
-          {locked
-            ? `locked ${fmtClock(wave.locked_until - now)}`
-            : `${wave.roll_chance}%`}
+        <span
+          style={{ fontSize: '11px', color: ready ? SEAL_AMBER : INK_SOFT }}
+        >
+          {ready
+            ? 'summoning…'
+            : locked
+              ? `locked ${fmtClock(wave.locked_until - now)}`
+              : `${wave.roll_chance}%`}
         </span>
       </div>
       <div style={{ minHeight: '32px' }}>
@@ -378,6 +440,11 @@ export const MigrantPanel = () => {
   if (now < data.server_time) {
     setNow(data.server_time);
   }
+
+  useEffect(() => {
+    const id = setInterval(() => setNow((n) => n + 10), 1000);
+    return () => clearInterval(id);
+  }, []);
 
   const formingRegular = data.forming.find((f) => f.track === TRACK_REGULAR);
   const formingSpecial = data.forming.find((f) => f.track === TRACK_SPECIAL);
