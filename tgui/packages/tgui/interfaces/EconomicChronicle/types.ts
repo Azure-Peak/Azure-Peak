@@ -158,6 +158,28 @@ export type RoyalFavorsSnapshot = {
   rumor_unused: number;
 };
 
+export type MaterialDemandRow = {
+  name: string;
+  demanded: number;
+  fulfilled: number;
+};
+
+export type MaterialSupplyRow = {
+  name: string;
+  units: number;
+  value: number;
+};
+
+export type MaterialFlowSnapshot = {
+  demand: MaterialDemandRow[];
+  supply: MaterialSupplyRow[];
+  total_demanded: number;
+  total_fulfilled: number;
+  total_units: number;
+  total_value: number;
+  fulfillment_rate: number | null;
+};
+
 export type EconomicChronicleData = {
   treasury_balance: number;
   treasury: TreasurySnapshot;
@@ -166,4 +188,5 @@ export type EconomicChronicleData = {
   buckets: BucketSnapshot;
   contracts: ContractsSnapshot;
   royal_favors: RoyalFavorsSnapshot;
+  materials: MaterialFlowSnapshot;
 };

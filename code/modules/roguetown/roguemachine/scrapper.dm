@@ -212,6 +212,7 @@
 	material_held[path] = held + units
 	budget -= total_price
 	bark_dirty = TRUE
+	record_material_scrapped(path, units, total_price)
 	qdel(I)
 	for(var/i in 1 to units)
 		new path(src)

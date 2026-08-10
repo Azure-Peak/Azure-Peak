@@ -9,6 +9,7 @@ import {
 import { BucketsSection } from './EconomicChronicle/BucketsSection';
 import { ContractsSection } from './EconomicChronicle/ContractsSection';
 import { EconomySection } from './EconomicChronicle/EconomySection';
+import { MaterialsSection } from './EconomicChronicle/MaterialsSection';
 import { ShipsSection } from './EconomicChronicle/ShipsSection';
 import { compactPageStyle } from './EconomicChronicle/styles';
 import { TreasurySection } from './EconomicChronicle/TreasurySection';
@@ -41,6 +42,7 @@ export const EconomicChronicle = () => {
               balance={data.treasury_balance}
             />
             <EconomySection e={data.economy} />
+            <MaterialsSection m={data.materials} />
             <ShipsSection s={data.ships} />
             <BucketsSection b={data.buckets} />
             <ContractsSection c={data.contracts} rf={data.royal_favors} />

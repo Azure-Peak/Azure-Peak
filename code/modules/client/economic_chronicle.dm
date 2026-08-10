@@ -26,7 +26,62 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 	data["buckets"] = build_navigator_bucket_snapshot()
 	data["contracts"] = build_contracts_snapshot()
 	data["royal_favors"] = build_royal_favors_snapshot()
+	data["materials"] = build_material_flow_snapshot()
 	return data
+
+/datum/economic_chronicle/proc/build_material_flow_snapshot()
+	var/list/outstanding = build_material_demand_outstanding()
+	var/list/fulfilled = GLOB.material_demand_fulfilled
+	var/list/demand_paths = list()
+	for(var/path in outstanding)
+		demand_paths |= path
+	for(var/path in fulfilled)
+		demand_paths |= path
+	var/total_demanded = 0
+	var/total_fulfilled = 0
+	var/list/demand_out = list()
+	for(var/path in demand_paths)
+		var/done = fulfilled[path] || 0
+		var/demanded = (outstanding[path] || 0) + done
+		if(demanded <= 0)
+			continue
+		total_demanded += demanded
+		total_fulfilled += done
+		demand_out += list(list(
+			"name" = material_flow_name(path),
+			"demanded" = demanded,
+			"fulfilled" = done,
+		))
+	if(length(demand_out))
+		sortTim(demand_out, GLOBAL_PROC_REF(cmp_material_demand_desc))
+
+	var/total_units = 0
+	var/total_value = 0
+	var/list/supply_out = list()
+	for(var/path in GLOB.material_scrap_supplied)
+		var/units = GLOB.material_scrap_supplied[path] || 0
+		if(units <= 0)
+			continue
+		var/value = GLOB.material_scrap_value[path] || 0
+		total_units += units
+		total_value += value
+		supply_out += list(list(
+			"name" = material_flow_name(path),
+			"units" = units,
+			"value" = value,
+		))
+	if(length(supply_out))
+		sortTim(supply_out, GLOBAL_PROC_REF(cmp_material_supply_desc))
+
+	return list(
+		"demand" = demand_out,
+		"supply" = supply_out,
+		"total_demanded" = total_demanded,
+		"total_fulfilled" = total_fulfilled,
+		"total_units" = total_units,
+		"total_value" = total_value,
+		"fulfillment_rate" = total_demanded > 0 ? round((total_fulfilled / total_demanded) * 100, 0.1) : null,
+	)
 
 /datum/economic_chronicle/proc/build_treasury_snapshot()
 	var/list/poll = list(
