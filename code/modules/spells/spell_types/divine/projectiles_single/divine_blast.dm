@@ -98,7 +98,7 @@
 
 /obj/projectile/energy/divineblast/proc/apply_divine_damage(mob/living/L)
 	var/damage_to_do = damage
-	if(L.patron?.type in ALL_INHUMEN_PATRONS || L.patron?.type in OLD_GOD_PATRON)
+	if((L.patron?.type in ALL_INHUMEN_PATRONS) || (L.patron?.type in OLD_GOD_PATRON))
 		damage_to_do += 20
 	if(L.mob_biotypes & MOB_UNDEAD || HAS_TRAIT(L, TRAIT_SILVER_WEAK))
 		damage_to_do += 20
