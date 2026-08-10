@@ -786,6 +786,7 @@ SUBSYSTEM_DEF(economy)
 		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
 		if(stockpile_entry)
 			stockpile_entry.stockpile_amount -= delivered
+			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_STANDING_ORDER, stockpile_entry.item_type, delivered)
 		credit_economic_event_saturation(good_id, delivered)
 	SStreasury.dirty_market_view()
 

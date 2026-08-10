@@ -229,16 +229,27 @@
 
 	handle_smelting()
 
+/obj/machinery/light/rogue/smelter/proc/counts_for_economy()
+	var/area/A = get_area(src)
+	return A && is_type_in_typecache(A, GLOB.roguetown_areas_typecache)
+
+/obj/machinery/light/rogue/smelter/proc/smelt_into(path, quality, obj/item/source)
+	if((!source || source.type != path) && counts_for_economy())
+		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_DOMESTIC, path, 1)
+		if(source)
+			record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, source.type, 1)
+	return new path(src, quality)
+
 /obj/machinery/light/rogue/smelter/proc/handle_smelting()
 	for(var/obj/item/item as anything in contained_items)
 		if(item.smeltresult)
 			// disabled for now, balance reasons
 			// while(item.smelt_bar_num)
 			// 	item.smelt_bar_num--
-			// 	var/obj/item/result = new item.smeltresult(src, contained_items[item])
+			// 	var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
 			// 	contained_items += result
 			// contained_items -= item
-			var/obj/item/result = new item.smeltresult(src, contained_items[item])
+			var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
 			contained_items -= item
 			contained_items += result
 			qdel(item)
@@ -315,16 +326,18 @@
 		for(var/obj/item/item in contained_items)
 			floor_mean_quality += contained_items[item]
 			ore_deleted += 1
+			if(counts_for_economy())
+				record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, item.type, 1)
 			contained_items -= item
 			qdel(item)
 		floor_mean_quality = floor(floor_mean_quality/ore_deleted)
 		for(var/i in 1 to max_contained_items)
-			var/obj/item/result = new alloy(src, floor_mean_quality)
+			var/obj/item/result = smelt_into(alloy, floor_mean_quality)
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)
 			if(item.smeltresult)
-				var/obj/item/result = new item.smeltresult(src, contained_items[item])
+				var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
 				contained_items -= item
 				contained_items += result
 				qdel(item)
@@ -368,16 +381,18 @@
 		for(var/obj/item/item in contained_items)
 			floor_mean_quality += contained_items[item]
 			ore_deleted += 1
+			if(counts_for_economy())
+				record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, item.type, 1)
 			contained_items -= item
 			qdel(item)
 		floor_mean_quality = floor(floor_mean_quality/ore_deleted)
 		for(var/i in 1 to max_contained_items)
-			var/obj/item/result = new alloy(src, floor_mean_quality)
+			var/obj/item/result = smelt_into(alloy, floor_mean_quality)
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)
 			if(item.smeltresult)
-				var/obj/item/result = new item.smeltresult(src, contained_items[item])
+				var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
 				contained_items -= item
 				contained_items += result
 				qdel(item)

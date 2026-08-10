@@ -378,6 +378,7 @@
 					play_sound=TRUE
 					budgie += prize
 					credit_pool(bucket, base_price)
+					record_material_flow(MATERIAL_FLOW_OUT, is_bm_export ? MATERIAL_SOURCE_BLACK_MARKET : MATERIAL_SOURCE_FOREIGN_EXPORT, I.type, 1, prize)
 					I.visible_message(span_warning("[I] is sucked into the air!"))
 					if(bucket)
 						if(saturation_mult < 0.6 && !(bucket in penalty_categories))

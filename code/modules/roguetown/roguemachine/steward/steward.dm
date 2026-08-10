@@ -592,6 +592,7 @@
 	if(!A)
 		return
 	var/obj/item/I = new D.item_type()
+	record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, 1)
 	var/list/turfs = list()
 	for(var/turf/T in A)
 		turfs += T

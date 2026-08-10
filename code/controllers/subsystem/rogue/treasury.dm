@@ -512,6 +512,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	var/amt = D.get_export_price()
 	D.stockpile_amount -= D.importexport_amt
+	record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_LOCAL_EXPORT, D.item_type, D.importexport_amt, amt)
 	dirty_market_view()
 
 	mint(discretionary_fund, amt, "exported [D.name]")
@@ -538,14 +539,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/surplus_result = mass_export_surplus(silent = TRUE)
 	total_value_exported += surplus_result["revenue"]
 
-/// Walks every auto-priced trade-good stockpile entry and exports stock above the
-/// daily auto-export floor (limit * autoexport_percentage) to its best-paying region,
-/// capped at that region's remaining demand for the day. The Crown's daily sweep
-/// fires this with silent=TRUE; the Steward's "Export Surplus" button fires it with
-/// silent=FALSE for a per-good chat breakdown.
-///
-/// Returns: list("revenue" = total mammon, "units" = total units exported,
-/// "lines" = list of "[qty] [name] -> [region] for [revenue]m" strings).
 /datum/controller/subsystem/treasury/proc/mass_export_surplus(silent = FALSE)
 	var/total_revenue = 0
 	var/total_units = 0
@@ -580,6 +573,7 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		total_revenue += revenue
 		total_units += export_qty
+		record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_LOCAL_EXPORT, D.item_type, export_qty, revenue)
 		if(!silent)
 			lines += "[export_qty] [D.name] to [region.name] for [revenue]m"
 	return list("revenue" = total_revenue, "units" = total_units, "lines" = lines)

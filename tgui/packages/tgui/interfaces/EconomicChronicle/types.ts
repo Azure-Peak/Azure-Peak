@@ -158,42 +158,38 @@ export type RoyalFavorsSnapshot = {
   rumor_unused: number;
 };
 
-export type MaterialDemandRow = {
+export type MaterialFlowColumn = {
+  code: string;
+  label: string;
+  dir: 'in' | 'out';
+};
+
+export type MaterialFlowCategory = {
+  code: string;
+  label: string;
+};
+
+export type MaterialFlowRow = {
   name: string;
-  demanded: number;
-  fulfilled: number;
-};
-
-export type MaterialSupplyRow = {
-  name: string;
-  units: number;
-  value: number;
-};
-
-export type MaterialDemandBlock = {
-  source: string;
-  rows: MaterialDemandRow[];
-  demanded: number;
-  fulfilled: number;
-  mammons: number;
-};
-
-export type MaterialSupplyBlock = {
-  source: string;
-  rows: MaterialSupplyRow[];
-  units: number;
-  value: number;
+  cat: string | null;
+  cells: Record<string, number>;
+  in: number;
+  out: number;
+  open: number;
+  net: number;
 };
 
 export type MaterialFlowSnapshot = {
-  demand: MaterialDemandBlock[];
-  supply: MaterialSupplyBlock[];
-  total_demanded: number;
-  total_fulfilled: number;
+  columns: MaterialFlowColumn[];
+  categories: MaterialFlowCategory[];
+  rows: MaterialFlowRow[];
+  column_totals: Record<string, number>;
+  total_in: number;
+  total_out: number;
+  total_net: number;
+  total_open: number;
   total_mammons: number;
-  total_units: number;
-  total_value: number;
-  fulfillment_rate: number | null;
+  scrap_value: number;
 };
 
 export type ChronicleTab = 'realm' | 'trade' | 'materials';

@@ -123,10 +123,10 @@
 #define STATS_BLOCKADE_CONTRACTS_FAILED "blockade_contracts_failed"
 #define STATS_BLOCKADE_REWARDS_PAID "blockade_rewards_paid"
 // For material flows
-#define STATS_COMMISSION_MATERIALS_FULFILLED "commission_materials_fulfilled"
 #define STATS_COMMISSION_MAMMONS_PAID "commission_mammons_paid"
-#define STATS_SCRAP_UNITS_SUPPLIED "scrap_units_supplied"
 #define STATS_SCRAP_MAMMONS_PAID "scrap_mammons_paid"
+#define STATS_MATERIAL_UNITS_IN "material_units_in"
+#define STATS_MATERIAL_UNITS_OUT "material_units_out"
 
 // Influence related statistics
 
@@ -491,10 +491,10 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_BLOCKADES_CLEARED = 0,
 	STATS_BLOCKADE_CONTRACTS_FAILED = 0,
 	STATS_BLOCKADE_REWARDS_PAID = 0,
-	STATS_COMMISSION_MATERIALS_FULFILLED = 0,
 	STATS_COMMISSION_MAMMONS_PAID = 0,
-	STATS_SCRAP_UNITS_SUPPLIED = 0,
 	STATS_SCRAP_MAMMONS_PAID = 0,
+	STATS_MATERIAL_UNITS_IN = 0,
+	STATS_MATERIAL_UNITS_OUT = 0,
 	STATS_KILLED_HIGHWAYMEN = 0,
 	STATS_KILLED_BOGMEN = 0,
 	STATS_KILLED_LESSER_BEASTS = 0,

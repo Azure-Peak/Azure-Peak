@@ -979,7 +979,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 /obj/structure/roguemachine/escrow/proc/record_order_materials_fulfilled(datum/escrow_order/O, ratio = 1, mammons = 0)
 	var/list/tally = O.material_tally(src)
 	for(var/path in tally)
-		record_material_demand_fulfilled(flow_source, path, ratio >= 1 ? tally[path] : round(tally[path] * ratio))
+		record_material_flow(MATERIAL_FLOW_OUT, flow_source, path, ratio >= 1 ? tally[path] : round(tally[path] * ratio))
 	record_commission_mammons(flow_source, mammons)
 
 /obj/structure/roguemachine/escrow/proc/settle_partial_order(datum/escrow_order/O, mob/user)
@@ -1084,7 +1084,6 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	name = "TAILORING COMMISSIONER"
 	desc = "A brass-plated commission board for the weavers' and tailors' guild. Coin held in escrow until the work is delivered."
 	keycontrol = list("tailor", "crafterguild", "craftermaster")
-	flow_source = MATERIAL_SOURCE_TAILOR_COMMISSIONER
 	allowed_categories = list(
 		ITEM_CAT_GARMENT_COMMON,
 		ITEM_CAT_GARMENT_FINE,
