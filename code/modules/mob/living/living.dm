@@ -1510,7 +1510,7 @@
 		src << browse(null,"window=mob[REF(who)]")
 
 // The src mob is emptying an unclaimed corpse in one go, one do_after per item so it can be interrupted for partial loot
-/mob/living/stripPanelUnequipAll(mob/who)
+/mob/living/stripPanelUnequipAll(mob/who, loot_filter = LOOT_FILTER_ALL)
 	var/mob/living/target = who
 	if(!isliving(target) || !target.is_unclaimed_corpse())
 		return
@@ -1541,16 +1541,28 @@
 	for(var/obj/item/I in carried)
 		if(I.item_flags & ABSTRACT)
 			continue
+		if(!I.matches_loot_filter(loot_filter))
+			continue
 		if(!I.canStrip(target))
 			continue
 		loot += I
 
+	var/nothing_msg = "[target] has nothing left worth taking."
+	var/start_msg = "I start looting [target]..."
+	switch(loot_filter)
+		if(LOOT_FILTER_FABRIC)
+			nothing_msg = "[target] has nothing worth cutting up."
+			start_msg = "I start stripping [target] for cloth..."
+		if(LOOT_FILTER_SMELT)
+			nothing_msg = "[target] has nothing worth melting down."
+			start_msg = "I start stripping [target] for metal..."
+
 	if(!length(loot))
-		to_chat(src, span_warning("[target] has nothing left worth taking."))
+		to_chat(src, span_warning(nothing_msg))
 		return
 
 	target.visible_message(span_warning("[src] starts looting [target]."), null, null, null, src)
-	to_chat(src, span_notice("I start looting [target]..."))
+	to_chat(src, span_notice(start_msg))
 
 	var/taken = 0
 	for(var/obj/item/I in loot)

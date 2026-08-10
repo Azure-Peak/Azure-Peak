@@ -53,9 +53,9 @@
 		return null
 	if((I.type in material_prices) && material_enabled[I.type])
 		return I.type
-	if(I.smeltresult && (I.smeltresult in material_prices) && material_enabled[I.smeltresult])
+	if(I.is_smeltable() && (I.smeltresult in material_prices) && material_enabled[I.smeltresult])
 		return I.smeltresult
-	if(I.sewrepair && I.salvage_result && (I.salvage_result in material_prices) && material_enabled[I.salvage_result])
+	if(I.is_salvageable() && (I.salvage_result in material_prices) && material_enabled[I.salvage_result])
 		return I.salvage_result
 	return null
 

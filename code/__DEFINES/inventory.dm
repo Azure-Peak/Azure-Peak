@@ -28,6 +28,11 @@
 #define STRIP_DELAY_MULT_SURRENDER		0.5	//target is compliant, surrendering, or has broken armor
 #define STRIP_DELAY_MULT_UNCLAIMED_CORPSE	0.33 // Makes stripping NPC way faster after they are killed, to support a proper scrapping econo0my
 
+// Loot filter
+#define LOOT_FILTER_ALL		"all"
+#define LOOT_FILTER_FABRIC	"fabric"
+#define LOOT_FILTER_SMELT	"smelt"
+
 //ITEM INVENTORY SLOT BITMASKS
 
 #define ITEM_SLOT_PANTS			(1<<0)

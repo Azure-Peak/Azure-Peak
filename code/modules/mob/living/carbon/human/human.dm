@@ -175,7 +175,22 @@
 	dat += "<table>"
 
 	if(is_unclaimed_corpse())
-		dat += "<tr><td><A href='?src=[REF(src)];strip_all=1'><B>Loot Everything</B></A></td></tr>"
+		var/has_fabric = FALSE
+		var/has_smelt = FALSE
+		for(var/obj/item/I in (get_equipped_items(TRUE) + held_items))
+			if(I.item_flags & ABSTRACT)
+				continue
+			if(I.is_salvageable())
+				has_fabric = TRUE
+			if(I.is_smeltable())
+				has_smelt = TRUE
+			if(has_fabric && has_smelt)
+				break
+		dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_ALL]'><B>Loot Everything</B></A></td></tr>"
+		if(has_fabric)
+			dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_FABRIC]'>Loot Fabric</A></td></tr>"
+		if(has_smelt)
+			dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_SMELT]'>Loot Smeltable</A></td></tr>"
 		dat += "<tr><td><hr></td></tr>"
 
 	if(handcuffed)
@@ -183,7 +198,8 @@
 	if(legcuffed)
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'>Remove [legcuffed]</A></td></tr>"
 
-	dat += "<tr><td><hr></td></tr>"
+	if(handcuffed || legcuffed)
+		dat += "<tr><td><hr></td></tr>"
 
 	for(var/i in 1 to held_items.len)
 		var/obj/item/I = get_item_for_held_index(i)
@@ -298,14 +314,11 @@
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SHOES]'>[(shoes && !(shoes.item_flags & ABSTRACT)) ? shoes : "<font color=grey>Boots</font>"]</A></td></tr>"
 
-	dat += "<tr><td><hr></td></tr>"
-
 #ifdef MATURESERVER
 	if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-		dat += "<tr><td><BR><B>Underwear:</B> <A href='?src=[REF(src)];undiesthing=1'>[!underwear ? "Nothing" : "Remove"]</A></td></tr>"
-	dat += "<tr><td><hr></td></tr>"
-	if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-		dat += "<tr><td><BR><B>Legwear:</B> <A href='?src=[REF(src)];legwearsthing=1'>[!legwear_socks ? "Nothing" : "Remove"]</A></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
+		dat += "<tr><td><B>Underwear:</B> <A href='?src=[REF(src)];undiesthing=1'>[!underwear ? "Nothing" : "Remove"]</A></td></tr>"
+		dat += "<tr><td><B>Legwear:</B> <A href='?src=[REF(src)];legwearsthing=1'>[!legwear_socks ? "Nothing" : "Remove"]</A></td></tr>"
 #endif
 
 	dat += {"</table>"}
