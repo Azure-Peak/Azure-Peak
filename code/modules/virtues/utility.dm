@@ -218,6 +218,7 @@
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
 		"Sneak Skill (+2, Up to Legendary)" = /datum/skill/misc/sneaking,
 		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking,
+		"Pickpocketing Skill (+3, Up to Legendary)" = /datum/skill/misc/stealing,
 		"Second Voice"
 		)
 
@@ -236,6 +237,8 @@
 				if(extra_choices[choice] == /datum/skill/misc/sneaking)
 					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
 				else if(extra_choices[choice] == /datum/skill/misc/lockpicking)
+					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+				else if(extra_choices[choice] == /datum/skill/misc/stealing)
 					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
