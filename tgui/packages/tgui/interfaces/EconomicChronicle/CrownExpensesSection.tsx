@@ -102,7 +102,7 @@ export const CrownExpensesSection = (props: Props) => {
         items={[{ label: 'Total drawn', value: `${c.total}m`, color: SEAL_RED }]}
       />
       {c.groups.length === 0 ? (
-        <div style={emptyStyle}>Nothing was drawn from the Crown&apos;s Purse.</div>
+        <div style={emptyStyle}>Nothing was drawn from the Crown&apos;s Purse, yet.</div>
       ) : right.length === 0 ? (
         <ExpenseTable groups={left} />
       ) : (

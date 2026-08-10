@@ -33,6 +33,14 @@ GLOBAL_LIST_EMPTY(treasury_expense_ledger)
 	var/role = M.job
 	return role ? role : "Unknown"
 
+/proc/total_treasury_expenses()
+	var/total = 0
+	for(var/mechanism in GLOB.treasury_expense_ledger)
+		var/list/by_role = GLOB.treasury_expense_ledger[mechanism]
+		for(var/role in by_role)
+			total += by_role[role]
+	return total
+
 /proc/cmp_treasury_role_desc(list/a, list/b)
 	return b["amount"] - a["amount"]
 

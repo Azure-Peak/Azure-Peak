@@ -52,10 +52,6 @@ export type TreasurySnapshot = {
   stockpile_direct_imports: number;
   standing: StandingSnapshot;
   shortages_ended: number;
-  wages_paid: number;
-  treasury_transfers: number;
-  stockpile_imports: number;
-  banditry_losses: number;
   banditry_owed: number;
   treasury_debt_repaid: number;
   treasury_debt_owed: number;

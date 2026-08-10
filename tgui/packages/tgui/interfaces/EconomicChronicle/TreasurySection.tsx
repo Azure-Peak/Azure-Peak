@@ -28,7 +28,6 @@ const RevenueColumn = (props: { t: TreasurySnapshot }) => {
     <div>
       <table style={twoColTable}>
         <tbody>
-          <Row label="Starting Treasury" value={t.starting} />
           <Row label="Rural Taxes Collected" value={t.rural_taxes} />
           <Row label="Poll Tax Collected" value={t.poll.total} />
         </tbody>
@@ -102,18 +101,6 @@ const ExpensesColumn = (props: { t: TreasurySnapshot }) => {
   const showForfeiture = t.forfeiture_amount > 0 || t.forfeiture_count > 0;
   return (
     <div>
-      <table style={twoColTable}>
-        <tbody>
-          <Row label="Salary Payments" value={t.wages_paid} />
-          <Row label="Treasury Transfers" value={t.treasury_transfers} />
-          <Row label="Stockpile Imports" value={t.stockpile_imports} />
-          <Row
-            label="Banditry Losses"
-            value={t.banditry_losses}
-            color={SEAL_RED}
-          />
-        </tbody>
-      </table>
       {t.banditry_owed > 0 && (
         <Breakdown>{t.banditry_owed} still owed</Breakdown>
       )}
@@ -166,6 +153,7 @@ const ExpensesColumn = (props: { t: TreasurySnapshot }) => {
           />
         </tbody>
       </table>
+      <Breakdown>itemised by recipient under Crown Expenses</Breakdown>
     </div>
   );
 };
@@ -204,6 +192,8 @@ export const TreasurySection = (props: Props) => {
       <SectionTitle>Realm&apos;s Treasury - balance: {balance}</SectionTitle>
       <SummarySegment
         items={[
+          { label: 'Opened', value: t.starting },
+          { label: 'Closed', value: balance },
           {
             label: 'Net result',
             value: formatSigned(t.net_treasury),

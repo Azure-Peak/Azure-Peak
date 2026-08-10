@@ -188,9 +188,8 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"petitioned" = GLOB.azure_round_stats[STATS_STANDING_ORDERS_PETITIONED] || 0,
 		"petition_pledge_spent" = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT] || 0,
 	)
-	var/banditry_losses = GLOB.azure_round_stats[STATS_BANDITRY_LOSSES] || 0
-	var/total_revenue = (GLOB.azure_round_stats[STATS_STARTING_TREASURY] || 0) + (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
-	var/total_expenses = (GLOB.azure_round_stats[STATS_WAGES_PAID] || 0) + (GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0) + banditry_losses
+	var/total_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
+	var/total_expenses = total_treasury_expenses()
 	var/taxable_activity = royal_taxes_total + (GLOB.azure_round_stats[STATS_TAXES_EVADED] || 0)
 	var/effective_tax_rate = taxable_activity > 0 ? round((royal_taxes_total / taxable_activity) * 100, 0.1) : null
 	var/all_revenue_streams = royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + exempt_total
@@ -207,10 +206,6 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"stockpile_direct_imports" = GLOB.azure_round_stats[STATS_STOCKPILE_DIRECT_IMPORTS] || 0,
 		"standing" = standing,
 		"shortages_ended" = GLOB.azure_round_stats[STATS_SHORTAGES_ENDED] || 0,
-		"wages_paid" = GLOB.azure_round_stats[STATS_WAGES_PAID] || 0,
-		"treasury_transfers" = GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS] || 0,
-		"stockpile_imports" = GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0,
-		"banditry_losses" = banditry_losses,
 		"banditry_owed" = GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] || 0,
 		"treasury_debt_repaid" = GLOB.azure_round_stats[STATS_TREASURY_DEBT_REPAID] || 0,
 		"treasury_debt_owed" = GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] || 0,
