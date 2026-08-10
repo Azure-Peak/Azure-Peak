@@ -951,6 +951,9 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	if(!is_guild_member(user))
 		to_chat(user, span_warning("Only a member of the crafter's guild may claim a commission."))
 		return
+	if(escrow_key(user) == O.commissioner_name)
+		to_chat(user, span_warning("I cannot fulfill my own commission."))
+		return
 	O.status = "claimed"
 	O.smith_name = escrow_key(user)
 	O.day_claimed = GLOB.dayspassed
