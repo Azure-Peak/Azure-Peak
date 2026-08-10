@@ -608,13 +608,13 @@ SUBSYSTEM_DEF(job)
 
 				if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
 					continue
-				
+
 				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
 					continue
 
 				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
 					continue
-					
+
 				if(length(job.vice_restrictions))
 					var/has_restricted_vice = FALSE
 					for(var/datum/charflaw/cf in player.client.prefs.charflaws)
@@ -950,3 +950,34 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/proc/JobDebug(message)
 	log_job_debug(message)
+
+/datum/controller/subsystem/job/proc/bitflag_to_department(department_flag, obsfuscated = FALSE)
+	var/key = "Wanderers"
+	if(obsfuscated)
+		return key
+	switch(department_flag) // Omega tier slop.
+		if(NOBLEMEN)
+			key = "Noblemen"
+		if(COURTIERS)
+			key = "Courtiers"
+		if(GARRISON)
+			key = "Garrison"
+		if(RETINUE)
+			key = "Retinue"
+		if(CHURCHMEN)
+			key = "Church"
+		if(INQUISITION)
+			key = "Inquisition"
+		if(BURGHERS)
+			key = "Burghers"
+		if(GUILDSMAN)
+			key = "Guildsmen"
+		if(PEASANTS)
+			key = "Peasants"
+		if(SIDEFOLK)
+			key = "Sidefolk"
+		if(WANDERERS)
+			key = "Wanderers"
+		else
+			key = "Wanderers"
+	return key
