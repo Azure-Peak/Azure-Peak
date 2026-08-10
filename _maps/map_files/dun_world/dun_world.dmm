@@ -112466,13 +112466,6 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town)
-"uoa" = (
-/obj/structure/mineral_door/wood/fancywood{
-	lockid = "Cafe Key";
-	locked = 1
-	},
-/turf/open/floor/rogue/grassred,
-/area/rogue/outdoors/town)
 "uoe" = (
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter{
 	faction = list("undead")
@@ -294850,7 +294843,7 @@ fpx
 fpx
 pWT
 pWT
-uoa
+daQ
 fpx
 iub
 quK
