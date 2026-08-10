@@ -1295,6 +1295,20 @@
 	name = target.real_name
 	body = target
 
+/datum/profane_soul_data/Destroy(force, ...)
+	if(src.body)
+		src.remove_assassinate_traits()
+	. = ..()
+
+/// Removes the DNR & claimed by darkstar. For if something goes wrong.
+/datum/profane_soul_data/remove_assassinate_traits()
+	if(!src.body)
+		return
+	if(HAS_TRAIT_FROM(src.body, TRAIT_DNR, GRAGGAR_ASSASSINATED))
+		REMOVE_TRAIT(src.body, TRAIT_DNR, GRAGGAR_ASSASSINATED)
+	if(HAS_TRAIT_FROM(src.body, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED))
+		REMOVE_TRAIT(src.body, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
@@ -1363,7 +1377,6 @@
 		if(ass)
 			ass.my_dagger = null
 	. = ..()
-
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
@@ -1541,6 +1554,8 @@
 	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
 	user.adjust_triumphs(1)
 
+
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
 	var/freed_souls = 0
 	for(var/datum/profane_soul_data/soul in stored_souls)
@@ -1548,10 +1563,7 @@
 		if(soul.body && !QDELETED(soul.body))
 			var/mob/living/carbon/human/H = soul.body
 			var/mob/dead/observer/playerghost = H.get_ghost(TRUE, TRUE)
-			if(HAS_TRAIT_FROM(H, TRAIT_DNR, GRAGGAR_ASSASSINATED))
-				REMOVE_TRAIT(H, TRAIT_DNR, GRAGGAR_ASSASSINATED)
-			if(HAS_TRAIT_FROM(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED))
-				REMOVE_TRAIT(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
+			soul.remove_assassinate_traits()
 			if(playerghost)
 				to_chat(playerghost, "<b>I have been freed from my vile prison! I await revival, or Necra's cold grasp... SALVATION!</b>")
 			else
