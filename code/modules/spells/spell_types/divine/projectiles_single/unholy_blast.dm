@@ -59,7 +59,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
-		if(M.anti_magic_check())
+		if(M.anti_magic_check() || HAS_TRAIT(M, TRAIT_SILVER_BLESSED))
 			visible_message(span_warning("[src] dissipates harmlessly against [target]!"))
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
@@ -79,13 +79,15 @@
 					return
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !L.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 					L.visible_message("<font color='white'>Divine power staggers [L]!</font>")
-					L.Immobilize(3 SECONDS)
-					L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+					L.Immobilize(1 SECONDS)
+					L.Slowdown(2 SECONDS)
 				apply_divine_damage(L)
 				var/datum/action/cooldown/spell/projectile/unholy_blast/S = source_spell
 				if(S && S.can_apply_god_bonus())
 					apply_god_bonus(L)
 					S.consume_god_bonus()
+				L.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/divine)
+				L.ignite_mob()
 	qdel(src)
 
 /datum/action/cooldown/spell/projectile/unholy_blast/proc/can_apply_god_bonus()
@@ -96,16 +98,14 @@
 
 /obj/projectile/energy/unholyblast/proc/apply_divine_damage(mob/living/L)
 	var/damage_to_do = damage
-	if(L.patron?.type in ALL_DIVINE_PATRONS)
+	if((L.patron?.type in ALL_DIVINE_PATRONS) || (L.patron?.type in OLD_GOD_PATRON))
 		damage_to_do += 30
-	if(L.patron?.type in OLD_GOD_PATRON)
-		damage_to_do += 25
-	if(L.mob_biotypes & MOB_UNDEAD)
-		damage_to_do += 50
+	if(L.mob_biotypes & MOB_UNDEAD || HAS_TRAIT(L, TRAIT_SILVER_WEAK))
+		damage_to_do += 10
 	if(!L.mind)
-		damage_to_do += 50
+		damage_to_do += 60
 	var/mob/living/carbon/human/caster = firer
-	if(L.guard_deflect_spell("Unholy Blast", TRUE, caster))
+	if(L.guard_deflect_spell("Divine Blast", TRUE, caster))
 		return
 	if(istype(caster) && ishuman(L))
 		arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, npc_simple_damage_mult = 1, skip_animation = TRUE)
@@ -113,7 +113,7 @@
 		L.apply_damage(damage_to_do, BURN)
 
 /obj/projectile/energy/unholyblast/proc/apply_god_bonus(mob/living/L)
-	L.visible_message("'#aa0000'--Divine Smite!!")
+	L.visible_message("<font color='#aa0000'>--Divine Smite!!")
 	var/mob/living/carbon/human/caster = firer
 	if(!istype(caster))
 		return
