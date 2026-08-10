@@ -29,6 +29,9 @@ GLOBAL_LIST_EMPTY(treasury_expense_ledger)
 	var/role = M.job
 	return role ? role : "Unknown"
 
+/proc/cmp_treasury_role_desc(list/a, list/b)
+	return b["amount"] - a["amount"]
+
 /proc/record_treasury_expense(mechanism, role, amount)
 	if(!mechanism || amount <= 0)
 		return

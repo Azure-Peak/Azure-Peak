@@ -192,6 +192,22 @@ export type MaterialFlowSnapshot = {
   scrap_value: number;
 };
 
+export type CrownExpenseRow = {
+  name: string;
+  amount: number;
+};
+
+export type CrownExpenseGroup = {
+  name: string;
+  rows: CrownExpenseRow[];
+  total: number;
+};
+
+export type CrownExpenseSnapshot = {
+  groups: CrownExpenseGroup[];
+  total: number;
+};
+
 export type ChronicleTab = 'realm' | 'trade' | 'materials';
 
 export type EconomicChronicleData = {
@@ -203,4 +219,5 @@ export type EconomicChronicleData = {
   contracts: ContractsSnapshot;
   royal_favors: RoyalFavorsSnapshot;
   materials: MaterialFlowSnapshot;
+  crown_expenses: CrownExpenseSnapshot;
 };

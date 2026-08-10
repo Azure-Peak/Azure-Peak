@@ -29,7 +29,37 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 	data["contracts"] = build_contracts_snapshot()
 	data["royal_favors"] = build_royal_favors_snapshot()
 	data["materials"] = build_material_flow_snapshot()
+	data["crown_expenses"] = build_crown_expense_snapshot()
 	return data
+
+/datum/economic_chronicle/proc/build_crown_expense_snapshot()
+	var/list/groups = list()
+	var/total = 0
+	for(var/mechanism in GLOB.treasury_flow_order)
+		var/list/by_role = GLOB.treasury_expense_ledger[mechanism]
+		if(!length(by_role))
+			continue
+		var/list/rows = list()
+		var/group_total = 0
+		for(var/role in by_role)
+			var/amount = by_role[role]
+			if(amount <= 0)
+				continue
+			group_total += amount
+			rows += list(list("name" = role, "amount" = amount))
+		if(!length(rows))
+			continue
+		sortTim(rows, GLOBAL_PROC_REF(cmp_treasury_role_desc))
+		total += group_total
+		groups += list(list(
+			"name" = mechanism,
+			"rows" = rows,
+			"total" = group_total,
+		))
+	return list(
+		"groups" = groups,
+		"total" = total,
+	)
 
 /datum/economic_chronicle/proc/build_material_flow_snapshot()
 	var/list/outstanding = build_material_demand_outstanding()
