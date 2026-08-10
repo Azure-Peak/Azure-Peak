@@ -315,7 +315,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	return mint(account, amt, "Savings")
 
-/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label)
+/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label, is_salary = FALSE)
 	if(!amt)
 		return
 	if(!target)
@@ -336,6 +336,8 @@ SUBSYSTEM_DEF(treasury)
 			if(!transfer(discretionary_fund, account, amt, source))
 				return FALSE
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+		if(!mint_new)
+			record_treasury_payout(usr, istype(target, /mob/living) ? target : null, amt, is_salary)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
 		log_game("CROWN GRANT: [usr ? key_name(usr) : "system"] granted [amt]m to [istype(target, /mob/living) ? key_name(target) : target_name] via [source || "unknown"]")
 	else
@@ -468,7 +470,7 @@ SUBSYSTEM_DEF(treasury)
 		var/datum/fund/account = bank_accounts[owner]
 		if(!account || account.wages_suspended)
 			continue
-		if(give_money_account(payment_amount, owner, "Daily Wage"))
+		if(give_money_account(payment_amount, owner, "Daily Wage", is_salary = TRUE))
 			record_round_statistic(STATS_WAGES_PAID, payment_amount)
 
 	if(SSeconomy)
@@ -987,6 +989,7 @@ SUBSYSTEM_DEF(treasury)
 				continue
 			if(!transfer(discretionary_fund, account, subsidy, "Poll Subsidy ([category])"))
 				continue
+			record_treasury_expense(TREASURY_FLOW_SUBSIDY, get_poll_tax_category_pretty_name(category), subsidy)
 			// Record as a negative against the category - the breakdown shows net Crown intake.
 			record_poll_tax_by_category(category, -subsidy)
 			to_chat(owner, span_notice("<b>POLL SUBSIDY:</b> [subsidy]m granted by the Crown."))
