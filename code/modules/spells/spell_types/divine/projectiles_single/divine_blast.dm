@@ -59,7 +59,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
-		if((M.anti_magic_check()) || (M.job in GLOB.church_positions))
+		if(M.anti_magic_check())
 			visible_message(span_warning("[src] dissipates harmlessly against [target]!"))
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
