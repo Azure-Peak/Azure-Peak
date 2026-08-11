@@ -1,6 +1,6 @@
 /datum/advclass/arcanist // old magick witch, but without the witch outfit, deathsight, zadform, etc; mage offrole, similar outfit to apprentices
 	name = "Arcanist"
-	tutorial = "You are a magos and a scholar, albeit one without the Academy's sanction. Perhaps your magic is the edge you need to stand out from the rest of the rabble; perhaps it's simply a personal interest. Either way, you'll need to be careful; one spell hitting the wrong noble's saiga might be all it takes to see you on a pyre."
+	tutorial = "You are a magos and a scholar, not one enrolled in the academy. Perhaps your magic is the edge you need to stand out from the rest of the rabble; perhaps it's simply a personal interest."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/arcanist

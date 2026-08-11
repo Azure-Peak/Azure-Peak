@@ -1,6 +1,6 @@
 /datum/advclass/sage // godsblood witch, but without the witch outfit, deathsight, zadform, etc; cleric offrole, similar outfit to sextons
 	name = "Sage"
-	tutorial = "Unlike most of the townsfolk, you bear a rare devotion to the gods. Your penchant for healing the sick and aiding the troubled has earned you just enough reputation to offset the suspicion cast on clerics outside the Church... hopefully."
+	tutorial = "Unlike most of the townsfolk, you bear a rare devotion to the gods. Your penchant for healing the sick and aiding the troubled has earned you the gratitude of many among the townsfolk."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/sage
