@@ -271,10 +271,10 @@
 
 /datum/supply_pack/rogue/tools/cart_upgrade
 	name = "Woodcutters Wheelbrace (Cart Capacity Upgrade)"
-	cost = 50
+	cost = 25
 	contains = list(/obj/item/cart_upgrade/level_1)
 
 /datum/supply_pack/rogue/tools/cart_upgrade2
 	name = "Reinforced Woodcutters Wheelbrace (Cart Capacity Upgrade)"
-	cost = 125
+	cost = 50
 	contains = list(/obj/item/cart_upgrade/level_2)
