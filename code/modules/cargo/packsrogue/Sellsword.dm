@@ -216,7 +216,7 @@
 
 /datum/supply_pack/rogue/Sellsword/Forlorncrate
 	name = "Forlorn Equipment Crate"
-	cost = 260
+	cost = 280
 	contains = list(/obj/structure/closet/crate/chest/bandit/forlorn)
 
 /obj/structure/closet/crate/chest/bandit/forlorn/Initialize()
