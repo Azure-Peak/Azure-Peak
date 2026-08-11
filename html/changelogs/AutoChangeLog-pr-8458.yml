@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Allows crossbow to be loaded with bolt from pouches with a free hand"
+  - rscadd: "Slurbow / Staker can load bolt 1 handed by clicking pouch."
+  - rscadd: "Crossbow nocking free hand check now happens before instead of after the action."
+  - rscadd: "Bow now requires a free hand to quick load an arrow (Not a real issue but consistency)"

@@ -115,18 +115,44 @@
 			types[A.type]["count"]++
 	return types
 
-/obj/item/quiver/proc/pick_ammo(ammo_base_type)
+/obj/item/quiver/proc/pick_ammo(ammo_base_type, wanted_caliber)
 	var/obj/item/ammo_casing/caseless/rogue/fallback
 	for(var/obj/item/ammo_casing/caseless/rogue/A in arrows)
 		if(ammo_base_type && !istype(A, ammo_base_type))
+			continue
+		if(wanted_caliber && A.caliber != wanted_caliber)
 			continue
 		if(!fallback)
 			fallback = A
 		if(preferred_ammo_type && istype(A, preferred_ammo_type))
 			return A
-	if(preferred_ammo_type)
+	if(preferred_ammo_type && !wanted_caliber)
 		preferred_ammo_type = fallback?.type
 	return fallback
+
+/obj/item/quiver/proc/try_quick_load(obj/item/gun/ballistic/revolver/grenadelauncher/B, mob/user, params)
+	if(B.chambered)
+		return FALSE
+	if(!B.can_quick_load(user))
+		return FALSE
+	if(!length(arrows))
+		to_chat(user, span_warning("[src] is empty!"))
+		return FALSE
+	var/obj/item/ammo_casing/caseless/rogue/AR = pick_ammo(allowed_ammo_type, B.magazine?.caliber)
+	if(!AR)
+		to_chat(user, span_warning("Nothing in [src] fits [B]."))
+		return FALSE
+	arrows -= AR
+	B.quickloading = TRUE
+	B.attackby(AR, user, params)
+	B.quickloading = FALSE
+	if(!B.chambered)
+		arrows += AR
+		return FALSE
+	if(HAS_TRAIT(user, TRAIT_COMBAT_AWARE))
+		user.balloon_alert(user, "[length(arrows)] left...")
+	update_icon()
+	return TRUE
 
 /obj/item/quiver/attack_turf(turf/T, mob/living/user)
 	if(get_current_weight() >= max_storage)
@@ -163,35 +189,25 @@
 
 	update_icon()
 
-/obj/item/quiver/attackby(obj/A, loc, params)
+/obj/item/quiver/attackby(obj/A, mob/user, params)
 	if(istype(A, /obj/item/ammo_casing/caseless/rogue))
 		if(!istype(A, allowed_ammo_type))
-			to_chat(loc, span_warning("That doesn't fit in [src]."))
+			to_chat(user, span_warning("That doesn't fit in [src]."))
 			return FALSE
 		var/obj/item/ammo_casing/caseless/rogue/ammo = A
 		if(get_current_weight() + ammo.ammo_weight <= max_storage)
-			if(ismob(loc))
-				var/mob/M = loc
-				M.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
+			if(ismob(user))
+				user.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
 			else
 				A.forceMove(src)
 			arrows += A
 			update_icon()
 		else
-			to_chat(loc, span_warning("Full!"))
+			to_chat(user, span_warning("Full!"))
 		return
-	if(istype(A, /obj/item/gun/ballistic/revolver/grenadelauncher/bow))
-		var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/B = A
-		if(arrows.len && !B.chambered)
-			var/obj/item/ammo_casing/caseless/rogue/AR = pick_ammo(/obj/item/ammo_casing/caseless/rogue/arrow)
-			if(AR)
-				arrows -= AR
-				B.attackby(AR, loc, params)
-				if(ismob(loc))
-					var/mob/M = loc
-					if(HAS_TRAIT(M, TRAIT_COMBAT_AWARE))
-						M.balloon_alert(M, "[length(arrows)] left...")
-				update_icon()
+	if(istype(A, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		if(ismob(user))
+			try_quick_load(A, user, params)
 		return
 	..()
 
@@ -244,7 +260,7 @@
 
 /obj/item/quiver/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click the quiver with a bow or sling to quick-load.")
+	. += span_info("Left-click with a compatible ranged weapon to nock straight from it. Bows and crossbows need my other hand free; slings do not.")
 	. += span_info("Left-click on the ground to pick up ammo.")
 	. += span_info("Shift-Right-click to select which ammo type to load first.")
 	. += span_info("Ctrl-Click to drop all ammo on the ground one by one.")
@@ -781,17 +797,6 @@
 			if(!eatarrow(sling_bullet))
 				break
 
-/obj/item/quiver/sling/attackby(obj/A, loc, params)
-	if(istype(A, /obj/item/gun/ballistic/revolver/grenadelauncher/sling))
-		var/obj/item/gun/ballistic/revolver/grenadelauncher/sling/B = A
-		if(arrows.len && !B.chambered)
-			var/obj/item/ammo_casing/caseless/rogue/AR = pick_ammo(/obj/item/ammo_casing/caseless/rogue/sling_bullet)
-			if(AR)
-				arrows -= AR
-				B.attackby(AR, loc, params)
-		return
-	..()
-
 /obj/item/quiver/sling/attack_right(mob/user)
 	if(arrows.len)
 		var/obj/O = arrows[arrows.len]
@@ -1014,12 +1019,12 @@
 	if(holstered_weapon)
 		. += span_notice("Holstered: [holstered_weapon.name].")
 	else
-		. += span_warning("No weapon holstered. Left-click with a compatible weapon to holster it.")
+		. += span_warning("No weapon holstered. Middle-click with a compatible weapon to holster it.")
 
 /obj/item/quiver/mechanized/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Automatically picks up compatible ammo when you walk over it.")
-	. += span_info("Left-click with a compatible weapon to holster it.")
+	. += span_info("Middle-click with a compatible weapon to holster it.")
 	. += span_info("Right-click to draw the holstered weapon to your active hand.")
 
 //this controls the overlays, you migh need to adjust the bowoverlay_x and bowoverlay_y vars in the specific quiver types depending on the graphic
