@@ -39,11 +39,6 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/witch/oldmagick
 	category_tags = list(CTAG_WITCH)
 	townie_contract_gate_exempt = TRUE
-	subclass_stats = list(
-		STATKEY_INT = 3,
-		STATKEY_SPD = 2,
-		STATKEY_LCK = 1
-	)
 	age_mod = /datum/class_age_mod/witch
 	traits_applied = list(TRAIT_ARCYNE)
 
@@ -66,11 +61,6 @@
 
 	outfit = /datum/outfit/job/roguetown/adventurer/witch/godsblood
 	category_tags = list(CTAG_WITCH)
-	subclass_stats = list(
-		STATKEY_INT = 3,
-		STATKEY_SPD = 2,
-		STATKEY_LCK = 1
-	)
 	age_mod = /datum/class_age_mod/witch
 
 	subclass_skills = list(
@@ -95,11 +85,6 @@
 
 	outfit = /datum/outfit/job/roguetown/adventurer/witch/mystagogue
 	category_tags = list(CTAG_WITCH)
-	subclass_stats = list(
-		STATKEY_INT = 3,
-		STATKEY_SPD = 2,
-		STATKEY_LCK = 1
-	)
 	age_mod = /datum/class_age_mod/witch
 
 	subclass_skills = list(
