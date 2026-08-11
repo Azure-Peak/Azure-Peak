@@ -25,6 +25,7 @@
 	category = FOOD_CAT_PRESERVED
 	name = "salo"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
+	subtype_reqs = FALSE
 	reqs = list(
 		/obj/item/reagent_containers/food/snacks/fat = 1,
 		/obj/item/reagent_containers/powder/salt = 1)
