@@ -356,7 +356,7 @@
 					if(IT.unmintable && !accepts_unmintable)
 						continue
 				var/base_price = I.get_real_price()
-				var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+				var/category = get_derived_category(I.type) || ITEM_CAT_MISCELLANEOUS
 				var/bucket = get_navigator_bucket_for_item(I, category)
 				if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
 					if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
