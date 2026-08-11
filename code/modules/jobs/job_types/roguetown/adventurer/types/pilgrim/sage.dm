@@ -73,3 +73,6 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+
+	var/datum/devotion/D = new /datum/devotion/(H, H.patron)
+	D.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
