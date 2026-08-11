@@ -52,6 +52,10 @@
 	. += span_info("Crossbows increase in accuracy with a higher <b>PERCEPTION</b>, but deal a static amount of damage \
 	regardless of character stats.")
 	. += span_info("Crossbows cannot be nocked directly from their quiver and require time to load.")
+	if(damfactor < 1)
+		. += span_info("This weapon <b>reduces</b> bolt damage by <b>[round((1 - damfactor) * 100, 1)]%</b>.")
+	else if(damfactor > 1)
+		. += span_info("This weapon <b>increases</b> bolt damage by <b>[round((damfactor - 1) * 100, 1)]%</b>.")
 	if(penfactor < 0)
 		. += span_info("This weapon <b>reduces</b> bolt penetration by <b>[abs(penfactor)]</b> tier(s).")
 	else if(penfactor > 0)
