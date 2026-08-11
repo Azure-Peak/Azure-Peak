@@ -4,6 +4,143 @@
 //ZIZO//
 ////////
 
+/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/explode_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
+	if(B && !QDELETED(B))
+		B.End()
+
+	if(!S || QDELETED(S))
+		return
+
+	if(!caster || QDELETED(caster))
+		return
+
+	var/turf/T = get_turf(S)
+	if(!T)
+		return
+
+	var/faction_tag = "[caster.real_name]_faction"
+
+	S.visible_message(span_danger("[S] erupts into a storm of bone fragments!"))
+	new /obj/effect/temp_visual/explosion(T)
+	playsound(T, 'sound/misc/explode/explosion.ogg', 50)
+
+	var/list/thrownatoms = list()
+
+	for(var/turf/nearby in get_hear(1, T))
+		for(var/atom/movable/AM in nearby)
+			thrownatoms += AM
+
+	for(var/atom/movable/AM in thrownatoms)
+		if(QDELETED(AM))
+			continue
+
+		if(AM == S)
+			continue
+
+		if(AM.anchored)
+			continue
+
+		if(isliving(AM))
+			var/mob/living/M = AM
+
+			if(M == caster)
+				continue
+
+			if(M.mind?.current)
+				if(faction_tag in M.mind.current.faction)
+					continue
+			else if(faction_tag in M.faction)
+				continue
+
+			if(!M.mind && M.resting && M.stat != CONSCIOUS)
+				M.gib(TRUE, TRUE, TRUE, FALSE)
+
+			if(!M.mind)
+				M.Stun(50)
+
+			M.set_resting(TRUE, TRUE)
+			to_chat(M, span_danger("The blast hurls you backwards!"))
+
+		var/atom/throwtarget = get_edge_target_turf(T, get_dir(T, get_step_away(AM, T)))
+		AM.safe_throw_at(throwtarget, 2, 1, caster, force = MOVE_FORCE_EXTREMELY_STRONG)
+
+	for(var/mob/living/carbon/C in view(4, T))
+		if(C.stat == DEAD && C.mind)
+			continue
+
+		if(C == caster)
+			continue
+
+		if(C.mind?.current)
+			if(faction_tag in C.mind.current.faction)
+				continue
+		else if(faction_tag in C.faction)
+			continue
+
+		var/dist = get_dist(C, T)
+		var/min_splinters
+		var/max_splinters
+
+		switch(dist)
+			if(0, 1)
+				min_splinters = 3
+				max_splinters = 4
+			if(2)
+				min_splinters = 1
+				max_splinters = 3
+			if(3)
+				min_splinters = 1
+				max_splinters = 2
+			else
+				continue
+
+		var/splinter_count = rand(min_splinters, max_splinters)
+		var/brute_damage = rand(10, 20)
+
+		C.adjustBruteLoss(brute_damage)
+
+		for(var/i in 1 to splinter_count)
+			if(!length(C.bodyparts))
+				break
+
+			var/obj/item/bodypart/limb = pick(C.bodyparts)
+			var/obj/item/bone/profane_splinter/P = new
+
+			limb.add_embedded_object(P, FALSE, TRUE)
+
+		C.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
+		C.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
+		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
+
+	new /obj/effect/decal/remains/human(T)
+	qdel(S)
+
+/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/despawn_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
+	if(B && !QDELETED(B))
+		B.End()
+
+	if(!S || QDELETED(S))
+		return
+
+	if(!caster || QDELETED(caster))
+		return
+
+	var/turf/T = get_turf(S)
+	if(!T)
+		return
+
+	S.visible_message(
+		span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"),
+		span_warning("Ashes to ashes, dust to dust...")
+	)
+
+	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
+	caster.energy_add(120)
+	caster.stamina_add(-50)
+	new /obj/item/ash(T)
+	new /obj/item/ash(T)
+	qdel(S)
+
 /datum/action/cooldown/spell/zizo/rituos/proc/run_ritual_chant(mob/living/carbon/human/user, path_choice)
 	var/list/chant_lines
 
