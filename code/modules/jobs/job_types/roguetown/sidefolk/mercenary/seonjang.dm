@@ -33,7 +33,8 @@
 /datum/outfit/job/roguetown/mercenary/seonjang/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a Captain of the Clan, second to none. The blades and bows of the Ruma look to you for guidance - rally your warriors and lead by example!"))
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //scalemail
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest //light brigadine.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
 	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
@@ -49,9 +50,9 @@
 	H.adjust_blindness(-3)
 
 	if(should_wear_masc_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
+		l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 		cloak = /obj/item/clothing/cloak/eastcloak1
 		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
 	else if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
+		l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 	H.merctype = 9

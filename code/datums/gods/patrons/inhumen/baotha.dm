@@ -1,8 +1,8 @@
 /datum/patron/inhumen/baotha
 	name = "Baotha"
-	domain = "Goddess of Hedonism, Addiction, Anguish, and Heartbreak"
-	desc = "The twin sister of Eora, fallen to disgrace. She brings comfort to those who can't find it elsewhere but the bottom of a bottle; and she tempts those who have lost much into her fold through offers of relief and pleasure, yet they soon find themselves unable to escape her grasp. Seen as a scorned lover by many, and followed by such."
-	worshippers = "Widows, Gamblers, Addicts, and Scorned Lovers"
+	domain = "Goddess of Comfort, Passion, Addiction, and Heartbreak"
+	desc = "Belladoth was the Eleventh of the Pantheon, In taboo rituo, she took on the pain of the uncomforted and outcast, those that had been rejected by her siblings; and together, their pain became Baotha. A saccharine truth that the hurts of the world need not be shouldered alone, no matter who you are. She offers succor to those that cannot find it elsewhere. Baothans range from the Heartbroken and Damaged to those that have simply turned to Nihilism in the face of the death of Psydonia."
+	worshippers = "The Anguished, the Hollow, the Heartbroken, the Addicted"
 	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/baothavice				= CLERIC_T0,
@@ -46,10 +46,10 @@
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
-			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
+			to_chat(follower, span_danger("That accursed cross interrupts my prayer."))
 			return FALSE
 		return TRUE
-	// Allows prayers in the bath house - whore.
+	// Allows prayers in the bath house
 	if(istype(get_area(follower), /area/rogue/indoors/town/bath))
 		return TRUE
 	// Allows prayers if actively high on drugs.
@@ -61,7 +61,7 @@
 	// Allows praying atop ritual chalk of the god.
 	for(var/obj/structure/ritualcircle/baotha in view(1, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("For Baotha to hear my prayers I must either be in the church of the abandoned, near an inverted psycross, within the town's bathhouse, or actively partaking in one of various types of nose-candy!"))
+	to_chat(follower, span_danger("For Baotha to hear my prayers I must either be in the church of the abandoned, near an inverted psycross, within the town's bathhouse, or actively partaking in a substance."))
 	return FALSE
 
 #define BAOTHA_SUFFERING_DIVIDER 3.535 // max bonus at 50 pain/bleedrate and pain_mod = 1
@@ -76,11 +76,11 @@
 	is_inhumen
 )
 	*is_inhumen = TRUE
-	*message_out = span_info("Hedonistic impulses and emotions throb all about from [target].")
-	*message_self = span_notice("An intoxicating rush of narcotic delight soothes my suffering!")
+	*message_out = span_info("Heart-throb and loss radiate from [target].")
+	*message_self = span_notice("Warm numbness soothes my suffering.")
 
 	if(!ishuman(target))
-		*message_self = span_notice("An intoxicating rush of narcotic delight flows through me!")
+		*message_self = span_notice("Warm numbness soothes my suffering.")
 		return
 
 	var/mob/living/carbon/human/human_target = target

@@ -1,4 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "fixes a VERY bad exploit, albeit this is a stopgap, NPCs cannot be gravemarked until a proper fix comes out."
