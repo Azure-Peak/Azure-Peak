@@ -441,7 +441,7 @@
 	color = "#FFFFFF"
 	detail_color = "#5E4440"
 
-/obj/item/clothing/neck/roguetown/gorget/forlorncollar
+/obj/item/clothing/neck/roguetown/gorget/steel/forlorncollar //steel so they're not pressured to upgrade out of their special thing.
 	name = "forlorn collar"
 	desc = "A old reminder."
 	icon_state = "iwolfcollaralt"

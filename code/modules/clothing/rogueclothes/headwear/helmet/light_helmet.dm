@@ -139,7 +139,7 @@
 	sewrepair = TRUE
 	resistance_flags = FIRE_PROOF
 
-// Grenzel unique drip head. Pretend it is a secrete (A type of hat with a hidden helmet underneath). Same stats as kettle
+// Grenzel unique drip head. Pretend it is a secrete (A type of hat with a hidden helmet underneath). Same stats as hardened leather helmet.
 /obj/item/clothing/head/roguetown/grenzelhofthat
 	name = "grenzelhoft plume hat"
 	desc = "Whether it's monsters or fair maidens, a true Grenzelhoftian slays both. This hat contains a hidden metallic cap underneath to protect the head from blows. </br>I can fit this onto a sallet, Etruscan bascinet, or Blacksteel armet for added protection."
@@ -151,9 +151,9 @@
 	detail_tag = "_detail"
 	altdetail_tag = "_detailalt"
 	dynamic_hair_suffix = ""
-	max_integrity = ARMOR_INT_HELMET_LEATHER
+	max_integrity = ARMOR_INT_HELMET_HARDLEATHER //Match their other side-gear, and so it's not replaced early by a 30-mam tailor purchase.
 	body_parts_covered = HEAD|HAIR|EARS
-	armor = ARMOR_LEATHER // spellsinger hat stats
+	armor = ARMOR_LEATHER
 	sewrepair = TRUE
 	resistance_flags = FIRE_PROOF
 	var/picked = FALSE

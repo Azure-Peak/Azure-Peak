@@ -2,7 +2,7 @@
 	name = "Forlorn Hope Mercenary"
 	tutorial = "The Order of the Forlorn Hope, a order formed off the back of a Ranesheni slave revolt. Drawing from all walks of life, this mercenary company now takes ranks from both purchased and liberated slaves. Coin is power, and power is the path to freedom."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/forlorn
 	class_select_category = CLASS_CAT_RANESHENI
 	min_pq = 2
@@ -40,14 +40,14 @@
 
 /datum/outfit/job/roguetown/mercenary/forlorn/pre_equip(mob/living/carbon/human/H)
 	..()
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	neck = /obj/item/clothing/neck/roguetown/gorget/forlorncollar
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //Let them start with some foot protection.
+	neck = /obj/item/clothing/neck/roguetown/gorget/forlorncollar  //steel gorget equiv.
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/light
 	pants = /obj/item/clothing/under/roguetown/brigandinelegs		// They're brigandinejaks. ergo have them start w/the whole thing
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine		// They're brigandinejaks. ergo have them start w/the whole thing
 	belt = /obj/item/storage/belt/rogue/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord     //a standard arming jacket is not too much to ask.
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(

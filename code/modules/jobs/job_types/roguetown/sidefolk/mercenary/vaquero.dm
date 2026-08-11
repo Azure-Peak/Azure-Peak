@@ -42,7 +42,7 @@
 	..()
 	head = /obj/item/clothing/head/roguetown/bardhat
 	mouth = /obj/item/alch/rosa
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt

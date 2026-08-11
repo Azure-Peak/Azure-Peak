@@ -126,6 +126,7 @@
 	icon_state = "eastgloves2"
 	item_state = "eastgloves2"
 	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER   //only mercenary ruma get these, they can be equal to hardened leather.
 	resistance_flags = null
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
