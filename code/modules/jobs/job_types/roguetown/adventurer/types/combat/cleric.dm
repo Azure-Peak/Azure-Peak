@@ -145,53 +145,7 @@
 		else
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe //placeholder, anyone who doesn't have cool patron drip sprites just gets generic robes
 			mask = /obj/item/clothing/head/roguetown/roguehood
-	switch(H.patron?.type)
-		if(/datum/patron/old_god)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-		if(/datum/patron/divine/astrata)
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
-		if(/datum/patron/divine/noc)
-			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-		if(/datum/patron/divine/abyssor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			H.grant_language(/datum/language/abyssal)
-		if(/datum/patron/divine/dendor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
-		if(/datum/patron/divine/necra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
-		if(/datum/patron/divine/pestra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
-		if(/datum/patron/divine/ravox)
-			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
-		if(/datum/patron/divine/malum)
-			neck = /obj/item/clothing/neck/roguetown/psicross/malum
-		if(/datum/patron/divine/eora)
-			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/divine/xylix)
-			neck = /obj/item/clothing/neck/roguetown/luckcharm
-			H.cmode_music = 'sound/music/combat_jester.ogg'
+	neck = apply_cleric_pre_equip(H)
 
 /datum/advclass/cleric/paladin
 	name = "Paladin"
@@ -382,53 +336,7 @@
 				id = /obj/item/clothing/ring/silver/cleric //Minor restoration of the old silver ring that Clerics could get. Worth less than the other two alternatives, but offers a choice for those who want to remain unspecialized.
 
 	H.set_blindness(0)
-	switch(H.patron?.type)
-		if(/datum/patron/old_god)
-			wrists = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/undivided
-		if(/datum/patron/divine/astrata)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
-		if(/datum/patron/divine/noc)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/noc
-		if(/datum/patron/divine/abyssor)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			H.grant_language(/datum/language/abyssal)
-		if(/datum/patron/divine/dendor)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
-		if(/datum/patron/divine/necra)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/necra
-			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
-		if(/datum/patron/divine/pestra)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/pestra
-		if(/datum/patron/divine/ravox)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/ravox
-		if(/datum/patron/divine/malum)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/malum
-		if(/datum/patron/divine/eora)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/eora
-			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			wrists = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			wrists = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			wrists = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			wrists = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/divine/xylix)
-			wrists = /obj/item/clothing/neck/roguetown/luckcharm
-			H.cmode_music = 'sound/music/combat_jester.ogg'
+	wrists = apply_cleric_pre_equip(H)
 
 /datum/advclass/cleric/cantor
 	name = "Cantor"
@@ -550,53 +458,7 @@
 				backr = /obj/item/rogue/instrument/drum
 			if("Shamisen")
 				backr = /obj/item/rogue/instrument/shamisen
-	switch(H.patron?.type)
-		if(/datum/patron/old_god)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-		if(/datum/patron/divine/astrata)
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
-		if(/datum/patron/divine/noc)
-			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-		if(/datum/patron/divine/abyssor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			H.grant_language(/datum/language/abyssal)
-		if(/datum/patron/divine/dendor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
-		if(/datum/patron/divine/necra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
-		if(/datum/patron/divine/pestra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
-		if(/datum/patron/divine/ravox)
-			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
-		if(/datum/patron/divine/malum)
-			neck = /obj/item/clothing/neck/roguetown/psicross/malum
-		if(/datum/patron/divine/eora)
-			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/divine/xylix)
-			neck = /obj/item/clothing/neck/roguetown/luckcharm
-			H.cmode_music = 'sound/music/combat_jester.ogg'
+	neck = apply_cleric_pre_equip(H)
 
 /datum/advclass/cleric/missionary
 	name = "Missionary"
@@ -802,51 +664,6 @@
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/unholy_blast)
 	if(istype(H.patron, /datum/patron/old_god))
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/psydon/enduring_blast) //99% rock chance, 1% boulder, hilarious.
-	switch(H.patron?.type)
-		if(/datum/patron/old_god)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-		if(/datum/patron/divine/astrata)
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
-		if(/datum/patron/divine/noc)
-			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-		if(/datum/patron/divine/abyssor)
-			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			H.grant_language(/datum/language/abyssal)
-		if(/datum/patron/divine/dendor)
-			H.grant_language (/datum/language/beast)
-			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
-		if(/datum/patron/divine/necra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
-		if(/datum/patron/divine/pestra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
-		if(/datum/patron/divine/ravox)
-			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
-		if(/datum/patron/divine/malum)
-			neck = /obj/item/clothing/neck/roguetown/psicross/malum
-		if(/datum/patron/divine/eora)
-			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			neck = /obj/item/clothing/neck/roguetown/psicross
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/divine/xylix)
-			neck = /obj/item/clothing/neck/roguetown/luckcharm
-			H.cmode_music = 'sound/music/combat_jester.ogg'
+	neck = apply_cleric_pre_equip(H)
+	if(istype(H.patron, /datum/patron/divine/dendor)) // ONLY missionary gets this for some reason so it's not included in apply_cleric_pre_equip
+		H.grant_language (/datum/language/beast)
