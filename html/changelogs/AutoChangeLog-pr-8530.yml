@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fixes an issue with the trim() that made everything get deleted when you click \"I RESCIND\""

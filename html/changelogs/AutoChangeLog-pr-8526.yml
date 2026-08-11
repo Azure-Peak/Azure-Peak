@@ -1,4 +1,0 @@
-author: "Ryumi"
-delete-after: True
-changes:
-  - bugfix: "\"Update feature colors with change\" now actually works as described in character creation."

@@ -1,7 +1,0 @@
-author: "SpadesNeil"
-delete-after: True
-changes:
-  - bugfix: "Skill is read for instruments now no matter if you're attempting to be in a band or not."
-  - bugfix: "Band mechanics never actually worked. They probably work now. Probably."
-  - code_imp: "Consent is important. Starting or joining a band is no longer the default. Also the yes or no is now yea or nay."
-  - code_imp: "Made band code less awful and inefficient."

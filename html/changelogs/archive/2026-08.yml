@@ -376,3 +376,86 @@
   - bugfix: westleach now displays "Westleach Extract" instead of "nicotine"
   plsleavemealon:
   - rscadd: Added a new flamboyant hat
+2026-08-11:
+  Dorodomki:
+  - rscadd: 'Added new dupatta + harem pants in recipes + loadout
+
+      :cl:'
+  KatTheFox:
+  - rscadd: Witches can now select their subtype and shapeshift form in role prefs
+  - rscadd: A third alt mode for verglas, "skate", which continually lays rapidly-fading
+      verglas under you so long as you keep moving and don't break concentration.
+  - bugfix: Firestacks, including sunderstacks, no longer set worn items on fire and
+      burn off all your clothes.
+  - bugfix: hellhounds are no longer invisible
+  Ketrai:
+  - qol: Balloon alerts for rejuvinating paint puddles. (Purifying wave miracle)
+  Lagomorphica:
+  - balance: Vizier Restoration no longer instantly fixes all bleeding. Instead, it
+      will reduce the severity of the bleeding each time it is done until it is healed.
+  - balance: Vizier Reversal no longer works the same way at all. It is instead a
+      15 second windup, attack cancellable massive heal that stops all bleeding and
+      helps with wounds the same way as Undermaidens Bargain.
+  Lamasmaster:
+  - balance: Reduce METAL SCRAP required for studded armour by 1
+  - image: Changed Hardened Leather Armor back to it's old sprite.
+  Quinalion:
+  - qol: Improved the visual filter of nocshade lens-pair.
+  - sound: Added inqglasseson.ogg and inqglassesoff.ogg.
+  Ryumi:
+  - bugfix: '"Update feature colors with change" now actually works as described in
+      character creation.'
+  SpadesNeil:
+  - bugfix: Skill is read for instruments now no matter if you're attempting to be
+      in a band or not.
+  - bugfix: Band mechanics never actually worked. They probably work now. Probably.
+  - code_imp: Consent is important. Starting or joining a band is no longer the default.
+      Also the yes or no is now yea or nay.
+  - code_imp: Made band code less awful and inefficient.
+  TheLuggage05:
+  - bugfix: The Forgefiend spawns with a great weapon strap now.
+  WeNeedMorePhoron:
+  - rscdel: Removed obsolete TGUI / Legacy UI Toggle
+  - rscadd: Adds a 6 seconds warning telegraph based on the one Ketrai added for hunting
+      with a shorter timer, before contracts mobs spawn in
+  - rscadd: Added support for summon spell to replace summon one at a time or fully
+      at capacity. Such a replacement will inflict a partial recoil based on how heavily
+      damaged the summon is.
+  - rscadd: Zizo Cleric's Raise Lesser Skeleton spell now replace its summons one
+      at a time.
+  - rscadd: Resolved an issue where summoned undead don't attack other undead, because
+      of a shared "Skeleton_faction" because they were all named Skeleton. Note that
+      this doesn't applies to Zizo's other miracles, which has not moved onto the
+      new system and I am not touching to not dip myself into balance discussions
+  - bugfix: Lesser Fetch and Repel can no longer move anchored object or objects meant
+      to resist moving. No more navigator fetching.
+  - bugfix: Lesser Fetch / Repel has been renamed and refactored, removing the old
+      fetch / repel and any instances of their projectile being referenced. They are
+      now Fetch / Repel.
+  - bugfix: Obsolete unused Vanderlin alchemy runes code has been removed
+  - rscdel: Deep one no longer yeet the old fetch projectiles at you.
+  - bugfix: Fixes an issue with the trim() that made everything get deleted when you
+      click "I RESCIND"
+  - rscadd: Right Click let you mass sell items on feet to smith scrapper / rag picker
+      and gives payout in one go
+  YakumoChen:
+  - bugfix: fixed the music skill hopefully for real this time I swear
+  eirenxiv:
+  - balance: RAGE duration 90 -> 45 seconds
+  - balance: RAGE CD 2 -> 1 min
+  - balance: RAGE activation threshold scales SHARPLY (activates earlier)
+  - balance: removed RAGE stat scaling
+  - balance: RAGE now grants different effects based on stages instead of flat stats
+      (Adrenaline rush, Blue regen, Hard Dismember)
+  - balance: Barbarian now gets proper RAGE
+  mumblemancer:
+  - bugfix: mindlink works again. use ,m to speak thru it
+  - bugfix: sconces built north will be on the wall proper now
+  nerocavalier:
+  - rscadd: Added roundface bascinet to Heretics, Knights, Knight Errants, Disgraced
+      Knights.
+  radarseas:
+  - bugfix: fixes a VERY bad exploit, albeit this is a stopgap, NPCs cannot be gravemarked
+      until a proper fix comes out.
+  saltprjak:
+  - rscadd: Studded Leather Hood can now be bought from merchant vendors.
