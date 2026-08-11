@@ -65,7 +65,7 @@
 
 /datum/outfit/job/roguetown/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
-	if(!visualsOnly && H.real_name)
+	if(!visualsOnly && H.real_name && !H.ai_controller)
 		H.faction |= "[H.real_name]_faction"
 	var/datum/patron/old_patron = H.patron
 	if(length(allowed_patrons) && (!old_patron || !(old_patron.type in allowed_patrons)))

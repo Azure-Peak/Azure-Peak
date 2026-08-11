@@ -25,9 +25,6 @@
 	if(isnull(user.client))
 		return null
 
-	if(!user.client.prefs.tgui_pref)
-		var/our_input = input(user, message, title) as null|anything in items
-		return our_input ? list(our_input) : null
 	var/datum/tgui_checkbox_input/input = new(user, message, title, items, min_checked, max_checked, timeout, ui_state)
 	input.ui_interact(user)
 	input.wait()
