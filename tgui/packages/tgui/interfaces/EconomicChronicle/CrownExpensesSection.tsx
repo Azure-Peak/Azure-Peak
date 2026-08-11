@@ -48,7 +48,8 @@ const amountCell = {
 } as const;
 
 const ExpenseTable = (props: { groups: CrownExpenseGroup[] }) => (
-  <table style={twoColTable}>
+  <div>
+    <table style={twoColTable}>
     <thead>
       <tr>
         <td style={compactHeaderCell}>Expense</td>
@@ -73,9 +74,10 @@ const ExpenseTable = (props: { groups: CrownExpenseGroup[] }) => (
             </tr>
           ))}
         </Fragment>
-      ))}
-    </tbody>
-  </table>
+        ))}
+      </tbody>
+    </table>
+  </div>
 );
 
 export const CrownExpensesSection = (props: Props) => {

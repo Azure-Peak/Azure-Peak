@@ -7,6 +7,7 @@ import {
   compactCardStyle,
   dividerStyle,
   Row,
+  Tally,
   twoColTable,
   twoColumnLayout,
 } from './styles';
@@ -28,26 +29,36 @@ const TaxationColumn = (props: { t: TreasurySnapshot }) => {
           <Row label="Poll Tax Collected" value={t.poll.total} />
         </tbody>
       </table>
-      <Breakdown>
-        Noble {t.poll.noble} &bull; Clergy {t.poll.clergy} &bull; Inquisition{' '}
-        {t.poll.inquisition} &bull; Courtier {t.poll.courtier} &bull; Garrison{' '}
-        {t.poll.garrison} &bull; Guilds {t.poll.guilds} &bull; Merchant{' '}
-        {t.poll.merchant} &bull; Burgher {t.poll.burgher} &bull; Adventurer{' '}
-        {t.poll.adventurer} &bull; Mercenary {t.poll.mercenary} &bull; Peasant{' '}
-        {t.poll.peasant}
-      </Breakdown>
+      <Tally
+        items={[
+          { label: 'Noble', value: t.poll.noble },
+          { label: 'Clergy', value: t.poll.clergy },
+          { label: 'Inquisition', value: t.poll.inquisition },
+          { label: 'Courtier', value: t.poll.courtier },
+          { label: 'Garrison', value: t.poll.garrison },
+          { label: 'Guilds', value: t.poll.guilds },
+          { label: 'Merchant', value: t.poll.merchant },
+          { label: 'Burgher', value: t.poll.burgher },
+          { label: 'Adventurer', value: t.poll.adventurer },
+          { label: 'Mercenary', value: t.poll.mercenary },
+          { label: 'Peasant', value: t.poll.peasant },
+        ]}
+      />
       <table style={twoColTable}>
         <tbody>
           <Row label="Royal Fines Collected" value={t.fines_income} />
           <Row label="Royal Taxes Collected" value={t.royal.total} />
         </tbody>
       </table>
-      <Breakdown>
-        Contract Levy {t.royal.contract_levy} &bull; Headeater Levy{' '}
-        {t.royal.headeater_levy} &bull; Import Tariff {t.royal.import_tariff}{' '}
-        &bull; Export Duty {t.royal.export_duty} &bull; Other{' '}
-        {t.royal.other_fees}
-      </Breakdown>
+      <Tally
+        items={[
+          { label: 'Contract Levy', value: t.royal.contract_levy },
+          { label: 'Headeater Levy', value: t.royal.headeater_levy },
+          { label: 'Import Tariff', value: t.royal.import_tariff },
+          { label: 'Export Duty', value: t.royal.export_duty },
+          { label: 'Other', value: t.royal.other_fees },
+        ]}
+      />
     </div>
   );
 };
@@ -89,6 +100,20 @@ const NotCollectedColumn = (props: { t: TreasurySnapshot }) => {
       <table style={twoColTable}>
         <tbody>
           <Row label="Forgone Revenue" value={t.exempt.total} />
+        </tbody>
+      </table>
+      <Tally
+        items={[
+          { label: 'Contract', value: t.exempt.contract },
+          { label: 'Headeater', value: t.exempt.headeater },
+          { label: 'Import', value: t.exempt.import },
+          { label: 'Export', value: t.exempt.export },
+          { label: 'Fines', value: t.exempt.fines },
+          { label: 'Poll Tax', value: t.exempt.poll_tax },
+        ]}
+      />
+      <table style={twoColTable}>
+        <tbody>
           <Row
             label="Royal Taxes Evaded"
             value={t.taxes_evaded}
@@ -97,11 +122,6 @@ const NotCollectedColumn = (props: { t: TreasurySnapshot }) => {
           <Row label="Forgone Share" value={formatPct(t.exemption_share)} />
         </tbody>
       </table>
-      <Breakdown>
-        Contract {t.exempt.contract} &bull; Headeater {t.exempt.headeater}{' '}
-        &bull; Import {t.exempt.import} &bull; Export {t.exempt.export} &bull;
-        Fines {t.exempt.fines} &bull; Poll Tax {t.exempt.poll_tax}
-      </Breakdown>
     </div>
   );
 };
@@ -176,15 +196,14 @@ export const TreasurySection = (props: Props) => {
         title="Realm's Treasury"
         subtitle={`Balance: ${balance}`}
         items={[
-          { label: 'Opened', value: t.starting },
-          { label: 'Closed', value: balance },
+          { label: 'Start', value: t.starting },
+          { label: 'In', value: t.total_revenue, color: SEAL_GREEN },
+          { label: 'Out', value: t.total_expenses, color: SEAL_RED },
           {
-            label: 'Net result',
-            value: formatSigned(t.net_treasury),
+            label: 'Remain',
+            value: `${balance} (${formatSigned(t.net_treasury)})`,
             color: signColor(t.net_treasury),
           },
-          { label: 'Revenue', value: t.total_revenue, color: SEAL_GREEN },
-          { label: 'Expenses', value: t.total_expenses, color: SEAL_RED },
           {
             label: 'Tax rate',
             value:
@@ -200,20 +219,31 @@ export const TreasurySection = (props: Props) => {
       </div>
       <div style={dividerStyle} />
       <div style={twoColumnLayout}>
-        <table style={twoColTable}>
-          <tbody>
-            <Row
-              label="Total Revenue"
-              value={t.total_revenue}
-              color={SEAL_GREEN}
-            />
-            <Row
-              label="Total Expenses"
-              value={t.total_expenses}
-              color={SEAL_RED}
-            />
-          </tbody>
-        </table>
+        <div>
+          <table style={twoColTable}>
+            <tbody>
+              <Row
+                label="Total Revenue"
+                value={t.total_revenue}
+                color={SEAL_GREEN}
+              />
+              {t.other_income > 0 && (
+                <Row label="of which uncategorised" value={t.other_income} />
+              )}
+              <Row
+                label="Total Expenses"
+                value={t.total_expenses}
+                color={SEAL_RED}
+              />
+              {t.unattributed_expenses > 0 && (
+                <Row
+                  label="of which unattributed"
+                  value={t.unattributed_expenses}
+                />
+              )}
+            </tbody>
+          </table>
+        </div>
         <NotCollectedColumn t={t} />
       </div>
       {hasObligations && <ObligationsColumn t={t} />}

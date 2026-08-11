@@ -61,6 +61,8 @@ export type TreasurySnapshot = {
   forfeiture_count: number;
   total_revenue: number;
   total_expenses: number;
+  other_income: number;
+  unattributed_expenses: number;
   net_treasury: number;
   trade_balance: number;
   foreign_trade_volume: number;

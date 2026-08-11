@@ -45,6 +45,7 @@ export const twoColumnLayout: CSSProperties = {
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   gap: '14px',
+  alignItems: 'start',
 };
 
 export const threeColumnLayout: CSSProperties = {
@@ -118,6 +119,49 @@ export const Row = (props: {
 export const Breakdown = (props: { children: ReactNode }) => (
   <div style={breakdownStyle}>{props.children}</div>
 );
+
+const tallyTable: CSSProperties = {
+  borderCollapse: 'collapse',
+  fontFamily: SERIF,
+  fontSize: FONT_BODY,
+  color: INK_FAINT,
+  margin: '0 0 2px 10px',
+};
+
+const tallyLabel: CSSProperties = {
+  padding: '0 4px 0 0',
+  whiteSpace: 'nowrap',
+};
+
+const tallyValue: CSSProperties = {
+  padding: '0 16px 0 0',
+  textAlign: 'right',
+  color: INK_SOFT,
+  whiteSpace: 'nowrap',
+};
+
+export type TallyItem = { label: string; value: number | string };
+
+export const Tally = (props: { items: TallyItem[] }) => {
+  const rows: (TallyItem | null)[][] = [];
+  for (let i = 0; i < props.items.length; i += 2) {
+    rows.push([props.items[i], props.items[i + 1] ?? null]);
+  }
+  return (
+    <table style={tallyTable}>
+      <tbody>
+        {rows.map((pair) => (
+          <tr key={pair[0]?.label}>
+            <td style={tallyLabel}>{pair[0]?.label}</td>
+            <td style={tallyValue}>{pair[0]?.value}</td>
+            <td style={tallyLabel}>{pair[1]?.label ?? ''}</td>
+            <td style={tallyValue}>{pair[1]?.value ?? ''}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 
 

@@ -188,8 +188,10 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"petitioned" = GLOB.azure_round_stats[STATS_STANDING_ORDERS_PETITIONED] || 0,
 		"petition_pledge_spent" = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT] || 0,
 	)
-	var/total_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
-	var/total_expenses = total_treasury_expenses()
+	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
+	var/total_revenue = GLOB.treasury_inflow_total
+	var/total_expenses = GLOB.treasury_outflow_total
+	var/attributed_expenses = total_treasury_expenses()
 	var/taxable_activity = royal_taxes_total + (GLOB.azure_round_stats[STATS_TAXES_EVADED] || 0)
 	var/effective_tax_rate = taxable_activity > 0 ? round((royal_taxes_total / taxable_activity) * 100, 0.1) : null
 	var/all_revenue_streams = royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + exempt_total
@@ -215,6 +217,8 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"forfeiture_count" = GLOB.azure_round_stats[STATS_FORFEITURE_COUNT] || 0,
 		"total_revenue" = total_revenue,
 		"total_expenses" = total_expenses,
+		"other_income" = max(0, total_revenue - itemised_revenue),
+		"unattributed_expenses" = max(0, total_expenses - attributed_expenses),
 		"net_treasury" = total_revenue - total_expenses,
 		"trade_balance" = (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) - (GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0),
 		"foreign_trade_volume" = (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED_BM] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED] || 0),

@@ -26,6 +26,16 @@ GLOBAL_LIST_INIT(treasury_flow_order, list(
 ))
 
 GLOBAL_LIST_EMPTY(treasury_expense_ledger)
+GLOBAL_VAR_INIT(treasury_inflow_total, 0)
+GLOBAL_VAR_INIT(treasury_outflow_total, 0)
+
+/proc/record_purse_inflow(amount)
+	if(amount > 0)
+		GLOB.treasury_inflow_total += amount
+
+/proc/record_purse_outflow(amount)
+	if(amount > 0)
+		GLOB.treasury_outflow_total += amount
 
 /proc/treasury_role_of(mob/M)
 	if(!M)
