@@ -70,6 +70,7 @@
 	. = ..()
 	. += span_info("The proprietor lists per-material prices, capacities, and which wares to call out. Coins fed into the machine fund the coffer; when it runs dry, the scrapper turns away offers.")
 	. += span_info("Strike with an item to offer it. The scrapper weighs by what it would smelt down to.")
+	. += span_info("Right-click it to offer everything underneath yourself at once.")
 
 /obj/structure/roguemachine/scrapper/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
@@ -107,19 +108,22 @@
 		var/processed = 0
 		var/hit_broke = FALSE
 		var/hit_full = FALSE
+		var/list/payout = list(0)
 		for(var/obj/item/SI in P.contents.Copy())
-			switch(try_recycle(SI, user, TRUE))
+			switch(try_recycle(SI, user, TRUE, payout))
 				if(SCRAPPER_RECYCLE_OK)
 					processed++
 				if(SCRAPPER_RECYCLE_BROKE)
 					hit_broke = TRUE
 				if(SCRAPPER_RECYCLE_FULL)
 					hit_full = TRUE
+		if(payout[1] > 0)
+			budget2change(payout[1], user)
 		if(processed)
 			playsound(loc, recycle_sound, 100, FALSE, -1)
 			playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 			var/tail = hit_broke ? " The scrapper ran dry before I finished." : ""
-			to_chat(user, span_notice("[src] works through [P] and takes [processed] item\s.[tail]"))
+			to_chat(user, span_notice("[src] works through [P] and takes [processed] item\s, paying [payout[1]]m.[tail]"))
 			SStgui.update_uis(src)
 		else if(hit_broke)
 			playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -132,7 +136,45 @@
 		return
 	try_recycle(P, user)
 
-/obj/structure/roguemachine/scrapper/proc/try_recycle(obj/item/I, mob/user, silent = FALSE)
+/obj/structure/roguemachine/scrapper/attack_right(mob/user, params)
+	if(!ishuman(user))
+		return ..()
+	var/turf/T = get_turf(user)
+	if(!T)
+		return
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	var/processed = 0
+	var/hit_broke = FALSE
+	var/hit_full = FALSE
+	var/list/payout = list(0)
+	for(var/obj/item/I in T.contents.Copy())
+		if(I.anchored)
+			continue
+		switch(try_recycle(I, user, TRUE, payout))
+			if(SCRAPPER_RECYCLE_OK)
+				processed++
+			if(SCRAPPER_RECYCLE_BROKE)
+				hit_broke = TRUE
+			if(SCRAPPER_RECYCLE_FULL)
+				hit_full = TRUE
+	if(payout[1] > 0)
+		budget2change(payout[1], user)
+	if(processed)
+		playsound(loc, recycle_sound, 100, FALSE, -1)
+		playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
+		var/tail = hit_broke ? " The scrapper ran dry before I finished." : ""
+		to_chat(user, span_notice("[src] sweeps up [processed] item\s from the floor and pays [payout[1]]m.[tail]"))
+		SStgui.update_uis(src)
+	else if(hit_broke)
+		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		to_chat(user, span_warning("[src]'s coffer don't have enough coins to take anything at my feet."))
+	else if(hit_full)
+		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		to_chat(user, span_warning("[src]'s hoppers are too full to take anything underneath yourself."))
+	else
+		to_chat(user, span_warning("[src] finds nothing worth taking underneath yourself."))
+
+/obj/structure/roguemachine/scrapper/proc/try_recycle(obj/item/I, mob/user, silent = FALSE, list/payout)
 	if(I.is_important)
 		if(!silent)
 			to_chat(user, span_warning("[src] sees no worth in [I]."))
@@ -173,7 +215,10 @@
 	qdel(I)
 	for(var/i in 1 to units)
 		new path(src)
-	budget2change(total_price, user)
+	if(payout)
+		payout[1] += total_price
+	else
+		budget2change(total_price, user)
 	if(!silent)
 		playsound(loc, recycle_sound, 100, FALSE, -1)
 		playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)

@@ -1,12 +1,14 @@
 #define VERGLAS_MODE_LAY 1
 #define VERGLAS_MODE_HOLD 2
+#define VERGLAS_MODE_SKATE 3
+#define VERGLAS_SKATE_LIFESPAN 5
 #define VERGLAS_DURATION (15 SECONDS)
 
 /datum/action/cooldown/spell/verglas
 	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
 	name = "Verglas"
 	desc = "Lay a 7x7 patch of treacherous ice; anyone who steps onto it slides in the direction they were moving until they run off. \
-	Use the Alt Mode keybind to switch between Lay (cast and forget) and Hold (maintained by concentration for as long as you like, but shattered the instant you are struck or cast another spell)."
+	Use the Alt Mode keybind to switch between Lay (cast and forget), Hold (maintained by concentration for as long as you like, but shattered the instant you are struck or cast another spell), or Skate (as Hold, but only a small area under you, which follows you so long as you do not lose concentration or stop moving. Note: be ready to move quickly after you cast this! Cannot be used in combat mode.)."
 	button_icon_state = "snap_freeze"
 	sound = 'sound/spellbooks/crystal.ogg'
 	spell_color = GLOW_COLOR_ICE
@@ -37,21 +39,22 @@
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	ignore_combat_tag = TRUE // otherwise it breaks immediately on cast
 
 	var/verglas_radius = 3
 	var/verglas_mode = VERGLAS_MODE_LAY
+	var/labels = list("LAY", "HOLD", "SKATE")
 
 /datum/action/cooldown/spell/verglas/Grant(mob/grant_to)
 	. = ..()
 	update_mode_maptext()
 
 /datum/action/cooldown/spell/verglas/toggle_alt_mode(mob/user)
-	verglas_mode = (verglas_mode == VERGLAS_MODE_LAY) ? VERGLAS_MODE_HOLD : VERGLAS_MODE_LAY
+	verglas_mode = (verglas_mode % VERGLAS_MODE_SKATE) + 1
 	update_mode_maptext()
 	return TRUE
 
 /datum/action/cooldown/spell/verglas/proc/update_mode_maptext()
-	var/label = (verglas_mode == VERGLAS_MODE_LAY) ? "LAY" : "HOLD"
 	var/label_color = (verglas_mode == VERGLAS_MODE_LAY) ? GLOW_COLOR_ICE : "#ff6a3d"
 	for(var/datum/hud/hud as anything in viewers)
 		var/atom/movable/screen/movable/action_button/B = viewers[hud]
@@ -62,7 +65,7 @@
 		if(!holder)
 			holder = new(B)
 			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(label)
+		holder.maptext = MAPTEXT(labels[verglas_mode])
 		holder.maptext_x = 5
 		holder.color = label_color
 
@@ -72,9 +75,23 @@
 	if(!istype(H))
 		return FALSE
 
-	if(verglas_mode == VERGLAS_MODE_HOLD && H.has_status_effect(/datum/status_effect/verglas_concentration))
-		H.remove_status_effect(/datum/status_effect/verglas_concentration)
-		return TRUE
+	if(verglas_mode != VERGLAS_MODE_LAY)
+		if(H.has_status_effect(/datum/status_effect/verglas_concentration))
+			H.remove_status_effect(/datum/status_effect/verglas_concentration)
+			return FALSE
+
+		if(H.has_status_effect(/datum/status_effect/verglas_concentration/skate))
+			H.remove_status_effect(/datum/status_effect/verglas_concentration/skate)
+			return FALSE
+
+	if(verglas_mode == VERGLAS_MODE_SKATE)
+		var/turf/turf = get_turf(H)
+		playsound(turf, 'sound/spellbooks/crystal.ogg', 80, TRUE)
+		var/init = new /obj/effect/verglas/temp(turf)
+		if(init)
+			H.apply_status_effect(/datum/status_effect/verglas_concentration/skate)
+			return TRUE
+		return FALSE
 
 	var/turf/centerpoint = get_turf(cast_on)
 	if(!centerpoint)
@@ -233,6 +250,39 @@
 	desc = "I am concentrating to hold the verglas in place. A single blow or casting another spell will shatter it."
 	icon_state = "debuff"
 
+/datum/status_effect/verglas_concentration/skate/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_MOVABLE_TURF_ENTERED, PROC_REF(on_enter))
+
+/datum/status_effect/verglas_concentration/skate/on_remove()
+	. = ..()
+	UnregisterSignal(owner, COMSIG_MOVABLE_TURF_ENTERED)
+
+/datum/status_effect/verglas_concentration/skate/proc/on_enter(mob/living/carbon/human/H, turf/entered)
+	if(!(locate(/obj/effect/verglas/temp) in entered))
+		owner.remove_status_effect(/datum/status_effect/verglas_concentration/skate)
+
+/datum/status_effect/verglas_concentration/skate/tick()
+	. = ..()
+	if(owner.in_combat_until > world.time) // if you're ever "in combat" it breaks
+		owner.remove_status_effect(/datum/status_effect/verglas_concentration/skate)
+
+/obj/effect/verglas/temp/Initialize(mapload, lifespan = 0)
+	. = ..(mapload, lifespan || VERGLAS_SKATE_LIFESPAN)
+	RegisterSignal(get_turf(src), COMSIG_ATOM_EXIT, PROC_REF(on_exit))
+
+/obj/effect/verglas/temp/proc/on_exit(turf/exited, atom/movable/exiting, atom/newloc)
+	SIGNAL_HANDLER
+	var/mob/living/carbon/human/H = exiting
+	if(ishuman(exiting) && H.has_status_effect(/datum/status_effect/verglas_concentration))
+		new /obj/effect/verglas/temp(get_turf(newloc))
+
+/obj/effect/verglas/temp/Destroy()
+	UnregisterSignal(get_turf(src),	COMSIG_ATOM_EXIT)
+	return ..()
+
 #undef VERGLAS_MODE_LAY
 #undef VERGLAS_MODE_HOLD
+#undef VERGLAS_MODE_SKATE
+#undef VERGLAS_SKATE_LIFESPAN
 #undef VERGLAS_DURATION

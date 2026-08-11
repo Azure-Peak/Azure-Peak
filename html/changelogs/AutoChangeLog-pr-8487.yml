@@ -1,7 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - code_imp: "swampweed is now drug/swampweed instead of space_drugs"
-  - code_imp: "nicotine is now /westleach instead of nicotine"
-  - bugfix: "swampweed now displays \"Swamp Oil\" instead of \"space drugs\""
-  - bugfix: "westleach now displays \"Westleach Extract\" instead of \"nicotine\""

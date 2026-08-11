@@ -262,13 +262,16 @@
 
 	RegisterSignal(owner, COMSIG_MOB_APPLY_DAMGE, .proc/on_wearer_damaged)
 	next_decay_time = world.time + INK_STACK_LIFETIME
+	notify_stack_gain(0)
 
 /datum/status_effect/buff/umbral_recovery/refresh()
 	. = ..()
+	var/old_stacks = stacks
 	if(stacks < INK_MAX_HEAL_STACKS)
 		stacks++
 		update_ink_visuals()
 	next_decay_time = world.time + INK_STACK_LIFETIME
+	notify_stack_gain(old_stacks)
 
 /datum/status_effect/buff/umbral_recovery/proc/on_wearer_damaged(datum/source, damage, damagetype, def_zone)
 	SIGNAL_HANDLER
@@ -327,6 +330,17 @@
 		ink_overlay_mesh = image('icons/mob/moboverlays/paintoverlay.dmi', "paint[stacks]")
 		//ink_overlay_mesh.appearance_flags = RESET_COLOR
 		H.add_overlay(ink_overlay_mesh)
+
+/datum/status_effect/buff/umbral_recovery/proc/notify_stack_gain(old_stacks)
+	if(stacks <= old_stacks || !owner)
+		return
+
+	if(stacks >= INK_MAX_HEAL_STACKS)
+		owner.balloon_alert(owner, "<font color='#9e3fd9'>maxed healing ink!</font>")
+		if(prob(25))
+			to_chat(owner, span_nicegreen("Your body can't fit more healing paint!"))
+	else
+		owner.balloon_alert(owner, "[stacks]/[INK_MAX_HEAL_STACKS] ink stacks")
 
 /datum/status_effect/buff/umbral_recovery/on_remove()
 	if(ishuman(owner))
