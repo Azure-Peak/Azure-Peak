@@ -27,6 +27,7 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
 	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
+	extra_context = "This class gets t2 miracle casting."
 
 /datum/outfit/job/roguetown/adventurer/sage/pre_equip(mob/living/carbon/human/H)
 	..()
