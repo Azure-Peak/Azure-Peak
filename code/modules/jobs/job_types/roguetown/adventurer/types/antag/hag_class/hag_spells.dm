@@ -44,7 +44,7 @@
 		return FALSE
 
 /obj/effect/proc_holder/spell/invoked/spiritual_siphon/get_spell_statistics(mob/living/user)
-	. = ..() 
+	. = ..()
 
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
 	if(!H || !length(H.stored_materials) && !length(H.prepared_boons))
@@ -77,7 +77,7 @@
 
 		if(!found_any)
 			boon_html += span_info("- None ready.")
-		
+
 		boon_html += "</details>"
 		. += boon_html
 
@@ -135,7 +135,7 @@
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/proc/toggle_boon_selection(boon_type_string)
 	var/datum/component/hag_curio_tracker/H = ranged_ability_user.GetComponent(/datum/component/hag_curio_tracker)
 	var/list/registry = H.boon_registry[active_victim_name]
-	
+
 	for(var/datum/hag_boon/B in registry)
 		if("[B.type]" == boon_type_string)
 			if(B in selected_boons)
@@ -148,7 +148,7 @@
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
 	if(!H)
 		return FALSE
-	
+
 	var/list/victims_data = list()
 	for(var/t_name in H.boon_registry)
 		var/list/boons = list()
@@ -161,12 +161,12 @@
 				"selected" = (B in selected_boons),
 				"transmutable" = B.transmutable
 			))
-		
+
 		victims_data += list(list(
 			"name" = t_name,
 			"boons" = boons
 		))
-		
+
 	return list(
 		"victims" = victims_data,
 		"curse_options" = H.get_available_curses_data(),
@@ -178,7 +178,7 @@
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	// to_chat(ui.user, "DEBUG: Action [action] received. Params: [json_encode(params)]")
 	// to_chat(world, "DEBUG: Action [action] received. Params: [json_encode(params)]")
-	
+
 	var/mob/living/user = ui.user
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
 
@@ -186,11 +186,11 @@
 		if("toggle_boon")
 			var/boon_id = params["id"]
 			var/v_name = params["victim_name"]
-			
+
 			if(active_victim_name != v_name)
 				selected_boons.Cut()
 				active_victim_name = v_name
-			
+
 			var/list/registry = H.boon_registry[v_name]
 			for(var/datum/hag_boon/B in registry)
 				if("[B.type]" == boon_id)
@@ -200,7 +200,7 @@
 					else
 						selected_boons += B
 					return TRUE
-		
+
 		if("select_curse")
 			selected_curse_path = params["path"]
 			return TRUE
@@ -274,7 +274,7 @@
 /obj/effect/proc_holder/spell/invoked/resurrect/hag
 	name = "Thorny Regrowth"
 	desc = "Knit a fallen soul back into a body using parasitic vines. The target is revived, but incurs a 50-point debt to your Curio."
-	recharge_time = 10 MINUTES 
+	recharge_time = 10 MINUTES
 	sound = 'sound/hag/hag_cackles.ogg'
 	required_structure = /obj/structure/roguemachine/mossmother
 	required_items = list()
@@ -310,7 +310,7 @@
 
 /obj/effect/proc_holder/spell/invoked/mindlink/hag
 	name = "Coven Link"
-	desc = "Weave the minds of up to three others into a shared coven with yourself. All participants communicate via ,Y."
+	desc = "Weave the minds of up to three others into a shared coven with yourself. All participants communicate via ,m."
 	invocation_type = "none"
 	recharge_time = 4 MINUTES
 	cost = 12
@@ -348,14 +348,14 @@
 				if(found_mob in ML.members)
 					already_linked = TRUE
 					break
-			
+
 			if(already_linked)
 				to_chat(user, span_warning("[found_mob.real_name]'s mind is already bound by another thread! I cannot reach them."))
 				continue
 
 			coven_members += found_mob
-			possible -= target_name 
-		
+			possible -= target_name
+
 		if(!possible.len)
 			break
 
@@ -376,7 +376,7 @@
 	var/roster = names.Join(", ")
 
 	for(var/mob/living/M in coven_members)
-		to_chat(M, span_boldnotice("The Coven is formed! Linked minds: [roster]. Use ,Y to speak. Use ,mst to break the coven."))
+		to_chat(M, span_boldnotice("The Coven is formed! Linked minds: [roster]. Use ,m to speak. Use ,mst to break the coven."))
 
 	addtimer(CALLBACK(src, PROC_REF(break_coven), C), link_duration)
 	return TRUE

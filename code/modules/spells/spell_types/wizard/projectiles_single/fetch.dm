@@ -1,5 +1,5 @@
-/datum/action/cooldown/spell/projectile/lesser_fetch
-	name = "Lesser Fetch"
+/datum/action/cooldown/spell/projectile/fetch
+	name = "Fetch"
 	desc = "Shoot out a magical bolt that draws in a freestanding item towards the caster. Doesn't work on living targets."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "fetch"
@@ -19,7 +19,7 @@
 	charge_required = FALSE
 	cooldown_time = 8 SECONDS
 
-	projectile_type = /obj/projectile/magic/lesser_fetch
+	projectile_type = /obj/projectile/magic/fetch
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1
@@ -29,14 +29,14 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 	allow_cross_z = FALSE
 
-/obj/projectile/magic/lesser_fetch
-	name = "lesser bolt of fetching"
+/obj/projectile/magic/fetch
+	name = "bolt of fetching"
 	icon_state = "cursehand0"
 	flag = "blunt"
 	range = 15
 	cannot_cross_z = TRUE
 
-/obj/projectile/magic/lesser_fetch/on_hit(target)
+/obj/projectile/magic/fetch/on_hit(target)
 	. = ..()
 	var/atom/throw_target = get_step(firer, get_dir(firer, target))
 	if(isliving(target))
@@ -46,6 +46,8 @@
 	else
 		if(isitem(target))
 			var/obj/item/I = target
+			if(I.anchored || I.move_resist >= MOVE_FORCE_STRONG)
+				return
 			var/mob/living/carbon/human/carbon_firer
 			if (ishuman(firer))
 				carbon_firer = firer

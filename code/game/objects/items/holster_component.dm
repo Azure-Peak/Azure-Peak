@@ -137,9 +137,10 @@
 	if(!move_after(user, sheathe_time, target = user))
 		return FALSE
 
-	sheathed.forceMove(user.loc)
-	sheathed.pickup(user)
-	user.put_in_hands(sheathed)
+	// store the reference somewhere in case sheathed gets nulled.
+	var/obj/item/rogueweapon/drawn = sheathed
+	drawn.pickup(user)
+	user.put_in_hands(drawn)
 	sheathed = null
 	update_icon(user)
 
