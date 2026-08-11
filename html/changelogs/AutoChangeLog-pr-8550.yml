@@ -1,0 +1,4 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - bugfix: "mindlink works again. use ,m to speak thru it"

@@ -1339,42 +1339,10 @@
 				/obj/item/natural/fibers = 3)
 	craftdiff = 5
 
-/datum/crafting_recipe/roguetown/sewing/wizhatblue
-	name = "blue wizard hat"
+/datum/crafting_recipe/roguetown/sewing/wizhat
+	name = "wizard hat"
 	category = "Hats"
 	result = list(/obj/item/clothing/head/roguetown/wizhat)
-	reqs = list(/obj/item/natural/cloth = 2,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/wizhatred
-	name = "red wizard hat"
-	category = "Hats"
-	result = list(/obj/item/clothing/head/roguetown/wizhat/red)
-	reqs = list(/obj/item/natural/cloth = 2,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/wizhatyellow
-	name = "yellow wizard hat"
-	category = "Hats"
-	result = list(/obj/item/clothing/head/roguetown/wizhat/yellow)
-	reqs = list(/obj/item/natural/cloth = 2,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/wizhatgreen
-	name = "green wizard hat"
-	category = "Hats"
-	result = list(/obj/item/clothing/head/roguetown/wizhat/green)
-	reqs = list(/obj/item/natural/cloth = 2,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/wizhatblack
-	name = "black wizard hat"
-	category = "Hats"
-	result = list(/obj/item/clothing/head/roguetown/wizhat/black)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3

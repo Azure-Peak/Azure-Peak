@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Firestacks, including sunderstacks, no longer set worn items on fire and burn off all your clothes."

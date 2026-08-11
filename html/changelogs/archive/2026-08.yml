@@ -306,3 +306,73 @@
   Lamasmaster:
   - balance: Eyebite cooldown 15 > 35 seconds
   - bugfix: Eyebite & Blindness grenades not using modern BLIND effect.
+2026-08-10:
+  7erracotta:
+  - rscadd: Added new items
+  Blacklist897:
+  - spellcheck: 'replaced placeholder revival text with slightly more fitting placeholders
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  BurpleBineapple:
+  - bugfix: sheaths work correctly again
+  CrystalClover:
+  - rscadd: Greyscale and detail regions to both Wizard hat variants
+  FeniaFox:
+  - rscadd: Added a polishing brush + pot of polishing cream to the starting gear
+      of retinue squires.
+  - balance: Dropped the skill gate on polishing brushes from expert engineering to
+      apprentice engineering.
+  KatTheFox:
+  - bugfix: Fixed a bug where sheathed items were improperly stored in nullspace,
+      leading to them being inaccessible by features like the Azurcaephan's recall.
+  - bugfix: Fixed an exploit involving offering and sheathing items at the same time
+      to later teleport them to you.
+  - bugfix: Added several layers of redundant checks to futureproof against exploits
+      similar to the aforementioned but using different code paths.
+  - bugfix: Fixed an exploit involving use of fellowship invites to detect invisible/stealthed
+      players.
+  - bugfix: Fixed improper syntax in Squire-Errant and Iconoclast skill lists that
+      was causing Adv and Bandit previews respectively to runtime.
+  KitsuneQueen:
+  - bugfix: Padded masks no longer smelt into iron bars. Our arcyne wizards are still
+      working on how this was even possible.
+  Onutsio:
+  - balance: Added penetration to slurbows
+  Quinalion:
+  - spellcheck: Replaced apostrophes in item and other names with /".
+  - bugfix: Silver axes are now fireproof and can no longer be ignited by comet.
+  - rscdel: Removed unused zizo armor code.
+  - bugfix: The remaining Ascendant clothing now properly displays heresydesc.
+  - rscdel: Removed redundant traits from the Disciple and Confessor, as they are
+      already granted by default.
+  - bugfix: More TRAIT_NOMOOD checks.
+  - bugfix: Fixed language prefix handling.
+  - bugfix: Fixed coverage values on avantyne helmets.
+  - bugfix: Black Oak classes now properly receive the Elvish Dirk.
+  - bugfix: Leg armor now display their integrity on player when examined.
+  - bugfix: Grinding wheels no longer remove the sharpness bonus granted by blessings.
+  Ryan180602:
+  - bugfix: Small donor item naming fix.
+  SnubbyNotSorry:
+  - balance: reduced price of surgeon's bag in the goldface and silverface
+  - bugfix: fixed sanguine hats and shoes not being repairable
+  borneblood:
+  - bugfix: Fixed Bone Cataclysm, rejoice.
+  mumblemancer:
+  - rscadd: new component spawners for mapping!!!
+  - rscadd: new sprites for sewer equipment spawners
+  - code_imp: swampweed is now drug/swampweed instead of space_drugs
+  - code_imp: nicotine is now /westleach instead of nicotine
+  - bugfix: swampweed now displays "Swamp Oil" instead of "space drugs"
+  - bugfix: westleach now displays "Westleach Extract" instead of "nicotine"
+  plsleavemealon:
+  - rscadd: Added a new flamboyant hat

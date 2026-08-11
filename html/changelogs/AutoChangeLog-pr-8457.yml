@@ -1,0 +1,5 @@
+author: "Lagomorphica"
+delete-after: True
+changes:
+  - balance: "Vizier Restoration no longer instantly fixes all bleeding. Instead, it will reduce the severity of the bleeding each time it is done until it is healed."
+  - balance: "Vizier Reversal no longer works the same way at all. It is instead a 15 second windup, attack cancellable massive heal that stops all bleeding and helps with wounds the same way as Undermaidens Bargain."

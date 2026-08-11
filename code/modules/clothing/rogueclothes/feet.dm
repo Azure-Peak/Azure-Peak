@@ -864,6 +864,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
 	salvage_result = /obj/item/natural/hide/cured
+	sewrepair = TRUE
 
 /obj/item/clothing/shoes/courtphysician/female
 	name = "sanguine heels"

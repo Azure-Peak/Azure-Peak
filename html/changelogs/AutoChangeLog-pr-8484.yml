@@ -1,0 +1,5 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - balance: "Reduce METAL SCRAP required for studded armour by 1"
+  - image: "Changed Hardened Leather Armor back to it's old sprite."
