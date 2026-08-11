@@ -214,7 +214,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_CLOTH
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
 	body_parts_covered = FACE|HEAD
@@ -232,7 +232,7 @@
 	name = "iron mask"
 	desc = "A simple, utilitarian mask designed to protect the face from oncoming blows."
 	icon_state = "imask"
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -252,14 +252,14 @@
 	desc = "Expressionless steel sits where a face ought to be. It is better to be \
 	safe than to be known."
 	icon_state = "smask"
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_STEEL
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	name = "strange mask"
 	desc = "It is said that the original version of this mask was used for obscure rituals prior to the fall of the Empire of the Holy Celestia, and now it has been repurposed as a veil for the cunning hand of the Otavan Orthodoxy.<br> <br>Others say it is a piece of heresy, a necessary evil, capable of keeping its user safe from left-handed magicks. You can taste copper whenever you draw breath."
 	icon_state = "confessormask"
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_STEEL
 	equip_sound = 'sound/items/confessormaskon.ogg'
 	smeltresult = /obj/item/ingot/steel
 	var/worn = FALSE
@@ -336,7 +336,7 @@
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
@@ -382,7 +382,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	icon_state = "bronzemask"
 	item_state = "bronzemask"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 
 /obj/item/clothing/mask/rogue/facemask/bronze/classic
@@ -431,7 +431,7 @@
 /obj/item/clothing/mask/rogue/facemask/steel/steppesman
 	name = "steppesman war mask"
 	desc = "A steel mask shaped like the face of a rather charismatic fellow! Pronounced cheeks, a nose, and a large mustache. Well, people outside of Aavnr don't think you'd look charismatic at all wearing this."
-	max_integrity = 250
+	max_integrity = ARMOR_INT_MASK_STEEL + 50
 	icon_state = "steppemask"
 	layer = HEAD_LAYER
 
@@ -443,13 +443,13 @@
 /obj/item/clothing/mask/rogue/facemask/goldmask
 	name = "gold mask"
 	icon_state = "goldmask"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_GOLD
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/goldmaskc
 	name = "gold mask"
 	icon_state = "goldmaskc"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_GOLD
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_oni
@@ -457,24 +457,28 @@
 	desc = "A wood mask carved in the visage of demons said to stalk the mountains of Kazengun."
 	icon_state = "oni"
 	stack_fovs = FALSE
+	max_integrity = ARMOR_INT_MASK_WOOD
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
 	name = "kitsune mask"
 	desc = "A wood mask carved in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
 	icon_state = "kitsune"
 	stack_fovs = FALSE
+	max_integrity = ARMOR_INT_MASK_WOOD
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun
 	name = "soldier's half-mask"
 	desc = "\"The first lesson of war is that it would be better to live in peace.\""
 	block2add = null
 	armor = ARMOR_PLATE // because it's only half
+	max_integrity = ARMOR_INT_MASK_IRON
 	icon_state = "kazengunmouthguard"
 	item_state = "kazengunmouthguard"
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "ogre mask"
 	desc = "\"The second lesson: Rich men have dreams. Poor men die to make them come true.\""
+	max_integrity = ARMOR_INT_MASK_IRON
 	icon_state = "kazengunfaceguard"
 	item_state = "kazengunfaceguard"
 
@@ -539,7 +543,7 @@
 	name = "skull mask"
 	desc = "A mask in the shape of a skull, designed to terrify."
 	icon_state = "skullmask"
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_BONE
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
@@ -584,7 +588,7 @@
 	item_state = "naledimask"
 	icon_state = "naledimask"
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Armored to protect the wearer's face."
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	armor = ARMOR_PLATE
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
@@ -598,7 +602,7 @@
 	item_state = "naledimask"
 	icon_state = "naledimask"
 	desc = "A golden mask, gnarled by the sustained agonies of djinnic corruption; yet as long as its Naledian hexes endure, so too will its wearer. Hand-fitted shingles flank the sides to repel incoming strikes. </br>'..Clad with the stereotype of abruptly disappearing without any forewarning, the typical Sojourner is in constant pursuit of diversifying their erudition. One might arrive to learn the local witch's recipe of sanctifying atropa extract and spend yils in the community trying to master it, while another might work alongside the region's Orthodoxic chapter to slay a lycker lord in exchange for his archive, only to vanish the very next day..'"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_IRON + 50
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
@@ -669,7 +673,7 @@
 	name = "carved mask"
 	icon_state = "ancientmask"
 	desc = "You shouldn't be seeing this."
-	max_integrity = 50
+	max_integrity = ARMOR_INT_MASK_STONE
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -729,7 +733,7 @@
 	item_state = "xylixmask"
 	icon_state = "xylixmask"
 	desc = "A ceramic mask, forever stuck with the joyful smile its patron god favors. While it will shatter easily from blows, its smug countenance shall taunt its foes."
-	max_integrity = 50
+	max_integrity = ARMOR_INT_MASK_STONE
 	armor = null
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
@@ -821,7 +825,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_CLOTH
 	armor = ARMOR_PADDED
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
@@ -839,7 +843,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	max_integrity = 180
+	max_integrity = ARMOR_INT_MASK_LEATHER //slightly more durable than the padded mask
 	armor = ARMOR_LEATHER
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
@@ -860,7 +864,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_IRON_MAILLE
 	armor = ARMOR_MAILLE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
@@ -876,7 +880,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	max_integrity = 250 //maille's get less defense but more durability than fullplate masks
+	max_integrity = ARMOR_INT_MASK_STEEL_MAILLE //maille's get less defense but more durability than fullplate masks
 	armor = ARMOR_MAILLE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE

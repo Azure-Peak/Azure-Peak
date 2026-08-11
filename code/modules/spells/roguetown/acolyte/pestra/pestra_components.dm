@@ -156,6 +156,18 @@
 #define BLACK_ROT_FILTER "black_rot_glow"
 #define DARK_OUTLINE_COLOUR "#000000"
 
+/mob/living/carbon/human/proc/toggle_black_rot()
+	set name = "Toggle Rot"
+	set category = "RoleUnique.Cleric"
+	set desc = "Toggle the black rot carrier ability and its visual aura on or off."
+
+	var/datum/component/infestation_black_rot/rot_comp = GetComponent(/datum/component/infestation_black_rot)
+	if(!rot_comp)
+		to_chat(src, span_warning("You do not harbor the black rot within you."))
+		return
+
+	rot_comp.toggle_active()
+
 /datum/component/infestation_black_rot
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 	var/mob/living/parent_mob
@@ -165,6 +177,8 @@
 	var/low_skill_target_stacks = 6
 	var/high_skill_target_stacks = 11
 	var/high_skill_level = 5
+	/// Tracks whether the rot functionality and visuals are active
+	var/active = TRUE
 
 /datum/component/infestation_black_rot/Initialize()
 	. = ..()
@@ -174,24 +188,41 @@
 	parent_mob.AddElement(/datum/element/relay_attackers)
 	apply_visuals()
 	parent_mob.apply_status_effect(/datum/status_effect/buff/black_rot_carrier)
+	add_verb(parent_mob, /mob/living/carbon/human/proc/toggle_black_rot)
 	RegisterSignal(parent_mob, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_struck))
 	RegisterSignal(parent_mob, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack_success))
 
+/datum/component/infestation_black_rot/proc/toggle_active()
+	active = !active
+	if(active)
+		apply_visuals()
+		parent_mob.apply_status_effect(/datum/status_effect/buff/black_rot_carrier)
+		to_chat(parent_mob, span_notice("You allow the black rot to surface, manifesting its aura."))
+		REMOVE_TRAIT(parent_mob, TRAIT_SPELLCOCKBLOCK, INNATE_TRAIT)
+	else
+		remove_visuals()
+		parent_mob.remove_status_effect(/datum/status_effect/buff/black_rot_carrier)
+		to_chat(parent_mob, span_warning("You suppress your connection to Pestra, hiding its presence."))
+		ADD_TRAIT(parent_mob, TRAIT_SPELLCOCKBLOCK, INNATE_TRAIT)
+
 /datum/component/infestation_black_rot/proc/on_attack_success(mob/living/user, mob/living/target)
 	SIGNAL_HANDLER
-	if(user != parent_mob)
+	if(!active || user != parent_mob)
 		return
 	if(prob(25))
 		attempt_apply_rot(target, is_offensive = TRUE)
 
 /datum/component/infestation_black_rot/proc/on_struck(atom/victum, atom/attacker)
 	SIGNAL_HANDLER
-	if(!isliving(attacker))
+	if(!active || !isliving(attacker))
 		return
 	var/mob/living/living_attacker = attacker
 	attempt_apply_rot(living_attacker, is_offensive = FALSE)
 
 /datum/component/infestation_black_rot/proc/attempt_apply_rot(mob/living/target, is_offensive)
+	if(!active)
+		return
+
 	if(parent_mob.has_status_effect(/datum/status_effect/black_rot_debility))
 		to_chat(parent_mob, span_warning("My black rot is surpressed by my immunity!"))
 		return
@@ -242,8 +273,10 @@
 
 /datum/component/infestation_black_rot/Destroy()
 	parent_mob.RemoveElement(/datum/element/relay_attackers)
+	remove_verb(parent_mob, /mob/living/carbon/human/proc/toggle_black_rot)
 	remove_visuals()
 	parent_mob.remove_status_effect(/datum/status_effect/buff/black_rot_carrier)
+	parent_mob = null
 	return ..()
 
 /datum/component/infestation_black_rot/proc/apply_visuals()

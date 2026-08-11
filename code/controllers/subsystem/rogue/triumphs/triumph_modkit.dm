@@ -29,6 +29,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/iron 					= /obj/item/clothing/suit/roguetown/armor/plate/iron/legacy
 		)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_slimmedsteel
 	name = "'Slimfitted Steel Armor' morphing elixir"
@@ -53,6 +54,7 @@
 		/obj/item/clothing/suit/roguetown/armor/leather/studded		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
 		)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_axe
 	name = "'Valorian Axe' morphing elixir"
@@ -62,6 +64,7 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut	  						= /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 		)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_axedouble
 	name = "'Doublehead' morphing elixir"
@@ -76,6 +79,7 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 		)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_fancymace
 	name = "'Rungu-Shishpar' morphing elixir"
@@ -88,6 +92,7 @@
 		/obj/item/rogueweapon/mace								= /obj/item/rogueweapon/mace/rungu
 		)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_kris
 	name = "'Kris' morphing elixir"
@@ -110,6 +115,7 @@
 		/obj/item/rogueweapon/huntingknife								= /obj/item/rogueweapon/huntingknife/njora
 		)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_whip
 	name = "'Alloytip' morphing elixir"
@@ -120,6 +126,7 @@
 		/obj/item/rogueweapon/whip						= /obj/item/rogueweapon/whip/triumph
 		)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_tri
 	name = "'Valorian Longsword' morphing elixir"
@@ -368,6 +375,44 @@
 		/obj/item/clothing/head/roguetown/helmet/kettle/iron	  			= /obj/item/clothing/head/roguetown/helmet/kettle/iron/legacy
 		)
 	result_item = null
+
+/obj/item/enchantingkit/craftable_armorkit_slimmedsteel
+	name = "plate-slimming refitter's kit"
+	desc = "A small array of plates, scripts, and tools; perfect for refitting a single set of plated armor. This can tighten the straps and \
+	reduce the visible bulkines of a Steel Halfplate, a Fluted Halfplate, a set of Plate Armor, or a set of Fluted Plate Armor."
+	icon_state = "metalrefittingkit"
+	icon = 'icons/roguetown/items/misc.dmi'
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/full 					= /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/fluted/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate	  					= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
+		)
+	result_item = null
+	exact_type = TRUE
+
+/obj/item/enchantingkit/triumph_armorkit_classicbeakhelm
+	name = "'Valorian Beak Helmet' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of either a Sugarloaf Helmet, or the Justice Eagle of a Ravoxian Templar."
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/triumph,
+		/obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm			= /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/triumph
+		)
+	result_item = null
+	exact_type = TRUE
+
+/obj/item/enchantingkit/triumph_weaponkit_psymace
+	name = "'Classic Psydonic Handmace' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Psydonic Handmace or Enduring Handmace."
+	target_items = list(
+		/obj/item/rogueweapon/mace/cudgel/psy/old						= /obj/item/rogueweapon/mace/cudgel/psy/old/triumph_classic,
+		/obj/item/rogueweapon/mace/cudgel/psy	  						= /obj/item/rogueweapon/mace/cudgel/psy/triumph_classic
+		)
+	result_item = null
+	exact_type = TRUE
 
 //////////////////////////////
 // TRIUMPH-RESKIN EXAMPLES! //
@@ -941,24 +986,6 @@
     icon_state = "ornateplateslim"
     item_state = "ornateplateslim"
 
-/obj/item/enchantingkit/craftable_armorkit_slimmedsteel
-	name = "plate-slimming refitter's kit"
-	desc = "A small array of plates, scripts, and tools; perfect for refitting a single set of plated armor. This can tighten the straps and \
-	reduce the visible bulkines of a Steel Halfplate, a Fluted Halfplate, a set of Plate Armor, or a set of Fluted Plate Armor."
-	icon_state = "metalrefittingkit"
-	icon = 'icons/roguetown/items/misc.dmi'
-	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate/full 					= /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/fluted/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate	  					= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
-		)
-	result_item = null
-	exact_type = TRUE
-
 /obj/item/clothing/cloak/rangercloak
 	name = "ranger cloak"
 	desc = "A traditionally elven cloak said to help blend in with the woods."
@@ -977,3 +1004,21 @@
 	desc = "A traditionally elven cloak said to help blend in with the shadows."
 	icon_state = "ranger_gray"
 	item_state = "ranger_gray"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/triumph
+	name = "valorian beak helmet"
+	desc = "All it takes is the will of one to change the world; be it for the better or worse."
+	icon_state = "classicbeakhelm"
+	item_state = "classicbeakhelm"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/triumph
+	name = "valorian beak helmet"
+	desc = "All it takes is the will of one to change the world; be it for the better or worse."
+	icon_state = "classicbeakhelm"
+	item_state = "classicbeakhelm"
+
+/obj/item/rogueweapon/mace/cudgel/psy/triumph_classic
+	icon_state = "psyflangedmacelegacy"
+
+/obj/item/rogueweapon/mace/cudgel/psy/old/triumph_classic
+	icon_state = "opsyflangedmacelegacy"
