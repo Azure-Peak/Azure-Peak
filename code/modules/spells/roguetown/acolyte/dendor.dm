@@ -328,15 +328,38 @@
 			return list(NORTHWEST, SOUTHEAST)
 	return list(WEST, EAST)
 
-/////////////////
-// T2 - Sprout //
-/////////////////
+/////////////////////
+// T2 - Leech Seed //
+/////////////////////
 
-/datum/action/cooldown/spell/dendor/sprout
+/datum/action/cooldown/spell/dendor/leech
+	name = "Leeching Seed"
+	desc = "Unleash a primal howl, striking fear into nearby creechers."
+	button_icon_state = "leech"
+	sound = 'sound/magic/dendor_howl.ogg'
 
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
 
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
 
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Bloom!")
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = 1
+	cooldown_time = 3 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/dendor/leech/(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
 
 
 
