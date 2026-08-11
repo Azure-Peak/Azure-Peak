@@ -1,6 +1,6 @@
 /datum/advclass/arcanist // old magick witch, but without the witch outfit, deathsight, zadform, etc; mage offrole, similar outfit to apprentices
 	name = "Arcanist"
-	tutorial = "You are a magos and a scholar, not one enrolled in the academy. Perhaps your magic is the edge you need to stand out from the rest of the rabble; perhaps it's simply a personal interest."
+	tutorial = "You are a magos and a scholar of unusual talent among the townsfolk. Perhaps your magic is the edge you need to stand out from the rest of the rabble; perhaps it's simply a personal interest."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/arcanist
@@ -29,7 +29,7 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
 	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 5, "ward" = TRUE) // they lost zadform sire. they're still worse than associates
 
 /datum/outfit/job/roguetown/adventurer/arcanist/pre_equip(mob/living/carbon/human/H)
 	..()

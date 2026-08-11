@@ -13,7 +13,7 @@
 		STATKEY_SPD = 2,
 		STATKEY_LCK = 1
 	)
-	age_mod = /datum/class_age_mod/witch
+	age_mod = /datum/class_age_mod/sage
 
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,

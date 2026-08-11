@@ -107,7 +107,7 @@
 	)
 
 /datum/class_age_mod/veteran/cavalryman
-	// You get a lot of weapon skills, but none are legendary. Jack of all trades, master of none. 
+	// You get a lot of weapon skills, but none are legendary. Jack of all trades, master of none.
 	// This is probably worse than just having legendary in one, as people rarely swap weapons mid-combat.
 	skill_mods = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,
@@ -313,6 +313,14 @@
 		STATKEY_SPD = -1
 	)
 	minor_mod = 1
+
+/datum/class_age_mod/sage
+	target_age = AGE_OLD
+	stat_mods = list(
+		STATKEY_LCK = 1,
+		STATKEY_INT= 1,
+		STATKEY_SPD = -1
+	)
 
 /datum/class_age_mod/druid
 	target_age = AGE_OLD
