@@ -455,7 +455,7 @@
 	to_chat(user, "<span class='notice'>Adding water, now it's time to hand wash it...</span>")
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user,2 SECONDS, target = src))
-		user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.8)
 		name = "wet rice"
 		if(is_container)
 			R.reagents.remove_reagent(/datum/reagent/water, 10)
@@ -467,7 +467,7 @@
 	if(water_added)
 		playsound(get_turf(user), 'modular/Neu_Food/sound/kneading_alt.ogg', 90, TRUE, -1)
 		if(do_after(user,3 SECONDS, target = src))
-			user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
+			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.8)
 			new /obj/item/reagent_containers/food/snacks/rogue/ricewet(loc)
 			qdel(src)
 	else ..()
