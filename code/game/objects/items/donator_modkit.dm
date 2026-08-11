@@ -965,3 +965,12 @@
 		/obj/item/rogueweapon/greatsword/paalloy
 	)
 	result_item = /obj/item/rogueweapon/greatsword/falling_star
+
+// RosySaturniidae - Beaked Mask
+/obj/item/enchantingkit/rosy/birdmask
+	name = "'Beaked Mask' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/mask/rogue/facemask/steel/maille,
+		/obj/item/clothing/mask/rogue/facemask/steel/maille/fluted
+	)
+	result_item = /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask

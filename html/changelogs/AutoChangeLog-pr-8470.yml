@@ -1,9 +1,0 @@
-author: "eirenxiv"
-delete-after: True
-changes:
-  - balance: "RAGE duration 90 -> 45 seconds"
-  - balance: "RAGE CD 2 -> 1 min"
-  - balance: "RAGE activation threshold scales SHARPLY (activates earlier)"
-  - balance: "removed RAGE stat scaling"
-  - balance: "RAGE now grants different effects based on stages instead of flat stats (Adrenaline rush, Blue regen, Hard Dismember)"
-  - balance: "Barbarian now gets proper RAGE"

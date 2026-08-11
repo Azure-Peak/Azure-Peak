@@ -2384,3 +2384,17 @@ As Excaliber."
 	The curved blade design makes it suitable for swings and chops, but poor for stabbing victims."
     icon = 'icons/obj/items/donor_weapons_64.dmi'
     icon_state = "fallingstar"
+
+// ROSYSATURNIIDAE
+/obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
+	name = "Beaked Mask"
+	desc = "A plated steel mask made to resemble a bird's beak.<br> \
+	While similar to the long masks of Pestra's faithful, this is designed to protect against far less insidious dangers. Namely, bladed weapons.<br> \
+	<font color='3399FF'>The light in your past will be your enemy, and whenever it catches you, it will burn you.</font><br>  \
+	<font color='3399FF'>But first, it must catch you. Go into the dark ahead, and do not look back.</font>"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "birdmask"
+
+/obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask/ComponentInitialize()
+    pass() // *flips the bird at you* (this isnt meant to be adjustable)

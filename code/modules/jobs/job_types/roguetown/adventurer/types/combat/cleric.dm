@@ -71,10 +71,11 @@
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
 				H.change_stat(STATKEY_LCK, 1) // better pity bonus
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monke // ape out, brothers. +25 durability over other monks.
+					armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monke //gambeson. ape out, brothers. Bonus durability over other monks, but you have to stitch it up.
+					shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/monke/chest //leather armor.
 				else
-					armor = /obj/item/clothing/suit/roguetown/armor/manual/emote/prayer/monk // repaired by praying; 25 less than gladiator's skin.
-
+					armor = /obj/item/clothing/suit/roguetown/armor/manual/emote/prayer/monk //light gambeson, repaired by praying.
+					shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/monk/chest //leather armor with light gambeson integ, this one needs resting.
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted

@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Adds a 6 seconds warning telegraph based on the one Ketrai added for hunting with a shorter timer, before contracts mobs spawn in"
