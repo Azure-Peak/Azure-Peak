@@ -729,3 +729,37 @@
 		<p>You can make a handcart out of 3 small logs and 1 rope, which is quite handy for carrying your rightfully stolen loot back to town, to sell at the SMITH'S SCRAPPER or the TAILOR'S RAG-PICKER respectively.</p>
 		</div>
 	"}
+
+
+/datum/book_entry/combat/hunting
+	name = "20. Hunting"
+
+/datum/book_entry/combat/hunting/inner_book_html(mob/user)
+	return {"
+		<div>
+		<h3>Starting a Hunt</h3>
+		<p>You can find mounds of disturbed earth. Fresh mounds are dark brown, and you can left click with a free hand to start a hunt. You cannot interact with a mound you are on top of. Higher Hunting skill makes interaction quicker.</p>
+
+		<p>You cannot scout another mound after you have just scouted a new one. Continuing a trail is not affected. </p>
+
+		<h3>Following the Trail</h3>
+		<p>Follow the direction of the track to find the next mound. Only you and anyone hunting with you can see it, and it is lighter brown in colour. Examining a revealed track tells you which way the target went.</p>
+
+		<p>Right click your eyeball to get directions to the nearest track you are tracking, provided it is on screen. It will tell you the direction and roughly how far off it is.</p>
+
+		<p>Find enough mounds and you will find an animal at the end. Mounds respawn over time where they were.</p>
+
+		<h3>What You Find</h3>
+		<p>Higher Hunting skill yields better animals, and mounds will give more information. Skilled hunters can lean fresh trail toward a kind of prey.</p>
+
+		<h3>Hunting Maps</h3>
+		<p>Buy hunting maps to improve your odds at finding certain animals, and click one onto a fresh mound. Some are of more use to a skilled hunter than an unskilled one, and some wear out.</p>
+
+		<p>If you see a white stag, think twice before attacking. Maybe just run, to be safe.</p>
+
+		<h3>Group Hunts</h3>
+		<p>A hunt can be run as a party. It forms when the first mound is read, including anyone nearby. The most skilled hunter present leads it.</p>
+
+		<p>Every member can see the trail. Stick together - stray too far from the trail and you are quietly dropped from the hunt, and it stops showing itself to you. Everyone will gain hunting experience and more beasts will show up in a group hunt.</p>
+		</div>
+	"}
