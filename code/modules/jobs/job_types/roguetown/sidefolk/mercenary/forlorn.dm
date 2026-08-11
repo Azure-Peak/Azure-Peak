@@ -41,7 +41,7 @@
 /datum/outfit/job/roguetown/mercenary/forlorn/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //Let them start with some foot protection.
-	neck = /obj/item/clothing/neck/roguetown/gorget/forlorncollar  //steel gorget equiv.
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/forlorncollar  //steel gorget equiv.
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/light
 	pants = /obj/item/clothing/under/roguetown/brigandinelegs		// They're brigandinejaks. ergo have them start w/the whole thing
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
