@@ -35,7 +35,7 @@
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights/random
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/magebag/associate
 	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
