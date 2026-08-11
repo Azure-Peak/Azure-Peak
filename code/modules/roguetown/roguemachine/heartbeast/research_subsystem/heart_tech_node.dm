@@ -14,6 +14,14 @@
 	var/recipe_override = null
 
 	var/selection_weight = 10    // Higher number = more likely to appear
+	/// If TRUE, broadcasts a message to eligible players upon being unlocked.
+	var/should_notify = FALSE
+	/// Custom text to show when unlocked. If null, defaults to a standard message.
+	var/unlock_message = null
+
+/datum/chimeric_tech_node/proc/notify_condition(mob/living/M)
+	// Default: Notify all living players with a mind attached.
+	return M.mind ? TRUE : FALSE
 
 /// HEALING MIRACLE TECHS
 /datum/chimeric_tech_node/awaken_healing
@@ -31,7 +39,14 @@
 	required_tier = 3
 	cost = 85
 	selection_weight = 15
-	prerequisites = list("HEAL_TIER1") 
+	prerequisites = list("HEAL_TIER1")
+	should_notify = TRUE
+	unlock_message = "The earth stirs far below, something ancient labors unseen. Your connection to the divine feels strengthened. Most healing miracles are more effective now."
+
+/datum/chimeric_tech_node/enhanced_healing/notify_condition(mob/living/M)
+	if(!ishuman(M))
+		return FALSE
+	return M.get_skill_level(/datum/skill/magic/holy) >= 1
 
 /datum/chimeric_tech_node/awaken_resurrection
 	name = "Awaken divine resurrection"
@@ -41,6 +56,13 @@
 	cost = 40
 	selection_weight = 50
 	prerequisites = list("HEAL_TIER1")
+	should_notify = TRUE
+	unlock_message = "The earth stirs far below, something ancient labors unseen. Your connection to the divine feels strengthened. Most revival miracles recharge quicker now."
+
+/datum/chimeric_tech_node/awaken_resurrection/notify_condition(mob/living/M)
+	if(!ishuman(M))
+		return FALSE
+	return M.get_skill_level(/datum/skill/magic/holy) >= 4
 
 /datum/chimeric_tech_node/enhanced_resurrection
 	name = "Enhance divine resurrection"
@@ -50,6 +72,13 @@
 	cost = 120
 	selection_weight = 50
 	prerequisites = list("REVIVE_TIER1")
+	should_notify = TRUE
+	unlock_message = "The earth stirs far below, something ancient labors unseen. Your connection to the divine feels strengthened. Most revival miracles cost less now."
+
+/datum/chimeric_tech_node/enhanced_resurrection/notify_condition(mob/living/M)
+	if(!ishuman(M))
+		return FALSE
+	return M.get_skill_level(/datum/skill/magic/holy) >= 4
 
 // CRAFTING RECIPE TECHS
 /datum/chimeric_tech_node/residual_frankenbrew
@@ -82,7 +111,7 @@
 
 /datum/chimeric_tech_node/black_rose
 	name = "Black Rose Synthesis"
-	description = "Allows crafting of black roses from corrupted flesh and beast blood. It is believed heartbeasts were in part created by Pestra herself to control the black rot that lingers withing these roses."
+	description = "Allows crafting of black roses from corrupted flesh and beast blood. It is believed heartbeasts were in part created by Pestra herself to control the black rot that lingers withing these roses. Also allows granting the creation of black rot petal beds to those who follow pestra with a holy skill of at least journeyman."
 	string_id = "BLACK_ROSE"
 	required_tier = 4
 	cost = 100

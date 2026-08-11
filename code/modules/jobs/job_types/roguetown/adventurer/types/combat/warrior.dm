@@ -311,10 +311,12 @@
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/padded/barbarian
-		if ("Discipline - Bodybuilder") //its really not that good
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/barbarian //gambeson.
+			shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/barbarian/chest //a leather armor, this one chest-only. The skin armor options start better protected, but cannot upgrade. A basic gamby + leather armor will match them, and heavy gamby + light brig will eclipse them significantly.
+		if ("Discipline - Bodybuilder") //its actually not that bad now. Better starting protection than the bronze sword option, but cannot upgrade to brigandine.
 			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian //a leather armor.
+			shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/barbarian/chest //chest-only leather armor.
 			r_hand = /obj/item/rogueweapon/greatsword/iron
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian

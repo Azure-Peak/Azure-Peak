@@ -348,7 +348,7 @@
 	desc = "A pair of lightweight snugly fitting boots. They're reinforced along the toes and ankles and offer a measure of protection against missteps and glancing blows during close exchanges, often favoured by duelists and other itinerant swordsmen."
 	icon_state = "freiboots"
 	item_state = "freiboots"
-	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + ARMOR_INT_LIGHT_FENCER_MODIFIER
 
 /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter/loadout
 	name = "aesthetic fencing boots"

@@ -385,3 +385,19 @@
 		/datum/sprite_accessory/tail/rattlesnake,
 		/datum/sprite_accessory/tail/lynx
 		)
+
+//Fluvian
+/datum/customizer/organ/tail/moth
+	customizer_choices = list(/datum/customizer_choice/organ/tail/moth)
+	allows_disabling = TRUE
+	default_disabled = TRUE
+
+/datum/customizer_choice/organ/tail/moth
+	name = "Insect Abdomen"
+	organ_type = /obj/item/organ/tail
+	allows_accessory_color_customization = TRUE
+	generic_random_pick = TRUE
+	sprite_accessories = list(
+		/datum/sprite_accessory/tail/bee,
+		/datum/sprite_accessory/tail/insect,
+		)

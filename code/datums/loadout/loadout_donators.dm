@@ -114,6 +114,10 @@
 	name = "Gift - Kit, Gothic Steel Armor"
 	path = /obj/item/enchantingkit/gothicsteelarmor
 
+/datum/loadout_item/donator/universal/armor_gothic_burgeonet
+	name = "Gift - Kit, Gothic Burgeonet"
+	path = /obj/item/enchantingkit/gothicburgeonet
+
 /datum/loadout_item/donator/universal/armor_gothic_psydonic
 	name = "Gift - Kit, Gothic Psydonic Cuirass"
 	path = /obj/item/enchantingkit/gothicpsydoniccuirass
@@ -633,11 +637,6 @@
 	path = /obj/item/enchantingkit/sci_sand
 	ckeywhitelist = list("scidragon")
 
-/datum/loadout_item/donator/aisuwand
-    name = "Donator Kit - Crystalline Rapier"
-    path = /obj/item/enchantingkit/aisuwand
-    ckeywhitelist = list("aisu9")
-
 /datum/loadout_item/donator/regnum
 	name = "Donator Item - Regnum"
 	path = /obj/item/enchantingkit/weapon/regnum
@@ -826,3 +825,93 @@
 	name = "Donator Kit - For Love's Sake"
 	path = /obj/item/enchantingkit/aticius_fls
 	ckeywhitelist = list("aticius")
+
+/datum/loadout_item/donator/chivalre_aasimar
+	name = "Donator Kit - Aasimari Equipment"
+	path = /obj/item/enchantingkit/chivalre_aasimar
+	ckeywhitelist = list("oddbomber3768")
+
+/datum/loadout_item/donator/chivalre_aasimar_sack
+	name = "Donator Kit - Aasimari Equipment, Sackful"
+	path = /obj/item/storage/roguebag/donator_chivalre_elixirs
+	ckeywhitelist = list("oddbomber3768")
+
+/datum/loadout_item/donator/truill_flowerblade
+	name = "Donator Kit - Beflowered Longsword"
+	path = /obj/item/enchantingkit/truill_flowerblade
+	ckeywhitelist = list("truill")
+
+/datum/loadout_item/donator/rhynnrhynn_staff
+	name = "Donator Kit - Celestial Staff"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/rhynnrhynn_staff_crested
+	name = "Donator Kit - Celestial Staff, Crested"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff_crested
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/rhynnrhynn_staff_winged
+	name = "Donator Kit - Celestial Staff, Winged"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff_winged
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/rhynnrhynn_staff_solar
+	name = "Donator Kit - Celestial Staff, Solar"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff_solar
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/lamprey_stechhelm
+	name = "Donator Kit - Stechhelm"
+	path = /obj/item/enchantingkit/lamprey_stechhelm
+	ckeywhitelist = list("derpi559")
+
+/datum/loadout_item/donator/squidqueen_longcoat
+	name = "Donator Kit - Ragged Longcoat"
+	path = /obj/item/enchantingkit/squidqueen_longcoat
+	ckeywhitelist = list("lmwevil")
+
+/datum/loadout_item/donator/squidqueen_longcoat_alt
+	name = "Donator Kit - Frayed Longcoat"
+	path = /obj/item/enchantingkit/squidqueen_longcoat_alt
+	ckeywhitelist = list("lmwevil")
+
+/datum/loadout_item/donator/squidqueen_harlottoga
+	name = "Donator Item - Harlotous Toga"
+	path = /obj/item/clothing/cloak/tabard/donator_squidqueen_harlottoga
+	ckeywhitelist = list("lmwevil")
+
+/*/datum/loadout_item/donator/hellpossum_apostle_armor
+	name = "Donator Kit - Apostolic Armor"
+	path = /obj/item/enchantingkit/hellpossum_apostle_armor
+	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")
+
+/datum/loadout_item/donator/hellpossum_robed_apostle_armor
+	name = "Donator Kit - Apostolic Armor, Robed"
+	path = /obj/item/enchantingkit/hellpossum_robed_apostle_armor
+	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")
+
+/datum/loadout_item/donator/hellpossum_apostle_helm
+	name = "Donator Kit - Apostolic Burgeonet"
+	path = /obj/item/enchantingkit/hellpossum_apostle_helm
+	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")*/ //Staged for later, at the donator's request.
+
+/datum/loadout_item/donator/hellpossum_grandmaster_armor
+	name = "Donator Kit - Grandmaster's Armor, Robed"
+	path = /obj/item/enchantingkit/hellpossum_grandmaster_armor
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator/hellpossum_grandmaster_helm
+	name = "Donator Kit - Grandmaster's Burgeonet"
+	path = /obj/item/enchantingkit/hellpossum_grandmaster_helm
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator/hellpossum_grandmaster_helm_habit
+	name = "Donator Kit - Grandmaster's Burgeonet, Habited"
+	path = /obj/item/enchantingkit/hellpossum_grandmaster_habit
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator/rosy/birdmask
+	name = "Donator Kit - Beaked Mask"
+	path = /obj/item/enchantingkit/rosy/birdmask
+	ckeywhitelist = list("rosysaturniidae")
