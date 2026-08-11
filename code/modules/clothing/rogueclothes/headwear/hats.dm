@@ -300,6 +300,9 @@
 	//dropshrink = 0.75
 	dynamic_hair_suffix = null
 
+/obj/item/clothing/head/roguetown/headband/monk/black
+	color = COLOR_ALMOST_BLACK
+
 /obj/item/clothing/head/roguetown/headband/monk
 	name = "padded headband"
 	desc = "A winding length of cloth, meticulously lined with heavy leather strips. Errant impacts are thwarted, yet not a degree of vision is impaired; valuable traits, for the Monk who must enlighten their villains with a white-knuckled sermon. </br>'..I kick ass for the Lord!'"

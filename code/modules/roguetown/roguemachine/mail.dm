@@ -952,6 +952,10 @@
 		var/path = text2path(href_list["buy"])
 		var/datum/inqports/PA = GLOB.inqsupplies[path]
 
+		if(usr.mind?.assigned_role == "Neophyte")
+			to_chat(usr, span_warning("Neophytes are not authorized to requisition supplies. Draft a Requisition Form instead from your Inquisitorial Slip Kit"))
+			return display_marquette(usr)
+
 		inqcoins -= PA.marquescost
 		if(PA.maximum)
 			decreaseremaining(PA)
