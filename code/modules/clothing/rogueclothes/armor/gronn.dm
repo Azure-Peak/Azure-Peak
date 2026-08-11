@@ -1,5 +1,96 @@
 // LIGHT ARMORS
 
+
+//armor
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi //hardened leather armor reskin.
+	name = "shamanic coat"
+	desc = "A furred, protective coat. Often made by hand, it embodies the second trial of the Iskarn Shamans: To honor the leopard is to desire for more."
+	icon_state = "atgervi_shaman_coat"
+	item_state = "atgervi_shaman_coat"
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/gronn //hardened leather armor reskin.
+	name = "gronnic ravager mantle"
+	desc = "A carefully created mantle of bone and hardened leather. It offers superior protection against the threats of the wild while remaining light, \
+			A popular design in Iskarn is to adorn a shoulder with a wolf pelt and skull. So that a great beast is always with you."
+	icon = 'icons/roguetown/clothing/special/gronn.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
+	icon_state = "gronnleatherarmor"
+	item_state = "gronnleatherarmor"
+
+//pants
+/obj/item/clothing/under/roguetown/trou/leather/gronn //hardened leather pants reskin.
+	name = "gronnic fur pants"
+	desc = "A pair of hardened leather pants with bone reinforcements along the legs; \
+			Those of Gronn adopt a design that offers superior protection against the blunted hits and slashing claws of beasts."
+	icon_state = "gronnleatherpants"
+	item_state = "gronnleatherpants"
+	icon = 'icons/roguetown/clothing/special/gronn.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
+
+/obj/item/clothing/under/roguetown/trou/leather/atgervi //hardened leather pants reskin.
+	name = "fur pants"
+	desc = "Thick fur pants made to endure the coldest winds, offering a share of protection from the fangs and claws of beasts and men alike."
+	icon_state = "atgervi_pants"
+	item_state = "atgervi_pants"
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
+
+//gloves
+/obj/item/clothing/gloves/roguetown/angle/gronn //unarmored variant. Used by adv noble, not the mercs.
+	name = "gronnic fur-lined leather gloves"
+	desc = "Thick, padded gloves made for the harshest of climates and the wildest of beasts encountered in the untamed north."
+	icon_state = "gronnleathergloves"
+	item_state = "gronnleathergloves"
+	icon = 'icons/roguetown/clothing/special/gronn.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
+	color = "#ffffff"
+
+/obj/item/clothing/gloves/roguetown/angle/gronnfur //hardened leather glove reskin with unarmed bonus damage. Shaman Unique.
+	name = "gronnic fur-lined bone gloves"
+	desc = "A pair of hardened leather gloves with bone reinforcements across the wrists\
+			and the back of the hand, offering superior protection against\
+			the claws of beasts and plants alike. Commonly worn by gatherers."
+	icon_state = "gronnfurgloves"
+	item_state = "gronnfurgloves"
+	icon = 'icons/roguetown/clothing/special/gronn.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
+	unarmed_bonus = 6
+	color = "#ffffff"
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+	armor = ARMOR_LEATHER
+
+/obj/item/clothing/gloves/roguetown/angle/atgervi //hardened leather glove reskin.
+	name = "fur-lined leather gloves"
+	desc = "Dense, padded gloves made for the harshest of climates and the wildest of beasts encountered in the untamed highlands."
+	icon_state = "atgervi_raider_gloves"
+	item_state = "atgervi_raider_gloves"
+	color = "#ffffff"
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+	armor = ARMOR_LEATHER
+
+//boots
+/obj/item/clothing/shoes/roguetown/boots/leather/atgervi //hardened leather boots reskin.
+	name = "atgervi leather boots"
+	desc = "A pair of strong leather boots, designed to endure both the heat of battle and the frigid cold of the Northern Empty."
+	icon_state = "atgervi_boots"
+	item_state = "atgervi_boots"
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+	armor = ARMOR_LEATHER
+
+//helms
+/obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
+	name = "owl helmet"
+	desc = "A carefully forged steel helmet in the shape of an owl's face, with added chain to cover the face and neck against many blows."
+	icon_state = "atgervi_raider"
+	item_state = "atgervi_raider"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	body_parts_covered = FULL_HEAD|NECK
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/atgervi.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	block2add = null
+	worn_x_dimension = 32
+	worn_y_dimension = 48
+
 /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn
 	name = "gronnic ravager helm"
 	desc = "A helmet of hardened leather with a carved animal skull to appear similar to a human; a unique design of The Northern Empty. \
@@ -14,51 +105,22 @@
 	worn_x_dimension = 32
 	worn_y_dimension = 32
 
-
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/gronn
-	name = "gronnic ravager mantle"
-	desc = "A carefully created mantle of bone and hardened leather. It offers superior protection against the threats of the wild while remaining light, \
-			A popular design in Iskarn is to adorn a shoulder with a wolf pelt and skull. So that a great beast is always with you."
-	icon = 'icons/roguetown/clothing/special/gronn.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
-	icon_state = "gronnleatherarmor"
-	item_state = "gronnleatherarmor"
-	armor = ARMOR_LEATHER
-
-/obj/item/clothing/under/roguetown/trou/leather/gronn
-	name = "gronnic fur pants"
-	desc = "A pair of hardened leather pants with bone reinforcements along the legs; \
-			Those of Gronn adopt a design that offers superior protection against the blunted hits and slashing claws of beasts."
-	icon_state = "gronnleatherpants"
-	item_state = "gronnleatherpants"
-	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_LEG_HARDLEATHER
-	icon = 'icons/roguetown/clothing/special/gronn.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
-
-/obj/item/clothing/gloves/roguetown/angle/gronn
-	name = "gronnic fur-lined leather gloves"
-	desc = "Thick, padded gloves made for the harshest of climates and the wildest of beasts encountered in the untamed north."
-	icon_state = "gronnleathergloves"
-	item_state = "gronnleathergloves"
-	icon = 'icons/roguetown/clothing/special/gronn.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
-	color = "#ffffff"
-
-/obj/item/clothing/gloves/roguetown/angle/gronnfur
-	name = "gronnic fur-lined bone gloves"
-	desc = "A pair of hardened leather gloves with bone reinforcements across the wrists\
-			and the back of the hand, offering superior protection against\
-			the claws of beasts and plants alike. Commonly worn by gatherers."
-	icon_state = "gronnfurgloves"
-	item_state = "gronnfurgloves"
-	icon = 'icons/roguetown/clothing/special/gronn.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
-	unarmed_bonus = 6
+/obj/item/clothing/head/roguetown/helmet/leather/saiga/atgervi //hardened leather helmet + face cover / leather sagia helm but tougher.
+	name = "moose hood" //UNUSED DUPLICATE ITEM
+	desc = "A deceptively strong moosehide hood with a pair of large heavy antlers. It is the reward of the fourth trial of the Iskarn Shamans: To slay a Grinning Moose in the final hunt alone - and fashion a hood from its head."
+	icon_state = "atgervi_shaman"
+	item_state = "atgervi_shaman"
+	flags_inv = HIDEEARS|HIDEFACE
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/atgervi.dmi'
+	flags_inv = HIDEEARS
+	bloody_icon = 'icons/effects/blood64.dmi'
+	worn_x_dimension = 32
+	worn_y_dimension = 48
+	experimental_inhand = FALSE
+	experimental_onhip = FALSE
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
-	color = "#ffffff"
 
-/obj/item/clothing/head/roguetown/helmet/leather/shaman_hood
+/obj/item/clothing/head/roguetown/helmet/leather/shaman_hood //Hardened leather helmet reskin.
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
 	name = "moose hood"
 	desc = "A deceptively strong moosehide hood with a pair of large heavy antlers. It is the reward of the fourth trial of the Iskarn Shamans: To slay a Grinning Moose in the final hunt alone - and fashion a hood from its head."
@@ -190,6 +252,7 @@
 
 // MEDIUM ARMOR -- Iron reskins
 
+//helmets
 /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn/ownel
 	name = "gronnic ownel helmet"
 	desc = "A full helmet that adequately protect the eyes and head; \
@@ -197,6 +260,7 @@
 	icon_state = "gronnhelm"
 	item_state = "gronnhelm"
 
+//armor
 /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
 	name = "gronn byrine hauberk"
 	desc = "A chain shirt of Gronnic design with a leather coat layered over, \
@@ -208,6 +272,14 @@
 	smeltresult = /obj/item/ingot/iron
 	armor = ARMOR_MAILLE
 
+//shirts
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
+	name = "varangian hauberk"
+	desc = "The pride of the Highland mercenaries, this hauberk is a well crafted blend of chain and leather woven into a dense, protective coat."
+	icon_state = "atgervi_raider_mail"
+	item_state = "atgervi_raider_mail"
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL + 100
+
 /obj/item/clothing/gloves/roguetown/chain/gronn
 	name = "gronn byrine gloves"
 	desc = "A pair of leather gloves with chain to protects the wrists and back of the hand."
@@ -216,6 +288,7 @@
 	icon_state = "gronnchaingloves"
 	item_state = "gronnchaingloves"
 
+//pants
 /obj/item/clothing/under/roguetown/chainlegs/gronn
 	name = "gronn byrine chausses"
 	desc = "A pair of chain-wrapped pants with a leather subligar, ensuring both protection and comfort."
@@ -284,3 +357,11 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
 	icon_state = "gronnplateboots"
 	item_state = "gronnplateboots"
+
+//fancy claw weapons
+
+/obj/item/clothing/gloves/roguetown/plate/atgervi
+	name = "beast claws"
+	desc = "A menacing pair of plated claws, whose forging methods are a closely protected tradition of the Shamans. The four claws embodying the Four Great Beasts, decorated with symbols of the Gods they praise and the Gods they reject."
+	icon_state = "atgervi_shaman_gloves"
+	item_state = "atergvi_shaman_gloves"

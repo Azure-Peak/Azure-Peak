@@ -2,7 +2,7 @@
 	name = "Atgervi"
 	tutorial = "You are a Varangian of the Gronn Highlands. Warrior-Traders most known for their exploits into the Raneshen Empire, which will be forever remembered by historians."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/atgervi
 	subclass_languages = list(/datum/language/gronnic)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
@@ -25,7 +25,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,	
+		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -83,7 +83,7 @@
 	name = "Atgervi Shaman"
 	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast Gods through ritualistic violence, rather than idle prayer."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/atgervi_shaman
 	subclass_languages = list(/datum/language/gronnic)
 	cmode_music = 'sound/music/combat_shaman2.ogg'
@@ -157,71 +157,6 @@
 		)
 	H.merctype = 1
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
-	name = "varangian hauberk"
-	desc = "The pride of the Highland mercenaries, this hauberk is a well crafted blend of chain and leather woven into a dense, protective coat."
-	icon_state = "atgervi_raider_mail"
-	item_state = "atgervi_raider_mail"
-	max_integrity = 400
-
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi
-	name = "shamanic coat"
-	desc = "A furred, protective coat. Often made by hand, it embodies the second trial of the Iskarn Shamans: To honor the leopard is to desire for more."
-	icon_state = "atgervi_shaman_coat"
-	item_state = "atgervi_shaman_coat"
-
-/obj/item/clothing/under/roguetown/trou/leather/atgervi
-	name = "fur pants"
-	desc = "Thick fur pants made to endure the coldest winds, offering a share of protection from the fangs and claws of beasts and men alike."
-	icon_state = "atgervi_pants"
-	item_state = "atgervi_pants"
-	
-/obj/item/clothing/gloves/roguetown/angle/atgervi
-	name = "fur-lined leather gloves"
-	desc = "Dense, padded gloves made for the harshest of climates and the wildest of beasts encountered in the untamed highlands."
-	icon_state = "atgervi_raider_gloves"
-	item_state = "atgervi_raider_gloves"
-	color = "#ffffff"
-
-/obj/item/clothing/gloves/roguetown/plate/atgervi
-	name = "beast claws"
-	desc = "A menacing pair of plated claws, whose forging methods are a closely protected tradition of the Shamans. The four claws embodying the Four Great Beasts, decorated with symbols of the Gods they praise and the Gods they reject."
-	icon_state = "atgervi_shaman_gloves"
-	item_state = "atergvi_shaman_gloves"
-
-/obj/item/clothing/head/roguetown/helmet/bascinet/atgervi
-	name = "owl helmet"
-	desc = "A carefully forged steel helmet in the shape of an owl's face, with added chain to cover the face and neck against many blows."
-	icon_state = "atgervi_raider"
-	item_state = "atgervi_raider"
-	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
-	body_parts_covered = FULL_HEAD|NECK
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/atgervi.dmi'
-	bloody_icon = 'icons/effects/blood64.dmi'
-	block2add = null
-	worn_x_dimension = 32
-	worn_y_dimension = 48
-
-/obj/item/clothing/head/roguetown/helmet/leather/saiga/atgervi
-	name = "moose hood"
-	desc = "A deceptively strong moosehide hood with a pair of large heavy antlers. It is the reward of the fourth trial of the Iskarn Shamans: To slay a Grinning Moose in the final hunt alone - and fashion a hood from its head."
-	icon_state = "atgervi_shaman"
-	item_state = "atgervi_shaman"
-	flags_inv = HIDEEARS|HIDEFACE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/atgervi.dmi'
-	flags_inv = HIDEEARS
-	bloody_icon = 'icons/effects/blood64.dmi'
-	worn_x_dimension = 32
-	worn_y_dimension = 48
-	experimental_inhand = FALSE
-	experimental_onhip = FALSE
-
-/obj/item/clothing/shoes/roguetown/boots/leather/atgervi
-	name = "atgervi leather boots"
-	desc = "A pair of strong leather boots, designed to endure both the heat of battle and the frigid cold of the Northern Empty."
-	icon_state = "atgervi_boots"
-	item_state = "atgervi_boots"
-
 /obj/item/rogueweapon/shield/atgervi
 	name = "kite shield"
 	desc = "A large, but light wooden shield with a steel boss in the center to deflect blows more easily."
@@ -285,7 +220,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
 	name = "carved talisman" //relishing talisma
-	desc = "'“The excess of desire, the want of more, the glory of victory, the lover's embrace. Embrace the Leopard, or forget your strength.'  </br>  </br>The Relishing Leopard embodies the virtues of love and glory, both in battle and at home. Enjoy the flesh, the drink, and the spice; but be wary to avoid overindulgence, for it shall leave you despondant and lethargic. To become too comfortable is to become weak, and such weakness would turn you into a delicious snack for the Leopard." 
+	desc = "'“The excess of desire, the want of more, the glory of victory, the lover's embrace. Embrace the Leopard, or forget your strength.'  </br>  </br>The Relishing Leopard embodies the virtues of love and glory, both in battle and at home. Enjoy the flesh, the drink, and the spice; but be wary to avoid overindulgence, for it shall leave you despondant and lethargic. To become too comfortable is to become weak, and such weakness would turn you into a delicious snack for the Leopard."
 	icon_state = "gronnbaotha"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn/get_examine_highlight_status()
