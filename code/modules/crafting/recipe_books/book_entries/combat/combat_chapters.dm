@@ -14,7 +14,7 @@
 			<li><b>Shift Click</b> to examine an object or person. Clicking a (?) or opening a "Mechanics" link tends to give more explanation.</li>
 			<li><b>Right Clicking</b> someone with an object in hand OFFERS it to them. Doing it while sneaking will offer it stealthily. Combat Mode (see below) ensures you do not offer it by accident and use your stance's right click (More in the stances and special section).</li>
 			<li><b>Holding Right Click</b> lets you turn around in place to where you are looking at, unless it is done to an object that has a specific right click override.</li>
-			<li><b>Click Dragging</b> someone from their sprite onto your own opens their equipment, letting you strip items off them or put items onto them.</li>
+			<li><b>Click Dragging</b> someone from their sprite onto your own opens their equipment, letting you strip items off them or put items onto them. Dragging your own sprite onto yourself opens the same menu for your own equipment.</li>
 			<li>Pressing <b>F</b> turns you into "Locked Eyes" mode, locking your character to face the direction you are facing instead of turning fluidly to face where you are moving. Moving in a direction you are not facing slows you down. This can be tactically toggled on and off by advanced players to ensure they are facing their enemy.</li>
 			<li><b>Z</b> drops an item, and can be used to release a Grab too.</li>
 			<li><b>Q</b> and <b>E</b> swap between your left and right hand.</li>
@@ -707,5 +707,25 @@
 			<li>Middle-Clicking at the groin while it is exposed will remove your underwear.</li>
 			<li>Middle-Click dragging yourself onto another player begins mechanical intimacy, provided both of you have consented to it. Your middle-click intent must be unset for the drag to be read as such, and the person you drag onto must have their ERP Panel enabled - it is found under Preferences -> Options as "Toggle ERP Panel", and is off unless you turn it on. Attempting it on someone who has not enabled it simply fails and tells you both so. It is entirely opt-in on their side, so respect the answer the panel gives you.</li>
 		</ul>
+		</div>
+	"}
+
+
+/datum/book_entry/combat/looting
+	name = "19. Looting, Contracts & Scrapping"
+
+/datum/book_entry/combat/looting/inner_book_html(mob/user)
+	return {"
+		<div>
+		<h3>Finding PVE Content</h3>
+		<p>Adventurers and Mercenaries looking for PVE content can go to the Grand Contract Ledger and take on contracts. Alternatively, they can go outside to explore the many fixed dungeons that are present outside.</p>
+
+		<h3>Simple and Complex NPCs</h3>
+		<p>NPCs / Mobs are split into Complex and Simple Animals. Simple Animals are wolves, direbears etc., and usually represent non-humanoid animals. These can be butchered by middle click with a SHORT blade - like the hunting knife most adventurers start with.</p>
+
+		<p>Complex are human-like animals, and includes skeletons and highwaymen. Whenever a complex NPC is killed and not dusted, you can use the STRIPPING Menu (Click drag their sprite onto yourself) to strip them. <b>Loot Everything</b> loots everything in order, <b>Loot Smeltable</b> loots everything that smelts to a metallic result, and <b>Loot Fabric</b> loots everything that scavenges to fabric. These are only available on a dead NPC that has never ever been possessed by a player.</p>
+
+		<h3>Hauling It Home</h3>
+		<p>You can make a handcart out of 3 small logs and 1 rope, which is quite handy for carrying your rightfully stolen loot back to town, to sell at the SMITH'S SCRAPPER or the TAILOR'S RAG-PICKER respectively.</p>
 		</div>
 	"}
