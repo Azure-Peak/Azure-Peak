@@ -1296,12 +1296,13 @@
 	body = target
 
 /datum/profane_soul_data/Destroy(force, ...)
-	if(src.body)
-		src.remove_assassinate_traits()
+	if(!src.body)
+		return
+	src.remove_assassinate_traits()
 	. = ..()
 
 /// Removes the DNR & claimed by darkstar. For if something goes wrong.
-/datum/profane_soul_data/remove_assassinate_traits()
+/datum/profane_soul_data/proc/remove_assassinate_traits()
 	if(!src.body)
 		return
 	if(HAS_TRAIT_FROM(src.body, TRAIT_DNR, GRAGGAR_ASSASSINATED))
@@ -1366,22 +1367,25 @@
 			to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"[picked_message]\"</i>"))
 			last_spoken = world.time
 
-// make sure you call release_profane_souls ANYTIME it gets destroyed
-// R_P_S no longer destroys the dagger, instead, this is shatter_dagger() to avoid runtimes associated w/ destroy()
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/Destroy()
 	if(stored_souls.len)
+		// any dagger destruction needs to release all the souls in it
 		release_profane_souls()
 	if(dominator)
+		// inform dominator if any
 		to_chat(dominator, span_cult("I hear a faint screaming-- blood drips. My dagger has been destroyed."))
 		var/datum/antagonist/assassin/ass = dominator.mind.has_antag_datum(/datum/antagonist/assassin)
 		if(ass)
+			// null the knife out. admins can spawn them a new one if they need to.
 			ass.my_dagger = null
+	// i THINK this should clear the list?
+	stored_souls.Cut()
 	. = ..()
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
 		return FALSE
-	if(target.has_flaw(/datum/charflaw/targeted)) // Check to see if the dagger will do 20 damage or 14
+	if(target.has_flaw(/datum/charflaw/targeted)) // dagger deals more dmg to ppl who r targeted
 		force = 20 * 2	//vs trait havers, 2x damage over a steel knife
 	else
 		force = 20 + 4	//vs non-trait havers, 4 more damage over a steel knife
@@ -1412,9 +1416,9 @@
 
 		// send a message. everyone know what we're doing.
 		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... \
-												STOP [human_user.p_them()]!!"),
-							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty.") + span_artery("\
-							\n \n\"De-za-kh...\""))
+												STOP [human_user.p_them()]!!"), span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty."))
+
+		to_chat(user, span_artery("De-za-kh..."))
 
 		// INITIATE GRAGGAR BEAM.
 		var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
@@ -1545,6 +1549,8 @@
 	var/datum/profane_soul_data/new_soul = new(target)
 
 	src.stored_souls += new_soul
+	// target gets DNR & a unique trait to prevent being yoinked a second time.
+	// removed when the dagger is broken by any means OR if the soul is deleted.
 	ADD_TRAIT(target, TRAIT_DNR, GRAGGAR_ASSASSINATED)
 	ADD_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
 
@@ -1555,7 +1561,7 @@
 	user.adjust_triumphs(1)
 
 
-
+/// Loops thru all souls and qdels them before qdel'ing dagger. If user is specified, gives soul# in triumphs. Returns amount of souls freed.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
 	var/freed_souls = 0
 	for(var/datum/profane_soul_data/soul in stored_souls)
@@ -1563,12 +1569,12 @@
 		if(soul.body && !QDELETED(soul.body))
 			var/mob/living/carbon/human/H = soul.body
 			var/mob/dead/observer/playerghost = H.get_ghost(TRUE, TRUE)
-			soul.remove_assassinate_traits()
 			if(playerghost)
 				to_chat(playerghost, "<b>I have been freed from my vile prison! I await revival, or Necra's cold grasp... SALVATION!</b>")
 			else
 				to_chat(H, "<b>I have been freed from my vile prison! I await revival, or Necra's cold grasp... SALVATION!</b>")
 			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp. Revival may be possible!"))
+			// qdel handles removing traits
 			qdel(soul)
 		else
 			// fallback in case body is missing for some reason
