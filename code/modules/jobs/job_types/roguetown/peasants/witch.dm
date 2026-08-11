@@ -1,11 +1,43 @@
-/datum/advclass/witch
-	name = "Witch"
+/datum/job/roguetown/witch
+	title = "Witch"
+	flag = WITCH
+	department_flag = PEASANTS
+	faction = "Station"
+	total_positions = 3 // you can have a coven, but there shouldn't be many of these
+	spawn_positions = 3
+	display_order = JDO_WITCH
+	allowed_sexes = list(MALE, FEMALE) // no forbidden races since these are outcasts
+	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
+
 	tutorial = "You are a witch, seen as wisefolk to some and a demon to many. Ostracized and sequestered for wrongthinks or outright heresy, your potions are what the commonfolk turn to when all else fails, and for this they tolerate you — at an arm's length. Take care not to end 'pon a pyre, for the church condemns your left handed arts."
+
+	give_bank_account = FALSE // weird for them to be taxed by default + lets them live invisibly for real outcast larp
+	min_pq = -10
+	max_pq = null
+	round_contrib_points = 2
+
+	job_traits = list(TRAIT_DEATHSIGHT, TRAIT_WITCH, TRAIT_ALCHEMY_EXPERT, TRAIT_RESIDENT) // so they can claim the witch huts
+
+	job_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1
+	)
+
+	advclass_cat_rolls = list(CTAG_WITCH = 3)
+	job_subclasses = list(
+		/datum/advclass/oldmagick,
+		/datum/advclass/mystagogue,
+		/datum/advclass/godsblood
+	)
+
+/datum/advclass/oldmagick
+	name = "Old Magick"
+	tutorial = "Unlike the mages in their ivory tower, you practice your magick without the sanction of the Crown. The townsfolk may fear you, the Church may condemn you, but you alone know truths the Academy has forgotten."
 	allowed_sexes = list(MALE, FEMALE)
 
-	outfit = /datum/outfit/job/roguetown/adventurer/witch
-	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
-	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_WITCH, TRAIT_ALCHEMY_EXPERT)
+	outfit = /datum/outfit/job/roguetown/adventurer/witch/oldmagick
+	category_tags = list(CTAG_WITCH)
 	townie_contract_gate_exempt = TRUE
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -13,6 +45,7 @@
 		STATKEY_LCK = 1
 	)
 	age_mod = /datum/class_age_mod/witch
+	traits_applied = list(TRAIT_ARCYNE)
 
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -24,7 +57,63 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
-	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE)
+
+/datum/advclass/godsblood
+	name = "Godsblood"
+	tutorial = "The Church would say that the only way to wield the power of the gods is a lyfe dedicated fully to worship. You beg to differ. Through a taboo ritual, you now wield your patron's miracles - though not without cost. Condemned by the Chuch and feared by the townsfolk, you live on as a pariah, the last resort of those with no-one else to turn to."
+	allowed_sexes = list(MALE, FEMALE)
+
+	outfit = /datum/outfit/job/roguetown/adventurer/witch/godsblood
+	category_tags = list(CTAG_WITCH)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1
+	)
+	age_mod = /datum/class_age_mod/witch
+
+	subclass_skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/advclass/mystagogue
+	name = "Mystagogue"
+	tutorial = "You may not be as knowledgeable as a magos, or as powerful as an acolyte, but your command of both the arcyne and divine arts lends you a unique strength. Such a mixture is oft considered heretical, and you've had to dodge the suspicions of the Church your whole lyfe."
+	allowed_sexes = list(MALE, FEMALE)
+
+	outfit = /datum/outfit/job/roguetown/adventurer/witch/mystagogue
+	category_tags = list(CTAG_WITCH)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1
+	)
+	age_mod = /datum/class_age_mod/witch
+
+	subclass_skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+	)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3)
 
 /datum/outfit/job/roguetown/adventurer/witch/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -42,76 +131,18 @@
 	var/list/prefs = H.client?.prefs?.job_subprefs
 	var/list/witchprefs
 	if(prefs)
-		witchprefs = prefs["Towner"]
-	var/classchoice
+		witchprefs = prefs["Witch"]
 	var/shapeshiftchoice
-	if(witchprefs && witchprefs["witch_type"])
-		classchoice = witchprefs["witch_type"]
 	if(witchprefs && witchprefs["witch_form"])
 		shapeshiftchoice = witchprefs["witch_form"]
-	if(!classchoice)
-		var/classes = list("Old Magick", "Godsblood", "Mystagogue")
-		classchoice = input(H, "How do your powers manifest?", "THE OLD WAYS") as anything in classes
 	if(!shapeshiftchoice)
 		var/shapeshifts = list("Zad", "Cat", "Cat (Black)", "Bat", "Lesser Volf", "Cabbit", "Small Rous", "Lesser Venard")
 		shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
+	if(H.gender == FEMALE)
+		armor = /obj/item/clothing/suit/roguetown/armor/corset
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
+		pants = /obj/item/clothing/under/roguetown/skirt/red
 
-	switch (classchoice)
-		if("Old Magick")
-			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
-			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
-			backl = /obj/item/storage/backpack/rogue/satchel
-			backr = choose_implement(H, "lesser")
-			backpack_contents = list(
-								/obj/item/rogueweapon/spellbook = 1,
-								/obj/item/reagent_containers/glass/mortar = 1,
-								/obj/item/pestle = 1,
-								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
-								)
-			if (H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
-		if("Godsblood")
-			//miracle witch: capped at t2 miracles. cannot pray to regain devo, but has high innate regen because of it (2 instead of 1 from major)
-			var/datum/devotion/D = new /datum/devotion/(H, H.patron)
-			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
-			D.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_2)
-			D.max_devotion *= 0.5
-			neck = /obj/item/clothing/neck/roguetown/psicross/wood
-			backl = /obj/item/storage/backpack/rogue/satchel
-			backpack_contents = list(
-								/obj/item/reagent_containers/glass/mortar = 1,
-								/obj/item/pestle = 1,
-								/obj/item/candle/yellow = 2,
-								)
-			if (H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
-		if("Mystagogue")
-			// hybrid arcane/holy witch with t1 arcane and t1 miracles
-			var/datum/devotion/D = new /datum/devotion/(H, H.patron)
-			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
-			D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
-			D.max_devotion *= 0.5
-			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
-			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
-			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3))
-			neck = /obj/item/clothing/neck/roguetown/psicross/wood
-			backl = /obj/item/storage/backpack/rogue/satchel
-			backpack_contents = list(
-								/obj/item/rogueweapon/spellbook = 1,
-								/obj/item/reagent_containers/glass/mortar = 1,
-								/obj/item/pestle = 1,
-								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
-								)
-			if (H.age == AGE_OLD)
-				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
-				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 	if(H.mind)
 		switch (shapeshiftchoice)
 			if("Zad")
@@ -130,13 +161,6 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/rous)
 			if("Cabbit")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit)
-		switch (classchoice)
-			if("Mystagogue")
-				grant_poke_spell(H)
-	if(H.gender == FEMALE)
-		armor = /obj/item/clothing/suit/roguetown/armor/corset
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
-		pants = /obj/item/clothing/under/roguetown/skirt/red
 
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -151,8 +175,57 @@
 		if(/datum/patron/inhumen/baotha)
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-	if(H.mind)
-		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+
+/datum/outfit/job/roguetown/adventurer/witch/oldmagick/pre_equip(mob/living/carbon/human/H)
+	. = ..()
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = choose_implement(H, "lesser")
+	backpack_contents = list(
+						/obj/item/rogueweapon/spellbook = 1,
+						/obj/item/reagent_containers/glass/mortar = 1,
+						/obj/item/pestle = 1,
+						/obj/item/candle/yellow = 2,
+						/obj/item/chalk = 1
+						)
+	if (H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
+
+/datum/outfit/job/roguetown/adventurer/witch/godsblood/pre_equip(mob/living/carbon/human/H)
+	. = ..()
+	var/datum/devotion/D = new /datum/devotion/(H, H.patron)
+	D.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_2)
+	D.max_devotion *= 0.5
+	neck = /obj/item/clothing/neck/roguetown/psicross/wood
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+						/obj/item/reagent_containers/glass/mortar = 1,
+						/obj/item/pestle = 1,
+						/obj/item/candle/yellow = 2,
+						)
+	if (H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+
+/datum/outfit/job/roguetown/adventurer/witch/mystagogue/pre_equip(mob/living/carbon/human/H)
+	. = ..()
+	// hybrid arcane/holy witch with t1 arcane and t1 miracles
+	var/datum/devotion/D = new /datum/devotion/(H, H.patron)
+	H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+	D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
+	D.max_devotion *= 0.5
+	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+	neck = /obj/item/clothing/neck/roguetown/psicross/wood
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+						/obj/item/rogueweapon/spellbook = 1,
+						/obj/item/reagent_containers/glass/mortar = 1,
+						/obj/item/pestle = 1,
+						/obj/item/candle/yellow = 2,
+						/obj/item/chalk = 1
+						)
+	if (H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+	grant_poke_spell(H)
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch
 	die_with_shapeshifted_form = FALSE
@@ -281,8 +354,8 @@
 	melee_damage_upper = 5
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fox/witch_shifted
-	name = "lesser vernard"
-	desc = "A smaller, runtier variant of the sneaky vernards that skulk the woods nearby. Rarely seen around these parts, and doesn't look nearly as dangerous as its larger counterparts. This one has a peculiar intelligence in its yellow eyes..."
+	name = "lesser venard"
+	desc = "A smaller, runtier variant of the sneaky venards that skulk the woods nearby. Rarely seen around these parts, and doesn't look nearly as dangerous as its larger counterparts. This one has a peculiar intelligence in its yellow eyes..."
 	defprob = 90
 	STASPD = 18
 	STASTR = 2

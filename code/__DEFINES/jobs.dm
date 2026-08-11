@@ -83,6 +83,7 @@
 #define SHOPHAND	(1<<4)
 #define SOILSON		(1<<5)
 #define VILLAGER	(1<<6)
+#define WITCH		(1<<7)
 
 #define SIDEFOLK			(1<<7)
 
@@ -199,6 +200,7 @@
 #define JDO_SERVANT 7.3
 #define JDO_SOILSON 7.5
 #define JDO_VILLAGER 7.6
+#define JDO_WITCH 7.7
 
 // Sidefolk - MISC jobs that don't fit any of the other categories really
 #define JDO_LUNATIC 8

@@ -957,7 +957,7 @@
 // These are variants of the donjon doors for "high security" locations. They have stronger
 // locks. This SHOULD BE A VALUE BETWEEN 1-2, NOT HIGHER THAN 2. Level 3 doors are near
 // impossible to lockpick through. These should also NOT be placed everywhere, as even lockdiff 2
-// will break picks like no tomorrow. 
+// will break picks like no tomorrow.
 
 /obj/structure/mineral_door/wood/donjon/highsecurity
 	lockdifficulty = 1.8
@@ -1066,7 +1066,7 @@
 	lockid = "towner_hunter"
 
 /obj/structure/mineral_door/wood/towner/witch
-	resident_advclass = list(/datum/advclass/witch)
+	resident_advclass = list(/datum/advclass/oldmagick, /datum/advclass/mystagogue, /datum/advclass/godsblood)
 	lockid = "towner_witch"
 
 /obj/structure/mineral_door/wood/bath

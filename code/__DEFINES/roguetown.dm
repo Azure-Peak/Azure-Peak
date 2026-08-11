@@ -561,6 +561,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_BATHMOM		"CAT_BATHMOM"
 #define CTAG_TAPSTER		"CAT_TAPSTER"
 #define CTAG_LUNATIC		"CAT_LUNATIC"
+#define CTAG_WITCH			"CAT_WITCH"
 /*
 	Defines for the triumph buy datum categories
 */
