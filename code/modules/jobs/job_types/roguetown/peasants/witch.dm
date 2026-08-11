@@ -17,13 +17,6 @@
 	round_contrib_points = 2
 
 	job_traits = list(TRAIT_DEATHSIGHT, TRAIT_WITCH, TRAIT_ALCHEMY_EXPERT, TRAIT_RESIDENT) // so they can claim the witch huts
-
-	job_stats = list(
-		STATKEY_INT = 3,
-		STATKEY_SPD = 2,
-		STATKEY_LCK = 1
-	)
-
 	advclass_cat_rolls = list(CTAG_WITCH = 3)
 	job_subclasses = list(
 		/datum/advclass/oldmagick,
@@ -39,6 +32,11 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/witch/oldmagick
 	category_tags = list(CTAG_WITCH)
 	townie_contract_gate_exempt = TRUE
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1
+	)
 	age_mod = /datum/class_age_mod/witch
 	traits_applied = list(TRAIT_ARCYNE)
 
@@ -61,6 +59,12 @@
 
 	outfit = /datum/outfit/job/roguetown/adventurer/witch/godsblood
 	category_tags = list(CTAG_WITCH)
+	townie_contract_gate_exempt = TRUE
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1
+	)
 	age_mod = /datum/class_age_mod/witch
 
 	subclass_skills = list(
@@ -85,6 +89,12 @@
 
 	outfit = /datum/outfit/job/roguetown/adventurer/witch/mystagogue
 	category_tags = list(CTAG_WITCH)
+	townie_contract_gate_exempt = TRUE
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1
+	)
 	age_mod = /datum/class_age_mod/witch
 
 	subclass_skills = list(
