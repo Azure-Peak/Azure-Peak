@@ -1,0 +1,8 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Vheslynites exploding makes a little bit extra noise of soulshot on top for aura, than just only the regular explosion noise."
+  - rscadd: "You can call Vhelsyn directly the \"Arch Devil\" in prayers as a Vheslynite acceptably now... they're still dead though so balance: Vhelsyn patron no longer gives you psychosis so your screen constantly shakes while fighting. [most of the traits will be handed on cultists still]"
+  - bugfix: "fixed vheslynic hellfire being regular fire"
+  - bugfix: "vhelsynite hellfire properly shows its purple \"hellfire!\" status effect"
+  - balance: "slightly knocked down the firestacks on exploding."

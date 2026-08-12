@@ -35,9 +35,9 @@
 	STALUC = 15
 	loot = list(/obj/effect/temp_visual/lich_dying)
 	projectiletype = /obj/projectile/magic
-	var/allowed_projectile_types = list(/obj/projectile/magic/lightning, 
+	var/allowed_projectile_types = list(/obj/projectile/magic/lightning,
 	/obj/projectile/magic/sickness,
-	/obj/projectile/magic/arcane_barrage, 
+	/obj/projectile/magic/arcane_barrage,
 	/obj/projectile/magic/acidsplash,
 	/obj/projectile/magic/spitfire)
 	patron = /datum/patron/inhumen/zizo
@@ -72,6 +72,7 @@
 	AddSpell(blink)
 	//ADD_TRAIT(src, TRAIT_NOFIRE, TRAIT_GENERIC) //Testing vulnerability to the new silver changes. Un-// these if it becomes too easy.
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	//REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC) //Ditto.
 
 /mob/living/simple_animal/hostile/boss/lich/Shoot()

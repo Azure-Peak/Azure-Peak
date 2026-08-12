@@ -58,9 +58,27 @@
 		to_chat(user, examination.Join("\n"))
 		return examination
 	//engineers can check constructs for injuries
+	var/advanced = FALSE
+	if (user.get_skill_level(/datum/skill/craft/engineering) >= 4) //a good engineer can perform a more thorough check
+		advanced = TRUE
 	if(ishuman(targets[1]) && (is_species(targets[1], /datum/species/construct)||is_species(targets[1], /datum/species/construct/metal)))
 		var/mob/living/carbon/human/human_target = targets[1]
-		human_target.check_for_injuries(user)		
+		human_target.check_for_injuries(user, advanced)
 		return TRUE
+	else if(ishuman(targets[1])) //the target is a non-construct human, let's check if they have any prosthetics
+		var/mob/living/carbon/human/nonconstruct_target = targets[1]
+		var/robotic = FALSE
+		for(var/obj/item/bodypart/BP in nonconstruct_target.bodyparts)
+			if(!BP || QDELETED(BP))
+				continue
+			if(BP.status == BODYPART_ROBOTIC)
+				robotic = TRUE
+				var/list/examination = list("<span class='info'>ø ------------ ø")
+				examination += "☼ ANALYZING: [BP.name] "
+				examination += "☼ Description: [BP.desc] "
+				examination += BP.check_for_injuries(user, advanced)
+				examination += "ø ------------ ø</span>"
+				to_chat(user, examination.Join("\n"))
+		return robotic
 	revert_cast()
 	return FALSE

@@ -1,0 +1,12 @@
+author: "Juubo"
+delete-after: True
+changes:
+  - rscadd: "more artificer item requests to trade orders"
+  - rscadd: "bronze ingots to stocks"
+  - rscadd: "windmills added again"
+  - rscadd: "autogrinder can now grind alchemy ingredients"
+  - qol: "mechanized bolt bags verbage updated and a slurbow mode added"
+  - qol: "updated grates and rotational objects to show over water"
+  - balance: "increased health on metal bars and metal gates"
+  - bugfix: "removed stacking nails (single nails are still used)"
+  - bugfix: "removed sound looping to try and see if this helps with sound glitching"

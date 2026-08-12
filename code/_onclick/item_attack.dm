@@ -668,7 +668,7 @@
 	SEND_SIGNAL(victim, COMSIG_ITEM_ATTACK_EFFECT, user, affecting, intent, selzone, src)
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_EFFECT_SELF, user, affecting, intent, victim, selzone)
 
-	if(is_silver && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
+	if((is_silver || (is_even_lesser_silver && is_npc(victim))) && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
 		if(is_lesser_silver)
 			// Lesser silver only flares meaningfully on a deliberate melee strike — thrown contact does nothing,
 			// and the hit never forces a disguise off. Stacks accumulate without ignition.
@@ -698,7 +698,7 @@
 		if(I.damtype == BRUTE)
 			next_attack_msg.Cut()
 			if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
-				if(I.is_silver && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
+				if((I.is_silver || (I.is_even_lesser_silver && is_npc(src))) && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
 					newforce *= SILVER_SIMPLEMOB_DAM_MULT
 				simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim)
 				/* No embedding on simple mobs, thank you!

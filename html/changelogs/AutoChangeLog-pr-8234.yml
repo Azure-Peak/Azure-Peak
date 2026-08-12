@@ -1,0 +1,12 @@
+author: "Wide Eyes, Zydras"
+delete-after: True
+changes:
+  - rscadd: "Battle-wrenches! Blunt wrenches with mace qualities"
+  - rscadd: "Guild master and munitioneer can start with battle wrenches"
+  - rscadd: "Wrench sprites by Zydras and myself"
+  - qol: "you must be in combat mode to beat a contraption into submission"
+  - balance: "Goggles now offer PPE"
+  - balance: "engineers can now repair other people's bronze prosthetics"
+  - balance: "Gold goggles are better at diagnostics if you're better at engineering, and can diagnose synthetics"
+  - bugfix: "you can no longer use folding tables to exile people to nullspace"
+  - code_imp: "retypes contraptions to rogueweapons"
