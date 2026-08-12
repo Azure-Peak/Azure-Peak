@@ -251,3 +251,269 @@
   - rscadd: Added lag compensation for spell charging and archery / sling charging.
       Moved them back onto the faster, dedicated mouse charge system to hopefully
       make it more reliable and not compete with fast processing for proper icon indicator.
+2026-08-08:
+  EmilitiaEnnehrt:
+  - qol: Mindlink fading is now more noticable.
+  - bugfix: Some religious robes should no longer delete sleeves from shirts and gloves
+      underneath when worn on armor slot.
+  KatTheFox:
+  - bugfix: Several antags - and familiars - can no longer become werewolfs through
+      bites. I hate this.
+  - rscadd: More titles now work to pray to certain gods, including "Deepfather" for
+      Abyssor, the Lingyuese titles for gods that have them, and the Gronn/Fjall names
+      for the Four
+  - bugfix: Familiar flavortexts now properly use markdown. You'll need to edit/save
+      your familiar FT for this to take effect.
+  - rscadd: Mirror transform now supports full tail color customization, alongside
+      skin color, snouts, and fluff.
+  - bugfix: Familiars can no longer attack mobs with tools, with the exception of
+      elementals and their own conjured tools.
+  Ketrai:
+  - rscadd: Abyssor cult, new abyssor miracle path.
+  Lamasmaster:
+  - rscadd: 3 types of frills (zardish) and 2 types of horns (zardish) to Zardmen
+  - rscdel: Iconoclast Golden Serpent Alt Loadout
+  - balance: Base Iconoclast combat skills
+  Nova:
+  - bugfix: fixed the pref "Toggle Red Flash Overlay" not always working
+  - bugfix: fixed red pain flash overlay being stuck on screen when uninjured.
+  - qol: Passive healing no longer closes surgery sites.
+  Ollanius:
+  - bugfix: Bronze Astratan amulets now properly show up when worn.
+  Ruediger4:
+  - balance: squire errant class update - tweaks skills, starting loadout options,
+      and gear.
+  WeNeedMorePhoron:
+  - rscadd: Fixes stockpile bulk sell duplication
+  - rscadd: Ported the ability to middle click with an instrument in your hand to
+      add / remove people from your audience as a bard.
+  - rscdel: Soulshot and Lesser Soulshot removed from poke spells options. It was
+      designed for mage schools without as much rotational offensive power, it never
+      should've been accessible as a regular poke spells.
+  - rscadd: Arcyne Lance poke spell now have an icon, again
+  - balance: Levinstroke CD from 20 -> 30 seconds, now slowdown penalty of small instead
+      of none, consistent with blink, and a SWINGDELAY_CANCEL
+  - balance: Lightning Bolt no longer applies -2 SPD as a debuff
+  borneblood:
+  - balance: Divine/Unholy Blast behaves like Arc Bolt now.
+  - refactor: ' Divine/Unholy Blast refactored to action/cooldown, finally.'
+  mumblemancer:
+  - rscadd: new lines for navigator and npcs
+  - bugfix: headeater is now The headeater instead of the headeater
+  radarseas:
+  - bugfix: fixed bathhouse windows being invisible
+2026-08-09:
+  Lamasmaster:
+  - balance: Eyebite cooldown 15 > 35 seconds
+  - bugfix: Eyebite & Blindness grenades not using modern BLIND effect.
+2026-08-10:
+  7erracotta:
+  - rscadd: Added new items
+  Blacklist897:
+  - spellcheck: 'replaced placeholder revival text with slightly more fitting placeholders
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  BurpleBineapple:
+  - bugfix: sheaths work correctly again
+  CrystalClover:
+  - rscadd: Greyscale and detail regions to both Wizard hat variants
+  FeniaFox:
+  - rscadd: Added a polishing brush + pot of polishing cream to the starting gear
+      of retinue squires.
+  - balance: Dropped the skill gate on polishing brushes from expert engineering to
+      apprentice engineering.
+  KatTheFox:
+  - bugfix: Fixed a bug where sheathed items were improperly stored in nullspace,
+      leading to them being inaccessible by features like the Azurcaephan's recall.
+  - bugfix: Fixed an exploit involving offering and sheathing items at the same time
+      to later teleport them to you.
+  - bugfix: Added several layers of redundant checks to futureproof against exploits
+      similar to the aforementioned but using different code paths.
+  - bugfix: Fixed an exploit involving use of fellowship invites to detect invisible/stealthed
+      players.
+  - bugfix: Fixed improper syntax in Squire-Errant and Iconoclast skill lists that
+      was causing Adv and Bandit previews respectively to runtime.
+  KitsuneQueen:
+  - bugfix: Padded masks no longer smelt into iron bars. Our arcyne wizards are still
+      working on how this was even possible.
+  Onutsio:
+  - balance: Added penetration to slurbows
+  Quinalion:
+  - spellcheck: Replaced apostrophes in item and other names with /".
+  - bugfix: Silver axes are now fireproof and can no longer be ignited by comet.
+  - rscdel: Removed unused zizo armor code.
+  - bugfix: The remaining Ascendant clothing now properly displays heresydesc.
+  - rscdel: Removed redundant traits from the Disciple and Confessor, as they are
+      already granted by default.
+  - bugfix: More TRAIT_NOMOOD checks.
+  - bugfix: Fixed language prefix handling.
+  - bugfix: Fixed coverage values on avantyne helmets.
+  - bugfix: Black Oak classes now properly receive the Elvish Dirk.
+  - bugfix: Leg armor now display their integrity on player when examined.
+  - bugfix: Grinding wheels no longer remove the sharpness bonus granted by blessings.
+  Ryan180602:
+  - bugfix: Small donor item naming fix.
+  SnubbyNotSorry:
+  - balance: reduced price of surgeon's bag in the goldface and silverface
+  - bugfix: fixed sanguine hats and shoes not being repairable
+  borneblood:
+  - bugfix: Fixed Bone Cataclysm, rejoice.
+  mumblemancer:
+  - rscadd: new component spawners for mapping!!!
+  - rscadd: new sprites for sewer equipment spawners
+  - code_imp: swampweed is now drug/swampweed instead of space_drugs
+  - code_imp: nicotine is now /westleach instead of nicotine
+  - bugfix: swampweed now displays "Swamp Oil" instead of "space drugs"
+  - bugfix: westleach now displays "Westleach Extract" instead of "nicotine"
+  plsleavemealon:
+  - rscadd: Added a new flamboyant hat
+2026-08-11:
+  Dorodomki:
+  - rscadd: 'Added new dupatta + harem pants in recipes + loadout
+
+      :cl:'
+  KatTheFox:
+  - rscadd: Witches can now select their subtype and shapeshift form in role prefs
+  - rscadd: A third alt mode for verglas, "skate", which continually lays rapidly-fading
+      verglas under you so long as you keep moving and don't break concentration.
+  - bugfix: Firestacks, including sunderstacks, no longer set worn items on fire and
+      burn off all your clothes.
+  - bugfix: hellhounds are no longer invisible
+  Ketrai:
+  - qol: Balloon alerts for rejuvinating paint puddles. (Purifying wave miracle)
+  Lagomorphica:
+  - balance: Vizier Restoration no longer instantly fixes all bleeding. Instead, it
+      will reduce the severity of the bleeding each time it is done until it is healed.
+  - balance: Vizier Reversal no longer works the same way at all. It is instead a
+      15 second windup, attack cancellable massive heal that stops all bleeding and
+      helps with wounds the same way as Undermaidens Bargain.
+  Lamasmaster:
+  - balance: Reduce METAL SCRAP required for studded armour by 1
+  - image: Changed Hardened Leather Armor back to it's old sprite.
+  Quinalion:
+  - qol: Improved the visual filter of nocshade lens-pair.
+  - sound: Added inqglasseson.ogg and inqglassesoff.ogg.
+  Ryumi:
+  - bugfix: '"Update feature colors with change" now actually works as described in
+      character creation.'
+  SpadesNeil:
+  - bugfix: Skill is read for instruments now no matter if you're attempting to be
+      in a band or not.
+  - bugfix: Band mechanics never actually worked. They probably work now. Probably.
+  - code_imp: Consent is important. Starting or joining a band is no longer the default.
+      Also the yes or no is now yea or nay.
+  - code_imp: Made band code less awful and inefficient.
+  TheLuggage05:
+  - bugfix: The Forgefiend spawns with a great weapon strap now.
+  WeNeedMorePhoron:
+  - rscdel: Removed obsolete TGUI / Legacy UI Toggle
+  - rscadd: Adds a 6 seconds warning telegraph based on the one Ketrai added for hunting
+      with a shorter timer, before contracts mobs spawn in
+  - rscadd: Added support for summon spell to replace summon one at a time or fully
+      at capacity. Such a replacement will inflict a partial recoil based on how heavily
+      damaged the summon is.
+  - rscadd: Zizo Cleric's Raise Lesser Skeleton spell now replace its summons one
+      at a time.
+  - rscadd: Resolved an issue where summoned undead don't attack other undead, because
+      of a shared "Skeleton_faction" because they were all named Skeleton. Note that
+      this doesn't applies to Zizo's other miracles, which has not moved onto the
+      new system and I am not touching to not dip myself into balance discussions
+  - bugfix: Lesser Fetch and Repel can no longer move anchored object or objects meant
+      to resist moving. No more navigator fetching.
+  - bugfix: Lesser Fetch / Repel has been renamed and refactored, removing the old
+      fetch / repel and any instances of their projectile being referenced. They are
+      now Fetch / Repel.
+  - bugfix: Obsolete unused Vanderlin alchemy runes code has been removed
+  - rscdel: Deep one no longer yeet the old fetch projectiles at you.
+  - bugfix: Fixes an issue with the trim() that made everything get deleted when you
+      click "I RESCIND"
+  - rscadd: Right Click let you mass sell items on feet to smith scrapper / rag picker
+      and gives payout in one go
+  YakumoChen:
+  - bugfix: fixed the music skill hopefully for real this time I swear
+  eirenxiv:
+  - balance: RAGE duration 90 -> 45 seconds
+  - balance: RAGE CD 2 -> 1 min
+  - balance: RAGE activation threshold scales SHARPLY (activates earlier)
+  - balance: removed RAGE stat scaling
+  - balance: RAGE now grants different effects based on stages instead of flat stats
+      (Adrenaline rush, Blue regen, Hard Dismember)
+  - balance: Barbarian now gets proper RAGE
+  mumblemancer:
+  - bugfix: mindlink works again. use ,m to speak thru it
+  - bugfix: sconces built north will be on the wall proper now
+  nerocavalier:
+  - rscadd: Added roundface bascinet to Heretics, Knights, Knight Errants, Disgraced
+      Knights.
+  radarseas:
+  - bugfix: fixes a VERY bad exploit, albeit this is a stopgap, NPCs cannot be gravemarked
+      until a proper fix comes out.
+  saltprjak:
+  - rscadd: Studded Leather Hood can now be bought from merchant vendors.
+2026-08-12:
+  KatTheFox:
+  - rscadd: Wooden staves and conjured blades can now be twirled like daggers at journeyman
+      skill; swords and polearms at expert. Pans can be twirled at expert cooking,
+      but you must be in cmode to do so.
+  - bugfix: Knives that don't use knives skill (e.g. if you bind one as a ferramancer)
+      can now be twirled using their actual associated skill, instead of being hardcoded
+      to use knives.
+  Ketrai:
+  - qol: Revival spells now display their casting costs on examine.
+  - qol: Canister racks now indicate on examine if there is a research penalty due
+      to broken canisters, or if the crystal is fully attuned.
+  - qol: Unlocking certain heartbeast research nodes now notifies relevant casters
+      (healing, revival).
+  - qol: Black rot aura can be toggled with a verb now. Blocks spell use when toggled
+      off.
+  - rscadd: Cure rot can give devotee+ pestrans the pestran bed miracle when the black
+      rose is researched.
+  - balance: Pestilent Blade now deals less armor piercing damage to minded targets,
+      and reduces strength by -2 instead of -3. Deals more damage to mindless targets.
+  - balance: Infestation now deals more brute damage, but no tox damage to minded
+      targets.
+  - bugfix: Prevented bed creating spells from placing multiple beds on a single tile.
+  - refactor: Refactored Eora bed code for better target acquisition.
+  Lamasmaster:
+  - rscadd: Revenant spots markings
+  - rscadd: "Construct \U0001F388 \U0001F388"
+  - image: Modified Zard belly scales marking to no longer give them wide neck
+  - balance: Riding skill distribution
+  - balance: Cap saddleborn at expert instead of legendary
+  - rscadd: Tailor's Needle to Tailor and Seamster
+  - image: Needle of Pestra sprite
+  Ollanius:
+  - rscdel: Aisu's donator-exclusive wand, as per their request.
+  - rscadd: Donator items for Chivalre, Squidqueen, Truill, Lamprey, and Hellpossum.
+  - bugfix: Bedsheets can now be appropriately worn on the cloak slot too.
+  RosySaturniidae:
+  - rscadd: donator item (me)
+  SciDragon:
+  - rscadd: fluvians can now choose to add an insect abdomen, disable their antennae,
+      or add a bug snout.
+  WeNeedMorePhoron:
+  - rscadd: Allows crossbow to be loaded with bolt from pouches with a free hand
+  - rscadd: Slurbow / Staker can load bolt 1 handed by clicking pouch.
+  - rscadd: Crossbow nocking free hand check now happens before instead of after the
+      action.
+  - rscadd: Bow now requires a free hand to quick load an arrow (Not a real issue
+      but consistency)
+  bearrrrrrrr:
+  - rscadd: baotha descriptions/spells updated for lore compliance
+  borneblood:
+  - balance: Integrity damage is now very lethal for constructs, instead of being
+      just a thing.
+  crunchypretzels:
+  - qol: saddleborn replaces free mounts for steppesman and herald
+  mumblemancer:
+  - rscadd: steel axe available in silverface & at merchant under steel weapons
+  - rscadd: steel pickaxe available at merchant under tools

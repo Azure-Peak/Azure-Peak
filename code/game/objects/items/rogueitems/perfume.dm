@@ -104,6 +104,10 @@
 	name = "cinnamon perfume"
 	fragrance_type = /datum/pollutant/fragrance/cinnamon
 
+/obj/item/perfume/citrus
+	name = "citrus perfume"
+	fragrance_type = /datum/pollutant/fragrance/citrus
+
 // "Premium" perfumes they are more expensive by default
 // No special mechanical effects
 /obj/item/perfume/frankincense

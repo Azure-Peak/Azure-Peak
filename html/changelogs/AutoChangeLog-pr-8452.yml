@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Levinstroke CD from 20 -> 30 seconds, now slowdown penalty of small instead of none, consistent with blink, and a SWINGDELAY_CANCEL"
-  - balance: "Lightning Bolt no longer applies -2 SPD as a debuff"

@@ -357,7 +357,7 @@
 				if("Oozing Sword")
 					new_weapon = new /obj/item/rogueweapon/greatsword/bsword/dreamscape/active(user.loc)
 				if("Thunderous Trident")
-					new_weapon = new /obj/item/rogueweapon/spear/dreamscape_trident/active(user.loc)
+					new_weapon = new /obj/item/rogueweapon/spear/trident/dreamscape_trident/active(user.loc)
 
 			if(new_weapon)
 				to_chat(user, span_notice("You shape the sylveric ingots into a [choice]."))

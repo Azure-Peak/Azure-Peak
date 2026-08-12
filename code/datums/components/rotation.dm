@@ -133,7 +133,7 @@
 	if(!istype(user) || !user.canUseTopic(parent, BE_CLOSE, NO_DEXTERITY))
 		return FALSE
 	if(rotation_flags & ROTATION_REQUIRE_WRENCH)
-		var/obj/item/contraption/linker/linker = user.get_active_held_item()
+		var/obj/item/rogueweapon/contraption/linker/linker = user.get_active_held_item()
 		if(!istype(linker))
 			return FALSE
 	return TRUE

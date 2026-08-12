@@ -13,14 +13,15 @@
 	var/overarmor
 	throw_on_break = TRUE
 
+/obj/item/clothing/wrists/roguetown/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Middle-clicking adjusts its layer, so it can be worn either above-or-below any armor and gloves.")
+
 /obj/item/clothing/wrists/roguetown/MiddleClick(mob/user, params)
 	. = ..()
 	overarmor = !overarmor
 	to_chat(user, span_info("I [overarmor ? "wear \the [src] over my armor" : "wear \the [src] under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = WRISTS_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
+	alternate_worn_layer = overarmor ? OVER_GLOVES_LAYER : initial(alternate_worn_layer)
 	user.update_inv_wrists()
 	user.update_inv_gloves()
 	user.update_inv_armor()
@@ -609,22 +610,6 @@
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
 */ // Combine with #c1b18d to make an easier, do-it-yourself version of Avantyne items without the need for exotic sprites.
 
-/obj/item/clothing/wrists/roguetown/bracers/zizo/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy
-	name = "fused avantyne bracers"
-	desc = "Clasped yet practical, these avantyne wristguards are bound to the wearer forever. Once you have plunged deep into knowledge forbidden, there is no going back.."
-
-/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
 //
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar

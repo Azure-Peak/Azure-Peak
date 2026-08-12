@@ -485,7 +485,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			caster.freak_out()
 		playsound(caster, 'sound/misc/lava_death.ogg', 100, TRUE)
 		caster.adjust_fire_stacks(40, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU FUCKING DESERVE THIS
-		caster.adjustFireLoss(120)//This will kill you, always.
+		caster.adjustFireLoss(120)//Yeah that's gonna hurt, very rapidly
 		caster.Knockdown(30)
 		caster.Jitter(30)
 		caster.Stun(25)

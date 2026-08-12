@@ -2,7 +2,7 @@
 	name = "Atgervi"
 	tutorial = "You are a Varangian of the Gronn Highlands. Warrior-Traders most known for their exploits into the Raneshen Empire, which will be forever remembered by historians."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/atgervi
 	subclass_languages = list(/datum/language/gronnic)
 	cmode_music = 'sound/music/combat_vagarian.ogg'
@@ -17,21 +17,20 @@
 		STATKEY_SPD = -1
 	)
 	subclass_skills = list(
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,	
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/mercenary/atgervi
@@ -70,8 +69,6 @@
 		else
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn/special //Failsafe. Gives a specially-fluffed version of Zizo's talisman, which can be reinterpreted as needed.
 
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)	//Capped to T1 miracles.
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
@@ -83,7 +80,7 @@
 	name = "Atgervi Shaman"
 	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast Gods through ritualistic violence, rather than idle prayer."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/atgervi_shaman
 	subclass_languages = list(/datum/language/gronnic)
 	cmode_music = 'sound/music/combat_shaman2.ogg'
@@ -175,7 +172,7 @@
 	desc = "Thick fur pants made to endure the coldest winds, offering a share of protection from the fangs and claws of beasts and men alike."
 	icon_state = "atgervi_pants"
 	item_state = "atgervi_pants"
-	
+
 /obj/item/clothing/gloves/roguetown/angle/atgervi
 	name = "fur-lined leather gloves"
 	desc = "Dense, padded gloves made for the harshest of climates and the wildest of beasts encountered in the untamed highlands."
@@ -285,7 +282,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
 	name = "carved talisman" //relishing talisma
-	desc = "'“The excess of desire, the want of more, the glory of victory, the lover's embrace. Embrace the Leopard, or forget your strength.'  </br>  </br>The Relishing Leopard embodies the virtues of love and glory, both in battle and at home. Enjoy the flesh, the drink, and the spice; but be wary to avoid overindulgence, for it shall leave you despondant and lethargic. To become too comfortable is to become weak, and such weakness would turn you into a delicious snack for the Leopard." 
+	desc = "'“The excess of desire, the want of more, the glory of victory, the lover's embrace. Embrace the Leopard, or forget your strength.'  </br>  </br>The Relishing Leopard embodies the virtues of love and glory, both in battle and at home. Enjoy the flesh, the drink, and the spice; but be wary to avoid overindulgence, for it shall leave you despondant and lethargic. To become too comfortable is to become weak, and such weakness would turn you into a delicious snack for the Leopard."
 	icon_state = "gronnbaotha"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn/get_examine_highlight_status()

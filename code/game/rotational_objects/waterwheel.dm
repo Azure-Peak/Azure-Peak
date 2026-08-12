@@ -1,20 +1,22 @@
+/*
 /datum/looping_sound/waterwheel_loop
 	mid_sounds = 'sound/items/wheelwater.ogg'
 	mid_length = 6 SECONDS
 	volume = 40
 	extra_range = -1
+*/
 
 /obj/structure/waterwheel
 	name = "waterwheel"
 
 	icon = 'icons/roguetown/misc/waterwheel.dmi'
 	icon_state = "1"
-
-	layer = 5
+	plane = GAME_PLANE
+	layer = BELOW_MOB_LAYER
 	stress_generator = TRUE
 	rotation_structure = TRUE
 	initialize_dirs = CONN_DIR_FORWARD | CONN_DIR_FLIP
-	var/datum/looping_sound/waterwheel_loop/soundloop
+	//var/datum/looping_sound/waterwheel_loop/soundloop
 
 /obj/structure/waterwheel/get_mechanics_examine(mob/user)
 	. = ..()
@@ -22,16 +24,17 @@
 	. += span_info("When the flow is strong enough, it generates rotational power for connected shafts and machinery.")
 
 /obj/structure/waterwheel/Initialize()
-	soundloop = new(src, FALSE)
+	//soundloop = new(src, FALSE)
 	. = ..()
 
 /obj/structure/waterwheel/Destroy()
-	QDEL_NULL(soundloop)
+	//QDEL_NULL(soundloop)
 	return ..()
 
 /obj/structure/waterwheel/proc/has_active_rotation()
 	return rotation_network && !rotation_network?.overstressed && rotations_per_minute && rotation_network?.total_stress
 
+/*
 /obj/structure/waterwheel/proc/update_soundloop()
 	if(!soundloop)
 		return
@@ -41,6 +44,7 @@
 		return
 	if(!soundloop.stopped)
 		soundloop.stop()
+*/
 
 /obj/structure/waterwheel/find_rotation_network()
 	. = ..()
@@ -69,7 +73,7 @@
 	return TRUE
 
 /obj/structure/waterwheel/update_animation_effect()
-	update_soundloop()
+	//update_soundloop()
 	if(!has_active_rotation())
 		animate(src, icon_state = "1", time = 1)
 		return

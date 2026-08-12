@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Winged sallet, a donator helmet for LitePurple."
+  - bugfix: "Winged bascinets now properly render their details."
+  - rscadd: "Overhauls placeholder descriptions for Possum's joint donator items."

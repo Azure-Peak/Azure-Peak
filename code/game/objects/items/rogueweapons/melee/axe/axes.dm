@@ -270,6 +270,7 @@
 	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
 	is_tool = FALSE
 	is_silver = TRUE
+	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/stoneaxe/handaxe/silver/ComponentInitialize()
 	AddComponent(\
@@ -297,6 +298,7 @@
 	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
 	is_tool = FALSE
 	is_silver = TRUE
+	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/stoneaxe/handaxe/psy/ComponentInitialize()
 	AddComponent(\
@@ -466,6 +468,7 @@
 	is_silver = TRUE
 	blade_dulling = DULLING_SHAFT_METAL
 	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver/ComponentInitialize()
 	AddComponent(\
@@ -491,6 +494,7 @@
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/stoneaxe/battle/psyaxe/ComponentInitialize()
 	AddComponent(\
@@ -689,6 +693,7 @@
 	max_blade_int = 350
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
+	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/greataxe/steel/knight/silver/ComponentInitialize()
 	AddComponent(\
@@ -712,6 +717,7 @@
 	max_blade_int = 350
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
+	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/greataxe/steel/knight/psy/ComponentInitialize()
 	AddComponent(\

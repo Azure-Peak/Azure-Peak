@@ -34,7 +34,7 @@
 	desc = "A sleeveless maille shirt, fashioned from dozens of interlinked bronze rings. It's light enough to comfortably tuck underneath a \
 	blouse, yet tough enough to thwart the razor-sharp edges of unwelcomed company. For the discerning traveler - ideally, from an antique land."
 	icon_state = "bhaubyrnie"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON - 30
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 	armor = ARMOR_BRONZE
 
@@ -354,20 +354,6 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
-	name = "fused avantyne hauberk"
-	desc = "The rings crackle softly with avantynic power, yet its fused firmly lyke a second skin. There is no going back, there is only forward in her name."
-
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/Initialize(mapload)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
 //
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
@@ -383,5 +369,8 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
 */ // Combine with #ddc0a7 to make an easier, do-it-yourself version of Vicious items without the need for exotic sprites.
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 //

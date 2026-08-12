@@ -146,11 +146,13 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			if(ismob(pulling))
 				user.pulling.forceMove(target)
 			var/climber_armor_class = climber.highest_ac_worn()
+			var/hadflying = (user.movement_type & FLYING)
 			if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone OR we're a literal zombie we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
 				user.movement_type |= FLYING
 			L.stamina_add(stamina_cost_final)
 			user.forceMove(target)
-			user.movement_type &= ~FLYING
+			if(!hadflying)
+				user.movement_type &= ~FLYING
 			if(istype(user.loc, /turf/open/transparent/openspace)) // basically only apply this slop after we moved. if we are hovering on the openspace turf, then good, we are doing an 'active climb' instead of the usual vaulting action
 				climber.wallpressed = climber2wall_dir
 				switch(climber2wall_dir)// we are pressed against the wall after all that shit and are facing it, also hugging it too bcoz sou

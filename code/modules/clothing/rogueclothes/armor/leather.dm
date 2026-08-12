@@ -83,7 +83,7 @@
 	desc = "A hardened leather harness with a large pauldron worn over a tasseted brigandine, imbued with Dendor's essence."
 	icon_state = "forestbrig"
 	armor = ARMOR_BRIGANDINE//is actually a brigandine now
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 50
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
 	equip_delay_self = 50
 	smeltresult = /obj/item/ingot/iron
 
@@ -113,7 +113,7 @@
 	blacksteel-studded reinforcements and psystitchings're anything to go by, this particular vest was likely fashioned to vestume Otava's finest. "
 	icon_state = "cuirbouilli"
 	item_state = "cuirbouilli"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 30
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER
 
 /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	name = "cuir-bouilli vest"
@@ -123,14 +123,14 @@
 	item_state = "cuirbouilli"
 	body_parts_covered = CHEST | VITALS
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - 30
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy
 	name = "hardened leather armor"
 	desc = "A heavy steerhide jerkin with enough body to stand on its own. It forms a stiff, protective mantle \
 	for its wearer, shielding from blows and weather alike."
-	icon_state = "leather_armor"
-	item_state = "leather_armor"
+	icon_state = "roguearmor_belt"
+	item_state = "roguearmor_belt"
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	color = "#7D6653"
@@ -225,7 +225,7 @@
 	desc = "A light, flexible button-up leather jacket that will keep your vitals out of harm's way."
 	icon_state = "freijacket"
 	item_state = "freijacket"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 35
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + ARMOR_INT_LIGHT_FENCER_MODIFIER
 	detail_tag = "_detail"
 	color = "#5E4440"
 	detail_color = "#c08955"
@@ -263,7 +263,7 @@
 	desc = "A light, custom-tailored flimsy leather and silken vest worn by nobility in the forested peaks of Aavnr."
 	icon_state = "freijacket"
 	item_state = "freijacket"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE - 30 //It'll save you from a blow or two but then it'll break quickly
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE - ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER //It'll save you from a blow or two but then it'll break quickly
 	color = "#292626"
 
 /obj/item/clothing/suit/roguetown/armor/leather/bikini

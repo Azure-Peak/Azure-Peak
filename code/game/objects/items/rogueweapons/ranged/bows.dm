@@ -137,10 +137,17 @@
 	var/spill_ammo_on_drop = TRUE
 	var/ranged_skill = /datum/skill/combat/bows
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/can_quick_load(mob/user)
+	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
+		to_chat(user, span_warning("I need a free hand to nock [src]!"))
+		return FALSE
+	return TRUE
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
+	. += span_info("Nocking straight from a quiver requires my other hand to be free.")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize()
 	. = ..()
@@ -516,7 +523,7 @@
 	desc = "As the eagle was killed by the arrow winged with his own feather, so the hand of the world is wounded by its own skill."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "bow" //No time for sprite this shit
-	item_state = "bow" 
+	item_state = "bow"
 	possible_item_intents = list(
 		/datum/intent/shoot/bow/short,
 		/datum/intent/arc/bow/short,
@@ -536,3 +543,84 @@
 	chargetime = 0.75
 	chargedrain = 1.5
 	charging_slowdown = 2.5
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint
+	name = "painted bow"
+	desc = "A strange painted bow, seems volatile, like it could dust apart into nothing but liquid."
+	icon_state = "paintbow"
+	item_state = "paintbow"
+	item_flags = DROPDEL
+	spill_ammo_on_drop = FALSE
+	var/dust_timer_id
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow/paint
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/Initialize(mapload)
+	. = ..()
+	start_dust_timer(30 SECONDS)
+	if(magazine)
+		chamber_round()
+
+	update_icon()
+	if(ismob(loc))
+		var/mob/M = loc
+		M.update_inv_hands()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/Destroy()
+	if(dust_timer_id)
+		deltimer(dust_timer_id)
+	return ..()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/proc/start_dust_timer(duration)
+	if(dust_timer_id)
+		deltimer(dust_timer_id)
+	dust_timer_id = addtimer(CALLBACK(src, PROC_REF(check_and_dust)), duration, TIMER_STOPPABLE)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/proc/check_and_dust()
+	dust_timer_id = null
+
+	if(ismob(loc))
+		var/mob/living/L = loc
+		if(L.get_active_held_item() == src)
+			start_dust_timer(5 SECONDS)
+			return
+
+	src.visible_message(span_warning("\The [src] dissolves into shimmering paint dust and vanishes!"))
+	qdel(src)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+	var/obj/item/ammo_casing/C = chambered
+
+	if(istype(C, /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint) && C.BB)
+		var/obj/projectile/bullet/reusable/arrow/iron/paint/paint_arrow = C.BB
+		if(istype(paint_arrow))
+			paint_arrow.primed = TRUE
+
+	. = ..()
+
+	// If we successfully fired, safely commit suicide
+	if(.)
+		var/turf/T = get_turf(src)
+		if(T)
+			T.visible_message(span_danger("\The [src] turns to paint dust from the shot's force!"))
+		qdel(src)
+
+/obj/item/ammo_box/magazine/internal/shot/bow/paint
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint
+	start_empty = FALSE // Spawns preloaded with the arrow
+	max_ammo = 1
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/attack_hand(mob/user)
+	if(loc == user && user.is_holding(src))
+		to_chat(user, span_warning("\The [src]'s arrow is tightly bound to the string by magical paint!"))
+		return FALSE
+	return ..()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/attack_self(mob/living/user)
+	to_chat(user, span_warning("\The [src]'s arrow is permanently fused to the frame!"))
+	return FALSE
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/attackby(obj/item/A, mob/user, params)
+	if(istype(A, /obj/item/ammo_box/magazine) || istype(A, /obj/item/ammo_casing) || istype(A, /obj/item/ammo_box))
+		to_chat(user, span_warning("\The [src] cannot be loaded with any other ammunition!"))
+		return FALSE
+	return ..()

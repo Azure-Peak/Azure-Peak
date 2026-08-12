@@ -62,6 +62,10 @@
 	var/lance_cooldown = 10 SECONDS
 	COOLDOWN_DECLARE(lance_cd)
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/can_quick_load(mob/user)
+	to_chat(user, span_warning("[src] will not take any arrows from a normal quiver."))
+	return FALSE
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Its draw answers to my <b>Arcyne Armament</b>, not any common archer's training.")
@@ -161,6 +165,10 @@
 	/// Arcyne energy drawn from the wielder each time the string is cocked and a bolt is conjured.
 	var/conjure_cost = 25
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy/can_quick_load(mob/user)
+	to_chat(user, span_warning("[src] will not take any bolts from a normal quiver."))
+	return FALSE
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Drawing the string conjures a bolt of arcyne energy, spending <b>[conjure_cost]</b> of your own energy. It accepts no other ammunition.")
@@ -175,6 +183,8 @@
 		return
 	if(user.energy < conjure_cost)
 		to_chat(user, span_warning("I haven't the arcyne energy to charge [src]!"))
+		return
+	if(!free_hand_check(user))
 		return
 	to_chat(user, span_info("I step on the stirrup and draw [src] taut..."))
 	if(!do_after(user, max(1, reloadtime - user.STASTR - user.get_skill_level(ranged_skill)), target = user))

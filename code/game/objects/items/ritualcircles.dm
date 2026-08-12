@@ -363,10 +363,7 @@
 	spawn(20)
 		target.apply_status_effect(/datum/status_effect/plaguebringer)
 		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
-		to_chat(target, span_boldred("I can do no HARM."))
-		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
-		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
-		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
+		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES for as long as I maintain the AURA."))
 
 /obj/structure/ritualcircle/dendor
 	name = "Rune of Beasts"
@@ -584,7 +581,7 @@
 			new_weapon = new /obj/item/rogueweapon/greataxe/dreamscape(user.loc)
 			skill_to_teach = /datum/skill/combat/axes
 		if("Thunderous Trident")
-			new_weapon = new /obj/item/rogueweapon/spear/dreamscape_trident(user.loc)
+			new_weapon = new /obj/item/rogueweapon/spear/trident/dreamscape_trident(user.loc)
 			skill_to_teach = /datum/skill/combat/polearms
 
 	if(new_weapon)
@@ -1175,6 +1172,9 @@
 	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
 	target.apply_status_effect(/datum/status_effect/debuff/revived)
 	target.apply_status_effect(/datum/status_effect/buff/healing, 14)
+	if(HAS_TRAIT(target, TRAIT_IRONMAN))
+		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
+		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
 	target.add_stress(/datum/stressevent/necrarevive)
 	src.coinslot -= 1 // -1 coin, please insert more coins.
 	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended) // only after a succesful revive
@@ -1358,10 +1358,7 @@
 	spawn(20)
 		target.apply_status_effect(/datum/status_effect/eoranaura)
 		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
-		to_chat(target, span_boldred("I can do no HARM."))
-		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
-		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
-		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
+		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES for as long as I maintain the AURA."))
 
 //UNDIVIDED
 /obj/structure/ritualcircle/undivided

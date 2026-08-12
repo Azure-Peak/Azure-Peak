@@ -1,3 +1,4 @@
+/*
 /datum/looping_sound/cog_loop
 	mid_sounds = 'sound/items/hogcrank1.ogg'
 	mid_length = 0.5 SECONDS
@@ -9,12 +10,13 @@
 	mid_length = 1 SECONDS
 	volume = 30
 	extra_range = -2
-
+*/
 /obj/structure/rotation_piece
 	name = "shaft"
 	icon = 'icons/roguetown/misc/shafts_cogs.dmi'
 	icon_state = "shaft"
-	layer = ABOVE_MOB_LAYER
+	plane = GAME_PLANE
+	layer = BELOW_MOB_LAYER
 	rotation_structure = TRUE
 	initialize_dirs = CONN_DIR_FORWARD | CONN_DIR_FLIP
 	var/in_stack = 1
@@ -52,7 +54,7 @@
 	icon_state = "1"
 	cog_size = COG_SMALL
 	stress_use = 3
-	var/datum/looping_sound/soundloop
+	//var/datum/looping_sound/soundloop
 
 /obj/structure/rotation_piece/cog/get_mechanics_examine(mob/user)
 	. = ..()
@@ -60,11 +62,11 @@
 	. += span_info("Different cog sizes change the output RPM when they mesh together.")
 
 /obj/structure/rotation_piece/cog/Initialize()
-	soundloop = new /datum/looping_sound/cog_loop(src, FALSE)
+	//soundloop = new /datum/looping_sound/cog_loop(src, FALSE)
 	. = ..()
 
 /obj/structure/rotation_piece/cog/Destroy()
-	QDEL_NULL(soundloop)
+	//QDEL_NULL(soundloop)
 	return ..()
 
 /obj/structure/rotation_piece/cog/large
@@ -80,7 +82,7 @@
 
 /obj/structure/rotation_piece/cog/large/Initialize()
 	. = ..()
-	soundloop = new /datum/looping_sound/cog_loop/heavy(src, FALSE)
+	//soundloop = new /datum/looping_sound/cog_loop/heavy(src, FALSE)
 	var/matrix/skew = matrix()
 	skew.Scale(1.5, 1.5)
 	transform = skew
@@ -136,6 +138,7 @@
 			surrounding |= structure
 	return surrounding
 
+/*
 /obj/structure/rotation_piece/cog/proc/update_soundloop()
 	if(!soundloop)
 		return
@@ -145,12 +148,13 @@
 		return
 	if(soundloop.stopped)
 		soundloop.start()
+*/
 
 /obj/structure/rotation_piece/cog/proc/has_active_rotation()
 	return rotation_network && !rotation_network?.overstressed && rotations_per_minute && rotation_network?.total_stress
 
 /obj/structure/rotation_piece/cog/update_animation_effect()
-	update_soundloop()
+	//update_soundloop()
 	if(!has_active_rotation())
 		animate(src, icon_state = "1", time = 1)
 		return
@@ -173,7 +177,7 @@
 	return rotations_per_minute * cog_ratio
 
 /obj/structure/rotation_piece/cog/large/update_animation_effect()
-	update_soundloop()
+	//update_soundloop()
 	if(!has_active_rotation())
 		animate(src, icon_state = "l1", time = 1)
 		return

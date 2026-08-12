@@ -130,7 +130,7 @@
 			. += span_userdanger("<a href='?src=[REF(src)];task=bloodpoolinfo;'>Vitae: [(mind && !clan) ? (bloodpool * CLIENT_VITAE_MULTIPLIER) : bloodpool]; Blood: [blood_volume]</a>")
 
 
-	if(HAS_TRAIT(src, TRAIT_NPC_EXAMINE) && !mind && src.stat == CONSCIOUS) //NPCs always show up if they're mindless.
+	if(is_npc(src) && src.stat == CONSCIOUS) //NPCs always show up if they're mindless.
 		. += span_warning("[src]'s hollow expression is filled with mindless anger!")
 
 	if(wear_shirt && !(SLOT_SHIRT in obscured))
@@ -149,8 +149,7 @@
 			if(U.attached_accessory)
 				accessory_msg += " with [icon2html(U.attached_accessory, user)] \a [U.attached_accessory]"
 		var/str = "[m3] [wear_pants.generate_tooltip(wear_pants.get_examine_string(user))][accessory_msg]. "
-		if(!wear_armor)
-			str += wear_pants.integrity_check(is_smart, guarded)
+		str += wear_pants.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] a pair of some pants! "
 		. += str

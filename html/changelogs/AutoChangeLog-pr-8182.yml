@@ -1,0 +1,5 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - balance: "All rituals with active effects now last 15 minutes instead of their whole cooldown."
+  - balance: "Ravox Vow ritual lost bonus stats."

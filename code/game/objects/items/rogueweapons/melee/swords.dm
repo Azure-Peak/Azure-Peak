@@ -43,6 +43,7 @@
 	inv_storage_delay = 1.5 SECONDS
 	edelay_type = 1
 	special = /datum/special_intent/shin_swipe
+	twirly = SKILL_LEVEL_EXPERT // possible, but harder than staves n knives
 
 /obj/item/rogueweapon/sword/Initialize()
 	. = ..()
@@ -263,12 +264,12 @@
 	. = ..()
 	if(used)
 		return
-		
+
 	var/list/special_options = list()
 	for(var/intent in selection)
 		var/datum/special_intent/S = intent // Hate this DM quirk.
 		special_options[S::name] = S
-	
+
 	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
 	if(choice)
 		qdel(special)
@@ -345,7 +346,7 @@
 	icon_state = "sbroadsword"
 	sheathe_icon = "sbroadsword"
 	max_blade_int = 330 //Sharper than a longsword, but with reduced defense. The use of steel balances its integrity out with a slight +10 bonus.
-	max_integrity = 160 
+	max_integrity = 160
 	wdefense_wbonus = 3
 	smeltresult = /obj/item/ingot/steel
 
@@ -392,6 +393,7 @@
 	wdefense_wbonus = 3
 	max_blade_int = 370
 	smeltresult = /obj/item/ingot/iron
+	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
 /obj/item/rogueweapon/sword/long/church
 	name = "see longsword"
@@ -708,7 +710,7 @@
 	slot_flags = ITEM_SLOT_BACK
 	swingsound = BLADEWOOSH_HUGE
 	smeltresult = /obj/item/ingot/iron
-	max_blade_int = 330 
+	max_blade_int = 330
 	smelt_bar_num = 2 // 1 bar loss
 	vorpal = TRUE // snicker snack this shit cuts heads off effortlessly (DO NOT PUT THIS ON ANYTHING ELSE UNLESS IT'S SUPER FUCKING RARE!!!)
 
@@ -755,7 +757,7 @@
 				return list("shrink" = 0.6,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-			if("altgrip") 
+			if("altgrip")
 				return list("shrink" = 0.45,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/rogueweapon/sword/long/exe/cloth
@@ -765,7 +767,7 @@
 	winds around the ricasso, ever-present to keep its edge spotless for the executionee's final \
 	judgement. The stout-angled blade bears an enscription along its length; </br>'WHEN THIS SWORDE I DOTH LYFT, I WISH THE SINNER ETERNAL LYFE AS THINE GYFT.'"
 	smeltresult = /obj/item/ingot/gold // It is the most valuable component
-	max_blade_int = 363 
+	max_blade_int = 363
 	smelt_bar_num = 2
 
 /obj/item/rogueweapon/sword/long/exe/cloth/rmb_self(mob/user)
@@ -1230,7 +1232,7 @@
 	name = "silver shortsword"
 	desc = "A shortsword with a blade of pure silver. In the marginalia of tomes depicting Psydonia's crusading orders, there is no sight more iconic than that of \
 	the hauberk-draped paladin; a kite shield in one hand, and this glimmering sidearm in the other."
-	icon = 'icons/roguetown/weapons/daggers32.dmi'	
+	icon = 'icons/roguetown/weapons/daggers32.dmi'
 	icon_state = "silverswordshort"
 	sheathe_icon = "psyswordshort"
 	force = 20
@@ -1700,12 +1702,12 @@
 	. = ..()
 	if(used)
 		return
-		
+
 	var/list/special_options = list()
 	for(var/intent in selection)
 		var/datum/special_intent/S = intent // Hate this DM quirk.
 		special_options[S::name] = S
-	
+
 	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
 	if(choice)
 		qdel(special)
@@ -1777,10 +1779,10 @@
 	)
 
 /obj/item/rogueweapon/sword/rapier/psy/relic
-	name = "Eucharist"
+	name = "\"Eucharist\""
 	desc = "Etruscan shape falling prey to Otavan craftsmanship. Saint Malum's smiths created an uniquely thin blade, capable of swiftly \
-	skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b> Silver-dipped steel \
-	crowned upon a basket hilt that keeps righteous hands safe from harm."
+	skewering the unholy and the miscreants through gaps that most claim to have never existed in the first place. <b>Silver-dipped steel \
+	crowned upon a basket hilt that keeps righteous hands safe from harm.</b>"
 	icon_state = "psyrapier"
 	sheathe_icon = "psyrapier"
 	max_integrity = 300
@@ -1844,7 +1846,7 @@
 	force_wielded = 0
 
 /obj/item/rogueweapon/sword/rapier/hand
-	name = "dark sister"
+	name = "\"Dark Sister\""
 	desc = "A tool made for nobler tasks than shedding blood, discreet and ever ready, as you should be too."
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "staffblade"
@@ -1865,7 +1867,7 @@
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/sword/rapier/avantyne/relic
-	name = "Damnatio"
+	name = "\"Damnatio\""
 	desc = "Stemmed holiness, malformed beneath an otherworldly parasite. Such a necessary rite either commands not the will of \
 	a fearsome warlock, but of the Man whose faith in God has crumbled beyond repair. 'What have I done?' </br>'How did I sink?' </br>'From the holiest high..' </br>'..to the direst brink..'"
 	icon_state = "zizorapier"
@@ -2002,7 +2004,7 @@
 				return list("shrink" = 0.45,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.7,"sx" = -3,"sy" = -2,"nx" = -7,"ny" = -2,"wx" = -11,"wy" = 7,"ex" = 11,"ey" = -3,"nturn" = -28,"sturn" = -30,"wturn" = 160,"eturn" = 32,"nflip" = 5,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-			if("altgrip") 
+			if("altgrip")
 				return list("shrink" = 0.45,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/rogueweapon/sword/long/rhomphaia/copper
@@ -2016,7 +2018,7 @@
 	smeltresult = /obj/item/ingot/copper
 
 /obj/item/rogueweapon/sword/long/oathkeeper
-	name = "Oathkeeper"
+	name = "\"Oathkeeper\""
 	desc = "An ornate golden longsword with a ruby embedded in the hilt, given to the Knight Commander for their valiant service to the crown."
 	sellprice = 140
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike)
@@ -2033,17 +2035,17 @@
 				return list("shrink" = 0.4,"sx" = -14,"sy" = -8,"nx" = 13,"ny" = -8,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
 			if("onbelt")
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-			if("wielded") 
+			if("wielded")
 				return list("shrink" = 0.5,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
-			if("onback") 
+			if("onback")
 				return list("shrink" = 0.45, "sx" = -1, "sy" = 2, "nx" = 0, "ny" = 2, "wx" = 2, "wy" = 1, "ex" = 0, "ey" = 1, "nturn" = 0, "sturn" = 0, "wturn" = 70, "eturn" = 15, "nflip" = 1, "sflip" = 1, "wflip" = 1, "eflip" = 1, "northabove" = 1, "southabove" = 0, "eastabove" = 0, "westabove" = 0)
-			if("onbelt") 
+			if("onbelt")
 				return list("shrink" = 0.4, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
-			if("altgrip") 
+			if("altgrip")
 				return list("shrink" = 0.45,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/rogueweapon/sword/long/hand
-	name = "Azurefyre"
+	name = "\"Azurefyre\""
 	desc = "The Blade fit for the Hand, wielded in service to the crown and never mistaken for another."
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike)
 	icon = 'icons/roguetown/weapons/special/hand64.dmi'
@@ -2201,7 +2203,7 @@
 	The unique colour of the blade is due to a forging technique combining Manablooms with the steel, giving the weapon better attunement with the Acryne."
 	icon_state = "mkriegmesser"
 	smeltresult = /obj/item/ingot/steel
-	sheathe_icon = "mkriegmesser" 
+	sheathe_icon = "mkriegmesser"
 
 /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 	name = "ssangsudo"
@@ -2212,7 +2214,7 @@
 	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/long/deep, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
 
 /obj/item/rogueweapon/sword/long/kriegmesser/pestran
-	name = "Cleansing Edge"
+	name = "\"Cleansing Edge\""
 	desc = "A cut in time saves a life."
 	icon_state = "pestranmesser"
 	sheathe_icon = "pestranmesser"
@@ -2433,7 +2435,7 @@
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/sword/sabre/banneret // just a better sabre, unique banneret weapon
-	name = "'Edict'"
+	name = "\"Edict\""
 	desc = "A lavish blacksteel sabre, inlaid with gold along the hilt and crossguard. The blade bears an inscription,\"FIAT JUSTITIA\"."
 	icon_state = "capsabre"
 	icon = 'icons/roguetown/weapons/special/captain.dmi'
@@ -2444,11 +2446,11 @@
 	smeltresult = /obj/item/ingot/blacksteel
 
 /obj/item/rogueweapon/sword/sabre/bane
-	name = "Bane's Edge"
+	name = "\"Bane's Edge\""
 	desc = "A stained sabre made of blacksteel, its edge is coated in long-dried blood as well as poison."
 	icon_state = "poisonsaber"
 	force = 25
-	max_integrity = 200 
+	max_integrity = 200
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
 	sellprice = 50
 	smeltresult = null

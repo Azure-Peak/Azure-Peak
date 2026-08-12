@@ -53,7 +53,7 @@
 	desc = "Noodles mixed with a spiced refined sauce made from smoky rocknut and garlick. A cultural blend of Azurian improvisation and Navarno ingenuity."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
 	icon_state = "spaghetti_pesto"
-	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/nicotine = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/westleach = 1)
 	faretype = FARE_LAVISH
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("nutty, herby, and garlicky sauce"=1, "al dente noodles" = 1)
