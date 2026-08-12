@@ -723,6 +723,10 @@
 		<h3>Simple and Complex NPCs</h3>
 		<p>NPCs / Mobs are split into Complex and Simple Animals. Simple Animals are wolves, direbears etc., and usually represent non-humanoid animals. These can be butchered by middle click with a SHORT blade - like the hunting knife most adventurers start with.</p>
 
+		<h3>Simple Animals, and Aiming</h3>
+		<p>Aiming for different parts on a complex NPC will yield different results and allows you to bypass incomplete armor coverage. On simple animals like direbears, wolves or minotaur, aiming for certain body parts can cripple them, slow them down, lower their damage or in some case, cause an instant death. Penetrative stabbing / piercing weapons will also deal more part damage, especially those with HEAVY penetration like spears. Certain parts are impossible to hit standing in melee range, and must have the animals toppled by cutting their legs. Ranged Weapons deals less part damage than melee weapons.
+		</p>
+
 		<p>Complex are human-like animals, and includes skeletons and highwaymen. Whenever a complex NPC is killed and not dusted, you can use the STRIPPING Menu (Click drag their sprite onto yourself) to strip them. <b>Loot Everything</b> loots everything in order, <b>Loot Smeltable</b> loots everything that smelts to a metallic result, and <b>Loot Fabric</b> loots everything that scavenges to fabric. These are only available on a dead NPC that has never ever been possessed by a player.</p>
 
 		<h3>Hauling It Home</h3>
