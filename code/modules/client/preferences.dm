@@ -204,8 +204,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/descriptor_entries = list()
 	var/list/custom_descriptors = list()
 
-	var/char_accent = "No accent"
-
 	var/list/gear_list = list()	// Assoc list: item_name = list("color"=..., "custom_name"=..., "custom_desc"=...)
 
 	var/flavortext
@@ -700,7 +698,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>Mutant Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
 				dat += "<b>Mutant Color #3:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor3"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color3;task=input'>Change</a><BR>"
 
-			//dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=char_accent;task=input'>[char_accent]</a>"
 			dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
 			dat += "<br><b>Sprite Scale:</b><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a>"
 			dat += "<br><b>Markings:</b> <a href='?_src_=prefs;preference=markings;task=menu'>Change</a>"
@@ -2717,11 +2714,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						features["mcolor"] = sanitize_hexcolor(skin_tone)
 						try_update_mutant_colors()
 
-				if("char_accent")
-					var/selectedaccent = tgui_input_list(user, "Choose your character's accent:", "Character Preference", GLOB.character_accents)
-					if(selectedaccent)
-						char_accent = selectedaccent
-
 				if("ooccolor")
 					var/new_ooccolor = color_pick_sanitized(user, "Choose your OOC colour:", "Game Preference",ooccolor)
 					if(new_ooccolor)
@@ -3247,8 +3239,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		character.update_body()
 		character.update_hair()
 		character.update_body_parts(redraw = FALSE)
-
-	character.char_accent = char_accent
 
 	// Customizers are already applied inside set_species() (both the species-change path via
 	// on_species_gain, and the same-species short-circuit). Re-applying here doubled the work.

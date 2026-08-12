@@ -716,10 +716,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	S["examine_theme"]		>> examine_theme
 
-	S["char_accent"]		>> char_accent
-	if (!char_accent)
-		char_accent = "No accent"
-
 	S["pronouns"] >> pronouns
 	S["voice_type"] >> voice_type
 	S["voice_pack"] >> voice_pack
@@ -947,7 +943,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["song_artist"] , song_artist)
 	WRITE_FILE(S["song_title"] , song_title)
 	WRITE_FILE(S["examine_theme"] , examine_theme)
-	WRITE_FILE(S["char_accent"] , char_accent)
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["voice_pack"] , voice_pack)
 	WRITE_FILE(S["pronouns"] , pronouns)
