@@ -248,6 +248,7 @@
 	special = /datum/special_intent/quarterstaff_sweep
 	anvilrepair = /datum/skill/craft/carpentry
 	resistance_flags = FLAMMABLE
+	twirly = SKILL_LEVEL_JOURNEYMAN
 
 /obj/item/rogueweapon/woodstaff/getonmobprop(tag)
 	. = ..()
@@ -452,6 +453,7 @@
 	throwforce = 25
 	resistance_flags = FLAMMABLE
 	special = /datum/special_intent/polearm_backstep
+	twirly = SKILL_LEVEL_EXPERT // safely twirling like, a halberd, is going to be harder than a blunt staff
 
 /obj/item/rogueweapon/spear/short
 	force = 25

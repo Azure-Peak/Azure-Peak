@@ -78,7 +78,6 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 
@@ -182,7 +181,6 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
 	)
 	extra_context = "Chooses between Light Armor (Dodge Expert) & Medium Armor."
@@ -447,7 +445,6 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 	maximum_possible_slots = 1 // Haha... no... unless...?

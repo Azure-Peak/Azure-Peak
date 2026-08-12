@@ -459,3 +459,61 @@
       until a proper fix comes out.
   saltprjak:
   - rscadd: Studded Leather Hood can now be bought from merchant vendors.
+2026-08-12:
+  KatTheFox:
+  - rscadd: Wooden staves and conjured blades can now be twirled like daggers at journeyman
+      skill; swords and polearms at expert. Pans can be twirled at expert cooking,
+      but you must be in cmode to do so.
+  - bugfix: Knives that don't use knives skill (e.g. if you bind one as a ferramancer)
+      can now be twirled using their actual associated skill, instead of being hardcoded
+      to use knives.
+  Ketrai:
+  - qol: Revival spells now display their casting costs on examine.
+  - qol: Canister racks now indicate on examine if there is a research penalty due
+      to broken canisters, or if the crystal is fully attuned.
+  - qol: Unlocking certain heartbeast research nodes now notifies relevant casters
+      (healing, revival).
+  - qol: Black rot aura can be toggled with a verb now. Blocks spell use when toggled
+      off.
+  - rscadd: Cure rot can give devotee+ pestrans the pestran bed miracle when the black
+      rose is researched.
+  - balance: Pestilent Blade now deals less armor piercing damage to minded targets,
+      and reduces strength by -2 instead of -3. Deals more damage to mindless targets.
+  - balance: Infestation now deals more brute damage, but no tox damage to minded
+      targets.
+  - bugfix: Prevented bed creating spells from placing multiple beds on a single tile.
+  - refactor: Refactored Eora bed code for better target acquisition.
+  Lamasmaster:
+  - rscadd: Revenant spots markings
+  - rscadd: "Construct \U0001F388 \U0001F388"
+  - image: Modified Zard belly scales marking to no longer give them wide neck
+  - balance: Riding skill distribution
+  - balance: Cap saddleborn at expert instead of legendary
+  - rscadd: Tailor's Needle to Tailor and Seamster
+  - image: Needle of Pestra sprite
+  Ollanius:
+  - rscdel: Aisu's donator-exclusive wand, as per their request.
+  - rscadd: Donator items for Chivalre, Squidqueen, Truill, Lamprey, and Hellpossum.
+  - bugfix: Bedsheets can now be appropriately worn on the cloak slot too.
+  RosySaturniidae:
+  - rscadd: donator item (me)
+  SciDragon:
+  - rscadd: fluvians can now choose to add an insect abdomen, disable their antennae,
+      or add a bug snout.
+  WeNeedMorePhoron:
+  - rscadd: Allows crossbow to be loaded with bolt from pouches with a free hand
+  - rscadd: Slurbow / Staker can load bolt 1 handed by clicking pouch.
+  - rscadd: Crossbow nocking free hand check now happens before instead of after the
+      action.
+  - rscadd: Bow now requires a free hand to quick load an arrow (Not a real issue
+      but consistency)
+  bearrrrrrrr:
+  - rscadd: baotha descriptions/spells updated for lore compliance
+  borneblood:
+  - balance: Integrity damage is now very lethal for constructs, instead of being
+      just a thing.
+  crunchypretzels:
+  - qol: saddleborn replaces free mounts for steppesman and herald
+  mumblemancer:
+  - rscadd: steel axe available in silverface & at merchant under steel weapons
+  - rscadd: steel pickaxe available at merchant under tools
