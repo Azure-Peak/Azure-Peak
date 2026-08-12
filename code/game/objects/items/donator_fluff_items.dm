@@ -2011,6 +2011,44 @@ As Excaliber."
 	..()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)
 
+/obj/item/clothing/suit/roguetown/shirt/robe/limetease
+	name = "noviciate robe"
+	desc = "Used by more risque followers of the arcayne"
+	body_parts_covered = null // Keyhole should show boob size and the outfit is too open to get in the way of sex
+	icon_state = "limedress"
+	item_state = "limedress"
+	flags_inv = null
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	sleevetype = "limedress"
+	color = null
+
+/obj/item/clothing/suit/roguetown/shirt/robe/limetease/equipped(mob/user, slot)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/obj/item/organ/breasts/B = H.getorganslot(ORGAN_SLOT_BREASTS)
+
+		if(B && B.breast_size == 3)
+			flags_inv &= ~HIDEBOOB
+			boobed = TRUE
+			boobed_detail = TRUE
+		else
+			flags_inv |= HIDEBOOB
+			boobed = FALSE
+			boobed_detail = FALSE
+
+		H.update_inv_wear_suit()
+
+/obj/item/clothing/suit/roguetown/shirt/robe/limetease/color
+	name = "noviciate robe"
+	desc = "Used by more risque followers of the arcayne, this one seem to dye easily"
+	icon_state = "limedress_color"
+	item_state = "limedress_color"
+	detail_tag = "_detail"
+	detail_color = "#FFFFFF"
+
 /obj/item/clothing/head/roguetown/octopus/ComponentInitialize()
 	..()
 	AddComponent(/datum/component/adjustable_clothing, \

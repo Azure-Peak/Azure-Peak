@@ -786,6 +786,16 @@
 	path = /obj/item/enchantingkit/limetease
 	ckeywhitelist = list("limetease", "simplypoodle")
 
+/datum/loadout_item/donator/lime_dress
+	name = "Donator Item - Noviciate Robe"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/limetease
+	ckeywhitelist = list("limetease", "simplypoodle", "ketrai", "shiroseschnee", "kimmieweeb")
+
+/datum/loadout_item/donator/lime_dress_color
+	name = "Donator Item - Colorable Noviciate Robe"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/limetease/color
+	ckeywhitelist = list("limetease", "simplypoodle", "ketrai", "shiroseschnee", "kimmieweeb")
+
 /datum/loadout_item/donator/gazelleskull
 	name = "Donator Item - Gazelle Skull"
 	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull
