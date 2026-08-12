@@ -57,6 +57,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	backl = /obj/item/rogueweapon/mace/cudgel
 	r_hand = /obj/item/clothing/gloves/roguetown/knuckles
+	beltl = /obj/item/rogueweapon/scabbard/sheath
 
 	if(!istype(H.patron, /datum/patron/inhumen/graggar))
 		var/inputty = input(H, "Would you like to change your patron to Graggar?", "THE BEAST ROARS", "No") as anything in list("Yes", "No")
