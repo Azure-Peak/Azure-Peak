@@ -2,7 +2,7 @@
 	name = "Gronnic Privateer"
 	tutorial = "You are one of many upstarts from Gronn, who sailed from the coastal capital of Danheim to the southern beaches of Azuria in search of a more... honest means of profit than the Sea Raiders of infamy."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/gronn
 	class_select_category = CLASS_CAT_GRONN
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
@@ -61,7 +61,7 @@
 		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 
 		switch(classchoice)
-			if("Leðurháls - Byrine Grunt")	//Medium armor, pick between swords or axes. Boots-on-the-ground for hire. 
+			if("Leðurháls - Byrine Grunt")	//Medium armor, pick between swords or axes. Boots-on-the-ground for hire.
 				H.set_blindness(0)
 				to_chat(H, span_warning("Clad in their unique leatherbound chainmaille and shortsword, The Danheim Leðurháls - roughly translated in Imperial to 'Leatherneck' due to their choice of leather gorgets over forged metal - are known for their harsh dogmatisms and steady personalities."))
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
@@ -88,7 +88,7 @@
 				H.change_stat(STATKEY_INT, -1) //Unga swordsman.
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
-			if("Skemmdarvargur - Ravager")	//Light armor, beast claws or dual handaxes. 
+			if("Skemmdarvargur - Ravager")	//Light armor, beast claws or dual handaxes.
 				H.set_blindness(0)
 				to_chat(H, span_warning("The Skemmdarvargur are famously known to hail from the northern city of Skugge, the first line of defense for the Northern Empty. Although highly superstitious with their various carved armaments, they lack the mystical miracles of the Iskarn Shamans."))
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
@@ -130,7 +130,7 @@
 	name = "Fjall Járnklæddur"
 	tutorial = "Even within Fjall, few bear witness to the Horned Visages of the Járnklæddur; Ironclad warriors who stand against the undead armies that rise out of the 'Red Blizzard'. Those who do not have the blessing of the Iskarn Shamans within the Northern Empty oft-seek the protection of the Járnklæddur, despite their steep costs."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	maximum_possible_slots = 1 //Hopefully this works.
 	outfit = /datum/outfit/job/roguetown/mercenary/gronn_heavy
 	class_select_category = CLASS_CAT_GRONN
@@ -139,12 +139,12 @@
 	cmode_music = 'sound/music/combat_vagarian.ogg'
 	subclass_languages = list(/datum/language/gronnic)
 	subclass_stats = list(
-		STATKEY_WIL = 3, //People see big numbers and start shitting their pants, but their weighted stats are 7 and it's limited to one, singular slot. This is fine. 
+		STATKEY_WIL = 3, //People see big numbers and start shitting their pants, but it's limited to one, singular slot. This is fine.
 		STATKEY_STR = 3, //TO WIELD THE MAUL. THEY CAN'T USE ANY OTHER WEAPON TYPE BUT MACES ANYWAY.
 		STATKEY_INT = 2,
 		STATKEY_CON = 3,
 		STATKEY_PER = -1, //CAN'T SEE SHIT OUTTA THIS THING!!
-		STATKEY_SPD = -3 //SLOW AND UNWIELDY
+		STATKEY_SPD = -2 //SLOW AND UNWIELDY
 	)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
