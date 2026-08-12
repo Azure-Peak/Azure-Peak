@@ -1912,3 +1912,15 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+
+/obj/item/clothing/cloak/half/duelcape  //sprites from vanderlin
+	name = "duelist cape"
+	desc = "A flamboyant red duelists cape that is sure to catch the eye."
+	icon_state = "duelistcape"
+	item_state = "duelistcape"
+	color = null
+	nodismemsleeves = TRUE
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	inhand_mod = FALSE

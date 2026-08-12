@@ -212,3 +212,8 @@
 	name = "Ranger Cloak, Neutral Gray"
 	path = /obj/item/clothing/cloak/rangercloak/gray
 	sort_category = "Cloaks"
+
+/datum/loadout_item/duelistscloak
+	name = "Duelist's Cape"
+	path = /obj/item/clothing/cloak/half/duelcape
+	sort_category = "Cloaks"
