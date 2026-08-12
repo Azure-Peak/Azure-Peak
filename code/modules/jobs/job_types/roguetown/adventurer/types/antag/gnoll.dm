@@ -74,7 +74,7 @@
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
 		var/pelts = list("firepelt", "rotpelt", "whitepelt", "bloodpelt", "nightpelt", "darkpelt")
-		var/pelt_choice = input(H, "Choose your pelt.", "SPILL THEIR ENTRAILS.") as anything in pelts
+		var/pelt_choice = input(H, "Choose your pelt.", "WITNESS FURY.") as anything in pelts
 		H.set_blindness(0)
 		H.icon_state = "[pelt_choice]"
 		H.dna?.species?.custom_base_icon = "[pelt_choice]"
@@ -83,6 +83,30 @@
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/gnoll/consume)
 		H.AddComponent(/datum/component/gnoll_combat_tracker)
+
+		var/gnoll_chest = list("breasts", "nothing")
+		var/breast_choice = input(H, "What's on your chest?", "NURSE RESENTMENT.") as anything in gnoll_chest
+		if(breast_choice == "breasts")
+			H.internal_organs_slot[ORGAN_SLOT_BREASTS] = new /obj/item/organ/breasts
+
+		var/gnoll_balls = list("sac", "cryptorchid", "no")
+		var/ball_choice = input(H, "Do you have testes?", "BREED HATRED.") as anything in gnoll_balls
+		switch(ball_choice)
+			if("sac")
+				H.internal_organs_slot[ORGAN_SLOT_TESTICLES] = new /obj/item/organ/testicles/internal
+			if("cryptorchid")
+				H.internal_organs_slot[ORGAN_SLOT_TESTICLES] = new /obj/item/organ/testicles/internal
+
+		var/gnoll_genitals = list("pintle", "gudgeon", "both", "naught")
+		var/genital_choice = input(H, "What's between your legs?", "FUCK THE WORLD.") as anything in gnoll_genitals
+		switch(genital_choice)
+			if("pintle")
+				H.internal_organs_slot[ORGAN_SLOT_PENIS] = new /obj/item/organ/penis/knotted
+			if("gudgeon")
+				H.internal_organs_slot[ORGAN_SLOT_VAGINA] = new /obj/item/organ/vagina
+			if("both")
+				H.internal_organs_slot[ORGAN_SLOT_PENIS] = new /obj/item/organ/penis/knotted
+				H.internal_organs_slot[ORGAN_SLOT_VAGINA] = new /obj/item/organ/vagina
 
 		var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/F = new()
 		var/obj/effect/proc_holder/spell/invoked/invisibility/gnoll/I = new()
