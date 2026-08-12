@@ -79,8 +79,8 @@
 		if(!ismineralturf(src))
 			return
 		attackby(item, user, multiplier = 2)
-	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/contraption/pick/drill)))
-		var/obj/item/contraption/pick/drill/drillitem = item
+	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/rogueweapon/contraption/pick/drill)))
+		var/obj/item/rogueweapon/contraption/pick/drill/drillitem = item
 		if(drillitem.current_charge < 10)
 			to_chat(user, span_notice("Not enough fuel!"))
 			return
@@ -99,14 +99,14 @@
 		return
 	lastminer = user
 	..()
-	if(istype(I, /obj/item/rogueweapon/pick)||istype(I, /obj/item/contraption/pick/drill)||istype(I, /obj/item/rogueweapon/mace/maul/grand/psy))
+	if(istype(I, /obj/item/rogueweapon/pick)||istype(I, /obj/item/rogueweapon/contraption/pick/drill)||istype(I, /obj/item/rogueweapon/mace/maul/grand/psy))
 		if(!isliving(user))
 			return
 
 		var/mob/living/L = user
 		user.doing = FALSE
-		if(istype(I, /obj/item/contraption/pick/drill)&& L.used_intent.type == /datum/intent/drill)
-			var/obj/item/contraption/pick/drill/drillitem = I
+		if(istype(I, /obj/item/rogueweapon/contraption/pick/drill)&& L.used_intent.type == /datum/intent/drill)
+			var/obj/item/rogueweapon/contraption/pick/drill/drillitem = I
 			// we're holding a drill and on drill intent
 			if (drillitem.current_charge < 1)
 				to_chat(user, span_warning("Not enough fuel."))
@@ -156,8 +156,8 @@
 				return
 			src.attackby(item, user, multiplier = 4)
 			user.stamina_add(25)
-	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/contraption/pick/drill)))
-		var/obj/item/contraption/pick/drill/drillitem = item
+	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/rogueweapon/contraption/pick/drill)))
+		var/obj/item/rogueweapon/contraption/pick/drill/drillitem = item
 		if(drillitem.current_charge < 10)
 			to_chat(user, span_notice("Not enough fuel!"))
 			return

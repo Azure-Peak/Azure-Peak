@@ -217,7 +217,7 @@
 				setup_examine_window(user,planar_origin)
 				return
 			familiar_ooc_notes[planar_origin] = new_ooc_notes
-			var/ooc = html_encode(parsemarkdown_basic(familiar_ooc_notes[planar_origin]))
+			var/ooc = parsemarkdown_basic(html_encode(familiar_ooc_notes[planar_origin]))
 			ooc = replacetext(ooc, "\n", "<BR>")
 			familiar_ooc_notes_display[planar_origin] = ooc
 			to_chat(user, "<span class='notice'>Successfully updated Familiar OOC notes.</span>")

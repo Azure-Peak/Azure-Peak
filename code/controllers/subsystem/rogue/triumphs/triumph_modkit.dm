@@ -29,7 +29,6 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/iron 					= /obj/item/clothing/suit/roguetown/armor/plate/iron/legacy
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_slimmedsteel
 	name = "'Slimfitted Steel Armor' morphing elixir"
@@ -44,7 +43,6 @@
 		/obj/item/clothing/suit/roguetown/armor/plate	  					= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_drow
 	name = "'Drowcraft Armor' morphing elixir"
@@ -64,7 +62,6 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut	  						= /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_axedouble
 	name = "'Doublehead' morphing elixir"
@@ -79,7 +76,6 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_fancymace
 	name = "'Rungu-Shishpar' morphing elixir"
@@ -92,7 +88,6 @@
 		/obj/item/rogueweapon/mace								= /obj/item/rogueweapon/mace/rungu
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_kris
 	name = "'Kris' morphing elixir"
@@ -115,7 +110,6 @@
 		/obj/item/rogueweapon/huntingknife								= /obj/item/rogueweapon/huntingknife/njora
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_whip
 	name = "'Alloytip' morphing elixir"
@@ -126,7 +120,6 @@
 		/obj/item/rogueweapon/whip						= /obj/item/rogueweapon/whip/triumph
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_tri
 	name = "'Valorian Longsword' morphing elixir"
@@ -402,7 +395,6 @@
 		/obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm			= /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/triumph
 		)
 	result_item = null
-	exact_type = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_psymace
 	name = "'Classic Psydonic Handmace' morphing elixir"
@@ -412,7 +404,6 @@
 		/obj/item/rogueweapon/mace/cudgel/psy	  						= /obj/item/rogueweapon/mace/cudgel/psy/triumph_classic
 		)
 	result_item = null
-	exact_type = TRUE
 
 //////////////////////////////
 // TRIUMPH-RESKIN EXAMPLES! //
@@ -1010,6 +1001,8 @@
 	desc = "All it takes is the will of one to change the world; be it for the better or worse."
 	icon_state = "classicbeakhelm"
 	item_state = "classicbeakhelm"
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/triumph
 	name = "valorian beak helmet"

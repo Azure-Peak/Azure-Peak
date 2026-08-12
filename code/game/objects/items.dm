@@ -281,6 +281,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// "Lesser" silver items still count as silver, but their bite against the silver-weak is muted: no pickup ignition,
 	/// no force-undisguise on hit, and only a slow accumulation of (non-igniting) sunder stacks while held/worn.
 	var/is_lesser_silver = FALSE
+	/// PVE-only effects - for stuff like the cleric longsword, which is lorewise just blessed, not actual silver.
+	var/is_even_lesser_silver = FALSE
 	var/last_used = 0
 	var/override_state = null
 	var/icon_x_offset = 0
@@ -974,7 +976,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 //If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
 //Set disable_warning to TRUE if you wish it to not give you outputs.
 /obj/item/proc/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	if((is_silver || smeltresult == /obj/item/ingot/silver) && !is_lesser_silver && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
+	if((is_silver || (is_even_lesser_silver && is_npc(M)) || smeltresult == /obj/item/ingot/silver) && !is_lesser_silver && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = M.mind?.has_antag_datum(/datum/antagonist/vampire/)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
@@ -1475,8 +1477,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if (obj_broken)
 		to_chat(user, span_warning("It's completely broken."))
 		return FALSE
-	if (istype(src, /obj/item/contraption))
-		var/obj/item/contraption/i = src
+	if (istype(src, /obj/item/rogueweapon/contraption/pick))
+		var/obj/item/rogueweapon/contraption/pick/i = src
 		if (i.current_charge <= 0)
 			to_chat(user, span_warning("Not charged."))
 			return FALSE

@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Wooden staves and conjured blades can now be twirled like daggers at journeyman skill; swords and polearms at expert. Pans can be twirled at expert cooking, but you must be in cmode to do so."
-  - bugfix: "Knives that don't use knives skill (e.g. if you bind one as a ferramancer) can now be twirled using their actual associated skill, instead of being hardcoded to use knives."

@@ -393,6 +393,7 @@
 	wdefense_wbonus = 3
 	max_blade_int = 370
 	smeltresult = /obj/item/ingot/iron
+	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
 /obj/item/rogueweapon/sword/long/church
 	name = "see longsword"

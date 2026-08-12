@@ -1,0 +1,7 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Shapeshifts can use some animal emotes now."
+  - rscadd: "Cabbit shapeshifts/wildforms can be picked up now."
+  - rscadd: "Cabbit shapeshifts/wildforms can be placed on your head now."
+  - rscadd: "Cabbit wildshapes (but not shapeshifts) can now visually sit whilst resting."

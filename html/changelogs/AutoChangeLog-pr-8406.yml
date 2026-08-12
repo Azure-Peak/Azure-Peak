@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - balance: "Integrity damage is now very lethal for constructs, instead of being just a thing."

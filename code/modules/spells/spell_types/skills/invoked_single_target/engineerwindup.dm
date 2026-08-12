@@ -31,7 +31,7 @@
 
 			//check if we're holding a drill
 			for(var/obj/item/I in user.held_items)
-				if(istype(I, /obj/item/contraption/pick/drill))
+				if(istype(I, /obj/item/rogueweapon/contraption/pick/drill))
 					holdingdrill = TRUE
 			//if no drill is found then wipe the skill
 			if (!holdingdrill)
@@ -64,8 +64,8 @@
 				human_target.visible_message(span_danger("The drill starts to spin [human_target] core!"))
 
 				if(do_after(usr, 10 SECONDS, target = human_target))
-					for(var/obj/item/contraption/I in user.held_items)
-						if(istype(I, /obj/item/contraption/pick/drill))
+					for(var/obj/item/rogueweapon/contraption/I in user.held_items)
+						if(istype(I, /obj/item/rogueweapon/contraption/pick/drill))
 							if(I.current_charge < 300)
 								to_chat(user, span_warning("There's not enough charge for this!")) //revive failed, not enough fuel
 								return
@@ -101,8 +101,8 @@
 				human_target.visible_message(span_danger("The drill starts to spin [human_target] core!"))
 
 				if(do_after(usr, 10 SECONDS, target = human_target))
-					for(var/obj/item/contraption/I in user.held_items)
-						if(istype(I, /obj/item/contraption/pick/drill))
+					for(var/obj/item/rogueweapon/contraption/I in user.held_items)
+						if(istype(I, /obj/item/rogueweapon/contraption/pick/drill))
 							if(I.current_charge < 150)
 								to_chat(user, span_warning("There's not enough charge for this!")) //revive failed, not enough fuel
 								return

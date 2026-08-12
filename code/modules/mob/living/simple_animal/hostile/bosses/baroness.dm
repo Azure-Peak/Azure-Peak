@@ -34,7 +34,7 @@
 	health = 3333
 	maxHealth = 3333 //Increased from 3000.
 	speak_chance = 3
-	speak = list("An invader in my fortress?! I will feed your corpse to my pit!", 
+	speak = list("An invader in my fortress?! I will feed your corpse to my pit!",
 	"Disgusting creature, you aren't worth the sum of your parts.",
 	"I will flay your flesh and ensure you are conscious for every agonizing moment!",
 	"Your soul will belong to me - my toy for eternity!")
@@ -66,6 +66,7 @@
 	. = ..()
 	//REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC) //Increased damage malus from silver. Minor over-time damage increase from bleeding wounds. Un-// if it's too easy.
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/boss/baroness/Shoot()
 	projectiletype = pick(allowed_projectile_types)

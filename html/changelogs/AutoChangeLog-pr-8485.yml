@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added Kodachi + Sheath loadout to Kouken"
+  - rscadd: "Readded missing Kodachi loadout choice to Mistwalker"

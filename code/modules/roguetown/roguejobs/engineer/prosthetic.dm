@@ -15,34 +15,34 @@
 		user.visible_message(span_notice("[user] attaches [src] to [H]."))
 		return 1
 
-/obj/item/contraption/bronzeprosthetic
+/obj/item/rogueweapon/contraption/bronzeprosthetic
 	name = "bronze prosthetic"
 	desc = "A prosthetic made of bronze. Use it in your hand to determine what limb it will function as."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prb_blank"
 
-/obj/item/contraption/ironprosthetic
+/obj/item/rogueweapon/contraption/ironprosthetic
 	name = "iron prosthetic"
 	desc = "A prosthetic made of iron. Use it in your hand to determine what limb it will function as."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pri_blank"
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/contraption/steelprosthetic
+/obj/item/rogueweapon/contraption/steelprosthetic
 	name = "steel prosthetic"
 	desc = "A prosthetic made of steel. Use it in your hand to determine what limb it will function as."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prs_blank"
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/contraption/goldprosthetic
+/obj/item/rogueweapon/contraption/goldprosthetic
 	name = "golden prosthetic"
 	desc = "A prosthetic made of gold. Use it in your hand to determine what limb it will function as."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "prc_blank"
 	smeltresult = /obj/item/ingot/gold
 
-/obj/item/contraption/bronzeprosthetic/attack_self(mob/user)
+/obj/item/rogueweapon/contraption/bronzeprosthetic/attack_self(mob/user)
 	. = ..()
 	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
 	switch(choice)
@@ -67,7 +67,7 @@
 			qdel(src)
 			return
 
-/obj/item/contraption/ironprosthetic/attack_self(mob/user)
+/obj/item/rogueweapon/contraption/ironprosthetic/attack_self(mob/user)
 	. = ..()
 	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
 	switch(choice)
@@ -92,7 +92,7 @@
 			qdel(src)
 			return
 
-/obj/item/contraption/steelprosthetic/attack_self(mob/user)
+/obj/item/rogueweapon/contraption/steelprosthetic/attack_self(mob/user)
 	. = ..()
 	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
 	switch(choice)
@@ -117,7 +117,7 @@
 			qdel(src)
 			return
 
-/obj/item/contraption/goldprosthetic/attack_self(mob/user)
+/obj/item/rogueweapon/contraption/goldprosthetic/attack_self(mob/user)
 	. = ..()
 	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
 	switch(choice)

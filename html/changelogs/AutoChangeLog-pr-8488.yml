@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscdel: "Aisu's donator-exclusive wand, as per their request."
-  - rscadd: "Donator items for Chivalre, Squidqueen, Truill, Lamprey, and Hellpossum."
-  - bugfix: "Bedsheets can now be appropriately worn on the cloak slot too."

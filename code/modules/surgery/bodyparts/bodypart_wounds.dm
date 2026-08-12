@@ -190,7 +190,7 @@
 				human_owner.hud_used?.stressies?.flick_pain(TRUE)
 				var/suppress_attack_blip = FALSE //At 'Always' we're guaranteed to have already emoted due to a successful attack.
 				if(user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_ALWAYS || user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_NEVER)
-					suppress_attack_blip = TRUE 
+					suppress_attack_blip = TRUE
 				if(!suppress_attack_blip)
 					if(user)
 						user.emote("attack", forced = TRUE)
@@ -325,7 +325,7 @@
 			dam += 10
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
 			if(HAS_TRAIT(src, TRAIT_IRONMAN))
-				attempted_wounds += /datum/wound/integrity	
+				attempted_wounds += /datum/wound/integrity
 			else
 				attempted_wounds += /datum/wound/artery		//basically does sword-tier wounds.
 	if((bclass in GLOB.sunder_bclasses))
@@ -400,12 +400,12 @@
 				if(!HAS_TRAIT(owner, TRAIT_IRONMAN)) // pointless to disembowel them, as they don't die to tox anyway
 					attempted_wounds += /datum/wound/slash/disembowel
 			if(owner.has_wound(/datum/wound/fracture/chest) || (bclass in GLOB.artery_heart_bclasses) || HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 					attempted_wounds += /datum/wound/integrity/chest
 				else
 					attempted_wounds += /datum/wound/artery/chest
 			else
-				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 					attempted_wounds += /datum/wound/integrity
 				else
 					attempted_wounds += /datum/wound/artery
@@ -416,7 +416,7 @@
 				dam += 10
 		if(prob(used))
 			if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 					attempted_wounds += /datum/wound/integrity/chest
 				else
 					attempted_wounds += /datum/wound/artery/chest
@@ -529,7 +529,7 @@
 					used += 10
 		var/artery_type = /datum/wound/artery
 		if(zone_precise == BODY_ZONE_PRECISE_NECK)
-			if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+			if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 				artery_type = /datum/wound/integrity/neck
 			else
 				artery_type = /datum/wound/artery/neck
@@ -639,7 +639,7 @@
 				playsound(owner, 'sound/combat/brutal_impalement.ogg', 100, vary = TRUE)
 		update_disabled()
 		update_bleed_hud()
-		if(embedder.is_silver && HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+		if((embedder.is_silver || (embedder.is_even_lesser_silver && is_npc(owner))) && HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/datum/component/silverbless/psyblessed = embedder.GetComponent(/datum/component/silverbless)
 			owner.adjust_fire_stacks(1, psyblessed?.is_blessed ? /datum/status_effect/fire_handler/fire_stacks/sunder/blessed : /datum/status_effect/fire_handler/fire_stacks/sunder)
 			to_chat(owner, span_danger("the [embedder] in your body painfully jostles!"))

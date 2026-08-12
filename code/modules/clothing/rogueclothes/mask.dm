@@ -108,7 +108,8 @@
 /obj/item/clothing/mask/rogue/spectacles/golden
 	name = "golden spectacles"
 	icon_state = "goggles"
-	max_integrity = 35
+	max_integrity = 35 //this'll stop one or two good hits
+	armor = ARMOR_PLATE_BSTEEL //however, it can stop some *very strong* piercing. Essentially, ablative armor
 	adjustable = CAN_CADJUST
 	var/active_item = FALSE
 
@@ -757,9 +758,8 @@
 	name = "iron spectacles"
 	desc = "Iron-framed spectacles built to weather rough treatment. They sit firm upon the face, no matter how heated the exchange."
 	icon_state = "igoggles"
-	break_sound = "glassbreak"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 30
+	armor = ARMOR_PLATE_BSTEEL
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
@@ -770,9 +770,8 @@
 	name = "bronze spectacles"
 	desc = "Bronze frames holding thick glass lenses. Favored by those who would rather trust tempered metal than delicate craft."
 	icon_state = "bgoggles"
-	break_sound = "glassbreak"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 30
+	armor = ARMOR_PLATE_BSTEEL
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
@@ -780,8 +779,8 @@
 	name = "steel spectacles"
 	desc = "Steel spectacles wrought with a artificier's pragmatism. Clear sight is worth little if the frame shatters at the first strike."
 	icon_state = "sgoggles"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 40 // slightly more durable for the cqc nerds (stills 1 hit to break)
+	armor = ARMOR_PLATE_BSTEEL
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 

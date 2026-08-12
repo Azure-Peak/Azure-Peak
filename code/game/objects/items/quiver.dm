@@ -1025,7 +1025,11 @@
 	. = ..()
 	. += span_info("Automatically picks up compatible ammo when you walk over it.")
 	. += span_info("Middle-click with a compatible weapon to holster it.")
-	. += span_info("Right-click to draw the holstered weapon to your active hand.")
+	. += span_info("Right-click or middle-click with an empty hand to draw the holstered weapon to your active hand.")
+
+/obj/item/quiver/mechanized/crossbow/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use a hammer or wrench to reconfigure this quiver for either crossbows and bolts, or slurbows and light bolts.")
 
 //this controls the overlays, you migh need to adjust the bowoverlay_x and bowoverlay_y vars in the specific quiver types depending on the graphic
 /obj/item/quiver/mechanized/update_overlays()
@@ -1076,11 +1080,13 @@
 //crossbow, slurbow, bolts, and light bolts
 /obj/item/quiver/mechanized/crossbow
 	name = "mechanized bolt quiver"
-	desc = "A mechanical bolt pouch for crossbows, slurbows, and bolts. It will suck up bolts off the ground and hold a crossbow or slurbow!"
+	desc = "A mechanical bolt pouch for crossbows and bolts. It will suck up bolts off the ground and hold a crossbow!"
 	icon_state = "mechboltpouch0"
 	max_storage = 16
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
 	valid_weapon = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	var/slurbow_mode = FALSE
+	var/reconfigure_time = 3 SECONDS
 
 /obj/item/quiver/mechanized/crossbow/update_icon()
 	icon_state = arrows.len ? "mechboltpouch1" : "mechboltpouch0"
@@ -1088,6 +1094,66 @@
 	var/list/new_overlays = update_overlays()
 	if(length(new_overlays))
 		overlays = new_overlays
+
+/// Whether the given ammo casing matches whichever mode this quiver is currently configured for.
+/obj/item/quiver/mechanized/crossbow/proc/valid_ammo(obj/item/A)
+	if(slurbow_mode)
+		return istype(A, /obj/item/ammo_casing/caseless/rogue/bolt/light)
+	return istype(A, /obj/item/ammo_casing/caseless/rogue/bolt) && !istype(A, /obj/item/ammo_casing/caseless/rogue/bolt/light)
+
+/// Whether the given weapon matches whichever mode this quiver is currently configured for.
+/obj/item/quiver/mechanized/crossbow/proc/valid_weapon(obj/item/gun/ballistic/revolver/grenadelauncher/W)
+	if(!istype(W, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow))
+		return FALSE
+	if(istype(W, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy))
+		return FALSE
+	if(slurbow_mode)
+		return istype(W, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow)
+	return !istype(W, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow)
+
+/// Flips between crossbow/bolt mode and slurbow/light-bolt mode.
+/obj/item/quiver/mechanized/crossbow/proc/toggle_mode(mob/living/user)
+	slurbow_mode = !slurbow_mode
+	if(slurbow_mode)
+		allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/light
+		valid_weapon = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+		name = "mechanized light bolt quiver"
+		desc = "A mechanical bolt pouch reconfigured for slurbows and light bolts. Adjust it with a hammer or wrench, while empty, to reconfigure it back for a crossbow and standard bolts."
+	else
+		allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
+		valid_weapon = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+		name = "mechanized bolt quiver"
+		desc = "A mechanical bolt pouch for crossbows and bolts. Adjust it with a hammer or wrench, while empty, to reconfigure it for a slurbow and light bolts instead."
+	if(user)
+		to_chat(user, span_notice("I finish reconfiguring [src] for [slurbow_mode ? "a slurbow and light bolts" : "a crossbow and bolts"]."))
+	update_icon()
+
+/obj/item/quiver/mechanized/crossbow/attackby(obj/item/A, mob/user, params)
+	if(istype(A, /obj/item/rogueweapon/contraption/linker)||istype(A, /obj/item/rogueweapon/hammer))
+		if(arrows.len || holstered_weapon)
+			to_chat(user, span_warning("[src] needs to be emptied of bolts and any holstered weapon before I can reconfigure it."))
+			return TRUE
+		to_chat(user, span_notice("I start reconfiguring [src]..."))
+		if(!(do_after(user, reconfigure_time)))
+			return TRUE
+		toggle_mode(user)
+		return TRUE
+	if(istype(A, /obj/item/ammo_casing/caseless/rogue/bolt))
+		if(!valid_ammo(A))
+			to_chat(user, span_warning("[A] doesn't fit in [src] right now."))
+			return TRUE
+		var/obj/item/ammo_casing/caseless/rogue/ammo = A
+		if(get_current_weight() + ammo.ammo_weight <= max_storage)
+			if(ismob(user))
+				user.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
+			else
+				A.forceMove(src)
+			arrows += A
+			update_icon()
+		else
+			to_chat(user, span_warning("Full!"))
+		return TRUE
+	return ..()
 
 // Accept both standard bolts and light bolts
 /obj/item/quiver/mechanized/crossbow/eatarrow(obj/A)
@@ -1105,22 +1171,16 @@
 /obj/item/quiver/mechanized/crossbow/pickup_from_turf(turf/T, mob/living/user)
 	// Standard bolts
 	for(var/obj/item/ammo_casing/caseless/rogue/bolt/A in T.contents)
-		if(istype(A, /obj/item/ammo_casing/caseless/rogue/heavy_bolt))
-			continue // skip heavy bolts
 		if(get_current_weight() >= max_storage)
 			break
-		eatarrow(A)
-	// Light bolts
-	for(var/obj/item/ammo_casing/caseless/rogue/bolt/light/A in T.contents)
-		if(get_current_weight() >= max_storage)
-			break
+		if(!valid_ammo(A))
+			continue
 		eatarrow(A)
 
 /obj/item/quiver/mechanized/crossbow/holster_bow(obj/item/gun/ballistic/revolver/grenadelauncher/W, mob/living/user)
-	if(!istype(W, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow) || \
-	    istype(W, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy))
+	if(!valid_weapon(W))
 		if(user)
-			to_chat(user, span_warning("[W] doesn't fit — it can carry only crossbows and slurbows."))
+			to_chat(user, span_warning("[W] doesn't fit in [src] right now."))
 		return FALSE
 	return ..()
 
@@ -1134,9 +1194,8 @@
 	if(!held)
 		to_chat(user, span_warning("I'm not holding anything to stow in [src]."))
 		return
-	if(!istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow) || \
-	    istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow))
-		to_chat(user, span_warning("[held] doesn't fit — only crossbows and slurbows."))
+	if(!valid_weapon(held))
+		to_chat(user, span_warning("[held] doesn't fit in [src] right now."))
 		return
 	if(user.transferItemToLoc(held, src))
 		holstered_weapon = held
@@ -1169,10 +1228,6 @@
 		if(get_current_weight() >= max_storage)
 			break
 		eatarrow(A)
-	if(!holstered_weapon)
-		for(var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/W in T.contents)
-			holster_bow(W, null)
-			break
 
 /obj/item/quiver/mechanized/siegebow/holster_bow(obj/item/gun/ballistic/revolver/grenadelauncher/W, mob/living/user)
 	if(!istype(W, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy))
