@@ -47,7 +47,7 @@
 	earliest_start = 0 SECONDS
 	max_occurrences = 2
 
-	weight = 10
+	weight = 20
 
 	typepath = /datum/round_event/antagonist/solo/assassins
 	antag_datum = /datum/antagonist/assassin
