@@ -268,6 +268,11 @@
 	stressadd = -1
 	desc = span_green("My meditations were rewarding.")
 
+/datum/stressevent/meditation_undivided
+	timer = 20 MINUTES
+	stressadd = -5
+	desc = span_undivided("My communion with the Divines proved fruitful.")
+
 /datum/stressevent/bathcleaned
     timer = 20 MINUTES
     stressadd = -3

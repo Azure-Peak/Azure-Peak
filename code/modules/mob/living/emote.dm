@@ -103,6 +103,9 @@
 		user.add_stress(/datum/stressevent/meditation_ironman)
 		user.energy_add(percent)
 		playsound(user, 'sound/misc/machineyes.ogg', 25)
+	else if(HAS_TRAIT(user, TRAIT_UNDIVIDED))
+		user.add_stress(/datum/stressevent/meditation_undivided)
+		playsound(user, 'sound/magic/undivided_bless.ogg', 20)
 	else
 		user.add_stress(/datum/stressevent/meditation)
 

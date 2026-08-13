@@ -355,7 +355,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ALDERMAN_CENSURED = span_warning("The Assembly has censured my name. No seat, no warrant shall be mine until the week ends."),
 	TRAIT_TECHNOPHOBE = span_info("I've principles against using some forms of artificed machinery, or perhaps I'm incapable of using them."),
 	TRAIT_LEPROSY = span_necrosis("I'm a disgusting leper..."),
-	TRAIT_UNDIVIDED = span_undivided("I have seen past petty squables of those who uplift one God over another, I am impartial and content as a true follower of Their creed."),
+	TRAIT_UNDIVIDED = span_undivided("I am content in my service to the Divines, being able to commune with them during my meditations."),
 	TRAIT_RALLIED = span_info("I have been encouraged to keep myself together, I will not falter in face of the terrors of Psydonia."),
 	TRAIT_TAVERN_FIGHTER = span_info("I am vigilant in my duties. The Tavern is my home, none shall dare oppose me or skip out on payment."),
 	TRAIT_GUARDSMAN = span_info("I am vigilant in my duties. In the town of Azure Peak, my abilities are sharper due to my routine and familiarity."),
