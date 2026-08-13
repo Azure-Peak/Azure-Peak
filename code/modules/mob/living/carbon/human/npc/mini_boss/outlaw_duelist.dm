@@ -90,10 +90,10 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	r_hand = /obj/item/rogueweapon/sword/long
 	l_hand = /obj/item/rogueweapon/shield/buckler
-	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] //Its a dodge build w/battleready sire, I know what had to be done.
 	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]

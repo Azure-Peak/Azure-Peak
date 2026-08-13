@@ -17,7 +17,7 @@
 	var/mob/living/carbon/grabbee
 	var/list/dependents = list()
 	var/handaction
-	var/bleed_suppressing = 0.25 //multiplier for how much we suppress bleeding, can accumulate so two grabs means 50% less bleeding; each grab being 25% basically.
+	var/bleed_suppressing = 0.5 //multiplier for how much we suppress bleeding, can accumulate so two grabs multiply together. An aggressive grip tightens this further.
 	var/chokehold = FALSE
 	var/sippy = FALSE
 	experimental_inhand = FALSE
@@ -208,8 +208,9 @@
 				to_chat(user, span_warning("Can't get a grip!"))
 				return FALSE
 			user.stamina_add(rand(7,15))
-			if(M.grippedby(user))			//Aggro grip
-				bleed_suppressing = 0.5		//Better bleed suppression
+			M.grippedby(user)			//Aggro grip
+			if(grab_state >= GRAB_AGGRESSIVE)
+				bleed_suppressing = 0.25	//Better bleed suppression
 		if(/datum/intent/grab/choke)
 			if(user.buckled)
 				to_chat(user, span_warning("I can't do this while buckled!"))

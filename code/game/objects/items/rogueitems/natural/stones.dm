@@ -355,7 +355,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 		to_chat(user, span_warning("You most use both hands to chisel blocks."))
 	else
 		..()
-		
+
 //rock munching
 /obj/item/natural/stone/attack(mob/living/M, mob/user)
 	if(!user.cmode)
@@ -477,8 +477,8 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			S.set_up(1, 1, front)
 			S.start()
 		return
-	if(istype(W, /obj/item/contraption/pick/drill) && user.used_intent.type == /datum/intent/drill)
-		var/obj/item/contraption/pick/drill/drillitem = W
+	if(istype(W, /obj/item/rogueweapon/contraption/pick/drill) && user.used_intent.type == /datum/intent/drill)
+		var/obj/item/rogueweapon/contraption/pick/drill/drillitem = W
 		if(drillitem.current_charge < 10)
 			to_chat(user, span_warning("Not enough fuel."))
 			return

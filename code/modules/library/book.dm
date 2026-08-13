@@ -86,7 +86,7 @@
 	if(!user.hud_used.reads)
 		return
 	if(!user.can_read(src))
-		user.adjust_experience(/datum/skill/misc/reading, 4, FALSE)
+		add_sleep_experience(user, /datum/skill/misc/reading, 4)
 		return
 	if(in_range(user, src) || isobserver(user))
 		if(!pages.len)

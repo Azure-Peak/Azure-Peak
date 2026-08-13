@@ -31,6 +31,7 @@
 	stored_mob.reset_perspective()
 	if(!QDELING(src))
 		qdel(src)
+	stored_mob.update_cone_show()
 	return TRUE
 
 /mob/living/proc/become_item()
@@ -44,6 +45,7 @@
 	orb.name = name
 	orb.desc = desc
 	reset_perspective(orb)
+	update_cone_show()
 	return orb
 
 // by default, just sets the icon and icon_state. some mobs might also want to set mob overlays, so they actually appear when you wear them

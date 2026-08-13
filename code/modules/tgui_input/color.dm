@@ -21,9 +21,6 @@
 	if(isnull(user.client))
 		return null
 
-	// Client does NOT have tgui_input on: Returns regular input
-	if(!user.client.prefs.tgui_pref)
-		return input(user, message, title, default) as color|null
 	var/datum/tgui_color_picker/picker = new(user, message, title, default, timeout, autofocus, ui_state, named_presets)
 	picker.ui_interact(user)
 	picker.wait()

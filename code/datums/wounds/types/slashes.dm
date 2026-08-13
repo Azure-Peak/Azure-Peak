@@ -50,7 +50,7 @@
 	sewn_clotting_threshold = null
 	sewn_clotting_rate = null
 	sewn_bleed_rate = null
-	
+
 	can_sew = TRUE
 	can_cauterize = TRUE
 	severity_stages = list(
@@ -172,6 +172,12 @@
 	sew_threshold = 75
 	passive_healing = 0
 	sleep_healing = 0
+
+// Incisions are made deliberately for surgery.
+// These should not be shut by healing sources mid-surgery.
+// They are still closed by a single needle stitch, so instant to shut normally.
+/datum/wound/slash/incision/heal_wound(heal_amount)
+	return 0
 
 /datum/wound/slash/incision/sew_wound()
 	qdel(src)

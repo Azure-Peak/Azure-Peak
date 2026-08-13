@@ -293,7 +293,7 @@
 	color = "#48443b"
 	sewrepair = TRUE
 	resistance_flags = FIRE_PROOF
-	armor = ARMOR_LEATHER //Higher-tier protection for pugilist-centric classes. Fits the 'glass cannon' style, and prevents instant death through a glancing headshot on the intended archetype. 
+	armor = ARMOR_LEATHER //Higher-tier protection for pugilist-centric classes. Fits the 'glass cannon' style, and prevents instant death through a glancing headshot on the intended archetype.
 	body_parts_covered = HEAD|HAIR|EARS
 	max_integrity = ARMOR_INT_SIDE_STEEL //High leather-tier protection and critical resistances, steel-tier integrity. Integrity boost encourages hand-to-hand parrying. Weaker than the Psydonic Thorns.
 	blocksound = SOFTHIT
@@ -394,7 +394,7 @@
 	desc = "A feathered leather hat, to show them all your superiority."
 	icon_state = "duelhat"
 	sewrepair = TRUE
-	color = COLOR_ALMOST_BLACK	
+	color = COLOR_ALMOST_BLACK
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 
@@ -407,31 +407,70 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_RED
 
+/obj/item/clothing/head/roguetown/flamboyant
+	name = "flamboyant hat"
+	desc = "A luxurious purple feathered hat with wide brim."
+	icon_state = "flamboyant"
+	item_state = "flamboyant"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/wizhat
 	name = "wizard hat"
 	desc = "Used to distinguish dangerous wizards from senile old men."
 	icon_state = "wizardhat"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	dynamic_hair_suffix = "+generic"
+	color = CLOTHING_MAGE_BLUE
+	detail_color = CLOTHING_GOLD
+	altdetail_color = CLOTHING_BROWN
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/wizhat/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/head/roguetown/wizhat/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
 /obj/item/clothing/head/roguetown/wizhat/red
-	icon_state = "wizardhatred"
+	color = CLOTHING_SCARLET
 
 /obj/item/clothing/head/roguetown/wizhat/yellow
-	icon_state = "wizardhatyellow"
+	color = CLOTHING_MAGE_YELLOW
+	detail_color = CLOTHING_WHITE
 
 /obj/item/clothing/head/roguetown/wizhat/green
-	icon_state = "wizardhatgreen"
+	color = CLOTHING_MAGE_GREEN
 
 /obj/item/clothing/head/roguetown/wizhat/black
-	icon_state = "wizardhatblack"
+	color = CLOTHING_BLACK
+	detail_color = CLOTHING_WHITE
 
 /obj/item/clothing/head/roguetown/wizhat/gen
 	icon_state = "wizardhatgen"
+	detail_tag = "_detail"
+	altdetail_tag = ""
+	color = CLOTHING_PEASANT_BROWN
+	detail_color = CLOTHING_WHITE
+	altdetail_color = ""
 
 /obj/item/clothing/head/roguetown/wizhat/gen/wise
 	name = "wise hat"
@@ -461,6 +500,11 @@
 	desc = "Keeps the hair in check, and looks proper."
 	icon_state = "shawl"
 
+/obj/item/clothing/head/roguetown/turban
+	name = "turban"
+	desc = "A long, continuous strip of cloth that is wrapped around the top of a persons head. It is worn mostly in the southern reaches of Psydonia."
+	icon_state = "turban"
+
 /obj/item/clothing/head/roguetown/articap
 	name = "artificer's cap"
 	desc = "A sporting cap with a small gear adornment. Popular fashion amongst engineers."
@@ -473,7 +517,7 @@
 // azure addition - random wizard hats
 
 /obj/item/clothing/head/roguetown/wizhat/random/Initialize()
-	icon_state = pick("wizardhatred", "wizardhatyellow", "wizardhatgreen", "wizardhat")
+	color = pick(CLOTHING_MAGE_GREEN, CLOTHING_SCARLET, CLOTHING_MAGE_BLUE, CLOTHING_BLACK)
 	..()
 
 /obj/item/clothing/head/roguetown/witchhat
@@ -587,7 +631,7 @@
 
 /obj/item/clothing/head/roguetown/veiled/ComponentInitialize()
 	..()
-	AddComponent(/datum/component/adjustable_clothing, (NECK|HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))	
+	AddComponent(/datum/component/adjustable_clothing, (NECK|HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))
 
 /obj/item/clothing/head/roguetown/veiled/loudmouth
 	name = "loudmouth's headcover"
@@ -616,6 +660,7 @@
 	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
 	salvage_result = /obj/item/natural/silk
+	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/courtphysician/Initialize()
 	. = ..()

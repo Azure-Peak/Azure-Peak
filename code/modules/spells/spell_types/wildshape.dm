@@ -55,7 +55,7 @@
 
 		icon_img.pixel_x = -(size_x / 2) + 16
 		icon_img.pixel_y = -(size_y / 2) + 16
-		
+
 		choices[shape.name] = icon_img
 
 	var/new_wildshape_type = show_radial_menu(user, user, choices)
@@ -80,6 +80,7 @@
 	var/wildshape_icon
 	var/wildshape_icon_state
 	var/untransform_on_death = TRUE
+	can_do_sex = FALSE
 
 /mob/living/carbon/human/species/wildshape/proc/gain_inherent_skills()
 	if(src.mind)

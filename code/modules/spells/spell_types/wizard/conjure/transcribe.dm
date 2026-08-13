@@ -3,7 +3,7 @@
 	name = "Transcribe"
 	desc = "Conjure a parchment and a magical quill to write for you. \n\
 	This magical parchment will listen for up to ten minutes and transcribe what it has heard onto itself \n\
-	(use in your hand, and then use again to stop the recording)."	
+	(use in your hand, and then use again to stop the recording)."
 	button_icon_state = "transcribe"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_LIGHT
@@ -56,7 +56,7 @@
 	var/mutable_appearance/magic_overlay = mutable_appearance('icons/roguetown/items/misc.dmi', "magicquill")
 	item.add_overlay(magic_overlay)
 	return item
-	
+
 /obj/item/paper/transcript
 	name = "Transcription"
 	desc = "A magical piece of paper that has been transcribed upon."
@@ -68,7 +68,7 @@
 		return
 	if(!user.can_read(src))
 		if(info)
-			user.adjust_experience(/datum/skill/misc/reading, 2, FALSE)
+			add_sleep_experience(user, /datum/skill/misc/reading, 2)
 		return
 	if(in_range(user, src) || isobserver(user))
 //		var/obj/screen/read/R = user.hud_used.reads
@@ -133,7 +133,7 @@
 /obj/item/paper/magictranscription/proc/stop_recording(mob/user)
 	if(!recording)
 		return
-	
+
 	recording = FALSE
 	time_warned = FALSE
 	lose_hearing_sensitivity()
@@ -148,7 +148,7 @@
 /obj/item/paper/magictranscription/Hear(message, atom/movable/speaker, message_langs, raw_message, list/spans, message_mods)
 	. = ..()
 	if(!recording)
-		return		
+		return
 	if(speaker == src)
 		return
 	timestamp += used_capacity

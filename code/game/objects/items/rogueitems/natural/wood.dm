@@ -121,7 +121,7 @@
 	name = "small log"
 	desc = "Piece of lumber cut from a larger log. Suitable for building."
 	icon_state = "logsmall"
-	grid_width = 64
+	grid_width = 32
 	grid_height = 96
 	attacked_sound = 'sound/misc/woodhit.ogg'
 	max_integrity = 30

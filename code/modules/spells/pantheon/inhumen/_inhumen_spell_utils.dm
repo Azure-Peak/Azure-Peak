@@ -4,6 +4,143 @@
 //ZIZO//
 ////////
 
+/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/explode_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
+	if(B && !QDELETED(B))
+		B.End()
+
+	if(!S || QDELETED(S))
+		return
+
+	if(!caster || QDELETED(caster))
+		return
+
+	var/turf/T = get_turf(S)
+	if(!T)
+		return
+
+	var/faction_tag = "[caster.real_name]_faction"
+
+	S.visible_message(span_danger("[S] erupts into a storm of bone fragments!"))
+	new /obj/effect/temp_visual/explosion(T)
+	playsound(T, 'sound/misc/explode/explosion.ogg', 50)
+
+	var/list/thrownatoms = list()
+
+	for(var/turf/nearby in get_hear(1, T))
+		for(var/atom/movable/AM in nearby)
+			thrownatoms += AM
+
+	for(var/atom/movable/AM in thrownatoms)
+		if(QDELETED(AM))
+			continue
+
+		if(AM == S)
+			continue
+
+		if(AM.anchored)
+			continue
+
+		if(isliving(AM))
+			var/mob/living/M = AM
+
+			if(M == caster)
+				continue
+
+			if(M.mind?.current)
+				if(faction_tag in M.mind.current.faction)
+					continue
+			else if(faction_tag in M.faction)
+				continue
+
+			if(!M.mind && M.resting && M.stat != CONSCIOUS)
+				M.gib(TRUE, TRUE, TRUE, FALSE)
+
+			if(!M.mind)
+				M.Stun(50)
+
+			M.set_resting(TRUE, TRUE)
+			to_chat(M, span_danger("The blast hurls you backwards!"))
+
+		var/atom/throwtarget = get_edge_target_turf(T, get_dir(T, get_step_away(AM, T)))
+		AM.safe_throw_at(throwtarget, 2, 1, caster, force = MOVE_FORCE_EXTREMELY_STRONG)
+
+	for(var/mob/living/carbon/C in view(4, T))
+		if(C.stat == DEAD && C.mind)
+			continue
+
+		if(C == caster)
+			continue
+
+		if(C.mind?.current)
+			if(faction_tag in C.mind.current.faction)
+				continue
+		else if(faction_tag in C.faction)
+			continue
+
+		var/dist = get_dist(C, T)
+		var/min_splinters
+		var/max_splinters
+
+		switch(dist)
+			if(0, 1)
+				min_splinters = 3
+				max_splinters = 4
+			if(2)
+				min_splinters = 1
+				max_splinters = 3
+			if(3)
+				min_splinters = 1
+				max_splinters = 2
+			else
+				continue
+
+		var/splinter_count = rand(min_splinters, max_splinters)
+		var/brute_damage = rand(10, 20)
+
+		C.adjustBruteLoss(brute_damage)
+
+		for(var/i in 1 to splinter_count)
+			if(!length(C.bodyparts))
+				break
+
+			var/obj/item/bodypart/limb = pick(C.bodyparts)
+			var/obj/item/bone/profane_splinter/P = new
+
+			limb.add_embedded_object(P, FALSE, TRUE)
+
+		C.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
+		C.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
+		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
+
+	new /obj/effect/decal/remains/human(T)
+	qdel(S)
+
+/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/despawn_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
+	if(B && !QDELETED(B))
+		B.End()
+
+	if(!S || QDELETED(S))
+		return
+
+	if(!caster || QDELETED(caster))
+		return
+
+	var/turf/T = get_turf(S)
+	if(!T)
+		return
+
+	S.visible_message(
+		span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"),
+		span_warning("Ashes to ashes, dust to dust...")
+	)
+
+	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
+	caster.energy_add(120)
+	caster.stamina_add(-50)
+	new /obj/item/ash(T)
+	new /obj/item/ash(T)
+	qdel(S)
+
 /datum/action/cooldown/spell/zizo/rituos/proc/run_ritual_chant(mob/living/carbon/human/user, path_choice)
 	var/list/chant_lines
 
@@ -29,7 +166,7 @@
 	for(var/i in 1 to length(chant_lines))
 		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
 		user.adjustBruteLoss(15)
-		user.emote(pick("Progress" ? list("whimper", "painmoan", "gag", "choke") : list("painscream", "agony", "paincrit", "choke")))
+		user.emote(pick("Progress" ? list("whimper", "painmoan", "gag", "choke") : list("painscream", "superagony", "paincrit", "choke")))
 		if(i > 1)
 			shake_camera(user, min(i * 2, 3), i)
 
@@ -45,21 +182,11 @@
 	if(user.mind)
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
 		new /obj/effect/temp_visual/zizorite(get_turf(user))
-		//Our Traits
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
-		//Our Spells
-		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/zizo)
-		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)
-		//gigajank to ensure we get both Profane Bone + Strip Knowledge at once for this path
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/stripknowledgeorprofane)
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/stripknowledge)
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/zizo/profane)
-		//re-add our stuff
-		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/stripknowledge)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/zizo/profane)
+		ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -67,9 +194,9 @@
 		span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!")
 	)
 
-	to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Magos now, but..."))
+	to_chat(user, span_purple("You have performed the Rituos to perfection. By all rights, you should now be a full-fledged Magos... and yet..."))
 	sleep(30)
-	to_chat(user, "<i>...I still can barely comprehend beyond a mere firm grasp upon the arcane...? Why?</i>")
+	to_chat(user, "<i>...Why do I still struggle to comprehend anything beyond a mere grasp of the arcane? What am I missing?</i>")
 
 /datum/action/cooldown/spell/zizo/rituos/proc/apply_unlife_path(mob/living/carbon/human/user)
 
@@ -85,6 +212,7 @@
 	ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]")
 	ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
 	ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+	ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 
 	for(var/obj/item/bodypart/part in user.bodyparts)
 		if(istype(part, /obj/item/bodypart/head))
@@ -99,8 +227,7 @@
 	var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
 	playsound(user.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
 	torso?.skeletonize(FALSE)
-	//give ourselves undead eyes since we basically are a walking corpse.
-	//advantage of that its slightly easier to see in the darkness too.
+
 	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(user,1)
@@ -115,9 +242,6 @@
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation/zizo)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bone_cataclysm)
-		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -125,7 +249,7 @@
 		span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!")
 	)
 
-	to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
+	to_chat(user, span_purple("You have performed the Rituos to perfection. You should be a full-fledged Lich by now... and yet..."))
 	sleep(30)
 	to_chat(user, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
 

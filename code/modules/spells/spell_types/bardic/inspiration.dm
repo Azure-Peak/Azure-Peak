@@ -42,6 +42,26 @@
 	audience |= H // Bard is always in their own audience
 	add_verb(H, list(/mob/living/carbon/human/proc/setaudience, /mob/living/carbon/human/proc/clearaudience, /mob/living/carbon/human/proc/checkaudience, /mob/living/carbon/human/proc/open_songbook, /mob/living/carbon/human/proc/explain_bard))
 
+/datum/inspiration/proc/toggle_audience_member(mob/living/carbon/human/target)
+	if(!holder || !target || target == holder)
+		return FALSE
+	if(target in audience)
+		audience -= target
+		for(var/datum/status_effect/buff/song/lingering in target.status_effects)
+			target.remove_status_effect(lingering)
+		to_chat(holder, span_notice("I stop performing for [target.real_name]."))
+		target.balloon_alert(holder, "removed from audience")
+		return TRUE
+	if((audience.len - 1) >= maxaudience)
+		to_chat(holder, span_warning("I cannot maintain an audience larger than [maxaudience]!"))
+		return FALSE
+	audience |= target
+	var/datum/status_effect/buff/playing_melody/melody = locate() in holder.status_effects
+	melody?.apply_song_effects(holder)
+	to_chat(holder, span_notice("I begin performing for [target.real_name]."))
+	target.balloon_alert(holder, "added to audience")
+	return TRUE
+
 /mob/living/carbon/human/proc/in_audience(mob/living/carbon/human/audiencee)
 	if(!src.mind)
 		return FALSE
@@ -108,7 +128,8 @@
 		return FALSE
 	var/tier_name = inspiration.level == BARD_T2 ? "Full Bard" : "Lesser Bard"
 	to_chat(src, span_info("Bardic Inspiration allows you to inspire your allies with music. \
-	Set your audience using the 'Audience Choice' verb, then open your Songbook from the action bar to learn songs and rhythms. \
+	Set your audience using the 'Audience Choice' verb, or middle-click someone while holding an instrument in your active hand to add or remove them on the spot. \
+	Open your Songbook from the action bar to learn songs and rhythms. \
 	To activate a song, hold an instrument in one hand and toggle the song from your action bar. \
 	Songs are mutually exclusive - activating a new song replaces the current one."))
 	to_chat(src, span_info("Rhythm: Activate a rhythm, then strike within 8 seconds to trigger its effect. \
@@ -116,3 +137,13 @@
 	to_chat(src, span_smallnotice("You're a [tier_name] and can have up to [inspiration.maxaudience] audience members and know [inspiration.maxsongs] songs."))
 
 	return TRUE
+
+/mob/living/carbon/human/MiddleClickOn(atom/A, params)
+	if(!mmb_intent && inspiration && A != src && ishuman(A))
+		if(istype(get_active_held_item(), /obj/item/rogue/instrument))
+			if(get_dist(src, A) > 7 || A.z != z)
+				to_chat(src, span_warning("[A] is too far away to invite into my audience."))
+				return
+			inspiration.toggle_audience_member(A)
+			return
+	return ..()

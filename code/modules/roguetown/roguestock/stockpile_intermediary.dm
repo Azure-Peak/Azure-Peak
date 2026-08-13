@@ -53,3 +53,12 @@
 	stockpile_limit = 8
 	category = "Refined"
 	accept_toggle_enabled = FALSE
+
+/datum/roguestock/stockpile/bronze_ingot
+	name = "Bronze Ingot"
+	desc = "A smelted bar of bronze, ready for making gadgets and contraptions."
+	item_type = /obj/item/ingot/bronze
+	trade_good_id = TRADE_GOOD_BRONZE_INGOT
+	importexport_amt = 5
+	stockpile_limit = 10
+	category = "Refined"

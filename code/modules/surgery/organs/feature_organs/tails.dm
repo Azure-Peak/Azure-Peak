@@ -32,6 +32,9 @@
 /obj/item/organ/tail/anthro
 	name = "wild-kin tail"
 
+/obj/item/organ/tail/moth
+	name = "fluvian abdomen"
+
 /obj/item/organ/tail/lupian
 	name = "lupian tail"
 
@@ -78,3 +81,7 @@
 	desc = ""
 	color = "#116611"
 	accessory_type =  /datum/sprite_accessory/tail/lizard/kobold
+
+/obj/item/organ/tail/goblin
+	name = "goblin tail"
+	accessory_type =  /datum/sprite_accessory/tail/goblin1

@@ -10,7 +10,7 @@
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/bless_food            = CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/bud					= CLERIC_T1,
-					/datum/action/cooldown/spell/summon_bed						= CLERIC_T1,
+					/datum/action/cooldown/spell/summon_bed/eora				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heartweave			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/eoracurse				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/pomegranate			= CLERIC_T4,
@@ -25,7 +25,9 @@
 	storyteller = /datum/storyteller/eora
 	titles = list(
 		"Mother", // have seen people call her this, or variants like 'Great Mother', ic. she doesn't really get titles though
-		"Eori"
+		"Eori",
+		"Heart", // e.g. "heart-mother"
+		"Love" // e.g. "lady of love"
 	)
 
 // Near a psycross, by an eoran sacred tree, inside the church, at the eoran shrine, holding poppy flowers, or has pacifism trait

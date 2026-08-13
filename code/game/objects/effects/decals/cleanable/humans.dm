@@ -35,14 +35,13 @@
 	appearance_flags = NO_CLIENT_COLOR
 	var/blood_timer
 	var/blood_color = BLOOD_COLOR_RED
+	var/is_gibs = FALSE
 
 /obj/effect/decal/cleanable/blood/proc/set_blood_color(new_blood_color)
 	blood_color = new_blood_color || BLOOD_COLOR_RED
 	color = blood_color
 
 /obj/effect/decal/cleanable/blood/Initialize(mapload, color)
-	if(color)
-		set_blood_color(color)
 	. = ..()
 	GLOB.weather_act_upon_list += src
 	if(. == INITIALIZE_HINT_QDEL)
@@ -51,15 +50,17 @@
 	pixel_y = rand(5,5)
 	blood_timer = addtimer(CALLBACK(src, PROC_REF(become_dry)), rand(5 MINUTES,8 MINUTES), TIMER_STOPPABLE)
 
-
 /obj/effect/decal/cleanable/blood/proc/become_dry()
 	if(QDELETED(src))
 		return
 	name = "dry [initial(name)]"
 	icon = initial(icon)
 	var/list/RGB = ReadRGB(blood_color)
-	if(RGB)
+	if(RGB && !is_gibs)
 		color = rgb(RGB[1] * 0.5, RGB[2] * 0.5, RGB[3] * 0.5)
+	if(is_gibs)
+		// Very soft darkening.
+		color = "#cfbebe"
 	bloodiness = 0
 
 /obj/effect/decal/cleanable/blood/replace_decal(obj/effect/decal/cleanable/C)
@@ -169,9 +170,31 @@
 	layer = LOW_OBJ_LAYER
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6")
 	mergeable_decal = FALSE
+	is_gibs = TRUE
 
 	var/already_rotting = FALSE
 
+/obj/effect/decal/cleanable/blood/gibs/Initialize(mapload, new_color)
+	. = ..()
+	if(!new_color || new_color == BLOOD_COLOR_RED)
+		remove_atom_colour(WASHABLE_COLOUR_PRIORITY) // Clears it from atom_colours list
+		remove_atom_colour(FIXED_COLOUR_PRIORITY)
+		color = null
+		blood_color = null
+	// Aka, if there's no custom species blood color set, keep these as the nice default sprite.
+	if(color == BLOOD_COLOR_RED)
+		color = null
+		blood_color = null
+
+/obj/effect/decal/cleanable/blood/gibs/set_blood_color(new_blood_color)
+	if(!new_blood_color || new_blood_color == BLOOD_COLOR_RED)
+		remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+		remove_atom_colour(FIXED_COLOUR_PRIORITY)
+		color = null
+		blood_color = null
+	else
+		blood_color = new_blood_color
+		color = blood_color
 
 /obj/effect/decal/cleanable/blood/gibs/Crossed(mob/living/L)
 	if(istype(L))
@@ -425,7 +448,7 @@
 		return 1
 	return 0
 
-//For fancy wall messes... 
+//For fancy wall messes...
 /obj/effect/decal/cleanable/blood/splatter/walls
 	icon_state = "splatter1"
 	plane = GAME_PLANE
@@ -449,4 +472,3 @@
 
 /obj/effect/decal/cleanable/blood/splatter/walls/replace_decal(obj/effect/decal/cleanable/C)
 	return //We don't want to replace decals for wall turfs since these are unique. May be changed in the future if it's too much.
-	

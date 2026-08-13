@@ -151,7 +151,7 @@
 	timer = 10 MINUTES
 	desc = span_boldgreen("This music is exceptional! Bravo!")
 
-/datum/stressevent/music/musicbox
+/datum/stressevent/musicbox
 	stressadd = -1
 	desc = span_green("This music is very relaxing.")
 	timer = 1 MINUTES
@@ -418,7 +418,7 @@
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A sweet-tart sensation on the tongue."))
-	
+
 /datum/stressevent/applesmoke
 	timer = 1 MINUTES
 	stressadd = -1
@@ -428,32 +428,32 @@
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_purple("A pleasant feeling of rawness and bitterness on the tongue."))
-	
+
 /datum/stressevent/strawberrysmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling of sourness and sweetness on the tongue."))
-	
+
 /datum/stressevent/carrotsmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling of very carrot on the tongue."))
-	
+
 /datum/stressevent/limesmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling of sweet and refreshing on the tongue."))
-	
+
 /datum/stressevent/salviasmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling spicy, earthy and bitter on the tongue."))
-	
+
 /datum/stressevent/valerianasmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
-	
+
 /datum/stressevent/zweed
 	timer = 5 MINUTES
 	stressadd = -2

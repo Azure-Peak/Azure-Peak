@@ -6,7 +6,7 @@
 	Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 	His will be done."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/sojourner
 	subclass_languages = list(/datum/language/otavan, /datum/language/celestial)
 	category_tags = list(CTAG_ORTHODOXIST)
@@ -14,7 +14,6 @@
 		TRAIT_CIVILIZEDBARBARIAN,
 		TRAIT_ARCYNE,
 		TRAIT_NALEDI,
-		TRAIT_BLOOD_RESISTANCE,
 		TRAIT_STEELHEARTED,
 		TRAIT_INQUISITION
 	)
@@ -26,6 +25,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT, // Bare-handed abilities no weapon and read AA. Match unarmed.
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -101,7 +101,8 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex //Yes, the item is spelled this way in the code.
 		if("Bare Skin")
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple //a slightly better heavy gambeson.
+			shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest //hardened leather armor. Tougher to start than the armor loadout pick (but by less than you think, as that gets mage-ward layering with its gamby), but unable to upgrade to brigadine or have niche buffs like tailor fitting or enchantments.
 	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/inquisitionmanor = 1,
