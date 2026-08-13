@@ -181,18 +181,18 @@ TODO mirespider:
 	)
 
 /datum/anatomy/drakkyn/build_zones()
-	add_zone(BODY_ZONE_PRECISE_MOUTH, damage_mult = 1, part_health_fraction = 0.35, part_health_minimum = 120, break_wound = /datum/wound/cripple/maw, hint = "maw", min_wlength = WLENGTH_GREAT, melee_hit_bonus = -10, ranged_hit_bonus = -30)
+	add_zone(BODY_ZONE_PRECISE_MOUTH, damage_mult = 1, part_health_fraction = 0.35, part_health_minimum = 120, break_wound = /datum/wound/cripple/maw, hint = "maw", melee_hit_bonus = -10, ranged_hit_bonus = -30)
 	add_zone(BODY_ZONE_L_ARM, damage_mult = 1, part_health_fraction = 0.3, part_health_minimum = 100, break_wound = /datum/wound/cripple/arm, hint = "wings")
 	add_zone(BODY_ZONE_R_ARM, damage_mult = 1, part_health_fraction = 0.3, part_health_minimum = 100, break_wound = /datum/wound/cripple/arm, hint = "wings")
 	add_zone(BODY_ZONE_L_LEG, damage_mult = 1, part_health_fraction = 0.3, part_health_minimum = 100, break_wound = /datum/wound/cripple/limb, hint = "hind legs", melee_hit_bonus = 20)
 	add_zone(BODY_ZONE_R_LEG, damage_mult = 1, part_health_fraction = 0.3, part_health_minimum = 100, break_wound = /datum/wound/cripple/limb, hint = "hind legs", melee_hit_bonus = 20)
 
-/* Tough biped, taller than a human. Head is gated by reach, and is an instant kill with
+/* Tough biped, taller than a human. Head can only be struck once toppled, and is an instant kill with
 less hp than their global HP pool. It also stop it from reanimating. Guts is a part that allows you to kill them by disembowelment. Legs will topple it. Arms will weaken its attacks.
 Aiming legs should be nearly guaranteed due to their profile
 */
 /datum/anatomy/biped/tough/build_zones()
-	add_zone(BODY_ZONE_HEAD, damage_mult = 1, part_health_fraction = 0.4, part_health_minimum = 100, break_wound = /datum/wound/cripple/fatal/decapitate, hint = "head", min_wlength = WLENGTH_GREAT, melee_hit_bonus = -10, ranged_hit_bonus = -30) // Better build up that PER chudling
+	add_zone(BODY_ZONE_HEAD, damage_mult = 1, part_health_fraction = 0.4, part_health_minimum = 100, break_wound = /datum/wound/cripple/fatal/decapitate, hint = "head", requires_prone = TRUE, melee_hit_bonus = -10, ranged_hit_bonus = -30) // Better build up that PER chudling
 	add_zone(BODY_ZONE_PRECISE_STOMACH, damage_mult = 1, part_health_fraction = 0.6, part_health_minimum = 150, break_wound = /datum/wound/cripple/fatal/guts, hint = "gut")
 	add_zone(BODY_ZONE_L_ARM, damage_mult = 1, part_health_fraction = 0.35, part_health_minimum = 80, break_wound = /datum/wound/cripple/arm, hint = "arms")
 	add_zone(BODY_ZONE_R_ARM, damage_mult = 1, part_health_fraction = 0.35, part_health_minimum = 80, break_wound = /datum/wound/cripple/arm, hint = "arms")
@@ -551,7 +551,7 @@ Aiming legs should be nearly guaranteed due to their profile
 /datum/anatomy/biped/tough/fiend/build_zones()
 	add_zone(BODY_ZONE_L_ARM, damage_mult = 1, part_health_fraction = 0.25, part_health_minimum = 250, break_wound = /datum/wound/cripple/arm, hint = "arms")
 	add_zone(BODY_ZONE_R_ARM, damage_mult = 1, part_health_fraction = 0.25, part_health_minimum = 250, break_wound = /datum/wound/cripple/arm, hint = "arms")
-	add_zone(BODY_ZONE_HEAD, damage_mult = 1, part_health_fraction = 0.3, part_health_minimum = 300, break_wound = /datum/wound/cripple/skull/silenced, hint = "head", min_wlength = WLENGTH_GREAT, melee_hit_bonus = -10, ranged_hit_bonus = -30)
+	add_zone(BODY_ZONE_HEAD, damage_mult = 1, part_health_fraction = 0.3, part_health_minimum = 300, break_wound = /datum/wound/cripple/skull/silenced, hint = "head", melee_hit_bonus = -10, ranged_hit_bonus = -30)
 	add_zone(BODY_ZONE_L_LEG, damage_mult = 1, part_health_fraction = 0.25, part_health_minimum = 250, break_wound = /datum/wound/cripple/limb/topple, hint = "legs", melee_hit_bonus = 40)
 	add_zone(BODY_ZONE_R_LEG, damage_mult = 1, part_health_fraction = 0.25, part_health_minimum = 250, break_wound = /datum/wound/cripple/limb/topple, hint = "legs", melee_hit_bonus = 40)
 
@@ -586,13 +586,13 @@ Aiming legs should be nearly guaranteed due to their profile
 	add_zone(BODY_ZONE_L_LEG, damage_mult = 1, part_health_fraction = 0.25, part_health_minimum = 120, break_wound = /datum/wound/cripple/limb/fracture, hint = "base")
 	add_zone(BODY_ZONE_R_LEG, damage_mult = 1, part_health_fraction = 0.25, part_health_minimum = 120, break_wound = /datum/wound/cripple/limb/fracture, hint = "base")
 
-/* Deadite tough biped. Mirrors the living profile. They have a reach gated head that kills them outright.
+/* Deadite tough biped. Mirrors the living profile. They have a topple gated head that kills them outright.
 */
 /datum/anatomy/biped/tough/undead
 	bloodless = TRUE
 
 /datum/anatomy/biped/tough/undead/build_zones()
-	add_zone(BODY_ZONE_HEAD, damage_mult = 1, part_health_fraction = 0.4, part_health_minimum = 100, break_wound = /datum/wound/cripple/fatal/decapitate, hint = "head", min_wlength = WLENGTH_GREAT, melee_hit_bonus = -10, ranged_hit_bonus = -30)
+	add_zone(BODY_ZONE_HEAD, damage_mult = 1, part_health_fraction = 0.4, part_health_minimum = 100, break_wound = /datum/wound/cripple/fatal/decapitate, hint = "head", requires_prone = TRUE, melee_hit_bonus = -10, ranged_hit_bonus = -30)
 	add_zone(BODY_ZONE_L_ARM, damage_mult = 1, part_health_fraction = 0.35, part_health_minimum = 80, break_wound = /datum/wound/cripple/arm, hint = "arms")
 	add_zone(BODY_ZONE_R_ARM, damage_mult = 1, part_health_fraction = 0.35, part_health_minimum = 80, break_wound = /datum/wound/cripple/arm, hint = "arms")
 	add_zone(BODY_ZONE_L_LEG, damage_mult = 1, part_health_fraction = 0.35, part_health_minimum = 80, break_wound = /datum/wound/cripple/limb/topple, hint = "legs", melee_hit_bonus = 40)

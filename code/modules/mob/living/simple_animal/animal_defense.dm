@@ -3,7 +3,7 @@
 		return BODY_ZONE_CHEST
 	var/skill = I ? I.associated_skill : /datum/skill/combat/unarmed
 	var/zone = melee_accuracy_check(user.zone_selected, user, src, skill, attack_intent || user.used_intent, I) || BODY_ZONE_CHEST
-	return resolve_reachable_zone(zone, I, user)
+	return resolve_reachable_zone(zone, user)
 
 /mob/living/simple_animal/attacked_by(obj/item/I, mob/living/user)
 	if(I.force_dynamic < force_threshold || I.damtype == STAMINA)
@@ -43,7 +43,7 @@
 				if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 					if((I.is_silver || (I.is_even_lesser_silver && is_npc(src))) && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
 						newforce *= SILVER_SIMPLEMOB_DAM_MULT
-					simple_woundcritroll(user.used_intent.blade_class, newforce, user, selzone, weapon = I, penfactor = pen)
+					simple_woundcritroll(user.used_intent.blade_class, newforce, user, selzone, weapon = I, penfactor = pen, part_mult = user.used_intent.get_part_damage_factor())
 				if(newforce > 5)
 					if(haha != BCLASS_BLUNT)
 						I.add_mob_blood(src)
@@ -137,7 +137,7 @@
 			attack_threshold_check(damage, hitlim, armorcheck = armor)
 			log_combat(M, src, "attacked")
 			updatehealth()
-			simple_woundcritroll(M.used_intent.blade_class, damage, M, selzone, penfactor = M.used_intent.penfactor)
+			simple_woundcritroll(M.used_intent.blade_class, damage, M, selzone, penfactor = M.used_intent.penfactor, part_mult = M.used_intent.get_part_damage_factor())
 			visible_message(span_danger("[M] [atk_verb] [src] in the [span_combatsecondarybp(hitlim)]![next_attack_msg.Join()]"),\
 							span_danger("[M] [atk_verb] me in the [span_userdanger(hitlim)]![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 			next_attack_msg.Cut()
@@ -232,7 +232,7 @@
 		attack_threshold_check(damage, hitlim, armorcheck = armor)
 		log_combat(M, src, "attacked")
 		updatehealth()
-		simple_woundcritroll(M.used_intent.blade_class, damage, M, selzone)
+		simple_woundcritroll(M.used_intent.blade_class, damage, M, selzone, part_mult = M.used_intent.get_part_damage_factor())
 		visible_message(span_danger("[M] [atk_verb] [src] in the [span_combatsecondarybp(hitlim)]![next_attack_msg.Join()]"),\
 						span_danger("[M] [atk_verb] me in the [span_userdanger(hitlim)]![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 		next_attack_msg.Cut()
@@ -251,7 +251,7 @@
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
 		damage *= weakpoint_damage_mod(selzone)
 		attack_threshold_check(damage, hitlim, M.melee_damage_type, armor)
-		simple_woundcritroll(M.a_intent.blade_class, damage, M, selzone, penfactor = M.a_intent.penfactor)
+		simple_woundcritroll(M.a_intent.blade_class, damage, M, selzone, penfactor = M.a_intent.penfactor, part_mult = M.a_intent.get_part_damage_factor())
 		var/attack_verb = pick(M.a_intent.attack_verb)
 		visible_message(span_danger("\The [M] [attack_verb] [src] in the [span_combatsecondarybp(hitlim)]![next_attack_msg.Join()]"), \
 					span_danger("\The [M] [attack_verb] me in the [span_userdanger(hitlim)]![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)

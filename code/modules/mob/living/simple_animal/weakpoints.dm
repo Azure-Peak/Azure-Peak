@@ -34,7 +34,7 @@
 		return
 	adjust_skillrank_up_to(/datum/skill/combat/unarmed, level, TRUE)
 
-/mob/living/proc/register_part_damage(zone, damage, mob/living/user, obj/item/weapon, ranged = FALSE, bclass, penfactor = PEN_NONE)
+/mob/living/proc/register_part_damage(zone, damage, mob/living/user, obj/item/weapon, ranged = FALSE, bclass, penfactor = PEN_NONE, part_mult = 1)
 	return
 
 /mob/living/proc/get_zone_melee_hit_bonus(zone)
@@ -59,19 +59,16 @@
 /mob/living/simple_animal/hit_zone_name(hit_zone)
 	return simple_limb_hit(hit_zone)
 
-/mob/living/simple_animal/proc/resolve_reachable_zone(zone, obj/item/weapon, mob/living/user)
+/mob/living/simple_animal/proc/resolve_reachable_zone(zone, mob/living/user)
 	var/datum/anatomy/profile = get_anatomy()
 	if(!profile)
 		return zone
 	var/datum/anatomy_zone/hit_zone = profile.get_zone(zone)
-	if(!hit_zone || !hit_zone.min_wlength || is_prone())
-		return zone
-	var/wlength = weapon?.wlength || WLENGTH_NORMAL
-	if(wlength >= hit_zone.min_wlength)
+	if(!hit_zone || !hit_zone.requires_prone || is_prone())
 		return zone
 	if(user?.client && world.time > next_reach_warning)
 		next_reach_warning = world.time + REACH_WARNING_COOLDOWN
-		to_chat(user, span_warning("I can't reach [p_their()] [hit_zone.hint] from down here - I need a longer weapon, or to topple [p_them()]."))
+		to_chat(user, span_warning("I can't land a blow on [p_their()] [hit_zone.hint] while [p_they()] stand[p_s()] - I need to topple [p_them()] first."))
 	return BODY_ZONE_CHEST
 
 /mob/living/simple_animal/proc/weakpoint_damage_mod(zone)
@@ -103,7 +100,7 @@
 		return 0
 	return hit_zone.ranged_hit_bonus
 
-/mob/living/simple_animal/register_part_damage(zone, damage, mob/living/user, obj/item/weapon, ranged = FALSE, bclass, penfactor = PEN_NONE)
+/mob/living/simple_animal/register_part_damage(zone, damage, mob/living/user, obj/item/weapon, ranged = FALSE, bclass, penfactor = PEN_NONE, part_mult = 1)
 	if(damage <= 0 || !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		return
 	var/datum/anatomy/profile = get_anatomy()
@@ -112,10 +109,8 @@
 	var/datum/anatomy_zone/hit_zone = profile.get_zone(zone)
 	if(!hit_zone || !hit_zone.break_wound)
 		return
-	if(hit_zone.min_wlength && !ranged && !is_prone())
-		var/wlength = weapon?.wlength || WLENGTH_NORMAL
-		if(wlength < hit_zone.min_wlength)
-			return
+	if(hit_zone.requires_prone && !is_prone())
+		return
 	var/norm_zone = check_zone(zone)
 	if(norm_zone in broken_parts)
 		return
@@ -125,7 +120,7 @@
 	if(!part_damage)
 		part_damage = list()
 	var/pen_mult = profile.get_pen_part_mult(penfactor, bclass)
-	part_damage[norm_zone] += damage * (ranged ? RANGED_PART_CONTRIBUTION : 1) * profile.get_part_damage_mult(bclass) * pen_mult
+	part_damage[norm_zone] += damage * part_mult * (ranged ? RANGED_PART_CONTRIBUTION : 1) * profile.get_part_damage_mult(bclass) * pen_mult
 	if(pen_mult > 1)
 		announce_penetration(pen_mult, profile.pen_flavor)
 	var/part_health = max(hit_zone.part_health_minimum, round(maxHealth * hit_zone.part_health_fraction, 1))

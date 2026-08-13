@@ -199,7 +199,7 @@
 				str +="|[bodyzone2readablezone(part)]|"
 			inspec += str
 	if(intent_intdamage_factor != 1)
-		inspec += "\n<b>Integrity Damage:</b> [intent_intdamage_factor * 100]%"
+		inspec += "\n<b>Integrity[intent_intdamage_factor < 1 ? " / Part" : ""] Damage:</b> [intent_intdamage_factor * 100]%"
 		if(masteritem)
 			inspec += " <span class='info'><a href='?src=[REF(masteritem)];explaindemolitionmod=1'>{?}</a></span>"
 	if(demolition_mod != 1)
@@ -239,6 +239,9 @@
 	inspec += "<br>----------------------"
 
 	to_chat(user, "[inspec.Join()]")
+
+/datum/intent/proc/get_part_damage_factor()
+	return min(1, intent_intdamage_factor)
 
 /datum/intent/proc/out_of_effective_range(atom/target, mob/user)
 	if(!effective_range || !target || !user)

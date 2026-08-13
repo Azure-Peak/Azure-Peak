@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(anatomy_profiles, init_anatomy_profiles())
 /datum/anatomy/proc/build_zones()
 	return
 
-/datum/anatomy/proc/add_zone(zone, damage_mult = 1, part_health_fraction = 0.4, part_health_minimum = 20, break_wound, hint, melee_hit_bonus = 0, ranged_hit_bonus = 0, min_wlength = 0, list/requires_broken, exposed_message)
+/datum/anatomy/proc/add_zone(zone, damage_mult = 1, part_health_fraction = 0.4, part_health_minimum = 20, break_wound, hint, melee_hit_bonus = 0, ranged_hit_bonus = 0, requires_prone = FALSE, list/requires_broken, exposed_message)
 	var/datum/anatomy_zone/new_zone = new()
 	new_zone.zone = zone
 	new_zone.damage_mult = damage_mult
@@ -33,7 +33,7 @@ GLOBAL_LIST_INIT(anatomy_profiles, init_anatomy_profiles())
 	new_zone.hint = hint
 	new_zone.melee_hit_bonus = melee_hit_bonus
 	new_zone.ranged_hit_bonus = ranged_hit_bonus
-	new_zone.min_wlength = min_wlength
+	new_zone.requires_prone = requires_prone
 	new_zone.requires_broken = requires_broken
 	new_zone.exposed_message = exposed_message
 	zones[zone] = new_zone
@@ -74,7 +74,8 @@ GLOBAL_LIST_INIT(anatomy_profiles, init_anatomy_profiles())
 	var/hint
 	var/melee_hit_bonus = 0
 	var/ranged_hit_bonus = 0
-	var/min_wlength = 0
+	/// Takes no part damage at all unless the mob is prone.
+	var/requires_prone = FALSE
 	/// Zones that must already be broken before this one takes any part damage.
 	var/list/requires_broken
 	/// Announced once, the moment requires_broken is satisfied.
