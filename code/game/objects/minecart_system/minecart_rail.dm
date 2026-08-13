@@ -97,7 +97,7 @@
 /obj/structure/minecart_rail/attack_right(mob/user)
 	. = ..()
 	var/obj/item/held_item = user.get_active_held_item()
-	if(held_item?.type == /obj/item/contraption/linker)
+	if(held_item?.type == /obj/item/rogueweapon/contraption/linker)
 		var/rotateoption = input(user, "Do you want to rotate the tracks or its triggered rotation?", "Choose a your mode", ) as null|anything in list("rotate","trigger")
 		if(rotateoption == "rotate")
 			rotate_direction(user)

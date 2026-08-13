@@ -43,6 +43,7 @@
 	inv_storage_delay = 1.5 SECONDS
 	edelay_type = 1
 	special = /datum/special_intent/shin_swipe
+	twirly = SKILL_LEVEL_EXPERT // possible, but harder than staves n knives
 
 /obj/item/rogueweapon/sword/Initialize()
 	. = ..()
@@ -392,6 +393,7 @@
 	wdefense_wbonus = 3
 	max_blade_int = 370
 	smeltresult = /obj/item/ingot/iron
+	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
 /obj/item/rogueweapon/sword/long/church
 	name = "see longsword"

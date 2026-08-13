@@ -11,6 +11,7 @@
 /mob/proc/get_skill_level(skill)
 	return ensure_skills().get_skill_level(skill)
 
+/// You almost certainly do not want to call this proc directly, as it will bypass the sleep levelling system and can bypass trait caps as well. Use the global proc add_sleep_experience instead, which does respect both of those systems.
 /mob/proc/adjust_experience(skill, amt, silent=FALSE, check_apprentice=TRUE)
 	return ensure_skills().adjust_experience(skill, amt, silent, check_apprentice)
 

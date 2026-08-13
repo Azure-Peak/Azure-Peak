@@ -5,7 +5,7 @@
 
 	category_tags = list(CTAG_TEMPLAR)
 	subclass_languages = list(/datum/language/grenzelhoftian)
-	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CIVILIZEDBARBARIAN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 1,
@@ -111,7 +111,7 @@
 
 /datum/outfit/job/roguetown/templar/monk/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Discipline - Unarmed","Katar","Knuckledusters","Quarterstaff")
+	var/weapons = list("Pugilist","Katar","Knuckledusters","Quarterstaff")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/eora)
 			weapons += "Close Caress"
@@ -119,33 +119,35 @@
 			weapons += "Barotrauma"
 		if(/datum/patron/divine/ravox)
 			weapons += "Arbiter"
+		if(/datum/patron/divine/astrata)
+			weapons += "Solar Scepter"
+		if(/datum/patron/divine/noc)
+			weapons += "Lunar Crescent"
 
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
-		if("Discipline - Unarmed")
+		if("Pugilist")
 			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/bandages/pugilist(H))
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Katar")
 			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Knuckledusters")
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Quarterstaff")
-			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //Tested with Disciples, first. Should hopefully be not too busted - reduce to Journeyman, otherwise.
-			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel(H))
-			H.change_stat(STATKEY_PER, 1) //Matches the Disciple's balance; exchanges the 'dodge expert' trait for additional accuracy with the staff.
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/holysee(H))
 		if("Close Caress")
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/eora(H))
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Barotrauma")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/abyssor(H))
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 		if("Arbiter")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/ravox(H))
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+		if("Solar Scepter")
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/astrata(H))
+		if("Lunar Crescent")
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/noc(H))
 
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/undivided)

@@ -17,7 +17,7 @@
 
 /datum/anvil_recipe/weapons/bronze
 	abstract_type = /datum/anvil_recipe/weapons/bronze
-	craftdiff = SKILL_LEVEL_NOVICE //Situationally better than iron, but far more limited in terms of recipes and availability. 
+	craftdiff = SKILL_LEVEL_NOVICE //Situationally better than iron, but far more limited in terms of recipes and availability.
 
 /datum/anvil_recipe/weapons/iron
 	abstract_type = /datum/anvil_recipe/weapons/iron
@@ -403,6 +403,20 @@
 	created_item = /obj/item/rogueweapon/mace/warhammer/bronze
 	display_category = ITEM_CAT_WEAPONS_MACES
 
+/datum/anvil_recipe/weapons/bronze/battlewrench
+	name = "Reinforced Wrench, Bronze (+1 Wrench)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/rogueweapon/contraption/linker)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/bronze/bigbattlewrench
+	name = "Large Reinforced Wrench, Bronze (+1 Wrench, +1 Bronze)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/bronze)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/big
+	display_category = ITEM_CAT_WEAPONS_MACES
+
 /datum/anvil_recipe/weapons/bronze/whip
 	name = "Whip, Bronze-Tipped (+1 Leather Whip)"
 	req_bar = /obj/item/ingot/bronze
@@ -633,6 +647,20 @@
 	created_item = /obj/item/rogueweapon/mace/warhammer
 	display_category = ITEM_CAT_WEAPONS_MACES
 	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/iron/battlewrench
+	name = "Reinforced Wrench, Iron (+1 Wrench)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/rogueweapon/contraption/linker)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/iron
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/iron/bigbattlewrench
+	name = "Large Reinforced Wrench, Iron (+1 Wrench, +1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/iron)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/big/iron
+	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/iron/spear
 	name = "Spear, Iron (+1 Small Log)"
@@ -870,6 +898,20 @@
 	created_item = /obj/item/rogueweapon/mace/cudgel/flanged
 	display_category = ITEM_CAT_WEAPONS_MACES
 	i_type = "Weapons"
+
+/datum/anvil_recipe/weapons/steel/battlewrench
+	name = "Reinforced Wrench, Steel (+1 Wrench)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/rogueweapon/contraption/linker)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/steel
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/steel/bigbattlewrench
+	name = "Large Reinforced Wrench, Steel (+1 Wrench, +1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/steel)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/big/steel
+	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/steel/greatsword
 	name = "Greatsword, Steel (+2 Steel)"
@@ -1259,6 +1301,20 @@
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/mace/warhammer/steel/silver
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/silver/battlewrench
+	name = "Reinforced Wrench, Silver (+1 Wrench)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/rogueweapon/contraption/linker)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/silver
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/silver/bigbattlewrench
+	name = "Large Reinforced Wrench, Silver (+1 Wrench, +1 Silver)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/silver)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/big/silver
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/silver/quarterstaff
@@ -2146,6 +2202,24 @@
 	additional_items = list(/obj/item/natural/silk)
 	created_item = /obj/item/clothing/gloves/roguetown/knuckles/blacksteel
 	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/blacksteel/battlewrench
+	name = "Reinforced Wrench, Blacksteel (+1 Wrench, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/master/bsteel
+	display_category = ITEM_CAT_WEAPONS_MACES
+	appro_skill = /datum/skill/craft/engineering
+	craftdiff = SKILL_LEVEL_LEGENDARY //unlike with the gold version, you can make this if you're not a guildmaster
+
+/datum/anvil_recipe/weapons/blacksteel/bigbattlewrench
+	name = "Large Reinforced Wrench, Blacksteel (+1 Wrench, +1 Blacksteel, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/blacksteel, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/contraption/linker/mace/big/master/bsteel
+	display_category = ITEM_CAT_WEAPONS_MACES
+	appro_skill = /datum/skill/craft/engineering
+	craftdiff = SKILL_LEVEL_LEGENDARY //ditto
 
 /datum/anvil_recipe/weapons/blacksteel/hurlbat
 	name = "Blacksteel Hurlbat (+1 Silk)"

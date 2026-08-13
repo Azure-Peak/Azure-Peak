@@ -273,7 +273,7 @@
 	victim?.dna?.species?.handle_fire(victim, no_protection)
 	victim.adjustFireLoss(10)
 
-/datum/status_effect/fire_handler/fire_stacks/vheslynfire
+/datum/status_effect/fire_handler/fire_stacks/vheslyn
 	id = "fire_stacks_vheslyn"
 	fire_alert_type = /atom/movable/screen/alert/fire/vheslyn
 
@@ -281,9 +281,9 @@
 	var/mob/living/carbon/human/victim = owner
 	victim?.dna?.species?.handle_fire(victim, no_protection)
 	if(HAS_TRAIT(victim, TRAIT_UNFORGIVABLE))
-		victim.adjustFireLoss(-5) //This heals them instead of burning them.
-		victim.adjustBruteLoss(-3)
-		victim.heal_wounds(0.4)
+		victim.adjustFireLoss(-6) //This heals them instead of burning them.
+		victim.adjustBruteLoss(-4)
+		victim.heal_wounds(0.6)
 	else
 		victim.adjustFireLoss(8) //Slightly less because they're harder to resist off
 

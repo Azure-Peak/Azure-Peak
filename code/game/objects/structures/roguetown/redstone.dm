@@ -15,7 +15,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 				S.redstone_attached |= src
 
 /obj/structure/multitool_act(mob/living/user, obj/item/I)
-	var/obj/item/contraption/linker/multitool = I
+	var/obj/item/rogueweapon/contraption/linker/multitool = I
 	var/guildmasteroverride = FALSE
 	var/trigger_structure = FALSE //if the source is something like a lever or pressure plate or some other item
 	var/trigger_buffer = FALSE //if the buffer is something like a lever or pressure plate or some other item
@@ -24,9 +24,9 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	. = ..()
 	if(!redstone_structure)
 		return
-	if(!istype(I, /obj/item/contraption/linker))
+	if(!istype(I, /obj/item/rogueweapon/contraption/linker))
 		return
-	if(istype(I, /obj/item/contraption/linker/master))
+	if(istype(I, /obj/item/rogueweapon/contraption/linker/master) || istype(I, /obj/item/rogueweapon/contraption/linker/mace/master) || istype(I, /obj/item/rogueweapon/contraption/linker/mace/big/master))
 		guildmasteroverride = TRUE //this is for the guildmaster's wrench
 	if(!multitool.current_charge)
 		return
@@ -477,7 +477,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if (user.rmb_intent)
-		if (user.is_holding_item_of_type(/obj/item/contraption/linker))
+		if (user.is_holding_item_of_type(/obj/item/rogueweapon/contraption/linker))
 			sleep(1)
 			switch(firedirection)
 				if(WEST)

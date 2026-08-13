@@ -59,7 +59,7 @@
 
 /datum/reagent/blood/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(8)
@@ -74,7 +74,7 @@
 		..()
 /datum/reagent/blood/shitty/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
@@ -243,7 +243,7 @@
 		if(hotspot)
 			new /obj/effect/temp_visual/small_smoke(T)
 			qdel(hotspot)
-	
+
 	if(iswallturf(T))
 		if(!T.color)
 			return

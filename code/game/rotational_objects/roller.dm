@@ -161,7 +161,7 @@
                           (direction == movedir) && (next_roller.movedir == movedir)
 
     if(chained_handoff)
-        return 
+        return
 
     if(convayable.z != z || !isturf(convayable.loc))
         stop_conveying(convayable)
@@ -202,7 +202,7 @@
 	if(.)
 		return
 	var/obj/item/held_item = user.get_active_held_item()
-	if(held_item?.type != /obj/item/contraption/linker)
+	if(held_item?.type != /obj/item/rogueweapon/contraption/linker)
 		return
 	rotate_roller(user)
 	return TRUE

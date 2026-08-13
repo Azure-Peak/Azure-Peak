@@ -363,10 +363,7 @@
 	spawn(20)
 		target.apply_status_effect(/datum/status_effect/plaguebringer)
 		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
-		to_chat(target, span_boldred("I can do no HARM."))
-		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
-		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
-		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
+		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES for as long as I maintain the AURA."))
 
 /obj/structure/ritualcircle/dendor
 	name = "Rune of Beasts"
@@ -1361,10 +1358,7 @@
 	spawn(20)
 		target.apply_status_effect(/datum/status_effect/eoranaura)
 		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
-		to_chat(target, span_boldred("I can do no HARM."))
-		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
-		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
-		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
+		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES for as long as I maintain the AURA."))
 
 //UNDIVIDED
 /obj/structure/ritualcircle/undivided

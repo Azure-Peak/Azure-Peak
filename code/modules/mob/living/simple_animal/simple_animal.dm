@@ -216,6 +216,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/barding_speed_mult = 1
 	var/do_footstep = FALSE
 	var/fly_time = 3 SECONDS //default fly delay
+	var/datum/voicepack/voicepack = null
 
 /mob/living/simple_animal/get_mechanics_examine(mob/user)
 	. = ..()
@@ -249,6 +250,12 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		var/obj/effect/proc_holder/spell/newspell = new spell()
 		AddSpell(newspell)
 	initial_butcher_count = length(butcher_results)
+	add_verb(src, list(
+		/mob/living/proc/emote_squeak,
+		/mob/living/proc/emote_mrrp,
+		/mob/living/proc/emote_prbt,
+		/mob/living/proc/emote_hiss,
+	))
 
 /mob/living/simple_animal/Destroy()
 	for(var/list/SA_list in GLOB.simple_animals)
@@ -556,10 +563,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(stat == DEAD)
 		var/obj/item/held_item = user.get_active_held_item()
 		if(held_item)
-			if((butcher_results || guaranteed_butcher_results) && ((held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT) || istype(held_item, /obj/item/contraption/shears)))
+			if((butcher_results || guaranteed_butcher_results) && ((held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT) || istype(held_item, /obj/item/rogueweapon/contraption/shears)))
 				var/used_time = BUTCHERING_UNSKILLED_PRE_TIME
 				var/on_meathook = FALSE
-				if((src.buckled && istype(src.buckled, /obj/structure/meathook))|| istype(held_item, /obj/item/contraption/shears))
+				if((src.buckled && istype(src.buckled, /obj/structure/meathook))|| istype(held_item, /obj/item/rogueweapon/contraption/shears))
 					on_meathook = TRUE //will work efficiently if they are using autosheers as well
 					used_time -= BUTCHERING_UNSKILLED_PRE_TIME
 					visible_message("[user] begins to efficiently butcher [src]...")
@@ -1377,6 +1384,19 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		else
 			to_chat(src, span_notice("I can't fly away while being grabbed!"))
 //End flight
+
+/mob/living/simple_animal/proc/get_animal_voicepack()
+	if(voicepack)
+		return voicepack
+
+	// Only assign the animal voicepack if the simple animal is player-controlled / has a mind
+	if(mind)
+		var/static/datum/voicepack/animal/shared_animal_vp
+		if(!shared_animal_vp)
+			shared_animal_vp = new /datum/voicepack/animal()
+		voicepack = shared_animal_vp
+
+	return voicepack
 
 #undef MAX_FARM_ANIMALS
 #undef BUTCHERING_UNSKILLED_PRE_TIME
