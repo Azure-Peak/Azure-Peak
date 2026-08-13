@@ -5,8 +5,7 @@
 	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
 	name = "Frost Shards"
 	desc = "Loose a concentrated spray of frozen shards. The shards lose damage and efffects past 4 paces . \
-	The first shard to hit a foe deals full damage and applies a stack of frost - further shards from the same volley deals slight damage, and do not stack more frost. \
-	Damage is increased by 100% versus simple-minded creechurs."
+	The first shard to hit a foe deals full damage and applies a stack of frost - further shards from the same volley deals slight damage, and do not stack more frost."
 	button_icon_state = "frost_bolt"
 	sound = 'sound/spellbooks/icicle.ogg'
 	spell_color = GLOW_COLOR_ICE

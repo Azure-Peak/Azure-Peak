@@ -8,8 +8,7 @@
 /obj/effect/proc_holder/spell/invoked/projectile/airblade
 	name = "Air Blade"
 	desc = "Slash the air with your weapon, forming an arcyne blade in the air that can strike enemies at range. Adds a stack of <b>Arcane Mark</b> to the target. \n\
-	Damage type depends on your current intent. It defaults to cut, but change to blunt if it is Blunt / Smash, and stabbing if it is stab / pick\n\
-	Damage is increased by 50% versus simple-minded creechurs."
+	Damage type depends on your current intent. It defaults to cut, but change to blunt if it is Blunt / Smash, and stabbing if it is stab / pick"
 	clothes_req = FALSE
 	range = 6
 	projectile_type = /obj/projectile/energy/airblade

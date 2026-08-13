@@ -3,8 +3,7 @@
 	name = "Mass Crush"
 	desc = "Compress gravitational force over a wide area, crushing everyone within. \
 	The spell is highly telegraphed but devastating to anyone caught inside. \
-	Crushes through armor with exceptional force. Slows struck targets briefly. \
-	Deals 100% more damage to simple-minded creechurs."
+	Crushes through armor with exceptional force. Slows struck targets briefly."
 	button_icon_state = "crush"
 	sound = 'sound/magic/repulse.ogg'
 	spell_color = GLOW_COLOR_KINESIS

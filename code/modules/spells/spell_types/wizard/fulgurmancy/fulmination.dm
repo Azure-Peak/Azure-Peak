@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
 	name = "Fulmination"
 	desc = "Cast down storm on your enemy. Toggle firing mode (Shift+G):\n\
-	Heaven's Strike: Call down a single devastating bolt on a target tile, striking the aimed body part for massive damage - doubled against simple-minded creechurs.\n\
+	Heaven's Strike: Call down a single devastating bolt on a target tile, striking the aimed body part for massive damage.\n\
 	Thunderstrike: Blanket a wide 5x5 area, striking all of it at once for flat damage after a brief warning."
 	button_icon_state = "heavens_strike"
 	sound = 'sound/magic/lightning.ogg'
@@ -84,7 +84,7 @@
 /datum/action/cooldown/spell/fulmination/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	stats += span_info("Damage: [hs_damage] (Heaven's Strike) / [ts_damage] (Thunderstrike, 5x5)")
-	stats += span_info("Firing mode (toggle with Shift+G): Heaven's Strike (single devastating bolt, +100% vs simple creechurs) / Thunderstrike (telegraphed 5x5 blast, flat [ts_damage] damage all at once).")
+	stats += span_info("Firing mode (toggle with Shift+G): Heaven's Strike (single devastating bolt) / Thunderstrike (telegraphed 5x5 blast, flat [ts_damage] damage all at once).")
 	return stats
 
 /datum/action/cooldown/spell/fulmination/cast(atom/cast_on)

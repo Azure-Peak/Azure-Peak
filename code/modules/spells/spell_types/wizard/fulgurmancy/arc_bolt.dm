@@ -8,8 +8,7 @@
 	desc = "Fire a precise jolt of lightning that sears a target's struck body part with heavy burn. \
 	Toggle firing mode (Shift+G) while active: Chain leaps to up to three foes behind the target, searing the same body part for half as much, \
 	Focus only strike one target, and Arc lobs a single weakened bolt over obstacles. \
-	The bolt loses power past 5 paces. \
-	Damage is increased by 50% versus simple-minded creechurs."
+	The bolt loses power past 5 paces."
 	button_icon_state = "shock"
 	sound = 'sound/magic/lightning.ogg'
 	spell_color = GLOW_COLOR_LIGHTNING

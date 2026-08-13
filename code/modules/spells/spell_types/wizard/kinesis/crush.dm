@@ -2,8 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Crush"
 	desc = "Compress gravitational force onto a single point, crushing the aimed body part. It is telegraphed and can be walked out of. \
-	Crushes through armor with exceptional force. Slows struck targets briefly. \
-	Deals 100% more damage to simple-minded creechurs."
+	Crushes through armor with exceptional force. Slows struck targets briefly."
 	button_icon_state = "crush"
 	sound = 'sound/magic/repulse.ogg'
 	spell_color = GLOW_COLOR_KINESIS

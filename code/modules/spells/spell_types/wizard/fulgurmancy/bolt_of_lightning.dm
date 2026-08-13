@@ -5,7 +5,6 @@
 	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
 	name = "Bolt of Lightning"
 	desc = "Emit a bolt of lightning that burns a target, slowing them down and impairing their accuracy for 6 seconds. \
-	Damage is increased by 100% versus simple-minded creechurs. \
 	The CC effects cannot be reapplied to the same target within 15 seconds."
 	button_icon_state = "lightning_bolt"
 	sound = 'sound/magic/lightning.ogg'
