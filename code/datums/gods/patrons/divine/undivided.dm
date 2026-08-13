@@ -25,7 +25,7 @@
 
 	titles = list(
 		"Ten",
-		"Divines"
+		"Divines",
 		"Astrata",
 		"Noc",
 		"Dendor",
