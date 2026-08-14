@@ -78,7 +78,7 @@
 
 	erase_all_macros()
 	update_movement_keys()
-	// First, collect sets. Make sure to COPY, as we are modifying these!	
+	// First, collect sets. Make sure to COPY, as we are modifying these!
 	var/list/macrosets = prefs_override.hotkeys? list(
 			SKIN_MACROSET_HOTKEYS = SSinput.macroset_hotkey.Copy()
 		) : list(
@@ -137,7 +137,7 @@
 			for(var/macroset in macrosets)
 				var/list/the_set = macrosets[macroset]
 				the_set[actual] = command
-	
+
 	apply_macro_set(SKIN_MACROSET_HOTKEYS, SSinput.macroset_hotkey)
 	apply_macro_set(SKIN_MACROSET_CLASSIC_HOTKEYS, SSinput.macroset_classic_hotkey)
 	apply_macro_set(SKIN_MACROSET_CLASSIC_INPUT, SSinput.macroset_classic_input)

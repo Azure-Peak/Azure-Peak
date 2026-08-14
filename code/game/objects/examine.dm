@@ -179,4 +179,4 @@
 				if(80 to 99)
 					result = span_warning("It's a little damaged.")
 	return result
-	
+$&
