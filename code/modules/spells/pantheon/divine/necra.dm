@@ -250,20 +250,20 @@
 
 	return NECRA_APPROVES
 
-var/global/list/_corpse_sort_list = null
-var/global/mob/_corpse_sort_ref = null
+GLOBAL_LIST_EMPTY(_corpse_sort_list)
+GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 
 /proc/_corpse_dist_compare_simple(a, b)
-	var/mob/A = _corpse_sort_list[a]
-	var/mob/B = _corpse_sort_list[b]
+	var/mob/A = GLOB._corpse_sort_list[a]
+	var/mob/B = GLOB._corpse_sort_list[b]
 
 	if(!A || QDELETED(A))
 		return 1
 	if(!B || QDELETED(B))
 		return -1
 
-	var/da = get_dist(_corpse_sort_ref, A)
-	var/db = get_dist(_corpse_sort_ref, B)
+	var/da = get_dist(GLOB._corpse_sort_ref, A)
+	var/db = get_dist(GLOB._corpse_sort_ref, B)
 
 	if(da < db)
 		return -1
@@ -275,8 +275,8 @@ var/global/mob/_corpse_sort_ref = null
 	if(!L || !length(L) || !ref)
 		return L
 
-	_corpse_sort_list = L
-	_corpse_sort_ref = ref
+	GLOB._corpse_sort_list = L
+	GLOB._corpse_sort_ref = ref
 
 	var/list/keys = list()
 	for(var/k in L)
@@ -284,8 +284,8 @@ var/global/mob/_corpse_sort_ref = null
 
 	sortTim(keys, GLOBAL_PROC_REF(_corpse_dist_compare_simple))
 
-	_corpse_sort_list = null
-	_corpse_sort_ref = null
+	GLOB._corpse_sort_list = null
+	GLOB._corpse_sort_ref = null
 
 	var/list/new_list = list()
 	for(var/k in keys)
