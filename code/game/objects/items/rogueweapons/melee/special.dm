@@ -1337,6 +1337,8 @@
 	. += span_info("BREAKING the dagger requires the assassin to be slain. A Necran Rite must be performed with the dagger in the center.")
 	. += span_info("Breaking the dagger will restore the souls, allowing any ghosts who are still present in-round to be returned to their \
 	bodies and revived.")
+	. += span_redinfo("If you are an assassin, you can break any dagger you own by MMB'ing it. Please consider using this is if you are about to ERP \
+	or similar. Thank you.")
 
 
 
@@ -1381,6 +1383,39 @@
 	// i THINK this should clear the list?
 	stored_souls.Cut()
 	. = ..()
+
+// this is the stupidest way i can think to proof this against an assassin fucking off to erp all round after killing people.
+// you get to break your own dagger & un-dnr them. you dont get another. Good Luck!
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/MiddleClick(mob/user, params)
+	. = ..()
+	if(!ishuman(user))
+		return
+	if(dominator != user)
+		return
+	var/mob/living/carbon/human/daggermaster = user
+	if(user.mmb_intent)
+		return ..()
+	to_chat(daggermaster, span_cult("I consider breaking my own dagger..."))
+	var/are_you_sure = input(daggermaster, "Are you sure you wish to shatter your own dagger?", "ARE YOU SURE?") as anything in list("Yes", "No")
+	if(are_you_sure == "Yes")
+		var/are_you_really_sure = input(daggermaster, "Are you REALLY SURE you wish to shatter your own dagger?", "GUESS WHO GOT HIS DAGGER...") as anything in list("Yes", "No")
+		if(are_you_really_sure == "Yes")
+			to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"MASTER... NO!\"</i>"))
+			var/are_you_triple_sure = input(daggermaster, "Are you REALLY, REALLY SURE wish to shatter your own dagger?", "THINK, MASTER, THINK!") as anything in list("Yes", "No")
+			if(are_you_triple_sure == "Yes")
+				playsound(daggermaster, 'sound/misc/adrenaline_rush.ogg', 20, FALSE, -4)
+				daggermaster.visible_message(span_warning("[daggermaster] begins to break their own cursed dagger..."), span_artery("THIS IS ONENESS..."))
+				if(do_after(daggermaster, 10 SECONDS, same_direction = TRUE))
+					playsound(daggermaster, 'sound/misc/bellold.ogg', 20, FALSE, -4)
+					daggermaster.visible_message(span_warning("[daggermaster] breaks their own dagger! Wayward souls pour free!"), span_artery("...AND ANNIHILATION!"))
+					// no triumphs for you. bad.
+					var/remove_triumphs = release_profane_souls() * -1
+					daggermaster.adjust_triumphs(remove_triumphs)
+					to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"WE HAD SO MUCH FUN TOGETHER! YOU LOVE ME, RIGHT?!\"</i>"))
+					qdel(src)
+					return TRUE
+	to_chat(daggermaster, span_cult("I push aside the thought of breaking my poor, poor dagger..."))
+
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
@@ -1561,7 +1596,7 @@
 	user.adjust_triumphs(1)
 
 
-/// Loops thru all souls and qdels them before qdel'ing dagger. If user is specified, gives soul# in triumphs. Returns amount of souls freed.
+/// Loops thru all souls and qdels them. If user is specified, gives soul# in triumphs. Returns amount of souls freed.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
 	var/freed_souls = 0
 	for(var/datum/profane_soul_data/soul in stored_souls)
