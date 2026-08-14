@@ -366,6 +366,7 @@
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 30 SECONDS
+	cast_range = SPELL_RANGE_GROUND
 
 	associated_skill = /datum/skill/magic/holy
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
@@ -373,9 +374,11 @@
 	summon_noun = "skeleton"
 	max_summons = 4
 	summons_per_cast = 1
+	summon_replace_mode = CONJURE_SUMMON_SINGLES
 
 	recoil_energy_floor = 500
 	recoil_severity = CONJURE_RECOIL_PARTIAL
+	reclaim_recoil = TRUE
 
 	invocation_type = null
 	invocations = null

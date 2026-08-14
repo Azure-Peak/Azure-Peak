@@ -63,9 +63,61 @@
 		return plain_path
 	return visages[choice]
 
+/// applies the proper cleric combat mode music per patron. applies trait_heresiarch if ascendent patron. returns the proper amulet/psicross for the patron, which will be assigned to either neck or wrist depending on the class
+/datum/outfit/job/roguetown/proc/apply_cleric_pre_equip(mob/living/carbon/human/H)
+	var/amulet
+	switch(H.patron?.type)
+		if(/datum/patron/old_god)
+			amulet = /obj/item/clothing/neck/roguetown/psicross
+		if(/datum/patron/divine/undivided)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/undivided
+		if(/datum/patron/divine/astrata)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/astrata
+			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
+		if(/datum/patron/divine/noc)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/noc
+		if(/datum/patron/divine/abyssor)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/abyssor
+			H.grant_language(/datum/language/abyssal)
+		if(/datum/patron/divine/dendor)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/dendor
+			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg' // see: druid.dm
+		if(/datum/patron/divine/necra)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/necra
+			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
+		if(/datum/patron/divine/pestra)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/pestra
+		if(/datum/patron/divine/ravox)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/ravox
+		if(/datum/patron/divine/malum)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/malum
+		if(/datum/patron/divine/eora)
+			amulet = /obj/item/clothing/neck/roguetown/psicross/eora
+			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
+		if(/datum/patron/inhumen/zizo)
+			amulet = /obj/item/clothing/neck/roguetown/psicross
+			H.cmode_music = 'sound/music/combat_heretic.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/matthios)
+			amulet = /obj/item/clothing/neck/roguetown/psicross
+			H.cmode_music = 'sound/music/combat_matthios.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/graggar)
+			amulet = /obj/item/clothing/neck/roguetown/psicross
+			H.cmode_music = 'sound/music/combat_graggar.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/inhumen/baotha)
+			amulet = /obj/item/clothing/neck/roguetown/psicross
+			H.cmode_music = 'sound/music/combat_baotha.ogg'
+			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
+		if(/datum/patron/divine/xylix)
+			amulet = /obj/item/clothing/neck/roguetown/luckcharm
+			H.cmode_music = 'sound/music/combat_jester.ogg'
+	return amulet
+
 /datum/outfit/job/roguetown/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
-	if(!visualsOnly && H.real_name)
+	if(!visualsOnly && H.real_name && !H.ai_controller)
 		H.faction |= "[H.real_name]_faction"
 	var/datum/patron/old_patron = H.patron
 	if(length(allowed_patrons) && (!old_patron || !(old_patron.type in allowed_patrons)))

@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "The altgrip keybind now actually switches altgrips even out of combat mode. You can no longer twirl weapons with the altgrip keybind."

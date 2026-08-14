@@ -169,7 +169,7 @@
 
 		if(H.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) // YOU ARE NO LONGER MORTAL. NO LONGER OF HIM. PSYDON WEEPS.
 			// We do nothing to avoid meta checking for undead
-			target.visible_message(span_info("A strange stirring feeling pours from [target]!"), span_info("Sentimental thoughts drive away my pain..."))		
+			target.visible_message(span_info("A strange stirring feeling pours from [target]!"), span_info("Sentimental thoughts drive away my pain..."))
 			return TRUE
 		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //ANCIENT ENEMY, I DO NOT FEAR YOU.
 			target.visible_message(span_info("[target] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
@@ -200,29 +200,29 @@
 					sleep(10)
 					owner.gib()
 					return FALSE
-				
+
 				switch(current_item.type) // Target-based worn Psicross Piety bonus. For fun.
 					if(/obj/item/clothing/neck/roguetown/psicross/wood)
-						psicross_bonus = 0.1				
+						psicross_bonus = 0.1
 					if(/obj/item/clothing/neck/roguetown/psicross/aalloy)
-						psicross_bonus = 0.2	
+						psicross_bonus = 0.2
 					if(/obj/item/clothing/neck/roguetown/psicross)
 						psicross_bonus = 0.3
 					if(/obj/item/clothing/neck/roguetown/psicross/silver)
-						psicross_bonus = 0.4	
+						psicross_bonus = 0.4
 					if(/obj/item/clothing/neck/roguetown/psicross/g) // PURITY AFLOAT.
 						psicross_bonus = 0.5
 					if(/obj/item/clothing/neck/roguetown/psicross/weeping)
 						psicross_bonus = 0.7
 					if(/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy)
-						zcross_trigger = TRUE	
+						zcross_trigger = TRUE
 
 		if(damtotal >= 300) // ARE THEY ENDURING MUCH, IN ONE WAY OR ANOTHER?
 			situational_bonus += 0.3
 
-		if(wAmount.len > 5)	
-			situational_bonus += 0.3		
-	
+		if(wAmount.len > 5)
+			situational_bonus += 0.3
+
 		if (situational_bonus > 0)
 			conditional_buff = TRUE
 
@@ -232,11 +232,11 @@
 		if (conditional_buff & !zcross_trigger)
 			to_chat(owner, "In <b>ENDURING</b> so much, become <b>EMBOLDENED</b>!")
 			psyhealing += situational_bonus
-	
+
 		if (zcross_trigger)
 			owner.visible_message(span_warning("[owner] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine. Something laughs at me for trying."))
 			owner.playsound_local(owner, 'sound/misc/zizo.ogg', 25, FALSE)
-			H.adjustBruteLoss(25)		
+			H.adjustBruteLoss(25)
 			return FALSE
 
 		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
@@ -784,7 +784,7 @@
 
 //
 
-/obj/effect/proc_holder/spell/invoked/psydonabsolve	
+/obj/effect/proc_holder/spell/invoked/psydonabsolve
 	name = "ABSOLVE"
 	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
@@ -899,6 +899,9 @@
 		H.mind.remove_antag_datum(/datum/antagonist/zombie)
 		H.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
 		H.apply_status_effect(/datum/status_effect/debuff/revived)
+		if(HAS_TRAIT(H, TRAIT_IRONMAN))
+			H.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
+			H.visible_message(span_danger("[H] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
 		return TRUE
 
 	if(user.cmode)

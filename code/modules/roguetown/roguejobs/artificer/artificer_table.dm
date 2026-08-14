@@ -55,8 +55,8 @@
 		charge_accumulator -= charge_interval
 		var/turf/T = get_turf(src)
 		var/charged_any = FALSE
-		for(var/obj/item/contraption/C in T.contents)
-			if(istype(C, /obj/item/contraption/wood_metalizer))
+		for(var/obj/item/rogueweapon/contraption/C in T.contents)
+			if(istype(C, /obj/item/rogueweapon/contraption/wood_metalizer))
 				return //we won't charge the metalizer at this time
 			if(C.current_charge >= C.max_stored_charge)
 				continue

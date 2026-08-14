@@ -324,7 +324,14 @@
 
 /obj/item/needle/pestra
 	name = "needle of pestra"
+	icon_state = "pestraneedle"
 	desc = span_green("This needle has been blessed by the goddess of medicine herself!")
+	infinite = TRUE
+
+/obj/item/needle/tailor
+	name = "tailor's needle"
+	icon_state = "tailorneedle"
+	desc = "An elongated needle made for the true professional of their craft - for no masterwork was born of a faulty tool."
 	infinite = TRUE
 
 /obj/item/needle/bronze

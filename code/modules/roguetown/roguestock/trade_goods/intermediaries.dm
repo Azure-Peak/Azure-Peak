@@ -52,3 +52,12 @@
 	importable = FALSE
 	source_region_id = null
 	item_type = /obj/item/ingot/silver
+
+/datum/trade_good/bronze_ingot
+	id = TRADE_GOOD_BRONZE_INGOT
+	name = "Bronze Ingot"
+	category = TRADE_CATEGORY_INTERMEDIARY
+	behavior = TRADE_BEHAVIOR_INTERMEDIARY
+	base_price = SELLPRICE_BRONZE_INGOT
+	source_region_id = null
+	item_type = /obj/item/ingot/bronze

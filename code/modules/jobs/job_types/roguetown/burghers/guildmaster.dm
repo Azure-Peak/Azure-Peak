@@ -90,12 +90,18 @@
 			/obj/item/rogueweapon/tongs = 1,
 			/obj/item/recipe_book/blacksmithing = 1,
 			/obj/item/clothing/mask/rogue/spectacles/golden = 1,
-			/obj/item/contraption/linker/master = 1,
 			/obj/item/blueprint/mace_mushroom = 1
 			)
 		belt = /obj/item/storage/belt/rogue/leather
 		beltl = /obj/item/storage/belt/rogue/pouch/coins/rich
 		beltr = /obj/item/storage/keyring/guildmaster
+		var/wrenches = list("Compact Golden Wrench", "Massive Golden Wrench")
+		var/wrench_choice = input(H, "Choose your wrench.", "SYMBOL OF OFFICE") as anything in wrenches
+		switch(wrench_choice)
+			if("Compact Golden Wrench")
+				r_hand = /obj/item/rogueweapon/contraption/linker/mace/master
+			if("Massive Golden Wrench")
+				r_hand = /obj/item/rogueweapon/contraption/linker/mace/big/master
 	ADD_TRAIT(H, TRAIT_MASTER_CARPENTER, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MASTER_MASON, TRAIT_GENERIC)
 	if(H.mind)

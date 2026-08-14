@@ -105,8 +105,9 @@
 	sewn_woundpain = 30
 	disabling = TRUE
 
-
+/////////////////////////////////////////////////////////
 // Construct reflavored stuff
+////////////////////////////////////////////////////////
 
 /datum/wound/integrity
 	name = "severed etheric conduit"
@@ -114,7 +115,7 @@
 	severity = WOUND_SEVERITY_CRITICAL
 	crit_message = "Arcane energy violently bursts out from %VICTIM's %BODYPART!"
 	sound_effect = 'sound/combat/crit.ogg'
-	whp = 150
+	whp = 200
 	sewn_whp = 20
 	clotting_threshold = null
 	sewn_clotting_threshold = null
@@ -127,20 +128,33 @@
 	critical = TRUE
 	sleep_healing = 0.5
 	embed_chance = 75
-
 	werewolf_infection_probability = 0
+	var/weakzappy = 0
 
 /datum/wound/integrity/can_stack_with(datum/wound/other)
 	if(istype(other, /datum/wound/integrity) && (type == other.type))
 		return FALSE
 	return TRUE
 
-/datum/wound/integrity/on_mob_gain(mob/living/affected)
+/datum/wound/integrity/on_mob_gain(mob/living/carbon/affected)
 	. = ..()
-	affected.emote("paincrit", TRUE)
+	affected.emote("superagony", TRUE)
 	affected.Slowdown(20)
 	affected.electrocute_act(10, affected)
 	shake_camera(affected, 2, 2)
+
+/datum/wound/integrity/on_life()
+	. = ..()
+	if(!iscarbon(owner))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig))
+		if(world.time >= weakzappy)
+			weakzappy = world.time + rand(20 SECONDS, 40 SECONDS)
+			carbon_owner.electrocute_act(20, carbon_owner)
+			if(carbon_owner.getFireLoss() > 450 || carbon_owner.getBruteLoss() > 500)
+				core_meltdown(carbon_owner)
+				carbon_owner.death()
 
 /datum/wound/integrity/on_bodypart_gain(obj/item/bodypart/affected)
 	. = ..()
@@ -151,12 +165,13 @@
 	check_name = span_artery("<B>VOCAL SIGIL</B>")
 	severity = WOUND_SEVERITY_FATAL
 	crit_message = "Arcane energy bursts from %VICTIM's throat conduit!"
-	whp = 300
+	whp = 150
 	sewn_whp = 25
 	woundpain = 60
 	sewn_woundpain = 30
 	mob_overlay = "s1_throat"
 	mortal = TRUE
+	var/zoppy = 0
 
 /datum/wound/integrity/neck/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -172,12 +187,12 @@
 		return
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig))
-		if(!carbon_owner.stat && prob(25))
-			carbon_owner.Jitter(30)
-			carbon_owner.electrocute_act(25, carbon_owner)
-
-		if(carbon_owner.stat && prob(4))
-			carbon_owner.electrocute_act(10, carbon_owner)
+		if(world.time >= zoppy)
+			zoppy = world.time + rand(10 SECONDS, 20 SECONDS)
+			carbon_owner.electrocute_act(15, carbon_owner)
+			if(carbon_owner.getFireLoss() > 450 || carbon_owner.getBruteLoss() > 500)
+				core_meltdown(carbon_owner)
+				carbon_owner.death()
 
 /datum/wound/integrity/chest
 	name = "core lattice rupture"
@@ -211,8 +226,11 @@
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig))
 		if(world.time >= zappy)
-			zappy = world.time + rand(5 SECONDS, 20 SECONDS)
-			carbon_owner.electrocute_act(50, carbon_owner)
+			zappy = world.time + rand(5 SECONDS, 15 SECONDS)
+			carbon_owner.electrocute_act(20, carbon_owner)
+			if(carbon_owner.getFireLoss() > 450 || carbon_owner.getBruteLoss() > 500)
+				core_meltdown(carbon_owner)
+				carbon_owner.death()
 
 /datum/wound/integrity/reattachment
 	name = "replantation"
@@ -223,3 +241,40 @@
 	woundpain = 60
 	sewn_woundpain = 30
 	disabling = TRUE
+
+/datum/wound/integrity/proc/core_meltdown(mob/living/source)
+	if(!source)
+		return
+	// look what you FUCKING did!!! D:
+	explosion(source, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 0, flash_range = 3, adminlog = FALSE, ignorecap = TRUE)
+
+	var/list/thrownatoms = list()
+	for(var/turf/T in get_hear(2, source))
+		for(var/atom/movable/AM in T)
+			thrownatoms += AM
+
+	for(var/atom/movable/AM as anything in thrownatoms)
+		if(AM == source || AM.anchored)
+			continue
+		if(ismob(AM))
+			var/mob/M = AM
+			if(M.anti_magic_check())
+				continue
+		var/turf/throwtarget = get_edge_target_turf(source, get_dir(source, get_step_away(AM, source)))
+		var/dist = get_dist(source, AM)
+		if(dist == 0)
+			if(isliving(AM))
+				var/mob/living/L = AM
+				L.set_resting(TRUE, TRUE)
+				L.Knockdown(3 SECONDS)
+				L.adjustBruteLoss(35)
+				L.electrocute_act(40, source)
+			AM.safe_throw_at(throwtarget, 2, 1, source, force = MOVE_FORCE_EXTREMELY_STRONG)
+		else
+			new /obj/effect/temp_visual/gravpush(get_turf(AM), get_dir(source, AM))
+			if(isliving(AM))
+				var/mob/living/L = AM
+				L.set_resting(TRUE, TRUE)
+				L.Knockdown(2 SECONDS)
+				L.electrocute_act(20, source)
+			AM.safe_throw_at(throwtarget, 5, 1, source, force = MOVE_FORCE_EXTREMELY_STRONG)
