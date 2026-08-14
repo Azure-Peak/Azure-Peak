@@ -1982,7 +1982,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		span_userdanger("IT HURTS! IT BURNS!")
 	)
 
-	to_chat(world, span_danger("A war ritual has been completed! Goblin portals begin to tear open across the land!"))
+	to_world(span_danger("A war ritual has been completed! Goblin portals begin to tear open across the land!"))
 	SSParticleWeather?.run_weather(pick(/datum/particle_weather/blood_rain_gentle, /datum/particle_weather/blood_rain_storm))
 	playsound(loc, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
 	var/datum/round_event_control/gobinvade/E = new()

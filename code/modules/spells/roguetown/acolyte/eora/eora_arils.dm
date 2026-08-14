@@ -261,7 +261,7 @@
 		INVOKE_ASYNC(GLOBAL_PROC_REF(revive_ochre_target), target)
 
 /proc/revive_ochre_target(mob/living/carbon/human/target)
-	to_chat(world, span_userdanger("ATTEMPTING REVIVAL FOR [target]"))
+	to_world(span_userdanger("ATTEMPTING REVIVAL FOR [target]"))
 	if(QDELETED(target) || target.stat != DEAD)
 		return FALSE
 

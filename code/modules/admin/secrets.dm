@@ -299,7 +299,7 @@
 	if (usr)
 		log_admin("[key_name(usr)] used secret [item]")
 		if (ok)
-			to_chat(world, text("<B>A secret has been activated by []!</B>", usr.key))
+			to_world(text("<B>A secret has been activated by []!</B>", usr.key))
 
 /proc/portalAnnounce(announcement, playlightning)
 	set waitfor = 0

@@ -53,7 +53,7 @@
 /datum/component/deadite/proc/on_apply_damage(mob/living/simple_animal/L, damage, damagetype, def_zone, blocked, forced)
 	SIGNAL_HANDLER
 
-	//to_chat(world, span_danger("Hit them in the [def_zone]")) uncomment for debugging
+	//to_world(span_danger("Hit them in the [def_zone]")) uncomment for debugging
 
 	// Hit the head when downed for a kill.
 	if(is_downed)

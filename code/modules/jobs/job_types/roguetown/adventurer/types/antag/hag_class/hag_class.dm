@@ -138,7 +138,7 @@
 	printplayer(owner)
 
 	if(grand_rite_victory)
-		to_chat(world, span_boldnotice("THE MOSS MOTHER HAS ASCENDED!"))
+		to_world(span_boldnotice("THE MOSS MOTHER HAS ASCENDED!"))
 		to_chat(owner, span_greentext("Your sisters have completed the Grand Rite. You have TRIUMPHED!"))
 		if(owner.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 50, FALSE)
@@ -146,12 +146,12 @@
 		// to_chat(owner, span_notice("The Grand Rite was not completed, but your harvest of souls was bountiful."))
 		to_chat(owner, span_notice("Your harvest of souls was bountiful."))
 		to_chat(owner, span_info("Your Personal Spite Score: [individual_spite_score] points."))
-		to_chat(world, span_notice("The Hag [owner.current.real_name] has left a mark of misery of [individual_spite_score] points."))
+		to_world(span_notice("The Hag [owner.current.real_name] has left a mark of misery of [individual_spite_score] points."))
 	else
 		// If dead or scoreless and no Grand Rite happened
 		var/fail_reason = !is_living ? "Your physical form was broken and the roots withered." : "You failed to sow enough discord among the mortals."
 		to_chat(owner, span_redtext("FAILURE: [fail_reason]"))
-		to_chat(world, span_redtext("The Hag [owner.current ? owner.current.real_name : "unknown"] has FAILED!"))
+		to_world(span_redtext("The Hag [owner.current ? owner.current.real_name : "unknown"] has FAILED!"))
 		if(owner.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 50, FALSE)
 

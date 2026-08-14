@@ -292,7 +292,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		current_runlevel = Master.current_runlevel
 		StartProcessing(10)
 	else
-		to_chat(world, "<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
+		to_world("<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
 		Initialize(20, TRUE)
 
 // Please don't stuff random bullshit here,
@@ -309,7 +309,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	if(init_sss)
 		init_subtypes(/datum/controller/subsystem, subsystems)
 #ifdef TESTING
-	to_chat(world, "<span class='boldannounce'>Initializing subsystems...</span>")
+	to_world("<span class='boldannounce'>Initializing subsystems...</span>")
 #endif
 	// Sort subsystems by init_order, so they initialize in the correct order.
 	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_init))
@@ -332,7 +332,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
 
 #ifdef TESTING
-	to_chat(world, "<span class='boldannounce'>[msg]</span>")
+	to_world("<span class='boldannounce'>[msg]</span>")
 #endif
 	log_world(msg)
 

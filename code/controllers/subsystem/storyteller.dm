@@ -728,9 +728,9 @@ SUBSYSTEM_DEF(gamemode)
 	for(var/storyteller_name in storytellers)
 		var/datum/storyteller/initialized_storyteller = storytellers[storyteller_name]
 		if(initialized_storyteller?.ascendant)
-			to_chat(world, "<br>")
-			to_chat(world, span_reallybig("[initialized_storyteller.name] is ascendant!"))
-			to_chat(world, "<br>")
+			to_world("<br>")
+			to_world(span_reallybig("[initialized_storyteller.name] is ascendant!"))
+			to_world("<br>")
 
 	// Safety net: the lobby ticker normally closes the gamemode vote at the end buffer, but if the round was
 	// force-started with it still open, resolve it now so selected_storyteller reflects the votes (or default).
@@ -1025,8 +1025,8 @@ SUBSYSTEM_DEF(gamemode)
 
 	var/datum/storyteller/storytypecasted = selected_storyteller
 	log_storyteller("Gamemode chosen by player vote: [initial(storytypecasted.name)].")
-	to_chat(world, span_notice("<b>Gamemode is [initial(storytypecasted.name)]!</b>"))
-	to_chat(world, span_notice("[initial(storytypecasted.vote_desc)]"))
+	to_world(span_notice("<b>Gamemode is [initial(storytypecasted.name)]!</b>"))
+	to_world(span_notice("[initial(storytypecasted.vote_desc)]"))
 
 /// Announces the admin-chosen gamemode to everyone at the +120s mark when the player vote is disabled,
 /// mirroring how a completed gamemode vote announces its winner.
@@ -1035,8 +1035,8 @@ SUBSYSTEM_DEF(gamemode)
 	if(!preset)
 		return
 	log_storyteller("Gamemode set by admin (no player vote): [preset.name].")
-	to_chat(world, span_notice("<b>Gamemode is [preset.name]!</b>"))
-	to_chat(world, span_notice("[preset.vote_desc]"))
+	to_world(span_notice("<b>Gamemode is [preset.name]!</b>"))
+	to_world(span_notice("[preset.vote_desc]"))
 
 /datum/controller/subsystem/gamemode/proc/get_last_storyteller_vote()
 	var/json_file = file(LAST_ROUND_STATS_FILE)

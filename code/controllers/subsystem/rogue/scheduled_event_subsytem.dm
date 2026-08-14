@@ -50,7 +50,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	var/min = text2num(time2text(world.timeofday, "mm"))
 	var/weekday = time2text(world.timeofday, "Day") // Full day name
 
-	to_chat(world, span_userdanger("Today is [weekday], [mm]/[dd]/20[yy] at [hh]:[min]"))
+	to_world(span_userdanger("Today is [weekday], [mm]/[dd]/20[yy] at [hh]:[min]"))
 
 /datum/controller/subsystem/event_scheduler/proc/update_mob_fog_status(atom/movable/AM, area_is_safe)
 	if(!ishuman(AM))
@@ -223,7 +223,7 @@ SUBSYSTEM_DEF(event_scheduler)
 		if(now_mins >= start_win && now_mins <= end_win)
 			result = TRUE
 
-	//to_chat(world, span_userdanger("FOG DEBUG: Time [curr_hh]:[curr_mm] | Target [targ_hh]:[targ_mm] | Window: [start_h]:[start_m] to [end_h]:[end_m] | Result: [result]"))
+	//to_world(span_userdanger("FOG DEBUG: Time [curr_hh]:[curr_mm] | Target [targ_hh]:[targ_mm] | Window: [start_h]:[start_m] to [end_h]:[end_m] | Result: [result]"))
 	return result
 
 /client/proc/manage_fog_schedule()

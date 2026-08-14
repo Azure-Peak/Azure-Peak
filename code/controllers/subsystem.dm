@@ -178,7 +178,7 @@
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 	var/msg = "Initialized [name] subsystem within [time] second[time == 1 ? "" : "s"]!"
 	#ifdef LOCALTEST
-	to_chat(world, span_boldannounce("[msg]"))
+	to_world(span_boldannounce("[msg]"))
 	#endif
 	log_world(msg)
 	return time

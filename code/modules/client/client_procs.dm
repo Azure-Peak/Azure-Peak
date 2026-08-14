@@ -333,7 +333,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 					autorank = R
 					break
 			if(!autorank)
-				to_chat(world, "Autoadmin rank not found")
+				to_world("Autoadmin rank not found")
 			else
 				new /datum/admins(autorank, ckey)
 	if(CONFIG_GET(flag/enable_localhost_rank) && !connecting_admin)

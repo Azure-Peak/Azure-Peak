@@ -464,7 +464,7 @@
 
 	return new_character
 
-/proc/send_to_playing_players(thing) //sends a whatever to all playing players; use instead of to_chat(world, where needed)
+/proc/send_to_playing_players(thing) //sends a whatever to all playing players; use instead of to_world(where needed)
 	for(var/M in GLOB.player_list)
 		if(M && !isnewplayer(M))
 			to_chat(M, thing)

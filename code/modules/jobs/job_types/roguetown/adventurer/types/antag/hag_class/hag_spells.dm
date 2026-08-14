@@ -177,7 +177,7 @@
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	// to_chat(ui.user, "DEBUG: Action [action] received. Params: [json_encode(params)]")
-	// to_chat(world, "DEBUG: Action [action] received. Params: [json_encode(params)]")
+	// to_world("DEBUG: Action [action] received. Params: [json_encode(params)]")
 
 	var/mob/living/user = ui.user
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)

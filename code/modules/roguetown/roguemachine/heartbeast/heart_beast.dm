@@ -116,7 +116,7 @@
 	// if(royal_title)
 	//	debug_info += "Royal Title: [royal_title]"
 
-	// to_chat(world, span_userdanger("[debug_info.Join("\n")]"))
+	// to_world(span_userdanger("[debug_info.Join("\n")]"))
 
 /obj/structure/roguemachine/chimeric_heart_beast/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
 	// . = ..()

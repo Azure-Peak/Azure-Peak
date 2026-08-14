@@ -235,9 +235,9 @@ GLOBAL_VAR(restart_counter)
 //		if (usr)
 //			log_admin("[key_name(usr)] Has requested an immediate world restart via client side debugging tools")
 //			message_admins("[key_name_admin(usr)] Has requested an immediate world restart via client side debugging tools")
-//		to_chat(world, span_boldannounce("Rebooting World immediately due to host request."))
+//		to_world(span_boldannounce("Rebooting World immediately due to host request."))
 //	else
-//	to_chat(world, span_boldannounce("<b><u><a href='byond://winset?command=.reconnect'>CLICK TO RECONNECT</a></u></b>"))
+//	to_world(span_boldannounce("<b><u><a href='byond://winset?command=.reconnect'>CLICK TO RECONNECT</a></u></b>"))
 
 	var/round_end_sound = pick(
 		'sound/roundend/knave.ogg',
@@ -252,7 +252,7 @@ GLOBAL_VAR(restart_counter)
 			continue
 		thing << sound(round_end_sound)
 
-	to_chat(world, "Please be patient as the server restarts. You will be automatically reconnected in about 60 seconds.")
+	to_world("Please be patient as the server restarts. You will be automatically reconnected in about 60 seconds.")
 	Master.Shutdown()	//run SS shutdowns? rtchange
 
 	TgsReboot()

@@ -139,7 +139,7 @@ SUBSYSTEM_DEF(ticker)
 //			start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
-//			to_chat(world, span_boldnotice("Welcome to [station_name()]!"))
+//			to_world(span_boldnotice("Welcome to [station_name()]!"))
 			send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.config.map_name]! (Round ID: [GLOB.round_id])"), CONFIG_GET(string/chat_announce_new_game))
 			current_state = GAME_STATE_PREGAME
 			//Everyone who wants to be an observer is now spawned
@@ -247,11 +247,11 @@ SUBSYSTEM_DEF(ticker)
 			// These else conditions stop the round from starting unless there is a merchant, king, and queen.
 		else
 			var/list/stuffy = list("Set a Ruler to 'high' in your class preferences to start the game!", "PLAY Ruler NOW!", "A Ruler is required to start.", "Pray for a Ruler.", "One day, there will be a Ruler.", "Just try playing Ruler.", "If you don't play Ruler, the game will never start.", "We need at least one Ruler to start the game.", "We're waiting for you to pick Ruler to start.", "Still no Ruler is readied..", "I'm going to lose my mind if we don't get a Ruler readied up.","No. The game will not start because there is no Ruler.","What's the point of ROGUETOWN without a Ruler?")
-			to_chat(world, span_purple("[pick(stuffy)]"))
+			to_world(span_purple("[pick(stuffy)]"))
 			return FALSE
 	else
 		var/list/stuffy = list("Set Merchant to 'high' in your class preferences to start the game!", "PLAY Merchant NOW!", "A Merchant is required to start.", "Pray for a Merchant.", "One day, there will be a Merchant.", "Just try playing Merchant.", "If you don't play Merchant, the game will never start.", "We need at least one Merchant to start the game.", "We're waiting for you to pick Merchant to start.", "Still no Merchant is readied..", "I'm going to lose my mind if we don't get a Merchant readied up.","No. The game will not start because there is no Merchant.","What's the point of ROGUETOWN without a Merchant?")
-		to_chat(world, span_purple("[pick(stuffy)]"))
+		to_world(span_purple("[pick(stuffy)]"))
 		return FALSE
 	*/
 
@@ -263,12 +263,12 @@ SUBSYSTEM_DEF(ticker)
 			amt_ready++
 
 	if(amt_ready < 2)
-		to_chat(world, span_purple("[amt_ready]/20 players ready."))
+		to_world(span_purple("[amt_ready]/20 players ready."))
 		failedstarts++
 		if(failedstarts > 7)
-			to_chat(world, span_purple("[failedstarts]/13"))
+			to_world(span_purple("[failedstarts]/13"))
 		if(failedstarts >= 13)
-			to_chat(world, span_greentext("Starting ROGUEFIGHT..."))
+			to_world(span_greentext("Starting ROGUEFIGHT..."))
 			var/icon/ikon
 			var/file_path = "icons/roguefight_title.dmi"
 			ASSERT(fexists(file_path))
@@ -393,10 +393,10 @@ SUBSYSTEM_DEF(ticker)
 	Master.SetRunLevel(RUNLEVEL_GAME)
 /*
 	if(SSevents.holidays)
-		to_chat(world, span_notice("and..."))
+		to_world(span_notice("and..."))
 		for(var/holidayname in SSevents.holidays)
 			var/datum/holiday/holiday = SSevents.holidays[holidayname]
-			to_chat(world, "<h4>[holiday.greet()]</h4>")
+			to_world("<h4>[holiday.greet()]</h4>")
 */
 	PostSetup()
 	log_game("GAME SETUP: postsetup success")
@@ -517,7 +517,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round(input)
 	if(!input)
 		return
-	to_chat(world, fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
+	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
 
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)
@@ -710,18 +710,18 @@ SUBSYSTEM_DEF(ticker)
 
 	var/skip_delay = check_rights()
 	if(delay_end && !skip_delay)
-		to_chat(world, span_boldannounce("A game master has delayed the round end."))
+		to_world(span_boldannounce("A game master has delayed the round end."))
 		return
 
 	SStriumphs.end_triumph_saving_time()
-	to_chat(world, span_boldannounce("Rebooting World in [DisplayTimeText(delay)]. [reason]"))
+	to_world(span_boldannounce("Rebooting World in [DisplayTimeText(delay)]. [reason]"))
 
 	var/start_wait = world.time
 	UNTIL(round_end_sound_sent || (world.time - start_wait) > (delay * 2))	//don't wait forever
 	sleep(delay - (world.time - start_wait))
 
 	if(delay_end && !skip_delay)
-		to_chat(world, span_boldannounce("Reboot was cancelled by an admin."))
+		to_world(span_boldannounce("Reboot was cancelled by an admin."))
 		return
 	if(end_string)
 		end_state = end_string
@@ -729,14 +729,14 @@ SUBSYSTEM_DEF(ticker)
 	var/statspage = CONFIG_GET(string/roundstatsurl)
 	var/gamelogloc = CONFIG_GET(string/gamelogurl)
 	if(statspage)
-		to_chat(world, span_info("Round statistics and logs can be viewed <a href=\"[statspage][GLOB.round_id]\">at this website!</a>"))
+		to_world(span_info("Round statistics and logs can be viewed <a href=\"[statspage][GLOB.round_id]\">at this website!</a>"))
 	else if(gamelogloc)
-		to_chat(world, span_info("Round logs can be located <a href=\"[gamelogloc]\">at this website!</a>"))
+		to_world(span_info("Round logs can be located <a href=\"[gamelogloc]\">at this website!</a>"))
 
 	log_game(span_boldannounce("Rebooting World. [reason]"))
 
 	if(end_party)
-		to_chat(world, span_boldannounce("It's over!"))
+		to_world(span_boldannounce("It's over!"))
 		world.Del()
 	else
 		world.Reboot()
