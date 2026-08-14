@@ -607,7 +607,7 @@
 	. = ..()
 	if(obj_broken)
 		return
-	var/day = lowertext(get_current_day_of_week_name())
+	var/day = LOWER_TEXT(get_current_day_of_week_name())
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 //		if(SSshuttle.emergency.mode == SHUTTLE_DOCKED)
 //			if(SSshuttle.emergency.timeLeft() < 30 MINUTES)
@@ -659,7 +659,7 @@
 	. = ..()
 	if(obj_broken)
 		return
-	var/day = lowertext(get_current_day_of_week_name())
+	var/day = LOWER_TEXT(get_current_day_of_week_name())
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 
 /obj/structure/fluff/wallclock/Initialize(mapload)

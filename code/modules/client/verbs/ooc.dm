@@ -370,7 +370,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		pos = search
 		search = findtext(jd, ",", pos+1)
 		if(search)
-			return lowertext(copytext(jd, pos+9, search))
+			return LOWER_TEXT(copytext(jd, pos+9, search))
 
 /client/verb/html_chat()
 	set name = "{Old Chat}"

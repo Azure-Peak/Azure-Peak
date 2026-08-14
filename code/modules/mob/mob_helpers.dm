@@ -189,15 +189,15 @@
 	while(counter>=1)
 		newletter=copytext_char(phrase,(leng-counter)+1,(leng-counter)+2)
 		if(rand(1,3)==3)
-			if(lowertext(newletter)=="o")
+			if(LOWER_TEXT(newletter)=="o")
 				newletter="u"
-			if(lowertext(newletter)=="s")
+			if(LOWER_TEXT(newletter)=="s")
 				newletter="ch"
-			if(lowertext(newletter)=="a")
+			if(LOWER_TEXT(newletter)=="a")
 				newletter="ah"
-			if(lowertext(newletter)=="u")
+			if(LOWER_TEXT(newletter)=="u")
 				newletter="oo"
-			if(lowertext(newletter)=="c")
+			if(LOWER_TEXT(newletter)=="c")
 				newletter="k"
 		if(rand(1,20)==20)
 			if(newletter==" ")
@@ -227,21 +227,21 @@
 	while(counter>=1)
 		newletter=copytext_char(phrase,(leng-counter)+1,(leng-counter)+2)
 		if(prob(50))
-			if(lowertext(newletter)=="o")
+			if(LOWER_TEXT(newletter)=="o")
 				newletter="u"
-			if(lowertext(newletter)=="t")
+			if(LOWER_TEXT(newletter)=="t")
 				newletter="ch"
-			if(lowertext(newletter)=="a")
+			if(LOWER_TEXT(newletter)=="a")
 				newletter="ah"
-			if(lowertext(newletter)=="u")
+			if(LOWER_TEXT(newletter)=="u")
 				newletter="oo"
-			if(lowertext(newletter)=="c")
+			if(LOWER_TEXT(newletter)=="c")
 				newletter="lr"
-			if(lowertext(newletter)=="e")
+			if(LOWER_TEXT(newletter)=="e")
 				newletter="do"
-			if(lowertext(newletter)=="zizo") //YOU WISH
+			if(LOWER_TEXT(newletter)=="zizo") //YOU WISH
 				newletter="psy"
-			if(lowertext(newletter)=="s")
+			if(LOWER_TEXT(newletter)=="s")
 				newletter="zr"
 
 		switch(rand(1,15))
@@ -325,7 +325,7 @@
 			word = copytext(word, first_letter, last_letter + 1)
 
 			// Common words or words of three or fewer characters don't need replacing.
-			if((lowertext(word) in common_words) || length(word) <= 3)
+			if((LOWER_TEXT(word) in common_words) || length(word) <= 3)
 				new_message += prefix + word + suffix
 			else
 				var/chance = rand(0, 99)

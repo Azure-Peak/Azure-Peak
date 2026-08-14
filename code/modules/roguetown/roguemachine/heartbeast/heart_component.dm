@@ -321,7 +321,7 @@
 	// Check for keywords (up to 2)
 	var/keywords_found = 0
 	for(var/keyword in task.answer_keywords)
-		if(findtext(lowertext(message), lowertext(keyword)))
+		if(findtext(LOWER_TEXT(message), LOWER_TEXT(keyword)))
 			keywords_found++
 			if(keywords_found >= 2)
 				break

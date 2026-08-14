@@ -414,7 +414,7 @@ var/list/used_colors
 	target.update_icon()
 	playsound(loc, "sound/foley/scrubbing[pick(1,2)].ogg", 60, TRUE)
 	user.visible_message(span_notice("[user] glazes [target]."), \
-		span_notice("I glaze [target] with [lowertext(choice)]."))
+		span_notice("I glaze [target] with [LOWER_TEXT(choice)]."))
 	return TRUE
 
 /obj/item/dye_brush/attack_turf(turf/T, mob/living/user)

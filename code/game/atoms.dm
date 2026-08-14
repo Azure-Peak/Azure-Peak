@@ -451,7 +451,7 @@
 						if (R.volume > 0)
 							if (full_reagents)
 								full_reagents += ", "
-							full_reagents += "[lowertext(R.name)]"
+							full_reagents += "[LOWER_TEXT(R.name)]"
 					. += span_notice("My expert nose lets me distinguish this liquid as [full_reagents].")
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)

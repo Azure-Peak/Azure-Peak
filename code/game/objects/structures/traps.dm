@@ -507,8 +507,8 @@
 	if(!H || !H.mind)
 		return FALSE
 
-	var/assigned = lowertext("[H.mind.assigned_role]")
-	var/special  = lowertext("[H.mind.special_role]")
+	var/assigned = LOWER_TEXT("[H.mind.assigned_role]")
+	var/special  = LOWER_TEXT("[H.mind.special_role]")
 
 	if(assigned == "bandit" || special == "bandit")
 		return TRUE
@@ -544,8 +544,8 @@
 /obj/structure/trap/bogtrap/proc/is_exempt_viewer(mob/living/H)
 	if(!H || !H.mind)
 		return FALSE
-	var/assigned = lowertext("[H.mind.assigned_role]")
-	var/special  = lowertext("[H.mind.special_role]")
+	var/assigned = LOWER_TEXT("[H.mind.assigned_role]")
+	var/special  = LOWER_TEXT("[H.mind.special_role]")
 
 	return (assigned == "bandit" || special == "bandit" \
 		|| assigned == "bogguard" \

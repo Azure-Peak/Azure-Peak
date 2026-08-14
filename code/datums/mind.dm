@@ -671,10 +671,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		var/challenger_heart_location
 
 		if(target_heart)
-			target_heart_location = target_heart.owner ? target_heart.owner.prepare_deathsight_message() : lowertext(get_area_name(target_heart))
+			target_heart_location = target_heart.owner ? target_heart.owner.prepare_deathsight_message() : LOWER_TEXT(get_area_name(target_heart))
 
 		if(challenger_heart)
-			challenger_heart_location = challenger_heart.owner ? challenger_heart.owner.prepare_deathsight_message() : lowertext(get_area_name(challenger_heart))
+			challenger_heart_location = challenger_heart.owner ? challenger_heart.owner.prepare_deathsight_message() : LOWER_TEXT(get_area_name(challenger_heart))
 
 		if(recipient == challenger)
 			if(target)

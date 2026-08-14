@@ -63,7 +63,7 @@ GLOBAL_LIST_EMPTY(virtues)
 	. = ..()
 	if (triumph_cost)
 		desc += " <b>Costs [triumph_cost] TRIUMPH[triumph_cost?"S":""].</b>"
-	
+
 	if(max_choices || length(extra_choices) || length(choice_costs) || length(choice_tooltips))
 		if(max_choices > length(extra_choices))
 			CRASH("[src] has fewer extra_choices than there can be max_choices! Very bad!")
@@ -134,12 +134,12 @@ GLOBAL_LIST_EMPTY(virtues)
 
 		if (increase_amount == 0)
 
-			to_chat(recipient, span_notice("My Virtue cannot influence my skill with [lowertext(S.name)] any further."))
+			to_chat(recipient, span_notice("My Virtue cannot influence my skill with [LOWER_TEXT(S.name)] any further."))
 		else
 			recipient.adjust_skillrank(S.type, increase_amount, TRUE)
 
 			if (increase_amount == 1 && max && current >= max)
-				to_chat(recipient, span_notice("My Virtue can only minorly influence my skill with [lowertext(S.name)]."))
+				to_chat(recipient, span_notice("My Virtue can only minorly influence my skill with [LOWER_TEXT(S.name)]."))
 
 /datum/virtue/proc/handle_stashed_items(mob/living/carbon/human/recipient)
 	if (!recipient.mind || !LAZYLEN(added_stashed_items))

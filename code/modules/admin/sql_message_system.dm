@@ -70,7 +70,7 @@
 		if(!note_severity)
 			return
 	if(type == "note" && !isnull(note_severity))
-		note_severity = lowertext("[note_severity]")
+		note_severity = LOWER_TEXT("[note_severity]")
 	var/datum/DBQuery/query_create_message = SSdbcore.NewQuery({"
 		INSERT INTO [format_table_name("messages")] (type, targetckey, adminckey, text, timestamp, server, server_ip, server_port, round_id, secret, expire_timestamp, severity)
 		VALUES (:type, :target_ckey, :admin_ckey, :text, :timestamp, :server, INET_ATON(:internet_address), :port, :round_id, :secret, :expiry, :note_severity)
@@ -483,7 +483,7 @@
 			var/expire_timestamp = query_get_messages.item[11]
 			var/severity = query_get_messages.item[12]
 			if(severity)
-				severity = lowertext("[severity]")
+				severity = LOWER_TEXT("[severity]")
 			var/alphatext = ""
 			var/nsd = CONFIG_GET(number/note_stale_days)
 			var/nfd = CONFIG_GET(number/note_fresh_days)

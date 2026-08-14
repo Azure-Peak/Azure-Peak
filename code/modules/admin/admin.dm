@@ -374,8 +374,8 @@
 		to_chat(src, span_warning("There is no ckey attached to this mob."))
 		return
 
-	var/ckey = lowertext(M.ckey)
-	var/admin = lowertext(usr.key)
+	var/ckey = LOWER_TEXT(M.ckey)
+	var/admin = LOWER_TEXT(usr.key)
 
 	/*if(ckey == admin)
 		to_chat(src, span_boldwarning("That's you!"))

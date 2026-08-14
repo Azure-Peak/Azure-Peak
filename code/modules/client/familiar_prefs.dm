@@ -248,7 +248,7 @@
 				setup_examine_window(user,planar_origin)
 				return
 			familiar_ooc_extra_link[planar_origin] = link
-			var/ext = lowertext(splittext(link, ".")[length(splittext(link, "."))])
+			var/ext = LOWER_TEXT(splittext(link, ".")[length(splittext(link, "."))])
 			var/info
 			switch(ext)
 				if("jpg", "jpeg", "png", "gif")

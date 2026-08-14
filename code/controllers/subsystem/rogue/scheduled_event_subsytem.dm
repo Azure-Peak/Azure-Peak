@@ -181,7 +181,7 @@ SUBSYSTEM_DEF(event_scheduler)
 		ui_interact(usr)
 
 /datum/controller/subsystem/event_scheduler/proc/check_schedule_new()
-	var/weekday = lowertext(time2text(world.timeofday, "Day"))
+	var/weekday = LOWER_TEXT(time2text(world.timeofday, "Day"))
 	var/time_str = fog_schedule[weekday]
 
 	if(!time_str || time_str == "")

@@ -113,7 +113,7 @@ SUBSYSTEM_DEF(cooking)
 	covered["[source]>[result]"] = TRUE
 	var/datum/food_recipe/single_cook/R = new
 	var/atom/res = result
-	R.name = lowertext(initial(res.name))
+	R.name = LOWER_TEXT(initial(res.name))
 	R.base_item = source
 	R.result_type = result
 	R.result_amount = amount || 1

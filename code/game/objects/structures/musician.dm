@@ -100,7 +100,7 @@
 			cur_acc[i] = "n"
 
 		for(var/line in lines)
-			for(var/beat in splittext(lowertext(line), ","))
+			for(var/beat in splittext(LOWER_TEXT(line), ","))
 				var/list/notes = splittext(beat, "/")
 				for(var/note in splittext(notes[1], "-"))
 					if(!playing || shouldStopPlaying(user))//If the instrument is playing, or special case
