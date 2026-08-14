@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - qol: "Forced earflicks now properly respect Deadened / Guarded virtues."

@@ -1,5 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - image: "Gibs now use shaded visuals once more."
-  - image: "Gibs will not be colored unless a non default color is passed along."
