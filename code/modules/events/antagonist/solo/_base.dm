@@ -18,6 +18,18 @@
 	/// Similar to extra_spawned_events however these are only used by roundstart events and will only try and run if we have the points to do so
 	var/list/preferred_events
 
+// this is a hack-fix. solo antags, if they have an antag datum, will trim out people who already have said antag datum.
+// before this it seems like it could apply to people if they were already that antag. my chungus life.
+/datum/round_event_control/antagonist/solo/trim_candidates(list/candidates)
+	candidates = ..()
+	// afaik this should work even if iuts somethgig like vampires_and_werewolves which spawns both(???)
+	if(antag_datum)
+		for(var/mob/living/candidate in candidates)
+			if(candidate.mind.has_antag_datum(antag_datum))
+				candidates -= candidate
+	return candidates
+
+
 /datum/round_event_control/antagonist/solo/from_ghosts/get_candidates()
 	var/round_started = SSticker.HasRoundStarted() || SSgamemode?.roundstart_live
 	var/midround_antag_pref_arg = round_started ? FALSE : TRUE
@@ -141,7 +153,7 @@
 			candidates += antag_mind.current
 			SSgamemode.roundstart_antag_minds -= antag_mind
 			log_storyteller("Roundstart antag_mind, [antag_mind]")
-	
+
 	if(prompted_picking)
 		// Trying a callback here to avoid hanging the event logic.
 		INVOKE_ASYNC(src, PROC_REF(poll_and_assign), possible_candidates)
@@ -324,12 +336,12 @@
 
 		setup_minds += chosen.mind
 		chosen.mind.special_role = antag_flag
-		add_datum_to_mind(chosen.mind) 
+		add_datum_to_mind(chosen.mind)
 	message_admins("STORYTELLER: [cast_control.name] poll finished. [setup_minds.len] antags spawned.")
 
 /datum/round_event/antagonist/solo/proc/ask_candidate(mob/M, list/willing_list, poll_time)
 	var/ask_text = "The storyteller is requesting a [antag_flag]. Would you like to play this role?"
 	var/choice = tgui_alert(M, ask_text, "Antagonist Request", list("Yes", "No"), poll_time)
-	
+
 	if(choice == "Yes")
 		willing_list += M
