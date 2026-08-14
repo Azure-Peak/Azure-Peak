@@ -1109,7 +1109,7 @@
 				if(src.stat == DEAD)
 					// if you ONLY have DNR from being assasinatd, that is, you can be brought back, display this.
 					if(HAS_TRAIT_FROM_ONLY(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
-						. += span_cult("A ghastly red-mist spills from their chest. Their soul yearns to be returned to their body... it's been taken! Return it to revive them!")
+						. += span_cult("A ghastly red-mist spills from their chest. Their soul yearns to be returned to their body...")
 						// else ur permagone so tell ppl that
 					else
 						. += span_danger("Their body holds not even a glimmer of life. No miracle or medicine can bring them back.")
