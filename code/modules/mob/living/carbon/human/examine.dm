@@ -1109,7 +1109,7 @@
 				if(src.stat == DEAD)
 					// if you ONLY have DNR from being assasinatd, that is, you can be brought back, display this.
 					if(HAS_TRAIT_FROM_ONLY(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
-						. += span_cult("Their face is frozen in fear. A deep hole is visible in their chest. Something is wrong.")
+						. += span_cult("A ghastly red-mist spills from their chest. Their soul yearns to be returned to their body... it's been taken! Return it to revive them!")
 						// else ur permagone so tell ppl that
 					else
 						. += span_danger("Their body holds not even a glimmer of life. No miracle or medicine can bring them back.")
@@ -1119,7 +1119,7 @@
 			// deathsight always works even on the living.
 			else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
 				if(HAS_TRAIT_FROM_ONLY(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
-					. += span_cult("Their face is frozen in fear. A hole is present in their heart-lux. The marks of a soul-thiefing assassin. Find the dagger their soul is bound in and destroy it to revive them.")
+					. += span_cult("Their soul is screaming! It's been stolen by an Assassin of Graggar! Find and destroy the dagger that contains it to bring them back!")
 				else
 					. += span_danger("They extrude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
 
