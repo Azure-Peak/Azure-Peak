@@ -468,7 +468,7 @@ Inquisitorial armory down here
 				playsound(H, 'sound/magic/holyshield.ogg', 100)
 				new /obj/effect/temp_visual/censer_dust(get_turf(H))
 		else
-			to_chat(span_warning("They've already been blessed."))
+			to_chat(user, span_warning("They've already been blessed."))
 
 /mob/living/carbon/human/proc/has_active_golgatha()
 	for(var/obj/item/flashlight/flare/torch/lantern/psycenser/G in contents)

@@ -227,7 +227,7 @@
 		qdel(I)
 	/*if(istype(I, /obj/item/natural/fibers))
 		if(payload.wire_trigger.len == 2)
-			to_chat(span_warning("I can not extend [src] anymore."))
+			to_chat(user, span_warning("I can not extend [src] anymore."))
 			return ..()
 		if(!do_after(user, 7 SECONDS - user.get_skill_level(/datum/skill/craft/traps), TRUE, src))
 			to_chat(user, span_warning("I stop extending [src]."))

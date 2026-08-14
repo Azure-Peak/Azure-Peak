@@ -189,7 +189,7 @@
 
 	// Handle strange edge case
 	if(!B)
-		to_chat(span_warning("Nothing falls out! Something's broken!"))
+		to_chat(user, span_warning("Nothing falls out! Something's broken!"))
 
 	if(quantity > B.volume)
 		quantity = B.volume

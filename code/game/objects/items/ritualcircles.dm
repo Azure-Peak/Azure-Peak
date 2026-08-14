@@ -1099,7 +1099,7 @@
 				icon_state = "necra_chalky"
 		if("The Toll")
 			if(!coinslot)
-				to_chat("This rite requires the toll to be prepared...")
+				to_chat(user, "This rite requires the toll to be prepared...")
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
