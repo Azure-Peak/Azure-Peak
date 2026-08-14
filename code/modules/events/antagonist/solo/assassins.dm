@@ -68,6 +68,9 @@
 	for(var/mob/living/candidate in candidates)
 		if(candidate.has_flaw(/datum/charflaw/targeted) || candidate.has_flaw(/datum/charflaw/hunted))
 			candidates -= candidate
+		// needs to be a gaggarite
+		if(istype(candidate.patron, /datum/patron/inhumen/graggar))
+			candidates -= candidate
 	return candidates
 
 /datum/round_event/antagonist/solo/assassins/start()
