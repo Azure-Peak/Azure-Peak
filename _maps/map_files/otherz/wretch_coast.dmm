@@ -574,6 +574,11 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"ck" = (
+/obj/structure/fluff/railing/wood,
+/obj/structure/closet/crate/chest/crate/kitchen,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/indoors/banditcamp)
 "cl" = (
 /obj/machinery/light/rogue/candle/floorcandle/alt{
 	pixel_y = -14
@@ -1765,6 +1770,15 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/banditcamp)
+"hy" = (
+/obj/structure/bed/rogue/inn/wool,
+/obj/item/bedsheet/rogue/cloth,
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_x = 32;
+	pixel_y = 0
+	},
+/turf/open/floor/carpet/red,
+/area/rogue/under/cave/inhumen)
 "hz" = (
 /obj/structure/chair/bench/coucha/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -2912,7 +2926,6 @@
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/vampire_manor)
 "me" = (
-/obj/machinery/light/rogue/campfire/fireplace,
 /obj/structure/chair/wood/rogue/fancy{
 	dir = 8
 	},
@@ -5005,7 +5018,7 @@
 	pixel_x = 1;
 	pixel_y = 3
 	},
-/obj/structure/fluff/wallclock/vampire,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/vampire_manor)
 "uK" = (
@@ -5303,6 +5316,14 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/wretch_lair)
+"wg" = (
+/obj/structure/table/wood/poor,
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_x = 32;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave/inhumen)
 "wh" = (
 /obj/structure/table/wood/poor,
 /turf/open/floor/carpet/red,
@@ -5645,6 +5666,7 @@
 "xD" = (
 /obj/structure/table/wood/poor,
 /obj/machinery/light/rogue/candle/r,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/cave/inhumen)
 "xE" = (
@@ -6099,6 +6121,14 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/cave)
+"zN" = (
+/obj/structure/table/wood/poor,
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_x = 32;
+	pixel_y = 0
+	},
+/turf/open/floor/carpet/red,
+/area/rogue/under/cave/inhumen)
 "zO" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/naturalstone,
@@ -6691,6 +6721,7 @@
 "BS" = (
 /obj/structure/bed/rogue/inn/wool,
 /obj/item/bedsheet/rogue/cloth,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "BT" = (
@@ -6831,6 +6862,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 9
 	},
+/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "Cv" = (
@@ -6915,6 +6947,15 @@
 "CR" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/banditcamp)
+"CS" = (
+/obj/structure/bed/rogue/inn/wool,
+/obj/item/bedsheet/rogue/cloth,
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_x = 32;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave/inhumen)
 "CT" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -7175,6 +7216,7 @@
 /obj/item/storage/belt/rogue/pouch,
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/inhumen)
 "DW" = (
@@ -7387,6 +7429,13 @@
 /obj/structure/roguerock,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"EY" = (
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_x = 32;
+	pixel_y = 0
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "EZ" = (
 /obj/machinery/light/rogue/firebowl/standing,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -7971,6 +8020,10 @@
 "HO" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/under/cave/inhumen)
+"HP" = (
+/obj/structure/closet/crate/chest/crate/kitchen,
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "HQ" = (
 /obj/effect/decal/cobbleedge,
 /obj/structure/fermentation_keg/water,
@@ -8323,6 +8376,7 @@
 /obj/structure/bed/rogue/inn/wool,
 /obj/machinery/light/rogue/candle/r,
 /obj/item/bedsheet/rogue/cloth,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
 "Jw" = (
@@ -10334,7 +10388,7 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/cave/inhumen)
 "Sb" = (
-/obj/item/reagent_containers/glass/bucket,
+/obj/structure/closet/crate/chest/crate/kitchen,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "Sd" = (
@@ -11991,6 +12045,7 @@
 /obj/structure/bed/rogue/inn/wool,
 /obj/machinery/light/rogue/candle/r,
 /obj/item/bedsheet/rogue/cloth,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/cave/inhumen)
 "YU" = (
@@ -29737,7 +29792,7 @@ Dr
 ZK
 bt
 UU
-fV
+wg
 vG
 IL
 IL
@@ -30127,7 +30182,7 @@ bK
 vG
 Ua
 fv
-wh
+zN
 vG
 IL
 IL
@@ -30517,7 +30572,7 @@ bK
 vG
 wh
 HU
-Xq
+CS
 vG
 IL
 IL
@@ -30907,7 +30962,7 @@ bK
 vG
 bt
 ca
-wh
+zN
 vG
 IL
 IL
@@ -31297,7 +31352,7 @@ Zl
 vG
 Ua
 fv
-wh
+zN
 vG
 Xm
 IL
@@ -31685,7 +31740,7 @@ Ic
 nv
 NB
 vG
-qO
+hy
 qP
 OX
 Xz
@@ -33182,7 +33237,7 @@ mA
 Fz
 OQ
 HV
-co
+ck
 zz
 CR
 CR
@@ -43761,7 +43816,7 @@ kn
 kn
 HQ
 Ga
-Ga
+HP
 kn
 kn
 pV
@@ -58718,7 +58773,7 @@ Vb
 Vb
 BW
 kn
-Vi
+QD
 Vb
 Vb
 vx
@@ -62228,7 +62283,7 @@ Vb
 jq
 kn
 kn
-Vb
+EY
 Vb
 Vb
 Fv
