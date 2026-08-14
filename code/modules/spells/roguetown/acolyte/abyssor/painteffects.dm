@@ -51,7 +51,7 @@
 	// We use a filter to make it cheaper for del() to clean these up!
 	start_filter_fade()
 
-/obj/effect/ink_trail/proc/start_filter_fade(new_duration = duration)
+/obj/effect/ink_trail/proc/start_filter_fade(var/new_duration = duration)
 	if(src.filters && src.filters.len)
 		src.remove_filter("ink_trail_fade")
 
@@ -78,7 +78,7 @@
 	expiration_timer_id = null
 	qdel(src)
 
-/obj/effect/ink_trail/proc/refresh_lifetime(new_duration = duration)
+/obj/effect/ink_trail/proc/refresh_lifetime(var/new_duration = duration)
 	if(expiration_timer_id)
 		deltimer(expiration_timer_id)
 	start_filter_fade(new_duration)

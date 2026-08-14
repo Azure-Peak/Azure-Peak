@@ -996,7 +996,7 @@
 		return
 	practice(user, attacking_weapon.associated_skill, user.used_intent.animname)
 
-/obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation)
+/obj/structure/fluff/statue/tdummy/proc/practice(var/mob/living/living_mob, var/associated_skill, var/attack_animation)
 	living_mob.changeNext_move(CLICK_CD_MELEE)
 	living_mob.stamina_add(rand(4, 6))
 
@@ -1442,7 +1442,7 @@
 	else
 		to_chat(user, span_warning("No weapon was chosen."))
 
-/obj/structure/fluff/psycross/proc/summon_and_equip(mob/user, obj/item/rogueweapon/weapontype)
+/obj/structure/fluff/psycross/proc/summon_and_equip(mob/user, var/obj/item/rogueweapon/weapontype)
 	var/obj/item/rogueweapon/old_weapon = SSroguemachine.martyrweapon
 	var/integrity
 

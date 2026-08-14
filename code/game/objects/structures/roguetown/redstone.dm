@@ -687,7 +687,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	// Use MOVE_FORCE_STRONG to ensure move_resist doesn't block the throw
 	I.throw_at(target, 7, 3, null, FALSE, FALSE, null, MOVE_FORCE_STRONG)
 
-/obj/structure/englauncher/proc/container_aerosolize(launcher_liquid, launcher_direction)
+/obj/structure/englauncher/proc/container_aerosolize(var/launcher_liquid, var/launcher_direction)
 	var/turf/T = get_step(src, launcher_direction) //check for turf
 	if(T)
 		var/obj/item/reagent_containers/con = launcher_liquid //get the container

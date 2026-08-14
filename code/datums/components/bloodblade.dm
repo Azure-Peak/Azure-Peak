@@ -13,7 +13,7 @@
 
 	addtimer(CALLBACK(src, PROC_REF(timeout)), 30 SECONDS)
 
-/datum/component/bloodblade/proc/coat(obj/item/I)
+/datum/component/bloodblade/proc/coat(var/obj/item/I)
 	counter = 3
 	I.force += 10
 	I.force_wielded += 10
@@ -22,7 +22,7 @@
 	I.add_filter("bloodblade", 2, list("type" = "outline", "color" = "#000000", "alpha" = 200, "size" = 1))
 	return
 
-/datum/component/bloodblade/proc/onhit(obj/item/I)
+/datum/component/bloodblade/proc/onhit(var/obj/item/I)
 	if(counter > 1)
 		counter -= 1
 	else

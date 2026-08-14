@@ -434,7 +434,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 	try
 		if(summon_mob(user))
 			. = ..()
-	catch(exception/e)
+	catch(var/exception/e)
 		to_chat(user, "Exception: [e] on [e.file], line [e.line]. This is a code error!")
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/summon_mob(mob/living/user)

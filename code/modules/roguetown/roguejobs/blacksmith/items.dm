@@ -271,7 +271,7 @@
 	duration = 13
 	plane = -1
 
-/obj/effect/temp_visual/armor_glint/Initialize(mapload, extra_rand = 1)
+/obj/effect/temp_visual/armor_glint/Initialize(mapload, var/extra_rand = 1)
 	. = ..()
 	pixel_x = extra_rand * rand(-5,5)
 	pixel_y = extra_rand * rand(-5,5)

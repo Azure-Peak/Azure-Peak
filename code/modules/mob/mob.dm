@@ -902,7 +902,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	mob_spell_list += S
 	S.action.Grant(src)
 
-/mob/proc/HasSpell(spell_type)
+/mob/proc/HasSpell(var/spell_type)
 	for(var/obj/effect/proc_holder/spell/spell as anything in mob_spell_list)
 		if(spell.type == spell_type)
 			return spell

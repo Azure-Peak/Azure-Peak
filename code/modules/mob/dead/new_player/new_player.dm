@@ -636,10 +636,10 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	GLOB.chosen_names += H.real_name
 
 
-/mob/proc/after_creation(mob/dead/new_player/new_player)
+/mob/proc/after_creation(var/mob/dead/new_player/new_player)
 	return
 
-/mob/living/carbon/human/after_creation(mob/dead/new_player/new_player)
+/mob/living/carbon/human/after_creation(var/mob/dead/new_player/new_player)
 	if(dna?.species)
 		dna.species.after_creation(src)
 

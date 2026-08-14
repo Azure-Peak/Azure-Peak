@@ -271,7 +271,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 		return 1
 	return 0
 
-/proc/sort_corpse_list_by_distance_simple(list/L, mob/ref)
+/proc/sort_corpse_list_by_distance_simple(var/list/L, var/mob/ref)
 	if(!L || !length(L) || !ref)
 		return L
 

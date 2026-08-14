@@ -784,7 +784,7 @@ GLOBAL_LIST_EMPTY(string_lists)
 /**
  * Returns a newline-separated list that counts equal-ish items, outputting count and item names, optionally with icons.
  */
-/proc/counting_english_list(list/input, output_icons = TRUE, nothing_text = "nothing", line_prefix = "\t", first_item_prefix = "\n", last_item_suffix = "\n", and_text = "\n", comma_text = "\n", final_comma_text = "")
+/proc/counting_english_list(var/list/input, output_icons = TRUE, nothing_text = "nothing", line_prefix = "\t", first_item_prefix = "\n", last_item_suffix = "\n", and_text = "\n", comma_text = "\n", final_comma_text = "")
 	// Counted input items.
 	var/list/counts = list()
 	// Actual objects for later reference (for icons and formatting).
@@ -866,7 +866,7 @@ Port of: https://github.com/Monkestation/Vanderlin/commit/84b8b6a716a80040145bb9
 	icon = 'icons/turf/debug.dmi'
 	icon_state = "debug_turf"
 
-/proc/find_key_by_value(list/list, value)
+/proc/find_key_by_value(var/list/list, value)
 	for(var/key in list)
 		var/found_value = list[key]
 		if(found_value == value)

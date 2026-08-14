@@ -316,7 +316,7 @@
 	if(pending_direct_responses[response_id])
 		pending_direct_responses -= response_id
 
-/obj/structure/roguemachine/talkstatue/mercenary/proc/speak(mode)
+/obj/structure/roguemachine/talkstatue/mercenary/proc/speak(var/mode)
 	if(mode == 1)
 		var/random = rand(1,4)
 		switch(random)

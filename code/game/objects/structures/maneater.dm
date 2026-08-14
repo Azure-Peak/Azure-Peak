@@ -180,7 +180,7 @@
 		name = "grass"
 		icon_state = "maneater-hidden"
 
-/obj/structure/flora/roguegrass/maneater/real/user_unbuckle_mob(mob/living/M, mob/user, break_factor = 1)
+/obj/structure/flora/roguegrass/maneater/real/user_unbuckle_mob(mob/living/M, mob/user, var/break_factor = 1)
 	if(obj_broken)
 		..()
 		return

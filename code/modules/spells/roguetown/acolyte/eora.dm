@@ -99,7 +99,7 @@
 	// I hate this but let's be consistent.
 	var/datum/patron/patron
 
-/datum/component/blessed_food/Initialize(mob/living/_caster, holy_skill, patron_init)
+/datum/component/blessed_food/Initialize(mob/living/_caster, var/holy_skill, var/patron_init)
 	if(!isitem(parent) || !istype(parent, /obj/item/reagent_containers/food/snacks))
 		return COMPONENT_INCOMPATIBLE
 
@@ -330,7 +330,7 @@
 /datum/component/eora_bond/partner
 	ispartner = TRUE
 
-/datum/component/eora_bond/Initialize(mob/living/partner_mob, mob/living/caster_mob, holy_skill)
+/datum/component/eora_bond/Initialize(mob/living/partner_mob, mob/living/caster_mob, var/holy_skill)
 	if(!isliving(parent) || !isliving(partner_mob))
 		return COMPONENT_INCOMPATIBLE
 

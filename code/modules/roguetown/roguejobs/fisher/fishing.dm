@@ -1,4 +1,4 @@
-/proc/getfishingloot(mob/living/carbon/human/fisherman, list/modlist, turf/target, skill_power = 1)
+/proc/getfishingloot(var/mob/living/carbon/human/fisherman, var/list/modlist, turf/target, var/skill_power = 1)
 	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
 	var/salwt_coast = list(/turf/open/water/ocean)
 	var/salwt_deep = list(/turf/open/water/ocean/deep, /turf/open/water/ocean/deep/dark)
@@ -32,7 +32,7 @@
 		fishingloot = pickweightAllowZero(createMudFishWeightListModlist(modlist))
 	return fishingloot
 
-/proc/upgradecagemodlist(mob/living/carbon/human/fisherman, list/modlist, skill_power = 1)
+/proc/upgradecagemodlist(var/mob/living/carbon/human/fisherman, var/list/modlist, var/skill_power = 1)
 	if(ishuman(fisherman))
 		if(fisherman.patron.type == /datum/patron/divine/abyssor)
 			modlist["dangerFishingMod"] *= 1.10	// +10% danger
@@ -50,7 +50,7 @@
 			modlist["dangerFishingMod"] *= (1 - (trait_bonus * 3))
 	return modlist
 
-/proc/getbaitlife(fishing_skill, obj/item/bait, basechance = 80)
+/proc/getbaitlife(var/fishing_skill, var/obj/item/bait, var/basechance = 80)
 	if(bait.baitresilience > 0)
 		if(fishing_skill >= SKILL_LEVEL_MASTER)
 			bait.baitresilience = max(0, bait.baitresilience - 1)

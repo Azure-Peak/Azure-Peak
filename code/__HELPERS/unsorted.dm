@@ -1580,7 +1580,7 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 			return TRUE
 	return FALSE
 
-/proc/get_actors_by_title(title)
+/proc/get_actors_by_title(var/title)
 	var/list/actor_data = list()
 	for(var/mob_id in GLOB.actors_list)
 		if(GLOB.actors_list[mob_id]["rank"] != title)
