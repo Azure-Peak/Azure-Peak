@@ -605,6 +605,24 @@
 	item_state = "gcuirass"
 	icon_state = "gcuirass"
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_cropped
+	name = "Low Cut Padded Gambeson"
+	desc = "A gambeson that's padded in the areas that matter, and trimmed down at the top and below by design to be more revealing and fitted to the body for more comfort."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "cropgambeson"
+	icon_state = "cropgambeson"
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/donator_cropped
+	name = "Low Cut Gambeson"
+	desc = "An ordinary gambeson, trimmed down at the top and below by design to be more revealing and fitted to the body for more comfort."
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon = 'icons/clothing/donor_clothes.dmi'
+	item_state = "cropgambeson"
+	icon_state = "cropgambeson"
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 /obj/item/storage/belt/rogue/leather/donator
 	name = "belt of caped leathers"
 	desc = "A fine leather belt that's been decorated with a skirt of thin leather strips."
@@ -774,6 +792,7 @@
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	color = null
 	custom_design = TRUE
+	body_parts_covered = CHEST
 	slot_flags = ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK
 	storage = FALSE
 	grid_width = 32

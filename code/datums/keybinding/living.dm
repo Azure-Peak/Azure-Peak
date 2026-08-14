@@ -288,7 +288,7 @@
 		return FALSE
 	var/obj/item/I = L.get_active_held_item()
 	if(I)
-		I.rmb_self(L)
+		I.rmb_self(L, keybind = TRUE)
 		return TRUE
 	return FALSE
 

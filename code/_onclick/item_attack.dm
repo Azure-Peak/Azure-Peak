@@ -267,7 +267,7 @@
 		user.changeMaxDodge(2)
 		user.dodgetime = clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE)
 
-	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
+	log_combat(user, M, "attacked", src.name, zone=user.zone_selected, intent=user.used_intent.name, damtype=damtype)
 
 	execute_cleave(user, get_turf(M), M)
 
@@ -330,7 +330,7 @@
 			var/tempsound = user.used_intent?.hitsound
 			if(tempsound)
 				playsound(L.loc, tempsound, 100, FALSE, -1)
-			log_combat(user, L, "cleaved", src.name, "(INTENT: [uppertext(user.used_intent.name)])")
+			log_combat(user, L, "cleaved", src.name, zone=user.zone_selected, intent=user.used_intent.name)
 	cleave_sharpness_mult = 1
 
 /atom/movable/proc/attacked_by()

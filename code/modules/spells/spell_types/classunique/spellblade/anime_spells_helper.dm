@@ -149,7 +149,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		var/mob/living/L = target
 		L.show_ranged_accuracy_fail(user, aimed_zone, def_zone, roll_out)
 
-	log_combat(user, target, "spell-struck ([spell_name])")
+	log_combat(user, target, "spell-struck ([spell_name])", zone=def_zone)
 	return max(0, damage - armor_block)
 
 /proc/arcyne_get_weapon(mob/living/carbon/human/H)

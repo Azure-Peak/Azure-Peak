@@ -227,6 +227,9 @@
 	name = "Gift - Armor Cosmetic, Heelification Elixir"
 	path = /obj/item/heelkit
 
+/datum/loadout_item/donator/universal/donator_cropped_gambeson
+	name = "Gift - Kit, Cropped Gambeson"
+	path = /obj/item/enchantingkit/donator_cropped_gambeson
 // --- GRENZEL REGIONAL ---
 
 /datum/loadout_item/donator/universal/regional/grenzelhat
@@ -894,27 +897,27 @@
 /datum/loadout_item/donator/hellpossum_apostle_armor
 	name = "Donator Kit - Apostle's Armor"
 	path = /obj/item/enchantingkit/hellpossum_apostle_armor
-	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_robed_apostle_armor
 	name = "Donator Kit - Apostle's Armor, Robed"
 	path = /obj/item/enchantingkit/hellpossum_robed_apostle_armor
-	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_apostle_helm
 	name = "Donator Kit - Apostle's Burgeonet"
 	path = /obj/item/enchantingkit/hellpossum_apostle_helm
-	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_apostle_winghelm
 	name = "Donator Kit - Apostle's Burgeonet, Winged"
 	path = /obj/item/enchantingkit/hellpossum_apostle_winghelm
-	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_apostle_wingsallet
 	name = "Donator Kit - Apostle's Sallet, Winged"
 	path = /obj/item/enchantingkit/hellpossum_apostle_wingsallet
-	ckeywhitelist = list("dasfox, purplepineapple, bigfoot02, ryan180602, oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_grandmaster_armor
 	name = "Donator Kit - Grandmaster's Armor, Robed"

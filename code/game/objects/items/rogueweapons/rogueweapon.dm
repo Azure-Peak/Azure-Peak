@@ -118,8 +118,8 @@
 	can_parry = initial(can_parry)
 	..()
 
-/obj/item/rogueweapon/rmb_self(mob/user)
-	if(has_altgrip_modes() && user.cmode)
+/obj/item/rogueweapon/rmb_self(mob/user, keybind = FALSE)
+	if(has_altgrip_modes() && (keybind || user.cmode))
 		if(wielded && !altgripped)
 			ungrip(user)
 		altgrip(user)

@@ -1071,7 +1071,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	else
 		M.take_bodypart_damage(7)
 
-	log_combat(user, M, "attacked", "[name]", "(INTENT: [uppertext(user.used_intent)])")
+	log_combat(user, M, "attacked", "[name]", intent=user.used_intent?.name)
 
 	var/obj/item/organ/eyes/eyes = M.getorganslot(ORGAN_SLOT_EYES)
 	if (!eyes)

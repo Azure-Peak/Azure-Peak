@@ -5,7 +5,7 @@
 
 	outfit = /datum/outfit/job/roguetown/gnoll/templar
 	category_tags = list(CTAG_GNOLL)
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_UNCONVERTIBLE)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_UNCONVERTIBLE, TRAIT_HALLOWED)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_CON = 3,
@@ -39,7 +39,6 @@
 		H.skin_armor = new vamp_armor_type(H)
 		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
 		neck = /obj/item/storage/belt/rogue/pouch/healing
-		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)

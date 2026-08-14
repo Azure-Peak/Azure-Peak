@@ -102,6 +102,7 @@
 #define TRAIT_RECENT_CONVERT "Recent Convert"
 #define TRAIT_UNCONVERTIBLE "Unconvertible"
 #define TRAIT_HERESIARCH "Forbidden Knowledge"
+#define TRAIT_HALLOWED "Hallowed"
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_JACKOFALLTRADES "Jack of All Trades"	//Reduces skill up cost
 #define TRAIT_SIMPLESPEECH "Simple Speech" // Can only say the 1000 most common English-language words; other words get modified
@@ -546,6 +547,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NECRAS_VOW = span_warning("I've pledged myself to Necra. If I fall, I am Hers."),
 	TRAIT_PESTRAS_BLESSING = span_infection("The sacred black rot of Pestra burns within me. Should intelligent foes try to harm me, they will feel her greatest plague."),
 	TRAIT_HERESIARCH = span_warning("I've been touched by the truth of Psydonia. Lyfe as we understand cannot persist under the Ten or the pretense of Psydon. Something must change."),
+	TRAIT_HALLOWED = span_notice("I'm closer to the gods than most. I can utilize my miracles, regardless of if I bear an amulet or not."),
 	TRAIT_ZURCH = span_warning("I know of sacred sites of worship where followers of the Ascendants convene, and the path to the nearest conclave is etched into my memory."),
 	TRAIT_CAVEDWELLER = span_info("The mountains are my home. I prefer to live beneath the surface away from the sun's gaze and know the caves of this land like the back of my hand."),
 	TRAIT_CURSE_ASTRATA = span_warning("I am forsaken by the Sun. I will find no rest under Her unwavering gaze."),

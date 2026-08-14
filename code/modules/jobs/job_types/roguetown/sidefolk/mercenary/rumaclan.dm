@@ -38,8 +38,8 @@
 	beltl = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
 	l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	cloak = /obj/item/clothing/cloak/eastcloak1
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //scalemail
-	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest //light brigadine.
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma //a heavy gambeson, but plate.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats/ruma //light brigadine.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
@@ -91,8 +91,8 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 	cloak = /obj/item/clothing/cloak/eastcloak1
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //scalemail
-	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest //light brigadine.
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma //a heavy gambeson, but plate.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats/ruma //light brigadine.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
