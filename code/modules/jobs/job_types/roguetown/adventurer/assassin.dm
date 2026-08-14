@@ -12,7 +12,8 @@
 
 
 	tutorial = "\"A MAN SPEAKS A NAME. WE DO THE REST!\", a common parlance from your cursed dagger. Whether puppeted by dark forces or by \
-	choice, you have become a devout of the Sinistar. "
+	choice, you have become a devout of the Sinistar. As His devout pray for His wrath, you dispense it, skin-thiefing and soul-taking those \
+	deemed worthy of a blood-hunt. Let the red-mist cloud your mind, you are a killer, through-and-through."
 
 	outfit = null
 	outfit_female = null
