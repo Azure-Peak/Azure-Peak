@@ -147,7 +147,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			span_danger("[user] [attack_verb] me in the [span_userdanger(parse_zone(def_zone))]![armor_msg]"),
 			null, COMBAT_MESSAGE_RANGE)
 
-	log_combat(user, target, "spell-struck ([spell_name])")
+	log_combat(user, target, "spell-struck ([spell_name])", zone=def_zone)
 	return max(0, damage - armor_block)
 
 /proc/arcyne_get_weapon(mob/living/carbon/human/H)

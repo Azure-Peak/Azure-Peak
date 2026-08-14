@@ -12,7 +12,7 @@
 	var/brewing = 0
 	var/should_brew = FALSE
 	pass_flags = PASSTABLE | PASSMOB
-	inherent_spell = list(/datum/action/cooldown/spell/projectile/lesser_fetch/fae)
+	inherent_spell = list(/datum/action/cooldown/spell/projectile/fetch/fae)
 	movement_type = FLYING
 	t1_spell = list(/datum/action/cooldown/spell/rootcheck, /datum/action/cooldown/spell/invisibility/fae)
 	t2_spell = list(/datum/action/cooldown/spell/fae_brew, /obj/effect/proc_holder/spell/invoked/reagent_bite)
@@ -169,7 +169,7 @@
 						qdel(ing)
 					src.reagents.add_reagent(/datum/reagent/yuck, min(reagents.maximum_volume - reagents.total_volume, 90)) // do not overfill
 					// Learn from your failure (Yeah you can technically still grind this way you just blow through a lot of ingredients)
-					familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
+					add_sleep_experience(familiar_summoner, /datum/skill/craft/alchemy, amt2raise)
 					return
 				for(var/obj/item/ing in src.ingredients)
 					qdel(ing)
@@ -183,7 +183,7 @@
 				record_featured_stat(FEATURED_STATS_ALCHEMISTS, familiar_summoner)
 				record_round_statistic(STATS_POTIONS_BREWED)
 				//give xp for /datum/skill/craft/alchemy
-				familiar_summoner?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
+				add_sleep_experience(familiar_summoner, /datum/skill/craft/alchemy, amt2raise)
 				playsound(src, "bubbles", 100, TRUE)
 				playsound(src,'sound/misc/smelter_fin.ogg', 30, FALSE)
 				ingredients = list()

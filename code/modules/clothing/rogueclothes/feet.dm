@@ -348,7 +348,7 @@
 	desc = "A pair of lightweight snugly fitting boots. They're reinforced along the toes and ankles and offer a measure of protection against missteps and glancing blows during close exchanges, often favoured by duelists and other itinerant swordsmen."
 	icon_state = "freiboots"
 	item_state = "freiboots"
-	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + ARMOR_INT_LIGHT_FENCER_MODIFIER
 
 /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter/loadout
 	name = "aesthetic fencing boots"
@@ -864,6 +864,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_courtphys.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
 	salvage_result = /obj/item/natural/hide/cured
+	sewrepair = TRUE
 
 /obj/item/clothing/shoes/courtphysician/female
 	name = "sanguine heels"
@@ -946,3 +947,13 @@
 	salvage_result = /obj/item/natural/hide/cured
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+
+/obj/item/clothing/shoes/roguetown/sandals/toga
+	name = "toga sandals"
+	desc = "A fancy pair of sandals delicately woven in a style that harken back to bygone yils of antiquity."
+	gender = PLURAL
+	icon_state = "togasandals"
+	item_state = "togasandals"
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/cloth
+

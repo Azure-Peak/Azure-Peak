@@ -776,6 +776,9 @@ BLIND     // can't see anything
 		armor = new /datum/armor()
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	obj_integrity = max_integrity
+	blocksound = null
+	if(slot_flags & (ITEM_SLOT_ARMOR | ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK))
+		slot_flags |= ITEM_SLOT_ARMOR | ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK
 	if((grid_width > 64 ) || (grid_height > 64))	// We're an item that's 2+ tiles across / tall.
 		// We make it fit into generic 2x2 aesthetic storage. Warning. May cause weirdness if we start loadoutizing everything all willy-nilly.
 		grid_width = 64

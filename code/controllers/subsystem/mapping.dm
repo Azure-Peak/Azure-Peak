@@ -265,18 +265,12 @@ SUBSYSTEM_DEF(mapping)
 		if (!VM)
 			mapvotes.Remove(map)
 			continue
-		if (VM.voteweight <= 0)
-			mapvotes.Remove(map)
-			continue
 		if (VM.config_min_users > 0 && players < VM.config_min_users)
 			mapvotes.Remove(map)
 			continue
 		if (VM.config_max_users > 0 && players > VM.config_max_users)
 			mapvotes.Remove(map)
 			continue
-
-		if(pmv)
-			mapvotes[map] = mapvotes[map]*VM.voteweight
 
 	var/pickedmap = pickweight(mapvotes)
 	if (!pickedmap)

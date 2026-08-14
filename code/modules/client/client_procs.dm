@@ -214,6 +214,18 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	log_admin("[key_name(src)] opened the Chronicle preview.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "View Chronicle")
 
+/client/proc/cmd_admin_view_economics()
+	set category = "Debug"
+	set name = "View Economics"
+	set desc = "Open the Realm Economics panel without waiting for round end."
+
+	if(!check_rights(R_ADMIN|R_DEBUG))
+		return
+	var/datum/economic_chronicle/chronicle = get_economic_chronicle()
+	chronicle.ui_interact(mob)
+	log_admin("[key_name(src)] opened the Realm Economics preview.")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "View Economics")
+
 /client/proc/is_content_unlocked()
 	if(!prefs.unlock_content)
 		to_chat(src, "Become a BYOND member to access member-perks and features, as well as support the engine that makes this game possible. Only 10 bucks for 3 months! <a href=\"https://secure.byond.com/membership\">Click Here to find out more</a>.")

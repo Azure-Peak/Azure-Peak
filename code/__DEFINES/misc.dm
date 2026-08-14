@@ -37,18 +37,18 @@
 #define LEGSLEEVE_LAYER			36
 #define SHOES_LAYER				35
 #define SHOESLEEVE_LAYER		34
-#define SHIRT_LAYER				33
-#define WRISTS_LAYER			32
-#define ARMOR_LAYER				31
-#define TABARD_LAYER			30
-#define BELT_LAYER				29		//only when looking south
-#define UNDER_CLOAK_LAYER		28
-#define HANDS_PART_LAYER		27
-#define GLOVES_LAYER			26
-#define ARM_DAMAGE_LAYER		25
-#define SHIRTSLEEVE_LAYER		24
-#define WRISTSLEEVE_LAYER		23
-#define ARMORSLEEVE_LAYER		22
+#define HANDS_PART_LAYER		33		//hand skin (bodypart aux sprite). torso+arms ends here.
+#define ARM_DAMAGE_LAYER		32
+#define SHIRT_LAYER				31
+#define SHIRTSLEEVE_LAYER		30
+#define WRISTS_LAYER			29
+#define WRISTSLEEVE_LAYER		28
+#define ARMOR_LAYER				27
+#define TABARD_LAYER			26
+#define ARMORSLEEVE_LAYER		25
+#define BELT_LAYER				24		//only when looking south
+#define UNDER_CLOAK_LAYER		23
+#define GLOVES_LAYER			22		// torso+arms start here
 #define GLOVESLEEVE_LAYER		21
 #define RING_LAYER				20
 #define GLASSES_LAYER			19
@@ -79,12 +79,16 @@
 //Human Overlay Index Shortcuts for alternate_worn_layer, layers
 //Because I *KNOW* somebody will think layer+1 means "above"
 //IT DOESN'T OK, IT MEANS "UNDER"
-#define UNDER_ARMOR_LAYER			(ARMOR_LAYER+1)
+
+//^^^ whatever bro fractional layer is the only way now :/
+//this means under armour needs to stick with sleeves
+#define UNDER_ARMOR_LAYER			(ARMOR_LAYER+0.5)	//behind the armor and its pauldrons, in front of the bracers and the shirt, sleeves included
 #define UNDER_HAT_LAYER			(HEAD_LAYER+1)
 
 //AND -1 MEANS "ABOVE", OK?, OK!?!
 #define ABOVE_SHOES_LAYER			(SHOES_LAYER-1)
 #define ABOVE_BODY_FRONT_LAYER		(BODY_FRONT_LAYER-1)
+#define OVER_GLOVES_LAYER			(GLOVESLEEVE_LAYER-0.5)
 
 //Security levels
 #define SEC_LEVEL_GREEN	0

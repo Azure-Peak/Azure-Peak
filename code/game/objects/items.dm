@@ -89,7 +89,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/inv_storage_delay = 0 //In deciseconds, how long an item takes to store in/pull out of a mob storage item (like, bags).
 	var/edelay_type = 1 //if 1, can be moving while equipping (for helmets etc)
 	var/equip_delay_other = 20 //In deciseconds, how long an item takes to put on another person
-	var/strip_delay = 40 //In deciseconds, how long an item takes to remove from another person
+	var/strip_delay = STRIP_DELAY_NORMAL //How long an item takes to remove from another person. Use the STRIP_DELAY_* tiers.
 	var/breakouttime = 0 // greater than 15 str get this isnstead
 	var/slipouttime = 0
 
@@ -281,6 +281,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// "Lesser" silver items still count as silver, but their bite against the silver-weak is muted: no pickup ignition,
 	/// no force-undisguise on hit, and only a slow accumulation of (non-igniting) sunder stacks while held/worn.
 	var/is_lesser_silver = FALSE
+	/// PVE-only effects - for stuff like the cleric longsword, which is lorewise just blessed, not actual silver.
+	var/is_even_lesser_silver = FALSE
 	var/last_used = 0
 	var/override_state = null
 	var/icon_x_offset = 0
@@ -974,7 +976,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 //If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
 //Set disable_warning to TRUE if you wish it to not give you outputs.
 /obj/item/proc/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	if((is_silver || smeltresult == /obj/item/ingot/silver) && !is_lesser_silver && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
+	if((is_silver || (is_even_lesser_silver && is_npc(M)) || smeltresult == /obj/item/ingot/silver) && !is_lesser_silver && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = M.mind?.has_antag_datum(/datum/antagonist/vampire/)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
@@ -1069,7 +1071,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	else
 		M.take_bodypart_damage(7)
 
-	log_combat(user, M, "attacked", "[name]", "(INTENT: [uppertext(user.used_intent)])")
+	log_combat(user, M, "attacked", "[name]", intent=user.used_intent?.name)
 
 	var/obj/item/organ/eyes/eyes = M.getorganslot(ORGAN_SLOT_EYES)
 	if (!eyes)
@@ -1440,6 +1442,20 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return
 	return ..()
 
+/obj/item/proc/is_smeltable()
+	return !!smeltresult
+
+/obj/item/proc/is_salvageable()
+	return sewrepair && salvage_result && (salvage_amount > 0)
+
+/obj/item/proc/matches_loot_filter(loot_filter)
+	switch(loot_filter)
+		if(LOOT_FILTER_FABRIC)
+			return is_salvageable()
+		if(LOOT_FILTER_SMELT)
+			return is_smeltable()
+	return TRUE
+
 /obj/item/proc/canStrip(mob/stripper, mob/owner)
 	return !HAS_TRAIT(src, TRAIT_NODROP)
 
@@ -1475,8 +1491,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if (obj_broken)
 		to_chat(user, span_warning("It's completely broken."))
 		return FALSE
-	if (istype(src, /obj/item/contraption))
-		var/obj/item/contraption/i = src
+	if (istype(src, /obj/item/rogueweapon/contraption/pick))
+		var/obj/item/rogueweapon/contraption/pick/i = src
 		if (i.current_charge <= 0)
 			to_chat(user, span_warning("Not charged."))
 			return FALSE

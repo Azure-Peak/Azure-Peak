@@ -770,7 +770,7 @@
 	if(LAZYLEN(required_items))
 		var/found = FALSE
 		for(var/obj/item/I in owner.contents)
-			if(is_type_in_list(I, required_items))
+			if(is_type_in_list(I, required_items) || HAS_TRAIT(owner, TRAIT_HALLOWED))
 				found = TRUE
 				break
 		if(!found && feedback)

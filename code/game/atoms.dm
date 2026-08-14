@@ -1116,7 +1116,7 @@
  * 4 is a tool with which the action was made (usually an item)
  * 5 is any additional text, which will be appended to the rest of the log line
  */
-/proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null, log_seen = TRUE)
+/proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null, log_seen = TRUE, zone=null, intent=null, damtype=null)
 	var/ssource = key_name(user)
 	var/starget = key_name(target)
 
@@ -1129,8 +1129,11 @@
 	var/saddition = ""
 	if(addition)
 		saddition = " [addition]"
+	var/sintent = intent ? " (INTENT: [uppertext(intent)])" : ""
+	var/sdamtype = damtype ? " (DAMTYPE: [uppertext(damtype)])" : ""
+	var/szone = zone ? " (ZONE: [uppertext(zone)])" : ""
 
-	var/postfix = "[sobject][saddition][hp]"
+	var/postfix = "[sobject][saddition][sintent][sdamtype][szone][hp]"
 
 	var/message = "has [what_done] [starget][postfix]"
 	user.log_message(message, LOG_ATTACK, color="red")

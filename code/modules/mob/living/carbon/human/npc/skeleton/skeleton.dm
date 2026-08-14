@@ -79,6 +79,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	if(skel_fragile)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	else
@@ -184,7 +185,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		faction -= FACTION_UNDEAD
 		faction -= FACTION_SKELETON
 		faction -= FACTION_DUNDEAD
-		faction -= "Skeleton_faction"
 
 	switch(loadout)
 		if("sword_shield")

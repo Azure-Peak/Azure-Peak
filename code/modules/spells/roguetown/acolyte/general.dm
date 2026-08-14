@@ -478,7 +478,7 @@
 		if(spelltarget.fire_stacks < 1)
 			spelltarget.adjust_fire_stacks(2)
 			spelltarget.ignite_mob()
-			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]")
+			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]", zone=owner.zone_selected)
 			return TRUE
 		else
 			spelltarget.visible_message(span_warning("[spelltarget] is already engulfed in flames!"))

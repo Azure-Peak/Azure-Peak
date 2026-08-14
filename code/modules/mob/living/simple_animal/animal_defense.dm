@@ -28,7 +28,7 @@
 			I.remove_bintegrity(1)
 			if(I.damtype == BRUTE && !nodmg)
 				if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
-					if(I.is_silver && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
+					if((I.is_silver || (I.is_even_lesser_silver && is_npc(src))) && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
 						newforce *= SILVER_SIMPLEMOB_DAM_MULT
 					simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim)
 				if(newforce > 5)
@@ -297,7 +297,7 @@
 		return FALSE
 	if(user == target)
 		return FALSE
-	if(!HAS_TRAIT(user, TRAIT_GARROTED))	
+	if(!HAS_TRAIT(user, TRAIT_GARROTED))
 		if(user.check_leg_grabbed(1) || user.check_leg_grabbed(2))
 			to_chat(user, span_notice("I can't move my leg!"))
 			return

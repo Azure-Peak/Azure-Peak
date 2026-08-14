@@ -84,7 +84,7 @@ LINEN BINS
 	desc = "May be hidden under whenever unable, or unwilling, to face the world."
 	icon_state = ""
 	item_state = ""
-	slot_flags = ITEM_SLOT_BELT
+	slot_flags = ITEM_SLOT_BELT|ITEM_SLOT_CLOAK
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("whips", "lashes")
 	max_integrity = 300
@@ -97,7 +97,7 @@ LINEN BINS
 
 /obj/item/bedsheet/rogue/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Bedsheets can be worn around the waist, not unlike a belt, if the need for modesty suddenly arises.")
+	. += span_info("Bedsheets can be worn around the waist or shoulders, not unlike a belt, if the need for modesty suddenly arises.")
 
 /obj/item/bedsheet/rogue/cloth
 	icon = 'icons/roguetown/misc/beds.dmi'

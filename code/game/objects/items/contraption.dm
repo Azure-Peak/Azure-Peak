@@ -1,6 +1,6 @@
 //This is being left out, as it might be dangerous without a way to keep players from relinking the keep doors.
 
-/obj/item/contraption
+/obj/item/rogueweapon/contraption
 	name = "random piece of machinery"
 	desc = "A cog with teeth meticulously crafted for tight interlocking."
 	icon_state = "gear"
@@ -10,6 +10,19 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	smeltresult = /obj/item/ingot/bronze
 	slot_flags = ITEM_SLOT_HIP
+	sharpness = IS_BLUNT
+	possible_item_intents = list(/datum/intent/use)
+	can_parry = FALSE
+	force = 7
+	throwforce = 5
+	anvilrepair = /datum/skill/craft/engineering
+	wdefense = 0
+	wdefense_wbonus = 0
+	experimental_onhip = FALSE
+	experimental_onback = FALSE
+	is_tool = TRUE
+	//if true, you can use non-use intents whilst bereft of charge
+	var/brute_attack = FALSE
 	//this is what we normally power things with
 	var/obj/item/accepted_power_source = /obj/item/roguegear
 	//this is what we use to double power items with, this isn't for all devices
@@ -28,7 +41,7 @@
 	/// If this contraption should accept cogs that alter its behaviour
 	var/special_cog = FALSE
 
-/obj/item/contraption/getonmobprop(tag)
+/obj/item/rogueweapon/contraption/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -57,7 +70,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/contraption/examine(mob/user)
+/obj/item/rogueweapon/contraption/examine(mob/user)
 	. = ..()
 	if(!istype(user, /mob/living))
 		return
@@ -76,7 +89,7 @@
 	if(skill >= 6 && sneaky_misfire_chance)
 		. += span_warning("This contraption has a chance for catastrophic failure in the hands of the inexperient.")
 
-/obj/item/contraption/proc/battery_collapse(atom/A, mob/living/user)
+/obj/item/rogueweapon/contraption/proc/battery_collapse(atom/A, mob/living/user)
 	to_chat(user, span_info("The [accepted_power_source.name] wastes away into nothing."))
 	playsound(src, pick('sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, FALSE)
 	shake_camera(user, 1, 1)
@@ -86,23 +99,23 @@
 	S.start()
 	return
 
-/obj/item/contraption/proc/misfire(atom/A, mob/living/user)
+/obj/item/rogueweapon/contraption/proc/misfire(atom/A, mob/living/user)
 	user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT * 5))
 	to_chat(user, span_info("Oh fuck."))
 	playsound(src, 'sound/misc/bell.ogg', 100)
 	addtimer(CALLBACK(src, PROC_REF(misfire_result), A, user), rand(5, 30))
 
-/obj/item/contraption/proc/misfire_result(atom/A, mob/living/user)
+/obj/item/rogueweapon/contraption/proc/misfire_result(atom/A, mob/living/user)
 	misfiring = TRUE
 	explosion(src, light_impact_range = 3, flame_range = 1, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	qdel(src)
 
-/obj/item/contraption/proc/charge_deduction(atom/A, mob/living/user, deduction)
+/obj/item/rogueweapon/contraption/proc/charge_deduction(atom/A, mob/living/user, deduction)
 	current_charge -= deduction
 	if(!current_charge)
 		addtimer(CALLBACK(src, PROC_REF(battery_collapse), A, user), 5)
 
-/obj/item/contraption/attackby(obj/item/I, mob/user, params)
+/obj/item/rogueweapon/contraption/attackby(obj/item/I, mob/user, params)
 	var/datum/effect_system/spark_spread/S = new()
 	var/turf/front = get_turf(src)
 	if(istype(I, accepted_power_source))
@@ -140,11 +153,11 @@
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			qdel(I)
 			addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
-	if(istype(I, /obj/item/rogueweapon/hammer))
+	if(istype(I, /obj/item/rogueweapon/hammer) && user.cmode)
 		hammer_action(I, user)
 	..()
 
-/obj/item/contraption/proc/hammer_action(obj/item/I, mob/user)
+/obj/item/rogueweapon/contraption/proc/hammer_action(obj/item/I, mob/user)
 	user.changeNext_move(CLICK_CD_FAST)
 	flick(off_icon, src)
 	user.visible_message(span_info("[user] beats the [name] into submission!"))
@@ -167,11 +180,13 @@
 	else
 		misfire_chance = rand(10, 100)
 
-/obj/item/contraption/proc/play_clock_sound()
+/obj/item/rogueweapon/contraption/proc/play_clock_sound()
 	playsound(src, 'sound/misc/clockloop.ogg', 25, TRUE)
 
-/obj/item/contraption/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/contraption/attack_obj(obj/O, mob/living/user)
 	if(!current_charge)
+		if(brute_attack && (user.used_intent.type != /datum/intent/use))
+			return ..()
 		flick(off_icon, src)
 		to_chat(user, span_info("The contraption beeps! It requires \a [initial(accepted_power_source.name)]!"))
 		playsound(src, 'sound/magic/magic_nulled.ogg', 100, TRUE)
@@ -179,7 +194,7 @@
 
 
 //Shamelessly stolen multitool code
-/obj/item/contraption/linker
+/obj/item/rogueweapon/contraption/linker
 	name = "engineering wrench"
 	desc = "This strange contraption is able to connect machinery through an unknown calibration method, allowing them to communicate over long distances. It feeds on cogs."
 	icon = 'icons/obj/wrenches.dmi'
@@ -194,13 +209,13 @@
 	grid_height = 32
 	var/active_item = FALSE
 
-/obj/item/contraption/linker/master
+/obj/item/rogueweapon/contraption/linker/master
 	name = "Guild Master's Wrench"
 	desc = "Able to do more advanced linking than a standard wrench. Keep it out of apprentices' hands."
 	charge_per_source = 20
 	max_stored_charge = 100
 
-/obj/item/contraption/linker/proc/disable_tuneup(mob/user, message = FALSE)
+/obj/item/rogueweapon/contraption/linker/proc/disable_tuneup(mob/user, message = FALSE)
 	if(!active_item)
 		return
 	active_item = FALSE
@@ -209,7 +224,7 @@
 	if(message && user)
 		to_chat(user, span_warning("I set my wrench down."))
 
-/obj/item/contraption/linker/proc/enable_tuneup(mob/user)
+/obj/item/rogueweapon/contraption/linker/proc/enable_tuneup(mob/user)
 	if(active_item)
 		return
 	if(!user?.mind)
@@ -218,7 +233,7 @@
 	to_chat(user, span_green("Time for a tune-up."))
 	active_item = TRUE
 
-/obj/item/contraption/linker/equipped(mob/user, slot)
+/obj/item/rogueweapon/contraption/linker/equipped(mob/user, slot)
 	..()
 	if(slot != ITEM_SLOT_HANDS)
 		disable_tuneup(user)
@@ -228,37 +243,37 @@
 		return
 	enable_tuneup(user)
 
-/obj/item/contraption/linker/dropped(mob/user, slot)
+/obj/item/rogueweapon/contraption/linker/dropped(mob/user, slot)
 	..()
 	disable_tuneup(user, TRUE)
 
-/obj/item/contraption/linker/hammer_action(obj/item/I, mob/user)
+/obj/item/rogueweapon/contraption/linker/hammer_action(obj/item/I, mob/user)
 	return
 
-/obj/item/contraption/linker/Destroy()
+/obj/item/rogueweapon/contraption/linker/Destroy()
 	if(buffer)
 		remove_buffer(buffer)
 	if(ismob(loc))
 		disable_tuneup(loc)
 	return ..()
 
-/obj/item/contraption/linker/examine(mob/user)
+/obj/item/rogueweapon/contraption/linker/examine(mob/user)
 	. = ..()
 	if(user.get_skill_level(/datum/skill/craft/engineering) >= 3)
 		. += span_notice("Its buffer [buffer ? "contains [buffer]." : "is empty."]")
 	else
 		. += span_notice("All you can make out is a bunch of gibberish.")
 
-/obj/item/contraption/linker/get_mechanics_examine(mob/user)
+/obj/item/rogueweapon/contraption/linker/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Use it like a multitool on compatible machinery to store a target in its buffer, then use it again on another compatible target to link them.")
-	. += span_info("Use it in-hand to wipe its stored buffer.")
+	. += span_info("Right click it in-hand to wipe its stored buffer.")
 	. += span_info("Right-click an adjacent rotatable rotational object while holding this to rotate it.")
 	. += span_info("Middle-click an adjacent placed shaft, cogwheel, or gearbox while holding this to disassemble it back into an item pile.")
 	if(user.get_skill_level(/datum/skill/craft/engineering) >= 4)
 		. += span_info("Holding it in your hands grants Tune Up, which spends wrench charge to repair or enhance compatible engineering targets.")
 
-/obj/item/contraption/linker/attack_self(mob/user)
+/obj/item/rogueweapon/contraption/linker/attack_right(mob/user)
 	. = ..()
 	if(user.get_skill_level(/datum/skill/craft/engineering) >= 3)
 		to_chat(user, "You wipe [src] of its stored buffer.")
@@ -266,7 +281,7 @@
 	else
 		to_chat(user, span_warning("I have no idea how to use [src]!"))
 
-/obj/item/contraption/linker/proc/set_buffer(datum/buffer)
+/obj/item/rogueweapon/contraption/linker/proc/set_buffer(datum/buffer)
 	if(src.buffer)
 		remove_buffer(src.buffer)
 	src.buffer = buffer
@@ -279,13 +294,13 @@
  * This proc does not clear the buffer of the multitool, it is here to
  * handle the deletion of the object the buffer references
  */
-/obj/item/contraption/linker/proc/remove_buffer(datum/source)
+/obj/item/rogueweapon/contraption/linker/proc/remove_buffer(datum/source)
 	SIGNAL_HANDLER
 	SEND_SIGNAL(src, COMSIG_MULTITOOL_REMOVE_BUFFER, source)
 	UnregisterSignal(buffer, COMSIG_PARENT_QDELETING)
 	buffer = null
 
-/obj/item/contraption/wood_metalizer
+/obj/item/rogueweapon/contraption/wood_metalizer
 	name = "wood metalizer"
 	desc = "A creation of genious or insanity. This cursed contraption is somehow able to turn wood into metal."
 	icon_state = "metalizer"
@@ -298,7 +313,7 @@
 	grid_height = 64
 	grid_width = 64
 
-/obj/item/contraption/wood_metalizer/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/contraption/wood_metalizer/attack_obj(obj/O, mob/living/user)
 	..()
 	if(!current_charge)
 		return
@@ -325,7 +340,7 @@
 	playsound(src, 'sound/magic/swap.ogg', 100, TRUE)
 	return
 
-/obj/item/contraption/folding_table_stored
+/obj/item/rogueweapon/contraption/folding_table_stored
 	name = "folding table"
 	desc = "A folding table, useful for setting up a temporary workspace."
 	icon = 'icons/roguetown/misc/gadgets.dmi'
@@ -335,7 +350,7 @@
 	grid_height = 32
 	grid_width = 64
 
-/obj/item/contraption/folding_table_stored/attack_self(mob/user)
+/obj/item/rogueweapon/contraption/folding_table_stored/attack_self(mob/user)
 	. = ..()
 	//deploy the table if the user clicks on it with an open turf in front of them
 	var/turf/target_turf = get_step(user,user.dir)
@@ -347,12 +362,12 @@
 		return TRUE
 	return NONE
 
-/obj/item/contraption/folding_table_stored/proc/deploy_folding_table(mob/user, atom/location)
+/obj/item/rogueweapon/contraption/folding_table_stored/proc/deploy_folding_table(mob/user, atom/location)
 	to_chat(user, "<span class='notice'>You deploy the folding table.</span>")
 	new /obj/structure/table/wood/folding(location)
 	qdel(src)
 
-/obj/item/contraption/shears
+/obj/item/rogueweapon/contraption/shears
 	possible_item_intents = list(/datum/intent/use,/datum/intent/snip)
 	max_integrity = 150
 	name = "auto shears"
@@ -368,10 +383,10 @@
 	grid_height = 32
 	grid_width = 64
 
-/obj/item/contraption/shears/hammer_action(obj/item/I, mob/user)
+/obj/item/rogueweapon/contraption/shears/hammer_action(obj/item/I, mob/user)
 	return
 
-/obj/item/contraption/shears/attack(mob/living/amputee, mob/living/user)
+/obj/item/rogueweapon/contraption/shears/attack(mob/living/amputee, mob/living/user)
 	if(!current_charge)
 		return
 
@@ -460,7 +475,7 @@
 		user.visible_message(span_danger("[src] violently slams shut, amputating [patient]'s [limb_snip_candidate.name]."), span_notice("You amputate [patient]'s [limb_snip_candidate.name] with [src]."))
 		charge_deduction(amputee, user, 1)
 
-/obj/item/contraption/shears/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/contraption/shears/attack_obj(obj/O, mob/living/user)
 	if(user.used_intent.type == /datum/intent/snip && istype(O, /obj/item))
 		var/obj/item/item = O
 		if(item.sewrepair && item.salvage_result) // We can only salvage objects which can be sewn!
@@ -497,7 +512,7 @@
 			user.mind.add_sleep_experience(/datum/skill/craft/sewing, (user.STAINT))
 	return ..()
 
-/obj/item/contraption/lock_imprinter
+/obj/item/rogueweapon/contraption/lock_imprinter
 	name = "lock improver"
 	desc = "A useful contraption improves locks at the cost of locks."
 	icon_state = "imprinter"
@@ -512,7 +527,7 @@
 	grid_height = 32
 	grid_width = 64
 
-/obj/item/contraption/lock_imprinter/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/contraption/lock_imprinter/attack_obj(obj/O, mob/living/user)
 	..()
 	if(current_charge<1)
 		flick(off_icon, src)
@@ -543,7 +558,7 @@
 		return
 
 
-/obj/item/contraption/pick/drill
+/obj/item/rogueweapon/contraption/pick/drill
 	name = "clockwork drill"
 	desc = "A wonderfully complex work of engineering capable of shredding walls in seconds as opposed to hours."
 	force = 21
@@ -570,31 +585,31 @@
 	var/active_item = FALSE
 
 
-/obj/item/contraption/pick/drill/Initialize()
+/obj/item/rogueweapon/contraption/pick/drill/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
 
-/obj/item/contraption/pick/drill/Destroy()
+/obj/item/rogueweapon/contraption/pick/drill/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
-/obj/item/contraption/pick/drill/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/contraption/pick/drill/attack_obj(obj/O, mob/living/user)
 	. = ..()
 
-/obj/item/contraption/pick/drill/attack_turf(turf/T, mob/living/user, multiplier)
+/obj/item/rogueweapon/contraption/pick/drill/attack_turf(turf/T, mob/living/user, multiplier)
 
 	. = ..()
 	src.current_charge -= 1
 
 
-/obj/item/contraption/pick/drill/afterattack(atom/target, mob/living/user, proximity_flag, list/modifiers)
+/obj/item/rogueweapon/contraption/pick/drill/afterattack(atom/target, mob/living/user, proximity_flag, list/modifiers)
 	. = ..()
 
-/obj/item/contraption/pick/drill/attack_right(mob/user)
+/obj/item/rogueweapon/contraption/pick/drill/attack_right(mob/user)
 	. = ..()
 
-/obj/item/contraption/pick/drill/equipped(mob/user, slot, initial)
+/obj/item/rogueweapon/contraption/pick/drill/equipped(mob/user, slot, initial)
 	..()
 	if(active_item)
 		return
@@ -613,7 +628,7 @@
 	else
 		return
 
-/obj/item/contraption/pick/drill/dropped(mob/user, slot)
+/obj/item/rogueweapon/contraption/pick/drill/dropped(mob/user, slot)
 	..()
 	if(active_item)
 		active_item = FALSE

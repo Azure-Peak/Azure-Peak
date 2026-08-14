@@ -38,12 +38,18 @@
 
 /obj/item/clothing/cloak/MiddleClick(mob/user)
 	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear [src] over my armor" : "wear [src] under my armor"]."))
 
-	alternate_worn_layer = overarmor ? TABARD_LAYER : UNDER_ARMOR_LAYER
+	var/restored_layer = initial(alternate_worn_layer) || TABARD_LAYER
+	alternate_worn_layer = overarmor ? restored_layer : UNDER_ARMOR_LAYER
+
+	var/where = "under my armor"
+	if(overarmor)
+		where = (restored_layer == CLOAK_BEHIND_LAYER) ? "behind me" : "over my armor"
+	to_chat(user, span_info("I wear [src] [where]."))
 
 	user.update_inv_cloak()
 	user.update_inv_armor()
+	user.update_inv_back()	//back-worn cloaks are drawn out of update_inv_back, and it keys off the layer we just changed
 
 /obj/item/clothing/cloak/bandolier
 	name = "bandolier"
@@ -314,7 +320,7 @@
 			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the heroes and villains of antiquity."
 			body_parts_covered = CHEST|GROIN
 			icon_state = "whitepsydontabard"
-			item_state = "whitekpsydontabard"
+			item_state = "whitepsydontabard"
 			flags_inv = HIDECROTCH|HIDEBOOB
 			open_wear = FALSE
 			to_chat(usr, span_warning("You cloak yourself in the threaded cloth, veiling your heart from Psydonia's eyes."))
@@ -1419,16 +1425,6 @@
 	body_parts_covered = CHEST|GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 
-/obj/item/clothing/cloak/templar/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
-
 /obj/item/clothing/cloak/cape/blkknight
 	name = "blood cape"
 	icon_state = "bkcape"
@@ -1807,16 +1803,6 @@
 	..()
 	update_icon()
 
-/obj/item/clothing/cloak/cotehardie/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the coat over my armor" : "wear the coat under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
-
 /obj/item/clothing/cloak/cotehardie/mageblue
 	color = CLOTHING_MAGE_BLUE
 
@@ -1912,3 +1898,99 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+
+/obj/item/clothing/cloak/tabard/toga/classic
+	name = "classic toga"
+	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+	icon_state = "classictoga"
+	item_state = "classictoga"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+
+/obj/item/clothing/cloak/tabard/toga/classic/alt
+	name = "bared classic toga"
+	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+	icon_state = "classictogaalt"
+	item_state = "classictogaalt"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+
+/obj/item/clothing/cloak/tabard/toga/classic/attack_right(mob/user)
+	switch(open_wear)
+		if(FALSE)
+			name = "bared classic toga"
+			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity, bared open to reveal what's beneath."
+			body_parts_covered = GROIN
+			icon_state = "classictogaalt"
+			item_state = "classictogaalt"
+			open_wear = TRUE
+			flags_inv = HIDECROTCH
+			to_chat(usr, span_warning("You pull back a sleeve, baring what lies beneath to Psydonia's eyes."))
+		if(TRUE)
+			name = "classic toga"
+			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+			body_parts_covered = CHEST|GROIN
+			icon_state = "classictoga"
+			item_state = "classictoga"
+			flags_inv = HIDECROTCH|HIDEBOOB
+			open_wear = FALSE
+			to_chat(usr, span_warning("You pull up your sleeve, veiling what lies beneath from Psydonia's eyes."))
+	update_icon()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
+
+
+/obj/item/clothing/cloak/tabard/toga/classic/feminine
+	name = "classic toga"
+	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+	icon_state = "classictogafem"
+	item_state = "classictogafem"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+
+/obj/item/clothing/cloak/tabard/toga/classic/feminine/alt
+	name = "bared classic toga"
+	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+	icon_state = "classictogafem_alt"
+	item_state = "classictogafem_alt"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+
+/obj/item/clothing/cloak/tabard/toga/classic/feminine/attack_right(mob/user)
+	switch(open_wear)
+		if(FALSE)
+			name = "bared classic toga"
+			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity, bared open to reveal what's beneath."
+			body_parts_covered = GROIN
+			icon_state = "classictogafem_alt"
+			item_state = "classictogafem_alt"
+			open_wear = TRUE
+			flags_inv = HIDECROTCH
+			to_chat(usr, span_warning("You pull back a sleeve, baring what lies beneath to Psydonia's eyes."))
+		if(TRUE)
+			name = "classic toga"
+			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+			body_parts_covered = CHEST|GROIN
+			icon_state = "classictogafem"
+			item_state = "classictogafem"
+			flags_inv = HIDECROTCH|HIDEBOOB
+			open_wear = FALSE
+			to_chat(usr, span_warning("You pull up your sleeve, veiling what lies beneath from Psydonia's eyes."))
+	update_icon()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
+

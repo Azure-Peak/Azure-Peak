@@ -622,7 +622,7 @@
 	item_state = "kazscabdagger"
 	valid_blade = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 	associated_skill = /datum/skill/combat/knives
-	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
 	can_parry = TRUE
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/carpentry
@@ -736,7 +736,7 @@
 
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
-	strip_delay = 2 SECONDS
+	strip_delay = STRIP_DELAY_FAST
 	sheathe_time = 2 SECONDS
 
 	max_integrity = 0

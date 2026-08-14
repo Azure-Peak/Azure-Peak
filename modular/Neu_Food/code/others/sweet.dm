@@ -50,6 +50,18 @@
 	pumpkin spice and tossed into a kettle, it makes for an absolutely divine drink."
 	bitesize = 3 //Sharing is caring!
 	icon_state = "chocolatehalf"
+	slices_num = 2
+	slice_path = /obj/item/reagent_containers/food/snacks/chocolate/slice2
+
+/obj/item/reagent_containers/food/snacks/chocolate/slice2
+	name = "quarter chocolate ingot"
+	desc = "An unbelievably decadant quarter of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
+	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
+	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>When combined with \
+	pumpkin spice and tossed into a kettle, it makes for an absolutely divine drink."
+	bitesize = 1 //is a literal bite
+	icon_state = "chocolatequarter"
 	slices_num = null
 	slice_path = null
 

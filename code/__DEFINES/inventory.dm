@@ -13,6 +13,26 @@
 #define INVENTORY_DEPTH		2
 #define STORAGE_VIEW_DEPTH	2
 
+// STRIPPING DELAYS
+#define STRIP_DELAY_TRIVIAL	(1 SECONDS)	//rings, trinkets
+#define STRIP_DELAY_FAST	(2 SECONDS)	//gloves, quivers, belt pouches, straps
+#define STRIP_DELAY_NORMAL	(4 SECONDS)	//the default for everything unspecified
+#define STRIP_DELAY_SLOW	(5 SECONDS)	//boots, laced or buckled gear
+#define STRIP_DELAY_ARMOR	(6 SECONDS)	// full plate
+#define STRIP_DELAY_LOCKED	(30 SECONDS)	//cursed or bound items
+
+//time taken to search somebody's pockets
+#define POCKET_STRIP_DELAY	STRIP_DELAY_NORMAL
+
+// Multipliers applied to strip_delay. Lower = faster
+#define STRIP_DELAY_MULT_SURRENDER		0.5	//target is compliant, surrendering, or has broken armor
+#define STRIP_DELAY_MULT_UNCLAIMED_CORPSE	0.33 // Makes stripping NPC way faster after they are killed, to support a proper scrapping econo0my
+
+// Loot filter
+#define LOOT_FILTER_ALL		"all"
+#define LOOT_FILTER_FABRIC	"fabric"
+#define LOOT_FILTER_SMELT	"smelt"
+
 //ITEM INVENTORY SLOT BITMASKS
 
 #define ITEM_SLOT_PANTS			(1<<0)
@@ -41,6 +61,7 @@
 #define ITEM_SLOT_BACKPACK		(1<<23)
 
 #define ITEM_SLOT_BACK			(ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R)
+#define ITEM_SLOT_ALL			(ITEM_SLOT_PANTS | ITEM_SLOT_SHIRT | ITEM_SLOT_ARMOR | ITEM_SLOT_SHOES | ITEM_SLOT_GLOVES | ITEM_SLOT_RING | ITEM_SLOT_MOUTH | ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK | ITEM_SLOT_NECK | ITEM_SLOT_MASK | ITEM_SLOT_HANDS | ITEM_SLOT_BELT | ITEM_SLOT_BACK | ITEM_SLOT_INBACK | ITEM_SLOT_HIP | ITEM_SLOT_WRISTS | ITEM_SLOT_OCLOTHING | ITEM_SLOT_ICLOTHING | ITEM_SLOT_POCKET | ITEM_SLOT_BACKPACK)
 
 //SLOTS
 
@@ -168,6 +189,8 @@
 #define HIDETAIL		(1<<14)
 #define HIDESNOUT		(1<<15)
 #define HIDEWINGS		(1<<16)
+
+#define HAIR_OCCLUDING_FLAGS (HIDEHAIR|HIDEEARS|HIDEFACE|HIDESNOUT)
 
 //blocking_behavior var on clothing items
 #define BLOCKBOOTS		(1<<0)

@@ -302,6 +302,8 @@
 	. = ..()
 
 /obj/machinery/light/rogue/torchholder/OnCrafted(dirin, user)
+	if(dirin == NORTH)
+		pixel_y = 32
 	dirin = turn(dirin, 180)
 	QDEL_NULL(torchy)
 	on = FALSE
@@ -309,6 +311,8 @@
 	update_icon()
 
 	..(dirin, user)
+
+
 
 /obj/machinery/light/rogue/torchholder/process()
 	if(on)

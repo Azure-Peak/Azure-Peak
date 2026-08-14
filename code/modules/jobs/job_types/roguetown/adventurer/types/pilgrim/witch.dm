@@ -2,7 +2,7 @@
 	name = "Witch"
 	tutorial = "You are a witch, seen as wisefolk to some and a demon to many. Ostracized and sequestered for wrongthinks or outright heresy, your potions are what the commonfolk turn to when all else fails, and for this they tolerate you — at an arm's length. Take care not to end 'pon a pyre, for the church condemns your left handed arts."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/witch
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_WITCH, TRAIT_ALCHEMY_EXPERT)
@@ -13,7 +13,7 @@
 		STATKEY_LCK = 1
 	)
 	age_mod = /datum/class_age_mod/witch
-	
+
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
@@ -39,11 +39,22 @@
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 
-	var/classes = list("Old Magick", "Godsblood", "Mystagogue")
-	var/classchoice = input(H, "How do your powers manifest?", "THE OLD WAYS") as anything in classes
-
-	var/shapeshifts = list("Zad", "Cat", "Cat (Black)", "Bat", "Lesser Volf", "Cabbit", "Small Rous", "Lesser Venard")
-	var/shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
+	var/list/prefs = H.client?.prefs?.job_subprefs
+	var/list/witchprefs
+	if(prefs)
+		witchprefs = prefs["Towner"]
+	var/classchoice
+	var/shapeshiftchoice
+	if(witchprefs && witchprefs["witch_type"])
+		classchoice = witchprefs["witch_type"]
+	if(witchprefs && witchprefs["witch_form"])
+		shapeshiftchoice = witchprefs["witch_form"]
+	if(!classchoice)
+		var/classes = list("Old Magick", "Godsblood", "Mystagogue")
+		classchoice = input(H, "How do your powers manifest?", "THE OLD WAYS") as anything in classes
+	if(!shapeshiftchoice)
+		var/shapeshifts = list("Zad", "Cat", "Cat (Black)", "Bat", "Lesser Volf", "Cabbit", "Small Rous", "Lesser Venard")
+		shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
 
 	switch (classchoice)
 		if("Old Magick")
@@ -302,3 +313,12 @@
 	base_intents = list(/datum/intent/simple/claw/witch_cat)
 	melee_damage_lower = 1
 	melee_damage_upper = 2
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/witch_shifted/can_be_held(mob/by)
+	return TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/witch_shifted/set_item_sprite(obj/item/mob_item/orb)
+	..()
+	orb.mob_overlay_icon = 'icons/roguetown/mob/cabbit_item.dmi'
+	orb.worn_offsets = list("x" = 0, "y" = 25)
+	orb.alternate_worn_layer = BODY_UNDER_LAYER

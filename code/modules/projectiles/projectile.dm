@@ -278,9 +278,9 @@
 			reagent_note += "[R.name] ([num2text(R.volume)])"
 
 	if(ismob(firer))
-		log_combat(firer, L, "shot", src, reagent_note)
+		log_combat(firer, L, "shot", src, reagent_note, zone=def_zone)
 	else
-		L.log_message("has been shot by [firer] with [src]", LOG_ATTACK, color="orange")
+		L.log_message("has been shot by [firer] with [src] (ZONE: [uppertext(def_zone)])", LOG_ATTACK, color="orange")
 
 	if((min_range || max_range) && !check_range(target_loca) && isliving(target))
 		var/obj/effect/temp_visual/dir_setting/attack_effect/atk_effrange = new(target_loca, target.dir)
