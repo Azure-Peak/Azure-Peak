@@ -25,18 +25,28 @@
 		"ALL HAIL HE-WHO-HARVESTS!",
 	)
 	antag_flags = FLAG_FAKE_ANTAG
+	rogue_enabled = TRUE // so it shows up in the panel
 	/// This is the assassin's bound dagger, which we can reference for later spells.
 	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/my_dagger
 
 	var/traits_assassin = list(
 		TRAIT_ASSASSIN,
 		TRAIT_NOSTINK,
-		TRAIT_DODGEEXPERT,
+		TRAIT_DODGEEXPERT, // look into making this a purchase if/when assassin buyable stuff becomes a thing
 		TRAIT_STEELHEARTED,
+		TRAIT_ANTISCRYING,
+		TRAIT_ZURCH,
 	)
 
+	#define SOURCE_ASSASSIN "source_assassin"
+
 /datum/antagonist/assassin/on_gain()
-	owner.current.cmode_music = list('sound/music/cmode/antag/combat_thewall.ogg') // placeholder until a violent way is released
+	owner.current.cmode_music = list('sound/music/cmode/antag/combat_deadlyshadows.ogg') // placeholder until a violent way is released
+	for(var/assassin_trait in traits_assassin)
+		if(!HAS_TRAIT(owner.current, assassin_trait))
+			ADD_TRAIT(owner.current, assassin_trait, SOURCE_ASSASSIN)
+	// as much as i fucking dread the numbersjak.
+	owner.current.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 	var/evil_mask = /obj/item/clothing/mask/rogue/sack
 	owner.special_items["Sack Mask"] = evil_mask
 	var/datum/action/cooldown/spell/assassin/get_dagger/A = new
@@ -52,6 +62,17 @@
 	to_chat(owner, span_cult("I hear a singing. HE awaits sacrifice. Death to the world, in the name of the Dark Star."))
 	to_chat(owner, span_artery("Summon your dagger. Keep it close. Sense HIS TARGETED, slay them, and PECULATE their being into your blade."))
 	owner.current.playsound_local(owner.current,'sound/villain/littlescary.ogg', 10)
+
+/datum/antagonist/assassin/on_removal()
+	// this doesnt remove guarded but thats fine for now
+	for(var/checked_trait in owner.current.status_traits)
+		if(HAS_TRAIT_FROM(owner.current, checked_trait, SOURCE_ASSASSIN))
+			REMOVE_TRAIT(owner.current, checked_trait, SOURCE_ASSASSIN)
+	// experimental and might be buggy.
+	for(var/datum/action/cooldown/assassin_power in owner.current.actions)
+		if(istype(assassin_power, /datum/action/cooldown/spell/assassin))
+			assassin_power.Remove(owner.current)
+	. = ..()
 
 
 
@@ -382,3 +403,5 @@
 	found_directions = span_artery("My [evil_dagger.name] is [distance_text], [distance] paces to the [direction_text] [z_level_hint].")
 
 	return found_directions
+
+#undef SOURCE_ASSASSIN

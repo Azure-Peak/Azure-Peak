@@ -11,7 +11,8 @@
 	antag_job = TRUE
 
 
-	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
+	tutorial = "\"A MAN SPEAKS A NAME. WE DO THE REST!\", a common parlance from your cursed dagger. Whether puppeted by dark forces or by \
+	choice, you have become a devout of the Sinistar. "
 
 	outfit = null
 	outfit_female = null
@@ -31,14 +32,8 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE
 
-	// Base job traits, we give one-specialty trait per role.
-	job_traits = list(
-		TRAIT_ASSASSIN,
-		TRAIT_DODGEEXPERT,
-		TRAIT_STEELHEARTED,
-		TRAIT_HERESIARCH,	//Just so they can use the Zurch.
-		TRAIT_ANTISCRYING,
-	)
+	// JOB TRAITS == prev. job traits are now granted on datum-gain.
+
 	virtue_restrictions = list(
 		/datum/virtue/utility/feytouched
 	)
