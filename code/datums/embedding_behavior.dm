@@ -16,20 +16,20 @@
 )
 	. = locate(EMBEDID)
 	if (!.)
-	return new /datum/embedding_behavior(\
-		embed_chance,\
-		embedded_fall_chance,\
-		embedded_pain_chance,\
-		embedded_pain_multiplier,\
-		embedded_fall_pain_multiplier,\
-		embedded_impact_pain_multiplier,\
-		embedded_unsafe_removal_pain_multiplier,\
-		embedded_unsafe_removal_time,\
-		embedded_ignore_throwspeed_threshold,\
-		embedded_bloodloss,\
-		retract_limbs,\
-		clamp_limbs,\
-	)
+		return new /datum/embedding_behavior(\
+			embed_chance,\
+			embedded_fall_chance,\
+			embedded_pain_chance,\
+			embedded_pain_multiplier,\
+			embedded_fall_pain_multiplier,\
+			embedded_impact_pain_multiplier,\
+			embedded_unsafe_removal_pain_multiplier,\
+			embedded_unsafe_removal_time,\
+			embedded_ignore_throwspeed_threshold,\
+			embedded_bloodloss,\
+			retract_limbs,\
+			clamp_limbs,\
+		)
 
 /datum/embedding_behavior
 	var/embed_chance
