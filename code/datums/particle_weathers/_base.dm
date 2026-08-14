@@ -349,7 +349,7 @@
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")	as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
+	var/weather_type = input(usr, "Choose a weather", "Weather")	as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
 	if(!weather_type)
 		return
 
@@ -369,7 +369,7 @@
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")	as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
+	var/weather_type = input(usr, "Choose a weather", "Weather")	as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
 	if(!weather_type)
 		return
 
@@ -384,7 +384,7 @@
 	"Gold" = "#f9a602"
 	)
 
-	var/color = input("Choose a weather color", "Weather")	as null|anything in selectable_colors
+	var/color = input(usr, "Choose a weather color", "Weather")	as null|anything in selectable_colors
 	if(!color )
 		color = "#ccffff" //base rain color
 

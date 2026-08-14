@@ -404,7 +404,7 @@
 	if(user.stat)
 		return FALSE
 
-	var/calltext = sanitize(input("Send Your Will To Your Undead", "UNDEAD ANNOUNCE") as text|null)
+	var/calltext = sanitize(input(user, "Send Your Will To Your Undead", "UNDEAD ANNOUNCE") as text|null)
 	if(!calltext)
 		return FALSE
 

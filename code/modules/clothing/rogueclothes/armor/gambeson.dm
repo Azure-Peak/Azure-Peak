@@ -32,7 +32,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "gambeson"
 			color = "#976E6B"
 			update_icon()
@@ -44,7 +44,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "gambesonold"
 			color = null
 			update_icon()
@@ -133,7 +133,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
 			icon_state = "gambesonp"
 			color = "#976E6B"
 			update_icon()
@@ -145,7 +145,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
 			icon_state = "gambesonpold"
 			color = null
 			update_icon()

@@ -117,7 +117,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "patkilt"
 			color = "#976E6B"
 			update_icon()
@@ -128,7 +128,7 @@
 					H.update_inv_pants()
 			return
 	else
-		if(alert("Would you like to wear your gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "patkiltold"
 			color = null
 			update_icon()
@@ -163,7 +163,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your padded gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "patkilt"
 			color = "#976E6B"
 			update_icon()
@@ -174,7 +174,7 @@
 					H.update_inv_pants()
 			return
 	else
-		if(alert("Would you like to wear your padded gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "patkiltold"
 			color = null
 			update_icon()

@@ -187,7 +187,7 @@
 			if(signedname)
 				to_chat(user, span_warning("[signedname]"))
 				return
-			switch(alert("Sign your name?",,"Yes","No"))
+			switch(alert(user, "Sign your name?",,"Yes","No"))
 				if("Yes")
 					if(user.mind && user.mind.assigned_role)
 						if(do_after(user, 20, target = src))

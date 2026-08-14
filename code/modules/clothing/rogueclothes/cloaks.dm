@@ -148,7 +148,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_color = initial(detail_color)
 		color = initial(color)
 		boobed_detail = initial(boobed_detail)
@@ -599,7 +599,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_color = initial(detail_color)
 		color = initial(color)
 		update_icon()
@@ -633,7 +633,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_color = initial(detail_color)
 		color = initial(color)
 		update_icon()
@@ -1537,7 +1537,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_tag = initial(detail_tag)
 		update_icon()
 		if(ismob(loc))

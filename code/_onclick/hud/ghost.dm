@@ -37,7 +37,7 @@
 		if(G.client)
 			if(isscryeye(G) || G.trapped)
 				return
-			if(alert("Travel with the boatman?", "", "Yes", "No") == "Yes")
+			if(alert(usr, "Travel with the boatman?", "", "Yes", "No") == "Yes")
 				G.returntolobby(0)
 
 /atom/movable/screen/ghost/reenter_corpse

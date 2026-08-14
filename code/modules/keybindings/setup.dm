@@ -29,7 +29,7 @@
 		"Classic" = SKIN_MACROSET_CLASSIC_INPUT,
 		"Modern" = SKIN_MACROSET_HOTKEYS
 	)
-	var/choice = input("Select a keybinding mode:") as null|anything in macrosets
+	var/choice = input(src, "Select a keybinding mode:") as null|anything in macrosets
 	if(!choice)
 		return
 	winset(src, null, "mainwindow.macro=[macrosets[choice]]")

@@ -77,7 +77,7 @@
 	set name = "Telepathy"
 	set category = "RoleUnique.Arcane Eye"
 
-	var/msg = sanitize(input("Send a message.", "Command") as text|null)
+	var/msg = sanitize(input(src, "Send a message.", "Command") as text|null)
 	if(!msg)
 		return
 	for(var/datum/mind/V in SSmapping.retainer.vampires)

@@ -91,7 +91,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	choices = sortList(choices)
 
-	var/choice = input("What form does your treasured steed take?") as null|anything in choices
+	var/choice = input(user, "What form does your treasured steed take?") as null|anything in choices
 	var/mob/living/simple_animal/our_chosen_honse = choices[choice]
 
 	if (!our_chosen_honse)
@@ -104,7 +104,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	//spawn in our creature and set it up
 	var/mob/living/simple_animal/the_real_honse
 	if(ispath(our_chosen_honse, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
-		var/fogbeast_color_choice = input("What color is your trusty steed?") as null|anything in GLOB.valid_fogbeast_colors
+		var/fogbeast_color_choice = input(user, "What color is your trusty steed?") as null|anything in GLOB.valid_fogbeast_colors
 		the_real_honse = new our_chosen_honse(user.loc, fogbeast_color_choice)
 	else
 		the_real_honse = new our_chosen_honse(user.loc)

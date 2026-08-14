@@ -350,7 +350,7 @@
 
 	var/list/allowed_modes = list("End Round", "Storyteller", "Custom")
 
-	var/type = input("What kind of vote?") as null|anything in allowed_modes
+	var/type = input(usr, "What kind of vote?") as null|anything in allowed_modes
 	switch(type)
 		//if("Gamemode")
 			//type = "gamemode"
@@ -384,10 +384,10 @@
 	if(!fexists("data/player_saves/[copytext(ckey,1,2)]/[ckey]/preferences.sav"))
 		to_chat(src, span_boldwarning("User does not exist."))
 		return
-	var/amt2change = input("How much to modify the PQ by? (20 to -20, or 0 to just add a note)") as null|num
+	var/amt2change = input(usr, "How much to modify the PQ by? (20 to -20, or 0 to just add a note)") as null|num
 	if(!check_rights(R_ADMIN,0))
 		amt2change = CLAMP(amt2change, -20, 20)
-	var/raisin = stripped_input("State a short reason for this change", "Game Master", "", null)
+	var/raisin = stripped_input(usr, "State a short reason for this change", "Game Master", "", null)
 	if((!isnull(amt2change) && amt2change != 0) && !raisin)
 		return
 	adjust_playerquality(amt2change, ckey, admin, raisin)
@@ -466,7 +466,7 @@
 
 	if (!usr.client.holder)
 		return
-	var/confirm = alert("End the round and restart the game world?", "End Round", "Yes", "Cancel")
+	var/confirm = alert(usr, "End the round and restart the game world?", "End Round", "Yes", "Cancel")
 	if(confirm == "Cancel")
 		return
 	if(confirm == "Yes")
@@ -481,7 +481,7 @@
 	if(!check_rights(0))
 		return
 
-	var/message = input("Global message to send:", "Admin Announce", null, null)	as message
+	var/message = input(usr, "Global message to send:", "Admin Announce", null, null)	as message
 	if(message)
 		if(!check_rights(R_SERVER,0))
 			message = adminscrub(message,500)
@@ -604,9 +604,9 @@
 	set desc="Delay the game start"
 	set name="Delay pre-game"
 
-	var/newtime = input("Set a new time in seconds. Set -1 for indefinite delay.","Set Delay",round(SSticker.GetTimeLeft()/10)) as num|null
+	var/newtime = input(usr, "Set a new time in seconds. Set -1 for indefinite delay.","Set Delay",round(SSticker.GetTimeLeft()/10)) as num|null
 	if(SSticker.current_state > GAME_STATE_PREGAME)
-		return alert("Too late... The game has already started!")
+		return alert(usr, "Too late... The game has already started!")
 	if(newtime)
 		newtime = newtime*10
 		SSticker.SetTimeLeft(newtime)
@@ -627,7 +627,7 @@
 		message_admins("[key_name_admin(usr)] has unprisoned [key_name_admin(M)]")
 		log_admin("[key_name(usr)] has unprisoned [key_name(M)]")
 	else
-		alert("[M.name] is not prisoned.")
+		alert(usr, "[M.name] is not prisoned.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Unprison") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 ////////////////////////////////////////////////////////////////////////////////////////////////ADMIN HELPER PROCS
@@ -897,7 +897,7 @@
 	if(!check_rights(R_ADMIN))
 		return
 
-	if(alert("This will sleep ALL mobs within your view range. Are you sure?",,"Yes","Cancel") == "Cancel")
+	if(alert(usr, "This will sleep ALL mobs within your view range. Are you sure?",,"Yes","Cancel") == "Cancel")
 		return
 	for(var/mob/living/M in view(usr.client))
 		M.SetSleeping(999999)
@@ -912,7 +912,7 @@
 	if(!check_rights(R_ADMIN))
 		return
 
-	if(alert("This wake ALL mobs within your view range. Are you sure?",,"Yes","Cancel") == "Cancel")
+	if(alert(usr, "This wake ALL mobs within your view range. Are you sure?",,"Yes","Cancel") == "Cancel")
 		return
 	for(var/mob/living/M in view(usr.client))
 		var/S = M.IsSleeping()
@@ -932,7 +932,7 @@ GLOBAL_VAR_INIT(extend_round_timestamp, 0)
 	if(!check_rights(R_ADMIN))
 		return
 
-	if(alert("Prolong the end of the round by 30 minutes. This delays the vote, or delays the end after the vote is successful. Are you sure?",,"Yes","Cancel") == "Cancel")
+	if(alert(usr, "Prolong the end of the round by 30 minutes. This delays the vote, or delays the end after the vote is successful. Are you sure?",,"Yes","Cancel") == "Cancel")
 		return
 
 	if(world.time < GLOB.extend_round_timestamp + (1 MINUTES))

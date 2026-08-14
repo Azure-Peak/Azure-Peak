@@ -137,7 +137,7 @@
 	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
-	var/inputty = input("Write a new law", "SHERIFF") as text|null
+	var/inputty = input(src, "Write a new law", "SHERIFF") as text|null
 	if(inputty)
 		if(hasomen(OMEN_NOLORD))
 			make_law(inputty)
@@ -153,7 +153,7 @@
 	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
-	var/inputty = input("Remove a law", "SHERIFF") as text|null
+	var/inputty = input(src, "Remove a law", "SHERIFF") as text|null
 	var/law_index = text2num(inputty) || 0
 	if(law_index && GLOB.laws_of_the_land[law_index])
 		if(hasomen(OMEN_NOLORD))
@@ -184,7 +184,7 @@
 	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
-	var/inputty = input("Outlaw a person", "SHERIFF") as text|null
+	var/inputty = input(src, "Outlaw a person", "SHERIFF") as text|null
 	if(inputty)
 		if(hasomen(OMEN_NOLORD))
 			make_outlaw(inputty)

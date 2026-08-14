@@ -93,7 +93,7 @@
 			cranking_true_nature = cranking_true_nature
 			user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
 		else
-			if(alert("Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
+			if(alert(usr, "Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
 				user.apply_status_effect(/datum/status_effect/buff/quelling_soulchurner)
 			else
 				cranking_true_nature = cranking_true_nature
@@ -1311,7 +1311,7 @@ Inquisitorial armory down here
 	fedblood = FALSE
 	openstate = "bloody"
 	whofedme = null
-	target.clear_alert("blackmirror", TRUE)
+	target.clear_alert(usr, "blackmirror", TRUE)
 	target.playsound_local(src, 'sound/items/blackeye.ogg', 40, FALSE)
 	effect = null
 	target = null
@@ -1365,7 +1365,7 @@ Inquisitorial armory down here
 					return
 				target = HL
 				active = TRUE
-				effect = target.throw_alert("blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
+				effect = target.throw_alert(usr, "blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
 				effect.source = src
 				target.playsound_local(src, 'sound/items/blackeye_warn.ogg', 100, FALSE)
 				playsound(src, 'sound/items/blackmirror_active.ogg', 100, FALSE)
@@ -1473,7 +1473,7 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/proc/openorshut()
 	if(opened)
 		if(effect)
-			target.clear_alert("blackmirror", TRUE)
+			target.clear_alert(usr, "blackmirror", TRUE)
 			effect = null
 			target.playsound_local(src, 'sound/items/blackeye.ogg', 40, FALSE)
 		playsound(src, 'sound/items/blackmirror_shut.ogg', 100, FALSE)
@@ -1485,7 +1485,7 @@ Inquisitorial armory down here
 	playsound(src, 'sound/items/blackmirror_open.ogg', 100, FALSE)
 	if(target)
 		target.playsound_local(src, 'sound/items/blackeye_warn.ogg', 100, FALSE)
-		effect = target.throw_alert("blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
+		effect = target.throw_alert(usr, "blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
 		effect.source = src
 	if(active)
 		soundloop.start()

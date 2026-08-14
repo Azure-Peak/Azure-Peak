@@ -281,7 +281,7 @@
 /obj/item/alch/transisdust/attack_self(mob/living/user)
 	..()
 
-	if(alert("Do you wish to change your self?", "Dust of Self", "Yes", "No") != "Yes")
+	if(alert(user, "Do you wish to change your self?", "Dust of Self", "Yes", "No") != "Yes")
 		return
 	user.visible_message(
 		span_warn("[user] begins to use [src]."),
@@ -293,7 +293,7 @@
 	var/p_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in GLOB.pronouns_list
 	if(p_input)
 		user.pronouns = p_input
-	if(alert("Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
+	if(alert(user, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
 		user.gender = "male" ? "female" : "male"
 
 	if(!do_after(user, 5 SECONDS))

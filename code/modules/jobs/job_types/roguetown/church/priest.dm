@@ -260,7 +260,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		to_chat(src, span_warning("I need to do this in the chapel."))
 		return FALSE
 
-	var/announcementinput = input("Bellow to the Peaks", "Make an Announcement") as text|null
+	var/announcementinput = input(src, "Bellow to the Peaks", "Make an Announcement") as text|null
 	if(announcementinput)
 		if(!src.can_speak_vocal())
 			to_chat(src,span_warning("I can't speak!"))
@@ -374,7 +374,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return
 
 	var/found = FALSE
-	var/inputty = input("Put an apostasy on someone, removing their ability to use miracles... (apostasy them again to remove it)", "Sinner Name") as text|null
+	var/inputty = input(src, "Put an apostasy on someone, removing their ability to use miracles... (apostasy them again to remove it)", "Sinner Name") as text|null
 
 	if (!inputty)
 		return
@@ -446,7 +446,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return
 
 	var/found = FALSE
-	var/inputty = input("Excommunicate someone, away from the Ten...	(excommunicate them again to remove it)", "Sinner Name") as text|null
+	var/inputty = input(src, "Excommunicate someone, away from the Ten...	(excommunicate them again to remove it)", "Sinner Name") as text|null
 
 	if (!inputty)
 		return
@@ -518,7 +518,7 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	if (stat)
 		return
 
-	var/target_name = input("Who shall receive a curse?", "Target Name") as text|null
+	var/target_name = input(src, "Who shall receive a curse?", "Target Name") as text|null
 
 	if (!target_name)
 		return
@@ -542,7 +542,7 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		"Curse of Xylix" = /datum/curse/xylix,
 		)
 
-	var/curse_pick = input("Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
+	var/curse_pick = input(src, "Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
 	if (!curse_pick)
 		return
 

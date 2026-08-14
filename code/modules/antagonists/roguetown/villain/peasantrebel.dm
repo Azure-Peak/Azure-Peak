@@ -256,7 +256,7 @@
 		to_chat(user, span_warning("The cause is won in the town. There is no crowd worth swaying out here."))
 		revert_cast()
 		return
-	var/inputty = input("Make a speech!", "ROGUETOWN") as text|null
+	var/inputty = input(user, "Make a speech!", "ROGUETOWN") as text|null
 	if(!inputty)
 		revert_cast()
 		return

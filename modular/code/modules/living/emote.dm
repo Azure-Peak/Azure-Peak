@@ -20,7 +20,7 @@
 		to_chat(user, "<span class='boldwarning'>I cannot send IC messages (muted).</span>")
 		return FALSE
 	else if(!params)
-		var/custom_emote = copytext(sanitize(input("What does your character subtly do?") as text|null), 1, MAX_MESSAGE_LEN)
+		var/custom_emote = copytext(sanitize(input(user, "What does your character subtly do?") as text|null), 1, MAX_MESSAGE_LEN)
 		if(custom_emote)
 			message = custom_emote
 			emote_type = EMOTE_VISIBLE

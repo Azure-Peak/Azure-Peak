@@ -271,7 +271,7 @@
 		INVOKE_ASYNC(src, PROC_REF(playsong), usr)
 
 	else if(href_list["newline"])
-		var/newline = html_encode(input("Enter your line: ", instrumentObj.name) as text|null)
+		var/newline = html_encode(input(usr, "Enter your line: ", instrumentObj.name) as text|null)
 		if(!newline || !usr.canUseTopic(instrumentObj, BE_CLOSE, FALSE, NO_TK))
 			return
 		if(lines.len > MUSIC_MAXLINES)
@@ -288,7 +288,7 @@
 
 	else if(href_list["modifyline"])
 		var/num = round(text2num(href_list["modifyline"]),1)
-		var/content = html_encode(input("Enter your line: ", instrumentObj.name, lines[num]) as text|null)
+		var/content = html_encode(input(usr, "Enter your line: ", instrumentObj.name, lines[num]) as text|null)
 		if(!content || !usr.canUseTopic(instrumentObj, BE_CLOSE, FALSE, NO_TK))
 			return
 		if(length(content) > MUSIC_MAXLINECHARS)

@@ -173,7 +173,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
-			levername = sanitize(input("What name would you like to carve into the lever?"))
+			levername = sanitize(input(user, "What name would you like to carve into the lever?"))
 			if (levername)
 				name = levername + "(lever)"
 				desc = "A lever with a name carved into it."
@@ -317,7 +317,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/platename
-			platename = sanitize(input("What name would you like to carve into the plate?"))
+			platename = sanitize(input(user, "What name would you like to carve into the plate?"))
 			if (platename)
 				name = platename + "(plate)"
 				desc = "a plate with a name carved into it"
@@ -439,7 +439,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the launcher.</span>")
 		if(do_after(user, 10))
 			var/launchername
-			launchername = sanitize(input("What name would you like to carve into the launcher?"))
+			launchername = sanitize(input(user, "What name would you like to carve into the launcher?"))
 			if (launchername)
 				name = launchername + "(launcher)"
 				desc = "a launcher with a name carved into it"
@@ -869,7 +869,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/hatchname
-			hatchname = sanitize(input("What name would you like to carve into the hatch?"))
+			hatchname = sanitize(input(user, "What name would you like to carve into the hatch?"))
 			if (hatchname)
 				name = hatchname + "(hatch)"
 				desc = "a hatch with a name carved into it"

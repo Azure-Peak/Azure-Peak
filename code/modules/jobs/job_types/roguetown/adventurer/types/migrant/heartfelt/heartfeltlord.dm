@@ -493,7 +493,7 @@
 	set category = "RoleUnique.Voice of Command"
 
 	#define ORDER_INPUT(varname, prompt) \
-		mind.varname = input("Send a message.", prompt) as text|null; \
+		mind.varname = input(src, "Send a message.", prompt) as text|null; \
 		if(!mind.varname) { to_chat(src, "I must rehearse something for this order..."); return }
 
 	ORDER_INPUT(retreattext, "Fall back!!")
