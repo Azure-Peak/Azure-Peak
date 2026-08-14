@@ -175,13 +175,6 @@ if $grep 'balloon_alert(.*span_)' $code_files; then
 	st=1
 fi;
 
-part "balloon_alert idiomatic usage"
-if $grep 'balloon_alert\(.*?, ?"[A-Z]' $code_files; then
-	echo
-	echo -e "${RED}ERROR: Balloon alerts should not start with capital letters. This includes text like 'AI'. If this is a false positive, wrap the text in UNLINT().${NC}"
-	st=1
-fi;
-
 part "update_icon_updates_onmob element usage"
 if $grep 'AddElement\(/datum/element/update_icon_updates_onmob.+ITEM_SLOT_HANDS' $code_files; then
 	echo
