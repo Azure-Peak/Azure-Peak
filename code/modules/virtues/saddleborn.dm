@@ -218,7 +218,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		return FALSE
 
 	// otherwise, start a do_after then stasis the horse and hurl it into nullspace.
-	// if they do it from town or centcomm, give the horse a healing effect
+	// if they do it from town or centcom, give the horse a healing effect
 
 	var/area/rogue/place = get_area(user.loc)
 	var/should_heal = (is_centcom_level(user.loc.z) || place.town_area || place.keep_area)
