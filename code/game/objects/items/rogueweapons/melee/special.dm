@@ -1336,7 +1336,9 @@
 	message in order to sap them with it.")
 	. += span_info("PECULATE steals the face of any valid being, TARGETED or not. It is still a little buggy. It will not work on NPCs, revenants, \
 	or oozelings. Their souls will still be trapped if they are valid, however.")
-	. += span_info("BREAKING the dagger requires the assassin to be slain. A Necran Rite must be performed with the dagger in the center.")
+	. += span_info("BREAKING the dagger requires the assassin to be slain.")
+	// keep this updated w/ absolver if that also gets added
+	. += span_info("The dagger can be broken through a Necran Rite with a dagger in the center, or a blessing by a Bishop of the Ten.")
 	. += span_info("Breaking the dagger will restore the souls, allowing any ghosts who are still present in-round to be returned to their \
 	bodies and revived.")
 	. += span_redinfo("If you are an assassin, you can break any dagger you own by MMB'ing it. Please consider using this is if you are about to ERP \
