@@ -118,7 +118,7 @@
 		var/mob/living/carbon/human/H = usr
 		H.print_levels(H)
 
-/atom/movable/screen/skills/should_click_on_mouse_up(var/atom/original_object)
+/atom/movable/screen/skills/should_click_on_mouse_up(atom/original_object)
 	return FALSE
 
 /atom/movable/screen/craft
@@ -744,7 +744,7 @@
 			L.toggle_cmode()
 			update_icon()
 
-/atom/movable/screen/cmode/should_click_on_mouse_up(var/atom/original_object)
+/atom/movable/screen/cmode/should_click_on_mouse_up(atom/original_object)
 	return FALSE
 
 /atom/movable/screen/mov_intent
@@ -1868,7 +1868,7 @@
 			state2use = "mood_sick"
 	icon_state = state2use
 
-/atom/movable/screen/stress/proc/flick_pain(var/critical = FALSE)
+/atom/movable/screen/stress/proc/flick_pain(critical = FALSE)
 	if(critical)
 		flick("mood_ouch", src)
 	else

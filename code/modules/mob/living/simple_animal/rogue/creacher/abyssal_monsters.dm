@@ -109,7 +109,7 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	. = ..()
 
-/mob/living/simple_animal/hostile/rogue/dreamfiend/proc/blink_to_target(var/mob/target)
+/mob/living/simple_animal/hostile/rogue/dreamfiend/proc/blink_to_target(mob/target)
 	if(world.time < next_blink || QDELETED(target) || target.stat == DEAD)
 		return FALSE
 

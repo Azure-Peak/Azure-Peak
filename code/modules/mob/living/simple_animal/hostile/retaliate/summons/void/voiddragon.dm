@@ -563,7 +563,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	else
 		animate(src, pixel_x = -32, pixel_z = 0, time = 5)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/chain_lightning(var/list/targets, mob/user = usr)
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/chain_lightning(list/targets, mob/user = usr)
 	targets = list()
 
 	for(var/mob/living/target in view(7, src))

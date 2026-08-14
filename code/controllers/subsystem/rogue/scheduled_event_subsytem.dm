@@ -19,7 +19,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	// addtimer(CALLBACK(src, PROC_REF(delayed_tech_unlock)), 1 MINUTES)
 	// fog_scheduled = TRUE
 
-/datum/controller/subsystem/event_scheduler/proc/schedule_fog(var/delayinminutes = 40)
+/datum/controller/subsystem/event_scheduler/proc/schedule_fog(delayinminutes = 40)
 	if(fog_scheduled || fog_active)
 		return
 

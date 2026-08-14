@@ -589,7 +589,7 @@
 	base_icon_state = "basic_book"
 	override_find_book = TRUE
 
-/obj/item/book/rogue/playerbook/Initialize(mapload, loc, in_round_player_generated, var/mob/living/in_round_player_mob, text)
+/obj/item/book/rogue/playerbook/Initialize(mapload, loc, in_round_player_generated, mob/living/in_round_player_mob, text)
 	. = ..()
 	is_in_round_player_generated = in_round_player_generated
 	if(is_in_round_player_generated)
@@ -600,7 +600,7 @@
 
 //Just rewrite this entirely. STRIP_HTML_SIMPLE might be insufficient, but that's just the tip of the iceberg.area
 //This needs to check if an input is valid via reject_bad_text, and if not prompt the user again.
-/obj/item/book/rogue/playerbook/proc/prompt_for_contents(var/mob/living/in_round_player_mob)
+/obj/item/book/rogue/playerbook/proc/prompt_for_contents(mob/living/in_round_player_mob)
 	while(!player_book_author_ckey) // doesn't have to be this, but better than defining a bool.
 		player_book_title = capitalize(STRIP_HTML_SIMPLE(input(in_round_player_mob, "What title do you want to give the book? (max 42 characters)", "Title", "Unknown"), MAX_NAME_LEN))
 		player_book_author = STRIP_HTML_SIMPLE(input(in_round_player_mob, "What do you want the author text to be? (max 42 characters)", "Author", ""), MAX_NAME_LEN)

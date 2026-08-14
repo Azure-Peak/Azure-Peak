@@ -191,7 +191,7 @@
 /datum/sprite_accessory/proc/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return icon_state
 
-/datum/sprite_accessory/proc/get_default_colors(var/key_source_list)
+/datum/sprite_accessory/proc/get_default_colors(key_source_list)
 	var/list/color_list = list()
 	for(var/i in 1 to color_keys)
 		var/color

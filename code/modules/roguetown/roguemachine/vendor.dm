@@ -24,7 +24,7 @@
 	. += span_info("Owners of the storefront's PEDDLER can unlock it, allowing them both restock wares and vend whatever coinage might've been earned from completed sales.")
 	. += span_info("Left-clicking a PEDDLER with an open land allows you to browse and purchase its wares. Click on the 'Stored Mammons' option to retrieve any coinage or change left behind.")
 
-/obj/structure/roguemachine/vendor/proc/get_group_items(var/param)
+/obj/structure/roguemachine/vendor/proc/get_group_items(param)
 	// Accepts either:
 	// - an object/ref (e.g. REF(rep) from attack_hand links), or
 	// - a key string in the form "type_name"
