@@ -256,7 +256,7 @@
 	for(var/ammo_path in ammo_types)
 		var/list/info = ammo_types[ammo_path]
 		var/selected_marker = (ammo_path == preferred_ammo_type) ? " (selected)" : ""
-		. += span_notice("  [info["name"]] x[info["count"]][selected_marker]")
+		. += span_notice("	[info["name"]] x[info["count"]][selected_marker]")
 
 /obj/item/quiver/get_mechanics_examine(mob/user)
 	. = ..()
@@ -407,7 +407,7 @@
 	fill_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 
 //////////// Note - silver quivers and bolt pouches shouldn't be obtainable through normal circumstances.
-// BOLTS  // For now, they should only be available as uncraftable singles.
+// BOLTS	// For now, they should only be available as uncraftable singles.
 ////////////
 
 /obj/item/quiver/bolt
@@ -666,7 +666,7 @@
 	update_icon()
 
 /////////////
-// STAKES  //
+// STAKES	//
 /////////////
 
 /obj/item/quiver/bolt/stake
@@ -1158,7 +1158,7 @@
 // Accept both standard bolts and light bolts
 /obj/item/quiver/mechanized/crossbow/eatarrow(obj/A)
 	if(!istype(A, /obj/item/ammo_casing/caseless/rogue/bolt) && \
-	   !istype(A, /obj/item/ammo_casing/caseless/rogue/bolt/light))
+		!istype(A, /obj/item/ammo_casing/caseless/rogue/bolt/light))
 		return FALSE
 	var/obj/item/ammo_casing/caseless/rogue/ammo = A
 	if(get_current_weight() + ammo.ammo_weight <= max_storage)

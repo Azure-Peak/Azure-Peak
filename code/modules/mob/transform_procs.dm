@@ -1,4 +1,4 @@
-//////////////////////////		   Humanize			   //////////////////////////////
+//////////////////////////			Humanize				//////////////////////////////
 /mob/living/carbon/proc/humanize(tr_flags = (TR_KEEPITEMS | TR_KEEPVIRUS | TR_KEEPSTUNS | TR_KEEPREAGENTS | TR_DEFAULTMSG))
 	if (notransform)
 		return

@@ -55,7 +55,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/next_grid_update_time = 0
 
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
-	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
+	var/obj/item/legcuffed = null	//Same as handcuffs but for legs. Bear traps use this.
 
 	var/blood_color = BLOOD_COLOR_RED
 

@@ -19,21 +19,21 @@ GLOBAL_VAR(restart_counter)
 	//Zirok was here
 
 /**
-  * World creation
-  *
-  * Here is where a round itself is actually begun and setup, lots of important config changes happen here
-  * * db connection setup
-  * * config loaded from files
-  * * loads admins
-  * * Sets up the dynamic menu system
-  * * and most importantly, calls initialize on the master subsystem, starting the game loop that causes the rest of the game to begin processing and setting up
-  *
-  * Note this happens after the Master subsystem is created (as that is a global datum), this means all the subsystems exist,
-  * but they have not been Initialized at this point, only their New proc has run
-  *
-  * Nothing happens until something moves. ~Albert Einstein
-  *
-  */
+	* World creation
+	*
+	* Here is where a round itself is actually begun and setup, lots of important config changes happen here
+	* * db connection setup
+	* * config loaded from files
+	* * loads admins
+	* * Sets up the dynamic menu system
+	* * and most importantly, calls initialize on the master subsystem, starting the game loop that causes the rest of the game to begin processing and setting up
+	*
+	* Note this happens after the Master subsystem is created (as that is a global datum), this means all the subsystems exist,
+	* but they have not been Initialized at this point, only their New proc has run
+	*
+	* Nothing happens until something moves. ~Albert Einstein
+	*
+	*/
 
 /world/New()
 
@@ -165,7 +165,7 @@ GLOBAL_VAR(restart_counter)
 	// but those are both private, so let's put the commit info in the runtime
 	// log which is ultimately public.
 	log_runtime(GLOB.revdata.get_log_message())
-	
+
 #ifndef USE_CUSTOM_ERROR_HANDLER
 	world.log = file("[GLOB.log_directory]/dd.log")
 #else
@@ -353,7 +353,7 @@ GLOBAL_VAR(restart_counter)
 	s += "<b>[station_name()]</b>";
 	s += " ("
 	s += "<a href=\"http://\">" //Change this to wherever you want the hub to link to.
-	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
+	s += "Default"	//Replace this with something else. Or ever better, delete it and uncomment the game version.
 	s += "</a>"
 	s += ")"
 
@@ -474,7 +474,7 @@ GLOBAL_VAR(restart_counter)
 	var/dll = GetConfig("env", "AUXTOOLS_DEBUG_DLL")
 	if (dll)
 		call_ext(dll, "auxtools_shutdown")()
-	
+
 	. = ..()
 
 #undef RESTART_COUNTER_PATH

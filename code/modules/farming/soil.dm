@@ -468,9 +468,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		var/plant_color
 		if(plant_dead == TRUE)
 			plant_color = null
-		else if(plant_health <=  MAX_PLANT_HEALTH * 0.3)
+		else if(plant_health <=	MAX_PLANT_HEALTH * 0.3)
 			plant_color = "#9c7b43"
-		else if (plant_health <=  MAX_PLANT_HEALTH * 0.6)
+		else if (plant_health <=	MAX_PLANT_HEALTH * 0.6)
 			plant_color = "#d8b573"
 		if(plant_dead == TRUE)
 			plant_state = "[plant.icon_state]3"
@@ -498,9 +498,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		// Plant health feedback
 		if(plant_dead == TRUE)
 			. += span_warning("It's dead!")
-		else if(plant_health <=  MAX_PLANT_HEALTH * 0.3)
+		else if(plant_health <=	MAX_PLANT_HEALTH * 0.3)
 			. += span_warning("It's dying!")
-		else if (plant_health <=  MAX_PLANT_HEALTH * 0.6)
+		else if (plant_health <=	MAX_PLANT_HEALTH * 0.6)
 			. += span_warning("It's brown and unhealthy...")
 		// Plant maturation and produce feedback
 		if(matured)

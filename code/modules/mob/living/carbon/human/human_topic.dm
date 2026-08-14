@@ -277,7 +277,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 						readable_coverage = body_parts_covered2organ_names(C.body_parts_covered_dynamic, verbose = TRUE)
 					for(var/coverageflag in readable_coverage)
 						for(var/type in damtypes)
-							switch(type)			//We get the max armor  values for this coverage flag
+							switch(type)			//We get the max armor	values for this coverage flag
 								if("blunt")
 									blunt_max[coverageflag] = max(C.armor.getRating(type), blunt_max[coverageflag])
 								if("slash")

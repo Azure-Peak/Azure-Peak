@@ -806,7 +806,7 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
-// Duelist Goggles = New invention that protects your eyes against critical hits +  doesn't hide your identity
+// Duelist Goggles = New invention that protects your eyes against critical hits +	doesn't hide your identity
 
 /obj/item/clothing/mask/rogue/spectacles/duelist
 	name = "iron duelist goggles"

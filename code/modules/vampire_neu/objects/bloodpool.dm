@@ -982,7 +982,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 			to_chat(user, span_warning("I will no longer tire nor feel, stamina will no longer affect me, shocks will no longer affect me.")) //Trait hints
 			lord.ascended = TRUE
 			var/list/all_subordinates = user.clan_position.get_all_subordinates()
-			for(var/mob/living/carbon/human/subordinate_body  in all_subordinates)
+			for(var/mob/living/carbon/human/subordinate_body	in all_subordinates)
 				subordinate_body.maxbloodpool += 1000
 				for(var/S in MOBSTATS)
 					subordinate_body.change_stat(S, 2)

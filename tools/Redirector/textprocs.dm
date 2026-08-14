@@ -66,10 +66,10 @@ proc
 	// Turning text into lists //
 	/////////////////////////////
 	dd_text2list(text, separator)
-		var/textlength	  = lentext(text)
+		var/textlength		= lentext(text)
 		var/separatorlength = lentext(separator)
-		var/list/textList   = new /list()
-		var/searchPosition  = 1
+		var/list/textList	= new /list()
+		var/searchPosition	= 1
 		var/findPosition	= 1
 		var/buggyText
 		while (1)															// Loop forever.
@@ -86,10 +86,10 @@ proc
 					return textList
 
 	dd_text2List(text, separator)
-		var/textlength	  = lentext(text)
+		var/textlength		= lentext(text)
 		var/separatorlength = lentext(separator)
-		var/list/textList   = new /list()
-		var/searchPosition  = 1
+		var/list/textList	= new /list()
+		var/searchPosition	= 1
 		var/findPosition	= 1
 		var/buggyText
 		while (1)															// Loop forever.

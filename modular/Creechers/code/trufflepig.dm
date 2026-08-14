@@ -1,4 +1,4 @@
-/*  * * * * * * * * * * * * * * * * * * * * * * * * *
+/*	* * * * * * * * * * * * * * * * * * * * * * * * *
  *													*		Animal that can locate hidden truffles in bog area dirt turf
  *					TRUFFLE PIG						*		Dig them up with a shovel, pig will demand truffles eventually or stop working
  *					 								*		Meant to help locate some extra food in the wilderness
@@ -6,7 +6,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-//	........   Dirt changes   ................
+//	........	Dirt changes	................
 /turf/open/floor/rogue/dirt //truffles, var needed for the sniffing function
 	var/hidden_truffles
 	var/hidden_toxicshrooms
@@ -39,7 +39,7 @@
 	else ..()
 
 
-//	........   Truffles   ................
+//	........	Truffles	................
 /obj/item/reagent_containers/food/snacks/rogue/truffles
 	name = "truffles"
 	icon = 'modular/Creechers/icons/piggie.dmi'
@@ -77,7 +77,7 @@
 	icon_state = pick("mushroom1_full","mushroom1_full","mushroom1_full")
 	. = ..()
 
-//	........   Truffle Pig   ................
+//	........	Truffle Pig	................
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig
 	icon = 'modular/Creechers/icons/piggie.dmi'
 	name = "truffle pig"
@@ -228,7 +228,7 @@
 		return ..()
 
 
-//	........   Truffle Search   ................
+//	........	Truffle Search	................
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig/proc/trufflesearch(turf/T, range = world.view)
 	var/list/found_stuff = list()
 	for(var/turf/open/floor/rogue/dirt/M in range(range, T))

@@ -155,7 +155,7 @@
 	var/icon/result_icon
 	for(var/color_index in 1 to color_keys)
 		var/color_to_use = color_list[color_index]
-		var/lookup_state = one_color ? overlay_icon_state  : "[overlay_icon_state]_[color_index]"
+		var/lookup_state = one_color ? overlay_icon_state	: "[overlay_icon_state]_[color_index]"
 		var/icon/color_key_icon = icon(icon, lookup_state)
 		color_key_icon.Blend(color_to_use, ICON_MULTIPLY)
 		if(!result_icon)

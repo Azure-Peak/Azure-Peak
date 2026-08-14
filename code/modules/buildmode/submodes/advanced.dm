@@ -9,7 +9,7 @@
 	to_chat(c, span_notice("***********************************************************"))
 	to_chat(c, span_notice("Right Mouse Button on buildmode button = Set object type"))
 	to_chat(c, span_notice("Left Mouse Button + alt on turf/obj	= Copy object type"))
-	to_chat(c, span_notice("Left Mouse Button on turf/obj		  = Place objects"))
+	to_chat(c, span_notice("Left Mouse Button on turf/obj			= Place objects"))
 	to_chat(c, span_notice("Right Mouse Button					 = Delete objects"))
 	to_chat(c, "")
 	to_chat(c, span_notice("Use the button in the upper left corner to"))

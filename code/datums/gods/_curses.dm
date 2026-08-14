@@ -64,7 +64,7 @@
 	return
 
 //////////////////////
-///   TEN CURSES   ///
+///	TEN CURSES	///
 //////////////////////
 
 /datum/curse/astrata
@@ -118,7 +118,7 @@
 	trait = TRAIT_CURSE_EORA
 
 ////////////////////////////
-///   ASCENDANT CURSES   ///
+///	ASCENDANT CURSES	///
 ////////////////////////////
 /datum/curse/zizo
 	name = "Curse of Zizo"

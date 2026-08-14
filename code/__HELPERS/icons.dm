@@ -446,13 +446,13 @@ world
 	lo = round((255 - sat) * val / 255, 1)
 	mid = lo + round(abs(round(hue, 510) - hue) * (hi - lo) / 255, 1)
 	if(hue >= 765)
-		if(hue >= 1275) {r=hi;  g=lo;  b=mid}
-		else if(hue >= 1020) {r=mid; g=lo;  b=hi }
-		else {r=lo;  g=mid; b=hi }
+		if(hue >= 1275) {r=hi;	g=lo;	b=mid}
+		else if(hue >= 1020) {r=mid; g=lo;	b=hi }
+		else {r=lo;	g=mid; b=hi }
 	else
-		if(hue >= 510) {r=lo;  g=hi;  b=mid}
-		else if(hue >= 255) {r=mid; g=hi;  b=lo }
-		else {r=hi;  g=mid; b=lo }
+		if(hue >= 510) {r=lo;	g=hi;	b=mid}
+		else if(hue >= 255) {r=mid; g=hi;	b=lo }
+		else {r=hi;	g=mid; b=lo }
 
 	return (HSV.len > 3) ? rgb(r,g,b,HSV[4]) : rgb(r,g,b)
 

@@ -17,8 +17,8 @@
 //
 //	select_item			:	'*' | object_type
 //
-//  object_selectors	:   select_item [('FROM' | 'IN') from_item] [modifier_list]
-//  modifier_list	   :   ('WHERE' bool_expression | 'MAP' expression) [modifier_list]
+//	object_selectors	:	select_item [('FROM' | 'IN') from_item] [modifier_list]
+//	modifier_list		:	('WHERE' bool_expression | 'MAP' expression) [modifier_list]
 //
 //	from_item			:	'world' | expression
 //
@@ -30,7 +30,7 @@
 //	assignment			:	<variable name> '=' expression
 //	variable			:	<variable name> | variable '.' variable | variable '[' <list index> ']' | '{' <ref as hex number> '}' | '(' expression ')' | call_function
 //
-//	bool_expression		:	expression comparitor expression  [bool_operator bool_expression]
+//	bool_expression		:	expression comparitor expression	[bool_operator bool_expression]
 //	expression			:	( unary_expression | '(' expression ')' | value ) [binary_operator expression]
 //	expression_list		:	expression [',' expression_list]
 //	unary_expression	:	unary_operator ( unary_expression | value )

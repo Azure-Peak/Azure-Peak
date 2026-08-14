@@ -898,7 +898,7 @@
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 				sleep(80)
 
-				target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))  		//this one's actually pretty good. i like this
+				target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))			//this one's actually pretty good. i like this
 				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 				playsound(owner, 'sound/magic/whiteflame.ogg', 100, TRUE)
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)

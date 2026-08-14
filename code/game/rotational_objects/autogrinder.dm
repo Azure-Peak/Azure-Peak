@@ -297,7 +297,7 @@
 
 /obj/structure/closet/crate/chest/autogrinder/Initialize(mapload)
 	. = ..()
-	open()   // it has no lid; it stays open for good
+	open()	// it has no lid; it stays open for good
 
 /obj/structure/closet/crate/chest/autogrinder/CanAStarPass(ID, dir, caller)
 	return TRUE

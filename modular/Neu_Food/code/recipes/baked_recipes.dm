@@ -208,8 +208,8 @@
 		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced,
 	)
 	step_visuals = list(
-		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "dough_apple"), 
-		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "applebread_uncooked"), 
+		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "dough_apple"),
+		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "applebread_uncooked"),
 	)
 	cook_method = COOK_BAKE
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/applebread
@@ -276,7 +276,7 @@
 	cook_method = COOK_BAKE
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/chocolatebookbread
 
-/*	.................   Lasagna assembly   ................... */
+/*	.................	Lasagna assembly	................... */
 // Sheet noodles + cheese -> white lasagna (raw, baked separately)
 /datum/food_recipe/baked/lasagna_white
 	name = "white lasagna"
@@ -332,7 +332,7 @@
 	time_per_step = 3 SECONDS
 	inline_ancestry = TRUE
 
-/*	.................   Griddle fruit cakes (fruit folded in, then fried)   ................... */
+/*	.................	Griddle fruit cakes (fruit folded in, then fried)	................... */
 // Griddle dough + lemon -> Lemongriddles
 /datum/food_recipe/baked/griddle_lemon
 	name = "lemongriddles"

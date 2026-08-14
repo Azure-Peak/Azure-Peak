@@ -132,9 +132,9 @@
 
 	// High Threat (Combat/Antag/Leaders) - 25 Points
 	if((job_title in GLOB.garrison_positions) || \
-	   (job_title in GLOB.retinue_positions) || \
-	   (job_title in GLOB.inquisition_positions) || \
-	   (job_title in GLOB.antagonist_positions))
+		(job_title in GLOB.retinue_positions) || \
+		(job_title in GLOB.inquisition_positions) || \
+		(job_title in GLOB.antagonist_positions))
 		score += 25
 
 	// Medium Threat (Nobles/Court/Magic) - 15 Points

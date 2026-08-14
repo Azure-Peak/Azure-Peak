@@ -109,7 +109,7 @@
 	for(var/obj/effect/landmark/vteleportsenddest/V in GLOB.landmarks_list)
 		qdel(V)
 	for(var/obj/structure/vampire/portalmaker/P in GLOB.vampire_objects)
-		P.sending =  FALSE
+		P.sending =	FALSE
 	return ..()
 
 /obj/structure/vampire/portalmaker/proc/create_portal_return(aname,duration)

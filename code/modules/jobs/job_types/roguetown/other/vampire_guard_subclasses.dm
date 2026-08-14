@@ -288,7 +288,7 @@
 		)
 
 ///////////////////////////////////////////////
-//POTENTALLY PROBLEMATIC CLASSES,  BELOW HERE//
+//POTENTALLY PROBLEMATIC CLASSES,	BELOW HERE//
 //////////////////////////////////////////////
 		////////////////////////////////
 		//////					//////
@@ -301,7 +301,7 @@
 	name = "Vampiric Fyre-Pugilist"
 	tutorial = "There has been nothing more enchanting in unlyfe than the dance of flames upon an inferno of your alchemical mixes and the taste of blood freshly beaten out of a victim with your bare hands. Now your master arises once more and your talents shall see use again. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampbomber
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_MEDIUMARMOR, TRAIT_CIVILIZEDBARBARIAN,  TRAIT_BOMBER_EXPERT)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_MEDIUMARMOR, TRAIT_CIVILIZEDBARBARIAN,	TRAIT_BOMBER_EXPERT)
 	category_tags = list(CTAG_VAMPGUARD)
 	subclass_stats = list(
 		STATKEY_INT = 2,

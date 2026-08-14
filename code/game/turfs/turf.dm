@@ -283,7 +283,7 @@
 				continue
 
 		// If the thing is dense AND we're including mobs or the thing isn't a mob AND if there's a source atom and
-		// it cannot pass through the thing on the turf,  we consider the turf blocked.
+		// it cannot pass through the thing on the turf,	we consider the turf blocked.
 		if(movable_content.density && (!exclude_mobs || !ismob(movable_content)))
 			if(source_atom && movable_content.CanPass(source_atom, get_dir(src, source_atom)))
 				continue
@@ -572,9 +572,9 @@
 /turf/proc/Distance(turf/T, mob/traverser)
 	return get_dist(src,T)
 
-//  This Distance proc assumes that only cardinal movement is
-//  possible. It results in more efficient (CPU-wise) pathing
-//  for bots and anything else that only moves in cardinal dirs.
+//	This Distance proc assumes that only cardinal movement is
+//	possible. It results in more efficient (CPU-wise) pathing
+//	for bots and anything else that only moves in cardinal dirs.
 /turf/proc/Distance_cardinal(turf/T, mob/traverser)
 	if(!src || !T)
 		return FALSE

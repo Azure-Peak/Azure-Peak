@@ -1233,7 +1233,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/martyr_volcano_slam/process_attack()
 	var/obj/item/rogueweapon/W = iparent
-	dam = W.force_dynamic * max((howner.STASTR / 10 + howner.STAPER / 10), 1)  / 1.5
+	dam = W.force_dynamic * max((howner.STASTR / 10 + howner.STAPER / 10), 1)	/ 1.5
 	. = ..()
 
 /datum/special_intent/martyr_volcano_slam/on_create()

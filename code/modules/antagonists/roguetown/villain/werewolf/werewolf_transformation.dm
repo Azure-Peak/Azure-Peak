@@ -99,7 +99,7 @@
 		W.name = Were.wolfname
 	W.limb_destroyer = TRUE
 	W.ambushable = FALSE
-	var/list/dying_world = list('sound/music/cmode/antag/combat_dying_world.ogg' = 1,  // probably best if its not vocals all the time
+	var/list/dying_world = list('sound/music/cmode/antag/combat_dying_world.ogg' = 1,	// probably best if its not vocals all the time
 							'sound/music/cmode/antag/combat_dying_world_instrumental.ogg' = 3) // 1/4 is good odds for 1/round tho
 	W.cmode_music = pickweight(dying_world)
 	W.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin(W)

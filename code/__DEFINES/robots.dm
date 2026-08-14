@@ -35,14 +35,14 @@
 #define CLEAN_BOT			(1<<3)	// Cleanbots
 #define MED_BOT				(1<<4)	// Medibots
 #define HONK_BOT			(1<<5)	// Honkbots & ED-Honks
-#define FIRE_BOT			(1<<6)  // Firebots
+#define FIRE_BOT			(1<<6)	// Firebots
 
 //AI notification defines
 #define		NEW_BORG	 1
-#define		NEW_MODULE   2
-#define		RENAME	   3
+#define		NEW_MODULE	2
+#define		RENAME		3
 #define		AI_SHELL	 4
-#define		DISCONNECT   5
+#define		DISCONNECT	5
 
 //Assembly defines
 #define ASSEMBLY_FIRST_STEP 	0

@@ -56,7 +56,7 @@
 #define CLOAK_LAYER				17		//only when looking north or west/east
 #define HOOD_LAYER				16
 #define HAIR_LAYER				15		//TODO: make part of head layer?
-#define CUSTOM_HAIR_COVERED_LAYER 14.9  // WHY ARE TOP SNOUTS LIKE THIS I HATE FURRIES
+#define CUSTOM_HAIR_COVERED_LAYER 14.9	// WHY ARE TOP SNOUTS LIKE THIS I HATE FURRIES
 #define MASK_LAYER				14
 #define HAIREXTRA_LAYER			13
 #define MOUTH_LAYER				12
@@ -322,7 +322,7 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define INCREMENT_TALLY(L, stat) if(L[stat]){L[stat]++}else{L[stat] = 1}
 
 //TODO Move to a pref
-#define STATION_GOAL_BUDGET  1
+#define STATION_GOAL_BUDGET	1
 
 //Luma coefficients suggested for HDTVs. If you change these, make sure they add up to 1.
 #define LUMA_R 0.213

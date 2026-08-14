@@ -1,8 +1,8 @@
 //dir macros
 ///True if the dir is north or south, false therwise
-#define NSCOMPONENT(d)   (d&(NORTH|SOUTH))
+#define NSCOMPONENT(d)	(d&(NORTH|SOUTH))
 ///True if the dir is east/west, false otherwise
-#define EWCOMPONENT(d)   (d&(EAST|WEST))
+#define EWCOMPONENT(d)	(d&(EAST|WEST))
 ///Flips the dir for north/south directions
 #define NSDIRFLIP(d)	 (d^(NORTH|SOUTH))
 ///Flips the dir for east/west directions

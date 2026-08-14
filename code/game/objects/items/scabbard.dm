@@ -168,7 +168,7 @@
 
 
 //////////////////////
-//	DAGGER SHEATHS  //
+//	DAGGER SHEATHS	//
 //////////////////////
 
 /obj/item/rogueweapon/scabbard/sheath
@@ -408,7 +408,7 @@
 	resistance_flags = null
 
 ///////////////////////
-//	SWORD SCABBARDS  //
+//	SWORD SCABBARDS	//
 ///////////////////////
 
 /obj/item/rogueweapon/scabbard/sword

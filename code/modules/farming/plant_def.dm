@@ -323,7 +323,7 @@
 	perennial = TRUE
 	produce_amount_max = 3
 	maturation_nutrition = 60
-	produce_nutrition =  35
+	produce_nutrition =	35
 	maturation_time = 6 MINUTES
 	produce_time = 3 MINUTES
 	water_drain_rate = 1 / (2 MINUTES)

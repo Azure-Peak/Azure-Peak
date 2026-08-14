@@ -301,13 +301,13 @@
 /**
  * Register a list of nodes into a rust library. This list of nodes must have been serialized in a json.
  * Node {// Index of this node in the list of nodes
- *  	  unique_id: usize,
- *  	  // Position of the node in byond
- *  	  x: usize,
- *  	  y: usize,
- *  	  z: usize,
- *  	  // Indexes of nodes connected to this one
- *  	  connected_nodes_id: Vec<usize>}
+ *			unique_id: usize,
+ *			// Position of the node in byond
+ *			x: usize,
+ *			y: usize,
+ *			z: usize,
+ *			// Indexes of nodes connected to this one
+ *			connected_nodes_id: Vec<usize>}
  * It is important that the node with the unique_id 0 is the first in the json, unique_id 1 right after that, etc.
  * It is also important that all unique ids follow. {0, 1, 2, 4} is not a correct list and the registering will fail
  * Nodes should not link across z levels.
@@ -425,8 +425,8 @@
  * Returns a nested key-value list containing "successes" and "errors"
  * The format is as follows:
  * list(
- *  RUSTG_SOUNDLEN_SUCCESES = list("sounds/test.ogg" = 25.34),
- *  RUSTG_SOUNDLEN_ERRORS = list("sound/bad.png" = "SoundLen: Unable to decode file."),
+ *	RUSTG_SOUNDLEN_SUCCESES = list("sounds/test.ogg" = 25.34),
+ *	RUSTG_SOUNDLEN_ERRORS = list("sound/bad.png" = "SoundLen: Unable to decode file."),
  *)
 */
 #define rustg_sound_length_list(file_paths) json_decode(RUSTG_CALL(RUST_G, "sound_len_list")(json_encode(file_paths)))

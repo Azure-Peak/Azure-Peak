@@ -263,9 +263,9 @@
 		html += "<br><b>Skills Required:</b> None<br>"
 
 	html += {"<div>
-			  <br>
-			  <strong>Requirements</strong>
-			  <br>"}
+				<br>
+				<strong>Requirements</strong>
+				<br>"}
 
 	for(var/path as anything in reqs)
 		var/count = reqs[path]
@@ -290,7 +290,7 @@
 		<div>
 			<strong>Required Tools</strong>
 			<br>
-			  "}
+				"}
 		for(var/atom/path as anything in tools)
 			if(subtype_reqs)
 				html += "[icon2html(new path, user)] any [initial(path.name)]<br>"
@@ -307,7 +307,7 @@
 		<div>
 			<strong>Required Liquids</strong>
 			<br>
-			  "}
+				"}
 		for(var/atom/path as anything in chem_catalysts)
 			var/count = chem_catalysts[path]
 			html += "[FLOOR(count, 1)] [UNIT_FORM_STRING(FLOOR(count, 1))] of [initial(path.name)]<br>"

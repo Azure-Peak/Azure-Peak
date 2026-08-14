@@ -73,8 +73,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/heatmod = 1		// multiplier for heat damage
 	var/stunmod = 1		// multiplier for stun duration
 	var/attack_type = BRUTE //Type of damage attack does
-	var/punchdamagelow = 10	  //lowest possible punch damage. if this is set to 0, punches will always miss
-	var/punchdamagehigh = 10	  //highest possible punch damage
+	var/punchdamagelow = 10		//lowest possible punch damage. if this is set to 0, punches will always miss
+	var/punchdamagehigh = 10		//highest possible punch damage
 	var/punchstunthreshold = 0//damage at which punches from this race will stun //yes it should be to the attacked race but it's not useful that way even if it's logical
 	var/siemens_coeff = 1 //base electrocution coefficient
 	var/damage_overlay_type = "human" //what kind of damage overlays (if any) appear on our species when wounded?
@@ -2296,7 +2296,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 
 ////////////
-//  Stun  //
+//	Stun	//
 ////////////
 
 /datum/species/proc/spec_stun(mob/living/carbon/human/H,amount)

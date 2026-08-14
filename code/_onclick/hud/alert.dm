@@ -1,6 +1,6 @@
 //A system to manage and display alerts on screen without needing you to do it yourself
 
-//PUBLIC -  call these wherever you want
+//PUBLIC -	call these wherever you want
 
 
 /mob/proc/throw_alert(category, type, severity, obj/new_master, override = FALSE)

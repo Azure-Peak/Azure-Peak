@@ -406,7 +406,7 @@
 	H.hair_color = "61310f"
 	H.facial_hair_color = H.hair_color
 	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
+		H.hairstyle =	"Messy (Rogue)"
 	else
 		H.hairstyle = "Messy"
 		H.facial_hairstyle = "Beard (Manly)"

@@ -45,7 +45,7 @@
 	var/swimdir = FALSE
 
 /turf/open/water/Initialize(mapload)
-	.  = ..()
+	.	= ..()
 	water_overlay = new(src)
 	water_top_overlay = new(src)
 	update_icon()
@@ -364,7 +364,7 @@
 	water_reagent = /datum/reagent/water/bathwater
 
 /turf/open/water/bath/Initialize(mapload)
-	.  = ..()
+	.	= ..()
 	icon_state = "bathtile"
 
 /turf/open/water/sewer
@@ -381,7 +381,7 @@
 /turf/open/water/sewer/Initialize(mapload)
 	icon_state = "paving"
 	water_color = pick("#705a43","#697043")
-	.  = ..()
+	.	= ..()
 
 /turf/open/water/swamp
 	name = "murk"
@@ -409,13 +409,13 @@
 	icon_state = "dirt"
 	dir = pick(GLOB.cardinals)
 	water_color = pick("#705a43")
-	.  = ..()
+	.	= ..()
 
 /turf/open/water/bloody/Initialize(mapload)
 	icon_state = "dirt"
 	dir = pick(GLOB.cardinals)
 	water_color = pick("#880808")
-	.  = ..()
+	.	= ..()
 
 
 
@@ -479,7 +479,7 @@
 	if(!oldLoc)
 		return .
 
-	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE) ||  HAS_TRAIT(AM, TRAIT_BOGWALKER))
+	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE) ||	HAS_TRAIT(AM, TRAIT_BOGWALKER))
 		return .
 
 	if(isliving(AM) && !AM.throwing)
@@ -536,7 +536,7 @@
 /turf/open/water/cleanshallow/Initialize(mapload)
 	icon_state = "rock"
 	dir = pick(GLOB.cardinals)
-	.  = ..()
+	.	= ..()
 
 /turf/open/water/river
 	name = "river"
@@ -573,7 +573,7 @@
 
 /turf/open/water/river/Initialize(mapload)
 	icon_state = "rock"
-	.  = ..()
+	.	= ..()
 
 /turf/open/water/river/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()

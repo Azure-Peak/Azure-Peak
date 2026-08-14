@@ -355,7 +355,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			C.update_body()
 
 
-//////////////////   OUTFITS	//////////////////
+//////////////////	OUTFITS	//////////////////
 /datum/outfit/job/roguetown/npc/goblin/siege/pre_equip(mob/living/carbon/human/H)
 	..() //Regular outfit is also loaded cause subtype, this just ensures they have the minimal requirements of armor + enough stats/skills to do specials
 	H.STAINT = 8 //Minimal req to do specials
@@ -504,7 +504,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	neck = /obj/item/storage/belt/rogue/pouch/bombs
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 
-//////////////////   INVADER ZIM	//////////////////
+//////////////////	INVADER ZIM	//////////////////
 
 /obj/structure/gob_portal
 	name = "goblin portal"

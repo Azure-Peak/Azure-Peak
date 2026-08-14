@@ -227,7 +227,7 @@
 
 /obj/machinery/light/rogue/candle/weak
 	light_power = 0.9
-	light_outer_range =  4
+	light_outer_range =	4
 /obj/machinery/light/rogue/candle/weak/l
 	pixel_x = -32
 	pixel_y = 0
@@ -698,7 +698,7 @@
 	no_refuel = TRUE
 	status = LIGHT_BURNED
 	crossfire = FALSE
-	soundloop = /datum/looping_sound/blank  //datum path is a blank.ogg
+	soundloop = /datum/looping_sound/blank	//datum path is a blank.ogg
 
 /obj/machinery/light/rogue/hearth/mobilestove/MiddleClick(mob/user, params)
 	. = ..()

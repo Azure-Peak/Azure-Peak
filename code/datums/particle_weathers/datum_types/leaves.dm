@@ -8,7 +8,7 @@
 	//Weather effects, max values
 	maxSpawning			= 25
 	minSpawning			= 3
-	wind				   = 2
+	wind					= 2
 
 
 /particles/weather/leaves/sakura
@@ -20,7 +20,7 @@
 	//Weather effects, max values
 	maxSpawning			= 30
 	minSpawning			= 5
-	wind				   = 1
+	wind					= 1
 
 /datum/particle_weather/leaves_gentle
 	name = "Rain"

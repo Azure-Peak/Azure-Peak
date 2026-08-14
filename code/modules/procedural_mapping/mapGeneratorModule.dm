@@ -144,7 +144,7 @@
 
 ///////////////////////////////////////////////////////////
 //				 PREMADE BASE TEMPLATES				//
-//		   Appropriate settings for usable types	   //
+//			Appropriate settings for usable types		//
 // Not usable types themselves, use them as parent types //
 // Seriously, don't use these on their own, just parents //
 ///////////////////////////////////////////////////////////

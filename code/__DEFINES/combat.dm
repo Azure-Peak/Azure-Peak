@@ -31,8 +31,8 @@
 #define TOXLOSS 					(1<<2)
 #define OXYLOSS 					(1<<3)
 #define SHAME 						(1<<4)
-#define MANUAL_SUICIDE		  	(1<<5)	//suicide_act will do the actual killing.
-#define MANUAL_SUICIDE_NONLETHAL	(1<<6)  //when the suicide is conditionally lethal
+#define MANUAL_SUICIDE				(1<<5)	//suicide_act will do the actual killing.
+#define MANUAL_SUICIDE_NONLETHAL	(1<<6)	//when the suicide is conditionally lethal
 
 #define EFFECT_STUN			"stun"
 #define EFFECT_KNOCKDOWN	"knockdown"
@@ -182,7 +182,7 @@
 #define BCLASS_BURN			"charring"
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
-#define BCLASS_SUNDER	   "sunder"
+#define BCLASS_SUNDER		"sunder"
 #define BCLASS_DISARM		"disarm"
 
 //Material class (what material is striking)
@@ -212,7 +212,7 @@
 
 //NOTE: INTENT_HOTKEY_* defines are not actual intents!
 //they are here to support hotkeys
-#define INTENT_HOTKEY_LEFT  "left"
+#define INTENT_HOTKEY_LEFT	"left"
 #define INTENT_HOTKEY_RIGHT "right"
 
 //the define for visible message range in combat
@@ -259,16 +259,16 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TRIGGER_GUARD_NORMAL 1
 //Gun bolt types
 ///Gun has a bolt, it stays closed while not cycling. The gun must be racked to have a bullet chambered when a mag is inserted.
-///  Example: c20, shotguns, m90
+///	Example: c20, shotguns, m90
 #define BOLT_TYPE_STANDARD 1
 ///Gun has a bolt, it is open when ready to fire. The gun can never have a chambered bullet with no magazine, but the bolt stays ready when a mag is removed.
-///  Example: Some SMGs, the L6
+///	Example: Some SMGs, the L6
 #define BOLT_TYPE_OPEN 2
 ///Gun has no moving bolt mechanism, it cannot be racked. Also dumps the entire contents when emptied instead of a magazine.
-///  Example: Break action shotguns, revolvers
+///	Example: Break action shotguns, revolvers
 #define BOLT_TYPE_NO_BOLT 3
 ///Gun has a bolt, it locks back when empty. It can be released to chamber a round if a magazine is in.
-///  Example: Pistols with a slide lock, some SMGs
+///	Example: Pistols with a slide lock, some SMGs
 #define BOLT_TYPE_LOCKING 4
 //Sawn off nerfs
 ///accuracy penalty of sawn off guns

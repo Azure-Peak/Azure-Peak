@@ -31,7 +31,7 @@ SUBSYSTEM_DEF(mapping)
 	var/clearing_reserved_turfs = FALSE
 
 	// Z-manager stuff
-	var/station_start  // should only be used for maploading-related tasks
+	var/station_start	// should only be used for maploading-related tasks
 	var/space_levels_so_far = 0
 	///list of all z level datums in the order of their z (z level 1 is at index 1, etc.)
 	var/list/datum/space_level/z_list
@@ -135,7 +135,7 @@ SUBSYSTEM_DEF(mapping)
 	. = list()
 	var/start_time = REALTIMEOFDAY
 
-	if (!islist(files))  // handle single-level maps
+	if (!islist(files))	// handle single-level maps
 		files = list(files)
 
 	// check that the total z count of all maps matches the list of traits
@@ -148,17 +148,17 @@ SUBSYSTEM_DEF(mapping)
 		if (!bounds)
 			errorList |= full_path
 			continue
-		parsed_maps[pm] = total_z  // save the start Z of this file
+		parsed_maps[pm] = total_z	// save the start Z of this file
 		total_z += bounds[MAP_MAXZ] - bounds[MAP_MINZ] + 1
 
-	if (!length(traits))  // null or empty - default
+	if (!length(traits))	// null or empty - default
 		for (var/i in 1 to total_z)
 			traits += list(default_traits)
-	else if (total_z != traits.len)  // mismatch
+	else if (total_z != traits.len)	// mismatch
 		INIT_ANNOUNCE("WARNING: [traits.len] trait sets specified for [total_z] z-levels in [path]!")
-		if (total_z < traits.len)  // ignore extra traits
+		if (total_z < traits.len)	// ignore extra traits
 			traits.Cut(total_z + 1)
-		while (total_z > traits.len)  // fall back to defaults on extra levels
+		while (total_z > traits.len)	// fall back to defaults on extra levels
 			traits += list(default_traits)
 
 	// preload the relevant space_level datums
@@ -406,7 +406,7 @@ SUBSYSTEM_DEF(mapping)
 		var/datum/map_template/template = SSmapping.map_templates[pick(mark.templates)] //Find our actual existing template, it should be pre-loaded
 		//Pick() should just randomly pick out of the templates list, or just grab the one there if there is only one
 		if(istype(template)) //If our template pick failed, it should just abort and not do anything
-			if(template.load(get_turf(mark))) //Fire it up. Should use bottom left corner.  This will take the majority of loading time
+			if(template.load(get_turf(mark))) //Fire it up. Should use bottom left corner.	This will take the majority of loading time
 				LAZYREMOVE(SSmapping.map_load_marks,mark) //Get rid of the mark from our global list of marks
 				qdel(mark) //Delete the mark now that the map is loaded
 			else

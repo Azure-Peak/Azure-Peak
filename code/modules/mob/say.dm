@@ -131,13 +131,13 @@
 	return LINGHIVE_NONE
 
 /**
-  * Get the mode of a message
-  *
-  * Result can be
-  * * MODE_WHISPER (Quiet speech)
-  * * MODE_HEADSET (Common radio channel)
-  * * A department radio (lots of values here)
-  */
+	* Get the mode of a message
+	*
+	* Result can be
+	* * MODE_WHISPER (Quiet speech)
+	* * MODE_HEADSET (Common radio channel)
+	* * A department radio (lots of values here)
+	*/
 /mob/proc/get_message_mode(message)
 	var/key = copytext_char(message, 1, 2)
 	if(key == "#")

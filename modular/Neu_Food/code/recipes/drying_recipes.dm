@@ -1,4 +1,4 @@
-/*	........   Drying Rack recipes   ................ */
+/*	........	Drying Rack recipes	................ */
 /datum/crafting_recipe/roguetown/cooking/salami
 	category = FOOD_CAT_PRESERVED
 	name = "salumoi"
@@ -427,7 +427,7 @@
 	result = /obj/item/clothing/mask/cigarette/rollie/zigar/cheroot
 	reqs = list(
 		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 2,
-		/obj/item/alch/hypericum  = 1,
+		/obj/item/alch/hypericum	= 1,
 	)
 	time = 10 SECONDS
 

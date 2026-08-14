@@ -192,7 +192,7 @@
 	var/obj/item/bodypart/affecting = H.get_bodypart(pick(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_HEAD))
 
 	H.visible_message("<span class='danger'>[src] stings [H] in the [affecting.name]!</span>", \
-					  "<span class='userdanger'>You feel a sharp stinging pain in your [affecting.name]!</span>")
+						"<span class='userdanger'>You feel a sharp stinging pain in your [affecting.name]!</span>")
 
 	H.adjustToxLoss(1)
 
@@ -227,7 +227,7 @@
 
 	// Check suit slot for beekeeper suit or similar
 	var/obj/item/clothing/suit/roguetown/armor/suit_item = H.get_item_by_slot(SLOT_ARMOR)
-	if(suit_item &&  (suit_item.body_parts_covered & CHEST))
+	if(suit_item &&	(suit_item.body_parts_covered & CHEST))
 		body_protected = TRUE
 
 	return head_protected && body_protected

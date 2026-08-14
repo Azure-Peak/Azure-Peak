@@ -160,7 +160,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 	var/sdx = SIGN(dx)	//Sign of x distance (+ or -)
 	var/sdy = SIGN(dy)
 	var/x=dxabs>>1	//Counters for steps taken, setting to distance/2
-	var/y=dyabs>>1	//Bit-shifting makes me l33t.  It also makes getline() unnessecarrily fast.
+	var/y=dyabs>>1	//Bit-shifting makes me l33t.	It also makes getline() unnessecarrily fast.
 	var/j			//Generic integer for counting
 	if(dxabs>=dyabs)	//x distance is greater than y
 		for(j=0;j<dxabs;j++)//It'll take dxabs steps to get there
@@ -892,18 +892,18 @@ GLOBAL_LIST_INIT(WALLITEMS_INVERSE, typecacheof(list(
 rough example of the "cone" made by the 3 dirs checked
 
 * \
-*  \
-*   >
+*	\
+*	>
 *	 <
-*	  \
-*	   \
+*		\
+*		\
 *B --><-- A
-*	   /
-*	  /
+*		/
+*		/
 *	 <
 *	>
-*   /
-*  /
+*	/
+*	/
 
 */
 
@@ -1270,7 +1270,7 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 
 #define FOR_DVIEW(type, range, center, invis_flags) \
-	GLOB.dview_mob.loc = center;		   \
+	GLOB.dview_mob.loc = center;			\
 	GLOB.dview_mob.see_invisible = invis_flags; \
 	for(type in view(range, GLOB.dview_mob))
 

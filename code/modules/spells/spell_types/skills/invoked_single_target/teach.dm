@@ -99,7 +99,7 @@
 				var/chosen_skill = input(L, "Most of the lessons require you to be no less than novice in the selected skill", "Choose a skill") as null|anything in choices
 				var/datum/skill/item = choices[chosen_skill]
 				if(!item)
-					return  // student canceled
+					return	// student canceled
 				if(alert(L, "Are you sure you want to study [item.name]?", "Learning", "Learn", "Cancel") == "Cancel")
 					return
 				if(HAS_TRAIT(L, TRAIT_STUDENT))
@@ -144,7 +144,7 @@
 								to_chat(usr, span_warning("[L] got distracted and wandered off!"))
 								to_chat(L, span_warning("I must be more focused on my studies!"))
 								return
-						else  // +1 skill level if apprentice or better
+						else	// +1 skill level if apprentice or better
 							if(do_after(usr, teachingtime, target = L))
 								user.visible_message("<font color='yellow'>[user] teaches [L] a lesson.</font>")
 								to_chat(usr, span_notice("My student grows more proficient in [item.name]!"))

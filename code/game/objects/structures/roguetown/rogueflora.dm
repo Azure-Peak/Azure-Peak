@@ -945,9 +945,9 @@
 /obj/structure/flora/rogueshroom/happy/random/Initialize(mapload)
 	. = ..()
 	var/list/mushroom_types = list(
-		/obj/structure/flora/rogueshroom/happy	   = 249,
+		/obj/structure/flora/rogueshroom/happy		= 249,
 		/obj/structure/flora/rogueshroom/happy/white = 249,
-		/obj/structure/flora/rogueshroom/happy/fat   = 249,
+		/obj/structure/flora/rogueshroom/happy/fat	= 249,
 		/obj/structure/flora/rogueshroom/happy/angel = 249,
 		/obj/structure/flora/rogueshroom/happy/metal = 1,
 	)

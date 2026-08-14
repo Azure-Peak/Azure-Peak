@@ -1,8 +1,8 @@
 // Assassin, cultist of graggar. Normally found as a drifter.
 // Requires at least one living player with the Hunted flaw, otherwise no assassins spawn.
 // Roundstart scaling (storyteller_scale_slots): scaling=1, min_players=20, default_cap=2.
-//  Cap | <20 | 20-49 | 50+
-//   2  |  0  |   1   |  2
+//	Cap | <20 | 20-49 | 50+
+//	2	|	0	|	1	|	2
 /datum/antagonist/assassin
 	name = "Assassin"
 	roundend_category = "assassins"

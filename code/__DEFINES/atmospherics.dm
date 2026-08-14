@@ -9,7 +9,7 @@
 #define META_GAS_OVERLAY		4
 #define META_GAS_DANGER			5
 #define META_GAS_ID				6
-#define META_GAS_FUSION_POWER   7
+#define META_GAS_FUSION_POWER	7
 //ATMOS
 //stuff you should probably leave well alone!
 /// kPa*L/(K*mol)

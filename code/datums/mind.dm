@@ -86,7 +86,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	/// This mind's antag HUD.
 	var/datum/atom_hud/antag/antag_hud = null
 	var/damnation_type = 0
-	/// Who owns the soul.  Under normal circumstances, this will point to src.
+	/// Who owns the soul.	Under normal circumstances, this will point to src.
 	var/datum/mind/soulOwner
 	/// If false, renders the character unable to sell their soul.
 	var/hasSoul = TRUE

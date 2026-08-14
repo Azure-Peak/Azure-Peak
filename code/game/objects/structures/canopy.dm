@@ -118,6 +118,6 @@
 		visible_message(span_notice("[usr] tears down [src]."))
 		if(do_after(usr, 30, target = src))
 			playsound(src,'sound/foley/dropsound/cloth_drop.ogg', 100, FALSE)
-			new /obj/item/grown/log/tree/small  (get_turf(src))
+			new /obj/item/grown/log/tree/small	(get_turf(src))
 			new /obj/item/natural/cloth (get_turf(src))
 			qdel(src)

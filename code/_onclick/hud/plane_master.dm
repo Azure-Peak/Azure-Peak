@@ -95,7 +95,7 @@
 /atom/movable/screen/plane_master/lighting/backdrop(mob/mymob)
 	mymob.overlay_fullscreen("lighting_backdrop_lit", /atom/movable/screen/fullscreen/lighting_backdrop/lit)
 	mymob.overlay_fullscreen("lighting_backdrop_unlit", /atom/movable/screen/fullscreen/lighting_backdrop/unlit)
-	mymob.overlay_fullscreen("sunlight_backdrop",  /atom/movable/screen/fullscreen/lighting_backdrop/sunlight)
+	mymob.overlay_fullscreen("sunlight_backdrop",	/atom/movable/screen/fullscreen/lighting_backdrop/sunlight)
 
 /atom/movable/screen/plane_master/camera_static
 	name = "camera static plane master"
@@ -249,7 +249,7 @@
 /* The fullscreen then grabs the plane_master with a layer filter, and colours it			 */
 /* We do this so the sunlight fullscreen acts as a big lighting object, in our lighting plane */
 /atom/movable/screen/fullscreen/lighting_backdrop/sunlight
-	icon_state  = ""
+	icon_state	= ""
 	screen_loc = "CENTER-2:-16, CENTER"
 	transform = null
 	plane = LIGHTING_PLANE

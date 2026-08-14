@@ -17,13 +17,13 @@
 	maxHealth = DEEPONE_HEALTH
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1,
-						   /obj/item/alch/viscera = 2)
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1,
+							/obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/alch/viscera = 2)
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+							/obj/item/alch/viscera = 2)
 	health = DEEPONE_HEALTH
 	harm_intent_damage = 20
 	melee_damage_lower = 10

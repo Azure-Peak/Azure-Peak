@@ -293,11 +293,11 @@ GLOBAL_LIST_EMPTY(fake_ckeys)
 		G.fields["m_stat"]		= "Stable"
 		G.fields["gender"]			= H.gender
 		if(H.gender == "male")
-			G.fields["gender"]  = "Male"
+			G.fields["gender"]	= "Male"
 		else if(H.gender == "female")
-			G.fields["gender"]  = "Female"
+			G.fields["gender"]	= "Female"
 		else
-			G.fields["gender"]  = "Other"
+			G.fields["gender"]	= "Other"
 		general += G
 
 		//Medical Record
@@ -335,11 +335,11 @@ GLOBAL_LIST_EMPTY(fake_ckeys)
 		L.fields["age"]			= H.age
 		L.fields["gender"]			= H.gender
 		if(H.gender == "male")
-			G.fields["gender"]  = "Male"
+			G.fields["gender"]	= "Male"
 		else if(H.gender == "female")
-			G.fields["gender"]  = "Female"
+			G.fields["gender"]	= "Female"
 		else
-			G.fields["gender"]  = "Other"
+			G.fields["gender"]	= "Other"
 		L.fields["blood_type"]	= H.dna.blood_type
 		L.fields["b_dna"]		= H.dna.unique_enzymes
 		L.fields["identity"]	= H.dna.uni_identity

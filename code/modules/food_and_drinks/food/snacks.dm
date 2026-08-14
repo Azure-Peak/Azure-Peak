@@ -51,7 +51,7 @@ All foods are distributed among various categories. Use common sense.
 	var/dry = 0
 	var/dunkable = FALSE // for dunkable food, make true
 	var/dunk_amount = 10 // how much reagent is transferred per dunk
-	var/cooked_type = null  //for overn cooking
+	var/cooked_type = null	//for overn cooking
 	/// How palatable is this food for a given social class? Also influences food quality
 	var/faretype = FARE_IMPOVERISHED
 	var/cuisine = NONE
@@ -62,11 +62,11 @@ All foods are distributed among various categories. Use common sense.
 	var/deep_fried_type = null
 	var/boiled_type = null
 	var/filling_color = "#FFFFFF" //color to use when added to custom food.
-	var/custom_food_type = null  //for food customizing. path of the custom food to create
-	var/junkiness = 0  //for junk food. used to lower human satiety.
+	var/custom_food_type = null	//for food customizing. path of the custom food to create
+	var/junkiness = 0	//for junk food. used to lower human satiety.
 	var/list/bonus_reagents //the amount of reagents (usually nutriment and vitamin) added to crafted/cooked snacks, on top of the ingredients reagents.
 	var/customfoodfilling = 1 // whether it can be used as filling in custom food
-	var/list/tastes  // for example list("crisps" = 2, "salt" = 1)
+	var/list/tastes	// for example list("crisps" = 2, "salt" = 1)
 
 	var/cooking = 0
 	var/cooktime = 0
@@ -126,7 +126,7 @@ All foods are distributed among various categories. Use common sense.
 /obj/item/reagent_containers/food/snacks/process()
 	..()
 	if(rotprocess)
-		if(!istype(loc, /obj/structure/closet/crate/chest) && ! istype(loc, /obj/item/cooking/platter)  && !istype(loc, /obj/structure/roguemachine/vendor) && !istype (loc, /obj/item/storage/backpack/rogue/artibackpack)&& !istype (loc, /obj/structure/table/cooling))
+		if(!istype(loc, /obj/structure/closet/crate/chest) && ! istype(loc, /obj/item/cooking/platter)	&& !istype(loc, /obj/structure/roguemachine/vendor) && !istype (loc, /obj/item/storage/backpack/rogue/artibackpack)&& !istype (loc, /obj/structure/table/cooling))
 			if(!locate(/obj/structure/table) in loc)
 				warming -= 20 //ssobj processing has a wait of 20
 			else
@@ -500,9 +500,9 @@ All foods are distributed among various categories. Use common sense.
 	switch(faretype)
 		if(FARE_IMPOVERISHED) parts += "Quality: Impoverished"
 		if(FARE_POOR)		 parts += "Quality: Poor"
-		if(FARE_NEUTRAL)	  parts += "Quality: Neutral"
+		if(FARE_NEUTRAL)		parts += "Quality: Neutral"
 		if(FARE_FINE)		 parts += "Quality: Fine"
-		if(FARE_LAVISH)	   parts += "Quality: Lavish"
+		if(FARE_LAVISH)		parts += "Quality: Lavish"
 	parts += "Nutrition: [get_nutrition_to_text()]"
 	if(!portable)
 		parts += "Table: Required (For Nobles)"
@@ -511,16 +511,16 @@ All foods are distributed among various categories. Use common sense.
 	else
 		var/rot_label
 		switch(initial(rotprocess))
-			if(0 to SHELFLIFE_TINY)			   rot_label = "Rot: Rots quickly"
-			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "Rot: Lasts about half a dae"
+			if(0 to SHELFLIFE_TINY)				rot_label = "Rot: Rots quickly"
+			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)	rot_label = "Rot: Lasts about half a dae"
 			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "Rot: Lasts a dae"
-			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "Rot: Lasts ~a dae and a half"
+			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)	rot_label = "Rot: Lasts ~a dae and a half"
 			if(SHELFLIFE_LONG to SHELFLIFE_EXTREME) rot_label = "Rot: Lasts ~three daes"
 			else rot_label = "Rot: long shelf life"
 		switch(-1 * warming / initial(rotprocess))
 			if(-INFINITY to 0.25) rot_label += " - very fresh"
-			if(0.25 to 0.5)	   rot_label += " - fairly fresh"
-			if(0.5 to 0.75)	   rot_label += " - going stale"
+			if(0.25 to 0.5)		rot_label += " - fairly fresh"
+			if(0.5 to 0.75)		rot_label += " - going stale"
 			if(0.75 to 1)		 rot_label += " - about to rot"
 		parts += rot_label
 	switch(eat_effect)
@@ -588,7 +588,7 @@ All foods are distributed among various categories. Use common sense.
 			return 0
 	if(user.used_intent.blade_class == slice_bclass && W.wlength == WLENGTH_SHORT)
 		if(slice_bclass == BCLASS_CHOP)
-			//	RTD meat chopping noise  The 66% random bit is just annoying
+			//	RTD meat chopping noise	The 66% random bit is just annoying
 			if(prob(66))
 				user.visible_message(span_warning("[user] chops [src]!"))
 				return 0

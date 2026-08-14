@@ -64,7 +64,7 @@
 /datum/supply_pack/rogue/Sellsword/steelcuirass
 	name = "Steel Cuirass"
 	cost = 50
-	contains =  list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
+	contains =	list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
 
 ///////////////////
 // WRISTS/GLOVES //

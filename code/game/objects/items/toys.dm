@@ -18,7 +18,7 @@
  *		Toy big red button
  *		Beach ball
  *		Toy xeno
- *	  Kitty toys!
+ *		Kitty toys!
  *		Snowballs
  *		Clockwork Watches
  *		Toy Daggers

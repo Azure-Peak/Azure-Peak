@@ -492,7 +492,7 @@
 	customizer_choices = list(/datum/customizer_choice/organ/snout/wings)
 	name = "Veil"
 	allows_disabling = TRUE
-	default_disabled =  TRUE
+	default_disabled =	TRUE
 
 /datum/customizer_choice/organ/snout/wings
 	name = "Veil"

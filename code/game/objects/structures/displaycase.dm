@@ -77,10 +77,10 @@
 /obj/structure/displaycase/attackby(obj/item/W, mob/user, params)
 	if(W.GetID() && !obj_broken && openable)
 		if(allowed(user))
-			to_chat(user,  "<span class='notice'>I [open ? "close":"open"] [src].</span>")
+			to_chat(user,	"<span class='notice'>I [open ? "close":"open"] [src].</span>")
 			toggle_lock(user)
 		else
-			to_chat(user,  "<span class='alert'>Access denied.</span>")
+			to_chat(user,	"<span class='alert'>Access denied.</span>")
 	else if(W.tool_behaviour == TOOL_WELDER && user.used_intent.type == INTENT_HELP && !obj_broken)
 		if(obj_integrity < max_integrity)
 			if(!W.tool_start_check(user, amount=5))
@@ -104,7 +104,7 @@
 		else
 			to_chat(user, "<span class='notice'>I start to [open ? "close":"open"] [src]...</span>")
 			if(W.use_tool(src, user, 20))
-				to_chat(user,  "<span class='notice'>I [open ? "close":"open"] [src].</span>")
+				to_chat(user,	"<span class='notice'>I [open ? "close":"open"] [src].</span>")
 				toggle_lock(user)
 	else if(open && !showpiece)
 		if(user.transferItemToLoc(W, src))

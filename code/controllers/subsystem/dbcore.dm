@@ -14,7 +14,7 @@ SUBSYSTEM_DEF(dbcore)
 	var/last_error
 	var/list/active_queries = list()
 
-	var/connection  // Arbitrary handle returned from rust_g.
+	var/connection	// Arbitrary handle returned from rust_g.
 
 /datum/controller/subsystem/dbcore/Initialize(mapload)
 	//We send warnings to the admins during subsystem init, as the clients will be New'd and messages
@@ -246,7 +246,7 @@ Delayed insert mode was removed in mysql 7 and only works with MyISAM type table
 	for (var/list/row in rows)
 		if (has_row)
 			query_parts += ","
-		query_parts += "\n  ("
+		query_parts += "\n	("
 		var/has_col = FALSE
 		for (var/column in columns)
 			if (has_col)
@@ -294,7 +294,7 @@ Delayed insert mode was removed in mysql 7 and only works with MyISAM type table
 	var/affected
 	var/last_insert_id
 
-	var/list/item  //list of data values populated by NextRow()
+	var/list/item	//list of data values populated by NextRow()
 
 /datum/DBQuery/New(connection, sql, arguments)
 	SSdbcore.active_queries[src] = TRUE

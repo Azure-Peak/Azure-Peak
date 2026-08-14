@@ -14,7 +14,7 @@
 /obj/structure/statue/Initialize(mapload)
 	. = ..()
 	AddComponent(art_type, impressiveness)
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/datum, _AddComponent), /datum/component/beauty, impressiveness *  75), 0)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/datum, _AddComponent), /datum/component/beauty, impressiveness *	75), 0)
 
 /obj/structure/statue/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))

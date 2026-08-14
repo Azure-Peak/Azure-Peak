@@ -5,7 +5,7 @@
  *								*
  * * * * * * * * * * * * * * * 	*/
 
-/*	........   Salting milk (for butter & cheesemaking)   ................ */
+/*	........	Salting milk (for butter & cheesemaking)	................ */
 /datum/reagent/consumable/milk/salted
 	taste_description = "salty milk"
 
@@ -24,7 +24,7 @@
 			reagents.add_reagent(/datum/reagent/consumable/milk/salted, 15)
 			qdel(I)
 
-/*	............   Churning butter   ................ */
+/*	............	Churning butter	................ */
 /obj/item/reagent_containers/glass/bucket/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
 	if(istype(I, /obj/item/kitchen/spoon))
@@ -115,7 +115,7 @@
 	return ..()
 
 
-/*	............   Making fresh cheese   ................ */
+/*	............	Making fresh cheese	................ */
 /obj/item/reagent_containers/glass/bucket/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
 	if(istype(I, /obj/item/natural/cloth))
@@ -130,7 +130,7 @@
 	..()
 
 
-/*	............   Making cheese wheel   ................ */
+/*	............	Making cheese wheel	................ */
 /obj/item/natural/cloth/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))

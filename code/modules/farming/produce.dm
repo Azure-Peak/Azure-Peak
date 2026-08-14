@@ -547,7 +547,7 @@
 	dropshrink = 0.9
 	rotprocess = SHELFLIFE_EXTREME
 
-/*	..................   Sunflower   ................... */
+/*	..................	Sunflower	................... */
 /obj/item/reagent_containers/food/snacks/grown/sunflower
 	name = "sunflower"
 	desc = "A large, bright yellow flower. Can be worn on the head."
@@ -828,7 +828,7 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
-///////////  Skysugar   //////////////
+///////////	Skysugar	//////////////
 // Stored here, as it uses deepfrying to make. Let's cook, yo!
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase
@@ -879,7 +879,7 @@
 	sellprice = 123 //Tight, tight, tight! Blue, red, green; whatever, man, just bring me more!
 	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
 
-/*	..................   Cucumber   ................... */
+/*	..................	Cucumber	................... */
 /obj/item/reagent_containers/food/snacks/grown/cucumber
 	dish_type = DISH_VEGETABLE
 	name = "cucumber"

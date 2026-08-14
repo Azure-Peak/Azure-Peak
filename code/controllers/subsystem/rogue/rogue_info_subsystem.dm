@@ -4,19 +4,19 @@ SUBSYSTEM_DEF(rogueinfo)
 
 	var/list/role_visibility = list(
 		"blacksmith" = FALSE,
-		"artificer"  = FALSE,
+		"artificer"	= FALSE,
 		"steward"	= FALSE,
-		"duke"	   = FALSE,
+		"duke"		= FALSE,
 		"apothecary" = FALSE,
 		"church"	 = FALSE,
 		"fisher"	 = FALSE,
 		"university" = FALSE,
-		"innkeeper"  = FALSE,
+		"innkeeper"	= FALSE,
 		"tailor"	 = FALSE,
-		"bathhouse"  = FALSE,
-		"merchant"   = FALSE,
-		"freeform1"  = FALSE,
-		"freeform2"  = FALSE
+		"bathhouse"	= FALSE,
+		"merchant"	= FALSE,
+		"freeform1"	= FALSE,
+		"freeform2"	= FALSE
 	)
 
 	var/list/role_data = list(

@@ -28,7 +28,7 @@
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/fruit/plum = 4, /obj/item/reagent_containers/food/snacks/sugar = 2)
 	brewed_amount = 6
 	brew_time = 5 MINUTES
-	sell_value = 90 
+	sell_value = 90
 
 	ages = TRUE
 	age_times = list(
@@ -118,7 +118,7 @@
 						 /obj/item/alch/calendula = 1) // a single lux, sugar, and a healing herb. seems fair 2 me.
 	brewed_amount = 2 // should make 2 bottles
 	brew_time = 5 MINUTES
-	sell_value = 200  // this shits heretical and has a high black market value - #Translates into 100c per bottle. Little devilish stuff, it is!
+	sell_value = 200	// this shits heretical and has a high black market value - #Translates into 100c per bottle. Little devilish stuff, it is!
 
 /datum/brewing_recipe/winespiced
 	name = "Wine, Spiced"

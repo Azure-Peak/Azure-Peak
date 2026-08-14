@@ -66,11 +66,11 @@
 	var/mob/living/simple_animal/hostile/rogue/mirespider_lurker/following = controller.blackboard[BB_FOLLOW_TARGET]
 	var/mob/living/pawn = controller.pawn
 
-	if (travel)  // Check if travel is defined
+	if (travel)	// Check if travel is defined
 		controller.queue_behavior(travel_behavior, BB_TRAVEL_DESTINATION)
-		return SUBTREE_RETURN_FINISH_PLANNING  // end here
+		return SUBTREE_RETURN_FINISH_PLANNING	// end here
 
-	else if (following)  // If we're following someone
+	else if (following)	// If we're following someone
 		var/mob/target = following.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 		following.add_follower(pawn)
 
@@ -86,8 +86,8 @@
 		else
 			controller.queue_behavior(/datum/ai_behavior/follow_friend/mirespider, BB_FOLLOW_TARGET)
 
-		return SUBTREE_RETURN_FINISH_PLANNING  // end here
-	return  // No travel target and no one to follow, being a minion in other ways
+		return SUBTREE_RETURN_FINISH_PLANNING	// end here
+	return	// No travel target and no one to follow, being a minion in other ways
 
 /datum/ai_behavior/follow_friend/mirespider
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM
@@ -109,7 +109,7 @@
 	var/mob/living/simple_animal/hostile/rogue/mirespider_lurker/target_target = target.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 
 	if (target_target)
-		return  // Stop following if the target has a target
+		return	// Stop following if the target has a target
 
 	if (QDELETED(target))
 		return

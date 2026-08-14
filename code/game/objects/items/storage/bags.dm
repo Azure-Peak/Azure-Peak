@@ -59,8 +59,8 @@
 /obj/item/storage/bag/tray/proc/do_scatter(obj/item/I)
 	if (I)
 		for (var/i in 1 to rand(1, 2))
-			var/xOffset = rand(-16, 16)  // Adjust the range as needed
-			var/yOffset = rand(-16, 16)  // Adjust the range as needed
+			var/xOffset = rand(-16, 16)	// Adjust the range as needed
+			var/yOffset = rand(-16, 16)	// Adjust the range as needed
 
 			I.x = xOffset
 			I.y = yOffset

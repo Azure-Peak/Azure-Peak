@@ -72,7 +72,7 @@
 	. = ..()
 
 	// Add trait
-	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)  //Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
+	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)	//Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
 
 /datum/status_effect/eora_blessing/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)
@@ -693,7 +693,7 @@
 
 		var/remaining_cap = 25 - water_happiness
 		var/skill = get_farming_skill(user)
-		var/potential_gain = 10 + (skill * 5)  // 10 at skill 0, 25 at skill 3+
+		var/potential_gain = 10 + (skill * 5)	// 10 at skill 0, 25 at skill 3+
 		var/actual_gain = min(potential_gain, remaining_cap)
 		var/action_time = get_skill_delay(skill, fastest = 0.5, slowest = 3)
 
@@ -923,7 +923,7 @@
 		spawn_fruit()
 
 /obj/structure/eoran_pomegranate_tree/proc/spawn_fruit()
-	if(fruit)  // Already has fruit
+	if(fruit)	// Already has fruit
 		return
 
 	fruit = TRUE

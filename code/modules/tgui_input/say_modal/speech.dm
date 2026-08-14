@@ -3,9 +3,9 @@
  * Adds text, trims left and right side
  *
  * Arguments:
- *  payload - a string list containing entry & channel
+ *	payload - a string list containing entry & channel
  * Returns:
- *  string - the altered entry
+ *	string - the altered entry
  */
 /datum/tgui_say/proc/alter_entry(payload)
 	var/entry = payload["entry"]
@@ -28,7 +28,7 @@
  * 	entry - the text to broadcast
  * 	channel - the channel to broadcast in
  * Returns:
- *  boolean - on success or failure
+ *	boolean - on success or failure
  */
 /datum/tgui_say/proc/delegate_speech(entry, channel)
 	switch(channel)
@@ -84,10 +84,10 @@
  * Handles text entry and forced speech.
  *
  * Arguments:
- *  type - a string "entry" or "force" based on how this function is called
- *  payload - a string list containing entry & channel
+ *	type - a string "entry" or "force" based on how this function is called
+ *	payload - a string list containing entry & channel
  * Returns:
- *  boolean - success or failure
+ *	boolean - success or failure
  */
 /datum/tgui_say/proc/handle_entry(type, payload)
 	if(!payload?["channel"] || !payload["entry"])

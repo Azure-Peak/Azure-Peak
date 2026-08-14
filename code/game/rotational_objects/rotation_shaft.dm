@@ -41,7 +41,7 @@
 
 /obj/structure/rotation_piece/start_deconstruct(mob/living/user, obj/item/rotation_contraption/type)
 	user.visible_message(span_notice("[user] starts to disassemble [src]."), span_notice("You start to disassemble [src]."))
-	if(!do_after(user, 2.5 SECONDS  - (user?.get_skill_level(/datum/skill/craft/engineering)  * 2), src))
+	if(!do_after(user, 2.5 SECONDS	- (user?.get_skill_level(/datum/skill/craft/engineering)	* 2), src))
 		return
 	var/obj/item/rotation_contraption/contraption = new type(get_turf(src))
 	if(in_stack > 1)

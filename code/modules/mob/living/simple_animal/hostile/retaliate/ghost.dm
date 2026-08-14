@@ -115,7 +115,7 @@
 			return
 		forceMove(NewLoc)
 	else
-		forceMove(get_turf(src))  //Get out of closets and such as a ghost
+		forceMove(get_turf(src))	//Get out of closets and such as a ghost
 		if((direct & NORTH) && y < world.maxy)
 			y++
 		else if((direct & SOUTH) && y > 1)

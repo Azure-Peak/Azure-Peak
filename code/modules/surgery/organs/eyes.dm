@@ -437,7 +437,7 @@
 /obj/item/organ/eyes/robotic/glow/proc/sync_light_effects()
 	for(var/I in eye_lighting)
 		var/obj/effect/abstract/eye_lighting/L = I
-		L.set_light(light_object_range, light_inner_range, light_object_power, l_color =  current_color_string)
+		L.set_light(light_object_range, light_inner_range, light_object_power, l_color =	current_color_string)
 	if(on_mob)
 		on_mob.set_light(1, 1, 1, l_color = current_color_string)
 

@@ -338,7 +338,7 @@
 	return
 
 /***************************************************************
- *  INDIVIDUAL HEARTFELT ORDERS
+ *	INDIVIDUAL HEARTFELT ORDERS
  ***************************************************************/
 
 /obj/effect/proc_holder/spell/invoked/order/heartfelt/retreat
@@ -485,7 +485,7 @@
 // #undef TARGET_FILTER
 
 /***************************************************************
- *  ORDER SETUP PROC
+ *	ORDER SETUP PROC
  ***************************************************************/
 
 /mob/living/carbon/human/mind/proc/setordersheartfelt()

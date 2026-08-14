@@ -55,7 +55,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
-	alternate_worn_layer  = 8.9
+	alternate_worn_layer	= 8.9
 
 /obj/item/magic/manacrystal
 	name = "crystalized mana"
@@ -113,7 +113,7 @@
 /obj/item/magic/infernal/flame//T4 mage summon loot
 	name = "abyssal flame"
 	icon_state = "abyssalflame"
-	desc = "A  flickering, black flame contained in a crystal; the heart of an archfiend. Or atleast, what passes for one. It pulses with dense thrums of magick."
+	desc = "A	flickering, black flame contained in a crystal; the heart of an archfiend. Or atleast, what passes for one. It pulses with dense thrums of magick."
 	tier = 4
 
 //FAIRY

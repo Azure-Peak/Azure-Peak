@@ -176,16 +176,16 @@
 	winset(src, "hotkey_toggle", "is-checked=[toggled? "true" : "false"]")
 
 /**
-  * Updates the keybinds for special keys
-  *
-  * Handles adding macros for the keys that need it
-  * And adding movement keys to the clients movement_keys list
-  * At the time of writing this, communication(OOC, Say, IC) require macros
-  * Arguments:
-  * * direct_prefs - the preference we're going to get keybinds from
-  *
-  * Returns list of special keybind in key = Mod1Mod2Mod3Key format, NOT Mod1+Mod2+Mod3+Key format.
-  */
+	* Updates the keybinds for special keys
+	*
+	* Handles adding macros for the keys that need it
+	* And adding movement keys to the clients movement_keys list
+	* At the time of writing this, communication(OOC, Say, IC) require macros
+	* Arguments:
+	* * direct_prefs - the preference we're going to get keybinds from
+	*
+	* Returns list of special keybind in key = Mod1Mod2Mod3Key format, NOT Mod1+Mod2+Mod3+Key format.
+	*/
 /client/proc/update_special_keybinds(datum/preferences/direct_prefs)
 	var/datum/preferences/D = direct_prefs || prefs
 	if(!D?.key_bindings)

@@ -267,7 +267,7 @@
 
 
 /atom/movable/screen/inventory/hand
-	nomouseover =  TRUE
+	nomouseover =	TRUE
 	var/held_index = 0
 	var/obj/effect/overlay/vis/handcuff_vis
 	var/obj/effect/overlay/vis/grabbed_vis
@@ -1070,8 +1070,8 @@
 	var/list/limb_vis = list()
 	var/list/wound_vis = list()
 	var/list/bleed_vis = list()
-	var/list/limb_cache = list()  // zone -> "color|wound_alpha|bleed"
-	var/list/flash_vis = list()  // zone -> reusable flash overlay
+	var/list/limb_cache = list()	// zone -> "color|wound_alpha|bleed"
+	var/list/flash_vis = list()	// zone -> reusable flash overlay
 	var/obj/effect/overlay/vis/selection_vis
 
 /atom/movable/screen/zone_sel/Destroy()

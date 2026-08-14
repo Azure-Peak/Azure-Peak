@@ -547,7 +547,7 @@ SUBSYSTEM_DEF(ticker)
 					return
 				queued_players -= next_in_line //Client disconnected, remove he
 			queue_delay = 0 //No vacancy: restart timer
-		if(25 to INFINITY)  //No response from the next in line when a vacancy exists, remove he
+		if(25 to INFINITY)	//No response from the next in line when a vacancy exists, remove he
 			to_chat(next_in_line, span_danger("No response received. You have been removed from the line."))
 			queued_players -= next_in_line
 			queue_delay = 0
@@ -839,7 +839,7 @@ SUBSYSTEM_DEF(ticker)
 		to_chat(nocite, span_userdanger("AGONY. I CAN NOT HEAR [nocite.patron]. THEY ARE LOST TO ME."))
 		nocite.emote("painscream", intentional = FALSE)
 
-	for(var/obj/machinery/light/light in GLOB.machines) //this entire block may  cause insane lag i'm not sure sorry
+	for(var/obj/machinery/light/light in GLOB.machines) //this entire block may	cause insane lag i'm not sure sorry
 		if(prob(70))
 			light.seton(TRUE)
 		else

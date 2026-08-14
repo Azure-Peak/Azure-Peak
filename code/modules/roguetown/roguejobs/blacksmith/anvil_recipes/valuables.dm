@@ -635,8 +635,8 @@
 	max_blade_int = 666
 
 /obj/item/rogueweapon/sword/long/exe/berserk/gnoll/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
 
 //
 
@@ -674,7 +674,7 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 
 /datum/anvil_recipe/valuables/gold/canister
-	name =  "Canister, Golden"
+	name =	"Canister, Golden"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/forgeable/gold/canister
 	display_category = ITEM_CAT_DECORATION
@@ -819,7 +819,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/valuables/silver/canister
-	name =  "Canister, Silver"
+	name =	"Canister, Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/forgeable/silver/canister
 	display_category = ITEM_CAT_DECORATION
@@ -964,7 +964,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/valuables/bronze/canister
-	name =  "Canister, Bronze"
+	name =	"Canister, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/forgeable/bronze/canister
 	display_category = ITEM_CAT_DECORATION

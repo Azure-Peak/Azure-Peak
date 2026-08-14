@@ -6,9 +6,9 @@
 	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
 	if(ishuman(fisherman))
 		if(fisherman.patron.type == /datum/patron/divine/abyssor)
-			modlist["dangerFishingMod"] *= 1.10  // +10% danger
-			modlist["treasureFishingMod"] *= 0.90  // -10% treasure
-			modlist["rareFishingMod"] *= 1.25  // +25% rare
+			modlist["dangerFishingMod"] *= 1.10	// +10% danger
+			modlist["treasureFishingMod"] *= 0.90	// -10% treasure
+			modlist["rareFishingMod"] *= 1.25	// +25% rare
 		if(fisherman.STALUC > 10)
 			var/trait_bonus = 0
 			if(HAS_TRAIT(fisherman, TRAIT_CAUTIOUS_FISHER))
@@ -35,9 +35,9 @@
 /proc/upgradecagemodlist(var/mob/living/carbon/human/fisherman, var/list/modlist, var/skill_power = 1)
 	if(ishuman(fisherman))
 		if(fisherman.patron.type == /datum/patron/divine/abyssor)
-			modlist["dangerFishingMod"] *= 1.10  // +10% danger
-			modlist["treasureFishingMod"] *= 0.90  // -10% treasure
-			modlist["rareFishingMod"] *= 1.25  // +25% rare
+			modlist["dangerFishingMod"] *= 1.10	// +10% danger
+			modlist["treasureFishingMod"] *= 0.90	// -10% treasure
+			modlist["rareFishingMod"] *= 1.25	// +25% rare
 		if(fisherman.STALUC > 10)
 			var/trait_bonus = 0
 			if(HAS_TRAIT(fisherman, TRAIT_CAUTIOUS_FISHER))

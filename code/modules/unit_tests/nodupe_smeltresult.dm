@@ -7,9 +7,9 @@
 	// Material equivalence mapping - treat these materials as equivalent for transmutation checking
 	// Smeltresult Checking Section //
 	var/list/material_equivalents = list(
-		/obj/item/ingot/silverblessed = /obj/item/ingot/silver,  // blessed silver counts as silver
+		/obj/item/ingot/silverblessed = /obj/item/ingot/silver,	// blessed silver counts as silver
 		/obj/item/ingot/purifiedaalloy = /obj/item/ingot/aaslag, // purified alloy counts as slag
-		/obj/item/ingot/aalloy = /obj/item/ingot/aaslag		  // ancient alloy counts as slag
+		/obj/item/ingot/aalloy = /obj/item/ingot/aaslag			// ancient alloy counts as slag
 	)
 
 	for(var/datum/anvil_recipe/recipe as anything in GLOB.anvil_recipes)

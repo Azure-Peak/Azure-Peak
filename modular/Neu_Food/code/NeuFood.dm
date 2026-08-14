@@ -6,7 +6,7 @@
  * * * * * * * * * * * **/
 
 
-/*	........   Templates / Base items   ................ */
+/*	........	Templates / Base items	................ */
 /obj/item/reagent_containers // added vars used in neu cooking, might be used for other things too in the future. How it works is in each items attackby code.
 	var/short_cooktime = 2 SECONDS
 	var/long_cooktime = 3 SECONDS
@@ -185,10 +185,10 @@
 		var/image/over = image(I.icon, I.icon_state)
 		over.transform = matrix() * 0.7
 		switch(current_step)
-			if(1) { over.pixel_x = -7; over.pixel_y = 7 }   // NW
-			if(2) { over.pixel_x = 7;  over.pixel_y = 7 }   // NE
-			if(3) { over.pixel_x = 7;  over.pixel_y = -7 }  // SE
-			if(4) { over.pixel_x = -7; over.pixel_y = -7 }  // SW
+			if(1) { over.pixel_x = -7; over.pixel_y = 7 }	// NW
+			if(2) { over.pixel_x = 7;	over.pixel_y = 7 }	// NE
+			if(3) { over.pixel_x = 7;	over.pixel_y = -7 }	// SE
+			if(4) { over.pixel_x = -7; over.pixel_y = -7 }	// SW
 		add_overlay(over)
 
 	if(!req_reagent && !is_tool)
@@ -305,7 +305,7 @@
 	if(chopping_sound)
 		playsound(get_turf(user), 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1) // added some choppy sound
 */
-/*	........   Kitchen tools / items   ................ */
+/*	........	Kitchen tools / items	................ */
 
 
 /obj/item/rogueweapon/huntingknife/cleaver

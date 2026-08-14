@@ -148,7 +148,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/nextdragtime = 0
 	var/lit = FALSE
 	var/starts_lit = FALSE
-	var/icon_on = "cigon"  //Note - these are in masks.dmi not in cigarette.dmi
+	var/icon_on = "cigon"	//Note - these are in masks.dmi not in cigarette.dmi
 	var/icon_off = "cigoff"
 	var/type_butt = /obj/item/cigbutt
 	var/lastHolder = null
@@ -649,7 +649,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "pipeoff"
 	item_state = "pipeoff"
-	icon_on = "pipeon"  //Note - these are in masks.dmi
+	icon_on = "pipeon"	//Note - these are in masks.dmi
 	icon_off = "pipeoff"
 	smoketime = 120
 	chem_volume = 100
@@ -666,7 +666,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "longpipeoff"
 	item_state = "longpipeoff"
-	icon_on = "longpipeon"  //Note - these are in masks.dmi
+	icon_on = "longpipeon"	//Note - these are in masks.dmi
 	icon_off = "longpipeoff"
 
 /obj/item/clothing/mask/cigarette/pipe/crafted/Initialize(mapload)
@@ -771,7 +771,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "cobpipeoff"
 	item_state = "cobpipeoff"
-	icon_on = "cobpipeon"  //Note - these are in masks.dmi
+	icon_on = "cobpipeon"	//Note - these are in masks.dmi
 	icon_off = "cobpipeoff"
 	smoketime = 0
 

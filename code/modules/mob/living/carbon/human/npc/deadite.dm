@@ -46,7 +46,7 @@
 	random_hair_NPC()
 
 	var/list/deadite_firstnames = world.file2list("strings/rt/names/other/deaditenpcfirst.txt")
-	var/list/deadite_lastnames  = world.file2list("strings/rt/names/other/deaditenpclast.txt")
+	var/list/deadite_lastnames	= world.file2list("strings/rt/names/other/deaditenpclast.txt")
 
 
 	real_name = "[pick(deadite_firstnames)] [pick(deadite_lastnames)]"

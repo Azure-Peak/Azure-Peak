@@ -2,10 +2,10 @@
 	category = 1 // Category for the HERMES. They are - "✤ SUPPLIES ✤", "✤ ARTICLES ✤", "✤ RELIQUARY ✤", "✤ WARDROBE ✤", "✤ EQUIPMENT ✤".
 
 /datum/inqports/supplies/
-	category = 2  // Category for the HERMES. They are - "✤ SUPPLIES ✤", "✤ ARTICLES ✤", "✤ RELIQUARY ✤", "✤ WARDROBE ✤", "✤ EQUIPMENT ✤".
+	category = 2	// Category for the HERMES. They are - "✤ SUPPLIES ✤", "✤ ARTICLES ✤", "✤ RELIQUARY ✤", "✤ WARDROBE ✤", "✤ EQUIPMENT ✤".
 
 /datum/inqports/articles/
-	category = 3  // Category for the HERMES. They are - "✤ SUPPLIES ✤", "✤ ARTICLES ✤", "✤ RELIQUARY ✤", "✤ WARDROBE ✤", "✤ EQUIPMENT ✤".
+	category = 3	// Category for the HERMES. They are - "✤ SUPPLIES ✤", "✤ ARTICLES ✤", "✤ RELIQUARY ✤", "✤ WARDROBE ✤", "✤ EQUIPMENT ✤".
 
 /datum/inqports/equipment/
 	category = 4 // Category for the HERMES. They are - "✤ SUPPLIES ✤", "✤ ARTICLES ✤", "✤ RELIQUARY ✤", "✤ WARDROBE ✤", "✤ EQUIPMENT ✤".

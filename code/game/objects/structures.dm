@@ -51,7 +51,7 @@
 						else
 							take_damage(max_integrity / 3 + 1)
 					H.Immobilize(20)
-					//hurts you a little bit but doesn't immediately chestfrac  you lmao
+					//hurts you a little bit but doesn't immediately chestfrac	you lmao
 					H.apply_damage(20, BRUTE, "chest", H.run_armor_check("chest", "blunt", damage = 20))
 					audible_message(span_warning("\The [src] shakes under the force of a great impact!"))
 					playsound(src, "meteor", 100, TRUE)
@@ -255,11 +255,11 @@
 		var/healthpercent = (obj_integrity/max_integrity) * 100
 		switch(healthpercent)
 			if(50 to 99)
-				return  "It looks slightly damaged."
+				return	"It looks slightly damaged."
 			if(25 to 50)
-				return  "It appears heavily damaged."
+				return	"It appears heavily damaged."
 			if(1 to 25)
-				return  span_warning("It's falling apart!")
+				return	span_warning("It's falling apart!")
 
 /obj/structure/proc/set_climbable(new_climbable)
 	if(new_climbable == climbable)

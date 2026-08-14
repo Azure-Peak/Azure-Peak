@@ -471,12 +471,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 	return
 
 /**
-  * Examine a mob
-  *
-  * mob verbs are faster than object verbs. See
-  * [this byond forum post](https://secure.byond.com/forum/?post=1326139&page=2#comment8198716)
-  * for why this isn't atom/verb/examine()
-  */
+	* Examine a mob
+	*
+	* mob verbs are faster than object verbs. See
+	* [this byond forum post](https://secure.byond.com/forum/?post=1326139&page=2#comment8198716)
+	* for why this isn't atom/verb/examine()
+	*/
 /mob/verb/examinate(atom/A as mob|obj|turf in view()) //It used to be oview(12), but I can't really say why
 	set name = "Examine"
 	set hidden = 1
@@ -656,13 +656,13 @@ GLOBAL_VAR_INIT(mobids, 1)
 	unset_machine()
 
 //suppress the .click/dblclick macros so people can't use them to identify the location of items or aimbot
-/mob/verb/DisClick(argu = null as anything, sec = "" as text, number1 = 0 as num  , number2 = 0 as num)
+/mob/verb/DisClick(argu = null as anything, sec = "" as text, number1 = 0 as num	, number2 = 0 as num)
 	set name = ".click"
 	set hidden = TRUE
 	set category = null
 	return
 
-/mob/verb/DisDblClick(argu = null as anything, sec = "" as text, number1 = 0 as num  , number2 = 0 as num)
+/mob/verb/DisDblClick(argu = null as anything, sec = "" as text, number1 = 0 as num	, number2 = 0 as num)
 	set name = ".dblclick"
 	set hidden = TRUE
 	set category = null
@@ -1226,7 +1226,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(stat != CONSCIOUS)
 		to_chat(src, span_warning("I can't set my pose right now."))
 		return
-	var/new_pose = tgui_input_text(src, "Set your character's pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE,  encode = TRUE, bigmodal = TRUE, max_length = 256)
+	var/new_pose = tgui_input_text(src, "Set your character's pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE,	encode = TRUE, bigmodal = TRUE, max_length = 256)
 	if(isnull(new_pose))
 		return
 

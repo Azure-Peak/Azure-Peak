@@ -255,7 +255,7 @@
 
 /obj/structure/flora/roguegrass/maneater/real/juvenile/Initialize(mapload)
 	..()
-	transform = transform.Scale(0.5, 0.5)  // Start at half size
+	transform = transform.Scale(0.5, 0.5)	// Start at half size
 	addtimer(CALLBACK(src, PROC_REF(try_grow)), growth_time)
 
 /obj/structure/flora/roguegrass/maneater/real/juvenile/Crossed(atom/movable/AM)

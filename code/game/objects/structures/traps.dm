@@ -189,7 +189,7 @@
 	icon_state = "bounty_trap_on"
 	stun_time = 200
 	sparks = FALSE //the item version gives them off to prevent runtimes (see Destroy())
-	checks_antimagic  = FALSE
+	checks_antimagic	= FALSE
 	var/obj/item/bountytrap/stored_item
 	var/caught = FALSE
 
@@ -508,7 +508,7 @@
 		return FALSE
 
 	var/assigned = LOWER_TEXT("[H.mind.assigned_role]")
-	var/special  = LOWER_TEXT("[H.mind.special_role]")
+	var/special	= LOWER_TEXT("[H.mind.special_role]")
 
 	if(assigned == "bandit" || special == "bandit")
 		return TRUE
@@ -527,7 +527,7 @@
 /obj/structure/trap/bogtrap/proc/has_required_trigger_trait(mob/living/H)
 	if(!H) return FALSE
 	if(HAS_TRAIT(H, TRAIT_MEDIUMARMOR)) return TRUE
-	if(HAS_TRAIT(H, TRAIT_HEAVYARMOR))  return TRUE
+	if(HAS_TRAIT(H, TRAIT_HEAVYARMOR))	return TRUE
 	if(HAS_TRAIT(H, TRAIT_DODGEEXPERT)) return TRUE
 	if(HAS_TRAIT(H, TRAIT_CRITICAL_RESISTANCE)) return TRUE
 
@@ -545,7 +545,7 @@
 	if(!H || !H.mind)
 		return FALSE
 	var/assigned = LOWER_TEXT("[H.mind.assigned_role]")
-	var/special  = LOWER_TEXT("[H.mind.special_role]")
+	var/special	= LOWER_TEXT("[H.mind.special_role]")
 
 	return (assigned == "bandit" || special == "bandit" \
 		|| assigned == "bogguard" \

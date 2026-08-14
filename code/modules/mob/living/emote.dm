@@ -244,7 +244,7 @@
 	key = ""
 	key_third_person = ""
 	message = "gasps out their last breath."
-	message_simple =  "falls limp."
+	message_simple =	"falls limp."
 	stat_allowed = UNCONSCIOUS
 
 /datum/emote/living/deathgasp/run_emote(mob/user, params, type_override, intentional)
@@ -1586,7 +1586,7 @@
 	set name = "Faith Salute"
 	set category = "Emotes"
 
-	emote("fsalute", intentional =  TRUE)
+	emote("fsalute", intentional =	TRUE)
 
 /datum/emote/living/ffsalute
 	key = "ffsalute"
@@ -1603,7 +1603,7 @@
 	set name = "Fake Faith Salute"
 	set category = "Emotes"
 
-	emote("ffsalute", intentional =  TRUE)
+	emote("ffsalute", intentional =	TRUE)
 
 /datum/emote/living/stat_roll
 	var/delay = 2.5 SECONDS

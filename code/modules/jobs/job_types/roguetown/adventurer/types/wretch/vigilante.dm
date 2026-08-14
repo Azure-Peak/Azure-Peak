@@ -26,7 +26,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT, //SNIFF OUT JUSTICE.
 	)
 	subclass_stashed_items = list(
-		"Sewing Kit" =  /obj/item/repair_kit,
+		"Sewing Kit" =	/obj/item/repair_kit,
 	)
 
 /datum/outfit/job/roguetown/wretch/vigilante/pre_equip(mob/living/carbon/human/H)

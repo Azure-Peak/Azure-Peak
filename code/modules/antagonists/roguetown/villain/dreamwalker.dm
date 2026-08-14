@@ -2,8 +2,8 @@
 #define PORTAL_PURSUIT_USES 5
 
 // Scaling (base_antags path, no storyteller slot caps):
-//  Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
-//  Roundstart (Abyssor only): base=2, max=2 → always 2
+//	Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
+//	Roundstart (Abyssor only): base=2, max=2 → always 2
 /datum/antagonist/dreamwalker
 	name = "Dreamwalker"
 	roundend_category = "Dreamwalker"

@@ -184,9 +184,9 @@
 		base_dy = 1
 
 	var/list/search_patterns = list(
-		list(base_dx, base_dy),   // Forward
-		list(-base_dy, base_dx),  // Left
-		list(base_dy, -base_dx)   // Right
+		list(base_dx, base_dy),	// Forward
+		list(-base_dy, base_dx),	// Left
+		list(base_dy, -base_dx)	// Right
 	)
 
 	var/base_dist = 9

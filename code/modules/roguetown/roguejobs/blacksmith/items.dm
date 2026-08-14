@@ -180,7 +180,7 @@
 	dropshrink = 0.6
 	grid_width = 32
 	grid_height = 64
-	var/roughness = 0 // 0  for a fine brush, 1 for a coarse brush
+	var/roughness = 0 // 0	for a fine brush, 1 for a coarse brush
 
 /obj/item/armor_brush/examine()
 	. = ..()

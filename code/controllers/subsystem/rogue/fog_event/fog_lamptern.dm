@@ -111,7 +111,7 @@
 	. = ..()
 
 	if(holder)
-		if(loc != holder  || istype(loc, /obj/item/storage/backpack) || istype(loc, /obj/structure/closet))
+		if(loc != holder	|| istype(loc, /obj/item/storage/backpack) || istype(loc, /obj/structure/closet))
 			to_chat(holder, span_warning("The protective light of [src] fades as it leaves your person!"))
 			holder.remove_status_effect(/datum/status_effect/buff/fog_ward_caster)
 			extinguish()

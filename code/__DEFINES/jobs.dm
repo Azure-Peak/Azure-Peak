@@ -66,7 +66,7 @@
 
 #define MERCHANT	(1<<0)
 #define GUILDMASTER (1<<1)
-#define GUILDSMAN  	(1<<2)
+#define GUILDSMAN		(1<<2)
 #define TAILOR		(1<<3)
 #define PHYSICIAN 	(1<<4)
 #define APOTHECARY	(1<<5)
@@ -127,7 +127,7 @@
 #define TESTER		(1<<0)
 
 
-#define JCOLOR_NOBLE  "#007fff"
+#define JCOLOR_NOBLE	"#007fff"
 #define JCOLOR_COURTIER "#aa83b9"
 #define JCOLOR_RETINUE "#597fb9"
 #define JCOLOR_GARRISON "#173266"
@@ -136,9 +136,9 @@
 #define JCOLOR_ATC "#5b9bd5"
 #define JCOLOR_PEASANT "#685542"
 #define JCOLOR_SIDEFOLK "#aea176"
-#define JCOLOR_WANDERER  "#23763a"
+#define JCOLOR_WANDERER	"#23763a"
 #define JCOLOR_INQUISITION "#6c6c6c"
-#define JCOLOR_ANTAGONIST  "#b8252c"
+#define JCOLOR_ANTAGONIST	"#b8252c"
 // PUT THESE ON THE FIRST ROLE IN THE LIST BELOW (IE NOBLE ON LORD) TO GET DESIRED COLOUR OF THE DEPARTMENT SELECT
 // job display orders //
 

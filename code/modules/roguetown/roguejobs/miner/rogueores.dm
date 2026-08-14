@@ -120,8 +120,8 @@
 	smeltresult = /obj/item/ingot/lithmyc
 
 /obj/item/rogueore/lithmyc/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot
 	name = "ingot"
@@ -300,8 +300,8 @@
 	sellprice = 20
 
 /obj/item/ingot/steelholy/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/
 	name = "blessed silver bar"
@@ -313,8 +313,8 @@
 	is_lesser_silver = TRUE
 
 /obj/item/ingot/silverblessed/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/bullion
 	name = "blessed silver bullion"
@@ -348,8 +348,8 @@
 	sellprice = 6
 
 /obj/item/ingot/aaslag/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
 
 /obj/item/ingot/bsslag
 	name = "blacksteel-speckled slag"
@@ -390,8 +390,8 @@
 	sellprice = 222
 
 /obj/item/ingot/weeping/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/draconic
 	name = "draconic ingot"
@@ -401,8 +401,8 @@
 	sellprice = 333
 
 /obj/item/ingot/draconic/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/lithmyc
 	name = "lithmyc ingot"
@@ -412,8 +412,8 @@
 	sellprice = 444
 
 /obj/item/ingot/lithmyc/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/ketryl
 	name = "ketryl ingot"
@@ -437,8 +437,8 @@
 	sellprice = 256
 
 /obj/item/ingot/vampire/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/ingot/avantyne
 	name = "avantyne wafer"
@@ -471,11 +471,11 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.patron.type == /datum/patron/inhumen/graggar)
-			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.  </br>Melting away its crystalline shell is ideal, if you wish to ensure no chance for error while conducting such a ritual.")
+			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.	</br>Melting away its crystalline shell is ideal, if you wish to ensure no chance for error while conducting such a ritual.")
 
 /obj/item/ingot/component/glutcrystal/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 1))
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 1))
 
 /obj/item/ingot/component/heapofrawiron
 	name = "heap of raw iron"

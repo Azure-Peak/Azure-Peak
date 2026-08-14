@@ -131,7 +131,7 @@
 	return FALSE
 
 
-/datum/emote/spin/run_emote(mob/user, params ,  type_override, intentional)
+/datum/emote/spin/run_emote(mob/user, params ,	type_override, intentional)
 	. = ..()
 	if(.)
 		user.spin(20, 1)

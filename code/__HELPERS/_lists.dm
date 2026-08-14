@@ -335,7 +335,7 @@
 
 	return null
 
-/proc/pickweightAllowZero(list/L) //The original pickweight proc will sometimes pick entries with zero weight.  I'm not sure if changing the original will break anything, so I left it be.
+/proc/pickweightAllowZero(list/L) //The original pickweight proc will sometimes pick entries with zero weight.	I'm not sure if changing the original will break anything, so I left it be.
 	var/total = 0
 	var/item
 	for (item in L)
@@ -765,7 +765,7 @@ GLOBAL_LIST_EMPTY(string_lists)
 		else
 			j = mid
 
-	if(i == 1 || i ==  L.len) // Edge cases
+	if(i == 1 || i ==	L.len) // Edge cases
 		return (call(cmp)(L[i],A) > 0) ? i : i+1
 	else
 		return i
@@ -847,7 +847,7 @@ GLOBAL_LIST_EMPTY(string_lists)
 				return_list += bit
 
 	return return_list
-/* 
+/*
 Port of: https://github.com/Monkestation/Vanderlin/commit/84b8b6a716a80040145bb9372641084b32708923 by Sutures / noelle-lavenza
 // A wrapper for baseturf string lists, to offer support of non list values, and a stack_trace if we have major issues
 */

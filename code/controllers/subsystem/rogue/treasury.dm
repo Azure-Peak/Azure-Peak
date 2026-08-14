@@ -870,7 +870,7 @@ SUBSYSTEM_DEF(treasury)
 			income += per_tick_flow
 		else if(rate < 0)
 			// Subsidies reach every eligible subject, including charter-protected ones.
-			per_tick_flow = rate * total   // negative total = subsidy out of Purse
+			per_tick_flow = rate * total	// negative total = subsidy out of Purse
 			subsidy += -per_tick_flow
 		by_category += list(list(
 			"category" = category,

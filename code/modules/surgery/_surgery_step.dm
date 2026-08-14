@@ -79,7 +79,7 @@
 	var/requires_tech = FALSE
 	/**
 	 * type; doesn't show up if this type exists.
-	 * Set to /datum/surgery_step if you want to hide a "base" surgery  (useful for typing parents IE healing.dm just make sure to null it out again)
+	 * Set to /datum/surgery_step if you want to hide a "base" surgery	(useful for typing parents IE healing.dm just make sure to null it out again)
 	 */
 	var/replaced_by
 	/// Repeatable surgery steps will repeat until failure

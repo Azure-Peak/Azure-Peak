@@ -208,7 +208,7 @@
 	// Create and properly set up the skeleton siege event
 	var/datum/round_event_control/rogue/skeleton_siege/S = new()
 	// Force the event to be ready
-	S.req_omen = FALSE  // Temporarily disable omen requirement since we're forcing it
+	S.req_omen = FALSE	// Temporarily disable omen requirement since we're forcing it
 	S.earliest_start = 0
 	S.min_players = 0
 

@@ -164,13 +164,13 @@
 	for(var/i=1, i<=length(t_in), i++)
 		var/ascii_char = text2ascii(t_in,i)
 		switch(ascii_char)
-			// A  .. Z
+			// A	.. Z
 			if(65 to 90)
 				t_out += ascii2text(ascii_char)
 				number_of_alphanumeric++
 				last_char_group = 4
 
-			// a  .. z
+			// a	.. z
 			if(97 to 122)
 				t_out += ascii2text(ascii_char)
 				number_of_alphanumeric++
@@ -182,7 +182,7 @@
 				number_of_alphanumeric++
 				last_char_group = 4
 
-			// 0  .. 9
+			// 0	.. 9
 			if(48 to 57)
 				if(!last_char_group)
 					continue	//suppress at start of string
@@ -192,7 +192,7 @@
 				number_of_alphanumeric++
 				last_char_group = 3
 
-			// '  -  . ,
+			// '	-	. ,
 			if(39,45,46,44)			//Common name punctuation
 				if(!last_char_group)
 					continue
@@ -480,7 +480,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 		t = replacetext(t, "\\|", "$9")
 		t = replacetext(t, "\\%", "$0")
 
-	// Escape  single characters that will be used
+	// Escape	single characters that will be used
 
 	t = replacetext(t, "!", "$a")
 
@@ -617,7 +617,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 
 	// Premanage whitespace
 
-	t = replacetext(t, regex("\[^\\S\\r\\n \]", "g"), "  ")
+	t = replacetext(t, regex("\[^\\S\\r\\n \]", "g"), "	")
 
 	t = parsemarkdown_basic_step1(t)
 
@@ -630,7 +630,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 
 	t = replacetext(t, regex("(?:\\r\\n?|\\n)", "g"), "<br>")
 
-	t = replacetext(t, "  ", "&nbsp;&nbsp;")
+	t = replacetext(t, "	", "&nbsp;&nbsp;")
 
 	// Done
 
@@ -854,8 +854,8 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 		words.Remove(cword)
 		var/suffix = copytext(cword,length(cword)-1,length(cword))
 		while(length(cword)>0 && (suffix in list(".",",",";","!",":","?")))
-			cword  = copytext(cword,1			  ,length(cword)-1)
-			suffix = copytext(cword,length(cword)-1,length(cword)  )
+			cword	= copytext(cword,1				,length(cword)-1)
+			suffix = copytext(cword,length(cword)-1,length(cword)	)
 		if(length(cword))
 			rearranged += cword
 	message = "[prefix][jointext(rearranged," ")]"

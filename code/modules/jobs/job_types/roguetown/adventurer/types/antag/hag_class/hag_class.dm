@@ -5,13 +5,13 @@
 	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
 	outfit = /datum/outfit/job/roguetown/hag
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT,
-	 					  TRAIT_ANCIENT_HAG, TRAIT_EDIT_DESCRIPTORS,
-						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
-						  TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
-						  TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
-						  TRAIT_DARKVISION, TRAIT_NOHUNGER,
-						  TRAIT_TECHNOPHOBE, TRAIT_NOPVE, TRAIT_UNCONVERTIBLE,
-						  TRAIT_NOWW)
+	 						TRAIT_ANCIENT_HAG, TRAIT_EDIT_DESCRIPTORS,
+							TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
+							TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
+							TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
+							TRAIT_DARKVISION, TRAIT_NOHUNGER,
+							TRAIT_TECHNOPHOBE, TRAIT_NOPVE, TRAIT_UNCONVERTIBLE,
+							TRAIT_NOWW)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,

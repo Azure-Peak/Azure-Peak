@@ -322,9 +322,9 @@ SUBSYSTEM_DEF(economy)
 	for(var/path in subtypesof(/datum/economic_event))
 		var/datum/economic_event/probe = path
 		if(!initial(probe.name))
-			continue  // abstract
+			continue	// abstract
 		if(initial(probe.event_type) == ECON_EVENT_NARRATIVE)
-			continue  // narrative events don't roll in v1
+			continue	// narrative events don't roll in v1
 		var/cooled_until = event_path_cooldowns[path]
 		if(cooled_until && GLOB.dayspassed < cooled_until)
 			continue

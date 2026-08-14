@@ -930,7 +930,7 @@
 	if(full_heal)
 		fully_heal(admin_revive = admin_revive, break_restraints = admin_revive)
 	if(stat == DEAD && (admin_revive || can_be_revived())) //in some cases you can't revive (e.g. no brain)
-		GLOB.dead_mob_list -= src  //If any more forms of revival are added, better to use a proc to do this - easier to search
+		GLOB.dead_mob_list -= src	//If any more forms of revival are added, better to use a proc to do this - easier to search
 		GLOB.alive_mob_list += src
 		set_suicide(FALSE)
 		set_stat(CONSCIOUS)
@@ -2484,7 +2484,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	var/turf/ceiling = get_step_multiz(src, UP)
 	var/turf/T = get_turf(src)
 
-	if(!ceiling)  //We are at the highest z-level.
+	if(!ceiling)	//We are at the highest z-level.
 		if(T.can_see_sky())
 			switch(GLOB.forecast)
 				if("prerain")
@@ -2541,7 +2541,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	var/_y = T.y-loc.y
 	var/dist = get_dist(src, T)
 	var/message = span_info("[src] looks into the distance.")
-	if(dist > 7 || dist  <= 2)
+	if(dist > 7 || dist	<= 2)
 		return
 	hide_cone()
 	var/ttime = 11

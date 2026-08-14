@@ -11,8 +11,8 @@
 #define SPIRIT_ENEMY_VISION 				9	// how close an enemy must be to trigger aggression
 #define SPIRIT_FLEE_VISION					4	// how close an enemy must be before it triggers flee
 #define SPIRIT_ITEM_SNATCH_DELAY 			25	// How long does it take the item to be taken from a mobs hand
-#define SPIRIT_CUFF_RETALIATION_PROB		20  // Probability spirit will aggro when cuffed
-#define SPIRIT_SYRINGE_RETALIATION_PROB		20  // Probability spirit will aggro when syringed
+#define SPIRIT_CUFF_RETALIATION_PROB		20	// Probability spirit will aggro when cuffed
+#define SPIRIT_SYRINGE_RETALIATION_PROB		20	// Probability spirit will aggro when syringed
 
 // Probability per Life tick that the spirit will:
 #define SPIRIT_RESIST_PROB 					50	// resist out of restraints

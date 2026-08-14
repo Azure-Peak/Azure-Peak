@@ -130,7 +130,7 @@
 		Master.queue_priority_count += SS_priority
 
 	queue_next = queue_node
-	
+
 	if (!queue_node)//we stopped at the end, add to tail
 		queue_prev = Master.queue_tail
 		if (Master.queue_tail)
@@ -203,7 +203,7 @@
 		if (SS_SLEEPING)
 			. = "S"
 		if (SS_IDLE)
-			. = "  "
+			. = "	"
 
 //could be used to postpone a costly subsystem for (default one) var/cycles, cycles
 //for instance, during cpu intensive operations like explosions

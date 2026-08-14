@@ -31,7 +31,7 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN, // Farm ingredients so you have something to do that isn't grinding skills
 	)
 	subclass_stashed_items = list(
-		"Sewing Kit" =  /obj/item/repair_kit,
+		"Sewing Kit" =	/obj/item/repair_kit,
 		"Poison Arrows Quiver" = /obj/item/quiver/poisonarrows,
 	)
 

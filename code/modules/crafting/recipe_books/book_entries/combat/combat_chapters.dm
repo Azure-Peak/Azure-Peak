@@ -523,7 +523,7 @@
 
 		<p>Riposting lasts for six seconds, and can be broken by using it up or FEINTING you. Feinting someone RIPOSTING is guaranteed, and is one of its primary counters - though it costs the feinter a [(BASE_RCLICK_CD + 10 SECONDS) / 10] second cooldown to do it.</p>
 
-		<p>Attacking while Riposting will cost you a significant amount of stamina and cancel it. Specifically, striking someone who has no guard of their own while yours is up is treated as squandering it, and costs you [BAD_GUARD_FATIGUE_DRAIN]% of your green bar. Jumping, kicking, being kicked, or shooting a ranged weapon  will all break it too. Letting it simply expire costs you nothing but the cooldown.</p>
+		<p>Attacking while Riposting will cost you a significant amount of stamina and cancel it. Specifically, striking someone who has no guard of their own while yours is up is treated as squandering it, and costs you [BAD_GUARD_FATIGUE_DRAIN]% of your green bar. Jumping, kicking, being kicked, or shooting a ranged weapon	will all break it too. Letting it simply expire costs you nothing but the cooldown.</p>
 
 		<p>Riposte can be canceled ahead of time by swapping your hand, straining you but leaving you with less room for your opponent to expose.</p>
 
@@ -599,7 +599,7 @@
 			<li>Other resources may exist or be added to at some point.</li>
 		</ul>
 
-		<p>Intelligence improves  arcyne casting. Every point above 10 takes [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off both the cooldown and the stamina cost of a spell, up to [SPELL_POSITIVE_SCALING_THRESHOLD], and every point below 10 adds the same back on. Miracles are the exception - they do not scale with any stat, so a low INT cleric is not punished for it.</p>
+		<p>Intelligence improves	arcyne casting. Every point above 10 takes [round(COOLDOWN_REDUCTION_PER_INT * 100)]% off both the cooldown and the stamina cost of a spell, up to [SPELL_POSITIVE_SCALING_THRESHOLD], and every point below 10 adds the same back on. Miracles are the exception - they do not scale with any stat, so a low INT cleric is not punished for it.</p>
 
 		<h3>Mages</h3>
 		<p>Mages in AP operate under a Major-Minor-Utilities aspect system. They use their spellbook to pick what kind of Major Aspect they specialize in, which determines their offensive potential and some utilities.</p>

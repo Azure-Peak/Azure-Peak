@@ -179,9 +179,9 @@ SUBSYSTEM_DEF(city_assembly)
 
 /// Per-motion choice whitelist. Prevents ballot pollution from malformed ui_act payloads. Each
 /// motion type has a fixed choice set:
-///   - Election: candidate weakref strings (must match a declared candidate) or NO_ALDERMAN.
-///   - Bracket motions: stringified numbers from that motion's bracket list, NAE, or ABSTAIN.
-///   - Yae/Nay motions: YAE, NAY, or ABSTAIN.
+///	- Election: candidate weakref strings (must match a declared candidate) or NO_ALDERMAN.
+///	- Bracket motions: stringified numbers from that motion's bracket list, NAE, or ABSTAIN.
+///	- Yae/Nay motions: YAE, NAY, or ABSTAIN.
 /datum/controller/subsystem/city_assembly/proc/validate_choice(motion_id, choice)
 	if(isnull(choice))
 		return FALSE

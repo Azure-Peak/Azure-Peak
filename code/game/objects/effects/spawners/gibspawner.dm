@@ -2,7 +2,7 @@
 /obj/effect/gibspawner
 	var/sparks = 0 //whether sparks spread
 	var/virusProb = 20 //the chance for viruses to spread on the gibs
-	var/gib_mob_type  //generate a fake mob to transfer DNA from if we weren't passed a mob.
+	var/gib_mob_type	//generate a fake mob to transfer DNA from if we weren't passed a mob.
 	var/sound_to_play = 'sound/blank.ogg'
 	var/sound_vol = 60
 	var/list/gibtypes = list() //typepaths of the gib decals to spawn

@@ -151,5 +151,5 @@
 	smeltresult = null
 
 /obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual/Initialize(mapload)
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#79d5ff", "alpha" = 120, "size" = 1)) //Enchanted look.
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#79d5ff", "alpha" = 120, "size" = 1)) //Enchanted look.

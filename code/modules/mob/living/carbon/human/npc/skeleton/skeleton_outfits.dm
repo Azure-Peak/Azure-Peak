@@ -192,7 +192,7 @@
 	H.STACON = 3
 	H.STAWIL = 6
 	name = "Skeleton Pirate"
-	head =  /obj/item/clothing/head/roguetown/helmet/tricorn
+	head =	/obj/item/clothing/head/roguetown/helmet/tricorn
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
@@ -317,7 +317,7 @@
 	H.STAWIL = 10
 	H.STAINT = 1
 	name = "Skeleton Dreadnought"
-	// This combines the khopesh  and withered dreadknight
+	// This combines the khopesh	and withered dreadknight
 	var/skeletonclass = rand(1, 2)
 	if(skeletonclass == 1) // Khopesh Knight
 		H.STASPD = 12 // Hue

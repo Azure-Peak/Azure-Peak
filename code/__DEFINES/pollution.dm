@@ -13,8 +13,8 @@
 #define POLLUTION_TASK_DISSIPATE 2
 
 #define SCENT_DESC_ODOR		"odour"
-#define SCENT_DESC_SMELL	   "smell"
-#define SCENT_DESC_FRAGRANCE   "fragrance"
+#define SCENT_DESC_SMELL		"smell"
+#define SCENT_DESC_FRAGRANCE	"fragrance"
 
 #define POLLUTION_DISSIPATION_PLANETARY_MULTIPLIER 4
 

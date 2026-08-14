@@ -206,7 +206,7 @@
 	ingredient_size = 1
 	cooked_smell = /datum/pollutant/food/cooked_fish
 
-/* .........   Shellfish	................. */
+/* .........	Shellfish	................. */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_SEAFOOD
@@ -221,7 +221,7 @@
 	cooked_smell = /datum/pollutant/food/fried_shellfish
 
 // MEAT MINCE
-/*	.............   Minced meat & stuffing sausages   ................ */
+/*	.............	Minced meat & stuffing sausages	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince
 	name = "mince"
 	desc = "Meat sliced many times both with and against the grain, producing a fine mince."
@@ -301,7 +301,7 @@
 	slices_num = 1
 	ingredient_size = 1
 
-/* .........   Shellfish	................. */
+/* .........	Shellfish	................. */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_SEAFOOD

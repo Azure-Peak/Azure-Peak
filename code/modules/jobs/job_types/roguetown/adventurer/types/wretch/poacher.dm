@@ -37,7 +37,7 @@
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 	subclass_stashed_items = list(
-		"Sewing Kit" =  /obj/item/repair_kit,
+		"Sewing Kit" =	/obj/item/repair_kit,
 	)
 
 /datum/outfit/job/roguetown/wretch/poacher/pre_equip(mob/living/carbon/human/H)

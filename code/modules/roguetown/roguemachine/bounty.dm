@@ -205,7 +205,7 @@
 	GLOB.head_bounties += new_bounty
 
 ///Composes a random bounty banner based on the given bounty info.
-///@param new_bounty:  The bounty datum.
+///@param new_bounty:	The bounty datum.
 /proc/compose_bounty(datum/bounty/new_bounty)
 	new_bounty.banner += "'[new_bounty.employer]' hath offered to pay '[new_bounty.amount]' mammons for the capture of '[new_bounty.target]'.<BR>"
 	new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"

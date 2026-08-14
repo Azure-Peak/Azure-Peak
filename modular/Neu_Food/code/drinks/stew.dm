@@ -1,4 +1,4 @@
-/*	........   Reagents   ................ */// These are for the pot, if more vegetables are added and need to be integrated into the pot brewing you need to add them here
+/*	........	Reagents	................ */// These are for the pot, if more vegetables are added and need to be integrated into the pot brewing you need to add them here
 /datum/reagent/consumable/soup // so you get hydrated without the flavor system messing it up. Works like water with less hydration
 	var/hydration = 6
 /datum/reagent/consumable/soup/on_mob_life(mob/living/carbon/M)
@@ -647,7 +647,7 @@
 
 /datum/reagent/consumable/soup/stew/bisque
 	name = "bisque"
-	color = "#FFA74F" // Bisque like color I know bisque's more complicated than that 
+	color = "#FFA74F" // Bisque like color I know bisque's more complicated than that
 	taste_description = "shellfish"
 
 /datum/reagent/consumable/soup/stew/frybisque
@@ -966,11 +966,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.1, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soup/stew/bakedchicken/on_mob_life(mob/living/carbon/M)
@@ -982,11 +982,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.15  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.15	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustFireLoss(-0.15 * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.15  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.15  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.15	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.15	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soup/stew/thickchicken/on_mob_life(mob/living/carbon/M)
@@ -998,11 +998,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.15  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.15	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustFireLoss(-0.15 * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.15  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.15  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.15	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.15	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soup/stew/bakedthickchicken/on_mob_life(mob/living/carbon/M)
@@ -1014,11 +1014,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustFireLoss(-0.2 * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.2  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.2	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soup/stew/veggiethickchicken/on_mob_life(mob/living/carbon/M)
@@ -1030,11 +1030,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.2  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.2	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soup/stew/pepperchicken/on_mob_life(mob/living/carbon/M)
@@ -1046,11 +1046,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.25  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.25  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.25	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.25	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.25  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.25  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.25	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.25	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soup/stew/lavishchicken/on_mob_life(mob/living/carbon/M)
@@ -1062,9 +1062,9 @@
 	if(wCount.len > 0)
 		M.heal_wounds(2)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.3  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()

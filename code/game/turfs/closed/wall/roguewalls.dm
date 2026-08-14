@@ -19,7 +19,7 @@
 			if(25 to 50)
 				. += "It appears heavily damaged."
 			if(1 to 25)
-				. +=  "<span class='warning'>It's falling apart!</span>"
+				. +=	"<span class='warning'>It's falling apart!</span>"
 
 /turf/closed/wall/mineral/rogue/Initialize(mapload)
 	if(smooth_icon)

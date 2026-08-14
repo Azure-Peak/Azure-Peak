@@ -158,7 +158,7 @@
 
 	var/obj/structure/roller/next_roller = locate(/obj/structure/roller) in get_step(src, direction)
 	var/chained_handoff = next_roller && next_roller.operating && \
-						  (direction == movedir) && (next_roller.movedir == movedir)
+							(direction == movedir) && (next_roller.movedir == movedir)
 
 	if(chained_handoff)
 		return

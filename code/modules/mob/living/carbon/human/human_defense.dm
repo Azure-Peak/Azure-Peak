@@ -171,7 +171,7 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(C.eweight)
-				weight +=  C.eweight
+				weight +=	C.eweight
 	return max(weight, 0)
 */
 /mob/living/carbon/human/on_hit(obj/projectile/P)

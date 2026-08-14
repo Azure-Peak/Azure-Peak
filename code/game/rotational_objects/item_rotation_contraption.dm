@@ -2,7 +2,7 @@
 	name = ""
 	desc = ""
 
-	w_class =  WEIGHT_CLASS_SMALL
+	w_class =	WEIGHT_CLASS_SMALL
 	grid_height = 32
 	grid_width = 32
 

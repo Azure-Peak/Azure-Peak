@@ -231,7 +231,7 @@
 	key = "facepalm"
 	key_third_person = "facepalms"
 	message = "facepalms."
-	emote_type =  EMOTE_AUDIBLE
+	emote_type =	EMOTE_AUDIBLE
 	show_runechat = TRUE
 
 /mob/living/carbon/human/verb/facepalm()

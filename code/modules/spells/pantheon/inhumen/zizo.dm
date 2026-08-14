@@ -504,7 +504,7 @@
 	required_items = null
 
 ///////////////////
-// T3 - Rituos  //
+// T3 - Rituos	//
 ///////////////////
 // - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
 

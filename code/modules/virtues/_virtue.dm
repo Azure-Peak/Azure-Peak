@@ -109,11 +109,11 @@ GLOBAL_LIST_EMPTY(virtues)
 		var/max = null
 
 		if (islist(entry))
-			S   = entry[1]
+			S	= entry[1]
 			inc = entry[2]
 			max = entry[3]
 		else
-			S   = entry
+			S	= entry
 			inc = added_skills[entry]
 
 		if (!S || !inc)

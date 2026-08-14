@@ -267,7 +267,7 @@
 		else
 			A.fire_act(3,3)
 
-		if (should_self_destruct)  // check if self-destruct
+		if (should_self_destruct)	// check if self-destruct
 			times_used += 1
 			if (times_used >= 8) //amount used before burning out
 				user.visible_message("<span class='warning'>[src] has burnt out and falls apart!</span>")
