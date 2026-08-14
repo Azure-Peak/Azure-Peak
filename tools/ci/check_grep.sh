@@ -151,6 +151,27 @@ if $grep -i 'lowertext\(.+\)' $code_files | $grep -v 'UNLINT\(.+\)' | $grep -v '
 	st=1
 fi;
 
+part "enforce explicit input usr"
+if $grep -i '\binput\(".+\)' $code_files; then
+	echo
+	echo -e "${RED}ERROR: input() called without explicitly specifying a target. This will default to the byond-builtin usr - which is not usually what you want and can be null. If you REALLY want to use usr (which you should ONLY do in verbs and Topic()), pass it in as an explicit argument.${NC}"
+	st=1
+fi;
+
+part "enforce explicit alert usr"
+if $grep -i '\balert\(".+\)' $code_files; then
+	echo
+	echo -e "${RED}ERROR: alert() called without explicitly specifying a target. This will default to the byond-builtin usr - which is not usually what you want and can be null. If you REALLY want to use usr (which you should ONLY do in verbs and Topic()), pass it in as an explicit argument.${NC}"
+	st=1
+fi;
+
+part "prevent unintended debug messages"
+if $grep -i '^[^#].+to_chat\(world.+\)' $code_files; then
+	echo
+	echo -e "${RED}ERROR: to_chat() called on world, which will broadcast to all connected players. If this is a debug message, remove it or use debug_world; if not, use the to_world helper.${NC}"
+	st=1
+fi;
+
 part "balloon_alert sanity"
 if $grep 'balloon_alert\(".*"\)' $code_files; then
 	echo
