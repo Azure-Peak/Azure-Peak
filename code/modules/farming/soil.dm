@@ -726,6 +726,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		return
 	var/base_amount = rand(plant.produce_amount_min, plant.produce_amount_max)
 	var/spawn_amount = max(base_amount + modifier, 1)
+	var/area/A = get_area(src)
+	if(A && is_type_in_typecache(A, GLOB.roguetown_areas_typecache))
+		record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_DOMESTIC, plant.produce_type, spawn_amount)
 	for(var/i in 1 to spawn_amount)
 		new plant.produce_type(loc)
 	produce_ready = FALSE

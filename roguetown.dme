@@ -270,6 +270,8 @@
 #include "code\__HELPERS\reagents.dm"
 #include "code\__HELPERS\records.dm"
 #include "code\__HELPERS\round_statistics.dm"
+#include "code\__HELPERS\material_flow.dm"
+#include "code\__HELPERS\treasury_ledger.dm"
 #include "code\__HELPERS\roundend.dm"
 #include "code\__HELPERS\sanitize_values.dm"
 #include "code\__HELPERS\shell.dm"

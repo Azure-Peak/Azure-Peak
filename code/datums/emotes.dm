@@ -131,7 +131,8 @@
 
 		playsound(emotelocation, tmp_sound, snd_vol, FALSE, snd_range, soundping = soundping, animal_pref = animal, quiet = is_quiet)
 	if(!nomsg)
-		user.log_message(msg, LOG_EMOTE)
+		if(user.key)
+			user.log_message(msg, LOG_EMOTE)
 		var/pre_color_msg = msg
 		if (use_params_for_runechat) // apply puncutation stripping here where appropriate
 			var/static/regex/regex = regex(@"[,.!?]", "g")

@@ -1231,7 +1231,7 @@
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/ingot/silver, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/handclaw/gronn/silver
-	display_category = ITEM_CAT_SMITHING_MISC
+	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/silver/scabbard
 	name = "Scabbard, Silver-Decorated (+1 Sword's Scabbard)"
@@ -1497,7 +1497,7 @@
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/natural/fibers)
 	created_item = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	display_category = ITEM_CAT_SMITHING_MISC
+	display_category = ITEM_CAT_ENG_COMBAT
 
 /datum/anvil_recipe/weapons/iron/bolts
 	name = "Crossbow Bolts (+2 Stick) (x10)"
@@ -2328,7 +2328,7 @@
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/natural/silk)
 	created_item = /obj/item/rogueweapon/handclaw/blacksteel
-	display_category = ITEM_CAT_SMITHING_MISC
+	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/blacksteel/quarterstaff
 	name = "Quarterstaff, Blacksteel (+3 Small Logs)"

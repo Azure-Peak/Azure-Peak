@@ -133,6 +133,7 @@
 			return
 		SStreasury.total_import += amt
 		record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, amt)
+		record_treasury_expense(TREASURY_FLOW_IMPORT, treasury_role_of(usr), amt)
 		D.raise_demand()
 		addtimer(CALLBACK(src, PROC_REF(do_import), D.type), 10 SECONDS)
 	if(href_list["export"])
@@ -289,7 +290,7 @@
 			return
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
 			if(H.job == job_to_pay)
-				if(SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER"))
+				if(SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER", is_salary = TRUE))
 					record_round_statistic(STATS_WAGES_PAID, amount_to_pay)
 	if(href_list["setdailypay"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.atc_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
@@ -592,6 +593,7 @@
 	if(!A)
 		return
 	var/obj/item/I = new D.item_type()
+	record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, 1)
 	var/list/turfs = list()
 	for(var/turf/T in A)
 		turfs += T

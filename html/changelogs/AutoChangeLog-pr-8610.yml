@@ -1,0 +1,4 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - rscadd: "File Garden can be used to upload media for flavourtexts, including music/OOC extra/headshots/image galleries."

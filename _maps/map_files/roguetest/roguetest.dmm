@@ -271,7 +271,7 @@
 /area/rogue/indoors)
 "ie" = (
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "ij" = (
 /obj/effect/decal/mossy{
 	dir = 4
@@ -482,7 +482,7 @@
 "nU" = (
 /obj/machinery/light/rogue/forge,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "oc" = (
 /obj/item/clothing/ring/emerald,
 /turf/open/floor/rogue/churchbrick,
@@ -847,7 +847,7 @@
 "vf" = (
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "vg" = (
 /obj/item/reagent_containers/glass/bucket{
 	pixel_y = 5;
@@ -861,7 +861,7 @@
 "vE" = (
 /obj/machinery/light/rogue/smelter/great,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "wd" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -889,7 +889,7 @@
 /obj/item/ingot/steel,
 /obj/item/ingot/steel,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "wv" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -1295,7 +1295,7 @@
 "Gm" = (
 /obj/structure/fluff/grindwheel,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "Go" = (
 /obj/structure/roguemachine/bathvend,
 /turf/open/floor/rogue/grass,
@@ -1423,7 +1423,7 @@
 "LB" = (
 /obj/item/flint,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "LM" = (
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors/town/physician)
@@ -1510,11 +1510,11 @@
 "Np" = (
 /obj/machinery/anvil,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "Nr" = (
 /obj/machinery/light/rogue/smelter,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "Ns" = (
 /obj/item/inhand_tester/big,
 /turf/open/floor/rogue/cobblerock,
@@ -1758,7 +1758,7 @@
 /obj/item/rogueweapon/tongs,
 /obj/item/rogueweapon/hammer/steel,
 /turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors)
+/area/rogue/indoors/town/dwarfin)
 "Vv" = (
 /obj/effect/decal/mossy,
 /turf/open/floor/rogue/dirt/road,

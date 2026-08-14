@@ -15,7 +15,6 @@
 
 	var/arbitrary_living_creature_weight = 10 // The arbitrary weight for any thing of a mob and living variety
 	var/upgrade_level = 0 // This is the carts upgrade level, capacity increases with upgrade level
-	var/obj/item/cart_upgrade/upgrade = null
 	/// Dense structures that may still be hauled in the cart (e.g. kegs).
 	var/list/cartloadable_structures = list(/obj/structure/fermentation_keg)
 	/// Arbitrary weight a cartloadable structure takes up in the cart.
@@ -171,27 +170,18 @@
 
 /obj/structure/handcart/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/cart_upgrade))
-		var/obj/item/cart_upgrade/item = I
-		if(item.ulevel == 1)
-			if(upgrade_level != 0)
+		var/obj/item/cart_upgrade/brace = I
+		if(brace.ulevel != upgrade_level + 1)
+			if(brace.ulevel <= upgrade_level)
 				to_chat(user, span_warning("This wheelbrace is obsolete."))
-				return
 			else
-				upgrade = item
-				upgrade_level = item.ulevel
-				qdel(item)
-				manage_upgrade()
-				playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
-		if(item.ulevel == 2)
-			if(upgrade_level != 1)
 				to_chat(user, span_warning("The cart needs a normal wheelbrace before this one can be used!"))
-				return
-			else
-				upgrade = item
-				upgrade_level = item.ulevel
-				qdel(item)
-				manage_upgrade()
-				playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
+			return
+		upgrade_level = brace.ulevel
+		qdel(brace)
+		manage_upgrade()
+		playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
+		return
 	if(!user.cmode)
 		if(!insertion_allowed(I))
 			return

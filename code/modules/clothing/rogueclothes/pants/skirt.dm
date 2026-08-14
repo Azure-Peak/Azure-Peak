@@ -184,3 +184,26 @@
 					var/mob/living/carbon/H = user
 					H.update_inv_pants()
 			return
+
+/obj/item/clothing/under/roguetown/skirt/formal
+	name = "knee-high skirt"
+	desc = "A fitted skirt tailored to follow the line of the legs, narrowing toward the hem."
+	icon_state = "formalskirt"
+	item_state = "formalskirt"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
+	sleevetype = "skirt"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
+	detail_tag = "_detail"
+	detail_color = "CLOTHING_WHITE"
+
+/obj/item/clothing/under/roguetown/skirt/formal_color
+	name = "knee-high skirt"
+	desc = "A fitted skirt tailored to follow the line of the legs, narrowing toward the hem."
+	icon_state = "formalskirt_color"
+	item_state = "formalskirt_color"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
+	sleevetype = "skirt"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
+	detail_tag = "_detail"
+	detail_color = "CLOTHING_WHITE"
+

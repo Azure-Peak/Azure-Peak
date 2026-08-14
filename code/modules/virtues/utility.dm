@@ -84,42 +84,43 @@
 				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
-				var/mapswitch = 0
-				if(SSmapping.config.map_name == "Dun World")
-					mapswitch = 1
+				if(recipient.mind)
+					for(var/X in (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions))
+						for(var/datum/mind/MF in get_minds(X))
+							recipient.mind.person_knows_me(MF)
+							recipient.mind.i_know_person(MF)
 
-				if(mapswitch == 0)
-					return
-				if(recipient.mind?.assigned_role == "Adventurer" || recipient.mind?.assigned_role == "Mercenary" || recipient.mind?.assigned_role == "Court Agent")
-					// Find tavern area for spawning
-					var/area/spawn_area
-					for(var/area/A in world)
-						if(istype(A, /area/rogue/indoors/town/tavern))
-							spawn_area = A
-							break
+				if (!recipient.islatejoin)
+					var/target_z = 0
+					var/mapname = SSmapping.config.map_name
+					if(mapname == "Dun World")
+						target_z = 3
+					else if(mapname == "Pilgrim")
+						target_z = 4
 
-					if(spawn_area)
-						var/target_z = 3 //ground floor of tavern for dun manor / world
-						var/target_y = 234 //dun world huge
+					if(target_z && (recipient.mind?.assigned_role == "Adventurer"))
 						var/list/possible_chairs = list()
+						var/list/possible_spawns = list()
 
-						for(var/obj/structure/chair/C in spawn_area)
-							//z-level 3, wooden chair, and Y > north of tavern backrooms
-							var/turf/T = get_turf(C)
-							if(T && T.z == target_z && T.y > target_y && istype(C, /obj/structure/chair/wood/rogue) && !T.density && !T.is_blocked_turf(FALSE))
-								possible_chairs += C
+						for(var/area/A in world)
+							if(!istype(A, /area/rogue/indoors/town/tavern))
+								continue
+							for(var/obj/structure/chair/C in A)
+								var/turf/T = get_turf(C)
+								if(T && T.z == target_z && C.type == /obj/structure/chair/wood/rogue && !T.density && !T.is_blocked_turf(FALSE))
+									possible_chairs += C
 
 						if(length(possible_chairs))
 							var/obj/structure/chair/chosen_chair = pick(possible_chairs)
 							recipient.forceMove(get_turf(chosen_chair))
-							chosen_chair.buckle_mob(recipient)
 							to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself seated at a chair in the local tavern."))
 						else
-							var/list/possible_spawns = list()
-							for(var/turf/T in spawn_area)
-								if(T.z == target_z && T.y > (target_y + 4) && !T.density && !T.is_blocked_turf(FALSE))
-									possible_spawns += T
-
+							for(var/area/A in world)
+								if(!istype(A, /area/rogue/indoors/town/tavern))
+									continue
+								for(var/turf/T in A)
+									if(T.z == target_z && !T.density && !T.is_blocked_turf(FALSE))
+										possible_spawns += T
 							if(length(possible_spawns))
 								var/turf/spawn_loc = pick(possible_spawns)
 								recipient.forceMove(spawn_loc)

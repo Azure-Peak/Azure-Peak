@@ -88,31 +88,36 @@
 	else
 		var/playdecision = alert(user, "Would you like to start a band?", "Band Play", "Nay", "Yea")
 		switch(playdecision)
-			if("Yea")
-				groupplaying = TRUE
 			if("Nay")
 				groupplaying = FALSE
+			if("Yea")
+				groupplaying = TRUE
 			else
 				return
 
-		note_color = initial(note_color)
 		if(user.mind)
 			switch(user.get_skill_level(/datum/skill/misc/music))
+				if(1)
+					note_color = "#ffffff"
+					stressevent = /datum/stressevent/music/novice
 				if(2)
 					note_color = "#ffffff"
-					stressevent = /datum/stressevent/music/two
+					stressevent = /datum/stressevent/music/apprentice
 				if(3)
 					note_color = "#1eff00"
-					stressevent = /datum/stressevent/music/three
+					stressevent = /datum/stressevent/music/journeyman
 				if(4)
 					note_color = "#0070dd"
-					stressevent = /datum/stressevent/music/four
+					stressevent = /datum/stressevent/music/expert
 				if(5)
 					note_color = "#a335ee"
-					stressevent = /datum/stressevent/music/five
+					stressevent = /datum/stressevent/music/master
 				if(6)
 					note_color = "#ff8000"
-					stressevent = /datum/stressevent/music/six
+					stressevent = /datum/stressevent/music/legendary
+				else
+					note_color = initial(note_color)
+					stressevent = /datum/stressevent/music
 		soundloop.stress2give = stressevent
 
 		if(!groupplaying)

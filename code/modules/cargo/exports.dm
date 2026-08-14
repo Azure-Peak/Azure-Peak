@@ -68,6 +68,23 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 		if(parent_price)
 			return parent_price
 
+/// Only exact result paths get tagged during the recipe walk, so variants with no recipe of
+/// their own (NPC-only crossbows, relic tiers) fall back to their parent's category.
+/proc/get_derived_category(typepath)
+	if(!GLOB.derived_categories)
+		return null
+	var/cat = GLOB.derived_categories[typepath]
+	if(cat)
+		return cat
+	var/parent_path = typepath
+	while(parent_path)
+		parent_path = type2parent(parent_path)
+		if(!parent_path)
+			return null
+		cat = GLOB.derived_categories[parent_path]
+		if(cat)
+			return cat
+
 // For appraisal purposes only - calculates total value including contents
 // Used by SEEPRICES trait for examining containers
 /atom/movable/proc/appraise_price()
