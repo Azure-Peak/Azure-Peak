@@ -172,7 +172,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 
-/obj/item/clothing/head/roguetown/grenzelhofthat/triumph/Initialize()
+/obj/item/clothing/head/roguetown/grenzelhofthat/triumph/Initialize(mapload)
 	. = ..()
 	update_icon()
 

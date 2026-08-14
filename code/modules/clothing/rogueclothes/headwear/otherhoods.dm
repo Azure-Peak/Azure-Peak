@@ -134,7 +134,7 @@
 	color = primary
 	update_icon()
 
-/obj/item/clothing/head/roguetown/jester/Initialize()
+/obj/item/clothing/head/roguetown/jester/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS, 2)
 	if(GLOB.lordprimary)

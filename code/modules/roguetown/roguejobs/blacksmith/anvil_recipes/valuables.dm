@@ -634,7 +634,7 @@
 	desc = "A raw heap of iron, hewn into an intimidatingly massive cleaver. Most could never aspire to effectively swing such a laborsome blade about; those few that have the strength, however, can force even the strongest opponents to stagger back. </br>The thrummage of your heart matches the otherworldly aura that has overtaken this blade. Someone's smiling down upon you, but it certainly isn't who you think it is."
 	max_blade_int = 666
 
-/obj/item/rogueweapon/sword/long/exe/berserk/gnoll/Initialize()
+/obj/item/rogueweapon/sword/long/exe/berserk/gnoll/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
 

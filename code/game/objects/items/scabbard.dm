@@ -52,7 +52,7 @@
 	. += span_info("Middle click to transform it into a strap, which allows for a weapon to be openly carried without any delays to drawing or sheathing.")
 	. += span_info("Straps cannot be transformed back into scabbards or sheaths.")
 
-/obj/item/rogueweapon/scabbard/Initialize()
+/obj/item/rogueweapon/scabbard/Initialize(mapload)
 	. = ..()
 
 	hol_comp = GetComponent(/datum/component/holster)

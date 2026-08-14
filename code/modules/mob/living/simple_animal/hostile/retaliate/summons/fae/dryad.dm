@@ -51,7 +51,7 @@
 	var/vine_cd
 	inherent_spells = list(/obj/effect/proc_holder/spell/self/create_vines)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	. = ..()
 

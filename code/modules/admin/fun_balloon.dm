@@ -5,7 +5,7 @@
 	anchored = TRUE
 	var/popped = FALSE
 
-/obj/effect/fun_balloon/Initialize()
+/obj/effect/fun_balloon/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 

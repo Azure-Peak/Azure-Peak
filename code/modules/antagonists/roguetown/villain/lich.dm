@@ -361,7 +361,7 @@
 	var/datum/antagonist/lich/possessor
 	var/datum/mind/mind
 
-/obj/item/phylactery/Initialize()
+/obj/item/phylactery/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 255, "size" = 1))
 

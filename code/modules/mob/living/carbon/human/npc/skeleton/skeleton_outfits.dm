@@ -33,7 +33,7 @@
 /mob/living/carbon/human/species/skeleton/npc/mediumspread
 	threat_point = THREAT_MODERATE
 
-/mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
+/mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize(mapload)
 	var/outfit = rand(1, 5)
 	switch(outfit)
 		if(1)
@@ -55,7 +55,7 @@
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
 
-/mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
+/mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize(mapload)
 	var/outfit = rand(1,5)
 	switch(outfit)
 		if(1)

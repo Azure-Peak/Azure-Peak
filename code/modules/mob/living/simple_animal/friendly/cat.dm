@@ -50,7 +50,7 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
 
-/mob/living/simple_animal/pet/cat/Initialize()
+/mob/living/simple_animal/pet/cat/Initialize(mapload)
 	. = ..()
 	add_verb(src, /mob/living/proc/lay_down)
 
@@ -142,7 +142,7 @@
 	var/cats_deployed = 0
 	var/memory_saved = FALSE
 
-/mob/living/simple_animal/pet/cat/Runtime/Initialize()
+/mob/living/simple_animal/pet/cat/Runtime/Initialize(mapload)
 	if(prob(5))
 		icon_state = "original"
 		icon_living = "original"

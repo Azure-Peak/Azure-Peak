@@ -21,7 +21,7 @@
 	var/burntime = 5 MINUTES	// How long must it be left unattended to burn and be ruined?
 	var/burned_color = "#302d2d"
 
-/obj/item/natural/clay/Initialize()
+/obj/item/natural/clay/Initialize(mapload)
 	if(cooked_type)
 		cooktime = 30 SECONDS
 	..() // The ..() refers to calling the parent class's (obj/item/natural) Initialize() proc.

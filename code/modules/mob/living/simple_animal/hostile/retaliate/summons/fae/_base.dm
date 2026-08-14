@@ -2,7 +2,7 @@
 	obj_damage = 75
 	blood_toll_bucket = STATS_KILLED_FAE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/Initialize(mapload)
 	. = ..()
 	desc += span_bold(" It does not belong to this plane.") // To hint that they may be summoned.
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)

@@ -738,7 +738,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
-/obj/item/clothing/head/roguetown/helmet/heavy/xylixhelm/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/xylixhelm/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS, 2)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
@@ -1374,7 +1374,7 @@
 	experimental_onhip = FALSE
 	smeltresult = /obj/item/ingot/component/matthios
 
-/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
@@ -1390,7 +1390,7 @@
 	var/active_item = FALSE
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "HELM", "RENDERED ASUNDER")
 
@@ -1421,7 +1421,7 @@
 	icon_state = "graggarplatehelm_heavy"
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "VISAGE")
 
@@ -1437,7 +1437,7 @@
 	toggle_icon_state = TRUE
 	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "HELMET")
 

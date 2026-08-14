@@ -716,7 +716,7 @@
 	detail_color = CLOTHING_SCARLET
 	altdetail_color = CLOTHING_AZUROSA
 
-/obj/item/clothing/head/roguetown/decoration/orle/donator_dyeable/Initialize()
+/obj/item/clothing/head/roguetown/decoration/orle/donator_dyeable/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -757,7 +757,7 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/head/roguetown/decoration/featherplume/Initialize()
+/obj/item/clothing/head/roguetown/decoration/featherplume/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -1425,7 +1425,7 @@
 	color = CLOTHING_WHITE
 	boobed = FALSE
 
-/obj/item/clothing/suit/roguetown/armor/longcoat/eiren/Initialize()
+/obj/item/clothing/suit/roguetown/armor/longcoat/eiren/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -1960,7 +1960,7 @@ As Excaliber."
 	detail_color = CLOTHING_SCARLET
 	adjustable = CAN_CADJUST
 
-/obj/item/clothing/head/roguetown/crown_hat/Initialize()
+/obj/item/clothing/head/roguetown/crown_hat/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/adjustable_clothing, null, null, null, null, null, UPD_HEAD)
 	update_icon()
@@ -2785,7 +2785,7 @@ As Excaliber."
 	color = null
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/robed/Initialize()
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/robed/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -2812,7 +2812,7 @@ As Excaliber."
 	color = null
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -2839,7 +2839,7 @@ As Excaliber."
 	color = null
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/robed/Initialize()
+/obj/item/clothing/suit/roguetown/armor/plate/full/robed/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -3044,7 +3044,7 @@ As Excaliber."
 	smelt_bar_num = 2
 	stack_fovs = TRUE
 
-/obj/item/clothing/head/roguetown/helmet/grandmaster_habit/Initialize()
+/obj/item/clothing/head/roguetown/helmet/grandmaster_habit/Initialize(mapload)
 	. = ..()
 	update_icon()
 

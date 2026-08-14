@@ -52,7 +52,7 @@ SUBSYSTEM_DEF(triumphs)
 	// These get on_activate() called in /datum/outfit/job/roguetown/post_equip() in roguetown.dm
 	var/list/post_equip_calls = list()
 
-/datum/controller/subsystem/triumphs/Initialize()
+/datum/controller/subsystem/triumphs/Initialize(mapload)
 	. = ..()
 
 	prep_the_triumphs_leaderboard()

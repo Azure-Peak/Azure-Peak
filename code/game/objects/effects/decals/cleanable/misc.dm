@@ -1,4 +1,4 @@
-/obj/effect/decal/cleanable/dirt/Initialize()
+/obj/effect/decal/cleanable/dirt/Initialize(mapload)
 	. = ..()
 	var/turf/T = get_turf(src)
 	if(T.tiled_dirt)
@@ -28,7 +28,7 @@
 /obj/effect/decal/cleanable/greenglow/ex_act()
 	return
 
-/obj/effect/decal/cleanable/greenglow/filled/Initialize()
+/obj/effect/decal/cleanable/greenglow/filled/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(pick(/datum/reagent/uranium, /datum/reagent/uranium/radium), 5)
 
@@ -151,7 +151,7 @@
 	icon = 'icons/roguetown/items/crafting.dmi'
 	icon_state = "tiny"
 	beauty = -20
-/obj/effect/decal/cleanable/debris/Initialize()
+/obj/effect/decal/cleanable/debris/Initialize(mapload)
 	. = ..()
 	setDir(pick(GLOB.cardinals))
 
@@ -170,7 +170,7 @@
 /obj/effect/decal/cleanable/debris/woody	// sawdust gets cleared by weather
 	name = "sawdust"
 	icon_state = "woody"
-/obj/effect/decal/cleanable/debris/woody/Initialize()
+/obj/effect/decal/cleanable/debris/woody/Initialize(mapload)
 	START_PROCESSING(SSprocessing, src)
 	GLOB.weather_act_upon_list += src
 	. = ..()

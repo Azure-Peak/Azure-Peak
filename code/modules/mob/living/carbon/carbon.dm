@@ -1,4 +1,4 @@
-/mob/living/carbon/Initialize()
+/mob/living/carbon/Initialize(mapload)
 	..()
 
 	recalculate_pain_threshold()

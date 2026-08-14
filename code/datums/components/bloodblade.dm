@@ -2,11 +2,11 @@
 	dupe_mode = COMPONENT_DUPE_UNIQUE // To avoid weird filter override this is the way..
 	var/counter = 0
 
-/datum/component/bloodblade/Initialize()
+/datum/component/bloodblade/Initialize(mapload)
 	if(!istype(parent, /obj/item/rogueweapon))
 		return COMPONENT_INCOMPATIBLE
 	var/obj/item/I = parent
-	
+
 	coat(I)
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(onhit))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))

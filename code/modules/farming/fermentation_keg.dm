@@ -51,7 +51,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	var/heat_decay = 0
 	var/rotation_speed_mult = 1 //for the copper distiller
 
-/obj/structure/fermentation_keg/Initialize()
+/obj/structure/fermentation_keg/Initialize(mapload)
 	create_reagents(900, OPENCONTAINER | NO_REACT | AMOUNT_VISIBLE | REFILLABLE) //on agv it should be 120u for water then rest can be other needed chemicals
 	. = ..()
 	recipe_crop_stocks = list()

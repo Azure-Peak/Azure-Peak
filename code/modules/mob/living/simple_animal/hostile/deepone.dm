@@ -46,12 +46,12 @@
 	ambush_faction = "deepones"
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 
-	can_have_ai = FALSE 
+	can_have_ai = FALSE
 	AIStatus = AI_OFF
 
 	ai_controller = /datum/ai_controller/deepone
 
-/mob/living/simple_animal/hostile/rogue/deepone/Initialize()
+/mob/living/simple_animal/hostile/rogue/deepone/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 

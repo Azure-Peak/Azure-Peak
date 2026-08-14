@@ -52,7 +52,7 @@
 	. += span_info("Leeches can be found by roaming through murkwater and sewage. Examine yourself - or click the heart on your HUD - to check your limbs, and click any highlighted mentions of the leech to remove them.")
 	. += span_info("When attached to someone, leeches will passively drain blood and toxins from the body. This can be used to counteract poisons, overdoses, and imbalanced humors.")
 
-/obj/item/natural/worms/leech/Initialize()
+/obj/item/natural/worms/leech/Initialize(mapload)
 	. = ..()
 	//leech lore
 	leech_lore()
@@ -272,7 +272,7 @@
 		"embedded_fall_chance" = 0,
 		"embedded_bloodloss"= 0,
 		"embedded_ignore_throwspeed_threshold" = TRUE,
-		"embedded_unsafe_removal_pain_multiplier" = 0, 
+		"embedded_unsafe_removal_pain_multiplier" = 0,
 	) // the humble cheele is gentle. so gentle.
 
 /obj/item/natural/worms/leech/cheele/attack_self(mob/user)

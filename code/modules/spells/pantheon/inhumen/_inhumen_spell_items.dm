@@ -6,7 +6,7 @@
 /obj/item/
 	var/aura_color = null
 
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
 	. = ..()
 	if(aura_color)
 		apply_aura()
@@ -36,7 +36,7 @@
 /obj/item/alchserum
 	var/current_color = "#ffffff"
 
-/obj/item/alchserum/Initialize()
+/obj/item/alchserum/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -69,7 +69,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/list/ingredient_colors = list()
 	var/result_path = null
 
-/obj/item/matthios_canister/Initialize()
+/obj/item/matthios_canister/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -153,7 +153,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/impure_lux_count = 0
 	var/lux_blood = 0
 
-/obj/item/matthios_canister/lyfestruth/Initialize()
+/obj/item/matthios_canister/lyfestruth/Initialize(mapload)
 	. = ..()
 	required_herbs = required_herbs.Copy()
 
@@ -2035,7 +2035,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	desc = "A small sack with a drawstring that allows it to be worn around the neck. Or at the hips, provided you have a belt. It has a strange, gilded glow to it."
 	component_type = /datum/component/storage/concrete/roguetown/pouch/matthios
 
-/obj/item/storage/belt/rogue/pouch/matthios/Initialize()
+/obj/item/storage/belt/rogue/pouch/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED POUCH")
 
@@ -2051,7 +2051,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	component_type = /datum/component/storage/concrete/roguetown/backpack
 	max_integrity = 100
 
-/obj/item/storage/backpack/rogue/backpack/matthios/Initialize()
+/obj/item/storage/backpack/rogue/backpack/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED RUCKSACK")
 

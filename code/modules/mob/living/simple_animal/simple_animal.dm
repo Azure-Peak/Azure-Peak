@@ -230,7 +230,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/get_blood_color()
 	return blood_color
 
-/mob/living/simple_animal/Initialize()
+/mob/living/simple_animal/Initialize(mapload)
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
 	if(gender == PLURAL)

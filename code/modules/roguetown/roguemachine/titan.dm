@@ -40,7 +40,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	set_light(0)
 	return ..()
 
-/obj/structure/roguemachine/titan/Initialize()
+/obj/structure/roguemachine/titan/Initialize(mapload)
 	. = ..()
 	icon_state = null
 	become_hearing_sensitive()
@@ -72,10 +72,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		if(findtext(message, "nevermind"))
 			mode = 0
 			return
-	
+
 	if(findtext(message, "summon crown")) //This must never fail, thus place it before all other modestuffs.
 		var/obj/item/clothing/head/roguetown/crown/serpcrown/I = SSroguemachine.crown
-		
+
 		// If no crown exists
 		if(!I)
 			I = summon_crown()
@@ -335,7 +335,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 
 	if(I)
 		I.anti_stall()
-	
+
 	I = new /obj/item/clothing/head/roguetown/crown/serpcrown(src.loc)
 	SSroguemachine.crown = I
 

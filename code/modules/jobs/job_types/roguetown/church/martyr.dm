@@ -651,7 +651,7 @@
 		blade_class = BCLASS_CHOP
 
 
-/obj/item/rogueweapon/sword/long/martyr/Initialize()
+/obj/item/rogueweapon/sword/long/martyr/Initialize(mapload)
 	. = ..()
 	if(SSroguemachine.martyrweapon)
 		qdel(src)
@@ -757,7 +757,7 @@
 		item_d_type = "fire"
 		blade_class = BCLASS_SMASH
 
-/obj/item/rogueweapon/greataxe/steel/doublehead/martyr/Initialize()
+/obj/item/rogueweapon/greataxe/steel/doublehead/martyr/Initialize(mapload)
 	. = ..()
 	if(SSroguemachine.martyrweapon)
 		qdel(src)
@@ -846,7 +846,7 @@
 		blade_class = BCLASS_EFFECT
 		swingdelay = 2
 
-/obj/item/rogueweapon/mace/goden/martyr/Initialize()
+/obj/item/rogueweapon/mace/goden/martyr/Initialize(mapload)
 	. = ..()
 	if(SSroguemachine.martyrweapon)
 		qdel(src)
@@ -937,7 +937,7 @@
 		item_d_type = "fire"
 
 
-/obj/item/rogueweapon/spear/partizan/martyr/Initialize()
+/obj/item/rogueweapon/spear/partizan/martyr/Initialize(mapload)
 	. = ..()
 	if(SSroguemachine.martyrweapon)
 		qdel(src)

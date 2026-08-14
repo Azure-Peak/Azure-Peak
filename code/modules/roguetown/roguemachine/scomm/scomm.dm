@@ -259,7 +259,7 @@
 	update_icon()
 	icon_state = "[icon_state]-br"
 
-/obj/structure/roguemachine/scomm/Initialize()
+/obj/structure/roguemachine/scomm/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSroguemachine, src)
 	become_hearing_sensitive()

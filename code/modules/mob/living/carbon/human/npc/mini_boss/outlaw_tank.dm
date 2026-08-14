@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	d_intent = INTENT_PARRY
 	threat_point = THREAT_ELITE
 
-/mob/living/carbon/human/species/human/northern/outlaw_tank/Initialize()
+/mob/living/carbon/human/species/human/northern/outlaw_tank/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

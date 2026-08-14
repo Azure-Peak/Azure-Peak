@@ -394,7 +394,7 @@
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 6) //Because you're going to want something after vomiting up all your guts up for eating raw dough.
 	foodtype = GRAIN | FRUIT
 
-/obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_goldapple/Initialize()
+/obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_goldapple/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
 

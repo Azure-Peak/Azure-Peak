@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	var/reanimation_timer
 	var/undead_to_spawn
 
-/datum/component/deadite_animal_reanimation/Initialize()
+/datum/component/deadite_animal_reanimation/Initialize(mapload)
 	if(!istype(parent, /mob/living/simple_animal))
 		return COMPONENT_INCOMPATIBLE
 

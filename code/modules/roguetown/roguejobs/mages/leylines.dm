@@ -62,7 +62,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	var/last_reset_day = 0
 	var/max_tier = 0
 
-/obj/structure/leyline/Initialize()
+/obj/structure/leyline/Initialize(mapload)
 	. = ..()
 	last_process = world.time
 	GLOB.leyline_sites += src

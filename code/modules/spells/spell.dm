@@ -30,7 +30,7 @@
 	var/ignore_los = FALSE
 	var/glow_intensity = 0 // How much does the user glow when using the ability
 	var/glow_color = null // The color of the glow
-	var/hide_charge_effect = FALSE // If true, will not show the spell's icon when charging 
+	var/hide_charge_effect = FALSE // If true, will not show the spell's icon when charging
 	/// This spell holder's cooldown does not scale with any stat
 	var/is_cdr_exempt = FALSE
 	var/obj/effect/mob_charge_effect = null
@@ -42,7 +42,7 @@
 
 	var/skipcharge = FALSE
 
-/obj/effect/proc_holder/Initialize()
+/obj/effect/proc_holder/Initialize(mapload)
 	. = ..()
 	if(has_action)
 		action = new base_action(src)
@@ -518,7 +518,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		ss = pick(sound)
 	playsound(get_turf(usr), ss,100,FALSE)
 
-/obj/effect/proc_holder/spell/Initialize()
+/obj/effect/proc_holder/spell/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 
@@ -891,7 +891,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				return FALSE
 			if(!H.has_active_hand())
 				return FALSE
-	
+
 	if((invocation_type == "whisper" || invocation_type == "shout") && isliving(user))
 		var/mob/living/living_user = user
 		if(!living_user.can_speak_vocal())

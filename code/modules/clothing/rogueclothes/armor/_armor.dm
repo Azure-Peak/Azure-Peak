@@ -75,7 +75,7 @@
 
 	var/attachment_component = /datum/component/storage/concrete/roguetown/armor
 
-/obj/item/clothing/suit/roguetown/armor/Initialize()
+/obj/item/clothing/suit/roguetown/armor/Initialize(mapload)
 	. = ..()
 	if(attachment_component)
 		AddComponent(attachment_component)

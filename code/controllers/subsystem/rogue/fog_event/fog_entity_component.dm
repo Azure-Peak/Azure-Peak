@@ -2,7 +2,7 @@
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 	var/vanishing = FALSE
 
-/datum/component/fog_entity/Initialize()
+/datum/component/fog_entity/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -20,7 +20,7 @@
 /datum/component/fog_entity/proc/start_vanishing()
 	vanishing = TRUE
 	var/mob/living/simple_animal/hostile/retaliate/rogue/revenant/R = parent
-	
+
 	R.visible_message(span_notice("[R] shimmers and begins to dissolve as it enters the light..."))
 
 	if(istype(R))

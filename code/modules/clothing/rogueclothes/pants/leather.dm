@@ -73,7 +73,7 @@
 /obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout
 	name = "aesthetic pontifex's chaqchur"
 
-/obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout/Initialize()
+/obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 

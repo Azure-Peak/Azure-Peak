@@ -295,7 +295,7 @@
 				addtimer(CALLBACK(src, PROC_REF(trigger_weather)), rand(5,20))
 				return TRUE
 
-/obj/machinery/light/rogue/torchholder/Initialize()
+/obj/machinery/light/rogue/torchholder/Initialize(mapload)
 	torchy = new /obj/item/flashlight/flare/torch(src)
 	torchy.spark_act()
 	torchy.weather_resistant = TRUE
@@ -445,7 +445,7 @@
 	. += span_info("Hearths must be fuelled occasionally to continue burning. They can be dowsed with a container of liquid \
 	on <b>SPLASH</b> intent to save fuel.")
 
-/obj/machinery/light/rogue/hearth/Initialize()
+/obj/machinery/light/rogue/hearth/Initialize(mapload)
 	boilloop = new(src, FALSE)
 	. = ..()
 

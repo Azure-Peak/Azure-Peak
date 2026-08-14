@@ -179,7 +179,7 @@
 	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it."
 	icon_state = "sglasses"
 
-/obj/item/clothing/mask/rogue/spectacles/Initialize()
+/obj/item/clothing/mask/rogue/spectacles/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/spill, null, 'sound/blank.ogg')
 

@@ -48,7 +48,7 @@
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/orc
 
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/orc/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 
@@ -232,7 +232,7 @@
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/orc_ranged
 
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged/Initialize(mapload)
 	. = ..()
 
 /mob/living/simple_animal/hostile/retaliate/orc/death(gibbed)
@@ -253,6 +253,6 @@
 	ai_controller = /datum/ai_controller/orc/event
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/spear2/event
 	ai_controller = /datum/ai_controller/orc/event
-	
+
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged/event
 	ai_controller = /datum/ai_controller/orc_ranged/event

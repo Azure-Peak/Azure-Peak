@@ -94,7 +94,7 @@
 	lose_hearing_sensitivity()
 	return ..()
 
-/obj/item/scomstone/Initialize()
+/obj/item/scomstone/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive()
 	update_icon()

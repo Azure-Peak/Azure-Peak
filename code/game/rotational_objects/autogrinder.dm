@@ -48,7 +48,7 @@
 	var/datum/looping_sound/autogrinder_work/soundloop
 	debris = list(/obj/item/roguegear = 2, /obj/item/natural/wood/plank = 2, /obj/item/natural/stone = 2)
 
-/obj/structure/autogrinder/Initialize()
+/obj/structure/autogrinder/Initialize(mapload)
 	. = ..()
 	var/turf/hopper_turf = get_step(src, EAST)
 	hopper = new hopper_type(hopper_turf)

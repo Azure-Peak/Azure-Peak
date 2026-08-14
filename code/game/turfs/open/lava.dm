@@ -25,7 +25,7 @@
 /turf/open/lava/nosmooth
 	smooth = SMOOTH_FALSE
 
-/turf/open/lava/Initialize()
+/turf/open/lava/Initialize(mapload)
 	. = ..()
 	dir = pick(GLOB.cardinals)
 
@@ -208,7 +208,7 @@
 				continue
 			O.obj_integrity -= O.max_integrity * 0.1
 			if(O.obj_integrity <= 0)
-				qdel(O)	
+				qdel(O)
 			. = 1
 
 		else if (isliving(thing))
@@ -233,7 +233,7 @@
 				C.obj_integrity -= C.max_integrity * 0.1
 				if(C.obj_integrity <= 0)
 					to_chat(L, span_danger("Your [C.name] is destroyed by the acid!"))
-					qdel(C)	
+					qdel(C)
 
 			L.adjustFireLoss(100)
 			to_chat(L, span_userdanger("THE ACID BURNS!"))

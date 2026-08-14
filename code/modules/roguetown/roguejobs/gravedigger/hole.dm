@@ -68,7 +68,7 @@
 	var/hole_looted = FALSE
 	var/lootroll = 0
 
-/obj/structure/closet/dirthole/closed/loot/Initialize()
+/obj/structure/closet/dirthole/closed/loot/Initialize(mapload)
 	. = ..()
 	lootroll = rand(1,6)
 
@@ -99,7 +99,7 @@
 			. += span_warning("Better let this one sleep.")
 	if(HAS_TRAIT(user, TRAIT_GRAVEROBBER))
 		if(!(lootroll % 2))
-			. += span_warning("There seem to be some loot for me here.")	
+			. += span_warning("There seem to be some loot for me here.")
 
 /obj/structure/closet/dirthole/insertion_allowed(atom/movable/AM)
 	if(istype(AM, /obj/structure/closet/crate/coffin) || istype(AM, /obj/structure/closet/burial_shroud))
@@ -399,7 +399,7 @@
 			can_buckle = FALSE
 	update_abovemob()
 
-/obj/structure/closet/dirthole/Initialize()
+/obj/structure/closet/dirthole/Initialize(mapload)
 	abovemob = mutable_appearance('icons/turf/roguefloor.dmi', "grave_above")
 	abovemob.layer = ABOVE_MOB_LAYER
 	update_icon()

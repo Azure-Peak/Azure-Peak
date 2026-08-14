@@ -89,7 +89,7 @@
 	icon_state = "tube-empty"
 	start_with_cell = FALSE
 
-/obj/machinery/light/built/Initialize()
+/obj/machinery/light/built/Initialize(mapload)
 	. = ..()
 	status = LIGHT_EMPTY
 	update(0)
@@ -98,7 +98,7 @@
 	icon_state = "bulb-empty"
 	start_with_cell = FALSE
 
-/obj/machinery/light/small/built/Initialize()
+/obj/machinery/light/small/built/Initialize(mapload)
 	. = ..()
 	status = LIGHT_EMPTY
 	update(0)

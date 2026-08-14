@@ -253,7 +253,7 @@
 	var/growth_time = 20 MINUTES
 
 
-/obj/structure/flora/roguegrass/maneater/real/juvenile/Initialize()
+/obj/structure/flora/roguegrass/maneater/real/juvenile/Initialize(mapload)
 	..()
 	transform = transform.Scale(0.5, 0.5)  // Start at half size
 	addtimer(CALLBACK(src, .proc/try_grow), growth_time)

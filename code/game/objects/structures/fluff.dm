@@ -145,7 +145,7 @@
 		return
 	. = A.forceMove(dest)
 
-/obj/structure/fluff/railing/Initialize()
+/obj/structure/fluff/railing/Initialize(mapload)
 	. = ..()
 	init_connect_loc_element()
 	var/lay = getwlayer(dir)
@@ -298,7 +298,7 @@
 	pass_crawl = FALSE
 	climb_offset = 6
 
-/obj/structure/fluff/railing/fence/Initialize()
+/obj/structure/fluff/railing/fence/Initialize(mapload)
 	. = ..()
 	smooth_fences()
 
@@ -487,7 +487,7 @@
 	var/togg = FALSE
 	redstone_structure = TRUE
 
-/obj/structure/bars/grille/Initialize()
+/obj/structure/bars/grille/Initialize(mapload)
 	AddComponent(/datum/component/squeak, list('sound/foley/footsteps/FTMET_A1.ogg','sound/foley/footsteps/FTMET_A2.ogg','sound/foley/footsteps/FTMET_A3.ogg','sound/foley/footsteps/FTMET_A4.ogg'), 40)
 	dir = pick(GLOB.cardinals)
 	return ..()
@@ -580,7 +580,7 @@
 	var/datum/looping_sound/clockloop/soundloop
 	drag_slowdown = 3
 
-/obj/structure/fluff/clock/Initialize()
+/obj/structure/fluff/clock/Initialize(mapload)
 	soundloop = new(src, FALSE)
 	soundloop.start()
 	. = ..()
@@ -662,7 +662,7 @@
 	var/day = lowertext(get_current_day_of_week_name())
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 
-/obj/structure/fluff/wallclock/Initialize()
+/obj/structure/fluff/wallclock/Initialize(mapload)
 	soundloop = new(src, FALSE)
 	soundloop.start()
 	. = ..()
@@ -814,7 +814,7 @@
 	. = ..()
 	. += span_info("Right-click to access your personal stash. This not only contains the loadout you might've asseembled in the character creation menu, but virtue- and role-specific items as well.")
 
-/obj/structure/fluff/statue/Initialize()
+/obj/structure/fluff/statue/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -1164,7 +1164,7 @@
 		. += span_info("As an Eoran, you can marry two people by having them both bite an apple, then offering it to the cross.")
 		. += span_info("The second person to bite the apple will take the last name of whoever bit it first.")
 
-/obj/structure/fluff/psycross/Initialize()
+/obj/structure/fluff/psycross/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
@@ -1543,7 +1543,7 @@
 	update_icon()
 	stake = locate(/obj/item/grown/log/tree/stake) in parts_list
 
-///obj/structure/fluff/headstake/Initialize()
+///obj/structure/fluff/headstake/Initialize(mapload)
 //	. = ..()
 
 /obj/structure/fluff/headstake/OnCrafted(dirin, user)

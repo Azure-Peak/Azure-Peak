@@ -45,7 +45,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
-/mob/living/carbon/human/species/skeleton/Initialize()
+/mob/living/carbon/human/species/skeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()
 	spawn(10)

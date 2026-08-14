@@ -50,7 +50,7 @@ SUBSYSTEM_DEF(role_class_handler)
 /*
 	We init and build the ass lists
 */
-/datum/controller/subsystem/role_class_handler/Initialize()
+/datum/controller/subsystem/role_class_handler/Initialize(mapload)
 	build_category_lists()
 
 	initialized = TRUE

@@ -85,7 +85,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * set a random nutrition level
  * * Intialize the movespeed of the mob
  */
-/mob/Initialize()
+/mob/Initialize(mapload)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_MOB_CREATED, src)
 	GLOB.mob_list += src
 	GLOB.mob_directory[tag] = src

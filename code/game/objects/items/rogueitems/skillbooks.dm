@@ -18,7 +18,7 @@
 	var/chosen_icon_state = null
 	var/list/authors = list()
 
-/obj/item/skillbook/Initialize()
+/obj/item/skillbook/Initialize(mapload)
 	if(!chosen_icon_state)
 		iconval = rand(0,9)//lets us randomize from all our books from books.dmi
 	update_icon()

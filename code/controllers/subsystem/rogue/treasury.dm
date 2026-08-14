@@ -125,7 +125,7 @@ SUBSYSTEM_DEF(treasury)
 	var/list/fined_today_names = list()
 	var/fined_today_day = -1
 
-/datum/controller/subsystem/treasury/Initialize()
+/datum/controller/subsystem/treasury/Initialize(mapload)
 	var/roundstart_pop = get_active_player_count()
 	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
 	royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE + (roundstart_pop * ROYAL_CUSTOM_VOLUME_PER_POP)

@@ -230,7 +230,7 @@
 	break_sound = "plantcross"
 	destroy_sound = null
 
-/obj/structure/vine/Initialize()
+/obj/structure/vine/Initialize(mapload)
 	. = ..()
 	dir = pick(GLOB.cardinals)
 	icon_state = "Light[rand(1,2)]"

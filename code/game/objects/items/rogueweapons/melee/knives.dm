@@ -163,7 +163,7 @@
 	//flipping knives has a cooldown on to_chat to reduce chatspam
 	COOLDOWN_DECLARE(flip_cooldown)
 
-/obj/item/rogueweapon/huntingknife/Initialize()
+/obj/item/rogueweapon/huntingknife/Initialize(mapload)
 	..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/peasantry/maciejowski_knife,
@@ -597,7 +597,7 @@
 	icon_state = "pdagger"
 	sheathe_icon = "pdagger"
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/corroded/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/corroded/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/tipped_item)	//Lets you tip your weapon in poison
 
@@ -623,7 +623,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/zizo/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "DAGGER")
 
@@ -641,7 +641,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/rogueweapon/huntingknife/combat/graggar/Initialize()
+/obj/item/rogueweapon/huntingknife/combat/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "DAGGER")
 
@@ -659,7 +659,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/matthios
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/matthios/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "DAGGER")
 
@@ -677,7 +677,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/baotha/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "DAGGER")
 
@@ -734,7 +734,7 @@
 	force = 22 // 10% - This is a 8 clickCD weapon
 	max_integrity = 200
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/tipped_item)	//Lets you tip your weapon in poison
 

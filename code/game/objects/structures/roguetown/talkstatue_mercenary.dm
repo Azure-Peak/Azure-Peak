@@ -1,4 +1,4 @@
-/obj/structure/roguemachine/talkstatue/mercenary/Initialize()
+/obj/structure/roguemachine/talkstatue/mercenary/Initialize(mapload)
 	. = ..()
 	if(SSroguemachine.mercenary_statue == null)
 		SSroguemachine.mercenary_statue = src

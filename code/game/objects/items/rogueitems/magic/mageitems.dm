@@ -123,7 +123,7 @@
 	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
 	var/chosen_keyword
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/Initialize(mapload)
 	. = ..()
 	filter(type="drop_shadow", x=0, y=0, size=2, offset=1, color=rgb(128, 0, 128, 1))
 
@@ -312,7 +312,7 @@
 	REMOVE_TRAIT(user, TRAIT_XRAY_VISION, "[type]")
 	active = FALSE
 
-/obj/item/sendingstonesummoner/Initialize()
+/obj/item/sendingstonesummoner/Initialize(mapload)
 	. = ..()
 	var/mob/living/user = usr
 	var/obj/item/natural/stone/sending/item1 = new /obj/item/natural/stone/sending

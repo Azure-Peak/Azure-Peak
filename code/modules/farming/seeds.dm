@@ -18,7 +18,7 @@
 	var/cooked_smell = /datum/pollutant/food/roasted_seeds
 	var/cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds
 
-/obj/item/seeds/Initialize()
+/obj/item/seeds/Initialize(mapload)
 	. = ..()
 	if(plant_def_type)
 		var/datum/plant_def/def = GLOB.plant_defs[plant_def_type]

@@ -25,7 +25,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 			cached_choices_echoes = list()
 			cached_choices_paths_echoes = list()
 
-/datum/controller/subsystem/chimeric_tech/Initialize()
+/datum/controller/subsystem/chimeric_tech/Initialize(mapload)
 	. = ..()
 	load_all_tech_nodes()
 	init_unlockable_recipes()

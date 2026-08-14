@@ -45,7 +45,7 @@ var/list/used_colors
 			/obj/item/reagent_containers/glass/bucket/pot/porcelain
 			)
 
-/obj/machinery/gear_painter/Initialize()
+/obj/machinery/gear_painter/Initialize(mapload)
 	..()
 	used_colors += COLOR_MAP
 	used_colors += pridelist

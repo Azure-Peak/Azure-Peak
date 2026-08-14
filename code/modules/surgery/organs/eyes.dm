@@ -155,7 +155,7 @@
 	name = "construct eyes"
 	desc = "Some beast's eyes, preserved through artifice and with magical rock embedded in their back. Seems to fit a construct's head."
 	icon_state = "eyeball-con"
-	
+
 /obj/item/organ/eyes/night_vision/zombie/on_life()
 	. = ..()
 	if (!(owner.mob_biotypes & MOB_UNDEAD))
@@ -288,7 +288,7 @@
 	var/image/mob_overlay
 	var/datum/component/mobhook
 
-/obj/item/organ/eyes/robotic/glow/Initialize()
+/obj/item/organ/eyes/robotic/glow/Initialize(mapload)
 	. = ..()
 	mob_overlay = image('icons/mob/human_face.dmi', "eyes_glow_gs")
 
@@ -444,7 +444,7 @@
 /obj/effect/abstract/eye_lighting
 	var/obj/item/organ/eyes/robotic/glow/parent
 
-/obj/effect/abstract/eye_lighting/Initialize()
+/obj/effect/abstract/eye_lighting/Initialize(mapload)
 	. = ..()
 	parent = loc
 	if(!istype(parent))

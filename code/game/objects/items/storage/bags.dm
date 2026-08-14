@@ -27,7 +27,7 @@
 	icon_state = "tray_psy"
 	desc = ""
 
-/obj/item/storage/bag/tray/Initialize()
+/obj/item/storage/bag/tray/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -74,7 +74,7 @@
 		qdel(dummy)
 	tray_display_dummies = list()
 	vis_contents = list()
-	
+
 	if (contents.len > 0)
 		for(var/obj/item/thing_in_tray in contents)
 			var/obj/dummy = new()
@@ -84,7 +84,7 @@
 			dummy.pixel_x = rand(-8, 8)
 			dummy.pixel_y = rand(-8, 8)
 			dummy.vis_flags = VIS_INHERIT_ID | VIS_INHERIT_LAYER | VIS_INHERIT_PLANE
-			
+
 			tray_display_dummies += dummy
 			vis_contents += dummy
 

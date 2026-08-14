@@ -79,7 +79,7 @@
 	SSroguemachine.scomm_machines -= src
 	return ..()
 
-/obj/item/speakerinq/Initialize()
+/obj/item/speakerinq/Initialize(mapload)
 	. = ..()
 	icon_state = "scomite_active"
 	update_icon()

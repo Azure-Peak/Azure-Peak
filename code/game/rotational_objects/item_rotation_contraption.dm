@@ -25,7 +25,7 @@
 	if(resize_factor)
 		transform = transform.Scale(resize_factor, resize_factor)
 
-/obj/item/rotation_contraption/Initialize()
+/obj/item/rotation_contraption/Initialize(mapload)
 	. = ..()
 	if(placed_type)
 		set_type(placed_type)

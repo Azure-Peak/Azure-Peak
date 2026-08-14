@@ -44,7 +44,7 @@
 		return
 	area_tele()
 
-/mob/dead/observer/eye/arcane/Initialize()
+/mob/dead/observer/eye/arcane/Initialize(mapload)
 	. = ..()
 	if(length(scry_verbs))
 		add_verb(src, scry_verbs)
@@ -139,7 +139,7 @@
 		/mob/dead/observer/eye/arcane/proc/eye_up,
 	)
 
-/mob/dead/observer/eye/arcane/beach/Initialize()
+/mob/dead/observer/eye/arcane/beach/Initialize(mapload)
 	. = ..()
 	add_verb(src, list(/mob/dead/observer/eye/arcane/beach/proc/unleash_inundation))
 

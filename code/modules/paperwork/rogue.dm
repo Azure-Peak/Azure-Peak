@@ -75,7 +75,7 @@
 	else
 		return span_warning("I'm too far away to read it.")
 
-/obj/item/paper/scroll/Initialize()
+/obj/item/paper/scroll/Initialize(mapload)
 	open = FALSE
 	update_icon_state()
 	..()

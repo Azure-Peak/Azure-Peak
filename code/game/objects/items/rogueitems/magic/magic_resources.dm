@@ -70,7 +70,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	dropshrink = 0.8
 
-/obj/item/magic/artifact/Initialize()
+/obj/item/magic/artifact/Initialize(mapload)
 	.=..()
 	var/list/listy = list("runedartifact", "runedartifact1")
 	var/newicon = pick(listy)

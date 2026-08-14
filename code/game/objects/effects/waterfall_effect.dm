@@ -5,7 +5,7 @@
 	pixel_y = 32
 	var/datum/reagent/water_reagent = /datum/reagent/water
 
-/obj/effect/waterfall/Initialize()
+/obj/effect/waterfall/Initialize(mapload)
 	. = ..()
 	var/turf/open = get_turf(src)
 	if(istransparentturf(open))

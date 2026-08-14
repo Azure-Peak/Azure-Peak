@@ -255,7 +255,7 @@
 	icon_state = "chronobolt"
 	embedding = list("embed_chance" = 100, "embedded_fall_chance" = 0, "embedded_ignore_throwspeed_threshold" = TRUE)
 
-/obj/item/bone/profane_splinter/Initialize()
+/obj/item/bone/profane_splinter/Initialize(mapload)
 	. = ..()
 	spawn(1)
 		if(QDELETED(src))

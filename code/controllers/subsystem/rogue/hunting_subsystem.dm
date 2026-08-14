@@ -60,10 +60,10 @@ SUBSYSTEM_DEF(hunting)
 		//to_chat(world, span_alert("SSHunting: Spawning new trail at [JS.x], [JS.y]."))
 		JS.respawn_trail()
 
-/datum/controller/subsystem/hunting/Initialize()
+/datum/controller/subsystem/hunting/Initialize(mapload)
 	. = ..()
 	for(var/group_type in subtypesof(/datum/hunting_area_group))
-		var/datum/hunting_area_group/GA = new group_type() 
+		var/datum/hunting_area_group/GA = new group_type()
 		var/list/group_list = GA.get_areas()
 
 		if(!group_list || !group_list.len)

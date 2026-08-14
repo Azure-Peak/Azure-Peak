@@ -80,7 +80,7 @@ SUBSYSTEM_DEF(rogueinfo)
 
 	var/list/all_flags = list()
 
-/datum/controller/subsystem/rogueinfo/Initialize()
+/datum/controller/subsystem/rogueinfo/Initialize(mapload)
 	. = ..()
 
 /datum/controller/subsystem/rogueinfo/proc/set_role_visibility(role_name, new_status)

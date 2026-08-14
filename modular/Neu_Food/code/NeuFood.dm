@@ -249,7 +249,7 @@
 	. += span_info("Those of nobility have much higher standards, when it comes to what - and how - they eat. They prefer to eat plattered meals with proper utensils, while disliking plainer and cheaper food.")
 	. += span_info("Set a recipe on accident? middleclick the item to reset the recipe back to nothing and pick a different one.")
 
-/obj/item/reagent_containers/food/snacks/rogue/Initialize()
+/obj/item/reagent_containers/food/snacks/rogue/Initialize(mapload)
 	. = ..()
 	eatverb = pick("bite","chew","nibble","gobble","chomp")
 

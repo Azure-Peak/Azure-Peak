@@ -325,7 +325,7 @@
 		heal_damage(0, 0, INFINITY, null, FALSE)
 		. |= BODYPART_LIFE_UPDATE_HEALTH
 
-/obj/item/bodypart/Initialize()
+/obj/item/bodypart/Initialize(mapload)
 	. = ..()
 	update_HP()
 

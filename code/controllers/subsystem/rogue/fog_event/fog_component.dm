@@ -7,7 +7,7 @@
 	var/ambush_in_progress = FALSE
 	var/ambush_grace_period = 5 SECONDS
 
-/datum/component/fogged/Initialize()
+/datum/component/fogged/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -117,7 +117,7 @@
 		V.mob_timers["ambush_cooldown"] = world.time + final_cooldown
 		to_chat(V, span_userdanger("The fog churns violently... something has found you!"))
 		shake_camera(V, 2, 2)
-	
+
 	ambush_in_progress = FALSE
 
 /datum/component/fogged/proc/calculate_victim_score(mob/living/victim, time_entered)

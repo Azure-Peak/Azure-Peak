@@ -179,7 +179,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	var/list/group_order = list("Armor", "Weapons", "Tools", "Valuables", "Decoration", "Engineering", "Other")
 	var/flow_source = MATERIAL_SOURCE_COMMISSIONER
 
-/obj/structure/roguemachine/escrow/Initialize()
+/obj/structure/roguemachine/escrow/Initialize(mapload)
 	. = ..()
 	GLOB.escrow_machines += src
 	init_material_prices()

@@ -10,7 +10,7 @@ SUBSYSTEM_DEF(cooking)
 	var/list/producer_category = list()
 	var/list/crafting_producers = list()
 
-/datum/controller/subsystem/cooking/Initialize()
+/datum/controller/subsystem/cooking/Initialize(mapload)
 	init_recipes()
 	init_auto_singles()
 	init_crafting_producers()
@@ -59,7 +59,7 @@ SUBSYSTEM_DEF(cooking)
 			continue
 		for(var/list/T in get_auto_transforms(snack_type))
 			add_auto_single(snack_type, T["result"], T["method"], T["generic"], T["category"], covered, T["amount"], T["extra"])
-	
+
 /datum/controller/subsystem/cooking/proc/get_auto_transforms(snack_type)
 	var/list/out = list()
 	var/obj/item/reagent_containers/food/snacks/proto = snack_type

@@ -82,7 +82,7 @@
 		if("idle")
 			return pick('sound/mobs/abyssal/abyssal_idle.ogg')
 
-/mob/living/simple_animal/hostile/rogue/dreamfiend/Initialize()
+/mob/living/simple_animal/hostile/rogue/dreamfiend/Initialize(mapload)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
@@ -91,7 +91,7 @@
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 
-/mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/Initialize()
+/mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/Initialize(mapload)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)

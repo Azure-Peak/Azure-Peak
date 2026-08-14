@@ -82,7 +82,7 @@
 /obj/item/clothing/New()
 	..()
 
-/obj/item/clothing/Initialize()
+/obj/item/clothing/Initialize(mapload)
 	. = ..()
 	if(max_integrity && integrity_failure && integrity_failure == ARMOR_INTEG_FAILURE)
 		max_integrity += (max_integrity * 0.11142857143)	// don't ask
@@ -292,7 +292,7 @@
 			return TRUE
 		return FALSE
 
-/obj/item/clothing/Initialize()
+/obj/item/clothing/Initialize(mapload)
 	if(CHECK_BITFIELD(clothing_flags, VOICEBOX_TOGGLABLE))
 		actions_types += /datum/action/item_action/toggle_voice_box
 	. = ..()

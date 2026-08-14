@@ -63,7 +63,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 		/obj/item/rogueweapon/halberd/bardiche/scythe
 	)
 
-/obj/structure/soil/Initialize()
+/obj/structure/soil/Initialize(mapload)
 	. = ..()
 	GLOB.soil_list += src
 
@@ -362,7 +362,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 	if (adjust_amount && pre_plant_health != plant_health)
 		needs_icon_update = TRUE
 
-/obj/structure/soil/Initialize()
+/obj/structure/soil/Initialize(mapload)
 	START_PROCESSING(SSfarming, src)
 	GLOB.weather_act_upon_list += src
 	. = ..()
@@ -756,7 +756,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 	water = MAX_PLANT_WATER
 	nutrition = MAX_PLANT_NUTRITION
 
-/obj/structure/soil/debug_soil/Initialize()
+/obj/structure/soil/debug_soil/Initialize(mapload)
 	. = ..()
 	insert_plant(GLOB.plant_defs[/datum/plant_def/wheat])
 

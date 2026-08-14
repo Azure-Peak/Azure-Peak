@@ -261,7 +261,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /datum/species/goblin/update_damage_overlays(mob/living/carbon/human/H)
 	return
 
-/mob/living/carbon/human/species/goblin/Initialize()
+/mob/living/carbon/human/species/goblin/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
@@ -524,7 +524,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	var/moon_goblins = 0
 	attacked_sound = 'sound/vo/mobs/ghost/skullpile_hit.ogg'
 
-/obj/structure/gob_portal/Initialize()
+/obj/structure/gob_portal/Initialize(mapload)
 	. = ..()
 	soundloop = new(src, FALSE)
 	soundloop.start()

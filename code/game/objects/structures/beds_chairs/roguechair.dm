@@ -26,7 +26,7 @@
 /obj/structure/chair/bench/church/r
 	icon_state = "church_benchright"
 
-/obj/structure/chair/bench/Initialize()
+/obj/structure/chair/bench/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -140,7 +140,7 @@
 /obj/structure/chair/bench/couchamagenta/r
 	icon_state = "couchamagentaright"
 
-/obj/structure/chair/bench/couch/Initialize()
+/obj/structure/chair/bench/couch/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -165,7 +165,7 @@
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
 
-/obj/structure/chair/wood/rogue/Initialize()
+/obj/structure/chair/wood/rogue/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)

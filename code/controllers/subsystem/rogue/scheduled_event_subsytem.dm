@@ -7,7 +7,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	var/list/fog_schedule = list()
 	var/fog_timer_id
 
-/datum/controller/subsystem/event_scheduler/Initialize()
+/datum/controller/subsystem/event_scheduler/Initialize(mapload)
 	. = ..()
 	load_fog_schedule()
 	if(check_schedule_new())
@@ -28,7 +28,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	priority_announce("The fog looms over the hills in the distance. The Peaks are hungry tonight.\n\n\
 	- The fog is lethal, do not venture forth without a fog-repelling lamptern. These relics protect those in their light.\n\
 	- Necran clergy may ward off the fog or perform rituals to safeguard entire areas.\n\
-	- Lampterns are not eternal, they must be refilled with blessed, golden-colored oils.", 
+	- Lampterns are not eternal, they must be refilled with blessed, golden-colored oils.",
 	"Azure Peak Weather")
 	addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
 	fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), fogtime, TIMER_STOPPABLE)
@@ -39,7 +39,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	priority_announce("The fog bellows in from over the hills, coating the peaks in ominous hue.\n\n\
 	- The fog is lethal; do not venture forth without a fog-repelling lamptern. These relics protect those in their light.\n\
 	- Necran clergy may ward off the fog or perform rituals to safeguard entire areas.\n\
-	- Lampterns are not eternal; they must be refilled with blessed, golden-colored oils.", 
+	- Lampterns are not eternal; they must be refilled with blessed, golden-colored oils.",
 	"Azure Peak Weather")
 
 /proc/show_current_datetime()
@@ -181,7 +181,7 @@ SUBSYSTEM_DEF(event_scheduler)
 		ui_interact(usr)
 
 /datum/controller/subsystem/event_scheduler/proc/check_schedule_new()
-	var/weekday = lowertext(time2text(world.timeofday, "Day")) 
+	var/weekday = lowertext(time2text(world.timeofday, "Day"))
 	var/time_str = fog_schedule[weekday]
 
 	if(!time_str || time_str == "")
@@ -189,7 +189,7 @@ SUBSYSTEM_DEF(event_scheduler)
 
 	var/curr_hh = text2num(time2text(world.timeofday, "hh"))
 	var/curr_mm = text2num(time2text(world.timeofday, "mm"))
-	
+
 	var/list/split = splittext(time_str, ":")
 	var/targ_hh = text2num(split[1])
 	var/targ_mm = text2num(split[2])
@@ -217,7 +217,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	else if(end_win > 1440)
 		if(now_mins >= start_win || now_mins <= (end_win - 1440))
 			result = TRUE
-			
+
 	// Standard daytime window
 	else
 		if(now_mins >= start_win && now_mins <= end_win)

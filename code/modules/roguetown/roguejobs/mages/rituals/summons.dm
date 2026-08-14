@@ -512,7 +512,7 @@
 	name = "Arcyne Invoker"
 	real_name = "Arcyne Invoker"
 
-/mob/living/carbon/human/species/npc/arcyne_invoker/Initialize()
+/mob/living/carbon/human/species/npc/arcyne_invoker/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/human/northern)
 	gender = pick(MALE, FEMALE)

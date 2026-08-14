@@ -19,7 +19,7 @@
 	. += span_info("Once prepared, left-clicking the hide with a knife will allow you to turn it into cured leather. The amount of cured leather that skinning the hide'll give scales with your Skincrafting skills.")
 	. += span_info("Hide and cured leather can be used to craft a wide variety of equipment, armor, and clothing. Likewise, it can also fetch a fine price from the Merchants and Stockpile.")
 
-/obj/item/natural/hide/Initialize()
+/obj/item/natural/hide/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/woodshield,
@@ -113,7 +113,7 @@
 	throwforce = 0
 	var/storage_type = /datum/component/storage/concrete/roguetown/saddle
 
-/obj/item/natural/saddle/Initialize()
+/obj/item/natural/saddle/Initialize(mapload)
 	. = ..()
 	AddComponent(storage_type)
 
@@ -164,7 +164,7 @@
 	slot_flags = ITEM_SLOT_MOUTH|ITEM_SLOT_HIP
 	bundletype = /obj/item/natural/bundle/bone
 
-/obj/item/natural/bone/Initialize()
+/obj/item/natural/bone/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/recurvepartial,
@@ -186,7 +186,7 @@
 	desc = "A hide piece that has been cured and may now be worked."
 	bundletype = /obj/item/natural/bundle/curred_hide
 
-/obj/item/natural/hide/cured/Initialize()
+/obj/item/natural/hide/cured/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/heatershield,

@@ -23,7 +23,7 @@
 	var/med_name
 	var/minor_name
 
-/obj/item/alch/Initialize()
+/obj/item/alch/Initialize(mapload)
 	. = ..()
 	if(!isnull(major_pot))
 		var/datum/alch_cauldron_recipe/rec = locate(major_pot) in GLOB.alch_cauldron_recipes
@@ -428,7 +428,7 @@
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/health_potion
 
-/obj/item/alch/calendula/Initialize()
+/obj/item/alch/calendula/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/calenduladry,
@@ -448,7 +448,7 @@
 	med_pot = /datum/alch_cauldron_recipe/int_potion
 	minor_pot = /datum/alch_cauldron_recipe/stamina_potion
 
-/obj/item/alch/mentha/Initialize()
+/obj/item/alch/mentha/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/menthadry,
@@ -483,7 +483,7 @@
 	med_pot = /datum/alch_cauldron_recipe/str_potion
 	minor_pot = /datum/alch_cauldron_recipe/end_potion
 
-/obj/item/alch/salvia/Initialize()
+/obj/item/alch/salvia/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/salviadry,
@@ -504,7 +504,7 @@
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
 	minor_pot = /datum/alch_cauldron_recipe/antidote
 
-/obj/item/alch/hypericum/Initialize()
+/obj/item/alch/hypericum/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/zigardry,
@@ -533,7 +533,7 @@
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
 	minor_pot = /datum/alch_cauldron_recipe/stam_poison
 
-/obj/item/alch/valeriana/Initialize()
+/obj/item/alch/valeriana/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/salviavalerianadry,

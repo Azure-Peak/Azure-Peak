@@ -57,7 +57,7 @@
 	trash = /obj/item/oystershell
 	cooked_smell = /datum/pollutant/food/fried_shellfish
 
-/obj/item/reagent_containers/food/snacks/fish/oyster/Initialize()
+/obj/item/reagent_containers/food/snacks/fish/oyster/Initialize(mapload)
 	. = ..()
 	var/pearl_weight
 	switch(name) //checks the rarity of the oyster via the name

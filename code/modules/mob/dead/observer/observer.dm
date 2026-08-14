@@ -101,7 +101,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 
 
-/mob/dead/observer/Initialize()
+/mob/dead/observer/Initialize(mapload)
 	set_invisibility(GLOB.observer_default_invisibility)
 
 	add_verb(src, list(

@@ -28,7 +28,7 @@
 	. += span_info("Keyrings can manipulate a wide variety of doors, depending on how many keys - and what kinds of keys - are stowed on its circumference.")
 	. += span_info("Individual keys can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific key out of it.")
 
-/obj/item/storage/keyring/Initialize()
+/obj/item/storage/keyring/Initialize(mapload)
 	. = ..()
 	for(var/X in keys)
 		var/obj/item/key/new_key = new X(loc)
@@ -126,7 +126,7 @@
 	. = ..()
 	. += span_info("Individual lockpicks can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific lockpick out of it.")
 
-/obj/item/lockpickring/Initialize()
+/obj/item/lockpickring/Initialize(mapload)
 	. = ..()
 	if(picks.len)
 		for(var/X in picks)

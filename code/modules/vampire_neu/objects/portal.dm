@@ -74,7 +74,7 @@
 	var/spawntime = null
 	density = FALSE
 
-/obj/structure/vampire/portal/Initialize()
+/obj/structure/vampire/portal/Initialize(mapload)
 	. = ..()
 	set_light(3, 2, 20, l_color = LIGHT_COLOR_BLOOD_MAGIC)
 	playsound(loc, 'sound/misc/portalopen.ogg', 100, FALSE, pressure_affected = FALSE)
@@ -133,7 +133,7 @@
 	icon = 'icons/roguetown/clothing/neck.dmi'
 	var/uses = 3
 
-/obj/item/clothing/neck/portalamulet/Initialize()
+/obj/item/clothing/neck/portalamulet/Initialize(mapload)
 	GLOB.vampire_objects |= src
 	. = ..()
 

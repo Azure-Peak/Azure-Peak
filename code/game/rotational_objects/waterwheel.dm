@@ -23,7 +23,7 @@
 	. += span_info("Place it in flowing river water with the wheel facing across the current, not along it.")
 	. += span_info("When the flow is strong enough, it generates rotational power for connected shafts and machinery.")
 
-/obj/structure/waterwheel/Initialize()
+/obj/structure/waterwheel/Initialize(mapload)
 	//soundloop = new(src, FALSE)
 	. = ..()
 

@@ -102,7 +102,7 @@
 
 
 
-/mob/living/carbon/human/species/human/northern/bog_deserters/Initialize()
+/mob/living/carbon/human/species/human/northern/bog_deserters/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

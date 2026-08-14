@@ -138,7 +138,7 @@
 				H.visible_message(span_warning("[H] runs into [src]!"), span_warning("I run into [src]!"))
 				addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, Knockdown), 10), 10)
 
-/turf/closed/Initialize()
+/turf/closed/Initialize(mapload)
 	. = ..()
 	if(above_floor)
 		var/turf/open/transparent/openspace/target = get_step_multiz(src, UP)
@@ -403,13 +403,13 @@
 /turf/closed/indestructible/opshuttle
 	icon_state = "wall3"
 
-/turf/closed/indestructible/fakeglass/Initialize()
+/turf/closed/indestructible/fakeglass/Initialize(mapload)
 	. = ..()
 	icon_state = null //set the icon state to null, so our base state isn't visible
 	underlays += mutable_appearance('icons/obj/structures.dmi', "grille") //add a grille underlay
 	underlays += mutable_appearance('icons/turf/floors.dmi', "plating") //add the plating underlay, below the grille
 
-/turf/closed/indestructible/opsglass/Initialize()
+/turf/closed/indestructible/opsglass/Initialize(mapload)
 	. = ..()
 	icon_state = null
 	underlays += mutable_appearance('icons/obj/structures.dmi', "grille")

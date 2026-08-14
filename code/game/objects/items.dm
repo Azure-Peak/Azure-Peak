@@ -367,7 +367,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			if (obj_broken)
 				update_damaged_state()
 
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
 	if (attack_verb)
 		attack_verb = typelist("attack_verb", attack_verb)
 

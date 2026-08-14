@@ -97,7 +97,7 @@
 /obj/item/book/granter/spell/random
 	icon_state = "random_book"
 
-/obj/item/book/granter/spell/random/Initialize()
+/obj/item/book/granter/spell/random/Initialize(mapload)
 	. = ..()
 	var/static/banned_spells = list(/obj/item/book/granter/spell/mimery_blockade)
 	var/real_type = pick(subtypesof(/obj/item/book/granter/spell) - banned_spells)
@@ -141,7 +141,7 @@
 	. = ..()
 	if(!user.mind)
 		return
-	
+
 	for(var/crafting_recipe_type in crafting_recipe_types)
 		var/datum/crafting_recipe/R = crafting_recipe_type
 		user.mind.teach_crafting_recipe(crafting_recipe_type)

@@ -70,7 +70,7 @@
 	limb_destroyer = TRUE
 //	stat_attack = UNCONSCIOUS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
@@ -235,7 +235,7 @@
 	head_butcher = /obj/item/natural/head/dragon/broodmother
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize(mapload)
 	. = ..()
 
 	fire_breath = new(src)

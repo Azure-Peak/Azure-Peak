@@ -25,7 +25,7 @@
 	name = "spent bullet casing"
 	BB = null
 
-/obj/item/ammo_casing/Initialize()
+/obj/item/ammo_casing/Initialize(mapload)
 	. = ..()
 	if(projectile_type)
 		BB = new projectile_type(src)

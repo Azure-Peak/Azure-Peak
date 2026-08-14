@@ -766,7 +766,7 @@
 	density = FALSE
 	layer = MOB_LAYER+1
 
-/obj/effect/particle_effect/thick_steam/Initialize()
+/obj/effect/particle_effect/thick_steam/Initialize(mapload)
 	. = ..()
 	QDEL_IN(src, 20)
 

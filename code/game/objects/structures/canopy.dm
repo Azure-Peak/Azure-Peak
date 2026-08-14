@@ -22,7 +22,7 @@
 /obj/structure/fluff/canopy/booth
 	icon_state = "canopyr-booth"
 
-/obj/structure/fluff/canopy/booth/Initialize()
+/obj/structure/fluff/canopy/booth/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)

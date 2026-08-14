@@ -24,7 +24,7 @@ SUBSYSTEM_DEF(maturity_guard)
 	var/current_day
 
 
-/datum/controller/subsystem/maturity_guard/Initialize()
+/datum/controller/subsystem/maturity_guard/Initialize(mapload)
 	var/current_time = world.realtime
 	current_day = text2num(time2text(current_time, "DD"))
 	current_month = text2num(time2text(current_time, "MM"))
@@ -156,7 +156,7 @@ SUBSYSTEM_DEF(maturity_guard)
 	//Rudimentary sanity check
 	if(!isnum(player_year) || !isnum(player_month))
 		return AGE_CHECK_INVALID
-	
+
 	if(!simple_check && !isnum(player_day))
 		return AGE_CHECK_INVALID
 

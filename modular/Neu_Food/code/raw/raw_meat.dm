@@ -25,7 +25,7 @@
 	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
 	icon_state = "meat_rotten"
 
-/obj/item/reagent_containers/food/snacks/rogue/meat_rotten/Initialize()
+/obj/item/reagent_containers/food/snacks/rogue/meat_rotten/Initialize(mapload)
 	. = ..()
 	src.become_rotten(FALSE, FALSE)
 

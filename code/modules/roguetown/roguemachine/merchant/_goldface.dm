@@ -164,7 +164,7 @@
 	)
 	categories_gamer = list()
 
-/obj/structure/roguemachine/goldface/Initialize()
+/obj/structure/roguemachine/goldface/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -1083,7 +1083,7 @@
 	set_light(0)
 	return ..()
 
-/obj/structure/roguemachine/goldface/Initialize()
+/obj/structure/roguemachine/goldface/Initialize(mapload)
 	. = ..()
 	update_icon()
 

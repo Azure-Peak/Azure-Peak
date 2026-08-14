@@ -21,14 +21,14 @@
 
 	var/del_on_unbuckle_all = FALSE
 
-/datum/component/riding/Initialize()
+/datum/component/riding/Initialize(mapload)
 	if(!ismovableatom(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOVABLE_BUCKLE, PROC_REF(vehicle_mob_buckle))
 	RegisterSignal(parent, COMSIG_MOVABLE_UNBUCKLE, PROC_REF(vehicle_mob_unbuckle))
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(vehicle_moved))
 
-/datum/component/riding/no_ocean/Initialize()//no copy paste
+/datum/component/riding/no_ocean/Initialize(mapload)//no copy paste
 	. = ..()
 	forbid_turf_typecache = typecacheof(/turf/open/water/ocean/deep)
 
@@ -240,7 +240,7 @@
 /datum/component/riding/human
 	del_on_unbuckle_all = TRUE
 
-/datum/component/riding/human/Initialize()
+/datum/component/riding/human/Initialize(mapload)
 	. = ..()
 	RegisterSignal(parent, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_host_unarmed_melee))
 

@@ -21,7 +21,7 @@ SUBSYSTEM_DEF(migrants)
 	var/list/spawned_waves = list()
 	var/list/global_triumph_contributions = list()
 
-/datum/controller/subsystem/migrants/Initialize()
+/datum/controller/subsystem/migrants/Initialize(mapload)
 	track_next_roll[MIGRANT_TRACK_REGULAR] = world.time + 2 MINUTES
 	track_next_roll[MIGRANT_TRACK_SPECIAL] = world.time + special_roll_interval
 	return ..()

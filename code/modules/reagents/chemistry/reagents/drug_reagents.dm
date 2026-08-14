@@ -48,7 +48,7 @@
 	alpha = 100
 	show_when_dead = FALSE
 
-/atom/movable/screen/fullscreen/weedsm/Initialize()
+/atom/movable/screen/fullscreen/weedsm/Initialize(mapload)
 	. = ..()
 //			if(L.has_status_effect(/datum/status_effect/buff/weed))
 	filters += filter(type="angular_blur",x=5,y=5,size=1)

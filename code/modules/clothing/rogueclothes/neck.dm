@@ -433,7 +433,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/neck/roguetown/fencerguard/Initialize()
+/obj/item/clothing/neck/roguetown/fencerguard/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -485,7 +485,7 @@
 	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS
 	smeltresult = /obj/item/ingot/aaslag
 
-/obj/item/clothing/neck/roguetown/gorget/prisoner/Initialize()
+/obj/item/clothing/neck/roguetown/gorget/prisoner/Initialize(mapload)
 	. = ..()
 	name = "cursed collar"
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
@@ -1349,7 +1349,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	var/luckyskull = FALSE
 
-/obj/item/clothing/neck/roguetown/skullamulet/gemerald/Initialize()
+/obj/item/clothing/neck/roguetown/skullamulet/gemerald/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 200, "size" = 1))
 
@@ -1377,7 +1377,7 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize()
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
@@ -1397,7 +1397,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
 
-/obj/item/clothing/neck/roguetown/bevor/zizo/Initialize()
+/obj/item/clothing/neck/roguetown/bevor/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
@@ -1416,7 +1416,7 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
 
-/obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize()
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
@@ -1444,7 +1444,7 @@
 	chunkcolor = "#645567"
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/neck/roguetown/coif/baotha/Initialize()
+/obj/item/clothing/neck/roguetown/coif/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VEIL")
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, "sound/foley/cloth_wipe (1).ogg", null, (UPD_HEAD|UPD_MASK|UPD_NECK))
@@ -1474,7 +1474,7 @@
 	inv_storage_delay = 1 SECONDS
 	var/active_item
 
-/obj/item/clothing/neck/roguetown/psicross/malum/secret/Initialize()
+/obj/item/clothing/neck/roguetown/psicross/malum/secret/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ARCANE, "alpha" = 200, "size" = 1))
 
@@ -1521,7 +1521,7 @@
 	inv_storage_delay = 3 SECONDS
 	var/active_item
 
-/obj/item/clothing/neck/roguetown/psicross/weeping/Initialize()
+/obj/item/clothing/neck/roguetown/psicross/weeping/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 200, "size" = 1))
 
@@ -1755,7 +1755,7 @@
 	. += span_info("It will automatically release after a period of penance (5-20 minutes based on bounty amount).")
 	. += span_info("It can only be removed early by a LIBERTAS machine.")
 
-/obj/item/clothing/neck/roguetown/collar/prisoner/Initialize()
+/obj/item/clothing/neck/roguetown/collar/prisoner/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 

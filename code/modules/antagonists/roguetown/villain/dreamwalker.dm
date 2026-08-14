@@ -135,7 +135,7 @@
 	var/turf/linked_turf
 	var/safe_passage = FALSE
 
-/obj/structure/portal_jaunt/Initialize()
+/obj/structure/portal_jaunt/Initialize(mapload)
 	. = ..()
 	cooldown = world.time + 4 SECONDS
 	visible_message(span_warning("[src] shimmers into existence!"))
@@ -194,7 +194,7 @@
 	var/mark_minimum_duration = 10 MINUTES
 	var/obj/effect/proc_holder/spell/invoked/summon_marked/summon_spell = null
 
-/datum/component/dreamwalker_mark/Initialize()
+/datum/component/dreamwalker_mark/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, .proc/on_attack)

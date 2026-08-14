@@ -392,7 +392,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/masterkey = TRUE //if masterkey can open this regardless
 	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
 
-/obj/structure/englauncher/Initialize()
+/obj/structure/englauncher/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -776,7 +776,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	max_integrity = 0
 	redstone_structure = TRUE
 /*
-/obj/structure/floordoor/Initialize()
+/obj/structure/floordoor/Initialize(mapload)
 	AddComponent(/datum/component/squeak, list('sound/foley/footsteps/FTMET_A1.ogg','sound/foley/footsteps/FTMET_A2.ogg','sound/foley/footsteps/FTMET_A3.ogg','sound/foley/footsteps/FTMET_A4.ogg'), 100)
 	return ..()
 */
@@ -820,7 +820,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	nomouseover = TRUE
 	mouse_opacity = 0
 
-/obj/structure/floordoor/gatehatch/Initialize()
+/obj/structure/floordoor/gatehatch/Initialize(mapload)
 	AddComponent(/datum/component/squeak, list('sound/foley/footsteps/FTMET_A1.ogg','sound/foley/footsteps/FTMET_A2.ogg','sound/foley/footsteps/FTMET_A3.ogg','sound/foley/footsteps/FTMET_A4.ogg'), 40)
 	return ..()
 

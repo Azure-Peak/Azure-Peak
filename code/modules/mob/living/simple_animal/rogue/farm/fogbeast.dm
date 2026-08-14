@@ -67,7 +67,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame
 	tame = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S
@@ -185,7 +185,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame
 	tame = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S

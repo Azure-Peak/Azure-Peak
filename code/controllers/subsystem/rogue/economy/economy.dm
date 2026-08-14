@@ -19,7 +19,7 @@ SUBSYSTEM_DEF(economy)
 		return simulated_player_scalar
 	return get_active_player_count()
 
-/datum/controller/subsystem/economy/Initialize()
+/datum/controller/subsystem/economy/Initialize(mapload)
 	populate_standing_order_templates()
 	for(var/region_id in GLOB.economic_regions)
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]

@@ -324,7 +324,7 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
@@ -345,7 +345,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
@@ -364,7 +364,7 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.

@@ -31,7 +31,7 @@
 	attacked_sound = list('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg')
 	neighborlay = "dirtedge"
 
-/turf/closed/mineral/Initialize()
+/turf/closed/mineral/Initialize(mapload)
 	if (!canSmoothWith)
 		canSmoothWith = list(/turf/closed/mineral, /turf/closed/indestructible)
 //	var/matrix/M = new
@@ -263,7 +263,7 @@
 	var/mineralChance = 13
 	var/display_icon_state = "rock"
 
-/turf/closed/mineral/random/Initialize()
+/turf/closed/mineral/random/Initialize(mapload)
 
 	mineralSpawnChanceList = typelist("mineralSpawnChanceList", mineralSpawnChanceList)
 

@@ -71,7 +71,7 @@
 				regenerate_icons()
 #endif
 
-/mob/living/carbon/human/Initialize()
+/mob/living/carbon/human/Initialize(mapload)
 	add_verb(src, /mob/living/proc/lay_down)
 	icon_state = "" //Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
 
@@ -1052,7 +1052,7 @@
 /mob/living/carbon/human/species
 	var/race = null
 
-/mob/living/carbon/human/species/Initialize()
+/mob/living/carbon/human/species/Initialize(mapload)
 	. = ..()
 	if(race)
 		set_species(race)

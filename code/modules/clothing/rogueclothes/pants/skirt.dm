@@ -13,7 +13,7 @@
 /obj/item/clothing/under/roguetown/skirt/random
 	name = "skirt"
 
-/obj/item/clothing/under/roguetown/skirt/random/Initialize()
+/obj/item/clothing/under/roguetown/skirt/random/Initialize(mapload)
 	color = pick("#6b5445", "#435436", "#704542", "#79763f", CLOTHING_BLUE)
 	..()
 
@@ -55,7 +55,7 @@
 	body_parts_covered = GROIN | LEGS
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/under/roguetown/skirt/baotha/Initialize()
+/obj/item/clothing/under/roguetown/skirt/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "SKIRT")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
@@ -82,7 +82,7 @@
 	alternate_worn_layer = (SHIRT_LAYER)
 	salvage_result = /obj/item/natural/silk
 
-/obj/item/clothing/under/roguetown/skirt/courtphysician/Initialize()
+/obj/item/clothing/under/roguetown/skirt/courtphysician/Initialize(mapload)
 	. = ..()
 	update_icon()
 

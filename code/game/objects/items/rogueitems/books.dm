@@ -359,7 +359,7 @@
 	. += span_info("It can be used in-hand to preach from two seperate testaments.")
 	. += span_info("Use middle-mouse button to switch between testaments of the book.")
 
-/obj/item/book/rogue/bibble/zizo/Initialize()
+/obj/item/book/rogue/bibble/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "TOME") //intended, sure-cut sign you worship Zizo. (Also to avoid unintended bug of bishop blessing people w/it.)
 

@@ -18,7 +18,7 @@
 	var/broken_icon_state = null //if the structure is broken, use this icon
 //	move_resist = MOVE_FORCE_STRONG
 
-/obj/structure/Initialize()
+/obj/structure/Initialize(mapload)
 	if (!armor)
 		armor = ARMOR_STRUCTURE
 	. = ..()

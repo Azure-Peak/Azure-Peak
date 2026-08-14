@@ -1,6 +1,6 @@
 /datum/component/wise_tree_alert
 
-/datum/component/wise_tree_alert/Initialize()
+/datum/component/wise_tree_alert/Initialize(mapload)
 	. = ..()
 
 	RegisterSignal(SSdcs, COMSIG_SACRED_TREE_DAMAGED, PROC_REF(wise_tree_damaged))

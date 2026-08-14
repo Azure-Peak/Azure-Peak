@@ -18,7 +18,7 @@ SUBSYSTEM_DEF(city_assembly)
 	/// world.time at which Session 1 will resolve automatically. 0 if not yet armed.
 	var/first_session_resolve_at = 0
 
-/datum/controller/subsystem/city_assembly/Initialize()
+/datum/controller/subsystem/city_assembly/Initialize(mapload)
 	current_warrant = new /datum/assembly_warrant()
 	open_session()
 	// Don't schedule timers here - Initialize predates round-start. fire() arms the first-

@@ -1146,7 +1146,7 @@
 	var/last_hit_time = 0
 	var/reset_timeout = 75 SECONDS
 
-/datum/component/mushroom_mace/Initialize()
+/datum/component/mushroom_mace/Initialize(mapload)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, .proc/on_attack)
@@ -1256,7 +1256,7 @@
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate, /datum/intent/mace/smash)
 	smeltresult = /obj/item/ingot/lithmyc
 
-/obj/item/rogueweapon/mace/mushroom/Initialize()
+/obj/item/rogueweapon/mace/mushroom/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/mushroom_mace)
 
@@ -1416,7 +1416,7 @@
 	force = 18
 	max_stored_charge = 40
 
-/obj/item/rogueweapon/contraption/linker/mace/decrepit/Initialize()
+/obj/item/rogueweapon/contraption/linker/mace/decrepit/Initialize(mapload)
 	. = ..()
 	current_charge = rand(0, max_stored_charge) // it's an ancient artifact, rather than crafted. might have some charge left
 
@@ -1430,6 +1430,6 @@
 	force_wielded = 21
 	max_stored_charge = 40
 
-/obj/item/rogueweapon/contraption/linker/mace/big/decrepit/Initialize()
+/obj/item/rogueweapon/contraption/linker/mace/big/decrepit/Initialize(mapload)
 	. = ..()
 	current_charge = rand(0, max_stored_charge) // it's an ancient artifact, rather than crafted. might have some charge left

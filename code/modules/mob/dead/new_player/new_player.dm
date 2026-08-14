@@ -26,7 +26,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	//Used to make sure someone doesn't get spammed with messages if they're ineligible for roles
 	var/ineligible_for_roles = FALSE
 
-/mob/dead/new_player/Initialize()
+/mob/dead/new_player/Initialize(mapload)
 //	if(client && SSticker.state == GAME_STATE_STARTUP)
 //		var/atom/movable/screen/splash/S = new(client, TRUE, TRUE)
 //		S.Fade(TRUE)

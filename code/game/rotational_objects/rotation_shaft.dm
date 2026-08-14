@@ -61,7 +61,7 @@
 	. += span_info("Meshes with adjacent cogwheels to transfer rotation sideways.")
 	. += span_info("Different cog sizes change the output RPM when they mesh together.")
 
-/obj/structure/rotation_piece/cog/Initialize()
+/obj/structure/rotation_piece/cog/Initialize(mapload)
 	//soundloop = new /datum/looping_sound/cog_loop(src, FALSE)
 	. = ..()
 
@@ -80,7 +80,7 @@
 	. = ..()
 	. += span_info("Large cogwheels use more stress but alter RPM more strongly when meshed with smaller cogs.")
 
-/obj/structure/rotation_piece/cog/large/Initialize()
+/obj/structure/rotation_piece/cog/large/Initialize(mapload)
 	. = ..()
 	//soundloop = new /datum/looping_sound/cog_loop/heavy(src, FALSE)
 	var/matrix/skew = matrix()

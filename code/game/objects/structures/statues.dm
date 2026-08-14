@@ -11,7 +11,7 @@
 	CanAtmosPass = ATMOS_PASS_DENSITY
 	var/art_type = /datum/component/art
 
-/obj/structure/statue/Initialize()
+/obj/structure/statue/Initialize(mapload)
 	. = ..()
 	AddComponent(art_type, impressiveness)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/datum, _AddComponent), /datum/component/beauty, impressiveness *  75), 0)

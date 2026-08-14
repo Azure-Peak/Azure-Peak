@@ -62,7 +62,7 @@
 	setparrytime = 30
 	dodgetime = 30
 
-/mob/living/simple_animal/hostile/Initialize()
+/mob/living/simple_animal/hostile/Initialize(mapload)
 	. = ..()
 	last_aggro_loss = world.time //so we delete even if we never found a target
 	if(!targets_from)

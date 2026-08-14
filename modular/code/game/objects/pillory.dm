@@ -55,7 +55,7 @@
 		togglelock(user)
 		return
 
-/obj/structure/pillory/Initialize()
+/obj/structure/pillory/Initialize(mapload)
 	LAZYINITLIST(buckled_mobs)
 	. = ..()
 

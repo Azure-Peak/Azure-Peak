@@ -44,7 +44,7 @@
 		"Smokes",
 	)
 
-/obj/structure/roguemachine/bathvend/Initialize()
+/obj/structure/roguemachine/bathvend/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -371,7 +371,7 @@
 	set_light(1, 1, 1, l_color = "#1b7bf1")
 	add_overlay(mutable_appearance(icon, "vendor-drug"))
 
-/obj/structure/roguemachine/bathvend/public/Initialize()
+/obj/structure/roguemachine/bathvend/public/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSroguemachine, src)
 

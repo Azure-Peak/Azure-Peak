@@ -24,7 +24,7 @@
 	. += span_info("Left-click with a torch, lamptern, flint, or another ignitioneer to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or another source of ignition.")
 	. += span_info("Once lit, most bombs will detonate after a very short period of time.")
 
-/obj/item/bomb/Initialize()
+/obj/item/bomb/Initialize(mapload)
 	..()
 	fuze = rand(40,60)
 
@@ -161,7 +161,7 @@
 	var/obj/item/bomb/b_type = /obj/item/bomb
 	var/list/obj/item/tripwire/wire_trigger = list()
 
-/obj/item/bomb/tripbomb/Initialize()
+/obj/item/bomb/tripbomb/Initialize(mapload)
 	..()
 	icon_state = b_type.icon_state
 
@@ -591,7 +591,7 @@
 	grid_width = 32
 	grid_height = 32
 
-/obj/item/impact_grenade/Initialize()
+/obj/item/impact_grenade/Initialize(mapload)
 	. = ..()
 
 // Define a base explodes() proc that subtypes can override because its now explodes proc

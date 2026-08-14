@@ -14,7 +14,7 @@
 	var/w_class_on = WEIGHT_CLASS_BULKY
 	var/clumsy_check = TRUE
 
-/obj/item/melee/transforming/Initialize()
+/obj/item/melee/transforming/Initialize(mapload)
 	. = ..()
 	if(active)
 		if(attack_verb_on.len)

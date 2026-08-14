@@ -45,7 +45,7 @@ SUBSYSTEM_DEF(wardrobe)
 	/// Item types that should not ever be recycled, only generated (like modsuits)
 	var/static/list/recycle_blacklist = typecacheof(list( ))
 
-/datum/controller/subsystem/wardrobe/Initialize()
+/datum/controller/subsystem/wardrobe/Initialize(mapload)
 	setup_callbacks()
 	load_outfits()
 	load_species()

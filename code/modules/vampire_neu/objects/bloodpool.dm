@@ -49,7 +49,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	)
 	var/sunstolen = FALSE
 
-/obj/structure/vampire/bloodpool/Initialize()
+/obj/structure/vampire/bloodpool/Initialize(mapload)
 	. = ..()
 	set_light(3, 3, 20, l_color = LIGHT_COLOR_BLOOD_MAGIC)
 
@@ -844,7 +844,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	if(!contribution || contribution < 1)
 		return
 
-	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a 
+	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a
 	contribution = clamp(contribution, 0, max_contribution)
 
 	if(user.bloodpool < contribution)

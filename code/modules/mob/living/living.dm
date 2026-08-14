@@ -7,7 +7,7 @@
 	var/contract_dust_scheduled = FALSE
 
 
-/mob/living/Initialize()
+/mob/living/Initialize(mapload)
 	. = ..()
 	var/turf/turf = get_turf(loc)
 	if(turf)

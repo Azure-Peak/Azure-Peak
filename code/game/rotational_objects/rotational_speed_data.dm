@@ -15,7 +15,7 @@
 	var/datum/rotation_network/rotation_network
 	var/datum/rotation_segment/segment
 
-/obj/structure/Initialize()
+/obj/structure/Initialize(mapload)
 	. = ..()
 	if(rotation_structure || accepts_water_input)
 		return INITIALIZE_HINT_LATELOAD

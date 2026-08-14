@@ -25,7 +25,7 @@
 	origin_default = /datum/virtue/origin/familiar/elemental
 
 // so they can actually do repairs
-/mob/living/carbon/human/species/familiar/elemental/Initialize()
+/mob/living/carbon/human/species/familiar/elemental/Initialize(mapload)
 	. = ..()
 	src.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE)

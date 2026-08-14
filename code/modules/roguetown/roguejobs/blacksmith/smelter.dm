@@ -54,7 +54,7 @@
 			. += span_info("- [item]")
 
 
-/obj/machinery/light/rogue/smelter/Initialize()
+/obj/machinery/light/rogue/smelter/Initialize(mapload)
 	. = ..()
 	smelt_sfx = pick('sound/misc/smelter_sound1.ogg', 'sound/misc/smelter_sound2.ogg', 'sound/misc/smelter_sound3.ogg', 'sound/misc/smelter_sound4.ogg')
 	if(prob(10))

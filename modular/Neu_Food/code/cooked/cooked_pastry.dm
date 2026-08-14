@@ -869,7 +869,7 @@
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 10)
 	tastes = list("crispy dough" = 1, "divinely fruity sweetness" = 1)
 
-/obj/item/reagent_containers/food/snacks/rogue/dot_tart/goldapple/Initialize()
+/obj/item/reagent_containers/food/snacks/rogue/dot_tart/goldapple/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 155, "size" = 1))
 

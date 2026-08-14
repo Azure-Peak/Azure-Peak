@@ -50,7 +50,7 @@
 
 /obj/item/clothing/gloves/roguetown/plate/paalloy
 	name = "ancient plate gauntlets"
-	desc = "Polished gilbranze mechanisms, meticulously interconnected to shroud splayed hands. 'Mercy' and 'innocence' are concepts paraded by the unenlightened; spill their blood without guilt, so that the world may yet be remade in Her image." 
+	desc = "Polished gilbranze mechanisms, meticulously interconnected to shroud splayed hands. 'Mercy' and 'innocence' are concepts paraded by the unenlightened; spill their blood without guilt, so that the world may yet be remade in Her image."
 	icon_state = "agauntlets"
 	smeltresult = /obj/item/ingot/aaslag
 
@@ -62,7 +62,7 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
 
-/obj/item/clothing/gloves/roguetown/plate/graggar/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
@@ -75,7 +75,7 @@
 	icon_state = "graggarplategloves_heavy"
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/clothing/gloves/roguetown/plate/graggar/heavy/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/graggar/heavy/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
@@ -93,7 +93,7 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-/obj/item/clothing/gloves/roguetown/plate/matthios/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/matthios/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
@@ -116,7 +116,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/gloves/roguetown/plate/baotha/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "GLOVES")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
@@ -142,7 +142,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
 
-/obj/item/clothing/gloves/roguetown/plate/zizo/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
@@ -159,7 +159,7 @@
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/clothing/gloves/roguetown/plate/zizo/heavy/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/zizo/heavy/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 

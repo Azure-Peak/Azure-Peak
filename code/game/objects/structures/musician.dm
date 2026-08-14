@@ -335,7 +335,7 @@
 /obj/structure/piano/unanchored
 	anchored = FALSE
 
-/obj/structure/piano/Initialize()
+/obj/structure/piano/Initialize(mapload)
 	. = ..()
 	song = new("piano", src)
 

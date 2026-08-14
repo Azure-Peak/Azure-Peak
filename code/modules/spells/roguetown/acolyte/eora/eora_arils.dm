@@ -45,7 +45,7 @@
 	var/heal_amount = 35
 	var/blood_loss = 225
 
-/obj/item/reagent_containers/food/snacks/eoran_aril/crimson/Initialize()
+/obj/item/reagent_containers/food/snacks/eoran_aril/crimson/Initialize(mapload)
 	. = ..()
 	blood_loss = BLOOD_VOLUME_NORMAL * 0.03
 
@@ -140,7 +140,7 @@
 	desc = "An iridescent seed that shifts colors in the light."
 	icon_state = "opalescent"
 	effect_desc = "Transforms held gems into rubies."
-	
+
 /obj/item/reagent_containers/food/snacks/eoran_aril/opalescent/apply_effects(mob/living/eater)
 	for(var/obj/item/roguegem/G in eater.held_items)
 		var/obj/item/roguegem/ruby/new_gem = new(eater.loc)

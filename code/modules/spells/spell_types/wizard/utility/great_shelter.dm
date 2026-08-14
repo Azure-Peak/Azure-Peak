@@ -141,7 +141,7 @@
 	desc = "A hearth of blue arcyne flame. It burns without fuel."
 	color = "#6495ED"
 
-/obj/machinery/light/rogue/hearth/conjured/Initialize()
+/obj/machinery/light/rogue/hearth/conjured/Initialize(mapload)
 	. = ..()
 	QDEL_IN(src, SHELTER_DURATION)
 
@@ -150,7 +150,7 @@
 	desc = "An oven conjured from arcyne force. It glows with a faint blue heat."
 	color = "#6495ED"
 
-/obj/machinery/light/rogue/oven/conjured/Initialize()
+/obj/machinery/light/rogue/oven/conjured/Initialize(mapload)
 	. = ..()
 	QDEL_IN(src, SHELTER_DURATION)
 

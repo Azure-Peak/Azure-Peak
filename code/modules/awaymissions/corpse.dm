@@ -154,7 +154,7 @@
 	var/facial_hairstyle
 	var/skin_tone
 
-/obj/effect/mob_spawn/human/Initialize()
+/obj/effect/mob_spawn/human/Initialize(mapload)
 	if(ispath(outfit))
 		outfit = new outfit()
 	if(!outfit)

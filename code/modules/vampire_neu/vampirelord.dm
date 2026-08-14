@@ -194,7 +194,7 @@
 	smeltresult = /obj/item/ingot/draconic //Closest - and most valuable - analogue to obsidian.
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
-/obj/item/clothing/head/roguetown/vampire/Initialize()
+/obj/item/clothing/head/roguetown/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //AURAFARMING BUFF
 
@@ -218,7 +218,7 @@
 	smeltresult = /obj/item/ingot/vampire
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -245,7 +245,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
-/obj/item/clothing/suit/roguetown/armor/plate/vampire/Initialize()
+/obj/item/clothing/suit/roguetown/armor/plate/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -264,7 +264,7 @@
 	smeltresult = /obj/item/ingot/vampire
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -287,7 +287,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
-/obj/item/clothing/under/roguetown/platelegs/vampire/Initialize()
+/obj/item/clothing/under/roguetown/platelegs/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -309,7 +309,7 @@
 	smeltresult = /obj/item/ingot/vampire
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
-/obj/item/clothing/shoes/roguetown/boots/armor/vampire/Initialize()
+/obj/item/clothing/shoes/roguetown/boots/armor/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -329,7 +329,7 @@
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 	throw_on_break = FALSE //We only get one set
 
-/obj/item/clothing/gloves/roguetown/chain/vampire/Initialize()
+/obj/item/clothing/gloves/roguetown/chain/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -346,7 +346,7 @@
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 	throw_on_break = FALSE //We only get one set.
 
-/obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -363,7 +363,7 @@
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 	throw_on_break = FALSE //We only get one set.
 
-/obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/Initialize()
+/obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
@@ -385,7 +385,7 @@
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 	throw_on_break = FALSE //We only get one set.
 
-/obj/item/clothing/head/roguetown/helmet/heavy/vampire/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/vampire/Initialize(mapload)
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 

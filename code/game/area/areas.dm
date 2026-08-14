@@ -174,7 +174,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
   *
   * returns INITIALIZE_HINT_LATELOAD
   */
-/area/Initialize()
+/area/Initialize(mapload)
 	if(!outdoors)
 		plane = INDOOR_PLANE
 		icon_state = "mask"

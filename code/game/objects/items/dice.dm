@@ -84,7 +84,7 @@
 	. = ..()
 	. += span_notice("It has landed on a [result]")
 
-/obj/item/dice/Initialize()
+/obj/item/dice/Initialize(mapload)
 	. = ..()
 	if(!result)
 		result = roll(sides)
@@ -152,7 +152,7 @@
 	desc = ""
 	icon_state = "spaced6"
 
-/obj/item/dice/d6/space/Initialize()
+/obj/item/dice/d6/space/Initialize(mapload)
 	. = ..()
 	if(prob(10))
 		name = "spess cube"

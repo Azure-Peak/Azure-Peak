@@ -62,7 +62,7 @@
 
 	var/attachment_component = /datum/component/storage/concrete/roguetown/hat
 
-/obj/item/clothing/head/Initialize()
+/obj/item/clothing/head/Initialize(mapload)
 	. = ..()
 	if(attachment_component)
 		AddComponent(attachment_component)
@@ -121,7 +121,7 @@
 						C.item_flags |= NOT_SHOW_IN_STORAGE
 					to_chat(user, span_info("[C] will be [(C.item_flags & NOT_SHOW_IN_STORAGE) ? "hidden" : "visible"] \the [src]"))
 				user.update_inv_head()
-	
+
 
 ///Special throw_impact for hats to frisbee hats at people to place them on their heads/attempt to de-hat them.
 /obj/item/clothing/head/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)

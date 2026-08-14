@@ -21,7 +21,7 @@
 			if(1 to 25)
 				. +=  "<span class='warning'>It's falling apart!</span>"
 
-/turf/closed/wall/mineral/rogue/Initialize()
+/turf/closed/wall/mineral/rogue/Initialize(mapload)
 	if(smooth_icon)
 		icon = smooth_icon
 	. = ..()
@@ -78,7 +78,7 @@
 		return 1
 	return ..()
 
-/turf/closed/wall/mineral/rogue/stone/window/Initialize()
+/turf/closed/wall/mineral/rogue/stone/window/Initialize(mapload)
 	. = ..()
 	icon_state = "stone"
 	var/mutable_appearance/M = mutable_appearance(icon, "stonehole", layer = ABOVE_NORMAL_TURF_LAYER)
@@ -191,7 +191,7 @@
 		return 1
 	return ..()
 
-/turf/closed/wall/mineral/rogue/wood/window/Initialize()
+/turf/closed/wall/mineral/rogue/wood/window/Initialize(mapload)
 	. = ..()
 	var/mutable_appearance/M = mutable_appearance(icon, "woodhole", layer = ABOVE_NORMAL_TURF_LAYER)
 	add_overlay(M)
@@ -339,7 +339,7 @@
 	burn_power = 20
 	spread_chance = 4
 
-/turf/closed/wall/mineral/rogue/decowood/Initialize()
+/turf/closed/wall/mineral/rogue/decowood/Initialize(mapload)
 	. = ..()
 	dir = pick(GLOB.cardinals)
 
@@ -466,7 +466,7 @@
 				to_chat(user, span_warning("Picked clean... I should try later."))
 	..()
 
-/turf/closed/wall/shroud/Initialize()
+/turf/closed/wall/shroud/Initialize(mapload)
 	. = ..()
 	icon_state = "shroud[pick(1,2)]"
 	dir = pick(GLOB.cardinals)

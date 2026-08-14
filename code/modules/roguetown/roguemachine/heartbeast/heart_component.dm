@@ -40,7 +40,7 @@
 	var/last_link_attempt = 0
 	var/link_attempt_interval = 30 SECONDS
 
-/datum/component/chimeric_heart_beast/Initialize()
+/datum/component/chimeric_heart_beast/Initialize(mapload)
 	. = ..()
 	if(!istype(parent, /obj/structure/roguemachine/chimeric_heart_beast))
 		return COMPONENT_INCOMPATIBLE

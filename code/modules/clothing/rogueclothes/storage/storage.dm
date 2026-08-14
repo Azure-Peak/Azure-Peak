@@ -438,7 +438,7 @@
 		return TRUE
 	return FALSE
 
-/obj/item/storage/belt/rogue/leather/knifebelt/iron/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/iron/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/K = new()
@@ -449,49 +449,49 @@
 	icon_state = "blackknife"
 	item_state = "blackknife"
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/iron/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/black/iron/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/steel/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/black/steel/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/silver/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/silver_blessed/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/black/silver_blessed/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/silver/preblessed/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/psydon/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/black/psydon/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/psydon/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/psydon_blessed/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/black/psydon_blessed/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/psydon/preblessed/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun/Initialize()
+/obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/kazengun/K = new()

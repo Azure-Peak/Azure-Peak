@@ -176,7 +176,7 @@
 /obj/projectile/proc/out_of_effective_range()
 	return suppress_effects_past_range && max_range && check_range(get_turf(src))
 
-/obj/projectile/Initialize()
+/obj/projectile/Initialize(mapload)
 	. = ..()
 	permutated = list()
 	decayedRange = range

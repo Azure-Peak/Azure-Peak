@@ -3,7 +3,7 @@
 Void dragons are creatures of a bygone age. It is a melee creature, that will chase down and cut most people to shreds if they are by themself.
 It will also call down lightning strikes from the sky, and fling people with it's tail, as well as fly up into the sky.*/
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOFIRE, "[type]")
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)

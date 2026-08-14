@@ -211,7 +211,7 @@
 			D.process_win(winner = eater, loser = challenger)
 			return TRUE
 
-/obj/item/organ/Initialize()
+/obj/item/organ/Initialize(mapload)
 	. = ..()
 	if(accessory_type && owner)
 		set_accessory_type(accessory_type)

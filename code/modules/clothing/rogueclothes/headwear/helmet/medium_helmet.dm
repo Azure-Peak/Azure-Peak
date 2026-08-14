@@ -822,7 +822,7 @@
 	max_integrity = ARMOR_INT_HELMET_ANTAG - 300 //Halved durability, compared to traditional Ascendant-tier armor.
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/head/roguetown/helmet/baotha/Initialize()
+/obj/item/clothing/head/roguetown/helmet/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "HELMET")
 

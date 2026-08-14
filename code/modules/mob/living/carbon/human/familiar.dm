@@ -88,7 +88,7 @@
 	orb.w_class = WEIGHT_CLASS_SMALL
 	return orb
 
-/mob/living/carbon/human/species/familiar/Initialize()
+/mob/living/carbon/human/species/familiar/Initialize(mapload)
 	. = ..()
 	adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_NOVICE)
 	AddComponent(/datum/component/footstep, footstep_type)

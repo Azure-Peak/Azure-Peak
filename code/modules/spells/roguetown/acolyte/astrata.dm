@@ -308,7 +308,7 @@
 				human.apply_status_effect(/datum/status_effect/buff/pyre)
 				human.add_stress(/datum/stressevent/astrata_pyre)
 
-/obj/machinery/light/rogue/campfire/miracle_pyre/Initialize()
+/obj/machinery/light/rogue/campfire/miracle_pyre/Initialize(mapload)
 	. = ..()
 	if(lifespan)
 		QDEL_IN(src, lifespan) //delete after it runs out

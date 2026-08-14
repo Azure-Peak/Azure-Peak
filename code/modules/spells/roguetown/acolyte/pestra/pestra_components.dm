@@ -103,7 +103,7 @@
 	var/duration = 20 SECONDS
 	var/outline_applied = FALSE
 
-/datum/component/pestilent_blade_enchant/Initialize()
+/datum/component/pestilent_blade_enchant/Initialize(mapload)
 	. = ..()
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
@@ -180,7 +180,7 @@
 	/// Tracks whether the rot functionality and visuals are active
 	var/active = TRUE
 
-/datum/component/infestation_black_rot/Initialize()
+/datum/component/infestation_black_rot/Initialize(mapload)
 	. = ..()
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE

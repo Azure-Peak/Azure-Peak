@@ -19,7 +19,7 @@
 		/mob/living/carbon/human/species/wildshape/night_cat
 	)
 
-/datum/component/night_form/Initialize()
+/datum/component/night_form/Initialize(mapload)
 	if(!istype(parent, /datum/mind))
 		return COMPONENT_INCOMPATIBLE
 
@@ -78,7 +78,7 @@
 		return
 	if(H.advsetup)
 		return
-	
+
 	if(H.mind?.has_antag_datum(/datum/antagonist/werewolf))
 		to_chat(H, span_userdanger("The beast's curse overwhelms the moon's call! Your old affliction is consumed by a darker power..."))
 		qdel(src)

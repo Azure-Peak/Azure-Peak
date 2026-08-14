@@ -795,12 +795,12 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	icon_state = "ravoxchallenged"
 
 
-/obj/structure/fluff/ravox/challenger/recall/Initialize()
+/obj/structure/fluff/ravox/challenger/recall/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, GLOBAL_PROC_REF(qdel), src), 3 MINUTES)
 	addtimer(CALLBACK(src,TYPE_PROC_REF(/obj/structure/fluff/ravox, spawnprotection)), 179 SECONDS)
 
-/obj/structure/fluff/ravox/challenged/recall/Initialize()
+/obj/structure/fluff/ravox/challenged/recall/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, GLOBAL_PROC_REF(qdel), src), 3 MINUTES)
 	addtimer(CALLBACK(src,TYPE_PROC_REF(/obj/structure/fluff/ravox, spawnprotection)), 179 SECONDS)

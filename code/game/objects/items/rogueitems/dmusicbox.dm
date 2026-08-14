@@ -36,7 +36,7 @@
 	var/curvol = 100
 	anvilrepair = /datum/skill/craft/blacksmithing
 
-/obj/item/dmusicbox/Initialize()
+/obj/item/dmusicbox/Initialize(mapload)
 	soundloop = new(src, FALSE)
 //	soundloop.start()
 	update_icon()
