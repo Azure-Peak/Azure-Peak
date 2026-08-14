@@ -23,7 +23,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/antagpanel_category = "Uncategorized"	//Antagpanel will display these together, REQUIRED
 	var/show_name_in_check_antagonists = FALSE //Will append antagonist name in admin listings - use for categories that share more than one antag type
 	var/increase_votepwr = TRUE
-	var/rogue_enabled = FALSE
+	var/rogue_enabled = FALSE // this also determines whether it shows up in the panel! i dont know why!
 
 	///flags used by storytellers
 	var/antag_flags = NONE
@@ -63,7 +63,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 		if(is_type_in_typecache(src, A.typecache_datum_blacklist))
 			return FALSE
 
-/// Proc to return the weight of this antagonist for purpose of antag cap calculations. Meant to be overriddeable  
+/// Proc to return the weight of this antagonist for purpose of antag cap calculations. Meant to be overriddeable
 /datum/antagonist/proc/get_antag_cap_weight()
 	return 1
 
