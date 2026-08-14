@@ -122,7 +122,7 @@
 	desc = "Foreign pants, with leather insewns."
 	icon_state = "eastpants1"
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
 	name = "aesthetic cut-throat's pants"
@@ -136,7 +136,7 @@
 	desc = "Weird pants typically worn by the destitute in Kazengun. Or, those looking to make a fashion statement."
 	icon_state = "eastpants2"
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout
 	name = "aesthetic strange ripped pants"
@@ -150,7 +150,7 @@
 	desc = "A form of Kazengunite peasant's trousers. The fabric used in their manufacture is strong, and could probably turn away a few blows."
 	icon_state = "baggypants"
 	item_state = "baggypants"
-	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
 	name = "silk tights"

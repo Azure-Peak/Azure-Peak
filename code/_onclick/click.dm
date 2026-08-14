@@ -1064,7 +1064,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /* RightClickOn */
 
-/atom/proc/rmb_self(mob/user)
+/atom/proc/rmb_self(mob/user, keybind = FALSE)
 	return
 
 /mob/proc/rmb_on(atom/A, params)

@@ -270,6 +270,19 @@
 		/datum/sprite_accessory/horns/large/highrise
 		)
 
+/datum/customizer/organ/horns/humanoid/goblin
+	default_disabled = TRUE
+	customizer_choices = list(/datum/customizer_choice/organ/horns/goblin)
+
+/datum/customizer_choice/organ/horns/goblin
+	name = "Horns"
+	organ_type = /obj/item/organ/horns
+	sprite_accessories = list(
+		/datum/sprite_accessory/horns/goblin,
+		/datum/sprite_accessory/horns/tiefling,
+		/datum/sprite_accessory/horns/tieflingalt,
+		)
+
 /datum/customizer/organ/horns/tusks
 	name = "Tusks"
 	customizer_choices = list(/datum/customizer_choice/organ/horns/tusks)

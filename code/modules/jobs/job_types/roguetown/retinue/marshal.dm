@@ -81,7 +81,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
@@ -120,7 +120,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 

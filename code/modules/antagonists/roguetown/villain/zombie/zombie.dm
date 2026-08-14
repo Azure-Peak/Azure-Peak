@@ -343,6 +343,11 @@
 		qdel(zombie)
 		return
 
+	var/turf/T = get_turf(zombie)
+	if(T && (locate(/obj/structure/bed/rogue/sanctuary/pestra) in T)) // Pestra's bed prevents zombiefication
+		qdel(zombie)
+		return
+
 	// Heal the zombie
 	zombie.blood_volume = BLOOD_VOLUME_NORMAL
 	zombie.setOxyLoss(0, updating_health = FALSE, forced = TRUE) // Zombies don't breathe

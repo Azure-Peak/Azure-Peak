@@ -47,7 +47,7 @@
 		display_results(user, target, span_notice("I successfully augment [target]'s [parse_zone(target_zone)]."),
 			span_notice("[user] successfully augments [target]'s [parse_zone(target_zone)] with [bodypart]!"),
 			span_notice("[user] successfully augments [target]'s [parse_zone(target_zone)]!"))
-		log_combat(user, target, "augmented", addition="by giving him new [parse_zone(target_zone)] INTENT: [uppertext(user.a_intent?.name)]")
+		log_combat(user, target, "augmented", addition="by giving him new [parse_zone(target_zone)]", intent=user.a_intent?.name)
 	else
 		to_chat(user, span_warning("[target] has no organic [parse_zone(target_zone)] there!"))
 	return TRUE

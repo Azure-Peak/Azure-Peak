@@ -590,7 +590,7 @@
 		if(M.attack_sound)
 			playsound(loc, M.a_intent.hitsound, 100, FALSE)
 
-		log_combat(M, src, "attacked")
+		log_combat(M, src, "attacked", zone=M.zone_selected)
 
 	return TRUE
 

@@ -13,7 +13,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/longcoat
 	name = "longcoat"
-	desc = "A padded longcoat meant to keep you warm in the frigid winters"
+	desc = "A padded longcoat meant to keep you warm in the frigid winters."
 	icon_state = "longcoat"
 	color = CLOTHING_BLACK
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK

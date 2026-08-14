@@ -46,7 +46,7 @@
 		return
 	if(!rotation_structure)
 		return
-	var/obj/item/contraption/linker/linker = user.get_active_held_item()
+	var/obj/item/rogueweapon/contraption/linker/linker = user.get_active_held_item()
 	if(!istype(linker))
 		return
 
@@ -61,7 +61,7 @@
 		return
 	if(!rotation_structure || !user?.Adjacent(src))
 		return
-	var/obj/item/contraption/linker/linker = user.get_active_held_item()
+	var/obj/item/rogueweapon/contraption/linker/linker = user.get_active_held_item()
 	if(!istype(linker))
 		return
 	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)

@@ -3,33 +3,6 @@
 	valid_outputs = list(/obj/item/alch/viscera = 1)
 	bonus_chance_outputs = list(/obj/item/alch/viscera = 75)
 
-//Runes -> dust
-// Unused for now not clogging up the grind recipes
-// /datum/alch_grind_recipe/fire_rune
-// 	valid_input = /obj/item/rune/spell/fire_rune
-// 	valid_outputs = list(/obj/item/alch/firedust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/firedust = 33)
-
-// /datum/alch_grind_recipe/water_rune
-// 	valid_input = /obj/item/rune/spell/water_rune
-// 	valid_outputs = list(/obj/item/alch/waterdust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/waterdust = 33)
-
-// /datum/alch_grind_recipe/air_rune
-// 	valid_input = /obj/item/rune/spell/air_rune
-// 	valid_outputs = list(/obj/item/alch/airdust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/airdust = 33)
-
-// /datum/alch_grind_recipe/earth_rune
-// 	valid_input = /obj/item/rune/spell/earth_rune
-// 	valid_outputs = list(/obj/item/alch/earthdust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/earthdust = 33)
-
-// /datum/alch_grind_recipe/blank_rune
-// 	valid_input = /obj/item/rune/spell/blank_rune
-// 	valid_outputs = list(/obj/item/alch/runedust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/runedust = 33)
-
 //Objects -> dusts
 /datum/alch_grind_recipe/crow
 	name = "Crow"

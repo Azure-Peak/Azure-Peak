@@ -2,11 +2,12 @@
 #define STEP_LEVER "pull the lever"
 #define STEP_BUTTON "push a button"
 
+/*
 /datum/looping_sound/autosmither_work
 	mid_sounds = 'sound/items/bsmithfail.ogg'
 	mid_length = 10
 	volume = 45
-
+*/
 /datum/autosmither_queue_entry
 	var/id
 	var/type_path
@@ -37,7 +38,7 @@
 
 	var/working = FALSE
 	var/bloodied = FALSE
-	var/datum/looping_sound/autosmither_work/soundloop
+	//var/datum/looping_sound/autosmither_work/soundloop
 
 	var/progress = 0
 	var/needed_progress = 100
@@ -57,7 +58,7 @@
 	var/turf/turf = get_step(src, EAST)
 	hopper = new hopper_type(turf)
 	hopper.parent = src
-	soundloop = new(src, FALSE)
+	//soundloop = new(src, FALSE)
 	LAZYINITLIST(regular_recipes)
 	if(!length(regular_recipes))
 		for(var/datum/anvil_recipe/recipe_path as anything in subtypesof(/datum/anvil_recipe))
@@ -72,7 +73,7 @@
 /obj/structure/autosmither/Destroy()
 	if(current)
 		QDEL_NULL(current)
-	QDEL_NULL(soundloop)
+	//QDEL_NULL(soundloop)
 	for(var/datum/autosmither_queue_entry/queue_entry as anything in anvil_recipes_to_craft)
 		qdel(queue_entry)
 	QDEL_NULL(hopper)
@@ -295,7 +296,7 @@
 	ui_interact(user)
 
 /obj/structure/autosmither/update_animation_effect()
-	update_soundloop()
+	//update_soundloop()
 	if(!bloodied)
 		if(!show_working_anim())
 			animate(src, icon_state = "1", time = 1)
@@ -331,6 +332,7 @@
 			animate(icon_state = "b2", time = frame_stage)
 			animate(icon_state = "b1", time = frame_stage)
 
+/*
 /obj/structure/autosmither/proc/update_soundloop()
 	if(!soundloop)
 		return
@@ -340,7 +342,7 @@
 		return
 	if(!soundloop.stopped)
 		soundloop.stop()
-
+*/
 /obj/structure/autosmither/proc/show_working_anim()
 	if(!working || !rotation_network || rotation_network?.overstressed || !rotations_per_minute)
 		return FALSE

@@ -186,7 +186,7 @@
 		return
 	if(!user.can_read(src))
 		if(info)
-			user.adjust_experience(/datum/skill/misc/reading, 2, FALSE)
+			add_sleep_experience(user, /datum/skill/misc/reading, 2)
 		return
 	if(mailer)
 		return
