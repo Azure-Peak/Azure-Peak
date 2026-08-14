@@ -471,8 +471,6 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		if(blocked >= 100)
-			return ..()
 		if(!M.mind)
 			M.Immobilize(5 SECONDS)
 			M.emote("cry", forced = TRUE)
