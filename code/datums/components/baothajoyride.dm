@@ -10,7 +10,7 @@
 /datum/component/baotha_joyride/partner
 	ispartner = TRUE
 
-/datum/component/baotha_joyride/Initialize(mob/living/partner_mob, mob/living/caster_mob, var/holy_skill)
+/datum/component/baotha_joyride/Initialize(mob/living/partner_mob, mob/living/caster_mob, holy_skill)
 	if(!isliving(parent) || !isliving(partner_mob))
 		return COMPONENT_INCOMPATIBLE
 

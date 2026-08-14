@@ -590,7 +590,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/zizo_tithe
 	var/mob/living/carbon/human/victim
 
-/datum/status_effect/buff/zizo_tithe/on_creation(mob/living/new_owner, list/distribution, var/mob/living/carbon/human/H)
+/datum/status_effect/buff/zizo_tithe/on_creation(mob/living/new_owner, list/distribution, mob/living/carbon/human/H)
 	for(var/S in distribution)
 		effectedstats[S] = distribution[S]
 	victim = H

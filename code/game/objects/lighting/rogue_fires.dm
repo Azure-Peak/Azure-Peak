@@ -651,7 +651,7 @@
 	if(on)
 		try_cook(cooktime_divisor)
 
-/obj/machinery/light/rogue/hearth/proc/try_cook(var/cooktime_divisor)
+/obj/machinery/light/rogue/hearth/proc/try_cook(cooktime_divisor)
 	if(initial(fueluse) > 0)
 		if(fueluse > 0)
 			fueluse = max(fueluse - 10, 0)

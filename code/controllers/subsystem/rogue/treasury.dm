@@ -509,7 +509,7 @@ SUBSYSTEM_DEF(treasury)
 		mint(burgher_pledge_fund, guild_bonus, "Guild of Arms tribute (Charter of Arms)")
 	record_round_statistic(STATS_PLEDGE_GENERATED, refill + guild_bonus)
 
-/datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
+/datum/controller/subsystem/treasury/proc/do_export(datum/roguestock/D, silent = FALSE)
 	if(D.stockpile_amount < D.importexport_amt)
 		return FALSE
 	var/amt = D.get_export_price()

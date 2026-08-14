@@ -1310,7 +1310,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/on_juice()
 
-/obj/item/proc/get_force_string(var/force)
+/obj/item/proc/get_force_string(force)
 	switch(force)
 		if(0 to 9)
 			return "Puny"
@@ -1327,7 +1327,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		else
 			return "Mighty"
 
-/obj/item/proc/get_falloff_string(var/falloff)
+/obj/item/proc/get_falloff_string(falloff)
 	switch(falloff)
 		if(0 to 0.25)
 			return "Major"

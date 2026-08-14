@@ -1169,7 +1169,7 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 		if(fexists(savefile_path))
 			fdel(savefile_path)
 		return new /savefile(savefile_path)
-	catch(var/exception/error)
+	catch(exception/error)
 		// if we failed to create a dummy once, try again; maybe someone slept somewhere they shouldn't have
 		if(from_failure) // this *is* the retry, something fucked up
 			CRASH("get_dummy_savefile failed to create a dummy savefile: '[error]'")

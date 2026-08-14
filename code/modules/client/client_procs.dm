@@ -1273,7 +1273,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		return FALSE
 	return TRUE
 
-/client/proc/commendsomeone(var/forced = FALSE)
+/client/proc/commendsomeone(forced = FALSE)
 	if(!can_commend(forced))
 		return
 	if(alert(src,"Was there a character during this round that you would like to anonymously commend?", "Commendation", "YES", "NO") != "YES")

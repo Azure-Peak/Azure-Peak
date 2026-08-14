@@ -68,7 +68,7 @@
 		qdel(src)
 		return
 
-/datum/component/fit_clothing/proc/apply_enchant(var/obj/item/I, is_fix = FALSE)
+/datum/component/fit_clothing/proc/apply_enchant(obj/item/I, is_fix = FALSE)
 	if(enchant_type == DURABILITY_ENCHANT)
 		if(!is_fix) // Obj fix already increase durability.
 			I.max_integrity += DURABILITY_INCREASE

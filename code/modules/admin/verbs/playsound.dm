@@ -196,7 +196,7 @@
 				var/list/data
 				try
 					data = json_decode(stdout)
-				catch(var/exception/e)
+				catch(exception/e)
 					to_chat(src, span_boldwarning("Youtube-dl JSON parsing FAILED:"))
 					to_chat(src, span_warning("[e]: [stdout]"))
 					return

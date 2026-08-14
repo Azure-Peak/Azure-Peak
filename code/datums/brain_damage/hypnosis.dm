@@ -15,7 +15,7 @@
 	hypnotic_phrase = phrase
 	try
 		target_phrase = new("(\\b[hypnotic_phrase]\\b)","ig")
-	catch(var/exception/e)
+	catch(exception/e)
 		stack_trace("[e] on [e.file]:[e.line]")
 		qdel(src)
 	..()

@@ -536,7 +536,7 @@
 	ispartner = TRUE
 	immolate = TRUE
 
-/datum/component/immolation/Initialize(mob/living/partner_mob, mob/living/carbon/caster_mob, var/holy_skill, var/is_astrata)
+/datum/component/immolation/Initialize(mob/living/partner_mob, mob/living/carbon/caster_mob, holy_skill, is_astrata)
 	if(!isliving(parent) || !iscarbon(partner_mob))
 		return COMPONENT_INCOMPATIBLE
 

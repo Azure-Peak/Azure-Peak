@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 
 	var/fogbeast_color
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, var/set_fogbeast_color)
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, set_fogbeast_color)
 	. = ..()
 	fogbeast_color = set_fogbeast_color
 	if(!fogbeast_color)

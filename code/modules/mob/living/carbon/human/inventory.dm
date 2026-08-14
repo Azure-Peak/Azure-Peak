@@ -540,7 +540,7 @@
 			return
 	stored.attack_hand(src) // take out thing from cloak
 
-/mob/living/carbon/human/proc/equip_scabbard(var/obj/item/thing, var/obj/item/equipped, slot_id)
+/mob/living/carbon/human/proc/equip_scabbard(obj/item/thing, obj/item/equipped, slot_id)
 	var/obj/item/use_thing = null
 
 	if(!equipped)

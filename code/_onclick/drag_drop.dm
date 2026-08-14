@@ -225,7 +225,7 @@
 	var/datum/intent/curplaying
 	var/obj/effect/spell_rune_under/spell_rune
 
-/atom/proc/should_click_on_mouse_up(var/atom/original_object)
+/atom/proc/should_click_on_mouse_up(atom/original_object)
 	return TRUE
 
 /client/MouseUp(object, location, control, params)
