@@ -1284,6 +1284,8 @@
 	)
 	var/list/stored_souls = list()
 	var/mob/living/dominator // set on dagger pickup if not on spell, for admin-intervention
+	voicecolor_override = "3F5C6D"
+	verb_say = "whispers"
 
 
 /datum/profane_soul_data
@@ -1373,7 +1375,7 @@
 	if(stored_souls.len)
 		// any dagger destruction needs to release all the souls in it
 		release_profane_souls()
-	if(dominator)
+	if(dominator && dominator.mind)
 		// inform dominator if any
 		to_chat(dominator, span_cult("I hear a faint screaming-- blood drips. My dagger has been destroyed."))
 		var/datum/antagonist/assassin/ass = dominator.mind.has_antag_datum(/datum/antagonist/assassin)
