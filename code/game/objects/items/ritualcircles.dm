@@ -1137,8 +1137,9 @@
 				to_chat(user, span_warning("This ritual requires an assassin's profane dagger to be placed upon the rune."))
 				return
 			// placeholder to prevent you from just kicking them down grabbing it & running the fuck away
-			if(pissdagger.dominator)
-				if(pissdagger.dominator.stat != DEAD)
+			if(pissdagger.dominator && !QDELETED(pissdagger.dominator))
+				var/mob/living/carbon/human/dom = pissdagger.dominator
+				if(dom.stat != DEAD)
 					to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
 					return
 
@@ -1149,10 +1150,11 @@
 				pissdagger.visible_message(span_warning("[pissdagger] is suddenly thrust up into the air! Nigh-invisible threads tear at it, beginning to bend the metal!"))
 				if(do_after(user, 10 SECONDS))
 					playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-					pissdagger.audible_message("<span style='color:#3F5C6D'>The profane dagger</span> screams, " + span_cult("<b>\"HELP US!!\"</b>"), runechat_message = TRUE)
+					pissdagger.say(span_cult("NECRA DELIVER US!!"))
 					if(do_after(user, 5 SECONDS))
 						pissdagger.visible_message(span_warning("[pissdagger] is CRUSHED and TWISTED! TERRIBLE SCREAMS sounds from within!"))
 						playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
+						pissdagger.say(span_cult("MASTER, I DON'T WANT TO GO!!"))
 						if(do_after(user, 5 SECONDS))
 							user.say("UNDERMAIDEN, SHAKE FREE THE SOULS OF THE DAMNED!") // change this to something better thanks
 							playsound(user, 'sound/misc/carriage2.ogg', 80, TRUE)
