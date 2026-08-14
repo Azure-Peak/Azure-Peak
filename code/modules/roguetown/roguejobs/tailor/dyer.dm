@@ -1,8 +1,5 @@
-var/global/list/pridelist = list(
-	"Rainbow" = "#fcfcfc"
-)
-
-var/list/used_colors
+GLOBAL_LIST_INIT(pridelist, list("Rainbow" = "#fcfcfc"))
+GLOBAL_LIST_EMPTY(used_colors)
 
 // DYE BIN
 
@@ -47,8 +44,8 @@ var/list/used_colors
 
 /obj/machinery/gear_painter/Initialize(mapload)
 	..()
-	used_colors += COLOR_MAP
-	used_colors += pridelist
+	GLOB.used_colors |= COLOR_MAP
+	GLOB.used_colors |= GLOB.pridelist
 
 /obj/machinery/gear_painter/Destroy()
 	if(inserted)
@@ -355,7 +352,7 @@ var/list/used_colors
 	var/choice_mode = alert(user, "Input Choice", "Brush Dye", "Color Wheel", "Color Preset")
 	if(choice_mode == "Color Preset")
 		var/list/presets = COLOR_MAP
-		presets += pridelist
+		presets += GLOB.pridelist
 
 		var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in presets
 		if(!picked)

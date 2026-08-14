@@ -54,7 +54,7 @@
 	smoke.set_up(radius, T)
 	smoke.start()
 
-var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (2).ogg','sound/foley/bubb (3).ogg','sound/foley/bubb (4).ogg','sound/foley/bubb (5).ogg')
+GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (2).ogg','sound/foley/bubb (3).ogg','sound/foley/bubb (4).ogg','sound/foley/bubb (5).ogg'))
 
 // admin spawnable only
 /obj/item/matthios_canister
@@ -772,7 +772,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			"The [I] yields entirely, reduced and recomposed within the vessel's thick contents..."
 		)
 		qdel(I)
-		playsound(user, pick(da_bubbles), 30, FALSE)
+		playsound(user, pick(GLOB.da_bubbles), 30, FALSE)
 		to_chat(user, span_notice(pick(absorb_flavor)))
 		update_icon()
 		check_completion(user)
@@ -908,7 +908,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			current_color = color_to_use
 
 		qdel(I)
-		playsound(user, pick(da_bubbles), 30, FALSE)
+		playsound(user, pick(GLOB.da_bubbles), 30, FALSE)
 
 		var/list/absorb_flavor = list(
 			"The mixture receives [I], its form dissolving into a calm, pale suspension...",
@@ -1302,7 +1302,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 			qdel(I)
 			current_color = "#9c3b1f"
-			playsound(user, pick(da_bubbles), 30, FALSE)
+			playsound(user, pick(GLOB.da_bubbles), 30, FALSE)
 			to_chat(user, span_notice("The mixture ferments the offering. ([current_liquid]/[needed_liquid])"))
 			update_icon()
 			check_completion(user)
