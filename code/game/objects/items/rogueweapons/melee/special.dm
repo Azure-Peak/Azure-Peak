@@ -1301,7 +1301,7 @@
 	src.remove_assassinate_traits()
 	. = ..()
 
-/// Removes the DNR & claimed by darkstar. For if something goes wrong.
+/// Removes the DNR & claimed by darkstar. CALL THIS BEFORE NUKING A SOUL_DATA.
 /datum/profane_soul_data/proc/remove_assassinate_traits()
 	if(!src.body)
 		return
