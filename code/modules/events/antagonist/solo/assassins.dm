@@ -45,9 +45,9 @@
 	maximum_antags = 2
 
 	earliest_start = 0 SECONDS
-	max_occurrences = 2
-
-	weight = 20
+	// solo assassin is kill due to various balance fuckeries and plans for the future.
+	max_occurrences = 0
+	weight = 0
 
 	typepath = /datum/round_event/antagonist/solo/assassins
 	antag_datum = /datum/antagonist/assassin
