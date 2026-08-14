@@ -84,7 +84,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 		colors_to_pick["Primary Keep Color"] = GLOB.lordprimary
 	if(GLOB.lordsecondary)
 		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
-	colors_to_pick += used_colors.Copy()
+	colors_to_pick += GLOB.used_colors.Copy()
 	var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in colors_to_pick
 	if(!picked)
 		return null
