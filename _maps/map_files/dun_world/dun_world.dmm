@@ -14578,6 +14578,11 @@
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/manor)
+"cNW" = (
+/obj/machinery/light/rogue/hearth,
+/obj/machinery/light/rogue/oven/west,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town)
 "cOb" = (
 /obj/effect/decal/cleanable/blood/gibs/body,
 /turf/open/floor/rogue/naturalstone,
@@ -76149,10 +76154,6 @@
 	pixel_x = 32;
 	pixel_y = 0
 	},
-/obj/machinery/light/rogue/campfire/fireplace{
-	pixel_x = 32;
-	pixel_y = 0
-	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "okb" = (
@@ -93606,7 +93607,6 @@
 /area/rogue/under/underdark)
 "ruI" = (
 /obj/structure/chair/bench/couchablack,
-/obj/machinery/light/rogue/campfire/fireplace,
 /obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/tavern)
@@ -112633,6 +112633,9 @@
 /area/rogue/indoors/town)
 "uWD" = (
 /obj/structure/table/wood/large_table/north_west,
+/obj/structure/roguemachine/withdraw{
+	pixel_y = -32
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "uWE" = (
@@ -119738,6 +119741,7 @@
 /obj/item/paper/scroll,
 /obj/item/storage/belt/rogue/pouch,
 /obj/item/rope/chain,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
 "wpj" = (
@@ -129772,6 +129776,7 @@
 /obj/item/storage/belt/rogue/pouch,
 /obj/item/natural/feather,
 /obj/item/rope/chain,
+/obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/tavern)
 "yiI" = (
@@ -307596,7 +307601,7 @@ lGG
 sNZ
 fzO
 eKH
-nms
+fCc
 ipZ
 lKo
 wuY
@@ -397693,7 +397698,7 @@ afK
 pxa
 ppG
 gVe
-nms
+cNW
 csd
 afK
 kSK
