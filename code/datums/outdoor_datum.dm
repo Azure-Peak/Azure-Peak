@@ -16,7 +16,7 @@ Sunlight System
 					  Emits no light, but is fully white to display the overlay color
 				- SKY_VISIBLE_BORDER  (2)
 					- Turfs that with no opaque turfs above it (no roof, glass roof, etc), which neighbour at least one SKY_BLOCKED tile.
-				     Emits light to SKY_BLOCKED tiles, and fully white to display the overlay color
+					 Emits light to SKY_BLOCKED tiles, and fully white to display the overlay color
 
 */
 
@@ -32,7 +32,7 @@ Sunlight System
 
 	/* misc vars */
 	var/state 					 = SKY_VISIBLE	// If we can see the see the sky, are blocked, or we have a blocked neighbour (SKY_BLOCKED/VISIBLE/VISIBLE_BORDER)
-	var/weatherproof			 = FALSE        // If we have a weather overlay
+	var/weatherproof			 = FALSE		// If we have a weather overlay
 	var/turf/source_turf
 
 	var/mutable_appearance/sunlight_overlay
@@ -89,7 +89,7 @@ Sunlight System
 
 /atom/movable/outdoor_effect/proc/calc_sunlight_spread()
 
-	var/list/turf/turfs                    = list()
+	var/list/turf/turfs					= list()
 	var/datum/lighting_corner/C
 	var/turf/T
 	var/list/tempMasterList = list() /* to mimimize double ups */

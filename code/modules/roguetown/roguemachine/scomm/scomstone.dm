@@ -1,4 +1,4 @@
-//SCOMSTONE                 SCOMSTONE
+//SCOMSTONE				 SCOMSTONE
 
 /obj/item/scomstone
 	name = "scomstone"
@@ -17,7 +17,7 @@
 	muteinmouth = TRUE
 	var/cooldown = 60 SECONDS
 	var/on_cooldown = FALSE
-	var/cooldown_end_time 
+	var/cooldown_end_time
 	var/listening = TRUE
 	var/speaking = TRUE
 	var/messagereceivedsound = 'sound/misc/scom.ogg'

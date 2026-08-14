@@ -35,7 +35,7 @@
 #define TELEPATHY	/datum/mutation/human/telepathy
 #define FIREBREATH	/datum/mutation/human/firebreath
 #define VOID		/datum/mutation/human/void
-#define STRONG    	/datum/mutation/human/strong
+#define STRONG		/datum/mutation/human/strong
 #define FIRESWEAT	/datum/mutation/human/fire
 #define THERMAL		/datum/mutation/human/thermal
 #define PARANOIA	/datum/mutation/human/paranoia
@@ -119,7 +119,7 @@
 #define DIGITIGRADE		10
 #define NO_UNDERWEAR	11
 #define NOSTOMACH		12
-#define NO_DNA_COPY     13
+#define NO_DNA_COPY	 13
 #define DRINKSBLOOD		14
 /// Use this if you want to change the race's color without the player being able to pick their own color. AKA special color shifting
 #define DYNCOLORS		15

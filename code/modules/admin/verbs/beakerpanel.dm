@@ -122,10 +122,10 @@
 					$('#spawn-grenade').click(function() {
 						var containers = $('div.container-control').map(function() {
 					  	  var type = $(this).children('select\[name=containertype\]').select2("data")\[0\].id;
-					      var reagents = $(this).find("li.reagent").map(function() {
-					        return { "reagent": $(this).data("type"), "volume": $(this).find('input').val()};
-					        }).get();
-					     return {"container": type, "reagents": reagents };
+						  var reagents = $(this).find("li.reagent").map(function() {
+							return { "reagent": $(this).data("type"), "volume": $(this).find('input').val()};
+							}).get();
+						 return {"container": type, "reagents": reagents };
 					  }).get();
 						var grenadeType = $('#grenade-type').val()
 						var grenadeData = {};
@@ -148,7 +148,7 @@
 					  var type = $(container).children('select\[name=containertype\]').select2("data")\[0\].id;
 					  var reagents = $(container).find("li.reagent").map(function() {
 					  	return { "reagent": $(this).data("type"), "volume": $(this).find('input').val()};
-					    }).get();
+						}).get();
 					  sendByond({
 							"_src_": "holder",
 							"admin_token": "[RawHrefToken()]",
@@ -169,8 +169,8 @@
 					  var ret = \[\];
 					  var reagents = $(container).find("li.reagent").each(function() {
 					  	var reagentname = $(this).contents().filter(function(){ return this.nodeType == 3; })\[0\].nodeValue.toLowerCase().replace(/\\W/g, '');
-					    ret.push(reagentname+"="+$(this).find('input').val());
-					    });
+						ret.push(reagentname+"="+$(this).find('input').val());
+						});
 					  prompt("Copy this value", ret.join(';'));
 
 					});
@@ -183,8 +183,8 @@
 
 					  $(parts).each(function() {
 					  	var reagentArr = this.split('=');
-					    var thisReagent = $(reagents).filter(function() { return this.text.toLowerCase().replace(/\\W/g, '') == reagentArr\[0\] })\[0\];
-					    addReagent(ul, thisReagent.id, thisReagent.text, reagentArr\[1\]);
+						var thisReagent = $(reagents).filter(function() { return this.text.toLowerCase().replace(/\\W/g, '') == reagentArr\[0\] })\[0\];
+						addReagent(ul, thisReagent.id, thisReagent.text, reagentArr\[1\]);
 					  });
 
 					});

@@ -110,8 +110,8 @@
 /obj/item/reagent_containers/food/snacks/tallow/green
 	name = "greentallow"
 	desc = "Fatty tissue is harvested from slain creachurs and rendered of its membraneous sinew to produce a hard shelf-stable \
-    grease. To satisfy the bean-counters of Azuria, it has been infused with ground tea leaves, creating a sickly green hue \
-    synonymous with coin and corruption. It's the smell of a balanced ledger and dried tea."
+	grease. To satisfy the bean-counters of Azuria, it has been infused with ground tea leaves, creating a sickly green hue \
+	synonymous with coin and corruption. It's the smell of a balanced ledger and dried tea."
 	icon_state = "greentallow"
 	tastes = list("grease" = 1, "oil" = 1, "regret" = 1, "bitterness" = 1,)
 	wax_pigment = "green"
@@ -128,7 +128,7 @@
 					success = TRUE
 					IND.fullreset(user)
 				else
-					return	
+					return
 				if(success)
 					changefood(/obj/item/reagent_containers/food/snacks/tallow/red, user)
 	if(istype(I, /obj/item/ash))

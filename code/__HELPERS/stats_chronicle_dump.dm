@@ -145,7 +145,7 @@
 	for(var/realm_id in SSmerchant_trade.hails_by_realm)
 		total_hails += SSmerchant_trade.hails_by_realm[realm_id]
 	out += chronicle_kv("Total successful hails", "[total_hails]")
-	out += "  Realm           | Hails | Avg dock (m) | Favor earned\n"
+	out += "  Realm		   | Hails | Avg dock (m) | Favor earned\n"
 	for(var/realm_id in sorted_ids)
 		var/datum/foreign_realm/realm = SSmerchant_trade.realms[realm_id]
 		var/realm_name = realm ? realm.name : realm_id
@@ -191,14 +191,14 @@
 		out += "  (SSmerchant_trade not initialized)\n\n"
 		return jointext(out, "")
 	out += chronicle_section_header("Navigator Buckets — Real Market")
-	out += "  Bucket               | Sold   | Ship Relieved\n"
+	out += "  Bucket			   | Sold   | Ship Relieved\n"
 	for(var/bucket in SSmerchant_trade.pool_capacity)
 		var/sold = SSmerchant_trade.lifetime_pool_credited[bucket] || 0
 		var/relieved = SSmerchant_trade.lifetime_pool_relieved[bucket] || 0
 		out += "  [chronicle_pad_right(bucket, 20)] | [chronicle_pad_left("[sold]", 6)] | [relieved]\n"
 	out += "\n"
 	out += chronicle_section_header("Navigator Buckets — Black Market")
-	out += "  Bucket               | Sold\n"
+	out += "  Bucket			   | Sold\n"
 	for(var/bucket in SSmerchant_trade.bm_pool_capacity)
 		var/sold = SSmerchant_trade.lifetime_bm_pool_credited[bucket] || 0
 		out += "  [chronicle_pad_right(bucket, 20)] | [sold]\n"

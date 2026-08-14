@@ -71,7 +71,7 @@
 		. = ..()
 		create_barriers()
 
-    // Function to create barriers around the bell
+	// Function to create barriers around the bell
 	/obj/structure/stationary_bell/proc/create_barriers()
 		for(var/direction in GLOB.cardinals)
 			var/turf/adjacent_turf = get_step(src, direction)

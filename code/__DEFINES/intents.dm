@@ -43,7 +43,7 @@
 #define SPEAR_BASH			/datum/intent/spear/bash
 #define SPEAR_CUT			/datum/intent/spear/cut
 #define SPEAR_CUT_1H		/datum/intent/spear/cut/oneh
-#define SPEAR_CAST          /datum/intent/spear/cast
+#define SPEAR_CAST		  /datum/intent/spear/cast
 #define PARTIZAN_REND		/datum/intent/rend/reach/partizan
 #define SHORT_SPEAR_THRUST /datum/intent/spear/thrust/short
 #define SHORT_SPEAR_CUT /datum/intent/spear/cut/short

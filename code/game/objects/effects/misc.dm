@@ -98,6 +98,6 @@
 		return INITIALIZE_HINT_QDEL
 
 /obj/effect/dummy/lighting_obj/moblight/Destroy()
-    set_light_on(FALSE)
-    QDEL_NULL(light)
-    return ..()
+	set_light_on(FALSE)
+	QDEL_NULL(light)
+	return ..()

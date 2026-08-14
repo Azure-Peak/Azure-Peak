@@ -14,10 +14,10 @@
 //Misc mob defines
 
 //for vision cone
-#define FOV_DEFAULT 	           	(1<<0)
-#define FOV_RIGHT 	            	(1<<1)
-#define FOV_LEFT 	            	(1<<2)
-#define FOV_BEHIND 	 	          	(1<<3) //180
+#define FOV_DEFAULT 			   	(1<<0)
+#define FOV_RIGHT 					(1<<1)
+#define FOV_LEFT 					(1<<2)
+#define FOV_BEHIND 	 			  	(1<<3) //180
 
 //Ready states at roundstart for mob/dead/new_player
 #define PLAYER_NOT_READY 0
@@ -42,7 +42,7 @@
 #define BLOOD_VOLUME_BAD 224
 #define BLOOD_VOLUME_SURVIVE 122
 
-/// Blood pool regeneration in non-vampiric living mobs per SSmobs tick. 
+/// Blood pool regeneration in non-vampiric living mobs per SSmobs tick.
 #define BLOODPOL_REGEN 2
 
 //Sizes of mobs, used by mob/living/var/mob_size
@@ -124,10 +124,10 @@
 #define BRAIN_TRAUMA_SPECIAL /datum/brain_trauma/special
 #define BRAIN_TRAUMA_MAGIC /datum/brain_trauma/magic
 
-#define TRAUMA_RESILIENCE_BASIC 1      //Curable with chems
-#define TRAUMA_RESILIENCE_SURGERY 2    //Curable with brain surgery
+#define TRAUMA_RESILIENCE_BASIC 1	  //Curable with chems
+#define TRAUMA_RESILIENCE_SURGERY 2	//Curable with brain surgery
 #define TRAUMA_RESILIENCE_LOBOTOMY 3   //Curable with lobotomy
-#define TRAUMA_RESILIENCE_MAGIC 4      //Curable only with magic
+#define TRAUMA_RESILIENCE_MAGIC 4	  //Curable only with magic
 #define TRAUMA_RESILIENCE_ABSOLUTE 5   //This is here to stay
 
 //Limit of traumas for each resilience tier
@@ -255,7 +255,7 @@
 #define NPC_AI_RETREAT	3
 #define NPC_AI_HUNT		4
 #define NPC_AI_FLEE		5
-#define NPC_AI_SLEEP    6
+#define NPC_AI_SLEEP	6
 
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
@@ -384,11 +384,11 @@
 //Pride ruin mirror
 #define MIRROR_PRIDE  (1<<2)
 //Race swap wizard event
-#define RACE_SWAP     (1<<3)
+#define RACE_SWAP	 (1<<3)
 //xenobio black crossbreed
 #define SLIME_EXTRACT (1<<5)
 //Wabbacjack staff projectiles
-#define WABBAJACK     (1<<6)
+#define WABBAJACK	 (1<<6)
 
 #define SLEEP_CHECK_DEATH(X) sleep(X); if(QDELETED(src) || stat == DEAD) return;
 
@@ -449,8 +449,8 @@
 #define SKIN_COLOR_MORNING "dbaB8f"
 #define SKIN_COLOR_NOON "be8f73"
 #define SKIN_COLOR_EVENING "a57962"
-#define SKIN_COLOR_SUNSET "7B5752"  
-#define SKIN_COLOR_DUSK "564044" 
+#define SKIN_COLOR_SUNSET "7B5752"
+#define SKIN_COLOR_DUSK "564044"
 #define SKIN_COLOR_GILDED "e1b772"
 #define SKIN_COLOR_SELFAMBER "c9aa79"
 #define SKIN_COLOR_SELFTOPAZ "b19d68"

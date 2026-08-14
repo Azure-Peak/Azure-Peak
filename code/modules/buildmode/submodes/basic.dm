@@ -3,8 +3,8 @@
 
 /datum/buildmode_mode/basic/show_help(client/c)
 	to_chat(c, "<span class='notice'>***********************************************************</span>")
-	to_chat(c, "<span class='notice'>Left Mouse Button        = Construct / Upgrade</span>")
-	to_chat(c, "<span class='notice'>Right Mouse Button       = Deconstruct / Delete / Downgrade</span>")
+	to_chat(c, "<span class='notice'>Left Mouse Button		= Construct / Upgrade</span>")
+	to_chat(c, "<span class='notice'>Right Mouse Button	   = Deconstruct / Delete / Downgrade</span>")
 	to_chat(c, "<span class='notice'>Left Mouse Button + ctrl = R-Window</span>")
 	to_chat(c, "<span class='notice'>Left Mouse Button + alt  = Airlock</span>")
 	to_chat(c, "")

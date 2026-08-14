@@ -11,8 +11,8 @@
 	cooked_smell = /datum/pollutant/food/fried_crab
 
 /obj/item/reagent_containers/food/snacks/fish/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Chopping fish on a table with a knife, cleaver, or dagger turns it into mince. Mince can be used for advanced recipes, or used to make 'more out of less' in a stew's broth.")
+	. = ..()
+	. += span_info("Chopping fish on a table with a knife, cleaver, or dagger turns it into mince. Mince can be used for advanced recipes, or used to make 'more out of less' in a stew's broth.")
 
 /obj/item/reagent_containers/food/snacks/fish/clam
 	name = "clam"

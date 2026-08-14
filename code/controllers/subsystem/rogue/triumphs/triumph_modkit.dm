@@ -871,31 +871,31 @@
 	icon_state = "legacyibreastplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy
-    name = "valorian cuirass"
-    desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
-    icon_state = "legacycuirass"
-    item_state = "legacycuirass"
+	name = "valorian cuirass"
+	desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
+	icon_state = "legacycuirass"
+	item_state = "legacycuirass"
 
 /obj/item/clothing/suit/roguetown/armor/plate/legacy
-    name = "valorian half-plate"
-    desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time \
+	name = "valorian half-plate"
+	desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time \
 	you had ever thought without its presence?"
-    icon_state = "legacyhalfplate"
-    item_state = "legacyhalfplate"
+	icon_state = "legacyhalfplate"
+	item_state = "legacyhalfplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/legacy
-    name = "valorian plate armor"
-    desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes \
+	name = "valorian plate armor"
+	desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes \
 	crashing down, will you deliver its people from evil; or will you be the one to string up 'pon the pyre?"
-    icon_state = "legacyplate"
-    item_state = "legacyplate"
+	icon_state = "legacyplate"
+	item_state = "legacyplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
-    name = "valorian fluted plate armor"
-    desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly \
+	name = "valorian fluted plate armor"
+	desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly \
 	fool; the curtain call is a mere heartbeat away. Are you ready for one last dance, before midnight calls?"
-    icon_state = "legacyornateplate"
-    item_state = "legacyornateplate"
+	icon_state = "legacyornateplate"
+	item_state = "legacyornateplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy
 	name = "valorian iron breastplate"
@@ -950,32 +950,32 @@
 	icon_state = "skullcapold"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/triumph_slim
-    icon_state = "ornatecuirassslim"
-    item_state = "ornatecuirassslim"
+	icon_state = "ornatecuirassslim"
+	item_state = "ornatecuirassslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/triumph_slim
-    icon_state = "ornatechestplateslim"
-    item_state = "ornatechestplateslim"
+	icon_state = "ornatechestplateslim"
+	item_state = "ornatechestplateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/triumph_slim
-    icon_state = "cuirassslim"
-    item_state = "cuirassslim"
+	icon_state = "cuirassslim"
+	item_state = "cuirassslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
-    icon_state = "halfplateslim"
-    item_state = "halfplateslim"
+	icon_state = "halfplateslim"
+	item_state = "halfplateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim
-    icon_state = "plateslim"
-    item_state = "plateslim"
+	icon_state = "plateslim"
+	item_state = "plateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/triumph_slim
-    icon_state = "ornatehalfplateslim"
-    item_state = "ornatehalfplateslim"
+	icon_state = "ornatehalfplateslim"
+	item_state = "ornatehalfplateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim
-    icon_state = "ornateplateslim"
-    item_state = "ornateplateslim"
+	icon_state = "ornateplateslim"
+	item_state = "ornateplateslim"
 
 /obj/item/clothing/cloak/rangercloak
 	name = "ranger cloak"

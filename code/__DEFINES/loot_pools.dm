@@ -36,12 +36,12 @@
 #define LOOT_BUDGET_UNDERGROVE			600
 #define LOOT_BUDGET_AZURE_COAST			200
 #define LOOT_BUDGET_BANDIT_CAMP			300
-#define LOOT_BUDGET_MINOTAUR_CAVE       200
+#define LOOT_BUDGET_MINOTAUR_CAVE	   200
 #define LOOT_BUDGET_TARICHEA			200
-#define LOOT_BUDGET_TARICHEA_MANOR      750
-#define LOOT_BUDGET_ARAIGNEE 		    300
-#define LOOT_BUDGET_BOGMANFORT          1200
-#define LOOT_BUDGET_SKELETONFORT        800
+#define LOOT_BUDGET_TARICHEA_MANOR	  750
+#define LOOT_BUDGET_ARAIGNEE 			300
+#define LOOT_BUDGET_BOGMANFORT		  1200
+#define LOOT_BUDGET_SKELETONFORT		800
 
 // ---- Spawner Loot Values (mammons) ----
 // Expected mammon value of what each spawner category rolls.

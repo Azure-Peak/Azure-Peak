@@ -78,7 +78,7 @@
 				add_filter("druqks_color", 2, color_matrix_filter(list(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1, 0,0,0,0)))
 			if(L.has_status_effect(/datum/status_effect/debuff/vampbite))
 				add_filter("druqks_color", 2, color_matrix_filter(list(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1, 0,0,0,0)))
-				
+
 /atom/movable/screen/plane_master/lighting
 	name = "lighting plane master"
 	plane = LIGHTING_PLANE
@@ -245,8 +245,8 @@
 /atom/movable/screen/plane_master/weather_effect/Destroy()
 	. = ..()
 	SSoutdoor_effects.weather_planes_need_vis -= src
-/* Our sunlight planemaster mashes all of our sunlight overlays together into one             */
-/* The fullscreen then grabs the plane_master with a layer filter, and colours it             */
+/* Our sunlight planemaster mashes all of our sunlight overlays together into one			 */
+/* The fullscreen then grabs the plane_master with a layer filter, and colours it			 */
 /* We do this so the sunlight fullscreen acts as a big lighting object, in our lighting plane */
 /atom/movable/screen/fullscreen/lighting_backdrop/sunlight
 	icon_state  = ""

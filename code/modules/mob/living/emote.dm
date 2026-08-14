@@ -633,42 +633,42 @@
 			SEND_SIGNAL(user, COMSIG_MOB_HUGGED, target)
 
 /datum/emote/living/holdbreath
-    key = "hold"
-    key_third_person = "holds"
-    message = null
+	key = "hold"
+	key_third_person = "holds"
+	message = null
 
 /mob/living/carbon/human/verb/emote_hold()
-    set name = "Hold Breath"
-    set category = "Emotes"
-    emote("hold", intentional = TRUE)
+	set name = "Hold Breath"
+	set category = "Emotes"
+	emote("hold", intentional = TRUE)
 
 /datum/emote/living/holdbreath/can_run_emote(mob/living/user, status_check = TRUE, intentional)
-    . = ..()
-    if(!.)
-        return FALSE
-    return TRUE
+	. = ..()
+	if(!.)
+		return FALSE
+	return TRUE
 
 /datum/emote/living/holdbreath/run_emote(mob/user, params, type_override, intentional)
-    if(!ishuman(user))
-        return FALSE
+	if(!ishuman(user))
+		return FALSE
 
-    var/mob/living/carbon/human/H = user
-    var/is_holding = HAS_TRAIT(H, TRAIT_HOLDBREATH)
+	var/mob/living/carbon/human/H = user
+	var/is_holding = HAS_TRAIT(H, TRAIT_HOLDBREATH)
 
-    if(is_holding)
-        REMOVE_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
-        H.visible_message(
-            span_notice("[H] stops holding [H.p_their()] breath."),
-            span_notice("You stop holding your breath.")
-        )
-    else
-        ADD_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
-        H.visible_message(
-            span_notice("[H] begins to hold [H.p_their()] breath."),
-            span_notice("You begin to hold your breath.")
-        )
+	if(is_holding)
+		REMOVE_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
+		H.visible_message(
+			span_notice("[H] stops holding [H.p_their()] breath."),
+			span_notice("You stop holding your breath.")
+		)
+	else
+		ADD_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
+		H.visible_message(
+			span_notice("[H] begins to hold [H.p_their()] breath."),
+			span_notice("You begin to hold your breath.")
+		)
 
-    return TRUE
+	return TRUE
 
 
 /datum/emote/living/slap

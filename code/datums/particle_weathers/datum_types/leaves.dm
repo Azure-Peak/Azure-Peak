@@ -3,12 +3,12 @@
 	spin		= 6
 	position 	= generator("box", list(-500,-256,0), list(400,500,0))
 	gravity 	= list(0, -1, 0.1)
-	friction    = 0.3
+	friction	= 0.3
 	transform 	= null
 	//Weather effects, max values
-	maxSpawning            = 25
-	minSpawning            = 3
-	wind                   = 2
+	maxSpawning			= 25
+	minSpawning			= 3
+	wind				   = 2
 
 
 /particles/weather/leaves/sakura
@@ -18,9 +18,9 @@
 	friction 	= 0.5
 	transform 	= null
 	//Weather effects, max values
-	maxSpawning            = 30
-	minSpawning            = 5
-	wind                   = 1
+	maxSpawning			= 30
+	minSpawning			= 5
+	wind				   = 1
 
 /datum/particle_weather/leaves_gentle
 	name = "Rain"

@@ -16,7 +16,7 @@
 )
   . = locate(EMBEDID)
   if (!.)
-    return new /datum/embedding_behavior(\
+	return new /datum/embedding_behavior(\
 		embed_chance,\
 		embedded_fall_chance,\
 		embedded_pain_chance,\
@@ -74,14 +74,14 @@
   tag = EMBEDID
 
 /datum/embedding_behavior/proc/setRating(
-	embed_chance, 
-	embedded_fall_chance, 
-	embedded_pain_chance, 
-	embedded_pain_multiplier, 
-	embedded_fall_pain_multiplier, 
-	embedded_impact_pain_multiplier, 
-	embedded_unsafe_removal_pain_multiplier, 
-	embedded_unsafe_removal_time, 
+	embed_chance,
+	embedded_fall_chance,
+	embedded_pain_chance,
+	embedded_pain_multiplier,
+	embedded_fall_pain_multiplier,
+	embedded_impact_pain_multiplier,
+	embedded_unsafe_removal_pain_multiplier,
+	embedded_unsafe_removal_time,
 	embedded_ignore_throwspeed_threshold,
 	retract_limbs,
 	clamp_limbs,

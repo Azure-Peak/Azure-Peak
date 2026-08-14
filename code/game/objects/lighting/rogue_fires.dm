@@ -742,7 +742,7 @@
 			return
 		var/obj/item/bodypart/affecting = H.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
 		to_chat(H, span_warning("HOT! I burned myself!"))
-		if(affecting && affecting.receive_damage( 0, 5 ))        // 5 burn damage
+		if(affecting && affecting.receive_damage( 0, 5 ))		// 5 burn damage
 			H.update_damage_overlays()
 		var/obj/item/mobilestove/new_mobilestove = new /obj/item/mobilestove(get_turf(src))
 		new_mobilestove.color = src.color

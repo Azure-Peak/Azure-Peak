@@ -287,12 +287,12 @@ SUBSYSTEM_DEF(city_assembly)
 		who = departing_job ? "[departing_name], the [departing_job]" : departing_name
 	var/reason_tag = null
 	switch(reason)
-		if("resigned")     reason_tag = "has resigned the seat"
-		if("died")         reason_tag = "has died in office"
+		if("resigned")	 reason_tag = "has resigned the seat"
+		if("died")		 reason_tag = "has died in office"
 		if("disconnected") reason_tag = "has left the Realm"
-		if("admin")        reason_tag = "has been removed by admin fiat"
-		if("recalled")     reason_tag = "has been recalled by the Assembly"
-		if("censured")     reason_tag = "has been censured by the Assembly"
+		if("admin")		reason_tag = "has been removed by admin fiat"
+		if("recalled")	 reason_tag = "has been recalled by the Assembly"
+		if("censured")	 reason_tag = "has been censured by the Assembly"
 	var/prefix
 	if(who && reason_tag)
 		prefix = "[who] [reason_tag]. "

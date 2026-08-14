@@ -41,7 +41,7 @@ All foods are distributed among various categories. Use common sense.
 	var/bitesize = 3
 	var/bitecount = 0
 	var/trash = null
-	var/slice_path    // for sliceable food. path of the item resulting from the slicing
+	var/slice_path	// for sliceable food. path of the item resulting from the slicing
 	var/slice_bclass = BCLASS_CUT
 	var/slices_num
 	var/slice_name
@@ -499,10 +499,10 @@ All foods are distributed among various categories. Use common sense.
 	var/list/parts = list()
 	switch(faretype)
 		if(FARE_IMPOVERISHED) parts += "Quality: Impoverished"
-		if(FARE_POOR)         parts += "Quality: Poor"
-		if(FARE_NEUTRAL)      parts += "Quality: Neutral"
-		if(FARE_FINE)         parts += "Quality: Fine"
-		if(FARE_LAVISH)       parts += "Quality: Lavish"
+		if(FARE_POOR)		 parts += "Quality: Poor"
+		if(FARE_NEUTRAL)	  parts += "Quality: Neutral"
+		if(FARE_FINE)		 parts += "Quality: Fine"
+		if(FARE_LAVISH)	   parts += "Quality: Lavish"
 	parts += "Nutrition: [get_nutrition_to_text()]"
 	if(!portable)
 		parts += "Table: Required (For Nobles)"
@@ -511,7 +511,7 @@ All foods are distributed among various categories. Use common sense.
 	else
 		var/rot_label
 		switch(initial(rotprocess))
-			if(0 to SHELFLIFE_TINY)               rot_label = "Rot: Rots quickly"
+			if(0 to SHELFLIFE_TINY)			   rot_label = "Rot: Rots quickly"
 			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "Rot: Lasts about half a dae"
 			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "Rot: Lasts a dae"
 			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "Rot: Lasts ~a dae and a half"
@@ -519,9 +519,9 @@ All foods are distributed among various categories. Use common sense.
 			else rot_label = "Rot: long shelf life"
 		switch(-1 * warming / initial(rotprocess))
 			if(-INFINITY to 0.25) rot_label += " - very fresh"
-			if(0.25 to 0.5)       rot_label += " - fairly fresh"
-			if(0.5 to 0.75)       rot_label += " - going stale"
-			if(0.75 to 1)         rot_label += " - about to rot"
+			if(0.25 to 0.5)	   rot_label += " - fairly fresh"
+			if(0.5 to 0.75)	   rot_label += " - going stale"
+			if(0.75 to 1)		 rot_label += " - about to rot"
 		parts += rot_label
 	switch(eat_effect)
 		if(/datum/status_effect/buff/snackbuff, /datum/status_effect/buff/mealbuff)

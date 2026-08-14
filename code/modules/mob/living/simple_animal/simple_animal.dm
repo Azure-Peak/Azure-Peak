@@ -752,21 +752,21 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	head_butcher = null
 
 /mob/living/proc/butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)
-    var/list/parts = list()
-    if(botch_count)
-        parts += "[botch_count] botched ([botch_chance]%)"
-    if(normal_count)
-        parts += "[normal_count] normal"
-    if(perfect_count)
-        parts += "[perfect_count] perfect ([perfect_chance]%)"
+	var/list/parts = list()
+	if(botch_count)
+		parts += "[botch_count] botched ([botch_chance]%)"
+	if(normal_count)
+		parts += "[normal_count] normal"
+	if(perfect_count)
+		parts += "[perfect_count] perfect ([perfect_chance]%)"
 
-    var/msg = ""
-    for(var/i = 1, i <= length(parts), i++)
-        msg += parts[i]
-        if(i < length(parts))
-            msg += ", "
+	var/msg = ""
+	for(var/i = 1, i <= length(parts), i++)
+		msg += parts[i]
+		if(i < length(parts))
+			msg += ", "
 
-    return msg
+	return msg
 
 /mob/living/simple_animal/spawn_dust(just_ash = FALSE)
 	if(just_ash || !remains_type)
@@ -1268,18 +1268,18 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		toggle_ai(initial(AIStatus))
 
 /mob/living/simple_animal/Move(NewLoc, Dir, step_x, step_y)
-    if(binded)
-        return FALSE
-    var/oldloc = loc
-    . = ..()
-    if(. && loc != oldloc)
-        if(client)
-            // Player
-            set_glide_size(DELAY_TO_GLIDE_SIZE(world.tick_lag))
-        else
-            // AI
-            set_glide_size(DELAY_TO_GLIDE_SIZE(move_to_delay))
-    return .
+	if(binded)
+		return FALSE
+	var/oldloc = loc
+	. = ..()
+	if(. && loc != oldloc)
+		if(client)
+			// Player
+			set_glide_size(DELAY_TO_GLIDE_SIZE(world.tick_lag))
+		else
+			// AI
+			set_glide_size(DELAY_TO_GLIDE_SIZE(move_to_delay))
+	return .
 
 /mob/living/simple_animal/proc/eat_plants()
 

@@ -529,46 +529,46 @@
 	icon = 'icons/turf/walls/blue_mossy.dmi'
 
 /turf/closed/wall/mineral/rogue/stone/red_moss
-    icon = 'icons/turf/walls/red_mossy.dmi'
+	icon = 'icons/turf/walls/red_mossy.dmi'
 
 /turf/closed/wall/mineral/rogue/stone/red_moss
-    icon = 'icons/turf/walls/red_mossy.dmi'
+	icon = 'icons/turf/walls/red_mossy.dmi'
 /turf/closed/wall/mineral/rogue/decostone/mossy
-    name = "decorated mossy stone wall"
-    desc = "There was much effort put into this wall a long time ago."
-    icon = 'icons/turf/Rougewall_mossy.dmi'
-    icon_state = "decostone-b-green"
-    climbdiff = 4
+	name = "decorated mossy stone wall"
+	desc = "There was much effort put into this wall a long time ago."
+	icon = 'icons/turf/Rougewall_mossy.dmi'
+	icon_state = "decostone-b-green"
+	climbdiff = 4
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/long
-    icon_state = "decostone-l-green"
+	icon_state = "decostone-l-green"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/end
-    icon_state = "decostone-e-green"
+	icon_state = "decostone-e-green"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/cand
-    icon_state = "decostone-cand-green"
+	icon_state = "decostone-cand-green"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/blue
-    icon_state = "decostone-b-blue"
+	icon_state = "decostone-b-blue"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/blue/long
-    icon_state = "decostone-l-blue"
+	icon_state = "decostone-l-blue"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/blue/end
-    icon_state = "decostone-e-blue"
+	icon_state = "decostone-e-blue"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/blue/cand
-    icon_state = "decostone-cand-blue"
+	icon_state = "decostone-cand-blue"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/red
-    icon_state = "decostone-b-red"
+	icon_state = "decostone-b-red"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/long
-    icon_state = "decostone-l-red"
+	icon_state = "decostone-l-red"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/end
-    icon_state = "decostone-e-red"
+	icon_state = "decostone-e-red"
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/cand
-    icon_state = "decostone-cand-red"
+	icon_state = "decostone-cand-red"

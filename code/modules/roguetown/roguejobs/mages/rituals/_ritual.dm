@@ -170,8 +170,8 @@ GLOBAL_LIST_INIT(familiarbindingrituallist, generate_familiarbinding_rituallist(
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
 		  <div>
-		    <h1>[name]</h1>
-		    <div>
+			<h1>[name]</h1>
+			<div>
 			  [desc ? "<div class='recipe-desc'>[desc]</div>" : ""]
 			  <h2>Complexity Tier: [tier] </h2>
 			  <br>

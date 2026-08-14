@@ -48,7 +48,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 //	.................   Frosted cake   .................
-//	.................        Raw       .................
+//	.................		Raw	   .................
 /obj/item/reagent_containers/food/snacks/rogue/frostedcakeuncooked
 	name = "frosted cake base"
 	desc = "With this sweet frosted thing, you shall make them sing and dance."
@@ -274,7 +274,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 //	..................   Carrot cake   ..................
-//         This could've been a berry cake too.
+//		 This could've been a berry cake too.
 /obj/item/reagent_containers/food/snacks/rogue/carrotcake
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_PASTRY
@@ -695,7 +695,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 //	..................   Honey cake   ..................
-//	..................           Raw            ..................
+//	..................		   Raw			..................
 /obj/item/reagent_containers/food/snacks/rogue/hcakeuncooked
 	name = "unbaked cake"
 	icon = 'modular/Neu_Food/icons/raw/raw_cakes.dmi'
@@ -750,7 +750,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 //	..................   Cheesecake   ..................
-//	..................      Raw       ..................
+//	..................	  Raw	   ..................
 /obj/item/reagent_containers/food/snacks/rogue/ccakeuncooked
 	name = "unbaked cake of cheese"
 	icon = 'modular/Neu_Food/icons/raw/raw_cakes.dmi'

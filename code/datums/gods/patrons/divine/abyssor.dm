@@ -68,12 +68,12 @@
 	return FALSE
 
 /datum/patron/divine/abyssor/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("A mist of salt-scented vapour settles on [target]!")
 	*message_self = span_notice("I'm invigorated by healing vapours!")

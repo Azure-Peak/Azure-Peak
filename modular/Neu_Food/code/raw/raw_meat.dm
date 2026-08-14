@@ -45,9 +45,9 @@
 	slice_bclass = BCLASS_CHOP
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Chopping raw meat on a table with a knife, cleaver, or dagger turns it into mince. Mince can be used for advanced recipes, or used to make 'more out of less' in a stew's broth.")
-    . += span_info("Left-clicking a fire while holding a knife, dagger, or stake in your off-hand allows you to roast raw meat. Roasting meat is quicker than cooking it and can be done without proper cutlery, but has a higher chance of failure.")
+	. = ..()
+	. += span_info("Chopping raw meat on a table with a knife, cleaver, or dagger turns it into mince. Mince can be used for advanced recipes, or used to make 'more out of less' in a stew's broth.")
+	. += span_info("Left-clicking a fire while holding a knife, dagger, or stake in your off-hand allows you to roast raw meat. Roasting meat is quicker than cooking it and can be done without proper cutlery, but has a higher chance of failure.")
 
 /* ............. Pork (Fatty Sprite) ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty //pork
@@ -206,7 +206,7 @@
 	ingredient_size = 1
 	cooked_smell = /datum/pollutant/food/cooked_fish
 
-/* .........   Shellfish    ................. */
+/* .........   Shellfish	................. */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_SEAFOOD
@@ -301,7 +301,7 @@
 	slices_num = 1
 	ingredient_size = 1
 
-/* .........   Shellfish    ................. */
+/* .........   Shellfish	................. */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_SEAFOOD

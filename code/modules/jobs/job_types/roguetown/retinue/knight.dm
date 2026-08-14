@@ -564,9 +564,9 @@
 /datum/advclass/knight/knightchampion
 	name = "Knight Banneret"
 	tutorial = "Wrought through warfare, or nepotism. The crowned apex of chivalry and ability, \
-    you are the prime bodyguard of the ducal family. \
-    You are charged with protecting both the ruler and their heirs. If battle comes to the city, your arms and armor will decide \
-    whether Azure Peak continues a benevolent reign or falls to the dark powers beyond these comforting walls..."
+	you are the prime bodyguard of the ducal family. \
+	You are charged with protecting both the ruler and their heirs. If battle comes to the city, your arms and armor will decide \
+	whether Azure Peak continues a benevolent reign or falls to the dark powers beyond these comforting walls..."
 	maximum_possible_slots = 1
 
 	category_tags = list(CTAG_ROYALGUARD)

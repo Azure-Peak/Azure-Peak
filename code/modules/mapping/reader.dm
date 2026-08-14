@@ -54,9 +54,9 @@
  * "key" = (
  * /path,
  * /other/path{
- *     var = list("name" = 'filepath');
- *     other_var = /path
- *     },
+ *	 var = list("name" = 'filepath');
+ *	 other_var = /path
+ *	 },
  * /turf,
  * /area)
  *

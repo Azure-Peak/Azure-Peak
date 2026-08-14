@@ -25,7 +25,7 @@
 
 	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM,   PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(on_unequip))
-	RegisterSignal(parent, COMSIG_MOB_DROPITEM,        PROC_REF(on_drop))
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM,		PROC_REF(on_drop))
 
 	full_reappraise()
 

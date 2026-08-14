@@ -1,7 +1,7 @@
 //Lazily shoving all donator fluff items in here for now. Feel free to make this a sub-folder or something, I think it's just easier to keep a list here and just modify as needed.
 
 ///////////////////
-// UNIVERSAL     //
+// UNIVERSAL	 //
 ///////////////////
 
 /obj/item/herbseed/rosa/azure
@@ -452,7 +452,7 @@
 	name = "layer a gothic cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/donator_gothic)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_gothic = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0
 	req_table = TRUE
 	bypass_dupe_test = TRUE
@@ -573,7 +573,7 @@
 	name = "layer a gothic iron cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/donator_gothic)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/donator_gothic = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron = 1)
 	craftdiff = 0
 	req_table = TRUE
 	bypass_dupe_test = TRUE
@@ -2273,14 +2273,14 @@ As Excaliber."
 /obj/item/rogueweapon/ollanius_sword
 	name = "azurosa-wrapped sword"
 	desc = "<font color='007FFF'>LIED TO YOU? TRICKED YOU? NOT I.</font> \
-    </br>‎ <font color='007FFF'>FOR I ANSWERED STRAIGHT. I TOLD YOU TRUE..</font> \
-    </br>‎ <font color='007FFF'>THE SCAFFOLD HAS BEEN RAISED FOR NONE BUT YOU.</font> \
-    </br>‎ <font color='007FFF'>FOR WHO HAS SERVED MORE FAITHFULLY THAN YOU?</font> \
-    </br>‎ <font color='007FFF'>AND WHERE ARE THE OTHERS THAT HAVE STOOD BY YOUR SIDE..</font> \
-    </br>‎ <font color='007FFF'>..ON YOUR SIDE, IN THE COMMON GOOD?</font> \
-    </br>‎ <font color='007FFF'>DEAD.</font> \
+	</br>‎ <font color='007FFF'>FOR I ANSWERED STRAIGHT. I TOLD YOU TRUE..</font> \
+	</br>‎ <font color='007FFF'>THE SCAFFOLD HAS BEEN RAISED FOR NONE BUT YOU.</font> \
+	</br>‎ <font color='007FFF'>FOR WHO HAS SERVED MORE FAITHFULLY THAN YOU?</font> \
+	</br>‎ <font color='007FFF'>AND WHERE ARE THE OTHERS THAT HAVE STOOD BY YOUR SIDE..</font> \
+	</br>‎ <font color='007FFF'>..ON YOUR SIDE, IN THE COMMON GOOD?</font> \
+	</br>‎ <font color='007FFF'>DEAD.</font> \
 	</br>‎ <font color='007FFF'>MURDERED.</font> \
-    </br>‎ <font color='007FFF'>I DID NO MORE THAN YOU LET ME DO.</font>"
+	</br>‎ <font color='007FFF'>I DID NO MORE THAN YOU LET ME DO.</font>"
 	icon_state = "ollanius_sword"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	sheathe_icon = "ollanius_sword"
@@ -2295,16 +2295,16 @@ As Excaliber."
 
 // OLYMPUS7
 /obj/item/rogueweapon/greatsword/olygsword
-    name = "Gre'as'anto d'Shar"
-    desc = "A profoundly lavish, late 14th century royal Yuethindrynn kriegsmesser, reforged with Hammerholdian bluntness into a \
-    greatsword impregnated with dark alloy threads    that knit together forming cracks.\
-    From the wielder’s perspective,<i>Dro'xun phor jal dkinoss.</i> is engraved as a reminder.\
-    The center piece of The crossguard features a clan emblem of a shattered symbol of progress held together by arcane energy, \
-    in place of the intersection of the cross is a slited eye within a halo, the arms of the cross are triangular.\
-    This is not a blade of faith or morals, it is a tool with a purpose to it's user."
-    icon = 'icons/obj/items/donor_weapons_64.dmi'
-    icon_state = "olygsword"
-    bigboy = TRUE
+	name = "Gre'as'anto d'Shar"
+	desc = "A profoundly lavish, late 14th century royal Yuethindrynn kriegsmesser, reforged with Hammerholdian bluntness into a \
+	greatsword impregnated with dark alloy threads	that knit together forming cracks.\
+	From the wielder’s perspective,<i>Dro'xun phor jal dkinoss.</i> is engraved as a reminder.\
+	The center piece of The crossguard features a clan emblem of a shattered symbol of progress held together by arcane energy, \
+	in place of the intersection of the cross is a slited eye within a halo, the arms of the cross are triangular.\
+	This is not a blade of faith or morals, it is a tool with a purpose to it's user."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "olygsword"
+	bigboy = TRUE
 
 // SPARTANBOBBY
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/spartanbobby
@@ -2435,12 +2435,12 @@ As Excaliber."
 
 // OCTUS
 /obj/item/rogueweapon/greatsword/falling_star
-    name = "Falling Star"
-    desc = "A curved executioner's blade designated as suicidal because of its ridiculously unwieldy nature. \
+	name = "Falling Star"
+	desc = "A curved executioner's blade designated as suicidal because of its ridiculously unwieldy nature. \
 	Its niche gained popularity among Graggarite warlords for its sheer raw force and homage to the Darkstar, a descending omen of devastation and war. \
 	The curved blade design makes it suitable for swings and chops, but poor for stabbing victims."
-    icon = 'icons/obj/items/donor_weapons_64.dmi'
-    icon_state = "fallingstar"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "fallingstar"
 
 // CHIVALRE
 /obj/item/clothing/head/roguetown/halo
@@ -3097,4 +3097,4 @@ As Excaliber."
 	icon_state = "birdmask"
 
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask/ComponentInitialize()
-    pass() // *flips the bird at you* (this isnt meant to be adjustable)
+	pass() // *flips the bird at you* (this isnt meant to be adjustable)

@@ -92,13 +92,13 @@
 				H.set_patron(/datum/patron/inhumen/matthios)
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
-/*                            ,---.
-,--.  ,--.        ,--.  ,--.  |   |
+/*							,---.
+,--.  ,--.		,--.  ,--.  |   |
 |  '--'  | ,--,--.|  |,-'  '-.|  .'
 |  .--.  |' ,-.  ||  |'-.  .-'|  |
 |  |  |  |\ '-'  ||  |  |  |  `--'
 `--'  `--' `--`--'`--'  `--'  .--.
-                              '--'
+							  '--'
 shitcode stuff below this point; first, their regenerating skin.
 Second, a self-buff spell that buffs them depending on their total wealth including item sellvalue. I would have liked this to ideally been just a thing they got passively, but I can't fucking code, so...
 third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it looks cool though doesnt it. */

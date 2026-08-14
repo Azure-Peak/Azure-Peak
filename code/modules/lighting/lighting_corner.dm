@@ -9,9 +9,9 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 	var/list/turf/masters
 	var/list/datum/light_source/affecting // Light sources affecting us.
 
-	var/x     = 0
-	var/y     = 0
-	var/z     = 0
+	var/x	 = 0
+	var/y	 = 0
+	var/z	 = 0
 
 	var/lum_r = 0
 	var/lum_g = 0
@@ -31,7 +31,7 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 	z = new_turf.z
 
 	var/vertical   = diagonal & ~(diagonal - 1) // The horizontal directions (4 and 8) are bigger than the vertical ones (1 and 2), so we can reliably say the lsb is the horizontal direction.
-	var/horizontal = diagonal & ~vertical       // Now that we know the horizontal one we can get the vertical one.
+	var/horizontal = diagonal & ~vertical	   // Now that we know the horizontal one we can get the vertical one.
 
 	x = new_turf.x + (horizontal == EAST  ? 0.5 : -0.5)
 	y = new_turf.y + (vertical   == NORTH ? 0.5 : -0.5)
@@ -49,7 +49,7 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 			T.corners = list(null, null, null, null)
 
 		masters[T]   = diagonal
-		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(diagonal, 180))
+		i			= GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(diagonal, 180))
 		T.corners[i] = src
 
 	// Now the horizontal one.
@@ -59,7 +59,7 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 			T.corners = list(null, null, null, null)
 
 		masters[T]   = ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
-		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
+		i			= GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
 		T.corners[i] = src
 
 	// And finally the vertical one.
@@ -69,7 +69,7 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 			T.corners = list(null, null, null, null)
 
 		masters[T]   = ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
-		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
+		i			= GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
 		T.corners[i] = src
 
 // God that was a mess, now to do the rest of the corner code! Hooray!

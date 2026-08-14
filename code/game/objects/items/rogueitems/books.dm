@@ -242,10 +242,10 @@
 			return
 
 /obj/item/book/rogue/bibble/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Exclusive to the Bishop is the ability to anoint items and people, by left-clicking the chosen recipient.")
-    . += span_info("Anointing a silver weapon will bless it, greatly increasing the power of its critical hits and debuffs against sunderable opponents.")
-    . += span_info("Anointing a person will bless them, imparting a temporary bonus to their Fortune.")
+	. = ..()
+	. += span_info("Exclusive to the Bishop is the ability to anoint items and people, by left-clicking the chosen recipient.")
+	. += span_info("Anointing a silver weapon will bless it, greatly increasing the power of its critical hits and debuffs against sunderable opponents.")
+	. += span_info("Anointing a person will bless them, imparting a temporary bonus to their Fortune.")
 
 //Psydonic Bible
 /obj/item/book/rogue/bibble/psy
@@ -301,9 +301,9 @@
 			sect = "sect3"
 
 /obj/item/book/rogue/bibble/psy/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("It can be used in-hand to preach from three seperate testaments.")
-    . += span_info("Use middle-mouse button to switch between testaments of the book.")
+	. = ..()
+	. += span_info("It can be used in-hand to preach from three seperate testaments.")
+	. += span_info("Use middle-mouse button to switch between testaments of the book.")
 
 //Zizonic Bible
 /obj/item/book/rogue/bibble/zizo
@@ -355,9 +355,9 @@
 			sect = "sect2"
 
 /obj/item/book/rogue/bibble/zizo/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("It can be used in-hand to preach from two seperate testaments.")
-    . += span_info("Use middle-mouse button to switch between testaments of the book.")
+	. = ..()
+	. += span_info("It can be used in-hand to preach from two seperate testaments.")
+	. += span_info("Use middle-mouse button to switch between testaments of the book.")
 
 /obj/item/book/rogue/bibble/zizo/Initialize()
 	. = ..()

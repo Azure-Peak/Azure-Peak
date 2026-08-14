@@ -172,8 +172,8 @@
 	var/extra_integrity = 0
 	switch(severity)
 		if(EXPLODE_DEVASTATE) extra_integrity = 1500
-		if(EXPLODE_HEAVY)     extra_integrity = 0
-		if(EXPLODE_LIGHT)     extra_integrity = 0
+		if(EXPLODE_HEAVY)	 extra_integrity = 0
+		if(EXPLODE_LIGHT)	 extra_integrity = 0
 
 	var/hard_cap = max_integrity
 	switch(severity)

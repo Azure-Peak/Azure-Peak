@@ -295,13 +295,13 @@
 
 
 /datum/crafting_recipe/hair_dye
-    name = "hair dye cream"
-    display_category = ITEM_CAT_TOOLS_SUNDRIES
-    result = /obj/item/hair_dye_cream
-    reqs = list(
-        /obj/item/reagent_containers/glass/bowl = 1,
-        /obj/item/reagent_containers/food/snacks/grown/berries/rogue = 3,
-    )
+	name = "hair dye cream"
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
+	result = /obj/item/hair_dye_cream
+	reqs = list(
+		/obj/item/reagent_containers/glass/bowl = 1,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 3,
+	)
 
 // DIE
 

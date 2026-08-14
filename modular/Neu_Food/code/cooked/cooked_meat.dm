@@ -192,7 +192,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Filet    ................ */
+/* .............   Fried Filet	................ */
 // This is seafood but is one of the "simple cooked meat" so I put it here.
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
 	eat_effect = null
@@ -208,7 +208,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Shellfish    ................ */
+/* .............   Fried Shellfish	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish/fried
 	eat_effect = null
 	slices_num = 0

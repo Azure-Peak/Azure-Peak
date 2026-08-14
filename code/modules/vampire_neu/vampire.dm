@@ -2,9 +2,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 #define INITIAL_BLOODPOOL_PERCENTAGE 40
 // Storyteller: no preset maxcap - the vampire count is fixed per spawn event via base_antags/maximum_antags,
 // so the Vampire Lord and Masquerade events differ:
-//  Event          | base | denom | max | Formula: base + floor(pop/denom), capped at max
+//  Event		  | base | denom | max | Formula: base + floor(pop/denom), capped at max
 //  Vampire Lord   |  1   |  80   |  1  | always 1 (the lord)
-//  Masquerade     |  2   |  80   |  2  | always 2 (the coven)
+//  Masquerade	 |  2   |  80   |  2  | always 2 (the coven)
 //  Vamp+Werewolf  |  2   |  80   |  4  | 1-79 pop -> 2, 80-159 -> 3, 160+ -> 4
 /datum/antagonist/vampire
 	name = "Vampire"

@@ -4,9 +4,9 @@
 ///True if the dir is east/west, false otherwise
 #define EWCOMPONENT(d)   (d&(EAST|WEST))
 ///Flips the dir for north/south directions
-#define NSDIRFLIP(d)     (d^(NORTH|SOUTH))
+#define NSDIRFLIP(d)	 (d^(NORTH|SOUTH))
 ///Flips the dir for east/west directions
-#define EWDIRFLIP(d)     (d^(EAST|WEST))
+#define EWDIRFLIP(d)	 (d^(EAST|WEST))
 
 /// Inverse direction, taking into account UP|DOWN if necessary.
 #define REVERSE_DIR(dir) ( ((dir & 85) << 1) | ((dir & 170) >> 1) )

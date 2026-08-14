@@ -158,7 +158,7 @@
 		if(AM.sellprice)
 			uncrafted_sellprice = AM.sellprice
 	var/final_sellprice = uncrafted_sellprice
-	var/html 
+	var/html
 	if (!isnull(created_stuff))
 		html = {"
 			<!DOCTYPE html>
@@ -209,7 +209,7 @@
 		html += "Combat Properties<br>"
 		if(bookweapon.minstr)
 			html += "\n<b>MIN.STR:</b> [bookweapon.minstr]<br>"
-		
+
 		if(bookweapon.force)
 			html += "\n<b>FORCE:</b> [bookweapon.force]<br>"
 		if(bookweapon.gripped_intents && !bookweapon.wielded)
@@ -222,7 +222,7 @@
 				html += "Heavy<br>"
 			if(bookweapon.wbalance == WBALANCE_SWIFT)
 				html += "Swift<br>"
-			
+
 
 		if(bookweapon.wlength != WLENGTH_NORMAL)
 			html += "\n<b>LENGTH:</b> "
@@ -253,18 +253,18 @@
 			html += "\n<b>DEFENSE:</b> [bookweapon.wdefense]<br>"
 		if(bookweapon.associated_skill && bookweapon.associated_skill.name)
 			html += "\n<b>SKILL:</b> [bookweapon.associated_skill.name]<br>"
-		
+
 		if(bookweapon.intdamage_factor != 1 && bookweapon.force >= 5)
 			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
 
 	if(craftdiff > 0)
 		html += "<br><b>Skills Required:</b> [capitalize(SSskills.level_names_plain[craftdiff])]<br>"
 	else
-		html += "<br><b>Skills Required:</b> None<br>"	
+		html += "<br><b>Skills Required:</b> None<br>"
 
 	html += {"<div>
-		      <br>
-		      <strong>Requirements</strong>
+			  <br>
+			  <strong>Requirements</strong>
 			  <br>"}
 
 	for(var/path as anything in reqs)
@@ -288,7 +288,7 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Tools</strong>
+			<strong>Required Tools</strong>
 			<br>
 			  "}
 		for(var/atom/path as anything in tools)
@@ -305,7 +305,7 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Liquids</strong>
+			<strong>Required Liquids</strong>
 			<br>
 			  "}
 		for(var/atom/path as anything in chem_catalysts)

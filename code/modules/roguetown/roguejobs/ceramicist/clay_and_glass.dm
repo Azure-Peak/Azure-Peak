@@ -1,6 +1,6 @@
 /obj/item/natural/clay
 	name = "clay"
-	icon_state = "clay"     // Placeholder. TODO: Get an icon for clay.
+	icon_state = "clay"	 // Placeholder. TODO: Get an icon for clay.
 	desc = "A handful of damp, malleable clay. When rolled out atop a potter's wheel, it can be sculpted into pots, cutlery, and statues."
 	gripped_intents = null
 	dropshrink = 0.75
@@ -16,7 +16,7 @@
 					// the mason's construction work with the new Potter profession. - SunriseOYH
 
 	var/cooking = 0 			// This variable measures the progress of the glazing act.
-	var/cooktime = 1 MINUTES    // This dictates the time needed to glaze.
+	var/cooktime = 1 MINUTES	// This dictates the time needed to glaze.
 	var/burning = 0				// This variable measures the progress of the burning act
 	var/burntime = 5 MINUTES	// How long must it be left unattended to burn and be ruined?
 	var/burned_color = "#302d2d"

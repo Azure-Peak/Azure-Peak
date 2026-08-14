@@ -671,82 +671,82 @@ will handle it, but:
 			qdel(E)
 
 /proc/wash_mob(mob/living/L, clean = CLEAN_WEAK)
-    SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, clean)
-    if(!iscarbon(L))
-        SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
-        return
+	SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, clean)
+	if(!iscarbon(L))
+		SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+		return
 
-    var/mob/living/carbon/M = L
-    . = TRUE
+	var/mob/living/carbon/M = L
+	. = TRUE
 
-    for(var/obj/item/I in M.held_items)
-        wash_obj(I, clean)
-    M.update_inv_hands()
+	for(var/obj/item/I in M.held_items)
+		wash_obj(I, clean)
+	M.update_inv_hands()
 
-    if(M.back)
-        wash_obj(M.back, clean)
-        M.update_inv_back(0)
+	if(M.back)
+		wash_obj(M.back, clean)
+		M.update_inv_back(0)
 
-    var/list/obscured = M.check_obscured_slots()
+	var/list/obscured = M.check_obscured_slots()
 
-    if(M.head)
-        wash_obj(M.head, clean)
-        M.update_inv_head()
+	if(M.head)
+		wash_obj(M.head, clean)
+		M.update_inv_head()
 
-    if(M.glasses && !(SLOT_GLASSES in obscured))
-        wash_obj(M.glasses, clean)
-        M.update_inv_glasses()
+	if(M.glasses && !(SLOT_GLASSES in obscured))
+		wash_obj(M.glasses, clean)
+		M.update_inv_glasses()
 
-    if(M.wear_mask && !(SLOT_WEAR_MASK in obscured))
-        wash_obj(M.wear_mask, clean)
-        M.update_inv_wear_mask()
+	if(M.wear_mask && !(SLOT_WEAR_MASK in obscured))
+		wash_obj(M.wear_mask, clean)
+		M.update_inv_wear_mask()
 
-    if(M.ears && !(HIDEEARS in obscured))
-        wash_obj(M.ears, clean)
-        M.update_inv_ears()
+	if(M.ears && !(HIDEEARS in obscured))
+		wash_obj(M.ears, clean)
+		M.update_inv_ears()
 
-    if(M.wear_neck && !(SLOT_NECK in obscured))
-        wash_obj(M.wear_neck, clean)
-        M.update_inv_neck()
+	if(M.wear_neck && !(SLOT_NECK in obscured))
+		wash_obj(M.wear_neck, clean)
+		M.update_inv_neck()
 
-    if(M.shoes && !(HIDESHOES in obscured))
-        wash_obj(M.shoes, clean)
-        M.update_inv_shoes()
+	if(M.shoes && !(HIDESHOES in obscured))
+		wash_obj(M.shoes, clean)
+		M.update_inv_shoes()
 
-    if(M.gloves && !(HIDEGLOVES in obscured))
-        wash_obj(M.gloves, clean)
-        M.update_inv_gloves()
+	if(M.gloves && !(HIDEGLOVES in obscured))
+		wash_obj(M.gloves, clean)
+		M.update_inv_gloves()
 
-    if(ishuman(M))
-        var/mob/living/carbon/human/H = M
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
 
-        if(H.wear_armor)
-            wash_obj(H.wear_armor, clean)
-            H.update_inv_armor()
-            
-        if(H.wear_shirt)
-            wash_obj(H.wear_shirt, clean)
-            H.update_inv_shirt()
-            
-        if(H.wear_pants)
-            wash_obj(H.wear_pants, clean)
-            H.update_inv_pants()
+		if(H.wear_armor)
+			wash_obj(H.wear_armor, clean)
+			H.update_inv_armor()
 
-        if(!H.is_mouth_covered())
-            H.lip_style = null
-            H.update_body()
+		if(H.wear_shirt)
+			wash_obj(H.wear_shirt, clean)
+			H.update_inv_shirt()
 
-        if(H.belt)
-            wash_obj(H.belt, clean)
-            H.update_inv_belt()
+		if(H.wear_pants)
+			wash_obj(H.wear_pants, clean)
+			H.update_inv_pants()
 
-        if(H.cloak)
-            wash_obj(H.cloak, clean)
-            H.update_inv_cloak()
+		if(!H.is_mouth_covered())
+			H.lip_style = null
+			H.update_body()
 
-        SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
-    else
-        SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+		if(H.belt)
+			wash_obj(H.belt, clean)
+			H.update_inv_belt()
+
+		if(H.cloak)
+			wash_obj(H.cloak, clean)
+			H.update_inv_cloak()
+
+		SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+	else
+		SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
 
 /*
 Checks if that loc and dir has an item on the wall
@@ -894,14 +894,14 @@ rough example of the "cone" made by the 3 dirs checked
 * \
 *  \
 *   >
-*     <
-*      \
-*       \
+*	 <
+*	  \
+*	   \
 *B --><-- A
-*       /
-*      /
-*     <
-*    >
+*	   /
+*	  /
+*	 <
+*	>
 *   /
 *  /
 
@@ -1270,7 +1270,7 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 
 #define FOR_DVIEW(type, range, center, invis_flags) \
-	GLOB.dview_mob.loc = center;           \
+	GLOB.dview_mob.loc = center;		   \
 	GLOB.dview_mob.see_invisible = invis_flags; \
 	for(type in view(range, GLOB.dview_mob))
 

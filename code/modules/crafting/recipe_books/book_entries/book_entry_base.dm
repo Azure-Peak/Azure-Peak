@@ -18,8 +18,8 @@
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
 		  <div>
-		    <h1>[name]</h1>
-		    <div>
+			<h1>[name]</h1>
+			<div>
 		"}
 	html += inner_book_html(user)
 

@@ -102,11 +102,11 @@
 	icon_dead = "cat_dead"
 
 /mob/living/simple_animal/pet/cat/rogue/black/academy
-    name = "Kalathrax the All Knowing"
-    desc = "Whispers around the Academy say that this cat was once an Associate that decided they had achieved enough knowledge to challenge the Court Wizard for their role and failed. (Or maybe it's just a cat)"
-    STAINT = 20
-    health = 5000
-    maxHealth = 5000
+	name = "Kalathrax the All Knowing"
+	desc = "Whispers around the Academy say that this cat was once an Associate that decided they had achieved enough knowledge to challenge the Court Wizard for their role and failed. (Or maybe it's just a cat)"
+	STAINT = 20
+	health = 5000
+	maxHealth = 5000
 
 /mob/living/simple_animal/pet/cat/original
 	name = "Batsy"

@@ -40,23 +40,23 @@
 
 	body += "<script>"
 	body += "function toggleSection(section) {"
-	body += "    localStorage.setItem('activeSection', section);"
-	body += "    document.getElementById('skills-section').style.display = (section === 'skills') ? 'block' : 'none';"
-	body += "    document.getElementById('languages-section').style.display = (section === 'languages') ? 'block' : 'none';"
+	body += "	localStorage.setItem('activeSection', section);"
+	body += "	document.getElementById('skills-section').style.display = (section === 'skills') ? 'block' : 'none';"
+	body += "	document.getElementById('languages-section').style.display = (section === 'languages') ? 'block' : 'none';"
 	body += "	 document.getElementById('stats-section').style.display = (section === 'stats') ? 'block' : 'none';"
-	body += "    document.getElementById('patron-section').style.display = (section === 'patron') ? 'block' : 'none';"
+	body += "	document.getElementById('patron-section').style.display = (section === 'patron') ? 'block' : 'none';"
 	body += "}"
 
 	body += "function refreshAndKeepSection(section) {"
-	body += "    localStorage.setItem('activeSection', section);"
-	body += "    location.reload();"
+	body += "	localStorage.setItem('activeSection', section);"
+	body += "	location.reload();"
 	body += "}"
 
 	body += "window.onload = function() {"
-	body += "    var activeSection = \"[clicked_flag]\";"
-	body += "    if (activeSection !== \"0\" && activeSection !== \"\") {"
-	body += "        toggleSection(activeSection);"
-	body += "    }"
+	body += "	var activeSection = \"[clicked_flag]\";"
+	body += "	if (activeSection !== \"0\" && activeSection !== \"\") {"
+	body += "		toggleSection(activeSection);"
+	body += "	}"
 	body += "}"
 	body += "</script>"
 
@@ -241,7 +241,7 @@
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=fortune'>-</a></li>"
 		body += "</ul>"
 		body += "</div>"
-		
+
 		// Patron Section
 		body += "<div id='patron-section'>"
 		body += "<h3>Patron</h3>"
@@ -258,7 +258,7 @@
 			body += "<li>[initial(P.name)] "
 			body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];set_patron=[REF(M)];patron=[patron_type]'>Set</a></li>"
 		body += "</ul></div>"
-		
+
 
 		body += "</div>"
 		body += "</div>"
@@ -369,7 +369,7 @@
 
 	if(!check_rights())
 		return
-	
+
 	if(!M.ckey)
 		to_chat(src, span_warning("There is no ckey attached to this mob."))
 		return

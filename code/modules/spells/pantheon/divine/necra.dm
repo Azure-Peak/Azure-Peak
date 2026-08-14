@@ -190,10 +190,10 @@
 
 #undef CHURN_FILTER
 
-#define NECRA_HATES        1
+#define NECRA_HATES		1
 #define NECRA_DISAPPROVES  2
-#define NECRA_NEUTRAL      3
-#define NECRA_APPROVES     4
+#define NECRA_NEUTRAL	  3
+#define NECRA_APPROVES	 4
 
 /obj/effect/proc_holder/spell/self/locate_dead
 	name = "Locate Corpse"

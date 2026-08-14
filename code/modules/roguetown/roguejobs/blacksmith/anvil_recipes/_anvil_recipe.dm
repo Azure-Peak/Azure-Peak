@@ -261,7 +261,7 @@
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
 		  <div>
-		    <h1>[icon2html(new created_item, user)][name]</h1>
+			<h1>[icon2html(new created_item, user)][name]</h1>
 			<h4>Description</h4>
 			<p>[initial(created_item.desc)]</p>
 			<div>
@@ -346,7 +346,7 @@
 		html += "in Engineering<br>"
 
 	html += {"<div>
-		      <strong>Requirements</strong>
+			  <strong>Requirements</strong>
 			  <br>"}
 
 	html += "[icon2html(new req_bar, user)] Start with [initial(req_bar.name)] on an anvil.<br>"

@@ -56,8 +56,8 @@
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
 		  <div>
-		    <h1>[name]</h1>
-		    <div>
+			<h1>[name]</h1>
+			<div>
 			  <h2>Brewing Time: [brew_time / 10] Seconds </h2>
 			  <h2>Requirements</h2>
 		"}
