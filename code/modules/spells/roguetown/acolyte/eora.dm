@@ -614,7 +614,7 @@
 		if(iscarbon(user))
 			var/mob/living/carbon/human/sacrifice = user
 			visible_message(span_danger("[user] begins altruistically channeling the crimson aril's power to restore the tree."),
-	 		 span_info("I begin channeling the crimson aril's power into the tree using my own blood."))
+					span_info("I begin channeling the crimson aril's power into the tree using my own blood."))
 			if(!do_after(sacrifice, 15 SECONDS))
 				return
 			// same blood loss as using it to heal someone

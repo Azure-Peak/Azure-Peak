@@ -141,7 +141,7 @@
 	trait = TRAIT_CURSE_BAOTHA
 
 //////////////////////
-///	ON LIFE	 ///
+///	ON LIFE		///
 //////////////////////
 
 /datum/curse/astrata/on_life(mob/user)

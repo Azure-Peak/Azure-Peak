@@ -10,7 +10,7 @@
  *		Mech prizes
  *		AI core prizes
  *		Toy codex gigas
- * 		Skeleton toys
+ *		Skeleton toys
  *		Cards
  *		Toy nuke
  *		Fake meteor

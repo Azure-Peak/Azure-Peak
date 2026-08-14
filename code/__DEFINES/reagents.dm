@@ -1,4 +1,4 @@
-#define SOLID 			1
+#define SOLID			1
 #define LIQUID			2
 #define GAS				3
 
@@ -13,7 +13,7 @@
 #define NO_REACT		(1<<6)	// Applied to a reagent holder, the contents will not react with each other.
 
 // Is an open container for all intents and purposes.
-#define OPENCONTAINER 	(REFILLABLE | DRAINABLE | TRANSPARENT)
+#define OPENCONTAINER	(REFILLABLE | DRAINABLE | TRANSPARENT)
 
 
 #define TOUCH			1	// splashing

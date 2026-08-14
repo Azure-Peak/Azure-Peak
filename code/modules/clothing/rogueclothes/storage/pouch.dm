@@ -37,7 +37,7 @@
 	if(!storage_comp)
 		return
 
-	var/original_target_quantity = target_coin.quantity 	// Store original quantity for verification
+	var/original_target_quantity = target_coin.quantity	// Store original quantity for verification
 	var/coins_to_collect = original_target_quantity
 
 	// First, try to find existing coin stacks of the same type that aren't full

@@ -1,5 +1,5 @@
 /**
- * # Usurpation Rite
+ * Usurpation Rite
  *
  * Base datum for rites of succession.
  *

@@ -450,7 +450,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			// Leftmost Column, 40% width
 			dat += "<td width=40% valign='top'>"
 
-// 			-----------START OF IDENT TABLE-----------
+//			-----------START OF IDENT TABLE-----------
 			dat += "<h2>Identity</h2>"
 			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
 			if(is_banned_from(user.ckey, "Appearance"))
@@ -669,7 +669,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b><a href='?_src_=prefs;preference=barkpreview;task=input'>Preview Bark</a></b><br>"
 			dat += "</td>"
 			dat += "</tr></table>"
-// 			-----------END OF IDENT TABLE-----------
+//			-----------END OF IDENT TABLE-----------
 
 
 			// Middle dummy Column, 20% width

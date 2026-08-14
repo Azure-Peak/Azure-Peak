@@ -4,7 +4,7 @@ Changes here can have widespread effects: make sure you test well.
 Ask ninjanomnom if they're around
 */
 
-#define RAD_BACKGROUND_RADIATION 9 					// How much radiation is harmless to a mob, this is also when radiation waves stop spreading
+#define RAD_BACKGROUND_RADIATION 9					// How much radiation is harmless to a mob, this is also when radiation waves stop spreading
 													// WARNING: Lowering this value significantly increases SSradiation load
 
 // apply_effect((amount*RAD_MOB_COEFFICIENT)/max(1, (radiation**2)*RAD_OVERDOSE_REDUCTION), IRRADIATE, blocked)
@@ -39,8 +39,8 @@ Ask ninjanomnom if they're around
 #define RAD_FULL_INSULATION 0						// Unused
 
 // WARNING: The defines below could have disastrous consequences if tweaked incorrectly. See: The great SM purge of Oct.6.2017
-// contamination_chance = 		(strength-RAD_MINIMUM_CONTAMINATION) * RAD_CONTAMINATION_CHANCE_COEFFICIENT * min(1/(steps*RAD_DISTANCE_COEFFICIENT), 1))
-// contamination_strength = 	(strength-RAD_MINIMUM_CONTAMINATION) * RAD_CONTAMINATION_STR_COEFFICIENT
+// contamination_chance =		(strength-RAD_MINIMUM_CONTAMINATION) * RAD_CONTAMINATION_CHANCE_COEFFICIENT * min(1/(steps*RAD_DISTANCE_COEFFICIENT), 1))
+// contamination_strength =	(strength-RAD_MINIMUM_CONTAMINATION) * RAD_CONTAMINATION_STR_COEFFICIENT
 #define RAD_MINIMUM_CONTAMINATION 350				// How strong does a radiation wave have to be to contaminate objects
 #define RAD_CONTAMINATION_CHANCE_COEFFICIENT 0.01	// Higher means higher strength scaling contamination chance
 #define RAD_CONTAMINATION_STR_COEFFICIENT 0.25		// Higher means higher strength scaling contamination strength

@@ -185,8 +185,8 @@
 
 /////////////////
 
-#define COMSIG_ENTER_AREA "enter_area" 						//from base of area/Entered(): (/area)
-#define COMSIG_EXIT_AREA "exit_area" 							//from base of area/Exited(): (/area)
+#define COMSIG_ENTER_AREA "enter_area"						//from base of area/Entered(): (/area)
+#define COMSIG_EXIT_AREA "exit_area"							//from base of area/Exited(): (/area)
 
 #define COMSIG_MIND_TRANSFER "mind_transfer"
 
@@ -202,8 +202,8 @@
 #define COMSIG_CLICK_RIGHT_SHIFT "shift_right_click"
 
 // /area signals
-#define COMSIG_AREA_ENTERED "area_entered" 						//from base of area/Entered(): (atom/movable/M)
-#define COMSIG_AREA_EXITED "area_exited" 							//from base of area/Exited(): (atom/movable/M)
+#define COMSIG_AREA_ENTERED "area_entered"						//from base of area/Entered(): (atom/movable/M)
+#define COMSIG_AREA_EXITED "area_exited"							//from base of area/Exited(): (atom/movable/M)
 
 // /turf signals
 #define COMSIG_TURF_CHANGE "turf_change"						//from base of turf/ChangeTurf(): (path, list/new_baseturfs, flags, list/transferring_comps)
@@ -222,8 +222,8 @@
 #define COMSIG_MOVABLE_PRE_THROW "movable_pre_throw"			//from base of atom/movable/throw_at(): (list/args)
 	#define COMPONENT_CANCEL_THROW 1
 #define COMSIG_MOVABLE_POST_THROW "movable_post_throw"			//from base of atom/movable/throw_at(): (datum/thrownthing, spin)
-#define COMSIG_MOVABLE_Z_CHANGED "movable_ztransit" 			//from base of atom/movable/onTransitZ(): (old_z, new_z)
-#define COMSIG_MOVABLE_SECLUDED_LOCATION "movable_secluded" 	//called when the movable is placed in an unaccessible area, used for stationloving: ()
+#define COMSIG_MOVABLE_Z_CHANGED "movable_ztransit"			//from base of atom/movable/onTransitZ(): (old_z, new_z)
+#define COMSIG_MOVABLE_SECLUDED_LOCATION "movable_secluded"	//called when the movable is placed in an unaccessible area, used for stationloving: ()
 #define COMSIG_MOVABLE_HEAR "movable_hear"						//from base of atom/movable/Hear(): (proc args list(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode))
 	#define HEARING_MESSAGE 1
 	#define HEARING_SPEAKER 2
@@ -237,7 +237,7 @@
 #define COMSIG_MOVABLE_UPDATE_GLIDE_SIZE "movable_glide_size"	//Called when the movable's glide size is updated: (new_glide_size)
 
 // /mob signals
-#define COMSIG_MOB_SLEEP "mob_sleep" 							//from base of mob/living/carbon/handle_sleep(): (mob/sleeper)
+#define COMSIG_MOB_SLEEP "mob_sleep"							//from base of mob/living/carbon/handle_sleep(): (mob/sleeper)
 #define COMSIG_MOB_BREAK_SNEAK "mob_break_sneak"
 #define COMSIG_MOB_DEATH "mob_death"							//from base of mob/death(): (gibbed)
 #define COMSIG_MOB_TRY_BARK "try_bark"
@@ -374,7 +374,7 @@
 #define COMSIG_OBJ_TAKE_DAMAGE "obj_take_damage"				//from base of obj/take_damage() (damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 #define COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED "mob_armor_integrity_damaged"			//from base of /mob/living/carbon/human/proc/checkarmor(): (damage_taken, obj/item/clothing/damaged_item, current_layer, total_layers)
 #define COMSIG_ITEM_ATTACK_ZONE "item_attack_zone"				//from base of mob/living/carbon/attacked_by(): (mob/living/carbon/target, mob/living/user, hit_zone)
-#define COMSIG_ITEM_IMBUE_SOUL "item_imbue_soul" 				//return a truthy value to prevent ensouling, checked in /obj/effect/proc_holder/spell/targeted/lichdom/cast(): (mob/user)
+#define COMSIG_ITEM_IMBUE_SOUL "item_imbue_soul"				//return a truthy value to prevent ensouling, checked in /obj/effect/proc_holder/spell/targeted/lichdom/cast(): (mob/user)
 #define COMSIG_ITEM_MARK_RETRIEVAL "item_mark_retrieval"			//called before marking an object for retrieval, checked in /obj/effect/proc_holder/spell/targeted/summonitem/cast() : (mob/user)
 	#define COMPONENT_BLOCK_MARK_RETRIEVAL 1
 #define COMSIG_ITEM_HIT_REACT "item_hit_react"					//from base of obj/item/hit_reaction(): (list/args)
@@ -416,7 +416,7 @@
 // /obj/projectile signals (sent to the firer)
 #define COMSIG_PROJECTILE_ON_HIT "projectile_on_hit"			// from base of /obj/projectile/proc/on_hit(): (atom/movable/firer, atom/target, Angle)
 #define COMSIG_PROJECTILE_SELF_ON_HIT "projectile_self_on_hit"	// from base of /obj/projectile/proc/on_hit(), sent to the projectile itself: (mob/firer, atom/target, Angle)
-#define COMSIG_PROJECTILE_BEFORE_FIRE "projectile_before_fire" 			// from base of /obj/projectile/proc/fire(): (obj/projectile, atom/original_target)
+#define COMSIG_PROJECTILE_BEFORE_FIRE "projectile_before_fire"			// from base of /obj/projectile/proc/fire(): (obj/projectile, atom/original_target)
 #define COMSIG_PROJECTILE_PREHIT "com_proj_prehit"				// sent to targets during the process_hit proc of projectiles
 
 // /obj/mecha signals

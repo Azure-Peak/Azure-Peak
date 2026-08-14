@@ -128,7 +128,7 @@
 	* inputs: slot (organ slot, like ORGAN_SLOT_HEART), amount(damage to be set to)
 	* outputs:
 	* description: If an organ exists in the slot requested, and we are capable of taking damage (we don't have GODMODE on), call the set damage proc on that organ, which can
-	*				 set or clear the failing variable on that organ, making it either cease or start functions again, unlike adjustOrganLoss.
+	*					set or clear the failing variable on that organ, making it either cease or start functions again, unlike adjustOrganLoss.
 	*/
 /mob/living/carbon/setOrganLoss(slot, amount)
 	var/obj/item/organ/O = getorganslot(slot)

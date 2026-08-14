@@ -108,13 +108,13 @@
 	// debug_info += "Archetype: [archetype.name]"
 	// debug_info += "Traits:"
 	// for(var/datum/flesh_trait/trait in traits)
-	// 	debug_info += "	- [trait.name]"
+	//	debug_info += "	- [trait.name]"
 	// debug_info += "Quirks:"
 	// for(var/datum/flesh_quirk/quirk in quirks)
-	// 	debug_info += "	- [quirk.name]"
+	//	debug_info += "	- [quirk.name]"
 	// debug_info += "Discharge Color: [discharge_color]"
 	// if(royal_title)
-	// 	debug_info += "Royal Title: [royal_title]"
+	//	debug_info += "Royal Title: [royal_title]"
 
 	// to_chat(world, span_userdanger("[debug_info.Join("\n")]"))
 
@@ -230,7 +230,7 @@
 				"tier" = N.required_tier,
 			))
 
- 	.["unlocked"] = unlocked_data
+	.["unlocked"] = unlocked_data
 
 	return .
 

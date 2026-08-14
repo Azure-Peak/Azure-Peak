@@ -81,7 +81,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	if(!config)
 		config = new
 	// Highlander-style: there can only be one! Kill off the old and replace it with the new.
-	
+
 	// Move this to Genesis when Master is no longer GLOBAL_REAL = new
 	// Write everything to this log file until we get to SetupLogs() later
 	world._initialize_log_files("data/logs/config_error.[GUID()].log")
@@ -296,7 +296,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		Initialize(20, TRUE)
 
 // Please don't stuff random bullshit here,
-// 	Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
+//	Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
 /datum/controller/master/Initialize(delay, init_sss, tgs_prime)
 	set waitfor = 0
 

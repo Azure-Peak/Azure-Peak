@@ -15,7 +15,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	race = /datum/species/human/northern
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
-					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
+						/obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	faction = list(FACTION_UNDEAD)
 	var/skel_outfit = /datum/outfit/job/roguetown/npc/skeleton
 	var/skel_fragile = FALSE

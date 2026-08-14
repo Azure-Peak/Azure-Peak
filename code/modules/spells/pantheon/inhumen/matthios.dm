@@ -726,7 +726,7 @@
 			return TRUE
 	return FALSE
 
- // buff
+// buff
 /datum/status_effect/buff/equalizebuff
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/equalized
@@ -750,7 +750,7 @@
 	to_chat(owner, "<font color='yellow'>The link wears off, and the stolen fyre returns to them.</font>")
 
 
- // debuff
+// debuff
 /datum/status_effect/debuff/equalizedebuff
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/equalized
@@ -772,7 +772,7 @@
 	owner.remove_filter(EQUALIZED_GLOW)
 	to_chat(owner, "<font color='yellow'>My fire returns!</font>")
 
- // debuff - noble
+// debuff - noble
 /datum/status_effect/debuff/equalizedebuff_noble
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/equalized_noble

@@ -265,9 +265,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			if (src == C.mouth) // if it's in the human/monkey mouth, transfer reagents to the mob
 				var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
 				/*
-				 * Given the amount of time the cig will last, and how often we take a hit, find the number
-				 * of chems to give them each time so they'll have smoked it all by the end.
-				 */
+					* Given the amount of time the cig will last, and how often we take a hit, find the number
+					* of chems to give them each time so they'll have smoked it all by the end.
+					*/
 				if (smoke_all)
 					if(!smoketime)
 						to_smoke = reagents.total_volume

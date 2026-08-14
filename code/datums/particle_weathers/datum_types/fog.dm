@@ -1,7 +1,7 @@
 //Fog
 /particles/weather/fog
-	icon 					= 'icons/effects/96x96.dmi'
-	icon_state			 = list("smoke-static" = 5, "smoke-static-alt" = 5)
+	icon					= 'icons/effects/96x96.dmi'
+	icon_state				= list("smoke-static" = 5, "smoke-static-alt" = 5)
 	gradient				= list(0,"#a1a1a1e3",100,"#e2dcd8e3","loop")
 	color					= 0
 	color_change			= generator("num",0,3)
@@ -31,8 +31,8 @@
 
 //straight up darkness
 /particles/weather/dark
-	icon 					= 'icons/effects/96x96.dmi'
-	icon_state			 = list("smoke-static" = 5)
+	icon					= 'icons/effects/96x96.dmi'
+	icon_state				= list("smoke-static" = 5)
 	gradient				= "#a1a1a1e3"
 	color					= 0
 	color_change			= generator("num",0,3)

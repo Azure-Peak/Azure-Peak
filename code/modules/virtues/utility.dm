@@ -13,11 +13,11 @@
 		"Golden Circlet" = /obj/item/clothing/head/roguetown/circlet/triumph,						//Golden Circlet, Ornate
 		"Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble,					//Golden Amulet
 		"Silver Scabbard" = /obj/item/rogueweapon/scabbard/sword/noble,							//Decorated Scabbard, Silver
-		"Silver Sheath" = /obj/item/rogueweapon/scabbard/sheath/noble,							 //Decorated Sheath, Silver
+		"Silver Sheath" = /obj/item/rogueweapon/scabbard/sheath/noble,								//Decorated Sheath, Silver
 		"Golden Psycross" = /obj/item/clothing/neck/roguetown/psicross/g/triumph,					//Golden Psycross, Ornate
 		"Golden Astratan Psycross" = /obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph, //Golden Astratan Amulet, Ornate
-		"Golden Signet Ring" = /obj/item/clothing/ring/signet/triumph,							 //Golden Signet Ring, Ornate
-		"Gilded Dress Shirt" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince,		 //Gilded Dress Shirt
+		"Golden Signet Ring" = /obj/item/clothing/ring/signet/triumph,								//Golden Signet Ring, Ornate
+		"Gilded Dress Shirt" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince,			//Gilded Dress Shirt
 		"Pristine Dress" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess,			//Pristine Dress
 		"Royal Sleeves" = /obj/item/clothing/wrists/roguetown/royalsleeves,						//Royal Sleeves
 		"Golden Halfmask" = /obj/item/clothing/mask/rogue/lordmask/triumph,						//Golden Halfmask, Ornate
@@ -26,8 +26,8 @@
 		"Lordly Cloak" = /obj/item/clothing/cloak/lordcloak,										//Lordly Cloak
 		"Ladylike Cloak" = /obj/item/clothing/cloak/lordcloak/ladycloak,							//Ladylike Cloak
 		"Golden Scabbard" = /obj/item/rogueweapon/scabbard/sword/royal,							//Decorated Scabbard, Golden
-		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,							 //Decorated Sheath, Golden
-		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph							 //Golden Dorpel Ring, Ornate
+		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,								//Decorated Sheath, Golden
+		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph								//Golden Dorpel Ring, Ornate
 	)
 
 

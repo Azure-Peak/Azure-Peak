@@ -653,10 +653,10 @@
 	bypass_dupe_test = TRUE
 
 
- // FORGEABLES BABEY!!!
+// FORGEABLES BABEY!!!
 
 
- // GOLD
+// GOLD
 
 /datum/anvil_recipe/valuables/gold/ashtray
 	name = "Zigtray, Golden"

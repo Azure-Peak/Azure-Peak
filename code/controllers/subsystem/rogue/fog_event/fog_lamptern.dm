@@ -148,7 +148,7 @@
 
 		if(transfer_amount > 0)
 			user.visible_message(span_notice("[user] carefully refills [src]."), \
-								 span_notice("You refill [src] with sanctified oil."))
+									span_notice("You refill [src] with sanctified oil."))
 
 			container.reagents.remove_reagent(/datum/reagent/sanctified_oil, transfer_amount)
 			fuel = min(fuel + (transfer_amount * oil_to_fuel_ratio), max_fuel)

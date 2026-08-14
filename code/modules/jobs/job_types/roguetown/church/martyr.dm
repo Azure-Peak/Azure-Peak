@@ -1,4 +1,4 @@
-#define STATE_SAFE 			0
+#define STATE_SAFE			0
 #define STATE_MARTYR		1
 #define STATE_MARTYRULT		2
 

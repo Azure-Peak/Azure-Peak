@@ -11,11 +11,11 @@
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_PET_TARGETING_DATUM = new /datum/targetting_datum/basic/not_friends(),
 
-		BB_HUMAN_NPC_SWINGS_TAKEN = 0,		 // swings this engagement, gates the special opener
-		BB_HUMAN_NPC_SWINGS_TARGET = null,	 // who the above is counting against
+		BB_HUMAN_NPC_SWINGS_TAKEN = 0,			// swings this engagement, gates the special opener
+		BB_HUMAN_NPC_SWINGS_TARGET = null,		// who the above is counting against
 		BB_HUMAN_NPC_ZONE_COMMIT_COUNTER = 0,	// swings spent on the current self-picked zone
 		BB_HUMAN_NPC_LAST_ATTACK_ZONE = null,	// last zone we attacked
-		BB_HUMAN_NPC_WEAKPOINT = null,		 // cached weakpoint zone if we found one
+		BB_HUMAN_NPC_WEAKPOINT = null,			// cached weakpoint zone if we found one
 		BB_HUMAN_NPC_JUMP_COOLDOWN = 0,		// world.time when we can next jump
 		BB_HUMAN_NPC_FLANK_ANGLE = null,		// our claimed flank direction (degrees, 0-359)
 		BB_HUMAN_NPC_FLANK_TARGET = null,		// the turf we're moving toward for flanking

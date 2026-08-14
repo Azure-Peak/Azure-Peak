@@ -199,15 +199,15 @@
 
 	// DEBUG ONLY
 	// for(var/mob/living/carbon/human/H in GLOB.human_list)
-	// 	if(H == seeker || H.stat == DEAD)
-	// 		continue
-	// 	if(!H.mind || !H.mind.assigned_role)
-	// 		continue
-	// 	if(Q.is_valid_target(H, seeker))
-	// 		valid_targets += H
+	//	if(H == seeker || H.stat == DEAD)
+	//		continue
+	//	if(!H.mind || !H.mind.assigned_role)
+	//		continue
+	//	if(Q.is_valid_target(H, seeker))
+	//		valid_targets += H
 
 	// if(length(valid_targets))
-	// 	return pick(valid_targets)
+	//	return pick(valid_targets)
 
 	return null
 

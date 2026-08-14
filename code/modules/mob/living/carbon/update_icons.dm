@@ -76,7 +76,7 @@
 /proc/get_inhand_sprite(/obj/item/I, layer)
 	var/index = "[I.icon_state]"
 	var/icon/inhand_icon = GLOB.inhand_icons[index]
-	if(!inhand_icon) 	//Create standing/laying icons if they don't exist
+	if(!inhand_icon)	//Create standing/laying icons if they don't exist
 		generate_inhand_icon(I)
 	return mutable_appearance(GLOB.inhand_icons[index], layer = -layer)
 
@@ -94,7 +94,7 @@
 				dismembered.Blend(l_mask, ICON_MULTIPLY)
 			if(3)
 				dismembered.Blend(r_mask, ICON_MULTIPLY)
-		dismembered 			= fcopy_rsc(dismembered)
+		dismembered			= fcopy_rsc(dismembered)
 
 		GLOB.dismembered_clothing_icons[index] = dismembered*/
 

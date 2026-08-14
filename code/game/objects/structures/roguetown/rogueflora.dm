@@ -908,8 +908,8 @@
 	int_req = 0
 	special_examine = "You recall the gathering of wildsmasters recently. It hasn't been long, but these mushrooms were always believed to be happy and colorful. The spores of this one are rumoured to be the cause, it's like... they collectively made a decision to stop fooling humenkind."
 	static_debris = list(/obj/item/natural/fibers = 1,
-						 /obj/item/grown/log/tree/small = 1,
-						 /obj/item/reagent_containers/food/snacks/rogue/mushroom = 2)
+							/obj/item/grown/log/tree/small = 1,
+							/obj/item/reagent_containers/food/snacks/rogue/mushroom = 2)
 	rare_mush_bonus_drop = /mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom
 	mush_animate = FALSE
 

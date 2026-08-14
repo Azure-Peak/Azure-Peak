@@ -63,10 +63,10 @@ SUBSYSTEM_DEF(outdoor_effects)
 	var/next_day = FALSE // Resets when station_time is less than the next start time.
 
 // /datum/controller/subsystem/outdoor_effects/proc/fullPlonk()
-// 	for(var/zlevel in SSmapping.levels_by_trait(ZTRAIT_WEATHER_STUFF))
-// 		if(SSmapping.level_trait(zlevel, ZTRAIT_IGNORE_WEATHER_TRAIT))
-// 			continue
-// 		turf_weather_affectable_z_levels[zlevel] = TRUE
+//	for(var/zlevel in SSmapping.levels_by_trait(ZTRAIT_WEATHER_STUFF))
+//		if(SSmapping.level_trait(zlevel, ZTRAIT_IGNORE_WEATHER_TRAIT))
+//			continue
+//		turf_weather_affectable_z_levels[zlevel] = TRUE
 
 /datum/controller/subsystem/outdoor_effects/Initialize(timeofday)
 	if(!initialized)
@@ -287,11 +287,11 @@ SUBSYSTEM_DEF(outdoor_effects)
 //get our weather overlay
 /datum/controller/subsystem/outdoor_effects/proc/get_weather_overlay() //TODO VANDERLIN: Restore this to 32x48 for some extra
 	var/mutable_appearance/MA = new /mutable_appearance()
-	MA.icon 				= 'icons/effects/weather_overlay.dmi'
-	MA.icon_state 			= "weather_overlay"
+	MA.icon				= 'icons/effects/weather_overlay.dmi'
+	MA.icon_state			= "weather_overlay"
 	MA.plane				= WEATHER_OVERLAY_PLANE
 	MA.blend_mode			= BLEND_OVERLAY
-	MA.invisibility 		= INVISIBILITY_LIGHTING
+	MA.invisibility		= INVISIBILITY_LIGHTING
 	return MA
 
 
@@ -302,7 +302,7 @@ SUBSYSTEM_DEF(outdoor_effects)
 	var/mutable_appearance/MA = new /mutable_appearance()
 
 	MA.blend_mode	= BLEND_OVERLAY
-	MA.icon		 = LIGHTING_ICON
+	MA.icon			= LIGHTING_ICON
 	MA.icon_state	= null
 	MA.plane		= SUNLIGHTING_PLANE /* we put this on a lower level than lighting so we dont multiply anything */
 	MA.invisibility = INVISIBILITY_LIGHTING

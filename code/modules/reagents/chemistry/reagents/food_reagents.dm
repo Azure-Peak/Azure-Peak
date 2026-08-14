@@ -4,7 +4,7 @@
 
 
 // Part of the food code. Also is where all the food
-// 	condiments, additives, and such go.
+//	condiments, additives, and such go.
 
 
 /datum/reagent/consumable

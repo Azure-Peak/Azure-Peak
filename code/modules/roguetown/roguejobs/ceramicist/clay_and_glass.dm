@@ -1,6 +1,6 @@
 /obj/item/natural/clay
 	name = "clay"
-	icon_state = "clay"	 // Placeholder. TODO: Get an icon for clay.
+	icon_state = "clay"		// Placeholder. TODO: Get an icon for clay.
 	desc = "A handful of damp, malleable clay. When rolled out atop a potter's wheel, it can be sculpted into pots, cutlery, and statues."
 	gripped_intents = null
 	dropshrink = 0.75
@@ -15,7 +15,7 @@
 					// ...Possibly used to make bricks in a separate PR? Interesting way to integrate
 					// the mason's construction work with the new Potter profession. - SunriseOYH
 
-	var/cooking = 0 			// This variable measures the progress of the glazing act.
+	var/cooking = 0			// This variable measures the progress of the glazing act.
 	var/cooktime = 1 MINUTES	// This dictates the time needed to glaze.
 	var/burning = 0				// This variable measures the progress of the burning act
 	var/burntime = 5 MINUTES	// How long must it be left unattended to burn and be ruined?
@@ -63,5 +63,5 @@
 	name = "glass batch"
 	icon_state = "glassBatch"
 	desc = "A mixture of washed sand, crushed stones and ash. It glistens against the light, and could be turned into precious glass by smelting it in a furnace."
-	smeltresult = /obj/item/natural/glass 	// Smelted in a furnace, like a ore.
+	smeltresult = /obj/item/natural/glass	// Smelted in a furnace, like a ore.
 	grind_results = list(/datum/reagent/iron = 15)

@@ -22,7 +22,7 @@
 	var/list/emote_taunt = list()
 	var/taunt_chance = 0
 
-	var/rapid_melee = 1			 //Number of melee attacks between each npc pool tick. Spread evenly.
+	var/rapid_melee = 1				//Number of melee attacks between each npc pool tick. Spread evenly.
 	var/melee_queue_distance = 4 //If target is close enough start preparing to hit them if we have rapid_melee enabled
 
 	var/ranged_message = "fires" //Fluff text for ranged mobs
@@ -114,7 +114,7 @@
 	if(AICanContinue(possible_targets))
 		if(!QDELETED(target) && targets_from && targets_from.loc && !targets_from.Adjacent(target))
 			DestroyPathToTarget()
-		if(!MoveToTarget(possible_targets))	 //if we lose our target
+		if(!MoveToTarget(possible_targets))		//if we lose our target
 			if(AIShouldSleep(possible_targets))	// we try to acquire a new one
 				toggle_ai(AI_IDLE)			// otherwise we go idle
 				return 1

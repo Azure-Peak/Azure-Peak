@@ -117,7 +117,7 @@
 	icon_state = "baitp"
 	attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/goat = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 10,
-							/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = 50, 	// Rabbits love sweet things
+							/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = 50,	// Rabbits love sweet things
 							/mob/living/simple_animal/hostile/retaliate/rogue/saiga = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/fox = 30,				//Scavenger, so lower chance

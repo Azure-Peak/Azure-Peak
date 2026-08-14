@@ -197,10 +197,10 @@
 	return TRUE
 
 /** Design Note: Antidotes are meant to last as long as the poison, and purge them much quicker
- Having a 1 to 1 antidote to poison where you have to tailor defense to an increasing amount of attack
- is a bad idea, since that just means no one will use antidotes and the weapon win the race vs defense.
- This means pre ingesting antidote when expecting poison is a viable strategy.
- Previously, antidote did not have a dylovene-like effect and just purged toxin damage while poison will outlast them.
+	Having a 1 to 1 antidote to poison where you have to tailor defense to an increasing amount of attack
+	is a bad idea, since that just means no one will use antidotes and the weapon win the race vs defense.
+	This means pre ingesting antidote when expecting poison is a viable strategy.
+	Previously, antidote did not have a dylovene-like effect and just purged toxin damage while poison will outlast them.
 **/
 /datum/reagent/medicine/antidote
 	name = "Antidote"

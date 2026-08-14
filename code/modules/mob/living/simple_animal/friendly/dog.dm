@@ -88,7 +88,7 @@
 	var/obj/item/inventory_head
 	var/obj/item/inventory_back
 	var/shaved = FALSE
-	var/nofur = FALSE 		//Corgis that have risen past the material plane of existence.
+	var/nofur = FALSE		//Corgis that have risen past the material plane of existence.
 
 /mob/living/simple_animal/pet/dog/corgi/Destroy()
 	QDEL_NULL(inventory_head)
@@ -147,7 +147,7 @@
 	user.set_machine(src)
 
 
-	var/dat = 	"<div align='center'><b>Inventory of [name]</b></div><p>"
+	var/dat =	"<div align='center'><b>Inventory of [name]</b></div><p>"
 	dat += "<br><B>Head:</B> <A href='?src=[REF(src)];[inventory_head ? "remove_inv=head'>[inventory_head]" : "add_inv=head'>Nothing"]</A>"
 	dat += "<br><B>Back:</B> <A href='?src=[REF(src)];[inventory_back ? "remove_inv=back'>[inventory_back]" : "add_inv=back'>Nothing"]</A>"
 
@@ -392,7 +392,7 @@
 /mob/living/simple_animal/pet/dog/corgi/Ian/proc/Read_Memory()
 	if(fexists("data/npc_saves/Ian.sav")) //legacy compatability to convert old format to new
 		var/savefile/S = new /savefile("data/npc_saves/Ian.sav")
-		S["age"] 		>> age
+		S["age"]		>> age
 		S["record_age"]	>> record_age
 		S["saved_head"] >> saved_head
 		fdel("data/npc_saves/Ian.sav")

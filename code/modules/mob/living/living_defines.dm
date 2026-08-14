@@ -17,7 +17,7 @@
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.
-	var/health = 100 	//A mob's health
+	var/health = 100	//A mob's health
 
 	//Damage related vars, NOTE: THESE SHOULD ONLY BE MODIFIED BY PROCS
 	var/bruteloss = 0	//Brutal damage caused by brute force (punching, being clubbed by a toolbox ect... this also accounts for pressure damage)
@@ -51,7 +51,7 @@
 
 	//Allows mobs to move through dense areas without restriction. For instance, in space or out of holder objects.
 	var/incorporeal_move = FALSE //FALSE is off, INCORPOREAL_MOVE_BASIC is normal, INCORPOREAL_MOVE_SHADOW is for ninjas
-								 //and INCORPOREAL_MOVE_JAUNT is blocked by holy water/salt
+									//and INCORPOREAL_MOVE_JAUNT is blocked by holy water/salt
 
 	var/list/roundstart_quirks
 
@@ -195,8 +195,8 @@
 	var/list/custom_descriptors
 
 	/**This variable updated in mob_movement.dm primarily. Mainly a shitcode measure for existing shitcode because this is SHITCODE!
-	 * All it does is track when a mob is sneaking so we don't have to constantly reset alpha values as this fucks with how things are intended to be.
-	 * if you really need to cancel someone who is sneaking, call update_sneak_invis(TRUE).*/
+		* All it does is track when a mob is sneaking so we don't have to constantly reset alpha values as this fucks with how things are intended to be.
+		* if you really need to cancel someone who is sneaking, call update_sneak_invis(TRUE).*/
 	var/rogue_sneaking = FALSE
 	/* Can be used to change the lighting threshholds at which players can sneak.*/
 	var/rogue_sneaking_light_threshhold = 0.15

@@ -1267,7 +1267,7 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 	if (!thing)
 		return
 	// if(SSlag_switch.measures[DISABLE_USR_ICON2HTML] && usr && !HAS_TRAIT(usr, TRAIT_BYPASS_MEASURES))
-	// 	return
+	//	return
 
 	var/key
 	var/icon/icon2collapse = thing
@@ -1379,7 +1379,7 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 	if (!thing)
 		return
 	// if(SSlag_switch.measures[DISABLE_USR_ICON2HTML] && usr && !HAS_TRAIT(usr, TRAIT_BYPASS_MEASURES))
-	// 	return
+	//	return
 
 	if (isicon(thing))
 		return icon2html(thing, target)
@@ -1562,7 +1562,7 @@ GLOBAL_LIST_EMPTY(headshot_cache)
 	// Better include this later uh oh!
 	// var/was_typing = target.typing
 	// if(was_typing)
-	// 	target.set_typing_indicator(FALSE)
+	//	target.set_typing_indicator(FALSE)
 
 	var/image/dummy = image(target.icon, target, target.icon_state, target.layer, target.dir)
 	dummy.appearance = target.appearance
@@ -1573,7 +1573,7 @@ GLOBAL_LIST_EMPTY(headshot_cache)
 	target.update_inv_back()
 	target.update_inv_head()
 	// if(was_typing)
-	// 	target.set_typing_indicator(TRUE)
+	//	target.set_typing_indicator(TRUE)
 
 	var/icon/headshot = getFlatIcon(dummy, SOUTH, no_anim = TRUE)
 	headshot.Scale(size, size)

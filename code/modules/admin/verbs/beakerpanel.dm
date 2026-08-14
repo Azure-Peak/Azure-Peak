@@ -125,7 +125,7 @@
 							var reagents = $(this).find("li.reagent").map(function() {
 							return { "reagent": $(this).data("type"), "volume": $(this).find('input').val()};
 							}).get();
-						 return {"container": type, "reagents": reagents };
+							return {"container": type, "reagents": reagents };
 						}).get();
 						var grenadeType = $('#grenade-type').val()
 						var grenadeData = {};

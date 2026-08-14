@@ -100,7 +100,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	animate(pixel_x = orig_x - 2, pixel_y = orig_y + 2, time = 1)
 	animate(pixel_x = orig_x + 1, pixel_y = orig_y + 1, time = 1)
 	animate(pixel_x = orig_x - 1, pixel_y = orig_y - 2, time = 1)
-	animate(pixel_x = orig_x,	 pixel_y = orig_y,	 time = 1)
+	animate(pixel_x = orig_x,		pixel_y = orig_y,		time = 1)
 
 	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), REANIMATION_TELL_TIME, TIMER_STOPPABLE)
 

@@ -499,9 +499,9 @@ All foods are distributed among various categories. Use common sense.
 	var/list/parts = list()
 	switch(faretype)
 		if(FARE_IMPOVERISHED) parts += "Quality: Impoverished"
-		if(FARE_POOR)		 parts += "Quality: Poor"
+		if(FARE_POOR)			parts += "Quality: Poor"
 		if(FARE_NEUTRAL)		parts += "Quality: Neutral"
-		if(FARE_FINE)		 parts += "Quality: Fine"
+		if(FARE_FINE)			parts += "Quality: Fine"
 		if(FARE_LAVISH)		parts += "Quality: Lavish"
 	parts += "Nutrition: [get_nutrition_to_text()]"
 	if(!portable)
@@ -521,7 +521,7 @@ All foods are distributed among various categories. Use common sense.
 			if(-INFINITY to 0.25) rot_label += " - very fresh"
 			if(0.25 to 0.5)		rot_label += " - fairly fresh"
 			if(0.5 to 0.75)		rot_label += " - going stale"
-			if(0.75 to 1)		 rot_label += " - about to rot"
+			if(0.75 to 1)			rot_label += " - about to rot"
 		parts += rot_label
 	switch(eat_effect)
 		if(/datum/status_effect/buff/snackbuff, /datum/status_effect/buff/mealbuff)

@@ -235,7 +235,7 @@
 /datum/stressevent/puzzle_impossible
 	stressadd = -4
 	desc = span_boldgreen("I solved an extremely difficult puzzle. Xylix is smiling at me, and surely even \
-	 Noc must find it impressive.")
+		Noc must find it impressive.")
 	timer = 15 MINUTES
 
 /datum/stressevent/noble_fine_food

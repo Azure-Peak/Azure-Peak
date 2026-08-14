@@ -70,8 +70,8 @@
 		// var/target_role = L.job
 		var/is_valid_prey = is_hunted
 		// if(!is_valid_prey)
-		// 	if(target_role in combat_roles)
-		// 		is_valid_prey = TRUE
+		//	if(target_role in combat_roles)
+		//		is_valid_prey = TRUE
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
 			possible_targets[entry_name] = L

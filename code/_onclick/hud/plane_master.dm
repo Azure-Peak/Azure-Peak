@@ -245,8 +245,8 @@
 /atom/movable/screen/plane_master/weather_effect/Destroy()
 	. = ..()
 	SSoutdoor_effects.weather_planes_need_vis -= src
-/* Our sunlight planemaster mashes all of our sunlight overlays together into one			 */
-/* The fullscreen then grabs the plane_master with a layer filter, and colours it			 */
+/* Our sunlight planemaster mashes all of our sunlight overlays together into one				*/
+/* The fullscreen then grabs the plane_master with a layer filter, and colours it				*/
 /* We do this so the sunlight fullscreen acts as a big lighting object, in our lighting plane */
 /atom/movable/screen/fullscreen/lighting_backdrop/sunlight
 	icon_state	= ""

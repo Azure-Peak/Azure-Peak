@@ -12,9 +12,9 @@
 
 /datum/light_source
 	var/atom/top_atom		// The atom we're emitting light from (for example a mob if we're from a flashlight that's being held).
-	var/atom/source_atom	 // The atom that we belong to.
+	var/atom/source_atom		// The atom that we belong to.
 
-	var/turf/source_turf	 // The turf under the above.
+	var/turf/source_turf		// The turf under the above.
 	var/turf/pixel_turf		// The turf the top_atom appears to over.
 	var/light_power	// Intensity of the emitter light.
 	/// The range of the emitted light.
@@ -35,7 +35,7 @@
 	var/tmp/applied_lum_g
 	var/tmp/applied_lum_b
 
-	var/list/datum/lighting_corner/effect_str	 // List used to store how much we're affecting corners.
+	var/list/datum/lighting_corner/effect_str		// List used to store how much we're affecting corners.
 
 	var/applied = FALSE // Whether we have applied our light yet or not.
 
@@ -182,32 +182,32 @@
 #define LUM_FALLOFF_MULTIZ(C)(CLAMP01(-(sqrt((C.x - _turf_x) ** 2 +(C.y - _turf_y) ** 2 + (C.z - _turf_z) ** 2 + LIGHTING_HEIGHT) / _range_divisor + _range_subtrahend)) ** light_falloff_curve)
 
 #define APPLY_CORNER(C)							\
-	if(C.z == _turf_z) {						 \
+	if(C.z == _turf_z) {							\
 		. = LUM_FALLOFF(C);						\
 	}											\
 	else {										\
 		. = LUM_FALLOFF_MULTIZ(C)				\
 	}											\
 	. *= _light_power;							\
-	var/OLD = effect_str[C];					 \
+	var/OLD = effect_str[C];						\
 	C.update_lumcount							\
 	(											\
-		(. * _lum_r) - (OLD * _applied_lum_r),	 \
-		(. * _lum_g) - (OLD * _applied_lum_g),	 \
+		(. * _lum_r) - (OLD * _applied_lum_r),		\
+		(. * _lum_g) - (OLD * _applied_lum_g),		\
 		(. * _lum_b) - (OLD * _applied_lum_b)		\
 	);
 
 #define UPDATE_CORNER(C)							\
-	var/OLD = effect_str[C];					 \
+	var/OLD = effect_str[C];						\
 	. = max(_light_update_mult * OLD + _light_update_shift, 0);\
 	C.update_lumcount							\
 	(											\
-		(. * _lum_r) - (OLD * _applied_lum_r),	 \
-		(. * _lum_g) - (OLD * _applied_lum_g),	 \
+		(. * _lum_r) - (OLD * _applied_lum_r),		\
+		(. * _lum_g) - (OLD * _applied_lum_g),		\
 		(. * _lum_b) - (OLD * _applied_lum_b)		\
 	);
 
-#define REMOVE_CORNER(C)						 \
+#define REMOVE_CORNER(C)							\
 	. = -effect_str[C];							\
 	C.update_lumcount							\
 	(											\

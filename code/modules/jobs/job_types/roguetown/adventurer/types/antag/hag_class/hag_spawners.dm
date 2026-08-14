@@ -12,13 +12,13 @@
 		/obj/item/alch/hag_moss/enchanted/sprouting	= 4,
 		// Mid Rarity Enchanted
 		/obj/item/alch/hag_moss/enchanted/random/mid = 3,
-		/obj/item/alch/hag_moss/enchanted/caring	 = 2,
-		/obj/item/alch/hag_moss/enchanted/rooted	 = 2,
+		/obj/item/alch/hag_moss/enchanted/caring		= 2,
+		/obj/item/alch/hag_moss/enchanted/rooted		= 2,
 		/obj/item/alch/hag_moss/enchanted/creeping	= 2,
 		// High Rarity Enchanted
 		/obj/item/alch/hag_moss/enchanted/random/high = 1,
 		/obj/item/alch/hag_moss/enchanted/gilded		= 1,
-		/obj/item/alch/hag_moss/enchanted/drowned	 = 1
+		/obj/item/alch/hag_moss/enchanted/drowned		= 1
 	)
 
 /obj/effect/spawner/lootdrop/hag/mothers_cache
@@ -66,5 +66,5 @@
 		/obj/item/clothing/neck/roguetown/psicross/hag = 1,
 		/obj/item/rogueweapon/greataxe/steel/hag		= 1,
 		/obj/item/rogueweapon/sword/long/hag			= 1,
-		/obj/item/rogueweapon/halberd/hag			 = 1
+		/obj/item/rogueweapon/halberd/hag				= 1
 	)

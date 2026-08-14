@@ -103,7 +103,7 @@
 /datum/action/cooldown/spell/great_shelter/proc/build_shelter_offsets()
 	return list(
 		list(-1,	2, "wall"),	list( 0,	2, "wall"),	list( 1,	2, "wall"),	list( 2,	2, "wall"),
-		list(-1,	1, "wall"),	list( 0,	1, "bed"),	 list( 1,	1, "hearth"), list( 2,	1, "wall"),
+		list(-1,	1, "wall"),	list( 0,	1, "bed"),		list( 1,	1, "hearth"), list( 2,	1, "wall"),
 		list(-1,	0, "wall"),	list( 0,	0, "empty"),	list( 1,	0, "empty"), list( 2,	0, "wall"),
 		list(-1, -1, "wall"),	list( 0, -1, "empty"),	list( 1, -1, "wall"),	list( 2, -1, "wall"),
 	)

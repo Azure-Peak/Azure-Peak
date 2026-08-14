@@ -231,7 +231,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 
 /proc/get_radio_name(freq)
 	return freq
-/* 	var/returntext = GLOB.reverseradiochannels["[freq]"]
+/*	var/returntext = GLOB.reverseradiochannels["[freq]"]
 	if(returntext)
 		return returntext
 	return "[copytext("[freq]", 1, 4)].[copytext("[freq]", 4, 5)]" */

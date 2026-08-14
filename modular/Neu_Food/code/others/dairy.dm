@@ -1,9 +1,9 @@
 /* * * * * * * * * * * * * * *	*
  *								*
  *		Butter & Cheese			*
- *					 			*
+ *									*
  *								*
- * * * * * * * * * * * * * * * 	*/
+ * * * * * * * * * * * * * * *	*/
 
 /*	........	Salting milk (for butter & cheesemaking)	................ */
 /datum/reagent/consumable/milk/salted

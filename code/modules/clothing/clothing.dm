@@ -481,14 +481,14 @@ SEE_OBJS	// can see all objs, no matter what
 SEE_TURFS // can see all turfs (and areas), no matter what
 SEE_PIXELS// if an object is located on an unlit area, but some of its pixels are
 			// in a lit area (via pixel_x,y or smooth movement), can see those pixels
-BLIND	 // can't see anything
+BLIND		// can't see anything
 */
 
 /proc/generate_female_clothing(index,t_color,icon,type)
 	var/icon/female_clothing_icon	= icon("icon"=icon, "icon_state"=t_color)
 	var/icon/female_s				= icon("icon"='icons/mob/clothing/under/masking_helpers.dmi', "icon_state"="[(type == FEMALE_UNIFORM_FULL) ? "female_full" : "female_top"]")
 	female_clothing_icon.Blend(female_s, ICON_MULTIPLY)
-	female_clothing_icon 			= fcopy_rsc(female_clothing_icon)
+	female_clothing_icon			= fcopy_rsc(female_clothing_icon)
 	GLOB.female_clothing_icons[index] = female_clothing_icon
 
 /proc/generate_dismembered_clothing(index, t_color, icon, sleeveindex, sleevetype)
@@ -505,7 +505,7 @@ BLIND	 // can't see anything
 				dismembered.Blend(l_mask, ICON_MULTIPLY)
 			if(3)
 				dismembered.Blend(r_mask, ICON_MULTIPLY)
-		dismembered 			= fcopy_rsc(dismembered)
+		dismembered			= fcopy_rsc(dismembered)
 
 		GLOB.dismembered_clothing_icons[index] = dismembered
 

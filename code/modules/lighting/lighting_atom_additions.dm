@@ -11,7 +11,7 @@
 	var/light_outer_range = 0
 	///Adjusts curve for falloff gradient
 	var/light_falloff_curve = LIGHTING_DEFAULT_FALLOFF_CURVE
-	var/light_color	 // Hexadecimal RGB string representing the colour of the light.
+	var/light_color		// Hexadecimal RGB string representing the colour of the light.
 	///Boolean variable for toggleable lights. Has no effect without the proper light_system, light_range and light_power values.
 	var/light_on = TRUE
 

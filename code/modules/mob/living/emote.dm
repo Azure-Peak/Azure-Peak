@@ -1612,10 +1612,10 @@
 	var/list/failure_message_list
 
 	/**
-	 * An assoc list of character traits which will affect the outcome of rolls by the defined values if the rolling player has them. If empty, this process will be ignored.
-	 * This basically determines the difficulty class in rolls (see: `/mob/living/proc/stat_roll()`)
-	 * -1 value means decreased difficulty class, 5% higher chance to succeed, otherwise vice versa.
-	 */
+		* An assoc list of character traits which will affect the outcome of rolls by the defined values if the rolling player has them. If empty, this process will be ignored.
+		* This basically determines the difficulty class in rolls (see: `/mob/living/proc/stat_roll()`)
+		* -1 value means decreased difficulty class, 5% higher chance to succeed, otherwise vice versa.
+		*/
 	var/list/modifiers_list = list()
 
 /datum/emote/living/stat_roll/run_emote(mob/user, params, type_override, intentional = FALSE)

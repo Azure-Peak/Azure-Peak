@@ -204,7 +204,7 @@
 		/obj/item/clothing/ring/statgemerald = 20,	// Swiftness
 		/obj/item/clothing/ring/statonyx = 20,		// Vitality
 		/obj/item/clothing/ring/statamythortz = 20, // Wisdom
-		/obj/item/clothing/ring/statrontz = 20,	 // Courage
+		/obj/item/clothing/ring/statrontz = 20,		// Courage
 		/obj/item/clothing/ring/dragon_ring = 10,	// Dragonstone
 		/obj/item/clothing/ring/statdorpel = 5		// Omnipotence
 	)

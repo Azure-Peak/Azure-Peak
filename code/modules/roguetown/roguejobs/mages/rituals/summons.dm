@@ -57,8 +57,8 @@
 #define INFERNAL_RES_3 "Cruor!"		// Blood — matches LAT_2 (blood burns, chains break)
 #define INFERNAL_RES_4 "Ardete!"		// Burn — matches ENG_2 (burn hotter)
 #define INFERNAL_RES_5 "Audite!"		// Listen — matches LAT_3 (my will is law)
-#define INFERNAL_RES_6 "Servite!"	 // Submit — matches ENG_3 (submit, you are bound)
-#define INFERNAL_RES_7 "Exurite!"	 // Burn them — matches LAT_4 (hell obeys)
+#define INFERNAL_RES_6 "Servite!"		// Submit — matches ENG_3 (submit, you are bound)
+#define INFERNAL_RES_7 "Exurite!"		// Burn them — matches LAT_4 (hell obeys)
 #define INFERNAL_RES_8 "Obedit!"		// Obey — matches ENG_4 (hell itself bows)
 
 // Fae — nature, growth, wild fury
@@ -72,12 +72,12 @@
 #define FAE_ENG_4 "Grow wild! Consume everything!"
 #define FAE_CLIMAX "Fly! The wild answers!"
 #define FAE_CTA "Bloom! Evoca et Cresce!"
-#define FAE_RES_1 "Florete!"		 // Bloom — matches LAT_1 (flowers open)
+#define FAE_RES_1 "Florete!"			// Bloom — matches LAT_1 (flowers open)
 #define FAE_RES_2 "Volate!"			// Fly — matches ENG_1 (come, playful fae)
-#define FAE_RES_3 "Cantate!"		 // Sing — matches LAT_2 (forest sings)
+#define FAE_RES_3 "Cantate!"			// Sing — matches LAT_2 (forest sings)
 #define FAE_RES_4 "Ludite!"			// Play — matches ENG_2 (spin and flutter)
 #define FAE_RES_5 "Furiae!"			// Furies — matches LAT_3 (nature rages)
-#define FAE_RES_6 "Prodite!"		 // Come forth — matches ENG_3 (show your fury)
+#define FAE_RES_6 "Prodite!"			// Come forth — matches ENG_3 (show your fury)
 #define FAE_RES_7 "Crescite!"		// Grow — matches LAT_4 (fury descends)
 #define FAE_RES_8 "Vorare!"			// Devour — matches ENG_4 (consume everything)
 
@@ -95,9 +95,9 @@
 #define EARTHEN_RES_1 "Terra!"		// Earth — matches LAT_1 (earth hears me)
 #define EARTHEN_RES_2 "Surgite!"		// Rise — matches ENG_1 (rise from the deep)
 #define EARTHEN_RES_3 "Tremite!"		// Tremble — matches LAT_2 (foundations tremble)
-#define EARTHEN_RES_4 "Frangite!"	 // Shatter — matches ENG_2 (shatter the earth)
-#define EARTHEN_RES_5 "Mons!"		 // Mountain — matches LAT_3 (the mountain obeys)
-#define EARTHEN_RES_6 "Devorate!"	 // Devour — matches ENG_3 (swallow the ground)
+#define EARTHEN_RES_4 "Frangite!"		// Shatter — matches ENG_2 (shatter the earth)
+#define EARTHEN_RES_5 "Mons!"			// Mountain — matches LAT_3 (the mountain obeys)
+#define EARTHEN_RES_6 "Devorate!"		// Devour — matches ENG_3 (swallow the ground)
 #define EARTHEN_RES_7 "Ruina!"		// Ruin — matches LAT_4 (total ruin)
 #define EARTHEN_RES_8 "Contere!"		// Crush — matches ENG_4 (leave nothing standing)
 
@@ -129,7 +129,7 @@
 #define VOID_RES_5 "Nihil!"			// Nothing — matches LAT_3 (I call beyond all)
 #define VOID_RES_6 "Vorago!"			// Chasm — matches ENG_3 (past every boundary)
 #define VOID_RES_7 "Devorate!"		// Devour — matches LAT_4 (void dragon rises)
-#define VOID_RES_8 "Expergisce!"	 // Awaken — matches ENG_4 (the dragon wakes)
+#define VOID_RES_8 "Expergisce!"		// Awaken — matches ENG_4 (the dragon wakes)
 
 /datum/runeritual/summoning
 	abstract_type = /datum/runeritual/summoning

@@ -9,14 +9,14 @@
 #define DEFAULT_SCAN_RANGE		7	//default view range for finding targets.
 
 //Mode defines
-#define BOT_IDLE 			0	// idle
-#define BOT_HUNT 			1	// found target, hunting
-#define BOT_PREP_ARREST 	2	// at target, preparing to arrest
+#define BOT_IDLE			0	// idle
+#define BOT_HUNT			1	// found target, hunting
+#define BOT_PREP_ARREST	2	// at target, preparing to arrest
 #define BOT_ARREST			3	// arresting target
 #define BOT_START_PATROL	4	// start patrol
 #define BOT_PATROL			5	// patrolling
 #define BOT_SUMMON			6	// summoned by PDA
-#define BOT_CLEANING 		7	// cleaning (cleanbots)
+#define BOT_CLEANING		7	// cleaning (cleanbots)
 #define BOT_REPAIRING		8	// repairing hull breaches (floorbots)
 #define BOT_MOVING			9	// for clean/floor/med bots, when moving.
 #define BOT_HEALING			10	// healing people (medbots)
@@ -38,15 +38,15 @@
 #define FIRE_BOT			(1<<6)	// Firebots
 
 //AI notification defines
-#define		NEW_BORG	 1
+#define		NEW_BORG		1
 #define		NEW_MODULE	2
 #define		RENAME		3
-#define		AI_SHELL	 4
+#define		AI_SHELL		4
 #define		DISCONNECT	5
 
 //Assembly defines
-#define ASSEMBLY_FIRST_STEP 	0
-#define ASSEMBLY_SECOND_STEP 	1
-#define ASSEMBLY_THIRD_STEP	 2
+#define ASSEMBLY_FIRST_STEP	0
+#define ASSEMBLY_SECOND_STEP	1
+#define ASSEMBLY_THIRD_STEP		2
 #define ASSEMBLY_FOURTH_STEP	3
-#define ASSEMBLY_FIFTH_STEP	 4
+#define ASSEMBLY_FIFTH_STEP		4

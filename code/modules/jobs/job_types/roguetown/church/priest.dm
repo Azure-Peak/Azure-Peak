@@ -26,13 +26,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 
 	spells = list(
-	 /datum/action/cooldown/spell/miracle/fortify,
-	 /obj/effect/proc_holder/spell/invoked/cure_rot,
-	 /datum/action/cooldown/spell/miracle/intervention,
-	 /obj/effect/proc_holder/spell/invoked/revive,
-	 /datum/action/cooldown/spell/miracle/bishop_pack,
-	 /obj/effect/proc_holder/spell/self/convertrole/templar,
-	 /obj/effect/proc_holder/spell/self/convertrole/monk
+		/datum/action/cooldown/spell/miracle/fortify,
+		/obj/effect/proc_holder/spell/invoked/cure_rot,
+		/datum/action/cooldown/spell/miracle/intervention,
+		/obj/effect/proc_holder/spell/invoked/revive,
+		/datum/action/cooldown/spell/miracle/bishop_pack,
+		/obj/effect/proc_holder/spell/self/convertrole/templar,
+		/obj/effect/proc_holder/spell/self/convertrole/monk
 	)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP

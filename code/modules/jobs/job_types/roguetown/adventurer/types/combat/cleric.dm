@@ -180,7 +180,7 @@
 /datum/outfit/job/roguetown/adventurer/paladin/pre_equip(mob/living/carbon/human/H)
 	// This list exists here so it can be overwritten later.
 	var/helmets = list(
-		"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+		"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 		"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 		"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,

@@ -151,11 +151,11 @@
 	/// Whether the charge bar has completed and the spell is being held ready. While TRUE, hold_drain bleeds per process tick.
 	var/fully_charged = FALSE
 	/**
-	 * Cost per 0.2 seconds to hold the spell once charged. Charge-up itself is free.
-	 *
-	 * Drained on SSmousecharge (wait = 1, scaled by 0.5 in process()) from the moment
-	 * hold_grace_time expires until the spell is cast or dropped.
-	 */
+		* Cost per 0.2 seconds to hold the spell once charged. Charge-up itself is free.
+		*
+		* Drained on SSmousecharge (wait = 1, scaled by 0.5 in process()) from the moment
+		* hold_grace_time expires until the spell is cast or dropped.
+		*/
 	var/hold_drain = 1
 	var/hold_grace_time = SPELL_HOLD_GRACE
 	var/hold_max_time = SPELL_HOLD_MAX

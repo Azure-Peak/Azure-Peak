@@ -261,7 +261,7 @@
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
-/* 	.................	Crossbuns	................... */
+/*	.................	Crossbuns	................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/crossbun_raw
 	name = "raw crossbun"
 	desc = "A piece of raw dough with the shape of Astrata's cross pressed onto it. In Her Light."
@@ -278,7 +278,7 @@
 	icon_state = "psycrossbun_raw"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/psycrossbun
 
-/* 	.................	Crossbuns	................... */
+/*	.................	Crossbuns	................... */
 /obj/item/reagent_containers/food/snacks/rogue/crossbun
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD

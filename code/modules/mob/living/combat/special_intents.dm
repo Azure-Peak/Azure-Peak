@@ -772,7 +772,7 @@ SPECIALS START HERE
 		L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vulnerable_dur)
 	..()
 
-#define AXE_SWING_GRID_DEFAULT 	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
+#define AXE_SWING_GRID_DEFAULT	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
 #define AXE_SWING_GRID_MIRROR	list(list(-1,0, 0.4 SECONDS), list(0,0, 0.2 SECONDS), list(1,0))
 
 /datum/special_intent/axe_swing
@@ -1173,7 +1173,7 @@ SPECIALS START HERE
 	playsound(T, sfx_post_delay, 100, TRUE)
 	..()
 
-/* 				EXAMPLES
+/*				EXAMPLES
 
 /datum/special_intent/another_example_cast
 	name = "Expanding Rectangle Pattern"

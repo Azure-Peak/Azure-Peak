@@ -1,4 +1,4 @@
- //--------------- BLACKSTEEL ---------------------
+//--------------- BLACKSTEEL ---------------------
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
 	name = "blacksteel plate armor"

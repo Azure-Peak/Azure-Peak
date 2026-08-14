@@ -311,7 +311,7 @@ reverse a descending sequence without violating stability.
  * @param base the index of the first element in the range
  * @param len the length of the range; must be > 0
  * @param hint the index at which to begin the search, 0 <= hint < n.
- *	 The closer hint is to the result, the faster this method will run.
+ *		The closer hint is to the result, the faster this method will run.
 	* @param c the comparator used to order the range, and to search
 	* @return the int k,	0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
 	*/

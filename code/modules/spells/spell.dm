@@ -180,7 +180,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/list/invocations = list() //what is uttered when the wizard casts the spell
 	var/invocation_emote_self = null
 	var/invocation_type = "none" //can be none, whisper, emote and shout
-	var/range = 7 	// the range of the spell; outer radius for aoe spells. set to 0 for self.
+	var/range = 7	// the range of the spell; outer radius for aoe spells. set to 0 for self.
 	var/message = "" //whatever it says to the guy affected by it
 	var/selection_type = "view" //can be "range" or "view"
 	var/cooldown_min = 0 //This defines what spell quickened four times has as a cooldown. Make sure to set this for every spell

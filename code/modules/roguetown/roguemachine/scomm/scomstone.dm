@@ -1,4 +1,4 @@
-//SCOMSTONE				 SCOMSTONE
+//SCOMSTONE					SCOMSTONE
 
 /obj/item/scomstone
 	name = "scomstone"

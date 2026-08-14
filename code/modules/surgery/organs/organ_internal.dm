@@ -12,8 +12,8 @@
 	var/maxHealth = STANDARD_ORGAN_THRESHOLD
 	var/damage = 0		//total damage this organ has sustained
 	///Healing factor and decay factor function on % of maxhealth, and do not work by applying a static number per tick
-	var/healing_factor 	= 0										//fraction of maxhealth healed per on_life(), set to 0 for generic organs
-	var/decay_factor 	= 0										//same as above but when without a living owner, set to 0 for generic organs
+	var/healing_factor	= 0										//fraction of maxhealth healed per on_life(), set to 0 for generic organs
+	var/decay_factor	= 0										//same as above but when without a living owner, set to 0 for generic organs
 	var/high_threshold	= STANDARD_ORGAN_THRESHOLD * 0.45		//when severe organ damage occurs
 	var/low_threshold	= STANDARD_ORGAN_THRESHOLD * 0.1		//when minor organ damage occurs
 
@@ -259,7 +259,7 @@
 	* input: M (a mob, the owner of the organ we call the proc on)
 	* output: returns a message should get displayed.
 	* description: By checking our current damage against our previous damage, we can decide whether we've passed an organ threshold.
-	*				 If we have, send the corresponding threshold message to the owner, if such a message exists.
+	*					If we have, send the corresponding threshold message to the owner, if such a message exists.
 	*/
 /obj/item/organ/proc/check_damage_thresholds(mob/M)
 	if(damage == prev_damage)

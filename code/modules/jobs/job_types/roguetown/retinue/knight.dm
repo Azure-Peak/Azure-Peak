@@ -141,7 +141,7 @@
 
 	if(H.mind)
 		var/helmets = list(
-			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+			"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
@@ -243,7 +243,7 @@
 	backl = /obj/item/rogueweapon/shield/tower/metal
 	if(H.mind)
 		var/helmets = list(
-			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+			"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
@@ -379,7 +379,7 @@
 
 	if(H.mind)
 		var/helmets = list(
-			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+			"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
@@ -525,7 +525,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
 
 		var/helmets = list(
-			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+			"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
@@ -754,7 +754,7 @@
 		return
 
 	var/helmets = list(
-		"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+		"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 		"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 		"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,

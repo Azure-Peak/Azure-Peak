@@ -14,10 +14,10 @@
 //Misc mob defines
 
 //for vision cone
-#define FOV_DEFAULT 					(1<<0)
-#define FOV_RIGHT 					(1<<1)
-#define FOV_LEFT 					(1<<2)
-#define FOV_BEHIND 	 					(1<<3) //180
+#define FOV_DEFAULT					(1<<0)
+#define FOV_RIGHT					(1<<1)
+#define FOV_LEFT					(1<<2)
+#define FOV_BEHIND							(1<<3) //180
 
 //Ready states at roundstart for mob/dead/new_player
 #define PLAYER_NOT_READY 0
@@ -61,12 +61,12 @@
 #define BLOODCRAWL_EAT 2
 
 //Mob bio-types flags
-#define MOB_ORGANIC 	1 << 0
+#define MOB_ORGANIC	1 << 0
 #define MOB_MINERAL		1 << 1
-#define MOB_ROBOTIC 	1 << 2
+#define MOB_ROBOTIC	1 << 2
 #define MOB_UNDEAD		1 << 3
-#define MOB_HUMANOID 	1 << 4
-#define MOB_BUG 		1 << 5
+#define MOB_HUMANOID	1 << 4
+#define MOB_BUG		1 << 5
 #define MOB_BEAST		1 << 6
 #define MOB_EPIC		1 << 7 //megafauna
 #define MOB_REPTILE		1 << 8
@@ -224,8 +224,8 @@
 #define SLIME_EXTRACT_CROSSING_REQUIRED 10
 
 //Slime commands defines
-#define SLIME_FRIENDSHIP_FOLLOW 			3 //Min friendship to order it to follow
-#define SLIME_FRIENDSHIP_STOPEAT 			5 //Min friendship to order it to stop eating someone
+#define SLIME_FRIENDSHIP_FOLLOW			3 //Min friendship to order it to follow
+#define SLIME_FRIENDSHIP_STOPEAT			5 //Min friendship to order it to stop eating someone
 #define SLIME_FRIENDSHIP_STOPEAT_NOANGRY	7 //Min friendship to order it to stop eating someone without it losing friendship
 #define SLIME_FRIENDSHIP_STOPCHASE			4 //Min friendship to order it to stop chasing someone (their target)
 #define SLIME_FRIENDSHIP_STOPCHASE_NOANGRY	6 //Min friendship to order it to stop chasing someone (their target) without it losing friendship
@@ -259,7 +259,7 @@
 
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
-#define ENVIRONMENT_SMASH_STRUCTURES	(1<<0) 	//crates, lockers, ect
+#define ENVIRONMENT_SMASH_STRUCTURES	(1<<0)	//crates, lockers, ect
 #define ENVIRONMENT_SMASH_WALLS			(1<<1)	//walls
 #define ENVIRONMENT_SMASH_RWALLS		(1<<2)	//rwalls
 
@@ -384,11 +384,11 @@
 //Pride ruin mirror
 #define MIRROR_PRIDE	(1<<2)
 //Race swap wizard event
-#define RACE_SWAP	 (1<<3)
+#define RACE_SWAP		(1<<3)
 //xenobio black crossbreed
 #define SLIME_EXTRACT (1<<5)
 //Wabbacjack staff projectiles
-#define WABBAJACK	 (1<<6)
+#define WABBAJACK		(1<<6)
 
 #define SLEEP_CHECK_DEATH(X) sleep(X); if(QDELETED(src) || stat == DEAD) return;
 
@@ -586,7 +586,7 @@
 #define LIGHTBROWN_FUR "6d4530"
 #define WHITEBROWN_FUR "c69b83"
 #define DARKBROWN_FUR "3b2e27"
-#define BLACK_FUR	 "271f1a"
+#define BLACK_FUR		"271f1a"
 
 // Pixel shifting
 #define PIXEL_SHIFT_MAXIMUM 16

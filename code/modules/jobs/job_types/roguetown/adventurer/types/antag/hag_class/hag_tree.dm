@@ -284,7 +284,7 @@
 
 	var/wait_time = is_mortal ? 20 SECONDS : 10 SECONDS
 	user.visible_message(span_notice("[user] begins to sink into the mossy roots of [src]..."), \
-						 span_notice("You begin to dissolve into the network of roots, seeking the path to [get_area(target)]."))
+							span_notice("You begin to dissolve into the network of roots, seeking the path to [get_area(target)]."))
 	if(passenger)
 		user.visible_message(span_danger("[user] begins to drag [passenger] into the mossy roots..."))
 
@@ -311,7 +311,7 @@
 
 		user.forceMove(destination)
 		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
-							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
+								span_boldnotice("The roots spit you back out into [get_area(target)]."))
 
 		if(passenger && get_dist(src, passenger) <= 2)
 			passenger.forceMove(destination)
@@ -331,7 +331,7 @@
 
 		var/is_impure = (istype(W, /obj/item/reagent_containers/lux_impure) || istype(W, /obj/item/leechtick_bloated))
 		user.visible_message(span_notice("[user] pours [W] over the roots of [src]."), \
-							 span_boldnotice("You feed the heart of the bog. The ground trembles as the Lux is absorbed."))
+								span_boldnotice("You feed the heart of the bog. The ground trembles as the Lux is absorbed."))
 
 
 		qdel(W)

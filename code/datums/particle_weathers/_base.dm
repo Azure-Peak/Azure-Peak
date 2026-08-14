@@ -8,14 +8,14 @@
 
 	spawning = 0
 	width					= 800	// I think this is supposed to be in pixels, but it doesn't match bounds, so idk - 800x800 seems to prevent particle-less edges
-	height				 = 800
+	height					= 800
 	count					= 1200 // max live particles rendered per client
 	//Set bounds to rough screensize + some extra on the side and top movement for "wind"
-	bound1				 = list(-500,-256,-10)
-	bound2				 = list(500,500,10)
+	bound1					= list(-500,-256,-10)
+	bound2					= list(500,500,10)
 	lifespan				= 285	// live for 30s max (fadein + lifespan + fade)
 	fade					= 10	// 1s fade out
-	fadein					= 5	 // 0.5s fade in
+	fadein					= 5		// 0.5s fade in
 
 	//Obnoxiously 3D -- INCREASE Z level to make them further away
 	transform				= list( 1, 0, 0,	0	,

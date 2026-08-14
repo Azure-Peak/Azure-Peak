@@ -1,9 +1,9 @@
 #define DEFAULT_DURATION 15 MINUTES
 
 /* Shamelessly copied from enchant weapon, this will be set for chest and leg light armors
- Component used for adding enchantment from the enchant weapon spell
- 1. Durability: Increases the integrity and max integrity of the weapon by 100.
- The enchantment will lasts for 15 minutes, and will automatically refresh in the hand of an Arcyne user.
+	Component used for adding enchantment from the enchant weapon spell
+	1. Durability: Increases the integrity and max integrity of the weapon by 100.
+	The enchantment will lasts for 15 minutes, and will automatically refresh in the hand of an Arcyne user.
 */
 
 /datum/component/fit_clothing

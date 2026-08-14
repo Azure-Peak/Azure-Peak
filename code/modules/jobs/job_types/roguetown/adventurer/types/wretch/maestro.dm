@@ -4,8 +4,8 @@
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit				= /datum/outfit/job/roguetown/wretch/maestro
-	age_mod			 = /datum/class_age_mod/wretch/maestro
-	cmode_music		 = 'sound/music/cmode/antag/combat_cutpurse.ogg'
+	age_mod				= /datum/class_age_mod/wretch/maestro
+	cmode_music			= 'sound/music/cmode/antag/combat_cutpurse.ogg'
 	class_select_category = CLASS_CAT_ROGUE
 	category_tags		= list(CTAG_WRETCH)
 	traits_applied		= list(TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_INSPIRING_MUSICIAN)
@@ -27,7 +27,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics	= SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing	= SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading	 = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading		= SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives	= SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming	= SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/traps		= SKILL_LEVEL_APPRENTICE,
@@ -111,7 +111,7 @@
 				beltr	= /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
 			if("Cacophonist")
 				H.inspiration.bonus_rhythm_picks = 1 // 3 rhythm picks instead of T2 default 2
-				H.inspiration.maxsongs++			 // 5 song slots instead of T2 default 4
+				H.inspiration.maxsongs++				// 5 song slots instead of T2 default 4
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords,		SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/whip/triumph

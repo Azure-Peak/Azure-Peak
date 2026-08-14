@@ -168,7 +168,7 @@ feedback data can be recorded in 5 formats:
 	used for simple single-string records i.e. the current map
 	further calls to the same key will append saved data unless the overwrite argument is true or it already exists
 	when encoded calls made with overwrite will lack square brackets
-	calls: 	SSblackbox.record_feedback("text", "example", 1, "sample text")
+	calls:	SSblackbox.record_feedback("text", "example", 1, "sample text")
 			SSblackbox.record_feedback("text", "example", 1, "other text")
 	json: {"data":["sample text","other text"]}
 "amount"
@@ -180,7 +180,7 @@ feedback data can be recorded in 5 formats:
 "tally"
 	used to track the number of occurances of multiple related values i.e. how many times each type of gun is fired
 	further calls to the same key will:
-	 	add or subtract from the saved value of the data key if it already exists
+			add or subtract from the saved value of the data key if it already exists
 		append the key and it's value if it doesn't exist
 	calls:	SSblackbox.record_feedback("tally", "example", 1, "sample data")
 			SSblackbox.record_feedback("tally", "example", 4, "sample data")
@@ -192,9 +192,9 @@ feedback data can be recorded in 5 formats:
 	the final element in the data list is used as the tracking key, all prior elements are used for nesting
 	all data list elements must be strings
 	further calls to the same key will:
-	 	add or subtract from the saved value of the data key if it already exists in the same multi-dimensional position
+			add or subtract from the saved value of the data key if it already exists in the same multi-dimensional position
 		append the key and it's value if it doesn't exist
-	calls: 	SSblackbox.record_feedback("nested tally", "example", 1, list("fruit", "orange", "apricot"))
+	calls:	SSblackbox.record_feedback("nested tally", "example", 1, list("fruit", "orange", "apricot"))
 			SSblackbox.record_feedback("nested tally", "example", 2, list("fruit", "orange", "orange"))
 			SSblackbox.record_feedback("nested tally", "example", 3, list("fruit", "orange", "apricot"))
 			SSblackbox.record_feedback("nested tally", "example", 10, list("fruit", "red", "apple"))

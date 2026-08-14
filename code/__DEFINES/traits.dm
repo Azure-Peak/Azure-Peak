@@ -204,7 +204,7 @@
 #define TRAIT_BANDITCAMP "banditcamp" //Access to the bandit camp on the wretchcoast Z level
 #define TRAIT_VAMPMANSION "vampiremansion" //Access to the vampire manor on the wretchcoast Z level
 #define TRAIT_LICHLAIR "lichlair" //Access to the lich's lair on the CentCom Z level.
-#define TRAIT_ZURCH 	"Hidden Domiciles" //allows entry to ascendant church
+#define TRAIT_ZURCH	"Hidden Domiciles" //allows entry to ascendant church
 
 // Generic
 #define TRAIT_BASHDOORS "Door Basher"
@@ -705,9 +705,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 */
 
 //mob traits
-#define TRAIT_BLIND 			"blind"
+#define TRAIT_BLIND			"blind"
 #define TRAIT_MUTE				"mute"
-#define TRAIT_ZOMBIE_SPEECH 	"zombie_speech"
+#define TRAIT_ZOMBIE_SPEECH	"zombie_speech"
 #define TRAIT_GARGLE_SPEECH		"gargle_speech"
 #define TRAIT_EMOTEMUTE			"emotemute"
 #define TRAIT_DEAF				"deaf"
@@ -757,7 +757,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_FIRE_RESIST		"fire_resistance" // 50% fire damage/heating reduction + 2x stack decay - use this for player-accessible fire resistance
 #define TRAIT_NOGUNS			"no_guns"
 #define TRAIT_NOMETABOLISM		"no_metabolism"
-#define TRAIT_LIMBATTACHMENT 	"limb_attach"
+#define TRAIT_LIMBATTACHMENT	"limb_attach"
 #define TRAIT_NOLIMBDISABLE		"no_limb_disable"
 #define TRAIT_EASYLIMBDISABLE	"easy_limb_disable"
 #define TRAIT_TOXINLOVER		"toxinlover"
@@ -781,8 +781,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_PARALYSIS_R_LEG	"para-r-leg"
 #define TRAIT_CANNOT_OPEN_PRESENTS "cannot-open-presents"
 #define TRAIT_PRESENT_VISION	"present-vision"
-#define TRAIT_DISK_VERIFIER	 "disk-verifier"
-#define TRAIT_NOMOBSWAP		 "no-mob-swap"
+#define TRAIT_DISK_VERIFIER		"disk-verifier"
+#define TRAIT_NOMOBSWAP			"no-mob-swap"
 #define TRAIT_XRAY_VISION		"xray_vision"
 #define TRAIT_THERMAL_VISION	"thermal_vision"
 #define TRAIT_ABDUCTOR_TRAINING "abductor-training"
@@ -828,7 +828,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 //item traits
 #define TRAIT_NODROP			"nodrop"
 #define TRAIT_NOEMBED			"noembed"
-#define TRAIT_T_RAY_VISIBLE	 "t-ray-visible" // Visible on t-ray scanners if the atom/var/level == 1
+#define TRAIT_T_RAY_VISIBLE		"t-ray-visible" // Visible on t-ray scanners if the atom/var/level == 1
 #define TRAIT_NO_TELEPORT		"no-teleport" //you just can't
 
 //quirk traits

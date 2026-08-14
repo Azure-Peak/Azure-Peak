@@ -146,7 +146,7 @@
 
 	// // Just in case anyone finds an invisible track somehow, this way they can't mess up someone's trail.
 	// if(H && user != H)
-	// 	return
+	//	return
 
 	if(get_dist(user, src) < 1)
 		to_chat(user, span_warning("You are standing too close to see where the trail leads. Step back."))

@@ -473,14 +473,14 @@ GLOBAL_LIST_EMPTY(round_join_times)
 */
 
 #define CTAG_ALLCLASS		"CAT_ALLCLASS"		// jus a define for allclass to not deal with actively typing strings
-#define CTAG_DISABLED 		"CAT_DISABLED" 		// Disabled, aka don't make it fuckin APPEAR
-#define CTAG_PILGRIM 		"CAT_PILGRIM"			// Pilgrim classes
-#define CTAG_ADVENTURER 	"CAT_ADVENTURER"		// Adventurer classes
-#define CTAG_TOWNER 		"CAT_TOWNER"			// Villager class - Villagers can use it
-#define CTAG_ANTAG 			"CAT_ANTAG"			// Antag class - results in an antag
+#define CTAG_DISABLED		"CAT_DISABLED"		// Disabled, aka don't make it fuckin APPEAR
+#define CTAG_PILGRIM		"CAT_PILGRIM"			// Pilgrim classes
+#define CTAG_ADVENTURER	"CAT_ADVENTURER"		// Adventurer classes
+#define CTAG_TOWNER		"CAT_TOWNER"			// Villager class - Villagers can use it
+#define CTAG_ANTAG			"CAT_ANTAG"			// Antag class - results in an antag
 #define CTAG_BANDIT			"CAT_BANDIT"		// Bandit class - Tied to the bandit antag really
 #define CTAG_ASSASSIN		"CAT_ASSASSIN"		// Assassin classes - Tied to the assassin antag for specialization
-#define CTAG_CHALLENGE 		"CAT_CHALLENGE"		// Challenge class - Meant to be free for everyone
+#define CTAG_CHALLENGE		"CAT_CHALLENGE"		// Challenge class - Meant to be free for everyone
 #define CTAG_VAGABOND		"CAT_VAGABOND"		// Vagabond class - start with nothing and work your way up
 #define CTAG_ORTHODOXIST	"CAT_ORTHODOXIST"	// For Orthodoxist subclasses
 #define CTAG_INQUSITOR		"CAT_INQUISITOR"	// For Inquisitor subclasses
@@ -517,8 +517,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_SENESCHAL		"CAT_SENESCHAL"		// Seneschal's aesthetic choices.
 #define CTAG_SERVANT		"CAT_SERVANT"		// Servant's aesthetic choices.
 #define CTAG_WAPPRENTICE	"CTAG_WAPPRENTICE"	// Mage Apprentice Classes - Handles Mage Apprentices class selector
-#define CTAG_GUILDSMASTER 	"CAT_GUILDSMASTER"	// Guildsmaster class - Handles Guildsmaster class selector
-#define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
+#define CTAG_GUILDSMASTER	"CAT_GUILDSMASTER"	// Guildsmaster class - Handles Guildsmaster class selector
+#define CTAG_GUILDSMEN		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
 #define CTAG_BATHWORKER		"CAT_BATHWORKER"	// Bathhouse Attendant's aesthetic choices.
 
 // List of Migrant Classes.

@@ -205,13 +205,13 @@
 
 /// Converts a GAGS atom to a universal icon by generating blend operations.
 // /proc/gags_to_universal_icon(atom/path)
-// 	RETURN_TYPE(/datum/universal_icon)
-// 	if(!ispath(path, /atom) || !initial(path.greyscale_config) || !initial(path.greyscale_colors))
-// 		CRASH("gags_to_universal_icon() received an invalid path of \"[path]\"!")
-// 	var/datum/greyscale_config/config = initial(path.greyscale_config)
-// 	var/colors = initial(path.greyscale_colors)
-// 	var/datum/universal_icon/entry = SSgreyscale.GetColoredIconByTypeUniversalIcon(config, colors, path::post_init_icon_state || path::icon_state)
-// 	return entry
+//	RETURN_TYPE(/datum/universal_icon)
+//	if(!ispath(path, /atom) || !initial(path.greyscale_config) || !initial(path.greyscale_colors))
+//		CRASH("gags_to_universal_icon() received an invalid path of \"[path]\"!")
+//	var/datum/greyscale_config/config = initial(path.greyscale_config)
+//	var/colors = initial(path.greyscale_colors)
+//	var/datum/universal_icon/entry = SSgreyscale.GetColoredIconByTypeUniversalIcon(config, colors, path::post_init_icon_state || path::icon_state)
+//	return entry
 
 /// Gets the relevant universal icon for an atom, when displayed in TGUI. (see: icon_state_preview)
 /// Supports GAGS items and colored items.
@@ -221,7 +221,7 @@
 	var/icon_file = initial(atom_path.icon)
 	var/icon_state = initial(atom_path.icon_state)
 	// if(initial(atom_path.greyscale_config) && initial(atom_path.greyscale_colors))
-	// 	return gags_to_universal_icon(atom_path)
+	//	return gags_to_universal_icon(atom_path)
 	if(ispath(atom_path, /obj))
 		var/obj/obj_path = atom_path
 		if(initial(obj_path.icon_state_preview))

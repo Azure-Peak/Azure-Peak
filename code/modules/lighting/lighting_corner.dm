@@ -9,9 +9,9 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 	var/list/turf/masters
 	var/list/datum/light_source/affecting // Light sources affecting us.
 
-	var/x	 = 0
-	var/y	 = 0
-	var/z	 = 0
+	var/x		= 0
+	var/y		= 0
+	var/z		= 0
 
 	var/lum_r = 0
 	var/lum_g = 0

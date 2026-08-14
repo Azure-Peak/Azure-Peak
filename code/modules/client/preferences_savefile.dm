@@ -151,7 +151,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["showrolls"]			>> showrolls
 	S["chatheadshot"]		>> chatheadshot
 	S["max_chat_length"]	>> max_chat_length
-	S["see_chat_non_mob"] 	>> see_chat_non_mob
+	S["see_chat_non_mob"]	>> see_chat_non_mob
 	S["tgui_fancy"]			>> tgui_fancy
 	S["tgui_lock"]			>> tgui_lock
 	S["tgui_theme"]			>> tgui_theme
@@ -160,7 +160,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["preferred_ui_language"] >> preferred_ui_language
 	S["buttons_locked"]		>> buttons_locked
 	S["windowflash"]		>> windowflashing
-	S["be_special"] 		>> be_special
+	S["be_special"]		>> be_special
 	S["no_storyteller_events"] >> no_storyteller_events
 	S["triumphs"]			>> triumphs
 	S["musicvol"]			>> musicvol
@@ -252,14 +252,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	attack_blip_frequency = sanitize_integer(attack_blip_frequency, 0, 100, ATTACK_BLIP_PREF_DEFAULT)
 	widescreenpref	= sanitize_integer(widescreenpref, 0, 1, initial(widescreenpref))
 	ghost_form		= sanitize_inlist(ghost_form, GLOB.ghost_forms, initial(ghost_form))
-	ghost_orbit 	= sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
+	ghost_orbit	= sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
 	ghost_accs		= sanitize_inlist(ghost_accs, GLOB.ghost_accs_options, GHOST_ACCS_DEFAULT_OPTION)
 	ghost_others	= sanitize_inlist(ghost_others, GLOB.ghost_others_options, GHOST_OTHERS_DEFAULT_OPTION)
 	menuoptions		= SANITIZE_LIST(menuoptions)
 	be_special		= SANITIZE_LIST(be_special)
 	pda_style		= sanitize_inlist(pda_style, GLOB.pda_styles, initial(pda_style))
 	pda_color		= sanitize_hexcolor(pda_color, 6, 1, initial(pda_color))
-	key_bindings 	= sanitize_islist(key_bindings, list())
+	key_bindings	= sanitize_islist(key_bindings, list())
 
 	verify_keybindings_valid()
 	return TRUE
@@ -690,7 +690,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!valid_headshot_link(null, werewolf_headshot_link, TRUE))
 		werewolf_headshot_link = null
 
-	S["qsr"] 			>> qsr_pref
+	S["qsr"]			>> qsr_pref
 	S["flavortext"]			>> flavortext
 	S["ooc_notes"]			>> ooc_notes
 	S["ooc_extra"]			>> ooc_extra

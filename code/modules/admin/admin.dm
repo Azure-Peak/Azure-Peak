@@ -43,7 +43,7 @@
 	body += "	localStorage.setItem('activeSection', section);"
 	body += "	document.getElementById('skills-section').style.display = (section === 'skills') ? 'block' : 'none';"
 	body += "	document.getElementById('languages-section').style.display = (section === 'languages') ? 'block' : 'none';"
-	body += "	 document.getElementById('stats-section').style.display = (section === 'stats') ? 'block' : 'none';"
+	body += "		document.getElementById('stats-section').style.display = (section === 'stats') ? 'block' : 'none';"
 	body += "	document.getElementById('patron-section').style.display = (section === 'patron') ? 'block' : 'none';"
 	body += "}"
 

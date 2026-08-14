@@ -63,8 +63,8 @@
 
 /* * * * * * * * * * * **
  *						*
- *		 NeuFood		*	- Defined as edible food that can be plated and usually needs rare tools or ingridients. Typically based on a snack but not necessarily
- *		 (Meals)		*
+ *			NeuFood		*	- Defined as edible food that can be plated and usually needs rare tools or ingridients. Typically based on a snack but not necessarily
+ *			(Meals)		*
  *						*
  * * * * * * * * * * * **/
 

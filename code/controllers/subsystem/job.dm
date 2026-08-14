@@ -7,7 +7,7 @@ SUBSYSTEM_DEF(job)
 	var/list/datum/job/name_occupations = list()	//Dict of all jobs, keys are titles
 	var/list/type_occupations = list()	//Dict of all jobs, keys are types
 	var/list/unassigned = list()		//Players who need jobs
-	var/initial_players_to_assign = 0 	//used for checking against population caps
+	var/initial_players_to_assign = 0	//used for checking against population caps
 
 	var/list/prioritized_jobs = list()
 	var/list/latejoin_trackers = list()	//Don't read this list, use GetLateJoinTurfs() instead

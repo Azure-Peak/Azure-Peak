@@ -312,7 +312,7 @@ SUBSYSTEM_DEF(ticker)
 	gnollslot_update()
 	update_scaling_slots(estimated_pop)
 
-	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs
+	can_continue = can_continue && SSjob.DivideOccupations(list())				//Distribute jobs
 
 	CHECK_TICK
 

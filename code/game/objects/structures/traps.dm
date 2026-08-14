@@ -630,7 +630,7 @@
 				continue
 			new /obj/structure/glowshroom(T)
 
- //Poison tr*p
+//Poison tr*p
 
 /obj/structure/trap/bogtrap/poison
 	name = "trapbog (toxic)"

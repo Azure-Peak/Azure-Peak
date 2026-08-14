@@ -255,7 +255,7 @@
 		return
 
 	user.visible_message(span_notice("[user] begins carefully burning the moss off of [owner] with [W]."), \
-						 span_notice("You begin burning the damp moss off of [owner]."))
+							span_notice("You begin burning the damp moss off of [owner]."))
 
 	if(!do_after(user, 3 SECONDS, target = owner))
 		return

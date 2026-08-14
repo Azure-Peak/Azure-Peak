@@ -327,13 +327,13 @@
 	var/list/targets = list(O, src)
 	add_fingerprint(user)
 	user.visible_message(span_warning("[user] [actuallyismob ? "tries to ":""]stuff [O] into [src]."), \
-				 	 	span_warning("I [actuallyismob ? "try to ":""]stuff [O] into [src]."), \
-				 	 	span_hear("I hear clanging."))
+								span_warning("I [actuallyismob ? "try to ":""]stuff [O] into [src]."), \
+								span_hear("I hear clanging."))
 	if(actuallyismob)
 		if(do_after_mob(user, targets, 40))
 			user.visible_message(span_notice("[user] stuffs [O] into [src]."), \
-							 	 span_notice("I stuff [O] into [src]."), \
-							 	 span_hear("I hear a loud bang."))
+										span_notice("I stuff [O] into [src]."), \
+										span_hear("I hear a loud bang."))
 			O.forceMove(T)
 			user_buckle_mob(O, user)
 	else

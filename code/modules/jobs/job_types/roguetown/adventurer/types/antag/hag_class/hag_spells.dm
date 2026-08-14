@@ -365,7 +365,7 @@
 		return FALSE
 
 	user.visible_message(span_warning("[user]'s fingers twitch as if pulling invisible strings..."), \
-						 span_notice("I have woven the coven web between [coven_members.len] souls."))
+							span_notice("I have woven the coven web between [coven_members.len] souls."))
 
 	var/datum/mindlink/coven/C = new(coven_members)
 	GLOB.mindlinks += C

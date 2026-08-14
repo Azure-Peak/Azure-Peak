@@ -1,10 +1,10 @@
 /particles/weather/leaves
 	icon_state	= list("leaf1"=7, "leaf2"=1, "leaf3"=1)
 	spin		= 6
-	position 	= generator("box", list(-500,-256,0), list(400,500,0))
-	gravity 	= list(0, -1, 0.1)
+	position	= generator("box", list(-500,-256,0), list(400,500,0))
+	gravity	= list(0, -1, 0.1)
 	friction	= 0.3
-	transform 	= null
+	transform	= null
 	//Weather effects, max values
 	maxSpawning			= 25
 	minSpawning			= 3
@@ -13,10 +13,10 @@
 
 /particles/weather/leaves/sakura
 	icon_state	= "petals1"
-	position 	= generator("box", list(-500,-256,0), list(400,500,0))
-	gravity 	= list(0, -1, 0.1)
-	friction 	= 0.5
-	transform 	= null
+	position	= generator("box", list(-500,-256,0), list(400,500,0))
+	gravity	= list(0, -1, 0.1)
+	friction	= 0.5
+	transform	= null
 	//Weather effects, max values
 	maxSpawning			= 30
 	minSpawning			= 5

@@ -1,24 +1,24 @@
 /**
-# Rite of Solar Succession
-
-The "legitimate" path to the throne — a noble council of peers under Astrata's authority.
-
-Design intent: Enables insider threats within the ducal family or close advisors. The Prince
-Heartfelt, Consort, Hand, Steward and Councillors can all invoke this rite's easier version. Steward have an 
-overlap with Golden Accord but this is fine as they dip both end. I want to increase the threat
-posed by the Steward, Hand and Councillor (Which is an off role for these two roles), especially
-because of the prevalence of the greedy Steward / Hand character archetype. This should
-encourage more plotting and backstabbing RP within the court.
-
-Insideres can stage a palace coup with just 3 noble voices — e.g. convincing
-3 of the 4 knights or hand or prince etc. is enough. Outsiders (any other noble) need a larger quorum of 5,
-making it a harder but still viable path.
-
-Non-resident nobles (foreign envoys, Heartfelt) count as half a vote each.
-This serves as a backup mechanism if hyperwar thin the local nobility —
-non-resident nobles can be brought in to fill the gap, but at reduced weight.
-
-Outlaws and undead are shunned by Astrata outside of her order. They may not invoke or assent to this rite.
+ * Rite of Solar Succession
+ *
+ * The "legitimate" path to the throne — a noble council of peers under Astrata's authority.
+ *
+ * Design intent: Enables insider threats within the ducal family or close advisors. The Prince
+ * Heartfelt, Consort, Hand, Steward and Councillors can all invoke this rite's easier version. Steward have an
+ * overlap with Golden Accord but this is fine as they dip both end. I want to increase the threat
+ * posed by the Steward, Hand and Councillor (Which is an off role for these two roles), especially
+ * because of the prevalence of the greedy Steward / Hand character archetype. This should
+ * encourage more plotting and backstabbing RP within the court.
+ *
+ * Insiders can stage a palace coup with just 3 noble voices — e.g. convincing
+ * 3 of the 4 knights or hand or prince etc. is enough. Outsiders (any other noble) need a larger quorum of 5,
+ * making it a harder but still viable path.
+ *
+ * Non-resident nobles (foreign envoys, Heartfelt) count as half a vote each.
+ * This serves as a backup mechanism if hyperwar thin the local nobility —
+ * non-resident nobles can be brought in to fill the gap, but at reduced weight.
+ *
+ * Outlaws and undead are shunned by Astrata outside of her order. They may not invoke or assent to this rite.
 */
 /datum/usurpation_rite/solar_succession
 	name = "Rite of Solar Succession"

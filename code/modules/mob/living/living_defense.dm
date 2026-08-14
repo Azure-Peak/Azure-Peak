@@ -98,7 +98,7 @@
 	var/damfactor_bonus = 0
 	if(I)
 		var/use_bonus = TRUE
-		if(I.sharpness && I.max_blade_int) 	// IS_BLUNT is 0, so this will be falsy with blunt weapons.
+		if(I.sharpness && I.max_blade_int)	// IS_BLUNT is 0, so this will be falsy with blunt weapons.
 			var/dullness_ratio = I.blade_int / I.max_blade_int
 
 			if(attacker.used_intent.damfactor != 1)

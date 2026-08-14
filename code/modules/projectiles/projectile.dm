@@ -406,7 +406,7 @@
 #define DO_NOT_QDEL 2		//Pass through.
 #define FORCE_QDEL 3		//Force deletion.
 
-/obj/projectile/proc/process_hit(turf/T, atom/target, qdel_self, hit_something = FALSE) 	//probably needs to be reworked entirely when pixel movement is done.
+/obj/projectile/proc/process_hit(turf/T, atom/target, qdel_self, hit_something = FALSE)	//probably needs to be reworked entirely when pixel movement is done.
 	if(check_range(T))
 		if(damage)
 			damage = round(damage * dam_falloff_factor)

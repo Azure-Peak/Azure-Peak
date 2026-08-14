@@ -274,7 +274,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 //	..................	Carrot cake	..................
-//		 This could've been a berry cake too.
+//			This could've been a berry cake too.
 /obj/item/reagent_containers/food/snacks/rogue/carrotcake
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_PASTRY

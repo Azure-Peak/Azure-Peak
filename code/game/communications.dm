@@ -12,10 +12,10 @@
 			one device may listen several frequencies, but not same frequency twice.
 		new_frequency - see possibly frequencies below;
 		filter - thing for optimization. Optional, but recommended.
-				 All filters should be consolidated in this file, see defines later.
-				 Device without listening filter will receive all signals (on specified frequency).
-				 Device with filter will receive any signals sent without filter.
-				 Device with filter will not receive any signals sent with different filter.
+					All filters should be consolidated in this file, see defines later.
+					Device without listening filter will receive all signals (on specified frequency).
+					Device with filter will receive any signals sent without filter.
+					Device with filter will not receive any signals sent with different filter.
 		returns:
 		Reference to frequency object.
 

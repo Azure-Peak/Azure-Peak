@@ -1916,7 +1916,7 @@
 	target.stamina_add((target.max_stamina / 3))
 	target.energy_add((-target.max_energy / 5))
 
-#define LGUARD_SHARPNESS_LOSS	 150
+#define LGUARD_SHARPNESS_LOSS		150
 #define LGUARD_INTEG_LOSS			100
 
 /datum/status_effect/buff/clash/limbguard/proc/perform_disarm(mob/living/carbon/human/target)

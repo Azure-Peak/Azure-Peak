@@ -66,9 +66,9 @@
 #define SPELLCOST_SINGLE_CC			30
 #define SPELLCOST_UTILITY_BUFF		20 // We want actual cost
 #define SPELLCOST_STAT_BUFF			20 // We want actual cost
-#define SPELLCOST_BRUSH 			 50 // For blood rush spells, which I don't want to become an overly easy trade for stamina
-#define SPELLCOST_SURGE 			 65 // For surge spells, which is pretty damn powerful
-#define SPELLCOST_AUGURY			 10 // Augury card is cheap
+#define SPELLCOST_BRUSH				50 // For blood rush spells, which I don't want to become an overly easy trade for stamina
+#define SPELLCOST_SURGE				65 // For surge spells, which is pretty damn powerful
+#define SPELLCOST_AUGURY				10 // Augury card is cheap
 #define SPELLCOST_CONJURE			20
 #define SPELLCOST_TELEPORT			15
 #define SPELLCOST_MINOR_SUMMON		30
@@ -76,19 +76,19 @@
 // Buff duration tiers
 #define STAT_BUFF_SELF_DURATION		1 MINUTES
 #define STAT_BUFF_ALLY_DURATION		1 MINUTES
-#define ATTUNE_BUFF_DURATION		 45 SECONDS // Attune (Giant/Hawk/Haste) uptime, against a 90s cooldown
+#define ATTUNE_BUFF_DURATION			45 SECONDS // Attune (Giant/Hawk/Haste) uptime, against a 90s cooldown
 #define UTILITY_AOE_BUFF_DURATION	15 MINUTES
 
 // Augmentation augury hand
 #define AUGURY_DURATION				22 SECONDS // Nearly 100% uptime on 15 int.
-#define AUGURY_HAND_COOLDOWN		 30 SECONDS
-#define AUGURY_GROUP				 "augury" // Buff exclusivity group - a person bears at most one Augury at a time
+#define AUGURY_HAND_COOLDOWN			30 SECONDS
+#define AUGURY_GROUP					"augury" // Buff exclusivity group - a person bears at most one Augury at a time
 #define AUGMENT_CONDUIT_RANGE		7
 #define AUGMENT_CONDUIT_MAX_LINKS	2
 
 //Miracle costs in devotion used.
-#define SPELLCOST_MIRACLE_ORISON	 5
-#define SPELLCOST_MIRACLE_MINOR		 15
+#define SPELLCOST_MIRACLE_ORISON		5
+#define SPELLCOST_MIRACLE_MINOR			15
 #define SPELLCOST_MIRACLE			30
 #define SPELLCOST_MIRACLE_MAJOR		60
 #define SPELLCOST_MIRACLE_LEGENDARY	100 //Highest tiers of miracles should have this.
@@ -106,20 +106,20 @@
 
 // Standardized charge times — keeps poke/major/heavy spells consistent for balance passes
 #define CHARGETIME_POKE			0.5 SECONDS	// Staple poke spells
-#define CHARGETIME_MINOR		 1 SECONDS	// Minor utility / support spells
-#define CHARGETIME_MAJOR		 1.5 SECONDS	// Major projectiles
-#define CHARGETIME_HEAVY		 2 SECONDS	// Heavy AOE / ultimates
-#define CHARGETIME_BARRAGE 		 3 SECONDS // Barrage / Channeled spells
+#define CHARGETIME_MINOR			1 SECONDS	// Minor utility / support spells
+#define CHARGETIME_MAJOR			1.5 SECONDS	// Major projectiles
+#define CHARGETIME_HEAVY			2 SECONDS	// Heavy AOE / ultimates
+#define CHARGETIME_BARRAGE			3 SECONDS // Barrage / Channeled spells
 
 // Standardized mage projectile speeds — lower = faster
 #define MAGE_PROJ_FAST		1.25	// Quick bolts (arcyne bolt, frost bolt)
 #define MAGE_PROJ_MEDIUM		1.75	// Mid-range projectiles (spitfire, lance)
-#define MAGE_PROJ_SLOW		2	 // Heavier projectiles (gravel blast)
+#define MAGE_PROJ_SLOW		2		// Heavier projectiles (gravel blast)
 #define MAGE_PROJ_VERY_SLOW	2.5	// Looming doom (fireball)
 
 // Standardized spell ranges
 #define SPELL_RANGE_PROJECTILE 10	// Standard projectile travel distance and projectile spell cast range
-#define SPELL_RANGE_GROUND	 7	// Standard ground-targeted / AOE spell cast range
+#define SPELL_RANGE_GROUND		7	// Standard ground-targeted / AOE spell cast range
 #define SPELL_RANGE_TWO_SCREENS 14 // Two screens away for very very special spells
 #define SPELL_RANGE_AURA		4	// For 'warcry' type miracles or AOE BUFFS originating on the caster
 #define SPELL_RANGE_ADJACENT	1	// Self explanatory
@@ -130,7 +130,7 @@
 // Charging slowdown tiers — how much the caster is slowed while charging
 #define CHARGING_SLOWDOWN_NONE 0		// Spellblade abilities, no movement penalty
 #define CHARGING_SLOWDOWN_SMALL 1		// Small projectiles, minor spells
-#define CHARGING_SLOWDOWN_MEDIUM 2	 // Big projectiles, significant spells
+#define CHARGING_SLOWDOWN_MEDIUM 2		// Big projectiles, significant spells
 #define CHARGING_SLOWDOWN_HEAVY 3		// Area denial, channeled spells
 
 #define SPELL_COOLDOWN_POKE 6 SECONDS
@@ -185,7 +185,7 @@
 #define ASPECT_NAME_CRYOMANCY	"Frost"
 #define ASPECT_NAME_FULGURMANCY "Storms"
 #define ASPECT_NAME_GEOMANCY	"Stone"
-#define ASPECT_NAME_KINESIS	 "Force"
+#define ASPECT_NAME_KINESIS		"Force"
 #define ASPECT_NAME_FERRAMANCY	"Metal"
 #define ASPECT_NAME_AUGMENTATION "Enhancement"
 #define ASPECT_NAME_BATTLEWARDRY "Wards"

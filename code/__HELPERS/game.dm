@@ -158,8 +158,8 @@
 	* inputs: O (object to start with)
 	* outputs:
 	* description: A pseudo-recursive loop based off of the recursive mob check, this check looks for any organs held
-	*				 within 'O', toggling their frozen flag. This check excludes items held within other safe organ
-	*				 storage units, so that only the lowest level of container dictates whether we do or don't decompose
+	*					within 'O', toggling their frozen flag. This check excludes items held within other safe organ
+	*					storage units, so that only the lowest level of container dictates whether we do or don't decompose
 	*/
 /proc/recursive_organ_check(atom/O)
 

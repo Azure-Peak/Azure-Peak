@@ -1,7 +1,7 @@
 /*	* * * * * * * * * * * * * * * * * * * * * * * * *
  *													*		Animal that can locate hidden truffles in bog area dirt turf
  *					TRUFFLE PIG						*		Dig them up with a shovel, pig will demand truffles eventually or stop working
- *					 								*		Meant to help locate some extra food in the wilderness
+ *														*		Meant to help locate some extra food in the wilderness
  *													*
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

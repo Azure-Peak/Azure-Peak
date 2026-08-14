@@ -20,7 +20,7 @@
 //- Check if the area has too much empty space. If so, make it smaller and replace the rest with maintenance tunnels.
 
 GLOBAL_LIST_INIT(admin_verbs_debug_mapping, list(
-	/client/proc/intercom_view, 			//-errorage
+	/client/proc/intercom_view,			//-errorage
 	/client/proc/count_objects_on_z_level,
 	/client/proc/count_objects_all,
 	/client/proc/cmd_assume_direct_control,	//-errorage
@@ -93,7 +93,7 @@ GLOBAL_LIST_EMPTY(dirty_vars)
 	set desc = ""
 
 	var/dat = {"<b>Coordinate list of Active Turfs at Roundstart</b>
-	 <br>Real-time Active Turfs list you can see in Air Subsystem at active_turfs var<br>"}
+		<br>Real-time Active Turfs list you can see in Air Subsystem at active_turfs var<br>"}
 
 	for(var/t in GLOB.active_turfs_startlist)
 		var/turf/T = t

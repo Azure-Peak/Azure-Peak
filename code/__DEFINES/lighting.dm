@@ -7,9 +7,9 @@
 /// type of falloff to use for lighting; 1 for circular, 2 for square
 #define LIGHTING_FALLOFF		1
 /// use lambertian shading for light sources
-#define LIGHTING_LAMBERTIAN	 1
+#define LIGHTING_LAMBERTIAN		1
 /// height off the ground of light sources on the pseudo-z-axis, you should probably leave this alone
-#define LIGHTING_HEIGHT		 1
+#define LIGHTING_HEIGHT			1
 /// Value used to round lumcounts, values smaller than 1/129 don't matter (if they do, thanks sinking points), greater values will make lighting less precise, but in turn increase performance, VERY SLIGHTLY.
 #define LIGHTING_ROUND_VALUE	(1 / 64)
 
@@ -22,7 +22,7 @@
 
 /// If I were you I'd leave this alone.
 #define LIGHTING_BASE_MATRIX \
-	list					 \
+	list						\
 	(						\
 		1, 1, 1, 0, \
 		1, 1, 1, 0, \
@@ -52,13 +52,13 @@
 /// Diluted, mid-warmth pink. rgb(225, 125, 225)
 #define LIGHT_COLOR_PINK		"#E17DE1"
 /// Dimmed yellow, leaning kaki. rgb(225, 225, 125)
-#define LIGHT_COLOR_YELLOW	 "#E1E17D"
+#define LIGHT_COLOR_YELLOW		"#E1E17D"
 /// Clear brown, mostly dim. rgb(150, 100, 50)
 #define LIGHT_COLOR_BROWN		"#966432"
 /// Mostly pure orange. rgb(250, 150, 50)
-#define LIGHT_COLOR_ORANGE	 "#FA9632"
+#define LIGHT_COLOR_ORANGE		"#FA9632"
 /// Light Purple. rgb(149, 44, 244)
-#define LIGHT_COLOR_PURPLE	 "#952CF4"
+#define LIGHT_COLOR_PURPLE		"#952CF4"
 /// Less-saturated light purple. rgb(155, 81, 255)
 #define LIGHT_COLOR_LAVENDER	"#9B51FF"
 

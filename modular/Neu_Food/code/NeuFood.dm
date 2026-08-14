@@ -1,6 +1,6 @@
 /* * * * * * * * * * * **
  *						*	-Cooking based on slapcrafting
- *		 NeuFood		*	-Uses defines to track nutrition
+ *			NeuFood		*	-Uses defines to track nutrition
  *						*	-Meant to replace menu crafting completely for foods
  *						*
  * * * * * * * * * * * **/
@@ -326,9 +326,9 @@
 /* * * * * * * * * * * * * * *	*
  *								*
  *		Powder & Salt			*
- *					 			*
+ *									*
  *								*
- * * * * * * * * * * * * * * * 	*/
+ * * * * * * * * * * * * * * *	*/
 
 // -------------- Flour -----------------
 /obj/item/reagent_containers/powder/flour

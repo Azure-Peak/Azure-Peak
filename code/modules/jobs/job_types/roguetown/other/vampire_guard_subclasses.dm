@@ -94,11 +94,11 @@
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 		//The Spice of Lyfe
 		var/helmets = list(
-		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+		"Simple Helmet"	= /obj/item/clothing/head/roguetown/helmet,
+		"Kettle Helmet"	= /obj/item/clothing/head/roguetown/helmet/kettle,
 		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
 		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+		"Winged Helmet"	= /obj/item/clothing/head/roguetown/helmet/winged,
 		"None"
 		)
 		var/helmchoice = input(H, "Choose your Helm.", "A VISAGE IN THE NITE") as anything in helmets

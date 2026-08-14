@@ -21,7 +21,7 @@
 #define THREAT_HIGH 20		// Highwayman + archer/crossbowman, orc footsoldier/archer, deepone, mutated spider
 #define THREAT_TOUGH 25		// Searaider + archer, mount reaver, hard skeleton, drow raider, deepone spit/wiz
 #define THREAT_DANGEROUS 30	// Bog deserter, orc berserker/marauder, troll, bog troll, drider
-#define THREAT_DEADLY 40	 // Searaider huscarl, road knight, sharpshooter, orc warlord, direbear — champion-tier
+#define THREAT_DEADLY 40		// Searaider huscarl, road knight, sharpshooter, orc warlord, direbear — champion-tier
 #define THREAT_ELITE 50		// Minotaur, mirespider lurker/paralytic, dwarf skeleton — boss-tier mobs
 
 /// Conversion: one "band" in the Noticeboard IC description equals this many threat points.
