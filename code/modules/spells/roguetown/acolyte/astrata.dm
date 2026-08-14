@@ -563,7 +563,7 @@
 	START_PROCESSING(SSprocessing, src)
 	RegisterSignal(parent, COMSIG_LIVING_MIRACLE_HEAL_APPLY, PROC_REF(on_heal))
 	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_deletion))
-	addtimer(CALLBACK(src, .proc/remove_immolation), duration)
+	addtimer(CALLBACK(src, PROC_REF(remove_immolation)), duration)
 
 	// Apply visual effect
 	var/mob/living/L = parent

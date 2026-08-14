@@ -15,8 +15,8 @@ SUBSYSTEM_DEF(event_scheduler)
 
 	/// UNCOMMENT BELOW FOR DEBUGGING PURPOSES, ENABLES FOG REGARDLESS OF SCHEDULER ///
 
-	// fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), 1 MINUTES, TIMER_STOPPABLE)
-	// addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
+	// fog_timer_id = addtimer(CALLBACK(src, PROC_REF(trigger_fog_event)), 1 MINUTES, TIMER_STOPPABLE)
+	// addtimer(CALLBACK(src, PROC_REF(delayed_tech_unlock)), 1 MINUTES)
 	// fog_scheduled = TRUE
 
 /datum/controller/subsystem/event_scheduler/proc/schedule_fog(var/delayinminutes = 40)
@@ -30,8 +30,8 @@ SUBSYSTEM_DEF(event_scheduler)
 	- Necran clergy may ward off the fog or perform rituals to safeguard entire areas.\n\
 	- Lampterns are not eternal, they must be refilled with blessed, golden-colored oils.",
 	"Azure Peak Weather")
-	addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
-	fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), fogtime, TIMER_STOPPABLE)
+	addtimer(CALLBACK(src, PROC_REF(delayed_tech_unlock)), 1 MINUTES)
+	fog_timer_id = addtimer(CALLBACK(src, PROC_REF(trigger_fog_event)), fogtime, TIMER_STOPPABLE)
 
 /datum/controller/subsystem/event_scheduler/proc/trigger_fog_event()
 	fog_active = TRUE

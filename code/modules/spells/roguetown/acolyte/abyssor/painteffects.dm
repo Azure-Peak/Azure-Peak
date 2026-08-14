@@ -72,7 +72,7 @@
 
 	animate(raw_filter, color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1), time = new_duration - 3 SECONDS, flags = ANIMATION_RELATIVE)
 	animate(color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,0.1), time = 3 SECONDS, easing = LINEAR_EASING)
-	expiration_timer_id = addtimer(CALLBACK(src, .proc/timed_out), new_duration, TIMER_STOPPABLE)
+	expiration_timer_id = addtimer(CALLBACK(src, PROC_REF(timed_out)), new_duration, TIMER_STOPPABLE)
 
 /obj/effect/ink_trail/proc/timed_out()
 	expiration_timer_id = null
@@ -139,7 +139,7 @@
 
 /datum/status_effect/buff/ink_presence/on_apply()
 	. = ..()
-	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/generate_ink_trail)
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(generate_ink_trail))
 
 /datum/status_effect/buff/ink_presence/on_remove()
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
@@ -222,7 +222,7 @@
 	. = ..()
 
 /datum/status_effect/debuff/ink_leak/on_apply()
-	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/spill_trail)
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(spill_trail))
 	to_chat(owner, span_userdanger("Paint oozes from your flesh!"))
 	return ..()
 
@@ -260,7 +260,7 @@
 	if(ishuman(owner))
 		update_ink_visuals()
 
-	RegisterSignal(owner, COMSIG_MOB_APPLY_DAMGE, .proc/on_wearer_damaged)
+	RegisterSignal(owner, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_wearer_damaged))
 	next_decay_time = world.time + INK_STACK_LIFETIME
 	notify_stack_gain(0)
 

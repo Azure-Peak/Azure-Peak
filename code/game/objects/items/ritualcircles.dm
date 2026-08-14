@@ -753,7 +753,7 @@
 
 /obj/structure/active_abyssor_rune/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/spawn_spire), spawn_time)
+	addtimer(CALLBACK(src, PROC_REF(spawn_spire)), spawn_time)
 	src.visible_message(span_userdanger("A glowing, pulsating rune etches itself into the ground. Reality cracks visibly around it! Something is coming!"))
 
 /obj/structure/active_abyssor_rune/proc/spawn_spire()
@@ -1017,7 +1017,7 @@
 		return COMPONENT_INCOMPATIBLE
 
 	linked_spire = spire
-	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/on_death)
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 
 /datum/component/spire_fiend/proc/on_death()
 	SIGNAL_HANDLER

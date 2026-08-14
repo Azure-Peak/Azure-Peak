@@ -16,8 +16,8 @@
 	if(!HAS_TRAIT(L, TRAIT_FOG_WARDED))
 		L.apply_status_effect(/datum/status_effect/debuff/fog_chilled)
 	// Listen for movement
-	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/on_moved)
-	RegisterSignal(parent, COMSIG_WARDED_TRAIT_CHANGE, .proc/handle_ward_change)
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+	RegisterSignal(parent, COMSIG_WARDED_TRAIT_CHANGE, PROC_REF(handle_ward_change))
 
 /datum/component/fogged/Destroy()
 	var/mob/living/L = parent

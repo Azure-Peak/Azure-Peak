@@ -85,7 +85,7 @@
 	if(!ishuman(user) || holder == user)
 		return
 	holder = user
-	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/consume_fuel)
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(consume_fuel))
 
 /obj/item/lantern/fog_repelling/proc/stop_tracking()
 	if(holder)
@@ -140,7 +140,7 @@
 			return
 
 		// 1 unit of reagent = 25 units of fuel
-		var/oil_to_fuel_ratio = 25 
+		var/oil_to_fuel_ratio = 25
 		var/available_reagent = container.reagents.get_reagent_amount(/datum/reagent/sanctified_oil)
 
 		var/units_needed = CEILING((max_fuel - fuel) / oil_to_fuel_ratio, 1)
@@ -152,7 +152,7 @@
 
 			container.reagents.remove_reagent(/datum/reagent/sanctified_oil, transfer_amount)
 			fuel = min(fuel + (transfer_amount * oil_to_fuel_ratio), max_fuel)
-			
+
 			playsound(src, 'sound/items/drink_bottle (2).ogg', 50, TRUE)
 			update_icon()
 		return TRUE

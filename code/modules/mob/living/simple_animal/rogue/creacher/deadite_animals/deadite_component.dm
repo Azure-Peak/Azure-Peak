@@ -32,8 +32,8 @@
 	L.faction |= list(FACTION_ZOMBIE)
 
 	// We only need to listen to damage!
-	RegisterSignal(L, COMSIG_MOB_APPLY_DAMGE, .proc/on_apply_damage)
-	//RegisterSignal(L, COMSIG_PARENT_QDELETING, .proc/handle_early_cleanup)
+	RegisterSignal(L, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_apply_damage))
+	//RegisterSignal(L, COMSIG_PARENT_QDELETING, PROC_REF(handle_early_cleanup))
 
 /datum/component/deadite/Destroy()
 	if(reanim_timer_id)
@@ -73,7 +73,7 @@
 	// If we're not in our downed state, we get crippled, but don't die. Leaving us alive means we get back up eventually.
 	if((L.health - damage) <= 0)
 		// Prevent the standard damage from going through so the mob doesn't die right now
-		. = COMPONENT_DAMAGE_HANDLED 
+		. = COMPONENT_DAMAGE_HANDLED
 
 		L.unbuckle_all_mobs()
 		L.can_buckle = FALSE
@@ -91,7 +91,7 @@
 		L.adjustBruteLoss(-L.maxHealth)
 		L.update_icon()
 
-		reanim_timer_id = addtimer(CALLBACK(src, .proc/reanimation), reanimation_timer, flags = TIMER_STOPPABLE)
+		reanim_timer_id = addtimer(CALLBACK(src, PROC_REF(reanimation)), reanimation_timer, flags = TIMER_STOPPABLE)
 		return
 
 	// hit in the legs? Our legs might break, slowing us down significantly

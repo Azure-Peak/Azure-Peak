@@ -181,7 +181,7 @@
 	)
 
 /datum/virtue/utility/intellectual/apply_to_human(mob/living/carbon/human/recipient)
-	addtimer(CALLBACK(src, .proc/linguist_apply, recipient), 50)
+	addtimer(CALLBACK(src, PROC_REF(linguist_apply), recipient), 50)
 
 /datum/virtue/utility/intellectual/proc/linguist_apply(mob/living/carbon/human/recipient)
 	if(check_triumphs(recipient))

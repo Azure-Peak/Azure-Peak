@@ -115,7 +115,7 @@
 		F.add_filter(BLESSED_FOOD_FILTER, 1, list("type" = "outline", "color" = "#ff00ff", "size" = 1))
 	else
 		F.add_filter(BLESSED_FOOD_FILTER, 1, list("type" = "outline", "color" = "#f0b000", "size" = 1))
-	RegisterSignal(F, COMSIG_FOOD_EATEN, .proc/on_food_eaten)
+	RegisterSignal(F, COMSIG_FOOD_EATEN, PROC_REF(on_food_eaten))
 
 /datum/component/blessed_food/proc/on_food_eaten(datum/source, mob/living/eater, mob/living/feeder)
 	SIGNAL_HANDLER
@@ -355,7 +355,7 @@
 	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_deletion))
 
 	START_PROCESSING(SSprocessing, src)
-	addtimer(CALLBACK(src, .proc/remove_bond), duration)
+	addtimer(CALLBACK(src, PROC_REF(remove_bond)), duration)
 
 	var/mob/living/L = parent
 	L.apply_status_effect(/datum/status_effect/eora_bond)
@@ -929,7 +929,7 @@
 	fruit = TRUE
 	fruit_ready = FALSE
 	update_icon()
-	addtimer(CALLBACK(src, .proc/ripen_fruit), rand(10 SECONDS, 15 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(ripen_fruit)), rand(10 SECONDS, 15 SECONDS))
 
 /obj/structure/eoran_pomegranate_tree/proc/ripen_fruit()
 	fruit_ready = TRUE

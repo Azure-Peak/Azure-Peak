@@ -1149,7 +1149,7 @@
 /datum/component/mushroom_mace/Initialize(mapload)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, .proc/on_attack)
+	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack))
 
 /datum/component/mushroom_mace/proc/on_attack(obj/item/source, mob/living/target, mob/living/user)
 	SIGNAL_HANDLER

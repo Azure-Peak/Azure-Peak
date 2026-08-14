@@ -27,9 +27,9 @@
 		caster_ref = WEAKREF(caster)
 
 	apply_outline()
-	RegisterSignal(parent_weapon, COMSIG_ITEM_ATTACK_SUCCESS, .proc/on_attack_success)
-	RegisterSignal(parent_weapon, COMSIG_PARENT_QDELETING, .proc/on_qdel)
-	addtimer(CALLBACK(src, .proc/remove_enchantment), duration)
+	RegisterSignal(parent_weapon, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack_success))
+	RegisterSignal(parent_weapon, COMSIG_PARENT_QDELETING, PROC_REF(on_qdel))
+	addtimer(CALLBACK(src, PROC_REF(remove_enchantment)), duration)
 
 /datum/component/umbral_enchant/proc/apply_outline()
 	if(outline_applied)

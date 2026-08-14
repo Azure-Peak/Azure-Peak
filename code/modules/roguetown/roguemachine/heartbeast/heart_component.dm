@@ -50,13 +50,13 @@
 
 	last_happiness_decay = world.time
 
-	RegisterSignal(heart_beast, COMSIG_HEART_BEAST_HEAR, .proc/on_hear)
-	RegisterSignal(heart_beast, COMSIG_ATOM_ATTACK_HAND, .proc/on_interact)
-	RegisterSignal(heart_beast, COMSIG_PARENT_ATTACKBY, .proc/on_item_interact)
+	RegisterSignal(heart_beast, COMSIG_HEART_BEAST_HEAR, PROC_REF(on_hear))
+	RegisterSignal(heart_beast, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_interact))
+	RegisterSignal(heart_beast, COMSIG_PARENT_ATTACKBY, PROC_REF(on_item_interact))
 
 	initialize_quirks()
 	setup_heartbeast_turfs()
-	addtimer(CALLBACK(src, .proc/link_to_racks), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(link_to_racks)), 5 SECONDS)
 
 /datum/component/chimeric_heart_beast/proc/setup_heartbeast_turfs()
 	var/turf/center_turf = get_turf(heart_beast)

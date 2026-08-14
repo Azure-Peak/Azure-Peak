@@ -9,7 +9,7 @@
 	if(!istype(parent, /mob/living))
 		return COMPONENT_INCOMPATIBLE
 	infection_chance = inf_chance
-	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/handle_early_cleanup)
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(handle_early_cleanup))
 	RegisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS, PROC_REF(on_bite))
 
 /datum/component/infection_spreader/proc/handle_early_cleanup(datum/source)

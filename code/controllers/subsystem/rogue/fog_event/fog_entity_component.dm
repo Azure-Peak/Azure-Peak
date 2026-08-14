@@ -6,8 +6,8 @@
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 
-	RegisterSignal(parent, COMSIG_ENTER_AREA, .proc/check_area_safety)
-	RegisterSignal(SSevent_scheduler, COMSIG_FOG_END, .proc/fog_end)
+	RegisterSignal(parent, COMSIG_ENTER_AREA, PROC_REF(check_area_safety))
+	RegisterSignal(SSevent_scheduler, COMSIG_FOG_END, PROC_REF(fog_end))
 
 /datum/component/fog_entity/proc/check_area_safety(datum/source, area/new_area)
 	SIGNAL_HANDLER

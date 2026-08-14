@@ -197,7 +197,7 @@
 /datum/component/dreamwalker_mark/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, .proc/on_attack)
+	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
 
 /datum/component/dreamwalker_mark/Destroy()
 	if(marked_target)
@@ -222,7 +222,7 @@
 	mark_start_time = 0
 
 	if(marked_target)
-		RegisterSignal(marked_target, COMSIG_LIVING_DEATH, .proc/on_target_death)
+		RegisterSignal(marked_target, COMSIG_LIVING_DEATH, PROC_REF(on_target_death))
 		to_chat(parent, span_notice("You begin focusing your dream energy on [marked_target]."))
 
 		// Remove any existing summon spell

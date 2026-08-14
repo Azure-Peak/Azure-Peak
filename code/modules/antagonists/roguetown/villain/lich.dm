@@ -461,7 +461,7 @@
 	caster.visible_message(span_danger("[caster] begins chanting a deep, primal incantation as lightning arcs nearby!"))
 	new /obj/structure/terrorhog_summon_rune(target_turf, hog_name)
 
-	addtimer(CALLBACK(src, .proc/self_consume, caster), 1)
+	addtimer(CALLBACK(src, PROC_REF(self_consume), caster), 1)
 	return TRUE
 
 /datum/action/cooldown/spell/summon_terrorhog/proc/self_consume(mob/living/L)
