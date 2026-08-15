@@ -48,7 +48,7 @@
 		bee.color = bee_color // Apply genetic color
 		overlays += bee
 
-/obj/effect/bees/Initialize()
+/obj/effect/bees/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 	update_overlays()
@@ -192,7 +192,7 @@
 	var/obj/item/bodypart/affecting = H.get_bodypart(pick(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_HEAD))
 
 	H.visible_message("<span class='danger'>[src] stings [H] in the [affecting.name]!</span>", \
-					  "<span class='userdanger'>You feel a sharp stinging pain in your [affecting.name]!</span>")
+						"<span class='userdanger'>You feel a sharp stinging pain in your [affecting.name]!</span>")
 
 	H.adjustToxLoss(1)
 
@@ -227,7 +227,7 @@
 
 	// Check suit slot for beekeeper suit or similar
 	var/obj/item/clothing/suit/roguetown/armor/suit_item = H.get_item_by_slot(SLOT_ARMOR)
-	if(suit_item &&  (suit_item.body_parts_covered & CHEST))
+	if(suit_item &&	(suit_item.body_parts_covered & CHEST))
 		body_protected = TRUE
 
 	return head_protected && body_protected
@@ -239,7 +239,7 @@
 	stored_combs = 0
 	comb_progress = 0
 
-/obj/structure/apiary/starter/Initialize()
+/obj/structure/apiary/starter/Initialize(mapload)
 	. = ..()
 	create_new_queen()
 
@@ -308,7 +308,7 @@
 	if(pollen > 0)
 		. += span_blue("A warm, sweet scent of pollen and wax clings to the hive.")
 
-/obj/structure/apiary/Initialize()
+/obj/structure/apiary/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -743,7 +743,7 @@
 	var/queen_health = 100
 	var/max_queen_age = 30 // Queens live for 30 days
 
-/obj/item/queen_bee/Initialize()
+/obj/item/queen_bee/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -1065,7 +1065,7 @@
 	var/search_time = 0
 	var/established = FALSE
 
-/obj/effect/bee_swarm/Initialize()
+/obj/effect/bee_swarm/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 	update_overlays()
@@ -1147,7 +1147,7 @@
 	var/aggressiveness = 50 // 0-100 scale
 	var/list/bee_objects = list()
 
-/obj/structure/beehive/wild/Initialize()
+/obj/structure/beehive/wild/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 	bee_count = rand(5, max_bees)

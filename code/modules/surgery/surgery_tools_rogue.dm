@@ -22,7 +22,7 @@
 	grid_width = 32
 	grid_height = 64
 
-/obj/item/rogueweapon/surgery/Initialize()
+/obj/item/rogueweapon/surgery/Initialize(mapload)
 	. = ..()
 	item_flags |= SURGICAL_TOOL //let's not stab patients for fun
 

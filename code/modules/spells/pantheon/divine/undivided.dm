@@ -137,7 +137,7 @@
 #undef RECUPERATION_BASE_FILTER
 
 ///////////////////
-// T1 - Miracle  //
+// T1 - Miracle	//
 ///////////////////
 
 /datum/action/cooldown/spell/miracle/heal/undivided
@@ -200,7 +200,7 @@
 	.=..()
 
 /datum/status_effect/buff/twinned_gaze/on_apply()
-	// Reset base values because the miracle can 
+	// Reset base values because the miracle can
 	// now actually be recast at high enough skill and during day time
 	// This is a safeguard because buff code makes my head hurt
 	duration = 20 SECONDS
@@ -305,7 +305,7 @@
 				return TRUE
 
 /datum/stressevent/perseverance
-	timer = 2 MINUTES 
+	timer = 2 MINUTES
 	stressadd = -4 //Should be enough to offset the bleed
 	desc = span_undivided("A mere respite from the horrors.")
 
@@ -347,16 +347,16 @@
 		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
 	)
 	var/list/miracle_templar_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
-		/datum/action/cooldown/spell/ravox/withstand::name 					= /datum/action/cooldown/spell/ravox/withstand,
-		/datum/action/cooldown/spell/mending/malum::name 					= /datum/action/cooldown/spell/mending/malum,
-		/datum/action/cooldown/spell/noc/enlightenment::name 				= /datum/action/cooldown/spell/noc/enlightenment,
-		/obj/effect/proc_holder/spell/invoked/vendetta::name 				= /obj/effect/proc_holder/spell/invoked/vendetta,
+		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
+		/datum/action/cooldown/spell/ravox/withstand::name					= /datum/action/cooldown/spell/ravox/withstand,
+		/datum/action/cooldown/spell/mending/malum::name					= /datum/action/cooldown/spell/mending/malum,
+		/datum/action/cooldown/spell/noc/enlightenment::name				= /datum/action/cooldown/spell/noc/enlightenment,
+		/obj/effect/proc_holder/spell/invoked/vendetta::name				= /obj/effect/proc_holder/spell/invoked/vendetta,
 	)
 
 /datum/action/cooldown/spell/undivided/undivided_spellpack/cast(atom/cast_on)
 	. = ..()
-	
+
 	if(choosing_bundle)
 		return FALSE
 	var/choice = chosen_bundle
@@ -470,7 +470,7 @@
 	icon_state = "gallows"
 
 /datum/stressevent/gallowshumor
-	timer = 5 MINUTES 
+	timer = 5 MINUTES
 	stressadd = 6 //Hop Tuah
 	desc = span_undivided("NO NO NO!")
 
@@ -546,7 +546,7 @@
 		if(istype(target.patron, /datum/patron/divine))
 			target.apply_status_effect(/datum/status_effect/buff/ten_united)
 			continue
-		if(istype(target.patron, /datum/patron/old_god) || istype(target.patron, /datum/patron/inhumen)) 
+		if(istype(target.patron, /datum/patron/old_god) || istype(target.patron, /datum/patron/inhumen))
 			to_chat(target, span_undivided("The divine light leaves me as abruptly as it came."))
 			continue
 		if(!owner.faction_check_mob(target))

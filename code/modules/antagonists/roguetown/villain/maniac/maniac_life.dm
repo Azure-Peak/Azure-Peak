@@ -184,7 +184,7 @@
 		INVOKE_ASYNC(src, PROC_REF(handle_waking_up_floor), floor, dreamer)
 
 /datum/antagonist/maniac/proc/handle_waking_up_floor(turf/open/floor, mob/living/dreamer)
-	var/mutable_appearance/fake_floor = image('icons/roguetown/maniac/dreamer_floors.dmi', floor,  pick("rcircuitanim", "gcircuitanim"), floor.layer + 0.1)
+	var/mutable_appearance/fake_floor = image('icons/roguetown/maniac/dreamer_floors.dmi', floor,	pick("rcircuitanim", "gcircuitanim"), floor.layer + 0.1)
 	dreamer.client.images += fake_floor
 	var/offset = pick(-1, 1, 2)
 	var/disappearfirst = 3 SECONDS

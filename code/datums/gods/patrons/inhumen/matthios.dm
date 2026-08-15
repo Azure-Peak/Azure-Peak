@@ -7,7 +7,7 @@
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/matthios/freemans_tools		= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/matthios/mammonite				= CLERIC_T1,
 					/datum/action/cooldown/spell/matthios/transact				= CLERIC_T2,
@@ -62,12 +62,12 @@
 	return FALSE
 
 /datum/patron/inhumen/matthios/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus,
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus,
 	is_inhumen
 )
 	*is_inhumen = TRUE

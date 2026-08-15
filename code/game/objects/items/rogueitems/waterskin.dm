@@ -9,14 +9,14 @@
 	closed = TRUE
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_BACK
 	obj_flags = CAN_BE_HIT
-	w_class =  WEIGHT_CLASS_NORMAL
+	w_class =	WEIGHT_CLASS_NORMAL
 	drinksounds = list('sound/items/drink_bottle (1).ogg','sound/items/drink_bottle (2).ogg')
 	fillsounds = list('sound/items/fillcup.ogg')
 	poursounds = list('sound/items/fillbottle.ogg')
 	sewrepair = TRUE
 	desc_uncorked = "A leather waterskin. The cap on the mouth is off."
 
-/obj/item/reagent_containers/glass/bottle/waterskin/Initialize()
+/obj/item/reagent_containers/glass/bottle/waterskin/Initialize(mapload)
 	. = ..()
 	icon_state = initial(icon_state)
 	update_icon()
@@ -37,9 +37,9 @@
 	icon_state = "waterpurifier"
 	volume = 150 //doubling the amount due to the cost
 	desc_uncorked = "Bronze tubes spiral about from the mouth of this waterskin in complex, dizzying patterns. The cap on the mouth is off."
-	var/filtered_reagents = list(/datum/reagent/water/gross, 
-								 /datum/reagent/water/bathwater,
-								 /datum/reagent/water/salty) // List of liquids it turns into drinkable water
+	var/filtered_reagents = list(/datum/reagent/water/gross,
+									/datum/reagent/water/bathwater,
+									/datum/reagent/water/salty) // List of liquids it turns into drinkable water
 
 /obj/item/reagent_containers/glass/bottle/waterskin/purifier/onfill(obj/target, mob/user, silent = FALSE)
 	. = ..()

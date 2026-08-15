@@ -71,7 +71,7 @@
 				regenerate_icons()
 #endif
 
-/mob/living/carbon/human/Initialize()
+/mob/living/carbon/human/Initialize(mapload)
 	add_verb(src, /mob/living/proc/lay_down)
 	icon_state = "" //Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
 
@@ -109,7 +109,7 @@
 	switch(rand(1,4))
 		if(1)
 			affecting = get_bodypart(pick(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
-			chat_message = span_danger("I fall on my [lowertext(affecting.name)]!")
+			chat_message = span_danger("I fall on my [LOWER_TEXT(affecting.name)]!")
 		if(2)
 			affecting = get_bodypart(pick(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM))
 			chat_message = span_danger("I fall on my arm!")
@@ -1052,7 +1052,7 @@
 /mob/living/carbon/human/species
 	var/race = null
 
-/mob/living/carbon/human/species/Initialize()
+/mob/living/carbon/human/species/Initialize(mapload)
 	. = ..()
 	if(race)
 		set_species(race)

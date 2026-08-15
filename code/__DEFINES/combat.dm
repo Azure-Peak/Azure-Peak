@@ -19,20 +19,20 @@
 #define TOX			"toxin"
 #define OXY			"oxygen"
 #define CLONE		"clone"
-#define STAMINA 	"stamina"
+#define STAMINA	"stamina"
 #define BRAIN		"brain"
 
 //Omnibus'ing melee attack types
 #define MELEE_TYPES list("blunt", "slash", "stab")
 
 //bitflag damage defines used for suicide_act
-#define BRUTELOSS 	            	(1<<0)
-#define FIRELOSS 	            	(1<<1)
-#define TOXLOSS 	            	(1<<2)
-#define OXYLOSS 	            	(1<<3)
-#define SHAME 			            (1<<4)
-#define MANUAL_SUICIDE          	(1<<5)	//suicide_act will do the actual killing.
-#define MANUAL_SUICIDE_NONLETHAL	(1<<6)  //when the suicide is conditionally lethal
+#define BRUTELOSS					(1<<0)
+#define FIRELOSS					(1<<1)
+#define TOXLOSS					(1<<2)
+#define OXYLOSS					(1<<3)
+#define SHAME						(1<<4)
+#define MANUAL_SUICIDE				(1<<5)	//suicide_act will do the actual killing.
+#define MANUAL_SUICIDE_NONLETHAL	(1<<6)	//when the suicide is conditionally lethal
 
 #define EFFECT_STUN			"stun"
 #define EFFECT_KNOCKDOWN	"knockdown"
@@ -41,7 +41,7 @@
 #define EFFECT_IMMOBILIZE	"immobilize"
 #define EFFECT_IRRADIATE	"irradiate"
 #define EFFECT_STUTTER		"stutter"
-#define EFFECT_SLUR 		"slur"
+#define EFFECT_SLUR		"slur"
 #define EFFECT_EYE_BLUR		"eye_blur"
 #define EFFECT_DROWSY		"drowsy"
 #define EFFECT_JITTER		"jitter"
@@ -124,7 +124,7 @@
 #define GRAB_KILL					3
 
 //Grab breakout odds
-#define BASE_GRAB_RESIST_CHANCE 	30
+#define BASE_GRAB_RESIST_CHANCE	30
 
 //slowdown when in softcrit. Note that crawling slowdown will also apply at the same time!
 #define SOFTCRIT_ADD_SLOWDOWN 1
@@ -159,12 +159,12 @@
 #define ATTACK_EFFECT_BOOP		"boop" //Honk
 
 //hurrrddurrrr
-#define QINTENT_BITE		 1
-#define QINTENT_JUMP		 2
-#define QINTENT_KICK		 3
-#define QINTENT_SPECIAL		 4
-#define QINTENT_GIVE		 5
-#define QINTENT_SPELL		 6
+#define QINTENT_BITE			1
+#define QINTENT_JUMP			2
+#define QINTENT_KICK			3
+#define QINTENT_SPECIAL			4
+#define QINTENT_GIVE			5
+#define QINTENT_SPELL			6
 
 //Intent blade class for dismember class
 #define BCLASS_BLUNT		"blunt"
@@ -182,7 +182,7 @@
 #define BCLASS_BURN			"charring"
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
-#define BCLASS_SUNDER       "sunder"
+#define BCLASS_SUNDER		"sunder"
 #define BCLASS_DISARM		"disarm"
 
 //Material class (what material is striking)
@@ -212,7 +212,7 @@
 
 //NOTE: INTENT_HOTKEY_* defines are not actual intents!
 //they are here to support hotkeys
-#define INTENT_HOTKEY_LEFT  "left"
+#define INTENT_HOTKEY_LEFT	"left"
 #define INTENT_HOTKEY_RIGHT "right"
 
 //the define for visible message range in combat
@@ -239,8 +239,8 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //Combat object defines
 
 //Embedded objects
-#define EMBEDDED_PAIN_CHANCE 					15	//Chance for embedded objects to cause pain (damage user)
-#define EMBEDDED_ITEM_FALLOUT 					5	//Chance for embedded object to fall out (causing pain but removing the object)
+#define EMBEDDED_PAIN_CHANCE					15	//Chance for embedded objects to cause pain (damage user)
+#define EMBEDDED_ITEM_FALLOUT					5	//Chance for embedded object to fall out (causing pain but removing the object)
 #define EMBED_CHANCE							45	//Chance for an object to embed into somebody when thrown (if it's sharp)
 #define EMBEDDED_PAIN_MULTIPLIER				2	//Coefficient of multiplication for the damage the item does while embedded (this*item.w_class)
 #define EMBEDDED_FALL_PAIN_MULTIPLIER			5	//Coefficient of multiplication for the damage the item does when it falls out (this*item.w_class)
@@ -259,16 +259,16 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TRIGGER_GUARD_NORMAL 1
 //Gun bolt types
 ///Gun has a bolt, it stays closed while not cycling. The gun must be racked to have a bullet chambered when a mag is inserted.
-///  Example: c20, shotguns, m90
+///	Example: c20, shotguns, m90
 #define BOLT_TYPE_STANDARD 1
 ///Gun has a bolt, it is open when ready to fire. The gun can never have a chambered bullet with no magazine, but the bolt stays ready when a mag is removed.
-///  Example: Some SMGs, the L6
+///	Example: Some SMGs, the L6
 #define BOLT_TYPE_OPEN 2
 ///Gun has no moving bolt mechanism, it cannot be racked. Also dumps the entire contents when emptied instead of a magazine.
-///  Example: Break action shotguns, revolvers
+///	Example: Break action shotguns, revolvers
 #define BOLT_TYPE_NO_BOLT 3
 ///Gun has a bolt, it locks back when empty. It can be released to chamber a round if a magazine is in.
-///  Example: Pistols with a slide lock, some SMGs
+///	Example: Pistols with a slide lock, some SMGs
 #define BOLT_TYPE_LOCKING 4
 //Sawn off nerfs
 ///accuracy penalty of sawn off guns
@@ -285,7 +285,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define AMMO_BOX_FULL_EMPTY 2
 
 //Projectile Reflect
-#define REFLECT_NORMAL 				(1<<0)
+#define REFLECT_NORMAL				(1<<0)
 #define REFLECT_FAKEPROJECTILE		(1<<1)
 
 //Object/Item sharpness
@@ -392,7 +392,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL -2
 
 /* TEMPO DEFINES */
-#define TEMPO_CULL_DELAY 	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
+#define TEMPO_CULL_DELAY	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
 #define TEMPO_DELAY_ONE 30 SECONDS	//How long the attacker will stay "in memory" before getting deleted, the more attackers the shorter the duration.
 #define TEMPO_DELAY_TWO	15 SECONDS
 #define TEMPO_DELAY_MAX	8 SECONDS
@@ -436,7 +436,7 @@ Medical defines
 #define SPEED_MOVSPD_MOD 0.075	//Multiplicative modifier for our speed, per point (for both <10 and >10 values)
 
 /*
- Misc. Category. Spin it out if needed
+	Misc. Category. Spin it out if needed
 */
 #define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.7 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose

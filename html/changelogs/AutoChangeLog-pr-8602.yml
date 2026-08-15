@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - admin: " Puts a check to prevent logging ckey less emotes."

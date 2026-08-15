@@ -116,7 +116,7 @@
 		if(play_sound)
 			playsound(loc, 'sound/foley/cartadd.ogg', 100, FALSE, -1)
 
-/obj/structure/handcart/should_click_on_mouse_up(var/atom/original_object)
+/obj/structure/handcart/should_click_on_mouse_up(atom/original_object)
 	return original_object == src
 
 /obj/structure/handcart/MiddleClick(mob/user, params)
@@ -229,7 +229,7 @@
 	update_icon()
 	return TRUE
 
-/obj/structure/handcart/proc/get_atom_weight(var/atom/movable/atom)
+/obj/structure/handcart/proc/get_atom_weight(atom/movable/atom)
 	var/weight = 0
 	if(isitem(atom))
 		var/obj/item/I = atom

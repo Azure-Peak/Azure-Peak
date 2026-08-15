@@ -132,4 +132,3 @@
 		H.update_inv_shirt()
 		H.update_inv_armor()
 		return
-				

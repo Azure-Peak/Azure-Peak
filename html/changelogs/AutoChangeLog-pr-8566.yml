@@ -1,4 +1,0 @@
-author: "TankTheBirb"
-delete-after: True
-changes:
-  - rscadd: "Changes Fyritius to behave like an herb instead of a crop, now following alchemy herb behavior regarding seed planting and harvesting. Method of obtaining its seed remains striking it with something."

@@ -1,4 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - bugfix: "fixes missing donor names and a missing path on apostle kits"

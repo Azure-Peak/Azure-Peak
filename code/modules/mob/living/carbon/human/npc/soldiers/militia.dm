@@ -9,7 +9,7 @@
 
 
 
-/mob/living/carbon/human/species/human/northern/militia/Initialize()
+/mob/living/carbon/human/species/human/northern/militia/Initialize(mapload)
 	. = ..()
 	set_species(pick(NPC_RACES_TYPES))
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)

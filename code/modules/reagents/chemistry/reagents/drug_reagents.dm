@@ -48,7 +48,7 @@
 	alpha = 100
 	show_when_dead = FALSE
 
-/atom/movable/screen/fullscreen/weedsm/Initialize()
+/atom/movable/screen/fullscreen/weedsm/Initialize(mapload)
 	. = ..()
 //			if(L.has_status_effect(/datum/status_effect/buff/weed))
 	filters += filter(type="angular_blur",x=5,y=5,size=1)
@@ -57,8 +57,8 @@
 	to_chat(M, "<span class='danger'>I start tripping hard!</span>")
 
 /datum/reagent/drug/swampweed/overdose_process(mob/living/M)
-	M.adjustToxLoss(0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustOxyLoss(1.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustToxLoss(0.1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustOxyLoss(1.1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/drug/westleach
@@ -88,8 +88,8 @@
 	. = 1
 
 /datum/reagent/drug/westleach/overdose_process(mob/living/M)
-	M.adjustToxLoss(0.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustOxyLoss(1.1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustToxLoss(0.1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustOxyLoss(1.1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 
@@ -114,30 +114,30 @@
 	. = 1
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2  * REAGENTS_EFFECT_MULTIPLIER)
-	M.adjustToxLoss(2  * REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustBruteLoss(2  * REAGENTS_EFFECT_MULTIPLIER, FALSE, FALSE, BODYPART_ORGANIC)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2	* REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustToxLoss(2	* REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustBruteLoss(2	* REAGENTS_EFFECT_MULTIPLIER, FALSE, FALSE, BODYPART_ORGANIC)
 	..()
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage1(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5  * REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5	* REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
 /datum/reagent/drug/crank/addiction_act_stage2(mob/living/M)
-	M.adjustToxLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustToxLoss(5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage3(mob/living/M)
-	M.adjustBruteLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustBruteLoss(5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage4(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 3  * REAGENTS_EFFECT_MULTIPLIER)
-	M.adjustToxLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustBruteLoss(5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 3	* REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustToxLoss(5	* REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustBruteLoss(5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 
@@ -628,13 +628,13 @@
 
 /datum/reagent/drug/calendula/on_mob_metabolize(mob/living/M)
 	var/list/wCount = M.get_wounds()
-	M.adjustBruteLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustFireLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustBruteLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustFireLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	M.adjustOxyLoss(-0.25, 0)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1  * REAGENTS_EFFECT_MULTIPLIER)
-	M.adjustCloneLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1	* REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustCloneLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	if(wCount.len > 0)
-		M.heal_wounds(0.5)  // twice worse than the tea
+		M.heal_wounds(0.5)	// twice worse than the tea
 	..()
 
 /datum/reagent/drug/calendula/on_mob_life(mob/living/carbon/M)

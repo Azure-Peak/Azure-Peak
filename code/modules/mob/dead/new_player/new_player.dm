@@ -26,7 +26,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	//Used to make sure someone doesn't get spammed with messages if they're ineligible for roles
 	var/ineligible_for_roles = FALSE
 
-/mob/dead/new_player/Initialize()
+/mob/dead/new_player/Initialize(mapload)
 //	if(client && SSticker.state == GAME_STATE_STARTUP)
 //		var/atom/movable/screen/splash/S = new(client, TRUE, TRUE)
 //		S.Fade(TRUE)
@@ -380,7 +380,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if(SSshuttle.arrivals)
 		close_spawn_windows()	//In case we get held up
 		if(SSshuttle.arrivals.damaged && CONFIG_GET(flag/arrivals_shuttle_require_safe_latejoin))
-			src << alert("WEIRD!")
+			src << alert(usr, "WEIRD!")
 			return FALSE
 
 		if(CONFIG_GET(flag/arrivals_shuttle_require_undocked))
@@ -636,10 +636,10 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	GLOB.chosen_names += H.real_name
 
 
-/mob/proc/after_creation(var/mob/dead/new_player/new_player)
+/mob/proc/after_creation(mob/dead/new_player/new_player)
 	return
 
-/mob/living/carbon/human/after_creation(var/mob/dead/new_player/new_player)
+/mob/living/carbon/human/after_creation(mob/dead/new_player/new_player)
 	if(dna?.species)
 		dna.species.after_creation(src)
 

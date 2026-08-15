@@ -27,7 +27,7 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	d_intent = INTENT_DODGE
 	threat_point = THREAT_ELITE
 
-/mob/living/carbon/human/species/human/northern/outlaw_duelist/Initialize()
+/mob/living/carbon/human/species/human/northern/outlaw_duelist/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

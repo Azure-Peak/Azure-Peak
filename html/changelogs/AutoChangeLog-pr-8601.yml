@@ -1,5 +1,0 @@
-author: "kiwedespars"
-delete-after: True
-changes:
-  - bugfix: "vicious mockery is no longer blockable"
-  - bugfix: "vicious mockery no longer removes itself when landing twice"

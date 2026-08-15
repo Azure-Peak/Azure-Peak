@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	d_intent = INTENT_DODGE
 	threat_point = THREAT_ELITE
 
-/mob/living/carbon/human/species/human/northern/outlaw_ranger/Initialize()
+/mob/living/carbon/human/species/human/northern/outlaw_ranger/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

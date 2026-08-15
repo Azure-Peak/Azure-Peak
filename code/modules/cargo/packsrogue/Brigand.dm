@@ -74,7 +74,7 @@
 /datum/supply_pack/rogue/Brigand/steelcuirass
 	name = "Steel Cuirass"
 	cost = 50
-	contains =  list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
+	contains =	list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
 
 /datum/supply_pack/rogue/Brigand/scalemail
 	name = "Scalemail"
@@ -171,7 +171,7 @@
 /datum/supply_pack/rogue/Brigand/steelflail
 	name = "Steel Flail"
 	cost = 60
-	contains =  list(/obj/item/rogueweapon/flail/sflail)
+	contains =	list(/obj/item/rogueweapon/flail/sflail)
 
 /datum/supply_pack/rogue/Brigand/axe
 	name = "Steel Axe"

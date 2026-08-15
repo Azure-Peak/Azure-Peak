@@ -1,8 +1,8 @@
 // Assassin, cultist of graggar. Normally found as a drifter.
 // Requires at least one living player with the Hunted flaw, otherwise no assassins spawn.
 // Roundstart scaling (storyteller_scale_slots): scaling=1, min_players=20, default_cap=2.
-//  Cap | <20 | 20-49 | 50+
-//   2  |  0  |   1   |  2
+//	Cap | <20 | 20-49 | 50+
+//	2	|	0	|	1	|	2
 /datum/antagonist/assassin
 	name = "Assassin"
 	roundend_category = "assassins"
@@ -61,17 +61,17 @@
 		if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
 			for(var/mob/dead/observer/profane/A in I) // Each trapped soul is announced to the server
 				if(A)
-					to_chat(world, "The [A.name] has been stolen for Graggar by [owner.name].<span class='greentext'>DAMNATION!</span>")
+					to_world("The [A.name] has been stolen for Graggar by [owner.name].<span class='greentext'>DAMNATION!</span>")
 					traitorwin = TRUE
 
 	if(!considered_alive(owner))
 		traitorwin = FALSE
 
 	if(traitorwin)
-		to_chat(world, "<span class='greentext'>The [name] [owner.name] has TRIUMPHED!</span>")
+		to_world("<span class='greentext'>The [name] [owner.name] has TRIUMPHED!</span>")
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 100, FALSE, pressure_affected = FALSE)
 	else
-		to_chat(world, "<span class='redtext'>The [name] [owner.name] has FAILED!</span>")
+		to_world("<span class='redtext'>The [name] [owner.name] has FAILED!</span>")
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 100, FALSE, pressure_affected = FALSE)

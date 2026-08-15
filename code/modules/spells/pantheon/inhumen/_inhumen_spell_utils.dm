@@ -559,7 +559,7 @@
 	layer = ABOVE_MOB_LAYER
 	duration = 6
 
-/obj/effect/temp_visual/coinburst/Initialize()
+/obj/effect/temp_visual/coinburst/Initialize(mapload)
 	. = ..()
 	var/matrix/M = matrix()
 	M.Scale(0.25, 0.25) // 25% size

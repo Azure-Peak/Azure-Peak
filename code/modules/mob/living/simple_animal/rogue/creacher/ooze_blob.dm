@@ -15,10 +15,10 @@
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
 	botched_butcher_results = list(/obj/item/alch/viscera = 1)
-	butcher_results = list(/obj/item/alch/waterdust = 2, 
+	butcher_results = list(/obj/item/alch/waterdust = 2,
 							/obj/item/alch/viscera = 2)
-	perfect_butcher_results = list(/obj/item/reagent_containers/lux_impure = 1, 
-									/obj/item/alch/waterdust = 3, 
+	perfect_butcher_results = list(/obj/item/reagent_containers/lux_impure = 1,
+									/obj/item/alch/waterdust = 3,
 									/obj/item/alch/viscera = 3)
 	head_butcher = null
 	faction = list("zombie")
@@ -82,7 +82,7 @@
 				C.visible_message(span_danger("\The [src] fails to drag \the [C] down!"))
 			chomp_cd = world.time
 
-/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)

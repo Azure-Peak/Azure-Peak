@@ -57,7 +57,7 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/bakers_peel)
 
-/obj/item/rogueweapon/bakers_peel/Initialize()
+/obj/item/rogueweapon/bakers_peel/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack_success))
 

@@ -33,7 +33,7 @@
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
 
 /datum/anvil_recipe/engineering/mess_kit
-	name = "Mess Kit (+2 Tin)"  // reduced cost using tin/pewter
+	name = "Mess Kit (+2 Tin)"	// reduced cost using tin/pewter
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/tin, /obj/item/ingot/tin)
 	created_item = /obj/item/storage/gadget/messkit

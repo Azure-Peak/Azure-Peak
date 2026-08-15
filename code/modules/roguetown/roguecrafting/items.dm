@@ -14,7 +14,7 @@
 /datum/crafting_recipe/roguetown/survival/flint //custar recipe for flint.
 	name = "flint"
 	result = /obj/item/flint
-	reqs =  list(/obj/item/scrap = 2,
+	reqs =	list(/obj/item/scrap = 2,
 				/obj/item/natural/whetstone = 2,
 				/obj/item/natural/fibers = 1,
 	)
@@ -295,13 +295,13 @@
 
 
 /datum/crafting_recipe/hair_dye
-    name = "hair dye cream"
-    display_category = ITEM_CAT_TOOLS_SUNDRIES
-    result = /obj/item/hair_dye_cream
-    reqs = list(
-        /obj/item/reagent_containers/glass/bowl = 1,
-        /obj/item/reagent_containers/food/snacks/grown/berries/rogue = 3,
-    )
+	name = "hair dye cream"
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
+	result = /obj/item/hair_dye_cream
+	reqs = list(
+		/obj/item/reagent_containers/glass/bowl = 1,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 3,
+	)
 
 // DIE
 
@@ -421,19 +421,19 @@
 /datum/crafting_recipe/roguetown/survival/hotrock
 	name = "assemble stones into hotrock"
 	result = /obj/item/cooking/pan/stone
-	reqs =  list(/obj/item/natural/stone = 4)
+	reqs =	list(/obj/item/natural/stone = 4)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/hotrock_whetstone
 	name = "combine whetstones into hotrock"
 	result = /obj/item/cooking/pan/stone
-	reqs =  list(/obj/item/natural/whetstone = 2)
+	reqs =	list(/obj/item/natural/whetstone = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/hotrock_boulder
 	name = "chisel boulder into hotrock"
 	result = /obj/item/cooking/pan/stone
-	reqs =  list(/obj/item/natural/rock = 1)
+	reqs =	list(/obj/item/natural/rock = 1)
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = 2
 

@@ -447,7 +447,7 @@
 
 	var/datum/component/arousal/arousal_comp = owner?.GetComponent(/datum/component/arousal)
 	if(arousal_comp)
-		arousal_comp.set_charge(SEX_MAX_CHARGE)  // Fully restore charge
+		arousal_comp.set_charge(SEX_MAX_CHARGE)	// Fully restore charge
 
 /datum/status_effect/buff/fermented_crab/on_remove()
 	. = ..()
@@ -1916,8 +1916,8 @@
 	target.stamina_add((target.max_stamina / 3))
 	target.energy_add((-target.max_energy / 5))
 
-#define LGUARD_SHARPNESS_LOSS     150
-#define LGUARD_INTEG_LOSS		  100
+#define LGUARD_SHARPNESS_LOSS		150
+#define LGUARD_INTEG_LOSS			100
 
 /datum/status_effect/buff/clash/limbguard/proc/perform_disarm(mob/living/carbon/human/target)
 	var/obj/item/I = target.get_active_held_item()
@@ -2034,11 +2034,11 @@
 /datum/status_effect/buff/psydonic_endurance/on_apply()
 	. = ..()
 	if(HAS_TRAIT(owner, TRAIT_MEDIUMARMOR) && !HAS_TRAIT(owner, TRAIT_HEAVYARMOR))
-		ADD_TRAIT(owner, TRAIT_HEAVYARMOR, src)
+		ADD_TRAIT(owner, TRAIT_HEAVYARMOR, REF(src))
 
 /datum/status_effect/buff/psydonic_endurance/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_HEAVYARMOR, src)
+	REMOVE_TRAIT(owner, TRAIT_HEAVYARMOR, REF(src))
 
 /atom/movable/screen/alert/status_effect/buff/psydonic_endurance
 	name = "Psydonic Vitality"
@@ -2064,12 +2064,12 @@
 /datum/status_effect/buff/griefflower/on_apply()
 	. = ..()
 	to_chat(owner, span_notice("The Rosa’s ring draws blood, but it’s the memories that truly wound. Failure after failure surging through you like thorns blooming inward."))
-	ADD_TRAIT(owner, TRAIT_CRACKHEAD, src)
+	ADD_TRAIT(owner, TRAIT_CRACKHEAD, REF(src))
 
 /datum/status_effect/buff/griefflower/on_remove()
 	. = ..()
 	to_chat(owner, span_notice("You part from the Rosa’s touch. The ache retreats..."))
-	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, src)
+	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, REF(src))
 
 /atom/movable/screen/alert/status_effect/buff/griefflower
 	name = "Rosa Ring"
@@ -2814,7 +2814,7 @@
 	SIGNAL_HANDLER
 
 	for(var/mob/living/mob in get_hearers_in_view(2, owner))
-		if(HAS_TRAIT(mob,  TRAIT_PSYDONITE) || HAS_TRAIT(mob,  TRAIT_UNFORGIVABLE))
+		if(HAS_TRAIT(mob,	TRAIT_PSYDONITE) || HAS_TRAIT(mob,	TRAIT_UNFORGIVABLE))
 			continue
 
 		mob.apply_status_effect(/datum/status_effect/eora_blessing)

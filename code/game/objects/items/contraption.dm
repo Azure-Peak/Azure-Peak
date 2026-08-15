@@ -585,7 +585,7 @@
 	var/active_item = FALSE
 
 
-/obj/item/rogueweapon/contraption/pick/drill/Initialize()
+/obj/item/rogueweapon/contraption/pick/drill/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
