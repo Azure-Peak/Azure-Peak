@@ -28,7 +28,7 @@
 	var/next_bonus_time = 0
 	var/current_mode = 1
 	var/list/modes = list(
-		list("name" = "Focus", "tag" = "FOCUS", "proj" = /obj/projectile/energy/unholyblast, "invocation" = "Larkas Strahl!"),
+		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/unholyblast, "invocation" = "Larkas Strahl!"),
 		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/unholyblast/arc, "invocation" = "Larkas Strahl!"),
 	)
 
@@ -69,6 +69,10 @@
 			if(out_of_effective_range())
 				qdel(src)
 				return
+			var/mob/living/carbon/human/caster = firer
+			if(L.guard_deflect_spell("Divine Blast", TRUE, caster))
+				qdel(src)
+				return BULLET_ACT_BLOCK
 			if(blocked < 100)
 				if(!L.mind && L.stat) // executes NPCs that are incapacitated, to make cleaning up blockades a lil better
 					var/turf/target_turf = get_turf(L)
@@ -78,7 +82,7 @@
 					qdel(src)
 					return
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !L.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-					L.visible_message("<font color='white'>Divine power staggers [L]!</font>")
+					L.visible_message(span_silver("Divine power staggers [L]!"))
 					L.Immobilize(1 SECONDS)
 					L.Slowdown(2 SECONDS)
 				apply_divine_damage(L)
@@ -105,18 +109,16 @@
 	if(!L.mind)
 		damage_to_do += 60
 	var/mob/living/carbon/human/caster = firer
-	if(L.guard_deflect_spell("Divine Blast", TRUE, caster))
-		return
 	if(istype(caster) && ishuman(L))
 		arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, npc_simple_damage_mult = 1, skip_animation = TRUE)
 	else
 		L.apply_damage(damage_to_do, BURN)
 
 /obj/projectile/energy/unholyblast/proc/apply_god_bonus(mob/living/L)
-	L.visible_message("<font color='#aa0000'>--Divine Smite!!")
 	var/mob/living/carbon/human/caster = firer
 	if(!istype(caster))
 		return
+	L.visible_message(span_profane("--Divine Smite!!"))
 	var/godless = !L.mind
 	var/fire_stacks = godless ? 10 : 5
 	var/CC_timer = godless ? 8 : 4
