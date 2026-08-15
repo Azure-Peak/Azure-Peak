@@ -14,10 +14,10 @@
 //Misc mob defines
 
 //for vision cone
-#define FOV_DEFAULT 	           	(1<<0)
-#define FOV_RIGHT 	            	(1<<1)
-#define FOV_LEFT 	            	(1<<2)
-#define FOV_BEHIND 	 	          	(1<<3) //180
+#define FOV_DEFAULT					(1<<0)
+#define FOV_RIGHT					(1<<1)
+#define FOV_LEFT					(1<<2)
+#define FOV_BEHIND							(1<<3) //180
 
 //Ready states at roundstart for mob/dead/new_player
 #define PLAYER_NOT_READY 0
@@ -26,7 +26,7 @@
 
 //movement intent defines for the m_intent var
 #define MOVE_INTENT_WALK "walk"
-#define MOVE_INTENT_RUN  "run"
+#define MOVE_INTENT_RUN	"run"
 #define MOVE_INTENT_SNEAK "sneak"
 
 //resist
@@ -42,7 +42,7 @@
 #define BLOOD_VOLUME_BAD 224
 #define BLOOD_VOLUME_SURVIVE 122
 
-/// Blood pool regeneration in non-vampiric living mobs per SSmobs tick. 
+/// Blood pool regeneration in non-vampiric living mobs per SSmobs tick.
 #define BLOODPOL_REGEN 2
 
 //Sizes of mobs, used by mob/living/var/mob_size
@@ -52,8 +52,8 @@
 #define MOB_SIZE_LARGE 3
 
 //Ventcrawling defines
-#define VENTCRAWLER_NONE   0
-#define VENTCRAWLER_NUDE   1
+#define VENTCRAWLER_NONE	0
+#define VENTCRAWLER_NUDE	1
 #define VENTCRAWLER_ALWAYS 2
 
 //Bloodcrawling defines
@@ -61,23 +61,23 @@
 #define BLOODCRAWL_EAT 2
 
 //Mob bio-types flags
-#define MOB_ORGANIC 	1 << 0
+#define MOB_ORGANIC	1 << 0
 #define MOB_MINERAL		1 << 1
-#define MOB_ROBOTIC 	1 << 2
+#define MOB_ROBOTIC	1 << 2
 #define MOB_UNDEAD		1 << 3
-#define MOB_HUMANOID 	1 << 4
-#define MOB_BUG 		1 << 5
+#define MOB_HUMANOID	1 << 4
+#define MOB_BUG		1 << 5
 #define MOB_BEAST		1 << 6
 #define MOB_EPIC		1 << 7 //megafauna
 #define MOB_REPTILE		1 << 8
 #define MOB_SPIRIT		1 << 9
 
 //Organ defines for carbon mobs
-#define ORGAN_ORGANIC   1
-#define ORGAN_ROBOTIC   2
+#define ORGAN_ORGANIC	1
+#define ORGAN_ROBOTIC	2
 
-#define BODYPART_ORGANIC   1
-#define BODYPART_ROBOTIC   2
+#define BODYPART_ORGANIC	1
+#define BODYPART_ROBOTIC	2
 
 #define BODYPART_NOT_DISABLED 0
 #define BODYPART_DISABLED_DAMAGE 1
@@ -124,11 +124,11 @@
 #define BRAIN_TRAUMA_SPECIAL /datum/brain_trauma/special
 #define BRAIN_TRAUMA_MAGIC /datum/brain_trauma/magic
 
-#define TRAUMA_RESILIENCE_BASIC 1      //Curable with chems
-#define TRAUMA_RESILIENCE_SURGERY 2    //Curable with brain surgery
-#define TRAUMA_RESILIENCE_LOBOTOMY 3   //Curable with lobotomy
-#define TRAUMA_RESILIENCE_MAGIC 4      //Curable only with magic
-#define TRAUMA_RESILIENCE_ABSOLUTE 5   //This is here to stay
+#define TRAUMA_RESILIENCE_BASIC 1		//Curable with chems
+#define TRAUMA_RESILIENCE_SURGERY 2	//Curable with brain surgery
+#define TRAUMA_RESILIENCE_LOBOTOMY 3	//Curable with lobotomy
+#define TRAUMA_RESILIENCE_MAGIC 4		//Curable only with magic
+#define TRAUMA_RESILIENCE_ABSOLUTE 5	//This is here to stay
 
 //Limit of traumas for each resilience tier
 #define TRAUMA_LIMIT_BASIC 3
@@ -224,8 +224,8 @@
 #define SLIME_EXTRACT_CROSSING_REQUIRED 10
 
 //Slime commands defines
-#define SLIME_FRIENDSHIP_FOLLOW 			3 //Min friendship to order it to follow
-#define SLIME_FRIENDSHIP_STOPEAT 			5 //Min friendship to order it to stop eating someone
+#define SLIME_FRIENDSHIP_FOLLOW			3 //Min friendship to order it to follow
+#define SLIME_FRIENDSHIP_STOPEAT			5 //Min friendship to order it to stop eating someone
 #define SLIME_FRIENDSHIP_STOPEAT_NOANGRY	7 //Min friendship to order it to stop eating someone without it losing friendship
 #define SLIME_FRIENDSHIP_STOPCHASE			4 //Min friendship to order it to stop chasing someone (their target)
 #define SLIME_FRIENDSHIP_STOPCHASE_NOANGRY	6 //Min friendship to order it to stop chasing someone (their target) without it losing friendship
@@ -255,12 +255,12 @@
 #define NPC_AI_RETREAT	3
 #define NPC_AI_HUNT		4
 #define NPC_AI_FLEE		5
-#define NPC_AI_SLEEP    6
+#define NPC_AI_SLEEP	6
 
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
-#define ENVIRONMENT_SMASH_STRUCTURES	(1<<0) 	//crates, lockers, ect
-#define ENVIRONMENT_SMASH_WALLS			(1<<1)  //walls
+#define ENVIRONMENT_SMASH_STRUCTURES	(1<<0)	//crates, lockers, ect
+#define ENVIRONMENT_SMASH_WALLS			(1<<1)	//walls
 #define ENVIRONMENT_SMASH_RWALLS		(1<<2)	//rwalls
 
 #define NO_SLIP_WHEN_WALKING	(1<<0)
@@ -380,15 +380,15 @@
 //Badmin magic mirror
 #define MIRROR_BADMIN (1<<0)
 //Standard magic mirror (wizard)
-#define MIRROR_MAGIC  (1<<1)
+#define MIRROR_MAGIC	(1<<1)
 //Pride ruin mirror
-#define MIRROR_PRIDE  (1<<2)
+#define MIRROR_PRIDE	(1<<2)
 //Race swap wizard event
-#define RACE_SWAP     (1<<3)
+#define RACE_SWAP		(1<<3)
 //xenobio black crossbreed
 #define SLIME_EXTRACT (1<<5)
 //Wabbacjack staff projectiles
-#define WABBAJACK     (1<<6)
+#define WABBAJACK		(1<<6)
 
 #define SLEEP_CHECK_DEATH(X) sleep(X); if(QDELETED(src) || stat == DEAD) return;
 
@@ -449,8 +449,8 @@
 #define SKIN_COLOR_MORNING "dbaB8f"
 #define SKIN_COLOR_NOON "be8f73"
 #define SKIN_COLOR_EVENING "a57962"
-#define SKIN_COLOR_SUNSET "7B5752"  
-#define SKIN_COLOR_DUSK "564044" 
+#define SKIN_COLOR_SUNSET "7B5752"
+#define SKIN_COLOR_DUSK "564044"
 #define SKIN_COLOR_GILDED "e1b772"
 #define SKIN_COLOR_SELFAMBER "c9aa79"
 #define SKIN_COLOR_SELFTOPAZ "b19d68"
@@ -586,7 +586,7 @@
 #define LIGHTBROWN_FUR "6d4530"
 #define WHITEBROWN_FUR "c69b83"
 #define DARKBROWN_FUR "3b2e27"
-#define BLACK_FUR	 "271f1a"
+#define BLACK_FUR		"271f1a"
 
 // Pixel shifting
 #define PIXEL_SHIFT_MAXIMUM 16
@@ -604,7 +604,7 @@
 
 // #define NPC_THINK_DEBUG_WORLD
 #ifdef NPC_THINK_DEBUG_WORLD
-#define AI_WORLD_THINK(pawn, message) to_chat(world, "<span class='boldannounce'>\[AI-WORLD\] [pawn]: [message]</span>")
+#define AI_WORLD_THINK(pawn, message) to_world("<span class='boldannounce'>\[AI-WORLD\] [pawn]: [message]</span>")
 #else
 #define AI_WORLD_THINK(pawn, message)
 #endif

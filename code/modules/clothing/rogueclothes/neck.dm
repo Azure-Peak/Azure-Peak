@@ -37,8 +37,8 @@
 	sewrepair = TRUE
 
 /obj/item/clothing/neck/roguetown/coif/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the heavy padded coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
+	. = ..()
+	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the heavy padded coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
 
 /obj/item/clothing/neck/roguetown/coif/padded
 	name = "padded coif"
@@ -156,8 +156,8 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
 /obj/item/clothing/neck/roguetown/chaincoif/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the full chain coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
+	. = ..()
+	. += span_info("Right click to adjust the coif's coverage. Certain coifs with multiple adjustments - like the full chain coif - might need to be right-clicked multiple times, in order to cycle back to its default state.")
 
 /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	name = "ancient coif"
@@ -433,7 +433,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/neck/roguetown/fencerguard/Initialize()
+/obj/item/clothing/neck/roguetown/fencerguard/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -485,7 +485,7 @@
 	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS
 	smeltresult = /obj/item/ingot/aaslag
 
-/obj/item/clothing/neck/roguetown/gorget/prisoner/Initialize()
+/obj/item/clothing/neck/roguetown/gorget/prisoner/Initialize(mapload)
 	. = ..()
 	name = "cursed collar"
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
@@ -555,11 +555,11 @@
 	return ..()
 
 /obj/item/clothing/neck/roguetown/psicross/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Right click to adjust how your character visibly wears the amulet. Most amulets can cycle between being visibly worn on the neck, and being worn around the wrist.")
-    . += span_info("Middle click to kneel in prayer. Praying generates Devotion, which can be used to cast most miracles.")
-    . += span_info("By typing '*pray' into your chatbar, you can write a dedicated prayer to your character's patron. Dedicated prayers have a rare chance of being answered by higher powers.")
-    . += span_info("Adjusting an amulet while wearing it in the ring slot allows you to visibly layer it over most sleeves and clothing.")
+	. = ..()
+	. += span_info("Right click to adjust how your character visibly wears the amulet. Most amulets can cycle between being visibly worn on the neck, and being worn around the wrist.")
+	. += span_info("Middle click to kneel in prayer. Praying generates Devotion, which can be used to cast most miracles.")
+	. += span_info("By typing '*pray' into your chatbar, you can write a dedicated prayer to your character's patron. Dedicated prayers have a rare chance of being answered by higher powers.")
+	. += span_info("Adjusting an amulet while wearing it in the ring slot allows you to visibly layer it over most sleeves and clothing.")
 
 /obj/item/clothing/neck/roguetown/psicross/reform
 	name = "reformist psycross"
@@ -959,7 +959,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/ravox/bronze
 	name = "bronze amulet of Ravox"
-	desc = "'YOU FIGHT WELL, RAVOX OF UR-SYON. YOUR CLEMENCY HATH BEEN EARNED. SURRENDER NOW, AND GRAGGAR SHALL-'</br>‎  </br>'No.' </br>‎  </br>'-WHAT? YOU'RE GOING TO THROW AWAY YOUR LYFE FOR A GOD THAT HAS NO LOVE FOR YOU?' </br>‎  </br>'One of us will.'"
+	desc = "'YOU FIGHT WELL, RAVOX OF UR-SYON. YOUR CLEMENCY HATH BEEN EARNED. SURRENDER NOW, AND GRAGGAR SHALL-'</br>‎	</br>'No.' </br>‎	</br>'-WHAT? YOU'RE GOING TO THROW AWAY YOUR LYFE FOR A GOD THAT HAS NO LOVE FOR YOU?' </br>‎	</br>'One of us will.'"
 	icon_state = "ravox_b"
 
 /obj/item/clothing/neck/roguetown/psicross/astrata/bronze
@@ -976,7 +976,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze
 	name = "bronze amulet of Graggar"
-	desc = "'EVERYTHING - AND EVERYONE YOU LOVE - WILL BE GONE! WHAT WILL YOU HAVE, AFTER THE LAST FIRE'S BEEN SMOTHERED OUT?!' </br>‎  </br>'..You. I'd still have you.'"
+	desc = "'EVERYTHING - AND EVERYONE YOU LOVE - WILL BE GONE! WHAT WILL YOU HAVE, AFTER THE LAST FIRE'S BEEN SMOTHERED OUT?!' </br>‎	</br>'..You. I'd still have you.'"
 	icon_state = "graggar_b"
 	item_state = "graggar_b"
 
@@ -1126,8 +1126,8 @@
 	is_silver = TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/silver/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Silver amulets protect against most unholy curses, hexes, and other mind-altering spells.")
+	. = ..()
+	. += span_info("Silver amulets protect against most unholy curses, hexes, and other mind-altering spells.")
 
 /obj/item/clothing/neck/roguetown/psicross/pearl //put it as a psycross so it can be used for miracles
 	name = "pearl amulet"
@@ -1358,9 +1358,9 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	var/luckyskull = FALSE
 
-/obj/item/clothing/neck/roguetown/skullamulet/gemerald/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 200, "size" = 1))
+/obj/item/clothing/neck/roguetown/skullamulet/gemerald/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 200, "size" = 1))
 
 /obj/item/clothing/neck/roguetown/skullamulet/gemerald/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -1386,7 +1386,7 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize()
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
@@ -1406,7 +1406,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
 
-/obj/item/clothing/neck/roguetown/bevor/zizo/Initialize()
+/obj/item/clothing/neck/roguetown/bevor/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
@@ -1425,7 +1425,7 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
 
-/obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize()
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
@@ -1453,7 +1453,7 @@
 	chunkcolor = "#645567"
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/neck/roguetown/coif/baotha/Initialize()
+/obj/item/clothing/neck/roguetown/coif/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VEIL")
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, "sound/foley/cloth_wipe (1).ogg", null, (UPD_HEAD|UPD_MASK|UPD_NECK))
@@ -1483,15 +1483,15 @@
 	inv_storage_delay = 1 SECONDS
 	var/active_item
 
-/obj/item/clothing/neck/roguetown/psicross/malum/secret/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ARCANE, "alpha" = 200, "size" = 1))
+/obj/item/clothing/neck/roguetown/psicross/malum/secret/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ARCANE, "alpha" = 200, "size" = 1))
 
 /obj/item/clothing/neck/roguetown/psicross/malum/secret/equipped(mob/living/user, slot)
 	. = ..()
 	if(slot == SLOT_NECK)
 		active_item = TRUE
-		to_chat(user, span_hypnophrase("..the warmth flows through my veins, yet I do not burn; in fact, my mind feels clearer than ever before.. </br>  </br>..glowing runes race past my eyes, gradually deciphering into the forge's greatest secrets..  </br>  </br>'BLACKSTEEL AND GOLD, SAFFIRA AND BLORTZ - BOUND WITH A PSICROSS O' SILVER, TO FOSTER THE DRAGON'S FURY.'  </br>  </br>'FOUR ENCHANTED RINGS, BOUND IN SILVER. A GEMERALD, ONYX, AMYTHORTZ, RONTZ - OMNIPOTENT, TOGETHER.'  </br>  </br>'A SILVER CATALYST, A BERSERKER'S GREATSWORD ANOINTED WITH GNOLL-BLOOD - MERGED WITH AN ANCIENT GREATSWORD OF GILBRANZE, THE REMAINS OF A DRACONIC RING AND WEEPING PSICROSS, AND WHAT LIES WITHIN THIS AMULET: TO SLAY THE ULTIMATE EVYLLE.'"))
+		to_chat(user, span_hypnophrase("..the warmth flows through my veins, yet I do not burn; in fact, my mind feels clearer than ever before.. </br>	</br>..glowing runes race past my eyes, gradually deciphering into the forge's greatest secrets..	</br>	</br>'BLACKSTEEL AND GOLD, SAFFIRA AND BLORTZ - BOUND WITH A PSICROSS O' SILVER, TO FOSTER THE DRAGON'S FURY.'	</br>	</br>'FOUR ENCHANTED RINGS, BOUND IN SILVER. A GEMERALD, ONYX, AMYTHORTZ, RONTZ - OMNIPOTENT, TOGETHER.'	</br>	</br>'A SILVER CATALYST, A BERSERKER'S GREATSWORD ANOINTED WITH GNOLL-BLOOD - MERGED WITH AN ANCIENT GREATSWORD OF GILBRANZE, THE REMAINS OF A DRACONIC RING AND WEEPING PSICROSS, AND WHAT LIES WITHIN THIS AMULET: TO SLAY THE ULTIMATE EVYLLE.'"))
 		user.change_stat(STATKEY_INT, 3)
 		user.change_stat(STATKEY_LCK, 3)
 		user.change_stat(STATKEY_WIL, 3)
@@ -1503,7 +1503,7 @@
 /obj/item/clothing/neck/roguetown/psicross/malum/secret/dropped(mob/living/user)
 	..()
 	if(active_item)
-		to_chat(user, span_monkeyhive("..the runes morph into indiscernable smudges, before fading into the world once more. For just a moment, you forget that the heat's blistering within your palm..  </br>  </br>..perhaps, this would better fit in the smoldering heat of a forge.."))
+		to_chat(user, span_monkeyhive("..the runes morph into indiscernable smudges, before fading into the world once more. For just a moment, you forget that the heat's blistering within your palm..	</br>	</br>..perhaps, this would better fit in the smoldering heat of a forge.."))
 		user.change_stat(STATKEY_INT, -3)
 		user.change_stat(STATKEY_LCK, -3)
 		user.change_stat(STATKEY_WIL, -3)
@@ -1530,9 +1530,9 @@
 	inv_storage_delay = 3 SECONDS
 	var/active_item
 
-/obj/item/clothing/neck/roguetown/psicross/weeping/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 200, "size" = 1))
+/obj/item/clothing/neck/roguetown/psicross/weeping/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 200, "size" = 1))
 
 /obj/item/clothing/neck/roguetown/psicross/weeping/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_WEEPING_CROSS) //Cursed ass Psicross, you probably should be giving this thing suspicious looks.
@@ -1544,7 +1544,7 @@
 			to_chat(user, span_warning("The [src] feels heavy around my neck. But it's no albatross of mine. It does nothing to me."))
 			return
 		active_item = TRUE
-		to_chat(user, span_red("As you don the psicross, the chains tighten like a vice around your neck!  </br>  </br>You're overcome with a sense of terrible anguish - all of humenity's suffering, thrust upon your very spirit!  </br>  </br>Your chest grows cold, yet your blood boils hotter than magma! Psydonia's villains may be brutal and merciless, but you will be WORSE!  </br>  </br>You've gone BERSERK!"))
+		to_chat(user, span_red("As you don the psicross, the chains tighten like a vice around your neck!	</br>	</br>You're overcome with a sense of terrible anguish - all of humenity's suffering, thrust upon your very spirit!	</br>	</br>Your chest grows cold, yet your blood boils hotter than magma! Psydonia's villains may be brutal and merciless, but you will be WORSE!	</br>	</br>You've gone BERSERK!"))
 		user.change_stat(STATKEY_STR, 3)
 		user.change_stat(STATKEY_CON, 3)
 		user.change_stat(STATKEY_WIL, 3)
@@ -1559,7 +1559,7 @@
 /obj/item/clothing/neck/roguetown/psicross/weeping/dropped(mob/living/user)
 	..()
 	if(active_item)
-		to_chat(user, span_monkeyhive("..and at once, the mania subsides. A familiar warmth creeps back into your chest. Though your mind is clear, the thought lingers; was it truly just a malaise, or something more? </br>  </br>..perhaps, this would better fit in the smoldering heat of a forge.."))
+		to_chat(user, span_monkeyhive("..and at once, the mania subsides. A familiar warmth creeps back into your chest. Though your mind is clear, the thought lingers; was it truly just a malaise, or something more? </br>	</br>..perhaps, this would better fit in the smoldering heat of a forge.."))
 		user.change_stat(STATKEY_STR, -3)
 		user.change_stat(STATKEY_CON, -3)
 		user.change_stat(STATKEY_WIL, -3)
@@ -1764,7 +1764,7 @@
 	. += span_info("It will automatically release after a period of penance (5-20 minutes based on bounty amount).")
 	. += span_info("It can only be removed early by a LIBERTAS machine.")
 
-/obj/item/clothing/neck/roguetown/collar/prisoner/Initialize()
+/obj/item/clothing/neck/roguetown/collar/prisoner/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 

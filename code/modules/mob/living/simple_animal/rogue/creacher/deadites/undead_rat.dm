@@ -48,7 +48,7 @@
 			return "stomach"
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/deadite, 4 MINUTES, 50, 50, "rat_downed", 0)
 

@@ -4,7 +4,7 @@
 #endif
 #ifndef LOCALTEST
 	#define MINIMUM_FLAVOR_TEXT		200
-	#define MINIMUM_OOC_NOTES 		5 //Just put something in there
+	#define MINIMUM_OOC_NOTES		5 //Just put something in there
 #endif
 
 //Preference toggles
@@ -53,7 +53,7 @@
 #define CHAT_PULLR			(1<<6)
 #define CHAT_GHOSTWHISPER	(1<<7)
 #define CHAT_GHOSTPDA		(1<<8)
-#define CHAT_GHOSTRADIO 	(1<<9)
+#define CHAT_GHOSTRADIO	(1<<9)
 #define CHAT_BANKCARD		(1<<10)
 #define CHAT_ADMINLOOC		(1<<11)
 #define CHAT_ADMINSPAWN		(1<<12)

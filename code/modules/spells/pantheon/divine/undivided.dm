@@ -137,7 +137,7 @@
 #undef RECUPERATION_BASE_FILTER
 /*
 ///////////////////
-// T1 - Miracle  //
+// T1 - Miracle	//
 ///////////////////
 
 /datum/action/cooldown/spell/miracle/heal/undivided

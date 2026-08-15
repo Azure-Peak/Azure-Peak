@@ -54,7 +54,7 @@
 			. += span_info("- [item]")
 
 
-/obj/machinery/light/rogue/smelter/Initialize()
+/obj/machinery/light/rogue/smelter/Initialize(mapload)
 	. = ..()
 	smelt_sfx = pick('sound/misc/smelter_sound1.ogg', 'sound/misc/smelter_sound2.ogg', 'sound/misc/smelter_sound3.ogg', 'sound/misc/smelter_sound4.ogg')
 	if(prob(10))
@@ -192,13 +192,13 @@
 			contained_items[smelting_item] = 6 // Guarantees a return of 6 no matter how extra experience past 3000 you have.
 		/*
 		RANDOMLY PICKED NUMBER ACCORDING TO SMELTER SKILL:
-			NO SKILL: 		between 10 and 30
-			NOVICE:	 		between 25 and 30
-			APPRENTICE:	 	between 40 and 50
-			JOURNEYMAN: 	between 55 and 75
-			EXPERT: 		between 70 and 100
-			MASTER: 		between 85 and 125
-			LEGENDARY: 		between 100 and 150
+			NO SKILL:		between 10 and 30
+			NOVICE:				between 25 and 30
+			APPRENTICE:			between 40 and 50
+			JOURNEYMAN:	between 55 and 75
+			EXPERT:		between 70 and 100
+			MASTER:		between 85 and 125
+			LEGENDARY:		between 100 and 150
 
 		PICKED NUMBER GETS DIVIDED BY 25 AND ROUNDED DOWN TO CLOSEST INTEGER, +1.
 		RESULT DETERMINES QUALITY OF BAR. SEE code/__DEFINES/skills.dm
@@ -245,9 +245,9 @@
 		if(item.smeltresult)
 			// disabled for now, balance reasons
 			// while(item.smelt_bar_num)
-			// 	item.smelt_bar_num--
-			// 	var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
-			// 	contained_items += result
+			//	item.smelt_bar_num--
+			//	var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
+			//	contained_items += result
 			// contained_items -= item
 			var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
 			contained_items -= item

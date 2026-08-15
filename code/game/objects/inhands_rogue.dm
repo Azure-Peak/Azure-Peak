@@ -1,6 +1,6 @@
 
 // Initalize addon for the var for custom inhands 32x32.
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
 	. = ..()
 	if(!experimental_inhand)
 		inhand_x_dimension = 32

@@ -1,4 +1,4 @@
-/obj/structure/roguemachine/talkstatue/mercenary/Initialize()
+/obj/structure/roguemachine/talkstatue/mercenary/Initialize(mapload)
 	. = ..()
 	if(SSroguemachine.mercenary_statue == null)
 		SSroguemachine.mercenary_statue = src
@@ -316,7 +316,7 @@
 	if(pending_direct_responses[response_id])
 		pending_direct_responses -= response_id
 
-/obj/structure/roguemachine/talkstatue/mercenary/proc/speak(var/mode)
+/obj/structure/roguemachine/talkstatue/mercenary/proc/speak(mode)
 	if(mode == 1)
 		var/random = rand(1,4)
 		switch(random)

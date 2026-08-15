@@ -70,7 +70,7 @@
 	. = ..()
 	. += span_info("Its draw answers to my <b>Arcyne Armament</b>, not any common archer's training.")
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/Initialize()
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/Initialize(mapload)
 	. = ..()
 	chamber_round()
 

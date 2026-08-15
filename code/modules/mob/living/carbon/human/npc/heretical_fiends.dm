@@ -10,7 +10,7 @@
 
 
 
-/mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/Initialize()
+/mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/Initialize(mapload)
 	. = ..()
 	set_species(pick(NPC_RACES_TYPES))
 	gender = pick(MALE, FEMALE)
@@ -158,4 +158,4 @@
 	add_random_fiend_beltl_stuff(H)
 	//Weapons
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
-//	l_hand = 
+//	l_hand =

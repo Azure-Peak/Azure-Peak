@@ -185,7 +185,7 @@
 	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it."
 	icon_state = "sglasses"
 
-/obj/item/clothing/mask/rogue/spectacles/Initialize()
+/obj/item/clothing/mask/rogue/spectacles/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/spill, null, 'sound/blank.ogg')
 
@@ -812,7 +812,7 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
-// Duelist Goggles = New invention that protects your eyes against critical hits +  doesn't hide your identity
+// Duelist Goggles = New invention that protects your eyes against critical hits +	doesn't hide your identity
 
 /obj/item/clothing/mask/rogue/spectacles/duelist
 	name = "iron duelist goggles"

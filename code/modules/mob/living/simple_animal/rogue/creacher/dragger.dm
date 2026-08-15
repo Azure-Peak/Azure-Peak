@@ -99,7 +99,7 @@
 	GiveTarget(user)
 	return
 
-/mob/living/simple_animal/hostile/rogue/dragger/Initialize()
+/mob/living/simple_animal/hostile/rogue/dragger/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	set_light(2, 2, 2, l_color = "#c0523f")

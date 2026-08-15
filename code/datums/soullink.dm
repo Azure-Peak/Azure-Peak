@@ -89,7 +89,7 @@
 		soulowner.death(gibbed)
 
 /////////////////
-// Demon Bind  //
+// Demon Bind	//
 /////////////////
 //When the soulowner dies, the soulsharer dies, but NOT vice versa
 //This is intended for two players(or AI) and two mobs

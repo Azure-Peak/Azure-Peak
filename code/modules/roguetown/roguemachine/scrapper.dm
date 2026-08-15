@@ -23,7 +23,7 @@
 	var/recycle_sound = 'sound/misc/smelter_fin.ogg'
 	var/flow_source = MATERIAL_SOURCE_SCRAP
 
-/obj/structure/roguemachine/scrapper/Initialize()
+/obj/structure/roguemachine/scrapper/Initialize(mapload)
 	. = ..()
 	populate_defaults()
 	if(seed_budget > 0)

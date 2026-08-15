@@ -8,7 +8,7 @@
 	only_forced_audio = TRUE
 	vary = TRUE
 	message = "gasps out their last breath."
-	message_simple =  "falls limp."
+	message_simple =	"falls limp."
 	stat_allowed = UNCONSCIOUS
 	mob_type_ignore_stat_typecache = list(/mob/living/carbon/human)
 

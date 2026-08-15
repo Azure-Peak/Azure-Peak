@@ -1,7 +1,7 @@
 // Generic baked products. Also includes their intermediary forms (raw) before baking.
 // For consistency.
 
-/*	.................   Hardtack   ................... */
+/*	.................	Hardtack	................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	name = "crackerdough"
 	desc = "Doughy, soft, unacceptable - such makes it perfect for hardtack. Sprinkling in some sliced chocolate might help make it a little more palletable."
@@ -12,7 +12,7 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/hardtack
 
-/*	.................   Hardtack   ................... */
+/*	.................	Hardtack	................... */
 /obj/item/reagent_containers/food/snacks/rogue/crackerscooked
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_NORTHERN
 	dish_type = DISH_BREAD
@@ -41,7 +41,7 @@
 		icon_state = "tack1"
 
 
-/*	.................   Bread   ................... */
+/*	.................	Bread	................... */
 /obj/item/reagent_containers/food/snacks/rogue/bread
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD
@@ -80,7 +80,7 @@
 		if(bitecount == 7)
 			changefood(slice_path, eater)
 
-/*	.................   Breadslice & Toast   ................... */
+/*	.................	Breadslice & Toast	................... */
 /obj/item/reagent_containers/food/snacks/rogue/breadslice
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD
@@ -216,7 +216,7 @@
 	icon_state = "toast_ham"
 	foodtype = GRAIN | MEAT
 
-/*	.................   Bread Buns   ................... */
+/*	.................	Bread Buns	................... */
 /obj/item/reagent_containers/food/snacks/rogue/bun
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD
@@ -261,7 +261,7 @@
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
-/* 	.................   Crossbuns   ................... */
+/*	.................	Crossbuns	................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/crossbun_raw
 	name = "raw crossbun"
 	desc = "A piece of raw dough with the shape of Astrata's cross pressed onto it. In Her Light."
@@ -286,7 +286,7 @@
 	icon_state = "decabun_raw"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/decabun
 
-/* 	.................   Crossbuns   ................... */
+/*	.................   Crossbuns   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/crossbun
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD
@@ -503,7 +503,7 @@
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
 
-/*	.................   Apple Bread   ................... */
+/*	.................	Apple Bread	................... */
 /obj/item/reagent_containers/food/snacks/rogue/applebread
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD
@@ -560,7 +560,7 @@
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
 
-/*	.................   Tomatoplate  ................... */
+/*	.................	Tomatoplate	................... */
 /obj/item/reagent_containers/food/snacks/rogue/tomatoplate
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
 	dish_type = DISH_BREAD|DISH_PIE
@@ -846,7 +846,7 @@
 	foodtype = GRAIN | FRUIT | DAIRY
 	eat_effect = /datum/status_effect/buff/snackbuff
 
-/*	.................   Cheese Bun   ................... */
+/*	.................	Cheese Bun	................... */
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesebun_raw
 	name = "raw cheese bun"
@@ -888,7 +888,7 @@
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
-/*	.................   Lasagna   ................... */
+/*	.................	Lasagna	................... */
 
 /obj/item/reagent_containers/food/snacks/rogue/lasagna
 	dish_type = DISH_NOODLES
@@ -950,7 +950,7 @@
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 	rotprocess = SHELFLIFE_LONG
 
-/*	.................   Miscellanious Buns   ................... */
+/*	.................	Miscellanious Buns	................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybread
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD
@@ -980,7 +980,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
-/*	.................   Griddle   ................... */
+/*	.................	Griddle	................... */
 /obj/item/reagent_containers/food/snacks/rogue/griddle
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -1117,7 +1117,7 @@
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("soft and fluffy dough" = 1, "caramelized apple slices" = 1)
-/*	.................   Challah   ................... */
+/*	.................	Challah	................... */
 /obj/item/reagent_containers/food/snacks/rogue/challah
 	cuisine = CUISINE_RANESHENI
 	dish_type = DISH_BREAD

@@ -81,7 +81,7 @@
 	controller.set_blackboard_key(BB_TROLL_ROCK_COOLDOWN, world.time + throw_cooldown)
 	controller.set_blackboard_key(BB_TROLL_CONSECUTIVE_SHOVES, 0)
 	controller.set_blackboard_key(BB_TROLL_SLAP_COOLDOWN, 0)
-	addtimer(CALLBACK(src, .proc/spawn_rock, controller, target_turf), windup_time)
+	addtimer(CALLBACK(src, PROC_REF(spawn_rock), controller, target_turf), windup_time)
 	finish_action(controller, TRUE)
 
 /datum/ai_behavior/troll_rock_toss/proc/spawn_rock(datum/ai_controller/controller, turf/target_turf)

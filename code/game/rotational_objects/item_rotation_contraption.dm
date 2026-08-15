@@ -2,7 +2,7 @@
 	name = ""
 	desc = ""
 
-	w_class =  WEIGHT_CLASS_SMALL
+	w_class =	WEIGHT_CLASS_SMALL
 	grid_height = 32
 	grid_width = 32
 
@@ -25,7 +25,7 @@
 	if(resize_factor)
 		transform = transform.Scale(resize_factor, resize_factor)
 
-/obj/item/rotation_contraption/Initialize()
+/obj/item/rotation_contraption/Initialize(mapload)
 	. = ..()
 	if(placed_type)
 		set_type(placed_type)

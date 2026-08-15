@@ -176,7 +176,7 @@
 /obj/projectile/proc/out_of_effective_range()
 	return suppress_effects_past_range && max_range && check_range(get_turf(src))
 
-/obj/projectile/Initialize()
+/obj/projectile/Initialize(mapload)
 	. = ..()
 	permutated = list()
 	decayedRange = range
@@ -406,7 +406,7 @@
 #define DO_NOT_QDEL 2		//Pass through.
 #define FORCE_QDEL 3		//Force deletion.
 
-/obj/projectile/proc/process_hit(turf/T, atom/target, qdel_self, hit_something = FALSE) 	//probably needs to be reworked entirely when pixel movement is done.
+/obj/projectile/proc/process_hit(turf/T, atom/target, qdel_self, hit_something = FALSE)	//probably needs to be reworked entirely when pixel movement is done.
 	if(check_range(T))
 		if(damage)
 			damage = round(damage * dam_falloff_factor)
@@ -725,7 +725,7 @@
 	else
 		var/mob/living/L = target
 		if(!direct_target)
-			//If they're able to 1. stand or 2. use items or 3. move, AND they are not softcrit,  they are able to avoid indirect projectiles passing over.
+			//If they're able to 1. stand or 2. use items or 3. move, AND they are not softcrit,	they are able to avoid indirect projectiles passing over.
 			//If they're unconscious or dead they shouldn't be getting hit by indirect fire
 			if((CHECK_BITFIELD(L.mobility_flags, MOBILITY_USE | MOBILITY_STAND | MOBILITY_MOVE) && L.stat == CONSCIOUS) || L.stat >= UNCONSCIOUS)
 				return FALSE

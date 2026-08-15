@@ -1,5 +1,5 @@
 /////////////////////////////////
-// ! TRIUMPH EXCLUSIVE KITS!   //
+// ! TRIUMPH EXCLUSIVE KITS!	//
 /////////////////////////////////
 // Special enchanting kits that can be acquired via Triumphs. Refer to 'donator_modkits.dm' for more details and up-to-date examples.
 // Try to keep anything specifically acquired via Triumphs - instead of Donations - here, if possible.
@@ -12,10 +12,10 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of a Steel Cuirass, a Steel Halfplate, a set of Steel Plate Armor, or a set of Fluted Plate Armor."
 	target_items = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass 				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate/full 					= /obj/item/clothing/suit/roguetown/armor/plate/full/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate	  					= /obj/item/clothing/suit/roguetown/armor/plate/legacy
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/full					= /obj/item/clothing/suit/roguetown/armor/plate/full/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/legacy
 		)
 	result_item = null
 	exact_type = TRUE
@@ -24,9 +24,9 @@
 	name = "'Valorian Iron Armor' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of an Iron Breastplate, an Iron Halfplate, or a set of Iron Plate Armor."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron 			= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate/full/iron	  			= /obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy,
-		/obj/item/clothing/suit/roguetown/armor/plate/iron 					= /obj/item/clothing/suit/roguetown/armor/plate/iron/legacy
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron			= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron					= /obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/iron					= /obj/item/clothing/suit/roguetown/armor/plate/iron/legacy
 		)
 	result_item = null
 
@@ -34,13 +34,13 @@
 	name = "'Slimfitted Steel Armor' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can alter the appearance of a set of a Steel Halfplate, a Fluted Halfplate, a set of Steel Plate armor, or a set of Fluted Plate Armor."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate/full 					= /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/full					= /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/fluted/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate	  					= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
+		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
 		)
 	result_item = null
 
@@ -48,7 +48,7 @@
 	name = "'Drowcraft Armor' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of Hardened Leather Armor, or a set of Studded Leather Armor."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/leather/heavy 		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest,
+		/obj/item/clothing/suit/roguetown/armor/leather/heavy		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest,
 		/obj/item/clothing/suit/roguetown/armor/leather/studded		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
 		)
 	result_item = null
@@ -59,7 +59,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Axe, or an Iron Hatchet."
 	target_items = list(
 		/obj/item/rogueweapon/stoneaxe/handaxe							= /obj/item/rogueweapon/stoneaxe/handaxe/triumph,
-		/obj/item/rogueweapon/stoneaxe/woodcut	  						= /obj/item/rogueweapon/stoneaxe/woodcut/triumph
+		/obj/item/rogueweapon/stoneaxe/woodcut								= /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 		)
 	result_item = null
 
@@ -72,7 +72,7 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut/silver					= /obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph,
 		/obj/item/rogueweapon/stoneaxe/battle/blacksteel				= /obj/item/rogueweapon/stoneaxe/battle/blacksteel/triumph,
 		/obj/item/rogueweapon/stoneaxe/battle/psyaxe					= /obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph,
-		/obj/item/rogueweapon/stoneaxe/battle	  						= /obj/item/rogueweapon/stoneaxe/battle/triumph,
+		/obj/item/rogueweapon/stoneaxe/battle								= /obj/item/rogueweapon/stoneaxe/battle/triumph,
 		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 		)
 	result_item = null
@@ -141,7 +141,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword, or a Rapier."
 	target_items = list(
 		/obj/item/rogueweapon/sword/long					= /obj/item/rogueweapon/sword/long/triumph/wideguard,
-		/obj/item/rogueweapon/sword/rapier	  				= /obj/item/rogueweapon/sword/rapier/wideguard
+		/obj/item/rogueweapon/sword/rapier						= /obj/item/rogueweapon/sword/rapier/wideguard
 		)
 	result_item = null
 
@@ -149,7 +149,7 @@
 	name = "'Sabreguard' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword, or a Kriegmesser."
 	target_items = list(
-		/obj/item/rogueweapon/sword/long/kriegmesser	  			= /obj/item/rogueweapon/sword/long/kriegmesser/sabreguard,
+		/obj/item/rogueweapon/sword/long/kriegmesser					= /obj/item/rogueweapon/sword/long/kriegmesser/sabreguard,
 		/obj/item/rogueweapon/sword/long							= /obj/item/rogueweapon/sword/long/triumph/sabreguard
 		)
 	result_item = null
@@ -158,7 +158,7 @@
 	name = "'Kriegstetcher' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Stecher, or an Estoc."
 	target_items = list(
-		/obj/item/rogueweapon/sword/long/ap	  				= /obj/item/rogueweapon/sword/long/ap/triumph,
+		/obj/item/rogueweapon/sword/long/ap						= /obj/item/rogueweapon/sword/long/ap/triumph,
 		/obj/item/rogueweapon/estoc							= /obj/item/rogueweapon/estoc/triumph
 		)
 	result_item = null
@@ -167,8 +167,8 @@
 	name = "'Psycrucifix' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword, an Enduring Longsword, or a Psydonic Longsword."
 	target_items = list(
-		/obj/item/rogueweapon/sword/long/psysword	  				= /obj/item/rogueweapon/sword/long/psysword/psycrucifix,
-		/obj/item/rogueweapon/sword/long/oldpsysword	  			= /obj/item/rogueweapon/sword/long/oldpsysword/psycrucifix,
+		/obj/item/rogueweapon/sword/long/psysword						= /obj/item/rogueweapon/sword/long/psysword/psycrucifix,
+		/obj/item/rogueweapon/sword/long/oldpsysword					= /obj/item/rogueweapon/sword/long/oldpsysword/psycrucifix,
 		/obj/item/rogueweapon/sword/long							= /obj/item/rogueweapon/sword/long/triumph/psycrucifix
 		)
 	result_item = null
@@ -363,9 +363,9 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of a Steel Sallet, a Steel Visored Sallet, a Steel Kettlehelm, or a Steel Knight's Armet."
 	target_items = list(
 		/obj/item/clothing/head/roguetown/helmet/heavy/knight				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
-		/obj/item/clothing/head/roguetown/helmet/sallet/visored 			= /obj/item/clothing/head/roguetown/helmet/sallet/visored/legacy,
+		/obj/item/clothing/head/roguetown/helmet/sallet/visored			= /obj/item/clothing/head/roguetown/helmet/sallet/visored/legacy,
 		/obj/item/clothing/head/roguetown/helmet/sallet						= /obj/item/clothing/head/roguetown/helmet/sallet/legacy,
-		/obj/item/clothing/head/roguetown/helmet/kettle	  					= /obj/item/clothing/head/roguetown/helmet/kettle/legacy
+		/obj/item/clothing/head/roguetown/helmet/kettle							= /obj/item/clothing/head/roguetown/helmet/kettle/legacy
 		)
 	result_item = null
 	exact_type = TRUE
@@ -375,9 +375,9 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of an Iron Sallet, an Iron Visored Sallet, an Iron Kettlehelm, or an Iron Knight's Armet."
 	target_items = list(
 		/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron			= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
-		/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron 		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/legacy,
+		/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/legacy,
 		/obj/item/clothing/head/roguetown/helmet/sallet/iron				= /obj/item/clothing/head/roguetown/helmet/sallet/iron/legacy,
-		/obj/item/clothing/head/roguetown/helmet/kettle/iron	  			= /obj/item/clothing/head/roguetown/helmet/kettle/iron/legacy
+		/obj/item/clothing/head/roguetown/helmet/kettle/iron					= /obj/item/clothing/head/roguetown/helmet/kettle/iron/legacy
 		)
 	result_item = null
 
@@ -388,13 +388,13 @@
 	icon_state = "metalrefittingkit"
 	icon = 'icons/roguetown/items/misc.dmi'
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted			= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate/full 					= /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim,
+		/obj/item/clothing/suit/roguetown/armor/plate/full					= /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim,
 		/obj/item/clothing/suit/roguetown/armor/plate/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/fluted/triumph_slim,
-		/obj/item/clothing/suit/roguetown/armor/plate	  					= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
+		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
 		)
 	result_item = null
 	exact_type = TRUE
@@ -413,7 +413,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Psydonic Handmace or Enduring Handmace."
 	target_items = list(
 		/obj/item/rogueweapon/mace/cudgel/psy/old						= /obj/item/rogueweapon/mace/cudgel/psy/old/triumph_classic,
-		/obj/item/rogueweapon/mace/cudgel/psy	  						= /obj/item/rogueweapon/mace/cudgel/psy/triumph_classic
+		/obj/item/rogueweapon/mace/cudgel/psy								= /obj/item/rogueweapon/mace/cudgel/psy/triumph_classic
 		)
 	result_item = null
 
@@ -506,7 +506,7 @@
 	bigboy = TRUE
 
 ////////////////////////////////////////////////////
-// ! TO BE ARCHIVED / REPLACED WITH BETTER CODE!  //
+// ! TO BE ARCHIVED / REPLACED WITH BETTER CODE!	//
 ////////////////////////////////////////////////////
 // Weapon-specific Triumphs. The original iteration, based off the old donator-transmorgification code.
 // For two-handed sprites, replace the '_1' variant in their 64.dmi sprite with the '_2' variant - ir-or-when the time to fully replace them comes.
@@ -516,7 +516,7 @@
 	desc = "A lethal and perfectly balanced weapon, the longsword is the protagonist of endless tales and myths \
 	all across Psydonia. This particular variant has a stouter crossguard and wider blade; a prevaling design \
 	from the preceding century, oft-mantled in the homes of now-retired adventurers."
-	icon = 'icons/roguetown/weapons/64.dmi'  //Framework for Triumph-purchasable longswords.
+	icon = 'icons/roguetown/weapons/64.dmi'	//Framework for Triumph-purchasable longswords.
 	icon_state = "longsword_triumph"
 
 /obj/item/rogueweapon/sword/long/triumph/getonmobprop(tag)
@@ -922,31 +922,31 @@
 	icon_state = "legacyibreastplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy
-    name = "valorian cuirass"
-    desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
-    icon_state = "legacycuirass"
-    item_state = "legacycuirass"
+	name = "valorian cuirass"
+	desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
+	icon_state = "legacycuirass"
+	item_state = "legacycuirass"
 
 /obj/item/clothing/suit/roguetown/armor/plate/legacy
-    name = "valorian half-plate"
-    desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time \
+	name = "valorian half-plate"
+	desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time \
 	you had ever thought without its presence?"
-    icon_state = "legacyhalfplate"
-    item_state = "legacyhalfplate"
+	icon_state = "legacyhalfplate"
+	item_state = "legacyhalfplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/legacy
-    name = "valorian plate armor"
-    desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes \
+	name = "valorian plate armor"
+	desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes \
 	crashing down, will you deliver its people from evil; or will you be the one to string up 'pon the pyre?"
-    icon_state = "legacyplate"
-    item_state = "legacyplate"
+	icon_state = "legacyplate"
+	item_state = "legacyplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
-    name = "valorian fluted plate armor"
-    desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly \
+	name = "valorian fluted plate armor"
+	desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly \
 	fool; the curtain call is a mere heartbeat away. Are you ready for one last dance, before midnight calls?"
-    icon_state = "legacyornateplate"
-    item_state = "legacyornateplate"
+	icon_state = "legacyornateplate"
+	item_state = "legacyornateplate"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy
 	name = "valorian iron breastplate"
@@ -1001,32 +1001,32 @@
 	icon_state = "skullcapold"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/triumph_slim
-    icon_state = "ornatecuirassslim"
-    item_state = "ornatecuirassslim"
+	icon_state = "ornatecuirassslim"
+	item_state = "ornatecuirassslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/triumph_slim
-    icon_state = "ornatechestplateslim"
-    item_state = "ornatechestplateslim"
+	icon_state = "ornatechestplateslim"
+	item_state = "ornatechestplateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/triumph_slim
-    icon_state = "cuirassslim"
-    item_state = "cuirassslim"
+	icon_state = "cuirassslim"
+	item_state = "cuirassslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
-    icon_state = "halfplateslim"
-    item_state = "halfplateslim"
+	icon_state = "halfplateslim"
+	item_state = "halfplateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/triumph_slim
-    icon_state = "plateslim"
-    item_state = "plateslim"
+	icon_state = "plateslim"
+	item_state = "plateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/triumph_slim
-    icon_state = "ornatehalfplateslim"
-    item_state = "ornatehalfplateslim"
+	icon_state = "ornatehalfplateslim"
+	item_state = "ornatehalfplateslim"
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/triumph_slim
-    icon_state = "ornateplateslim"
-    item_state = "ornateplateslim"
+	icon_state = "ornateplateslim"
+	item_state = "ornateplateslim"
 
 /obj/item/clothing/cloak/rangercloak
 	name = "ranger cloak"

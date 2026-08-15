@@ -37,7 +37,7 @@
 		if(G.client)
 			if(isscryeye(G) || G.trapped)
 				return
-			if(alert("Travel with the boatman?", "", "Yes", "No") == "Yes")
+			if(alert(usr, "Travel with the boatman?", "", "Yes", "No") == "Yes")
 				G.returntolobby(0)
 
 /atom/movable/screen/ghost/reenter_corpse
@@ -95,7 +95,7 @@
 	using.screen_loc = ui_ghost_teleport
 	static_inventory += using
 
-	using =  new /atom/movable/screen/backhudl/ghost()
+	using =	new /atom/movable/screen/backhudl/ghost()
 	using.hud = src
 	static_inventory += using
 
@@ -170,7 +170,7 @@
 	..()
 	var/atom/movable/screen/using
 
-	using =  new /atom/movable/screen/backhudl/ghost()
+	using =	new /atom/movable/screen/backhudl/ghost()
 	using.hud = src
 	static_inventory += using
 
@@ -206,7 +206,7 @@
 	..()
 	var/atom/movable/screen/using
 
-	using =  new /atom/movable/screen/backhudl/obs()
+	using =	new /atom/movable/screen/backhudl/obs()
 	using.hud = src
 	static_inventory += using
 

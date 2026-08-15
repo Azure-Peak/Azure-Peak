@@ -1,5 +1,5 @@
 //////////////////
-//  TRIUMPHS !  //
+//	TRIUMPHS !	//
 //////////////////
 
 // Dongwaiver / Ollanius, here.
@@ -380,7 +380,7 @@
 	sort_category = "Triumphs"
 
 //////////////////
-//  RESKINS  !  //
+//	RESKINS	!	//
 //////////////////
 //Variants of the Donator Reskin item, specifically unlocked through Triumphs.
 
@@ -601,7 +601,7 @@
 	sort_category = "Triumphs"
 
 //////////////////
-//  PERFUMES !  //
+//	PERFUMES !	//
 //////////////////
 
 /datum/loadout_item/triumph_perfume_lavender

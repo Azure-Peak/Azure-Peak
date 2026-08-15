@@ -132,12 +132,12 @@
 	. = ..()
 	if(!.)
 		return
-	ADD_TRAIT(owner, TRAIT_FORTITUDE, src)
+	ADD_TRAIT(owner, TRAIT_FORTITUDE, REF(src))
 	to_chat(owner, span_warning("My body feels lighter..."))
 
 /datum/status_effect/buff/alch/statbuff/fortitude/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_FORTITUDE, src)
+	REMOVE_TRAIT(owner, TRAIT_FORTITUDE, REF(src))
 	to_chat(owner, span_warning("The weight of the world rests upon my shoulders once more."))
 
 /atom/movable/screen/alert/status_effect/buff/alch/fortitude
@@ -157,11 +157,11 @@
 /datum/status_effect/buff/alch/fire_resist/on_apply()
 	. = ..()
 	if(!HAS_TRAIT(owner, TRAIT_FIRE_RESIST))
-		ADD_TRAIT(owner, TRAIT_FIRE_RESIST, src)
+		ADD_TRAIT(owner, TRAIT_FIRE_RESIST, REF(src))
 
 /datum/status_effect/buff/alch/fire_resist/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_FIRE_RESIST, src)
+	REMOVE_TRAIT(owner, TRAIT_FIRE_RESIST, REF(src))
 
 /atom/movable/screen/alert/status_effect/buff/alch/fire_resist
 	name = "Fire Resistance"

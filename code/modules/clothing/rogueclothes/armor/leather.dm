@@ -42,7 +42,7 @@
 	detail_color = primary
 	update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/leather/vest/winterjacket/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/vest/winterjacket/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -180,13 +180,13 @@
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout
 	name = "aesthetic fur-lined trophy robes"
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout/Initialize(mapload)
 	. = ..()
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
 	name = "aesthetic fur-woven hatanga coat"
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -239,14 +239,14 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/Initialize(mapload)
 	..()
 	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/loadout
 	name = "aesthetic fencing jacket"
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -359,7 +359,7 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_RED
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -385,7 +385,7 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_RED
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/Initialize(mapload)
 	. = ..()
 	update_icon()
 

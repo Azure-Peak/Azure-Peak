@@ -765,9 +765,9 @@
 	ckeywhitelist = list("jademanique")
 
 /datum/loadout_item/donator/olygsword
-    name = "Donator Kit - Gre'as'anto d'Shar"
-    path = /obj/item/enchantingkit/olygsword
-    ckeywhitelist = list("olympus7")
+	name = "Donator Kit - Gre'as'anto d'Shar"
+	path = /obj/item/enchantingkit/olygsword
+	ckeywhitelist = list("olympus7")
 
 /datum/loadout_item/donator/bobby
 	name = "Donator Kit - Holy Astratan Bascinet"

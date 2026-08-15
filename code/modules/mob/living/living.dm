@@ -7,7 +7,7 @@
 	var/contract_dust_scheduled = FALSE
 
 
-/mob/living/Initialize()
+/mob/living/Initialize(mapload)
 	. = ..()
 	var/turf/turf = get_turf(loc)
 	if(turf)
@@ -930,7 +930,7 @@
 	if(full_heal)
 		fully_heal(admin_revive = admin_revive, break_restraints = admin_revive)
 	if(stat == DEAD && (admin_revive || can_be_revived())) //in some cases you can't revive (e.g. no brain)
-		GLOB.dead_mob_list -= src  //If any more forms of revival are added, better to use a proc to do this - easier to search
+		GLOB.dead_mob_list -= src	//If any more forms of revival are added, better to use a proc to do this - easier to search
 		GLOB.alive_mob_list += src
 		set_suicide(FALSE)
 		set_stat(CONSCIOUS)
@@ -1125,7 +1125,7 @@
 		if(trail_type)
 			var/brute_ratio = round(getBruteLoss() / maxHealth, 0.1)
 			if(blood_volume && blood_volume > max(BLOOD_VOLUME_NORMAL*(1 - brute_ratio * 0.25), 0))//don't leave trail if blood volume below a threshold
-				blood_volume = max(blood_volume - max(1, brute_ratio * 2), 0) 					//that depends on our brute damage.
+				blood_volume = max(blood_volume - max(1, brute_ratio * 2), 0)					//that depends on our brute damage.
 				var/newdir = get_dir(target_turf, start)
 				if(newdir != direction)
 					newdir = newdir | direction
@@ -2484,7 +2484,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	var/turf/ceiling = get_step_multiz(src, UP)
 	var/turf/T = get_turf(src)
 
-	if(!ceiling)  //We are at the highest z-level.
+	if(!ceiling)	//We are at the highest z-level.
 		if(T.can_see_sky())
 			switch(GLOB.forecast)
 				if("prerain")
@@ -2541,7 +2541,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	var/_y = T.y-loc.y
 	var/dist = get_dist(src, T)
 	var/message = span_info("[src] looks into the distance.")
-	if(dist > 7 || dist  <= 2)
+	if(dist > 7 || dist	<= 2)
 		return
 	hide_cone()
 	var/ttime = 11

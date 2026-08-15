@@ -16,7 +16,7 @@
 	. += span_info("Left-clicking the machine with an item will load it into the stockpile, rewarding you coinage in turn. Make sure to register an account with the MEISTER, first, or you won't receive any coinage.")
 	. += span_info("Right-clicking the machine will automatically load all adjacent items into the stockpile at once.")
 	. += span_info("The vomitorium's stockpile naturally refills over time. Loaded items are added to the stockpile's quantities, which can then be vended by others or exported by the Steward for profit.")
-/obj/structure/roguemachine/stockpile/Initialize()
+/obj/structure/roguemachine/stockpile/Initialize(mapload)
 	. = ..()
 	SSroguemachine.stock_machines += src
 	withdraw_tab = new(src)

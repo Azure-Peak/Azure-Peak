@@ -199,7 +199,7 @@
 				/obj/item/rogueweapon/scabbard/sheath = 1
 				)
 	if(should_wear_femme_clothes(H))
-		l_hand = /obj/item/clothing/suit/roguetown/shirt/desertbra //Let's not set our ladies naked roundstart.  ...unless we have to. Should be able to toss into skin-armor cosmetic overlay easy enough inround.
+		l_hand = /obj/item/clothing/suit/roguetown/shirt/desertbra //Let's not set our ladies naked roundstart.	...unless we have to. Should be able to toss into skin-armor cosmetic overlay easy enough inround.
 
 	var/options = list("Hands-On", "Big Axe")
 	var/option_choice = input(H, "Choose your means.", "TAKE UP ARMS") as anything in options

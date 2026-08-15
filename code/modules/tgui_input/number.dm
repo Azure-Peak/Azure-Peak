@@ -116,7 +116,7 @@
 /datum/tgui_input_number/ui_static_data(mob/user)
 	var/list/data = list()
 	data["init_value"] = default // Default is a reserved keyword
-	data["large_buttons"] =  FALSE //user.read_preference(/datum/preference/toggle/tgui_large_buttons)
+	data["large_buttons"] =	FALSE //user.read_preference(/datum/preference/toggle/tgui_large_buttons)
 	data["max_value"] = max_value
 	data["message"] = message
 	data["min_value"] = min_value

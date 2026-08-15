@@ -311,9 +311,9 @@
 /// any is_lesser_silver item, escalating in stages: a stress event after a brief grace period (so
 /// "force them to hold silver for two seconds" metachecks can't instantly out a vampyre), and a
 /// real sunder ignition once they've been holding it long enough to count as a true exposure.
-#define LESSER_SILVER_STRESS_DELAY    (10 SECONDS)
-#define LESSER_SILVER_IGNITE_DELAY    (30 SECONDS)
-#define LESSER_SILVER_IGNITE_STACKS   3
+#define LESSER_SILVER_STRESS_DELAY	(10 SECONDS)
+#define LESSER_SILVER_IGNITE_DELAY	(30 SECONDS)
+#define LESSER_SILVER_IGNITE_STACKS	3
 
 /datum/status_effect/fire_handler/fire_stacks/sunder/lesser
 	id = "fire_stacks_sunder_lesser"

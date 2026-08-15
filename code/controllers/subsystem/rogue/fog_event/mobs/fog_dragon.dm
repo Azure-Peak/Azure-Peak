@@ -37,7 +37,7 @@
 	retreat_health = 0.05
 	dodgetime = 30
 
-/mob/living/simple_animal/hostile/retaliate/rogue/revenant/dragon/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/revenant/dragon/Initialize(mapload)
 	. = ..()
 
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)

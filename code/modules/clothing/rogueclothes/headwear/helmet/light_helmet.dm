@@ -174,7 +174,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 
-/obj/item/clothing/head/roguetown/grenzelhofthat/Initialize()
+/obj/item/clothing/head/roguetown/grenzelhofthat/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -197,7 +197,7 @@
 /obj/item/clothing/head/roguetown/grenzelhofthat/loadout
 	name = "aesthetic grenzelhoft plume hat"
 
-/obj/item/clothing/head/roguetown/grenzelhofthat/loadout/Initialize()
+/obj/item/clothing/head/roguetown/grenzelhofthat/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -238,6 +238,6 @@
 /obj/item/clothing/head/roguetown/mentorhat/loadout
 	name = "aesthetic worn bamboo hat"
 
-/obj/item/clothing/head/roguetown/mentorhat/loadout/Initialize()
+/obj/item/clothing/head/roguetown/mentorhat/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()

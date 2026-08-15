@@ -22,7 +22,7 @@
 	break_sound = "glassbreak"
 	destroy_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
 
-/obj/structure/roguewindow/Initialize()
+/obj/structure/roguewindow/Initialize(mapload)
 	update_icon()
 	..()
 
@@ -102,7 +102,7 @@
 	dir = turn(dirin, 180)
 	lockdir = dir
 
-/obj/structure/roguewindow/openclose/Initialize()
+/obj/structure/roguewindow/openclose/Initialize(mapload)
 	..()
 	lockdir = dir
 	icon_state = base_state
@@ -119,7 +119,7 @@
 	dir = turn(dirin, 180)
 	lockdir = dir
 
-/obj/structure/roguewindow/openclose/reinforced/Initialize()
+/obj/structure/roguewindow/openclose/reinforced/Initialize(mapload)
 	..()
 	lockdir = dir
 	icon_state = base_state
@@ -134,7 +134,7 @@
 	dir = turn(dirin, 180)
 	lockdir = dir
 
-/obj/structure/roguewindow/openclose/reinforced/brick/Initialize()
+/obj/structure/roguewindow/openclose/reinforced/brick/Initialize(mapload)
 	..()
 	lockdir = dir
 	icon_state = base_state
@@ -158,7 +158,7 @@
 	icon_state = "shrafa3-solid"
 	base_state = "shrafa3-solid"
 
-/obj/structure/roguewindow/openclose/Initialize()
+/obj/structure/roguewindow/openclose/Initialize(mapload)
 	lockdir = dir
 	icon_state = base_state
 	GLOB.TodUpdate += src

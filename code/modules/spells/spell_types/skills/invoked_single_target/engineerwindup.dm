@@ -81,7 +81,7 @@
 						human_target.Jitter(100)
 						human_target.electrocute_act(25, src, 1)//slight damage
 						human_target.visible_message(span_notice("[human_target] jerks awake with a buzz!"),
-													 span_userdanger("You awaken with a jolt as your core is spun!"))
+														span_userdanger("You awaken with a jolt as your core is spun!"))
 
 						// Apply debuffs
 						human_target.mind.remove_antag_datum(/datum/antagonist/zombie)
@@ -112,7 +112,7 @@
 					human_target.Jitter(25)
 					human_target.apply_status_effect(/datum/status_effect/buff/windup)
 					human_target.visible_message(span_notice("[human_target] body jerks with a buzz!"),
-												 span_userdanger("Your body buzzes with a jolt as your core is spun!"))
+													span_userdanger("Your body buzzes with a jolt as your core is spun!"))
 					return
 				else
 					to_chat(user, span_warning("[human_target] got moved before I was finished!"))
