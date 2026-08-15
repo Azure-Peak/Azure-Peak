@@ -19,7 +19,7 @@
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
 
 /datum/action/cooldown/spell/baotha/emotional_sway
-	name = "Bona Dea / Petulantia"
+	name = "Laetitia / Petulantia"
 	desc = "Baotha raises myne mood. Alt-mode to instead surrender my soul to heartbreak. More effective based off of holy skill."
 	button_icon_state = null //i ain't got shit rn lowk chief
 	sound = 'sound/magic/heal.ogg' //i ain't got SHIT rn lowk chief
@@ -29,14 +29,14 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 	invocation_type = INVOCATION_NONE
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 45 SECONDS
 	check_flags = AB_CHECK_CONSCIOUS
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 	var/embrace_heartbreak = FALSE
 
 /datum/action/cooldown/spell/baotha/emotional_sway/toggle_alt_mode(mob/user)
 	embrace_heartbreak = !embrace_heartbreak
-	to_chat(user, span_notice("Baotha's miracle will now [embrace_heartbreak ? "decrease" : "increase"] my mood."))
+	to_chat(user, span_notice("Baotha's blessing will now [embrace_heartbreak ? "decrease" : "increase"] my mood."))
 	return TRUE
 
 /datum/action/cooldown/spell/baotha/emotional_sway/cast(atom/cast_on)
@@ -57,7 +57,7 @@
 
 /datum/stressevent/baotha_solace
 	timer = 2 MINUTES
-	desc = span_green("May I make the most of this freedom, and of myne pleasure.")
+	desc = span_green("May I make the most of myne pleasure.")
 
 /datum/stressevent/baotha_heartbreak
 	timer = 2 MINUTES
@@ -454,10 +454,10 @@
 	to_chat(M, span_warning("Gah! Something.. got in my - eyes.."))
 	M.blur_eyes(2)
 
-// T2 - clears all stress. Forget your worries, pookie bear.
+// T2 - shares the caster's current mood, intensified by their holy skill.
 /obj/effect/proc_holder/spell/invoked/lasthigh
 	name = "Last High"
-	desc = "Gives someone but a hint of Baotha's relief, giving them peace and draining their worries- for a bit."
+	desc = "Shares my current stress or peace with someone, intensified by my holy skill."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "last_high"
@@ -485,16 +485,20 @@
 			return FALSE
 
 		target.visible_message(
-			span_info("[target] is covered in a sickly-sweet shimmer-mist. They shudder as an effluvium of spice and numbness benumbs them."),
-			span_notice("The world fades around me. Numbing warmth spreads through my limbs. The world is distant, but it doesn't matter. None of this matters. None of this ever really mattered.")
+			span_info("[target] is covered in a sickly-sweet shimmer-mist. They shudder as another's emotions wash over them."),
+			span_notice("The world fades around me as unfamiliar emotions flood through my body, sharpened by Baotha's touch.")
 		)
-		target.add_stress(/datum/stressevent/lasthigh)
+		target.remove_stress(/datum/stressevent/lasthigh)
+		var/datum/stressevent/shared_mood = target.add_stress(/datum/stressevent/lasthigh)
+		if(!shared_mood)
+			return FALSE
+		var/caster_stress = user.get_stress_amount()
+		shared_mood.stressadd = caster_stress + SIGN(caster_stress) * user.get_skill_level(associated_skill)
 		return TRUE
 
 /datum/stressevent/lasthigh
 	timer = 10 MINUTES
-	stressadd = -99
-	desc = span_hypnophrase("Peace. I am floating on exhalation from Gotte's lips. From here, it's easy to see the truth; none of this matters. None of this ever really mattered.")
+	desc = span_hypnophrase("Another's feelings flood through me, made overwhelming by Baotha's touch.")
 
 
 // T3 - bond that lasts for 8 minutes as long as bonded are within 7 tiles, TRAIT_NOPAIN, spd = 5 end = 3
