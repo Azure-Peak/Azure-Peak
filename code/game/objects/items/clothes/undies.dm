@@ -73,6 +73,11 @@
 	icon_state = "eoran_reg"
 	item_state = "braies"
 
+/obj/item/undies/bandages
+	name = "bandages"
+	icon_state = "bandages"
+	item_state = "bandages"
+
 /datum/crafting_recipe/roguetown/sewing/undies
 	name = "briefs"
 	result = list(/obj/item/clothing/undies)
