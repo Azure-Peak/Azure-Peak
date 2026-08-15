@@ -49,7 +49,7 @@
 	aggressive = 1
 	var/drug_cd
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	. = ..()
 

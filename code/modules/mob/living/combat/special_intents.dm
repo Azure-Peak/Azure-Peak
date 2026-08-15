@@ -368,6 +368,8 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	if(ishuman(target))
 		var/mob/living/carbon/human/HT = target
 		var/obj/item/bodypart/affecting = HT.get_bodypart(zone)
+		if(!affecting)
+			affecting = HT.get_bodypart(BODY_ZONE_CHEST)//fallback for if we're targeting a missing limb
 		var/armor_block = HT.run_armor_check(zone, d_type, 0, damage = dam, used_weapon = W, armor_penetration = (no_pen ? PEN_NONE : 0))
 		if(full_pen)
 			armor_block = 0		//You block NOTHING, sir!
@@ -770,7 +772,7 @@ SPECIALS START HERE
 		L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vulnerable_dur)
 	..()
 
-#define AXE_SWING_GRID_DEFAULT 	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
+#define AXE_SWING_GRID_DEFAULT	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
 #define AXE_SWING_GRID_MIRROR	list(list(-1,0, 0.4 SECONDS), list(0,0, 0.2 SECONDS), list(1,0))
 
 /datum/special_intent/axe_swing
@@ -1171,7 +1173,7 @@ SPECIALS START HERE
 	playsound(T, sfx_post_delay, 100, TRUE)
 	..()
 
-/* 				EXAMPLES
+/*				EXAMPLES
 
 /datum/special_intent/another_example_cast
 	name = "Expanding Rectangle Pattern"
@@ -1231,7 +1233,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/martyr_volcano_slam/process_attack()
 	var/obj/item/rogueweapon/W = iparent
-	dam = W.force_dynamic * max((howner.STASTR / 10 + howner.STAPER / 10), 1)  / 1.5
+	dam = W.force_dynamic * max((howner.STASTR / 10 + howner.STAPER / 10), 1)	/ 1.5
 	. = ..()
 
 /datum/special_intent/martyr_volcano_slam/on_create()

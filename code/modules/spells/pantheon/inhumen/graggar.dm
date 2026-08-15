@@ -48,7 +48,7 @@
 	cooldown_time = 2 MINUTES
 
 	check_flags = AB_CHECK_CONSCIOUS
-	spell_requirements =  SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements =	SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/graggar/rush/cast(atom/cast_on)
 	. = ..()
@@ -403,7 +403,7 @@
 			return TRUE
 		spelltarget.apply_status_effect(/datum/status_effect/debuff/bloody_mess)
 		spelltarget.apply_status_effect(/datum/status_effect/debuff/sensitive_nerves)
-		log_combat(owner, spelltarget, "exsanguinated", addition="with the miracle [name]")
+		log_combat(owner, spelltarget, "exsanguinated", addition="with the miracle [name]", zone=owner.zone_selected)
 		return TRUE
 
 //////////////////////////

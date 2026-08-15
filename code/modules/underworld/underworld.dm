@@ -35,7 +35,7 @@
 		. += (span_cult(" I could exchange a toll to refresh my rites..."))
 		return
 
-/obj/structure/underworld/carriageman/Initialize()
+/obj/structure/underworld/carriageman/Initialize(mapload)
 	. = ..()
 	set_light(5, 4, 30, l_color = LIGHT_COLOR_BLUE)
 
@@ -119,13 +119,13 @@
 	density = TRUE
 
 
-/obj/structure/underworld/carriage/Initialize()
+/obj/structure/underworld/carriage/Initialize(mapload)
 	. = ..()
 	set_light(5, 3, 30, l_color = LIGHT_COLOR_BLUE)
 
 /obj/structure/underworld/carriage/attack_hand(mob/living/carbon/spirit/user)
 	if(user.paid)
-		switch(alert("Are you ready to be judged?",,"Yes","No"))
+		switch(alert(user, "Are you ready to be judged?",,"Yes","No"))
 			if("Yes")
 				playsound(user, 'sound/misc/deadbell.ogg', 50, TRUE, -2, ignore_walls = TRUE)
 				user.returntolobby()
@@ -143,7 +143,7 @@ GLOBAL_VAR_INIT(underworld_coins, 0)
 	icon_state = "soultoken_floor"
 	var/should_track = TRUE
 
-/obj/item/underworld/coin/Initialize()
+/obj/item/underworld/coin/Initialize(mapload)
 	. = ..()
 	if(should_track)
 		GLOB.underworld_coins += 1

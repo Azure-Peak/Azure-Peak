@@ -18,7 +18,7 @@
 	var/chosen_icon_state = null
 	var/list/authors = list()
 
-/obj/item/skillbook/Initialize()
+/obj/item/skillbook/Initialize(mapload)
 	if(!chosen_icon_state)
 		iconval = rand(0,9)//lets us randomize from all our books from books.dmi
 	update_icon()
@@ -67,7 +67,7 @@
 	record_round_statistic(STATS_BOOKS_BURNED)
 	return ..()
 
-/obj/item/skillbook/proc/set_bookstats(var/req,var/cap,var/topic)
+/obj/item/skillbook/proc/set_bookstats(req,cap,topic)
 	if(complete)
 		skill_req = req
 		skill_cap = cap
@@ -169,7 +169,7 @@
 		if(reading_skill < skill_cap || subject_skill < skill_cap)//You couldn't have written this book so you're not allowed to get the exp for finishing it
 			to_chat(user, span_warning("I can do nothing with [src]."))
 			return
-		if(alert("Are you ready to finish your book?", "Writer", "Yes", "No") == "Yes")
+		if(alert(user, "Are you ready to finish your book?", "Writer", "Yes", "No") == "Yes")
 			chosen_icon_state = null
 			var/final_desc = "A book to improve your skills."
 			var/custom_title_chosen = FALSE
@@ -183,7 +183,7 @@
 				var/auto_title = temp_book.name
 				qdel(temp_book)
 
-				if(alert("Would you like to choose a custom title for the book?", "Book Title", "Yes", "No") == "Yes")
+				if(alert(user, "Would you like to choose a custom title for the book?", "Book Title", "Yes", "No") == "Yes")
 					var/new_title = input(user, "Enter book title (max 64 characters):", "Book Title", auto_title) as text|null
 					if(new_title)
 						if(length(new_title) > 64)
@@ -192,7 +192,7 @@
 						final_name = sanitize(new_title)
 						custom_title_chosen = TRUE
 
-				if(alert("Would you like to write a custom description for the book?", "Book Description", "Yes", "No") == "Yes")
+				if(alert(user, "Would you like to write a custom description for the book?", "Book Description", "Yes", "No") == "Yes")
 					var/new_desc = input(user, "Write the book's description (author information will be added automatically):", "Book Description", final_desc) as message|null
 					if(new_desc)
 						if(length(new_desc) > 256)
@@ -204,14 +204,14 @@
 							new_desc += "."
 						final_desc = html_encode(new_desc)
 
-				if(alert("Would you like to write a custom author section for the book?", "Book Authors", "Yes", "No") == "Yes")
+				if(alert(user, "Would you like to write a custom author section for the book?", "Book Authors", "Yes", "No") == "Yes")
 					var/new_authorline = input(user, "Enter book authors (max 128 characters):", "Book Authors", final_authorline) as text|null
 					if(new_authorline)
 						if(length(new_authorline) > 128)
 							to_chat(user, span_warning("Author list is too long! Maximum 128 characters."))
 							return
 						custom_authors_chosen = TRUE
-						if(alert("One or multiple authors?", "Book Authors", "One", "Multiple") == "One")
+						if(alert(user, "One or multiple authors?", "Book Authors", "One", "Multiple") == "One")
 							final_authorline = " Author: [sanitize(new_authorline)]."
 						else
 							final_authorline = " Authors: [sanitize(new_authorline)]."
@@ -257,7 +257,7 @@
 				available_sprites += magical_sprites
 
 			if(HAS_TRAIT(user, TRAIT_GOODWRITER))
-				if(alert("Would you like to choose a book appearance?", "Book Appearance", "Yes", "No") == "Yes")
+				if(alert(user, "Would you like to choose a book appearance?", "Book Appearance", "Yes", "No") == "Yes")
 					var/sprite_choice = input(user, "Choose book appearance:", "Book Appearance") as null|anything in available_sprites
 					if(sprite_choice)
 						chosen_icon_state = available_sprites[sprite_choice]
@@ -315,7 +315,7 @@
 		else
 			to_chat(user, span_notice("Maybe later."))
 
-/obj/item/skillbook/proc/get_text(var/skill_value)
+/obj/item/skillbook/proc/get_text(skill_value)
 	switch(skill_value)
 		if(SKILL_LEVEL_NOVICE)
 			return "novice"
@@ -414,7 +414,7 @@
 			to_chat(user, span_warning("I know nothing left to add to [src]!"))
 			return
 		if(skill_cap == SKILL_LEVEL_APPRENTICE)//breakpoint for when books require a minimum requirement to read, so it prompts the author if they want to continue
-			if(alert("Continuing to write will require readers to have experience in the skill in order to read it.", "Continue?", "Yes", "No") == "No")
+			if(alert(user, "Continuing to write will require readers to have experience in the skill in order to read it.", "Continue?", "Yes", "No") == "No")
 				return
 		to_chat(user, span_notice("I place a new page into [src]."))
 		writing_page = TRUE

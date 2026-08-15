@@ -50,7 +50,7 @@
 
 /datum/customizer_choice/organ/ears/tajaran
 	name = "Tabaxi Ears"
-	organ_type = /obj/item/organ/ears/tajaran         // Renamed them IN GAME but in-code they're still 'tajaran' because im afraid of breaking shit
+	organ_type = /obj/item/organ/ears/tajaran			// Renamed them IN GAME but in-code they're still 'tajaran' because im afraid of breaking shit
 	sprite_accessories = list(
 		/datum/sprite_accessory/ears/cat_big,
 		/datum/sprite_accessory/ears/cat_normal,

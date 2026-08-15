@@ -112,6 +112,7 @@
 		/datum/body_marking/sock,
 		/datum/body_marking/socklonger,
 		/datum/body_marking/tips,
+		/datum/body_marking/spotted,
 		/datum/body_marking/backspots,
 		/datum/body_marking/front,
 		/datum/body_marking/tonage,

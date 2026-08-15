@@ -41,8 +41,8 @@
 		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
 
 

@@ -2,7 +2,7 @@
 	name = "dream item"
 	desc = "you shouldn't see this."
 	w_class = WEIGHT_CLASS_TINY
-	icon =  'icons/roguetown/misc/dream_materials.dmi'
+	icon =	'icons/roguetown/misc/dream_materials.dmi'
 
 // Tier 1
 /obj/item/dream_material/dream_spike

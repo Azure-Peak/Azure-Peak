@@ -9,7 +9,7 @@
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	advclass_cat_rolls = list(CTAG_RANESHENI_EMIR = 20)
 	greet_text = "You are an envoy from the Empire, traveling with bodyguards and a priest to represent your homeland.\
-	 What exactly you have been sent here to speak about- only you know."
+		What exactly you have been sent here to speak about- only you know."
 
 /datum/advclass/ranesheni_emir
 	name = "Emir"
@@ -59,7 +59,7 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1, 
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 2,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 2,
@@ -118,7 +118,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/short
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1, 
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 2,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,

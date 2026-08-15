@@ -38,7 +38,7 @@
 
 	var/list/turfs = block(	locate(bounds[MAP_MINX], bounds[MAP_MINY], bounds[MAP_MINZ]),
 							locate(bounds[MAP_MAXX], bounds[MAP_MAXY], bounds[MAP_MAXZ]))
-	var/list/border = block(locate(max(bounds[MAP_MINX]-1, 1),			max(bounds[MAP_MINY]-1, 1),			 bounds[MAP_MINZ]),
+	var/list/border = block(locate(max(bounds[MAP_MINX]-1, 1),			max(bounds[MAP_MINY]-1, 1),				bounds[MAP_MINZ]),
 							locate(min(bounds[MAP_MAXX]+1, world.maxx),	min(bounds[MAP_MAXY]+1, world.maxy), bounds[MAP_MAXZ])) - turfs
 	for(var/L in turfs)
 		var/turf/B = L
@@ -88,7 +88,7 @@
 	if(T.y+height > world.maxy)
 		return
 
-	var/list/border = block(locate(max(T.x-1, 1),			max(T.y-1, 1),			 T.z),
+	var/list/border = block(locate(max(T.x-1, 1),			max(T.y-1, 1),				T.z),
 							locate(min(T.x+width+1, world.maxx),	min(T.y+height+1, world.maxy), T.z))
 	for(var/L in border)
 		var/turf/turf_to_disable = L

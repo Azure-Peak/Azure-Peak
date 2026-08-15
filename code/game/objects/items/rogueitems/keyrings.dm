@@ -28,7 +28,7 @@
 	. += span_info("Keyrings can manipulate a wide variety of doors, depending on how many keys - and what kinds of keys - are stowed on its circumference.")
 	. += span_info("Individual keys can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific key out of it.")
 
-/obj/item/storage/keyring/Initialize()
+/obj/item/storage/keyring/Initialize(mapload)
 	. = ..()
 	for(var/X in keys)
 		var/obj/item/key/new_key = new X(loc)
@@ -45,20 +45,20 @@
 		return TRUE
 
 /obj/item/storage/keyring/update_icon()
-    ..()
-    switch(contents.len)
-        if(0)
-            icon_state = "keyring0"
-        if(1)
-            icon_state = "keyring1"
-        if(2)
-            icon_state = "keyring2"
-        if(3)
-            icon_state = "keyring3"
-        if(4)
-            icon_state = "keyring4"
-        else
-            icon_state = "keyring5"
+	..()
+	switch(contents.len)
+		if(0)
+			icon_state = "keyring0"
+		if(1)
+			icon_state = "keyring1"
+		if(2)
+			icon_state = "keyring2"
+		if(3)
+			icon_state = "keyring3"
+		if(4)
+			icon_state = "keyring4"
+		else
+			icon_state = "keyring5"
 
 /obj/item/storage/keyring/proc/update_desc()
 	if(contents.len)
@@ -69,12 +69,12 @@
 		desc = ""
 
 /obj/item/storage/keyring/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
-    . = ..()
-    playsound(src, "sound/items/gems (1).ogg", 100, FALSE)
-    update_desc()
+	. = ..()
+	playsound(src, "sound/items/gems (1).ogg", 100, FALSE)
+	update_desc()
 
 /obj/item/storage/keyring/Exited(atom/movable/gone, direction)
-    . = ..()
+	. = ..()
 
 /obj/item/storage/keyring/getonmobprop(tag)
 	. = ..()
@@ -126,7 +126,7 @@
 	. = ..()
 	. += span_info("Individual lockpicks can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific lockpick out of it.")
 
-/obj/item/lockpickring/Initialize()
+/obj/item/lockpickring/Initialize(mapload)
 	. = ..()
 	if(picks.len)
 		for(var/X in picks)
@@ -272,7 +272,7 @@
 /////////////
 
 /obj/item/storage/keyring/marshal //All access for Retinue / Garrison
-	keys = list(/obj/item/roguekey/marshal, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight, /obj/item/roguekey/dungeon, /obj/item/roguekey/garrison,  /obj/item/roguekey/armory, /obj/item/roguekey/sergeant, /obj/item/roguekey/warden)
+	keys = list(/obj/item/roguekey/marshal, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight, /obj/item/roguekey/dungeon, /obj/item/roguekey/garrison,	/obj/item/roguekey/armory, /obj/item/roguekey/sergeant, /obj/item/roguekey/warden)
 
 /obj/item/storage/keyring/knight
 	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight)

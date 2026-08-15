@@ -18,7 +18,7 @@ SUBSYSTEM_DEF(city_assembly)
 	/// world.time at which Session 1 will resolve automatically. 0 if not yet armed.
 	var/first_session_resolve_at = 0
 
-/datum/controller/subsystem/city_assembly/Initialize()
+/datum/controller/subsystem/city_assembly/Initialize(mapload)
 	current_warrant = new /datum/assembly_warrant()
 	open_session()
 	// Don't schedule timers here - Initialize predates round-start. fire() arms the first-
@@ -179,9 +179,9 @@ SUBSYSTEM_DEF(city_assembly)
 
 /// Per-motion choice whitelist. Prevents ballot pollution from malformed ui_act payloads. Each
 /// motion type has a fixed choice set:
-///   - Election: candidate weakref strings (must match a declared candidate) or NO_ALDERMAN.
-///   - Bracket motions: stringified numbers from that motion's bracket list, NAE, or ABSTAIN.
-///   - Yae/Nay motions: YAE, NAY, or ABSTAIN.
+///	- Election: candidate weakref strings (must match a declared candidate) or NO_ALDERMAN.
+///	- Bracket motions: stringified numbers from that motion's bracket list, NAE, or ABSTAIN.
+///	- Yae/Nay motions: YAE, NAY, or ABSTAIN.
 /datum/controller/subsystem/city_assembly/proc/validate_choice(motion_id, choice)
 	if(isnull(choice))
 		return FALSE
@@ -287,12 +287,12 @@ SUBSYSTEM_DEF(city_assembly)
 		who = departing_job ? "[departing_name], the [departing_job]" : departing_name
 	var/reason_tag = null
 	switch(reason)
-		if("resigned")     reason_tag = "has resigned the seat"
-		if("died")         reason_tag = "has died in office"
+		if("resigned")		reason_tag = "has resigned the seat"
+		if("died")			reason_tag = "has died in office"
 		if("disconnected") reason_tag = "has left the Realm"
-		if("admin")        reason_tag = "has been removed by admin fiat"
-		if("recalled")     reason_tag = "has been recalled by the Assembly"
-		if("censured")     reason_tag = "has been censured by the Assembly"
+		if("admin")		reason_tag = "has been removed by admin fiat"
+		if("recalled")		reason_tag = "has been recalled by the Assembly"
+		if("censured")		reason_tag = "has been censured by the Assembly"
 	var/prefix
 	if(who && reason_tag)
 		prefix = "[who] [reason_tag]. "

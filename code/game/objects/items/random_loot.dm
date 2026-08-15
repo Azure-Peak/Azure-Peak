@@ -1,7 +1,7 @@
 /obj/random/loot
 	var/loot_table
 
-/obj/random/loot/Initialize()
+/obj/random/loot/Initialize(mapload)
 	. = ..()
 	icon_state = null
 	pick_loot(loc)

@@ -28,9 +28,16 @@
 	var/mob/living/carbon/human/human = bodypart?.owner
 	if(!istype(human))
 		return FALSE
-	if(human.head && (human.head.body_parts_covered & HEAD))
+	if(human.head && occludes_hair(human.head))
 		return TRUE
-	if(human.wear_mask && (human.wear_mask.body_parts_covered & HEAD))
+	if(human.wear_mask && occludes_hair(human.wear_mask))
+		return TRUE
+	return FALSE
+
+/datum/bodypart_feature/hair/proc/occludes_hair(obj/item/clothing/worn)
+	if(worn.body_parts_covered_dynamic & (HEAD|FACE))
+		return TRUE
+	if(worn.flags_inv & HAIR_OCCLUDING_FLAGS)
 		return TRUE
 	return FALSE
 

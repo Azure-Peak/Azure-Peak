@@ -95,7 +95,7 @@
 	cached_locked_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	H.visible_message(span_boldwarning("[H] marks the ground - a shadow of [H.p_them()]self coalesces!"))
-	log_combat(H, cast_on, "used Blade Storm on")
+	log_combat(H, cast_on, "used Blade Storm on", zone=H.zone_selected)
 
 	var/list/ring_turfs = get_hollow_ring(center)
 	new /obj/effect/temp_visual/blade_storm_telegraph/warning(center, telegraph_delay)

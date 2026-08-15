@@ -1,8 +1,8 @@
-#define FLANK_RADIUS             1    // tiles away from target — adjacent for melee
-#define FLANK_MIN_SEPARATION     60   // degrees between us and nearest ally
-#define FLANK_ENGAGE_DIST        1    // tiles - "close enough" to our flank spot
-#define FLANK_ATTACK_CHANCE      75   // % chance to commit a real attack while flanking
-#define FLANK_RECHECK_INTERVAL   (3 SECONDS)
+#define FLANK_RADIUS				1	// tiles away from target — adjacent for melee
+#define FLANK_MIN_SEPARATION		60	// degrees between us and nearest ally
+#define FLANK_ENGAGE_DIST		1	// tiles - "close enough" to our flank spot
+#define FLANK_ATTACK_CHANCE		75	// % chance to commit a real attack while flanking
+#define FLANK_RECHECK_INTERVAL	(3 SECONDS)
 
 /datum/ai_planning_subtree/squad_flank
 

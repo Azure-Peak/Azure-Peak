@@ -15,7 +15,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Roast Pork   ................ */
+/* .............	Roast Pork	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
 	cuisine = CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	eat_effect = null
@@ -31,7 +31,7 @@
 	fried_type = null
 	cooked_type = null
 
-/*	.............   Crispy bacon   ................ */
+/*	.............	Crispy bacon	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried
 	eat_effect = null
 	name = "fried bacon"
@@ -44,7 +44,7 @@
 	fried_type = null
 	cooked_type = null
 
-/*	.............   Fryspider   ................ */
+/*	.............	Fryspider	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
 	name = "fried spidermeat"
 	desc = "A spider leg, shaved and roasted."
@@ -57,7 +57,7 @@
 	fried_type = null
 	cooked_type = null
 
-/*	.................  Whole Chicken roast   ................... */
+/*	.................	Whole Chicken roast	................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked
 	cuisine = CUISINE_NORTH_IMPERIAL
 	desc = "A plump bird, roasted to a perfect temperature and bears a crispy skin."
@@ -73,7 +73,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	rotprocess = SHELFLIFE_DECENT
 
-/*	.............   Frybird   ................ */
+/*	.............	Frybird	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried
 	cuisine = CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	eat_effect = null
@@ -103,7 +103,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Cabbit   ................ */
+/* .............	Fried Cabbit	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried
 	eat_effect = null
 	slices_num = 0
@@ -118,7 +118,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Volf   ................ */
+/* .............	Fried Volf	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 	eat_effect = null
 	slices_num = 0
@@ -132,7 +132,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Rous   ................ */
+/* .............	Fried Rous	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
 	eat_effect = null
 	slices_num = 0
@@ -146,7 +146,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Bear   ................ */
+/* .............	Fried Bear	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
 	eat_effect = null
 	slices_num = 0
@@ -161,7 +161,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Troll   ................ */
+/* .............	Fried Troll	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
 	eat_effect = /datum/status_effect/debuff/uncookedfood
 	slices_num = 0
@@ -178,7 +178,7 @@
 	// Takes a really long time unless you're a skilled cook.
 	cooktime = 1500
 
-/* .............   Seared Gnoll   ................ */
+/* .............	Seared Gnoll	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll/seared
 	eat_effect = null
 	slices_num = 0
@@ -192,7 +192,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Filet    ................ */
+/* .............	Fried Filet	................ */
 // This is seafood but is one of the "simple cooked meat" so I put it here.
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
 	eat_effect = null
@@ -208,7 +208,7 @@
 	fried_type = null
 	cooked_type = null
 
-/* .............   Fried Shellfish    ................ */
+/* .............	Fried Shellfish	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish/fried
 	eat_effect = null
 	slices_num = 0
@@ -222,7 +222,7 @@
 	cooked_type = null
 
 
-/*	.............   Sausage & Wiener   ................ */
+/*	.............	Sausage & Wiener	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
 	eat_effect = null
 	name = "sausage"
@@ -234,7 +234,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_EXTREME
 
-/*	.............   Cooked Ham   ................ */
+/*	.............	Cooked Ham	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
 	name = "steamed ham"
 	desc = "Salted cut of meat ready to be torn into further with a knife. You would be hard pressed to find this lacking in a pantry of anyone with modicum of wealth."
@@ -284,7 +284,7 @@
 	cooked_type = null
 	fried_type = null
 
-/*	.............   Cooked Spidermeat   ................ */
+/*	.............	Cooked Spidermeat	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/cooked
 	name = "fried spidermeatball"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
@@ -309,7 +309,7 @@
 	tastes = list("ridiculously raw texture but well-cooked insectoid" = 1)
 	faretype = FARE_FINE
 
-/*	.............   Cooked Mushroom   ................ */
+/*	.............	Cooked Mushroom	................ */
 /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked
 	slices_num = 0
 	bitesize = 4
@@ -324,7 +324,7 @@
 	fried_type = null
 	cooked_type = null
 
-/*	.............   Fried Mushroom   ................ */
+/*	.............	Fried Mushroom	................ */
 /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried
 	name = "grilled mushroom"
 	desc = "Mushroom! It's grilled to perfection, a hardy snack adored by those of pale skin, and with pointy ears."
@@ -333,7 +333,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
 	tastes = list("mushroom grill" = 1)
 
-/* .............   Fried Humanoid   ................ */
+/* .............	Fried Humanoid	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/humanoid/fried
 	eat_effect = null
 	slices_num = 0

@@ -296,13 +296,13 @@
 	tame = TRUE
 
 
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S
 	update_icon()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S

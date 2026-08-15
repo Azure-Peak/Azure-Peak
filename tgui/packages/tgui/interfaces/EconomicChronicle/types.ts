@@ -52,10 +52,6 @@ export type TreasurySnapshot = {
   stockpile_direct_imports: number;
   standing: StandingSnapshot;
   shortages_ended: number;
-  wages_paid: number;
-  treasury_transfers: number;
-  stockpile_imports: number;
-  banditry_losses: number;
   banditry_owed: number;
   treasury_debt_repaid: number;
   treasury_debt_owed: number;
@@ -65,6 +61,8 @@ export type TreasurySnapshot = {
   forfeiture_count: number;
   total_revenue: number;
   total_expenses: number;
+  other_income: number;
+  unattributed_expenses: number;
   net_treasury: number;
   trade_balance: number;
   foreign_trade_volume: number;
@@ -158,6 +156,58 @@ export type RoyalFavorsSnapshot = {
   rumor_unused: number;
 };
 
+export type MaterialFlowColumn = {
+  code: string;
+  label: string;
+  dir: 'in' | 'out';
+};
+
+export type MaterialFlowCategory = {
+  code: string;
+  label: string;
+};
+
+export type MaterialFlowRow = {
+  name: string;
+  cat: string | null;
+  cells: Record<string, number>;
+  in: number;
+  out: number;
+  open: number;
+  net: number;
+};
+
+export type MaterialFlowSnapshot = {
+  columns: MaterialFlowColumn[];
+  categories: MaterialFlowCategory[];
+  rows: MaterialFlowRow[];
+  column_totals: Record<string, number>;
+  total_in: number;
+  total_out: number;
+  total_net: number;
+  total_open: number;
+  total_mammons: number;
+  scrap_value: number;
+};
+
+export type CrownExpenseRow = {
+  name: string;
+  amount: number;
+};
+
+export type CrownExpenseGroup = {
+  name: string;
+  rows: CrownExpenseRow[];
+  total: number;
+};
+
+export type CrownExpenseSnapshot = {
+  groups: CrownExpenseGroup[];
+  total: number;
+};
+
+export type ChronicleTab = 'realm' | 'trade' | 'materials';
+
 export type EconomicChronicleData = {
   treasury_balance: number;
   treasury: TreasurySnapshot;
@@ -166,4 +216,6 @@ export type EconomicChronicleData = {
   buckets: BucketSnapshot;
   contracts: ContractsSnapshot;
   royal_favors: RoyalFavorsSnapshot;
+  materials: MaterialFlowSnapshot;
+  crown_expenses: CrownExpenseSnapshot;
 };

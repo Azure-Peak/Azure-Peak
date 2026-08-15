@@ -53,4 +53,3 @@
 	req_table = FALSE
 	verbage_simple = "render"
 	verbage = "renders"
-    

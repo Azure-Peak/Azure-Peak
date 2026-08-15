@@ -3,7 +3,7 @@
 	intact = FALSE //this means wires go on top
 
 
-/turf/closed/transparent/Initialize() // handle plane and layer here so that they don't cover other obs/turfs in Dream Maker
+/turf/closed/transparent/Initialize(mapload) // handle plane and layer here so that they don't cover other obs/turfs in Dream Maker
 	. = ..()
 	plane = OPENSPACE_PLANE
 	layer = OPENSPACE_LAYER

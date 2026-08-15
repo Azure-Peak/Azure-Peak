@@ -23,7 +23,7 @@
 	if(!canSuicide())
 		return
 	var/oldkey = ckey
-	var/confirm = alert("Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
+	var/confirm = alert(usr, "Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
 	if(ckey != oldkey)
 		return
 	if(!canSuicide())
@@ -107,7 +107,7 @@
 		return
 	if(!canSuicide())
 		return
-	var/confirm = alert("Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
+	var/confirm = alert(usr, "Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
 	if(!canSuicide())
 		return
 	if(confirm == "Yes")
@@ -123,7 +123,7 @@
 	set hidden = 1
 	if(!canSuicide())
 		return
-	var/confirm = alert("Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
+	var/confirm = alert(usr, "Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
 	if(!canSuicide())
 		return
 	if(confirm == "Yes")
@@ -141,7 +141,7 @@
 	set hidden = 1
 	if(!canSuicide())
 		return
-	var/confirm = alert("Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
+	var/confirm = alert(usr, "Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
 	if(!canSuicide())
 		return
 	if(confirm == "Yes")
@@ -157,11 +157,11 @@
 
 /mob/living/silicon/pai/verb/suicide()
 	set hidden = 1
-	var/confirm = alert("Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
+	var/confirm = alert(usr, "Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
 	if(confirm == "Yes")
 		var/turf/T = get_turf(src.loc)
 		T.visible_message(span_notice("[src] flashes a message across its screen, \"Wiping core files. Please acquire a new personality to continue using pAI device functions.\""), null, \
-		 span_notice("[src] bleeps electronically."))
+			span_notice("[src] bleeps electronically."))
 
 		suicide_log()
 
@@ -173,7 +173,7 @@
 	set hidden = 1
 	if(!canSuicide())
 		return
-	var/confirm = alert("Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
+	var/confirm = alert(usr, "Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
 	if(!canSuicide())
 		return
 	if(confirm == "Yes")
@@ -194,7 +194,7 @@
 		return
 	if(!canSuicide())
 		return
-	var/confirm = alert("Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
+	var/confirm = alert(usr, "Are you sure you want to commit suicide?", "Confirm Suicide", "Yes", "No")
 	if(!canSuicide())
 		return
 	if(confirm == "Yes")
