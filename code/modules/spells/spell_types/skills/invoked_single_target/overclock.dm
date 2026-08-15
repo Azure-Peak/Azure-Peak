@@ -29,9 +29,9 @@
 
 	for(var/obj/item/bodypart/BP in H.bodyparts)
 		if(!istype(BP, /obj/item/bodypart/l_arm/prosthetic) && \
-		   !istype(BP, /obj/item/bodypart/r_arm/prosthetic) && \
-		   !istype(BP, /obj/item/bodypart/l_leg/prosthetic) && \
-		   !istype(BP, /obj/item/bodypart/r_leg/prosthetic))
+			!istype(BP, /obj/item/bodypart/r_arm/prosthetic) && \
+			!istype(BP, /obj/item/bodypart/l_leg/prosthetic) && \
+			!istype(BP, /obj/item/bodypart/r_leg/prosthetic))
 			continue
 		prosthetic_parts += BP
 		if(istype(BP, /obj/item/bodypart/l_arm/prosthetic) || istype(BP, /obj/item/bodypart/r_arm/prosthetic))
@@ -46,7 +46,7 @@
 		H.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
 		return FALSE
 
-	// a buff is applied based on the number of arms and legs. 
+	// a buff is applied based on the number of arms and legs.
 	H.apply_status_effect(/datum/status_effect/buff/overclock, prosthetic_arms, prosthetic_legs)
 	H.visible_message(
 		span_warning("[H]'s prosthetic limbs begin to whir and rattle loudly!"),
@@ -76,27 +76,27 @@
 /obj/effect/proc_holder/spell/invoked/overlock/proc/get_overload_chance(obj/item/bodypart/BP)
 	// Bronze prosthetics — 50% chance
 	if(istype(BP, /obj/item/bodypart/l_arm/prosthetic/bronzeleft) || \
-	   istype(BP, /obj/item/bodypart/r_arm/prosthetic/bronzeright) || \
-	   istype(BP, /obj/item/bodypart/l_leg/prosthetic/bronzeleft) || \
-	   istype(BP, /obj/item/bodypart/r_leg/prosthetic/bronzeright))
+		istype(BP, /obj/item/bodypart/r_arm/prosthetic/bronzeright) || \
+		istype(BP, /obj/item/bodypart/l_leg/prosthetic/bronzeleft) || \
+		istype(BP, /obj/item/bodypart/r_leg/prosthetic/bronzeright))
 		return 50
 
 	// Steel or iron prosthetics — 35% chance
 	if(istype(BP, /obj/item/bodypart/l_arm/prosthetic/iron) || \
-	   istype(BP, /obj/item/bodypart/r_arm/prosthetic/iron) || \
-	   istype(BP, /obj/item/bodypart/l_leg/prosthetic/iron) || \
-	   istype(BP, /obj/item/bodypart/r_leg/prosthetic/iron) || \
-	   istype(BP, /obj/item/bodypart/l_arm/prosthetic/steel) || \
-	   istype(BP, /obj/item/bodypart/r_arm/prosthetic/steel) || \
-	   istype(BP, /obj/item/bodypart/l_leg/prosthetic/steel) || \
-	   istype(BP, /obj/item/bodypart/r_leg/prosthetic/steel))
+		istype(BP, /obj/item/bodypart/r_arm/prosthetic/iron) || \
+		istype(BP, /obj/item/bodypart/l_leg/prosthetic/iron) || \
+		istype(BP, /obj/item/bodypart/r_leg/prosthetic/iron) || \
+		istype(BP, /obj/item/bodypart/l_arm/prosthetic/steel) || \
+		istype(BP, /obj/item/bodypart/r_arm/prosthetic/steel) || \
+		istype(BP, /obj/item/bodypart/l_leg/prosthetic/steel) || \
+		istype(BP, /obj/item/bodypart/r_leg/prosthetic/steel))
 		return 35
 
 	// Gold prosthetics — no overload risk
 	if(istype(BP, /obj/item/bodypart/l_arm/prosthetic/gold) || \
-	   istype(BP, /obj/item/bodypart/r_arm/prosthetic/gold) || \
-	   istype(BP, /obj/item/bodypart/l_leg/prosthetic/gold) || \
-	   istype(BP, /obj/item/bodypart/r_leg/prosthetic/gold))
+		istype(BP, /obj/item/bodypart/r_arm/prosthetic/gold) || \
+		istype(BP, /obj/item/bodypart/l_leg/prosthetic/gold) || \
+		istype(BP, /obj/item/bodypart/r_leg/prosthetic/gold))
 		return 0
 
 	// Wooden or unknown — almost guaranteed overload

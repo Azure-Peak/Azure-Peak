@@ -13,8 +13,8 @@
 /datum/crafting_recipe/roguetown/alchemy/unique/ichor_big
 	name = "Black Ichor (x3)"
 	result = list(/obj/item/reagent_containers/powder/black_ichor,
-				  /obj/item/reagent_containers/powder/black_ichor,
-				  /obj/item/reagent_containers/powder/black_ichor,
+					/obj/item/reagent_containers/powder/black_ichor,
+					/obj/item/reagent_containers/powder/black_ichor,
 	)
 	reqs = list(
 				/obj/item/heart_blood_canister/filled = 1,

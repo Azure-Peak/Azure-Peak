@@ -54,7 +54,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	drop_sound = 'sound/foley/equip/equip_armor.ogg'
-	pickup_sound =  'sound/blank.ogg'
+	pickup_sound =	'sound/blank.ogg'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	sleevetype = "shirt"
 	edelay_type = 0
@@ -75,7 +75,7 @@
 
 	var/attachment_component = /datum/component/storage/concrete/roguetown/armor
 
-/obj/item/clothing/suit/roguetown/armor/Initialize()
+/obj/item/clothing/suit/roguetown/armor/Initialize(mapload)
 	. = ..()
 	if(attachment_component)
 		AddComponent(attachment_component)
@@ -136,7 +136,7 @@
 				user.update_inv_head()
 
 
-/obj/item/clothing/suit/roguetown/armor/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, var/icon/clip_mask = null)
+/obj/item/clothing/suit/roguetown/armor/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
 	var/mutable_appearance/standing = ..()
 	// get attachment component and check if there's anything inside
 	if(attachment_component)

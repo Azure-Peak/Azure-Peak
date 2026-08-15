@@ -5,9 +5,9 @@
 	var/current_key_address = 0
 	/// These next two vars are to apply movement for keypresses and releases made while move delayed.
 	/// Because discarding that input makes the game less responsive.
- 	/// On next move, add this dir to the move that would otherwise be done
+	/// On next move, add this dir to the move that would otherwise be done
 	var/next_move_dir_add
- 	/// On next move, subtract this dir from the move that would otherwise be done
+	/// On next move, subtract this dir from the move that would otherwise be done
 	var/next_move_dir_sub
 
 // Set a client's focus to an object and override these procs on that object to let it handle keypresses
@@ -29,7 +29,7 @@
 		"Classic" = SKIN_MACROSET_CLASSIC_INPUT,
 		"Modern" = SKIN_MACROSET_HOTKEYS
 	)
-	var/choice = input("Select a keybinding mode:") as null|anything in macrosets
+	var/choice = input(src, "Select a keybinding mode:") as null|anything in macrosets
 	if(!choice)
 		return
 	winset(src, null, "mainwindow.macro=[macrosets[choice]]")
@@ -78,7 +78,7 @@
 
 	erase_all_macros()
 	update_movement_keys()
-	// First, collect sets. Make sure to COPY, as we are modifying these!	
+	// First, collect sets. Make sure to COPY, as we are modifying these!
 	var/list/macrosets = prefs_override.hotkeys? list(
 			SKIN_MACROSET_HOTKEYS = SSinput.macroset_hotkey.Copy()
 		) : list(
@@ -137,7 +137,7 @@
 			for(var/macroset in macrosets)
 				var/list/the_set = macrosets[macroset]
 				the_set[actual] = command
-	
+
 	apply_macro_set(SKIN_MACROSET_HOTKEYS, SSinput.macroset_hotkey)
 	apply_macro_set(SKIN_MACROSET_CLASSIC_HOTKEYS, SSinput.macroset_classic_hotkey)
 	apply_macro_set(SKIN_MACROSET_CLASSIC_INPUT, SSinput.macroset_classic_input)
@@ -176,16 +176,16 @@
 	winset(src, "hotkey_toggle", "is-checked=[toggled? "true" : "false"]")
 
 /**
-  * Updates the keybinds for special keys
-  *
-  * Handles adding macros for the keys that need it
-  * And adding movement keys to the clients movement_keys list
-  * At the time of writing this, communication(OOC, Say, IC) require macros
-  * Arguments:
-  * * direct_prefs - the preference we're going to get keybinds from
-  *
-  * Returns list of special keybind in key = Mod1Mod2Mod3Key format, NOT Mod1+Mod2+Mod3+Key format.
-  */
+	* Updates the keybinds for special keys
+	*
+	* Handles adding macros for the keys that need it
+	* And adding movement keys to the clients movement_keys list
+	* At the time of writing this, communication(OOC, Say, IC) require macros
+	* Arguments:
+	* * direct_prefs - the preference we're going to get keybinds from
+	*
+	* Returns list of special keybind in key = Mod1Mod2Mod3Key format, NOT Mod1+Mod2+Mod3+Key format.
+	*/
 /client/proc/update_special_keybinds(datum/preferences/direct_prefs)
 	var/datum/preferences/D = direct_prefs || prefs
 	if(!D?.key_bindings)

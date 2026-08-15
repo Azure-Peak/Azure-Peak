@@ -227,7 +227,7 @@
 
 /obj/machinery/light/rogue/candle/weak
 	light_power = 0.9
-	light_outer_range =  4
+	light_outer_range =	4
 /obj/machinery/light/rogue/candle/weak/l
 	pixel_x = -32
 	pixel_y = 0
@@ -295,7 +295,7 @@
 				addtimer(CALLBACK(src, PROC_REF(trigger_weather)), rand(5,20))
 				return TRUE
 
-/obj/machinery/light/rogue/torchholder/Initialize()
+/obj/machinery/light/rogue/torchholder/Initialize(mapload)
 	torchy = new /obj/item/flashlight/flare/torch(src)
 	torchy.spark_act()
 	torchy.weather_resistant = TRUE
@@ -445,7 +445,7 @@
 	. += span_info("Hearths must be fuelled occasionally to continue burning. They can be dowsed with a container of liquid \
 	on <b>SPLASH</b> intent to save fuel.")
 
-/obj/machinery/light/rogue/hearth/Initialize()
+/obj/machinery/light/rogue/hearth/Initialize(mapload)
 	boilloop = new(src, FALSE)
 	. = ..()
 
@@ -651,7 +651,7 @@
 	if(on)
 		try_cook(cooktime_divisor)
 
-/obj/machinery/light/rogue/hearth/proc/try_cook(var/cooktime_divisor)
+/obj/machinery/light/rogue/hearth/proc/try_cook(cooktime_divisor)
 	if(initial(fueluse) > 0)
 		if(fueluse > 0)
 			fueluse = max(fueluse - 10, 0)
@@ -698,7 +698,7 @@
 	no_refuel = TRUE
 	status = LIGHT_BURNED
 	crossfire = FALSE
-	soundloop = /datum/looping_sound/blank  //datum path is a blank.ogg
+	soundloop = /datum/looping_sound/blank	//datum path is a blank.ogg
 
 /obj/machinery/light/rogue/hearth/mobilestove/MiddleClick(mob/user, params)
 	. = ..()
@@ -742,7 +742,7 @@
 			return
 		var/obj/item/bodypart/affecting = H.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
 		to_chat(H, span_warning("HOT! I burned myself!"))
-		if(affecting && affecting.receive_damage( 0, 5 ))        // 5 burn damage
+		if(affecting && affecting.receive_damage( 0, 5 ))		// 5 burn damage
 			H.update_damage_overlays()
 		var/obj/item/mobilestove/new_mobilestove = new /obj/item/mobilestove(get_turf(src))
 		new_mobilestove.color = src.color

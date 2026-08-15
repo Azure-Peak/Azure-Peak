@@ -50,7 +50,7 @@ SUBSYSTEM_DEF(icon_smooth)
 	smooth_queue -= thing
 	deferred -= thing
 
-/datum/controller/subsystem/icon_smooth/Initialize()
+/datum/controller/subsystem/icon_smooth/Initialize(mapload)
 	var/list/queue = smooth_queue
 	smooth_queue = list()
 

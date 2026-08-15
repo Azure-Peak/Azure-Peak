@@ -1,5 +1,5 @@
 // For anything that is/requires a boiled ingredient! (Boiled means cooked like stew but results in a pickable item.)
-/*	.................   Noodles   ................... */
+/*	.................	Noodles	................... */
 /obj/item/reagent_containers/food/snacks/rogue/noodles
 	dish_type = DISH_NOODLES
 	cuisine = CUISINE_ETRUSCAN
@@ -30,7 +30,7 @@
 	bitesize = 2
 	rotprocess = SHELFLIFE_EXTREME
 
-/*	.................   Spaghetti   ................... */
+/*	.................	Spaghetti	................... */
 /obj/item/reagent_containers/food/snacks/rogue/spaghetti
 	dish_type = DISH_NOODLES
 	cuisine = CUISINE_ETRUSCAN

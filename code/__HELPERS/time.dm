@@ -202,7 +202,7 @@ GLOBAL_VAR_INIT(rollovercheck_last_timeofday, 0)
 	return GLOB.midnight_rollovers
 
 /proc/weekdayofthemonth()
-	var/DD = text2num(time2text(world.timeofday, "DD")) 	// get the current day
+	var/DD = text2num(time2text(world.timeofday, "DD"))	// get the current day
 	switch(DD)
 		if(8 to 13)
 			return 2

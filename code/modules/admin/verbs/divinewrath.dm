@@ -25,11 +25,11 @@
 		to_chat(usr, "This can only be used on instances of type /mob/living")
 		return
 
-	var/target_name = input("Who shall receive divine punishment?", "Target Name") as text|null
+	var/target_name = input(usr, "Who shall receive divine punishment?", "Target Name") as text|null
 	if (!target_name)
 		return
 
-	var/curse_pick = input("Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
+	var/curse_pick = input(usr, "Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
 	if (!curse_pick)
 		return
 
@@ -48,7 +48,7 @@
 				if (length(H.curses) >= 1)
 					to_chat(src, span_syndradio("[H.real_name] is already afflicted by another curse."))
 					message_admins("ADMIN DIVINE WRATH: ([ckey]) has attempted to strike [H.real_name] ([H.ckey] with [curse_pick])")
-					log_game("ADMIN DIVINE WRATH: ([ckey]) has attempted to strike [H.real_name] ([H.ckey] with [curse_pick])")					
+					log_game("ADMIN DIVINE WRATH: ([ckey]) has attempted to strike [H.real_name] ([H.ckey] with [curse_pick])")
 					return
 
 				H.add_curse(curse_type)

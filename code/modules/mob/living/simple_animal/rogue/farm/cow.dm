@@ -249,7 +249,7 @@
 	GiveTarget(user)
 	return
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bull/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bull/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
@@ -275,7 +275,7 @@
 	STASPD = 5
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/bull
 
-/mob/living/simple_animal/hostile/retaliate/rogue/cow/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/cow/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))

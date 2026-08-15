@@ -268,30 +268,30 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 
 // We don't have home
 // /datum/ai_behavior/find_and_set/home
-// 	vision_range = 10
+//	vision_range = 10
 
 // /datum/ai_behavior/find_and_set/home/atom_allowed(atom/movable/checking, locate_path, atom/pawn)
-// 	if(checking == pawn)
-// 		return FALSE
-// 	if(istype(pawn.loc, locate_path))
-// 		return FALSE // already home
-// 	if(!istype(checking, /obj/structure))
-// 		return FALSE
-// 	if(!SEND_SIGNAL(checking, COMSIG_HABITABLE_HOME, pawn))
-// 		return FALSE
-// 	return TRUE
+//	if(checking == pawn)
+//		return FALSE
+//	if(istype(pawn.loc, locate_path))
+//		return FALSE // already home
+//	if(!istype(checking, /obj/structure))
+//		return FALSE
+//	if(!SEND_SIGNAL(checking, COMSIG_HABITABLE_HOME, pawn))
+//		return FALSE
+//	return TRUE
 
 // /datum/ai_behavior/find_and_set/home/search_tactic(datum/ai_controller/controller, locate_path, search_range)
-// 	var/list/valid_homes = list()
-// 	var/mob/living/pawn = controller.pawn
-// 	if(istype(pawn.loc, locate_path))
-// 		return pawn.loc //for premade homes
-// 	for(var/obj/structure/potential_home in oview(search_range, pawn))
-// 		if(!SEND_SIGNAL(potential_home, COMSIG_HABITABLE_HOME, pawn))
-// 			continue
-// 		valid_homes += potential_home
-// 	if(valid_homes.len)
-// 		return pick(valid_homes)
+//	var/list/valid_homes = list()
+//	var/mob/living/pawn = controller.pawn
+//	if(istype(pawn.loc, locate_path))
+//		return pawn.loc //for premade homes
+//	for(var/obj/structure/potential_home in oview(search_range, pawn))
+//		if(!SEND_SIGNAL(potential_home, COMSIG_HABITABLE_HOME, pawn))
+//			continue
+//		valid_homes += potential_home
+//	if(valid_homes.len)
+//		return pick(valid_homes)
 
 /datum/ai_behavior/find_and_set/human_beg
 	vision_range = 6
@@ -322,145 +322,145 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 	return null
 
 // /datum/ai_behavior/find_and_set/cat_tresspasser
-// 	vision_range = 8
+//	vision_range = 8
 
 // /datum/ai_behavior/find_and_set/cat_tresspasser/atom_allowed(atom/movable/checking, locate_path, atom/pawn)
-// 	if(checking == pawn)
-// 		return FALSE
-// 	if(!istype(checking, /mob/living/simple_animal/pet/cat))
-// 		return FALSE
-// 	var/mob/living/simple_animal/pet/cat/potential_enemy = checking
-// 	if(potential_enemy.gender != MALE)
-// 		return FALSE
-// 	var/mob/living/living_pawn = pawn
-// 	var/datum/ai_controller/controller = living_pawn.ai_controller
-// 	var/list/ignore_types = controller.blackboard[BB_BABIES_CHILD_TYPES]
-// 	if(is_type_in_list(potential_enemy, ignore_types))
-// 		return FALSE
-// 	var/datum/ai_controller/basic_controller/enemy_controller = potential_enemy.ai_controller
-// 	if(isnull(enemy_controller))
-// 		return FALSE
-// 	//theyre already engaged in a battle, leave them alone!
-// 	if(enemy_controller.blackboard_key_exists(BB_TRESSPASSER_TARGET))
-// 		return FALSE
-// 	return TRUE
+//	if(checking == pawn)
+//		return FALSE
+//	if(!istype(checking, /mob/living/simple_animal/pet/cat))
+//		return FALSE
+//	var/mob/living/simple_animal/pet/cat/potential_enemy = checking
+//	if(potential_enemy.gender != MALE)
+//		return FALSE
+//	var/mob/living/living_pawn = pawn
+//	var/datum/ai_controller/controller = living_pawn.ai_controller
+//	var/list/ignore_types = controller.blackboard[BB_BABIES_CHILD_TYPES]
+//	if(is_type_in_list(potential_enemy, ignore_types))
+//		return FALSE
+//	var/datum/ai_controller/basic_controller/enemy_controller = potential_enemy.ai_controller
+//	if(isnull(enemy_controller))
+//		return FALSE
+//	//theyre already engaged in a battle, leave them alone!
+//	if(enemy_controller.blackboard_key_exists(BB_TRESSPASSER_TARGET))
+//		return FALSE
+//	return TRUE
 
 // /datum/ai_behavior/find_and_set/cat_tresspasser/new_atoms_found(list/atom/movable/found, datum/ai_controller/controller)
-// 	var/atom/pawn = controller.pawn
-// 	var/list/accepted_cats = list()
+//	var/atom/pawn = controller.pawn
+//	var/list/accepted_cats = list()
 
-// 	// Get the stored parameters from the field
-// 	var/datum/proximity_monitor/advanced/ai_find_tracking/field = controller.blackboard[BB_FIND_TARGETS_FIELD(type)]
-// 	if(!field)
-// 		return FALSE
+//	// Get the stored parameters from the field
+//	var/datum/proximity_monitor/advanced/ai_find_tracking/field = controller.blackboard[BB_FIND_TARGETS_FIELD(type)]
+//	if(!field)
+//		return FALSE
 
-// 	for(var/maybe_cat as anything in found)
-// 		if(maybe_cat == pawn)
-// 			continue
-// 		if(!atom_allowed(maybe_cat, field.locate_path, pawn))
-// 			continue
-// 		accepted_cats += maybe_cat
+//	for(var/maybe_cat as anything in found)
+//		if(maybe_cat == pawn)
+//			continue
+//		if(!atom_allowed(maybe_cat, field.locate_path, pawn))
+//			continue
+//		accepted_cats += maybe_cat
 
-// 	if(!length(accepted_cats))
-// 		return FALSE
+//	if(!length(accepted_cats))
+//		return FALSE
 
-// 	// Special handling for cat trespasser - set mutual targeting
-// 	var/mob/living/simple_animal/pet/cat/target_cat = pick(accepted_cats)
-// 	var/datum/ai_controller/basic_controller/enemy_controller = target_cat.ai_controller
-// 	//u choose me and i choose u
-// 	enemy_controller.set_blackboard_key(BB_TRESSPASSER_TARGET, controller.pawn)
+//	// Special handling for cat trespasser - set mutual targeting
+//	var/mob/living/simple_animal/pet/cat/target_cat = pick(accepted_cats)
+//	var/datum/ai_controller/basic_controller/enemy_controller = target_cat.ai_controller
+//	//u choose me and i choose u
+//	enemy_controller.set_blackboard_key(BB_TRESSPASSER_TARGET, controller.pawn)
 
-// 	controller.set_blackboard_key(field.set_key, target_cat)
-// 	finish_action(controller, succeeded = TRUE)
-// 	return TRUE
+//	controller.set_blackboard_key(field.set_key, target_cat)
+//	finish_action(controller, succeeded = TRUE)
+//	return TRUE
 
 // /datum/ai_behavior/find_and_set/cat_tresspasser/search_tactic(datum/ai_controller/controller, locate_path, search_range)
-// 	var/list/ignore_types = controller.blackboard[BB_BABIES_CHILD_TYPES]
-// 	for(var/mob/living/simple_animal/pet/cat/potential_enemy in oview(search_range, controller.pawn))
-// 		if(potential_enemy.gender != MALE)
-// 			continue
-// 		if(is_type_in_list(potential_enemy, ignore_types))
-// 			continue
-// 		var/datum/ai_controller/basic_controller/enemy_controller = potential_enemy.ai_controller
-// 		if(isnull(enemy_controller))
-// 			continue
-// 		//theyre already engaged in a battle, leave them alone!
-// 		if(enemy_controller.blackboard_key_exists(BB_TRESSPASSER_TARGET))
-// 			continue
-// 		//u choose me and i choose u
-// 		enemy_controller.set_blackboard_key(BB_TRESSPASSER_TARGET, controller.pawn)
-// 		return potential_enemy
-// 	return null
+//	var/list/ignore_types = controller.blackboard[BB_BABIES_CHILD_TYPES]
+//	for(var/mob/living/simple_animal/pet/cat/potential_enemy in oview(search_range, controller.pawn))
+//		if(potential_enemy.gender != MALE)
+//			continue
+//		if(is_type_in_list(potential_enemy, ignore_types))
+//			continue
+//		var/datum/ai_controller/basic_controller/enemy_controller = potential_enemy.ai_controller
+//		if(isnull(enemy_controller))
+//			continue
+//		//theyre already engaged in a battle, leave them alone!
+//		if(enemy_controller.blackboard_key_exists(BB_TRESSPASSER_TARGET))
+//			continue
+//		//u choose me and i choose u
+//		enemy_controller.set_blackboard_key(BB_TRESSPASSER_TARGET, controller.pawn)
+//		return potential_enemy
+//	return null
 
 // /datum/ai_behavior/find_and_set/swim_alternate
-// 	vision_range = 5
+//	vision_range = 5
 
 // /datum/ai_behavior/find_and_set/swim_alternate/failed_to_find_anything(datum/ai_controller/controller, set_key, locate_path, search_range)
-// 	// If we're using a field rn, just don't do anything yeah?
-// 	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)])
-// 		return
+//	// If we're using a field rn, just don't do anything yeah?
+//	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)])
+//		return
 
-// 	var/aggro_range = vision_range
-// 	// takes the larger between our range() input and our implicit oview() input (world.view)
-// 	aggro_range = max(aggro_range, ROUND_UP(max(getviewsize(world.view)) / 2))
-// 	// Set up proximity field to wait for something to come along - use custom swim monitor
-// 	var/datum/proximity_monitor/advanced/ai_find_tracking/swim_alternate/detection_field = new(
-// 		controller.pawn,
-// 		aggro_range,
-// 		TRUE,
-// 		src,
-// 		controller,
-// 		set_key,
-// 		locate_path,
-// 		search_range,
-// 	)
-// 	// Store this field in our blackboard
-// 	controller.set_blackboard_key(BB_FIND_TARGETS_FIELD(type), detection_field)
+//	var/aggro_range = vision_range
+//	// takes the larger between our range() input and our implicit oview() input (world.view)
+//	aggro_range = max(aggro_range, ROUND_UP(max(getviewsize(world.view)) / 2))
+//	// Set up proximity field to wait for something to come along - use custom swim monitor
+//	var/datum/proximity_monitor/advanced/ai_find_tracking/swim_alternate/detection_field = new(
+//		controller.pawn,
+//		aggro_range,
+//		TRUE,
+//		src,
+//		controller,
+//		set_key,
+//		locate_path,
+//		search_range,
+//	)
+//	// Store this field in our blackboard
+//	controller.set_blackboard_key(BB_FIND_TARGETS_FIELD(type), detection_field)
 
 // /datum/ai_behavior/find_and_set/swim_alternate/atom_allowed(atom/movable/checking, locate_path, atom/pawn)
-// 	return FALSE // This one is turf-based
+//	return FALSE // This one is turf-based
 
 // /datum/ai_behavior/find_and_set/swim_alternate/new_atoms_found(list/atom/movable/found, datum/ai_controller/controller)
-// 	return FALSE // This behavior looks for turfs, not movable atoms
+//	return FALSE // This behavior looks for turfs, not movable atoms
 
 // /datum/ai_behavior/find_and_set/swim_alternate/search_tactic(datum/ai_controller/controller, locate_path, search_range)
-// 	var/mob/living/living_pawn = controller.pawn
-// 	if(QDELETED(living_pawn))
-// 		return null
-// 	var/look_for_land = controller.blackboard[BB_CURRENTLY_SWIMMING]
-// 	var/list/possible_turfs = list()
-// 	for(var/turf/possible_turf in oview(search_range, living_pawn))
-// 		if(isclosedturf(possible_turf) || isopenspace(possible_turf))
-// 			continue
-// 		if(possible_turf.is_blocked_turf())
-// 			continue
-// 		if(look_for_land == istype(possible_turf, /turf/open/water))
-// 			continue
-// 		possible_turfs += possible_turf
-// 	if(!length(possible_turfs))
-// 		return null
-// 	return(pick(possible_turfs))
+//	var/mob/living/living_pawn = controller.pawn
+//	if(QDELETED(living_pawn))
+//		return null
+//	var/look_for_land = controller.blackboard[BB_CURRENTLY_SWIMMING]
+//	var/list/possible_turfs = list()
+//	for(var/turf/possible_turf in oview(search_range, living_pawn))
+//		if(isclosedturf(possible_turf) || isopenspace(possible_turf))
+//			continue
+//		if(possible_turf.is_blocked_turf())
+//			continue
+//		if(look_for_land == istype(possible_turf, /turf/open/water))
+//			continue
+//		possible_turfs += possible_turf
+//	if(!length(possible_turfs))
+//		return null
+//	return(pick(possible_turfs))
 
 // Custom proximity monitor for swim_alternate that checks turfs
 // /datum/proximity_monitor/advanced/ai_find_tracking/swim_alternate
 
 // /datum/proximity_monitor/advanced/ai_find_tracking/swim_alternate/setup_field_turf(turf/target)
-// 	. = ..()
-// 	var/mob/living/living_pawn = target_controller.pawn
-// 	if(QDELETED(living_pawn))
-// 		return
-// 	var/look_for_land = target_controller.blackboard[BB_CURRENTLY_SWIMMING]
+//	. = ..()
+//	var/mob/living/living_pawn = target_controller.pawn
+//	if(QDELETED(living_pawn))
+//		return
+//	var/look_for_land = target_controller.blackboard[BB_CURRENTLY_SWIMMING]
 
-// 	if(isclosedturf(target) || isopenspace(target))
-// 		return
-// 	if(target.is_blocked_turf())
-// 		return
-// 	if(look_for_land == istype(target, /turf/open/water))
-// 		return
+//	if(isclosedturf(target) || isopenspace(target))
+//		return
+//	if(target.is_blocked_turf())
+//		return
+//	if(look_for_land == istype(target, /turf/open/water))
+//		return
 
-// 	// Found a valid turf
-// 	target_controller.set_blackboard_key(set_key, target)
-// 	parent_behavior.finish_action(target_controller, succeeded = TRUE)
+//	// Found a valid turf
+//	target_controller.set_blackboard_key(set_key, target)
+//	parent_behavior.finish_action(target_controller, succeeded = TRUE)
 
 /datum/ai_behavior/find_and_set/perform(delta_time, datum/ai_controller/controller, set_key, locate_path, search_range)
 	. = ..()

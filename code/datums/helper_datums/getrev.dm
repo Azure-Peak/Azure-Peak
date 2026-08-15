@@ -1,7 +1,7 @@
 /datum/getrev
-	var/commit  // git rev-parse HEAD
+	var/commit	// git rev-parse HEAD
 	var/date
-	var/originmastercommit  // git rev-parse origin/master
+	var/originmastercommit	// git rev-parse origin/master
 	var/list/testmerge = list()
 
 /datum/getrev/New()

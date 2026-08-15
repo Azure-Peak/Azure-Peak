@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(bandit_severities, list(
 GLOBAL_LIST_INIT(vagabond_bounty_severities, list(
 	"MEAGER" = list(
 		"name" = "Meager",
-		"min" = 60, 		// 60 minimal, you're not off-the-hook
+		"min" = 60,		// 60 minimal, you're not off-the-hook
 		"max" = 80
 	),
 	"MODERATE" = list(
@@ -43,7 +43,7 @@ GLOBAL_LIST_INIT(vagabond_bounty_severities, list(
 GLOBAL_LIST_INIT(wretch_bounty_severities, list(
 	"MISDEED" = list(
 		"name" = "Misdeed",
-		"min" = 100, 		// Felinid said we should gate it at 100 or so on at the lowest, so that wretch cannot ezmode it.
+		"min" = 100,		// Felinid said we should gate it at 100 or so on at the lowest, so that wretch cannot ezmode it.
 		"max" = 200
 	),
 	"HARM" = list(

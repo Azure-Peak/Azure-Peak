@@ -172,7 +172,7 @@
 	// Do-after before transforming
 	if(!do_after(caster, 3 SECONDS, target = caster))
 		to_chat(caster, span_warning("Transformation interrupted!"))
-		revert_cast(caster)  // Refund the cooldown
+		revert_cast(caster)	// Refund the cooldown
 		return
 
 	// Call parent to actually transform
@@ -182,14 +182,14 @@
 	// Check if restrained before allowing revert
 	if(shape.restrained(ignore_grab = FALSE))
 		to_chat(shape, span_warn("I am restrained, I can't transform back!"))
-		revert_cast(shape)  // Refund the cooldown
+		revert_cast(shape)	// Refund the cooldown
 		return
 
 	// Add do-after for witches when reverting
 	shape.visible_message(span_warning("[shape] compresses and takes another form!"), span_notice("I begin to twist back into my normal form..."))
 	if(!do_after(shape, 3 SECONDS, target = shape))
 		to_chat(shape, span_warning("Transformation revert interrupted!"))
-		revert_cast(shape)  // Refund the cooldown
+		revert_cast(shape)	// Refund the cooldown
 		return
 
 	return ..()
@@ -313,3 +313,12 @@
 	base_intents = list(/datum/intent/simple/claw/witch_cat)
 	melee_damage_lower = 1
 	melee_damage_upper = 2
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/witch_shifted/can_be_held(mob/by)
+	return TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/witch_shifted/set_item_sprite(obj/item/mob_item/orb)
+	..()
+	orb.mob_overlay_icon = 'icons/roguetown/mob/cabbit_item.dmi'
+	orb.worn_offsets = list("x" = 0, "y" = 25)
+	orb.alternate_worn_layer = BODY_UNDER_LAYER

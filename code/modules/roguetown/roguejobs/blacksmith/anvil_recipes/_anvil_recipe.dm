@@ -260,8 +260,8 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
-		  <div>
-		    <h1>[icon2html(new created_item, user)][name]</h1>
+			<div>
+			<h1>[icon2html(new created_item, user)][name]</h1>
 			<h4>Description</h4>
 			<p>[initial(created_item.desc)]</p>
 			<div>
@@ -346,8 +346,8 @@
 		html += "in Engineering<br>"
 
 	html += {"<div>
-		      <strong>Requirements</strong>
-			  <br>"}
+				<strong>Requirements</strong>
+				<br>"}
 
 	html += "[icon2html(new req_bar, user)] Start with [initial(req_bar.name)] on an anvil.<br>"
 	html += "Hammer the material.<br>"
@@ -361,9 +361,9 @@
 		"}
 
 	if(createditem_num > 1)
-		html += "<strong class=class='scroll'>and then you get</strong> <br> [createditem_num] [icon2html(new created_item, user)]  [initial(created_item.name)]<br>"
+		html += "<strong class=class='scroll'>and then you get</strong> <br> [createditem_num] [icon2html(new created_item, user)]	[initial(created_item.name)]<br>"
 	else
-		html += "<strong class=class='scroll'>and then you get</strong> <br> [icon2html(new created_item, user)]   [initial(created_item.name)]<br>"
+		html += "<strong class=class='scroll'>and then you get</strong> <br> [icon2html(new created_item, user)]	[initial(created_item.name)]<br>"
 
 	if(created_item.sellprice)
 		html += "<strong class=class='scroll'>You can sell this for [created_item.sellprice] mammons at a normal quality</strong> <br>"

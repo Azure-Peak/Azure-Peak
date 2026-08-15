@@ -41,6 +41,8 @@
 		"Golden Spectacles" = /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned,
 		"Silver Monocle" = /obj/item/clothing/mask/rogue/spectacles/monocle,
 		"Smokey Onyxa Spectacles" = /obj/item/clothing/mask/rogue/spectacles/onyxa_lesser_summoned,
+		"Fancy Spectacles" = /obj/item/clothing/mask/rogue/spectacles/fancy,
+		"Fancy Spectacles (Dark)" = /obj/item/clothing/mask/rogue/spectacles/fancy_dark,
 	)
 
 /datum/action/cooldown/spell/conjure_spectacles/cast(list/targets, mob/living/user = usr)
@@ -81,7 +83,7 @@
 	name = "summoned smokey onyxa spectacles"
 	icon_state = "sglasses"
 	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it." //KEEPING IT, ITS PEAK SIRE
-		
+
 // Golden spectacles summonable lesser varient - with no mechanical effects
 
 /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned

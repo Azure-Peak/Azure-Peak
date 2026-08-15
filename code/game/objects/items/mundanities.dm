@@ -17,7 +17,7 @@
 	grid_width = 32
 	grid_height = 32
 
-/obj/item/mundane/puzzlebox/easy/Initialize()
+/obj/item/mundane/puzzlebox/easy/Initialize(mapload)
 	. = ..()
 	dice_roll = rand(6,15)
 	fluff_desc = pick("It, frankly, looks rather depressing.","I can see an engraving of Psydon sending the Comet Syon on the side.","It doesn't look so difficult.","It's dusty and boring.","Why do I want to play with this for hours?","I could probably get a vagrant to solve this.","It looks like it was made for fools.")
@@ -61,7 +61,7 @@
 	grid_width = 32
 	grid_height = 32
 
-/obj/item/mundane/puzzlebox/medium/Initialize()
+/obj/item/mundane/puzzlebox/medium/Initialize(mapload)
 	. = ..()
 	dice_roll = rand(6,20)
 	fluff_desc = pick("Its surface shines with polished ebony.","I can see an engraving of a Snow-Elf on the side.","It looks like it could challenge an average man.","I wish my personality was like this box's.","Why do I want to play with this for hours?","I could probably sell this to a wizard's apprentice.","It looks...sufficient.")
@@ -105,7 +105,7 @@
 	grid_width = 32
 	grid_height = 32
 
-/obj/item/mundane/puzzlebox/impossible/Initialize()
+/obj/item/mundane/puzzlebox/impossible/Initialize(mapload)
 	. = ..()
 	fluff_desc = pick("It, frankly, looks nearly impossible.","Its centerpiece is that of Astrata banishing a heretic from this world.","Without doubt, this is rather befuddling.","It looks arcane and nearly-impossible.","Why do I feel like I could try for hours and not succeed at this?","Even a bored archivist would probably have trouble with this one.","It looks nearly impossible.")
 	desc += "[fluff_desc]"
@@ -159,7 +159,7 @@
 	rotprocess = null
 	drop_sound = 'sound/foley/dropsound/shovel_drop.ogg'
 
-/obj/item/reagent_containers/food/snacks/canned/Initialize()
+/obj/item/reagent_containers/food/snacks/canned/Initialize(mapload)
 
 
 	menu_item = pick(1,2,3,4,5) //get the meal. rand does not work for this and i have no idea why.

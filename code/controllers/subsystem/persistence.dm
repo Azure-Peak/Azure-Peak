@@ -12,7 +12,7 @@ SUBSYSTEM_DEF(persistence)
 	var/list/antag_rep_change = list()
 	var/list/picture_logging_information = list()
 
-/datum/controller/subsystem/persistence/Initialize()
+/datum/controller/subsystem/persistence/Initialize(mapload)
 	LoadTrophies()
 	LoadRecentModes()
 	if(CONFIG_GET(flag/use_antag_rep))

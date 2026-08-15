@@ -24,7 +24,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER, //you can run
-  		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT, //but you can't hide.
+			/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT, //but you can't hide.
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN, //LOOK BEHIND YOU!!
@@ -37,8 +37,8 @@
 		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 
 /datum/outfit/job/roguetown/wretch/slasher/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -54,7 +54,7 @@
 	var/sneak_cooldown = 0
 	var/sneak_cooldown_delay = 30 SECONDS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/lamia/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/lamia/Initialize(mapload)
 	. = ..()
 	if(prob(20))
 		gender = MALE
