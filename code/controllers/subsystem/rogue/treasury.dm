@@ -315,7 +315,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	return mint(account, amt, "Savings")
 
-/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label)
+/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label, is_salary = FALSE)
 	if(!amt)
 		return
 	if(!target)
@@ -336,6 +336,8 @@ SUBSYSTEM_DEF(treasury)
 			if(!transfer(discretionary_fund, account, amt, source))
 				return FALSE
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+		if(!mint_new)
+			record_treasury_payout(usr, istype(target, /mob/living) ? target : null, amt, is_salary)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
 		log_game("CROWN GRANT: [usr ? key_name(usr) : "system"] granted [amt]m to [istype(target, /mob/living) ? key_name(target) : target_name] via [source || "unknown"]")
 	else
@@ -468,7 +470,7 @@ SUBSYSTEM_DEF(treasury)
 		var/datum/fund/account = bank_accounts[owner]
 		if(!account || account.wages_suspended)
 			continue
-		if(give_money_account(payment_amount, owner, "Daily Wage"))
+		if(give_money_account(payment_amount, owner, "Daily Wage", is_salary = TRUE))
 			record_round_statistic(STATS_WAGES_PAID, payment_amount)
 
 	if(SSeconomy)
@@ -512,6 +514,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	var/amt = D.get_export_price()
 	D.stockpile_amount -= D.importexport_amt
+	record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_LOCAL_EXPORT, D.item_type, D.importexport_amt, amt)
 	dirty_market_view()
 
 	mint(discretionary_fund, amt, "exported [D.name]")
@@ -538,14 +541,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/surplus_result = mass_export_surplus(silent = TRUE)
 	total_value_exported += surplus_result["revenue"]
 
-/// Walks every auto-priced trade-good stockpile entry and exports stock above the
-/// daily auto-export floor (limit * autoexport_percentage) to its best-paying region,
-/// capped at that region's remaining demand for the day. The Crown's daily sweep
-/// fires this with silent=TRUE; the Steward's "Export Surplus" button fires it with
-/// silent=FALSE for a per-good chat breakdown.
-///
-/// Returns: list("revenue" = total mammon, "units" = total units exported,
-/// "lines" = list of "[qty] [name] -> [region] for [revenue]m" strings).
 /datum/controller/subsystem/treasury/proc/mass_export_surplus(silent = FALSE)
 	var/total_revenue = 0
 	var/total_units = 0
@@ -580,6 +575,7 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		total_revenue += revenue
 		total_units += export_qty
+		record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_LOCAL_EXPORT, D.item_type, export_qty, revenue)
 		if(!silent)
 			lines += "[export_qty] [D.name] to [region.name] for [revenue]m"
 	return list("revenue" = total_revenue, "units" = total_units, "lines" = lines)
@@ -709,7 +705,10 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/withdraw_money_treasury(amt, target)
 	if(!amt)
 		return FALSE
-	return burn(discretionary_fund, amt, "withdrawn by [target]")
+	if(!burn(discretionary_fund, amt, "withdrawn by [target]"))
+		return FALSE
+	record_treasury_expense(TREASURY_FLOW_WITHDRAWAL, ismob(target) ? treasury_role_of(target) : "Unknown", amt)
+	return TRUE
 
 /datum/controller/subsystem/treasury/proc/get_poll_tax_category(mob/living/H)
 	if(!H)
@@ -993,6 +992,7 @@ SUBSYSTEM_DEF(treasury)
 				continue
 			if(!transfer(discretionary_fund, account, subsidy, "Poll Subsidy ([category])"))
 				continue
+			record_treasury_expense(TREASURY_FLOW_SUBSIDY, get_poll_tax_category_pretty_name(category), subsidy)
 			// Record as a negative against the category - the breakdown shows net Crown intake.
 			record_poll_tax_by_category(category, -subsidy)
 			to_chat(owner, span_notice("<b>POLL SUBSIDY:</b> [subsidy]m granted by the Crown."))

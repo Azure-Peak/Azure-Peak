@@ -257,7 +257,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	neck = null
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger
 	l_hand = null
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron
 	backl = /obj/item/quiver/bolt/npc
 	H.STAPER = 9
 	H.STACON -= 1

@@ -759,6 +759,7 @@
 					SSmerchant_trade.favor_from_goldface += passive
 			for(var/pathi in PA.contains)
 				var/obj/item/spawned = new pathi(get_turf(usr))
+				record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_MERCHANT_IMPORT, pathi, 1)
 				if(istype(spawned))
 					spawned.atc_sealed = TRUE
 			return TRUE
@@ -824,6 +825,7 @@
 				tariff_evaded_here += tax_amt
 			for(var/pathi in PA.contains)
 				var/obj/item/spawned = new pathi(get_turf(usr))
+				record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_MERCHANT_IMPORT, pathi, 1)
 				if(istype(spawned))
 					spawned.atc_sealed = TRUE
 			source_ship.favor_earned += discounted_base
@@ -881,6 +883,7 @@
 				tariff_evaded_here += tax_amt
 			for(var/pathi in PA.contains)
 				var/obj/item/spawned = new pathi(get_turf(usr))
+				record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_MERCHANT_IMPORT, pathi, 1)
 				if(istype(spawned))
 					spawned.atc_sealed = TRUE
 			to_chat(H, span_notice("You order [PA.name] from the [C.name] for [total_cost]m[tariff_active && tax_amt > 0 ? " (incl. [tax_amt]m Crown duty)" : ""][kin_saving > 0 ? " (Kinship saved [kin_saving]m)" : ""]."))
@@ -946,6 +949,7 @@
 				record_round_statistic(STATS_TAXES_EVADED, round(tariff_float))
 				tariff_evaded_here += round(tariff_float)
 			var/turf/T = get_turf(src)
+			record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_MERCHANT_IMPORT, TG.item_type, qty, total_cost)
 			for(var/i in 1 to qty)
 				var/obj/item/spawned = new TG.item_type(T)
 				if(istype(spawned))

@@ -13,9 +13,7 @@
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
 		TRAIT_ARCYNE,
-		TRAIT_NALEDI,
-		TRAIT_STEELHEARTED,
-		TRAIT_INQUISITION
+		TRAIT_NALEDI
 	)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -94,15 +92,16 @@
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt
-	var/list/armor_choices = list("Light Armor", "Bare Skin")
+	var/list/armor_choices = list("Light Armor", "Bare Skin (Sewing repair)", "Bare Skin (Meditation repair)")
 	var/armor_choice = input(H,"Choose your DEFENSE.", "How will you ENDURE.") as anything in armor_choices
 	switch(armor_choice)
 		if("Light Armor")
 			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex //Yes, the item is spelled this way in the code.
-		if("Bare Skin")
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple //a slightly better heavy gambeson.
-			shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/disciple/chest //hardened leather armor. Tougher to start than the armor loadout pick (but by less than you think, as that gets mage-ward layering with its gamby), but unable to upgrade to brigadine or have niche buffs like tailor fitting or enchantments.
+		if("Bare Skin (Sewing repair)") //does not get a chest-only skin layer, as ward layers there and is superior.
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/disciple //a heavy gambeson.
+		if("Bare Skin (Meditation repair)")
+			armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/disciple //Identical to other skin option aside from repair method.
 	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/inquisitionmanor = 1,

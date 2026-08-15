@@ -115,7 +115,8 @@
 			var/full_dmg
 			if(consume_debuff && has_status_effect(/datum/status_effect/debuff/exposed))
 				full_dmg = TRUE
-				intdamage *= EXPOSED_INTEG_MOD
+				// Currently only blunt damage enters this block of code, and we do NOT want it to multiply damage on top of its boons.
+				// intdamage *= EXPOSED_INTEG_MOD
 				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
 				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 				remove_status_effect(/datum/status_effect/debuff/exposed)

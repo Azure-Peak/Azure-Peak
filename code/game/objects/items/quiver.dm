@@ -14,7 +14,7 @@
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	alternate_worn_layer = UNDER_CLOAK_LAYER
-	strip_delay = 20
+	strip_delay = STRIP_DELAY_FAST
 	var/max_storage = 20 // Weight budget. Regular ammo = 1 weight each.
 	var/list/arrows = list()
 	var/preferred_ammo_type
@@ -924,7 +924,7 @@
 	//we're giving it the same delay as the great weapon straps have
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
-	strip_delay = 2 SECONDS
+	strip_delay = STRIP_DELAY_FAST
 	var/sheathe_time = 2 SECONDS
 	//these control the pixel adjustment for hanging bows/crossbows on
 	var/bowoverlay_x = 8

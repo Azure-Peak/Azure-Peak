@@ -126,27 +126,32 @@
 	stressadd = 1
 	desc = span_red("This music is quite grating. It struggles to sound how it intends.")
 
-/datum/stressevent/music/two
+/datum/stressevent/music/novice
+	stressadd = 0
+	desc = span_green("This music is alright, but the player needs practice.")
+	timer = 1 MINUTES
+
+/datum/stressevent/music/apprentice
 	stressadd = -1
 	desc = span_green("This music is very relaxing!")
 	timer = 2 MINUTES
 
-/datum/stressevent/music/three
+/datum/stressevent/music/journeyman
 	stressadd = -1
 	desc = span_green("This music drains away my stress.")
 	timer = 4 MINUTES
 
-/datum/stressevent/music/four
+/datum/stressevent/music/expert
 	stressadd = -2
 	desc = span_green("This music is great!")
 	timer = 6 MINUTES
 
-/datum/stressevent/music/five
+/datum/stressevent/music/master
 	stressadd = -3
 	timer = 8 MINUTES
 	desc = span_green("This music is wonderful!")
 
-/datum/stressevent/music/six
+/datum/stressevent/music/legendary
 	stressadd = -4
 	timer = 10 MINUTES
 	desc = span_boldgreen("This music is exceptional! Bravo!")
