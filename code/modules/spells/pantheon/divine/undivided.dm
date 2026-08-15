@@ -260,22 +260,22 @@
 	var/choosing_bundle = FALSE
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/datum/action/cooldown/spell/darkvision/undivided::name		= /datum/action/cooldown/spell/darkvision/undivided,
-		/datum/action/cooldown/spell/noc/invisibility::name			= /datum/action/cooldown/spell/noc/invisibility,
-		/obj/effect/proc_holder/spell/invoked/bless_food::name		= /obj/effect/proc_holder/spell/invoked/bless_food,
-		/datum/action/cooldown/spell/arcyne_forge/miracle::name		= /datum/action/cooldown/spell/arcyne_forge/miracle,
+		/datum/action/cooldown/spell/darkvision/undivided::name		=/datum/action/cooldown/spell/darkvision/undivided,
+		/datum/action/cooldown/spell/noc/invisibility::name			=/datum/action/cooldown/spell/noc/invisibility,
+		/obj/effect/proc_holder/spell/invoked/bless_food::name		=/obj/effect/proc_holder/spell/invoked/bless_food,
+		/datum/action/cooldown/spell/arcyne_forge/miracle::name		=/datum/action/cooldown/spell/arcyne_forge/miracle,
 	)
 	var/list/miracle_acolyte_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/eora_blessing::name		= /obj/effect/proc_holder/spell/invoked/eora_blessing,
-		/obj/effect/proc_holder/spell/targeted/blesscrop::name			= /obj/effect/proc_holder/spell/targeted/blesscrop,
-		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
-		/datum/action/cooldown/spell/miracle/fortify/undivided::name	= /datum/action/cooldown/spell/miracle/fortify/undivided,
+		/obj/effect/proc_holder/spell/invoked/eora_blessing::name		=/obj/effect/proc_holder/spell/invoked/eora_blessing,
+		/obj/effect/proc_holder/spell/targeted/blesscrop::name			=/obj/effect/proc_holder/spell/targeted/blesscrop,
+		/obj/effect/proc_holder/spell/invoked/avert::name				=/obj/effect/proc_holder/spell/invoked/avert,
+		/datum/action/cooldown/spell/miracle/fortify/undivided::name	=/datum/action/cooldown/spell/miracle/fortify/undivided,
 	)
 	var/list/miracle_templar_bundle = list(
-		/datum/action/cooldown/spell/projectile/moonscorch::name	= /datum/action/cooldown/spell/projectile/moonscorch,
-		/datum/action/cooldown/spell/ravox/judgement::name			= /datum/action/cooldown/spell/ravox/judgement,
-		/obj/effect/proc_holder/spell/self/abyssor_wind::name		= /obj/effect/proc_holder/spell/self/abyssor_wind,
-		/obj/effect/proc_holder/spell/invoked/vendetta::name		= /obj/effect/proc_holder/spell/invoked/vendetta,
+		/datum/action/cooldown/spell/projectile/moonscorch::name	=/datum/action/cooldown/spell/projectile/moonscorch,
+		/datum/action/cooldown/spell/ravox/judgement::name			=/datum/action/cooldown/spell/ravox/judgement,
+		/obj/effect/proc_holder/spell/self/abyssor_wind::name		=/obj/effect/proc_holder/spell/self/abyssor_wind,
+		/obj/effect/proc_holder/spell/invoked/vendetta::name		=/obj/effect/proc_holder/spell/invoked/vendetta,
 	)
 
 /datum/action/cooldown/spell/undivided/undivided_spellpack/cast(atom/cast_on)
