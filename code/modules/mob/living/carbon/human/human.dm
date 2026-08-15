@@ -40,22 +40,16 @@
 					return
 				src.visible_message(span_notice("[src] begins to take off [underwear]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-					chest.remove_bodypart_feature(underwear.undies_feature)
-					underwear.forceMove(get_turf(src))
+					src.dropItemToGround(underwear)
 					src.put_in_hands(underwear)
-					underwear = null
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
 			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
 				if(!legwear_socks)
 					return
 				src.visible_message(span_notice("[src] begins to take off [legwear_socks]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-					chest.remove_bodypart_feature(legwear_socks.legwears_feature)
-					legwear_socks.forceMove(get_turf(src))
+					src.dropItemToGround(legwear_socks)
 					src.put_in_hands(legwear_socks)
-					legwear_socks = null
 		if(user.zone_selected == BODY_ZONE_CHEST)
 			if(!piercings_item)
 				return
@@ -167,143 +161,184 @@
 		incoming_fellowship_invites.Cut()
 	return ..()
 
-/mob/living/carbon/human/show_inv(mob/user)
+/mob/living/carbon/human/show_inv(mob/user, extra_only = FALSE)
 	user.set_machine(src)
 	var/list/obscured = check_obscured_slots()
 	var/list/dat = list()
 
 	dat += "<table>"
+	if(!extra_only)
+		if(handcuffed)
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'>Remove [handcuffed]</A></td></tr>"
+		if(legcuffed)
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'>Remove [legcuffed]</A></td></tr>"
 
-	if(handcuffed)
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'>Remove [handcuffed]</A></td></tr>"
-	if(legcuffed)
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'>Remove [legcuffed]</A></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
 
-	dat += "<tr><td><hr></td></tr>"
+		for(var/i in 1 to held_items.len)
+			var/obj/item/I = get_item_for_held_index(i)
+			dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_HANDS];hand_index=[i]'>[(I && !(I.item_flags & ABSTRACT)) ? I : "<font color=grey>[get_held_index_name(i)]</font>"]</a></td></tr>"
 
-	for(var/i in 1 to held_items.len)
-		var/obj/item/I = get_item_for_held_index(i)
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDS];hand_index=[i]'>[(I && !(I.item_flags & ABSTRACT)) ? I : "<font color=grey>[get_held_index_name(i)]</font>"]</a></td></tr>"
-
-	dat += "<tr><td><hr></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
 
 //	if(has_breathable_mask && istype(back, /obj/item/tank))
 //		dat += "&nbsp;<A href='?src=[REF(src)];internal=[SLOT_BACK]'>[internal ? "Disable Internals" : "Set Internals"]</A>"
 
-//	dat += "<tr><td><B>HEAD</B></td></tr>"
+		dat += "<tr><td><B>HEAD</B></td></tr>"
 
 	//head
-	if(SLOT_HEAD in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HEAD]'>[(head && !(head.item_flags & ABSTRACT)) ? head : "<font color=grey>Head</font>"]</A></td></tr>"
+		if(SLOT_HEAD in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HEAD]'>[(head && !(head.item_flags & ABSTRACT)) ? head : "<font color=grey>Head</font>"]</A></td></tr>"
 
-	if(SLOT_WEAR_MASK in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_WEAR_MASK]'>[(wear_mask && !(wear_mask.item_flags & ABSTRACT)) ? wear_mask : "<font color=grey>Mask</font>"]</A></td></tr>"
+		if(SLOT_WEAR_MASK in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_WEAR_MASK]'>[(wear_mask && !(wear_mask.item_flags & ABSTRACT)) ? wear_mask : "<font color=grey>Mask</font>"]</A></td></tr>"
 
-	if(SLOT_MOUTH in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_MOUTH]'>[(mouth && !(mouth.item_flags & ABSTRACT)) ? mouth : "<font color=grey>Mouth</font>"]</A></td></tr>"
+		if(SLOT_MOUTH in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_MOUTH]'>[(mouth && !(mouth.item_flags & ABSTRACT)) ? mouth : "<font color=grey>Mouth</font>"]</A></td></tr>"
 
-	if(SLOT_NECK in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_NECK]'>[(wear_neck && !(wear_neck.item_flags & ABSTRACT)) ? wear_neck : "<font color=grey>Neck</font>"]</A></td></tr>"
+		if(SLOT_NECK in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_NECK]'>[(wear_neck && !(wear_neck.item_flags & ABSTRACT)) ? wear_neck : "<font color=grey>Neck</font>"]</A></td></tr>"
 
-	dat += "<tr><td><hr></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>BACK</B></td></tr>"
+		dat += "<tr><td><B>BACK</B></td></tr>"
 
-	if(SLOT_CLOAK in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_CLOAK]'>[(cloak && !(cloak.item_flags & ABSTRACT)) ? cloak : "<font color=grey>Cloak</font>"]</A></td></tr>"
+		if(SLOT_CLOAK in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_CLOAK]'>[(cloak && !(cloak.item_flags & ABSTRACT)) ? cloak : "<font color=grey>Cloak</font>"]</A></td></tr>"
 
-	if(SLOT_BACK_R in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BACK_R]'>[(backr && !(backr.item_flags & ABSTRACT)) ? backr : "<font color=grey>Back</font>"]</A></td></tr>"
+		if(SLOT_BACK_R in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BACK_R]'>[(backr && !(backr.item_flags & ABSTRACT)) ? backr : "<font color=grey>Back</font>"]</A></td></tr>"
 
-	if(SLOT_BACK_L in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BACK_L]'>[(backl && !(backl.item_flags & ABSTRACT)) ? backl : "<font color=grey>Back</font>"]</A></td></tr>"
+		if(SLOT_BACK_L in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BACK_L]'>[(backl && !(backl.item_flags & ABSTRACT)) ? backl : "<font color=grey>Back</font>"]</A></td></tr>"
 
-	dat += "<tr><td><hr></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>TORSO</B></td></tr>"
+		dat += "<tr><td><B>TORSO</B></td></tr>"
 
-	if(SLOT_ARMOR in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_ARMOR]'>[(wear_armor && !(wear_armor.item_flags & ABSTRACT)) ? wear_armor : "<font color=grey>Armor</font>"]</A></td></tr>"
+		if(SLOT_ARMOR in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_ARMOR]'>[(wear_armor && !(wear_armor.item_flags & ABSTRACT)) ? wear_armor : "<font color=grey>Armor</font>"]</A></td></tr>"
 
-	if(SLOT_SHIRT in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SHIRT]'>[(wear_shirt && !(wear_shirt.item_flags & ABSTRACT)) ? wear_shirt : "<font color=grey>Shirt</font>"]</A></td></tr>"
+		if(SLOT_SHIRT in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SHIRT]'>[(wear_shirt && !(wear_shirt.item_flags & ABSTRACT)) ? wear_shirt : "<font color=grey>Shirt</font>"]</A></td></tr>"
 
-	if(SLOT_GLOVES in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_GLOVES]'>[(gloves && !(gloves.item_flags & ABSTRACT)) ? gloves : "<font color=grey>Gloves</font>"]</A></td></tr>"
+		if(SLOT_GLOVES in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_GLOVES]'>[(gloves && !(gloves.item_flags & ABSTRACT)) ? gloves : "<font color=grey>Gloves</font>"]</A></td></tr>"
 
-	if(SLOT_RING in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_RING]'>[(wear_ring && !(wear_ring.item_flags & ABSTRACT)) ? wear_ring : "<font color=grey>Ring</font>"]</A></td></tr>"
+		if(SLOT_RING in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_RING]'>[(wear_ring && !(wear_ring.item_flags & ABSTRACT)) ? wear_ring : "<font color=grey>Ring</font>"]</A></td></tr>"
 
-	if(SLOT_WRISTS in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_WRISTS]'>[(wear_wrists && !(wear_wrists.item_flags & ABSTRACT)) ? wear_wrists : "<font color=grey>Wrists</font>"]</A></td></tr>"
+		if(SLOT_WRISTS in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_WRISTS]'>[(wear_wrists && !(wear_wrists.item_flags & ABSTRACT)) ? wear_wrists : "<font color=grey>Wrists</font>"]</A></td></tr>"
 
-	dat += "<tr><td><hr></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>WAIST</B></td></tr>"
+		dat += "<tr><td><B>WAIST</B></td></tr>"
 
-	if(SLOT_BELT in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BELT]'>[(belt && !(belt.item_flags & ABSTRACT)) ? belt : "<font color=grey>Belt</font>"]</A></td></tr>"
+		if(SLOT_BELT in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BELT]'>[(belt && !(belt.item_flags & ABSTRACT)) ? belt : "<font color=grey>Belt</font>"]</A></td></tr>"
 
-	if(SLOT_BELT_R in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BELT_R]'>[(beltr && !(beltr.item_flags & ABSTRACT)) ? beltr : "<font color=grey>Hip</font>"]</A></td></tr>"
+		if(SLOT_BELT_R in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BELT_R]'>[(beltr && !(beltr.item_flags & ABSTRACT)) ? beltr : "<font color=grey>Hip</font>"]</A></td></tr>"
 
-	if(SLOT_BELT_L in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BELT_L]'>[(beltl && !(beltl.item_flags & ABSTRACT)) ? beltl : "<font color=grey>Hip</font>"]</A></td></tr>"
+		if(SLOT_BELT_L in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_BELT_L]'>[(beltl && !(beltl.item_flags & ABSTRACT)) ? beltl : "<font color=grey>Hip</font>"]</A></td></tr>"
 
-	dat += "<tr><td><hr></td></tr>"
+		dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>LEGS</B></td></tr>"
+		dat += "<tr><td><B>LEGS</B></td></tr>"
 
-	if(SLOT_PANTS in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_PANTS]'>[(wear_pants && !(wear_pants.item_flags & ABSTRACT)) ? wear_pants : "<font color=grey>Trousers</font>"]</A></td></tr>"
+		if(SLOT_PANTS in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_PANTS]'>[(wear_pants && !(wear_pants.item_flags & ABSTRACT)) ? wear_pants : "<font color=grey>Trousers</font>"]</A></td></tr>"
 
-	if(SLOT_SHOES in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SHOES]'>[(shoes && !(shoes.item_flags & ABSTRACT)) ? shoes : "<font color=grey>Boots</font>"]</A></td></tr>"
-
-	dat += "<tr><td><hr></td></tr>"
+		if(SLOT_SHOES in obscured)
+			dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+		else
+			dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SHOES]'>[(shoes && !(shoes.item_flags & ABSTRACT)) ? shoes : "<font color=grey>Boots</font>"]</A></td></tr>"
 
 #ifdef MATURESERVER
-	if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-		dat += "<tr><td><BR><B>Underwear:</B> <A href='?src=[REF(src)];undiesthing=1'>[!underwear ? "Nothing" : "Remove"]</A></td></tr>"
-	dat += "<tr><td><hr></td></tr>"
-	if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-		dat += "<tr><td><BR><B>Legwear:</B> <A href='?src=[REF(src)];legwearsthing=1'>[!legwear_socks ? "Nothing" : "Remove"]</A></td></tr>"
+	dat += "<tr><td><B>UNDERWEAR</B></td></tr>"
+	if((obscured & ITEM_SLOT_UNDER_BOTTOM) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_UNDER_BOTTOM]'>[(underwear && !(underwear.item_flags & ABSTRACT)) ? underwear : "<font color=grey>Underwear</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_UNDER_TOP) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else if(bra && (user == src))
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_UNDER_TOP];extra_only=[extra_only]'>[(bra && !(bra.item_flags & ABSTRACT)) ? bra : "<font color=grey>Bra</font>"]</A> | <tr><td><A href='?src=[REF(src)];show_storage=[ITEM_SLOT_UNDER_TOP];extra_only=[extra_only]'>["Storage"]</A></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_UNDER_TOP]'>[(underwear && !(underwear.item_flags & ABSTRACT)) ? underwear : "<font color=grey>Underwear</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_UNDERSHIRT) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_UNDERSHIRT];extra_only=[extra_only]'>[(undershirt && !(undershirt.item_flags & ABSTRACT)) ? undershirt : "<font color=grey>Undershirt</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_ARMSLEEVES) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_ARMSLEEVES];extra_only=[extra_only]'>[(armsleeves && !(armsleeves.item_flags & ABSTRACT)) ? armsleeves : "<font color=grey>Armsleeves</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_GARTER) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_GARTER];extra_only=[extra_only]'>[(garter && !(garter.item_flags & ABSTRACT)) ? garter : "<font color=grey>Garter</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_CHOKER) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_CHOKER];extra_only=[extra_only]'>[(choker && !(choker.item_flags & ABSTRACT)) ? choker : "<font color=grey>Choker</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_EARRING_L) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_EARRING_L];extra_only=[extra_only]'>[(earring_l && !(earring_l.item_flags & ABSTRACT)) ? earring_l : "<font color=grey>Left Earring</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_EARRING_R) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_EARRING_R];extra_only=[extra_only]'>[(earring_r && !(earring_r.item_flags & ABSTRACT)) ? earring_r : "<font color=grey>Right Earring</font>"]</A></td></tr>"
+
+	if((obscured & ITEM_SLOT_SOCKS) && (obscured & ITEM_SLOT_EXTRA))
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SOCKS]'>[(legwear_socks && !(legwear_socks.item_flags & ABSTRACT)) ? legwear_socks : "<font color=grey>Socks</font>"]</A></td></tr>"
 #endif
 
+	dat += "<tr><td><hr></td></tr>"
 	dat += {"</table>"}
 
 	var/datum/browser/popup = new(user, "mob[REF(src)]", "[src]", 220, 690)

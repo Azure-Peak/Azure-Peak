@@ -205,6 +205,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/dam_icon = 'icons/effects/item_damage32.dmi'
 	var/dam_icon_state = "itemdamaged"
 	var/boobed = FALSE
+	var/boob_sized
+	/// Whether or not we use gendered onmob sprites
+	var/gendered
 
 	var/firefuel = 0 //add this idiot
 
@@ -1138,6 +1141,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(ishuman(owner))
 		H = owner
 	var/flags = slot_flags
+	var/extra_flags = (flags << 1) >> 1 //We "cut off" the 24th bit of the extra slots flag so that the bitwise & can work. //I know that this is a sin, but damn me if it doesn't work.
 //	if(flags & ITEM_SLOT_OCLOTHING)
 //		owner.update_inv_wear_suit()
 //	if(flags & ITEM_SLOT_ICLOTHING)
@@ -1164,6 +1168,24 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		owner.update_inv_pants()
 	if(flags & ITEM_SLOT_CLOAK)
 		owner.update_inv_cloak()
+	if((extra_flags & ITEM_SLOT_UNDER_BOTTOM) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_undie_bot()
+	if((extra_flags & ITEM_SLOT_UNDER_TOP) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_undie_top()
+	if((extra_flags & ITEM_SLOT_UNDERSHIRT) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_undershirt()
+	if((extra_flags & ITEM_SLOT_GARTER) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_garter()
+	if((extra_flags & ITEM_SLOT_CHOKER) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_choker()
+	if((extra_flags & ITEM_SLOT_EARRING_L) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_garter()
+	if((extra_flags & ITEM_SLOT_EARRING_R) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_choker()
+	if((extra_flags & ITEM_SLOT_SOCKS) && (flags & ITEM_SLOT_EXTRA))
+		owner.update_inv_socks()
+	if((extra_flags & ITEM_SLOT_ARMSLEEVES) && (flags & ITEM_SLOT_ARMSLEEVES))
+		owner.update_inv_armsleeves()
 	if(H)
 		if(flags & ITEM_SLOT_HEAD && H.head == src)
 			owner.update_inv_head()

@@ -682,7 +682,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["refresh"])
 		if(machine && in_range(src, usr))
-			show_inv(machine)
+			show_inv(machine, text2num(href_list["extra_only"]))
 
 
 	if(href_list["item"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
@@ -696,24 +696,29 @@ GLOBAL_VAR_INIT(mobids, 1)
 			what = get_item_by_slot(slot)
 		if(what)
 			if(!(what.item_flags & ABSTRACT))
-				usr.stripPanelUnequip(what,src,slot)
+				usr.stripPanelUnequip(what,src,slot, text2num(href_list["extra_only"]))
 		else
-			usr.stripPanelEquip(what,src,slot)
+			usr.stripPanelEquip(what,src,slot, text2num(href_list["extra_only"]))
+
+	if(href_list["show_storage"])
+		var/slot = text2num(href_list["show_storage"])
+		var/obj/item/what = get_item_by_slot(slot)
+		SEND_SIGNAL(what, COMSIG_ATOM_ATTACK_HAND, usr)
 
 	if(usr.machine == src)
 		if(Adjacent(usr))
-			show_inv(usr)
+			show_inv(usr, text2num(href_list["extra_only"]))
 		else
 			usr << browse(null,"window=mob[REF(src)]")
 
 // The src mob is trying to strip an item from someone
 // Defined in living.dm
-/mob/proc/stripPanelUnequip(obj/item/what, mob/who)
+/mob/proc/stripPanelUnequip(obj/item/what, mob/who, extra_only)
 	return
 
 // The src mob is trying to place an item on someone
 // Defined in living.dm
-/mob/proc/stripPanelEquip(obj/item/what, mob/who)
+/mob/proc/stripPanelEquip(obj/item/what, mob/who, extra_only)
 	return
 
 /**
@@ -1225,6 +1230,13 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	pose_text = parsemarkdown_basic(new_pose)
 	to_chat(src, span_notice("I set my pose."))
+
+/mob/living/carbon/human/verb/remove_underwear()
+	set name = "Equip Extra Items"
+	set category = "IC"
+
+	if(!show_inv(src, TRUE))
+		return
 
 ///Adjust the nutrition of a mob
 /mob/proc/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks

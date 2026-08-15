@@ -681,7 +681,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	cost = 50 // small discount
 	contains = list(
 					/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/black,
-					/obj/item/legwears/black,
+					/obj/item/clothing/legwears/black,
 					/obj/item/clothing/cloak/apron/waist,
 				)
 
@@ -695,7 +695,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 					/obj/item/clothing/head/roguetown/maidhead,
 					/obj/item/clothing/cloak/apron/waist/maid,
 					/obj/item/storage/belt/rogue/leather/sash/maid,
-					/obj/item/legwears/black,
+					/obj/item/clothing/legwears/black,
 				)
 
 // Pls. Pls.
@@ -708,7 +708,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 					/obj/item/clothing/head/roguetown/maidhead,
 					/obj/item/clothing/cloak/apron/waist/maid,
 					/obj/item/storage/belt/rogue/leather/sash/maid,
-					/obj/item/legwears/black,
+					/obj/item/clothing/legwears/black,
 					/obj/item/clothing/neck/roguetown/collar/bell_collar // pls. its funny. pls.
 				)
 

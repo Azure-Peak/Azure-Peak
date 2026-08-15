@@ -77,11 +77,29 @@
 
 	var/shirt = null
 
+	var/armsleeves = null
+
 	var/mouth = null
 
 	var/pants = null
 
 	var/armor = null
+
+	var/underwear = null
+
+	var/bra = null
+
+	var/undershirt = null
+
+	var/garter = null
+
+	var/choker = null
+
+	var/earring_l = null
+
+	var/earring_r = null
+
+	var/legwear_socks = null
 
 	/**
 	  * Type path of item to go in suit storage slot
@@ -118,9 +136,6 @@
 	  * Format of this list is (typepath, typepath, typepath)
 	  */
 	var/list/implants = null
-
-  /// Any undershirt. While on humans it is a string, here we use paths to stay consistent with the rest of the equips.
-	var/datum/sprite_accessory/undershirt = null
 
 	/// Any clothing accessory item
 	var/accessory = null
@@ -225,12 +240,30 @@
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(backl, H), SLOT_BACK_L, TRUE)
 	if(mouth)
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(mouth, H), SLOT_MOUTH, TRUE)
+	if(underwear)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(underwear, H), SLOT_UNDER_BOTTOM, TRUE)
+	if(bra)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(bra, H), SLOT_UNDER_TOP, TRUE)
+	if(undershirt)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(undershirt, H), SLOT_UNDERSHIRT, TRUE)
+	if(garter)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(garter, H), SLOT_GARTER, TRUE)
+	if(choker)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(choker, H), SLOT_CHOKER, TRUE)
+	if(earring_l)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(earring_l, H), SLOT_EARRING_L, TRUE)
+	if(earring_r)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(earring_r, H), SLOT_EARRING_R, TRUE)
+	if(legwear_socks)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(legwear_socks, H), SLOT_SOCKS, TRUE)
 	if(pants)
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(pants, H), SLOT_PANTS, TRUE)
 	if(armor)
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(armor, H), SLOT_ARMOR, TRUE)
 	if(shirt)
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(shirt, H), SLOT_SHIRT, TRUE)
+	if(armsleeves)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(armsleeves, H), SLOT_ARMSLEEVES, TRUE)
 	if(accessory)
 		var/obj/item/clothing/under/U = H.wear_pants
 		if(U)
@@ -359,7 +392,7 @@
 
 /// Return a list of all the types that are required to disguise as this outfit type
 /datum/outfit/proc/get_chameleon_disguise_info()
-	var/list/types = list(uniform, suit, back, belt, gloves, shoes, head, mask, neck, ears, glasses, id, l_pocket, r_pocket, suit_store, r_hand, l_hand)
+	var/list/types = list(uniform, suit, back, belt, gloves, shoes, head, mask, neck, ears, glasses, id, l_pocket, r_pocket, suit_store, r_hand, l_hand, underwear, bra, undershirt, garter, choker, earring_l, earring_r, legwear_socks)
 	types += chameleon_extras
 	listclearnulls(types)
 	return types

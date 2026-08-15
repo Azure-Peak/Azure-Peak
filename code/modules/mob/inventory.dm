@@ -394,6 +394,20 @@
 		items += mouth
 	if(wear_shirt)
 		items += wear_shirt
+	if(underwear)
+		items += underwear
+	if(bra)
+		items += bra
+	if(undershirt)
+		items += undershirt
+	if(garter)
+		items += garter
+	if(choker)
+		items += choker
+	if(earring_l)
+		items += earring_l
+	if(earring_r)
+		items += earring_r
 	if(include_pockets)
 		if(l_store)
 			items += l_store
@@ -423,6 +437,9 @@
 
 	if(hidden_slots & HIDENECK)
 		obscured += SLOT_NECK
+		obscured += SLOT_CHOKER
+		obscured += SLOT_EARRING_L
+		obscured += SLOT_EARRING_R
 	if(hidden_slots & HIDEMASK)
 		obscured += SLOT_WEAR_MASK
 	if(hidden_slots & HIDEEYES)
@@ -431,12 +448,20 @@
 		obscured += SLOT_GLOVES
 	if(hidden_slots & HIDEJUMPSUIT)
 		obscured += SLOT_PANTS
+		obscured += SLOT_SOCKS
+		obscured += SLOT_UNDERSHIRT
+		obscured += SLOT_ARMSLEEVES
 	if(hidden_slots & HIDESHOES)
 		obscured += SLOT_SHOES
 	if(hidden_slots & HIDEBELT)
 		obscured += SLOT_BELT_R
 		obscured += SLOT_BELT_L
 		obscured += SLOT_BELT
+		obscured += SLOT_GARTER
+	if(hidden_slots & HIDEUNDIETOP)
+		obscured += SLOT_UNDER_TOP
+	if(hidden_slots & HIDEUNDIEBOT)
+		obscured += SLOT_UNDER_BOTTOM
 	if(hidden_slots & HIDESUITSTORAGE)
 		obscured += SLOT_S_STORE
 

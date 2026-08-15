@@ -46,6 +46,24 @@
 			return wear_armor
 		if(SLOT_PANTS)
 			return wear_pants
+		if(SLOT_UNDER_BOTTOM)
+			return underwear
+		if(SLOT_UNDER_TOP)
+			return bra
+		if(SLOT_UNDERSHIRT)
+			return undershirt
+		if(SLOT_GARTER)
+			return garter
+		if(SLOT_CHOKER)
+			return choker
+		if(SLOT_SOCKS)
+			return legwear_socks
+		if(SLOT_EARRING_L)
+			return earring_l
+		if(SLOT_EARRING_R)
+			return earring_r
+		if(SLOT_ARMSLEEVES)
+			return armsleeves
 		if(SLOT_L_STORE)
 			return l_store
 		if(SLOT_R_STORE)
@@ -78,7 +96,13 @@
 		backl,
 		beltr,
 		beltl,
-		mouth
+		mouth,
+		underwear,
+		bra,
+		legwear_socks,
+		undershirt,
+		armsleeves,
+		garter,
 		)
 
 /mob/living/carbon/human/proc/get_head_slots()
@@ -89,6 +113,9 @@
 		glasses,
 		ears,
 		mouth,
+		earring_l,
+		earring_r,
+		choker,
 		)
 
 /mob/living/carbon/human/proc/get_storage_slots()
@@ -211,6 +238,33 @@
 
 				if(SEND_SIGNAL(belt, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
+		if(SLOT_UNDER_BOTTOM)
+			underwear = I
+			update_inv_undie_bot()
+		if(SLOT_UNDER_TOP)
+			bra = I
+			update_inv_undie_top()
+		if(SLOT_UNDERSHIRT)
+			undershirt = I
+			update_inv_undershirt()
+		if(SLOT_GARTER)
+			garter = I
+			update_inv_garter()
+		if(SLOT_CHOKER)
+			choker = I
+			update_inv_choker()
+		if(SLOT_EARRING_L)
+			earring_l = I
+			update_inv_earring_l()
+		if(SLOT_EARRING_R)
+			earring_r = I
+			update_inv_earring_r()
+		if(SLOT_SOCKS)
+			legwear_socks = I
+			update_inv_socks()
+		if(ITEM_SLOT_ARMSLEEVES)
+			armsleeves = I
+			update_inv_armsleeves()
 		else
 			not_handled = TRUE
 //		else
@@ -350,6 +404,42 @@
 		mouth = null
 		if(!QDELETED(src))
 			update_inv_mouth()
+	else if(I == underwear)
+		underwear = null
+		if(!QDELETED(src))
+			update_inv_undie_bot()
+	else if(I == bra)
+		bra = null
+		if(!QDELETED(src))
+			update_inv_undie_top()
+	else if(I == undershirt)
+		undershirt = null
+		if(!QDELETED(src))
+			update_inv_undershirt()
+	else if(I == garter)
+		garter = null
+		if(!QDELETED(src))
+			update_inv_garter()
+	else if(I == choker)
+		choker = null
+		if(!QDELETED(src))
+			update_inv_choker()
+	else if(I == earring_l)
+		earring_l = null
+		if(!QDELETED(src))
+			update_inv_earring_l()
+	else if(I == earring_r)
+		earring_r = null
+		if(!QDELETED(src))
+			update_inv_earring_r()
+	else if(I == legwear_socks)
+		legwear_socks = null
+		if(!QDELETED(src))
+			update_inv_socks()
+	else if(I == armsleeves)
+		armsleeves = null
+		if(!QDELETED(src))
+			update_inv_armsleeves()
 
 	worn_ac_dirty = TRUE
 

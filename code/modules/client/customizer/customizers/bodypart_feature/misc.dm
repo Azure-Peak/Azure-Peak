@@ -40,13 +40,8 @@
 	feature_type = /datum/bodypart_feature/accessory
 	allows_accessory_color_customization = TRUE
 	sprite_accessories = list(
-		/datum/sprite_accessory/accessory/earrings,
-		/datum/sprite_accessory/accessory/earrings/sil,
-		/datum/sprite_accessory/accessory/earrings/em,
 		/datum/sprite_accessory/accessory/eyepierce,
 		/datum/sprite_accessory/accessory/eyepierce/alt,
-		/datum/sprite_accessory/accessory/choker,
-		/datum/sprite_accessory/accessory/chokere,
 		/datum/sprite_accessory/accessory/harlequin,
 		/datum/sprite_accessory/accessory/warpaint,
 		)
@@ -99,3 +94,25 @@
 		/datum/sprite_accessory/legwear/stockings/sleeve_stir_thigh_silk,
 		/datum/sprite_accessory/legwear/stockings/sleeve_stir_ankle_silk
 		)
+
+/datum/bodypart_feature/underwear/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
+	.=..()
+
+	if(owner)
+		var/datum/sprite_accessory/underwear/u_s = accessory_type
+		var/obj/item/clothing/undies/undie = new u_s.underwear_type
+		owner.equip_to_slot_if_possible(undie, ITEM_SLOT_UNDER_BOTTOM)
+		bp.remove_bodypart_feature(src)
+		return TRUE
+	return FALSE
+
+/datum/bodypart_feature/legwear/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
+	.=..()
+
+	if(owner)
+		var/datum/sprite_accessory/legwear/l_s = accessory_type
+		var/obj/item/clothing/legwears/sock = new l_s.legwear_type
+		owner.equip_to_slot_if_possible(sock, ITEM_SLOT_SOCKS)
+		bp.remove_bodypart_feature(src)
+		return TRUE
+	return FALSE

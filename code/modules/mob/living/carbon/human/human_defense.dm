@@ -518,6 +518,12 @@
 	//CHEST//
 	if(!bodyzone_hit || bodyzone_hit == BODY_ZONE_CHEST)
 		var/obj/item/clothing/chest_clothes = null
+		if(bra)
+			chest_clothes = bra
+		if(underwear)
+			chest_clothes = underwear
+		if(undershirt)
+			chest_clothes = undershirt
 		if(wear_pants)
 			chest_clothes = wear_pants
 		if(wear_armor)
@@ -548,6 +554,8 @@
 		var/obj/item/clothing/arm_clothes = null
 		if(gloves)
 			arm_clothes = gloves
+		if(armsleeves)
+			arm_clothes = armsleeves
 		if(wear_pants && ((wear_pants.body_parts_covered_dynamic & HANDS) || (wear_pants.body_parts_covered_dynamic & ARMS)))
 			arm_clothes = wear_pants
 		if(wear_armor && ((wear_armor.body_parts_covered_dynamic & HANDS) || (wear_armor.body_parts_covered_dynamic & ARMS)))
@@ -575,6 +583,8 @@
 		var/obj/item/clothing/leg_clothes = null
 		if(shoes)
 			leg_clothes = shoes
+		if(legwear_socks)
+			leg_clothes = legwear_socks
 		if(wear_pants && ((wear_pants.body_parts_covered & FEET) || (bodyzone_hit != "feet" && (wear_pants.body_parts_covered & LEGS))))
 			leg_clothes = wear_pants
 		if(wear_armor && ((wear_armor.body_parts_covered & FEET) || (bodyzone_hit != "feet" && (wear_armor.body_parts_covered & LEGS))))
