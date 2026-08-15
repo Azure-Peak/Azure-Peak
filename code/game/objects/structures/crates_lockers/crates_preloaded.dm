@@ -48,7 +48,7 @@
 	name = "kitchen crate"
 	desc = "A wooden crate with all the cooking supplies needed."
 
-/obj/structure/closet/crate/chest/crate/kitchen/Initialize()
+/obj/structure/closet/crate/chest/crate/kitchen/Initialize(mapload)
 	. = ..()
 	new /obj/item/reagent_containers/glass/bucket/pot(src)
 	new /obj/item/cooking/pan(src)
