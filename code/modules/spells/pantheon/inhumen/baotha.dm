@@ -23,7 +23,7 @@
 	desc = "Baotha raises myne mood. Alt-mode to instead surrender my soul to heartbreak. More effective based off of holy skill."
 	button_icon_state = null //i ain't got shit rn lowk chief
 	sound = 'sound/magic/heal.ogg' //i ain't got SHIT rn lowk chief
-	click_to_activate = FALSE
+	click_to_activate = TRUE
 	self_cast_possible = TRUE
 	primary_resource_cost = SPELLCOST_MIRACLE
 	secondary_resource_cost = SPELLCOST_CANTRIP
