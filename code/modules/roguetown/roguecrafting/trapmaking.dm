@@ -30,7 +30,7 @@
 /datum/crafting_recipe/roguetown/trapmaking/sawbladetrap
 	name = "saw blades trap"
 	result = /obj/structure/trap/saw_blades
-	reqs =  list(/obj/item/restraints/legcuffs/beartrap/crafted = 1, 
+	reqs =	list(/obj/item/restraints/legcuffs/beartrap/crafted = 1,
 				/obj/item/scrap = 2,
 				/obj/item/rope = 1,
 				/obj/item/alch/irondust = 1,
@@ -40,7 +40,7 @@
 /datum/crafting_recipe/roguetown/trapmaking/flametrap
 	name = "flame trap"
 	result = /obj/structure/trap/flame
-	reqs =  list(/obj/item/flint = 1, 
+	reqs =	list(/obj/item/flint = 1,
 				/obj/item/scrap = 2,
 				/obj/item/alch/irondust = 1,
 				/obj/item/bomb = 1,
@@ -50,7 +50,7 @@
 /datum/crafting_recipe/roguetown/trapmaking/bombtrap
 	name = "bomb trap"
 	result = /obj/structure/trap/bomb
-	reqs =  list(/obj/item/flint = 1, 
+	reqs =	list(/obj/item/flint = 1,
 				/obj/item/scrap = 2,
 				/obj/item/alch/irondust = 1,
 				/obj/item/impact_grenade/explosion = 1,
@@ -60,7 +60,7 @@
 /datum/crafting_recipe/roguetown/trapmaking/shocktrap
 	name = "shock trap"
 	result = /obj/structure/trap/shock
-	reqs =  list(/obj/item/scrap = 2, 
+	reqs =	list(/obj/item/scrap = 2,
 				/obj/item/natural/clay = 1,
 				/obj/item/alch/airdust = 2,
 				/obj/item/alch/irondust = 1,
@@ -71,8 +71,8 @@
 /datum/crafting_recipe/roguetown/trapmaking/rocktrap
 	name = "rock trap"
 	result = /obj/structure/trap/rock_fall
-	reqs =  list(/obj/item/restraints/legcuffs/beartrap/crafted = 1,
-				/obj/item/scrap = 2, 
+	reqs =	list(/obj/item/restraints/legcuffs/beartrap/crafted = 1,
+				/obj/item/scrap = 2,
 				/obj/item/natural/rock = 1,
 				/obj/item/alch/irondust = 2,
 	)

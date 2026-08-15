@@ -8,7 +8,7 @@
 	var/locked_at = 0
 	var/cooldown_until = 0
 
-/obj/effect/landmark/quest_spawner/Initialize()
+/obj/effect/landmark/quest_spawner/Initialize(mapload)
 	. = ..()
 	GLOB.quest_landmarks_list += src
 	if(!region)

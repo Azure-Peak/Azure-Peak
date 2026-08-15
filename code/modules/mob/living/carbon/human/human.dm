@@ -65,7 +65,7 @@
 				regenerate_icons()
 #endif
 
-/mob/living/carbon/human/Initialize()
+/mob/living/carbon/human/Initialize(mapload)
 	add_verb(src, /mob/living/proc/lay_down)
 	icon_state = "" //Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
 
@@ -103,7 +103,7 @@
 	switch(rand(1,4))
 		if(1)
 			affecting = get_bodypart(pick(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
-			chat_message = span_danger("I fall on my [lowertext(affecting.name)]!")
+			chat_message = span_danger("I fall on my [LOWER_TEXT(affecting.name)]!")
 		if(2)
 			affecting = get_bodypart(pick(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM))
 			chat_message = span_danger("I fall on my arm!")
@@ -178,6 +178,29 @@
 		for(var/i in 1 to held_items.len)
 			var/obj/item/I = get_item_for_held_index(i)
 			dat += "<tr><td><A href='?src=[REF(src)];item=[ITEM_SLOT_HANDS];hand_index=[i]'>[(I && !(I.item_flags & ABSTRACT)) ? I : "<font color=grey>[get_held_index_name(i)]</font>"]</a></td></tr>"
+
+		if(is_unclaimed_corpse())
+			var/has_fabric = FALSE
+			var/has_smelt = FALSE
+			for(var/obj/item/I in (get_equipped_items(TRUE) + held_items))
+				if(I.item_flags & ABSTRACT)
+					continue
+				if(I.is_salvageable())
+					has_fabric = TRUE
+				if(I.is_smeltable())
+					has_smelt = TRUE
+				if(has_fabric && has_smelt)
+					break
+			dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_ALL]'><B>Loot Everything</B></A></td></tr>"
+			if(has_fabric)
+				dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_FABRIC]'>Loot Fabric</A></td></tr>"
+			if(has_smelt)
+				dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_SMELT]'>Loot Smeltable</A></td></tr>"
+
+		if(handcuffed || legcuffed)
+			dat += "<tr><td><hr></td></tr>"
+
+	dat += "<tr><td><hr></td></tr>"
 
 		dat += "<tr><td><hr></td></tr>"
 
@@ -1070,7 +1093,7 @@
 /mob/living/carbon/human/species
 	var/race = null
 
-/mob/living/carbon/human/species/Initialize()
+/mob/living/carbon/human/species/Initialize(mapload)
 	. = ..()
 	if(race)
 		set_species(race)

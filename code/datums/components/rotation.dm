@@ -1,7 +1,7 @@
 /datum/component/simple_rotation
 	var/datum/callback/can_user_rotate //Checks if user can rotate
-	var/datum/callback/can_be_rotated  //Check if object can be rotated at all
-	var/datum/callback/after_rotation     //Additional stuff to do after rotation
+	var/datum/callback/can_be_rotated	//Check if object can be rotated at all
+	var/datum/callback/after_rotation		//Additional stuff to do after rotation
 
 	var/rotation_flags = NONE
 	var/default_rotation_direction = ROTATION_CLOCKWISE
@@ -133,7 +133,7 @@
 	if(!istype(user) || !user.canUseTopic(parent, BE_CLOSE, NO_DEXTERITY))
 		return FALSE
 	if(rotation_flags & ROTATION_REQUIRE_WRENCH)
-		var/obj/item/contraption/linker/linker = user.get_active_held_item()
+		var/obj/item/rogueweapon/contraption/linker/linker = user.get_active_held_item()
 		if(!istype(linker))
 			return FALSE
 	return TRUE

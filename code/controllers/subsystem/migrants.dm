@@ -21,7 +21,7 @@ SUBSYSTEM_DEF(migrants)
 	var/list/spawned_waves = list()
 	var/list/global_triumph_contributions = list()
 
-/datum/controller/subsystem/migrants/Initialize()
+/datum/controller/subsystem/migrants/Initialize(mapload)
 	track_next_roll[MIGRANT_TRACK_REGULAR] = world.time + 2 MINUTES
 	track_next_roll[MIGRANT_TRACK_SPECIAL] = world.time + special_roll_interval
 	return ..()
@@ -689,7 +689,7 @@ SUBSYSTEM_DEF(migrants)
 	. = TRUE
 	var/mob/user = usr
 	message_admins("Admin [key_name_admin(user)] is forcing the next migrant wave.")
-	var/picked_wave_type = input(user, "Choose migrant wave to force:", "Migrants")  as null|anything in GLOB.migrant_waves
+	var/picked_wave_type = input(user, "Choose migrant wave to force:", "Migrants")	as null|anything in GLOB.migrant_waves
 	if(!picked_wave_type)
 		return
 	message_admins("Admin [key_name_admin(user)] forced next migrant wave: [picked_wave_type]")

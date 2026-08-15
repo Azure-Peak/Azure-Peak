@@ -44,7 +44,7 @@
 		"Smokes",
 	)
 
-/obj/structure/roguemachine/bathvend/Initialize()
+/obj/structure/roguemachine/bathvend/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -209,13 +209,13 @@
 	var/total_matches = 0
 	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX)
 	if(search_query != "")
-		var/needle = lowertext(search_query)
+		var/needle = LOWER_TEXT(search_query)
 		var/list/matches = list()
 		for(var/pack in SSmerchant.supply_packs)
 			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
 			if(!pack_visible_to(PA, can_see_contraband))
 				continue
-			if(findtext(lowertext(PA.name), needle) || findtext(lowertext(PA.group), needle))
+			if(findtext(LOWER_TEXT(PA.name), needle) || findtext(LOWER_TEXT(PA.group), needle))
 				matches += PA
 		total_matches = length(matches)
 		var/shown = 0
@@ -371,7 +371,7 @@
 	set_light(1, 1, 1, l_color = "#1b7bf1")
 	add_overlay(mutable_appearance(icon, "vendor-drug"))
 
-/obj/structure/roguemachine/bathvend/public/Initialize()
+/obj/structure/roguemachine/bathvend/public/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSroguemachine, src)
 
@@ -416,7 +416,7 @@ SUBSYSTEM_DEF(BMtreasury)
 	var/next_treasury_check = 0
 	var/list/vault_accounting = list()
 
-/datum/controller/subsystem/BMtreasury/proc/add_to_vault(var/obj/item/I)
+/datum/controller/subsystem/BMtreasury/proc/add_to_vault(obj/item/I)
 	if(I.get_real_price() <= 0 || istype(I, /obj/item/roguecoin) || istype(I, /obj/item/storage))
 		return
 	if(I.type in vault_accounting)

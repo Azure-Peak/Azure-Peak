@@ -165,6 +165,20 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 					/obj/item/clothing/mask/rogue/spectacles,
 				)
 
+/datum/supply_pack/rogue/luxury/fancyspecs
+	name = "Fancy Spectacles"
+	cost = 30
+	contains = list(
+					/obj/item/clothing/mask/rogue/spectacles/fancy,
+				)
+
+/datum/supply_pack/rogue/luxury/fancyspecs_dark
+	name = "Fancy Spectacles, Dark"
+	cost = 30
+	contains = list(
+					/obj/item/clothing/mask/rogue/spectacles/fancy_dark,
+				)
+
 /datum/supply_pack/rogue/wardrobe/masks/goldspecs
 	name = "Golden Spectacles"
 	cost = 60
@@ -177,6 +191,13 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	cost = 45
 	contains = list(
 					/obj/item/clothing/mask/rogue/spectacles/sglasses,
+				)
+
+/datum/supply_pack/rogue/luxury/spectacles_monocle
+	name = "Monocle"
+	cost = 30
+	contains = list(
+					/obj/item/clothing/mask/rogue/spectacles/monocle,
 				)
 
 /datum/supply_pack/rogue/luxury/spectacles_monocle

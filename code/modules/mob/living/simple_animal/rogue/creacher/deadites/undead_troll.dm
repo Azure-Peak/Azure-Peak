@@ -17,7 +17,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried = 1,
 		/obj/item/natural/bundle/bone/full = 1,
-		/obj/item/alch/horn = 1, 
+		/obj/item/alch/horn = 1,
 		/obj/item/natural/hide = 1)
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll = 2,
@@ -38,7 +38,7 @@
 		/obj/item/alch/viscera = 3,
 		)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/deadite, 15 MINUTES, 300, 200, "troll_downed", 0)
 

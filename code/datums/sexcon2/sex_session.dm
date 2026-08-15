@@ -28,10 +28,10 @@
 	var/our_sex_id = 0 //this is so we can have more then 1 sex id open at once
 
 	// Moved here from proc/get_generic_force_adjective to reduce list initialization/destruction
-	var/static/list/low_force_adjectives 		= list("gently", "carefully", "tenderly", "gingerly", "delicately", "lazily")
-	var/static/list/mid_force_adjectives 		= list("firmly", "vigorously", "eagerly", "steadily", "intently")
-	var/static/list/high_force_adjectives 		= list("roughly", "carelessly", "forcefully", "fervently", "fiercely")
-	var/static/list/extreme_force_adjectives 	= list("brutally", "violently", "relentlessly", "savagely", "mercilessly")
+	var/static/list/low_force_adjectives		= list("gently", "carefully", "tenderly", "gingerly", "delicately", "lazily")
+	var/static/list/mid_force_adjectives		= list("firmly", "vigorously", "eagerly", "steadily", "intently")
+	var/static/list/high_force_adjectives		= list("roughly", "carelessly", "forcefully", "fervently", "fiercely")
+	var/static/list/extreme_force_adjectives	= list("brutally", "violently", "relentlessly", "savagely", "mercilessly")
 
 /datum/sex_session/New(mob/living/carbon/human/session_user, mob/living/carbon/human/session_target)
 	user = session_user

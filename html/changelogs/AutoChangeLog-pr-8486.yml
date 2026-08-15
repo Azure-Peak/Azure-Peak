@@ -1,5 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - balance: "Eyebite cooldown 15 > 35 seconds"
-  - bugfix: "Eyebite & Blindness grenades not using modern BLIND effect."

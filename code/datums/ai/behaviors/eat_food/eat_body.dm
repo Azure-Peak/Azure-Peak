@@ -49,7 +49,7 @@
 					finish_action(controller, TRUE)
 					return
 			limb = C.get_bodypart(BODY_ZONE_HEAD)
-			if(limb)				  // Head is always 100% 
+			if(limb)					// Head is always 100%
 				limb.dismember()
 				finish_action(controller, TRUE)
 				return

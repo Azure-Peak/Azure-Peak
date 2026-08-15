@@ -50,6 +50,7 @@
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/axe
 	name = "Skeleton"
@@ -228,13 +229,13 @@
 	ai_controller = /datum/ai_controller/skeleton_ranged/event
 
 /mob/living/simple_animal/hostile/rogue/skeleton/axe/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
-    . = ..(mapload, user, cabal_affine, is_summoned)
+	. = ..(mapload, user, cabal_affine, is_summoned)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/spear/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
-    . = ..(mapload, user, cabal_affine, is_summoned)
+	. = ..(mapload, user, cabal_affine, is_summoned)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/guard/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
-    . = ..(mapload, user, cabal_affine, is_summoned)
+	. = ..(mapload, user, cabal_affine, is_summoned)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/bow/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
-    . = ..(mapload, user, cabal_affine, is_summoned)
+	. = ..(mapload, user, cabal_affine, is_summoned)

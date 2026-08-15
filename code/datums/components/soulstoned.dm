@@ -28,4 +28,4 @@
 	S.status_flags &= ~GODMODE
 	S.mobility_flags = MOBILITY_FLAGS_DEFAULT
 
-  
+

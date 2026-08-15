@@ -195,7 +195,7 @@
 	else if(!cast_on_hand_hit(hand, victim, caster, modifiers))
 		return
 
-	log_combat(caster, victim, "cast the touch spell [name] on", hand)
+	log_combat(caster, victim, "cast the touch spell [name] on", hand, zone=caster.zone_selected)
 	spell_feedback()
 	if(!infinite_use)
 		charges--
@@ -214,7 +214,7 @@
 	switch(secondary_result)
 		// Continue will remove the hand here and stop
 		if(SECONDARY_ATTACK_CONTINUE_CHAIN)
-			log_combat(caster, victim, "cast the touch spell [name] on", hand, "(secondary / alt cast)")
+			log_combat(caster, victim, "cast the touch spell [name] on", hand, "(secondary / alt cast)", zone=caster.zone_selected)
 			spell_feedback()
 			if(!infinite_use)
 				charges--

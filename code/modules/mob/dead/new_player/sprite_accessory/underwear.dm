@@ -110,6 +110,18 @@
 		return "eoran_efl"
 	return "eoran_reg"
 
+/datum/sprite_accessory/underwear/bandages
+	name = "Bandages"
+	icon_state = "bandages"
+	underwear_type = /obj/item/undies/bandages
+	hides_breasts = TRUE
+
+/datum/sprite_accessory/underwear/bandages/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(owner.gender == FEMALE)
+		return "bandages_f"
+	return "bandages"
+
+
 /datum/sprite_accessory/legwear
 	abstract_type = /datum/sprite_accessory/legwear
 	icon = 'icons/obj/items/clothes/on_mob/stockings.dmi'

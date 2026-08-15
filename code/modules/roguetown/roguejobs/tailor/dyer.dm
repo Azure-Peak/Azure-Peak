@@ -1,8 +1,5 @@
-var/global/list/pridelist = list(
-	"Rainbow" = "#fcfcfc"
-)
-
-var/list/used_colors
+GLOBAL_LIST_INIT(pridelist, list("Rainbow" = "#fcfcfc"))
+GLOBAL_LIST_EMPTY(used_colors)
 
 // DYE BIN
 
@@ -45,10 +42,10 @@ var/list/used_colors
 			/obj/item/reagent_containers/glass/bucket/pot/porcelain
 			)
 
-/obj/machinery/gear_painter/Initialize()
+/obj/machinery/gear_painter/Initialize(mapload)
 	..()
-	used_colors += COLOR_MAP
-	used_colors += pridelist
+	GLOB.used_colors |= COLOR_MAP
+	GLOB.used_colors |= GLOB.pridelist
 
 /obj/machinery/gear_painter/Destroy()
 	if(inserted)
@@ -87,7 +84,7 @@ var/list/used_colors
 		colors_to_pick["Primary Keep Color"] = GLOB.lordprimary
 	if(GLOB.lordsecondary)
 		colors_to_pick["Secondary Keep Color"] = GLOB.lordsecondary
-	colors_to_pick += used_colors.Copy()
+	colors_to_pick += GLOB.used_colors.Copy()
 	var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in colors_to_pick
 	if(!picked)
 		return null
@@ -355,7 +352,7 @@ var/list/used_colors
 	var/choice_mode = alert(user, "Input Choice", "Brush Dye", "Color Wheel", "Color Preset")
 	if(choice_mode == "Color Preset")
 		var/list/presets = COLOR_MAP
-		presets += pridelist
+		presets += GLOB.pridelist
 
 		var/picked = input(user, "Choose your dye:", "Dyes", null) as null|anything in presets
 		if(!picked)
@@ -371,51 +368,51 @@ var/list/used_colors
 	update_icon()
 
 /obj/item/dye_brush/pre_attack(atom/A, mob/living/user, params)
-    if(..())
-        return TRUE
-    var/obj/item/target = A
-    if(!istype(target) || target.glazed || !target.icon)
-        return FALSE
+	if(..())
+		return TRUE
+	var/obj/item/target = A
+	if(!istype(target) || target.glazed || !target.icon)
+		return FALSE
 
-    var/static/list/glaze_finishes = list(
-        "Clear glaze" = "glazed",
-        "Kintsugi glaze" = "shattergold"
-    )
+	var/static/list/glaze_finishes = list(
+		"Clear glaze" = "glazed",
+		"Kintsugi glaze" = "shattergold"
+	)
 
-    var/list/choices = list()
-    for(var/finish in glaze_finishes)
-        if(icon_exists(target.icon, "[target.icon_state]_[glaze_finishes[finish]]"))
-            choices += finish
-    if(!length(choices))
-        return FALSE
+	var/list/choices = list()
+	for(var/finish in glaze_finishes)
+		if(icon_exists(target.icon, "[target.icon_state]_[glaze_finishes[finish]]"))
+			choices += finish
+	if(!length(choices))
+		return FALSE
 
-    if(target.reagents && target.reagents.total_volume)
-        to_chat(user, span_notice("I can't glaze [target] while it has liquid in it."))
-        return TRUE
+	if(target.reagents && target.reagents.total_volume)
+		to_chat(user, span_notice("I can't glaze [target] while it has liquid in it."))
+		return TRUE
 
-    var/choice = choices[1]
-    if(length(choices) > 1)
-        choice = tgui_input_list(user, "Which finish shall I glaze [target] with?", "Glazing", choices)
-    if(!choice)
-        return TRUE
+	var/choice = choices[1]
+	if(length(choices) > 1)
+		choice = tgui_input_list(user, "Which finish shall I glaze [target] with?", "Glazing", choices)
+	if(!choice)
+		return TRUE
 
-    if(QDELETED(target) || target.glazed || !in_range(target, user))
-        return TRUE
+	if(QDELETED(target) || target.glazed || !in_range(target, user))
+		return TRUE
 
-    if(!do_after(user, 3 SECONDS, target = target))
-        return TRUE
-    if(target.glazed)
-        return TRUE
+	if(!do_after(user, 3 SECONDS, target = target))
+		return TRUE
+	if(target.glazed)
+		return TRUE
 
-    target.glazed = TRUE
-    target.glaze_suffix = glaze_finishes[choice]
-    target.glaze_bonus_flat = rand(5, 15)
-    target.icon_state = "[target.icon_state]_[target.glaze_suffix]"
-    target.update_icon()
-    playsound(loc, "sound/foley/scrubbing[pick(1,2)].ogg", 60, TRUE)
-    user.visible_message(span_notice("[user] glazes [target]."), \
-        span_notice("I glaze [target] with [lowertext(choice)]."))
-    return TRUE
+	target.glazed = TRUE
+	target.glaze_suffix = glaze_finishes[choice]
+	target.glaze_bonus_flat = rand(5, 15)
+	target.icon_state = "[target.icon_state]_[target.glaze_suffix]"
+	target.update_icon()
+	playsound(loc, "sound/foley/scrubbing[pick(1,2)].ogg", 60, TRUE)
+	user.visible_message(span_notice("[user] glazes [target]."), \
+		span_notice("I glaze [target] with [LOWER_TEXT(choice)]."))
+	return TRUE
 
 /obj/item/dye_brush/attack_turf(turf/T, mob/living/user)
 	if(!iswallturf(T))

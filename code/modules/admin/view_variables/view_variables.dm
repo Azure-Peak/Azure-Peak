@@ -177,7 +177,7 @@
 
 			// onkeydown
 			function handle_keydown() {
-				if(event.keyCode == 116) {  //F5 (to refresh properly)
+				if(event.keyCode == 116) {	//F5 (to refresh properly)
 					document.getElementById("refresh_link").click();
 					event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 					return false;

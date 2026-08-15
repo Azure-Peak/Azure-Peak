@@ -31,17 +31,17 @@
 	var/obj/item/inventory_head
 	var/obj/item/inventory_mask
 	gold_core_spawnable = FRIENDLY_SPAWN
-	
+
 
 	can_have_ai = FALSE //disable native ai
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/mudcrab
-	
-/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/Initialize()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
-	
+
 /mob/living/simple_animal/mudcrabcrab/Life()
 	..()
 	//CRAB movement
@@ -70,7 +70,7 @@
 	var/spawning = FALSE
 	attacked_sound = null
 
-/obj/structure/crabnest/Initialize()
+/obj/structure/crabnest/Initialize(mapload)
 	. = ..()
 	spawn_crab()
 

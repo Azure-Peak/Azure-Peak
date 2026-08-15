@@ -19,7 +19,7 @@
 	icon = 'icons/effects/fire.dmi'
 	icon_state = "1"
 	layer = GASFIRE_LAYER
-	light_outer_range =  LIGHT_RANGE_FIRE
+	light_outer_range =	LIGHT_RANGE_FIRE
 	light_color = LIGHT_COLOR_FIRE
 	blend_mode = BLEND_ADD
 
@@ -48,7 +48,7 @@
 
 	if(!isnull(life))
 		src.life = life
-	
+
 	perform_exposure()
 	setDir(pick(GLOB.cardinals))
 	air_update_turf()
@@ -147,7 +147,7 @@
 	if(life <= 0)
 		qdel(src)
 		return
-		
+
 	perform_exposure()
 	return
 
@@ -168,7 +168,7 @@
 /obj/effect/dummy/lighting_obj/moblight/fire
 	name = "fire"
 	light_color = LIGHT_COLOR_FIRE
-	light_outer_range =  LIGHT_RANGE_FIRE
+	light_outer_range =	LIGHT_RANGE_FIRE
 
 /obj/effect/hotspot/proc/handle_automatic_spread()
 	///maybe add sound probably not

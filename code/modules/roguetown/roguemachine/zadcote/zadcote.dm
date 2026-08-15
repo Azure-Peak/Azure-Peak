@@ -23,7 +23,7 @@
 	var/zadcage_dir = null
 	var/list/mail_log = list()
 
-/obj/item/roguemachine/zadcote/Initialize()
+/obj/item/roguemachine/zadcote/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to ZADCOTE_SLOT_CAP)
 		slots += new /datum/zadlink(src, i)

@@ -36,7 +36,7 @@
 	dreams = list(
 		"...there is no light in the suffocating dark. You choose a direction and your arms and legs tear at the thick, oily waters in a desperate attempt to reach the surface. Your heart pounds, and your body yearns for another breath...",
 		"...a wave rocks to the side of the boat, and you tumble into the yawning abyss. Lightning splits the sky as the old captain hurls a buoy into the churning sea. Salt water burns your lungs as you thrash and claw, struggling towards your lifeline...",
-		"...the current  the beach draws you out further into the ocean, relentless and fast. Your muscles burn as you struggle, every stroke a battle. 'Across, not against!' a voice from your past chides, guiding you as you break free of the riptide's grasp..."
+		"...the current	the beach draws you out further into the ocean, relentless and fast. Your muscles burn as you struggle, every stroke a battle. 'Across, not against!' a voice from your past chides, guiding you as you break free of the riptide's grasp..."
 
 	)
 	expert_name = "Swimmer"
@@ -132,4 +132,4 @@
 	expert_name = "Tracker"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_MASTERFUL_HUNTER = SKILL_LEVEL_LEGENDARY,
-					   TRAIT_EXPERT_HUNTER = SKILL_LEVEL_EXPERT)
+						TRAIT_EXPERT_HUNTER = SKILL_LEVEL_EXPERT)

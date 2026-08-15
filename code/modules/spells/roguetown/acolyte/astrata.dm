@@ -308,7 +308,7 @@
 				human.apply_status_effect(/datum/status_effect/buff/pyre)
 				human.add_stress(/datum/stressevent/astrata_pyre)
 
-/obj/machinery/light/rogue/campfire/miracle_pyre/Initialize()
+/obj/machinery/light/rogue/campfire/miracle_pyre/Initialize(mapload)
 	. = ..()
 	if(lifespan)
 		QDEL_IN(src, lifespan) //delete after it runs out
@@ -491,6 +491,10 @@
 	target.mind.remove_antag_datum(/datum/antagonist/zombie)
 	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it - Failsafe for it.
 	target.apply_status_effect(/datum/status_effect/debuff/revived)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
+	if(HAS_TRAIT(target, TRAIT_IRONMAN))
+		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
+		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
+
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/revive/cast_check(skipcharge, mob/user = usr)
@@ -532,7 +536,7 @@
 	ispartner = TRUE
 	immolate = TRUE
 
-/datum/component/immolation/Initialize(mob/living/partner_mob, mob/living/carbon/caster_mob, var/holy_skill, var/is_astrata)
+/datum/component/immolation/Initialize(mob/living/partner_mob, mob/living/carbon/caster_mob, holy_skill, is_astrata)
 	if(!isliving(parent) || !iscarbon(partner_mob))
 		return COMPONENT_INCOMPATIBLE
 
@@ -559,7 +563,7 @@
 	START_PROCESSING(SSprocessing, src)
 	RegisterSignal(parent, COMSIG_LIVING_MIRACLE_HEAL_APPLY, PROC_REF(on_heal))
 	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_deletion))
-	addtimer(CALLBACK(src, .proc/remove_immolation), duration)
+	addtimer(CALLBACK(src, PROC_REF(remove_immolation)), duration)
 
 	// Apply visual effect
 	var/mob/living/L = parent

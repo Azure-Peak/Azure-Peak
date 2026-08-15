@@ -5,7 +5,7 @@
 	volume = 100
 	falloff = 2
 	extra_range = 5
-	var/stress2give = /datum/stressevent/music/musicbox
+	var/stress2give = /datum/stressevent/musicbox
 	persistent_loop = TRUE
 	channel = CHANNEL_CMUSIC
 
@@ -36,7 +36,7 @@
 	var/curvol = 100
 	anvilrepair = /datum/skill/craft/blacksmithing
 
-/obj/item/dmusicbox/Initialize()
+/obj/item/dmusicbox/Initialize(mapload)
 	soundloop = new(src, FALSE)
 //	soundloop.start()
 	update_icon()
@@ -98,7 +98,7 @@
 		return
 
 	var/filename = "[infile]"
-	var/file_ext = lowertext(copytext(filename, -4))
+	var/file_ext = LOWER_TEXT(copytext(filename, -4))
 	var/file_size = length(infile)
 
 	if(file_ext != ".ogg")

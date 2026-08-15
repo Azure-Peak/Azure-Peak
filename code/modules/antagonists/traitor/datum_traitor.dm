@@ -1,5 +1,5 @@
 #define TRAITOR_HUMAN "human"
-#define TRAITOR_AI	  "AI"
+#define TRAITOR_AI		"AI"
 
 /datum/antagonist/traitor
 	name = "Traitor"
@@ -57,7 +57,7 @@
 	if (GLOB.joined_player_list.len >= 30) // Less murderboning on lowpop thanks
 		is_hijacker = prob(10)
 	var/martyr_chance = prob(20)
-	var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
+	var/objective_count = is_hijacker			//Hijacking counts towards number of objectives
 	var/toa = CONFIG_GET(number/traitor_objectives_amount)
 	for(var/i = objective_count, i < toa, i++)
 		forge_single_objective()
@@ -214,7 +214,7 @@
 
 	result += objectives_text
 
-	var/special_role_text = lowertext(name)
+	var/special_role_text = LOWER_TEXT(name)
 
 	if(traitorwin)
 		result += "<span class='greentext'>The [special_role_text] was successful!</span>"
