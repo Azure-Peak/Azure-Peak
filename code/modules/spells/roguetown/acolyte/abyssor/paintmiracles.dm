@@ -210,7 +210,7 @@
 	. = ..()
 	if(.)
 		var/mob/living/user = owner
-		addtimer(CALLBACK(src, .proc/self_consume, user), 1)
+		addtimer(CALLBACK(src, PROC_REF(self_consume), user), 1)
 
 /datum/action/cooldown/spell/umbral_viscosity/single_use/proc/self_consume(mob/living/L)
 	if(L?.mind)

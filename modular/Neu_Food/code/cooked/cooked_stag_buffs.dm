@@ -3,7 +3,7 @@
 	var/bites_required = 0
 	var/list/eater_tracker = list() // Key: real_name, Value: bites_taken
 
-/datum/component/stag_essence/Initialize()
+/datum/component/stag_essence/Initialize(mapload)
 	if(!istype(parent, /obj/item/reagent_containers/food/snacks))
 		return COMPONENT_INCOMPATIBLE
 
@@ -79,7 +79,7 @@
 /datum/component/stag_protection
 	var/damage_threshold = 5
 
-/datum/component/stag_protection/Initialize()
+/datum/component/stag_protection/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 

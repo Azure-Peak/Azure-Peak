@@ -201,7 +201,7 @@
 			var/datum/antagonist/zombie/zombie_antag = user.mind.has_antag_datum(/datum/antagonist/zombie)
 			if(zombie_antag && zombie_antag.has_turned)
 				zombie_antag.last_bite = world.time
-				if(bite_victim.zombie_infect_attempt())   // infect_attempt on bite
+				if(bite_victim.zombie_infect_attempt())	// infect_attempt on bite
 					to_chat(user, span_danger("You feel your gift trickling from your mouth into [bite_victim]'s wound..."))
 	var/obj/item/grabbing/bite/B = new()
 	user.equip_to_slot_or_del(B, SLOT_MOUTH)
@@ -219,7 +219,7 @@
 		if(mind)
 			mind.attackedme[user.real_name] = world.time
 		log_combat(user, src, "bit")
-	
+
 	return TRUE
 
 // Checking if the unit can bite
@@ -313,7 +313,7 @@
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
 	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = PEN_NONE, damage = damage)
-		
+
 	var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
 	var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
 
@@ -337,7 +337,7 @@
 		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
 	if(prob(50)) // half the time you'll overextend and be exposed, giving your opponent a room to strike back hard
 		user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-	
+
 	C.next_attack_msg.Cut()
 	user.do_attack_animation_simple(C, ATTACK_EFFECT_BITE)
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
@@ -357,7 +357,7 @@
 			var/datum/antagonist/zombie/zombie_antag = user.mind.has_antag_datum(/datum/antagonist/zombie)
 			if(zombie_antag && zombie_antag.has_turned)
 				var/datum/antagonist/zombie/existing_zombie = C.mind?.has_antag_datum(/datum/antagonist/zombie) //If the bite target is a zombie
-				if(!existing_zombie && caused_wound?.zombie_infect_attempt(user))   // infect_attempt on wound
+				if(!existing_zombie && caused_wound?.zombie_infect_attempt(user))	// infect_attempt on wound
 					to_chat(user, span_danger("You feel your gift trickling into [C]'s wound...")) //message to the zombie they infected the target
 /*
 	Code below is for a zombie smashing the brains of unit. The code expects the brain to be part of the head which is not the case with AP. Kept for posterity in case it's used in an overhaul.

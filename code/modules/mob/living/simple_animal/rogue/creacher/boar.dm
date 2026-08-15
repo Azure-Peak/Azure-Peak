@@ -16,31 +16,31 @@
 	base_intents = list(/datum/intent/simple/claw/boar)
 	// Like a pig, but some of the meat and fat drops are exchanged for hide instead.
 	botched_butcher_results = list(
-		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2, 
-		/obj/item/alch/sinew = 2, 
-		/obj/item/natural/bone = 4, 
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
+		/obj/item/alch/sinew = 2,
+		/obj/item/natural/bone = 4,
 		/obj/item/alch/viscera = 1,
 		/obj/item/natural/hide = 1,
 	)
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 1,
-		/obj/item/reagent_containers/food/snacks/fat = 2, 
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 3, 
-		/obj/item/alch/bone = 1, 
-		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/fat = 2,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 3,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar = 2,
 		/obj/item/natural/hide = 2,
 	)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 5,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 2,
-		/obj/item/reagent_containers/food/snacks/fat = 3, 
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 4, 
-		/obj/item/alch/bone = 1, 
-		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/fat = 3,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 4,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar = 2,
 		/obj/item/natural/hide = 3,
 	)
@@ -59,7 +59,7 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, 
+	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
 	)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -77,7 +77,7 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/boar
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boar/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/boar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE

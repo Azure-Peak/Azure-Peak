@@ -33,7 +33,7 @@
 	..()
 	var/obj/item/organ/eyes/eyes_organ = organ
 	eyes_organ.eye_color = eye_color
-	eyes_organ.heterochromia  = heterochromia
+	eyes_organ.heterochromia	= heterochromia
 	eyes_organ.second_color = second_color
 
 /datum/organ_dna/penis

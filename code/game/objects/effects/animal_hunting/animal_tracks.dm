@@ -146,7 +146,7 @@
 
 	// // Just in case anyone finds an invisible track somehow, this way they can't mess up someone's trail.
 	// if(H && user != H)
-	// 	return
+	//	return
 
 	if(get_dist(user, src) < 1)
 		to_chat(user, span_warning("You are standing too close to see where the trail leads. Step back."))
@@ -184,9 +184,9 @@
 		base_dy = 1
 
 	var/list/search_patterns = list(
-		list(base_dx, base_dy),   // Forward
-		list(-base_dy, base_dx),  // Left
-		list(base_dy, -base_dx)   // Right
+		list(base_dx, base_dy),	// Forward
+		list(-base_dy, base_dx),	// Left
+		list(base_dy, -base_dx)	// Right
 	)
 
 	var/base_dist = 9
@@ -372,7 +372,7 @@
 
 /obj/effect/hunting_track/proc/start_fade_animation()
 	animate(src, alpha = 0, time = 200, easing = EASE_OUT)
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/qdel, src), 20 SECONDS)
+	addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(qdel), src), 20 SECONDS)
 
 /obj/effect/hunting_track/proc/initialize_hunt_chain(mob/living/user)
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)

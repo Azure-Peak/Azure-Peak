@@ -37,7 +37,7 @@
 /obj/structure/roguemachine/potionseller/university
 	keycontrol = "university"
 
-/obj/structure/roguemachine/potionseller/Initialize()
+/obj/structure/roguemachine/potionseller/Initialize(mapload)
 	. = ..()
 	if(!reagents)
 		create_reagents(max_storage_amount)
@@ -65,7 +65,7 @@
 	if(!istype(P, /obj/item/reagent_containers/glass))
 		to_chat(user, span_warning("Not a valid container."))
 		return
-	
+
 	var/obj/item/reagent_containers/B = P
 
 	if(istype(B, /obj/item/reagent_containers/glass/bottle))
@@ -73,7 +73,7 @@
 			if(B.type == /obj/item/reagent_containers/glass/bottle/alchemical)
 				to_chat(user, span_smallnotice("I add \the [P] to the vial receptacle."))
 				vials_held++
-			
+
 			else if(B.type == /obj/item/reagent_containers/glass/bottle || /obj/item/reagent_containers/glass/bottle/rogue)
 				to_chat(user, span_smallnotice("I add \the [P] to the bottle receptacle."))
 				bottles_held++
@@ -87,7 +87,7 @@
 	if(!B.reagents.total_volume)
 		to_chat(user, span_warning("Nothing to add."))
 		return
-	
+
 	if(reagents.maximum_volume < B.reagents.total_volume + reagents.total_volume)
 		to_chat(user, span_warning("Machine is filled to the lid."))
 		return
@@ -110,7 +110,7 @@
 /obj/structure/roguemachine/potionseller/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
-	if(istype(P, /obj/item/roguecoin/inqcoin))	
+	if(istype(P, /obj/item/roguecoin/inqcoin))
 		return
 	if(istype(P, /obj/item/roguecoin))
 		budget += P.get_real_price()
@@ -118,7 +118,7 @@
 		update_icon()
 		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
 		return attack_hand(user)
-	
+
 	if(istype(P, /obj/item/roguekey))
 		var/obj/item/roguekey/K = P
 		if(K.lockid == keycontrol)
@@ -129,7 +129,7 @@
 		else
 			to_chat(user, span_warning("Wrong key."))
 			return
-	
+
 	if(istype(P, /obj/item/storage/keyring))
 		var/obj/item/storage/keyring/K = P
 		for(var/obj/item/roguekey/KE in K)
@@ -145,7 +145,7 @@
 		else
 			to_chat(user, span_warning("The vendor is locked!"))
 			return
-	
+
 	..()
 
 /obj/structure/roguemachine/potionseller/proc/dispense(mob/living/user, datum/reagent/R, quantity, price = 0)
@@ -154,7 +154,7 @@
 
 	if(!R)
 		to_chat(user, span_warning("No reagent selected."))
-		return 
+		return
 
 	quantity = round(quantity)
 	if(quantity <= 0)
@@ -167,7 +167,7 @@
 
 	var/current_amount = reagents.get_reagent_amount(R.type)
 	if(current_amount <= 0)
-		return 
+		return
 
 	if(quantity <= 0)
 		return
@@ -189,7 +189,7 @@
 
 	// Handle strange edge case
 	if(!B)
-		to_chat(span_warning("Nothing falls out! Something's broken!"))
+		to_chat(user, span_warning("Nothing falls out! Something's broken!"))
 
 	if(quantity > B.volume)
 		quantity = B.volume
@@ -197,7 +197,7 @@
 		quantity = current_amount
 
 	B.reagents.add_reagent(R.type, quantity)
-	
+
 	playsound(loc, 'sound/misc/potionseller.ogg', 100, TRUE, -1)
 
 	reagents.remove_reagent(R.type, quantity, FALSE)
@@ -209,7 +209,7 @@
 	user.put_in_hands(B)
 
 	// Second price check to make sure machine doesn't overcharge
-	var/capped_price = price * quantity	
+	var/capped_price = price * quantity
 	if(capped_price > 0)
 		budget -= capped_price
 		wgain += capped_price
@@ -251,7 +251,7 @@
 			say("MY POTIONS ARE TOO EXPENSIVE FOR YOU, TRAVELER")
 			return
 
-		dispense(usr, R, quantity, price)		
+		dispense(usr, R, quantity, price)
 		return
 
 	// RETRIEVE: owner mode
@@ -366,14 +366,14 @@
 			contents += "<a href='?src=[REF(src)];remove_vial=1'>Vials remaining:</a>[vials_held] | <a href='?src=[REF(src)];remove_bottle=1'>Bottles remaining:</a>[bottles_held]<BR>"
 	else
 		contents = "<center>[stars("POTION SELLER, FIRST ITERATION")]<BR>"
-		
+
 		if(locked)
 			contents += "<a href='?src=[REF(src)];change=1'>[stars("Stored Mammon:")]</a> [budget]<BR>"
 		else
 			contents += "<a href='?src=[REF(src)];withdrawgain=1'>[stars("Stored Profits:")]</a> [wgain]<BR>"
 
 	contents += "</center>"
-	
+
 	if(!held_items.len)
 		contents += "<center>NO REAGENTS INSERTED</center><BR>"
 	else

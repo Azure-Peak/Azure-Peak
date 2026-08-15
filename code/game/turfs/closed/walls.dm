@@ -11,7 +11,7 @@
 	baseturfs = /turf/open/floor/rogue/dirt/road
 
 	var/hardness = 40 //lower numbers are harder. Used to determine the probability of a hulk smashing through.
-	var/slicing_duration = 100  //default time taken to slice the wall
+	var/slicing_duration = 100	//default time taken to slice the wall
 	var/sheet_type = null
 	var/sheet_amount = 2
 
@@ -56,7 +56,7 @@
 		if(target == src)
 			dismantle_wall(1, 1)
 			return
-			
+
 		switch(severity)
 			if(EXPLODE_DEVASTATE)
 				var/turf/NT = ScrapeAway()
@@ -85,8 +85,8 @@
 	var/brute_loss = 0
 	switch(severity)
 		if(EXPLODE_DEVASTATE) brute_loss = (1500 + 250*ddist) - (250*fodist)*dmgmod
-		if(EXPLODE_HEAVY)     brute_loss = (100*hdist) - (100*fodist)*dmgmod
-		if(EXPLODE_LIGHT)     brute_loss = (25*ldist) - (25*fodist)*dmgmod
+		if(EXPLODE_HEAVY)		brute_loss = (100*hdist) - (100*fodist)*dmgmod
+		if(EXPLODE_LIGHT)		brute_loss = (25*ldist) - (25*fodist)*dmgmod
 
 	if(fodist == 0)
 		brute_loss *= 2
@@ -95,8 +95,8 @@
 	var/extra_integrity = 300
 	switch(severity)
 		if(EXPLODE_DEVASTATE) extra_integrity = 1000
-		if(EXPLODE_HEAVY)     extra_integrity = 400
-		if(EXPLODE_LIGHT)     extra_integrity = 200
+		if(EXPLODE_HEAVY)		extra_integrity = 400
+		if(EXPLODE_LIGHT)		extra_integrity = 200
 
 	var/total_damage = round(CLAMP(brute_loss + extra_integrity, 0, max_integrity))
 

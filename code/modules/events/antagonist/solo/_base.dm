@@ -141,7 +141,7 @@
 			candidates += antag_mind.current
 			SSgamemode.roundstart_antag_minds -= antag_mind
 			log_storyteller("Roundstart antag_mind, [antag_mind]")
-	
+
 	if(prompted_picking)
 		// Trying a callback here to avoid hanging the event logic.
 		INVOKE_ASYNC(src, PROC_REF(poll_and_assign), possible_candidates)
@@ -255,7 +255,7 @@
 			poll_time = 20 SECONDS,
 			group = candidates,
 			alert_pic = antag_datum,
-			role_name_text = lowertext(cast_control.name),
+			role_name_text = LOWER_TEXT(cast_control.name),
 			chat_text_border_icon = antag_datum,
 		)
 	*/
@@ -324,12 +324,12 @@
 
 		setup_minds += chosen.mind
 		chosen.mind.special_role = antag_flag
-		add_datum_to_mind(chosen.mind) 
+		add_datum_to_mind(chosen.mind)
 	message_admins("STORYTELLER: [cast_control.name] poll finished. [setup_minds.len] antags spawned.")
 
 /datum/round_event/antagonist/solo/proc/ask_candidate(mob/M, list/willing_list, poll_time)
 	var/ask_text = "The storyteller is requesting a [antag_flag]. Would you like to play this role?"
 	var/choice = tgui_alert(M, ask_text, "Antagonist Request", list("Yes", "No"), poll_time)
-	
+
 	if(choice == "Yes")
 		willing_list += M

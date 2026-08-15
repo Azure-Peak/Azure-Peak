@@ -137,11 +137,11 @@
 	give_intent.hud = src
 	static_inventory += give_intent
 
-	backhudl =  new /atom/movable/screen/backhudl()
+	backhudl =	new /atom/movable/screen/backhudl()
 	backhudl.hud = src
 	static_inventory += backhudl
 
-	hsover =  new /atom/movable/screen/heatstamover()
+	hsover =	new /atom/movable/screen/heatstamover()
 	hsover.hud = src
 	static_inventory += hsover
 
@@ -397,7 +397,7 @@
 	healthdoll.hud = src
 	infodisplay += healthdoll
 */
-	zone_select =  new /atom/movable/screen/zone_sel()
+	zone_select =	new /atom/movable/screen/zone_sel()
 	zone_select.icon = 'icons/mob/roguehud64.dmi'
 	zone_select.screen_loc = rogueui_targetdoll
 	zone_select.hud = src
@@ -635,7 +635,7 @@
 	devilsouldisplay = new /atom/movable/screen/devil/soul_counter
 	infodisplay += devilsouldisplay
 
-	zone_select =  new /atom/movable/screen/zone_sel()
+	zone_select =	new /atom/movable/screen/zone_sel()
 	zone_select.icon = ui_style
 	zone_select.hud = src
 	zone_select.update_icon()

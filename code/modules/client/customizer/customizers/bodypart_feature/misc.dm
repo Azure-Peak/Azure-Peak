@@ -67,13 +67,14 @@
 	name = "Underwear"
 	feature_type = /datum/bodypart_feature/underwear
 	sprite_accessories = list(
-		/datum/sprite_accessory/underwear/briefs,
-		/datum/sprite_accessory/underwear/briefs/eoran,
-		/datum/sprite_accessory/underwear/panties,
-		/datum/sprite_accessory/underwear/bikini,
-		/datum/sprite_accessory/underwear/leotard,
 		/datum/sprite_accessory/underwear/athletic_leotard,
-		/datum/sprite_accessory/underwear/braies
+		/datum/sprite_accessory/underwear/leotard,
+		/datum/sprite_accessory/underwear/bandages,
+		/datum/sprite_accessory/underwear/bikini,
+		/datum/sprite_accessory/underwear/panties,
+		/datum/sprite_accessory/underwear/braies,
+		/datum/sprite_accessory/underwear/briefs,
+		/datum/sprite_accessory/underwear/briefs/eoran
 		)
 
 /datum/customizer/bodypart_feature/legwear

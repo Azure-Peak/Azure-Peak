@@ -1,13 +1,13 @@
 /**
- # Rite of Sacred Supercession.
-
- Church / Astrata themed usurpation rite. 
-
- Design intent: This is meant to give the Church an internal path to taking over power - and is only accessible to them as a result. It requires membership of in the town Church faction to invoke. Anyone who is a clergy (I.e. miracles access) can assent - and like the noble counterpart, wanderers / adventurers can also serve as a backup (In fact, given Church's lack of number you probably want adventurers on your side not just to reach the assent threshold but to fight the retinue if needed). Bishop - Duke conflict is probably the most common internal conflict (alongside Inquisition and Everyone) especially when the Grand Duke runs a gimmick or tyrannical law. This should encourage some follow through on conflicts and start shifting AP players mindset to "Can I coup?"
-
- The epilogue implies an impending war with Otava - for breaking the status quo and the balance of power. But we don't want admins or events to actually diminish the impact within the round, so it is implied to be a threat from the outside after the week is over (and the round reset).
-
- Not accessible to outlaws and undead, of course.
+ * Rite of Sacred Supercession.
+ *
+ * Church / Astrata themed usurpation rite.
+ *
+ * Design intent: This is meant to give the Church an internal path to taking over power - and is only accessible to them as a result. It requires membership of in the town Church faction to invoke. Anyone who is a clergy (I.e. miracles access) can assent - and like the noble counterpart, wanderers / adventurers can also serve as a backup (In fact, given Church's lack of number you probably want adventurers on your side not just to reach the assent threshold but to fight the retinue if needed). Bishop - Duke conflict is probably the most common internal conflict (alongside Inquisition and Everyone) especially when the Grand Duke runs a gimmick or tyrannical law. This should encourage some follow through on conflicts and start shifting AP players mindset to "Can I coup?"
+ *
+ * The epilogue implies an impending war with Otava - for breaking the status quo and the balance of power. But we don't want admins or events to actually diminish the impact within the round, so it is implied to be a threat from the outside after the week is over (and the round reset).
+ *
+ * Not accessible to outlaws and undead, of course.
  */
 /datum/usurpation_rite/sacred_supercession
 	name = "Rite of Sacred Supercession"

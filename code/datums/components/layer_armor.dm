@@ -38,11 +38,11 @@
 	/// New hit count requirements per shredded layer. ex. going from 100 to 90 will require 5 hits, 90 to 80 will require 10, etc.
 	/// MAKE SURE THE VALUES CORRELATE WITH YOUR SHRED_AMT AND STARTING ARMOR VALUES IF YOU WISH TO USE THIS
 	var/list/hits_per_layer = list(
-		"100" 	= 10,
-		"90" 	= 10,
-		"80" 	= 20,
-		"70" 	= 25,
-		"60" 	= 30,
+		"100"	= 10,
+		"90"	= 10,
+		"80"	= 20,
+		"70"	= 25,
+		"60"	= 30,
 		"50"	= 30,
 		"40"	= 30,
 		"30"	= 30,
@@ -127,7 +127,7 @@
 		if(damtype_shred_ratio[type] > 1)
 			ratio = damtype_shred_ratio[type]
 		var/val = ROUND_UP(((hits_to_shred[type] - hit_count[type]) / ratio))	//Round it up so it doesn't lie (ex 3.1 would actually still require 4 hits to shred)
-		var/color 
+		var/color
 		switch(val)
 			if(1 to 2)
 				color = "#741010"

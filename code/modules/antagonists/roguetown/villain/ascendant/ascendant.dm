@@ -25,32 +25,6 @@
 	var/STACON
 	var/STAWIL
 
-/*
-var/psydon_artefact_one = psydon_pool[1]
-var/psydon_artefact_two = psydon_pool[2]
-var/psydon_capstone_one = psydon_pool[3]
-
-// revealed after cap one
-var/psydon_artefact_three = psydon_pool[4]
-var/psydon_artefact_four = psydon_pool[5]
-var/psydon_capstone_two = psydon_pool[6]
-
-//Roger, the deal is honored - you are blessed with entry to heaven.
-var/psydon_ascend = psydon_pool[7]
-
-
-	var/psydon_artefact_one
-	var/psydon_artefact_two
-	var/psydon_capstone_one
-
-//these are revealed after capstone one
-	var/psydon_artefact_three
-	var/psydon_artefact_four
-	var/psydon_capstone_two
-
-//ascension artefact
-	var/psydon_ascend
-*/
 	var/static/list/possible_weapons = list(
 		/obj/item/rogueweapon/sword/cutlass,
 		/obj/item/rogueweapon/sword/decorated,

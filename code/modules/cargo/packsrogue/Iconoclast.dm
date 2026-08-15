@@ -146,7 +146,7 @@
 /datum/supply_pack/rogue/Iconoclast/steelflail
 	name = "Steel Flail"
 	cost = 60
-	contains =  list(/obj/item/rogueweapon/flail/sflail)
+	contains =	list(/obj/item/rogueweapon/flail/sflail)
 
 /////////////
 // SHIELDS //

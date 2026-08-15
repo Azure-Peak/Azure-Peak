@@ -19,7 +19,7 @@
 	altdetail_color = "#FFFFFF"
 	max_integrity = ARMOR_INT_HELMET_STEEL + 15
 
-/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/Initialize()
+/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -55,7 +55,7 @@
 	altdetail_color = "#FFFFFF"
 	max_integrity = ARMOR_INT_HELMET_STEEL + 10
 
-/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/Initialize()
+/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -90,7 +90,7 @@
 	detail_color = "#262927"
 	altdetail_color = "#FFFFFF"
 
-/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft/Initialize()
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/grenzelhoft/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -127,7 +127,7 @@
 	altdetail_color = "#FFFFFF"
 	max_integrity = ARMOR_INT_HELMET_STEEL + 15
 
-/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/triumph/Initialize()
+/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft/triumph/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -162,7 +162,7 @@
 	altdetail_color = "#FFFFFF"
 	max_integrity = ARMOR_INT_HELMET_STEEL + 10
 
-/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/triumph/Initialize()
+/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft/triumph/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -196,7 +196,7 @@
 	detail_color = "#262927"
 	altdetail_color = "#FFFFFF"
 
-/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/triumph/grenzelhoft/Initialize()
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/triumph/grenzelhoft/Initialize(mapload)
 	. = ..()
 	update_icon()
 

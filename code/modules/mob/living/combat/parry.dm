@@ -6,7 +6,7 @@
 	var/mob/living/U = user
 	if(H && U)
 		prob2defend = 0
-	
+
 	if(!can_see_cone(user))
 		if(!H.get_tempo_bonus(TEMPO_TAG_NOLOS_PARRY))
 			return FALSE
@@ -45,7 +45,7 @@
 		var/parrytime = setparrytime
 		parrytime -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
 		changeNext_def(parrytime)
-	
+
 	var/drained = BASE_PARRY_STAMINA_DRAIN
 	var/weapon_parry = FALSE
 	var/offhand_defense = 0
@@ -54,13 +54,13 @@
 	var/obj/item/mainhand = get_active_held_item()
 	var/obj/item/offhand = get_inactive_held_item()
 	var/obj/item/used_weapon = mainhand
-	var/obj/item/rogueweapon/shield/buckler/skiller = get_inactive_held_item()  // buckler code
+	var/obj/item/rogueweapon/shield/buckler/skiller = get_inactive_held_item()	// buckler code
 	var/obj/item/rogueweapon/shield/buckler/skillerbuck = get_active_held_item()
 
 	if(istype(offhand, /obj/item/rogueweapon/shield/buckler))
 		skiller.bucklerskill(H)
 	if(istype(mainhand, /obj/item/rogueweapon/shield/buckler))
-		skillerbuck.bucklerskill(H)  //buckler code end
+		skillerbuck.bucklerskill(H)	//buckler code end
 
 	if(mainhand)
 		if(mainhand.can_parry)
@@ -130,7 +130,7 @@
 
 	var/att_swift_capable = U.check_dodge_skill(check_trait = FALSE)
 	var/def_swift_capable = H.check_dodge_skill(check_trait = FALSE)
-	
+
 	if(used_weapon)
 		if(used_weapon.wbalance == WBALANCE_SWIFT)
 			if(mainhand && !offhand && def_swift_capable) // We're one-handing a swift-balanced weapon (rapiers, sabers, etc). Small parry boost (1 wdef equiv.)
@@ -194,7 +194,7 @@
 					return TRUE	//Tentative, might be better if it only increased parry chance on the initial binding rather than a full block.
 
 	// --- Weapon Binding End! ---
-	
+
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
 

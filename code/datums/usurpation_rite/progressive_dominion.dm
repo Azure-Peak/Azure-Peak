@@ -1,22 +1,21 @@
 /**
- # Rite of Progressive Dominion
-
- Zizo-themed usurpation rite.
-
- Design intent: A mirror of the Lunar Ascension. Zizo is the mistress of Progress - this also allows for those with arcyne power to vote. But Zizo, being so progressive, and also the mistress of undead and left-handed magick, will allow the undead (Who is under your sway, surely), a vote. So, with this dead voter manipulation, it is technically one of the easiest rite to get the assent for. But of course, by invoking the most heretical and hated path, you are sure to draw everyone's ires - good luck contesting the throne after that. 
-
- This is meant as the path for a lich - but they also have path through Lunar Ascension, and it is a thematical choice that makes it easier for them if they cannot gather 5 mages on their side, in exchange for making their claim to power much less palatable. Thematic however, and gives them a "win" condition instead of just hyperwar - now they can become the rightful Grand Duke and roleplay a world under the lich's rule.
-
- Accessible to outlaws and undead, technically.
-
- No, this is not a political dig. It just so happens that Zizo is the Goddess of Progress and also Undeath. 
- 
- Zizo, Zizo, Zizo! Goddess of Progress! Goddess of Progress! Bring us lyfe from whence comes death! 
- 
- Zizo, Zizo, Zizo! Grants the dead their democratic rights to vote! 
- 
- Zizo, Zizo, Zizo! The future is bright under your progressive rule!
- 
+ * Rite of Progressive Dominion
+ *
+ * Zizo-themed usurpation rite.
+ *
+ * Design intent: A mirror of the Lunar Ascension. Zizo is the mistress of Progress - this also allows for those with arcyne power to vote. But Zizo, being so progressive, and also the mistress of undead and left-handed magick, will allow the undead (Who is under your sway, surely), a vote. So, with this dead voter manipulation, it is technically one of the easiest rite to get the assent for. But of course, by invoking the most heretical and hated path, you are sure to draw everyone's ires - good luck contesting the throne after that.
+ *
+ * This is meant as the path for a lich - but they also have path through Lunar Ascension, and it is a thematical choice that makes it easier for them if they cannot gather 5 mages on their side, in exchange for making their claim to power much less palatable. Thematic however, and gives them a "win" condition instead of just hyperwar - now they can become the rightful Grand Duke and roleplay a world under the lich's rule.
+ *
+ * Accessible to outlaws and undead, technically.
+ *
+ * No, this is not a political dig. It just so happens that Zizo is the Goddess of Progress and also Undeath.
+ *
+ * Zizo, Zizo, Zizo! Goddess of Progress! Goddess of Progress! Bring us lyfe from whence comes death!
+ *
+ * Zizo, Zizo, Zizo! Grants the dead their democratic rights to vote!
+ *
+ * Zizo, Zizo, Zizo! The future is bright under your progressive rule!
  */
 
 /datum/usurpation_rite/progressive_dominion

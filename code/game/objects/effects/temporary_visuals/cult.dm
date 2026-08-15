@@ -9,7 +9,7 @@
 	name = "blood sparks"
 	icon_state = "bloodsparkles"
 
-/obj/effect/temp_visual/cult/blood  // The traditional teleport
+/obj/effect/temp_visual/cult/blood	// The traditional teleport
 	name = "blood jaunt"
 	duration = 12
 	icon_state = "bloodin"
@@ -17,7 +17,7 @@
 /obj/effect/temp_visual/cult/blood/out
 	icon_state = "bloodout"
 
-/obj/effect/temp_visual/dir_setting/cult/phase  // The veil shifter teleport
+/obj/effect/temp_visual/dir_setting/cult/phase	// The veil shifter teleport
 	icon = 'icons/effects/cult_effects.dmi'
 	name = "phase glow"
 	duration = 7

@@ -142,7 +142,7 @@
 /obj/item/rogueweapon/fox_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/fox_claw/Initialize()
+/obj/item/rogueweapon/fox_claw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)

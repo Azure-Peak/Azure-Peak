@@ -7,7 +7,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	greet_text = "You are a Grenzelhoftian envoy, traveling with bodyguards and a priest to represent your homeland.\
-	 What exactly you have been sent here to speak about- only you know."
+		What exactly you have been sent here to speak about- only you know."
 	advclass_cat_rolls = list(CTAG_GRENZEL_ENVOY = 20)
 
 /datum/advclass/grenzel_envoy

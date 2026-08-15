@@ -23,7 +23,7 @@
 	var/res = alert(usr, "Show the title of this song to the players?",, "Yes","No", "Cancel")
 	switch(res)
 		if("Yes")
-			to_chat(world, span_boldannounce("An admin played: [S]"))
+			to_world(span_boldannounce("An admin played: [S]"))
 		if("Cancel")
 			return
 
@@ -175,7 +175,7 @@
 		to_chat(src, span_boldwarning("Youtube-dl was not configured, action unavailable")) //Check config.txt for the INVOKE_YOUTUBEDL value
 		return
 
-	var/web_sound_input = input("Enter content URL (supported sites only, leave blank to stop playing)", "Play Internet Sound via youtube-dl") as text|null
+	var/web_sound_input = input(usr, "Enter content URL (supported sites only, leave blank to stop playing)", "Play Internet Sound via youtube-dl") as text|null
 	if(istext(web_sound_input))
 		var/web_sound_url = ""
 		var/stop_web_sounds = FALSE
@@ -213,7 +213,7 @@
 					var/res = alert(usr, "Show the title of and link to this song to the players?\n[title]",, "No", "Yes", "Cancel")
 					switch(res)
 						if("Yes")
-							to_chat(world, span_boldannounce("An admin played: [webpage_url]"))
+							to_world(span_boldannounce("An admin played: [webpage_url]"))
 						if("Cancel")
 							return
 

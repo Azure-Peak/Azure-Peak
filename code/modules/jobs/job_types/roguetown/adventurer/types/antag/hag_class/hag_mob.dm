@@ -19,9 +19,9 @@
 	move_to_delay = 4
 	base_intents = list(/datum/intent/simple/claw/mossback)
 	botched_butcher_results = list (/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1, /obj/item/alch/viscera = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3, 
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3,
 							/obj/item/alch/viscera = 2)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5, 
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5,
 									/obj/item/alch/viscera = 2)
 	faction = list(FACTION_HAG, FACTION_SPIDERS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -56,7 +56,7 @@
 	ai_controller = null
 	melee_cooldown = MOSSBACK_ATTACK_SPEED
 
-/mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift/Initialize(mapload)
 	. = ..()
 	name = initial(name)
 

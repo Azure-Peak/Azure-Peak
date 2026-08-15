@@ -114,7 +114,7 @@
 			return "wing"
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/chicken/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/chicken/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))

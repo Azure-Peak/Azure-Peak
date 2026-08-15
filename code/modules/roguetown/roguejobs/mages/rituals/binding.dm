@@ -75,7 +75,7 @@
 
 /datum/runeritual/binding/fae
 	name = "Bind Lesser Fae"
-	desc =	 "Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
+	desc =		"Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/carbon/human/species/familiar/fae
 	invocation = "Appare, spiritus silvae!"

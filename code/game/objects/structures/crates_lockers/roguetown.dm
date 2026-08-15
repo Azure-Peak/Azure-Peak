@@ -28,7 +28,7 @@
 	name = "otavan chest"
 	desc = "A foreboding red chest with black dye-washed silver embellishments."
 	icon_state = "chestweird2"
-	base_icon_state = "chestweird2"	
+	base_icon_state = "chestweird2"
 
 //obj/structure/closet/crate/chest/Initialize(mapload)
 //	. = ..()
@@ -198,7 +198,7 @@
 	name = "sun-bleached wicker basket"
 	desc = "Fibers interwoven to make a cheap storage bin. This one smells rather funny."
 
-/obj/structure/closet/crate/chest/wicker/bait/Initialize()
+/obj/structure/closet/crate/chest/wicker/bait/Initialize(mapload)
 	. = ..()
 	for(var/i = 1 to 9)
 		new /obj/item/natural/worms(src)
@@ -230,7 +230,7 @@
 	base_icon_state = "drawer1"
 	pixel_y = 8
 
-/obj/structure/closet/crate/drawer/random/Initialize()
+/obj/structure/closet/crate/drawer/random/Initialize(mapload)
 	. = ..()
 	if(icon_state == "drawer1")
 		base_icon_state = "drawer[rand(1,4)]"
@@ -248,7 +248,7 @@
 	/// Set to TRUE after it has spawned the gear.
 	var/has_spawned_gear = FALSE
 
-/obj/structure/closet/crate/roguecloset/lord/duke_preset/Initialize()
+/obj/structure/closet/crate/roguecloset/lord/duke_preset/Initialize(mapload)
 	. = ..()
 	RegisterSignal(SSdcs, COMSIG_TICKER_RULERMOB_SET, PROC_REF(spawn_blacksteel))
 
@@ -323,7 +323,7 @@
 	name = "coffin"
 	desc = "A coffin of some burgher."
 	icon_state = "vcasket" //Fancy casket
-	base_icon_state = "vcasket" 
+	base_icon_state = "vcasket"
 	locked = TRUE
 
 /obj/structure/closet/crate/chest/coffinlootbox_middle/PopulateContents()

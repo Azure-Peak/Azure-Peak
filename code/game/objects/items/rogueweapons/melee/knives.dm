@@ -163,7 +163,7 @@
 	//flipping knives has a cooldown on to_chat to reduce chatspam
 	COOLDOWN_DECLARE(flip_cooldown)
 
-/obj/item/rogueweapon/huntingknife/Initialize()
+/obj/item/rogueweapon/huntingknife/Initialize(mapload)
 	..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/peasantry/maciejowski_knife,
@@ -183,6 +183,10 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/huntingknife/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("You can twirl this weapon by right-clicking it in your hand. Doing so safely requires [skill_to_string(SKILL_LEVEL_JOURNEYMAN)] skills; anything less risks harming yourself.")
+
 /obj/item/rogueweapon/huntingknife/rmb_self(mob/user)
 	. = ..()
 	if(.)
@@ -194,7 +198,7 @@
 		return
 
 	COOLDOWN_START(src, flip_cooldown, 3 SECONDS)
-	if((user.get_skill_level(/datum/skill/combat/knives) < 3) && prob(40))
+	if((user.get_skill_level(/datum/skill/combat/knives) < SKILL_LEVEL_JOURNEYMAN) && prob(40))
 		user.visible_message(
 			span_danger("While trying to flip [src] [user] drops it instead!"),
 			span_userdanger("While trying to flip [src] you drop it instead!"),
@@ -593,7 +597,7 @@
 	icon_state = "pdagger"
 	sheathe_icon = "pdagger"
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/corroded/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/corroded/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/tipped_item)	//Lets you tip your weapon in poison
 
@@ -619,7 +623,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/zizo/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "DAGGER")
 
@@ -637,7 +641,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/rogueweapon/huntingknife/combat/graggar/Initialize()
+/obj/item/rogueweapon/huntingknife/combat/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "DAGGER")
 
@@ -655,7 +659,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/matthios
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/matthios/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "DAGGER")
 
@@ -673,7 +677,7 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0)
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/baotha/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "DAGGER")
 
@@ -730,7 +734,7 @@
 	force = 22 // 10% - This is a 8 clickCD weapon
 	max_integrity = 200
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/tipped_item)	//Lets you tip your weapon in poison
 
@@ -842,7 +846,7 @@
 	sheathe_icon = "fdagger"
 	smeltresult = null
 	special = /datum/special_intent/ignite_dagger
-	var/active_intents =  list(/datum/intent/dagger/thrust/blunt,/datum/intent/dagger/cut/blunt, /datum/intent/dagger/thrust/pick/blunt, /datum/intent/dagger/sucker_punch)
+	var/active_intents =	list(/datum/intent/dagger/thrust/blunt,/datum/intent/dagger/cut/blunt, /datum/intent/dagger/thrust/pick/blunt, /datum/intent/dagger/sucker_punch)
 	var/inactive_intents = list()
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/bone
@@ -1063,7 +1067,7 @@
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/bronze, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/combat) //Seax's intents, for self-explanatory reasons.
 
 /obj/item/rogueweapon/huntingknife/idagger/navaja
-	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut,  /datum/intent/dagger/thrust/pick)
+	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut,	/datum/intent/dagger/thrust/pick)
 	name = "navaja"
 	desc = "A folding Etruscan knife valued by merchants, mercenaries and peasants for its convenience. It possesses a long hilt, allowing for a sizeable blade with good reach."
 	force = 5

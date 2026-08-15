@@ -63,7 +63,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 		if(is_type_in_typecache(src, A.typecache_datum_blacklist))
 			return FALSE
 
-/// Proc to return the weight of this antagonist for purpose of antag cap calculations. Meant to be overriddeable  
+/// Proc to return the weight of this antagonist for purpose of antag cap calculations. Meant to be overriddeable
 /datum/antagonist/proc/get_antag_cap_weight()
 	return 1
 
@@ -183,7 +183,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 
 //Displayed at the start of roundend_category section, default to roundend_category header
 /datum/antagonist/proc/roundend_report_header()
-	return 	"<span class='header'>The [roundend_category] were:</span><br>"
+	return	"<span class='header'>The [roundend_category] were:</span><br>"
 
 //Displayed at the end of roundend_category section
 /datum/antagonist/proc/roundend_report_footer()

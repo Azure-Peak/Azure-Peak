@@ -22,7 +22,7 @@
 /obj/structure/fluff/canopy/booth
 	icon_state = "canopyr-booth"
 
-/obj/structure/fluff/canopy/booth/Initialize()
+/obj/structure/fluff/canopy/booth/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -118,6 +118,6 @@
 		visible_message(span_notice("[usr] tears down [src]."))
 		if(do_after(usr, 30, target = src))
 			playsound(src,'sound/foley/dropsound/cloth_drop.ogg', 100, FALSE)
-			new /obj/item/grown/log/tree/small  (get_turf(src))
+			new /obj/item/grown/log/tree/small	(get_turf(src))
 			new /obj/item/natural/cloth (get_turf(src))
 			qdel(src)

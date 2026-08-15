@@ -189,7 +189,7 @@ const OrderCard = (props: {
           flexWrap: 'wrap',
         }}
       >
-        {order.status === 'open' && (
+        {order.status === 'open' && !isCommissioner && (
           <button
             type="button"
             style={inkButtonStyle()}

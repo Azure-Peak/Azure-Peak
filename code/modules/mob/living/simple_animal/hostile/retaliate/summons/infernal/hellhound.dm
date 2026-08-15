@@ -50,10 +50,6 @@
 	aggressive = 1
 	var/flame_cd
 
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound/death(gibbed)
 	..()
 	update_icon()

@@ -9,7 +9,7 @@
 	reward_items = list(
 		/obj/item/dream_material/dream_seed = 3
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"#Depth coral, bloom for us."
 	)
 
@@ -98,7 +98,7 @@
 	reward_items = list(
 		/obj/item/dream_material/parchment_raw = 3
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"Abyssor, hwja'ajaba!",
 		"Iä! Iä! Abyssor fhtagn!"
 	)
@@ -151,7 +151,7 @@
 	reward_items = list(
 		/obj/item/dream_material/parchment_dream = 1
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"Abyssor, hwja'ajaba!",
 		"Iä! Iä! Abyssor fhtagn!",
 		"The deep rises to my call!",
@@ -170,7 +170,7 @@
 		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3,
 		/obj/item/clothing/head/roguetown/roguehood/abyssor_painter = 3
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"Paints swirl and swell.",
 		"Robes to paint anew three.",
 		"Abyssor brings new dreads upon the sands."
@@ -328,7 +328,7 @@
 	reward_items = list(
 		/obj/item/rogueweapon/huntingknife/paint = 1
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"#Cut through the silence."
 	)
 
