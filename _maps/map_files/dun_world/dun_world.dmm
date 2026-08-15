@@ -9565,7 +9565,7 @@
 /area/rogue/indoors/town)
 "bPy" = (
 /obj/structure/fluff/railing/corner/north_east,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
 "bPB" = (
 /turf/closed/wall/mineral/rogue/decostone,
@@ -12272,7 +12272,7 @@
 	pixel_y = -32
 	},
 /obj/structure/table/wood/long_table/mid/alt,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/town/dwarfin)
 "cqb" = (
 /obj/structure/fluff/railing/border/east,
@@ -24410,7 +24410,7 @@
 /area/rogue/indoors/inq/embassy)
 "ezC" = (
 /obj/effect/landmark/start/tailor,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
 "ezE" = (
 /obj/machinery/light/rogue/oven/north,
@@ -29970,6 +29970,13 @@
 "fzX" = (
 /turf/closed/wall/mineral/rogue/decostone/long/east_west,
 /area/rogue/under/cave/dukecourt)
+"fzY" = (
+/obj/structure/lever/wall{
+	pixel_x = 12;
+	redstone_id = "tailor_shutter"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/dwarfin)
 "fAb" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/reagent_containers/glass/cup/ceramic{
@@ -34405,6 +34412,9 @@
 /obj/structure/bars{
 	icon_state = "barsbent";
 	layer = 2.81
+	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "tailor_shutter"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/dwarfin)
@@ -58802,6 +58812,9 @@
 	icon_state = "barsbent";
 	layer = 2.81
 	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "weaponsmith_shutter"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/dwarfin)
 "kLp" = (
@@ -59115,6 +59128,13 @@
 "kNY" = (
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/shop)
+"kOa" = (
+/obj/structure/roguewindow,
+/obj/structure/bars/passage/shutter{
+	redstone_id = "tailor_shutter"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/dwarfin)
 "kOd" = (
 /obj/structure/bookcase,
 /obj/item/book/rogue/nitebeast,
@@ -66948,7 +66968,7 @@
 /area/rogue/outdoors/rtfield)
 "mdV" = (
 /obj/structure/fluff/railing/border/north,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
 "mdW" = (
 /obj/machinery/light/rogue/torchholder/r,
@@ -73671,7 +73691,7 @@
 /obj/item/recipe_book/sewing,
 /obj/item/recipe_book/leatherworking,
 /obj/structure/table/wood/long_table/mid/alt,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/town/dwarfin)
 "nsj" = (
 /obj/structure/flora/newleaf,
@@ -88534,7 +88554,10 @@
 /area/rogue/under/cave/licharena/bossroom)
 "pZq" = (
 /obj/structure/table/wood/long_table,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/obj/structure/roguemachine/noticeboard/wall{
+	pixel_y = -32
+	},
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/town/dwarfin)
 "pZs" = (
 /obj/structure/stairs/fancy/l{
@@ -291615,7 +291638,7 @@ exD
 qUb
 iBh
 bPy
-dtV
+aeh
 dtV
 kEU
 smL
@@ -292064,7 +292087,7 @@ ryg
 exD
 exD
 exD
-iNw
+kOa
 lWd
 mdV
 ezC
@@ -292516,7 +292539,7 @@ ryg
 exD
 exD
 exD
-iNw
+kOa
 qDJ
 esh
 dtV
@@ -292968,7 +292991,7 @@ aTi
 exD
 exD
 exD
-iNw
+kOa
 ljK
 jGQ
 dtV
@@ -293420,11 +293443,11 @@ nlW
 exD
 exD
 exD
-iNw
+kOa
 kHh
 kbH
 dtV
-dtV
+lel
 pZq
 smL
 bdC
@@ -293876,7 +293899,7 @@ vaz
 vaz
 mZz
 dtV
-dtV
+rxV
 cpW
 smL
 vUv
@@ -294328,7 +294351,7 @@ exD
 vaz
 pvn
 dtV
-dtV
+lel
 nsh
 smL
 oJN
@@ -294777,8 +294800,8 @@ yhF
 exD
 exD
 exD
-iNw
-dtV
+kOa
+fzY
 dtV
 dtV
 smL
