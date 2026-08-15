@@ -124,8 +124,7 @@
 
 	var/draw_slow = _bow_draw_slowdown(bow)
 	var/next_shot = controller.blackboard[BB_ARCHER_NPC_NEXT_SHOT]
-	var/hold_until = max(next_shot, controller.blackboard[BB_ARCHER_NPC_AIM_RELEASE])
-	if(draw_slow && world.time < hold_until && world.time >= (next_shot - bow.get_npc_drawtime(pawn)))
+	if(draw_slow && !is_crossbow && bow.chambered && world.time >= (next_shot - bow.get_npc_drawtime(pawn)))
 		pawn.add_movespeed_modifier(MOVESPEED_ID_CHARGING, update = TRUE, priority = 100, override = TRUE, multiplicative_slowdown = draw_slow, movetypes = GROUND)
 	else
 		pawn.remove_movespeed_modifier(MOVESPEED_ID_CHARGING)
