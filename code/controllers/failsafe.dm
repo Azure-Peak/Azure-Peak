@@ -1,7 +1,7 @@
- /**
-  * Failsafe
-  *
-  * Pretty much pokes the MC to make sure it's still alive.
+/**
+	* Failsafe
+	*
+	* Pretty much pokes the MC to make sure it's still alive.
  **/
 
 GLOBAL_REAL(Failsafe, /datum/controller/failsafe)
@@ -30,7 +30,7 @@ GLOBAL_REAL(Failsafe, /datum/controller/failsafe)
 	Failsafe = src
 	Initialize()
 
-/datum/controller/failsafe/Initialize()
+/datum/controller/failsafe/Initialize(mapload)
 	set waitfor = 0
 	Failsafe.Loop()
 	if(!QDELETED(src))

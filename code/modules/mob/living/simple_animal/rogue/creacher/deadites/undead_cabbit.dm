@@ -35,7 +35,7 @@
 							/obj/item/natural/rabbitsfoot = 1,
 							/obj/item/alch/viscera = 2)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddComponent(/datum/component/deadite, 15 MINUTES, "cabbit_downed", 1)

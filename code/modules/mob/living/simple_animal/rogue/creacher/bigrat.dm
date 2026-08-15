@@ -84,7 +84,7 @@
 	pixel_x = -16
 	pixel_y = -8
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE

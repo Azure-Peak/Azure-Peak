@@ -126,7 +126,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	\
 	<br>The islands of Kazengun are the seat of power of the Shogunate, a land of \
 	Astratan Order and divine fervour and reverence often compared to that seen in Otava. This Pantheon is larger than that of the Holy See, \
-	but its tenants are all but heretical in the domain of the See.  All of Kazengun reveres Order, as ordained by Astrata, the mother goddess, \
+	but its tenants are all but heretical in the domain of the See.	All of Kazengun reveres Order, as ordained by Astrata, the mother goddess, \
 	and by extension, the social stratification and aristocracy entwined within it, but the Pantheon also openly embraces ‘heretical’ beliefs and Ascendant gods as a simple facet of divinity.\
 	\
 	<br>A land divided, the Kazengun Shogunate also encompasses the lands of Lingyue- the former Empire across the mainland of Kazengun, \
@@ -238,12 +238,12 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	Despite vast differences amongst these races, they all have things in common. Their forms over the generations have garnered darker or \
 	paler complexions, their bodies slightly shorter than their surface dwelling compatriots, dark elves being amongst the tallest species in \
 	the Underdark, despite on average being shorted than an average Hammerholdian humen. Despite this in most cases noticable lack of height, these \
-	races have also grown sturdier, more resilient and more cautious and keen, out of pure necessity. Survival in these depths demands one's all.  \
+	races have also grown sturdier, more resilient and more cautious and keen, out of pure necessity. Survival in these depths demands one's all.	\
 	A fact those of the surface that delve deep into these cavers, tend to forget, resulting in their untimely demise. Or worse.\n<br><br>\
 	\
 	The Underdark itself is a gigantic system of different caves, caverns tunnels and hollowed out underground regions that span leagues upon \
-	leagues both across and deep into Psydonia's soil. Not all of these systems are inherenty connected, paved or make logical sense,  but the \
-	Underdwellers always have  knack for traversing them. Underdark as a whole, is split into Western and Eastern, Western being the one that \
+	leagues both across and deep into Psydonia's soil. Not all of these systems are inherenty connected, paved or make logical sense,	but the \
+	Underdwellers always have	knack for traversing them. Underdark as a whole, is split into Western and Eastern, Western being the one that \
 	resides beneath Azuria and its continent, and the Eastern that is located deep within Raneshen and Kazengun's soil, noticeably less populated \
 	than the western counterpart, shrouded in mystery; more so than the other. Most important fact remains, Western and Eastern Underdark are NOT \
 	connected directly, only point where one could pass from one into the other, in theory being a marvel of artifice, constructed by the deep \
@@ -254,7 +254,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	Underdwellers live a harsh lyfe, filled with hard toil, sweat and blood, and thusly they are no strangers to violence and darker things one \
 	could experience in mortal lyfe. Most settlements in these depths practice some sort of violent cultural tradition, engage in bloodsports, or \
 	both. And so much more. They live and have lived very different lives for a millennia, which often causes Underdwellers to have trouble adapting \
-	to surface cultures and  communities, often perceived as strange at best, and downright evil at worst. A stigma developed by those who live upon \
+	to surface cultures and	communities, often perceived as strange at best, and downright evil at worst. A stigma developed by those who live upon \
 	the surface about their home and culture, believing all things evil crawl out of the very depths they reside in. A stigma that has lessened in \
 	recent yils, but still vastly present nonetheless."
 

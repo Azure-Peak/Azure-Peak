@@ -50,7 +50,7 @@
 /mob/living/carbon/human/species/wildshape/white_stag/gain_inherent_skills()
 	return FALSE
 
-/mob/living/carbon/human/species/wildshape/white_stag/Initialize()
+/mob/living/carbon/human/species/wildshape/white_stag/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
@@ -167,7 +167,7 @@
 	max_blade_int = 8000
 	max_integrity = 8000
 
-/obj/item/rogueweapon/stag_antlers/Initialize()
+/obj/item/rogueweapon/stag_antlers/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
@@ -289,14 +289,14 @@
 		return
 	..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/white_stag_corpse/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/white_stag_corpse/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_DNR, TRAIT_GENERIC)
 
 /datum/component/white_stag_tracker
 	var/death_processed = FALSE
 
-/datum/component/white_stag_tracker/Initialize()
+/datum/component/white_stag_tracker/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))

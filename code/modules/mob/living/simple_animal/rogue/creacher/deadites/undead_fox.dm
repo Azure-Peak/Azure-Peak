@@ -28,6 +28,6 @@
 						/obj/item/natural/fur/fox = 1,
 						/obj/item/natural/bone = 4)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fox/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/deadite, 15 MINUTES, "fox_downed")

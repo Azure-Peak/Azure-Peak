@@ -56,7 +56,7 @@
 #define CLOAK_LAYER				17		//only when looking north or west/east
 #define HOOD_LAYER				16
 #define HAIR_LAYER				15		//TODO: make part of head layer?
-#define CUSTOM_HAIR_COVERED_LAYER 14.9  // WHY ARE TOP SNOUTS LIKE THIS I HATE FURRIES
+#define CUSTOM_HAIR_COVERED_LAYER 14.9	// WHY ARE TOP SNOUTS LIKE THIS I HATE FURRIES
 #define MASK_LAYER				14
 #define HAIREXTRA_LAYER			13
 #define MOUTH_LAYER				12
@@ -191,7 +191,7 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define TURF_DRY			(0)
 #define TURF_WET_WATER		(1<<0)
 #define TURF_WET_PERMAFROST	(1<<1)
-#define TURF_WET_ICE 		(1<<2)
+#define TURF_WET_ICE		(1<<2)
 #define TURF_WET_LUBE		(1<<3)
 #define TURF_WET_SUPERLUBE	(1<<4)
 
@@ -238,13 +238,13 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 
 GLOBAL_LIST_INIT(ghost_accs_options, list(GHOST_ACCS_NONE, GHOST_ACCS_DIR, GHOST_ACCS_FULL)) //So save files can be sanitized properly.
 
-#define GHOST_OTHERS_SIMPLE 			1
+#define GHOST_OTHERS_SIMPLE			1
 #define GHOST_OTHERS_DEFAULT_SPRITE		50
-#define GHOST_OTHERS_THEIR_SETTING 		100
+#define GHOST_OTHERS_THEIR_SETTING		100
 
-#define GHOST_OTHERS_SIMPLE_NAME 			"white ghost"
-#define GHOST_OTHERS_DEFAULT_SPRITE_NAME 	"default sprites"
-#define GHOST_OTHERS_THEIR_SETTING_NAME 	"their setting"
+#define GHOST_OTHERS_SIMPLE_NAME			"white ghost"
+#define GHOST_OTHERS_DEFAULT_SPRITE_NAME	"default sprites"
+#define GHOST_OTHERS_THEIR_SETTING_NAME	"their setting"
 
 #define GHOST_OTHERS_DEFAULT_OPTION			GHOST_OTHERS_THEIR_SETTING
 
@@ -322,7 +322,7 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define INCREMENT_TALLY(L, stat) if(L[stat]){L[stat]++}else{L[stat] = 1}
 
 //TODO Move to a pref
-#define STATION_GOAL_BUDGET  1
+#define STATION_GOAL_BUDGET	1
 
 //Luma coefficients suggested for HDTVs. If you change these, make sure they add up to 1.
 #define LUMA_R 0.213
@@ -330,10 +330,10 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define LUMA_B 0.072
 
 //different types of atom colorations
-#define ADMIN_COLOUR_PRIORITY 		1 //only used by rare effects like greentext coloring mobs and when admins varedit color
-#define TEMPORARY_COLOUR_PRIORITY 	2 //e.g. purple effect of the revenant on a mob, black effect when mob electrocuted
-#define WASHABLE_COLOUR_PRIORITY 	3 //color splashed onto an atom (e.g. paint on turf)
-#define FIXED_COLOUR_PRIORITY 		4 //color inherent to the atom (e.g. blob color)
+#define ADMIN_COLOUR_PRIORITY		1 //only used by rare effects like greentext coloring mobs and when admins varedit color
+#define TEMPORARY_COLOUR_PRIORITY	2 //e.g. purple effect of the revenant on a mob, black effect when mob electrocuted
+#define WASHABLE_COLOUR_PRIORITY	3 //color splashed onto an atom (e.g. paint on turf)
+#define FIXED_COLOUR_PRIORITY		4 //color inherent to the atom (e.g. blob color)
 #define COLOUR_PRIORITY_AMOUNT 4 //how many priority levels there are.
 
 //Endgame Results
@@ -510,7 +510,7 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define GARRISON_SCOM_COLOR "#FF4242"
 
 // Zombie infection defines
-#define ZOMBIE_INFECTION_PROBABILITY 20 	/// Zombie infection probability for bites on a wound
+#define ZOMBIE_INFECTION_PROBABILITY 20	/// Zombie infection probability for bites on a wound
 #define ZOMBIE_INFECTION_TIME 2 MINUTES	/// Time taken until zombie infection kicks in (unit wakes up as a zombie)
 #define DEAD_TO_ZOMBIE_TIME 7 MINUTES	/// Time spent dead before rising as a deadite.
 #define REVIVED_DEBUFF_DURATION 15 MINUTES	/// Revival Sickness.

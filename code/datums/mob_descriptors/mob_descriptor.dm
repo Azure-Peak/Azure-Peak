@@ -13,12 +13,12 @@
 /datum/mob_descriptor/New()
 	. = ..()
 	if(!describe)
-		describe = lowertext(name)
+		describe = LOWER_TEXT(name)
 	if(prefix)
 		pre_string = "[prefix] "
 	if(suffix)
 		post_string = " [suffix]"
-	
+
 /datum/mob_descriptor/proc/get_pre_string(mob/living/described)
 	return pre_string
 

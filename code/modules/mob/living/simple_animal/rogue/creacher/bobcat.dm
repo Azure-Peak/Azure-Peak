@@ -70,7 +70,7 @@
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 	melee_cooldown = WOLF_ATTACK_SPEED
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bobcat/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bobcat/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)

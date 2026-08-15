@@ -80,7 +80,7 @@
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 	var/charge_type = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boar/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/boar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE

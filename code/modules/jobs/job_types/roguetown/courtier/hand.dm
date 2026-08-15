@@ -224,7 +224,7 @@
 ///SPELLS & VERBS///
 ////////////////////
 
-/datum/job/roguetown/hand/proc/know_agents(var/mob/living/carbon/human/H)
+/datum/job/roguetown/hand/proc/know_agents(mob/living/carbon/human/H)
 	if(!GLOB.court_agents.len)
 		to_chat(H, span_boldnotice("You begun the week with no agents."))
 	else

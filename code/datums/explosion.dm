@@ -364,7 +364,7 @@ GLOBAL_LIST_EMPTY(explosions)
 	set name = "Check Bomb Impact"
 	set category = "Debug"
 
-	var/newmode = alert("Use reactionary explosions?","Check Bomb Impact", "Yes", "No")
+	var/newmode = alert(usr, "Use reactionary explosions?","Check Bomb Impact", "Yes", "No")
 	var/turf/epicenter = get_turf(mob)
 	if(!epicenter)
 		return
@@ -373,7 +373,7 @@ GLOBAL_LIST_EMPTY(explosions)
 	var/heavy = 0
 	var/light = 0
 	var/list/choices = list("Small Bomb","Medium Bomb","Big Bomb","Custom Bomb")
-	var/choice = input("Bomb Size?") in choices
+	var/choice = input(usr, "Bomb Size?") in choices
 	switch(choice)
 		if(null)
 			return 0
@@ -390,9 +390,9 @@ GLOBAL_LIST_EMPTY(explosions)
 			heavy = 5
 			light = 7
 		if("Custom Bomb")
-			dev = input("Devastation range (Tiles):") as num
-			heavy = input("Heavy impact range (Tiles):") as num
-			light = input("Light impact range (Tiles):") as num
+			dev = input(usr, "Devastation range (Tiles):") as num
+			heavy = input(usr, "Heavy impact range (Tiles):") as num
+			light = input(usr, "Light impact range (Tiles):") as num
 
 	var/max_range = max(dev, heavy, light)
 	var/x0 = epicenter.x

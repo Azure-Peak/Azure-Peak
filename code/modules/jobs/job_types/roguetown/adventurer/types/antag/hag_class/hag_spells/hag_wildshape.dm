@@ -67,7 +67,7 @@
 		adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 		adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_EXPERT, TRUE)
 
-		AddSpell(new /obj/effect/proc_holder/spell/self/hagclaws) 
+		AddSpell(new /obj/effect/proc_holder/spell/self/hagclaws)
 		apply_status_effect(/datum/status_effect/debuff/hag_bog_tether/wildshape)
 	//faction |= list("hag", "spiders")
 
@@ -175,7 +175,7 @@
 /obj/item/rogueweapon/hag_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/hag_claw/Initialize()
+/obj/item/rogueweapon/hag_claw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)

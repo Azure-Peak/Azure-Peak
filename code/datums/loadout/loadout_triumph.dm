@@ -1,5 +1,5 @@
 //////////////////
-//  TRIUMPHS !  //
+//	TRIUMPHS !	//
 //////////////////
 
 // Dongwaiver / Ollanius, here.
@@ -380,7 +380,7 @@
 	sort_category = "Triumphs"
 
 //////////////////
-//  RESKINS  !  //
+//	RESKINS	!	//
 //////////////////
 //Variants of the Donator Reskin item, specifically unlocked through Triumphs.
 
@@ -540,6 +540,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_pleather
+	name = "Triumph Kit - Padded Leather Armor"
+	path = /obj/item/enchantingkit/triumph_armorkit_pleather
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_weaponkit_classicironbreastplate
 	name = "Triumph Kit - Aged Iron Breastplate"
 	path = /obj/item/enchantingkit/triumph_armorkit_classiciron
@@ -595,7 +601,7 @@
 	sort_category = "Triumphs"
 
 //////////////////
-//  PERFUMES !  //
+//	PERFUMES !	//
 //////////////////
 
 /datum/loadout_item/triumph_perfume_lavender

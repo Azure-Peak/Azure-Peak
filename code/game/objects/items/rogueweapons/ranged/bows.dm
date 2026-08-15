@@ -149,7 +149,7 @@
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
 	. += span_info("Nocking straight from a quiver requires my other hand to be free.")
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize()
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize(mapload)
 	. = ..()
 	if(heavy_bow == TRUE)
 		src.possible_item_intents = list(

@@ -52,7 +52,7 @@
 	ai_controller = /datum/ai_controller/generic
 	move_base_delay = MOVEMENT_DELAY_SLOW
 
-/mob/living/simple_animal/pet/cat/Initialize()
+/mob/living/simple_animal/pet/cat/Initialize(mapload)
 	. = ..()
 	add_verb(src, /mob/living/proc/lay_down)
 
@@ -104,11 +104,11 @@
 	icon_dead = "cat_dead"
 
 /mob/living/simple_animal/pet/cat/rogue/black/academy
-    name = "Kalathrax the All Knowing"
-    desc = "Whispers around the Academy say that this cat was once an Associate that decided they had achieved enough knowledge to challenge the Court Wizard for their role and failed. (Or maybe it's just a cat)"
-    STAINT = 20
-    health = 5000
-    maxHealth = 5000
+	name = "Kalathrax the All Knowing"
+	desc = "Whispers around the Academy say that this cat was once an Associate that decided they had achieved enough knowledge to challenge the Court Wizard for their role and failed. (Or maybe it's just a cat)"
+	STAINT = 20
+	health = 5000
+	maxHealth = 5000
 
 /mob/living/simple_animal/pet/cat/original
 	name = "Batsy"
@@ -144,7 +144,7 @@
 	var/cats_deployed = 0
 	var/memory_saved = FALSE
 
-/mob/living/simple_animal/pet/cat/Runtime/Initialize()
+/mob/living/simple_animal/pet/cat/Runtime/Initialize(mapload)
 	if(prob(5))
 		icon_state = "original"
 		icon_living = "original"
@@ -293,7 +293,7 @@
 
 /mob/living/simple_animal/pet/cat/inn/attack_hand(mob/living/carbon/human/M) // Gato Basado - not all pets are welcome
 	. = ..()
-	if((isdarkelf(M)))  // l´cursed bonbonbon
+	if((isdarkelf(M)))	// l´cursed bonbonbon
 		visible_message("<span class='notice'>The cat hisses at [M] and recoils in disgust.</span>")
 		icon_state = "[icon_living]"
 		set_resting(FALSE)

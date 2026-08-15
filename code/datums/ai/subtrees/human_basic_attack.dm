@@ -1,24 +1,24 @@
-#define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         15
-#define HUMAN_NPC_WEAKPOINT_CACHE_DURATION      (6 SECONDS)
-#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE         9
-#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN   12
-#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT       15
-#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER       18
+#define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE			15
+#define HUMAN_NPC_WEAKPOINT_CACHE_DURATION		(6 SECONDS)
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE			9
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN	12
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT		15
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER		18
 
-#define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         15
-#define HUMAN_NPC_SPECIAL_EVAL_INTERVAL         (5 SECONDS)
-#define HUMAN_NPC_SPECIAL_CD_PENALTY         1.5
+#define HUMAN_NPC_WEAPON_SPECIAL_CHANCE			15
+#define HUMAN_NPC_SPECIAL_EVAL_INTERVAL			(5 SECONDS)
+#define HUMAN_NPC_SPECIAL_CD_PENALTY			1.5
 
-#define HUMAN_NPC_INTENT_SWITCH_CHANCE          25
+#define HUMAN_NPC_INTENT_SWITCH_CHANCE			25
 
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
-#define HUMAN_NPC_MIN_INT_FOR_TACTICS        8
+#define HUMAN_NPC_MIN_INT_FOR_TACTICS		8
 
-#define HUMAN_NPC_FEINT_COOLDOWN             (30 SECONDS)
-#define HUMAN_NPC_FEINT_RECOVERY_MULT        1.6
+#define HUMAN_NPC_FEINT_COOLDOWN				(30 SECONDS)
+#define HUMAN_NPC_FEINT_RECOVERY_MULT		1.6
 
-#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN  0.15
-#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX  0.3
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN	0.15
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX	0.3
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -431,9 +431,9 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 	var/skill_level = skill_type ? pawn.get_skill_level(skill_type) : SKILL_LEVEL_NONE
 	var/armor_rating = bclass ? bclass_to_armor_rating(bclass) : "blunt"
 
-	var/list/wounded  = list()
-	var/list/exposed  = list()
-	var/list/soft     = list()
+	var/list/wounded	= list()
+	var/list/exposed	= list()
+	var/list/soft		= list()
 
 	for(var/obj/item/bodypart/part in htarget.bodyparts)
 		if(!part)

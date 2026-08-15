@@ -55,7 +55,7 @@
 	ai_controller = /datum/ai_controller/elemental
 	move_base_delay = MOVEMENT_DELAY_SLOW
 
-/mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	. = ..()
 

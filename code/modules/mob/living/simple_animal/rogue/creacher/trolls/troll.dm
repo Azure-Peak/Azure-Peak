@@ -85,7 +85,7 @@
 
 	var/critvuln = FALSE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	if(critvuln)

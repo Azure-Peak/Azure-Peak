@@ -60,7 +60,7 @@
 	var/list/spawned_crawlers
 	var/max_crawlers = 3
 
-/mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)

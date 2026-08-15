@@ -17,9 +17,9 @@
 	// armor_tier and armor_penetration are both tier values (0-4).
 	// DR Absorb (blunt, fire, acid): damage * 1 / (1 + 0.2 * tier). All damage absorbed by armor, none to HP.
 	// DBLOCK types (ARMOR_DBLOCK_TYPES):
-	//   pen > armor  = 100% through (full penetration)
-	//   pen == armor = 20% through (partial penetration)
-	//   pen < armor  = fully blocked
+	//	pen > armor	= 100% through (full penetration)
+	//	pen == armor = 20% through (partial penetration)
+	//	pen < armor	= fully blocked
 	// Safety: if damage wasn't passed, blocked math would return 0 (null * anything = 0 in DM),
 	// silently making armor do nothing. Use a safe fallback for the blocked calculation only —
 	// don't feed it into checkarmor (which already ran above and handles null damage fine).
@@ -98,7 +98,7 @@
 	var/damfactor_bonus = 0
 	if(I)
 		var/use_bonus = TRUE
-		if(I.sharpness && I.max_blade_int) 	// IS_BLUNT is 0, so this will be falsy with blunt weapons.
+		if(I.sharpness && I.max_blade_int)	// IS_BLUNT is 0, so this will be falsy with blunt weapons.
 			var/dullness_ratio = I.blade_int / I.max_blade_int
 
 			if(attacker.used_intent.damfactor != 1)

@@ -4,7 +4,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/Initialize(mapload)
 	. = ..()
 	desc += span_bold(" It does not belong to this plane.") // To hint that they may be summoned.
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)

@@ -75,7 +75,7 @@
 		max_dodge = CLAMP((newmax), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
 
 /*
-	Before anything else, defer these calls to a per-mobtype handler.  This allows us to
+	Before anything else, defer these calls to a per-mobtype handler.	This allows us to
 	remove istype() spaghetti code, but requires the addition of other handler procs to simplify it.
 
 	Alternately, you could hardcode every mob's variation in a flat ClickOn() proc; however,
@@ -243,7 +243,7 @@
 		return
 
 	if(restrained())
-		changeNext_move(CLICK_CD_HANDCUFFED)   //Doing shit in cuffs shall be vey slow
+		changeNext_move(CLICK_CD_HANDCUFFED)	//Doing shit in cuffs shall be vey slow
 		RestrainedClickOn(A)
 		return
 
@@ -625,8 +625,8 @@
 		var/list/next = list()
 		--depth
 
-		for(var/atom/target in checking)  // will filter out nulls
-			if(closed[target] || isarea(target))  // avoid infinity situations
+		for(var/atom/target in checking)	// will filter out nulls
+			if(closed[target] || isarea(target))	// avoid infinity situations
 				continue
 			closed[target] = TRUE
 			if(isturf(target) || isturf(target.loc) || IsDirectlyAccessible(target)) //Directly accessible atoms
@@ -719,7 +719,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	Translates into attack_hand, etc.
 
 	Note: proximity_flag here is used to distinguish between normal usage (flag=1),
-	and usage when clicking on things telekinetically (flag=0).  This proc will
+	and usage when clicking on things telekinetically (flag=0).	This proc will
 	not be called at ranged except with telekinesis.
 
 	proximity_flag is not currently passed to attack_hand, and is instead used
@@ -732,7 +732,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	Ranged unarmed attack:
 
 	This currently is just a default for all mobs, involving
-	laser eyes and telekinesis.  You could easily add exceptions
+	laser eyes and telekinesis.	You could easily add exceptions
 	for things like ranged glove touches, spitting alien acid/neurotoxin,
 	animals lunging, etc.
 */
@@ -748,9 +748,9 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	return
 
 /**
-  *Middle click
-  *Mainly used for swapping hands
-  */
+	*Middle click
+	*Mainly used for swapping hands
+	*/
 /mob/proc/MiddleClickOn(atom/A, params)
 	. = SEND_SIGNAL(src, COMSIG_MOB_MIDDLECLICKON, A)
 	if(. & COMSIG_MOB_CANCEL_CLICKON)
@@ -1099,7 +1099,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 		targeti.pixel_x = -1
 		src.client.images |= targeti
 		// for(var/atom/movable/screen/eye_intent/eyet in hud_used.static_inventory)
-		// 	eyet.update_icon(src) //Update eye icon
+		//	eyet.update_icon(src) //Update eye icon
 	else
 		UntargetMob()
 
@@ -1118,7 +1118,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	src.client.images -= targeti
 	//clear hud icon
 	// for(var/atom/movable/screen/eye_intent/eyet in hud_used.static_inventory)
-	// 	eyet.update_icon(src)
+	//	eyet.update_icon(src)
 
 /mob/proc/ShiftRightClickOn(atom/A, params)
 //	pointed(A, params)
@@ -1161,7 +1161,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 		nodirchange = TRUE
 	tempfixeye = TRUE
 	// for(var/atom/movable/screen/eye_intent/eyet in hud_used.static_inventory)
-	// 	eyet.update_icon(src) //Update eye icon
+	//	eyet.update_icon(src) //Update eye icon
 
 /// A special proc to fire rmb_intents *before* checking click cooldown, since some intents (guard) should be used regardless of CD.
 /mob/proc/try_special_attack(atom/A, list/modifiers)

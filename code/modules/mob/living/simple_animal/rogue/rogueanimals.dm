@@ -181,7 +181,7 @@
 		return TRUE
 	return FALSE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/Initialize(mapload)
 	. = ..()
 	if(milkies)
 		udder = new()

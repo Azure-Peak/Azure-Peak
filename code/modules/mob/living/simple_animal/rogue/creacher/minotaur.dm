@@ -68,7 +68,7 @@
 
 //	stat_attack = UNCONSCIOUS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	update_icon()

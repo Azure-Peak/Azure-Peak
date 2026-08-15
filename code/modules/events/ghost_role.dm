@@ -5,7 +5,7 @@
 	// We expect 0 or more /clients (or things with .key) in this list
 	var/list/priority_candidates = list()
 	var/minimum_required = 1
-	var/role_name = "debug rat with cancer" // Q U A L I T Y  M E M E S
+	var/role_name = "debug rat with cancer" // Q U A L I T Y	M E M E S
 	var/list/spawned_mobs = list()
 	var/status
 	fakeable = FALSE

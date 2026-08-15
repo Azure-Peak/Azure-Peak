@@ -52,7 +52,7 @@
 	ai_controller = /datum/ai_controller/elemental
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 
-/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	. = ..()
 

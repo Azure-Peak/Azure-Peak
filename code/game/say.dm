@@ -231,7 +231,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 
 /proc/get_radio_name(freq)
 	return freq
-/* 	var/returntext = GLOB.reverseradiochannels["[freq]"]
+/*	var/returntext = GLOB.reverseradiochannels["[freq]"]
 	if(returntext)
 		return returntext
 	return "[copytext("[freq]", 1, 4)].[copytext("[freq]", 4, 5)]" */
@@ -300,11 +300,11 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 			job = findjob.fields["rank"]
 		else
 			job = "Unknown"
-	else if(iscarbon(M))  // Carbon nonhuman
+	else if(iscarbon(M))	// Carbon nonhuman
 		job = "No ID"
-	else if(isobj(M))  // Cold, emotionless machines
+	else if(isobj(M))	// Cold, emotionless machines
 		job = "Machine"
-	else  // Unidentifiable mob
+	else	// Unidentifiable mob
 		job = "Unknown"
 
 /atom/movable/virtualspeaker/GetJob()

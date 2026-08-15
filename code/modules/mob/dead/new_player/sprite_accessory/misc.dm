@@ -14,7 +14,7 @@
 	name = "Thick Eyebrows"
 	icon_state = "brows"
 	layer = BODY_LAYER
-	default_colors =  null
+	default_colors =	null
 	color_key_defaults = list(KEY_HAIR_COLOR)
 	color_disabled = FALSE
 

@@ -32,7 +32,7 @@
 	move_base_delay = MOVEMENT_DELAY_SLOW
 	undead_rat = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/deadite, 4 MINUTES, "rat_downed", 0)
 

@@ -9,25 +9,25 @@
 	added_stashed_items = list("Hefty Coinpurse" = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch)
 	choice_costs = list(0)
 	extra_choices = list(
-		"Gold Ring" = /obj/item/clothing/ring/gold/triumph,                                        //Golden Ring, Ornate
-		"Golden Circlet" = /obj/item/clothing/head/roguetown/circlet/triumph,                      //Golden Circlet, Ornate
-		"Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble,                  //Golden Amulet
-		"Silver Scabbard" = /obj/item/rogueweapon/scabbard/sword/noble,                            //Decorated Scabbard, Silver
-		"Silver Sheath" = /obj/item/rogueweapon/scabbard/sheath/noble,                             //Decorated Sheath, Silver
-		"Golden Psycross" = /obj/item/clothing/neck/roguetown/psicross/g/triumph,                  //Golden Psycross, Ornate
+		"Gold Ring" = /obj/item/clothing/ring/gold/triumph,										//Golden Ring, Ornate
+		"Golden Circlet" = /obj/item/clothing/head/roguetown/circlet/triumph,						//Golden Circlet, Ornate
+		"Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble,					//Golden Amulet
+		"Silver Scabbard" = /obj/item/rogueweapon/scabbard/sword/noble,							//Decorated Scabbard, Silver
+		"Silver Sheath" = /obj/item/rogueweapon/scabbard/sheath/noble,								//Decorated Sheath, Silver
+		"Golden Psycross" = /obj/item/clothing/neck/roguetown/psicross/g/triumph,					//Golden Psycross, Ornate
 		"Golden Astratan Psycross" = /obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph, //Golden Astratan Amulet, Ornate
-		"Golden Signet Ring" = /obj/item/clothing/ring/signet/triumph,                             //Golden Signet Ring, Ornate
-		"Gilded Dress Shirt" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince,         //Gilded Dress Shirt
-		"Pristine Dress" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess,           //Pristine Dress
-		"Royal Sleeves" = /obj/item/clothing/wrists/roguetown/royalsleeves,                        //Royal Sleeves
-		"Golden Halfmask" = /obj/item/clothing/mask/rogue/lordmask/triumph,                        //Golden Halfmask, Ornate
-		"Golden Mask" = /obj/item/clothing/mask/rogue/facemask/goldmask/triumph,                   //Golden Mask, Ornate
-		"Crestless Golden Mask" = /obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph,        //Crestless Golden Mask, Ornate
-		"Lordly Cloak" = /obj/item/clothing/cloak/lordcloak,                                       //Lordly Cloak
-		"Ladylike Cloak" = /obj/item/clothing/cloak/lordcloak/ladycloak,                           //Ladylike Cloak
-		"Golden Scabbard" = /obj/item/rogueweapon/scabbard/sword/royal,                            //Decorated Scabbard, Golden
-		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,                             //Decorated Sheath, Golden
-		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph                             //Golden Dorpel Ring, Ornate
+		"Golden Signet Ring" = /obj/item/clothing/ring/signet/triumph,								//Golden Signet Ring, Ornate
+		"Gilded Dress Shirt" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince,			//Gilded Dress Shirt
+		"Pristine Dress" = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess,			//Pristine Dress
+		"Royal Sleeves" = /obj/item/clothing/wrists/roguetown/royalsleeves,						//Royal Sleeves
+		"Golden Halfmask" = /obj/item/clothing/mask/rogue/lordmask/triumph,						//Golden Halfmask, Ornate
+		"Golden Mask" = /obj/item/clothing/mask/rogue/facemask/goldmask/triumph,					//Golden Mask, Ornate
+		"Crestless Golden Mask" = /obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph,		//Crestless Golden Mask, Ornate
+		"Lordly Cloak" = /obj/item/clothing/cloak/lordcloak,										//Lordly Cloak
+		"Ladylike Cloak" = /obj/item/clothing/cloak/lordcloak/ladycloak,							//Ladylike Cloak
+		"Golden Scabbard" = /obj/item/rogueweapon/scabbard/sword/royal,							//Decorated Scabbard, Golden
+		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,								//Decorated Sheath, Golden
+		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph								//Golden Dorpel Ring, Ornate
 	)
 
 
@@ -181,7 +181,7 @@
 	)
 
 /datum/virtue/utility/intellectual/apply_to_human(mob/living/carbon/human/recipient)
-	addtimer(CALLBACK(src, .proc/linguist_apply, recipient), 50)
+	addtimer(CALLBACK(src, PROC_REF(linguist_apply), recipient), 50)
 
 /datum/virtue/utility/intellectual/proc/linguist_apply(mob/living/carbon/human/recipient)
 	if(check_triumphs(recipient))

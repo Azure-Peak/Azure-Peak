@@ -1,4 +1,4 @@
-/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src,TRAIT_NOFIRE, "[type]")
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)

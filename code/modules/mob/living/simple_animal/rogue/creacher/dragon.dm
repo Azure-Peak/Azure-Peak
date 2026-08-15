@@ -76,7 +76,7 @@
 	var/breath_ability = /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/drakkyn
 	var/fireball_ability = /datum/action/cooldown/spell/projectile/fireball/mob_ability/drakkyn
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
@@ -154,22 +154,22 @@
 	reach = 2
 
 /obj/projectile/magic/aoe/dragon_breath
-    name = "fire hairball"
-    icon_state = "fireball"
-    damage = 10
-    damage_type = BRUTE
-    nodamage = FALSE
-    light_color = "#f8af07"
-    light_outer_range = 2
-    damage = 40
-    flag = "fire"
-    hitsound = 'sound/blank.ogg'
+	name = "fire hairball"
+	icon_state = "fireball"
+	damage = 10
+	damage_type = BRUTE
+	nodamage = FALSE
+	light_color = "#f8af07"
+	light_outer_range = 2
+	damage = 40
+	flag = "fire"
+	hitsound = 'sound/blank.ogg'
 
-    //explosion values
-    var/exp_heavy = 0
-    var/exp_light = 2
-    var/exp_flash = 3
-    var/exp_fire = 3
+	//explosion values
+	var/exp_heavy = 0
+	var/exp_light = 2
+	var/exp_flash = 3
+	var/exp_fire = 3
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother
 	threat_point = THREAT_LEGENDARY

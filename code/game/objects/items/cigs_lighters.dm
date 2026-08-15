@@ -115,7 +115,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 20 //40 seconds
 	grind_results = list(/datum/reagent/carbon = 2)
 
-/obj/item/match/firebrand/Initialize()
+/obj/item/match/firebrand/Initialize(mapload)
 	. = ..()
 	matchignite()
 
@@ -148,7 +148,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/nextdragtime = 0
 	var/lit = FALSE
 	var/starts_lit = FALSE
-	var/icon_on = "cigon"  //Note - these are in masks.dmi not in cigarette.dmi
+	var/icon_on = "cigon"	//Note - these are in masks.dmi not in cigarette.dmi
 	var/icon_off = "cigoff"
 	var/type_butt = /obj/item/cigbutt
 	var/lastHolder = null
@@ -161,7 +161,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	user.visible_message(span_suicide("[user] is huffing [src] as quickly as [user.p_they()] can! It looks like [user.p_theyre()] trying to give [user.p_them()]self cancer."))
 	return (TOXLOSS|OXYLOSS)
 
-/obj/item/clothing/mask/cigarette/Initialize()
+/obj/item/clothing/mask/cigarette/Initialize(mapload)
 	. = ..()
 	create_reagents(chem_volume, INJECTABLE | NO_REACT)
 	if(list_reagents)
@@ -265,9 +265,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			if (src == C.mouth) // if it's in the human/monkey mouth, transfer reagents to the mob
 				var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
 				/*
-				 * Given the amount of time the cig will last, and how often we take a hit, find the number
-				 * of chems to give them each time so they'll have smoked it all by the end.
-				 */
+					* Given the amount of time the cig will last, and how often we take a hit, find the number
+					* of chems to give them each time so they'll have smoked it all by the end.
+					*/
 				if (smoke_all)
 					if(!smoketime)
 						to_smoke = reagents.total_volume
@@ -367,7 +367,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	muteinmouth = FALSE
 	salvage_result = null
 
-/obj/item/clothing/mask/cigarette/rollie/Initialize()
+/obj/item/clothing/mask/cigarette/rollie/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
@@ -412,7 +412,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_state = "roach"
 	muteinmouth = FALSE
 
-/obj/item/cigbutt/roach/Initialize()
+/obj/item/cigbutt/roach/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
@@ -649,7 +649,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "pipeoff"
 	item_state = "pipeoff"
-	icon_on = "pipeon"  //Note - these are in masks.dmi
+	icon_on = "pipeon"	//Note - these are in masks.dmi
 	icon_off = "pipeoff"
 	smoketime = 120
 	chem_volume = 100
@@ -666,10 +666,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "longpipeoff"
 	item_state = "longpipeoff"
-	icon_on = "longpipeon"  //Note - these are in masks.dmi
+	icon_on = "longpipeon"	//Note - these are in masks.dmi
 	icon_off = "longpipeoff"
 
-/obj/item/clothing/mask/cigarette/pipe/crafted/Initialize()
+/obj/item/clothing/mask/cigarette/pipe/crafted/Initialize(mapload)
 	. = ..()
 	src.packeditem = 0
 	src.smoketime = 0
@@ -771,7 +771,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "cobpipeoff"
 	item_state = "cobpipeoff"
-	icon_on = "cobpipeon"  //Note - these are in masks.dmi
+	icon_on = "cobpipeon"	//Note - these are in masks.dmi
 	icon_off = "cobpipeoff"
 	smoketime = 0
 
@@ -802,7 +802,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	light_color = LIGHT_COLOR_FIRE
 	grind_results = list(/datum/reagent/iron = 1, /datum/reagent/fuel = 5, /datum/reagent/fuel/oil = 5)
 
-/obj/item/lighter/Initialize()
+/obj/item/lighter/Initialize(mapload)
 	. = ..()
 	if(!overlay_state)
 		overlay_state = pick(overlay_list)
@@ -937,7 +937,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		COLOR_ASSEMBLY_PURPLE
 		)
 
-/obj/item/lighter/greyscale/Initialize()
+/obj/item/lighter/greyscale/Initialize(mapload)
 	. = ..()
 	if(!lighter_color)
 		lighter_color = pick(color_list)

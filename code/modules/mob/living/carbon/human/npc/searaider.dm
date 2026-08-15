@@ -16,7 +16,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 
 
 
-/mob/living/carbon/human/species/human/northern/searaider/Initialize()
+/mob/living/carbon/human/species/human/northern/searaider/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

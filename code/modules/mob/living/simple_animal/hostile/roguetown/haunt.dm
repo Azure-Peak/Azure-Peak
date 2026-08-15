@@ -115,7 +115,7 @@
 	var/spawning = FALSE
 	attacked_sound = 'sound/vo/mobs/ghost/skullpile_hit.ogg'
 
-/obj/structure/bonepile/Initialize()
+/obj/structure/bonepile/Initialize(mapload)
 	. = ..()
 	soundloop = new(src, FALSE)
 	soundloop.start()
@@ -170,7 +170,7 @@
 	GiveTarget(user)
 	return
 
-/mob/living/simple_animal/hostile/rogue/haunt/Initialize()
+/mob/living/simple_animal/hostile/rogue/haunt/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	set_light(2, 2, 2, l_color = "#c0523f")

@@ -26,7 +26,7 @@
 #define BODY_ZONE_PRECISE_R_FOOT	"r_foot"
 
 //user-readable body parts
-#define READABLE_ZONE_HEAD 		"Head"
+#define READABLE_ZONE_HEAD		"Head"
 #define READABLE_ZONE_CHEST		"Chest"
 #define READABLE_ZONE_ARMS		"Arms"
 #define READABLE_ZONE_L_ARM		"Left arm"

@@ -77,7 +77,7 @@
 	health = HONEYSPIDER_MUTATED_HEALTH
 	maxHealth = HONEYSPIDER_MUTATED_HEALTH
 
-/mob/living/simple_animal/hostile/retaliate/rogue/spider/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/spider/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE

@@ -1,4 +1,4 @@
-//The "BDPtarget" temp visual is created by anything that "launches" a supplypod.  It makes two things: a falling droppod animation, and the droppod itself.
+//The "BDPtarget" temp visual is created by anything that "launches" a supplypod.	It makes two things: a falling droppod animation, and the droppod itself.
 //------------------------------------SUPPLY POD-------------------------------------//
 /obj/structure/closet/supplypod
 	name = "supply pod" //Names and descriptions are normally created with the setStyle() proc during initialization, but we have these default values here as a failsafe
@@ -69,7 +69,7 @@
 /obj/structure/closet/supplypod/proc/specialisedPod()
 	return 1
 
-/obj/structure/closet/supplypod/Initialize()
+/obj/structure/closet/supplypod/Initialize(mapload)
 	. = ..()
 	setStyle(style, TRUE) //Upon initialization, give the supplypod an iconstate, name, and description based on the "style" variable. This system is important for the centcom_podlauncher to function correctly
 
@@ -113,7 +113,7 @@
 	opened = FALSE
 	INVOKE_ASYNC(holder, PROC_REF(setClosed)) //Use the INVOKE_ASYNC proc to call setClosed() on whatever the holder may be, without giving the atom/movable base class a setClosed() proc definition
 	for (var/atom/movable/O in get_turf(holder))
-		if ((ismob(O) && !isliving(O))  && !isliving(O)) //We dont want to take ghosts with us, and we don't want blacklisted items going, but we allow mobs.
+		if ((ismob(O) && !isliving(O))	&& !isliving(O)) //We dont want to take ghosts with us, and we don't want blacklisted items going, but we allow mobs.
 			continue
 		O.forceMove(holder) //Put objects inside before we close
 	var/obj/effect/temp_visual/risingPod = new /obj/effect/DPfall(get_turf(holder), src) //Make a nice animation of flying back up
@@ -258,7 +258,7 @@
 	layer = FLY_LAYER//that wasnt flying, that was falling with style!
 	icon_state = ""
 
-/obj/effect/DPfall/Initialize(dropLocation, obj/structure/closet/supplypod/pod)
+/obj/effect/DPfall/Initialize(mapload, dropLocation, obj/structure/closet/supplypod/pod)
 	if (pod.style == STYLE_SEETHROUGH)
 		pixel_x = -16
 		pixel_y = 0
@@ -276,7 +276,7 @@
 	desc = ""
 	icon_state = ""
 	layer = PROJECTILE_HIT_THRESHHOLD_LAYER
-	light_outer_range =  2
+	light_outer_range =	2
 	var/obj/effect/temp_visual/fallingPod //Temporary "falling pod" that we animate
 	var/obj/structure/closet/supplypod/pod //The supplyPod that will be landing ontop of this target
 
@@ -301,7 +301,7 @@
 		icon_state = ""
 	if (pod.fallDuration == initial(pod.fallDuration) && pod.landingDelay + pod.fallDuration < pod.fallingSoundLength)
 		pod.fallingSoundLength = 3 //The default falling sound is a little long, so if the landing time is shorter than the default falling sound, use a special, shorter default falling sound
-		pod.fallingSound =  'sound/blank.ogg'
+		pod.fallingSound =	'sound/blank.ogg'
 	var/soundStartTime = pod.landingDelay - pod.fallingSoundLength + pod.fallDuration
 	if (soundStartTime < 0)
 		soundStartTime = 1

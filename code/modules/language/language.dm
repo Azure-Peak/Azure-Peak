@@ -5,22 +5,22 @@
 */
 
 /datum/language
-	var/name = "an unknown language"  // Fluff name of language if any.
-	var/desc = ""          // Short description for 'Check Languages'.
-	var/speech_verb = "says"          // 'says', 'hisses', 'farts'.
-	var/ask_verb = "asks"             // Used when sentence ends in a ?
-	var/exclaim_verb = "exclaims"     // Used when sentence ends in a !
-	var/whisper_verb = "whispers"     // Optional. When not specified speech_verb + quietly/softly is used instead.
+	var/name = "an unknown language"	// Fluff name of language if any.
+	var/desc = ""			// Short description for 'Check Languages'.
+	var/speech_verb = "says"			// 'says', 'hisses', 'farts'.
+	var/ask_verb = "asks"				// Used when sentence ends in a ?
+	var/exclaim_verb = "exclaims"		// Used when sentence ends in a !
+	var/whisper_verb = "whispers"		// Optional. When not specified speech_verb + quietly/softly is used instead.
 	var/list/signlang_verb = list("signs", "gestures") // list of emotes that might be displayed if this language has NONVERBAL or SIGNLANG flags
-	var/key                           // Character used to speak in language
+	var/key							// Character used to speak in language
 	// If key is null, then the language isn't real or learnable.
-	var/flags                         // Various language flags.
-	var/list/syllables                // Used when scrambling text for a non-speaker.
-	var/sentence_chance = 5      // Likelihood of making a new sentence after each syllable.
-	var/space_chance = 55        // Likelihood of getting a space in the random scramble string
+	var/flags							// Various language flags.
+	var/list/syllables				// Used when scrambling text for a non-speaker.
+	var/sentence_chance = 5		// Likelihood of making a new sentence after each syllable.
+	var/space_chance = 55		// Likelihood of getting a space in the random scramble string
 	var/list/spans = list()
 	var/list/scramble_cache = list()
-	var/default_priority = 0          // the language that an atom knows with the highest "default_priority" is selected by default.
+	var/default_priority = 0			// the language that an atom knows with the highest "default_priority" is selected by default.
 
 
 
@@ -51,7 +51,7 @@
 		var/Y = rand(FLOOR(syllable_count/syllable_divisor, 1), syllable_count)
 		for(var/x in Y to 0)
 			new_name += pick(syllables)
-		full_name += " [capitalize(lowertext(new_name))]"
+		full_name += " [capitalize(LOWER_TEXT(new_name))]"
 
 	return "[trim(full_name)]"
 

@@ -726,7 +726,7 @@
 			return TRUE
 	return FALSE
 
- // buff
+// buff
 /datum/status_effect/buff/equalizebuff
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/equalized
@@ -750,7 +750,7 @@
 	to_chat(owner, "<font color='yellow'>The link wears off, and the stolen fyre returns to them.</font>")
 
 
- // debuff
+// debuff
 /datum/status_effect/debuff/equalizedebuff
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/equalized
@@ -772,7 +772,7 @@
 	owner.remove_filter(EQUALIZED_GLOW)
 	to_chat(owner, "<font color='yellow'>My fire returns!</font>")
 
- // debuff - noble
+// debuff - noble
 /datum/status_effect/debuff/equalizedebuff_noble
 	id = "equalize"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/equalized_noble
@@ -898,7 +898,7 @@
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 				sleep(80)
 
-				target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))  		//this one's actually pretty good. i like this
+				target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))			//this one's actually pretty good. i like this
 				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 				playsound(owner, 'sound/magic/whiteflame.ogg', 100, TRUE)
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)

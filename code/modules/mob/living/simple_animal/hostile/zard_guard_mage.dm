@@ -42,7 +42,7 @@
 	projectiletype = /obj/projectile/magic/zardman_jailer_mage/lightning
 	projectilesound = list('sound/magic/charged.ogg')
 
-/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage/Initialize()
+/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 

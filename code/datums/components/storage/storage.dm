@@ -8,7 +8,7 @@
 
 	var/list/can_hold								//if this is set, only items, and their children, will fit
 	var/list/cant_hold								//if this is set, items, and their children, won't fit
-	var/list/exception_hold           //if set, these items will be the exception to the max size of object that can fit.
+	var/list/exception_hold			//if set, these items will be the exception to the max size of object that can fit.
 
 	var/dump_time = 10
 

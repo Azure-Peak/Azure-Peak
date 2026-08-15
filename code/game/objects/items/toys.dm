@@ -10,7 +10,7 @@
  *		Mech prizes
  *		AI core prizes
  *		Toy codex gigas
- * 		Skeleton toys
+ *		Skeleton toys
  *		Cards
  *		Toy nuke
  *		Fake meteor
@@ -18,7 +18,7 @@
  *		Toy big red button
  *		Beach ball
  *		Toy xeno
- *      Kitty toys!
+ *		Kitty toys!
  *		Snowballs
  *		Clockwork Watches
  *		Toy Daggers
@@ -75,7 +75,7 @@
 /obj/item/ash/snappop_phoenix
 	var/respawn_time = 300
 
-/obj/item/ash/snappop_phoenix/Initialize()
+/obj/item/ash/snappop_phoenix/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(respawn)), respawn_time)
 
@@ -123,7 +123,7 @@
 	. = ..()
 	. += span_smallnotice("Use the deck in your hand to shuffle the cards. Draw a card by clicking on it with an empty hand.")
 
-/obj/item/toy/cards/deck/Initialize()
+/obj/item/toy/cards/deck/Initialize(mapload)
 	. = ..()
 	populate_deck()
 

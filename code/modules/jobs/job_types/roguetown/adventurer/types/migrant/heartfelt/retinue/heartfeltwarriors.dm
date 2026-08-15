@@ -92,7 +92,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet
@@ -197,7 +197,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet
@@ -212,7 +212,7 @@
 
 // No Cavalry Option.
 
-//  SQUIRE - Pseudo Cavalry/MAA/Skirmisher. Jack of All Trades. Master of None. Can't get trained due to Knight not getting good training.
+//	SQUIRE - Pseudo Cavalry/MAA/Skirmisher. Jack of All Trades. Master of None. Can't get trained due to Knight not getting good training.
 
 /datum/advclass/heartfelt/retinue/squire
 	name = "Heartfelt Squire"
@@ -315,7 +315,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet

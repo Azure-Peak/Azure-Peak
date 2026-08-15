@@ -52,7 +52,7 @@
 
 	ai_controller = /datum/ai_controller/fae
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)

@@ -69,27 +69,27 @@
 	else
 		. += span_smallnotice("It has some squiggly jiggly scratches on it.")
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 

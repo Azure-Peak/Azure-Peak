@@ -41,7 +41,7 @@
 		/obj/item/natural/hide = 3,
 	)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/deadite, 15 MINUTES, "boar_downed", 0)
 
@@ -93,7 +93,7 @@
 /mob/living/carbon/human/species/wildshape/terrorhog/gain_inherent_skills()
 	return FALSE
 
-/mob/living/carbon/human/species/wildshape/terrorhog/Initialize()
+/mob/living/carbon/human/species/wildshape/terrorhog/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
@@ -177,7 +177,7 @@
 	max_blade_int = 8000
 	max_integrity = 8000
 
-/obj/item/rogueweapon/terrorhog_tusks/Initialize()
+/obj/item/rogueweapon/terrorhog_tusks/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
@@ -185,7 +185,7 @@
 /datum/component/terrorhog_tracker
 	var/death_processed = FALSE
 
-/datum/component/terrorhog_tracker/Initialize()
+/datum/component/terrorhog_tracker/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))

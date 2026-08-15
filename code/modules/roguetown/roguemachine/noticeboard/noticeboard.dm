@@ -11,7 +11,7 @@
 	plane = GAME_PLANE_UPPER
 	var/last_market_refresh = 0
 
-/obj/structure/roguemachine/noticeboard/Initialize()
+/obj/structure/roguemachine/noticeboard/Initialize(mapload)
 	. = ..()
 	SSroguemachine.noticeboards += src
 	update_icon()
@@ -410,10 +410,10 @@
 	if(tier == POSTING_TIER_LISTING && !(H.job in NOTICEBOARD_LISTING_ROLES))
 		to_chat(H, span_warning("Only certain offices may pin a Standing Listing."))
 		return
-	var/title = sanitize_input("[params["title"]]", NOTICEBOARD_TITLE_MAX_LENGTH)
-	var/body = sanitize_input("[params["body"]]", NOTICEBOARD_BODY_MAX_LENGTH, multiline = TRUE)
-	var/poster_name = sanitize_input("[params["poster_name"]]", NOTICEBOARD_NAME_MAX_LENGTH)
-	var/poster_title = sanitize_input("[params["poster_title"]]", NOTICEBOARD_ROLE_MAX_LENGTH)
+	var/title = sanitize_input(H, "[params["title"]]", NOTICEBOARD_TITLE_MAX_LENGTH)
+	var/body = sanitize_input(H, "[params["body"]]", NOTICEBOARD_BODY_MAX_LENGTH, multiline = TRUE)
+	var/poster_name = sanitize_input(H, "[params["poster_name"]]", NOTICEBOARD_NAME_MAX_LENGTH)
+	var/poster_title = sanitize_input(H, "[params["poster_title"]]", NOTICEBOARD_ROLE_MAX_LENGTH)
 	if(!title || !body || !poster_name)
 		to_chat(H, span_warning("The posting must bear a title, a body, and a name."))
 		return

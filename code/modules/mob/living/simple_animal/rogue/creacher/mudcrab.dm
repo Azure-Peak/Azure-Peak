@@ -41,7 +41,7 @@
 	ai_controller = /datum/ai_controller/mudcrab
 	move_base_delay = MOVEMENT_DELAY_CRAWLING
 
-/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
@@ -74,7 +74,7 @@
 	var/spawning = FALSE
 	attacked_sound = null
 
-/obj/structure/crabnest/Initialize()
+/obj/structure/crabnest/Initialize(mapload)
 	. = ..()
 	spawn_crab()
 

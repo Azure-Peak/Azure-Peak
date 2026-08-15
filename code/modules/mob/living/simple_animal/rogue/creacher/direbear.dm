@@ -47,8 +47,8 @@
 	health = BEAR_HEALTH	//volf is 120, saigabuck is 400
 	maxHealth = BEAR_HEALTH
 	food_type = list(/obj/item/reagent_containers/food/snacks,
-				/obj/item/bodypart, 	//Woe be upon ye
-				/obj/item/organ, 		//Woe be upon ye
+				/obj/item/bodypart,	//Woe be upon ye
+				/obj/item/organ,		//Woe be upon ye
 				/obj/effect/decal/remains,
 				)
 	STACON = 12

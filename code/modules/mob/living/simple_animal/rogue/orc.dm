@@ -47,7 +47,7 @@
 	ai_controller = /datum/ai_controller/orc
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/orc/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 
@@ -237,7 +237,7 @@
 	ai_controller = /datum/ai_controller/orc_ranged
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 
-/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/orc/ranged/Initialize(mapload)
 	. = ..()
 
 /mob/living/simple_animal/hostile/retaliate/orc/death(gibbed)

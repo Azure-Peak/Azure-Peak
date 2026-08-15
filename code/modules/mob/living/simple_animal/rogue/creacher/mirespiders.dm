@@ -56,7 +56,7 @@
 	ai_controller = /datum/ai_controller/mirespider
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
-/mob/living/simple_animal/hostile/retaliate/rogue/mirespider/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/mirespider/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_retaliate)
@@ -200,7 +200,7 @@
 						/obj/item/alch/viscera = 4)
 	head_butcher = /obj/item/natural/head/mirelurker
 
-/mob/living/simple_animal/hostile/rogue/mirespider_lurker/Initialize()
+/mob/living/simple_animal/hostile/rogue/mirespider_lurker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_retaliate)
@@ -287,7 +287,7 @@
 /datum/intent/simple/bite/mirespider_paralytic
 	clickcd = ARAGN_ATTACK_SPEED
 
-/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/Initialize()
+/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_retaliate)
@@ -305,7 +305,7 @@
 	desc = "YOU SHOULD NOT BE SEEING THIS, GO YELL AT KETRAI."
 	icon_state = "crawler"
 
-/obj/random/spider/Initialize()
+/obj/random/spider/Initialize(mapload)
 	. = ..()
 	spawn_random_spider_at(loc)
 	qdel(src)

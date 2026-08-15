@@ -10,7 +10,7 @@
 	max_integrity = 300
 	var/timeleft = 10 SECONDS
 
-/obj/structure/earthen_wall/Initialize()
+/obj/structure/earthen_wall/Initialize(mapload)
 	. = ..()
 	if(timeleft)
 		QDEL_IN(src, timeleft)

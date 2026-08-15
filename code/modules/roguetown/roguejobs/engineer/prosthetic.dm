@@ -1,4 +1,4 @@
-/obj/item/bodypart/proc/prosthetic_attachment(var/mob/living/carbon/human/H, var/mob/user)
+/obj/item/bodypart/proc/prosthetic_attachment(mob/living/carbon/human/H, mob/user)
 	if(!ishuman(H))
 		return
 
@@ -142,7 +142,7 @@
 			qdel(src)
 			return
 
-/////     ARMS     /////
+/////		ARMS		/////
 
 /obj/item/bodypart/l_arm/prosthetic/woodleft
 	name = "wooden left arm"
@@ -333,7 +333,7 @@
 /obj/item/bodypart/r_arm/prosthetic/attack(mob/living/M, mob/user)
 	prosthetic_attachment(M, user)
 
-/////     LEGS     /////
+/////		LEGS		/////
 
 /obj/item/bodypart/l_leg/prosthetic
 	name = "wooden left leg"

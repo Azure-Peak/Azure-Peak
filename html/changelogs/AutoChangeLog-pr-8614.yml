@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Resolved edge cases where the Cackledagger skin couldn't properly be applied to certain steel-tier daggers."
+  - rscadd: "Hauberk and fluted cuirass's compatibility with the Woodland Brigandine."

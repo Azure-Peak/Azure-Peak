@@ -23,7 +23,7 @@
 	var/target_alpha = 150
 	var/fade_time = 1.5 SECONDS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/revenant/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/revenant/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/fog_entity)
 	appear_animated()

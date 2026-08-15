@@ -85,7 +85,7 @@
 				C.visible_message(span_danger("\The [src] fails to drag \the [C] down!"))
 			chomp_cd = world.time
 
-/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)

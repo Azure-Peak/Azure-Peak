@@ -4,7 +4,7 @@
 
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic/allow_items(),
-		BB_BASIC_MOB_TAMED  = FALSE
+		BB_BASIC_MOB_TAMED	= FALSE
 	)
 
 	planning_subtrees = list(
@@ -24,7 +24,7 @@
 
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic/allow_items(),
-		BB_BASIC_MOB_TAMED  = FALSE
+		BB_BASIC_MOB_TAMED	= FALSE
 	)
 
 	planning_subtrees = list(

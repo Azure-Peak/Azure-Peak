@@ -56,7 +56,7 @@
 	ai_controller = /datum/ai_controller/fae/skirmisher/melee
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	. = ..()
 

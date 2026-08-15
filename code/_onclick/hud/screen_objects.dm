@@ -118,7 +118,7 @@
 		var/mob/living/carbon/human/H = usr
 		H.print_levels(H)
 
-/atom/movable/screen/skills/should_click_on_mouse_up(var/atom/original_object)
+/atom/movable/screen/skills/should_click_on_mouse_up(atom/original_object)
 	return FALSE
 
 /atom/movable/screen/craft
@@ -267,7 +267,7 @@
 
 
 /atom/movable/screen/inventory/hand
-	nomouseover =  TRUE
+	nomouseover =	TRUE
 	var/held_index = 0
 	var/obj/effect/overlay/vis/handcuff_vis
 	var/obj/effect/overlay/vis/grabbed_vis
@@ -744,7 +744,7 @@
 			L.toggle_cmode()
 			update_icon()
 
-/atom/movable/screen/cmode/should_click_on_mouse_up(var/atom/original_object)
+/atom/movable/screen/cmode/should_click_on_mouse_up(atom/original_object)
 	return FALSE
 
 /atom/movable/screen/mov_intent
@@ -1070,8 +1070,8 @@
 	var/list/limb_vis = list()
 	var/list/wound_vis = list()
 	var/list/bleed_vis = list()
-	var/list/limb_cache = list()  // zone -> "color|wound_alpha|bleed"
-	var/list/flash_vis = list()  // zone -> reusable flash overlay
+	var/list/limb_cache = list()	// zone -> "color|wound_alpha|bleed"
+	var/list/flash_vis = list()	// zone -> reusable flash overlay
 	var/obj/effect/overlay/vis/selection_vis
 
 /atom/movable/screen/zone_sel/Destroy()
@@ -1868,7 +1868,7 @@
 			state2use = "mood_sick"
 	icon_state = state2use
 
-/atom/movable/screen/stress/proc/flick_pain(var/critical = FALSE)
+/atom/movable/screen/stress/proc/flick_pain(critical = FALSE)
 	if(critical)
 		flick("mood_ouch", src)
 	else
@@ -1928,7 +1928,7 @@
 			if(M.get_triumphs() <= 0)
 				to_chat(M, span_warning("I haven't TRIUMPHED."))
 				return
-			if(alert("Do you want to remember a TRIUMPH?", "", "Yes (-3 TRI)", "No") == "Yes (-3 TRI)")
+			if(alert(usr, "Do you want to remember a TRIUMPH?", "", "Yes (-3 TRI)", "No") == "Yes (-3 TRI)")
 				if(!M.has_stress_event(/datum/stressevent/triumph))
 					M.add_stress(/datum/stressevent/triumph)
 					M.adjust_triumphs(-3)

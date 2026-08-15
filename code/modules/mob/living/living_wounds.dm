@@ -130,7 +130,7 @@
 					added_wound = /datum/wound/bruise
 				if(1 to 10)
 					added_wound = /datum/wound/bruise/small
-		if(BCLASS_CUT,  BCLASS_CHOP)
+		if(BCLASS_CUT,	BCLASS_CHOP)
 			switch(dam)
 				if(20 to INFINITY)
 					added_wound = /datum/wound/slash/large

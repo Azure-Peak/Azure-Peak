@@ -41,7 +41,7 @@
 /obj/item/clothing/suit/roguetown/armor/basiceast/loadout/ComponentInitialize()
 	return
 
-/obj/item/clothing/suit/roguetown/armor/basiceast/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/basiceast/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -62,7 +62,7 @@
 /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/loadout/ComponentInitialize()
 	return
 
-/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -83,7 +83,7 @@
 /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/loadout/ComponentInitialize()
 	return
 
-/obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
