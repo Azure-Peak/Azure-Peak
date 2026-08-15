@@ -220,7 +220,7 @@
 /datum/action/cooldown/spell/dendor/pounce
 	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Pounce"
-	desc = "Infuse mana into your legs, dashing forward four paces - \
+	desc = "Infuse wyld energy into your legs, dashing forward four paces - \
 		ramming everyone in your path to the sides for no damage."
 	button_icon_state = "pounce"
 	sound = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
@@ -261,7 +261,7 @@
 	if(H.buckled)
 		H.buckled.unbuckle_mob(H, TRUE)
 
-	H.say("Disperse!", forced = "spell", language = /datum/language/common)
+	H.say("Make way!", forced = "spell", language = /datum/language/common)
 	H.visible_message(
 		span_warning("[H] barrels forward!"),
 		span_notice("I charge!"))
@@ -334,11 +334,11 @@
 
 /datum/action/cooldown/spell/dendor/leech
 	name = "Leeching Seed"
-	desc = "Unleash a primal howl, striking fear into nearby creechers."
+	desc = "Curse a target with "
 	button_icon_state = "leech"
 	sound = 'sound/magic/dendor_howl.ogg'
 
-	click_to_activate = FALSE
+	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_AURA
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
