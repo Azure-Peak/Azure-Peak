@@ -12,7 +12,7 @@
 	var/directives_issued_today = 0
 	var/directives_day_stamp = -1
 
-/obj/structure/roguemachine/contractledger/Initialize()
+/obj/structure/roguemachine/contractledger/Initialize(mapload)
 	. = ..()
 	input_point = locate(x, y - 1, z)
 	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))

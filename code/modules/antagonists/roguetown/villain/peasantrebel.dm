@@ -256,7 +256,7 @@
 		to_chat(user, span_warning("The cause is won in the town. There is no crowd worth swaying out here."))
 		revert_cast()
 		return
-	var/inputty = input("Make a speech!", "ROGUETOWN") as text|null
+	var/inputty = input(user, "Make a speech!", "ROGUETOWN") as text|null
 	if(!inputty)
 		revert_cast()
 		return
@@ -516,7 +516,7 @@
 			if("Brigand (battleaxe and flail / banded iron plate)")
 				hand_items += /obj/item/rogueweapon/stoneaxe/battle
 				sack_items += list(
-					/obj/item/rogueweapon/flail, 
+					/obj/item/rogueweapon/flail,
 					/obj/item/clothing/suit/roguetown/armor/plate/iron/banded
 				)
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
@@ -525,7 +525,7 @@
 			if("Blackblade (longsword and shield / iron cuirass)")
 				hand_items += /obj/item/rogueweapon/sword/long
 				sack_items += list(
-					/obj/item/rogueweapon/shield/iron, 
+					/obj/item/rogueweapon/shield/iron,
 					/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 				)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -533,7 +533,7 @@
 			if("Poacher (longbow and dagger)")
 				hand_items += /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 				sack_items += list(
-					/obj/item/quiver/arrows, 
+					/obj/item/quiver/arrows,
 					/obj/item/rogueweapon/huntingknife/idagger
 				)
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
@@ -946,27 +946,27 @@
 
 
 /datum/team/prebels/roundend_report()
-	to_chat(world, span_header(" * [name] * "))
-	to_chat(world, "[printplayerlist(members)]")
+	to_world(span_header(" * [name] * "))
+	to_world("[printplayerlist(members)]")
 
 	if(objectives.len)
 		var/win = TRUE
 		var/objective_count = 1
 		for(var/datum/objective/objective in objectives)
 			if(objective.check_completion())
-				to_chat(world, "<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='greentext'>TRIUMPH!</span>")
+				to_world("<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='greentext'>TRIUMPH!</span>")
 			else
-				to_chat(world, "<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='redtext'>FAIL.</span>")
+				to_world("<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='redtext'>FAIL.</span>")
 				win = FALSE
 			objective_count++
 		if(win)
 			for(var/datum/mind/M in members)
 				var/is_leader = M.has_antag_datum(/datum/antagonist/prebel/head)
 				M.adjust_triumphs(is_leader ? REBELLION_TRIUMPH_LEADER : REBELLION_TRIUMPH_CONVERT)
-			to_chat(world, span_greentext("The Peasant Rebellion has TRIUMPHED!"))
+			to_world(span_greentext("The Peasant Rebellion has TRIUMPHED!"))
 		else
-			to_chat(world, span_redtext("The Peasant Rebellion has FAILED!"))
+			to_world(span_redtext("The Peasant Rebellion has FAILED!"))
 		for(var/X in offers2join)
-			to_chat(world,"[X]")
+			to_world("[X]")
 
 #undef INGAME_ROLE_HEAD_UPDATE_PERIOD

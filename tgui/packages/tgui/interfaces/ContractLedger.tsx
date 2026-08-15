@@ -4,6 +4,7 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { formatRatioPct } from './common/format';
 import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
 import { StewardDefensePanel } from './ContractLedgerSteward';
 import { TownerPostingPanel } from './ContractLedgerTowner';
@@ -364,7 +365,7 @@ const ContractCard = (props: { contract: Contract }) => {
             {!c.levy_exempt && data.tax_rate > 0 && (
               <div className="ContractLedger__CardRow">
                 <span className="ContractLedger__CardLabel">
-                  Crown Levy ({Math.round(data.tax_rate * 100)}%)
+                  Crown Levy ({formatRatioPct(data.tax_rate)})
                 </span>
                 <span
                   className="ContractLedger__CardValue"
@@ -377,7 +378,7 @@ const ContractCard = (props: { contract: Contract }) => {
             {guildRate > 0 && (
               <div className="ContractLedger__CardRow">
                 <span className="ContractLedger__CardLabel">
-                  Guild Cut ({Math.round(guildRate * 100)}%)
+                  Guild Cut ({formatRatioPct(guildRate)})
                 </span>
                 <span
                   className="ContractLedger__CardValue"

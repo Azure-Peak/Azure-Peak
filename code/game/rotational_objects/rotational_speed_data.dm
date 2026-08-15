@@ -15,7 +15,7 @@
 	var/datum/rotation_network/rotation_network
 	var/datum/rotation_segment/segment
 
-/obj/structure/Initialize()
+/obj/structure/Initialize(mapload)
 	. = ..()
 	if(rotation_structure || accepts_water_input)
 		return INITIALIZE_HINT_LATELOAD
@@ -46,7 +46,7 @@
 		return
 	if(!rotation_structure)
 		return
-	var/obj/item/contraption/linker/linker = user.get_active_held_item()
+	var/obj/item/rogueweapon/contraption/linker/linker = user.get_active_held_item()
 	if(!istype(linker))
 		return
 
@@ -61,7 +61,7 @@
 		return
 	if(!rotation_structure || !user?.Adjacent(src))
 		return
-	var/obj/item/contraption/linker/linker = user.get_active_held_item()
+	var/obj/item/rogueweapon/contraption/linker/linker = user.get_active_held_item()
 	if(!istype(linker))
 		return
 	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
@@ -72,7 +72,7 @@
 
 /obj/structure/proc/start_deconstruct(mob/living/user, obj/item/rotation_contraption/type)
 	user.visible_message(span_notice("[user] starts to disassemble [src]."), span_notice("You start to disassemble [src]."))
-	if(!do_after(user, 2.5 SECONDS  - (user?.get_skill_level(/datum/skill/craft/engineering)  * 2), src))
+	if(!do_after(user, 2.5 SECONDS	- (user?.get_skill_level(/datum/skill/craft/engineering)	* 2), src))
 		return
 	new type(get_turf(src))
 	qdel(src)

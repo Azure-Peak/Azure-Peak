@@ -370,7 +370,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		pos = search
 		search = findtext(jd, ",", pos+1)
 		if(search)
-			return lowertext(copytext(jd, pos+9, search))
+			return LOWER_TEXT(copytext(jd, pos+9, search))
 
 /client/verb/html_chat()
 	set name = "{Old Chat}"
@@ -452,7 +452,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		else
 			choices[displayed_choicename] = C
 	choices = sortList(choices)
-	var/selection = input("Please, select a player!", "Ignore", null, null) as null|anything in choices
+	var/selection = input(src, "Please, select a player!", "Ignore", null) as null|anything in choices
 	if(!selection || !(selection in choices))
 		return
 	displayed_choicename = selection // ckey string

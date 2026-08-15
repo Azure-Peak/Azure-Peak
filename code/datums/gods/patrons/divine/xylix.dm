@@ -8,7 +8,7 @@
 					/obj/effect/proc_holder/spell/self/xylixslip				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/ventriloquism			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/mimicry				= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/tipscales				= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/vicious_mockery		= CLERIC_T1,
@@ -63,12 +63,12 @@
 	return FALSE
 
 /datum/patron/divine/xylix/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("A fugue seems to manifest briefly across [target]!")
 	*message_self = span_notice("My wounds vanish as if they had never been there! ")

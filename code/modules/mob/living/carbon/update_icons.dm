@@ -39,7 +39,7 @@
 			pixel_x = get_standard_pixel_x_offset()
 			pixel_y = final_pixel_y
 		dir = final_dir
-		setMovetype(movement_type & ~FLOATING)  // If we were without gravity, the bouncing animation got stopped, so we make sure we restart it in next life().
+		setMovetype(movement_type & ~FLOATING)	// If we were without gravity, the bouncing animation got stopped, so we make sure we restart it in next life().
 		update_vision_cone()
 	else
 		// Only reset pixel_x if we're not in a custom pixel shift
@@ -76,7 +76,7 @@
 /proc/get_inhand_sprite(/obj/item/I, layer)
 	var/index = "[I.icon_state]"
 	var/icon/inhand_icon = GLOB.inhand_icons[index]
-	if(!inhand_icon) 	//Create standing/laying icons if they don't exist
+	if(!inhand_icon)	//Create standing/laying icons if they don't exist
 		generate_inhand_icon(I)
 	return mutable_appearance(GLOB.inhand_icons[index], layer = -layer)
 
@@ -94,7 +94,7 @@
 				dismembered.Blend(l_mask, ICON_MULTIPLY)
 			if(3)
 				dismembered.Blend(r_mask, ICON_MULTIPLY)
-		dismembered 			= fcopy_rsc(dismembered)
+		dismembered			= fcopy_rsc(dismembered)
 
 		GLOB.dismembered_clothing_icons[index] = dismembered*/
 

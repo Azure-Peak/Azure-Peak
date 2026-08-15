@@ -266,6 +266,8 @@
 	. = ..()
 	if(owner.in_combat_until > world.time) // if you're ever "in combat" it breaks
 		owner.remove_status_effect(/datum/status_effect/verglas_concentration/skate)
+	if(!owner.stamina_add(2))
+		owner.remove_status_effect(/datum/status_effect/verglas_concentration/skate)
 
 /obj/effect/verglas/temp/Initialize(mapload, lifespan = 0)
 	. = ..(mapload, lifespan || VERGLAS_SKATE_LIFESPAN)

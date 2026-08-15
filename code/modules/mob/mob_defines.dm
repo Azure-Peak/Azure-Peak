@@ -1,11 +1,11 @@
 /**
-  * The mob, usually meant to be a creature of some type
-  *
-  * Has a client attached that is a living person (most of the time), although I have to admit
-  * sometimes it's hard to tell they're sentient
-  *
-  * Has a lot of the creature game world logic, such as health etc
-  */
+	* The mob, usually meant to be a creature of some type
+	*
+	* Has a client attached that is a living person (most of the time), although I have to admit
+	* sometimes it's hard to tell they're sentient
+	*
+	* Has a lot of the creature game world logic, such as health etc
+	*/
 /mob
 	datum_flags = DF_USE_TAG
 	density = TRUE
@@ -63,11 +63,11 @@
 	var/used_hand = 1
 
 	/**
-	  * Magic var that stops you moving and interacting with anything
-	  *
-	  * Set when you're being turned into something else and also used in a bunch of places
-	  * it probably shouldn't really be
-	  */
+		* Magic var that stops you moving and interacting with anything
+		*
+		* Set when you're being turned into something else and also used in a bunch of places
+		* it probably shouldn't really be
+		*/
 	var/notransform = null	//Carbon
 
 	/// Is the mob blind
@@ -79,12 +79,12 @@
 
 
 	/**
-	  * back up of the real name during admin possession
-	  *
-	  * If an admin possesses an object it's real name is set to the admin name and this
-	  * stores whatever the real name was previously. When possession ends, the real name
-	  * is reset to this value
-	  */
+		* back up of the real name during admin possession
+		*
+		* If an admin possesses an object it's real name is set to the admin name and this
+		* stores whatever the real name was previously. When possession ends, the real name
+		* is reset to this value
+		*/
 	var/name_archive //For admin things like possession
 
 	/// Default body temperature
@@ -137,16 +137,16 @@
 	///What hand is the active hand
 	var/active_hand_index = 1
 	/**
-	  * list of items held in hands
-	  *
-	  * len = number of hands, eg: 2 nulls is 2 empty hands, 1 item and 1 null is 1 full hand
-	  * and 1 empty hand.
-	  *
-	  * NB: contains nulls!
-	  *
-	  * held_items[active_hand_index] is the actively held item, but please use
-	  * get_active_held_item() instead, because OOP
-	  */
+		* list of items held in hands
+		*
+		* len = number of hands, eg: 2 nulls is 2 empty hands, 1 item and 1 null is 1 full hand
+		* and 1 empty hand.
+		*
+		* NB: contains nulls!
+		*
+		* held_items[active_hand_index] is the actively held item, but please use
+		* get_active_held_item() instead, because OOP
+		*/
 	var/list/held_items = list()
 
 	//HUD things
@@ -182,11 +182,11 @@
 	var/mob/living/carbon/LAssailant = null
 
 	/**
-	  * construct spells and mime spells.
-	  *
-	  * Spells that do not transfer from one mob to another and can not be lost in mindswap.
-	  * obviously do not live in the mind
-	  */
+		* construct spells and mime spells.
+		*
+		* Spells that do not transfer from one mob to another and can not be lost in mindswap.
+		* obviously do not live in the mind
+		*/
 	var/list/mob_spell_list = list()
 
 
@@ -203,10 +203,10 @@
 	var/atom/movable/remote_control
 
 	/**
-	  * The sound made on death
-	  *
-	  * leave null for no sound. used for *deathgasp
-	  */
+		* The sound made on death
+		*
+		* leave null for no sound. used for *deathgasp
+		*/
 	var/deathsound
 
 	///the current turf being examined in the stat panel

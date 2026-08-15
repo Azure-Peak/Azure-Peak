@@ -51,7 +51,14 @@
 	. = ..()
 	. += span_info("Crossbows increase in accuracy with a higher <b>PERCEPTION</b>, but deal a static amount of damage \
 	regardless of character stats.")
-	. += span_info("Crossbows cannot be nocked directly from their quiver and require time to load.")
+	. += span_info("Crossbows must be cocked before a bolt can be nocked, but once cocked I can nock straight from a pouch by left-clicking it.")
+	if(damfactor < 1)
+		. += span_info("This weapon <b>reduces</b> bolt damage by <b>[round((1 - damfactor) * 100, 1)]%</b>.")
+	else if(damfactor > 1)
+		. += span_info("This weapon <b>increases</b> bolt damage by <b>[round((damfactor - 1) * 100, 1)]%</b>.")
+
+	if(!onehanded)
+		. += span_info("Nocking from a pouch requires my other hand to be free.")
 	if(penfactor < 0)
 		. += span_info("This weapon <b>reduces</b> bolt penetration by <b>[abs(penfactor)]</b> tier(s).")
 	else if(penfactor > 0)
@@ -159,11 +166,22 @@
 		cocked = FALSE
 		update_icon()
 
+// Allows slurbow / stakers to be reloaded one handed. Can be adjusted later if it turns out to be an issue
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/proc/free_hand_check(mob/user, action = "cock")
+	if(onehanded)
+		return TRUE
+	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
+		to_chat(user, span_warning("I need a free hand to [action] [src]!"))
+		return FALSE
+	return TRUE
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/attack_self(mob/living/user)
 	if(chambered)
 		..()
 	else
 		if(!cocked)
+			if(!free_hand_check(user))
+				return
 			to_chat(user, span_info("I step on the stirrup and use all my might..."))
 			if(!movingreload)
 				if(do_after(user, reloadtime - user.STASTR - user.get_skill_level(ranged_skill), target = user ))
@@ -178,10 +196,16 @@
 			cocked = FALSE
 	update_icon()
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/can_quick_load(mob/user)
+	if(!cocked)
+		to_chat(user, span_warning("I need to cock [src] first."))
+		return FALSE
+	return free_hand_check(user, "nock")
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/attackby(obj/item/A, mob/user, params)
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		if(cocked)
-			if((loc == user) && (user.get_inactive_held_item() != src))
+			if((loc == user) && (user.get_inactive_held_item() != src) && !quickloading)
 				return
 			..()
 		else
@@ -271,6 +295,15 @@
 	caliber = "regbolt"
 	max_ammo = 1
 	start_empty = TRUE
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron
+	name = "munition crossbow"
+	desc = "A deadly weapon that shoots a bolt with terrific power. Unlike the common bow, \
+	it uses a sophisticated mechanism to renock - and retain - its half-length bolts; a \
+	matter that relies more on raw strength than dexterity to master. </br>An cruder version of the common crossbow built with wrought iron with steel like property. When smelted, it does not yield good steel ingot but trash steel. but it is cheap and it works well and is often imported en masse from Grenzelhoft. Some of them find their way into the hands of common brigands and highwaymen."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = 80
+	damfactor = 1.1 // Lower than starting
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy
 	name = "ancient crossbow"

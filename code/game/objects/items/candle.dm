@@ -19,7 +19,7 @@
 	start_lit = TRUE
 	icon_state = "candle1_lit"
 
-/obj/item/candle/Initialize()
+/obj/item/candle/Initialize(mapload)
 	. = ..()
 	if(start_lit)
 		light()

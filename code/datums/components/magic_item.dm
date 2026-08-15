@@ -5,9 +5,9 @@
 /datum/component/magic_item
 	dupe_mode = COMPONENT_DUPE_UNIQUE_PASSARGS					//We want to handle all magical effects with a single component per item
 	var/list/magical_effects = list()							//All our magical effects. Or nonmagical. I'm not a cop
-	var/enchanting_capacity = 1 								//How many enchantments can be on the item
+	var/enchanting_capacity = 1								//How many enchantments can be on the item
 
-/datum/component/magic_item/Initialize(var/datum/magic_item/magical_item_effect)
+/datum/component/magic_item/Initialize(datum/magic_item/magical_item_effect)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 	..()
@@ -16,7 +16,7 @@
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 
 
-/datum/component/magic_item/proc/add_enchantment(var/datum/magic_item/magical_item_effect)
+/datum/component/magic_item/proc/add_enchantment(datum/magic_item/magical_item_effect)
 	if(islist(magical_item_effect))
 		var/list/magical_item_effects = magical_item_effect
 		for(var/datum/magic_item/effect in magical_item_effects)
@@ -28,7 +28,7 @@
 	else
 		add_single_enchantment(magical_item_effect)
 
-/datum/component/magic_item/proc/add_single_enchantment(var/datum/magic_item/magical_item_effect)
+/datum/component/magic_item/proc/add_single_enchantment(datum/magic_item/magical_item_effect)
 	if(magical_item_effect in magical_effects)
 		return
 	magical_effects.Add(magical_item_effect)
@@ -40,6 +40,6 @@
 		if(effect.description)
 			examine_list += span_info(effect.description)
 
-/datum/component/magic_item/InheritComponent(datum/component/C, i_am_original, var/datum/magic_item/magical_item_effect)
+/datum/component/magic_item/InheritComponent(datum/component/C, i_am_original, datum/magic_item/magical_item_effect)
 	add_enchantment(magical_item_effect)
 	..()

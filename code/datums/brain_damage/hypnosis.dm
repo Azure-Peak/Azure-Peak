@@ -47,7 +47,7 @@
 	if(prob(2))
 		switch(rand(1,2))
 			if(1)
-				to_chat(owner, "<i>...[lowertext(hypnotic_phrase)]...</i>")
+				to_chat(owner, "<i>...[LOWER_TEXT(hypnotic_phrase)]...</i>")
 			if(2)
 				new /datum/hallucination/chat(owner, TRUE, FALSE, span_hypnophrase("[hypnotic_phrase]"))
 

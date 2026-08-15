@@ -85,7 +85,7 @@
 				C.visible_message(span_danger("\The [src] fails to drag \the [C] down!"))
 		chomp_cd = world.time //this goes here i think? ...sure
 
-/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddComponent(/datum/component/deadite, 15 MINUTES, 100, 75, "wolf_downed")

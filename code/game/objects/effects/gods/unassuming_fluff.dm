@@ -6,7 +6,7 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	icon = 'icons/effects/dad.dmi'
 	icon_state = "dad"
 
-/obj/effect/dream_horror/Initialize()
+/obj/effect/dream_horror/Initialize(mapload)
 	. = ..()
 	if(prob(1))
 		name = "Dad"

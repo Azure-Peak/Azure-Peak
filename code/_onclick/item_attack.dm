@@ -1,14 +1,14 @@
 #define ATTACK_OVERRIDE_NODEFENSE 2
 
 /**
-  *This is the proc that handles the order of an item_attack.
-  *The order of procs called is:
-  *tool_act on the target. If it returns TRUE, the chain will be stopped.
-  *pre_attack() on src. If this returns TRUE, the chain will be stopped.
-  *attackby on the target. If it returns TRUE, the chain will be stopped.
-  *and lastly
-  *afterattack. The return value does not matter.
-  */
+	*This is the proc that handles the order of an item_attack.
+	*The order of procs called is:
+	*tool_act on the target. If it returns TRUE, the chain will be stopped.
+	*pre_attack() on src. If this returns TRUE, the chain will be stopped.
+	*attackby on the target. If it returns TRUE, the chain will be stopped.
+	*and lastly
+	*afterattack. The return value does not matter.
+	*/
 /obj/item/proc/melee_attack_chain(mob/user, atom/target, params)
 	if(user.check_arm_grabbed(user.active_hand_index))
 		to_chat(user, span_notice("I can't move my arm!"))
@@ -37,7 +37,7 @@
 				if(!exception)
 					to_chat(user, span_warning("I am too small to properly wield a weapon."))
 					return
-		// Uniquely reskinned variant, for those who don't happen to be familiars.Add a comment on  line R34Add diff commentMarkdown input:  edit mode selected.WritePreviewAdd a suggestionHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
+		// Uniquely reskinned variant, for those who don't happen to be familiars.Add a comment on	line R34Add diff commentMarkdown input:	edit mode selected.WritePreviewAdd a suggestionHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
 		if(HAS_TRAIT(user, TRAIT_WEAPONLESS))
 			var/obj/item/rogueweapon/weapon = src
 			if(istype(weapon) && (!weapon.is_tool || ismob(target)))
@@ -267,7 +267,7 @@
 		user.changeMaxDodge(2)
 		user.dodgetime = clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE)
 
-	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
+	log_combat(user, M, "attacked", src.name, zone=user.zone_selected, intent=user.used_intent.name, damtype=damtype)
 
 	execute_cleave(user, get_turf(M), M)
 
@@ -330,7 +330,7 @@
 			var/tempsound = user.used_intent?.hitsound
 			if(tempsound)
 				playsound(L.loc, tempsound, 100, FALSE, -1)
-			log_combat(user, L, "cleaved", src.name, "(INTENT: [uppertext(user.used_intent.name)])")
+			log_combat(user, L, "cleaved", src.name, zone=user.zone_selected, intent=user.used_intent.name)
 	cleave_sharpness_mult = 1
 
 /atom/movable/proc/attacked_by()
@@ -668,7 +668,7 @@
 	SEND_SIGNAL(victim, COMSIG_ITEM_ATTACK_EFFECT, user, affecting, intent, selzone, src)
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_EFFECT_SELF, user, affecting, intent, victim, selzone)
 
-	if(is_silver && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
+	if((is_silver || (is_even_lesser_silver && is_npc(victim))) && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
 		if(is_lesser_silver)
 			// Lesser silver only flares meaningfully on a deliberate melee strike — thrown contact does nothing,
 			// and the hit never forces a disguise off. Stacks accumulate without ignition.
@@ -698,11 +698,11 @@
 		if(I.damtype == BRUTE)
 			next_attack_msg.Cut()
 			if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
-				if(I.is_silver && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
+				if((I.is_silver || (I.is_even_lesser_silver && is_npc(src))) && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
 					newforce *= SILVER_SIMPLEMOB_DAM_MULT
 				simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim)
 				/* No embedding on simple mobs, thank you!
-				var/datum/wound/crit_wound  = simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim)
+				var/datum/wound/crit_wound	= simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim)
 				if(should_embed_weapon(crit_wound, I))
 					// throw_alert("embeddedobject", /atom/movable/screen/alert/embeddedobject)
 					simple_add_embedded_object(I, silent = FALSE, crit_message = TRUE)

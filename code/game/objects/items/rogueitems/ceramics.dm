@@ -175,7 +175,7 @@
 	name = "unfired clay fork"
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "clayporcelainforkraw"
-	cooked_type = /obj/item/kitchen/fork/carved/porcelain 
+	cooked_type = /obj/item/kitchen/fork/carved/porcelain
 	desc = "A fancy fork fashioned from clay. It still needs to be fired to be useful."
 
 /obj/item/natural/clay/rawplatter
@@ -250,7 +250,7 @@
 	smeltresult = null	//No resource return
 	glaze_bonus_pct = GLAZE_BONUS_PCT
 
-/obj/item/roguestatue/clay/Initialize()
+/obj/item/roguestatue/clay/Initialize(mapload)
 	. = ..()
 	icon_state = "claystatuecooked[pick(1,2,3,4,5)]"
 
@@ -262,7 +262,7 @@
 	smeltresult = /obj/item/natural/glass
 	glaze_bonus_pct = GLAZE_BONUS_PCT
 
-/obj/item/roguestatue/glass/Initialize()
+/obj/item/roguestatue/glass/Initialize(mapload)
 	. = ..()
 	icon_state = "statueglass[pick(1,2,3,4,5)]"
 
@@ -478,7 +478,7 @@
 	desc = "This is a base item, if you are seeing this, it's a bug, report it lol."
 	dropshrink = FALSE
 	obj_flags = CAN_BE_HIT|UNIQUE_RENAME
-	
+
 /obj/item/natural/clay/porcelain/bauble
 	name = "porcelain bauble"
 	desc = "A small porcelain bauble."
@@ -497,7 +497,7 @@
 	name = "porcelain figurine"
 	desc = "A small figurine made out of porcelain."
 	icon_state = "clayporcelainfigurine"
-	
+
 /obj/item/natural/clay/porcelain/urn
 	name = "large porcelain urn"
 	desc = "A large, lidded urn made out of porcelain."
@@ -532,7 +532,7 @@
 	name = "porcelain display stand"
 	desc = "A small display stand made out of porcelain."
 	icon_state = "clayporcelainstand"
-	
+
 /obj/item/natural/clay/porcelain/fish
 	name = "porcelain fish figurine"
 	desc = "A small fish figurine made out of porcelain."
@@ -562,7 +562,7 @@
 	name = "porcelain caryatid"
 	desc = "A medium-sized caryatid made out of porcelain."
 	icon_state = "clayporcelaincaryatid"
-		
+
 /obj/item/natural/clay/porcelain/beaver
 	name = "porcelain beaver statuette"
 	desc = "A medium-sized beaver statuette made out of porcelain."
@@ -572,10 +572,9 @@
 	name = "porcelain octopus statuette"
 	desc = "A large octopus statuette made out of porcelain."
 	icon_state = "clayporcelainoctopus"
-	
+
 /obj/item/natural/clay/porcelain/carp
 	name = "porcelain carp statuette"
 	desc = "A large carp statuette made out of porcelain."
 	icon_state = "clayporcelaincarp"
-	
-	
+

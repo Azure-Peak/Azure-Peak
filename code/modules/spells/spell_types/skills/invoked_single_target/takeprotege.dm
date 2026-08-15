@@ -1,11 +1,11 @@
 // A Knight may take a Squire as their protégé for the round.
 //
 // Mechanics:
-//   - While both are alive and within view of each other, each gets a presence buff: an alert icon,
-//     on-apply/on-remove messages, and a recurring mood boost. Neither side gains stats.
-//   - The knight gains the Empath read on their squire.
-//   - When either dies, the survivor takes a mood hit. A 5-minute grace period prevents
-//     a revive-die loop from re-triggering it.
+//	- While both are alive and within view of each other, each gets a presence buff: an alert icon,
+//		on-apply/on-remove messages, and a recurring mood boost. Neither side gains stats.
+//	- The knight gains the Empath read on their squire.
+//	- When either dies, the survivor takes a mood hit. A 5-minute grace period prevents
+//		a revive-die loop from re-triggering it.
 /datum/action/cooldown/spell/takeprotege
 	name = "Take Protégé"
 	desc = "Designate a nearby Squire as your protégé. You will know how they feel, and their \

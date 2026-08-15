@@ -29,6 +29,6 @@
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
 	icon_state = "pelt_rous"
 
-/obj/item/hag_test_item/Initialize()
+/obj/item/hag_test_item/Initialize(mapload)
 	src.AddComponent(/datum/component/hag_enchanted_item)
 	. = ..()

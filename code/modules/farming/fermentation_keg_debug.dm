@@ -3,7 +3,7 @@
 	desc = "Spawns already brewed. Drag it onto a ship fulfillment crate to sell it as a keg, or strike it with a bottlin' kit to fill bottles."
 	var/debug_recipe = /datum/brewing_recipe/cider
 
-/obj/structure/fermentation_keg/debug/Initialize()
+/obj/structure/fermentation_keg/debug/Initialize(mapload)
 	. = ..()
 	if(!debug_recipe)
 		return
@@ -28,7 +28,7 @@
 	desc = "Spawns already distilled. Strike it with a bottlin' kit to fill sealed spirit bottles, then deposit those onto a ship fulfillment crate."
 	var/debug_recipe = /datum/brewing_recipe/aqua_vitae
 
-/obj/structure/fermentation_keg/distiller/debug/Initialize()
+/obj/structure/fermentation_keg/distiller/debug/Initialize(mapload)
 	. = ..()
 	if(!debug_recipe)
 		return

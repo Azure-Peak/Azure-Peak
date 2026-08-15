@@ -70,7 +70,7 @@
 	limb_destroyer = TRUE
 //	stat_attack = UNCONSCIOUS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
@@ -192,22 +192,22 @@
 	penfactor = PEN_HEAVY // It is a dragon so it bites hard
 
 /obj/projectile/magic/aoe/dragon_breath
-    name = "fire hairball"
-    icon_state = "fireball"
-    damage = 10
-    damage_type = BRUTE
-    nodamage = FALSE
-    light_color = "#f8af07"
-    light_outer_range = 2
-    damage = 40
-    flag = "fire"
-    hitsound = 'sound/blank.ogg'
+	name = "fire hairball"
+	icon_state = "fireball"
+	damage = 10
+	damage_type = BRUTE
+	nodamage = FALSE
+	light_color = "#f8af07"
+	light_outer_range = 2
+	damage = 40
+	flag = "fire"
+	hitsound = 'sound/blank.ogg'
 
-    //explosion values
-    var/exp_heavy = 0
-    var/exp_light = 2
-    var/exp_flash = 3
-    var/exp_fire = 3
+	//explosion values
+	var/exp_heavy = 0
+	var/exp_light = 2
+	var/exp_flash = 3
+	var/exp_fire = 3
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother
@@ -235,7 +235,7 @@
 	head_butcher = /obj/item/natural/head/dragon/broodmother
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize(mapload)
 	. = ..()
 
 	fire_breath = new(src)

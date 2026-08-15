@@ -44,7 +44,7 @@
 	else
 		GLOB.fires_list -= src
 
-/obj/machinery/light/roguestreet/Initialize()
+/obj/machinery/light/roguestreet/Initialize(mapload)
 	lights_on()
 	GLOB.streetlamp_list += src
 	update_icon()
@@ -95,7 +95,7 @@
 	else
 		GLOB.fires_list -= src
 
-/obj/machinery/light/oldlight/Initialize()
+/obj/machinery/light/oldlight/Initialize(mapload)
 	lights_on()
 	GLOB.streetlamp_list += src
 	update_icon()
