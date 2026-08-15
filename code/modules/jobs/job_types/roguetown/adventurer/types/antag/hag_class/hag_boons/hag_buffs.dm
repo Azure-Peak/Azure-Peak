@@ -95,8 +95,8 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/natural_communion
 	var/energy_cooldown = 0
 	var/static/list/natural_turfs = list(/turf/open/floor/rogue/dirt, /turf/open/floor/rogue/snow,
-								  /turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
-								  /turf/open/water/swamp,)
+									/turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
+									/turf/open/water/swamp,)
 
 /atom/movable/screen/alert/status_effect/buff/natural_communion
 	name = "Natural Communion"
@@ -147,8 +147,8 @@
 	var/image/moss_image
 
 	var/static/list/natural_turfs = list(/turf/open/floor/rogue/dirt, /turf/open/floor/rogue/snow,
-								  /turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
-								  /turf/open/water/swamp,)
+									/turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
+									/turf/open/water/swamp,)
 
 /atom/movable/screen/alert/status_effect/buff/creeping_moss
 	name = "Healing Moss"
@@ -233,7 +233,7 @@
 /datum/status_effect/buff/hag_boon/creeping_moss/proc/on_attackby(datum/source, obj/item/W, mob/user, params)
 	SIGNAL_HANDLER
 
-	if(user.cmode == TRUE) 
+	if(user.cmode == TRUE)
 		return
 
 	if(!istype(W, /obj/item/flashlight/flare/torch))
@@ -255,7 +255,7 @@
 		return
 
 	user.visible_message(span_notice("[user] begins carefully burning the moss off of [owner] with [W]."), \
-						 span_notice("You begin burning the damp moss off of [owner]."))
+							span_notice("You begin burning the damp moss off of [owner]."))
 
 	if(!do_after(user, 3 SECONDS, target = owner))
 		return

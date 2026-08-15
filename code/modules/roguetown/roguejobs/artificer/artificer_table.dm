@@ -47,8 +47,8 @@
 	// Heal interval: 10s at fast, 20s at slow
 	var/heal_interval = is_fast ? 10 : 20
 
-	charge_accumulator +=  world.time / 10
-	heal_accumulator   +=  world.time / 10
+	charge_accumulator +=	world.time / 10
+	heal_accumulator	+=	world.time / 10
 
 	// --- Contraption charging ---
 	if(charge_accumulator >= charge_interval)
@@ -78,12 +78,12 @@
 				continue
 			// Don't heal while the construct is already processing minerals
 			if(H.has_status_effect(/datum/status_effect/buff/ingotmuncher) \
-			|| H.has_status_effect(/datum/status_effect/buff/oremuncher)   \
+			|| H.has_status_effect(/datum/status_effect/buff/oremuncher)	\
 			|| H.has_status_effect(/datum/status_effect/buff/gemmuncher))
 				continue
 
 			var/brute_heal = is_fast ? 4 : 2
-			var/fire_heal  = is_fast ? 4 : 2
+			var/fire_heal	= is_fast ? 4 : 2
 			var/energy_gain = is_fast ? 10 : 5
 
 			H.adjustBruteLoss(-brute_heal)

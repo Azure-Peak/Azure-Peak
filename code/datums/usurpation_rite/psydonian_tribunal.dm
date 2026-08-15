@@ -1,16 +1,15 @@
 /**
- # Rite of Psydonian Tribunal
-
- Psydon-themed Inquisition usurpation rite.
-
- Design intent: This is probably one of the hardest to design properly. Psydon is probably dead or sleeping (left ambigious in lore), but definitely not quite present in the world. The Inquisition was designed to be a threat to the town and a form of soft antagonist, but our playerbase seldomly do so - and don't really emphasize the Grenzelhoftian - Otavan political rivalry enough. 
-
- This gives them a unique path to usurp the throne, with the lowest assent requirements (allowing a full house to assent and start it themselves). It has one of the most restrictive requirements for who can assent and invoke, but how "easy" it is to pull off will keep this as an option in the back of players' minds, that if worst come to worst, with other Psydonites support, the Inquisition can make a very risky gambit to seize power, hopefully driving in round conflicts.
-
- Only the Inquisition (Inquisitor, Absolver, Orthodoxist) can invoke. Any Psydonites who is not an undead (sorry Psydonite skeleton) can assent - so Psydon Heretics can participate with Inquisition members.
-
-The epilogue implies an impending war with Grenzelhoft - for breaking the status quo and the balance of power. But we don't want admins or events to actually diminish the impact within the round, so it is implied to be a threat from the outside after the week is over (and the round reset). Unlike the Sacred Supercession version, this one is framed as far less legitimate and troublesome as the Inquisition is not the established or majority religion of the land.
-
+ * Rite of Psydonian Tribunal
+ *
+ * Psydon-themed Inquisition usurpation rite.
+ *
+ * Design intent: This is probably one of the hardest to design properly. Psydon is probably dead or sleeping (left ambigious in lore), but definitely not quite present in the world. The Inquisition was designed to be a threat to the town and a form of soft antagonist, but our playerbase seldomly do so - and don't really emphasize the Grenzelhoftian - Otavan political rivalry enough.
+ *
+ * This gives them a unique path to usurp the throne, with the lowest assent requirements (allowing a full house to assent and start it themselves). It has one of the most restrictive requirements for who can assent and invoke, but how "easy" it is to pull off will keep this as an option in the back of players' minds, that if worst come to worst, with other Psydonites support, the Inquisition can make a very risky gambit to seize power, hopefully driving in round conflicts.
+ *
+ * Only the Inquisition (Inquisitor, Absolver, Orthodoxist) can invoke. Any Psydonites who is not an undead (sorry Psydonite skeleton) can assent - so Psydon Heretics can participate with Inquisition members.
+ *
+ * The epilogue implies an impending war with Grenzelhoft - for breaking the status quo and the balance of power. But we don't want admins or events to actually diminish the impact within the round, so it is implied to be a threat from the outside after the week is over (and the round reset). Unlike the Sacred Supercession version, this one is framed as far less legitimate and troublesome as the Inquisition is not the established or majority religion of the land.
 */
 
 /datum/usurpation_rite/psydonian_tribunal

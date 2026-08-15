@@ -71,7 +71,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(length(merchant_fund_log) > 12)
 		merchant_fund_log.Cut(13)
 
-/datum/controller/subsystem/merchant_trade/Initialize()
+/datum/controller/subsystem/merchant_trade/Initialize(mapload)
 	for(var/path in subtypesof(/datum/foreign_realm))
 		var/datum/foreign_realm/R = new path
 		if(!R.id)

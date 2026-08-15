@@ -103,7 +103,7 @@
 		apply_frost_stack(L, frost_stacks)
 		to_chat(L, span_danger("An icy pilum strikes true - the cold seeps into my bones!"))
 		if(firer)
-			log_combat(firer, L, "pilum-struck")
+			log_combat(firer, L, "pilum-struck", zone=def_zone)
 
 /obj/projectile/magic/azurean_pilum/empowered
 	name = "Empowered Azurean Pilum"

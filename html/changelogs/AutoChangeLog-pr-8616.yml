@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - code_imp: "Fixed and enabled the grep linter, added several new lint rules, and refactored our codebase to be compliant with it. Should prevent recurrence of things like the to_chat(world) incident."
+  - bugfix: "The emote target menu no longer reveals invisible targets."

@@ -130,7 +130,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 				origin_type = new character.dna.species.origin_default
 				apply_virtue(character, origin_type)
 
-/proc/origin_check(var/datum/virtue/V, datum/species/species)
+/proc/origin_check(datum/virtue/V, datum/species/species)
 	if(!species || !V)
 		return
 	if(V)
@@ -183,7 +183,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(bonus in GLOB.roguetraits)
 		ADD_TRAIT(character, bonus, SPECIES_TRAIT)
 
-/proc/virtue_check(var/datum/virtue/V, heretic = FALSE, datum/species/species)
+/proc/virtue_check(datum/virtue/V, heretic = FALSE, datum/species/species)
 	if(V)
 		if(istype(V,/datum/virtue/heretic) && !heretic)
 			return FALSE

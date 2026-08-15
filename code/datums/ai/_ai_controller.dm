@@ -6,13 +6,13 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	///The atom this controller is controlling
 	var/atom/pawn
 	/**
-	 * This is a list of variables the AI uses and can be mutated by actions.
-	 *
-	 * When an action is performed you pass this list and any relevant keys for the variables it can mutate.
-	 *
-	 * DO NOT set values in the blackboard directly, and especially not if you're adding a datum reference to this!
-	 * Use the setters, this is important for reference handing.
-	 */
+		* This is a list of variables the AI uses and can be mutated by actions.
+		*
+		* When an action is performed you pass this list and any relevant keys for the variables it can mutate.
+		*
+		* DO NOT set values in the blackboard directly, and especially not if you're adding a datum reference to this!
+		* Use the setters, this is important for reference handing.
+		*/
 	var/list/blackboard = list()
 	///Bitfield of traits for this AI to handle extra behavior
 	var/ai_traits
@@ -318,7 +318,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/get_current_turf()
 	var/mob/living/mob_pawn = pawn
 	var/turf/pawn_turf = get_turf(mob_pawn)
-	to_chat(world, "[pawn_turf]")
+	to_world("[pawn_turf]")
 
 ///Called when the AI controller pawn changes z levels, we check if there's any clients on the new one and wake up the AI if there is.
 /datum/ai_controller/proc/on_changed_z_level(atom/source, old_z, new_z, same_z_layer, notify_contents)

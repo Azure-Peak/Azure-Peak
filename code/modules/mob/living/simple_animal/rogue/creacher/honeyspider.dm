@@ -37,9 +37,9 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, 
-					//obj/item/bodypart, 
-					/obj/item/organ, 
+	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
+					//obj/item/bodypart,
+					/obj/item/organ,
 					)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -75,7 +75,7 @@
 	health = 130
 	maxHealth = 130
 
-/mob/living/simple_animal/hostile/retaliate/rogue/spider/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/spider/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE

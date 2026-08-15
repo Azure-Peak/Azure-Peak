@@ -19,7 +19,7 @@
 		/obj/item/natural/stone = 3,
 	)
 
-/obj/structure/closet/crate/chest/loot_chest/Initialize()
+/obj/structure/closet/crate/chest/loot_chest/Initialize(mapload)
 	. = ..()
 	// Defer loot generation to the pool system
 	GLOB.loot_chests_pending += src

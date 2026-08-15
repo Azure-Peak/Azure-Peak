@@ -88,7 +88,7 @@
 	orb.w_class = WEIGHT_CLASS_SMALL
 	return orb
 
-/mob/living/carbon/human/species/familiar/Initialize()
+/mob/living/carbon/human/species/familiar/Initialize(mapload)
 	. = ..()
 	adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_NOVICE)
 	AddComponent(/datum/component/footstep, footstep_type)
@@ -262,9 +262,9 @@
 		grant_tier_abilities(tier)
 
 /mob/living/carbon/human/species/familiar/Destroy()
-    if(familiar_summoner && familiar_summoner.mind)
-        familiar_summoner.mind.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
-    return ..()
+	if(familiar_summoner && familiar_summoner.mind)
+		familiar_summoner.mind.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
+	return ..()
 
 /mob/living/carbon/human/species/familiar/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/magic))

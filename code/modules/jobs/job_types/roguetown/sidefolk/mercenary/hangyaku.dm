@@ -11,7 +11,7 @@
 	noble_income = 15
 	cmode_music = 'sound/music/combat_Kazengun_Firestorm.ogg'
 	maximum_possible_slots = 3
-	subclass_stats = list(  // mounted knight, but slower.
+	subclass_stats = list(	// mounted knight, but slower.
 		STATKEY_STR = 2,
 		STATKEY_INT = 1,
 		STATKEY_CON = 1,

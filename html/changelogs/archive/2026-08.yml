@@ -517,3 +517,209 @@
   mumblemancer:
   - rscadd: steel axe available in silverface & at merchant under steel weapons
   - rscadd: steel pickaxe available at merchant under tools
+2026-08-13:
+  BurpleBineapple:
+  - bugfix: DasFox donator ckeys
+  CadenzaHyposelenia:
+  - rscadd: Added new cropped gambesons as donor-items
+  Juubo:
+  - rscadd: more artificer item requests to trade orders
+  - rscadd: bronze ingots to stocks
+  - rscadd: windmills added again
+  - rscadd: autogrinder can now grind alchemy ingredients
+  - qol: mechanized bolt bags verbage updated and a slurbow mode added
+  - qol: updated grates and rotational objects to show over water
+  - balance: increased health on metal bars and metal gates
+  - bugfix: removed stacking nails (single nails are still used)
+  - bugfix: removed sound looping to try and see if this helps with sound glitching
+  KatTheFox:
+  - bugfix: Fixed a bug where flying mobs would lose their flight after climbing.
+  - bugfix: Fixed an exploit allowing several skills, most notably alchemy, to be
+      infinitely levelled without regard for level caps or even a need to sleep and
+      spend dream points. Added safeguards against more variants of the exploit being
+      added.
+  - bugfix: The Paladin adventurer class no longer lies to you about its choices;
+      specifically, the unique sword it gets now properly applies its intended effect
+      of being "pve-only silver". It only works on mindless NPCs, and is otherwise
+      mechanically identical to a normal longsword. Also, the class preview text now
+      properly explains what each of the choices entails.
+  - bugfix: Familiar ooc notes are no longer double-sanitized, leading to html tags
+      being displayed to the user.
+  - bugfix: Setting only one of (ooc notes|flavortext) on a familiar character will
+      no longer display the text "null" to any viewers that open the examine window;
+      instead, the field that's left blank will simply be... blank. How intuitive.
+  - bugfix: All bard melodies now send a message in chat when cast - some of them
+      were completely silent, before.
+  - bugfix: All bard melodies now properly include the caster's name in their emote,
+      instead of simply putting "plays an xyz melody!" in your chatbox and refusing
+      to elaborate.
+  - bugfix: The recipe for salo no longer accepts salo as an input, it needs regular
+      fat; this means if you try to craft it in bulk, it'll no longer consume itself.
+  - bugfix: Amulets and psycrosses will no longer skip several checks when being equipped,
+      meaning - among other things - familiars and wildshaped mobs cannot psyexplode
+      themselves.
+  - bugfix: Fixed an issue where characters with traits that prevent vomiting - such
+      as vampires and deadites - could become eternally nauseous by drinking blood.
+  Ketrai:
+  - rscadd: Shapeshifts can use some animal emotes now.
+  - rscadd: Cabbit shapeshifts/wildforms can be picked up now.
+  - rscadd: Cabbit shapeshifts/wildforms can be placed on your head now.
+  - rscadd: Cabbit wildshapes (but not shapeshifts) can now visually sit whilst resting.
+  - image: Gibs now use shaded visuals once more.
+  - image: Gibs will not be colored unless a non default color is passed along.
+  Lamasmaster:
+  - balance: Atgervi
+  - rscadd: 3 more staves for templar monks
+  - balance: Templar staff selection / loadout
+  - rscadd: Goblin Horns and Tails
+  - balance: All rituals with active effects now last 15 minutes instead of their
+      whole cooldown.
+  - balance: Ravox Vow ritual lost bonus stats.
+  Ollanius:
+  - rscadd: Winged sallet, a donator helmet for LitePurple.
+  - bugfix: Winged bascinets now properly render their details.
+  - rscadd: Overhauls placeholder descriptions for Possum's joint donator items.
+  Ryan180602:
+  - rscdel: kills mapvoteweight.
+  - bugfix: unify clothing layering for armour/cloaks.
+  WeNeedMorePhoron:
+  - rscadd: Added Kodachi + Sheath loadout to Kouken
+  - rscadd: Readded missing Kodachi loadout choice to Mistwalker
+  Wide Eyes, Zydras:
+  - rscadd: Battle-wrenches! Blunt wrenches with mace qualities
+  - rscadd: Guild master and munitioneer can start with battle wrenches
+  - rscadd: Wrench sprites by Zydras and myself
+  - qol: you must be in combat mode to beat a contraption into submission
+  - balance: Goggles now offer PPE
+  - balance: engineers can now repair other people's bronze prosthetics
+  - balance: Gold goggles are better at diagnostics if you're better at engineering,
+      and can diagnose synthetics
+  - bugfix: you can no longer use folding tables to exile people to nullspace
+  - code_imp: retypes contraptions to rogueweapons
+  pinkledwrenis:
+  - rscadd: Adds new soaps and related sprites. Use in bathwater or springs to gain
+      their effects.
+  radarseas:
+  - rscadd: Vheslynites exploding makes a little bit extra noise of soulshot on top
+      for aura, than just only the regular explosion noise.
+  - rscadd: 'You can call Vhelsyn directly the "Arch Devil" in prayers as a Vheslynite
+      acceptably now... they''re still dead though so balance: Vhelsyn patron no longer
+      gives you psychosis so your screen constantly shakes while fighting. [most of
+      the traits will be handed on cultists still]'
+  - bugfix: fixed vheslynic hellfire being regular fire
+  - bugfix: vhelsynite hellfire properly shows its purple "hellfire!" status effect
+  - balance: slightly knocked down the firestacks on exploding.
+2026-08-14:
+  Aeiraea:
+  - bugfix: "Fixed the Volf Mantle not having onmob sprites for feminine characters\
+      \ and dwarves. It should be visible for them again\u2014hopefully!"
+  FreeStylaLT:
+  - qol: Forced earflicks now properly respect Deadened / Guarded virtues.
+  KatTheFox:
+  - bugfix: The altgrip keybind now actually switches altgrips even out of combat
+      mode. You can no longer twirl weapons with the altgrip keybind.
+  - bugfix: Suitor now has a class preview so you can see what its subclasses are
+  borneblood:
+  - bugfix: Fixed Skeleton Swarm having the wrong range tag.
+  - spellcheck: Adjusted the flavortext to adhere to the lore about what Avantyne
+      truly is.
+2026-08-15:
+  Aeiraea:
+  - rscadd: Added a few additional articles of clothing (dresses, robes, a more traditional
+      toga, another skirt, a blouse, a coat, sandals, and a more dye-friendly corset),
+      two spectacles (replaced one's sprite to match its onmob sprite), and chest
+      armor befitting of Dendorites.
+  - rscadd: Added most of the aforementioned to the loadout, excluding the robes,
+      the armor, and the spectacles.
+  - rscadd: Added two new spectacles to the 'Conjure Spectacles' spell and to the
+      Merchant's wardrobe... whatever that is.
+  BurpleBineapple:
+  - bugfix: fixes missing donor names and a missing path on apostle kits
+  - rscadd: File Garden can be used to upload media for flavourtexts, including music/OOC
+      extra/headshots/image galleries.
+  FeniaFox:
+  - code_imp: streamlined skin armor code to be neater and make better use of inheritance
+      (~70 line delta yay).
+  - rscdel: Removed chest layer skin from sojourner, to allow layering vastly-superior
+      ward there again.
+  - rscadd: Added alternative skin option to sojourner, using meditation repair. Same
+      stats, just a flavor sidegrade.
+  - bugfix: fixed disciple loadout options being misleading & it having nonfunctional
+      slowdown-resist traits.
+  FreeStylaLT:
+  - bugfix: Fixed blunt dealing incorrect amounts of damage to Exposed-affected mobs.
+  - balance: Verglas Skating mode now costs same stamina as sprinting.
+  KatTheFox:
+  - bugfix: Fixed the description of the drakian race, which was the exact opposite
+      of our lore. Also renamed "dragon heads" because, once more, those are not drakkyn
+      those are drakes.
+  - rscadd: Gloves now have cosmetic slots, where you can put rings or more (unarmored)
+      gloves.
+  Lamasmaster:
+  - rscadd: Adds bandage (underwear).
+  - image: Greyscales desert bra.
+  - bugfix: Fortify doubling itself.
+  Ollanius:
+  - rscadd: Woodland Mantle, Brigandine, and Shawl as donator-exclusive items for
+      Noire and Co.
+  - rscadd: Added additional CKEYs, at Noire's request, to the Sylvan weaponry whitelist.
+  - rscadd: Shawls as a new all-accessible hood.
+  OrbisAnima:
+  - bugfix: fixed Resident virtue takes not being known to the rest of the town and
+      viceversa.
+  - bugfix: fixed Adventurer Resident virtue takers not spawning in the tavern.
+  - admin: ' Puts a check to prevent logging ckey less emotes.'
+  Quinalion:
+  - image: Added fading animations to right-click interactions.
+  - image: Resprited the Psydonite & Zizite sign of faith.
+  Ryan180602:
+  - rscadd: Dark Jacket, Fur Collar, Scout Cloak to loadout.
+  - rscadd: Padded Leather reskin for leather armour.
+  TankTheBirb:
+  - rscadd: Changes Fyritius to behave like an herb instead of a crop, now following
+      alchemy herb behavior regarding seed planting and harvesting. Method of obtaining
+      its seed remains striking it with something.
+  WeNeedMorePhoron:
+  - rscadd: Adds in the "Loot Everything" "Loot Smeltable" "Loot Fabric" button on
+      a DEAD NPC that has NEVER been possessed by a player, allowing you to loot everything
+      in a loop
+  - rscadd: Unified stripping delays and time to defines
+  - rscadd: Moved the surrendered stripping delay (0.5x) to defines
+  - rscadd: NPC stripping time is now 0.33x that of a normal stripping time. But only
+      if it is a dead NPC and so on
+  - rscadd: Massively improved the end of round economics statistics for better data
+      about the town economy, added a lot of analytics
+  - bugfix: Fixed wrong argument passed to every single stripping proc, allowing you
+      to strip remotely until the doafter check AFTER that the target is adjacent,
+      resulting in weirdness.
+  - rscadd: Added to Combat Guide a section about PVE content
+  - rscadd: Made Highwaymen and NPC with crossbows spawn with a "Munition Crossbow",
+      which is a renamed crossbow with 1.1 instead of 1.2 damfactor and smelt into
+      IRON. This cut out one source of iron inflation while keeping steel for the
+      few that sorta deserves it (Weapons n Bogmen etc.).
+  - rscadd: Crossbows now display the damage modifier applied to their bolts on examine.
+  - rscadd: Added a Hunting Chapter to the Combat Guide
+  - rscadd: Added Cookware back into the VALUABLES category instead of a rejected
+      category
+  - rscadd: Added a TOOLS category demanded by Kazengun, Aavnr, Gronn and Lirvas,
+      for tools
+  - rscadd: Tools and Valuables no longer rejected by Navigator, oops!
+  - rscadd: Added Wheelbraces (Cart Upgrade) to the Silverface / Goldface for 25 /
+      50
+  - rscadd: Make Crossbows etc. sellable and in the Engineering categories
+  bearrrrrrrr:
+  - rscadd: Sahir mage now gets a unique ability
+  changelingonberry:
+  - admin: attacked zone is logged now
+  - rscadd: aesthetic loadout items now fit into shirt, armor and cloak slots
+  kiwedespars:
+  - rscadd: hallowed trait, use miracles w/o a cross/amulet!
+  - bugfix: vicious mockery is no longer blockable
+  - bugfix: vicious mockery no longer removes itself when landing twice
+  radarseas:
+  - rscadd: Added new description for the bandit job. w/ a more accurate depiction
+      to the role.
+  saltprjak:
+  - balance: Gnolls now have baseline sneaking  and better crafting skills. Gnolls
+      now have an unlocked right back slot, as well as a satchel to go with it. Mind,
+      the right back slot does not allow for larger storage like backpacks.

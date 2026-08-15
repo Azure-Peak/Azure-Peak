@@ -17,13 +17,13 @@
 	maxHealth = DEEPONE_HEALTH
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1,
-						   /obj/item/alch/viscera = 2)
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1,
+							/obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-						   /obj/item/alch/viscera = 2)
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+							/obj/item/alch/viscera = 2)
 	health = DEEPONE_HEALTH
 	harm_intent_damage = 20
 	melee_damage_lower = 10
@@ -46,12 +46,12 @@
 	ambush_faction = "deepones"
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 
-	can_have_ai = FALSE 
+	can_have_ai = FALSE
 	AIStatus = AI_OFF
 
 	ai_controller = /datum/ai_controller/deepone
 
-/mob/living/simple_animal/hostile/rogue/deepone/Initialize()
+/mob/living/simple_animal/hostile/rogue/deepone/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 

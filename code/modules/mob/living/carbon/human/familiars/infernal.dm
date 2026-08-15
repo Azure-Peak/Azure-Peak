@@ -50,7 +50,7 @@
 	origin_default = /datum/virtue/origin/familiar/infernal
 
 // they get to glow because they're on fire
-/mob/living/carbon/human/species/familiar/infernal/Initialize()
+/mob/living/carbon/human/species/familiar/infernal/Initialize(mapload)
 	. = ..()
 	src.set_light_range(LIGHT_RANGE_FIRE)
 	src.set_light_color(LIGHT_COLOR_FIRE)

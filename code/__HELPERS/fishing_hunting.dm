@@ -62,7 +62,7 @@
 		/obj/item/clothing/ring/gold = 1*treasureMod + 15*ceruleanMod,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1*treasureMod + 50*ceruleanMod,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 10*ceruleanMod,
-		/obj/item/grown/log/tree/stick =  1*trashMod,
+		/obj/item/grown/log/tree/stick =	1*trashMod,
 		/obj/item/natural/cloth = 1*trashMod,
 		/obj/item/ammo_casing/caseless/rogue/arrow = 1*trashMod,
 		/obj/item/reagent_containers/glass/bottle/rogue = 1*trashMod,
@@ -132,7 +132,7 @@
 			/obj/item/roguegem/oyster = 50*rareMod,
 			/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //Oh for fucks sake!
 			/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
-			/obj/item/grown/log/tree/stick =  100*trashMod,
+			/obj/item/grown/log/tree/stick =	100*trashMod,
 	)
 	return counterlist_ceiling(weightList)
 

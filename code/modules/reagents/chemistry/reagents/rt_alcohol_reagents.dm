@@ -242,7 +242,7 @@
 	cuisine = CUISINE_NORTHERN
 	drink_type = DRINKTYPE_SPIRIT
 	name = "Voddena"
-	boozepwr = 40  // now it's just vodka
+	boozepwr = 40	// now it's just vodka
 	taste_description = "clean liquor"
 	color = "#a1a1a1"
 	quality = DRINK_NICE
@@ -251,7 +251,7 @@
 	cuisine = CUISINE_RANESHENI
 	drink_type = DRINKTYPE_SPIRIT
 	name = "Saz Distal"
-	boozepwr = 55  // holy shit
+	boozepwr = 55	// holy shit
 	taste_description = "spicy chilis, ginger, and dirt"
 	color = "#2D1D1D"
 	quality = DRINK_GOOD
@@ -260,7 +260,7 @@
 	cuisine = CUISINE_ETRUSCAN
 	drink_type = DRINKTYPE_SPIRIT
 	name = "Limoncello"
-	boozepwr = 45  // holy shit
+	boozepwr = 45	// holy shit
 	taste_description = "burning and lemony"
 	color = "#d2da63"
 	quality = DRINK_GOOD
@@ -441,8 +441,8 @@
 
 /datum/reagent/consumable/ethanol/spicedwine/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/spicedwine/aged
@@ -454,8 +454,8 @@
 
 /datum/reagent/consumable/ethanol/spicedwine/aged/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.4  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.4  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.4	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.4	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/spicedwine/delectable
@@ -467,8 +467,8 @@
 
 /datum/reagent/consumable/ethanol/spicedwine/delectable/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.7  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.7	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.7	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/cider/ambrosia
@@ -487,11 +487,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(4)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-5	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-5, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -5 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
@@ -523,7 +523,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_SPIRIT
 	name = "Jagdtrunk"
-	boozepwr = 55  // gotta be stronk
+	boozepwr = 55	// gotta be stronk
 	taste_description = "spicy herbal remedy"
 	color = "#331f18"
 	quality = DRINK_NICE
@@ -684,7 +684,7 @@
 // Special Drugs
 /datum/reagent/consumable/ethanol/murkwine // not Toilet wine
 	name = "Mürkwine"
-	boozepwr = 50  // bubba's best
+	boozepwr = 50	// bubba's best
 	taste_description = "hints of questionable choices--a bouqet of murkwater and pure ethanol"
 	color = "#4b1e00"
 
@@ -700,7 +700,7 @@
 /datum/reagent/consumable/ethanol/nocshine // wait, no, NOCSHINE
 	drink_type = DRINKTYPE_SPIRIT
 	name = "Noc's Shine"
-	boozepwr = 70  // YEEEEEHAAAWWWWWW
+	boozepwr = 70	// YEEEEEHAAAWWWWWW
 	taste_description = "what might be my throat melting and nose hair burning"
 	color = "#d8fbfd63"
 	quality = DRINK_NICE
@@ -736,8 +736,8 @@
 
 /datum/reagent/consumable/ethanol/luxwine/on_mob_life(mob/living/carbon/M) // stolen healthpot code. i am shameless.
 	if(volume > 0.99) // i have no clue if this works.
-		M.adjustBruteLoss(-1  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/whipwine // dont ask

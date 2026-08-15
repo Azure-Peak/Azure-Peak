@@ -22,7 +22,7 @@
 	. = ..()
 	//
 	var/atom/target = controller.blackboard[hiding_location_key] || controller.blackboard[target_key]
-	var/escaped =  QDELETED(target) || !can_see(controller.pawn, target, run_distance) // If we can't see it we got away
+	var/escaped =	QDELETED(target) || !can_see(controller.pawn, target, run_distance) // If we can't see it we got away
 	if (escaped)
 		finish_action(controller, succeeded = TRUE)
 		return

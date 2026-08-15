@@ -7,7 +7,7 @@
 	spawn_positions = 0
 	antag_job = TRUE
 
-	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
+	tutorial = "Desertation, desperation, rebelious desires, unmeetable quotas, outcast from society or driven to greed, it matters not. In the teachings of Matthios you found solace; liberate yourself from your misfortunes of your past by taking from others."
 
 	outfit = null
 	outfit_female = null

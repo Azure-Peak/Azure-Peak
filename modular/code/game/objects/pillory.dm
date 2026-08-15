@@ -1,4 +1,4 @@
-#define PILLORY_HEAD_OFFSET      2 // How much we need to move the player to center their head
+#define PILLORY_HEAD_OFFSET		2 // How much we need to move the player to center their head
 
 /obj/structure/pillory
 	name = "pillory"
@@ -55,7 +55,7 @@
 		togglelock(user)
 		return
 
-/obj/structure/pillory/Initialize()
+/obj/structure/pillory/Initialize(mapload)
 	LAZYINITLIST(buckled_mobs)
 	. = ..()
 
