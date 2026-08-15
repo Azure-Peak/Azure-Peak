@@ -1,3 +1,68 @@
+/////////////////////////
+// T0 - Emotional Sway //
+/////////////////////////
+
+/datum/action/cooldown/spell/baotha
+	background_icon = 'icons/mob/actions/baothamiracles.dmi'
+	button_icon = 'icons/mob/actions/baothamiracles.dmi'
+	spell_color = GLOW_COLOR_BAOTHA
+	ignore_armor_penalty = TRUE
+	primary_resource_type = SPELL_COST_DEVOTION
+	secondary_resource_type = SPELL_COST_STAMINA
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	point_cost = 0
+	spell_flags = SPELL_PSYDON
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
+/datum/action/cooldown/spell/baotha/emotional_sway
+	name = "Bona Dea / Petulantia"
+	desc = "Baotha raises myne mood. Alt-mode to instead surrender my soul to heartbreak. More effective based off of holy skill."
+	button_icon_state = null //i ain't got shit rn lowk chief
+	sound = 'sound/magic/heal.ogg' //i ain't got SHIT rn lowk chief
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_CANTRIP
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+	check_flags = AB_CHECK_CONSCIOUS
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	var/embrace_heartbreak = FALSE
+
+/datum/action/cooldown/spell/baotha/emotional_sway/toggle_alt_mode(mob/user)
+	embrace_heartbreak = !embrace_heartbreak
+	to_chat(user, span_notice("Baotha's miracle will now [embrace_heartbreak ? "decrease" : "increase"] my mood."))
+	return TRUE
+
+/datum/action/cooldown/spell/baotha/emotional_sway/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/user = owner
+	if(!istype(user))
+		return FALSE
+
+	var/holy_skill = user.get_skill_level(associated_skill)
+	var/event_type = embrace_heartbreak ? /datum/stressevent/baotha_heartbreak : /datum/stressevent/baotha_solace
+	user.remove_stress(event_type)
+	var/datum/stressevent/emotional_sway = user.add_stress(event_type)
+	if(!emotional_sway)
+		return FALSE
+	emotional_sway.stressadd = (embrace_heartbreak ? 1 : -1) * 2 * holy_skill
+	to_chat(user, embrace_heartbreak ? span_warning("Sickening plummet. This will all end one dae.") : span_green("Warmth and cherishment."))
+	return TRUE
+
+/datum/stressevent/baotha_solace
+	timer = 2 MINUTES
+	desc = span_green("May I make the most of this freedom, and of myne pleasure.")
+
+/datum/stressevent/baotha_heartbreak
+	timer = 2 MINUTES
+	desc = span_warning("...nothing ever lasts forever.")
+
 //T0 that tells the user the person's vice.
 /obj/effect/proc_holder/spell/invoked/baothavice
 	name = "Tell Vice"

@@ -2,9 +2,10 @@
 	name = "Baotha"
 	domain = "Goddess of Comfort, Passion, Addiction, and Heartbreak"
 	desc = "Belladoth was the Eleventh of the Pantheon, In taboo rituo, she took on the pain of the uncomforted and outcast, those that had been rejected by her siblings; and together, their pain became Baotha. A saccharine truth that the hurts of the world need not be shouldered alone, no matter who you are. She offers succor to those that cannot find it elsewhere. Baothans range from the Heartbroken and Damaged to those that have simply turned to Nihilism in the face of the death of Psydonia."
-	worshippers = "The Anguished, the Hollow, the Heartbroken, the Addicted"
+	worshippers = "The Anguished, the Hollow, the Heartbroken, the Addicted, those who break taboo"
 	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
+					/datum/action/cooldown/spell/baotha/emotional_sway			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/baothavice				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/baothablessings			= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal						= CLERIC_T1,
@@ -24,7 +25,7 @@
 		"BAOTHA IS MY JOY!",
 	)
 	storyteller = /datum/storyteller/baotha
-	traits_tier = list(TRAIT_CRACKHEAD = CLERIC_T1)
+	traits_tier = list(TRAIT_BAOTHAN_CALM = CLERIC_T0, TRAIT_CRACKHEAD = CLERIC_T1)
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/baotha_cross_stone, /datum/crafting_recipe/roguetown/structure/baotha_cross_meat)
 
 	titles = list(
