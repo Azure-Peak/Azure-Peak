@@ -1,6 +1,6 @@
 // Scaling: No storyteller slot caps or solo event. Gnoll slots come from:
-//  - The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)
-//  - Migrant waves (+2 slots, capped by storyteller maxcap)
+//	- The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)
+//	- Migrant waves (+2 slots, capped by storyteller maxcap)
 /datum/antagonist/gnoll
 	name = "Gnoll"
 	roundend_category = "Gnolls"

@@ -38,7 +38,7 @@
 			phalanx_weapons = "Ancient Spear / Ancient Bardiche / Dory & Shield"
 			mace_weapons = "Ancient Mace / Ancient Warhammer & Shield / Grand Mace / Ancient Axe / Steel Greataxe"
 		else
-			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando  / Steel Dagger & Shield"
+			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando	/ Steel Dagger & Shield"
 			phalanx_weapons = "Spear / Dory & Shield / Naginata"
 			mace_weapons = "Mace / Warhammer & Shield / Goedendag / Iron Axe / Greataxe"
 
@@ -51,56 +51,56 @@
 		mace_weapons = "[extra_mace_weapon] / [mace_weapons]"
 
 	// Color palette per faction
-	var/col_bg           // body background
-	var/col_text         // main text
-	var/col_header       // h2, weapon-info, button text, loud preamble
-	var/col_subheader    // h3, h4, closing preamble
-	var/col_border       // borders, preamble text
-	var/col_divider      // inner dividers
-	var/col_gradient     // column/shared-info background
-	var/col_em           // chant emphasized text
-	var/col_li           // list item text
-	var/col_btn_bg       // button background
-	var/col_btn_hover    // button hover background
-	var/col_glow_r       // box-shadow RGB
+	var/col_bg			// body background
+	var/col_text			// main text
+	var/col_header		// h2, weapon-info, button text, loud preamble
+	var/col_subheader	// h3, h4, closing preamble
+	var/col_border		// borders, preamble text
+	var/col_divider		// inner dividers
+	var/col_gradient		// column/shared-info background
+	var/col_em			// chant emphasized text
+	var/col_li			// list item text
+	var/col_btn_bg		// button background
+	var/col_btn_hover	// button hover background
+	var/col_glow_r		// box-shadow RGB
 	var/col_glow_g
 	var/col_glow_b
 	switch(faction)
 		if("zizite", "undead")
-			col_bg = "#140a0a";         col_text = "#d4a0a0"
-			col_header = "#c96e6e";     col_subheader = "#a05050"
-			col_border = "#8b5555";     col_divider = "#5a3030"
-			col_gradient = "#2a1010";   col_em = "#e0b0b0"
-			col_li = "#b08080";         col_btn_bg = "#3a1515"
-			col_btn_hover = "#4a2020";  col_glow_r = "139"; col_glow_g = "85"; col_glow_b = "85"
+			col_bg = "#140a0a";			col_text = "#d4a0a0"
+			col_header = "#c96e6e";		col_subheader = "#a05050"
+			col_border = "#8b5555";		col_divider = "#5a3030"
+			col_gradient = "#2a1010";	col_em = "#e0b0b0"
+			col_li = "#b08080";			col_btn_bg = "#3a1515"
+			col_btn_hover = "#4a2020";	col_glow_r = "139"; col_glow_g = "85"; col_glow_b = "85"
 		if("noccite")
-			col_bg = "#0a0e1a";         col_text = "#a0b8d4"
-			col_header = "#6e8ec9";     col_subheader = "#5070a0"
-			col_border = "#556b8b";     col_divider = "#304a5a"
-			col_gradient = "#101828";   col_em = "#b0c8e0"
-			col_li = "#8098b0";         col_btn_bg = "#152030"
-			col_btn_hover = "#203040";  col_glow_r = "85"; col_glow_g = "107"; col_glow_b = "139"
+			col_bg = "#0a0e1a";			col_text = "#a0b8d4"
+			col_header = "#6e8ec9";		col_subheader = "#5070a0"
+			col_border = "#556b8b";		col_divider = "#304a5a"
+			col_gradient = "#101828";	col_em = "#b0c8e0"
+			col_li = "#8098b0";			col_btn_bg = "#152030"
+			col_btn_hover = "#203040";	col_glow_r = "85"; col_glow_g = "107"; col_glow_b = "139"
 		if("blackoak")
-			col_bg = "#0a140e";         col_text = "#a0d4b0"
-			col_header = "#6ec98e";     col_subheader = "#50a070"
-			col_border = "#558b65";     col_divider = "#305a40"
-			col_gradient = "#102a18";   col_em = "#b0e0c0"
-			col_li = "#80b090";         col_btn_bg = "#153a20"
-			col_btn_hover = "#204a30";  col_glow_r = "85"; col_glow_g = "139"; col_glow_b = "101"
+			col_bg = "#0a140e";			col_text = "#a0d4b0"
+			col_header = "#6ec98e";		col_subheader = "#50a070"
+			col_border = "#558b65";		col_divider = "#305a40"
+			col_gradient = "#102a18";	col_em = "#b0e0c0"
+			col_li = "#80b090";			col_btn_bg = "#153a20"
+			col_btn_hover = "#204a30";	col_glow_r = "85"; col_glow_g = "139"; col_glow_b = "101"
 		if("almah")
-			col_bg = "#1a150a";         col_text = "#d4c090"
-			col_header = "#e0b050";     col_subheader = "#c09840"
-			col_border = "#a08030";     col_divider = "#6a5520"
-			col_gradient = "#2a2010";   col_em = "#f0d080"
-			col_li = "#c0a860";         col_btn_bg = "#3a2a10"
-			col_btn_hover = "#4a3a18";  col_glow_r = "200"; col_glow_g = "160"; col_glow_b = "60"
+			col_bg = "#1a150a";			col_text = "#d4c090"
+			col_header = "#e0b050";		col_subheader = "#c09840"
+			col_border = "#a08030";		col_divider = "#6a5520"
+			col_gradient = "#2a2010";	col_em = "#f0d080"
+			col_li = "#c0a860";			col_btn_bg = "#3a2a10"
+			col_btn_hover = "#4a3a18";	col_glow_r = "200"; col_glow_g = "160"; col_glow_b = "60"
 		else // conventional — default warm brown/gold
-			col_bg = "#1a1410";         col_text = "#d4c4a0"
-			col_header = "#c9a96e";     col_subheader = "#a08050"
-			col_border = "#8b7355";     col_divider = "#5a4a30"
-			col_gradient = "#2a2015";   col_em = "#e0d0b0"
-			col_li = "#b0a080";         col_btn_bg = "#3a2a15"
-			col_btn_hover = "#4a3a20";  col_glow_r = "139"; col_glow_g = "115"; col_glow_b = "85"
+			col_bg = "#1a1410";			col_text = "#d4c4a0"
+			col_header = "#c9a96e";		col_subheader = "#a08050"
+			col_border = "#8b7355";		col_divider = "#5a4a30"
+			col_gradient = "#2a2015";	col_em = "#e0d0b0"
+			col_li = "#b0a080";			col_btn_bg = "#3a2a15"
+			col_btn_hover = "#4a3a20";	col_glow_r = "139"; col_glow_g = "115"; col_glow_b = "85"
 
 	var/html = {"<!DOCTYPE html>
 <html>

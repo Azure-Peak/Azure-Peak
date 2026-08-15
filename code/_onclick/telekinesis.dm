@@ -61,7 +61,7 @@
 	TK Grab Item (the workhorse of old TK)
 
 	* If you have not grabbed something, do a normal tk attack
-	* If you have something, throw it at the target.  If it is already adjacent, do a normal attackby()
+	* If you have something, throw it at the target.	If it is already adjacent, do a normal attackby()
 	* If you click what you are holding, or attack_self(), do an attack_self_tk() on it.
 	* Deletes itself if it is ever not in my hand, or if you should have no access to TK.
 */
@@ -79,7 +79,7 @@
 	var/atom/movable/focus
 	var/mob/living/carbon/tk_user
 
-/obj/item/tk_grab/Initialize()
+/obj/item/tk_grab/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 

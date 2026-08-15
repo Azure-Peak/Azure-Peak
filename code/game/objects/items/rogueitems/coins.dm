@@ -34,8 +34,8 @@
 		set_quantity(floor(coin_amount))
 
 /obj/item/roguecoin/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Coinage can be exchanged for goods and services.")
+	. = ..()
+	. += span_info("Coinage can be exchanged for goods and services.")
 
 /obj/item/roguecoin/getonmobprop(tag)
 	if(tag)
@@ -215,10 +215,10 @@
 	materia = list(/datum/materia_aspect/lunar)
 
 /obj/item/roguecoin/inqcoin/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("By loading these coins into a HERMES, I can access the MARQUETTE; a discrete variant of the GOLDFACE, capable of supplying the Inquisition with whatever's needed.")
-    . += span_info("The MARQUETTE exclusively accepts these coins as payment. Purchased supplies are dropped off inside the Inquisition's abode.")
-    . += span_info("More coins can be obtained by filling INDEXERS, pairing them with signed ACCUSATIONS or CONFESSIONS, and sending them through the HERMES.")
+	. = ..()
+	. += span_info("By loading these coins into a HERMES, I can access the MARQUETTE; a discrete variant of the GOLDFACE, capable of supplying the Inquisition with whatever's needed.")
+	. += span_info("The MARQUETTE exclusively accepts these coins as payment. Purchased supplies are dropped off inside the Inquisition's abode.")
+	. += span_info("More coins can be obtained by filling INDEXERS, pairing them with signed ACCUSATIONS or CONFESSIONS, and sending them through the HERMES.")
 
 //GOLD
 /obj/item/roguecoin/gold
@@ -261,39 +261,39 @@
 	plural_name = "psila"
 	materia = list(/datum/materia_aspect/aalloy)
 
-/obj/item/roguecoin/inqcoin/pile/Initialize()
+/obj/item/roguecoin/inqcoin/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/aalloy/pile/Initialize()
+/obj/item/roguecoin/aalloy/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/aalloy/pile/rich/Initialize()
+/obj/item/roguecoin/aalloy/pile/rich/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(8,19)) //Hilarious
 
-/obj/item/roguecoin/copper/pile/Initialize()
+/obj/item/roguecoin/copper/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/silver/pile/Initialize()
+/obj/item/roguecoin/silver/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/silver/pile/readyuppile/Initialize()
+/obj/item/roguecoin/silver/pile/readyuppile/Initialize(mapload)
 	. = ..()
 	set_quantity(4) // 20 mammons combine with starting pouch to buy something
 
-/obj/item/roguecoin/gold/pile/Initialize()
+/obj/item/roguecoin/gold/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/gold/virtuepile/Initialize()
+/obj/item/roguecoin/gold/virtuepile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(8,12))
 
-/obj/item/roguecoin/gold/aspirantpile/Initialize()
+/obj/item/roguecoin/gold/aspirantpile/Initialize(mapload)
 	. = ..()
 	set_quantity(20) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
 

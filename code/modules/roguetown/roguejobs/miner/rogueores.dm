@@ -24,7 +24,7 @@
 	smeltresult = /obj/item/ingot/gold
 	materia = list(/datum/materia_aspect/solar, /datum/materia_aspect/metal)
 
-/obj/item/rogueore/gold/Initialize()
+/obj/item/rogueore/gold/Initialize(mapload)
 	icon_state = "oregold[rand(1,3)]"
 	..()
 
@@ -37,7 +37,7 @@
 	sellprice = SELLPRICE_SILVER_ORE
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/metal)
 
-/obj/item/rogueore/silver/Initialize()
+/obj/item/rogueore/silver/Initialize(mapload)
 	icon_state = "oresilv[rand(1,3)]"
 	..()
 
@@ -49,7 +49,7 @@
 	smeltresult = /obj/item/ingot/iron
 	materia = list(/datum/materia_aspect/metal)
 
-/obj/item/rogueore/iron/Initialize()
+/obj/item/rogueore/iron/Initialize(mapload)
 	icon_state = "oreiron[rand(1,3)]"
 	..()
 
@@ -65,7 +65,7 @@
 	sellprice = SELLPRICE_COPPER_ORE
 	materia = list(/datum/materia_aspect/change, /datum/materia_aspect/metal)
 
-/obj/item/rogueore/copper/Initialize()
+/obj/item/rogueore/copper/Initialize(mapload)
 	icon_state = "orecop[rand(1,3)]"
 	..()
 
@@ -81,7 +81,7 @@
 	sellprice = SELLPRICE_TIN_ORE
 	materia = list(/datum/materia_aspect/mundane, /datum/materia_aspect/metal)
 
-/obj/item/rogueore/tin/Initialize()
+/obj/item/rogueore/tin/Initialize(mapload)
 	icon_state = "oretin[rand(1,3)]"
 	..()
 
@@ -97,7 +97,7 @@
 	smeltresult = /obj/item/rogueore/coal
 	materia = list(/datum/materia_aspect/earth, /datum/materia_aspect/fire)
 
-/obj/item/rogueore/coal/Initialize()
+/obj/item/rogueore/coal/Initialize(mapload)
 	icon_state = "orecoal[rand(1,3)]"
 	..()
 
@@ -127,9 +127,9 @@
 	smeltresult = /obj/item/ingot/lithmyc
 	materia = list(/datum/materia_aspect/herb, /datum/materia_aspect/metal)
 
-/obj/item/rogueore/lithmyc/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
+/obj/item/rogueore/lithmyc/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot
 	name = "ingot"
@@ -316,9 +316,9 @@
 	sellprice = 20
 	materia = list(/datum/materia_aspect/defense, /datum/materia_aspect/metal, /datum/materia_aspect/fire)
 
-/obj/item/ingot/steelholy/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
+/obj/item/ingot/steelholy/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/
 	name = "blessed silver bar"
@@ -330,9 +330,9 @@
 	is_lesser_silver = TRUE
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/metal)
 
-/obj/item/ingot/silverblessed/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
+/obj/item/ingot/silverblessed/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/bullion
 	name = "blessed silver bullion"
@@ -367,9 +367,9 @@
 	smeltresult = /obj/item/ingot/aaslag
 	sellprice = 6
 
-/obj/item/ingot/aaslag/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
+/obj/item/ingot/aaslag/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
 
 /obj/item/ingot/bsslag
 	name = "blacksteel-speckled slag"
@@ -410,9 +410,9 @@
 	sellprice = 222
 	materia = list(/datum/materia_aspect/aalloy) // if you use this for this i will be genuinely dumbfounded
 
-/obj/item/ingot/weeping/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
+/obj/item/ingot/weeping/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/draconic
 	name = "draconic ingot"
@@ -422,9 +422,9 @@
 	sellprice = 333
 	materia = list(/datum/materia_aspect/arcyne, /datum/materia_aspect/metal)
 
-/obj/item/ingot/draconic/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
+/obj/item/ingot/draconic/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/lithmyc
 	name = "lithmyc ingot"
@@ -434,9 +434,9 @@
 	sellprice = 444
 	materia = list(/datum/materia_aspect/herb, /datum/materia_aspect/metal)
 
-/obj/item/ingot/lithmyc/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
+/obj/item/ingot/lithmyc/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/ketryl
 	name = "ketryl ingot"
@@ -460,9 +460,9 @@
 	sellprice = 256
 	materia = list(/datum/materia_aspect/aalloy)
 
-/obj/item/ingot/vampire/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
+/obj/item/ingot/vampire/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/ingot/avantyne
 	name = "avantyne wafer"
@@ -495,11 +495,11 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.patron.type == /datum/patron/inhumen/graggar)
-			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.  </br>Melting away its crystalline shell is ideal, if you wish to ensure no chance for error while conducting such a ritual.")
+			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.	</br>Melting away its crystalline shell is ideal, if you wish to ensure no chance for error while conducting such a ritual.")
 
-/obj/item/ingot/component/glutcrystal/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 1))
+/obj/item/ingot/component/glutcrystal/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 1))
 
 /obj/item/ingot/component/heapofrawiron
 	name = "heap of raw iron"

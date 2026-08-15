@@ -3,7 +3,7 @@
 	desc = "A shimmering quiver of conjured bolts."
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/ferramancy
 
-/obj/item/quiver/bolt/conjured/Initialize()
+/obj/item/quiver/bolt/conjured/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/bolt/ferramancy/A = new()
@@ -15,7 +15,7 @@
 	desc = "A shimmering quiver of conjured arrows."
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/ferramancy
 
-/obj/item/quiver/conjured/Initialize()
+/obj/item/quiver/conjured/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/arrow/iron/ferramancy/A = new()
@@ -44,7 +44,7 @@
 	desc = "A shimmering quiver of conjured stone arrows."
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone/conjured
 
-/obj/item/quiver/conjured_stone/Initialize()
+/obj/item/quiver/conjured_stone/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/ammo_casing/caseless/rogue/arrow/stone/conjured/A = new()

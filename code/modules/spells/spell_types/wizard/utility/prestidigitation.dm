@@ -286,7 +286,7 @@
 	name = "minor magelight mote"
 	desc = "A tiny display of arcyne power used to illuminate."
 	pixel_x = 20
-	light_outer_range =  5
+	light_outer_range =	5
 	light_color = "#3FBAFD"
 	light_system = MOVABLE_LIGHT
 

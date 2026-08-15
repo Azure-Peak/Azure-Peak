@@ -277,7 +277,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 						readable_coverage = body_parts_covered2organ_names(C.body_parts_covered_dynamic, verbose = TRUE)
 					for(var/coverageflag in readable_coverage)
 						for(var/type in damtypes)
-							switch(type)			//We get the max armor  values for this coverage flag
+							switch(type)			//We get the max armor	values for this coverage flag
 								if("blunt")
 									blunt_max[coverageflag] = max(C.armor.getRating(type), blunt_max[coverageflag])
 								if("slash")
@@ -493,7 +493,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			dots += "<font color='#404040'>&#9675;</font>"
 	return "<font color='[color]'>[label]</font> [dots]"
 
-/proc/skilldiff_report(var/input)
+/proc/skilldiff_report(input)
 	switch (input)
 		if(-6)
 			return "<font color = '#ff4ad2'>I know nothing. They -- everything</font>"

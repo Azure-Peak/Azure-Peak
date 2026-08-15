@@ -3,15 +3,15 @@
  *
  * Each enchantment is aligned with a realm. The material cost is exactly
  * one mob's worth of same-tier realm drops:
- *   T1: 4x T1 realm mat + cinnabar + vial
- *   T2: 2x T2 realm mat + cinnabar + vial
- *   T3: 1x T3 realm mat + cinnabar + vial + leyline shard
- *   T4: 1x T4 realm mat + cinnabar + vial + leyline shard
+ *	T1: 4x T1 realm mat + cinnabar + vial
+ *	T2: 2x T2 realm mat + cinnabar + vial
+ *	T3: 1x T3 realm mat + cinnabar + vial + leyline shard
+ *	T4: 1x T4 realm mat + cinnabar + vial + leyline shard
  *
  *
  * Rune requirements:
- *   Imbuement Array — T1 through T3 enchantments.
- *   Greater Imbuement Array — all enchantments (T1 through T4).
+ *	Imbuement Array — T1 through T3 enchantments.
+ *	Greater Imbuement Array — all enchantments (T1 through T4).
  */
 
 /datum/runeritual/enchanting

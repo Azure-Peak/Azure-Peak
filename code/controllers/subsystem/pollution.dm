@@ -23,7 +23,7 @@ SUBSYSTEM_DEF(pollution)
 	msg += "|AT:[active_pollution.len]|P:[all_polution.len]"
 	return ..()
 
-/datum/controller/subsystem/pollution/Initialize()
+/datum/controller/subsystem/pollution/Initialize(mapload)
 	//Initialize singletons
 	for(var/type in subtypesof(/datum/pollutant))
 		var/datum/pollutant/pollutant_cast = type

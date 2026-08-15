@@ -9,16 +9,16 @@
 	ambushable = FALSE
 	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	base_intents = list(/datum/intent/simple/bite/bear)
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 1, 
-									/obj/item/natural/hide = 1, 
-									/obj/item/natural/fur/direbear = 1, 
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 1,
+									/obj/item/natural/hide = 1,
+									/obj/item/natural/fur/direbear = 1,
 									/obj/item/natural/bone = 3)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 2,
 									/obj/item/reagent_containers/food/snacks/fat = 1,
 									/obj/item/natural/hide = 2,
 									/obj/item/natural/fur/direbear = 1,
-									/obj/item/alch/sinew = 2, 
-									/obj/item/alch/bone = 1, 
+									/obj/item/alch/sinew = 2,
+									/obj/item/alch/bone = 1,
 									/obj/item/alch/viscera = 2,
 									/obj/item/natural/bone = 4)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 3,
@@ -36,7 +36,7 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!
 	melee_damage_upper = 60		// We're gonna take his pick-in-ick basket!
-	vision_range = 6		
+	vision_range = 6
 	aggro_vision_range = 8
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES // silly furniture won't stop our boy
 	milkies = FALSE
@@ -44,9 +44,9 @@
 	pooptype = null
 	health = BEAR_HEALTH	//volf is 120, saigabuck is 400
 	maxHealth = BEAR_HEALTH
-	food_type = list(/obj/item/reagent_containers/food/snacks, 
-				/obj/item/bodypart, 	//Woe be upon ye
-				/obj/item/organ, 		//Woe be upon ye
+	food_type = list(/obj/item/reagent_containers/food/snacks,
+				/obj/item/bodypart,	//Woe be upon ye
+				/obj/item/organ,		//Woe be upon ye
 				/obj/effect/decal/remains,
 				)
 	STACON = 12

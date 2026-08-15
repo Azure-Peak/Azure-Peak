@@ -19,10 +19,10 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
 		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 		<body>
-		  <div>
-		    <h1>[name]</h1>
+			<div>
+			<h1>[name]</h1>
 		"}
-	
+
 	html += "Put [initial(valid_input.name)] in an Alchemical Mortar.<br>"
 	html += "Grind with a pestle to create:<br>"
 

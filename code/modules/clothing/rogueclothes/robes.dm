@@ -209,7 +209,7 @@
 	color = null
 	storage = FALSE
 
-/obj/item/clothing/suit/roguetown/shirt/robe/priest/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/robe/priest/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CHOSEN, "VESTMENTS")
 
@@ -274,7 +274,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/courtmage
 	color = "#6c6c6c"
 
-/obj/item/clothing/suit/roguetown/shirt/robe/mage/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/robe/mage/Initialize(mapload)
 	color = pick("#4756d8", "#759259", "#bf6f39", "#c1b144", "#b8252c")
 	. = ..()
 
@@ -403,7 +403,7 @@
 	naledicolor = TRUE
 	storage = FALSE
 
-/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -419,7 +419,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout
 	name = "aesthetic hierophant's kandys"
 
-/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -437,7 +437,7 @@
 	l_sleeve_status = SLEEVE_NOMOD
 	storage = FALSE
 
-/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -453,7 +453,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout
 	name = "aesthetic pontifex's qaba"
 
-/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 

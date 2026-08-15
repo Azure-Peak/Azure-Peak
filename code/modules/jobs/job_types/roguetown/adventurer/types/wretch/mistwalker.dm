@@ -34,8 +34,8 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //flavour and useful for making armour
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
-    )
+		"Sewing Kit" =	/obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
+	)
 	extra_context = "This subclass gains addition stat points from weapon selection, and is race-limited from: Constructs."
 	adv_stat_ceiling = list(STAT_STRENGTH = 14, STAT_CONSTITUTION = 14, STAT_WILLPOWER = 14) //no thank you to stat stacking
 

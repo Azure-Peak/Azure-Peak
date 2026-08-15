@@ -20,7 +20,7 @@
 	var/obj/item/paper/fluff/jobs/cargo/manifest/manifest
 	var/base_icon_state
 
-/obj/structure/closet/crate/Initialize()
+/obj/structure/closet/crate/Initialize(mapload)
 	. = ..()
 	if(!base_icon_state)
 		base_icon_state = initial(icon_state)

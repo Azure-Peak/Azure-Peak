@@ -40,6 +40,6 @@
 	</div>
 	<div>
 	<h2>Spoilage</h2>
-	Food left out too long will spoil. To prevent it: dehydrate it on a drying rack (if available), put it on a cooling table,  wrap it in ration paper, or store it in a chest (not a closet).<br>
+	Food left out too long will spoil. To prevent it: dehydrate it on a drying rack (if available), put it on a cooling table,	wrap it in ration paper, or store it in a chest (not a closet).<br>
 	</div>
 	"}

@@ -1,4 +1,4 @@
-/* 
+/*
 *	these guys are intended to be a speedbump to solo adventurers at mount decap
 *	deadly but small in numbers. come back with a party, chump
 */
@@ -15,7 +15,7 @@
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "treasure_hunters"
 
-/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/Initialize()
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))
@@ -50,7 +50,7 @@
 		organ_ears.accessory_colors = "[src.skin_tone]"
 
 	dna.species.handle_body(src)
-	
+
 	real_name = pick(world.file2list("strings/rt/names/human/mad_touched_names.txt"))
 
 	update_hair()

@@ -56,7 +56,7 @@
 	var/list/out = list()
 	out += "[CHRONICLE_STATS_ROUND_HEADER_PREFIX][round_id] | dumped [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")] ===\n"
 	var/round_minutes = round(world.time / 600)
-	out += "Round duration: [round_minutes]m  |  Players joined: [GLOB.joined_player_list ? GLOB.joined_player_list.len : 0]  |  Live clients: [length(GLOB.clients)]\n"
+	out += "Round duration: [round_minutes]m	|	Players joined: [GLOB.joined_player_list ? GLOB.joined_player_list.len : 0]	|	Live clients: [length(GLOB.clients)]\n"
 	out += "\n"
 	out += chronicle_section_population()
 	out += chronicle_section_treasury()
@@ -75,7 +75,7 @@
 	var/padded = label
 	while(length(padded) < width)
 		padded = "[padded] "
-	return "  [padded][value]\n"
+	return "	[padded][value]\n"
 
 /proc/chronicle_section_header(label)
 	return "--- [uppertext(label)] ---\n"
@@ -98,10 +98,10 @@
 	out += chronicle_section_header("Treasury")
 	out += chronicle_kv("Starting treasury", "[GLOB.azure_round_stats[STATS_STARTING_TREASURY]]")
 	out += chronicle_kv("Taxes collected", "[GLOB.azure_round_stats[STATS_TAXES_COLLECTED]]")
-	out += chronicle_kv("  Contract levy", "[GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]")
-	out += chronicle_kv("  Headeater levy", "[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]")
-	out += chronicle_kv("  Import tariff", "[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]")
-	out += chronicle_kv("  Export duty", "[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]")
+	out += chronicle_kv("	Contract levy", "[GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]")
+	out += chronicle_kv("	Headeater levy", "[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]")
+	out += chronicle_kv("	Import tariff", "[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]")
+	out += chronicle_kv("	Export duty", "[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]")
 	out += chronicle_kv("Poll tax collected", "[GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]")
 	out += chronicle_kv("Taxes evaded", "[GLOB.azure_round_stats[STATS_TAXES_EVADED]]")
 	var/exempt_total = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF] + GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY] + GLOB.azure_round_stats[STATS_EXEMPTED_FINE] + GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
@@ -135,7 +135,7 @@
 	var/list/out = list()
 	out += chronicle_section_header("Merchant Ships — Hails by Realm")
 	if(!SSmerchant_trade)
-		out += "  (SSmerchant_trade not initialized)\n\n"
+		out += "	(SSmerchant_trade not initialized)\n\n"
 		return jointext(out, "")
 	var/list/sorted_ids = list()
 	for(var/realm_id in SSmerchant_trade.realms)
@@ -145,13 +145,13 @@
 	for(var/realm_id in SSmerchant_trade.hails_by_realm)
 		total_hails += SSmerchant_trade.hails_by_realm[realm_id]
 	out += chronicle_kv("Total successful hails", "[total_hails]")
-	out += "  Realm           | Hails | Avg dock (m) | Favor earned\n"
+	out += "	Realm			| Hails | Avg dock (m) | Favor earned\n"
 	for(var/realm_id in sorted_ids)
 		var/datum/foreign_realm/realm = SSmerchant_trade.realms[realm_id]
 		var/realm_name = realm ? realm.name : realm_id
 		var/hails = SSmerchant_trade.hails_by_realm[realm_id] || 0
 		var/list/durations = SSmerchant_trade.dock_durations_by_realm[realm_id]
-		var/avg_min = "  -"
+		var/avg_min = "	-"
 		if(LAZYLEN(durations))
 			var/total_ds = 0
 			for(var/d in durations)
@@ -161,7 +161,7 @@
 		var/padded = realm_name
 		while(length(padded) < 15)
 			padded = "[padded] "
-		out += "  [padded] | [chronicle_pad_left("[hails]", 5)] | [chronicle_pad_left(avg_min, 12)] | [favor]\n"
+		out += "	[padded] | [chronicle_pad_left("[hails]", 5)] | [chronicle_pad_left(avg_min, 12)] | [favor]\n"
 	out += "\n"
 	return jointext(out, "")
 
@@ -188,20 +188,20 @@
 	var/list/out = list()
 	if(!SSmerchant_trade)
 		out += chronicle_section_header("Navigator Buckets")
-		out += "  (SSmerchant_trade not initialized)\n\n"
+		out += "	(SSmerchant_trade not initialized)\n\n"
 		return jointext(out, "")
 	out += chronicle_section_header("Navigator Buckets — Real Market")
-	out += "  Bucket               | Sold   | Ship Relieved\n"
+	out += "	Bucket				| Sold	| Ship Relieved\n"
 	for(var/bucket in SSmerchant_trade.pool_capacity)
 		var/sold = SSmerchant_trade.lifetime_pool_credited[bucket] || 0
 		var/relieved = SSmerchant_trade.lifetime_pool_relieved[bucket] || 0
-		out += "  [chronicle_pad_right(bucket, 20)] | [chronicle_pad_left("[sold]", 6)] | [relieved]\n"
+		out += "	[chronicle_pad_right(bucket, 20)] | [chronicle_pad_left("[sold]", 6)] | [relieved]\n"
 	out += "\n"
 	out += chronicle_section_header("Navigator Buckets — Black Market")
-	out += "  Bucket               | Sold\n"
+	out += "	Bucket				| Sold\n"
 	for(var/bucket in SSmerchant_trade.bm_pool_capacity)
 		var/sold = SSmerchant_trade.lifetime_bm_pool_credited[bucket] || 0
-		out += "  [chronicle_pad_right(bucket, 20)] | [sold]\n"
+		out += "	[chronicle_pad_right(bucket, 20)] | [sold]\n"
 	out += "\n"
 	return jointext(out, "")
 
@@ -254,11 +254,11 @@
 	out += chronicle_kv("Rumor points generated / consumed", "[GLOB.azure_round_stats[STATS_RUMOR_POINTS_GENERATED]] / [GLOB.azure_round_stats[STATS_RUMOR_POINTS_CONSUMED]]")
 	if(SSmerchant_trade)
 		out += chronicle_kv("Merchant favor (current / peak)", "[SSmerchant_trade.merchant_favor] / [SSmerchant_trade.merchant_favor_high]")
-		out += chronicle_kv("  from send-offs", "[SSmerchant_trade.favor_from_sendoffs]")
-		out += chronicle_kv("  from navigator", "[SSmerchant_trade.favor_from_navigator]")
-		out += chronicle_kv("  from goldface", "[SSmerchant_trade.favor_from_goldface]")
-		out += chronicle_kv("  from silverface", "[SSmerchant_trade.favor_from_silverface]")
-		out += chronicle_kv("  penalties (dishonor)", "[SSmerchant_trade.favor_penalties]")
+		out += chronicle_kv("	from send-offs", "[SSmerchant_trade.favor_from_sendoffs]")
+		out += chronicle_kv("	from navigator", "[SSmerchant_trade.favor_from_navigator]")
+		out += chronicle_kv("	from goldface", "[SSmerchant_trade.favor_from_goldface]")
+		out += chronicle_kv("	from silverface", "[SSmerchant_trade.favor_from_silverface]")
+		out += chronicle_kv("	penalties (dishonor)", "[SSmerchant_trade.favor_penalties]")
 	out += "\n"
 	return jointext(out, "")
 

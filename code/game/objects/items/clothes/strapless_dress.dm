@@ -24,7 +24,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/red
 	color = "#6F0000"
 
-/obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/random/Initialize(mapload)
 	color = pick(CLOTHING_BLACK, CLOTHING_BLUE, "#664357", "#6F0000")
 	..()
 

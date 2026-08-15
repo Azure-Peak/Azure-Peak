@@ -14,7 +14,7 @@
 	var/w_class_on = WEIGHT_CLASS_BULKY
 	var/clumsy_check = TRUE
 
-/obj/item/melee/transforming/Initialize()
+/obj/item/melee/transforming/Initialize(mapload)
 	. = ..()
 	if(active)
 		if(attack_verb_on.len)
@@ -70,7 +70,7 @@
 	return
 
 /obj/item/melee/transforming/proc/transform_messages(mob/living/user, supress_message_text)
-	playsound(user, 'sound/blank.ogg', 35, TRUE)  //changed it from 50% volume to 35% because deafness
+	playsound(user, 'sound/blank.ogg', 35, TRUE)	//changed it from 50% volume to 35% because deafness
 	if(!supress_message_text)
 		to_chat(user, span_notice("[src] [active ? "is now active":"can now be concealed"]."))
 

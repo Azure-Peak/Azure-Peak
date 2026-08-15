@@ -21,13 +21,13 @@
 	name = "clay bauble x3"
 	result = list(/obj/item/natural/clay/rawbauble, /obj/item/natural/clay/rawbauble, /obj/item/natural/clay/rawbauble)
 	reqs = list(/obj/item/natural/clay = 1)
-	craftdiff = 0 
+	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/ceramics/claycameo
 	name = "clay cameo"
 	result = list(/obj/item/natural/clay/rawcameo)
 	reqs = list(/obj/item/natural/clay = 1)
-	craftdiff = 0 
+	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/ceramics/clay/claycup3
 	name = "clay flask, dyeable (3x)"
@@ -130,7 +130,7 @@
 	result = list(/obj/item/natural/clay/rawplatter)
 	reqs = list(/obj/item/natural/clay = 1)
 	craftdiff = 1
-	
+
 /datum/crafting_recipe/roguetown/ceramics/clay/claybottleclassic
 	name = "clay bottle, traditional"
 	result = list(/obj/item/natural/clay/claybottleclassic)
@@ -248,9 +248,9 @@
 	* a Stablizer, like limestone, bone ash, or marble dust.
 		Did you know 'pure' glass dissolves in water? The stablizer is what binds everything together and makes it strong.
 	In reality, those different components will be abstracted in game, respectively to:
-	*2x clay   (Assuming it is a base for acquiring Silica)
-	*2x ash    (No abstraction needed. Plant/wood ash IS Na2CO3)
-	*1x stone  (We'll just assume that regular stones have enough limestone in them) (We could use bones but those are too hard to get.)
+	*2x clay	(Assuming it is a base for acquiring Silica)
+	*2x ash	(No abstraction needed. Plant/wood ash IS Na2CO3)
+	*1x stone	(We'll just assume that regular stones have enough limestone in them) (We could use bones but those are too hard to get.)
 	This should make glass neither trivial nor too challenging to make, especially given its a high-skill recipe.
 	Smelting it into a pane is a fairly straightforward process with a mold.
 	The goal should be to make it hard enough that only a dedicated potter can do it
@@ -306,13 +306,13 @@
 	result = list(/obj/item/natural/clay/rawcarp)
 	reqs = list(/obj/item/natural/clay = 3)
 	craftdiff = 4
-	
+
 /datum/crafting_recipe/roguetown/ceramics/clayoctopus
 	name = "clay octopus statuette"
 	result = list(/obj/item/natural/clay/rawoctopus)
 	reqs = list(/obj/item/natural/clay = 3)
 	craftdiff = 4
-	
+
 /datum/crafting_recipe/roguetown/ceramics/claybeaver
 	name = "clay beaver statuette"
 	result = list(/obj/item/natural/clay/rawbeaver)

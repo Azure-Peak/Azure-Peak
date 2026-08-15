@@ -1,19 +1,19 @@
-/*	..................   FLOORS   ................... */
+/*	..................	FLOORS	................... */
 
 /turf/open/water/bath/pool
 	desc = "Clear water, pleasant temperature. Soothing."
 	icon_state = "bathtile_pool"
-/turf/open/water/bath/pool/Initialize()
-	.  = ..()
+/turf/open/water/bath/pool/Initialize(mapload)
+	.	= ..()
 	icon_state = "bathtile_pool"
 
 /turf/open/water/bath/pool/mid
 	icon_state = "bathtile_pool_mid"
-/turf/open/water/bath/pool/mid/Initialize()
-	.  = ..()
+/turf/open/water/bath/pool/mid/Initialize(mapload)
+	.	= ..()
 	icon_state = "bathtile_pool_mid"
 
-/*	..................   SPIDER   ................... */
+/*	..................	SPIDER	................... */
 
 /obj/structure/spider/stickyweb
 	name = "web"
@@ -62,7 +62,7 @@
 /obj/structure/spider/stickyweb/solo
 	icon_state = "stickyweb3"
 
-/obj/structure/spider/stickyweb/Initialize()
+/obj/structure/spider/stickyweb/Initialize(mapload)
 	if(icon_state == "stickyweb1")
 		if(prob(50))
 			icon_state = "stickyweb2"

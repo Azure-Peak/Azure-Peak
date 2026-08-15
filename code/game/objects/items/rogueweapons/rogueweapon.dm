@@ -52,7 +52,7 @@
 	var/twirly // set this to a skill level to gate twirling. if it's falsy, you can't twirl the weapon. knives and staves are jman, swords are expert
 	COOLDOWN_DECLARE(twirl_cooldown) //twirling has a cooldown on to_chat to reduce chatspam
 
-/obj/item/rogueweapon/Initialize()
+/obj/item/rogueweapon/Initialize(mapload)
 	. = ..()
 	if(!destroy_message)
 		destroy_message = span_warning("\The [src] shatters!")

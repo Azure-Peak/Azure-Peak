@@ -54,7 +54,7 @@
 	var/drug_cd
 
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	. = ..()
 

@@ -138,7 +138,7 @@
 /obj/item/rogueweapon/cabbit_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/cabbit_claw/Initialize()
+/obj/item/rogueweapon/cabbit_claw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)

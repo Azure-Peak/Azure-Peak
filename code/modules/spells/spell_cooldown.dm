@@ -151,11 +151,11 @@
 	/// Whether the charge bar has completed and the spell is being held ready. While TRUE, hold_drain bleeds per process tick.
 	var/fully_charged = FALSE
 	/**
-	 * Cost per 0.2 seconds to hold the spell once charged. Charge-up itself is free.
-	 *
-	 * Drained on SSmousecharge (wait = 1, scaled by 0.5 in process()) from the moment
-	 * hold_grace_time expires until the spell is cast or dropped.
-	 */
+		* Cost per 0.2 seconds to hold the spell once charged. Charge-up itself is free.
+		*
+		* Drained on SSmousecharge (wait = 1, scaled by 0.5 in process()) from the moment
+		* hold_grace_time expires until the spell is cast or dropped.
+		*/
 	var/hold_drain = 1
 	var/hold_grace_time = SPELL_HOLD_GRACE
 	var/hold_max_time = SPELL_HOLD_MAX
@@ -1670,27 +1670,27 @@
 	var/stat_label = get_stat_label()
 	if((primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
 		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
-			breakdown += span_smallgreen("  Dominant faith: -[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
+			breakdown += span_smallgreen("	Dominant faith: -[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
 		else
-			breakdown += span_smallred("  Suppressed faith: +[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
+			breakdown += span_smallred("	Suppressed faith: +[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
 	if(stat_value > SPELL_SCALING_THRESHOLD)
 		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  [stat_label]: -[DisplayTimeText(stat_mod)]")
+		breakdown += span_smallgreen("	[stat_label]: -[DisplayTimeText(stat_mod)]")
 	else if(stat_value < SPELL_SCALING_THRESHOLD)
 		var/diff = SPELL_SCALING_THRESHOLD - stat_value
 		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallred("  [stat_label]: +[DisplayTimeText(stat_mod)]")
+		breakdown += span_smallred("	[stat_label]: +[DisplayTimeText(stat_mod)]")
 	if(!user.check_armor_skill())
 		var/armor_mod = base * UNTRAINED_ARMOR_CD_PENALTY
-		breakdown += span_smallred("  Untrained armor: +[DisplayTimeText(armor_mod)]")
+		breakdown += span_smallred("	Untrained armor: +[DisplayTimeText(armor_mod)]")
 	var/armor_mult = get_armor_cd_multiplier(user)
 	if(armor_mult > 0)
 		var/armor_mod = base * armor_mult
 		var/armor_label = user.check_armor_skill() ? "Armor weight" : "Untrained armor"
-		breakdown += span_smallred("  [armor_label]: +[DisplayTimeText(armor_mod)]")
+		breakdown += span_smallred("	[armor_label]: +[DisplayTimeText(armor_mod)]")
 	if(HAS_TRAIT(user, TRAIT_LEYLINE_HASTE))
-		breakdown += span_smallgreen("  <font color='#00e1ff'>Ley Lines (-25%)</font>")
+		breakdown += span_smallgreen("	<font color='#00e1ff'>Ley Lines (-25%)</font>")
 	return breakdown
 
 /// Breakdown of resource cost modifiers for examine.
@@ -1701,11 +1701,11 @@
 	if(stat_value > SPELL_SCALING_THRESHOLD)
 		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/stat_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  [stat_label]: -[stat_mod]")
+		breakdown += span_smallgreen("	[stat_label]: -[stat_mod]")
 	else if(stat_value < SPELL_SCALING_THRESHOLD)
 		var/diff = SPELL_SCALING_THRESHOLD - stat_value
 		var/stat_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallred("  [stat_label]: +[stat_mod]")
+		breakdown += span_smallred("	[stat_label]: +[stat_mod]")
 	return breakdown
 
 /// Intercept middle-click MouseDown for non-charge V2 spells.

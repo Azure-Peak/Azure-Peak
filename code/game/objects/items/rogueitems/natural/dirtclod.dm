@@ -18,11 +18,11 @@
 	desc = "A handful of snow"
 	icon_state = "snow1"
 
-/obj/item/natural/dirtclod/snow/Initialize()
+/obj/item/natural/dirtclod/snow/Initialize(mapload)
 	..()
 	icon_state = "snow[rand(1,2)]"
 
-/obj/item/natural/dirtclod/Initialize()
+/obj/item/natural/dirtclod/Initialize(mapload)
 	icon_state = "clod[rand(1,2)]"
 	..()
 
@@ -114,7 +114,7 @@
 
 	var/dirtamt = 5
 
-/obj/structure/fluff/clodpile/Initialize()
+/obj/structure/fluff/clodpile/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
 	..()
 

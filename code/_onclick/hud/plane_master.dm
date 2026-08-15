@@ -78,7 +78,7 @@
 				add_filter("druqks_color", 2, color_matrix_filter(list(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1, 0,0,0,0)))
 			if(L.has_status_effect(/datum/status_effect/debuff/vampbite))
 				add_filter("druqks_color", 2, color_matrix_filter(list(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1, 0,0,0,0)))
-				
+
 /atom/movable/screen/plane_master/lighting
 	name = "lighting plane master"
 	plane = LIGHTING_PLANE
@@ -86,7 +86,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	render_target = "lighting"
 
-/atom/movable/screen/plane_master/lighting/Initialize()
+/atom/movable/screen/plane_master/lighting/Initialize(mapload)
 	. = ..()
 	filters += filter(type="alpha", render_source = EMISSIVE_RENDER_TARGET, flags = MASK_INVERSE)
 	filters += filter(type="alpha", render_source = EMISSIVE_UNBLOCKABLE_RENDER_TARGET, flags = MASK_INVERSE)
@@ -95,7 +95,7 @@
 /atom/movable/screen/plane_master/lighting/backdrop(mob/mymob)
 	mymob.overlay_fullscreen("lighting_backdrop_lit", /atom/movable/screen/fullscreen/lighting_backdrop/lit)
 	mymob.overlay_fullscreen("lighting_backdrop_unlit", /atom/movable/screen/fullscreen/lighting_backdrop/unlit)
-	mymob.overlay_fullscreen("sunlight_backdrop",  /atom/movable/screen/fullscreen/lighting_backdrop/sunlight)
+	mymob.overlay_fullscreen("sunlight_backdrop",	/atom/movable/screen/fullscreen/lighting_backdrop/sunlight)
 
 /atom/movable/screen/plane_master/camera_static
 	name = "camera static plane master"
@@ -237,7 +237,7 @@
 	screen_loc = "CENTER-2:-16, CENTER"
 	//render_relay_plane = RENDER_PLANE_GAME
 
-/atom/movable/screen/plane_master/weather_effect/Initialize()
+/atom/movable/screen/plane_master/weather_effect/Initialize(mapload)
 	. = ..()
 	//filters += filter(type="alpha", render_source=WEATHER_RENDER_TARGET)
 	SSoutdoor_effects.weather_planes_need_vis |= src
@@ -245,18 +245,18 @@
 /atom/movable/screen/plane_master/weather_effect/Destroy()
 	. = ..()
 	SSoutdoor_effects.weather_planes_need_vis -= src
-/* Our sunlight planemaster mashes all of our sunlight overlays together into one             */
-/* The fullscreen then grabs the plane_master with a layer filter, and colours it             */
+/* Our sunlight planemaster mashes all of our sunlight overlays together into one				*/
+/* The fullscreen then grabs the plane_master with a layer filter, and colours it				*/
 /* We do this so the sunlight fullscreen acts as a big lighting object, in our lighting plane */
 /atom/movable/screen/fullscreen/lighting_backdrop/sunlight
-	icon_state  = ""
+	icon_state	= ""
 	screen_loc = "CENTER-2:-16, CENTER"
 	transform = null
 	plane = LIGHTING_PLANE
 	blend_mode = BLEND_ADD
 	show_when_dead = TRUE
 
-/atom/movable/screen/fullscreen/lighting_backdrop/sunlight/Initialize()
+/atom/movable/screen/fullscreen/lighting_backdrop/sunlight/Initialize(mapload)
 	. = ..()
 	filters += filter(type="layer", render_source=SUNLIGHTING_RENDER_TARGET)
 	SSoutdoor_effects.sunlighting_planes |= src

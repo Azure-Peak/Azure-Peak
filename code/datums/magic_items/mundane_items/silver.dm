@@ -28,7 +28,7 @@
 		user.adjustFireLoss(25)
 		user.adjust_fire_stacks(3, /datum/status_effect/fire_handler/fire_stacks/sunder)
 
-/datum/magic_item/mundane/silver/on_pickup(var/obj/item/i, var/mob/living/user)
+/datum/magic_item/mundane/silver/on_pickup(obj/item/i, mob/living/user)
 	var/mob/living/carbon/human/H = user
 	if(H.mind)
 		var/datum/antagonist/vampire/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampire)

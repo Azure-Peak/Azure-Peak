@@ -45,7 +45,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 
 
 
-/mob/living/carbon/human/species/human/northern/highwayman/Initialize()
+/mob/living/carbon/human/species/human/northern/highwayman/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

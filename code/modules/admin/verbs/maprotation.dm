@@ -1,7 +1,7 @@
 /client/proc/forcerandomrotate()
 	set name = "Trigger Random Map Rotation"
 	set hidden = 1 // Only one map
-	var/rotate = alert("Force a random map rotation to trigger?", "Rotate map?", "Yes", "Cancel")
+	var/rotate = alert(usr, "Force a random map rotation to trigger?", "Rotate map?", "Yes", "Cancel")
 	if (rotate != "Yes")
 		return
 	message_admins("[key_name_admin(usr)] is forcing a random map rotation.")
@@ -33,45 +33,45 @@
 			mapname += "\]"
 
 		maprotatechoices[mapname] = VM
-	var/chosenmap = input("Choose a map to change to", "Change Map")  as null|anything in sortList(maprotatechoices)|"Custom"
+	var/chosenmap = input(usr, "Choose a map to change to", "Change Map")	as null|anything in sortList(maprotatechoices)|"Custom"
 	if (!chosenmap)
 		return
-	
+
 	SSticker.maprotatechecked = 1
 	if(chosenmap == "Custom")
 		message_admins("[key_name_admin(usr)] is changing the map to a custom map")
 		log_admin("[key_name(usr)] is changing the map to a custom map")
 		var/datum/map_config/VM = new
 
-		VM.map_name = input("Choose the name for the map", "Map Name") as null|text
+		VM.map_name = input(usr, "Choose the name for the map", "Map Name") as null|text
 		if(isnull(VM.map_name))
 			VM.map_name = "Custom"
-		
-		var/map_file = input("Pick file:", "Map File") as null|file
+
+		var/map_file = input(usr, "Pick file:", "Map File") as null|file
 		if(isnull(map_file))
 			return
-		
+
 		if(copytext("[map_file]",-4) != ".dmm")
 			to_chat(src, span_warning("Filename must end in '.dmm': [map_file]"))
 			return
 
 		if(!fcopy(map_file, "_maps/custom/[map_file]"))
 			return
-		
+
 		// This is to make sure the map works so the server does not start without a map.
 		var/datum/parsed_map/M = new (map_file)
 		if(!M)
 			to_chat(src, span_warning("Map '[map_file]' failed to parse properly."))
 			return
-		
+
 		if(!M.bounds)
 			to_chat(src, span_warning("Map '[map_file]' has non-existant bounds."))
 			qdel(M)
 			return
-		
+
 		qdel(M)
 
-		var/shuttles = alert("Do you want to modify the shuttles?", "Map Shuttles", "Yes", "No")
+		var/shuttles = alert(usr, "Do you want to modify the shuttles?", "Map Shuttles", "Yes", "No")
 		if(shuttles == "Yes")
 			for(var/s in VM.shuttles)
 				var/shuttle = input(s, "Map Shuttles") as null|text

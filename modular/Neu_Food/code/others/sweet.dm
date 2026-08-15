@@ -30,7 +30,7 @@
 		eater.adjustToxLoss(5)
 	return ..()
 
-/obj/item/reagent_containers/food/snacks/chocolate/Initialize()
+/obj/item/reagent_containers/food/snacks/chocolate/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/chocolatedry,

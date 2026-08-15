@@ -33,7 +33,7 @@
 
 	var/obj/effect/abstract/particle_holder/cached/particle_effect
 
-/obj/structure/hotspring/Initialize()
+/obj/structure/hotspring/Initialize(mapload)
 	. = ..()
 	particle_effect = new(src, /particles/hotspring_steam, 6)
 	//render the steam over mobs and objects on the game plane

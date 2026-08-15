@@ -316,7 +316,7 @@
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt =  /obj/item/clothing/suit/roguetown/armor/gambeson
+	shirt =	/obj/item/clothing/suit/roguetown/armor/gambeson
 	armor =	/obj/item/clothing/suit/roguetown/armor/leather/heavy
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	neck = /obj/item/clothing/neck/roguetown/leather

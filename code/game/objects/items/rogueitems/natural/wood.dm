@@ -27,7 +27,7 @@
 	. += span_info("Full logs, small logs, and sticks can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for full logs include quarterstaffs, bows, oars, and boats.")
 
-/obj/item/grown/log/tree/Initialize()
+/obj/item/grown/log/tree/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/woodstaff,
@@ -138,7 +138,7 @@
 	. = ..()
 	. += span_info("'Slapcrafts' for small logs include stone-and-wooden tools, cutlery, prosthetics, buckets, paper, weapons, shields, tarots, and bows. Left-clicking a small log with a handsaw turns it into planks, which is quite useful for carpentry and construction.")
 
-/obj/item/grown/log/tree/small/Initialize()
+/obj/item/grown/log/tree/small/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/stoneaxe,
@@ -246,7 +246,7 @@
 	smeltresult = /obj/item/rogueore/coal
 	lumber_amount = 0
 
-/obj/item/grown/log/tree/bowpartial/Initialize()
+/obj/item/grown/log/tree/bowpartial/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/bow,
@@ -263,7 +263,7 @@
 	icon = 'icons/roguetown/items/64x.dmi'
 	icon_state = "recurve_bowstave"
 
-/obj/item/grown/log/tree/bowpartial/recurve/Initialize()
+/obj/item/grown/log/tree/bowpartial/recurve/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/recurvebow,
@@ -275,7 +275,7 @@
 	icon = 'icons/roguetown/items/64x.dmi'
 	icon_state = "long_bowstave"
 
-/obj/item/grown/log/tree/bowpartial/longbow/Initialize()
+/obj/item/grown/log/tree/bowpartial/longbow/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/longbow,
@@ -321,7 +321,7 @@
 				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
 					L.consider_ambush()
 
-/obj/item/grown/log/tree/stick/Initialize()
+/obj/item/grown/log/tree/stick/Initialize(mapload)
 	icon_state = "stick[rand(1,2)]"
 	..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -447,7 +447,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/grown/log/tree/stake/Initialize()
+/obj/item/grown/log/tree/stake/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/whetstone,

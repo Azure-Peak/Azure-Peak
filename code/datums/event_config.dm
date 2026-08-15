@@ -1,5 +1,5 @@
 /datum/config_entry/number_list/fog_event_days
-	 // Default: Tues (2) and Sat (6)
+		// Default: Tues (2) and Sat (6)
 	config_entry_value = list(2, 6)
 
 /datum/config_entry/number/fog_event_hour
