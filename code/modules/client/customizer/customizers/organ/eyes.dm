@@ -31,7 +31,7 @@
 	var/datum/customizer_entry/organ/eyes/eyes_entry = entry
 	eyes_dna.eye_color = eyes_entry.eye_color
 	if(allows_heterochromia)
-		eyes_dna.heterochromia  = eyes_entry.heterochromia
+		eyes_dna.heterochromia	= eyes_entry.heterochromia
 		eyes_dna.second_color = eyes_entry.second_color
 
 /datum/customizer_choice/organ/eyes/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)

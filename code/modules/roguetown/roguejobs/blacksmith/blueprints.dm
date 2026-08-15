@@ -13,7 +13,7 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 100
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
-	pickup_sound =  'sound/blank.ogg'
+	pickup_sound =	'sound/blank.ogg'
 
 /obj/item/blueprint/mace_mushroom
 	name = "Lithmyc mace blueprint"

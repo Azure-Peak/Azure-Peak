@@ -3,34 +3,34 @@
 	tutorial = "You were renowned all over Psydonia for your song and merriment until you seduced the wrong dragon or made too many jokes at a noble's expense. Whatever happened, you now play melancholic or manic songs for the dregs of society. Lyve your best lyfe and lyve to tell the tale."
 	allowed_sexes = list(MALE, FEMALE)
 
-	outfit              = /datum/outfit/job/roguetown/wretch/maestro
-	age_mod             = /datum/class_age_mod/wretch/maestro
-	cmode_music         = 'sound/music/cmode/antag/combat_cutpurse.ogg'
+	outfit				= /datum/outfit/job/roguetown/wretch/maestro
+	age_mod				= /datum/class_age_mod/wretch/maestro
+	cmode_music			= 'sound/music/cmode/antag/combat_cutpurse.ogg'
 	class_select_category = CLASS_CAT_ROGUE
-	category_tags       = list(CTAG_WRETCH)
-	traits_applied      = list(TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_INSPIRING_MUSICIAN)
-	extra_context       = "All paths gain Allegro: every 5th landed rhythm restores energy.<br>\
-						  Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Stealing, Lockpicking, Climbing, and Knives (Parrying Knife).<br>\
-						  Cacophonist gains a bonus rhythm pick (3 total) and song slot (5 total), with Expert Swords and Whips & Flails (Alloy-tipped whip & Arming Sword).<br>\
-						  Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters & Katar).<br>\
-						  Chanter gains T1 miracles (slow Devotion regen), with Journeyman Holy skill.<br>\
-						  Cipher gains one Minor Arcane aspect, five Utility points, and one offensive cantrip of choice."
+	category_tags		= list(CTAG_WRETCH)
+	traits_applied		= list(TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_INSPIRING_MUSICIAN)
+	extra_context		= "All paths gain Allegro: every 5th landed rhythm restores energy.<br>\
+							Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Stealing, Lockpicking, Climbing, and Knives (Parrying Knife).<br>\
+							Cacophonist gains a bonus rhythm pick (3 total) and song slot (5 total), with Expert Swords and Whips & Flails (Alloy-tipped whip & Arming Sword).<br>\
+							Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters & Katar).<br>\
+							Chanter gains T1 miracles (slow Devotion regen), with Journeyman Holy skill.<br>\
+							Cipher gains one Minor Arcane aspect, five Utility points, and one offensive cantrip of choice."
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 2,
 	)
 	subclass_skills = list(
-		/datum/skill/misc/music       = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/sneaking    = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing    = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/music		= SKILL_LEVEL_MASTER,
+		/datum/skill/misc/sneaking	= SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/stealing	= SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics   = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/climbing    = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading     = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives    = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/swimming    = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/traps      = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics	= SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/climbing	= SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading		= SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives	= SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming	= SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/traps		= SKILL_LEVEL_APPRENTICE,
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" = /obj/item/repair_kit,
@@ -39,19 +39,19 @@
 /datum/outfit/job/roguetown/wretch/maestro/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	head   = /obj/item/clothing/head/roguetown/bardhat
-	armor  = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-	cloak  = /obj/item/clothing/cloak/thief_cloak/yoruku
-	shirt  = /obj/item/clothing/suit/roguetown/armor/gambeson
+	head	= /obj/item/clothing/head/roguetown/bardhat
+	armor	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	cloak	= /obj/item/clothing/cloak/thief_cloak/yoruku
+	shirt	= /obj/item/clothing/suit/roguetown/armor/gambeson
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	pants  = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	shoes  = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	pants	= /obj/item/clothing/under/roguetown/heavy_leather_pants
+	shoes	= /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	belt   = /obj/item/storage/belt/rogue/leather/knifebelt/black/iron
-	beltr  = /obj/item/rogueweapon/huntingknife/idagger/steel
-	backl  = /obj/item/storage/backpack/rogue/satchel
-	mask   = /obj/item/clothing/mask/rogue/duelmask
-	neck   = /obj/item/clothing/neck/roguetown/coif/heavypadding
+	belt	= /obj/item/storage/belt/rogue/leather/knifebelt/black/iron
+	beltr	= /obj/item/rogueweapon/huntingknife/idagger/steel
+	backl	= /obj/item/storage/backpack/rogue/satchel
+	mask	= /obj/item/clothing/mask/rogue/duelmask
+	neck	= /obj/item/clothing/neck/roguetown/coif/heavypadding
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/lantern/prelit					= 1,
 		/obj/item/rogueweapon/scabbard/sheath							= 1,
@@ -103,27 +103,27 @@
 				add_verb(H, /mob/living/carbon/human/proc/toggle_guarded)
 
 				ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
-				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking,    SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/stealing,    SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking,	SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/stealing,	SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/climbing,    SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/knives,    SKILL_LEVEL_EXPERT, TRUE)
-				beltr  = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
+				H.adjust_skillrank_up_to(/datum/skill/misc/climbing,	SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives,	SKILL_LEVEL_EXPERT, TRUE)
+				beltr	= /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
 			if("Cacophonist")
 				H.inspiration.bonus_rhythm_picks = 1 // 3 rhythm picks instead of T2 default 2
-				H.inspiration.maxsongs++             // 5 song slots instead of T2 default 4
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords,      SKILL_LEVEL_EXPERT, TRUE)
+				H.inspiration.maxsongs++				// 5 song slots instead of T2 default 4
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords,		SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/whip/triumph
 				l_hand = /obj/item/rogueweapon/sword
-				beltl  = /obj/item/rogueweapon/scabbard/sword
+				beltl	= /obj/item/rogueweapon/scabbard/sword
 			if("Boomwhacker")
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed,   SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling,  SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed,	SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling,	SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_STR, 1)
 				gloves = /obj/item/clothing/gloves/roguetown/knuckles
-				beltl  = /obj/item/rogueweapon/katar
+				beltl	= /obj/item/rogueweapon/katar
 			if("Chanter")
 				H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				var/datum/devotion/D = new /datum/devotion(H, H.patron)

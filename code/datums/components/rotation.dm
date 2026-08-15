@@ -1,7 +1,7 @@
 /datum/component/simple_rotation
 	var/datum/callback/can_user_rotate //Checks if user can rotate
-	var/datum/callback/can_be_rotated  //Check if object can be rotated at all
-	var/datum/callback/after_rotation     //Additional stuff to do after rotation
+	var/datum/callback/can_be_rotated	//Check if object can be rotated at all
+	var/datum/callback/after_rotation		//Additional stuff to do after rotation
 
 	var/rotation_flags = NONE
 	var/default_rotation_direction = ROTATION_CLOCKWISE

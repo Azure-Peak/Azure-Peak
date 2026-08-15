@@ -331,11 +331,11 @@
 /obj/projectile/bullet/reusable/heavy_bolt/silver
 	name = "heavy silver bolt"
 	damage = 110
-	armor_penetration = PEN_BSTEEL 
+	armor_penetration = PEN_BSTEEL
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	icon_state = "silvheavybolt_proj"
 	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
-	speed = 0.8 //Same speed as a crossbow bolt. 
+	speed = 0.8 //Same speed as a crossbow bolt.
 	is_silver_proj = TRUE
 	npc_simple_damage_mult = 10 //..or 1000 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 
@@ -354,7 +354,7 @@
 /obj/projectile/bullet/reusable/heavy_bolt/stake
 	name = "siegestake"
 	damage = 60
-	armor_penetration = PEN_BSTEEL 
+	armor_penetration = PEN_BSTEEL
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
 	icon_state = "heavystake_proj"
 	hitsound = 'sound/combat/hits/hi_bolt (2).ogg'
@@ -367,7 +367,7 @@
 	name = "silver-tipped siegestake"
 	desc = "A large branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. Though its prodigious \
 	size - comparable to a fencepost in length and width - makes it cumbersome for hand-to-hand stakings, siegestakes like these are perfect for disrupting \
-	curses from afar.  </br>'Requiescat in pace..' - '..may thee rest in peace.'"
+	curses from afar.	</br>'Requiescat in pace..' - '..may thee rest in peace.'"
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/stake_silver
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
 	icon_state = "silvheavystake"
@@ -379,7 +379,7 @@
 /obj/projectile/bullet/reusable/heavy_bolt/stake_silver
 	name = "silver-tipped siegestake"
 	damage = 70 // In essence, a lesser version of the traditional silver siegebolts.
-	armor_penetration = PEN_BSTEEL 
+	armor_penetration = PEN_BSTEEL
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver
 	icon_state = "silvheavystake_proj"
 	hitsound = 'sound/combat/hits/hi_bolt (2).ogg'

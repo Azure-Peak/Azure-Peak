@@ -183,7 +183,7 @@
 			hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	. = ..()
 
-/obj/item/rogueweapon/mace/stunmace/Initialize()
+/obj/item/rogueweapon/mace/stunmace/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -444,7 +444,7 @@
 	sharpness_mod = 2
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/rogueweapon/handclaw/steel/graggaredged/Initialize()
+/obj/item/rogueweapon/handclaw/steel/graggaredged/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
@@ -465,7 +465,7 @@
 	max_integrity = 333
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/rogueweapon/handclaw/steel/graggarblunt/Initialize()
+/obj/item/rogueweapon/handclaw/steel/graggarblunt/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
@@ -1444,7 +1444,7 @@
 /obj/item/rogueweapon/spear/keep_standard/update_icon()
 	refresh_detail_overlay()
 
-/obj/item/rogueweapon/spear/keep_standard/Initialize()
+/obj/item/rogueweapon/spear/keep_standard/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)

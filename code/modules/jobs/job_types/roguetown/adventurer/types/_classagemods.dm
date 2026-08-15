@@ -66,7 +66,7 @@
 /datum/class_age_mod/wretch/maestro
 	target_age = AGE_OLD
 	skill_mods = list(
-		/datum/skill/misc/reading  = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/reading	= SKILL_LEVEL_MASTER,
 		/datum/skill/misc/music = SKILL_LEVEL_LEGENDARY,
 	)
 	stat_mods = list(
@@ -107,7 +107,7 @@
 	)
 
 /datum/class_age_mod/veteran/cavalryman
-	// You get a lot of weapon skills, but none are legendary. Jack of all trades, master of none. 
+	// You get a lot of weapon skills, but none are legendary. Jack of all trades, master of none.
 	// This is probably worse than just having legendary in one, as people rarely swap weapons mid-combat.
 	skill_mods = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_MASTER,

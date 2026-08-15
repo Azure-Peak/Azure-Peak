@@ -54,7 +54,7 @@
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/familiar/fae
 
-/mob/living/carbon/human/species/familiar/fae/Initialize()
+/mob/living/carbon/human/species/familiar/fae/Initialize(mapload)
 	. = ..()
 	create_reagents(90, TRANSPARENT)
 	adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE)

@@ -1,7 +1,7 @@
-#define QUIRK_LANGUAGE 		(1<<0)
-#define QUIRK_BEHAVIOR 		(1<<1)
-#define QUIRK_ENVIRONMENT 	(1<<2)
-#define QUIRK_INTERACT 		(1<<3)
+#define QUIRK_LANGUAGE		(1<<0)
+#define QUIRK_BEHAVIOR		(1<<1)
+#define QUIRK_ENVIRONMENT	(1<<2)
+#define QUIRK_INTERACT		(1<<3)
 
 GLOBAL_LIST_EMPTY(all_flesh_aspects)
 GLOBAL_LIST_EMPTY(all_flesh_archetypes)

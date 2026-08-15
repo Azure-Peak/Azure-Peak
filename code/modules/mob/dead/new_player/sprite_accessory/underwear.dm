@@ -12,7 +12,7 @@
 /datum/sprite_accessory/underwear/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(hides_breasts)
 		if(is_human_part_visible(owner, HIDECROTCH) || is_human_part_visible(owner, HIDEBOOB))
-			return TRUE	
+			return TRUE
 	return is_human_part_visible(owner, HIDECROTCH)
 
 /datum/sprite_accessory/underwear/briefs
@@ -116,6 +116,18 @@
 	if(owner.gender == FEMALE)
 		return "eoran_efl"
 	return "eoran_reg"
+
+/datum/sprite_accessory/underwear/bandages
+	name = "Bandages"
+	icon_state = "bandages"
+	underwear_type = /obj/item/undies/bandages
+	hides_breasts = TRUE
+
+/datum/sprite_accessory/underwear/bandages/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(owner.gender == FEMALE)
+		return "bandages_f"
+	return "bandages"
+
 
 /datum/sprite_accessory/legwear
 	abstract_type = /datum/sprite_accessory/legwear

@@ -131,7 +131,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 
 	playsound(get_turf(target), hit_sound, 100, TRUE)
 	if(!skip_message)
-		var/weapon_name = weapon ? weapon.name : lowertext(spell_name)
+		var/weapon_name = weapon ? weapon.name : LOWER_TEXT(spell_name)
 		var/armor_msg = ""
 		if(!damage_dealt)
 			armor_msg += VISMSG_ARMOR_BLOCKED
@@ -147,7 +147,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			span_danger("[user] [attack_verb] me in the [span_userdanger(parse_zone(def_zone))]![armor_msg]"),
 			null, COMBAT_MESSAGE_RANGE)
 
-	log_combat(user, target, "spell-struck ([spell_name])")
+	log_combat(user, target, "spell-struck ([spell_name])", zone=def_zone)
 	return max(0, damage - armor_block)
 
 /proc/arcyne_get_weapon(mob/living/carbon/human/H)

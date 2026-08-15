@@ -8,7 +8,7 @@
 	for(var/datum/fellowship/F as anything in GLOB.fellowships)
 		if(F.faction_tag == full_tag)
 			return FALSE
-		if(lowertext(F.name) == lowertext(candidate))
+		if(LOWER_TEXT(F.name) == LOWER_TEXT(candidate))
 			return FALSE
 	return TRUE
 

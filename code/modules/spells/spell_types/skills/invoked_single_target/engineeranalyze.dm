@@ -35,7 +35,7 @@
 			if(analyzedstructure.redstone_attached.len > 0)
 				examination += "☼ ATTACHED STRUCTURES "
 				for(var/obj/structure/attachedstructures in analyzedstructure.redstone_attached)
-					examination += "   - [attachedstructures.name] "
+					examination += "	- [attachedstructures.name] "
 			else
 				examination += "☼ NO ATTACHED STRUCTURES"
 		examination += "ø ------------ ø</span>"

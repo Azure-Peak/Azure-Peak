@@ -52,7 +52,7 @@
 	. += span_info("Middle click to transform it into a strap, which allows for a weapon to be openly carried without any delays to drawing or sheathing.")
 	. += span_info("Straps cannot be transformed back into scabbards or sheaths.")
 
-/obj/item/rogueweapon/scabbard/Initialize()
+/obj/item/rogueweapon/scabbard/Initialize(mapload)
 	. = ..()
 
 	hol_comp = GetComponent(/datum/component/holster)
@@ -168,7 +168,7 @@
 
 
 //////////////////////
-//	DAGGER SHEATHS  //
+//	DAGGER SHEATHS	//
 //////////////////////
 
 /obj/item/rogueweapon/scabbard/sheath
@@ -408,7 +408,7 @@
 	resistance_flags = null
 
 ///////////////////////
-//	SWORD SCABBARDS  //
+//	SWORD SCABBARDS	//
 ///////////////////////
 
 /obj/item/rogueweapon/scabbard/sword
@@ -736,7 +736,7 @@
 
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
-	strip_delay = 2 SECONDS
+	strip_delay = STRIP_DELAY_FAST
 	sheathe_time = 2 SECONDS
 
 	max_integrity = 0

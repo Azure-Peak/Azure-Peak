@@ -26,7 +26,7 @@
 	var/climb_offset = 0 //offset up when climbed
 	var/mob/living/structureclimber
 
-/obj/machinery/Initialize()
+/obj/machinery/Initialize(mapload)
 	if(!armor)
 		armor = ARMOR_MACHINERY
 	. = ..()
