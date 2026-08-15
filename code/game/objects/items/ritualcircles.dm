@@ -674,7 +674,7 @@
 	rune_type = /obj/structure/active_abyssor_rune/tidal
 	upgraded_rune_type = null
 
-/obj/item/abyssal_marker/volatile/Initialize()
+/obj/item/abyssal_marker/volatile/Initialize(mapload)
 	. = ..()
 	creation_time = world.time
 	var/area/A = get_area(src)
@@ -751,9 +751,9 @@
 /obj/structure/active_abyssor_rune/greater
 	spire_type = /obj/structure/crystal_spire/greater
 
-/obj/structure/active_abyssor_rune/Initialize()
+/obj/structure/active_abyssor_rune/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/spawn_spire), spawn_time)
+	addtimer(CALLBACK(src, PROC_REF(spawn_spire)), spawn_time)
 	src.visible_message(span_userdanger("A glowing, pulsating rune etches itself into the ground. Reality cracks visibly around it! Something is coming!"))
 
 /obj/structure/active_abyssor_rune/proc/spawn_spire()
@@ -802,7 +802,7 @@
 	max_fiends = 0
 	turf_to_use = /turf/open/water/ocean/abyssal
 
-/obj/structure/crystal_spire/Initialize()
+/obj/structure/crystal_spire/Initialize(mapload)
 	. = ..()
 	spawn_fiends(1, initial_fiend)
 
@@ -1017,7 +1017,7 @@
 		return COMPONENT_INCOMPATIBLE
 
 	linked_spire = spire
-	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/on_death)
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 
 /datum/component/spire_fiend/proc/on_death()
 	SIGNAL_HANDLER
@@ -1099,7 +1099,7 @@
 				icon_state = "necra_chalky"
 		if("The Toll")
 			if(!coinslot)
-				to_chat("This rite requires the toll to be prepared...")
+				to_chat(user, "This rite requires the toll to be prepared...")
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
@@ -1982,7 +1982,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		span_userdanger("IT HURTS! IT BURNS!")
 	)
 
-	to_chat(world, span_danger("A war ritual has been completed! Goblin portals begin to tear open across the land!"))
+	to_world(span_danger("A war ritual has been completed! Goblin portals begin to tear open across the land!"))
 	SSParticleWeather?.run_weather(pick(/datum/particle_weather/blood_rain_gentle, /datum/particle_weather/blood_rain_storm))
 	playsound(loc, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
 	var/datum/round_event_control/gobinvade/E = new()

@@ -26,7 +26,7 @@
 /obj/structure/chair/bench/church/r
 	icon_state = "church_benchright"
 
-/obj/structure/chair/bench/Initialize()
+/obj/structure/chair/bench/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -140,7 +140,7 @@
 /obj/structure/chair/bench/couchamagenta/r
 	icon_state = "couchamagentaright"
 
-/obj/structure/chair/bench/couch/Initialize()
+/obj/structure/chair/bench/couch/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -165,7 +165,7 @@
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
 
-/obj/structure/chair/wood/rogue/Initialize()
+/obj/structure/chair/wood/rogue/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -235,9 +235,9 @@
 	. = ..()
 	if(tag)
 		switch(tag)
-			if("gen") 
+			if("gen")
 				return list("shrink" = 0.7,"sx" = -1,"sy" = 0,"nx" = 11,"ny" = 1,"wx" = 0,"wy" = 1,"ex" = 4,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = 0,"wturn" = 0,"eturn" = 39,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8)
-			if("wielded") 
+			if("wielded")
 				return list("shrink" = 0.7,"sx" = -9,"sy" = 4,"nx" = -7,"ny" = 0,"wx" = -7,"wy" = 2,"ex" = 8,"ey" = 5,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -42,"sturn" = 190,"wturn" = -170,"eturn" = -10,"nflip" = -8,"sflip" = 1,"wflip" = 1,"eflip" = 0)
 
 /obj/structure/chair/wood/rogue/CanPass(atom/movable/mover, turf/target)
@@ -270,21 +270,21 @@
 		return FALSE
 
 /obj/structure/chair/wood/rogue/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)
-    SIGNAL_HANDLER
-    if(!isliving(leaving))
-        return
-    var/mob/living/M = leaving
-    if(!(M.mobility_flags & MOBILITY_STAND))
-        return
-    if(get_dir(leaving.loc, new_location) == REVERSE_DIR(dir))
-        if(!item_chair)
-            return
-        playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
-        var/obj/item/I = new item_chair(loc)
-        item_chair = null
-        I.dir = dir
-        qdel(src)
-        return COMPONENT_ATOM_BLOCK_EXIT
+	SIGNAL_HANDLER
+	if(!isliving(leaving))
+		return
+	var/mob/living/M = leaving
+	if(!(M.mobility_flags & MOBILITY_STAND))
+		return
+	if(get_dir(leaving.loc, new_location) == REVERSE_DIR(dir))
+		if(!item_chair)
+			return
+		playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
+		var/obj/item/I = new item_chair(loc)
+		item_chair = null
+		I.dir = dir
+		qdel(src)
+		return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/structure/chair/wood/rogue/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
 	if(damage_amount > 5 && item_chair != null)
@@ -375,9 +375,9 @@
 	. = ..()
 	if(tag)
 		switch(tag)
-			if("gen") 
+			if("gen")
 				return list("shrink" = 0.7,"sx" = -1,"sy" = 0,"nx" = 11,"ny" = 1,"wx" = 0,"wy" = 1,"ex" = 4,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = 0,"wturn" = 0,"eturn" = 39,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8)
-			if("wielded") 
+			if("wielded")
 				return list("shrink" = 0.7, "sx" = -12, "sy" = -8, "nx" = 13, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
 
 /obj/structure/bed/rogue
@@ -548,7 +548,7 @@
 	pixel_y = 0
 	sleepy = 3
 	debris = list(/obj/item/grown/log/tree/small = 2)
-/*            ///////WIP  This will essentially allow for multiple mobs to buckle, just needs to change mousedrop function
+/*			///////WIP	This will essentially allow for multiple mobs to buckle, just needs to change mousedrop function
 /obj/structure/bed/rogue/inn/double
 	var/list/buckled_mobs = list()
 

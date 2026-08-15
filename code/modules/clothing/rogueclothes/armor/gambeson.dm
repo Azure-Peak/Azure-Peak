@@ -32,7 +32,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "gambeson"
 			color = "#976E6B"
 			update_icon()
@@ -44,7 +44,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "gambesonold"
 			color = null
 			update_icon()
@@ -133,7 +133,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
 			icon_state = "gambesonp"
 			color = "#976E6B"
 			update_icon()
@@ -145,7 +145,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
 			icon_state = "gambesonpold"
 			color = null
 			update_icon()
@@ -182,7 +182,7 @@
 			H.update_inv_shirt()
 			H.update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -220,7 +220,7 @@
 /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
 	name = "aesthetic fencing shirt"
 
-/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -276,7 +276,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_shirt()
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -292,7 +292,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
 	name = "aesthetic grenzelhoftian hip-shirt"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -315,7 +315,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
 	name = "aesthetic hierophant's shawl"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -353,7 +353,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
 	name = "aesthetic stalker robe"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 //Hand's gambeson, looks fancy
@@ -370,7 +370,7 @@
 	detail_color = "#6e423a"
 	shiftable = FALSE
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -407,7 +407,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VESTMENTS")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)

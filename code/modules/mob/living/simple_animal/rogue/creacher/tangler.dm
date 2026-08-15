@@ -19,7 +19,7 @@
 	var/datum/proximity_monitor/proximity_monitor
 	var/aggroed = TRUE
 
-/obj/structure/flora/grass/tangler/real/Initialize()
+/obj/structure/flora/grass/tangler/real/Initialize(mapload)
 	. = ..()
 	proximity_monitor = new(src, 1)
 

@@ -55,7 +55,7 @@
 	populate_contents = list(
 	/obj/item/rogueweapon/surgery/scalpel,
 	/obj/item/rogueweapon/surgery/saw,
-	/obj/item/rogueweapon/surgery/hemostat/first,  //Different types for multiple surgery sites.
+	/obj/item/rogueweapon/surgery/hemostat/first,	//Different types for multiple surgery sites.
 	/obj/item/rogueweapon/surgery/hemostat/second,
 	/obj/item/rogueweapon/surgery/hemostat/third,
 	/obj/item/rogueweapon/surgery/retractor,
@@ -71,8 +71,8 @@
 	return populate_contents
 
 /obj/item/storage/belt/rogue/surgery_bag/empty
-	preload = FALSE 
-	
+	preload = FALSE
+
 /obj/item/storage/belt/rogue/surgery_bag/empty
 	populate_contents = list(
 	)

@@ -38,7 +38,7 @@
 	chair_skill_level = 2
 	current_brew = 50
 
-/obj/structure/chair/frankenstein/Initialize()
+/obj/structure/chair/frankenstein/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -96,7 +96,7 @@
 
 			// Animate filling
 			user.visible_message(
-				span_notice("[user] begins filling the [src] with [container]."), 
+				span_notice("[user] begins filling the [src] with [container]."),
 				span_notice("You begin filling the [src] with [container].")
 			)
 
@@ -215,7 +215,7 @@
 
 	// Start cranking
 	user.visible_message(
-		span_notice("[user] begins cranking [src]."), 
+		span_notice("[user] begins cranking [src]."),
 		span_notice("You start cranking [src]...")
 	)
 
@@ -312,7 +312,7 @@
 		occupant.emote("gasp")
 		occupant.Jitter(100)
 		occupant.electrocute_act(100, src, 1)
-		occupant.visible_message(span_notice("[occupant] jerks awake with a gasp!"), 
+		occupant.visible_message(span_notice("[occupant] jerks awake with a gasp!"),
 								span_userdanger("You awaken with agonizing pain as unnatural energy courses through your veins!"))
 		current_brew -= brew_required
 		charge = 0
@@ -322,7 +322,7 @@
 		occupant.mind.remove_antag_datum(/datum/antagonist/zombie)
 		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), DEATHMARK_GRACE_PERIOD) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
 		return TRUE
-	
+
 /obj/structure/chair/frankenstein/proc/deathmark(mob/living/victim)
 	if(victim.stat != DEAD)
 		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.

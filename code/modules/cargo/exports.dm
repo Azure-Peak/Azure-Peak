@@ -1,22 +1,21 @@
 /* How it works:
- The shuttle arrives at CentCom dock and calls sell(), which recursively loops through all the shuttle contents that are unanchored.
-
- Each object in the loop is checked for applies_to() of various export datums, except the invalid ones.
+ * The shuttle arrives at CentCom dock and calls sell(), which recursively loops through all the shuttle contents that are unanchored.
+ *
+ * Each object in the loop is checked for applies_to() of various export datums, except the invalid ones.
 */
 
 /* The rule in figuring out item export cost:
- Export cost of goods in the shipping crate must be always equal or lower than:
-  packcage cost - crate cost - manifest cost
- Crate cost is 500cr for a regular plasteel crate and 100cr for a large wooden one. Manifest cost is always 200cr.
- This is to avoid easy cargo points dupes.
-
-Credit dupes that require a lot of manual work shouldn't be removed, unless they yield too much profit for too little work.
- For example, if some player buys metal and glass sheets and uses them to make and sell reinforced glass:
-
- 100 glass + 50 metal -> 100 reinforced glass
- (1500cr -> 1600cr)
-
- then the player gets the profit from selling his own wasted time.
+ * Export cost of goods in the shipping crate must be always equal or lower than:
+ * packcage cost - crate cost - manifest cost
+ * Crate cost is 500cr for a regular plasteel crate and 100cr for a large wooden one. Manifest cost is always 200cr.
+ * This is to avoid easy cargo points dupes.
+ *
+ * Credit dupes that require a lot of manual work shouldn't be removed, unless they yield too much profit for too little work.
+ * For example, if some player buys metal and glass sheets and uses them to make and sell reinforced glass:
+ *
+ * 100 glass + 50 metal -> 100 reinforced glass
+ * (1500cr -> 1600cr)
+ * then the player gets the profit from selling his own wasted time.
 */
 
 // Simple holder datum to pass export results around
@@ -67,6 +66,23 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 		var/parent_price = GLOB.derived_sellprices[parent_path]
 		if(parent_price)
 			return parent_price
+
+/// Only exact result paths get tagged during the recipe walk, so variants with no recipe of
+/// their own (NPC-only crossbows, relic tiers) fall back to their parent's category.
+/proc/get_derived_category(typepath)
+	if(!GLOB.derived_categories)
+		return null
+	var/cat = GLOB.derived_categories[typepath]
+	if(cat)
+		return cat
+	var/parent_path = typepath
+	while(parent_path)
+		parent_path = type2parent(parent_path)
+		if(!parent_path)
+			return null
+		cat = GLOB.derived_categories[parent_path]
+		if(cat)
+			return cat
 
 // For appraisal purposes only - calculates total value including contents
 // Used by SEEPRICES trait for examining containers

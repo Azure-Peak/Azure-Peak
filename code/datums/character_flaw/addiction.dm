@@ -282,9 +282,10 @@
 /datum/status_effect/debuff/addiction/nympho/on_creation(mob/living/new_owner, ...)
 	. = ..()
 	if(new_owner)
-		if(ishuman(new_owner) && (iself(new_owner) || ishalfelf(new_owner) || istiefling(new_owner) || isdarkelf(new_owner) || issunelf(new_owner)))
-			var/mob/living/carbon/human/H = new_owner
-			H.emote("eflick", intentional = TRUE)
+		if(!HAS_TRAIT(new_owner, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(new_owner, TRAIT_NOMOOD))
+			if(ishuman(new_owner) && (iself(new_owner) || ishalfelf(new_owner) || istiefling(new_owner) || isdarkelf(new_owner) || issunelf(new_owner)))
+				var/mob/living/carbon/human/H = new_owner
+				H.emote("eflick", intentional = TRUE)
 
 /atom/movable/screen/alert/status_effect/debuff/addiction/nympho
 	name = "Nymphomania"

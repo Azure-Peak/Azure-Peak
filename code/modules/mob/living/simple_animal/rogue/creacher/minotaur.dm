@@ -43,8 +43,8 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, 
-	//obj/item/bodypart, 
+	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
+	//obj/item/bodypart,
 	//obj/item/organ
 	)
 	footstep_type = FOOTSTEP_MOB_HEAVY
@@ -65,7 +65,7 @@
 
 //	stat_attack = UNCONSCIOUS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	update_icon()
@@ -189,7 +189,7 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
-	reach = 2 
+	reach = 2
 	item_d_type = "stab"
 	clickcd = MINOTAUR_AXE_ATTACK_SPEED
 

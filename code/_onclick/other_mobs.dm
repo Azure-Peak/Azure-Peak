@@ -98,10 +98,10 @@
 				I.try_damage_pushback(src)
 				changeNext_move(CLICK_CD_MELEE)
 				var/verbu = pick(used_intent.attack_verb)
-				log_combat(src, I, "attacked with fists")
+				log_combat(src, I, "attacked with fists", zone=zone_selected, intent=used_intent.name)
 				visible_message(span_danger("[src] [verbu] [I]!"))
 				var/tempsound = used_intent.hitsound
-				playsound(loc,  tempsound, 100, FALSE, -1)
+				playsound(loc,	tempsound, 100, FALSE, -1)
 		else
 			A.attack_hand(src, params)
 		if(pulling)

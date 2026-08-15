@@ -74,7 +74,7 @@
 	detail_color = primary
 	update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch/Initialize()
+/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)

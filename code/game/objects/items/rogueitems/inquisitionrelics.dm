@@ -93,7 +93,7 @@
 			cranking_true_nature = cranking_true_nature
 			user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
 		else
-			if(alert("Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
+			if(alert(usr, "Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
 				user.apply_status_effect(/datum/status_effect/buff/quelling_soulchurner)
 			else
 				cranking_true_nature = cranking_true_nature
@@ -107,7 +107,7 @@
 		user.remove_status_effect(/datum/status_effect/buff/cranking_soulchurner)
 		user.remove_status_effect(/datum/status_effect/buff/quelling_soulchurner)
 
-/obj/item/psydonmusicbox/Initialize()
+/obj/item/psydonmusicbox/Initialize(mapload)
 	soundloop = new(src, FALSE)
 	. = ..()
 
@@ -468,7 +468,7 @@ Inquisitorial armory down here
 				playsound(H, 'sound/magic/holyshield.ogg', 100)
 				new /obj/effect/temp_visual/censer_dust(get_turf(H))
 		else
-			to_chat(span_warning("They've already been blessed."))
+			to_chat(user, span_warning("They've already been blessed."))
 
 /mob/living/carbon/human/proc/has_active_golgatha()
 	for(var/obj/item/flashlight/flare/torch/lantern/psycenser/G in contents)
@@ -678,12 +678,12 @@ Inquisitorial armory down here
 	var/working
 
 /obj/item/inqarticles/indexer/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Activate in your hand to toggle the retractable blade.")
-    . += span_info("Left click someone else on the 'USE' intent, while its blade is extended, to begin gathering blood from them.")
-    . += span_info("It takes several cycles to fill the INDEXER with blood - at which point, it will automatically retract the blade and seal itself. This may prove dangerous if used on someone who's already suffering from blood loss.")
-    . += span_info("Once filled, left-clicking the INDEXER on a signed ACCUSATION or CONFESSION will combine them into a foldable package. This package can be then folded, stamped, and mailed back to Otava through the HERMES.")
-    . += span_info("Mailing an INDEXER reveals the worshipped pantheon of whoever's blood was gathered. More MARQUES are rewarded if the INDEXER was filled with the blood of an ASCENDANT, NITEBEASTE, or CURSEBOUND.")
+	. = ..()
+	. += span_info("Activate in your hand to toggle the retractable blade.")
+	. += span_info("Left click someone else on the 'USE' intent, while its blade is extended, to begin gathering blood from them.")
+	. += span_info("It takes several cycles to fill the INDEXER with blood - at which point, it will automatically retract the blade and seal itself. This may prove dangerous if used on someone who's already suffering from blood loss.")
+	. += span_info("Once filled, left-clicking the INDEXER on a signed ACCUSATION or CONFESSION will combine them into a foldable package. This package can be then folded, stamped, and mailed back to Otava through the HERMES.")
+	. += span_info("Mailing an INDEXER reveals the worshipped pantheon of whoever's blood was gathered. More MARQUES are rewarded if the INDEXER was filled with the blood of an ASCENDANT, NITEBEASTE, or CURSEBOUND.")
 
 /obj/item/inqarticles/indexer/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -1002,12 +1002,12 @@ Inquisitorial armory down here
 	sellprice = 0
 
 /obj/item/inqarticles/garrote/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Left click with the 'GRAB' intent, while targeting the neck, to lock someone else into a chokehold.")
-    . += span_info("Once locked into a chokehold, the 'CHOKE' intent can be used to rapidly choke the recipient into unconsciousness. Mindless recipients take far more damage when being choked.")
-    . += span_info("Integrity damage is primarily taken whenever the recipient attempts to resist out of a chokehold. Each attempt to resist removes a twelveth of the garrote's total integrity.")
-    . += span_info("Upon taking enough integrity damage, the garrote's cordage is snapped. Left-clicking a spool of inquisitorial cordage on the snapped garrote will fully repair it.")
-    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
+	. = ..()
+	. += span_info("Left click with the 'GRAB' intent, while targeting the neck, to lock someone else into a chokehold.")
+	. += span_info("Once locked into a chokehold, the 'CHOKE' intent can be used to rapidly choke the recipient into unconsciousness. Mindless recipients take far more damage when being choked.")
+	. += span_info("Integrity damage is primarily taken whenever the recipient attempts to resist out of a chokehold. Each attempt to resist removes a twelveth of the garrote's total integrity.")
+	. += span_info("Upon taking enough integrity damage, the garrote's cordage is snapped. Left-clicking a spool of inquisitorial cordage on the snapped garrote will fully repair it.")
+	. += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
 
 /obj/item/inqarticles/garrote/obj_break(damage_flag)
 	obj_broken = TRUE
@@ -1204,7 +1204,7 @@ Inquisitorial armory down here
 	equip_delay_self = 360 SECONDS
 	max_integrity = 10000 // No breaking it. NO CHEAP FRAGS.
 	body_parts_inherent = FULL_HEAD
-	strip_delay = 10
+	strip_delay = STRIP_DELAY_TRIVIAL
 	slot_flags = ITEM_SLOT_HEAD
 	body_parts_covered = FULL_HEAD
 	w_class = WEIGHT_CLASS_NORMAL
@@ -1217,12 +1217,12 @@ Inquisitorial armory down here
 	var/headgear
 
 /obj/item/clothing/head/inqarticles/blackbag/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Left click while targeting the head to attempt a 'blackbagging', which - if successful - completely blinds the recipient.")
-    . += span_info("While worn, the recipient's head is completely immune to damage.")
-    . += span_info("Blackbagged recipients are subdued far quicker when choked with a garrote.")
-    . += span_info("Unconscious recipients can be blackbagged much faster than if they're fully conscious.")
-    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
+	. = ..()
+	. += span_info("Left click while targeting the head to attempt a 'blackbagging', which - if successful - completely blinds the recipient.")
+	. += span_info("While worn, the recipient's head is completely immune to damage.")
+	. += span_info("Blackbagged recipients are subdued far quicker when choked with a garrote.")
+	. += span_info("Unconscious recipients can be blackbagged much faster than if they're fully conscious.")
+	. += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
 
 /obj/item/clothing/head/inqarticles/blackbag/proc/bagsound(mob/living/M)
 	if(bagging)
@@ -1377,10 +1377,10 @@ Inquisitorial armory down here
 		desc = "A hauntingly beautiful mirror, clasped within a blacksteeled clamshell. A lone spike awaits at the bottom; but, for what?"
 
 /obj/item/inqarticles/bmirror/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Right click to open or close the BLACK MIRROR.")
-    . += span_info("Once opened, left-clicking yourself with the BLACK MIRROR will anoint its spike in your blood. This can be dangerous, if used while you're already suffering from blood loss.")
-    . += span_info("Activate the BLACK MIRROR in your hand, once bloodied, to scry whoever's name you enter into the following prompt.")
+	. = ..()
+	. += span_info("Right click to open or close the BLACK MIRROR.")
+	. += span_info("Once opened, left-clicking yourself with the BLACK MIRROR will anoint its spike in your blood. This can be dangerous, if used while you're already suffering from blood loss.")
+	. += span_info("Activate the BLACK MIRROR in your hand, once bloodied, to scry whoever's name you enter into the following prompt.")
 
 /obj/item/inqarticles/bmirror/proc/donefixating()
 	bloody = TRUE
@@ -1388,7 +1388,7 @@ Inquisitorial armory down here
 	fedblood = FALSE
 	openstate = "bloody"
 	whofedme = null
-	target.clear_alert("blackmirror", TRUE)
+	target.clear_alert(usr, "blackmirror", TRUE)
 	target.playsound_local(src, 'sound/items/blackeye.ogg', 40, FALSE)
 	effect = null
 	target = null
@@ -1435,14 +1435,14 @@ Inquisitorial armory down here
 		if(!user.key)
 			return
 		for(var/mob/living/carbon/human/HL in GLOB.player_list)
-		//	to_chat(world, "going through mob: [HL] | real_name: [HL.real_name] | input: [input] | [world.time]") Mirror-bugsplatter. Disregard this.
+		//	to_world("going through mob: [HL] | real_name: [HL.real_name] | input: [input] | [world.time]") Mirror-bugsplatter. Disregard this.
 			if(HL.real_name == input)
 				if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
 					to_chat(user, span_warning("They are not within the gaze of the Mirror."))
 					return
 				target = HL
 				active = TRUE
-				effect = target.throw_alert("blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
+				effect = target.throw_alert(usr, "blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
 				effect.source = src
 				target.playsound_local(src, 'sound/items/blackeye_warn.ogg', 100, FALSE)
 				playsound(src, 'sound/items/blackmirror_active.ogg', 100, FALSE)
@@ -1550,7 +1550,7 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/proc/openorshut()
 	if(opened)
 		if(effect)
-			target.clear_alert("blackmirror", TRUE)
+			target.clear_alert(usr, "blackmirror", TRUE)
 			effect = null
 			target.playsound_local(src, 'sound/items/blackeye.ogg', 40, FALSE)
 		playsound(src, 'sound/items/blackmirror_shut.ogg', 100, FALSE)
@@ -1562,7 +1562,7 @@ Inquisitorial armory down here
 	playsound(src, 'sound/items/blackmirror_open.ogg', 100, FALSE)
 	if(target)
 		target.playsound_local(src, 'sound/items/blackeye_warn.ogg', 100, FALSE)
-		effect = target.throw_alert("blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
+		effect = target.throw_alert(usr, "blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
 		effect.source = src
 	if(active)
 		soundloop.start()
@@ -1576,7 +1576,7 @@ Inquisitorial armory down here
 		icon_state = "[initial(icon_state)]"
 	update_icon_state()
 
-/obj/item/inqarticles/bmirror/Initialize()
+/obj/item/inqarticles/bmirror/Initialize(mapload)
 	soundloop = new(src, FALSE)
 	. = ..()
 

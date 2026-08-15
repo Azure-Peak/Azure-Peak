@@ -9,7 +9,7 @@
 	if(!istype(parent, /mob/living))
 		return COMPONENT_INCOMPATIBLE
 	infection_chance = inf_chance
-	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/handle_early_cleanup)
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(handle_early_cleanup))
 	RegisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS, PROC_REF(on_bite))
 
 /datum/component/infection_spreader/proc/handle_early_cleanup(datum/source)
@@ -46,7 +46,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/undead,
-	/mob/living/simple_animal/hostile/retaliate/rogue/bigrat  = /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/bigrat	= /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead,
 ))
 
 #define ZOMBIE_REANIMATION_CHANCE 25
@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	var/reanimation_timer
 	var/undead_to_spawn
 
-/datum/component/deadite_animal_reanimation/Initialize()
+/datum/component/deadite_animal_reanimation/Initialize(mapload)
 	if(!istype(parent, /mob/living/simple_animal))
 		return COMPONENT_INCOMPATIBLE
 
@@ -100,7 +100,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	animate(pixel_x = orig_x - 2, pixel_y = orig_y + 2, time = 1)
 	animate(pixel_x = orig_x + 1, pixel_y = orig_y + 1, time = 1)
 	animate(pixel_x = orig_x - 1, pixel_y = orig_y - 2, time = 1)
-	animate(pixel_x = orig_x,     pixel_y = orig_y,     time = 1)
+	animate(pixel_x = orig_x,		pixel_y = orig_y,		time = 1)
 
 	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), REANIMATION_TELL_TIME, TIMER_STOPPABLE)
 

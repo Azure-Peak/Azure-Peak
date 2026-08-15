@@ -269,6 +269,16 @@
 	cost = 12
 	contains = list(/obj/item/reagent_containers/glass/bucket/pot)
 
+/datum/supply_pack/rogue/tools/cart_upgrade
+	name = "Woodcutters Wheelbrace (Cart Capacity Upgrade)"
+	cost = 25
+	contains = list(/obj/item/cart_upgrade/level_1)
+
+/datum/supply_pack/rogue/tools/cart_upgrade2
+	name = "Reinforced Woodcutters Wheelbrace (Cart Capacity Upgrade)"
+	cost = 50
+	contains = list(/obj/item/cart_upgrade/level_2)
+
 /datum/supply_pack/rogue/tools/steel_pick
 	name = "Steel Pick"
 	cost = 40

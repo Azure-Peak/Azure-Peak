@@ -284,10 +284,10 @@
 /datum/reagent/water/blessed/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_UNDEAD)
-		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(0.5	* REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -326,8 +326,8 @@
 	if(istype(M,/mob/living/carbon/human/))
 		M_hum = M
 	if((M.mob_biotypes & MOB_UNDEAD) || (M_hum.patron.undead_hater == FALSE))
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -335,15 +335,15 @@
 			if (upd)
 				M.update_damage_overlays()
 	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
 			var/upd = M.heal_wounds(1)
 			if (upd)
 				M.update_damage_overlays()
-		M.stamina_add(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.stamina_add(0.5	* REAGENTS_EFFECT_MULTIPLIER)
 
 /datum/reagent/water/medicine
 	name = "Pestran Medicine"

@@ -634,9 +634,9 @@
 	desc = "A raw heap of iron, hewn into an intimidatingly massive cleaver. Most could never aspire to effectively swing such a laborsome blade about; those few that have the strength, however, can force even the strongest opponents to stagger back. </br>The thrummage of your heart matches the otherworldly aura that has overtaken this blade. Someone's smiling down upon you, but it certainly isn't who you think it is."
 	max_blade_int = 666
 
-/obj/item/rogueweapon/sword/long/exe/berserk/gnoll/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
+/obj/item/rogueweapon/sword/long/exe/berserk/gnoll/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
 
 //
 
@@ -653,10 +653,10 @@
 	bypass_dupe_test = TRUE
 
 
- // FORGEABLES BABEY!!!
+// FORGEABLES BABEY!!!
 
 
- // GOLD
+// GOLD
 
 /datum/anvil_recipe/valuables/gold/ashtray
 	name = "Zigtray, Golden"
@@ -674,7 +674,7 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 
 /datum/anvil_recipe/valuables/gold/canister
-	name =  "Canister, Golden"
+	name =	"Canister, Golden"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/forgeable/gold/canister
 	display_category = ITEM_CAT_DECORATION
@@ -819,7 +819,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/valuables/silver/canister
-	name =  "Canister, Silver"
+	name =	"Canister, Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/forgeable/silver/canister
 	display_category = ITEM_CAT_DECORATION
@@ -964,7 +964,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/valuables/bronze/canister
-	name =  "Canister, Bronze"
+	name =	"Canister, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/forgeable/bronze/canister
 	display_category = ITEM_CAT_DECORATION

@@ -225,7 +225,7 @@
 			theirskill = L.get_skill_level(I.associated_skill)
 		else
 			theirskill = L.get_skill_level(/datum/skill/combat/unarmed)
-	perc += (ourskill - theirskill)*15 	//skill is of the essence
+	perc += (ourskill - theirskill)*15	//skill is of the essence
 	perc += (user.STAINT - L.STAINT)*10	//but it's also mostly a mindgame
 	skill_factor = (ourskill - theirskill)/2
 

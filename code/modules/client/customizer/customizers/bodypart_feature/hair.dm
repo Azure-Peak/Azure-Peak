@@ -64,7 +64,7 @@
 			if(!natgrad)
 				return
 			var/list/choice_list = hair_gradient_types()
-			var/chosen_input = input(user, "Choose your natural gradient:", "Character Preference")  as null|anything in choice_list
+			var/chosen_input = input(user, "Choose your natural gradient:", "Character Preference")	as null|anything in choice_list
 			if(!chosen_input)
 				return
 			hair_entry.natural_gradient = choice_list[chosen_input]
@@ -81,7 +81,7 @@
 			if(!dyegrad)
 				return
 			var/list/choice_list = hair_gradient_types()
-			var/chosen_input = input(user, "Choose your dye gradient:", "Character Preference")  as null|anything in choice_list
+			var/chosen_input = input(user, "Choose your dye gradient:", "Character Preference")	as null|anything in choice_list
 			if(!chosen_input)
 				return
 			hair_entry.dye_gradient = choice_list[chosen_input]
@@ -642,7 +642,7 @@
 		/datum/sprite_accessory/hair/head/lowbraid,
 		/datum/sprite_accessory/hair/head/shortbraid,
 		/datum/sprite_accessory/hair/head/braided,
-	    /datum/sprite_accessory/hair/head/braided_sidetail,
+		/datum/sprite_accessory/hair/head/braided_sidetail,
 		/datum/sprite_accessory/hair/head/braidtail,
 		/datum/sprite_accessory/hair/head/bun,
 		/datum/sprite_accessory/hair/head/bun2,

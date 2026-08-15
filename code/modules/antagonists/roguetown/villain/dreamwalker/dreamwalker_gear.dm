@@ -14,8 +14,8 @@
 	src.effect_type = effect_type
 	src.cooldown_time = cooldown_time
 
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, .proc/on_attack)
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/on_equipped)
+	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack))
+	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equipped))
 
 
 /datum/component/dream_weapon/proc/on_attack(obj/item/source, mob/living/target, mob/living/user)
@@ -168,19 +168,19 @@
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 // Update weapon initializations with specific effects
-/obj/item/rogueweapon/greataxe/dreamscape/active/Initialize()
+/obj/item/rogueweapon/greataxe/dreamscape/active/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, "fire", 20 SECONDS)
 
-/obj/item/rogueweapon/halberd/glaive/dreamscape/active/Initialize()
+/obj/item/rogueweapon/halberd/glaive/dreamscape/active/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, "frost", 40 SECONDS)
 
-/obj/item/rogueweapon/greatsword/bsword/dreamscape/active/Initialize()
+/obj/item/rogueweapon/greatsword/bsword/dreamscape/active/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, "poison", 20 SECONDS)
 
-/obj/item/rogueweapon/spear/trident/dreamscape_trident/active/Initialize()
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/active/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -208,7 +208,7 @@
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/dreamwalker/Initialize()
+/obj/item/clothing/suit/roguetown/armor/plate/full/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -224,7 +224,7 @@
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
-/obj/item/clothing/under/roguetown/platelegs/dreamwalker/Initialize()
+/obj/item/clothing/under/roguetown/platelegs/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -240,7 +240,7 @@
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
-/obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker/Initialize()
+/obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -255,7 +255,7 @@
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
-/obj/item/clothing/gloves/roguetown/plate/dreamwalker/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -270,7 +270,7 @@
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
-/obj/item/clothing/neck/roguetown/bevor/dreamwalker/Initialize()
+/obj/item/clothing/neck/roguetown/bevor/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -285,7 +285,7 @@
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dreamwalker/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -300,7 +300,7 @@
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 	color = "#2ba6b2"
 
-/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -323,7 +323,7 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
-/obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/Initialize()
+/obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -342,12 +342,12 @@
 	/// Type of shard to spawn
 	var/obj/effect/temp_visual/dream_shard/shard_type = /obj/effect/temp_visual/dream_shard
 
-/datum/component/dreamwalker_repair/Initialize()
+/datum/component/dreamwalker_repair/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	to_chat(parent, span_userdanger("Your body pulses with strange restorative energies."))
-	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_item_equipped)
-	RegisterSignal(parent, COMSIG_MOB_DROPITEM, .proc/on_item_dropped)
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_item_equipped))
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM, PROC_REF(on_item_dropped))
 
 /datum/component/dreamwalker_repair/proc/on_item_equipped(mob/user, obj/item/source, slot)
 	SIGNAL_HANDLER
@@ -365,7 +365,7 @@
 	if(I in repairing_items)
 		return
 	repairing_items += I
-	RegisterSignal(I, COMSIG_OBJ_TAKE_DAMAGE, .proc/on_gear_damaged)
+	RegisterSignal(I, COMSIG_OBJ_TAKE_DAMAGE, PROC_REF(on_gear_damaged))
 
 /datum/component/dreamwalker_repair/proc/remove_item(obj/item/I)
 	if(I in repairing_items)
@@ -507,7 +507,7 @@
 	var/target_x = (target_turf.x - current_turf.x) * 32
 	var/target_y = (target_turf.y - current_turf.y) * 32
 	animate(src, pixel_x = target_x, pixel_y = target_y, time = 5, easing = ELASTIC_EASING)
-	addtimer(CALLBACK(src, .proc/move_to_dest, target_turf), 5)
+	addtimer(CALLBACK(src, PROC_REF(move_to_dest), target_turf), 5)
 
 /obj/effect/temp_visual/dream_shard/attackby(obj/item/I, mob/user, params)
 	if(HAS_TRAIT(user, TRAIT_DREAMWALKER) && dream_check)

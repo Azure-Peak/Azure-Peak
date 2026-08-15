@@ -60,28 +60,28 @@
 
 /obj/item/organ/tail/tiefling
 	name = "tiefling tail"
-	accessory_type =  /datum/sprite_accessory/tail/tiefling
+	accessory_type =	/datum/sprite_accessory/tail/tiefling
 
 /obj/item/organ/tail/dullahan
 	name = "revenant tail"
-	accessory_type =  /datum/sprite_accessory/tail/dullahan
+	accessory_type =	/datum/sprite_accessory/tail/dullahan
 
 /obj/item/organ/tail/akula
 	name = "axian tail"
-	accessory_type =  /datum/sprite_accessory/tail/shark
+	accessory_type =	/datum/sprite_accessory/tail/shark
 
 /obj/item/organ/tail/lizard
 	name = "zardman tail"
 	desc = ""
 	color = "#116611"
-	accessory_type =  /datum/sprite_accessory/tail/lizard/smooth
+	accessory_type =	/datum/sprite_accessory/tail/lizard/smooth
 
 /obj/item/organ/tail/kobold
 	name = "kobold tail"
 	desc = ""
 	color = "#116611"
-	accessory_type =  /datum/sprite_accessory/tail/lizard/kobold
+	accessory_type =	/datum/sprite_accessory/tail/lizard/kobold
 
 /obj/item/organ/tail/goblin
 	name = "goblin tail"
-	accessory_type =  /datum/sprite_accessory/tail/goblin1
+	accessory_type =	/datum/sprite_accessory/tail/goblin1

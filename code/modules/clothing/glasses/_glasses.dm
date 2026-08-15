@@ -5,7 +5,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	flags_cover = GLASSESCOVERSEYES
 	slot_flags = ITEM_SLOT_HEAD
-	strip_delay = 20
+	strip_delay = STRIP_DELAY_FAST
 	equip_delay_other = 25
 	resistance_flags = NONE
 	var/vision_flags = 0

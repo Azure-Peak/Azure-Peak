@@ -33,7 +33,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/tanning =  SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/tanning =	SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_EXPERT,
@@ -43,8 +43,8 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 /datum/outfit/job/roguetown/wretch/munitioneer/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You are a passable warrior- though weak- but your true strength lies in your ability to bend the resources of Azuria to your will."))
 	has_loadout = TRUE

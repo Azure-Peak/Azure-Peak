@@ -45,7 +45,7 @@
 	special = /datum/special_intent/shin_swipe
 	twirly = SKILL_LEVEL_EXPERT // possible, but harder than staves n knives
 
-/obj/item/rogueweapon/sword/Initialize()
+/obj/item/rogueweapon/sword/Initialize(mapload)
 	. = ..()
 	var/rand_icon = "sword[rand(1,3)]"
 	if(icon_state == "sword1")
@@ -115,7 +115,7 @@
 	icon_state = "decsword1"
 	no_loot_taint = TRUE
 
-/obj/item/rogueweapon/sword/decorated/Initialize()
+/obj/item/rogueweapon/sword/decorated/Initialize(mapload)
 	. = ..()
 	var/rand_icon = "decsword[rand(1,3)]"
 	if(icon_state == "decsword1")
@@ -158,7 +158,7 @@
 	force_wielded = 30
 	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/rogueweapon/sword/zizo/Initialize()
+/obj/item/rogueweapon/sword/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
@@ -217,7 +217,7 @@
 	smeltresult = /obj/item/ingot/steel
 	special = /datum/special_intent/side_sweep
 
-/obj/item/rogueweapon/sword/long/Initialize()
+/obj/item/rogueweapon/sword/long/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/skill_blessed, TRAIT_LONGSWORDSMAN, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
 
@@ -433,7 +433,7 @@
 	unequip_delay_self = 0//Same as avantyne sword
 	is_silver = TRUE
 
-/obj/item/rogueweapon/sword/long/ravox_spirit/Initialize()
+/obj/item/rogueweapon/sword/long/ravox_spirit/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_BATTLEMASTER, "SWORD")
 
@@ -521,7 +521,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 	alt_grips = list(/datum/alt_grip/mordhau/sword/lesser, /datum/alt_grip/halfsword/lesser)
 
-/obj/item/rogueweapon/sword/long/zizo/Initialize()
+/obj/item/rogueweapon/sword/long/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
@@ -627,7 +627,7 @@
 	alt_grips = null //It breaks the sprite directions so badly.
 	unenchantable = TRUE //Its a 55 force, antag-only-holdable, glowing superweapon as-is. Also you would be wasting your enchantments cause it qdel's the blade anyway on recalling it.
 
-/obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
+/obj/item/rogueweapon/sword/long/judgement/vlord/Initialize(mapload)
 	. = ..()
 	SEND_GLOBAL_SIGNAL(COMSIG_NEW_ICHOR_FANG_SPAWNED, src)
 	RegisterSignal(SSdcs, COMSIG_NEW_ICHOR_FANG_SPAWNED, PROC_REF(on_recall))
@@ -664,9 +664,9 @@
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
 		. += span_notice("You can feel the unholy blade's enchantment resonate with your cursed nature, anyone that does not bear your curse will be unable to touch it.")
 
-/obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 2)) //Its a cursed blade, it gets to glow ominiously now.
+/obj/item/rogueweapon/sword/long/judgement/vlord/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 2)) //Its a cursed blade, it gets to glow ominiously now.
 
 /obj/item/rogueweapon/sword/long/marlin
 	name = "shalal saber"
@@ -703,7 +703,7 @@
 	justice, it lacks the piercing tips that befit most battle-ready broadswords. If you're strong enough to wield such a weapon, however, \
 	then that probably won't stop you from finding a way."
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/heavy, /datum/intent/sword/thrust/exe, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/chop/heavy, /datum/intent/sword/cut/exe/cleave, /datum/intent/sword/cut/exe/sweep,  /datum/intent/sword/cut/rend)
+	gripped_intents = list(/datum/intent/sword/chop/heavy, /datum/intent/sword/cut/exe/cleave, /datum/intent/sword/cut/exe/sweep,	/datum/intent/sword/cut/rend)
 	alt_grips = null
 	icon_state = "exe"
 	minstr = 12
@@ -1436,7 +1436,7 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 
-/obj/item/rogueweapon/sword/sabre/freifechter/Initialize()
+/obj/item/rogueweapon/sword/sabre/freifechter/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/skill_blessed, TRAIT_SABRIST, /datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 

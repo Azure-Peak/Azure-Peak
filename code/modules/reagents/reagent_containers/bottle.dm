@@ -101,7 +101,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	. = ..()
 	toggle_cork(user)
 
-/obj/item/reagent_containers/glass/bottle/Initialize()
+/obj/item/reagent_containers/glass/bottle/Initialize(mapload)
 	. = ..()
 	if(!icon_state)
 		icon_state = "clear_bottle1"

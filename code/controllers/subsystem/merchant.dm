@@ -111,7 +111,7 @@ SUBSYSTEM_DEF(merchant)
 	for(var/datum/world_faction/active_faction in world_factions)
 		active_faction.setup_sell_data(sell_type)
 
-/obj/Initialize()
+/obj/Initialize(mapload)
 	. = ..()
 	if(sellprice)
 		if(!(type in SSmerchant.staticly_setup_types))

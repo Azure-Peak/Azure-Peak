@@ -623,10 +623,10 @@
 			if("A Bottle Of Medicinal Fish Vinegar.. ?")
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
-		var/bronzediscipline = list("Thespian - Dodge Expert, -I CON / +I SPD","Gladiator - Skin-Armored & Immunity To Pain","Shieldbearer - Well-Armored & Maille Training","Bulwark - Fully-Armored & Plate Training")
+		var/bronzediscipline = list("Thespian - Dodge Expert, -III CON / +III SPD","Gladiator - Skin-Armored & Immunity To Pain","Shieldbearer - Well-Armored & Maille Training","Bulwark - Fully-Armored & Plate Training")
 		var/bronzediscipline_choice = input(H, "Choose your DISCIPLINE.", "EMBRACE GLORY AND DEATH.") as anything in bronzediscipline
 		switch(bronzediscipline_choice)
-			if("Thespian - Dodge Expert, -I CON / +I SPD")
+			if("Thespian - Dodge Expert, -III CON / +III SPD")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.change_stat(STATKEY_SPD, 3)
 				H.change_stat(STATKEY_INT, 1)
@@ -641,8 +641,8 @@
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //Lite!Barbarian.
 				head = /obj/item/clothing/head/roguetown/helmet/bronzegladiator
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
-				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/gladiator
-				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/gladiator/chest
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/gladiator //a leather armor
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/gladiator //a gambeson
 				pants = /obj/item/clothing/under/roguetown/loincloth/brown
 				belt = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
 				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo untill someone figures out how to grant it.
@@ -855,7 +855,7 @@
 	emotions of its wearer - for even the eldest of the Black Oaks can see their bark shifting \
 	back to that familiar crimson hue, whenever they're stricken with the yearning of \
 	tymes past. </br>'Like the sun through the trees you came to love me.. and like a leaf on a breeze, you blew away..'"
-	 //Uniquely wearable among all races, as it's 'unblossomed' and appropriately malleable enough to fit on smaller bodies.
+		//Uniquely wearable among all races, as it's 'unblossomed' and appropriately malleable enough to fit on smaller bodies.
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "awelfchest"

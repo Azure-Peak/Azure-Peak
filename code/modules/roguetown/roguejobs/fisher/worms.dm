@@ -23,7 +23,7 @@
 		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
 	baitresilience = 1
-	
+
 	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
 	var/amt = 1
 
@@ -51,6 +51,6 @@
 /obj/item/natural/worms/grubs/attack_right(mob/user)
 	return
 
-/obj/item/natural/worms/Initialize()
+/obj/item/natural/worms/Initialize(mapload)
 	. = ..()
 	dir = rand(0,8)

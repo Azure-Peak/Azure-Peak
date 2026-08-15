@@ -45,10 +45,10 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks, 
-//					/obj/item/bodypart, 
-//					/obj/item/organ, 
-					/obj/item/natural/bone, 
+	food_type = list(/obj/item/reagent_containers/food/snacks,
+//					/obj/item/bodypart,
+//					/obj/item/organ,
+					/obj/item/natural/bone,
 					/obj/item/natural/hide)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -60,7 +60,7 @@
 	attack_same = 1
 	retreat_health = 0.3
 	aggressive = 1
-	
+
 
 	remains_type = /obj/effect/decal/remains/bigrat
 	eat_forever = TRUE
@@ -82,7 +82,7 @@
 	pixel_x = -16
 	pixel_y = -8
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE

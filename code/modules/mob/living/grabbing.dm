@@ -25,7 +25,7 @@
 /atom/movable //reference to all obj/item/grabbing
 	var/list/grabbedby
 
-/obj/item/grabbing/Initialize()
+/obj/item/grabbing/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 
