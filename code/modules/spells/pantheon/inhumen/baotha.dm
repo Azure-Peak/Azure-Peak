@@ -471,7 +471,7 @@
 	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 5 MINUTES
+	recharge_time = 2 MINUTES
 	miracle = TRUE
 	devotion_cost = 75
 	human_req = TRUE
@@ -485,7 +485,7 @@
 			return FALSE
 
 		target.visible_message(
-			span_info("[target] is covered in a sickly-sweet shimmer-mist. They shudder as another's emotions wash over them."),
+			span_info("[target] is taken awash by another's emotions."),
 			span_notice("The world fades around me as unfamiliar emotions flood through my body, sharpened by Baotha's touch.")
 		)
 		target.remove_stress(/datum/stressevent/lasthigh)
@@ -497,8 +497,8 @@
 		return TRUE
 
 /datum/stressevent/lasthigh
-	timer = 10 MINUTES
-	desc = span_hypnophrase("Another's feelings flood through me, made overwhelming by Baotha's touch.")
+	timer = 2 MINUTES
+	desc = span_notice("Foreign feelings wash myne soul. Is this truly how it feels to be another?")
 
 
 // T3 - bond that lasts for 8 minutes as long as bonded are within 7 tiles, TRAIT_NOPAIN, spd = 5 end = 3
