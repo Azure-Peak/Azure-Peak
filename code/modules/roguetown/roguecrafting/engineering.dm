@@ -798,6 +798,22 @@
 	tools = list(/obj/item/rogueweapon/huntingknife = 1)
 	craftdiff = 4
 
+/datum/crafting_recipe/roguetown/engineering/windmill
+	name = "windmill"
+	category = "Rotational"
+	display_category = ITEM_CAT_ENG_MACHINERY
+	result = list(/obj/item/rotation_contraption/windmill)
+	reqs = list(
+		/obj/item/natural/wood/plank = 4,
+		/obj/item/natural/cloth = 2,
+		/obj/item/grown/log/tree/stick = 2,
+	)
+	verbage_simple = "engineer"
+	verbage = "engineers"
+	skillcraft = /datum/skill/craft/engineering
+	tools = list(/obj/item/rogueweapon/huntingknife = 1)
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/engineering/large_cog
 	name = "large wooden cogwheel (3x)"
 	category = "Rotational"

@@ -242,10 +242,10 @@
 			return
 
 /obj/item/book/rogue/bibble/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Exclusive to the Bishop is the ability to anoint items and people, by left-clicking the chosen recipient.")
-    . += span_info("Anointing a silver weapon will bless it, greatly increasing the power of its critical hits and debuffs against sunderable opponents.")
-    . += span_info("Anointing a person will bless them, imparting a temporary bonus to their Fortune.")
+	. = ..()
+	. += span_info("Exclusive to the Bishop is the ability to anoint items and people, by left-clicking the chosen recipient.")
+	. += span_info("Anointing a silver weapon will bless it, greatly increasing the power of its critical hits and debuffs against sunderable opponents.")
+	. += span_info("Anointing a person will bless them, imparting a temporary bonus to their Fortune.")
 
 //Psydonic Bible
 /obj/item/book/rogue/bibble/psy
@@ -301,9 +301,9 @@
 			sect = "sect3"
 
 /obj/item/book/rogue/bibble/psy/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("It can be used in-hand to preach from three seperate testaments.")
-    . += span_info("Use middle-mouse button to switch between testaments of the book.")
+	. = ..()
+	. += span_info("It can be used in-hand to preach from three seperate testaments.")
+	. += span_info("Use middle-mouse button to switch between testaments of the book.")
 
 //Zizonic Bible
 /obj/item/book/rogue/bibble/zizo
@@ -355,11 +355,11 @@
 			sect = "sect2"
 
 /obj/item/book/rogue/bibble/zizo/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("It can be used in-hand to preach from two seperate testaments.")
-    . += span_info("Use middle-mouse button to switch between testaments of the book.")
+	. = ..()
+	. += span_info("It can be used in-hand to preach from two seperate testaments.")
+	. += span_info("Use middle-mouse button to switch between testaments of the book.")
 
-/obj/item/book/rogue/bibble/zizo/Initialize()
+/obj/item/book/rogue/bibble/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "TOME") //intended, sure-cut sign you worship Zizo. (Also to avoid unintended bug of bishop blessing people w/it.)
 
@@ -589,7 +589,7 @@
 	base_icon_state = "basic_book"
 	override_find_book = TRUE
 
-/obj/item/book/rogue/playerbook/Initialize(loc, in_round_player_generated, var/mob/living/in_round_player_mob, text)
+/obj/item/book/rogue/playerbook/Initialize(mapload, loc, in_round_player_generated, mob/living/in_round_player_mob, text)
 	. = ..()
 	is_in_round_player_generated = in_round_player_generated
 	if(is_in_round_player_generated)
@@ -600,14 +600,14 @@
 
 //Just rewrite this entirely. STRIP_HTML_SIMPLE might be insufficient, but that's just the tip of the iceberg.area
 //This needs to check if an input is valid via reject_bad_text, and if not prompt the user again.
-/obj/item/book/rogue/playerbook/proc/prompt_for_contents(var/mob/living/in_round_player_mob)
+/obj/item/book/rogue/playerbook/proc/prompt_for_contents(mob/living/in_round_player_mob)
 	while(!player_book_author_ckey) // doesn't have to be this, but better than defining a bool.
 		player_book_title = capitalize(STRIP_HTML_SIMPLE(input(in_round_player_mob, "What title do you want to give the book? (max 42 characters)", "Title", "Unknown"), MAX_NAME_LEN))
 		player_book_author = STRIP_HTML_SIMPLE(input(in_round_player_mob, "What do you want the author text to be? (max 42 characters)", "Author", ""), MAX_NAME_LEN)
 		player_book_icon = book_icons[input(in_round_player_mob, "Choose a book style", "Book Style") as anything in book_icons]
 		player_book_author_ckey = in_round_player_mob.ckey
 		//This gives the icon_state name, not the descriptive name, i. e. "book8", instead of "Sickly green with embossed Bronze"
-		if(alert("Confirm?:\nTitle: [player_book_title]\nAuthor: [player_book_author]\nBook Cover: [player_book_icon]", "", "Yes", "No") == "No")
+		if(alert(in_round_player_mob, "Confirm?:\nTitle: [player_book_title]\nAuthor: [player_book_author]\nBook Cover: [player_book_icon]", "", "Yes", "No") == "No")
 			player_book_author_ckey = null
 		message_admins("[player_book_author_ckey]([in_round_player_mob.real_name]) has generated the player book: [player_book_title]")
 

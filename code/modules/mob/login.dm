@@ -1,26 +1,26 @@
 /**
-  * Run when a client is put in this mob or reconnects to byond and their client was on this mob
-  *
-  * Things it does:
-  * * Adds player to player_list
-  * * sets lastKnownIP
-  * * sets computer_id
-  * * logs the login
-  * * tells the world to update it's status (for player count)
-  * * create mob huds for the mob if needed
-  * * reset next_move to 1
-  * * parent call
-  * * if the client exists set the perspective to the mob loc
-  * * call on_log on the loc (sigh)
-  * * reload the huds for the mob
-  * * reload all full screen huds attached to this mob
-  * * load any global alternate apperances
-  * * sync the mind datum via sync_mind()
-  * * call any client login callbacks that exist
-  * * grant any actions the mob has to the client
-  * * calls [auto_deadmin_on_login](mob.html#proc/auto_deadmin_on_login)
-  * * send signal COMSIG_MOB_CLIENT_LOGIN
-  */
+	* Run when a client is put in this mob or reconnects to byond and their client was on this mob
+	*
+	* Things it does:
+	* * Adds player to player_list
+	* * sets lastKnownIP
+	* * sets computer_id
+	* * logs the login
+	* * tells the world to update it's status (for player count)
+	* * create mob huds for the mob if needed
+	* * reset next_move to 1
+	* * parent call
+	* * if the client exists set the perspective to the mob loc
+	* * call on_log on the loc (sigh)
+	* * reload the huds for the mob
+	* * reload all full screen huds attached to this mob
+	* * load any global alternate apperances
+	* * sync the mind datum via sync_mind()
+	* * call any client login callbacks that exist
+	* * grant any actions the mob has to the client
+	* * calls [auto_deadmin_on_login](mob.html#proc/auto_deadmin_on_login)
+	* * send signal COMSIG_MOB_CLIENT_LOGIN
+	*/
 
 
 /mob/Login()
@@ -100,16 +100,16 @@
 	SEND_SIGNAL(src, COMSIG_MOB_CLIENT_LOGIN, client)
 
 /**
-  * Checks if the attached client is an admin and may deadmin them
-  *
-  * Configs:
-  * * flag/auto_deadmin_players
-  * * client.prefs?.toggles & DEADMIN_ALWAYS
-  * * User is antag and flag/auto_deadmin_antagonists or client.prefs?.toggles & DEADMIN_ANTAGONIST
-  * * or if their job demands a deadminning SSjob.handle_auto_deadmin_roles()
-  *
-  * Called from [login](mob.html#proc/Login)
-  */
+	* Checks if the attached client is an admin and may deadmin them
+	*
+	* Configs:
+	* * flag/auto_deadmin_players
+	* * client.prefs?.toggles & DEADMIN_ALWAYS
+	* * User is antag and flag/auto_deadmin_antagonists or client.prefs?.toggles & DEADMIN_ANTAGONIST
+	* * or if their job demands a deadminning SSjob.handle_auto_deadmin_roles()
+	*
+	* Called from [login](mob.html#proc/Login)
+	*/
 /mob/proc/auto_deadmin_on_login() //return true if they're not an admin at the end.
 	if(!client?.holder)
 		return TRUE

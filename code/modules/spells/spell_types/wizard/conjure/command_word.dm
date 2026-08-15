@@ -141,7 +141,7 @@
 		return summon_overload(bomb)
 
 	var/count = 0
-	var/balloon = "<font color='[modes[current_mode]["color"]]'>[lowertext(modes[current_mode]["name"])]!</font>"
+	var/balloon = "<font color='[modes[current_mode]["color"]]'>[LOWER_TEXT(modes[current_mode]["name"])]!</font>"
 	for(var/mob/living/summon in summons)
 		if(command_summon(summon, key, aim))
 			summon.balloon_alert_to_viewers(balloon)

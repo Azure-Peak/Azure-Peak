@@ -21,7 +21,7 @@ LINEN BINS
 	var/list/dream_messages = list("white")
 	var/datum/weakref/signal_sleeper //this is our goldylocks
 
-/obj/item/bedsheet/Initialize()
+/obj/item/bedsheet/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/bed_tuckable, 0, 0, 0)
 

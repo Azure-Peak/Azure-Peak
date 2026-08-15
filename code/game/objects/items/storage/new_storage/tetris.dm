@@ -32,7 +32,7 @@
 	var/grid = TRUE
 	var/storage_flags = NONE
 
-/obj/item/storage/Initialize()
+/obj/item/storage/Initialize(mapload)
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	if(STR)

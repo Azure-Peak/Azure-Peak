@@ -129,6 +129,8 @@
 	credited = skim_for_treasury_debt(to_fund, credited)
 	if(credited > 0)
 		to_fund.balance += credited
+		if(to_fund == discretionary_fund)
+			record_purse_inflow(credited)
 		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason, from_label))
 	return TRUE
 
@@ -164,6 +166,8 @@
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount
+	if(from_fund == discretionary_fund)
+		record_purse_outflow(amount)
 	log_fund_entry(new /datum/treasury_entry("burn", from_fund, null, amount, reason))
 	return TRUE
 
@@ -176,9 +180,13 @@
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount
+	if(from_fund == discretionary_fund)
+		record_purse_outflow(amount)
 	var/credited = skim_for_banditry_debt(to_fund, amount)
 	credited = skim_for_treasury_debt(to_fund, credited)
 	to_fund.balance += credited
+	if(to_fund == discretionary_fund)
+		record_purse_inflow(credited)
 	log_fund_entry(new /datum/treasury_entry("transfer", from_fund, to_fund, amount, reason))
 	return TRUE
 
@@ -262,6 +270,7 @@
 		return
 	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])"))
 		concordat_tithe_debt -= skim
+		record_treasury_expense(TREASURY_FLOW_TITHE, "Church", skim)
 
 /datum/controller/subsystem/treasury/proc/compute_bathhouse_tithe(base_amount, rate)
 	if(base_amount <= 0 || rate <= 0)

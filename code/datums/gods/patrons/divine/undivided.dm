@@ -41,12 +41,12 @@
 		return TRUE
 
 /datum/patron/divine/undivided/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("A wreath of holy power passes over [target]!") // we're always good.
 	*message_self = ("I'm bathed in holy power!")

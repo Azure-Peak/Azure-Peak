@@ -36,7 +36,7 @@
 			damaging.visible_message(span_danger("[fired_from] sets [damaging] on fire!"))
 			src.last_used = world.time
 
-/datum/magic_item/mythic/infernalflame/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
+/datum/magic_item/mythic/infernalflame/on_hit_response(obj/item/I, mob/living/carbon/human/owner, mob/living/carbon/human/attacker)
 	if(world.time < src.last_used + INFERNAL_FLAME_COOLDOWN)
 		return
 	if(isliving(attacker) && attacker != owner)
@@ -52,7 +52,7 @@
 	var/last_used
 	var/warned
 
-/datum/magic_item/mythic/freezing/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
+/datum/magic_item/mythic/freezing/on_hit_response(obj/item/I, mob/living/carbon/human/owner, mob/living/carbon/human/attacker)
 	if(world.time < src.last_used + FREEZING_COOLDOWN)
 		return
 	if(isliving(attacker) && attacker != owner)
@@ -90,7 +90,7 @@
 	glow_color = "#556B2F"
 	var/last_used
 
-/datum/magic_item/mythic/briarcurse/on_apply(var/obj/item/i)
+/datum/magic_item/mythic/briarcurse/on_apply(obj/item/i)
 	.=..()
 	i.force = i.force + 10
 	if (i.force_wielded)
@@ -128,7 +128,7 @@
 		do_teleport(user, target_turf, channel = TELEPORT_CHANNEL_QUANTUM)
 		src.last_used = world.time
 
-/datum/magic_item/mythic/rewind/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
+/datum/magic_item/mythic/rewind/on_hit_response(obj/item/I, mob/living/carbon/human/owner, mob/living/carbon/human/attacker)
 	if(world.time < src.last_used + REWIND_COOLDOWN)
 		return
 	if(!active_item)

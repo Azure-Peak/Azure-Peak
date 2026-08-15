@@ -33,7 +33,7 @@
 /mob/living/carbon/human/species/skeleton/npc/mediumspread
 	threat_point = THREAT_MODERATE
 
-/mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
+/mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize(mapload)
 	var/outfit = rand(1, 5)
 	switch(outfit)
 		if(1)
@@ -55,7 +55,7 @@
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
 
-/mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
+/mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize(mapload)
 	var/outfit = rand(1,5)
 	switch(outfit)
 		if(1)
@@ -192,7 +192,7 @@
 	H.STACON = 3
 	H.STAWIL = 6
 	name = "Skeleton Pirate"
-	head =  /obj/item/clothing/head/roguetown/helmet/tricorn
+	head =	/obj/item/clothing/head/roguetown/helmet/tricorn
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
@@ -317,7 +317,7 @@
 	H.STAWIL = 10
 	H.STAINT = 1
 	name = "Skeleton Dreadnought"
-	// This combines the khopesh  and withered dreadknight
+	// This combines the khopesh	and withered dreadknight
 	var/skeletonclass = rand(1, 2)
 	if(skeletonclass == 1) // Khopesh Knight
 		H.STASPD = 12 // Hue

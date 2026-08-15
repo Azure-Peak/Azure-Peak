@@ -78,4 +78,3 @@
 	playsound(src, 'sound/combat/swingdelay_disrupted.ogg', 100, TRUE)
 	visible_message(span_warning("[src]'s grip is broken!"), span_warning("My grip is broken!"))
 	return TRUE
-			

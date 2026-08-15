@@ -51,7 +51,7 @@
 	var/vine_cd
 	inherent_spells = list(/obj/effect/proc_holder/spell/self/create_vines)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	. = ..()
 
@@ -66,7 +66,7 @@
 			src.move_to_delay = 12
 			src.STASPD = 4
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/proc/contains_vines(var/turf/T)
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad/proc/contains_vines(turf/T)
 	for(var/obj/structure/vine/V in T)
 		return TRUE
 	return FALSE

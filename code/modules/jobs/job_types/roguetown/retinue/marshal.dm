@@ -137,7 +137,7 @@
 	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
-	var/inputty = input("Write a new law", "SHERIFF") as text|null
+	var/inputty = input(src, "Write a new law", "SHERIFF") as text|null
 	if(inputty)
 		if(hasomen(OMEN_NOLORD))
 			make_law(inputty)
@@ -153,7 +153,7 @@
 	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
-	var/inputty = input("Remove a law", "SHERIFF") as text|null
+	var/inputty = input(src, "Remove a law", "SHERIFF") as text|null
 	var/law_index = text2num(inputty) || 0
 	if(law_index && GLOB.laws_of_the_land[law_index])
 		if(hasomen(OMEN_NOLORD))
@@ -184,7 +184,7 @@
 	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
-	var/inputty = input("Outlaw a person", "SHERIFF") as text|null
+	var/inputty = input(src, "Outlaw a person", "SHERIFF") as text|null
 	if(inputty)
 		if(hasomen(OMEN_NOLORD))
 			make_outlaw(inputty)
@@ -208,7 +208,7 @@
 	var/choice = alert(lord, "The sheriff requests a new law!\n[requested_law]", "SHERIFF LAW REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
-			to_chat(span_warning("The lord has denied the request for a new law!"))
+			to_chat(bailiff, span_warning("The lord has denied the request for a new law!"))
 		return
 	make_law(requested_law)
 
@@ -218,7 +218,7 @@
 	var/choice = alert(lord, "The sheriff requests the removal of a law!\n[GLOB.laws_of_the_land[requested_law]]", "SHERIFF LAW REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
-			to_chat(span_warning("The lord has denied the request for a law removal!"))
+			to_chat(bailiff, span_warning("The lord has denied the request for a law removal!"))
 		return
 	remove_law(requested_law)
 
@@ -226,7 +226,7 @@
 	var/choice = alert(lord, "The sheriff requests a purge of all laws!", "SHERIFF PURGE REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
-			to_chat(span_warning("The lord has denied the request for a purge of all laws!"))
+			to_chat(bailiff, span_warning("The lord has denied the request for a purge of all laws!"))
 		return
 	purge_laws()
 
@@ -234,7 +234,7 @@
 	var/choice = alert(lord, "The sheriff requests to outlaw someone!\n[requested_outlaw]", "SHERIFF OUTLAW REQUEST", "Yes", "No")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
-			to_chat(span_warning("The lord has denied the request for declaring an outlaw!"))
+			to_chat(bailiff, span_warning("The lord has denied the request for declaring an outlaw!"))
 		return
 	make_outlaw(requested_outlaw)
 

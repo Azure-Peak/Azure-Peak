@@ -51,7 +51,7 @@
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
 	nojumpsuit = 1
 	sexes = 1
-	
+
 	offset_features = list(OFFSET_HANDS = list(0,2), OFFSET_HANDS_F = list(0,2))
 	organs = list(
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
@@ -96,11 +96,11 @@
 	icon_state = null
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
-	armor = ARMOR_LEATHER 
+	armor = ARMOR_LEATHER
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 80 
+	max_integrity = 80
 	item_flags = DROPDEL
 
 /obj/item/rogueweapon/spider_fang/mire //Like a less defense dagger
@@ -116,7 +116,7 @@
 /obj/item/rogueweapon/spider_fang/mire/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/spider_fang/mire/Initialize()
+/obj/item/rogueweapon/spider_fang/mire/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
@@ -127,7 +127,7 @@
 	overlay_state = "claws"
 	antimagic_allowed = TRUE
 	recharge_time = 40 //4 seconds
-	ignore_cockblock = TRUE	
+	ignore_cockblock = TRUE
 	var/extendid = FALSE
 
 /obj/effect/proc_holder/spell/self/spiderfangs/mire/cast(mob/user = usr)

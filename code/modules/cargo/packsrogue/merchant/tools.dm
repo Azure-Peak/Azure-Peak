@@ -252,22 +252,32 @@
 /datum/supply_pack/rogue/tools/prbronze
 	name = "Prosthetic (Bronze)"
 	cost = 60
-	contains = list(/obj/item/contraption/bronzeprosthetic)
+	contains = list(/obj/item/rogueweapon/contraption/bronzeprosthetic)
 
 /datum/supply_pack/rogue/tools/priron
 	name = "Prosthetic (Iron)"
 	cost = 60
-	contains = list(/obj/item/contraption/ironprosthetic)
+	contains = list(/obj/item/rogueweapon/contraption/ironprosthetic)
 
 /datum/supply_pack/rogue/tools/prsteel
 	name = "Prosthetic (Steel)"
 	cost = 80
-	contains = list(/obj/item/contraption/steelprosthetic)
+	contains = list(/obj/item/rogueweapon/contraption/steelprosthetic)
 
 /datum/supply_pack/rogue/tools/pot
 	name = "Iron Pot"
 	cost = 12
 	contains = list(/obj/item/reagent_containers/glass/bucket/pot)
+
+/datum/supply_pack/rogue/tools/cart_upgrade
+	name = "Woodcutters Wheelbrace (Cart Capacity Upgrade)"
+	cost = 25
+	contains = list(/obj/item/cart_upgrade/level_1)
+
+/datum/supply_pack/rogue/tools/cart_upgrade2
+	name = "Reinforced Woodcutters Wheelbrace (Cart Capacity Upgrade)"
+	cost = 50
+	contains = list(/obj/item/cart_upgrade/level_2)
 
 /datum/supply_pack/rogue/tools/steel_pick
 	name = "Steel Pick"

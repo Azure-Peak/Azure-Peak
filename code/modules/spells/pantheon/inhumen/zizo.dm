@@ -255,7 +255,7 @@
 	icon_state = "chronobolt"
 	embedding = list("embed_chance" = 100, "embedded_fall_chance" = 0, "embedded_ignore_throwspeed_threshold" = TRUE)
 
-/obj/item/bone/profane_splinter/Initialize()
+/obj/item/bone/profane_splinter/Initialize(mapload)
 	. = ..()
 	spawn(1)
 		if(QDELETED(src))
@@ -366,6 +366,7 @@
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 30 SECONDS
+	cast_range = SPELL_RANGE_GROUND
 
 	associated_skill = /datum/skill/magic/holy
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
@@ -503,7 +504,7 @@
 	required_items = null
 
 ///////////////////
-// T3 - Rituos  //
+// T3 - Rituos	//
 ///////////////////
 // - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
 

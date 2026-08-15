@@ -9,7 +9,7 @@
 	// Identical to dagger except it uses the heavier cut to help build rot.
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/Initialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ichor_stained)
 
@@ -26,7 +26,7 @@
 	var/max_charges = 200
 	var/charges_to_restore = 110
 
-/datum/component/ichor_stained/Initialize()
+/datum/component/ichor_stained/Initialize(mapload)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 	parent_weapon = parent
@@ -95,7 +95,7 @@
 			rot_to_apply += 2
 
 		// If the swing delay is significant (0.5s or 5 deciseconds)
-		if(I.swingdelay > 5) 
+		if(I.swingdelay > 5)
 			rot_to_apply += 4
 
 		if(!I.canparry || !I.candodge)

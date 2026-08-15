@@ -29,7 +29,7 @@
 		return
 
 	message_admins("[key_name_admin(src)] has started answering [ADMIN_LOOKUPFLW(M)]'s prayer.")
-	var/msg = input("Message:", text("Subtle PM to [M.key]")) as text|null
+	var/msg = input(usr, "Message:", text("Subtle PM to [M.key]")) as text|null
 
 	if(!msg)
 		message_admins("[key_name_admin(src)] decided not to answer [ADMIN_LOOKUPFLW(M)]'s prayer")
@@ -64,7 +64,7 @@
 		if(operation == "set")
 			prompt = "Please enter the new reputation value:"
 
-		msg = input("Message:", prompt) as num|null
+		msg = input(usr, "Message:", prompt) as num|null
 
 		if (!msg)
 			return
@@ -104,7 +104,7 @@
 
 	var/prompt = "Please enter the amount of triumphs to add/remove:"
 
-	msg = input("Message:", prompt) as num|null
+	msg = input(usr, "Message:", prompt) as num|null
 
 	if (!msg)
 		return
@@ -127,13 +127,13 @@
 	var/reason = ""
 	var/prompt = "Please enter the amount of PQ to add/remove:"
 
-	amt = input("Message:", prompt) as num|null
+	amt = input(usr, "Message:", prompt) as num|null
 
 	if(!amt)
 		return
 
 	prompt = "Please specify a reason for the adjustment:"
-	reason = input("Message:", prompt) as text|null
+	reason = input(usr, "Message:", prompt) as text|null
 	if(!reason)
 		reason = "Player Panel Adjustment"
 
@@ -149,11 +149,11 @@
 	if(!check_rights(R_ADMIN))
 		return
 
-	var/msg = input("Message:", text("Enter the text you wish to appear to everyone:")) as text|null
+	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to everyone:")) as text|null
 
 	if (!msg)
 		return
-	to_chat(world, "[msg]")
+	to_world("[msg]")
 	log_admin("GlobalNarrate: [key_name(usr)] : [msg]")
 	message_admins(span_adminnotice("[key_name_admin(usr)] Sent a global narrate"))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Global Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -166,12 +166,12 @@
 		return
 
 	if(!M)
-		M = input("Direct narrate to whom?", "Active Players") as null|anything in GLOB.player_list
+		M = input(usr, "Direct narrate to whom?", "Active Players") as null|anything in GLOB.player_list
 
 	if(!M)
 		return
 
-	var/msg = input("Message:", text("Enter the text you wish to appear to your target:")) as text|null
+	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to your target:")) as text|null
 
 	if( !msg )
 		return
@@ -191,10 +191,10 @@
 		return
 	if(!A)
 		return
-	var/range = input("Range:", "Narrate to mobs within how many tiles:", 7) as num|null
+	var/range = input(usr, "Range:", "Narrate to mobs within how many tiles:", 7) as num|null
 	if(!range)
 		return
-	var/msg = input("Message:", text("Enter the text you wish to appear to everyone within view:")) as text|null
+	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to everyone within view:")) as text|null
 	if (!msg)
 		return
 	for(var/mob/M in view(range,A))
@@ -398,7 +398,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!mob)
 		return
 	if(!istype(M))
-		alert("Cannot revive a ghost")
+		alert(usr, "Cannot revive a ghost")
 		return
 	M.revive(full_heal = TRUE, admin_revive = TRUE)
 
@@ -469,19 +469,19 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!check_rights(R_ADMIN))
 		return
 
-	var/devastation = input("Range of total devastation. -1 to none", text("Input"))  as num|null
+	var/devastation = input(usr, "Range of total devastation. -1 to none", text("Input"))	as num|null
 	if(devastation == null)
 		return
-	var/heavy = input("Range of heavy impact. -1 to none", text("Input"))  as num|null
+	var/heavy = input(usr, "Range of heavy impact. -1 to none", text("Input"))	as num|null
 	if(heavy == null)
 		return
-	var/light = input("Range of light impact. -1 to none", text("Input"))  as num|null
+	var/light = input(usr, "Range of light impact. -1 to none", text("Input"))	as num|null
 	if(light == null)
 		return
-	var/flash = input("Range of flash. -1 to none", text("Input"))  as num|null
+	var/flash = input(usr, "Range of flash. -1 to none", text("Input"))	as num|null
 	if(flash == null)
 		return
-	var/flames = input("Range of flames. -1 to none", text("Input"))  as num|null
+	var/flames = input(usr, "Range of flames. -1 to none", text("Input"))	as num|null
 	if(flames == null)
 		return
 
@@ -505,10 +505,10 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!check_rights(R_ADMIN))
 		return
 
-	var/heavy = input("Range of heavy pulse.", text("Input"))  as num|null
+	var/heavy = input(usr, "Range of heavy pulse.", text("Input"))	as num|null
 	if(heavy == null)
 		return
-	var/light = input("Range of light pulse.", text("Input"))  as num|null
+	var/light = input(usr, "Range of light pulse.", text("Input"))	as num|null
 	if(light == null)
 		return
 
@@ -575,7 +575,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	set desc = ""
 
 	if(view == CONFIG_GET(string/default_view))
-		change_view(input("Select view range:", "FUCK YE", 7) in list(1,2,3,4,5,6,7,8,9,10,11,12,13,14,128))
+		change_view(input(usr, "Select view range:", "FUCK YE", 7) in list(1,2,3,4,5,6,7,8,9,10,11,12,13,14,128))
 	else
 		change_view(CONFIG_GET(string/default_view))
 
@@ -641,12 +641,12 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/weather), GLOBAL_PROC_REF(cmp_typepaths_asc))
+	var/weather_type = input(usr, "Choose a weather", "Weather")	as null|anything in sortList(subtypesof(/datum/weather), GLOBAL_PROC_REF(cmp_typepaths_asc))
 	if(!weather_type)
 		return
 
 	var/turf/T = get_turf(mob)
-	var/z_level = input("Z-Level to target?", "Z-Level", T?.z) as num|null
+	var/z_level = input(usr, "Z-Level to target?", "Z-Level", T?.z) as num|null
 	if(!isnum(z_level))
 		return
 
@@ -711,7 +711,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		ADMIN_PUNISHMENT_CHANDELIER,
 	)
 
-	var/punishment = input("Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
+	var/punishment = input(usr, "Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
 
 	if(QDELETED(target) || !punishment)
 		return
@@ -779,7 +779,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				to_chat(usr,span_warning("Target must be a mob!"))
 				return
 			var/list/directions = list("North" = NORTH, "South" = SOUTH, "East" = EAST, "West" = WEST, "Northeast" = NORTHEAST, "Northwest" = NORTHWEST, "Southeast" = SOUTHEAST, "Southwest" = SOUTHWEST)
-			var/direction = input("Which direction?") in directions
+			var/direction = input(usr, "Which direction?") in directions
 			direction = directions[direction]
 			var/target_tile = target.loc
 			for (var/i = 0; i < 10; i++)
@@ -812,7 +812,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				span_deadsay("... My name is Trey. Trey Liam, Liamtific Troverseer ..."),
 				span_deadsay("... I'm on NT Liam, a self Treystaining ship, used to Treyserve what Liamains of roguemanity ..."),
 				span_deadsay("... Launched into the Grim Darkness, War and Grim Darkness preserves their grimness ... Their edge ..."),
-				span_deadsay("... Keeps them alive in the grimdark future, where there is only war  ..."),
+				span_deadsay("... Keeps them alive in the grimdark future, where there is only war	..."),
 				span_deadsay("... There is no hope left. Only the Space Station 13 (TRADEMARK TITLE DROP) lets me live in the Trey Liam ..."),
 				span_deadsay("... What have I done!? ..."),
 				span_reallybig("... OH SHIT WHY IS THERE A TALKING DOG?! ..."),
@@ -910,7 +910,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!D)
 		return
 
-	var/add_or_remove = input("Remove/Add?", "Trait Remove/Add") as null|anything in list("Add","Remove")
+	var/add_or_remove = input(usr, "Remove/Add?", "Trait Remove/Add") as null|anything in list("Add","Remove")
 	if(!add_or_remove)
 		return
 	var/list/availible_traits = list()
@@ -927,7 +927,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				var/name = GLOB.trait_name_map[trait] || trait
 				availible_traits[name] = trait
 
-	var/chosen_trait = input("Select trait to modify", "Trait") as null|anything in sortList(availible_traits)
+	var/chosen_trait = input(usr, "Select trait to modify", "Trait") as null|anything in sortList(availible_traits)
 	if(!chosen_trait)
 		return
 
@@ -938,14 +938,14 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			message_admins("Admin [key_name_admin(usr)] add trait [chosen_trait] to [D]!")
 			log_admin("Admin [key_name_admin(usr)] add trait [chosen_trait] to [D]!")
 		if("Remove")
-			var/specific = input("All or specific source ?", "Trait Remove/Add") as null|anything in list("All","Specific")
+			var/specific = input(usr, "All or specific source ?", "Trait Remove/Add") as null|anything in list("All","Specific")
 			if(!specific)
 				return
 			switch(specific)
 				if("All")
 					source = null
 				if("Specific")
-					source = input("Source to be removed","Trait Remove/Add") as null|anything in sortList(D.status_traits[chosen_trait])
+					source = input(usr, "Source to be removed","Trait Remove/Add") as null|anything in sortList(D.status_traits[chosen_trait])
 					if(!source)
 						return
 			REMOVE_TRAIT(D,chosen_trait,source)

@@ -45,12 +45,12 @@
 	if(traitorwin)
 		owner.adjust_triumphs(3)
 		to_chat(owner.current, span_greentext("I've successfully married into the throne and secured an alliance for my house!"))
-		to_chat(world, span_greentext("[owner.current.real_name] successfully married [marriagepartner] and secured an alliance with Azuria for their house!"))
+		to_world(span_greentext("[owner.current.real_name] successfully married [marriagepartner] and secured an alliance with Azuria for their house!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 100, FALSE, pressure_affected = FALSE)
 	else
 		to_chat(owner.current, span_redtext("I've failed to secure a marriage into the throne of Azuria! My house will be disappointed!"))
-		to_chat(world, span_redtext("[owner.current.real_name] failed to secure a marriage with the throne!"))
+		to_world(span_redtext("[owner.current.real_name] failed to secure a marriage with the throne!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 100, FALSE, pressure_affected = FALSE)*/
 

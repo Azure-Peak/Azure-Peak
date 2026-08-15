@@ -3,7 +3,7 @@
 #define LIGHT			2
 #define ENVIRON			3
 #define TOTAL			4	//for total power used only
-#define STATIC_EQUIP 	5
+#define STATIC_EQUIP	5
 #define STATIC_LIGHT_A	6
 #define STATIC_ENVIRON	7
 
@@ -25,11 +25,11 @@
 #define PROTOLATHE		(1<<1)	//New stuff. Uses glass/metal/chemicals
 #define AUTOLATHE		(1<<2)	//Uses glass/metal only.
 #define CRAFTLATHE		(1<<3)	//Uses fuck if I know. For use eventually.
-#define MECHFAB			(1<<4) 	//Remember, objects utilising this flag should have construction_time and construction_cost vars.
-#define BIOGENERATOR	(1<<5) 	//Uses biomass
-#define LIMBGROWER		(1<<6) 	//Uses synthetic flesh
-#define SMELTER			(1<<7) 	//uses various minerals
-#define NANITE_COMPILER  (1<<8) //Prints nanite disks
+#define MECHFAB			(1<<4)	//Remember, objects utilising this flag should have construction_time and construction_cost vars.
+#define BIOGENERATOR	(1<<5)	//Uses biomass
+#define LIMBGROWER		(1<<6)	//Uses synthetic flesh
+#define SMELTER			(1<<7)	//uses various minerals
+#define NANITE_COMPILER	(1<<8) //Prints nanite disks
 //Note: More than one of these can be added to a design but imprinter and lathe designs are incompatable.
 
 //Modular computer/NTNet defines
@@ -47,7 +47,7 @@
 
 //NTNet stuff, for modular computers
 									// NTNet module-configuration values. Do not change these. If you need to add another use larger number (5..6..7 etc)
-#define NTNET_SOFTWAREDOWNLOAD 1 	// Downloads of software from NTNet
+#define NTNET_SOFTWAREDOWNLOAD 1	// Downloads of software from NTNet
 #define NTNET_PEERTOPEER 2			// P2P transfers of files between devices
 #define NTNET_COMMUNICATION 3		// Communication (messaging)
 #define NTNET_SYSTEMCONTROL 4		// Control of various systems, RCon, air alarm control, etc.
@@ -83,7 +83,7 @@
 #define SUPERMATTER_NOTIFY 2		// Ambient temp > 80% of CRITICAL_TEMPERATURE
 #define SUPERMATTER_WARNING 3		// Ambient temp > CRITICAL_TEMPERATURE OR integrity damaged
 #define SUPERMATTER_DANGER 4		// Integrity < 50%
-#define SUPERMATTER_EMERGENCY 5		// Integrity < 25%	
+#define SUPERMATTER_EMERGENCY 5		// Integrity < 25%
 #define SUPERMATTER_DELAMINATING 6	// Pretty obvious.
 
 //Nuclear bomb stuff

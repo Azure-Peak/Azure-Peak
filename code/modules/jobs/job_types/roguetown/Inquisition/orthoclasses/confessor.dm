@@ -77,7 +77,7 @@
 			if("Arbalist - Master Crossbows, +III STR / -III SPD")
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
-				shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/padded/confessor
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/confessor
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 4, TRUE)

@@ -26,9 +26,9 @@
 		victim.reagents.add_reagent(/datum/reagent/miasmagas, 1)
 
 // /datum/pollutant/steam
-// 	name = "Steam Scent"
-// 	pollutant_flags = POLLUTANT_SMELL
-// 	smell_intensity = 0.75
-// 	descriptor = "smell"
-// 	scent = "a steamy scent"
-// 	color = "#ffffff"
+//	name = "Steam Scent"
+//	pollutant_flags = POLLUTANT_SMELL
+//	smell_intensity = 0.75
+//	descriptor = "smell"
+//	scent = "a steamy scent"
+//	color = "#ffffff"

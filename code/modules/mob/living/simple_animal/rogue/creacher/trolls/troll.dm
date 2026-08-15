@@ -27,7 +27,7 @@
 	botched_butcher_results = list (
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll = 2,
 		/obj/item/natural/bundle/bone/full = 1,
-		/obj/item/alch/horn = 1, 
+		/obj/item/alch/horn = 1,
 		/obj/item/natural/hide = 2)
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll = 3,
@@ -75,7 +75,7 @@
 	aggressive = TRUE
 //	stat_attack = UNCONSCIOUS
 	remains_type = /obj/effect/decal/remains/troll
-	
+
 	can_have_ai = FALSE //disable native ai
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/troll
@@ -83,7 +83,7 @@
 
 	var/critvuln = FALSE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	if(critvuln)
@@ -193,7 +193,7 @@
 	name = "remains"
 	gender = PLURAL
 	icon_state = "Trolld"
-	
+
 /datum/intent/unarmed/claw/troll
 	clickcd = TROLL_ATTACK_SPEED
 	penfactor = PEN_LIGHT

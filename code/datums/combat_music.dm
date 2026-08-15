@@ -14,7 +14,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_type)
 GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 // People make mistakes. This should help catch when that happens.
-/proc/cmode_track_to_namelist(var/datum/combat_music/track)
+/proc/cmode_track_to_namelist(datum/combat_music/track)
 	if(!track)
 		return
 	if(!track.name)
@@ -282,9 +282,9 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 /datum/combat_music/inquis_ordinator
 	name = "Inquisitor ('Ordinator' Mix)"
 	desc = ""
-	shortname = "Inq. Ordinator" 
+	shortname = "Inq. Ordinator"
 	musicpath = list('sound/music/combat_inqordinator.ogg')
-	
+
 /datum/combat_music/inquis_commander
 	name = "Inquisitor ('Commander' Mix)"
 	desc = "One last parlay at the end of the world. Finish the fight, no matter the odds."
