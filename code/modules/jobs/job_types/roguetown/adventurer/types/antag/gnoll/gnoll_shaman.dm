@@ -24,10 +24,11 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT,
 		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 	)
 	category_tags = list(CTAG_GNOLL)
 	cmode_music = 'sound/music/combat_graggar.ogg'
@@ -46,6 +47,7 @@
 		var/obj/item/ritechalk/chalk = new /obj/item/ritechalk(H.loc)
 		H.put_in_r_hand(chalk)
 		neck = /obj/item/storage/belt/rogue/pouch/healing
+		backr = /obj/item/storage/backpack/rogue/satchel/gnoll
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)

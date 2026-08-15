@@ -278,6 +278,14 @@
 	icon_state = "psycrossbun_raw"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/psycrossbun
 
+// Undivided variant
+/obj/item/reagent_containers/food/snacks/rogue/foodbase/decabun_raw
+	name = "raw decabun"
+	desc = "A piece of raw dough with the shape of the Undivided cross pressed onto it."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "decabun_raw"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/decabun
+
 /* 	.................   Crossbuns   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/crossbun
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
@@ -367,6 +375,53 @@
 	bitesize = 4
 	rotprocess = SHELFLIFE_EXTREME
 	tastes = list("sweetly-sour jamminess" = 1, "a sense of enduring confusion" = 1)
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
+	foodtype = GRAIN | FRUIT
+
+/obj/item/reagent_containers/food/snacks/rogue/decabun
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_BREAD
+	name = "decabun"
+	desc = "A bun bearing the symbol of the Ten, undivided and ever whole. The only thing to possibly seperate them would be a \
+	helping of jam or marmalade."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "decabun"
+	faretype = FARE_NEUTRAL // Having nobles vomit from eating holy buns is not a good idea
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("bread" = 1)
+	bitesize = 3
+	rotprocess = SHELFLIFE_EXTREME
+
+
+/obj/item/reagent_containers/food/snacks/rogue/decabun_jamtallowed
+
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
+	name = "jamtallowed decabun"
+	desc = "A decabun, cruelly parted to be slathered with a spread of jamtallow. Seperate, but joined in sweet unity."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "decabun_jamtallow"
+	faretype = FARE_LAVISH
+	w_class = WEIGHT_CLASS_NORMAL
+	bitesize = 4
+	rotprocess = SHELFLIFE_EXTREME
+	tastes = list("sweet-tarty jamminess" = 1, "decadent sweetness" = 1)
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
+	foodtype = GRAIN | FRUIT
+
+/obj/item/reagent_containers/food/snacks/rogue/decabun_marmaladed
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
+	name = "marmaladed decabun"
+	desc = "A decabun decorated in a tangy coating of marmalade. The tart flavor tends to give pause, \
+	but the overall texture goes down smoothly."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "decabun_marmalade"
+	faretype = FARE_LAVISH
+	w_class = WEIGHT_CLASS_NORMAL
+	bitesize = 4
+	rotprocess = SHELFLIFE_EXTREME
+	tastes = list("sweetly-sour jamminess" = 1, "decadent tartness" = 1)
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	foodtype = GRAIN | FRUIT
 

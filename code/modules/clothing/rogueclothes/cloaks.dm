@@ -1113,6 +1113,18 @@
 	color = CLOTHING_BLACK
 	allowed_race = CLOTHED_RACES_TYPES
 
+/obj/item/clothing/cloak/scout
+	name = "scout cloak"
+	desc = "A weathered cape cut short at the flank."
+	icon_state = "scout_cloak"
+	item_state = "scout_cloak"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
+
 /obj/item/clothing/cloak/cape/inquisitorgold
 	name = "golden order cloak"
 	desc = "A time honored cloak inlined with golden threading, the stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \

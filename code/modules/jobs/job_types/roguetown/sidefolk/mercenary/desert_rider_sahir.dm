@@ -1,6 +1,6 @@
 /datum/advclass/mercenary/desert_rider_sahir
 	name = "Desert Rider Sahir"
-	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts. Some of your rank knows the way of the sword- a necessity when one happens upon monstrsities that are resilient to magyck in the desert. Sahir are trained in the art of Armament Binding, which is granted as a spell upon picking your aspects."
+	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts. Some of your rank knows the way of the sword- a necessity when one happens upon monstrsities that are resilient to magyck in the desert. Sahir are granted Ziqa, a cantrip which allows them to easily evade foes and slip capture."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_sahir
@@ -62,6 +62,7 @@
 		)
 
 	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/sahir_sandstorm)
 		var/weapons = list("Twin Shamshirs", "Greater Staff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
@@ -75,3 +76,43 @@
 				r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
 
 	H.merctype = 4
+
+/datum/action/cooldown/spell/sahir_sandstorm
+	name = "Ziqa"
+	desc = "Rare is a spell not created by university magi; this is one such example. The Desert Riders created this out of practicality and necessity, combining the second-order schools of Geomancy and Displacement. \n\
+	In wide open environments, this incant would typically create gigantic sandstorms to paralyze and disorient . Azuria does not have nearly so much loose particulate, but it's still a very useful way to make an escape. \n\
+	Creates a dust and sand cloud around me, and briefly grants Phase."
+	button_icon = 'icons/mob/actions/roguespells.dmi'
+	button_icon_state = "rune6"
+	sound = 'sound/items/firesnuff.ogg'
+	spell_color = "#C2A66B"
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	cooldown_time = 45 SECONDS
+	spell_impact_intensity = SPELL_IMPACT_LOW
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
+/datum/action/cooldown/spell/sahir_sandstorm/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/sahir = owner
+	if(!istype(sahir))
+		return FALSE
+
+	playsound(sahir, 'sound/items/firesnuff.ogg', 70, TRUE)
+	sahir.balloon_alert_to_viewers("<font color='[GLOW_COLOR_DISPLACEMENT]'>Phased!</font>")
+	sahir.visible_message(span_warning("<b>Howling dust and sand flows from [sahir]!</b>"), span_notice("<b>I slip through dust and sand!</b>"))
+	sahir.apply_status_effect(/datum/status_effect/buff/phase)
+
+	for(var/turf/storm_turf in range(1, sahir))
+		if(storm_turf.density)
+			continue
+		new /obj/effect/particle_effect/smoke/sahir_sandstorm(storm_turf)
+	return TRUE
+
+/obj/effect/particle_effect/smoke/sahir_sandstorm
+	name = "sandstorm"
+	color = "#e3c68a"
+	lifetime = 3
+	breathin = FALSE

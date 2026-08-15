@@ -1309,6 +1309,15 @@
 	spitoutmouth = FALSE
 	sewrepair = TRUE
 
+/obj/item/clothing/neck/roguetown/collar/fur
+	name = "fur collar"
+	desc = "A thick ruff of trapped fur, worn about the shoulders."
+	icon_state = "furscarf"
+	item_state = "furscarf"
+	salvage_result = /obj/item/natural/fur
+	salvage_amount = 1
+	sewrepair = TRUE
+
 /obj/item/clothing/neck/roguetown/luckcharm
 	name = "luck charm"
 	desc = "A cabbit's foot necklace. Some say it brings good luck. It only feels more lucky when it's worn around the neck."

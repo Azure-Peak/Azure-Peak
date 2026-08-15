@@ -1,0 +1,6 @@
+author: "Aeiraea"
+delete-after: True
+changes:
+  - rscadd: "Added the ability to toggle between 'snout' and 'no snout' for the Face/Simple Veil."
+  - bugfix: "Fixed the Face/Simple Veil not concealing its wearer's identity."
+  - image: "Added sprite and icon updates for the Face/Simple Veil, courtesy of Terracotta, the artist of the mask!"
