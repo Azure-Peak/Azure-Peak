@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported the ability to middle click with an instrument in your hand to add / remove people from your audience as a bard."

@@ -1,5 +1,6 @@
 #define CONJURE_DISMISS_FADE_TIME (4 SECONDS)
 #define CONJURE_RECOIL_SLOW "conjure_recoil_slow"
+#define CONJURE_LIMB_LOSS_WEIGHT 0.15
 
 /proc/dismiss_conjured_minion(mob/living/M)
 	if(QDELETED(M))
@@ -51,6 +52,7 @@
 
 	var/max_summons = 1
 	var/summons_per_cast = 1
+	var/summon_replace_mode = CONJURE_SUMMON_GROUP
 	var/list/conjured_mobs = list()
 	var/current_mode = 1
 	var/list/modes = list()
@@ -58,6 +60,8 @@
 	var/recoil_energy_floor = 200
 	var/recoil_severity = CONJURE_RECOIL_FULL
 	var/recoil_stamina_only = FALSE
+	var/reclaim_recoil = TRUE
+	var/reclaim_recoil_threshold = 0.25
 
 /datum/action/cooldown/spell/conjure_summon/Grant(mob/grant_to)
 	. = ..()
@@ -117,7 +121,7 @@
 /datum/action/cooldown/spell/conjure_summon/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	if(length(modes))
-		stats += span_info("Mode (toggle with Shift+G): [modes[current_mode]["name"]]. You may maintain [max_summons] [summon_noun][max_summons > 1 ? "s" : ""] at a time; recasting at capacity re-summons. Losing one to death recoils violently upon you. Dismiss Conjuration releases them without the shock, but a battered servant still recoils as it unbinds - the more hurt it is, the deeper the toll.")
+		stats += span_info("Mode (toggle with Shift+G): [modes[current_mode]["name"]]. You may maintain [max_summons] [summon_noun][max_summons > 1 ? "s" : ""] at a time; recasting at capacity [summon_replace_mode == CONJURE_SUMMON_SINGLES ? "unbind the oldest summon to make room" : "re-summons"][reclaim_recoil ? ", reclaiming a wounded summon recoils upon you" : ""]. Losing one to death recoils violently upon you. Dismiss Conjuration will charge a partial recoil the more hurt the summon is.")
 	return stats
 
 /datum/action/cooldown/spell/conjure_summon/can_cast_spell(feedback = TRUE)
@@ -144,12 +148,25 @@
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		return FALSE
 
-	var/at_capacity = (length(conjured_mobs) >= max_summons)
-	if(at_capacity)
-		dismiss_summons(conjured_mobs.Copy())
-	var/to_spawn = at_capacity ? summons_per_cast : min(summons_per_cast, max_summons - length(conjured_mobs))
+	var/list/to_dismiss
+	var/to_spawn
+	if(summon_replace_mode == CONJURE_SUMMON_SINGLES)
+		to_spawn = min(summons_per_cast, max_summons)
+		var/overflow = to_spawn - (max_summons - length(conjured_mobs))
+		if(overflow > 0)
+			to_dismiss = conjured_mobs.Copy(1, min(overflow, length(conjured_mobs)) + 1)
+	else if(length(conjured_mobs) >= max_summons)
+		to_dismiss = conjured_mobs.Copy()
+		to_spawn = summons_per_cast
+	else
+		to_spawn = min(summons_per_cast, max_summons - length(conjured_mobs))
 	if(to_spawn < 1)
 		to_spawn = 1
+	if(length(to_dismiss))
+		conjured_mobs -= to_dismiss
+		if(reclaim_recoil)
+			apply_reclaim_recoil(user, to_dismiss)
+		dismiss_summons(to_dismiss)
 
 	var/list/all_summoned = list()
 	for(var/i in 1 to to_spawn)
@@ -177,6 +194,26 @@
 		return 2
 	return 1
 
+/datum/action/cooldown/spell/conjure_summon/proc/apply_reclaim_recoil(mob/living/user, list/reclaimed)
+	if(!istype(user))
+		return
+	var/scale = 0
+	var/count = 0
+	for(var/mob/living/M in reclaimed)
+		if(QDELETED(M))
+			continue
+		count++
+		var/wounded = M.conjure_damage_fraction()
+		if(wounded < reclaim_recoil_threshold)
+			continue
+		scale += wounded
+	if(!count)
+		return
+	if(scale <= 0)
+		to_chat(user, span_notice("My [summon_noun][count > 1 ? "s unravel" : " unravels"] painlessly."))
+		return
+	apply_conjure_recoil(user, recoil_energy_floor, recoil_severity, clamp(scale, 0, 1), FALSE, recoil_stamina_only)
+
 /datum/action/cooldown/spell/conjure_summon/proc/dismiss_summons(list/mobs)
 	for(var/mob/living/M in mobs)
 		dismiss_conjured_minion(M)
@@ -189,7 +226,11 @@
 	if(maxHealth <= 0)
 		return 0
 	var/total = getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss()
-	return clamp(total / maxHealth, 0, 1)
+	var/fraction = total / maxHealth
+	var/list/missing = get_missing_limbs()
+	if(length(missing))
+		fraction += length(missing) * CONJURE_LIMB_LOSS_WEIGHT
+	return clamp(fraction, 0, 1)
 
 /proc/apply_conjure_recoil(mob/living/summoner, energy_floor = 200, severity = CONJURE_RECOIL_FULL, scale = 1, block = TRUE, stamina_only = FALSE)
 	if(!istype(summoner))

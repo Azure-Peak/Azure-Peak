@@ -41,7 +41,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	set_light(0)
 	return ..()
 
-/obj/structure/roguemachine/titan/Initialize()
+/obj/structure/roguemachine/titan/Initialize(mapload)
 	. = ..()
 	icon_state = null
 	become_hearing_sensitive()
@@ -537,9 +537,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return
 	// TESTING: Disabled chain coup cooldown
 	// if(SSticker.usurpation_day == GLOB.dayspassed)
-	// 	say("The realm has already seen a change of power this dae. Let the dust settle.")
-	// 	playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-	// 	return
+	//	say("The realm has already seen a change of power this dae. Let the dust settle.")
+	//	playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+	//	return
 
 	var/static/list/available_rites = list(
 		/datum/usurpation_rite/solar_succession,

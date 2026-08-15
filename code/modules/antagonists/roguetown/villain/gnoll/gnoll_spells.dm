@@ -25,14 +25,14 @@
 	action_icon_state = "sniff"
 	invocation_emote_self = "<span class='notice'>I sniff the air.</span>"
 	var/alist/combat_roles = list(
-		"Orthodoxist" = TRUE, 
-		"Absolver" = TRUE, 
-		"Templar" = TRUE, 
-		"Sergeant" = TRUE, 
-		"Men-at-arms" = TRUE, 
-		"Knight" = TRUE, 
-		"Squire" = TRUE, 
-		"Mercenary" = TRUE, 
+		"Orthodoxist" = TRUE,
+		"Absolver" = TRUE,
+		"Templar" = TRUE,
+		"Sergeant" = TRUE,
+		"Men-at-arms" = TRUE,
+		"Knight" = TRUE,
+		"Squire" = TRUE,
+		"Mercenary" = TRUE,
 		"Warden" = TRUE,
 		"Acolyte" = TRUE,
 		"Adventurer" = TRUE
@@ -56,7 +56,7 @@
 		to_chat(user, span_warning("[target] isn't something you can hunt."))
 		revert_cast()
 		return FALSE
-	
+
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/proc/select_new_target(mob/user)
@@ -70,8 +70,8 @@
 		// var/target_role = L.job
 		var/is_valid_prey = is_hunted
 		// if(!is_valid_prey)
-		// 	if(target_role in combat_roles)
-		// 		is_valid_prey = TRUE
+		//	if(target_role in combat_roles)
+		//		is_valid_prey = TRUE
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
 			possible_targets[entry_name] = L
@@ -107,7 +107,7 @@
 	else
 		var/dist = get_dist(user, tracked_target)
 		var/dir_text = dir2text(get_dir(user, tracked_target))
-		
+
 		if(dist <= 1)
 			to_chat(user, span_boldnotice("The prey is right here! Blood and steel!"))
 		else if(dist < 10)
@@ -215,7 +215,7 @@
 	if(gnoll_hitchhikers)
 		var/obj/structure/portal_jaunt/portal = new(origin_turf)
 		portal.linked_turf = destination_turf
-		portal.safe_passage = TRUE 
+		portal.safe_passage = TRUE
 		portal.name = "fading blood rift"
 		portal.color = "#570f04"
 		portal.max_uses = 1
@@ -231,7 +231,7 @@
 	var/death_loot_given = FALSE
 	var/channeling_abduction = FALSE
 
-/datum/component/gnoll_combat_tracker/Initialize()
+/datum/component/gnoll_combat_tracker/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))
@@ -367,15 +367,15 @@
 				if(animal.initial_butcher_count > 0 && length(animal.butcher_results) < animal.initial_butcher_count)
 					to_chat(owner, span_warning("This creature has already been partially butchered! There's not enough left to consume."))
 					return FALSE
-			
+
 			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
 			if(do_after(owner, 20 SECONDS, corpse))
 				corpse.gib()
 				to_chat(owner, span_notice("You finish consuming [corpse.name], restoring your physical form."))
 				H.apply_status_effect(/datum/status_effect/buff/healing, 20)
 				if(is_animal)
-					heal_gnoll(H, 100) 
-					restore_armor_integrity(H, 80) 
+					heal_gnoll(H, 100)
+					restore_armor_integrity(H, 80)
 				else
 					restore_armor_integrity(H, 35)
 			return TRUE
@@ -449,7 +449,7 @@
 	var/meat_name = meat_to_eat ? meat_to_eat.name : "meat"
 	if(!QDELETED(meat_to_eat))
 		qdel(meat_to_eat)
-		
+
 	if(receiver == owner)
 		to_chat(owner, span_notice("You gluttonously gobble down the [meat_name], feeling reinvigorated."))
 	else

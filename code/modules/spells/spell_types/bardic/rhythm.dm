@@ -156,7 +156,7 @@
 	prime_timer_id = null
 	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
 	owner.remove_filter(RHYTHM_FILTER)
-	to_chat(owner, span_warning("I failed to strike in time. My song unheard."))
+	to_chat(owner, span_warning("I failed to strike in time. My song goes unheard."))
 
 /// Blocking feedback deferred out of SIGNAL_HANDLER via INVOKE_ASYNC
 /datum/action/cooldown/spell/rhythm/proc/allegro_feedback(mob/living/carbon/human/H)

@@ -5,7 +5,7 @@
 	color_key_name = null
 
 // /datum/sprite_accessory/snout/skeleton/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-// 	return icon_state
+//	return icon_state
 
 /datum/sprite_accessory/snout/skeleton/lizard_grinning
 	name = "Grinning Skeleton Lizard Snout"

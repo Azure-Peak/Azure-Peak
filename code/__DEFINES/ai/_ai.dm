@@ -111,38 +111,38 @@
 #define SPT_PROB(prob_per_second_percent, seconds_per_tick) (prob(100*SPT_PROB_RATE((prob_per_second_percent)/100, (seconds_per_tick))))
 
 #define BB_HUMAN_BEG_TARGET "human_beg_target"
-#define BB_HUMAN_NPC_SWINGS_TAKEN        "human_npc_swings_taken"
-#define BB_HUMAN_NPC_SWINGS_TARGET       "human_npc_swings_target"
+#define BB_HUMAN_NPC_SWINGS_TAKEN		"human_npc_swings_taken"
+#define BB_HUMAN_NPC_SWINGS_TARGET		"human_npc_swings_target"
 #define BB_HUMAN_NPC_ZONE_COMMIT_COUNTER "human_npc_zone_commit_counter"
-#define BB_HUMAN_NPC_LAST_ATTACK_ZONE    "human_npc_last_attack_zone"
-#define BB_HUMAN_NPC_WEAKPOINT           "human_npc_weakpoint"
-#define BB_HUMAN_NPC_JUMP_COOLDOWN       "human_npc_jump_cooldown"
-#define BB_HUMAN_NPC_FLANK_ANGLE         "human_npc_flank_angle"
-#define BB_HUMAN_NPC_FLANK_TARGET        "human_npc_flank_target"
-#define BB_HUMAN_NPC_HARASS_MODE         "human_npc_harass_mode"
-#define BB_HUMAN_NPC_HARASS_RETREATING   "human_npc_harass_retreating"
-#define BB_HUMAN_NPC_HARASS_COOLDOWN     "human_npc_harass_cooldown"
-#define BB_HUMAN_NPC_JUKE_COOLDOWN       "human_npc_juke_cooldown"
-#define BB_HUMAN_NPC_FEINT_COOLDOWN      "human_npc_feint_cooldown"
-#define BB_HUMAN_NPC_TECHNIQUE_CD        "human_npc_technique_cd"
-#define BB_HUMAN_NPC_SPECIAL_EVAL_AT     "human_npc_special_eval_at"
-#define BB_AI_ALERT_MODE_UNTIL           "ai_alert_mode_until"
-#define AI_ALERT_MODE_DURATION           (30 SECONDS)
+#define BB_HUMAN_NPC_LAST_ATTACK_ZONE	"human_npc_last_attack_zone"
+#define BB_HUMAN_NPC_WEAKPOINT			"human_npc_weakpoint"
+#define BB_HUMAN_NPC_JUMP_COOLDOWN		"human_npc_jump_cooldown"
+#define BB_HUMAN_NPC_FLANK_ANGLE			"human_npc_flank_angle"
+#define BB_HUMAN_NPC_FLANK_TARGET		"human_npc_flank_target"
+#define BB_HUMAN_NPC_HARASS_MODE			"human_npc_harass_mode"
+#define BB_HUMAN_NPC_HARASS_RETREATING	"human_npc_harass_retreating"
+#define BB_HUMAN_NPC_HARASS_COOLDOWN		"human_npc_harass_cooldown"
+#define BB_HUMAN_NPC_JUKE_COOLDOWN		"human_npc_juke_cooldown"
+#define BB_HUMAN_NPC_FEINT_COOLDOWN		"human_npc_feint_cooldown"
+#define BB_HUMAN_NPC_TECHNIQUE_CD		"human_npc_technique_cd"
+#define BB_HUMAN_NPC_SPECIAL_EVAL_AT		"human_npc_special_eval_at"
+#define BB_AI_ALERT_MODE_UNTIL			"ai_alert_mode_until"
+#define AI_ALERT_MODE_DURATION			(30 SECONDS)
 #define BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT "human_npc_intent_attacks"
 #define BB_BEGGING_FOOD_ITEM "item_beg_target"
-#define BB_ARCHER_NPC_TARGET_ARROW      "archer_target_arrow"
-#define BB_ARCHER_NPC_STASHED_WEAPON    "archer_stashed_weapon"
+#define BB_ARCHER_NPC_TARGET_ARROW		"archer_target_arrow"
+#define BB_ARCHER_NPC_STASHED_WEAPON	"archer_stashed_weapon"
 #define BB_ARCHER_NPC_EQUIPMENT_CACHE_EXPIRY "archer_npc_equipment_cache_expiry"
-#define BB_ARCHER_NPC_BOW               "archer_npc_bow"
-#define BB_ARCHER_NPC_QUIVER            "archer_npc_quiver"
-#define BB_ARCHER_NPC_NEXT_SHOT         "archer_next_shot"     // world.time the archer may next loose an arrow
-#define BB_ARCHER_NPC_REPOSITION_TURF   "archer_reposition_turf"  // post-shot juke destination we're committed to
-#define BB_ARCHER_NPC_REPOSITION_UNTIL  "archer_reposition_until" // world.time the post-shot juke commitment expires
-#define BB_INVENTORY_MAP        "inventory_map"        // list(category = list(item_ref = slot_name))
-#define BB_CONTAINER_REFS       "container_refs"       // list(slot_name = item_ref)
-#define BB_INVENTORY_DIRTY      "inventory_dirty"      // bool, triggers reappraisal
-#define BB_HELD_CONSUMABLE      "held_consumable"      // item we pulled out to use
-#define BB_THROW_WINDUP_UNTIL   "throw_windup_until"   // world.time the drawn throwable may be loosed (NPC holds it visibly until then)
+#define BB_ARCHER_NPC_BOW				"archer_npc_bow"
+#define BB_ARCHER_NPC_QUIVER			"archer_npc_quiver"
+#define BB_ARCHER_NPC_NEXT_SHOT			"archer_next_shot"		// world.time the archer may next loose an arrow
+#define BB_ARCHER_NPC_REPOSITION_TURF	"archer_reposition_turf"	// post-shot juke destination we're committed to
+#define BB_ARCHER_NPC_REPOSITION_UNTIL	"archer_reposition_until" // world.time the post-shot juke commitment expires
+#define BB_INVENTORY_MAP		"inventory_map"		// list(category = list(item_ref = slot_name))
+#define BB_CONTAINER_REFS		"container_refs"		// list(slot_name = item_ref)
+#define BB_INVENTORY_DIRTY		"inventory_dirty"		// bool, triggers reappraisal
+#define BB_HELD_CONSUMABLE		"held_consumable"		// item we pulled out to use
+#define BB_THROW_WINDUP_UNTIL	"throw_windup_until"	// world.time the drawn throwable may be loosed (NPC holds it visibly until then)
 #define BB_TARGET_ZONE_OVERRIDE	"bb_target_override"
 #define BB_FORCED_ATTACK_ZONE	"bb_forced_attack_zone"
 #define BB_LOOT_TARGET "loot_target"
@@ -153,23 +153,23 @@
 #define BB_MUG_TARGET_ITEM "mug_rootbeer"
 
 #define ARCHER_NPC_EQUIPMENT_CACHE_TIME (40 SECONDS)
-#define ARCHER_NPC_MIN_RANGE            4
-#define ARCHER_NPC_KITE_FLOOR           1
-#define ARCHER_NPC_KITE_RANGE           3
-#define ARCHER_NPC_SHOOT_RANGE          6
+#define ARCHER_NPC_MIN_RANGE			4
+#define ARCHER_NPC_KITE_FLOOR			1
+#define ARCHER_NPC_KITE_RANGE			3
+#define ARCHER_NPC_SHOOT_RANGE			6
 // We want to somewhat simulate an actual draw. A Nock Time has no slowdown and simulate mouse
 // travelling to click on the Quiver, the min aim time simulate the process of holding the bow and
 // then actually aiming at the target and is added to the draw time, and the draw time is the
 // actual mechanical limiter
-#define ARCHER_NPC_NOCK_TIME            (1.5 SECONDS)
-#define ARCHER_NPC_MIN_AIM_TIME         (0.4 SECONDS)
-#define ARCHER_NPC_BASE_SPREAD          25
-#define ARCHER_NPC_RETREAT_PROJECT      4
-#define ARCHER_NPC_REPOSITION_TIME      (0.6 SECONDS) // how long a post-shot random juke commits before the straight retreat resumes
-#define ARCHER_NPC_ARROW_SEARCH_RANGE   9
+#define ARCHER_NPC_NOCK_TIME			(1.5 SECONDS)
+#define ARCHER_NPC_MIN_AIM_TIME			(0.4 SECONDS)
+#define ARCHER_NPC_BASE_SPREAD			25
+#define ARCHER_NPC_RETREAT_PROJECT		4
+#define ARCHER_NPC_REPOSITION_TIME		(0.6 SECONDS) // how long a post-shot random juke commits before the straight retreat resumes
+#define ARCHER_NPC_ARROW_SEARCH_RANGE	9
 #define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback bow charge time
-#define ARCHER_NPC_SPREAD_PER_POINT     7     // spread per PER point below 15
-#define ARCHER_NPC_ARC_SPREAD_PENALTY   20    // extra spread when arcing over allies
+#define ARCHER_NPC_SPREAD_PER_POINT		7		// spread per PER point below 15
+#define ARCHER_NPC_ARC_SPREAD_PENALTY	20	// extra spread when arcing over allies
 
 // Keys used by one and only one behavior
 // Used to hold state without making bigass lists
@@ -177,8 +177,8 @@
 #define BB_FIND_TARGETS_FIELD(type) "bb_find_targets_field_[type]"
 
 
-#define AI_ITEM_THROWING        (1<<0)
-#define AI_ITEM_QUIVER          (1<<1)
+#define AI_ITEM_THROWING		(1<<0)
+#define AI_ITEM_QUIVER			(1<<1)
 
 GLOBAL_LIST_INIT(ai_item_flags, list(
 	AI_ITEM_THROWING,

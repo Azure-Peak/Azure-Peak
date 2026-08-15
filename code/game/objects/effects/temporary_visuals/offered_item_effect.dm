@@ -132,6 +132,10 @@
 	if(isnull(offered_thing) || isnull(offerer))
 		return
 
+	if(offered_thing.loc != offerer) // i.e. they've offered an item and then sheathed it or done some other jank to store it somewhere else
+		offerer.cancel_offering_item(stealthy)
+		return
+
 	if(user == offerer)
 		offerer.cancel_offering_item(stealthy)
 		return

@@ -23,7 +23,7 @@
 	result = list(/obj/item/clothing/head/roguetown/roguehood/studded)
 	reqs = list(
 		/obj/item/clothing/head/roguetown/roguehood = 1,
-		/obj/item/scrap = 2,
+		/obj/item/scrap = 1,
 		/obj/item/reagent_containers/food/snacks/fat = 1,
 		)
 
@@ -32,7 +32,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded)
 	reqs = list(
 		/obj/item/clothing/suit/roguetown/armor/leather = 1,
-		/obj/item/scrap = 3,
+		/obj/item/scrap = 2,
 		/obj/item/reagent_containers/food/snacks/fat = 1,
 		)
 
@@ -41,7 +41,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli)
 	reqs = list(
 		/obj/item/clothing/suit/roguetown/armor/leather/cuirass = 1,
-		/obj/item/scrap = 3,
+		/obj/item/scrap = 2,
 		/obj/item/reagent_containers/food/snacks/fat = 1,
 		)
 
@@ -50,7 +50,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini)
 	reqs = list(
 		/obj/item/clothing/suit/roguetown/armor/leather = 1,
-		/obj/item/scrap = 2,
+		/obj/item/scrap = 1,
 		/obj/item/reagent_containers/food/snacks/fat = 1,
 		)
 

@@ -17,7 +17,7 @@
 	name = "fried egg"
 	desc = "Some Astratans enjoy their eggs sunny-side up."
 
-/*	.............   Twin fried eggs   ................ */
+/*	.............	Twin fried eggs	................ */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/two
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	tastes = list("fried egg" = 1)
@@ -29,7 +29,7 @@
 	icon_state = "seggs"
 	eat_effect = /datum/status_effect/buff/snackbuff
 
-/*	.............   Deviled Eggs   ................ */
+/*	.............	Deviled Eggs	................ */
 /obj/item/reagent_containers/food/snacks/rogue/stuffedegg
 	dish_type = DISH_EGG
 	name = "raw stuffed egg"
@@ -50,7 +50,7 @@
 	desc = "Egg stuffed with a creamy cheese filling."
 	icon_state = "deviledegg"
 
-/*	.............   Tartar   ................ */
+/*	.............	Tartar	................ */
 //This doesn't really count as either cooked or egg recipe (it does contain an egg at least) so whatever.
 /obj/item/reagent_containers/food/snacks/rogue/tartar
 	name = "tartar"
@@ -63,12 +63,12 @@
 
 /* * * * * * * * * * * **
  *						*
- *		 NeuFood		*	- Defined as edible food that can be plated and usually needs rare tools or ingridients. Typically based on a snack but not necessarily
- *		 (Meals)		*
+ *			NeuFood		*	- Defined as edible food that can be plated and usually needs rare tools or ingridients. Typically based on a snack but not necessarily
+ *			(Meals)		*
  *						*
  * * * * * * * * * * * **/
 
-/*	.................   Valerian Omelette   ................... */
+/*	.................	Valerian Omelette	................... */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/tiberian
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "cheese" = 1)
@@ -81,7 +81,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	rotprocess = SHELFLIFE_DECENT
 
-/*	.................   Bacon & Eggs   ................... */
+/*	.................	Bacon & Eggs	................... */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/bacon
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "bacon" = 1)
@@ -93,7 +93,7 @@
 	faretype = FARE_NEUTRAL
 	rotprocess = SHELFLIFE_DECENT
 
-/*	.................   Hammerholdian Breakfast   ................... */
+/*	.................	Hammerholdian Breakfast	................... */
 //This is an extremely convoluded recipe probably not even worth it but yknow what, why not.
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausage
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
@@ -129,7 +129,7 @@
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_DECENT
 
-/*	.................   Omelettes   ................... */
+/*	.................	Omelettes	................... */
 /obj/item/reagent_containers/food/snacks/rogue/omelette_raw
 	dish_type = DISH_EGG
 	name = "raw omelette"

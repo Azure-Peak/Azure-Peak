@@ -1,8 +1,8 @@
 //intent defines
-#define INTENT_HELP			 /datum/intent/unarmed/help
-#define INTENT_GRAB			 /datum/intent/unarmed/grab
-#define INTENT_DISARM		 /datum/intent/unarmed/shove
-#define INTENT_HARM			 /datum/intent/unarmed/punch
+#define INTENT_HELP				/datum/intent/unarmed/help
+#define INTENT_GRAB				/datum/intent/unarmed/grab
+#define INTENT_DISARM			/datum/intent/unarmed/shove
+#define INTENT_HARM				/datum/intent/unarmed/punch
 
 //mmb intents
 #define INTENT_KICK		/datum/intent/kick
@@ -15,22 +15,22 @@
 // Shield Intents defines
 #define SHIELD_BASH		/datum/intent/shield/bash
 #define SHIELD_BLOCK		/datum/intent/shield/block
-#define SHIELD_BASH_METAL 	/datum/intent/shield/bash/metal
-#define SHIELD_BLOCK_METAL 	/datum/intent/shield/block/metal
-#define SHIELD_SMASH 		/datum/intent/mace/smash/shield
-#define SHIELD_SMASH_METAL 	/datum/intent/mace/smash/shield/metal
+#define SHIELD_BASH_METAL	/datum/intent/shield/bash/metal
+#define SHIELD_BLOCK_METAL	/datum/intent/shield/block/metal
+#define SHIELD_SMASH		/datum/intent/mace/smash/shield
+#define SHIELD_SMASH_METAL	/datum/intent/mace/smash/shield/metal
 #define SHIELD_BANG_COOLDOWN (3 SECONDS)
 
 //used for all items that aren't weapons but have a blunt force
-#define INTENT_GENERIC	 /datum/intent/hit
+#define INTENT_GENERIC		/datum/intent/hit
 #define RANGED_FIRE		/datum/intent/shoot
 
 //Weapon intents
-#define SWORD_CUT		 /datum/intent/sword/cut
-#define SWORD_THRUST	 /datum/intent/sword/thrust
-#define SWORD_CHOP		 /datum/intent/sword/chop //2h swords only
-#define SWORD_STRIKE	 /datum/intent/sword/strike
-#define SWORD_BASH		 /datum/intent/sword/strike/bash // alternate sword bash, e.g. mordhau
+#define SWORD_CUT			/datum/intent/sword/cut
+#define SWORD_THRUST		/datum/intent/sword/thrust
+#define SWORD_CHOP			/datum/intent/sword/chop //2h swords only
+#define SWORD_STRIKE		/datum/intent/sword/strike
+#define SWORD_BASH			/datum/intent/sword/strike/bash // alternate sword bash, e.g. mordhau
 
 #define ELFSWORD_CUT		/datum/intent/sword/cut/elf
 #define ELFSWORD_THRUST		/datum/intent/sword/thrust/elf
@@ -43,7 +43,7 @@
 #define SPEAR_BASH			/datum/intent/spear/bash
 #define SPEAR_CUT			/datum/intent/spear/cut
 #define SPEAR_CUT_1H		/datum/intent/spear/cut/oneh
-#define SPEAR_CAST          /datum/intent/spear/cast
+#define SPEAR_CAST			/datum/intent/spear/cast
 #define PARTIZAN_REND		/datum/intent/rend/reach/partizan
 #define SHORT_SPEAR_THRUST /datum/intent/spear/thrust/short
 #define SHORT_SPEAR_CUT /datum/intent/spear/cut/short

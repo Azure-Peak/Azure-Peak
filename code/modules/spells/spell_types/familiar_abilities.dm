@@ -209,7 +209,7 @@
 	user.should_brew = !user.should_brew
 	return TRUE
 
-/datum/action/cooldown/spell/projectile/lesser_fetch/fae
+/datum/action/cooldown/spell/projectile/fetch/fae
 	name = "Grasp of Nature"
 	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
 	invocations = list("Recolligere silva")
@@ -699,7 +699,7 @@
 			beam.disperse()
 		user.beam_parts = list()
 
-/datum/action/cooldown/spell/projectile/lesser_fetch/fae/void
+/datum/action/cooldown/spell/projectile/fetch/fae/void
 	name = "Grasp of the Void"
 	desc = "Grasp a freestanding item with your arcyne power, drawing it towards you. Doesn't work on living targets."
 	invocations = list("Nihilo, recolligere")

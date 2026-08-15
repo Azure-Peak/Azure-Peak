@@ -194,7 +194,7 @@
 	zizotrain.explanation_text = "Train your squire [recruit.real_name] in the field. Show them the ropes. Ensure they survive."
 	zk_antag.objectives += zizotrain
 	zizoserve.target = recruiter.mind
-	zizoserve.explanation_text =  "Serve faithfully to your knight [recruiter.real_name], heed their commands and help them."
+	zizoserve.explanation_text =	"Serve faithfully to your knight [recruiter.real_name], heed their commands and help them."
 	zs_antag.objectives += zizoserve
 	recruit.mind.announce_objectives()
 	recruiter.mind.announce_objectives()

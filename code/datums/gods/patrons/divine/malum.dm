@@ -6,8 +6,8 @@
 	mob_traits = list(TRAIT_FORGEBLESSED)
 	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
 					/datum/action/cooldown/spell/miracle/ignition/malum		= CLERIC_T0,
-					/datum/action/cooldown/spell/malum/reconstruction       = CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 				= CLERIC_T1,
+					/datum/action/cooldown/spell/malum/reconstruction		= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal				= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
 					/datum/action/cooldown/spell/malum/vigorousexchange		= CLERIC_T1,
 					/datum/action/cooldown/spell/arcyne_forge/miracle		= CLERIC_T1,
@@ -55,12 +55,12 @@
 	return FALSE
 
 /datum/patron/divine/malum/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("A tempering heat is discharged out of [target]!")
 	*message_self = span_info("I feel the heat of a forge soothing my pains!")

@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(questpool)
 	var/list/evergreen_count_by_region = list()
 	var/list/landmarks_by_type = list()
 
-/datum/controller/subsystem/questpool/Initialize()
+/datum/controller/subsystem/questpool/Initialize(mapload)
 	init_quest_factions()
 	for(var/obj/effect/landmark/quest_spawner/landmark as anything in GLOB.quest_landmarks_list)
 		register_landmark(landmark)

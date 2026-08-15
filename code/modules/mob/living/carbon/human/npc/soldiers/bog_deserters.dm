@@ -102,7 +102,7 @@
 
 
 
-/mob/living/carbon/human/species/human/northern/bog_deserters/Initialize()
+/mob/living/carbon/human/species/human/northern/bog_deserters/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))
@@ -406,7 +406,7 @@
 	H.hair_color = "61310f"
 	H.facial_hair_color = H.hair_color
 	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
+		H.hairstyle =	"Messy (Rogue)"
 	else
 		H.hairstyle = "Messy"
 		H.facial_hairstyle = "Beard (Manly)"
@@ -493,7 +493,7 @@
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/crossbowman/pre_equip(mob/living/carbon/human/H)
 	..()
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron
 	backl = /obj/item/quiver/bolt/npc
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags

@@ -250,7 +250,7 @@
 		used_name = f_title
 	return used_name
 
-/client/proc/job_greet(var/datum/job/greeting_job)
+/client/proc/job_greet(datum/job/greeting_job)
 	if(mob.job == greeting_job.title)
 		greeting_job.greet(mob)
 
@@ -417,7 +417,7 @@
 	return TRUE
 
 /datum/job/proc/GetAntagRep()
-	. = CONFIG_GET(keyed_list/antag_rep)[lowertext(title)]
+	. = CONFIG_GET(keyed_list/antag_rep)[LOWER_TEXT(title)]
 	if(. == null)
 		return antag_rep
 

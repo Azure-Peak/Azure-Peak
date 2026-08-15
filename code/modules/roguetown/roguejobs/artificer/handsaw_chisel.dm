@@ -105,14 +105,14 @@
 		return ..()
 
 	var/static/list/striking_tool_types = list(
-		/obj/item/natural/stoneblock          = "b",
-		/obj/item/natural/stone               = "s",
-		/obj/item/rogueweapon/hammer/steel    = "c",
-		/obj/item/rogueweapon/hammer/iron     = "h",
-		/obj/item/rogueweapon/hammer/wood     = "m",
+		/obj/item/natural/stoneblock			= "b",
+		/obj/item/natural/stone				= "s",
+		/obj/item/rogueweapon/hammer/steel	= "c",
+		/obj/item/rogueweapon/hammer/iron		= "h",
+		/obj/item/rogueweapon/hammer/wood		= "m",
 		/obj/item/rogueweapon/hammer/blacksteel = "bh",
-		/obj/item/rogueweapon/hammer/bronze   = "bronzeh",
-		/obj/item/rogueweapon/hammer/paalloy   = "a"
+		/obj/item/rogueweapon/hammer/bronze	= "bronzeh",
+		/obj/item/rogueweapon/hammer/paalloy	= "a"
 	)
 
 	var/tool_suffix = null

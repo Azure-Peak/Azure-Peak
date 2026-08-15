@@ -138,7 +138,7 @@
 
 /datum/admins/proc/check_antagonists()
 	if(!SSticker.HasRoundStarted())
-		alert("The game hasn't started yet!")
+		alert(usr, "The game hasn't started yet!")
 		return
 	var/list/dat = list("<html><head><title>Round Status</title></head><body><h1><B>Round Status</B></h1>")
 	dat += "<a href='?_src_=holder;[HrefToken()];gamemode_panel=1'>Gamemode Panel</a><br>"

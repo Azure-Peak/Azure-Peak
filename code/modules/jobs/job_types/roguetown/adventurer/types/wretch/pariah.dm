@@ -41,8 +41,8 @@
 		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
 
 
@@ -147,7 +147,7 @@
 					r_hand = /obj/item/rogueweapon/greatsword/elvish
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Elvish Dirk")
-					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/elvish
+					r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/elvish
 					backr = /obj/item/rogueweapon/shield/wood
 			if(weapon_choice == "Elvish Dirk")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)

@@ -2,10 +2,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 #define INITIAL_BLOODPOOL_PERCENTAGE 40
 // Storyteller: no preset maxcap - the vampire count is fixed per spawn event via base_antags/maximum_antags,
 // so the Vampire Lord and Masquerade events differ:
-//  Event          | base | denom | max | Formula: base + floor(pop/denom), capped at max
-//  Vampire Lord   |  1   |  80   |  1  | always 1 (the lord)
-//  Masquerade     |  2   |  80   |  2  | always 2 (the coven)
-//  Vamp+Werewolf  |  2   |  80   |  4  | 1-79 pop -> 2, 80-159 -> 3, 160+ -> 4
+//	Event			| base | denom | max | Formula: base + floor(pop/denom), capped at max
+//	Vampire Lord	|	1	|	80	|	1	| always 1 (the lord)
+//	Masquerade		|	2	|	80	|	2	| always 2 (the coven)
+//	Vamp+Werewolf	|	2	|	80	|	4	| 1-79 pop -> 2, 80-159 -> 3, 160+ -> 4
 /datum/antagonist/vampire
 	name = "Vampire"
 	roundend_category = "Vampires"
@@ -222,7 +222,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	icon = 'icons/roguetown/topadd/death/vamp-lord.dmi'
 	density = TRUE
 
-/obj/structure/vampire/Initialize()
+/obj/structure/vampire/Initialize(mapload)
 	GLOB.vampire_objects |= src
 	. = ..()
 
@@ -236,7 +236,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	icon_state = "arrow"
 	delete_after_roundstart = FALSE
 
-/obj/effect/landmark/start/vampirelord/Initialize()
+/obj/effect/landmark/start/vampirelord/Initialize(mapload)
 	. = ..()
 	GLOB.vlord_starts += loc
 
@@ -245,7 +245,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	icon_state = "arrow"
 	delete_after_roundstart = FALSE
 
-/obj/effect/landmark/start/vampirespawn/Initialize()
+/obj/effect/landmark/start/vampirespawn/Initialize(mapload)
 	. = ..()
 	GLOB.vspawn_starts += loc
 	GLOB.secondlife_respawns += loc

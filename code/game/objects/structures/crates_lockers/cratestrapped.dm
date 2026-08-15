@@ -10,9 +10,9 @@
 	var/trap_damage = 50 // baseline trap damage, reduced by armor checks. Wear your PPE in dungeons
 	var/def_zone = BODY_ZONE_CHEST
 	var/used_time = 14 // interaction time for disabling traps, scales down with trap skill
-	var/static/list/ignore_typecache 
+	var/static/list/ignore_typecache
 
-/obj/structure/closet/crate/chest/trapped/Initialize()
+/obj/structure/closet/crate/chest/trapped/Initialize(mapload)
 	. = ..()
 	if(!ignore_typecache)
 		ignore_typecache = typecacheof(list(
@@ -90,7 +90,7 @@
 	)
 	var/loot_spawn_dice_string = "1d4+1"
 
-/obj/structure/closet/crate/chest/trapped/locked/Initialize()
+/obj/structure/closet/crate/chest/trapped/locked/Initialize(mapload)
 	. = ..()
 	var/random_loot_amount = roll(loot_spawn_dice_string)
 	for(var/loot_spawn in 1 to random_loot_amount)

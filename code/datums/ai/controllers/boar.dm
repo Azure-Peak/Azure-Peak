@@ -56,7 +56,7 @@
 		boar.visible_message("<b>[boar]</b> lowers its head and charges!")
 		playsound(boar, 'sound/vo//mobs/boar/boar_charge.ogg', 75, TRUE)
 		var/charge_dir = get_dir(boar, target)
-		boar.throw_at(target, charge_range, charge_speed, boar, callback = CALLBACK(src, .proc/on_charge_end, controller, charge_dir))
+		boar.throw_at(target, charge_range, charge_speed, boar, callback = CALLBACK(src, PROC_REF(on_charge_end), controller, charge_dir))
 	finish_action(controller, TRUE)
 
 /datum/ai_behavior/boar_charge/proc/on_charge_end(datum/ai_controller/controller, charge_dir)
@@ -69,7 +69,7 @@
 	if(!impact_turf)
 		return
 	var/list/turfs_to_check = list(impact_turf)
-	if(charge_dir & (charge_dir - 1)) 
+	if(charge_dir & (charge_dir - 1))
 		// It's diagonal! Add the two cardinal tiles that make up the diagonal.
 		// e.g. If NORTHEAST, this adds NORTH and EAST.
 		turfs_to_check += get_step(landing_turf, (charge_dir & (NORTH|SOUTH)))

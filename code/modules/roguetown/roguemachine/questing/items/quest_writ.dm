@@ -19,7 +19,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	var/last_whisper = 0
 	var/opened = FALSE
 
-/obj/item/quest_writ/Initialize()
+/obj/item/quest_writ/Initialize(mapload)
 	. = ..()
 	if(assigned_quest)
 		assigned_quest.quest_scroll = src
