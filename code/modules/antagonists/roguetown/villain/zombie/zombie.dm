@@ -125,7 +125,7 @@
 		zombie.update_body()
 
 		GLOB.dead_mob_list -= zombie // Remove it from global dead/alive mob list here here, if they're a zombie they probably died.
-									 // There is a better way to maintain it but needs overhaul. Will cover the two methods of zombie
+										// There is a better way to maintain it but needs overhaul. Will cover the two methods of zombie
 		GLOB.alive_mob_list += zombie// in both cure rot and medicine.
 
 		zombie.cmode_music = cmode_music
@@ -340,6 +340,11 @@
 		return
 
 	if (istype(zombie.loc, /obj/structure/closet/dirthole) || istype(zombie.loc, /obj/structure/closet/crate/coffin)) // Buried
+		qdel(zombie)
+		return
+
+	var/turf/T = get_turf(zombie)
+	if(T && (locate(/obj/structure/bed/rogue/sanctuary/pestra) in T)) // Pestra's bed prevents zombiefication
 		qdel(zombie)
 		return
 

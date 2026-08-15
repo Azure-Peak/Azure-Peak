@@ -23,9 +23,9 @@
 
 	container_refs = alist()
 
-	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM,   PROC_REF(on_equip))
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM,	PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(on_unequip))
-	RegisterSignal(parent, COMSIG_MOB_DROPITEM,        PROC_REF(on_drop))
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM,		PROC_REF(on_drop))
 
 	full_reappraise()
 
@@ -231,7 +231,7 @@
 		return
 	var/mob/living/carbon/human/H = parent
 
-	var/obj/item/active   = H.get_active_held_item()
+	var/obj/item/active	= H.get_active_held_item()
 	var/obj/item/inactive = H.get_inactive_held_item()
 
 	// Snapshot and clear FIRST to prevent reentrant calls from re-running

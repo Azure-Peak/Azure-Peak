@@ -54,12 +54,40 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/clothing/mask/rogue/spectacles/fancy
+	name = "fancy spectacles"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares."
+	icon_state = "glassesb"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/fancy_dark
+	name = "fancy spectacles (dark)"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares. These have a darker tint to their lenses."
+	icon_state = "glassesb_dark"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
 /obj/item/clothing/mask/rogue/faceveil
 	name = "simple veil"
-	icon_state = "faceveil"
 	desc = "A remarkably plain veil meant to conceal ones face... if you wore this, a gust of wind would be all it takes to reveal your identity."
+	icon_state = "faceveil"
+	flags_inv = HIDEFACE|HIDESNOUT
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
 	grid_width = 32
 	grid_height = 32
+
+/obj/item/clothing/mask/rogue/faceveil/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
 /obj/item/clothing/mask/rogue/spectacles/inq
 	name = "otavan nocshade lens-pair"
@@ -67,9 +95,6 @@
 	desc = "Made to both ENDURE and incite debate within those few Noc-Sainted within Otava. Noc-lit walks, yae or nae? The lenses look like they can be brushed aside with a carefully guided right-pointer finger led motion."
 	max_integrity = 300
 	var/lensmoved = FALSE
-
-/obj/item/clothing/mask/rogue/spectacles/inq/spawnpair
-	lensmoved = TRUE
 
 /obj/item/clothing/mask/rogue/spectacles/inq/equipped(mob/user, slot)
 	..()
@@ -89,12 +114,13 @@
 
 /obj/item/clothing/mask/rogue/spectacles/inq/attack_right(mob/user, slot)
 	..()
-
 	if(!lensmoved)
+		playsound(user, 'sound/items/inqglassesoff.ogg', 80)
 		to_chat(user, span_info("You discreetly slide the inner lenses out of the way."))
 		REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 		lensmoved = TRUE
 		return
+	playsound(user, 'sound/items/inqglasseson.ogg', 80)
 	to_chat(user, span_info("You discreetly slide the inner lenses back into place."))
 	ADD_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 	lensmoved = FALSE
@@ -110,7 +136,8 @@
 /obj/item/clothing/mask/rogue/spectacles/golden
 	name = "golden spectacles"
 	icon_state = "goggles"
-	max_integrity = 35
+	max_integrity = 35 //this'll stop one or two good hits
+	armor = ARMOR_PLATE_BSTEEL //however, it can stop some *very strong* piercing. Essentially, ablative armor
 	adjustable = CAN_CADJUST
 	var/active_item = FALSE
 
@@ -158,7 +185,7 @@
 	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it."
 	icon_state = "sglasses"
 
-/obj/item/clothing/mask/rogue/spectacles/Initialize()
+/obj/item/clothing/mask/rogue/spectacles/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/spill, null, 'sound/blank.ogg')
 
@@ -216,7 +243,7 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_CLOTH
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
 	body_parts_covered = FACE|HEAD
@@ -234,7 +261,7 @@
 	name = "iron mask"
 	desc = "A simple, utilitarian mask designed to protect the face from oncoming blows."
 	icon_state = "imask"
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -254,14 +281,14 @@
 	desc = "Expressionless steel sits where a face ought to be. It is better to be \
 	safe than to be known."
 	icon_state = "smask"
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_STEEL
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	name = "strange mask"
 	desc = "It is said that the original version of this mask was used for obscure rituals prior to the fall of the Empire of the Holy Celestia, and now it has been repurposed as a veil for the cunning hand of the Otavan Orthodoxy.<br> <br>Others say it is a piece of heresy, a necessary evil, capable of keeping its user safe from left-handed magicks. You can taste copper whenever you draw breath."
 	icon_state = "confessormask"
-	max_integrity = 200
+	max_integrity = ARMOR_INT_MASK_STEEL
 	equip_sound = 'sound/items/confessormaskon.ogg'
 	smeltresult = /obj/item/ingot/steel
 	var/worn = FALSE
@@ -314,10 +341,12 @@
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed/attack_right(mob/user, slot)
 	..()
 	if(!lensmoved)
+		playsound(user, 'sound/items/inqglassesoff.ogg', 80)
 		to_chat(user, span_info("You discreetly slide the inner lenses out of the way."))
 		REMOVE_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 		lensmoved = TRUE
 		return
+	playsound(user, 'sound/items/inqglasseson.ogg', 80)
 	to_chat(user, span_info("You discreetly slide the inner lenses back into place."))
 	ADD_TRAIT(user, TRAIT_NOCSHADES, "redlens")
 	lensmoved = FALSE
@@ -336,7 +365,7 @@
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	resistance_flags = FIRE_PROOF
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
@@ -382,7 +411,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	icon_state = "bronzemask"
 	item_state = "bronzemask"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 
 /obj/item/clothing/mask/rogue/facemask/bronze/classic
@@ -431,7 +460,7 @@
 /obj/item/clothing/mask/rogue/facemask/steel/steppesman
 	name = "steppesman war mask"
 	desc = "A steel mask shaped like the face of a rather charismatic fellow! Pronounced cheeks, a nose, and a large mustache. Well, people outside of Aavnr don't think you'd look charismatic at all wearing this."
-	max_integrity = 250
+	max_integrity = ARMOR_INT_MASK_STEEL + 50
 	icon_state = "steppemask"
 	layer = HEAD_LAYER
 
@@ -443,13 +472,13 @@
 /obj/item/clothing/mask/rogue/facemask/goldmask
 	name = "gold mask"
 	icon_state = "goldmask"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_GOLD
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/goldmaskc
 	name = "gold mask"
 	icon_state = "goldmaskc"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_GOLD
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_oni
@@ -457,24 +486,28 @@
 	desc = "A wood mask carved in the visage of demons said to stalk the mountains of Kazengun."
 	icon_state = "oni"
 	stack_fovs = FALSE
+	max_integrity = ARMOR_INT_MASK_WOOD
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_kitsune
 	name = "kitsune mask"
 	desc = "A wood mask carved in the visage of the fox spirits said to ply their tricks in the forests of Kazengun."
 	icon_state = "kitsune"
 	stack_fovs = FALSE
+	max_integrity = ARMOR_INT_MASK_WOOD
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun
 	name = "soldier's half-mask"
 	desc = "\"The first lesson of war is that it would be better to live in peace.\""
 	block2add = null
 	armor = ARMOR_PLATE // because it's only half
+	max_integrity = ARMOR_INT_MASK_IRON
 	icon_state = "kazengunmouthguard"
 	item_state = "kazengunmouthguard"
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "ogre mask"
 	desc = "\"The second lesson: Rich men have dreams. Poor men die to make them come true.\""
+	max_integrity = ARMOR_INT_MASK_IRON
 	icon_state = "kazengunfaceguard"
 	item_state = "kazengunfaceguard"
 
@@ -539,7 +572,7 @@
 	name = "skull mask"
 	desc = "A mask in the shape of a skull, designed to terrify."
 	icon_state = "skullmask"
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_BONE
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
@@ -584,7 +617,7 @@
 	item_state = "naledimask"
 	icon_state = "naledimask"
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Armored to protect the wearer's face."
-	max_integrity = 100
+	max_integrity = ARMOR_INT_MASK_IRON
 	armor = ARMOR_PLATE
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
@@ -598,7 +631,7 @@
 	item_state = "naledimask"
 	icon_state = "naledimask"
 	desc = "A golden mask, gnarled by the sustained agonies of djinnic corruption; yet as long as its Naledian hexes endure, so too will its wearer. Hand-fitted shingles flank the sides to repel incoming strikes. </br>'..Clad with the stereotype of abruptly disappearing without any forewarning, the typical Sojourner is in constant pursuit of diversifying their erudition. One might arrive to learn the local witch's recipe of sanctifying atropa extract and spend yils in the community trying to master it, while another might work alongside the region's Orthodoxic chapter to slay a lycker lord in exchange for his archive, only to vanish the very next day..'"
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_IRON + 50
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
@@ -669,7 +702,7 @@
 	name = "carved mask"
 	icon_state = "ancientmask"
 	desc = "You shouldn't be seeing this."
-	max_integrity = 50
+	max_integrity = ARMOR_INT_MASK_STONE
 	blocksound = PLATEHIT
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -729,7 +762,7 @@
 	item_state = "xylixmask"
 	icon_state = "xylixmask"
 	desc = "A ceramic mask, forever stuck with the joyful smile its patron god favors. While it will shatter easily from blows, its smug countenance shall taunt its foes."
-	max_integrity = 50
+	max_integrity = ARMOR_INT_MASK_STONE
 	armor = null
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
@@ -753,9 +786,8 @@
 	name = "iron spectacles"
 	desc = "Iron-framed spectacles built to weather rough treatment. They sit firm upon the face, no matter how heated the exchange."
 	icon_state = "igoggles"
-	break_sound = "glassbreak"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 30
+	armor = ARMOR_PLATE_BSTEEL
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
@@ -766,9 +798,8 @@
 	name = "bronze spectacles"
 	desc = "Bronze frames holding thick glass lenses. Favored by those who would rather trust tempered metal than delicate craft."
 	icon_state = "bgoggles"
-	break_sound = "glassbreak"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 30
+	armor = ARMOR_PLATE_BSTEEL
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
@@ -776,12 +807,12 @@
 	name = "steel spectacles"
 	desc = "Steel spectacles wrought with a artificier's pragmatism. Clear sight is worth little if the frame shatters at the first strike."
 	icon_state = "sgoggles"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 40 // slightly more durable for the cqc nerds (stills 1 hit to break)
+	armor = ARMOR_PLATE_BSTEEL
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
-// Duelist Goggles = New invention that protects your eyes against critical hits +  doesn't hide your identity
+// Duelist Goggles = New invention that protects your eyes against critical hits +	doesn't hide your identity
 
 /obj/item/clothing/mask/rogue/spectacles/duelist
 	name = "iron duelist goggles"
@@ -821,12 +852,13 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_CLOTH
 	armor = ARMOR_PADDED
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/fibers
 	salvage_amount = 1
+	smeltresult = /obj/item/ash
 
 /obj/item/clothing/mask/rogue/facemask/padded/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
@@ -838,12 +870,13 @@
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	max_integrity = 180
+	max_integrity = ARMOR_INT_MASK_LEATHER //slightly more durable than the padded mask
 	armor = ARMOR_LEATHER
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
+	smeltresult = /obj/item/ash
 
 /obj/item/clothing/mask/rogue/facemask/leather/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
@@ -858,7 +891,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	max_integrity = 150
+	max_integrity = ARMOR_INT_MASK_IRON_MAILLE
 	armor = ARMOR_MAILLE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
@@ -874,7 +907,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	max_integrity = 250 //maille's get less defense but more durability than fullplate masks
+	max_integrity = ARMOR_INT_MASK_STEEL_MAILLE //maille's get less defense but more durability than fullplate masks
 	armor = ARMOR_MAILLE
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
@@ -897,3 +930,25 @@
 
 /obj/item/clothing/mask/rogue/facemask/maille/fluted/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/chain_equip.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
+
+/obj/item/clothing/mask/rogue/spectacles/fancy
+	name = "fancy spectacles"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares."
+	icon_state = "glassesb"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/fancy_dark
+	name = "fancy spectacles (dark)"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares. These have a darker tint to their lenses."
+	icon_state = "glassesb_dark"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE

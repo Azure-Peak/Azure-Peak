@@ -2,8 +2,8 @@
 #define PORTAL_PURSUIT_USES 5
 
 // Scaling (base_antags path, no storyteller slot caps):
-//  Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
-//  Roundstart (Abyssor only): base=2, max=2 → always 2
+//	Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
+//	Roundstart (Abyssor only): base=2, max=2 → always 2
 /datum/antagonist/dreamwalker
 	name = "Dreamwalker"
 	roundend_category = "Dreamwalker"
@@ -36,6 +36,7 @@
 		TRAIT_STRENGTH_UNCAPPED,
 		TRAIT_DREAMWALKER,
 		TRAIT_UNLYCKERABLE,
+		TRAIT_NOWW,
 		TRAIT_UNCONVERTIBLE
 		)
 
@@ -71,7 +72,7 @@
 	owner.current.STACON = src.STACON
 	owner.current.STALUC = src.STALUC
 	//Dreamfiends fear them up close.
-	var/mob/living/carbon/human/body = owner.current 
+	var/mob/living/carbon/human/body = owner.current
 	body.faction |= "dream"
 	for (var/trait in traits_dreamwalker)
 		ADD_TRAIT(body, trait, "[type]")
@@ -134,7 +135,7 @@
 	var/turf/linked_turf
 	var/safe_passage = FALSE
 
-/obj/structure/portal_jaunt/Initialize()
+/obj/structure/portal_jaunt/Initialize(mapload)
 	. = ..()
 	cooldown = world.time + 4 SECONDS
 	visible_message(span_warning("[src] shimmers into existence!"))
@@ -193,10 +194,10 @@
 	var/mark_minimum_duration = 10 MINUTES
 	var/obj/effect/proc_holder/spell/invoked/summon_marked/summon_spell = null
 
-/datum/component/dreamwalker_mark/Initialize()
+/datum/component/dreamwalker_mark/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, .proc/on_attack)
+	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
 
 /datum/component/dreamwalker_mark/Destroy()
 	if(marked_target)
@@ -221,7 +222,7 @@
 	mark_start_time = 0
 
 	if(marked_target)
-		RegisterSignal(marked_target, COMSIG_LIVING_DEATH, .proc/on_target_death)
+		RegisterSignal(marked_target, COMSIG_LIVING_DEATH, PROC_REF(on_target_death))
 		to_chat(parent, span_notice("You begin focusing your dream energy on [marked_target]."))
 
 		// Remove any existing summon spell
@@ -356,7 +357,7 @@
 				if("Oozing Sword")
 					new_weapon = new /obj/item/rogueweapon/greatsword/bsword/dreamscape/active(user.loc)
 				if("Thunderous Trident")
-					new_weapon = new /obj/item/rogueweapon/spear/dreamscape_trident/active(user.loc)
+					new_weapon = new /obj/item/rogueweapon/spear/trident/dreamscape_trident/active(user.loc)
 
 			if(new_weapon)
 				to_chat(user, span_notice("You shape the sylveric ingots into a [choice]."))

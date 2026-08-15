@@ -16,6 +16,8 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		ui = new(user, src, "EconomicChronicle", "Realm Economics")
 		ui.open()
 		ui.set_autoupdate(FALSE)
+	else
+		update_static_data(user, ui)
 
 /datum/economic_chronicle/ui_static_data(mob/user)
 	var/list/data = list()
@@ -26,7 +28,113 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 	data["buckets"] = build_navigator_bucket_snapshot()
 	data["contracts"] = build_contracts_snapshot()
 	data["royal_favors"] = build_royal_favors_snapshot()
+	data["materials"] = build_material_flow_snapshot()
+	data["crown_expenses"] = build_crown_expense_snapshot()
 	return data
+
+/datum/economic_chronicle/proc/build_crown_expense_snapshot()
+	var/list/groups = list()
+	var/total = 0
+	for(var/mechanism in GLOB.treasury_flow_order)
+		var/list/by_role = GLOB.treasury_expense_ledger[mechanism]
+		if(!length(by_role))
+			continue
+		var/list/rows = list()
+		var/group_total = 0
+		for(var/role in by_role)
+			var/amount = by_role[role]
+			if(amount <= 0)
+				continue
+			group_total += amount
+			rows += list(list("name" = role, "amount" = amount))
+		if(!length(rows))
+			continue
+		sortTim(rows, GLOBAL_PROC_REF(cmp_treasury_role_desc))
+		total += group_total
+		groups += list(list(
+			"name" = mechanism,
+			"rows" = rows,
+			"total" = group_total,
+		))
+	return list(
+		"groups" = groups,
+		"total" = total,
+	)
+
+/datum/economic_chronicle/proc/build_material_flow_snapshot()
+	var/list/outstanding = build_material_demand_outstanding()
+	var/list/in_bucket = GLOB.material_ledger[MATERIAL_FLOW_IN]
+	var/list/out_bucket = GLOB.material_ledger[MATERIAL_FLOW_OUT]
+	var/list/paths = list()
+	for(var/source in in_bucket)
+		var/list/by_source = in_bucket[source]
+		for(var/path in by_source)
+			paths |= path
+	for(var/source in out_bucket)
+		var/list/by_source = out_bucket[source]
+		for(var/path in by_source)
+			paths |= path
+	for(var/path in outstanding)
+		paths |= path
+
+	var/list/rows = list()
+	var/total_in = 0
+	var/total_out = 0
+	var/list/column_totals = list()
+	for(var/path in paths)
+		var/list/cells = list()
+		var/row_in = 0
+		var/row_out = 0
+		for(var/list/col in GLOB.material_flow_columns)
+			var/is_inflow = (col["dir"] == MATERIAL_FLOW_IN)
+			var/list/dir_bucket = is_inflow ? in_bucket : out_bucket
+			var/list/by_source = dir_bucket ? dir_bucket[col["label"]] : null
+			var/amount = by_source ? (by_source[path] || 0) : 0
+			if(amount <= 0)
+				continue
+			var/code = col["code"]
+			cells[code] = amount
+			column_totals[code] = (column_totals[code] || 0) + amount
+			if(is_inflow)
+				row_in += amount
+			else
+				row_out += amount
+		var/open_demand = outstanding[path] || 0
+		if(row_in <= 0 && row_out <= 0 && open_demand <= 0)
+			continue
+		total_in += row_in
+		total_out += row_out
+		rows += list(list(
+			"name" = material_flow_name(path),
+			"cat" = material_flow_category(path),
+			"cells" = cells,
+			"in" = row_in,
+			"out" = row_out,
+			"open" = open_demand,
+			"net" = row_in - row_out,
+		))
+	if(length(rows))
+		sortTim(rows, GLOBAL_PROC_REF(cmp_material_row_flow_desc))
+
+	var/total_open = 0
+	for(var/path in outstanding)
+		total_open += outstanding[path]
+	var/total_mammons = 0
+	for(var/source in GLOB.commission_mammons_paid)
+		total_mammons += GLOB.commission_mammons_paid[source]
+
+	return list(
+		"columns" = GLOB.material_flow_columns,
+		"categories" = GLOB.material_flow_categories,
+		"rows" = rows,
+		"column_totals" = column_totals,
+		"total_in" = total_in,
+		"total_out" = total_out,
+		"total_net" = total_in - total_out,
+		"total_open" = total_open,
+		"total_mammons" = total_mammons,
+		"scrap_value" = GLOB.azure_round_stats[STATS_SCRAP_MAMMONS_PAID] || 0,
+	)
 
 /datum/economic_chronicle/proc/build_treasury_snapshot()
 	var/list/poll = list(
@@ -80,9 +188,10 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"petitioned" = GLOB.azure_round_stats[STATS_STANDING_ORDERS_PETITIONED] || 0,
 		"petition_pledge_spent" = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT] || 0,
 	)
-	var/banditry_losses = GLOB.azure_round_stats[STATS_BANDITRY_LOSSES] || 0
-	var/total_revenue = (GLOB.azure_round_stats[STATS_STARTING_TREASURY] || 0) + (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
-	var/total_expenses = (GLOB.azure_round_stats[STATS_WAGES_PAID] || 0) + (GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0) + banditry_losses
+	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
+	var/total_revenue = GLOB.treasury_inflow_total
+	var/total_expenses = GLOB.treasury_outflow_total
+	var/attributed_expenses = total_treasury_expenses()
 	var/taxable_activity = royal_taxes_total + (GLOB.azure_round_stats[STATS_TAXES_EVADED] || 0)
 	var/effective_tax_rate = taxable_activity > 0 ? round((royal_taxes_total / taxable_activity) * 100, 0.1) : null
 	var/all_revenue_streams = royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + exempt_total
@@ -99,10 +208,6 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"stockpile_direct_imports" = GLOB.azure_round_stats[STATS_STOCKPILE_DIRECT_IMPORTS] || 0,
 		"standing" = standing,
 		"shortages_ended" = GLOB.azure_round_stats[STATS_SHORTAGES_ENDED] || 0,
-		"wages_paid" = GLOB.azure_round_stats[STATS_WAGES_PAID] || 0,
-		"treasury_transfers" = GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS] || 0,
-		"stockpile_imports" = GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0,
-		"banditry_losses" = banditry_losses,
 		"banditry_owed" = GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] || 0,
 		"treasury_debt_repaid" = GLOB.azure_round_stats[STATS_TREASURY_DEBT_REPAID] || 0,
 		"treasury_debt_owed" = GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] || 0,
@@ -112,6 +217,8 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"forfeiture_count" = GLOB.azure_round_stats[STATS_FORFEITURE_COUNT] || 0,
 		"total_revenue" = total_revenue,
 		"total_expenses" = total_expenses,
+		"other_income" = max(0, total_revenue - itemised_revenue),
+		"unattributed_expenses" = max(0, total_expenses - attributed_expenses),
 		"net_treasury" = total_revenue - total_expenses,
 		"trade_balance" = (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) - (GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0),
 		"foreign_trade_volume" = (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED_BM] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED] || 0),

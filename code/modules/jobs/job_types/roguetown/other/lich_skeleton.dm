@@ -873,7 +873,7 @@ LICH SKELETONS
 	H.adjust_blindness(-3)
 
 	//Our offensive kit
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/unholy_blast)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //SPREAD THE... ROT? turn-player-corpses-into-player-zombies spell. No skeleton mitosis please.
 	//Our Utility Spells
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
@@ -895,7 +895,7 @@ LICH SKELETONS
 	H.energy = H.max_energy
 
 /////////////////////////////
-// UNIQUE ITEMS!           //
+// UNIQUE ITEMS!			//
 /////////////////////////////
 /obj/item/clothing/suit/roguetown/armor/vestments_padded/lich //Zizo acolyte esc-robes, armor is meant to be the same as padded vestaments
 	name = "decrepit unholy undervestaments"

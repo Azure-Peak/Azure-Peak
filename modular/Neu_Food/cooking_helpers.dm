@@ -1,8 +1,8 @@
-/* 
-	Helper(s) for getting cooking speed. 
+/*
+	Helper(s) for getting cooking speed.
 	Eventually a universal recipe system should be implemented instead of calling this proc everywhere
- 	But for now this will do
-	+50% Cooking Speed (except -25% for lowest level) is super 
+	But for now this will do
+	+50% Cooking Speed (except -25% for lowest level) is super
 */
 
 #define SKILL_LEVEL_NONE_DIVISOR 0.75

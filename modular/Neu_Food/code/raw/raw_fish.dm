@@ -40,7 +40,7 @@
 /obj/item/reagent_containers/food/snacks/fish/dead
 	dead = TRUE
 
-/obj/item/reagent_containers/food/snacks/fish/Initialize()
+/obj/item/reagent_containers/food/snacks/fish/Initialize(mapload)
 	. = ..()
 	var/rarity = pickweight(list("gold" = 1, "ultra" = 40, "rare"= 50, "com"= 900))
 	if(!no_rarity_sprite)

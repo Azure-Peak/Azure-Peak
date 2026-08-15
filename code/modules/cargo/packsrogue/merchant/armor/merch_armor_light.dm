@@ -101,6 +101,11 @@
 	cost = 45 // I added 5 to the base sellprice of 25 because it cost 1 ingot
 	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded)
 
+/datum/supply_pack/rogue/light_armor/studded_leather_armor
+	name = "Studded Leather Hood"
+	cost = 45
+	contains = list(/obj/item/clothing/head/roguetown/roguehood/studded)
+
 /datum/supply_pack/rogue/light_armor/studded_leather_cuirass
 	name = "Studded Leather Cuirass, 'Cuir-Bouilli'-Style"
 	cost = 50

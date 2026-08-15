@@ -38,7 +38,7 @@
 	. = ..()
 	update_overlays()
 
-/obj/structure/composter/Initialize()
+/obj/structure/composter/Initialize(mapload)
 	update_icon()
 	. = ..()
 

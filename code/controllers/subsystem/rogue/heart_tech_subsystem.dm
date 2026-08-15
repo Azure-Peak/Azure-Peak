@@ -15,7 +15,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 #define CHIMERIC_CACHE_TECH 1
 #define CHIMERIC_CACHE_ECHOES 2
 
-/datum/controller/subsystem/chimeric_tech/proc/clear_cached_choices(var/cache_to_clear = CHIMERIC_CACHE_TECH)
+/datum/controller/subsystem/chimeric_tech/proc/clear_cached_choices(cache_to_clear = CHIMERIC_CACHE_TECH)
 	// Clears the cache when a tech is unlocked.
 	switch(cache_to_clear)
 		if(CHIMERIC_CACHE_TECH)
@@ -25,7 +25,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 			cached_choices_echoes = list()
 			cached_choices_paths_echoes = list()
 
-/datum/controller/subsystem/chimeric_tech/Initialize()
+/datum/controller/subsystem/chimeric_tech/Initialize(mapload)
 	. = ..()
 	load_all_tech_nodes()
 	init_unlockable_recipes()
@@ -36,13 +36,13 @@ SUBSYSTEM_DEF(chimeric_tech)
 		var/datum/chimeric_tech_node/new_node = new T()
 		all_tech_nodes[new_node.string_id] = new_node
 
-/datum/controller/subsystem/chimeric_tech/proc/get_node_status(var/node_path)
+/datum/controller/subsystem/chimeric_tech/proc/get_node_status(node_path)
 	var/datum/chimeric_tech_node/node = all_tech_nodes[node_path]
 	if(node)
 		return node.unlocked
 	return FALSE
 
-/datum/controller/subsystem/chimeric_tech/proc/get_available_choices(var/current_tier, var/current_points, var/max_choices = 3, var/cache_to_select = CHIMERIC_CACHE_TECH)
+/datum/controller/subsystem/chimeric_tech/proc/get_available_choices(current_tier, current_points, max_choices = 3, cache_to_select = CHIMERIC_CACHE_TECH)
 	if(cache_to_select == CHIMERIC_CACHE_ECHOES && cached_choices_echoes.len)
 		return cached_choices_echoes
 	if(cache_to_select == CHIMERIC_CACHE_TECH && cached_choices.len)
@@ -99,7 +99,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 	return final_choices
 
-/datum/controller/subsystem/chimeric_tech/proc/unlock_node(var/string_id, var/datum/component/chimeric_heart_beast/beast_component, var/cache_to_clear = CHIMERIC_CACHE_TECH)
+/datum/controller/subsystem/chimeric_tech/proc/unlock_node(string_id, datum/component/chimeric_heart_beast/beast_component, cache_to_clear = CHIMERIC_CACHE_TECH)
 	var/datum/chimeric_tech_node/node = all_tech_nodes[string_id]
 
 	if(!node)
@@ -130,9 +130,11 @@ SUBSYSTEM_DEF(chimeric_tech)
 	if(node.is_recipe_node)
 		update_recipes_for_tech(string_id)
 
+	notify_players_of_unlock(node)
+
 	return "Successfully unlocked [node.name]!"
 
-/datum/controller/subsystem/chimeric_tech/proc/update_recipes_for_tech(var/tech_id)
+/datum/controller/subsystem/chimeric_tech/proc/update_recipes_for_tech(tech_id)
 	var/list/recipes_to_unlock = tech_recipe_index[tech_id]
 	var/datum/chimeric_tech_node/node = all_tech_nodes[tech_id]
 
@@ -164,12 +166,12 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 	var/advanced_healing_path = "HEAL_TIER1"
 	var/enhanced_healing_path = "HEAL_TIER2"
-	
+
 	if(get_node_status(advanced_healing_path))
 		multiplier = 1.0
 	if(get_node_status(enhanced_healing_path))
 		multiplier = 1.25
-	
+
 	return multiplier
 
 /datum/controller/subsystem/chimeric_tech/proc/get_resurrection_multiplier()
@@ -202,7 +204,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 		amount = 2
 	return amount
 
-/datum/controller/subsystem/chimeric_tech/proc/admin_force_unlock(var/string_id, var/silent = FALSE)
+/datum/controller/subsystem/chimeric_tech/proc/admin_force_unlock(string_id, silent = FALSE)
 	var/datum/chimeric_tech_node/node = all_tech_nodes[string_id]
 
 	if(!node)
@@ -217,8 +219,19 @@ SUBSYSTEM_DEF(chimeric_tech)
 		update_recipes_for_tech(string_id)
 
 	if(!silent)
+		notify_players_of_unlock(node)
 		log_admin("Chimeric Tech: Node '[node.name]' ([string_id]) was force-unlocked via proc.")
 	return "Successfully force-unlocked [node.name]."
+
+/datum/controller/subsystem/chimeric_tech/proc/notify_players_of_unlock(datum/chimeric_tech_node/node)
+	if(!node.should_notify)
+		return
+
+	var/message = node.unlock_message ? node.unlock_message : "A new chimeric truth reveals itself: [node.name]!"
+
+	for(var/mob/living/M in GLOB.player_list)
+		if(node.notify_condition(M))
+			to_chat(M, span_nicegreen(message))
 
 #undef CHIMERIC_CACHE_TECH
 #undef CHIMERIC_CACHE_ECHOES

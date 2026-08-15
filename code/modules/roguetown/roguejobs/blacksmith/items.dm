@@ -15,7 +15,7 @@
 	icon_state = "gstatue1"
 	smeltresult = /obj/item/ingot/gold
 
-/obj/item/roguestatue/gold/Initialize()
+/obj/item/roguestatue/gold/Initialize(mapload)
 	. = ..()
 	icon_state = "gstatue[pick(1,2)]"
 
@@ -25,7 +25,7 @@
 	icon_state = "lstatue1"
 	sellprice = 45
 
-/obj/item/roguestatue/gold/loot/Initialize()
+/obj/item/roguestatue/gold/loot/Initialize(mapload)
 	. = ..()
 	sellprice = rand(45,150)
 	icon_state = "lstatue[pick(1,2,3,4)]"
@@ -36,7 +36,7 @@
 	icon_state = "sstatue1"
 	smeltresult = /obj/item/ingot/silver
 
-/obj/item/roguestatue/silver/Initialize()
+/obj/item/roguestatue/silver/Initialize(mapload)
 	. = ..()
 	icon_state = "sstatue[pick(1,2)]"
 
@@ -46,7 +46,7 @@
 	icon_state = "ststatue1"
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/roguestatue/steel/Initialize()
+/obj/item/roguestatue/steel/Initialize(mapload)
 	. = ..()
 	icon_state = "ststatue[pick(1,2)]"
 
@@ -57,7 +57,7 @@
 	smeltresult = /obj/item/ingot/aalloy
 	color = "#bb9696"
 
-/obj/item/roguestatue/aalloy/Initialize()
+/obj/item/roguestatue/aalloy/Initialize(mapload)
 	. = ..()
 	icon_state = "astatue[pick(1,2)]"
 
@@ -67,7 +67,7 @@
 	icon_state = "bronzestatue1"
 	smeltresult = /obj/item/ingot/bronze
 
-/obj/item/roguestatue/bronze/Initialize()
+/obj/item/roguestatue/bronze/Initialize(mapload)
 	. = ..()
 	icon_state = "bronzestatue[pick(1,2,3)]"
 
@@ -77,7 +77,7 @@
 	icon_state = "istatue1"
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/roguestatue/iron/Initialize()
+/obj/item/roguestatue/iron/Initialize(mapload)
 	. = ..()
 	icon_state = "istatue[pick(1,2)]"
 
@@ -87,7 +87,7 @@
 	icon_state = "bsstatue1"
 	smeltresult = /obj/item/ingot/blacksteel
 
-/obj/item/roguestatue/blacksteel/Initialize()
+/obj/item/roguestatue/blacksteel/Initialize(mapload)
 	. = ..()
 	icon_state = "bsstatue[pick(1,2)]"
 //000000000000000000000000000--
@@ -180,7 +180,7 @@
 	dropshrink = 0.6
 	grid_width = 32
 	grid_height = 64
-	var/roughness = 0 // 0  for a fine brush, 1 for a coarse brush
+	var/roughness = 0 // 0	for a fine brush, 1 for a coarse brush
 
 /obj/item/armor_brush/examine()
 	. = ..()
@@ -271,13 +271,13 @@
 	duration = 13
 	plane = -1
 
-/obj/effect/temp_visual/armor_glint/Initialize(mapload, var/extra_rand = 1)
+/obj/effect/temp_visual/armor_glint/Initialize(mapload, extra_rand = 1)
 	. = ..()
 	pixel_x = extra_rand * rand(-5,5)
 	pixel_y = extra_rand * rand(-5,5)
 	animate(src, alpha = 0, time = duration)
 
-/datum/component/metal_glint/Initialize()
+/datum/component/metal_glint/Initialize(mapload)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, list(COMSIG_PARENT_QDELETING), PROC_REF(stop_process))

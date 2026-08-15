@@ -231,10 +231,10 @@
 
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"
-		inspec += "\n  Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
-		inspec += "\n  Prioritizes living targets over dead."
+		inspec += "\n	Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
+		inspec += "\n	Prioritizes living targets over dead."
 		if(cleave.diagonal_desc)
-			inspec += "\n  [cleave.diagonal_desc]"
+			inspec += "\n	[cleave.diagonal_desc]"
 		inspec += "\n<tt>[cleave.get_pattern_display()]</tt>"
 	inspec += "<br>----------------------"
 

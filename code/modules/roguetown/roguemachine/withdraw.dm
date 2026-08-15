@@ -14,7 +14,7 @@
 	. += span_info("Withdrawals are cheapest. Direct imports pay a surcharge - duty flows to the Crown once Royal Custom is invoked.")
 	. += span_info("The vomitorium does not buy goods. Take deposits to a stockpile instead.")
 
-/obj/structure/roguemachine/withdraw/Initialize()
+/obj/structure/roguemachine/withdraw/Initialize(mapload)
 	. = ..()
 	SSroguemachine.stock_machines += src
 	withdraw_tab = new(src)

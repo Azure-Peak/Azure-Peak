@@ -77,7 +77,7 @@
 #define SPAN_AAVNIC "aavnic"
 #define SPAN_UNDERCOMMON "undercommon"
 #define SPAN_UNDEAD "undead"
-#define SPAN_CAT "cat"		 //nyi but file found
+#define SPAN_CAT "cat"			//nyi but file found
 #define SPAN_PULSEDEATH "pulsedeath"
 
 #define LANGUAGE_SPANS list(SPAN_GEN,SPAN_ORATOR, SPAN_DWARF, SPAN_ABYSS, SPAN_ELF, SPAN_CELESTIAL, SPAN_RANESHI, SPAN_DELF, SPAN_HELL, SPAN_GRENZELHOFTIAN, SPAN_OTAVAN, SPAN_ETRUSCAN, SPAN_GRONNIC, SPAN_BEAST, SPAN_ORC, SPAN_DRACONIC, SPAN_KAZENGUNESE, SPAN_LINGYUESE, SPAN_AAVNIC, SPAN_UNDEAD, SPAN_CAT, SPAN_PULSEDEATH, SPAN_OLDAZURE, SPAN_UNDERCOMMON)
@@ -101,6 +101,7 @@
 #define LINGHIVE_LINK 3
 
 //Don't set this very much higher then 1024 unless you like inviting people in to dos your server with message spam
+#define MAX_NOTE_SIZE			8192
 #define MAX_MESSAGE_BIGME		4096
 #define MAX_MESSAGE_LEN			2048
 #define MAX_NAME_LEN			42

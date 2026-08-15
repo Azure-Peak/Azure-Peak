@@ -4,6 +4,7 @@
 	name = "Hellhound"
 	desc = "A caniform lesser infernal, the heat it radiates is almost comforting. Though daemon-binding is generally frowned upon, the power it grants is tempting to many."
 	summoning_emote = "Flame erupts in the center of the rune, coalescing into a hellish canid!"
+	icon_state = "hellhound"
 	race = /datum/species/familiar/infernal
 	speak_emote = list("growls","crackles")
 	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you.")
@@ -40,12 +41,16 @@
 		TRAIT_NOBREATH,
 		TRAIT_TOXIMMUNE,
 		TRAIT_SILVER_WEAK,
+		TRAIT_NOWW, // no antag familiars pls
+		TRAIT_UNLYCKERABLE,
+		TRAIT_ZOMBIE_IMMUNE,
+		TRAIT_UNCONVERTIBLE,
 	)
 	origin = "The Hells"
 	origin_default = /datum/virtue/origin/familiar/infernal
 
 // they get to glow because they're on fire
-/mob/living/carbon/human/species/familiar/infernal/Initialize()
+/mob/living/carbon/human/species/familiar/infernal/Initialize(mapload)
 	. = ..()
 	src.set_light_range(LIGHT_RANGE_FIRE)
 	src.set_light_color(LIGHT_COLOR_FIRE)

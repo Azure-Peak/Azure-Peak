@@ -20,7 +20,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	ambush_faction = "undead"
 
 
-/mob/living/carbon/human/species/dwarfskeleton/Initialize()
+/mob/living/carbon/human/species/dwarfskeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()
 	spawn(10)

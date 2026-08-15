@@ -27,7 +27,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
@@ -37,8 +36,8 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 
 /datum/outfit/job/roguetown/wretch/roguemage/pre_equip(mob/living/carbon/human/H)
 	mask = /obj/item/clothing/mask/rogue/eyepatch // Chuunibyou up to 11.

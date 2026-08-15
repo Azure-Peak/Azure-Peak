@@ -56,6 +56,6 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/deadite)

@@ -55,7 +55,7 @@
 	var/mob/living/carbon/follower = user
 	var/datum/patron/patron = follower.patron
 
-	var/prayer = input("Whisper your prayer:", "Prayer") as text|null
+	var/prayer = input(user, "Whisper your prayer:", "Prayer") as text|null
 	if(!prayer)
 		return
 
@@ -244,7 +244,7 @@
 	key = ""
 	key_third_person = ""
 	message = "gasps out their last breath."
-	message_simple =  "falls limp."
+	message_simple =	"falls limp."
 	stat_allowed = UNCONSCIOUS
 
 /datum/emote/living/deathgasp/run_emote(mob/user, params, type_override, intentional)
@@ -633,42 +633,42 @@
 			SEND_SIGNAL(user, COMSIG_MOB_HUGGED, target)
 
 /datum/emote/living/holdbreath
-    key = "hold"
-    key_third_person = "holds"
-    message = null
+	key = "hold"
+	key_third_person = "holds"
+	message = null
 
 /mob/living/carbon/human/verb/emote_hold()
-    set name = "Hold Breath"
-    set category = "Emotes"
-    emote("hold", intentional = TRUE)
+	set name = "Hold Breath"
+	set category = "Emotes"
+	emote("hold", intentional = TRUE)
 
 /datum/emote/living/holdbreath/can_run_emote(mob/living/user, status_check = TRUE, intentional)
-    . = ..()
-    if(!.)
-        return FALSE
-    return TRUE
+	. = ..()
+	if(!.)
+		return FALSE
+	return TRUE
 
 /datum/emote/living/holdbreath/run_emote(mob/user, params, type_override, intentional)
-    if(!ishuman(user))
-        return FALSE
+	if(!ishuman(user))
+		return FALSE
 
-    var/mob/living/carbon/human/H = user
-    var/is_holding = HAS_TRAIT(H, TRAIT_HOLDBREATH)
+	var/mob/living/carbon/human/H = user
+	var/is_holding = HAS_TRAIT(H, TRAIT_HOLDBREATH)
 
-    if(is_holding)
-        REMOVE_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
-        H.visible_message(
-            span_notice("[H] stops holding [H.p_their()] breath."),
-            span_notice("You stop holding your breath.")
-        )
-    else
-        ADD_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
-        H.visible_message(
-            span_notice("[H] begins to hold [H.p_their()] breath."),
-            span_notice("You begin to hold your breath.")
-        )
+	if(is_holding)
+		REMOVE_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
+		H.visible_message(
+			span_notice("[H] stops holding [H.p_their()] breath."),
+			span_notice("You stop holding your breath.")
+		)
+	else
+		ADD_TRAIT(H, TRAIT_HOLDBREATH, "[type]")
+		H.visible_message(
+			span_notice("[H] begins to hold [H.p_their()] breath."),
+			span_notice("You begin to hold your breath.")
+		)
 
-    return TRUE
+	return TRUE
 
 
 /datum/emote/living/slap
@@ -1391,16 +1391,16 @@
 		to_chat(user, span_boldwarning("I cannot send IC messages (muted)."))
 		return FALSE
 	else if(!params)
-		var/custom_emote = copytext(sanitize(input("What does your character do?") as text|null), 1, MAX_MESSAGE_LEN)
+		var/custom_emote = copytext(sanitize(input(user, "What does your character do?") as text|null), 1, MAX_MESSAGE_LEN)
 		if(custom_emote && !check_invalid(user, custom_emote))
-/*			var/type = input("Is this a visible or hearable emote?") as null|anything in list("Visible", "Hearable")
+/*			var/type = input(user, "Is this a visible or hearable emote?") as null|anything in list("Visible", "Hearable")
 			switch(type)
 				if("Visible")
 					emote_type = EMOTE_VISIBLE
 				if("Hearable")
 					emote_type = EMOTE_AUDIBLE
 				else
-					alert("Unable to use this emote, must be either hearable or visible.")
+					alert(user, "Unable to use this emote, must be either hearable or visible.")
 					return*/
 			message = custom_emote
 			emote_type = EMOTE_VISIBLE
@@ -1586,7 +1586,7 @@
 	set name = "Faith Salute"
 	set category = "Emotes"
 
-	emote("fsalute", intentional =  TRUE)
+	emote("fsalute", intentional =	TRUE)
 
 /datum/emote/living/ffsalute
 	key = "ffsalute"
@@ -1603,7 +1603,7 @@
 	set name = "Fake Faith Salute"
 	set category = "Emotes"
 
-	emote("ffsalute", intentional =  TRUE)
+	emote("ffsalute", intentional =	TRUE)
 
 /datum/emote/living/stat_roll
 	var/delay = 2.5 SECONDS
@@ -1612,10 +1612,10 @@
 	var/list/failure_message_list
 
 	/**
-	 * An assoc list of character traits which will affect the outcome of rolls by the defined values if the rolling player has them. If empty, this process will be ignored.
-	 * This basically determines the difficulty class in rolls (see: `/mob/living/proc/stat_roll()`)
-	 * -1 value means decreased difficulty class, 5% higher chance to succeed, otherwise vice versa.
-	 */
+		* An assoc list of character traits which will affect the outcome of rolls by the defined values if the rolling player has them. If empty, this process will be ignored.
+		* This basically determines the difficulty class in rolls (see: `/mob/living/proc/stat_roll()`)
+		* -1 value means decreased difficulty class, 5% higher chance to succeed, otherwise vice versa.
+		*/
 	var/list/modifiers_list = list()
 
 /datum/emote/living/stat_roll/run_emote(mob/user, params, type_override, intentional = FALSE)

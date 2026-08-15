@@ -2,7 +2,7 @@
 /datum/statpack/mental/scholarly
 	name = "Studious"
 	desc = "Your understanding of the world avails you, more often than not."
-	stat_array =  list(STAT_INTELLIGENCE = 2, STAT_PERCEPTION = 1, STAT_STRENGTH = -1, STAT_WILLPOWER = -1)
+	stat_array =	list(STAT_INTELLIGENCE = 2, STAT_PERCEPTION = 1, STAT_STRENGTH = -1, STAT_WILLPOWER = -1)
 
 /datum/statpack/mental/faithdriven
 	name = "Resolute"
@@ -37,9 +37,9 @@
 /datum/statpack/mental/diligent
 	name = "Diligent"
 	desc = "You take your time, but you have a lot of it to spare."
-	stat_array =  list(STAT_INTELLIGENCE = 2, STAT_WILLPOWER = 1, STAT_SPEED = -1)
+	stat_array =	list(STAT_INTELLIGENCE = 2, STAT_WILLPOWER = 1, STAT_SPEED = -1)
 
 /datum/statpack/mental/industrious
 	name = "Industrious"
 	desc = "You waste no time. You know enough to get by, and strive towards it."
-	stat_array =  list(STAT_INTELLIGENCE = 2, STAT_SPEED = 1, STAT_CONSTITUTION = -1, STAT_PERCEPTION = -1)
+	stat_array =	list(STAT_INTELLIGENCE = 2, STAT_SPEED = 1, STAT_CONSTITUTION = -1, STAT_PERCEPTION = -1)

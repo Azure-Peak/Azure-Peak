@@ -22,7 +22,7 @@
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross/ravox, , /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// T1 - Tug of War - Chain projectile that off-balances + stuns. Exposes the user.           			   //
+// T1 - Tug of War - Chain projectile that off-balances + stuns. Exposes the user.							//
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/action/cooldown/spell/projectile/ravox_tug
@@ -145,7 +145,7 @@
 	caught.visible_message(span_warning("The chain snaps taut and hauls [caught] in!"), span_userdanger("The chain bites into me and drags me forward!"))
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// T0 - Provocation - Ravox Trial Selector. CON/STR or INT/PER equalise.              //
+// T0 - Provocation - Ravox Trial Selector. CON/STR or INT/PER equalise.				//
 ////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/action/cooldown/spell/ravox/provocation
@@ -795,12 +795,12 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	icon_state = "ravoxchallenged"
 
 
-/obj/structure/fluff/ravox/challenger/recall/Initialize()
+/obj/structure/fluff/ravox/challenger/recall/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, GLOBAL_PROC_REF(qdel), src), 3 MINUTES)
 	addtimer(CALLBACK(src,TYPE_PROC_REF(/obj/structure/fluff/ravox, spawnprotection)), 179 SECONDS)
 
-/obj/structure/fluff/ravox/challenged/recall/Initialize()
+/obj/structure/fluff/ravox/challenged/recall/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, GLOBAL_PROC_REF(qdel), src), 3 MINUTES)
 	addtimer(CALLBACK(src,TYPE_PROC_REF(/obj/structure/fluff/ravox, spawnprotection)), 179 SECONDS)

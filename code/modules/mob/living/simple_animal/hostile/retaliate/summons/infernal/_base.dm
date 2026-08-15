@@ -2,13 +2,14 @@
 	obj_damage = 75
 	blood_toll_bucket = STATS_KILLED_INFERNALS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/Initialize(mapload)
 	. = ..()
 	desc += span_bold(" It does not belong to this plane.") // To hint that they may be summoned.
 	ADD_TRAIT(src, TRAIT_NOFIRE, "[type]")
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	weather_immunities += "lava"
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/Life()

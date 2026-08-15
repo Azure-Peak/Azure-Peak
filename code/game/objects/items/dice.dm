@@ -84,7 +84,7 @@
 	. = ..()
 	. += span_notice("It has landed on a [result]")
 
-/obj/item/dice/Initialize()
+/obj/item/dice/Initialize(mapload)
 	. = ..()
 	if(!result)
 		result = roll(sides)
@@ -152,7 +152,7 @@
 	desc = ""
 	icon_state = "spaced6"
 
-/obj/item/dice/d6/space/Initialize()
+/obj/item/dice/d6/space/Initialize(mapload)
 	. = ..()
 	if(prob(10))
 		name = "spess cube"
@@ -254,8 +254,8 @@
 		result = special_faces[result]
 	if(user != null) //Dice was rolled in someone's hand
 		user.visible_message(span_notice("[user] has thrown [src]. It lands on [result]. [comment]"), \
-							 span_notice("I throw [src]. It lands on [result]. [comment]"), \
-							 span_hear("I hear [src] rolling, it sounds like a [fake_result]."))
+								span_notice("I throw [src]. It lands on [result]. [comment]"), \
+								span_hear("I hear [src] rolling, it sounds like a [fake_result]."))
 	else if(!src.throwing) //Dice was thrown and is coming to rest
 		visible_message(span_notice("[src] rolls to a stop, landing on [result]. [comment]"))
 	name = "[dicetype] ([result])"

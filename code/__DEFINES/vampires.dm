@@ -25,8 +25,8 @@
 #define COVENS_PER_VAGABOND 0
 
 #define VAMP_CONVERT_TIMEOUT 4 MINUTES
-#define VAMP_CONVERT_POST_STUN    40 SECONDS
-#define VAMP_CONVERT_BLOOD_GAIN   1000
+#define VAMP_CONVERT_POST_STUN	40 SECONDS
+#define VAMP_CONVERT_BLOOD_GAIN	1000
 
 /// Mandatory mofe_after() before a vampire can batform. (SHAPESHIFT_MOVEAFTER - vampire.generation) SECONDS
 #define SHAPESHIFT_MOVEAFTER 5

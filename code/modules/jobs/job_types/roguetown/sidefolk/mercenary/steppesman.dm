@@ -8,12 +8,11 @@
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
 	cmode_music = 'sound/music/combat_steppe.ogg'
 	subclass_languages = list(/datum/language/aavnic)
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
 	extra_context = "This subclass has 4 loadouts with various stats, skills & equipment."
 	subclass_skills = list(
 	//Universal skills
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE,
@@ -21,6 +20,9 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
 	)
 
 /datum/outfit/job/roguetown/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
@@ -48,7 +50,7 @@
 				H.set_blindness(0)
 				to_chat(H, span_warning("The Szabristas are the elites of the southern steppes, veterans of conflict across the realm. Outfitted with a shishka and shield, these warriors sacrifice their swiftness for armor and civilized respect."))
 				shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman
-				head = /obj/item/clothing/head/roguetown/helmet/sallet/shishak		//Needs a unique helmet + mask combo at some point. 	//Dragonfruits to the rescue! Unique helmet with neck protection and +50 durability.
+				head = /obj/item/clothing/head/roguetown/helmet/sallet/shishak		//Needs a unique helmet + mask combo at some point.	//Dragonfruits to the rescue! Unique helmet with neck protection and +50 durability.
 				gloves = /obj/item/clothing/gloves/roguetown/chain
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe	//Scale armor w/ better durability & unique sprite
 				cloak = /obj/item/clothing/cloak/raincloak/furcloak
@@ -70,9 +72,9 @@
 				H.change_stat(STATKEY_CON, 2)
 				H.change_stat(STATKEY_SPD, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] 	//Fits in my head all too well.
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]	//Fits in my head all too well.
 				var/masks = list(
-				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
+				"Humen"	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 				"None"
 		)
@@ -109,7 +111,7 @@
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
 				var/masks = list(
-				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
+				"Humen"	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
 				"None"
 		)

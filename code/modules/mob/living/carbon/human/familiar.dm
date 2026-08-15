@@ -88,7 +88,7 @@
 	orb.w_class = WEIGHT_CLASS_SMALL
 	return orb
 
-/mob/living/carbon/human/species/familiar/Initialize()
+/mob/living/carbon/human/species/familiar/Initialize(mapload)
 	. = ..()
 	adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_NOVICE)
 	AddComponent(/datum/component/footstep, footstep_type)
@@ -126,6 +126,10 @@
 		TRAIT_CRITICAL_WEAKNESS, // ...this should prevent them from being literally unkillable, though
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects due to them transforming when killed/stepping on shards.
 		TRAIT_NOMETABOLISM, // partly to avoid potion jank, mostly because fae need to store reagents inside themselves
+		TRAIT_NOWW, // no antag familiars pls
+		TRAIT_UNLYCKERABLE,
+		TRAIT_ZOMBIE_IMMUNE,
+		TRAIT_UNCONVERTIBLE,
 	)
 	inherent_biotypes = MOB_HUMANOID
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE, SLOT_BELT_L, SLOT_BELT_R, SLOT_WRISTS, SLOT_RING)
@@ -258,9 +262,9 @@
 		grant_tier_abilities(tier)
 
 /mob/living/carbon/human/species/familiar/Destroy()
-    if(familiar_summoner && familiar_summoner.mind)
-        familiar_summoner.mind.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
-    return ..()
+	if(familiar_summoner && familiar_summoner.mind)
+		familiar_summoner.mind.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
+	return ..()
 
 /mob/living/carbon/human/species/familiar/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/magic))

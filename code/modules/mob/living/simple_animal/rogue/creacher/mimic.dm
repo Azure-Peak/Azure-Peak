@@ -108,12 +108,6 @@
 	visible_message(span_warning("[src] suddenly bursts open, revealing gnashing fangs!"))
 	playsound(loc, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
 
-	for(var/mob/living/carbon/C in view(4, src))
-		if(C == src || HAS_TRAIT(C, TRAIT_NOMOOD))
-			continue
-		if(!HAS_TRAIT(C, TRAIT_PSYDONIAN_GRIT) && (!HAS_TRAIT(C, TRAIT_STEELHEARTED) || prob(50)))
-			C.freak_out_mimic(src)
-
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Aggro()
 	..()
 	// go mask-off!
@@ -165,7 +159,7 @@
 	var/mimic_type = /mob/living/simple_animal/hostile/retaliate/rogue/mimic
 	var/chest_type = /obj/structure/closet/crate/chest
 
-/obj/effect/landmark/chest_or_mimic/Initialize()
+/obj/effect/landmark/chest_or_mimic/Initialize(mapload)
 	..()
 	var/C = pick(mimic_type, chest_type)
 	new C(loc)

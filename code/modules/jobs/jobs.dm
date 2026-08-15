@@ -127,6 +127,7 @@ GLOBAL_LIST_INIT(church_positions, list( //Church of the Ten
 	"Druid",
 	"Acolyte",
 	"Sexton",
+	"Painter",
 ))
 
 GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you.
@@ -175,7 +176,7 @@ GLOBAL_LIST_INIT(sidefolk_positions, list( //Weerdoes who hang around the town
 	"Vagabond",
 	"Migrant",
 	"Pilgrim",
-	"Mercenary",	
+	"Mercenary",
 	"Veteran",
 ))
 
@@ -218,9 +219,9 @@ GLOBAL_LIST_INIT(roguefight_positions, list(
 
 //This list is used to prevent the duke from stripping nobility from certain jobs that aren't intrinsically a part of the town.
 GLOBAL_LIST_INIT(foreign_positions, list(
-	"Adventurer", 
-	"Mercenary", 
-	"Bandit", 
+	"Adventurer",
+	"Mercenary",
+	"Bandit",
 	"Wretch",
 	"Inquisitor",
 	"Suitor",
@@ -312,7 +313,7 @@ GLOBAL_PROTECT(exp_role_lookup)
 	var/static/regex/chef_expand = new("chef")
 	var/static/regex/borg_expand = new("(?<!cy)borg")
 
-	job = lowertext(job)
+	job = LOWER_TEXT(job)
 	job = cap_expand.Replace(job, "captain")
 	job = cmo_expand.Replace(job, "chief medical officer")
 	job = hos_expand.Replace(job, "head of security")

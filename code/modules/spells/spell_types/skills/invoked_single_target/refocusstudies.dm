@@ -62,7 +62,7 @@
 	/datum/skill/misc/music,
 	/datum/skill/misc/medicine,
 	/datum/skill/misc/tracking,
-    )
+	)
 	for(var/i = 1, i <= skill_choices.len, i++)
 		var/datum/skill/learn_item = skill_choices[i]
 		if((L.get_skill_level(learn_item) < SKILL_LEVEL_JOURNEYMAN))
@@ -81,7 +81,7 @@
 				var/chosen_skill = input(L, "Choose which skills to sacrifice, you will get back 3 sleep points and a buff to help you study", "Choose a skill") as null|anything in choices
 				var/datum/skill/item = choices[chosen_skill]
 				if(!item)
-					return  // student canceled
+					return	// student canceled
 				if(alert(L, "Are you sure> you want lose a level in [item.name]?", "Learning", "Sacrifice", "Cancel") == "Cancel")
 					return
 				if(L.has_status_effect(/datum/status_effect/buff/refocus))

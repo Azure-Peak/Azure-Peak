@@ -385,3 +385,38 @@
 		/datum/sprite_accessory/tail/rattlesnake,
 		/datum/sprite_accessory/tail/lynx
 		)
+
+//Fluvian
+/datum/customizer/organ/tail/moth
+	customizer_choices = list(/datum/customizer_choice/organ/tail/moth)
+	allows_disabling = TRUE
+	default_disabled = TRUE
+
+/datum/customizer_choice/organ/tail/moth
+	name = "Insect Abdomen"
+	organ_type = /obj/item/organ/tail
+	allows_accessory_color_customization = TRUE
+	generic_random_pick = TRUE
+	sprite_accessories = list(
+		/datum/sprite_accessory/tail/bee,
+		/datum/sprite_accessory/tail/insect,
+		)
+
+//Goblin
+/datum/customizer/organ/tail/goblin
+	customizer_choices = list(/datum/customizer_choice/organ/tail/goblin)
+	allows_disabling = TRUE
+	default_disabled = TRUE
+
+/datum/customizer_choice/organ/tail/goblin
+	name = "Goblin Tail"
+	organ_type = /obj/item/organ/tail/goblin
+	generic_random_pick = TRUE
+	sprite_accessories = list(
+		/datum/sprite_accessory/tail/goblin1,
+		/datum/sprite_accessory/tail/goblin2,
+		/datum/sprite_accessory/tail/goblin3,
+		/datum/sprite_accessory/tail/goblin4,
+		/datum/sprite_accessory/tail/tiefling,
+		/datum/sprite_accessory/tail/tiefling/heart,
+		)
