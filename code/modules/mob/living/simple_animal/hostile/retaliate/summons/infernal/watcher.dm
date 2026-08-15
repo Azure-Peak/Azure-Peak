@@ -51,7 +51,7 @@
 	ai_controller = /datum/ai_controller/infernal/harasser
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/Initialize(mapload)
 	. = ..()
 	var/datum/action/cooldown/spell/projectile/fireball/mob_ability/watcher/great/eyefire = new(src)
 	eyefire.Grant(src)

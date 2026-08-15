@@ -19,7 +19,7 @@
 	)
 
 /*
-  Sylph tries to kite and stay at range
+Sylph tries to kite and stay at range
 */
 /datum/ai_controller/fae/skirmisher
 

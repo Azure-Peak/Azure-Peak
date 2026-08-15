@@ -51,7 +51,7 @@
 	ai_controller = /datum/ai_controller/infernal/harasser
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp/Initialize(mapload)
 	. = ..()
 	var/datum/action/cooldown/spell/projectile/spitfire_bolt/spit = new(src)
 	spit.Grant(src)

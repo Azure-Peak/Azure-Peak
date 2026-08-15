@@ -8,7 +8,7 @@ TODO mirespider:
 */
 
 /* Trash quadruped, wounds are not really core to fighting these animals, and it is just
- there to provide player a tangible sense of progress.
+there to provide player a tangible sense of progress.
 */
 /datum/anatomy/quadruped
 	limb_names = list(
@@ -257,7 +257,7 @@ Aiming legs should be nearly guaranteed due to their profile
 	add_zone(BODY_ZONE_PRECISE_MOUTH, damage_mult = 1, part_health_fraction = 0.2, part_health_minimum = 60, break_wound = /datum/wound/cripple/maw/tongue, hint = "tongue", melee_hit_bonus = -10)
 
 /* Spiders.
- Fangs (Mouth) defang them and give them lower damage.  Legs cripple and slow them.
+Fangs (Mouth) defang them and give them lower damage.  Legs cripple and slow them.
 */
 /datum/anatomy/spider
 	limb_names = list(

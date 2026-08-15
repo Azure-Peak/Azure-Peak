@@ -53,7 +53,7 @@
 	ai_controller = /datum/ai_controller/infernal
 	move_base_delay = MOVEMENT_DELAY_SLOW
 
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	var/datum/action/cooldown/spell/telegraphed_strike/mob_ability/ground/meteor_storm/storm = new(src)
