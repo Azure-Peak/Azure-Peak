@@ -95,7 +95,7 @@
 			if("sac")
 				H.internal_organs_slot[ORGAN_SLOT_TESTICLES] = new /obj/item/organ/testicles/internal
 			if("cryptorchid")
-				H.internal_organs_slot[ORGAN_SLOT_TESTICLES] = new /obj/item/organ/testicles/internal
+				H.internal_organs_slot[ORGAN_SLOT_TESTICLES] = new /obj/item/organ/testicles
 
 		var/gnoll_genitals = list("pintle", "gudgeon", "both", "naught")
 		var/genital_choice = input(H, "What's between your legs?", "FUCK THE WORLD.") as anything in gnoll_genitals
