@@ -647,7 +647,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 /mob/living/carbon/human/proc/debug_trait_pots()
 	var/list/types = typesof(/datum/reagent/medicine/trait)
 	types += /datum/reagent/repairelixir
-	var/inp = input("CHOOSE THE REAGENT THAT YOU PREFER", "ANOTHER HER", /datum/reagent/medicine/trait/nitevision) as anything in types
+	var/inp = input(src, "CHOOSE THE REAGENT THAT YOU PREFER", "ANOTHER HER", /datum/reagent/medicine/trait/nitevision) as anything in types
 	var/obj/item/reagent_containers/glass/bottle/alchemical/vial = new /obj/item/reagent_containers/glass/bottle/alchemical(loc)
 	vial.reagents.add_reagent(inp, 30)
 	put_in_hands(vial)
