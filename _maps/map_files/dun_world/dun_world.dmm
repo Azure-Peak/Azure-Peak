@@ -31858,13 +31858,6 @@
 /obj/structure/fluff/pillow/brown,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/three)
-"gaq" = (
-/obj/structure/mineral_door/wood/fancywood{
-	lockid = "Cafe Key";
-	locked = 1
-	},
-/turf/open/floor/rogue/grassred,
-/area/rogue/outdoors/town)
 "gar" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark)
@@ -291038,7 +291031,7 @@ fpx
 fpx
 pWT
 pWT
-gaq
+daQ
 fpx
 iub
 quK
