@@ -641,8 +641,6 @@ Inquisitorial armory down here
 	qdel(owner)
 	qdel(src)
 
-#undef SYONCHURN_FILTER
-
 /obj/effect/temp_visual/censer_dust
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "extinguish"
