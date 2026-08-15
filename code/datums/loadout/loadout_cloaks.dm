@@ -34,6 +34,11 @@
 	path = /obj/item/clothing/cloak/half
 	sort_category = "Cloaks"
 
+/datum/loadout_item/scoutcloak
+	name = "Scout Cloak"
+	path = /obj/item/clothing/cloak/scout
+	sort_category = "Cloaks"
+
 /datum/loadout_item/ridercloak
 	name = "Rider Cloak"
 	path = /obj/item/clothing/cloak/half/rider

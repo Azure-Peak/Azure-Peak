@@ -204,6 +204,18 @@
 		)
 	result_item = null
 
+/obj/item/enchantingkit/triumph_armorkit_pleather
+	name = "'Padded Leathers' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of Leather Armor, a Leather Cuirass, a set of Studded Leather Armor, or a set of Hardened Leather Armor."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/studded			= /obj/item/clothing/suit/roguetown/armor/leather/studded/triumph_padded,
+		/obj/item/clothing/suit/roguetown/armor/leather/cuirass			= /obj/item/clothing/suit/roguetown/armor/leather/cuirass/triumph_padded,
+		/obj/item/clothing/suit/roguetown/armor/leather/heavy			= /obj/item/clothing/suit/roguetown/armor/leather/heavy/triumph_padded,
+		/obj/item/clothing/suit/roguetown/armor/leather					= /obj/item/clothing/suit/roguetown/armor/leather/triumph_padded
+		)
+	result_item = null
+	exact_type = TRUE
+
 /obj/item/enchantingkit/triumph_weaponkit_classicdaggers
 	name = "'Classic Daggers' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Dagger or Steel Dagger."
@@ -862,6 +874,45 @@
 	name = "hardened leather coat"
 	icon_state = "legacyroguearmor_coat"
 	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/triumph_padded
+	name = "padded leather armor"
+	icon_state = "pleather"
+	detail_tag = "_detail"
+	detail_color = null
+	boobed_detail = FALSE
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/cuirass/triumph_padded
+	name = "padded leather cuirass"
+	icon_state = "pleather"
+	detail_tag = "_detail"
+	detail_color = null
+	boobed_detail = FALSE
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/studded/triumph_padded
+	name = "padded studded leather armor"
+	icon_state = "pleather"
+	detail_tag = "_detail"
+	detail_color = null
+	boobed_detail = FALSE
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/triumph_padded
+	name = "padded hardened leather armor"
+	icon_state = "pleather"
+	detail_tag = "_detail"
+	detail_color = null
+	boobed_detail = FALSE
+	color = null
+
+/obj/item/clothing/suit/roguetown/shirt/fancyjacket/triumph_padded
+	name = "dark jacket"
+	desc = "A soft jacket of dark leather. All of the swagger, none of the protection."
+	icon_state = "dark_jacket"
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	sleeved_detail = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/triumph
 	name = "aged iron breastplate"

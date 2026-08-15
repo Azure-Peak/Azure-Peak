@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "Fixed Skeleton Swarm having the wrong range tag."
-  - spellcheck: "Adjusted the flavortext to adhere to the lore about what Avantyne truly is."

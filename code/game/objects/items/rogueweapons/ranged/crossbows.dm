@@ -52,6 +52,11 @@
 	. += span_info("Crossbows increase in accuracy with a higher <b>PERCEPTION</b>, but deal a static amount of damage \
 	regardless of character stats.")
 	. += span_info("Crossbows must be cocked before a bolt can be nocked, but once cocked I can nock straight from a pouch by left-clicking it.")
+	if(damfactor < 1)
+		. += span_info("This weapon <b>reduces</b> bolt damage by <b>[round((1 - damfactor) * 100, 1)]%</b>.")
+	else if(damfactor > 1)
+		. += span_info("This weapon <b>increases</b> bolt damage by <b>[round((damfactor - 1) * 100, 1)]%</b>.")
+
 	if(!onehanded)
 		. += span_info("Nocking from a pouch requires my other hand to be free.")
 	if(penfactor < 0)
@@ -290,6 +295,15 @@
 	caliber = "regbolt"
 	max_ammo = 1
 	start_empty = TRUE
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron
+	name = "munition crossbow"
+	desc = "A deadly weapon that shoots a bolt with terrific power. Unlike the common bow, \
+	it uses a sophisticated mechanism to renock - and retain - its half-length bolts; a \
+	matter that relies more on raw strength than dexterity to master. </br>An cruder version of the common crossbow built with wrought iron with steel like property. When smelted, it does not yield good steel ingot but trash steel. but it is cheap and it works well and is often imported en masse from Grenzelhoft. Some of them find their way into the hands of common brigands and highwaymen."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = 80
+	damfactor = 1.1 // Lower than starting
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy
 	name = "ancient crossbow"

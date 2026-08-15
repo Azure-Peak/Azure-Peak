@@ -493,7 +493,7 @@
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/crossbowman/pre_equip(mob/living/carbon/human/H)
 	..()
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron
 	backl = /obj/item/quiver/bolt/npc
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags

@@ -361,7 +361,7 @@
 	allow_self_unequip = FALSE	//Can not remove these without help
 	equip_delay_self = 60
 	equip_delay_other = 60
-	strip_delay = 300
+	strip_delay = STRIP_DELAY_LOCKED
 	salvage_result = null
 
 /obj/item/clothing/gloves/roguetown/nomagic/Initialize(mapload)

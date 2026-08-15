@@ -196,7 +196,7 @@
 	sort_category = "Hats"
 
 /datum/loadout_item/shawl
-	name = "Shawl"
+	name = "Shawl (Hijab Variant)"
 	path = /obj/item/clothing/head/roguetown/shawl
 	sort_category = "Hats"
 

@@ -67,8 +67,8 @@
 			if("Light Armor")
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 			if("Bare Skin")
-				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/berzerker/chest
-				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/berzerker
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/berzerker //light steel maille
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/berzerker //fullbody leather armor
 		var/list/main_choices = list("Unarmed Master", "Martial Expert") // Unarmed focuses on master punching and wrestling moves, Martial gives you two expert weapon skills to be flexible
 		var/category_choice = input(H, "Choose your MEANS OF VIOLENCE.", "SMASH OR SLASH!!") as anything in main_choices
 		switch(category_choice)

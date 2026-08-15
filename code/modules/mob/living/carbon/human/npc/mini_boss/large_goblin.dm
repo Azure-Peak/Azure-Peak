@@ -34,15 +34,13 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	src.transform = src.transform.Scale(1.25, 1.25)
 	src.pixel_y += round(0.25 * 16)
-	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
-		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
-	for(var/obj/item/held_item in held_items)
-		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		lock_gear_piece(gear, "large_goblin_gear")
 
 /mob/living/carbon/human/species/goblin/npc/large/death(gibbed, nocutscene = FALSE)
 	. = ..()
-	if(!gibbed)
-		dust(FALSE, FALSE, TRUE)
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		REMOVE_TRAIT(gear, TRAIT_NODROP, "large_goblin_gear")
 
 /mob/living/carbon/human/species/goblin/npc/large/hell
 	race = /datum/species/goblin/hell

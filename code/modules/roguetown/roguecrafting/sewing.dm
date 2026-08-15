@@ -1419,6 +1419,14 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/sewing/shawl
+	name = "shawl"
+	category = "Hoods"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/shawl)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/sewing/heavyhood
 	name = "heavy hood"
 	category = "Hoods"
@@ -2380,3 +2388,121 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/greendress
+	name = "light green dress"
+	category = "Dresses"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/green)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/bluedress
+	name = "light blue dress"
+	category = "Dresses"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/blue)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/taverndress
+	name = "tavern dress"
+	category = "Dresses"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/tavern)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/courtesandress
+	name = "courtesan dress"
+	category = "Dresses"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/courtesan)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/nightgown
+	name = "nightgown"
+	category = "Dresses"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/nightgown)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/skirt/formal
+	name = "knee-high skirt"
+	category = "Misc"
+	result = list(/obj/item/clothing/under/roguetown/skirt/formal)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/skirt/formal_color
+	name = "knee-high skirt (dyeable)"
+	category = "Misc"
+	result = list(/obj/item/clothing/under/roguetown/skirt/formal)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/blouse
+	name = "blouse"
+	category = "Shirts"
+	result = /obj/item/clothing/suit/roguetown/shirt/undershirt/blouse
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/toga/classic
+	name = "classic toga"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/toga/classic)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/toga/classic/feminine
+	name = "classic toga, feminine"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/toga/classic/feminine)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/lunarrobe
+	name = "moonlit robe"
+	category = "Robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/lunar)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2,
+				/obj/item/natural/silk = 1)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/magerobes
+	name = "mage robe"
+	category = "Robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/magician)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/leopardrobe
+	name = "leopard robe"
+	category = "Robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/leopard)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/wintercoat
+	name = "winter coat"
+	category = "Coats"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/winter)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 1

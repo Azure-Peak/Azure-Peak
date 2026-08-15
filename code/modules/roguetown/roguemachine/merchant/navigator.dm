@@ -356,7 +356,7 @@
 					if(IT.unmintable && !accepts_unmintable)
 						continue
 				var/base_price = I.get_real_price()
-				var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+				var/category = get_derived_category(I.type) || ITEM_CAT_MISCELLANEOUS
 				var/bucket = get_navigator_bucket_for_item(I, category)
 				if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
 					if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
@@ -378,6 +378,7 @@
 					play_sound=TRUE
 					budgie += prize
 					credit_pool(bucket, base_price)
+					record_material_flow(MATERIAL_FLOW_OUT, is_bm_export ? MATERIAL_SOURCE_BLACK_MARKET : MATERIAL_SOURCE_FOREIGN_EXPORT, I.type, 1, prize)
 					I.visible_message(span_warning("[I] is sucked into the air!"))
 					if(bucket)
 						if(saturation_mult < 0.6 && !(bucket in penalty_categories))

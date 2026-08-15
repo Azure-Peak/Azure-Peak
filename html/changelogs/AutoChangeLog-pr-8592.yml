@@ -1,4 +1,0 @@
-author: "Aeiraea"
-delete-after: True
-changes:
-  - bugfix: "Fixed the Volf Mantle not having onmob sprites for feminine characters and dwarves. It should be visible for them again—hopefully!"

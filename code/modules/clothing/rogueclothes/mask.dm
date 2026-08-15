@@ -54,6 +54,28 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/clothing/mask/rogue/spectacles/fancy
+	name = "fancy spectacles"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares."
+	icon_state = "glassesb"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/fancy_dark
+	name = "fancy spectacles (dark)"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares. These have a darker tint to their lenses."
+	icon_state = "glassesb_dark"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
 /obj/item/clothing/mask/rogue/faceveil
 	name = "simple veil"
 	icon_state = "faceveil"

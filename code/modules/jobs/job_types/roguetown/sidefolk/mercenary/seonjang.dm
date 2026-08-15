@@ -33,8 +33,8 @@
 /datum/outfit/job/roguetown/mercenary/seonjang/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a Captain of the Clan, second to none. The blades and bows of the Ruma look to you for guidance - rally your warriors and lead by example!"))
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma //scalemail
-	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/ruma/chest //light brigadine.
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma //a heavy gambeson, but plate.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats/ruma //light brigadine.
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
 	shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan

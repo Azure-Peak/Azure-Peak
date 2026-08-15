@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Fixed the description of the drakian race, which was the exact opposite of our lore. Also renamed \"dragon heads\" because, once more, those are not drakkyn those are drakes."

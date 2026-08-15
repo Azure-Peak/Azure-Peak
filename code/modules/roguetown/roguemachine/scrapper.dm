@@ -21,6 +21,7 @@
 	var/bark_dirty = TRUE
 	var/next_bark = 0
 	var/recycle_sound = 'sound/misc/smelter_fin.ogg'
+	var/flow_source = MATERIAL_SOURCE_SCRAP
 
 /obj/structure/roguemachine/scrapper/Initialize()
 	. = ..()
@@ -52,9 +53,9 @@
 		return null
 	if((I.type in material_prices) && material_enabled[I.type])
 		return I.type
-	if(I.smeltresult && (I.smeltresult in material_prices) && material_enabled[I.smeltresult])
+	if(I.is_smeltable() && (I.smeltresult in material_prices) && material_enabled[I.smeltresult])
 		return I.smeltresult
-	if(I.sewrepair && I.salvage_result && (I.salvage_result in material_prices) && material_enabled[I.salvage_result])
+	if(I.is_salvageable() && (I.salvage_result in material_prices) && material_enabled[I.salvage_result])
 		return I.salvage_result
 	return null
 
@@ -212,6 +213,8 @@
 	material_held[path] = held + units
 	budget -= total_price
 	bark_dirty = TRUE
+	record_material_flow(MATERIAL_FLOW_IN, flow_source, path, units, total_price)
+	record_round_statistic(STATS_SCRAP_MAMMONS_PAID, total_price)
 	qdel(I)
 	for(var/i in 1 to units)
 		new path(src)

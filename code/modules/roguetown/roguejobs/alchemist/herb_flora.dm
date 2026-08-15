@@ -244,3 +244,12 @@
 	icon_state = "manabloom2"
 
 	herbtype = /obj/item/reagent_containers/food/snacks/grown/manabloom
+
+/obj/structure/flora/roguegrass/herb/fyritius
+	name = "fyritius flowers"
+	desc = "A cluster of dangerously flammable flowers. Their hazardous qualities make them useful \
+	alchemical reagents for burning away rot, decay, and diseases. Mundane, magickal, or divine."
+	icon = 'icons/roguetown/misc/crops.dmi' // im too lazy to move it or make a new sprite
+	icon_state = "fyritius2"
+
+	herbtype = /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius

@@ -422,6 +422,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			if(!isnum(amt) || amt <= 0)
 				return TRUE
 			SStreasury.burn(SStreasury.discretionary_fund, amt, "Lost in Transit")
+			record_treasury_expense(TREASURY_FLOW_MISC, "Admin", amt)
 			admin_log_fiscal("burned [amt]m from Crown's Purse", "Burn Crown's Purse")
 			return TRUE
 		if("adjust_merchant_favor")

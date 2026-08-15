@@ -51,7 +51,7 @@
 	. = ..()
 	. += integrity_check()
 
-	var/derived_cat = GLOB.derived_categories ? GLOB.derived_categories[type] : null
+	var/derived_cat = get_derived_category(type)
 	var/display_cat = derived_cat
 	if(derived_cat)
 		var/bucket = get_navigator_bucket_for_item(src, derived_cat)

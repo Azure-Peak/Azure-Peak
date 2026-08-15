@@ -609,3 +609,17 @@
   - bugfix: fixed vheslynic hellfire being regular fire
   - bugfix: vhelsynite hellfire properly shows its purple "hellfire!" status effect
   - balance: slightly knocked down the firestacks on exploding.
+2026-08-14:
+  Aeiraea:
+  - bugfix: "Fixed the Volf Mantle not having onmob sprites for feminine characters\
+      \ and dwarves. It should be visible for them again\u2014hopefully!"
+  FreeStylaLT:
+  - qol: Forced earflicks now properly respect Deadened / Guarded virtues.
+  KatTheFox:
+  - bugfix: The altgrip keybind now actually switches altgrips even out of combat
+      mode. You can no longer twirl weapons with the altgrip keybind.
+  - bugfix: Suitor now has a class preview so you can see what its subclasses are
+  borneblood:
+  - bugfix: Fixed Skeleton Swarm having the wrong range tag.
+  - spellcheck: Adjusted the flavortext to adhere to the lore about what Avantyne
+      truly is.

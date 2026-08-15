@@ -3098,3 +3098,202 @@ As Excaliber."
 
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask/ComponentInitialize()
     pass() // *flips the bird at you* (this isnt meant to be adjustable)
+
+// NOIRE + CO.
+/obj/item/clothing/cloak/furcloak/woodland
+	name = "woodland mantle"
+	desc = "A flowing cloak that can be worn tighter or looser as the wearer deems fit. More than suitable for protection from the \
+	elements, the concealment of one's identity or as a warm blanket during those cold nites."
+	icon_state = "woodwalkercloak"
+	item_state = "woodwalkercloak"
+	boobed = FALSE
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
+	flags_inv = HIDECROTCH|HIDEBOOB
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_clothes.dmi'
+	color = CLOTHING_WHITE
+	allowed_sex = list(MALE, FEMALE)
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/furcloak/woodland/dye
+	name = "woodland mantle"
+	desc = "A flowing cloak that can be worn tighter or looser as the wearer deems fit. More than suitable for protection from the \
+	elements, the concealment of one's identity or as a warm blanket during those cold nites."
+	icon_state = "woodwalkcloak"
+	item_state = "woodwalkcloak"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/furcloak/woodland/dye/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/furcloak/woodland/noire
+	name = "collared woodland mantle"
+	desc = "A flowing cloak that can be worn tighter or looser as the wearer deems fit. More than suitable for protection from the \
+	elements, the concealment of one's identity or as a warm blanket during those cold nites. This one has exchanged the traditional \
+	scarf in favor of a broad, padded collar."
+	icon_state = "noirecloak"
+	item_state = "noirecloak"
+
+/obj/item/clothing/head/roguetown/roguehood/shawl
+	name = "shawl"
+	desc = "A distant cousin to the Naledian hijab, shawls like these offer plenty of coverage for the wearer's head and neck. It's looser \
+	on the head than most hoods, in order to preserve one's perception in the places where it'd count."
+	item_state = "shawl"
+	icon_state = "shawl"
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	block2add = null
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	color = null
+
+/obj/item/clothing/head/roguetown/roguehood/shawl/woodland
+	name = "woodland shawl"
+	desc = "A distant cousin to the Naledian hijab, shawls like these offer plenty of coverage for the wearer's head and neck. It's looser \
+	on the head than most hoods, in order to preserve one's perception in the places where it'd count."
+	item_state = "woodwalkershawl"
+	icon_state = "woodwalkershawl"
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/woodland
+	name = "woodland brigandine"
+	desc = "A set of fitted brigandine armour featuring a hardened leather further reinforced with steel plates beneath, worn over a light \
+	maille shirt. Its similarity to the Azurian Warden's brigandine is no accident. Rosawood's Elven Rangers had shared its design with \
+	their fellows, who had adapted it further for their own needs. Armour such as this is oft worn by the Wardens that range Rosawood as well."
+	item_state = "woodwalkbrig"
+	icon_state = "woodwalkbrig"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/woodland
+	name = "woodland brigandine"
+	desc = "A set of fitted brigandine armour featuring a hardened leather further reinforced with steel plates beneath, worn over a light \
+	maille shirt. Its similarity to the Azurian Warden's brigandine is no accident. Rosawood's Elven Rangers had shared its design with \
+	their fellows, who had adapted it further for their own needs. Armour such as this is oft worn by the Wardens that range Rosawood as well."
+	item_state = "woodwalkbrig"
+	icon_state = "woodwalkbrig"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/woodland/attack_right(mob/user)
+	if(detail_tag)
+		return
+	var/the_time = world.time
+	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in COLOR_MAP
+	if(!pickedcolor)
+		return
+	if(world.time > (the_time + 30 SECONDS))
+		return
+	detail_tag = "_detail"
+	detail_color = COLOR_MAP[pickedcolor]
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_armor()
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/woodland/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/woodland
+	name = "woodland brigandine"
+	desc = "A set of fitted brigandine armour featuring a hardened leather further reinforced with steel plates beneath, worn over a light \
+	maille shirt. Its similarity to the Azurian Warden's brigandine is no accident. Rosawood's Elven Rangers had shared its design with \
+	their fellows, who had adapted it further for their own needs. Armour such as this is oft worn by the Wardens that range Rosawood as well."
+	item_state = "woodwalkbrig"
+	icon_state = "woodwalkbrig"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/woodland/attack_right(mob/user)
+	if(detail_tag)
+		return
+	var/the_time = world.time
+	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in COLOR_MAP
+	if(!pickedcolor)
+		return
+	if(world.time > (the_time + 30 SECONDS))
+		return
+	detail_tag = "_detail"
+	detail_color = COLOR_MAP[pickedcolor]
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_armor()
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/woodland/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/leather/studded/woodland
+	name = "woodland brigandine"
+	desc = "A set of fitted brigandine armour featuring a hardened leather further reinforced with steel plates beneath, worn over a light \
+	maille shirt. Its similarity to the Azurian Warden's brigandine is no accident. Rosawood's Elven Rangers had shared its design with \
+	their fellows, who had adapted it further for their own needs. Armour such as this is oft worn by the Wardens that range Rosawood as well."
+	item_state = "woodwalkbrig"
+	icon_state = "woodwalkbrig"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/leather/studded/woodland/attack_right(mob/user)
+	if(detail_tag)
+		return
+	var/the_time = world.time
+	var/pickedcolor = input(user, "Select a color.","Brigandine Color") as null|anything in COLOR_MAP
+	if(!pickedcolor)
+		return
+	if(world.time > (the_time + 30 SECONDS))
+		return
+	detail_tag = "_detail"
+	detail_color = COLOR_MAP[pickedcolor]
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_armor()
+
+/obj/item/clothing/suit/roguetown/armor/leather/studded/woodland/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/woodland/custom
+	item_state = "woodwalkerbrig"
+	icon_state = "woodwalkerbrig"
+	detail_color = "#7c6965"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/woodland/custom
+	item_state = "woodwalkerbrig"
+	icon_state = "woodwalkerbrig"
+	detail_color = "#7c6965"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/woodland/custom
+	item_state = "woodwalkerbrig"
+	icon_state = "woodwalkerbrig"
+	detail_color = "#7c6965"
+
+/obj/item/clothing/suit/roguetown/armor/leather/studded/woodland/custom
+	item_state = "woodwalkerbrig"
+	icon_state = "woodwalkerbrig"
+	detail_color = "#7c6965"

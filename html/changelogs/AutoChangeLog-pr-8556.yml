@@ -1,0 +1,18 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Adds in the \"Loot Everything\" \"Loot Smeltable\" \"Loot Fabric\" button on a DEAD NPC that has NEVER been possessed by a player, allowing you to loot everything in a loop"
+  - rscadd: "Unified stripping delays and time to defines"
+  - rscadd: "Moved the surrendered stripping delay (0.5x) to defines"
+  - rscadd: "NPC stripping time is now 0.33x that of a normal stripping time. But only if it is a dead NPC and so on"
+  - rscadd: "Massively improved the end of round economics statistics for better data about the town economy, added a lot of analytics"
+  - bugfix: "Fixed wrong argument passed to every single stripping proc, allowing you to strip remotely until the doafter check AFTER that the target is adjacent, resulting in weirdness."
+  - rscadd: "Added to Combat Guide a section about PVE content"
+  - rscadd: "Made Highwaymen and NPC with crossbows spawn with a \"Munition Crossbow\", which is a renamed crossbow with 1.1 instead of 1.2 damfactor and smelt into IRON. This cut out one source of iron inflation while keeping steel for the few that sorta deserves it (Weapons n Bogmen etc.)."
+  - rscadd: "Crossbows now display the damage modifier applied to their bolts on examine."
+  - rscadd: "Added a Hunting Chapter to the Combat Guide"
+  - rscadd: "Added Cookware back into the VALUABLES category instead of a rejected category"
+  - rscadd: "Added a TOOLS category demanded by Kazengun, Aavnr, Gronn and Lirvas, for tools"
+  - rscadd: "Tools and Valuables no longer rejected by Navigator, oops!"
+  - rscadd: "Added Wheelbraces (Cart Upgrade) to the Silverface / Goldface for 25 / 50"
+  - rscadd: "Make Crossbows etc. sellable and in the Engineering categories"

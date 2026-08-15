@@ -706,6 +706,7 @@
 	sewrepair = TRUE
 	flags_inv = null
 	slot_flags = ITEM_SLOT_SHIRT
+	color = CLOTHING_BLACK
 	salvage_result = /obj/item/natural/silk
 	salvage_amount = 2
 
@@ -917,3 +918,91 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+
+
+/obj/item/clothing/suit/roguetown/shirt/dress/green
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "light green dress"
+	desc = "A simple light green dress, tailored to flatter the figure."
+	icon_state = "greendress"
+	item_state = "greendress"
+	r_sleeve_status = SLEEVE_NOMOD
+	l_sleeve_status = SLEEVE_NOMOD
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+	altdetail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/shirt/dress/blue
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "light blue dress"
+	desc = "A simple light blue dress, tailored to flatter the figure."
+	icon_state = "bluedress"
+	item_state = "bluedress"
+	r_sleeve_status = SLEEVE_NOMOD
+	l_sleeve_status = SLEEVE_NOMOD
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/shirt/dress/tavern
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "tavern dress"
+	desc = "A simple green dress with a corset, its skirt has slits for easy movement."
+	icon_state = "taverndress"
+	item_state = "taverndress"
+	r_sleeve_status = SLEEVE_NOMOD
+	l_sleeve_status = SLEEVE_NOMOD
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/shirt/dress/courtesan
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "courtesan dress"
+	desc = "A luxurious dress designed to attract attention, often worn by courtesans."
+	icon_state = "courtesandress"
+	item_state = "courtesandress"
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/shirt/dress/nightgown
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	name = "nightgown"
+	desc = "An elegant and enticing nightgown, made for comfort and allure."
+	icon_state = "nightgown"
+	item_state = "nightgown"
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	r_sleeve_status = SLEEVE_NOMOD
+	l_sleeve_status = SLEEVE_NOMOD
+
+/obj/item/clothing/suit/roguetown/shirt/undershirt/blouse
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	name = "blouse"
+	desc = "A finely tailored blouse made from soft, lightweight fabric, with delicate buttons and subtly decorated cuffs."
+	icon_state = "blouse"
+	item_state = "blouse"
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/winter
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	name = "winter coat"
+	desc = "A thick, well-crafted winter coat designed to retain heat and protect against harsh cold while remaining comfortable for daily wear."
+	icon_state = "wintercoat"
+	item_state = "wintercoat"
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
