@@ -77,7 +77,7 @@
 /obj/item/alchemical_bathbomb/rosa
 	effect_desc = "floral" // that's it that's the only change. well besides a new icon when one exists
 
-/obj/item/alchemical_bathbomb/Initialize()
+/obj/item/alchemical_bathbomb/Initialize(mapload)
 	. = ..()
 	desc += "<br><br>This one has a [effect_desc] scent."
 

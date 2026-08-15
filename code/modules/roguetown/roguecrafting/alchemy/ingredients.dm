@@ -635,7 +635,7 @@
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	gender = PLURAL
 
-/obj/item/alch/rubedo_reagent/Initialize() // look at what byond's default multiplicative color blending has led to
+/obj/item/alch/rubedo_reagent/Initialize(mapload) // look at what byond's default multiplicative color blending has led to
 	. = ..()
 	if(!complete_pot)
 		return

@@ -9,7 +9,7 @@
 	var/obj/item/seed_item		// item used to start creating the catalyst. MUST BE UNIQUE (if there are two catalysts with the same seed item one of them will be uncraftable and do not ask this one which will win)
 	var/difficulty = 5			// steps in the process. 5 is default, 4-7 the sane range. any less and it's trivial, any more and it feels unfair
 
-/obj/item/alch/catalyst/Initialize()
+/obj/item/alch/catalyst/Initialize(mapload)
 	. = ..()
 	enabled_recipes = subtypesof(recipe_base_type)
 	AddComponent(/datum/component/unsellable, "is an esoteric tool of the alchemical arts")
