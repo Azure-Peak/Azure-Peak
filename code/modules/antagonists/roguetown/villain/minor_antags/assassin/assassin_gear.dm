@@ -184,8 +184,10 @@
 		return FALSE
 	if(target.has_flaw(/datum/charflaw/targeted)) // dagger deals more dmg to ppl who r targeted
 		force = 20 * 2	//vs trait havers, 2x damage over a steel knife
+		update_force_dynamic()
 	else
 		force = 20 + 4	//vs non-trait havers, 4 more damage over a steel knife
+		update_force_dynamic()
 	return FALSE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
@@ -195,63 +197,64 @@
 		// are they allowed to use this
 		if(!can_peculate(target, user))
 			return
+
 		// run a health check on the target. if they're not dead enough, return us early.
 		if(!target_health_check(target))
 			to_chat(user, span_warning("My target must be a bit more dead! Let them bleed!"))
 			return
 
-		// head-check. they need a head.
-		var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
-		if(QDELETED(target_head))
-			to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
-			return
-
-		// sloppy & repeated but im lazy rn
 		if(!ishuman(user))
 			return
 		var/mob/living/carbon/human/human_user = user
 
+		if(!head_check(target, human_user))
+			return
+
 		// send a message. everyone know what we're doing.
-		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... \
+		human_user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... \
 												STOP [human_user.p_them()]!!"), span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty."))
 
-		to_chat(user, span_artery("De-za-kh..."))
+		to_chat(human_user, span_artery("\"De-za-kh...\""))
 
 		// INITIATE GRAGGAR BEAM.
 		var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
 
-		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+		playsound(human_user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
 
-		if(!do_after(user, 5 SECONDS, target = target))
+		if(!do_after(human_user, 5 SECONDS, target = target))
 			qdel(transfer_beam)
 			return
 		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-		to_chat(user, span_artery("\"...a-da-sh...\""))
+		to_chat(human_user, span_artery("\"...a-da-sh...\""))
 
-		if(!do_after(user, 5 SECONDS, target = target))
+		if(!do_after(human_user, 5 SECONDS, target = target))
 			qdel(transfer_beam)
 			return
-		playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
-		to_chat(user, span_artery("\"...ba-a-ha-v!\""))
+		playsound(human_user, 'sound/magic/soulsteal.ogg', 80, TRUE)
+		to_chat(human_user, span_artery("\"...ba-a-ha-v!\""))
 
-		if(!user.client)
+		if(!human_user.client)
 			qdel(transfer_beam)
 			return
 		qdel(transfer_beam)
 		// graggar beam worked w/ no interruptions. domp eet.
 
+		// fetch a face_flag bc we're going to need it to assume they've been yoinked once or smthn. idk i dont want to add anotehr trait rn
+		var/face_flag = face_wound_check(target, human_user)
 		// we need to check to make sure we can face-steal them
-		if(preliminary_face_steal_check(target, user))
+		if(preliminary_face_steal_check(target, human_user) && face_flag)
 			// do it, if we can
 			human_user.copy_physical_features(target) // this needs replacement to more changeling type shit later
-			to_chat(user, span_purple("I take on a new face..."))
-		// they die either way
-		die_motherfucker_die(target)
+			to_chat(user, span_cult("I take on a new face..."))
+			// apply a facial disfigurement that can be healed thru surgery
+			target.visible_message(span_danger("[target]'s face bubbles and froths off, leaving behind a mess of exposed blood-and-bone. Perhaps surgery could repair it...?"))
+			var/obj/item/bodypart/head = target.get_bodypart(BODY_ZONE_HEAD)
+			head?.add_wound(/datum/wound/facial/disfigurement)
+		else
+			to_chat(user, span_cult("I can't take on this one's face."))
 
-		// apply a facial disfigurement that can be healed thru surgery
-		target.visible_message(span_danger("[target]'s face bubbles and froths off, leaving behind a mess of exposed blood-and-bone. Perhaps surgery could repair it...?"))
-		var/obj/item/bodypart/head = target.get_bodypart(BODY_ZONE_HEAD)
-		head?.add_wound(/datum/wound/facial/disfigurement)
+		// they die either way. we dont get last words if they've got a pre-existing disfigurement.
+		die_motherfucker_die(target, get_last = face_flag)
 
 		// they get yoinked either way
 		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
@@ -325,6 +328,36 @@
 		return FALSE
 	return TRUE
 
+/// This proc checks if the user & target both have heads. Returns TRUE if both do. Returns FALSE if either is missing. Handles cases w/ a to_chat.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/head_check(mob/living/carbon/human/target, mob/living/carbon/human/user)
+	var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
+	if(QDELETED(target_head))
+		to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
+		return FALSE
+
+	var/obj/item/bodypart/head/user_head = user.get_bodypart(BODY_ZONE_HEAD)
+	if(QDELETED(user_head))
+		to_chat(user, span_notice("...where's my head at?"))
+		return FALSE
+	// everything went ok
+	return TRUE
+
+/// This proc checks if either assassin or target have a facial disfigurement wound. Prevents repeat-peculates. Returns TRUE if neither target or user has a disfigurement.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/face_wound_check(mob/living/carbon/human/target, mob/living/carbon/human/user)
+	// TODO IN THE FAR FAR FUTURE: check for TRAIT_FACELESS_ASSASSIN that auto returns false w/ no msg. faceless wont be able to skinthief.
+	var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
+	var/obj/item/bodypart/head/user_head = user.get_bodypart(BODY_ZONE_HEAD)
+	if(QDELETED(target_head) || QDELETED(user_head))
+		return FALSE
+	// heads exist. get head wounds. check wounds.
+	if(target_head?.has_wound(/datum/wound/facial/disfigurement))
+		return FALSE
+	else if(user_head?.has_wound(/datum/wound/facial/disfigurement))
+		return FALSE
+	// everything went well. return true.
+	return TRUE
+
+
 /// This check returns TRUE if the target is DEAD, in InCritical(), or has a dying amount of blood.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/target_health_check(mob/living/carbon/human/target)
 	if(target.stat == DEAD || target.InCritical() || target.blood_volume <= BLOOD_VOLUME_SURVIVE)
@@ -351,11 +384,16 @@
 	ADD_TRAIT(target, TRAIT_DNR, GRAGGAR_ASSASSINATED)
 	ADD_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
 
-	target.visible_message(span_cult("A purple mist spews forth from [target]'s chest, entering [user]'s [src.name]... their soul has been taken!"), span_cult("I find myself in a realm, black save for the heavy blue-and-red fog. Screams surround me. How long will I be trapped in here...?"))
+	target.visible_message(span_cult("A purple mist spews forth from [target]'s chest, entering [user]'s [src.name]... their soul has been taken!"),
+	span_cult("I find myself in a strange realm, vantablack save for vestiges of a heavy blue-and-red fog. Screams surround \
+	me. How long will I be trapped in here?"))
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
 	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
 	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
 	user.adjust_triumphs(1)
+
+
+
 
 
 /// Loops thru all souls and qdels them. If user is specified, gives soul# in triumphs. Returns amount of souls freed.
