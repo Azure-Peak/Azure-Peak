@@ -463,7 +463,7 @@
 /datum/loadout_item/donator/eiren5
 	name = "Donator Kit - Glintstone Longsword"
 	path = /obj/item/enchantingkit/weapon/eiren_m
-	ckeywhitelist = list("eirenxiv", "magicalbard")
+	ckeywhitelist = list("eirenxiv", "magicalbard", "naorgteine")
 
 /datum/loadout_item/donator/eiren6
 	name = "Donator Kit - Stygian Longsword"
@@ -717,17 +717,17 @@
 /datum/loadout_item/donator/nero_sword
 	name = "Donator Kit - Sylvan Longsword"
 	path = /obj/item/enchantingkit/weapon/nero_lsword
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
 
 /datum/loadout_item/donator/nero_dagger
 	name = "Donator Kit - Sylvan Dagger"
 	path = /obj/item/enchantingkit/weapon/nero_dagger
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
 
 /datum/loadout_item/donator/nero_sabre
 	name = "Donator Kit - Sylvan Sabre"
 	path = /obj/item/enchantingkit/weapon/nero_sabre
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
 
 /datum/loadout_item/donator/des_gaebolg
 	name = "Dontaor Kit - Gae Bolg"
@@ -765,9 +765,9 @@
 	ckeywhitelist = list("jademanique")
 
 /datum/loadout_item/donator/olygsword
-    name = "Donator Kit - Gre'as'anto d'Shar"
-    path = /obj/item/enchantingkit/olygsword
-    ckeywhitelist = list("olympus7")
+	name = "Donator Kit - Gre'as'anto d'Shar"
+	path = /obj/item/enchantingkit/olygsword
+	ckeywhitelist = list("olympus7")
 
 /datum/loadout_item/donator/bobby
 	name = "Donator Kit - Holy Astratan Bascinet"
@@ -897,27 +897,27 @@
 /datum/loadout_item/donator/hellpossum_apostle_armor
 	name = "Donator Kit - Apostle's Armor"
 	path = /obj/item/enchantingkit/hellpossum_apostle_armor
-	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_robed_apostle_armor
 	name = "Donator Kit - Apostle's Armor, Robed"
 	path = /obj/item/enchantingkit/hellpossum_robed_apostle_armor
-	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_apostle_helm
 	name = "Donator Kit - Apostle's Burgeonet"
 	path = /obj/item/enchantingkit/hellpossum_apostle_helm
-	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_apostle_winghelm
 	name = "Donator Kit - Apostle's Burgeonet, Winged"
 	path = /obj/item/enchantingkit/hellpossum_apostle_winghelm
-	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_apostle_wingsallet
 	name = "Donator Kit - Apostle's Sallet, Winged"
 	path = /obj/item/enchantingkit/hellpossum_apostle_wingsallet
-	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768")
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
 /datum/loadout_item/donator/hellpossum_grandmaster_armor
 	name = "Donator Kit - Grandmaster's Armor, Robed"
@@ -938,3 +938,23 @@
 	name = "Donator Kit - Beaked Mask"
 	path = /obj/item/enchantingkit/rosy/birdmask
 	ckeywhitelist = list("rosysaturniidae")
+
+/datum/loadout_item/donator/nero_woodlandcloak
+	name = "Gift - Woodland Mantle"
+	path = /obj/item/clothing/cloak/furcloak/woodland
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
+
+/datum/loadout_item/donator/nero_woodlandhood
+	name = "Gift - Woodland Shawl"
+	path = /obj/item/clothing/head/roguetown/roguehood/shawl/woodland
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
+
+/datum/loadout_item/donator/nero_woodlandcloak_noire
+	name = "Gift - Collared Woodland Mantle"
+	path = /obj/item/clothing/cloak/furcloak/woodland/noire
+	ckeywhitelist = list("nerocavalier")
+
+/datum/loadout_item/donator/nero_woodlandbrig
+	name = "Donator Kit - Woodland Brigandine"
+	path = /obj/item/enchantingkit/nero_woodlandbrig
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")

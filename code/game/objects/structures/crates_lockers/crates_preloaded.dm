@@ -3,7 +3,7 @@
 	name = "apothecary's herb seed crate"
 	desc = "A wooden crate used to store basic herbs."
 
-/obj/structure/closet/crate/chest/old_crate/apothseed/Initialize()
+/obj/structure/closet/crate/chest/old_crate/apothseed/Initialize(mapload)
 	. = ..()
 	new /obj/item/herbseed/matricaria(src)
 	new /obj/item/herbseed/symphitum(src)
@@ -29,7 +29,7 @@
 	name = "apothecary's potion ingredient crate"
 	desc = "Labeled: WEEKLY HERB SUPPLY."
 
-/obj/structure/closet/crate/chest/old_crate/apoth_initial_pot/Initialize()
+/obj/structure/closet/crate/chest/old_crate/apoth_initial_pot/Initialize(mapload)
 	. = ..()
 	new /obj/item/alch/calendula(src)
 	new /obj/item/alch/calendula(src)

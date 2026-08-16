@@ -11,31 +11,31 @@
  */
 /datum/component
 	/**
-	  * Defines how duplicate existing components are handled when added to a datum
-	  *
-	  * See [COMPONENT_DUPE_*][COMPONENT_DUPE_ALLOWED] definitions for available options
-	  */
+		* Defines how duplicate existing components are handled when added to a datum
+		*
+		* See [COMPONENT_DUPE_*][COMPONENT_DUPE_ALLOWED] definitions for available options
+		*/
 	var/dupe_mode = COMPONENT_DUPE_HIGHLANDER
 
 	/**
-	  * The type to check for duplication
-	  *
-	  * `null` means exact match on `type` (default)
-	  *
-	  * Any other type means that and all subtypes
-	  */
+		* The type to check for duplication
+		*
+		* `null` means exact match on `type` (default)
+		*
+		* Any other type means that and all subtypes
+		*/
 	var/dupe_type
 
 	/// The datum this components belongs to
 	var/datum/parent
 
 	/**
-	  * Only set to true if you are able to properly transfer this component
-	  *
-	  * At a minimum [RegisterWithParent][/datum/component/proc/RegisterWithParent] and [UnregisterFromParent][/datum/component/proc/UnregisterFromParent] should be used
-	  *
-	  * Make sure you also implement [PostTransfer][/datum/component/proc/PostTransfer] for any post transfer handling
-	  */
+		* Only set to true if you are able to properly transfer this component
+		*
+		* At a minimum [RegisterWithParent][/datum/component/proc/RegisterWithParent] and [UnregisterFromParent][/datum/component/proc/UnregisterFromParent] should be used
+		*
+		* Make sure you also implement [PostTransfer][/datum/component/proc/PostTransfer] for any post transfer handling
+		*/
 	var/can_transfer = FALSE
 
 /**
@@ -225,9 +225,9 @@
  * * sig_typeor_types Signal string key or list of signal keys to stop listening to specifically
  */
 /datum/proc/UnregisterSignal(datum/target, sig_type_or_types)
-	if (!target || !istype(target) || !target:comp_lookup) //Delinefortune:  If the target is null or not a valid type, we can't unregister
+	if (!target || !istype(target) || !target:comp_lookup) //Delinefortune:	If the target is null or not a valid type, we can't unregister
 		return
-	var/list/lookup = target.comp_lookup  
+	var/list/lookup = target.comp_lookup
 	if(!signal_procs || !signal_procs[target] || !lookup)
 		return
 	if(!islist(sig_type_or_types))

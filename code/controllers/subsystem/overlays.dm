@@ -50,10 +50,10 @@ SUBSYSTEM_DEF(overlays)
 		if(istext(overlay))
 			// This is too expensive to run normally but running it during CI is a good test
 			// if(PERFORM_ALL_TESTS(focus_only/invalid_overlays))
-			// 	if(!icon_exists(icon, overlay))
-			// 		var/icon_file = "[icon]" || "Unknown Generated Icon"
-			// 		stack_trace("Invalid overlay: Icon object '[icon_file]' [REF(icon)] used in '[src]' [type] is missing icon state [overlay].")
-			// 		continue
+			//	if(!icon_exists(icon, overlay))
+			//		var/icon_file = "[icon]" || "Unknown Generated Icon"
+			//		stack_trace("Invalid overlay: Icon object '[icon_file]' [REF(icon)] used in '[src]' [type] is missing icon state [overlay].")
+			//		continue
 			build_overlays -= overlay
 			build_overlays += iconstate2appearance(icon, overlay)
 		else if(isicon(overlay))

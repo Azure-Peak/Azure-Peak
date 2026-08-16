@@ -54,12 +54,40 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/clothing/mask/rogue/spectacles/fancy
+	name = "fancy spectacles"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares."
+	icon_state = "glassesb"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/fancy_dark
+	name = "fancy spectacles (dark)"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares. These have a darker tint to their lenses."
+	icon_state = "glassesb_dark"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
 /obj/item/clothing/mask/rogue/faceveil
 	name = "simple veil"
-	icon_state = "faceveil"
 	desc = "A remarkably plain veil meant to conceal ones face... if you wore this, a gust of wind would be all it takes to reveal your identity."
+	icon_state = "faceveil"
+	flags_inv = HIDEFACE|HIDESNOUT
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
 	grid_width = 32
 	grid_height = 32
+
+/obj/item/clothing/mask/rogue/faceveil/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
 /obj/item/clothing/mask/rogue/spectacles/inq
 	name = "otavan nocshade lens-pair"
@@ -157,7 +185,7 @@
 	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it."
 	icon_state = "sglasses"
 
-/obj/item/clothing/mask/rogue/spectacles/Initialize()
+/obj/item/clothing/mask/rogue/spectacles/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/spill, null, 'sound/blank.ogg')
 
@@ -784,7 +812,7 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 
-// Duelist Goggles = New invention that protects your eyes against critical hits +  doesn't hide your identity
+// Duelist Goggles = New invention that protects your eyes against critical hits +	doesn't hide your identity
 
 /obj/item/clothing/mask/rogue/spectacles/duelist
 	name = "iron duelist goggles"
@@ -902,3 +930,25 @@
 
 /obj/item/clothing/mask/rogue/facemask/maille/fluted/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/chain_equip.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
+
+/obj/item/clothing/mask/rogue/spectacles/fancy
+	name = "fancy spectacles"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares."
+	icon_state = "glassesb"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/fancy_dark
+	name = "fancy spectacles (dark)"
+	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares. These have a darker tint to their lenses."
+	icon_state = "glassesb_dark"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 30
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE

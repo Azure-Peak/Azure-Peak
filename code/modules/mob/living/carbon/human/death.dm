@@ -83,7 +83,7 @@
 
 	if(client || mind)
 		record_round_statistic(STATS_DEATHS)
-		var/area_of_death = lowertext(get_area_name(src))
+		var/area_of_death = LOWER_TEXT(get_area_name(src))
 		if(area_of_death == "wilderness")
 			record_round_statistic(STATS_FOREST_DEATHS)
 		if(is_noble())

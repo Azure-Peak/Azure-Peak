@@ -35,7 +35,7 @@
 #define TELEPATHY	/datum/mutation/human/telepathy
 #define FIREBREATH	/datum/mutation/human/firebreath
 #define VOID		/datum/mutation/human/void
-#define STRONG    	/datum/mutation/human/strong
+#define STRONG		/datum/mutation/human/strong
 #define FIRESWEAT	/datum/mutation/human/fire
 #define THERMAL		/datum/mutation/human/thermal
 #define PARANOIA	/datum/mutation/human/paranoia
@@ -58,7 +58,7 @@
 // String identifiers for associative list lookup
 
 //Types of usual mutations
-#define	POSITIVE 			1
+#define	POSITIVE			1
 #define	NEGATIVE			2
 #define	MINOR_NEGATIVE		4
 
@@ -119,7 +119,7 @@
 #define DIGITIGRADE		10
 #define NO_UNDERWEAR	11
 #define NOSTOMACH		12
-#define NO_DNA_COPY     13
+#define NO_DNA_COPY		13
 #define DRINKSBLOOD		14
 /// Use this if you want to change the race's color without the player being able to pick their own color. AKA special color shifting
 #define DYNCOLORS		15
@@ -134,8 +134,8 @@
 #define NO_BODYPART_FEATURES			23
 
 //organ defines
-#define STANDARD_ORGAN_THRESHOLD 	100
-#define STANDARD_ORGAN_HEALING 		0.001
+#define STANDARD_ORGAN_THRESHOLD	100
+#define STANDARD_ORGAN_HEALING		0.001
 /// designed to fail organs when left to decay for ~15 minutes
 #define STANDARD_ORGAN_DECAY		0.00222
 

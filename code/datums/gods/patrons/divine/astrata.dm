@@ -6,13 +6,13 @@
 	mob_traits = list(TRAIT_APRICITY)
 	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
 					/datum/action/cooldown/spell/miracle/ignition/astrata	= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal		 		= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
 					/datum/action/cooldown/spell/astrata/astrata_gaze		= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/sacred_flame	= CLERIC_T2,
 					/datum/action/cooldown/spell/miracle/fortify/astrata	= CLERIC_T2,
-					/datum/action/cooldown/spell/astrata/miracle_pyre    	= CLERIC_T3,
-					/datum/action/cooldown/spell/astrata/firecloak		    = CLERIC_T3,
+					/datum/action/cooldown/spell/astrata/miracle_pyre		= CLERIC_T3,
+					/datum/action/cooldown/spell/astrata/firecloak			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/revive			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/immolation		= CLERIC_T4,
 	)
@@ -49,12 +49,12 @@
 	return FALSE
 
 /datum/patron/divine/astrata/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("A wreath of gentle light passes over [target]!")
 	*message_self = ("I'm bathed in holy light!")

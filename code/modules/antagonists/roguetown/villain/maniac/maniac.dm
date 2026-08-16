@@ -208,7 +208,7 @@
 	else
 		INVOKE_ASYNC(src, PROC_REF(cant_wake_up), dreamer)
 	sleep(15 SECONDS)
-	to_chat(world, span_deadsay("<span class='reallybig'>The Maniac has TRIUMPHED!</span>"))
+	to_world(span_deadsay("<span class='reallybig'>The Maniac has TRIUMPHED!</span>"))
 	SSticker.declare_completion()
 
 /datum/antagonist/maniac/proc/agony(mob/living/carbon/dreamer)
@@ -269,13 +269,13 @@
 		for(var/datum/objective/objective in objectives)
 			objective.update_explanation_text()
 			if(objective.check_completion())
-				to_chat(world, "<B>Goal #[count]</B>: [objective.explanation_text] <span class='greentext'>TRIUMPH!</span>")
+				to_world("<B>Goal #[count]</B>: [objective.explanation_text] <span class='greentext'>TRIUMPH!</span>")
 			else
-				to_chat(world, "<B>Goal #[count]</B>: [objective.explanation_text] <span class='redtext'>Failure.</span>")
+				to_world("<B>Goal #[count]</B>: [objective.explanation_text] <span class='redtext'>Failure.</span>")
 				traitorwin = FALSE
 			count += objective.triumph_count
 
-	var/special_role_text = lowertext(name)
+	var/special_role_text = LOWER_TEXT(name)
 
 	if(!considered_alive(owner))
 		traitorwin = FALSE
@@ -284,10 +284,10 @@
 		if(count)
 			if(owner)
 				owner.adjust_triumphs(count)
-		to_chat(world, span_greentext("The [special_role_text] has TRIUMPHED!"))
+		to_world(span_greentext("The [special_role_text] has TRIUMPHED!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 100, FALSE, pressure_affected = FALSE)
 	else
-		to_chat(world, span_redtext("The [special_role_text] has FAILED!"))
+		to_world(span_redtext("The [special_role_text] has FAILED!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 100, FALSE, pressure_affected = FALSE)

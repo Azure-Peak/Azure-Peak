@@ -34,8 +34,8 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //flavour and useful for making armour
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
-    )
+		"Sewing Kit" =	/obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
+	)
 	extra_context = "This subclass gains addition stat points from weapon selection, and is race-limited from: Constructs."
 	adv_stat_ceiling = list(STAT_STRENGTH = 14, STAT_CONSTITUTION = 14, STAT_WILLPOWER = 14) //no thank you to stat stacking
 
@@ -81,8 +81,8 @@
 					shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //dwarves like to blow up my patience
 			if("Enchanted Inks")
 				neck = /obj/item/clothing/neck/roguetown/leather
-				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker //a full-body leather armor.
-				shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/easttats/mistwalker/chest //another chest-only leather armor.
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/mistwalker //a full-body leather armor with 150% integ.
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats/mistwalker //another chest-only leather armor.
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				ADD_TRAIT(H, TRAIT_HONORBOUND, TRAIT_GENERIC)

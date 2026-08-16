@@ -153,7 +153,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	. += span_info("Stones can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for stones include tools and pots.")
 
-/obj/item/natural/stone/Initialize()
+/obj/item/natural/stone/Initialize(mapload)
 	. = ..()
 	stone_lore()
 	update_force_dynamic() // Else it will not display the force properly.
@@ -199,7 +199,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	. += span_info("Whetstones can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for whestones include tools, and - if used with hunting knives and farming tools - unique weapons.")
 
-/obj/item/natural/whetstone/Initialize()
+/obj/item/natural/whetstone/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/peasantry/thresher/whetstone,
@@ -557,7 +557,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	icon_state = "dungeon_rock"
 
 // actually random
-/obj/item/natural/rock/random_ore/Initialize()
+/obj/item/natural/rock/random_ore/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/rock/theboi = pick(list(
 		/obj/item/natural/rock/copper,
@@ -576,7 +576,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've got a pretty high chance for good stuff.
 - MUMBLEMANCER
 */
-/obj/item/natural/rock/dungeon/Initialize()
+/obj/item/natural/rock/dungeon/Initialize(mapload)
 	. = ..()
 	// The amounts are going to be weird BC I wanted a % out of 100 and it's a 7 layer list.
 	// I am considering gems to be less problematic than gold BC gold can be melted into way more

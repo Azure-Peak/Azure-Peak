@@ -64,7 +64,7 @@
 /datum/supply_pack/rogue/Sellsword/steelcuirass
 	name = "Steel Cuirass"
 	cost = 50
-	contains =  list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
+	contains =	list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass)
 
 ///////////////////
 // WRISTS/GLOVES //
@@ -174,7 +174,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/grenzel)
 
-/obj/structure/closet/crate/chest/bandit/grenzel/Initialize()
+/obj/structure/closet/crate/chest/bandit/grenzel/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/grenzelhofthat(src)
 	new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel(src)
@@ -189,7 +189,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/otavan)
 
-/obj/structure/closet/crate/chest/bandit/otavan/Initialize()
+/obj/structure/closet/crate/chest/bandit/otavan/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/otavan(src)
 	new /obj/item/clothing/suit/roguetown/armor/plate/otavan(src)
@@ -204,7 +204,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/etruscan)
 
-/obj/structure/closet/crate/chest/bandit/etruscan/Initialize()
+/obj/structure/closet/crate/chest/bandit/etruscan/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan(src)
 	new /obj/item/clothing/suit/roguetown/armor/brigandine(src)
@@ -219,7 +219,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/forlorn)
 
-/obj/structure/closet/crate/chest/bandit/forlorn/Initialize()
+/obj/structure/closet/crate/chest/bandit/forlorn/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/light(src)
 	new /obj/item/clothing/neck/roguetown/gorget/forlorncollar(src)
@@ -233,7 +233,7 @@
 	cost = 350
 	contains = list(/obj/structure/closet/crate/chest/bandit/longsword)
 
-/obj/structure/closet/crate/chest/bandit/longsword/Initialize()
+/obj/structure/closet/crate/chest/bandit/longsword/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/sallet/visored(src)
 	new /obj/item/clothing/neck/roguetown/bevor(src)

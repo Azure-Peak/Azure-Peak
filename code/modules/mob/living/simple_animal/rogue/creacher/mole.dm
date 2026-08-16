@@ -43,8 +43,8 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, 
-	//obj/item/bodypart, 
+	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
+	//obj/item/bodypart,
 	//obj/item/organ
 	)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
@@ -62,7 +62,7 @@
 	aggressive = 1
 //	stat_attack = UNCONSCIOUS
 	remains_type = /obj/effect/decal/remains/mole
-	
+
 
 //new ai, old ai off
 	AIStatus = AI_OFF
@@ -76,7 +76,7 @@
 	icon_state = "mole_bones"
 	icon = 'icons/roguetown/mob/monster/mole.dmi'
 
-/mob/living/simple_animal/hostile/retaliate/rogue/mole/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/mole/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE

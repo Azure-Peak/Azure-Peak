@@ -267,7 +267,7 @@
 			poll_time = 20 SECONDS,
 			group = candidates,
 			alert_pic = antag_datum,
-			role_name_text = lowertext(cast_control.name),
+			role_name_text = LOWER_TEXT(cast_control.name),
 			chat_text_border_icon = antag_datum,
 		)
 	*/

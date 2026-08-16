@@ -72,17 +72,17 @@
 	attack_sound = list('sound/mobs/abyssal/abyssal_attack.ogg','sound/mobs/abyssal/abyssal_attack2.ogg')
 
 /mob/living/simple_animal/hostile/rogue/dreamfiend/get_sound(input)
-    switch(input)
-        if("aggro")
-            return pick('sound/mobs/abyssal/abyssal_aggro.ogg')
-        if("pain")
-            return pick('sound/mobs/abyssal/abyssal_pain.ogg')
-        if("death")
-            return pick('sound/mobs/abyssal/abyssal_pain.ogg')
-        if("idle")
-            return pick('sound/mobs/abyssal/abyssal_idle.ogg')
+	switch(input)
+		if("aggro")
+			return pick('sound/mobs/abyssal/abyssal_aggro.ogg')
+		if("pain")
+			return pick('sound/mobs/abyssal/abyssal_pain.ogg')
+		if("death")
+			return pick('sound/mobs/abyssal/abyssal_pain.ogg')
+		if("idle")
+			return pick('sound/mobs/abyssal/abyssal_idle.ogg')
 
-/mob/living/simple_animal/hostile/rogue/dreamfiend/Initialize()
+/mob/living/simple_animal/hostile/rogue/dreamfiend/Initialize(mapload)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
@@ -91,7 +91,7 @@
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 
-/mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/Initialize()
+/mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/Initialize(mapload)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -109,7 +109,7 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	. = ..()
 
-/mob/living/simple_animal/hostile/rogue/dreamfiend/proc/blink_to_target(var/mob/target)
+/mob/living/simple_animal/hostile/rogue/dreamfiend/proc/blink_to_target(mob/target)
 	if(world.time < next_blink || QDELETED(target) || target.stat == DEAD)
 		return FALSE
 

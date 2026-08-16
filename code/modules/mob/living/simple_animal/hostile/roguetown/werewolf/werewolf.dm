@@ -66,7 +66,7 @@
 	ai_controller = /datum/ai_controller/volf
 	melee_cooldown = WOLF_ATTACK_SPEED
 
-/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	regenerate_icons()
@@ -81,7 +81,7 @@
 	icon_living = "wwolf_f"
 	gender = FEMALE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/f/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/f/Initialize(mapload)
 	. = ..()
 	regenerate_icons()
 	regenerate_icons()

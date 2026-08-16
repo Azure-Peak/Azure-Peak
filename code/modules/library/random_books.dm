@@ -1,7 +1,7 @@
 /obj/item/book/manual/random
 	icon_state = "random_book"
 
-/obj/item/book/manual/random/Initialize()
+/obj/item/book/manual/random/Initialize(mapload)
 	..()
 
 	var/list/types = subtypesof(/obj/item/book/manual)
@@ -20,7 +20,7 @@
 	var/amount = 1
 	var/category = null
 
-/obj/item/book/random/Initialize()
+/obj/item/book/random/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 

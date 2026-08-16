@@ -2,7 +2,7 @@
 	title = "Court Agent"
 	flag = COURTAGENT
 	display_order = JDO_COURTAGENT
-	
+
 	total_positions = 2
 	spawn_positions = 2
 	round_contrib_points = 2
@@ -27,7 +27,7 @@
 				add_verb(H, /datum/job/roguetown/adventurer/courtagent/proc/remember_employer)
 			..()
 
-/datum/job/roguetown/adventurer/courtagent/proc/know_employer(var/mob/living/carbon/human/H)
+/datum/job/roguetown/adventurer/courtagent/proc/know_employer(mob/living/carbon/human/H)
 	if(!GLOB.court_spymaster.len)
 		to_chat(H, span_boldnotice("You begun the week with no spymaster."))
 	else

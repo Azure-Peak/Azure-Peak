@@ -168,7 +168,7 @@
 	if (!User)
 		return
 
-	var/output =  {"<center><b>[Message]</b></center><br />
+	var/output =	{"<center><b>[Message]</b></center><br />
 		<div style="text-align:center">
 		<a style="font-size:large;float:[( Button2 ? "left" : "right" )]" href="?src=[REF(src)];button=1">[Button1]</a>"}
 
@@ -271,7 +271,7 @@
 	if (!User)
 		return
 
-	var/output =  {"<form><input type="hidden" name="src" value="[REF(src)]"><ul class="sparse">"}
+	var/output =	{"<form><input type="hidden" name="src" value="[REF(src)]"><ul class="sparse">"}
 	if (inputtype == "checkbox" || inputtype == "radio")
 		for (var/i in values)
 			var/div_slider = slidecolor
@@ -469,7 +469,7 @@
 //
 // windowid should be the specified window name
 // e.g. code is	: user << browse(text, "window=fred")
-// then use 	: onclose(user, "fred")
+// then use	: onclose(user, "fred")
 //
 // Optionally, specify the "ref" parameter as the controlled atom (usually src)
 // to pass a "close=1" parameter to the atom's Topic() proc for special handling.

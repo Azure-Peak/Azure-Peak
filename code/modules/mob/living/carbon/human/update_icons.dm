@@ -1536,14 +1536,14 @@ There are several things that need to be remembered:
 /proc/wear_female_version(t_color, icon, layer, type)
 	var/index = t_color
 	var/icon/female_clothing_icon = GLOB.female_clothing_icons[index]
-	if(!female_clothing_icon) 	//Create standing/laying icons if they don't exist
+	if(!female_clothing_icon)	//Create standing/laying icons if they don't exist
 		generate_female_clothing(index,t_color,icon,type)
 	return mutable_appearance(GLOB.female_clothing_icons[t_color], layer = -layer)
 
 /proc/wear_dismembered_version(t_color, icon, layer, sleeveindex, type)
 	var/index = "[t_color][sleeveindex]"
 	var/icon/clothing_icon = GLOB.dismembered_clothing_icons[index]
-	if(!clothing_icon) 	//Create standing/laying icons if they don't exist
+	if(!clothing_icon)	//Create standing/laying icons if they don't exist
 		generate_dismembered_clothing(index,t_color,icon,sleeveindex, type)
 	return mutable_appearance(GLOB.dismembered_clothing_icons[index], layer = -layer)
 
@@ -1621,10 +1621,10 @@ There are several things that need to be remembered:
 /*
 Does everything in relation to building the /mutable_appearance used in the mob's overlays list
 covers:
- inhands and any other form of worn item
- centering large appearances
- layering appearances on custom layers
- building appearances from custom icon files
+	inhands and any other form of worn item
+	centering large appearances
+	layering appearances on custom layers
+	building appearances from custom icon files
 
 By Remie Richards (yes I'm taking credit because this just removed 90% of the copypaste in update_icons())
 
@@ -1643,7 +1643,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 
 */
-/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, var/icon/clip_mask = null)
+/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
 	var/t_state
 	var/sleevejazz = sleevetype
 	if(override_state)
@@ -1753,7 +1753,7 @@ generate/load female uniform sprites matching all previously decided variables
 				clothing_icon = icon(file2use, t_state)
 			if(boobed_overlay && boobed)
 				clothing_icon.Blend(icon(file2use, "[t_state]_boob"), ICON_OVERLAY)
-			clothing_icon.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
+			clothing_icon.Blend("#fff", ICON_ADD)			//fills the icon_state with white (except where it's transparent)
 			clothing_icon.Blend(icon(bloody_icon, bloody_icon_state), ICON_MULTIPLY) //adds blood and the remaining white areas become transparant
 			clothing_icon.Blend(blood_color, ICON_MULTIPLY) //tint the white blood mask to the source colour
 			bloody_onmob[cache_key] = fcopy_rsc(clothing_icon)
@@ -1869,7 +1869,7 @@ generate/load female uniform sprites matching all previously decided variables
 			var/icon/blood_overlay = bloody_r[cache_key]
 			if(!blood_overlay)
 				blood_overlay = icon(I.sleeved, used)
-				blood_overlay.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
+				blood_overlay.Blend("#fff", ICON_ADD)			//fills the icon_state with white (except where it's transparent)
 				blood_overlay.Blend(icon(I.bloody_icon, I.bloody_icon_state), ICON_MULTIPLY) //adds blood and the remaining white areas become transparant
 				blood_overlay.Blend(blood_color, ICON_MULTIPLY) //tint the white blood mask to the source colour
 				bloody_r[cache_key] = fcopy_rsc(blood_overlay)
@@ -1898,7 +1898,7 @@ generate/load female uniform sprites matching all previously decided variables
 			var/icon/blood_overlay = bloody_l[cache_key]
 			if(!blood_overlay)
 				blood_overlay = icon(I.sleeved, used)
-				blood_overlay.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
+				blood_overlay.Blend("#fff", ICON_ADD)			//fills the icon_state with white (except where it's transparent)
 				blood_overlay.Blend(icon(I.bloody_icon, I.bloody_icon_state), ICON_MULTIPLY) //adds blood and the remaining white areas become transparant
 				blood_overlay.Blend(blood_color, ICON_MULTIPLY) //tint the white blood mask to the source colour
 				bloody_l[cache_key] = fcopy_rsc(blood_overlay)

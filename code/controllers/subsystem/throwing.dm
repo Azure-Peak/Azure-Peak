@@ -162,7 +162,7 @@ SUBSYSTEM_DEF(throwing)
 					return //deletion should already be handled by on_thrownthing_qdel()
 				break
 		if (!hit)
-			thrownthing.throw_impact(get_turf(thrownthing), src)  // we haven't hit something yet and we still must, let's hit the ground.
+			thrownthing.throw_impact(get_turf(thrownthing), src)	// we haven't hit something yet and we still must, let's hit the ground.
 			if(QDELETED(thrownthing)) //throw_impact can delete things, such as glasses smashing
 				return //deletion should already be handled by on_thrownthing_qdel()
 

@@ -70,8 +70,8 @@
 		// var/target_role = L.job
 		var/is_valid_prey = is_hunted
 		// if(!is_valid_prey)
-		// 	if(target_role in combat_roles)
-		// 		is_valid_prey = TRUE
+		//	if(target_role in combat_roles)
+		//		is_valid_prey = TRUE
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
 			possible_targets[entry_name] = L
@@ -231,7 +231,7 @@
 	var/death_loot_given = FALSE
 	var/channeling_abduction = FALSE
 
-/datum/component/gnoll_combat_tracker/Initialize()
+/datum/component/gnoll_combat_tracker/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))

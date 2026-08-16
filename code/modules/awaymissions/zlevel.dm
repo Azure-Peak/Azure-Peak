@@ -3,10 +3,10 @@ GLOBAL_LIST_INIT(potentialRandomZlevels, generateMapList(filename = "[global.con
 
 /proc/createRandomZlevel()
 	if(GLOB.potentialRandomZlevels && GLOB.potentialRandomZlevels.len)
-		to_chat(world, "<span class='boldannounce'>Loading away mission...</span>")
+		to_world("<span class='boldannounce'>Loading away mission...</span>")
 		var/map = pick(GLOB.potentialRandomZlevels)
 		load_new_z_level(map, "Away Mission")
-		to_chat(world, "<span class='boldannounce'>Away mission loaded.</span>")
+		to_world("<span class='boldannounce'>Away mission loaded.</span>")
 
 /obj/effect/landmark/awaystart
 	name = "away mission spawn"
@@ -32,10 +32,10 @@ GLOBAL_LIST_INIT(potentialRandomZlevels, generateMapList(filename = "[global.con
 		var/name = null
 
 		if (pos)
-			name = lowertext(copytext(t, 1, pos))
+			name = LOWER_TEXT(copytext(t, 1, pos))
 
 		else
-			name = lowertext(t)
+			name = LOWER_TEXT(t)
 
 		if (!name)
 			continue

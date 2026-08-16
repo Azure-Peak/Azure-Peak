@@ -122,7 +122,7 @@
 /datum/crafting_recipe/roguetown/turfs/carpet
 	name = "carpet(inn)"
 	result = /turf/open/floor/carpet/inn
-	reqs = list(/obj/item/natural/silk= 2)	
+	reqs = list(/obj/item/natural/silk= 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -132,7 +132,7 @@
 /datum/crafting_recipe/roguetown/turfs/carpet/purple
 	name = "carpet(purple)"
 	result = /turf/open/floor/carpet/purple
-	reqs = list(/obj/item/natural/silk= 2)	
+	reqs = list(/obj/item/natural/silk= 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -142,7 +142,7 @@
 /datum/crafting_recipe/roguetown/turfs/carpet/red
 	name = "carpet(red)"
 	result = /turf/open/floor/carpet/red
-	reqs = list(/obj/item/natural/silk= 2)	
+	reqs = list(/obj/item/natural/silk= 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -152,7 +152,7 @@
 /datum/crafting_recipe/roguetown/turfs/carpet/stellar
 	name = "carpet(stellar)"
 	result = /turf/open/floor/carpet/stellar
-	reqs = list(/obj/item/natural/silk= 2)	
+	reqs = list(/obj/item/natural/silk= 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -162,7 +162,7 @@
 /datum/crafting_recipe/roguetown/turfs/carpet/royalblack
 	name = "carpet(royal black)"
 	result = /turf/open/floor/carpet/royalblack
-	reqs = list(/obj/item/natural/silk= 2)	
+	reqs = list(/obj/item/natural/silk= 2)
 	skillcraft = /datum/skill/craft/carpentry
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -345,10 +345,10 @@
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/roguewindow/openclose/reinforced/brick
 	reqs = list(
-	  /obj/item/natural/brick = 2,
-	  /obj/item/ingot/iron = 1,
-	  /obj/item/natural/glass = 1,
-	  /obj/item/natural/dirtclod = 1,
+		/obj/item/natural/brick = 2,
+		/obj/item/ingot/iron = 1,
+		/obj/item/natural/glass = 1,
+		/obj/item/natural/dirtclod = 1,
 	)
 	skillcraft = /datum/skill/craft/blacksmithing
 	craftsound = 'sound/items/bsmith1.ogg'
@@ -378,10 +378,10 @@
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/roguewindow/openclose
 	reqs = list(
-	  /obj/item/grown/log/tree/small = 2,
-	  /obj/item/natural/stone = 1,
-	  /obj/item/natural/glass = 1,
-	  /obj/item/natural/dirtclod = 1,
+		/obj/item/grown/log/tree/small = 2,
+		/obj/item/natural/stone = 1,
+		/obj/item/natural/glass = 1,
+		/obj/item/natural/dirtclod = 1,
 	)
 	skillcraft = /datum/skill/craft/carpentry
 	craftsound = 'sound/foley/Building-01.ogg'
@@ -408,7 +408,7 @@
 	craftdiff = 2
 	adminlog = TRUE
 	category = "Windows"
-	
+
 /// HAY, TWIG AND TENT
 
 /datum/crafting_recipe/roguetown/turfs/hay
@@ -467,7 +467,7 @@
 	reqs = list(/obj/item/grown/log/tree/stick = 1,
 				/obj/item/natural/cloth = 1)
 	skillcraft = /datum/skill/craft/crafting
-	verbage_simple = "set up"	
+	verbage_simple = "set up"
 	verbage = "sets up"
 	craftdiff = 1
 	adminlog = TRUE
