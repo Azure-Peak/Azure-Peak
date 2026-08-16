@@ -146,7 +146,6 @@
 /area/rogue/under/underdark/north)
 "abz" = (
 /obj/structure/closet/crate/chest/neu_fancy,
-/obj/item/rogueweapon/katar/abyssor,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
@@ -15030,6 +15029,7 @@
 /area/rogue/under/cave/menageriedungeon)
 "cPc" = (
 /obj/structure/table/wood/fancy/blue,
+/obj/item/rogueweapon/katar/abyssor,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
 "cPd" = (
@@ -24433,7 +24433,7 @@
 /area/rogue/indoors/inq/embassy)
 "ezC" = (
 /obj/effect/landmark/start/tailor,
-/turf/open/floor/carpet/royalblack,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/dwarfin)
 "ezE" = (
 /obj/machinery/light/rogue/oven/north,
@@ -46597,7 +46597,7 @@
 /obj/machinery/light/rogue/candle/l{
 	pixel_y = 32
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
 "iBk" = (
 /turf/open/transparent/openspace,
@@ -67014,7 +67014,7 @@
 /area/rogue/outdoors/rtfield)
 "mdV" = (
 /obj/structure/fluff/railing/border/north,
-/turf/open/floor/carpet/royalblack,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/dwarfin)
 "mdW" = (
 /obj/machinery/light/rogue/torchholder/r,
@@ -73687,6 +73687,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"nrG" = (
+/obj/structure/roguemachine/withdraw,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/dwarfin)
 "nrJ" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 4;
@@ -79119,6 +79123,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
+/obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "ory" = (
@@ -145715,8 +145720,8 @@ bhJ
 bhJ
 bhJ
 bhJ
-miF
-qHj
+htN
+htN
 htN
 htN
 htN
@@ -291742,7 +291747,7 @@ qUb
 iBh
 bPy
 aeh
-dtV
+aeh
 kEU
 smL
 iTw
@@ -407915,7 +407920,7 @@ ryO
 ryO
 kXy
 kXy
-eyK
+nrG
 dtV
 cqj
 fsx
