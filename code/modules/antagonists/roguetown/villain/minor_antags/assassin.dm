@@ -85,7 +85,7 @@
 
 /datum/antagonist/assassin/roundend_report()
 	var/traitorwin = FALSE
-	for(var/obj/item/I in owner.current.GetAllContents()) // Check to see if the Assassin has their profane dagger on them, and then check the souls contained therein.
+	for(var/obj/item/I in owner.current.get_all_gear()) // Check to see if the Assassin has their profane dagger on them, and then check the souls contained therein.
 		if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
 			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = I
 			for(var/datum/profane_soul_data/soul in pissdagger.stored_souls) // Each trapped soul is announced to the server
