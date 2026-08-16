@@ -1,5 +1,5 @@
 /datum/ai_planning_subtree/archer_base/proc/validate_archer_equipment(datum/ai_controller/controller)
-	var/mob/living/living_pawn = controller.pawn
+	var/mob/living/carbon/human/living_pawn = controller.pawn
 	if(world.time < controller.blackboard[BB_ARCHER_NPC_EQUIPMENT_CACHE_EXPIRY])
 		var/obj/item/gun/ballistic/revolver/grenadelauncher/cached_bow = controller.blackboard[BB_ARCHER_NPC_BOW]
 		var/obj/item/quiver/cached_quiver = controller.blackboard[BB_ARCHER_NPC_QUIVER]

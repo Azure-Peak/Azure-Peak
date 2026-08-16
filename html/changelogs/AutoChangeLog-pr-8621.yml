@@ -1,0 +1,6 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - qol: "roaches auto-spit when ur done smoking a zig"
+  - rscdel: "removed trippy zigs and old zigbox code"
+  - bugfix: "non-clothing items will show a line abt them in examine now. or whatever. i cant word this good you can tell if a guy has a knife in their mouth"

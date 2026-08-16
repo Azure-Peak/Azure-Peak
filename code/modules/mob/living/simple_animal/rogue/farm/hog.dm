@@ -68,6 +68,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
+	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/get_sound(input)
 	switch(input)
@@ -99,7 +100,6 @@
 	STACON = 5
 	STASTR = 5
 	STASPD = 2
-	defprob = 50
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/swine
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/simple_limb_hit(zone)

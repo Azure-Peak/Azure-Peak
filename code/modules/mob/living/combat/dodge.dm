@@ -1,6 +1,39 @@
+/mob/living/simple_animal
+	// Pseudo dodge expert system for simple animals that let you exhausts them with normal attacks
+	var/dodge_fatigue = 0
+	var/dodge_fatigue_updated = 0
+	var/winded_until = 0
+
+/mob/living/simple_animal/proc/is_winded()
+	return world.time < winded_until
+
+/mob/living/simple_animal/proc/current_dodge_fatigue()
+	if(dodge_fatigue <= 0)
+		return 0
+	var/idle = world.time - dodge_fatigue_updated - SIMPLEMOB_DODGE_RECOVERY_DELAY
+	if(idle <= 0)
+		return dodge_fatigue
+	dodge_fatigue = max(0, dodge_fatigue - round((idle / 10) * SIMPLEMOB_DODGE_FATIGUE_REGEN, 1))
+	dodge_fatigue_updated = world.time
+	return dodge_fatigue
+
+/mob/living/simple_animal/proc/spend_dodge_reserve()
+	dodge_fatigue = min(current_dodge_fatigue() + SIMPLEMOB_DODGE_FATIGUE_PER_DODGE, SIMPLEMOB_DODGE_FATIGUE_MAX)
+	dodge_fatigue_updated = world.time
+	if(dodge_fatigue < SIMPLEMOB_DODGE_FATIGUE_MAX)
+		return
+	winded_until = world.time + SIMPLEMOB_WINDED_DURATION
+	dodge_fatigue = 0
+	visible_message(span_boldwarning("[src] is winded!"))
+	balloon_alert_to_viewers("<font color='#ff3b3b'>winded!</font>")
+
 /mob/living/proc/attempt_dodge(datum/intent/intenty, mob/living/user)
 	if(pulledby || pulling)
 		return FALSE
+	if(isanimal(src))
+		var/mob/living/simple_animal/beast = src
+		if(beast.is_winded())
+			return FALSE
 	if(world.time < last_dodge + dodgetime)
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/riposted))
@@ -76,29 +109,44 @@
 			return FALSE
 	return TRUE
 
-// origin is used for multi-step dodges like jukes
-/mob/living/proc/get_dodge_destinations(mob/living/attacker, atom/origin = src)
-	var/dodge_dir = get_dir(attacker, origin)
-	if(!dodge_dir) // dir is 0, so we're on the same tile.
-		return null
-	var/list/dirry = list(turn(dodge_dir, -90), dodge_dir, turn(dodge_dir, 90))
-	// pick a random dir
-	var/list/turf/dodge_candidates = list()
-	for(var/dir_to_check in dirry)
-		var/turf/dodge_candidate = get_step(origin, dir_to_check)
-		if(!dodge_candidate)
-			continue
-		if(dodge_candidate.density)
-			continue
-		var/has_impassable_atom = FALSE
-		for(var/atom/movable/AM in dodge_candidate)
-			if(!AM.CanPass(src, dodge_candidate))
-				has_impassable_atom = TRUE
-				break
-		if(has_impassable_atom)
-			continue
-		dodge_candidates += dodge_candidate
-	return dodge_candidates
+/mob/living/proc/combat_sidestep(atom/target, list/offsets, prefer_flank = FALSE)
+	if(QDELETED(target) || !isturf(loc) || !isturf(target.loc))
+		return FALSE
+	if(!(mobility_flags & MOBILITY_STAND))
+		return FALSE
+	var/target_dir = get_dir(src, target)
+	if(!target_dir)
+		return FALSE
+	var/static/list/lateral_offsets = list(-90, -45, 45, 90)
+	if(!length(offsets))
+		offsets = lateral_offsets
+	var/list/candidates = list()
+	for(var/offset in offsets)
+		var/turf/candidate = get_step(src, turn(target_dir, offset))
+		if(check_dodge_turf(candidate))
+			candidates += candidate
+	if(!length(candidates))
+		return FALSE
+	if(prefer_flank && ismob(target))
+		var/mob/victim = target
+		var/list/frontal = list(victim.dir, turn(victim.dir, 45), turn(victim.dir, -45))
+		var/list/flanking = list()
+		for(var/turf/candidate as anything in candidates)
+			if(!(get_dir(victim, candidate) in frontal))
+				flanking += candidate
+		if(length(flanking))
+			candidates = flanking
+	var/turf/step_to = pick(candidates)
+	var/was_fixedeye = fixedeye
+	tempfixeye = TRUE
+	nodirchange = TRUE
+	fixedeye = TRUE
+	Move(step_to, get_dir(src, step_to))
+	nodirchange = FALSE
+	tempfixeye = FALSE
+	fixedeye = was_fixedeye
+	face_atom(target)
+	return TRUE
 
 /mob/proc/do_dodge(mob/user, turf/turfy)
 	if(dodgecd)
@@ -176,6 +224,10 @@
 					prob2defend = prob2defend + (H.get_skill_level(/datum/skill/combat/unarmed) * 10)
 					if(U.STASPD > L.STASPD) //unarmed is inherently swift
 						prob2defend = prob2defend - ((U.STASPD - L.STASPD) * 10)
+			else if(U.skills)
+				var/datum/intent/attacker_intent = U.used_intent
+				var/attacker_skill_type = attacker_intent?.masteritem?.associated_skill || /datum/skill/combat/unarmed
+				prob2defend = prob2defend - (U.get_skill_level(attacker_skill_type) * 10)
 
 
 
@@ -262,11 +314,18 @@
 			to_chat(src, span_warning("I'm too tired to dodge!"))
 			return FALSE
 	else //we are a non human
-		prob2defend = clamp(prob2defend, 5, 90)
+		var/mob/living/simple_animal/beast = isanimal(src) ? src : null
+		prob2defend = SIMPLEMOB_DODGE_BASE + ((L.STASPD - U.STASPD) * SIMPLEMOB_DODGE_PER_SPD)
+		if(I && UH)
+			prob2defend -= UH.get_skill_level(I.associated_skill) * SIMPLEMOB_DODGE_PER_SKILL
+		if(beast)
+			prob2defend -= beast.current_dodge_fatigue()
+		prob2defend = clamp(prob2defend, 5, SIMPLEMOB_DODGE_CAP)
 		if(client?.prefs.showrolls)
 			to_chat(src, span_info("Roll to dodge... [prob2defend]%"))
 		if(!prob(prob2defend))
 			return FALSE
+		beast?.spend_dodge_reserve()
 	dodgecd = TRUE
 	playsound(src, 'sound/combat/dodge.ogg', 100, FALSE)
 	if(!HAS_TRAIT(src, TRAIT_DODGE_NO_MOVE))

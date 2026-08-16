@@ -57,7 +57,7 @@
 		if(!(line_turf in get_hear(cast_range, source_turf)))
 			continue
 		affected_turfs += line_turf
-		new /obj/effect/temp_visual/trap/wither_line(line_turf, strike_delay)
+		new /obj/effect/temp_visual/telegraph/wither_line(line_turf, strike_delay)
 
 	if(!length(affected_turfs))
 		return FALSE
@@ -79,19 +79,14 @@
 				continue
 			L.apply_status_effect(/datum/status_effect/buff/witherd)
 
-/obj/effect/temp_visual/trap/wither_line
+/obj/effect/temp_visual/telegraph/wither_line
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "curse"
 	color = GLOW_COLOR_HEX
-	light_outer_range = 0
 	duration = 1 SECONDS
 	layer = MASSIVE_OBJ_LAYER
+	plane = GAME_PLANE
 	alpha = 70
-
-/obj/effect/temp_visual/trap/wither_line/Initialize(mapload, duration_override)
-	if(duration_override)
-		duration = duration_override
-	. = ..()
 
 /obj/effect/temp_visual/wither_strike
 	icon = 'icons/effects/effects.dmi'

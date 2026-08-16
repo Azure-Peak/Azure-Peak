@@ -1,0 +1,15 @@
+author: "."
+delete-after: True
+changes:
+  - rscadd: "Redid every simple animals in the game at once with breakable limbs and body parts for effects, such as slowdown, damage reduction, disabling abilities or even death. Some of them are gated behind toppling them."
+  - rscadd: "NPC Ranged Attacks now calculate lead and use a formula instead of random spread, incentivizing you to dodge especially perpendicular to the projectile. They are far more likely to miss when you dodge properly"
+  - rscadd: "Simple animals animations and attack telegraph improved, they are also capable of missing melee attacks, just like vs complex NPC"
+  - rscadd: "Simple animals now operate on the same movement system as complex mobs and will respect slowdown and such"
+  - rscadd: "Deadite infection reworked to only take place when a limb is damaged heavily without armor. And can be cured by drinking antidote."
+  - balance: "Remove damage multiplier vs simple animals from nearly all projectiles, except for the crossbow and slurbow and stakers family. Shotstakes is now reduced to 3x instead of 6x."
+  - rscadd: "Shotstakes simple mob multiplier reduced from x6 to x3"
+  - rscadd: "When your projectiles miss your intended zone due to accuracy cap or any other reasons, it will now show the accuracy and where it hit."
+  - rscadd: "Simple animals (And complex NPC, though no one is using that yet) are now capable of specifically designed spells. Find out more IC - note that baiting them into obstacles or guarding will often prove to be highly useful."
+  - rscadd: "Simple animals no longer pick randomly from every single zone equally weighted, which biased them heavily toward biting your head. Instead, based on their sprite's height they bias their attacks to be from the ground, lower body, level, or your head level. Armor accordingly."
+  - rscadd: "Penetrating weapons from the stab, pick and piercing family will now deal extra part damage to simple animals, without affecting their total HP pool. This effect is most pronounced at HEAVY penetration and above."
+  - balance: "Integrity modifier below 1 will reduce part damage of a weapon vs simple animals, to prevent intent like Rend from becoming excessively OP."

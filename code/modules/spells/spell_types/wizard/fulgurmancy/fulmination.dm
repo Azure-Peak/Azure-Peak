@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
 	name = "Fulmination"
 	desc = "Cast down storm on your enemy. Toggle firing mode (Shift+G):\n\
-	Heaven's Strike: Call down a single devastating bolt on a target tile, striking the aimed body part for massive damage - doubled against simple-minded creechurs.\n\
+	Heaven's Strike: Call down a single devastating bolt on a target tile, striking the aimed body part for massive damage.\n\
 	Thunderstrike: Blanket a wide 5x5 area, striking all of it at once for flat damage after a brief warning."
 	button_icon_state = "heavens_strike"
 	sound = 'sound/magic/lightning.ogg'
@@ -35,7 +35,6 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	var/hs_damage = 80
-	var/hs_npc_simple_damage_mult = 2
 	var/hs_telegraph = TELEGRAPH_SKILLSHOT
 
 	var/ts_damage = 60
@@ -85,7 +84,7 @@
 /datum/action/cooldown/spell/fulmination/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	stats += span_info("Damage: [hs_damage] (Heaven's Strike) / [ts_damage] (Thunderstrike, 5x5)")
-	stats += span_info("Firing mode (toggle with Shift+G): Heaven's Strike (single devastating bolt, +100% vs simple creechurs) / Thunderstrike (telegraphed 5x5 blast, flat [ts_damage] damage all at once).")
+	stats += span_info("Firing mode (toggle with Shift+G): Heaven's Strike (single devastating bolt) / Thunderstrike (telegraphed 5x5 blast, flat [ts_damage] damage all at once).")
 	return stats
 
 /datum/action/cooldown/spell/fulmination/cast(atom/cast_on)
@@ -114,7 +113,7 @@
 	return TRUE
 
 /datum/action/cooldown/spell/fulmination/proc/cast_heavens_strike(turf/T)
-	new /obj/effect/temp_visual/trap/thunderstrike(T, hs_telegraph)
+	new /obj/effect/temp_visual/telegraph/thunderstrike(T, hs_telegraph)
 	addtimer(CALLBACK(src, PROC_REF(heavens_strike_damage), T), hs_telegraph)
 
 /datum/action/cooldown/spell/fulmination/proc/heavens_strike_damage(turf/T)
@@ -135,12 +134,10 @@
 			L.visible_message(span_warning("[L] weathers the lightning strike!"))
 			continue
 		var/actual_damage = hs_damage
-		if(!L.mind && !ishuman(L))
-			actual_damage *= hs_npc_simple_damage_mult
 		if(istype(caster) && ishuman(L))
 			arcyne_strike(caster, L, null, actual_damage, target_zone, \
 				BCLASS_BURN, spell_name = "Heaven's Strike", \
-				damage_type = BURN, npc_simple_damage_mult = 1, \
+				damage_type = BURN, \
 				skip_animation = TRUE)
 		else
 			L.electrocute_act(actual_damage, src, 1, SHOCK_NOSTUN)
@@ -151,7 +148,7 @@
 	for(var/turf/T in range(ts_radius, centerpoint))
 		if(!(T in get_hear(ts_radius, centerpoint)))
 			continue
-		new /obj/effect/temp_visual/pillar_warning/fadein(T, ts_telegraph)
+		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, ts_telegraph)
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src), ts_telegraph)
 
@@ -179,7 +176,7 @@
 			if(istype(caster) && !QDELETED(caster) && ishuman(L))
 				arcyne_strike(caster, L, null, damage, pick(random_zones), \
 					BCLASS_BURN, spell_name = spell_name, \
-					damage_type = BURN, npc_simple_damage_mult = 1, \
+					damage_type = BURN, \
 					skip_animation = TRUE)
 			else
 				L.electrocute_act(damage, caster, 1, SHOCK_NOSTUN)

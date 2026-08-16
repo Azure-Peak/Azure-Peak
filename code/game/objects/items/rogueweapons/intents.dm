@@ -199,7 +199,7 @@
 				str +="|[bodyzone2readablezone(part)]|"
 			inspec += str
 	if(intent_intdamage_factor != 1)
-		inspec += "\n<b>Integrity Damage:</b> [intent_intdamage_factor * 100]%"
+		inspec += "\n<b>Integrity[intent_intdamage_factor < 1 ? " / Part" : ""] Damage:</b> [intent_intdamage_factor * 100]%"
 		if(masteritem)
 			inspec += " <span class='info'><a href='?src=[REF(masteritem)];explaindemolitionmod=1'>{?}</a></span>"
 	if(demolition_mod != 1)
@@ -239,6 +239,26 @@
 	inspec += "<br>----------------------"
 
 	to_chat(user, "[inspec.Join()]")
+
+/datum/intent/proc/get_part_damage_factor()
+	return min(1, intent_intdamage_factor)
+
+/datum/intent/proc/out_of_effective_range(atom/target, mob/user)
+	if(!effective_range || !target || !user)
+		return FALSE
+	if(isliving(target))
+		var/mob/living/L = target
+		if(!(L.mobility_flags & MOBILITY_STAND))
+			return FALSE
+	var/dist = get_dist(target, user)
+	switch(effective_range_type)
+		if(EFF_RANGE_EXACT)
+			return dist != effective_range
+		if(EFF_RANGE_ABOVE)
+			return dist < effective_range
+		if(EFF_RANGE_BELOW)
+			return dist > effective_range
+	CRASH("effective_range found without a valid effective_range_type on [type] used by [user]")
 
 /datum/intent/proc/get_chargetime()
 	if(chargetime)
@@ -669,7 +689,7 @@
 	//icon_state
 	attack_verb = list("mauls", "scratches", "claws")
 	chargetime = 0
-	animname = "blank22"
+	animname = "cut"
 	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
 	misscost = 1
 	releasedrain = 1	//More than punch cus pen factor.
@@ -764,11 +784,15 @@
 			to_chat(M, span_green("[user] waves friendly at [M]."))
 	return
 
+/datum/intent/simple
+	miss_text = "swings at nothing"
+	miss_sound = "punchwoosh"
+
 /datum/intent/simple/headbutt
 	name = "headbutt"
 	icon_state = "instrike"
 	attack_verb = list("headbutts", "rams")
-	animname = "blank22"
+	animname = "strike"
 	blade_class = BCLASS_BLUNT
 	hitsound = "punch_hard"
 	chargetime = 0
@@ -776,13 +800,15 @@
 	swingdelay = 0
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "rams nothing"
+	miss_sound = "bluntwooshmed"
 	item_d_type = "blunt"
 
 /datum/intent/simple/claw
 	name = "claw"
 	icon_state = "instrike"
 	attack_verb = list("claws", "pecks")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
@@ -790,7 +816,8 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
-	miss_text = "slash the air"
+	miss_text = "claws at nothing"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "slash"
 
 /datum/intent/simple/claw/simplewwnpc
@@ -801,7 +828,7 @@
 	name = "bite"
 	icon_state = "instrike"
 	attack_verb = list("bites")
-	animname = "blank22"
+	animname = "bite"
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
@@ -809,6 +836,8 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "snaps at nothing"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "stab"
 
 
@@ -816,7 +845,7 @@
 	name = "hack"
 	icon_state = "instrike"
 	attack_verb = list("hacks at", "chops at", "bashes")
-	animname = "blank22"
+	animname = "chop"
 	blade_class = BCLASS_CUT
 	hitsound = list("genchop", "genslash")
 	chargetime = 0
@@ -824,13 +853,15 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "hacks at nothing"
+	miss_sound = "bladewooshlarge"
 	item_d_type = "slash"
 
 /datum/intent/simple/spear
 	name = "spear"
 	icon_state = "instrike"
 	attack_verb = list("stabs", "skewers")
-	animname = "blank22"
+	animname = "stab"
 	blade_class = BCLASS_CUT
 	hitsound = list("genthrust", "genstab")
 	chargetime = 0
@@ -838,6 +869,8 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "thrusts at nothing"
+	miss_sound = "bladewooshmed"
 	item_d_type = "stab"
 
 /datum/intent/bless

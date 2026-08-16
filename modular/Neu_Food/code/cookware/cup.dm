@@ -73,7 +73,7 @@
 
 	if(!dice_in_cup.len)
 		return
-	
+
 	playsound(src, 'sound/items/cup_dice_roll.ogg', 100, TRUE)
 	if(do_after(user, 1.5 SECONDS))
 		rolling = TRUE
@@ -173,7 +173,7 @@
 /obj/item/reagent_containers/glass/cup/glass/proc/shatter(turf/T)
 	if(istransparentturf(T))
 		shatter(GET_TURF_BELOW(T))
-		return 
+		return
 	new /obj/item/natural/glass_shard(get_turf(T))
 	new /obj/effect/decal/cleanable/debris/glassy(get_turf(T))
 	qdel(src)
@@ -260,6 +260,14 @@
 	name = "golden cup"
 	desc = "Adorned with gemstones, this cup glimmers with lesser opulence and grandeur."
 	icon_state = "gcup"
+	force = 5
+	throwforce = 10
+
+/obj/item/reagant_containers/glass/cup/mug
+	name = "ceramic mug"
+	desc = "A classic clay mug. often associated with fatherhood."
+	icon_state = "claymugbaked"
+	icon = 'modular/Neu_Food/icons/cookware/cup.dmi'
 	force = 5
 	throwforce = 10
 
@@ -425,4 +433,5 @@
 	desc = "A fancy goblet made out of porcelain."
 	dropshrink = 1
 	icon_state = "fancycup_porcelain"
-	sellprice = 15
+
+
