@@ -205,7 +205,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	added_languages = list(/datum/language/draconic)
 	desc = "I originate from the draconic lands of Lirvas, a hellish debt society known for its strict hierarchy. To be above someone in Lirvas is to be their master, to be below them is to know endless debt and servitude. Drakians and Kobolds originate from these lands—a gift from Matthios to the dragons that once reigned supreme over the kingdom. Today, only the great drake Zarvlor remains.<br>"
 	origin_desc = "A haven for draconic people of all origins, Lirvas' history was once wholly of wealth and prosperity. To venture to the so-called \
-	'dragon lands' was considered a must for any adventurer, as no culture could quite compare to one built by dragons and sisseans alike. \
+	'dragon lands' was considered a must for any adventurer, as no culture could quite compare to one built by dragons and zardmen alike. \
 	Now, centuries after Zizo's ascendance, Lirvas has become one of the few places no adventurer dares travel to. To describe the kingdom as \
 	a hierarchy would hardly be apt; it stands proudly with different rings of social status, shrinking gradually in size as one climbs to the top. \
 	In Lirvas, wealth is everything in determining which ring you stand on, and how hard it is to climb higher."

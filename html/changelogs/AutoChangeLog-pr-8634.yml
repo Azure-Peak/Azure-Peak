@@ -1,0 +1,4 @@
+author: "SciDragon"
+delete-after: True
+changes:
+  - bugfix: "corrected \"sissean\" to \"zardman\""

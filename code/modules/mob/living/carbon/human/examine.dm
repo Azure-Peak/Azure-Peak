@@ -283,7 +283,7 @@
 			var/obj/item/clothing/CM = mouth
 			str = "[m3] [CM.generate_tooltip(CM.get_examine_string(user))] in [m2] mouth. "
 		else
-			"[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
+			str = "[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
 		str += mouth.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] some kinda thing on [m2] mouth!"

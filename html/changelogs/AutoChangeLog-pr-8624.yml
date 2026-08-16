@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - balance: "Bear and Mole wildshapes lose critres and nopainstun. Bear hide gets x2.5 integrity compared to before."
