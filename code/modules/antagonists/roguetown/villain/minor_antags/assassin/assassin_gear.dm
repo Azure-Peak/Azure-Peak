@@ -365,7 +365,7 @@
 	return FALSE
 
 /// This proc ensures the target is dead with death() and adds their last words to the dagger's list if get_last = true.
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/die_motherfucker_die(mob/living/carbon/human/target, var/get_last = TRUE)
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/die_motherfucker_die(mob/living/carbon/human/target, get_last = TRUE)
 	if(target.stat != DEAD)
 		target.death()
 	if(get_last && target.last_words)
