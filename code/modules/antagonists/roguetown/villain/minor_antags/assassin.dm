@@ -24,6 +24,7 @@
 		"DEATH IS MY DEVOTION!",
 		"THE DARK SUN GUIDES MY HAND!",
 		"ALL HAIL HE-WHO-HARVESTS!",
+		"ONLY MY DAGGER UNDERSTANDS ME!",
 	)
 	antag_flags = FLAG_FAKE_ANTAG
 	rogue_enabled = TRUE // so it shows up in the panel
