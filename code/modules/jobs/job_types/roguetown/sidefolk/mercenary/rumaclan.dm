@@ -47,8 +47,6 @@
 		)
 	H.merctype = 9
 
-extra_context = "This subclass gains expert skill with it's chosen weapons."
-
 /datum/outfit/job/roguetown/mercenary/rumaclan/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
@@ -144,8 +142,6 @@ extra_context = "This subclass gains expert skill with it's chosen weapons."
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
-
-extra_context = "This subclass gains expert skill with it's chosen weapons."
 
 /datum/outfit/job/roguetown/mercenary/rumaclan_sasu/pre_equip(mob/living/carbon/human/H)
 	..()
