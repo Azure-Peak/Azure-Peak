@@ -256,11 +256,9 @@
 /obj/item/book/rogue/bibble/proc/destroy_that_dagger(mob/user, atom/target)
 	// assassin must be dead
 	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = target
-	if(pissdagger.dominator && !QDELETED(pissdagger.dominator))
-		var/mob/living/carbon/human/dom = pissdagger.dominator
-		if(dom.stat != DEAD)
-			to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
-			return
+	if(!pissdagger.is_my_owner_dead())
+		to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
+		return
 	// im so fucking sorry for the if chain. conceptually we're invoking ravox & necra verus graggar in a tiny battle.
 	user.visible_message(span_warning("[user] begins reciting a prayer over [pissdagger]..."), span_info("I begin to recite a prayer over [pissdagger]... this will take some time."))
 	playsound(user, 'sound/magic/censercharging.ogg', 100)

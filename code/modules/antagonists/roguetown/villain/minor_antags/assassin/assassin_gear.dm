@@ -422,3 +422,11 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/shatter_dagger()
 	src.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
 	qdel(src)
+
+/// If the dagger has a "dominator" and that dominator is alive, returns false. Otherwise returns true.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/is_my_owner_dead()
+	if(dominator && !QDELETED(dominator))
+		var/mob/living/carbon/human/dom = dominator
+		if(dom.stat != DEAD)
+			return FALSE
+	return TRUE
