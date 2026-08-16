@@ -386,7 +386,7 @@
 
 	target.visible_message(span_cult("A purple mist spews forth from [target]'s chest, entering [user]'s [src.name]... their soul has been taken!"),
 	span_cult("I find myself in a strange realm, vantablack save for vestiges of a heavy blue-and-red fog. Screams surround \
-	me. How long will I be trapped in here?"))
+	me. The pain from all my wounds is not only present, but intensified! How long will I be trapped in here?!"))
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
 	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
 	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
