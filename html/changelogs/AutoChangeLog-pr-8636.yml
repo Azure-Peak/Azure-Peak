@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed standard swingdelays applying incorrect defense penalties."

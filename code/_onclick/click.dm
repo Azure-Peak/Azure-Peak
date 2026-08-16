@@ -441,7 +441,7 @@
 
 /mob/living/proc/is_swinging(disrupt_only = FALSE)
 	if(!disrupt_only)
-		return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt))
+		return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt) || has_status_effect(/datum/status_effect/swingdelay/penalty))
 	else
 		return (has_status_effect(/datum/status_effect/swingdelay/disrupt))
 

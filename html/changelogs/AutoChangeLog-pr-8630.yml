@@ -1,0 +1,6 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - balance: "Zizo revive moved back to T4 fromT3"
+  - refactor: "Anastasis uses new spell code now instead of being stuck in the old one."
+  - refactor: "Undivided \"Lesser Anastasis\" is now subtype of original Anastasis with tripled cooldown of it (so 15 minutes)"

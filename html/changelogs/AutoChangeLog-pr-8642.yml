@@ -1,0 +1,4 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - rscdel: "Removed barding slowdown code. It wasn't being used except in the case of removing barding from a pre-spawned mount and interfered with repairing the armor by causing permanent debilitating slowdown to the mob."

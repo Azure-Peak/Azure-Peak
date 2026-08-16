@@ -221,7 +221,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/obj/item/caparison/ccaparison
 	var/obj/item/clothing/barding/bbarding
 	var/caparison_over_barding = FALSE
-	var/barding_speed_mult = 1
 	var/do_footstep = FALSE
 	var/fly_time = 3 SECONDS //default fly delay
 	var/datum/voicepack/voicepack = null
@@ -336,9 +335,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		user.visible_message(span_notice("[user] removes the bard from [src]."), span_notice("I remove the bard from [src]."))
 		var/obj/item/clothing/barding/B = bbarding
 		bbarding = null
-		// Reset any movement slowdown from barding when it is removed
-		barding_speed_mult = 1
-		updatehealth()
 		B.forceMove(get_turf(src))
 		user.put_in_hands(B)
 		update_icon()
@@ -438,7 +434,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		minimum_distance = initial(minimum_distance)
 	if(HAS_TRAIT(src, TRAIT_RIGIDMOVEMENT))
 		return
-	move_to_delay = initial(move_to_delay) * barding_speed_mult
+	move_to_delay = initial(move_to_delay)
 
 /mob/living/simple_animal/hostile/forceMove(turf/T)
 	var/list/BM = list()
