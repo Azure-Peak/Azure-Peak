@@ -13,7 +13,7 @@
 
 	tutorial = "\"A MAN SPEAKS A NAME. WE DO THE REST!\", a common parlance from your cursed dagger. Whether puppeted by dark forces or by \
 	choice, you have become a devout of the Sinistar. As His devout pray for His wrath, you dispense it, skin-thiefing and soul-taking those \
-	deemed worthy of a blood-hunt. Let the red-mist cloud your mind, you are a killer, through-and-through."
+	deemed worthy of a blood-hunt."
 
 	outfit = null
 	outfit_female = null
@@ -38,7 +38,7 @@
 	virtue_restrictions = list(
 		/datum/virtue/utility/feytouched
 	)
-	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
+	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build
 	job_subclasses = list(
 		/datum/advclass/assassin_ranger,
