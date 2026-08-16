@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
-	cmode_music = 'sound/music/combat_Kazengun_Runaway_Chariot.ogg'
+	cmode_music = 'sound/music/combat_Kazengun_Runaway_Chariot.ogg' //'sound/music/combat_Kazengun_Overlord.ogg' also exists.
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_WIL = 3,
@@ -46,6 +46,8 @@
 		/obj/item/roguekey/mercenary = 1,
 		)
 	H.merctype = 9
+
+extra_context = "This subclass gains expert skill with it's chosen weapons."
 
 /datum/outfit/job/roguetown/mercenary/rumaclan/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -142,6 +144,8 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
+
+extra_context = "This subclass gains expert skill with it's chosen weapons."
 
 /datum/outfit/job/roguetown/mercenary/rumaclan_sasu/pre_equip(mob/living/carbon/human/H)
 	..()

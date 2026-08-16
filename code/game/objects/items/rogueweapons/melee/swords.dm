@@ -2241,9 +2241,9 @@
 	name = "ruma hwando"
 	desc = "A foreign steel single-edged sword with cloud patterns on the groove. The Ruma Clan's insignia is engraved on the blade."
 	icon_state = "eastsword2"
-	force = 26
+	force = 27
 	max_integrity = 200
-	sharpness_mod = 1.25
+	sharpness_mod = 1.5
 	sellprice = 50
 
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
