@@ -235,7 +235,7 @@
 /datum/stressevent/puzzle_impossible
 	stressadd = -4
 	desc = span_boldgreen("I solved an extremely difficult puzzle. Xylix is smiling at me, and surely even \
-	 Noc must find it impressive.")
+		Noc must find it impressive.")
 	timer = 15 MINUTES
 
 /datum/stressevent/noble_fine_food
@@ -279,14 +279,14 @@
 	desc = span_green("My meditations were rewarding.")
 
 /datum/stressevent/bathcleaned
-    timer = 20 MINUTES
-    stressadd = -3
-    desc = span_green("I feel immaculate!")
+	timer = 20 MINUTES
+	stressadd = -3
+	desc = span_green("I feel immaculate!")
 
 /datum/stressevent/bath
-    timer = 10 MINUTES
-    stressadd = -1
-    desc = span_green("I'm just a bit cleaner.")
+	timer = 10 MINUTES
+	stressadd = -1
+	desc = span_green("I'm just a bit cleaner.")
 
 
 /datum/stressevent/pacified

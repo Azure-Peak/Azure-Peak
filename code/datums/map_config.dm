@@ -1,12 +1,12 @@
 //used for holding information about unique properties of maps
 //feed it json files that match the datum layout
 //defaults to box
-//  -Cyberboss
+//	-Cyberboss
 
 /datum/map_config
 	// Metadata
 	var/config_filename = "_maps/dun_world.json"
-	var/defaulted = TRUE  // set to FALSE by LoadConfig() succeeding
+	var/defaulted = TRUE	// set to FALSE by LoadConfig() succeeding
 	// Config from maps.txt
 	var/config_max_users = 0
 	var/config_min_users = 0
@@ -41,7 +41,7 @@
 	if (!config.LoadConfig(filename, error_if_missing))
 		qdel(config)
 		if(default_to_box)
-			config = new /datum/map_config  // Fall back to Dun Manor
+			config = new /datum/map_config	// Fall back to Dun Manor
 	if (delete_after)
 		fdel(filename)
 	if(config)

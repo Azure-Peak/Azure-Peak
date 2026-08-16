@@ -39,14 +39,14 @@
 		return
 	if(need_los && !can_see(controller.pawn, target, view_distance)) //Chase into vision if need be. For ranged
 		return
-	
+
 	var/range = get_dist(living_pawn, target)
 	var/ready_to_attack = living_pawn.next_move < world.time
 
 	if ((range < minimum_distance) || (!ready_to_attack)) // take a step back -- buy time till next attack
 		controller.queue_behavior(run_away_behavior, target_key, minimum_distance)
 		return
-	var/canReach = need_los || living_pawn.Adjacent(target) || living_pawn.CanReach(target)  //Check adjacency first because (probably) cheaper
+	var/canReach = need_los || living_pawn.Adjacent(target) || living_pawn.CanReach(target)	//Check adjacency first because (probably) cheaper
 	if ((range > maximum_distance) || (ready_to_attack) || !canReach) // next attack ready or target too far for us
 		if(!canReach) //living_pawn.a_intent.reach if we can't reach then move into melee - possibly on a corner
 			minimum_distance = 1

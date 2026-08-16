@@ -250,7 +250,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	)
 	extra_context = "This subclass has three disciplines to choose from: one provides Expert skills in fistfighting and the 'Expert Pugilist' trait, the other provides unique equipment and a one-point exchange of Speed for Perception,\
-					 and the final one grants you a greatsword and a special form of armor while taking away three points of intelligence."
+						and the final one grants you a greatsword and a special form of armor while taking away three points of intelligence."
 
 /datum/outfit/job/roguetown/adventurer/barbarian/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -578,8 +578,8 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/silver
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Silver Katar (+1 Athletics)")  //For these 2 unarmed weapon options, get a level of athletics as a consolation prize, since this class gets jman unarmed already, and expert would be OP.
-				if(H.age != AGE_OLD)  //BUT ONLY IF THE CHARACTER IS NOT OLD, because old exorcists get expert EVERYTHING anyway, no need for compensation.
+			if("Silver Katar (+1 Athletics)")	//For these 2 unarmed weapon options, get a level of athletics as a consolation prize, since this class gets jman unarmed already, and expert would be OP.
+				if(H.age != AGE_OLD)	//BUT ONLY IF THE CHARACTER IS NOT OLD, because old exorcists get expert EVERYTHING anyway, no need for compensation.
 					H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/katar/silver
 			if("Silver Claws (+1 Athletics)")

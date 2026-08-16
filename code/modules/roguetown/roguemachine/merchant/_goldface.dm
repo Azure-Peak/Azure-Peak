@@ -164,7 +164,7 @@
 	)
 	categories_gamer = list()
 
-/obj/structure/roguemachine/goldface/Initialize()
+/obj/structure/roguemachine/goldface/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -328,7 +328,7 @@
 	var/total_matches = 0
 	var/tariff_active = !is_tax_exempt(H)
 	if(search_query != "")
-		var/needle = lowertext(search_query)
+		var/needle = LOWER_TEXT(search_query)
 		var/list/matches = list()
 		for(var/pack in SSmerchant.supply_packs)
 			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
@@ -336,7 +336,7 @@
 				continue
 			if(!(PA.group in all_cats))
 				continue
-			if(findtext(lowertext(PA.name), needle) || findtext(lowertext(PA.group), needle))
+			if(findtext(LOWER_TEXT(PA.name), needle) || findtext(LOWER_TEXT(PA.group), needle))
 				matches += PA
 		total_matches = length(matches)
 		var/shown = 0
@@ -1083,7 +1083,7 @@
 	set_light(0)
 	return ..()
 
-/obj/structure/roguemachine/goldface/Initialize()
+/obj/structure/roguemachine/goldface/Initialize(mapload)
 	. = ..()
 	update_icon()
 

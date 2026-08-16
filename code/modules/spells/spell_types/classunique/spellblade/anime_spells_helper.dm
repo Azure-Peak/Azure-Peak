@@ -131,7 +131,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 
 	playsound(get_turf(target), hit_sound, 100, TRUE)
 	if(!skip_message)
-		var/weapon_name = weapon ? weapon.name : lowertext(spell_name)
+		var/weapon_name = weapon ? weapon.name : LOWER_TEXT(spell_name)
 		var/armor_msg = ""
 		if(!damage_dealt)
 			armor_msg += VISMSG_ARMOR_BLOCKED

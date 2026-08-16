@@ -5,7 +5,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	equip_sound = 'sound/blank.ogg'
 	drop_sound = 'sound/blank.ogg'
-	pickup_sound =  'sound/blank.ogg'
+	pickup_sound =	'sound/blank.ogg'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	sleevetype = "shirt"
 	edelay_type = 1
@@ -107,7 +107,7 @@
 /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 	color = CLOTHING_AZURE
 
-/obj/item/clothing/suit/roguetown/shirt/undershirt/guard/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/undershirt/guard/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -121,7 +121,7 @@
 /obj/item/clothing/suit/roguetown/shirt/undershirt/guardsecond
 	color = CLOTHING_PURPLE
 
-/obj/item/clothing/suit/roguetown/shirt/undershirt/guardsecond/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/undershirt/guardsecond/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -135,7 +135,7 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/suit/roguetown/shirt/undershirt/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/undershirt/random/Initialize(mapload)
 	color = pick("#6b5445", "#435436", "#704542", "#79763f")
 	..()
 
@@ -187,7 +187,7 @@
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
 	name = "aesthetic custom-fit silk shirt"
 
-/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -252,7 +252,7 @@
 		var/mob/living/carbon/human/H = loc
 		H.update_inv_armor()
 
-/obj/item/clothing/suit/roguetown/shirt/dress/royal/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/royal/Initialize(mapload)
 	. = ..()
 	GLOB.lordcolor += src
 	if(GLOB.lordprimary)
@@ -271,7 +271,7 @@
 	boobed = TRUE
 	detail_color = CLOTHING_BLUE
 
-//................ Prince Shirt   ............... //
+//................ Prince Shirt	............... //
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "gilded dress shirt"
@@ -311,7 +311,7 @@
 	sleeved = null
 	flags_inv = HIDECROTCH|HIDEBOOB
 
-/obj/item/clothing/suit/roguetown/shirt/dress/silkydress/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/silkydress/random/Initialize(mapload)
 	color = pick("#e6e5e5", "#249589", "#a32121", "#428138", "#8747b1", "#007fff")
 	..()
 
@@ -378,7 +378,7 @@
 	l_sleeve_status = SLEEVE_TORN
 	body_parts_covered = CHEST|ARM_RIGHT|VITALS
 
-/obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/Initialize(mapload)
 	color = pick("#6b5445", "#435436", "#704542", "#79763f")
 	..()
 
@@ -390,7 +390,7 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 
-/obj/item/clothing/suit/roguetown/shirt/shortshirt/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/shortshirt/random/Initialize(mapload)
 	color = pick("#6b5445", "#435436", "#704542", "#79763f")
 	..()
 
@@ -513,7 +513,7 @@
 /obj/item/clothing/suit/roguetown/shirt/tunic/ucolored
 	color = COLOR_GRAY
 
-/obj/item/clothing/suit/roguetown/shirt/tunic/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/tunic/random/Initialize(mapload)
 	color = pick(CLOTHING_PURPLE, CLOTHING_RED, CLOTHING_BLUE, CLOTHING_GREEN, CLOTHING_BLACK, CLOTHING_WHITE, COLOR_GRAY)
 	..()
 /obj/item/clothing/suit/roguetown/shirt/dress
@@ -546,7 +546,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/gen/purple
 	color = CLOTHING_PURPLE
 
-/obj/item/clothing/suit/roguetown/shirt/dress/gen/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/gen/random/Initialize(mapload)
 	color = pick("#6b5445", "#435436", "#704542", "#79763f", CLOTHING_BLUE)
 	..()
 
@@ -564,7 +564,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/princess
 	color = CLOTHING_WHITE
 
-/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/princess/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/princess/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -580,7 +580,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/green
 	color = CLOTHING_DARK_GREEN
 
-/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", "#52BE80", "#C39BD3", "#EC7063","#5DADE2")
 
@@ -594,11 +594,11 @@
 	sleeved = null
 	flags_inv = HIDECROTCH|HIDEBOOB
 
-/obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/random/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/random/Initialize(mapload)
 	. = ..()
 	color = pick(CLOTHING_WHITE, CLOTHING_RED, CLOTHING_PURPLE, CLOTHING_MAGENTA, CLOTHING_TEAL, CLOTHING_BLACK)
 
-/obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/black/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/black/Initialize(mapload)
 	. = ..()
 	color = CLOTHING_BLACK
 
@@ -658,7 +658,7 @@
 	color = primary
 	update_icon()
 
-/obj/item/clothing/suit/roguetown/shirt/jester/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/jester/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -811,7 +811,7 @@
 	detail_color = CLOTHING_RED
 	salvage_result = /obj/item/natural/silk
 
-/obj/item/clothing/suit/roguetown/shirt/courtphysician/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/courtphysician/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -837,7 +837,7 @@
 	detail_color = CLOTHING_RED
 	salvage_result = /obj/item/natural/silk
 
-/obj/item/clothing/suit/roguetown/shirt/courtphysician/female/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/courtphysician/female/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -896,7 +896,7 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/suit/roguetown/shirt/dress/nobledress/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/nobledress/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -912,7 +912,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/saree
 	name = "saree"
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	desc  = "A delicate, unstitched garment that can be draped across the body. It is commonly worn amongst Ranesheni women."
+	desc	= "A delicate, unstitched garment that can be draped across the body. It is commonly worn amongst Ranesheni women."
 	icon_state = "saree"
 	item_state = "saree"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'

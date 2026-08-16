@@ -33,7 +33,7 @@
 
 	if(!pic)
 		var/icon/blood_splatter_icon = icon(icon, icon_state, , 1)		//we only want to apply blood-splatters to the initial icon_state for each object
-		blood_splatter_icon.Blend(blood_color, ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
+		blood_splatter_icon.Blend(blood_color, ICON_ADD)			//fills the icon_state with white (except where it's transparent)
 		if(blood_color)
 			blood_splatter_icon.ColorTone(blood_color)
 		blood_splatter_icon.Blend(icon(_icon, _icon_state), ICON_MULTIPLY) //adds blood and the remaining white areas become transparant

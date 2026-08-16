@@ -33,8 +33,8 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_MASTER,
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 
 /datum/outfit/job/roguetown/wretch/outlaw/pre_equip(mob/living/carbon/human/H)
 	..()

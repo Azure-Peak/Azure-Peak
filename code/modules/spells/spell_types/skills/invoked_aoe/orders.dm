@@ -198,19 +198,19 @@
 /mob/living/carbon/human/mind/proc/setorders()
 	set name = "Rehearse Orders"
 	set category = "RoleUnique.Voice of Command"
-	mind.movemovemovetext = input("Send a message.", "Move! Move! Move!") as text|null
+	mind.movemovemovetext = input(src, "Send a message.", "Move! Move! Move!") as text|null
 	if(!mind.movemovemovetext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
-	mind.holdtext = input("Send a message.", "Hold!") as text|null
+	mind.holdtext = input(src, "Send a message.", "Hold!") as text|null
 	if(!mind.holdtext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
-	mind.takeaimtext = input("Send a message.", "Take aim!") as text|null
+	mind.takeaimtext = input(src, "Send a message.", "Take aim!") as text|null
 	if(!mind.takeaimtext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
-	mind.onfeettext = input("Send a message.", "On your feet!") as text|null
+	mind.onfeettext = input(src, "Send a message.", "On your feet!") as text|null
 	if(!mind.onfeettext)
 		to_chat(src, "I must rehearse something for this order...")
 		return

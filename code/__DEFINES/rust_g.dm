@@ -209,14 +209,14 @@
 /// Spritesheet will contain all sprites listed within "sprites".
 /// "sprites" format:
 /// list(
-///     "sprite_name" = list( // <--- this list is a [SPRITE_OBJECT]
-///         icon_file = 'icons/path_to/an_icon.dmi',
-///         icon_state = "some_icon_state",
-///         dir = SOUTH,
-///         frame = 1,
-///         transform = list([TRANSFORM_OBJECT], ...)
-///     ),
-///     ...,
+///		"sprite_name" = list( // <--- this list is a [SPRITE_OBJECT]
+///			icon_file = 'icons/path_to/an_icon.dmi',
+///			icon_state = "some_icon_state",
+///			dir = SOUTH,
+///			frame = 1,
+///			transform = list([TRANSFORM_OBJECT], ...)
+///		),
+///		...,
 /// )
 /// TRANSFORM_OBJECT format:
 /// list("type" = RUSTG_ICONFORGE_BLEND_COLOR, "color" = "#ff0000", "blend_mode" = ICON_MULTIPLY)
@@ -226,11 +226,11 @@
 ///
 /// Returns a SpritesheetResult as JSON, containing fields:
 /// list(
-///     "sizes" = list("32x32", "64x64", ...),
-///     "sprites" = list("sprite_name" = list("size_id" = "32x32", "position" = 0), ...),
-///     "dmi_hashes" = list("icons/path_to/an_icon.dmi" = "d6325c5b4304fb03", ...),
-///     "sprites_hash" = "a2015e5ff403fb5c", // This is the xxh64 hash of the INPUT field "sprites".
-///     "error" = "[A string, empty if there were no errors.]"
+///		"sizes" = list("32x32", "64x64", ...),
+///		"sprites" = list("sprite_name" = list("size_id" = "32x32", "position" = 0), ...),
+///		"dmi_hashes" = list("icons/path_to/an_icon.dmi" = "d6325c5b4304fb03", ...),
+///		"sprites_hash" = "a2015e5ff403fb5c", // This is the xxh64 hash of the INPUT field "sprites".
+///		"error" = "[A string, empty if there were no errors.]"
 /// )
 /// In the case of an unrecoverable panic from within Rust, this function ONLY returns a string containing the error.
 #define rustg_iconforge_generate(file_path, spritesheet_name, sprites, hash_icons) RUSTG_CALL(RUST_G, "iconforge_generate")(file_path, spritesheet_name, sprites, "[hash_icons]")
@@ -246,8 +246,8 @@
 /// dmi_hashes: xxh64 hashes of the DMIs in a spritesheet, given by `rustg_iconforge_generate` with `hash_icons` enabled. From the cache.
 /// sprites: The new input that will be passed to rustg_iconforge_generate().
 /// Returns a CacheResult with the following structure: list(
-///     "result": "1" (if cache is valid) or "0" (if cache is invalid)
-///     "fail_reason": "" (emtpy string if valid, otherwise a string containing the invalidation reason or an error with ERROR: prefixed.)
+///		"result": "1" (if cache is valid) or "0" (if cache is invalid)
+///		"fail_reason": "" (emtpy string if valid, otherwise a string containing the invalidation reason or an error with ERROR: prefixed.)
 /// )
 /// In the case of an unrecoverable panic from within Rust, this function ONLY returns a string containing the error.
 #define rustg_iconforge_cache_valid(input_hash, dmi_hashes, sprites) RUSTG_CALL(RUST_G, "iconforge_cache_valid")(input_hash, dmi_hashes, sprites)
@@ -288,26 +288,26 @@
  * Generates a 2D poisson disk distribution ('blue noise'), which is relatively uniform.
  *
  * params:
- * 	`seed`: str
- * 	`width`: int, width of the noisemap (see world.maxx)
- * 	`length`: int, height of the noisemap (see world.maxy)
- * 	`radius`: int, distance between points on the noisemap
+ *	`seed`: str
+ *	`width`: int, width of the noisemap (see world.maxx)
+ *	`length`: int, height of the noisemap (see world.maxy)
+ *	`radius`: int, distance between points on the noisemap
  *
  * returns:
- * 	a width*length length string of 1s and 0s representing a 2D poisson sample collapsed into a 1D string
+ *	a width*length length string of 1s and 0s representing a 2D poisson sample collapsed into a 1D string
  */
 #define rustg_noise_poisson_map(seed, width, length, radius) RUSTG_CALL(RUST_G, "noise_poisson_map")(seed, width, length, radius)
 
 /**
  * Register a list of nodes into a rust library. This list of nodes must have been serialized in a json.
  * Node {// Index of this node in the list of nodes
- *  	  unique_id: usize,
- *  	  // Position of the node in byond
- *  	  x: usize,
- *  	  y: usize,
- *  	  z: usize,
- *  	  // Indexes of nodes connected to this one
- *  	  connected_nodes_id: Vec<usize>}
+ *			unique_id: usize,
+ *			// Position of the node in byond
+ *			x: usize,
+ *			y: usize,
+ *			z: usize,
+ *			// Indexes of nodes connected to this one
+ *			connected_nodes_id: Vec<usize>}
  * It is important that the node with the unique_id 0 is the first in the json, unique_id 1 right after that, etc.
  * It is also important that all unique ids follow. {0, 1, 2, 4} is not a correct list and the registering will fail
  * Nodes should not link across z levels.
@@ -425,8 +425,8 @@
  * Returns a nested key-value list containing "successes" and "errors"
  * The format is as follows:
  * list(
- *  RUSTG_SOUNDLEN_SUCCESES = list("sounds/test.ogg" = 25.34),
- *  RUSTG_SOUNDLEN_ERRORS = list("sound/bad.png" = "SoundLen: Unable to decode file."),
+ *	RUSTG_SOUNDLEN_SUCCESES = list("sounds/test.ogg" = 25.34),
+ *	RUSTG_SOUNDLEN_ERRORS = list("sound/bad.png" = "SoundLen: Unable to decode file."),
  *)
 */
 #define rustg_sound_length_list(file_paths) json_decode(RUSTG_CALL(RUST_G, "sound_len_list")(json_encode(file_paths)))

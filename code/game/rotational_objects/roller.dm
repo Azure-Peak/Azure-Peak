@@ -135,16 +135,16 @@
 	start_conveying(entering_atom)
 
 /obj/structure/roller/proc/start_conveying(atom/movable/moving)
-    if(QDELETED(moving))
-        return
+	if(QDELETED(moving))
+		return
 
-    var/static/list/unconveyables = typecacheof(list(/obj/effect, /mob/dead))
-    if(!istype(moving) || is_type_in_typecache(moving, unconveyables) || moving.anchored || moving == src)
-        return
+	var/static/list/unconveyables = typecacheof(list(/obj/effect, /mob/dead))
+	if(!istype(moving) || is_type_in_typecache(moving, unconveyables) || moving.anchored || moving == src)
+		return
 
-    SSmove_manager.stop_looping(moving, SSconveyors)
+	SSmove_manager.stop_looping(moving, SSconveyors)
 
-    moving.AddComponent(/datum/component/convey, movedir, get_move_delay())
+	moving.AddComponent(/datum/component/convey, movedir, get_move_delay())
 
 /obj/structure/roller/proc/stop_conveying(atom/movable/thing)
 	if(!ismovable(thing))
@@ -152,22 +152,22 @@
 	SSmove_manager.stop_looping(thing, SSconveyors)
 
 /obj/structure/roller/proc/conveyable_exit(datum/source, atom/convayable, direction)
-    SIGNAL_HANDLER
-    if(!ismovable(convayable))
-        return
+	SIGNAL_HANDLER
+	if(!ismovable(convayable))
+		return
 
-    var/obj/structure/roller/next_roller = locate(/obj/structure/roller) in get_step(src, direction)
-    var/chained_handoff = next_roller && next_roller.operating && \
-                          (direction == movedir) && (next_roller.movedir == movedir)
+	var/obj/structure/roller/next_roller = locate(/obj/structure/roller) in get_step(src, direction)
+	var/chained_handoff = next_roller && next_roller.operating && \
+							(direction == movedir) && (next_roller.movedir == movedir)
 
-    if(chained_handoff)
-        return
+	if(chained_handoff)
+		return
 
-    if(convayable.z != z || !isturf(convayable.loc))
-        stop_conveying(convayable)
-        return
+	if(convayable.z != z || !isturf(convayable.loc))
+		stop_conveying(convayable)
+		return
 
-    stop_conveying(convayable)
+	stop_conveying(convayable)
 
 /obj/structure/roller/wrench_act(mob/living/user, obj/item/tool)
 	tool.play_tool_sound(src, 50)

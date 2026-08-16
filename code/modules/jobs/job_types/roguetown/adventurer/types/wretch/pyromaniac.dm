@@ -2,7 +2,7 @@
 	name = "Pyromaniac"
 	tutorial = "A notorious arsonist with a penchant for fire, you wield your own personal vendetta against the chaotic forces within Azuria. Bring mayhem and destruction with flame and misfortune! Just... try not to hit yourself with your explosives - you aren't fireproof, after all."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/wretch/pyromaniac
 	cmode_music = 'sound/music/Iconoclast.ogg'
 	class_select_category = CLASS_CAT_ROGUE
@@ -30,10 +30,10 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 	)
 	subclass_stashed_items = list(
-        "Armor Plates" =  /obj/item/repair_kit/metal,
-    )
+		"Armor Plates" =	/obj/item/repair_kit/metal,
+	)
 /datum/outfit/job/roguetown/wretch/pyromaniac/pre_equip(mob/living/carbon/human/H)
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff //wear protection :) 
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff //wear protection :)
 	mask = /obj/item/clothing/mask/rogue/facemask/
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full //Protect your head!
 	pants = /obj/item/clothing/under/roguetown/brigandinelegs

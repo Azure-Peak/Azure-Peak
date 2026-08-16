@@ -98,7 +98,7 @@ SUBSYSTEM_DEF(spatial_grid)
 	///how many pregenerated /mob/oranges_ear instances currently exist. this should hopefully never exceed its starting value
 	var/number_of_oranges_ears = NUMBER_OF_PREGENERATED_ORANGES_EARS
 
-/datum/controller/subsystem/spatial_grid/Initialize()
+/datum/controller/subsystem/spatial_grid/Initialize(mapload)
 	cells_on_x_axis = SPATIAL_GRID_CELLS_PER_SIDE(world.maxx)
 	cells_on_y_axis = SPATIAL_GRID_CELLS_PER_SIDE(world.maxy)
 
@@ -504,15 +504,15 @@ SUBSYSTEM_DEF(spatial_grid)
 					error_data = "within the contents of the following cells: {coords: [coords], within channels: [contents]}"
 
 		/**
-		 * example:
-		 *
-		 * /mob/living/trolls_the_maintainer instance, which is supposed to only be in the contents of a spatial grid cell at coords: (136, 136, 14),
-		 * was in the contents of 3 spatial grid cells when it was only supposed to be in one! within the contents of the following cells:
-		 * {(68, 153, 2), within channels: hearing},
-		 * {coords: (221, 170, 3), within channels: hearing},
-		 * {coords: (255, 153, 11), within channels: hearing},
-		 * {coords: (136, 136, 14), within channels: hearing}.
-		 */
+			* example:
+			*
+			* /mob/living/trolls_the_maintainer instance, which is supposed to only be in the contents of a spatial grid cell at coords: (136, 136, 14),
+			* was in the contents of 3 spatial grid cells when it was only supposed to be in one! within the contents of the following cells:
+			* {(68, 153, 2), within channels: hearing},
+			* {coords: (221, 170, 3), within channels: hearing},
+			* {coords: (255, 153, 11), within channels: hearing},
+			* {coords: (136, 136, 14), within channels: hearing}.
+			*/
 		stack_trace("[movable_to_check.type] instance, [location_string], [error_explanation] [error_data].")
 
 		return TRUE

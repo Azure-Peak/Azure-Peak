@@ -160,7 +160,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 	var/sdx = SIGN(dx)	//Sign of x distance (+ or -)
 	var/sdy = SIGN(dy)
 	var/x=dxabs>>1	//Counters for steps taken, setting to distance/2
-	var/y=dyabs>>1	//Bit-shifting makes me l33t.  It also makes getline() unnessecarrily fast.
+	var/y=dyabs>>1	//Bit-shifting makes me l33t.	It also makes getline() unnessecarrily fast.
 	var/j			//Generic integer for counting
 	if(dxabs>=dyabs)	//x distance is greater than y
 		for(j=0;j<dxabs;j++)//It'll take dxabs steps to get there
@@ -485,7 +485,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 //Takes: Anything that could possibly have variables and a varname to check.
 //Returns: 1 if found, 0 if not.
 /proc/hasvar(datum/A, varname)
-	if(A.vars.Find(lowertext(varname)))
+	if(A.vars.Find(LOWER_TEXT(varname)))
 		return 1
 	else
 		return 0
@@ -671,82 +671,82 @@ will handle it, but:
 			qdel(E)
 
 /proc/wash_mob(mob/living/L, clean = CLEAN_WEAK)
-    SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, clean)
-    if(!iscarbon(L))
-        SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
-        return
+	SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, clean)
+	if(!iscarbon(L))
+		SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+		return
 
-    var/mob/living/carbon/M = L
-    . = TRUE
+	var/mob/living/carbon/M = L
+	. = TRUE
 
-    for(var/obj/item/I in M.held_items)
-        wash_obj(I, clean)
-    M.update_inv_hands()
+	for(var/obj/item/I in M.held_items)
+		wash_obj(I, clean)
+	M.update_inv_hands()
 
-    if(M.back)
-        wash_obj(M.back, clean)
-        M.update_inv_back(0)
+	if(M.back)
+		wash_obj(M.back, clean)
+		M.update_inv_back(0)
 
-    var/list/obscured = M.check_obscured_slots()
+	var/list/obscured = M.check_obscured_slots()
 
-    if(M.head)
-        wash_obj(M.head, clean)
-        M.update_inv_head()
+	if(M.head)
+		wash_obj(M.head, clean)
+		M.update_inv_head()
 
-    if(M.glasses && !(SLOT_GLASSES in obscured))
-        wash_obj(M.glasses, clean)
-        M.update_inv_glasses()
+	if(M.glasses && !(SLOT_GLASSES in obscured))
+		wash_obj(M.glasses, clean)
+		M.update_inv_glasses()
 
-    if(M.wear_mask && !(SLOT_WEAR_MASK in obscured))
-        wash_obj(M.wear_mask, clean)
-        M.update_inv_wear_mask()
+	if(M.wear_mask && !(SLOT_WEAR_MASK in obscured))
+		wash_obj(M.wear_mask, clean)
+		M.update_inv_wear_mask()
 
-    if(M.ears && !(HIDEEARS in obscured))
-        wash_obj(M.ears, clean)
-        M.update_inv_ears()
+	if(M.ears && !(HIDEEARS in obscured))
+		wash_obj(M.ears, clean)
+		M.update_inv_ears()
 
-    if(M.wear_neck && !(SLOT_NECK in obscured))
-        wash_obj(M.wear_neck, clean)
-        M.update_inv_neck()
+	if(M.wear_neck && !(SLOT_NECK in obscured))
+		wash_obj(M.wear_neck, clean)
+		M.update_inv_neck()
 
-    if(M.shoes && !(HIDESHOES in obscured))
-        wash_obj(M.shoes, clean)
-        M.update_inv_shoes()
+	if(M.shoes && !(HIDESHOES in obscured))
+		wash_obj(M.shoes, clean)
+		M.update_inv_shoes()
 
-    if(M.gloves && !(HIDEGLOVES in obscured))
-        wash_obj(M.gloves, clean)
-        M.update_inv_gloves()
+	if(M.gloves && !(HIDEGLOVES in obscured))
+		wash_obj(M.gloves, clean)
+		M.update_inv_gloves()
 
-    if(ishuman(M))
-        var/mob/living/carbon/human/H = M
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
 
-        if(H.wear_armor)
-            wash_obj(H.wear_armor, clean)
-            H.update_inv_armor()
-            
-        if(H.wear_shirt)
-            wash_obj(H.wear_shirt, clean)
-            H.update_inv_shirt()
-            
-        if(H.wear_pants)
-            wash_obj(H.wear_pants, clean)
-            H.update_inv_pants()
+		if(H.wear_armor)
+			wash_obj(H.wear_armor, clean)
+			H.update_inv_armor()
 
-        if(!H.is_mouth_covered())
-            H.lip_style = null
-            H.update_body()
+		if(H.wear_shirt)
+			wash_obj(H.wear_shirt, clean)
+			H.update_inv_shirt()
 
-        if(H.belt)
-            wash_obj(H.belt, clean)
-            H.update_inv_belt()
+		if(H.wear_pants)
+			wash_obj(H.wear_pants, clean)
+			H.update_inv_pants()
 
-        if(H.cloak)
-            wash_obj(H.cloak, clean)
-            H.update_inv_cloak()
+		if(!H.is_mouth_covered())
+			H.lip_style = null
+			H.update_body()
 
-        SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
-    else
-        SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+		if(H.belt)
+			wash_obj(H.belt, clean)
+			H.update_inv_belt()
+
+		if(H.cloak)
+			wash_obj(H.cloak, clean)
+			H.update_inv_cloak()
+
+		SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+	else
+		SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
 
 /*
 Checks if that loc and dir has an item on the wall
@@ -892,18 +892,18 @@ GLOBAL_LIST_INIT(WALLITEMS_INVERSE, typecacheof(list(
 rough example of the "cone" made by the 3 dirs checked
 
 * \
-*  \
-*   >
-*     <
-*      \
-*       \
+*	\
+*	>
+*		<
+*		\
+*		\
 *B --><-- A
-*       /
-*      /
-*     <
-*    >
-*   /
-*  /
+*		/
+*		/
+*		<
+*	>
+*	/
+*	/
 
 */
 
@@ -1120,7 +1120,7 @@ rough example of the "cone" made by the 3 dirs checked
 
 /proc/pick_closest_path(value, list/matches = get_fancy_list_of_atom_types())
 	if (value == FALSE) //nothing should be calling us with a number, so this is safe
-		value = input("Enter type to find (blank for all, cancel to cancel)", "Search for type") as null|text
+		value = input(usr, "Enter type to find (blank for all, cancel to cancel)", "Search for type") as null|text
 		if (isnull(value))
 			return
 	value = trim(value)
@@ -1134,7 +1134,7 @@ rough example of the "cone" made by the 3 dirs checked
 	if(matches.len==1)
 		chosen = matches[1]
 	else
-		chosen = input("Select a type", "Pick Type", matches[1]) as null|anything in sortList(matches)
+		chosen = input(usr, "Select a type", "Pick Type", matches[1]) as null|anything in sortList(matches)
 		if(!chosen)
 			return
 	chosen = matches[chosen]
@@ -1253,7 +1253,7 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 	move_resist = INFINITY
 	var/ready_to_die = FALSE
 
-/mob/dview/Initialize() //Properly prevents this mob from gaining huds or joining any global lists
+/mob/dview/Initialize(mapload) //Properly prevents this mob from gaining huds or joining any global lists
 	SHOULD_CALL_PARENT(FALSE)
 	return INITIALIZE_HINT_NORMAL
 
@@ -1270,7 +1270,7 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 
 #define FOR_DVIEW(type, range, center, invis_flags) \
-	GLOB.dview_mob.loc = center;           \
+	GLOB.dview_mob.loc = center;			\
 	GLOB.dview_mob.see_invisible = invis_flags; \
 	for(type in view(range, GLOB.dview_mob))
 
@@ -1580,7 +1580,7 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 			return TRUE
 	return FALSE
 
-/proc/get_actors_by_title(var/title)
+/proc/get_actors_by_title(title)
 	var/list/actor_data = list()
 	for(var/mob_id in GLOB.actors_list)
 		if(GLOB.actors_list[mob_id]["rank"] != title)

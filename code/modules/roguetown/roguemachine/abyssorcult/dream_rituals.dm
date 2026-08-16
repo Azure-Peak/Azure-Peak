@@ -13,7 +13,7 @@
 	/// Channel time required in deciseconds (e.g., 150 = 15 seconds)
 	var/base_channel_time = 150
 	var/list/required_ingredients = list()
-	var/list/invocation_phases  = list(
+	var/list/invocation_phases	= list(
 		"Abyssor, hwja'ajaba!",
 		"Iä! Iä! Abyssor fhtagn!",
 		"The deep rises to my call!",

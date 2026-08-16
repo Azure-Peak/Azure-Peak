@@ -367,7 +367,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			if (obj_broken)
 				update_damaged_state()
 
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
 	if (attack_verb)
 		attack_verb = typelist("attack_verb", attack_verb)
 
@@ -976,7 +976,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 //If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
 //Set disable_warning to TRUE if you wish it to not give you outputs.
 /obj/item/proc/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	if((is_silver || (is_even_lesser_silver && is_npc(M)) || smeltresult == /obj/item/ingot/silver) && !is_lesser_silver && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
+	if((is_silver || (is_even_lesser_silver && is_npc(M)) || smeltresult == /obj/item/ingot/silver) && !is_lesser_silver && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&	!M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = M.mind?.has_antag_datum(/datum/antagonist/vampire/)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
@@ -1304,13 +1304,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/grind_requirements() //Used to check for extra requirements for grinding an object
 	return TRUE
 
- //Called BEFORE the object is ground up - use this to change grind results based on conditions
- //Use "return -1" to prevent the grinding from occurring
+//Called BEFORE the object is ground up - use this to change grind results based on conditions
+//Use "return -1" to prevent the grinding from occurring
 /obj/item/proc/on_grind()
 
 /obj/item/proc/on_juice()
 
-/obj/item/proc/get_force_string(var/force)
+/obj/item/proc/get_force_string(force)
 	switch(force)
 		if(0 to 9)
 			return "Puny"
@@ -1327,7 +1327,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		else
 			return "Mighty"
 
-/obj/item/proc/get_falloff_string(var/falloff)
+/obj/item/proc/get_falloff_string(falloff)
 	switch(falloff)
 		if(0 to 0.25)
 			return "Major"

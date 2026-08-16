@@ -38,7 +38,7 @@ GLOBAL_LIST_INIT(changelog, world.file2list("strings/changelog.txt"))
 List of configurable names in preferences and their metadata
 "id" = list(
 	"pref_name" = "name", //pref label
-	"qdesc" =  "name", //popup question text
+	"qdesc" =	"name", //popup question text
 	"allow_numbers" = FALSE, // numbers allowed in the name
 	"group" = "whatever", // group (these will be grouped together on pref ui ,order still follows the list so they need to be concurrent to be grouped)
 	"allow_null" = FALSE // if empty name is entered it's replaced with default value

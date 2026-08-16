@@ -56,7 +56,7 @@
 /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout
 	name = "aesthetic shadowy fingerless gloves"
 
-/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout/Initialize()
+/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -164,7 +164,7 @@
 	detail_color = CLOTHING_RED
 	salvage_result = /obj/item/natural/silk
 
-/obj/item/clothing/gloves/roguetown/courtphysician/female/Initialize()
+/obj/item/clothing/gloves/roguetown/courtphysician/female/Initialize(mapload)
 	. = ..()
 	update_icon()
 

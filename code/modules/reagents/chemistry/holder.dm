@@ -406,7 +406,7 @@
 	update_total()
 
 /// Anti-stacking: if a reagent and one of its declared conflicts are both
-/// present, they neutralize 1:1 into /datum/reagent/ruined_potion. 
+/// present, they neutralize 1:1 into /datum/reagent/ruined_potion.
 ///
 /// Self never conflicts with itself (matters when a conflict entry is a parent
 /// type, e.g. /datum/reagent/buff).
@@ -523,7 +523,7 @@
 					meets_temp_requirement = 1
 
 				if(total_matching_reagents == total_required_reagents && total_matching_catalysts == total_required_catalysts && matching_container && matching_other && meets_temp_requirement)
-					possible_reactions  += C
+					possible_reactions	+= C
 
 		if(possible_reactions.len)
 			var/datum/chemical_reaction/selected_reaction = possible_reactions[1]
@@ -997,7 +997,7 @@
 /proc/get_random_reagent_id()	// Returns a random reagent ID minus blacklisted reagents
 	var/static/list/random_reagents = list()
 	if(!random_reagents.len)
-		for(var/thing  in subtypesof(/datum/reagent))
+		for(var/thing	in subtypesof(/datum/reagent))
 			var/datum/reagent/R = thing
 			if(initial(R.can_synth))
 				random_reagents += R
@@ -1007,7 +1007,7 @@
 /proc/get_chem_id(chem_name)
 	for(var/X in GLOB.chemical_reagents_list)
 		var/datum/reagent/R = GLOB.chemical_reagents_list[X]
-		if(ckey(chem_name) == ckey(lowertext(R.name)))
+		if(ckey(chem_name) == ckey(LOWER_TEXT(R.name)))
 			return X
 
 #undef CHEMICAL_QUANTISATION_LEVEL

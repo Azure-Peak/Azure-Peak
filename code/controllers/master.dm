@@ -81,7 +81,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	if(!config)
 		config = new
 	// Highlander-style: there can only be one! Kill off the old and replace it with the new.
-	
+
 	// Move this to Genesis when Master is no longer GLOBAL_REAL = new
 	// Write everything to this log file until we get to SetupLogs() later
 	world._initialize_log_files("data/logs/config_error.[GUID()].log")
@@ -292,11 +292,11 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		current_runlevel = Master.current_runlevel
 		StartProcessing(10)
 	else
-		to_chat(world, "<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
+		to_world("<span class='boldannounce'>The Master Controller is having some issues, we will need to re-initialize EVERYTHING</span>")
 		Initialize(20, TRUE)
 
 // Please don't stuff random bullshit here,
-// 	Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
+//	Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
 /datum/controller/master/Initialize(delay, init_sss, tgs_prime)
 	set waitfor = 0
 
@@ -309,7 +309,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	if(init_sss)
 		init_subtypes(/datum/controller/subsystem, subsystems)
 #ifdef TESTING
-	to_chat(world, "<span class='boldannounce'>Initializing subsystems...</span>")
+	to_world("<span class='boldannounce'>Initializing subsystems...</span>")
 #endif
 	// Sort subsystems by init_order, so they initialize in the correct order.
 	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_init))
@@ -332,7 +332,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
 
 #ifdef TESTING
-	to_chat(world, "<span class='boldannounce'>[msg]</span>")
+	to_world("<span class='boldannounce'>[msg]</span>")
 #endif
 	log_world(msg)
 

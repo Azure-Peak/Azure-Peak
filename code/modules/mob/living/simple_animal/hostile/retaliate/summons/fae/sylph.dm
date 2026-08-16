@@ -57,7 +57,7 @@
 	min_range = 1
 	damage = 36
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 	. = ..()
 

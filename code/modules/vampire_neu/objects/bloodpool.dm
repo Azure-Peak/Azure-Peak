@@ -49,7 +49,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	)
 	var/sunstolen = FALSE
 
-/obj/structure/vampire/bloodpool/Initialize()
+/obj/structure/vampire/bloodpool/Initialize(mapload)
 	. = ..()
 	set_light(3, 3, 20, l_color = LIGHT_COLOR_BLOOD_MAGIC)
 
@@ -844,7 +844,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	if(!contribution || contribution < 1)
 		return
 
-	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a 
+	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a
 	contribution = clamp(contribution, 0, max_contribution)
 
 	if(user.bloodpool < contribution)
@@ -982,7 +982,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 			to_chat(user, span_warning("I will no longer tire nor feel, stamina will no longer affect me, shocks will no longer affect me.")) //Trait hints
 			lord.ascended = TRUE
 			var/list/all_subordinates = user.clan_position.get_all_subordinates()
-			for(var/mob/living/carbon/human/subordinate_body  in all_subordinates)
+			for(var/mob/living/carbon/human/subordinate_body	in all_subordinates)
 				subordinate_body.maxbloodpool += 1000
 				for(var/S in MOBSTATS)
 					subordinate_body.change_stat(S, 2)

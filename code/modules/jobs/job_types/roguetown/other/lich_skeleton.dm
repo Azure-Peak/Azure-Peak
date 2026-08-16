@@ -895,7 +895,7 @@ LICH SKELETONS
 	H.energy = H.max_energy
 
 /////////////////////////////
-// UNIQUE ITEMS!           //
+// UNIQUE ITEMS!			//
 /////////////////////////////
 /obj/item/clothing/suit/roguetown/armor/vestments_padded/lich //Zizo acolyte esc-robes, armor is meant to be the same as padded vestaments
 	name = "decrepit unholy undervestaments"

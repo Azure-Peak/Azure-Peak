@@ -108,7 +108,7 @@
 	data["max_checked"] = max_checked
 	data["large_buttons"] = FALSE // user.read_preference(/datum/preference/toggle/tgui_large_buttons)
 	data["message"] = message
-	data["swapped_buttons"] = FALSE //  !user.read_preference(/datum/preference/toggle/tgui_swapped_buttons)
+	data["swapped_buttons"] = FALSE //	!user.read_preference(/datum/preference/toggle/tgui_swapped_buttons)
 	data["title"] = title
 
 	return data

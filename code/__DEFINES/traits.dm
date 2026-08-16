@@ -80,7 +80,7 @@
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
 #define TRAIT_ANTHRAXI "Apex Predator"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
-#define TRAIT_RITUALIST "Ritualist"  // Allows use of ritual chalk
+#define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
 #define TRAIT_MARRIAGE_CAPABLE "Marriage Capable"
 #define TRAIT_INQUISITION "Otavan Adherent"
 #define TRAIT_CLERGY "Clergy of the Azurian Church"
@@ -204,7 +204,7 @@
 #define TRAIT_BANDITCAMP "banditcamp" //Access to the bandit camp on the wretchcoast Z level
 #define TRAIT_VAMPMANSION "vampiremansion" //Access to the vampire manor on the wretchcoast Z level
 #define TRAIT_LICHLAIR "lichlair" //Access to the lich's lair on the CentCom Z level.
-#define TRAIT_ZURCH 	"Hidden Domiciles" //allows entry to ascendant church
+#define TRAIT_ZURCH	"Hidden Domiciles" //allows entry to ascendant church
 
 // Generic
 #define TRAIT_BASHDOORS "Door Basher"
@@ -482,7 +482,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
 	TRAIT_BIGGUY = span_info("My immense frame and size allows me to smash through wooden doors, and throw people more easily."),
 	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like treebranches as if they were beds."),
-	TRAIT_STUDENT =  span_info("I am overwhelmed by all this knowledge!"),
+	TRAIT_STUDENT =	span_info("I am overwhelmed by all this knowledge!"),
 	TRAIT_LEGENDARY_ALCHEMIST = span_info("An expert in the art of finding herbs in the wild."),
 	TRAIT_INTELLECTUAL = span_info("I have a keen eye and can assess a person's prowess in wit and blade."),
 	TRAIT_COUNTERCOUNTERSPELL = span_info("I automatically know when to counter Counterspells, and can do so without even thinking about it."),
@@ -705,9 +705,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 */
 
 //mob traits
-#define TRAIT_BLIND 			"blind"
+#define TRAIT_BLIND			"blind"
 #define TRAIT_MUTE				"mute"
-#define TRAIT_ZOMBIE_SPEECH 	"zombie_speech"
+#define TRAIT_ZOMBIE_SPEECH	"zombie_speech"
 #define TRAIT_GARGLE_SPEECH		"gargle_speech"
 #define TRAIT_EMOTEMUTE			"emotemute"
 #define TRAIT_DEAF				"deaf"
@@ -728,7 +728,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_GARROTED "garroted" // Garrote-wired. Used for a snowflaked grab with item relevant tracking.
 #define TRAIT_INDEXED "indexed" // Used in Indexer-mailing to prevent false-flags.
 #define TRAIT_ACCUSED "accused" // Used in Indexer-mailing to prevent false-flags.
-#define TRAIT_CBLOOD "cursedblood"  // Used in Indexer-mailing to prevent false-flags.
+#define TRAIT_CBLOOD "cursedblood"	// Used in Indexer-mailing to prevent false-flags.
 #define TRAIT_CONFESSED "confessed" // Used in Indexer-mailing to prevent false-flags. God, this is snowflakey.
 #define TRAIT_BAGGED "bagged" // Black-bagged. More snowflaking.
 #define TRAIT_IGNORESLOWDOWN	"Ignore Slow"
@@ -739,7 +739,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_RELAYING_ATTACKER "relaying_attacker"
 #define TRAIT_FAKEDEATH			"Fake Death" //Makes the owner appear as dead to most forms of medical examination
 #define TRAIT_STUNIMMUNE		"stun_immunity"
-#define TRAIT_STUNRESISTANCE    "stun_resistance"
+#define TRAIT_STUNRESISTANCE	"stun_resistance"
 #define TRAIT_SLEEPIMMUNE		"sleep_immunity"
 #define TRAIT_PUSHIMMUNE		"push_immunity"
 #define TRAIT_STABLEHEART		"stable_heart"
@@ -757,7 +757,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_FIRE_RESIST		"fire_resistance" // 50% fire damage/heating reduction + 2x stack decay - use this for player-accessible fire resistance
 #define TRAIT_NOGUNS			"no_guns"
 #define TRAIT_NOMETABOLISM		"no_metabolism"
-#define TRAIT_LIMBATTACHMENT 	"limb_attach"
+#define TRAIT_LIMBATTACHMENT	"limb_attach"
 #define TRAIT_NOLIMBDISABLE		"no_limb_disable"
 #define TRAIT_EASYLIMBDISABLE	"easy_limb_disable"
 #define TRAIT_TOXINLOVER		"toxinlover"
@@ -780,20 +780,20 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_PARALYSIS_L_LEG	"para-l-leg"
 #define TRAIT_PARALYSIS_R_LEG	"para-r-leg"
 #define TRAIT_CANNOT_OPEN_PRESENTS "cannot-open-presents"
-#define TRAIT_PRESENT_VISION    "present-vision"
-#define TRAIT_DISK_VERIFIER     "disk-verifier"
-#define TRAIT_NOMOBSWAP         "no-mob-swap"
-#define TRAIT_XRAY_VISION       "xray_vision"
-#define TRAIT_THERMAL_VISION    "thermal_vision"
+#define TRAIT_PRESENT_VISION	"present-vision"
+#define TRAIT_DISK_VERIFIER		"disk-verifier"
+#define TRAIT_NOMOBSWAP			"no-mob-swap"
+#define TRAIT_XRAY_VISION		"xray_vision"
+#define TRAIT_THERMAL_VISION	"thermal_vision"
 #define TRAIT_ABDUCTOR_TRAINING "abductor-training"
 #define TRAIT_ABDUCTOR_SCIENTIST_TRAINING "abductor-scientist-training"
-#define TRAIT_SURGEON           "surgeon"
+#define TRAIT_SURGEON			"surgeon"
 #define TRAIT_STRONG_GRABBER	"strong_grabber"
 #define TRAIT_MAGIC_CHOKE		"magic_choke"
-#define TRAIT_SOOTHED_THROAT    "soothed-throat"
+#define TRAIT_SOOTHED_THROAT	"soothed-throat"
 #define TRAIT_LAW_ENFORCEMENT_METABOLISM "law-enforcement-metabolism"
-#define TRAIT_ALWAYS_CLEAN      "always-clean"
-#define TRAIT_BOOZE_SLIDER      "booze-slider"
+#define TRAIT_ALWAYS_CLEAN		"always-clean"
+#define TRAIT_BOOZE_SLIDER		"booze-slider"
 #define TRAIT_QUICK_CARRY		"quick-carry"
 #define TRAIT_QUICKER_CARRY		"quicker-carry"
 #define TRAIT_UNINTELLIGIBLE_SPEECH "unintelligible-speech"
@@ -826,9 +826,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_FINGERLESS "fingerless" //The limb has no fingies
 
 //item traits
-#define TRAIT_NODROP            "nodrop"
+#define TRAIT_NODROP			"nodrop"
 #define TRAIT_NOEMBED			"noembed"
-#define TRAIT_T_RAY_VISIBLE     "t-ray-visible" // Visible on t-ray scanners if the atom/var/level == 1
+#define TRAIT_T_RAY_VISIBLE		"t-ray-visible" // Visible on t-ray scanners if the atom/var/level == 1
 #define TRAIT_NO_TELEPORT		"no-teleport" //you just can't
 
 //quirk traits

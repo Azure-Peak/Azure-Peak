@@ -723,3 +723,30 @@
   - balance: Gnolls now have baseline sneaking  and better crafting skills. Gnolls
       now have an unlocked right back slot, as well as a satchel to go with it. Mind,
       the right back slot does not allow for larger storage like backpacks.
+2026-08-16:
+  Aeiraea:
+  - bugfix: Fixes the missing icon and onmob sprites for the new spectacles introduced
+      in the previous RMH clothing port.
+  - rscadd: Added the ability to toggle between 'snout' and 'no snout' for the Face/Simple
+      Veil.
+  - bugfix: Fixed the Face/Simple Veil not concealing its wearer's identity.
+  - image: Added sprite and icon updates for the Face/Simple Veil, courtesy of Terracotta,
+      the artist of the mask!
+  KatTheFox:
+  - code_imp: Fixed and enabled the grep linter, added several new lint rules, and
+      refactored our codebase to be compliant with it. Should prevent recurrence of
+      things like the to_chat(world) incident.
+  - bugfix: The emote target menu no longer reveals invisible targets.
+  - bugfix: Azurosa petals can no longer be dried into normal rosa petals
+  Ollanius:
+  - bugfix: Resolved edge cases where the Cackledagger skin couldn't properly be applied
+      to certain steel-tier daggers.
+  - rscadd: Hauberk and fluted cuirass's compatibility with the Woodland Brigandine.
+  SneakySlinky:
+  - rscadd: Added the Decabun, and its decadently sweet jamtallowed and marmaladed
+      variants
+  eirenxiv:
+  - bugfix: fixed lower case ckey
+  - rscadd: Added a new ckey to eirenxiv donor sword
+  mumblemancer:
+  - rscdel: removed doorobrine

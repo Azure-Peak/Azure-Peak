@@ -49,7 +49,7 @@
 	pixel_y = 0
 	pixel_x = -32
 
-/obj/structure/fluff/walldeco/wantedposter/Initialize()
+/obj/structure/fluff/walldeco/wantedposter/Initialize(mapload)
 	. = ..()
 	icon_state = "wanted[rand(1,3)]"
 	dir = pick(GLOB.cardinals)
@@ -104,7 +104,7 @@
 	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
 	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
 	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
-	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")	
+	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")
 	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
 	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
 	. += span_info("Using armor and weapons as intended will gradually wear their integrity down. Once it breaks, they can no longer be used or provide protection. Blacksmiths, tailors, repair kits, and certain tools can amend this.")
@@ -186,7 +186,7 @@
 	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
 	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
 	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
-	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")	
+	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")
 	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
 	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
 	. += span_info("Using armor and weapons as intended will gradually wear their integrity down. Once it breaks, they can no longer be used or provide protection. Blacksmiths, tailors, repair kits, and certain tools can amend this.")
@@ -345,7 +345,7 @@
 	breakoutextra = 5 MINUTES
 	buckleverb = "tie"
 
-/obj/structure/fluff/walldeco/chains/Initialize()
+/obj/structure/fluff/walldeco/chains/Initialize(mapload)
 	icon_state = "chains[rand(1,8)]"
 	..()
 
@@ -354,7 +354,7 @@
 	desc = "A banner flutters in the breeze in the proud heraldic colors of the Duchy."
 	icon_state = "wallflag"
 
-/obj/structure/fluff/walldeco/customflag/Initialize()
+/obj/structure/fluff/walldeco/customflag/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)

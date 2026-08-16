@@ -43,7 +43,7 @@
 /turf/bullet_act(obj/projectile/P)
 	. = ..()
 	if(. != BULLET_ACT_FORCE_PIERCE)
-//		. =  BULLET_ACT_TURF
+//		. =	BULLET_ACT_TURF
 
 		P.handle_drop()
 		return BULLET_ACT_HIT

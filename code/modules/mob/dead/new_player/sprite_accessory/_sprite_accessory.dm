@@ -155,7 +155,7 @@
 	var/icon/result_icon
 	for(var/color_index in 1 to color_keys)
 		var/color_to_use = color_list[color_index]
-		var/lookup_state = one_color ? overlay_icon_state  : "[overlay_icon_state]_[color_index]"
+		var/lookup_state = one_color ? overlay_icon_state	: "[overlay_icon_state]_[color_index]"
 		var/icon/color_key_icon = icon(icon, lookup_state)
 		color_key_icon.Blend(color_to_use, ICON_MULTIPLY)
 		if(!result_icon)
@@ -191,7 +191,7 @@
 /datum/sprite_accessory/proc/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return icon_state
 
-/datum/sprite_accessory/proc/get_default_colors(var/key_source_list)
+/datum/sprite_accessory/proc/get_default_colors(key_source_list)
 	var/list/color_list = list()
 	for(var/i in 1 to color_keys)
 		var/color

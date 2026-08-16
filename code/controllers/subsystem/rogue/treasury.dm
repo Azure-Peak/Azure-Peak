@@ -125,7 +125,7 @@ SUBSYSTEM_DEF(treasury)
 	var/list/fined_today_names = list()
 	var/fined_today_day = -1
 
-/datum/controller/subsystem/treasury/Initialize()
+/datum/controller/subsystem/treasury/Initialize(mapload)
 	var/roundstart_pop = get_active_player_count()
 	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
 	royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE + (roundstart_pop * ROYAL_CUSTOM_VOLUME_PER_POP)
@@ -509,7 +509,7 @@ SUBSYSTEM_DEF(treasury)
 		mint(burgher_pledge_fund, guild_bonus, "Guild of Arms tribute (Charter of Arms)")
 	record_round_statistic(STATS_PLEDGE_GENERATED, refill + guild_bonus)
 
-/datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
+/datum/controller/subsystem/treasury/proc/do_export(datum/roguestock/D, silent = FALSE)
 	if(D.stockpile_amount < D.importexport_amt)
 		return FALSE
 	var/amt = D.get_export_price()
@@ -870,7 +870,7 @@ SUBSYSTEM_DEF(treasury)
 			income += per_tick_flow
 		else if(rate < 0)
 			// Subsidies reach every eligible subject, including charter-protected ones.
-			per_tick_flow = rate * total   // negative total = subsidy out of Purse
+			per_tick_flow = rate * total	// negative total = subsidy out of Purse
 			subsidy += -per_tick_flow
 		by_category += list(list(
 			"category" = category,

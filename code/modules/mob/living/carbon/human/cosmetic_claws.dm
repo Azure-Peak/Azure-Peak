@@ -130,7 +130,7 @@
 
 	cosmetic_claw_intent = claw_intent
 	update_a_intents()
-	to_chat(src, span_notice("I will now fight with [lowertext(claw_style)], accompanied by [lowertext(sound_profile_name)]. They are no stronger than my fists."))
+	to_chat(src, span_notice("I will now fight with [LOWER_TEXT(claw_style)], accompanied by [LOWER_TEXT(sound_profile_name)]. They are no stronger than my fists."))
 
 #undef CLAW_STYLE_RETRACTABLE
 #undef CLAW_STYLE_HOOKED

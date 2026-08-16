@@ -1,4 +1,4 @@
-/mob/living/simple_animal/hostile/retaliate/rogue/goat/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/Initialize(mapload)
 	. = ..()
 	GLOB.farm_animals++
 	if(tame)
@@ -114,7 +114,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/tame
 	tame = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/saddled/Initialize(mapload)
 	. = ..()
 	ssaddle = new /obj/item/natural/saddle(src)
 	// excuse me please fucking compile again thank you
@@ -268,7 +268,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame
 	tame = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tame/saddled/Initialize(mapload)
 	. = ..()
 	ssaddle = new /obj/item/natural/saddle(src)
 	update_icon()
@@ -288,7 +288,7 @@
 		MOB_LAYER+0.1,
 	)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/goatmale/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/goatmale/Initialize(mapload)
 	. = ..()
 	GLOB.farm_animals++
 	if(tame)

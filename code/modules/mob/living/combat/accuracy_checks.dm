@@ -122,19 +122,19 @@
 	switch(zone)
 		//Hyper specific targetting is very difficult
 		if(BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND,
-		   BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT)
+			BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT)
 			return ULTRA_PRECISE_ZONE
 
 		// Head, arms, legs are all harder to hit then chest, but doable
 		if(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_NECK,
-		   BODY_ZONE_L_ARM, BODY_ZONE_R_ARM,
-		   BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+			BODY_ZONE_L_ARM, BODY_ZONE_R_ARM,
+			BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 			return PRECISE_ZONE
 
 		// Face & Skull targeting is extra-extra difficult due to their debilitating crits. Players only!
 		if(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE,
-		   BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS,
-		   BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
+			BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS,
+			BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
 			return PRECISE_FACE_ZONE
 
 	return NO_PENALTY_ZONE // Groin, Stomach and Chest are OK and Center of Mass.
