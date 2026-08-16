@@ -85,13 +85,15 @@
 
 /datum/antagonist/assassin/roundend_report()
 	var/traitorwin = FALSE
-	for(var/obj/item/I in owner.current.get_all_gear()) // Check to see if the Assassin has their profane dagger on them, and then check the souls contained therein.
-		if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
-			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = I
-			for(var/datum/profane_soul_data/soul in pissdagger.stored_souls) // Each trapped soul is announced to the server
-				if(soul)
-					to_world(span_artery("The soul of [soul.name] has been stolen for GRAGGAR by [owner.name]. <span class='greentext'>DAMNATION!</span>"))
-					traitorwin = TRUE
+	if(ishuman(owner.current))
+		var/mob/living/carbon/human/antag = owner.current
+		for(var/obj/item/I in antag.get_all_gear()) // Check to see if the Assassin has their profane dagger on them, and then check the souls contained therein.
+			if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
+				var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = I
+				for(var/datum/profane_soul_data/soul in pissdagger.stored_souls) // Each trapped soul is announced to the server
+					if(soul)
+						to_world(span_artery("The soul of [soul.name] has been stolen for GRAGGAR by [owner.name]. <span class='greentext'>DAMNATION!</span>"))
+						traitorwin = TRUE
 
 	if(!considered_alive(owner))
 		traitorwin = FALSE
