@@ -204,6 +204,9 @@
 
 	var/list/charflaws = list()
 
+	/// Spawn-time copy of the character-setup preferences this mob was built from. See /datum/pref_snapshot.
+	var/datum/pref_snapshot/pref_snapshot
+
 	var/list/feint_list = list()
 
 	/// curse list and cooldown

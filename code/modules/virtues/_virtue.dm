@@ -196,7 +196,8 @@ GLOBAL_LIST_EMPTY(virtues)
 		record_featured_object_stat(FEATURED_STATS_ORIGINS, virtue_type.name)
 	else
 		var/stacked = FALSE
-		if(istype(recipient.client?.prefs?.virtue, recipient.client?.prefs?.virtuetwo))
+		var/datum/pref_snapshot/snapshot = recipient.get_pref_snapshot()
+		if(snapshot?.virtuetwo && istype(snapshot.virtue, snapshot.virtuetwo))
 			stacked = TRUE
 		record_featured_object_stat(FEATURED_STATS_VIRTUES, (stacked ? "[virtue_type.name] (Stacked)" : virtue_type.name), stacked ? 0.5 : 1)
 /datum/virtue/none

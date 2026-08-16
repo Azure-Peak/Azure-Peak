@@ -17,6 +17,59 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(special.req_text)
 		to_chat(user, span_boldwarning("Requirements: [special.req_text]"))
 
+/**
+ * A frozen copy of the character-setup preferences a mob was spawned from.
+ *
+ * There is only one /datum/preferences per client and switching character slot overwrites its
+ * fields in place, so client.prefs stops describing the mob you are playing the moment the player
+ * opens the setup menu and picks another slot. This is fine in most cases but in the case of
+ * apply_character_post_equipment(), we need a static copy of the character's pref for edge cases
+ * where the player changes their slot until the player finishes class and loadout selection.
+ *
+ * Taken in /datum/preferences/proc/copy_to()
+ */
+
+/datum/pref_snapshot
+	var/datum/virtue/virtue
+	var/datum/virtue/virtuetwo
+	var/datum/virtue/virtue_origin
+	var/extra_language
+	var/datum/patron/selected_patron
+	var/datum/statpack/statpack
+	var/race_bonus
+	var/voice_pack
+	var/dnr_pref = FALSE
+	var/qsr_pref = FALSE
+	var/next_special_trait
+	var/list/gear_list
+	var/averse_chosen_faction
+	var/lastclass
+
+/datum/pref_snapshot/New(datum/preferences/prefs)
+	. = ..()
+	if(!prefs)
+		return
+	virtue = prefs.virtue
+	virtuetwo = prefs.virtuetwo
+	virtue_origin = prefs.virtue_origin
+	extra_language = prefs.extra_language
+	selected_patron = prefs.selected_patron
+	statpack = prefs.statpack
+	race_bonus = prefs.race_bonus
+	voice_pack = prefs.voice_pack
+	dnr_pref = prefs.dnr_pref
+	qsr_pref = prefs.qsr_pref
+	next_special_trait = prefs.next_special_trait
+	gear_list = prefs.gear_list?.Copy()
+	averse_chosen_faction = prefs.averse_chosen_faction
+	lastclass = prefs.lastclass
+
+/// Returns the preferences this mob spawned with. Has a failsafe for NPCs or admin mobs.
+/mob/living/carbon/human/proc/get_pref_snapshot()
+	if(!pref_snapshot && client?.prefs)
+		pref_snapshot = new /datum/pref_snapshot(client.prefs)
+	return pref_snapshot
+
 /proc/try_apply_character_post_equipment(mob/living/carbon/human/character, client/player)
 	var/datum/job/job
 	if(character.job)
@@ -34,18 +87,22 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 /proc/apply_character_post_equipment(mob/living/carbon/human/character, client/player)
 	if(!player)
 		player = character.client
-	apply_charflaw_equipment(character, player)
-	apply_prefs_special(character, player)
-	apply_prefs_virtue(character, player)
-	apply_prefs_race_bonus(character, player)
+	// Everything preference-derived below comes from the spawn-time snapshot, never client.prefs -
+	// for adv class jobs this proc runs after class and loadout selection, by which point the
+	// player may have switched character slot and overwritten their prefs with another character.
+	var/datum/pref_snapshot/snapshot = character.get_pref_snapshot()
+	apply_charflaw_equipment(character)
+	apply_prefs_special(character, snapshot)
+	apply_prefs_virtue(character, snapshot)
+	apply_prefs_race_bonus(character, snapshot)
 	if(!HAS_TRAIT(character, TRAIT_NO_VOICEPACK_OVERRIDE)) //Only roundstart roles that jobload in, should use this. Prevents prefloaded voicepacks overriding yours.
-		apply_voicepacks(character, player)
-	if(player.prefs.dnr_pref)
-		apply_dnr_trait(character, player)
-	if(player.prefs.qsr_pref)
-		apply_qsr_trait(character, player)
-	character.mind.triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free, spent on retrieval
-	for(var/item_name in player.prefs.gear_list)
+		apply_voicepacks(character, snapshot?.voice_pack)
+	if(snapshot?.dnr_pref)
+		apply_dnr_trait(character)
+	if(snapshot?.qsr_pref)
+		apply_qsr_trait(character)
+	character.mind.triumph_discount_remaining = is_donator(player?.ckey) ? 3 : 0 // donators get first 3 triumph points free, spent on retrieval
+	for(var/item_name in snapshot?.gear_list)
 		var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item_name]
 		if(!LI)
 			continue
@@ -54,7 +111,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			character.mind.special_items["[LI.name][TRIUMPH_STASH_SUFFIX]"] = LI.path
 		else
 			character.mind.special_items[LI.name] = LI.path
-		character.mind.special_items_metadata[LI.name] = player.prefs.gear_list[item_name]
+		character.mind.special_items_metadata[LI.name] = snapshot.gear_list[item_name]
 	var/datum/job/assigned_job = SSjob.GetJob(character.mind?.assigned_role)
 	if(assigned_job)
 		assigned_job.clamp_stats(character)
@@ -77,35 +134,34 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			ADD_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)
 	return TRUE
 
-/proc/apply_voicepacks(mob/living/carbon/human/character, client/player)
-	if(player.prefs.voice_pack != "Default")
-		var/datum/voicepack/VP = GLOB.voice_packs[GLOB.voice_packs_list[player.prefs.voice_pack]]
-		character.dna.species.soundpack_m = VP
-		character.dna.species.soundpack_f = VP
-
-
-/proc/apply_prefs_virtue(mob/living/carbon/human/character, client/player)
-	if (!player)
-		player = character.client
-	if (!player)
+/proc/apply_voicepacks(mob/living/carbon/human/character, voice_pack)
+	if(!voice_pack || voice_pack == "Default")
 		return
-	if (!player.prefs)
+	var/datum/voicepack/VP = GLOB.voice_packs[GLOB.voice_packs_list[voice_pack]]
+	character.dna.species.soundpack_m = VP
+	character.dna.species.soundpack_f = VP
+
+
+/proc/apply_prefs_virtue(mob/living/carbon/human/character, datum/pref_snapshot/snapshot)
+	if (!snapshot)
+		snapshot = character.get_pref_snapshot()
+	if (!snapshot)
 		return
 
 	var/virtuous = FALSE
 	var/heretic = FALSE
 	var/species = character.dna.species
 
-	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
+	if(istype(snapshot.selected_patron, /datum/patron/inhumen))
 		heretic = TRUE
 
-	if(player.prefs.statpack.virtuous)
+	if(snapshot.statpack?.virtuous)
 		virtuous = TRUE
 
-	var/datum/virtue/virtue_type = player.prefs.virtue
-	var/datum/virtue/virtuetwo_type = player.prefs.virtuetwo
-	var/datum/virtue/origin_type = player.prefs.virtue_origin
-	var/language_type = player.prefs.extra_language
+	var/datum/virtue/virtue_type = snapshot.virtue
+	var/datum/virtue/virtuetwo_type = snapshot.virtuetwo
+	var/datum/virtue/origin_type = snapshot.virtue_origin
+	var/language_type = snapshot.extra_language
 	if(virtue_type)
 		if(virtue_check(virtue_type, heretic, species))
 			apply_virtue(character, virtue_type)
@@ -121,7 +177,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			character.grant_language(language_type)
 		if(origin_type.job_origin == TRUE)
 			apply_virtue(character, origin_type)
-			player.prefs.virtue_origin = origin_type.last_origin
+			snapshot.virtue_origin = origin_type.last_origin
 		else
 			if(origin_check(origin_type, species))
 				apply_virtue(character, origin_type)
@@ -145,18 +201,16 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return TRUE
 	return FALSE
 
-/proc/apply_prefs_race_bonus(mob/living/carbon/human/character, client/player)
-	if (!player)
-		player = character.client
-	if (!player)
+/proc/apply_prefs_race_bonus(mob/living/carbon/human/character, datum/pref_snapshot/snapshot)
+	if (!snapshot)
+		snapshot = character.get_pref_snapshot()
+	if (!snapshot)
 		return
-	if (!player.prefs)
-		return
-	if (!player.prefs.race_bonus || player.prefs.race_bonus == "None")
+	if (!snapshot.race_bonus || snapshot.race_bonus == "None")
 		return
 	if(!length(character.dna.species.custom_selection))
 		return
-	var/bonus = player.prefs.race_bonus
+	var/bonus = snapshot.race_bonus
 	if(!(bonus in character.dna.species.custom_selection))
 		return
 	var/full_bonus
@@ -195,7 +249,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return TRUE
 	return FALSE
 
-/proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
+/proc/apply_charflaw_equipment(mob/living/carbon/human/character)
 	var/has_extra_vice = FALSE
 	var/needs_extra_vice = FALSE
 	for(var/datum/charflaw/cf in character.charflaws) // difficulty flaws don't count as each other's extra vice
@@ -211,27 +265,29 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		character.charflaws.Add(rf)
 		rf.apply_post_equipment(character)
 
-/proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
-	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)
+/proc/apply_dnr_trait(mob/living/carbon/human/character)
+	ADD_TRAIT(character, TRAIT_DNR, TRAIT_GENERIC)
 
-/proc/apply_qsr_trait(mob/living/carbon/human/character, client/player)
-	ADD_TRAIT(player.mob, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC)
+/proc/apply_qsr_trait(mob/living/carbon/human/character)
+	ADD_TRAIT(character, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC)
 
-/proc/apply_prefs_special(mob/living/carbon/human/character, client/player)
-	if(!player)
-		player = character.client
-	if(!player)
+/proc/apply_prefs_special(mob/living/carbon/human/character, datum/pref_snapshot/snapshot)
+	if(!snapshot)
+		snapshot = character.get_pref_snapshot()
+	if(!snapshot)
 		return
-	if(!player.prefs)
-		return
-	var/trait_type = player.prefs.next_special_trait
+	var/trait_type = snapshot.next_special_trait
 	if(!trait_type)
 		return
-	apply_special_trait_if_able(character, player, trait_type)
-	player.prefs.next_special_trait = null
+	apply_special_trait_if_able(character, trait_type)
+	snapshot.next_special_trait = null
+	// The pref is a one-shot token, so clear it on the live prefs too - but only if the player is
+	// still on the slot we spawned from, otherwise we'd be consuming another character's token.
+	if(character.client?.prefs?.next_special_trait == trait_type)
+		character.client.prefs.next_special_trait = null
 
-/proc/apply_special_trait_if_able(mob/living/carbon/human/character, client/player, trait_type)
-	if(!charactet_eligible_for_trait(character, player, trait_type))
+/proc/apply_special_trait_if_able(mob/living/carbon/human/character, trait_type)
+	if(!charactet_eligible_for_trait(character, trait_type))
 		log_game("SPECIALS: Failed to apply [trait_type] for [key_name(character)]")
 		return FALSE
 	log_game("SPECIALS: Applied [trait_type] for [key_name(character)] ([character.get_role_title()])")
@@ -239,17 +295,13 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	return TRUE
 
 /// Applies random special trait IF the client has specials enabled in prefs
-/proc/apply_random_special_trait(mob/living/carbon/human/character, client/player)
-	if(!player)
-		player = character.client
-	if(!player)
-		return
-	var/special_type = get_random_special_for_char(character, player)
+/proc/apply_random_special_trait(mob/living/carbon/human/character)
+	var/special_type = get_random_special_for_char(character)
 	if(!special_type) // Ineligible for all of them, somehow
 		return
 	apply_special_trait(character, special_type)
 
-/proc/charactet_eligible_for_trait(mob/living/carbon/human/character, client/player, trait_type)
+/proc/charactet_eligible_for_trait(mob/living/carbon/human/character, trait_type)
 	var/datum/special_trait/special = SPECIAL_TRAIT(trait_type)
 	var/datum/job/job
 	if(character.job)
@@ -290,11 +342,11 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return FALSE
 	return TRUE
 
-/proc/get_random_special_for_char(mob/living/carbon/human/character, client/player)
+/proc/get_random_special_for_char(mob/living/carbon/human/character)
 	var/list/eligible_weight = list()
 	for(var/trait_type in GLOB.special_traits)
 		var/datum/special_trait/special = SPECIAL_TRAIT(trait_type)
-		if(!charactet_eligible_for_trait(character, player, trait_type))
+		if(!charactet_eligible_for_trait(character, trait_type))
 			continue
 		eligible_weight[trait_type] = special.weight
 

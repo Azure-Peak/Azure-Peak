@@ -488,19 +488,20 @@
 	return preload
 
 /datum/outfit/proc/change_origin(mob/living/carbon/human/H, new_origin = /datum/virtue/none, wording = "Custom")
-	var/client/player = H?.client
-	if(player?.prefs)
-		var/origin_memory = player.prefs.virtue_origin
-		player.prefs.virtue_origin = new new_origin
+	// Overrides the origin on the mob's snapshot rather than on client.prefs
+	var/datum/pref_snapshot/snapshot = H?.get_pref_snapshot()
+	if(snapshot)
+		var/origin_memory = snapshot.virtue_origin
+		snapshot.virtue_origin = new new_origin
 		H.dna.species.skin_tone_wording = wording
-		player.prefs.virtue_origin.job_origin = TRUE
-		player.prefs.virtue_origin.last_origin = origin_memory
-		player.prefs.virtue_origin.apply_to_human(H)
-		if(length(player.prefs.virtue_origin.added_languages))
-			for(var/L in player.prefs.virtue_origin.added_languages)
+		snapshot.virtue_origin.job_origin = TRUE
+		snapshot.virtue_origin.last_origin = origin_memory
+		snapshot.virtue_origin.apply_to_human(H)
+		if(length(snapshot.virtue_origin.added_languages))
+			for(var/L in snapshot.virtue_origin.added_languages)
 				H.grant_language(L)
-		if(length(player.prefs.virtue_origin.last_origin.added_languages))
-			for(var/L in player.prefs.virtue_origin.last_origin.added_languages)
-				if(L != player.prefs.extra_language)
+		if(length(snapshot.virtue_origin.last_origin?.added_languages))
+			for(var/L in snapshot.virtue_origin.last_origin.added_languages)
+				if(L != snapshot.extra_language)
 					H.remove_language(L)
-		H.grant_language(player.prefs.extra_language)
+		H.grant_language(snapshot.extra_language)

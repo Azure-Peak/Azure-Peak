@@ -92,9 +92,10 @@
 	return TRUE
 
 /datum/controller/subsystem/merchant_trade/proc/catalog_origin_access(datum/merchant_catalog/C, mob/living/carbon/human/H)
-	if(!istype(C) || !C.home_origin_name || !ishuman(H) || !H.client?.prefs)
+	if(!istype(C) || !C.home_origin_name || !ishuman(H))
 		return FALSE
-	var/datum/virtue/origin/O = H.client.prefs.virtue_origin
+	var/datum/pref_snapshot/snapshot = H.get_pref_snapshot()
+	var/datum/virtue/origin/O = snapshot?.virtue_origin
 	if(!istype(O))
 		return FALSE
 	return O.origin_name == C.home_origin_name

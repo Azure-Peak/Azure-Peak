@@ -41,8 +41,9 @@
 /datum/outfit/job/roguetown/heir/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/client/player = H?.client
-	if(player.prefs)
-		if(!istype(player.prefs.virtue_origin, /datum/virtue/origin/azuria) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/grenzelhoft) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/otava) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/etrusca))
+	var/datum/pref_snapshot/snapshot = H?.get_pref_snapshot()
+	if(snapshot)
+		if(!istype(snapshot.virtue_origin, /datum/virtue/origin/azuria) && !istype(snapshot.virtue_origin, /datum/virtue/origin/grenzelhoft) && !istype(snapshot.virtue_origin, /datum/virtue/origin/otava) && !istype(snapshot.virtue_origin, /datum/virtue/origin/etrusca))
 			var/list/new_origins = list("Azuria" = /datum/virtue/origin/azuria,
 			"Grenzelhoft" = /datum/virtue/origin/grenzelhoft,
 			"Otava" = /datum/virtue/origin/otava,

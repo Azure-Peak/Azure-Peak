@@ -3181,6 +3181,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		for(var/datum/charflaw/cf in character.charflaws)
 			cf.on_mob_creation(character)
 
+	// Static copy of the player's preferences that cannot change once
+	// they have spawned in. This is to prevent weird edge cases where
+	// reading client preferences might return a difference slot.
+	character.pref_snapshot = new /datum/pref_snapshot(src)
+
 	character.dna.real_name = character.real_name
 
 	character.headshot_link = headshot_link

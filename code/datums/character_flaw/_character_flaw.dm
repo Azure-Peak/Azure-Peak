@@ -80,15 +80,10 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(!flaw)
 		return FALSE
 
-	if(charflaws && charflaws.len)
-		for(var/datum/charflaw/cf in charflaws)
-			if(istype(cf, flaw))
-				return TRUE
-
-	if(client?.prefs?.charflaws && client.prefs.charflaws.len)
-		for(var/datum/charflaw/cf in client.prefs.charflaws)
-			if(istype(cf, flaw))
-				return TRUE
+	// Only ever read the mob's own vices.
+	for(var/datum/charflaw/cf in charflaws)
+		if(istype(cf, flaw))
+			return TRUE
 
 	return FALSE
 
@@ -134,8 +129,10 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/datum/job/mob_job = null
 	if(target.mind?.assigned_role)
 		mob_job = SSjob.GetJob(target.mind.assigned_role)
-	else if(target.client?.prefs?.lastclass)
-		mob_job = SSjob.GetJob(target.client.prefs.lastclass)
+	else
+		var/datum/pref_snapshot/snapshot = target.get_pref_snapshot()
+		if(snapshot?.lastclass)
+			mob_job = SSjob.GetJob(snapshot.lastclass)
 
 	if(mob_job && mob_job.vice_restrictions)
 		for(var/key in cf_list)
@@ -877,8 +874,10 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/averse/apply_post_equipment(mob/user)
 	if(user.mind)
-		if(user.client.prefs?.averse_chosen_faction)
-			set_jobflag(user.client.prefs?.averse_chosen_faction)
+		var/mob/living/carbon/human/H = user
+		var/datum/pref_snapshot/snapshot = ishuman(H) ? H.get_pref_snapshot() : null
+		if(snapshot?.averse_chosen_faction)
+			set_jobflag(snapshot.averse_chosen_faction)
 			is_active = TRUE
 			active_since = world.time
 	if(is_active && user && !QDELETED(user))

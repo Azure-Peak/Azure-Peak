@@ -1142,5 +1142,5 @@
 	vocal_speed = client.prefs.bark_speed
 	vocal_pitch = client.prefs.bark_pitch
 	vocal_pitch_range = client.prefs.bark_variance
-	apply_voicepacks(src, client)
+	apply_voicepacks(src, client.prefs.voice_pack)
 	return TRUE

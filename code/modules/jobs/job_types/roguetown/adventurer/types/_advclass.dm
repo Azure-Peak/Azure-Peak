@@ -251,9 +251,10 @@
 	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
 		return FALSE
 
-	if(length(virtue_limits) && H.client)
+	var/datum/pref_snapshot/snapshot = H.get_pref_snapshot()
+	if(length(virtue_limits) && snapshot)
 		for(var/virtuetype in virtue_limits)
-			if(istype(H.client.prefs?.virtue, virtuetype) || istype(H.client.prefs?.virtuetwo, virtuetype))
+			if(istype(snapshot.virtue, virtuetype) || istype(snapshot.virtuetwo, virtuetype))
 				return FALSE
 
 	var/list/current_vice_limits = get_vice_limits(H)

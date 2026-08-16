@@ -31,10 +31,11 @@
 	return null
 
 /datum/controller/subsystem/merchant_trade/proc/try_claim_kinship_for(mob/living/carbon/human/H, client/source)
-	var/datum/preferences/prefs = source?.prefs || H?.client?.prefs
-	if(!prefs)
+	var/mob/living/carbon/human/claimant = ishuman(source?.mob) ? source.mob : H
+	var/datum/pref_snapshot/snapshot = claimant?.get_pref_snapshot()
+	if(!snapshot)
 		return
-	var/datum/virtue/origin/O = prefs.virtue_origin
+	var/datum/virtue/origin/O = snapshot.virtue_origin
 	if(!istype(O))
 		return
 	var/new_realm = origin_name_to_realm_id(O.origin_name)
@@ -79,9 +80,10 @@
 	if(!realm_id || !ishuman(H))
 		return 1
 	var/is_agent = (H.job == "Shophand") || HAS_TRAIT(H, TRAIT_AGENT_MERCHANT)
-	if(!is_agent || !H.client?.prefs)
+	if(!is_agent)
 		return 1
-	var/datum/virtue/origin/O = H.client.prefs.virtue_origin
+	var/datum/pref_snapshot/snapshot = H.get_pref_snapshot()
+	var/datum/virtue/origin/O = snapshot?.virtue_origin
 	if(!istype(O))
 		return 1
 	var/agent_realm = origin_name_to_realm_id(O.origin_name)
@@ -93,12 +95,13 @@
 	return min(get_kinship_buy_mult(realm_id), get_agent_kinship_buy_mult(realm_id, user))
 
 /datum/controller/subsystem/merchant_trade/proc/get_agent_personal_kinship_realm(mob/living/carbon/human/H)
-	if(!ishuman(H) || !H.client?.prefs)
+	if(!ishuman(H))
 		return null
 	var/is_agent = (H.job == "Shophand") || HAS_TRAIT(H, TRAIT_AGENT_MERCHANT)
 	if(!is_agent)
 		return null
-	var/datum/virtue/origin/O = H.client.prefs.virtue_origin
+	var/datum/pref_snapshot/snapshot = H.get_pref_snapshot()
+	var/datum/virtue/origin/O = snapshot?.virtue_origin
 	if(!istype(O))
 		return null
 	return origin_name_to_realm_id(O.origin_name)
