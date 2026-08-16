@@ -1,5 +1,5 @@
 /datum/advclass/mercenary/seonjang
-	name = "Ruma Seonjang"
+	name = "Ruma Seonjang" //Now unused, as Gun-in covers all the functions and options.
 	tutorial = "A Captain from a band of Kazengite foreigners. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed to avoid repercussion. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_SMALL)

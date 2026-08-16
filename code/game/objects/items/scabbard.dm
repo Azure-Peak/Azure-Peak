@@ -583,7 +583,6 @@
 
 	valid_blade = /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 	can_parry = FALSE
-	sewrepair = TRUE
 	special = null
 	max_integrity = 0
 
@@ -626,7 +625,7 @@
 	can_parry = TRUE
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/carpentry
-	wdefense = 4
+	wdefense = 6
 	max_integrity = 220
 
 
