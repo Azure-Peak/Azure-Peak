@@ -89,7 +89,7 @@
 			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = I
 			for(var/datum/profane_soul_data/soul in pissdagger.stored_souls) // Each trapped soul is announced to the server
 				if(soul)
-					to_chat(world, span_artery("The soul of [soul.name] has been stolen for GRAGGAR by [owner.name]. <span class='greentext'>DAMNATION!</span>"))
+					to_world(span_artery("The soul of [soul.name] has been stolen for GRAGGAR by [owner.name]. <span class='greentext'>DAMNATION!</span>"))
 					traitorwin = TRUE
 
 	if(!considered_alive(owner))
