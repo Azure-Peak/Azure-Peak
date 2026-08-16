@@ -440,7 +440,7 @@ Inquisitorial armory down here
 				destroy_that_dagger(user, A)
 				return
 			else
-				to_chat(user, spawn_warning("Only an ABSOLVER can use Golgatha to free the souls within this dagger!"))
+				to_chat(user, span_warning("Only an ABSOLVER can use Golgatha to free the souls within this dagger!"))
 		var/datum/component/silverbless/CP = A.GetComponent(/datum/component/silverbless)
 		if(CP)
 			if(!CP.is_blessed && (CP.silver_type & SILVER_PSYDONIAN))
