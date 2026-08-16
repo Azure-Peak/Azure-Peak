@@ -407,6 +407,12 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_RED
 
+/obj/item/clothing/head/roguetown/duelisthat //vanderlin sprite
+	name = "dashing feathered hat"
+	desc = "A feathered leather hat, for a daring rogue."
+	icon_state = "duelisthat"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/flamboyant
 	name = "flamboyant hat"
 	desc = "A luxurious purple feathered hat with wide brim."
