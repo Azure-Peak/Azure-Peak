@@ -70,10 +70,10 @@ extra_context = "This subclass gains expert skill with it's chosen weapons."
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 			if("Dress")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
-		var/weapons = list("Ruma Hwando (Onehanded saber)","Golden Ruma Hwando","Ssangsudo (Heavy sword)","Naginata & Tanto (Polearm & dagger)","Kodachi & Tanto (Shortsword & dagger)","Longbow & Kodachi","Longbow & Tanto")
+		var/weapons = list("Ruma Hwando (Onehanded sabre)","Golden Ruma Hwando","Ssangsudo (Heavy sword)","Naginata & Tanto (Polearm & dagger)","Kodachi & Tanto (Shortsword & dagger)","Longbow & Kodachi","Longbow & Tanto")
 		var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
 		switch(weapon_choice)
-			if("Ruma Hwando (Onehanded saber)")
+			if("Ruma Hwando (Onehanded sabre)")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun/steel
 				beltl = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
