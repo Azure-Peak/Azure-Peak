@@ -22,12 +22,12 @@
 	death_loot = list(/obj/item/magic/fae/fairydust = 4)
 	faction = list(FACTION_FAE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
-	health = 80
-	maxHealth = 80
+	health = 50
+	maxHealth = 50
 	threat_point = THREAT_TRASH
 	ranged = FALSE
-	melee_damage_lower = 12
-	melee_damage_upper = 15
+	melee_damage_lower = 8
+	melee_damage_upper = 12
 	vision_range = 8
 	aggro_vision_range = 11
 	environment_smash = ENVIRONMENT_SMASH_NONE
