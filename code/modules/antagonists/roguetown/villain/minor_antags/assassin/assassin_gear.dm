@@ -1,0 +1,386 @@
+
+//Unique assassin/antag dagger.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane
+	name = "profane dagger"
+	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the glut on its hilt. </br>A chill rolls down my spine. I am not alone."
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate, /datum/intent/dagger/thrust/pick)
+	icon_state = "graggardagger"
+	sheathe_icon = "graggardagger"
+	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
+	// maybe add TRAIT_NOEMBED on initalize??? Fuck IDK man
+	resistance_flags = INDESTRUCTIBLE
+	stealthy_audio = TRUE
+	var/last_spoken = 0 // prevent chatspam
+	is_important = TRUE // do not let it be sold or whatever
+	sellprice = 0
+
+	// static list for what non-assassins hear on picking up the dagger.
+	var/static/list/na_pleads = list(
+		"Help me...",
+		"Save me...",
+		"It's cold...",
+		"Free us... please...",
+		"Necra... deliver us...",
+		"I can still feel the pain...",
+		"Break the dagger... please...",
+	)
+	// non-static list for last words. non-static bc we will add the last words of a peculated victim into our repetoire.
+	var/list/last_words = list(
+		"Why...",
+		"...Who sent you?",
+		"You will burn for what you've done...",
+		"I hate you...",
+		"GUARDS, STOP THEM!",
+		"GUARDS! HELP!",
+		"Someone stop them!",
+		"...What's that in your hand?",
+		"...You love me, don't you?",
+		"Wait... don't I know you?",
+		"I thought you were... my friend...",
+		"What, you egg?",
+		"How long have I been in here...?"
+	)
+	var/list/stored_souls = list()
+	var/mob/living/dominator // set on dagger pickup if not on spell, for admin-intervention
+	voicecolor_override = "3F5C6D"
+	verb_say = "whispers"
+
+
+/datum/profane_soul_data
+	var/name
+	// i couldnt get the ghosts to store well so we're just gonna check body & apply & remove DNR as needed cus thats close enough
+	var/mob/living/carbon/human/body
+
+/datum/profane_soul_data/New(mob/living/carbon/human/target)
+	name = target.real_name
+	body = target
+
+/datum/profane_soul_data/Destroy(force, ...)
+	if(!src.body)
+		return
+	src.remove_assassinate_traits()
+	. = ..()
+
+/// Removes the DNR & claimed by darkstar. CALL THIS BEFORE NUKING A SOUL_DATA.
+/datum/profane_soul_data/proc/remove_assassinate_traits()
+	if(!src.body)
+		return
+	if(HAS_TRAIT_FROM(src.body, TRAIT_DNR, GRAGGAR_ASSASSINATED))
+		REMOVE_TRAIT(src.body, TRAIT_DNR, GRAGGAR_ASSASSINATED)
+	if(HAS_TRAIT_FROM(src.body, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED))
+		REMOVE_TRAIT(src.body, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
+		. += "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"...here we are!\"</i>")
+	else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
+		. += span_gamedeadsay("This is the VILE DAGGER of a SOUL-THIEF! SLAY IT'S MASTER and BREAK IT by invoking a Necran ritual upon it!")
+	if(stored_souls.len)
+		// tried some bullshit w/ the expression being in here like the pale aura from dnr for practice
+		. += span_gamedeadsay("You can hear [stored_souls.len] soul[stored_souls.len > 1 ? "s" : ""] screaming from within...")
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/rmb_self(mob/user)
+	. = ..()
+	// it funny
+	if(world.time >= last_spoken + 3 SECONDS)
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU'RE GOING TO PAY FOR THIS!\"</i>"))
+		last_spoken = world.time
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This is a dagger used by the ASSASSIN antagonist. Targets who have the \"TARGETED\" vice can be soul-trapped \
+	within it by use of it's PECULATE intent. If you are an assassin, slay your target, or wait until they have produced a \"BLED OUT\" \
+	message in order to sap them with it.")
+	. += span_info("PECULATE steals the face of any valid being, TARGETED or not. It is still a little buggy. It will not work on NPCs, revenants, \
+	or oozelings. Their souls will still be trapped if they are valid, however.")
+	. += span_info("BREAKING the dagger requires the assassin to be slain.")
+	// keep this updated w/ absolver if that also gets added
+	. += span_info("The dagger can be broken through a Necran Rite with a dagger in the center, or a blessing by a Bishop of the Ten.")
+	. += span_info("Breaking the dagger will restore the souls, allowing any ghosts who are still present in-round to be returned to their \
+	bodies and revived.")
+	. += span_redinfo("If you are an assassin, you can break any dagger you own by MMB'ing it. Please consider using this is if you are about to ERP \
+	or similar. Thank you.")
+
+
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
+	. = ..()
+	var/picked_message = "Help us..."
+
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(HAS_TRAIT(H, TRAIT_ASSASSIN))
+			// as a fallback, in case an admin spawns a new dagger for someone, we'll allow new ones to be taken on pickup().
+			// check one: does dagger already have a master?
+			if(!src.dominator)
+				var/datum/antagonist/assassin/ass = H.mind.has_antag_datum(/datum/antagonist/assassin)
+				if(ass)
+					if(!ass.my_dagger)
+						dominator = H
+						ass.my_dagger = src
+						to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"YOU ARE THE LORD OF THIS WASTELAND!\"</i>"))
+						return
+			picked_message = pick(last_words)
+		else
+			H.add_stress(/datum/stressevent/profane)
+			to_chat(H, span_danger("Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness."))
+			picked_message = pick(na_pleads)
+		// whispers in the walls and such
+		if(world.time >= last_spoken + 3 SECONDS)
+			to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"[picked_message]\"</i>"))
+			last_spoken = world.time
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/Destroy()
+	if(stored_souls.len)
+		// any dagger destruction needs to release all the souls in it
+		release_profane_souls()
+	if(dominator && dominator.mind)
+		// inform dominator if any
+		to_chat(dominator, span_cult("I hear a faint screaming-- blood drips. My dagger has been destroyed."))
+		var/datum/antagonist/assassin/ass = dominator.mind.has_antag_datum(/datum/antagonist/assassin)
+		if(ass)
+			// null the knife out. admins can spawn them a new one if they need to.
+			ass.my_dagger = null
+	// i THINK this should clear the list?
+	stored_souls.Cut()
+	. = ..()
+
+// this is the stupidest way i can think to proof this against an assassin fucking off to erp all round after killing people.
+// you get to break your own dagger & un-dnr them. you dont get another. Good Luck!
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/MiddleClick(mob/user, params)
+	. = ..()
+	if(!ishuman(user))
+		return
+	if(dominator != user)
+		return
+	var/mob/living/carbon/human/daggermaster = user
+	if(user.mmb_intent)
+		return ..()
+	to_chat(daggermaster, span_cult("I consider breaking my own dagger..."))
+	var/are_you_sure = input(daggermaster, "Are you sure you wish to shatter your own dagger?", "ARE YOU SURE?") as anything in list("Yes", "No")
+	if(are_you_sure == "Yes")
+		var/are_you_really_sure = input(daggermaster, "Are you REALLY SURE you wish to shatter your own dagger?", "GUESS WHO GOT HIS DAGGER...") as anything in list("Yes", "No")
+		if(are_you_really_sure == "Yes")
+			to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"MASTER... NO!\"</i>"))
+			var/are_you_triple_sure = input(daggermaster, "Are you REALLY, REALLY SURE wish to shatter your own dagger?", "THINK, MASTER, THINK!") as anything in list("Yes", "No")
+			if(are_you_triple_sure == "Yes")
+				playsound(daggermaster, 'sound/misc/adrenaline_rush.ogg', 20, FALSE, -4)
+				daggermaster.visible_message(span_warning("[daggermaster] begins to break their own cursed dagger..."), span_artery("THIS IS ONENESS..."))
+				if(do_after(daggermaster, 10 SECONDS, same_direction = TRUE))
+					playsound(daggermaster, 'sound/misc/bellold.ogg', 20, FALSE, -4)
+					daggermaster.visible_message(span_warning("[daggermaster] breaks their own dagger! Wayward souls pour free!"), span_artery("...AND ANNIHILATION!"))
+					// no triumphs for you. bad.
+					var/remove_triumphs = release_profane_souls() * -1
+					daggermaster.adjust_triumphs(remove_triumphs)
+					to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"WE HAD SO MUCH FUN TOGETHER! YOU LOVE ME, RIGHT?!\"</i>"))
+					qdel(src)
+					return TRUE
+	to_chat(daggermaster, span_cult("I push aside the thought of breaking my poor, poor dagger..."))
+
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
+	if(!istype(target))
+		return FALSE
+	if(target.has_flaw(/datum/charflaw/targeted)) // dagger deals more dmg to ppl who r targeted
+		force = 20 * 2	//vs trait havers, 2x damage over a steel knife
+	else
+		force = 20 + 4	//vs non-trait havers, 4 more damage over a steel knife
+	return FALSE
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
+	. = ..()
+	// FIRST. we check for peculate.
+	if(istype(user.used_intent, /datum/intent/peculate))
+		// are they allowed to use this
+		if(!can_peculate(target, user))
+			return
+		// run a health check on the target. if they're not dead enough, return us early.
+		if(!target_health_check(target))
+			to_chat(user, span_warning("My target must be a bit more dead! Let them bleed!"))
+			return
+
+		// head-check. they need a head.
+		var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
+		if(QDELETED(target_head))
+			to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
+			return
+
+		// sloppy & repeated but im lazy rn
+		if(!ishuman(user))
+			return
+		var/mob/living/carbon/human/human_user = user
+
+		// send a message. everyone know what we're doing.
+		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... \
+												STOP [human_user.p_them()]!!"), span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty."))
+
+		to_chat(user, span_artery("De-za-kh..."))
+
+		// INITIATE GRAGGAR BEAM.
+		var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
+
+		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+
+		if(!do_after(user, 5 SECONDS, target = target))
+			qdel(transfer_beam)
+			return
+		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+		to_chat(user, span_artery("\"...a-da-sh...\""))
+
+		if(!do_after(user, 5 SECONDS, target = target))
+			qdel(transfer_beam)
+			return
+		playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
+		to_chat(user, span_artery("\"...ba-a-ha-v!\""))
+
+		if(!user.client)
+			qdel(transfer_beam)
+			return
+		qdel(transfer_beam)
+		// graggar beam worked w/ no interruptions. domp eet.
+
+		// we need to check to make sure we can face-steal them
+		if(preliminary_face_steal_check(target, user))
+			// do it, if we can
+			human_user.copy_physical_features(target) // this needs replacement to more changeling type shit later
+			to_chat(user, span_purple("I take on a new face..."))
+		// they die either way
+		die_motherfucker_die(target)
+
+		// apply a facial disfigurement that can be healed thru surgery
+		target.visible_message(span_danger("[target]'s face bubbles and froths off, leaving behind a mess of exposed blood-and-bone. Perhaps surgery could repair it...?"))
+		var/obj/item/bodypart/head = target.get_bodypart(BODY_ZONE_HEAD)
+		head?.add_wound(/datum/wound/facial/disfigurement)
+
+		// they get yoinked either way
+		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
+			if(HAS_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR)) // no doubling up if theyre already claimed
+				return FALSE
+			init_profane_soul(target, user)
+/// This proc confirms that the user/target is a viable, face-stealable thing
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/preliminary_face_steal_check(mob/living/carbon/human/target, mob/living/user)
+
+	if(!ishuman(target)) // carbons don't have all features of a human
+		return FALSE
+	if(!ishuman(user)) // carbons don't have all features of a human
+		return FALSE
+	var/mob/living/carbon/human/assassin = user
+
+	// BEGIN THE LOOPS.
+	var/user_workable_species = species_check(assassin)
+	var/target_workable_species = FALSE
+	// only check if the user is workable to avoid extra loops
+	if(user_workable_species)
+		target_workable_species = species_check(target)
+	if(!user_workable_species || !target_workable_species)
+		return FALSE
+	// everything went well
+	return TRUE
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/species_check(mob/living/L)
+	if(!ishuman(L))
+		return FALSE
+	var/mob/living/carbon/human/H = L
+	// this should be a define of every "non-weird" species. in this case, it's just missing construct & revenant.
+	// this is fine though because this should be more of a whitelist check than a blacklist since it's so finnicky
+	var/static/list/check_list = list(\
+	/datum/species/human/northern,\
+	/datum/species/human/halfelf,\
+	/datum/species/elf/dark,\
+	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
+	/datum/species/dwarf/mountain,\
+	/datum/species/tieberian,\
+	/datum/species/aasimar,\
+	/datum/species/lizardfolk,\
+	/datum/species/lupian,\
+	/datum/species/tabaxi,\
+	/datum/species/vulpkanin,\
+	/datum/species/akula,\
+	/datum/species/moth,\
+	/datum/species/dracon,\
+	/datum/species/anthromorph,\
+	/datum/species/anthromorphsmall,\
+	/datum/species/demihuman,\
+	/datum/species/halforc,\
+	/datum/species/kobold,\
+	/datum/species/goblinp,\
+	/datum/species/ooze,\
+	/datum/species/dwarf/gnome\
+	)
+	for(var/checked_species in check_list)
+		if(istype(H.dna.species, checked_species))
+			return TRUE
+	return FALSE
+
+
+/// Checks if the user is allowed to peculate in the first place. Adjacent, trait check, whatever.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/can_peculate(mob/living/carbon/human/target, mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"HEHEHE, HEHEHE!\"</i>"))
+		return FALSE
+	if(!user.Adjacent(target))
+		to_chat(user, span_warning("I must be adjacent to my target!"))
+		return FALSE
+	return TRUE
+
+/// This check returns TRUE if the target is DEAD, in InCritical(), or has a dying amount of blood.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/target_health_check(mob/living/carbon/human/target)
+	if(target.stat == DEAD || target.InCritical() || target.blood_volume <= BLOOD_VOLUME_SURVIVE)
+		return TRUE
+	return FALSE
+
+/// This proc ensures the target is dead with death() and adds their last words to the dagger's list if get_last = true.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/die_motherfucker_die(mob/living/carbon/human/target, var/get_last = TRUE)
+	if(target.stat != DEAD)
+		target.death()
+	if(get_last && target.last_words)
+		last_words += target.last_words
+
+/// This proc records the assassination, the criminal stat, makes a new soul datum, adds it to the dagger's list, gives a triumph, and fixes the blade/integrity.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user, mob/soul)
+	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
+	record_round_statistic(STATS_ASSASSINATIONS)
+
+	var/datum/profane_soul_data/new_soul = new(target)
+
+	src.stored_souls += new_soul
+	// target gets DNR & a unique trait to prevent being yoinked a second time.
+	// removed when the dagger is broken by any means OR if the soul is deleted.
+	ADD_TRAIT(target, TRAIT_DNR, GRAGGAR_ASSASSINATED)
+	ADD_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
+
+	target.visible_message(span_cult("A purple mist spews forth from [target]'s chest, entering [user]'s [src.name]... their soul has been taken!"), span_cult("I find myself in a realm, black save for the heavy blue-and-red fog. Screams surround me. How long will I be trapped in here...?"))
+	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
+	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
+	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
+	user.adjust_triumphs(1)
+
+
+/// Loops thru all souls and qdels them. If user is specified, gives soul# in triumphs. Returns amount of souls freed.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
+	var/freed_souls = 0
+	for(var/datum/profane_soul_data/soul in stored_souls)
+		freed_souls++
+		if(soul.body && !QDELETED(soul.body))
+			var/mob/living/carbon/human/H = soul.body
+			var/mob/dead/observer/playerghost = H.get_ghost(TRUE, TRUE)
+			if(playerghost)
+				to_chat(playerghost, "<b>I have been freed from my vile prison! I await revival, or Necra's cold grasp... SALVATION!</b>")
+			else
+				to_chat(H, "<b>I have been freed from my vile prison! I await revival, or Necra's cold grasp... SALVATION!</b>")
+			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp. Revival may be possible!"))
+			// qdel handles removing traits
+			qdel(soul)
+		else
+			// fallback in case body is missing for some reason
+			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp... yet it quickly fades. Perchance it could not find it's body...?"))
+			qdel(soul)
+	if(user)
+		user.adjust_triumphs(freed_souls)
+	return freed_souls
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/shatter_dagger()
+	src.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
+	qdel(src)
