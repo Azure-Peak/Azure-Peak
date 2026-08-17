@@ -85,11 +85,10 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	minimum_distance = 0
 	aggressive = 1
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
-	speed = 5
+	move_base_delay = MOVEMENT_DELAY_LUMBERING
 	move_to_delay = 5
 	ranged = TRUE
 	canparry = TRUE
-	defprob = 70
 	pixel_x = -32
 	var/swooping = NONE
 	var/player_cooldown = 0
@@ -330,7 +329,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		if(dist > last_dist)
 			last_dist = dist
 			sleep(2 + min(4 - last_dist, 12) * 0.5) //gets faster
-		new /obj/effect/temp_visual/targetlightning(T)
+		new /obj/effect/temp_visual/telegraph/targetlightning(T)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/lightning_strikes(amount, delay = 0.8)
 	if(!target)
@@ -340,7 +339,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		if(QDELETED(target))
 			break
 		var/turf/T = pick(RANGE_TURFS(enraged ? 2 : 1, target))
-		new /obj/effect/temp_visual/targetlightning(T)
+		new /obj/effect/temp_visual/telegraph/targetlightning(T)
 		amount--
 		SLEEP_CHECK_DEATH(delay)
 
@@ -462,7 +461,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	if(!swooping)
 		..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/Goto(target, delay, minimum_distance)
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/Goto(target, minimum_distance)
 	if(!swooping)
 		..()
 
