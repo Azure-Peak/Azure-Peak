@@ -203,7 +203,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/spectacles(H), SLOT_WEAR_MASK)
 	else
 		new /obj/item/clothing/mask/rogue/spectacles(get_turf(H))
-	
+
 	// we don't seem to have a mind when on_mob_creation fires, so set up a timer to check when we probably will
 	addtimer(CALLBACK(src, PROC_REF(apply_reading_skill), H), 5 SECONDS)
 
@@ -372,7 +372,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/clingy/apply_post_equipment(mob/user)
 	if(user.mind)
 		is_active = TRUE
-	
+
 
 /datum/charflaw/noeyer
 	name = "Cyclops (R)"
@@ -459,9 +459,11 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/targeted
 	name = "Targeted"
-	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
-	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY ASSASSINS AND HAVE ASSASINATION ATTEMPTS MADE AGAINST YOU WITHOUT ANY ESCALATION. \
-	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK. IT REQUIRES AN EXTRA VICE."
+	desc = "Someone, somewhere, has offered up my name to the Bloodsworn of Graggar. \
+	Assassins may seek my skin-and-soul to steal-and-bind." + span_artery("\nHaving this vice will add you to a list of targets hunted by a powerful \
+	class. If they are successful in killing you, you may be round-removed for a time, though you will be recoverable if the assassin is slain and \
+	their dagger is broken.") + span_danger("\nAssassins DO-NOT NEED to ESCALATE against you if you have this vice. To reiterate: please expect \
+	random attacks and-or potential round removal, even if not permanent.")
 	needs_extra_vice = TRUE
 	var/logged = FALSE
 
@@ -702,7 +704,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	insane_fool.hallucination = INFINITY
 	ADD_TRAIT(insane_fool, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
 	insane_fool.adjust_triumphs(3)
-	if(insane_fool.patron?.type == /datum/patron/divine/abyssor) 
+	if(insane_fool.patron?.type == /datum/patron/divine/abyssor)
 		insane_fool.grant_language(/datum/language/abyssal)
 
 /datum/charflaw/indebted
