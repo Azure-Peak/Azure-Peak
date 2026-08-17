@@ -59,6 +59,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma //250 plate
 			if("Enduring (Padded, durable)")
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/padded //300 padded
+				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE) //you're going to need it.
 		var/clothing = list("White Shirt","Dark Shirt","Dress")
 		var/clothing_choice = input(H, "Choose your attire.", "WHAT SILK SWATHES YOU?") as anything in clothing
 		switch(clothing_choice)
@@ -172,6 +173,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma //250 plate
 			if("Enduring (Padded, durable)")
 				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/padded //300 padded
+				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE) //you're going to need it.
 		var/clothing = list("White Shirt","Dark Shirt","Dress")
 		var/clothing_choice = input(H, "Choose your attire.", "WHAT SILK SWATHES YOU?") as anything in clothing
 		switch(clothing_choice)
@@ -181,7 +183,7 @@
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 			if("Dress")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
-		var/weapons = list("Recurve & Tanto","Recurve & Kodachi","Kodachi & Tanto","Kodachi, Tanto, & Tossblades","Twin Tanto","Tanto alone")
+		var/weapons = list("Recurve & Tanto","Recurve & Kodachi","Sling & Tanto","Sling & Kodachi","Kodachi & Tanto","Kodachi, Tanto, & Tossblades","Twin Tanto","Blacksteel Tanto")
 		var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
 		switch(weapon_choice)
 			if("Recurve & Tanto")
@@ -194,6 +196,22 @@
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 			if("Recurve & Kodachi")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE) //bit more of a hybrid, so a touch less bow skill.
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				belt = /obj/item/storage/belt/rogue/leather
+				beltr = /obj/item/quiver/arrows
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
+				r_hand = /obj/item/rogueweapon/sword/short/kazengun
+			if("Sling & Tanto")
+				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_MASTER, TRUE) //Dedicated sling user, best skill there.
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
+				belt = /obj/item/storage/belt/rogue/leather
+				beltr = /obj/item/quiver/arrows
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltl = /obj/item/rogueweapon/scabbard/sheath/kazengun
+				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
+			if("Sling & Kodachi")
+				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE) //Another hybrid.
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				belt = /obj/item/storage/belt/rogue/leather
 				beltr = /obj/item/quiver/arrows
@@ -218,19 +236,13 @@
 				beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 			if("Twin Tanto") //You'll probably want to take dual wielder with this. Expect ~25% parry chance vs equal skill if trying it, as well.
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
 				belt = /obj/item/storage/belt/rogue/leather
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 				backl = /obj/item/rogueweapon/scabbard/sheath/kazengun
 				beltr = /obj/item/rogueweapon/scabbard/sheath/kazengun
 				beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
-			if("Tanto alone")
-				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE) //No, you are not getting master skill.
-				H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE, TRUE) //but you can get a bit more utility.
-				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/labor/butchering, SKILL_LEVEL_NOVICE, TRUE)
+			if("Blacksteel Tanto")
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				belt = /obj/item/storage/belt/rogue/leather
 				beltr = /obj/item/rogueweapon/scabbard/sheath/kazengun
-				beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
-				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
+				beltl = /obj/item/rogueweapon/huntingknife/idagger/blacksteel/kazengun

@@ -81,7 +81,7 @@
 /datum/intent/dagger/sucker_punch
 	name = "unevadable punch"
 	icon_state = "inpunch"
-	desc = "Breech your target's guard with a swift-and-sudden jab. This strike deals low damage, but cannot be parried or dodged."
+	desc = "Breach your target's guard with a swift-and-sudden jab. This strike deals low damage, but cannot be parried or dodged."
 	attack_verb = list("punches", "jabs", "clocks")
 	animname = "strike"
 	blade_class = BCLASS_BLUNT
@@ -838,6 +838,16 @@
 	wrapping of twisted cordage provides a secure grip."
 	icon_state = "eastdagger"
 	sheathe_icon = "tanto"
+
+/obj/item/rogueweapon/huntingknife/idagger/blacksteel/kazengun //Mostly a blacksteel dagger reskin, trades pick for a faster cut.
+	name = "blacksteel tanto"
+	desc = "A finely balanced blacksteel dagger in the Kazengunese style. The subtle curve of the blade aids swift slashes."
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/quick, /datum/intent/dagger/sucker_punch)
+	icon_state = "eastdagger" //needs a custom sprite!
+	sheathe_icon = "tanto"
+
+/datum/intent/dagger/cut/quick //8CD, making it a faster, lower-pen sidegrade to the 10CD stab. Good on flesh.
+	clickcd = CLICK_CD_FAST
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/fire
 	name = "fire dagger"
