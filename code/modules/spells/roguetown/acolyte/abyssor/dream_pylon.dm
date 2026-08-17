@@ -134,7 +134,7 @@
 
 /obj/structure/dream_pylon/geyser
 	name = "geyser pylon"
-	desc = "A strange pulsing pylon built to burst forth and saturate its surrounding area with abyssal paint."
+	desc = "A strange pylon built to burst forth and saturate its surrounding area with abyssal paint."
 	pylon_color = "#333749"
 	/// The trail type path created when a projectile lands.
 	var/obj/effect/ink_trail/trail_type = /obj/effect/ink_trail
@@ -142,11 +142,13 @@
 	var/geyser_projectile_count = 6
 	/// Timestamp tracking when the pylon can next be triggered.
 	var/next_geyser_use = 0
+	/// Cooldown in seconds when a geyser pylon can be next triggered.
+	var/geyser_use_cooldown_time = 8 SECONDS
 
 /obj/structure/dream_pylon/geyser/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Geyser pylons store abyssal energy and erupt into a shower of paint puddles when activated.")
-	. += span_info("Projectiles phase through living creatures but drop puddles early upon hitting dense structures.")
+	. += span_greentext("Geyser pylons store abyssal energy and erupt into a shower of paint puddles when activated.")
+	. += span_greentext("Projectiles phase through living creatures but drop puddles early upon hitting dense structures.")
 
 /obj/structure/dream_pylon/geyser/interact(mob/living/user)
 	if(!istype(user) || user.stat != CONSCIOUS)
@@ -160,9 +162,9 @@
 		to_chat(user, span_warning("The pylon doesn't have enough residual charge left to erupt."))
 		return
 
-	next_geyser_use = world.time + 10 SECONDS
+	next_geyser_use = world.time + geyser_use_cooldown_time
 	charge = max(0, charge - charge_cost_per_use)
-	src.visible_message(span_purple("[user] triggers [src], causing it to violently spew paint in all directions!"))
+	src.visible_message(span_purple("[user] triggers [src], causing paint to spray everywhere!"))
 	erupt_paint()
 	update_pylon_appearance()
 
@@ -180,12 +182,30 @@
 		return
 
 	for(var/i in 1 to geyser_projectile_count)
-		var/turf/target = pick(target_turfs)
-		var/obj/projectile/ink_geyser/P = new(epicenter)
-		P.spawn_trail_type = trail_type
-		P.color = pylon_color
-		P.preparePixelProjectile(target, src)
-		P.fire()
+		var/delay = (i - 1) * 0.1 SECONDS
+		addtimer(CALLBACK(src, PROC_REF(fire_geyser_projectile), epicenter, target_turfs), delay)
+
+/obj/structure/dream_pylon/geyser/proc/fire_geyser_projectile(turf/epicenter, list/turf/target_turfs)
+	if(QDELETED(src) || !epicenter || !target_turfs.len)
+		return
+
+	var/turf/target = pick(target_turfs)
+	var/obj/projectile/ink_geyser/P = new(epicenter)
+	P.spawn_trail_type = trail_type
+	P.color = pylon_color
+	P.range = rand(1, 4)
+	P.preparePixelProjectile(target, src)
+	P.fire()
+
+/obj/structure/dream_pylon/geyser/proc/set_geyser_type(new_trail_type, new_max_charge, new_charge, new_pylon_color, ink_puddle_spawn_amount)
+	trail_type = new_trail_type
+	max_charge = new_max_charge
+	charge = new_charge
+	pylon_color = new_pylon_color
+	can_recharge = TRUE
+	if(ink_puddle_spawn_amount)
+		geyser_projectile_count = ink_puddle_spawn_amount
+	update_pylon_appearance()
 
 /obj/projectile/ink_geyser
 	name = "paint globs"
@@ -233,5 +253,19 @@
 		existing.refresh_lifetime()
 	else
 		new spawn_trail_type(T)
+
+/obj/structure/dream_pylon/geyser/healing
+	pylon_color = "#b6e6b6"
+	trail_type = /obj/effect/ink_trail/healing
+	geyser_projectile_count = 12
+
+/obj/structure/dream_pylon/geyser/invigorating
+	pylon_color = "#3a86ff"
+	trail_type = /obj/effect/ink_trail/invigorating
+
+/obj/structure/dream_pylon/geyser/spiked
+	pylon_color = "#580000"
+	trail_type = /obj/effect/ink_trail/evil
+	geyser_projectile_count = 15
 
 #undef GEYSER_SPREAD_RADIUS
