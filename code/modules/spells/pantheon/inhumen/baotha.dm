@@ -210,7 +210,7 @@
 	return null
 
 // T1 - gives or lowers stats of ppl around you. doing it while in freakout = use repulse, too. feel free to rework or remove this if it's problematic.
-/obj/effect/proc_holder/spell/self/heart_on_sleeve
+/obj/effect/proc_holder/spell/invoked/heart_on_sleeve
 	name = "Phentis / Melancholia"
 	desc = "Lash out in wild joy or manic heartbreak. Peace strengthens nearby souls, while stress weakens them. At the heights of joy, I partake in starsugar; at my breaking point, I partake in pure moondust and repel everyone nearby."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
@@ -229,7 +229,7 @@
 	devotion_cost = 30
 	var/aura_range = 3
 
-/obj/effect/proc_holder/spell/self/heart_on_sleeve/cast(list/targets, mob/living/carbon/user)
+/obj/effect/proc_holder/spell/invoked/heart_on_sleeve/cast(list/targets, mob/living/carbon/user)
 	var/stress_threshold = get_stress_threshold(user.get_stress_amount())
 	var/effect_path
 	var/is_destructive = FALSE
@@ -267,7 +267,7 @@
 		user.visible_message(span_notice("A warm, passionate haze gathers around [user]."), span_green("TAKE MYNE LOVE FOR BUT A MOTE."))
 	return TRUE
 
-/obj/effect/proc_holder/spell/self/heart_on_sleeve/proc/repulse_nearby(mob/living/user)
+/obj/effect/proc_holder/spell/invoked/heart_on_sleeve/proc/repulse_nearby(mob/living/user)
 	playsound(user, 'sound/magic/repulse.ogg', 80, TRUE)
 	for(var/turf/affected_turf in view(aura_range, user))
 		new /obj/effect/temp_visual/kinetic_blast(affected_turf)
@@ -308,56 +308,6 @@
 	name = "WILD-WILLED HEARTBREAK"
 	desc = "..."
 	icon_state = "debuff"
-
-// Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff.
-
-/obj/effect/proc_holder/spell/self/insufflation
-	name = "Insufflation"
-	desc = "Become numb. Imbibes yourself on one of four drugs. Your intent will determine the drug ingested. \n\
-	\
-	Feint intent will dose you on Spice, giving you +5 INT, +3 SPD, and -5 FOR. \n\
-	\
-	Aimed intent will dose you on Moondust, giving you +3 SPD, +3 WILL, and -2 INT. \n\
-	\
-	Strong intent will dose you on Herozium, giving you -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and resistance to damage slowdown. \n\
-	\
-	Swift intent will dose you on Starsugar, giving you +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert."
-	action_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_state = "powder"
-	clothes_req = FALSE
-	associated_skill = /datum/skill/magic/holy
-	chargedloop = /datum/looping_sound/invokeholy
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 15
-	recharge_time = 10 SECONDS
-	invocation_type = "emote"
-	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
-	antimagic_allowed = TRUE
-	miracle = TRUE
-	devotion_cost = 30
-
-/obj/effect/proc_holder/spell/self/insufflation/cast(list/targets, mob/user)
-	if(!ishuman(user))
-		revert_cast()
-		return FALSE
-	switch(user.rmb_intent.name)
-		if("feint")
-			user.reagents.add_reagent(/datum/reagent/druqks, 4)
-			return TRUE
-		if("aimed")
-			user.reagents.add_reagent(/datum/reagent/moondust_purest, 8)
-			return TRUE
-		if("strong")
-			user.reagents.add_reagent(/datum/reagent/herozium, 8)
-			return TRUE
-		if("swift")
-			user.reagents.add_reagent(/datum/reagent/starsugar, 8)
-			return TRUE
-		else
-			user.reagents.add_reagent(/datum/reagent/herozium, 8)
-			return TRUE
 
 //Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
 
