@@ -44,6 +44,15 @@
 	cooldown_time = 10 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 	var/list/options = list(
+		//basically just lesser knock
+		"Gilded Lockpick" = list(
+			path = /obj/item/melee/touch_attack/lesserknock/matthios,
+			m_cooldown = 5 SECONDS,
+			m_devotion = 10,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Rogue Arts",
+			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Shatter my locks!")
+		),
 		//a simple 'blinds u for 1 sec' throwable
 		"Pocket Sand" = list(
 			path = /obj/item/impact_grenade/pocketsand,
@@ -53,14 +62,14 @@
 			category = "Rogue Arts",
 			lines = list("Dust to blind thee!", "A handful of freedom!", "A gift for thee!", "Mind yer eyes!", "This always works like a miracle!")
 		),
-		//basically just lesser knock
-		"Gilded Lockpick" = list(
-			path = /obj/item/melee/touch_attack/lesserknock/matthios,
-			m_cooldown = 5 SECONDS,
-			m_devotion = 10,
+		//same as aetherknife but blingy
+		"Gilded Tossblade" = list(
+			path = /obj/item/rogueweapon/huntingknife/throwingknife/matthios,
+			m_cooldown = 30 SECONDS,
+			m_devotion = 25,
 			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Gilded Tools",
-			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Shatter my locks!")
+			category = "Rogue Arts",
+			lines = list("#I borrow from thine vaults, my Lord!", "#Grant me thy blade!", "#The claws of a Dragon!", "#The means to tip the scales!")
 		),
 		//rip the bag of bribery, say hello to pouch of smuggling
 		"Pouch of Smuggling" = list(
