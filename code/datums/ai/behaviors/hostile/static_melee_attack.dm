@@ -1,7 +1,6 @@
 /datum/ai_behavior/static_melee_attack //attack on the spot, other behaviors will handle moving
 	action_cooldown = 0.2 SECONDS 
 	behavior_flags = AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
-	var/sidesteps_after = FALSE
 
 /datum/ai_behavior/static_melee_attack/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
@@ -41,6 +40,8 @@
 		basic_mob.ClickOn(hiding_target, list())
 	else
 		basic_mob.ClickOn(target, list())
+
+	controller.blackboard[BB_SWINGS_SINCE_CIRCLING] = (controller.blackboard[BB_SWINGS_SINCE_CIRCLING] || 0) + 1
 
 /datum/ai_behavior/static_melee_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()

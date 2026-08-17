@@ -723,3 +723,95 @@
   - balance: Gnolls now have baseline sneaking  and better crafting skills. Gnolls
       now have an unlocked right back slot, as well as a satchel to go with it. Mind,
       the right back slot does not allow for larger storage like backpacks.
+2026-08-16:
+  Aeiraea:
+  - bugfix: Fixes the missing icon and onmob sprites for the new spectacles introduced
+      in the previous RMH clothing port.
+  - rscadd: Added the ability to toggle between 'snout' and 'no snout' for the Face/Simple
+      Veil.
+  - bugfix: Fixed the Face/Simple Veil not concealing its wearer's identity.
+  - image: Added sprite and icon updates for the Face/Simple Veil, courtesy of Terracotta,
+      the artist of the mask!
+  KatTheFox:
+  - code_imp: Fixed and enabled the grep linter, added several new lint rules, and
+      refactored our codebase to be compliant with it. Should prevent recurrence of
+      things like the to_chat(world) incident.
+  - bugfix: The emote target menu no longer reveals invisible targets.
+  - bugfix: Azurosa petals can no longer be dried into normal rosa petals
+  Ollanius:
+  - bugfix: Resolved edge cases where the Cackledagger skin couldn't properly be applied
+      to certain steel-tier daggers.
+  - rscadd: Hauberk and fluted cuirass's compatibility with the Woodland Brigandine.
+  SneakySlinky:
+  - rscadd: Added the Decabun, and its decadently sweet jamtallowed and marmaladed
+      variants
+  eirenxiv:
+  - bugfix: fixed lower case ckey
+  - rscadd: Added a new ckey to eirenxiv donor sword
+  mumblemancer:
+  - rscdel: removed doorobrine
+2026-08-17:
+  .:
+  - rscadd: Redid every simple animals in the game at once with breakable limbs and
+      body parts for effects, such as slowdown, damage reduction, disabling abilities
+      or even death. Some of them are gated behind toppling them.
+  - rscadd: NPC Ranged Attacks now calculate lead and use a formula instead of random
+      spread, incentivizing you to dodge especially perpendicular to the projectile.
+      They are far more likely to miss when you dodge properly
+  - rscadd: Simple animals animations and attack telegraph improved, they are also
+      capable of missing melee attacks, just like vs complex NPC
+  - rscadd: Simple animals now operate on the same movement system as complex mobs
+      and will respect slowdown and such
+  - rscadd: Deadite infection reworked to only take place when a limb is damaged heavily
+      without armor. And can be cured by drinking antidote.
+  - balance: Remove damage multiplier vs simple animals from nearly all projectiles,
+      except for the crossbow and slurbow and stakers family. Shotstakes is now reduced
+      to 3x instead of 6x.
+  - rscadd: Shotstakes simple mob multiplier reduced from x6 to x3
+  - rscadd: When your projectiles miss your intended zone due to accuracy cap or any
+      other reasons, it will now show the accuracy and where it hit.
+  - rscadd: Simple animals (And complex NPC, though no one is using that yet) are
+      now capable of specifically designed spells. Find out more IC - note that baiting
+      them into obstacles or guarding will often prove to be highly useful.
+  - rscadd: Simple animals no longer pick randomly from every single zone equally
+      weighted, which biased them heavily toward biting your head. Instead, based
+      on their sprite's height they bias their attacks to be from the ground, lower
+      body, level, or your head level. Armor accordingly.
+  - rscadd: Penetrating weapons from the stab, pick and piercing family will now deal
+      extra part damage to simple animals, without affecting their total HP pool.
+      This effect is most pronounced at HEAVY penetration and above.
+  - balance: Integrity modifier below 1 will reduce part damage of a weapon vs simple
+      animals, to prevent intent like Rend from becoming excessively OP.
+  BurpleBineapple:
+  - bugfix: Fixes some shading on a donor sallet.
+  - rscdel: Removed barding slowdown code. It wasn't being used except in the case
+      of removing barding from a pre-spawned mount and interfered with repairing the
+      armor by causing permanent debilitating slowdown to the mob.
+  FreeStylaLT:
+  - bugfix: Fixed standard swingdelays applying incorrect defense penalties.
+  KatTheFox:
+  - rscadd: Surgical tools are now considered tools, not weapons, for the purposes
+      of the weaponless and tinypaws traits
+  - rscadd: Added Noelle as a vocal bark option
+  Ketrai:
+  - rscadd: Skill check messages for certain patron based examine blurbs.
+  - bugfix: Fix heartbeast lore blurb
+  Lamasmaster:
+  - bugfix: Desert bra greyscaling
+  - balance: Zizo revive moved back to T4 fromT3
+  - refactor: Anastasis uses new spell code now instead of being stuck in the old
+      one.
+  - refactor: Undivided "Lesser Anastasis" is now subtype of original Anastasis with
+      tripled cooldown of it (so 15 minutes)
+  SciDragon:
+  - bugfix: corrected "sissean" to "zardman"
+  changelingonberry:
+  - balance: targeted vice no longer stresses you when examining masked people
+  mumblemancer:
+  - qol: roaches auto-spit when ur done smoking a zig
+  - rscdel: removed trippy zigs and old zigbox code
+  - bugfix: non-clothing items will show a line abt them in examine now. or whatever.
+      i cant word this good you can tell if a guy has a knife in their mouth
+  saltprjak:
+  - balance: Bear and Mole wildshapes lose critres and nopainstun. Bear hide gets
+      x2.5 integrity compared to before.

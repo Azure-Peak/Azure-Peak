@@ -69,7 +69,6 @@
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
 	armor_penetration = PEN_LIGHT
-	npc_simple_damage_mult = 1.5
 	speed = MAGE_PROJ_VERY_SLOW
 	flag = "stab"
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'

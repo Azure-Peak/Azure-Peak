@@ -50,7 +50,7 @@
 		return FALSE
 
 	for(var/turf/T in range(blast_radius, center))
-		new /obj/effect/temp_visual/trap/meteor(T)
+		new /obj/effect/temp_visual/telegraph/meteor(T)
 	center.visible_message(span_boldwarning("The sky darkens - a meteor plummets down!"))
 	addtimer(CALLBACK(src, PROC_REF(drop_meteor), center), impact_delay)
 	return TRUE
