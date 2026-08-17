@@ -1,3 +1,5 @@
+#define GEYSER_SPREAD_RADIUS 3
+
 /obj/structure/dream_pylon
 	name = "painted pylon"
 	desc = "A strange pulsing pylon that seems to be made out of thick, solidified swirls of abyssal paints."
@@ -129,3 +131,107 @@
 	pylon_color = new_color
 	can_recharge = TRUE
 	update_pylon_appearance()
+
+/obj/structure/dream_pylon/geyser
+	name = "geyser pylon"
+	desc = "A strange pulsing pylon built to burst forth and saturate its surrounding area with abyssal paint."
+	pylon_color = "#333749"
+	/// The trail type path created when a projectile lands.
+	var/obj/effect/ink_trail/trail_type = /obj/effect/ink_trail
+	/// Amount of projectiles launched upon activation.
+	var/geyser_projectile_count = 6
+	/// Timestamp tracking when the pylon can next be triggered.
+	var/next_geyser_use = 0
+
+/obj/structure/dream_pylon/geyser/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Geyser pylons store abyssal energy and erupt into a shower of paint puddles when activated.")
+	. += span_info("Projectiles phase through living creatures but drop puddles early upon hitting dense structures.")
+
+/obj/structure/dream_pylon/geyser/interact(mob/living/user)
+	if(!istype(user) || user.stat != CONSCIOUS)
+		return
+
+	if(world.time < next_geyser_use)
+		to_chat(user, span_warning("The pylon is still recovering from its last discharge!"))
+		return
+
+	if(charge < charge_cost_per_use)
+		to_chat(user, span_warning("The pylon doesn't have enough residual charge left to erupt."))
+		return
+
+	next_geyser_use = world.time + 10 SECONDS
+	charge = max(0, charge - charge_cost_per_use)
+	src.visible_message(span_purple("[user] triggers [src], causing it to violently spew paint in all directions!"))
+	erupt_paint()
+	update_pylon_appearance()
+
+/obj/structure/dream_pylon/geyser/proc/erupt_paint()
+	var/turf/epicenter = get_turf(src)
+	if(!epicenter)
+		return
+
+	var/list/turf/target_turfs = list()
+	for(var/turf/T in range(GEYSER_SPREAD_RADIUS, epicenter))
+		if(T != epicenter && !T.density)
+			target_turfs += T
+
+	if(!target_turfs.len)
+		return
+
+	for(var/i in 1 to geyser_projectile_count)
+		var/turf/target = pick(target_turfs)
+		var/obj/projectile/ink_geyser/P = new(epicenter)
+		P.spawn_trail_type = trail_type
+		P.color = pylon_color
+		P.preparePixelProjectile(target, src)
+		P.fire()
+
+/obj/projectile/ink_geyser
+	name = "paint globs"
+	icon = 'icons/mob/actions/abyssormiracles.dmi'
+	icon_state = "paint_gray"
+	pass_flags = PASSMOB // Phases through players to reach its intended target
+	speed = 10
+	damage = 0
+	nodamage = TRUE
+	range = 3
+	var/obj/effect/ink_trail/spawn_trail_type = /obj/effect/ink_trail
+
+/obj/projectile/ink_geyser/on_hit(atom/target, blocked = 0)
+	var/turf/target_turf = get_turf(target)
+	if(!target_turf)
+		return ..()
+
+	if(target_turf.density || (isobj(target) && target.density))
+		var/turf/proj_turf = get_turf(src)
+		var/turf/landing_turf
+		if(proj_turf == target_turf)
+			landing_turf = get_step_towards(target_turf, starting) || get_step(target_turf, turn(dir, 180))
+		else
+			landing_turf = proj_turf
+
+		if(landing_turf && !landing_turf.density)
+			spawn_puddle(landing_turf)
+	else
+		spawn_puddle(target_turf)
+
+	return ..()
+
+/obj/projectile/ink_geyser/on_range()
+	var/turf/T = get_turf(src)
+	if(T)
+		spawn_puddle(T)
+	qdel(src)
+
+/obj/projectile/ink_geyser/proc/spawn_puddle(turf/T)
+	if(!T || T.density)
+		return
+
+	var/obj/effect/ink_trail/existing = locate(spawn_trail_type) in T
+	if(existing)
+		existing.refresh_lifetime()
+	else
+		new spawn_trail_type(T)
+
+#undef GEYSER_SPREAD_RADIUS
