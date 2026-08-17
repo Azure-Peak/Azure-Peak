@@ -18,7 +18,7 @@
 	buff_payload = /datum/status_effect/buff/invigoration/ink_trail
 	debuff_payload = /datum/status_effect/buff/invigoration/ink_trail
 	consume_buff = TRUE
-	deny_buff = FALSE
+	deny_buff = TRUE
 	apply_to_pulled = TRUE
 
 /datum/status_effect/buff/invigoration/ink_trail
