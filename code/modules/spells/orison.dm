@@ -369,16 +369,16 @@
 			M.heal_wounds(2)
 		..()
 
-/datum/reagent/medicine/loversruin //slightly worse healing than pestran med with same booze power as wine, very possible to have negative effects
+/datum/reagent/consumable/ethanol/loversruin //slightly worse healing than pestran med with same booze power as wine, very possible to have negative effects
 	name = "Lover's Ruin"
 	description = "A sweet smelling concoction. It has small charred petals swimming on the surface."
 	color = "#9c2745"
 	taste_description = "numbness-sweetened winery"
 	boozepwr = 30
 
-/datum/reagent/medicine/loversruin/on_mob_life(mob/living/carbon/M)
+/datum/reagent/consumable/ethanol/loversruin/on_mob_life(mob/living/carbon/M)
 	if(volume >= 50)
-		M.reagents.remove_reagent(/datum/reagent/medicine/loversruin, 2)
+		M.reagents.remove_reagent(/datum/reagent/consumable/ethanol/loversruin, 2)
 	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
 		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
 	var/list/wCount = M.get_wounds()
@@ -421,7 +421,7 @@
 			if(caster.patron.name == "Pestra")
 				water_contents = list(/datum/reagent/water/medicine = water_qty)
 			if(caster.patron.name == "Baotha")
-				water_contents = list(/datum/reagent/medicine/loversruin = water_qty)
+				water_contents = list(/datum/reagent/consumable/ethanol/loversruin = water_qty)
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
 			reagents_to_add.trans_to(victim, reagents_to_add.total_volume, transfered_by = caster)

@@ -209,6 +209,106 @@
 	// The rosa ring is supposed to be 'discrete', so it doesn't look heretical to a casual observer.
 	return null
 
+// T1 - gives or lowers stats of ppl around you. doing it while in freakout = use repulse, too. feel free to rework or remove this if it's problematic.
+/obj/effect/proc_holder/spell/self/heart_on_sleeve
+	name = "Phentis / Melancholia"
+	desc = "Lash out in wild joy or manic heartbreak. Peace strengthens nearby souls, while stress weakens them. At the heights of joy, I partake in starsugar; at my breaking point, I partake in pure moondust and repel everyone nearby."
+	action_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_state = "powder"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 2 SECONDS //BIG, VERY IMPORTANT spell
+	recharge_time = 2 MINUTES
+	invocation_type = "emote"
+	invocations = list("lashes out as a sickly haze wafts 'round them.")
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	miracle = TRUE
+	devotion_cost = 30
+	var/aura_range = 3
+
+/obj/effect/proc_holder/spell/self/heart_on_sleeve/cast(list/targets, mob/living/carbon/user)
+	var/stress_threshold = get_stress_threshold(user.get_stress_amount())
+	var/effect_path
+	var/is_destructive = FALSE
+
+	switch(stress_threshold)
+		if(STRESS_THRESHOLD_NICE)
+			effect_path = /datum/status_effect/buff/heart_on_sleeve/awsumsauce
+			user.reagents.add_reagent(/datum/reagent/starsugar, 16)
+		if(STRESS_THRESHOLD_GOOD)
+			effect_path = /datum/status_effect/buff/heart_on_sleeve
+		if(STRESS_THRESHOLD_STRESSED)
+			effect_path = /datum/status_effect/debuff/heart_on_sleeve
+			is_destructive = TRUE
+		if(STRESS_THRESHOLD_STRESSED_BAD, STRESS_THRESHOLD_FREAKING_OUT)
+			effect_path = /datum/status_effect/debuff/heart_on_sleeve/very_bad
+			is_destructive = TRUE
+			if(stress_threshold == STRESS_THRESHOLD_FREAKING_OUT)
+				user.reagents.add_reagent(/datum/reagent/moondust_purest, 16)
+		else
+			to_chat(user, span_userdanger("EMPTY."))
+			revert_cast()
+			return FALSE
+
+	for(var/mob/living/nearby_soul in view(aura_range, user))
+		if(nearby_soul.stat == DEAD || (is_destructive && nearby_soul == user))
+			continue
+		nearby_soul.apply_status_effect(effect_path)
+
+	if(stress_threshold == STRESS_THRESHOLD_FREAKING_OUT)
+		repulse_nearby(user)
+		user.visible_message(span_boldwarning("[user]'s anguish erupts in a violent wave!"), span_userdanger("THIS ALL MEANS NOTHING."))
+	else if(is_destructive)
+		user.visible_message(span_warning("A crushing sorrow rolls outward from [user]."), span_warning("TAKE MYNE SORROW FOR BUT A MOTE."))
+	else
+		user.visible_message(span_notice("A warm, passionate haze gathers around [user]."), span_green("TAKE MYNE LOVE FOR BUT A MOTE."))
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/heart_on_sleeve/proc/repulse_nearby(mob/living/user)
+	playsound(user, 'sound/magic/repulse.ogg', 80, TRUE)
+	for(var/turf/affected_turf in view(aura_range, user))
+		new /obj/effect/temp_visual/kinetic_blast(affected_turf)
+	for(var/mob/living/nearby_soul in view(aura_range, user))
+		if(nearby_soul == user || nearby_soul.anchored || nearby_soul.anti_magic_check())
+			continue
+		var/turf/throw_target = get_edge_target_turf(user, get_dir(user, get_step_away(nearby_soul, user)))
+		nearby_soul.set_resting(TRUE, TRUE)
+		to_chat(nearby_soul, span_danger("[user]'s anguish throws me back!"))
+		nearby_soul.safe_throw_at(throw_target, 3, 1, user, force = MOVE_FORCE_EXTREMELY_STRONG) //welcome back, Repulse! Let's see how fast it takes me to regret this. Feel free to remove this if it's problematic.
+
+/datum/status_effect/buff/heart_on_sleeve
+	id = "heart_on_sleeve"
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = /atom/movable/screen/alert/status_effect/buff/heart_on_sleeve
+	effectedstats = list(STATKEY_STR = 1, STATKEY_CON = 1)
+	duration = 45 SECONDS
+
+/datum/status_effect/buff/heart_on_sleeve/awsumsauce
+	effectedstats = list(STATKEY_STR = 1, STATKEY_CON = 1, STATKEY_SPD = 1)
+
+/atom/movable/screen/alert/status_effect/buff/heart_on_sleeve
+	name = "JOYFUL GRIEF"
+	desc = "..."
+	icon_state = "buff"
+
+/datum/status_effect/debuff/heart_on_sleeve
+	id = "heart_on_sleeve"
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/heart_on_sleeve
+	effectedstats = list(STATKEY_STR = -1, STATKEY_CON = -1)
+	duration = 45 SECONDS
+
+/datum/status_effect/debuff/heart_on_sleeve/very_bad
+	effectedstats = list(STATKEY_STR = -1, STATKEY_CON = -1, STATKEY_SPD = -1)
+
+/atom/movable/screen/alert/status_effect/debuff/heart_on_sleeve
+	name = "WILD-WILLED HEARTBREAK"
+	desc = "..."
+	icon_state = "debuff"
+
 // Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff.
 
 /obj/effect/proc_holder/spell/self/insufflation
