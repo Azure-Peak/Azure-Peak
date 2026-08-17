@@ -61,7 +61,7 @@
 
 /datum/stressevent/baotha_heartbreak
 	timer = 2 MINUTES
-	desc = span_warning("...nothing ever lasts forever.")
+	desc = span_red("...nothing ever lasts forever.")
 
 //T0 that tells the user the person's vice.
 /obj/effect/proc_holder/spell/invoked/baothavice

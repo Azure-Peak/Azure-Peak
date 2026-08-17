@@ -369,31 +369,28 @@
 			M.heal_wounds(2)
 		..()
 
-/datum/reagent/medicine/loversruin
+/datum/reagent/medicine/loversruin //slightly worse healing than pestran med with same booze power as wine, very possible to have negative effects
 	name = "Lover's Ruin"
 	description = "A sweet smelling concoction. It has small charred petals swimming on the surface."
 	color = "#9c2745"
-	taste_description = "sin"
+	taste_description = "numbness-sweetened winery"
+	boozepwr = 30
 
 /datum/reagent/medicine/loversruin/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
-		if(volume >= 10)
-			M.reagents.remove_reagent(/datum/reagent/medicine/loversruin, 2)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-			M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
-		var/list/wCount = M.get_wounds()
-		if(wCount.len > 0)
-			M.heal_wounds(2, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
-		if(volume > 0.99)
-			M.adjustBruteLoss(-2 * REAGENTS_EFFECT_MULTIPLIER, 0)
-			M.adjustFireLoss(-2 * REAGENTS_EFFECT_MULTIPLIER, 0)
-			M.adjustOxyLoss(-2, 0)
-			M.adjustToxLoss(-2, 0)
-			M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5 * REAGENTS_EFFECT_MULTIPLIER)
-			M.adjustCloneLoss(-4 * REAGENTS_EFFECT_MULTIPLIER, 0)
-	else
-		M.adjustToxLoss(3, 0)
-		M.adjustOxyLoss(1, 0)
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/medicine/loversruin, 2)
+	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(2, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.4 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.4 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-0.4, 0)
+		M.adjustToxLoss(-0.4, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5 * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-4 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/action/cooldown/spell/touch/orison/proc/create_water(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
