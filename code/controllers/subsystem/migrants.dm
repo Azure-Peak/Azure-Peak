@@ -410,6 +410,14 @@ SUBSYSTEM_DEF(migrants)
 		return FALSE
 	if(role.allowed_ages && !(prefs.age in role.allowed_ages))
 		return FALSE
+	if(role.banned_flaws)
+		for(var/datum/charflaw/checked_flaw in prefs.charflaws)
+			if(checked_flaw.type in role.banned_flaws)
+				return FALSE
+	if(role.banned_virtues)
+		// i just stole this from the normal virtue restriction code i cant even lie
+		if((prefs.virtue?.type in role.banned_virtues) || (prefs.virtuetwo?.type in role.banned_virtues) || (prefs.virtue_origin?.type in role.banned_virtues))
+			return FALSE
 	return TRUE
 
 /// The set of /datum/advclass datums a role can roll, resolved from its advclass_cat_rolls tags (deduped).
