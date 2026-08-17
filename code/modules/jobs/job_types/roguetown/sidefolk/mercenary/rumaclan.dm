@@ -206,17 +206,17 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_MASTER, TRUE) //Dedicated sling user, best skill there.
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				belt = /obj/item/storage/belt/rogue/leather
-				beltr = /obj/item/quiver/arrows
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-				beltl = /obj/item/rogueweapon/scabbard/sheath/kazengun
+				beltr = /obj/item/quiver/sling/iron
+				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+				backl = /obj/item/rogueweapon/scabbard/sheath/kazengun
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 			if("Sling & Kodachi")
 				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE) //Another hybrid.
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				belt = /obj/item/storage/belt/rogue/leather
-				beltr = /obj/item/quiver/arrows
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-				beltl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
+				beltr = /obj/item/quiver/sling/iron
+				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+				backl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 				r_hand = /obj/item/rogueweapon/sword/short/kazengun
 			if("Kodachi & Tanto") //Melee versatility without sacrificing belt storage.
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
