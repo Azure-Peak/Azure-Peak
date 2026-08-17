@@ -11,7 +11,6 @@
 					/datum/action/cooldown/spell/miracle/heal						= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heart_on_sleeve			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/insufflation					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/griefflower				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust	= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/lasthigh					= CLERIC_T2,
