@@ -464,7 +464,7 @@
 	overlay_state = "last_high"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 0
+	chargetime = 2 SECONDS
 	range = 7
 	warnie = "sydwarning"
 	sound = 'sound/magic/timestop.ogg'
