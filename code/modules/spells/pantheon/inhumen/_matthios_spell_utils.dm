@@ -24,10 +24,8 @@
 	damage = 25 // half the damage from the normal one
 	strike_damage_type = BURN
 	blade_class = BCLASS_BURN
-	npc_simple_damage_mult = 2
 	committed_strike = TRUE
 	interruptible = FALSE
-	charging_slowdown = CHARGING_SLOWDOWN_SMALL
 	windup_time = TELEGRAPH_AREA_DENIAL
 	sweep_step = 0
 	strike_sound = 'sound/magic/fireball.ogg'
