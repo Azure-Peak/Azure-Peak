@@ -7,7 +7,7 @@
 	name = "chocolate cookie dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/chocolate/slice
+		/obj/item/reagent_containers/food/snacks/chocolate/slice2
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/halfcookie_raw
 
