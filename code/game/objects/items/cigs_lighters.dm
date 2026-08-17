@@ -291,6 +291,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			M.dropItemToGround(src, silent = TRUE)
 			M.mouth = new type_butt(M)
 			record_featured_stat(FEATURED_STATS_SMOKERS, M) //
+			M.visible_message(span_warning("[M] spits out [M.mouth]."))
+			M.dropItemToGround(M.mouth, silent = FALSE)
 		else
 			new type_butt(location)
 		qdel(src)
@@ -382,11 +384,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 240
 	list_reagents = list(/datum/reagent/drug/westleach = 45)
 
-/obj/item/clothing/mask/cigarette/rollie/trippy
-	name = "trippy zig"
-	desc = "A paper wrapped cartridge of... What?"
-	list_reagents = list(/datum/reagent/drug/westleach = 15, /datum/reagent/drug/mushroomhallucinogen = 35)
-	starts_lit = TRUE
+
 
 /obj/item/clothing/mask/cigarette/rollie/cannabis
 	name = "swampleaf zig"

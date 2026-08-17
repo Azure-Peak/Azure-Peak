@@ -68,7 +68,7 @@
 
 	// Show telegraph visuals before runes appear
 	for(var/turf/T in target_turfs)
-		new /obj/effect/temp_visual/trap_wall/battle_ward(T)
+		new /obj/effect/temp_visual/telegraph/wall/battle_ward(T)
 
 	playsound(center, 'sound/magic/whiteflame.ogg', 60, TRUE)
 	H.visible_message(span_warning("[H] completes a complex inscription - runes begin to materialize!"), span_notice("I finish inscribing the [ward_mode] ward pattern."))
@@ -121,8 +121,7 @@
 		holder.maptext_x = 5
 		holder.color = GLOW_COLOR_WARD
 
-/obj/effect/temp_visual/trap_wall/battle_ward
-	color = GLOW_COLOR_WARD
+/obj/effect/temp_visual/telegraph/wall/battle_ward
 	light_color = GLOW_COLOR_WARD
 	duration = BATTLE_WARD_TELEGRAPH_TIME
 

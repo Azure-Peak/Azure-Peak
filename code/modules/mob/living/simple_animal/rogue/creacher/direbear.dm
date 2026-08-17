@@ -1,4 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear	//This way don't need new unqiue AI controller. Wolves are modular anyway.
+	attack_aim = MOB_AIM_HIGH
+	anatomy_type = /datum/anatomy/quadruped/standard
 	icon = 'icons/roguetown/mob/monster/direbear.dmi'
 	name = "direbear"
 	desc = "Renowned as a symbol of strength and rebirth by followers of Dendor, these mighty beasts are said to sleep for months on end without ever starving. While highly sought for their furs and hides, these claim as many hunters as they are claimed by."
@@ -54,7 +56,6 @@
 	STASPD = 9
 	simple_detect_bonus = 40	//No sneaking by our boy..
 	deaggroprob = 0
-	defprob = 40
 	del_on_deaggro = FALSE //we dont despawn, our boy chills
 	food = 0
 	remains_type = /obj/effect/decal/remains/bear
@@ -68,6 +69,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/direbear
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear/get_sound(input)
 	switch(input)
@@ -91,7 +93,4 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	var/datum/action/cooldown/mob_cooldown/bear_swipe/swipe = new(src)
-	swipe.Grant(src)
-	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, swipe)
 

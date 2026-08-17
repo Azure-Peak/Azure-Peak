@@ -390,6 +390,21 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 			holder.mind.AddSpell(new_paint_spell, holder)
 			LAZYADD(granted_spells, new_paint_spell)
 
+/**
+ * Formats a skill or patron check text string with custom status prefixing.
+ *
+ * Output format: "[Check Name: Success/Failure] Content"
+ *
+ * * check_name - The display name of the check (e.g., "Abyssor", "Medical", "Half-Light").
+ * * success - Whether the check succeeded (TRUE = greentext "Success", FALSE = redtext "Failure").
+ * * content - The body text/flavor text to display inside the notice span.
+ */
+/proc/skill_check_text(check_name, success = TRUE, content = "")
+	var/status_text = success ? "Success" : "Failure"
+	var/bracket_text = "\[[check_name]: [status_text]\]"
+	var/prefix = success ? span_greentext(bracket_text) : span_redtext(bracket_text)
+	return "[prefix] [span_notice(content)]"
+
 #undef PRAYER_DEVOTION_TIME_MULT
 #undef PRAYER_DEVOTION_BASE
 #undef PRAYER_DEVOTION_SKILL

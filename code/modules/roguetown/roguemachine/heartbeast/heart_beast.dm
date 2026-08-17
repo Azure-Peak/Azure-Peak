@@ -21,13 +21,15 @@
 
 /obj/structure/roguemachine/chimeric_heart_beast/examine(mob/user)
 	. = ..()
-	if(iscarbon(user))
-		var/mob/living/carbon/c = user
-		if(c.patron.type == /datum/patron/divine/pestra)
-			. += span_info("The divine beast of Pestra. For untold ages, these beasts remained behind locked doors, allowing the sect of Pestra to lengthen their lifespan.")
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.patron.type == /datum/patron/divine/pestra)
+			. += skill_check_text("Pestra", TRUE, "The divine beast of Pestra. For untold ages, these beasts remained behind locked doors, allowing the sect of Pestra to lengthen their lifespan.")
 			. += span_infection("Yet the others grew restless, desiring pure lux for their own...")
-			. += span_info("Now, they are employed in most regions of the world where the light of the ten shines. Decreasing suffering.")
+			. += span_infection("Now, they are employed in most regions of the world where the light of the ten shines. Decreasing suffering.")
 			. += span_infection("For the great beast of Pestra, made through the ingenuity of humenkind influences all divine magic within a region.")
+		else
+			. += skill_check_text("Pestra", FALSE, "My devotion to Pestra is too weak, the whispers of the void remain silent.")
 
 /obj/structure/roguemachine/chimeric_heart_beast/proc/initialize_personality()
 	// Pick random archetype

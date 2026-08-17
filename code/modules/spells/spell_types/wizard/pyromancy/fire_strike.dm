@@ -52,7 +52,7 @@
 		return FALSE
 
 	for(var/turf/T in range(blast_radius, center))
-		new /obj/effect/temp_visual/trap_wall/fire(T)
+		new /obj/effect/temp_visual/telegraph/wall/fire(T)
 	center.visible_message(span_boldwarning("The air above ignites - something is coming down!"))
 	addtimer(CALLBACK(src, PROC_REF(drop_fireball), center), impact_delay)
 	return TRUE

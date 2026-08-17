@@ -85,7 +85,7 @@
 	var/list/affected_turfs = get_perpendicular_line(origin, facing)
 
 	for(var/turf/T in affected_turfs)
-		new /obj/effect/temp_visual/air_strike_telegraph(T)
+		new /obj/effect/temp_visual/telegraph/air_strike(T)
 
 	addtimer(CALLBACK(src, PROC_REF(resolve_cut_strike), H, weapon, empowered, affected_turfs, damage, def_zone, facing), 2)
 
@@ -131,7 +131,7 @@
 	var/list/affected_turfs = get_forward_line(origin, facing, 3)
 
 	for(var/turf/T in affected_turfs)
-		new /obj/effect/temp_visual/air_strike_telegraph(T)
+		new /obj/effect/temp_visual/telegraph/air_strike(T)
 
 	addtimer(CALLBACK(src, PROC_REF(resolve_stab_strike), H, weapon, empowered, affected_turfs, damage, def_zone, facing), 2)
 
@@ -174,7 +174,7 @@
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 	var/damage = empowered ? (blunt_damage * empowered_mult) : blunt_damage
 
-	new /obj/effect/temp_visual/air_strike_telegraph(origin)
+	new /obj/effect/temp_visual/telegraph/air_strike(origin)
 
 	addtimer(CALLBACK(src, PROC_REF(resolve_blunt_strike), H, weapon, empowered, origin, damage, def_zone), 2)
 
@@ -234,12 +234,9 @@
 		turfs += current
 	return turfs
 
-/obj/effect/temp_visual/air_strike_telegraph
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "trap"
+/obj/effect/temp_visual/telegraph/air_strike
 	light_outer_range = 1
 	duration = 3
-	layer = MASSIVE_OBJ_LAYER
 
 /obj/effect/temp_visual/arcyne_strike_fx
 	icon = 'icons/effects/effects.dmi'
