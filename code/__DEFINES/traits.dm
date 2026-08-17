@@ -289,7 +289,7 @@
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
 #define TRAIT_MANORKEEPER "Manorkeeper" // Flavortext-related for the Absolver.
 #define TRAIT_EORAN_CALM "Eoran Calm"
-#define TRAIT_BAOTHAN_CALM "Eoran Calm"
+#define TRAIT_BAOTHAN_CALM "Baothan Calm"
 #define TRAIT_EORAN_SERENE "Eoran Serenity"
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"

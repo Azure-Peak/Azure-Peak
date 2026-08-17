@@ -6,7 +6,7 @@
 	name = "Orison"
 	desc = "The fundamental teachings of theology return to you:\n \
 	<b>Light</b>: Issue a prayer for illumination, causing you or another living creature to begin glowing with light for five minutes - this stacks each time you cast it, with no upper limit. Using thaumaturgy on a person will remove this blessing from them, and MMB on your praying hand will remove any light blessings from yourself.\n \
-	<b>Fill</b>: Beseech your Divine to create a small quantity of water in a container that you touch for some devotion.\n \
+	<b>Fill</b>: Beseech your Divine to create a small quantity of water in a container that you touch for some devotion. Pestrans create foul-tasting medicine. Baothans create sweet, soothing wine. \n \
 	<b>Voice</b>: Direct a sliver of divine thaumaturgy into your being, causing your voice to become LOUD when you next speak. Known to sometimes scare the rats inside the SCOMlines. Can be used on light sources at range, and it will cause them flicker.\n \
 	<b>Bless</b>: Utter a prayer for redemption to your Divine to bring a repentant soul into their flock. The close bonds of the Ten uniquely allow an initiate to choose whichever they feel closest to. THIS IS ONLY TO BE USED AFTER A CONVERSION IN ROLEPLAY. DO NOT USE THIS WITHOUT A ROLEPLAY BASIS OR THERE WILL BE DIRE CONSEQUENCES."
 
@@ -369,6 +369,33 @@
 			M.heal_wounds(2)
 		..()
 
+/datum/reagent/medicine/loversruin
+	name = "Lover's Ruin"
+	description = "A sweet smelling concoction. It has small charred petals swimming on the surface."
+	color = "#9c2745"
+	taste_description = "sin"
+
+/datum/reagent/medicine/loversruin/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+		if(volume >= 10)
+			M.reagents.remove_reagent(/datum/reagent/medicine/loversruin, 2)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
+		var/list/wCount = M.get_wounds()
+		if(wCount.len > 0)
+			M.heal_wounds(2, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
+		if(volume > 0.99)
+			M.adjustBruteLoss(-2 * REAGENTS_EFFECT_MULTIPLIER, 0)
+			M.adjustFireLoss(-2 * REAGENTS_EFFECT_MULTIPLIER, 0)
+			M.adjustOxyLoss(-2, 0)
+			M.adjustToxLoss(-2, 0)
+			M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5 * REAGENTS_EFFECT_MULTIPLIER)
+			M.adjustCloneLoss(-4 * REAGENTS_EFFECT_MULTIPLIER, 0)
+	else
+		M.adjustToxLoss(3, 0)
+		M.adjustOxyLoss(1, 0)
+	..()
+
 /datum/action/cooldown/spell/touch/orison/proc/create_water(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	// normally we wouldn't use fatigue here to keep in line w/ other holy magic, but we have to since water is a persistent resource
 	if (!victim.Adjacent(caster))
@@ -396,6 +423,8 @@
 				water_contents = list(/datum/reagent/water/blessed = water_qty)
 			if(caster.patron.name == "Pestra")
 				water_contents = list(/datum/reagent/water/medicine = water_qty)
+			if(caster.patron.name == "Baotha")
+				water_contents = list(/datum/reagent/medicine/loversruin = water_qty)
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
 			reagents_to_add.trans_to(victim, reagents_to_add.total_volume, transfered_by = caster)
