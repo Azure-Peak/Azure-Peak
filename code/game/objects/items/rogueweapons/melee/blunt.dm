@@ -1012,7 +1012,7 @@
 	smelt_bar_num = 3 //Please don't...
 	max_integrity = 370
 
-//Psydonite maul. Intended for FUCKING SHIT UP.
+//Psydonite reliquary maul. Intended for FUCKING SHIT UP.
 /obj/item/rogueweapon/mace/maul/grand/psy
 	name = "psydonic maul"
 	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/sweep, /datum/intent/mace/demolish, /datum/intent/effect/hobble)
