@@ -10,6 +10,12 @@
 	// maybe add TRAIT_NOEMBED on initalize??? Fuck IDK man
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE
+
+	// BEGIN THE STATJAKS.
+	force = 24 // it actually always did 24 to non-targets this is just explicit. does 40 to targets. someone smarter than me replace it w/ extra pen.
+	wdefense = 5 // antag weapon idfc man mercs get whatever these days and i want mercs dead
+	max_integrity = 200 // ditto. hunting knife is actually 175 so this (shouldnt) be too crazy.
+
 	var/last_spoken = 0 // prevent chatspam
 	is_important = TRUE // do not let it be sold or whatever
 	sellprice = 0
@@ -183,16 +189,17 @@
 	if(!istype(target))
 		return FALSE
 	if(target.has_flaw(/datum/charflaw/targeted)) // dagger deals more dmg to ppl who r targeted
-		force = 20 * 2	//vs trait havers, 2x damage over a steel knife
+		force = 40	//vs trait havers, 2x damage over a steel knife
 		update_force_dynamic()
 	else
-		force = 20 + 4	//vs non-trait havers, 4 more damage over a steel knife
+		force = 24
 		update_force_dynamic()
 	return FALSE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
 	. = ..()
 	// FIRST. we check for peculate.
+	// WEWHO'S NOTE: this could probably be changed to be /datum/intent/proc/spec_on_apply_effect for peculate. i'm not doing it rn though.
 	if(istype(user.used_intent, /datum/intent/peculate))
 		// are they allowed to use this
 		if(!can_peculate(target, user))
