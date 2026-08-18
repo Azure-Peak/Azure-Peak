@@ -55,3 +55,4 @@
 	desc = "Through quills, spines, or a caustic makeup, touching me isn't exactly pleasant."
 	mechdesc = "Doesn't affect grabs."
 	added_traits = list(TRAIT_CAUSTIC)
+	allowed_species = list(/datum/species/ooze, /datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/aasimar, /datum/species/dullahan)
