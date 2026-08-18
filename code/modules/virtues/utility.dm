@@ -65,6 +65,72 @@
 		NOTABLE_SHREWD = "Grants Secular Appraise -- a spell that allows you to tell how much wealth someone has on them, and in their Meister."
 	)
 
+/datum/virtue/utility/notable/apply_to_human(mob/living/carbon/human/recipient)
+	if(!triumph_check(recipient))
+		return
+	for(var/choice in picked_choices)
+		switch(choice)
+			if(NOTABLE_BEAUTY)
+				ADD_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_GOODLOVER, TRAIT_VIRTUE)
+				if(isdullahan(recipient))
+					REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
+				recipient.mind?.special_items["Hand Mirror"] = /obj/item/handmirror
+			if(NOTABLE_STASH)
+				recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
+			if(NOTABLE_SHREWD)
+				ADD_TRAIT(recipient, TRAIT_SEEPRICES, TRAIT_VIRTUE)
+				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
+			if(NOTABLE_RESIDENCY)
+				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				if(recipient.mind)
+					for(var/X in (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions))
+						for(var/datum/mind/MF in get_minds(X))
+							recipient.mind.person_knows_me(MF)
+							recipient.mind.i_know_person(MF)
+
+				if (!recipient.islatejoin)
+					var/target_z = 0
+					var/mapname = SSmapping.config.map_name
+					if(mapname == "Dun World")
+						target_z = 3
+					else if(mapname == "Pilgrim")
+						target_z = 4
+
+					if(target_z && (recipient.mind?.assigned_role == "Adventurer"))
+						var/list/possible_chairs = list()
+						var/list/possible_spawns = list()
+
+						for(var/area/A in world)
+							if(!istype(A, /area/rogue/indoors/town/tavern))
+								continue
+							for(var/obj/structure/chair/C in A)
+								var/turf/T = get_turf(C)
+								if(T && T.z == target_z && C.type == /obj/structure/chair/wood/rogue && !T.density && !T.is_blocked_turf(FALSE))
+									possible_chairs += C
+
+						if(length(possible_chairs))
+							var/obj/structure/chair/chosen_chair = pick(possible_chairs)
+							recipient.forceMove(get_turf(chosen_chair))
+							to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself seated at a chair in the local tavern."))
+						else
+							for(var/area/A in world)
+								if(!istype(A, /area/rogue/indoors/town/tavern))
+									continue
+								for(var/turf/T in A)
+									if(T.z == target_z && !T.density && !T.is_blocked_turf(FALSE))
+										possible_spawns += T
+							if(length(possible_spawns))
+								var/turf/spawn_loc = pick(possible_spawns)
+								recipient.forceMove(spawn_loc)
+								to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself in the local tavern."))
+
+#undef NOTABLE_BEAUTY
+#undef NOTABLE_STASH
+#undef NOTABLE_RESIDENCY
+#undef NOTABLE_SHREWD
+
 /datum/virtue/utility/failed_squire
 	name = "Failed Squire"
 	desc = "I was once a squire in training, but failed to achieve knighthood. Though my dreams of glory were dashed, I retained my knowledge of equipment maintenance and repair, including how to polish arms and armor."
