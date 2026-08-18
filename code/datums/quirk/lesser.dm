@@ -50,3 +50,8 @@
 	desc = "My lux bears some manner of curse; it cannot be safely transplanted."
 	mechdesc = "You will be unable to donate lux to revive others."
 	added_traits = list(TRAIT_TAINTEDLUX)
+
+/datum/quirk/outdoorsman
+	name = "Outdoorsy"
+	desc = "I feel at home in the wyld. Sleeping in tree branches is almost as comfortable as a bed to me."
+	added_traits = list(TRAIT_OUTDOORSMAN)
