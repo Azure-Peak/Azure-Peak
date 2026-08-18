@@ -408,3 +408,69 @@
 		"On Moon's Dae your reflection rots, avoid that which mirrors",
 		"You shant be yourself on Moon's Dae, avoid yourself"
 	)
+
+// Can't be past moon's dae
+/datum/vision_quest/tier_1/day_one_moon/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	var/current_day = get_current_day_of_week()
+	if(current_day > 1)
+		return FALSE
+	if(!..())
+		return FALSE
+	return TRUE
+
+/datum/vision_quest/tier_1/day_two_truce
+	name = "The Unspooling Binding"
+	description = "The strongholds' chains fray into dust, and signed treaties bleed through parchment."
+	target_description = "unknown"
+	summary = "No bond or lock holds fast when Truce's Dae dawns."
+	vision_text = "The heavy iron shackles in the dungeon slide apart like the very chains are melting. \
+	Vault doors swing open without a whisper, their bolts disintegrating into fine red rust. \
+	In the high council chamber, the wax on the treaties liquefies, smelling of scorched marrow. \
+	Knots in the sails unravel into thin, black worms that writhe toward the sea. \
+	Mercenaries don't just shed bonds to their employers, what little morals bind their actions are consumed. \
+	The widower kneels, his hands crawling with blood that festers, leaving the rest of his skin pale as parchment. \
+	Betrayal, negligence, it is as rife within the people as the disease carried by rous. \
+	Truce's Dae renders every promise moot."
+	possible_phrases = list(
+		"Truce's Dae snaps every chain",
+		"On Truce's Dae no secret stays bound",
+		"Truce's Dae rejects promise",
+		"Trust no oath made on Truce's Dae"
+	)
+
+/datum/vision_quest/tier_1/day_two_truce/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	var/current_day = get_current_day_of_week()
+	if(current_day > 2)
+		return FALSE
+	if(!..())
+		return FALSE
+	return TRUE
+
+/datum/vision_quest/tier_1/day_three_wedding
+	name = "The Duplicated Shadows"
+	description = "Everything touched by ceremony sprouts a twin, mocking the sacred union."
+	target_description = "unknown"
+	summary = "Surreal multiplication plagues the altars on Wedding's Dae."
+	vision_text = "A ringing bell echoes twice, but the second tone vibrates in your teeth like the scraping of bone. \
+	The hollowed bride steps forward, but a second shadow walks three paces behind her, unattached to feet. Freed from bindings. \
+	The chalice holding high spirits splits in two, spilling wine that congeals like blood. \
+	Astrata and noc alike hover low over the chapel spire, dousing the premise in darkness. blind eyes staring down at the congregation. \
+	The crowd laugh not in celebration, but at the endless tragedy promised by a raised dagger in shadowy fingers, powerless to prevent tragedy. \
+	A priest unwilling to complete a doomed union, yet the hand around his neck will not relent. \
+	Wedding's Dae bring false happiness."
+	possible_phrases = list(
+		"Wedding's Dae spawns a second shadow",
+		"On Wedding's Dae two gods will bicker",
+		"Wedding's Dae brings false happiness",
+		"Wedding's Dae unravels the union between lovers",
+		"Wedding's Dae hollows the soul"
+	)
+
+// Since this is starting day three, let's start taking a spare day to decrease the chance the day is about to pass.
+/datum/vision_quest/tier_1/day_three_wedding/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	var/current_day = get_current_day_of_week()
+	if(current_day > 2)
+		return FALSE
+	if(!..())
+		return FALSE
+	return TRUE
