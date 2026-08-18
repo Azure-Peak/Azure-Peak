@@ -90,26 +90,28 @@
 // --------------------------------------------------------------------------------------------
 /datum/storyteller/gamemode/guaranteed_antag
 	name = "High Intensity"
-	vote_desc = "Guaranteed hard antagonist. No wretch/heretic."
-	desc = "Guaranteed roundstart external antag (Lich/VL/WW/Bandits). No heretics or wretches. Gnolls max 2. Lycker max 2. Hag present."
+	vote_desc = "Guaranteed hard antagonist. Less wretch/heretic slots."
+	desc = "Guaranteed roundstart external antag (Lich/VL/WW/Bandits). Heretic max 2, wretches max 4. Gnolls max 2. Lycker max 2. Hag present."
 	welcome_text = "A cold dread settles over the town..."
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
 	guaranteed_hard = TRUE
 	guarantees_roundstart_roleset = TRUE
 	roundstart_prob = 100
-	block_external_soft = TRUE
+	block_external_soft = FALSE
 	block_internal_soft = FALSE
 	block_external_hard = FALSE
 	block_internal_hard = FALSE
 	allow_dreamwalker = FALSE
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	lycker_slots = 2
+	heretic_slots = 2
+	wretch_slot_cap = 4
 
 /datum/storyteller/gamemode/guaranteed_antag/wretch
 	name = "Tempered Intensity"
-	vote_desc = "Wretch and heretic slots, but no hard antag."
-	desc = "No hard antag. Heretics up to 2 and Wretches up to 6. Lycker max 4. Gnoll max 3. Hag present."
+	vote_desc = "More wretch and heretic slots, but no hard antag."
+	desc = "No hard antag. Heretics up to 4 and Wretches up to 10. Lycker max 4. Gnoll max 3. Hag present."
 	color_theme = "#7a1f1f"
 	guaranteed_hard = FALSE
 	guarantees_roundstart_roleset = FALSE
@@ -119,8 +121,8 @@
 	block_internal_hard = TRUE
 	allow_dreamwalker = FALSE
 	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC	// max 3
-	heretic_slots = 2
-	wretch_slot_cap = 6
+	heretic_slots = 4
+	wretch_slot_cap = 10
 	lycker_slots = 4
 
 // -------------------------------------------------------------------------------------------------------------
@@ -129,11 +131,11 @@
 /datum/storyteller/gamemode/no_antag	// DEFAULT (inconclusive-vote fallback)
 	name = "Medium Intensity"
 	vote_desc = "Most antagonists blocked. Internal threats possible. Soft antagonists scale reasonably."
-	desc = "No external hard antags, no heretics, no wretches. Lyckers max 2, or 4 if no roundstart antag. Gnolls max 3. May roll peasant rebel/masquerade/extra lycker slots."
+	desc = "No external hard antags, no heretics. Wretches max 5. Lyckers max 2, or 4 if no roundstart antag. Gnolls max 3. May roll peasant rebel/masquerade/extra lycker slots."
 	welcome_text = "The warmth of daelight rouses you from your slumber.."
 	color_theme = "#2b8c87"
 	preset_pool = GAMEMODE_POOL_NOANTAG
-	block_external_soft = TRUE
+	block_external_soft = FALSE
 	block_internal_soft = FALSE
 	block_external_hard = TRUE
 	block_internal_hard = FALSE
@@ -142,6 +144,7 @@
 	roundstart_prob = 50
 	guarantees_roundstart_roleset = FALSE
 	lycker_slots = 2
+	wretch_slot_cap = 5
 
 /datum/storyteller/gamemode/no_antag/standard
 	name = "Low Intensity"
