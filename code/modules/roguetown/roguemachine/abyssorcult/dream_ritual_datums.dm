@@ -371,7 +371,7 @@
 
 	required_ingredients = list(
 		/obj/item/dream_material/dream_blade = 1,
-		/obj/item/rogueweapon/huntingknife
+		/obj/item/rogueweapon/huntingknife = 1,
 
 	)
 	reward_items = list(
