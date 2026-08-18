@@ -9,8 +9,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	item_flags = NOBLUDGEON
 	throwforce = 0
-	throw_speed = 1
-	throw_range = 1
 	grind_results = list(/datum/reagent/lye = 10)
 	dropshrink = 0.7
 	var/cleanspeed = 20 //as fast as 5 arcyne Prestidigitation
@@ -19,10 +17,6 @@
 	fragrance_type = 0
 	var/datum/reagent/medicine/medicine_type
 	medicine_type = 0
-
-/obj/item/soap/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/slippery, 10)
 
 /obj/item/soap/examine(mob/user)
 	. = ..()
@@ -133,7 +127,7 @@
 	icon_state = "soap_rosa"
 	fragrance_type = /datum/pollutant/fragrance/rose
 
-/obj/item/soap/vanilla //
+/obj/item/soap/vanilla
 	name = "vanilla soap"
 	uses = 100
 	cleanspeed = 50
