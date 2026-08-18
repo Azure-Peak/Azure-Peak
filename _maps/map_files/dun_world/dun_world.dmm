@@ -4497,6 +4497,8 @@
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
 	},
+/obj/structure/curtain/green,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "aTS" = (
@@ -15904,6 +15906,7 @@
 /area/rogue/outdoors/woods/southeast)
 "daY" = (
 /obj/structure/roguewindow/openclose/reinforced,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town)
 "dba" = (
@@ -50306,6 +50309,11 @@
 	color = "#3b444b"
 	},
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"jwD" = (
+/obj/structure/roguewindow,
+/obj/structure/curtain/green,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town)
 "jwG" = (
 /obj/structure/closet/crate/roguecloset/dark,
 /obj/item/rogueweapon/mace/wsword,
@@ -57350,6 +57358,7 @@
 	},
 /obj/structure/fluff/railing/border/west,
 /obj/structure/fluff/railing/border/east,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
 "kMw" = (
@@ -80922,6 +80931,7 @@
 /area/rogue/indoors/town/steward)
 "paa" = (
 /obj/structure/roguewindow/openclose/reinforced,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "pae" = (
@@ -109206,6 +109216,7 @@
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
 	},
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "upM" = (
@@ -501544,8 +501555,8 @@ aBB
 aBB
 aBB
 afK
-lgb
-lgb
+jwD
+jwD
 afK
 kgg
 kgg
