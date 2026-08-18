@@ -97,6 +97,8 @@
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NODISMEMBER))
 		return FALSE
+	if(HAS_TRAIT(C, TRAIT_NODECAP) && body_zone == BODY_ZONE_HEAD)
+		return FALSE
 	if(user)
 		if(zone_precise in list(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_PRECISE_L_HAND) && C.mind)
 			return FALSE //No dismemberment on hand/feet on humans, but we do mobs.
@@ -219,6 +221,8 @@
 	if(C.status_flags & GODMODE)
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NODISMEMBER))
+		return FALSE
+	if(HAS_TRAIT(C, TRAIT_NODECAP) && body_zone == BODY_ZONE_HEAD)
 		return FALSE
 	add_wound(/datum/wound/slash/disembowel)
 	return TRUE

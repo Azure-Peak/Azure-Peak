@@ -53,7 +53,8 @@
 	inherent_traits = list(
 						TRAIT_NASTY_EATER,
 						TRAIT_EASYDISMEMBER,
-						TRAIT_REGROW_LIMBS,
+						TRAIT_WATERBREATHING,
+						TRAIT_NODECAP,
 						TRAIT_ZOMBIE_IMMUNE,
 						)
 	enflamed_icon = "widefire"
@@ -103,9 +104,9 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver/ooze,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach/ooze,
 		)
-	
+
 	mechanics_explanations = list("Have no bones to break. However, upon suffering a severe blunt wound, or when a limb would experience a bone fracture, the limb melts. Lost limbs similarly melt off.",
-		"Can regenerate lost limbs by sleeping, at a great cost to their bodily nutrition.",
+		"Has a racial skill that allows them to regenerate themselves to a pristine state, at a heavy cost of nutrition and hydration. It requires sleep between uses.",
 		"Have uniquely colored blood that matches the color of their bodies.")
 
 ////// ORGAN SPRITES, provided by VelSlime
@@ -114,37 +115,44 @@
 	icon = 'icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
 	decoy_override = TRUE
+	dissolves_when_removed = TRUE
 
 /obj/item/organ/lungs/ooze
 	name = "Ooze Breathing Sac"
 	icon = 'icons/obj/velslime.dmi'
 	icon_state = "liver" //No lungs sprite, re-using the liver sprite instead.
 	organ_flags = ORGAN_ORGANIC
+	dissolves_when_removed = TRUE
 
 /obj/item/organ/heart/ooze
 	name = "Ooze Fluid Pump"
 	icon = 'icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
+	dissolves_when_removed = TRUE
 
 /obj/item/organ/eyes/ooze
 	name = "Ooze Ocular Sensors"
 	icon = 'icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
+	dissolves_when_removed = TRUE
 
 /obj/item/organ/tongue/wild_tongue/ooze
 	name = "Ooze Taste Buds"
 	icon = 'icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
+	dissolves_when_removed = TRUE
 
 /obj/item/organ/stomach/ooze
 	name = "Ooze Digestive Chamber"
 	icon = 'icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
+	dissolves_when_removed = TRUE
 
 /obj/item/organ/liver/ooze
 	name = "Ooze Detoxification Organelle"
 	icon = 'icons/obj/velslime.dmi'
 	organ_flags = ORGAN_ORGANIC
+	dissolves_when_removed = TRUE
 
 /datum/species/ooze/check_roundstart_eligible()
 	return TRUE
@@ -154,6 +162,12 @@
 	. = ..()
 	blood_color = C.dna.features["mcolor"]
 	blood_color = "#[blood_color]"
+	addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon/human, grant_re_goo)), 1) // aughghghhhhh this is needed D:
+
+/mob/living/carbon/human/proc/grant_re_goo()
+	var/mob/living/carbon/human/C = src
+	if(C.mind)
+		C.mind.AddSpell(new /datum/action/cooldown/spell/racial/regrowth)
 
 /datum/species/ooze/random_name(gender,unique,lastname)
 
@@ -178,3 +192,44 @@
 
 /datum/species/ooze/random_surname()
 	return
+
+/datum/action/cooldown/spell/racial/regrowth
+	name = "Ooze Regrowth"
+	desc = "Completely restore your body's integrity after a moment of concentration. This will immediately consume all your nutrition and hydration. You must sleep between uses to use this again, and not be starved nor thirsty."
+	click_to_activate = FALSE
+	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_time = 4 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	charge_sound = 'sound/body/shapeshift-start.ogg'
+	cooldown_time = 10 SECONDS
+	blocks_defense_while_channeling = TRUE
+	check_flags = NONE
+	var/needs_sleep = FALSE
+
+/datum/action/cooldown/spell/racial/regrowth/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+	if(needs_sleep)
+		to_chat(H, span_warning("I must sleep before my body can regenerate again."))
+		return FALSE
+	if(H.nutrition <= NUTRITION_LEVEL_STARVING)
+		to_chat(H, span_warning("I am too starved to regenerate my body."))
+		return FALSE
+	if(H.hydration <= HYDRATION_LEVEL_DEHYDRATED)
+		to_chat(H, span_warning("I am too thirsty to regenerate my body."))
+		return FALSE
+	H.adjustBruteLoss(-999)
+	H.adjustFireLoss(-999)
+	H.adjustOxyLoss(-999)
+	H.adjustToxLoss(-999)
+	H.regenerate_limbs()
+	H.regenerate_organs()
+	H.set_nutrition(0)
+	H.set_hydration(0)
+	H.visible_message(span_danger("[H]'s shape repulsively twists and reforms, restoring its own integrity!"), span_notice("My shape twists and reforms, completely restoring my body's integrity."))
+	needs_sleep = TRUE
+	playsound(H, 'sound/body/shapeshift-end.ogg', 100)
+	return TRUE

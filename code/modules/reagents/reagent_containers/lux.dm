@@ -11,6 +11,38 @@
 	sellprice = 90
 	dropshrink = 0.7
 
+/obj/item/reagent_containers/lux/attack(mob/living/target, mob/living/user)
+	if(!istype(target, /mob/living/carbon/human))
+		return ..()
+	if(target.stat != DEAD)
+		return ..()
+	if(!HAS_TRAIT(target, TRAIT_NODECAP) || !HAS_TRAIT(target, TRAIT_IRONMAN)) // direct infusion for special snowflake races i guess
+		return ..()
+	if(!target.check_revive(user))
+		return
+	var/mob/living/carbon/human/H = target
+	if(!do_after(user, 25 SECONDS, target = H))
+		return
+	if(QDELETED(H) || H.stat != DEAD)
+		return
+	if(!target.check_revive(user))
+		return
+	H.adjustOxyLoss(-H.getOxyLoss())
+	if(!H.revive(full_heal = FALSE))
+		to_chat(user, span_warning("[H] is too damaged to receive this infusion.")) // to prevent conveyor belting them back out so easily
+		return
+	var/mob/living/carbon/spirit/underworld_spirit = H.get_spirit()
+	if(underworld_spirit)
+		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
+		qdel(underworld_spirit)
+		ghost.mind.transfer_to(H, TRUE)
+	H.grab_ghost(force = TRUE)
+	H.emote("breathgasp")
+	H.Jitter(100)
+	H.update_body()
+	H.visible_message(span_notice("[H] is jolted back from Necra's hold!"), span_green("I awake from the void."))
+	qdel(src)
+
 /datum/reagent/vitae
 	name = "Vitae"
 	description = "The extracted and processed essence of life."

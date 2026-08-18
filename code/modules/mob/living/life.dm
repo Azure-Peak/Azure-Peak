@@ -74,6 +74,30 @@
 								wound.sew_wound() // it does not heal the wound, however! another nick and you're back to bleeding like a pig.
 					nutrition = max(0, nutrition - (NUTRITION_LEVEL_FULL * 0.0025)) // drains 0.25% of your hunger to restore all of above, still
 
+	/// Goo-staunch: regenerates wounds by rapidly consuming hydration. Being on fire, scorched or freezing will stop this.
+	if(!stat && HAS_TRAIT(src, TRAIT_GOOSTAUNCH) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
+		if(src.has_status_effect(/datum/status_effect/freon) || src.has_status_effect(/datum/status_effect/debuff/chilled) || src.has_status_effect(/datum/status_effect/debuff/scorched4) || src.has_status_effect(/datum/status_effect/debuff/scorched3) || src.has_status_effect(/datum/status_effect/debuff/scorched2) || src.has_status_effect(/datum/status_effect/debuff/scorched1) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+			return // fuckin doozy good lord
+
+		handle_wounds()
+
+		if(blood_volume > BLOOD_VOLUME_SURVIVE && hydration > HYDRATION_LEVEL_DEHYDRATED)
+			for(var/datum/wound/wound as anything in get_wounds())
+				if(!istype(wound, /datum/wound/slash/incision))
+					var/old_damage = wound.damage
+					wound.heal_wound(0.5)
+					var/healed = max(old_damage - wound.damage, 0)
+					// 0.5% hydration consumed per 1% wound damage restored.
+					if(healed > 0)
+						hydration = max(hydration - (HYDRATION_LEVEL_FULL * (healed / 100)), 0)
+					if(wound.bleed_rate > 0)
+						var/bleed_heal = max(wound.bleed_rate * 0.1, 0.2)
+						wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0))
+						if(wound.bleed_rate <= 0)
+							if(wound.sew_threshold)
+								wound.sew_progress = wound.sew_threshold
+								wound.sew_wound()
+
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
 			return

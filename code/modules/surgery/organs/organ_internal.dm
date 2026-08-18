@@ -49,6 +49,8 @@
 	var/food_type = /obj/item/reagent_containers/food/snacks/organ
 	/// Whether this organ has ever been inside a mob
 	var/had_owner = FALSE
+	/// Whether this organ will dissolve shortly after being removed from its owner.
+	var/dissolves_when_removed = FALSE
 
 	grid_width = 32
 	grid_height = 32
@@ -87,9 +89,11 @@
 //Special is for instant replacement like autosurgeons
 /obj/item/organ/proc/Remove(mob/living/carbon/M, special = FALSE, drop_if_replaced = TRUE)
 	SEND_SIGNAL(owner, COMSIG_MOB_ORGAN_REMOVED, src, special, drop_if_replaced)
+
 	owner = null
+
 	if(M)
-		if (visible_organ)
+		if(visible_organ)
 			M.visible_organs -= src
 
 		M.internal_organs -= src
@@ -97,15 +101,19 @@
 			M.internal_organs_slot.Remove(slot)
 		if((organ_flags & ORGAN_VITAL) && !special && !(M.status_flags & GODMODE))
 			M.death()
+
 	for(var/X in actions)
 		var/datum/action/A = X
 		A.Remove(M)
+
 	update_icon()
 
 	if(ishuman(M))
 		var/mob/living/carbon/human/humanized = M
 		humanized.update_body_parts(TRUE)
-//	START_PROCESSING(SSobj, src)
+
+	if(dissolves_when_removed)
+		addtimer(CALLBACK(src, PROC_REF(dissolve)), 10 SECONDS)
 
 /obj/item/organ/forceMove(atom/destination)
 	if((organ_flags & ORGAN_INTERNAL_ONLY) && had_owner)
@@ -423,3 +431,9 @@
 /obj/item/organ/proc/enter_wardrobe()
 	accessory_type = initial(accessory_type)
 	STOP_PROCESSING(SSobj, src)
+
+/obj/item/organ/proc/dissolve()
+	if(owner)
+		return
+	visible_message(span_warning("[src] melts away into a puddle of ooze!"))
+	qdel(src)
