@@ -41,4 +41,5 @@
 	name = "Wyld Metabolism"
 	desc = "Dendor's touch lies heavier upon me than most. I can eat things most would fail to stomach."
 	added_traits = list(TRAIT_WILD_EATER)
+	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall)
 	greater = TRUE

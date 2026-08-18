@@ -6,7 +6,7 @@
 /datum/quirk/amphibious
 	name = "Amphibious"
 	desc = "Through some quirk of my heritage, I can breathe in water just as readily as in air."
-	allowed_species = list(/datum/species/anthromorph, /datum/species/lizardfolk)
+	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/lizardfolk)
 	restricted_virtues = list(/datum/virtue/combat/second_chance) // you're probably already unbreathing
 	added_traits = list(TRAIT_WATERBREATHING) // notably NOT breathless
 
