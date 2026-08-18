@@ -84,6 +84,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
 	var/datum/virtue/virtue_origin = new /datum/virtue/none
+	var/datum/quirk/quirklesser = new /datum/quirk/none
+	var/datum/quirk/quirkgreater = new /datum/quirk/none
 	var/age = AGE_ADULT						//age of character
 	var/origin = "Default"
 	var/accessory = "Nothing"
@@ -593,6 +595,34 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += virtue_html
 			dat += virtue_fieldset ? "</fieldset>" : ""
 			dat += "<br>"
+			if(!quirklesser)
+				quirklesser = GLOB.quirks[/datum/quirk/none]
+			if(!quirkgreater)
+				quirkgreater = GLOB.quirks[/datum/quirk/none]
+			var/quirk_html
+			if(istype(quirklesser, quirkgreater))
+				quirkgreater = GLOB.quirks[/datum/quirk/none]
+			if(quirklesser.greater) // should not happen ever
+				quirklesser = GLOB.quirks[/datum/quirk/none]
+			if(!quirk_check(quirklesser, src)) // handles updating when we change virtues, races, etc to something invalid
+				quirklesser = GLOB.quirks[/datum/quirk/none]
+			if(!quirk_check(quirkgreater, src))
+				quirkgreater = GLOB.quirks[/datum/quirk/none]
+			var/slots = get_quirk_slots(src)
+			if(slots)
+				quirk_html += "<b>Lesser Quirk:</b> <a href='?_src_=prefs;preference=quirklesser;task=input'><b><font color = '#cfa971'>[quirklesser]</font></b></a><BR>"
+				if(slots > 1)
+					quirk_html += "<b>Greater Quirk:</b> <a href='?_src_=prefs;preference=quirkgreater;task=input'><b><font color = '#cfa971'>[quirkgreater]</font></b></a><BR>"
+				else
+					quirkgreater = GLOB.quirks[/datum/quirk/none]
+				var/quirk_fieldset
+				if(slots > 1)
+					quirk_fieldset += "<fieldset style='border: 1px solid ["#a08357"]; display: inline'>"
+					quirk_fieldset += "<legend align='center' style='font-weight: bold; color: ["#a08357"]'>Quirks</legend>"
+				dat += quirk_fieldset ? quirk_fieldset : ""
+				dat += quirk_html
+				dat += quirk_fieldset ? "</fieldset>" : ""
+				dat += "<br>"
 			dat += "<b>Vices:</b>"
 			if(charflaws.len)
 				var/has_extra_vice = FALSE
@@ -1043,6 +1073,16 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				if(length(restricted_list))
 					var/restrict_text = english_list(restricted_list)
 					HTML += "<font color='#a59461'>[used_name] (Disallowed by Virtue: [restrict_text])</font></td> <td> </td></tr>"
+					continue
+			if(length(job.quirk_restrictions))
+				var/list/restricted_list = list()
+				if(quirklesser?.type in job.quirk_restrictions)
+					restricted_list.Add(quirklesser.name)
+				if(quirkgreater?.type in job.quirk_restrictions)
+					restricted_list.Add(quirkgreater.name)
+				if(length(restricted_list))
+					var/restrict_text = english_list(restricted_list)
+					HTML += "<font color='#a59461'>[used_name] (Disallowed by Quirk: [restrict_text])</font></td> <td> </td></tr>"
 					continue
 			if(length(job.vice_restrictions))
 				var/list/restricted_list = list()
@@ -2560,6 +2600,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					qsr_pref = !qsr_pref
 				if("virtue")
 					var/list/virtue_choices = list()
+					var/list/virtue_descs = list()
 					for (var/path as anything in GLOB.virtues)
 						var/datum/virtue/V = GLOB.virtues[path]
 						if (!V.name)
@@ -2579,8 +2620,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if(V.virtuous_only && !statpack.virtuous)
 							continue
 						virtue_choices[V.name] = V
+						virtue_descs[V.name] = V.desc
 					virtue_choices = sort_list(virtue_choices)
-					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)
+					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices, descriptions = virtue_descs)
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
@@ -2594,6 +2636,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 								try_update_mutant_colors()
 				if("virtuetwo")
 					var/list/virtue_choices = list()
+					var/list/virtue_descs = list()
 					for (var/path as anything in GLOB.virtues)
 						var/datum/virtue/V = GLOB.virtues[path]
 						if (!V.name)
@@ -2611,8 +2654,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							if((pref_species.type in V.races))
 								continue
 						virtue_choices[V.name] = V
+						virtue_descs[V.name] = V.desc
 					virtue_choices = sort_list(virtue_choices)
-					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)
+					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices, descriptions = virtue_descs)
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
@@ -2627,6 +2671,50 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
 							statpack = new /datum/statpack/wildcard/virtuous
 							to_chat(user, span_purple("Your statpack has been set to virtuous (no stats) due to selecting a virtue.")) */
+
+				if("quirklesser")
+					var/list/quirk_choices = list()
+					var/list/quirk_descs = list()
+					for (var/path as anything in GLOB.quirks)
+						var/datum/quirk/Q = GLOB.quirks[path]
+						if (!Q.name)
+							continue
+						if (Q.greater)
+							continue
+						if ((Q.name == quirklesser.name || Q.name == quirkgreater.name) && !istype(Q, /datum/quirk/none))
+							continue
+						if(!quirk_check(Q, src))
+							continue
+						quirk_choices[Q.name] = Q
+						quirk_descs[Q.name] = Q.desc
+					quirk_choices = sort_list(quirk_choices)
+					var/result = tgui_input_list(user, "What oddity distinguishes you?", "QUIRKS", quirk_choices, descriptions = quirk_descs)
+
+					if (result)
+						var/datum/quirk/quirk_chosen = quirk_choices[result]
+						quirklesser = new quirk_chosen.type
+						to_chat(user, process_quirk_text(quirk_chosen))
+
+				if("quirkgreater")
+					var/list/quirk_choices = list()
+					var/list/quirk_descs = list()
+					for (var/path as anything in GLOB.quirks)
+						var/datum/quirk/Q = GLOB.quirks[path]
+						if (!Q.name)
+							continue
+						if ((Q.name == quirklesser.name || Q.name == quirkgreater.name) && !istype(Q, /datum/quirk/none))
+							continue
+						if(!quirk_check(Q, src))
+							continue
+						quirk_choices[Q.name] = Q
+						quirk_descs[Q.name] = Q.desc
+					quirk_choices = sort_list(quirk_choices)
+					var/result = tgui_input_list(user, "What oddity distinguishes you?", "QUIRKS", quirk_choices, descriptions = quirk_descs)
+
+					if (result)
+						var/datum/quirk/quirk_chosen = quirk_choices[result]
+						quirkgreater = new quirk_chosen.type
+						to_chat(user, process_quirk_text(quirk_chosen))
 
 				if("origin")
 					var/list/virtue_choices = list()
@@ -3401,6 +3489,20 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "</font>"
 	if(V.stackable)
 		dat += "<font color = '#ffeea3'><br>This virtue can be picked twice using Virtuous.</font><br>"
+	return dat
+
+/datum/preferences/proc/process_quirk_text(datum/quirk/Q)
+	var/dat
+	if(Q.desc)
+		dat += "<font size = 3>[span_purple(Q.desc)]</font><br>"
+	if(length(Q.added_traits))
+		dat += "<font color = '#a3ffe0'><font size = 3>This Quirk grants the following traits: <br>"
+		for(var/TR in Q.added_traits)
+			dat += "[TR] — <font size = 2>[GLOB.roguetraits[TR]]</font><br>"
+		dat += "</font>"
+	if(Q.mechdesc)
+		dat += "[Q.mechdesc]"
+		dat += "</font>"
 	return dat
 
 /datum/preferences/proc/LorePopup(mob/user)

@@ -499,6 +499,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	else
 		virtue_origin = new /datum/virtue/none
 
+/datum/preferences/proc/_load_quirk(S)
+	var/quirklesser_type
+	var/quirkgreater_type
+	S["quirklesser"] >> quirklesser_type
+	S["quirkgreater"] >> quirkgreater_type
+
+	if(ispath(quirklesser_type, /datum/quirk))
+		var/datum/quirk/lesserpath = quirklesser_type
+		if(!lesserpath::greater) // juuuust in case something gets retroactively maid greater, or someone messes with the savefiles
+			quirklesser = new quirklesser_type
+
+	if(ispath(quirkgreater_type, /datum/quirk))
+		quirkgreater = new quirkgreater_type
+
 /datum/preferences/proc/_load_gear_list(savefile/S)
 	S["gear_list"] >> gear_list
 	if(!islist(gear_list))
@@ -617,6 +631,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_species(S)
 
 	_load_virtue(S)
+	_load_quirk(S)
 	_load_flaw(S)
 
 	_load_culinary_preferences(S)
@@ -959,6 +974,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
 	WRITE_FILE(S["virtuetwochoices"] , virtuetwo.picked_choices)
 	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
+	WRITE_FILE(S["quirklesser"] , quirklesser.type)
+	WRITE_FILE(S["quirkgreater"] , quirkgreater.type)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])

@@ -151,6 +151,7 @@
 	var/PQ_boost_divider = 0
 
 	var/list/virtue_restrictions
+	var/list/quirk_restrictions
 	var/list/vice_restrictions
 
 	///The job's stats

@@ -39,6 +39,7 @@
 		/datum/virtue/combat/crossbowman,	//Absolutely not on a class like this
 		/datum/virtue/combat/bowman
 		)
+	quirk_restrictions = list(/datum/quirk/noble)
 	job_subclasses = list(
 		/datum/advclass/gnoll/berserker,
 		/datum/advclass/gnoll/knight,

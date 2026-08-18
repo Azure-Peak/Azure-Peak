@@ -42,6 +42,9 @@
 	if(istiefling(target))
 		to_chat(user, span_warning("Their Lux is infernal. It will not do."))
 		return FALSE
+	if(HAS_TRAIT(target, TRAIT_TAINTEDLUX))
+		to_chat(user, span_warning("Their lux is tainted; it will not do."))
+		return FALSE
 	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
 		to_chat(user, span_warning("There's violet-ochre flames flickering inside of the cracks in their ribs, there is no Lux to extract, a <b>Vheslynite abomination.</b>"))
 
