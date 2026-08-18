@@ -28,6 +28,17 @@
 	allowed_species = list(/datum/species/aasimar, /datum/species/dullahan)
 	allowed_virtues = list(/datum/virtue/combat/second_chance) // hacky, but w/e
 
+/datum/quirk/large // this is - literally just cucking yourself by making your sprite bigger, idt we need to curb this?
+	name = "Large"
+	desc = "I'm just bigger than most others, plain and simple. Alas, it hasn't affected my strength."
+	restricted_virtues = list(/datum/virtue/size/giant) // ...except, if you stack it with the giant virtue and big guy, you literally take up two entire tiles. which is probably bad
+
+/datum/quirk/large/apply_to_human(mob/living/carbon/human/recipient) // same as giant virtue - just without the mechanical effects
+	. = ..()
+	recipient.transform = recipient.transform.Scale(1.25, 1.25)
+	recipient.transform = recipient.transform.Translate(0, (0.25 * 16))
+	recipient.update_transform()
+
 /datum/quirk/ugly
 	name = "Disfigured"
 	desc = "My face is distressing to look upon."
