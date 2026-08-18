@@ -1,4 +1,4 @@
-#define SCORCH_ADAPTATION_DURATION (3 SECONDS)
+#define SCORCH_ADAPTATION_DURATION (6 SECONDS)
 #define SCORCH_ADAPTATION_KEY "scorch_adaptation"
 #define SCORCH_OVERLAY_COLOR rgb(255, 138, 61)
 #define SCORCH_BURN_DAMAGE 60
@@ -16,13 +16,15 @@
 	var/final_tier = 0
 	for(var/i in 1 to stacks)
 		if(target.has_status_effect(/datum/status_effect/debuff/scorched4))
-			apply_scorch_burn(target, zone_override)
+			if(apply_scorch_burn(target, zone_override))
+				remove_all_scorch_stacks(target)
 			final_tier = 4
 			break
 		if(target.has_status_effect(/datum/status_effect/debuff/scorched3))
 			target.remove_status_effect(/datum/status_effect/debuff/scorched3)
 			target.apply_status_effect(/datum/status_effect/debuff/scorched4)
-			apply_scorch_burn(target, zone_override)
+			if(apply_scorch_burn(target, zone_override))
+				remove_all_scorch_stacks(target)
 			final_tier = 4
 			break
 		if(target.has_status_effect(/datum/status_effect/debuff/scorched2))
