@@ -306,6 +306,7 @@
 #define TRAIT_LEVY "Azurean Militia"
 #define TRAIT_MUSES_GRACE	"Muses Grace"
 #define TRAIT_SUNLIGHT_SENSITIVE "Sunlight Sensitivity"
+#define TRAIT_CAUSTIC "Unsafe"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BLACKOAK "Heritage Vision"
@@ -632,6 +633,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
 	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
+	TRAIT_CAUSTIC = span_info("Touching me is... less than advisable."),
 ))
 
 // trait accessor defines

@@ -49,3 +49,9 @@
 	name = "Outdoorsy"
 	desc = "I feel at home in the wyld. Sleeping in tree branches is almost as comfortable as a bed to me."
 	added_traits = list(TRAIT_OUTDOORSMAN)
+
+/datum/quirk/caustic
+	name = "Prickly"
+	desc = "Through quills, spines, or a caustic makeup, touching me isn't exactly pleasant."
+	mechdesc = "Doesn't affect grabs."
+	added_traits = list(TRAIT_CAUSTIC)
