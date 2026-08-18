@@ -267,7 +267,7 @@
 	thrown_damage_flag = "piercing"
 	minstr = 8
 	smeltresult = /obj/item/ingot/silver
-	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	special = /datum/special_intent/axe_swing/graggarite //Cannot be wielded, otherwise.
 	is_tool = FALSE
 	is_silver = TRUE
 	resistance_flags = FIRE_PROOF
@@ -295,7 +295,7 @@
 	thrown_damage_flag = "piercing"
 	minstr = 8
 	smeltresult = /obj/item/ingot/silverblessed
-	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	special = /datum/special_intent/axe_swing/graggarite //Cannot be wielded, otherwise.
 	is_tool = FALSE
 	is_silver = TRUE
 	resistance_flags = FIRE_PROOF
@@ -466,7 +466,7 @@
 	wdefense = 5
 	is_silver = TRUE
 	blade_dulling = DULLING_SHAFT_METAL
-	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	special = /datum/special_intent/axe_swing/graggarite //Cannot be wielded, otherwise.
 	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver/ComponentInitialize()
@@ -492,7 +492,7 @@
 	blade_dulling = DULLING_SHAFT_METAL
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
-	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	special = /datum/special_intent/axe_swing/graggarite //Cannot be wielded, otherwise.
 	resistance_flags = FIRE_PROOF
 
 /obj/item/rogueweapon/stoneaxe/battle/psyaxe/ComponentInitialize()
