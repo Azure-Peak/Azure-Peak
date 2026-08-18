@@ -10,13 +10,7 @@
 	restricted_virtues = list(/datum/virtue/combat/second_chance) // you're probably already unbreathing
 	added_traits = list(TRAIT_WATERBREATHING) // notably NOT breathless
 
-/datum/quirk/beautiful
-	name = "Beautiful"
-	desc = "Whether blessed or simply exceptional, I'm considered attractive by most."
-	restricted_species = list(/datum/species/dullahan) // revs can only get uncanny beauty, not the regular one
-	added_traits = list(TRAIT_BEAUTIFUL) // notably not goodlover, as that's been atomized
-
-/datum/quirk/goodlover // if you want to triumph farm, you need to earn your erp instead of being ontologically beautiful. sorry!
+/datum/quirk/goodlover // no beautiful trait for you. if you want to triumph farm, you need to earn your erp instead of being ontologically beautiful. sorry!
 	name = "Fabled Lover"
 	desc = "It's a lucky thing to share my bed. One might even call it a true TRIUMPH."
 	added_traits = list(TRAIT_GOODLOVER)
