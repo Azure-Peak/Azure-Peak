@@ -77,7 +77,7 @@
 	desc = "A quaint fish figurine carved out of wood."
 	icon_state = "fish_wood"
 
-/obj/item/carvedwood/figurine
+/obj/item/carvedwood/frog
 	name = "wooden frog figurine"
 	desc = "A humorous frog figurine carved out of wood."
 	icon_state = "frog_wood"

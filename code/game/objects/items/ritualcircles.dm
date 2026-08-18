@@ -674,6 +674,9 @@
 	rune_type = /obj/structure/active_abyssor_rune/tidal
 	upgraded_rune_type = null
 
+/obj/item/abyssal_marker/tidal/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "It shatters the barrier between reality and NIGHTMARE")
+
 /obj/item/abyssal_marker/volatile/Initialize(mapload)
 	. = ..()
 	creation_time = world.time

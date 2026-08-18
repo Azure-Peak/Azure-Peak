@@ -1,0 +1,4 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscadd: "Adds a new Wretch role 'Profane Champion' as a templar equivalent with plate armor, expert-level weapon skill, a heretical weapon, and access to T2 miracles. No ritualist, and limited to ascendant worshippers only."

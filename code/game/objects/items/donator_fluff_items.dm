@@ -133,6 +133,8 @@
 
 /datum/crafting_recipe/roguetown/dryazurrosa
 	name = "dry azurosa petals"
+	category = FOOD_CAT_DRYING
+	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	result = /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried/azure
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals/azure = 1)
 	structurecraft = /obj/machinery/tanningrack
@@ -140,7 +142,8 @@
 	verbage_simple = "dry"
 	verbage = "dries"
 	craftsound = null
-	skillcraft = null
+	skillcraft = /datum/skill/craft/cooking
+	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/survival/flowercrown_azurosa
 	name = "azurosa crown"

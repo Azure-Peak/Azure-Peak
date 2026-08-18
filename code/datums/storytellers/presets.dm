@@ -91,7 +91,7 @@
 /datum/storyteller/gamemode/guaranteed_antag
 	name = "High Intensity"
 	vote_desc = "Guaranteed hard antagonist. Less wretch/heretic slots."
-	desc = "Guaranteed roundstart external antag (Lich/VL/WW/Bandits). Heretic max 2, wretches max 4. Gnolls max 2. Lycker max 2. Hag present."
+	desc = "Guaranteed roundstart external antag (Lich/VL/WW/Bandits). Heretic max 2, wretches max 4. Gnolls max 2. Lycker max 2. Hag present. Dreamwalker may roll."
 	welcome_text = "A cold dread settles over the town..."
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
@@ -102,7 +102,7 @@
 	block_internal_soft = FALSE
 	block_external_hard = FALSE
 	block_internal_hard = FALSE
-	allow_dreamwalker = FALSE
+	allow_dreamwalker = TRUE
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	lycker_slots = 2
 	heretic_slots = 2

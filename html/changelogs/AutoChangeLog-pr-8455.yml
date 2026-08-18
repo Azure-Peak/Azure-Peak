@@ -1,0 +1,6 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "The Hand now has files on all Court Agents, including basic information like name/descriptor/race/class but also two new fields using the new role preferences system: an optional codename, and an in-character \"file body\" to contain notes on shared history, specialty, etc. If stolen, these files are accessible to any role, so they need to be kept safe."
+  - rscadd: "Court agents now spawn with zadcages linked to the Hand's zadcote"
+  - rscadd: "The Hand is now notified when Court Agents fartravel, and vice versa. Fartravelling now actually updates the \"remember spymaster\" and \"remember agents\" verbs."

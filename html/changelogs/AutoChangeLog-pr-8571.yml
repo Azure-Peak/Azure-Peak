@@ -1,0 +1,10 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Re-enabled dreamwalker on high intensity."
+  - balance: "Lowered dreamwalker stats by a cominical amount."
+  - balance: "Cut dreamwalker shard repair value in half."
+  - balance: "Haphazardly stripped away about half of dreamwalker's traits."
+  - balance: "Dreamwalker armor is now as tough as blacksteel instead of avantyne."
+  - bugfix: "Stopped the bugged roundstart dreamwalker from possibly rolling."
+  - bugfix: "Assured dreamwalkers cannot roll on super lowpop."

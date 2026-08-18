@@ -7,7 +7,7 @@
 	for(var/datum/ai_controller/controller as anything in moving_controllers)
 		if(!COOLDOWN_FINISHED(controller, movement_cooldown))
 			continue
-		COOLDOWN_START(controller, movement_cooldown, controller.movement_delay)
+		controller.advance_movement_cooldown()
 		var/atom/movable/movable_pawn = controller.pawn
 		if(!controller.can_move())
 			continue

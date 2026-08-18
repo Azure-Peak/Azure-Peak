@@ -42,7 +42,7 @@
 		"Silver Monocle" = /obj/item/clothing/mask/rogue/spectacles/monocle,
 		"Smokey Onyxa Spectacles" = /obj/item/clothing/mask/rogue/spectacles/onyxa_lesser_summoned,
 		"Fancy Spectacles" = /obj/item/clothing/mask/rogue/spectacles/fancy,
-		"Fancy Spectacles (Dark)" = /obj/item/clothing/mask/rogue/spectacles/fancy_dark,
+		"Fancy Spectacles, Tinted" = /obj/item/clothing/mask/rogue/spectacles/fancy_dark,
 	)
 
 /datum/action/cooldown/spell/conjure_spectacles/cast(list/targets, mob/living/user = usr)

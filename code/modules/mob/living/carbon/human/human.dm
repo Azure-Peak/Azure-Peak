@@ -1090,8 +1090,9 @@
 /mob/living/carbon/human/update_mobility()
 	. = ..()
 	if(!(mobility_flags & MOBILITY_CANSTAND) && mouth?.spitoutmouth)
-		visible_message(span_warning("[src] spits out [mouth]."))
-		dropItemToGround(mouth, silent = FALSE)
+		if(stat != DEAD)
+			visible_message(span_warning("[src] spits out [mouth]."))
+			dropItemToGround(mouth, silent = FALSE)
 
 /mob/living/carbon/human/Topic(href, href_list)
 	..()

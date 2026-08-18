@@ -38,8 +38,8 @@
 	volume = 150 //doubling the amount due to the cost
 	desc_uncorked = "Bronze tubes spiral about from the mouth of this waterskin in complex, dizzying patterns. The cap on the mouth is off."
 	var/filtered_reagents = list(/datum/reagent/water/gross,
-									/datum/reagent/water/bathwater,
-									/datum/reagent/water/salty) // List of liquids it turns into drinkable water
+								/datum/reagent/water/bathwater,
+								/datum/reagent/water/salty) // List of liquids it turns into drinkable water
 
 /obj/item/reagent_containers/glass/bottle/waterskin/purifier/onfill(obj/target, mob/user, silent = FALSE)
 	. = ..()
@@ -69,3 +69,15 @@
 
 /obj/item/reagent_containers/glass/bottle/waterskin/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum, do_splash = TRUE)
 	return
+
+/obj/item/reagent_containers/glass/bottle/waterskin/wood
+	name = "wooden bottle"
+	desc = "A bottle carved out of wood."
+	icon_state = "bottle_wood"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	reagent_flags = OPENCONTAINER
+	volume = 60 // just a little more than a regular bottle, worse than a waterskin
+	sewrepair = FALSE
+	slot_flags = ITEM_SLOT_HIP
+	dropshrink = FALSE
+
