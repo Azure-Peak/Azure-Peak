@@ -146,7 +146,7 @@
 			if(ishuman(L) && ishuman(caster))
 				arcyne_strike(caster, L, null, actual_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Frozen Mist", \
-					damage_type = BURN, npc_simple_damage_mult = 1, \
+					damage_type = BURN, \
 					skip_animation = TRUE, skip_message = TRUE)
 			else
 				L.adjustFireLoss(actual_damage)

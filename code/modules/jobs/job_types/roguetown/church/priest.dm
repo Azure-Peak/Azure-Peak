@@ -29,7 +29,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/datum/action/cooldown/spell/miracle/fortify,
 		/obj/effect/proc_holder/spell/invoked/cure_rot,
 		/datum/action/cooldown/spell/miracle/intervention,
-		/obj/effect/proc_holder/spell/invoked/revive,
+		/datum/action/cooldown/spell/miracle/anastasis,
 		/datum/action/cooldown/spell/miracle/bishop_pack,
 		/obj/effect/proc_holder/spell/self/convertrole/templar,
 		/obj/effect/proc_holder/spell/self/convertrole/monk

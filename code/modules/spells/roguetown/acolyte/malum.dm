@@ -229,14 +229,14 @@
 	invocation_type = INVOCATION_SHOUT
 
 	cooldown_time = 45 SECONDS
-	charging_slowdown = 1
+	charge_slowdown = 1
 
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
 
-	telegraph_type = /obj/effect/temp_visual/trap/hammerfall
+	telegraph_type = /obj/effect/temp_visual/telegraph/hammerfall
 
 /datum/action/cooldown/spell/malum/hammerfall/get_pattern_offsets()
 	return list(
@@ -291,8 +291,7 @@
 	animate(pixel_y = rest, time = 1, easing = SINE_EASING | EASE_IN)
 	animate(alpha = 0, time = 3)
 
-/obj/effect/temp_visual/trap/hammerfall
-	color = GLOW_COLOR_MALUM
+/obj/effect/temp_visual/telegraph/hammerfall
 	light_color = GLOW_COLOR_MALUM
 	duration = 3 SECONDS
 

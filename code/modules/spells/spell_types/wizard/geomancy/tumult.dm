@@ -48,7 +48,6 @@
 	var/telegraph_delay = TELEGRAPH_SKILLSHOT
 	var/erupt_direct = 40
 	var/erupt_aoe = 20
-	var/erupt_npc_mult = 2
 	var/erupt_push = 1
 	var/pillar_integrity = 150
 	var/vuln_duration = 5 SECONDS
@@ -122,7 +121,7 @@
 		if(S.density)
 			to_chat(H, span_warning("Something is already there!"))
 			return FALSE
-	new /obj/effect/temp_visual/trap/geomancy(T)
+	new /obj/effect/temp_visual/telegraph/geomancy(T)
 	playsound(T, 'sound/combat/hits/onstone/wallhit.ogg', 60, TRUE)
 	addtimer(CALLBACK(src, PROC_REF(erupt_strike), T, H), telegraph_delay)
 	return TRUE
@@ -144,7 +143,7 @@
 			victim.visible_message(span_warning("[victim] braces against the eruption!"))
 			continue
 		arcyne_strike(caster, victim, null, erupt_direct, target_zone, BCLASS_BLUNT, \
-			spell_name = "Cairn", damage_type = BRUTE, npc_simple_damage_mult = erupt_npc_mult, skip_animation = TRUE)
+			spell_name = "Cairn", damage_type = BRUTE, skip_animation = TRUE)
 		victim.apply_status_effect(/datum/status_effect/debuff/vulnerable, vuln_duration)
 		to_chat(victim, span_userdanger("Stone erupts beneath me!"))
 		new /obj/effect/temp_visual/spell_impact(get_turf(victim), spell_color, spell_impact_intensity)
@@ -163,7 +162,7 @@
 			if(spell_guard_check(victim, TRUE))
 				continue
 			arcyne_strike(caster, victim, null, erupt_aoe, target_zone, BCLASS_BLUNT, \
-				spell_name = "Cairn", damage_type = BRUTE, npc_simple_damage_mult = erupt_npc_mult, skip_animation = TRUE)
+				spell_name = "Cairn", damage_type = BRUTE, skip_animation = TRUE)
 			victim.apply_status_effect(/datum/status_effect/debuff/vulnerable, vuln_duration)
 			var/push_dir = get_dir(T, victim) || get_dir(caster, victim) || pick(GLOB.cardinals)
 			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, erupt_push), erupt_push, 1, caster, force = MOVE_FORCE_STRONG)
@@ -211,7 +210,7 @@
 		cur = get_step(cur, dir)
 		if(!cur || cur.density)
 			break
-		indicators += new /obj/effect/temp_visual/trap/geomancy(cur)
+		indicators += new /obj/effect/temp_visual/telegraph/geomancy(cur)
 	playsound(H, 'sound/foley/stone_scrape.ogg', 60, TRUE)
 	sleep(telegraph_time)
 	for(var/obj/effect/E in indicators)
@@ -320,9 +319,9 @@
 		return
 	if(ishuman(L))
 		arcyne_strike(H, L, null, barrel_damage, H.zone_selected || BODY_ZONE_CHEST, BCLASS_BLUNT, \
-			spell_name = "Ramstam", damage_type = BRUTE, npc_simple_damage_mult = 1.5, skip_animation = TRUE)
+			spell_name = "Ramstam", damage_type = BRUTE, skip_animation = TRUE)
 	else
-		L.adjustBruteLoss(barrel_damage * (L.mind ? 1 : 1.5))
+		L.adjustBruteLoss(barrel_damage)
 	new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 	var/knockdir = pick(turn(dir, 90), turn(dir, -90))
 	L.safe_throw_at(get_ranged_target_turf(L, knockdir, knock_dist), knock_dist, 1, H, force = MOVE_FORCE_STRONG)

@@ -155,6 +155,11 @@ GLOBAL_LIST_INIT(bark_random_list, init_random_bark_list())
 	soundpath = 'code/modules/blooper/voice/bloopers/undertale/voice_ralsei.ogg'
 	minvariance = 0
 
+/datum/bark/noelle
+	name = "Noelle"
+	id = "noelle"
+	soundpath = 'code/modules/blooper/voice/bloopers/undertale/voice_noelle.ogg'
+	minvariance = 0
 
 /datum/bark/toriel
 	name = "Toriel"
@@ -365,7 +370,7 @@ GLOBAL_LIST_INIT(bark_random_list, init_random_bark_list())
 	name = "Tweet"
 	id = "tweet"
 	soundpath = 'code/modules/blooper/voice/bloopers/kazooie/tweet.ogg'
-	
+
 /datum/bark/uhm
 	name = "Uhm"
 	id = "uhm"

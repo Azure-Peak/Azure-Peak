@@ -716,7 +716,8 @@
 	icon_state = "desertbra"
 	item_state = "desertbra"
 	body_parts_covered = CHEST
-	boobed = FALSE
+	boobed = TRUE
+	sleeved = null
 	sewrepair = TRUE
 	flags_inv = null
 	slot_flags = ITEM_SLOT_SHIRT

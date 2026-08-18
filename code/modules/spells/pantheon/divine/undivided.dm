@@ -578,7 +578,6 @@
 	to_chat(owner, span_undivided("My heart is no longer protected by Their light..!"))
 	REMOVE_TRAIT(owner, TRAIT_RALLIED, TRAIT_MIRACLE)
 
-
 //////////////////////////////////////////////////////////////////////////////////////////
 // T? - Undivided Fortify - Heals and damages undead like actual one, bit worse though. //
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -601,3 +600,16 @@
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/holycharging.ogg'
+
+///////////////////////////
+// T? - Lesser Anastasis //
+///////////////////////////
+
+/datum/action/cooldown/spell/miracle/anastasis/undivided
+	name = "Lesser Anastasis"
+	desc = "Resurrect a person that is free of rot and decay, deadites (such as lyckers / skeletons) instead explode when it is attempted."
+	fluff_desc = "The greatest feat any priest can manage is reversion of death, a true rebirth unlike the perversion Necromancers aspire to."
+	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	spell_color = GLOW_COLOR_UNDIVIDED
+	cooldown_time = 15 MINUTES
