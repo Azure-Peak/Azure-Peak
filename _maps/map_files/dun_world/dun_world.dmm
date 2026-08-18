@@ -106924,14 +106924,14 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/outdoors/town/roofs)
 "tSY" = (
-/obj/structure/fireaxecabinet/south{
-	pixel_x = -32
-	},
-/obj/structure/bed/rogue/inn/wool,
-/obj/item/bedsheet/rogue/fabric,
+/obj/structure/bed/rogue/inn/double,
+/obj/item/bedsheet/rogue/fabric_double,
 /obj/machinery/light/rogue/campfire/fireplace{
 	pixel_x = 32;
 	pixel_y = 0
+	},
+/obj/structure/fireaxecabinet/south{
+	pixel_x = -32
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
