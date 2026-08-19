@@ -164,6 +164,7 @@
 	volume = 35 // it did say a meager amount.
 	reagent_flags = OPENCONTAINER
 	glaze_bonus_pct = GLAZE_BONUS_PCT
+	dropshrink = FALSE // so its not TOO skinny
 
 /obj/item/reagent_containers/glass/bottle/clayskinnybaked/get_mechanics_examine(mob/user)
 	. = ..()
@@ -226,9 +227,9 @@
 	name = "unfired clay mug"
 	icon = 'modular/Neu_Food/icons/cookware/cup.dmi'
 	icon_state = "claymugraw"
-	cooked_type = /obj/item/reagant_containers/glass/cup/mug
+	cooked_type = /obj/item/reagent_containers/glass/cup/mug
 	desc = "A small mug fashioned from clay. It still needs to be fired to be useful."
-	smeltresult = /obj/item/reagant_containers/glass/cup/mug
+	smeltresult = /obj/item/reagent_containers/glass/cup/mug
 
 
 /obj/item/natural/clay/rawamphora

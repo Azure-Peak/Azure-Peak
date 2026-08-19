@@ -1,6 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - balance: "Due to budget cuts in the Otavian's weaponry stocks for the inquisition; The Psydonic maul is no longer a standard-issue weapon choice for adjudicators, its now a one-time only, 6 marq purchase in the inquisitional shop. Don't lose it!"
-  - rscdel: "You can no longer craft Psydonic mauls, they're an exclusive single-one-of-a-kind weapon now."
-  - bugfix: "Psydonic maul can no longer mine (it never could anyway, it'd just spam you with a doafter timer because blunt intents can't mine rock)"
