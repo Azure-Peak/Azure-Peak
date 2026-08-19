@@ -224,7 +224,6 @@ Balloon Alert / Floating Text defines
 	/datum/species/vulpkanin,\
 	/datum/species/akula,\
 	/datum/species/dracon,\
-	/datum/species/anthromorph,\
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
 	/datum/species/dullahan,\

@@ -222,6 +222,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 				/datum/species/dwarf/gnome,
 				/datum/species/goblinp,
 				/datum/species/moth,			//They are from the Underdark. source: moth.dm
+				/datum/species/anthromorph,
 				/datum/species/anthromorphsmall,
 				/datum/species/dullahan,
 				/datum/species/ooze,
