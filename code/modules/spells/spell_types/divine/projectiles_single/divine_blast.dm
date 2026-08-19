@@ -110,7 +110,7 @@
 		damage_to_do += 60
 	var/mob/living/carbon/human/caster = firer
 	if(istype(caster) && ishuman(L))
-		arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, npc_simple_damage_mult = 1, skip_animation = TRUE)
+		arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE)
 	else
 		L.apply_damage(damage_to_do, BURN)
 

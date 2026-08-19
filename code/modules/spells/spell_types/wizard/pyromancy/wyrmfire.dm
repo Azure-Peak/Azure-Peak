@@ -58,7 +58,6 @@
 	damage = FIREBALL_DAMAGE
 	damage_type = BURN
 	woundclass = BCLASS_BURN
-	npc_simple_damage_mult = 3
 	nodamage = FALSE
 	flag = "fire"
 	hitsound = 'sound/blank.ogg'
@@ -103,13 +102,13 @@
 		playsound(epicenter, pick('sound/misc/explode/bomb.ogg', 'sound/misc/explode/explosionclose (1).ogg', 'sound/misc/explode/explosionclose (2).ogg', 'sound/misc/explode/explosionclose (3).ogg'), 120, TRUE, 8)
 		playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
 
-	if(arcyne_aoe_radius > 0 && istype(firer, /mob/living/carbon/human))
-		var/mob/living/carbon/human/caster = firer
+	if(arcyne_aoe_radius > 0 && isliving(firer))
+		var/mob/living/caster = firer
 		var/mob/living/direct_hit = M
 		for(var/turf/T in range(arcyne_aoe_radius, epicenter))
 			new /obj/effect/temp_visual/fire(T)
 			for(var/mob/living/L in T)
-				if(L == direct_hit || L.stat == DEAD)
+				if(L == direct_hit || L.stat == DEAD || L == caster)
 					continue
 				if(L.anti_magic_check())
 					continue
@@ -118,7 +117,6 @@
 				arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Fireball (Blast)", \
 					allow_shield_check = TRUE, damage_type = BURN, \
-					npc_simple_damage_mult = npc_simple_damage_mult, \
 					skip_animation = TRUE)
 				apply_scorch_stack(L, 1)
 				L.apply_status_effect(/datum/status_effect/debuff/vulnerable, WYRMFIRE_VULNERABLE_DURATION)
@@ -214,28 +212,17 @@
 	if(!epicenter)
 		return FALSE
 	for(var/turf/T in range(pillar_radius, epicenter))
-		new /obj/effect/temp_visual/pillar_warning/fadein(T, pillar_delay)
+		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, pillar_delay)
 	playsound(epicenter, 'sound/magic/charging_fire.ogg', 80, TRUE)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pillar_of_flame_erupt), epicenter, owner, pillar_radius, pillar_damage, 2, owner.zone_selected), pillar_delay)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pillar_of_flame_erupt), epicenter, owner, pillar_radius, pillar_damage, owner.zone_selected), pillar_delay)
 	return TRUE
 
-/obj/effect/temp_visual/pillar_warning
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "warning"
-	layer = ABOVE_MOB_LAYER
+/obj/effect/temp_visual/telegraph/pillar
+	light_color = GLOW_COLOR_FIRE
 	duration = 2 SECONDS
 
-/obj/effect/temp_visual/pillar_warning/Initialize(mapload, life)
-	if(life)
-		duration = life
-	. = ..()
-
-/obj/effect/temp_visual/pillar_warning/fadein
-	alpha = 0
-
-/obj/effect/temp_visual/pillar_warning/fadein/Initialize(mapload, life)
-	. = ..()
-	animate(src, alpha = 255, time = duration)
+/obj/effect/temp_visual/telegraph/pillar/fadein
+	fade_in = TRUE
 
 /obj/effect/temp_visual/fire_pillar
 	icon = 'icons/effects/32x96.dmi'
@@ -245,7 +232,7 @@
 	duration = 1 SECONDS
 	layer = MASSIVE_OBJ_LAYER
 
-/proc/pillar_of_flame_erupt(turf/epicenter, mob/living/carbon/human/caster, radius, damage, npc_mult, aim_zone)
+/proc/pillar_of_flame_erupt(turf/epicenter, mob/living/carbon/human/caster, radius, damage, aim_zone)
 	if(!epicenter)
 		return
 	new /obj/effect/temp_visual/explosion(epicenter)
@@ -265,7 +252,7 @@
 			if(L.guard_deflect_spell("Pillar of Flame", TRUE, caster))
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pillar of Flame", damage_type = BURN, npc_simple_damage_mult = npc_mult, skip_animation = TRUE, exact_zone = TRUE)
+				arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pillar of Flame", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE)
 			else
 				L.adjustFireLoss(damage)
 			apply_scorch_stack(L, 2)
@@ -274,7 +261,6 @@
 /obj/projectile/magic/aoe/fireball/rogue/artillery
 	name = "artillery fireball"
 	damage = ARTILLERY_FIREBALL_DAMAGE
-	npc_simple_damage_mult = 3
 	arcyne_aoe_radius = 1
 	arcyne_aoe_damage = ARTILLERY_FIREBALL_AOE_DAMAGE
 	structural_damage = 300
@@ -392,7 +378,7 @@
 		return FALSE
 	var/list/warnings = list()
 	for(var/turf/T in blast_turfs(epicenter))
-		warnings += new /obj/effect/temp_visual/pillar_warning/fadein(T, chant_time)
+		warnings += new /obj/effect/temp_visual/telegraph/pillar/fadein(T, chant_time)
 	playsound(get_turf(caster), 'sound/magic/charging_fire.ogg', 80, TRUE)
 	INVOKE_ASYNC(src, PROC_REF(perform_chant), caster, epicenter, warnings)
 	return TRUE
@@ -471,7 +457,7 @@
 			if(L.anti_magic_check())
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				arcyne_strike(caster, L, null, blast_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pyroclasm", damage_type = BURN, skip_animation = TRUE, npc_simple_damage_mult = 2)
+				arcyne_strike(caster, L, null, blast_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pyroclasm", damage_type = BURN, skip_animation = TRUE)
 			else
 				L.adjustFireLoss(blast_damage)
 			apply_scorch_stack(L, 4)

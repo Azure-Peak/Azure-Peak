@@ -277,38 +277,37 @@
 			H.update_inv_cloak()
 			H.update_inv_armor()
 
-/obj/item/clothing/cloak/tabard/toga
-	name = "toga"
-	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the heroes and villains of antiquity."
+/obj/item/clothing/cloak/tabard/psydontabard/white
+	name = "traditional tabard"
+	desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 	icon_state = "whitepsydontabard"
 	item_state = "whitepsydontabard"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	custom_design = TRUE
-	var/open_wear = FALSE
 
-/obj/item/clothing/cloak/tabard/toga/get_mechanics_examine(mob/user)
+/obj/item/clothing/cloak/tabard/psydontabard/white/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right-clicking this cloak allows for it to be dynamically worn as a traditional tabard, or as a sleeveless robe that partially exposes the chest.")
 
-/obj/item/clothing/cloak/tabard/toga/alt
-	name = "opened toga"
-	desc = "The ancestral predecessor to Psydonia's many tabards, parted to reveal what lies beneath its cloth."
+/obj/item/clothing/cloak/tabard/psydontabard/white/alt
+	name = "opened traditional tabard"
+	desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a bared sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 	body_parts_covered = GROIN
 	icon_state = "whitepsydontabardalt"
 	item_state = "whitepsydontabardalt"
 	flags_inv = HIDECROTCH
 	open_wear = TRUE
 
-/obj/item/clothing/cloak/tabard/toga/MiddleClick(mob/user)
+/obj/item/clothing/cloak/tabard/psydontabard/white/MiddleClick(mob/user)
 	..()
 	user.update_inv_shirt()
 
-/obj/item/clothing/cloak/tabard/toga/attack_right(mob/user)
+/obj/item/clothing/cloak/tabard/psydontabard/white/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
-			name = "opened toga"
-			desc = "The ancestral predecessor to Psydonia's many tabards, parted to reveal what lies beneath its cloth."
+			name = "opened traditional tabard"
+			desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a bared sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 			body_parts_covered = GROIN
 			icon_state = "whitepsydontabardalt"
 			item_state = "whitepsydontabardalt"
@@ -316,8 +315,8 @@
 			flags_inv = HIDECROTCH // BARE YOUR CHEST, NOT YOUR WEEN!
 			to_chat(usr, span_warning("You pull back the threaded cloth, baring your heart to Psydonia's eyes."))
 		if(TRUE)
-			name = "toga"
-			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the heroes and villains of antiquity."
+			name = "traditional tabard"
+			desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 			body_parts_covered = CHEST|GROIN
 			icon_state = "whitepsydontabard"
 			item_state = "whitepsydontabard"
@@ -1911,43 +1910,48 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
-/obj/item/clothing/cloak/tabard/toga/classic
-	name = "classic toga"
-	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
-	icon_state = "classictoga"
-	item_state = "classictoga"
+/obj/item/clothing/cloak/tabard/toga
+	name = "toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
+	icon_state = "toga"
+	item_state = "toga"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
+	var/open_wear = FALSE
 
-/obj/item/clothing/cloak/tabard/toga/classic/alt
-	name = "bared classic toga"
-	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
-	icon_state = "classictogaalt"
-	item_state = "classictogaalt"
+/obj/item/clothing/cloak/tabard/toga/alt
+	name = "bared toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
+	icon_state = "togaalt"
+	item_state = "togaalt"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
 
-/obj/item/clothing/cloak/tabard/toga/classic/attack_right(mob/user)
+/obj/item/clothing/cloak/tabard/toga/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
-			name = "bared classic toga"
-			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity, bared open to reveal what's beneath."
+			name = "bared toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
 			body_parts_covered = GROIN
-			icon_state = "classictogaalt"
-			item_state = "classictogaalt"
+			icon_state = "togaalt"
+			item_state = "togaalt"
 			open_wear = TRUE
 			flags_inv = HIDECROTCH
 			to_chat(usr, span_warning("You pull back a sleeve, baring what lies beneath to Psydonia's eyes."))
 		if(TRUE)
-			name = "classic toga"
-			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+			name = "toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
 			body_parts_covered = CHEST|GROIN
-			icon_state = "classictoga"
-			item_state = "classictoga"
+			icon_state = "toga"
+			item_state = "toga"
 			flags_inv = HIDECROTCH|HIDEBOOB
 			open_wear = FALSE
 			to_chat(usr, span_warning("You pull up your sleeve, veiling what lies beneath from Psydonia's eyes."))
@@ -1959,43 +1963,47 @@
 			H.update_inv_armor()
 
 
-/obj/item/clothing/cloak/tabard/toga/classic/feminine
-	name = "classic toga"
-	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
-	icon_state = "classictogafem"
-	item_state = "classictogafem"
+/obj/item/clothing/cloak/tabard/toga/dress
+	name = "toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
+	icon_state = "toga_f"
+	item_state = "toga_f"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
 
-/obj/item/clothing/cloak/tabard/toga/classic/feminine/alt
-	name = "bared classic toga"
-	desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
-	icon_state = "classictogafem_alt"
-	item_state = "classictogafem_alt"
+/obj/item/clothing/cloak/tabard/toga/dress/alt
+	name = "bared toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
+	icon_state = "toga_f_alt"
+	item_state = "toga_f_alt"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
 
-/obj/item/clothing/cloak/tabard/toga/classic/feminine/attack_right(mob/user)
+/obj/item/clothing/cloak/tabard/toga/dress/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
-			name = "bared classic toga"
-			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity, bared open to reveal what's beneath."
+			name = "bared toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
 			body_parts_covered = GROIN
-			icon_state = "classictogafem_alt"
-			item_state = "classictogafem_alt"
+			icon_state = "toga_f_alt"
+			item_state = "toga_f_alt"
 			open_wear = TRUE
 			flags_inv = HIDECROTCH
 			to_chat(usr, span_warning("You pull back a sleeve, baring what lies beneath to Psydonia's eyes."))
 		if(TRUE)
-			name = "classic toga"
-			desc = "Another ancestral predecessor to Psydonia's many tabards, worn by the townsfolk of antiquity."
+			name = "toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
 			body_parts_covered = CHEST|GROIN
-			icon_state = "classictogafem"
-			item_state = "classictogafem"
+			icon_state = "toga_f"
+			item_state = "toga_f"
 			flags_inv = HIDECROTCH|HIDEBOOB
 			open_wear = FALSE
 			to_chat(usr, span_warning("You pull up your sleeve, veiling what lies beneath from Psydonia's eyes."))

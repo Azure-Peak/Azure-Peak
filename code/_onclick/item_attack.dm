@@ -693,6 +693,11 @@
 	I.funny_attack_effects(src, user)
 	if(I.force_dynamic)
 		var/newforce = get_complex_damage(I, user)
+		var/pen = user.used_intent.penfactor
+		// No sweetspot penalty if they are prone
+		if(user.used_intent.out_of_effective_range(src, user))
+			pen = PEN_NONE
+			newforce *= EFF_RANGE_MISS_DAMFACTOR
 		apply_damage(newforce, I.damtype, def_zone = hitlim)
 		I.remove_bintegrity(1)
 		if(I.damtype == BRUTE)
@@ -700,7 +705,7 @@
 			if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 				if((I.is_silver || (I.is_even_lesser_silver && is_npc(src))) && HAS_TRAIT(src, TRAIT_SILVER_WEAK))
 					newforce *= SILVER_SIMPLEMOB_DAM_MULT
-				simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim)
+				simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim, penfactor = pen, part_mult = user.used_intent.get_part_damage_factor())
 				/* No embedding on simple mobs, thank you!
 				var/datum/wound/crit_wound	= simple_woundcritroll(user.used_intent.blade_class, newforce, user, hitlim)
 				if(should_embed_weapon(crit_wound, I))
@@ -728,13 +733,6 @@
 	send_item_attack_message(I, user, hitlim)
 	if(I.force_dynamic)
 		return TRUE
-
-/mob/living/simple_animal/attacked_by(obj/item/I, mob/living/user)
-	if(I.force_dynamic < force_threshold || I.damtype == STAMINA)
-		playsound(loc, 'sound/blank.ogg', I.get_clamped_volume(), TRUE, -1)
-	else
-		. = ..()
-		I.do_special_attack_effect(user, null, null, src, null)
 
 // Proximity_flag is 1 if this afterattack was called on something adjacent, in your square, or on your person.
 // Click parameters is the params string from byond Click() code, see that documentation.

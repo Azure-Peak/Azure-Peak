@@ -17,7 +17,6 @@
 	STASPD = 3
 	STAWIL = 15
 
-	defprob = 30
 	dodgetime = 15
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Initialize(mapload)

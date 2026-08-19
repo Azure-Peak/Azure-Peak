@@ -5,7 +5,7 @@
 	demanded_categories = list(NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_HEAVY, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_TOOLS, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	ship_name_words = list(
 		"Zarvlor", "Drak", "Aurum", "Mammon", "Debt",
-		"Hoard", "Indenture", "Sissean", "Coil", "Scale",
+		"Hoard", "Indenture", "Zardman", "Coil", "Scale",
 		"Ring", "Vault", "Talon", "Wyrm", "Avarice",
 	)
 	captain_first_names = list(

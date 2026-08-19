@@ -56,6 +56,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			character.mind.special_items[LI.name] = LI.path
 		character.mind.special_items_metadata[LI.name] = player.prefs.gear_list[item_name]
 	var/datum/job/assigned_job = SSjob.GetJob(character.mind?.assigned_role)
+	var/list/prefs = player.prefs?.job_subprefs
+	if(prefs)
+		character.mind.job_subprefs = prefs.Copy()
 	if(assigned_job)
 		assigned_job.clamp_stats(character)
 	check_trait_incompatibilities(character)

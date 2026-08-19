@@ -38,6 +38,8 @@
 //			src.emote("attackgrunt")
 		if(used_intent.releasedrain)
 			stamina_add(ceil(used_intent.releasedrain * rmb_stam_penalty))
+		if(HAS_TRAIT(src, TRAIT_DUALWIELDER))
+			process_dualwield(L, null, null)
 		if(L.has_status_effect(/datum/status_effect/buff/clash) && L.get_active_held_item() && ishuman(L))
 			var/mob/living/carbon/human/H = L
 			var/obj/item/IM = L.get_active_held_item()
