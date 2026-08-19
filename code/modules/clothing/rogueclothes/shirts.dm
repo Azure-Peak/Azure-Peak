@@ -1007,3 +1007,31 @@
 	color = CLOTHING_WHITE
 	detail_color = CLOTHING_WHITE
 
+/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress
+	name = "thin winter dress"
+	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts_royalty.dmi'
+	desc = "A thin and light version of a comfortable dress popular amongst nobility during winter."
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+	icon_state = "winterdress"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts_royalty.dmi'
+	boobed = TRUE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_BLACK
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	salvage_result = /obj/item/natural/silk
+	salvage_amount = 2
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/triumph
+	detail_color = CLOTHING_BLACK
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/azure
+	detail_color = CLOTHING_WHITE
+	color = CLOTHING_AZURE
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/raneshen
+	detail_color = CLOTHING_WHITE
+	color = CLOTHING_RED

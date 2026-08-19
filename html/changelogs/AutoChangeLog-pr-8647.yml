@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Deadite immune players can now sleepheal even the most severe of wounds, over a long period of time, preventing them from being effectively RRd by dying in a random cave"

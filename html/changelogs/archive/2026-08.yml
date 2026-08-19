@@ -815,3 +815,64 @@
   saltprjak:
   - balance: Bear and Mole wildshapes lose critres and nopainstun. Bear hide gets
       x2.5 integrity compared to before.
+2026-08-18:
+  7erracotta:
+  - bugfix: fixed borked pottery items
+  KatTheFox:
+  - bugfix: Deadite immune players can now sleepheal even the most severe of wounds,
+      over a long period of time, preventing them from being effectively RRd by dying
+      in a random cave
+  kiwedespars:
+  - rscdel: removed pierceimmunity from gnolls. rejoice, you can receive surgery,
+      again.
+  mumblemancer:
+  - bugfix: bootcheck gives you silver coin if for >= 10 instead of == 10
+  radarseas:
+  - balance: Due to budget cuts in the Otavian's weaponry stocks for the inquisition;
+      The Psydonic maul is no longer a standard-issue weapon choice for adjudicators,
+      its now a one-time only, 6 marq purchase in the inquisitional shop. Don't lose
+      it!
+  - rscdel: You can no longer craft Psydonic mauls, they're an exclusive single-one-of-a-kind
+      weapon now.
+  - bugfix: Psydonic maul can no longer mine (it never could anyway, it'd just spam
+      you with a doafter timer because blunt intents can't mine rock)
+2026-08-19:
+  Aeiraea:
+  - bugfix: Fixed a few more of the ported RMH clothing items not appearing within
+      the crafting menu, loadout, and merchant's wardrobe.
+  - code_imp: Properly capitalized two clothing items within the loadout and changed
+      the name of the 'whitepsydontabard' to give the new and proper toga its name.
+  KatTheFox:
+  - rscadd: 'The Hand now has files on all Court Agents, including basic information
+      like name/descriptor/race/class but also two new fields using the new role preferences
+      system: an optional codename, and an in-character "file body" to contain notes
+      on shared history, specialty, etc. If stolen, these files are accessible to
+      any role, so they need to be kept safe.'
+  - rscadd: Court agents now spawn with zadcages linked to the Hand's zadcote
+  - rscadd: The Hand is now notified when Court Agents fartravel, and vice versa.
+      Fartravelling now actually updates the "remember spymaster" and "remember agents"
+      verbs.
+  Ketrai:
+  - rscadd: Added the ability to flatten hunting tracks to delete them with a shovel.
+      It has a cooldown, and cannot be spammed.
+  - bugfix: Fixes hunting tracks not disappearing automatically when tracking an animal.
+  - rscadd: Re-enabled dreamwalker on high intensity.
+  - balance: Lowered dreamwalker stats by a cominical amount.
+  - balance: Cut dreamwalker shard repair value in half.
+  - balance: Haphazardly stripped away about half of dreamwalker's traits.
+  - balance: Dreamwalker armor is now as tough as blacksteel instead of avantyne.
+  - bugfix: Stopped the bugged roundstart dreamwalker from possibly rolling.
+  - bugfix: Assured dreamwalkers cannot roll on super lowpop.
+  Lamasmaster:
+  - rscadd: Adds a new Wretch role 'Profane Champion' as a templar equivalent with
+      plate armor, expert-level weapon skill, a heretical weapon, and access to T2
+      miracles. No ritualist, and limited to ascendant worshippers only.
+  Ryan180602:
+  - rscadd: Noc burgonet.
+  - bugfix: change up snout basc sizes.
+  SomeDeviant:
+  - bugfix: fixed munitioneer wrench and engineering loadout option
+  YakumoChen:
+  - rscdel: Removed chocolate halves we just quarter now
+  zeskorion:
+  - balance: nerfs bogbark club and battle-wrench demolition intent
