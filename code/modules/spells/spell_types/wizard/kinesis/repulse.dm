@@ -80,7 +80,7 @@
 				M.set_resting(TRUE, TRUE)
 				arcyne_strike(user, AM, null, floor_slam_damage, BODY_ZONE_CHEST, \
 				BCLASS_BLUNT, spell_name = "Repulse", \
-				damage_type = BRUTE, npc_simple_damage_mult = 1, \
+				damage_type = BRUTE, \
 				skip_animation = TRUE)
 				to_chat(M, span_danger("You're slammed into the floor by [user]!"))
 				new /obj/effect/temp_visual/spell_impact(get_turf(M), spell_color, spell_impact_intensity)

@@ -115,7 +115,7 @@
 			continue
 		if(ishuman(victim))
 			arcyne_strike(user, victim, null, strike_damage, def_zone, BCLASS_BURN, \
-				spell_name = "Levinstroke", damage_type = BURN, npc_simple_damage_mult = 1, \
+				spell_name = "Levinstroke", damage_type = BURN, \
 				skip_animation = TRUE)
 		else
 			victim.electrocute_act(strike_damage, src, 1, SHOCK_NOSTUN)

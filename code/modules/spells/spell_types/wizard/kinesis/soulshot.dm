@@ -5,7 +5,6 @@
 	name = "Soulshot"
 	desc = "Fire a devastating beam of kinetic force that pierces through up to 4 targets. Stopped by solid objects. \
 	Damage is three-quartered after the first target. \
-	Deals 50% increased damage to simple-minded creechurs. \
 	Basic offensive magic, refined for over a millenium since the first Magi expelled mana from their body with pure malice and determination to destroy another."
 	fluff_desc = "Basic offensive magic, refined for over two millenium since the first Magi expelled mana from their body with pure malice and determination to destroy another. The natural evolution of the arcyne bolt - a barely held together ball of energy - into a focused beam of destructive force. The name 'soulshot' is derived from the original idea that one must put their soul into it to exert such a powerful projectiles. Its alignment - of pure arcynic energy, means that most magis cannot cast the spell when they are attuned to a 'unpure' aspect - like fire or lightning. Instead, this spell is generally used when one is attuned to Augmentation - one's own body, or Kinesis - the usage of motional force to displace your foes."
 	button_icon_state = "soulshot"
@@ -50,7 +49,6 @@
 	damage = SOULSHOT_BASE_DAMAGE
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
-	npc_simple_damage_mult = 1.5
 	accuracy = 40
 	nodamage = FALSE
 	speed = 0.3

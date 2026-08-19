@@ -1,0 +1,9 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscdel: "Unnecessary color-picking code for Woodland Brigandine sets."
+  - rscdel: "Shelves now-unused classic variant of the Woodland Brigandine."
+  - bugfix: "Restores the original Shawl for the loadout and sewing recipes. Hijab-styled shawls are now listed via '/shawlhood'."
+  - bugfix: "Woodland Mantles and Brigandines now properly render their on-item detail shades when spawned in."
+  - rscadd: "Plackarted variants of Woodland Brigandine, and a new CKEY to their kit access."
+  - rscadd: "Updated sprites for the Woodland Mantle."

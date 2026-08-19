@@ -4,8 +4,7 @@
 	desc = "Weighten space in an entire area, crushing everyone within and bringing them to the ground. \
 	Stronger opponents will resist and merely be off-balanced. \
 	The spell takes longer to materialize than its single-target counterpart, but covers a much larger zone.\n\n\
-	Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against conseuctive hit.\n\n\
-	Deals 100% more damage to simple-minded creechurs."
+	Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against conseuctive hit."
 	button_icon_state = "mass_gravity"
 	sound = 'sound/magic/gravity.ogg'
 	spell_color = GLOW_COLOR_KINESIS
@@ -42,7 +41,6 @@
 	var/knockdown_time = 5
 	var/offbalance_time = 10
 	var/str_threshold = 15
-	var/simple_npc_damage_modifier = 2
 	var/aoe_range = 1 // 3x3
 	var/telegraph_delay = TELEGRAPH_HIGH_IMPACT
 
@@ -94,7 +92,7 @@
 			if(L.STASTR <= str_threshold)
 				arcyne_strike(owner, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
 					spell_name = "Mass Gravity", damage_type = BRUTE, \
-					npc_simple_damage_mult = simple_npc_damage_modifier, skip_animation = TRUE)
+					skip_animation = TRUE)
 				if(!adapted)
 					L.Knockdown(knockdown_time)
 					L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time
@@ -104,7 +102,7 @@
 			else
 				arcyne_strike(owner, L, null, resisted_damage, target_zone, BCLASS_BLUNT, \
 					spell_name = "Mass Gravity", damage_type = BRUTE, \
-					npc_simple_damage_mult = 1, skip_animation = TRUE)
+					skip_animation = TRUE)
 				if(!adapted)
 					L.OffBalance(offbalance_time)
 					L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time

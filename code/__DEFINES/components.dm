@@ -292,7 +292,7 @@
 	#define SPEECH_MODE 8
 #define COMSIG_MOB_DEADSAY "mob_deadsay" // from /mob/say_dead(): (mob/speaker, message)
 	#define MOB_DEADSAY_SIGNAL_INTERCEPT 1
-///from base of /mob/verb/pointed: (atom/A)
+///from base of /mob/proc/linepoint: (atom/A)
 #define COMSIG_MOB_POINTED "mob_pointed"
 // /mob/living signals
 #define COMSIG_LIVING_GRAB_SELF_ATTEMPT "living_grab_self_attempt"

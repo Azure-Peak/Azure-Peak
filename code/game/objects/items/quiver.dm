@@ -272,12 +272,18 @@
 	else
 		icon_state = "quiver0"
 
+/obj/item/quiver/arrows
+	var/fill_amount
+
 /obj/item/quiver/arrows/Initialize(mapload)
 	..()
-	for(var/i in 1 to max_storage)
+	for(var/i in 1 to (fill_amount || max_storage))
 		var/obj/item/ammo_casing/caseless/rogue/arrow/iron/A = new()
 		arrows += A
 	update_icon()
+
+/obj/item/quiver/arrows/scarce
+	fill_amount = 2
 
 /obj/item/quiver/stonearrows/Initialize(mapload)
 	..()

@@ -24,13 +24,12 @@
 	damage = 75
 	strike_damage_type = BRUTE
 	blade_class = BCLASS_BLUNT
-	npc_simple_damage_mult = 1.5
 	committed_strike = TRUE
 	interruptible = FALSE
-	charging_slowdown = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	windup_time = TELEGRAPH_AREA_DENIAL
 	sweep_step = 0
-	telegraph_type = /obj/effect/temp_visual/trap/telomancy
+	telegraph_type = /obj/effect/temp_visual/telegraph/telomancy
 	strike_sound = 'sound/magic/vlightning.ogg'
 	detonate_sound = 'sound/magic/blink.ogg'
 
@@ -114,8 +113,7 @@
 		return
 	L.safe_throw_at(get_ranged_target_turf(L, push_dir, push_dist), push_dist, 2, H, force = MOVE_FORCE_STRONG)
 
-/obj/effect/temp_visual/trap/telomancy
-	color = GLOW_COLOR_ARCANE
+/obj/effect/temp_visual/telegraph/telomancy
 	light_color = GLOW_COLOR_ARCANE
 	duration = 3 SECONDS
 
