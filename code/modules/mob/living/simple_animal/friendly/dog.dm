@@ -1,6 +1,7 @@
 //Dogs.
 
 /mob/living/simple_animal/pet/dog
+	anatomy_type = /datum/anatomy/quadruped/trash
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	response_help_continuous = "pets"
 	response_help_simple = "pet"

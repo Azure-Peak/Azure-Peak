@@ -1,5 +1,4 @@
 /datum/ai_controller/mirespider
-	movement_delay = MIRESPIDER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
@@ -21,7 +20,6 @@
 	)
 
 /datum/ai_controller/mirespider_lurker
-	movement_delay = MIRESPIDER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
@@ -37,7 +35,6 @@
 	)
 
 /datum/ai_controller/mirespider_paralytic
-	movement_delay = MIRESPIDER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

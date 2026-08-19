@@ -348,14 +348,6 @@
 	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
 	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)
 
-/obj/item/storage/belt/rogue/pouch/zigarrete/trippy/PopulateContents()
-	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
-	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
-	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
-	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
-	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
-	new /obj/item/clothing/mask/cigarette/rollie/trippy(src)
-
 /obj/item/storage/belt/rogue/pouch/zigarrete/cannabis/PopulateContents()
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)

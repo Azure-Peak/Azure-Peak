@@ -201,7 +201,7 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
+		spread = 0
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.embedchance = 0.1 //for some reason, if the embedchance is 0, the reusable projectile will not drop after hitting a mob. so it's a 1/1000 chance now

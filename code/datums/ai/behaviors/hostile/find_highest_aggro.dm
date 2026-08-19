@@ -95,13 +95,19 @@
 		return
 
 	var/list/filtered_targets = list()
-	var/mob/living/chosen_target
+	var/list/client_targets = list()
+	var/list/ally_focus = list()
 	var/low_hp = (living_mob.health <= living_mob.maxHealth * 0.5)
 
 	for(var/mob/living/pot_target in potential_targets)
 		if(QDELETED(pot_target) || pot_target.stat == DEAD)
 			continue
 		if(!targetting_datum.can_attack(living_mob, pot_target))
+			var/datum/ai_controller/ally_controller = pot_target.ai_controller
+			if(ally_controller && living_mob.faction_check_mob(pot_target, FALSE))
+				var/atom/ally_target = ally_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+				if(ally_target)
+					ally_focus[ally_target] += 1
 			continue
 		if(pot_target.rogue_sneaking)
 			var/extra_chance = low_hp ? 30 : 0
@@ -109,8 +115,8 @@
 				continue
 
 		filtered_targets += pot_target
-		if(!chosen_target && pot_target.client)
-			chosen_target = pot_target
+		if(pot_target.client)
+			client_targets += pot_target
 
 	if(!filtered_targets.len)
 		AI_THINK(living_mob, "SCAN: nobody in range [aggro_range]")
@@ -118,6 +124,7 @@
 		finish_action(controller, succeeded = FALSE)
 		return
 
+	var/mob/living/chosen_target = pick_spread_target(living_mob, length(client_targets) ? client_targets : filtered_targets, ally_focus)
 	if(!chosen_target)
 		chosen_target = pick(filtered_targets)
 
@@ -144,6 +151,24 @@
 		finish_action(controller, succeeded = TRUE)
 	else
 		finish_action(controller, succeeded = FALSE)
+
+/datum/ai_behavior/find_aggro_targets/proc/pick_spread_target(mob/living/living_mob, list/candidates, list/ally_focus)
+	if(!length(candidates))
+		return null
+	if(length(candidates) == 1)
+		return candidates[1]
+
+	var/crowd_penalty = living_mob.contract_spawned ? AGGRO_CROWD_PENALTY_WARBAND : AGGRO_CROWD_PENALTY_BASE
+	var/list/weights = list()
+
+	for(var/mob/living/candidate as anything in candidates)
+		var/weight = max(AGGRO_PICK_WEIGHT_MIN, AGGRO_PICK_WEIGHT_BASE - (get_dist(living_mob, candidate) * AGGRO_PICK_DISTANCE_FALLOFF))
+		var/crowd = ally_focus[candidate]
+		if(crowd)
+			weight = weight / (1 + (crowd * crowd_penalty))
+		weights[candidate] = max(1, round(weight))
+
+	return pickweight(weights)
 
 /// Base does nothing - field creation was removed in favor of spatial-grid wake/sleep.
 /datum/ai_behavior/find_aggro_targets/proc/failed_to_find_anyone(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)

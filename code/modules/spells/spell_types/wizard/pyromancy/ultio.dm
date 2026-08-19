@@ -60,7 +60,7 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	new /obj/effect/temp_visual/trap_wall/fire/ultio(target_turf)
+	new /obj/effect/temp_visual/telegraph/wall/fire/ultio(target_turf)
 	addtimer(CALLBACK(src, PROC_REF(detonate), target_turf, H.zone_selected || BODY_ZONE_CHEST), impact_delay)
 	return TRUE
 
@@ -92,5 +92,5 @@
 			L.adjustFireLoss(strike_damage)
 		apply_scorch_stack(L, scorch_stacks, def_zone)
 
-/obj/effect/temp_visual/trap_wall/fire/ultio
+/obj/effect/temp_visual/telegraph/wall/fire/ultio
 	duration = TELEGRAPH_SKILLSHOT
