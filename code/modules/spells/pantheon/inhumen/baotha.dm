@@ -29,7 +29,7 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 	invocation_type = INVOCATION_NONE
 	charge_required = FALSE
-	cooldown_time = 45 SECONDS
+	cooldown_time = 60 SECONDS
 	check_flags = AB_CHECK_CONSCIOUS
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 	var/embrace_heartbreak = FALSE
@@ -56,11 +56,11 @@
 	return TRUE
 
 /datum/stressevent/baotha_solace
-	timer = 2 MINUTES
+	timer = 1 MINUTES
 	desc = span_green("May I make the most of myne pleasure.")
 
 /datum/stressevent/baotha_heartbreak
-	timer = 2 MINUTES
+	timer = 1 MINUTES
 	desc = span_red("...nothing ever lasts forever.")
 
 //T0 that tells the user the person's vice.
@@ -209,7 +209,7 @@
 	// The rosa ring is supposed to be 'discrete', so it doesn't look heretical to a casual observer.
 	return null
 
-// T1 - turns the caster's mood and relationship with their vice into a short stat boost.
+// T1 - polls the caster's mood and vice satiety before giving a buff. as you can tell by the typepath i had an entiurely different idea for this ubt whatever
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve
 	name = "Phentis / Melancholia"
 	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. A sated vice doubles the duration; every unsated vice doubles every stat change."
@@ -277,7 +277,7 @@
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_INT = 1)
 
 /datum/status_effect/buff/heart_on_sleeve/melancholia
-	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_WIL = 1, STATKEY_PER = -2, STATKEY_INT = -2)
+	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_WIL = 1, STATKEY_CON = -1, STATKEY_INT = -1)
 
 /atom/movable/screen/alert/status_effect/buff/heart_on_sleeve
 	name = "HEART AND SOUL"
@@ -382,7 +382,7 @@
 
 // T2 - shares the caster's current mood, intensified by their holy skill.
 /obj/effect/proc_holder/spell/invoked/lasthigh
-	name = "Last High"
+	name = "Codependence"
 	desc = "Shares my current stress or peace with someone, intensified by my holy skill."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
@@ -394,8 +394,6 @@
 	warnie = "sydwarning"
 	chargedloop = /datum/looping_sound/invokeholy
 	sound = 'sound/magic/timestop.ogg'
-	invocations = list("blows light spicedust forth.")	//useful against any men in the mirror
-	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 2 MINUTES
@@ -413,7 +411,7 @@
 
 		target.visible_message(
 			span_info("[target] is taken awash by another's emotions."),
-			span_notice("The world fades around me as unfamiliar emotions flood through my body, sharpened by Baotha's touch.")
+			span_notice("The world fades around me as unfamiliar emotions flood through my body.")
 		)
 		target.remove_stress(/datum/stressevent/lasthigh)
 		var/datum/stressevent/shared_mood = target.add_stress(/datum/stressevent/lasthigh)
@@ -425,7 +423,7 @@
 
 /datum/stressevent/lasthigh
 	timer = 2 MINUTES
-	desc = span_notice("Foreign feelings wash myne soul. Is this truly how it feels to be another?")
+	desc = span_red("Foreign feelings wash myne soul. Is this truly how it feels to be another?")
 
 
 // T3 - bond that lasts for 8 minutes as long as bonded are within 7 tiles, TRAIT_NOPAIN, spd = 5 end = 3
