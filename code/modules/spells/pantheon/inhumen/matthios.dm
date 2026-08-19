@@ -1063,7 +1063,7 @@
 			if(!(affected_turf in view(source_turf)))
 				continue
 
-			new /obj/effect/temp_visual/trap/firebreath(affected_turf, tile_delay)
+			new /obj/effect/temp_visual/telegraph/firebreath(affected_turf, tile_delay)
 			addtimer(CALLBACK(src, PROC_REF(ignite), affected_turf), tile_delay)
 
 	user.visible_message(span_yellow("[user] sharply exhales, breathing out a cloud of fyre!"))
@@ -1089,11 +1089,12 @@
 
 	new /obj/effect/hotspot(damage_turf) // This is the actual scary part
 
-/obj/effect/temp_visual/trap/firebreath
+/obj/effect/temp_visual/telegraph/firebreath
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "impact_bullet"
 	duration = 10 SECONDS
 	layer = MASSIVE_OBJ_LAYER
+	plane = GAME_PLANE
 
 /obj/effect/temp_visual/firebreath_actual
 	icon = 'icons/effects/fire.dmi'

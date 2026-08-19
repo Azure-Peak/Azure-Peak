@@ -3,8 +3,7 @@
 	name = "Mass Crush"
 	desc = "Compress gravitational force over a wide area, crushing everyone within. \
 	The spell is highly telegraphed but devastating to anyone caught inside. \
-	Crushes through armor with exceptional force. Slows struck targets briefly. \
-	Deals 100% more damage to simple-minded creechurs."
+	Crushes through armor with exceptional force. Slows struck targets briefly."
 	button_icon_state = "crush"
 	sound = 'sound/magic/repulse.ogg'
 	spell_color = GLOW_COLOR_KINESIS
@@ -37,7 +36,6 @@
 	var/telegraph_delay = TELEGRAPH_HIGH_IMPACT
 	var/crush_damage = 60
 	displayed_damage = 60
-	var/npc_simple_damage_mult = 2
 	var/crush_intdamage_factor = 2
 	var/aoe_range = 2 // 5x5
 
@@ -84,7 +82,7 @@
 			var/target_zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 			arcyne_strike(caster, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
 				spell_name = "Mass Crush", damage_type = BRUTE, \
-				npc_simple_damage_mult = npc_simple_damage_mult, skip_animation = TRUE, \
+				skip_animation = TRUE, \
 				intdamage_factor = crush_intdamage_factor)
 			L.Slowdown(1)
 			to_chat(L, span_userdanger("Gravitational force compresses around me!"))

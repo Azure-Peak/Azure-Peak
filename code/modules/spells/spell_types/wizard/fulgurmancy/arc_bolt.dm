@@ -8,8 +8,7 @@
 	desc = "Fire a precise jolt of lightning that sears a target's struck body part with heavy burn. \
 	Toggle firing mode (Shift+G) while active: Chain leaps to up to three foes behind the target, searing the same body part for half as much, \
 	Focus only strike one target, and Arc lobs a single weakened bolt over obstacles. \
-	The bolt loses power past 5 paces. \
-	Damage is increased by 50% versus simple-minded creechurs."
+	The bolt loses power past 5 paces."
 	button_icon_state = "shock"
 	sound = 'sound/magic/lightning.ogg'
 	spell_color = GLOW_COLOR_LIGHTNING
@@ -88,7 +87,6 @@
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
 	damage = 60
-	npc_simple_damage_mult = 1.5
 	max_range = MAGE_LONG_PROJ_RANGE
 	damage_type = BURN
 	woundclass = BCLASS_BURN
@@ -173,14 +171,12 @@
 		L.visible_message(span_warning("The arc scatters around [L]!"))
 		return
 	var/actual_damage = arc_damage
-	if(!L.mind && !ishuman(L))
-		actual_damage *= npc_simple_damage_mult
 	var/mob/living/carbon/human/caster = firer
 	if(L.guard_deflect_spell("Arc Bolt", TRUE, caster))
 		return
 	if(istype(caster) && ishuman(L))
 		arcyne_strike(caster, L, null, actual_damage, def_zone, BCLASS_BURN, \
-			spell_name = "Arc Bolt", damage_type = BURN, npc_simple_damage_mult = 1, \
+			spell_name = "Arc Bolt", damage_type = BURN, \
 			skip_animation = TRUE)
 	else
 		L.electrocute_act(actual_damage, src, 1, SHOCK_NOSTUN)

@@ -117,7 +117,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshmed"
 	item_d_type = "slash"
 	demolition_mod = 2.5 //I'M A MOLE AND I'M DIGGING A HOLE
 
@@ -135,7 +135,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "smashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bluntwooshlarge"
 	item_d_type = "blunt"
 
 /obj/item/rogueweapon/mole_claw //Like a less defense dagger

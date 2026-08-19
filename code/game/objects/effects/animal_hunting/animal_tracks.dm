@@ -47,6 +47,28 @@
 	. += span_info("Higher hunting skill spawns better animals more often.")
 	. += span_info("If you see a white stag, think twice before attacking. Maybe just run, to be safe.")
 	. += span_info("Right click your eyeball to get directions to the nearest track you are tracking, provided it is on screen.")
+	. += span_info("Can be dug up and cleared away using a spade or shovel. This inflicts a hefty cooldown on hunting/removing tracks")
+
+/obj/effect/hunting_track/attackby(obj/item/I, mob/user, params)
+	if(I.tool_behaviour == TOOL_SHOVEL)
+		var/datum/component/hunting_blocker/B = user.GetComponent(/datum/component/hunting_blocker)
+		if(!B)
+			B = user.AddComponent(/datum/component/hunting_blocker)
+
+		if(!B.can_start_hunt())
+			to_chat(user, span_notice("You've recently disturbed a trail, it wouldn't be wise to demolish another so soon."))
+			return TRUE
+
+		user.visible_message(
+			span_notice("[user] begins digging up [src]..."),
+			span_notice("You begin digging up [src]...")
+		)
+		if(I.use_tool(src, user, 2 SECONDS, volume = 50))
+			to_chat(user, span_notice("You flatten and dig away the disturbed mound of earth."))
+			// Trigger the cooldown so tracks cannot be spammed/cleared repeatedly
+			B.register_hunt()
+			qdel(src)
+		return TRUE
 
 /obj/effect/hunting_track/examine(mob/user)
 	. = ..()
@@ -372,7 +394,10 @@
 
 /obj/effect/hunting_track/proc/start_fade_animation()
 	animate(src, alpha = 0, time = 200, easing = EASE_OUT)
-	addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(qdel), src), 20 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(delete_track)), 20 SECONDS)
+
+/obj/effect/hunting_track/proc/delete_track()
+	qdel(src)
 
 /obj/effect/hunting_track/proc/initialize_hunt_chain(mob/living/user)
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)

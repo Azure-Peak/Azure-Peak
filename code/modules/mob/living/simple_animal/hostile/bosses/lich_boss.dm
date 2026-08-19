@@ -305,7 +305,7 @@
 	name = "lich"
 	icon_state = "instrike"
 	attack_verb = list("strikes", "cuts", "cleaves", "slashes")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = 'sound/combat/hits/bladed/genchop (1).ogg'
 	chargetime = 20

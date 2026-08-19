@@ -108,7 +108,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "kicks the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bluntwooshmed"
 	item_d_type = "blunt"
 	swingdelay = 8
 	clickcd = CLICK_CD_QUICK

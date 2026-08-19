@@ -151,7 +151,7 @@
 				var/target_zone = caster.zone_selected || BODY_ZONE_CHEST
 				arcyne_strike(caster, L, null, tick_damage, target_zone, \
 					BCLASS_CUT, spell_name = "Blade Dance", \
-					damage_type = BRUTE, npc_simple_damage_mult = 1, \
+					damage_type = BRUTE, \
 					skip_animation = TRUE, skip_message = TRUE, \
 					allow_shield_check = TRUE)
 			else
