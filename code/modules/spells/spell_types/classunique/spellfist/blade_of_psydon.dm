@@ -81,7 +81,7 @@
 	associated_skill = /datum/skill/combat/unarmed
 	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'
 	wdefense = 0
-	wbalance = WBALANCE_SWIFT
+	wbalance = WBALANCE_NORMAL
 	can_parry = TRUE
 
 /obj/item/melee/touch_attack/rogueweapon/bladeofpsydon/attack_self()
