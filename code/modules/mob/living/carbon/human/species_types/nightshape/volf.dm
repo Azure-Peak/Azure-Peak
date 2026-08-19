@@ -7,7 +7,7 @@
 	wildshape_icon = 'icons/roguetown/mob/monster/volf.dmi'
 	wildshape_icon_state = "volf_brown"
 
-/mob/living/carbon/human/species/wildshape/night_volf/gain_inherent_skills()	
+/mob/living/carbon/human/species/wildshape/night_volf/gain_inherent_skills()
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 		src.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
@@ -70,10 +70,6 @@
 	H.icon_state = "volf_brown"
 	H.update_damage_overlays()
 	return TRUE
-
-/datum/species/night_wolf/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	. = ..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
 /datum/species/night_wolf/update_damage_overlays(mob/living/carbon/human/H)
 	H.remove_overlay(DAMAGE_LAYER)
