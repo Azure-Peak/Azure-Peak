@@ -33,8 +33,7 @@
 	button_icon_state = "entangle"
 	blade_class = BCLASS_LASHING
 	windup_time = TELEGRAPH_DODGEABLE
-	damage = 25
-	npc_simple_damage_mult = 2
+	damage = 35
 	sweep_step = 0
 	impact_delay = 4
 	detonate_sound = null
@@ -52,8 +51,7 @@
 	invocations = list("Stay awhile!")
 	invocation_type = INVOCATION_SHOUT
 
-	cooldown_time = 45 SECONDS
-	charging_slowdown = 1
+	cooldown_time = 25 SECONDS
 
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
@@ -334,12 +332,13 @@
 
 /datum/action/cooldown/spell/dendor/leech
 	name = "Leeching Seed"
-	desc = "Curse a target with "
+	desc = "Curse a target with Dendor's seedling, slowing the target and making it bloom out into a healing aura."
 	button_icon_state = "leech"
 	sound = 'sound/magic/dendor_howl.ogg'
 
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
 
@@ -355,23 +354,71 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-/datum/action/cooldown/spell/dendor/leech/(atom/cast_on)
+
+/datum/action/cooldown/spell/dendor/leech/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
 
+	var/mob/living/spelltarget = cast_on
 
+	if(!isliving(spelltarget))
+		return FALSE
 
+	spelltarget.apply_status_effect(/datum/status_effect/debuff/leechseed)
 
+	return TRUE
 
+#define LEECHSEED_FILTER "leechseed"
 
+/datum/status_effect/debuff/leechseed
+	id = "leechseed"
+	effectedstats = list(STATKEY_SPD = -2)
+	var/outline_colour = GLOW_COLOR_DENDOR
+	duration = 30 SECONDS
+	tick_interval = -1
+	examine_text = span_love("SUBJECTPRONOUN is sprouting Dendor's seed!")
+	alert_type = null
 
+/datum/status_effect/debuff/leechseed/on_apply()
+	. = ..()
 
+	owner.visible_message(span_userdanger("A tide of vibrant purple mist surges from [owner], carrying the heavy scent of sweet intoxication!"))
 
+	var/filter = owner.get_filter(LEECHSEED_FILTER)
+	if(!filter)
+		owner.add_filter(LEECHSEED_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
 
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "sleep", -JOYBRINGER_LAYER, alpha = 128)
+	effect.appearance_flags = RESET_COLOR
+	effect.blend_mode = BLEND_ADD
+	effect.color = GLOW_COLOR_DENDOR
 
+	owner.overlays_standing[JOYBRINGER_LAYER] = effect
+	owner.apply_overlay(JOYBRINGER_LAYER)
 
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+
+/datum/status_effect/debuff/leechseed/on_remove()
+	. = ..()
+
+	owner.remove_filter(LEECHSEED_FILTER)
+	owner.remove_overlay(JOYBRINGER_LAYER)
+
+	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/datum/status_effect/debuff/leechseed/proc/on_life()
+	SIGNAL_HANDLER
+
+	for(var/mob/living/mob in get_hearers_in_view(2, owner))
+		if(mob.has_status_effect(/datum/status_effect/debuff/leechseed))
+			continue
+
+		if(mob.mind)
+			mob.apply_status_effect(/datum/status_effect/buff/healing/leechseed)
+
+#undef LEECHSEED_FILTER
 
 
 

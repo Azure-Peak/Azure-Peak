@@ -135,7 +135,7 @@
 	retreat_health = 0
 	food = 0
 	next_ability_use
-	ai_controller = /datum/ai_controller/flame_primordial //Prob replace these later but for the time being it serves its purpose.
+	//ai_controller = /datum/ai_controller/flame_primordial //Prob replace these later but for the time being it serves its purpose.
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/ancient/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
