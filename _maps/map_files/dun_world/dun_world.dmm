@@ -101841,6 +101841,8 @@
 /area/rogue/outdoors/town)
 "sUZ" = (
 /obj/structure/table/wood/poor,
+/obj/item/roguemachine/zadcote/hand,
+/obj/item/hand_files,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/manor)
 "sVc" = (

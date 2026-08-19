@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(cagent_zadcages)
+
 /obj/item/zadcage
 	name = "zadcage"
 	desc = "A small cage made to ride on a belt. Empty perches inside. Too awkward to fit in most containers."
@@ -288,3 +290,10 @@
 			if(do_after(usr, ZAD_MANUAL_SEND_DOAFTER, target = src))
 				cote.request_summon(link, usr, zads)
 			return TRUE
+
+/obj/item/zadcage/cagent/Initialize(mapload)
+	. = ..()
+	GLOB.cagent_zadcages += src
+	if(GLOB.hand_zadcote)
+		var/obj/item/roguemachine/zadcote/hand/handcote = GLOB.hand_zadcote
+		handcote.attach_cage(src, null)

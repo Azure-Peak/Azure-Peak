@@ -280,6 +280,8 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 		return "The crucible cannot bind a servant before my bloodline is chosen."
 	if(current < SERVANT_COST)
 		return "The crucible needs [SERVANT_COST] vitae in the cup."
+	if(HAS_TRAIT(user, TRAIT_BLOODPOOL_BORN))
+		return "A servant cannot summon another servant."
 	return ""
 
 /obj/structure/vampire/bloodpool/proc/can_summon_personal_servant(mob/living/user)
