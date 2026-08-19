@@ -2666,7 +2666,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							race_bonus = choice
 
 				if("body_size")
-					var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
+					var/max_pct = BODY_SIZE_MAX*100
+					var/min_pct = BODY_SIZE_MIN*100
+					var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([min_pct]%-[max_pct]%). Warning: May make your character look distorted.", "Character Preference", features["body_size"]*100, max_value = max_pct, min_value = min_pct)
 					if(new_body_size)
 						new_body_size = clamp(new_body_size * 0.01, BODY_SIZE_MIN, BODY_SIZE_MAX)
 						features["body_size"] = new_body_size
