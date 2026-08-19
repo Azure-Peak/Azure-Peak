@@ -110,3 +110,50 @@
 
 
 #undef SOURCE_ASSASSIN
+
+// EXPANDED VISION FOR FUTURE DEVELOPERS //
+/*Good evening! If you're reading this, you may be a developer poking thru the assassin.dm! If you're interested in
+adopting this feature after I retire, here was my vague idea of shit you may able to work off of.
+
+// CONCEPTS: FACELESS MEN & SPHERES
+	At the moment in AP, we have spheres. I find these limiting for certain antag-related things when we could just render them
+non-canon or similar. In the same vein as an evil councillor gets predictable when they've done it a dozen times, I think
+assassins should be significantly more varied in what/who they look like. With that in mind, assassin's peculate intent should
+end up functioning more like a changeling if anyone can finnagle that. Peculated faces, including the assassins roundstart, could
+just be hot-swappable, perhaps on a cooldown.
+
+	With that also in mind; ANYONE should be able to be an assassin. Though their patron should be forced Graggar. In addition, a disguise
+system would probably be necessary for this to happen with minimal jank.
+
+// DISGUISES
+	On spawn, assassins should, instead of their current class selection, be prompted with various "disguises" fitting various kinds of
+characters. This is how it used to work, basically. Anything from 'NAKED' to 'ADVENTURER - BARBARIAN' or something adjacent. Mages and such
+could be granted prestidigtation or some minor spellpoints for keeping up that convincing whatever-- clerics can be given orison. Maybe miracle altho
+they should maybe just purchase it as described later.
+
+// THE BEAST ROARS -- BUILD YOUR OWN ASSASSIN POINT SYSTEM
+	Simply put, we should first force Graggar Patron. Then, assassins could be granted a roundstart # of points to spend on various things. Like
+the skills from previous classes, poisons, grapplers, traits, miracles, ETC. You get more points for peculating people and/or your targets. Double points
+for "high security" or "strong" roles like retinue (knights, duke, etc) as well as mercenaries. Fuck mercenaries.
+
+Also, if anyone ever tries to de-Graggar the role, please blow it the fuck up. I don't want a repeat of what's happened to gnolls in tone and whatever.
+If you want to play a normal "assassin" that kills for coin, cool, play advent, not the explicit death cultist role.
+
+How you'd want to implement this is up to you. I wanted a cool crucified & split open Gnoll w/ an intact head that accepts your sacrifice while
+spitting lore. That'd be kinda cool....
+
+// GROTTO
+	Assassins can go after Wretches and so while they already have Zurch access, should probably have their own "grotto". Just make it a unique FT point
+and on the same z as the wretchamp. Like beyond 2 layers of rock or something. Give them a cool Spot to hang out. Maybe a cool Graggar homunculus
+if any of you remember the old art posts from back i nthe day. That wasp retty funny I liked that litle guy.
+
+// KILLING GOD OF HIDDEN DOORWAYS
+	If assassins are still weakshit for whatever reason, let PECULATE open open/close windows. Players WILL shit their pants.
+
+// LINGERING SOVL
+- make spinning the dagger stab you
+- make using peculate as a non-assassin stab you
+- automatically detonate dagger after 15-30 minutes of assassin being dead
+
+*/
+
