@@ -17,7 +17,7 @@
 	can_sew = TRUE
 	can_cauterize = TRUE
 	critical = TRUE
-	sleep_healing = 0
+	sleep_healing = 0.5
 	embed_chance = 75
 
 	werewolf_infection_probability = 100

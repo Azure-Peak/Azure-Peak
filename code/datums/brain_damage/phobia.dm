@@ -123,7 +123,7 @@
 			owner.Jitter(5)
 			owner.say("AAAAH!!", forced = "phobia")
 			if(reason)
-				owner.linepoint(reason)
+				owner.pointed(reason)
 		if(3)
 			to_chat(owner, span_warning("I shut your eyes in terror!"))
 			owner.Jitter(5)

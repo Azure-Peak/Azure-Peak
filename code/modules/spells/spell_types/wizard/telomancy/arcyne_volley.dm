@@ -2,7 +2,8 @@
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Magister's Dart"
 	desc = "Advanced Offensive Magyck, refined over millenium and turned into a true Telomancer's ultimate thesis! Toggle firing mode (Shift+G) while the spell is active: \
-	Cascade looses a rapid stream of bolts at a single foe, Seeker sends homing orbs that pass harmlessly through all but their mark, and Soulshot fires a piercing beam through several foes."
+	Cascade looses a rapid stream of bolts at a single foe, Seeker sends homing orbs that pass harmlessly through all but their mark, and Soulshot fires a piercing beam through several foes. \
+	Deals 50% increased damage to simple-minded creechurs."
 	button_icon_state = "arcyne_bolt"
 	sound = 'sound/magic/vlightning.ogg'
 	spell_color = GLOW_COLOR_ARCANE

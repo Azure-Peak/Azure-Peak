@@ -1,4 +1,5 @@
 /datum/ai_controller/dragger //maybe eat limbs
+	movement_delay = DRAGGER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

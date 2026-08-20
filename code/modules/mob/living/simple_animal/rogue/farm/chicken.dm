@@ -65,7 +65,6 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
-	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/get_sound(input)
 	switch(input)
@@ -173,11 +172,11 @@
 						foundchaff += S
 				if(foundchaff.len)
 					stop_automated_movement = TRUE
-					Goto(pick(foundchaff))
+					Goto(pick(foundchaff),move_to_delay)
 					addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
 			else
 				stop_automated_movement = TRUE
-				Goto(pick(foundnests))
+				Goto(pick(foundnests),move_to_delay)
 				addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
 
 

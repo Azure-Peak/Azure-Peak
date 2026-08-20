@@ -21,6 +21,8 @@
 	salvage_amount = 1
 	fiber_salvage = TRUE
 	integrity_failure = 0.1
+	/// slowdown for barding. Multiplicative.
+	var/slowdown_factor = 1.25
 
 /obj/item/clothing/barding/attack(mob/living/M, mob/living/user)
 	if(!issimple(M))
@@ -50,6 +52,8 @@
 
 	animal.bbarding = src
 	forceMove(animal)
+	animal.barding_speed_mult = slowdown_factor
+	animal.updatehealth()
 	animal.update_icon()
 	user.visible_message(span_notice("[user] fits a bard onto [animal]."), span_notice("I fit a bard onto [animal]."))
 
@@ -58,6 +62,8 @@
 		var/mob/living/simple_animal/A = loc
 		if(A.bbarding == src)
 			A.bbarding = null
+			A.barding_speed_mult = 1
+			A.updatehealth()
 	. = ..()
 
 /obj/item/clothing/barding/chain
@@ -76,6 +82,7 @@
 	salvage_result = null
 	salvage_amount = 0
 	fiber_salvage = FALSE
+	slowdown_factor = 1.5
 
 /obj/item/clothing/barding/fogbeast
 	name = "padded barding"

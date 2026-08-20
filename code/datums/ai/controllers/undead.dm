@@ -1,4 +1,5 @@
 /datum/ai_controller/undead
+	movement_delay = MOSSBACK_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/basic_avoidance
 
@@ -15,7 +16,10 @@
 
 
 /datum/ai_controller/undead/wolf
+	movement_delay = WOLF_UNDEAD_MOVEMENT_SPEED
 
 /datum/ai_controller/undead/fox
+	movement_delay = FOX_MOVEMENT_SPEED
 
 /datum/ai_controller/undead/cabbit
+	movement_delay = CABBIT_UNDEAD_MOVEMENT_SPEED

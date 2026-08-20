@@ -1,6 +1,5 @@
 //Cat
 /mob/living/simple_animal/pet/cat
-	anatomy_type = /datum/anatomy/quadruped/trash
 	name = "cat"
 	desc = "A nuisance and a valued, pest-killing companion. Also symbols of the benevolent side of Saint Pestra for their enmity with vermin."
 	icon = 'icons/mob/pets.dmi'
@@ -50,7 +49,6 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
-	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/pet/cat/Initialize(mapload)
 	. = ..()

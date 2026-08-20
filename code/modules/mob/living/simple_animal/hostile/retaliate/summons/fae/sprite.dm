@@ -1,5 +1,4 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite
-	anatomy_type = /datum/anatomy/winged/trash
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "sprite"
 	desc = "This is a sprite, a particularly small manner of fae-creature known often to surround \
@@ -24,10 +23,9 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 50
 	maxHealth = 50
-	threat_point = THREAT_TRASH
 	ranged = FALSE
-	melee_damage_lower = 8
-	melee_damage_upper = 12
+	melee_damage_lower = 10
+	melee_damage_upper = 20
 	vision_range = 8
 	aggro_vision_range = 11
 	environment_smash = ENVIRONMENT_SMASH_NONE
@@ -40,9 +38,10 @@
 	STAWIL = 6
 	STACON = 6
 	STASTR = 2
-	STASPD = 12
+	STASPD = 17
 	simple_detect_bonus = 20
 	deaggroprob = 0
+	defprob = 40
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
 	retreat_health = 0
@@ -50,11 +49,10 @@
 	attack_sound = 'sound/combat/hits/bladed/smallslash (1).ogg'
 	attack_verb_continuous = "jabs"
 	attack_verb_simple = "jab"
-	dodgetime = 40
+	dodgetime = 60
 	aggressive = 1
+	var/drug_cd
 
-	ai_controller = /datum/ai_controller/fae/skirmisher/melee
-	move_base_delay = MOVEMENT_DELAY_SPD_10
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)

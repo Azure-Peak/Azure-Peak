@@ -2,7 +2,7 @@
 	name = "elemental unarmed"
 	icon_state = "instrike"
 	attack_verb = list("punches", "strikes", "rolls on", "crushes")
-	animname = "strike"
+	animname = "blank22"
 	blade_class = BCLASS_BLUNT
 	hitsound = null
 	chargetime = 0
@@ -13,7 +13,7 @@
 	name = "elemental unarmed"
 	icon_state = "instrike"
 	attack_verb = list("punches", "strikes", "kicks", "steps on", "crushes")
-	animname = "strike"
+	animname = "blank22"
 	blade_class = BCLASS_SMASH
 	hitsound = null
 	chargetime = 0

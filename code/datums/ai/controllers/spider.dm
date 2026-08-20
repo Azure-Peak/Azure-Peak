@@ -1,4 +1,5 @@
 /datum/ai_controller/spider
+	movement_delay = HONEYSPIDER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
@@ -19,6 +20,7 @@
 
 /datum/ai_controller/spider/honeyspider
 	// Same as spider but no obstacle smashing
+	movement_delay = HONEYSPIDER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

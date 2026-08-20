@@ -1,6 +1,5 @@
 //Foxxy
 /mob/living/simple_animal/pet/fox
-	anatomy_type = /datum/anatomy/quadruped/trash
 	name = "fox"
 	desc = ""
 	icon = 'icons/mob/pets.dmi'

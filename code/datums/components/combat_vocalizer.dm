@@ -52,7 +52,7 @@
 	if(!target)
 		return
 	source.say(pick(aggro_lines))
-	source.linepoint(target)
+	source.pointed(target)
 	COOLDOWN_START(src, last_bark, bark_cooldown)
 
 /datum/component/combat_vocalizer/proc/try_combat_bark(mob/living/source, prob_override)

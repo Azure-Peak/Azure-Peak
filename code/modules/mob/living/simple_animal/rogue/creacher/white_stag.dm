@@ -35,7 +35,6 @@
 
 /mob/living/carbon/human/species/wildshape/white_stag
 	name = "The White Stag"
-	threat_point = THREAT_LEGENDARY
 	race = /datum/species/white_stag
 	ai_controller = /datum/ai_controller/human_npc
 	d_intent = INTENT_PARRY
@@ -146,7 +145,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "thrusts its antlers wildly!"
-	miss_sound = "bladewooshmed"
+	miss_sound = "bluntswoosh"
 
 /obj/item/rogueweapon/stag_antlers
 	name = "ancient antlers"

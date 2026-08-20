@@ -116,7 +116,7 @@
 	sort_category = "Shirts"
 
 /datum/loadout_item/slitteddress
-	name = "Slitted Dress"
+	name = "Slitted dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/slit
 	sort_category = "Shirts"
 
@@ -254,4 +254,3 @@
 	name = "Blouse"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/blouse
 	sort_category = "Shirts"
-

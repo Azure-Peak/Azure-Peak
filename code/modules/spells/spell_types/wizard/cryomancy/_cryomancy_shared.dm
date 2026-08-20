@@ -171,14 +171,13 @@
 
 // Temp visuals
 
-/obj/effect/temp_visual/telegraph/ice
+/obj/effect/temp_visual/trapice
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "frost"
 	light_outer_range = 2
 	light_color = "#4cadee"
 	duration = 11
 	layer = MASSIVE_OBJ_LAYER
-	plane = GAME_PLANE
 
 /obj/effect/temp_visual/snap_freeze
 	icon = 'icons/effects/effects.dmi'

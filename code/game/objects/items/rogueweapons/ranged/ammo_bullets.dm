@@ -139,6 +139,7 @@
 	damage = 40
 	damage_type = BRUTE
 	armor_penetration = PEN_NONE
+	npc_simple_damage_mult = 2
 	icon = 'icons/roguetown/weapons/ranged/sling_mob.dmi'
 	icon_state = "stone_sling_bullet"
 	range = 15
@@ -148,6 +149,7 @@
 	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // Slings are meant to break armor so this will help
 	flag = "blunt"
 	speed = 0.4
+	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.
 
 /obj/projectile/bullet/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -176,6 +178,7 @@
 	woundclass = BCLASS_BLUNT
 	flag = "blunt"
 	speed = 0.4
+	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.
 	ricochets_max = 2
 	ricochet_chance = 80
 	ricochet_auto_aim_angle = 40
@@ -361,6 +364,7 @@
 	flag = "piercing"
 	armor_penetration = PEN_NONE
 	speed = 0.1
+	npc_simple_damage_mult = 2 // I know this isn't used in Azure Peak but trust me some downstream guys are going to thank me for this because everything that uses it shoots so fucking slow that even volves are hard to kill.
 
 /obj/item/ammo_casing/caseless/rogue/bullet
 	name = "lead sphere"

@@ -40,6 +40,7 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	deaggroprob = 0
+	defprob = 35
 	retreat_health = 0
 	food = 0
 	dodgetime = 30
@@ -63,11 +64,11 @@
 				OpenFire(target)
 		if(retreat_distance != null) //If we have a retreat distance, check if we need to run from our target
 			if(target_distance <= retreat_distance) //If target's closer than our retreat distance, run
-				walk_away(src, target, retreat_distance, cached_multiplicative_slowdown)
+				walk_away(src,target,retreat_distance,move_to_delay)
 			else
-				Goto(target, minimum_distance) //Otherwise, get to our minimum distance so we chase them
+				Goto(target,move_to_delay,minimum_distance) //Otherwise, get to our minimum distance so we chase them
 		else
-			Goto(target, minimum_distance)
+			Goto(target,move_to_delay,minimum_distance)
 		if(target)
 			if(targets_from && isturf(targets_from.loc) && target.Adjacent(targets_from)) //If they're next to us, attack
 				MeleeAction()
@@ -80,7 +81,7 @@
 	else
 		if(ranged_ignores_vision && ranged_cooldown <= world.time) //we can't see our target... but we can fire at them!
 			OpenFire(target)
-		Goto(target, minimum_distance)
+		Goto(target,move_to_delay,minimum_distance)
 		FindHidden()
 		return 1
 

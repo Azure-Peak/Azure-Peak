@@ -228,7 +228,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	name = "horse"
 	icon_state = "instrike"
 	attack_verb = list("tramples", "rams", "kicks")
-	animname = "kick"
+	animname = "blank22"
 	blade_class = BCLASS_BLUNT
 	hitsound = "punch_hard"
 	chargetime = 0

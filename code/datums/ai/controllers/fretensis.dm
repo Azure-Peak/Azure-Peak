@@ -1,4 +1,5 @@
 /datum/ai_controller/fretensis
+	movement_delay = RAT_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

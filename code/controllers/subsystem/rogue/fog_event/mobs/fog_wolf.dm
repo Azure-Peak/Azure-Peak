@@ -25,6 +25,7 @@
 	STASTR = 7
 	STASPD = 12
 	simple_detect_bonus = 20
+	defprob = 40
 	dodgetime = 30
 
 	faction = list(FACTION_REVENANTS, FACTION_WOLFS)

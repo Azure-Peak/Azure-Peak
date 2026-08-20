@@ -108,7 +108,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
-	miss_sound = "bladewooshsmall"
+	miss_sound = "bluntswoosh"
 	item_d_type = "slash"
 
 /obj/item/rogueweapon/cat_claw //Backscratcher

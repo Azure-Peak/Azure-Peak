@@ -46,7 +46,6 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
-	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /obj/effect/decal/remains/cow
 	name = "remains"
@@ -84,6 +83,7 @@
 	STACON = 5
 	STASTR = 5
 	STASPD = 5
+	defprob = 50
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/cow
 
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/simple_limb_hit(zone)
@@ -186,7 +186,6 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
-	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bull/get_sound(input)
 	switch(input)

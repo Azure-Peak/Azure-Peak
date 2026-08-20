@@ -142,9 +142,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	/// Triumph discount for donators
 	var/triumph_discount_remaining = 0
 
-	/// Copy of role subprefs cached at roundstart
-	var/list/job_subprefs = list()
-
 /datum/mind/New(key)
 	key = key
 	soulOwner = src

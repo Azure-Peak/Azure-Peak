@@ -1,4 +1,5 @@
 /datum/ai_controller/mudcrab
+	movement_delay = MUDCRAB_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

@@ -1,6 +1,4 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider
-	anatomy_type = /datum/anatomy/spider/mirespider
-	attack_aim = MOB_AIM_GROUND
 	icon = 'icons/mob/mirespider_small.dmi'
 	desc = "Said to have originated from the decapitated heads of fallen legionnaires from eons past, grown legs and a voracious appetite, mire crawlers are common pests in many a wetland. Occasionally hunted for their silk."
 	name = "mire crawler"
@@ -48,13 +46,13 @@
 	STASTR = 7
 	STASPD = 13
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
+	defprob = 40
 	retreat_health = 0
 	food = 0
 
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider
-	move_base_delay = MOVEMENT_DELAY_SPD_17
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/Initialize(mapload)
 	. = ..()
@@ -107,9 +105,50 @@
 		Retaliate()
 		GiveTarget(pulledby)
 
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mirespider/simple_limb_hit(zone)
+	if(!zone)
+		return ""
+	switch(zone)
+		if(BODY_ZONE_PRECISE_R_EYE)
+			return "head"
+		if(BODY_ZONE_PRECISE_L_EYE)
+			return "head"
+		if(BODY_ZONE_PRECISE_NOSE)
+			return "nose"
+		if(BODY_ZONE_PRECISE_MOUTH)
+			return "mouth"
+		if(BODY_ZONE_PRECISE_SKULL)
+			return "head"
+		if(BODY_ZONE_PRECISE_EARS)
+			return "head"
+		if(BODY_ZONE_PRECISE_NECK)
+			return "neck"
+		if(BODY_ZONE_PRECISE_L_HAND)
+			return "foreleg"
+		if(BODY_ZONE_PRECISE_R_HAND)
+			return "foreleg"
+		if(BODY_ZONE_PRECISE_L_FOOT)
+			return "leg"
+		if(BODY_ZONE_PRECISE_R_FOOT)
+			return "leg"
+		if(BODY_ZONE_PRECISE_STOMACH)
+			return "stomach"
+		if(BODY_ZONE_PRECISE_GROIN)
+			return "tail"
+		if(BODY_ZONE_HEAD)
+			return "head"
+		if(BODY_ZONE_R_LEG)
+			return "leg"
+		if(BODY_ZONE_L_LEG)
+			return "leg"
+		if(BODY_ZONE_R_ARM)
+			return "foreleg"
+		if(BODY_ZONE_L_ARM)
+			return "foreleg"
+	return ..()
+
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker
-	anatomy_type = /datum/anatomy/spider/spitter
-	attack_aim = MOB_AIM_HIGH // BIG spidah with tall sprite
 	icon = 'icons/mob/mirespider_new.dmi'
 	desc = "An unusually large and dangerous mire crawler, these lumbering creatures tend to find smaller specimens gravitating to them for safety - or perhaps simply to hunt more efficiently."
 	name = "mire lurker"
@@ -156,7 +195,6 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_lurker
-	move_base_delay = MOVEMENT_DELAY_SPD_17
 	projectiletype = /obj/projectile/bullet/spider
 
 	ranged = 1
@@ -236,8 +274,6 @@
 	followers.Cut()
 
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic
-	anatomy_type = /datum/anatomy/spider/mirespider
-	attack_aim = MOB_AIM_HIGH // BIG spidah with tall sprite
 	icon = 'icons/mob/mirespider_small.dmi'
 	name = "aragn"
 	desc = "A gigantic species of spider accompanied always by a strong sulphuric stench. Its fangs carry \
@@ -282,7 +318,6 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_paralytic
-	move_base_delay = MOVEMENT_DELAY_SPD_17
 
 /datum/intent/simple/bite/mirespider_paralytic
 	clickcd = ARAGN_ATTACK_SPEED

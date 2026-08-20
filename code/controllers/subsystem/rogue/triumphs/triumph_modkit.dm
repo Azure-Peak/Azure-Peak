@@ -113,11 +113,10 @@
 
 /obj/item/enchantingkit/triumph_weaponkit_whip
 	name = "'Alloytip' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Whip, a Bronze whip, a Silver Whip, or a Blacksteel Whip."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Bronze Whip, a Whip, or a Silver Whip."
 	target_items = list(
 		/obj/item/rogueweapon/whip/silver				= /obj/item/rogueweapon/whip/silver/triumph,
 		/obj/item/rogueweapon/whip/bronze				= /obj/item/rogueweapon/whip/bronze/triumph,
-		/obj/item/rogueweapon/whip/blacksteel			= /obj/item/rogueweapon/whip/blacksteel/triumph,
 		/obj/item/rogueweapon/whip						= /obj/item/rogueweapon/whip/triumph
 		)
 	result_item = null
@@ -800,11 +799,6 @@
 	name = "silver-tipped whip"
 	desc = "'What is a man, but a miserable pile of secrets? But enough talk - have at you!'"
 	icon_state = "whip_steel"
-
-/obj/item/rogueweapon/whip/blacksteel/triumph
-	name = "blacksteel-tipped whip"
-	desc = "'Dance with me, my friend. Hear how the crowd adores you!'"
-	icon_state = "whip_blacksteel"
 
 /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 	name = "valorian axe"

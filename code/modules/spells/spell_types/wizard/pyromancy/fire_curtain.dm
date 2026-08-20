@@ -62,7 +62,7 @@
 	var/list/affected_turfs = get_curtain_turfs(center, H.dir)
 
 	for(var/turf/T in affected_turfs)
-		new /obj/effect/temp_visual/telegraph/wall/fire(T)
+		new /obj/effect/temp_visual/trap_wall/fire(T)
 
 	H.visible_message(span_danger("[H] conjures a wall of flame!"))
 	playsound(get_turf(H), 'sound/magic/charging_fire.ogg', 60, TRUE)
@@ -112,7 +112,8 @@
 		new /obj/effect/curtain_fire(T, curtain_life, caster, aim_zone)
 	playsound(turfs[1], pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 120, TRUE, 6)
 
-/obj/effect/temp_visual/telegraph/wall/fire
+/obj/effect/temp_visual/trap_wall/fire
+	color = GLOW_COLOR_FIRE
 	light_color = GLOW_COLOR_FIRE
 	duration = 3 SECONDS
 

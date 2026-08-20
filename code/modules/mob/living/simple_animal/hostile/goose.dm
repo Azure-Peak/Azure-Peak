@@ -18,6 +18,7 @@
 	response_harm_simple = "kick"
 	emote_taunt = list("hisses")
 	taunt_chance = 30
+	speed = 0
 	maxHealth = 25
 	health = 25
 	harm_intent_damage = 5
@@ -190,7 +191,7 @@
 	button_icon = 'icons/mob/animal.dmi'
 	cooldown_time = 250
 
-/datum/action/cooldown/vomit/Trigger(trigger_flags, atom/target)
+/datum/action/cooldown/vomit/Trigger()
 	if(!..())
 		return FALSE
 	if(!istype(owner, /mob/living/simple_animal/hostile/retaliate/goose/vomit))

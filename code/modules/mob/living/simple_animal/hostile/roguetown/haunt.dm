@@ -19,6 +19,7 @@
 	health = HAUNT_HEALTH
 	stat_attack = UNCONSCIOUS
 	robust_searching = 1
+	speed = 1
 	move_to_delay = 5 //delay for the automated movement.
 	harm_intent_damage = 1
 	obj_damage = 1
@@ -37,6 +38,8 @@
 	minbodytemp = 0
 	faction = list(FACTION_UNDEAD)
 	footstep_type = null
+	defprob = 50 //decently skilled
+	canparry = TRUE
 	retreat_health = null
 	var/obj/structure/bonepile/slavepile
 
@@ -44,7 +47,6 @@
 	can_have_ai = FALSE //disable native ai
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/haunt
-	move_base_delay = MOVEMENT_DELAY_SPD_10
 
 /mob/living/simple_animal/hostile/rogue/haunt/electrocute_act(shock_damage, source, siemens_coeff = 1, flags = NONE)
 	return FALSE

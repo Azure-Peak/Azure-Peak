@@ -1,6 +1,7 @@
 #define BB_RAT_SUMMON_READY "rat_summon_ready"
 
 /datum/ai_controller/rat/undead
+	movement_delay = RAT_UNDEAD_MOVEMENT_SPEED
 	ai_movement = /datum/ai_movement/hybrid_pathing
 	idle_behavior = /datum/idle_behavior/idle_random_walk
 

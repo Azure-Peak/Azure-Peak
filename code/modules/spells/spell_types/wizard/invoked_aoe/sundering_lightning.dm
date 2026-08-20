@@ -44,7 +44,7 @@
 		if(dist > last_dist)
 			last_dist = dist
 			sleep(2 + min(range - last_dist, 12) * 0.5) //gets faster
-		new /obj/effect/temp_visual/telegraph/targetlightning(T)
+		new /obj/effect/temp_visual/targetlightning(T)
 		addtimer(CALLBACK(src, PROC_REF(lightning_strike), T), 15)
 
 /obj/effect/proc_holder/spell/invoked/sundering_lightning/proc/lightning_strike(turf/T)
@@ -73,7 +73,10 @@
 /obj/effect/temp_visual/lightning/Initialize(mapload)
 	. = ..()
 
-/obj/effect/temp_visual/telegraph/targetlightning
-	light_color = GLOW_COLOR_LIGHTNING
+/obj/effect/temp_visual/targetlightning
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "trap"
+	layer = BELOW_MOB_LAYER
+	plane = GAME_PLANE
 	light_outer_range = 2
 	duration = 15

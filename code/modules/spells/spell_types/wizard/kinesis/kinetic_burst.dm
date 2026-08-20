@@ -24,14 +24,15 @@
 	damage = 60
 	strike_damage_type = BRUTE
 	blade_class = BCLASS_BLUNT
+	npc_simple_damage_mult = 1.5
 	committed_strike = TRUE
 	interruptible = FALSE
 	lock_direction = FALSE
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charging_slowdown = CHARGING_SLOWDOWN_SMALL
 	windup_time = 2 SECONDS
 	sweep_step = 0
 	vuln_on_hit = 2 SECONDS
-	telegraph_type = /obj/effect/temp_visual/telegraph/kinesis
+	telegraph_type = /obj/effect/temp_visual/trap/kinesis
 	strike_sound = 'sound/magic/repulse.ogg'
 	detonate_sound = 'sound/magic/gravity.ogg'
 
@@ -65,11 +66,12 @@
 		return
 	L.safe_throw_at(get_ranged_target_turf(L, push_dir, push_dist), push_dist, 2, H, force = MOVE_FORCE_STRONG)
 
-/obj/effect/temp_visual/telegraph/kinesis
+/obj/effect/temp_visual/trap/kinesis
+	color = GLOW_COLOR_KINESIS
 	light_color = GLOW_COLOR_KINESIS
 	duration = 3 SECONDS
 
-/obj/effect/temp_visual/telegraph/kinesis/Initialize(mapload, custom_duration)
+/obj/effect/temp_visual/trap/kinesis/Initialize(mapload)
 	. = ..()
 	var/target_alpha = alpha
 	alpha = 0
