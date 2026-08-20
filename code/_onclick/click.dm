@@ -890,7 +890,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 		user.client.open_listed_turf(T)
 
 /mob/proc/CtrlRightClickOn(atom/A, params)
-	pointed(A)
+	linepoint(A)
 
 /*
 	Misc helpers

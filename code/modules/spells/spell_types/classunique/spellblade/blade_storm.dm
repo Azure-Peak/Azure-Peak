@@ -98,9 +98,9 @@
 	log_combat(H, cast_on, "used Blade Storm on", zone=H.zone_selected)
 
 	var/list/ring_turfs = get_hollow_ring(center)
-	new /obj/effect/temp_visual/blade_storm_telegraph/warning(center, telegraph_delay)
+	new /obj/effect/temp_visual/telegraph/blade_storm/fadein(center, telegraph_delay)
 	for(var/turf/T in ring_turfs)
-		new /obj/effect/temp_visual/blade_storm_telegraph/warning(T, telegraph_delay)
+		new /obj/effect/temp_visual/telegraph/blade_storm/fadein(T, telegraph_delay)
 	playsound(center, 'sound/magic/charging.ogg', 60, TRUE)
 
 	addtimer(CALLBACK(src, PROC_REF(execute_storm), H, held_weapon, center, ring_turfs, cached_aoe_cuts, aoe_damage, cached_p_cuts, personal_damage, cached_locked_zone), telegraph_delay)
@@ -185,21 +185,12 @@
 				ring += T
 	return ring
 
-/obj/effect/temp_visual/blade_storm_telegraph
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "trap"
+/obj/effect/temp_visual/telegraph/blade_storm
 	light_outer_range = 1
 	duration = 8
-	layer = MASSIVE_OBJ_LAYER
 
-/obj/effect/temp_visual/blade_storm_telegraph/warning
-	alpha = 0
-
-/obj/effect/temp_visual/blade_storm_telegraph/warning/Initialize(mapload, fade_in_time)
-	if(fade_in_time)
-		duration = fade_in_time
-	. = ..()
-	animate(src, alpha = 255, time = duration)
+/obj/effect/temp_visual/telegraph/blade_storm/fadein
+	fade_in = TRUE
 
 /obj/effect/melee_swing
 	name = "arcyne slash"

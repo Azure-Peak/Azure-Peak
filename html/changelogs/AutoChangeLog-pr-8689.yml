@@ -1,0 +1,5 @@
+author: "zeskorion"
+delete-after: True
+changes:
+  - bugfix: "wrenches with charges can now attack objects"
+  - qol: "battle-wrenches default to STRIKE instead of USE"

@@ -1,0 +1,5 @@
+author: "RosySaturniidae"
+delete-after: True
+changes:
+  - bugfix: "the alloy-tipped triumph kit now has a blacksteel variant instead of downgrading your 140 mammon whip"
+  - rscadd: "new dono ckey"

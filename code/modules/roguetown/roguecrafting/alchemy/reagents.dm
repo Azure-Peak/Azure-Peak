@@ -213,6 +213,9 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/strong_antidote)
 
 /datum/reagent/medicine/antidote/on_mob_life(mob/living/carbon/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.cure_deadite_rot()
 	if(volume > 0.99)
 		M.adjustToxLoss(-4, 0)
 	for(var/datum/reagent/R in M.reagents.reagent_list)
@@ -234,6 +237,9 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/antidote)
 
 /datum/reagent/medicine/strong_antidote/on_mob_life(mob/living/carbon/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.cure_deadite_rot()
 	if(volume > 0.99)
 		M.adjustToxLoss(-12, 0)
 	for(var/datum/reagent/R in M.reagents.reagent_list)

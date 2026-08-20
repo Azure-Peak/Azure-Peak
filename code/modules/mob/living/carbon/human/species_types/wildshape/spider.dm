@@ -114,7 +114,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "bites the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "stab"
 
 /obj/item/rogueweapon/spider_fang
