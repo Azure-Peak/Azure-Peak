@@ -136,7 +136,7 @@
 #define FOUNTAIN_PEN_FONT "Segoe Script"
 #define CRAYON_FONT "Comic Sans MS"
 #define PRINTER_FONT "Times New Roman"
-#define SIGNFONT "Times New Roman"
+#define SIGNFONT "Vladimir Script, Gabriola"
 
 #define RESIZE_DEFAULT_SIZE 1
 

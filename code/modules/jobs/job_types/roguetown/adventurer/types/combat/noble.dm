@@ -72,7 +72,7 @@
 					pants = /obj/item/clothing/under/roguetown/trou/beltpants
 					shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 				if(should_wear_femme_clothes(H))
-					shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/azure
+					shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/azure
 					shoes = /obj/item/clothing/shoes/roguetown/boots
 				cloak = /obj/item/clothing/cloak/half/azure
 				head = /obj/item/clothing/head/roguetown/chaperon/noble
@@ -154,7 +154,7 @@
 				if(should_wear_masc_clothes(H))
 					armor = /obj/item/clothing/cloak/tabard/stabard/dungeon
 				if(should_wear_femme_clothes(H))
-					armor = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/raneshen
+					armor = /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/raneshen
 				shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/raneshen //Shittier version with regular gambeson protection levels
 				pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen

@@ -990,12 +990,12 @@ LICH SKELETONS
 	color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/tabard/toga/lich
-	name = "decrepit toga"
+	name = "decrepit traditional tabard"
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason."
 	color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/tabard/toga/lich/alt
-	name = "opened decrepit toga"
+	name = "decrepit bared tabard"
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason, parted to reveal what remains beneath its cloth."
 	body_parts_covered = GROIN
 	icon_state = "whitepsydontabardalt"
@@ -1006,7 +1006,7 @@ LICH SKELETONS
 /obj/item/clothing/cloak/tabard/toga/lich/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
-			name = "opened decrepit toga"
+			name = "decrepit traditional tabard"
 			desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason, parted to reveal what remains beneath its cloth."
 			body_parts_covered = GROIN
 			icon_state = "whitepsydontabardalt"
@@ -1015,11 +1015,11 @@ LICH SKELETONS
 			flags_inv = HIDECROTCH // BARE YOUR CHEST, NOT YOUR WEEN! Not urm, you have one, you're a fucking skeleton sire.
 			to_chat(usr, span_warning("You pull back the roughspun fabric, baring what remains to Psydonia's eyes."))
 		if(TRUE)
-			name = "decrepit toga"
+			name = "decrepit bared tabard"
 			desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason.."
 			body_parts_covered = CHEST|GROIN
 			icon_state = "whitepsydontabard"
-			item_state = "whitekpsydontabard"
+			item_state = "whitepsydontabard"
 			flags_inv = HIDECROTCH|HIDEBOOB
 			open_wear = FALSE
 			to_chat(usr, span_warning("You cloak yourself in the roughspun fabric, veiling what remains from Psydonia's eyes."))

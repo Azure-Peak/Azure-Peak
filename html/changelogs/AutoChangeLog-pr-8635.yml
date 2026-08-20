@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Surgical tools are now considered tools, not weapons, for the purposes of the weaponless and tinypaws traits"

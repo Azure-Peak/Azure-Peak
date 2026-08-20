@@ -279,7 +279,7 @@
 		if(do_parry(used_weapon, drained, user, untrained_armor)) //show message
 			//only gain experience if attacker and defender aren't using non-combat skills for their weapons
 			if(ispath(attacker_skill_type, /datum/skill/combat) && ispath(used_weapon.associated_skill, /datum/skill/combat))
-				if ((mobility_flags & MOBILITY_STAND))
+				if ((mobility_flags & MOBILITY_STAND) && !isanimal(U))
 					var/skill_target = attacker_skill
 					if(!HAS_TRAIT(U, TRAIT_GOODTRAINER))
 						skill_target -= SKILL_LEVEL_NOVICE
@@ -289,7 +289,7 @@
 						mind.add_sleep_experience(used_weapon.associated_skill, max(round(STAINT*exp_multi), 0), FALSE)
 
 				//attacker skill gain
-				if(U.mind)
+				if(U.mind && !isanimal(U))
 					if ((mobility_flags & MOBILITY_STAND))
 						var/skill_target = defender_skill
 						if(!HAS_TRAIT(src, TRAIT_GOODTRAINER))
@@ -360,7 +360,7 @@
 		if(do_unarmed_parry(drained, user, untrained_armor))
 			//only gain experience if attacker isn't using a non-combat skill for their weapon
 			if(ispath(attacker_skill_type, /datum/skill/combat))
-				if((mobility_flags & MOBILITY_STAND))
+				if((mobility_flags & MOBILITY_STAND) && !isanimal(U))
 					var/skill_target = attacker_skill
 					if(!HAS_TRAIT(U, TRAIT_GOODTRAINER))
 						skill_target -= SKILL_LEVEL_NOVICE
@@ -416,12 +416,6 @@
 				if(prob(7 + (L.STALUC - 10)))
 					L.sate_addiction(/datum/charflaw/addiction/clamorous)
 
-			if(!iscarbon(user))	//Non-carbon mobs never make it to the proper parry proc where the other calculations are done.
-				if(W.max_blade_int)
-					W.remove_bintegrity(SHARPNESS_ONHIT_DECAY, user)
-					W.take_damage(INTEG_PARRY_DECAY, BRUTE, "slash")
-				else
-					W.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE, "slash")
 			return TRUE
 		else
 			to_chat(src, span_warning("I'm too tired to parry!"))

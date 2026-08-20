@@ -418,11 +418,6 @@
 	desc = span_red("Where is their head? What is that flame?!")
 	timer = 5 MINUTES
 
-/datum/stressevent/targeted // When a targeted character sees someone in a mask
-	timer = 2 MINUTES
-	stressadd = 3
-	desc = span_boldred("I can't see their face! Have they found me? Is this the end?")
-
 /datum/stressevent/profane // When a non-assassin touches a profane dagger
 	timer = 3 MINUTES
 	stressadd = 4

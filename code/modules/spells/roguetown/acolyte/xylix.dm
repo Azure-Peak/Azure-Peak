@@ -68,7 +68,6 @@
 	health = 20
 	canparry = TRUE
 	d_intent = INTENT_PARRY
-	defprob = 50
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = TRUE
 	loot = list(/obj/item/bomb/smoke/decoy)

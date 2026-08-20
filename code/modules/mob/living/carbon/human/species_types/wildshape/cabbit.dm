@@ -103,7 +103,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "slash"
 
 /obj/item/rogueweapon/cabbit_claw

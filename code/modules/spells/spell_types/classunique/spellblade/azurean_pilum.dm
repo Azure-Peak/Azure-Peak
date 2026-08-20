@@ -83,7 +83,6 @@
 	woundclass = BCLASS_STAB
 	nodamage = FALSE
 	speed = 1.5
-	npc_simple_damage_mult = 1.5
 	hitsound = 'sound/combat/hits/bladed/genthrust (1).ogg'
 	/// How many frost stacks to apply on hit
 	var/frost_stacks = 1
