@@ -1255,3 +1255,12 @@
 		/obj/item/clothing/suit/roguetown/armor/chainmail					= /obj/item/clothing/suit/roguetown/armor/chainmail/woodland/plackart
 	)
 	result_item = null
+
+/obj/item/enchantingkit/weapon/moonlightdussack
+	name = "'Moonlight Dussack' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a saber, or a shortsword"
+	target_items = list(
+		/obj/item/rogueweapon/sword/short,
+		/obj/item/rogueweapon/sword/sabre
+	)
+	result_item = /obj/item/rogueweapon/example/dussack/moonlight

@@ -1279,7 +1279,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_width = 32
 	grid_height = 64
-	possible_item_intents = list(/datum/intent/use, /datum/intent/mace/strike, /datum/intent/mace/strike/dislocate)
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate)
 	force = 20
 	max_integrity = 200
 	dropshrink = 0.8
@@ -1308,7 +1308,7 @@
 	force = 13
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged)
-	gripped_intents = list(/datum/intent/use, /datum/intent/mace/strike, /datum/intent/mace/strike/dislocate, /datum/intent/mace/lesserdemolish)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/lesserdemolish)
 	minstr = 8
 	max_integrity = 350
 	w_class = WEIGHT_CLASS_BULKY

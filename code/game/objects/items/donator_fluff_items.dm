@@ -84,6 +84,7 @@
 	icon = 'icons/obj/items/donor_objects.dmi'
 	icon_state = "azurosa_petal"
 	tastes = list("pleasantly mild sweetness" = 1)
+	seed = /obj/item/herbseed/rosa/azure
 	bitesize = 1
 	list_reagents = list(/datum/reagent/consumable/nutriment = 3, /datum/reagent/medicine/antidote = 2)
 	rotprocess = null
@@ -96,6 +97,7 @@
 	served to visiting diplomats and to those who're recovering from both injury-and-malaise alike."
 	icon = 'icons/obj/items/donor_objects.dmi'
 	icon_state = "azurosa_petal_dry"
+	seed = /obj/item/herbseed/rosa/azure
 	tastes = list("pleasantly mild sweetness" = 1)
 	bitesize = 1
 	list_reagents = list(/datum/reagent/consumable/nutriment = 3, /datum/reagent/medicine/antidote = 2)
@@ -2354,6 +2356,20 @@ As Excaliber."
 	righthand_file = 'icons/mob/inhands/weapons/rogue_righthand.dmi'
 	item_state = "night_cloak"
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_BACK_L
+
+/obj/item/rogueweapon/example/dussack/moonlight
+	name = "Moonlight Dussack"
+	desc = "A curved blade with a sharpened short-edge on the back. Originating in Grenzelhoft, dussack mostly refers to a training item for fechters, however \
+	sometimes seen are steel blades like these with a rounded-tip, a strong cutting weapon that permits some thrusting, not too dissimilar to the Aavnic's szabla sabres or the messer. This one is made of a unique alloy it seems, bearing hints of blue. \
+	Arcyne energy seems to travel through it quite a bit easier."
+	icon_state = "kadedussack"
+	sheathe_icon = "kadedussack"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	grid_height = 64
+	grid_width = 64
 
 // MORTOSASYE
 /obj/item/rogueweapon/woodstaff/implement/grand/morto
