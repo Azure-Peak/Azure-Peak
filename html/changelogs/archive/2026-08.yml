@@ -876,3 +876,32 @@
   - rscdel: Removed chocolate halves we just quarter now
   zeskorion:
   - balance: nerfs bogbark club and battle-wrench demolition intent
+2026-08-20:
+  KatTheFox:
+  - rscdel: Removed vampire maidtosis.
+  Lamasmaster:
+  - bugfix: Economic Roleplay Action related to crashing the market with no survivors.
+  Ollanius:
+  - rscdel: Unnecessary color-picking code for Woodland Brigandine sets.
+  - rscdel: Shelves now-unused classic variant of the Woodland Brigandine.
+  - bugfix: Restores the original Shawl for the loadout and sewing recipes. Hijab-styled
+      shawls are now listed via '/shawlhood'.
+  - bugfix: Woodland Mantles and Brigandines now properly render their on-item detail
+      shades when spawned in.
+  - rscadd: Plackarted variants of Woodland Brigandine, and a new CKEY to their kit
+      access.
+  - rscadd: Updated sprites for the Woodland Mantle.
+  YakumoChen:
+  - balance: Murklings don't drown, since they're essentially sentient bog ooze anyway.
+  nauticall:
+  - bugfix: HERMES direct send (via the TGUI window you get when you put money into
+      the thing) now takes paper formatting the same way a normal bit of parchment
+      via the quill does. No more basic HTML filled with `##`, now your HERMES messages
+      look just like the real deal.
+  - qol: Swapped the parchment background to something cleaner to make the paper stuff
+      more readable, and altered the signature font to look more signature-y (done
+      via HTML fallback so it won't glitch out on some PCs).
+  racobio:
+  - rscadd: Adds a recipe to craft the thin winter dress
+  - bugfix: fixes an arcyne ward interaction with the thin winter dress by repathing
+      it
