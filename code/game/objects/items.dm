@@ -296,6 +296,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
+	var/repair_busy = FALSE
+	var/repair_method = REPAIR_METHOD_EXPEDIENT
 
 /obj/item/Initialize(mapload)
 	. = ..()
@@ -726,7 +728,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/eff_currint = max(obj_integrity - (max_integrity * integrity_failure), 0)
 			var/ratio =	(eff_currint / eff_maxint)
 			var/percent = round((ratio * 100), 1)
-			inspec += "[percent]% ([floor(eff_currint)])"
+			var/integ_total = get_true_max_integ()
+			var/show_total
+			var/bad_integ_symbol
+			if((floor(integ_total) - floor(max_integrity)) >= 5 && istype(src, /obj/item/clothing))
+				show_total = TRUE
+				bad_integ_symbol = icon2html('icons/misc/repair_icons.dmi', world, "lost_maxinteg")
+			inspec += "[percent]% ([show_total ? "<font_color = '#b3b46c'>" : ""][floor(eff_currint)][show_total ? "</font>" : ""]) [show_total ? "[SPAN_TOOLTIP("This item is not in the best shape it could be. Expert-skill repairs, a gear repair kit or the Ameliorate found in town can repair its integrity fully.", "<font size = 2>[bad_integ_symbol]</font>")]" : ""]"
 			if(force >= 5) // Durability is rather obvious for non-weapons
 				inspec += " <span class='info'><a href='?src=[REF(src)];explaindurability=1'>{?}</a></span>"
 		if(istype(src, /obj/item/clothing))	//awful
@@ -854,6 +862,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	for(var/obj/structure/table/T in loc)
 		return TRUE
 	for(var/obj/machinery/anvil/A in loc)
+		return TRUE
+	for(var/obj/structure/flora/roguetree/stump)
 		return TRUE
 	return FALSE
 
@@ -1972,3 +1982,442 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/remove_floating() // needed for timers
 	item_flags &= ~FLOATING_ITEM
+
+/obj/item/proc/repair_effect_check(mob/living/user)
+	if(!user || !Adjacent(user))
+		return FALSE
+	return TRUE
+
+/// This is a hodged-butt proc that tries to make an effect sync up with a particular frame of sfx for best effect.
+/// Byond does not have an animation controller for keyframes calling procs or scripts, so, we do it by hand.
+/// This is entirely for a more satisfying feel of the animations and should be sacrificed for performance if it comes down to it.
+/obj/item/proc/perform_repair_effect(mob/living/user, stage, repair_type)
+	if(!user || !stage || !repair_type)
+		CRASH("[src] called perform_repair_effect without a valid stage, repair_type or user")
+	if(!repair_effect_check(user))
+		return
+	switch(repair_type)
+		if(REPAIR_TYPE_SEW)
+			switch(stage)
+				if(REPAIR_STAGE_ONE)
+					play_repair_vfx("sewrepair_1", 0.7 SECONDS)
+					addtimer(CALLBACK(src, PROC_REF(play_repair_sfx), stage, repair_type), 0.2 SECONDS)
+				if(REPAIR_STAGE_TWO)
+					play_repair_vfx("sewrepair_2", 0.7 SECONDS)
+					addtimer(CALLBACK(src, PROC_REF(play_repair_sfx), stage, repair_type), 0.2 SECONDS)
+				if(REPAIR_STAGE_THREE)
+					play_repair_vfx("sewrepair_3", 0.7 SECONDS)
+					addtimer(CALLBACK(src, PROC_REF(play_repair_sfx), stage, repair_type), 0.2 SECONDS)
+
+		if(REPAIR_TYPE_HAMMER)
+			switch(stage)
+				if(REPAIR_STAGE_ONE)
+					play_repair_vfx("hamrepair_1", 0.9 SECONDS)
+					addtimer(CALLBACK(src, PROC_REF(play_repair_sfx), stage, repair_type), 0.5 SECONDS)
+				if(REPAIR_STAGE_TWO)
+					play_repair_vfx("hamrepair_2", 0.8 SECONDS)
+					addtimer(CALLBACK(src, PROC_REF(play_repair_sfx), stage, repair_type), 0.4 SECONDS)
+				if(REPAIR_STAGE_THREE)
+					playsound(src, 'sound/repair/hammer_windup.ogg', 100, TRUE)
+					play_repair_vfx("hamrepair_3", 0.8 SECONDS)
+					addtimer(CALLBACK(src, PROC_REF(play_repair_sfx), stage, repair_type), 0.3 SECONDS)
+	if(stage == REPAIR_STAGE_FINAL)
+		play_repair_vfx("repair_perfect", 0.8 SECONDS)
+		play_repair_sfx(stage)
+
+	if(stage == REPAIR_STAGE_DING)
+		play_repair_vfx("repair_bling", 0.8 SECONDS)
+		play_repair_sfx(stage)
+
+	if(stage == REPAIR_STAGE_INTEGLOSS)
+		play_repair_vfx("integloss[prob(50) ? "_2" : ""]", 0.6 SECONDS)
+		play_repair_sfx(REPAIR_STAGE_INTEGLOSS, repair_type)
+
+/obj/item/proc/play_repair_sfx(stage, repair_type)
+	var/sfx_to_play
+	switch(repair_type)
+		if(REPAIR_TYPE_SEW)
+			switch(stage)
+				if(REPAIR_STAGE_ONE)
+					sfx_to_play = 'sound/repair/sew_repair_novice.ogg'
+				if(REPAIR_STAGE_TWO)
+					sfx_to_play = 'sound/repair/sew_repair_apprentice.ogg'
+				if(REPAIR_STAGE_THREE)
+					sfx_to_play = 'sound/repair/sew_repair_expert.ogg'
+				if(REPAIR_STAGE_INTEGLOSS)
+					sfx_to_play = pick('sound/repair/leather_integloss_1.ogg', 'sound/repair/leather_integloss_2.ogg', 'sound/repair/leather_integloss_3.ogg')
+		if(REPAIR_TYPE_HAMMER)
+			switch(stage)
+				if(REPAIR_STAGE_ONE)
+					sfx_to_play = 'sound/repair/hammer_novice_1.ogg'
+				if(REPAIR_STAGE_TWO)
+					sfx_to_play = 'sound/repair/hammer_apprentice_1.ogg'
+				if(REPAIR_STAGE_THREE)
+					sfx_to_play = 'sound/repair/hammer_expert_1.ogg'
+				if(REPAIR_STAGE_INTEGLOSS)
+					sfx_to_play = pick('sound/repair/metal_integloss_1.ogg', 'sound/repair/metal_integloss_1.ogg')
+	if(stage == REPAIR_STAGE_FINAL || stage == REPAIR_STAGE_DING)
+		sfx_to_play = pick('sound/repair/repair_perfect_1.ogg', 'sound/repair/repair_perfect_2.ogg', 'sound/repair/repair_perfect_3.ogg')
+	if(sfx_to_play)
+		playsound(src, sfx_to_play, 100, TRUE)
+
+/obj/item/proc/play_repair_vfx(istate, timer, customcolor)
+	if(istate && timer)
+		new /obj/effect/temp_visual/repair_fx(get_turf(src), timer, istate, customcolor)
+
+/obj/item/proc/do_special_repair(obj/item/attacked_item, mob/living/user, repair_type)
+
+	if(repair_type == REPAIR_TYPE_SEW)
+		if(!attacked_item.sewrepair)
+			return
+
+	if(repair_type == REPAIR_TYPE_HAMMER)
+		if(!attacked_item.anvilrepair)
+			return
+
+	if(obj_broken)
+		return
+
+	if((attacked_item.obj_integrity >= attacked_item.max_integrity) || !isturf(attacked_item.loc))
+		return
+
+	if(!attacked_item.ontable())
+		to_chat(user, span_warning("I should put this on a table first."))
+		return
+
+	if(repair_busy)
+		return
+
+	// We've been in combat in the last minute, no repairs yet, please.
+	if((user.in_combat_until + 10 SECONDS)> world.time)
+		to_chat(user, span_warning("I am still too tense from my recent fight. ([round((user.in_combat_until + 10 SECONDS - world.time) / 10)] seconds left)"))
+		return
+
+	var/reason_for_kept_integ = "The integrity was preserved. Reasons why: "
+
+	repair_busy = TRUE
+	var/user_skill
+	if(repair_type == REPAIR_TYPE_SEW)
+		user_skill = user.get_skill_level(/datum/skill/craft/sewing)
+	else if(repair_type == REPAIR_TYPE_HAMMER && attacked_item.anvilrepair)
+		user_skill = user.get_skill_level(attacked_item.anvilrepair)
+
+	// Considering how weapons are balanced around their parry counts via integrity / sharpness and have their own
+	// Attrition already, it's probably for the best to exclude them from repair costs.
+	var/integ_decay = 0
+	if(istype(attacked_item, /obj/item/clothing))
+		integ_decay = (attacked_item.max_integrity * 0.02) // 2% of the integ, or 6 of 300 integ. Was a flat 5 for metal and 2 for leather before.
+
+	var/scaling_override = (HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE))
+
+	if(scaling_override)
+		if(integ_decay)
+			if(repair_type == REPAIR_TYPE_SEW && integ_decay > 2)
+				integ_decay = 2
+			else if(repair_type == REPAIR_TYPE_HAMMER && integ_decay > 5)
+				integ_decay = 5
+
+	var/stage_count = min(user_skill, 4)
+	var/repair_percent = 0.2	// Default value without skill. 20% of max integ, up to 60 flat.
+
+	var/repair_delay = 3 SECONDS - (user_skill * (1 SECONDS / 6))
+
+	user.visible_message(span_notice("[user] is preparing to repair [attacked_item]..."), span_notice("I am preparing to repair [attacked_item], I should remain still."))
+	if(!do_after(user, repair_delay, TRUE, same_direction = TRUE, allow_movement = FALSE))
+		repair_busy = FALSE
+		return
+
+	switch(stage_count)
+		if(REPAIR_STAGE_ONE)
+			repair_percent = 0.25
+		if(REPAIR_STAGE_TWO)
+			repair_percent = 0.34
+		if(REPAIR_STAGE_THREE)
+			repair_percent = 0.5
+		if(REPAIR_STAGE_FINAL)
+			repair_percent = 1
+		else
+			repair_percent = 0.2
+
+	// If our skill is Expert or above, we won't diminish our max integ.
+	// Otherwise, we'll need to get lucky or make use of other circumstances.
+	var/base_prob = ((user.STALUC - 10) * 10) + ((user.STAINT - 10) * 3) + (stage_count * 15)
+
+	/*// Small penalty if we're bumming our tools.
+	// Do note the Communal ones near the Ameliorate are not of these type and shouldn't be.
+	if(stage_count < REPAIR_STAGE_FINAL)
+		if(istype(src, /obj/item/needle/thorn) || istype(src, /obj/item/rogueweapon/hammer/stone))
+			base_prob -= 10
+	*/
+
+	base_prob = max(base_prob, 0)
+
+	var/keep_max_integ_chance = prob(base_prob)	// This will produce a 'Ding!', as we got lucky.
+	var/keep_max_integ_quiet = FALSE	// This will NOT produce any 'Ding!' sfx or vfx as it's a consistently reproducible circumstance.
+
+	if(attacked_item.polished == 4)
+		reason_for_kept_integ += "The polish kept it from decaying."
+		keep_max_integ_quiet = TRUE
+
+	if(scaling_override && stage_count < REPAIR_STAGE_THREE)
+		stage_count = REPAIR_STAGE_THREE
+
+	if(istype(attacked_item, /obj/item/clothing))
+		var/obj/item/clothing/C = attacked_item
+		if(repair_type == REPAIR_TYPE_SEW)
+			if(C.armor_class == ARMOR_CLASS_LIGHT && HAS_TRAIT(user, TRAIT_DODGEEXPERT))
+				reason_for_kept_integ += "I am familiar with this armor type enough to repair it properly."
+				keep_max_integ_quiet = TRUE
+
+		else if(repair_type == REPAIR_TYPE_HAMMER)
+			if(C.armor_class == ARMOR_CLASS_MEDIUM && HAS_TRAIT(user, TRAIT_MEDIUMARMOR))
+				reason_for_kept_integ += "I am familiar with this armor type enough to repair it properly."
+				keep_max_integ_quiet = TRUE
+			if(C.armor_class == ARMOR_CLASS_HEAVY && HAS_TRAIT(user, TRAIT_HEAVYARMOR))
+				reason_for_kept_integ += "I am familiar with this armor type enough to repair it properly."
+				keep_max_integ_quiet = TRUE
+
+	if(repair_type == REPAIR_TYPE_SEW)
+		// We keep our integ if we're repairing on a cool table regardless of tools.
+		if((locate(/obj/structure/table/wood/fancy) in attacked_item.loc) || (locate(/obj/structure/table/wood/folding) in attacked_item.loc))
+			reason_for_kept_integ += "The repair surface was favorable."
+			keep_max_integ_quiet = TRUE
+
+		// Ditto, but with a cool tool instead.
+		if(!keep_max_integ_quiet)
+			if(istype(src, /obj/item/needle/pestra))
+				reason_for_kept_integ += "The tool aided me."
+				keep_max_integ_quiet = TRUE
+
+	if(repair_type == REPAIR_TYPE_HAMMER)
+		// We keep our integ if we're repairing on an anvil regardless of tools.
+		if(locate(/obj/machinery/anvil) in attacked_item.loc)
+			reason_for_kept_integ += "The repair surface was favorable."
+			keep_max_integ_quiet = TRUE
+
+		// Cool tool
+		if(!keep_max_integ_quiet)
+			if(istype(src, /obj/item/rogueweapon/hammer/blacksteel))
+				reason_for_kept_integ += "The tool aided me."
+				keep_max_integ_quiet = TRUE
+
+	if(istype(attacked_item, /obj/item/rogueweapon))
+		keep_max_integ_quiet = TRUE
+
+	// For the OCD that like to keep their armor topped off.
+	if((attacked_item.obj_integrity / attacked_item.max_integrity) >= 0.9)
+		reason_for_kept_integ += "The damage was not severe enough."
+		keep_max_integ_quiet = TRUE
+
+	if(keep_max_integ_chance && !keep_max_integ_quiet)
+		reason_for_kept_integ += "I got lucky!"
+
+	// We're an Expert+ doing repairs, we'll do a blue ding anyway, we don't care about these anymore.
+	if(stage_count == REPAIR_STAGE_FINAL)
+		keep_max_integ_chance = FALSE
+		keep_max_integ_quiet = FALSE
+
+	// It's a fairly subtle difference but helps the syncing.
+	// The difference wasn't deliberate, but it's not unfitting that sewing takes less time.
+	var/root_mult
+	if(repair_type == REPAIR_TYPE_SEW)
+		root_mult = 0.7 SECONDS
+	else if(repair_type == REPAIR_TYPE_HAMMER)
+		root_mult = 0.8 SECONDS
+
+	var/repaired_integ
+	if(repair_percent)
+		repaired_integ = attacked_item.max_integrity * repair_percent
+		var/maxclamp
+		switch(stage_count)
+			if(0)
+				maxclamp = 60 // 20% of 300 integ
+			if(REPAIR_STAGE_ONE)
+				maxclamp = 75 // 25% of 300 integ
+			if(REPAIR_STAGE_TWO)
+				maxclamp = 100 // 33% of 300 integ
+			if(REPAIR_STAGE_THREE)
+				maxclamp = 200 // idk% of 300 integ
+			if(REPAIR_STAGE_FINAL)
+				maxclamp = 999
+		if(maxclamp)
+			repaired_integ = min(repaired_integ, maxclamp)
+
+	var/exp_gained
+	exp_gained = min(attacked_item.obj_integrity + repaired_integ, attacked_item.max_integrity) - attacked_item.obj_integrity
+
+	if(!keep_max_integ_chance && !keep_max_integ_quiet)
+		if(reason_for_kept_integ)
+			reason_for_kept_integ = null
+
+	var/root_time = root_mult * stage_count
+	user.Immobilize(root_time)
+	user.changeNext_move(root_time)
+	if(stage_count)
+		addtimer(CALLBACK(src, PROC_REF(finalize_repair), attacked_item, user, repair_type, stage_count, repaired_integ, (keep_max_integ_chance || keep_max_integ_quiet), integ_decay, reason_for_kept_integ), root_time )
+		for(var/i in 1 to stage_count)
+			if(!attacked_item.repair_effect_check(user)) // This is an adjacency check should the item get snagged during the animation.
+				break
+			if(i == 1)
+				attacked_item.perform_repair_effect(user, i, repair_type)
+			else
+				if(do_after(user, root_mult, TRUE, progress = FALSE, same_direction = FALSE))
+					attacked_item.perform_repair_effect(user, i, repair_type)
+				else
+					break
+	else
+		switch(repair_type)
+			if(REPAIR_TYPE_SEW)
+				playsound(get_turf(attacked_item), 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
+			if(REPAIR_TYPE_HAMMER)
+				playsound(get_turf(attacked_item), pick('sound/repair/hammer_noskill_1.ogg', 'sound/repair/hammer_noskill_2.ogg', 'sound/repair/hammer_noskill_3.ogg'), 100, TRUE)
+
+	// We're no longer adjacent after all the animations and such.
+	if(!attacked_item.repair_effect_check(user))
+		repair_busy = FALSE
+		return
+
+	// We spawn the bling if we keep max integ, for the dopamine.
+	if(stage_count < REPAIR_STAGE_FINAL)
+		if(keep_max_integ_chance && !keep_max_integ_quiet)
+			attacked_item.perform_repair_effect(user, REPAIR_STAGE_DING, repair_type)
+
+		else if(!keep_max_integ_chance && !keep_max_integ_quiet)
+			addtimer(CALLBACK(attacked_item, PROC_REF(perform_repair_effect), user, REPAIR_STAGE_INTEGLOSS, repair_type), 0.4 SECONDS)
+
+	if(stage_count < REPAIR_STAGE_ONE)
+		finalize_repair(attacked_item, user, repair_type, stage_count, repaired_integ, (keep_max_integ_chance || keep_max_integ_quiet), integ_decay, reason_for_kept_integ)
+
+	repair_busy = FALSE
+	if(exp_gained)	// This represents the amount of integrity we just repaired.
+		return exp_gained
+
+/obj/item/proc/finalize_repair(obj/item/attacked_item, mob/living/user, repair_type, repair_stage, repaired_integ, keep_integ, integ_decay, reason_for_kept_integ)
+	if(!attacked_item.repair_effect_check(user))
+		return
+
+	if(!keep_integ && repair_stage != REPAIR_STAGE_FINAL)
+		if(integ_decay)
+			attacked_item.max_integrity -= integ_decay
+
+	var/actual_integ = min(attacked_item.obj_integrity + repaired_integ, attacked_item.max_integrity) - attacked_item.obj_integrity
+	attacked_item.obj_integrity = min(attacked_item.obj_integrity + repaired_integ, attacked_item.max_integrity)
+
+	var/msg_to_all = span_info("[user] repairs [attacked_item]! [(!keep_integ && repair_stage != REPAIR_STAGE_FINAL) ? "It wears down a little bit." : (repair_stage == REPAIR_STAGE_FINAL) ? "It's done perfectly!" : "It's left the same."]")
+	var/msg_to_self = msg_to_all
+	var/integ_notif
+	if(keep_integ && reason_for_kept_integ)
+		integ_notif = icon2html('icons/misc/repair_icons.dmi', world, "safe_repair")
+		msg_to_self += SPAN_TOOLTIP("[reason_for_kept_integ]", "<font size = 1>[integ_notif]</font>")
+	user.visible_message(msg_to_all, msg_to_self)
+
+	if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
+		user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
+		attacked_item.repair_coverage()
+
+	if(attacked_item.obj_broken && attacked_item.obj_integrity == attacked_item.max_integrity)
+		attacked_item.obj_fix()
+
+	if(repair_stage == REPAIR_STAGE_FINAL && !attacked_item.GetComponent(/datum/component/fit_clothing))
+		attacked_item.perform_repair_effect(user, REPAIR_STAGE_FINAL, REPAIR_TYPE_SEW)
+		attacked_item.restore_max_integ()
+
+	var/xp_skill
+	switch(repair_type)
+		if(REPAIR_TYPE_SEW)
+			xp_skill = /datum/skill/craft/sewing
+		if(REPAIR_TYPE_HAMMER)
+			xp_skill = attacked_item.anvilrepair
+	user.mind.add_sleep_experience(xp_skill, actual_integ/2) //We gain as much exp as we fix divided by 2
+
+/obj/item/proc/restore_max_integ(fully_restore = TRUE)
+	max_integrity = initial(max_integrity)
+
+	if(max_integrity && integrity_failure && integrity_failure == ARMOR_INTEG_FAILURE)
+		max_integrity += (max_integrity * GEAR_INTEG_CONSTANT)
+
+	if(fully_restore)
+		obj_integrity = max_integrity
+
+/obj/item/proc/do_safe_repair(obj/item/attacked_item, mob/living/user, repair_type)
+	if(repair_type == REPAIR_TYPE_SEW)
+		if(!attacked_item.sewrepair)
+			return
+
+	if(repair_type == REPAIR_TYPE_HAMMER)
+		if(!attacked_item.anvilrepair)
+			return
+
+	if(obj_broken)
+		return
+
+	if((attacked_item.obj_integrity >= attacked_item.max_integrity) || !isturf(attacked_item.loc))
+		return
+
+	if(!attacked_item.ontable())
+		to_chat(user, span_warning("I should put this on a table first."))
+		return
+
+	if(repair_busy)
+		return
+
+	repair_busy = TRUE
+	var/user_skill
+	if(repair_type == REPAIR_TYPE_SEW)
+		user_skill = user.get_skill_level(/datum/skill/craft/sewing)
+	else if(repair_type == REPAIR_TYPE_HAMMER && attacked_item.anvilrepair)
+		user_skill = user.get_skill_level(attacked_item.anvilrepair)
+
+	if(!user_skill)
+		user_skill = 0.5
+
+	if(user_skill < SKILL_LEVEL_JOURNEYMAN)
+		if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR))
+			user_skill = 3
+
+	if(user_skill < SKILL_LEVEL_MASTER)
+		if(HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE))
+			user_skill = 5
+
+	var/xp_skill
+	switch(repair_type)
+		if(REPAIR_TYPE_SEW)
+			xp_skill = /datum/skill/craft/sewing
+		if(REPAIR_TYPE_HAMMER)
+			xp_skill = attacked_item.anvilrepair
+
+	var/cycle_count = (((attacked_item.max_integrity - attacked_item.obj_integrity) / user_skill) + 10) // + 10 so we'd do extra and make sure to trigger the check for it being actually fixed.
+	for(var/i in 1 to cycle_count)
+		if(!Adjacent(user) || !attacked_item.Adjacent(user))
+			break
+		if(do_after(user, 1.1 SECONDS, TRUE, same_direction = FALSE))
+			var/exp_gained = min(attacked_item.obj_integrity + user_skill, attacked_item.max_integrity) - attacked_item.obj_integrity
+
+			attacked_item.obj_integrity = min(attacked_item.obj_integrity + user_skill, attacked_item.max_integrity)
+			user.visible_message(span_info("[user] slowly and steadily repairs [attacked_item]..."))
+
+			user.mind.add_sleep_experience(xp_skill, exp_gained / 4) //We gain as much exp as we fix divided by 4
+
+			switch(repair_type)
+				if(REPAIR_TYPE_SEW)
+					playsound(get_turf(attacked_item), 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
+				if(REPAIR_TYPE_HAMMER)
+					playsound(get_turf(attacked_item), pick('sound/repair/hammer_repair_simple_1.ogg', 'sound/repair/hammer_repair_simple_2.ogg', 'sound/repair/hammer_repair_simple_3.ogg', 'sound/repair/hammer_repair_simple_4.ogg', 'sound/repair/hammer_repair_simple_5.ogg'), 100, TRUE)
+
+			if(attacked_item.obj_broken && attacked_item.obj_integrity == attacked_item.max_integrity)
+				attacked_item.obj_fix()
+				if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
+					user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
+					attacked_item.repair_coverage()
+				break
+			if(attacked_item.obj_integrity == attacked_item.max_integrity)
+				break
+		else
+			break
+	repair_busy = FALSE
+
+/obj/item/proc/get_true_max_integ()
+	if(max_integrity && integrity_failure && integrity_failure == ARMOR_INTEG_FAILURE)
+		return ((initial(max_integrity) * GEAR_INTEG_CONSTANT) + initial(max_integrity))
+	else
+		return max_integrity

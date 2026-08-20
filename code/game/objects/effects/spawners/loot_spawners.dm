@@ -463,6 +463,8 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/salami = 1,
 		/obj/item/reagent_containers/food/snacks/grown/apple/gold = 1,
 		/obj/item/heelkit = 1,
+		/obj/item/repair_kit = 1,
+		/obj/item/repair_kit/metal = 1,
 	)
 
 //x3 of the above

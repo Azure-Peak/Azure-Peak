@@ -49,7 +49,13 @@
 
 /obj/item/examine(mob/user)
 	. = ..()
-	. += integrity_check()
+
+	var/bad_integ_notif = ""
+	if(istype(src, /obj/item/clothing))
+		if((floor(get_true_max_integ()) - max_integrity) >= 5)
+			var/bad_integ_symbol = icon2html('icons/misc/repair_icons.dmi', world, "lost_maxinteg")
+			bad_integ_notif = SPAN_TOOLTIP("This item has lost some of its maximum integrity. Expert repairs, a repair kit or the Ameliorate found in town can restore it.", "<font size = 1>[bad_integ_symbol]</font>")
+	. += integrity_check() + bad_integ_notif
 
 	var/derived_cat = get_derived_category(type)
 	var/display_cat = derived_cat
@@ -151,6 +157,12 @@
 			result = span_warning("It's damaged.")
 		if(80 to 99)
 			result = span_warning("It's a little damaged.")
+
+	// Annoying, but currently only clothing is affected by any integrity maluses. TODO: repairability flags?
+	if(!istype(src, /obj/item/clothing) && (anvilrepair || sewrepair) && int_percent < 100)
+		var/safe_integ_symbol = icon2html('icons/misc/repair_icons.dmi', world, "safe_repair")
+		result += SPAN_TOOLTIP("This can be repaired safely without integrity losses.", "<font size = 1>[safe_integ_symbol]</font>")
+
 	return result
 
 /obj/item/clothing/integrity_check(elaborate = FALSE, guarded = FALSE)
@@ -166,16 +178,18 @@
 	var/percent = round((ratio * 100), 1)
 	var/result
 	if(percent < 100)
+		switch(percent)
+			if(1 to 15)
+				result = span_warning("It's nearly broken.")
+			if(16 to 30)
+				result = span_warning("It's severely damaged.")
+			if(31 to 80)
+				result = span_warning("It's damaged.")
+			if(80 to 99)
+				result = span_warning("It's a little damaged.")
 		if(elaborate)
-			return span_warning("([percent]%)")
-		else
-			switch(percent)
-				if(1 to 15)
-					result = span_warning("It's nearly broken.")
-				if(16 to 30)
-					result = span_warning("It's severely damaged.")
-				if(31 to 80)
-					result = span_warning("It's damaged.")
-				if(80 to 99)
-					result = span_warning("It's a little damaged.")
+			result = span_warning("([percent]%)")
+		if(percent >= 90)
+			var/safe_integ_symbol = icon2html('icons/misc/repair_icons.dmi', world, "safe_repair")
+			result += SPAN_TOOLTIP("This can be repaired safely without integrity losses.", "<font size = 1>[safe_integ_symbol]</font>")
 	return result

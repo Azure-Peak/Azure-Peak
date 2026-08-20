@@ -17,7 +17,7 @@
 		STATKEY_CON = -1
 	)
 	age_mod = /datum/class_age_mod/war_scholar
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "post_aspect_spells" = list(/datum/action/cooldown/spell/mindlink, /datum/action/cooldown/spell/mending), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "post_aspect_spells" = list(/datum/action/cooldown/spell/mindlink), "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
@@ -154,7 +154,6 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/storm_of_psydon())
 		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/blade_of_psydon())
-		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum)
@@ -296,7 +295,6 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/augment_buff/guidance)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/message)
 

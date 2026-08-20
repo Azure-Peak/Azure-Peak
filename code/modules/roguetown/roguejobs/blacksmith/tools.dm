@@ -17,11 +17,19 @@
 	grid_height = 64
 	var/quality = 1
 	is_tool = TRUE
-	var/repair_busy = FALSE
+
+/obj/item/rogueweapon/hammer/examine(mob/user)
+	. = ..()
+	if(repair_method == REPAIR_METHOD_EXPEDIENT)
+		. += span_notice("This hammer is set to repair quickly. Activate in-hand to change this.")
+	else if(repair_method == REPAIR_METHOD_SAFE)
+		. += span_notice("This hammer is set to repair slowly. Activate in-hand to change this.")
 
 /obj/item/rogueweapon/hammer/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click a damaged item made of metal - such as a weapon, armorpiece, or prosthetic - to repair it. Repairs work best when done on an anvil, but a regular old table can suffice in a pinch.")
+	. += span_info("Activate in-hand to switch between Expedient (Fast) and Safe (Slow) methods of repair.")
+	. += span_info("Even Expedient Repairs can be guaranteed to be safe if done on an anvil or the repairs are done to a piece of armor that is of the same Armor Class as the user's training.")
 	. += span_info("Left-click a damaged structure to repair it. Like with repairing items, the chance to successfully repair some integrity on each strike scales with the appropriate skill; the Carpentry skill for structures, Weaponsmithing for weapons, etcetera.")
 
 /obj/item/rogueweapon/hammer/getonmobprop(tag)
@@ -40,6 +48,17 @@
 		to_chat(user, span_warning("Your cursed hands burn at the touch of the hammer!"))
 		user.freak_out()
 		return
+	. = ..()
+
+/obj/item/rogueweapon/hammer/attack_self(mob/living/user)
+	if(!length(gripped_intents))
+		if(repair_method == REPAIR_METHOD_EXPEDIENT)
+			repair_method = REPAIR_METHOD_SAFE
+			to_chat(user, span_notice("You will now repair slowly and safely."))
+		else
+			repair_method = REPAIR_METHOD_EXPEDIENT
+			to_chat(user, span_notice("You will now repair with great speed, but risk damaging integrity slightly."))
+		user.playsound_local(get_turf(user), 'sound/misc/click.ogg', 100, TRUE)
 	. = ..()
 
 /obj/item/rogueweapon/hammer/attack_obj(obj/attacked_object, mob/living/user)
@@ -116,49 +135,18 @@
 		to_chat(user, span_warning("I should put this on a table or an anvil first."))
 		return
 
-	if(repair_busy)
-		return
-	repair_busy = TRUE
-
-	do
-		var/repair_percent = get_repair_percent(attacked_item)
-		if(user.get_skill_level(attacked_item.anvilrepair) <= 0)
-			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE))
-				if(locate(/obj/machinery/anvil) in attacked_item.loc)
-					repair_percent = 0.035
-				//Squires can repair on tables, but less efficiently
-				else if(attacked_item.ontable())
-					repair_percent = 0.015
-			else if(prob(30))
-				repair_percent = 0.01
-			else
-				repair_percent = 0
-		else
-			repair_percent *= user.get_skill_level(attacked_item.anvilrepair)
-
-		playsound(src,'sound/items/bsmithfail.ogg', 40, FALSE)
-		if(repair_percent)
-			repair_percent *= attacked_item.max_integrity
-			var/exp_gained = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity) - attacked_item.obj_integrity
-			attacked_item.obj_integrity = min(attacked_item.obj_integrity + repair_percent, attacked_item.max_integrity)
-			if(repair_percent == 0.01) // If an inexperienced repair attempt has been successful
-				to_chat(user, span_warning("You fumble your way into slightly repairing [attacked_item]."))
-			else
-				user.visible_message(span_info("[user] repairs [attacked_item]!"))
-				if(attacked_item.body_parts_covered != attacked_item.body_parts_covered_dynamic)
-					user.visible_message(span_info("[user] repairs [attacked_item]'s coverage!"))
-					attacked_item.repair_coverage()
-			if(attacked_item.obj_broken && attacked_item.obj_integrity == attacked_item.max_integrity)
-				attacked_item.obj_fix()
-			user.mind.add_sleep_experience(attacked_item.anvilrepair, exp_gained/2) //We gain as much exp as we fix divided by 2
-		else
-			user.visible_message(span_warning("[user] fumbles trying to repair [attacked_item]!"))
-
-		if(attacked_item.obj_integrity >= attacked_item.max_integrity)
-			break
-
-	while(do_after(user, CLICK_CD_FAST, target = attacked_item))
-	repair_busy = FALSE
+	if(repair_method == REPAIR_METHOD_EXPEDIENT)
+		var/repaired_integ = do_special_repair(attacked_item, user, REPAIR_TYPE_HAMMER)
+		if(repaired_integ)
+			var/integratio_before = obj_integrity / max_integrity
+			take_damage(floor(repaired_integ / 25), BRUTE)
+			var/integratio_after = obj_integrity / max_integrity
+			if(integratio_before > 0.5 && integratio_after < 0.5)
+				user.balloon_alert(user, "Hammer chips...")
+			if(integratio_before > 0.25 && integratio_after < 0.25)
+				user.balloon_alert(user, "Hammer breaking!")
+	else if(repair_method == REPAIR_METHOD_SAFE)
+		do_safe_repair(attacked_item, user, REPAIR_TYPE_HAMMER)
 
 /obj/item/rogueweapon/hammer/proc/repair_structure(obj/structure/attacked_structure, mob/living/user)
 	if(!attacked_structure.hammer_repair || !attacked_structure.max_integrity)
@@ -195,6 +183,8 @@
 				span_notice("I am good as new!")
 			)
 			playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+			if(prob(30))
+				M.emote("whimper") // robbit aboose
 			return
 		else
 			if(M.has_status_effect(/datum/status_effect/debuff/integrity_rig))
@@ -403,19 +393,21 @@
 
 	while(do_after(user, CLICK_CD_MELEE, TRUE, M))
 
+
 /obj/item/rogueweapon/hammer/wood	// wood hammer (mallet)
 	name = "wooden mallet"
 	desc = "A wooden mallet is an Artificer's second best friend! But it may also come in handy to a Blacksmith or Tailor.."
 	icon_state = "hammer_w"
 	force = 16
 	anvilrepair = /datum/skill/craft/crafting
+	max_integrity = 40
 
 /obj/item/rogueweapon/hammer/stone	// stone hammer
 	name = "stone hammer"
 	desc = "A makeshift hammer, made with a crudly chisled-down rock."
 	icon_state = "hammer_r"
 	force = 18
-	max_integrity = 15
+	max_integrity = 50
 	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/hammer/paalloy
@@ -430,7 +422,7 @@
 	desc = "A hammer of wrought bronze. It has pounded out the beginning of a thousand legacies; of humble adventurers, of noble legionnaires, and of foolish heroes."
 	icon_state = "ahammer"
 	force = 12
-	max_integrity = 10
+	max_integrity = 75
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
 
@@ -455,11 +447,17 @@
 	icon_state = "hammer_i"
 	smeltresult = /obj/item/ingot/iron
 
+/obj/item/rogueweapon/hammer/iron/communal	// iron hammer
+	name = "communal hammer"
+	desc = "A hammer procured by the local Eorans, meant for the communal use. You didn't read this after having snatched it for yourself, did you?"
+	max_integrity = 500
+
 /obj/item/rogueweapon/hammer/steel	// steel hammer
 	name = "claw hammer"
 	desc = "Steel to drive the iron nail without mercy."
 	icon_state = "hammer_s"
 	smeltresult = /obj/item/ingot/steel
+	max_integrity = 350
 
 /*
 /obj/item/rogueweapon/hammer/steel/attack_turf(turf/T, mob/living/user)

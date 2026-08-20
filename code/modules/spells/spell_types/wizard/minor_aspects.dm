@@ -14,7 +14,6 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/arcyne_forge,
-		/datum/action/cooldown/spell/mending,
 	)
 
 /datum/magic_aspect/exowardry
@@ -104,7 +103,6 @@
 		/datum/action/cooldown/spell/augment_buff/grasp,
 		// 1-cost utility filler
 		/datum/action/cooldown/spell/light,
-		/datum/action/cooldown/spell/mending,
 		/datum/action/cooldown/spell/create_campfire,
 	)
 

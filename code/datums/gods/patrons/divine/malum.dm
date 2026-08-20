@@ -12,7 +12,6 @@
 					/datum/action/cooldown/spell/malum/vigorousexchange		= CLERIC_T1,
 					/datum/action/cooldown/spell/arcyne_forge/miracle		= CLERIC_T1,
 					/datum/action/cooldown/spell/malum/hammerfall			= CLERIC_T2,
-					/datum/action/cooldown/spell/mending/malum				= CLERIC_T2,
 					/datum/action/cooldown/spell/malum/heatmetal			= CLERIC_T3,
 					/datum/action/cooldown/spell/malum_blessing				= CLERIC_T3,
 					/datum/action/cooldown/spell/malum/fortress				= CLERIC_T4,

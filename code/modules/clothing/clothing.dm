@@ -84,9 +84,7 @@
 
 /obj/item/clothing/Initialize(mapload)
 	. = ..()
-	if(max_integrity && integrity_failure && integrity_failure == ARMOR_INTEG_FAILURE)
-		max_integrity += (max_integrity * 0.11142857143)	// don't ask
-		obj_integrity = max_integrity
+	restore_max_integ()
 
 /obj/item/clothing/examine(mob/user)
 	. = ..()

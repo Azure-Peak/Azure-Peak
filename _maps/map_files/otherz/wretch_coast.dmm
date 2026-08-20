@@ -521,6 +521,10 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "bY" = (
 /obj/structure/table/wood/poor,
+/obj/item/repair_kit,
+/obj/item/repair_kit{
+	pixel_y = 11
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
 "bZ" = (
@@ -4858,6 +4862,11 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/transparent/openspace,
 /area/rogue/indoors/cave)
+"uc" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/machinery/ameliorate,
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/banditcamp)
 "ud" = (
 /obj/structure/chair/stool/rogue,
 /obj/machinery/light/rogue/candle/r,
@@ -9121,6 +9130,14 @@
 "Mh" = (
 /obj/effect/decal/cleanable/debris/stony,
 /turf/open/floor/rogue/churchbrick,
+/area/rogue/under/cave/inhumen)
+"Mi" = (
+/obj/structure/table/wood/poor,
+/obj/item/repair_kit/metal,
+/obj/item/repair_kit/metal{
+	pixel_y = 8
+	},
+/turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "Mj" = (
 /obj/structure/roguewindow/stained/zizo,
@@ -32291,7 +32308,7 @@ vE
 vE
 vE
 RY
-IH
+uc
 pS
 qX
 Va
@@ -35327,7 +35344,7 @@ zU
 bI
 qW
 qW
-qW
+Mi
 UM
 CN
 Ev

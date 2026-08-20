@@ -163,13 +163,13 @@
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_metalrepairkit
-	name = "Repair Kit, Metal"
+	name = "Repair (Ameliorate) Kit, Metal"
 	path = /obj/item/repair_kit/metal/bad
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_clothrepairkit
-	name = "Repair Kit, Cloth"
+	name = "Repair (Ameliorate) Kit, Cloth"
 	path = /obj/item/repair_kit/bad
 	triumph_cost = 5
 	sort_category = "Triumphs"

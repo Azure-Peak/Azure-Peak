@@ -26,7 +26,7 @@
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 1 MINUTES
+	cooldown_time = 5 MINUTES
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
@@ -47,7 +47,7 @@
 		"Sickle" = /obj/item/rogueweapon/sickle,
 		"Pitchfork" = /obj/item/rogueweapon/pitchfork,
 		"Tongs" = /obj/item/rogueweapon/tongs,
-		"Hammer" = /obj/item/rogueweapon/hammer/iron,
+		"Hammer" = /obj/item/rogueweapon/hammer/stone,
 		"Shovel" = /obj/item/rogueweapon/shovel,
 		"Handsaw" = /obj/item/rogueweapon/handsaw,
 		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,

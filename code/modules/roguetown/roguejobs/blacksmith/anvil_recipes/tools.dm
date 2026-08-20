@@ -525,12 +525,12 @@
 // --------- Steel -----------
 
 /datum/anvil_recipe/tools/steel/metalrepairkit
-	name = "Armor Plates (x2) (+1 Steel, +1 Iron, +1 Cured Leather)"
+	name = "Armor Plates (+1 Steel, +1 Iron, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/iron, /obj/item/natural/hide/cured)
 	created_item = /obj/item/repair_kit/metal
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
-	createditem_num = 2
+	createditem_num = 1
 	craftdiff = 4 //Expert
 
 /datum/anvil_recipe/tools/steel/hammer

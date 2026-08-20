@@ -178,6 +178,8 @@
 		/obj/item/clothing/neck/roguetown/psicross/malum/secret = 1,
 		/obj/item/clothing/neck/roguetown/psicross/weeping = 1,
 		/obj/item/heelkit = 1,
+		/obj/item/repair_kit/bad = 1,
+		/obj/item/repair_kit/metal/bad = 1,
 		/obj/clothing/neck/roguetown/carved/goldjade = 2,
 		/obj/item/clothing/neck/roguetown/carved/goldshell = 6,
 		/obj/item/clothing/neck/roguetown/carved/goldturq = 3,
@@ -194,7 +196,6 @@
 		/obj/item/clothing/neck/roguetown/carved/silverrose = 7,
 		/obj/item/clothing/neck/roguetown/carved/silverjade = 4,
 		/obj/item/clothing/neck/roguetown/carved/silvercoral = 5,
-
 	) //'Stat_' and 'Psicross_' rings at '2' or below provide statbuffs, and should be kept rare. Move to a seperate drop table if they become too common. Likeliest find is from high-end dungeons and mimics.
 
 /obj/effect/spawner/lootdrop/puzzlebox_rings

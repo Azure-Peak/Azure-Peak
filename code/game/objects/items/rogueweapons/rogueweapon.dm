@@ -24,7 +24,7 @@
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK
 	blade_dulling = null
 	max_integrity = 250
-	integrity_failure = 0.2
+	integrity_failure = 0.1
 	wdefense = 3
 	wdefense_wbonus = 3 //Default is 3.
 	experimental_onhip = TRUE
@@ -59,6 +59,8 @@
 
 	if(ispath(special))
 		special = new special()
+
+	restore_max_integ()
 
 /obj/item/rogueweapon/dropped(mob/user, silent)
 	. = ..()

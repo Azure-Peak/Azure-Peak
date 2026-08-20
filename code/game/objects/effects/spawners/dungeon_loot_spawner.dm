@@ -245,7 +245,9 @@
 		/obj/item/mundane/puzzlebox/medium = 2,
 		/obj/item/mundane/puzzlebox/easy = 2,
 		/obj/item/mundane/puzzlebox/impossible = 1,
-		/obj/item/heelkit = 1
+		/obj/item/heelkit = 1,
+		/obj/item/repair_kit/bad = 2,
+		/obj/item/repair_kit/metal/bad = 2
 	)
 	lootcount = 1
 

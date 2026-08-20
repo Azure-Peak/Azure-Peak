@@ -616,3 +616,21 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define ARMOR_MAT_PLATE 1
 #define ARMOR_MAT_LEATHER 2
 #define ARMOR_MAT_CHAINMAIL 3
+
+// Repair defines
+#define REPAIR_TYPE_SEW "sew"
+#define REPAIR_TYPE_HAMMER "hammer"
+#define REPAIR_METHOD_EXPEDIENT "fast"
+#define REPAIR_METHOD_SAFE "slow"
+#define REPAIR_STAGE_ONE 1
+#define REPAIR_STAGE_TWO 2
+#define REPAIR_STAGE_THREE 3
+#define REPAIR_STAGE_FINAL 4
+#define REPAIR_STAGE_DING 5
+#define REPAIR_STAGE_INTEGLOSS 6
+
+// Our gear breaks at 10% integ. We show players their effective integ. (90% of compiled total).
+// This results in an annoying discrepancy (300 -> 270 for end-user).
+// This is what we multiply it by to make sure 90% of our compiled value is the compiled value.
+// So the user will see 300. There's a better way to do this than a magic number.
+#define GEAR_INTEG_CONSTANT 0.11142857143

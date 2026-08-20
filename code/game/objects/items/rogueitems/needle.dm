@@ -36,6 +36,7 @@
 	//dropshrink = 0.75
 	// we store the overlay to avoid needless icon updates.
 	var/mutable_appearance/thread_overlay
+	var/repair_integ_per_use = 300
 
 /obj/item/needle/examine()
 	. = ..()
@@ -46,6 +47,10 @@
 			. += span_bold("It has no uses left.")
 	else
 		. += "Can be used indefinitely."
+	if(repair_method == REPAIR_METHOD_EXPEDIENT)
+		. += span_notice("This needle will repair quickly, but with some risk. Activate in-hand to change this.")
+	else if(repair_method == REPAIR_METHOD_SAFE)
+		. += span_notice("This needle will repair slowly, but safely. Activate in-hand to change this.")
 
 /obj/item/needle/get_mechanics_examine(mob/user)
 	. = ..()
@@ -53,6 +58,8 @@
 	. += span_info("While stitching a wound, it will bleed far slower than usual. This effect can be further stacked by applying cloth, bandages, or pressure to the wounded limb.")
 	. += span_info("If multiple stitchable wounds are present on the targeted limb, you'll be given the option to choose which specific wound is treated first.")
 	. += span_info("Needles require fibers to stitch, which can be found by cutting grass or foraging through bushes.")
+	. += span_info("Activate in-hand to switch between Expedient (Fast) and Safe (Slow) methods of repair.")
+	. += span_info("Even Expedient Repairs can be guarantee to be safe if done on foldable or fast tables, or if the Armor Class of the armor matches the training of the user.")
 	. += span_info("To rethread an emptied needle, left-click it with a strand of fiber. A fiber bundle works too, and will keep feeding strands in one at a time until the needle is full.")
 
 /obj/item/needle/Initialize(mapload)
@@ -121,94 +128,51 @@
 		return
 	return ..()
 
+/obj/item/needle/attack_self(mob/user)
+	. = ..()
+	if(!length(gripped_intents))
+		if(repair_method == REPAIR_METHOD_EXPEDIENT)
+			repair_method = REPAIR_METHOD_SAFE
+			to_chat(user, span_notice("You will now repair slowly and safely."))
+		else
+			repair_method = REPAIR_METHOD_EXPEDIENT
+			to_chat(user, span_notice("You will now repair with great speed, but risk damaging integrity slightly."))
+		user.playsound_local(get_turf(user), 'sound/misc/click.ogg', 100, TRUE)
+
 /obj/item/needle/attack_obj(obj/O, mob/living/user)
 	if(!isitem(O))
 		return
-	var/obj/item/I = O
-	if(can_repair)
-		if(stringamt < 1)
-			to_chat(user, span_warning("The needle has no thread left!"))
-			return
-		if(I.sewrepair && I.max_integrity)
-			if(I.obj_integrity == I.max_integrity)
-				to_chat(user, span_warning("This is not broken."))
-				return
-			if(!I.ontable())
-				to_chat(user, span_warning("I should put this on a table first."))
-				return
-			playsound(loc, 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
 
-			// These are all constants used for tuning the balance of sewing.
-			/// The chance to damage an item when entirely unskilled.
-			var/const/BASE_FAIL_CHANCE = 60
-			/// The (combined) skill level at or above which repairs can't fail.
-			var/const/SKILL_NO_FAIL = SKILL_LEVEL_APPRENTICE
-			/// Each level in tanning/sewing reduces the skill chance by this much, so that at SKILL_NO_FAIL you don't fail anymore.
-			var/const/FAIL_REDUCTION_PER_LEVEL = BASE_FAIL_CHANCE / SKILL_NO_FAIL
-			/// The damage done to an item when sewing fails while entirely unskilled.
-			var/const/BASE_SEW_DAMAGE = 30
-			/// Each level in either tanning or sewing reduces the damage caused by a failure by this many points
-			var/const/DAMAGE_REDUCTION_PER_LEVEL = 5
-			/// The base integrity repaired when sewing succeeds while entirely unskilled.
-			var/const/BASE_SEW_REPAIR = 10
-			/// The additional integrity repaired per combined level in sewing/tanning.
-			var/const/SEW_REPAIR_PER_LEVEL = 10
-			/// How many seconds does unskilled sewing take?
-			var/const/BASE_SEW_TIME = 6 SECONDS
-			/// At what (combined) level do we
-			var/const/SKILL_FASTEST_SEW = SKILL_LEVEL_LEGENDARY
-			/// The reduction in sewing time for each (combined) level in sewing/tanning.
-			var/const/SEW_TIME_REDUCTION_PER_LEVEL = 1 SECONDS
-			/// The minimum sewing time to prevent instant sewing at max level.
-			var/const/SEW_MIN_TIME = 0.5 SECONDS
-			/// The maximum sewing time for squires.
-			var/const/SQUIRE_MAX_TIME = BASE_SEW_TIME / 3 // always at least twice as fast as the base time / Apparently takes too long so dunno we will see at 2 seconds
-			/// The XP granted by failure. Scaled by INT. If 0, no XP is granted on failure.
-			var/const/XP_ON_FAIL = 0.5
-			/// The XP granted by success. Scaled by INT. If 0, no XP is granted on success.
-			var/const/XP_ON_SUCCESS = 1
-			/// The minimum delay between automatic sewing attempts.
-			var/const/AUTO_SEW_DELAY = CLICK_CD_MELEE
-
-			// This is the actual code that applies those constants.
-			// If you want to adjust the balance please try just tweaking the above constants first!
-			var/skill = user.get_skill_level(/datum/skill/craft/sewing) + user.get_skill_level(/datum/skill/craft/tanning)
-			// The more knowlegeable we are the less chance we damage the object
-			var/failed = prob(BASE_FAIL_CHANCE - (skill * FAIL_REDUCTION_PER_LEVEL))
-			var/sewtime = max(SEW_MIN_TIME, BASE_SEW_TIME - (SEW_TIME_REDUCTION_PER_LEVEL * skill))
-			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE))
-				failed = FALSE // Make sure they can't fail but let them suffer sewtime
-			if(!do_after(user, sewtime, target = I))
-				return
-			if(failed)
-				// We do DAMAGE_REDUCTION_PER_LEVEL less damage per level.
-				// You could write this as I.obj_integrity - BASE_SEW_DAMAGE + (skill * DAMAGE_REDUCTION_PER_LEVEL)
-				// but that's less obvious and makes it look like it could repair it if your skill was high enough (false).
-				I.obj_integrity = max(0, I.obj_integrity - (BASE_SEW_DAMAGE - (skill * DAMAGE_REDUCTION_PER_LEVEL)))
-				user.visible_message(span_info("[user] damages [I] due to a lack of skill!"))
-				playsound(src, 'sound/foley/cloth_rip.ogg', 50, TRUE)
-				if(XP_ON_FAIL > 0)
-					user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_FAIL)
-				if(do_after(user, AUTO_SEW_DELAY, target = I))
-					attack_obj(I, user)
-				return
-			else
-				playsound(loc, 'sound/foley/sewflesh.ogg', 50, TRUE, -2)
-				user.visible_message(span_info("[user] repairs [I]!"))
-				if(I.body_parts_covered != I.body_parts_covered_dynamic)
-					user.visible_message(span_info("[user] repairs [I]'s coverage!"))
-					I.repair_coverage()
-				if(XP_ON_SUCCESS > 0)
-					user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_SUCCESS)
-				I.obj_integrity = min(I.obj_integrity + BASE_SEW_REPAIR + skill * SEW_REPAIR_PER_LEVEL, I.max_integrity)
-				if(I.obj_broken && istype(I, /obj/item) && I.obj_integrity >= I.max_integrity)
-					var/obj/item/cloth = I
-					cloth.obj_fix()
-					return
-				if(do_after(user, AUTO_SEW_DELAY, target = I))
-					attack_obj(I, user)
+	if(!stringamt && !infinite)
+		to_chat(user, span_warning("The needle is out of thread!"))
 		return
+
+	var/obj/item/attacked_item = O
+	if(repair_method == REPAIR_METHOD_EXPEDIENT)
+		var/repaired_integ = do_special_repair(attacked_item, user, REPAIR_TYPE_SEW)
+		if(repaired_integ)
+			use_for_repairs(repaired_integ, user)
+	else
+		do_safe_repair(attacked_item, user, REPAIR_TYPE_SEW)
 	return ..()
+
+/obj/item/needle/proc/use_for_repairs(integ, mob/living/user)
+	if(!integ || infinite)
+		return
+	repair_integ_per_use = repair_integ_per_use - integ
+	for(var/i in 1 to 10)	// I cannot fathom this needing more than 10 iterations. Otherwise this is just while() phobia.
+		if(repair_integ_per_use <= 0 && stringamt > 0)
+			var/newinteg = abs(repair_integ_per_use)
+			repair_integ_per_use = initial(repair_integ_per_use)
+			use(1)
+			var/balloon_str = "String used..."
+			if(stringamt <= 0)
+				balloon_str = "<font color = '#9b2727'>String used up!</font>"
+			user.balloon_alert(user, balloon_str)
+			repair_integ_per_use -= newinteg
+		else
+			break
+
 
 /obj/item/needle/proc/sew(mob/living/target, mob/living/user)
 	if(!istype(user))
@@ -312,14 +276,15 @@
 	desc = "This rough needle can be used to sew cloth and wounds."
 	stringamt = 5
 	maxstring = 5
+	repair_integ_per_use = 150
 	anvilrepair = null
 
 /obj/item/needle/thorn/cleric
 	name = "clerical needle"
 	icon_state = "lesserneedle"
 	desc = "This iron-tipped needle can stem the flow of nastier wounds; a blessing, when one is delivered a grave blow while far away from the Church."
-	stringamt = 10
-	maxstring = 10
+	stringamt = 20
+	maxstring = 20
 	anvilrepair = null
 
 /obj/item/needle/pestra
@@ -341,12 +306,19 @@
 	stringamt = 30
 	maxstring = 30
 
+/obj/item/needle/bronze/communal
+	name = "communal bronze needle"
+	desc = "A needle left with utmost goodwill intentions, meant to help repair the equipment of those in need. You didn't snatch it for yourself, did you?"
+	stringamt = 50
+	maxstring = 50
+
 /obj/item/needle/aalloy
 	name = "decrepit needle"
 	icon_state = "aneedle"
 	desc = "This decrepit old needle doesn't seem helpful for much."
 	stringamt = 5
 	maxstring = 5
+	repair_integ_per_use = 200
 
 #undef SEW_HP_EXP_NORMALIZER
 #undef SEW_EXP_PER_STEP

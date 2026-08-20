@@ -229,11 +229,9 @@
 	. = ..()
 	if(obj_integrity <= max_integrity * 0.25)
 		if(polished == 4)
-			polished = 0
 			force -= 2
 			force_wielded -= 3
 			update_force_dynamic()
-			max_integrity -= polish_bonus
 			polish_bonus = 0
 			obj_integrity = min(obj_integrity, max_integrity)
 			var/datum/component/glint = GetComponent(/datum/component/metal_glint)
@@ -247,9 +245,6 @@
 		polished = 4
 		if(color == "#cccccc")
 			remove_atom_colour(FIXED_COLOUR_PRIORITY)
-		polish_bonus = ceil(max_integrity * 0.10)
-		max_integrity += polish_bonus
-		obj_integrity += polish_bonus
 		force += 2
 		force_wielded += 3
 		update_force_dynamic()

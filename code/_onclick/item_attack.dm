@@ -555,6 +555,7 @@
 		I.take_damage(1, BRUTE, I.d_type)
 
 	try_damage_pushback(user)
+	user.changeNext_inCombat(IN_COMBAT_DELAY)
 
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_OBJ, I, user)
 	return TRUE

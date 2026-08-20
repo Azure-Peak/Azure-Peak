@@ -105,3 +105,19 @@
 	if(customcolor)
 		add_atom_colour(customcolor, FIXED_COLOUR_PRIORITY)
 	. = ..()
+
+/obj/effect/temp_visual/repair_fx
+	icon = 'icons/effects/effects_repair.dmi'
+	randomdir = FALSE
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE
+	alpha = 255
+
+/obj/effect/temp_visual/repair_fx/Initialize(mapload, customdur, customstate, customcolor)
+	if(customdur)
+		duration = customdur
+	if(customstate)
+		icon_state = customstate
+	if(customcolor)
+		add_atom_colour(customcolor, FIXED_COLOUR_PRIORITY)
+	. = ..()

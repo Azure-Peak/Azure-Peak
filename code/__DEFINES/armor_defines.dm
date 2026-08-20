@@ -60,6 +60,7 @@
 // So Iron will actually be pretty decent and there shouldn't be a compulsive need to upgrade.
 
 #define ARMOR_INTEG_FAILURE 0.1	//Percentage of damage the armor breaks at. 0.1 = 10%
+#define WEAPON_INTEG_FAILURE 0.1
 
 // Helmet
 #define ARMOR_INT_HELMET_ANTAG 600
