@@ -843,8 +843,8 @@
 	name = "blacksteel tanto"
 	desc = "A finely balanced blacksteel dagger in the Kazengunese style. The subtle curve of the blade aids swift slashes."
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/quick, /datum/intent/dagger/sucker_punch)
-	icon_state = "bs_eastdagger"
-	sheathe_icon = "bsteeltanto"
+	icon_state = "eastdagger" //needs a custom sprite!
+	sheathe_icon = "tanto"
 
 /datum/intent/dagger/cut/quick //8CD, making it a faster, lower-pen sidegrade to the 10CD stab. Good on flesh.
 	clickcd = CLICK_CD_FAST
