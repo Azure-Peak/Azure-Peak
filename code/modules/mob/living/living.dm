@@ -1319,6 +1319,18 @@
 	var/combat_modifier = 1
 	var/agg_grab = FALSE
 
+	if(HAS_TRAIT(L, TRAIT_PACIFISM))
+		// Pacifist grips cannot restrain anyone.
+		// Always break free; skip all resistance calculations.
+		visible_message(span_warning("[src] easily breaks free of [L]'s careful grip!"), \
+						span_notice("I easily break free of [L]'s careful grip!"), null, null, L)
+		to_chat(L, span_danger("[src] easily breaks free of my careful grip!"))
+		log_combat(L, src, "broke pacifist grab")
+		L.changeNext_move(CLICK_CD_GRABBING)
+		playsound(src.loc, 'sound/combat/grabbreak.ogg', 50, TRUE, -1)
+		L.stop_pulling()
+		return TRUE
+
 	if(mind)
 		wrestling_diff += (get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
 	if(L.mind)
@@ -1353,6 +1365,10 @@
 		resist_chance += (STACON - L.STASPD) * 5
 	else
 		resist_chance += (STACON - (agg_grab ? L.STASTR : L.STAWIL)) * 5
+
+	if(HAS_TRAIT(src, TRAIT_PACIFISM)) // pacifists can't bait nor feint anymore, so this is necessary to make them not total pushovers
+		resist_chance = max(resist_chance, 25) // 25% base chance to slip free from grapples, number can be jakked freely based on how it feels
+
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 

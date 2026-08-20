@@ -423,16 +423,6 @@
 	if(HAS_TRAIT(user, TRAIT_NOSTRUGGLE))
 		instant = TRUE
 
-	if(HAS_TRAIT(src, TRAIT_PACIFISM) && !instant && !surrendering && !restrained() && !compliance && user != src && !stat)
-		if(prob(25))
-			visible_message(span_warning("[src] meekly slips free of [user]'s grasp!"),
-							span_warning("I meekly pull away from [user]!"),
-							span_hear("I hear panicked shuffling!"))
-			playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
-			user.changeNext_move(CLICK_CD_MELEE)
-			src.changeNext_move(CLICK_CD_GRAB_RESIST)
-			return
-
 	if(surrendering)
 		combat_modifier = 2
 
