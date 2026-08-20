@@ -1,5 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - bugfix: "HERMES direct send (via the TGUI window you get when you put money into the thing) now takes paper formatting the same way a normal bit of parchment via the quill does. No more basic HTML filled with `##`, now your HERMES messages look just like the real deal."
-  - qol: "Swapped the parchment background to something cleaner to make the paper stuff more readable, and altered the signature font to look more signature-y (done via HTML fallback so it won't glitch out on some PCs)."
