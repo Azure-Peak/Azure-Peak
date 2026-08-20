@@ -67,12 +67,22 @@
 	name = "Lesser Verewolf"
 	increase_votepwr = FALSE
 
+/datum/antagonist/werewolf/noinfect
+	name = "Lowest Verewolf"
+	increase_votepwr = FALSE
+
+
 /datum/antagonist/werewolf/lesser/roundend_report()
+	return
+
+/datum/antagonist/werewolf/noinfect/roundend_report()
 	return
 
 /datum/antagonist/werewolf/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
 	if(istype(examined_datum, /datum/antagonist/werewolf/lesser))
 		return span_boldnotice("A young lupine kin.")
+	if(istype(examined_datum, /datum/antagonist/werewolf/noinfect))
+		return span_boldnotice("A young lupine kin. the curse is weak with them")
 	if(istype(examined_datum, /datum/antagonist/werewolf))
 		return span_boldnotice("An elder lupine kin.")
 	if(istype(examined_datum, /datum/antagonist/maniac))
@@ -131,6 +141,14 @@
 /datum/antagonist/werewolf/lesser/greet()
 	// DO NOT call parent.
 	// lesser verevolfs should always be created by alpha bites, which have their own way of informing the user
+	// they are a werewolf. despite this, i still want to provide a new audio cue in the form of [THE CRY].
+	// remove it if it's obstructive. thx.
+	var/picked_sound = pick(dendor_cries)
+	owner.current.playsound_local(get_turf(owner.current), picked_sound, 100)
+
+/datum/antagonist/werewolf/noinfect/greet()
+	// DO NOT call parent.
+	// Noinfect verevolfs
 	// they are a werewolf. despite this, i still want to provide a new audio cue in the form of [THE CRY].
 	// remove it if it's obstructive. thx.
 	var/picked_sound = pick(dendor_cries)
