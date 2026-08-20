@@ -1592,6 +1592,15 @@
 	tools = list(/obj/item/needle)
 	craftdiff = 4
 
+/datum/crafting_recipe/roguetown/sewing/skirt/short
+	name = "short skirt"
+	category = "Misc"
+	result = list(/obj/item/clothing/under/roguetown/skirt/short)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/sewing/skirt/formal
 	name = "knee-high skirt"
 	category = "Misc"

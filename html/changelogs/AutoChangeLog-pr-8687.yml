@@ -1,5 +1,0 @@
-author: "racobio"
-delete-after: True
-changes:
-  - rscadd: "Adds a recipe to craft the thin winter dress"
-  - bugfix: "fixes an arcyne ward interaction with the thin winter dress by repathing it"

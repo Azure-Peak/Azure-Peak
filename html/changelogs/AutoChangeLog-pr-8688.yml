@@ -1,0 +1,5 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - image: "Makes all bow and arrow sprites 64x64 to prevent flying arrows in UI and onmob (this doesn't prevent weird offsets while dumping quiver or for fired arrows)"
+  - spellcheck: "Selfbow > Yew Hunting Bow"
