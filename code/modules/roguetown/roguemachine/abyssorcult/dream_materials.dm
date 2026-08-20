@@ -3,6 +3,28 @@
 	desc = "you shouldn't see this."
 	w_class = WEIGHT_CLASS_TINY
 	icon =	'icons/roguetown/misc/dream_materials.dmi'
+	var/is_parchment = FALSE
+	var/examine_blurb
+
+/obj/item/dream_material/examine(mob/user)
+	. = ..()
+	if(examine_blurb)
+		. += span_notice("[examine_blurb]")
+
+/obj/item/dream_material/attack_self(mob/user)
+	. = ..()
+	if(.)
+		return
+
+	if(!is_parchment)
+		return
+
+	var/obj/structure/roguemachine/ritual_rune/R = locate() in range(1, user)
+	if(!R)
+		to_chat(user, span_warning("There is no focal rune nearby to channel this parchment."))
+		return
+
+	R.try_activate_rune(user, src)
 
 // Tier 1
 /obj/item/dream_material/dream_spike
@@ -52,16 +74,22 @@
 	name = "quicksilver parchment"
 	desc = "A piece of parchment treated with a quicksilver like paint. The paint binds visions, or so they say."
 	icon_state = "tier1_open"
+	is_parchment = TRUE
+	examine_blurb = "Can be used near or on a dream ritual rune by the dream pool to receive a vision. Only works for those who follow Abyssor, or are attuned to Abyssorite paints by an Abyssorite."
 
 /obj/item/dream_material/parchment_gold
 	name = "auric parchment"
 	desc = "A piece of parchment treated with a flakey, gold-like substance. Said to hold greater visions without warping the words."
 	icon_state = "tier2_open"
+	is_parchment = TRUE
+	examine_blurb = "Can be used near or on a dream ritual rune by the dream pool to receive a vision. Only works for those who follow Abyssor, or are attuned to Abyssorite paints by an Abyssorite."
 
 /obj/item/dream_material/parchment_dream
 	name = "sylveric parchment"
 	desc = "A piece of parchment treated with sylveric based paint. The stuff of dreams. Said to muddy present, past and future, so that it may appear to us... In a dream."
 	icon_state = "tier3_open"
+	is_parchment = TRUE
+	examine_blurb = "Can be used near or on a dream ritual rune by the dream pool to receive a vision. Only works for those who follow Abyssor, or are attuned to Abyssorite paints by an Abyssorite."
 
 /obj/item/dream_material/dream_seed
 	name = "seed of intelligence"
