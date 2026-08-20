@@ -371,7 +371,7 @@
 /datum/loadout_item/donator/funky
 	name = "Trimmed down padded dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
-	ckeywhitelist = list("funkemonke")
+	ckeywhitelist = list("funkemonke", "droolingcowboy")
 
 /datum/loadout_item/donator/eekasqueak
 	name = "Saffira encrusted tiara"
@@ -827,6 +827,11 @@
 /datum/loadout_item/donator/longest_night
 	name = "Donator Item - Longest Night Cloak"
 	path = /obj/item/clothing/cloak/longest_night
+	ckeywhitelist = list("shiroseschnee")
+
+/datum/loadout_item/donator/moonlightdussack
+	name = "Donator Kit - Moonlight Dussack"
+	path = /obj/item/enchantingkit/weapon/moonlightdussack
 	ckeywhitelist = list("shiroseschnee")
 
 /datum/loadout_item/donator/falling_star
