@@ -263,13 +263,14 @@
 	force = 5
 	throwforce = 10
 
-/obj/item/reagant_containers/glass/cup/mug
+/obj/item/reagent_containers/glass/cup/mug
 	name = "ceramic mug"
 	desc = "A classic clay mug. often associated with fatherhood."
 	icon_state = "claymugbaked"
 	icon = 'modular/Neu_Food/icons/cookware/cup.dmi'
 	force = 5
 	throwforce = 10
+	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/glass/cup/golden/poison
 	name = "golden goblet"

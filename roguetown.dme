@@ -2143,6 +2143,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\pariah.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\plaguebearer.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\poacher.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\profane_champion.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\pyromaniac.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\roguemage.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\slasher.dm"

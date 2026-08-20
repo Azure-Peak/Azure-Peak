@@ -84,8 +84,8 @@
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_winterdress
-	name = "Winter Dress"
-	path = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph
+	name = "Thin Winter Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 

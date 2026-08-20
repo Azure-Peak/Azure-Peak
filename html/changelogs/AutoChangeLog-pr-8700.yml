@@ -1,0 +1,10 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Fixed an oversight causing the decrepit kettle helm to smelt into steel instead of glimmering slag"
+  - bugfix: "Fixed an issue where organs would be treated as sharp objects and embed, particularly noticable as a gnoll devouring corpses"
+  - bugfix: "Fixed an issue where certain non-flora items (like skysugar slabs) would claim you can crush them into seeds, despite that being untrue"
+  - bugfix: "Fixed an issue where rosa petals and their variants would be unable to be crushed into seeds, forcing gardeners to make an alchemical mortar to plant rosa"
+  - bugfix: "Fixed a runtime preventing noticeboard notices from being posted"
+  - bugfix: "Fixed most round statistics (such as gods' influences) being completely untracked and therefore stuck at zero"
+  - bugfix: "Fixed conjured skeletons from being able to panel and be panelled"
