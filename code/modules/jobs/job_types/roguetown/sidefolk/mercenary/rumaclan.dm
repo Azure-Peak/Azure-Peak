@@ -183,7 +183,7 @@
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 			if("Dress")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
-		var/weapons = list("Recurve & Tanto","Recurve & Kodachi","Sling & Tanto","Sling & Kodachi","Kodachi & Tanto","Kodachi, Tanto, & Tossblades","Dual Tanto","Blacksteel Tanto")
+		var/weapons = list("Recurve & Tanto","Recurve & Kodachi","Sling & Tanto","Sling & Kodachi","Kodachi & Tanto","Kodachi, Tanto, & Tossblades","Twin Tanto","Blacksteel Tanto")
 		var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
 		switch(weapon_choice)
 			if("Recurve & Tanto")
@@ -234,9 +234,8 @@
 				backl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 				beltr = /obj/item/rogueweapon/scabbard/sheath/kazengun
 				beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
-			if("Dual Tanto") //Dual wield silliness, or simply to have a backup knife.
+			if("Twin Tanto") //You'll probably want to take dual wielder with this. Expect ~25% parry chance vs equal skill if trying it, as well.
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
-				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //Expect ~25% parry chance vs equal skill, good luck.
 				belt = /obj/item/storage/belt/rogue/leather
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 				backl = /obj/item/rogueweapon/scabbard/sheath/kazengun
