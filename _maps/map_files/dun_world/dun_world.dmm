@@ -12944,15 +12944,6 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
-"cvZ" = (
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/machinery/light/rogue/candle,
-/turf/open/transparent/openspace,
-/area/rogue/outdoors/town/roofs)
 "cwa" = (
 /obj/structure/bars{
 	color = "#755f48";
@@ -18295,13 +18286,6 @@
 /obj/structure/bars/passage/shutter/open,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
-"duz" = (
-/obj/structure/table/wood/long_table/east,
-/obj/item/candle/gold/lit{
-	pixel_y = 5
-	},
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/town)
 "duC" = (
 /obj/structure/fluff/walldeco/stone/bronze{
 	pixel_x = -32
@@ -23337,6 +23321,12 @@
 "eqh" = (
 /turf/closed/wall/mineral/rogue/wooddark/end,
 /area/rogue/indoors/shelter/bog/skeletonfort)
+"eqi" = (
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/outdoors/town)
 "eqm" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
@@ -26358,6 +26348,7 @@
 	layer = 2.7;
 	pixel_y = 7
 	},
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/town)
 "eTD" = (
@@ -115978,11 +115969,6 @@
 /obj/structure/closet/dirthole/closed,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
-"uWb" = (
-/obj/machinery/light/rogue/candle,
-/obj/machinery/light/rogue/candle/r,
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/town)
 "uWc" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -290858,7 +290844,7 @@ bUt
 bUt
 bUt
 bUt
-bUt
+eqi
 smL
 itt
 kmC
@@ -405657,7 +405643,7 @@ ttj
 bGf
 bGf
 bGf
-cvZ
+bGf
 bGf
 bGf
 kSK
@@ -411981,8 +411967,8 @@ bGf
 bGf
 bGf
 bGf
+bGf
 cDX
-uBc
 uBc
 uBc
 uBc
@@ -412433,12 +412419,12 @@ bGf
 bGf
 bGf
 bGf
+bGf
 uBc
-uWb
+mPL
 hqI
 uWP
-duz
-vUD
+uBc
 xRM
 bsh
 bGf
@@ -412885,12 +412871,12 @@ bGf
 bGf
 bGf
 bGf
+bGf
 uBc
 tUg
 qRv
 dUF
-apZ
-hlY
+vUD
 mQF
 bsh
 bGf
@@ -413337,12 +413323,12 @@ bGf
 bGf
 bGf
 bGf
+bGf
 uBc
-wss
+bzY
 qRv
-apZ
-apZ
-vUD
+xgE
+hlY
 mQF
 bsh
 bGf
@@ -413790,9 +413776,9 @@ bGf
 bGf
 bGf
 cDX
+cDX
 uBc
 ioq
-uBc
 uBc
 cDX
 pmE
