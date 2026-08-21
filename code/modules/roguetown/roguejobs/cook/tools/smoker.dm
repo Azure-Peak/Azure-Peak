@@ -89,6 +89,8 @@
 	var/valid_items = 0
 
 	for(var/obj/item/reagent_containers/food/snacks/S in food)
+		if(!S.smoked_type)
+			continue
 		var/req = S.cooktime ? S.cooktime : 100
 		total_required += req
 		valid_items++
