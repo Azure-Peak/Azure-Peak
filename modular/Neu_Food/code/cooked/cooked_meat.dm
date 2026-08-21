@@ -31,6 +31,21 @@
 	cooked_type = null
 	smoked_type = null
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked_z
+	eat_effect = null
+	slices_num = 0
+	name = "foul jerky bundle"
+	desc = "Harder than leather, devoid of soul. At least it seems to be purified to the point of being edible."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "meat_smoked_z"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
+	faretype = FARE_IMPOVERISHED
+	rotprocess = null
+	tastes = list("smoky meat" = 1)
+	fried_type = null
+	cooked_type = null
+	smoked_type = null
+
 /* .............	Roast Pork	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
 	cuisine = CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
@@ -46,6 +61,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /*	.............	Crispy bacon	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried
@@ -59,6 +75,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /*	.............	Fryspider	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
@@ -72,6 +89,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /*	.................	Whole Chicken roast	................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked
@@ -86,6 +104,7 @@
 	portable = FALSE
 	tastes = list("tasty birdmeat" = 1)
 	cooked_type = null
+	smoked_type = null
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	rotprocess = SHELFLIFE_DECENT
 
@@ -101,6 +120,7 @@
 	faretype = FARE_FINE
 	portable = FALSE
 	fried_type = null
+	smoked_type = null
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_DECENT
 
@@ -118,6 +138,7 @@
 	desc = ""
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /* .............	Fried Cabbit	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried
@@ -133,6 +154,7 @@
 	tastes = list("warm cabbit" = 1)
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /* .............	Fried Volf	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
@@ -147,6 +169,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /* .............	Fried Rous	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
@@ -161,6 +184,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /* .............	Fried Bear	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
@@ -176,6 +200,22 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/bear/smoked
+	eat_effect = null
+	slices_num = 0
+	bitesize = 4
+	name = "Smoked bear slab"
+	desc = "A slab of solid, smoked bear meat. A real warrior doesn't need anything else."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "bear_smoked"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	faretype = FARE_NEUTRAL
+	rotprocess = null
+	fried_type = null
+	cooked_type = null
+	smoked_type = null
 
 /* .............	Fried Troll	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
@@ -191,6 +231,7 @@
 	rotprocess = SHELFLIFE_EXTREME
 	fried_type = /obj/item/reagent_containers/food/snacks/fat
 	cooked_type = /obj/item/reagent_containers/food/snacks/fat
+	smoked_type = null
 	// Takes a really long time unless you're a skilled cook.
 	cooktime = 1500
 
@@ -207,6 +248,7 @@
 	rotprocess = SHELFLIFE_EXTREME
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /* .............	Fried Filet	................ */
 // This is seafood but is one of the "simple cooked meat" so I put it here.
@@ -217,12 +259,44 @@
 	desc = "A slab of flaky fish, fried until falling apart."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "cooked_filet"
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
 	faretype = FARE_NEUTRAL
 	rotprocess = SHELFLIFE_DECENT
 	tastes = list("warm fish" = 1)
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
+
+/* .............	Fried Salmon	................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon/fried
+	eat_effect = null
+	slices_num = 0
+	name = "fried salmon"
+	desc = "A filet of flaky salmon, prized by Dendorites for its ability to dance upon river, sea, and your plate alike."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "salmon_cooked"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
+	faretype = FARE_NEUTRAL
+	rotprocess = SHELFLIFE_DECENT
+	tastes = list("flaky salmon" = 1)
+	fried_type = null
+	cooked_type = null
+	smoked_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon/smoked
+	eat_effect = null
+	slices_num = 0
+	name = "smoked salmon"
+	desc = "A filet of smoked salmon, prized by Dendorites for its ability to dance upon river, sea, smoke, and your plate alike."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "salmon_smoked"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
+	faretype = FARE_NEUTRAL
+	rotprocess = null
+	tastes = list("flaky salmon" = 1)
+	fried_type = null
+	cooked_type = null
+	smoked_type = null
 
 /* .............	Fried Shellfish	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish/fried
@@ -236,7 +310,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
 	fried_type = null
 	cooked_type = null
-
+	smoked_type = null
 
 /*	.............	Sausage & Wiener	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
@@ -247,6 +321,7 @@
 	icon_state = "wiener"
 	faretype = FARE_NEUTRAL
 	fried_type = null
+	smoked_type = null
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_EXTREME
 
@@ -268,6 +343,7 @@
 	tastes = list("hog" = 1)
 	cooked_type = null
 	fried_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/update_icon()
 	if(slices_num)
@@ -299,6 +375,7 @@
 	tastes = list("hog" = 1)
 	cooked_type = null
 	fried_type = null
+	smoked_type = null
 
 /*	.............	Cooked Spidermeat	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/cooked
@@ -311,6 +388,9 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	eat_effect = null
 	tastes = list("crispy and slimy insectoid" = 1)
+	smoked_type = null
+	cooked_type = null
+	fried_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
 	cuisine = CUISINE_NORTHERN
@@ -324,6 +404,9 @@
 	eat_effect = null
 	tastes = list("ridiculously raw texture but well-cooked insectoid" = 1)
 	faretype = FARE_FINE
+	smoked_type = null
+	cooked_type = null
+	fried_type = null
 
 /*	.............	Cooked Mushroom	................ */
 /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked
@@ -339,6 +422,7 @@
 	tastes = list("mushroom" = 1)
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /*	.............	Fried Mushroom	................ */
 /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried
@@ -364,3 +448,4 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+	smoked_type = null

@@ -50,6 +50,7 @@
 	icon_state = "steak_z"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked_z
 	ingredient_size = 4
 	// Already rotten.
 	rotprocess = null
@@ -63,6 +64,7 @@
 	icon_state = "ribs_z"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked_z
 	ingredient_size = 4
 	rotprocess = null
 	eat_effect = /datum/status_effect/debuff/rotfood
@@ -75,6 +77,7 @@
 	icon_state = "loin_z"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked_z
 	ingredient_size = 4
 	rotprocess = null
 	eat_effect = /datum/status_effect/debuff/rotfood
@@ -87,6 +90,7 @@
 	icon_state = "ossobuco_z"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked_z
 	ingredient_size = 4
 	rotprocess = null
 	eat_effect = /datum/status_effect/debuff/rotfood

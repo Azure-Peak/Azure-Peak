@@ -57,6 +57,9 @@
 	if(fried_type)
 		var/obj/item/FT = fried_type
 		prep += "Ready to be <b>fried</b> into [initial(FT.name)]."
+	if(smoked_type)
+		var/obj/item/SMT = smoked_type
+		prep += "Ready to be <b>smoked</b> into [initial(SMT.name)]."
 	if(slice_path)
 		var/obj/item/ST = slice_path
 		prep += "Ready to be <b>sliced</b> into [initial(ST.name)]."

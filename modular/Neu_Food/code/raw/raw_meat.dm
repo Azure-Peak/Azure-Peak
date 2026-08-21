@@ -182,6 +182,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear/smoked
 
 /* ............. Troll Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll
@@ -198,7 +199,7 @@
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_SEAFOOD
 	name = "fish filet"
-	desc = "A filet of fish. All of them are the same inside."
+	desc = "A filet of fish. Most of them are the same inside."
 	icon_state = "fish_filet"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
@@ -206,6 +207,14 @@
 	slices_num = 1
 	ingredient_size = 1
 	cooked_smell = /datum/pollutant/food/cooked_fish
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon
+	name = "salmon filet"
+	desc = "A filet of salmon, prized by Dendorites for its ability to dance upon river, sea, and your plate alike."
+	icon_state = "salmon"
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon/fried
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon/smoked
 
 /* .........	Shellfish	................. */
 /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
