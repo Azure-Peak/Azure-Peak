@@ -1,5 +1,4 @@
 /datum/ai_controller/spirit_vengeance
-	movement_delay = HAUNT_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/astar
 

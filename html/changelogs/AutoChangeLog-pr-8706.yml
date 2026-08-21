@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Added a helmetless visor to loadout. Sprite courtesy of Ollanius!"
+  - rscadd: "Added 'small' elf ears. Sprite courtesy of Litepurple!"

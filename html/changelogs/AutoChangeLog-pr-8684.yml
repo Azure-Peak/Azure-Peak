@@ -1,0 +1,5 @@
+author: "Aeiraea"
+delete-after: True
+changes:
+  - rscadd: "Added the new togas to Fortified Skeletons to replace their old Psydonic \"toga\"."
+  - bugfix: "Fixed the dressier toga not appearing as it should upon feminine characters and made its belt more dye-friendly."

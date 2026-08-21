@@ -67,8 +67,16 @@
 		return
 	follower.sate_addiction(/datum/charflaw/addiction/godfearing)
 
+	var/devout = FALSE
+	if(ishuman(follower))
+		var/mob/living/carbon/human/hfollower = follower
+		for(var/datum/charflaw/cf in hfollower.charflaws)
+			if(istype(cf, /datum/charflaw/addiction/godfearing))
+				devout = TRUE
+				break
+
 	/* admin stuff - tells you the followers name, key, and what patron they follow */
-	var/follower_ident = "[follower.key]/([follower.real_name]) (follower of [patron])"
+	var/follower_ident = "[follower.key]/([follower.real_name]) ([devout ? "devout " : ""]follower of [patron])"
 	message_admins("[follower_ident] [ADMIN_SM(follower)] [ADMIN_FLW(follower)] prays: [span_info(prayer)]")
 	user.log_message("(follower of [patron]) prays: [prayer]", LOG_GAME)
 

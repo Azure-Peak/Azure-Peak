@@ -750,3 +750,216 @@
   - rscadd: Added a new ckey to eirenxiv donor sword
   mumblemancer:
   - rscdel: removed doorobrine
+2026-08-17:
+  .:
+  - rscadd: Redid every simple animals in the game at once with breakable limbs and
+      body parts for effects, such as slowdown, damage reduction, disabling abilities
+      or even death. Some of them are gated behind toppling them.
+  - rscadd: NPC Ranged Attacks now calculate lead and use a formula instead of random
+      spread, incentivizing you to dodge especially perpendicular to the projectile.
+      They are far more likely to miss when you dodge properly
+  - rscadd: Simple animals animations and attack telegraph improved, they are also
+      capable of missing melee attacks, just like vs complex NPC
+  - rscadd: Simple animals now operate on the same movement system as complex mobs
+      and will respect slowdown and such
+  - rscadd: Deadite infection reworked to only take place when a limb is damaged heavily
+      without armor. And can be cured by drinking antidote.
+  - balance: Remove damage multiplier vs simple animals from nearly all projectiles,
+      except for the crossbow and slurbow and stakers family. Shotstakes is now reduced
+      to 3x instead of 6x.
+  - rscadd: Shotstakes simple mob multiplier reduced from x6 to x3
+  - rscadd: When your projectiles miss your intended zone due to accuracy cap or any
+      other reasons, it will now show the accuracy and where it hit.
+  - rscadd: Simple animals (And complex NPC, though no one is using that yet) are
+      now capable of specifically designed spells. Find out more IC - note that baiting
+      them into obstacles or guarding will often prove to be highly useful.
+  - rscadd: Simple animals no longer pick randomly from every single zone equally
+      weighted, which biased them heavily toward biting your head. Instead, based
+      on their sprite's height they bias their attacks to be from the ground, lower
+      body, level, or your head level. Armor accordingly.
+  - rscadd: Penetrating weapons from the stab, pick and piercing family will now deal
+      extra part damage to simple animals, without affecting their total HP pool.
+      This effect is most pronounced at HEAVY penetration and above.
+  - balance: Integrity modifier below 1 will reduce part damage of a weapon vs simple
+      animals, to prevent intent like Rend from becoming excessively OP.
+  BurpleBineapple:
+  - bugfix: Fixes some shading on a donor sallet.
+  - rscdel: Removed barding slowdown code. It wasn't being used except in the case
+      of removing barding from a pre-spawned mount and interfered with repairing the
+      armor by causing permanent debilitating slowdown to the mob.
+  FreeStylaLT:
+  - bugfix: Fixed standard swingdelays applying incorrect defense penalties.
+  KatTheFox:
+  - rscadd: Surgical tools are now considered tools, not weapons, for the purposes
+      of the weaponless and tinypaws traits
+  - rscadd: Added Noelle as a vocal bark option
+  Ketrai:
+  - rscadd: Skill check messages for certain patron based examine blurbs.
+  - bugfix: Fix heartbeast lore blurb
+  Lamasmaster:
+  - bugfix: Desert bra greyscaling
+  - balance: Zizo revive moved back to T4 fromT3
+  - refactor: Anastasis uses new spell code now instead of being stuck in the old
+      one.
+  - refactor: Undivided "Lesser Anastasis" is now subtype of original Anastasis with
+      tripled cooldown of it (so 15 minutes)
+  SciDragon:
+  - bugfix: corrected "sissean" to "zardman"
+  changelingonberry:
+  - balance: targeted vice no longer stresses you when examining masked people
+  mumblemancer:
+  - qol: roaches auto-spit when ur done smoking a zig
+  - rscdel: removed trippy zigs and old zigbox code
+  - bugfix: non-clothing items will show a line abt them in examine now. or whatever.
+      i cant word this good you can tell if a guy has a knife in their mouth
+  saltprjak:
+  - balance: Bear and Mole wildshapes lose critres and nopainstun. Bear hide gets
+      x2.5 integrity compared to before.
+2026-08-18:
+  7erracotta:
+  - bugfix: fixed borked pottery items
+  KatTheFox:
+  - bugfix: Deadite immune players can now sleepheal even the most severe of wounds,
+      over a long period of time, preventing them from being effectively RRd by dying
+      in a random cave
+  kiwedespars:
+  - rscdel: removed pierceimmunity from gnolls. rejoice, you can receive surgery,
+      again.
+  mumblemancer:
+  - bugfix: bootcheck gives you silver coin if for >= 10 instead of == 10
+  radarseas:
+  - balance: Due to budget cuts in the Otavian's weaponry stocks for the inquisition;
+      The Psydonic maul is no longer a standard-issue weapon choice for adjudicators,
+      its now a one-time only, 6 marq purchase in the inquisitional shop. Don't lose
+      it!
+  - rscdel: You can no longer craft Psydonic mauls, they're an exclusive single-one-of-a-kind
+      weapon now.
+  - bugfix: Psydonic maul can no longer mine (it never could anyway, it'd just spam
+      you with a doafter timer because blunt intents can't mine rock)
+2026-08-19:
+  Aeiraea:
+  - bugfix: Fixed a few more of the ported RMH clothing items not appearing within
+      the crafting menu, loadout, and merchant's wardrobe.
+  - code_imp: Properly capitalized two clothing items within the loadout and changed
+      the name of the 'whitepsydontabard' to give the new and proper toga its name.
+  KatTheFox:
+  - rscadd: 'The Hand now has files on all Court Agents, including basic information
+      like name/descriptor/race/class but also two new fields using the new role preferences
+      system: an optional codename, and an in-character "file body" to contain notes
+      on shared history, specialty, etc. If stolen, these files are accessible to
+      any role, so they need to be kept safe.'
+  - rscadd: Court agents now spawn with zadcages linked to the Hand's zadcote
+  - rscadd: The Hand is now notified when Court Agents fartravel, and vice versa.
+      Fartravelling now actually updates the "remember spymaster" and "remember agents"
+      verbs.
+  Ketrai:
+  - rscadd: Added the ability to flatten hunting tracks to delete them with a shovel.
+      It has a cooldown, and cannot be spammed.
+  - bugfix: Fixes hunting tracks not disappearing automatically when tracking an animal.
+  - rscadd: Re-enabled dreamwalker on high intensity.
+  - balance: Lowered dreamwalker stats by a cominical amount.
+  - balance: Cut dreamwalker shard repair value in half.
+  - balance: Haphazardly stripped away about half of dreamwalker's traits.
+  - balance: Dreamwalker armor is now as tough as blacksteel instead of avantyne.
+  - bugfix: Stopped the bugged roundstart dreamwalker from possibly rolling.
+  - bugfix: Assured dreamwalkers cannot roll on super lowpop.
+  Lamasmaster:
+  - rscadd: Adds a new Wretch role 'Profane Champion' as a templar equivalent with
+      plate armor, expert-level weapon skill, a heretical weapon, and access to T2
+      miracles. No ritualist, and limited to ascendant worshippers only.
+  Ryan180602:
+  - rscadd: Noc burgonet.
+  - bugfix: change up snout basc sizes.
+  SomeDeviant:
+  - bugfix: fixed munitioneer wrench and engineering loadout option
+  YakumoChen:
+  - rscdel: Removed chocolate halves we just quarter now
+  zeskorion:
+  - balance: nerfs bogbark club and battle-wrench demolition intent
+2026-08-20:
+  KatTheFox:
+  - rscdel: Removed vampire maidtosis.
+  Lamasmaster:
+  - bugfix: Economic Roleplay Action related to crashing the market with no survivors.
+  Ollanius:
+  - rscdel: Unnecessary color-picking code for Woodland Brigandine sets.
+  - rscdel: Shelves now-unused classic variant of the Woodland Brigandine.
+  - bugfix: Restores the original Shawl for the loadout and sewing recipes. Hijab-styled
+      shawls are now listed via '/shawlhood'.
+  - bugfix: Woodland Mantles and Brigandines now properly render their on-item detail
+      shades when spawned in.
+  - rscadd: Plackarted variants of Woodland Brigandine, and a new CKEY to their kit
+      access.
+  - rscadd: Updated sprites for the Woodland Mantle.
+  YakumoChen:
+  - balance: Murklings don't drown, since they're essentially sentient bog ooze anyway.
+  nauticall:
+  - bugfix: HERMES direct send (via the TGUI window you get when you put money into
+      the thing) now takes paper formatting the same way a normal bit of parchment
+      via the quill does. No more basic HTML filled with `##`, now your HERMES messages
+      look just like the real deal.
+  - qol: Swapped the parchment background to something cleaner to make the paper stuff
+      more readable, and altered the signature font to look more signature-y (done
+      via HTML fallback so it won't glitch out on some PCs).
+  racobio:
+  - rscadd: Adds a recipe to craft the thin winter dress
+  - bugfix: fixes an arcyne ward interaction with the thin winter dress by repathing
+      it
+2026-08-21:
+  Aeiraea:
+  - bugfix: Fixed the Scout Cloak not appearing as intended upon feminine characters
+      and short characters when facing any direction that is not south.
+  KatTheFox:
+  - bugfix: Fixed a runtime relating to throne announcements.
+  - bugfix: Fixed an exploit allowing enchantments to be stacked.
+  - bugfix: Fixed an oversight causing the decrepit kettle helm to smelt into steel
+      instead of glimmering slag
+  - bugfix: Fixed an issue where organs would be treated as sharp objects and embed,
+      particularly noticable as a gnoll devouring corpses
+  - bugfix: Fixed an issue where certain non-flora items (like skysugar slabs) would
+      claim you can crush them into seeds, despite that being untrue
+  - bugfix: Fixed an issue where rosa petals and their variants would be unable to
+      be crushed into seeds, forcing gardeners to make an alchemical mortar to plant
+      rosa
+  - bugfix: Fixed a runtime preventing noticeboard notices from being posted
+  - bugfix: Fixed most round statistics (such as gods' influences) being completely
+      untracked and therefore stuck at zero
+  - bugfix: Fixed conjured skeletons from being able to panel and be panelled
+  Lamasmaster:
+  - bugfix: Sergeant orders not working on Wardens
+  - refactor: Orders (Marshal/Sergeant/Disgraced MAA)
+  - balance: Standard Spear functions apply only to Standard Bearer again, it also
+      grants no bonus stats anymore besides stress relief. It lost 30 throwforce (so
+      10 now) and swapped 1 WIl for 1 CON on the statpack.
+  - image: Makes all bow and arrow sprites 64x64 to prevent flying arrows in UI and
+      onmob (this doesn't prevent weird offsets while dumping quiver or for fired
+      arrows)
+  - spellcheck: Selfbow > Yew Hunting Bow
+  OrbisAnima:
+  - balance: Buff the chance of flints working to 90% from 50%
+  RosySaturniidae:
+  - bugfix: the alloy-tipped triumph kit now has a blacksteel variant instead of downgrading
+      your 140 mammon whip
+  - rscadd: new dono ckey
+  SpartanBobby:
+  - rscadd: Added short skirt. A cut-down variation of the short jupon sprite that
+      you can wear on your legs
+  WeNeedMorePhoron:
+  - balance: Made NPC archers slower shooting and less accurate, again. Excluding
+      Conjured summons
+  - balance: Made a certain boss no longer spawn archers
+  - balance: Fixed an issue where broadhead and bodkin (baseline) arrows do not have
+      any damage falloff as intended.
+  mumblemancer:
+  - rscadd: seneschals now have a unique key to their door
+  radarseas:
+  - rscadd: Added TRAIT_NOVAMPMITOSIS, this prevents well, vampires from duplicating
+      via personal servantry, its only applied on basic VL servants/guards and thinbloods/thinnerbloods.
+      for now.
+  - rscdel: Removed zerobrine
+  - rscdel: Removed TRAIT_BLOODPOOL_BORN, into the pyres of hell with thee DAEMON!!
+      BEGONE!! THE POWER OF PSYDON REBUKES!!!
+  - bugfix: Fixed vamp mitosis + exploits for good
+  zeskorion:
+  - bugfix: wrenches with charges can now attack objects
+  - qol: battle-wrenches default to STRIKE instead of USE

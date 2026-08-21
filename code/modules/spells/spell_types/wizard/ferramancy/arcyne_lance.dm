@@ -46,7 +46,6 @@
 	damage = 66
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
-	npc_simple_damage_mult = 1.5
 	nodamage = FALSE
 	speed = MAGE_PROJ_MEDIUM
 	armor_penetration = PEN_LIGHT

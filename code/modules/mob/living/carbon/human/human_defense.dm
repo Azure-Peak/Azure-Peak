@@ -348,12 +348,12 @@
 			return FALSE
 		var/zones = M.zone_selected
 		if(!M.ckey)
-			zones = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_PRECISE_NECK, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+			zones = M.get_attack_zone(src)
 		var/dam_zone = dismembering_strike(M, zones)
 		if(!dam_zone) //Dismemberment successful
 			return TRUE
 
-		var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
+		var/obj/item/bodypart/affecting = get_bodypart(M.ckey ? ran_zone(dam_zone) : check_zone(dam_zone))
 		if(!affecting)
 			affecting = get_bodypart(BODY_ZONE_CHEST)
 		var/armor = run_armor_check(affecting, M.d_type, armor_penetration = M.armor_penetration, damage = damage)
@@ -364,10 +364,12 @@
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
 		else
-			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src)
+			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src, affecting)
 			affecting.bodypart_attacked_by(M.a_intent.blade_class, damage - armor, M, dam_zone, crit_message = TRUE)
-		visible_message(span_danger("\The [M] [pick(M.a_intent.attack_verb)] [src]![next_attack_msg.Join()]"), \
-					span_danger("\The [M] [pick(M.a_intent.attack_verb)] me![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
+		var/attack_verb = pick(M.a_intent.attack_verb)
+		var/hit_area = parse_zone(affecting.body_zone, affecting)
+		visible_message(span_danger("\The [M] [attack_verb] [src] in the [span_combatsecondarybp(hit_area)]![next_attack_msg.Join()]"), \
+					span_danger("\The [M] [attack_verb] me in the [span_userdanger(hit_area)]![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 		next_attack_msg.Cut()
 		if(nodmg)
 			return FALSE

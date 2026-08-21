@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Broom now cleans in a 3x3 AOE and its cleaning time scales inversely to Cooking skills"

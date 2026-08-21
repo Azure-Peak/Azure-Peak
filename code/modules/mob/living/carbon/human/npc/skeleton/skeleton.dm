@@ -32,6 +32,12 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	skel_fragile = TRUE
 	blood_toll_bucket = STATS_KILLED_DEADITES
+	var/list/skel_outfit_spread
+
+/mob/living/carbon/human/species/skeleton/npc/Initialize(mapload)
+	if(length(skel_outfit_spread))
+		skel_outfit = pick(skel_outfit_spread)
+	return ..()
 
 /mob/living/carbon/human/species/skeleton/npc/after_creation()
 	..()
