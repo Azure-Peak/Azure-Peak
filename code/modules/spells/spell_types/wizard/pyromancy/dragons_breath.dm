@@ -90,7 +90,7 @@
 	duration = 8
 
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/matthios
-	name = "Drakyn's Breath"
+	name = "Drakkyn's Breath"
 	fluff_desc = "Legends speak of men manifesting destruction with mere speech wrecking havoc across countrysides and battlefields alike. Where other techniques were lost to tyme and relentless witch-hunting, one still remains in arsenal of those devoted to the Gilded God."
 	background_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
