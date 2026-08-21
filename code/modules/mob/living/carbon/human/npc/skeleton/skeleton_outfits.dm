@@ -32,43 +32,33 @@
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
 /mob/living/carbon/human/species/skeleton/npc/mediumspread
 	threat_point = THREAT_MODERATE
-
-/mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
-	var/outfit = rand(1, 5)
-	switch(outfit)
-		if(1)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
-		if(2)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/easy
-		if(3)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
-		if(4)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
-	..()
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
+		/datum/outfit/job/roguetown/skeleton/npc/easy,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/archer,
+	)
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
 	faction = list(FACTION_LICH)
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
+		/datum/outfit/job/roguetown/skeleton/npc/easy,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+	)
 
 // for Lich Dungeon
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
-
-/mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
-	var/outfit = rand(1,5)
-	switch(outfit)
-		if(1)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(2)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
-		if(3)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
-		if(4)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
-	..()
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/pirate,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/archer,
+	)
 
 /datum/outfit/job/roguetown/skeleton/npc/supereasy/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -192,7 +182,7 @@
 	H.STACON = 3
 	H.STAWIL = 6
 	name = "Skeleton Pirate"
-	head =  /obj/item/clothing/head/roguetown/helmet/tricorn
+	head =	/obj/item/clothing/head/roguetown/helmet/tricorn
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
@@ -317,7 +307,7 @@
 	H.STAWIL = 10
 	H.STAINT = 1
 	name = "Skeleton Dreadnought"
-	// This combines the khopesh  and withered dreadknight
+	// This combines the khopesh	and withered dreadknight
 	var/skeletonclass = rand(1, 2)
 	if(skeletonclass == 1) // Khopesh Knight
 		H.STASPD = 12 // Hue

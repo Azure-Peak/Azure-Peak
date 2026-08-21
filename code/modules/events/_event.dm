@@ -52,7 +52,7 @@
 	var/track = EVENT_TRACK_MODERATE
 	/// Last calculated weight that the storyteller assigned this event
 	var/calculated_weight = 0
-	var/tags = list() 	/// Tags of the event
+	var/tags = list()	/// Tags of the event
 	/// List of the shared occurence types.
 	var/list/shared_occurences = list()
 	/// Whether a roundstart event can happen post roundstart. Very important for events which override job assignments.

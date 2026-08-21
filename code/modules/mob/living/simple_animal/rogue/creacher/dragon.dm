@@ -1,4 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon
+	anatomy_type = /datum/anatomy/drakkyn
+	threat_point = THREAT_APEX
+	attack_aim = MOB_AIM_HIGH
 	icon = 'modular/icons/mob/96x96/ratwood_dragon.dmi'
 	name = "half-drakkyn"
 	desc = "Descendent of descendent of descendent of greatness; degenerated to mortality through diluta of power, blood, and wealth."
@@ -20,7 +23,7 @@
 	base_intents = list(/datum/intent/simple/bite/dragon_bite)
 	minbodytemp = 0
 	maxbodytemp = INFINITY
-	damage_coeff = list(BRUTE = 1, BURN = 0.2, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 		/obj/item/natural/hide = 2,
@@ -55,7 +58,6 @@
 	STASTR = 20
 	STASPD = 13
 	deaggroprob = 0
-	defprob = 40
 	del_on_deaggro = 9999 SECONDS
 	retreat_health = 0.05
 	food = 0
@@ -66,11 +68,15 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/dragon
+	move_base_delay = MOVEMENT_DELAY_SPD_17
 
 	limb_destroyer = TRUE
 //	stat_attack = UNCONSCIOUS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize()
+	var/breath_ability = /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/drakkyn
+	var/fireball_ability = /datum/action/cooldown/spell/projectile/fireball/mob_ability/drakkyn
+
+/mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
@@ -95,13 +101,14 @@
 	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 
-	var/datum/action/cooldown/mob_cooldown/dragon_leap/leap = new(src)
+	if(breath_ability)
+		var/datum/action/cooldown/spell/telegraphed_strike/breath = new breath_ability(src)
+		breath.Grant(src)
+	if(fireball_ability)
+		var/datum/action/cooldown/spell/projectile/bolt = new fireball_ability(src)
+		bolt.Grant(src)
 
-	leap.Grant(src)
-
-	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, leap)
-
-	//ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC) // Need a weakness
+	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/death(gibbed)
 	..()
@@ -143,74 +150,29 @@
 		Retaliate()
 		GiveTarget(pulledby)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "nose"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "leg"
-		if(BODY_ZONE_L_LEG)
-			return "leg"
-		if(BODY_ZONE_R_ARM)
-			return "foreleg"
-		if(BODY_ZONE_L_ARM)
-			return "foreleg"
-	return ..()
-
 /datum/intent/simple/bite/dragon_bite //the model/hitbox is too big so it never got to attack. Increase reach
-	reach = 3
-	swingdelay = 2
-	clickcd = DRAGON_ATTACK_SPEED //It is a dragon so it bites slightly faster
-	penfactor = PEN_HEAVY // It is a dragon so it bites hard
+	reach = 2
 
 /obj/projectile/magic/aoe/dragon_breath
-    name = "fire hairball"
-    icon_state = "fireball"
-    damage = 10
-    damage_type = BRUTE
-    nodamage = FALSE
-    light_color = "#f8af07"
-    light_outer_range = 2
-    damage = 40
-    flag = "fire"
-    hitsound = 'sound/blank.ogg'
+	name = "fire hairball"
+	icon_state = "fireball"
+	damage = 10
+	damage_type = BRUTE
+	nodamage = FALSE
+	light_color = "#f8af07"
+	light_outer_range = 2
+	damage = 40
+	flag = "fire"
+	hitsound = 'sound/blank.ogg'
 
-    //explosion values
-    var/exp_heavy = 0
-    var/exp_light = 2
-    var/exp_flash = 3
-    var/exp_fire = 3
-
+	//explosion values
+	var/exp_heavy = 0
+	var/exp_light = 2
+	var/exp_flash = 3
+	var/exp_fire = 3
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother
+	threat_point = THREAT_LEGENDARY
 	health = DRAGON_BROODMOTHER_HEALTH
 	maxHealth = DRAGON_BROODMOTHER_HEALTH
 	retreat_health = 0.05
@@ -222,7 +184,8 @@
 	melee_damage_lower = 110
 	melee_damage_upper = 130 //big buffs, these guys will drop very very good things
 	ranged_cooldown_time = 10 SECONDS //dark souls prepare to fry edition
-	var/datum/action/cooldown/mob_cooldown/fire_breath/cone/fire_breath
+	breath_ability = /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/drakkyn/greater
+	fireball_ability = /datum/action/cooldown/spell/projectile/fireball/mob_ability/drakkyn/greater
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 		/obj/item/natural/hide = 4,
@@ -235,14 +198,3 @@
 	head_butcher = /obj/item/natural/head/dragon/broodmother
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize()
-	. = ..()
-
-	fire_breath = new(src)
-	fire_breath.Grant(src)
-	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, fire_breath)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Destroy()
-	fire_breath.Remove(src)
-	QDEL_NULL(fire_breath)
-	return ..()

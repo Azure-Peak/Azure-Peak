@@ -4,7 +4,7 @@
 	desc = "The Archdevil, the Great Worm, the Earth Mover, the Leviathan, the Defiler, the Unmaker. The rottting worm at the center of a discarded apple. The embodiment of pure evil that seeketh to sunder the world in fire and agony, to return it all to nonexistence. There will be no forgiveness or mercy for you, and you will give none in return."
 	worshippers = "EMPTY FUCKING HUSKS, THE BROKEN, THE HURT, THE IGNORED. THE DESPERATE, THE HURT, THE ONES WHO HURT YOU. MURDERERS AND KILLERS AND HUNTERS. NO INNOCENTS. NEVER INNOCENTS."
 	associated_faith = /datum/faith/accelerationism
-	mob_traits = list(TRAIT_UNFORGIVABLE, TRAIT_DNR, TRAIT_NOMOOD, TRAIT_DETACHED, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_PSYCHOSIS) //You're not humen, no, there's no humenity in you.
+	mob_traits = list(TRAIT_UNFORGIVABLE, TRAIT_DNR, TRAIT_NOMOOD, TRAIT_DETACHED, TRAIT_NOPAIN, TRAIT_NOPAINSTUN) //You're not humen, no, there's no humenity in you.
 	profane_words = list("psydon", "allfather") //SPEAKETH ALL THOU SIN THOU WISH, BUT SPEAK NAUGHT THE NAME O' THE DECIEVER
 	preference_accessible = FALSE //LOL, NO
 	undead_hater = TRUE
@@ -24,6 +24,7 @@
 		"Defiler",
 		"Unmaker",
 		"Archdevil",
+		"Arch Devil",
 		"Earth Mover"
 	)
 

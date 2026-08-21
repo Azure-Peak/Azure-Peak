@@ -38,12 +38,18 @@
 
 /obj/item/clothing/cloak/MiddleClick(mob/user)
 	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear [src] over my armor" : "wear [src] under my armor"]."))
 
-	alternate_worn_layer = overarmor ? TABARD_LAYER : UNDER_ARMOR_LAYER
+	var/restored_layer = initial(alternate_worn_layer) || TABARD_LAYER
+	alternate_worn_layer = overarmor ? restored_layer : UNDER_ARMOR_LAYER
+
+	var/where = "under my armor"
+	if(overarmor)
+		where = (restored_layer == CLOAK_BEHIND_LAYER) ? "behind me" : "over my armor"
+	to_chat(user, span_info("I wear [src] [where]."))
 
 	user.update_inv_cloak()
 	user.update_inv_armor()
+	user.update_inv_back()	//back-worn cloaks are drawn out of update_inv_back, and it keys off the layer we just changed
 
 /obj/item/clothing/cloak/bandolier
 	name = "bandolier"
@@ -142,7 +148,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_color = initial(detail_color)
 		color = initial(color)
 		boobed_detail = initial(boobed_detail)
@@ -271,38 +277,37 @@
 			H.update_inv_cloak()
 			H.update_inv_armor()
 
-/obj/item/clothing/cloak/tabard/toga
-	name = "toga"
-	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the heroes and villains of antiquity."
+/obj/item/clothing/cloak/tabard/psydontabard/white
+	name = "traditional tabard"
+	desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 	icon_state = "whitepsydontabard"
 	item_state = "whitepsydontabard"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	custom_design = TRUE
-	var/open_wear = FALSE
 
-/obj/item/clothing/cloak/tabard/toga/get_mechanics_examine(mob/user)
+/obj/item/clothing/cloak/tabard/psydontabard/white/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right-clicking this cloak allows for it to be dynamically worn as a traditional tabard, or as a sleeveless robe that partially exposes the chest.")
 
-/obj/item/clothing/cloak/tabard/toga/alt
-	name = "opened toga"
-	desc = "The ancestral predecessor to Psydonia's many tabards, parted to reveal what lies beneath its cloth."
+/obj/item/clothing/cloak/tabard/psydontabard/white/alt
+	name = "opened traditional tabard"
+	desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a bared sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 	body_parts_covered = GROIN
 	icon_state = "whitepsydontabardalt"
 	item_state = "whitepsydontabardalt"
 	flags_inv = HIDECROTCH
 	open_wear = TRUE
 
-/obj/item/clothing/cloak/tabard/toga/MiddleClick(mob/user)
+/obj/item/clothing/cloak/tabard/psydontabard/white/MiddleClick(mob/user)
 	..()
 	user.update_inv_shirt()
 
-/obj/item/clothing/cloak/tabard/toga/attack_right(mob/user)
+/obj/item/clothing/cloak/tabard/psydontabard/white/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
-			name = "opened toga"
-			desc = "The ancestral predecessor to Psydonia's many tabards, parted to reveal what lies beneath its cloth."
+			name = "opened traditional tabard"
+			desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a bared sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 			body_parts_covered = GROIN
 			icon_state = "whitepsydontabardalt"
 			item_state = "whitepsydontabardalt"
@@ -310,11 +315,11 @@
 			flags_inv = HIDECROTCH // BARE YOUR CHEST, NOT YOUR WEEN!
 			to_chat(usr, span_warning("You pull back the threaded cloth, baring your heart to Psydonia's eyes."))
 		if(TRUE)
-			name = "toga"
-			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the heroes and villains of antiquity."
+			name = "traditional tabard"
+			desc = "A traditional tabard worn by the worshippers of Psydon, fashioned into a sleeveless garment that harks back to the ancient yils of the Holy Inquisition."
 			body_parts_covered = CHEST|GROIN
 			icon_state = "whitepsydontabard"
-			item_state = "whitekpsydontabard"
+			item_state = "whitepsydontabard"
 			flags_inv = HIDECROTCH|HIDEBOOB
 			open_wear = FALSE
 			to_chat(usr, span_warning("You cloak yourself in the threaded cloth, veiling your heart from Psydonia's eyes."))
@@ -520,7 +525,7 @@
 	color = CLOTHING_PURPLE
 	custom_design = TRUE
 
-/obj/item/clothing/cloak/tabard/knight/Initialize()
+/obj/item/clothing/cloak/tabard/knight/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -537,7 +542,7 @@
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/cloak/tabard/retinue/Initialize()
+/obj/item/clothing/cloak/tabard/retinue/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -564,7 +569,7 @@
 	detail_color = CLOTHING_RED
 	boobed_detail = FALSE
 
-/obj/item/clothing/cloak/tabard/crusader/Initialize()
+/obj/item/clothing/cloak/tabard/crusader/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -593,7 +598,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_color = initial(detail_color)
 		color = initial(color)
 		update_icon()
@@ -627,7 +632,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_color = initial(detail_color)
 		color = initial(color)
 		update_icon()
@@ -698,7 +703,7 @@
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/cloak/tabard/stabard/guard/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/guard/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -764,7 +769,7 @@
 /obj/item/clothing/cloak/tabard/stabard/mercenary
 	detail_tag = "_quad"
 
-/obj/item/clothing/cloak/tabard/stabard/mercenary/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/mercenary/Initialize(mapload)
 	. = ..()
 	detail_tag = pick("_quad", "_spl", "_box", "_dim")
 	color = pick(CLOTHING_COLOR_MAP)
@@ -804,7 +809,7 @@
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/cloak/tabard/stabard/surcoat/guard/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/surcoat/guard/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -858,7 +863,7 @@
 		var/mob/L = loc
 		L.update_inv_cloak()
 
-/obj/item/clothing/cloak/lordcloak/Initialize()
+/obj/item/clothing/cloak/lordcloak/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -1030,7 +1035,7 @@
 	salvage_result = /obj/item/natural/fur
 	salvage_amount = 1
 
-/obj/item/clothing/cloak/raincloak/furcloak/crafted/Initialize()
+/obj/item/clothing/cloak/raincloak/furcloak/crafted/Initialize(mapload)
 	. = ..()
 	if(prob(50))
 		color = pick("#685542","#66564d")
@@ -1079,7 +1084,7 @@
 /obj/item/clothing/cloak/cape/red
 	color = CLOTHING_RED
 
-/obj/item/clothing/cloak/cape/guard/Initialize()
+/obj/item/clothing/cloak/cape/guard/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -1106,6 +1111,18 @@
 	icon_state = "puritan_cape"
 	color = CLOTHING_BLACK
 	allowed_race = CLOTHED_RACES_TYPES
+
+/obj/item/clothing/cloak/scout
+	name = "scout cloak"
+	desc = "A weathered cape cut short at the flank."
+	icon_state = "scout_cloak"
+	item_state = "scout_cloak"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
 
 /obj/item/clothing/cloak/cape/inquisitorgold
 	name = "golden order cloak"
@@ -1280,7 +1297,7 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	inhand_mod = FALSE
 
-/obj/item/clothing/cloak/half/vet/Initialize()
+/obj/item/clothing/cloak/half/vet/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -1419,16 +1436,6 @@
 	body_parts_covered = CHEST|GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 
-/obj/item/clothing/cloak/templar/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the tabard over my armor" : "wear the tabard under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
-
 /obj/item/clothing/cloak/cape/blkknight
 	name = "blood cape"
 	icon_state = "bkcape"
@@ -1541,7 +1548,7 @@
 	if(ismob(loc))
 		var/mob/L = loc
 		L.update_inv_cloak()
-	if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
+	if(alert(user, "Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 		detail_tag = initial(detail_tag)
 		update_icon()
 		if(ismob(loc))
@@ -1550,7 +1557,7 @@
 		return
 	custom_design = TRUE
 
-/obj/item/clothing/cloak/tabard/stabard/guardhood/Initialize()
+/obj/item/clothing/cloak/tabard/stabard/guardhood/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -1590,7 +1597,7 @@
 	naledicolor = TRUE
 	desc = "A limp piece of fabric traditionally used to fasten bags that are too baggy, but in modern days has become more of a fashion statement than anything."
 
-/obj/item/clothing/cloak/hierophant/Initialize()
+/obj/item/clothing/cloak/hierophant/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -1636,7 +1643,7 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
-/obj/item/clothing/cloak/graggar/Initialize()
+/obj/item/clothing/cloak/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "CLOAK", "RENDERED ASUNDER")
 
@@ -1648,7 +1655,7 @@
 	desc = "Sorrow begets spite; and when one has nothing else to lose, spite is all that's needed for Man to defy God."
 	icon_state = "graggarcloak_heavy"
 
-/obj/item/clothing/cloak/graggar/Initialize()
+/obj/item/clothing/cloak/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "CLOAK", "RENDERED ASUNDER")
 
@@ -1803,19 +1810,9 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/cloak/cotehardie/Initialize()
+/obj/item/clothing/cloak/cotehardie/Initialize(mapload)
 	..()
 	update_icon()
-
-/obj/item/clothing/cloak/cotehardie/MiddleClick(mob/user)
-	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear the coat over my armor" : "wear the coat under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = TABARD_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
-	user.update_inv_cloak()
-	user.update_inv_armor()
 
 /obj/item/clothing/cloak/cotehardie/mageblue
 	color = CLOTHING_MAGE_BLUE
@@ -1836,7 +1833,7 @@
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	detail_color = "#39404d"
 
-/obj/item/clothing/cloak/banneret/Initialize()
+/obj/item/clothing/cloak/banneret/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)
@@ -1912,3 +1909,108 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+
+/obj/item/clothing/cloak/tabard/toga
+	name = "toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
+	icon_state = "toga"
+	item_state = "toga"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
+	var/open_wear = FALSE
+
+/obj/item/clothing/cloak/tabard/toga/alt
+	name = "bared toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
+	icon_state = "togaalt"
+	item_state = "togaalt"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
+
+/obj/item/clothing/cloak/tabard/toga/attack_right(mob/user)
+	switch(open_wear)
+		if(FALSE)
+			name = "bared toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
+			body_parts_covered = GROIN
+			icon_state = "togaalt"
+			item_state = "togaalt"
+			open_wear = TRUE
+			flags_inv = HIDECROTCH
+			to_chat(usr, span_warning("You pull back a sleeve, baring what lies beneath to Psydonia's eyes."))
+		if(TRUE)
+			name = "toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
+			body_parts_covered = CHEST|GROIN
+			icon_state = "toga"
+			item_state = "toga"
+			flags_inv = HIDECROTCH|HIDEBOOB
+			open_wear = FALSE
+			to_chat(usr, span_warning("You pull up your sleeve, veiling what lies beneath from Psydonia's eyes."))
+	update_icon()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
+
+
+/obj/item/clothing/cloak/tabard/toga/dress
+	name = "toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
+	icon_state = "toga_f"
+	item_state = "toga_f"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
+
+/obj/item/clothing/cloak/tabard/toga/dress/alt
+	name = "bared toga"
+	desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
+	icon_state = "toga_f_alt"
+	item_state = "toga_f_alt"
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	custom_design = TRUE
+	detail_tag = "_detail"
+	detail_color = "null"
+
+/obj/item/clothing/cloak/tabard/toga/dress/attack_right(mob/user)
+	switch(open_wear)
+		if(FALSE)
+			name = "bared toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity, bared open to reveal what's beneath."
+			body_parts_covered = GROIN
+			icon_state = "toga_f_alt"
+			item_state = "toga_f_alt"
+			open_wear = TRUE
+			flags_inv = HIDECROTCH
+			to_chat(usr, span_warning("You pull back a sleeve, baring what lies beneath to Psydonia's eyes."))
+		if(TRUE)
+			name = "toga"
+			desc = "The ancestral predecessor to Psydonia's many tabards, worn by the townsfolk, heroes, and villains of antiquity."
+			body_parts_covered = CHEST|GROIN
+			icon_state = "toga_f"
+			item_state = "toga_f"
+			flags_inv = HIDECROTCH|HIDEBOOB
+			open_wear = FALSE
+			to_chat(usr, span_warning("You pull up your sleeve, veiling what lies beneath from Psydonia's eyes."))
+	update_icon()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
+

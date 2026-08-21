@@ -35,9 +35,9 @@
 	STALUC = 15
 	loot = list(/obj/effect/temp_visual/lich_dying)
 	projectiletype = /obj/projectile/magic
-	var/allowed_projectile_types = list(/obj/projectile/magic/lightning, 
+	var/allowed_projectile_types = list(/obj/projectile/magic/lightning,
 	/obj/projectile/magic/sickness,
-	/obj/projectile/magic/arcane_barrage, 
+	/obj/projectile/magic/arcane_barrage,
 	/obj/projectile/magic/acidsplash,
 	/obj/projectile/magic/spitfire)
 	patron = /datum/patron/inhumen/zizo
@@ -58,7 +58,7 @@
 		/mob/living/carbon/human/species/skeleton/npc/mediumspread/lich = 60,
 	)
 
-/mob/living/simple_animal/hostile/boss/lich/Initialize()
+/mob/living/simple_animal/hostile/boss/lich/Initialize(mapload)
 	projectiletype = /obj/projectile/bullet/reusable/deepone
 	. = ..()
 	blink = new /obj/effect/proc_holder/spell/targeted/turf_teleport/blink
@@ -72,6 +72,7 @@
 	AddSpell(blink)
 	//ADD_TRAIT(src, TRAIT_NOFIRE, TRAIT_GENERIC) //Testing vulnerability to the new silver changes. Un-// these if it becomes too easy.
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	//REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC) //Ditto.
 
 /mob/living/simple_animal/hostile/boss/lich/Shoot()
@@ -245,7 +246,7 @@
 	duration = 30
 	randomdir = FALSE
 
-/obj/effect/temp_visual/lich_dying/Initialize()
+/obj/effect/temp_visual/lich_dying/Initialize(mapload)
 	. = ..()
 	visible_message(span_boldannounce("The Archlich collapses into a pile of dust and bone, unholy energy dispersing into the air!"))
 	INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "Impossible!", null, list("colossus", "yell"))
@@ -304,7 +305,7 @@
 	name = "lich"
 	icon_state = "instrike"
 	attack_verb = list("strikes", "cuts", "cleaves", "slashes")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = 'sound/combat/hits/bladed/genchop (1).ogg'
 	chargetime = 20

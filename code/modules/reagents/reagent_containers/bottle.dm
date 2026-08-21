@@ -65,7 +65,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 /obj/item/reagent_containers/glass/bottle/proc/shatter(turf/T)
 	if(istransparentturf(T))
 		shatter(GET_TURF_BELOW(T))
-		return 
+		return
 	glass_on_impact && new /obj/item/natural/glass_shard(get_turf(T))
 	new /obj/effect/decal/cleanable/debris/glassy(get_turf(T))
 	qdel(src)
@@ -101,7 +101,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	. = ..()
 	toggle_cork(user)
 
-/obj/item/reagent_containers/glass/bottle/Initialize()
+/obj/item/reagent_containers/glass/bottle/Initialize(mapload)
 	. = ..()
 	if(!icon_state)
 		icon_state = "clear_bottle1"
@@ -167,6 +167,12 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	throwforce = 15
 	fill_icon_thresholds = list(0, 50, 100)
 
+/obj/item/reagent_containers/glass/carafe/porcelain
+	name = "porcelain carafe"
+	desc = "A humble porcelain carafe with a flared lip, most often used for serving water and wine amongst the commonfolk."
+	icon_state = "claycarafebaked"
+	throwforce = 20 // Ow!
+
 /obj/item/reagent_containers/glass/carafe/glass
 	name = "glass carafe"
 	desc = "A bulbous container with a flared lip, most often used for serving water and wine amongst guests."
@@ -179,7 +185,9 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 /obj/item/reagent_containers/glass/carafe/glass/proc/shatter(turf/T)
 	if(istransparentturf(T))
 		shatter(GET_TURF_BELOW(T))
-		return 
+		return
 	new /obj/item/natural/glass_shard(get_turf(T))
 	new /obj/effect/decal/cleanable/debris/glassy(get_turf(T))
 	qdel(src)
+
+

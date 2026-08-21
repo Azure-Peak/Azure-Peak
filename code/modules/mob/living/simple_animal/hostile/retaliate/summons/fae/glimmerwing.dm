@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing
+	anatomy_type = /datum/anatomy/winged/standard
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "glimmerwing"
 	desc = "A middlingly-sized fae-creature, held aloft upon fluttering wings and glimmering with unearthly \
@@ -20,10 +21,11 @@
 	death_loot = list(/obj/item/magic/fae/iridescentscale = 2)
 	faction = list(FACTION_FAE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
-	health = 270
-	maxHealth = 270
-	melee_damage_lower = 15
-	melee_damage_upper = 17
+	health = 220
+	maxHealth = 220
+	threat_point = THREAT_HIGH
+	melee_damage_lower = 18
+	melee_damage_upper = 25
 	vision_range = 7
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
@@ -39,7 +41,6 @@
 	STASPD = 15
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	defprob = 40
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
 	retreat_health = 0
@@ -47,9 +48,11 @@
 	attack_sound = 'sound/blank.ogg'
 	dodgetime = 40
 	aggressive = 1
-	var/drug_cd
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/Initialize()
+	ai_controller = /datum/ai_controller/fae/skirmisher/melee/reactive
+	move_base_delay = MOVEMENT_DELAY_SPD_10
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	. = ..()
 
@@ -58,19 +61,3 @@
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/AttackingTarget()
-	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target) & COMPONENT_HOSTILE_NO_PREATTACK)
-		return FALSE //but more importantly return before attack_animal called
-	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)
-	in_melee = TRUE
-	if(!target)
-		return
-	if(world.time >= src.drug_cd + 25 SECONDS)
-		var/mob/living/targetted = target
-		targetted.apply_status_effect(/datum/status_effect/buff/seelie_drugs)
-		targetted.visible_message(span_danger("[src] dusts [target] with some kind of powder!"))
-		targetted.adjustToxLoss(15)
-		src.drug_cd = world.time
-	if(!QDELETED(target))
-		return target.attack_animal(src)

@@ -92,13 +92,13 @@
 				H.set_patron(/datum/patron/inhumen/matthios)
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
-/*                            ,---.
-,--.  ,--.        ,--.  ,--.  |   |
-|  '--'  | ,--,--.|  |,-'  '-.|  .'
-|  .--.  |' ,-.  ||  |'-.  .-'|  |
-|  |  |  |\ '-'  ||  |  |  |  `--'
-`--'  `--' `--`--'`--'  `--'  .--.
-                              '--'
+/*							,---.
+,--.	,--.		,--.	,--.	|	|
+|	'--'	| ,--,--.|	|,-'	'-.|	.'
+|	.--.	|' ,-.	||	|'-.	.-'|	|
+|	|	|	|\ '-'	||	|	|	|	`--'
+`--'	`--' `--`--'`--'	`--'	.--.
+								'--'
 shitcode stuff below this point; first, their regenerating skin.
 Second, a self-buff spell that buffs them depending on their total wealth including item sellvalue. I would have liked this to ideally been just a thing they got passively, but I can't fucking code, so...
 third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it looks cool though doesnt it. */
@@ -115,7 +115,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
 	color = "#f9a602"
 
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas //high and good armor, but full body, so constant dmg  U N G O D L Y  high regen time. get owned when it breaks or swap to a sidearm
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas //high and good armor, but full body, so constant dmg	U N G O D L Y	high regen time. get owned when it breaks or swap to a sidearm
 	name = "hardened scales"
 	desc = "Scales hardened by Lirvan rituo. </br> </br>Who is more worthy to inherit the wealth of the Sun than those who fly closest?"
 	repairmsg_begin = "My scales harden and begin mending."
@@ -375,7 +375,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	for(var/turf/affected_turf in range(1, target_turf))
-		new /obj/effect/temp_visual/trap/thunderstrike(affected_turf, delay)
+		new /obj/effect/temp_visual/telegraph/thunderstrike(affected_turf, delay)
 
 	H.visible_message(span_warning("[H] vaults skywards in a half-crescent of gold...!"), span_notice("CRUSH."))
 	playsound(start_turf, 'sound/combat/wooshes/bladed/wooshsmall (1).ogg', 60, TRUE)

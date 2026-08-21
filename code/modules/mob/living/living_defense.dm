@@ -17,9 +17,9 @@
 	// armor_tier and armor_penetration are both tier values (0-4).
 	// DR Absorb (blunt, fire, acid): damage * 1 / (1 + 0.2 * tier). All damage absorbed by armor, none to HP.
 	// DBLOCK types (ARMOR_DBLOCK_TYPES):
-	//   pen > armor  = 100% through (full penetration)
-	//   pen == armor = 20% through (partial penetration)
-	//   pen < armor  = fully blocked
+	//	pen > armor	= 100% through (full penetration)
+	//	pen == armor = 20% through (partial penetration)
+	//	pen < armor	= fully blocked
 	// Safety: if damage wasn't passed, blocked math would return 0 (null * anything = 0 in DM),
 	// silently making armor do nothing. Use a safe fallback for the blocked calculation only —
 	// don't feed it into checkarmor (which already ran above and handles null damage fine).
@@ -98,7 +98,7 @@
 	var/damfactor_bonus = 0
 	if(I)
 		var/use_bonus = TRUE
-		if(I.sharpness && I.max_blade_int) 	// IS_BLUNT is 0, so this will be falsy with blunt weapons.
+		if(I.sharpness && I.max_blade_int)	// IS_BLUNT is 0, so this will be falsy with blunt weapons.
 			var/dullness_ratio = I.blade_int / I.max_blade_int
 
 			if(attacker.used_intent.damfactor != 1)
@@ -215,7 +215,7 @@
 /// Exposes and staggers the caster of a spell we just Guard-deflected (riposte punish).
 /// Deduped per game tick so a single AOE deflected by multiple guards only punishes once.
 /mob/living/proc/punish_deflected_caster(mob/living/attacker)
-	if(!attacker || !ishuman(attacker) || attacker == src)
+	if(!attacker || attacker == src)
 		return
 	if(attacker.last_deflect_recoil == world.time)
 		return
@@ -245,17 +245,19 @@
 /mob/living/bullet_act(obj/projectile/P, def_zone = BODY_ZONE_CHEST)
 	if(SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone) & COMPONENT_ATOM_BLOCK_BULLET)
 		return
-	def_zone = bullet_hit_accuracy_check(P.accuracy + P.bonus_accuracy, def_zone)
+	var/aimed_zone = def_zone
+	var/list/roll_out = list()
+	def_zone = bullet_hit_accuracy_check(P.accuracy + P.bonus_accuracy, def_zone, roll_out)
 	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = P.armor_penetration, damage = P.damage, intdamfactor = P.intdamfactor, used_weapon = P)
 
 	next_attack_msg.Cut()
 
 	var/on_hit_state = P.on_hit(src, armor)
 	var/actual_damage = P.damage
-	if(!mind && istype(src, /mob/living/simple_animal))
-		var/datum/component/saddleborn = GetComponent(/datum/component/precious_creature)
-		if(!saddleborn)
-			actual_damage *= P.npc_simple_damage_mult
+	if(istype(src, /mob/living/simple_animal))
+		var/mob/living/simple_animal/weakpoint_target = src
+		actual_damage *= weakpoint_target.weakpoint_damage_mod(def_zone)
+		actual_damage *= P.npc_simple_damage_mult
 	var/nodmg = FALSE
 	if(!P.nodamage && on_hit_state != BULLET_ACT_BLOCK)
 		if(!apply_damage(actual_damage, P.damage_type, def_zone, armor))
@@ -289,15 +291,16 @@
 			P.handle_drop()
 
 	var/organ_hit_text = ""
-	var/limb_hit = check_limb_hit(def_zone)//to get the correct message info.
+	var/limb_hit = hit_zone_name(def_zone)//to get the correct message info.
 	if(limb_hit)
-		organ_hit_text = " in \the [parse_zone(limb_hit)]"
+		organ_hit_text = " in \the [limb_hit]"
 	if(P.hitsound && !nodmg)
 		var/volume = P.vol_by_damage()
 		playsound(loc, pick(P.hitsound), volume, TRUE, -1)
 	visible_message(span_danger("[src] is hit by \a [P][organ_hit_text]![next_attack_msg.Join()]"), \
 			span_danger("I'm hit by \a [P][organ_hit_text]![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 	next_attack_msg.Cut()
+	show_ranged_accuracy_fail(P.firer, aimed_zone, def_zone, roll_out)
 
 
 	return on_hit_state ? BULLET_ACT_HIT : BULLET_ACT_BLOCK
@@ -306,7 +309,7 @@
 	return 0
 
 /mob/living/proc/check_projectile_wounding(obj/projectile/P, def_zone)
-	return simple_woundcritroll(P.woundclass, P.damage, null, def_zone, crit_message = TRUE, no_crit = P.no_crit)
+	return simple_woundcritroll(P.woundclass, P.damage, null, def_zone, crit_message = TRUE, ranged = TRUE, penfactor = P.armor_penetration)
 
 /mob/living/proc/check_projectile_embed(obj/projectile/P, def_zone)
 	// Disable embeds on simples, allowing it to override on complex.
@@ -346,7 +349,7 @@
 						affecting.bodypart_attacked_by(I.thrown_bclass, I.throwforce, throwee, affecting.body_zone, crit_message = TRUE, weapon = I)
 					I.do_special_attack_effect(I.thrownby, affecting, null, src, zone, thrown = TRUE)
 				else
-					simple_woundcritroll(I.thrown_bclass, I.throwforce, null, zone, crit_message = TRUE)
+					simple_woundcritroll(I.thrown_bclass, I.throwforce, null, zone, crit_message = TRUE, ranged = TRUE, penfactor = I.armor_penetration)
 					if(((throwingdatum ? throwingdatum.speed : I.throw_speed) >= EMBED_THROWSPEED_THRESHOLD) || I.embedding.embedded_ignore_throwspeed_threshold)
 						if(can_embed(I) && prob(I.embedding.embed_chance) && HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS) && !HAS_TRAIT(src, TRAIT_PIERCEIMMUNE))
 							simple_add_embedded_object(I, silent = FALSE, crit_message = TRUE)
@@ -590,7 +593,7 @@
 		if(M.attack_sound)
 			playsound(loc, M.a_intent.hitsound, 100, FALSE)
 
-		log_combat(M, src, "attacked")
+		log_combat(M, src, "attacked", zone=M.zone_selected)
 
 	return TRUE
 

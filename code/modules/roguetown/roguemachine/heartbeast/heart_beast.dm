@@ -21,19 +21,21 @@
 
 /obj/structure/roguemachine/chimeric_heart_beast/examine(mob/user)
 	. = ..()
-	if(iscarbon(user))
-		var/mob/living/carbon/c = user
-		if(c.patron.type == /datum/patron/divine/pestra)
-			. += span_info("The divine beast of Pestra. For untold ages, these beasts remained behind locked doors, allowing the sect of Pestra to lengthen their lifespan.")
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.patron.type == /datum/patron/divine/pestra)
+			. += skill_check_text("Pestra", TRUE, "The divine beast of Pestra. For untold ages, these beasts remained behind locked doors, allowing the sect of Pestra to lengthen their lifespan.")
 			. += span_infection("Yet the others grew restless, desiring pure lux for their own...")
-			. += span_info("Now, they are employed in most regions of the world where the light of the ten shines. Decreasing suffering.")
+			. += span_infection("Now, they are employed in most regions of the world where the light of the ten shines. Decreasing suffering.")
 			. += span_infection("For the great beast of Pestra, made through the ingenuity of humenkind influences all divine magic within a region.")
+		else
+			. += skill_check_text("Pestra", FALSE, "My devotion to Pestra is too weak, the whispers of the void remain silent.")
 
 /obj/structure/roguemachine/chimeric_heart_beast/proc/initialize_personality()
 	// Pick random archetype
 	var/archetype_types = list(
 		/datum/flesh_archetype/fearful,
-		/datum/flesh_archetype/authoritarian, 
+		/datum/flesh_archetype/authoritarian,
 		/datum/flesh_archetype/aggressive,
 		/datum/flesh_archetype/arbitrary,
 		/datum/flesh_archetype/inquisitive,
@@ -108,15 +110,15 @@
 	// debug_info += "Archetype: [archetype.name]"
 	// debug_info += "Traits:"
 	// for(var/datum/flesh_trait/trait in traits)
-	// 	debug_info += "  - [trait.name]"
+	//	debug_info += "	- [trait.name]"
 	// debug_info += "Quirks:"
 	// for(var/datum/flesh_quirk/quirk in quirks)
-	// 	debug_info += "  - [quirk.name]"
+	//	debug_info += "	- [quirk.name]"
 	// debug_info += "Discharge Color: [discharge_color]"
 	// if(royal_title)
-	// 	debug_info += "Royal Title: [royal_title]"
+	//	debug_info += "Royal Title: [royal_title]"
 
-	// to_chat(world, span_userdanger("[debug_info.Join("\n")]"))
+	// to_world(span_userdanger("[debug_info.Join("\n")]"))
 
 /obj/structure/roguemachine/chimeric_heart_beast/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
 	// . = ..()
@@ -129,7 +131,7 @@
 		return
 	SEND_SIGNAL(src, COMSIG_HEART_BEAST_HEAR, speaker, raw_message)
 
-/obj/structure/roguemachine/chimeric_heart_beast/Initialize()
+/obj/structure/roguemachine/chimeric_heart_beast/Initialize(mapload)
 	. = ..()
 	initialize_personality()
 	AddComponent(/datum/component/chimeric_heart_beast)
@@ -230,7 +232,7 @@
 				"tier" = N.required_tier,
 			))
 
- 	.["unlocked"] = unlocked_data
+	.["unlocked"] = unlocked_data
 
 	return .
 

@@ -35,7 +35,7 @@
 			controller.add_blackboard_key(future_path_blackboard_key, null)
 		if(!COOLDOWN_FINISHED(controller, movement_cooldown))
 			continue
-		COOLDOWN_START(controller, movement_cooldown, controller.movement_delay)
+		controller.advance_movement_cooldown()
 
 		if(!controller.can_move())
 			continue
@@ -93,10 +93,11 @@
 			var/current_loc = get_turf(movable_pawn)
 
 			if(!is_type_in_typecache(target_turf, GLOB.dangerous_turfs) && can_move)
-				step_to(movable_pawn, target_turf, controller.blackboard[BB_CURRENT_MIN_MOVE_DISTANCE], controller.movement_delay)
+				step_to(movable_pawn, target_turf, controller.blackboard[BB_CURRENT_MIN_MOVE_DISTANCE])
 
 				// Check if movement was successful
 				if(current_loc != get_turf(movable_pawn))
+					charge_diagonal_step(controller, current_loc)
 					// Successful basic movement - reset failure counter and clear fallback state
 					controller.pathing_attempts = 0
 					var/datum/weakref/weak = WEAKREF(controller)
@@ -173,6 +174,7 @@
 					// Only move if we can legitimately transition, otherwise regenerate path
 					if(can_transition)
 						movable_pawn.Move(next_step)
+						charge_diagonal_step(controller, current_turf)
 					else
 						// Can't reach next step legitimately, need new path
 						generate_path = TRUE
@@ -181,7 +183,10 @@
 					// Use step() with explicit direction rather than step_to().
 					// Step will fail if we can't move in that direction and allow us to climb.
 					var/move_dir = get_dir(movable_pawn, next_step)
-					if(!step(movable_pawn, move_dir, controller.movement_delay) && controller.can_climb_structures && world.time >= controller.next_climb_time)
+					var/stepped = step(movable_pawn, move_dir)
+					if(stepped)
+						charge_diagonal_step(controller, current_turf)
+					if(!stepped && controller.can_climb_structures && world.time >= controller.next_climb_time)
 						// climbable/climb_structure are declared on /obj/structure and /obj/machinery separately, so iterate both.
 						var/obj/structure/struct_target
 						var/obj/machinery/mach_target

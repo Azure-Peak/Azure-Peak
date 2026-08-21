@@ -61,7 +61,7 @@
 	var/base_width = 32
 	var/base_height = 32
 
-/obj/item/natural/bundle/Initialize()
+/obj/item/natural/bundle/Initialize(mapload)
 	. = ..()
 	update_bundle()
 

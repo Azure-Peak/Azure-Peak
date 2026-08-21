@@ -168,6 +168,12 @@
 	created_item = /obj/item/cooking/pan/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
+/datum/anvil_recipe/tools/blacksteel/pan
+	name = "Frypan, Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/cooking/pan/blacksteel
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+
 /datum/anvil_recipe/tools/aalloy/agobs
 	name = "Goblet, Decrepit (x3)"
 	req_bar = /obj/item/ingot/aalloy
@@ -490,7 +496,7 @@
 	name = "Scrap, Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/scrap
-	display_category = ITEM_CAT_TOOLS_SUNDRIES
+	display_category = ITEM_CAT_SALVAGE
 	createditem_num = 1
 
 /datum/anvil_recipe/tools/iron/cups

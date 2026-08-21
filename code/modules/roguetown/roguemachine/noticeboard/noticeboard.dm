@@ -11,7 +11,7 @@
 	plane = GAME_PLANE_UPPER
 	var/last_market_refresh = 0
 
-/obj/structure/roguemachine/noticeboard/Initialize()
+/obj/structure/roguemachine/noticeboard/Initialize(mapload)
 	. = ..()
 	SSroguemachine.noticeboards += src
 	update_icon()

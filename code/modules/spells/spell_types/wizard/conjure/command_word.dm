@@ -1,11 +1,7 @@
 #define CONJURE_TAUNT_TELEGRAPH (1.5 SECONDS)
 #define CONJURE_OVERLOAD_WINDUP (3.5 SECONDS)
 
-/obj/effect/temp_visual/conjure_taunt
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "trap"
-	layer = BELOW_MOB_LAYER
-	color = GLOW_COLOR_ARCANE
+/obj/effect/temp_visual/telegraph/conjure_taunt
 	duration = CONJURE_TAUNT_TELEGRAPH
 
 /datum/action/cooldown/spell/command_word
@@ -141,7 +137,7 @@
 		return summon_overload(bomb)
 
 	var/count = 0
-	var/balloon = "<font color='[modes[current_mode]["color"]]'>[lowertext(modes[current_mode]["name"])]!</font>"
+	var/balloon = "<font color='[modes[current_mode]["color"]]'>[LOWER_TEXT(modes[current_mode]["name"])]!</font>"
 	for(var/mob/living/summon in summons)
 		if(command_summon(summon, key, aim))
 			summon.balloon_alert_to_viewers(balloon)
@@ -194,7 +190,11 @@
 	return TRUE
 
 /datum/action/cooldown/spell/command_word/proc/primordial_overcharge(mob/living/simple_animal/hostile/retaliate/rogue/primordial/P)
-	P.next_ability_use = 0
+	for(var/datum/action/cooldown/special in P.actions)
+		if(special.shared_cooldown != "mob_special")
+			continue
+		special.next_use_time = 0
+		special.build_all_button_icons()
 	return TRUE
 
 /datum/action/cooldown/spell/command_word/proc/summon_special(mob/living/summon, atom/aim)
@@ -206,14 +206,13 @@
 	if(!target)
 		return FALSE
 
-	if(istype(summon, /mob/living/simple_animal/hostile/retaliate/rogue/primordial))
-		var/mob/living/simple_animal/hostile/retaliate/rogue/primordial/P = summon
-		if(world.time < P.next_ability_use)
-			return FALSE
-		P.face_atom(target)
-		P.ability(get_turf(target), P)
-		P.mark_ability_used()
-		return TRUE
+	for(var/datum/action/cooldown/spell/special in summon.actions)
+		if(special.shared_cooldown != "mob_special")
+			continue
+		if(!special.IsAvailable() || !special.can_use(target))
+			continue
+		summon.face_atom(target)
+		return special.Trigger(target = target)
 
 	if(summon.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return FALSE
@@ -404,7 +403,7 @@
 /datum/action/cooldown/spell/command_word/proc/do_taunt(list/summons, turf/dest)
 	if(!isturf(dest) || !length(summons))
 		return FALSE
-	new /obj/effect/temp_visual/conjure_taunt(dest)
+	new /obj/effect/temp_visual/telegraph/conjure_taunt(dest)
 	for(var/mob/living/summon in summons)
 		if(QDELETED(summon) || summon.stat == DEAD)
 			continue
@@ -442,7 +441,7 @@
 				continue
 			var/datum/component/ai_aggro_system/A = enemy.GetComponent(/datum/component/ai_aggro_system)
 			if(A)
-				A.add_threat_to_mob(summon, 100)
+				A.add_threat_to_mob(summon, AGGRO_THREAT_TAUNT)
 
 /datum/action/cooldown/spell/command_word/fray
 	name = "Fray"

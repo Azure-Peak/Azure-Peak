@@ -95,9 +95,9 @@
 	H.visible_message(span_boldwarning("[H] conjures a massive hammer out of arcyne force!"))
 
 	for(var/turf/affected_turf in get_hear(area_of_effect, T))
-		new /obj/effect/temp_visual/blade_storm_telegraph(affected_turf)
+		new /obj/effect/temp_visual/telegraph/blade_storm(affected_turf)
 
-	log_combat(H, cast_on, "used Cataclysm on")
+	log_combat(H, cast_on, "used Cataclysm on", zone=H.zone_selected)
 
 	addtimer(CALLBACK(src, PROC_REF(do_hammer_throw), H, held_weapon, T, final_damage, def_zone, empowered), delay)
 	. = ..()

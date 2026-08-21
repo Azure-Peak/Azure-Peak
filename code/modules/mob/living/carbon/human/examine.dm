@@ -130,7 +130,7 @@
 			. += span_userdanger("<a href='?src=[REF(src)];task=bloodpoolinfo;'>Vitae: [(mind && !clan) ? (bloodpool * CLIENT_VITAE_MULTIPLIER) : bloodpool]; Blood: [blood_volume]</a>")
 
 
-	if(HAS_TRAIT(src, TRAIT_NPC_EXAMINE) && !mind && src.stat == CONSCIOUS) //NPCs always show up if they're mindless.
+	if(is_npc(src) && src.stat == CONSCIOUS) //NPCs always show up if they're mindless.
 		. += span_warning("[src]'s hollow expression is filled with mindless anger!")
 
 	if(wear_shirt && !(SLOT_SHIRT in obscured))
@@ -149,8 +149,7 @@
 			if(U.attached_accessory)
 				accessory_msg += " with [icon2html(U.attached_accessory, user)] \a [U.attached_accessory]"
 		var/str = "[m3] [wear_pants.generate_tooltip(wear_pants.get_examine_string(user))][accessory_msg]. "
-		if(!wear_armor)
-			str += wear_pants.integrity_check(is_smart, guarded)
+		str += wear_pants.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] a pair of some pants! "
 		. += str
@@ -284,7 +283,7 @@
 			var/obj/item/clothing/CM = mouth
 			str = "[m3] [CM.generate_tooltip(CM.get_examine_string(user))] in [m2] mouth. "
 		else
-			"[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
+			str = "[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
 		str += mouth.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] some kinda thing on [m2] mouth!"
@@ -751,11 +750,6 @@
 
 		. += app_str
 
-	// Characters with the targeted flaw will freak out if they can't see someone's face.
-	if(!appears_dead)
-		if(skipface && user.has_flaw(/datum/charflaw/targeted) && user != src)
-			user.add_stress(/datum/stressevent/targeted)
-
 	if(dna?.species?.type == /datum/species/gnoll)
 		if(istype(user, /mob/living/carbon/human)) //Submitting this one upstream because not our shitcode for once
 			var/mob/living/carbon/human/H = user
@@ -832,7 +826,7 @@
 				pronoun = capitalize(p_they(TRUE))
 		else
 			pronoun = capitalize(m2)
-		var/wording = (dna.species.use_skin_tone_wording_for_examine ? "[lowertext(dna.species.skin_tone_wording)]" : "hail[(user == src) ? "" : "s"] from")	//Ancestry / Tribe or hails from
+		var/wording = (dna.species.use_skin_tone_wording_for_examine ? "[LOWER_TEXT(dna.species.skin_tone_wording)]" : "hail[(user == src) ? "" : "s"] from")	//Ancestry / Tribe or hails from
 		var/origin
 		if(dna.species.use_skin_tone_wording_for_examine)
 			if(dna.species.origin == "Unknown")
@@ -864,7 +858,7 @@
 		if((HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYTOUCHED) || istype(user, /mob/living/carbon/human/species/familiar/fae)) && HAS_TRAIT(src, TRAIT_FEYTOUCHED))
 			. += span_nicegreen("Someone touched by, or created by fey. Perhaps a vessel of the past, or a deeply affected puppet.")
 
-		if((HAS_TRAIT(user, TRAIT_FEYTOUCHED) ||  istype(user, /mob/living/carbon/human/species/familiar/fae)) && HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
+		if((HAS_TRAIT(user, TRAIT_FEYTOUCHED) ||	istype(user, /mob/living/carbon/human/species/familiar/fae)) && HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
 			. += span_nicegreen("A true force of the fey, the mossmother speaks to this one closely.")
 
 		if(SSticker.rulermob == src)

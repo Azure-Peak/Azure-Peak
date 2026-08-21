@@ -101,16 +101,16 @@
 	var/newtime = (10 - user.get_skill_level(ranged_skill) * 2) + (10 - user.STASTR / 2) + (20 - user.STAPER)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME
+	return (max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME) * ARCHER_NPC_ROF_PENALTY
 
 //bow objs ฅ^•ﻌ•^ฅ
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	has_item_quality = TRUE
-	name = "crude selfbow"
-	desc = "This roughly hewn selfbow is just a bit too little of everything. Too little length, \
-	too little poundage, too slow a shot."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	name = "yew hunting bow"
+	desc = "A typical hunting bow used by peasants, hunters and levies in absence of more powerful warbows, \
+	it is too weak to pose real threat to armour but in skilled hands a deadly tool all the same."
+	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "bow"
 	item_state = "bow"
 	experimental_onhip = TRUE
@@ -128,6 +128,11 @@
 	spread = 0
 	can_parry = TRUE
 	force = 10
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	bigboy = TRUE
 	verbage = "nock"
 	cartridge_wording = "arrow"
 	load_sound = 'sound/foley/nockarrow.ogg'
@@ -137,12 +142,19 @@
 	var/spill_ammo_on_drop = TRUE
 	var/ranged_skill = /datum/skill/combat/bows
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/can_quick_load(mob/user)
+	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
+		to_chat(user, span_warning("I need a free hand to nock [src]!"))
+		return FALSE
+	return TRUE
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
+	. += span_info("Nocking straight from a quiver requires my other hand to be free.")
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize()
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize(mapload)
 	. = ..()
 	if(heavy_bow == TRUE)
 		src.possible_item_intents = list(
@@ -184,12 +196,12 @@
 					)
 			if("onbelt")
 				return list(
-					"shrink" = 0.6,
+					"shrink" = 0.7,
 					"sx" = 0,
 					"sy" = -3,
-					"nx" = 4,
+					"nx" = 3,
 					"ny" = -5,
-					"wx" = -3,
+					"wx" = -7,
 					"wy" = -5,
 					"ex" = 2,
 					"ey" = -5,
@@ -204,16 +216,15 @@
 					"northabove" = 1,
 					"southabove" = 0,
 					"eastabove" = 0,
-					"westabove" = 0,
-					)
+					"westabove" = 0)
 			if("onback")
 				return list(
-					"shrink" = 0.6,
-					"sx" = 0,
+					"shrink" = 0.7,
+					"sx" = -1,
 					"sy" = 0,
-					"nx" = 4,
-					"ny" = 0,
-					"wx" = 0,
+					"nx" = 0,
+					"ny" = 1,
+					"wx" = -2,
 					"wy" = 0,
 					"ex" = 0,
 					"ey" = 0,
@@ -228,9 +239,7 @@
 					"northabove" = 1,
 					"southabove" = 0,
 					"eastabove" = 0,
-					"westabove" = 0,
-					)
-
+					"westabove" = 0,)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/shoot_with_empty_chamber()
 	return
@@ -257,7 +266,7 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
+		spread = 0
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.accuracy += accfactor * (user.STAPER - 9) * 4 // 9+ PER gives +4 per level. Exponential.
@@ -276,7 +285,7 @@
 	..()
 
 	var/matrix/mat = matrix()
-	mat.Translate(20,20)
+	mat.Translate(0,0)
 
 	cut_overlays()
 	if(chambered)
@@ -299,7 +308,6 @@
 	name = "recurve bow"
 	desc = "A medium length composite bow of glued horn, wood, and sinew with good shooting \
 	characteristics."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "recurve_bow"
 	force = 9
 	pixel_y = -16
@@ -388,7 +396,6 @@
 	name = "yew longbow"
 	desc = "A sturdy warbow made of a tillered yew stave. It's difficult to handle, but the \
 	power is worth the effort."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "longbow"
 	slot_flags = ITEM_SLOT_BACK
 	damfactor = 1.3
@@ -514,7 +521,6 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 	name = "short bow"
 	desc = "As the eagle was killed by the arrow winged with his own feather, so the hand of the world is wounded by its own skill."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "bow" //No time for sprite this shit
 	item_state = "bow"
 	possible_item_intents = list(

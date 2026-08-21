@@ -34,7 +34,7 @@
 	desc = "A sleeveless maille shirt, fashioned from dozens of interlinked bronze rings. It's light enough to comfortably tuck underneath a \
 	blouse, yet tough enough to thwart the razor-sharp edges of unwelcomed company. For the discerning traveler - ideally, from an antique land."
 	icon_state = "bhaubyrnie"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON - 30
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 	armor = ARMOR_BRONZE
 
@@ -233,7 +233,7 @@
 	armor = ARMOR_PLATE
 	name = "psydonic plate-and-maille"
 	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against \
-	arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎  </br>'..the \
+	arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎	</br>'..the \
 	knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'"
 	icon_state = "ornatehauberk"
 	item_state = "ornatehauberk"
@@ -262,7 +262,7 @@
 	name = "layer a steel cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0 //Straight-forward. Note that this is a copy of Draganfrukt's helmet-and-hat combination system, which also has the slight caveat..
 	req_table = TRUE //..of resetting the durability of both items, when crafted and uncrafted. This check helps to reduce a lot of potential cheese, but should be tweaked later.
 	bypass_dupe_test = TRUE
@@ -271,7 +271,7 @@
 	name = "layer a iron cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron = 1)
 	craftdiff = 0
 	req_table = TRUE
 	bypass_dupe_test = TRUE
@@ -280,7 +280,7 @@
 	name = "layer an ancient cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
 	bypass_dupe_test = TRUE
@@ -289,7 +289,7 @@
 	name = "layer a fluted cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
 	bypass_dupe_test = TRUE
@@ -298,7 +298,7 @@
 	name = "layer a psydonic cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
 	bypass_dupe_test = TRUE
@@ -307,7 +307,7 @@
 	name = "layer a decorated cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/decorated)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/decorated = 1,
-	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
 	bypass_dupe_test = TRUE
@@ -324,7 +324,7 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
@@ -345,7 +345,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
@@ -353,20 +353,6 @@
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
-	name = "fused avantyne hauberk"
-	desc = "The rings crackle softly with avantynic power, yet its fused firmly lyke a second skin. There is no going back, there is only forward in her name."
-
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/Initialize(mapload)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
 
 //
 
@@ -378,10 +364,13 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
 */ // Combine with #ddc0a7 to make an easier, do-it-yourself version of Vicious items without the need for exotic sprites.
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 //

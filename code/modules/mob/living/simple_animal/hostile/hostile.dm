@@ -22,7 +22,7 @@
 	var/list/emote_taunt = list()
 	var/taunt_chance = 0
 
-	var/rapid_melee = 1			 //Number of melee attacks between each npc pool tick. Spread evenly.
+	var/rapid_melee = 1				//Number of melee attacks between each npc pool tick. Spread evenly.
 	var/melee_queue_distance = 4 //If target is close enough start preparing to hit them if we have rapid_melee enabled
 
 	var/ranged_message = "fires" //Fluff text for ranged mobs
@@ -62,7 +62,7 @@
 	setparrytime = 30
 	dodgetime = 30
 
-/mob/living/simple_animal/hostile/Initialize()
+/mob/living/simple_animal/hostile/Initialize(mapload)
 	. = ..()
 	last_aggro_loss = world.time //so we delete even if we never found a target
 	if(!targets_from)
@@ -90,6 +90,14 @@
 		walk(src, 0) //stops walking
 		return 0
 
+/mob/living/simple_animal/hostile/Login()
+	. = ..()
+	if(target)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+		target = null
+	approaching_target = FALSE
+	in_melee = FALSE
+
 /mob/living/simple_animal/hostile/handle_automated_action()
 	if(QDELETED(src) || !loc)
 		return FALSE
@@ -114,7 +122,7 @@
 	if(AICanContinue(possible_targets))
 		if(!QDELETED(target) && targets_from && targets_from.loc && !targets_from.Adjacent(target))
 			DestroyPathToTarget()
-		if(!MoveToTarget(possible_targets))     //if we lose our target
+		if(!MoveToTarget(possible_targets))		//if we lose our target
 			if(AIShouldSleep(possible_targets))	// we try to acquire a new one
 				toggle_ai(AI_IDLE)			// otherwise we go idle
 				return 1
@@ -173,11 +181,11 @@
 		FindTarget(list(user), 1)
 	return ..()
 
-/mob/living/simple_animal/hostile/bullet_act(obj/projectile/P)
+/mob/living/simple_animal/hostile/bullet_act(obj/projectile/P, def_zone = BODY_ZONE_CHEST)
 	if(stat == CONSCIOUS && !target && AIStatus != NPC_AI_OFF && !client)
 		if(P.firer && get_dist(src, P.firer) <= aggro_vision_range)
 			FindTarget(list(P.firer), 1)
-		Goto(P.starting, move_to_delay, 3)
+		Goto(P.starting, 3)
 	return ..()
 
 //////////////HOSTILE MOB TARGETTING AND AGGRESSION////////////
@@ -257,7 +265,7 @@
 
 	if(ismob(the_target)) //Target is in godmode, ignore it.
 		var/mob/M = the_target
-		if(M.status_flags & GODMODE)
+		if(GODMODE_HIDDEN(M))
 			return FALSE
 		if(M.name in friends)
 			return FALSE
@@ -345,11 +353,11 @@
 				OpenFire(target)
 		if(retreat_distance != null) //If we have a retreat distance, check if we need to run from our target
 			if(target_distance <= retreat_distance) //If target's closer than our retreat distance, run
-				walk_away(src,target,retreat_distance,move_to_delay)
+				walk_away(src, target, retreat_distance, cached_multiplicative_slowdown)
 			else
-				Goto(target,move_to_delay,minimum_distance) //Otherwise, get to our minimum distance so we chase them
+				Goto(target, minimum_distance) //Otherwise, get to our minimum distance so we chase them
 		else
-			Goto(target,move_to_delay,minimum_distance)
+			Goto(target, minimum_distance)
 		if(target)
 			if(targets_from && isturf(targets_from.loc) && target.Adjacent(targets_from)) //If they're next to us, attack
 				MeleeAction()
@@ -362,7 +370,7 @@
 	else
 		if(ranged_ignores_vision && ranged_cooldown <= world.time) //we can't see our target... but we can fire at them!
 			OpenFire(target)
-		Goto(target,move_to_delay,minimum_distance)
+		Goto(target, minimum_distance)
 		FindHidden()
 		return 1
 //	if(environment_smash)
@@ -370,7 +378,7 @@
 //			if(ranged_ignores_vision && ranged_cooldown <= world.time) //we can't see our target... but we can fire at them!
 //				OpenFire(target)
 //			if((environment_smash & ENVIRONMENT_SMASH_WALLS) || (environment_smash & ENVIRONMENT_SMASH_RWALLS)) //If we're capable of smashing through walls, forget about vision completely after finding our target
-//				Goto(target,move_to_delay,minimum_distance)
+//				Goto(target, minimum_distance)
 //				FindHidden()
 //				return 1
 //			else
@@ -379,12 +387,12 @@
 //	LoseTarget()
 //	return 0
 
-/mob/living/simple_animal/hostile/proc/Goto(target, delay, minimum_distance)
+/mob/living/simple_animal/hostile/proc/Goto(target, minimum_distance)
 	if(target == src.target)
 		approaching_target = TRUE
 	else
 		approaching_target = FALSE
-	walk_to(src, target, minimum_distance, delay)
+	walk_to(src, target, minimum_distance, cached_multiplicative_slowdown)
 
 
 /mob/living/simple_animal/hostile/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
@@ -460,7 +468,7 @@
 			if(M.AIStatus == NPC_AI_OFF)
 				return
 			else
-				M.Goto(src,M.move_to_delay,M.minimum_distance)
+				M.Goto(src, M.minimum_distance)
 
 /mob/living/simple_animal/hostile/proc/CheckFriendlyFire(atom/A)
 	if(check_friendly_fire)
@@ -479,33 +487,44 @@
 	visible_message(span_danger("<b>[src]</b> [ranged_message] at [A]!"))
 
 
+	var/turf/locked_turf = get_turf(A)
+	var/aim_window = get_ranged_aim_window()
+	var/datum/callback/cb = CALLBACK(src, PROC_REF(Shoot), A, locked_turf)
 	if(rapid > 1)
-		var/datum/callback/cb = CALLBACK(src, PROC_REF(Shoot), A)
 		for(var/i in 1 to rapid)
-			addtimer(cb, (i - 1)*rapid_fire_delay)
+			addtimer(cb, aim_window + ((i - 1) * rapid_fire_delay))
 	else
-		Shoot(A)
+		addtimer(cb, aim_window)
 	ranged_cooldown = world.time + ranged_cooldown_time
 
 
-/mob/living/simple_animal/hostile/proc/Shoot(atom/targeted_atom)
+/mob/living/simple_animal/hostile/proc/Shoot(atom/targeted_atom, turf/locked_turf)
+	if(QDELETED(src) || QDELETED(targets_from) || !targets_from.loc)
+		return
 	if( QDELETED(targeted_atom) || targeted_atom == targets_from.loc || targeted_atom == targets_from )
 		return
 	var/turf/startloc = get_turf(targets_from)
 	if(casingtype)
 		var/obj/item/ammo_casing/casing = new casingtype(startloc)
 		playsound(src, projectilesound, 100, TRUE)
-		casing.fire_casing(targeted_atom, src, null, null, null, ran_zone(), 0,  src)
+		apply_ranged_accuracy(casing.BB)
+		var/atom/aim_at = locked_turf ? get_ranged_lead_turf(targeted_atom, locked_turf, casing.BB?.speed) : targeted_atom
+		casing.fire_casing(aim_at || targeted_atom, src, null, null, null, ran_zone(), 0,	src)
 	else if(projectiletype)
 		var/obj/projectile/P = new projectiletype(startloc)
 		playsound(src, projectilesound, 100, TRUE)
+		apply_ranged_accuracy(P)
+		var/atom/aim_at = locked_turf ? get_ranged_lead_turf(targeted_atom, locked_turf, P.speed) : targeted_atom
+		if(!aim_at)
+			aim_at = targeted_atom
 		P.starting = startloc
 		P.firer = src
 		P.fired_from = src
-		P.yo = targeted_atom.y - startloc.y
-		P.xo = targeted_atom.x - startloc.x
-		P.original = targeted_atom
-		P.preparePixelProjectile(targeted_atom, src)
+		P.yo = aim_at.y - startloc.y
+		P.xo = aim_at.x - startloc.x
+		P.original = aim_at
+		P.def_zone = ran_zone()
+		P.preparePixelProjectile(aim_at, src)
 		P.fire()
 		return P
 
@@ -526,7 +545,7 @@
 	dodging = FALSE
 	. = Move(get_step(loc,pick(cdir,ccdir)))
 	if(!.)//Can't dodge there so we just carry on
-		. =  Move(moving_to,move_direction)
+		. =	Move(moving_to,move_direction)
 	dodging = TRUE
 
 /mob/living/simple_animal/hostile/proc/DestroyObjectsInDirection(direction)
@@ -605,7 +624,7 @@
 /mob/living/simple_animal/hostile/proc/FindHidden()
 	if(istype(target.loc, /obj/structure/closet))
 		var/atom/A = target.loc
-		Goto(A,move_to_delay,minimum_distance)
+		Goto(A, minimum_distance)
 		if(A.Adjacent(targets_from))
 			A.attack_animal(src)
 		return 1

@@ -84,7 +84,7 @@
 	do_teleport(H, dest, channel = TELEPORT_CHANNEL_MAGIC)
 	playsound(dest, 'sound/magic/lightning.ogg', 25, TRUE)
 
-	log_combat(H, cast_on, "used Levinstroke on")
+	log_combat(H, cast_on, "used Levinstroke on", zone=H.zone_selected)
 
 	var/locked_zone = H.zone_selected || BODY_ZONE_CHEST
 
@@ -115,7 +115,7 @@
 			continue
 		if(ishuman(victim))
 			arcyne_strike(user, victim, null, strike_damage, def_zone, BCLASS_BURN, \
-				spell_name = "Levinstroke", damage_type = BURN, npc_simple_damage_mult = 1, \
+				spell_name = "Levinstroke", damage_type = BURN, \
 				skip_animation = TRUE)
 		else
 			victim.electrocute_act(strike_damage, src, 1, SHOCK_NOSTUN)

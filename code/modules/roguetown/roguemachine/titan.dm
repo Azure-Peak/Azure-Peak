@@ -40,7 +40,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	set_light(0)
 	return ..()
 
-/obj/structure/roguemachine/titan/Initialize()
+/obj/structure/roguemachine/titan/Initialize(mapload)
 	. = ..()
 	icon_state = null
 	become_hearing_sensitive()
@@ -72,10 +72,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		if(findtext(message, "nevermind"))
 			mode = 0
 			return
-	
+
 	if(findtext(message, "summon crown")) //This must never fail, thus place it before all other modestuffs.
 		var/obj/item/clothing/head/roguetown/crown/serpcrown/I = SSroguemachine.crown
-		
+
 		// If no crown exists
 		if(!I)
 			I = summon_crown()
@@ -335,7 +335,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 
 	if(I)
 		I.anti_stall()
-	
+
 	I = new /obj/item/clothing/head/roguetown/crown/serpcrown(src.loc)
 	SSroguemachine.crown = I
 
@@ -477,9 +477,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return
 	// TESTING: Disabled chain coup cooldown
 	// if(SSticker.usurpation_day == GLOB.dayspassed)
-	// 	say("The realm has already seen a change of power this dae. Let the dust settle.")
-	// 	playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-	// 	return
+	//	say("The realm has already seen a change of power this dae. Let the dust settle.")
+	//	playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+	//	return
 
 	var/static/list/available_rites = list(
 		/datum/usurpation_rite/solar_succession,

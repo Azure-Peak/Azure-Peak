@@ -110,7 +110,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshmed"
 	item_d_type = "slash"
 
 /obj/item/rogueweapon/wolf_claw //Like a less defense dagger
@@ -146,7 +146,7 @@
 /obj/item/rogueweapon/wolf_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/wolf_claw/Initialize()
+/obj/item/rogueweapon/wolf_claw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)

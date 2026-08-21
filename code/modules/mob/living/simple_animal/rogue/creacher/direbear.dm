@@ -1,4 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear	//This way don't need new unqiue AI controller. Wolves are modular anyway.
+	attack_aim = MOB_AIM_HIGH
+	anatomy_type = /datum/anatomy/quadruped/standard
 	icon = 'icons/roguetown/mob/monster/direbear.dmi'
 	name = "direbear"
 	desc = "Renowned as a symbol of strength and rebirth by followers of Dendor, these mighty beasts are said to sleep for months on end without ever starving. While highly sought for their furs and hides, these claim as many hunters as they are claimed by."
@@ -9,16 +11,16 @@
 	ambushable = FALSE
 	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	base_intents = list(/datum/intent/simple/bite/bear)
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 1, 
-									/obj/item/natural/hide = 1, 
-									/obj/item/natural/fur/direbear = 1, 
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 1,
+									/obj/item/natural/hide = 1,
+									/obj/item/natural/fur/direbear = 1,
 									/obj/item/natural/bone = 3)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 2,
 									/obj/item/reagent_containers/food/snacks/fat = 1,
 									/obj/item/natural/hide = 2,
 									/obj/item/natural/fur/direbear = 1,
-									/obj/item/alch/sinew = 2, 
-									/obj/item/alch/bone = 1, 
+									/obj/item/alch/sinew = 2,
+									/obj/item/alch/bone = 1,
 									/obj/item/alch/viscera = 2,
 									/obj/item/natural/bone = 4)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/bear = 3,
@@ -36,7 +38,7 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!
 	melee_damage_upper = 60		// We're gonna take his pick-in-ick basket!
-	vision_range = 6		
+	vision_range = 6
 	aggro_vision_range = 8
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES // silly furniture won't stop our boy
 	milkies = FALSE
@@ -44,9 +46,9 @@
 	pooptype = null
 	health = BEAR_HEALTH	//volf is 120, saigabuck is 400
 	maxHealth = BEAR_HEALTH
-	food_type = list(/obj/item/reagent_containers/food/snacks, 
-				/obj/item/bodypart, 	//Woe be upon ye
-				/obj/item/organ, 		//Woe be upon ye
+	food_type = list(/obj/item/reagent_containers/food/snacks,
+				/obj/item/bodypart,	//Woe be upon ye
+				/obj/item/organ,		//Woe be upon ye
 				/obj/effect/decal/remains,
 				)
 	STACON = 12
@@ -54,7 +56,6 @@
 	STASPD = 9
 	simple_detect_bonus = 40	//No sneaking by our boy..
 	deaggroprob = 0
-	defprob = 40
 	del_on_deaggro = FALSE //we dont despawn, our boy chills
 	food = 0
 	remains_type = /obj/effect/decal/remains/bear
@@ -68,6 +69,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/direbear
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear/get_sound(input)
 	switch(input)
@@ -91,7 +93,4 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	var/datum/action/cooldown/mob_cooldown/bear_swipe/swipe = new(src)
-	swipe.Grant(src)
-	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, swipe)
 

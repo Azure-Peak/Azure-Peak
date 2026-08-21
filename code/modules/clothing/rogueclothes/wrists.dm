@@ -13,14 +13,15 @@
 	var/overarmor
 	throw_on_break = TRUE
 
+/obj/item/clothing/wrists/roguetown/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Middle-clicking adjusts its layer, so it can be worn either above-or-below any armor and gloves.")
+
 /obj/item/clothing/wrists/roguetown/MiddleClick(mob/user, params)
 	. = ..()
 	overarmor = !overarmor
 	to_chat(user, span_info("I [overarmor ? "wear \the [src] over my armor" : "wear \the [src] under my armor"]."))
-	if(overarmor)
-		alternate_worn_layer = WRISTS_LAYER
-	else
-		alternate_worn_layer = UNDER_ARMOR_LAYER
+	alternate_worn_layer = overarmor ? OVER_GLOVES_LAYER : initial(alternate_worn_layer)
 	user.update_inv_wrists()
 	user.update_inv_gloves()
 	user.update_inv_armor()
@@ -269,7 +270,7 @@
 		var/mob/living/carbon/human/H = loc
 		H.update_inv_wrists()
 
-/obj/item/clothing/wrists/roguetown/royalsleeves/Initialize()
+/obj/item/clothing/wrists/roguetown/royalsleeves/Initialize(mapload)
 	. = ..()
 	GLOB.lordcolor += src
 	if(GLOB.lordprimary)
@@ -580,7 +581,7 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-/obj/item/clothing/wrists/roguetown/bracers/matthios/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
@@ -603,28 +604,12 @@
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
 
-/obj/item/clothing/wrists/roguetown/bracers/zizo/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/zizo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
 */ // Combine with #c1b18d to make an easier, do-it-yourself version of Avantyne items without the need for exotic sprites.
 
-/obj/item/clothing/wrists/roguetown/bracers/zizo/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy
-	name = "fused avantyne bracers"
-	desc = "Clasped yet practical, these avantyne wristguards are bound to the wearer forever. Once you have plunged deep into knowledge forbidden, there is no going back.."
-
-/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
 //
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar
@@ -635,7 +620,7 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
 
-/obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	/*add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
@@ -655,7 +640,7 @@
 	color = null
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/clothing/wrists/roguetown/bracers/graggar/heavy/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/graggar/heavy/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
@@ -675,7 +660,7 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "BRACERS")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)

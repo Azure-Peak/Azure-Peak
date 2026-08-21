@@ -19,7 +19,7 @@
 	. += span_info("Once prepared, left-clicking the hide with a knife will allow you to turn it into cured leather. The amount of cured leather that skinning the hide'll give scales with your Skincrafting skills.")
 	. += span_info("Hide and cured leather can be used to craft a wide variety of equipment, armor, and clothing. Likewise, it can also fetch a fine price from the Merchants and Stockpile.")
 
-/obj/item/natural/hide/Initialize()
+/obj/item/natural/hide/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/woodshield,
@@ -88,7 +88,7 @@
 	icon_state = "wool2"
 	color = "#cecac4"
 
-/obj/item/natural/fur/raccoon	
+/obj/item/natural/fur/raccoon
 	desc = "Fur from a ferocious raccoon."
 	icon_state = "pelt_raccoon"
 	color = null
@@ -113,7 +113,7 @@
 	throwforce = 0
 	var/storage_type = /datum/component/storage/concrete/roguetown/saddle
 
-/obj/item/natural/saddle/Initialize()
+/obj/item/natural/saddle/Initialize(mapload)
 	. = ..()
 	AddComponent(storage_type)
 
@@ -135,11 +135,11 @@
 	..()
 
 /obj/item/natural/saddle/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Feeding oats or grains to a saiga or fogbeast allows them to be tamed, and tamed saigas or fogbeasts can be turned into mounts by giving them a saddle.")
-    . += span_info("Drag yourself onto a mount to ride them, and press the 'RESIST' hotkey to get off of them.")
-    . += span_info("Activate the 'RUN' button to begin galloping with your mount, after a small delay. Galloping functions similar to running, but with a greatly reduced stamina cost.")
-    . += span_info("Galloping on a mount rewards you with experience towards the Riding skill.")
+	. = ..()
+	. += span_info("Feeding oats or grains to a saiga or fogbeast allows them to be tamed, and tamed saigas or fogbeasts can be turned into mounts by giving them a saddle.")
+	. += span_info("Drag yourself onto a mount to ride them, and press the 'RESIST' hotkey to get off of them.")
+	. += span_info("Activate the 'RUN' button to begin galloping with your mount, after a small delay. Galloping functions similar to running, but with a greatly reduced stamina cost.")
+	. += span_info("Galloping on a mount rewards you with experience towards the Riding skill.")
 
 /mob/living/simple_animal
 	var/can_saddle = FALSE
@@ -164,7 +164,7 @@
 	slot_flags = ITEM_SLOT_MOUTH|ITEM_SLOT_HIP
 	bundletype = /obj/item/natural/bundle/bone
 
-/obj/item/natural/bone/Initialize()
+/obj/item/natural/bone/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/recurvepartial,
@@ -186,7 +186,7 @@
 	desc = "A hide piece that has been cured and may now be worked."
 	bundletype = /obj/item/natural/bundle/curred_hide
 
-/obj/item/natural/hide/cured/Initialize()
+/obj/item/natural/hide/cured/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/heatershield,

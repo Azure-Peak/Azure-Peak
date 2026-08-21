@@ -115,7 +115,8 @@
 			var/full_dmg
 			if(consume_debuff && has_status_effect(/datum/status_effect/debuff/exposed))
 				full_dmg = TRUE
-				intdamage *= EXPOSED_INTEG_MOD
+				// Currently only blunt damage enters this block of code, and we do NOT want it to multiply damage on top of its boons.
+				// intdamage *= EXPOSED_INTEG_MOD
 				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
 				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 				remove_status_effect(/datum/status_effect/debuff/exposed)
@@ -170,7 +171,7 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(C.eweight)
-				weight +=  C.eweight
+				weight +=	C.eweight
 	return max(weight, 0)
 */
 /mob/living/carbon/human/on_hit(obj/projectile/P)
@@ -347,12 +348,12 @@
 			return FALSE
 		var/zones = M.zone_selected
 		if(!M.ckey)
-			zones = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_PRECISE_NECK, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+			zones = M.get_attack_zone(src)
 		var/dam_zone = dismembering_strike(M, zones)
 		if(!dam_zone) //Dismemberment successful
 			return TRUE
 
-		var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
+		var/obj/item/bodypart/affecting = get_bodypart(M.ckey ? ran_zone(dam_zone) : check_zone(dam_zone))
 		if(!affecting)
 			affecting = get_bodypart(BODY_ZONE_CHEST)
 		var/armor = run_armor_check(affecting, M.d_type, armor_penetration = M.armor_penetration, damage = damage)
@@ -363,10 +364,12 @@
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
 		else
-			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src)
+			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src, affecting)
 			affecting.bodypart_attacked_by(M.a_intent.blade_class, damage - armor, M, dam_zone, crit_message = TRUE)
-		visible_message(span_danger("\The [M] [pick(M.a_intent.attack_verb)] [src]![next_attack_msg.Join()]"), \
-					span_danger("\The [M] [pick(M.a_intent.attack_verb)] me![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
+		var/attack_verb = pick(M.a_intent.attack_verb)
+		var/hit_area = parse_zone(affecting.body_zone, affecting)
+		visible_message(span_danger("\The [M] [attack_verb] [src] in the [span_combatsecondarybp(hit_area)]![next_attack_msg.Join()]"), \
+					span_danger("\The [M] [attack_verb] me in the [span_userdanger(hit_area)]![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 		next_attack_msg.Cut()
 		if(nodmg)
 			return FALSE
@@ -866,8 +869,6 @@
 
 /mob/living/carbon/human/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
 	//SEND_SIGNAL(src, COMSIG_HUMAN_BURNING)
-	if(fire_handler.stacks >= 10)
-		burn_clothing(seconds_per_tick, fire_handler.stacks)
 	var/no_protection = FALSE
 	fire_handler.harm_human(seconds_per_tick, no_protection)
 

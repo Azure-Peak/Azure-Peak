@@ -46,7 +46,7 @@
 	if(!target || !target.Enter(owner) || is_type_in_list(target, turf_blacklist))
 		to_chat(owner, span_warning("This turf can't be on fiyaaaah! (It's blocked sire.)"))
 		return FALSE
-	
+
 	new /obj/machinery/light/rogue/campfire/create_campfire(target)
 
 	return TRUE
@@ -64,7 +64,7 @@
 	max_integrity = 30
 	var/lifespan = 10 MINUTES
 
-/obj/machinery/light/rogue/campfire/create_campfire/Initialize()
+/obj/machinery/light/rogue/campfire/create_campfire/Initialize(mapload)
 	. = ..()
 	if(lifespan)
 		QDEL_IN(src, lifespan) //delete after it runs out

@@ -1,5 +1,5 @@
 /////////////////////////////////
-// PSYDON... BLASssss-- huh?  //
+// PSYDON... BLASssss-- huh?	//
 ////////////////////////////////
 
 //A joke spell for missionaries, there's a 99% chance you get a rock, a 1% you get a boulder from your shoe

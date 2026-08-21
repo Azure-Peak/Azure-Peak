@@ -464,20 +464,20 @@
 	name = "iron knight's armet"
 	icon_state = "iknight"
 	desc = "A noble knight's greathelm made of iron; a popular choice in the preceding centuries, before many knew the answer to the riddle of \
-	steel.  Add a feather to show the colors of your family or allegiance."
+	steel.	Add a feather to show the colors of your family or allegiance."
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/old
 	name = "knight's helmet"
 	desc = "A knight's greathelm, forged from steel in the antiquated 'Rockhillic' style. Add a feather to show the colors of your family or \
-	allegiance. </br>‎  </br>'She waited in the dragon's keep, in the highest room of the tallest tower, for her true love, and true love's first kiss..'"
+	allegiance. </br>‎	</br>'She waited in the dragon's keep, in the highest room of the tallest tower, for her true love, and true love's first kiss..'"
 	icon_state = "knightclassic"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
 	name = "iron knight's helmet"
 	desc = "A knight's greathelm, forged from iron in the antiquated 'Rockhillic' style. Add a feather to show the colors of your family or \
-	allegiance. </br>‎  </br>'Despite everything, it's still you.'"
+	allegiance. </br>‎	</br>'Despite everything, it's still you.'"
 	icon_state = "iknightclassic"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
@@ -552,12 +552,12 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
-		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		altdetail_color = COLOR_MAP[choicealt]
 		altdetail_tag = "_detailalt"
-		if(choicealt in pridelist)
+		if(choicealt in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -587,12 +587,12 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
-		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		altdetail_color = COLOR_MAP[choicealt]
 		altdetail_tag = "_detailalt"
-		if(choicealt in pridelist)
+		if(choicealt in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -635,12 +635,12 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/bucket/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
-		if(choice in pridelist)
+		if(choice in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -738,7 +738,7 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
-/obj/item/clothing/head/roguetown/helmet/heavy/xylixhelm/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/xylixhelm/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS, 2)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
@@ -799,12 +799,12 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
-		if(choice in pridelist)
+		if(choice in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -1007,12 +1007,12 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/psybucket/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
-		if(choice in pridelist)
+		if(choice in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -1071,11 +1071,10 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/head/roguetown/helmet/heavy/nochelm/snouted
-	name = "snouted noc helmet"
-	desc = "Headwear commonly worn by Templars in service to Noc, its brow drawn forward to seat a snout. Without the night there can be no day; without Noc there can be no light in the dark hours."
+	name = "noc burgonet"
+	desc = "Headwear commonly worn by Templars in service to Noc, an open face to settle snouts. Without the night there can be no day; without Noc there can be no light in the dark hours."
 	icon_state = "nochelm_s"
 	item_state = "nochelm_s"
-	flags_inv = HIDEEARS|HIDEHAIR|HIDESNOUT
 
 /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm
 	name = "necra helmet"
@@ -1271,12 +1270,12 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
-		if(choice in pridelist)
+		if(choice in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -1374,7 +1373,7 @@
 	experimental_onhip = FALSE
 	smeltresult = /obj/item/ingot/component/matthios
 
-/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
@@ -1390,7 +1389,7 @@
 	var/active_item = FALSE
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "HELM", "RENDERED ASUNDER")
 
@@ -1421,7 +1420,7 @@
 	icon_state = "graggarplatehelm_heavy"
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "VISAGE")
 
@@ -1437,6 +1436,14 @@
 	toggle_icon_state = TRUE
 	smeltresult = /obj/item/ingot/component/zizo
 
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "HELMET")
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
@@ -1446,7 +1453,6 @@
 	wearer the clarity of a predator, blinding them to everything but the object of their malice."
 	icon_state = "zizofrogmouth"
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
-	body_parts_covered = HEAD|EARS|HAIR
 	adjustable = CANT_CADJUST
 	smeltresult = /obj/item/ingot/component/zizo
 
@@ -1465,25 +1471,14 @@
 	icon_state = "zizobascinet"
 	item_state = "zizobascinet"
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
-	body_parts_covered = HEAD|EARS|HAIR
 	adjustable = CANT_CADJUST
 	smeltresult = /obj/item/ingot/component/zizo
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "HELMET")
-
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
 /*
 /obj/item/clothing/head/roguetown/helmet/heavy/avantyne
 	name = "avantyne-threaded veil"
 	desc = "A veil threaded from an otherworldly alloy, perpetually backlit with an eerie crimson haze. Glimpse into the abyss for too \
-	long.. </br>‎  <font color='FF0000'>..and something will look back.</font>."
+	long.. </br>‎	<font color='FF0000'>..and something will look back.</font>."
 	body_parts_covered = FULL_HEAD|NECK
 	icon_state = "zizoplatehelm_med"
 	item_state = "zizoplatehelm_med"
@@ -1568,7 +1563,7 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/aventail/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/feather) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP + pridelist
+		var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP + GLOB.pridelist
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
@@ -1578,12 +1573,12 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
-		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		altdetail_color = COLOR_MAP[choicealt]
 		altdetail_tag = "_detailalt"
-		if(choicealt in pridelist)
+		if(choicealt in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))

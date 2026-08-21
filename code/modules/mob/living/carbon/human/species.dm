@@ -65,7 +65,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/nojumpsuit = 0	// this is sorta... weird. it basically lets you equip stuff that usually needs jumpsuits without one, like belts and pockets and ids
 	var/say_mod = "says"	// affects the speech message
 	var/list/default_features = MANDATORY_FEATURE_LIST // Default mutant bodyparts for this species. Don't forget to set one for every mutant bodypart you allow this species to have.
-	var/list/mutant_bodyparts = list() 	// Visible CURRENT bodyparts that are unique to a species. DO NOT USE THIS AS A LIST OF ALL POSSIBLE BODYPARTS AS IT WILL FUCK SHIT UP! Changes to this list for non-species specific bodyparts (ie cat ears and tails) should be assigned at organ level if possible. Layer hiding is handled by handle_mutant_bodyparts() below.
+	var/list/mutant_bodyparts = list()	// Visible CURRENT bodyparts that are unique to a species. DO NOT USE THIS AS A LIST OF ALL POSSIBLE BODYPARTS AS IT WILL FUCK SHIT UP! Changes to this list for non-species specific bodyparts (ie cat ears and tails) should be assigned at organ level if possible. Layer hiding is handled by handle_mutant_bodyparts() below.
 	var/speedmod = 0	// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
 	var/brutemod = 1	// multiplier for brute damage
 	var/burnmod = 1		// multiplier for burn damage
@@ -73,8 +73,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/heatmod = 1		// multiplier for heat damage
 	var/stunmod = 1		// multiplier for stun duration
 	var/attack_type = BRUTE //Type of damage attack does
-	var/punchdamagelow = 10      //lowest possible punch damage. if this is set to 0, punches will always miss
-	var/punchdamagehigh = 10      //highest possible punch damage
+	var/punchdamagelow = 10		//lowest possible punch damage. if this is set to 0, punches will always miss
+	var/punchdamagehigh = 10		//highest possible punch damage
 	var/punchstunthreshold = 0//damage at which punches from this race will stun //yes it should be to the attacked race but it's not useful that way even if it's logical
 	var/siemens_coeff = 1 //base electrocution coefficient
 	var/damage_overlay_type = "human" //what kind of damage overlays (if any) appear on our species when wounded?
@@ -1320,7 +1320,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			SEND_SIGNAL(target, COMSIG_ATOM_ATTACK_HAND, user)
 			if(affecting.body_zone == BODY_ZONE_HEAD)
 				SEND_SIGNAL(user, COMSIG_HEAD_PUNCHED, target)
-		log_combat(user, target, "punched")
+		log_combat(user, target, "punched", zone=selzone)
 		if(ishuman(user))
 			user.resolve_combataware(target, "[bodyzone2readablezone(selzone)]...", "[bodyzone2readablezone(user.zone_selected)]...")
 
@@ -1833,28 +1833,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			Iforce = 0
 	var/bladec = user.used_intent.blade_class
 
-	// Effective range check. Attacking a prone target doesn't apply a penalty at any range.
-	if(user.used_intent?.effective_range && H.mobility_flags & MOBILITY_STAND)
-		var/dist = get_dist(H, user)
-		var/range = user.used_intent?.effective_range
-		var/apply_penalty = FALSE
-		switch(user.used_intent?.effective_range_type)
-			if(EFF_RANGE_EXACT)
-				if(dist != range)
-					apply_penalty = TRUE
-			if(EFF_RANGE_BELOW)
-				if(dist <= range)
-					apply_penalty = TRUE
-			if(EFF_RANGE_ABOVE)
-				if(dist >= range)
-					apply_penalty = TRUE
-			if(EFF_RANGE_ABOVE)
-				apply_penalty = FALSE
-			else
-				CRASH("Invalid effective_range_type used by [user] with effective_range! Please set an effective_range_type on [user.used_intent?.type]")
-		if(apply_penalty)
-			pen = PEN_NONE
-			Iforce *= 0.5
+	if(user.used_intent?.out_of_effective_range(H, user))
+		pen = PEN_NONE
+		Iforce *= EFF_RANGE_MISS_DAMFACTOR
 
 	if(H == user && bladec == BCLASS_DISARM)
 		bladec = BCLASS_BLUNT
@@ -1935,7 +1916,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				H.dodgetime = (clamp(H.dodgetime - 8, 0, CLICK_CD_DODGE))	//We reset the dodgetime after getting struck directly in the body.
 				if(!has_vuln_or_exposed)
 					H.changeMaxDodge(5, clamp = TRUE)
-					
+
 //		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
 //			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
 //			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
@@ -2296,7 +2277,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 
 ////////////
-//  Stun  //
+//	Stun	//
 ////////////
 
 /datum/species/proc/spec_stun(mob/living/carbon/human/H,amount)

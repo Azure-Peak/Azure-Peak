@@ -562,7 +562,7 @@ GLOBAL_LIST_INIT(ghost_forms, sortList(list("ghost","ghostking","ghostian2","ske
 							"ghost_mellow","ghost_rainbow","ghost_camo","ghost_fire", "catghost")))
 /client/proc/pick_form()
 	if(!is_content_unlocked())
-		alert("This setting is for accounts with BYOND premium only.")
+		alert(src, "This setting is for accounts with BYOND premium only.")
 		return
 	var/new_form = input(src, "Thanks for supporting BYOND - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in GLOB.ghost_forms
 	if(new_form)
@@ -576,7 +576,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 
 /client/proc/pick_ghost_orbit()
 	if(!is_content_unlocked())
-		alert("This setting is for accounts with BYOND premium only.")
+		alert(src, "This setting is for accounts with BYOND premium only.")
 		return
 	var/new_orbit = input(src, "Thanks for supporting BYOND - Choose your ghostly orbit:","Thanks for supporting BYOND",null) as null|anything in GLOB.ghost_orbits
 	if(new_orbit)
@@ -587,7 +587,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 			O.ghost_orbit = new_orbit
 
 /client/proc/pick_ghost_accs()
-	var/new_ghost_accs = alert("Do you want your ghost to show full accessories where possible, hide accessories but still use the directional sprites where possible, or also ignore the directions and stick to the default sprites?",,"full accessories", "only directional sprites", "default sprites")
+	var/new_ghost_accs = alert(src, "Do you want your ghost to show full accessories where possible, hide accessories but still use the directional sprites where possible, or also ignore the directions and stick to the default sprites?",,"full accessories", "only directional sprites", "default sprites")
 	if(new_ghost_accs)
 		switch(new_ghost_accs)
 			if("full accessories")
@@ -608,7 +608,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	if(!holder)
 		return
 	if(is_content_unlocked())
-		switch(alert("Which setting do you want to change?",,"Ghost Form","Ghost Orbit","Ghost Accessories"))
+		switch(alert(usr, "Which setting do you want to change?",,"Ghost Form","Ghost Orbit","Ghost Accessories"))
 			if("Ghost Form")
 				pick_form()
 			if("Ghost Orbit")
@@ -624,7 +624,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	set hidden = 1
 	if(!holder)
 		return
-	var/new_ghost_others = alert("Do you want the ghosts of others to show up as their own setting, as their default sprites or always as the default white ghost?",,"Their Setting", "Default Sprites", "White Ghost")
+	var/new_ghost_others = alert(usr, "Do you want the ghosts of others to show up as their own setting, as their default sprites or always as the default white ghost?",,"Their Setting", "Default Sprites", "White Ghost")
 	if(new_ghost_others)
 		switch(new_ghost_others)
 			if("Their Setting")

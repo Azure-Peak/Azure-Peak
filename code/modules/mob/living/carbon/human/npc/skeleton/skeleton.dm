@@ -15,7 +15,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	race = /datum/species/human/northern
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
-					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
+						/obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	faction = list(FACTION_UNDEAD)
 	var/skel_outfit = /datum/outfit/job/roguetown/npc/skeleton
 	var/skel_fragile = FALSE
@@ -32,6 +32,12 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	skel_fragile = TRUE
 	blood_toll_bucket = STATS_KILLED_DEADITES
+	var/list/skel_outfit_spread
+
+/mob/living/carbon/human/species/skeleton/npc/Initialize(mapload)
+	if(length(skel_outfit_spread))
+		skel_outfit = pick(skel_outfit_spread)
+	return ..()
 
 /mob/living/carbon/human/species/skeleton/npc/after_creation()
 	..()
@@ -45,7 +51,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
-/mob/living/carbon/human/species/skeleton/Initialize()
+/mob/living/carbon/human/species/skeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()
 	spawn(10)
@@ -79,6 +85,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	if(skel_fragile)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	else
@@ -184,7 +191,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		faction -= FACTION_UNDEAD
 		faction -= FACTION_SKELETON
 		faction -= FACTION_DUNDEAD
-		faction -= "Skeleton_faction"
 
 	switch(loadout)
 		if("sword_shield")
