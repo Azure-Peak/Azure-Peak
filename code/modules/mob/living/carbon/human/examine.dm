@@ -1189,6 +1189,9 @@
 				heretic_text += " To share with. To take with. For all, and us."
 		else if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
 			heretic_text += "Fellow Free Man!"
+			if(examiner != src) // This is so people can report bad sports to admins. Freemen are supposed to tolerate each other and be 'on the same team', so if this is used for anything but, it should be punished easier for bad RP.
+				to_chat(src, span_warning("<i>I look at [examiner] with a subtle smile! My fellow Free Man!</i>"))
+				to_chat(examiner, span_warning("<i>[src] is looking at me with a subtle smile! My fellow Free Man!</i>"))
 	else if((HAS_TRAIT(src, TRAIT_CABAL)))
 		if(seer)
 			heretic_text += "A member of Zizo's cabal."
