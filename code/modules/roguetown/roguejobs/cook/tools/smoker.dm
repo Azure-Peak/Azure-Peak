@@ -1,3 +1,5 @@
+#define SMOKE_COOKING_TIME_MULTIPLIER 3
+
 /obj/machinery/light/rogue/smoker
 	name = "smoker"
 	desc = "An adorable wooden smoker meant for curing meats with wood fire. No, this isn't where gnomes live."
@@ -96,7 +98,9 @@
 		valid_items++
 
 	if(valid_items > 0)
-		target_cook_time = total_required / valid_items
+		var/average_time = total_required / valid_items
+		// It takes longer to smoke items
+		target_cook_time = round(average_time * SMOKE_COOKING_TIME_MULTIPLIER)
 	else
 		target_cook_time = 0
 
@@ -270,3 +274,5 @@
 	food.Cut()
 	lastuser = null
 	return ..()
+
+#undef SMOKE_COOKING_TIME_MULTIPLIER
