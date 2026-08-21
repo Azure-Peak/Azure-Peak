@@ -153,7 +153,7 @@
 		revert_cast()
 		return FALSE
 
-	user.pointed(target)
+	user.linepoint(target)
 
 	if(target.mind)
 		to_chat(target, span_warning("The Exarch calls for me. This is it!"))

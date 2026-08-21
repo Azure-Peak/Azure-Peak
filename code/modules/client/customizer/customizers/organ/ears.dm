@@ -86,7 +86,8 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
-		/datum/sprite_accessory/ears/elf_short)
+		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/elf_small)
 
 /datum/customizer/organ/ears/elf
 	customizer_choices = list(/datum/customizer_choice/organ/ears/elf)
@@ -100,6 +101,7 @@
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/elf_small,
 		/datum/sprite_accessory/ears/wispy,
 		/datum/sprite_accessory/ears/small)
 
@@ -308,7 +310,8 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
-		/datum/sprite_accessory/ears/elf_short
+		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/elf_small
 		)
 
 // ---- Dullahan

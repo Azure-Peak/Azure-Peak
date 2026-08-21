@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed a few errant pixels on the Woodland cloak."
+  - bugfix: "Fixed the loadout trophy robes having incorrect attributes."

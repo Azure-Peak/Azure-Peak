@@ -1071,11 +1071,10 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/head/roguetown/helmet/heavy/nochelm/snouted
-	name = "snouted noc helmet"
-	desc = "Headwear commonly worn by Templars in service to Noc, its brow drawn forward to seat a snout. Without the night there can be no day; without Noc there can be no light in the dark hours."
+	name = "noc burgonet"
+	desc = "Headwear commonly worn by Templars in service to Noc, an open face to settle snouts. Without the night there can be no day; without Noc there can be no light in the dark hours."
 	icon_state = "nochelm_s"
 	item_state = "nochelm_s"
-	flags_inv = HIDEEARS|HIDEHAIR|HIDESNOUT
 
 /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm
 	name = "necra helmet"

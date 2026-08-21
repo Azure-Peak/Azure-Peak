@@ -239,7 +239,7 @@
 	name = "baroness"
 	icon_state = "instrike"
 	attack_verb = list("magically slashes", "magically cuts", "magically stabs")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = 'sound/combat/hits/bladed/genchop (1).ogg'
 	chargetime = 15

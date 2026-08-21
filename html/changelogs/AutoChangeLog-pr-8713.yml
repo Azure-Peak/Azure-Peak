@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - admin: "Prayers from players with the devout follower vice are now tagged as \"devout follower of (patron)\" instead of \"follower of (patron)\", making it easier to distinguish them at a glance."

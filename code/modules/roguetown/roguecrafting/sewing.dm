@@ -622,14 +622,6 @@
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/toga
-	name = "toga"
-	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/tabard/toga)
-	reqs = list(/obj/item/natural/cloth = 2,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 2
-
 /datum/crafting_recipe/roguetown/sewing/psydonold
 	name = "tabard, psydonian devotee"
 	category = "Tabards"
@@ -642,6 +634,14 @@
 	name = "tabard, psydonic"
 	category = "Tabards"
 	result = list(/obj/item/clothing/cloak/tabard/psydontabard/black)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/traditionpsydon
+	name = "traditional tabard, psydonic"
+	category = "Tabards"
+	result = list(/obj/item/clothing/cloak/tabard/psydontabard/white)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -1419,10 +1419,10 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/shawl
-	name = "shawl"
+/datum/crafting_recipe/roguetown/sewing/shawlhood
+	name = "shawl (hijab)"
 	category = "Hoods"
-	result = list(/obj/item/clothing/head/roguetown/roguehood/shawl)
+	result = list(/obj/item/clothing/head/roguetown/roguehood/shawlhood)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -1573,10 +1573,38 @@
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 
+/datum/crafting_recipe/roguetown/sewing/thinwinterdress
+	name = "thin winter dress"
+	category = "Dresses"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress)
+	reqs = list(/obj/item/natural/cloth = 2, //cheaper because it is the unarmored clothing version
+				/obj/item/natural/fibers = 2,
+				/obj/item/natural/silk = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 5
+
 /datum/crafting_recipe/roguetown/sewing/skirt
 	name = "skirt"
 	category = "Misc"
 	result = list(/obj/item/clothing/under/roguetown/skirt)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/skirt/short
+	name = "short skirt"
+	category = "Misc"
+	result = list(/obj/item/clothing/under/roguetown/skirt/short)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/skirt/formal
+	name = "knee-high skirt"
+	category = "Misc"
+	result = list(/obj/item/clothing/under/roguetown/skirt/formal)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 2)
 	tools = list(/obj/item/needle)
@@ -2429,24 +2457,6 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/skirt/formal
-	name = "knee-high skirt"
-	category = "Misc"
-	result = list(/obj/item/clothing/under/roguetown/skirt/formal)
-	reqs = list(/obj/item/natural/cloth = 1,
-				/obj/item/natural/fibers = 2)
-	tools = list(/obj/item/needle)
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/sewing/skirt/formal_color
-	name = "knee-high skirt (dyeable)"
-	category = "Misc"
-	result = list(/obj/item/clothing/under/roguetown/skirt/formal)
-	reqs = list(/obj/item/natural/cloth = 1,
-				/obj/item/natural/fibers = 2)
-	tools = list(/obj/item/needle)
-	craftdiff = 4
-
 /datum/crafting_recipe/roguetown/sewing/blouse
 	name = "blouse"
 	category = "Shirts"
@@ -2455,18 +2465,18 @@
 				/obj/item/natural/fibers = 2)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/sewing/toga/classic
-	name = "classic toga"
+/datum/crafting_recipe/roguetown/sewing/toga
+	name = "toga, robed"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/tabard/toga/classic)
+	result = list(/obj/item/clothing/cloak/tabard/toga)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/sewing/toga/classic/feminine
-	name = "classic toga, feminine"
+/datum/crafting_recipe/roguetown/sewing/toga_dress
+	name = "toga, dress"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/tabard/toga/classic/feminine)
+	result = list(/obj/item/clothing/cloak/tabard/toga/dress)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2
@@ -2506,3 +2516,4 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 2)
 	craftdiff = 1
+

@@ -103,7 +103,7 @@
 	B.fire()
 
 /datum/action/cooldown/spell/menhir/proc/do_drop(mob/living/carbon/human/H, turf/target)
-	new /obj/effect/temp_visual/trap/geomancy(target)
+	new /obj/effect/temp_visual/telegraph/geomancy(target)
 	target.visible_message(span_boldwarning("A shadow spreads over [target] - a boulder plummets from the sky!"))
 	playsound(target, 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 60, TRUE)
 	addtimer(CALLBACK(src, PROC_REF(drop_fall), target, H), drop_telegraph_time)
@@ -151,9 +151,9 @@
 		return
 	if(ishuman(L))
 		arcyne_strike(H, L, null, dmg, H.zone_selected || BODY_ZONE_CHEST, BCLASS_BLUNT, \
-			spell_name = name, damage_type = BRUTE, npc_simple_damage_mult = 2, skip_animation = TRUE)
+			spell_name = name, damage_type = BRUTE, skip_animation = TRUE)
 	else
-		L.adjustBruteLoss(dmg * (L.mind ? 1 : 2))
+		L.adjustBruteLoss(dmg)
 	new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 
 /datum/action/cooldown/spell/menhir/proc/fragment_burst(turf/T, mob/living/carbon/human/H)

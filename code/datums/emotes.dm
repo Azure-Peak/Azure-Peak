@@ -74,7 +74,7 @@
 		var/list/mobsadjacent = list()
 		var/mob/chosenmob
 		for(var/mob/living/M in range(user, targetrange))
-			if(M != user && !M.rogue_sneaking && !(M.name != "Unknown"))
+			if(M != user && !M.rogue_sneaking && (M.name != "Unknown"))
 				mobsadjacent += M
 		if(mobsadjacent.len)
 			chosenmob = input(user, "[key] who?") in mobsadjacent

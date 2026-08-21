@@ -52,6 +52,8 @@
 	/// Whether this organ will dissolve shortly after being removed from its owner.
 	var/dissolves_when_removed = FALSE
 
+	embedding = list("embed_chance" = 0) // ...they're not sharp
+
 	grid_width = 32
 	grid_height = 32
 

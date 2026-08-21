@@ -56,6 +56,7 @@
 						TRAIT_WATERBREATHING,
 						TRAIT_NODECAP,
 						TRAIT_ZOMBIE_IMMUNE,
+						TRAIT_WATERBREATHING,
 						)
 	enflamed_icon = "widefire"
 	customizers = list(
