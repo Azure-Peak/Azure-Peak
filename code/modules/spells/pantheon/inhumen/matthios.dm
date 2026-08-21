@@ -699,7 +699,7 @@
 	secondary_resource_cost = SPELLCOST_MIRACLE_MAJOR
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Transaction for a lyfe!")
+	invocations = list("Your fyre feeds the pyre!")
 
 	charge_required = TRUE
 	charge_time = 4 SECONDS
