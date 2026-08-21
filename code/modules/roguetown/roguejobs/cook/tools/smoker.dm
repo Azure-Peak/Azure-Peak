@@ -1,6 +1,6 @@
 /obj/machinery/light/rogue/smoker
 	name = "smoker"
-	desc = "An adorable wooden smoker meant for curing meats with wood fire."
+	desc = "An adorable wooden smoker meant for curing meats with wood fire. No, this isn't where gnomes live."
 	icon = 'icons/roguetown/misc/smoker.dmi'
 	icon_state = "smoker"
 	base_state = "smoker"
