@@ -58861,6 +58861,9 @@
 /obj/structure/bars/passage/shutter{
 	redstone_id = "weaponsmith_shutter"
 	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "tailor_shutter"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/dwarfin)
 "kLp" = (
