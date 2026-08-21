@@ -2850,6 +2850,7 @@
 #include "code\modules\roguetown\roguejobs\cook\tools\grinding.dm"
 #include "code\modules\roguetown\roguejobs\cook\tools\oven.dm"
 #include "code\modules\roguetown\roguejobs\cook\tools\skewer.dm"
+#include "code\modules\roguetown\roguejobs\cook\tools\smoker.dm"
 #include "code\modules\roguetown\roguejobs\engineer\gadgets.dm"
 #include "code\modules\roguetown\roguejobs\engineer\grappler.dm"
 #include "code\modules\roguetown\roguejobs\engineer\items.dm"

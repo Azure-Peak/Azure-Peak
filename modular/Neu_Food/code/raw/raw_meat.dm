@@ -40,6 +40,7 @@
 	icon_state = "meatsteak"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/fried
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	slices_num = 2
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
 	slice_bclass = BCLASS_CHOP

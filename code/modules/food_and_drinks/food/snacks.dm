@@ -59,6 +59,7 @@ All foods are distributed among various categories. Use common sense.
 	/// If false, this will inflict mood debuffs on nobles who eat it without being near a table.
 	var/portable = TRUE
 	var/fried_type = null	//instead of becoming
+	var/smoked_type = null
 	var/deep_fried_type = null
 	var/boiled_type = null
 	var/filling_color = "#FFFFFF" //color to use when added to custom food.

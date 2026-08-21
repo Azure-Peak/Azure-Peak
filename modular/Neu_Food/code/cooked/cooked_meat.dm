@@ -14,6 +14,22 @@
 	tastes = list("warm steak" = 1)
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
+	eat_effect = null
+	slices_num = 0
+	name = "jerky bundle"
+	desc = "Generic meats blessed by smoke for that rustic flavor, excellent for long travels"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "meat_smoked"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
+	faretype = FARE_NEUTRAL
+	rotprocess = null
+	tastes = list("smoky meat" = 1)
+	fried_type = null
+	cooked_type = null
+	smoked_type = null
 
 /* .............	Roast Pork	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
