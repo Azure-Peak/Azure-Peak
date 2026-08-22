@@ -54,13 +54,22 @@
 
 /obj/structure/dream_pylon/examine(mob/user)
 	. = ..()
-	if(charge <= 0 || !infusion_payload)
-		. += "\n<span class='warning'>Its central core looks completely hollowed out, awaiting an infusion.</span>"
-	else
-		var/amount_of_charges = floor(charge / charge_cost_per_use)
+	if(charge <= 0)
+		. += "\n<span class='warning'>Its central core looks completely hollowed out, awaiting a new seed or infusion.</span>"
+		return
+
+	var/amount_of_charges = floor(charge / charge_cost_per_use)
+	var/uses_text = (amount_of_charges > 0) ? amount_of_charges : "No"
+
+	if(istype(src, /obj/structure/dream_pylon/geyser))
+		var/obj/structure/dream_pylon/geyser/G = src
+		var/effect_name = initial(G.trail_type.name)
+		. += "\n<span class='notice'>It is charged with geyser energy to erupt into <b>[effect_name]</b>. It appears to have <b>[uses_text]</b> uses left.</span>"
+	else if(infusion_payload)
 		var/infusion_name = initial(infusion_payload.id)
-		var/message = (amount_of_charges > 0) ? amount_of_charges : "No"
-		. += "\n<span class='notice'>It is imbued with the essence of <b>[infusion_name]</b>. It appears to have <b>[message]</b> uses left.</span>"
+		. += "\n<span class='notice'>It is imbued with the essence of <b>[infusion_name]</b>. It appears to have <b>[uses_text]</b> uses left.</span>"
+	else
+		. += "\n<span class='warning'>Its central core looks completely hollowed out, awaiting an infusion.</span>"
 
 /obj/structure/dream_pylon/proc/set_pylon_overlay(new_icon, new_icon_state)
 	if(active_overlay)

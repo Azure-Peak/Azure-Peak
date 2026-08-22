@@ -1,5 +1,5 @@
 /obj/effect/ink_trail/healing
-	name = "soothing paint trail"
+	name = "soothing paint"
 	desc = "A soothing, shimmering paint that restores vitality to anyone who steps on it."
 	icon_state = "paint_gray"
 	color = "#b6e6b6"
@@ -11,7 +11,7 @@
 	duration = 15 SECONDS
 
 /obj/effect/ink_trail/invigorating
-	name = "invigorating paint trail"
+	name = "invigorating paint"
 	desc = "An energetic, glowing paint trail that restores missing energy."
 	icon_state = "paint_gray"
 	color = "#3a86ff"
@@ -27,7 +27,7 @@
 	min_restore_percent = 15
 
 /obj/effect/ink_trail/evil
-	name = "spiked paint trail"
+	name = "spiked paint"
 	desc = "A sinister, dark crimson paint that threatens to pierce anyone who steps onto it."
 	icon_state = "paint_gray"
 	color = "#580000"
