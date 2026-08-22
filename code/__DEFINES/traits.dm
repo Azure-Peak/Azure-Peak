@@ -69,11 +69,6 @@
 //used for a far-travel zone I am uncertain we even have anymore/ever to begin with
 #define TRAIT_CAVEDWELLER "Cave Dweller"
 
-//These actually do nothing, genuinely
-#define TRAIT_POLYTHEIST "Polytheist"
-#define TRAIT_MONOTHEIST "Monotheist"
-#define TRAIT_PUNISHMENT_CURSE "PunishmentCurse" //PUNISHES YOU. YES YOU, BY DOING /NOTHING/
-
 //Armor + Defensive Related
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"
@@ -264,6 +259,7 @@
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_NOPVE "Natural Accord" //Hag only. PVE exemption.
 #define TRAIT_VAMPBITE "Vampire Bite"
+#define TRAIT_VAMP_DREAMS "vamp_dreams" //Technically non-player trait panel, but lets vamps do their nighttime "dreaming" w/ coffins
 
 #define TRAIT_KNOWNCRIMINAL "Known Criminal" //BANDIT! Examine
 
@@ -332,9 +328,7 @@
 #define TRAIT_BEAUTIFUL "Beautiful"
 #define TRAIT_BEAUTIFUL_UNCANNY "Eerie Beauty"
 #define TRAIT_SIMPLE_WOUNDS "simple_wounds"
-#define TRAIT_VAMP_DREAMS "vamp_dreams"
 #define TRAIT_LIMPDICK "Limp Dick"
-#define TRAIT_SEXPASS "sexpass"
 #define TRAIT_STEELHEARTED "Steelhearted" //no bad mood from dismembering or seeing this
 #define TRAIT_PSYCHOSIS "Psychosis" //replaces all ambience with creepy shit
 #define TRAIT_SCREENSHAKE "Tremors" //screen will always be shaking, you cannot stop it
