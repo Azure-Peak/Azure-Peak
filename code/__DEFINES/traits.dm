@@ -4,10 +4,7 @@
 // ROGUETRAITS (description when rmb skills button)
 #define TRAIT_WEBWALK "Webwalker"
 #define TRAIT_NOSTINK "Dead Nose"
-#define TRAIT_ZJUMP "High Jumping"
 #define TRAIT_JESTERPHOBIA "Jesterphobic"
-#define TRAIT_XENOPHOBIC "Xenophobic"
-#define TRAIT_TOLERANT "Tolerant"
 #define TRAIT_LEAPER "Leaper"
 #define TRAIT_NUTCRACKER "Nutcracker"
 #define TRAIT_SEEPRICES "Skilled Appraiser"
@@ -30,7 +27,6 @@
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
-#define TRAIT_TOUGH_COOKIE "Tough Cookie"
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded"
 #define TRAIT_JOURNEYS_END "Journey's End"
 #define TRAIT_RAGE "Rage"
@@ -92,6 +88,10 @@
 #define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
 #define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
 #define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
+
+//Redundant traits? Probably can shoot these later, future coder.
+#define TRAIT_XENOPHOBIC "Xenophobic"
+#define TRAIT_TOLERANT "Tolerant"
 
 //Factional traits
 #define TRAIT_PURITAN "Otavan Emissary"
@@ -182,6 +182,8 @@
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
 #define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened" //Armor slowdowns do not apply, mostly NPC-only applicable once AI can handle the speed, however player-facing side VL gets it.
 #define TRAIT_ANTISCRYING "Non-Detection" //Stealth-Heavy antags like assassin/nosferato vampires.
+#define TRAIT_TOUGH_COOKIE "Tough Cookie" //Total Maneater Immunity
+#define TRAIT_ZJUMP "High Jumping" //Jump between Z levels, oh god oh fuck.
 
 #define TRAIT_MANIAC_AWOKEN "Awoken" //Trey Liam. No, He doesn't exist.
 
