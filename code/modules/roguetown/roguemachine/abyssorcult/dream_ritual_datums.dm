@@ -125,7 +125,7 @@
 	desc = "Infuses a basic dream seed with sharp dream shards to create a seed that sprouts into a spiked geyser, lashing out at anyone, but it harms those attuned to the paints less."
 	required_ingredients = list(
 		/obj/item/dream_material/dream_seed = 1,
-		/obj/item/dream_material/dream_shards = 1
+		/obj/item/dream_material/dream_spike = 3
 	)
 	reward_items = list(
 		/obj/item/dream_material/dream_seed/geyser/spiked = 3
