@@ -182,6 +182,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CABAL, TRAIT_GENERIC)
 
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the Zizite cleric for a gravemark, sire.
+
 	var/datum/component/conjured_minion/minion = GetComponent(/datum/component/conjured_minion)
 	var/mob/living/master = minion?.summoner_ref?.resolve()
 
