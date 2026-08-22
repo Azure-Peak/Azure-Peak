@@ -16,32 +16,16 @@
 #define TRAIT_EXPLOSIVE_SUPPLY "Explosive Supply"
 #define TRAIT_DRUG_SUPPLY "Drug Supply"
 #define TRAIT_BOMBER_EXPERT "Explosive Specialist"
-#define TRAIT_ARMOUR_LIKED "Fitting Armour"
-#define TRAIT_ARMOUR_DISLIKED "Misfitting Armour"
-#define TRAIT_FENCERDEXTERITY "Fencer's Dexterity"
-#define TRAIT_HONORBOUND "Honorbound Tattoos"
 #define TRAIT_SKILLBLESSED "Skill Blessed"
-#define TRAIT_NALEDI "Naledi Complex"
-#define TRAIT_LONGSWORDSMAN "Master Longswordman"
-#define TRAIT_SABRIST "Renowned Sabrist"
-#define TRAIT_MEDIUMARMOR "Maille Training"
-#define TRAIT_HEAVYARMOR "Plate Training"
-#define TRAIT_DODGEEXPERT "Expert Dodger"
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded"
 #define TRAIT_JOURNEYS_END "Journey's End"
 #define TRAIT_RAGE "Rage"
-#define TRAIT_CRITICAL_WEAKNESS "Critical Weakness"
-#define TRAIT_SHATTER_KILL "Shatterable Form" //Lesser ver of critical weakness that only instantly kills on chest fractures/paralysis. ALSO prevents rolling voicepacks, used for skeletons.
-#define TRAIT_DNR "Bane of Existence"
-#define TRAIT_NUDIST "Nudist" //you can't wear most clothes
 #define TRAIT_CYCLOPS_LEFT "Cyclops (Left)" //poked left eye
 #define TRAIT_CYCLOPS_RIGHT "Cyclops (Right)" //poked right eye
 #define TRAIT_INHUMEN_ANATOMY "Inhumen Anatomy" //can't wear hats and shoes
 #define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten/raw/burned food, organs, and drink murky water. Does NOT protect against actual poisons.
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
 #define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician" // unlocks bardic inspiration stuff
-#define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
-#define TRAIT_DISFIGURED "Disfigured"
 #define TRAIT_SPELLCOCKBLOCK "Bewitched" //prevents spellcasting
 #define TRAIT_ANTIMAGIC	"Anti-Magic"
 #define TRAIT_PACIFISM	"Pacifism"
@@ -77,21 +61,44 @@
 #define TRAIT_NODEF "Recklessness"
 #define TRAIT_LEYLINE_HASTE "Leyline's Clarity"
 #define TRAIT_SWIFTCAST "Spell Acceleration"
-#define TRAIT_SHIRTLESS "Shirtless"
-#define TRAIT_STANDARD_BEARER "Standard Bearer" //Can use the keep's standard to provide buffs and rally the retinue.
-#define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
 #define TRAIT_FOG_WARDED "Fog Warded"
 #define TRAIT_ROOT_WALKER "Root Walker"
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
 #define TRAIT_CURSE_SCAR "Curse Scar"
 #define TRAIT_ARMOR_BREAK "Loose Straps"
-#define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
-#define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
-#define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
 
 //Redundant traits? Probably can shoot these later, future coder.
 #define TRAIT_XENOPHOBIC "Xenophobic"
 #define TRAIT_TOLERANT "Tolerant"
+
+//Armor + Defensive Related
+#define TRAIT_MEDIUMARMOR "Maille Training"
+#define TRAIT_HEAVYARMOR "Plate Training"
+#define TRAIT_DODGEEXPERT "Expert Dodger"
+
+//Health Related
+#define TRAIT_CRITICAL_WEAKNESS "Critical Weakness"
+#define TRAIT_SHATTER_KILL "Shatterable Form" //Lesser ver of critical weakness that only instantly kills on chest fractures/paralysis. ALSO prevents rolling voicepacks, used for skeletons.
+#define TRAIT_DNR "Bane of Existence"
+
+#define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
+#define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
+#define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
+
+#define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
+#define TRAIT_DISFIGURED "Disfigured"
+
+//Gear Restriction Related Traits
+#define TRAIT_ARMOUR_LIKED "Fitting Armour"
+#define TRAIT_ARMOUR_DISLIKED "Misfitting Armour"
+#define TRAIT_FENCERDEXTERITY "Fencer's Dexterity"
+#define TRAIT_NALEDI "Naledi Complex"
+#define TRAIT_LONGSWORDSMAN "Master Longswordman"
+#define TRAIT_SABRIST "Renowned Sabrist"
+#define TRAIT_HONORBOUND "Honorbound Tattoos"
+#define TRAIT_SHIRTLESS "Shirtless"
+#define TRAIT_STANDARD_BEARER "Standard Bearer" //Can use the keep's standard to provide buffs and rally the retinue.
+#define TRAIT_NUDIST "Nudist" //you can't wear most clothes
 
 //Factional traits
 #define TRAIT_PURITAN "Otavan Emissary"
@@ -162,14 +169,15 @@
 #define TRAIT_LYCANRESILENCE "Werewolf Resilence"
 #define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
 
-// NON PLAYER FACING TRAITS
-//use for NPC-exclusive stuff or non-RMBable traits
+// LESS PLAYER FACING TRAITS
+//use for NPC-exclusive stuff or stuff that's not visible in the trait panel/too-short-term
 
 #define TRAIT_NO_VOICEPACK_OVERRIDE "DisablePrefVoicepacks" //Used for roles that should only be using their voicepacks added. MAKE sure you have a Fem+Masq one.
 #define TRAIT_NOZIZORECRUIT "Non Recruitable NPC" //Non-user facing trait that prevents recruiting NPCs w/ gravemark, prevents exploits + edge cases
 #define TRAIT_NOVAMPMITOSIS "No Bloodpool Vampires" //Non-user facing trait that prevents summoning lesser servants -> use for thinbloods + migrant vampires or w/e so they can't double in numbers.
 #define TRAIT_EMPOWERED_UNARMED "Empowered Unarmed" // Temporary trait — next unarmed attack bypasses defense
 #define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
+#define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
 
 // POWERFUL TRAITS WE SHOULD NOT GIVE OUT EASILY
 #define TRAIT_INFINITE_STAMINA "Indefatigable" //for ai/antag bosses/simplemobs. Disables the stamina system completely.
