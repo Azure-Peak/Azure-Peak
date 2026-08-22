@@ -100,8 +100,14 @@
 #define TRAIT_INQUISITION "Otavan Adherent"
 #define TRAIT_CLERGY "Clergy of the Azurian Church"
 #define TRAIT_HERESIARCH "Forbidden Knowledge" //unused save for (1) interaction w/ abyssal crystals being worse.
+
+//Edge case Factionals
 #define TRAIT_DREAMWALKER "Dreamwalker" //technically not, easier to find it here though.
 #define TRAIT_UNCONVERTIBLE "Unconvertible" //patron-change related, unconvertable.
+
+//Fae Related Traits
+#define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
+#define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
 
 //Skill Related Traits
 #define TRAIT_GOODTRAINER "Good Trainer" //Combat skill leveling is equal to ours (current skill = what we train them as)
@@ -114,9 +120,6 @@
 #define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
 #define TRAIT_ANTHRAXI "Apex Predator" //underdark boon
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
-
-#define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
-#define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
