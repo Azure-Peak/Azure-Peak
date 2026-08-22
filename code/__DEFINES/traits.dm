@@ -174,7 +174,11 @@
 #define TRAIT_COMICSANS "Annoying Face"
 #define TRAIT_WATERBREATHING "Water Breathing"
 
-// PATRON GOD TRAITS
+// TENNITE PATRON GOD TRAITS
+//ONE PANTHEON AGAINST THE DARKNESS
+
+//Undivided
+#define TRAIT_UNDIVIDED "The Ten Undivided"
 //Astrata
 #define TRAIT_APRICITY	"Apricity" //Decreased stamina regen time during "day" and less so during night
 //Astrata (Sun Elf)
@@ -207,13 +211,10 @@
 #define TRAIT_EXTEROCEPTION	"Exteroception" //See others' hunger and thirst; pairs well with empath.
 #define TRAIT_EORAN_CALM "Eoran Calm"
 #define TRAIT_EORAN_SERENE "Eoran Serenity"
-//ONE PANTHEON AGAINST THE DARKNESS
-#define TRAIT_UNDIVIDED "The Ten Undivided"
-//Psydon
-#define TRAIT_PSYDONIAN_GRIT "Psydonic Willpower" // Willpower-scaling boost to pain resistance. From X to XV, every point of WIL increases the chance of ignoring a paincrit check.
-#define TRAIT_PSYDONITE "Psydonic Devotion" // Passively heals wounds at a slow rate, but doesn't restore lost blood. Negates the effects of all non-Psydonian miracles, save for Anastasis and Cure Rot.
-//The Archdevil, Vheslyn, The Leviathan, The Earth Mover
-#define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
+
+//ASCENDANT GOD TRAITS
+//TO PIERCE THE HEAVENS
+
 //ZIZO
 #define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness + Does Necra's soulcheck thing.
 //Baotha
@@ -222,6 +223,15 @@
 #define TRAIT_ORGAN_EATER "Blessing of Graggar" //can eat organs
 //Matthios
 #define TRAIT_MATTHIOS_EYES	"Eyes of Matthios" //Examine to see the most expensive item someone has (Replaces shitty-appraisal)
+
+//OTHER/DEAD GOD/"GOD" TRAITS
+// . . .
+
+//Psydon
+#define TRAIT_PSYDONIAN_GRIT "Psydonic Willpower" // Willpower-scaling boost to pain resistance. From X to XV, every point of WIL increases the chance of ignoring a paincrit check.
+#define TRAIT_PSYDONITE "Psydonic Devotion" // Passively heals wounds at a slow rate, but doesn't restore lost blood. Negates the effects of all non-Psydonian miracles, save for Anastasis and Cure Rot.
+//The Archdevil, Vheslyn, The Leviathan, The Earth Mover
+#define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
 
 //Bishop
 #define TRAIT_CHOSEN "Astrata's Chosen"
