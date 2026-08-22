@@ -166,7 +166,6 @@
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
-#define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness.
 #define TRAIT_DEATHSIGHT "Veiled Whispers" // Is notified when a player character dies, but not told exactly where or how.
 //Hearthstone/Azure end.
 
@@ -176,34 +175,67 @@
 #define TRAIT_WATERBREATHING "Water Breathing"
 
 // PATRON GOD TRAITS
+
+//Pestra
 #define TRAIT_ROT_EATER "Blessing of Pestra" //can eat rotten food
-#define TRAIT_ORGAN_EATER "Blessing of Graggar" //can eat organs
+//Dendor
 #define TRAIT_KNEESTINGER_IMMUNITY "Blessing of Dendor"
-#define TRAIT_SOUL_EXAMINE "Blessing of Necra" //can check bodies to see if they have departed
-#define TRAIT_CRACKHEAD "Blessing of Baotha" //will never overdose
-#define TRAIT_CHOSEN "Astrata's Chosen"
+#define TRAIT_LEECHIMMUNE "Unleechable" //leeches wont attach in bog squares + dendor boon.
+#define TRAIT_LEECHRESIST "Leech Awareness" //leeches have a chance to be avoided (do we even use this for dendor, atm its just complete immunity)
+//Noc
+#define TRAIT_NIGHT_OWL "Night Owl"
+//Necra
+#define TRAIT_SOUL_EXAMINE "Blessing of Necra" //can check bodies to see if they have departed + can get luxthreads via rumaging/burials + underworld cooldown clearing w/ the carrageman
+//Abyssor
 #define TRAIT_ABYSSOR_SWIM "Blessing of Abyssor" //less base fatigue drain when swimming
+//Xylix
 #define TRAIT_XYLIX "Blessing of Xylix" // secret thieves cant language
 #define TRAIT_XYLIX_DEVOTEE "Xylixian Fateweaver" // fate-weaving and luck-based bonuses
+#define TRAIT_BLACKLEG	"Blackleg" //Rig coin, dice, cards in your favor - UNUSED FOR NOW
+//Malum
 #define TRAIT_FORGEBLESSED "Blessing of Malum" //Reduces the fatigue cost of smithing a bit.
 #define TRAIT_MALUMCHOSEN "Chosen of Malum" //Massively increase chance to craft items.
+#define TRAIT_BETTER_SLEEP	"Better Sleep" //Recover more energy (blue bar) when sleeping
+//Astrata
 #define TRAIT_APRICITY	"Apricity" //Decreased stamina regen time during "day" and less so during night
+//Astrata (Sun Elf)
+#define TRAIT_ASTRATAN_AFFINITY "Astratan Affinity" //Telling who's an Astratan on examine
+//Ravox
 #define TRAIT_SHARPER_BLADES "Sharper Blades" //Weapons lose less blade integrity
 #define TRAIT_BATTLEMASTER "Battlemaster" //You can use weapon specials no matter what
 #define TRAIT_JUSTICARSIGHT "Blessing of Ravox" //Allows seeing bounties and crimes when examining outlaws.
+//Eora
 #define TRAIT_EXTEROCEPTION	"Exteroception" //See others' hunger and thirst; pairs well with empath.
-#define TRAIT_BLACKLEG	"Blackleg" //Rig coin, dice, cards in your favor - UNUSED FOR NOW
-#define TRAIT_BETTER_SLEEP	"Better Sleep" //Recover more energy (blue bar) when sleeping
-#define TRAIT_LEECHIMMUNE "Unleechable" //leeches wont attach in bog squares + dendor boon.
-#define TRAIT_LEECHRESIST "Leech Awareness" //leeches have a chance to be avoided
-#define TRAIT_ASTRATAN_AFFINITY "Astratan Affinity" //Telling who's an Astratan on examine
-#define TRAIT_LONGSTRIDER "Longstrider"
+#define TRAIT_EORAN_CALM "Eoran Calm"
+#define TRAIT_EORAN_SERENE "Eoran Serenity"
+//ONE PANTHEON AGAINST THE DARKNESS
 #define TRAIT_UNDIVIDED "The Ten Undivided"
+//Psydon
 #define TRAIT_PSYDONIAN_GRIT "Psydonic Willpower" // Willpower-scaling boost to pain resistance. From X to XV, every point of WIL increases the chance of ignoring a paincrit check.
 #define TRAIT_PSYDONITE "Psydonic Devotion" // Passively heals wounds at a slow rate, but doesn't restore lost blood. Negates the effects of all non-Psydonian miracles, save for Anastasis and Cure Rot.
-#define TRAIT_BLACKBAGGER "Skilled Apprehender" // Allows the effective usage of garrotes and blackbags.
-#define TRAIT_LYCANRESILENCE "Werewolf Resilence"
+//The Archdevil, Vheslyn, The Leviathan, The Earth Mover
 #define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
+//ZIZO
+#define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness + Does Necra's soulcheck thing.
+//Baotha
+#define TRAIT_CRACKHEAD "Blessing of Baotha" //will never overdose
+//Fraggar
+#define TRAIT_ORGAN_EATER "Blessing of Graggar" //can eat organs
+//Matthios
+#define TRAIT_MATTHIOS_EYES	"Eyes of Matthios" //Examine to see the most expensive item someone has (Replaces shitty-appraisal)
+
+//Bishop
+#define TRAIT_CHOSEN "Astrata's Chosen"
+
+//Define this on the class via tempo-capable var or suffer our curse of woe
+//Genuinely, don't add-trait this, ask Dev general on discord how to impliment this or check tempo-related PRs.
+#define TRAIT_TEMPO	"Tempo Capable"
+
+//Virtue related, also you need to add all of the guarded menu if you add this to make it function proper.
+#define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness" //obfusicates hit chance + faith salute + str/con examines + appraise readout + hit location popup
+
+//Inquis/Assassin only
+#define TRAIT_BLACKBAGGER "Skilled Apprehender" // Allows the effective usage of garrotes and blackbags.
 
 // LESS PLAYER FACING TRAITS
 //use for NPC-exclusive stuff or stuff that's not visible in the trait panel/too-short-term
@@ -228,8 +260,8 @@
 #define TRAIT_SHOCKIMMUNE "Shock Immunity"
 #define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_BREADY "Battleready" //Above, but to a lesser degree. No cmode drain.
+#define TRAIT_LONGSTRIDER "Longstrider" //No slowdown on mud tiles
 
-#define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness" //Virtue related, also you need to add all of the guarded menu if you add this to make it function proper.
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
 
@@ -250,6 +282,8 @@
 #define TRAIT_MANORKEEPER "Manorkeeper" // Flavortext-related for the Absolver.
 #define TRAIT_MANIAC_AWOKEN "Awoken" //Trey Liam. No, He doesn't exist.
 
+#define TRAIT_AZURENATIVE "Azure Native" //ambushes only trigger when sprinting, exclusive to black oaks.
+
 //Magic Related
 #define TRAIT_ARCYNE "Arcyne Training" //enables full-mage interactions
 #define TRAIT_LEYLINE_ATTUNEMENT "Leyline Attunement" //enables echanting
@@ -258,8 +292,9 @@
 #define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_NOPVE "Natural Accord" //Hag only. PVE exemption.
-#define TRAIT_VAMPBITE "Vampire Bite"
+#define TRAIT_VAMPBITE "Vampire Bite" //Handles hazy effect on vamp biting
 #define TRAIT_VAMP_DREAMS "vamp_dreams" //Technically non-player trait panel, but lets vamps do their nighttime "dreaming" w/ coffins
+#define TRAIT_LYCANRESILENCE "Werewolf Resilence" //handles self healing + silversunder pain immunity
 
 #define TRAIT_KNOWNCRIMINAL "Known Criminal" //BANDIT! Examine
 
@@ -281,14 +316,15 @@
 #define TRAIT_CURSE_PESTRA "Curse of Pestra" //less stamina, cannot run and missing nose
 #define TRAIT_CURSE_MALUM "Curse of Malum" //cannot craft or use smith hammer or level skills in sleep menu
 #define TRAIT_CURSE_EORA "Curse of Eora" //world is ugly
-#define TRAIT_CURSE_RESIST "Curse Resistance" //Some folk with a tendency to get cursed are resistant
+
+//For non-antags to exempt them from curses, currently only the bishop has this (Why?)
+#define TRAIT_CURSE_RESIST "Curse Resistance"
 
 // ASCENDANT CULTIST TRAITS (cursed-gear related) -> Matthiosians recognise eachother.
-#define TRAIT_FREEMAN "Blessing of Matthios" //recognized by bandits as an ally
-#define TRAIT_CABAL "Of the Cabal" //Zizo cultists recognize each other too
-#define TRAIT_HORDE "Anointed" //Graggarites also recognize each other
-#define TRAIT_DEPRAVED "Fallen" //Baothans also recognize each other
-#define TRAIT_MATTHIOS_EYES	"Eyes of Matthios" //Examine to see the most expensive item someone has (Replaces shitty-appraisal)
+#define TRAIT_FREEMAN "Blessing of Matthios" //Matthiosian cultists can recognise eachother + can use exclusive gear
+#define TRAIT_CABAL "Of the Cabal" //Zizo cultists can use exclusive gear
+#define TRAIT_HORDE "Anointed" //Graggarites can use exclusive gear
+#define TRAIT_DEPRAVED "Fallen" //Baothans can use exclusive gear
 #define TRAIT_DUSTRUNNER "Dust Runner" //Dust runners recognize each other, and are known to bathhouse workers and matthiosites
 
 //ASCENDANT GOD CURSES
@@ -324,7 +360,6 @@
 #define TRAIT_NOMOOD "Moodless"
 #define TRAIT_DETACHED "Detached"
 #define TRAIT_BAD_MOOD "Bad Mood"
-#define TRAIT_NIGHT_OWL "Night Owl"
 #define TRAIT_BEAUTIFUL "Beautiful"
 #define TRAIT_BEAUTIFUL_UNCANNY "Eerie Beauty"
 #define TRAIT_SIMPLE_WOUNDS "simple_wounds"
@@ -347,15 +382,11 @@
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
 #define TRAIT_NOHUNGER	"Foodless"
 #define TRAIT_LIGHT_STEP	"Light Step"
-#define TRAIT_AZURENATIVE "Azure Native"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
-#define TRAIT_EORAN_CALM "Eoran Calm"
-#define TRAIT_EORAN_SERENE "Eoran Serenity"
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
-#define TRAIT_TEMPO	"Tempo Capable"
 #define TRAIT_EQUESTRIAN "Equestrian"
 #define TRAIT_REGROW_LIMBS "Regrow Limbs"
 #define TRAIT_MUSES_GRACE	"Muses Grace"
