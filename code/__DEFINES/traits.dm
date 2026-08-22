@@ -175,15 +175,18 @@
 #define TRAIT_WATERBREATHING "Water Breathing"
 
 // PATRON GOD TRAITS
-
+//Astrata
+#define TRAIT_APRICITY	"Apricity" //Decreased stamina regen time during "day" and less so during night
+//Astrata (Sun Elf)
+#define TRAIT_ASTRATAN_AFFINITY "Astratan Affinity" //Telling who's an Astratan on examine
+//Noc
+#define TRAIT_NIGHT_OWL "Night Owl" //mood buff at night + inverted sleepcycle during day
 //Pestra
 #define TRAIT_ROT_EATER "Blessing of Pestra" //can eat rotten food
 //Dendor
 #define TRAIT_KNEESTINGER_IMMUNITY "Blessing of Dendor"
 #define TRAIT_LEECHIMMUNE "Unleechable" //leeches wont attach in bog squares + dendor boon.
 #define TRAIT_LEECHRESIST "Leech Awareness" //leeches have a chance to be avoided (do we even use this for dendor, atm its just complete immunity)
-//Noc
-#define TRAIT_NIGHT_OWL "Night Owl"
 //Necra
 #define TRAIT_SOUL_EXAMINE "Blessing of Necra" //can check bodies to see if they have departed + can get luxthreads via rumaging/burials + underworld cooldown clearing w/ the carrageman
 //Abyssor
@@ -196,10 +199,6 @@
 #define TRAIT_FORGEBLESSED "Blessing of Malum" //Reduces the fatigue cost of smithing a bit.
 #define TRAIT_MALUMCHOSEN "Chosen of Malum" //Massively increase chance to craft items.
 #define TRAIT_BETTER_SLEEP	"Better Sleep" //Recover more energy (blue bar) when sleeping
-//Astrata
-#define TRAIT_APRICITY	"Apricity" //Decreased stamina regen time during "day" and less so during night
-//Astrata (Sun Elf)
-#define TRAIT_ASTRATAN_AFFINITY "Astratan Affinity" //Telling who's an Astratan on examine
 //Ravox
 #define TRAIT_SHARPER_BLADES "Sharper Blades" //Weapons lose less blade integrity
 #define TRAIT_BATTLEMASTER "Battlemaster" //You can use weapon specials no matter what
