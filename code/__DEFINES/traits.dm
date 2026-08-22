@@ -60,7 +60,6 @@
 #define TRAIT_POLYTHEIST "Polytheist"
 #define TRAIT_MONOTHEIST "Monotheist"
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
-#define TRAIT_DUNGEONMASTER "Ruthless Jailor"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
 #define TRAIT_MARRIAGE_CAPABLE "Marriage Capable"
@@ -101,7 +100,7 @@
 #define TRAIT_INQUISITION "Otavan Adherent"
 #define TRAIT_CLERGY "Clergy of the Azurian Church"
 #define TRAIT_HERESIARCH "Forbidden Knowledge" //unused save for (1) interaction w/ abyssal crystals being worse.
-#define TRAIT_DREAMWALKER "Dreamwalker" //technically, easier to find it here though.
+#define TRAIT_DREAMWALKER "Dreamwalker" //technically not, easier to find it here though.
 #define TRAIT_UNCONVERTIBLE "Unconvertible" //patron-change related, unconvertable.
 
 //Skill Related Traits
@@ -114,6 +113,7 @@
 #define TRAIT_WOODSMAN "Talented Woodsman" //warden/poacher
 #define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
 #define TRAIT_ANTHRAXI "Apex Predator" //underdark boon
+#define TRAIT_DUNGEONMASTER "Ruthless Jailor"
 
 #define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
 #define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
