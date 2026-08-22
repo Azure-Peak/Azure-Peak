@@ -180,7 +180,7 @@
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
 #define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
-#define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened" //Armor slowdowns do not apply, mostly NPC-only applicable once AI can handle the speed, however player-facing side VL gets it.
+#define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened" //Armor slowdowns do not apply.
 #define TRAIT_ANTISCRYING "Non-Detection" //Stealth-Heavy antags like assassin/nosferato vampires.
 #define TRAIT_TOUGH_COOKIE "Tough Cookie" //Total Maneater Immunity
 #define TRAIT_ZJUMP "High Jumping" //Jump between Z levels, oh god oh fuck.
