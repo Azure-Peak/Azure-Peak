@@ -423,6 +423,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			var/datum/charflaw/cf = new charflaw_type()
 			if(cf)
 				charflaws.Add(cf)
+	// fix saves maid during the period where there was an exploit allowing "true flawless" i.e. no charflaws
+	if(!length(charflaws))
+		charflaws.Add(new /datum/charflaw/noflaw())
 	if(needs_resave)
 		var/list/cleaned_types = list()
 		for(var/datum/charflaw/cf in charflaws)

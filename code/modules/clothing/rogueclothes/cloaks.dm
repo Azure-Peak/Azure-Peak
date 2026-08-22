@@ -339,6 +339,19 @@
 	icon_state = "astratatabard"
 	resistance_flags = FIRE_PROOF
 
+/obj/item/clothing/cloak/templar/astratancleric
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	name = "astratan cloak"
+	desc = "A golden-colored cloak with frayed edges, bearing the radiant hues of Astrata. It marks the wearer as a beacon of light amidst the chaos of battle."
+	icon_state = "astrataclerictabard"
+	sleevetype = "shirt"
+	boobed = FALSE
+	resistance_flags = FIRE_PROOF
+
 /obj/item/clothing/cloak/tabard/abyssorite
 	name = "abyssorite tabard"
 	desc = "A tabard worn by Abyssorite devouts. It reeks of brine."
@@ -363,6 +376,17 @@
 	name = "necran tabard"
 	desc = "Deep dark blacks, swallowing all light as if the night itself."
 	icon_state = "necratabard"
+
+/obj/item/clothing/cloak/templar/necrancleric
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	name = "necran cloak"
+	desc = "A dark, battle-worn cloak secured with a silver buckle. Marked with the somber symbols of Necra, its frayed hem bears testament to endless skirmishes with death."
+	icon_state = "necraclerictabard"
+	boobed = FALSE
 
 /obj/item/clothing/cloak/templar/pestran
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
@@ -402,6 +426,17 @@
 	nodismemsleeves = TRUE
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_MASK
 	flags_inv = HIDECROTCH|HIDEBOOB
+
+/obj/item/clothing/cloak/templar/ravoxcleric
+	name = "justice cloak"
+	desc = "A tattered red tabard dyed in the bold colors of Ravox. Its striking crimson fabric stands out on the frontlines, signaling unyielding judgment."
+	icon_state = "justiceclerictabard"
+	boobed = FALSE
+	body_parts_covered = CHEST|GROIN
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK|ITEM_SLOT_MASK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
 
 /obj/item/clothing/cloak/templar/undivided
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
