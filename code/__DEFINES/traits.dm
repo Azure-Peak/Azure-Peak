@@ -13,15 +13,12 @@
 #define TRAIT_SEEPRICES "Skilled Appraiser"
 #define TRAIT_SEEPRICES_SHITTY "Appraiser"
 #define TRAIT_VAMPBITE "Vampire Bite"
-#define TRAIT_STRONGBITE "Strong Bite"
-#define TRAIT_STRONGKICK "Strong Kick"
 #define TRAIT_NOBLE "Noble Blooded"
 #define TRAIT_DEFILED_NOBLE "Drained Noble Blood"
 #define TRAIT_EMPATH "Empath"
 #define TRAIT_EXPLOSIVE_SUPPLY "Explosive Supply"
 #define TRAIT_DRUG_SUPPLY "Drug Supply"
 #define TRAIT_BOMBER_EXPERT "Explosive Specialist"
-#define TRAIT_BREADY "Battleready"
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"
 #define TRAIT_ARMOUR_DISLIKED "Misfitting Armour"
 #define TRAIT_FENCERDEXTERITY "Fencer's Dexterity"
@@ -32,20 +29,14 @@
 #define TRAIT_SABRIST "Renowned Sabrist"
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"
-#define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
-#define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness"
-#define TRAIT_CRITICAL_RESISTANCE "Critical Resistance"
 #define TRAIT_TOUGH_COOKIE "Tough Cookie"
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded"
 #define TRAIT_JOURNEYS_END "Journey's End"
 #define TRAIT_RAGE "Rage"
 #define TRAIT_CRITICAL_WEAKNESS "Critical Weakness"
 #define TRAIT_SHATTER_KILL "Shatterable Form" //Lesser ver of critical weakness that only instantly kills on chest fractures/paralysis. ALSO prevents rolling voicepacks, used for skeletons.
-#define TRAIT_NO_VOICEPACK_OVERRIDE "DisablePrefVoicepacks" //Used for roles that should only be using their voicepacks added. MAKE sure you have a Fem+Masq one.
 #define TRAIT_DNR "Bane of Existence"
-#define TRAIT_MANIAC_AWOKEN "Awoken"
-#define TRAIT_INFINITE_STAMINA "Indefatigable" //for ai
 #define TRAIT_NUDIST "Nudist" //you can't wear most clothes
 #define TRAIT_CYCLOPS_LEFT "Cyclops (Left)" //poked left eye
 #define TRAIT_CYCLOPS_RIGHT "Cyclops (Right)" //poked right eye
@@ -53,14 +44,10 @@
 #define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten/raw/burned food, organs, and drink murky water. Does NOT protect against actual poisons.
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
 #define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician" // unlocks bardic inspiration stuff
-#define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
-#define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
 #define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
 #define TRAIT_DISFIGURED "Disfigured"
 #define TRAIT_SPELLCOCKBLOCK "Bewitched" //prevents spellcasting
 #define TRAIT_ANTIMAGIC	"Anti-Magic"
-#define TRAIT_ANTISCRYING "Non-Detection"
-#define TRAIT_SHOCKIMMUNE "Shock Immunity"
 #define TRAIT_PACIFISM	"Pacifism"
 #define TRAIT_NOSLEEP "Sleepless"
 #define TRAIT_FASTSLEEP "Fast Sleeper"
@@ -72,38 +59,21 @@
 #define TRAIT_CAUTIOUS_FISHER "Cautious Fisher"
 #define TRAIT_POLYTHEIST "Polytheist"
 #define TRAIT_MONOTHEIST "Monotheist"
-#define TRAIT_GUARDSMAN "Vigilant Guardsman"
-#define TRAIT_GUARDSMAN_DISGRACED "Disgraced Guardsman"
-#define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
-#define TRAIT_WOODSMAN "Talented Woodsman"
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
-#define TRAIT_ANTHRAXI "Apex Predator"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
 #define TRAIT_MARRIAGE_CAPABLE "Marriage Capable"
-#define TRAIT_INQUISITION "Otavan Adherent"
-#define TRAIT_CLERGY "Clergy of the Azurian Church"
-#define TRAIT_GOODTRAINER "Good Trainer"
-#define TRAIT_BADTRAINER "Bad Trainer"
 #define TRAIT_OUTDOORSMAN "Outdoorsman"
 #define TRAIT_SEA_DRINKER "Denizen of the Deep"
 #define TRAIT_STUDENT		"Student"
 #define TRAIT_INTELLECTUAL "Intellectual"
 #define TRAIT_GRAVEROBBER "Experienced Grave Robber"
-#define TRAIT_PURITAN "Otavan Emissary"
-#define TRAIT_PURITAN_ADVENTURER "Interrogator"
-#define TRAIT_HEARTFELT "Heartfelt"
 #define TRAIT_MIRROR_MAGIC "Mirror Magic"
 #define TRAIT_WITCH "They fear me, but I am useful to them."
-#define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_EXCOMMUNICATED "Excommunicated"
 #define TRAIT_RECENT_CONVERT "Recent Convert"
-#define TRAIT_UNCONVERTIBLE "Unconvertible"
-#define TRAIT_HERESIARCH "Forbidden Knowledge"
-#define TRAIT_HALLOWED "Hallowed"
-#define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_JACKOFALLTRADES "Jack of All Trades"	//Reduces skill up cost
 #define TRAIT_SIMPLESPEECH "Simple Speech" // Can only say the 1000 most common English-language words; other words get modified
 #define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
@@ -112,14 +82,10 @@
 #define TRAIT_NODEF "Recklessness"
 #define TRAIT_LEYLINE_HASTE "Leyline's Clarity"
 #define TRAIT_SWIFTCAST "Spell Acceleration"
-#define TRAIT_EMPOWERED_UNARMED "Empowered Unarmed" // Temporary trait — next unarmed attack bypasses defense
-#define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
 #define TRAIT_SHIRTLESS "Shirtless"
 #define TRAIT_STANDARD_BEARER "Standard Bearer" //Can use the keep's standard to provide buffs and rally the retinue.
 #define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
 #define TRAIT_FOG_WARDED "Fog Warded"
-#define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
-#define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
 #define TRAIT_ROOT_WALKER "Root Walker"
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
 #define TRAIT_CURSE_SCAR "Curse Scar"
@@ -127,6 +93,30 @@
 #define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
 #define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
 #define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
+
+//Factional traits
+#define TRAIT_PURITAN "Otavan Emissary"
+#define TRAIT_PURITAN_ADVENTURER "Interrogator" //technically not, but interrogation related so it goes here.
+#define TRAIT_HEARTFELT "Heartfelt"
+#define TRAIT_INQUISITION "Otavan Adherent"
+#define TRAIT_CLERGY "Clergy of the Azurian Church"
+#define TRAIT_HERESIARCH "Forbidden Knowledge" //unused save for (1) interaction w/ abyssal crystals being worse.
+#define TRAIT_DREAMWALKER "Dreamwalker" //technically, easier to find it here though.
+#define TRAIT_UNCONVERTIBLE "Unconvertible" //patron-change related, unconvertable.
+
+//Skill Related Traits
+#define TRAIT_GOODTRAINER "Good Trainer" //Combat skill leveling is equal to ours (current skill = what we train them as)
+#define TRAIT_BADTRAINER "Bad Trainer" //Extra tier below combat skill leveling (current skill -2 is what we train them as)
+
+//AREA BASED STATBOONS/MALUSES
+#define TRAIT_GUARDSMAN "Vigilant Guardsman"
+#define TRAIT_GUARDSMAN_DISGRACED "Disgraced Guardsman"
+#define TRAIT_WOODSMAN "Talented Woodsman" //warden/poacher
+#define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
+#define TRAIT_ANTHRAXI "Apex Predator" //underdark boon
+
+#define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
+#define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -168,7 +158,32 @@
 #define TRAIT_BLACKBAGGER "Skilled Apprehender" // Allows the effective usage of garrotes and blackbags.
 #define TRAIT_LYCANRESILENCE "Werewolf Resilence"
 #define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
+
+// NON PLAYER FACING TRAITS
+//use for NPC-exclusive stuff or non-RMBable traits
+
+#define TRAIT_NO_VOICEPACK_OVERRIDE "DisablePrefVoicepacks" //Used for roles that should only be using their voicepacks added. MAKE sure you have a Fem+Masq one.
+#define TRAIT_NOZIZORECRUIT "Non Recruitable NPC" //Non-user facing trait that prevents recruiting NPCs w/ gravemark, prevents exploits + edge cases
 #define TRAIT_NOVAMPMITOSIS "No Bloodpool Vampires" //Non-user facing trait that prevents summoning lesser servants -> use for thinbloods + migrant vampires or w/e so they can't double in numbers.
+#define TRAIT_EMPOWERED_UNARMED "Empowered Unarmed" // Temporary trait — next unarmed attack bypasses defense
+#define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
+
+// POWERFUL TRAITS WE SHOULD NOT GIVE OUT EASILY
+#define TRAIT_INFINITE_STAMINA "Indefatigable" //for ai/antag bosses/simplemobs. Disables the stamina system completely.
+#define TRAIT_HALLOWED "Hallowed" //No need of psicross req for miracles.
+#define TRAIT_SHOCKIMMUNE "Shock Immunity" //Self-Explains, give only to antags that are fighting the entire server on-average. (Lich/Vlord)
+#define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
+#define TRAIT_BREADY "Battleready" //Above, but to a lesser degree. No cmode drain.
+#define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness" //Virtue related, also you need to add all of the guarded menu if you add this to make it function proper.
+#define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //50% less bleeding + shrug off a certain number of crits.
+#define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
+#define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
+#define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
+#define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
+#define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened" //Armor slowdowns do not apply, mostly NPC-only applicable once AI can handle the speed, however player-facing side VL gets it.
+#define TRAIT_ANTISCRYING "Non-Detection" //Stealth-Heavy antags like assassin/nosferato vampires.
+
+#define TRAIT_MANIAC_AWOKEN "Awoken" //Trey Liam. No, He doesn't exist.
 
 // PATRON GOD CURSES
 
