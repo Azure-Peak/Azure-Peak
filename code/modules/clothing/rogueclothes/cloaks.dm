@@ -1272,6 +1272,7 @@
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "inquisitor"
 	color = null
 
 /obj/item/clothing/cloak/cape/inquisitorsilver
@@ -1282,6 +1283,7 @@
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "inquisitor"
 	color = null
 
 /obj/item/clothing/cloak/cape/rogue
@@ -1521,6 +1523,7 @@
 	body_parts_covered = CHEST|GROIN|VITALS
 	allowed_sex = list(MALE, FEMALE)
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "tribal"
 	nodismemsleeves = TRUE
 	boobed = FALSE
 	sellprice = 10
@@ -1827,6 +1830,7 @@
 	flags_inv = HIDECROTCH|HIDEBOOB
 	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "poncho"
 	nodismemsleeves = TRUE
 	color = CLOTHING_WHITE
 	detail_tag = "_detail"
