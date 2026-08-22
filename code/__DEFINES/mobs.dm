@@ -316,6 +316,7 @@
 #define OFFSET_ARMOR "wear_armor"
 #define OFFSET_HANDS "hands"
 #define OFFSET_UNDIES "underwear"
+#define OFFSET_BRA "underwear"
 
 #define OFFSET_ID_F "wear_ringf"
 #define OFFSET_GLOVES_F "glovesf"
@@ -333,6 +334,7 @@
 #define OFFSET_ARMOR_F "wear_armorf"
 #define OFFSET_HANDS_F "handsf"
 #define OFFSET_UNDIES_F "underwearf"
+#define OFFSET_BRA_F "underwearf"
 
 //MINOR TWEAKS/MISC
 #define AGE_MIN				18	//youngest a character can be

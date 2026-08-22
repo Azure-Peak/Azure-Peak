@@ -93,7 +93,9 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 
 	if(href_list["item"]) //canUseTopic check for this is handled by mob/Topic()
 		var/slot = text2num(href_list["item"])
-		if(slot in check_obscured_slots(TRUE))
+		var/obscured = check_obscured_slots(TRUE)
+		var/obscured_extra = (obscured << 1) >> 1 //We "cut off" the 24th bit of the extra slots flag so that the bitwise & can work.
+		if((!(slot & ITEM_SLOT_EXTRA) && (slot & obscured)) || ((slot & ITEM_SLOT_EXTRA) && (slot & obscured_extra)))
 			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
 			return
 
@@ -112,42 +114,6 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		popup.set_content(origin_desc)
 		popup.open()
 		return
-
-	if(href_list["undiesthing"]) //canUseTopic check for this is handled by mob/Topic()
-		if(NO_UNDERWEAR in dna.species.species_traits)
-			return
-		if(!get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
-			return
-		if(!underwear)
-			return
-		usr.visible_message(span_warning("[usr] starts taking off [src]'s [underwear.name]."),span_warning("I start taking off [src]'s [underwear.name]..."))
-		if(do_after(usr, 50, needhand = 1, target = src))
-			var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-			chest.remove_bodypart_feature(underwear.undies_feature)
-			underwear.forceMove(get_turf(src))
-			if(iscarbon(usr))
-				var/mob/living/carbon/C = usr
-				C.put_in_hands(underwear)
-			underwear = null
-
-	if(href_list["legwearsthing"]) //canUseTopic check for this is handled by mob/Topic()
-		if(NO_UNDERWEAR in dna.species.species_traits)
-			return
-		if(!get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
-			return
-		if(!legwear_socks)
-			return
-		usr.visible_message(span_warning("[usr] starts taking off [src]'s [legwear_socks.name]."),span_warning("I start taking off [src]'s [legwear_socks.name]..."))
-		if(do_after(usr, 50, needhand = 1, target = src))
-			var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-			chest.remove_bodypart_feature(legwear_socks.legwears_feature)
-			underwear.forceMove(get_turf(src))
-			if(iscarbon(usr))
-				var/mob/living/carbon/C = usr
-				C.put_in_hands(underwear)
-			underwear = null
 
 	if(href_list["pockets"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY)) //TODO: Make it match (or intergrate it into) strippanel so you get 'item cannot fit here' warnings if mob_can_equip fails
 		var/pocket_side = href_list["pockets"]

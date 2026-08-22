@@ -43,9 +43,16 @@
 	///only used by humans.
 	var/obj/item/clothing/ears = null
 
-	var/obj/item/undies/underwear = null	//Underwear item
-	var/obj/item/legwears/legwear_socks = null	//legwear item
-
+	//Extra equipment slots
+	var/obj/item/clothing/undies/underwear = null
+	var/obj/item/clothing/legwears/legwear_socks = null
+	var/obj/item/clothing/undershirt = null
+	var/obj/item/clothing/bra/bra = null
+	var/obj/item/clothing/garter/garter = null
+	var/obj/item/clothing/choker = null
+	var/obj/item/earring_l = null
+	var/obj/item/earring_r = null
+	var/obj/item/clothing/armsleeves = null
 
 	var/datum/dna/dna = null //Carbon
 	///last mind to control this mob, for blood-based cloning

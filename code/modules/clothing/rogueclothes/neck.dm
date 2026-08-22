@@ -561,6 +561,14 @@
 	. += span_info("By typing '*pray' into your chatbar, you can write a dedicated prayer to your character's patron. Dedicated prayers have a rare chance of being answered by higher powers.")
 	. += span_info("Adjusting an amulet while wearing it in the ring slot allows you to visibly layer it over most sleeves and clothing.")
 
+/obj/item/clothing/neck/roguetown/psicross/MiddleClick(mob/user)
+	if(.)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	var/prayer = locate(/mob/living/carbon/human/proc/clericpray) in user.verbs
+	if(prayer)
+		call(user, prayer)()
+
 /obj/item/clothing/neck/roguetown/psicross/reform
 	name = "reformist psycross"
 	desc = "'It occured to me that our God had left us, but not our ability to endure hardship. We shall make something out of this world, I said, before we pass onto the next.'"

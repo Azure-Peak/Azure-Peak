@@ -27,57 +27,62 @@
 /datum/supply_pack/rogue/bath_clothes/silkstockings
 	name = "Stockings, Silk"
 	cost = 20
-	contains = list(/obj/item/legwears/silk/white)
+	contains = list(/obj/item/clothing/legwears/silk/white)
 
 /datum/supply_pack/rogue/bath_clothes/kneestockings
 	name = "Stockings, Knee"
 	cost = 15
-	contains = list(/obj/item/legwears/knee_high/white)
+	contains = list(/obj/item/clothing/legwears/knee_high/white)
 
 /datum/supply_pack/rogue/bath_clothes/thighstockings
 	name = "Stockings, Thigh"
 	cost = 15
-	contains = list(/obj/item/legwears/thigh_high/white)
+	contains = list(/obj/item/clothing/legwears/thigh_high/white)
 
 /datum/supply_pack/rogue/bath_clothes/fishnetstockings
 	name = "Stockings, Fishnet"
 	cost = 10
-	contains = list(/obj/item/legwears/fishnet/white)
+	contains = list(/obj/item/clothing/legwears/fishnet/white)
 
 /datum/supply_pack/rogue/bath_clothes/stockings_normal
 	name = "Stockings"
 	cost = 10
-	contains = list(/obj/item/legwears/white)
+	contains = list(/obj/item/clothing/legwears/white)
 
 /datum/supply_pack/rogue/bath_clothes/briefs
 	name = "Briefs"
 	cost = 10
-	contains = list(/obj/item/undies)
+	contains = list(/obj/item/clothing/undies)
 
-/datum/supply_pack/rogue/bath_clothes/bikini
-	name = "Bikini"
+/datum/supply_pack/rogue/bath_clothes/bikini_top
+	name = "Bikini Top"
 	cost = 10
-	contains = list(/obj/item/undies/bikini)
+	contains = list(/obj/item/clothing/bra/bikini)
+
+/datum/supply_pack/rogue/bath_clothes/bikini_bottom
+	name = "Bikini Bottom"
+	cost = 10
+	contains = list(/obj/item/clothing/undies/bikini_bottom)
 
 /datum/supply_pack/rogue/bath_clothes/panties
 	name = "Panties"
 	cost = 10
-	contains = list(/obj/item/undies/panties)
+	contains = list(/obj/item/clothing/undies/panties)
 
 /datum/supply_pack/rogue/bath_clothes/leotard
 	name = "Leotard"
 	cost = 10
-	contains = list(/obj/item/undies/leotard)
+	contains = list(/obj/item/clothing/undershirt/leotard)
 
 /datum/supply_pack/rogue/bath_clothes/athletic_leotard
 	name = "Athletic Leotard"
 	cost = 10
-	contains = list(/obj/item/undies/athletic_leotard)
+	contains = list(/obj/item/clothing/undershirt/athletic_leotard)
 
 /datum/supply_pack/rogue/bath_clothes/braies
 	name = "Braies"
 	cost = 10
-	contains = list(/obj/item/undies/braies)
+	contains = list(/obj/item/clothing/undies/braies)
 
 /datum/supply_pack/rogue/bath_clothes/collar
 	name = "Collar"

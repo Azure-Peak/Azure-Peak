@@ -49,6 +49,8 @@
 	I.plane = ABOVE_HUD_PLANE
 	I.appearance_flags |= NO_CLIENT_COLOR
 	var/not_handled = FALSE
+	if(slot & ITEM_SLOT_EXTRA)
+		not_handled = TRUE
 	switch(slot)
 		if(SLOT_BACK)
 			if(!backl && (I.slot_flags & ITEM_SLOT_BACK_L))

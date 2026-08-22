@@ -14,6 +14,10 @@
 /datum/bodypart_feature/proc/bodypart_icon(mutable_appearance/standing)
 	return
 
+/// This proc is called when a feature is added
+/datum/bodypart_feature/proc/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
+	return FALSE
+
 /// This proc can add overlays to the organ image that is to be attached to a bodypart.
 /datum/bodypart_feature/proc/bodypart_overlays(mutable_appearance/standing)
 	return
@@ -64,6 +68,8 @@
 	accessory_colors = accessory.get_default_colors(source_key_list)
 
 /obj/item/bodypart/proc/add_bodypart_feature(datum/bodypart_feature/feature)
+	if(feature.bodypart_feature_additem(owner, src))
+		return
 	if(feature.body_zone != body_zone)
 		return FALSE
 	if(!bodypart_features)
