@@ -16,7 +16,6 @@
 #define TRAIT_DRUG_SUPPLY "Drug Supply"
 #define TRAIT_BOMBER_EXPERT "Explosive Specialist"
 #define TRAIT_SKILLBLESSED "Skill Blessed"
-#define TRAIT_INHUMEN_ANATOMY "Inhumen Anatomy" //can't wear hats and shoes
 #define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten/raw/burned food, organs, and drink murky water. Does NOT protect against actual poisons.
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
 #define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician" // unlocks bardic inspiration stuff
@@ -121,10 +120,12 @@
 #define TRAIT_NALEDI "Naledi Complex"
 #define TRAIT_LONGSWORDSMAN "Master Longswordman"
 #define TRAIT_SABRIST "Renowned Sabrist"
+#define TRAIT_STANDARD_BEARER "Standard Bearer" //Can use the keep's standard to provide buffs and rally the retinue.
+
 #define TRAIT_HONORBOUND "Honorbound Tattoos"
 #define TRAIT_SHIRTLESS "Shirtless"
-#define TRAIT_STANDARD_BEARER "Standard Bearer" //Can use the keep's standard to provide buffs and rally the retinue.
 #define TRAIT_NUDIST "Nudist" //you can't wear most clothes
+#define TRAIT_INHUMEN_ANATOMY "Inhumen Anatomy" //can't wear hats and shoes
 
 //Factional traits
 #define TRAIT_PURITAN "Otavan Emissary"

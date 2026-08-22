@@ -215,10 +215,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 	equipOutfit(outfit)
 
-	// Apply dust-on-drop to all equipped gear so it can't be looted via dismemberment or stripping.
-	// TRAIT_NODROP on all of their gear too.
-	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
-		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
 	for(var/obj/item/gear in (get_equipped_items() + held_items))
 		ADD_TRAIT(gear, TRAIT_NODROP, TRAIT_GENERIC)
 
