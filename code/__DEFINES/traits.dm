@@ -9,7 +9,6 @@
 #define TRAIT_NUTCRACKER "Nutcracker"
 #define TRAIT_SEEPRICES "Skilled Appraiser"
 #define TRAIT_SEEPRICES_SHITTY "Appraiser"
-#define TRAIT_VAMPBITE "Vampire Bite"
 #define TRAIT_NOBLE "Noble Blooded"
 #define TRAIT_DEFILED_NOBLE "Drained Noble Blood"
 #define TRAIT_EMPATH "Empath"
@@ -32,8 +31,6 @@
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
 #define TRAIT_CAUTIOUS_FISHER "Cautious Fisher"
-#define TRAIT_POLYTHEIST "Polytheist"
-#define TRAIT_MONOTHEIST "Monotheist"
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
@@ -69,12 +66,20 @@
 #define TRAIT_IWASUNZOMBIFIED "iwasunzombified" //prevents PQ gain from curing a zombie twice
 #define TRAIT_IWASHAUNTED "iwashaunted" //prevents spawning a haunt from a decapitated body twice
 
+//used for a far-travel zone I am uncertain we even have anymore/ever to begin with
+#define TRAIT_CAVEDWELLER "Cave Dweller"
+
+//These actually do nothing, genuinely
+#define TRAIT_POLYTHEIST "Polytheist"
+#define TRAIT_MONOTHEIST "Monotheist"
+#define TRAIT_PUNISHMENT_CURSE "PunishmentCurse" //PUNISHES YOU. YES YOU, BY DOING /NOTHING/
+
 //Armor + Defensive Related
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
 
-//Combat Conditionals
+//Combat Buff Conditionals
 #define TRAIT_JOURNEYS_END "Journey's End"
 #define TRAIT_RAGE "Rage"
 
@@ -105,6 +110,9 @@
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //shrug off a certain number of crits.
 
 #define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
+
+//Near the above, this makes you silver weak + while-sundered ignore paincrit traits, define another w/ TRAIT_LYCANRESILENCE if you need another silver weak, stun immune exemption that still burns from silver.
+#define TRAIT_SILVER_WEAK "Silver Weakness"
 
 //Second Chance related
 #define TRAIT_ROTMAN "Rotman" //No heartbeat + can invoke Zizo ascension/not regular ascensions - Also lets you eat brains
@@ -240,14 +248,24 @@
 #define TRAIT_ZJUMP "High Jumping" //Jump between Z levels, oh god oh fuck.
 #define TRAIT_GRABIMMUNE "Unstoppable"
 #define TRAIT_BASHDOORS "Door Basher" //Destroy doors by walking into them
+#define TRAIT_WOODWALKER "Woodwalker" //Boak/Virtue
 
-//Trey Liam.
-#define TRAIT_MANIAC_AWOKEN "Awoken" //Trey Liam. No, He doesn't exist. (Lunatic)
+//Role Unique flavor traits
+#define TRAIT_BLACKOAK "Heritage Vision" //Used to make the black oaken elves only like fellow non-sun elves
+#define TRAIT_MANORKEEPER "Manorkeeper" // Flavortext-related for the Absolver.
+#define TRAIT_MANIAC_AWOKEN "Awoken" //Trey Liam. No, He doesn't exist.
+
+//Magic Related
+#define TRAIT_ARCYNE "Arcyne Training" //enables full-mage interactions
+#define TRAIT_LEYLINE_ATTUNEMENT "Leyline Attunement" //enables echanting
 
 //Antagonist role unique
 #define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_NOPVE "Natural Accord" //Hag only. PVE exemption.
+#define TRAIT_VAMPBITE "Vampire Bite"
+
+#define TRAIT_KNOWNCRIMINAL "Known Criminal" //BANDIT! Examine
 
 // Sight Related
 #define TRAIT_DARKVISION "Darksight"
@@ -296,6 +314,15 @@
 #define TRAIT_NOWW "Werevolf Immunity"
 #define TRAIT_ZOMBIE_IMMUNE "Deadite Immunity" //immune to deadite infection
 
+//Dusting/Respawn related
+#define TRAIT_DUSTABLE "Dustable"
+#define TRAIT_DUST_LEAVE_HEAD "Dust Leave Head"
+#define TRAIT_DUST_DELETE_GEAR "Dust Delete Gear"
+#define TRAIT_SECONDLIFE "Second Life"
+
+//Abyssorcult
+#define TRAIT_INK_AFFINITY "Paint Affinity"
+
 // Generic
 #define TRAIT_NOMOOD "Moodless"
 #define TRAIT_DETACHED "Detached"
@@ -304,7 +331,6 @@
 #define TRAIT_BEAUTIFUL "Beautiful"
 #define TRAIT_BEAUTIFUL_UNCANNY "Eerie Beauty"
 #define TRAIT_SIMPLE_WOUNDS "simple_wounds"
-#define TRAIT_CAVEDWELLER "Cave Dweller"
 #define TRAIT_VAMP_DREAMS "vamp_dreams"
 #define TRAIT_LIMPDICK "Limp Dick"
 #define TRAIT_SEXPASS "sexpass"
@@ -312,12 +338,10 @@
 #define TRAIT_PSYCHOSIS "Psychosis" //replaces all ambience with creepy shit
 #define TRAIT_SCREENSHAKE "Tremors" //screen will always be shaking, you cannot stop it
 #define TRAIT_NORUN "Decayed Flesh"
-#define TRAIT_PUNISHMENT_CURSE "PunishmentCurse"
 #define TRAIT_LEPROSY "Leprosy"
 #define TRAIT_NUDE_SLEEPER "Nude Sleeper"
 #define TRAIT_OUTLAW "Outlaw" //Disables Miesters + Most Solar Ascensions
 #define TRAIT_TECHNOPHOBE "Technophobe"
-#define TRAIT_KNOWNCRIMINAL "Known Criminal" //BANDIT! Examine
 #define TRAIT_BIGGUY "Big Guy"
 #define TRAIT_RESIDENT "Resident"
 #define TRAIT_UNSEEMLY "Ugly"
@@ -331,36 +355,25 @@
 #define TRAIT_AZURENATIVE "Azure Native"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
-#define TRAIT_WOODWALKER "Woodwalker"
-#define TRAIT_ARCYNE "Arcyne Training"
-#define TRAIT_LEYLINE_ATTUNEMENT "Leyline Attunement"
-#define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
-#define TRAIT_MANORKEEPER "Manorkeeper" // Flavortext-related for the Absolver.
 #define TRAIT_EORAN_CALM "Eoran Calm"
 #define TRAIT_EORAN_SERENE "Eoran Serenity"
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
 #define TRAIT_TEMPO	"Tempo Capable"
-#define TRAIT_SILVER_WEAK "Silver Weakness"
 #define TRAIT_EQUESTRIAN "Equestrian"
 #define TRAIT_REGROW_LIMBS "Regrow Limbs"
 #define TRAIT_MUSES_GRACE	"Muses Grace"
 #define TRAIT_SUNLIGHT_SENSITIVE "Sunlight Sensitivity"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
-#define TRAIT_BLACKOAK "Heritage Vision"
-#define TRAIT_DUSTABLE "Dustable"
-#define TRAIT_DUST_LEAVE_HEAD "Dust Leave Head"
-#define TRAIT_DUST_DELETE_GEAR "Dust Delete Gear"
-#define TRAIT_SECONDLIFE "Second Life"
+#define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
 #define TRAIT_QUICKSILVERRESISTANT "Quicksilver Resistance"
 #define TRAIT_GARRISON_ITEM "Garrison Item"
 #define TRAIT_WEATHER_PROTECTED "Weather Protected"
 #define TRAIT_WHITE_STAG "Stag Protection"
 #define TRAIT_EDIT_DESCRIPTORS "Edit Descriptors"
-#define TRAIT_INK_AFFINITY "Paint Affinity"
 
 //Ecom Related traits
 #define TRAIT_DEBTOR "Default Debtor"
