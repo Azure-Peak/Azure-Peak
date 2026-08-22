@@ -233,7 +233,7 @@
 //The Archdevil, Vheslyn, The Leviathan, The Earth Mover
 #define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
 
-//Bishop
+//Bishop robes/picking Eora things/louder prayers to admins/don't burn to doing Astrata's light
 #define TRAIT_CHOSEN "Astrata's Chosen"
 
 //Define this on the class via tempo-capable var or suffer our curse of woe
