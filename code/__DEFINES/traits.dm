@@ -313,6 +313,7 @@
 #define TRAIT_UNLYCKERABLE "Lycker Immunity"
 #define TRAIT_NOWW "Werevolf Immunity"
 #define TRAIT_ZOMBIE_IMMUNE "Deadite Immunity" //immune to deadite infection
+#define TRAIT_QUICKSILVERRESISTANT "Quicksilver Resistance" //inability to deconvert
 
 //Dusting/Respawn related
 #define TRAIT_DUSTABLE "Dustable"
@@ -354,7 +355,6 @@
 #define TRAIT_LIGHT_STEP	"Light Step"
 #define TRAIT_AZURENATIVE "Azure Native"
 #define TRAIT_SLEUTH	"Sleuth"
-#define TRAIT_HARDSHELL "Hardshell"
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
 #define TRAIT_EORAN_CALM "Eoran Calm"
 #define TRAIT_EORAN_SERENE "Eoran Serenity"
@@ -369,7 +369,7 @@
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
-#define TRAIT_QUICKSILVERRESISTANT "Quicksilver Resistance"
+#define TRAIT_HARDSHELL "Hardshell" //Gudgebarer armor parrycap
 #define TRAIT_GARRISON_ITEM "Garrison Item"
 #define TRAIT_WEATHER_PROTECTED "Weather Protected"
 #define TRAIT_WHITE_STAG "Stag Protection"
