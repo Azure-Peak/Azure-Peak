@@ -75,7 +75,6 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/foreigner/bronzeclad,
 		/datum/advclass/foreigner/lesserblackoak
 	)
-	has_subprefs = TRUE
 
 /datum/status_effect/advclass_selection
 	id = "advclass_selection"
@@ -130,3 +129,35 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 	status_flags &= ~GODMODE
 	REMOVE_TRAIT(src, TRAIT_PACIFISM, HUGBOX_TRAIT)
 	to_chat(src, span_danger("My joy is gone! Danger surrounds me."))
+
+/// Returns an assoc list with intermediate adventurer scaling values for admin display.
+/// If override_player_count is provided (e.g. from readied player count at roundstart), use that instead of the live joined list.
+/proc/calculate_adventurer_scaling(override_player_count)
+	var/list/result = list()
+	var/player_count = override_player_count || length(GLOB.joined_player_list)
+	result["player_count"] = player_count
+
+	var/slots = 20
+	if(player_count > 70)
+		slots += floor((player_count - 70) / 10) * 2
+	slots = min(slots, 40)
+	result["final_slots"] = slots
+
+	return result
+
+/proc/update_adventurer_slots(override_player_count)
+	var/datum/job/adventurer_job = SSjob.GetJob("Adventurer")
+	if(!adventurer_job)
+		return
+	var/list/scaling = calculate_adventurer_scaling(override_player_count)
+	var/slots = scaling["final_slots"]
+	// Never reduce below current value, so admin-opened slots aren't overwritten.
+	adventurer_job.total_positions = max(adventurer_job.total_positions, slots)
+	adventurer_job.spawn_positions = max(adventurer_job.spawn_positions, slots)
+
+/// Convenience proc to update both wretch and adventurer scaling in one call.
+/proc/update_scaling_slots(override_player_count)
+	update_lycker_slots(override_player_count)
+	update_wretch_slots(override_player_count)
+	update_heretic_slots(override_player_count)
+	update_adventurer_slots(override_player_count)

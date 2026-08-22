@@ -47,8 +47,6 @@
 		"Kraken" // fjall
 	)
 
-	storyteller = /datum/storyteller/abyssor
-
 // Near water, cross, or within the church.
 /datum/patron/divine/abyssor/can_pray(mob/living/follower)
 	. = ..()

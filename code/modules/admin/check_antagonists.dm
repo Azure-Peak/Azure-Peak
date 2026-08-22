@@ -191,16 +191,16 @@
 	dat += "<br>"
 
 	// Job Scaling Summary
-	var/list/wretch_scaling = calculate_wretch_scaling()
-	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
+	// var/list/wretch_scaling = calculate_wretch_scaling()
+	// var/datum/job/wretch_job = SSjob.GetJob("Wretch")
 	var/list/adv_scaling = calculate_adventurer_scaling()
 	var/datum/job/adv_job = SSjob.GetJob("Adventurer")
 	dat += "<b>Job Scaling:</b> "
-	dat += "Wretch [wretch_job?.current_positions]/[wretch_job?.total_positions] (T1: [wretch_scaling["tier1_slots"]]/10, T2: +[wretch_scaling["tier2_extra"]]/5) | "
+	// dat += "Wretch [wretch_job?.current_positions]/[wretch_job?.total_positions] (T1: [wretch_scaling["tier1_slots"]]/10, T2: +[wretch_scaling["tier2_extra"]]/5) | "
 	dat += "Adventurer [adv_job?.current_positions]/[adv_job?.total_positions] (calc: [adv_scaling["final_slots"]]) | "
-	dat += "Garrison: [wretch_scaling["garrison"]] Holy: [wretch_scaling["holy_warrior"]] Acolytes: [wretch_scaling["acolyte"]] (half)"
-	if(wretch_scaling["major_antag_active"])
-		dat += " | <font color='red'>MAJOR ANTAG - T2 LOCKED</font>"
+	// dat += "Garrison: [wretch_scaling["garrison"]] Holy: [wretch_scaling["holy_warrior"]] Acolytes: [wretch_scaling["acolyte"]] (half)"
+	// if(wretch_scaling["major_antag_active"])
+	// 	dat += " | <font color='red'>MAJOR ANTAG - T2 LOCKED</font>"
 	dat += "<BR><b>Antag Cap:</b> [SSgamemode.get_antag_count()] / [SSgamemode.get_antag_cap()] (weight used / max)"
 	dat += "<br><br>"
 

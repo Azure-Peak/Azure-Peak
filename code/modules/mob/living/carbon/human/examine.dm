@@ -897,7 +897,7 @@
 					. += span_userdanger("DEFAULT DEBTOR OF THE BATHHOUSE!")
 					saw_specific = TRUE
 				if(!saw_specific && HAS_TRAIT(src, TRAIT_DEBTOR_CROWN))
-					if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
+					if(is_crown_enforcer(viewer.job))
 						. += span_userdanger("DEFAULT DEBTOR OF THE CROWN!")
 
 		if(HAS_TRAIT(src, TRAIT_ARREARS))
@@ -906,7 +906,7 @@
 			// the Steward, and enforcement is up to whoever spots it.
 			if(ishuman(user))
 				var/mob/living/carbon/human/viewer = user
-				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
+				if(is_crown_enforcer(viewer.job))
 					. += span_smallred("Destitute..")
 
 		if(src.job in GLOB.church_positions)
@@ -954,6 +954,12 @@
 */
 		if(name in GLOB.outlawed_players)
 			. += span_userdanger("OUTLAW!")
+
+		if(HAS_TRAIT(src, TRAIT_OUTCAST)) // i.e. you have to be a knight MAA or royalty/courtier
+			if(ishuman(user))
+				var/mob/living/carbon/human/viewer = user
+				if(is_crown_enforcer(viewer.job))
+					. += span_smallred(SPAN_TOOLTIP("Too petty to have a bounty on their head, yet still a criminal, they've either escaped or been exiled. Not an uncommon sight in the wild; concerning in town.","Outcast!"))
 
 		if(HAS_TRAIT(user, TRAIT_JUSTICARSIGHT) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			for(var/datum/bounty/b in GLOB.head_bounties) //I hate this.

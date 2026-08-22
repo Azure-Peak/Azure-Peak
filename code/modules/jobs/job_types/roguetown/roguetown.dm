@@ -157,9 +157,13 @@
 			if(check_crownlist(H.ckey))
 				H.mind.special_items["Champion Circlet"] = /obj/item/clothing/head/roguetown/crown/sparrowcrown
 			give_special_items(H)
-		// Ensure Wretches are granted their antagonist datum at post-equip
+		// Ensure Lyckers, Wretches, and Heretics are granted their antagonist datum at post-equip
+		if(H.mind.assigned_role == "Licker" && !H.mind.has_antag_datum(/datum/antagonist/lycker))
+			H.mind.add_antag_datum(/datum/antagonist/lycker)
 		if(H.mind.assigned_role == "Wretch" && !H.mind.has_antag_datum(/datum/antagonist/wretch))
 			H.mind.add_antag_datum(/datum/antagonist/wretch)
+		if(H.mind.assigned_role == "Heretic" && !H.mind.has_antag_datum(/datum/antagonist/heretic))
+			H.mind.add_antag_datum(/datum/antagonist/heretic)
 
 	for(var/list_key in SStriumphs.post_equip_calls)
 		var/datum/triumph_buy/thing = SStriumphs.post_equip_calls[list_key]

@@ -22,6 +22,9 @@
 #define ROLE_HAG				"Hag"
 #define ROLE_ASCENDANT			"Ascendant"
 #define ROLE_WRETCH				"Wretch"
+#define ROLE_OUTCAST			"Outcast"
+#define ROLE_HERETIC			"Heretic"
+#define ROLE_LICKER				"Licker"
 #define ROLE_UNBOUND_DEATHKNIGHT "Unbound Death Knight"
 #define ROLE_DARK_ITINERANT "Dark Itinerant"
 

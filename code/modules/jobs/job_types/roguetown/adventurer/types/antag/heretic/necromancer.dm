@@ -1,14 +1,14 @@
-/datum/advclass/wretch/necromancer
+/datum/advclass/heretic/necromancer
 	name = "Necromancer"
 	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of lyfe; your speciality is gaining power through what you raise."
 	allowed_sexes = list(MALE, FEMALE)
 
-	outfit = /datum/outfit/job/roguetown/wretch/necromancer
+	outfit = /datum/outfit/job/roguetown/heretic/necromancer
 	cmode_music = 'sound/music/combat_heretic.ogg'
 	class_select_category = CLASS_CAT_MAGE
-	category_tags = list(CTAG_WRETCH)
+	category_tags = list(CTAG_HERETIC)
 	traits_applied = list(TRAIT_ZOMBIE_IMMUNE, TRAIT_NOSTINK, TRAIT_GRAVEROBBER, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDICINE_EXPERT)
-	maximum_possible_slots = 2 // Skeles no longer count vs antag cap, however these are pretty strong mage roles with some inzane potental that can make them a fucking menace to deal with if they work for it. A la-wretch heretics.
+	maximum_possible_slots = 2 // Skeles no longer count vs antag cap, however these are pretty strong mage roles with some inzane potental that can make them a fucking menace to deal with if they work for it. A la-heretic paladins.
 	//Slightly worse spread than rogue mage, trades off with a lot of summoning potental + pretty fucking decent armor choice that's more obvious long-term + player skeles with numbers + traits + medicine skill.
 	subclass_stats = list(
 		STATKEY_INT = 4,
@@ -38,7 +38,7 @@
 		"Sewing Kit" =	/obj/item/repair_kit,
 	)
 
-/datum/outfit/job/roguetown/wretch/necromancer/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/necromancer/pre_equip(mob/living/carbon/human/H)
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
@@ -68,7 +68,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo) //Sure I guess
-		wretch_select_bounty(H)
+		outcast_select_bounty(H)
 	H.grant_language(/datum/language/undead)
 
 	// Armor choice: Discretion (lighter robes, subtle similar to rogue mage) vs Progress (open armored necromancer robes) with better protection potental and unique drip

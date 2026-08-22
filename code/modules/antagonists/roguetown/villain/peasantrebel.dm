@@ -18,7 +18,7 @@
 	increase_votepwr = FALSE
 	rogue_enabled = TRUE
 	has_tempo = TRUE
-	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_INTERNAL
 	override_candidatereq = TRUE
 	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
 	storyteller_slot_scaling = REBELLION_ROUNDSTART_TOTAL

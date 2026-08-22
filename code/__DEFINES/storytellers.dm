@@ -96,9 +96,11 @@
 #define TRACK_FAIL_POINT_PENALTY_MULTIPLIER 0.75
 
 #define STORYTELLER_ANTAG_NONE 0
-#define STORYTELLER_ANTAG_VILLAIN (1<<0)
-#define STORYTELLER_ANTAG_ROUNDSTART (1<<1)
-#define STORYTELLER_ANTAG_SOFT (1<<2)
+#define STORYTELLER_ANTAG_VILLAIN		(1<<0)
+#define STORYTELLER_ANTAG_ROUNDSTART	(1<<1)
+#define STORYTELLER_ANTAG_SOFT			(1<<2)	// injection of gnoll, assassin, dreamwalker
+#define STORYTELLER_ANTAG_INTERNAL		(1<<3)	// masq, peasant rebellion - internal threat events
+#define STORYTELLER_ANTAG_EXTERNAL		(1<<4)	// lich, ww, vl, bandit - external threats to town
 
 #define GAMEMODE_PANEL_MAIN "Main"
 #define GAMEMODE_PANEL_VARIABLES "Variables"

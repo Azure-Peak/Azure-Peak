@@ -21,7 +21,6 @@
 		"THE UNDERMAIDEN IS OUR FINAL REPOSE!",
 		"I FEAR NOT DEATH, MY LADY AWAITS ME!",
 	)
-	storyteller = /datum/storyteller/necra
 
 	titles = list(
 		"Veiled Lady",

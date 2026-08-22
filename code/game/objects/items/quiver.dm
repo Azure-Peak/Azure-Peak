@@ -323,6 +323,13 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/broadhead/Initialize(mapload)
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/iron/A = new()
+		arrows += A
+	update_icon()
+
 /obj/item/quiver/bodkin/Initialize(mapload)
 	..()
 	for(var/i in 1 to max_storage)

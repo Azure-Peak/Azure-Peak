@@ -21,7 +21,6 @@
 		"ZIZO GRANTS ME TRUTH!",
 		"ZIZO BRINGS PROGRESS!",
 	)
-	storyteller = /datum/storyteller/zizo
 
 	titles = list(
 		"Dame of Progress",

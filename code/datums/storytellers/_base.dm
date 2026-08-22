@@ -88,8 +88,8 @@
 	var/color_theme
 	/// Which kind of gnoll scaling this preset prefers, default is 1 gnoll spawn.
 	var/preferred_gnoll_mode = GNOLL_SCALING_SINGLE
-	/// Hard cap on wretch job slots this preset will ever open. Default 10 = T1 max - lower clamps T1 and skips T2.
-	var/wretch_slot_cap = 10
+	/// Hard cap on wretch job slots this preset will ever open. 10 = T1 max - lower clamps T1 and skips T2.
+	var/wretch_slot_cap = 0
 
 	// --- Gamemode preset configuration ---
 	/// Which vote pool this preset belongs to (GAMEMODE_POOL_*). Presets sharing a pool are excluded together the round after one wins.
@@ -102,10 +102,18 @@
 	var/allow_dreamwalker = FALSE
 	/// How many Hag slots this preset opens (0 or 1).
 	var/hag_slots = 0
-	/// If TRUE, all hard (villain) antags are blocked at roundstart.
-	var/block_hard = FALSE
-	/// If TRUE, all soft antags (wretch/gnoll/assassin) are blocked.
-	var/block_soft = FALSE
+	/// How many Heretic slots this preset opens (0 or 2).
+	var/heretic_slots = 0
+	/// How many Lycker slots this preset opens (0-4).
+	var/lycker_slots = 0
+	/// If TRUE, all external hard (bandit/lich/VL/WW) antags are blocked at roundstart.
+	var/block_external_hard = FALSE
+	/// If TRUE, all external soft (wretch/heretic) antags are blocked at roundstart.
+	var/block_external_soft = FALSE
+	/// If TRUE, internal antag events (masquerade/peasant rebellion) are blocked at roundstart
+	var/block_internal_hard = FALSE
+	/// If TRUE, all soft antags (lycker) are blocked.
+	var/block_internal_soft = FALSE
 
 /datum/storyteller/New()
 	. = ..()
@@ -209,7 +217,7 @@
 				valid_events[event] = adjusted_weight //multiply weight by 10 to get first decimal value
 			else if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(event, /datum/round_event_control/antagonist/solo))
 				invalid_reasons[event] = event.return_failure_string(players_amt) || "canSpawnEvent failed"
-				if(event.storyteller_rumour_name && (event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN) && !is_storyteller_villain_blocked())
+				if(event.storyteller_rumour_name && (((event.storyteller_antag_flags & STORYTELLER_ANTAG_EXTERNAL) && !is_storyteller_villain_blocked()) || ((event.storyteller_antag_flags & STORYTELLER_ANTAG_INTERNAL) && !is_storyteller_villain_blocked(FALSE))))
 					mode.false_rumours |= event.storyteller_rumour_name
 		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
 			mode.log_roundstart_antag_pool(valid_events, invalid_reasons)

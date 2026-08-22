@@ -11,7 +11,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
 	job_rank = ROLE_VAMPIRE
-	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_EXTERNAL
 	storyteller_slot_scaling = 2
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "vamp_spawn_hud"

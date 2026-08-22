@@ -21,7 +21,6 @@
 		"MATTHIOS IS JUSTICE!",
 		"MATTHIOS IS MY LORD!",
 	)
-	storyteller = /datum/storyteller/matthios
 
 	titles = list(
 		"Fyre-Thief",

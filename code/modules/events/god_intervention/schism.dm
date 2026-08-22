@@ -299,8 +299,6 @@ GLOBAL_LIST_EMPTY(tennite_schisms)
 	max_occurrences = 1
 	min_players = 55
 	earliest_start = 20 MINUTES
-	allowed_storytellers = list(/datum/storyteller/noc, /datum/storyteller/ravox, /datum/storyteller/necra, /datum/storyteller/xylix, /datum/storyteller/pestra, /datum/storyteller/abyssor, /datum/storyteller/dendor, /datum/storyteller/malum)
-	//Once more 'generic' god interventions are in, add to Psydon as well.
 
 /datum/round_event_control/schism_within_ten/canSpawnEvent(players_amt, gamemode, fake_check)
 	. = ..()
@@ -377,7 +375,7 @@ GLOBAL_LIST_EMPTY(tennite_schisms)
 /proc/find_strongest_challenger()
 	var/datum/patron/strongest_challenger
 	var/highest_influence = 0
-	var/astrata_influence = get_storyteller_influence("Astrata") || 0
+	var/astrata_influence = get_god_influence(/datum/patron/divine/astrata) || 0
 
 	for(var/type in subtypesof(/datum/patron/divine) - list(/datum/patron/divine/astrata, /datum/patron/divine/eora))
 		var/datum/patron/divine/god = GLOB.patronlist[type]
@@ -393,9 +391,16 @@ GLOBAL_LIST_EMPTY(tennite_schisms)
 		if(!has_clergy)
 			continue
 
-		var/god_influence = get_storyteller_influence(god.name) || 0
+		var/god_influence = get_god_influence(type) || 0
 		if(god_influence > highest_influence && god_influence > astrata_influence)
 			highest_influence = god_influence
 			strongest_challenger = god
 
 	return strongest_challenger
+
+// with the god storyteller system officially dead we just count up the followers for now
+/proc/get_god_influence(datum/patron/divine/path)
+	. = 0
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H.stat != DEAD && H.client && H.patron.type == path)
+			. += 1

@@ -1,4 +1,5 @@
 GLOBAL_LIST_EMPTY(outlawed_players)
+GLOBAL_LIST_EMPTY(exiled_players)
 GLOBAL_LIST_EMPTY(lord_decrees)
 GLOBAL_LIST_EMPTY(court_agents)
 GLOBAL_LIST_EMPTY(court_spymaster)
@@ -163,7 +164,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	switch(mode)
 		if(0)
 			if(findtext(message, "secrets of the throat"))
-				say("My commands are: Make Decree, Make Announcement, Set Taxes, Revise Charter, Declare Outlaw, Summon Crown, Summon Key, Set Laws, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, I Ascend, Nevermind")
+				say("My commands are: Make Decree, Make Announcement, Set Taxes, Revise Charter, Declare Outlaw, Declare Exile, Summon Crown, Summon Key, Set Laws, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, I Ascend, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
 			if(findtext(message, "make announcement"))
 				if(nocrown)
@@ -254,6 +255,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				playsound(src, 'sound/misc/machinequestion.ogg', 100, FALSE, -1)
 				mode = 3
 				return
+			if(findtext(message, "declare exile"))
+				if(notlord || nocrown)
+					say("You are not my master!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				say("Who should be exiled?")
+				playsound(src, 'sound/misc/machinequestion.ogg', 100, FALSE, -1)
+				mode = 5
+				return
 			if(findtext(message, "set taxes"))
 				if(notlord || nocrown)
 					say("You are not my master!")
@@ -329,6 +339,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				return
 			make_law(raw_message)
 			mode = 0
+		if(5)
+			declare_exile(H, raw_message)
+			mode = 0
 
 /obj/structure/roguemachine/titan/proc/summon_crown()
 	var/obj/item/clothing/head/roguetown/crown/serpcrown/I = SSroguemachine.crown
@@ -383,6 +396,16 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return
 	return make_outlaw(raw_message)
 
+/obj/structure/roguemachine/titan/proc/declare_exile(mob/living/user, raw_message)
+	if(!SScommunications.can_announce(user))
+		return
+	if(user.job)
+		if(!istype(SSjob.GetJob(user.job), /datum/job/roguetown/lord))
+			return
+	else
+		return
+	return make_exile(raw_message)
+
 /proc/get_containing_mob(atom/A) // Returns the mob that ultimately contains A (A in bag in clothing in mob, etc.), or null.
 	var/atom/current = A
 	var/safety = 0
@@ -420,6 +443,43 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	GLOB.outlawed_players += raw_message
 	ADD_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
 	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
+	if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN))
+		REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
+		ADD_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
+		found_human.apply_status_effect(/datum/status_effect/debuff/disgracedguardsman)
+	return TRUE
+
+// less punishing than outlaw: doesn't give you bright pink OUTLAW text
+/proc/make_exile(raw_message)
+	// Strip trailing punctuation/whitespace from typed input ("Eduard." -> "Eduard")
+	raw_message = trim(raw_message)
+	while(length(raw_message))
+		var/last_char = copytext(raw_message, length(raw_message))
+		if(!(last_char in list(".", ",", "!", "?", ";", ":")))
+			break
+		raw_message = copytext(raw_message, 1, length(raw_message))
+	var/mob/living/carbon/human/found_human
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(H.real_name == raw_message)
+			found_human = H
+			break
+	if(raw_message in GLOB.exiled_players)
+		GLOB.exiled_players -= raw_message
+		priority_announce("[raw_message] is no longer exiled from [SSticker.realm_name].", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
+		if(istype(found_human))
+			REMOVE_TRAIT(found_human, TRAIT_OUTLAW, null)
+			REMOVE_TRAIT(found_human, TRAIT_OUTCAST, null)
+			if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED))
+				REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
+				ADD_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
+				found_human.remove_status_effect(/datum/status_effect/debuff/disgracedguardsman)
+		return FALSE
+	if(!found_human)
+		return FALSE
+	GLOB.outlawed_players += raw_message
+	ADD_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
+	ADD_TRAIT(found_human, TRAIT_OUTCAST, TRAIT_GENERIC)
+	priority_announce("[raw_message] has been declared an exile.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
 	if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN))
 		REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
 		ADD_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)

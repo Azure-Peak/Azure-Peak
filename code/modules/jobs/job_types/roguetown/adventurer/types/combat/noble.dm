@@ -7,7 +7,7 @@
 	traits_applied = list(TRAIT_NOBLE, TRAIT_NUTCRACKER)
 	noble_income = 15
 	class_select_category = CLASS_CAT_NOBLE
-	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
+	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER)
 
 	subclass_stats = list(
 		STATKEY_PER = 1,

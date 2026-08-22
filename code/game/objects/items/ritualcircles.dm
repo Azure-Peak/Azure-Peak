@@ -1466,7 +1466,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			spawn(5)
 				new /obj/effect/temp_visual/zizorite(get_turf(target))
 				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-				var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
+				var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/heretic/heretic || /datum/advclass/heretic/heretic/spy || /datum/advclass/gnoll/shaman)
 				if(is_heretic)
 					user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 				zizoarmaments(target, helm_choice, armor_choice)
@@ -1685,7 +1685,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			icon_state = "matthios_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/heretic/heretic || /datum/advclass/heretic/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			matthiosarmaments(target)
@@ -1880,7 +1880,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			icon_state = "graggar_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/heretic/heretic || /datum/advclass/heretic/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			graggararmor(target, helm_choice, armor_choice)
@@ -2086,7 +2086,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			ADD_TRAIT(target, TRAIT_NOPAIN, TRAIT_RITUAL)
 			ADD_TRAIT(target, TRAIT_DODGEEXPERT, TRAIT_RITUAL)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/heretic/heretic || /datum/advclass/heretic/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			baothaarmaments(target)

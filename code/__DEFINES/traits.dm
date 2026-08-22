@@ -233,6 +233,7 @@
 #define TRAIT_UNLYCKERABLE "Lycker Immunity"
 #define TRAIT_NOWW "Werevolf Immunity"
 #define TRAIT_OUTLAW "Outlaw"
+#define TRAIT_OUTCAST "Outcast"
 #define TRAIT_ALDERMAN "Alderman of the Assembly"
 #define TRAIT_ALDERMAN_CENSURED "Assembly Censure"
 #define TRAIT_TECHNOPHOBE "Technophobe"
@@ -351,6 +352,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_LEVY = span_greentext("I am one among the Levy! We are the Crown's spare spears, sent ahead of the Armsmen to face dangers beyond the walls and hold the line until better soldiers arrive. When fighting alongside fellow levymen, I can issue coordinated callouts (Shift + Ctrl + RMB)!"),
 	TRAIT_STEELHEARTED = span_info("I have hardened nerves, and do not waiver from the sight of violence in battle."),
 	TRAIT_OUTLAW = span_info("This land's meisters and castificos reject my touch."),
+	TRAIT_OUTCAST = span_info("I am outlawed, exiled with a bounty on my head. While my crimes were too small to warrant execution, I am not welcome in town, and the Crown's servants will not be kind if my presence is discovered."),
 	TRAIT_ALDERMAN = span_info("Alderman of the Assembly, voice of the respectable citizenry of Azuria. Upon my charter I may spend the Crown's Purse and commission the realm's defense within the bounds the Commons have set me."),
 	TRAIT_ALDERMAN_CENSURED = span_warning("The Assembly has censured my name. No seat, no warrant shall be mine until the week ends."),
 	TRAIT_TECHNOPHOBE = span_info("I've principles against using some forms of artificed machinery, or perhaps I'm incapable of using them."),

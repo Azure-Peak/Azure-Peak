@@ -1,14 +1,13 @@
-// Heretic Spellfist - Wretch spellfist
+// Heretic Spellfist - Heretic spellfist
 // You get T1 as a toolkit for self sustain. NOT A WRESTLING CLASS
-/datum/advclass/wretch/heretic_spellfist
+/datum/advclass/heretic/heretic_spellfist
 	name = "Heretic Spellfist"
 	tutorial = "You are a Heretic Spellfist, a battlemage that combines arcyne magyck with martial prowess to enhance yourself in unarmed combat. Your art descends from the Pontifexes of Naledi, warrior-monks who first learned to channel arcyne power through their fists — though the technique has since spread to radical Psydonite sects and Lingyuese monasteries alike. In your journey to power, you have managed to gain the blessing of a divine patron, granting you access to miracles to further augment your abilities. Come what may. With Faith, Fists and Magyck, all will be overcome."
 	allowed_sexes = list(MALE, FEMALE)
 
-	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellfist
+	outfit = /datum/outfit/job/roguetown/heretic/heretic_spellfist
 	maximum_possible_slots = 2
-	class_select_category = CLASS_CAT_BATTLEMAGE
-	category_tags = list(CTAG_WRETCH)
+	category_tags = list(CTAG_HERETIC)
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -32,15 +31,15 @@
 		"Armor Plates" = /obj/item/repair_kit/metal/bad,
 	)
 
-/datum/outfit/job/roguetown/wretch/heretic_spellfist
+/datum/outfit/job/roguetown/heretic/heretic_spellfist
 	var/sidearm_selected
 
-/datum/outfit/job/roguetown/wretch/heretic_spellfist/Topic(href, href_list)
+/datum/outfit/job/roguetown/heretic/heretic_spellfist/Topic(href, href_list)
 	. = ..()
 	if(href_list["sidearm"])
 		sidearm_selected = href_list["sidearm"]
 
-/datum/outfit/job/roguetown/wretch/heretic_spellfist/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/heretic/heretic_spellfist/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
@@ -99,4 +98,4 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)
 
 	H.cmode_music = 'sound/music/combat_heretic.ogg'
-	wretch_select_bounty(H)
+	outcast_select_bounty(H)

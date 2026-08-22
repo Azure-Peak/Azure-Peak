@@ -1362,7 +1362,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			[GLOB.bounty_posters[preset_bounty_poster_key] || "None"]\
 		</a>"
 
-		dat += "<br><b>Crime Severity:</b> "
+		dat += "<br><b>Crime Severity (Heretic):</b> "
 		dat += "<a href='?_src_=prefs;preference=preset_bounty_severity_key;task=input'>\
 			[GLOB.wretch_severities[preset_bounty_severity_key] || "None"]\
 		</a>"
@@ -1381,6 +1381,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "<a href='?_src_=prefs;preference=preset_bounty_crime;task=input'>\
 			[html_encode(preset_bounty_crime) || "None"]\
 		</a>"
+
 	if(preset_bounty_severity_key && !GLOB.wretch_severities[preset_bounty_severity_key])
 		preset_bounty_severity_key = null
 

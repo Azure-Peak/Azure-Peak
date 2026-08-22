@@ -22,7 +22,7 @@
 	var/current_tab = TAB_MAIN
 	var/compact = TRUE
 	var/total_deposit = 0
-	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
+	var/list/excluded_jobs = list("Outcast","Heretic","Vagabond","Adventurer")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
 	var/residency_print_cooldown = 0
 	// Last trade-modal quote keyed by ckey. Read by ui_data to round-trip per-user.

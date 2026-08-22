@@ -36,7 +36,6 @@
 		"BAOTHA IS MY JOY!",
 		"REBUKE THE HERETICAL- PSYDON ENDURES!",
 	)
-	storyteller = /datum/storyteller/xylix
 
 	titles = list(
 		"Tragedian",

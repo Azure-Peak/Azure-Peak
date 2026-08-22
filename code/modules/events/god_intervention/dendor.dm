@@ -7,7 +7,6 @@
 	max_occurrences = 2
 	min_players = 3
 	todreq = list("dusk", "night", "dawn", "day")
-	allowed_storytellers = list(/datum/storyteller/dendor)
 
 /datum/round_event/dendor_vines/start()
 	var/list/turfs = list() //list of all the empty floor turfs in the hallway areas
@@ -39,7 +38,6 @@
 	max_occurrences = 2
 	min_players = 3
 	todreq = list("dusk", "night", "dawn", "day")
-	allowed_storytellers = list(/datum/storyteller/dendor)
 
 /datum/round_event/dendor_vines_good/start()
 	var/list/turfs = list() //list of all the empty floor turfs in the hallway areas
@@ -70,7 +68,6 @@
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
 	min_players = 3
-	allowed_storytellers = list(/datum/storyteller/dendor)
 
 /datum/round_event/dendor_fertility/start()
 	SSmapping.add_world_trait(/datum/world_trait/dendor_fertility, 20 MINUTES)
@@ -83,7 +80,6 @@
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
 	min_players = 3
-	allowed_storytellers = list(/datum/storyteller/dendor)
 
 /datum/round_event/dendor_ire/start()
 	SSmapping.add_world_trait(/datum/world_trait/dendor_drought, 10 MINUTES)

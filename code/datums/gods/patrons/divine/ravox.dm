@@ -22,7 +22,6 @@
 		"THROUGH STRIFE, GRACE!",
 		"THROUGH PERSISTENCE, GLORY!",
 	)
-	storyteller = /datum/storyteller/ravox
 	COOLDOWN_DECLARE(lesser_heal_buff_cooldown)
 
 	titles = list(

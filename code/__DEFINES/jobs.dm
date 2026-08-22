@@ -119,6 +119,9 @@
 #define VAMPIRE_SPAWN	(1<<8)
 #define GNOLL			(1<<9)
 #define HAG				(1<<10)
+#define OUTCAST			(1<<11)
+#define LICKER			(1<<12)
+#define HERETIC			(1<<13)
 
 #define SLOP				(1<<11)
 
@@ -213,6 +216,7 @@
 #define JDO_ADVENTURER 9
 #define JDO_COURTAGENT 9.1
 #define JDO_TRADER 9.2
+#define JDO_OUTCAST 9.3
 
 // Inquisition
 #define JDO_INQUISITOR 10
@@ -222,9 +226,11 @@
 // Antagonists
 #define JDO_ASSASSIN 11
 #define JDO_BANDIT 11.1
-#define JDO_WRETCH 11.2
-#define JDO_GNOLL 11.3
-#define JDO_HAG 11.4
+#define JDO_LICKER 11.2
+#define JDO_WRETCH 11.3
+#define JDO_HERETIC 11.4
+#define JDO_GNOLL 11.5
+#define JDO_HAG 11.6
 
 #define BITFLAG_HOLY_WARRIOR (1<<0)
 #define BITFLAG_ROYALTY (1<<1)

@@ -23,7 +23,6 @@
 		"TRUE VALUE IS IN THE TOIL!",
 		"I AM AN INSTRUMENT OF CREATION!",
 	)
-	storyteller = /datum/storyteller/malum
 
 	titles = list(
 		"Forgefather",
