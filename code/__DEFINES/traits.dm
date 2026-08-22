@@ -17,11 +17,6 @@
 #define TRAIT_DRUG_SUPPLY "Drug Supply"
 #define TRAIT_BOMBER_EXPERT "Explosive Specialist"
 #define TRAIT_SKILLBLESSED "Skill Blessed"
-#define TRAIT_BLOOD_RESISTANCE "Thick Blooded"
-#define TRAIT_JOURNEYS_END "Journey's End"
-#define TRAIT_RAGE "Rage"
-#define TRAIT_CYCLOPS_LEFT "Cyclops (Left)" //poked left eye
-#define TRAIT_CYCLOPS_RIGHT "Cyclops (Right)" //poked right eye
 #define TRAIT_INHUMEN_ANATOMY "Inhumen Anatomy" //can't wear hats and shoes
 #define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten/raw/burned food, organs, and drink murky water. Does NOT protect against actual poisons.
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
@@ -52,19 +47,14 @@
 #define TRAIT_WITCH "They fear me, but I am useful to them."
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_EXCOMMUNICATED "Excommunicated"
-#define TRAIT_RECENT_CONVERT "Recent Convert"
 #define TRAIT_JACKOFALLTRADES "Jack of All Trades"	//Reduces skill up cost
 #define TRAIT_SIMPLESPEECH "Simple Speech" // Can only say the 1000 most common English-language words; other words get modified
 #define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
 #define TRAIT_MOUNTABLE "Mount" //riding
 #define TRAIT_GOODWRITER "Great Writer"
-#define TRAIT_NODEF "Recklessness"
 #define TRAIT_LEYLINE_HASTE "Leyline's Clarity"
 #define TRAIT_SWIFTCAST "Spell Acceleration"
 #define TRAIT_FOG_WARDED "Fog Warded"
-#define TRAIT_ROOT_WALKER "Root Walker"
-#define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
-#define TRAIT_CURSE_SCAR "Curse Scar"
 #define TRAIT_ARMOR_BREAK "Loose Straps"
 
 //Redundant traits? Probably can shoot these later, future coder.
@@ -75,6 +65,10 @@
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
+
+//Combat Conditionals
+#define TRAIT_JOURNEYS_END "Journey's End"
+#define TRAIT_RAGE "Rage"
 
 //Health Related
 #define TRAIT_CRITICAL_WEAKNESS "Critical Weakness"
@@ -87,6 +81,11 @@
 
 #define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
 #define TRAIT_DISFIGURED "Disfigured"
+#define TRAIT_CYCLOPS_LEFT "Cyclops (Left)" //poked left eye
+#define TRAIT_CYCLOPS_RIGHT "Cyclops (Right)" //poked right eye
+
+#define TRAIT_BLOOD_RESISTANCE "Thick Blooded" //50% less bleeding
+#define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //shrug off a certain number of crits.
 
 //Gear Restriction Related Traits
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"
@@ -111,10 +110,15 @@
 //Edge case Factionals
 #define TRAIT_DREAMWALKER "Dreamwalker" //technically not, easier to find it here though.
 #define TRAIT_UNCONVERTIBLE "Unconvertible" //patron-change related, unconvertable.
+#define TRAIT_RECENT_CONVERT "Recent Convert"
 
 //Fae Related Traits
 #define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
 #define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
+
+#define TRAIT_ROOT_WALKER "Root Walker"
+#define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
+#define TRAIT_CURSE_SCAR "Curse Scar"
 
 //Skill Related Traits
 #define TRAIT_GOODTRAINER "Good Trainer" //Combat skill leveling is equal to ours (current skill = what we train them as)
@@ -171,6 +175,7 @@
 
 // LESS PLAYER FACING TRAITS
 //use for NPC-exclusive stuff or stuff that's not visible in the trait panel/too-short-term
+//Or so rare its probably not ever going to be seen
 
 #define TRAIT_NO_VOICEPACK_OVERRIDE "DisablePrefVoicepacks" //Used for roles that should only be using their voicepacks added. MAKE sure you have a Fem+Masq one.
 #define TRAIT_NOZIZORECRUIT "Non Recruitable NPC" //Non-user facing trait that prevents recruiting NPCs w/ gravemark, prevents exploits + edge cases
@@ -178,6 +183,7 @@
 #define TRAIT_EMPOWERED_UNARMED "Empowered Unarmed" // Temporary trait — next unarmed attack bypasses defense
 #define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
 #define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
+#define TRAIT_NODEF "Recklessness" //Inability to parry at all
 
 // POWERFUL TRAITS WE SHOULD NOT GIVE OUT EASILY
 #define TRAIT_INFINITE_STAMINA "Indefatigable" //for ai/antag bosses/simplemobs. Disables the stamina system completely.
@@ -186,7 +192,6 @@
 #define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_BREADY "Battleready" //Above, but to a lesser degree. No cmode drain.
 #define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness" //Virtue related, also you need to add all of the guarded menu if you add this to make it function proper.
-#define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //50% less bleeding + shrug off a certain number of crits.
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
 #define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
