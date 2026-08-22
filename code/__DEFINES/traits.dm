@@ -60,6 +60,14 @@
 //Redundant traits? Probably can shoot these later, future coder.
 #define TRAIT_XENOPHOBIC "Xenophobic"
 #define TRAIT_TOLERANT "Tolerant"
+#define TRAIT_HERETIC_SEER "Heretic Seer" //Works, but shows all ascendants + Faith salutes and on-examine, steps on the blessing of Matthios. Unused currently.
+#define TRAIT_COUNTERCOUNTERSPELL "Counter Counterspell" //Only used for silence, do we need this?
+#define TRAIT_HERESIARCH "Forbidden Knowledge" //unused save for (1) interaction w/ abyssal crystals being worse.
+
+//IDK if we use these, at all genuinely
+#define TRAIT_IWASREVIVED "iwasrevived" //prevents PQ gain from reviving the same person twice
+#define TRAIT_IWASUNZOMBIFIED "iwasunzombified" //prevents PQ gain from curing a zombie twice
+#define TRAIT_IWASHAUNTED "iwashaunted" //prevents spawning a haunt from a decapitated body twice
 
 //Armor + Defensive Related
 #define TRAIT_MEDIUMARMOR "Maille Training"
@@ -79,6 +87,15 @@
 #define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
 #define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
 
+#define TRAIT_EASYDISMEMBER	"Easy Dismemberment"
+#define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
+#define TRAIT_EASYDECAPITATION "Easy Decapitation" //Standing decaps + easier delimbs even for players
+#define TRAIT_NOPAIN	"Painless" //Notably does not function w/ silver weakness while sundered, we have an exclusion if we have TRAIT_LYCANRESILENCE
+#define TRAIT_NOPAINSTUN	"Enduring" //Notably does not function w/ silver weakness while sundered, we have an exclusion if we have TRAIT_LYCANRESILENCE
+#define TRAIT_NOBREATH	"Breathless"
+#define TRAIT_DEATHLESS "Deathless"
+#define TRAIT_TOXIMMUNE	"Poison Immune"
+
 #define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
 #define TRAIT_DISFIGURED "Disfigured"
 #define TRAIT_CYCLOPS_LEFT "Cyclops (Left)" //poked left eye
@@ -86,6 +103,13 @@
 
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded" //50% less bleeding
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //shrug off a certain number of crits.
+
+#define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
+
+//Second Chance related
+#define TRAIT_ROTMAN "Rotman" //No heartbeat + can invoke Zizo ascension/not regular ascensions - Also lets you eat brains
+#define TRAIT_PALLID "Pallid" //Drink the blood, bleeggh!
+#define TRAIT_BLACKBLOOD "Blackblooded" //Passive healing at the price of hunger, blood is always SLIGHTLY cursed on inquis indexer checks
 
 //Gear Restriction Related Traits
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"
@@ -105,10 +129,8 @@
 #define TRAIT_HEARTFELT "Heartfelt"
 #define TRAIT_INQUISITION "Otavan Adherent"
 #define TRAIT_CLERGY "Clergy of the Azurian Church"
-#define TRAIT_HERESIARCH "Forbidden Knowledge" //unused save for (1) interaction w/ abyssal crystals being worse.
 
 //Edge case Factionals
-#define TRAIT_DREAMWALKER "Dreamwalker" //technically not, easier to find it here though.
 #define TRAIT_UNCONVERTIBLE "Unconvertible" //patron-change related, unconvertable.
 #define TRAIT_RECENT_CONVERT "Recent Convert"
 
@@ -119,6 +141,10 @@
 #define TRAIT_ROOT_WALKER "Root Walker"
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
 #define TRAIT_CURSE_SCAR "Curse Scar"
+#define TRAIT_BOGWALKER "Bogwalker"
+
+//Deadites - Handles self healing + Examines + Combat/Mobility Shutdowns
+#define TRAIT_DEADITE "Deadite"
 
 //Skill Related Traits
 #define TRAIT_GOODTRAINER "Good Trainer" //Combat skill leveling is equal to ours (current skill = what we train them as)
@@ -131,6 +157,9 @@
 #define TRAIT_TAVERN_FIGHTER "Tavern Fighter"
 #define TRAIT_ANTHRAXI "Apex Predator" //underdark boon
 #define TRAIT_DUNGEONMASTER "Ruthless Jailor"
+
+//Levy Callouts
+#define TRAIT_LEVY "Azurean Militia"
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -183,25 +212,47 @@
 #define TRAIT_EMPOWERED_UNARMED "Empowered Unarmed" // Temporary trait — next unarmed attack bypasses defense
 #define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
 #define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
+#define TRAIT_NPC_EXAMINE "NPC Examination" //Mindless NPC examination check, goes through armor.
+
+//Temp Traits - Usually Short-Term Buffs
+#define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
 #define TRAIT_NODEF "Recklessness" //Inability to parry at all
+#define TRAIT_VAMPIRE_SPAWN_PROTECTION "Vampire Spawn Protection"
 
 // POWERFUL TRAITS WE SHOULD NOT GIVE OUT EASILY
 #define TRAIT_INFINITE_STAMINA "Indefatigable" //for ai/antag bosses/simplemobs. Disables the stamina system completely.
 #define TRAIT_HALLOWED "Hallowed" //No need of psicross req for miracles.
-#define TRAIT_SHOCKIMMUNE "Shock Immunity" //Self-Explains, give only to antags that are fighting the entire server on-average. (Lich/Vlord)
+#define TRAIT_SHOCKIMMUNE "Shock Immunity"
 #define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_BREADY "Battleready" //Above, but to a lesser degree. No cmode drain.
+
 #define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness" //Virtue related, also you need to add all of the guarded menu if you add this to make it function proper.
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
+
 #define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
 #define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened" //Armor slowdowns do not apply.
-#define TRAIT_ANTISCRYING "Non-Detection" //Stealth-Heavy antags like assassin/nosferato vampires.
+#define TRAIT_ANTISCRYING "Non-Detection"
+
+#define TRAIT_HARDSOLE		"Hard Sole" //No glass shard hardstun w/out footwear
 #define TRAIT_TOUGH_COOKIE "Tough Cookie" //Total Maneater Immunity
 #define TRAIT_ZJUMP "High Jumping" //Jump between Z levels, oh god oh fuck.
+#define TRAIT_GRABIMMUNE "Unstoppable"
+#define TRAIT_BASHDOORS "Door Basher" //Destroy doors by walking into them
 
-#define TRAIT_MANIAC_AWOKEN "Awoken" //Trey Liam. No, He doesn't exist.
+//Trey Liam.
+#define TRAIT_MANIAC_AWOKEN "Awoken" //Trey Liam. No, He doesn't exist. (Lunatic)
+
+//Antagonist role unique
+#define TRAIT_ASSASSIN	"Assassin"
+#define TRAIT_DREAMWALKER "Dreamwalker"
+#define TRAIT_NOPVE "Natural Accord" //Hag only. PVE exemption.
+
+// Sight Related
+#define TRAIT_DARKVISION "Darksight"
+#define TRAIT_NITEVISION "Nitevision"
+#define TRAIT_NOCSHADES "Nocshaded"
 
 // PATRON GOD CURSES
 
@@ -239,8 +290,13 @@
 #define TRAIT_LICHLAIR "lichlair" //Access to the lich's lair on the CentCom Z level.
 #define TRAIT_ZURCH	"Hidden Domiciles" //allows entry to ascendant church
 
+//Conversion Antag Related
+#define TRAIT_SILVER_BLESSED "Silverblessed"
+#define TRAIT_UNLYCKERABLE "Lycker Immunity"
+#define TRAIT_NOWW "Werevolf Immunity"
+#define TRAIT_ZOMBIE_IMMUNE "Deadite Immunity" //immune to deadite infection
+
 // Generic
-#define TRAIT_BASHDOORS "Door Basher"
 #define TRAIT_NOMOOD "Moodless"
 #define TRAIT_DETACHED "Detached"
 #define TRAIT_BAD_MOOD "Bad Mood"
@@ -253,66 +309,26 @@
 #define TRAIT_LIMPDICK "Limp Dick"
 #define TRAIT_SEXPASS "sexpass"
 #define TRAIT_STEELHEARTED "Steelhearted" //no bad mood from dismembering or seeing this
-#define TRAIT_IWASREVIVED "iwasrevived" //prevents PQ gain from reviving the same person twice
-#define TRAIT_IWASUNZOMBIFIED "iwasunzombified" //prevents PQ gain from curing a zombie twice
-#define TRAIT_IWASHAUNTED "iwashaunted" //prevents spawning a haunt from a decapitated body twice
 #define TRAIT_PSYCHOSIS "Psychosis" //replaces all ambience with creepy shit
 #define TRAIT_SCREENSHAKE "Tremors" //screen will always be shaking, you cannot stop it
 #define TRAIT_NORUN "Decayed Flesh"
 #define TRAIT_PUNISHMENT_CURSE "PunishmentCurse"
 #define TRAIT_LEPROSY "Leprosy"
 #define TRAIT_NUDE_SLEEPER "Nude Sleeper"
-#define TRAIT_SILVER_BLESSED "Silverblessed"
-#define TRAIT_UNLYCKERABLE "Lycker Immunity"
-#define TRAIT_NOWW "Werevolf Immunity"
-#define TRAIT_OUTLAW "Outlaw"
-#define TRAIT_ALDERMAN "Alderman of the Assembly"
-#define TRAIT_ALDERMAN_CENSURED "Assembly Censure"
+#define TRAIT_OUTLAW "Outlaw" //Disables Miesters + Most Solar Ascensions
 #define TRAIT_TECHNOPHOBE "Technophobe"
-#define TRAIT_KNOWNCRIMINAL "Known Criminal"
+#define TRAIT_KNOWNCRIMINAL "Known Criminal" //BANDIT! Examine
 #define TRAIT_BIGGUY "Big Guy"
 #define TRAIT_RESIDENT "Resident"
-#define TRAIT_DEBTOR "Default Debtor"
-#define TRAIT_DEBTOR_CROWN "Default Debtor (Crown)"
-#define TRAIT_DEBTOR_CHURCH "Default Debtor (Church)"
-#define TRAIT_DEBTOR_MERCHANT "Default Debtor (Merchant)"
-#define TRAIT_DEBTOR_BATHHOUSE "Default Debtor (Bathhouse)"
-#define TRAIT_AGENT_MERCHANT "Agent of the Trading Company"
-#define TRAIT_AGENT_BATHHOUSE "Agent of the Bathhouse"
-#define TRAIT_AGENT_CHURCH "Ecclesiastical Benefactor"
-#define TRAIT_ARREARS "Poll Tax Arrears"
-#define TRAIT_PATRONAGE_GRANT "patronage_grant"
-#define TRAIT_COUNTERCOUNTERSPELL "Counter Counterspell"
 #define TRAIT_UNSEEMLY "Ugly"
-#define TRAIT_HERETIC_SEER "Heretic Seer"
 #define TRAIT_DUALWIELDER "Dual Wielder"
 #define TRAIT_SENTINELOFWITS "Sentinel of Wits"
 #define TRAIT_KEENEARS "Keen Ears"
 #define TRAIT_CICERONE "Cicerone"
-#define TRAIT_EASYDISMEMBER	"Easy Dismemberment"
-#define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
-#define TRAIT_EASYDECAPITATION "Easy Decapitation"
-#define TRAIT_NOPAIN	"Painless"
-#define TRAIT_NOPAINSTUN	"Enduring"
-#define TRAIT_NOBREATH	"Breathless"
-#define TRAIT_DEATHLESS "Deathless"
-#define TRAIT_TOXIMMUNE	"Poison Immune"
-#define TRAIT_GRABIMMUNE "Unstoppable"
-#define TRAIT_ROTMAN "Rotman"
-#define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
-#define TRAIT_DEADITE "Deadite"
-#define TRAIT_ZOMBIE_IMMUNE "Deadite Immunity" //immune to deadite infection
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
 #define TRAIT_NOHUNGER	"Foodless"
-#define TRAIT_NPC_EXAMINE "NPC Examination" //Mindless NPC examination check, goes through armor.
-#define TRAIT_DARKVISION "Darksight"
-#define TRAIT_NITEVISION "Nitevision"
-#define TRAIT_NOCSHADES "Nocshaded"
 #define TRAIT_LIGHT_STEP	"Light Step"
-#define TRAIT_HARDSOLE		"Hard Sole"
 #define TRAIT_AZURENATIVE "Azure Native"
-#define TRAIT_BOGWALKER "Bogwalker"
-#define TRAIT_NOPVE "Natural Accord"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
 #define TRAIT_WOODWALKER "Woodwalker"
@@ -325,16 +341,11 @@
 #define TRAIT_EORAN_SERENE "Eoran Serenity"
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"
-#define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
 #define TRAIT_TEMPO	"Tempo Capable"
 #define TRAIT_SILVER_WEAK "Silver Weakness"
-#define TRAIT_PALLID "Pallid"
-#define TRAIT_BLACKBLOOD "Blackblooded"
-#define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_EQUESTRIAN "Equestrian"
 #define TRAIT_REGROW_LIMBS "Regrow Limbs"
-#define TRAIT_LEVY "Azurean Militia"
 #define TRAIT_MUSES_GRACE	"Muses Grace"
 #define TRAIT_SUNLIGHT_SENSITIVE "Sunlight Sensitivity"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
@@ -347,10 +358,25 @@
 #define TRAIT_QUICKSILVERRESISTANT "Quicksilver Resistance"
 #define TRAIT_GARRISON_ITEM "Garrison Item"
 #define TRAIT_WEATHER_PROTECTED "Weather Protected"
-#define TRAIT_VAMPIRE_SPAWN_PROTECTION "Vampire Spawn Protection"
 #define TRAIT_WHITE_STAG "Stag Protection"
 #define TRAIT_EDIT_DESCRIPTORS "Edit Descriptors"
 #define TRAIT_INK_AFFINITY "Paint Affinity"
+
+//Ecom Related traits
+#define TRAIT_DEBTOR "Default Debtor"
+#define TRAIT_DEBTOR_CROWN "Default Debtor (Crown)"
+#define TRAIT_DEBTOR_CHURCH "Default Debtor (Church)"
+#define TRAIT_DEBTOR_MERCHANT "Default Debtor (Merchant)"
+#define TRAIT_DEBTOR_BATHHOUSE "Default Debtor (Bathhouse)"
+#define TRAIT_AGENT_MERCHANT "Agent of the Trading Company"
+#define TRAIT_AGENT_BATHHOUSE "Agent of the Bathhouse"
+#define TRAIT_AGENT_CHURCH "Ecclesiastical Benefactor"
+#define TRAIT_ARREARS "Poll Tax Arrears"
+#define TRAIT_PATRONAGE_GRANT "patronage_grant"
+
+//Decree related traits
+#define TRAIT_ALDERMAN "Alderman of the Assembly"
+#define TRAIT_ALDERMAN_CENSURED "Assembly Censure"
 
 // Economic Roles Traits
 // Most of these should NOT be given to any true combat roles (I.E. anything with Dexpert or Miracle / Good Magic) with very few exceptions
