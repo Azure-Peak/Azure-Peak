@@ -596,12 +596,15 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Vices:</b>"
 			if(charflaws.len)
 				var/has_extra_vice = FALSE
+				var/has_dependent_vice = FALSE
 				for(var/i = 1 to charflaws.len)
 					var/datum/charflaw/cf = charflaws[i]
 					if(!cf)
 						continue
 					if(!cf.needs_extra_vice)
 						has_extra_vice = TRUE
+					else
+						has_dependent_vice = TRUE
 				for(var/i = 1 to charflaws.len)
 					var/datum/charflaw/cf = charflaws[i]
 					if(!cf)
@@ -612,6 +615,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					dat += "[warning] <a href='?_src_=prefs;preference=charflaw;task=remove;index=[i]'>[cf]</a>[warning ? " (Requires Extra Vice!)</font>" : ""]"
 					if(i < charflaws.len)
 						dat += " |"
+				if(has_dependent_vice && !has_extra_vice)
+					dat += "<br/><font color = '#910505'>Attempting to join without a valid standalone vice will result in a random vice being added automatically!</font>"
 				dat += "<BR>"
 			if(charflaws.len < MAX_VICES)
 				dat += "<a href='?_src_=prefs;preference=charflaw;task=input'>Add Vice</a><BR>"
@@ -1560,7 +1565,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				charflaws.Add(C)
 				if(C.desc)
 					to_chat(user, span_info(C.desc))
-			else
+			else if (!length(charflaws))
 				charflaws.Add(new /datum/charflaw/noflaw())
 
 		else if(task == "remove")
