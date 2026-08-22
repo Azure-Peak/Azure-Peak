@@ -81,7 +81,7 @@
 /datum/intent/dagger/sucker_punch
 	name = "unevadable punch"
 	icon_state = "inpunch"
-	desc = "Breech your target's guard with a swift-and-sudden jab. This strike deals low damage, but cannot be parried or dodged."
+	desc = "Breech your target's guard with a swift-and-sudden jab. This strike deals low damage, but cannot be dodged."
 	attack_verb = list("punches", "jabs", "clocks")
 	animname = "strike"
 	blade_class = BCLASS_BLUNT
@@ -92,8 +92,7 @@
 	recovery = 10
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-	canparry = FALSE
-	candodge = FALSE
+	candodge = FALSE //It says unEVADABLE not unPARRYABLE get it right you chud.
 
 /datum/intent/dagger/chop
 	name = "chop"
