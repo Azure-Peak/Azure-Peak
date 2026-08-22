@@ -119896,9 +119896,7 @@
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/manor)
 "wpW" = (
-/obj/structure/mineral_door/wood/towner/fisher{
-	locked = 0
-	},
+/obj/structure/mineral_door/wood/towner/fisher,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
 "wqc" = (

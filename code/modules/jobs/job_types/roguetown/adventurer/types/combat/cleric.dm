@@ -230,9 +230,12 @@
 					if("Cuirass")
 						armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate
 		if(/datum/patron/divine/astrata)
-			cloak = /obj/item/clothing/cloak/tabard/devotee/astrata
+			cloak = /obj/item/clothing/cloak/templar/astratancleric
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-			helmets += list("Old Astratan Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm)
+			helmets += list(
+				"Old Astratan Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm,
+				"Astratan Plumed Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/cleric
+				)
 		if(/datum/patron/divine/noc)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
@@ -243,7 +246,7 @@
 			cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		if(/datum/patron/divine/necra)
-			cloak = /obj/item/clothing/cloak/tabard/devotee/necra
+			cloak = /obj/item/clothing/cloak/templar/necrancleric
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			helmets += list("Old Necran Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm)
 		if (/datum/patron/divine/malum)
@@ -254,8 +257,9 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			helmets += list("Old Eoran Sallet" = /obj/item/clothing/head/roguetown/helmet/sallet/eoran)
 		if (/datum/patron/divine/ravox)
-			cloak = /obj/item/clothing/cloak/tabard/devotee/ravox
+			cloak = /obj/item/clothing/cloak/templar/ravoxcleric
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+			helmets += list("Ravox Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/cleric)
 		if (/datum/patron/divine/xylix)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/xylix
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
@@ -400,7 +404,7 @@
 		if(/datum/patron/old_god)
 			cloak = /obj/item/clothing/cloak/absolutionistrobe/black //Formerly /obj/item/clothing/cloak/tabard/devotee/psydon.
 		if(/datum/patron/divine/astrata)
-			cloak = /obj/item/clothing/cloak/tabard/devotee/astrata
+			cloak = /obj/item/clothing/cloak/templar/astratancleric
 		if(/datum/patron/divine/noc)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 		if(/datum/patron/divine/abyssor)
@@ -408,13 +412,13 @@
 		if(/datum/patron/divine/dendor)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
 		if(/datum/patron/divine/necra)
-			cloak = /obj/item/clothing/cloak/tabard/devotee/necra
+			cloak = /obj/item/clothing/cloak/templar/necrancleric
 		if (/datum/patron/divine/malum)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/malum
 		if (/datum/patron/divine/eora)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/eora
 		if (/datum/patron/divine/ravox)
-			cloak = /obj/item/clothing/cloak/tabard/devotee/ravox
+			cloak = /obj/item/clothing/cloak/templar/ravoxcleric
 		if (/datum/patron/divine/xylix)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/xylix
 		if (/datum/patron/divine/pestra)
@@ -522,7 +526,7 @@
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
-			cloak = /obj/item/clothing/cloak/tabard/devotee/astrata
+			cloak = /obj/item/clothing/cloak/templar/astratancleric
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/divine/noc)
@@ -634,7 +638,7 @@
 			H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_NOVICE, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		if (/datum/patron/divine/ravox)
-			cloak = /obj/item/clothing/cloak/tabard/devotee/ravox
+			cloak = /obj/item/clothing/cloak/templar/ravoxcleric
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/staves, SKILL_LEVEL_NOVICE, TRUE) //On par with an Adventuring Monk. Seems quite fitting.
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)

@@ -137,10 +137,20 @@
 	repairmsg_continue = "The tattoos mend some of their abuse..."
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma
-	name = "bouhoi bujeog tattoos"
+	name = "bouhoi bujeog tattoos (harmonious)"
 	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder, and meditation restores its strength."
 	armor = ARMOR_PLATE //Will stop most things, but will also pop fast.
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //Feels much too low, but shall see how it goes.
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/blacksteel
+	name = "bouhoi bujeog tattoos (defiant)"
+	armor = ARMOR_PLATE_BSTEEL //Will stop nigh-everything, but pop even faster.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/ruma/padded
+	name = "bouhoi bujeog tattoos (enduring)"
+	armor = ARMOR_PADDED //Should last well, but you will get stabbed right through it.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/mistwalker
 	name = "seon-mul tattoos"

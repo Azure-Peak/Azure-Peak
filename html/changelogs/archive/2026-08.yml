@@ -963,3 +963,41 @@
   zeskorion:
   - bugfix: wrenches with charges can now attack objects
   - qol: battle-wrenches default to STRIKE instead of USE
+2026-08-22:
+  Aeiraea:
+  - rscadd: Added the new togas to Fortified Skeletons to replace their old Psydonic
+      "toga".
+  - bugfix: Fixed the dressier toga not appearing as it should upon feminine characters
+      and made its belt more dye-friendly.
+  FreeStylaLT:
+  - rscadd: Added a helmetless visor to loadout. Sprite courtesy of Ollanius!
+  - rscadd: Added 'small' elf ears. Sprite courtesy of Litepurple!
+  - bugfix: Fixed a few errant pixels on the Woodland cloak.
+  - bugfix: Fixed the loadout trophy robes having incorrect attributes.
+  KatTheFox:
+  - bugfix: You can no longer withdraw from stockpiles and vomitoriums at range.
+  - admin: Prayers from players with the devout follower vice are now tagged as "devout
+      follower of (patron)" instead of "follower of (patron)", making it easier to
+      distinguish them at a glance.
+  - bugfix: Fixed an issue where packages could be created from pouches, and then
+      several could be placed inside another pouch - allowing you to infinitely nest
+      packages and achieve exponentially dense (and annoying to access) storage.
+  - bugfix: Fixed an issue where ghosts could interact with any machine with a tgui
+      interface, allowing them to - among other things - purchase items and drop them
+      on peoples' heads. The core issue has been in this codebase since the initial
+      commit 2 years ago, by the way.
+  - bugfix: Fixed an issue where prayers would strip out all your punctuation, causing
+      them to look _really_ stupid on the round-end chronicle. They now use the normal
+      sanitize proc everything else does, and display how you'd expect in the chronicle.
+  - bugfix: Fixed an HTML injection exploit, the details of which will not be disclosed
+      here.
+  OrbisAnima:
+  - qol: Resident adventurers now show their job title in examine and when autoring
+      books (unless they use a pen name of course)
+  SomeDeviant:
+  - bugfix: fixed item path of Golden Jade Amulet
+  WeNeedMorePhoron:
+  - rscadd: Broom now cleans in a 3x3 AOE and its cleaning time scales inversely to
+      Cooking skills
+  kiwedespars:
+  - rscadd: gnolls no longer step on glass and get an owie

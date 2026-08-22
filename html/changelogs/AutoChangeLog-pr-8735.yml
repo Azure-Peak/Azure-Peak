@@ -1,0 +1,4 @@
+author: "SpartanBobby"
+delete-after: True
+changes:
+  - rscadd: "Added trimmed fancy coat. It's the same as the regular fancy coat but it lacks the white drape over the legs at the front. Available in loadout"

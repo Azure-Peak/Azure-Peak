@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Noccian Spellblade Templars now have the Moonlight Spear as an option; this replaces the original Boar Spear, and is otherwise a one-to-one match in terms of functional mechanics."

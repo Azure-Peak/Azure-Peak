@@ -1,7 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Fixed an issue where packages could be created from pouches, and then several could be placed inside another pouch - allowing you to infinitely nest packages and achieve exponentially dense (and annoying to access) storage."
-  - bugfix: "Fixed an issue where ghosts could interact with any machine with a tgui interface, allowing them to - among other things - purchase items and drop them on peoples' heads. The core issue has been in this codebase since the initial commit 2 years ago, by the way."
-  - bugfix: "Fixed an issue where prayers would strip out all your punctuation, causing them to look _really_ stupid on the round-end chronicle. They now use the normal sanitize proc everything else does, and display how you'd expect in the chronicle."
-  - bugfix: "Fixed an HTML injection exploit, the details of which will not be disclosed here."

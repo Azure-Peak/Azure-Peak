@@ -44,7 +44,7 @@
 		return
 	var/author_job = H.advjob ? H.advjob : "Adventurer"
 	var/datum/job/J = SSjob.GetJob(H.job)
-	if (J.obsfuscated_job || J.wanderer_examine)
+	if (J.obsfuscated_job || (J.wanderer_examine && !(HAS_TRAIT(H, TRAIT_RESIDENT))))
 		author_job = "Adventurer"
 	if(!(H.real_name in authors))
 		authors[H.real_name] = author_job

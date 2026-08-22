@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - balance: "Templar and Heretic Spellblades now have climbing, swimming, knives and minor medicine skills."
