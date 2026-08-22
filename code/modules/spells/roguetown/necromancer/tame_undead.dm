@@ -35,7 +35,7 @@
 		return FALSE
 
 	if(HAS_TRAIT(target, TRAIT_NOZIZORECRUIT))
-		to_chat(owner, spawn_warning("[target]'s will is bound to another already, this will not work."))
+		to_chat(owner, span_warning("[target]'s will is bound to another already, this will not work."))
 		reset_spell_cooldown()
 		return FALSE
 

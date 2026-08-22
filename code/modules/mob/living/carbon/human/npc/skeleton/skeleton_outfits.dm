@@ -43,7 +43,7 @@
 // For underdark lich-miniboss + contracts - Cannot tame + different Spread
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
 	faction = list(FACTION_LICH)
-	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //High-End Loot Dungeon - So no Taming these.
+	skel_untamable = TRUE //No taming this group w/ tame undead
 	skel_outfit_spread = list(
 		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
 		/datum/outfit/job/roguetown/skeleton/npc/easy,
@@ -451,4 +451,3 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
-

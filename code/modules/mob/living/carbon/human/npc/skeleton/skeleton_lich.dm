@@ -1,11 +1,11 @@
 /mob/living/carbon/human/species/skeleton/npc/dungeon/lich
 	threat_point = THREAT_ELITE
 	skel_fragile = FALSE
+	skel_untamable = TRUE //No taming this group w/ tame undead
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dungeon/lich
 
 /datum/outfit/job/roguetown/npc/skeleton/dungeon/lich/pre_equip(mob/living/carbon/human/H)
 	..()
-	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //High-End Loot Dungeon/Contract Boss - So no Taming these.
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/plate/blkknight/death
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/blkknight/death
