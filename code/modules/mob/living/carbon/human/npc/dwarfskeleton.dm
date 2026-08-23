@@ -53,6 +53,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //High-End Loot Dungeon - So no Taming these.
 	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(src,1)

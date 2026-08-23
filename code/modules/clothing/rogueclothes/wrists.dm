@@ -21,7 +21,7 @@
 	. = ..()
 	overarmor = !overarmor
 	to_chat(user, span_info("I [overarmor ? "wear \the [src] over my armor" : "wear \the [src] under my armor"]."))
-	alternate_worn_layer = overarmor ? OVER_GLOVES_LAYER : initial(alternate_worn_layer)
+	alternate_worn_layer = overarmor ? OVER_ARMOR_LAYER : initial(alternate_worn_layer)
 	user.update_inv_wrists()
 	user.update_inv_gloves()
 	user.update_inv_armor()

@@ -124,9 +124,9 @@
 	path = /obj/item/clothing/cloak/poncho
 	sort_category = "Cloaks"
 
-/datum/loadout_item/toga
-	name = "Toga"
-	path = /obj/item/clothing/cloak/tabard/toga
+/datum/loadout_item/traditionaltabard
+	name = "Traditional Tabard, Psydonic"
+	path = /obj/item/clothing/cloak/tabard/psydontabard/white
 	sort_category = "Cloaks"
 
 /datum/loadout_item/aproncook
@@ -137,6 +137,11 @@
 /datum/loadout_item/fancycoat
 	name = "Fancy Coat"
 	path = /obj/item/clothing/cloak/poncho/fancycoat
+	sort_category = "Cloaks"
+
+/datum/loadout_item/fancycoattrimmed
+	name = "Trimmed Fancy Coat"
+	path = /obj/item/clothing/cloak/poncho/fancycoat/trimmed
 	sort_category = "Cloaks"
 
 /datum/loadout_item/cloakgoldenorder
@@ -205,8 +210,9 @@
 	sort_category = "Cloaks"
 
 /datum/loadout_item/sash
-	name = "sash"
+	name = "Sash"
 	path = /obj/item/clothing/cloak/sash
+	sort_category = "Cloaks"
 
 /datum/loadout_item/ranger_cloak
 	name = "Ranger Cloak, Forest Green"
@@ -217,3 +223,14 @@
 	name = "Ranger Cloak, Neutral Gray"
 	path = /obj/item/clothing/cloak/rangercloak/gray
 	sort_category = "Cloaks"
+
+/datum/loadout_item/toga
+	name = "Toga, Robed"
+	path = /obj/item/clothing/cloak/tabard/toga
+	sort_category = "Cloaks"
+
+/datum/loadout_item/toga_dress
+	name = "Toga, Dress"
+	path = /obj/item/clothing/cloak/tabard/toga/dress
+	sort_category = "Cloaks"
+

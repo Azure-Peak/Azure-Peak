@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Simple animals now account for defender's skills when you are dodging against them"
+  - rscadd: "Refactored parry / dodge files. There shouldn't be any additional functional changes but report anything that breaks."

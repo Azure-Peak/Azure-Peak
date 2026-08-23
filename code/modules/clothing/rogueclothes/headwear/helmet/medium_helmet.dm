@@ -122,6 +122,7 @@
 	name = "ancient kettle helmet"
 	desc = "A polished gilbranze helmet which protects the top and sides of the head. Zizo's glare musn't be interceded, when matters of unholy war are at hand. Undead ballistaemen practice a curious method of tying dyed cloth around its rim; can they, too, think and associate?"
 	icon_state = "ancientkettle"
+	smeltresult = /obj/item/ingot/aaslag
 	body_parts_covered = HEAD|HAIR|EARS
 
 /obj/item/clothing/head/roguetown/helmet/kettle/iron

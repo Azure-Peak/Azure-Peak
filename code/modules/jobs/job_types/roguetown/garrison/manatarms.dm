@@ -425,8 +425,8 @@
 	traits_applied = list(TRAIT_STANDARD_BEARER, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2, // Wielding the banner gives +3 fortune and +2 Perception, as seen in special.dm
-		STATKEY_CON = 2,
-		STATKEY_WIL = 3 // Flag must never fall.
+		STATKEY_CON = 3,
+		STATKEY_WIL = 2 // Flag must never fall.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT, // SWING THAT THING.

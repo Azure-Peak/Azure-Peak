@@ -114,9 +114,10 @@
 			victim.visible_message(span_warning("[victim] weathers the strike!"))
 			continue
 		if(ishuman(victim))
-			arcyne_strike(user, victim, null, strike_damage, def_zone, BCLASS_BURN, \
-				spell_name = "Levinstroke", damage_type = BURN, npc_simple_damage_mult = 1, \
-				skip_animation = TRUE)
+			if(arcyne_strike(user, victim, null, strike_damage, def_zone, BCLASS_BURN, \
+				spell_name = "Levinstroke", damage_type = BURN, \
+				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				continue
 		else
 			victim.electrocute_act(strike_damage, src, 1, SHOCK_NOSTUN)
 		victim.electrocute_act(0, src, 1, SHOCK_NOSTUN|SHOCK_VISUAL_ONLY)

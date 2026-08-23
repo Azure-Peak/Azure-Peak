@@ -949,8 +949,8 @@
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 
 /obj/item/clothing/shoes/roguetown/sandals/toga
-	name = "toga sandals"
-	desc = "A fancy pair of sandals delicately woven in a style that harken back to bygone yils of antiquity."
+	name = "classical sandals"
+	desc = "A fancy pair of sandals delicately woven in a style that hark back to bygone yils of antiquity."
 	gender = PLURAL
 	icon_state = "togasandals"
 	item_state = "togasandals"

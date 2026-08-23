@@ -283,7 +283,7 @@
 			var/obj/item/clothing/CM = mouth
 			str = "[m3] [CM.generate_tooltip(CM.get_examine_string(user))] in [m2] mouth. "
 		else
-			"[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
+			str = "[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
 		str += mouth.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] some kinda thing on [m2] mouth!"
@@ -750,11 +750,6 @@
 
 		. += app_str
 
-	// Characters with the targeted flaw will freak out if they can't see someone's face.
-	if(!appears_dead)
-		if(skipface && user.has_flaw(/datum/charflaw/targeted) && user != src)
-			user.add_stress(/datum/stressevent/targeted)
-
 	if(dna?.species?.type == /datum/species/gnoll)
 		if(istype(user, /mob/living/carbon/human)) //Submitting this one upstream because not our shitcode for once
 			var/mob/living/carbon/human/H = user
@@ -795,7 +790,7 @@
 				display_as_wanderer = TRUE
 		else if(job)
 			var/datum/job/J = SSjob.GetJob(job)
-			if(!J || J.wanderer_examine)
+			if(!J || (J.wanderer_examine && !(HAS_TRAIT(src, TRAIT_RESIDENT))))
 				display_as_wanderer = TRUE
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)

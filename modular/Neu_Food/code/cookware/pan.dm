@@ -60,6 +60,14 @@
 	throwforce = 30 //We both know why.
 	max_integrity = 200
 
+/obj/item/cooking/pan/blacksteel
+	name = "blacksteel pan"
+	desc = "When in doubt on how to make something worthy of a lord, use the most expensive tools to say it brings flavor."
+	icon_state = "blpan"
+	wdefense = 4 //it's gonna cost a whole ingot of blacksteel gotta make it interesting
+	throwforce = 30 //We both know why.
+	max_integrity = 300
+
 /obj/item/cooking/pan/stone
 	name = "hotrock"
 	desc = "Chiseled flat to fry flesh atop a hearth, these stones were the first to shepherd finer tastes to Psydonia's ur-civilizations."

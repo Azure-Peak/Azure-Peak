@@ -56,7 +56,7 @@
 		if(length(content) > 2000)
 			to_chat(user, span_warning("Letter too long."))
 			return TRUE
-		var/obj/item/paper/P = build_sanitized_letter(params["sender"], "Clandestine Tube", content)
+		var/obj/item/paper/P = build_sanitized_letter(user, params["sender"], "Clandestine Tube", content)
 		if(!P.mailer)
 			P.mailer = "Anonymous"
 		var/sentfrom = P.mailer

@@ -1,0 +1,7 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - qol: "Waterskins, game satchels, and lanterns can now be worn on the back."
+  - qol: "Waterskins can now be worn over the shoulder."
+  - rscadd: "Cooking kettles can now be placed on campfires and function similarly to hearths."
+  - rscadd: "Kicking bushes has a 33% chance to knock out a stick."

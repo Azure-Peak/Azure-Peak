@@ -321,6 +321,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale
 	name = "SUNSET"
+	expose_caster_on_deflect = FALSE
 	desc = "Channel but a mote of the power of a Drakkyn. Take to the skies, before crashing into the ground with a punishing slam after a delay. All caught within are damaged. Hit can be riposted. Center tile takes triple damage."
 	clothes_req = FALSE
 	ignore_armor_penalty = TRUE
@@ -375,7 +376,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
 	for(var/turf/affected_turf in range(1, target_turf))
-		new /obj/effect/temp_visual/trap/thunderstrike(affected_turf, delay)
+		new /obj/effect/temp_visual/telegraph/thunderstrike(affected_turf, delay)
 
 	H.visible_message(span_warning("[H] vaults skywards in a half-crescent of gold...!"), span_notice("CRUSH."))
 	playsound(start_turf, 'sound/combat/wooshes/bladed/wooshsmall (1).ogg', 60, TRUE)

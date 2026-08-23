@@ -7,14 +7,19 @@
 
 /datum/ai_behavior/targeted_mob_ability/perform(seconds_per_tick, datum/ai_controller/controller, ability_key, target_key)
 	//var/obj/effect/proc_holder/spell/ability = controller.blackboard[ability_key]
-	var/datum/action/cooldown/mob_cooldown/ability = controller.blackboard[ability_key]
+	var/datum/action/cooldown/ability = controller.blackboard[ability_key]
 	var/mob/living/target = controller.blackboard[target_key]
 	if(QDELETED(ability) || QDELETED(target))
 		finish_action(controller, FALSE, ability_key, target_key)
 		return
 	var/mob/pawn = controller.pawn
 	pawn.face_atom(target)
+	ability.set_ai_aim_lock(get_turf(target))
 	var/result = ability.Trigger(target = target)
+	if(result)
+		var/commit = ability.ai_commit_time()
+		if(commit > 0)
+			controller.set_blackboard_key(BB_ABILITY_COMMITTED_UNTIL, world.time + commit)
 
 
 	//var/result = ability.perform(list(target), TRUE, pawn)
