@@ -32,7 +32,7 @@
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
-	extra_context = "This subclass can choose from multiple disciplines. The further your chosen discipline strays from unarmed combat, however, the greater your skills in fistfighting and wrestling will atrophy. Taking a Quarterstaff provides a minor bonus to Perception, but removes the 'Dodge Expert' trait. You will also choose a CALLING - Survivalist, Mendicant or Scholar - granting Apprentice skills in a set of non-combat pursuits to make up for the Monk's lack of worldly trades."
+	extra_context = "This subclass can choose from multiple disciplines. The further your chosen discipline strays from unarmed combat, however, the greater your skills in fistfighting and wrestling will atrophy. Taking a Quarterstaff provides a minor bonus to Perception, but removes the 'Dodge Expert' trait. You will also choose a CALLING - Survivalist, Mendicant, Scholar, or None - granting Apprentice skills in a set of non-combat pursuits to make up for the Monk's lack of worldly trades. Taking a CALLING permanently caps your Unarmed and Wrestling skills at Journeyman; choosing None keeps your fighting skills unblemished, but grants no outside trades."
 
 /datum/outfit/job/roguetown/adventurer/cleric
 	allowed_patrons = ALL_PATRONS
@@ -103,11 +103,15 @@
 				gloves = /obj/item/clothing/gloves/roguetown/bandages
 		// -- Start of section for monastic calling (non-combat archetype) --
 		var/callings = list(
+			"None - Stay Unblemished",
 			"Survivalist - Wilds & Waysides",
 			"Mendicant - Hearth & Healing",
 			"Scholar - Word & Wisdom",
 		)
-		var/calling_choice = input(H, "Choose your CALLING.", "A LIFE BEYOND THE FIST") as anything in callings
+		var/calling_choice = input(H, "Choose your CALLING. Taking one caps your fighting skills at Journeyman - forever.", "A LIFE BEYOND THE FIST") as anything in callings
+		if(calling_choice != "None - Stay Unblemished")
+			H.adjust_skillrank_down_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_down_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		switch(calling_choice)
 			if("Survivalist - Wilds & Waysides")
 				H.adjust_skillrank_up_to(/datum/skill/labor/fishing, SKILL_LEVEL_APPRENTICE, TRUE)
