@@ -404,6 +404,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham_sliced
 	name = "sliced ham"
+	desc = "A slice of steamed ham, having induced happiness ever since the first humen steamed a ham."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "ham_slice"
 	bitesize = 2
@@ -418,6 +419,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked_sliced
 	name = "sliced smoked ham"
+	desc = "A slice of smoked ham. Usually, there's slightly more ham than can be eaten, owing to the majestic girth of the typical hog. They call this extra slice the Aasimar's slice"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "ham_s_slice"
 	bitesize = 2
