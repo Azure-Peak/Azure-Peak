@@ -3410,7 +3410,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			to_chat(user, "<span class='warning'>Your link must be https!</span>")
 		return FALSE
 
-	if(!findtext(value, ".") || findtext(value, "<") || findtext(value, ">") || findtext(value, "]") || findtext(value, "\["))	//there is no link in the world that would ever need < or >
+	if(!findtext(value, ".") || findtext(value, "<") || findtext(value, ">") || findtext(value, "]") || findtext(value, "\[") || findtext(value, "'") || findtext(value, "\"")) //there is no link in the world that would ever need < or >
 		if(!silent)
 			to_chat(user, "<span class='warning'>Invalid link!</span>")
 		return FALSE

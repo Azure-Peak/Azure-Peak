@@ -126,13 +126,13 @@
 		flavor_text_nsfw = obscured ? "Obscured" : holder_human.nsfwflavortext_cached
 		ooc_notes += holder_human.ooc_notes_cached
 		ooc_notes_nsfw += holder_human.erpprefs_cached
-		ooc_extra_image = holder_human.ooc_extra_img
-		nsfw_ooc_extra_image = holder_human.nsfw_ooc_extra_img
 		char_name = holder_human.name
 		song_url = holder_human.ooc_extra
 		song_title = holder_human.song_title
 		is_vet = holder_human.check_agevet()
 		if(!obscured)
+			ooc_extra_image = holder_human.ooc_extra_img
+			nsfw_ooc_extra_image = holder_human.nsfw_ooc_extra_img
 			if(vampireplayer && (!SEND_SIGNAL(holder_human, COMSIG_DISGUISE_STATUS))&& !isnull(holder_human.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
 				headshot = holder_human.vampire_headshot_link
 			else if (lichplayer && !isnull(holder_human.lich_headshot_link))//Lich with a valid headshot
