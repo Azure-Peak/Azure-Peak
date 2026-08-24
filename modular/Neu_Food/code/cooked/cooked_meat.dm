@@ -335,7 +335,7 @@
 	bitesize = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
 	faretype = FARE_POOR
-	slices_num = 4
+	slices_num = 5
 	slice_batch = FALSE
 	rotprocess = null
 	slice_sound = TRUE
@@ -345,11 +345,36 @@
 	fried_type = null
 	smoked_type = null
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/smoked
+	name = "smoked ham"
+	desc = "An enormous piece of smoked ham. A crisp outer shell that demands to be cut into, to reveal the delicious pink flesh hidden beneath."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "ham_s6"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	bitesize = 7
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked/sliced
+	faretype = FARE_NEUTRAL
+	slices_num = 6
+	slice_batch = FALSE
+	rotprocess = null
+	slice_sound = TRUE
+	eat_effect = null
+	tastes = list("smoky hog" = 1)
+	cooked_type = null
+	fried_type = null
+	smoked_type = null
+
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/update_icon()
 	if(slices_num)
 		icon_state = "ham[slices_num]"
 	else
 		icon_state = "ham_slice"
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/smoked/update_icon()
+	if(slices_num)
+		icon_state = "ham_s[slices_num]"
+	else
+		icon_state = "ham_s_slice"
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/On_Consume(mob/living/eater)
 	..()
@@ -363,6 +388,20 @@
 		if(bitecount == 5)
 			changefood(slice_path, eater)
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/smoked/On_Consume(mob/living/eater)
+	..()
+	if(slices_num)
+		if(bitecount == 2)
+			slices_num = 5
+		if(bitecount == 3)
+			slices_num = 4
+		if(bitecount == 4)
+			slices_num = 3
+		if(bitecount == 5)
+			slices_num = 2
+		if(bitecount == 6)
+			changefood(slice_path, eater)
+
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
 	name = "sliced ham"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
@@ -373,6 +412,21 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	eat_effect = null
 	tastes = list("hog" = 1)
+	cooked_type = null
+	fried_type = null
+	smoked_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked/sliced
+	name = "sliced smoked ham"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "ham_s_slice"
+	bitesize = 2
+	slices_num = FALSE
+	slice_path = FALSE
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
+	eat_effect = null
+	rotprocess = null
+	tastes = list("smoky hog" = 1)
 	cooked_type = null
 	fried_type = null
 	smoked_type = null

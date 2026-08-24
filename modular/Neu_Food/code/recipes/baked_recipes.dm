@@ -119,6 +119,15 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/sandwich/ham
 
+// Bread + Smoked Ham -> Smoked Ham Bread
+/datum/food_recipe/sandwich/ham
+	name = "smoked ham bread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked/sliced
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/sandwich/ham_smoked
+
 // Bun + Sausage -> Grenzelbun (Hotdog)
 /datum/food_recipe/sandwich/grenzelbun
 	name = "grenzelbun"

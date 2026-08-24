@@ -431,6 +431,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/smoked
 	slices_num = 2
 	slice_path = null
 	tastes = list("hog" = 1)
