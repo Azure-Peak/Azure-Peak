@@ -275,7 +275,7 @@
 
 /datum/stressevent/meditation_undivided
 	timer = 20 MINUTES
-	stressadd = -5
+	stressadd = -4
 	desc = span_undivided("My communion with the Divines proved fruitful.")
 
 /datum/stressevent/bathcleaned
