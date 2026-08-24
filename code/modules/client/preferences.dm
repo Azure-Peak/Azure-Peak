@@ -2472,7 +2472,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ShowChoices(user)
 						return
 					ooc_extra_img_link = link
-					var/ext = lowertext(splittext(link, ".")[length(splittext(link, "."))])
+					var/ext = LOWER_TEXT(splittext(link, ".")[length(splittext(link, "."))])
 					var/info
 					switch(ext)
 						if("jpg", "jpeg", "png", "gif")
@@ -2506,7 +2506,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						ShowChoices(user)
 						return
 					nsfw_ooc_extra_img_link = link
-					var/ext = lowertext(splittext(link, ".")[length(splittext(link, "."))])
+					var/ext = LOWER_TEXT(splittext(link, ".")[length(splittext(link, "."))])
 					var/info
 					switch(ext)
 						if("jpg", "jpeg", "png", "gif")
