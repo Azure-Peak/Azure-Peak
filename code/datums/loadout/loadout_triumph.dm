@@ -84,8 +84,8 @@
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_winterdress
-	name = "Winter Dress"
-	path = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph
+	name = "Thin Winter Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
@@ -598,6 +598,24 @@
 	name = "Triumph Kit - Classic Psydonic Handmace"
 	path = /obj/item/enchantingkit/triumph_weaponkit_psymace
 	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_khanda
+	name = "Triumph Kit - Khanda"
+	path = /obj/item/enchantingkit/triumph_weaponkit_khanda
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_urumi
+	name = "Triumph Kit - Urumi"
+	path = /obj/item/enchantingkit/triumph_weaponkit_urumi
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_pata
+	name = "Triumph Kit - Pata"
+	path = /obj/item/enchantingkit/triumph_weaponkit_pata
+	triumph_cost = 3
 	sort_category = "Triumphs"
 
 //////////////////

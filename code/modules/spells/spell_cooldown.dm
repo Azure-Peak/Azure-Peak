@@ -73,6 +73,8 @@
 	var/requires_aspect_access = FALSE
 	/// Visual impact intensity for on-hit effects. See SPELL_IMPACT defines.
 	var/spell_impact_intensity = SPELL_IMPACT_NONE
+	/// Whether a guard deflecting this spell's non-projectile effect will expose the caster or not
+	var/expose_caster_on_deflect = TRUE
 	/// If true, the spell can be refunded. Set by learnspell when learned.
 	var/refundable = FALSE
 	/// Aspect type path this spell was granted by, if any. Used by the aspect picker
@@ -1958,14 +1960,17 @@
 	if(source)
 		source.click_intercept_time = 0
 
-/datum/action/cooldown/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
+/// punish_caster overrides expose_caster_on_deflect for one call, for spells that mix a direct strike with a telegraphed zone.
+/datum/action/cooldown/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker, punish_caster)
 	if(!isliving(target))
 		return FALSE
 	if(target == owner)
 		return FALSE
 	if(isnull(attacker))
 		attacker = owner
-	return target.guard_deflect_spell(name, no_message, attacker)
+	if(isnull(punish_caster))
+		punish_caster = expose_caster_on_deflect
+	return target.guard_deflect_spell(name, no_message, attacker, punish_caster)
 
 /datum/action/cooldown/spell/proc/signal_cancel()
 	SIGNAL_HANDLER

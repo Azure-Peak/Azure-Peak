@@ -15,6 +15,11 @@
 	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
 	icon_state = "arrow"
 	force = 10
+	pixel_x = -25
+	pixel_y = -25
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	bigboy = TRUE
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
@@ -94,6 +99,7 @@
 	speed = 0.4
 	min_range = MIN_ARROW_RANGE
 	max_range = MAX_ARROW_RANGE
+	dam_falloff_factor = DAM_FALLOFF_ARROW
 	var/trains_ranged_skill = TRUE
 
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)

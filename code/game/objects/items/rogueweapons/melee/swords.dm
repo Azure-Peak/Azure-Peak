@@ -2243,17 +2243,17 @@
 	icon_state = "eastsword2"
 	force = 27
 	max_integrity = 200
-	sharpness_mod = 2
+	sharpness_mod = 1.5
 	sellprice = 50
 
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
 	name = "samjeongdo"
-	desc = "A gold-stained sword with cloud patterns on the groove. One of a kind. It is a symbol of status within the Ruma clan."
+	desc = "A gold-stained sword with cloud patterns on the groove. Exceedingly rare. It is a symbol of status within the Ruma clan."
 	icon_state = "eastsword3"
 	force = 27
 	max_integrity = 200
-	sharpness_mod = 2
-	sellprice = 150
+	sharpness_mod = 1.5
+	sellprice = 100
 
 /obj/item/rogueweapon/sword/sabre/wodao
 	name = "wodao"

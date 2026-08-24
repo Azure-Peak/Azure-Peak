@@ -32,43 +32,36 @@
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
 /mob/living/carbon/human/species/skeleton/npc/mediumspread
 	threat_point = THREAT_MODERATE
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
+		/datum/outfit/job/roguetown/skeleton/npc/easy,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/archer,
+	)
 
-/mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize(mapload)
-	var/outfit = rand(1, 5)
-	switch(outfit)
-		if(1)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
-		if(2)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/easy
-		if(3)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
-		if(4)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
-	..()
-
+// For underdark lich-miniboss + contracts - Cannot tame + different Spread
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
 	faction = list(FACTION_LICH)
+	skel_untamable = TRUE //No taming this group w/ tame undead
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
+		/datum/outfit/job/roguetown/skeleton/npc/easy,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+	)
 
-// for Lich Dungeon
+// for Lich Dungeon, albeit I think not entirely exclusive, so we don't add untamable
+//They're not re-factionised either unlike the above, sire.
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
-
-/mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize(mapload)
-	var/outfit = rand(1,5)
-	switch(outfit)
-		if(1)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(2)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
-		if(3)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
-		if(4)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
-	..()
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/pirate,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/archer,
+	)
 
 /datum/outfit/job/roguetown/skeleton/npc/supereasy/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -458,4 +451,3 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
-

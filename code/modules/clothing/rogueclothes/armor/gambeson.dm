@@ -44,7 +44,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert(user, "Would you like to wear your padded gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "gambesonold"
 			color = null
 			update_icon()

@@ -90171,7 +90171,7 @@
 /obj/structure/mineral_door/wood{
 	icon_state = "wcv";
 	locked = 1;
-	lockid = "manor";
+	lockid = "seneschal";
 	name = "Seneschal's Quarters"
 	},
 /turf/open/floor/rogue/concrete,
@@ -101841,6 +101841,8 @@
 /area/rogue/outdoors/town)
 "sUZ" = (
 /obj/structure/table/wood/poor,
+/obj/item/roguemachine/zadcote/hand,
+/obj/item/hand_files,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/manor)
 "sVc" = (
@@ -112630,11 +112632,6 @@
 /obj/structure/closet/dirthole/closed,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
-"uWb" = (
-/obj/machinery/light/rogue/candle,
-/obj/machinery/light/rogue/candle/r,
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/town)
 "uWc" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -119899,9 +119896,7 @@
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/manor)
 "wpW" = (
-/obj/structure/mineral_door/wood/towner/fisher{
-	locked = 0
-	},
+/obj/structure/mineral_door/wood/towner/fisher,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
 "wqc" = (
@@ -401789,7 +401784,7 @@ ttj
 bGf
 bGf
 uBc
-uWb
+aEz
 hqI
 uWP
 duz

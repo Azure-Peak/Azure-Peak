@@ -628,10 +628,6 @@
 	if(!H.mind)
 		return
 
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/takeprotege)
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 
