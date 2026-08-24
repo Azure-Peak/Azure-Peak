@@ -10,8 +10,9 @@
 	max_pq = null
 	antag_job = TRUE
 
-
-	tutorial = "\"A MAN SPEAKS A NAME. WE DO THE REST!\", a common parlance from your cursed dagger. Whether puppeted by dark forces or by \
+	// assassins are an embodiment of graggar's many-faces and absorption of the people he's killed thru-out his life.
+	// daggers should be implied to be his fragments or some other weird shit. maybe vheslyn. idfk man i dont lore for shit.
+	tutorial = "\"A MAN SPEAKS A NAME. WE DO THE REST!\", so-says your cursed dagger. Whether puppeted by dark forces or by \
 	choice, you have become a devout of the Sinistar. As His devout pray for His wrath, you dispense it, skin-thiefing and soul-taking those \
 	deemed worthy of a blood-hunt."
 

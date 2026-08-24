@@ -63,6 +63,8 @@
 /datum/antagonist/assassin/greet()
 	to_chat(owner, span_cult("I hear a singing. HE awaits sacrifice. Death to the world, in the name of the Dark Star."))
 	to_chat(owner, span_artery("Summon your dagger. Keep it close. Sense HIS TARGETED, slay them, and PECULATE their being into your blade."))
+	to_chat(owner.current, span_redinfo("Assassins do NOT have to escalate against THEIR TARGETS. You must escalate against everyone else. \
+	Your targets are still afforded ERP protections."))
 	owner.current.playsound_local(owner.current,'sound/villain/littlescary.ogg', 10)
 
 /datum/antagonist/assassin/on_removal()
