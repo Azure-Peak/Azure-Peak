@@ -37,6 +37,13 @@
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
+/datum/intent/mace/slap/pig
+	name = "ham-shank"
+	icon_state = "inshank"
+	blade_class = BCLASS_BLUNT
+	attack_verb = list("schmacked", "wallops", "pork-chops", "thwacks")
+	hitsound = list('modular/Neu_Food/sound/meatslap.ogg', 'sound/misc/mat/sex_clap/slow/SexSlap34.ogg', 'sound/misc/bonk.ogg')
+
 /obj/item/reagent_containers/food/snacks/fish/dead
 	dead = TRUE
 

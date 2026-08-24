@@ -364,6 +364,14 @@
 	fried_type = null
 	smoked_type = null
 
+	// Funny
+	possible_item_intents = list(/datum/intent/food, /datum/intent/mace/slap/pig)
+	force = 15
+	wdefense = 2.5
+	associated_skill = /datum/skill/craft/cooking
+	max_integrity = 75
+	obj_integrity = 75
+
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/update_icon()
 	if(slices_num)
 		icon_state = "ham[slices_num]"
@@ -404,7 +412,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham_sliced
 	name = "sliced ham"
-	desc = "A slice of steamed ham, having induced happiness ever since the first humen steamed a ham."
+	desc = "A slice of steamed ham, inducer of happiness ever since the first humen steamed a ham."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "ham_slice"
 	bitesize = 2
