@@ -299,7 +299,6 @@
 #define TRAIT_LEYLINE_ATTUNEMENT "Leyline Attunement" //enables echanting
 
 //Antagonist role unique
-#define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_NOPVE "Natural Accord" //Hag only. PVE exemption.
 #define TRAIT_VAMPBITE "Vampire Bite" //Handles hazy effect on vamp biting
@@ -337,7 +336,10 @@
 #define TRAIT_DEPRAVED "Fallen" //Baothans can use exclusive gear
 #define TRAIT_DUSTRUNNER "Dust Runner" //Dust runners recognize each other, and are known to bathhouse workers and matthiosites
 
-// assas
+// ASSASSIN ANTAG TRAITS
+#define TRAIT_CLAIMED_BY_DARKSTAR "Claimed by the Dark Star" // applied to targeted users that get dagger'd
+#define TRAIT_ASSASSIN	"Assassin" // needed by assassin to use dagger
+
 
 //ASCENDANT GOD CURSES
 
