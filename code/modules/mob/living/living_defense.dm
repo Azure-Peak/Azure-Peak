@@ -183,7 +183,8 @@
 			return TRUE
 	return FALSE
 
-/mob/living/proc/guard_deflect_spell(spell_name = "the spell", no_message = FALSE, mob/living/attacker)
+/// Riposting Ground Effect should not punish the caster wit an expose, as you can walk into it
+/mob/living/proc/guard_deflect_spell(spell_name = "the spell", no_message = FALSE, mob/living/attacker, punish_caster = TRUE)
 	var/datum/status_effect/buff/clash/guard = has_status_effect(/datum/status_effect/buff/clash)
 	if(guard)
 		if(isarcyne(src))
@@ -206,7 +207,8 @@
 			apply_status_effect(/datum/status_effect/buff/adrenaline_rush/ranged)
 		guard.deflected_spell = TRUE
 		remove_status_effect(/datum/status_effect/buff/clash)
-		punish_deflected_caster(attacker)
+		if(punish_caster)
+			punish_deflected_caster(attacker)
 		return TRUE
 	if(has_status_effect(/datum/status_effect/buff/parry_buffer))
 		return TRUE

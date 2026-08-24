@@ -3,6 +3,7 @@
 	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	button_icon_state = "fist_of_psydon"
 	name = "Fist of Psydon"
+	expose_caster_on_deflect = FALSE
 	desc = "Slam your fist downward, sending arcyne force crashing into a 3x3 target area up to 5 paces away. \
 		Brief telegraph before the strike lands. Deals blunt damage to the aimed bodypart. \
 		At 3+ momentum: consumes 3 to double damage. \
@@ -81,10 +82,11 @@
 		for(var/mob/living/victim in affected_turf)
 			if(victim == H || victim.stat == DEAD)
 				continue
-			if(spell_guard_check(victim, FALSE, deflected ? null : H))
+			if(spell_guard_check(victim, FALSE, H, punish_caster = deflected ? FALSE : null))
 				deflected = TRUE
 				continue
-			arcyne_strike(H, victim, null, damage, def_zone, BCLASS_BLUNT, spell_name = "Fist of Psydon")
+			if(arcyne_strike(H, victim, null, damage, def_zone, BCLASS_BLUNT, spell_name = "Fist of Psydon") == ARCYNE_STRIKE_WARDED)
+				continue
 			hit_count++
 
 	playsound(T, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)

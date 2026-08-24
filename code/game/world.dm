@@ -39,6 +39,8 @@ GLOBAL_VAR(restart_counter)
 
 	log_world("World loaded at [time_stamp()]!")
 
+	music_prune()
+
 	SetupExternalRSC()
 
 	make_datum_references_lists()	//initialises global lists for referencing frequently used datums (so that we only ever do it once)

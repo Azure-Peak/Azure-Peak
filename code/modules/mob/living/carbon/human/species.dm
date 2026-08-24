@@ -1324,6 +1324,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				SEND_SIGNAL(user, COMSIG_HEAD_PUNCHED, target)
 
 			target.on_hit_as_pacifist(user)
+
+			var/obj/item/clothing/gloves/roguetown/worn_gloves = user.get_item_by_slot(SLOT_GLOVES)
+			if(istype(worn_gloves))
+				worn_gloves.apply_unarmed_weapon_effects(user, affecting, user.used_intent, target, selzone)
 		log_combat(user, target, "punched", zone=selzone)
 		if(ishuman(user))
 			user.resolve_combataware(target, "[bodyzone2readablezone(selzone)]...", "[bodyzone2readablezone(user.zone_selected)]...")

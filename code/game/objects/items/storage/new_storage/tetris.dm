@@ -705,7 +705,7 @@
 			else
 				storing.forceMove(parent.drop_location())
 		return FALSE
-	storing.on_enter_storage(master)
+	storing.on_enter_storage(master, user)
 	storing.item_flags |= IN_STORAGE
 	storing.mouse_opacity = MOUSE_OPACITY_OPAQUE //So you can click on the area around the item to equip it, instead of having to pixel hunt
 	if(user)

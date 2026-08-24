@@ -811,24 +811,60 @@
 	max_integrity = 200
 
 /obj/item/rogueweapon/mace/warhammer/bronze
-	force = 22
+	force = 25
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
 	name = "bronze warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with bronze. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "bronzeclub"
+	max_blade_int = 150
 	wbalance = WBALANCE_HEAVY
-	throwforce = 30
+	throwforce = 25
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 20)
 	smeltresult = /obj/item/ingot/bronze
 	wdefense = 3
 	max_integrity = 180
+	sharpness = IS_SHARP
+
+/obj/item/rogueweapon/mace/warhammer/bronze/iron
+	force = 20 //just a tad weaker than the bronze to balance it out, this weapon has some versatile intents and i dont want it to be TOO strong.
+	name = "iron warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with iron. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "iclub"
+	max_blade_int = 100
+	throwforce = 20 // still hurts, just less
+	smeltresult = /obj/item/ingot/iron
+	wdefense = 2
+	max_integrity = 120
+
+/obj/item/rogueweapon/mace/warhammer/bronze/steel
+	force = 28 //just a little better than the bronze club but barely
+	name = "steel warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with steel. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "steelclub"
+	max_blade_int = 175
+	throwforce = 25
+	smeltresult = /obj/item/ingot/steel
+	wdefense = 3
+	max_integrity = 200
+
+/obj/item/rogueweapon/mace/warhammer/bronze/silver
+	name = "silver warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with silver. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "clubsilver"
+	throwforce = 30
+	smeltresult = /obj/item/ingot/silver
+	wdefense = 4
+	is_silver = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/bronze/decorated
+	force = 30 // this requires GOLD to make, its going to be a bit more heavy.
 	name = "decorated bronze warclub"
-	desc = "Flowers, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
+	desc = "beads, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
 	max_integrity = 250
+	max_blade_int = 200
 	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/alloy
@@ -1284,6 +1320,7 @@
 	max_integrity = 200
 	dropshrink = 0.8
 	throwforce = 15
+	associated_skill = /datum/skill/combat/maces
 	anvilrepair = /datum/skill/craft/engineering
 	wdefense = 3
 	wdefense_wbonus = 3

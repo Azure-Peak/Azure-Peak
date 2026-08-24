@@ -1,6 +1,6 @@
 /obj/item/broom
 	name = "broom"
-	desc = "A robust-looking broom, made from a bundle of twigs. Sweep away debris, glass, blood, dirt, and time without a care in the world."
+	desc = "A robust-looking broom, made from a bundle of twigs. Sweep a wide swathe of floor clear of debris, glass, blood, dirt, and time without a care in the world."
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	icon_state = "broom"
 	possible_item_intents = list(/datum/intent/use, /datum/intent/mace/strike/wood)
@@ -30,6 +30,13 @@
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
+/obj/item/broom/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Sweeping time scales inversely to Cooking skill.")
+
+/obj/item/broom/proc/sweep_time(mob/living/user)
+	return max(20 - user.get_skill_level(/datum/skill/craft/cooking) * 2.5, 5)
 
 /obj/item/broom/proc/sweep_message(atom/A, mob/living/user)
 	user.visible_message(span_notice("[user] dutifully sweeps \the [A]."), span_notice("I dutifully sweep \the [A]."))
@@ -64,7 +71,7 @@
 		O.take_damage(200, BRUTE, "blunt", FALSE)
 		playsound(loc, "smashlimb", 50, FALSE)
 		return
-	if(!do_after(user, 15, target = O))
+	if(!do_after(user, sweep_time(user), target = O))
 		return
 	sweep_message(O, user)
 	playsound(user, "clothwipe", 100, TRUE)
@@ -75,14 +82,28 @@
 		return ..()
 	if(istype(T, /turf/open/lava) || istype(T, /turf/open/water))
 		return
-	if(!do_after(user, 20, target = T))
+	if(!do_after(user, sweep_time(user), target = T))
 		return
 	sweep_message(T, user)
 	playsound(user, 'sound/items/broom_sweep.ogg', 150, TRUE)
-	broom_fu(T)
 	gather_clutter(T, user)
-	for(var/obj/O in T)
-		broom_fu(O)
+	sweep_area(T)
+
+/obj/item/broom/proc/sweep_area(turf/center)
+	var/washed = 0
+	var/max_washes = 75
+	for(var/turf/T in range(1, center))
+		if(washed >= max_washes)
+			break
+		broom_fu(T)
+		wash_atom(T, CLEAN_MEDIUM)
+		washed++
+		for(var/atom/A in T)
+			if(washed >= max_washes)
+				break
+			if(istype(A, /obj/effect/decal/cleanable) || ismob(A) || (isobj(A) && !istype(A, /obj/effect)))
+				wash_atom(A, CLEAN_MEDIUM)
+				washed++
 
 /obj/item/broom/proc/broom_fu(atom/A)
 	var/turf/T = get_turf(A)

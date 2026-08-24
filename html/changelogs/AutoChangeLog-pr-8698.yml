@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Fixed a runtime relating to throne announcements."

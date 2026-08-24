@@ -357,6 +357,13 @@
 	icon_state = "elfshort"
 	color_key_defaults = list(KEY_SKIN_COLOR)
 
+/datum/sprite_accessory/ears/elf_small
+	name = "Elf (Small)"
+	icon = 'icons/mob/sprite_accessory/elf.dmi'
+	icon_state = "elfsmall"
+	color_key_defaults = list(KEY_SKIN_COLOR)
+	can_flick = TRUE
+
 /datum/sprite_accessory/ears/halforc
 	name = "Half Orc"
 	icon = 'icons/mob/sprite_accessory/halforc.dmi'
