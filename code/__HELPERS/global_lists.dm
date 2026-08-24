@@ -40,6 +40,9 @@
 
 	init_subtypes(/datum/stew_recipe, GLOB.stew_recipes)
 
+	for(var/i in 0 to 20)
+		GLOB.mouseicons_human += file("icons/effects/mousemice/swang/[i * 5].dmi")
+
 	init_paths(/datum/materia_aspect, GLOB.prima_materia_aspects)
 
 	for(var/obj/item/alch/catalyst/path as anything in subtypesof(/obj/item/alch/catalyst))
@@ -53,9 +56,6 @@
 				while(picked == last_picked)
 				GLOB.catalyst_recipes[path] += picked
 				last_picked = picked
-
-	for(var/i in 0 to 20)
-		GLOB.mouseicons_human += file("icons/effects/mousemice/swang/[i * 5].dmi")
 
 	// Faiths
 	for(var/path in subtypesof(/datum/faith))

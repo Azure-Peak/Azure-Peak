@@ -131,6 +131,17 @@
 	allow_quick_gather = FALSE
 	allow_quick_empty = FALSE
 
+/datum/component/storage/concrete/roguetown/trans
+	max_w_class = WEIGHT_CLASS_TINY
+	screen_max_rows = 5
+	screen_max_columns = 2
+	intercept_parent_attack = FALSE
+	intercept_parent_mousedrop = TRUE
+
+/datum/component/storage/concrete/roguetown/trans/New(datum/P, ...)
+	. = ..()
+	can_hold = typecacheof(list(/obj/item/alch/catalyst))
+
 /datum/component/storage/concrete/grid/meatsack // our rucksack is different from
 // Vanderlin so we use a separate one for meatsack
 	max_w_class = WEIGHT_CLASS_NORMAL
@@ -295,14 +306,3 @@
 	max_w_class = WEIGHT_CLASS_HUGE
 	screen_max_rows = 8
 	screen_max_columns = 4
-
-/datum/component/storage/concrete/roguetown/trans
-	max_w_class = WEIGHT_CLASS_TINY
-	screen_max_rows = 5
-	screen_max_columns = 2
-	intercept_parent_attack = FALSE
-	intercept_parent_mousedrop = TRUE
-
-/datum/component/storage/concrete/roguetown/trans/New(datum/P, ...)
-	. = ..()
-	can_hold = typecacheof(list(/obj/item/alch/catalyst))
