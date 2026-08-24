@@ -333,7 +333,7 @@
 	icon_state = "ham5"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	bitesize = 6
-	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham_sliced
 	faretype = FARE_POOR
 	slices_num = 5
 	slice_batch = FALSE
@@ -352,7 +352,7 @@
 	icon_state = "ham_s6"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	bitesize = 7
-	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked/sliced
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked_sliced
 	faretype = FARE_NEUTRAL
 	slices_num = 6
 	slice_batch = FALSE
@@ -402,7 +402,7 @@
 		if(bitecount == 6)
 			changefood(slice_path, eater)
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham_sliced
 	name = "sliced ham"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "ham_slice"
@@ -416,7 +416,7 @@
 	fried_type = null
 	smoked_type = null
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked/sliced
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham_smoked_sliced
 	name = "sliced smoked ham"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "ham_s_slice"
