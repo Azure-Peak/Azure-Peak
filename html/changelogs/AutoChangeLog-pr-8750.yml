@@ -1,4 +1,0 @@
-author: "Guidesu"
-delete-after: True
-changes:
-  - bugfix: "Fixed silver knuckles not sundering when on the glove mode, fix enchantments not working on knuckles and pugilistic bandages."

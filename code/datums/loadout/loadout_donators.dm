@@ -1012,3 +1012,8 @@
 	name = "Donator Kit - Smooth Skikuldic Greatflail"
 	path = /obj/item/enchantingkit/donator_chivalre_drowgreatflailalt
 	ckeywhitelist = list("oddbomber3768")
+
+/datum/loadout_item/donator/rivercadaver_tabis
+	name = "Donator Item - Tabis"
+	path = /obj/item/enchantingkit/donator_rivercadaver_tabis
+	ckeywhitelist = list("rivercadaver","muhsollini")

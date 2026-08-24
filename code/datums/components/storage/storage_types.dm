@@ -197,6 +197,7 @@
 	allow_dump_out = TRUE
 	dump_time = 40
 	collection_mode = COLLECT_SAME
+	does_not_spill = TRUE
 
 /datum/component/storage/concrete/tray/spill_contents(obj/A)
 	if (A.throwing)

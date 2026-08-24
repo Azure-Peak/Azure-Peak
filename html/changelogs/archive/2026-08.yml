@@ -1077,3 +1077,41 @@
   saltprjak:
   - balance: Templar and Heretic Spellblades now have climbing, swimming, knives and
       minor medicine skills.
+2026-08-24:
+  FreeStylaLT:
+  - refactor: Added a 'freeuse' and 'subtle' toggles to the panel.
+  Guidesu:
+  - rscadd: Undies can now be put on armour slot.
+  - bugfix: Fixed silver knuckles not sundering when on the glove mode, fix enchantments
+      not working on knuckles and pugilistic bandages.
+  Lamasmaster:
+  - rscadd: Celestial and Sama'glos get actual language description now, Grenzelhoftian
+      mentions it is holy tongue of the See too.
+  Ollanius:
+  - bugfix: Donor-specific crossbow should now properly render when uncocked.
+  - rscadd: '''Rapier'' and ''Saber'' as applicable base weapons for certain donor-specific
+      sword skins.'
+  - rscadd: Donator-exclusive variant of the Gambeson that's shortened to mimic an
+      Arming Jacket's proportions.
+  - rscadd: Donator-exclusive sprites for Lagomorphica, Stalkerino, and Chivalre.
+  Quinalion:
+  - qol: Waterskins, game satchels, and lanterns can now be worn on the back.
+  - qol: Waterskins can now be worn over the shoulder.
+  - rscadd: Cooking kettles can now be placed on campfires and function similarly
+      to hearths.
+  - rscadd: Kicking bushes has a 33% chance to knock out a stick.
+  WeNeedMorePhoron:
+  - rscadd: Simple animals now account for defender's skills when you are dodging
+      against them
+  - rscadd: Refactored parry / dodge files. There shouldn't be any additional functional
+      changes but report anything that breaks.
+  - balance: When the CHARRED explosion procs from Pyromancy, it will clear all scorched
+      stack. No more exploding multiple time through armor.
+  - balance: Remove fire adaptation
+  - balance: Scorched no longer debuff CON.
+  - balance: Spitfire damage 40 -> 50
+  - balance: Dragon's Breath 60 -> 65
+  - balance: Reduced scorched duration to 15s from 25s.
+  - balance: Source that gave 4 stacks scorch -> now gives 3
+  radarseas:
+  - admin: added more traits to the VV panel

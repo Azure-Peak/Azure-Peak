@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - refactor: "Added a 'freeuse' and 'subtle' toggles to the panel."

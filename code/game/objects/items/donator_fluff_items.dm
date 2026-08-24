@@ -2142,6 +2142,37 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	icon_state = "euthanasia"
 
+/obj/item/clothing/shoes/roguetown/boots/tabi
+	name = "tabis"
+	desc = "A pair of unique leather boots, platformed in the back and hooved along the toes. One must wonder if there's any \
+	sense to wearing such footwear, beyond the battlefield of a banquet."
+	icon_state = "river_tabi"
+	item_state = "river_tabi"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	allowed_sex = list(FEMALE)
+	salvage_result = /obj/item/natural/hide/cured
+	salvage_amount = 1
+
+/obj/item/clothing/shoes/roguetown/boots/tabi/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2) //Slay, sire.
+	stepnoise_flag = STEPNOISE_HEELS
+
+/obj/item/clothing/shoes/roguetown/boots/tabi/otavan
+	name = "psydonic tabis"
+	icon_state = "river_otavatabi"
+	item_state = "river_otavatabi"
+	color = null
+	sewrepair = TRUE
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+
+/obj/item/clothing/shoes/roguetown/boots/tabi/otavan/inqboots
+	name = "inquisitorial tabis"
+	color = null
+	armor = ARMOR_PLATE
+
 //MAGI1138
 /obj/item/clothing/cloak/magi1138
 	name = "reappropriated Xylixian Cloak"
