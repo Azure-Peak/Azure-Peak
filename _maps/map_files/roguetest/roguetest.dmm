@@ -352,7 +352,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
 "kn" = (
-/obj/item/natural/bundle/fibers/full,
+/obj/structure/fluff/alch,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "ku" = (
@@ -390,10 +390,6 @@
 /obj/item/roguemachine/mastermail,
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/manor)
-"ln" = (
-/mob/living/simple_animal/pet/cat/rogue/black/academy,
-/turf/open/floor/rogue/blocks/newstone/alt,
-/area/rogue/indoors/town/physician)
 "ly" = (
 /obj/item/roguemachine/navigator/private,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -488,7 +484,6 @@
 /obj/item/needle/thorn,
 /obj/item/needle,
 /obj/item/needle/pestra,
-/obj/item/storage/roguebag,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "oc" = (
@@ -630,18 +625,6 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
-"pz" = (
-/obj/item/alch/catalyst/aeneic,
-/obj/item/alch/catalyst/albedo,
-/obj/item/alch/catalyst/argyropoeia,
-/obj/item/alch/catalyst/florid,
-/obj/item/alch/catalyst/nigredo,
-/obj/item/alch/catalyst/rubedo,
-/obj/item/alch/catalyst/terran,
-/obj/item/alch/catalyst/xanthosis,
-/obj/item/alch/catalyst/chrysopoeia,
-/turf/open/floor/rogue/blocks/newstone/alt,
-/area/rogue/indoors/town/physician)
 "pJ" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -976,6 +959,7 @@
 /obj/item/natural/bundle/fibers/full,
 /obj/item/natural/bundle/fibers/full,
 /obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
 /obj/item/needle,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
@@ -1022,7 +1006,7 @@
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors)
 "zr" = (
-/obj/item/storage/roguebag/trans,
+/obj/item/storage/roguebag,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "zD" = (
@@ -1106,8 +1090,6 @@
 /obj/structure/fluff/walldeco/med{
 	pixel_y = 32
 	},
-/obj/item/storage/belt/rogue/surgery_bag/full,
-/obj/structure/table/optable,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "BS" = (
@@ -1543,7 +1525,6 @@
 /obj/structure/table/cooling,
 /obj/item/reagent_containers/glass/mortar,
 /obj/item/pestle,
-/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "Oi" = (
@@ -1675,7 +1656,9 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town/dwarfin)
 "Sy" = (
-/obj/structure/fluff/alch/trans/uni,
+/obj/structure/table/optable,
+/obj/item/storage/belt/rogue/surgery_bag/full,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "SE" = (
@@ -2928,8 +2911,8 @@ ev
 AO
 LM
 BH
-zr
-pz
+bc
+bc
 bc
 tX
 yK
@@ -2980,7 +2963,7 @@ ev
 AO
 LM
 Sy
-ln
+zr
 bc
 bc
 tX
