@@ -1560,6 +1560,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				charflaws.Add(C)
 				if(C.desc)
 					to_chat(user, span_info(C.desc))
+			else
+				charflaws.Add(new /datum/charflaw/noflaw())
 
 		else if(task == "remove")
 			var/index = text2num(href_list["index"])

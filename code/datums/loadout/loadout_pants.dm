@@ -44,6 +44,11 @@
 	path = /obj/item/clothing/under/roguetown/skirt
 	sort_category = "Pants"
 
+/datum/loadout_item/shortskirt
+	name = "Short Skirt"
+	path = /obj/item/clothing/under/roguetown/skirt/short
+	sort_category = "Pants"
+
 /datum/loadout_item/desertskirt
 	name = "Desert Skirt"
 	path = /obj/item/clothing/under/roguetown/skirt/desert

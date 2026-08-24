@@ -1,0 +1,4 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - bugfix: "oiling someone up for wrestling and stuff should be less buggy looking"

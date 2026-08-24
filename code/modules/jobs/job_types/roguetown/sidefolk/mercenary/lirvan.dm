@@ -321,6 +321,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale
 	name = "SUNSET"
+	expose_caster_on_deflect = FALSE
 	desc = "Channel but a mote of the power of a Drakkyn. Take to the skies, before crashing into the ground with a punishing slam after a delay. All caught within are damaged. Hit can be riposted. Center tile takes triple damage."
 	clothes_req = FALSE
 	ignore_armor_penalty = TRUE

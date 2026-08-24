@@ -219,6 +219,13 @@
 	icon_state = "eyekey"
 	lockid = "mage"
 
+/obj/item/roguekey/seneschal
+	name = "seneschal's key"
+	desc = "Dusted, oiled, and well-maintained!"
+	icon_state = "sidefolk"
+	lockid = "seneschal"
+
+
 /obj/item/roguekey/manor/knight
 	name = "retinue bedroom I key"
 	lockid = "manor_knight_one"
