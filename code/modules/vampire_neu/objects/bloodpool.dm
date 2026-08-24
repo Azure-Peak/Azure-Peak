@@ -280,6 +280,8 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 		return "The crucible cannot bind a servant before my bloodline is chosen."
 	if(current < SERVANT_COST)
 		return "The crucible needs [SERVANT_COST] vitae in the cup."
+	if(HAS_TRAIT(user, TRAIT_NOVAMPMITOSIS))
+		return "I am unable to summon a servant from this." //hardlock trait
 	return ""
 
 /obj/structure/vampire/bloodpool/proc/can_summon_personal_servant(mob/living/user)
@@ -1054,16 +1056,21 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 			SSjob.EquipRank(target, "Vampire Servant", TRUE) //Labor non-combat roles, they still have some vampyric Progression and can become semi-combat roles.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_NEONATE) //GENERATION_THINBLOOD is intentionally removed
 			target.mind.add_antag_datum(new_antag)
+			ADD_TRAIT(target, TRAIT_NOVAMPMITOSIS, TRAIT_GENERIC) //no bloodpool vamps
 		if("Vampire Guard")
 			SSjob.EquipRank(target, "Vampire Guard", TRUE) //Combat-focused roles, they can level vampyric powers partly to become pretty scary to fight.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_NEONATE)
 			target.mind.add_antag_datum(new_antag)
+			ADD_TRAIT(target, TRAIT_NOVAMPMITOSIS, TRAIT_GENERIC) //no bloodpool vamps
 		if("Vampire Spawn")
 			SSjob.EquipRank(target, "Vampire Spawn", TRUE) //Rare and powerful champions, they can level vampyric powers to become minibosses, alongside siring 5 additional vampyres of a lower generation.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_ANCILLAE)
 			target.mind.add_antag_datum(new_antag)
-	ADD_TRAIT(target, TRAIT_BLOODPOOL_BORN, TRAIT_GENERIC)
-	ADD_TRAIT(target, TRAIT_DUSTABLE, TRAIT_GENERIC) //They cannot be cured unlike sired vampires, so we let them just dust on death. They get good enough skills to make up for it, less back and forth with revival checking "hey can I cure this one?".
+			//bloodpool vamps, because they're already T3 and exclusive to VL.
+
+	//All servantry get these traits
+	ADD_TRAIT(target, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC) //prevents deconversion, full stop
+	ADD_TRAIT(target, TRAIT_DUSTABLE, TRAIT_GENERIC) //They cannot be cured, so we let them dust on death. Also because lore-wise you're also ancient, you date far-too-far-back to survive a lethal blow in vessel.
 
 /datum/vampire_project/servant/servant_t1
 	display_name = "Summon Vampyre Servant"

@@ -45,6 +45,12 @@
 	icon_state = "desertskirt"
 	item_state = "desertskirt"
 
+/obj/item/clothing/under/roguetown/skirt/short
+	name = "short skirt"
+	desc = "short, flowing, and not very modest."
+	item_state = "surcoatshortskirt"
+	icon_state = "surcoatshortskirt"
+
 /obj/item/clothing/under/roguetown/skirt/baotha
 	name = "saccharine fauldcoat"
 	desc = "Only did Belladona's haze clear, once She heard Eora's gasps and Ravox's fright; what else could She've done besides fleeing the heavens?"

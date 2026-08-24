@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/fire_strike
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Fire Strike"
+	expose_caster_on_deflect = FALSE
 	desc = "Call down a fireball on a location after a short delay. It damages structures across a 5x5 area and leaves a cloud of smoke and a curtain of flame in its wake. You are not immune to your own fire.\n\
 	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	button_icon_state = "grenzel_meteor"
@@ -79,7 +80,8 @@
 			if(spell_guard_check(L, TRUE))
 				continue
 			if(istype(caster) && ishuman(L))
-				arcyne_strike(caster, L, null, mob_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Fire Strike", damage_type = BURN, skip_animation = TRUE)
+				if(arcyne_strike(caster, L, null, mob_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Fire Strike", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustFireLoss(mob_damage)
 			apply_scorch_stack(L, 2)

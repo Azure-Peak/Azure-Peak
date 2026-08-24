@@ -56,6 +56,10 @@
 	max_w_class = WEIGHT_CLASS_NORMAL
 	not_while_equipped = FALSE
 
+/datum/component/storage/concrete/roguetown/coin_pouch/New(list/raw_args)
+	. = ..()
+	cant_hold = typecacheof(list(/obj/item/smallDelivery))
+
 /datum/component/storage/concrete/roguetown/coin_pouch/cloth
 	screen_max_rows = 2
 	screen_max_columns = 1

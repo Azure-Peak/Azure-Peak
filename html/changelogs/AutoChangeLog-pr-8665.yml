@@ -1,5 +1,0 @@
-author: "Aeiraea"
-delete-after: True
-changes:
-  - bugfix: "Fixed a few more of the ported RMH clothing items not appearing within the crafting menu, loadout, and merchant's wardrobe."
-  - code_imp: "Properly capitalized two clothing items within the loadout and changed the name of the 'whitepsydontabard' to give the new and proper toga its name."

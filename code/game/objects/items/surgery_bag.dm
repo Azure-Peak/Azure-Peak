@@ -5,7 +5,7 @@
 	mob_overlay_icon = null
 	dropshrink = 0.9
 	icon_state = "surgery_bag"
-	slot_flags = ITEM_SLOT_HIP
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
 	equip_sound = 'sound/blank.ogg'

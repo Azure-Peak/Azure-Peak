@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/cataclysm
 	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Cataclysm"
+	expose_caster_on_deflect = FALSE
 	desc = "Let the mountain fall. Conjure a hammer of pure arcyne force and hurl it at a target area. \
 		On impact it explodes, crushing everyone in a 5x5 area for 75 blunt damage and leaving them Vulnerable. \
 		Requires 7 momentum. Overcharged at 10 momentum: 135 damage. \

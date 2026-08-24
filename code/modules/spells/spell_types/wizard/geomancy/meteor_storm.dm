@@ -6,6 +6,7 @@
 /datum/action/cooldown/spell/meteor_strike
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
 	name = "Meteor Storm"
+	expose_caster_on_deflect = FALSE
 	desc = "Call down a devastating barrage of nine boulders onto a wide area. \
 	Each boulder deals heavy damage on direct hit, splashes nearby, and sends gravel fragments flying. \
 	Deals 2x damage to structures. \
@@ -118,10 +119,11 @@
 			continue
 		var/actual_damage = direct_damage
 		if(istype(caster) && ishuman(L))
-			arcyne_strike(caster, L, null, actual_damage, pick(random_zones), \
+			if(arcyne_strike(caster, L, null, actual_damage, pick(random_zones), \
 				BCLASS_BLUNT, spell_name = "Meteor Strike", \
 				damage_type = BRUTE, \
-				skip_animation = TRUE)
+				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				continue
 		else
 			L.adjustBruteLoss(actual_damage)
 		L.Knockdown(3)
@@ -137,10 +139,11 @@
 				continue
 			var/actual_damage = splash_damage
 			if(istype(caster) && ishuman(L))
-				arcyne_strike(caster, L, null, actual_damage, pick(random_zones), \
+				if(arcyne_strike(caster, L, null, actual_damage, pick(random_zones), \
 					BCLASS_BLUNT, spell_name = "Meteor Strike", \
 					damage_type = BRUTE, \
-					skip_animation = TRUE)
+					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustBruteLoss(actual_damage)
 	// Spawn gravel fragments

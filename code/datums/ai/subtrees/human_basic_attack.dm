@@ -55,11 +55,14 @@
 		var/obj/item/offhand = pawn.get_inactive_held_item()
 		if(isweapon(offhand) && !istype(offhand, /obj/item/rogueweapon/shield))
 			pawn.swap_hand()
+	else if(istype(held_item, /obj/item/gun))
+		if(controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON])
+			_restore_stashed_weapon(controller, pawn)
 	else if(!isweapon(held_item))
 		pawn.swap_hand()
 		if(pawn.belt)
 			for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
-				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
+				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE, bypass_equip_delay_self = TRUE))
 					break
 
 	var/list/possible_intents = list()
@@ -81,11 +84,11 @@
 	var/datum/targetting_datum/td = controller.blackboard[targetting_datum_key]
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!istype(held_weapon, /obj/item/rogueweapon))
+	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
 		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 			if(!isturf(candidate.loc))
 				continue
-			if(pawn.put_in_active_hand(candidate))
+			if(_draw_into_hand(pawn, candidate, active = TRUE))
 				held_weapon = candidate
 				break
 
