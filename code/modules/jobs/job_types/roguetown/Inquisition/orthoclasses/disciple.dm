@@ -2,15 +2,12 @@
 	name = "Disciple"
 	tutorial = "Psydonite monks, practiced in both martiality and scripture. Spilling blood on sacred grounds is considered 'sinful' to the clergymen, though no qualms are spared towards knocking someone's lights out."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/disciple
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ORTHODOXIST)
 	traits_applied = list(
-		TRAIT_CIVILIZEDBARBARIAN,
-		TRAIT_BLOOD_RESISTANCE,
-		TRAIT_STEELHEARTED,
-		TRAIT_INQUISITION
+		TRAIT_CIVILIZEDBARBARIAN
 	)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -43,27 +40,26 @@
 /datum/outfit/job/roguetown/disciple/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
-		var/weapons = list("Abboteer - Master Pugilist, Weaponless Oath & No Malus", "Pugilist - Master Athletics, Pain Resistance", "Quarterstaff - Expert Staves, +I PER / +I INT", "Katar", "Knuckledusters")
+		var/weapons = list("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling", "Pugilist - Master Athletics, Pain Resistance", "Quarterstaff - Expert Staves, +I PER", "Katar", "Knuckledusters")
 		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 		switch(weapon_choice)
-			if("Abboteer - Master Pugilist, Weaponless Oath & No Malus")
+			if("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling")
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
-				ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_WEAPONLESS, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 				H.change_stat(STATKEY_INT, 1)
 				H.change_stat(STATKEY_SPD, 1)
 			if("Pugilist - Master Athletics, Pain Resistance")
 				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
-				ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
-			if("Quarterstaff - Expert Staves, +I PER / +I INT")
+				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
+			if("Quarterstaff - Expert Staves, +I PER")
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -77,17 +73,6 @@
 			if("Knuckledusters")
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/knuckledusters/psy
-		var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves for non-magic guys.
-		var/technique_choice = input(H,"Choose your TECHNIQUE.", "DECIMATE AND DOMINATE WITH FLAIR.") as anything in techniques
-		switch(technique_choice)
-			if("Dropkick - Pushback + Extra Damage")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
-			if("Chokeslam - Stamina Damage")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
-			if("Stunner - Dazed Debuff")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
-			if("Headbutt - Vulnerable Debuff")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
@@ -98,7 +83,8 @@
 	id = /obj/item/clothing/ring/signet/psy
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/disciple //a leather armor.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/disciple //a heavy gambeson.
 
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)

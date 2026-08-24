@@ -25,6 +25,10 @@
 	can_hold = typecacheof(list(
 	/obj/item/rogueweapon/surgery,
 	/obj/item/needle,
+	/obj/item/rogueweapon/huntingknife/stoneknife,
+	/obj/item/reagent_containers/glass/bottle/rogue/beer,
+	/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab,
+	/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum,
 	/obj/item/natural/worms/leech,
 	/obj/item/reagent_containers/lux,
 	/obj/item/reagent_containers/lux_impure,
@@ -51,6 +55,10 @@
 	screen_max_columns = 1
 	max_w_class = WEIGHT_CLASS_NORMAL
 	not_while_equipped = FALSE
+
+/datum/component/storage/concrete/roguetown/coin_pouch/New(list/raw_args)
+	. = ..()
+	cant_hold = typecacheof(list(/obj/item/smallDelivery))
 
 /datum/component/storage/concrete/roguetown/coin_pouch/cloth
 	screen_max_rows = 2

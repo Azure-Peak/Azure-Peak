@@ -1,28 +1,6 @@
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor
-	slot_flags = null
-	name = "gnoll skin"
-	desc = "an impenetrable hide of graggar's fury"
-	mob_overlay_icon = 'icons/roguetown/mob/monster/gnoll.dmi'
-	icon = 'icons/roguetown/mob/monster/gnoll.dmi'
-	icon_state = "berserker"
-	body_parts_covered = FULL_BODY
-	body_parts_inherent = FULL_BODY
-	//slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	armor = ARMOR_GNOLL_STANDARD
-	blocksound = SOFTHIT
-	blade_dulling = DULLING_BASHCHOP
-	sewrepair = FALSE
-	max_integrity = 475
-	item_flags = DROPDEL
-
-	auto_repair_mode = TRUE
-	relative_repair_interval = 15 SECONDS
-	interrupt_damount = 15
-	blue_to_integ_ratio = 0.6
-
 // Scaling: No storyteller slot caps or solo event. Gnoll slots come from:
-//  - The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)
-//  - Migrant waves (+2 slots, capped by storyteller maxcap)
+//	- The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)
+//	- Migrant waves (+2 slots, capped by storyteller maxcap)
 /datum/antagonist/gnoll
 	name = "Gnoll"
 	roundend_category = "Gnolls"
@@ -71,9 +49,10 @@
 /obj/item/rogueweapon/werewolf_claw/gnoll
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
-	wdefense = 5
-	force = 30
+	wdefense = 6
+	force = 27
 	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
+	special = /datum/special_intent/shin_swipe
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
 	icon_state = "claw_r"
@@ -89,14 +68,18 @@
 	blade_class = BCLASS_CHOP
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"
+	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	hitsound = "genslash"
-	penfactor = PEN_LIGHT
+	penfactor = PEN_MEDIUM
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
 	miss_sound = "bluntwooshlarge"
 	item_d_type = "slash"
-	damfactor = 1.2
+	damfactor = 1.4
+	swingdelay = 0.8 SECONDS
+	swingdelay_type = SWINGDELAY_PENALTY
+	clickcd = CLICK_CD_CHARGED
 
 /datum/intent/mace/smash/werewolf/gnoll
 	name = "thrash"
@@ -109,7 +92,7 @@
 /datum/intent/simple/gnoll_cut
 	name = "cutting claw"
 	hitsound = "genslash"
-	penfactor = PEN_MEDIUM
+	penfactor = PEN_LIGHT
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
@@ -125,3 +108,8 @@
 	miss_text = "strikes the air!"
 	miss_sound = "bluntwooshlarge"
 	attack_verb = list("punches", "strikes", "tears")
+
+/obj/item/storage/backpack/rogue/satchel/gnoll
+	name = "stained satchel"
+	desc = "A fetid sack fashioned into a storage accessory. Whatever's put there inevitably comes out twice the bloody."
+	mob_overlay_icon = null

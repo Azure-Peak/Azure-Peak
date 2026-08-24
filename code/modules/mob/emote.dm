@@ -1,7 +1,7 @@
 //The code execution of the emote datum is located at code/datums/emotes.dm
-/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE)
+/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE, quiet = FALSE)
 	var/oldact = act
-	act = lowertext(act)
+	act = LOWER_TEXT(act)
 
 	if(HAS_TRAIT(src, TRAIT_NOBREATH))
 		var/static/list/nobreath_blocked = list(
@@ -71,8 +71,10 @@
 	else
 		for(var/datum/emote/P in key_emotes)
 			mute_time = P.mute_time
-			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal)))
+			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal), quiet))
 				break
+		if(intentional)
+			SEND_SIGNAL(src, COMSIG_MOB_EMOTED, act, intentional)
 
 	if(custom_me)
 		next_me_emote = world.time + mute_time
@@ -129,7 +131,7 @@
 	return FALSE
 
 
-/datum/emote/spin/run_emote(mob/user, params ,  type_override, intentional)
+/datum/emote/spin/run_emote(mob/user, params ,	type_override, intentional)
 	. = ..()
 	if(.)
 		user.spin(20, 1)
@@ -162,7 +164,7 @@
 		var/sound/tmp_sound = P.get_sound(src)
 		if(!istype(tmp_sound))
 			tmp_sound = sound(get_sfx(tmp_sound))
-		
+
 		if(tmp_sound)
 			tmp_sound.frequency = pitch
 			if(tmp_sound.file)

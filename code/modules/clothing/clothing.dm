@@ -15,6 +15,9 @@
 	var/visor_flags = 0			//flags that are added/removed when an item is adjusted up/down
 	var/visor_flags_inv = 0		//same as visor_flags, but for flags_inv
 	var/visor_flags_cover = 0	//same as above, but for flags_cover
+	var/adjusted_inv_mask = NONE
+	var/adjusted_inv_value = NONE
+	var/snouted = FALSE
 //what to toggle when toggled with weldingvisortoggle()
 	var/visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT | VISOR_VISIONFLAGS | VISOR_DARKNESSVIEW | VISOR_INVISVIEW
 	lefthand_file = 'icons/mob/inhands/clothing_lefthand.dmi'
@@ -73,13 +76,13 @@
 	var/boobed_detail = TRUE
 	var/sleeved_detail = TRUE
 	var/malumblessed_c = FALSE
-	var/list/worn_offsets = null  // in case it needs an extra offset to fit in a 32x32 .dmi file. Originally made by Sigma.
+	var/list/worn_offsets = null	// in case it needs an extra offset to fit in a 32x32 .dmi file. Originally made by Sigma.
 	var/list/original_armor //For restoring broken armor
 
 /obj/item/clothing/New()
 	..()
 
-/obj/item/clothing/Initialize()
+/obj/item/clothing/Initialize(mapload)
 	. = ..()
 	if(max_integrity && integrity_failure && integrity_failure == ARMOR_INTEG_FAILURE)
 		max_integrity += (max_integrity * 0.11142857143)	// don't ask
@@ -97,6 +100,41 @@
 		. += span_info("It looks like it will protect me from the <b>cold</b>.")
 	if(heat_protection)
 		. += span_info("It looks like it will protect me from the <b>heat</b>.")
+
+/obj/item/clothing/proc/persist_inv_flags(flag)
+	adjusted_inv_mask |= flag
+	adjusted_inv_value &= ~flag
+	adjusted_inv_value |= (flags_inv & flag)
+
+/obj/item/clothing/proc/adjust_inv_flags(base)
+	if(!adjusted_inv_mask)
+		return base
+	return (base & ~adjusted_inv_mask) | (adjusted_inv_value & adjusted_inv_mask)
+
+/obj/item/clothing/proc/is_snoutable()
+	if(!mob_overlay_icon)
+		return FALSE
+	var/icon/worn = new(mob_overlay_icon)
+	return ("[initial(icon_state)]_snout" in worn.IconStates())
+
+/obj/item/clothing/proc/toggle_snout()
+	if(snouted)
+		snouted = FALSE
+		icon_state = initial(icon_state)
+	else
+		if(!is_snoutable())
+			return FALSE
+		snouted = TRUE
+		icon_state = "[initial(icon_state)]_snout"
+	update_icon()
+	return TRUE
+
+/obj/item/clothing/proc/restore_snout()
+	if(snouted)
+		icon_state = "[initial(icon_state)]_snout"
+
+/obj/item/proc/get_detail_state(base_state)
+	return base_state
 
 /obj/item/proc/get_detail_tag() //this is for extra layers on clothes
 	return detail_tag
@@ -254,7 +292,7 @@
 			return TRUE
 		return FALSE
 
-/obj/item/clothing/Initialize()
+/obj/item/clothing/Initialize(mapload)
 	if(CHECK_BITFIELD(clothing_flags, VOICEBOX_TOGGLABLE))
 		actions_types += /datum/action/item_action/toggle_voice_box
 	. = ..()
@@ -437,20 +475,20 @@
 	armor = original_armor
 
 /*
-SEE_SELF  // can see self, no matter what
-SEE_MOBS  // can see all mobs, no matter what
-SEE_OBJS  // can see all objs, no matter what
+SEE_SELF	// can see self, no matter what
+SEE_MOBS	// can see all mobs, no matter what
+SEE_OBJS	// can see all objs, no matter what
 SEE_TURFS // can see all turfs (and areas), no matter what
 SEE_PIXELS// if an object is located on an unlit area, but some of its pixels are
-          // in a lit area (via pixel_x,y or smooth movement), can see those pixels
-BLIND     // can't see anything
+			// in a lit area (via pixel_x,y or smooth movement), can see those pixels
+BLIND		// can't see anything
 */
 
 /proc/generate_female_clothing(index,t_color,icon,type)
 	var/icon/female_clothing_icon	= icon("icon"=icon, "icon_state"=t_color)
 	var/icon/female_s				= icon("icon"='icons/mob/clothing/under/masking_helpers.dmi', "icon_state"="[(type == FEMALE_UNIFORM_FULL) ? "female_full" : "female_top"]")
 	female_clothing_icon.Blend(female_s, ICON_MULTIPLY)
-	female_clothing_icon 			= fcopy_rsc(female_clothing_icon)
+	female_clothing_icon			= fcopy_rsc(female_clothing_icon)
 	GLOB.female_clothing_icons[index] = female_clothing_icon
 
 /proc/generate_dismembered_clothing(index, t_color, icon, sleeveindex, sleevetype)
@@ -467,7 +505,7 @@ BLIND     // can't see anything
 				dismembered.Blend(l_mask, ICON_MULTIPLY)
 			if(3)
 				dismembered.Blend(r_mask, ICON_MULTIPLY)
-		dismembered 			= fcopy_rsc(dismembered)
+		dismembered			= fcopy_rsc(dismembered)
 
 		GLOB.dismembered_clothing_icons[index] = dismembered
 
@@ -493,7 +531,7 @@ BLIND     // can't see anything
 		return 0
 
 	var/list/modes = list("Off", "Binary vitals", "Exact vitals", "Tracking beacon")
-	var/switchMode = input("Select a sensor mode:", "Suit Sensor Mode", modes[sensor_mode + 1]) in modes
+	var/switchMode = input(usr, "Select a sensor mode:", "Suit Sensor Mode", modes[sensor_mode + 1]) in modes
 	if(get_dist(usr, src) > 1)
 		to_chat(usr, span_warning("I have moved too far away!"))
 		return
@@ -727,3 +765,21 @@ BLIND     // can't see anything
 			return VISMSG_ARMOR_INT_STAGETWO
 		if(0 to 0.24)
 			return VISMSG_ARMOR_INT_STAGETHREE
+
+
+/// Pardon the goofy name, but this proc in essence turns the item into an aesthetic-only loadout variant.
+/// Please do NOT use this with medium or heavy AC armor if you can, glamour plate armor is not an intuitive good thing.
+/obj/item/clothing/proc/loadoutize()
+	armor_class = ARMOR_CLASS_NONE
+	if(armor)
+		qdel(armor)
+		armor = new /datum/armor()
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	obj_integrity = max_integrity
+	blocksound = null
+	if(slot_flags & (ITEM_SLOT_ARMOR | ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK))
+		slot_flags |= ITEM_SLOT_ARMOR | ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK
+	if((grid_width > 64 ) || (grid_height > 64))	// We're an item that's 2+ tiles across / tall.
+		// We make it fit into generic 2x2 aesthetic storage. Warning. May cause weirdness if we start loadoutizing everything all willy-nilly.
+		grid_width = 64
+		grid_height = 64

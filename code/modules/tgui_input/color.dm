@@ -21,9 +21,6 @@
 	if(isnull(user.client))
 		return null
 
-	// Client does NOT have tgui_input on: Returns regular input
-	if(!user.client.prefs.tgui_pref)
-		return input(user, message, title, default) as color|null
 	var/datum/tgui_color_picker/picker = new(user, message, title, default, timeout, autofocus, ui_state, named_presets)
 	picker.ui_interact(user)
 	picker.wait()
@@ -125,7 +122,7 @@
 		return
 	switch(action)
 		if("submit")
-			var/raw_data = lowertext(params["entry"])
+			var/raw_data = LOWER_TEXT(params["entry"])
 			var/hex = sanitize_hexcolor(raw_data)
 			if (!hex)
 				return
@@ -142,8 +139,8 @@
 			SStgui.close_uis(src)
 			return TRUE
 		if("preset")
-			var/raw_data = lowertext(params["color"])
-			var/index = lowertext(params["index"])
+			var/raw_data = LOWER_TEXT(params["color"])
+			var/index = LOWER_TEXT(params["index"])
 			var/list/entries = splittext(preset_colors, ";")
 			while(LAZYLEN(entries) < 20)
 				entries += "#FFFFFF"

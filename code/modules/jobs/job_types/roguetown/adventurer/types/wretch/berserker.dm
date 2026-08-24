@@ -2,7 +2,7 @@
 	name = "Berserker"
 	tutorial = "You are a warrior feared for your brutality, dedicated to using your might for your own gain. Might equals right, and you are the reminder of such a saying."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/wretch/berserker
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
 	class_select_category = CLASS_CAT_WARRIOR
@@ -34,8 +34,8 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 
 /datum/outfit/job/roguetown/wretch/berserker
 	var/subclass_selected
@@ -67,8 +67,8 @@
 			if("Light Armor")
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 			if("Bare Skin")
-				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker/chest
-				shirt = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/berzerker //light steel maille
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/berzerker //fullbody leather armor
 		var/list/main_choices = list("Unarmed Master", "Martial Expert") // Unarmed focuses on master punching and wrestling moves, Martial gives you two expert weapon skills to be flexible
 		var/category_choice = input(H, "Choose your MEANS OF VIOLENCE.", "SMASH OR SLASH!!") as anything in main_choices
 		switch(category_choice)
@@ -76,17 +76,6 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted // apperantly normal barb gets em so for consistency sake
-				var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves
-				var/technique_choice = input(H,"Choose your TECHNIQUE.", "TOSS THEM.") as anything in techniques
-				switch(technique_choice)
-					if("Dropkick - Pushback + Extra Damage")
-						H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
-					if("Chokeslam - Stamina Damage")
-						H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
-					if("Stunner - Dazed Debuff")
-						H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
-					if("Headbutt - Vulnerable Debuff")
-						H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 				var/list/unarmed_options = list("Katar", "Knuckledusters", "Punch Dagger")
 				var/weapon_choice = input(H, "Choose how you PUNCH!", "BREAK THEIR BONES.") as anything in unarmed_options
 				switch(weapon_choice)
@@ -96,7 +85,7 @@
 						gloves = /obj/item/clothing/gloves/roguetown/knuckles
 					if("Punch Dagger")
 						beltr = /obj/item/rogueweapon/katar/punchdagger
-			if("Martial Expert") // designed to compete with unarmed by giving you alternatives to approaching fights- only expert 
+			if("Martial Expert") // designed to compete with unarmed by giving you alternatives to approaching fights- only expert
 				var/list/martial_options = list("Greatsword", "Battle Axe", "Grand Mace", "Longsword")
 				var/weapon_choice = input(H, "Choose your WEAPONS of WAR!", "SPILL THEIR ENTRAILS.") as anything in martial_options
 				switch(weapon_choice)

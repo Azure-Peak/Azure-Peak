@@ -125,7 +125,7 @@
 	preset_pool = GAMEMODE_POOL_NOANTAG
 	block_hard = TRUE
 	block_soft = FALSE
-	allow_dreamwalker = TRUE
+	allow_dreamwalker = FALSE
 	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC	// max 3
 	wretch_slot_cap = 12
 	roundstart_prob = 50

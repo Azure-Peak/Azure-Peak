@@ -161,10 +161,6 @@
 	name = "Bun (Large)"
 	icon_state = "bun-large"
 
-/datum/sprite_accessory/hair/head/manbun
-	name = "Bun (Manbun)"
-	icon_state = "bun-manbun"
-
 /datum/sprite_accessory/hair/head/tightbun
 	name = "Bun (Tight)"
 	icon_state = "bun-tight"
@@ -296,10 +292,6 @@
 /datum/sprite_accessory/hair/head/highfade
 	name = "Fade (High)"
 	icon_state = "fade-high"
-
-/datum/sprite_accessory/hair/head/baldfade
-	name = "Fade (Bald)"
-	icon_state = "fade-bald"
 
 /datum/sprite_accessory/hair/head/father
 	name = "Father"
@@ -445,10 +437,6 @@
 /datum/sprite_accessory/hair/head/reversemohawk
 	name = "Mohawk (Reverse)"
 	icon_state = "mohawk-reverse"
-
-/datum/sprite_accessory/hair/head/shavedmohawk
-	name = "Mohawk (Shaved)"
-	icon_state = "mohawk-shaved"
 
 /datum/sprite_accessory/hair/head/unshavenmohawk
 	name = "Mohawk (Big)"
@@ -1160,23 +1148,23 @@
 
 /datum/sprite_accessory/hair/head/mcsqueeb
 	name = "Ye Old McSqueeb"
-	icon_state = "mcsqueeb"	
+	icon_state = "mcsqueeb"
 
 /datum/sprite_accessory/hair/head/highlander
 	name = "Highlander"
-	icon_state = "highlander"	
+	icon_state = "highlander"
 
 /datum/sprite_accessory/hair/head/royalcurls
 	name = "Royal Curls"
-	icon_state = "royalcurls"	
+	icon_state = "royalcurls"
 
 /datum/sprite_accessory/hair/head/dreadlocksmessy
 	name = "Dreadlocks Messy"
-	icon_state = "dreadlong"	
+	icon_state = "dreadlong"
 
 /datum/sprite_accessory/hair/head/suave
 	name = "Suave"
-	icon_state = "suave"	
+	icon_state = "suave"
 
 /datum/sprite_accessory/hair/head/kusanagi_alt
 	name = "Kusanagi (Alt)"
@@ -1710,6 +1698,10 @@
 /datum/sprite_accessory/hair/head/lizbeth
 	name = "Lizbeth"
 	icon_state = "lizbeth"
+
+/datum/sprite_accessory/hair/head/skunky
+	name = "Skunky"
+	icon_state = "skunky"
 
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian

@@ -180,23 +180,23 @@
 	return owner.current == SSticker.rulermob
 
 /datum/antagonist/aspirant/roundend_report()
-	to_chat(world, span_header(" * [name] * "))
+	to_world(span_header(" * [name] * "))
 
 	if(objectives.len)
 		var/win = TRUE
 		var/objective_count = 1
 		for(var/datum/objective/objective in objectives)
 			if(objective.check_completion())
-				to_chat(world, "<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='greentext'>TRIUMPH!</span>")
+				to_world("<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='greentext'>TRIUMPH!</span>")
 				owner.adjust_triumphs(objective.triumph_count)
 			else
-				to_chat(world, "<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='redtext'>FAIL.</span>")
+				to_world("<B>Goal #[objective_count]</B>: [objective.explanation_text] <span class='redtext'>FAIL.</span>")
 				win = FALSE
 			objective_count++
 		if(win)
-			to_chat(world, span_greentext("The Aspirant has ascended! SUCCESS!"))
+			to_world(span_greentext("The Aspirant has ascended! SUCCESS!"))
 		else
-			to_chat(world, span_redtext("The Aspirant was thwarted! FAIL!"))
+			to_world(span_redtext("The Aspirant was thwarted! FAIL!"))
 
 /datum/antagonist/aspirant/ruler/roundend_report()
 	to_chat(owner, span_header(" * [name] * "))

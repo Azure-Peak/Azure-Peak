@@ -113,9 +113,9 @@
 	result = list(
 		/obj/item/reagent_containers/peppermill
 		)
-	reqs = list(/obj/item/grown/log/tree/small = 1, /obj/item/natural/whetstone = 1, /obj/item/reagent_containers/food/snacks/pepper = 5) //Currently unrefillable, so see this as an equal exchange.
-	skillcraft = /datum/skill/craft/carpentry //If this feels a bit too oppressive, try reducing the difficulty level a bit. Remember that it shouldn't be easier to obtain than importing, otherwise.
-	craftdiff = 4
+	reqs = list(/obj/item/grown/log/tree/small = 1, /obj/item/reagent_containers/food/snacks/pepper = 5) //Currently unrefillable, so see this as an equal exchange.
+	skillcraft = /datum/skill/craft/cooking //If this feels a bit too oppressive, try reducing the difficulty level a bit. Remember that it shouldn't be easier to obtain than importing, otherwise.
+	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/survival/woodtray
 	name = "wooden trays (x2)"
@@ -155,6 +155,72 @@
 		/obj/item/soap,
 		)
 	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1)
+
+/datum/crafting_recipe/roguetown/survival/soap/rosa
+	name = "rosa soap (3x)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/soap/rosa,
+		/obj/item/soap/rosa,
+		/obj/item/soap/rosa,
+		)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1, /obj/item/alch/rosa = 1)
+
+/datum/crafting_recipe/roguetown/survival/soap/citrus
+	name = "citrus soap (3x)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/soap/citrus,
+		/obj/item/soap/citrus,
+		/obj/item/soap/citrus,
+		)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1, /obj/item/reagent_containers/food/snacks/grown/fruit/lemon = 1)
+
+/datum/crafting_recipe/roguetown/survival/soap/tea
+	name = "tea-leaf soap (3x)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/soap/tea,
+		/obj/item/soap/tea,
+		/obj/item/soap/tea,
+		)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1, /obj/item/reagent_containers/food/snacks/grown/tea = 1)
+
+/datum/crafting_recipe/roguetown/survival/soap/mana
+	name = "manabloom soap (3x)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/soap/mana,
+		/obj/item/soap/mana,
+		/obj/item/soap/mana,
+		)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1, /obj/item/alch/manabloompowder = 1)
+
+/datum/crafting_recipe/roguetown/survival/soap/calendula
+	name = "calendula soap (3x)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/soap/calendula,
+		/obj/item/soap/calendula,
+		/obj/item/soap/calendula,
+		)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1, /obj/item/alch/calendula = 1)
+
+/datum/crafting_recipe/roguetown/survival/soap/jackberry
+	name = "jackberry soap (3x)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/soap/jackberry,
+		/obj/item/soap/jackberry,
+		/obj/item/soap/jackberry,
+		)
+	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1, /obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
 
 /datum/crafting_recipe/roguetown/survival/candle
 	name = "candle (x3)"

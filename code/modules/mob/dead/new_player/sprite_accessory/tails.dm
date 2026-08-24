@@ -411,6 +411,25 @@
 	color_keys = 3
 	color_key_names = list("Tail", "Tail Fluff", "Tail Barb")
 
+/datum/sprite_accessory/tail/goblin1
+	name = "Goblin"
+	icon_state = "goblintail"
+
+/datum/sprite_accessory/tail/goblin2
+	name = "Goblin (Impaler)"
+	icon_state = "impgob"
+
+/datum/sprite_accessory/tail/goblin3
+	name = "Goblin (Tiefling)"
+	icon_state = "tiefgob"
+
+/datum/sprite_accessory/tail/goblin4
+	name = "Goblin (Fluffy)"
+	icon_state = "fluffgob"
+	color_keys = 2
+	color_key_names = list("Tail", "Tail Fluff")
+
+
 //From Caustic Cove
 /datum/sprite_accessory/tail/large_snake
 	icon = 'icons/mob/tails/large_snake.dmi'
@@ -425,7 +444,7 @@
 /datum/sprite_accessory/tail/large_snake_plain
 	icon = 'icons/mob/tails/large_snake.dmi'
 	name = "Large Snake Plain"
-	icon_state = "large_snake_plain"	
+	icon_state = "large_snake_plain"
 
 /datum/sprite_accessory/tail/large_snake_plain/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return TRUE	//Always visible.

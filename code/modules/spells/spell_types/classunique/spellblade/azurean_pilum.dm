@@ -83,7 +83,6 @@
 	woundclass = BCLASS_STAB
 	nodamage = FALSE
 	speed = 1.5
-	npc_simple_damage_mult = 1.5
 	hitsound = 'sound/combat/hits/bladed/genthrust (1).ogg'
 	/// How many frost stacks to apply on hit
 	var/frost_stacks = 1
@@ -103,7 +102,7 @@
 		apply_frost_stack(L, frost_stacks)
 		to_chat(L, span_danger("An icy pilum strikes true - the cold seeps into my bones!"))
 		if(firer)
-			log_combat(firer, L, "pilum-struck")
+			log_combat(firer, L, "pilum-struck", zone=def_zone)
 
 /obj/projectile/magic/azurean_pilum/empowered
 	name = "Empowered Azurean Pilum"

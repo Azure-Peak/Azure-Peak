@@ -1,6 +1,7 @@
 /mob/living/carbon/human/species/skeleton/npc/dungeon/lich
 	threat_point = THREAT_ELITE
 	skel_fragile = FALSE
+	skel_untamable = TRUE //No taming this group w/ tame undead
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dungeon/lich
 
 /datum/outfit/job/roguetown/npc/skeleton/dungeon/lich/pre_equip(mob/living/carbon/human/H)
@@ -22,21 +23,21 @@
 	H.faction = list(FACTION_LICH)
 
 
-	H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, 1, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/craft/masonry, 1, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/craft/crafting, 1, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/craft/sewing, 1, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/masonry, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/crafting, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
 
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 
 	H.set_patron(/datum/patron/inhumen/zizo)
 	if(prob(50))

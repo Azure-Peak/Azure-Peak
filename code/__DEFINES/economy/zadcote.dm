@@ -2,6 +2,7 @@
 #define ZADCOTE_FACTION_STEWARD "steward"
 #define ZADCOTE_FACTION_MERCHANT "merchant"
 #define ZADCOTE_FACTION_BATHHOUSE "bathhouse"
+#define ZADCOTE_FACTION_HAND "hand"
 
 #define ZADCOTE_SLOT_CAP 10
 #define ZADCOTE_FLIGHT_CAP 3

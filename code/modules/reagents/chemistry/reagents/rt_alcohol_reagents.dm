@@ -49,6 +49,7 @@
 
 /datum/reagent/consumable/ethanol/aqua_vitae
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Aqua Vitae"
 	boozepwr = 150
 	taste_description = "death"
@@ -172,6 +173,7 @@
 
 /datum/reagent/consumable/ethanol/hagwoodbitter
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_ALE
 	name = "Hagwood Bitter"
 	boozepwr = 25
 	taste_description = "dull crispness"
@@ -180,6 +182,7 @@
 
 /datum/reagent/consumable/ethanol/blackgoat
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_ALE
 	name = "Black Gote Kriek"
 	boozepwr = 25
 	taste_description = "overwhelming sourness"
@@ -187,6 +190,8 @@
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/onion
+	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Onion Cognac"
 	boozepwr = 10
 	taste_description = "spicy sweet malty overtones"
@@ -197,6 +202,7 @@
 
 /datum/reagent/consumable/ethanol/aurorian
 	cuisine = CUISINE_SOUTH_IMPERIAL
+	drink_type = DRINKTYPE_WINE
 	name = "Aurorian"
 	boozepwr = 5
 	taste_description = "subtle herbacious undertones"
@@ -205,6 +211,7 @@
 
 /datum/reagent/consumable/ethanol/fireleaf // cabbbage
 	cuisine = CUISINE_SOUTH_IMPERIAL
+	drink_type = DRINKTYPE_WINE
 	name = "Fireleaf"
 	boozepwr = 2
 	taste_description = "awful liquor"
@@ -233,16 +240,18 @@
 
 /datum/reagent/consumable/ethanol/voddena // Definitely Actually Just Vodka Now.
 	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Voddena"
-	boozepwr = 40  // now it's just vodka
+	boozepwr = 40	// now it's just vodka
 	taste_description = "clean liquor"
 	color = "#a1a1a1"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/sazdistal // Definitely Not Vodka.
 	cuisine = CUISINE_RANESHENI
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Saz Distal"
-	boozepwr = 55  // holy shit
+	boozepwr = 55	// holy shit
 	taste_description = "spicy chilis, ginger, and dirt"
 	color = "#2D1D1D"
 	quality = DRINK_GOOD
@@ -251,7 +260,7 @@
 	cuisine = CUISINE_ETRUSCAN
 	drink_type = DRINKTYPE_SPIRIT
 	name = "Limoncello"
-	boozepwr = 45  // holy shit
+	boozepwr = 45	// holy shit
 	taste_description = "burning and lemony"
 	color = "#d2da63"
 	quality = DRINK_GOOD
@@ -288,6 +297,7 @@
 
 /datum/reagent/consumable/ethanol/whitewine
 	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
 	name = "White Wine"
 	boozepwr = 30
 	taste_description = "sweet white wine"
@@ -296,6 +306,7 @@
 
 /datum/reagent/consumable/ethanol/redwine
 	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
 	name = "Red Wine"
 	boozepwr = 30
 	taste_description = "tannin-stricken wine"
@@ -304,6 +315,7 @@
 
 /datum/reagent/consumable/ethanol/jackberrywine
 	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
 	name = "Jackberry Wine"
 	boozepwr = 15
 	taste_description = "sickly sweet young wine"
@@ -326,6 +338,7 @@
 
 /datum/reagent/consumable/ethanol/plum_wine
 	cuisine = CUISINE_OTAVAIS|CUISINE_ETRUSCAN
+	drink_type = DRINKTYPE_WINE
 	name = "Umeshu"
 	boozepwr = 15
 	taste_description = "sickly sour young wine"
@@ -348,6 +361,7 @@
 
 /datum/reagent/consumable/ethanol/tangerine
 	cuisine = CUISINE_OTAVAIS|CUISINE_ETRUSCAN
+	drink_type = DRINKTYPE_WINE
 	name = "Tangerine Wine"
 	boozepwr = 15
 	taste_description = "bittersweet, citrusy young wine"
@@ -370,6 +384,7 @@
 
 /datum/reagent/consumable/ethanol/raspberry
 	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
 	name = "Raspberry Wine"
 	boozepwr = 15
 	taste_description = "tart sweet young wine"
@@ -392,6 +407,7 @@
 
 /datum/reagent/consumable/ethanol/blackberry
 	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
 	name = "Blackberry Wine"
 	boozepwr = 15
 	taste_description = "bitter tart young wine"
@@ -425,8 +441,8 @@
 
 /datum/reagent/consumable/ethanol/spicedwine/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.2  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.2	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/spicedwine/aged
@@ -438,8 +454,8 @@
 
 /datum/reagent/consumable/ethanol/spicedwine/aged/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.4  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.4  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.4	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.4	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/spicedwine/delectable
@@ -451,8 +467,8 @@
 
 /datum/reagent/consumable/ethanol/spicedwine/delectable/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.7  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.7	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.7	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/cider/ambrosia
@@ -471,11 +487,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(4)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-5	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-5, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -5 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
@@ -486,6 +502,7 @@
 
 /datum/reagent/consumable/ethanol/elfred
 	cuisine = CUISINE_SOUTH_IMPERIAL
+	drink_type = DRINKTYPE_WINE
 	name = "Elven Red"
 	boozepwr = 15
 	taste_description = "delectable fruity notes"
@@ -494,6 +511,7 @@
 
 /datum/reagent/consumable/ethanol/elfblue
 	cuisine = CUISINE_SOUTH_IMPERIAL
+	drink_type = DRINKTYPE_WINE
 	name = "Valmora Blue"
 	boozepwr = 50
 	taste_description = "saintly sweetness"
@@ -503,14 +521,16 @@
 // Azure Drinks
 /datum/reagent/consumable/ethanol/jagdtrunk // JÄGERMEISTER!!!!
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Jagdtrunk"
-	boozepwr = 55  // gotta be stronk
+	boozepwr = 55	// gotta be stronk
 	taste_description = "spicy herbal remedy"
 	color = "#331f18"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/apfelweinheim
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_CIDER
 	name = "Appelheimer"
 	boozepwr = 45
 	taste_description = "tart crispness and mellow sweetness"
@@ -518,6 +538,7 @@
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/rtoper
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Lirvas Toper"
 	boozepwr = 40
 	taste_description = "overwhelming tartness"
@@ -526,6 +547,7 @@
 
 /datum/reagent/consumable/ethanol/nred
 	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_WINE
 	name = "Norwardine Red"
 	boozepwr = 30
 	taste_description = "heavy caramel note and slight bitterness"
@@ -534,6 +556,7 @@
 
 /datum/reagent/consumable/ethanol/gronnmead
 	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_MEAD
 	name = "Ragnar's Brew"
 	boozepwr = 35
 	taste_description = "notes of honey and red berries" //I love red mead ok...
@@ -543,6 +566,7 @@
 //Avar boozes
 
 /datum/reagent/consumable/ethanol/avarmead
+	drink_type = DRINKTYPE_MEAD
 	name = "Zögiin bal"
 	boozepwr = 30
 	taste_description = "spicy honey"
@@ -550,6 +574,7 @@
 	quality = DRINK_GOOD
 
 /datum/reagent/consumable/ethanol/avarrice
+	drink_type = DRINKTYPE_RICEWINE
 	name = "Makkolir"
 	boozepwr = 30
 	taste_description = "tangy sweetness"
@@ -594,6 +619,7 @@
 
 /datum/reagent/consumable/ethanol/kgunplum
 	cuisine = CUISINE_SOUTHEASTERN
+	drink_type = DRINKTYPE_WINE
 	name = "Umeshu"
 	boozepwr = 30
 	taste_description = "a mix of sweet and sour"
@@ -658,7 +684,7 @@
 // Special Drugs
 /datum/reagent/consumable/ethanol/murkwine // not Toilet wine
 	name = "Mürkwine"
-	boozepwr = 50  // bubba's best
+	boozepwr = 50	// bubba's best
 	taste_description = "hints of questionable choices--a bouqet of murkwater and pure ethanol"
 	color = "#4b1e00"
 
@@ -672,8 +698,9 @@
 	M.remove_status_effect(/datum/status_effect/buff/murkwine)
 
 /datum/reagent/consumable/ethanol/nocshine // wait, no, NOCSHINE
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Noc's Shine"
-	boozepwr = 70  // YEEEEEHAAAWWWWWW
+	boozepwr = 70	// YEEEEEHAAAWWWWWW
 	taste_description = "what might be my throat melting and nose hair burning"
 	color = "#d8fbfd63"
 	quality = DRINK_NICE
@@ -699,6 +726,7 @@
 	color = "#b8d4d6"
 
 /datum/reagent/consumable/ethanol/luxwine // oh no.
+	drink_type = DRINKTYPE_WINE
 	name = "Luxintenebre" // lux left w/ sugar in a darkened place for quite some time... U could say... Light in Darkness.....
 	description = "A fermented form of vitae, highly alcoholic, and with a particularly grim taste. Often sought out by the daring, foolhardy, and heretical..."
 	boozepwr = 80 // THE END OF THE FUCKING WORLD.
@@ -708,8 +736,8 @@
 
 /datum/reagent/consumable/ethanol/luxwine/on_mob_life(mob/living/carbon/M) // stolen healthpot code. i am shameless.
 	if(volume > 0.99) // i have no clue if this works.
-		M.adjustBruteLoss(-1  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/ethanol/whipwine // dont ask

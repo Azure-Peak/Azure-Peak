@@ -15,10 +15,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	race = /datum/species/human/northern
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
-					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
+						/obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	faction = list(FACTION_UNDEAD)
 	var/skel_outfit = /datum/outfit/job/roguetown/npc/skeleton
 	var/skel_fragile = FALSE
+	var/skel_untamable = FALSE
 	ambushable = FALSE
 	rot_type = null
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
@@ -32,6 +33,12 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	skel_fragile = TRUE
 	blood_toll_bucket = STATS_KILLED_DEADITES
+	var/list/skel_outfit_spread
+
+/mob/living/carbon/human/species/skeleton/npc/Initialize(mapload)
+	if(length(skel_outfit_spread))
+		skel_outfit = pick(skel_outfit_spread)
+	return ..()
 
 /mob/living/carbon/human/species/skeleton/npc/after_creation()
 	..()
@@ -45,7 +52,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
-/mob/living/carbon/human/species/skeleton/Initialize()
+/mob/living/carbon/human/species/skeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()
 	spawn(10)
@@ -79,6 +86,9 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	if(skel_untamable) //For Re-Factionised Groups
+		ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC)
 	if(skel_fragile)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	else
@@ -136,3 +146,132 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 				active_crystal.active_skeletons -= W
 	active_crystal = null
 	gib(no_brain = TRUE, no_organs = TRUE)
+
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+
+/mob/living/carbon/human/species/skeleton/conjured
+	ai_controller = /datum/ai_controller/human_npc/melee
+	d_intent = INTENT_PARRY
+	faction = list()
+	ambushable = FALSE
+	skel_fragile = TRUE
+	skel_outfit = null
+
+	var/loadout = "sword_shield"
+	var/arcane_scale = 3
+	var/gear_tier = 1
+	var/datum/weakref/summoner_ref
+
+/mob/living/carbon/human/species/skeleton/conjured/Destroy()
+	release_conjured_gear()
+	return ..()
+
+/mob/living/carbon/human/species/skeleton/conjured/after_creation()
+	..()
+
+	patron = /datum/patron/inhumen/zizo
+
+	AddComponent(/datum/component/ai_aggro_system)
+
+	job = "Lesser Skeleton"
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DUSTABLE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_CABAL, TRAIT_GENERIC)
+
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the Zizite cleric for a gravemark, sire.
+
+	var/datum/component/conjured_minion/minion = GetComponent(/datum/component/conjured_minion)
+	var/mob/living/master = minion?.summoner_ref?.resolve()
+
+	if(master)
+		if(master.mind && master.mind.current)
+			master = master.mind.current
+		summoner = master.real_name
+		faction = list("[master.real_name]_faction")
+		apply_fellowship_faction(master, src)
+		faction -= FACTION_UNDEAD
+		faction -= FACTION_SKELETON
+		faction -= FACTION_DUNDEAD
+
+	switch(loadout)
+		if("sword_shield")
+			outfit_skeleton(new /datum/outfit/job/roguetown/conjured_skeleton/sword_shield)
+		if("spear")
+			outfit_skeleton(new /datum/outfit/job/roguetown/conjured_skeleton/spear)
+		if("dual_daggers")
+			outfit_skeleton(new /datum/outfit/job/roguetown/conjured_skeleton/dual_daggers)
+
+	def_intent_change(INTENT_PARRY)
+
+	regenerate_icons()
+
+/mob/living/carbon/human/species/skeleton/conjured/proc/outfit_skeleton(datum/outfit/outfit)
+	if(!outfit)
+		return
+
+	equipOutfit(outfit)
+
+	for(var/obj/item/gear in (get_equipped_items() + held_items))
+		ADD_TRAIT(gear, TRAIT_NODROP, TRAIT_GENERIC)
+
+/datum/outfit/job/roguetown/conjured_skeleton
+
+/datum/outfit/job/roguetown/conjured_skeleton/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	ADD_TRAIT(H, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the Cleric for a Gravemark
+	H.STASTR = 10
+	H.STASPD = 12
+	H.STACON = 8
+	H.STAWIL = 10
+	H.STAPER = 10
+	H.STAINT = 1
+	H.STALUC = 10
+	H.adjust_skillrank(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+
+/datum/outfit/job/roguetown/conjured_skeleton/sword_shield/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	r_hand = /obj/item/rogueweapon/sword/sabre/palloy
+	l_hand = /obj/item/rogueweapon/shield/tower/metal/palloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	neck = /obj/item/clothing/neck/roguetown/gorget/copper
+	head = /obj/item/clothing/head/roguetown/headband/bloodied
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
+	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
+
+/datum/outfit/job/roguetown/conjured_skeleton/spear/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	r_hand = /obj/item/rogueweapon/spear/paalloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	neck = /obj/item/clothing/neck/roguetown/gorget/copper
+	head = /obj/item/clothing/head/roguetown/helmet/leather
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
+
+/datum/outfit/job/roguetown/conjured_skeleton/dual_daggers/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	neck = /obj/item/clothing/neck/roguetown/gorget/copper
+	head = /obj/item/clothing/head/roguetown/helmet/leather
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper

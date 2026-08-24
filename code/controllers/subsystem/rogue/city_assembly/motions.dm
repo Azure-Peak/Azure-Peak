@@ -210,7 +210,7 @@
 // callable from the admin verb for direct testing. See design doc for the replacement proposal.
 //
 // /datum/controller/subsystem/city_assembly/proc/apply_poll_tax(list/result)
-//     ... (formerly wired into resolve_session)
+//		... (formerly wired into resolve_session)
 
 /datum/controller/subsystem/city_assembly/proc/levy_poll_tax(amount)
 	var/total_collected = 0

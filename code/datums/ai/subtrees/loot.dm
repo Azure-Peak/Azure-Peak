@@ -48,7 +48,7 @@
 		return FALSE
 	if(istype(candidate, /obj/item/gun))
 		return FALSE
-	if(istype(candidate, /obj/item/rogueweapon))
+	if(istype(candidate, /obj/item/rogueweapon) && !(candidate.flags_ai_inventory & AI_ITEM_THROWING))
 		return FALSE
 	if(candidate.anchored)
 		return FALSE

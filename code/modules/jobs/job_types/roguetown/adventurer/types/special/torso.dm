@@ -2,7 +2,7 @@
 	name = "Torso"
 	tutorial = "Some horrible accident in the forest took away all of your limbs!\nSurvival will be a true TRIUMPH."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/torso
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_DISABLED, CTAG_LICKER_WRETCH)
@@ -27,13 +27,11 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, rand(0,4), TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/sneaking, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, rand(0,4), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, rand(0,4), TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, rand(0,4), TRUE)
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	belt = /obj/item/storage/belt/rogue/leather

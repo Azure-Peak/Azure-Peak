@@ -21,24 +21,26 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
-		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
+
+/datum/outfit/job/roguetown/gnoll/knight
+	vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/knight
+	max_fury_stacks = 100
+	shard_threshold = 44
+	shard_repair_value = 20
 
 /datum/outfit/job/roguetown/gnoll/knight/pre_equip(mob/living/carbon/human/H)
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
-		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight(H)
+		H.skin_armor = new vamp_armor_type(H)
+		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
 		neck = /obj/item/storage/belt/rogue/pouch/healing
+		backr = /obj/item/storage/backpack/rogue/satchel/gnoll
 		don_pelt(H)
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight
-	icon_state = "knight"
-	max_integrity = 800
-	armor = ARMOR_GNOLL_STRONG
-	// Stronger, so repair less armor when it repairs
-	auto_repair_mode_base = 75
-	relative_repair_interval = 25 SECONDS

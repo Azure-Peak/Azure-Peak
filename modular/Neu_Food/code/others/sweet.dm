@@ -11,7 +11,7 @@
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "chocolate"
 	bitesize = 4
-	slices_num = 2
+	slices_num = 4
 	slice_path = /obj/item/reagent_containers/food/snacks/chocolate/slice
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -30,7 +30,7 @@
 		eater.adjustToxLoss(5)
 	return ..()
 
-/obj/item/reagent_containers/food/snacks/chocolate/Initialize()
+/obj/item/reagent_containers/food/snacks/chocolate/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/chocolatedry,
@@ -42,14 +42,14 @@
 		)
 
 /obj/item/reagent_containers/food/snacks/chocolate/slice
-	name = "halved chocolate ingot"
-	desc = "An unbelievably decadant halve of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	name = "quarter chocolate ingot"
+	desc = "An unbelievably decadant quarter of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
 	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
 	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
 	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>When combined with \
 	pumpkin spice and tossed into a kettle, it makes for an absolutely divine drink."
-	bitesize = 3 //Sharing is caring!
-	icon_state = "chocolatehalf"
+	bitesize = 1 //is a literal bite
+	icon_state = "chocolatequarter"
 	slices_num = null
 	slice_path = null
 
@@ -90,6 +90,7 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/jamtallowslice
+	dish_type = DISH_SWEET
 	name = "slice of jamtallow"
 	desc = "A portion of jammy paradise, bearing the same hues as Azuria's morning skies. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -136,6 +137,7 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/marmaladeslice
+	dish_type = DISH_SWEET
 	name = "slice of marmalade"
 	desc = "A portion of jammy paradise, bearing the same hues as Azuria's evening seas. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
@@ -305,6 +307,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/sugarstatue/tree
 
 /obj/item/reagent_containers/food/snacks/sugarstatue
+	cuisine = CUISINE_ETRUSCAN
 	dish_type = DISH_SWEET
 	name = "sugarglass statue"
 	desc = "A decorative piece of sugarglass, meticulously fashioned to mimic a statue. Deliciously regal!"

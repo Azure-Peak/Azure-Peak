@@ -50,11 +50,11 @@
 	session.ui_interact(src)
 	return session
 
-/mob/living/carbon/human/proc/make_sucking_noise()
+/mob/living/carbon/human/proc/make_sucking_noise(do_subtle = FALSE)
 	if(gender == FEMALE)
-		playsound(src, pick('sound/misc/mat/girlmouth (1).ogg','sound/misc/mat/girlmouth (2).ogg'), 25, TRUE, ignore_walls = FALSE)
+		playsound(src, pick('sound/misc/mat/girlmouth (1).ogg','sound/misc/mat/girlmouth (2).ogg'), 25, TRUE, (do_subtle ? -6 : 0), ignore_walls = FALSE)
 	else
-		playsound(src, pick('sound/misc/mat/guymouth (2).ogg','sound/misc/mat/guymouth (3).ogg','sound/misc/mat/guymouth (4).ogg','sound/misc/mat/guymouth (5).ogg'), 35, TRUE, ignore_walls = FALSE)
+		playsound(src, pick('sound/misc/mat/guymouth (2).ogg','sound/misc/mat/guymouth (3).ogg','sound/misc/mat/guymouth (4).ogg','sound/misc/mat/guymouth (5).ogg'), 35, TRUE, (do_subtle ? -6 : 0), ignore_walls = FALSE)
 
 /mob/living/carbon/human/proc/try_impregnate(mob/living/carbon/human/wife)
 	var/obj/item/organ/testicles/testes = getorganslot(ORGAN_SLOT_TESTICLES)
@@ -82,7 +82,7 @@
 	// Need to drag yourself to the target.
 	if(dragged != user)
 		return
-	if(!human_user.can_do_sex)
+	if(!(human_user.can_do_sex && target.can_do_sex))
 		to_chat(user, "<span class='warning'>I can't do this.</span>")
 		return
 	var/may_bang = client && client.prefs && client.prefs.sexable == TRUE

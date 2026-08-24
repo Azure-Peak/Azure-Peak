@@ -34,14 +34,14 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //flavour and useful for making armour
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
-    )
+		"Sewing Kit" =	/obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
+	)
 	extra_context = "This subclass gains addition stat points from weapon selection, and is race-limited from: Constructs."
 	adv_stat_ceiling = list(STAT_STRENGTH = 14, STAT_CONSTITUTION = 14, STAT_WILLPOWER = 14) //no thank you to stat stacking
 
 /datum/outfit/job/roguetown/wretch/mistwalker/pre_equip(mob/living/carbon/human/H)
 	..()
-	
+
 	change_origin(H, /datum/virtue/origin/kazengun, "guardian duty")
 	to_chat(H, span_warning("Failed in your duty, outcast from whence you came you wander. Only the steel in your hand can be trusted."))
 
@@ -61,7 +61,7 @@
 	if(H.mind)
 		var/armor_options = list("Ceremonial Robes", "Enchanted Inks")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armor_options
-		var/weapons = list("Ssangsudo +2 CON", "Kanabo +1 STR", "Naginata +2 PER", "Hwando +2 INT", "Longbow +1 SPD")
+		var/weapons = list("Ssangsudo +2 CON", "Kanabo +1 STR", "Naginata +2 PER", "Hwando +2 INT", "Longbow +1 SPD", "Kodachi +1 SPD")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(armor_choice)
@@ -80,9 +80,10 @@
 					gloves = /obj/item/clothing/gloves/roguetown/angle
 					shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //dwarves like to blow up my patience
 			if("Enchanted Inks")
-				neck = /obj/item/clothing/neck/roguetown/coif/heavypadding/black
-				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats/mistwalker //they don't get stronger swords like ruma, let them have the +50 integ
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
+				neck = /obj/item/clothing/neck/roguetown/leather
+				armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats/mistwalker //a full-body leather armor with 150% integ.
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats/mistwalker //another chest-only leather armor.
+				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				ADD_TRAIT(H, TRAIT_HONORBOUND, TRAIT_GENERIC)
 				if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)

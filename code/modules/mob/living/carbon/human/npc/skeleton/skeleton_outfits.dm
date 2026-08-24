@@ -32,53 +32,36 @@
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
 /mob/living/carbon/human/species/skeleton/npc/mediumspread
 	threat_point = THREAT_MODERATE
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
+		/datum/outfit/job/roguetown/skeleton/npc/easy,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/archer,
+	)
 
-/mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
-	var/outfit = rand(1, 5)
-	switch(outfit)
-		if(1)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
-		if(2)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/easy
-		if(3)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
-		if(4)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
-	..()
-
+// For underdark lich-miniboss + contracts - Cannot tame + different Spread
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
 	faction = list(FACTION_LICH)
+	skel_untamable = TRUE //No taming this group w/ tame undead
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
+		/datum/outfit/job/roguetown/skeleton/npc/easy,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+	)
 
-// for Lich Dungeon
+// for Lich Dungeon, albeit I think not entirely exclusive, so we don't add untamable
+//They're not re-factionised either unlike the above, sire.
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
-
-/mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
-	var/outfit = rand(1,5)
-	switch(outfit)
-		if(1)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(2)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
-		if(3)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
-		if(4)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
-	..()
-
-// For Tomb of Matthios/Tomb of Alothesos Supreme Difficulty:TM: encounters.
-/mob/living/carbon/human/species/skeleton/npc/special/vile_doctor
-	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/vile_doctor
-	dodgetime = 15 //Moves a lot
-	d_intent = INTENT_DODGE //Expert in this
-
-/mob/living/carbon/human/species/skeleton/npc/special/disgraced_noble
-	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble
-	dodgetime = 15 //Moves a lot
+	skel_outfit_spread = list(
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/medium,
+		/datum/outfit/job/roguetown/skeleton/npc/pirate,
+		/datum/outfit/job/roguetown/skeleton/npc/hard,
+		/datum/outfit/job/roguetown/skeleton/npc/archer,
+	)
 
 /datum/outfit/job/roguetown/skeleton/npc/supereasy/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -132,16 +115,16 @@
 				head = /obj/item/clothing/head/roguetown/fisherhat
 			if(4)
 				head = /obj/item/clothing/head/roguetown/knitcap
-	H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_NOVICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/easy/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -184,16 +167,16 @@
 			cloak = /obj/item/clothing/cloak/half/lich
 		if(3)
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
-	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/pirate/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -202,7 +185,7 @@
 	H.STACON = 3
 	H.STAWIL = 6
 	name = "Skeleton Pirate"
-	head =  /obj/item/clothing/head/roguetown/helmet/tricorn
+	head =	/obj/item/clothing/head/roguetown/helmet/tricorn
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
@@ -232,16 +215,16 @@
 		r_hand = /obj/item/rogueweapon/sword/sabre/alloy //Its the closet thing to an ancient cutlass, matie
 		H.STAINT = 5 //Not able to do specials, but slightly harder to fient
 
-	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
 	//Uniquely, no shield skill
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //YARR
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE) //YARR
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/medium/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -309,16 +292,16 @@
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
 		if(3)
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich // Ooo Spooky Old Dead MAA
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/hard/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -327,14 +310,14 @@
 	H.STAWIL = 10
 	H.STAINT = 1
 	name = "Skeleton Dreadnought"
-	// This combines the khopesh  and withered dreadknight
+	// This combines the khopesh	and withered dreadknight
 	var/skeletonclass = rand(1, 2)
 	if(skeletonclass == 1) // Khopesh Knight
 		H.STASPD = 12 // Hue
 		H.STASTR = 12
 		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
-		H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //Needed at expert else we lose our duel blades by falling over in water cause heavy
-		cloak = /obj/item/clothing/cloak/hierophant
+		H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE) //Needed at expert else we lose our duel blades by falling over in water cause heavy
+		cloak = /obj/item/clothing/cloak/tabard/toga/lich
 		mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 		head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
@@ -365,7 +348,7 @@
 	else // Withered Dreadknight
 		H.STASPD = 8
 		H.STASTR = 14 //Hits harder than other skeles
-		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE) //Tanky but falls over in water
+		H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE) //Tanky but falls over in water
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
@@ -410,15 +393,15 @@
 			if(3)
 				cloak = /obj/item/clothing/cloak/tabard/blkknight // SOVL
 
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -426,7 +409,7 @@
 	H.STASPD = 10
 	H.STACON = 4
 	H.STAWIL = 7
-	H.STAPER = 13
+	H.STAPER = 11
 	H.STAINT = 1
 	name = "Skeleton Archer"
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
@@ -439,7 +422,7 @@
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
 	r_hand = /obj/item/rogueweapon/mace/alloy
-	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	if(prob(10))
 		var/amulet_choice = rand(1, 3)
@@ -458,93 +441,13 @@
 			cloak = /obj/item/clothing/cloak/half/lich
 		if(3)
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
-	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
-
-/datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
-	..()
-	H.STASTR = 12
-	H.STACON = 5 //Fragile to mages/sunders
-	H.STAWIL = 10
-	H.STASPD = 14 // that dagger WILL get thru ur parry.
-	H.STAINT = 10 //Miniboss, lets them do fients + specials
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) //Unique fighting style
-	name = "Vile Doctor"
-	belt = /obj/item/storage/belt/rogue/leather/black
-	mask = /obj/item/clothing/mask/rogue/physician/plaguebearer //Tougher face armor only otherwise on wretches, also unique loot for defeating them
-	head = /obj/item/clothing/head/roguetown/physician
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
-	pants = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/leather/black
-	neck = /obj/item/clothing/neck/roguetown/coif/padded
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-
-/datum/outfit/job/roguetown/skeleton/npc/disgraced_noble/pre_equip(mob/living/carbon/human/H)
-	..()
-	H.STASTR = 12 // stabs quick, stabs strong.
-	H.STACON = 8
-	H.STAWIL = 10
-	H.STASPD = 12 //Lets them keep the pace a bit against dodgers.
-	H.STAINT = 12 //Miniboss, lets them do fients + specials, better than doctor at fients/resisting them
-	name = "Disgraced Ancient Noble"
-	var/skeletonclass = rand(0,2) // lets shake it up a little :3
-	belt = /obj/item/storage/belt/rogue/leather/black
-	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
-	l_hand = /obj/item/rogueweapon/sword/rapier/dec
-	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
-	neck = /obj/item/clothing/neck/roguetown/coif/padded //Tougher
-	head = /obj/item/clothing/head/roguetown/chaperon/noble/evil
-
-	if(skeletonclass == 0) // "standard"
-		id = /obj/item/clothing/ring/onyxa
-		mask = /obj/item/clothing/mask/rogue/sack
-		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-		cloak = /obj/item/clothing/cloak/half/red
-	if(skeletonclass == 1)
-		id = /obj/item/clothing/ring/gold// slightly better
-		r_hand = /obj/item/rogueweapon/shield/tower/metal/alloy // and a shield to go with it
-		mask = /obj/item/clothing/mask/rogue/sack
-		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
-		cloak = /obj/item/clothing/cloak/half/orange
-	if(skeletonclass == 2)
-		id = /obj/item/clothing/ring/coral // +30 value compared to onyx btw
-		H.adjust_skillrank(H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)) // hardest, probably
-		mask = /obj/item/clothing/mask/rogue/facemask // nose crits not as easy
-		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-		cloak = /obj/item/clothing/cloak/cape/purple
-	
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)

@@ -35,7 +35,7 @@ PROCESSING_SUBSYSTEM_DEF(mousecharge)
 	var/list/current_run = currentrun
 
 	while(current_run.len)
-		var/client/thing = current_run[current_run.len]
+		var/datum/thing = current_run[current_run.len]
 		current_run.len--
 		if(QDELETED(thing))
 			processing -= thing

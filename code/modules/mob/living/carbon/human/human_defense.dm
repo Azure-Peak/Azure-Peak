@@ -1,9 +1,9 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon, pen_info, flat_integ = FALSE)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon, pen_info, no_debuff = FALSE)
 	var/armorval = 0
 	var/organnum = 0
 
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon, pen_info, flat_integ)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon, pen_info, no_debuff)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -14,7 +14,7 @@
 	return (armorval/max(organnum, 1))
 
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon, pen_info, flat_integ = FALSE)
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon, pen_info, no_debuff = FALSE)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -24,9 +24,9 @@
 	var/protection = 0
 	var/dr_armor_present = FALSE
 	var/intdamage = damage
-	// Exposed/Vulnerable are melee set-ups; a ranged hit (including a caster's own fire/frost) shouldn't burn the proc it just set up. Full armor penetration also clears this below.
-	var/consume_debuff = !istype(used_weapon, /obj/projectile)
-	
+	// Only melee weapon should be able to cash in on Exposed / Vulnerable
+	var/consume_debuff = !no_debuff && !istype(used_weapon, /obj/projectile)
+
 	if(HAS_TRAIT(src, TRAIT_IRONMAN)) // free clongo noise when hit
 		playsound(loc, get_armor_sound(PLATEHIT, blade_dulling), 100) // SOVLNUKE!!!
 
@@ -71,27 +71,22 @@
 				intdamage *= tempo_bonus
 
 			if(consume_debuff)
-				var/use_flat = flat_integ
 				if(has_status_effect(/datum/status_effect/debuff/exposed))
-					if(use_flat)
-						intdamage += EXPOSED_INTEG_FLAT
-					else
-						intdamage *= EXPOSED_INTEG_MOD
+					intdamage *= EXPOSED_INTEG_MOD
 					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
 					visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 					remove_status_effect(/datum/status_effect/debuff/exposed)
 					emote("pain", forced = TRUE)
 				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
-					if(use_flat)
-						intdamage += VULN_INTEG_FLAT
-					else
-						intdamage *= VULN_INTEG_MOD
+					intdamage *= VULN_INTEG_MOD
 					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
 					visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
 					remove_status_effect(/datum/status_effect/debuff/vulnerable)
 					emote("groan", forced = TRUE)
 
 			used.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+			if(intdamage > 0)
+				SEND_SIGNAL(src, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, intdamage, used, 1, 1)
 	else
 		// DR types: blunt, fire, acid
 		var/list/layers = get_best_worn_armor_layered(def_zone, d_type)
@@ -117,23 +112,17 @@
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
 
-			var/use_flat = flat_integ
 			var/full_dmg
 			if(consume_debuff && has_status_effect(/datum/status_effect/debuff/exposed))
 				full_dmg = TRUE
-				if(use_flat)
-					intdamage += EXPOSED_INTEG_FLAT
-				else
-					intdamage *= EXPOSED_INTEG_MOD
+				// Currently only blunt damage enters this block of code, and we do NOT want it to multiply damage on top of its boons.
+				// intdamage *= EXPOSED_INTEG_MOD
 				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
 				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 				remove_status_effect(/datum/status_effect/debuff/exposed)
 				emote("pain", forced = TRUE)
 			else if(consume_debuff && has_status_effect(/datum/status_effect/debuff/vulnerable))
-				if(use_flat)
-					intdamage += VULN_INTEG_FLAT
-				else
-					intdamage *= VULN_INTEG_MOD
+				intdamage *= VULN_INTEG_MOD
 				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
 				visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
 				remove_status_effect(/datum/status_effect/debuff/vulnerable)
@@ -147,11 +136,14 @@
 			else
 				var/layers_deep = 1
 				var/played_sound = FALSE
+				var/total_layer_count = length(layers)
 				for(var/obj/item/clothing/C in layers)
 					var/actualdmg = intdamage
 					if(!full_dmg)
 						actualdmg /= layers_deep
 					C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+					if(actualdmg > 0)
+						SEND_SIGNAL(src, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, actualdmg, C, layers_deep, total_layer_count)
 					if(C.blocksound && !played_sound)
 						playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)
 						played_sound = TRUE
@@ -179,7 +171,7 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(C.eweight)
-				weight +=  C.eweight
+				weight +=	C.eweight
 	return max(weight, 0)
 */
 /mob/living/carbon/human/on_hit(obj/projectile/P)
@@ -356,12 +348,12 @@
 			return FALSE
 		var/zones = M.zone_selected
 		if(!M.ckey)
-			zones = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_PRECISE_NECK, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+			zones = M.get_attack_zone(src)
 		var/dam_zone = dismembering_strike(M, zones)
 		if(!dam_zone) //Dismemberment successful
 			return TRUE
 
-		var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
+		var/obj/item/bodypart/affecting = get_bodypart(M.ckey ? ran_zone(dam_zone) : check_zone(dam_zone))
 		if(!affecting)
 			affecting = get_bodypart(BODY_ZONE_CHEST)
 		var/armor = run_armor_check(affecting, M.d_type, armor_penetration = M.armor_penetration, damage = damage)
@@ -372,10 +364,12 @@
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
 		else
-			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src)
+			SEND_SIGNAL(M, COMSIG_MOB_AFTERATTACK_SUCCESS, src, affecting)
 			affecting.bodypart_attacked_by(M.a_intent.blade_class, damage - armor, M, dam_zone, crit_message = TRUE)
-		visible_message(span_danger("\The [M] [pick(M.a_intent.attack_verb)] [src]![next_attack_msg.Join()]"), \
-					span_danger("\The [M] [pick(M.a_intent.attack_verb)] me![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
+		var/attack_verb = pick(M.a_intent.attack_verb)
+		var/hit_area = parse_zone(affecting.body_zone, affecting)
+		visible_message(span_danger("\The [M] [attack_verb] [src] in the [span_combatsecondarybp(hit_area)]![next_attack_msg.Join()]"), \
+					span_danger("\The [M] [attack_verb] me in the [span_userdanger(hit_area)]![next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 		next_attack_msg.Cut()
 		if(nodmg)
 			return FALSE
@@ -875,8 +869,6 @@
 
 /mob/living/carbon/human/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
 	//SEND_SIGNAL(src, COMSIG_HUMAN_BURNING)
-	if(fire_handler.stacks >= 10)
-		burn_clothing(seconds_per_tick, fire_handler.stacks)
 	var/no_protection = FALSE
 	fire_handler.harm_human(seconds_per_tick, no_protection)
 

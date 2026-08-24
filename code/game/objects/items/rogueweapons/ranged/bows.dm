@@ -1,5 +1,18 @@
 //intent datums ฅ^•ﻌ•^ฅ
 
+/proc/bow_draw_sound(chargetime)
+	switch(chargetime)
+		if(0 to 6)
+			return 'sound/combat/Ranged/bow-draw-01-4ds.ogg'
+		if(6 to 10)
+			return 'sound/combat/Ranged/bow-draw-01-8ds.ogg'
+		if(10 to 14)
+			return 'sound/combat/Ranged/bow-draw-01-12ds.ogg'
+		if(14 to 19)
+			return 'sound/combat/Ranged/bow-draw-01.ogg'
+		else
+			return 'sound/combat/Ranged/bow-draw-01-22ds.ogg'
+
 /datum/intent/shoot/bow
 	chargetime = 1 //used for edge cases only, /datum/intent/shoot/bow/get_chargetime handles the actual number
 	chargedrain = 2
@@ -17,7 +30,7 @@
 /datum/intent/shoot/bow/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/Ranged/bow-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/shoot/bow/get_chargetime() //this handles how long it takes for us to fully aim our bow. damage is handled below in /obj/item/gun/ballistic/revolver/grenadelauncher/bow/process_fire
 	if(mastermob && chargetime)
@@ -59,7 +72,7 @@
 /datum/intent/arc/bow/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
-		playsound(mastermob, pick('sound/combat/Ranged/bow-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/arc/bow/get_chargetime() //same calc as above, but with a higher absolute floor for how fast you can shoot
 	if(mastermob && chargetime)
@@ -88,20 +101,19 @@
 	var/newtime = (10 - user.get_skill_level(ranged_skill) * 2) + (10 - user.STASTR / 2) + (20 - user.STAPER)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(ARCHER_NPC_MIN_BOW_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
+	return (max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME) * ARCHER_NPC_ROF_PENALTY
 
 //bow objs ฅ^•ﻌ•^ฅ
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	has_item_quality = TRUE
-	name = "crude selfbow"
-	desc = "This roughly hewn selfbow is just a bit too little of everything. Too little length, \
-	too little poundage, too slow a shot."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	name = "yew hunting bow"
+	desc = "A typical hunting bow used by peasants, hunters and levies in absence of more powerful warbows, \
+	it is too weak to pose real threat to armour but in skilled hands a deadly tool all the same."
+	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "bow"
 	item_state = "bow"
 	experimental_onhip = TRUE
-	flags_ai_inventory = AI_ITEM_GUN
 	experimental_onback = TRUE
 	possible_item_intents = list(
 		/datum/intent/shoot/bow,
@@ -116,6 +128,11 @@
 	spread = 0
 	can_parry = TRUE
 	force = 10
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	bigboy = TRUE
 	verbage = "nock"
 	cartridge_wording = "arrow"
 	load_sound = 'sound/foley/nockarrow.ogg'
@@ -125,12 +142,19 @@
 	var/spill_ammo_on_drop = TRUE
 	var/ranged_skill = /datum/skill/combat/bows
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/can_quick_load(mob/user)
+	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
+		to_chat(user, span_warning("I need a free hand to nock [src]!"))
+		return FALSE
+	return TRUE
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
+	. += span_info("Nocking straight from a quiver requires my other hand to be free.")
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize()
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize(mapload)
 	. = ..()
 	if(heavy_bow == TRUE)
 		src.possible_item_intents = list(
@@ -172,12 +196,12 @@
 					)
 			if("onbelt")
 				return list(
-					"shrink" = 0.6,
+					"shrink" = 0.7,
 					"sx" = 0,
 					"sy" = -3,
-					"nx" = 4,
+					"nx" = 3,
 					"ny" = -5,
-					"wx" = -3,
+					"wx" = -7,
 					"wy" = -5,
 					"ex" = 2,
 					"ey" = -5,
@@ -192,16 +216,15 @@
 					"northabove" = 1,
 					"southabove" = 0,
 					"eastabove" = 0,
-					"westabove" = 0,
-					)
+					"westabove" = 0)
 			if("onback")
 				return list(
-					"shrink" = 0.6,
-					"sx" = 0,
+					"shrink" = 0.7,
+					"sx" = -1,
 					"sy" = 0,
-					"nx" = 4,
-					"ny" = 0,
-					"wx" = 0,
+					"nx" = 0,
+					"ny" = 1,
+					"wx" = -2,
 					"wy" = 0,
 					"ex" = 0,
 					"ey" = 0,
@@ -216,9 +239,7 @@
 					"northabove" = 1,
 					"southabove" = 0,
 					"eastabove" = 0,
-					"westabove" = 0,
-					)
-
+					"westabove" = 0,)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/shoot_with_empty_chamber()
 	return
@@ -245,7 +266,7 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
+		spread = 0
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.accuracy += accfactor * (user.STAPER - 9) * 4 // 9+ PER gives +4 per level. Exponential.
@@ -264,7 +285,7 @@
 	..()
 
 	var/matrix/mat = matrix()
-	mat.Translate(20,20)
+	mat.Translate(0,0)
 
 	cut_overlays()
 	if(chambered)
@@ -287,7 +308,6 @@
 	name = "recurve bow"
 	desc = "A medium length composite bow of glued horn, wood, and sinew with good shooting \
 	characteristics."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "recurve_bow"
 	force = 9
 	pixel_y = -16
@@ -376,7 +396,6 @@
 	name = "yew longbow"
 	desc = "A sturdy warbow made of a tillered yew stave. It's difficult to handle, but the \
 	power is worth the effort."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "longbow"
 	slot_flags = ITEM_SLOT_BACK
 	damfactor = 1.3
@@ -502,9 +521,8 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 	name = "short bow"
 	desc = "As the eagle was killed by the arrow winged with his own feather, so the hand of the world is wounded by its own skill."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "bow" //No time for sprite this shit
-	item_state = "bow" 
+	item_state = "bow"
 	possible_item_intents = list(
 		/datum/intent/shoot/bow/short,
 		/datum/intent/arc/bow/short,
@@ -524,3 +542,84 @@
 	chargetime = 0.75
 	chargedrain = 1.5
 	charging_slowdown = 2.5
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint
+	name = "painted bow"
+	desc = "A strange painted bow, seems volatile, like it could dust apart into nothing but liquid."
+	icon_state = "paintbow"
+	item_state = "paintbow"
+	item_flags = DROPDEL
+	spill_ammo_on_drop = FALSE
+	var/dust_timer_id
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow/paint
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/Initialize(mapload)
+	. = ..()
+	start_dust_timer(30 SECONDS)
+	if(magazine)
+		chamber_round()
+
+	update_icon()
+	if(ismob(loc))
+		var/mob/M = loc
+		M.update_inv_hands()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/Destroy()
+	if(dust_timer_id)
+		deltimer(dust_timer_id)
+	return ..()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/proc/start_dust_timer(duration)
+	if(dust_timer_id)
+		deltimer(dust_timer_id)
+	dust_timer_id = addtimer(CALLBACK(src, PROC_REF(check_and_dust)), duration, TIMER_STOPPABLE)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/proc/check_and_dust()
+	dust_timer_id = null
+
+	if(ismob(loc))
+		var/mob/living/L = loc
+		if(L.get_active_held_item() == src)
+			start_dust_timer(5 SECONDS)
+			return
+
+	src.visible_message(span_warning("\The [src] dissolves into shimmering paint dust and vanishes!"))
+	qdel(src)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+	var/obj/item/ammo_casing/C = chambered
+
+	if(istype(C, /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint) && C.BB)
+		var/obj/projectile/bullet/reusable/arrow/iron/paint/paint_arrow = C.BB
+		if(istype(paint_arrow))
+			paint_arrow.primed = TRUE
+
+	. = ..()
+
+	// If we successfully fired, safely commit suicide
+	if(.)
+		var/turf/T = get_turf(src)
+		if(T)
+			T.visible_message(span_danger("\The [src] turns to paint dust from the shot's force!"))
+		qdel(src)
+
+/obj/item/ammo_box/magazine/internal/shot/bow/paint
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/paint
+	start_empty = FALSE // Spawns preloaded with the arrow
+	max_ammo = 1
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/attack_hand(mob/user)
+	if(loc == user && user.is_holding(src))
+		to_chat(user, span_warning("\The [src]'s arrow is tightly bound to the string by magical paint!"))
+		return FALSE
+	return ..()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/attack_self(mob/living/user)
+	to_chat(user, span_warning("\The [src]'s arrow is permanently fused to the frame!"))
+	return FALSE
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/attackby(obj/item/A, mob/user, params)
+	if(istype(A, /obj/item/ammo_box/magazine) || istype(A, /obj/item/ammo_casing) || istype(A, /obj/item/ammo_box))
+		to_chat(user, span_warning("\The [src] cannot be loaded with any other ammunition!"))
+		return FALSE
+	return ..()

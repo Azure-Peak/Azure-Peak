@@ -7,7 +7,7 @@
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/matthios/freemans_tools		= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/matthios/mammonite				= CLERIC_T1,
 					/datum/action/cooldown/spell/matthios/transact				= CLERIC_T2,
@@ -29,7 +29,8 @@
 		"Thief-of-Fyre",
 		"Thief-of-Fire", // aaaaaaaa
 		"Lord", // catchall for various titles of his
-		"Matoko"
+		"Matoko",
+		"Bear" // fjall
 	)
 
 // When near coin of at least 100 mammon, zchurch, bad-cross, or ritual talk
@@ -39,7 +40,7 @@
 	if(istype(get_area(follower), /area/rogue/under/cave/inhumen))
 		return TRUE
 	// Allows prayer near EEEVIL psycross
-	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
+	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
 			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
 			return FALSE
@@ -61,12 +62,12 @@
 	return FALSE
 
 /datum/patron/inhumen/matthios/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus,
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus,
 	is_inhumen
 )
 	*is_inhumen = TRUE

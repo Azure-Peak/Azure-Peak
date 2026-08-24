@@ -2,8 +2,8 @@
 #define PORTAL_PURSUIT_USES 5
 
 // Scaling (base_antags path, no storyteller slot caps):
-//  Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
-//  Roundstart (Abyssor only): base=2, max=2 → always 2
+//	Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
+//	Roundstart (Abyssor only): base=2, max=2 → always 2
 /datum/antagonist/dreamwalker
 	name = "Dreamwalker"
 	roundend_category = "Dreamwalker"
@@ -22,29 +22,26 @@
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
 		TRAIT_DEATHLESS,
-		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
 		//TRAIT_NOSLEEP, - Readd this later when I give people options to progress skills again...
 		TRAIT_NOMOOD,
-		TRAIT_NOLIMBDISABLE,
 		TRAIT_SHOCKIMMUNE,
-		TRAIT_CRITICAL_RESISTANCE,
 		TRAIT_HEAVYARMOR,
-		TRAIT_COUNTERCOUNTERSPELL,
 		TRAIT_RITUALIST,
 		TRAIT_STRENGTH_UNCAPPED,
 		TRAIT_DREAMWALKER,
 		TRAIT_UNLYCKERABLE,
+		TRAIT_NOWW,
 		TRAIT_UNCONVERTIBLE
 		)
 
-	var/STASTR = 15
-	var/STASPD = 12
-	var/STAINT = 12
+	var/STASTR = 13
+	var/STASPD = 10
+	var/STAINT = 10
 	var/STAWIL = 12
 	var/STACON = 12
-	var/STAPER = 12
+	var/STAPER = 10
 	var/STALUC = 10
 
 /datum/antagonist/dreamwalker/on_gain()
@@ -71,7 +68,7 @@
 	owner.current.STACON = src.STACON
 	owner.current.STALUC = src.STALUC
 	//Dreamfiends fear them up close.
-	var/mob/living/carbon/human/body = owner.current 
+	var/mob/living/carbon/human/body = owner.current
 	body.faction |= "dream"
 	for (var/trait in traits_dreamwalker)
 		ADD_TRAIT(body, trait, "[type]")
@@ -109,12 +106,9 @@
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	// We lose our statpack & racial, so bonuses are significant.
-	H.change_stat(STATKEY_STR, 5)
-	H.change_stat(STATKEY_INT, 2)
+	// Stats go
+	H.change_stat(STATKEY_STR, 3)
 	H.change_stat(STATKEY_CON, 2)
-	H.change_stat(STATKEY_PER, 2)
-	H.change_stat(STATKEY_SPD, 1)
 	H.change_stat(STATKEY_WIL, 2)
 
 	if(H.mind)
@@ -134,7 +128,7 @@
 	var/turf/linked_turf
 	var/safe_passage = FALSE
 
-/obj/structure/portal_jaunt/Initialize()
+/obj/structure/portal_jaunt/Initialize(mapload)
 	. = ..()
 	cooldown = world.time + 4 SECONDS
 	visible_message(span_warning("[src] shimmers into existence!"))
@@ -193,10 +187,10 @@
 	var/mark_minimum_duration = 10 MINUTES
 	var/obj/effect/proc_holder/spell/invoked/summon_marked/summon_spell = null
 
-/datum/component/dreamwalker_mark/Initialize()
+/datum/component/dreamwalker_mark/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, .proc/on_attack)
+	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
 
 /datum/component/dreamwalker_mark/Destroy()
 	if(marked_target)
@@ -221,7 +215,7 @@
 	mark_start_time = 0
 
 	if(marked_target)
-		RegisterSignal(marked_target, COMSIG_LIVING_DEATH, .proc/on_target_death)
+		RegisterSignal(marked_target, COMSIG_LIVING_DEATH, PROC_REF(on_target_death))
 		to_chat(parent, span_notice("You begin focusing your dream energy on [marked_target]."))
 
 		// Remove any existing summon spell
@@ -356,7 +350,7 @@
 				if("Oozing Sword")
 					new_weapon = new /obj/item/rogueweapon/greatsword/bsword/dreamscape/active(user.loc)
 				if("Thunderous Trident")
-					new_weapon = new /obj/item/rogueweapon/spear/dreamscape_trident/active(user.loc)
+					new_weapon = new /obj/item/rogueweapon/spear/trident/dreamscape_trident/active(user.loc)
 
 			if(new_weapon)
 				to_chat(user, span_notice("You shape the sylveric ingots into a [choice]."))

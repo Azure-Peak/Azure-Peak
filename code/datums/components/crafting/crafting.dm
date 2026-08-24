@@ -1,4 +1,4 @@
-/datum/component/personal_crafting/Initialize()
+/datum/component/personal_crafting/Initialize(mapload)
 	if(!ismob(parent))
 		return COMPONENT_INCOMPATIBLE
 	var/mob/living/L = parent
@@ -466,7 +466,7 @@
 						if(!B.stacktype || !ispath(B.stacktype, A))
 							continue
 						if(!R.subtype_reqs && (B.stacktype in subtypesof(A)))
-							continue 
+							continue
 						if(R.blacklist.Find(B.stacktype))
 							continue
 						found_bundle = TRUE
@@ -482,7 +482,7 @@
 									var/obj/item/new_item = new stacktype(old_loc)
 									if(ishuman(old_loc))
 										var/mob/living/carbon/human/H = old_loc
-										H.put_in_hands(new_item) 
+										H.put_in_hands(new_item)
 								if(0)
 									qdel(B)
 							amt = 0

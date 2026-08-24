@@ -49,7 +49,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	)
 	var/sunstolen = FALSE
 
-/obj/structure/vampire/bloodpool/Initialize()
+/obj/structure/vampire/bloodpool/Initialize(mapload)
 	. = ..()
 	set_light(3, 3, 20, l_color = LIGHT_COLOR_BLOOD_MAGIC)
 
@@ -280,6 +280,8 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 		return "The crucible cannot bind a servant before my bloodline is chosen."
 	if(current < SERVANT_COST)
 		return "The crucible needs [SERVANT_COST] vitae in the cup."
+	if(HAS_TRAIT(user, TRAIT_NOVAMPMITOSIS))
+		return "I am unable to summon a servant from this." //hardlock trait
 	return ""
 
 /obj/structure/vampire/bloodpool/proc/can_summon_personal_servant(mob/living/user)
@@ -844,7 +846,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 	if(!contribution || contribution < 1)
 		return
 
-	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a 
+	//setting this to 0, when it was at 1 it was just giving free vitae if it was less than 1 but a
 	contribution = clamp(contribution, 0, max_contribution)
 
 	if(user.bloodpool < contribution)
@@ -982,7 +984,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 			to_chat(user, span_warning("I will no longer tire nor feel, stamina will no longer affect me, shocks will no longer affect me.")) //Trait hints
 			lord.ascended = TRUE
 			var/list/all_subordinates = user.clan_position.get_all_subordinates()
-			for(var/mob/living/carbon/human/subordinate_body  in all_subordinates)
+			for(var/mob/living/carbon/human/subordinate_body	in all_subordinates)
 				subordinate_body.maxbloodpool += 1000
 				for(var/S in MOBSTATS)
 					subordinate_body.change_stat(S, 2)
@@ -1054,16 +1056,21 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 			SSjob.EquipRank(target, "Vampire Servant", TRUE) //Labor non-combat roles, they still have some vampyric Progression and can become semi-combat roles.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_NEONATE) //GENERATION_THINBLOOD is intentionally removed
 			target.mind.add_antag_datum(new_antag)
+			ADD_TRAIT(target, TRAIT_NOVAMPMITOSIS, TRAIT_GENERIC) //no bloodpool vamps
 		if("Vampire Guard")
 			SSjob.EquipRank(target, "Vampire Guard", TRUE) //Combat-focused roles, they can level vampyric powers partly to become pretty scary to fight.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_NEONATE)
 			target.mind.add_antag_datum(new_antag)
+			ADD_TRAIT(target, TRAIT_NOVAMPMITOSIS, TRAIT_GENERIC) //no bloodpool vamps
 		if("Vampire Spawn")
 			SSjob.EquipRank(target, "Vampire Spawn", TRUE) //Rare and powerful champions, they can level vampyric powers to become minibosses, alongside siring 5 additional vampyres of a lower generation.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_ANCILLAE)
 			target.mind.add_antag_datum(new_antag)
-	ADD_TRAIT(target, TRAIT_BLOODPOOL_BORN, TRAIT_GENERIC)
-	ADD_TRAIT(target, TRAIT_DUSTABLE, TRAIT_GENERIC) //They cannot be cured unlike sired vampires, so we let them just dust on death. They get good enough skills to make up for it, less back and forth with revival checking "hey can I cure this one?".
+			//bloodpool vamps, because they're already T3 and exclusive to VL.
+
+	//All servantry get these traits
+	ADD_TRAIT(target, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC) //prevents deconversion, full stop
+	ADD_TRAIT(target, TRAIT_DUSTABLE, TRAIT_GENERIC) //They cannot be cured, so we let them dust on death. Also because lore-wise you're also ancient, you date far-too-far-back to survive a lethal blow in vessel.
 
 /datum/vampire_project/servant/servant_t1
 	display_name = "Summon Vampyre Servant"

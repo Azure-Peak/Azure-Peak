@@ -50,6 +50,7 @@ const LedgerRow = (props: { entry: LedgerEntry }) => {
       <div style={{ ...ellipsisCellStyle, color: INK }}>{partyFor(entry)}</div>
       <div style={{ ...ellipsisCellStyle, flex: 2, color: INK_SOFT }}>
         {entry.reason}
+        {entry.count > 1 && ` (x${entry.count})`}
       </div>
       <div
         style={{

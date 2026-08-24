@@ -1,5 +1,5 @@
 // Food that is primarily made out of a cooked vegetable component.
-/*	.............   Cooked cabbage   ................ */
+/*	.............	Cooked cabbage	................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/cabbage_fried
 	dish_type = DISH_VEGETABLE
 	name = "cooked cabbage"
@@ -13,7 +13,7 @@
 	tastes = list("warm cabbage" = 1)
 	rotprocess = SHELFLIFE_LONG
 
-/*	.............   Baked potato   ................ */
+/*	.............	Baked potato	................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/potato_baked
 	cuisine = CUISINE_NORTHERN
 	dish_type = DISH_VEGETABLE
@@ -26,7 +26,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_LONG
 
-/*	.............   Fried potato   ................ */
+/*	.............	Fried potato	................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/potato_fried
 	cuisine = CUISINE_NORTHERN
 	dish_type = DISH_VEGETABLE
@@ -41,7 +41,7 @@
 	tastes = list("warm potato" = 1)
 	rotprocess = SHELFLIFE_LONG
 
-/* .............   Baked Carrot   ................ */
+/* .............	Baked Carrot	................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked
 	dish_type = DISH_VEGETABLE
 	name = "baked carrot"
@@ -53,7 +53,7 @@
 	tastes = list("carrot" = 1)
 	rotprocess = SHELFLIFE_DECENT
 
-/*	.............   Fried onions   ................ */
+/*	.............	Fried onions	................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried
 	dish_type = DISH_VEGETABLE
 	name = "fried onion"
@@ -67,7 +67,7 @@
 	tastes = list("savoury morsel" = 1)
 	rotprocess = SHELFLIFE_DECENT
 
-/* .............   Eggplant   ................ */
+/* .............	Eggplant	................ */
 /obj/item/reagent_containers/food/snacks/rogue/eggplantcarved
 	cuisine = CUISINE_ETRUSCAN|CUISINE_RANESHENI
 	dish_type = DISH_VEGETABLE

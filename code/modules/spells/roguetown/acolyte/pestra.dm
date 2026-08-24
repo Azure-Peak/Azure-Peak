@@ -38,7 +38,7 @@
 		is_high_tier = TRUE
 	// skill happens as per normal
 	human_target.check_for_injuries(user)
-	//but from here on out, is where the magic happens... 
+	//but from here on out, is where the magic happens...
 	//anyway starting from something that diagnosis will now make -very clear- is when someone is rotting to death and needs immediate care, behold:
 	if(human_target.has_status_effect(/datum/status_effect/zombie_infection))
 		if(is_high_tier)
@@ -136,7 +136,7 @@
 					to_chat(user, span_necrosis("I can see the Black Rot in its third stage, 'Boiling'."))
 				if(4)
 					to_chat(user, span_necrosis("I can see the Black Rot in its terminal stage, 'Necrosis'."))
-			
+
 			to_chat(user, span_infection("<i>Drinking Heartblood should delay the inevitable, but excising it is the cure.<i>"))
 
 	var/has_cheele = FALSE
@@ -191,7 +191,7 @@
 
 		else if(is_mid_tier && has_hemostat && top_reagent && !miracle)
 			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [top_reagent.name] within.</i>"))
-		
+
 		else if(is_mid_tier && has_hemostat && more_than_one && !miracle)
 			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [top_reagent.name], though other substances may be present.</i>"))
 	else
@@ -368,9 +368,8 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	miracle = TRUE
-
-	invocations = list("Rot, take them!")
-	invocation_type = "shout" //can be none, whisper, emote and shout
+	invocation_type = "shout"
+	invocations = list("Rot, take them.")
 	var/datum/component/infestation_charges/charge_component
 
 /obj/effect/proc_holder/spell/invoked/infestation/on_gain(mob/living/user)
@@ -484,7 +483,7 @@
 	var/mob/living/carbon/C = target
 	if(!extended_duration && !target.mind) // 30 seconds on npc so we don't need to worry too much about upkeep and can focus on healing friends
 		duration += 20 SECONDS
-		extended_duration = TRUE		
+		extended_duration = TRUE
 	if(!target.mind) // technically speaking we're just turning the brain rot into actual body rot, rotception
 		target.adjustToxLoss(3)
 		target.adjustBruteLoss(1)
@@ -496,7 +495,7 @@
 
 		if(world.time >= next_spread && !(HAS_TRAIT(target,TRAIT_NOBREATH)))
 			next_spread = world.time + 5 SECONDS
-			
+
 			if(prob(15)) // I don't want this to be guaranteed or else it'll make pve boring
 				target.emote(pick("gag","cough","breathgasp"))
 				var/turf/open/T = get_turf(target)
@@ -526,8 +525,7 @@
 					M.visible_message(span_necrosis("[target] is contaminated by [M]!"), span_danger("The plague-ridden miasma descends upon me!"))
 					M.apply_status_effect(/datum/status_effect/buff/infestation)
 	else // i mean at least we got pestilent blade or something idk
-		target.adjustToxLoss(2)
-		target.adjustBruteLoss(1)
+		target.adjustBruteLoss(2)
 	var/prompt = pick(1,2,3)
 	var/message = pick(
 		"Ticks on my skin start to engorge with blood!",
@@ -611,6 +609,9 @@
 				to_chat(user, span_warning("[target] is already infused with Pestra's black blessing."))
 				revert_cast()
 				return FALSE
+		if(!target.mind.has_spell(/datum/action/cooldown/spell/summon_bed/pestra) && target.patron?.type == /datum/patron/divine/pestra && target.get_skill_level(/datum/skill/magic/holy) >= 1 && SSchimeric_tech.get_node_status("BLACK_ROSE"))
+			target.visible_message(span_green("[target]'s body seems to jitter for a moment, their eyes flash with black rot momentarily."), span_green("Thanks to your affinity to Pestra, you can now create black rose petal beds."))
+			target.mind.AddSpell(new /datum/action/cooldown/spell/summon_bed/pestra)
 
 		if(GLOB.tod == "night")
 			to_chat(user, span_warning("Let there be light."))
@@ -618,7 +619,7 @@
 			S.AOE_flash(user, range = 8)
 
 		var/datum/antagonist/zombie/was_zombie = target.mind?.has_antag_datum(/datum/antagonist/zombie)
-		if(target.stat == DEAD || was_zombie)	//Checks if the target is a dead rotted corpse.
+		if(target.stat == DEAD || was_zombie)	//Checks if the target is a dead rotted corpse
 			var/datum/component/rot/rot = target.GetComponent(/datum/component/rot)
 			if(rot && rot.amount && rot.amount >= 5 MINUTES)	//Fail-safe to make sure the dead person has at least rotted for ~5 min.
 				stinky = TRUE

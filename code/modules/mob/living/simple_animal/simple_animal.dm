@@ -21,13 +21,15 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	maxHealth = 20
 	gender = PLURAL //placeholder
 
-	status_flags = CANPUSH
+	status_flags = CANSTUN|CANPUSH
 	fire_stack_decay_rate = -3
 	var/icon_living = ""
 	///Icon when the animal is dead. Don't use animated icons for this.
 	var/icon_dead = ""
 	///We only try to show a gibbing animation if this exists.
 	var/icon_gib = null
+	///Icon states already drawn lying down. Toppling must not rotate the sprite while one of these is showing.
+	var/list/prone_icon_states = null
 	///Flip the sprite upside down on death. Mostly here for things lacking custom dead sprites.
 	var/flip_on_death = FALSE
 
@@ -55,7 +57,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/next_grid_update_time = 0
 
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
-	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
+	var/obj/item/legcuffed = null	//Same as handcuffs but for legs. Bear traps use this.
 
 	var/blood_color = BLOOD_COLOR_RED
 
@@ -99,6 +101,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/melee_damage_type = BRUTE
 	///Type of melee attack
 	var/d_type = "slash"
+	/// Height band this mob's melee attacks favors.
+	var/attack_aim = MOB_AIM_LEVEL
+	/// Explicit list that overrides attack_aim
+	var/list/attack_zone_weights
 	/// 1 for full damage , 0 for none , -1 for 1:1 heal from that source.
 	var/list/damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 	///Attacking verb in present continuous tense.
@@ -113,8 +119,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///Set to 1 to allow breaking of crates,lockers,racks,tables; 2 for walls; 3 for Rwalls.
 	var/environment_smash = ENVIRONMENT_SMASH_NONE
 
-	///LETS SEE IF I CAN SET SPEEDS FOR SIMPLE MOBS WITHOUT DESTROYING EVERYTHING. Higher speed is slower, negative speed is faster.
-	var/speed = 1
+	// Base tile to tile delay
+	var/move_base_delay = null
+	var/run_multiplier = SIMPLEMOB_RUN_MULTIPLIER
+	var/sneak_multiplier = SIMPLEMOB_SNEAK_MULTIPLIER
 	///Delay for movement and riding logic across the simple-animal hierarchy.
 	var/move_to_delay = 3
 
@@ -199,6 +207,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/botched_butcher_results
 	var/perfect_butcher_results
+	/// Length of the initial butchery list. Used to check if butchery results have been removed e.g whether or not a corpse is partially butchered or not.
+	var/initial_butcher_count = 0
 	/// Path of head to drop upon butchering. Guaranteed but value scales with butchering skill.
 	var/head_butcher
 	var/list/inherent_spells = list()
@@ -211,9 +221,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/obj/item/caparison/ccaparison
 	var/obj/item/clothing/barding/bbarding
 	var/caparison_over_barding = FALSE
-	var/barding_speed_mult = 1
 	var/do_footstep = FALSE
 	var/fly_time = 3 SECONDS //default fly delay
+	var/datum/voicepack/voicepack = null
 
 /mob/living/simple_animal/get_mechanics_examine(mob/user)
 	. = ..()
@@ -227,7 +237,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/get_blood_color()
 	return blood_color
 
-/mob/living/simple_animal/Initialize()
+/mob/living/simple_animal/Initialize(mapload)
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
 	if(gender == PLURAL)
@@ -236,7 +246,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		real_name = name
 	if(!loc)
 		stack_trace("Simple animal being instantiated in nullspace")
-	update_simplemob_varspeed()
+	apply_combat_skill()
+	apply_anatomy_traits()
 	our_cells = new(interesting_dist, interesting_dist, 1)
 	set_new_cells()
 	if(length(food_type))
@@ -246,6 +257,13 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	for(var/spell in inherent_spells)
 		var/obj/effect/proc_holder/spell/newspell = new spell()
 		AddSpell(newspell)
+	initial_butcher_count = length(butcher_results)
+	add_verb(src, list(
+		/mob/living/proc/emote_squeak,
+		/mob/living/proc/emote_mrrp,
+		/mob/living/proc/emote_prbt,
+		/mob/living/proc/emote_hiss,
+	))
 
 /mob/living/simple_animal/Destroy()
 	for(var/list/SA_list in GLOB.simple_animals)
@@ -274,17 +292,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	. = ..()
 	our_cells = null
-
-/mob/living/simple_animal/examine(mob/user)
-	. = ..()
-	if(tame)
-		. += span_notice("This animal appears to be tamed.")
-	if(ssaddle)
-		. += span_notice("This animal is saddled: ([ssaddle.name]).")
-	if(ccaparison)
-		. += span_notice("This animal is wearing a caparison: ([ccaparison.name]).")
-	if(bbarding)
-		. += span_notice("This animal is wearing a bard: ([bbarding.name]).")
 
 /mob/living/simple_animal/attackby(obj/item/O, mob/user, params)
 	if(!food_typecache?[O.type])
@@ -328,9 +335,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		user.visible_message(span_notice("[user] removes the bard from [src]."), span_notice("I remove the bard from [src]."))
 		var/obj/item/clothing/barding/B = bbarding
 		bbarding = null
-		// Reset any movement slowdown from barding when it is removed
-		barding_speed_mult = 1
-		updatehealth()
 		B.forceMove(get_turf(src))
 		user.put_in_hands(B)
 		update_icon()
@@ -409,6 +413,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/updatehealth()
 	..()
 	update_damage_overlays()
+	show_damage_stage()
 
 /mob/living/simple_animal/hostile
 	var/retreating
@@ -429,17 +434,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		minimum_distance = initial(minimum_distance)
 	if(HAS_TRAIT(src, TRAIT_RIGIDMOVEMENT))
 		return
-	if(HAS_TRAIT(src, TRAIT_IGNOREDAMAGESLOWDOWN))
-		var/base_delay = initial(move_to_delay)
-		move_to_delay = base_delay * barding_speed_mult
-		return
-	var/health_deficiency = getBruteLoss() + getFireLoss()
-	if(health_deficiency >= ( maxHealth - (maxHealth*0.50) ))
-		var/damaged_delay = initial(move_to_delay) + 2
-		move_to_delay = damaged_delay * barding_speed_mult
-	else
-		var/normal_delay = initial(move_to_delay)
-		move_to_delay = normal_delay * barding_speed_mult
+	move_to_delay = initial(move_to_delay)
 
 /mob/living/simple_animal/hostile/forceMove(turf/T)
 	var/list/BM = list()
@@ -553,10 +548,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(stat == DEAD)
 		var/obj/item/held_item = user.get_active_held_item()
 		if(held_item)
-			if((butcher_results || guaranteed_butcher_results) && ((held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT) || istype(held_item, /obj/item/contraption/shears)))
+			if((butcher_results || guaranteed_butcher_results) && ((held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT) || istype(held_item, /obj/item/rogueweapon/contraption/shears)))
 				var/used_time = BUTCHERING_UNSKILLED_PRE_TIME
 				var/on_meathook = FALSE
-				if((src.buckled && istype(src.buckled, /obj/structure/meathook))|| istype(held_item, /obj/item/contraption/shears))
+				if((src.buckled && istype(src.buckled, /obj/structure/meathook))|| istype(held_item, /obj/item/rogueweapon/contraption/shears))
 					on_meathook = TRUE //will work efficiently if they are using autosheers as well
 					used_time -= BUTCHERING_UNSKILLED_PRE_TIME
 					visible_message("[user] begins to efficiently butcher [src]...")
@@ -742,21 +737,21 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	head_butcher = null
 
 /mob/living/proc/butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)
-    var/list/parts = list()
-    if(botch_count)
-        parts += "[botch_count] botched ([botch_chance]%)"
-    if(normal_count)
-        parts += "[normal_count] normal"
-    if(perfect_count)
-        parts += "[perfect_count] perfect ([perfect_chance]%)"
+	var/list/parts = list()
+	if(botch_count)
+		parts += "[botch_count] botched ([botch_chance]%)"
+	if(normal_count)
+		parts += "[normal_count] normal"
+	if(perfect_count)
+		parts += "[perfect_count] perfect ([perfect_chance]%)"
 
-    var/msg = ""
-    for(var/i = 1, i <= length(parts), i++)
-        msg += parts[i]
-        if(i < length(parts))
-            msg += ", "
+	var/msg = ""
+	for(var/i = 1, i <= length(parts), i++)
+		msg += parts[i]
+		if(i < length(parts))
+			msg += ", "
 
-    return msg
+	return msg
 
 /mob/living/simple_animal/spawn_dust(just_ash = FALSE)
 	if(just_ash || !remains_type)
@@ -774,14 +769,31 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		verb_say = pick(speak_emote)
 	. = ..()
 
-/mob/living/simple_animal/proc/set_varspeed(var_value)
-	speed = var_value
-	update_simplemob_varspeed()
+/mob/living/simple_animal/proc/get_move_base_delay()
+	var/base = isnull(move_base_delay) ? SIMPLEMOB_DEFAULT_MOVE_DELAY : move_base_delay
+	return clamp(base, SIMPLEMOB_MINIMUM_MOVE_DELAY, SIMPLEMOB_MAXIMUM_MOVE_DELAY)
 
-/mob/living/simple_animal/proc/update_simplemob_varspeed()
-	if(speed == 0)
-		remove_movespeed_modifier(MOVESPEED_ID_SIMPLEMOB_VARSPEED, TRUE)
-	add_movespeed_modifier(MOVESPEED_ID_SIMPLEMOB_VARSPEED, TRUE, 100, multiplicative_slowdown = speed, override = TRUE)
+/mob/living/simple_animal/update_move_intent_slowdown()
+	var/mod = get_move_base_delay()
+	switch(m_intent)
+		if(MOVE_INTENT_RUN)
+			mod *= run_multiplier
+		if(MOVE_INTENT_SNEAK)
+			mod *= sneak_multiplier
+	// Only apply the penalty of slowing down. Raising speed to make something fast is not OK, because we want to decouple movement from combat speed on simple animals
+	var/spd = get_effective_speed()
+	if(spd < 10)
+		mod += (10 - spd) * SPEED_MOVSPD_MOD
+	add_movespeed_modifier(MOVESPEED_ID_MOB_WALK_RUN_CONFIG_SPEED, TRUE, 100, override = TRUE, multiplicative_slowdown = mod)
+
+/mob/living/simple_animal/update_movespeed(resort = TRUE)
+	. = ..()
+	if(cached_multiplicative_slowdown >= SIMPLEMOB_MINIMUM_MOVE_DELAY)
+		return
+	. = SIMPLEMOB_MINIMUM_MOVE_DELAY
+	cached_multiplicative_slowdown = .
+	if(updating_glide_size)
+		set_glide_size(DELAY_TO_GLIDE_SIZE(cached_multiplicative_slowdown))
 
 /mob/living/simple_animal/proc/drop_loot()
 	for(var/i in loot) // If someone puts a turf in this list I'm going to kill you.
@@ -807,6 +819,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	else
 		health = 0
 		icon_state = icon_dead
+		var/datum/wound/cripple/limb/topple/toppled = has_wound(/datum/wound/cripple/limb/topple)
+		toppled?.stand_upright(src)
 		if(flip_on_death)
 			transform = transform.Turn(180)
 		density = FALSE
@@ -820,7 +834,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		return FALSE
 	if(ismob(the_target))
 		var/mob/M = the_target
-		if(M.status_flags & GODMODE)
+		if(GODMODE_HIDDEN(M))
 			return FALSE
 	if (isliving(the_target))
 		var/mob/living/L = the_target
@@ -966,7 +980,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(!selhand)
 		selhand = (active_hand_index % held_items.len)+1
 	if(istext(selhand))
-		selhand = lowertext(selhand)
+		selhand = LOWER_TEXT(selhand)
 		if(selhand == "right" || selhand == "r")
 			selhand = 2
 		if(selhand == "left" || selhand == "l")
@@ -1258,18 +1272,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		toggle_ai(initial(AIStatus))
 
 /mob/living/simple_animal/Move(NewLoc, Dir, step_x, step_y)
-    if(binded)
-        return FALSE
-    var/oldloc = loc
-    . = ..()
-    if(. && loc != oldloc)
-        if(client)
-            // Player
-            set_glide_size(DELAY_TO_GLIDE_SIZE(world.tick_lag))
-        else
-            // AI
-            set_glide_size(DELAY_TO_GLIDE_SIZE(move_to_delay))
-    return .
+	if(binded)
+		return FALSE
+	return ..()
 
 /mob/living/simple_animal/proc/eat_plants()
 
@@ -1277,6 +1282,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(I && food_typecache?[I.type])
 		qdel(I)
 		food = max(food + 30, 100)
+
+/mob/living/simple_animal/Login()
+	. = ..()
+	walk(src, 0)
 
 /mob/living/simple_animal/Life()
 	if(!client && can_have_ai && (AIStatus == AI_Z_OFF || AIStatus == AI_OFF))
@@ -1374,6 +1383,19 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		else
 			to_chat(src, span_notice("I can't fly away while being grabbed!"))
 //End flight
+
+/mob/living/simple_animal/proc/get_animal_voicepack()
+	if(voicepack)
+		return voicepack
+
+	// Only assign the animal voicepack if the simple animal is player-controlled / has a mind
+	if(mind)
+		var/static/datum/voicepack/animal/shared_animal_vp
+		if(!shared_animal_vp)
+			shared_animal_vp = new /datum/voicepack/animal()
+		voicepack = shared_animal_vp
+
+	return voicepack
 
 #undef MAX_FARM_ANIMALS
 #undef BUTCHERING_UNSKILLED_PRE_TIME

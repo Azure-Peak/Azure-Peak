@@ -15,9 +15,10 @@
 	var/hammer_repair
 	var/hidingspot = FALSE //safety measures, dw about it
 	var/occupied = FALSE
+	var/broken_icon_state = null //if the structure is broken, use this icon
 //	move_resist = MOVE_FORCE_STRONG
 
-/obj/structure/Initialize()
+/obj/structure/Initialize(mapload)
 	if (!armor)
 		armor = ARMOR_STRUCTURE
 	. = ..()
@@ -42,15 +43,15 @@
 						if(S.smashable)
 							is_bigguy = TRUE
 				if(is_bigguy && obj_integrity > max_integrity / 3)
-					if(max_integrity > 1000) 	//Custom-set HP door, should be respected
+					if(max_integrity > 1000)	//Custom-set HP door, should be respected
 						take_damage(max_integrity / 6 + 1)
 					else
 						if(H.STASTR >= 13)	//STR adding role w/ Giant or half-orc, seems fair
 							take_damage((max_integrity / 3) * 2 + 1)
-						else 
+						else
 							take_damage(max_integrity / 3 + 1)
 					H.Immobilize(20)
-					//hurts you a little bit but doesn't immediately chestfrac  you lmao
+					//hurts you a little bit but doesn't immediately chestfrac	you lmao
 					H.apply_damage(20, BRUTE, "chest", H.run_armor_check("chest", "blunt", damage = 20))
 					audible_message(span_warning("\The [src] shakes under the force of a great impact!"))
 					playsound(src, "meteor", 100, TRUE)
@@ -171,8 +172,8 @@
 	var/extra_integrity = 0
 	switch(severity)
 		if(EXPLODE_DEVASTATE) extra_integrity = 1500
-		if(EXPLODE_HEAVY)     extra_integrity = 0
-		if(EXPLODE_LIGHT)     extra_integrity = 0
+		if(EXPLODE_HEAVY)		extra_integrity = 0
+		if(EXPLODE_LIGHT)		extra_integrity = 0
 
 	var/hard_cap = max_integrity
 	switch(severity)
@@ -181,9 +182,9 @@
 		if(EXPLODE_HEAVY)
 			hard_cap = min(round(max_integrity * 0.25), 20) //some shit has 50 hps and some shit like doors 1500. I dont want one bomb to nuke 10000 windows around coz its annoying
 		if(EXPLODE_LIGHT)
-			hard_cap = min(round(max_integrity * 0.10), 10) 
+			hard_cap = min(round(max_integrity * 0.10), 10)
 
-	var/total_damage = round(CLAMP(brute_loss + extra_integrity, 0, hard_cap)) 
+	var/total_damage = round(CLAMP(brute_loss + extra_integrity, 0, hard_cap))
 	if(total_damage > 0 && !QDELETED(src))
 		take_damage(total_damage, BRUTE, "blunt", 0)
 
@@ -207,9 +208,10 @@
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 //	if(adjusted_climb_time)
 //		user.visible_message(span_warning("[user] starts climbing onto [src]."), span_warning("I start climbing onto [src]..."))
+	if(!user.start_climb())
+		return
 	structureclimber = user
-	user.mid_climb = TRUE
-	if(do_mob(user, user, adjusted_climb_time))
+	if(do_mob(user, user, adjusted_climb_time, extra_checks = user.climb_check_callback()))
 		if(src.loc) //Checking if structure has been destroyed
 			if(do_climb(user))
 				user.visible_message(span_warning("[user] climbs onto [src]."), \
@@ -224,7 +226,7 @@
 				. = 1
 			else
 				to_chat(user, span_warning("I fail to climb onto [src]."))
-	user.mid_climb = FALSE
+	user.end_climb()
 	structureclimber = null
 
 // You can path over a dense structure if it's climbable.
@@ -253,11 +255,11 @@
 		var/healthpercent = (obj_integrity/max_integrity) * 100
 		switch(healthpercent)
 			if(50 to 99)
-				return  "It looks slightly damaged."
+				return	"It looks slightly damaged."
 			if(25 to 50)
-				return  "It appears heavily damaged."
+				return	"It appears heavily damaged."
 			if(1 to 25)
-				return  span_warning("It's falling apart!")
+				return	span_warning("It's falling apart!")
 
 /obj/structure/proc/set_climbable(new_climbable)
 	if(new_climbable == climbable)

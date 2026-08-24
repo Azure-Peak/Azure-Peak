@@ -8,10 +8,12 @@
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
 	salvage_amount = 1
-	
+	grid_height = 64
+	grid_width = 64
+
 /obj/item/clothing/suit/roguetown/armor/longcoat
 	name = "longcoat"
-	desc = "A padded longcoat meant to keep you warm in the frigid winters"
+	desc = "A padded longcoat meant to keep you warm in the frigid winters."
 	icon_state = "longcoat"
 	color = CLOTHING_BLACK
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
@@ -46,8 +48,10 @@
 	sleeved = null
 	nodismemsleeves = TRUE
 	boobed = TRUE
+	grid_height = 64
+	grid_width = 64
 
-/obj/item/clothing/suit/roguetown/armor/workervest/Initialize()
+/obj/item/clothing/suit/roguetown/armor/workervest/Initialize(mapload)
 	color = pick("#94b4b6", "#ba8f9e", "#bd978c", "#92bd8c", "#c7c981")
 	..()
 
@@ -71,6 +75,7 @@
 	allowed_race = CLOTHED_RACES_TYPES
 
 
-/obj/item/clothing/suit/roguetown/armor/silkcoat/Initialize()
+/obj/item/clothing/suit/roguetown/armor/silkcoat/Initialize(mapload)
 	. = ..()
 	color = pick(CLOTHING_PURPLE, null,CLOTHING_GREEN, CLOTHING_RED)
+

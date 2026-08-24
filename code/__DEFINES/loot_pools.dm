@@ -23,7 +23,6 @@
 #define LOOT_BUDGET_DUKE_COURT			500
 #define LOOT_BUDGET_GOBLIN_DUNGEON		200
 #define LOOT_BUDGET_SKELETON_CRYPT		300
-#define LOOT_BUDGET_TOMB_OF_ALOTHEOS	8000
 #define LOOT_BUDGET_SEWERS				300
 #define LOOT_BUDGET_UNDERCOAST			400
 #define LOOT_BUDGET_TERRORBOG_SOUTH		500
@@ -37,12 +36,12 @@
 #define LOOT_BUDGET_UNDERGROVE			600
 #define LOOT_BUDGET_AZURE_COAST			200
 #define LOOT_BUDGET_BANDIT_CAMP			300
-#define LOOT_BUDGET_MINOTAUR_CAVE       200
+#define LOOT_BUDGET_MINOTAUR_CAVE		200
 #define LOOT_BUDGET_TARICHEA			200
-#define LOOT_BUDGET_TARICHEA_MANOR      750
-#define LOOT_BUDGET_ARAIGNEE 		    300
-#define LOOT_BUDGET_BOGMANFORT          1200
-#define LOOT_BUDGET_SKELETONFORT        800
+#define LOOT_BUDGET_TARICHEA_MANOR		750
+#define LOOT_BUDGET_ARAIGNEE			300
+#define LOOT_BUDGET_BOGMANFORT			1200
+#define LOOT_BUDGET_SKELETONFORT		800
 
 // ---- Spawner Loot Values (mammons) ----
 // Expected mammon value of what each spawner category rolls.
@@ -111,3 +110,11 @@
 #define LOOT_VALUE_POTION_POISONS		15
 #define LOOT_VALUE_POTION_INGREDIENT	3
 #define LOOT_VALUE_POTION_STATS			30
+
+// Summoning material component spawners
+#define LOOT_VALUE_COMPONENTS_MIXED	50 // averaged out value of adding together all sell values in trade_goods.dm
+#define LOOT_VALUE_COMPONENTS_TIER1	4 // rest of these are from trade_goods.dm. ADJUST IF NEEDED.
+#define LOOT_VALUE_COMPONENTS_TIER2	20
+#define LOOT_VALUE_COMPONENTS_TIER3	60
+#define LOOT_VALUE_COMPONENTS_TIER4	120
+

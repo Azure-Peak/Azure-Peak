@@ -408,7 +408,9 @@
 			return READABLE_ZONE_R_LEG
 		if(BODY_ZONE_PRECISE_R_FOOT)
 			return READABLE_ZONE_R_FOOT
-		
+		if(BODY_ZONE_TAUR)
+			return READABLE_ZONE_TAUR
+
 
 /proc/slot2body_zone(slot)
 	switch(slot)
@@ -610,7 +612,7 @@
 		if(/turf)
 			return "turf"
 		else //regex everything else (works for /proc too)
-			return lowertext(replacetext("[the_type]", "[type2parent(the_type)]/", ""))
+			return LOWER_TEXT(replacetext("[the_type]", "[type2parent(the_type)]/", ""))
 
 /proc/strtohex(str)
 	if(!istext(str)||!str)

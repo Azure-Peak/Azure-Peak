@@ -22,6 +22,7 @@
 	job_subclasses = list(
 		/datum/advclass/tailor
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/tailor
 	name = "Tailor"
@@ -57,7 +58,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/needle,
+		/obj/item/needle/tailor,
 		/obj/item/storage/keyring/tailor,
 		/obj/item/dye_brush,
 		/obj/item/recipe_book/sewing,

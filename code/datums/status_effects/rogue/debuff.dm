@@ -439,17 +439,6 @@
 	desc = "My ritual is complete, yet not without cost. I must gift my lux tyme to recover, before I can conduct another rite."
 	icon_state = "rituos_cooldown"
 
-/datum/status_effect/debuff/lux_exhausted
-	id = "lux_exhausted"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/lux_exhausted
-	effectedstats = list(STATKEY_STR = -2, STATKEY_WIL = -2, STATKEY_LCK = -2)
-	duration = 2 HOURS
-
-/atom/movable/screen/alert/status_effect/debuff/lux_exhausted
-	name = "Rituos Langouria"
-	desc = "Body and will alike, sacrificed to complete the rites for another. Your will shall be done, but it will be quite some time before your lux can sustain another rite."
-	icon_state = "rituos_exchange"
-
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended_heavy
@@ -480,7 +469,7 @@
 	id = "revived" //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/revived
 	effectedstats = list(STATKEY_STR = -1, STATKEY_PER = -1, STATKEY_INT = -1, STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)
-	duration = 15 MINUTES		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
+	duration = REVIVED_DEBUFF_DURATION		//Should be long enough to stop someone from running back into battle. Plus, this stacks with body-rot debuff. RIP.
 
 /atom/movable/screen/alert/status_effect/debuff/revived
 	name = "Revived" //Formerly 'Revival Sickness'.
@@ -515,14 +504,14 @@
 			to_chat(owner, span_gamedeadsay("The rushing currents swept me down, down. Down towards the sleeping God. My lungs cried out in pain as I took saltwater into them. Vision clouding with red and black. His eye opened. His eye opened his eye opened HIS EYE OPENED HIS EYE OPENED HE WAS STIRRING-"))
 		if(/datum/patron/divine/ravox)
 			to_chat(owner, span_gamedeadsay("One by one - the injustices I committed were set upon the scales. Sweat ran down my back as I watched those that I saved plead my case. One by one - the scale lifted so slowly. The line of petitioners growing shorter.."))
-		if(/datum/patron/inhumen/matthios) //Pseudoplaceholder. Feel free to rewrite, if desired.
-			to_chat(owner, span_gamedeadsay("It was so cold without Her light. I felt it in my bones and my skin and my insides. Permeating darkness - consuming what little light I took with me. I will never take Her warmth for granted again.."))
-		if(/datum/patron/inhumen/graggar) //Pseudoplaceholder. Feel free to rewrite, if desired.
-			to_chat(owner, span_gamedeadsay("One by one - the injustices I committed were set upon the scales. Sweat ran down my back as I watched those that I saved plead my case. One by one - the scale lifted so slowly. The line of petitioners growing shorter.."))
-		if(/datum/patron/inhumen/baotha) //Pseudoplaceholder. Feel free to rewrite, if desired.
-			to_chat(owner, span_gamedeadsay("I woke upon a bed of silken sheets and creamy pillows, surrounded by my family. They looked overjoyed to see me - but I could hardly see their faces. They smiled and spoke, reaching out to welcome me. I wish I could remember what they looked like.."))
-		if(/datum/patron/inhumen/zizo) //Pseudoplaceholder. Feel free to rewrite, if desired.
-			to_chat(owner, span_gamedeadsay("There, at the edge of reality, laid a singular point of light. The more I focused upon it, the more it expanded. A tapestry of stars, speckled amongst a sea of phlogiston, forming indecipherable truths for me to ponder. I shouldn't have stared for so long.."))
+		if(/datum/patron/inhumen/matthios) // Slightly better placeholder, feel free to rewrite.
+			to_chat(owner, span_gamedeadsay("Darkness, cold, my body curled around a fading golden flame. The endless void fades into a spiral of flickering lights, blazing together agaist the dark."))
+		if(/datum/patron/inhumen/graggar) // Slightly better placeholder. Graggar is going to ultrakill you. Might be too long
+			to_chat(owner, span_gamedeadsay("The Sinistar screamed and raged and wept in ten thousand voices as my body was crushed and torn within its jaws. I felt my self being torn away, victory, defeat, my mortal lyfe all sinking into a river of wrath and regret.."))
+		if(/datum/patron/inhumen/baotha) // Slightly better placeholder, feel free to rewrite
+			to_chat(owner, span_gamedeadsay("I woke upon a bed of silk and roses, my body weightless as a lyfetime of pain and heartbreak melted away into a bissful haze. I want to go back.. "))
+		if(/datum/patron/inhumen/zizo)
+			to_chat(owner, span_gamedeadsay(" I rise, the twice dammed carcass world shrinks below me. My mind expands, filling with forbidden truth as my body is drawn towards a twisting bloody vortex. I sink into the endless storm, it screams its hate in a million voices.."))
 		if(/datum/patron/godless) //Pseudoplaceholder. Feel free to rewrite, if desired.
 			to_chat(owner, span_gamedeadsay("I saw my entire lyfe flash before my eyes, and then-.. nothing. No light, no darkness; complete, utter nothingness - save for a single thought, sinking into the inky-blackness.. and into whatever awaited on the other side. Suddenly, I feel myself yanked in a non-existing direction!"))
 		else
@@ -558,7 +547,7 @@
 /datum/status_effect/debuff/permadeath
 	id = "permadeath"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath
-	duration = 10 MINUTES //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
+	duration = PERMADEATH_DURATION //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
 	examine_text = "<font color='#b40000'>SUBJECTPRONOUN appears haunted by an unseen burden. It feels as though their spirit hangs by the thinnest of threads. Another death may well be their last.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath
@@ -660,14 +649,6 @@
 	name = "Frozen"
 	desc = "An intense cold has seized my body! I can barely move."
 	icon_state = "muscles"
-
-/// wrestler verison of daze////
-/datum/status_effect/debuff/dazed/stunner
-	id = "discombobulated"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed
-	effectedstats = list(STATKEY_CON = -2, STATKEY_INT = -2)
-	duration = 15 SECONDS
-	status_type = STATUS_EFFECT_REFRESH
 
 ///// Freifechter Daze Variants /////
 /datum/status_effect/debuff/dazed/longsword
@@ -847,16 +828,6 @@
 	name = "Lost Hood"
 	desc = "The sacred hood is lost. I feel frail and sapped without it."
 
-/datum/status_effect/debuff/lost_dungeoneer_hood
-	id = "dungeoneerhood"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/dungeoneer_hood
-	effectedstats = list(STATKEY_STR = -3, STATKEY_LCK = -3)
-
-/atom/movable/screen/alert/status_effect/debuff/dungeoneer_hood
-	name = "Gnarly Visage"
-	desc = "I am a repulsive freek looked down upon by everyone else. I'd do best to hide my visage once more."
-	icon_state = "muscles"
-
 ///////////////////////
 /// CLIMBING STUFF ///
 /////////////////////
@@ -871,8 +842,8 @@
 	var/mob/living/carbon/human/climber
 
 /datum/status_effect/debuff/climbing_lfwb/on_creation(mob/living/new_owner, new_stamcost)
-    stamcost = new_stamcost
-    return ..()
+	stamcost = new_stamcost
+	return ..()
 
 /datum/status_effect/debuff/climbing_lfwb/on_apply()
 	. = ..()
@@ -1018,7 +989,7 @@
 	owner.overlay_fullscreen("joybringer_weeds", /atom/movable/screen/fullscreen/weedsm)
 	owner.overlay_fullscreen("joybringer_druqks", /atom/movable/screen/fullscreen/druqks)
 
-	ADD_TRAIT(owner, TRAIT_DRUQK, src)
+	ADD_TRAIT(owner, TRAIT_DRUQK, REF(src))
 
 	if(owner.client)
 		SSdroning.play_area_sound(get_area(owner), owner.client)
@@ -1028,7 +999,7 @@
 	owner.clear_fullscreen("joybringer_druqks")
 	owner.clear_fullscreen("joybringer_weeds")
 
-	REMOVE_TRAIT(owner, TRAIT_DRUQK, src)
+	REMOVE_TRAIT(owner, TRAIT_DRUQK, REF(src))
 
 	if(owner.hallucination > 0)
 		owner.hallucination = max(0, owner.hallucination - 15)

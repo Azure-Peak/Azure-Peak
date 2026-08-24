@@ -148,7 +148,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/setup_auto_repair()
 	repair_time = (max_integrity / auto_repair_mode_base) * auto_repair_mode_time
-	
+
 	// Ensure relative mode is on to respect the new calculated repair_time
 	relative_repair_mode = TRUE
 	auto_repair_mode_triggered = TRUE
@@ -170,6 +170,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	blocksound = SOFTUNDERHIT
 	armor = ARMOR_PADDED
+	blocking_behavior = BLOCKSHIRT | BLOCKARMOR
 
 	repairmsg_begin = "My skin begins to slowly mend its abuse.."
 	repairmsg_continue = "My skin mends some of its abuse.."
@@ -188,7 +189,7 @@
 
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
-	name = "enduring skin"
+	name = "enduring skin" //Now only a parent for the Lirvan tithebound; the jobs use the manual sewable version.
 	desc = "It's far more than just an oath. \
 	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
@@ -196,99 +197,5 @@
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
 	</br>Happiness must be fought for."
 	armor = ARMOR_PADDED
-	max_integrity = 400
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
 	repair_time = 20 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monke
-	name = "trained skin"
-	desc = "They say I've taken the first step on a path older than memory.\
-	</br>Aeon, Psydon, Adonai… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
-	</br>The world is said to be held together by His sacrifice. I can't imagine something like that, but the Disciples say it is true.\
-	</br>I came here because I wanted purpose, something solid to believe in.\
-	</br>They tell me doubt is natural, and that understanding comes with time.\
-	</br>For now, I will listen, learn, and try to live in a way that does not waste what was given to us."
-	max_integrity = 225
-	repair_time = 25 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/iconoclast
-	name = "dragon's skin"
-	desc = "We passed upon the stair, we spoke of was and when.</br> \
-	Although I wasn't there, he said I was his friend.</br> \
-	Which came as some surprise. I spoke into his eyes.</br> \
-	I thought you died alone, a long, long time ago.</br> \
-	Oh no, not me, I never lost control.</br> \
-	You're face to face, with the man who sold the world."
-	armor = ARMOR_DRAGONSKIN
-	max_integrity = 450
-	repair_time = 20 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
-	name = "hardened skin"
-	desc = "Toughened from abuse. My mettle remains."
-	max_integrity = 200
-	repair_time = 25 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
-	name = "unstoppable skin"
-	desc = "I've endured enough. The onslaught has lost its meaning."
-	armor = ARMOR_LEATHER
-	blocksound = SOFTUNDERHIT
-	blocking_behavior = SAMEWEAR
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker/chest
-	name = "unstoppable chest"
-	desc = "The callouses could stop arrows! But only so many."
-	slot_flags = ITEM_SLOT_ARMOR
-	armor = ARMOR_MAILLE
-	resistance_flags = FLAMMABLE
-	blocksound = SOFTHIT
-	blocking_behavior = SAMEWEAR
-	body_parts_covered = COVERAGE_VEST
-	body_parts_inherent = COVERAGE_VEST
-	max_integrity = 180
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
-	name = "scar-marred skin"
-	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
-	max_integrity = 250
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats
-	name = "bouhoi bujeog tattoos"
-	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder."
-	resistance_flags = FIRE_PROOF
-	icon_state = "easttats"
-	armor = ARMOR_PLATE
-	body_parts_covered = COVERAGE_NEARLY_FULL
-	body_parts_inherent = COVERAGE_NEARLY_FULL
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	//allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = 350
-
-	repairmsg_begin = "The tattoos begin to slowly mend their abuse..."
-	repairmsg_continue = "The tattoos mend some of their abuse..."
-	repairmsg_stop = "The tattoos stops mending from the onslaught!"
-	repairmsg_end = "The tattoos flow more calmly, as they finish resting and regain their strength."
-
-	interrupt_damount = 20
-	repair_time = 30 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats/mistwalker
-	name = "seon-mul tattoos"
-	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
-	armor = ARMOR_LEATHER
-	max_integrity = 450
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/gladiator
-	name = "pit-hardened skin"
-	desc = "Are you not entertained?!"
-	max_integrity = 200
-	repair_time = 25 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monk
-	name = "tough skin"
-	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
-	max_integrity = 200
-	repair_time = 25 SECONDS

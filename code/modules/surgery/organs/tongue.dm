@@ -84,6 +84,11 @@
 		/mob/living/carbon/human/proc/emote_lizard_hiss,
 		/mob/living/carbon/human/proc/emote_lizard_squeal,
 		/mob/living/carbon/human/proc/emote_lizard_thump,
+		/mob/living/carbon/human/proc/emote_growl,
+		/mob/living/carbon/human/proc/emote_purr,
+		/mob/living/proc/emote_squeak,
+		/mob/living/proc/emote_hiss,
+		/mob/living/carbon/human/proc/emote_phiss,
 	)
 //	modifies_speech = TRUE
 /*
@@ -220,7 +225,7 @@
 	var/phomeme_type = "sans"
 	var/list/phomeme_types = list("sans", "papyrus")
 
-/obj/item/organ/tongue/bone/Initialize()
+/obj/item/organ/tongue/bone/Initialize(mapload)
 	. = ..()
 	phomeme_type = pick(phomeme_types)
 
@@ -273,12 +278,12 @@
 	name = "wild tongue"
 	emote_verbs = list(
 		/mob/living/carbon/human/proc/emote_meow,
-		/mob/living/carbon/human/proc/emote_mrrp,
+		/mob/living/proc/emote_mrrp,
 		/mob/living/carbon/human/proc/emote_caw,
 		/mob/living/carbon/human/proc/emote_peep,
 		/mob/living/carbon/human/proc/emote_hoot,
-		/mob/living/carbon/human/proc/emote_squeak,
-		/mob/living/carbon/human/proc/emote_hiss,
+		/mob/living/proc/emote_squeak,
+		/mob/living/proc/emote_hiss,
 		/mob/living/carbon/human/proc/emote_phiss,
 		/mob/living/carbon/human/proc/emote_roar,
 		/mob/living/carbon/human/proc/emote_howl,
@@ -292,8 +297,15 @@
 		/mob/living/carbon/human/proc/emote_moo,
 		/mob/living/carbon/human/proc/emote_bark,
 		/mob/living/carbon/human/proc/emote_growl,
-		/mob/living/carbon/human/proc/emote_prbt,
+		/mob/living/proc/emote_prbt,
 		/mob/living/carbon/human/proc/emote_bleat,
+		/mob/living/carbon/human/proc/emote_chitter,
+		/mob/living/carbon/human/proc/emote_flutter,
+		/mob/living/carbon/human/proc/emote_yip,
+		/mob/living/carbon/human/proc/emote_lizard_bellow,
+		/mob/living/carbon/human/proc/emote_lizard_hiss,
+		/mob/living/carbon/human/proc/emote_lizard_squeal,
+		/mob/living/carbon/human/proc/emote_lizard_thump,
 	)
 
 /obj/item/organ/tongue/moth
@@ -302,4 +314,5 @@
 	emote_verbs = list(
 		/mob/living/carbon/human/proc/emote_chitter,
 		/mob/living/carbon/human/proc/emote_flutter,
+		/mob/living/proc/emote_squeak,
 	)

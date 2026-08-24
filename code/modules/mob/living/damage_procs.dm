@@ -19,7 +19,7 @@
 
 		return 0
 	clear_typing_indicator()
-	var/damage_amount =  forced ? damage : damage * hit_percent
+	var/damage_amount =	forced ? damage : damage * hit_percent
 	switch(damagetype)
 		if(BRUTE)
 			adjustBruteLoss(damage_amount, forced = forced)
@@ -229,7 +229,7 @@
 
 	if (!.)
 		return FALSE
-	
+
 	if(updating_health)
 		updatehealth()
 	return amount

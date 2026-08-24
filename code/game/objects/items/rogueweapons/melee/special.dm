@@ -183,7 +183,7 @@
 			hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	. = ..()
 
-/obj/item/rogueweapon/mace/stunmace/Initialize()
+/obj/item/rogueweapon/mace/stunmace/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -444,7 +444,7 @@
 	sharpness_mod = 2
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/rogueweapon/handclaw/steel/graggaredged/Initialize()
+/obj/item/rogueweapon/handclaw/steel/graggaredged/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
@@ -465,7 +465,7 @@
 	max_integrity = 333
 	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/rogueweapon/handclaw/steel/graggarblunt/Initialize()
+/obj/item/rogueweapon/handclaw/steel/graggarblunt/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
@@ -480,7 +480,7 @@
 	desc = "A pair of heavily curved claws, styled after beasts and used in combat by some of the more uncivilized warriors who try to mimic the fighting styles of the wild, or by anyone who thinks they can actually do that."
 	icon_state = "ironclaw"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 3 // this is not a katar? 
+	wdefense = 3 // this is not a katar?
 	force = 20
 	possible_item_intents = list(/datum/intent/claw/cut/iron, /datum/intent/claw/lunge/iron, /datum/intent/claw/rend)
 	wbalance = WBALANCE_NORMAL
@@ -673,7 +673,7 @@
 	use_light = FALSE
 	spread_flame = FALSE
 	icon_state_ignited = "sci_firetongue_on"
-	
+
 /datum/component/ignitable/fluff/sci_sand
 	use_light = FALSE
 	spread_flame = FALSE
@@ -682,7 +682,7 @@
 /datum/component/ignitable/Initialize(...)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
-	
+
 	RegisterSignal(parent, COMSIG_STRUCTURE_ATTACKBY, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
@@ -743,8 +743,7 @@
 					ignited = TRUE
 			if(isliving(target))
 				var/mob/living/M = target
-				M.adjust_fire_stacks(5)
-				M.ignite_mob()
+				apply_scorch_stack(M, 3, BODY_ZONE_CHEST)
 				ignited = TRUE
 			if(ignited && single_use)
 				is_active = FALSE
@@ -882,9 +881,9 @@
 	desc = "A hardy repurposed dwarven mining warpick. Made to handle the dwellers above and below, both clad in rock and forged rock."
 	icon_state = "dwarpick"
 	possible_item_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)	
+	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)
 	max_blade_int = 200 //10% increase over the steel pick
-	max_integrity = 660 
+	max_integrity = 660
 
 /obj/item/rogueweapon/sword/falchion/militia
 	name = "maciejowski"
@@ -1394,7 +1393,7 @@
 	<small>Runes glow near the head of the pike. A sure sign of the arcyne.</small>"
 	force = 15
 	force_wielded = 30
-	throwforce = 40 // It'll be funny. Trust.
+	throwforce = 10 //No
 	possible_item_intents = list(SPEAR_BASH)
 	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
@@ -1410,16 +1409,11 @@
 	if(active_item)
 		return
 	active_item = TRUE
-	if(user.job == "Man at Arms")
+	if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
 		to_chat(user, span_suppradio("The standard's runes pulse, accepting me as its <b>master</b>."))
-		user.change_stat(STATKEY_LCK, 3)
-		user.change_stat(STATKEY_PER, 2)
 		user.add_stress(/datum/stressevent/keep_standard)
-		ADD_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
-		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
-			to_chat(user, span_suppradio("<small>It remains ready for your word. You need only ask.</small>"))
-			add_verb(user, /mob/proc/standard_position)
-			add_verb(user, /mob/proc/standard_rally)
+		add_verb(user, /mob/proc/standard_position)
+		add_verb(user, /mob/proc/standard_rally)
 	else
 		to_chat(user, span_suicide("The standard's runes pulse, rejecting me as its <b>master</b>."))
 
@@ -1428,16 +1422,11 @@
 	if(!active_item)
 		return
 	active_item = FALSE
-	if(user.job == "Man at Arms")
+	if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
 		to_chat(user, span_monkeyhive("The standard's runes pulse, rhythmically, as if sad to see you release your control."))
-		user.change_stat(STATKEY_LCK, -3)
-		user.change_stat(STATKEY_PER, -2)
 		user.remove_stress(/datum/stressevent/keep_standard)
-		REMOVE_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
-		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
-			to_chat(user, span_monkeyhive("<small>You feel ill. Was that a mistake?</small>"))
-			remove_verb(user, /mob/proc/standard_position)
-			remove_verb(user, /mob/proc/standard_rally)
+		remove_verb(user, /mob/proc/standard_position)
+		remove_verb(user, /mob/proc/standard_rally)
 	else
 		to_chat(user, span_suicide("The standard's runes pulse, as if sighing in relief once I let go."))
 
@@ -1445,7 +1434,7 @@
 /obj/item/rogueweapon/spear/keep_standard/update_icon()
 	refresh_detail_overlay()
 
-/obj/item/rogueweapon/spear/keep_standard/Initialize()
+/obj/item/rogueweapon/spear/keep_standard/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)

@@ -27,6 +27,9 @@
 /obj/item/organ/snout/tajaran
 	name = "tajaran snout"
 
+/obj/item/organ/snout/moth
+	name = "fluvian snout"
+
 /obj/item/organ/snout/cat
 	name = "cat snout"
 	accessory_type = /datum/sprite_accessory/snout/cat

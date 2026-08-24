@@ -1,4 +1,5 @@
 /obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced
+	dish_type = DISH_FRUIT
 	name = "apple slice"
 	icon = 'modular/Neu_Food/icons/raw/raw_fruit.dmi'
 	icon_state = "apple_sliced"
@@ -37,9 +38,9 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS, /datum/reagent/medicine/stronghealth = 12)
 
-/obj/item/reagent_containers/food/snacks/grown/apple/gold/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 155, "size" = 1))
+/obj/item/reagent_containers/food/snacks/grown/apple/gold/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 155, "size" = 1))
 
 /obj/item/reagent_containers/food/snacks/grown/apple/gold/examine(mob/user)
 	. = ..()
@@ -59,9 +60,9 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS, /datum/reagent/medicine/stronghealth = 6)
 
-/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced/gold/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 155, "size" = 1))
+/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced/gold/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 155, "size" = 1))
 
 /obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced/gold/examine(mob/user)
 	. = ..()
@@ -76,9 +77,9 @@
 	icon_state = "gapplecore"
 	icon = 'icons/roguetown/items/produce.dmi'
 
-/obj/item/trash/gapplecore/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 77, "size" = 1))
+/obj/item/trash/gapplecore/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 77, "size" = 1))
 
 /obj/item/trash/gapplecore/examine(mob/user)
 	. = ..()

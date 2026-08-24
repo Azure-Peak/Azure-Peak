@@ -1,17 +1,37 @@
 /*ALL DEFINES RELATED TO INVENTORY OBJECTS, MANAGEMENT, ETC, GO HERE*/
 
 //ITEM INVENTORY WEIGHT, FOR w_class
-#define WEIGHT_CLASS_TINY     1 //Usually items smaller then a human hand, (e.g. playing cards, lighter, scalpel, coins/holochips)
-#define WEIGHT_CLASS_SMALL    2 //Pockets can hold small and tiny items, (e.g. flashlight, multitool, grenades, GPS device)
-#define WEIGHT_CLASS_NORMAL   3 //Standard backpacks can carry tiny, small & normal items, (e.g. fire extinguisher, stun baton, gas mask, metal sheets)
-#define WEIGHT_CLASS_BULKY    4 //Items that can be weilded or equipped but not stored in an inventory, (e.g. defibrillator, backpack, space suits)
-#define WEIGHT_CLASS_HUGE     5 //Usually represents objects that require two hands to operate, (e.g. shotgun, two-handed melee weapons)
+#define WEIGHT_CLASS_TINY		1 //Usually items smaller then a human hand, (e.g. playing cards, lighter, scalpel, coins/holochips)
+#define WEIGHT_CLASS_SMALL	2 //Pockets can hold small and tiny items, (e.g. flashlight, multitool, grenades, GPS device)
+#define WEIGHT_CLASS_NORMAL	3 //Standard backpacks can carry tiny, small & normal items, (e.g. fire extinguisher, stun baton, gas mask, metal sheets)
+#define WEIGHT_CLASS_BULKY	4 //Items that can be weilded or equipped but not stored in an inventory, (e.g. defibrillator, backpack, space suits)
+#define WEIGHT_CLASS_HUGE		5 //Usually represents objects that require two hands to operate, (e.g. shotgun, two-handed melee weapons)
 #define WEIGHT_CLASS_GIGANTIC 6 //Essentially means it cannot be picked up or placed in an inventory, (e.g. mech parts, safe)
 
 //Inventory depth: limits how many nested storage items you can access directly.
 //1: stuff in mob, 2: stuff in backpack, 3: stuff in box in backpack, etc
 #define INVENTORY_DEPTH		2
 #define STORAGE_VIEW_DEPTH	2
+
+// STRIPPING DELAYS
+#define STRIP_DELAY_TRIVIAL	(1 SECONDS)	//rings, trinkets
+#define STRIP_DELAY_FAST	(2 SECONDS)	//gloves, quivers, belt pouches, straps
+#define STRIP_DELAY_NORMAL	(4 SECONDS)	//the default for everything unspecified
+#define STRIP_DELAY_SLOW	(5 SECONDS)	//boots, laced or buckled gear
+#define STRIP_DELAY_ARMOR	(6 SECONDS)	// full plate
+#define STRIP_DELAY_LOCKED	(30 SECONDS)	//cursed or bound items
+
+//time taken to search somebody's pockets
+#define POCKET_STRIP_DELAY	STRIP_DELAY_NORMAL
+
+// Multipliers applied to strip_delay. Lower = faster
+#define STRIP_DELAY_MULT_SURRENDER		0.5	//target is compliant, surrendering, or has broken armor
+#define STRIP_DELAY_MULT_UNCLAIMED_CORPSE	0.33 // Makes stripping NPC way faster after they are killed, to support a proper scrapping econo0my
+
+// Loot filter
+#define LOOT_FILTER_ALL		"all"
+#define LOOT_FILTER_FABRIC	"fabric"
+#define LOOT_FILTER_SMELT	"smelt"
 
 //ITEM INVENTORY SLOT BITMASKS
 
@@ -41,6 +61,7 @@
 #define ITEM_SLOT_BACKPACK		(1<<23)
 
 #define ITEM_SLOT_BACK			(ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R)
+#define ITEM_SLOT_ALL			(ITEM_SLOT_PANTS | ITEM_SLOT_SHIRT | ITEM_SLOT_ARMOR | ITEM_SLOT_SHOES | ITEM_SLOT_GLOVES | ITEM_SLOT_RING | ITEM_SLOT_MOUTH | ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK | ITEM_SLOT_NECK | ITEM_SLOT_MASK | ITEM_SLOT_HANDS | ITEM_SLOT_BELT | ITEM_SLOT_BACK | ITEM_SLOT_INBACK | ITEM_SLOT_HIP | ITEM_SLOT_WRISTS | ITEM_SLOT_OCLOTHING | ITEM_SLOT_ICLOTHING | ITEM_SLOT_POCKET | ITEM_SLOT_BACKPACK)
 
 //SLOTS
 
@@ -169,6 +190,8 @@
 #define HIDESNOUT		(1<<15)
 #define HIDEWINGS		(1<<16)
 
+#define HAIR_OCCLUDING_FLAGS (HIDEHAIR|HIDEEARS|HIDEFACE|HIDESNOUT)
+
 //blocking_behavior var on clothing items
 #define BLOCKBOOTS		(1<<0)
 #define BLOCKGLOVES		(1<<1)
@@ -210,6 +233,7 @@
 #define BELOW_HEAD	(CHEST | GROIN | VITALS | ARMS | HANDS | LEGS | FEET)
 #define BELOW_CHEST	(GROIN | VITALS | LEGS | FEET) //for water
 #define FULL_BODY	(FULL_HEAD | NECK | BELOW_HEAD)
+#define FULL_BODY_NO_CHEST	(GROIN | VITALS | LEGS | FEET | ARMS | HANDS | FULL_HEAD | NECK)
 
 //defines for the index of hands
 #define LEFT_HANDS 1
@@ -229,7 +253,7 @@
 //flags for alternate styles: These are hard sprited so don't set this if you didn't put the effort in
 #define NORMAL_STYLE		0
 #define ALT_STYLE			1
-#define DIGITIGRADE_STYLE 	2
+#define DIGITIGRADE_STYLE	2
 
 //flags for outfits that have mutantrace variants (try not to use this): Currently only needed if you're trying to add tight fitting bootyshorts
 #define NO_MUTANTRACE_VARIATION		0

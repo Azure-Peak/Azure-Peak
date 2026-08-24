@@ -16,7 +16,7 @@
 	. += span_info("Left-clicking the machine with an item will load it into the stockpile, rewarding you coinage in turn. Make sure to register an account with the MEISTER, first, or you won't receive any coinage.")
 	. += span_info("Right-clicking the machine will automatically load all adjacent items into the stockpile at once.")
 	. += span_info("The vomitorium's stockpile naturally refills over time. Loaded items are added to the stockpile's quantities, which can then be vended by others or exported by the Steward for profit.")
-/obj/structure/roguemachine/stockpile/Initialize()
+/obj/structure/roguemachine/stockpile/Initialize(mapload)
 	. = ..()
 	SSroguemachine.stock_machines += src
 	withdraw_tab = new(src)
@@ -59,7 +59,8 @@
 	data["compact"] = withdraw_tab.compact ? TRUE : FALSE
 	data["categories"] = categories
 	data["category"] = withdraw_tab.current_category
-	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_FOOD_STIPEND)) ? TRUE : FALSE
+	data["fiscal_authority"] = has_fiscal_authority(user) ? TRUE : FALSE
+	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_ROYAL_SUBSIDY)) ? TRUE : FALSE
 	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
 	data["treasury_floor"] = SStreasury.stockpile_purchase_floor
 	data["below_floor"] = treasury_balance < SStreasury.stockpile_purchase_floor
@@ -155,6 +156,8 @@
 /obj/structure/roguemachine/stockpile/proc/try_auto_export_units(datum/roguestock/D, units)
 	if(!D || !D.trade_good_id || units <= 0)
 		return 0
+	if(D.autoexport_disabled)
+		return 0
 	if(D.stockpile_amount < units)
 		return 0
 	var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
@@ -238,7 +241,10 @@
 					if(try_auto_export_units(R, bundle_amt) <= 0)
 						R.stockpile_amount -= bundle_amt
 						if(message)
-							say("The Crown's [R.name] stockpile is full and region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+							if(R.autoexport_disabled)
+								say("The Crown's [R.name] stockpile is full, autoexport disabled, take it elsewhere.")
+							else
+								say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
 						return
 					auto_exported = TRUE
 				SStreasury.dirty_market_view()
@@ -249,6 +255,11 @@
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				R.refresh_auto_price()
 				var/amt = R.payout_price * bundle_amt
+				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
+					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
+					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+					send_ooc_note("<b>MEISTER:</b> Subsidy claims [amt]m from the [R.name]. Thank you for your diligent service.", name = H.real_name)
+					return
 				SStreasury.economic_output += amt
 				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
 				if(auto_exported && message)
@@ -276,7 +287,10 @@
 				if(try_auto_export_units(R, 1) <= 0)
 					R.stockpile_amount -= 1
 					if(message)
-						say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+						if(R.autoexport_disabled)
+							say("The Crown's [R.name] stockpile is full, autoexport disabled, take it elsewhere.")
+						else
+							say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
 					return
 				auto_exported = TRUE
 			R.refresh_auto_price()
@@ -294,9 +308,9 @@
 				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)")
 			else if(crown_delta < 0)
 				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)")
+				record_treasury_expense(TREASURY_FLOW_MISC, "Quality Penalty", -crown_delta)
 			if(!full_on_arrival)
 				R.stockpile_amount += 1
-			R.stockpile_amount += 1 //stacked logs need to check for multiple
 			SStreasury.dirty_market_view()
 			qdel(I)
 			if(message == TRUE)
@@ -304,6 +318,11 @@
 			if(sound == TRUE)
 				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 			if(amt)
+				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
+					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
+					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+					send_ooc_note("<b>MEISTER:</b> Subsidy claims [amt]m from the [R.name]. Thank you for your diligent service.", name = H.real_name)
+					return
 				SStreasury.economic_output += true_value
 				var/bounty_msg = "+[amt] from [R.name] bounty"
 				if(crown_delta != 0)

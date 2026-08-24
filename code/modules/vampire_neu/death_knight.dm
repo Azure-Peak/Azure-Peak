@@ -36,15 +36,15 @@
 				to_chat(owner, "<B>Goal #[count]</B>: [objective.explanation_text] <span class='redtext'>Failure.</span>")
 				traitorwin = FALSE
 			count += objective.triumph_count
-	var/special_role_text = lowertext(name)
+	var/special_role_text = LOWER_TEXT(name)
 	if(traitorwin)
 		if(count)
 			if(owner)
 				owner.adjust_triumphs(count)
-		to_chat(world, span_greentext("The [special_role_text] has TRIUMPHED!"))
+		to_world(span_greentext("The [special_role_text] has TRIUMPHED!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 100, FALSE, pressure_affected = FALSE)
 	else
-		to_chat(world, span_redtext("The [special_role_text] has FAILED!"))
+		to_world(span_redtext("The [special_role_text] has FAILED!"))
 		if(owner?.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 100, FALSE, pressure_affected = FALSE)

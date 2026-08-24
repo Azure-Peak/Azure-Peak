@@ -79,11 +79,11 @@
 		if(1) return 128 //50%
 		if(2) return 115 //55%
 		if(3) return 102 //60%
-		if(4) return 90  //65%
-		if(5) return 77  //70%
-		if(6) return 64  //75%
+		if(4) return 90	//65%
+		if(5) return 77	//70%
+		if(6) return 64	//75%
 
-	return 255	
+	return 255
 
 /turf/closed/proc/wallshove(mob/living/user)
 	if(user.wallpressed)
@@ -138,7 +138,7 @@
 				H.visible_message(span_warning("[H] runs into [src]!"), span_warning("I run into [src]!"))
 				addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, Knockdown), 10), 10)
 
-/turf/closed/Initialize()
+/turf/closed/Initialize(mapload)
 	. = ..()
 	if(above_floor)
 		var/turf/open/transparent/openspace/target = get_step_multiz(src, UP)
@@ -247,12 +247,13 @@
 					to_chat(user, span_warning("I'm not capable of climbing this wall."))
 					return
 				used_time = max(70 - (myskill * 10) - (L.STASPD * 3), 30)
+			if(!L.start_climb())
+				return
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				playsound(user, climbsound, 100, TRUE)
 			user.visible_message(span_warning("[user] starts to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]."), span_warning("I start to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]..."))
-			L.mid_climb = TRUE
-			var/climbed = do_after(L, used_time, target = src)
-			L.mid_climb = FALSE
+			var/climbed = do_after(L, used_time, target = src, extra_checks = L.climb_check_callback())
+			L.end_climb()
 			if(climbed)
 				var/pulling = user.pulling
 				var/mob/living/carbon/human/climber = user
@@ -262,11 +263,13 @@
 				if(ismob(pulling))
 					user.pulling.forceMove(target)
 				var/climber_armor_class = climber.highest_ac_worn()
+				var/hadflying = (user.movement_type & FLYING)
 				if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
 					user.movement_type |= FLYING
 				L.stamina_add(stamina_cost_final)
 				user.forceMove(target)
-				user.movement_type &= ~FLYING
+				if(!hadflying)
+					user.movement_type &= ~FLYING
 				if(istype(user.loc, /turf/open/transparent/openspace)) // basically only apply this slop after we moved. if we are hovering on the openspace turf, then good, we are doing an 'active climb' instead of the usual vaulting action
 					var/climber2wall_dir = get_dir(climber, src)
 					climber.wallpressed = climber2wall_dir
@@ -400,13 +403,13 @@
 /turf/closed/indestructible/opshuttle
 	icon_state = "wall3"
 
-/turf/closed/indestructible/fakeglass/Initialize()
+/turf/closed/indestructible/fakeglass/Initialize(mapload)
 	. = ..()
 	icon_state = null //set the icon state to null, so our base state isn't visible
 	underlays += mutable_appearance('icons/obj/structures.dmi', "grille") //add a grille underlay
 	underlays += mutable_appearance('icons/turf/floors.dmi', "plating") //add the plating underlay, below the grille
 
-/turf/closed/indestructible/opsglass/Initialize()
+/turf/closed/indestructible/opsglass/Initialize(mapload)
 	. = ..()
 	icon_state = null
 	underlays += mutable_appearance('icons/obj/structures.dmi', "grille")

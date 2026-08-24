@@ -9,7 +9,7 @@
 	a_intent = INTENT_HARM
 	d_intent = INTENT_PARRY
 
-/mob/living/carbon/human/species/human/northern/guard_dummy/Initialize()
+/mob/living/carbon/human/species/human/northern/guard_dummy/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/human/northern)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
@@ -21,8 +21,8 @@
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/guard_dummy)
-	adjust_skillrank(/datum/skill/combat/swords, 6, TRUE)
-	adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
+	adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_LEGENDARY, TRUE)
+	adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_LEGENDARY, TRUE)
 	cmode = TRUE
 	apply_status_effect(/datum/status_effect/buff/clash/test_dummy)
 

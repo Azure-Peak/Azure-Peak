@@ -7,7 +7,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
 	equip_sound = 'sound/blank.ogg'
 	drop_sound = 'sound/blank.ogg'
-	pickup_sound =  'sound/blank.ogg'
+	pickup_sound =	'sound/blank.ogg'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	sleevetype = "leg"
 	equip_delay_self = 30
@@ -50,5 +50,6 @@
 		flags_inv &= ~HIDETAIL
 	else
 		flags_inv |= HIDETAIL
+	persist_inv_flags(HIDETAIL)
 	H.update_inv_pants()
 

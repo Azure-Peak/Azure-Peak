@@ -114,7 +114,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "bites the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "stab"
 
 /obj/item/rogueweapon/spider_fang
@@ -148,7 +148,7 @@
 /obj/item/rogueweapon/spider_fang/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/spider_fang/Initialize()
+/obj/item/rogueweapon/spider_fang/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)

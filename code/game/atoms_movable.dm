@@ -47,10 +47,10 @@
 	var/jumping = FALSE
 	var/zfalling = FALSE
 	/**
-	 * an associative lazylist of relevant nested contents by "channel", the list is of the form: list(channel = list(important nested contents of that type))
-	 * each channel has a specific purpose and is meant to replace potentially expensive nested contents iteration.
-	 * do NOT add channels to this for little reason as it can add considerable memory usage.
-	 */
+		* an associative lazylist of relevant nested contents by "channel", the list is of the form: list(channel = list(important nested contents of that type))
+		* each channel has a specific purpose and is meant to replace potentially expensive nested contents iteration.
+		* do NOT add channels to this for little reason as it can add considerable memory usage.
+		*/
 	var/list/important_recursive_contents
 
 	/// String representing the spatial grid groups we want to be held in.
