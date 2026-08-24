@@ -166,5 +166,5 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air with its fangs!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshmed"
 	item_d_type = "slash"

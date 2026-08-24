@@ -199,31 +199,3 @@
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
 	repair_time = 20 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats
-	name = "bouhoi bujeog tattoos"
-	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder."
-	resistance_flags = FIRE_PROOF
-	icon_state = "easttats"
-	armor = ARMOR_PLATE
-	body_parts_covered = COVERAGE_NEARLY_FULL
-	body_parts_inherent = COVERAGE_NEARLY_FULL
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	//allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
-
-	repairmsg_begin = "The tattoos begin to slowly mend their abuse..."
-	repairmsg_continue = "The tattoos mend some of their abuse..."
-	repairmsg_stop = "The tattoos stops mending from the onslaught!"
-	repairmsg_end = "The tattoos flow more calmly, as they finish resting and regain their strength."
-
-	interrupt_damount = 20
-	repair_time = 30 SECONDS
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats/mistwalker
-	name = "seon-mul tattoos"
-	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
-	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE

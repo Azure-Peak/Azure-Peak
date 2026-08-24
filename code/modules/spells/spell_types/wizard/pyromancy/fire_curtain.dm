@@ -62,7 +62,7 @@
 	var/list/affected_turfs = get_curtain_turfs(center, H.dir)
 
 	for(var/turf/T in affected_turfs)
-		new /obj/effect/temp_visual/trap_wall/fire(T)
+		new /obj/effect/temp_visual/telegraph/wall/fire(T)
 
 	H.visible_message(span_danger("[H] conjures a wall of flame!"))
 	playsound(get_turf(H), 'sound/magic/charging_fire.ogg', 60, TRUE)
@@ -112,8 +112,7 @@
 		new /obj/effect/curtain_fire(T, curtain_life, caster, aim_zone)
 	playsound(turfs[1], pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 120, TRUE, 6)
 
-/obj/effect/temp_visual/trap_wall/fire
-	color = GLOW_COLOR_FIRE
+/obj/effect/temp_visual/telegraph/wall/fire
 	light_color = GLOW_COLOR_FIRE
 	duration = 3 SECONDS
 
@@ -169,7 +168,8 @@
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
-		arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE)
+		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+			return
 	else
 		var/fallback_zone = check_zone(hit_zone)
 		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, no_debuff = TRUE)

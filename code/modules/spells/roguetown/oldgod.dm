@@ -104,7 +104,7 @@
 	var/obj/item/found_thing
 	if(H.get_stress_amount() < 0 && H.STALUC > 10)
 		found_thing = new /obj/item/roguecoin/gold(T)
-	else if(H.STALUC == 10)
+	else if(H.STALUC >= 10)
 		found_thing = new /obj/item/roguecoin/silver(T)
 	else
 		found_thing = new /obj/item/roguecoin/copper(T)
