@@ -507,7 +507,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/needle/thorn/cleric = 1,
-		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
+		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // our cleric pre_equip handles cmode music
 	switch(H.patron?.type)
@@ -652,7 +652,7 @@
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora
 				if("Exposed")
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
-		if (/datum/patron/divine/xylix)
+		if (/datum/patron/divine/xylix) //NGL, we need more Xylix stuff for advs, this fit is horrible
 			head = /obj/item/clothing/head/roguetown/roguehood/white
 			mask = /obj/item/clothing/mask/rogue/xylixmask
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
@@ -666,7 +666,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
-			I.grant_inspiration(H, bard_tier = BARD_T1) //Weaker than clergy, vs cantor there's NO dodge expert + knives skill
+			I.grant_inspiration(H, bard_tier = BARD_T2) //(NGL Xylix needs better high-end miracles vs clutching off this system, until then, untouched)
 			if(H.mind)
 				var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
 				var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)

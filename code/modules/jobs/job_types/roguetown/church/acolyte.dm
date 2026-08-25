@@ -173,6 +173,7 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			beltl = /obj/item/rogueweapon/stoneaxe/woodcut //QOL for labor, you're going to be cutting trees regardless of what you want to do
 		if(/datum/patron/divine/ravox)
 			head = /obj/item/clothing/head/roguetown/roguehood/ravox
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
