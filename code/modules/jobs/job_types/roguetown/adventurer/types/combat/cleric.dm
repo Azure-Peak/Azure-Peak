@@ -402,7 +402,14 @@
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
-			cloak = /obj/item/clothing/cloak/absolutionistrobe/black //Formerly /obj/item/clothing/cloak/tabard/devotee/psydon.
+			if(H.mind)
+				var/cloaks = list("Robe", "Tabard")
+				var/cloakchoice = input(H,"Choose your covering", "DON THY VESTAMENTS") as anything in cloaks
+				switch(cloakchoice)
+					if("Robe")
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/absolutionistrobe/black, SLOT_CLOAK, TRUE)
+					if("Tabard")
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE)
 		if(/datum/patron/divine/astrata)
 			cloak = /obj/item/clothing/cloak/templar/astratancleric
 		if(/datum/patron/divine/noc)
@@ -503,11 +510,18 @@
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
-			cloak = /obj/item/clothing/cloak/absolutionistrobe/black
 			head = /obj/item/clothing/head/roguetown/roguehood/psydon/black
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			shoes = /obj/item/clothing/shoes/roguetown/sandals/toga
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			if(H.mind)
+				var/cloaks = list("Robe", "Tabard")
+				var/cloakchoice = input(H,"Choose your covering", "DON THY VESTAMENTS") as anything in cloaks
+				switch(cloakchoice)
+					if("Robe")
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/absolutionistrobe/black, SLOT_CLOAK, TRUE)
+					if("Tabard")
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE)
 		if(/datum/patron/divine/undivided)
 			head = /obj/item/clothing/head/roguetown/roguehood/undividedcleric
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric //Only exclusion cause it looks bad without the cloak over it
@@ -688,8 +702,9 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+			H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 		if(/datum/patron/inhumen/zizo)
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/black //evil ass cultist look
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black //evil ass cultist look
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
@@ -699,7 +714,7 @@
 		else
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe //placeholder, anyone who doesn't have cool patron drip sprites just gets generic robes
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe //placeholder, anyone who doesn't have cool patron drip sprites just gets generic robes
 			head = /obj/item/clothing/head/roguetown/roguehood
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -759,7 +774,7 @@
 			to_chat(H, span_warning("Under my oath I travel the lands, spreading the word of my diety - much to the distain of some, I've learned how to maneuver, defend myself and climb."))
 		if("Pacifist - Pacifism + Holy Skill + Higher Staves Skill") //Graggarites Cannot take this Oath, #FRAG4GRAG.
 			ADD_TRAIT(H, TRAIT_PACIFISM, TRAIT_GENERIC) //Huge Malus, here.
-			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //better parrying at the cost of being able to physically melee. (Nessessary so you don't die to high-level NPCs in blockades)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //better parrying at the cost of being unable to directly physically hurt people/NPCs (excluding divine blast)
 			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_MASTER, TRUE)
 			to_chat(H, span_warning("Under my oath I travel the lands, never to lift a blade nor fist, preaching the word and ways of my deity."))
 			if(istype(H.patron, /datum/patron/old_god)) //WEEP FOR ALL THAT IS AND SHALT BE

@@ -90,6 +90,7 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 		if(/datum/patron/divine/noc)
 			head = /obj/item/clothing/head/roguetown/roguehood/nochood
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
@@ -181,6 +182,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			l_hand = /obj/item/rope/chain
+			H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			cloak = /obj/item/clothing/cloak/templar/xylixian
@@ -248,7 +250,6 @@
 	if(H.patron?.type == /datum/patron/divine/astrata) // Light and Guidance - Like ravox, they probably can endure seeing some shit.
 		H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-		H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 	if(H.patron?.type == /datum/patron/divine/noc) // Arcyne and Knowledge - Probably good at reading and the other arcyne adjacent stuff.
 		H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 		H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -327,10 +328,8 @@
 			to_chat(H, span_warning("Under my oath to the Clergy, I am sworn to the duties of tending the House of the Divine."))
 		if("Pacifist - Pacifism + Maximal Holy Skill + Expert Staves Skill")
 			ADD_TRAIT(H, TRAIT_PACIFISM, TRAIT_GENERIC) //Huge Malus, here.
-			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //better parrying at the cost of being able to physically attack yourself.
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //better parrying at the cost of being unable to directly physically hurt people (excluding divine blast)
 			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_LEGENDARY, TRUE) //TBH, you don't need this about half of the patrons, but whatever man
 			to_chat(H, span_warning("Under my oath to the Clergy, I serve the divine in my oath to Pacifism for I need not strike, I need not raise a blade nor hand in faith to the Ten."))
-			if(istype(H.patron, /datum/patron/divine/ravox)) //SINCE you already... get... expert... in... Starves
-				to_chat(H, span_warning("Although considered unusual for a position such as myne, not all must strike with violence or bloodshed. Ravox has always stood for justice, teaching the strong to protect the weak."))
 		if("None")
 			id = /obj/item/clothing/ring/silver //Valuable item to make up for the ultimate flex - No oath but that to the clergy.
