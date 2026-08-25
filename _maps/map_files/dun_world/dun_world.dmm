@@ -859,7 +859,8 @@
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = -32
 	},
-/turf/open/floor/rogue/cobblerock,
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "ajw" = (
 /obj/structure/bars/passage{
@@ -5709,10 +5710,6 @@
 /obj/structure/boatbell/fluff,
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/beach/north)
-"bfL" = (
-/obj/structure/fluff/railing/border/east,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/outdoors/exposed/town/keep)
 "bfO" = (
 /obj/item/natural/cloth,
 /obj/item/natural/cloth,
@@ -5774,7 +5771,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/structure/flora/roguetree/stump/burnt,
+/obj/structure/flora/newtree,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/exposed/magiciantower)
 "bgn" = (
@@ -6146,6 +6143,7 @@
 /area/rogue/under/underdark/north)
 "bkm" = (
 /obj/structure/fluff/railing/border/east,
+/obj/structure/flora/newtree,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "bku" = (
@@ -11878,7 +11876,7 @@
 /turf/open/water/cleanshallow,
 /area/rogue/outdoors/woods/southwest)
 "coc" = (
-/obj/structure/flora/roguetree/burnt,
+/obj/structure/flora/newtree,
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
@@ -17690,6 +17688,15 @@
 /obj/structure/stairs,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/rtfield/eora)
+"dsf" = (
+/obj/structure/fluff/railing/wood/north,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/exposed/town/keep)
 "dsg" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest/hamlet)
@@ -25892,6 +25899,10 @@
 "eVa" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/outdoors/beach/forest/south)
+"eVg" = (
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grassred,
+/area/rogue/outdoors/exposed/town/keep)
 "eVi" = (
 /obj/item/natural/stone,
 /turf/open/floor/rogue/concrete/bronze,
@@ -26179,6 +26190,14 @@
 	icon_state = "plating2"
 	},
 /area/rogue/outdoors/town)
+"eYA" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/exposed/town/keep)
 "eYC" = (
 /obj/structure/bars/pipe{
 	dir = 8;
@@ -30641,13 +30660,6 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/rtfield)
-"fOs" = (
-/obj/structure/fluff/railing/fence{
-	dir = 8
-	},
-/obj/structure/fluff/railing/fence,
-/turf/open/floor/rogue/twig,
-/area/rogue/outdoors/town/roofs/keep)
 "fOu" = (
 /obj/structure/fermentation_keg/random/water{
 	icon_state = "barrel_tapped_ready";
@@ -37588,6 +37600,10 @@
 "hfN" = (
 /turf/closed/wall/mineral/rogue/roofwall/outercorner/dir1,
 /area/rogue/indoors/inq/office)
+"hfZ" = (
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/exposed/town/keep)
 "hgd" = (
 /obj/effect/decal/cobbleedge,
 /obj/effect/decal/cobbleedge{
@@ -45210,10 +45226,6 @@
 "izX" = (
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/rtfield)
-"izY" = (
-/obj/structure/fluff/railing/fence,
-/turf/open/floor/rogue/twig,
-/area/rogue/outdoors/town/roofs/keep)
 "iAd" = (
 /obj/structure/roguemachine/talkstatue/mercenary{
 	pixel_y = 32
@@ -47485,6 +47497,10 @@
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/shelter)
+"iWO" = (
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grasscold,
+/area/rogue/outdoors/exposed/magiciantower)
 "iWS" = (
 /obj/item/restraints/legcuffs/beartrap/armed,
 /turf/open/water/ocean,
@@ -55392,7 +55408,7 @@
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "kti" = (
-/obj/structure/flora/roguetree/burnt,
+/obj/structure/flora/newtree,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/magiciantower)
 "ktk" = (
@@ -55702,6 +55718,11 @@
 "kvN" = (
 /turf/open/floor/rogue/snow,
 /area/rogue/under/cave/goblinfort)
+"kvT" = (
+/obj/structure/fluff/railing/border/west,
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/town)
 "kvU" = (
 /obj/item/rogueweapon/huntingknife/scissors,
 /turf/open/floor/rogue/naturalstone,
@@ -58093,6 +58114,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
+"kSH" = (
+/obj/structure/flora/newtree,
+/turf/open/floor/rogue/grassred,
+/area/rogue/outdoors/exposed/magiciantower)
 "kSK" = (
 /turf/open/floor/rogue/rooftop/green/north,
 /area/rogue/outdoors/town/roofs)
@@ -75021,10 +75046,6 @@
 "nYI" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cavewet/bogcaves/north)
-"nYJ" = (
-/obj/item/grown/log/tree/stake,
-/turf/closed/mineral/rogue/bedrock,
-/area/rogue/under/cave)
 "nYK" = (
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/dirt/road,
@@ -117439,7 +117460,7 @@
 	dir = 1
 	},
 /obj/structure/flora/roguegrass,
-/turf/open/floor/rogue/cobble/mossy,
+/turf/open/floor/rogue/grass,
 /area/rogue/outdoors/exposed/town/keep)
 "vRQ" = (
 /obj/structure/flora/ausbushes/ppflowers,
@@ -186244,7 +186265,7 @@ ogs
 ogs
 ogs
 ogs
-nYJ
+ogs
 qHj
 qHj
 qHj
@@ -290108,7 +290129,7 @@ acp
 sOH
 exD
 exD
-exD
+pWT
 uVQ
 xjP
 cxz
@@ -291012,7 +291033,7 @@ dXg
 exD
 exD
 exD
-exD
+pWT
 uVQ
 xjP
 koX
@@ -291464,7 +291485,7 @@ cDX
 exD
 exD
 exD
-exD
+pWT
 nWM
 xfz
 kbZ
@@ -293271,7 +293292,7 @@ aAg
 uBc
 exD
 exD
-sOH
+exD
 exD
 uVQ
 xjP
@@ -293822,7 +293843,7 @@ dnR
 dnR
 dnR
 dnR
-dnR
+kSH
 dnR
 dnR
 eIv
@@ -294216,7 +294237,7 @@ njB
 pWT
 pWT
 pWT
-pWT
+jhP
 pWT
 pWT
 xkZ
@@ -295118,7 +295139,7 @@ exD
 exD
 exD
 pWT
-pWT
+jhP
 pWT
 pWT
 njB
@@ -297340,7 +297361,7 @@ sNZ
 exD
 exD
 exD
-sOH
+exD
 lKo
 pqo
 cDX
@@ -297447,7 +297468,7 @@ iMO
 lKo
 pqo
 lKo
-exD
+pWT
 exD
 exD
 yhF
@@ -297899,7 +297920,7 @@ wpj
 lKo
 jtR
 lKo
-exD
+pWT
 exD
 exD
 exD
@@ -298351,7 +298372,7 @@ pkh
 cDX
 gyu
 cDX
-exD
+jhP
 exD
 exD
 exD
@@ -298803,7 +298824,7 @@ pkh
 lKo
 pqo
 lKo
-exD
+pWT
 exD
 exD
 pWT
@@ -301025,7 +301046,7 @@ kLe
 prz
 afY
 afY
-jxz
+eYA
 noW
 lwE
 noW
@@ -301478,7 +301499,7 @@ prz
 afY
 afY
 vRP
-bfL
+syW
 ndg
 jfk
 npz
@@ -302312,7 +302333,7 @@ bsL
 tdj
 exD
 exD
-aFv
+tAW
 cDX
 gyu
 cDX
@@ -302764,7 +302785,7 @@ sNZ
 tdj
 exD
 exD
-aFv
+tAW
 lKo
 pqo
 lKo
@@ -304191,7 +304212,7 @@ afY
 afY
 uVv
 noW
-kHQ
+dsf
 usw
 cwP
 afY
@@ -305523,7 +305544,7 @@ nWc
 nWc
 iad
 iad
-qjd
+hFg
 hFg
 pJx
 syW
@@ -305975,7 +305996,7 @@ nWc
 nWc
 nWc
 iad
-qjd
+hFg
 hFg
 gkK
 baF
@@ -306427,7 +306448,7 @@ nWc
 nWc
 nWc
 iad
-qjd
+hFg
 hFg
 fPm
 ggw
@@ -306879,7 +306900,7 @@ nWc
 nWc
 nWc
 iad
-qjd
+hFg
 hFg
 jNC
 rMf
@@ -309199,7 +309220,7 @@ nQU
 cDX
 gyu
 cDX
-pWT
+jhP
 pWT
 qWB
 exD
@@ -310104,7 +310125,7 @@ lKo
 jtR
 lKo
 pWT
-pWT
+jhP
 pWT
 exD
 exD
@@ -310900,7 +310921,7 @@ exD
 exD
 exD
 pWT
-pWT
+jhP
 lKo
 pqo
 lKo
@@ -310948,8 +310969,8 @@ uQn
 wCC
 qxy
 iad
-qjd
-qjd
+hFg
+hFg
 hFg
 gzy
 gzy
@@ -311400,8 +311421,8 @@ vtx
 wCC
 wCC
 iad
-qjd
-qjd
+hFg
+hFg
 hFg
 qIg
 gzy
@@ -311429,7 +311450,7 @@ vAw
 vAw
 vAw
 qWj
-uhI
+eVg
 vcs
 eIv
 eIv
@@ -313261,7 +313282,7 @@ aFv
 aFv
 aFv
 aFv
-aFv
+tAW
 aFv
 aFv
 aFv
@@ -314141,7 +314162,7 @@ vAw
 vAw
 vAw
 qWj
-rMf
+hfZ
 vcs
 iCm
 bCc
@@ -314533,7 +314554,7 @@ exD
 exD
 exD
 wQp
-elr
+kvT
 meC
 khy
 khy
@@ -314601,7 +314622,7 @@ nti
 mbX
 uqV
 uqV
-uqV
+iWO
 uqV
 nti
 nti
@@ -317309,10 +317330,10 @@ aoe
 aoe
 aoe
 aoe
-aoe
-aoe
-aoe
-aoe
+sNZ
+seL
+sNZ
+sNZ
 xNW
 xNW
 njB
@@ -317762,9 +317783,9 @@ aoe
 aoe
 aoe
 aoe
-aoe
-aoe
-aoe
+sNZ
+sNZ
+seL
 njB
 njB
 pWT
@@ -537415,7 +537436,7 @@ lMc
 lMc
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -537867,7 +537888,7 @@ lMc
 lMc
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -538319,7 +538340,7 @@ lMc
 lMc
 mFc
 iXc
-izY
+iXc
 vxO
 gik
 khy
@@ -538772,7 +538793,7 @@ lMc
 mFc
 iXc
 iXc
-fOs
+iXc
 qJw
 khy
 khy
@@ -539224,7 +539245,7 @@ lMc
 mFc
 iXc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -539676,7 +539697,7 @@ lMc
 mLD
 nNV
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -540128,7 +540149,7 @@ lMc
 lMc
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -540580,7 +540601,7 @@ lMc
 lMc
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -541032,7 +541053,7 @@ lMc
 lMc
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -541484,7 +541505,7 @@ lMc
 lMc
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -541936,7 +541957,7 @@ vmi
 vmi
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -542388,7 +542409,7 @@ vmi
 vmi
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -542840,7 +542861,7 @@ vmi
 vmi
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -543292,7 +543313,7 @@ vmi
 vmi
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -543744,7 +543765,7 @@ vmi
 vmi
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -544196,7 +544217,7 @@ vmi
 vmi
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
@@ -544648,7 +544669,7 @@ vmi
 vmi
 mFc
 iXc
-izY
+iXc
 qJw
 khy
 khy
