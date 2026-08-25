@@ -790,7 +790,7 @@
 				display_as_wanderer = TRUE
 		else if(job)
 			var/datum/job/J = SSjob.GetJob(job)
-			if(!J || J.wanderer_examine)
+			if(!J || (J.wanderer_examine && !(HAS_TRAIT(src, TRAIT_RESIDENT))))
 				display_as_wanderer = TRUE
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)

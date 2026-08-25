@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/diminish
 	name = "Diminish"
+	expose_caster_on_deflect = FALSE
 	desc = "Diminishes all targets in an area through origin magick, reducing their ability to parry and dodge by 20% and sapping their physical faculties. Applies -2 to STR and CON."
 	releasedrain = 60
 	chargedrain = 1

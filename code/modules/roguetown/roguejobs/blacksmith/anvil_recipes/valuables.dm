@@ -1114,7 +1114,7 @@
 	req_bar = /obj/item/ingot/gold
 	additional_items = list(/obj/item/roguegem/jade)
 	craftdiff = SKILL_LEVEL_EXPERT
-	created_item = /obj/clothing/neck/roguetown/carved/goldjade
+	created_item = /obj/item/clothing/neck/roguetown/carved/goldjade
 	display_category = ITEM_CAT_VALUABLES_RINGS
 
 /datum/anvil_recipe/valuables/goldrose

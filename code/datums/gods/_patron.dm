@@ -83,13 +83,12 @@ GLOBAL_LIST_EMPTY(prayers)
 
 /// Called when a patron's follower prays to them.
 /// Returns TRUE if their prayer was heard and the patron was not insulted
-/datum/patron/proc/hear_prayer(mob/living/follower, message)
-	if(!follower || !message)
+/datum/patron/proc/hear_prayer(mob/living/follower, prayer)
+	if(!follower || !prayer)
 		return FALSE
-	if(length(message) < 15)
+	if(length(prayer) < 15)
 		to_chat(follower, span_warning("Your prayer is too weak to be considered!"))
 		return FALSE
-	var/prayer = sanitize_hear_message(message)
 	for(var/profanity in profane_words)
 		var/regex/cussjar = regex("([profanity])", "im")
 		if(cussjar.Find(prayer))

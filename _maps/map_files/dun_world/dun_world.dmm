@@ -4491,6 +4491,7 @@
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
 	},
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "aTS" = (
@@ -9372,6 +9373,11 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/magician)
+"bOH" = (
+/obj/structure/roguewindow,
+/obj/structure/curtain/green,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town)
 "bOI" = (
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/church,
@@ -15942,6 +15948,7 @@
 /area/rogue/outdoors/woods/southeast)
 "daY" = (
 /obj/structure/roguewindow/openclose/reinforced,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town)
 "dba" = (
@@ -57419,6 +57426,7 @@
 	},
 /obj/structure/fluff/railing/border/west,
 /obj/structure/fluff/railing/border/east,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
 "kMw" = (
@@ -74193,6 +74201,7 @@
 /obj/structure/fluff/railing/border/west,
 /obj/structure/fluff/railing/border/east,
 /obj/structure/roguewindow/openclose/reinforced,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "nRH" = (
@@ -80960,6 +80969,7 @@
 /area/rogue/indoors/town/steward)
 "paa" = (
 /obj/structure/roguewindow/openclose/reinforced,
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "pae" = (
@@ -107015,8 +107025,8 @@
 /obj/structure/fireaxecabinet/south{
 	pixel_x = -32
 	},
-/obj/structure/bed/rogue/inn/wool,
-/obj/item/bedsheet/rogue/fabric,
+/obj/structure/bed/rogue/inn/wooldouble,
+/obj/item/bedsheet/rogue/fabric_double,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
 "tTb" = (
@@ -109290,6 +109300,7 @@
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
 	},
+/obj/structure/curtain/green,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "upM" = (
@@ -119896,9 +119907,7 @@
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/manor)
 "wpW" = (
-/obj/structure/mineral_door/wood/towner/fisher{
-	locked = 0
-	},
+/obj/structure/mineral_door/wood/towner/fisher,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
 "wqc" = (
@@ -501615,8 +501624,8 @@ aBB
 aBB
 aBB
 afK
-lgb
-lgb
+bOH
+bOH
 afK
 kgg
 kgg

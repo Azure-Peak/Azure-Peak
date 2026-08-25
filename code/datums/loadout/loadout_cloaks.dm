@@ -139,6 +139,11 @@
 	path = /obj/item/clothing/cloak/poncho/fancycoat
 	sort_category = "Cloaks"
 
+/datum/loadout_item/fancycoattrimmed
+	name = "Trimmed Fancy Coat"
+	path = /obj/item/clothing/cloak/poncho/fancycoat/trimmed
+	sort_category = "Cloaks"
+
 /datum/loadout_item/cloakgoldenorder
 	name = "Cloak, Golden Order"
 	path = /obj/item/clothing/cloak/cape/inquisitorgold

@@ -89,27 +89,15 @@
 		say("ONE COIN, A COPPER COIN FOR AN AFTERNOON OF JOY!")
 		return
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	var/infile = input(user, "CHOOSE A NEW SONG", src) as null|file
-
-	if(!infile)
+	var/newfile = music_upload(user, src, 6 * 1024 * 1024)
+	if(!newfile)
+		return
+	if(!loaded || playing || loc != user)
 		return
 
-	if(!loaded)
-		return
-
-	var/filename = "[infile]"
-	var/file_ext = LOWER_TEXT(copytext(filename, -4))
-	var/file_size = length(infile)
-
-	if(file_ext != ".ogg")
-		to_chat(user, span_warning("SONG MUST BE AN OGG."))
-		return
-	if(file_size > 6485760)
-		to_chat(user, span_warning("TOO BIG. 6 MEGABYTES OR LESS."))
-		return
 	lastfilechange = world.time
-	fcopy(infile,"data/jukeboxuploads/[user.ckey]/[filename]")
-	curfile = file("data/jukeboxuploads/[user.ckey]/[filename]")
+	curfile = newfile
+	soundloop.mid_length = rustg_sound_length("[curfile]")
 
 	loaded = FALSE
 	update_icon()

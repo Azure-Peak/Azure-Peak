@@ -170,7 +170,7 @@
 
 /obj/projectile/magic/sacred_flame
 	name = "bolt of holy fire"
-	tracer_type = /obj/effect/projectile/tracer/stun
+	tracer_type = /obj/effect/projectile/tracer/solar_beam
 	muzzle_type = null
 	impact_type = null
 	hitscan = TRUE
@@ -200,7 +200,6 @@
 			if(out_of_effective_range())
 				return
 			if(blocked < 100)
-				L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
 					L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/sunder)
 					L.Immobilize(0.5 SECONDS)

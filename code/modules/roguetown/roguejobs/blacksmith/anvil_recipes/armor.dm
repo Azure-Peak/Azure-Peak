@@ -1549,6 +1549,13 @@
 	display_category = ITEM_CAT_ARMOR_MASKS
 	createditem_num = 1
 
+/datum/anvil_recipe/armor/steel/helmetless_visor
+	name = "Helmetless Visor, Steel"
+	req_bar = /obj/item/ingot/steel
+	created_item = /obj/item/clothing/mask/rogue/facemask/steel/visor
+	display_category = ITEM_CAT_ARMOR_MASKS
+	createditem_num = 1
+
 /datum/anvil_recipe/armor/steel/goggles
 	name = "Goggles, Steel (+1 Glass)"
 	req_bar = /obj/item/ingot/steel

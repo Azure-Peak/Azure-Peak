@@ -35,6 +35,7 @@
 	H.STACON = 7 //Decently tough, has a lifespan + player tied, will still crumble to fients/numbers.
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the necromancer for a gravemark
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE) //Good parrying, still will crumble to numbers. Intended so lone advs/garrison can't just solo through a necromancer's summons with ease.
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)

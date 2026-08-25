@@ -16,6 +16,10 @@
 
 	///Used to cache this client's bans to save on DB queries
 	var/ban_cache = null
+	///Caps the next file this client uploads to this many bytes
+	var/upload_limit
+	///Restricts the next file this client uploads to these extensions
+	var/list/upload_exts
 	///Contains the last message sent by this client - used to protect against copy-paste spamming.
 	var/last_message = ""
 	///contins a number of how many times a message identical to last_message was sent.

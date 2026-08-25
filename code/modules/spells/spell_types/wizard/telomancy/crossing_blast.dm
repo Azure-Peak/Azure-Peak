@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/crossing_blast
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Crossing Blast"
+	expose_caster_on_deflect = FALSE
 	desc = "Arm a burst of raw arcyne force, then release it in radiating arms around you, striking and hurling back everyone nearby. Toggle its shape (Shift+G): a cross strikes the cardinal arms, a saltire the diagonals, and a star both at once."
 	button_icon_state = "energetic_blast"
 	sound = 'sound/magic/vlightning.ogg'

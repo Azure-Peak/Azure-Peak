@@ -165,7 +165,7 @@
 	taste_description = "lightning and regret"
 
 /obj/item/reagent_containers/glass/bottle/frankenbrew
-	name = "vial of Reanimation Elixir"
+	name = "bottle of Reanimation Elixir"
 	desc = "A volatile chemical mixture that helps the deceased conduct electricity. Looks expensive..."
 	list_reagents = list(/datum/reagent/frankenbrew = 50)
 

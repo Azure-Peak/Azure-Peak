@@ -277,7 +277,7 @@
 			if(!combo_valid(user, target))
 				combo_broken = TRUE
 				break
-			if(spell_guard_check(target, FALSE, deflected ? null : user))
+			if(spell_guard_check(target, FALSE, user, punish_caster = deflected ? FALSE : null))
 				deflected = TRUE
 				combo_broken = TRUE
 				break
@@ -292,12 +292,12 @@
 
 	sleep(3)
 	if(!combo_broken && cling(user, target) && combo_valid(user, target))
-		if(!spell_guard_check(target, FALSE, deflected ? null : user))
+		if(!spell_guard_check(target, FALSE, user, punish_caster = deflected ? FALSE : null))
 			user.emote("attack", forced = TRUE)
-			arcyne_strike(user, target, null, kick_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)", exact_zone = TRUE)
-			playsound(get_turf(target), pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg'), 100, TRUE)
-			var/atom/throw_target = get_edge_target_turf(user, get_dir(user, target))
-			target.throw_at(throw_target, 3, 4)
+			if(arcyne_strike(user, target, null, kick_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)", exact_zone = TRUE) != ARCYNE_STRIKE_WARDED)
+				playsound(get_turf(target), pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg'), 100, TRUE)
+				var/atom/throw_target = get_edge_target_turf(user, get_dir(user, target))
+				target.throw_at(throw_target, 3, 4)
 
 	combo_cleanup(shadow_left, shadow_right)
 	log_combat(user, target, "used Storm of Psydon (full)", zone=user.zone_selected)
@@ -315,7 +315,7 @@
 		if(!combo_valid(user, target))
 			combo_broken = TRUE
 			break
-		if(spell_guard_check(target, FALSE, deflected ? null : user))
+		if(spell_guard_check(target, FALSE, user, punish_caster = deflected ? FALSE : null))
 			deflected = TRUE
 			combo_broken = TRUE
 			break
@@ -324,11 +324,11 @@
 
 	sleep(1)
 	if(!combo_broken && cling(user, target) && combo_valid(user, target))
-		if(!spell_guard_check(target, FALSE, deflected ? null : user))
+		if(!spell_guard_check(target, FALSE, user, punish_caster = deflected ? FALSE : null))
 			user.emote("attack", forced = TRUE)
-			arcyne_strike(user, target, null, kick_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)", exact_zone = TRUE)
-			playsound(get_turf(target), pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg'), 100, TRUE)
-			var/atom/throw_target = get_edge_target_turf(user, get_dir(user, target))
-			target.throw_at(throw_target, 3, 4)
+			if(arcyne_strike(user, target, null, kick_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)", exact_zone = TRUE) != ARCYNE_STRIKE_WARDED)
+				playsound(get_turf(target), pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg'), 100, TRUE)
+				var/atom/throw_target = get_edge_target_turf(user, get_dir(user, target))
+				target.throw_at(throw_target, 3, 4)
 
 	log_combat(user, target, "used Storm of Psydon (lame)", zone=user.zone_selected)
