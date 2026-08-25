@@ -114,8 +114,27 @@
 		var/mob/living/T = target
 		if(T.stat != DEAD) // If theyre alive
 			skill_multiplier = 4
-	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/bows, SKILL_LEVEL_EXPERT))
+	if(!skill_multiplier)
+		return
+	// Shooter's own training. This is now capped at apprentice.
+	if(can_train_combat_skill(L, /datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE))
 		L.mind.add_sleep_experience(/datum/skill/combat/bows, L.STAINT * skill_multiplier)
+	// Anyone nearby holding a bow can learn from the shot.
+	var/shooter_skill = L.get_skill_level(/datum/skill/combat/bows)
+	for(var/mob/living/learner in view(12, L))
+		if(learner == L || !learner.mind)
+			continue
+		// Must be holding a bow in either hand.
+		var/obj/item/main_hand = learner.get_active_held_item()
+		var/obj/item/off_hand = learner.get_inactive_held_item()
+		if(!istype(main_hand, /obj/item/gun/ballistic/revolver/grenadelauncher/bow) && !istype(off_hand, /obj/item/gun/ballistic/revolver/grenadelauncher/bow))
+			continue
+		var/learner_skill = learner.get_skill_level(/datum/skill/combat/bows)
+		// They cannot learn from someone who isn't more skilled.
+		if(learner_skill >= shooter_skill)
+			continue
+		// Give them the lesson regardless of the shooter's Apprentice
+		learner.mind.add_sleep_experience(/datum/skill/combat/bows, L.STAINT * skill_multiplier * 2)
 
 /obj/projectile/bullet/reusable/arrow/blunt
 	name = "blunt arrow"

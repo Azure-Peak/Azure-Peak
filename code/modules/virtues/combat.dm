@@ -115,10 +115,10 @@
 		"Stashed Axe" = list(/obj/item/rogueweapon/stoneaxe/woodcut),
 		"Stashed Whip" = list(/obj/item/rogueweapon/whip),
 		// the idea is that, unlike the sling, you'll need to toast your triumphs to get your ammo in too, technically increasing the cost and not making this so free, or you can bite the bullet and not have other jman skills of course
-		"Stashed Bow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic) // the snazzier one!
-		"Stashed Crossbow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron) // the weaker one!
-		"Stashed Quiver" = list(/obj/item/quiver/arrows)
-		"Stashed Bolts" = list(/obj/item/quiver/bolt/standard)
+		"Stashed Bow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic), // the snazzier one!
+		"Stashed Crossbow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron), // the weaker one!
+		"Stashed Quiver" = list(/obj/item/quiver/arrows),
+		"Stashed Bolts" = list(/obj/item/quiver/bolt/standard),
 	)
 
 /datum/virtue/combat/combat_virtue/apply_to_human(mob/living/carbon/human/recipient)
