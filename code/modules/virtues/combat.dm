@@ -104,21 +104,21 @@
 		"Bow Skill (JMAN)" = /datum/skill/combat/bows, // this is JMAN now cause of ansari's changes making having PER mandatory, should be fine I hope? nerf later if it isn't
 		"Crossbow Skill (JMAN)" = /datum/skill/combat/crossbows, // ditto also crossbows fucking suck at any level below expert D:
 		"Stashed Messer" = list(/obj/item/rogueweapon/sword/short/messer/iron/virtue),
-		"Stashed Parrying Dagger" = list(/obj/item/rogueweapon/huntingknife/idagger/virtue),
 		"Stashed Arming Sword" = list(/obj/item/rogueweapon/sword/iron),
-		"Stashed Quarterstaff" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron),
-		"Stashed Sling" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
-		"Stashed Spear (& Strap)" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/scabbard/gwstrap),
-		"Stashed Mace" = list(/obj/item/rogueweapon/mace),
-		"Stashed Katar" = list(/obj/item/rogueweapon/katar/bronze),
-		"Stashed Knuckles" = list(/obj/item/clothing/gloves/roguetown/knuckles/bronze),
+		"Stashed Parrying Dagger" = list(/obj/item/rogueweapon/huntingknife/idagger/virtue),
 		"Stashed Axe" = list(/obj/item/rogueweapon/stoneaxe/woodcut),
+		"Stashed Spear (& Strap)" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/scabbard/gwstrap),
+		"Stashed Quarterstaff" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron),
+		"Stashed Mace" = list(/obj/item/rogueweapon/mace),
+		"Stashed Knuckles" = list(/obj/item/clothing/gloves/roguetown/knuckles/bronze),
+		"Stashed Katar" = list(/obj/item/rogueweapon/katar/bronze),
 		"Stashed Whip" = list(/obj/item/rogueweapon/whip),
+		"Stashed Sling" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
 		// the idea is that, unlike the sling, you'll need to toast your triumphs to get your ammo in too, technically increasing the cost and not making this so free, or you can bite the bullet and not have other jman skills of course
 		"Stashed Bow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic), // the snazzier one!
+		"Stashed Quiver" = list(/obj/item/quiver/arrows), // pls insert 1 more dosh
 		"Stashed Crossbow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron), // the weaker one!
-		"Stashed Quiver" = list(/obj/item/quiver/arrows),
-		"Stashed Bolts" = list(/obj/item/quiver/bolt/standard),
+		"Stashed Bolts" = list(/obj/item/quiver/bolt/standard), // pls insert 1 more dosh
 	)
 
 /datum/virtue/combat/combat_virtue/apply_to_human(mob/living/carbon/human/recipient)
