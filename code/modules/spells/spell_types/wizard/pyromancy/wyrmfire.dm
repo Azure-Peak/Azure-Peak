@@ -112,12 +112,13 @@
 					continue
 				if(L.anti_magic_check())
 					continue
-				if(L.guard_deflect_spell("Fireball", TRUE, caster))
+				if(L.guard_deflect_spell("Fireball", TRUE, caster, punish_caster = FALSE))
 					continue
-				arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
+				if(arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Fireball (Blast)", \
 					allow_shield_check = TRUE, damage_type = BURN, \
-					skip_animation = TRUE)
+					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 				apply_scorch_stack(L, 1)
 				L.apply_status_effect(/datum/status_effect/debuff/vulnerable, WYRMFIRE_VULNERABLE_DURATION)
 				L.Slowdown(1)
@@ -249,10 +250,11 @@
 				continue
 			if(L.anti_magic_check())
 				continue
-			if(L.guard_deflect_spell("Pillar of Flame", TRUE, caster))
+			if(L.guard_deflect_spell("Pillar of Flame", TRUE, caster, punish_caster = FALSE))
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pillar of Flame", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE)
+				if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pillar of Flame", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustFireLoss(damage)
 			apply_scorch_stack(L, 2)
@@ -457,10 +459,11 @@
 			if(L.anti_magic_check())
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				arcyne_strike(caster, L, null, blast_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pyroclasm", damage_type = BURN, skip_animation = TRUE)
+				if(arcyne_strike(caster, L, null, blast_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pyroclasm", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustFireLoss(blast_damage)
-			apply_scorch_stack(L, 4)
+			apply_scorch_stack(L, 3)
 		for(var/obj/structure/damaged in T)
 			if(!istype(damaged, /obj/structure/flora/newbranch))
 				damaged.take_damage(blast_structural, BRUTE, "blunt", TRUE)

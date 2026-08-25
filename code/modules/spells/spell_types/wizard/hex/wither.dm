@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/wither
 	button_icon = 'icons/mob/actions/mage_hex.dmi'
 	name = "Wither"
+	expose_caster_on_deflect = FALSE
 	desc = "Lash out a delayed line of dark magic, sapping the physical prowess of all in its path.\n\
 	The line telegraphs for a moment before striking every tile at once."
 	button_icon_state = "wither"

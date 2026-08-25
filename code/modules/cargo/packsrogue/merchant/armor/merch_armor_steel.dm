@@ -21,6 +21,11 @@
 	cost = 50 // 1 Ingots
 	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail)
 
+/datum/supply_pack/rogue/armor_steel/brigandine_light
+	name = "Brigandine, Light"
+	cost = 80 //1 Steel, 1 Leather, 1 Cloth
+	contains = list(/obj/item/clothing/suit/roguetown/armor/brigandine/light)
+
 /datum/supply_pack/rogue/armor_steel/hauberk_steel
 	name = "Hauberk"
 	cost = 90 // 2 Ingots
@@ -105,7 +110,7 @@
 	name = "Chausses, Chain"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/under/roguetown/chainlegs)
-	
+
 /datum/supply_pack/rogue/armor_steel/chainhose_steel
 	name = "Hosen, Chain"
 	cost = 50 // 1 Steel
@@ -115,7 +120,7 @@
 	name = "Chausses, Plate"
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/under/roguetown/platelegs)
-	
+
 /datum/supply_pack/rogue/armor_steel/chainkilt
 	name = "Chain Kilt"
 	cost = 50 // 1 Steel
@@ -303,7 +308,7 @@
 
 /datum/supply_pack/rogue/armor_steel/helmet_aventailbascinet
 	name = "Helmet, Bascinet, Aventailed"
-	cost = 90 
+	cost = 90
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/aventail)
 
 /datum/supply_pack/rogue/armor_steel/helmet_heavyaventailbascinet

@@ -1,7 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Added TRAIT_NOVAMPMITOSIS, this prevents well, vampires from duplicating via personal servantry, its only applied on basic VL servants/guards and thinbloods/thinnerbloods. for now."
-  - rscdel: "Removed zerobrine"
-  - rscdel: "Removed TRAIT_BLOODPOOL_BORN, into the pyres of hell with thee DAEMON!! BEGONE!! THE POWER OF PSYDON REBUKES!!!"
-  - bugfix: "Fixed vamp mitosis + exploits for good"

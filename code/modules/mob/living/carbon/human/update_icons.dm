@@ -590,7 +590,7 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			var/wristsleevelayer = (wear_wrists.alternate_worn_layer == OVER_GLOVES_LAYER) ? OVER_GLOVES_LAYER : WRISTSLEEVE_LAYER
+			var/wristsleevelayer = (wear_wrists.alternate_worn_layer == OVER_ARMOR_LAYER) ? OVER_GLOVES_LAYER : WRISTSLEEVE_LAYER
 			if(wear_wrists.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(wristsleevelayer))
 				sleeves = get_sleeves_layer(wear_wrists,armsindex,wristsleevelayer)
 
@@ -1197,7 +1197,9 @@ There are several things that need to be remembered:
 			//add sleeve overlays, then offset
 			var/list/cloaksleeves = list()
 			if(cloak.sleeved)
-				var/sleevelayer = (cloak.alternate_worn_layer == UNDER_ARMOR_LAYER) ? UNDER_ARMOR_LAYER : CLOAK_LAYER
+				var/sleevelayer = CLOAK_LAYER
+				if(cloak.alternate_worn_layer == UNDER_ARMOR_LAYER)
+					sleevelayer = cloak.sleevetype ? UNDER_ARMORSLEEVE_LAYER : UNDER_ARMOR_LAYER
 				cloaksleeves = get_sleeves_layer(cloak,0,sleevelayer)
 
 			if(length(cloaksleeves))

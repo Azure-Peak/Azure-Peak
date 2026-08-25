@@ -81,7 +81,7 @@
 /datum/intent/dagger/sucker_punch
 	name = "unevadable punch"
 	icon_state = "inpunch"
-	desc = "Breech your target's guard with a swift-and-sudden jab. This strike deals low damage, but cannot be parried or dodged."
+	desc = "Breach your target's guard with a swift-and-sudden jab. This strike deals low damage, but cannot be parried or dodged."
 	attack_verb = list("punches", "jabs", "clocks")
 	animname = "strike"
 	blade_class = BCLASS_BLUNT
@@ -839,6 +839,16 @@
 	icon_state = "eastdagger"
 	sheathe_icon = "tanto"
 
+/obj/item/rogueweapon/huntingknife/idagger/blacksteel/kazengun //Mostly a blacksteel dagger reskin, trades pick for a faster cut.
+	name = "blacksteel tanto"
+	desc = "A finely balanced blacksteel dagger in the Kazengunese style. The subtle curve of the blade aids swift slashes."
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/quick, /datum/intent/dagger/sucker_punch)
+	icon_state = "bs_eastdagger"
+	sheathe_icon = "bs_tanto"
+
+/datum/intent/dagger/cut/quick //8CD, making it a faster, lower-pen sidegrade to the 10CD stab. Good on flesh.
+	clickcd = CLICK_CD_FAST
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/fire
 	name = "fire dagger"
 	desc = "A dagger enchanted with lost arcyne arts to render it as Astrata's wrath, but only for a short duration."
@@ -902,6 +912,15 @@
 	inv_storage_delay = 0 //No delay when retrieving from a storage slot.
 	anvilrepair = /datum/skill/craft/crafting
 
+/obj/item/rogueweapon/huntingknife/idagger/stake/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/deaditeslayer, time = 15 SECONDS)
+
+/obj/item/rogueweapon/huntingknife/idagger/stake/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Driving a stake through the heart of an incapacitated revenant is one of the few ways to put them down for the week. Sharper stakes, and ones made of silver, are better at this.")
+	. += span_info("Staking also works to kill many other types of undead - generally, anyone you can't kill with bloodloss can be staked.")
+
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake
 	name = "silver-tipped stake"
 	desc = "A branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
@@ -929,6 +948,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
+	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed/ComponentInitialize()
 	AddComponent(\
@@ -940,6 +960,12 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
+	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+
+/obj/item/rogueweapon/huntingknife/idagger/silver/stake/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Driving a stake through the heart of an incapacitated revenant is one of the few ways to put them down for the week. Sharper stakes, and ones made of silver, are better at this.")
+	. += span_info("Staking also works to kill many other types of undead - generally, anyone you can't kill with bloodloss can be staked.")
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy
 	name = "silver-tipped otavan stake"
@@ -955,6 +981,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
+	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/preblessed/ComponentInitialize()
 	AddComponent(\
@@ -966,6 +993,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
+	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/stake/inq
 	name = "otavan stake"

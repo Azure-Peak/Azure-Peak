@@ -21,3 +21,12 @@
 	moving_controllers -= controller
 	if(!moving_controllers.len && requires_processing)
 		STOP_PROCESSING(SSai_movement, src)
+
+/datum/ai_movement/proc/charge_diagonal_step(datum/ai_controller/controller, turf/from)
+	if(!from)
+		return
+	var/turf/landed = get_turf(controller.pawn)
+	if(!landed || landed.z != from.z)
+		return
+	if(landed.x != from.x && landed.y != from.y)
+		controller.movement_cooldown += controller.movement_delay

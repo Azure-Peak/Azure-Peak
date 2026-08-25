@@ -22,3 +22,5 @@
 			controller.pathing_attempts++
 			if(controller.pathing_attempts >= max_pathing_attempts)
 				controller.CancelActions()
+		else
+			charge_diagonal_step(controller, current_loc)

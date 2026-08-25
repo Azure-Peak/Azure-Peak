@@ -486,6 +486,15 @@
 		return 0
 	return 1
 
+/obj/structure/flora/roguegrass/bush/onkick(mob/user)
+	to_chat(user, span_warning("I kick [src]!"))
+	playsound(src.loc, "plantcross", 50, FALSE, -1)
+	if(prob(33))
+		new /obj/item/grown/log/tree/stick(get_turf(src))
+	if(occupied && hiddenguy)
+		to_chat(hiddenguy, span_danger("Someone kicks the bush you are hiding in!"))
+		unhide(hiddenguy)
+
 /obj/structure/flora/roguegrass/bush/westleach
 	name = "westleach bush"
 	desc = "Large, red leaves peek out of it with an alluring aroma."

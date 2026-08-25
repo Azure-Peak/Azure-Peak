@@ -7,7 +7,7 @@
 	volume = 75 // 3 cups
 	dropshrink = 1
 	closed = TRUE
-	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_BACK
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_BACK|ITEM_SLOT_CLOAK
 	obj_flags = CAN_BE_HIT
 	w_class =	WEIGHT_CLASS_NORMAL
 	drinksounds = list('sound/items/drink_bottle (1).ogg','sound/items/drink_bottle (2).ogg')

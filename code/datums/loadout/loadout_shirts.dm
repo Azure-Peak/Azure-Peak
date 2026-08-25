@@ -29,6 +29,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 	sort_category = "Shirts"
 
+/datum/loadout_item/silkshirt
+	name = "Silk Shirt"
+	path = /obj/item/clothing/suit/roguetown/shirt/shadowshirt
+	sort_category = "Shirts"
+
 /datum/loadout_item/shortshirt
 	name = "Short-sleeved Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/shortshirt

@@ -796,20 +796,155 @@
 	soundloop = /datum/looping_sound/fireloop
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
+	var/obj/item/attachment = null
+	var/mob/living/carbon/human/lastuser
+	var/datum/looping_sound/boilloop/boilloop
+
+/obj/machinery/light/rogue/campfire/Initialize(mapload)
+	boilloop = new(src, FALSE)
+	. = ..()
+
+/obj/machinery/light/rogue/campfire/Destroy()
+	QDEL_NULL(boilloop)
+	. = ..()
 
 /obj/machinery/light/rogue/campfire/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Resting by a campfire gradually restores energy and stamina, while also healing wounds and dislocations. Sleeping next to a campfire further enhances the boons of a good nite's rest.")
 	. += span_info("If the fire is gone, then it may have simply ran out of fuel as well. Left-click it with something flammable, such as a book or stick, before rekindling to keep yourself warm.")
+	. += span_info("You can place a kettle on the campfire to boil liquids or prepare stews.")
+
+/obj/machinery/light/rogue/campfire/examine(mob/user)
+	. = ..()
+	if(attachment)
+		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot/kettle))
+			var/isboiling = attachment.reagents && (attachment.reagents.chem_temp > MIN_STEW_TEMPERATURE)
+			if(isboiling)
+				. += "There's \a [attachment.name] on it, it is boiling."
+			else
+				. += "There's \a [attachment.name] on it. It is not boiling."
+		if(on)
+			. += span_notice("Right click to start fanning the flame and make it cook faster.")
+
+/obj/machinery/light/rogue/campfire/attack_right(mob/user)
+	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
+	var/cooktime_divisor = get_cooktime_divisor(cs)
+	if(!on)
+		to_chat(user, span_notice("[src] is not lit."))
+		return
+	while(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+		if(!on)
+			to_chat(user, span_notice("[src] is no longer lit."))
+			return
+		to_chat(user, span_info("I fan the flame on [src]."))
+		try_cook(cooktime_divisor)
+
+/obj/machinery/light/rogue/campfire/attackby(obj/item/W, mob/living/user, params)
+	lastuser = user
+	var/datum/skill/craft/cooking/cs = lastuser?.get_skill_level(/datum/skill/craft/cooking)
+	var/cooktime_divisor = get_cooktime_divisor(cs)
+
+	if(!attachment)
+		if(istype(W, /obj/item/reagent_containers/glass/bucket/pot/kettle))
+			playsound(get_turf(user), 'sound/foley/dropsound/shovel_drop.ogg', 40, TRUE, -1)
+			attachment = W
+			user.doUnEquip(W)
+			W.forceMove(src)
+			update_icon()
+			return
+	else
+		if(istype(W, /obj/item/reagent_containers/glass/bowl))
+			to_chat(user, span_notice("Remove the pot from the campfire first."))
+			return
+		else if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot/kettle))
+			var/obj/item/reagent_containers/glass/bucket/pot = attachment
+			if(istype(W, /obj/item/reagent_containers/food/snacks))
+				var/obj/item/reagent_containers/food/snacks/S = W
+				if(S.fat_yield)
+					if(pot.reagents.has_reagent(/datum/reagent/water))
+						to_chat(user, span_warning("You can't render fat in a pot with water!"))
+						return
+					if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+						user.visible_message(span_info("[user] melts [S] in the pot."))
+						qdel(S)
+						pot.reagents.add_reagent(/datum/reagent/consumable/oil/tallow, S.fat_yield)
+						return
+				if(pot.reagents.has_reagent(/datum/reagent/consumable/oil/tallow) && S.deep_fried_type)
+					if(!pot.reagents.has_reagent(/datum/reagent/consumable/oil/tallow, OIL_CONSUMED))
+						to_chat(user, span_notice("Not enough tallow."))
+						return
+					if(pot.reagents.has_reagent(/datum/reagent/water) && S.deep_fried_type && !S.boiled_type)
+						to_chat(user, span_warning("You can't deep fry in a pot with water!"))
+						return
+					if(do_after(user, DEEP_FRY_TIME / cooktime_divisor, target = src))
+						user.visible_message(span_info("[user] deep fries [S] in the pot."))
+						add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+						new S.deep_fried_type(src.loc)
+						qdel(S)
+						pot.reagents.remove_reagent(/datum/reagent/consumable/oil/tallow, OIL_CONSUMED)
+						return
+				if(pot.reagents.has_reagent(/datum/reagent/water) && S.boiled_type)
+					if(do_after(user, BOILING_TIME / cooktime_divisor, target = src))
+						user.visible_message(span_info("[user] boils [S] in the pot."))
+						add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+						new S.boiled_type(src.loc)
+						qdel(S)
+						pot.reagents.remove_reagent(/datum/reagent/water, WATER_CONSUMED)
+						return
+			for(var/datum/stew_recipe/R in GLOB.stew_recipes)
+				for(var/I in R.inputs)
+					if(istype(W, I))
+						if(!pot.reagents.has_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK + VOLUME_PER_STEW_COOK_AFTER))
+							to_chat(user, span_notice("Not enough water."))
+							return
+						if(pot.reagents.chem_temp < MIN_STEW_TEMPERATURE)
+							to_chat(user, span_notice("[pot] isn't boiling!"))
+							return
+						if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+							user.visible_message(span_info("[user] places [W] into the pot."))
+							add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+							qdel(W)
+							playsound(src.loc, 'sound/items/Fish_out.ogg', 20, TRUE)
+							pot.reagents.remove_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK)
+							sleep(R.cooktime / cooktime_divisor)
+							playsound(src, "bubbles", 30, TRUE)
+							pot.reagents.remove_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK_AFTER)
+							pot.reagents.add_reagent(R.output, VOLUME_PER_STEW_COOK + VOLUME_PER_STEW_COOK_AFTER)
+							return
+	return ..()
+
+/obj/machinery/light/rogue/campfire/attack_hand(mob/user)
+	if(attachment)
+		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot/kettle))
+			if(!user.put_in_active_hand(attachment))
+				attachment.forceMove(user.loc)
+			attachment = null
+			update_icon()
+			boilloop.stop()
+			return
+
+	. = ..()
+	if(.)
+		return
+
+	if(on)
+		var/mob/living/carbon/human/H = user
+		if(ishuman(H))
+			H.visible_message(span_info("[H] warms [user.p_their()] hand near the fire."))
 
 /obj/machinery/light/rogue/campfire/process()
 	..()
+	var/datum/skill/craft/cooking/cs = lastuser?.get_skill_level(/datum/skill/craft/cooking)
+	var/cooktime_divisor = get_cooktime_divisor(cs)
+
 	if(isopenturf(loc))
 		var/turf/open/O = loc
 		if(IS_WET_OPEN_TURF(O))
 			extinguish()
 
 	if(on)
+		try_cook(cooktime_divisor)
+
 		var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		for(var/mob/living/carbon/human/human in hearers_in_range)
 			var/distance = get_dist(src, human)
@@ -834,22 +969,35 @@
 						to_chat(human, span_info("Settling in by the flames lifts the burdens of the week."))
 					human.apply_status_effect(/datum/status_effect/buff/campfire)
 
+/obj/machinery/light/rogue/campfire/proc/try_cook(cooktime_divisor)
+	if(attachment)
+		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot/kettle))
+			if(attachment.reagents)
+				attachment.reagents.expose_temperature(400, 0.033)
+				if(attachment.reagents.chem_temp > MIN_STEW_TEMPERATURE)
+					boilloop.start()
+				else
+					boilloop.stop()
+	update_icon()
+
+/obj/machinery/light/rogue/campfire/update_icon()
+	. = ..()
+	cut_overlays()
+	if(attachment)
+		var/obj/item/I = attachment
+		I.pixel_x = 0
+		I.pixel_y = 0
+		var/mutable_appearance/MA = new /mutable_appearance(I)
+		MA.transform *= 0.85
+		MA.pixel_y = -6
+		MA.layer = layer + 0.1
+		add_overlay(MA)
 
 /obj/machinery/light/rogue/campfire/onkick(mob/user)
 	if(isliving(user) && on)
 		var/mob/living/L = user
 		L.visible_message("<span class='info'>[L] snuffs [src].</span>")
 		burn_out()
-
-/obj/machinery/light/rogue/campfire/attack_hand(mob/user)
-	. = ..()
-	if(.)
-		return
-
-	if(on)
-		var/mob/living/carbon/human/H = user
-		if(ishuman(H))
-			H.visible_message("<span class='info'>[H] warms [user.p_their()] hand near the fire.</span>")
 
 /obj/machinery/light/rogue/campfire/densefire
 	icon_state = "densefire1"
