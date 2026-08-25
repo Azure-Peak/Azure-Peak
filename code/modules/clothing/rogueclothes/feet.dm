@@ -896,6 +896,11 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/shoes/courtphysician/female/keeper //unique to keepers
+	name = "pestrian heels"
+	desc = "Leather heels, oft worn by those of Pestra's sects.</br> Raised just enough to fit the warped feet of those mutated by sickness without being uncomfortable; the solemn tap of these oft bears grim news, or salvation."
+	detail_color = CLOTHING_GREEN
+
 //Wraps
 
 /obj/item/clothing/shoes/roguetown/footwraps

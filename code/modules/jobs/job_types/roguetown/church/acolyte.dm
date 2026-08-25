@@ -135,7 +135,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
 			gloves = /obj/item/clothing/gloves/roguetown/angle/phys/cleric
-			head = /obj/item/clothing/head/roguetown/roguehood/phys
+			head = /obj/item/clothing/head/roguetown/roguehood/black
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			cloak = /obj/item/clothing/cloak/templar/pestran
@@ -177,7 +177,6 @@
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			cloak = /obj/item/clothing/cloak/templar/xylixian
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
 			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
@@ -281,3 +280,44 @@
 		H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
+
+	//OATHS - DRAWBACKS/FLAVOR CHOICE FOR YOUR ACOLYTE/CLERIC - These are designed to be semi-playstyle changes or more malus than boon, perhaps even to lean into a certain style. - Clergy are always intended to get the best of these
+	//Muntineer Wretch despite being a priest does not get/nor need this future coder, they're already under a craftsman's oath - Hense their hefty skills all around. Heretic wretches/Vagabond excommunicates however are oathbreakers and can't take oaths.
+
+	var/oaths = list("Cleric - Medicine Training + Supplies","Preacher - Apprentice Self-Defense Training + Climbing", "Pacifist - Pacifism + Maximal Holy Skill + Expert Staves Skill")
+
+	if(!istype(H.patron, /datum/patron/divine/necra)) //(All Necrans inherently get this shit free)
+		oaths += list("Gravetender - Burial Supplies + Apprentice Athletics + Dead Nose")
+
+	oaths += list("None") //Gigajank to ensure none is always at the end of our list.
+	var/oath_choice = input(H, "Choose your OATH.", "PROFESS YOUR BLESSINGS.") as anything in oaths
+	switch(oath_choice)
+		if("Cleric - Medicine Training + Supplies")
+			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_EXPERT, TRUE) //Enough to do lux transplantation
+			backpack_contents += list(
+		/obj/item/needle/bronze = 1, //Unique to Acolytes, a step above taking Physicker's apprentice, w/ 30 uses vs 20.
+		)
+			//No lifesblood vs clerics, you're already an alchemist; go make it sire.
+			to_chat(H, span_warning("Under my oath I serve the Clergy in their Physicker wards, providing treatment and relief to the ailed and sick, travellers or local."))
+		if("Gravetender - Burial Supplies + Apprentice Athletics + Dead Nose") //More RP tbh, but its a thing
+			//Vs missionary adv, no free wraps. Go craft/find some already stashed in the facilities you have keys to.
+			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+			l_hand = /obj/item/rogueweapon/shovel //No silver unlike Necran Acolytes, go be a Necran for this.
+			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
+			to_chat(H, span_warning("Under my oath to the Clergy I specialise in burying the fallen, or recovering bodies for revival."))
+		if("Caretaker - Journeyman Climbing + Labor Skills") //An Undivided Oath, unique to acolytes cause I don't want journeyman wrestling + unarmed acolytes sire.
+			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/farming, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/lumberjacking, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) //Toiling away
+			to_chat(H, span_warning("Under my oath to the Clergy, I am sworn to the duties of tending the House of the Divine."))
+		if("Pacifist - Pacifism + Maximal Holy Skill + Expert Staves Skill")
+			ADD_TRAIT(H, TRAIT_PACIFISM, TRAIT_GENERIC) //Huge Malus, here.
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //better parrying at the cost of being able to physically attack yourself.
+			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_LEGENDARY, TRUE) //TBH, you don't need this about half of the patrons, but whatever man
+			to_chat(H, span_warning("Under my oath to the Clergy, I serve the divine in my oath to Pacifism for I need not strike, I need not raise a blade nor hand in faith to the Ten."))
+			if(istype(H.patron, /datum/patron/divine/ravox)) //SINCE you already... get... expert... in... Starves
+				to_chat(H, span_warning("Although considered unusual for a position such as myne, not all must strike with violence or bloodshed. Ravox has always stood for justice, teaching the strong to protect the weak."))
+		if("None")
+			id = /obj/item/clothing/ring/silver //Valuable item to make up for the ultimate flex - No oath but that to the clergy.

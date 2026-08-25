@@ -497,8 +497,6 @@
 	to_chat(H, span_warning("You are a devout worshipper of the divine with a strong connection to your patron god. You've spent years studying scriptures and serving your deity - now you wander into foreign lands, spreading the word of your faith."))
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
-	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch = 1,
@@ -509,10 +507,12 @@
 			cloak = /obj/item/clothing/cloak/absolutionistrobe/black
 			head = /obj/item/clothing/head/roguetown/roguehood/psydon/black
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 		if(/datum/patron/divine/undivided)
 			head = /obj/item/clothing/head/roguetown/roguehood/undividedcleric
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric //Only exclusion cause it looks bad without the cloak over it
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
@@ -527,13 +527,18 @@
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
 			cloak = /obj/item/clothing/cloak/templar/astratancleric
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/divine/noc)
-			head =	/obj/item/clothing/head/roguetown/roguehood/nochood
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
+			head = /obj/item/clothing/head/roguetown/roguehood/white
+			mask = /obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy //trust the plan, see the reference, know the vision.
+			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/lunar
+			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
 			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC) // we keep this one since adventuring cleric doesnt get it like the regular acolyte.
@@ -545,6 +550,7 @@
 			head = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			l_hand = /obj/item/abyssal_marker/tidal
 			H.adjust_skillrank(/datum/skill/labor/fishing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -553,7 +559,9 @@
 		if(/datum/patron/divine/dendor)
 			head = /obj/item/clothing/head/roguetown/dendormask
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
+			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals //So you can't grief them with shards at spawn
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/hunting, SKILL_LEVEL_NOVICE, TRUE)
@@ -567,6 +575,7 @@
 			cloak = /obj/item/clothing/cloak/raincloak/mortus
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			shoes = /obj/item/clothing/shoes/roguetown/boots
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
@@ -584,8 +593,10 @@
 					l_hand = /obj/item/rogueweapon/scythe
 		if (/datum/patron/divine/malum)
 			head = /obj/item/clothing/head/roguetown/roguehood //placeholder
+			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			cloak = /obj/item/clothing/cloak/tabard/devotee/malum
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -597,6 +608,7 @@
 			backpack_contents[/obj/item/reagent_containers/eoran_seed] = 1
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
@@ -612,8 +624,10 @@
 				if("Exposed")
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 		if (/datum/patron/divine/xylix)
+			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			cloak = /obj/item/clothing/cloak/tabard/devotee/xylix
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
@@ -651,14 +665,15 @@
 			cloak = /obj/item/clothing/cloak/tabard/devotee/pestra
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
 			gloves = /obj/item/clothing/gloves/roguetown/angle/phys/cleric
-			mask = /obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy //face grill as a foreign-means of preventing sickness. vs regular hoods.
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			shoes = /obj/item/clothing/shoes/roguetown/boots
+			belt = /obj/item/storage/belt/rogue/leather/black
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		if (/datum/patron/divine/ravox)
 			hood = /obj/item/clothing/head/roguetown/roguehood/ravox
 			cloak = /obj/item/clothing/cloak/templar/ravoxcleric
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shoes = /obj/item/clothing/shoes/roguetown/gladiator //ARE YOU NOT ENTERTAINED?!!
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -666,9 +681,11 @@
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/black //evil ass cultist look
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			shoes = /obj/item/clothing/shoes/roguetown/boots
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
 		else
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe //placeholder, anyone who doesn't have cool patron drip sprites just gets generic robes
 			head = /obj/item/clothing/head/roguetown/roguehood
@@ -692,7 +709,12 @@
 	if(istype(H.patron, /datum/patron/divine/dendor)) // ONLY missionary gets this for some reason so it's not included in apply_cleric_pre_equip
 		H.grant_language (/datum/language/beast)
 
-	var/oaths = list("Cleric - Medicine Training + Supplies","Scholarship - Higher Reading Skill + Intellectual","Preacher - Apprentice unarmed + Wrestling")
+	beltr = /obj/item/flashlight/flare/torch/lantern //post-belt application we put this onto your hip
+
+	//OATHS - DRAWBACKS/FLAVOR CHOICE FOR YOUR ACOLYTE/CLERIC - These are designed to be semi-playstyle changes or more malus than boon, perhaps even to lean into a certain style. - Clergy are always intended to get the best of these
+	//Muntineer Wretch despite being a priest does not get/nor need this future coder, they're already under a craftsman's oath - Hense their hefty skills all around. Heretic wretches/Vagabond excommunicates however are oathbreakers and can't take oaths.
+
+	var/oaths = list("Cleric - Medicine Training + Supplies","Preacher - Apprentice Self-Defense Training + Climbing")
 	if(!istype(H.patron, /datum/patron/inhumen/graggar)) //Graggarites can't take an oath of pacifism, that goes against your faith of violence to be adverse to it. Ravoxians can because pacifist monk-trainer goes hard.
 		oaths += list("Pacifist - Pacifism + Holy Skill + Higher Staves Skill")
 	if(!istype(H.patron, /datum/patron/inhumen/zizo) || !istype(H.patron, /datum/patron/divine/necra)) //Zizites/Necrans can't take an oath of burial. (All Necrans inherently get this shit free)
@@ -708,10 +730,6 @@
 		)
 			beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
 			to_chat(H, span_warning("Under my oath I travel the lands healing those whom bare the burdon of sickness and injury in the name of my deity."))
-		if("Scholarship - Higher Reading Skill + Intellectual") //More RP tbh, but its a thing
-			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_MASTER, TRUE)
-			ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
-			to_chat(H, span_warning("Under my oath I travel the lands teaching knowledge and wisdom in the name of my deity, as well as furthering my knowledge."))
 		if("Gravetender - Burial Supplies + Apprentice Athletics + Dead Nose") //More RP tbh, but its a thing
 			backpack_contents += list(
 		/obj/item/burial_shroud = 1,
@@ -720,15 +738,19 @@
 			l_hand = /obj/item/rogueweapon/shovel //No pick, vs Necrans. You Bury
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
 			to_chat(H, span_warning("Under my oath I travel the lands putting the restless to rest and burying the fallen, or recovering bodies for revival."))
-		if("Pacifist - Pacifism + Holy Skill + Higher Staves Skill") //Graggarites Cannot take this Oath, FRAG4GRAG instead.
+		if("Preacher - Apprentice Self-Defense Training + Climbing") //Mobility + Slightly better Self-Defense
+			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE)
+			to_chat(H, span_warning("Under my oath I travel the lands, spreading the word of my diety - much to the distain of some, I've learned how to maneuver, defend myself and climb."))
+		if("Pacifist - Pacifism + Holy Skill + Higher Staves Skill") //Graggarites Cannot take this Oath, #FRAG4GRAG.
 			ADD_TRAIT(H, TRAIT_PACIFISM, TRAIT_GENERIC) //Huge Malus, here.
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //better parrying at the cost of being able to physically melee. (Nessessary so you don't die to high-level NPCs in blockades)
 			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_MASTER, TRUE)
-			if(istype(H.patron, /datum/patron/old_god)) //Unique flavor for Psydonites
-				to_chat(H, span_warning("Under my oath I travel the lands, never to lift a blade nor fist, bringing those into HIS redemption and safety, so as HE endured without the need of violence; do I ENDURE as he did."))
+			to_chat(H, span_warning("Under my oath I travel the lands, never to lift a blade nor fist, preaching the word and ways of my deity."))
+			if(istype(H.patron, /datum/patron/old_god)) //WEEP FOR ALL THAT IS AND SHALT BE
 				H.emote("cry") //WEEP AS HE DOES
-			else
-				to_chat(H, span_warning("Under my oath I travel the lands, never to lift a blade nor fist, preaching the word and ways of my deity."))
 			//If you take this as a Psydonite, I salute you. You genuinely are harmless in every way possible.
 		if("None")
 			id = /obj/item/clothing/ring/silver/cleric //Minor restoration of the old silver ring that Clerics could get. Worth less than the other alternatives, but offers a choice and flashy item for those who want to remain unspecialized.
