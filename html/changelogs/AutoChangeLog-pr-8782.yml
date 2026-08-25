@@ -1,0 +1,4 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - image: "added/modified artificer spell icons, they now have a new look + overclock has an icon now."
