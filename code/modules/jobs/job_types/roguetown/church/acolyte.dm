@@ -183,6 +183,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			beltl = /obj/item/rope/chain
+			backr = /obj/item/rogueweapon/woodstaff/quarterstaff
 			H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black

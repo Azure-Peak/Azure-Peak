@@ -112,7 +112,7 @@
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
 
-/obj/item/clothing/head/roguetown/helmet/leather/saiga/druid
+/obj/item/clothing/head/roguetown/helmet/leather/saiga/druid //armored skull for drip. haha, no.
 	name = "worn saiga skull"
 	desc = "The skull of a once-fearsome saiga. Looks like its sustained some damage and won't protect your skull."
 	armor = ARMOR_CLOTHING //no armor
