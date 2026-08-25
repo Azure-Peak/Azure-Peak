@@ -652,7 +652,7 @@
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora
 				if("Exposed")
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
-		if (/datum/patron/divine/xylix) //NGL, we need more Xylix stuff for advs, this fit is horrible
+		if (/datum/patron/divine/xylix) //we need more Xylix stuff for advs, this fit is horrible
 			head = /obj/item/clothing/head/roguetown/roguehood/white
 			mask = /obj/item/clothing/mask/rogue/xylixmask
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
