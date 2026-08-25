@@ -853,6 +853,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 	for(var/obj/structure/table/T in loc)
 		return TRUE
+	for(var/obj/structure/flora/roguetree/stump/S in loc)
+		return TRUE
 	for(var/obj/machinery/anvil/A in loc)
 		return TRUE
 	return FALSE

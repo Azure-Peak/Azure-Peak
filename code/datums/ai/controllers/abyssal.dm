@@ -63,7 +63,7 @@
 
 	dreamfiend.face_atom()
 	dreamfiend.a_intent = pick(dreamfiend.possible_a_intents) //randomized intent
-	
+
 	if(hiding_target) //Slap it!
 		dreamfiend.ClickOn(hiding_target, list())
 	else
@@ -78,7 +78,7 @@
 		if(dreamfiend.stat == DEAD)
 			return
 		dreamfiend.combat_sidestep(target, sidestep_offsets, sidestep_seeks_flank)
-		
+
 	if(retaliation_count <= 0)
 		var/main_target = controller.blackboard[BB_MAIN_TARGET]
 		controller.clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
@@ -119,7 +119,7 @@
 		return
 	controller.queue_behavior(/datum/ai_behavior/kick, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
 	return SUBTREE_RETURN_FINISH_PLANNING
-	
+
 /datum/ai_behavior/kick
 	action_cooldown = 20 SECONDS
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
@@ -146,7 +146,7 @@
 	if(!istype(mob, /mob/living/carbon/human))
 		finish_action(controller, TRUE, target_key)
 		return
-	
+
 	var/mob/living/carbon/human/target = mob
 
 	if(!targetting_datum.can_attack(user, target))
@@ -174,7 +174,7 @@
 		target.Move(target_shove_turf, shove_dir)
 		if(get_turf(target) == target_oldturf)
 			if(stander)
-				target_table = locate(/obj/structure/table) in target_shove_turf.contents
+				target_table = has_table_surface(target_shove_turf.contents)
 				shove_blocked = TRUE
 		else
 			if((stander && target.stamina >= target.max_stamina) || target.IsOffBalanced()) //if you are kicked while fatigued, you are knocked down no matter what

@@ -230,7 +230,7 @@
 	if(!can_load_item(source))
 		return FALSE
 	var/turf/table_turf = get_turf(source)
-	if(!table_turf || !(locate(/obj/structure/table) in table_turf))
+	if(!table_turf || !has_table_surface(table_turf))
 		return FALSE
 	var/list/to_scoop = list()
 	var/space_left = storage_space_left()

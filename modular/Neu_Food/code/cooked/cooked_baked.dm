@@ -1035,7 +1035,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/griddle/attackby(obj/item/I, mob/living/user, params)
 	update_cooktime(user)
-	if(!isturf(loc) || !locate(/obj/structure/table) in loc)
+	if(!isturf(loc) || !has_table_surface(loc))
 		return ..()
 	if(istype(I, /obj/item/reagent_containers/food/snacks/chocolate/slice))
 		if(syrup_kind == "honey")

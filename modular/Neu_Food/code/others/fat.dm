@@ -10,7 +10,7 @@
 	fat_yield = 20
 
 /obj/item/reagent_containers/food/snacks/fat/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	update_cooktime(user)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/mince))
 		if(isturf(loc)&& (found_table))
