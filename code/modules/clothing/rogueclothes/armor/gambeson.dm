@@ -98,6 +98,9 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	shiftable = FALSE
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/light/dark
+	color = "#646464"
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
 	name = "padded arming jacket"
 	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."

@@ -496,7 +496,6 @@
 	..()
 	to_chat(H, span_warning("You are a devout worshipper of the divine with a strong connection to your patron god. You've spent years studying scriptures and serving your deity - now you wander into foreign lands, spreading the word of your faith."))
 	backl = /obj/item/storage/backpack/rogue/satchel
-	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch = 1,
@@ -508,11 +507,13 @@
 			head = /obj/item/clothing/head/roguetown/roguehood/psydon/black
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/undivided)
 			head = /obj/item/clothing/head/roguetown/roguehood/undividedcleric
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric //Only exclusion cause it looks bad without the cloak over it
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
@@ -531,12 +532,14 @@
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
 			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/noc)
 			head = /obj/item/clothing/head/roguetown/roguehood/white
 			mask = /obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy //trust the plan, see the reference, know the vision.
 			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/lunar
 			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
@@ -551,6 +554,7 @@
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			l_hand = /obj/item/abyssal_marker/tidal
 			H.adjust_skillrank(/datum/skill/labor/fishing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -561,6 +565,7 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals //So you can't grief them with shards at spawn
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -572,10 +577,11 @@
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
-			cloak = /obj/item/clothing/cloak/raincloak/mortus
+			cloak = /obj/item/clothing/cloak/templar/necrancleric
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			shoes = /obj/item/clothing/shoes/roguetown/boots
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light/dark //looks better
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
@@ -597,6 +603,7 @@
 			cloak = /obj/item/clothing/cloak/tabard/devotee/malum
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -609,6 +616,7 @@
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
@@ -628,6 +636,7 @@
 			cloak = /obj/item/clothing/cloak/tabard/devotee/xylix
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
@@ -662,11 +671,13 @@
 					if("Shamisen")
 						l_hand = /obj/item/rogue/instrument/shamisen
 		if (/datum/patron/divine/pestra)
+			head = /obj/item/clothing/head/roguetown/roguehood/black
 			cloak = /obj/item/clothing/cloak/tabard/devotee/pestra
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
 			gloves = /obj/item/clothing/gloves/roguetown/angle/phys/cleric
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			belt = /obj/item/storage/belt/rogue/leather/black
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
@@ -675,13 +686,15 @@
 			cloak = /obj/item/clothing/cloak/templar/ravoxcleric
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shoes = /obj/item/clothing/shoes/roguetown/gladiator //ARE YOU NOT ENTERTAINED?!!
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/zizo)
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/black //evil ass cultist look
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			shoes = /obj/item/clothing/shoes/roguetown/boots
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
 		else
@@ -689,6 +702,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe //placeholder, anyone who doesn't have cool patron drip sprites just gets generic robes
 			head = /obj/item/clothing/head/roguetown/roguehood
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)	//Minor regen, capped to T3, parity with other Holy and/or Arcyne caster - no others spend 15 minutes idling only to unlock their entire potencial.
 	if(H.mind)

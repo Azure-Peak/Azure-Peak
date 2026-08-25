@@ -118,8 +118,8 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			cloak = /obj/item/clothing/cloak/raincloak/mortus
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light/dark //looks better
+			cloak = /obj/item/clothing/cloak/templar/necrancleric
 			backpack_contents += list(
 		/obj/item/burial_shroud = 1,
 		)
