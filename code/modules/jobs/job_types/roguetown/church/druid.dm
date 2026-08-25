@@ -65,9 +65,9 @@
 		/datum/skill/magic/druidic = SKILL_LEVEL_JOURNEYMAN, //Shapeshifting.
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT, //Druids know the forest and when it has been disturbed
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/whipsflails = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE, //To help them defend themselves with parrying
-		/datum/skill/combat/staves = SKILL_LEVEL_NOVICE, //This, too.
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE, //Enough to bypass some of the parries of trash-mobs
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE, //Uniquely gets this too
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN, //On par w/ missionary, because they explore more
 		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/labor/fishing = SKILL_LEVEL_NOVICE,
@@ -95,10 +95,9 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 
-	backpack_contents = list(/obj/item/ritechalk, /obj/item/storage/keyring/acolyte)
+	backpack_contents = list(/obj/item/ritechalk, /obj/item/storage/keyring/acolyte, /obj/item/needle/thorn)
 
 	H.ambushable = FALSE
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 
 	H.AddComponent(/datum/component/wise_tree_alert)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

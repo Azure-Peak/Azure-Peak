@@ -509,7 +509,7 @@
 		/obj/item/needle/thorn/cleric = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
-	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
+	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // our cleric pre_equip handles cmode music
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			head = /obj/item/clothing/head/roguetown/roguehood/psydon/black
@@ -546,7 +546,6 @@
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/noc)
@@ -588,8 +587,7 @@
 			H.adjust_skillrank(/datum/skill/misc/hunting, SKILL_LEVEL_NOVICE, TRUE)
 			ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
+			ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC) //no free woodwalker, no.
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
@@ -600,7 +598,6 @@
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
-			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
 			backpack_contents += list(
 		/obj/item/burial_shroud = 1,
 		)
@@ -634,7 +631,6 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
-			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 			// 90% of eorans i see are farming to tend to their tree and/or cooking. they also get sewing -- arts and crafts.
 			H.adjust_skillrank(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_NOVICE, TRUE)
@@ -647,6 +643,9 @@
 				if("Exposed")
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 		if (/datum/patron/divine/xylix)
+			head = /obj/item/clothing/head/roguetown/roguehood/white
+			mask = /obj/item/clothing/mask/rogue/xylixmask
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			cloak = /obj/item/clothing/cloak/tabard/devotee/xylix
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -704,7 +703,6 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-			H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 		if(/datum/patron/inhumen/zizo)
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black //evil ass cultist look
 			head = /obj/item/clothing/head/roguetown/roguehood/black
@@ -720,7 +718,7 @@
 			head = /obj/item/clothing/head/roguetown/roguehood
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3, start_maxed = TRUE)	//Minor regen, capped to T3, parity with other Holy and/or Arcyne caster - no others spend 15 minutes idling only to unlock their entire potencial.
+	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)	//Minor regen, capped to T3, parity with other Holy and/or Arcyne caster - no others spend 15 minutes idling only to unlock their entire potencial.
 	if(H.mind)
 		var/weapons = list("Woodstaff", "Quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -736,7 +734,7 @@
 	if(istype(H.patron, /datum/patron/old_god))
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/psydon/enduring_blast) //99% rock chance, 1% boulder, hilarious.
 	neck = apply_cleric_pre_equip(H)
-	if(istype(H.patron, /datum/patron/divine/dendor)) // ONLY missionary gets this for some reason so it's not included in apply_cleric_pre_equip
+	if(istype(H.patron, /datum/patron/divine/dendor)) // ONLY missionary gets this, its meant to be a limited language.
 		H.grant_language (/datum/language/beast)
 
 	beltr = /obj/item/flashlight/flare/torch/lantern //post-belt application we put this onto your hip
