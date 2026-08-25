@@ -108,22 +108,17 @@
 	if((user.get_skill_level(associated_skill) < SKILL_LEVEL_EXPERT) && prob(40))
 		var/crit = prob(60) // separate role to KO
 		var/critmsg = " <span class='crit'><b>Critical hit!</b> [user] is knocked out!</span>"
-		user.visible_message(
-			span_danger("While trying to twirl [src] [user] flings it instead, hitting [user.p_themselves()] in the head![crit ? critmsg : ""]"),
-			span_userdanger("While trying to twirl [src] you fling it instead, hitting yourself in the head![crit ? critmsg : ""]"),
-		)
+		user.visible_message(span_danger("While trying to twirl [src] [user] flings it instead, hitting [user.p_themselves()] in the head![crit ? critmsg : ""]"), span_userdanger("While trying to twirl [src] you fling it instead, hitting yourself in the head![crit ? critmsg : ""]"))
 		var/mob/living/carbon/human/unfortunate_idiot = user
 		unfortunate_idiot.apply_damage(src.force, BRUTE, BODY_ZONE_PRECISE_SKULL)
 		if(crit)
 			unfortunate_idiot.flash_fullscreen("whiteflash3")
 			unfortunate_idiot.Unconscious(5 SECONDS)
+			playsound(get_turf(unfortunate_idiot), 'sound/combat/tf2crit.ogg', 100, FALSE)
 		playsound(get_turf(unfortunate_idiot), 'sound/combat/hits/blunt/frying_pan(1).ogg', 100, FALSE)
 		user.dropItemToGround(src, TRUE)
 	else
-		user.visible_message(
-			span_notice("[user] twirls [src] in a dramatic flourish!"),
-			span_notice("You twirl [src] dramatically."),
-		)
+		user.visible_message(span_notice("[user] twirls [src] in a dramatic flourish!"), span_notice("You twirl [src] dramatically."))
 		playsound(src, 'sound/foley/equip/swordsmall1.ogg', 20, FALSE)
 
 	return
