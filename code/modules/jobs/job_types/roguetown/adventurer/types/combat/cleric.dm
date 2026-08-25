@@ -576,7 +576,6 @@
 			ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 			H.grant_language(/datum/language/abyssal)
 		if(/datum/patron/divine/dendor)
-			head = /obj/item/clothing/head/roguetown/dendormask
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			wrists = /obj/item/clothing/wrists/roguetown/wrappings
 			shoes = /obj/item/clothing/shoes/roguetown/sandals //So you can't grief them with shards at spawn
@@ -588,6 +587,17 @@
 			ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC) //no free woodwalker, no.
+
+			var/helms = list("Briar Mask (Classic)","Saiga Skull","Antler Hood")
+			var/helm_choice = input(H, "Choose your HEADWEAR.", "DENDOR. FATHER. SPIRIT-GUIDE.") as anything in helms
+			switch(helm_choice)
+				if("Briar Mask (Classic)")
+					head = /obj/item/clothing/head/roguetown/dendormask
+				if("Saiga Skull")
+					head = /obj/item/clothing/head/roguetown/helmet/leather/saiga/druid
+				if("Antler Hood")
+					head = /obj/item/clothing/head/roguetown/antlerhood
+
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra

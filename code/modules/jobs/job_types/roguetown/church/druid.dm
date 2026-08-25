@@ -89,11 +89,21 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	beltl = /obj/item/rogueweapon/whip //The whip itself is not often associated to many jobs. Druids feel like a thematic choice to have a self-defense whip
 	backl = /obj/item/storage/backpack/rogue/satchel
-	head = /obj/item/clothing/head/roguetown/dendormask
+	mask = /obj/item/flowercrown/briar
 	wrists = /obj/item/clothing/neck/roguetown/psicross/dendor
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/druid
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
+
+	var/helms = list("Briar Mask (Classic)","Saiga Skull","Antler Hood")
+	var/helm_choice = input(H, "Choose your HEADWEAR.", "DENDOR. FATHER. SPIRIT-GUIDE.") as anything in helms
+	switch(helm_choice)
+		if("Briar Mask (Classic)")
+			head = /obj/item/clothing/head/roguetown/dendormask
+		if("Saiga Skull")
+			head = /obj/item/clothing/head/roguetown/helmet/leather/saiga/druid
+		if("Antler Hood")
+			head = /obj/item/clothing/head/roguetown/antlerhood
 
 	backpack_contents = list(/obj/item/ritechalk, /obj/item/storage/keyring/acolyte, /obj/item/needle/thorn)
 
