@@ -21,7 +21,7 @@
 		recipient.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 0), grant_attunement = FALSE)
 	recipient.mind.mage_aspect_config["utilities"] += amount
 	recipient.mind.check_learnspell()
-	
+
 /datum/virtue/combat/devotee
 	name = "Devotee"
 	desc = "Though not officially of the Church, my relationship with my chosen Patron is strong enough to grant me the most minor of their blessings. I've also kept a psycross of my deity."
@@ -53,7 +53,7 @@
 			recipient.mind?.special_items["Amulet of Necra"] = /obj/item/clothing/neck/roguetown/psicross/necra
 		if(/datum/patron/divine/pestra)
 			recipient.mind?.special_items["Amulet of Pestra"] = /obj/item/clothing/neck/roguetown/psicross/pestra
-		if(/datum/patron/divine/eora) 
+		if(/datum/patron/divine/eora)
 			recipient.mind?.special_items["Amulet of Eora"] = /obj/item/clothing/neck/roguetown/psicross/eora
 		if(/datum/patron/divine/noc)
 			recipient.mind?.special_items["Amulet of Noc"] = /obj/item/clothing/neck/roguetown/psicross/noc
@@ -111,7 +111,8 @@
 		"Stashed Katar" = list(/obj/item/rogueweapon/katar/bronze),
 		"Stashed Knuckles" = list(/obj/item/clothing/gloves/roguetown/knuckles/bronze),
 		"Stashed Axe" = list(/obj/item/rogueweapon/stoneaxe/woodcut),
-		"Stashed Whip" = list(/obj/item/rogueweapon/whip)
+		"Stashed Whip" = list(/obj/item/rogueweapon/whip),
+		"Stashed Warclub" = list(/obj/item/rogueweapon/mace/warhammer/bronze/iron)
 	)
 
 /datum/virtue/combat/combat_virtue/apply_to_human(mob/living/carbon/human/recipient)
@@ -178,7 +179,7 @@
 	max_choices = 1
 	restricted = TRUE
 	races = list(/datum/species/construct/metal, /datum/species/gnoll)
-	
+
 	choice_costs = list(0, 0)
 
 	extra_choices = list(
@@ -222,7 +223,7 @@
 					ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
 					to_chat(recipient, "You are no longer one scorned by Astrata, by the mercy of the gods.</font>")
-				
+
 				if(SC_BLACKBLOOD)
 					ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_HALFHEAL, TRAIT_VIRTUE)

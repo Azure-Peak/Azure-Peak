@@ -931,3 +931,21 @@
 /obj/item/clothing/mask/rogue/facemask/maille/fluted/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/chain_equip.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
+/obj/item/clothing/mask/rogue/facemask/steel/visor
+	name = "helmetless visor"
+	desc = "Fashion eschewing any practicality, or a knight's belonging so downtrodden the rest of their helmet was lost. Only seems to cover the eyes and nose, if barely."
+	icon_state = "helmetless_visor"
+	armor = ARMOR_PLATE
+	flags_inv = HIDEFACE|HIDESNOUT
+	body_parts_covered = EYES | NOSE
+	block2add = FOV_DEFAULT
+	max_integrity = ARMOR_INT_MASK_STEEL
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP|ITEM_SLOT_HEAD
+	smeltresult = /obj/item/ingot/steel
+
+/obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy
+	name = "flimsy helmetless visor"
+	desc = "Hand-made by misplaced Ranesheni tailors that had never touched a real iron bar, this flimsy mask offers barely any protection, as it was made for fashion."
+	armor = ARMOR_BRONZE
+	max_integrity = ARMOR_INT_MASK_STONE
+	smeltresult = null

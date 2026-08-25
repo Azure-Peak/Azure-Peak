@@ -1,5 +1,5 @@
 //The code execution of the emote datum is located at code/datums/emotes.dm
-/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE)
+/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE, quiet = FALSE)
 	var/oldact = act
 	act = LOWER_TEXT(act)
 
@@ -71,7 +71,7 @@
 	else
 		for(var/datum/emote/P in key_emotes)
 			mute_time = P.mute_time
-			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal)))
+			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal), quiet))
 				break
 		if(intentional)
 			SEND_SIGNAL(src, COMSIG_MOB_EMOTED, act, intentional)

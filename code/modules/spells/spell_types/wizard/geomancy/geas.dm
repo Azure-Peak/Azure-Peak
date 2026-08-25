@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/geas
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
 	name = "Geas"
+	expose_caster_on_deflect = FALSE
 	desc = "Lay a geas upon a small patch of ground - roots of stone and arcyne force bind anyone caught there fast for 3 seconds. Can hit yourself."
 	button_icon_state = "ensnare"
 	sound = 'sound/magic/webspin.ogg'

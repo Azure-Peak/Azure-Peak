@@ -199,6 +199,7 @@
 
 /datum/action/cooldown/spell/malum/hammerfall
 	name = "Hammerfall"
+	expose_caster_on_deflect = FALSE
 	desc = "Heave a conjured maul overhead, then bring it crashing down on the ground before you, leaving any struck stumbling.\n\n\
 	Deals 50 brute damage and applies Immobilizes to everything in the smash. Against structures does triple damage."
 	background_icon = 'icons/mob/actions/malummiracles.dmi'

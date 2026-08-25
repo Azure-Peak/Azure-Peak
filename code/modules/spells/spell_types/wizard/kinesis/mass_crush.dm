@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/mass_crush
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Mass Crush"
+	expose_caster_on_deflect = FALSE
 	desc = "Compress gravitational force over a wide area, crushing everyone within. \
 	The spell is highly telegraphed but devastating to anyone caught inside. \
 	Crushes through armor with exceptional force. Slows struck targets briefly."
@@ -80,10 +81,11 @@
 				continue
 
 			var/target_zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-			arcyne_strike(caster, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
+			if(arcyne_strike(caster, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
 				spell_name = "Mass Crush", damage_type = BRUTE, \
 				skip_animation = TRUE, \
-				intdamage_factor = crush_intdamage_factor)
+				intdamage_factor = crush_intdamage_factor) == ARCYNE_STRIKE_WARDED)
+				continue
 			L.Slowdown(1)
 			to_chat(L, span_userdanger("Gravitational force compresses around me!"))
 			new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
