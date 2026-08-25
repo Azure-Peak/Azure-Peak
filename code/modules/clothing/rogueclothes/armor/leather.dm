@@ -182,6 +182,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout/Initialize(mapload)
 	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
 	name = "aesthetic fur-woven hatanga coat"

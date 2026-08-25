@@ -144,10 +144,11 @@
 			apply_frost_stack(L, 1)
 			var/actual_damage = rand(5, tick_damage)
 			if(ishuman(L) && ishuman(caster))
-				arcyne_strike(caster, L, null, actual_damage, BODY_ZONE_CHEST, \
+				if(arcyne_strike(caster, L, null, actual_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Frozen Mist", \
 					damage_type = BURN, \
-					skip_animation = TRUE, skip_message = TRUE)
+					skip_animation = TRUE, skip_message = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustFireLoss(actual_damage)
 			new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_ICE, SPELL_IMPACT_MEDIUM)

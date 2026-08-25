@@ -1620,3 +1620,32 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 
 	return sorted_ckey_to_actor_data
 
+//Whether a living mob's client prefs currently hide them from non-admin ghosts.
+/proc/has_ghost_protection(atom/target)
+	if(!isliving(target))
+		return FALSE
+	var/mob/living/living_target = target
+	return !!(living_target.client?.prefs.ghost_toggles & TOGGLE_ANTIGHOST)
+
+//Admins keep their existing observer tooling even when a target has ghost protection.
+/mob/dead/observer/proc/bypasses_ghost_protection()
+	return !!check_rights_for(client, R_ADMIN) // this should maybe just be an override on /mob/dead/observer/admin
+
+/mob/dead/observer/eye/bypasses_ghost_protection()
+	return TRUE
+
+//Whether a protected living target should be hidden from this observer.
+/proc/is_hidden_from_ghosts(atom/target, mob/dead/observer/viewer)
+	if(!isobserver(viewer))
+		return FALSE
+	if(viewer.bypasses_ghost_protection())
+		return FALSE
+	return has_ghost_protection(target)
+
+/proc/get_hidden_ghosts_for_target(atom/target)
+	. = list()
+	if(!has_ghost_protection(target))
+		return
+	for(var/mob/dead/observer/observer in GLOB.player_list)
+		if(is_hidden_from_ghosts(target, observer))
+			. += observer

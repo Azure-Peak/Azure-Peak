@@ -52,7 +52,7 @@
 	item_d_type = "stab"
 
 /datum/intent/sword/thrust/short
-	clickcd = 8
+	clickcd = CLICK_CD_FAST
 	damfactor = 1.1
 	penfactor = PEN_LIGHT
 

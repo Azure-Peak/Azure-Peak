@@ -1744,7 +1744,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/apply_quality(mob/crafter, skill_path, forced_tier = null)
 	var/tier
-	if(forced_tier != null)
+	if(!isnull(forced_tier))
 		tier = forced_tier
 	else
 		var/skill_level = 0
@@ -1808,7 +1808,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			prefix = ITEM_QUALITY_PREFIX_MASTERWORK
 	if(prefix)
 		name = "[prefix] [name]"
-	if(initial(sellprice) > 0)
+	if(!sellprice && !initial(sellprice) && !static_price)
+		sellprice = GLOB.derived_sellprices?[type] || lookup_derived_subtype_price(type)
+		randomize_price()
+	if(sellprice > 0)
 		sellprice = max(1, round(sellprice * ITEM_QUALITY_MULT(tier)))
 	return tier
 
@@ -1825,6 +1828,24 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	looted = FALSE
 	item_quality = ITEM_QUALITY_STANDARD
 	name = replacetext(name, "[ITEM_QUALITY_PREFIX_LOOTED] ", "")
+
+// Do not rename the item
+/obj/item/proc/mark_as_worn()
+	if(worn_out || looted || no_loot_taint)
+		return
+	if(item_quality != ITEM_QUALITY_STANDARD)
+		return
+	worn_out = TRUE
+	has_item_quality = TRUE
+	item_quality = ITEM_QUALITY_WORN
+
+/obj/item/proc/unmark_as_worn()
+	if(!worn_out)
+		return
+	worn_out = FALSE
+	item_quality = ITEM_QUALITY_STANDARD
+	if(!initial(has_item_quality))
+		has_item_quality = FALSE
 
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)

@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/kinetic_burst
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Kinetic Burst"
+	expose_caster_on_deflect = FALSE
 	desc = "Wind up raw arcyne force in a 5x5 area around yourself, then detonate it - hurling everyone caught back, hurting them and leaving them Vulnerable for a moment. \
 	The field follows you as you wind it up. Guard will deflect the strike entirely and you are vulnerable while charging this up."
 	button_icon_state = "gravity_anchor"

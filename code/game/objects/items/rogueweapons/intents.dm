@@ -223,11 +223,11 @@
 		inspec += " | Type: "
 		switch(swingdelay_type)
 			if(SWINGDELAY_NORMAL)
-				inspec += SPAN_TOOLTIP("The swing will be without any unusual effects.", "<font color='#e6e6e6'><u>Normal</u></font>")
+				inspec += SPAN_TOOLTIP("The attack has no additional effects or drawbacks.", "<font color='#e6e6e6'><u>Normal</u></font>")
 			if(SWINGDELAY_PENALTY)
-				inspec += SPAN_TOOLTIP("The swing will reduce my defense by a significant amount.", "<font color='#dab141'><u>Difficult</u></font>")
+				inspec += SPAN_TOOLTIP("The attack significantly reduces my ability to dodge or parry while performing it.", "<font color='#dab141'><u>Difficult</u></font>")
 			if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
-				inspec += SPAN_TOOLTIP("I will have no chance to defend while swinging, and a strike against me will interrupt it.", "<font color='#a70d0d'><u>Rigid</u></font>")
+				inspec += SPAN_TOOLTIP("The attack prevents me from dodging or parrying, and is interrupted if I am struck while performing it. However, it cannot be parried nor dodged.", "<font color='#a70d0d'><u>Rigid</u></font>")
 
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"

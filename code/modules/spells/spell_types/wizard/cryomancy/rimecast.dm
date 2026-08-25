@@ -181,12 +181,13 @@
 					continue
 				if(L.anti_magic_check())
 					continue
-				if(L.guard_deflect_spell("Ice Burst", TRUE, caster))
+				if(L.guard_deflect_spell("Ice Burst", TRUE, caster, punish_caster = FALSE))
 					continue
-				arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
+				if(arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Ice Burst (Shatter)", \
 					allow_shield_check = TRUE, damage_type = BURN, \
-					skip_animation = TRUE)
+					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 				apply_frost_stack(L, 1)
 				new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_ICE, SPELL_IMPACT_MEDIUM)
 

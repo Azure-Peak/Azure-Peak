@@ -100,6 +100,8 @@
 
 	post_equip(H)
 
+	H.flag_gear_as_worn()
+
 	H.advjob = name
 
 	var/turf/TU = get_turf(H)
