@@ -1115,3 +1115,39 @@
   - balance: Source that gave 4 stacks scorch -> now gives 3
   radarseas:
   - admin: added more traits to the VV panel
+2026-08-25:
+  7erracotta:
+  - rscadd: Added new subweapon, warclubs (is available through Trained & Ready!)
+  DmitriyPershukov:
+  - bugfix: renamed 'vial of Reanimation Elixir' to 'bottle of Reanimation Elixir'
+  Ollanius:
+  - rscadd: Donor-specific 'tabis' - or heeled boots - for Solis. Three variations,
+      applicable to Psydonic- and Inquisitorial boots as well.
+  Quinalion:
+  - sound: Added a recorking sound for glass bottles and alchemical vials.
+  - qol: Glass bottles can now be opened and closed through several additional interaction
+      methods.
+  - qol: Bottles now warn you when being stored while uncorked.
+  - bugfix: Liquid transfer interactions now properly report when one or both containers
+      are closed.
+  - bugfix: Open containers in your inventory now warn you when they spill due to
+      movement.
+  - bugfix: Putting a bottle into a bag no longer incorrectly displays "The bottle
+      won't fit in there.".
+  - code_imp: Standardized anti-spilling behavior for storage items using the does_not_spill
+      variable.
+  Ryan180602:
+  - code_imp: hardens music upload checks
+  WeNeedMorePhoron:
+  - bugfix: Players and NPCs should no longer be able to resist out of a grab or guard
+      while paralyzed.
+  borneblood:
+  - spellcheck: Clarified better the swing intents.
+  - bugfix: Recoil is set to minimal if armor is broken.
+  - rscadd: Brooms are cooler now. Cleaning 3x3 requires STRONG mode on.
+  - rscadd: Added critical hit sfx to when you crit yourself by failspinning a pan
+      or broom and being unlucky.
+  mumblemancer:
+  - bugfix: oiling someone up for wrestling and stuff should be less buggy looking
+  zeskorion:
+  - bugfix: wrenches now use a weapon skill

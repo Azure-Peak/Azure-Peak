@@ -1744,7 +1744,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/apply_quality(mob/crafter, skill_path, forced_tier = null)
 	var/tier
-	if(forced_tier != null)
+	if(!isnull(forced_tier))
 		tier = forced_tier
 	else
 		var/skill_level = 0
@@ -1808,7 +1808,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			prefix = ITEM_QUALITY_PREFIX_MASTERWORK
 	if(prefix)
 		name = "[prefix] [name]"
-	if(initial(sellprice) > 0)
+	if(!sellprice && !initial(sellprice) && !static_price)
+		sellprice = GLOB.derived_sellprices?[type] || lookup_derived_subtype_price(type)
+		randomize_price()
+	if(sellprice > 0)
 		sellprice = max(1, round(sellprice * ITEM_QUALITY_MULT(tier)))
 	return tier
 

@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Players and NPCs should no longer be able to resist out of a grab or guard while paralyzed."
