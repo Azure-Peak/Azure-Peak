@@ -671,7 +671,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		if (/datum/patron/divine/ravox)
-			hood = /obj/item/clothing/head/roguetown/roguehood/ravox
+			head = /obj/item/clothing/head/roguetown/roguehood/ravox
 			cloak = /obj/item/clothing/cloak/templar/ravoxcleric
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shoes = /obj/item/clothing/shoes/roguetown/gladiator //ARE YOU NOT ENTERTAINED?!!

@@ -308,7 +308,7 @@
 		if("Caretaker - Journeyman Climbing + Labor Skills") //An Undivided Oath, unique to acolytes cause I don't want journeyman wrestling + unarmed acolytes sire.
 			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/craft/farming, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/farming, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/labor/lumberjacking, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) //Toiling away
 			to_chat(H, span_warning("Under my oath to the Clergy, I am sworn to the duties of tending the House of the Divine."))
