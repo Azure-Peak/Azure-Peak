@@ -65,6 +65,7 @@
 	id = /obj/item/clothing/ring/silver
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
+		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/keyring/acolyte = 1,
 		/obj/item/rogueweapon/spellbook = 1,

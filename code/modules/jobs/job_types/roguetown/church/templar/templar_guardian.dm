@@ -49,6 +49,7 @@
 	backr = /obj/item/rogueweapon/shield/tower/holysee
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
+		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/storage/keyring/acolyte = 1

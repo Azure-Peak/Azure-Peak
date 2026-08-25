@@ -577,6 +577,7 @@
 	cloak = /obj/item/clothing/cloak/holysee
 	id = /obj/item/clothing/neck/roguetown/psicross/undivided
 	backpack_contents = list(
+		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/mini_flagpole/church,

@@ -47,7 +47,7 @@
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
@@ -105,6 +105,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
 			head = /obj/item/clothing/head/roguetown/roguehood/abyssor
+			backr = /obj/item/fishingrod/bronze //Less-Occult painter side can have this as a treat
 		if(/datum/patron/divine/dendor) //Dendorites all busted. Play Druid.
 			head = /obj/item/clothing/head/roguetown/dendormask
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
@@ -119,6 +120,9 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			cloak = /obj/item/clothing/cloak/raincloak/mortus
+			backpack_contents += list(
+		/obj/item/burial_shroud = 1,
+		)
 			var/list/necra_tools = list("Silver Shovel", "Silver Scythe")
 			var/tool_choice = input(H, "A reaper, or a digger?", "HOW WILL YOU APPEASE THE UNDERMAIDEN?") as anything in necra_tools
 			switch(tool_choice) // choose wisely... larp or effectiveness?
@@ -130,6 +134,7 @@
 		if(/datum/patron/divine/pestra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
+			gloves = /obj/item/clothing/gloves/roguetown/angle/phys/cleric
 			head = /obj/item/clothing/head/roguetown/roguehood/phys
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning

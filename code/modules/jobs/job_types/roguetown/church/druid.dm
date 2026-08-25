@@ -56,7 +56,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
+		/datum/skill/magic/holy = SKILL_LEVEL_MASTER, //You're the peak of Dendorite Miracle-Casting.
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
@@ -91,15 +91,17 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	head = /obj/item/clothing/head/roguetown/dendormask
 	wrists = /obj/item/clothing/neck/roguetown/psicross/dendor
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/druid
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
+
 	backpack_contents = list(/obj/item/ritechalk, /obj/item/storage/keyring/acolyte)
+
 	H.ambushable = FALSE
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
+
 	H.AddComponent(/datum/component/wise_tree_alert)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Church Funding.")
-
-/datum/outfit/job/roguetown/druid/basic/choose_loadout(mob/living/carbon/human/H)
-	. = ..()
-	H.put_in_hands(new /obj/item/rogueweapon/woodstaff(H)) //To encourage them to wander the forests and to help defend themselves
