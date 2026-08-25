@@ -718,7 +718,7 @@
 			head = /obj/item/clothing/head/roguetown/roguehood
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)	//Minor regen, capped to T3, parity with other Holy and/or Arcyne caster - no others spend 15 minutes idling only to unlock their entire potencial.
+	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3, start_maxed = TRUE)	//Minor regen, capped to T3, parity with other Holy and/or Arcyne caster - no others spend 15 minutes idling only to unlock their entire potencial.
 	if(H.mind)
 		var/weapons = list("Woodstaff", "Quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -738,47 +738,3 @@
 		H.grant_language (/datum/language/beast)
 
 	beltr = /obj/item/flashlight/flare/torch/lantern //post-belt application we put this onto your hip
-
-	//OATHS - DRAWBACKS/FLAVOR CHOICE FOR YOUR ACOLYTE/CLERIC - These are designed to be semi-playstyle changes or more malus than boon, perhaps even to lean into a certain style. - Clergy are always intended to get the best of these
-	//Muntineer Wretch despite being a priest does not get/nor need this future coder, they're already under a craftsman's oath - Hense their hefty skills all around. Heretic wretches/Vagabond excommunicates however are oathbreakers and can't take oaths.
-
-	var/oaths = list("Cleric - Medicine Training + Supplies","Preacher - Apprentice Self-Defense Training + Climbing")
-	if(!istype(H.patron, /datum/patron/inhumen/graggar)) //Graggarites can't take an oath of pacifism, that goes against your faith of violence to be adverse to it. Ravoxians can because pacifist monk-trainer goes hard.
-		oaths += list("Pacifist - Pacifism + Holy Skill + Higher Staves Skill")
-	if(!istype(H.patron, /datum/patron/inhumen/zizo) && !istype(H.patron, /datum/patron/divine/necra)) //Zizites/Necrans can't take an oath of burial. (All Necrans inherently get this shit free)
-		oaths += list("Gravetender - Burial Supplies + Apprentice Athletics + Dead Nose")
-
-	oaths += list("None") //Gigajank to ensure none is always at the end of our list.
-	var/oath_choice = input(H, "Choose your OATH.", "PROFESS YOUR BLESSINGS.") as anything in oaths
-	switch(oath_choice)
-		if("Cleric - Medicine Training + Supplies")
-			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE) //Enough to replace limbs, vs the cleric paladin, this can go technically higher w/ devotee, sure.
-			backpack_contents += list(
-		/obj/item/needle/thorn/cleric = 1, //Unique to the Cleric. Far worse than a traditional iron needle, but better than a regular thorn needle - with 10 uses, instead of 5 (or 20, in the former's case).
-		)
-			beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
-			to_chat(H, span_warning("Under my oath I travel the lands healing those whom bare the burdon of sickness and injury in the name of my deity."))
-		if("Gravetender - Burial Supplies + Apprentice Athletics + Dead Nose") //More RP tbh, but its a thing
-			backpack_contents += list(
-		/obj/item/burial_shroud = 1,
-		)
-			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-			l_hand = /obj/item/rogueweapon/shovel //No pick, vs Necrans. You Bury
-			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
-			to_chat(H, span_warning("Under my oath I travel the lands putting the restless to rest and burying the fallen, or recovering bodies for revival."))
-		if("Preacher - Apprentice Self-Defense Training + Climbing") //Mobility + Slightly better Self-Defense
-			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE)
-			to_chat(H, span_warning("Under my oath I travel the lands, spreading the word of my diety - much to the distain of some, I've learned how to maneuver, defend myself and climb."))
-		if("Pacifist - Pacifism + Holy Skill + Higher Staves Skill") //Graggarites Cannot take this Oath, #FRAG4GRAG.
-			ADD_TRAIT(H, TRAIT_PACIFISM, TRAIT_GENERIC) //Huge Malus, here.
-			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE) //better parrying at the cost of being unable to directly physically hurt people/NPCs (excluding divine blast)
-			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_MASTER, TRUE)
-			to_chat(H, span_warning("Under my oath I travel the lands, never to lift a blade nor fist, preaching the word and ways of my deity."))
-			if(istype(H.patron, /datum/patron/old_god)) //WEEP FOR ALL THAT IS AND SHALT BE
-				H.emote("cry") //WEEP AS HE DOES
-			//If you take this as a Psydonite, I salute you. You genuinely are harmless in every way possible.
-		if("None")
-			id = /obj/item/clothing/ring/silver/cleric //Minor restoration of the old silver ring that Clerics could get. Worth less than the other alternatives, but offers a choice and flashy item for those who want to remain unspecialized.
