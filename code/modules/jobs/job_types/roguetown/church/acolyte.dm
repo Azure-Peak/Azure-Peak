@@ -69,11 +69,8 @@
 /datum/outfit/job/roguetown/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
-	beltl = /obj/item/storage/keyring/acolyte
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
+	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church, /obj/item/storage/keyring/acolyte)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
@@ -84,6 +81,7 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 			cloak = /obj/item/clothing/cloak/undivided
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
@@ -91,6 +89,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/noc)
 			head = /obj/item/clothing/head/roguetown/roguehood/nochood
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
@@ -98,6 +97,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc // this robe is broken unless its in the cloak slot
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/abyssor) // the deep calls!
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
@@ -106,12 +106,14 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
 			head = /obj/item/clothing/head/roguetown/roguehood/abyssor
 			backr = /obj/item/fishingrod/bronze //Less-Occult painter side can have this as a treat
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/dendor) //Dendorites all busted. Play Druid.
 			head = /obj/item/clothing/head/roguetown/dendormask
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded // Kunai: I think I'll give them a weak ass skin srmor later, once that PR is merged, for the nudist theme
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
@@ -120,6 +122,7 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light/dark //looks better
 			cloak = /obj/item/clothing/cloak/templar/necrancleric
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			backpack_contents += list(
 		/obj/item/burial_shroud = 1,
 		)
@@ -140,12 +143,14 @@
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			cloak = /obj/item/clothing/cloak/templar/pestran
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			belt = /obj/item/storage/belt/rogue/leather/black
 			l_hand = /obj/item/storage/belt/rogue/surgery_bag
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			cloak = /obj/item/clothing/cloak/templar/eoran
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
 			l_hand = /obj/item/needle/thorn
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
@@ -165,6 +170,7 @@
 			cloak = /obj/item/clothing/cloak/templar/malumite
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/ravox)
 			head = /obj/item/clothing/head/roguetown/roguehood/ravox
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
@@ -173,6 +179,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/ravox
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			l_hand = /obj/item/rope/chain
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black
@@ -180,6 +187,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
 			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
+			belt = /obj/item/storage/belt/rogue/leather/black
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
 			I.grant_inspiration(H, bard_tier = BARD_T2)
@@ -218,6 +226,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 	// -- End of section for god specific bonuses --
@@ -225,6 +234,10 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+
+	//belt items AFTER belt is added, just to be safe
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
+	beltl = /obj/item/flashlight/flare/torch //lamptern for lighting the place/stoves up easier or providing support with light
 
 /datum/outfit/job/roguetown/monk/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

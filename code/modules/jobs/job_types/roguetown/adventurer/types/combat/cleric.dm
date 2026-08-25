@@ -577,8 +577,7 @@
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
-			cloak = /obj/item/clothing/cloak/templar/necrancleric
-			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
+			cloak = /obj/item/clothing/cloak/raincloak/mortus //cheaper look than the flowy cloak and robes of the See's Necrans
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light/dark //looks better
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
@@ -731,7 +730,7 @@
 	var/oaths = list("Cleric - Medicine Training + Supplies","Preacher - Apprentice Self-Defense Training + Climbing")
 	if(!istype(H.patron, /datum/patron/inhumen/graggar)) //Graggarites can't take an oath of pacifism, that goes against your faith of violence to be adverse to it. Ravoxians can because pacifist monk-trainer goes hard.
 		oaths += list("Pacifist - Pacifism + Holy Skill + Higher Staves Skill")
-	if(!istype(H.patron, /datum/patron/inhumen/zizo) || !istype(H.patron, /datum/patron/divine/necra)) //Zizites/Necrans can't take an oath of burial. (All Necrans inherently get this shit free)
+	if(!istype(H.patron, /datum/patron/inhumen/zizo) && !istype(H.patron, /datum/patron/divine/necra)) //Zizites/Necrans can't take an oath of burial. (All Necrans inherently get this shit free)
 		oaths += list("Gravetender - Burial Supplies + Apprentice Athletics + Dead Nose")
 
 	oaths += list("None") //Gigajank to ensure none is always at the end of our list.
