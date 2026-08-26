@@ -36,7 +36,7 @@
 	var/obj/effect/proc_holder/spell/invoked/possess_vessel/spell = mind?.get_spell(/obj/effect/proc_holder/spell/invoked/possess_vessel)
 	if(spell?.original) // if a vessel the hag is possessing dies, she just gets shunted out of it. she can revive people anyways
 		var/datum/component/hag_curio_tracker = GetComponent(/datum/component/hag_curio_tracker)
-		spell.release_vessel(src, HCT)
+		spell.release_vessel(src, hag_curio_tracker)
 
 	if(SScity_assembly?.is_alderman(src))
 		var/departing_name = real_name
