@@ -20,6 +20,7 @@
 	volume = 15
 	list_reagents = list(/datum/reagent/druqks = 15)
 	grind_results = list(/datum/reagent/druqks = 15)
+	materia = list(/datum/materia_aspect/air)
 
 /datum/reagent/druqks
 	name = "Drukqs"
@@ -231,6 +232,7 @@
 	list_reagents = list(/datum/reagent/ozium = 15)
 	grind_results = list(/datum/reagent/ozium = 15)
 	sellprice = 5
+	materia = list(/datum/materia_aspect/air)
 
 /datum/reagent/ozium
 	name = "Ozium"
@@ -277,6 +279,7 @@
 	list_reagents = list(/datum/reagent/moondust = 15)
 	grind_results = list(/datum/reagent/moondust = 15)
 	sellprice = 5
+	materia = list(/datum/materia_aspect/air)
 
 /datum/reagent/moondust
 	name = "moondust"
@@ -321,6 +324,7 @@
 	volume = 18
 	list_reagents = list(/datum/reagent/moondust_purest = 18)
 	grind_results = list(/datum/reagent/moondust_purest = 15)
+	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/lunar)
 
 /datum/reagent/moondust_purest
 	name = "Purest Moondust"
@@ -379,6 +383,7 @@
 	volume = 15
 	list_reagents = list(/datum/reagent/starsugar = 15, /datum/reagent/consumable/nutriment = 24) // monster and newports diet
 	grind_results = list(/datum/reagent/starsugar = 15)
+	materia = list(/datum/materia_aspect/air)
 
 /datum/reagent/starsugar
 	name = "starsugar"
@@ -464,6 +469,7 @@
 	volume = 15
 	list_reagents = list(/datum/reagent/herozium = 15)
 	grind_results = list(/datum/reagent/herozium = 15)
+	materia = list(/datum/materia_aspect/air)
 
 /atom/movable/screen/fullscreen/herozium
 	icon = 'icons/roguetown/maniac/fullscreen_wakeup.dmi'
