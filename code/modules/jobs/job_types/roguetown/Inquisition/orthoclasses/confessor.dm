@@ -79,7 +79,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
 				shirt = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/confessor
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 4, TRUE)
 				H.change_stat(STATKEY_CON, 1)
 				H.change_stat(STATKEY_STR, 3)

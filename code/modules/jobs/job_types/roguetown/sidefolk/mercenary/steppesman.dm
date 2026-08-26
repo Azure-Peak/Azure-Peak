@@ -59,14 +59,14 @@
 				beltl= /obj/item/rogueweapon/scabbard/sword
 				l_hand = /obj/item/rogueweapon/sword/sabre/steppesman
 				neck = /obj/item/clothing/neck/roguetown/chaincoif
-				H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/tracking, SKILL_LEVEL_APPRENTICE, TRUE)
 				H.change_stat(STATKEY_STR, 2)
 				H.change_stat(STATKEY_WIL, 1)
 				H.change_stat(STATKEY_CON, 2)
@@ -92,17 +92,17 @@
 				backl = /obj/item/rogueweapon/shield/iron/steppesman
 				l_hand = /obj/item/rogueweapon/stoneaxe/battle/steppesman
 				neck = /obj/item/clothing/neck/roguetown/chaincoif
-				H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, 2, TRUE)		//To avoid virtue cheese
-				H.adjust_skillrank_up_to(/datum/skill/craft/crafting, 2, TRUE)		//Ditto
-				H.adjust_skillrank_up_to(/datum/skill/labor/mining, 3, TRUE)		//Ditto
-				H.adjust_skillrank_up_to(/datum/skill/craft/traps, 3, TRUE)			//Ditto
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, SKILL_LEVEL_APPRENTICE, TRUE)		//To avoid virtue cheese
+				H.adjust_skillrank_up_to(/datum/skill/craft/crafting, SKILL_LEVEL_APPRENTICE, TRUE)		//Ditto
+				H.adjust_skillrank_up_to(/datum/skill/labor/mining, SKILL_LEVEL_JOURNEYMAN, TRUE)		//Ditto
+				H.adjust_skillrank_up_to(/datum/skill/craft/traps, SKILL_LEVEL_JOURNEYMAN, TRUE)			//Ditto
 				H.change_stat(STATKEY_STR, 2)		//Statblock prone to revision. Probably will be revised. Currently weighted for 7 points and not 9.
 				H.change_stat(STATKEY_WIL, 3)
 				H.change_stat(STATKEY_CON, 2)
@@ -131,16 +131,16 @@
 				beltl = /obj/item/quiver/arrows
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/steppesman
 				neck = /obj/item/clothing/neck/roguetown/leather
-				H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/slings, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/tracking, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/tracking, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_NOVICE, TRUE)
 				H.change_stat(STATKEY_PER, 3)
 				H.change_stat(STATKEY_WIL, 2)
 				H.change_stat(STATKEY_SPD, 2)
@@ -157,14 +157,14 @@
 				beltr = /obj/item/rogueweapon/shield/buckler		//Doesn't get good shield skill + no armor, so they get this to compensate for no parry on whip.
 				beltl = /obj/item/rogueweapon/whip
 				neck = /obj/item/clothing/neck/roguetown/bevor		//Better neckpiece for slightly less skill variety. Based it off a cool piece of art...
-				H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)		//Bit high but he doesn't get huge strength boons so makes up for it. Same as a guard.
-				H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-				H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)		//Bit high but he doesn't get huge strength boons so makes up for it. Same as a guard.
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/tracking, SKILL_LEVEL_APPRENTICE, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_NOVICE, TRUE)
 				H.change_stat(STATKEY_STR, 1)
 				H.change_stat(STATKEY_PER, 2)
 				H.change_stat(STATKEY_WIL, 1)

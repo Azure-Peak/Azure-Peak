@@ -71,6 +71,8 @@
 	expert_name = "Whipper"
 
 /datum/skill/combat/bows
+	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_skillbook_level = SKILL_LEVEL_APPRENTICE
 	name = "Archery"
 	desc = "Alongside perception, increases the speed you draw back a bow and have it ready to shoot. Does not influence damage or chance to hit."
 	dreams = list(
@@ -81,6 +83,8 @@
 	expert_name = "Bower"
 
 /datum/skill/combat/crossbows
+	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_skillbook_level = SKILL_LEVEL_APPRENTICE
 	name = "Crossbows"
 	desc = "Alongside perception, increases the speed you ready a crossbow and have it ready to shoot as well its draw speed. Does not influence damage or chance to hit."
 	dreams = list(
@@ -117,6 +121,8 @@
 	expert_name = "Shieldbearer"
 
 /datum/skill/combat/slings
+	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	max_skillbook_level = SKILL_LEVEL_APPRENTICE
 	name = "Slings"
 	desc = "Alongside perception, increases the speed you ready a sling and have it ready to shoot. Does not influence damage or chance to hit."
 	dreams = list(
