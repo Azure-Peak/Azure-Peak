@@ -30,8 +30,8 @@
 
 /datum/hag_boon/trait/curse/ugly/apply_boon_effect(mob/living/L) // these traits are all mutually exclusive
 	. = ..()
-	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL)
-	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL_UNCANNY)
+	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL, null)
+	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL_UNCANNY, null)
 
 /datum/hag_boon/trait/curse/mute
 	name = "Trait - Voice Mute"
