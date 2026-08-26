@@ -39406,6 +39406,7 @@
 /obj/structure/table/wood/poor,
 /obj/effect/spawner/lootdrop/roguetown/random_paint_staff,
 /obj/item/rogueweapon/hammer/stone,
+/obj/effect/spawner/lootdrop/roguetown/random_paint_staff,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/abyssor/inner)
 "hxq" = (
@@ -46555,6 +46556,7 @@
 /area/rogue/indoors)
 "iNs" = (
 /obj/structure/table/church/end,
+/obj/effect/spawner/lootdrop/roguetown/dream_material/tier1,
 /obj/effect/spawner/lootdrop/roguetown/dream_material/tier1,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/abyssor/inner)
@@ -61428,6 +61430,7 @@
 /area/rogue/outdoors/beach/north)
 "lvn" = (
 /obj/structure/table/church,
+/obj/effect/spawner/lootdrop/roguetown/dream_material/tier1,
 /obj/effect/spawner/lootdrop/roguetown/dream_material/tier1,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/abyssor/inner)
@@ -82654,6 +82657,10 @@
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains)
+"ppL" = (
+/obj/effect/spawner/lootdrop/roguetown/dream_material/geyser,
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/cave/abyssor/inner)
 "ppN" = (
 /obj/item/natural/stone{
 	pixel_x = -8;
@@ -94463,6 +94470,14 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
+"rCh" = (
+/obj/machinery/light/rogue/candle/blue/l{
+	pixel_x = 0;
+	pixel_y = 32
+	},
+/obj/effect/spawner/lootdrop/roguetown/dream_material/seeds,
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/cave/abyssor/inner)
 "rCk" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/grass,
@@ -145974,7 +145989,7 @@ bOZ
 lAx
 lAx
 uaS
-pOm
+ppL
 pOm
 vEZ
 vEZ
@@ -146877,7 +146892,7 @@ bOZ
 bOZ
 mvP
 uaS
-pOm
+ppL
 pOm
 hhi
 iBD
@@ -147331,7 +147346,7 @@ mvP
 uaS
 pOm
 mnZ
-rfP
+nyJ
 rfP
 nma
 nma
@@ -148233,9 +148248,9 @@ bOZ
 bOZ
 mvP
 uaS
-aWM
+rCh
 mnZ
-rfP
+nyJ
 rfP
 nma
 nma
