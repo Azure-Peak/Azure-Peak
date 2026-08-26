@@ -184,6 +184,7 @@
 	name = "Alchemical Combustion (Ash)"
 	input_items = list(/obj/item/natural/bundle)
 	output_items = list(/obj/item/ash = 12) // twice as effective than fire, in fact
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/nigredo/ash_bulk/validate_ingredient(obj/item/I)
 	if(!istype(I, /obj/item/natural/bundle))
