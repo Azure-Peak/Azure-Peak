@@ -596,7 +596,7 @@
 			var/obj/item/rogueweapon/RW = user.get_active_held_item()
 			if(RW)
 				RW.take_damage(RW.sharpness ? (INTEG_PARRY_DECAY) : (INTEG_PARRY_DECAY_NOSHARP), BRUTE, used_weapon.d_type)
-				RW.remove_bintegrity((SHARPNESS_ONHIT_DECAY), src)
+				RW.remove_bintegrity((SHARPNESS_ONHIT_DECAY), user)
 
 			//if(used_weapon)
 			//	used_weapon.take_damage((used_weapon.sharpness ? (INTEG_PARRY_DECAY) : (INTEG_PARRY_DECAY_NOSHARP)), BRUTE, used_weapon.d_type)

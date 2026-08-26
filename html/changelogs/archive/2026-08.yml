@@ -1151,3 +1151,44 @@
   - bugfix: oiling someone up for wrestling and stuff should be less buggy looking
   zeskorion:
   - bugfix: wrenches now use a weapon skill
+2026-08-26:
+  DmitriyPershukov:
+  - rscadd: Added recipes for pure moondust, spice, herozium and starsugar
+  KatTheFox:
+  - bugfix: You can no longer wrap shapeshifted players in packages and mail them
+  Lamasmaster:
+  - balance: Reinforcing has been reduced to Apprentice leatherworking requirement
+      (except forester brigandine since that is an actual brigandine so it remains
+      on expert)
+  - balance: Brigandines now require Steel Bar, Leather and Cloth to make (in different
+      ratios depending on the type of it) -Lightweight is steel recipe now and with
+      it has increased cost in silverface.
+  - balance: Hide Armor reduced to 30 mammon, Studded Armor and Hood down to 35 mammon
+      price, Hardened Leather Armor increased to 45 from 40, Hardened Leather Coat/Jacket
+      increased to 55 from 45 (it costs a lot of materials to make but this is bit
+      closer to reality)
+  - bugfix: Fixes pathing for studded armor in silverface so you can actually purchase
+      it
+  SpartanBobby:
+  - balance: gave one of the 3 aristocrat sword subclasses dodge expert instead of
+      medium arour training (The sabre one)
+  ToasterStrudes:
+  - rscadd: Adds a NEW AND IMPROVED ALT MODE to READ OMEN - The ORB of WISDOM
+  - refactor: Has the normal version of read omen use the new dominant pantheon system
+      instead of the deprecated storyteller system.
+  WeNeedMorePhoron:
+  - bugfix: Fixes quality not mattering for navigator
+  - balance: Invis is now red intent with 2 seconds charge time.
+  - balance: Storage, Weapons and Clothings on spawn are marked as worn with 5% value.
+      Worn modifier don't show on the name and only show on examine.
+  - rscadd: Lowered Tithebound mammons threshold to account for reduction in worn
+      items value.
+  novakid94:
+  - bugfix: Ravox's sharpness protection now benefits the worshipper instead of their
+      opponent.
+  radarseas:
+  - image: added/modified artificer spell icons, they now have a new look + overclock
+      has an icon now.
+  saltprjak:
+  - bugfix: Mace Chant's Tremor no longer gets staggered when you walk into someone.
+  - bugfix: Azurean Pilum's frost application no longer prevented by armor
