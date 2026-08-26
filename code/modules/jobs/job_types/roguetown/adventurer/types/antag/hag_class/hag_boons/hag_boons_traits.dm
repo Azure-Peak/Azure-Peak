@@ -40,11 +40,21 @@
 	desc = "Grants unearthly beauty."
 	points = 5
 
+/datum/hag_boon/trait/beautiful/apply_boon_effect(mob/living/L) // these traits are all mutually exclusive
+	. = ..()
+	REMOVE_TRAIT(L, TRAIT_UGLY)
+	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL_UNCANNY)
+
 /datum/hag_boon/trait/beautiful_uncanny
 	name = "Trait - Angelic beauty"
 	trait_to_apply = TRAIT_BEAUTIFUL_UNCANNY
 	desc = "Causes the bearer to randomly appear either beautiful or repulsive."
 	points = 25
+
+/datum/hag_boon/trait/beautiful_uncanny/apply_boon_effect(mob/living/L) // these traits are all mutually exclusive
+	. = ..()
+	REMOVE_TRAIT(L, TRAIT_UGLY)
+	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL)
 
 /datum/hag_boon/trait/leaper
 	name = "Trait - Leaper"

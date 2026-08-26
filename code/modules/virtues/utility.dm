@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(fey_vessels)
+
 /datum/virtue/utility/noble
 	name = "Nobility"
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom."
@@ -397,6 +399,20 @@
 	..() // Apply traits, stats, and languages first
 	if(!recipient.mind)
 		return
+	var/list/choices = list(
+		"Pactbound" = "In exchange for your service, you've received some of the hag's power. You gain a 30 point budget and can be given boons - but not cursed.",
+		"Vessel" = "Shirking personal power, you are bound much more tightly to service. The hag can possess you at will, allowing them to speak and act through you."
+		)
+	var/choice = tgui_input_list(recipient, "What nature do you bear?", "FEY NATURE", choices, descriptions = choices)
+	var/hag_message
+	if(choice == "Vessel")
+		GLOB.fey_vessels[recipient] = TRUE
+		hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a vessel, is walking the lands this week."
+		add_verb(recipient, /mob/living/carbon/human/proc/toggle_vessel)
+	else
+		recipient.extra_boon_budget = 30
+		hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a pactbound, is walking the lands this week."
+
 	for(var/mob/living/hag_mob in GLOB.active_hags)
 		var/datum/mind/hag_mind = hag_mob.mind
 		if(!hag_mind)
@@ -404,5 +420,16 @@
 		hag_mind.i_know_person(recipient)
 		recipient.mind.i_know_person(hag_mind)
 		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name] is walking the lands this week."))
+			to_chat(hag_mind.current, span_boldnotice(hag_message))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
+
+/mob/living/carbon/human/proc/toggle_vessel()
+	set name = "Toggle Vessel Status"
+	set category = "RoleUnique.Virtue"
+	set desc = "Changes whether the hag is able to possess you; by default, they can." // so the hag doesn't possess someone mid scene
+
+	if(!(src in GLOB.fey_vessels)) // you shouldn't have this verb
+		remove_verb(src, /mob/living/carbon/human/proc/toggle_vessel)
+
+	GLOB.fey_vessels[src] = !(GLOB.fey_vessels[src])
+	to_chat(src, span_warning("You are now [GLOB.fey_vessels[src]?"":"un"]able to be possessed."))

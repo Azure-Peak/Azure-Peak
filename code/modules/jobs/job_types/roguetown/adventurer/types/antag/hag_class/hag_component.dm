@@ -50,6 +50,12 @@
 	// Let's avoid lagging the server on round start.
 	addtimer(CALLBACK(src, PROC_REF(recognize_fey)), 10 SECONDS)
 
+/datum/component/hag_curio_tracker/PreTransfer()
+	GLOB.active_hags -= parent
+
+/datum/component/hag_curio_tracker/PostTransfer()
+	GLOB.active_hags |= parent
+
 /datum/component/hag_curio_tracker/Destroy()
 	GLOB.active_hags -= parent
 	return ..()
@@ -68,7 +74,7 @@
 				H.mind.i_know_person(hag_mob.mind)
 			found_any = TRUE
 			to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
-			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name] is walking the lands this week."))
+			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name], a [(H in GLOB.fey_vessels) ? "vessel" : "pactbound"], is walking the lands this week."))
 	if(found_any)
 		to_chat(hag_mob, span_boldnotice("As your eyes adjust to the emerald gloom, the threads of the Mossmother's older puppets become visible to you..."))
 
@@ -90,6 +96,8 @@
 			hag_mob.mind.i_know_person(victim)
 
 	var/datum/hag_boon/B = new boon_path(true_name, src, set_points, parent)
+	if(victim && HAS_TRAIT(victim, TRAIT_FEYTOUCHED))
+		B.transmutable = FALSE // you can't curse your feytouched for ez levelups
 	var/list/name_list = boon_registry[true_name]
 	name_list += B
 
@@ -276,6 +284,10 @@
 			max_victims = 6
 			max_points = 110
 
+	var/mob/living/carbon/C = L
+	if(istype(C) && HAS_TRAIT(C, TRAIT_FEYTOUCHED))
+		max_points = C.extra_boon_budget
+
 	// Only block if we are trying to boon a NEW person and we're at the limit
 	// We check if the target currently has a real boon.
 	var/target_has_boon = FALSE
@@ -355,7 +367,7 @@
 		return FALSE
 	if(C.mind.has_antag_datum(/datum/antagonist/skeleton))
 		return FALSE
-	if(HAS_TRAIT(C, TRAIT_FEYTOUCHED))
+	if(HAS_TRAIT(C, TRAIT_FEYTOUCHED) && !C.extra_boon_budget)
 		return FALSE
 	return TRUE
 

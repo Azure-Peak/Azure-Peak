@@ -23,6 +23,10 @@
 	if(in_use) // Someone's already going in.
 		return
 	var/mob/living/carbon/human/departing_mob = dropping
+	var/obj/effect/proc_holder/spell/invoked/possess_vessel/spell = departing_mob.mind?.get_spell(/obj/effect/proc_holder/spell/invoked/possess_vessel)
+	if(spell?.original) // no fartravelling while possessing someone please
+		to_chat(user, span_warning("It'd be awfully rude to just leave with this body."))
+		return
 	var/datum/job/mob_job
 	if(departing_mob != user && departing_mob.client)
 		to_chat(user, "<span class='warning'>This one retains their free will. It's their choice if they want to leave the round or not.</span>")
@@ -68,6 +72,7 @@
 	if(SSticker.regentmob == departing_mob)
 		SSticker.regentmob = null
 	GLOB.chosen_names -= departing_mob.real_name
+	LAZYREMOVE(GLOB.fey_vessels, departing_mob)
 	LAZYREMOVE(GLOB.actors_list, departing_mob.mobid)
 	LAZYREMOVE(GLOB.roleplay_ads, departing_mob.mobid)
 	// Keep insiders' bank balance forfeits to the Crown's Purse on far-travel (silent OOC).

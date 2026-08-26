@@ -310,7 +310,7 @@
 
 /obj/effect/proc_holder/spell/invoked/mindlink/hag
 	name = "Coven Link"
-	desc = "Weave the minds of up to three others into a shared coven with yourself. All participants communicate via ,Y."
+	desc = "Weave the minds of up to three others into a shared coven with yourself. All participants communicate via ,m."
 	invocation_type = "none"
 	recharge_time = 4 MINUTES
 	cost = 12
@@ -458,9 +458,7 @@
 		to_chat(user, span_warning("That's not the right name! They fooled me!"))
 		return FALSE
 
-	var/datum/hag_identity/ID = new /datum/hag_identity( // yoink
-		victim.real_name, victim.voice_color, victim.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_TRAIT, victim.mob_descriptors), victim.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_STATURE, victim.mob_descriptors), victim.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, victim.mob_descriptors), victim.custom_descriptors[12], victim.custom_descriptors[10], victim.custom_descriptors[9], HAS_TRAIT(victim, TRAIT_NOBLE)
-	)
+	var/datum/hag_identity/ID = victim.make_hag_identity()
 
 	H.stored_names[ID.name] = ID
 	H.prepared_boons[/datum/hag_boon/name] = (H.prepared_boons[/datum/hag_boon/name] || 0) + 1
@@ -472,3 +470,122 @@
 	to_chat(victim, span_boldwarning("What manner of trickery is this? My name... why can't I recall my name?!")) // let them know shit's gone down
 	to_chat(user, span_danger("Their name is now mine... I can hoard it for my own use, or bestow it upon another."))
 	return TRUE
+
+/// doesn't make any changes to the mob, just creates a hag_identity datum from them
+/mob/living/carbon/human/proc/make_hag_identity()
+	return new /datum/hag_identity( // yoink
+		real_name, voice_color,
+		get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_TRAIT, mob_descriptors),
+		get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_STATURE, mob_descriptors),
+		get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, mob_descriptors),
+		custom_descriptors[12],
+		custom_descriptors[10],
+		custom_descriptors[9],
+		HAS_TRAIT(src, TRAIT_NOBLE)
+	)
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel
+	name = "Take Vessel"
+	desc = "Possess any vessel under your command, taking full control of their body. Your original body will lie dormant until you cast the spell again. The vessel's previous occupant will remain nearby, able to observe and communicate with you, but not act."
+	recharge_time = 1 MINUTES
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_state = "hand_down"
+	var/mob/living/carbon/human/original	// if this is null, we're in our original body. otherwise, it stores a ref to our original body
+	var/datum/mind/vessel_orig_mind			// oh gods. oh fuck. this might go horribly wrong i hope it does not
+	var/mob/dead/observer/eye/screye/displaced_soul/soul	// self explanatory
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel/cast(list/targets, mob/living/user)
+	var/datum/component/hag_curio_tracker/HCT = user.GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT || !ishuman(user))
+		to_chat(user, span_warning("You lack the connection needed to take control of a vessel."))
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(!original) // we're casting this from our original body: possess a vessel.
+		var/list/vessels = list()
+		for(var/mob/living/carbon/human/candidate in GLOB.fey_vessels)
+			if(GLOB.fey_vessels[candidate])
+				vessels["[candidate.real_name] (Available)"] = candidate
+			else
+				vessels["[candidate.real_name] (Unavailable)"] = candidate
+		var/mob/living/carbon/human/choice = vessels[tgui_input_list(user, "Which vessel to command?", "THE ROOTS CONNECT", vessels)]
+		if(!choice)
+			revert_cast()
+			return FALSE
+		if(!GLOB.fey_vessels[choice])
+			to_chat(user, span_warning("That vessel is inaccessible to me, for now."))
+			revert_cast()
+			return FALSE
+		original = H
+		vessel_orig_mind = choice.mind
+		vessel_orig_mind.current = null
+		soul = H.possess_vessel(choice)
+		if(!soul)
+			revert_cast()
+			return FALSE
+		return TRUE
+	// we're casting this from a vessel: restore them, and return to our original body
+	release_vessel(H, HCT)
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/release_vessel(mob/living/carbon/human/H, datum/component/hag_curio_tracker/HCT)
+	GLOB.fey_vessels[H] = TRUE															// make them possessable again
+	original.TakeComponent(HCT)															// transfer the hag curio tracker back
+	H.mind.transfer_to(original) 														// then transfer the mind back
+	H.custom_descriptors[9] = soul.original_identity.custom_voice 						// reset the vessel's voice to the non-possessed one
+	H.remove_mob_descriptor(H.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE))
+	H.add_mob_descriptor(soul.original_identity.descriptor_voice)
+	H.voice_color = soul.original_identity.name_color
+	vessel_orig_mind.transfer_to(H)														// this should automatically set the key and thereby transfer the client - edit I WAS VERY WRONG
+	H.key = soul.key																	// ????????
+	QDEL_NULL(soul)
+	original = null																		// reset the spell state
+	vessel_orig_mind = null
+
+/mob/living/carbon/human/proc/possess_vessel(mob/living/carbon/human/vessel)
+	var/datum/component/hag_curio_tracker/HCT = GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT) // don't add this spell to nonhags kthxbye
+		return FALSE
+	if(!istype(vessel) || !vessel.key || vessel.GetComponent(/datum/component/hag_curio_tracker)) // you should never be able to possess other hags. lmao
+		to_chat(src, span_warning("Invalid vessel!"))
+		return FALSE
+	if(!(vessel in GLOB.fey_vessels)) // shouldn't happen, but just in case there's an edge case
+		to_chat(src, span_warning("They are not a vessel!"))
+		return FALSE
+	if(!GLOB.fey_vessels[vessel] || !vessel.mind || vessel.stat)
+		to_chat(src, span_warning("They are beyond your grasp, for now at least.")) // they're probably sceneing. or they're SSD, or incapacitated
+		return FALSE
+	GLOB.fey_vessels[vessel] = FALSE // in case there are two hags somehow
+	// before ANYTHING else we need to clear the mob's spells so the hag won't have access to them. they'll get re-added when the hag
+	// goes back to their original body and the vessel's original mind transfers back in
+	for(var/X in vessel.mind.spell_list)
+		// New action-based spells ARE actions — grant them directly
+		if(istype(X, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = X
+			action_spell.Remove(vessel)
+		// Old proc_holder spells have a separate action wrapper
+		else if(istype(X, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = X
+			S.action?.Remove(vessel)
+	// ok so here's how this works. first, we ghostize the vessel and force them to orbit their old body.
+	// we store a copy of the things that change (voice color and descriptor) using the namesteal datum, then transfer over the hag's.
+	// we also move the hag curio tracker to the vessel, and add all the hag spells, then transfer the hag player into the vessel
+	// when the ghost mob talks, the hag hears it as a psychic message, but nobody else can. they also can't move around or stop orbiting
+	// when the hag relinquishes control, we remove the hag spells, transfer the hag curio tracker back, reset the name and voice colors
+	// then transfer the hag back into the original mob, then move the ghostmob back into the vessel. i sincerely hope nothing breaks in that.
+	// update 2026-08-25: how very glib. things did, in fact, break in that.
+	var/mob/dead/observer/eye/screye/displaced_soul/dsoul = make_observer(/mob/dead/observer/eye/screye/displaced_soul, FALSE)
+	if(!dsoul)
+		return FALSE
+	dsoul.ManualFollow(vessel)
+	dsoul.vessel = vessel
+	dsoul.original_identity = vessel.make_hag_identity()
+	dsoul.key = vessel.key
+	// we've already archived the original identity, so it's safe to make destructive changes here. something something yuri
+	vessel.voice_color = voice_color
+	vessel.remove_mob_descriptor(vessel.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, vessel.mob_descriptors))
+	vessel.add_mob_descriptor(get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, mob_descriptors))
+	vessel.custom_descriptors[9] = custom_descriptors[9] // this is the voice. i hate that custom descriptor code uses magic numbers
+	mind.transfer_to(vessel)
+	vessel.TakeComponent(HCT)
+	return dsoul

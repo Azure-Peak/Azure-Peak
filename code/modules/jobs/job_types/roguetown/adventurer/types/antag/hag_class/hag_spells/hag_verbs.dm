@@ -58,9 +58,9 @@
 
 	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
 	if(ID) // we're already wearing a name, take it off
-		to_chat(src, span_warning("I cease mimicking the presence of [ID.identity.name]."))
 		var/datum/hag_identity/identity = ID.identity
-		HCT.stored_names[ID.identity.name] = ID.identity
+		to_chat(src, span_warning("I cease mimicking the presence of [identity.name]."))
+		HCT.stored_names[ID.identity.name] = identity
 		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 0) + 1
 		qdel(ID)
 	else // we want to put on a name

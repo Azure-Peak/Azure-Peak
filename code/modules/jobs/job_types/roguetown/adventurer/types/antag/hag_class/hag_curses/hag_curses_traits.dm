@@ -28,6 +28,11 @@
 	desc = "Disfigures the bearer."
 	points = 10
 
+/datum/hag_boon/trait/curse/ugly/apply_boon_effect(mob/living/L) // these traits are all mutually exclusive
+	. = ..()
+	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL)
+	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL_UNCANNY)
+
 /datum/hag_boon/trait/curse/mute
 	name = "Trait - Voice Mute"
 	trait_to_apply = TRAIT_PERMAMUTE
