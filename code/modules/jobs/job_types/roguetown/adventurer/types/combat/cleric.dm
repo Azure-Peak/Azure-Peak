@@ -204,7 +204,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/shield/iron
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -214,6 +213,26 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
+
+	//Armor varients here
+	var/armors = list("Hauberk")
+	if(H.patron?.type != /datum/patron/old_god)
+		armors += list("Cuirass")
+		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+	if(H.patron?.type == /datum/patron/old_god)
+		armors += list("Psydonic Cuirass")
+		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq/cleric
+
+	var/armor_choice = input(H, "Choose your MAILLE.", "STAND BEFORE THE DARKNESS.") as anything in armors //
+	switch(armor_choice)
+		if("Hauberk")
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+		if("Cuirass")
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
+		if("Psydonic Cuirass")
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate
+
+	//helmets and cloaks here
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			cloak = /obj/item/clothing/cloak/tabard/psydontabard/black
@@ -222,54 +241,36 @@
 							"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket,
 							"Psydonic Volfskulle Bascinet" = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/psydonic,
 							"Greatplumed Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/psy/greatplume)
-				var/armors = list("Hauberk","Cuirass")
-				var/armor_choice = input(H, "Choose your MAILLE.", "STAND AGAINST HER DARKNESS.") as anything in armors
-				switch(armor_choice)
-					if("Hauberk")
-						armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-					if("Cuirass")
-						armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate
 		if(/datum/patron/divine/astrata)
 			cloak = /obj/item/clothing/cloak/templar/astratancleric
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			helmets += list(
 				"Old Astratan Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm,
 				"Astratan Plumed Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/cleric
 				)
 		if(/datum/patron/divine/noc)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		if(/datum/patron/divine/abyssor)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/abyssor
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		if(/datum/patron/divine/dendor)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/dendor
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		if(/datum/patron/divine/necra)
 			cloak = /obj/item/clothing/cloak/templar/necrancleric
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			helmets += list("Old Necran Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm)
 		if (/datum/patron/divine/malum)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/malum
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		if (/datum/patron/divine/eora)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/eora
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			helmets += list("Old Eoran Sallet" = /obj/item/clothing/head/roguetown/helmet/sallet/eoran)
 		if (/datum/patron/divine/ravox)
 			cloak = /obj/item/clothing/cloak/templar/ravoxcleric
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			helmets += list("Ravox Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/cleric)
 		if (/datum/patron/divine/xylix)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/xylix
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		if (/datum/patron/divine/pestra)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/pestra
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 		else
 			cloak = /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
 			helmets += list("Decorated Sugarloaf Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/gold/cleric)
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.

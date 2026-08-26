@@ -344,6 +344,12 @@
 	shiftable = FALSE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq/cleric //trash varient for aura
+	name = "worn psydonic leather tunic"
+	desc = "A firm and rugged leather tunic; made to ENDURE, made to PERSIST, its seen a lot of wear and tear in its tyme."
+	armor = ARMOR_PADDED_BAD
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe
 	name = "stalker robe"
 	desc = "A robe-like gambeson of moth-eaten cloth and cheap purple dye. No self-respecting elf would be seen wearing this."
