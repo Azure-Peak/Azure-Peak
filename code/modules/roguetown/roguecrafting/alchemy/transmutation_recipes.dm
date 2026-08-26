@@ -56,13 +56,13 @@
 
 /datum/transmutation_recipe/florid/tea
 	name = "Fiber Invigoration (Tea Leaf)"
-	materia_aspects = list(/datum/materia_aspect/motion)
+	materia_aspects = list(/datum/materia_aspect/arcyne)
 	input_items = list(/obj/item/natural/fibers = 2)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry = 1)
 
 /datum/transmutation_recipe/florid/coffee
 	name = "Grain Invigoration (Coffee Beans)"
-	materia_aspects = list(/datum/materia_aspect/motion)
+	materia_aspects = list(/datum/materia_aspect/arcyne)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 2)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/coffee = 1)
 
