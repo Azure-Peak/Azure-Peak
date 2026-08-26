@@ -8,9 +8,9 @@
 /datum/buildmode_mode/advanced/show_help(client/c)
 	to_chat(c, span_notice("***********************************************************"))
 	to_chat(c, span_notice("Right Mouse Button on buildmode button = Set object type"))
-	to_chat(c, span_notice("Left Mouse Button + alt on turf/obj    = Copy object type"))
-	to_chat(c, span_notice("Left Mouse Button on turf/obj          = Place objects"))
-	to_chat(c, span_notice("Right Mouse Button                     = Delete objects"))
+	to_chat(c, span_notice("Left Mouse Button + alt on turf/obj	= Copy object type"))
+	to_chat(c, span_notice("Left Mouse Button on turf/obj			= Place objects"))
+	to_chat(c, span_notice("Right Mouse Button						= Delete objects"))
 	to_chat(c, "")
 	to_chat(c, span_notice("Use the button in the upper left corner to"))
 	to_chat(c, span_notice("change the direction of built objects."))
@@ -22,11 +22,11 @@
 	if(!ispath(objholder))
 		objholder = pick_closest_path(target_path)
 		if(!objholder)
-			alert("No path was selected")
+			alert(c, "No path was selected")
 			return
 		else if(ispath(objholder, /area))
 			objholder = null
-			alert("That path is not allowed.")
+			alert(c, "That path is not allowed.")
 			return
 
 /datum/buildmode_mode/advanced/handle_click(client/c, params, obj/object)

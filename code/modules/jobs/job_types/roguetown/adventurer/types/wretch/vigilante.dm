@@ -26,8 +26,8 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT, //SNIFF OUT JUSTICE.
 	)
 	subclass_stashed_items = list(
-        "Sewing Kit" =  /obj/item/repair_kit,
-    )
+		"Sewing Kit" =	/obj/item/repair_kit,
+	)
 
 /datum/outfit/job/roguetown/wretch/vigilante/pre_equip(mob/living/carbon/human/H)
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/ //So your skull isn't caved in if you decide to wear a cool hat.
@@ -66,10 +66,6 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
 	cloak = /obj/item/clothing/cloak/thief_cloak
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick) // their batman they get all of them
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
 	H.change_stat(STATKEY_STR, 2)
 	H.change_stat(STATKEY_CON, 3)
 	H.change_stat(STATKEY_WIL, 3)

@@ -1,0 +1,4 @@
+author: "novakid94"
+delete-after: True
+changes:
+  - bugfix: "Ravox's sharpness protection now benefits the worshipper instead of their opponent."

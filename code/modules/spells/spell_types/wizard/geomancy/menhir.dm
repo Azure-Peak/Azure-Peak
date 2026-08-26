@@ -4,6 +4,7 @@
 /datum/action/cooldown/spell/menhir
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
 	name = "Menhir"
+	expose_caster_on_deflect = FALSE
 	desc = "Hurl a massive boulder that shatters into stone fragments and deals double damage to structures.\n\
 	HEAVE flings it in a flat line at a target - immediate, but stopped by walls and cover.\n\
 	DROP calls it down from directly above you.\n\
@@ -103,7 +104,7 @@
 	B.fire()
 
 /datum/action/cooldown/spell/menhir/proc/do_drop(mob/living/carbon/human/H, turf/target)
-	new /obj/effect/temp_visual/trap/geomancy(target)
+	new /obj/effect/temp_visual/telegraph/geomancy(target)
 	target.visible_message(span_boldwarning("A shadow spreads over [target] - a boulder plummets from the sky!"))
 	playsound(target, 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 60, TRUE)
 	addtimer(CALLBACK(src, PROC_REF(drop_fall), target, H), drop_telegraph_time)
@@ -143,17 +144,18 @@
 	QDEL_IN(pillar, pillar_lifetime)
 
 /datum/action/cooldown/spell/menhir/proc/strike_mob(mob/living/carbon/human/H, mob/living/L, dmg)
-	if(L == H || QDELETED(L))
+	if(QDELETED(L))
 		return
 	if(L.anti_magic_check())
 		return
 	if(spell_guard_check(L, TRUE))
 		return
 	if(ishuman(L))
-		arcyne_strike(H, L, null, dmg, H.zone_selected || BODY_ZONE_CHEST, BCLASS_BLUNT, \
-			spell_name = name, damage_type = BRUTE, npc_simple_damage_mult = 2, skip_animation = TRUE)
+		if(arcyne_strike(H, L, null, dmg, H.zone_selected || BODY_ZONE_CHEST, BCLASS_BLUNT, \
+			spell_name = name, damage_type = BRUTE, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+			return
 	else
-		L.adjustBruteLoss(dmg * (L.mind ? 1 : 2))
+		L.adjustBruteLoss(dmg)
 	new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 
 /datum/action/cooldown/spell/menhir/proc/fragment_burst(turf/T, mob/living/carbon/human/H)

@@ -26,6 +26,7 @@
 /datum/ai_behavior/basic_melee_attack/opportunistic
 	action_cooldown = 0.2 SECONDS // We gotta check unfortunately often because we're in a race condition with nextmove
 	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
+	sidesteps_after = FALSE
 
 /datum/ai_behavior/basic_melee_attack/opportunistic/setup(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	if (!controller.blackboard_key_exists(targeting_strategy_key))

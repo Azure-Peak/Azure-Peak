@@ -22,14 +22,14 @@
 /*
 NEW SYSTEM
 What it does:
-	- The platter stays intact, adds object on top of it. 
+	- The platter stays intact, adds object on top of it.
 	- Examining the platter tells you what is on the platter
 	- Adds food overlay to the platre
 	- Can remove item with right click
 	- Using it will eat the food on it
 	- Use initial[name] to revert platter back to being its original name once the food is removed
 */
-/*	..................   Food platter   ................... */
+/*	..................	Food platter	................... */
 /obj/item/cooking/platter/attackby(obj/item/I, mob/user, params)
 
 	if(istype(I, /obj/item/kitchen/fork))
@@ -50,12 +50,12 @@ What it does:
 			else
 				to_chat(user, span_info("Something is already on this [initial(name)]! Remove it first."))
 		else
-			return ..()	
+			return ..()
 
 
 /obj/item/cooking/platter/attack(mob/living/M, mob/living/user, def_zone)
 	if(contents.len > 0)
-		if(istype(contents[1],  /obj/item/reagent_containers/food/snacks/))
+		if(istype(contents[1],	/obj/item/reagent_containers/food/snacks/))
 			var/obj/item/reagent_containers/food/snacks/S = contents[1]
 			S.attack(M,user,def_zone)
 		update_icon()
@@ -73,7 +73,7 @@ What it does:
 		name = "platter of [contents[1].name]"
 		desc = contents[1].desc
 		//Need something better than this in future like a buff
-		if(istype(contents[1],  /obj/item/reagent_containers/food/snacks/))
+		if(istype(contents[1],	/obj/item/reagent_containers/food/snacks/))
 			var/obj/item/reagent_containers/food/snacks/S = contents[1]
 			S.bonus_reagents = list(/datum/reagent/consumable/nutriment = 2)
 	else
@@ -92,7 +92,7 @@ What it does:
 		//No need to change scale since and pixel_y I think all food already resets that when you grab it
 		contents[1].icon_state = initial(contents[1].icon_state)
 		//sometimes food puts an item in its place!!
-		if(istype(contents[1],  /obj/item/reagent_containers/food/snacks/))
+		if(istype(contents[1],	/obj/item/reagent_containers/food/snacks/))
 			var/obj/item/reagent_containers/food/snacks/S = contents[1]
 			S.bonus_reagents = list()
 			if(S?.faretype > FARE_IMPOVERISHED)
@@ -195,4 +195,3 @@ What it does:
 	name = "porcelain platter"
 	desc = "A fancy platter made out of porcelain."
 	icon_state = "platter_porcelain"
-	sellprice = 10

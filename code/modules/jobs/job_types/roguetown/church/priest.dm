@@ -26,13 +26,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 
 	spells = list(
-	 /datum/action/cooldown/spell/miracle/fortify,
-	 /obj/effect/proc_holder/spell/invoked/cure_rot,
-	 /datum/action/cooldown/spell/miracle/intervention,
-	 /obj/effect/proc_holder/spell/invoked/revive,
-	 /datum/action/cooldown/spell/miracle/bishop_pack,
-	 /obj/effect/proc_holder/spell/self/convertrole/templar,
-	 /obj/effect/proc_holder/spell/self/convertrole/monk
+		/datum/action/cooldown/spell/miracle/fortify,
+		/obj/effect/proc_holder/spell/invoked/cure_rot,
+		/datum/action/cooldown/spell/miracle/intervention,
+		/datum/action/cooldown/spell/miracle/anastasis,
+		/datum/action/cooldown/spell/miracle/bishop_pack,
+		/obj/effect/proc_holder/spell/self/convertrole/templar,
+		/obj/effect/proc_holder/spell/self/convertrole/monk
 	)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP
@@ -47,6 +47,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY, TRAIT_MARRIAGE_CAPABLE)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
 	job_subclasses = list(/datum/advclass/bishop)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/bishop
 	name = "Bishop"
@@ -259,7 +260,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		to_chat(src, span_warning("I need to do this in the chapel."))
 		return FALSE
 
-	var/announcementinput = input("Bellow to the Peaks", "Make an Announcement") as text|null
+	var/announcementinput = input(src, "Bellow to the Peaks", "Make an Announcement") as text|null
 	if(announcementinput)
 		if(!src.can_speak_vocal())
 			to_chat(src,span_warning("I can't speak!"))
@@ -341,7 +342,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	return TRUE
 
-/mob/living/carbon/human/proc/churchecancurse(var/mob/living/carbon/human/H, apostasy = FALSE)
+/mob/living/carbon/human/proc/churchecancurse(mob/living/carbon/human/H, apostasy = FALSE)
 	if (!H.devotion && apostasy)
 		to_chat(src, span_warning("This one's connection to the ten is too shallow."))
 		return FALSE
@@ -365,7 +366,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	return TRUE
 
-/mob/living/carbon/human/proc/churcheapostasy(var/mob/living/carbon/human/H in GLOB.player_list)
+/mob/living/carbon/human/proc/churcheapostasy(mob/living/carbon/human/H in GLOB.player_list)
 	set name = "Apostasy"
 	set category = "RoleUnique.Priest"
 
@@ -373,7 +374,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return
 
 	var/found = FALSE
-	var/inputty = input("Put an apostasy on someone, removing their ability to use miracles... (apostasy them again to remove it)", "Sinner Name") as text|null
+	var/inputty = input(src, "Put an apostasy on someone, removing their ability to use miracles... (apostasy them again to remove it)", "Sinner Name") as text|null
 
 	if (!inputty)
 		return
@@ -403,7 +404,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return TRUE
 
 	if (inputty in GLOB.excommunicated_players)
-		return //No stacking	
+		return //No stacking
 
 	if (H.real_name == inputty)
 		if (!COOLDOWN_FINISHED(src, priest_apostasy))
@@ -437,7 +438,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	return
 
-/mob/living/carbon/human/proc/churchexcommunicate(var/mob/living/carbon/human/H in GLOB.player_list)
+/mob/living/carbon/human/proc/churchexcommunicate(mob/living/carbon/human/H in GLOB.player_list)
 	set name = "Excommunicate"
 	set category = "RoleUnique.Priest"
 
@@ -445,7 +446,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		return
 
 	var/found = FALSE
-	var/inputty = input("Excommunicate someone, away from the Ten...  (excommunicate them again to remove it)", "Sinner Name") as text|null
+	var/inputty = input(src, "Excommunicate someone, away from the Ten...	(excommunicate them again to remove it)", "Sinner Name") as text|null
 
 	if (!inputty)
 		return
@@ -510,14 +511,14 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /* PRIEST CURSE - powerful debuffs to punish ppl outside church otherwise use apostasy
 code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep that updated if this gets any changes.*/
-/mob/living/carbon/human/proc/churchpriestcurse(var/mob/living/carbon/human/H in GLOB.player_list)
+/mob/living/carbon/human/proc/churchpriestcurse(mob/living/carbon/human/H in GLOB.player_list)
 	set name = "Divine Curse"
 	set category = "RoleUnique.Priest"
 
 	if (stat)
 		return
 
-	var/target_name = input("Who shall receive a curse?", "Target Name") as text|null
+	var/target_name = input(src, "Who shall receive a curse?", "Target Name") as text|null
 
 	if (!target_name)
 		return
@@ -541,7 +542,7 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		"Curse of Xylix" = /datum/curse/xylix,
 		)
 
-	var/curse_pick = input("Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
+	var/curse_pick = input(src, "Choose a curse to apply or lift.", "Select Curse") as null|anything in curse_choices
 	if (!curse_pick)
 		return
 

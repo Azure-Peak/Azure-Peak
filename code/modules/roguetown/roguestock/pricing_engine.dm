@@ -74,6 +74,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	GLOB.material_baseline_prices[/obj/item/ingot/copper] = SELLPRICE_COPPER_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/tin] = SELLPRICE_TIN_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/steel] = SELLPRICE_STEEL_INGOT
+	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = SELLPRICE_BRONZE_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/gold] = SELLPRICE_GOLD_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/silver] = SELLPRICE_SILVER_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = round(SELLPRICE_COPPER_INGOT * INGOT_BRONZE_FROM_COPPER + SELLPRICE_TIN_INGOT * INGOT_BRONZE_FROM_TIN)
@@ -566,9 +567,9 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	var/list/parts = list()
 	var/list/source_files = list(
 		"code/modules/roguetown/roguestock/pricing_engine.dm",
-		"code/__DEFINES/pricing_defines.dm",
-		"code/__DEFINES/item_categories.dm",
-		"code/__DEFINES/trade_goods.dm",
+		"code/__DEFINES/economy/pricing_defines.dm",
+		"code/__DEFINES/economy/item_categories.dm",
+		"code/__DEFINES/economy/trade_goods.dm",
 		"code/controllers/subsystem/rogue/cooking/cooking_recipes.dm",
 	)
 	for(var/path in source_files)

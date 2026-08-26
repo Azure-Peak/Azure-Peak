@@ -1,4 +1,26 @@
 /datum/controller/subsystem/treasury/proc/log_fund_entry(datum/treasury_entry/entry)
+	if(!entry)
+		return
+
+	var/datum/treasury_entry/last
+
+	if(length(ledger))
+		last = ledger[length(ledger)]
+
+	if(last)
+		if(last.kind == entry.kind \
+			&& last.from_name == entry.from_name \
+			&& last.to_name == entry.to_name \
+			&& last.reason == entry.reason \
+			&& world.time - last.time_created <= 10 SECONDS)
+
+			last.amount += entry.amount
+			last.count++
+			last.time_created = world.time
+			return
+
+	entry.time_created = world.time
+	entry.count = 1
 	ledger += entry
 
 /datum/controller/subsystem/treasury/proc/get_account_log(account_name, max_entries = 100)
@@ -107,6 +129,8 @@
 	credited = skim_for_treasury_debt(to_fund, credited)
 	if(credited > 0)
 		to_fund.balance += credited
+		if(to_fund == discretionary_fund)
+			record_purse_inflow(credited)
 		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason, from_label))
 	return TRUE
 
@@ -142,6 +166,8 @@
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount
+	if(from_fund == discretionary_fund)
+		record_purse_outflow(amount)
 	log_fund_entry(new /datum/treasury_entry("burn", from_fund, null, amount, reason))
 	return TRUE
 
@@ -154,9 +180,13 @@
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount
+	if(from_fund == discretionary_fund)
+		record_purse_outflow(amount)
 	var/credited = skim_for_banditry_debt(to_fund, amount)
 	credited = skim_for_treasury_debt(to_fund, credited)
 	to_fund.balance += credited
+	if(to_fund == discretionary_fund)
+		record_purse_inflow(credited)
 	log_fund_entry(new /datum/treasury_entry("transfer", from_fund, to_fund, amount, reason))
 	return TRUE
 
@@ -171,7 +201,7 @@
 /datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
 	if(!payer)
 		return FALSE
-	if(HAS_TRAIT(payer, TRAIT_OUTLAW))
+	if(HAS_TRAIT(payer, TRAIT_OUTLAW) || HAS_TRAIT(payer, TRAIT_ROYAL_SUBSIDY))
 		return FALSE
 	for(var/id in decrees)
 		var/datum/decree/D = decrees[id]
@@ -240,6 +270,7 @@
 		return
 	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])"))
 		concordat_tithe_debt -= skim
+		record_treasury_expense(TREASURY_FLOW_TITHE, "Church", skim)
 
 /datum/controller/subsystem/treasury/proc/compute_bathhouse_tithe(base_amount, rate)
 	if(base_amount <= 0 || rate <= 0)

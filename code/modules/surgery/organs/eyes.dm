@@ -155,7 +155,7 @@
 	name = "construct eyes"
 	desc = "Some beast's eyes, preserved through artifice and with magical rock embedded in their back. Seems to fit a construct's head."
 	icon_state = "eyeball-con"
-	
+
 /obj/item/organ/eyes/night_vision/zombie/on_life()
 	. = ..()
 	if (!(owner.mob_biotypes & MOB_UNDEAD))
@@ -288,7 +288,7 @@
 	var/image/mob_overlay
 	var/datum/component/mobhook
 
-/obj/item/organ/eyes/robotic/glow/Initialize()
+/obj/item/organ/eyes/robotic/glow/Initialize(mapload)
 	. = ..()
 	mob_overlay = image('icons/mob/human_face.dmi', "eyes_glow_gs")
 
@@ -437,14 +437,14 @@
 /obj/item/organ/eyes/robotic/glow/proc/sync_light_effects()
 	for(var/I in eye_lighting)
 		var/obj/effect/abstract/eye_lighting/L = I
-		L.set_light(light_object_range, light_inner_range, light_object_power, l_color =  current_color_string)
+		L.set_light(light_object_range, light_inner_range, light_object_power, l_color =	current_color_string)
 	if(on_mob)
 		on_mob.set_light(1, 1, 1, l_color = current_color_string)
 
 /obj/effect/abstract/eye_lighting
 	var/obj/item/organ/eyes/robotic/glow/parent
 
-/obj/effect/abstract/eye_lighting/Initialize()
+/obj/effect/abstract/eye_lighting/Initialize(mapload)
 	. = ..()
 	parent = loc
 	if(!istype(parent))
@@ -465,7 +465,7 @@
 	icon_state = "snail_eyeballs"
 
 
-/proc/set_eye_color(var/mob/living/carbon/mob, color_one, color_two)
+/proc/set_eye_color(mob/living/carbon/mob, color_one, color_two)
 	var/obj/item/organ/eyes/eyes = mob.getorganslot(ORGAN_SLOT_EYES)
 	if(!eyes)
 		return

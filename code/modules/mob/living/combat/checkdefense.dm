@@ -1,4 +1,4 @@
-/mob/living/proc/checkdefense(datum/intent/intenty, mob/living/user)
+/mob/living/proc/checkdefense(datum/intent/attack_intent, mob/living/user)
 
 	// We check for a disruptable swingdelay first.
 	var/datum/status_effect/swingdelay/disrupt/SW = has_status_effect(/datum/status_effect/swingdelay/disrupt)
@@ -51,9 +51,9 @@
 
 	switch(d_intent)
 		if(INTENT_PARRY)
-			return attempt_parry(intenty, user)
+			return attempt_parry(attack_intent, user)
 		if(INTENT_DODGE)
-			return attempt_dodge(intenty, user)
+			return attempt_dodge(attack_intent, user)
 
 /mob/living/proc/start_climb()
 	if(doing || mid_climb)
@@ -78,4 +78,3 @@
 	playsound(src, 'sound/combat/swingdelay_disrupted.ogg', 100, TRUE)
 	visible_message(span_warning("[src]'s grip is broken!"), span_warning("My grip is broken!"))
 	return TRUE
-			

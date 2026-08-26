@@ -1,6 +1,9 @@
 //I'm not calling this undead_volf I want code to be searchable kthx
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead
+	threat_point = THREAT_MODERATE
+	attack_aim = MOB_AIM_LOW
+	anatomy_type = /datum/anatomy/quadruped/undead
 //I'm not inhereting base wolf either because it uses cursed elements and AI.
 	icon = 'icons/roguetown/mob/monster/deadites/wolf_undead.dmi'
 	name = "deadite volf"
@@ -50,7 +53,6 @@
 	STASPD = 12
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	defprob = 40
 	del_on_deaggro = 44 SECONDS
 	aggressive = 1
 	remains_type = /obj/effect/decal/remains/wolf
@@ -64,6 +66,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/undead/wolf
+	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/AttackingTarget() //7+1d6 vs con to knock ppl down
 	. = ..()
@@ -85,10 +88,10 @@
 				C.visible_message(span_danger("\The [src] fails to drag \the [C] down!"))
 		chomp_cd = world.time //this goes here i think? ...sure
 
-/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	AddComponent(/datum/component/deadite, 15 MINUTES, 100, 75, "wolf_downed")
+	AddComponent(/datum/component/deadite, 15 MINUTES, "wolf_downed")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/get_sound(input)
 	switch(input)
@@ -102,21 +105,3 @@
 			return pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/idle (3).ogg','sound/vo/mobs/vw/idle (4).ogg')
 		if("cidle")
 			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
-
-/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_R_ARM, BODY_ZONE_PRECISE_R_HAND)
-			return "r_leg"
-		if(BODY_ZONE_L_LEG, BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_L_ARM, BODY_ZONE_PRECISE_L_HAND)
-			return "l_leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-	return ..()

@@ -96,8 +96,7 @@
 	playsound(src, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 80, TRUE)
 	new /obj/effect/hotspot(get_turf(src))
 	L.Slowdown(4)
-	L.adjust_fire_stacks(6)
-	L.ignite_mob()
+	apply_scorch_stack(L, 3, BODY_ZONE_CHEST)
 
 /obj/structure/rune_ward/chill
 	name = "frost rune"
@@ -106,7 +105,7 @@
 /obj/structure/rune_ward/chill/rune_effect(mob/living/L)
 	to_chat(L, span_danger("<B>Frost erupts from the rune and seizes your limbs!</B>"))
 	playsound(src, 'sound/spellbooks/crystal.ogg', 80, TRUE)
-	new /obj/effect/temp_visual/trapice(get_turf(src))
+	new /obj/effect/temp_visual/telegraph/ice(get_turf(src))
 	L.Slowdown(4)
 	L.adjustFireLoss(10)
 	apply_frost_stack(L, 4)

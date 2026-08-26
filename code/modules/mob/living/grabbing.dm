@@ -17,7 +17,7 @@
 	var/mob/living/carbon/grabbee
 	var/list/dependents = list()
 	var/handaction
-	var/bleed_suppressing = 0.25 //multiplier for how much we suppress bleeding, can accumulate so two grabs means 50% less bleeding; each grab being 25% basically.
+	var/bleed_suppressing = 0.5 //multiplier for how much we suppress bleeding, can accumulate so two grabs multiply together. An aggressive grip tightens this further.
 	var/chokehold = FALSE
 	var/sippy = FALSE
 	experimental_inhand = FALSE
@@ -25,7 +25,7 @@
 /atom/movable //reference to all obj/item/grabbing
 	var/list/grabbedby
 
-/obj/item/grabbing/Initialize()
+/obj/item/grabbing/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 
@@ -192,7 +192,7 @@
 
 	if(user.cmode && !M.cmode)
 		combat_modifier += 0.3
-	
+
 	else if(!user.cmode && M.cmode)
 		combat_modifier -= 0.3
 
@@ -208,8 +208,9 @@
 				to_chat(user, span_warning("Can't get a grip!"))
 				return FALSE
 			user.stamina_add(rand(7,15))
-			if(M.grippedby(user))			//Aggro grip
-				bleed_suppressing = 0.5		//Better bleed suppression
+			M.grippedby(user)			//Aggro grip
+			if(grab_state >= GRAB_AGGRESSIVE)
+				bleed_suppressing = 0.25	//Better bleed suppression
 		if(/datum/intent/grab/choke)
 			if(user.buckled)
 				to_chat(user, span_warning("I can't do this while buckled!"))
@@ -333,7 +334,7 @@
 							pincount = 0
 							qdel(src)
 							break
-						M.Stun(stun_dur - pincount * 2)	
+						M.Stun(stun_dur - pincount * 2)
 						M.Immobilize(stun_dur)	//Made immobile for the whole do_after duration, though
 						user.stamina_add(rand(1,3) + abs(skill_diff) + stun_dur / 1.5)
 						M.visible_message(span_danger("[user] keeps [M] pinned to the ground!"))
@@ -366,7 +367,7 @@
 			var/obj/item/I
 			if(sublimb_grabbed == BODY_ZONE_PRECISE_L_HAND && M.active_hand_index == 1)
 				I = M.get_active_held_item()
-			else 
+			else
 				if(sublimb_grabbed == BODY_ZONE_PRECISE_R_HAND && M.active_hand_index == 2)
 					I = M.get_active_held_item()
 				else
@@ -714,6 +715,7 @@
 	id = "oiled"
 	duration = 5 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/oiled
+	examine_text = span_info("SUBJECTPRONOUN is covered in oil!")
 	var/slip_chance = 2 // chance to slip when moving
 
 /datum/status_effect/buff/oiled/on_apply()
@@ -745,7 +747,6 @@
 /atom/movable/screen/alert/status_effect/oiled
 	name = "Oiled"
 	desc = "I'm covered in oil, making me slippery and harder to grab!"
-	icon_state = "oiled"
 
 /atom/proc/liquid_slip(dir=null, total_time = 0.5 SECONDS, height = 16, stun_duration = 1 SECONDS, flip_count = 1)
 	animate(src) // cleanse animations as funny as a ton of stacked flips would be it would be an eye sore

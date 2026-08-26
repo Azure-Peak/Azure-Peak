@@ -222,7 +222,7 @@ GLOBAL_PROTECT(exp_to_update)
 			var/bar_pct = role_max ? round((role_minutes / role_max) * 100, 1) : 0
 			var/is_antag = !!antag_roles[role_name]
 			var/bar_css = is_antag ? "playtime-bar-fill antag" : "playtime-bar-fill"
-			var/bar_text = "[role_name]  [get_exp_hours_format(role_minutes)]h"
+			var/bar_text = "[role_name]	[get_exp_hours_format(role_minutes)]h"
 			var/show_row = page_no == 1 ? "table-row" : "none"
 			return_text += "<tr class='playtime-role-row' data-page='[page_no]' style='display: [show_row];'><td><div class='playtime-bar-track'><div class='[bar_css]' style='width: [bar_pct]%;'></div><div class='playtime-bar-label'>[bar_text]</div></div></td></tr>"
 		return_text += "</table>"

@@ -111,7 +111,7 @@
 
 /datum/preferences/proc/print_body_markings_page()
 	var/list/dat = list()
-	dat += "Use a <b>markings preset</b>: <a href='?_src_=prefs;preference=use_preset;task=change_marking'>Choose</a>  | <a href='?_src_=prefs;preference=reset_all_colors;task=change_marking'>Reset marking colors</a>"
+	dat += "Use a <b>markings preset</b>: <a href='?_src_=prefs;preference=use_preset;task=change_marking'>Choose</a>	| <a href='?_src_=prefs;preference=reset_all_colors;task=change_marking'>Reset marking colors</a>"
 	/*
 	dat += "<table width='100%' align='center'>"
 	dat += " Mutant color #1:<span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color;task=input'>Change</a>"

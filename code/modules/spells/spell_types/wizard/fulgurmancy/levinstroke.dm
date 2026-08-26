@@ -17,13 +17,13 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MINOR
 	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 20 SECONDS
+	cooldown_time = 30 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
@@ -84,7 +84,7 @@
 	do_teleport(H, dest, channel = TELEPORT_CHANNEL_MAGIC)
 	playsound(dest, 'sound/magic/lightning.ogg', 25, TRUE)
 
-	log_combat(H, cast_on, "used Levinstroke on")
+	log_combat(H, cast_on, "used Levinstroke on", zone=H.zone_selected)
 
 	var/locked_zone = H.zone_selected || BODY_ZONE_CHEST
 
@@ -114,9 +114,10 @@
 			victim.visible_message(span_warning("[victim] weathers the strike!"))
 			continue
 		if(ishuman(victim))
-			arcyne_strike(user, victim, null, strike_damage, def_zone, BCLASS_BURN, \
-				spell_name = "Levinstroke", damage_type = BURN, npc_simple_damage_mult = 1, \
-				skip_animation = TRUE)
+			if(arcyne_strike(user, victim, null, strike_damage, def_zone, BCLASS_BURN, \
+				spell_name = "Levinstroke", damage_type = BURN, \
+				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				continue
 		else
 			victim.electrocute_act(strike_damage, src, 1, SHOCK_NOSTUN)
 		victim.electrocute_act(0, src, 1, SHOCK_NOSTUN|SHOCK_VISUAL_ONLY)

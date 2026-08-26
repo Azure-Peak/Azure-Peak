@@ -6,13 +6,13 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	///The atom this controller is controlling
 	var/atom/pawn
 	/**
-	 * This is a list of variables the AI uses and can be mutated by actions.
-	 *
-	 * When an action is performed you pass this list and any relevant keys for the variables it can mutate.
-	 *
-	 * DO NOT set values in the blackboard directly, and especially not if you're adding a datum reference to this!
-	 * Use the setters, this is important for reference handing.
-	 */
+		* This is a list of variables the AI uses and can be mutated by actions.
+		*
+		* When an action is performed you pass this list and any relevant keys for the variables it can mutate.
+		*
+		* DO NOT set values in the blackboard directly, and especially not if you're adding a datum reference to this!
+		* Use the setters, this is important for reference handing.
+		*/
 	var/list/blackboard = list()
 	///Bitfield of traits for this AI to handle extra behavior
 	var/ai_traits
@@ -51,7 +51,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	var/datum/component/ai_inventory_manager/inventory_component
 	///Cooldown until next movement
 	COOLDOWN_DECLARE(movement_cooldown)
-	///Delay between movements. This is on the controller so we can keep the movement datum singleton
+	///Delay between movements. Derived from the pawn's movespeed modifiers, never set directly.
 	var/movement_delay = 0.1 SECONDS
 	///A list for the path we're currently following, if we're using AStar pathing
 	var/list/movement_path
@@ -91,9 +91,6 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	UnpossessPawn(FALSE)
 	our_cells = null
 	inventory_component = null
-	set_movement_target(type, null)
-	if(ai_movement.moving_controllers[src])
-		ai_movement.stop_moving_towards(src)
 	return ..()
 
 ///Sets the current movement target, with an optional param to override the movement behavior
@@ -152,7 +149,23 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 ///Overrides the current ai_movement of this controller with a new one
 /datum/ai_controller/proc/change_ai_movement_type(datum/ai_movement/new_movement)
+	if(istype(ai_movement) && (src in ai_movement.moving_controllers))
+		ai_movement.stop_moving_towards(src)
 	ai_movement = SSai_movement.movement_types[new_movement]
+
+///Rips this controller out of every movement datum and drops any queued path.
+/datum/ai_controller/proc/halt_movement()
+	for(var/movement_type in SSai_movement.movement_types)
+		var/datum/ai_movement/movement = SSai_movement.movement_types[movement_type]
+		if(src in movement.moving_controllers)
+			movement.stop_moving_towards(src)
+	movement_path = null
+	if(blackboard[BB_FUTURE_MOVEMENT_PATH])
+		clear_blackboard_key(BB_FUTURE_MOVEMENT_PATH)
+	if(current_movement_target)
+		set_movement_target(type, null)
+	if(!QDELETED(pawn) && ismovable(pawn))
+		walk(pawn, 0)
 
 ///Completely replaces the planning_subtrees with a new set based on argument provided, list provided must contain specifically typepaths
 /datum/ai_controller/proc/replace_planning_subtrees(list/typepaths_of_new_subtrees)
@@ -192,19 +205,25 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	if(pawn_turf)
 		GLOB.ai_controllers_by_zlevel[pawn_turf.z] += src
 
-	if(!continue_processing_when_client && istype(new_pawn, /mob))
-		var/mob/possible_client_holder = new_pawn
-		if(possible_client_holder.client)
-			set_ai_status(AI_STATUS_OFF)
-		else
-			set_ai_status(AI_STATUS_ON)
+	var/mob/possible_client_holder = ismob(new_pawn) ? new_pawn : null
+	if(!continue_processing_when_client && possible_client_holder?.client)
+		set_ai_status(AI_STATUS_OFF)
 	else
 		set_ai_status(AI_STATUS_ON)
 
 	RegisterSignal(pawn, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(on_changed_z_level))
-	RegisterSignal(pawn, COMSIG_MOB_LOGIN, PROC_REF(on_sentience_gained))
+	if(possible_client_holder?.client)
+		RegisterSignal(pawn, COMSIG_MOB_LOGOUT, PROC_REF(on_sentience_lost))
+	else
+		RegisterSignal(pawn, COMSIG_MOB_LOGIN, PROC_REF(on_sentience_gained))
 	RegisterSignal(pawn, COMSIG_MOB_STATCHANGE, PROC_REF(on_stat_changed))
 	RegisterSignal(pawn, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_pawn_attacked))
+
+	if(isliving(pawn))
+		RegisterSignal(pawn, COMSIG_MOB_MOVESPEED_UPDATED, PROC_REF(on_movespeed_updated))
+		var/mob/living/living_pawn = pawn
+		living_pawn.update_move_intent_slowdown()
+		recalculate_movement_delay()
 
 	our_cells = new(interesting_dist, interesting_dist, 1)
 	set_new_cells()
@@ -318,7 +337,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/get_current_turf()
 	var/mob/living/mob_pawn = pawn
 	var/turf/pawn_turf = get_turf(mob_pawn)
-	to_chat(world, "[pawn_turf]")
+	to_world("[pawn_turf]")
 
 ///Called when the AI controller pawn changes z levels, we check if there's any clients on the new one and wake up the AI if there is.
 /datum/ai_controller/proc/on_changed_z_level(atom/source, old_z, new_z, same_z_layer, notify_contents)
@@ -338,9 +357,31 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/TryPossessPawn(atom/new_pawn)
 	return
 
+/datum/ai_controller/proc/on_movespeed_updated(mob/living/source)
+	SIGNAL_HANDLER
+	recalculate_movement_delay()
+
+///Keeps the AI's step cadence in lockstep with the movespeed modifiers that drive players and glide size.
+/datum/ai_controller/proc/recalculate_movement_delay()
+	if(!isliving(pawn))
+		return
+	var/mob/living/living_pawn = pawn
+	movement_delay = CEILING(max(living_pawn.cached_multiplicative_slowdown, SIMPLEMOB_MINIMUM_MOVE_DELAY), SSai_movement.wait)
+
+/**
+ * Advances the movement cooldown from its previous deadline rather than from world.time, so a
+ * movement_delay that isn't a whole multiple of SSai_movement's wait averages out instead of
+ * rounding up on every single step. Deadlines that have fallen far behind are rebased to now so a
+ * mob that was blocked or paused doesn't burst to catch up.
+ */
+/datum/ai_controller/proc/advance_movement_cooldown()
+	movement_cooldown += movement_delay
+	if(movement_cooldown < world.time)
+		movement_cooldown = world.time + movement_delay
+
 ///Proc for deinitializing the pawn to the old controller
 /datum/ai_controller/proc/UnpossessPawn(destroy)
-	UnregisterSignal(pawn, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_MOB_LOGIN, COMSIG_MOB_LOGOUT, COMSIG_MOB_STATCHANGE, COMSIG_ATOM_WAS_ATTACKED))
+	UnregisterSignal(pawn, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_MOB_LOGIN, COMSIG_MOB_LOGOUT, COMSIG_MOB_STATCHANGE, COMSIG_ATOM_WAS_ATTACKED, COMSIG_MOB_MOVESPEED_UPDATED))
 	var/turf/pawn_turf = get_turf(pawn)
 	if(pawn_turf)
 		GLOB.ai_controllers_by_zlevel[pawn_turf.z] -= src
@@ -348,6 +389,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		GLOB.ai_controllers_by_status[ai_status] -= src
 	stop_previous_processing()
 	CancelActions()
+	halt_movement()
 	pawn.ai_controller = null
 	pawn = null
 	if(destroy)
@@ -360,6 +402,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 /datum/ai_controller/proc/on_pawn_attacked(mob/living/source, atom/attacker, damage)
 	SIGNAL_HANDLER
+	// Direct write - this fires on every hit on every AI mob, so it stays a bare assignment.
+	blackboard[BB_LAST_HIT_TIME] = world.time
 	wake_for_combat()
 
 /datum/ai_controller/proc/wake_for_combat()
@@ -382,6 +426,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	if(QDELETED(pawn))
 		return
 	var/mob/living/living_pawn = pawn
+	if(living_pawn.client && !continue_processing_when_client)
+		return FALSE
 	if(living_pawn.incapacitated())
 		return FALSE
 	if(ai_traits & STOP_MOVING_WHEN_PULLED && living_pawn.pulledby)
@@ -585,6 +631,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			START_PROCESSING(SSidle_ai_behaviors, src)
 		if(AI_STATUS_OFF)
 			CancelActions()
+			halt_movement()
 
 /datum/ai_controller/proc/stop_previous_processing()
 	switch(ai_status)

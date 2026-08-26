@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male
 	health = 380
 	maxHealth = 380
-	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/food/snacks/grown/oat, /obj/item/reagent_containers/food/snacks/grown/apple)
+	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/food/snacks/grown/oat, /obj/item/reagent_containers/food/snacks/grown/apple,/obj/item/reagent_containers/food/snacks/grown/maize)
 	tame_chance = 15
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 
 	var/fogbeast_color
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, var/set_fogbeast_color)
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, set_fogbeast_color)
 	. = ..()
 	fogbeast_color = set_fogbeast_color
 	if(!fogbeast_color)
@@ -67,7 +67,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame
 	tame = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S
@@ -185,7 +185,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame
 	tame = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/male/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S
@@ -228,7 +228,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	name = "horse"
 	icon_state = "instrike"
 	attack_verb = list("tramples", "rams", "kicks")
-	animname = "blank22"
+	animname = "kick"
 	blade_class = BCLASS_BLUNT
 	hitsound = "punch_hard"
 	chargetime = 0

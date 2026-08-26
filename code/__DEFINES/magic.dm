@@ -58,6 +58,10 @@
 #define SPELL_REQUIRES_SAME_Z (1 << 8)
 /// Whether the spell can be cast while buckled to a living mount (on horseback).
 #define SPELL_CASTABLE_WHILE_MOUNTED (1 << 9)
+/// Whether the spell requires the caster to be in combat mode.
+#define SPELL_REQUIRES_CMODE (1 << 10)
+/// Whether the spell requires the TARGET to be in combat mode.
+#define SPELL_REQUIRES_TARGET_CMODE (1 << 11)
 
 /// Default magic resistance that blocks normal magic
 #define MAGIC_RESISTANCE (1 << 0)
@@ -85,3 +89,9 @@
 #define CONJURE_RECOIL_LIGHT 0
 #define CONJURE_RECOIL_PARTIAL 1
 #define CONJURE_RECOIL_FULL 2
+
+// CONJURATION SUMMON REPLACEMENT MODE
+// Summons at capacity = the entire group get replaced. Best used with summon amount = the capacity.
+#define CONJURE_SUMMON_GROUP 0
+// Summons are individual - casting at capacity dismisses the oldest.
+#define CONJURE_SUMMON_SINGLES 1

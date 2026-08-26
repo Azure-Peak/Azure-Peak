@@ -9,6 +9,7 @@
 
 	var/atom/movable/contained_atom
 	var/datum/proximity_monitor/proximity_monitor
+	var/revealing = FALSE
 
 /obj/effect/quest_spawn/Initialize(mapload)
 	. = ..()
@@ -34,15 +35,33 @@
 	if(!istype(quest))
 		return
 
-	if(get_dist(get_turf(src), get_turf(quest.quest_scroll_ref?.resolve())) > 7)
+	var/turf/our_turf = get_turf(src)
+	var/turf/scroll_turf = get_turf(quest.quest_scroll_ref?.resolve())
+	if(!our_turf || !scroll_turf)
+		return
+
+	// Matches blockade_defense's check_arrival() - get_dist alone lets a bearer one level up
+	// or down trip the pod.
+	if(our_turf.z != scroll_turf.z)
+		return
+
+	if(get_dist(our_turf, scroll_turf) > 7)
 		return
 
 	// Pop every spawner this quest owns at once so the whole encounter materializes together.
 	quest.pop_all_spawners()
 
-/// Materializes the contained mob onto our turf with the warning flash + sound.
 /obj/effect/quest_spawn/proc/reveal_contained()
+	if(!contained_atom || revealing)
+		return
+
+	revealing = TRUE
+	new /obj/effect/temp_visual/contract_phantom(get_turf(src), contained_atom)
+	addtimer(CALLBACK(src, PROC_REF(finish_reveal)), QUEST_SPAWN_REVEAL_TIME)
+
+/obj/effect/quest_spawn/proc/finish_reveal()
 	if(!contained_atom)
+		qdel(src)
 		return
 
 	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = get_turf(src), icon_state = "mobwarning", layer = 18)
@@ -61,3 +80,25 @@
 
 /obj/effect/quest_spawn/ex_act()
 	return
+
+/obj/effect/temp_visual/contract_phantom
+	name = "approaching threat"
+	desc = "Something is closing in..."
+	anchored = TRUE
+	randomdir = FALSE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	duration = QUEST_SPAWN_REVEAL_TIME
+
+/obj/effect/temp_visual/contract_phantom/Initialize(mapload, atom/movable/previewed)
+	. = ..()
+	if(QDELETED(previewed))
+		return INITIALIZE_HINT_QDEL
+
+	appearance = previewed.appearance
+	name = initial(name)
+	desc = initial(desc)
+	invisibility = 0
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	color = "#777777"
+	alpha = 0
+	animate(src, alpha = 200, time = duration, easing = EASE_IN)

@@ -5,9 +5,10 @@
 	w_class = WEIGHT_CLASS_HUGE // this should never exist outside your hand/head/shoulder
 	var/can_container = FALSE // if this is true, we won't revert you when you get put in a bag - for familiars only atm
 
-/obj/item/mob_item/Initialize()
+/obj/item/mob_item/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_QDELETING, PROC_REF(revert))
+	become_hearing_sensitive()
 
 /obj/item/mob_item/container_resist(mob/living/user)
 	. = ..()
@@ -30,6 +31,7 @@
 	stored_mob.reset_perspective()
 	if(!QDELING(src))
 		qdel(src)
+	stored_mob.update_cone_show()
 	return TRUE
 
 /mob/living/proc/become_item()
@@ -43,6 +45,7 @@
 	orb.name = name
 	orb.desc = desc
 	reset_perspective(orb)
+	update_cone_show()
 	return orb
 
 // by default, just sets the icon and icon_state. some mobs might also want to set mob overlays, so they actually appear when you wear them

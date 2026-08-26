@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "You can no longer wrap shapeshifted players in packages and mail them"

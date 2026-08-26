@@ -40,7 +40,7 @@
 	/// List of names the hag's taken and can give out
 	var/list/datum/hag_identity/stored_names = list()
 
-/datum/component/hag_curio_tracker/Initialize()
+/datum/component/hag_curio_tracker/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(src, COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED, PROC_REF(handle_curse_cleared))

@@ -47,10 +47,10 @@
 	var/jumping = FALSE
 	var/zfalling = FALSE
 	/**
-	 * an associative lazylist of relevant nested contents by "channel", the list is of the form: list(channel = list(important nested contents of that type))
-	 * each channel has a specific purpose and is meant to replace potentially expensive nested contents iteration.
-	 * do NOT add channels to this for little reason as it can add considerable memory usage.
-	 */
+		* an associative lazylist of relevant nested contents by "channel", the list is of the form: list(channel = list(important nested contents of that type))
+		* each channel has a specific purpose and is meant to replace potentially expensive nested contents iteration.
+		* do NOT add channels to this for little reason as it can add considerable memory usage.
+		*/
 	var/list/important_recursive_contents
 
 	/// String representing the spatial grid groups we want to be held in.
@@ -745,15 +745,16 @@
 		return TRUE
 	return ..()
 
-// called when this atom is removed from a storage item, which is passed on as S. The loc variable is already set to the new destination before this is called.
+/// Called when this atom is removed from a storage item, which is passed on as S. The loc variable is already set to the new destination before this is called.
 /atom/movable/proc/on_exit_storage(datum/component/storage/concrete/S)
 	return
 
-// called when this atom is added into a storage item, which is passed on as S. The loc variable is already set to the storage item.
-/atom/movable/proc/on_enter_storage(datum/component/storage/concrete/S)
+/// Called when this atom is added into a storage item, which is passed on as S. The loc variable is already set to the storage item.
+/// If the mob putting the atom in storage is known, it is passed on as M.
+/atom/movable/proc/on_enter_storage(datum/component/storage/concrete/S, mob/M)
 	return
 
-//called when a mob resists while inside a container that is itself inside something.
+/// Called when a mob resists while inside a container that is itself inside something.
 /atom/movable/proc/relay_container_resist(mob/living/user, obj/O)
 	return
 

@@ -1,61 +1,85 @@
-/obj/effect/proc_holder/spell/invoked/order
+////////////////////
+// BASELINE ORDER //
+////////////////////
+
+/datum/action/cooldown/spell/order
 	name = ""
-	range = 5
-	ignore_los = TRUE // this is an aoe
-	associated_skill = /datum/skill/misc/athletics
-	devotion_cost = 0
-	chargedrain = 1
-	chargetime = 15
-	releasedrain = 80
-	recharge_time = 2 MINUTES
-	miracle = FALSE
+	background_icon = 'icons/mob/actions/orders.dmi'
+	button_icon = 'icons/mob/actions/orders.dmi'
 	sound = 'sound/magic/inspire_02.ogg'
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_SURGE + 15
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = TRUE
+	charge_time = 1.5 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	cooldown_time = 2 MINUTES
+
+	shared_cooldown = LEADERSHIP_ORDER_SHARED_COOLDOWN
+
+	ignore_armor_penalty = TRUE
+	associated_stat = null
+	associated_skill = /datum/skill/misc/athletics
+	spell_tier = 0
+	point_cost = 0
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
 	var/single_target = FALSE
 	var/buff_given
 	var/msg
 
-/obj/effect/proc_holder/spell/invoked/order/cast(list/targets, mob/living/user)
+/datum/action/cooldown/spell/order/cast(atom/cast_on)
 	. = ..()
 	var/affectedjobs = list()
 	var/affectedtargets = list()
 	if(!single_target) //We want one spell to use the old method so we'll separate this out
-		if(user.job == "Sergeant")
-			affectedjobs = list("Man at Arms", "Watchman")
-		else if(user.job == "Knight")
-			affectedjobs = list("Knight", "Squire")
-		else if(user.job == "Wretch")
+		if(owner.job == "Sergeant")
+			affectedjobs = list("Man at Arms", "Warden", "Watchman")
+		else if(owner.job == "Marshal")//He is the boss after all
+			affectedjobs = list("Knight", "Squire", "Sergeant", "Man at Arms", "Warden", "Watchman")
+		else if(owner.job == "Wretch")
 			affectedjobs = list("Brother")
-		else if(user.job == "Migrant")
+		else if(owner)
 			affectedjobs = list("Heartfelt Retinue", "Migrant")
 		else //failsafe in case someone somehow gets the spells without a role that uses them
-			to_chat(user, span_alert("I don't have authority to order anyone!"))
-			revert_cast()
+			to_chat(owner, span_alert("I don't have authority to order anyone!"))
 			return FALSE
-		for(var/mob/living/carbon/target in view(range, get_turf(user)))
+		for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
 			if(target.job in affectedjobs)
 				affectedtargets += target
 				continue
-			if(user.advjob == "Disgraced Knight" && target.advjob == "Disgraced Man at Arms") //Special line so Disgraced Knight can buff Disgraced Man at Arms
+			if(owner.advjob == "Disgraced Knight" && target.advjob == "Disgraced Man at Arms") //Special line so Disgraced Knight can buff Disgraced Man at Arms
 				affectedtargets += target
 		if(!length(affectedtargets))
-			to_chat(user, span_alert("There are no subordinates close enough to hear my orders!"))
-			revert_cast()
+			to_chat(owner, span_alert("There are no subordinates close enough to hear my orders!"))
 			return FALSE
 		else
-			user.say("[msg]", language = /datum/language/common)
+			owner.say("[msg]", language = /datum/language/common)
 			for(var/mob/living/carbon/target in affectedtargets)
 				target.apply_status_effect(buff_given)
 			return TRUE
 
-//Statbuff orders. Power budget of 2 stat points
-/obj/effect/proc_holder/spell/invoked/order/movemovemove
-	name = "Move! Move! Move!"
+//////////////////////////
+// MOVEMENT SPEED ORDER //
+//////////////////////////
+
+/datum/action/cooldown/spell/order/movemovemove
+	name = "Order: Move"
 	desc = "Orders your underlings to move faster. +2 Speed."
-	overlay_state = "movemovemove"
+	button_icon_state = "move"
 	buff_given = /datum/status_effect/buff/order/movemovemove
 
-/obj/effect/proc_holder/spell/invoked/order/movemovemove/cast(list/targets, mob/living/user)
-	msg = user.mind.movemovemovetext
+/datum/action/cooldown/spell/order/movemovemove/cast(atom/cast_on)
+	msg = owner.mind.movemovemovetext
 	.=..()
 
 /datum/status_effect/buff/order/movemovemove/nextmove_modifier()
@@ -76,11 +100,14 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to move!"))
 
+////////////////////
+// TAKE AIM ORDER //
+////////////////////
 
-/obj/effect/proc_holder/spell/invoked/order/takeaim
-	name = "Take aim!"
+/datum/action/cooldown/spell/order/takeaim
+	name = "Order: Take Aim"
 	desc = "Orders your underlings to be more precise. +2 Perception."
-	overlay_state = "takeaim"
+	button_icon_state = "target"
 	buff_given = /datum/status_effect/buff/order/takeaim
 
 /datum/status_effect/buff/order/takeaim
@@ -89,8 +116,8 @@
 	effectedstats = list(STATKEY_PER = 2)
 	duration = 1 MINUTES
 
-/obj/effect/proc_holder/spell/invoked/order/takeaim/cast(list/targets, mob/living/user)
-	msg = user.mind.takeaimtext
+/datum/action/cooldown/spell/order/takeaim/cast(atom/cast_on)
+	msg = owner.mind.takeaimtext
 	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/order/takeaim
@@ -102,15 +129,18 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to take aim!"))
 
+////////////////
+// HOLD ORDER //
+////////////////
 
-/obj/effect/proc_holder/spell/invoked/order/hold
-	name = "Hold!"
+/datum/action/cooldown/spell/order/hold
+	name = "Order: Hold"
 	desc = "Orders your underlings to Endure. +1 Willpower and Constitution."
-	overlay_state = "hold"
+	button_icon_state = "hold"
 	buff_given = /datum/status_effect/buff/order/hold
 
-/obj/effect/proc_holder/spell/invoked/order/hold/cast(list/targets, mob/living/user)
-	msg = user.mind.holdtext
+/datum/action/cooldown/spell/order/hold/cast(atom/cast_on)
+	msg = owner.mind.holdtext
 	. = ..()
 
 /datum/status_effect/buff/order/hold
@@ -128,40 +158,41 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to hold!"))
 
+///////////////////
+// ON FEET ORDER //
+///////////////////
 
-/obj/effect/proc_holder/spell/invoked/order/onfeet
-	name = "On your feet!"
+/datum/action/cooldown/spell/order/onfeet
+	name = "Order: On your feet"
 	desc = "Orders an underling to stand up and fight without fear or pain."
-	overlay_state = "onfeet"
+	button_icon_state = "onfeet"
+	click_to_activate = TRUE
 	single_target = TRUE
 
-/obj/effect/proc_holder/spell/invoked/order/onfeet/cast(list/targets, mob/living/user)
+/datum/action/cooldown/spell/order/onfeet/cast(atom/cast_on)
 	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/msg = user.mind.onfeettext
+	if(isliving(cast_on))
+		var/mob/living/target = cast_on
+		var/msg = owner.mind.onfeettext
 		if(!msg)
-			to_chat(user, span_alert("I must say something to give an order!"))
+			to_chat(owner, span_alert("I must say something to give an order!"))
 			return
-		if(user.job == "Sergeant")
-			if(!(target.job in list("Man at Arms", "Watchman")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
+		if(owner.job == "Sergeant")
+			if(!(target.job in list("Man at Arms", "Warden", "Watchman")))
+				to_chat(owner, span_alert("I cannot order one not of my ranks!"))
 				return
-		if(user.job == "Knight")
-			if(!(target.job in list("Knight", "Squire")))
-				to_chat(user, span_alert("I cannot order one not of my ranks!"))
-				revert_cast()
+		if(owner.job == "Marshal")
+			if(!(target.job in list("Knight", "Squire", "Sergeant", "Man at Arms", "Warden", "Watchman")))
+				to_chat(owner, span_alert("I cannot order one not of my ranks!"))
 				return
-		if(user.job == "Wretch")
+		if(owner.job == "Wretch")
 			if(!(target.job in list("Brother")))
-				to_chat(user, span_alert("I cannot order one not of the brotherhood cause!"))
+				to_chat(owner, span_alert("I cannot order one not of the brotherhood cause!"))
 				return
-		if(target == user)
-			to_chat(user, span_alert("I cannot order myself!"))
-			revert_cast()
+		if(target == owner)
+			to_chat(owner, span_alert("I cannot order myself!"))
 			return
-		user.say("[msg]", language = /datum/language/common)
+		owner.say("[msg]", language = /datum/language/common)
 		target.apply_status_effect(/datum/status_effect/buff/order/onfeet)
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.SetUnconscious(0)
@@ -172,7 +203,6 @@
 			target.SetKnockdown(0)
 			target.set_resting(FALSE)
 		return TRUE
-	revert_cast()
 	return FALSE
 
 /datum/status_effect/buff/order/onfeet
@@ -194,23 +224,26 @@
 	REMOVE_TRAIT(owner, TRAIT_NOPAIN, TRAIT_GENERIC)
 	. = ..()
 
-//For good roles
+////////////////////
+// REHEARSE ORDER //
+////////////////////
+
 /mob/living/carbon/human/mind/proc/setorders()
 	set name = "Rehearse Orders"
 	set category = "RoleUnique.Voice of Command"
-	mind.movemovemovetext = input("Send a message.", "Move! Move! Move!") as text|null
+	mind.movemovemovetext = input(src, "Send a message.", "Order: Move") as text|null
 	if(!mind.movemovemovetext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
-	mind.holdtext = input("Send a message.", "Hold!") as text|null
+	mind.holdtext = input(src, "Send a message.", "Order: Hold") as text|null
 	if(!mind.holdtext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
-	mind.takeaimtext = input("Send a message.", "Take aim!") as text|null
+	mind.takeaimtext = input(src, "Send a message.", "Order: Take aim") as text|null
 	if(!mind.takeaimtext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
-	mind.onfeettext = input("Send a message.", "On your feet!") as text|null
+	mind.onfeettext = input(src, "Send a message.", "Order: On your feet") as text|null
 	if(!mind.onfeettext)
 		to_chat(src, "I must rehearse something for this order...")
 		return

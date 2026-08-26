@@ -9,7 +9,7 @@
 	if(!istype(parent, /mob/living))
 		return COMPONENT_INCOMPATIBLE
 	infection_chance = inf_chance
-	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/handle_early_cleanup)
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(handle_early_cleanup))
 	RegisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS, PROC_REF(on_bite))
 
 /datum/component/infection_spreader/proc/handle_early_cleanup(datum/source)
@@ -18,20 +18,31 @@
 	UnregisterSignal(COMSIG_MOB_AFTERATTACK_SUCCESS)
 	qdel(src)
 
-/datum/component/infection_spreader/proc/on_bite(mob/living/source, mob/living/target)
+/datum/component/infection_spreader/proc/on_bite(mob/living/source, mob/living/target, obj/item/bodypart/affecting)
 	SIGNAL_HANDLER
-	if(prob(infection_chance) && ishuman(target))
-		var/mob/living/carbon/human/H = target
-		// This looks really weird but because checking antag statuses makes a DB call that sleeps a proc at some point, it's not allowed to run as is within a component....
-		// I've solved this here by executing the check asyncrously on the next tick.
-		addtimer(CALLBACK(src, PROC_REF(try_infect_human), H), 0)
-
-/datum/component/infection_spreader/proc/try_infect_human(mob/living/carbon/human/H)
-	if(QDELETED(H) || !H.zombie_check_can_convert())
+	if(!ishuman(target) || !istype(affecting))
 		return
-	to_chat(H, span_danger("A growing cold seeps into my body. I feel horrible... REALLY horrible..."))
+	var/mob/living/carbon/human/H = target
+	if(!H.mind || HAS_TRAIT(H, TRAIT_ZOMBIE_IMMUNE))
+		return
+	if(H.mind.has_antag_datum(/datum/antagonist/zombie) || H.has_status_effect(/datum/status_effect/zombie_infection))
+		return
+	//
+	if(H.mind.has_antag_datum(/datum/antagonist/vampire) \
+		|| H.mind.has_antag_datum(/datum/antagonist/werewolf) \
+		|| H.mind.has_antag_datum(/datum/antagonist/skeleton) \
+		|| H.mind.has_antag_datum(/datum/antagonist/gnoll))
+		return
+	if(affecting.max_damage <= 0 || affecting.get_damage() < affecting.max_damage * 0.5)
+		return
+	addtimer(CALLBACK(src, PROC_REF(infect_wound), H, affecting.name), 0)
+
+/datum/component/infection_spreader/proc/infect_wound(mob/living/carbon/human/H, limb_name)
+	if(QDELETED(H) || H.has_status_effect(/datum/status_effect/zombie_infection))
+		return
+	to_chat(H, span_suicide("A growing cold seeps into my body - through the ravaged wound of my [limb_name]!"))
 	H.infected = TRUE
-	H.apply_status_effect(/datum/status_effect/zombie_infection, infection_timer, FALSE)
+	H.apply_status_effect(/datum/status_effect/zombie_infection, 5 MINUTES, FALSE)
 
 GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/saiga = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
@@ -46,7 +57,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/undead,
-	/mob/living/simple_animal/hostile/retaliate/rogue/bigrat  = /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/bigrat	= /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead,
 ))
 
 #define ZOMBIE_REANIMATION_CHANCE 25
@@ -57,7 +68,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	var/reanimation_timer
 	var/undead_to_spawn
 
-/datum/component/deadite_animal_reanimation/Initialize()
+/datum/component/deadite_animal_reanimation/Initialize(mapload)
 	if(!istype(parent, /mob/living/simple_animal))
 		return COMPONENT_INCOMPATIBLE
 
@@ -100,7 +111,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	animate(pixel_x = orig_x - 2, pixel_y = orig_y + 2, time = 1)
 	animate(pixel_x = orig_x + 1, pixel_y = orig_y + 1, time = 1)
 	animate(pixel_x = orig_x - 1, pixel_y = orig_y - 2, time = 1)
-	animate(pixel_x = orig_x,     pixel_y = orig_y,     time = 1)
+	animate(pixel_x = orig_x,		pixel_y = orig_y,		time = 1)
 
 	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), REANIMATION_TELL_TIME, TIMER_STOPPABLE)
 
@@ -131,3 +142,14 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 #undef ZOMBIE_REANIMATION_CHANCE
 #undef ZOMBIE_REANIMATION_TIMER
 #undef REANIMATION_TELL_TIME
+
+/mob/living/carbon/human/proc/cure_deadite_rot()
+	var/datum/antagonist/zombie/Z = mind?.has_antag_datum(/datum/antagonist/zombie)
+	if(istype(Z) && Z.has_turned)
+		return FALSE
+	if(!has_status_effect(/datum/status_effect/zombie_infection) && !infected)
+		return FALSE
+	remove_status_effect(/datum/status_effect/zombie_infection)
+	infected = FALSE
+	to_chat(src, span_notice("The rot is cleared from my body. I am saved."))
+	return TRUE

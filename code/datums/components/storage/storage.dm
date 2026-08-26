@@ -8,7 +8,7 @@
 
 	var/list/can_hold								//if this is set, only items, and their children, will fit
 	var/list/cant_hold								//if this is set, items, and their children, won't fit
-	var/list/exception_hold           //if set, these items will be the exception to the max size of object that can fit.
+	var/list/exception_hold			//if set, these items will be the exception to the max size of object that can fit.
 
 	var/dump_time = 10
 
@@ -65,6 +65,9 @@
 
 	var/intercept_parent_attack = TRUE
 	var/intercept_parent_mousedrop = TRUE
+
+	// Suppresses liquid spilling behavior for reagent containers held within
+	var/does_not_spill = FALSE
 
 /datum/component/storage/Initialize(datum/component/storage/concrete/master)
 	if(!isatom(parent))
@@ -171,7 +174,8 @@
 	for(var/mob/living/L in can_see_contents())
 		if(!L.CanReach(A))
 			hide_from(L)
-	spill_contents(A)
+	if(!does_not_spill)
+		spill_contents(A)
 
 /datum/component/storage/proc/spill_contents(atom/A)
 	for(var/obj/item/reagent_containers/I in A.contents)

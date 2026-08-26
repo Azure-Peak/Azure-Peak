@@ -12,7 +12,7 @@
 	if(!length(mob_descriptors))
 		mob_descriptors = null
 
-/mob/living/proc/get_descriptor_type(var/desired_type)
+/mob/living/proc/get_descriptor_type(desired_type)
 	var/datum/component/hag_name/identitytheft = GetComponent(/datum/component/hag_name)
 	if(ispath(desired_type, /datum/mob_descriptor/voice) && identitytheft)
 		return MOB_DESCRIPTOR(identitytheft.identity.descriptor_voice)

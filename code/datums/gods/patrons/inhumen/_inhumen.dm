@@ -11,9 +11,9 @@
 	)
 
 /datum/patron/inhumen/post_equip(mob/living/pious)
-    . = ..()
-    if(ishuman(pious))
-        var/mob/living/carbon/human/human = pious
-        if(human.mind && length(crafting_recipes))
-            for(var/recipe_path in crafting_recipes)
-                human.mind.teach_crafting_recipe(recipe_path)
+	. = ..()
+	if(ishuman(pious))
+		var/mob/living/carbon/human/human = pious
+		if(human.mind && length(crafting_recipes))
+			for(var/recipe_path in crafting_recipes)
+				human.mind.teach_crafting_recipe(recipe_path)

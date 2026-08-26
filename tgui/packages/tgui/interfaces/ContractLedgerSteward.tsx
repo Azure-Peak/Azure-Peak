@@ -1,6 +1,7 @@
 import { type ReactNode, useState } from 'react';
 
 import { useBackend } from '../backend';
+import { formatRatioPct } from './common/format';
 
 type DefenseLogEntry = {
   title: string;
@@ -56,13 +57,6 @@ const COMMISSION_LABELS: Record<string, string> = {
 
 const coin = (n: number) => `${n}m`;
 
-// Reduces a decimal (like 0.5, 0.2, 0.25) to a simple X/Y fraction via gcd on
-// percentage integers. Works cleanly for the multipliers we ship (0.75, 1.2, 1.5).
-const formatMultiplierDelta = (delta: number): string => {
-  const pct = Math.round(delta * 100);
-  return `${pct}%`;
-};
-
 // Turns a region's TP multiplier into a short flavor line. Returns null for baseline
 // (mult=1) so the UI doesn't clutter itself with "nothing special" chrome.
 const regionRewardFlavor = (
@@ -72,9 +66,9 @@ const regionRewardFlavor = (
   if (typeof mult !== 'number' || mult === 1) return null;
   if (mult > 1) {
     const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
-    return `${regionName} is a ${descriptor} region - contracts from that region tend to be ${formatMultiplierDelta(mult - 1)} more lucrative.`;
+    return `${regionName} is a ${descriptor} region - contracts from that region tend to be ${formatRatioPct(mult - 1)} more lucrative.`;
   }
-  return `${regionName} is a settled region - contracts from that region tend to be ${formatMultiplierDelta(1 - mult)} less lucrative.`;
+  return `${regionName} is a settled region - contracts from that region tend to be ${formatRatioPct(1 - mult)} less lucrative.`;
 };
 
 const FormRow = (props: { label: string; children: ReactNode }) => (
@@ -563,7 +557,9 @@ const ComposeView = () => {
         <div className="ContractLedger__InnkeeperFlavor">
           Blockade writs are always drawn to your hand. Pin to the Grand
           Contract Ledger to require a Fellowship of three; keep in hand to
-          dispatch a trusted party directly.
+          dispatch a trusted party directly. Each defender past the third who
+          stands at the blockade, up to six, raises both the waves and the
+          payout by 20%.
         </div>
       )}
 

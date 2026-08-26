@@ -6,7 +6,7 @@
 	forbidden_races = list(RACES_UNDERDARK)
 	outfit = /datum/outfit/job/roguetown/mercenary/underdweller
 	class_select_category = CLASS_CAT_RACIAL
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_CAVEDWELLER, TRAIT_ALCHEMY_EXPERT) //No bomb expert, only supply. Axes/mining expert.
 	subclass_stats = list(
 		STATKEY_CON = 2,
@@ -68,7 +68,7 @@
 	desc = "A rimmed miners helmet reinforced with leather atop its flimsy thin inner steel, its glowing lamp fueled by magiks from the depths."
 	icon_state = "minerslamp"
 	var/on = FALSE
-	light_outer_range = 5 	//Same as a lamptern; can't be extinguished either.
+	light_outer_range = 5	//Same as a lamptern; can't be extinguished either.
 	light_power = 1
 	max_integrity = 250		//Slightly better integrity. Just because unique kettle. Plus class doesn't have much going for it traits-wise.
 	light_color = LIGHT_COLOR_ORANGE

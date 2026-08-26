@@ -11,7 +11,6 @@
 	response_help_simple = "pass through"
 	a_intent = INTENT_HARM
 	healable = 0
-	speed = 0
 	maxHealth = 40
 	health = 40
 	harm_intent_damage = 10
@@ -37,7 +36,7 @@
 	var/mutable_appearance/ghost_facial_hair
 	var/random = TRUE //if you want random names for ghosts or not
 
-/mob/living/simple_animal/hostile/retaliate/ghost/Initialize()
+/mob/living/simple_animal/hostile/retaliate/ghost/Initialize(mapload)
 	. = ..()
 	give_hair()
 	set_light(1, 1, 2) // same glowing as visible player ghosts
@@ -75,7 +74,6 @@
 	base_intents = list(/datum/intent/simple/claw)
 	a_intent = INTENT_HARM
 	healable = 0
-	speed = 0
 	maxHealth = 40
 	health = 40
 	harm_intent_damage = 10
@@ -96,7 +94,7 @@
 	gold_core_spawnable = NO_SPAWN //too spooky for science
 	var/random = TRUE //if you want random names for ghosts or not
 
-/mob/living/simple_animal/hostile/retaliate/gaseousform/Initialize()
+/mob/living/simple_animal/hostile/retaliate/gaseousform/Initialize(mapload)
 	. = ..()
 	set_light(1, 1, 2)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/retaliate/gaseousform, revert), "VAMPIRE LORD"), 10 SECONDS)
@@ -115,7 +113,7 @@
 			return
 		forceMove(NewLoc)
 	else
-		forceMove(get_turf(src))  //Get out of closets and such as a ghost
+		forceMove(get_turf(src))	//Get out of closets and such as a ghost
 		if((direct & NORTH) && y < world.maxy)
 			y++
 		else if((direct & SOUTH) && y > 1)

@@ -9,7 +9,7 @@ export const GrimoireUtilitiesDetail = ({
   pointsBudget,
   initialSetup,
   resetBudget,
-  resetBudgetMax = 12,
+  resetBudgetMax = 4,
   readOnly = false,
 }: {
   spells: Spell[];

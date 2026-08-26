@@ -108,7 +108,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "slash"
 
 /obj/item/rogueweapon/cat_claw //Backscratcher
@@ -143,7 +143,7 @@
 /obj/item/rogueweapon/cat_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/cat_claw/Initialize()
+/obj/item/rogueweapon/cat_claw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
@@ -183,44 +183,44 @@
 		extended = TRUE
 
 /obj/effect/proc_holder/spell/targeted/woundlick
-    action_icon = 'icons/mob/actions/roguespells.dmi'
-    name = "Lick the wounds"
-    desc = "Heal the wounds of somebody"
-    overlay_state = "diagnose"
-    range = 1
-    include_user = TRUE
-    sound = 'sound/gore/flesh_eat_03.ogg'
-    associated_skill = /datum/skill/misc/climbing
-    recharge_time = 10 SECONDS
-    ignore_cockblock = TRUE
+	action_icon = 'icons/mob/actions/roguespells.dmi'
+	name = "Lick the wounds"
+	desc = "Heal the wounds of somebody"
+	overlay_state = "diagnose"
+	range = 1
+	include_user = TRUE
+	sound = 'sound/gore/flesh_eat_03.ogg'
+	associated_skill = /datum/skill/misc/climbing
+	recharge_time = 10 SECONDS
+	ignore_cockblock = TRUE
 
 /obj/effect/proc_holder/spell/targeted/woundlick/cast(list/targets, mob/user)
-    if(iscarbon(targets[1]))
-        var/mob/living/carbon/target = targets[1]
-        if(target.mind)
-            if(target.mind.has_antag_datum(/datum/antagonist/zombie))
-                to_chat(src, span_warning("I shall not lick it..."))
-                return
-            if(target.mind.has_antag_datum(/datum/antagonist/vampire))
-                to_chat(src, span_warning("... What? It's an elder vampire!"))
-                return
-        (!do_after(user, 7 SECONDS, target = target))
-        var/ramount = 20
-        var/rid = /datum/reagent/medicine/healthpot
-        target.reagents.add_reagent(rid, ramount)
-        ramount = 2
-        if(target == user)
-            target.visible_message(span_green("[user] licks their own wounds."), span_notice("I lick my own wounds."))
-            ramount = 20
-            rid = /datum/reagent/water
-            target.reagents.add_reagent(rid, ramount)
-        else if(target.mind.has_antag_datum(/datum/antagonist/werewolf))
-            target.visible_message(span_green("[user] is licking [target]'s wounds with its tongue!"), span_notice("My kin has covered my wounds..."))
-            ramount = 20
-            rid = /datum/reagent/water
-            target.reagents.add_reagent(rid, ramount)
-        else
-            target.visible_message(span_green("[user] is licking [target]'s wounds with its tongue!"), span_notice("That thing... Did it lick my wounds?"))
-            ramount = 20
-            rid = /datum/reagent/water
-            target.reagents.add_reagent(rid, ramount)
+	if(iscarbon(targets[1]))
+		var/mob/living/carbon/target = targets[1]
+		if(target.mind)
+			if(target.mind.has_antag_datum(/datum/antagonist/zombie))
+				to_chat(src, span_warning("I shall not lick it..."))
+				return
+			if(target.mind.has_antag_datum(/datum/antagonist/vampire))
+				to_chat(src, span_warning("... What? It's an elder vampire!"))
+				return
+		(!do_after(user, 7 SECONDS, target = target))
+		var/ramount = 20
+		var/rid = /datum/reagent/medicine/healthpot
+		target.reagents.add_reagent(rid, ramount)
+		ramount = 2
+		if(target == user)
+			target.visible_message(span_green("[user] licks their own wounds."), span_notice("I lick my own wounds."))
+			ramount = 20
+			rid = /datum/reagent/water
+			target.reagents.add_reagent(rid, ramount)
+		else if(target.mind.has_antag_datum(/datum/antagonist/werewolf))
+			target.visible_message(span_green("[user] is licking [target]'s wounds with its tongue!"), span_notice("My kin has covered my wounds..."))
+			ramount = 20
+			rid = /datum/reagent/water
+			target.reagents.add_reagent(rid, ramount)
+		else
+			target.visible_message(span_green("[user] is licking [target]'s wounds with its tongue!"), span_notice("That thing... Did it lick my wounds?"))
+			ramount = 20
+			rid = /datum/reagent/water
+			target.reagents.add_reagent(rid, ramount)

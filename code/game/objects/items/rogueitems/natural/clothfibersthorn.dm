@@ -28,7 +28,7 @@
 	. += span_info("Fibers can also be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for fibers include tools, bows, torches, amulets, bouquets, needles, bags, and flower crowns.")
 
-/obj/item/natural/fibers/Initialize()
+/obj/item/natural/fibers/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/stonehoe,
@@ -160,7 +160,6 @@
 	desc = "A bolt of woven fibers. Useful as bandages and in dozens upon dozens of crafts."
 	force = 0
 	throwforce = 0
-	flags_ai_inventory = AI_ITEM_BANDAGE
 	obj_flags = null
 	bundling_time = 2 SECONDS
 	firefuel = 5 MINUTES
@@ -196,7 +195,7 @@
 	. += span_info("Drinking water and, to a lesser extent, lifeblood can help counteract the effects of blood loss. Lifeblood, needles, cauteries, and miracles can stop a wound from bleeding.")
 	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss.")
 
-/obj/item/natural/cloth/Initialize()
+/obj/item/natural/cloth/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/longbowpartial,
@@ -429,7 +428,7 @@
 	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
 	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
 
-/obj/item/natural/thorn/Initialize()
+/obj/item/natural/thorn/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/tneedle,
@@ -665,7 +664,7 @@
 	spitoutmouth = FALSE
 	experimental_inhand = FALSE
 
-/obj/item/natural/bowstring/Initialize()
+/obj/item/natural/bowstring/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/bow,

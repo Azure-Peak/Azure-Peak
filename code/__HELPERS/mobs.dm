@@ -622,7 +622,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		AM.setDir(originaldir)
 
 //When you cop out of the round
-/mob/proc/make_me_an_observer(var/existing = FALSE)
+/mob/proc/make_me_an_observer(existing = FALSE)
 	var/mob/dead/new_player/lobbyer
 
 	if(!existing)

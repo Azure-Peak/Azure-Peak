@@ -141,7 +141,7 @@
 	icon_state = "ramcurledsmall"
 
 /datum/sprite_accessory/horns/smallramhornsalt
-	name  = "Small Ram Horns Alt"
+	name	= "Small Ram Horns Alt"
 	icon_state = "ramcurledsmallalt"
 
 /datum/sprite_accessory/horns/smallramhornsthree
@@ -285,3 +285,19 @@
 	icon = 'icons/mob/sprite_accessory/halforc.dmi'
 	icon_state = "longtusk"
 	default_colors = list("#F4F4BE")
+
+/datum/sprite_accessory/horns/zard
+	name = "Zardish"
+	icon_state = "zard"
+
+/datum/sprite_accessory/horns/zard_cloth
+	name = "Zardish (Cloth)"
+	icon_state = "zard_cloth"
+	color_keys = 2
+	color_key_names = list("Horns", "Cloth")
+	default_colors = list("#555555", "#B41919")
+	relevant_layers = list(BODY_ADJ_LAYER)
+
+/datum/sprite_accessory/horns/goblin
+	name = "Goblin"
+	icon_state = "goblinhorns"

@@ -28,23 +28,31 @@
 
 /datum/sex_action/miscellaneous/spanking/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] positions [user.p_their()] hand to spank [target]'s butt!"))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] [do_subtle ? "subtly " : ""]positions [user.p_their()] hand to spank [target]'s butt!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/miscellaneous/spanking/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	var/msg = "[user] [sex_session.get_generic_force_adjective()] spanks [target]'s butt."
-	user.visible_message(sex_session.spanify_force(msg))
+	var/do_subtle = sex_session.doing_subtly
+	if(sex_session.force >= SEX_FORCE_HIGH)
+		do_subtle = FALSE
+	var/msg = "[user] [sex_session.get_generic_force_adjective(do_subtle)] spanks [target]'s butt."
+	user.visible_message(sex_session.spanify_force(msg), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/miscellaneous/spanking/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
 	var/force = sex_session.force
+	if(force >= SEX_FORCE_HIGH)
+		do_subtle = FALSE
 	var/sound = pick('sound/foley/slap.ogg', 'sound/foley/smackspecial.ogg')
-	playsound(target, sound, 50, TRUE, -2, ignore_walls = FALSE)
+	playsound(target, sound, 50, TRUE, (do_subtle ? -6 : -2), ignore_walls = FALSE)
 
 	// Arousal and pain logic
 	var/arousal_amt = 1.2 + (force * 0.5)
 	var/pain_amt = 2 * force
-	sex_session.perform_sex_action(target, arousal_amt, pain_amt, TRUE)
+	sex_session.perform_sex_action(target, arousal_amt, pain_amt, TRUE, sex_session.speed, sex_session.force)
 	sex_session.handle_passive_ejaculation(target)
 
 	// Soreness messaging depending on force
@@ -59,7 +67,9 @@
 
 /datum/sex_action/miscellaneous/spanking/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] stops spanking [target]."))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] stops spanking [target]."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/miscellaneous/spanking/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/locked = user.get_active_precise_hand()

@@ -164,6 +164,14 @@
 		linked_client.mob.returntolobby()
 		message_admins("CLASS_SELECT_HANDLER HAD PERSON WITH 0 CLASS SELECT OPTIONS. THIS IS REALLY BAD! RETURNED THEM TO LOBBY")
 
+	var/list/subprefs = linked_client.prefs?.job_subprefs
+	if(subprefs && subprefs[H.job] && subprefs[H.job]["favorite_advclass"])
+		var/datum/advclass/get_your_fav = subprefs[H.job]["favorite_advclass"] // actually a path w/e
+		for(var/datum/advclass/candidate in rolled_classes)
+			if(candidate.type == get_your_fav) // the favorite class is in fact valid n has an open slot
+				SSrole_class_handler.finish_class_handler(linked_client.mob, candidate, src, plus_power, special_selected)
+				return FALSE
+
 	if(rolled_classes.len == 1)
 		SSrole_class_handler.finish_class_handler(linked_client.mob, pick(rolled_classes), src, plus_power, special_selected)
 		return FALSE
@@ -309,7 +317,7 @@
 
 	var/data = {"
 	<!DOCTYPE html>
-	<html lang='en'>	
+	<html lang='en'>
 	<html>
 		<head>
 			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -322,7 +330,7 @@
 			<link rel='stylesheet' type='text/css' href='slop_menustyle2.css'>
 		</head>
 		<body>
-            <div id="top_bloc">
+			<div id="top_bloc">
 				<span class="title_shit">Class Name:</span> <span class="post_title_shit">[cur_picked_class]</span><br>
 				<span class="title_shit">Description:</span> <span class="post_title_shit">[cur_picked_class.tutorial]</span>"}
 	if(cur_picked_class.classes)

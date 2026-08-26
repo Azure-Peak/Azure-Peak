@@ -59,7 +59,7 @@
 
 /datum/reagent/blood/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(8)
@@ -74,7 +74,7 @@
 		..()
 /datum/reagent/blood/shitty/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
@@ -95,7 +95,7 @@
 /datum/reagent/water
 	name = "Water"
 	description = "An ubiquitous chemical substance that is composed of hydrogen and oxygen."
-	color = "#6a9295c6"
+	color = "#6a9295"
 	taste_description = "water"
 	var/cooling_temperature = 2
 	glass_icon_state = "glass_clear"
@@ -125,7 +125,7 @@
 
 /datum/reagent/water/gross
 	taste_description = "something vile"
-	color = "#98934bc6"
+	color = "#98934b"
 	harmful = TRUE
 /datum/reagent/water/gross/sewage
 	taste_description = "repulsive sulfur and decaying shit"
@@ -157,11 +157,11 @@
 
 /datum/reagent/water/bathwater
 	taste_description = "bathwater"
-	color = "#c9e5eec6"
+	color = "#c9e5ee"
 
 /datum/reagent/water/salty
 	taste_description = "salt"
-	color = "#417ac5c6"
+	color = "#417ac5"
 
 /datum/reagent/water/salty/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(method == INGEST) // Make sure you DRANK the salty water before losing hydration
@@ -171,7 +171,7 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!(HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_SEA_DRINKER))) // Small edit for readability. De Morgans Law my beloved
-			H.adjust_hydration(-hydration)  //saltwater dehydrates more than it hydrates
+			H.adjust_hydration(-hydration)	//saltwater dehydrates more than it hydrates
 			M.adjustToxLoss(0.25) // Slightly toxic
 			M.add_nausea(2)
 		else if(HAS_TRAIT(H, TRAIT_SEA_DRINKER))
@@ -243,7 +243,7 @@
 		if(hotspot)
 			new /obj/effect/temp_visual/small_smoke(T)
 			qdel(hotspot)
-	
+
 	if(iswallturf(T))
 		if(!T.color)
 			return
@@ -300,7 +300,7 @@
 	name = "Holy Water"
 	description = "Water blessed by some deity."
 	color = "#E0E8EF" // rgb: 224, 232, 239
-	glass_icon_state  = "glass_clear"
+	glass_icon_state	= "glass_clear"
 	glass_name = "glass of holy water"
 	glass_desc = ""
 	self_consuming = TRUE //divine intervention won't be limited by the lack of a liver
@@ -432,8 +432,8 @@
 /datum/reagent/spraytan
 	name = "Spray Tan"
 	description = "A substance applied to the skin to darken the skin."
-	color = "#FFC080" // rgb: 255, 196, 128  Bright orange
-	metabolization_rate = 10 * REAGENTS_METABOLISM // very fast, so it can be applied rapidly.  But this changes on an overdose
+	color = "#FFC080" // rgb: 255, 196, 128	Bright orange
+	metabolization_rate = 10 * REAGENTS_METABOLISM // very fast, so it can be applied rapidly.	But this changes on an overdose
 	overdose_threshold = 11 //Slightly more than one un-nozzled spraybottle.
 	taste_description = "sour oranges"
 
@@ -568,7 +568,7 @@
 		var/datum/species/species_type = race
 		H.set_species(species_type)
 		H.reagents.del_reagent(type)
-		to_chat(H, "<span class='warning'>You've become \a [lowertext(initial(species_type.name))]!</span>")
+		to_chat(H, "<span class='warning'>You've become \a [LOWER_TEXT(initial(species_type.name))]!</span>")
 	..()
 
 #undef MUT_MSG_IMMEDIATE
@@ -679,7 +679,7 @@
 	taste_description = "chlorine"
 
 /datum/reagent/chlorine/on_mob_life(mob/living/carbon/M)
-	M.take_bodypart_damage(1  * REAGENTS_EFFECT_MULTIPLIER, 0, 0, 0)
+	M.take_bodypart_damage(1	* REAGENTS_EFFECT_MULTIPLIER, 0, 0, 0)
 	. = 1
 	..()
 
@@ -691,7 +691,7 @@
 	taste_description = "acid"
 
 /datum/reagent/fluorine/on_mob_life(mob/living/carbon/M)
-	M.adjustToxLoss(1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustToxLoss(1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	. = 1
 	..()
 
@@ -934,7 +934,7 @@
 /datum/reagent/impedrezene/on_mob_life(mob/living/carbon/M)
 	M.jitteriness = max(M.jitteriness-5,0)
 	if(prob(80))
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2	* REAGENTS_EFFECT_MULTIPLIER)
 	if(prob(50))
 		M.drowsyness = max(M.drowsyness, 3)
 	if(prob(10))
@@ -1022,8 +1022,8 @@
 	..()
 
 /datum/reagent/stimulum/on_mob_life(mob/living/carbon/M)
-	M.adjustStaminaLoss(-2  * REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustToxLoss(current_cycle*0.1  * REAGENTS_EFFECT_MULTIPLIER, 0) // 1 toxin damage per cycle at cycle 10
+	M.adjustStaminaLoss(-2	* REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustToxLoss(current_cycle*0.1	* REAGENTS_EFFECT_MULTIPLIER, 0) // 1 toxin damage per cycle at cycle 10
 	..()
 
 /datum/reagent/nitryl
@@ -1162,7 +1162,7 @@
 
 /datum/reagent/plantnutriment/on_mob_life(mob/living/carbon/M)
 	if(prob(tox_prob))
-		M.adjustToxLoss(1  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustToxLoss(1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		. = 1
 	..()
 
@@ -1539,8 +1539,8 @@
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER)) //they can't puke
 		holder.del_reagent(type)
 
-#define YUCK_PUKE_CYCLES 3 		// every X cycle is a puke
-#define YUCK_PUKES_TO_STUN 3 	// hit this amount of pukes in a row to start stunning
+#define YUCK_PUKE_CYCLES 3		// every X cycle is a puke
+#define YUCK_PUKES_TO_STUN 3	// hit this amount of pukes in a row to start stunning
 /datum/reagent/yuck/on_mob_life(mob/living/carbon/C)
 	if(!yuck_cycle)
 		if(prob(8))

@@ -20,7 +20,7 @@
 
 /atom/movable/screen/ghost/orbit/Click()
 	var/mob/dead/observer/G = usr
-	G.follow()
+	G.open_orbit_menu()
 //skull
 /atom/movable/screen/ghost/orbit/rogue
 	name = "AFTER LIFE"
@@ -32,12 +32,12 @@
 	var/mob/dead/observer/G = usr
 	var/paramslist = params2list(params)
 	if(paramslist["right"]) // screen objects don't do the normal Click() stuff so we'll cheat
-		G.follow()
+		G.open_orbit_menu()
 	else
 		if(G.client)
 			if(isscryeye(G) || G.trapped)
 				return
-			if(alert("Travel with the boatman?", "", "Yes", "No") == "Yes")
+			if(alert(usr, "Travel with the boatman?", "", "Yes", "No") == "Yes")
 				G.returntolobby(0)
 
 /atom/movable/screen/ghost/reenter_corpse
@@ -95,7 +95,7 @@
 	using.screen_loc = ui_ghost_teleport
 	static_inventory += using
 
-	using =  new /atom/movable/screen/backhudl/ghost()
+	using =	new /atom/movable/screen/backhudl/ghost()
 	using.hud = src
 	static_inventory += using
 
@@ -170,7 +170,7 @@
 	..()
 	var/atom/movable/screen/using
 
-	using =  new /atom/movable/screen/backhudl/ghost()
+	using =	new /atom/movable/screen/backhudl/ghost()
 	using.hud = src
 	static_inventory += using
 
@@ -206,7 +206,7 @@
 	..()
 	var/atom/movable/screen/using
 
-	using =  new /atom/movable/screen/backhudl/obs()
+	using =	new /atom/movable/screen/backhudl/obs()
 	using.hud = src
 	static_inventory += using
 

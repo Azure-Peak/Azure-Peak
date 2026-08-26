@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - bugfix: "Mace Chant's Tremor no longer gets staggered when you walk into someone."

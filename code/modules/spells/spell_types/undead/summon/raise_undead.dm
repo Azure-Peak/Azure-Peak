@@ -3,9 +3,12 @@
 	desc = "Raise a single greater skeleton that serves you. They are imbued with a fragment of a soul and is more intelligent than usual, simple-minded lesser undead.\n\
 	Should the spell fails to find a suitable soul, a mindless undead will be summoned in its place with decrepit equipment.\n\
 	This will only happen if you are in combat mode, to avoid any accident."
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "skeleton_greater"
+
 	clothes_req = FALSE
 	range = 7
-	overlay_state = "animate"
 	sound = list('sound/magic/magnet.ogg')
 	releasedrain = 40
 	chargetime = 60
@@ -60,7 +63,7 @@
 	target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/raise_undead/proc/backup_summon(var/turf/T, mob/living/user)
+/obj/effect/proc_holder/spell/invoked/raise_undead/proc/backup_summon(turf/T, mob/living/user)
 	var/skeleton_roll = rand(1, 3)
 	var/mob/living/skeletonnew
 	// 66% chance of medium 33% of heavy

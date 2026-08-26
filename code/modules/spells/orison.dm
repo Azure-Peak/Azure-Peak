@@ -284,10 +284,10 @@
 /datum/reagent/water/blessed/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_UNDEAD)
-		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(0.5	* REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -326,8 +326,8 @@
 	if(istype(M,/mob/living/carbon/human/))
 		M_hum = M
 	if((M.mob_biotypes & MOB_UNDEAD) || (M_hum.patron.undead_hater == FALSE))
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -335,15 +335,15 @@
 			if (upd)
 				M.update_damage_overlays()
 	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
 			var/upd = M.heal_wounds(1)
 			if (upd)
 				M.update_damage_overlays()
-		M.stamina_add(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.stamina_add(0.5	* REAGENTS_EFFECT_MULTIPLIER)
 
 /datum/reagent/water/medicine
 	name = "Pestran Medicine"
@@ -485,7 +485,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			caster.freak_out()
 		playsound(caster, 'sound/misc/lava_death.ogg', 100, TRUE)
 		caster.adjust_fire_stacks(40, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU FUCKING DESERVE THIS
-		caster.adjustFireLoss(120)//This will kill you, always.
+		caster.adjustFireLoss(120)//Yeah that's gonna hurt, very rapidly
 		caster.Knockdown(30)
 		caster.Jitter(30)
 		caster.Stun(25)
@@ -588,13 +588,13 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/gravemark)
 			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_order)
 
-		if(new_convert.mind.has_spell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast))
+		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/projectile/divine_blast))
 			had_blast = TRUE
-			new_convert.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/divine_blast)
 
-		if(new_convert.mind.has_spell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast))
+		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/projectile/unholy_blast))
 			had_blast = TRUE
-			new_convert.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
+			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/unholy_blast)
 
 		// cleric traits are removed here
 		new_convert.devotion.Destroy()
@@ -611,7 +611,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		new_convert.devotion = new_devotion
 		new_devotion.grant_miracles(new_convert, saved_level, saved_devotion_gain, saved_max_progression)
 		if(had_blast)
-			var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /obj/effect/proc_holder/spell/invoked/projectile/unholyblast : /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+			var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/unholy_blast)
 			new_convert.mind.AddSpell(new blast_to_grant)
 		// why are you like this
 		if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark))

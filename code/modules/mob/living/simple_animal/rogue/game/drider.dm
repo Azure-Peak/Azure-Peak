@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/drider //lol
+	anatomy_type = /datum/anatomy/spider
 	icon = 'icons/roguetown/mob/monster/drider.dmi'
 	name = "drider spider"
 	desc = "A monstrously large spider utilised by drow as mounts, better suited \
@@ -17,8 +18,8 @@
 	animal_species = null
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 3, /obj/item/natural/bone = 3)
 	base_intents = list(/datum/intent/simple/bite/mirespider_lurker)
-	health = 660
-	maxHealth = 660
+	health = DRIDER_HEALTH
+	maxHealth = DRIDER_HEALTH
 	pass_flags = PASSTABLE | PASSMOB
 	mob_size = MOB_SIZE_SMALL
 	milkies = FALSE
@@ -41,7 +42,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame
 	tame = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/drider/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/drider/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE2, TRAIT_GENERIC)
@@ -100,47 +101,7 @@
 			icon_state = "drider"
 			icon_living = "drider"
 
-/mob/living/simple_animal/hostile/retaliate/rogue/drider/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "snout"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "snout"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "leg"
-		if(BODY_ZONE_L_LEG)
-			return "leg"
-		if(BODY_ZONE_R_ARM)
-			return "foreleg"
-		if(BODY_ZONE_L_ARM)
-			return "foreleg"
-	return ..()
-
-/mob/living/simple_animal/hostile/retaliate/rogue/drider/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/drider/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S

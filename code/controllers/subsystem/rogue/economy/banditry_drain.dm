@@ -33,6 +33,7 @@
 	var/shortfall = total_drain - burn_now
 	if(burn_now > 0)
 		SStreasury.burn(SStreasury.discretionary_fund, burn_now, "Banditry losses (untended regions)")
+		record_treasury_expense(TREASURY_FLOW_BANDITRY, "Crown", burn_now)
 	if(shortfall > 0)
 		SStreasury.banditry_debt += shortfall
 	record_round_statistic(STATS_BANDITRY_LOSSES, total_drain)

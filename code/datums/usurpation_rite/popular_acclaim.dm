@@ -1,15 +1,15 @@
 /**
-# Rite of Popular Acclaim
-
-Secular populist usurpation rite.
-
-Design Intent: Originally, I wanted a Matthios themed rite accessible to bandits, but realized that just made them even more valid in the eyes of others. And I really wanted to move away from the anachronistic marxist framing of Matthios in old roguetown lore. So instead, inspired by it, I made a purely secular rite that just so happens to be accessible to bandits. Thematically, this is about as close to the "Peasant Rebel" antagonist as I can get with this system, adjusted for AP where this antagonist class is dead and for our own environment. 
-
-Outlaws and bandits count DOUBLE for this - for the risk they take. 
-
-However, of all of the usurpation rites, this one takes the most voices - a total of TEN (10!!) weighted voices - but bandits and outlaws count as two voices each, so it can be achieved with just 5 actual people if they're all outlaws.
-
-The dead has no voice in this. The world is not progressive enough for that.
+ * Rite of Popular Acclaim
+ *
+ * Secular populist usurpation rite.
+ *
+ * Design Intent: Originally, I wanted a Matthios themed rite accessible to bandits, but realized that just made them even more valid in the eyes of others. And I really wanted to move away from the anachronistic marxist framing of Matthios in old roguetown lore. So instead, inspired by it, I made a purely secular rite that just so happens to be accessible to bandits. Thematically, this is about as close to the "Peasant Rebel" antagonist as I can get with this system, adjusted for AP where this antagonist class is dead and for our own environment.
+ *
+ * Outlaws and bandits count DOUBLE for this - for the risk they take.
+ *
+ * However, of all of the usurpation rites, this one takes the most voices - a total of TEN (10!!) weighted voices - but bandits and outlaws count as two voices each, so it can be achieved with just 5 actual people if they're all outlaws.
+ *
+ * The dead has no voice in this. The world is not progressive enough for that.
 */
 
 /datum/usurpation_rite/popular_acclaim
@@ -20,15 +20,15 @@ The dead has no voice in this. The world is not progressive enough for that.
 <p><b>How it works:</b> The people of the realm must gather near the throne and speak the words 'I assent' to support your claim. Anyone may assent.</p>\
 <p><b>Completion condition:</b> <b>10</b> weighted voices must speak their assent. Bandits and outlaws count as <b>two</b> voices each — they risked everything to assert their right. All others count as one. Once the threshold is reached, the realm is alerted and a contestation period begins — survive it and stay conscious while remaining near the throne, and it is yours.</p>\
 <p><b>Restrictions:</b> The undead may not invoke or assent.</p>\
-<p><b>Realm type if successful:</b> Republic, ruled by a Tribune.</p>"}
+<p><b>Realm type if successful:</b> Kingdom of Freemen, ruled by a Tribune.</p>"}
 	new_ruler_title = "Tribune"
 	new_ruler_title_f = "Tribune"
-	new_realm_type = "Republic"
-	new_realm_type_short = "Republic"
+	new_realm_type = "Kingdom of Freemen"
+	new_realm_type_short = "Kingdom of Freemen"
 	roundend_epilogue = "The people have spoken, and the old order has crumbled. " + \
 		"The realm is ruled by the people, for the people! " + \
 		"The voice of the people is the voice of the gods! " + \
-		"Foreign rulers may claim this to be a Matthiosite plot, " + \
+		"Foreign rulers may dismiss this as the ruin of rabble, " + \
 		"but the people know the truth -- " + \
 		"that power belongs to those who have the courage to seize it, " + \
 		"and the people to support it!"
@@ -108,12 +108,16 @@ The dead has no voice in this. The world is not progressive enough for that.
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
 	..()
+	if(invoker?.mind)
+		var/datum/antagonist/prebel/rebel_datum = invoker.mind.has_antag_datum(/datum/antagonist/prebel)
+		if(rebel_datum && rebel_datum.rev_team)
+			rebel_datum.rev_team.rite_won = TRUE
 	priority_announce( \
 		"A ruler must rule for the benefits of their subjects. And no one is more fit than one elected by their subjects.\n\n" + \
 		"The people of [SSticker.realm_name] declare [invoker.real_name] the rightful [SSticker.rulertype], chosen by POPULAR acclaim.\n\n" + \
 		"[old_ruler_name], unable to contest this claim, has lost the confidence of the people, " + \
 		"and their authority is hereby revoked.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!", \
+		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name], raised up by the will of the freefolk!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("The people stand behind you. The throne is yours."))

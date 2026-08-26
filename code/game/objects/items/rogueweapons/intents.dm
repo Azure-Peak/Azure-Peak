@@ -24,8 +24,12 @@
 	/// Extra fatigue removed on missing the target, or if the enemy dodges.
 	var/misscost = 1
 	var/tranged = 0
-	/// Turns of auto-aim as well as the 'swoosh'.
+	/// Sound played to the charger when a charge/draw reaches full. Null = no sound.
+	var/ready_sound
+	/// Turns of auto-aim as well as the attack anim.
 	var/noaa = FALSE
+	/// Restores turf-click auto-aim on a noaa intent silently (so without the attack anim).
+	var/force_autoaim = FALSE
 	var/warnie = ""
 	var/pointer = 'icons/effects/mousemice/human_attack.dmi'
 	/// Invoked clickCD.
@@ -195,7 +199,7 @@
 				str +="|[bodyzone2readablezone(part)]|"
 			inspec += str
 	if(intent_intdamage_factor != 1)
-		inspec += "\n<b>Integrity Damage:</b> [intent_intdamage_factor * 100]%"
+		inspec += "\n<b>Integrity[intent_intdamage_factor < 1 ? " / Part" : ""] Damage:</b> [intent_intdamage_factor * 100]%"
 		if(masteritem)
 			inspec += " <span class='info'><a href='?src=[REF(masteritem)];explaindemolitionmod=1'>{?}</a></span>"
 	if(demolition_mod != 1)
@@ -219,22 +223,42 @@
 		inspec += " | Type: "
 		switch(swingdelay_type)
 			if(SWINGDELAY_NORMAL)
-				inspec += SPAN_TOOLTIP("The swing will be without any unusual effects.", "<font color='#e6e6e6'><u>Normal</u></font>")
+				inspec += SPAN_TOOLTIP("The attack has no additional effects or drawbacks.", "<font color='#e6e6e6'><u>Normal</u></font>")
 			if(SWINGDELAY_PENALTY)
-				inspec += SPAN_TOOLTIP("The swing will reduce my defense by a significant amount.", "<font color='#dab141'><u>Difficult</u></font>")
+				inspec += SPAN_TOOLTIP("The attack significantly reduces my ability to dodge or parry while performing it.", "<font color='#dab141'><u>Difficult</u></font>")
 			if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
-				inspec += SPAN_TOOLTIP("I will have no chance to defend while swinging, and a strike against me will interrupt it.", "<font color='#a70d0d'><u>Rigid</u></font>")
-		
+				inspec += SPAN_TOOLTIP("The attack prevents me from dodging or parrying, and is interrupted if I am struck while performing it. However, it cannot be parried nor dodged.", "<font color='#a70d0d'><u>Rigid</u></font>")
+
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"
-		inspec += "\n  Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
-		inspec += "\n  Prioritizes living targets over dead."
+		inspec += "\n	Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
+		inspec += "\n	Prioritizes living targets over dead."
 		if(cleave.diagonal_desc)
-			inspec += "\n  [cleave.diagonal_desc]"
+			inspec += "\n	[cleave.diagonal_desc]"
 		inspec += "\n<tt>[cleave.get_pattern_display()]</tt>"
 	inspec += "<br>----------------------"
 
 	to_chat(user, "[inspec.Join()]")
+
+/datum/intent/proc/get_part_damage_factor()
+	return min(1, intent_intdamage_factor)
+
+/datum/intent/proc/out_of_effective_range(atom/target, mob/user)
+	if(!effective_range || !target || !user)
+		return FALSE
+	if(isliving(target))
+		var/mob/living/L = target
+		if(!(L.mobility_flags & MOBILITY_STAND))
+			return FALSE
+	var/dist = get_dist(target, user)
+	switch(effective_range_type)
+		if(EFF_RANGE_EXACT)
+			return dist != effective_range
+		if(EFF_RANGE_ABOVE)
+			return dist < effective_range
+		if(EFF_RANGE_BELOW)
+			return dist > effective_range
+	CRASH("effective_range found without a valid effective_range_type on [type] used by [user]")
 
 /datum/intent/proc/get_chargetime()
 	if(chargetime)
@@ -466,7 +490,7 @@
 	clickcd = 4 // Just like knife pick!
 	swingdelay = 1
 	releasedrain = 0 //no stamina loss, as charges are lost as it drills
-	
+
 /datum/intent/pick/bad	//One-handed intents
 	name = "sluggish pick"
 	icon_state = "inpick"
@@ -515,6 +539,7 @@
 	icon_state = "inshoot"
 	tranged = 1
 	warnie = "aimwarn"
+	ready_sound = 'sound/foley/nockarrow.ogg'
 	item_d_type = "stab"
 	chargetime = 0.1
 	no_early_release = FALSE
@@ -533,6 +558,7 @@
 	icon_state = "inarc"
 	tranged = 1
 	warnie = "aimwarn"
+	ready_sound = 'sound/foley/nockarrow.ogg'
 	item_d_type = "blunt"
 	chargetime = 0
 	no_early_release = FALSE
@@ -540,7 +566,7 @@
 	charging_slowdown = 3
 	warnoffset = 20
 	var/strength_check = FALSE //used when we fire HEAVY bows
-	
+
 /datum/intent/proc/arc_check()
 	return FALSE
 
@@ -556,6 +582,7 @@
 	icon_state = "inshoot"
 	tranged = 1
 	warnie = "aimwarn"
+	ready_sound = 'sound/foley/slingload.ogg'
 	item_d_type = "stab"
 	chargetime = 0.1
 	no_early_release = FALSE
@@ -656,7 +683,7 @@
 	//icon_state
 	attack_verb = list("mauls", "scratches", "claws")
 	chargetime = 0
-	animname = "blank22"
+	animname = "cut"
 	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
 	misscost = 1
 	releasedrain = 1	//More than punch cus pen factor.
@@ -668,7 +695,7 @@
 	miss_text = "claw at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
-	
+
 
 /datum/intent/unarmed/shove
 	name = "shove"
@@ -676,6 +703,7 @@
 	attack_verb = list("shoves", "pushes")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	misscost = 5
 	item_d_type = "blunt"
@@ -702,6 +730,7 @@
 	attack_verb = list("grabs")
 	chargetime = 0
 	noaa = TRUE
+	force_autoaim = TRUE
 	rmb_ranged = TRUE
 	releasedrain = 2
 	misscost = 8
@@ -749,11 +778,15 @@
 			to_chat(M, span_green("[user] waves friendly at [M]."))
 	return
 
+/datum/intent/simple
+	miss_text = "swings at nothing"
+	miss_sound = "punchwoosh"
+
 /datum/intent/simple/headbutt
 	name = "headbutt"
 	icon_state = "instrike"
 	attack_verb = list("headbutts", "rams")
-	animname = "blank22"
+	animname = "strike"
 	blade_class = BCLASS_BLUNT
 	hitsound = "punch_hard"
 	chargetime = 0
@@ -761,13 +794,15 @@
 	swingdelay = 0
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "rams nothing"
+	miss_sound = "bluntwooshmed"
 	item_d_type = "blunt"
 
 /datum/intent/simple/claw
 	name = "claw"
 	icon_state = "instrike"
 	attack_verb = list("claws", "pecks")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
@@ -775,7 +810,8 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
-	miss_text = "slash the air"
+	miss_text = "claws at nothing"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "slash"
 
 /datum/intent/simple/claw/simplewwnpc
@@ -786,7 +822,7 @@
 	name = "bite"
 	icon_state = "instrike"
 	attack_verb = list("bites")
-	animname = "blank22"
+	animname = "bite"
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
@@ -794,6 +830,8 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "snaps at nothing"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "stab"
 
 
@@ -801,7 +839,7 @@
 	name = "hack"
 	icon_state = "instrike"
 	attack_verb = list("hacks at", "chops at", "bashes")
-	animname = "blank22"
+	animname = "chop"
 	blade_class = BCLASS_CUT
 	hitsound = list("genchop", "genslash")
 	chargetime = 0
@@ -809,13 +847,15 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "hacks at nothing"
+	miss_sound = "bladewooshlarge"
 	item_d_type = "slash"
 
 /datum/intent/simple/spear
 	name = "spear"
 	icon_state = "instrike"
 	attack_verb = list("stabs", "skewers")
-	animname = "blank22"
+	animname = "stab"
 	blade_class = BCLASS_CUT
 	hitsound = list("genthrust", "genstab")
 	chargetime = 0
@@ -823,6 +863,8 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
+	miss_text = "thrusts at nothing"
+	miss_sound = "bladewooshmed"
 	item_d_type = "stab"
 
 /datum/intent/bless

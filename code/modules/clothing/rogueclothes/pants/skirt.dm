@@ -9,11 +9,13 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	alternate_worn_layer = (SHIRT_LAYER)
 	salvage_amount = 1
+	var/shiftable = TRUE
+	var/shifted = FALSE
 
 /obj/item/clothing/under/roguetown/skirt/random
 	name = "skirt"
 
-/obj/item/clothing/under/roguetown/skirt/random/Initialize()
+/obj/item/clothing/under/roguetown/skirt/random/Initialize(mapload)
 	color = pick("#6b5445", "#435436", "#704542", "#79763f", CLOTHING_BLUE)
 	..()
 
@@ -43,6 +45,12 @@
 	icon_state = "desertskirt"
 	item_state = "desertskirt"
 
+/obj/item/clothing/under/roguetown/skirt/short
+	name = "short skirt"
+	desc = "short, flowing, and not very modest."
+	item_state = "surcoatshortskirt"
+	icon_state = "surcoatshortskirt"
+
 /obj/item/clothing/under/roguetown/skirt/baotha
 	name = "saccharine fauldcoat"
 	desc = "Only did Belladona's haze clear, once She heard Eora's gasps and Ravox's fright; what else could She've done besides fleeing the heavens?"
@@ -55,7 +63,7 @@
 	body_parts_covered = GROIN | LEGS
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/under/roguetown/skirt/baotha/Initialize()
+/obj/item/clothing/under/roguetown/skirt/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "SKIRT")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
@@ -82,7 +90,7 @@
 	alternate_worn_layer = (SHIRT_LAYER)
 	salvage_result = /obj/item/natural/silk
 
-/obj/item/clothing/under/roguetown/skirt/courtphysician/Initialize()
+/obj/item/clothing/under/roguetown/skirt/courtphysician/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -110,14 +118,12 @@
 	cold_protection = 10
 	color = "#ad977d"
 	chunkcolor = "#978151"
-	var/shiftable = TRUE
-	var/shifted = FALSE
 
 /obj/item/clothing/under/roguetown/skirt/gambeson/attack_right(mob/user)
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "patkilt"
 			color = "#976E6B"
 			update_icon()
@@ -128,7 +134,7 @@
 					H.update_inv_pants()
 			return
 	else
-		if(alert("Would you like to wear your gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "patkiltold"
 			color = null
 			update_icon()
@@ -156,14 +162,12 @@
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 	color = "#976E6B"
-	shiftable = TRUE
-	shifted = FALSE
 
 /obj/item/clothing/under/roguetown/skirt/gambeson/heavy/attack_right(mob/user)
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your padded gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambesoned kilt normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "patkilt"
 			color = "#976E6B"
 			update_icon()
@@ -174,7 +178,7 @@
 					H.update_inv_pants()
 			return
 	else
-		if(alert("Would you like to wear your padded gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambesoned kilt traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "patkiltold"
 			color = null
 			update_icon()
@@ -184,3 +188,15 @@
 					var/mob/living/carbon/H = user
 					H.update_inv_pants()
 			return
+
+/obj/item/clothing/under/roguetown/skirt/formal
+	name = "knee-high skirt"
+	desc = "A fitted skirt tailored to follow the line of the legs, narrowing toward the hem."
+	icon_state = "formalskirt"
+	item_state = "formalskirt"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
+	sleevetype = "skirt"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
+	detail_tag = "_detail"
+	detail_color = "CLOTHING_WHITE"
+

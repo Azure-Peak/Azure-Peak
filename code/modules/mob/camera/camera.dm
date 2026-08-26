@@ -5,7 +5,7 @@
 	density = FALSE
 	move_force = INFINITY
 	move_resist = INFINITY
-	status_flags = GODMODE  // You can't damage it.
+	status_flags = GODMODE	// You can't damage it.
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	see_in_dark = 7
 	invisibility = INVISIBILITY_ABSTRACT // No one can see us
@@ -20,5 +20,5 @@
 /mob/camera/canUseStorage()
 	return FALSE
 
-/mob/camera/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE)
+/mob/camera/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, quiet = FALSE)
 	return

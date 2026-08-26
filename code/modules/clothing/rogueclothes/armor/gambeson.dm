@@ -32,7 +32,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "gambeson"
 			color = "#976E6B"
 			update_icon()
@@ -44,7 +44,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "gambesonold"
 			color = null
 			update_icon()
@@ -67,7 +67,7 @@
 	color = null
 	chunkcolor = null
 	allowed_sex = list(MALE, FEMALE)
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //50 more integ than a gamberson, at the cost of leg protection
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //More integ than a gamberson, at the cost of leg protection
 	shiftable = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
@@ -75,7 +75,7 @@
 	desc = "A lightweight collared jacket, purpose-woven for skirmishes and battle. The modest weight and streamlined form make it ideal for wearing under a cuirass or elegant halfplate."
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //50 more integrity and superior protection vs a light gamberson, and cheaper than a proper gamberson with the same integrity.
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //More integrity and superior protection vs a light gamberson, and cheaper than a proper gamberson with the same integrity.
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/shadowrobe
 	name = "thin stalker robe"
@@ -103,7 +103,7 @@
 	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 75 //75 more integ than a padded gamberson, at the cost of leg protection
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //More integ than a padded gamberson, at the cost of leg protection
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket
 	name = "besilked jacket"
@@ -133,7 +133,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
 			icon_state = "gambesonp"
 			color = "#976E6B"
 			update_icon()
@@ -145,7 +145,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
 			icon_state = "gambesonpold"
 			color = null
 			update_icon()
@@ -182,7 +182,7 @@
 			H.update_inv_shirt()
 			H.update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -206,7 +206,7 @@
 	color = "#FFFFFF"
 	var/shiftable = FALSE
 	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + ARMOR_INT_LIGHT_FENCER_MODIFIER
 	blocksound = SOFTUNDERHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
@@ -220,19 +220,27 @@
 /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
 	name = "aesthetic fencing shirt"
 
-/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	name = "shepherd's shirt"
 	desc = "A strong loosely worn quilted shirt that places little weight on the arms."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - 35
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - ARMOR_INT_LIGHT_FENCER_MODIFIER //adventurer variant, thus the lower integ.
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah
 	name = "padded caftan"
 	desc = "A long overcoat commonly worn in Naledi, Kazengun, and Aavnr - but mostly associated with steppesmen. This specific kind rivals a padded gambeson in protection."
 	icon_state = "chargah"
+	color = "#ffffff"
+	boobed = TRUE
+	shiftable = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hatanga
+	name = "beast-hide coat"
+	desc = "Layered robes reinforced with quilted padding and stitched hides from formidable beasts."
+	icon_state = "hatanga"
 	color = "#ffffff"
 	boobed = TRUE
 	shiftable = FALSE
@@ -268,7 +276,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_shirt()
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -284,7 +292,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
 	name = "aesthetic grenzelhoftian hip-shirt"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -300,13 +308,14 @@
 	icon_state = "desertrobe"
 	item_state = "desertrobe"
 	desc = "A thick robe intervowen with spell-laced fabrics. Thick and protective while remaining light and breezy; the perfect gear for protecting one from the threats of the sun, the desert and the daemons, yet still allowing one to cast spells aptly."
+	color = null
 	naledicolor = TRUE
 	shiftable = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
 	name = "aesthetic hierophant's shawl"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -339,12 +348,12 @@
 	icon_state = "shadowrobe"
 	color = null
 	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER //225
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
 	name = "aesthetic stalker robe"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 //Hand's gambeson, looks fancy
@@ -361,7 +370,7 @@
 	detail_color = "#6e423a"
 	shiftable = FALSE
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -389,7 +398,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_PADDED
 	color = null
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
+	max_integrity = ARMOR_INT_CHEST_LIGHT_ANTAG
 	armor_class = ARMOR_CLASS_LIGHT
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = CHEST | GROIN | ARMS
@@ -398,7 +407,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VESTMENTS")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)

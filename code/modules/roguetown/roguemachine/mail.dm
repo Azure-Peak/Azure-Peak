@@ -30,7 +30,7 @@
 	var/mailtag
 	var/obfuscated = FALSE
 
-/obj/structure/roguemachine/mail/Initialize()
+/obj/structure/roguemachine/mail/Initialize(mapload)
 	. = ..()
 	SSroguemachine.hermailers += src
 	ournum = SSroguemachine.hermailers.len
@@ -193,11 +193,13 @@
 	user.log_message("sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]", LOG_GAME)
 	message_admins("[key_name(user)] sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]")
 
-/obj/structure/roguemachine/mail/proc/build_sanitized_letter(sender, recipient, content)
+/obj/structure/roguemachine/mail/proc/build_sanitized_letter(mob/user, sender, recipient, content)
 	var/obj/item/paper/P = new
-	P.info += sanitize(content)
+	var/parsed_content = parsemarkdown(html_encode(content), user)
+	P.info += "<font face=\"[FOUNTAIN_PEN_FONT]\" color=#14103f>[parsed_content]</font>"
 	P.mailer = sanitize(sender)
 	P.mailedto = sanitize(recipient)
+	P.reload_fields()
 	P.update_icon()
 	return P
 
@@ -235,7 +237,7 @@
 			if(length(content) > 2000)
 				to_chat(user, span_warning("Letter too long."))
 				return TRUE
-			var/obj/item/paper/P = build_sanitized_letter(params["sender"], params["recipient"], content)
+			var/obj/item/paper/P = build_sanitized_letter(user, params["sender"], params["recipient"], content)
 			var/send2place = P.mailedto
 			var/sentfrom = P.mailer
 			var/sent_ok = FALSE
@@ -817,7 +819,7 @@
 		CP.rmb_show(user)
 		return TRUE
 
-/obj/item/roguemachine/mastermail/Initialize()
+/obj/item/roguemachine/mastermail/Initialize(mapload)
 	. = ..()
 	SSroguemachine.hermailermaster = src
 	update_icon()

@@ -19,22 +19,22 @@
 	var/cooldown_until = 0
 	var/static/list/impure_weights = list(
 		/obj/item/alch/hag_moss/sorrow = 30,
-		/obj/item/alch/hag_moss/fury   = 25,
-		/obj/item/alch/hag_moss/envy   = 20,
-		/obj/item/alch/hag_moss/mercy  = 15,
-		/obj/item/alch/hag_moss/grief  = 10,
+		/obj/item/alch/hag_moss/fury	= 25,
+		/obj/item/alch/hag_moss/envy	= 20,
+		/obj/item/alch/hag_moss/mercy	= 15,
+		/obj/item/alch/hag_moss/grief	= 10,
 		/obj/item/alch/hag_moss/lullaby = 5,
-		/obj/item/alch/hag_moss/pride   = 5
+		/obj/item/alch/hag_moss/pride	= 5
 	)
 
 	var/static/list/pure_weights = list(
 		/obj/item/alch/hag_moss/sorrow = 20,
-		/obj/item/alch/hag_moss/fury   = 18,
-		/obj/item/alch/hag_moss/envy   = 16,
-		/obj/item/alch/hag_moss/mercy  = 14,
-		/obj/item/alch/hag_moss/grief  = 13,
+		/obj/item/alch/hag_moss/fury	= 18,
+		/obj/item/alch/hag_moss/envy	= 16,
+		/obj/item/alch/hag_moss/mercy	= 14,
+		/obj/item/alch/hag_moss/grief	= 13,
 		/obj/item/alch/hag_moss/lullaby = 12,
-		/obj/item/alch/hag_moss/pride   = 12
+		/obj/item/alch/hag_moss/pride	= 12
 	)
 
 /obj/structure/roguemachine/mossmother/travel
@@ -285,7 +285,7 @@
 
 	var/wait_time = is_mortal ? 20 SECONDS : 10 SECONDS
 	user.visible_message(span_notice("[user] begins to sink into the mossy roots of [src]..."), \
-						 span_notice("You begin to dissolve into the network of roots, seeking the path to [get_area(target)]."))
+							span_notice("You begin to dissolve into the network of roots, seeking the path to [get_area(target)]."))
 	if(passenger)
 		user.visible_message(span_danger("[user] begins to drag [passenger] into the mossy roots..."))
 
@@ -312,7 +312,7 @@
 
 		user.forceMove(destination)
 		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
-							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
+								span_boldnotice("The roots spit you back out into [get_area(target)]."))
 
 		if(passenger && get_dist(src, passenger) <= 2)
 			passenger.forceMove(destination)
@@ -332,7 +332,7 @@
 
 		var/is_impure = (istype(W, /obj/item/reagent_containers/lux_impure) || istype(W, /obj/item/leechtick_bloated))
 		user.visible_message(span_notice("[user] pours [W] over the roots of [src]."), \
-							 span_boldnotice("You feed the heart of the bog. The ground trembles as the Lux is absorbed."))
+								span_boldnotice("You feed the heart of the bog. The ground trembles as the Lux is absorbed."))
 
 
 		qdel(W)
