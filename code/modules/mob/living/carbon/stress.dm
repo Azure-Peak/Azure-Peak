@@ -185,7 +185,7 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 			random_stress_message()
 
 	if(new_stress >= 20)
-		if(!HAS_TRAIT(src, TRAIT_EORAN_CALM) && !HAS_TRAIT(src, TRAIT_EORAN_SERENE))
+		if(!HAS_TRAIT(src, TRAIT_EORAN_CALM) && !HAS_TRAIT(src, TRAIT_EORAN_SERENE) && !HAS_TRAIT(src, TRAIT_BAOTHAN_CALM))
 			roll_streak_freakout()
 
 	oldstress = new_stress
