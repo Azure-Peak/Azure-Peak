@@ -1,0 +1,10 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Skeletons no longer inexplicably bleed when their ribs or skull are broken."
+  - bugfix: "Necromancer summoned skeletons no longer drop gear on death, because people were exploiting it to repeatedly summon things and sell the gear."
+  - bugfix: "Conjured skeleton npcs of all types now properly mark their gear as scavenged."
+  - bugfix: "You can no longer nigh-instakill vampires and deadites by dumping 240 drams of blessed water on them. Don't ask."
+  - bugfix: "Elemental forge et al. no longer lie to you about how to revert. Resist to revert, you don't cast the spell again."
+  - bugfix: "The TGUI error screen no longer tells you to report issues downstream."
+  - bugfix: "Breathless trait now blocks \"breathing in spiky spores\"."

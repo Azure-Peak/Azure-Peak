@@ -1,0 +1,6 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "Added shoutbubble() for prominent shouted emotes."
+  - rscadd: "Added shout bubbles to painscream, warcry, agony, and firescream."
+  - code_imp: "warcry now records STATS_WARCRIES."

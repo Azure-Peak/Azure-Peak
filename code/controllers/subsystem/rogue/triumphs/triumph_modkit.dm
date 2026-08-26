@@ -122,6 +122,27 @@
 		)
 	result_item = null
 
+/obj/item/enchantingkit/triumph_weaponkit_urumi
+	name = "'Urumi' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Whip, a Bronze whip, a Silver Whip, or a Blacksteel Whip."
+	target_items = list(
+		/obj/item/rogueweapon/whip/silver				= /obj/item/rogueweapon/whip/silver/urumi,
+		/obj/item/rogueweapon/whip/bronze				= /obj/item/rogueweapon/whip/bronze/urumi,
+		/obj/item/rogueweapon/whip/blacksteel			= /obj/item/rogueweapon/whip/blacksteel/urumi,
+		/obj/item/rogueweapon/whip						= /obj/item/rogueweapon/whip/urumi
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_pata
+	name = "'Pata' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Katar, Silver Katar, or Bronze Katar."
+	target_items = list(
+		/obj/item/rogueweapon/katar/bronze				= /obj/item/rogueweapon/katar/pata/bronze,
+		/obj/item/rogueweapon/katar/silver				= /obj/item/rogueweapon/katar/pata/silver,
+		/obj/item/rogueweapon/katar						= /obj/item/rogueweapon/katar/pata
+		)
+	result_item = null
+
 /obj/item/enchantingkit/triumph_weaponkit_tri
 	name = "'Valorian Longsword' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword."
@@ -298,12 +319,23 @@
 
 /obj/item/enchantingkit/weapon/triumph_weaponkit_ida
 	name = "'Ida' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Shortsword or a Steel Shortsword."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Shortsword or Steel Shortsword."
 	target_items = list(
 		/obj/item/rogueweapon/sword/short/iron,
-		/obj/item/rogueweapon/sword/short
+		/obj/item/rogueweapon/sword/short,
 		)
 	result_item = /obj/item/rogueweapon/example/ida
+
+/obj/item/enchantingkit/triumph_weaponkit_khanda
+	name = "'Khanda' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Arming Sword, Steel Arming Sword, Silver Arming Sword, and Bronze Arming Sword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/silver			= /obj/item/rogueweapon/sword/silver/khanda,
+		/obj/item/rogueweapon/sword/bronze				= /obj/item/rogueweapon/sword/bronze/khanda,
+		/obj/item/rogueweapon/sword/iron					= /obj/item/rogueweapon/sword/iron/khanda,
+		/obj/item/rogueweapon/sword						= /obj/item/rogueweapon/sword/khanda
+		)
+	result_item = null
 
 /obj/item/enchantingkit/weapon/triumph_weaponkit_hwi
 	name = "'Hwi' morphing elixir"
@@ -461,6 +493,34 @@
 	desc = "A heavier alternative to the 'Njora' dagger, lengthened to adopt the more rigorous labors of fighting fiends. These Naledic-Lakkarian shortswords \
 	are said to be the closest inheritors of an ancient design; of the first swords wielded by Man, in the tymes before Syon, against the ultimate evil."
 	icon_state = "ida"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/sword/khanda
+	name = "steel khanda"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A flat headed, double-edged straight sword hailing from Raneshen, Xylix is oft depicted wielding this blade in ancient Ranesheni murals. The Khanda been long adapted as a symbol for freedom-fighters across the nation."
+	icon_state = "khanda"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/sword/iron/khanda
+	name = "iron khanda"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A flat headed, double-edged straight sword hailing from Raneshen, Xylix is oft depicted wielding this blade in ancient Ranesheni murals. The Khanda been long adapted as a symbol for freedom-fighters across the nation."
+	icon_state = "ikhanda"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/sword/silver/khanda
+	name = "silver khanda"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A flat headed, double-edged straight sword hailing from Raneshen, Xylix is oft depicted wielding this blade in ancient Ranesheni murals. The Khanda been long adapted as a symbol for freedom-fighters across the nation."
+	icon_state = "silver_khanda"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/sword/bronze/khanda
+	name = "bronze khanda"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A flat headed, double-edged straight sword hailing from Raneshen, Xylix is oft depicted wielding this blade in ancient Ranesheni murals. The Khanda been long adapted as a symbol for freedom-fighters across the nation."
+	icon_state = "bronze_khanda"
 	sheathe_icon = "sbroadsword"
 
 /obj/item/rogueweapon/example/hwi
@@ -805,6 +865,41 @@
 	name = "blacksteel-tipped whip"
 	desc = "'Dance with me, my friend. Hear how the crowd adores you!'"
 	icon_state = "whip_blacksteel"
+
+/obj/item/rogueweapon/whip/urumi
+	name = "iron urumi"
+	desc = "A bladed elven whip-sword that originated off of the western coast of Raneshen. It is exceptionally deadly in trained hands, one must be careful not to slice off their own fingers when wielding this."
+	icon_state = "iurumi"
+
+/obj/item/rogueweapon/whip/bronze/urumi
+	name = "bronze urumi"
+	desc = "A twinbladed elven whip-sword that originated off of the western coast of Raneshen. It is exceptionally deadly in trained hands, one must be careful not to slice off their own fingers when wielding this."
+	icon_state = "burumi"
+
+/obj/item/rogueweapon/whip/silver/urumi
+	name = "ornate silver urumi"
+	desc = "An ornate, twinbladed elven whip-sword that originated near the western coast of Raneshen. It is exceptionally deadly in trained hands, one must be careful not to slice off their own fingers when wielding this."
+	icon_state = "dec_urumi"
+
+/obj/item/rogueweapon/whip/blacksteel/urumi
+	name = "blacksteel urumi"
+	desc = "A shimmering, twinbladed elven whip-sword that originated near the western coast of Raneshen. It is exceptionally deadly in trained hands, one must be careful not to slice off their own fingers when wielding this."
+	icon_state = "bs_urumi"
+
+/obj/item/rogueweapon/katar/pata
+	name = "steel pata"
+	desc = "Originating from the Eastern Underdark, this fusion of gauntlet and dagger is rare to see on the surfaces of Psydonia. It's usually wielded by either the most eccentric or wealthy of martial artists."
+	icon_state = "pata_steel"
+
+/obj/item/rogueweapon/katar/pata/bronze
+	name = "bronze pata"
+	desc = "Originating from the Eastern Underdark, this fusion of gauntlet and dagger is rare to see on the surfaces of Psydonia. It's usually wielded by either the most eccentric or wealthy of martial artists."
+	icon_state = "pata_bronze"
+
+/obj/item/rogueweapon/katar/pata/silver
+	name = "ornate silver pata"
+	desc = "Originating from the Eastern Underdark, this fusion of gauntlet and dagger is rare to see on the surfaces of Psydonia. It's usually wielded by either the most eccentric or wealthy of martial artists."
+	icon_state = "pata_silver"
 
 /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 	name = "valorian axe"

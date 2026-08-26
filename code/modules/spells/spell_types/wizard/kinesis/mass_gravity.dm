@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/mass_gravity
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Mass Gravity"
+	expose_caster_on_deflect = FALSE
 	desc = "Weighten space in an entire area, crushing everyone within and bringing them to the ground. \
 	Stronger opponents will resist and merely be off-balanced. \
 	The spell takes longer to materialize than its single-target counterpart, but covers a much larger zone.\n\n\
@@ -90,9 +91,10 @@
 				var/remaining = round((L.mob_timers[MT_GRAVITY_ADAPTATION] + GRAVITY_ADAPTATION_COOLDOWN - world.time) / 10)
 				L.balloon_alert_to_viewers("<font color='#7B68EE'>gravity adapted ([remaining]s)!</font>")
 			if(L.STASTR <= str_threshold)
-				arcyne_strike(owner, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
+				if(arcyne_strike(owner, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
 					spell_name = "Mass Gravity", damage_type = BRUTE, \
-					skip_animation = TRUE)
+					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 				if(!adapted)
 					L.Knockdown(knockdown_time)
 					L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time
@@ -100,9 +102,10 @@
 				else
 					to_chat(L, span_userdanger("The gravity crushes me, but I keep my footing!"))
 			else
-				arcyne_strike(owner, L, null, resisted_damage, target_zone, BCLASS_BLUNT, \
+				if(arcyne_strike(owner, L, null, resisted_damage, target_zone, BCLASS_BLUNT, \
 					spell_name = "Mass Gravity", damage_type = BRUTE, \
-					skip_animation = TRUE)
+					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 				if(!adapted)
 					L.OffBalance(offbalance_time)
 					L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time

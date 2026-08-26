@@ -412,6 +412,12 @@
 			continue
 		I.mark_as_looted()
 
+/mob/living/carbon/human/proc/flag_gear_as_worn()
+	for(var/obj/item/I in get_all_gear())
+		if(!istype(I, /obj/item/clothing) && !istype(I, /obj/item/rogueweapon) && !istype(I, /obj/item/gun) && !istype(I, /obj/item/storage))
+			continue
+		I.mark_as_worn()
+
 
 //delete all equipment without dropping anything
 /mob/living/carbon/human/proc/delete_equipment()

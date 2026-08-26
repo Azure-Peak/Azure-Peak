@@ -42,6 +42,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	// of the mob
 	var/deadchat_name
 	var/datum/spawners_menu/spawners_menu
+	var/datum/orbit_menu/orbit_menu
+	var/orbiting_ref
 	var/ghostize_time = 0
 	move_resist = INFINITY
 
@@ -222,6 +224,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	STOP_PROCESSING(SShaunting, src)
 
 	QDEL_NULL(spawners_menu)
+	QDEL_NULL(orbit_menu)
 	return ..()
 
 /mob/dead/CanPass(atom/movable/mover, turf/target)
@@ -511,6 +514,9 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(trapped)
 		return
 
+	if(is_hidden_from_ghosts(target, src))
+		return
+
 	var/icon/I = icon(target.icon,target.icon_state,target.dir)
 
 	var/orbitsize = (I.Width()+I.Height())*0.5
@@ -531,6 +537,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			rot_seg = 36 //360/10 bby, smooth enough aproximation of a circle
 
 	orbit(target,orbitsize, FALSE, 20, rot_seg)
+	orbiting_ref = REF(target)
 
 /mob/dead/observer/orbit()
 	setDir(2)//reset dir so the right directional sprites show up
@@ -539,6 +546,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 /mob/dead/observer/stop_orbit(datum/component/orbiter/orbits)
 	. = ..()
+	orbiting_ref = null
 	//restart our floating animation after orbit is done.
 	pixel_y = 0
 	pixel_x = 0
@@ -892,6 +900,16 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	spawners_menu.ui_interact(src)
 
+/mob/dead/observer/proc/open_orbit_menu()
+	set name = "Orbit"
+	set desc = ""
+	set category = "Ghost"
+	set hidden = 1
+	if(!orbit_menu)
+		orbit_menu = new(src)
+
+	orbit_menu.ui_interact(src)
+
 /mob/dead/observer/proc/tray_view()
 	set name = "T-ray view"
 	set desc = ""
@@ -920,3 +938,369 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			client.images += t_ray_images
 		else
 			client.images -= stored_t_ray_images
+
+
+/datum/orbit_menu
+	var/mob/dead/observer/owner
+	var/list/cached_orbit_data
+	var/cached_orbit_data_user_ref
+	var/cached_orbit_data_time = 0
+	var/orbit_cache_ttl_ds = 10
+
+/datum/orbit_menu/New(mob/dead/observer/new_owner)
+	if(!istype(new_owner))
+		qdel(src)
+		return
+	owner = new_owner
+	..()
+
+/datum/orbit_menu/Destroy()
+	cached_orbit_data = null
+	cached_orbit_data_user_ref = null
+	owner = null
+	return ..()
+
+/datum/orbit_menu/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Orbit", "Orbit", 460, 560)
+		ui.set_state(GLOB.observer_state)
+		ui.set_autoupdate(FALSE)
+		ui.open()
+
+/datum/orbit_menu/ui_static_data(mob/user)
+	return get_orbit_data_snapshot(user)
+
+/datum/orbit_menu/ui_data(mob/user)
+	var/list/data = list()
+	data["orbiting_ref"] = owner?.orbiting_ref
+	return data
+
+/datum/orbit_menu/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
+		return TRUE
+
+	if(!istype(owner) || !isobserver(ui?.user))
+		return TRUE
+
+	switch(action)
+		if("orbit")
+			var/ref = params["ref"]
+			if(!ref)
+				return TRUE
+
+			var/atom/movable/target = locate(ref)
+			if(!istype(target))
+				to_chat(ui.user, span_notice("That target is no longer available."))
+				return TRUE
+
+			if(istype(target, /mob/dead/new_player))
+				to_chat(ui.user, span_notice("You cannot orbit lobby players."))
+				return TRUE
+
+			if(is_hidden_from_ghosts(target, owner))
+				to_chat(ui.user, span_notice("That target is protected from ghost orbit."))
+				return TRUE
+
+			owner.ManualFollow(target)
+			SStgui.update_uis(src)
+			return TRUE
+
+		if("refresh")
+			invalidate_orbit_cache()
+			ui.send_full_update()
+			return TRUE
+
+	return FALSE
+
+/datum/orbit_menu/proc/invalidate_orbit_cache()
+	cached_orbit_data = null
+	cached_orbit_data_user_ref = null
+	cached_orbit_data_time = 0
+
+/datum/orbit_menu/proc/get_orbit_data_snapshot(mob/user)
+	if(!istype(user))
+		return build_orbit_data(user)
+
+	var/user_ref = REF(user)
+	if(cached_orbit_data && cached_orbit_data_user_ref == user_ref && (world.time - cached_orbit_data_time) <= orbit_cache_ttl_ds)
+		return cached_orbit_data
+
+	var/list/data = build_orbit_data(user)
+
+	cached_orbit_data = data
+	cached_orbit_data_user_ref = user_ref
+	cached_orbit_data_time = world.time
+	return data
+
+/datum/orbit_menu/proc/build_orbit_data(mob/user)
+	var/list/data = list(
+		"alive" = list(),
+		"dead" = list(),
+		"ghosts" = list(),
+	)
+
+	var/list/namecounts_alive = list()
+	var/list/namecounts_dead = list()
+	var/list/namecounts_ghosts = list()
+	var/list/role_color_cache = list()
+
+	for(var/mob/M in sortmobs())
+		if(M.client?.holder?.fakekey)
+			continue
+		if(istype(M, /mob/dead/new_player))
+			continue
+		if(is_hidden_from_ghosts(M, user))
+			continue
+
+		if(isobserver(M))
+			append_serialized_target(data["ghosts"], M, namecounts_ghosts, role_color_cache)
+			continue
+
+		if(M.stat == DEAD)
+			if(!M.mind && !M.ckey)
+				continue
+			append_serialized_target(data["dead"], M, namecounts_dead, role_color_cache)
+			continue
+
+		if(istype(M, /mob/living/carbon/human/species/npc/deadite))
+			continue
+
+		if(!M.mind && !M.ckey)
+			continue
+
+		append_serialized_target(data["alive"], M, namecounts_alive, role_color_cache)
+
+	return data
+
+/datum/orbit_menu/proc/append_serialized_target(list/bucket, atom/movable/target, list/namecounts, list/role_color_cache)
+	if(!islist(bucket))
+		return
+
+	var/list/entry = serialize_atom(target, namecounts, role_color_cache)
+	if(!entry)
+		return
+
+	bucket += list(entry)
+
+/datum/orbit_menu/proc/get_role_selection_color(assigned_role, list/role_color_cache, datum/job/J = null)
+	if(!assigned_role)
+		return null
+
+	if(role_color_cache)
+		var/cached_color = role_color_cache[assigned_role]
+		if(!isnull(cached_color))
+			return cached_color || null
+
+	var/resolved_color = null
+	if(!J)
+		J = SSjob.GetJob(assigned_role)
+	if(J)
+		var/department = SSjob.bitflag_to_department(J.department_flag, J.obsfuscated_job)
+		var/list/department_colors = JCOLOR_BY_DEPARTMENT
+		if(department_colors[department])
+			resolved_color = department_colors[department]
+		else if(J.selection_color)
+			resolved_color = J.selection_color
+
+	if(role_color_cache)
+		role_color_cache[assigned_role] = resolved_color || ""
+
+	return resolved_color
+
+/datum/orbit_menu/proc/get_orbit_antag_group(mob/M)
+	if(!istype(M) || !M.mind)
+		return null
+
+	var/special_role = M.mind.special_role
+	var/assigned_role = M.mind.assigned_role || M.job
+
+	for(var/datum/antagonist/A in M.mind.antag_datums)
+		var/list/candidate = get_orbit_antag_candidate(M, A, special_role, assigned_role)
+		if(candidate && candidate["group"])
+			return candidate["group"]
+
+	var/static/list/major_antag_typecache = typecacheof(list(
+		/datum/antagonist/werewolf,
+		/datum/antagonist/vampire,
+		/datum/antagonist/lich,
+	))
+	var/static/list/minor_antag_typecache = typecacheof(list(
+		/datum/antagonist/bandit,
+		/datum/antagonist/wretch,
+		/datum/antagonist/gnoll,
+	))
+
+	var/has_minor = FALSE
+	for(var/datum/antagonist/A in M.mind.antag_datums)
+		if(is_type_in_typecache(A, major_antag_typecache))
+			return "major"
+		if(is_type_in_typecache(A, minor_antag_typecache))
+			has_minor = TRUE
+
+	if(has_minor)
+		return "minor"
+
+	return null
+
+/datum/orbit_menu/proc/get_orbit_antag_info(mob/M)
+	if(!istype(M) || !M.mind)
+		return null
+
+	var/best_priority = 100000
+	var/best_group = null
+	var/best_label = null
+	var/special_role = M.mind.special_role
+	var/assigned_role = M.mind.assigned_role || M.job
+
+	for(var/datum/antagonist/A in M.mind.antag_datums)
+		var/list/candidate = get_orbit_antag_candidate(M, A, special_role, assigned_role)
+		if(!candidate)
+			continue
+
+		var/candidate_priority = candidate["priority"]
+		if(candidate_priority < best_priority)
+			best_priority = candidate_priority
+			best_group = candidate["group"]
+			best_label = candidate["label"]
+
+	if(best_group && best_label)
+		return list(
+			"group" = best_group,
+			"label" = best_label,
+		)
+
+	return null
+
+/datum/orbit_menu/proc/get_orbit_antag_candidate(mob/M, datum/antagonist/A, special_role, assigned_role)
+	if(!istype(A))
+		return null
+
+	if(istype(A, /datum/antagonist/vampire/lord))
+		return list("priority" = 10, "group" = "major", "label" = "Vampire Lord")
+	if(istype(A, /datum/antagonist/vampire/ancillae))
+		return list("priority" = 11, "group" = "major", "label" = "Ancillae Vampire")
+	if(istype(A, /datum/antagonist/vampire/licker))
+		return list("priority" = 12, "group" = "major", "label" = "Lesser Vampire")
+	if(istype(A, /datum/antagonist/vampire/thinblood))
+		return list("priority" = 13, "group" = "major", "label" = "Thinblood Vampire")
+	if(istype(A, /datum/antagonist/vampire))
+		var/datum/antagonist/vampire/V = A
+		if(V.generation >= GENERATION_METHUSELAH)
+			return list("priority" = 14, "group" = "major", "label" = "Vampire Lord")
+		if(special_role == "Vampire Spawn")
+			return list("priority" = 15, "group" = "major", "label" = "Vampire Spawn")
+		return list("priority" = 16, "group" = "major", "label" = "Lesser Vampire")
+
+	if(istype(A, /datum/antagonist/werewolf))
+		if(A.name == "Lesser Verevolf")
+			return list("priority" = 20, "group" = "major", "label" = "Lesser Werewolf")
+		return list("priority" = 21, "group" = "major", "label" = "Werewolf")
+
+	if(istype(A, /datum/antagonist/lich))
+		return list("priority" = 30, "group" = "major", "label" = "Lich")
+
+	if(istype(A, /datum/antagonist/skeleton/knight))
+		return list("priority" = 40, "group" = "minor", "label" = "Death Knight")
+	if(istype(A, /datum/antagonist/skeleton))
+		if(special_role == ROLE_LICH_SKELETON)
+			return list("priority" = 41, "group" = "minor", "label" = "Lich Skeleton")
+		if(special_role == ROLE_NECRO_SKELETON)
+			return list("priority" = 42, "group" = "minor", "label" = "Necromancer Skeleton")
+		if(HAS_TRAIT(M, TRAIT_LICHLAIR))
+			return list("priority" = 43, "group" = "minor", "label" = "Lich Skeleton")
+		if(assigned_role == "Fortified Skeleton" || assigned_role == "Greater Skeleton")
+			return list("priority" = 44, "group" = "minor", "label" = "Necromancer Skeleton")
+		return list("priority" = 45, "group" = "minor", "label" = "Skeleton")
+
+	if(istype(A, /datum/antagonist/bandit))
+		return list("priority" = 50, "group" = "minor", "label" = "Bandit")
+	if(istype(A, /datum/antagonist/wretch))
+		return list("priority" = 51, "group" = "minor", "label" = "Wretch")
+	if(istype(A, /datum/antagonist/gnoll))
+		return list("priority" = 52, "group" = "minor", "label" = "Gnoll")
+
+	var/list/extra_candidate = get_orbit_extra_antag_candidate(A, special_role)
+	if(extra_candidate)
+		return extra_candidate
+
+	return null
+
+/datum/orbit_menu/proc/get_orbit_extra_antag_candidate(datum/antagonist/A, special_role)
+	var/static/list/orbit_extra_antag_definitions = list(
+		list("type" = /datum/antagonist/ascendant, "group" = "major", "priority" = 60),
+		list("type" = /datum/antagonist/dreamwalker, "group" = "major", "priority" = 61),
+		list("type" = /datum/antagonist/unbound_death_knight, "group" = "major", "priority" = 62),
+		list("type" = /datum/antagonist/zizo_knight, "group" = "major", "priority" = 63),
+		list("type" = /datum/antagonist/prebel/head, "group" = "minor", "priority" = 70),
+		list("type" = /datum/antagonist/prebel, "group" = "minor", "priority" = 71),
+		list("type" = /datum/antagonist/aspirant, "group" = "minor", "priority" = 72),
+		list("type" = /datum/antagonist/assassin, "group" = "minor", "priority" = 73),
+		list("type" = /datum/antagonist/hag, "group" = "minor", "priority" = 74)
+	)
+
+	for(var/list/def in orbit_extra_antag_definitions)
+		if(istype(A, def["type"]))
+			return list(
+				"priority" = def["priority"],
+				"group" = def["group"],
+				"label" = A.name || special_role || "Antagonist",
+			)
+
+	return null
+
+/datum/orbit_menu/proc/serialize_atom(atom/movable/target, list/namecounts, list/role_color_cache)
+	if(!istype(target))
+		return null
+
+	var/display_name
+	if(ismob(target))
+		var/mob/M = target
+		display_name = avoid_assoc_duplicate_keys(M.real_name || M.name, namecounts)
+		if(M.real_name && M.real_name != M.name)
+			display_name += " \[[M.name]\]"
+	else
+		display_name = avoid_assoc_duplicate_keys(target.name, namecounts)
+
+	var/orbiter_count = 0
+	if(target.orbiters)
+		orbiter_count = length(target.orbiters.orbiters)
+
+	var/list/entry = list(
+		"full_name" = display_name,
+		"ref" = REF(target),
+		"orbiters" = orbiter_count,
+	)
+
+	if(ismob(target))
+		var/mob/M = target
+		if(M.stat != DEAD && !isobserver(M))
+			var/list/antag_info = get_orbit_antag_info(M)
+			if(antag_info)
+				entry["antag_group"] = antag_info["group"]
+				entry["antag_role"] = antag_info["label"]
+			else
+				var/antag_group = get_orbit_antag_group(M)
+				if(antag_group)
+					entry["antag_group"] = antag_group
+		if(M.mind?.assigned_role)
+			var/assigned_role = M.mind.assigned_role
+			entry["role"] = assigned_role
+			var/datum/job/J = SSjob.GetJob(assigned_role)
+			if(J)
+				var/job_department = SSjob.bitflag_to_department(J.department_flag, J.obsfuscated_job)
+				if(job_department)
+					entry["department"] = job_department
+			var/selection_color = get_role_selection_color(assigned_role, role_color_cache, J)
+			if(selection_color)
+				entry["selection_color"] = selection_color
+		if(M.job)
+			entry["job"] = M.job
+		if(isliving(M))
+			var/mob/living/L = M
+			if(L.maxHealth > 0)
+				entry["health_percent"] = round(clamp((L.health / L.maxHealth) * 100, 0, 100))
+		if(istype(M, /mob/living/carbon/human/species/npc/deadite))
+			entry["role"] = "Deadite NPC"
+
+	return entry

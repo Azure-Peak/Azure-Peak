@@ -40,6 +40,7 @@
 	screen_max_columns = 3
 	max_w_class = WEIGHT_CLASS_HUGE
 	not_while_equipped = TRUE
+	allow_big_nesting = TRUE
 
 /datum/component/storage/concrete/roguetown/messkit/New(datum/P, ...)
 	. = ..()
@@ -55,6 +56,10 @@
 	screen_max_columns = 1
 	max_w_class = WEIGHT_CLASS_NORMAL
 	not_while_equipped = FALSE
+
+/datum/component/storage/concrete/roguetown/coin_pouch/New(list/raw_args)
+	. = ..()
+	cant_hold = typecacheof(list(/obj/item/smallDelivery))
 
 /datum/component/storage/concrete/roguetown/coin_pouch/cloth
 	screen_max_rows = 2
@@ -75,6 +80,7 @@
 	allow_dump_out = TRUE
 	click_gather = TRUE
 	attack_hand_interact = FALSE
+	insert_verb = "slide"
 	insert_preposition = "on"
 	rustle_sound = 'sound/items/gems (1).ogg'
 
@@ -183,6 +189,7 @@
 	max_w_class = WEIGHT_CLASS_NORMAL
 
 /datum/component/storage/concrete/tray
+	insert_verb = "place"
 	insert_preposition = "on"
 	max_w_class = WEIGHT_CLASS_NORMAL
 	screen_max_rows = 3
@@ -191,7 +198,9 @@
 	allow_quick_empty = TRUE
 	allow_dump_out = TRUE
 	dump_time = 40
+	click_gather = TRUE
 	collection_mode = COLLECT_SAME
+	does_not_spill = TRUE
 
 /datum/component/storage/concrete/tray/spill_contents(obj/A)
 	if (A.throwing)
@@ -289,3 +298,36 @@
 	max_w_class = WEIGHT_CLASS_HUGE
 	screen_max_rows = 8
 	screen_max_columns = 4
+
+/datum/component/storage/concrete/grid/food/cooking
+	grid = TRUE
+	max_w_class = WEIGHT_CLASS_HUGE
+
+/datum/component/storage/concrete/grid/food/cooking/New(datum/P, ...)
+	. = ..()
+	set_holdable(list(
+		/obj/item/reagent_containers/food,
+		/obj/item/natural,
+		/obj/item/alch,
+		/obj/item/reagent_containers/powder,
+		/obj/item/organ,
+		/obj/item/seeds,
+		))
+
+/datum/component/storage/concrete/grid/food/cooking/pan
+	screen_max_rows = 2
+	screen_max_columns = 2
+	insert_verb = "place"
+	insert_preposition = "on"
+
+/datum/component/storage/concrete/grid/food/cooking/oven
+	screen_max_rows = 2
+	screen_max_columns = 3
+	insert_verb = "slide"
+	insert_preposition = "in"
+
+/datum/component/storage/concrete/grid/food/cooking/pot
+	screen_max_rows = 3
+	screen_max_columns = 3
+	insert_verb = "put"
+	insert_preposition = "in"

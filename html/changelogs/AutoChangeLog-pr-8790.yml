@@ -1,0 +1,6 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - bugfix: "bog trolls will no longer be super buggy looking when they hit you or stay in ball form."
+  - rscadd: "implemented cave troll's special hiding animation :)"
+  - bugfix: "spellchecked claws missing"

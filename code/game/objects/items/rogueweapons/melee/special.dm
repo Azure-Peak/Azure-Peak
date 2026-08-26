@@ -743,7 +743,7 @@
 					ignited = TRUE
 			if(isliving(target))
 				var/mob/living/M = target
-				apply_scorch_stack(M, 4, BODY_ZONE_CHEST)
+				apply_scorch_stack(M, 3, BODY_ZONE_CHEST)
 				ignited = TRUE
 			if(ignited && single_use)
 				is_active = FALSE
