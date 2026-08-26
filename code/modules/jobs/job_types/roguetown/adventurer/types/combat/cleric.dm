@@ -527,6 +527,7 @@
 				switch(cloakchoice)
 					if("Robe")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/absolutionistrobe/black, SLOT_CLOAK, TRUE)
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_ARMOR, TRUE) //it looks nicer layered this way and stands out from cantor more
 					if("Tabard")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE)
 		if(/datum/patron/divine/undivided)
