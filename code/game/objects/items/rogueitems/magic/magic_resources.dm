@@ -56,6 +56,7 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
 	alternate_worn_layer	= 8.9
+	materia = list(/datum/materia_aspect/arcyne, /datum/materia_aspect/herb)
 
 /obj/item/magic/manacrystal
 	name = "crystalized mana"
