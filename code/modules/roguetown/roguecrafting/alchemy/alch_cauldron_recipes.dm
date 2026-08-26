@@ -145,7 +145,7 @@
 /datum/alch_cauldron_recipe/trait/waterbreathing
 	name = "Elixir of Hadal Grace"
 	smells_like = "the sea"
-	output_reagents =list(/datum/reagent/medicine/trait/waterbreathing = 30) // this one's slightly gamer potentially
+	output_reagents =list(/datum/reagent/medicine/trait/waterbreathing = 90) // this one's slightly gamer potentially edit: no it wasn't lmao
 
 /datum/alch_cauldron_recipe/trait/nutrientslurry
 	name = "Nourishing Draught"
