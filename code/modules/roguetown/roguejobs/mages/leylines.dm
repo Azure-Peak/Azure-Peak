@@ -154,6 +154,10 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	. = ..()
 	if(istype(get_area(src), /area/rogue/indoors/town/magician) && (SSmapping.config.map_name != "Dun World")) // hacky temp measure
 		new /obj/item/trans_table_upgrade(loc)
+		new /obj/item/alch/catalyst/florid(loc)
+		new /obj/item/alch/catalyst/terran(loc)
+		new /obj/item/alch/catalyst/nigredo(loc)
+		new /obj/item/storage/roguebag/trans(loc)
 
 /obj/structure/leyline/normal
 	leyline_type = "normal"
