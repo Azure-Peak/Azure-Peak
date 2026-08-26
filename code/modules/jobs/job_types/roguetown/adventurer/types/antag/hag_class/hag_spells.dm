@@ -392,7 +392,7 @@
 
 /obj/effect/proc_holder/spell/invoked/take_name
 	name = "Onomastic Siphon"
-	desc = "Steals the target's name and identity, so long as they give it to you freely. It will become a boon you can bestow, at a cost of 20 points. Must be cast ONLY after you trick or convince the target into 'giving you' their name, even if only technically; for example, if they respond to 'May I have your name?' with just their name, that counts; but if they say 'You may call me XYZ', it doesn't. Has a check to prevent someone masked from giving you a fake name you have no way of knowing is fake, but otherwise, THE RESPONSIBILITY IS ON YOU TO USE THIS PROPERLY. Using this inappropriately will be considered bad faith and punished appropriately."
+	desc = "Steals the target's name and identity, so long as they give it to you freely. It will become a boon you can bestow, at a cost of 20 points (you can cast this on them again to take it back, if you need to do that to give them a new one). Unless you're reclaiming an identity boon, this must be cast ONLY after you trick or convince the target into 'giving you' their name, even if only technically; for example, if they respond to 'May I have your name?' with just their name, that counts; but if they say 'You may call me XYZ', it doesn't. Has a check to prevent someone masked from giving you a fake name you have no way of knowing is fake, but otherwise, THE RESPONSIBILITY IS ON YOU TO USE THIS PROPERLY. Using this inappropriately will be considered bad faith and punished appropriately."
 	invocation_type = "whisper"
 	invocations = list("Give me all that you are.")
 	recharge_time = 5 SECONDS
@@ -434,6 +434,19 @@
 		if(alert(user, "Have you read the description of this spell? It contains EXTREMELY important information about its use. Please, PLEASE read it, or you might do something rule-breaking.", "Confirmation", "Stop", "Proceed") != "Proceed")
 			return FALSE
 		confirmed_read = TRUE
+
+	var/datum/component/hag_name/existing_name = victim.GetComponent(/datum/component/hag_name)
+	if(existing_name && (existing_name.identity.name != "Unknown")) // we've already given them this name, so we obviously already know it
+		H.stored_names[existing_name.identity.name] = existing_name.identity
+		H.prepared_boons[/datum/hag_boon/name] = (H.prepared_boons[/datum/hag_boon/name] || 0) + 1
+		for(var/datum/hag_boon/existing in H.boon_registry[victim.real_name])
+			if(istype(existing, /datum/hag_boon/name))
+				qdel(existing)
+		QDEL_NULL(existing_name)
+		H.AddComponent(/datum/component/hag_name, new /datum/hag_identity())
+	else if(existing_name) // they are 'nameless'
+		to_chat(user, span_warning("They are already nameless!"))
+		return FALSE
 
 	var/name2check = tgui_input_text(user, "What name did they give you? (Don't include titles; just the first or last name alone is fine, as long as it's what they gave you)", max_length=MAX_NAME_LEN, encode=FALSE) // we do not want html formatting to fuck up apostrophes and the like
 
@@ -481,7 +494,8 @@
 		custom_descriptors[12],
 		custom_descriptors[10],
 		custom_descriptors[9],
-		HAS_TRAIT(src, TRAIT_NOBLE)
+		HAS_TRAIT(src, TRAIT_NOBLE),
+		real_name
 	)
 
 /obj/effect/proc_holder/spell/invoked/possess_vessel

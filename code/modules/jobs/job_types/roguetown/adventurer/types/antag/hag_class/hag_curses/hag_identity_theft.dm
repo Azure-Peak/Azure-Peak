@@ -8,9 +8,10 @@
 	var/custom_stature									// custom_descriptor_entry instance for stature
 	var/custom_voice									// custom_descriptor_entry instance for voice
 	var/nobility										// boolean for if this identity is noble
+	var/donor											// truename of the person that granted this. giving it back to them won't incur a point cost
 
 /// pass in all the flags to give a new identity as a boon. pass in none of them to make them nameless
-/datum/hag_identity/New(new_name, new_color, new_trait, new_stature, new_voice, ctrait, cstature, cvoice, noble)
+/datum/hag_identity/New(new_name, new_color, new_trait, new_stature, new_voice, ctrait, cstature, cvoice, noble, victim)
 	. = ..()
 	if(new_name) // we're giving a name boon
 		name = new_name
@@ -22,6 +23,7 @@
 		custom_stature = cstature
 		custom_voice = cvoice
 		nobility = noble
+		donor = victim
 	else // we're stealing a name
 		name = "Unknown"
 		name_color = "#a0a0a0"

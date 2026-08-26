@@ -19,6 +19,8 @@
 		return
 
 	var/datum/hag_identity/ID = HCT.stored_names[name2give]
+	if(ID.donor == L.real_name) // this is THEIR name; giving it back is an act of charity and doesn't incur a point cost
+		points = 0
 
 	qdel(H.GetComponent(/datum/component/hag_name))
 	H.AddComponent(/datum/component/hag_name, ID)
