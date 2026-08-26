@@ -425,7 +425,7 @@
 
 /datum/transmutation_recipe/xanthosis/dorpel
 	name = "Dorpel Harmonization"
-	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/turq = 1) // gold is 50, blortz 88, dorpel 121. only a 17 mammon loss this time. hooray? you're almost there
+	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/blue = 1) // gold is 50, blortz 88, dorpel 121. only a 17 mammon loss this time. hooray? you're almost there
 	output_items = list(/obj/item/roguegem/diamond = 1)
 
 // RUBEDO: lit 'reddening'. the final stage of the great work, its recipes unite the spiritual and physical to create potent alchemical reagents
