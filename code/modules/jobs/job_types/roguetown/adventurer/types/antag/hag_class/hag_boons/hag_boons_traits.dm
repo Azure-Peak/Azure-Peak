@@ -42,7 +42,7 @@
 
 /datum/hag_boon/trait/beautiful/apply_boon_effect(mob/living/L) // these traits are all mutually exclusive
 	. = ..()
-	REMOVE_TRAIT(L, TRAIT_UGLY, null)
+	REMOVE_TRAIT(L, TRAIT_DISFIGURED, null)
 	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL_UNCANNY, null)
 
 /datum/hag_boon/trait/beautiful_uncanny
@@ -53,7 +53,7 @@
 
 /datum/hag_boon/trait/beautiful_uncanny/apply_boon_effect(mob/living/L) // these traits are all mutually exclusive
 	. = ..()
-	REMOVE_TRAIT(L, TRAIT_UGLY, null)
+	REMOVE_TRAIT(L, TRAIT_DISFIGURED, null)
 	REMOVE_TRAIT(L, TRAIT_BEAUTIFUL, null)
 
 /datum/hag_boon/trait/leaper

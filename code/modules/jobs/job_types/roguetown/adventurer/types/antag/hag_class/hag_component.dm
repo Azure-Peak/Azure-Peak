@@ -95,6 +95,8 @@
 		if(hag_mob && hag_mob.mind && victim)
 			hag_mob.mind.i_know_person(victim)
 
+
+	var/mob/living/victim = find_target(true_name)
 	var/datum/hag_boon/B = new boon_path(true_name, src, set_points, parent)
 	if(victim && HAS_TRAIT(victim, TRAIT_FEYTOUCHED))
 		B.transmutable = FALSE // you can't curse your feytouched for ez levelups
