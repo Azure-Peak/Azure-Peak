@@ -499,7 +499,7 @@
 	)
 
 /obj/effect/proc_holder/spell/invoked/possess_vessel
-	name = "Take Vessel"
+	name = "Feybound Dominion"
 	desc = "Possess any vessel under your command, taking full control of their body. Your original body will lie dormant until you cast the spell again. The vessel's previous occupant will remain nearby, able to observe and communicate with you, but not act."
 	recharge_time = 1 MINUTES
 	overlay_icon = 'icons/mob/actions/hagspells.dmi'
