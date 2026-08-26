@@ -199,6 +199,7 @@
 		user.visible_message(span_notice("[user] tinkers with [O], setting up an advanced alchemical workspace!"), span_notice("I set out my tools and upgrade [O]."))
 		qdel(O)
 		new /obj/structure/fluff/alch/trans(newloc)
+		qdel(src)
 
 /datum/crafting_recipe/roguetown/alchemy/transmutation_equipment
 	name = "transmutation equipment"
