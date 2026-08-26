@@ -66,30 +66,35 @@
 	materia_aspects = list(/datum/materia_aspect/earth)
 	input_items = list(/obj/item/natural/clay = 2)
 	output_items = list(/obj/item/natural/stone = 2) // you need either 3 clay or 2 clay and a rock for this - so you get 2 outputs, still a loss
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/terran/clay
 	name = "Stone Plasticization (Clay)" // from plasticity, the "defining mechanical property of clay" (thanks wikipedia)
 	materia_aspects = list(/datum/materia_aspect/water)
 	input_items = list(/obj/item/natural/stone = 2)
 	output_items = list(/obj/item/natural/clay = 2)
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/terran/moreclay
 	name = "Dirt Plasticization (Clay)"
 	materia_aspects = list(/datum/materia_aspect/water)
 	input_items = list(/obj/item/natural/dirtclod = 2)
 	output_items = list(/obj/item/natural/clay = 2)
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/terran/dirt
 	name = "Clay Dehydration (Dirt)"
 	materia_aspects = list(/datum/materia_aspect/fire)
 	input_items = list(/obj/item/natural/clay = 2)
 	output_items = list(/obj/item/natural/dirtclod = 2)
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/terran/dirtbulk
 	name = "Stone Weathering (Dirt)"
 	materia_aspects = list(/datum/materia_aspect/earth)
 	input_items = list(/obj/item/natural/stone = 3)
 	output_items = list(/obj/item/natural/dirtclod = 8)
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/terran/coal
 	name = "Stone Carbonization (Coal)"
@@ -115,6 +120,7 @@
 	materia_aspects = list(/datum/materia_aspect/metal)
 	input_items = list(/obj/item/rogueore/coal = 2) // need iron to make iron, so this is effectively the old 2 coal : 1 iron ratio which adds up given their sellprices
 	output_items = list(/obj/item/rogueore/iron = 2)
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/aeneic/copper
 	name = "Chalkóspoeia (Copper)" // this one is entirely greek, because i like making nerds uncomfortable
@@ -191,6 +197,7 @@
 	name = "Nigredic Decomposition"
 	input_items = list(/obj/item = 1)
 	output_items = list(/obj/item/ingot = 1) // dummy
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/nigredo/smelt_decomposition/validate_ingredient(obj/item/I)
 	return I.smeltresult && (I.smeltresult != I.type) // anything that can be smelted will work here... as long as it's not a loop

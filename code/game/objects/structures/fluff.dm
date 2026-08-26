@@ -1107,6 +1107,8 @@
 	for(var/obj/item/I in env_items)
 		if(!length(I.materia))
 			continue
+		if(I.type in R.do_not_use)
+			continue
 		for(var/path in I.materia)
 			if(materia_reqs.Find(path))
 				materia_items |= list(I)

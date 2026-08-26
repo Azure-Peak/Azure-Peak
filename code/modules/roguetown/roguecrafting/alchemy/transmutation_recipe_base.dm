@@ -13,6 +13,7 @@
 	var/subtype_reqs = TRUE							// whether or not the recipe accepts subtypes. set to false if you run into inheritance issues
 	var/snowflake_hidden = FALSE					// sigh
 	var/unique_sellable = FALSE						// if this recipe is making something unique, like bath bombs, that should in fact be sellable
+	var/allow_output_materia = FALSE				// set to true to allow consuming output items for materia - i.e. if this is false, the stone to coal recipe will never try to eat coal for terra
 
 /datum/transmutation_recipe/New()
 	. = ..()
