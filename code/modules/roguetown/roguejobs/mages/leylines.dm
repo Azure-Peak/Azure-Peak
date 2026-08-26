@@ -150,6 +150,11 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	max_tier = 1
 	color = "#C0C0FF" // soft blue-white — tame, safe
 
+/obj/structure/leyline/tamed/Initialize(mapload)
+	. = ..()
+	if(istype(get_area(src), /area/rogue/indoors/town/magician) && (SSmapping.config.map_name != "Dun World")) // hacky temp measure
+		new /obj/item/trans_table_upgrade(loc)
+
 /obj/structure/leyline/normal
 	leyline_type = "normal"
 	max_tier = 4

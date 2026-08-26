@@ -30039,7 +30039,7 @@
 /area/rogue/indoors/town/manor)
 "fIC" = (
 /obj/structure/mirror,
-/obj/structure/fluff/alch/trans,
+/obj/structure/fluff/alch,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "fIH" = (
@@ -54818,7 +54818,7 @@
 /obj/effect/decal/cobbleedge{
 	dir = 9
 	},
-/obj/structure/fluff/alch/trans,
+/obj/structure/fluff/alch,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "kmc" = (

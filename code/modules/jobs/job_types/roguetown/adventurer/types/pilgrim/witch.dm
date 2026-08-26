@@ -71,7 +71,8 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
+								/obj/item/chalk = 1,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -87,6 +88,7 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
@@ -107,7 +109,8 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
+								/obj/item/chalk = 1,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
