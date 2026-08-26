@@ -635,6 +635,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	var/trait	// applied on ingest, removed when the reagent clears the system
 	var/addmsg	// ex. "my body feels lighter", displayed to the imbiber on effect start
 	var/delmsg	// ex. "the weight of the world rests upon my shoulders once more", displayed to the imbiber on effect end
+	metabolization_rate = 0.05 * REAGENTS_METABOLISM // these REALLY aren't that impactful - this makes drinking one actually last a decent time instead of like 2 seconds
 
 /datum/reagent/medicine/trait/on_mob_metabolize(mob/living/L)
 	. = ..()
@@ -711,7 +712,6 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	scent_description = "the sea"
 	trait = TRAIT_NOBREATH
 	color = "#00255eff"
-	metabolization_rate = 2 * REAGENTS_METABOLISM // don't gamer too hard with this one please
 	addmsg = "I choke momentarily as my lungs adjust; then, suddenly, I stop breathing entirely."
 	delmsg = "With a gasp, air floods my lungs once more."
 
