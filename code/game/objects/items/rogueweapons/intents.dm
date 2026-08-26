@@ -692,7 +692,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	blade_class = BCLASS_CUT
-	miss_text = "claw at the air"
+	miss_text = "claws at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
 

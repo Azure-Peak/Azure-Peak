@@ -220,6 +220,7 @@
 #define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness + Does Necra's soulcheck thing.
 //Baotha
 #define TRAIT_CRACKHEAD "Blessing of Baotha" //will never overdose
+#define TRAIT_BAOTHAN_CALM "Baothan Calm" //no freakout! :3
 //Fraggar
 #define TRAIT_ORGAN_EATER "Blessing of Graggar" //can eat organs
 //Matthios
@@ -651,6 +652,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_STRENGTH_UNCAPPED = span_warning("MY STRENGTH IS UNBOUND!"),
 	TRAIT_MONK_ROBE = span_notice("I feel closer to the gods in my meager robes.. I feel vigorous, empowered by their light!"),
 	TRAIT_EORAN_CALM = span_notice("Eora has touched me, granting me some calm. She protects me from the peaks of my stress."),
+	TRAIT_BAOTHAN_CALM = span_notice("Baotha embraces and comforts me in my darkest and most stressful moments."),
 	TRAIT_EORAN_SERENE = span_greentext("Eora has blessed me with all-encompassing serenity. I feel no more stress."),
 	TRAIT_NECRAS_VOW = span_warning("I've pledged myself to Necra. If I fall, I am Hers."),
 	TRAIT_PESTRAS_BLESSING = span_infection("The sacred black rot of Pestra burns within me. Should intelligent foes try to harm me, they will feel her greatest plague."),
