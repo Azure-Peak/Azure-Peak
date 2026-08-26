@@ -522,7 +522,7 @@
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			if(H.mind)
-				var/cloaks = list("Robe + Tabard","Robe", "Tabard")
+				var/cloaks = list("Robe + Tabard", "Robe", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "DON THY VESTAMENTS") as anything in cloaks
 				switch(cloakchoice)
 					if("Robe + Tabard")
