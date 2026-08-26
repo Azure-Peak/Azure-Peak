@@ -6,6 +6,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	var/being_deleted = FALSE
 	materia = list(/datum/materia_aspect/fire)
+	gender = PLURAL
 
 /obj/item/ash/get_mechanics_examine(mob/user)
 	. = ..()

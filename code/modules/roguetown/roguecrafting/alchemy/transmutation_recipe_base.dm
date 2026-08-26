@@ -32,16 +32,19 @@
 /datum/transmutation_recipe/proc/create_outputs(mob/user, list/ingredients, list/materia_ingredients, obj/structure/fluff/alch/trans/parent)
 	for(var/obj/item/I in (ingredients | materia_ingredients))
 		qdel(I)
+	var/gender
 	for(var/path in output_items)
 		for(var/i in 1 to output_items[path])
 			var/obj/item/I = new path(parent.loc)
+			if(!gender)
+				gender = I.gender
 			I.was_crafted = TRUE
 			I.OnCrafted(get_dir(user, parent), user)
 			I.add_fingerprint(user)
 			I.apply_quality(user, /datum/skill/craft/alchemy)
 			if(!unique_sellable)
 				I.AddComponent(/datum/component/unsellable, "bears obvious signs of transmutative origin") // sets sellprice to 0, prevents selling at navigator (including smuggler) and stockpile, transfers to result when smelted
-	user.visible_message(span_notice("[user] transmutes some [result_name]!"), span_notice("I transmute some [result_name]!"))
+	user.visible_message(span_notice("[user] transmutes [(gender == PLURAL) ? some : a_or_an(result_name)] [result_name]!"), span_notice("I transmute [(gender == PLURAL) ? some : a_or_an(result_name)] [result_name]!"))
 
 /proc/can_transmute(mob/user) // exact condition may be changed later
 	return HAS_TRAIT(user, TRAIT_ALCHEMY_EXPERT) && HAS_TRAIT(user, TRAIT_ARCYNE)
