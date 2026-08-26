@@ -1281,6 +1281,9 @@
 	if(L.stat == DEAD)
 		return
 
+	if(HAS_TRAIT(L, TRAIT_NOBREATH))
+		return
+
 	to_chat(L, span_danger("You breathe in the spiky spores!"))
 	L.apply_damage(damage_amount, BRUTE)
 

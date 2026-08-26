@@ -1,0 +1,10 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Added paint pylon geysers to spread puddles in an area."
+  - rscadd: "Added 4 more abyssor cult visions as T1 visions."
+  - rscadd: "Added 2 more abyssor cult visions as T2 visions."
+  - rscadd: "Added 2 more abyssor cult visions as T3 visions."
+  - rscadd: "Slightly increased the amount of starting materials the abyssor cult gets."
+  - balance: "Reduced the time it takes to deploy paint pylons by 35% 10s => 6.5s"
+  - rscadd: "Reinvigorating energy restoring paint puddles, only accessible via geysers."

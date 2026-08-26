@@ -1,7 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - balance: "Reinforcing has been reduced to Apprentice leatherworking requirement (except forester brigandine since that is an actual brigandine so it remains on expert)"
-  - balance: "Brigandines now require Steel Bar, Leather and Cloth to make (in different ratios depending on the type of it) -Lightweight is steel recipe now and with it has increased cost in silverface."
-  - balance: "Hide Armor reduced to 30 mammon, Studded Armor and Hood down to 35 mammon price, Hardened Leather Armor increased to 45 from 40, Hardened Leather Coat/Jacket increased to 55 from 45 (it costs a lot of materials to make but this is bit closer to reality)"
-  - bugfix: "Fixes pathing for studded armor in silverface so you can actually purchase it"
