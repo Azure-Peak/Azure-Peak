@@ -1107,7 +1107,7 @@
 	for(var/obj/item/I in env_items)
 		if(!length(I.materia))
 			continue
-		if(I.type in R.do_not_use)
+		if((I.type in R.output_items) && !R.allow_output_materia)
 			continue
 		for(var/path in I.materia)
 			if(materia_reqs.Find(path))
