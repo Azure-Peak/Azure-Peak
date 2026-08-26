@@ -189,6 +189,8 @@
 	desc = "An expensive and difficult endeavor to forge: a complete set of equipment that can be used to upgrade a mundane alchemy station into a transmutative laboratory."
 	icon = 'icons/roguetown/misc/gadgets.dmi'
 	icon_state = "atinkerkit"
+	grid_height = 64
+	grid_width = 64
 
 /obj/item/trans_table_upgrade/attack_obj(obj/O, mob/living/user)
 	. = ..()
