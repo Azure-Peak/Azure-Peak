@@ -78,7 +78,7 @@
 
 /// debug/admin proc: to make it easier to fix if someone is being a shitter with namesteal. undoes a namesteal; call this on a nameless mob to restore their name (removing it from any hags), or call it on a mob that's been granted a name to remove it and give it back to its original owner
 /mob/living/carbon/human/proc/restore_stolen_name(force = FALSE)
-	var/datum/component/hag_name/name_component = GetComponent(/datum/component/hag_name/name_component)
+	var/datum/component/hag_name/name_component = GetComponent(/datum/component/hag_name)
 	if(!name_component)
 		return
 	if(name_component.identity.name == "Unknown") // they're nameless, so we give them their name back and remove it from hags
