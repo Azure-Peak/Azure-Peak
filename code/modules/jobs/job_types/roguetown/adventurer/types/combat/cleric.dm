@@ -522,14 +522,16 @@
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			if(H.mind)
-				var/cloaks = list("Robe", "Tabard")
+				var/cloaks = list("Robe + Tabard","Robe", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "DON THY VESTAMENTS") as anything in cloaks
 				switch(cloakchoice)
-					if("Robe")
+					if("Robe + Tabard")
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/absolutionistrobe/black, SLOT_CLOAK, TRUE)
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_ARMOR, TRUE) //it looks nicer layered this way and stands out from cantor more
+					if("Robe")
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/absolutionistrobe/black, SLOT_CLOAK, TRUE) //OG choice
 					if("Tabard")
-						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE)
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE) //OG choice
 		if(/datum/patron/divine/undivided)
 			head = /obj/item/clothing/head/roguetown/roguehood/undividedcleric
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric //Only exclusion cause it looks bad without the cloak over it
