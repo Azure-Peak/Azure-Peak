@@ -494,8 +494,7 @@
 		custom_descriptors[12],
 		custom_descriptors[10],
 		custom_descriptors[9],
-		HAS_TRAIT(src, TRAIT_NOBLE),
-		real_name
+		HAS_TRAIT(src, TRAIT_NOBLE)
 	)
 
 /obj/effect/proc_holder/spell/invoked/possess_vessel

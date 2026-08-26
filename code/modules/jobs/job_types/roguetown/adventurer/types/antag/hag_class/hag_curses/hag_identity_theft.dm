@@ -8,10 +8,9 @@
 	var/custom_stature									// custom_descriptor_entry instance for stature
 	var/custom_voice									// custom_descriptor_entry instance for voice
 	var/nobility										// boolean for if this identity is noble
-	var/donor											// truename of the person that granted this. giving it back to them won't incur a point cost
 
 /// pass in all the flags to give a new identity as a boon. pass in none of them to make them nameless
-/datum/hag_identity/New(new_name, new_color, new_trait, new_stature, new_voice, ctrait, cstature, cvoice, noble, victim)
+/datum/hag_identity/New(new_name, new_color, new_trait, new_stature, new_voice, ctrait, cstature, cvoice, noble)
 	. = ..()
 	if(new_name) // we're giving a name boon
 		name = new_name
@@ -23,7 +22,6 @@
 		custom_stature = cstature
 		custom_voice = cvoice
 		nobility = noble
-		donor = victim
 	else // we're stealing a name
 		name = "Unknown"
 		name_color = "#a0a0a0"
@@ -77,3 +75,30 @@
 	if(!was_noble && HAS_TRAIT(parent, TRAIT_NOBLE))
 		REMOVE_TRAIT(parent, TRAIT_NOBLE, null)
 	return ..()
+
+/// debug/admin proc: to make it easier to fix if someone is being a shitter with namesteal. undoes a namesteal; call this on a nameless mob to restore their name (removing it from any hags), or call it on a mob that's been granted a name to remove it and give it back to its original owner
+/mob/living/carbon/human/proc/restore_stolen_name(force = FALSE)
+	var/datum/component/hag_name/name_component = GetComponent(/datum/component/hag_name/name_component)
+	if(!name_component)
+		return
+	if(name_component.identity.name == "Unknown") // they're nameless, so we give them their name back and remove it from hags
+		QDEL_NULL(name_component)
+		for(var/mob/living/carbon/human/H in GLOB.active_hags)
+			var/datum/component/hag_curio_tracker/HCT = H.GetComponent(/datum/component/hag_curio_tracker)
+			if(!HCT)
+				continue
+			if(real_name in HCT.stored_names)
+				HCT.stored_names -= real_name
+				HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 1) - 1
+	else // they've been granted a name
+		var/mob/living/carbon/human/victim
+		for(var/mob/living/carbon/human/H in GLOB.player_list)
+			if(H.real_name == name_component.identity.name)
+				victim = H
+				break
+		if(!victim && !force)
+			to_chat(usr, span_warning("The original donor is not in the player list, so we can't give them their name back. If you want to proceed, call this again with force=TRUE, and we'll remove the granted name without giving it back to the original mob."))
+			return
+		if(victim)
+			qdel(victim.GetComponent(/datum/component/hag_name))
+		qdel(name_component)

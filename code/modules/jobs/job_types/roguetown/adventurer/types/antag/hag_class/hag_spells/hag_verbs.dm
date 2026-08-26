@@ -71,4 +71,5 @@
 		if(!identity)
 			return
 		AddComponent(/datum/component/hag_name, identity)
+		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 1) - 1
 		to_chat(src, span_warning("I assume the mantle of [identity.name]."))
