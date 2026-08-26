@@ -279,9 +279,13 @@
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 		// WEAPON CHOICE.
-		var/weapons = list("Longsword","Broadsword","Mace","Flail","Flail, Studded","Whip","Spear","Axe")
+		var/weapons = list("Arming Sword","Longsword","Broadsword","Mace","Flail","Flail, Studded","Whip","Spear","Axe")
 		var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP YOUR GOD'S ARMS.") as anything in weapons
 		switch(weapon_choice)
+			if("Arming Sword")
+				beltr = /obj/item/rogueweapon/sword
+				r_hand = /obj/item/rogueweapon/scabbard/sword
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Longsword")
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 					beltr = /obj/item/rogueweapon/sword/long/oldpsysword
