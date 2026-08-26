@@ -44,7 +44,7 @@
 			I.apply_quality(user, /datum/skill/craft/alchemy)
 			if(!unique_sellable)
 				I.AddComponent(/datum/component/unsellable, "bears obvious signs of transmutative origin") // sets sellprice to 0, prevents selling at navigator (including smuggler) and stockpile, transfers to result when smelted
-	user.visible_message(span_notice("[user] transmutes [(gender == PLURAL) ? some : a_or_an(result_name)] [result_name]!"), span_notice("I transmute [(gender == PLURAL) ? some : a_or_an(result_name)] [result_name]!"))
+	user.visible_message(span_notice("[user] transmutes [(gender == PLURAL) ? "some" : a_or_an(result_name)] [result_name]!"), span_notice("I transmute [(gender == PLURAL) ? "some" : a_or_an(result_name)] [result_name]!"))
 
 /proc/can_transmute(mob/user) // exact condition may be changed later
 	return HAS_TRAIT(user, TRAIT_ALCHEMY_EXPERT) && HAS_TRAIT(user, TRAIT_ARCYNE)
