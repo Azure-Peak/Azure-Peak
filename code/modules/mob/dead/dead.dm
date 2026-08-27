@@ -47,53 +47,6 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	loc = destination
 	Moved(oldloc, NONE, TRUE)
 
-
-/mob/dead/new_player/proc/lobby_refresh(job_list_html)
-	set waitfor = 0
-//	src << browse(null, "window=lobby_window")
-
-	if(!client)
-		return
-
-	if(client.is_new_player())
-		return
-
-	if(SSticker.HasRoundStarted())
-		src << browse(null, "window=lobby_window")
-		return
-
-	var/list/dat = list("<center>")
-
-	var/time_remaining = SSticker.GetTimeLeft()
-	if(time_remaining > 0)
-		dat += "Time To Start: [round(time_remaining/10)]s<br>"
-	else if(time_remaining == -10)
-		dat += "Time To Start: DELAYED<br>"
-	else
-		dat += "Time To Start: SOON<br>"
-
-	dat += "Total players ready: [SSticker.totalPlayersReady]<br>"
-	if(src.ready)
-		dat += (span_good("Ready Bonus!") + "<a href='?src=[REF(src)];explainreadyupbonus=1'>(?)</a><br>")
-	else
-		dat += (span_highlight("No bonus! Ready up!") + "<a href='?src=[REF(src)];explainreadyupbonus=1'>(?)</a><br>")
-	dat += "<B>Classes:</B><br>"
-
-	dat += "</center>"
-
-	dat += job_list_html
-	var/datum/browser/popup = new(src, "lobby_window", "<div align='center'>LOBBY</div>", 330, 430)
-	popup.set_window_options("can_close=1;can_minimize=0;can_maximize=0;can_resize=1;")
-	popup.set_content(dat.Join())
-	if(!client)
-		return
-	if(winexists(src, "lobby_window"))
-		src << browse(popup.get_content(), "window=lobby_window") //dont update the size or annoyingly refresh
-		qdel(popup)
-		return
-	else
-		popup.open(FALSE)
-
 /mob/dead/proc/server_hop()
 	set name = "Server Hop!"
 	set desc= "Jump to the other server"

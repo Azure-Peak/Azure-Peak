@@ -101,7 +101,8 @@
 	if(L.guard_deflect_spell("Unholy Blast", TRUE, caster))
 		return
 	if(istype(caster) && ishuman(L))
-		arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE)
+		if(arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+			return
 	else
 		L.apply_damage(damage_to_do, BURN)
 

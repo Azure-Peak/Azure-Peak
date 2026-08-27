@@ -132,14 +132,14 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Elvish Dirk")
+			var/weapons = list("Elvish Longsword", "Elvish sabre", "Elvish Curveblade", "Elvish Dirk")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
 					r_hand = /obj/item/rogueweapon/sword/long/elvish
 					beltr = /obj/item/rogueweapon/scabbard/sword
 					backr = /obj/item/rogueweapon/shield/wood
-				if("Elvish Saber")
+				if("Elvish sabre")
 					r_hand = /obj/item/rogueweapon/sword/sabre/elf
 					beltr = /obj/item/rogueweapon/scabbard/sword
 					backr = /obj/item/rogueweapon/shield/wood

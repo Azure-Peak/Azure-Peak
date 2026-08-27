@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Dragon's Breath"
+	expose_caster_on_deflect = FALSE
 	desc = "Let loose a wide cone of flame that erupts forward, burning everything in its path and pushing back anyone it hits. \
 	The windup leaves you committed and wide open.\n\
 	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
@@ -21,7 +22,7 @@
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	damage = 60
+	damage = 65
 	strike_damage_type = BURN
 	blade_class = BCLASS_BURN
 	committed_strike = TRUE

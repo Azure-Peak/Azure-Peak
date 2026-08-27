@@ -168,7 +168,8 @@
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
-		arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE)
+		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+			return
 	else
 		var/fallback_zone = check_zone(hit_zone)
 		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, no_debuff = TRUE)

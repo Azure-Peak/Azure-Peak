@@ -251,7 +251,7 @@
 			return FALSE
 	if(r_grab || l_grab || length(grabbedby))
 		return FALSE
-	if(IsImmobilized() || IsOffBalanced())
+	if(IsImmobilized() || IsOffBalanced() || incapacitated(ignore_restraints = TRUE))
 		return FALSE
 	if(m_intent == MOVE_INTENT_RUN)
 		to_chat(src, span_warning("I can't focus on this while running."))
@@ -596,7 +596,7 @@
 			var/obj/item/rogueweapon/RW = user.get_active_held_item()
 			if(RW)
 				RW.take_damage(RW.sharpness ? (INTEG_PARRY_DECAY) : (INTEG_PARRY_DECAY_NOSHARP), BRUTE, used_weapon.d_type)
-				RW.remove_bintegrity((SHARPNESS_ONHIT_DECAY), src)
+				RW.remove_bintegrity((SHARPNESS_ONHIT_DECAY), user)
 
 			//if(used_weapon)
 			//	used_weapon.take_damage((used_weapon.sharpness ? (INTEG_PARRY_DECAY) : (INTEG_PARRY_DECAY_NOSHARP)), BRUTE, used_weapon.d_type)

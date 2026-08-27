@@ -335,8 +335,8 @@
 						return
 */
 
-	// Allows you to click on a box's contents, if that box is on the ground, but no deeper than that
-	if(isturf(A) || isturf(A.loc) || (A.loc && isturf(A.loc.loc)))
+	// Allows you to click on a box's contents, if that box is on the ground or held by something on the ground, but no deeper than that
+	if(isturf(A) || isturf(A.loc) || isturf(A.loc?.loc) || isturf(A.loc?.loc?.loc))
 		var/can_reach = CanReach(A, W)
 		if(can_reach)
 			if(isopenturf(A))
@@ -904,9 +904,11 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 /atom/proc/face_atom(atom/A, location, control, params)
 	if(!A)
 		return FALSE
-	if(!A.xyoverride && (!x || !y || !A.x || !A.y))
+	if(!x || !y)
 		return
 	var/atom/holder = A.face_me(location, control, params)
+	if(holder && !holder.xyoverride && (!holder.x || !holder.y))
+		holder = get_turf(holder)
 	if(!holder)
 		return FALSE
 	var/dx = holder.x - x
@@ -1040,14 +1042,6 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /mob/dead/observer/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	return
-/*	var/list/modifier = params2list(params)
-	if(modifier["shift"])
-		var/view = 0
-		if(delta_y > 0)
-			view = -1
-		else
-			view = 1
-		add_view_range(view)*/
 
 /mob/proc/check_click_intercept(params,A)
 	//Client level intercept

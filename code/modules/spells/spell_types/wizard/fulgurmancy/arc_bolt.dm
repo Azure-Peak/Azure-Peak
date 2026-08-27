@@ -172,12 +172,13 @@
 		return
 	var/actual_damage = arc_damage
 	var/mob/living/carbon/human/caster = firer
-	if(L.guard_deflect_spell("Arc Bolt", TRUE, caster))
+	if(L.guard_deflect_spell("Arc Bolt", TRUE, caster, punish_caster = FALSE))
 		return
 	if(istype(caster) && ishuman(L))
-		arcyne_strike(caster, L, null, actual_damage, def_zone, BCLASS_BURN, \
+		if(arcyne_strike(caster, L, null, actual_damage, def_zone, BCLASS_BURN, \
 			spell_name = "Arc Bolt", damage_type = BURN, \
-			skip_animation = TRUE)
+			skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+			return
 	else
 		L.electrocute_act(actual_damage, src, 1, SHOCK_NOSTUN)
 	L.electrocute_act(0, src, 1, SHOCK_NOSTUN|SHOCK_VISUAL_ONLY)
