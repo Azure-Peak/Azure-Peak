@@ -839,6 +839,11 @@
 
 /obj/structure/fluff/alch/trans/attackby(obj/item/with, mob/user, params)
 	. = ..()
+	if(istype(with, /obj/item/alch/catalyst))
+		var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+		if(catalyst_storage)
+			if(catalyst_storage.handle_item_insertion(with, FALSE, user))
+				return
 	if(!can_transmute(user)) // obligatory
 		to_chat(user, span_warning("I have no idea how to use this."))
 		return
