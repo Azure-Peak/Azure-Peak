@@ -264,14 +264,6 @@
 
 	add_verb(H, /mob/proc/haltyell) //Ex-Garrisoner
 
-	add_verb(H, list(/mob/living/carbon/human/mind/proc/setorders)) //if its problematic, trim this down. Brotherhood Recruitment is a must.
-	if(H.mind)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/order/movemovemove)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/order/takeaim)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/order/hold)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/order/onfeet)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brotherhood)
-
 		/*
 		meant to be less knightly-helmets and more in-line with banditry, brigand loadouts and such so, so no armlets
 
