@@ -1,6 +1,9 @@
 
 //After the bogfort fell to undead, the remaining guard who didn't flea turned to bandirty. Wellarmed and trained.
 //These guys use alot of iron stuff with small amounts of steel mixed in, not really one for finetuned balance might be too hard or easy idk. Going off vibes atm
+
+GLOBAL_LIST_INIT(bogman_aggro, world.file2list("strings/rt/bogmanaggrolines.txt")) //unique lines, BOG! BOG! BOG! (these guys are paradoxally smarter and stupider than brigands in the woods, also more aggressive and violent)
+
 /datum/outfit/job/roguetown/human/northern/bog_deserters/proc/add_random_deserter_cloak(mob/living/carbon/human/H)
 	var/random_deserter_cloak = rand(1,4)
 	switch(random_deserter_cloak)
@@ -132,7 +135,7 @@
 /mob/living/carbon/human/species/human/northern/bog_deserters/after_creation()
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.bogman_aggro, TRUE)
 	job = "Garrison Deserter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -344,7 +347,7 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/tosser/after_creation()
 	AddComponent(/datum/component/ai_aggro_system)
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.bogman_aggro, TRUE)
 	job = "Garrison Deserter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -483,6 +486,7 @@
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/npc
+	add_random_deserter_cloak_better(H)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	head = null
@@ -513,6 +517,7 @@
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron
 	backl = /obj/item/quiver/bolt/npc
+	add_random_deserter_cloak_better(H)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	head = null
@@ -553,7 +558,7 @@
 /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear/marshal/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/iron
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	H.STASTR = 15
 	H.STACON = 12

@@ -12,9 +12,9 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/gambeson
 		if(prob(50))
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	if(prob(25))
-		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+		pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	if(prob(50))//HEAD
 		head = /obj/item/clothing/head/roguetown/roguehood/bogman
 		if(prob(60))
@@ -39,7 +39,7 @@
 		if(6)
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
 		if(7)
-			r_hand = /obj/item/rogueweapon/flail
+			r_hand = /obj/item/rogueweapon/mace/cudgel
 			l_hand = /obj/item/rogueweapon/shield/wood
 	H.STASTR = rand(12,14)
 	H.STASPD = 8
@@ -63,16 +63,14 @@
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
 	if(prob(60))//WRIST
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(prob(90))//SHIRT
 		shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/bog
 	if(prob(75))
 		armor = /obj/item/clothing/suit/roguetown/armor/gambeson
 		if(prob(50))
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	if(prob(25))
-		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	if(prob(50))//HEAD
 		head = /obj/item/clothing/head/roguetown/roguehood/bogman
 		if(prob(60))
@@ -96,6 +94,7 @@
 /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/master/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
+	mask = /obj/item/clothing/head/roguetown/roguehood/bogman
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	cloak = /obj/item/clothing/cloak/tabard/stabard/bog

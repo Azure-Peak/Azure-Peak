@@ -259,8 +259,8 @@
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				backl = /obj/item/quiver/bolt/standard
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				beltr = /obj/item/quiver/bolt/standard
 
 	add_verb(H, /mob/proc/haltyell) //Ex-Garrisoner
 
