@@ -342,6 +342,7 @@
 	input_items = list(/obj/item/ash = 3, /obj/item/storage/roguebag = 1)
 	output_items = list(/obj/item/storage/roguebag/trans = 1)
 	result_name = "batch of catalyzing reagent"
+	unique_sellable = TRUE // the actual output is... a sack. and the contents are unique items
 
 /datum/transmutation_recipe/albedo/bathbombsalvia // look at me. i'm the bathhouse's supplier now
 	name = "Herbal Materia Rendition (Alchemical Diffuser)"
