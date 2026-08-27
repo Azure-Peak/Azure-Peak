@@ -239,6 +239,10 @@
 	name = "Gift - Kit, Long Jacketed Gambeson"
 	path = /obj/item/enchantingkit/donator_jacketed_gambeson_long
 
+/datum/loadout_item/donator/mirrortransform
+	name = "Gift - Scroll of Mirror Transform"
+	path = /obj/item/book/granter/spell/mirror_transform
+
 // --- GRENZEL REGIONAL ---
 
 /datum/loadout_item/donator/universal/regional/grenzelhat
@@ -847,10 +851,6 @@
 	name = "Donator Kit - Dawn Cometh"
 	path = /obj/item/enchantingkit/weapon/kadeguandao
 	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
-
-/datum/loadout_item/donator/mirrortransform
-	name = "Gift - Scroll of Mirror Transform"
-	path = /obj/item/book/granter/spell/mirror_transform
 
 /datum/loadout_item/donator/falling_star
 	name = "Donator Kit - Falling Star"
