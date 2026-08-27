@@ -1,5 +1,6 @@
 /datum/action/cooldown/spell/ferramancy_strike
 	parent_type = /datum/action/cooldown/spell/telegraphed_strike
+	expose_caster_on_deflect = FALSE
 	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
 	sound = 'sound/magic/scrapeblade.ogg'
 	spell_color = GLOW_COLOR_METAL

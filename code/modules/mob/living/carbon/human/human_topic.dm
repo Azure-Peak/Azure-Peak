@@ -432,18 +432,12 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(!ismob(usr))
 			return
 		var/msg = ""
-		if(rumour && length(rumour))
-			var/rumour_display = rumour
-			rumour_display = html_encode(rumour_display)
-			rumour_display = parsemarkdown_basic(rumour_display, hyperlink = TRUE)
-			msg += "<b>You recall what you heard around Town about [src]...</b><br>[rumour_display]"
-		if(((HAS_TRAIT(usr, TRAIT_NOBLE)) || observer_privilege) && length(noble_gossip))
+		if(length(rumour_cached))
+			msg += "<b>You recall what you heard around Town about [src]...</b><br>[rumour_cached]"
+		if(((HAS_TRAIT(usr, TRAIT_NOBLE)) || observer_privilege) && length(noble_gossip_cached))
 			if(msg)
 				msg += "<br><br>"
-			var/gossip_display = noble_gossip
-			gossip_display = html_encode(gossip_display)
-			gossip_display = parsemarkdown_basic(gossip_display, hyperlink = TRUE)
-			msg += "<b>You recall what the other Blue-bloods hushed about [src]...</b><br>[gossip_display]"
+			msg += "<b>You recall what the other Blue-bloods hushed about [src]...</b><br>[noble_gossip_cached]"
 		if(msg)
 			to_chat(usr, "<span class='info'>[msg]</span>")
 		else	//Edge-case of there being ONLY noble gossip, but we aren't a noble.

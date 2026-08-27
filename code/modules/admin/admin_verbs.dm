@@ -56,7 +56,6 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/hide_most_verbs,		/*hides all our hideable adminverbs*/
 	/client/proc/investigate_show,		/*various admintools for investigation. Such as a singulo grief-log*/
 	/client/proc/secrets,				/* Almost entirely non-functional after Azure Peak Debloatening. Final few are redundant, but keeping just in case */
-	/client/proc/toggle_hear_radio,		/*allows admins to hide all radio output*/
 	/client/proc/reload_admins,
 	/client/proc/reload_whitelist,
 	/client/proc/reestablish_db_connection, /*reattempt a connection to the database*/
@@ -174,7 +173,6 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/client/proc/cmd_debug_del_all,
 	/client/proc/cmd_controller_view_ui,
 	/client/proc/toggle_random_events,
-	/client/proc/forcerandomrotate,
 	/client/proc/adminchangemap,
 	/client/proc/panicbunker,
 	/datum/admins/proc/BC_WhitelistKeyVerb,

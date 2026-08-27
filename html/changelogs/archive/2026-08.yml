@@ -876,3 +876,387 @@
   - rscdel: Removed chocolate halves we just quarter now
   zeskorion:
   - balance: nerfs bogbark club and battle-wrench demolition intent
+2026-08-20:
+  KatTheFox:
+  - rscdel: Removed vampire maidtosis.
+  Lamasmaster:
+  - bugfix: Economic Roleplay Action related to crashing the market with no survivors.
+  Ollanius:
+  - rscdel: Unnecessary color-picking code for Woodland Brigandine sets.
+  - rscdel: Shelves now-unused classic variant of the Woodland Brigandine.
+  - bugfix: Restores the original Shawl for the loadout and sewing recipes. Hijab-styled
+      shawls are now listed via '/shawlhood'.
+  - bugfix: Woodland Mantles and Brigandines now properly render their on-item detail
+      shades when spawned in.
+  - rscadd: Plackarted variants of Woodland Brigandine, and a new CKEY to their kit
+      access.
+  - rscadd: Updated sprites for the Woodland Mantle.
+  YakumoChen:
+  - balance: Murklings don't drown, since they're essentially sentient bog ooze anyway.
+  nauticall:
+  - bugfix: HERMES direct send (via the TGUI window you get when you put money into
+      the thing) now takes paper formatting the same way a normal bit of parchment
+      via the quill does. No more basic HTML filled with `##`, now your HERMES messages
+      look just like the real deal.
+  - qol: Swapped the parchment background to something cleaner to make the paper stuff
+      more readable, and altered the signature font to look more signature-y (done
+      via HTML fallback so it won't glitch out on some PCs).
+  racobio:
+  - rscadd: Adds a recipe to craft the thin winter dress
+  - bugfix: fixes an arcyne ward interaction with the thin winter dress by repathing
+      it
+2026-08-21:
+  Aeiraea:
+  - bugfix: Fixed the Scout Cloak not appearing as intended upon feminine characters
+      and short characters when facing any direction that is not south.
+  KatTheFox:
+  - bugfix: Fixed a runtime relating to throne announcements.
+  - bugfix: Fixed an exploit allowing enchantments to be stacked.
+  - bugfix: Fixed an oversight causing the decrepit kettle helm to smelt into steel
+      instead of glimmering slag
+  - bugfix: Fixed an issue where organs would be treated as sharp objects and embed,
+      particularly noticable as a gnoll devouring corpses
+  - bugfix: Fixed an issue where certain non-flora items (like skysugar slabs) would
+      claim you can crush them into seeds, despite that being untrue
+  - bugfix: Fixed an issue where rosa petals and their variants would be unable to
+      be crushed into seeds, forcing gardeners to make an alchemical mortar to plant
+      rosa
+  - bugfix: Fixed a runtime preventing noticeboard notices from being posted
+  - bugfix: Fixed most round statistics (such as gods' influences) being completely
+      untracked and therefore stuck at zero
+  - bugfix: Fixed conjured skeletons from being able to panel and be panelled
+  Lamasmaster:
+  - bugfix: Sergeant orders not working on Wardens
+  - refactor: Orders (Marshal/Sergeant/Disgraced MAA)
+  - balance: Standard Spear functions apply only to Standard Bearer again, it also
+      grants no bonus stats anymore besides stress relief. It lost 30 throwforce (so
+      10 now) and swapped 1 WIl for 1 CON on the statpack.
+  - image: Makes all bow and arrow sprites 64x64 to prevent flying arrows in UI and
+      onmob (this doesn't prevent weird offsets while dumping quiver or for fired
+      arrows)
+  - spellcheck: Selfbow > Yew Hunting Bow
+  OrbisAnima:
+  - balance: Buff the chance of flints working to 90% from 50%
+  RosySaturniidae:
+  - bugfix: the alloy-tipped triumph kit now has a blacksteel variant instead of downgrading
+      your 140 mammon whip
+  - rscadd: new dono ckey
+  SpartanBobby:
+  - rscadd: Added short skirt. A cut-down variation of the short jupon sprite that
+      you can wear on your legs
+  WeNeedMorePhoron:
+  - balance: Made NPC archers slower shooting and less accurate, again. Excluding
+      Conjured summons
+  - balance: Made a certain boss no longer spawn archers
+  - balance: Fixed an issue where broadhead and bodkin (baseline) arrows do not have
+      any damage falloff as intended.
+  mumblemancer:
+  - rscadd: seneschals now have a unique key to their door
+  radarseas:
+  - rscadd: Added TRAIT_NOVAMPMITOSIS, this prevents well, vampires from duplicating
+      via personal servantry, its only applied on basic VL servants/guards and thinbloods/thinnerbloods.
+      for now.
+  - rscdel: Removed zerobrine
+  - rscdel: Removed TRAIT_BLOODPOOL_BORN, into the pyres of hell with thee DAEMON!!
+      BEGONE!! THE POWER OF PSYDON REBUKES!!!
+  - bugfix: Fixed vamp mitosis + exploits for good
+  zeskorion:
+  - bugfix: wrenches with charges can now attack objects
+  - qol: battle-wrenches default to STRIKE instead of USE
+2026-08-22:
+  Aeiraea:
+  - rscadd: Added the new togas to Fortified Skeletons to replace their old Psydonic
+      "toga".
+  - bugfix: Fixed the dressier toga not appearing as it should upon feminine characters
+      and made its belt more dye-friendly.
+  FreeStylaLT:
+  - rscadd: Added a helmetless visor to loadout. Sprite courtesy of Ollanius!
+  - rscadd: Added 'small' elf ears. Sprite courtesy of Litepurple!
+  - bugfix: Fixed a few errant pixels on the Woodland cloak.
+  - bugfix: Fixed the loadout trophy robes having incorrect attributes.
+  KatTheFox:
+  - bugfix: You can no longer withdraw from stockpiles and vomitoriums at range.
+  - admin: Prayers from players with the devout follower vice are now tagged as "devout
+      follower of (patron)" instead of "follower of (patron)", making it easier to
+      distinguish them at a glance.
+  - bugfix: Fixed an issue where packages could be created from pouches, and then
+      several could be placed inside another pouch - allowing you to infinitely nest
+      packages and achieve exponentially dense (and annoying to access) storage.
+  - bugfix: Fixed an issue where ghosts could interact with any machine with a tgui
+      interface, allowing them to - among other things - purchase items and drop them
+      on peoples' heads. The core issue has been in this codebase since the initial
+      commit 2 years ago, by the way.
+  - bugfix: Fixed an issue where prayers would strip out all your punctuation, causing
+      them to look _really_ stupid on the round-end chronicle. They now use the normal
+      sanitize proc everything else does, and display how you'd expect in the chronicle.
+  - bugfix: Fixed an HTML injection exploit, the details of which will not be disclosed
+      here.
+  OrbisAnima:
+  - qol: Resident adventurers now show their job title in examine and when autoring
+      books (unless they use a pen name of course)
+  SomeDeviant:
+  - bugfix: fixed item path of Golden Jade Amulet
+  WeNeedMorePhoron:
+  - rscadd: Broom now cleans in a 3x3 AOE and its cleaning time scales inversely to
+      Cooking skills
+  kiwedespars:
+  - rscadd: gnolls no longer step on glass and get an owie
+2026-08-23:
+  7erracotta:
+  - rscadd: Added new ranesheni triumph skin weapons, (Pata, Urumi, Khanda)
+  FeniaFox:
+  - rscdel: Removed the Ruma Seonjang entirely. Gun-in gets it's stuff.
+  - rscadd: Added two new variant skin-options to the ruma mercenaries. In addition
+      to the current skin with ~250 plate integ, they can now pick from a defiant
+      skin with ~200 blacksteel integ, and an enduring skin with ~300 padded integ.
+      This only changes the full-body overskin.
+  - rscadd: Added large numbers of loadout options to the ruma mercenaries, including
+      the hwando, the two-handable ssangsudo, the kodachi shortsword, naginata polearm,
+      some tossblades, many tanto daggers, and even a longbow option for the gun-in.
+  - rscadd: added the blacksteel tanto (more or less a blacksteel dagger reskin that's
+      compatible with the eastern dagger sheath).
+  - balance: rebalanced the sharpness decay of ruma hwando swords from 200% to 150%.
+  - balance: rebalanced the wdef of the tanto sheath from 4 to 6, in line with the
+      shortsword scabbard at 7, sword scabbards at 8, and parry dagger/buckler at
+      9.
+  FreeStylaLT:
+  - bugfix: Fixed Flawless 'vice' not functioning correctly.
+  KatTheFox:
+  - bugfix: Severed limbs, including heads, are now fireproof and acidproof. They're
+      not lavaproof, but this should prevent campfires or errant mage spells from
+      ashing someone's head and RRing them.
+  - bugfix: Heads can no longer be debrained.
+  - rscadd: Stakes of all kinds can now be driven through the heart of an incapacitated
+      revenant (or deadite, or anyone else with the deathless trait) to properly kill
+      them. This is not an RR, they can be revived, and is an alternative to throwing
+      their head into the fires of mount decap or whatever. Silver stakes are better
+      at this than wooden ones.
+  - rscadd: Arcana crafting recipes now grant xp again like all other recipes. It's
+      no longer a combat skill, in fact it's nigh-useless, so there's no particular
+      reason to gate it.
+  - bugfix: Fixed an exploit allowing a character to have no vices at all, not even
+      the Flawless vice that blocks passive triumph gain.
+  Lamasmaster:
+  - balance: Removes electrocute act from Astratan Bolt.
+  - image: Changes out Astratan tracer (the beam effect) for a correct one.
+  Ollanius:
+  - rscadd: Noccian Spellblade Templars now have the Moonlight Spear as an option;
+      this replaces the original Boar Spear, and is otherwise a one-to-one match in
+      terms of functional mechanics.
+  OrbisAnima:
+  - rscadd: Adds the Alchemist, based on the alchemist associate, to the adventurer
+      mage.
+  - rscadd: Adds the Silk shirt to loadout.
+  Quinalion:
+  - rscadd: Ported Cadwyn Order cloaks and helmets for clerics and Ten Heretics.
+  - rscadd: Ported Cadwyn Order equipment to the relevant clothing selections.
+  - rscadd: Cadwyn Order cloaks sewing recipes.
+  Ryan180602:
+  - bugfix: revert and adjust layer PR.
+  SpartanBobby:
+  - rscadd: Added trimmed fancy coat. It's the same as the regular fancy coat but
+      it lacks the white drape over the legs at the front. Available in loadout
+  WeNeedMorePhoron:
+  - rscdel: Take off, and remove Ferramancy Bow & Crossbow options to protect niche
+      and avoid people complaining mage is taking more tools raaa
+  - balance: Reworked Riposte / Guard / Limbguard reaction with spells. "Ground Effect"
+      (non projectile) spells no longer expose / disarm, but still give you the buffs
+      and such. Walking into it is too punitive. Limb Guard will still lasts forever
+      and block an indefinite amount of spell aimed at the same spot as long as it
+      is up.
+  - balance: Each cast can be punished one by one guard
+  - balance: When an arcyne strike / spell is warded (Guarded), the rider effect such
+      as Scorched will not apply
+  - rscdel: Removed the Greater Cleaning Spell, Added Broom to the Arcyne Forge Spell,
+      Arcyne Forge now replaces them for Telomancy and Kinesis.
+  radarseas:
+  - bugfix: fixed major exploits + inconsistencies w/ tame undead
+  - code_imp: categorised trait code COMPLETELY so it should be far easier for devs
+      to tell where stuff is instead of just a huge block, as well as what exactly
+      goes where.
+  saltprjak:
+  - balance: Templar and Heretic Spellblades now have climbing, swimming, knives and
+      minor medicine skills.
+2026-08-24:
+  FreeStylaLT:
+  - refactor: Added a 'freeuse' and 'subtle' toggles to the panel.
+  Guidesu:
+  - rscadd: Undies can now be put on armour slot.
+  - bugfix: Fixed silver knuckles not sundering when on the glove mode, fix enchantments
+      not working on knuckles and pugilistic bandages.
+  Lamasmaster:
+  - rscadd: Celestial and Sama'glos get actual language description now, Grenzelhoftian
+      mentions it is holy tongue of the See too.
+  Ollanius:
+  - bugfix: Donor-specific crossbow should now properly render when uncocked.
+  - rscadd: '''Rapier'' and ''Saber'' as applicable base weapons for certain donor-specific
+      sword skins.'
+  - rscadd: Donator-exclusive variant of the Gambeson that's shortened to mimic an
+      Arming Jacket's proportions.
+  - rscadd: Donator-exclusive sprites for Lagomorphica, Stalkerino, and Chivalre.
+  Quinalion:
+  - qol: Waterskins, game satchels, and lanterns can now be worn on the back.
+  - qol: Waterskins can now be worn over the shoulder.
+  - rscadd: Cooking kettles can now be placed on campfires and function similarly
+      to hearths.
+  - rscadd: Kicking bushes has a 33% chance to knock out a stick.
+  WeNeedMorePhoron:
+  - rscadd: Simple animals now account for defender's skills when you are dodging
+      against them
+  - rscadd: Refactored parry / dodge files. There shouldn't be any additional functional
+      changes but report anything that breaks.
+  - balance: When the CHARRED explosion procs from Pyromancy, it will clear all scorched
+      stack. No more exploding multiple time through armor.
+  - balance: Remove fire adaptation
+  - balance: Scorched no longer debuff CON.
+  - balance: Spitfire damage 40 -> 50
+  - balance: Dragon's Breath 60 -> 65
+  - balance: Reduced scorched duration to 15s from 25s.
+  - balance: Source that gave 4 stacks scorch -> now gives 3
+  radarseas:
+  - admin: added more traits to the VV panel
+2026-08-25:
+  7erracotta:
+  - rscadd: Added new subweapon, warclubs (is available through Trained & Ready!)
+  DmitriyPershukov:
+  - bugfix: renamed 'vial of Reanimation Elixir' to 'bottle of Reanimation Elixir'
+  Ollanius:
+  - rscadd: Donor-specific 'tabis' - or heeled boots - for Solis. Three variations,
+      applicable to Psydonic- and Inquisitorial boots as well.
+  Quinalion:
+  - sound: Added a recorking sound for glass bottles and alchemical vials.
+  - qol: Glass bottles can now be opened and closed through several additional interaction
+      methods.
+  - qol: Bottles now warn you when being stored while uncorked.
+  - bugfix: Liquid transfer interactions now properly report when one or both containers
+      are closed.
+  - bugfix: Open containers in your inventory now warn you when they spill due to
+      movement.
+  - bugfix: Putting a bottle into a bag no longer incorrectly displays "The bottle
+      won't fit in there.".
+  - code_imp: Standardized anti-spilling behavior for storage items using the does_not_spill
+      variable.
+  Ryan180602:
+  - code_imp: hardens music upload checks
+  WeNeedMorePhoron:
+  - bugfix: Players and NPCs should no longer be able to resist out of a grab or guard
+      while paralyzed.
+  borneblood:
+  - spellcheck: Clarified better the swing intents.
+  - bugfix: Recoil is set to minimal if armor is broken.
+  - rscadd: Brooms are cooler now. Cleaning 3x3 requires STRONG mode on.
+  - rscadd: Added critical hit sfx to when you crit yourself by failspinning a pan
+      or broom and being unlucky.
+  mumblemancer:
+  - bugfix: oiling someone up for wrestling and stuff should be less buggy looking
+  zeskorion:
+  - bugfix: wrenches now use a weapon skill
+2026-08-26:
+  DmitriyPershukov:
+  - rscadd: Added recipes for pure moondust, spice, herozium and starsugar
+  KatTheFox:
+  - bugfix: You can no longer wrap shapeshifted players in packages and mail them
+  Lamasmaster:
+  - balance: Reinforcing has been reduced to Apprentice leatherworking requirement
+      (except forester brigandine since that is an actual brigandine so it remains
+      on expert)
+  - balance: Brigandines now require Steel Bar, Leather and Cloth to make (in different
+      ratios depending on the type of it) -Lightweight is steel recipe now and with
+      it has increased cost in silverface.
+  - balance: Hide Armor reduced to 30 mammon, Studded Armor and Hood down to 35 mammon
+      price, Hardened Leather Armor increased to 45 from 40, Hardened Leather Coat/Jacket
+      increased to 55 from 45 (it costs a lot of materials to make but this is bit
+      closer to reality)
+  - bugfix: Fixes pathing for studded armor in silverface so you can actually purchase
+      it
+  SpartanBobby:
+  - balance: gave one of the 3 aristocrat sword subclasses dodge expert instead of
+      medium arour training (The sabre one)
+  ToasterStrudes:
+  - rscadd: Adds a NEW AND IMPROVED ALT MODE to READ OMEN - The ORB of WISDOM
+  - refactor: Has the normal version of read omen use the new dominant pantheon system
+      instead of the deprecated storyteller system.
+  WeNeedMorePhoron:
+  - bugfix: Fixes quality not mattering for navigator
+  - balance: Invis is now red intent with 2 seconds charge time.
+  - balance: Storage, Weapons and Clothings on spawn are marked as worn with 5% value.
+      Worn modifier don't show on the name and only show on examine.
+  - rscadd: Lowered Tithebound mammons threshold to account for reduction in worn
+      items value.
+  novakid94:
+  - bugfix: Ravox's sharpness protection now benefits the worshipper instead of their
+      opponent.
+  radarseas:
+  - image: added/modified artificer spell icons, they now have a new look + overclock
+      has an icon now.
+  saltprjak:
+  - bugfix: Mace Chant's Tremor no longer gets staggered when you walk into someone.
+  - bugfix: Azurean Pilum's frost application no longer prevented by armor
+2026-08-27:
+  BurpleBineapple:
+  - bugfix: low cut gambesons no longer are written out in Title Case
+  KatTheFox:
+  - bugfix: Skeletons no longer inexplicably bleed when their ribs or skull are broken.
+  - bugfix: Necromancer summoned skeletons no longer drop gear on death, because people
+      were exploiting it to repeatedly summon things and sell the gear.
+  - bugfix: Conjured skeleton npcs of all types now properly mark their gear as scavenged.
+  - bugfix: You can no longer nigh-instakill vampires and deadites by dumping 240
+      drams of blessed water on them. Don't ask.
+  - bugfix: Elemental forge et al. no longer lie to you about how to revert. Resist
+      to revert, you don't cast the spell again.
+  - bugfix: The TGUI error screen no longer tells you to report issues downstream.
+  - bugfix: Breathless trait now blocks "breathing in spiky spores".
+  Ketrai:
+  - bugfix: Fixed the encyclopedia description on lesser miracle to display correct
+      values on conditions
+  - rscadd: Added paint pylon geysers to spread puddles in an area.
+  - rscadd: Added 4 more abyssor cult visions as T1 visions.
+  - rscadd: Added 2 more abyssor cult visions as T2 visions.
+  - rscadd: Added 2 more abyssor cult visions as T3 visions.
+  - rscadd: Slightly increased the amount of starting materials the abyssor cult gets.
+  - balance: Reduced the time it takes to deploy paint pylons by 35% 10s => 6.5s
+  - rscadd: Reinvigorating energy restoring paint puddles, only accessible via geysers.
+  Lagomorphica:
+  - balance: iron sabre is now actually a sabre instead of an arming sword
+  - code_imp: all mentions of 'saber' in code are now 'sabre' aside from in changelogs
+  Ollanius:
+  - bugfix: Jacketed gambesons should properly render, now.
+  Quinalion:
+  - rscadd: Added shoutbubble() for prominent shouted emotes.
+  - rscadd: Added shout bubbles to painscream, warcry, agony, and firescream.
+  - code_imp: warcry now records STATS_WARCRIES.
+  ShadowLarkens:
+  - rscadd: Preferences Menu is now written in TGUI and is 99% prettier and at least
+      1% more functional!
+  - rscadd: Fancy character preview in the preferences menu; if/when it breaks, switch
+      main tabs to force it to relayout.
+  - rscadd: Lobby Menu is now separate from the Preferences Menu and is also TGUI.
+      If/when it breaks, use Preferences -> Reopen Lobby Menu and/or OOC -> Refresh
+      TGUI.
+  - rscdel: Deleted all unused and old preferences.
+  SpartanBobby:
+  - bugfix: Fixes spawn loadout issue related to Aristocrat sabre selection
+  WeNeedMorePhoron:
+  - rscadd: Items bought from hoardmaster are now worn
+  - rscadd: Ported Container Cooking system from Vanderlin. Pan, Pot and Oven are
+      now real containers and can contain multiple items that can be cooked at once!
+  - rscadd: Left click a hearth with a pan on to remove an empty pan and middle click
+      let you always remove any container. Left click with a loaded pan to remove
+      items one by one. Use it on itself (Press Q in left hand / E in right hand)
+      will now FLIP the content into the tile, or a tray in front of you, if you have
+      Journeyman cooking or above
+  - rscadd: Tray now can pick up food and utensils en masse and slide them in and
+      out of oven.
+  - rscadd: Baker's Peel is now a one-handable, two hands needed to use tray that
+      have a capacity of 6
+  - rscadd: Pot must be hot before you can boil a stew in it.
+  - rscadd: Migrated hearth fanning to work with the new system and add a flat number
+      of cooking progress to item on the stove.
+  - rscadd: Boiling and Deep Fried recipes eject output, while stew stays in stew.
+  bearrrrrrrr:
+  - rscadd: Baotha miracles mini rework
+  mumblemancer:
+  - bugfix: bog trolls will no longer be super buggy looking when they hit you or
+      stay in ball form.
+  - rscadd: implemented cave troll's special hiding animation :)
+  - bugfix: spellchecked claws missing

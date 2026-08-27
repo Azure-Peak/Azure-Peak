@@ -34,6 +34,7 @@
 @include meta.load-css('./interfaces/AlertModal.scss');
 @include meta.load-css('./interfaces/AspectPicker.scss');
 @include meta.load-css('./interfaces/Changelog.scss');
+@include meta.load-css('./interfaces/ColorPicker.scss');
 @include meta.load-css('./interfaces/ContractLedger.scss');
 @include meta.load-css('./interfaces/CrewManifest.scss');
 @include meta.load-css('./interfaces/Emojipedia.scss');
@@ -73,13 +74,13 @@
 
 // NT Theme
 .Layout__content {
-	background-image: url('tgui-core/assets/bg-nanotrasen.svg');
-	background-size: 70% 70%;
-	background-position: center;
-	background-repeat: no-repeat;
+  background-image: url('tgui-core/assets/bg-nanotrasen.svg');
+  background-size: 70% 70%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 // A default, in case someone uses the vp() function outside of a <Window>
 :root {
-	--scaling-amount: 1;
+  --scaling-amount: 1;
 }

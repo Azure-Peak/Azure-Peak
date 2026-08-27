@@ -249,13 +249,14 @@
 		if(blocked_by_antimagic && L.anti_magic_check())
 			on_antimagic_block(L)
 			continue
-		if(spell_guard_check(L, FALSE, deflected ? null : H))
+		if(spell_guard_check(L, FALSE, H, punish_caster = deflected ? FALSE : null))
 			deflected = TRUE
 			continue
 		hit_any = TRUE
 		sweep_hit_count++
 		var/target_zone = H.zone_selected || BODY_ZONE_CHEST
-		arcyne_strike(H, L, weapon, dmg, target_zone, blade_class, armor_penetration = strike_armor_pen, spell_name = name, damage_type = strike_damage_type, skip_animation = TRUE)
+		if(arcyne_strike(H, L, weapon, dmg, target_zone, blade_class, armor_penetration = strike_armor_pen, spell_name = name, damage_type = strike_damage_type, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+			continue
 		if(length(hit_sound))
 			playsound(get_turf(L), hit_sound, 100, TRUE)
 		if(vuln_on_hit)

@@ -155,13 +155,6 @@
 			if(!is_in_use)
 				obj_flags &= ~IN_USE
 
-
-/obj/attack_ghost(mob/user)
-	. = ..()
-	if(.)
-		return
-	ui_interact(user)
-
 /obj/proc/container_resist(mob/living/user)
 	return
 
