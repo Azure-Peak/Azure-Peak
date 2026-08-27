@@ -218,21 +218,10 @@
 /datum/transmutation_recipe/nigredo/smelt_decomposition/create_outputs(mob/user, list/ingredients, list/materia_ingredients, obj/structure/fluff/alch/trans/parent)
 	for(var/obj/item/I in materia_ingredients)
 		qdel(I)
-	var/alch_exp = user.get_skill_level(/datum/skill/craft/alchemy) // 0 to 6
-	var/quality = SMELTERY_LEVEL_SPOIL
 	for(var/obj/item/I in ingredients)
 		user.visible_message(span_notice("[user] decomposes [I] into its fundamental components!"), span_notice("I decompose [I], salvaging its component material!"))
 		var/obj/item/res = new I.smeltresult(parent.loc)
-		if(istype(res, /obj/item/ingot))
-			if(alch_exp < 6)
-				quality = min(6, floor(rand(alch_exp*15 + 10, max(30, alch_exp*25))/25)+1) // Math explained below
-			else
-				quality = 6 // Guarantees a return of 6 no matter how extra experience past 3000 you have.
-			var/obj/item/ingot/ing = res
-			ing.apply_smelt_quality(quality)
-		var/datum/component/unsellable/unsellable = I.GetComponent(/datum/component/unsellable)
-		if(unsellable) // unlike most alchemy recipes, this ONLY applies unsellable if the input was unsellable - this is because it's not really transmutation, you're just smelting stuff cutely (this code is 90% equivalent to an ore furnace)
-			res.AddComponent(/datum/component/unsellable, unsellable.reason)
+		res.AddComponent(/datum/component/unsellable, "bears obvious signs of transmutative origin")
 		res.was_crafted = TRUE
 		res.OnCrafted(get_dir(user, parent), user)
 		res.add_fingerprint(user)
@@ -295,7 +284,7 @@
 
 	data["input_text"] = "One of any smeltable item."
 
-	data["output_text"] = "Its smelted form; quality scales with alchemy skill."
+	data["output_text"] = "Its smelted form; quality is always normal."
 
 	var/list/materia_display = list()
 	for(var/a in materia_aspects)
