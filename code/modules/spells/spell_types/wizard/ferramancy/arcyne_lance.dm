@@ -46,7 +46,6 @@
 	damage = 66
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
-	npc_simple_damage_mult = 1.5
 	nodamage = FALSE
 	speed = MAGE_PROJ_MEDIUM
 	armor_penetration = PEN_LIGHT
@@ -58,10 +57,6 @@
 	var/hits = 0
 	/// Max mob targets before stopping
 	var/max_hits = 3
-
-/obj/projectile/magic/arcyne_lance/greatbow
-	damage = 90
-	max_hits = 5
 
 /obj/projectile/magic/arcyne_lance/arc
 	name = "arced arcyne lance"

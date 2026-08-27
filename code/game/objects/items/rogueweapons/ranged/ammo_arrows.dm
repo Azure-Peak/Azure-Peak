@@ -15,6 +15,11 @@
 	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
 	icon_state = "arrow"
 	force = 10
+	pixel_x = -25
+	pixel_y = -25
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	bigboy = TRUE
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
@@ -79,7 +84,6 @@
 	name = "arrow"
 	damage = 20
 	damage_type = BRUTE
-	npc_simple_damage_mult = 2
 	armor_penetration = PEN_NONE
 	//accuracy = 65 // Default defined by projectile.dm
 	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
@@ -95,6 +99,7 @@
 	speed = 0.4
 	min_range = MIN_ARROW_RANGE
 	max_range = MAX_ARROW_RANGE
+	dam_falloff_factor = DAM_FALLOFF_ARROW
 	var/trains_ranged_skill = TRUE
 
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
@@ -135,7 +140,6 @@
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
 	embedchance = 30
-	npc_simple_damage_mult = 2
 
 
 /obj/projectile/bullet/reusable/arrow/iron/aalloy
@@ -156,7 +160,6 @@
 	damage = 30
 	armor_penetration = PEN_HEAVY
 	embedchance = 80 // Easy embeds!
-	npc_simple_damage_mult = 3
 
 // Significantly worse armour-piercing, slightly more damage. Should still penetrate most things.
 // Note that it's pretty likely the skeleton using these has a longbow, which penetrates more stuff.
@@ -177,7 +180,6 @@
 	damage = 50
 	armor_penetration = PEN_NONE
 	embedchance = 70
-	npc_simple_damage_mult = 3 //More damage over simplemobs!
 	speed = 0.15 // Faster!
 
 // POISON AMMO
@@ -227,7 +229,6 @@
 	damage = 60 //The rarest, but most powerful arrow subtype. Intended to be incredibly scarce, in practice - a 'silver bullet', to the most literal extent.
 	armor_penetration = PEN_HEAVY
 	embedchance = 100
-	npc_simple_damage_mult = 7 //..or 420 damage against a mindless mob. Strike true; reduce if these become craftable or more easily acquirable, through any means.
 	is_silver_proj = TRUE
 
 /obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
@@ -430,7 +431,6 @@
 	armor_penetration = PEN_HEAVY
 	icon_state = "blacksteelarrow_proj"
 	embedchance = 80
-	npc_simple_damage_mult = 7 //..or 350 damage against a mindless mob.
 	accuracy = 100
 
 /obj/projectile/bullet/reusable/arrow/iron/paint

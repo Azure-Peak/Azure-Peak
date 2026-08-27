@@ -114,7 +114,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/blade_weapons = list("Dual Shamshirs", "Shalal Saber & Shield")
+			var/blade_weapons = list("Dual Shamshirs", "Shalal sabre & Shield")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in blade_weapons
 			switch(weapon_choice)
 				if("Dual Shamshirs")
@@ -123,7 +123,7 @@
 					l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 					beltl = /obj/item/rogueweapon/scabbard/sword
 					beltr = /obj/item/rogueweapon/scabbard/sword
-				if("Shalal Saber & Shield")
+				if("Shalal sabre & Shield")
 					r_hand = /obj/item/rogueweapon/sword/long/marlin
 					beltr = /obj/item/rogueweapon/scabbard/sword
 					backl = /obj/item/rogueweapon/shield/tower/raneshen

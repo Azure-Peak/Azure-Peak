@@ -15,15 +15,15 @@
 	action_cooldown = 45 SECONDS
 
 /datum/ai_behavior/break_restraints/perform(seconds_per_tick, datum/ai_controller/controller)
-	. = ..()
 	var/mob/living/carbon/living_pawn = controller.pawn
+	if(living_pawn.incapacitated(ignore_restraints = TRUE))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	if(!living_pawn.handcuffed && !living_pawn.legcuffed)
-		finish_action(controller, FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(living_pawn.handcuffed)
 		living_pawn.cuff_resist(living_pawn.handcuffed)
 	else if(living_pawn.legcuffed)
 		living_pawn.cuff_resist(living_pawn.legcuffed)
 
-	finish_action(controller, TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED

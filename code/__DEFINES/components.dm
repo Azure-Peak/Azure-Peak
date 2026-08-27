@@ -292,7 +292,7 @@
 	#define SPEECH_MODE 8
 #define COMSIG_MOB_DEADSAY "mob_deadsay" // from /mob/say_dead(): (mob/speaker, message)
 	#define MOB_DEADSAY_SIGNAL_INTERCEPT 1
-///from base of /mob/verb/pointed: (atom/A)
+///from base of /mob/proc/linepoint: (atom/A)
 #define COMSIG_MOB_POINTED "mob_pointed"
 // /mob/living signals
 #define COMSIG_LIVING_GRAB_SELF_ATTEMPT "living_grab_self_attempt"
@@ -504,6 +504,15 @@
 #define COMSIG_AFTER_STORAGE_REMOVE "storage_after_remove"				//(obj/item/removing, obj/storage_master)
 
 #define COMSIG_STORAGE_ADDED "storage_item_added"
+#define COMSIG_STORAGE_CLOSED "storage_close"
+#define COMSIG_STORAGE_REMOVED "storage_item_removed"
+
+#define COMSIG_CONTAINER_CRAFT_COMPLETE "container_craft_complete"
+///from [/datum/container_craft_operation/proc/abort_craft]: (datum/container_craft_operation/operation, reason)
+#define COMSIG_CONTAINER_CRAFT_ABORTED "container_craft_aborted"
+
+///from base of [/datum/reagents/proc/set_temperature]: (new_temp, old_temp)
+#define COMSIG_REAGENTS_TEMP_CHANGE "reagents_temp_change"
 
 /*******Non-Signal Component Related Defines*******/
 

@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/rogue/deepone
+	anatomy_type = /datum/anatomy/biped
 	name = "Deep One"
 	desc = "It is said that, when the world was young and Abyssor did not yet dream, he took a mass of humenity \
 	in his hand and brought them to the abyss, sculpting from them speechless men in his own image."
@@ -15,14 +16,11 @@
 	STASTR = 13
 	STASPD = 9
 	maxHealth = DEEPONE_HEALTH
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1,
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+									/obj/item/alch/viscera = 1)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3,
 							/obj/item/alch/viscera = 2)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
-							/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2,
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5,
 							/obj/item/alch/viscera = 2)
 	health = DEEPONE_HEALTH
 	harm_intent_damage = 20
@@ -37,9 +35,7 @@
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
 	attack_sound = 'sound/combat/wooshes/punch/punchwoosh (1).ogg'
-	canparry = TRUE
 	d_intent = INTENT_DODGE
-	defprob = 50
 	speak_emote = list("burbles")
 	faction = list(FACTION_DEEPONE)
 	threat_point = THREAT_HIGH
@@ -50,6 +46,7 @@
 	AIStatus = AI_OFF
 
 	ai_controller = /datum/ai_controller/deepone
+	move_base_delay = MOVEMENT_DELAY_SPD_10
 
 /mob/living/simple_animal/hostile/rogue/deepone/Initialize(mapload)
 	. = ..()
@@ -82,6 +79,7 @@
 	ranged_cooldown_time = 40
 	check_friendly_fire = 1
 	ai_controller = /datum/ai_controller/deepone_ranged
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 
 /mob/living/simple_animal/hostile/rogue/deepone/wiz
 	threat_point = THREAT_TOUGH
@@ -98,8 +96,8 @@
 	ranged_cooldown_time = 70
 	check_friendly_fire = 1
 	ai_controller = /datum/ai_controller/deepone_ranged
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 	var/allowed_projectile_types = list(/obj/projectile/magic/frostbolt, /obj/projectile/energy/rogue3)
-
 
 /mob/living/simple_animal/hostile/rogue/deepone/wiz/Shoot()
 	projectiletype = pick(allowed_projectile_types)

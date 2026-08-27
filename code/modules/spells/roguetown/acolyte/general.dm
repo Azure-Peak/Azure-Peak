@@ -35,21 +35,21 @@
 	increased. Most healing Miracles cannot affect devoted Psydonians.\
 	<br><br><b>Patron Conditions:</b>\
 	<ul>\
-	<li><b>Abyssor:</b> +60% healing when the target is standing in water.</li>\
-	<li><b>Astrata:</b> +80% healing during daytime. Up to +100% if the target has the Noble trait (does not stack with daytime).</li>\
-	<li><b>Dendor:</b> Up to +80% from nearby natural objects (grass, trees, mushrooms, soil). Each wise tree grants an additional +60%.</li>\
-	<li><b>Eora:</b> +100% if the target is a pacifist. +60% if the caster is also a pacifist. Up to +160% total.</li>\
-	<li><b>Malum:</b> Up to +100% scaling with nearby fire sources (torches, campfires, hearths, candles, forges).</li>\
-	<li><b>Necra:</b> +100% when the target is below 25% health. +50% if the caster has Necran Mists active. Up to +150% total.</li>\
-	<li><b>Noc:</b> +40% healing during nighttime.</li>\
-	<li><b>Pestra:</b> +40% when the target is laying down (not buckled). Also restores blood and heals toxin damage.</li>\
-	<li><b>Ravox:</b> +40% if the target is using a strong attack intent. +20% if holding a weapon. +80% with blood restoration if cast on self while at low blood (30s cooldown). Up to +140% total.</li>\
-	<li><b>Xylix:</b> 50% chance of a random +40% to +100% bonus.</li>\
-	<li><b>Undivided:</b> Always +80% with no conditions.</li>\
-	<li><b>Baotha:</b> +20% if the target is drunk or on drugs. +20% if experiencing withdrawal. Up to +80% additional from wound pain and bleeding. Up to +120% total.</li>\
-	<li><b>Graggar:</b> Up to +100% scaling with nearby blood decals.</li>\
-	<li><b>Matthios:</b> +100% if the target has the Freeman trait.</li>\
-	<li><b>Zizo:</b> Up to +200% scaling with nearby bones and bone bundles.</li>\
+	<li><b>Abyssor:</b> +16.67% healing when the target is standing in water.</li>\
+	<li><b>Astrata:</b> +16.67% healing during daytime. Up to +16.67% if the target has the Noble trait (bonuses do not stack)</li>\
+	<li><b>Dendor:</b> Up to +16.67% from nearby natural objects (grass, trees, mushrooms, soil).</li>\
+	<li><b>Eora:</b> +16.67% if the target is a pacifist. Up to +16.67% if the caster is also a pacifist. (bonuses do not stack)</li>\
+	<li><b>Malum:</b> Up to +16.67% scaling with nearby fire sources (torches, campfires, hearths, candles, forges).</li>\
+	<li><b>Necra:</b> +16.67% when the target is below 25% health. Up to +16.67% if the caster has Necran Mists active. (bonuses do not stack)</li>\
+	<li><b>Noc:</b> +16.67% healing during nighttime.</li>\
+	<li><b>Pestra:</b> +16.67% when the target is laying down (not buckled). Also restores blood and heals toxin damage.</li>\
+	<li><b>Ravox:</b> +16.67% if the target is using a strong attack intent. Up to +16.67% if holding a weapon. An infusion of blood if cast on self while at low blood (30s cooldown). (bonuses do not stack)</li>\
+	<li><b>Xylix:</b> 50% chance of a +16.67% bonus.</li>\
+	<li><b>Undivided:</b> Always +16.67% with no conditions.</li>\
+	<li><b>Baotha:</b> +16.67% if the target is drunk or on drugs. Up to +16.67% if experiencing withdrawal. Up to +16.67% from wound pain and bleeding. (bonuses do not stack)</li>\
+	<li><b>Graggar:</b> Up to +16.67% scaling with nearby blood decals.</li>\
+	<li><b>Matthios:</b> +16.67% if the target has the Freeman trait.</li>\
+	<li><b>Zizo:</b> Up to +16.67% scaling with nearby bones and bone bundles.</li>\
 	</ul>"
 	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
 	button_icon_state = "heal"
@@ -270,6 +270,7 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	cooldown_time = 2 MINUTES
 
+	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/delay = 4.5 SECONDS	//Reduced to 1.5 seconds with Legendary
@@ -575,3 +576,106 @@
 			owner?.mind.AddSpell(new_spell)
 	if(!length(spells))
 		owner.mind?.RemoveSpell(src.type)
+
+/////////////////////////////////
+// MIRACLE - SACRED ASCENDANCE //
+/////////////////////////////////
+
+/datum/action/cooldown/spell/miracle/anastasis
+	name = "Anastasis"
+	desc = "Resurrect a person that is free of rot and decay, deadites (such as lyckers / skeletons) instead explode when it is attempted. Target must be adjacent to a STATIONARY CROSS."
+	fluff_desc = "The greatest feat any priest can manage is reversion of death, a true rebirth unlike the perversion Necromancers aspire to."
+	button_icon_state = "revive"
+	sound = 'sound/magic/revive.ogg'
+	glow_intensity = GLOW_INTENSITY_VERY_HIGH
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
+
+	secondary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = TRUE
+	charge_time = 5 SECONDS
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	cooldown_time = 5 MINUTES
+
+	spell_flags = SPELL_PSYDON
+	spell_requirements = SPELL_REQUIRES_MIND | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
+
+	/// Amount of PQ gained for reviving people
+	var/revive_pq = PQ_GAIN_REVIVE
+/*
+/obj/effect/proc_holder/spell/invoked/revive/start_recharge()
+	var/old_recharge = recharge_time
+	// Because the cooldown for anastasis is so incredibly low, not having tech impacts them more heavily than other faiths
+	var/tech_resurrection_modifier = SSchimeric_tech.get_resurrection_multiplier()
+	if(tech_resurrection_modifier > 1)
+		recharge_time = initial(recharge_time) * (tech_resurrection_modifier * 1.25)
+	else
+		recharge_time = initial(recharge_time)
+	if(charge_counter >= old_recharge && old_recharge > 0)
+		charge_counter = recharge_time
+	. = ..()
+*/
+/datum/action/cooldown/spell/miracle/anastasis/cast(atom/cast_on)
+	. = ..()
+
+	if(!isliving(cast_on))
+		return FALSE
+
+	var/mob/living/target = cast_on
+	if(!target.check_revive(owner))
+		return FALSE
+	var/found = null
+	for(var/obj/structure/fluff/psycross/S in oview(5, owner))
+		found = S
+		if(GLOB.tod == "night")
+			to_chat(owner, span_warning("Let there be light."))
+			S.AOE_flash(owner, range = 5)
+	if(!found)
+		to_chat(owner, span_warning("I need a holy cross."))
+		return FALSE
+	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
+		if(alert(owner, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
+			to_chat(owner, span_notice("You halt the rite before the divine force can fully take hold."))
+			return FALSE
+		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
+		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+		target.dust()
+		return TRUE
+	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+		target.visible_message(span_astrata("Nothing happens. They are not being let go."))
+		return FALSE
+	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
+	if(!target.revive(full_heal = FALSE))
+		to_chat(owner, span_warning("Nothing happens."))
+		return FALSE
+
+	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
+	//GET OVER HERE!
+	if(underworld_spirit)
+		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
+		qdel(underworld_spirit)
+		ghost.mind.transfer_to(target, TRUE)
+	target.grab_ghost(force = TRUE) // even suicides
+	target.emote("breathgasp")
+	target.Jitter(100)
+	record_round_statistic(STATS_ASTRATA_REVIVALS)
+	target.update_body()
+	target.visible_message(span_astrata("[target] is revived by holy light!"), span_green("I awake from the void."))
+	if(revive_pq && !HAS_TRAIT(target, TRAIT_IWASREVIVED) && owner?.ckey)
+		adjust_playerquality(revive_pq, owner.ckey)
+		ADD_TRAIT(target, TRAIT_IWASREVIVED, "[type]")
+	target.mind.remove_antag_datum(/datum/antagonist/zombie)
+	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it - Failsafe for it.
+	target.apply_status_effect(/datum/status_effect/debuff/revived)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
+	if(HAS_TRAIT(target, TRAIT_IRONMAN))
+		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
+		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
+
+	return TRUE

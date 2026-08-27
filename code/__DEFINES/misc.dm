@@ -37,18 +37,18 @@
 #define LEGSLEEVE_LAYER			36
 #define SHOES_LAYER				35
 #define SHOESLEEVE_LAYER		34
-#define HANDS_PART_LAYER		33		//hand skin (bodypart aux sprite). torso+arms ends here.
-#define ARM_DAMAGE_LAYER		32
-#define SHIRT_LAYER				31
-#define SHIRTSLEEVE_LAYER		30
-#define WRISTS_LAYER			29
-#define WRISTSLEEVE_LAYER		28
-#define ARMOR_LAYER				27
-#define TABARD_LAYER			26
-#define ARMORSLEEVE_LAYER		25
-#define BELT_LAYER				24		//only when looking south
-#define UNDER_CLOAK_LAYER		23
-#define GLOVES_LAYER			22		// torso+arms start here
+#define SHIRT_LAYER				33
+#define WRISTS_LAYER			32
+#define ARMOR_LAYER				31
+#define TABARD_LAYER			30
+#define BELT_LAYER				29		//only when looking south
+#define UNDER_CLOAK_LAYER		28
+#define HANDS_PART_LAYER		27
+#define GLOVES_LAYER			26
+#define ARM_DAMAGE_LAYER		25
+#define SHIRTSLEEVE_LAYER		24
+#define WRISTSLEEVE_LAYER		23
+#define ARMORSLEEVE_LAYER		22
 #define GLOVESLEEVE_LAYER		21
 #define RING_LAYER				20
 #define GLASSES_LAYER			19
@@ -82,13 +82,17 @@
 
 //^^^ whatever bro fractional layer is the only way now :/
 //this means under armour needs to stick with sleeves
-#define UNDER_ARMOR_LAYER			(ARMOR_LAYER+0.5)	//behind the armor and its pauldrons, in front of the bracers and the shirt, sleeves included
+#define UNDER_ARMOR_LAYER			(ARMOR_LAYER+0.5)
+#define UNDER_ARMORSLEEVE_LAYER		(ARMORSLEEVE_LAYER+0.5)
 #define UNDER_HAT_LAYER			(HEAD_LAYER+1)
 
 //AND -1 MEANS "ABOVE", OK?, OK!?!
 #define ABOVE_SHOES_LAYER			(SHOES_LAYER-1)
+#define ABOVE_CLOAK_LAYER			(CLOAK_LAYER-0.5)	//used by covers_breasts underwear rendering above clothing - see /datum/bodypart_feature/underwear/get_bodypart_overlay()
 #define ABOVE_BODY_FRONT_LAYER		(BODY_FRONT_LAYER-1)
+
 #define OVER_GLOVES_LAYER			(GLOVESLEEVE_LAYER-0.5)
+#define OVER_ARMOR_LAYER			(ARMOR_LAYER-0.5)
 
 //Security levels
 #define SEC_LEVEL_GREEN	0
@@ -136,7 +140,7 @@
 #define FOUNTAIN_PEN_FONT "Segoe Script"
 #define CRAYON_FONT "Comic Sans MS"
 #define PRINTER_FONT "Times New Roman"
-#define SIGNFONT "Times New Roman"
+#define SIGNFONT "Vladimir Script, Gabriola"
 
 #define RESIZE_DEFAULT_SIZE 1
 
@@ -225,42 +229,11 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define GHOST_ORBIT_SQUARE		"square"
 #define GHOST_ORBIT_PENTAGON	"pentagon"
 
-//Ghost showing preferences:
-#define GHOST_ACCS_NONE		1
-#define GHOST_ACCS_DIR		50
-#define GHOST_ACCS_FULL		100
-
-#define GHOST_ACCS_NONE_NAME		"default sprites"
-#define GHOST_ACCS_DIR_NAME			"only directional sprites"
-#define GHOST_ACCS_FULL_NAME		"full accessories"
-
-#define GHOST_ACCS_DEFAULT_OPTION	GHOST_ACCS_FULL
-
-GLOBAL_LIST_INIT(ghost_accs_options, list(GHOST_ACCS_NONE, GHOST_ACCS_DIR, GHOST_ACCS_FULL)) //So save files can be sanitized properly.
-
-#define GHOST_OTHERS_SIMPLE			1
-#define GHOST_OTHERS_DEFAULT_SPRITE		50
-#define GHOST_OTHERS_THEIR_SETTING		100
-
-#define GHOST_OTHERS_SIMPLE_NAME			"white ghost"
-#define GHOST_OTHERS_DEFAULT_SPRITE_NAME	"default sprites"
-#define GHOST_OTHERS_THEIR_SETTING_NAME	"their setting"
-
-#define GHOST_OTHERS_DEFAULT_OPTION			GHOST_OTHERS_THEIR_SETTING
-
-#define GHOST_MAX_VIEW_RANGE_DEFAULT 10
-#define GHOST_MAX_VIEW_RANGE_MEMBER 14
-
-
-GLOBAL_LIST_INIT(ghost_others_options, list(GHOST_OTHERS_SIMPLE, GHOST_OTHERS_DEFAULT_SPRITE, GHOST_OTHERS_THEIR_SETTING)) //Same as ghost_accs_options.
-
 //pda fonts
 #define MONO		"Monospaced"
 #define VT			"VT323"
 #define ORBITRON	"Orbitron"
 #define SHARE		"Share Tech Mono"
-
-GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 
 /////////////////////////////////////
 // atom.appearence_flags shortcuts //

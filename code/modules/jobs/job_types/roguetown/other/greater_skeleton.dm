@@ -14,7 +14,7 @@
 	tutorial = "You are bygone. A wandering has-been. But maybe your luck has not run out, yet.."
 
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/necro
-	show_in_credits = TRUE 
+	show_in_credits = TRUE
 	give_bank_account = FALSE
 	hidden_job = TRUE
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
@@ -28,6 +28,7 @@
 	ADD_TRAIT(H, TRAIT_NO_VOICEPACK_OVERRIDE, TRAIT_GENERIC) //In case we get edge-cases I.E siege skeletons. Otherwise its on the skeleton race too.
 
 	H.set_patron(/datum/patron/inhumen/zizo)
+	H.can_do_sex = FALSE // we've had one too many skeletons panel themselves in public
 
 	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
 	/datum/rmb_intent/aimed,\
@@ -327,7 +328,7 @@ NECRO SKELETONS
 	/*Gimmic here is for smithing, you have to spect out into what you want.
 	You remain mostly spread into utility as well as construction however this still remains a non-combat role,
 	for skeles to pick into, expect to be pretty chill playing this.
-	
+
 	vs lich skele you can't artifice as-well as them, nor do you get free spells + wall destroying explosion + decent as they have armor
 	Nor do you get yourself a free spec of golden specs to tell structure health, you're sort of a knockoff one to say the least.
 	You don't get a backpack or free toolset either, this isn't to say you can't do some amazing stuff/virtues don't exist.

@@ -13,10 +13,9 @@
 
 
 /datum/ai_behavior/simple_rest_and_recuperate/perform(seconds_per_tick, datum/ai_controller/controller, heal_message, bleed_clot, brute_heal)
-	. = ..()
 	var/mob/living/simple_animal/pawn = controller.pawn
 	if(QDELETED(pawn) || pawn.doing) //if doing something then skip
-		return
+		return AI_BEHAVIOR_DELAY
 	
 	bleed_clot = isnum(bleed_clot) ? bleed_clot : DEFAULT_BLEED_CLOT
 	brute_heal = isnum(brute_heal) ? brute_heal : DEFAULT_BRUTE_HEAL
@@ -33,7 +32,7 @@
 		pawn.blood_volume += pawn.blood_volume + DEFAULT_BLOOD_RECOVERY
 		pawn.blood_volume = clamp(pawn.blood_volume, 0, BLOOD_VOLUME_NORMAL)
 
-	finish_action(controller, TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 #undef DEFAULT_BLEED_CLOT
 #undef DEFAULT_BRUTE_HEAL

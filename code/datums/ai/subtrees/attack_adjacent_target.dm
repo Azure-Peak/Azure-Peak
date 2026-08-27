@@ -26,6 +26,7 @@
 /datum/ai_behavior/basic_melee_attack/opportunistic
 	action_cooldown = 0.2 SECONDS // We gotta check unfortunately often because we're in a race condition with nextmove
 	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
+	sidesteps_after = FALSE
 
 /datum/ai_behavior/basic_melee_attack/opportunistic/setup(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	if (!controller.blackboard_key_exists(targeting_strategy_key))
@@ -35,7 +36,6 @@
 /datum/ai_behavior/basic_melee_attack/opportunistic/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	var/atom/movable/atom_pawn = controller.pawn
 	if(!atom_pawn.CanReach(controller.blackboard[target_key]))
-		finish_action(controller, TRUE, target_key) // Don't clear target
-		return FALSE
+		return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_SUCCEEDED // Don't clear target
 	. = ..()
-	finish_action(controller, TRUE, target_key) // Try doing something else
+	return . | AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED // Try doing something else
