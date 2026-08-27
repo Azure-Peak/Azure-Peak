@@ -276,6 +276,7 @@
 		head = helmets[helmchoice]
 
 		var/armors = list(
+			"Cuirass"			= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/iron,
 			"Scalemail"			= /obj/item/clothing/suit/roguetown/armor/plate/scale,
@@ -283,13 +284,24 @@
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]
 
+		var/cloaks = list("Bog Green","Black","Brown and Longcoat")
+		var/cloak_choice = input(H, "Choose your cloak.", "FOR THE BOG") as anything in cloaks
+		switch(cloak_choice)
+			if("Bog Green")
+				cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+				mask = /obj/item/clothing/head/roguetown/roguehood/bogman
+			if("Black")
+				cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
+				mask = /obj/item/clothing/head/roguetown/roguehood/bogman/black
+			if("Brown and Longcoat")
+				cloak = /obj/item/clothing/suit/roguetown/armor/longcoat/brown
+				mask = /obj/item/clothing/head/roguetown/roguehood/bogman/brown
+
 		wretch_select_bounty(H)
 
-	mask = /obj/item/clothing/head/roguetown/roguehood/bogman
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/bevor
-	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
