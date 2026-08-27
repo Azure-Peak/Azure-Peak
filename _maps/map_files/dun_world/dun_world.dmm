@@ -21233,7 +21233,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
-/obj/item/ingot/blacksteel,
+/obj/random/loot/ingots,
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "ebo" = (
@@ -86664,7 +86664,7 @@
 	pixel_y = 0
 	},
 /obj/effect/spawner/lootdrop/roguetown/dungeon/medical,
-/obj/item/ingot/bronze,
+/obj/random/loot/ingots,
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "qcY" = (
@@ -88136,7 +88136,7 @@
 /area/rogue/indoors/town/church/chapel)
 "qrx" = (
 /obj/structure/closet/crate/coffin,
-/obj/item/listenstone,
+/obj/effect/spawner/lootdrop/cheap_jewelry_spawner,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cavewet/bogcaves/north)
 "qry" = (

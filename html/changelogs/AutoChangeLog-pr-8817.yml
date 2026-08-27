@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Necromancer simplemob skeletons no longer drop smeltable/sellable iron gear"
