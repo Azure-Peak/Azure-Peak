@@ -32,6 +32,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //no miracles to deal w/ stabs through plate armor
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
@@ -227,6 +228,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //No miracles to deal w/ stabs through plate/maile armor
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE, //So you can repair your heater shield + build in the bogs
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE, //Ditto
 	)
