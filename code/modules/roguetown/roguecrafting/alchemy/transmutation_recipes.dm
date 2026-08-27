@@ -156,7 +156,7 @@
 	output_items = list(/obj/item/rogueore/gold = 1) 	// the actual use of this is gilbranze production for high-level artifice in mgl3pt2
 
 // ARGYROPOEIA: an explicitly Noccite work, the catalyst is _impossible_ to create. it's adminspawn-only for now
-// and will remain an extremely rare Noccite artifact once a way to obtain it is added in part 2 of mgl3
+// and WILL REMAIN AN EXTREMELY RARE NOCCITE ARTIFACT if a way to obtain it is added in part 2 of mgl3
 /datum/transmutation_recipe/argyropoeia
 	name = "Argyropoeia (Silver)"
 	category = "Argyropoeic Transmutation"
