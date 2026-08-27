@@ -118,7 +118,7 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Grand Mace")
 				r_hand = /obj/item/rogueweapon/mace/goden/steel
-				backl = /obj/item/rogueweapon/scabbard/gwstrap
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 
 		var/helmets = list(
 			"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
