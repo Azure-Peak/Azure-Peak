@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - bugfix: "fitting pouches to belts now accepts any subtype of pouch"

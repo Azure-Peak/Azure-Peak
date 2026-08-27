@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "Brooms are cooler now. Cleaning 3x3 requires STRONG mode on."
-  - rscadd: "Added critical hit sfx to when you crit yourself by failspinning a pan or broom and being unlucky."

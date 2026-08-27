@@ -16,8 +16,12 @@
 		"react": "^19.2.8",
 		"react-dom": "^19.2.8",
 		"react-json-tree": "^0.20.0",
+		"react-sortablejs": "^6.1.4",
+		"sortablejs": "^1.15.7",
+		"tegaki": "^0.18.0",
 		"tgui-core": "^6.1.1",
-		"tgui-dev-server": "workspace:*"
+		"tgui-dev-server": "workspace:*",
+		"tgui-webworkers": "workspace:*"
 	},
 	"private": true
 }

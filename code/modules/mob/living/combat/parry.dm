@@ -131,7 +131,7 @@
 
 	if(used_weapon)
 		if(used_weapon.wbalance == WBALANCE_SWIFT)
-			if(mainhand && !offhand && def_swift_capable) // We're one-handing a swift-balanced weapon (rapiers, sabers, etc). Small parry boost (1 wdef equiv.)
+			if(mainhand && !offhand && def_swift_capable) // We're one-handing a swift-balanced weapon (rapiers, sabres, etc). Small parry boost (1 wdef equiv.)
 				prob2defend += 10
 
 	var/obj/item/attacker_weapon = attack_intent.masteritem
@@ -331,7 +331,7 @@
 
 					if(!has_status_effect(/datum/status_effect/buff/weapon_binded))
 						used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
-						used_weapon.remove_bintegrity(sharp_loss, user)
+						used_weapon.remove_bintegrity(sharp_loss, defender)
 			else
 				// Unarmed attacker
 				var/intdam = INTEG_PARRY_DECAY_UNARMED
@@ -344,7 +344,7 @@
 				if(istype(used_weapon, /obj/item/rogueweapon/shield) && attack_intent)
 					intdam *= attack_intent.intent_intdamage_factor
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
-				used_weapon.remove_bintegrity(sharp_loss, user)
+				used_weapon.remove_bintegrity(sharp_loss, defender)
 			if(mind)
 				dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
 				changeMaxDodge(2)

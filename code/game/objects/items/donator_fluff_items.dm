@@ -169,8 +169,6 @@
 	verbage_simple = "arranged"
 	verbage = "arranges"
 
-//
-
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/donator
 	name = "maillekini"
 	desc = "A curious - and particularly revealing - variant of a common maille-aketon. It's said that the intentionally provocative design \
@@ -611,7 +609,7 @@
 	icon_state = "gcuirass"
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_cropped
-	name = "Low Cut Padded Gambeson"
+	name = "low cut padded gambeson"
 	desc = "A gambeson that's padded in the areas that matter, and trimmed down at the top and below by design to be more revealing and fitted to the body for more comfort."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
@@ -620,7 +618,7 @@
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/donator_cropped
-	name = "Low Cut Gambeson"
+	name = "low cut gambeson"
 	desc = "An ordinary gambeson, trimmed down at the top and below by design to be more revealing and fitted to the body for more comfort."
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon = 'icons/clothing/donor_clothes.dmi'
@@ -2109,6 +2107,32 @@ As Excaliber."
 		to_chat(user, span_info("You tuck your hair under the [src]."))
 	user.update_inv_head()
 
+/obj/item/rogueweapon/halberd/limetease
+	name = "ornate swordpsear"
+	desc = "A steel swordspear, an odd implement decorated with gold ornaments and inlays. \
+	Is it more spear, or is it more sword? It's hard to tell in the hands of a skilled user, dancing seamlessly between the two fighting styles."
+	icon_state = "lime_swordspear"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/greatsword/limetease
+	name = "ornate swordpsear"
+	desc = "A steel swordspear, an odd implement decorated with gold ornaments and inlays. \
+	Is it more spear, or is it more sword? It's hard to tell in the hands of a skilled user, dancing seamlessly between the two fighting styles."
+	icon_state = "lime_swordspear"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// Same as halberd
+/obj/item/rogueweapon/greatsword/limetease/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 // CASTORTROY23
 /obj/item/rogueweapon/example/darling
 	name = "Darling"
@@ -2401,6 +2425,20 @@ As Excaliber."
 	inhand_y_dimension = 64
 	grid_height = 64
 	grid_width = 64
+
+/obj/item/rogueweapon/example/kadeguandao
+	name = "Dawn Cometh"
+	desc = "A polearm of fashioned after those in lingyue. How it ended up here is a wonder. It bears only one true cutting edge, though the false edge is sometimes used for hooking blades away. \
+	The blade is curved and bears some sort of yari-cross guard to catch blades. Wrapped around the wood handle is red string, taut and tight. \
+	On one strand, a bell like that of a xylixian's lies dormant. It might've rung once, but now it is silent.\
+	</br>‎<font color='ab6141'>	Still morning comes, and you can't outrun</br></font>‎<font color='e0b172'> 	the warm glow of the sun.</font>"
+	icon_state = "kadedao"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	grid_height = 64
+	grid_width = 64
+	bigboy = TRUE
 
 // MORTOSASYE
 /obj/item/rogueweapon/woodstaff/implement/grand/morto
@@ -3459,6 +3497,7 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/gambeson/donator_arming
 	name = "jacketed gambeson"
 	icon_state = "darming"
+	item_state = "darming"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
@@ -3494,6 +3533,7 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_arming
 	name = "heavy jacketed gambeson"
 	icon_state = "darming"
+	item_state = "darming"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
@@ -3529,6 +3569,7 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/gambeson/donator_jacket
 	name = "jacketed gambeson"
 	icon_state = "djacket"
+	item_state = "djacket"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
@@ -3564,6 +3605,7 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_jacket
 	name = "heavy jacketed gambeson"
 	icon_state = "djacket"
+	item_state = "djacket"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
@@ -3629,7 +3671,7 @@ As Excaliber."
 	threatening it may be, it won't make your ears longer."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "stalkerino_drowsword"
-	sheathe_icon = "nscabbard_spidersaber"
+	sheathe_icon = "nscabbard_spidersabre"
 	bigboy = TRUE
 	smeltresult = /obj/item/ingot/drow
 

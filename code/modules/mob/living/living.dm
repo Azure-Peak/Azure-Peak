@@ -740,6 +740,12 @@
 /mob/living/restrained(ignore_grab)
 	return ..() || istype(loc, /obj/item/mob_item)
 
+/mob/living/proc/is_carried()
+	return ismob(buckled) && buckled.buckle_lying > 0
+
+/mob/living/proc/is_legbound()
+	return FALSE
+
 /mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = TRUE, check_immobilized = FALSE, ignore_stasis = FALSE)
 	if(stat || IsUnconscious() || IsStun() || IsParalyzed() || (!ignore_restraints && restrained(ignore_grab)))
 		return TRUE

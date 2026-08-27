@@ -1,0 +1,147 @@
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import { useState } from 'react';
+import { useBackend } from 'tgui/backend';
+import { Window } from 'tgui/layouts';
+import { Button, Stack } from 'tgui-core/components';
+import type { ExaminePanelData } from './data';
+import { FlavorTextPage, ImageGalleryPage } from './pages';
+
+enum Page {
+  FlavorText,
+  ImageGallery,
+}
+
+export const ExaminePanel = (props) => {
+  const { act, data } = useBackend<ExaminePanelData>();
+  const {
+    is_vet,
+    is_donator,
+    character_name,
+    is_playing,
+    song_title,
+    has_song,
+    img_gallery,
+    nsfw_img_gallery,
+    examine_theme,
+  } = data;
+  const [currentPage, setCurrentPage] = useState(Page.FlavorText);
+  const hasAnyGalleryImages =
+    img_gallery.length > 0 || nsfw_img_gallery.length > 0;
+
+  let pageContents;
+
+  switch (currentPage) {
+    case Page.FlavorText:
+      pageContents = <FlavorTextPage />;
+      break;
+    case Page.ImageGallery:
+      pageContents = <ImageGalleryPage />;
+      break;
+  }
+
+  return (
+    <Window
+      title={character_name}
+      width={1000}
+      height={700}
+      theme={examine_theme || undefined}
+      buttons={
+        <>
+          {!!is_donator && (
+            <Button
+              color="gold"
+              icon="heart"
+              tooltip="This player is a donator!"
+              tooltipPosition="bottom-start"
+              onClick={() => act('donator_chat')}
+            />
+          )}
+          {!!is_vet && (
+            <Button
+              color="gold"
+              icon="crown"
+              tooltip="This player is age-verified!"
+              tooltipPosition="bottom-start"
+              onClick={() => act('vet_chat')}
+            />
+          )}
+          <Button
+            color="green"
+            icon="music"
+            tooltip="Music player"
+            tooltipPosition="bottom-start"
+            onClick={() => act('toggle')}
+            disabled={!has_song}
+            selected={is_playing}
+          >
+            {song_title ?? null}
+          </Button>
+        </>
+      }
+    >
+      <Window.Content>
+        <Stack vertical fill>
+          {hasAnyGalleryImages && (
+            <Stack style={{ marginBottom: '4px' }}>
+              <Stack.Item grow>
+                <PageButton
+                  currentPage={currentPage}
+                  page={Page.FlavorText}
+                  setPage={setCurrentPage}
+                >
+                  Flavor Text
+                </PageButton>
+              </Stack.Item>
+              <Stack.Item grow>
+                <PageButton
+                  currentPage={currentPage}
+                  page={Page.ImageGallery}
+                  setPage={setCurrentPage}
+                >
+                  Image Gallery
+                </PageButton>
+              </Stack.Item>
+            </Stack>
+          )}
+          {hasAnyGalleryImages && <Stack.Divider />}
+          <Stack.Item
+            grow
+            position="relative"
+            overflowX="hidden"
+            overflowY="auto"
+          >
+            {pageContents}
+          </Stack.Item>
+        </Stack>
+      </Window.Content>
+    </Window>
+  );
+};
+
+type PageButtonProps<TPage> = {
+  currentPage: TPage;
+  page: TPage;
+  otherActivePages?: TPage[];
+  setPage: Dispatch<SetStateAction<TPage>>;
+  children?: ReactNode;
+};
+
+function PageButton<TPage extends number>(props: PageButtonProps<TPage>) {
+  const { children, currentPage, page, otherActivePages, setPage } = props;
+
+  const pageIsActive =
+    currentPage === page ||
+    (otherActivePages && otherActivePages.indexOf(currentPage) !== -1);
+
+  return (
+    <Button
+      align="center"
+      fontSize="1.2em"
+      fluid
+      selected={pageIsActive}
+      onClick={() => setPage(page)}
+    >
+      {children}
+    </Button>
+  );
+}

@@ -146,6 +146,9 @@
 	var/ambushable = 0
 	var/threat_point = 0 // Threat Point cost for the ambush budget system. Set on NPC subtypes.
 	var/ambush_faction = "" // Faction tag for ambush same/wrong-faction purchasing. Separate from mob faction list.
+	var/gm_name // Display label in the game master panel. Unset derives one from the type path.
+	var/gm_category // Filter category in the game master panel. Unset uses the primary faction.
+	var/gm_hidden = FALSE // Keep this type out of the game master panel entirely.
 
 	var/datum/fellowship/current_fellowship
 	var/list/incoming_fellowship_invites = list() // list of /datum/weakref to /datum/fellowship; kept in sync with fellowship.pending_invites

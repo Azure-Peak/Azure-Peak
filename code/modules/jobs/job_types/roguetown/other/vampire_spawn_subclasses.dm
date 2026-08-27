@@ -160,6 +160,7 @@
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
 			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
+			"Snouted Burgonet" = /obj/item/clothing/head/roguetown/helmet/heavy/burgonet,
 			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"None"
 		)

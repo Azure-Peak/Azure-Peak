@@ -2,15 +2,15 @@
 	name = "Baotha"
 	domain = "Goddess of Comfort, Passion, Addiction, and Heartbreak"
 	desc = "Belladoth was the Eleventh of the Pantheon, In taboo rituo, she took on the pain of the uncomforted and outcast, those that had been rejected by her siblings; and together, their pain became Baotha. A saccharine truth that the hurts of the world need not be shouldered alone, no matter who you are. She offers succor to those that cannot find it elsewhere. Baothans range from the Heartbroken and Damaged to those that have simply turned to Nihilism in the face of the death of Psydonia."
-	worshippers = "The Anguished, the Hollow, the Heartbroken, the Addicted"
-	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE)
+	worshippers = "The Anguished, the Hollow, the Heartbroken, the Addicted, those who break taboo"
+	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE, TRAIT_BAOTHAN_CALM) ///this is fine
 	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
+					/datum/action/cooldown/spell/baotha/emotional_sway			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/baothavice				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/baothablessings			= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal						= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/insufflation					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/targeted/touch/loversruin			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/heart_on_sleeve			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/griefflower				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust	= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/lasthigh					= CLERIC_T2,
@@ -24,7 +24,7 @@
 		"BAOTHA IS MY JOY!",
 	)
 	storyteller = /datum/storyteller/baotha
-	traits_tier = list(TRAIT_CRACKHEAD = CLERIC_T1)
+	traits_tier = list(TRAIT_CRACKHEAD = CLERIC_T1) //lacks a t0, i may come up with a satisfying one at some point, idk
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/baotha_cross_stone, /datum/crafting_recipe/roguetown/structure/baotha_cross_meat)
 
 	titles = list(
@@ -35,7 +35,7 @@
 		"Belladoth",
 		"Beladoth", //SOMEONE WILL MISPELL IT, I JUST KNOW IT.
 		"Leopard", // fjall
-		"Solace", // bigger part of her new lore, i.e. lady of solace
+		"Solace", // i have no idea why this is here but i'll keep it along with the old names ig
 	)
 
 /datum/patron/inhumen/baotha/can_pray(mob/living/follower)

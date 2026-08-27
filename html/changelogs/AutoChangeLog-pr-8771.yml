@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "Recoil is set to minimal if armor is broken."
