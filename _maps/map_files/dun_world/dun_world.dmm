@@ -74119,16 +74119,6 @@
 "nwE" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/dwarfin)
-"nwF" = (
-/obj/structure/flora/ausbushes/brflowers,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/flora/newtree,
-/turf/open/floor/rogue/grassyel,
-/area/rogue/outdoors/town)
 "nwG" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grass,
@@ -103295,18 +103285,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
-"sHU" = (
-/obj/structure/stairs{
-	dir = 8
-	},
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/flora/newtree,
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/town)
 "sHV" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/reagent_containers/glass/bucket/pot/aalloy,
@@ -298131,7 +298109,7 @@ njB
 jBu
 fBb
 vUD
-sHU
+oJE
 qRv
 apZ
 vUD
@@ -299033,7 +299011,7 @@ exD
 exD
 exD
 jBu
-nwF
+mdl
 uBc
 gPy
 apZ
