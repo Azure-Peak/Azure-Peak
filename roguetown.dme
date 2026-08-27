@@ -3394,6 +3394,7 @@
 #include "code\modules\spells\spell_types\wizard\invoked_single_target\transform.dm"
 #include "code\modules\spells\spell_types\wizard\kinesis\crush.dm"
 #include "code\modules\spells\spell_types\wizard\kinesis\gravity.dm"
+#include "code\modules\spells\spell_types\wizard\kinesis\greater_cleaning.dm"
 #include "code\modules\spells\spell_types\wizard\kinesis\kinetic_burst.dm"
 #include "code\modules\spells\spell_types\wizard\kinesis\mass_crush.dm"
 #include "code\modules\spells\spell_types\wizard\kinesis\mass_gravity.dm"
