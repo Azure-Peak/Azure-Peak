@@ -226,8 +226,9 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN, // Worse at swimming than the above class.
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE, // Able to steal saigas for some hit and runs, doesn't start w/ one.
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE, //So you can repair your heater shield + build in the bogs
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE, //Ditto
 	)
 
 /datum/outfit/job/roguetown/wretch/deserter/pre_equip(mob/living/carbon/human/H)
@@ -239,14 +240,14 @@
 		switch(weapon_choice)
 			if("Warhammer & Shield")
 				beltr = /obj/item/rogueweapon/mace/warhammer/steel
-				backl = /obj/item/rogueweapon/shield/iron
+				backl = /obj/item/rogueweapon/shield/heater
 			if("Sabre & Shield")
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/sabre
-				backl = /obj/item/rogueweapon/shield/wood
+				backl = /obj/item/rogueweapon/shield/heater
 			if("Axe & Shield")
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
-				backl = /obj/item/rogueweapon/shield/iron
+				backl = /obj/item/rogueweapon/shield/heater
 			if("Billhook")
 				r_hand = /obj/item/rogueweapon/spear/billhook
 				backl = /obj/item/rogueweapon/scabbard/gwstrap

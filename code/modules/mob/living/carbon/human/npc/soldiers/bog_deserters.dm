@@ -25,18 +25,21 @@
 			mask = /obj/item/clothing/head/roguetown/roguehood/bogman/brown
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/proc/add_random_deserter_weapon(mob/living/carbon/human/H)
-	var/random_deserter_weapon = rand(1,3)
+	var/random_deserter_weapon = rand(1,4)
 	switch(random_deserter_weapon)
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/iron
 			l_hand = /obj/item/rogueweapon/shield/heater
 		if(2)
-			r_hand = /obj/item/rogueweapon/spear
+			r_hand = /obj/item/rogueweapon/mace/cudgel
+			l_hand = /obj/item/rogueweapon/shield/heater
 		if(3)
+			r_hand = /obj/item/rogueweapon/spear
+		if(4)
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/proc/add_random_deserter_weapon_hard(mob/living/carbon/human/H)
-	var/add_random_deserter_weapon_hard = rand(1,4)
+	var/add_random_deserter_weapon_hard = rand(1,5)
 	switch(add_random_deserter_weapon_hard)
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/iron
@@ -49,6 +52,8 @@
 		if(4)
 			r_hand = /obj/item/rogueweapon/flail
 			l_hand = /obj/item/rogueweapon/shield/heater
+		if(5)
+			r_hand = /obj/item/rogueweapon/woodstaff/militia
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/proc/add_random_deserter_beltl_stuff(mob/living/carbon/human/H)
 	var/add_random_deserter_beltl_stuff = rand(1,7)
