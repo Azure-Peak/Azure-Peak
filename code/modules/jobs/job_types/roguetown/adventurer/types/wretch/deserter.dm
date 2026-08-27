@@ -281,7 +281,6 @@
 			"Pigface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 			"Klappvisier Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
-			"Savoyard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Snouted Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
