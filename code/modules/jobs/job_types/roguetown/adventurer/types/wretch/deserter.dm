@@ -188,7 +188,12 @@
 /datum/advclass/wretch/deserter
 	name = "Deserter"
 	tutorial = "You had your post. You had your duty. Dissatisfied, lacking in morale, or simply thinking yourself better than it. - You decided to walk. Now it follows you everywhere you go."
+	allowed_sexes = list(MALE, FEMALE)
+
 	outfit = /datum/outfit/job/roguetown/wretch/deserter
+
+	class_select_category = CLASS_CAT_WARRIOR
+	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 5 // very solid, statline but not super unique all-rounder. We don't want more than 5 people in the terrorbogs immune to it without a hag's intervention at worst.
 	//frankly, this is probably not going to happen consistantly. If it does uhh, honestly. hilarious.
 
