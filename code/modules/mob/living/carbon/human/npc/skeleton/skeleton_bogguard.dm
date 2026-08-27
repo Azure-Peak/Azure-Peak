@@ -62,7 +62,26 @@
 	name = "Skeleton Archer"
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
-	armor = /obj/item/clothing/suit/roguetown/shirt/rags
+	if(prob(60))//WRIST
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	if(prob(90))//SHIRT
+		shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/bog
+	if(prob(75))
+		armor = /obj/item/clothing/suit/roguetown/armor/gambeson
+		if(prob(50))
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	if(prob(25))
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	if(prob(50))//HEAD
+		head = /obj/item/clothing/head/roguetown/roguehood/bogman
+		if(prob(60))
+			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+	neck= /obj/item/clothing/neck/roguetown/chaincoif/iron
+	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	if(prob(50))
+		shoes = /obj/item/clothing/shoes/roguetown/boots
 	head = null
 	mask = null
 	neck = null
