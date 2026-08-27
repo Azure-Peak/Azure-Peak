@@ -21,6 +21,9 @@
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	neck= /obj/item/clothing/neck/roguetown/chaincoif/iron
 	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	if(prob(50))
+		shoes = /obj/item/clothing/shoes/roguetown/boots
 	switch(rand(1, 7))
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/iron
