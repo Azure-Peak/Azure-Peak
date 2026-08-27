@@ -194,8 +194,8 @@
 
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
-	maximum_possible_slots = 5 // very solid, statline but not super unique all-rounder. We don't want more than 5 people in the terrorbogs immune to it without a hag's intervention at worst.
-	//frankly, this is probably not going to happen consistantly. If it does uhh, honestly. hilarious.
+	//frankly, this is probably not going to happen consistantly with a massive tide of bogmen. If it does uhh, honestly. hilarious.
+	//Worst case nuke this to 5 slots, or 4. If it becomes a problem.
 
 	subclass_stashed_items = list(
 		"Armor Plates" =	/obj/item/repair_kit/metal,
@@ -271,10 +271,17 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/order/onfeet)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brotherhood)
 
+		/*
+		meant to be less knightly-helmets and more in-line with banditry, brigand loadouts and such so, so no armlets
+
+		we limit this so you have to look moderately evil or suspiciously wearing old-style helmets
+		*/
 		var/helmets = list(
 			"Pigface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 			"Klappvisier Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+			"Savoyard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
+			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Snouted Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
 			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
