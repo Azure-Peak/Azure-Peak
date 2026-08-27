@@ -486,7 +486,7 @@ GLOBAL_LIST_INIT(bogman_aggro, world.file2list("strings/rt/bogmanaggrolines.txt"
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/npc
-	add_random_deserter_cloak_better(H)
+	add_random_deserter_cloak(H)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	head = null
@@ -517,7 +517,7 @@ GLOBAL_LIST_INIT(bogman_aggro, world.file2list("strings/rt/bogmanaggrolines.txt"
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron
 	backl = /obj/item/quiver/bolt/npc
-	add_random_deserter_cloak_better(H)
+	add_random_deserter_cloak(H)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	head = null
