@@ -71,7 +71,8 @@
 			"Shashka + Shield",
 			"Steel Poleaxe",
 			"Steel Flameberge",
-			"Grand Mace"
+			"Grand Mace",
+			"Polehammer"
 		)
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
@@ -118,6 +119,9 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Grand Mace")
 				r_hand = /obj/item/rogueweapon/mace/goden/steel
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Polehammer")
+				r_hand = /obj/item/rogueweapon/eaglebeak
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 
 		var/helmets = list(

@@ -11,6 +11,19 @@
 		if(3)
 			cloak = /obj/item/clothing/suit/roguetown/armor/longcoat/brown
 
+/datum/outfit/job/roguetown/human/northern/bog_deserters/proc/add_random_deserter_cloak_better(mob/living/carbon/human/H)
+	var/random_deserter_cloak_better = rand(1,4)
+	switch(random_deserter_cloak_better)
+		if(1)
+			cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+			mask = /obj/item/clothing/head/roguetown/roguehood/bogman
+		if(2)
+			cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
+			mask = /obj/item/clothing/head/roguetown/roguehood/bogman/black
+		if(3)
+			cloak = /obj/item/clothing/suit/roguetown/armor/longcoat/brown
+			mask = /obj/item/clothing/head/roguetown/roguehood/bogman/brown
+
 /datum/outfit/job/roguetown/human/northern/bog_deserters/proc/add_random_deserter_weapon(mob/living/carbon/human/H)
 	var/random_deserter_weapon = rand(1,3)
 	switch(random_deserter_weapon)
@@ -278,9 +291,8 @@
 	//Chest Gear
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	add_random_deserter_armor_hard(H)
-	add_random_deserter_cloak(H)
+	add_random_deserter_cloak_better(H)
 	//Head Gear
-	mask = /obj/item/clothing/head/roguetown/roguehood/bogman
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron
 	//wrist Gear
@@ -433,10 +445,9 @@
 	//Chest Gear
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	add_random_deserter_armor_hard(H)
-	add_random_deserter_cloak(H)
+	add_random_deserter_cloak_better(H)
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
-	mask = /obj/item/clothing/head/roguetown/roguehood/bogman
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron
 	//wrist Gear
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
