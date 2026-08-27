@@ -11,7 +11,6 @@
 	on = FALSE
 	roundstart_forbid = TRUE
 
-	var/list/food = list()
 	var/maxfood = 6
 	var/door_open = FALSE
 	var/has_log = FALSE
@@ -70,7 +69,7 @@
 		// Only display food overlays when the door is open
 		if(door_open)
 			var/index = 0
-			for(var/obj/item/I in food)
+			for(var/obj/item/I in contents)
 				I.pixel_x = 0
 				I.pixel_y = 0
 				var/mutable_appearance/M = new /mutable_appearance(I)
@@ -84,14 +83,14 @@
 				index++
 
 /obj/machinery/light/rogue/smoker/proc/recalculate_cook_time()
-	if(!food.len)
+	if(!contents.len)
 		target_cook_time = 0
 		return
 
 	var/total_required = 0
 	var/valid_items = 0
 
-	for(var/obj/item/reagent_containers/food/snacks/S in food)
+	for(var/obj/item/reagent_containers/food/snacks/S in contents)
 		if(!S.smoked_type)
 			continue
 		var/req = S.cooktime ? S.cooktime : 100
@@ -119,8 +118,9 @@
 	if(!inside)
 		if(door_open)
 			door_open = FALSE
-			if(lit && has_log && food.len)
+			if(lit && has_log && contents.len)
 				on = TRUE
+				START_PROCESSING(SSmachines, src)
 			user.visible_message(span_notice("[user] shuts [src]."))
 			need_underlay_update = TRUE
 			update_icon()
@@ -134,6 +134,7 @@
 		user.visible_message(span_notice("[user] opens the door to [src]."))
 		door_open = TRUE
 		on = FALSE
+		STOP_PROCESSING(SSmachines, src)
 		need_underlay_update = TRUE
 		update_icon()
 		return
@@ -175,10 +176,10 @@
 			return ..()
 		return
 
-	if(food.len < maxfood)
+	if(contents.len < maxfood)
 		if(!user.transferItemToLoc(W, src))
 			return
-		food += W
+		contents += W
 		recalculate_cook_time()
 		playsound(get_turf(src.loc), 'sound/items/wood_sharpen.ogg', 50)
 		user.visible_message(span_warning("[user] hangs [W] inside [src]."))
@@ -197,15 +198,16 @@
 		if(!door_open)
 			door_open = TRUE
 			on = FALSE
+			STOP_PROCESSING(SSmachines, src)
 			user.visible_message(span_notice("[user] opens [src]."))
 			need_underlay_update = TRUE
 			update_icon()
 			return
 
-		if(food.len)
-			var/obj/item/I = food[food.len]
+		if(contents.len)
+			var/obj/item/I = contents[contents.len]
 			I.forceMove(get_turf(user))
-			food -= I
+			contents -= I
 			user.put_in_active_hand(I)
 			recalculate_cook_time()
 			need_underlay_update = TRUE
@@ -214,8 +216,9 @@
 	else
 		if(door_open)
 			door_open = FALSE
-			if(lit && has_log && food.len)
+			if(lit && has_log && contents.len)
 				on = TRUE
+				START_PROCESSING(SSmachines, src)
 			user.visible_message(span_notice("[user] shuts [src]."))
 			need_underlay_update = TRUE
 			update_icon()
@@ -224,8 +227,7 @@
 			return ..()
 
 /obj/machinery/light/rogue/smoker/process()
-	..()
-	if(!on || door_open || !lit || !has_log || !food.len)
+	if(!on || door_open || !lit || !has_log || !contents.len)
 		return
 
 	var/cooktime_divisor = 1
@@ -243,7 +245,7 @@
 	var/list/new_foods = list()
 	var/items_transformed = 0
 
-	for(var/obj/item/I in food)
+	for(var/obj/item/I in contents)
 		var/obj/item/reagent_containers/food/snacks/S = I
 		if(istype(S) && S.smoked_type)
 			var/obj/item/reagent_containers/food/snacks/result = new S.smoked_type(src)
@@ -255,7 +257,7 @@
 		else
 			new_foods += I
 
-	food = new_foods
+	contents = new_foods
 	visible_message(span_notice("A rich, smoky aroma drifts out from [src]!"))
 
 	var/mob/living/carbon/human/lastuser = lastuser_ref?.resolve()
@@ -265,6 +267,7 @@
 	has_log = FALSE
 	lit = FALSE
 	on = FALSE
+	STOP_PROCESSING(SSmachines, src)
 	current_cook_progress = 0
 	target_cook_time = 0
 	need_underlay_update = TRUE
@@ -273,13 +276,18 @@
 /obj/machinery/light/rogue/smoker/Crossed(atom/movable/AM, oldLoc)
 	return
 
+// Don't want this to process when it doesn't have to.
+/obj/machinery/light/rogue/smoker/update(trigger = TRUE)
+	return
+
 /obj/machinery/light/rogue/smoker/Destroy()
+	STOP_PROCESSING(SSmachines, src)
 	var/turf/T = get_turf(src)
 	if(T)
-		for(var/obj/item/I in food)
+		for(var/obj/item/I in contents)
 			I.forceMove(T)
 
-	food.Cut()
+	contents.Cut()
 	lastuser_ref = null
 	return ..()
 
