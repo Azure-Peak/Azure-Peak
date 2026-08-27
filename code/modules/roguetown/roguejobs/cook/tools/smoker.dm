@@ -1,4 +1,5 @@
 #define SMOKE_COOKING_TIME_MULTIPLIER 3
+#define SMOKER_EXP_PER_ITEM 0.5
 
 /obj/machinery/light/rogue/smoker
 	name = "smoker"
@@ -16,7 +17,7 @@
 	var/has_log = FALSE
 	var/lit = FALSE
 	var/need_underlay_update = TRUE
-	var/mob/living/carbon/human/lastuser
+	var/datum/weakref/lastuser_ref
 
 	var/current_cook_progress = 0
 	var/target_cook_time = 0
@@ -112,7 +113,7 @@
 	return (_x >= 13 && _x <= 20 && _y >= 6 && _y <= 17)
 
 /obj/machinery/light/rogue/smoker/attackby(obj/item/W, mob/living/user, params)
-	lastuser = user
+	lastuser_ref = WEAKREF(user)
 	var/inside = clicked_interior(params)
 
 	if(!inside)
@@ -189,7 +190,7 @@
 		return
 
 /obj/machinery/light/rogue/smoker/attack_hand(mob/user, params)
-	lastuser = user
+	lastuser_ref = WEAKREF(user)
 	var/inside = clicked_interior(params)
 
 	if(inside)
@@ -228,6 +229,7 @@
 		return
 
 	var/cooktime_divisor = 1
+	var/mob/living/carbon/human/lastuser = lastuser_ref?.resolve()
 	if(lastuser)
 		var/datum/skill/craft/cooking/cs = lastuser.get_skill_level(/datum/skill/craft/cooking)
 		cooktime_divisor = get_cooktime_divisor(cs)
@@ -239,6 +241,7 @@
 
 /obj/machinery/light/rogue/smoker/proc/finish_batch()
 	var/list/new_foods = list()
+	var/items_transformed = 0
 
 	for(var/obj/item/I in food)
 		var/obj/item/reagent_containers/food/snacks/S = I
@@ -248,11 +251,16 @@
 				S.reagents.trans_to(result, S.reagents.total_volume)
 			qdel(S)
 			new_foods += result
+			items_transformed++
 		else
 			new_foods += I
 
 	food = new_foods
 	visible_message(span_notice("A rich, smoky aroma drifts out from [src]!"))
+
+	var/mob/living/carbon/human/lastuser = lastuser_ref?.resolve()
+	if(lastuser && ishuman(lastuser) && lastuser.mind && items_transformed > 0)
+		lastuser.mind.add_sleep_experience(/datum/skill/craft/cooking, lastuser.STAINT * (items_transformed * SMOKER_EXP_PER_ITEM))
 
 	has_log = FALSE
 	lit = FALSE
@@ -272,7 +280,8 @@
 			I.forceMove(T)
 
 	food.Cut()
-	lastuser = null
+	lastuser_ref = null
 	return ..()
 
+#undef SMOKER_EXP_PER_ITEM
 #undef SMOKE_COOKING_TIME_MULTIPLIER
