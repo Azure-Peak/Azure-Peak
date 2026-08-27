@@ -66,10 +66,95 @@
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
 #define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
 #define STRENGTH_CAPPEDMULT 0.03	//STR multiplier per STR point past the softcap
-#define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
-#define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
-#define RANGED_STAT_CAPPEDMULT 0.03	//PER multiplier per point past the softcap. 0.03 = 3% per point.
+//RANGED DEFINES
+
+#define RANGED_DRAW_STR_BASELINE 10
+GLOBAL_LIST_INIT(ranged_draw_curve, list(1, 0.79, 0.58, 0.33, 0.17, 0.08, 0))
+#define RANGED_ARC_DRAW_EXTRA 3
+#define RANGED_ARC_DRAW_FLOOR_EXTRA 2
+
+#define BOW_DRAW_BASE 20
+#define BOW_DRAW_FLOOR 8
+#define SHORTBOW_DRAW_BASE 17
+#define SHORTBOW_DRAW_FLOOR 7.5
+#define LONGBOW_DRAW_BASE 26
+#define LONGBOW_DRAW_FLOOR 13
+#define LONGBOW_DRAW_PER_STR 1.5
+#define SLING_DRAW_BASE 18 // Used to be faster shooting than recurve due to perception counting twice. Let it keep its speed advantage but not too much.
+#define SLING_DRAW_FLOOR 8
+
+
+#define CROSSBOW_DRAW_BASE 16
+#define CROSSBOW_DRAW_FLOOR 6
+#define CROSSBOW_DRAW_PER_SKILL 1.5
+#define SLURBOW_DRAW_BASE 10
+#define SLURBOW_DRAW_FLOOR 4
+#define SLURBOW_DRAW_PER_SKILL 1
+#define HEAVY_CROSSBOW_DRAW_BASE 24
+#define HEAVY_CROSSBOW_DRAW_FLOOR 10
+#define HEAVY_CROSSBOW_DRAW_PER_SKILL 2
+#define CROSSBOW_ONEHANDED_DRAW_MULT 1.5
+#define CROSSBOW_ONEHANDED_ARC_DRAW_MULT 2
+
+// For archer, whose damage scales massively with PER, we make skill their main determinator of accuracy and ROF, while decoupling PER from accuracy and making it scale damage.
+#define ACC_RANGED_BASE 15
+#define ACC_RANGED_PER_SKILL 15
+// While for Mage, where I have made Arcyne Armament a pseudo melee skills, and INT their primary CDR and Cost scalar, we uses PER so that their build need more than one stat to function well, in place of skills. The accuracy is 10 as a baseline (15 - 10 = 5 * 15 = +75 + 15 = 90% accuracy at 15 perception, i.e. capping out vs limb)
+#define ACC_SPELL_PER_BASELINE 10
+#define ACC_SPELL_PER_STEP 15
+#define ACC_RANGED_FLOOR 0
+#define ACC_RANGED_VISUAL_REACH 7
+#define ACC_RANGED_FARSIGHT_PENALTY 10
+#define ACC_RANGED_ZCROSS_PENALTY 20
+#define ACC_RANGED_NPC_BASE 60
+#define RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE 50
+#define RANGED_MAX_FACE_HIT_CHANCE 30
+#define RANGED_ULTRA_PRECISE_HIT_PENALTY -25
+#define RANGED_MAX_PRECISE_HIT_CHANCE 90
+#define RANGED_PRECISE_HIT_PENALTY -10
+
+#define RANGED_PER_DAMAGE_BASELINE 10
+#define RANGED_PER_DAMAGE_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
+#define RANGED_PER_DAMAGE_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
+#define RANGED_PER_DAMAGE_CAPPEDMULT 0.03	//PER multiplier per point past the softcap. 0.03 = 3% per point.
 #define RANGED_SPREAD_JITTER 1.4 // Add jitter to a shot's spread to get the final angle
+#define RANGED_PER_DAMAGE_FLOOR 0
+
+#define RANGED_UNCHARGED_SPREAD 150
+#define RANGED_EARLY_RELEASE_ACC_PENALTY 0
+#define RANGED_EARLY_RELEASE_EMBED_MULT 1
+#define BOW_EARLY_RELEASE_ACC_PENALTY 15
+#define BOW_EARLY_RELEASE_EMBED_MULT 0.5
+
+#define RANGED_HOLD_GRACE 2 SECONDS // +0.5 seconds over mage
+// As you sacrifice all defenses when you do this
+#define RANGED_HOLD_GRACE_MAX 3 SECONDS
+#define RANGED_HOLD_GRACE_PER_BASELINE 10
+#define RANGED_HOLD_GRACE_PER_BONUS 0.2 SECONDS
+#define RANGED_HOLD_RAMP 2
+#define RANGED_HOLD_RAMP_WINDOW 40
+#define BOW_CHARGEDRAIN 0.5
+#define SHORTBOW_CHARGEDRAIN 0.4
+#define SLING_CHARGEDRAIN 0.4
+
+#define RANGED_NPC_DRAIN_MULT 0.5
+#define RANGED_LETDOWN_DRAIN_MULT 0.5
+#define BOW_RELEASEDRAIN 11
+#define SHORTBOW_RELEASEDRAIN 9
+#define CLASSICBOW_RELEASEDRAIN 12
+#define RECURVE_RELEASEDRAIN 14
+#define LONGBOW_RELEASEDRAIN 18
+#define SLING_RELEASEDRAIN 8
+#define RANGED_HOLD_SPREAD_MAX 60
+
+#define QUIVER_CAPACITY_SHEAF 24 // Quiver used to hold 30, was nerfed to 20, and that made their logistics kinda rough. So instead as a halfway compromise we'll go for 24 - a Sheaf, which is also a historical amount of arrow measurement.
+#define QUIVER_CAPACITY_BOLT 16
+#define QUIVER_CAPACITY_SIEGE 8
+#define QUIVER_CAPACITY_SLING 40
+#define QUIVER_CAPACITY_JAVELIN 20
+#define ARROW_SMITH_BATCH 12
+#define BOLT_SMITH_BATCH 16 // CBA to make you smith 8 bolts at once and I guess they can have an economic advantage
+
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions

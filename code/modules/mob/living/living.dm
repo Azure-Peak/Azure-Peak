@@ -1268,6 +1268,7 @@
 
 
 /mob/proc/stop_attack(message = FALSE)
+	used_intent?.on_charge_cancel()
 	if(atkswinging)
 		atkswinging = FALSE
 		if(message)

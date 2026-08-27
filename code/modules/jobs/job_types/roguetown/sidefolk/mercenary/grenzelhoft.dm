@@ -2,7 +2,7 @@
 	name = "Doppelsoldner"
 	tutorial = "You are a Doppelsoldner - \"Double-pay Mercenary\" - an experienced frontline swordsman trained by the Zenitstadt fencing guild."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft
 	class_select_category = CLASS_CAT_GRENZELHOFT
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
@@ -70,7 +70,7 @@
 	name = "Halberdier"
 	tutorial = "You're an experienced soldier skilled in the use of polearms and axes. Your equals make up the bulk of the mercenary guild's forces."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_halberdier
 	class_select_category = CLASS_CAT_GRENZELHOFT
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
@@ -136,7 +136,7 @@
 	name = "Armbrustschutze"
 	tutorial = "You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman
 	class_select_category = CLASS_CAT_GRENZELHOFT
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
@@ -182,10 +182,10 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light	// find a smithy to fix it
 			if("Studded Leather Vest")
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/studded		// or maintain it yourself!
-		var/weapons = list("Crossbow & 20 Bolts","Heavy Crossbow & 8 Heavy Bolts")
+		var/weapons = list("Crossbow & 16 Bolts","Heavy Crossbow & 8 Heavy Bolts")
 		var/weapon_choice = input(H, "Choose your weapon.", "RENOCK AND REBOLT") as anything in weapons
 		switch(weapon_choice)
-			if("Crossbow & 20 Bolts")
+			if("Crossbow & 16 Bolts")
 				beltr = /obj/item/quiver/bolt/standard
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			if("Heavy Crossbow & 8 Heavy Bolts")
@@ -215,7 +215,7 @@
 	name = "Gefechtsgelehrter"
 	tutorial = "You are a Gefechtsgelehrter - \"Combat Scholar\" - A proud magos from the Celestial Academy of Magos, who's skills in Siege Magic and Arcyne Physics are unmatched."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_mage
 	class_select_category = CLASS_CAT_GRENZELHOFT
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_WARMAGE)

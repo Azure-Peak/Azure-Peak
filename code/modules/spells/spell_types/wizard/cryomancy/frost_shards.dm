@@ -120,7 +120,6 @@
 	flag = "fire"
 	range = SPELL_RANGE_PROJECTILE
 	speed = MAGE_PROJ_FAST
-	accuracy = 40
 	nodamage = FALSE
 
 /obj/projectile/magic/frostbolt/arc

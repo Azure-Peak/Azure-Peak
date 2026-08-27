@@ -28,14 +28,11 @@
 	AI_THINK(pawn, "BOW: ranged_attack_bow setup FAILED - could not enter bow stance")
 	_restore_stashed_weapon(controller, pawn)
 
-// A skirmisher, not a turret. The archer is always backpedalling away from its mark - before,
-// during and after every shot - so it never roots in place. It fires on the move whenever a shot
-// is ready, holds still only when the foe is past ARCHER_NPC_KITE_RANGE (no pressure) or a crossbow
-// is cranking, and only draws steel when boxed into a corner with the foe adjacent.
+// Make the archer kite away in a burst of movement, stand still after a shot, and continue doing so, which should reduce player frustration with stutterstepping that makes it nearly impossible to hit
 /datum/ai_behavior/ranged_attack_bow
 	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION | AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM
 	action_cooldown = 0.2 SECONDS
-	required_distance = 0 // we choose a fresh destination every tick - never "arrive and plant"
+	required_distance = 0
 
 /datum/ai_behavior/ranged_attack_bow/setup(datum/ai_controller/controller, target_key)
 	. = ..()
@@ -61,6 +58,8 @@
 	var/turf/retreat
 	if(get_dist(pawn, target) <= ARCHER_NPC_KITE_RANGE)
 		retreat = _archer_retreat_turf(pawn, target)
+		if(retreat)
+			_archer_commit_burst(controller, pawn, retreat)
 	set_movement_target(controller, retreat || get_turf(pawn))
 	SEND_SIGNAL(controller.pawn, COMSIG_COMBAT_TARGET_SET, TRUE)
 	if(istype(bow, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow))
@@ -126,8 +125,7 @@
 			if(dist > ARCHER_NPC_JUKE_MIN_DIST)
 				var/turf/juke = _archer_reposition_turf(pawn, target)
 				if(juke)
-					controller.set_blackboard_key(BB_ARCHER_NPC_REPOSITION_TURF, juke)
-					controller.set_blackboard_key(BB_ARCHER_NPC_REPOSITION_UNTIL, world.time + ARCHER_NPC_REPOSITION_TIME)
+					_archer_commit_burst(controller, pawn, juke)
 
 	var/draw_slow = _bow_draw_slowdown(bow)
 	if(draw_slow && !is_crossbow)
@@ -150,16 +148,27 @@
 	if(juke_to && world.time < controller.blackboard[BB_ARCHER_NPC_REPOSITION_UNTIL] && get_turf(pawn) != juke_to && !juke_to.is_blocked_turf(exclude_mobs = TRUE))
 		set_movement_target(controller, juke_to)
 		return
-	controller.clear_blackboard_key(BB_ARCHER_NPC_REPOSITION_TURF)
-	if(dist > ARCHER_NPC_KITE_RANGE)
-		if(has_los)
-			controller.ai_movement.stop_moving_towards(controller) // in the pocket (kite < dist <= shoot) - hold and loose
-			return
+	if(juke_to)
+		_archer_end_burst(controller, dist > ARCHER_NPC_KITE_FLOOR)
+
+	if(!has_los && dist > ARCHER_NPC_KITE_RANGE)
 		var/turf/vantage = _archer_los_turf(pawn, target)
 		set_movement_target(controller, vantage || target) // sight blocked - sidestep for an angle, or push in until one opens
 		return
+
+	var/plant_until = controller.blackboard[BB_ARCHER_NPC_HOLD_UNTIL]
+	if(plant_until && dist > ARCHER_NPC_KITE_FLOOR)
+		if(world.time < plant_until)
+			controller.ai_movement.stop_moving_towards(controller)
+			return
+		controller.clear_blackboard_key(BB_ARCHER_NPC_HOLD_UNTIL)
+
+	if(dist > ARCHER_NPC_KITE_RANGE)
+		controller.ai_movement.stop_moving_towards(controller) // in the pocket (kite < dist <= shoot) - hold and loose
+		return
 	var/turf/retreat = _archer_retreat_turf(pawn, target)
 	if(retreat)
+		_archer_commit_burst(controller, pawn, retreat)
 		set_movement_target(controller, retreat)
 	else if(dist <= ARCHER_NPC_KITE_FLOOR)
 		finish_action(controller, FALSE, target_key) // boxed in with the foe adjacent - draw steel
@@ -171,7 +180,20 @@
 	var/mob/living/carbon/human/pawn = controller.pawn
 	controller.clear_blackboard_key(BB_ARCHER_NPC_AIM_LOCK_TURF)
 	controller.clear_blackboard_key(BB_ARCHER_NPC_AIM_RELEASE)
+	controller.clear_blackboard_key(BB_ARCHER_NPC_HOLD_UNTIL)
+	_archer_end_burst(controller, FALSE)
 	_restore_stashed_weapon(controller, pawn)
+
+/proc/_archer_commit_burst(datum/ai_controller/controller, mob/living/carbon/human/pawn, turf/destination)
+	var/tiles = get_dist(get_turf(pawn), destination)
+	controller.set_blackboard_key(BB_ARCHER_NPC_REPOSITION_TURF, destination)
+	controller.set_blackboard_key(BB_ARCHER_NPC_REPOSITION_UNTIL, world.time + max(ARCHER_NPC_REPOSITION_TIME, tiles * ARCHER_NPC_BURST_PER_TILE))
+
+/proc/_archer_end_burst(datum/ai_controller/controller, plant)
+	controller.clear_blackboard_key(BB_ARCHER_NPC_REPOSITION_TURF)
+	controller.clear_blackboard_key(BB_ARCHER_NPC_REPOSITION_UNTIL)
+	if(plant)
+		controller.set_blackboard_key(BB_ARCHER_NPC_HOLD_UNTIL, world.time + ARCHER_NPC_PLANT_TIME)
 
 /proc/_archer_retreat_turf(mob/living/carbon/human/pawn, atom/target)
 	var/away = get_dir(target, pawn)
@@ -181,7 +203,7 @@
 		var/turf/next = get_step(probe, away)
 		if(!next || next.is_blocked_turf(exclude_mobs = TRUE))
 			break
-		if(get_dist(next, target) > ARCHER_NPC_KITE_RANGE + 2)
+		if(get_dist(next, target) > ARCHER_NPC_SHOOT_RANGE)
 			break
 		best = next
 		probe = next
@@ -268,15 +290,6 @@
 		var/slow = initial(intent_type.charging_slowdown)
 		if(slow)
 			return slow
-	return 0
-
-/proc/_bow_draw_stamina(obj/item/gun/ballistic/revolver/grenadelauncher/bow)
-	for(var/datum/intent/intent_type as anything in bow.possible_item_intents)
-		if(!ispath(intent_type, /datum/intent))
-			continue
-		var/drain = initial(intent_type.chargedrain)
-		if(drain)
-			return drain
 	return 0
 
 /proc/_find_archer_bow(mob/living/carbon/human/pawn)
@@ -400,9 +413,6 @@
 	var/atom/aim_at = target
 	if(locked_turf)
 		aim_at = pawn.get_ranged_lead_turf(target, locked_turf, bow.chambered?.BB?.speed) || target
-	var/draw_drain = _bow_draw_stamina(bow)
-	if(draw_drain)
-		pawn.stamina_add(draw_drain * (bow.get_npc_drawtime(pawn) / (1 SECONDS)))
 	var/should_arc = FALSE
 	var/turf/pt = get_turf(pawn)
 	var/turf/tt = get_turf(aim_at)

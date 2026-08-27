@@ -2,11 +2,6 @@
 #define PRECISE_ZONE 2
 #define NO_PENALTY_ZONE 3
 #define PRECISE_FACE_ZONE 4
-#define RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE 50 // No matter what max 50% chance to hit
-#define RANGED_MAX_FACE_HIT_CHANCE 30 // No matter what max 30% chance to hit
-#define RANGED_ULTRA_PRECISE_HIT_PENALTY -25 // -25 for you - THEN we clamp.
-#define RANGED_MAX_PRECISE_HIT_CHANCE 75 // No matter what max 75% chance to hit
-#define RANGED_PRECISE_HIT_PENALTY -10 // -10 - THEN we clamp.
 
 /// Shared zone resolution used by melee and weapon specials
 /proc/resolve_aimed_zone(zone, mob/living/user, mob/living/target, accuracy_bonus = 0)
@@ -183,14 +178,15 @@
 	var/shift = round((STAPER - ARCHER_NPC_AIM_BASELINE) / ARCHER_NPC_AIM_PER_STAT_POINT, 1)
 	return max(ARCHER_NPC_AIM_WINDOW_MIN, ARCHER_NPC_AIM_WINDOW_BASE - shift)
 
-/// aim_stat defaults to Perception, the archery case. Spells pass Intelligence.
-/mob/living/proc/apply_ranged_accuracy(obj/projectile/P, aim_stat)
+/mob/living/proc/apply_ranged_accuracy(obj/projectile/P)
 	if(!P)
 		return
-	if(isnull(aim_stat))
-		aim_stat = STAPER
-	P.accuracy += (aim_stat - 9) * 4
-	P.bonus_accuracy += (aim_stat - 8) * 3
+	P.aim_peak = ACC_RANGED_NPC_BASE
+
+/mob/living/proc/apply_spell_accuracy(obj/projectile/P)
+	if(!P)
+		return
+	P.aim_peak = ACC_RANGED_BASE + ((STAPER - ACC_SPELL_PER_BASELINE) * ACC_SPELL_PER_STEP)
 
 /// aim_stat defaults to Perception, the archery case. Spells pass Intelligence.
 /mob/living/proc/get_ranged_lead_error(moved, aim_stat)
@@ -238,8 +234,3 @@
 #undef PRECISE_ZONE
 #undef NO_PENALTY_ZONE
 #undef PRECISE_FACE_ZONE
-#undef RANGED_MAX_PRECISE_HIT_CHANCE
-#undef RANGED_ULTRA_PRECISE_HIT_PENALTY
-#undef RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE
-#undef RANGED_PRECISE_HIT_PENALTY
-#undef RANGED_MAX_FACE_HIT_CHANCE

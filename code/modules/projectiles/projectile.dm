@@ -159,8 +159,7 @@
 	var/poisonamount
 	var/poisonfeel
 
-	var/accuracy = 65 //How likely the project will hit it's intended target area. Decreases over distance moved, increased from perception.
-	var/bonus_accuracy = 0 //bonus accuracy that cannot be affected by range drop off.
+	var/aim_peak = 0
 
 	/// Min tile distance for full damage.
 	var/min_range = 0
@@ -181,13 +180,38 @@
 	. = ..()
 	permutated = list()
 	decayedRange = range
+	aim_peak = ACC_RANGED_NPC_BASE
 
 /obj/projectile/proc/Range()
 	range--
-	if(accuracy > 20) //so there is always a somewhat prevalent chance to hit the target, despite distance.
-		accuracy -= 10
 	if(range <= 0 && loc)
 		on_range()
+
+/* Ranged AIM Formula, greatly simplified.
+- If you are outside the min/max range, you hit chest (0 accuracy)
+- Outside of visual reach (7 tiles), -10 penalty per tile
+- Crossing a Z = 2 tiles of penalty (20).
+*/
+/obj/projectile/proc/get_aim_at(distance, crossed_z = FALSE)
+	if(min_range && distance < min_range)
+		return ACC_RANGED_FLOOR
+	if(max_range && distance > max_range)
+		return ACC_RANGED_FLOOR
+	var/aim = aim_peak
+	if(distance > ACC_RANGED_VISUAL_REACH)
+		aim -= (distance - ACC_RANGED_VISUAL_REACH) * ACC_RANGED_FARSIGHT_PENALTY
+	if(crossed_z)
+		aim -= ACC_RANGED_ZCROSS_PENALTY
+	return max(ACC_RANGED_FLOOR, aim)
+
+//
+/obj/projectile/proc/get_aim_from(atom/target)
+	if(!starting)
+		return aim_peak
+	var/turf/T = get_turf(target)
+	if(!istype(T))
+		return aim_peak
+	return get_aim_at(max(abs(T.x - starting.x), abs(T.y - starting.y)), T.z != starting.z)
 
 /obj/projectile/proc/check_range(turf/T)
 	if(!starting)
@@ -767,8 +791,7 @@
 	if(isliving(source))
 		var/mob/living/shooter = source
 		if(shooter.buckled)
-			accuracy = max(5, accuracy * BUCKLE_PENALTY)
-			bonus_accuracy = max(0, bonus_accuracy * BUCKLE_PENALTY)
+			aim_peak = max(0, aim_peak * BUCKLE_PENALTY)
 
 	if(targloc && !params)
 		yo = targloc.y - curloc.y

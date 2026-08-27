@@ -2,9 +2,7 @@
 
 /proc/bow_draw_sound(chargetime)
 	switch(chargetime)
-		if(0 to 6)
-			return 'sound/combat/Ranged/bow-draw-01-4ds.ogg'
-		if(6 to 10)
+		if(0 to 10)
 			return 'sound/combat/Ranged/bow-draw-01-8ds.ogg'
 		if(10 to 14)
 			return 'sound/combat/Ranged/bow-draw-01-12ds.ogg'
@@ -14,8 +12,8 @@
 			return 'sound/combat/Ranged/bow-draw-01-22ds.ogg'
 
 /datum/intent/shoot/bow
-	chargetime = 1 //used for edge cases only, /datum/intent/shoot/bow/get_chargetime handles the actual number
-	chargedrain = 2
+	chargetime = 1 //used for edge cases only, the bow's get_draw_time() handles the actual number
+	chargedrain = BOW_CHARGEDRAIN
 	charging_slowdown = 3
 
 /datum/intent/shoot/bow/can_charge(atom/clicked_object)
@@ -23,6 +21,9 @@
 		to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 		return FALSE
 	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
+		return FALSE
+	if(needs_loaded_launcher && !launcher_is_loaded())
+		to_chat(mastermob, span_warning("I have nothing nocked!"))
 		return FALSE
 
 	return TRUE
@@ -32,32 +33,18 @@
 		mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
 		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
-/datum/intent/shoot/bow/get_chargetime() //this handles how long it takes for us to fully aim our bow. damage is handled below in /obj/item/gun/ballistic/revolver/grenadelauncher/bow/process_fire
+/datum/intent/shoot/bow/get_chargetime() //draw speed lives on the bow itself so players and NPCs share one curve. damage is handled below in /obj/item/gun/ballistic/revolver/grenadelauncher/bow/process_fire
 	if(mastermob && chargetime)
 		var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/bow = masteritem
-		var/scaling_skill = istype(bow) ? bow.ranged_skill : /datum/skill/combat/bows
-		var/newtime = 0
-		newtime = ((newtime + 10) - (mastermob.get_skill_level(scaling_skill) * (2)))
-		if(strength_check == TRUE)
-			newtime = ((newtime + 10) - (mastermob.STASTR / 2))
-		else
-			newtime = newtime
-		newtime = ((newtime + 20) - (mastermob.STAPER))
-		if(istype(bow) && bow.chambered)
-			newtime *= bow.chambered.charge_time_mult
-		if(newtime > 1)
-			return newtime //this value is how fast we can accurately shoot a bow. most builds will turn up with about 6 - 12 on non heavy bows.
-		else
-			return 1 //our floor for how quickly you can fire an accurate shot if you somehow break the calcs above. you need about 18 PER and master bows to reach this
-	else
-		return chargetime //if a bow somehow gets drawn by something that doesn't fulfill the above we can use the intent value
-
-/datum/intent/shoot/bow/heavy
-	strength_check = TRUE
+		if(istype(bow))
+			var/newtime = bow.get_draw_time(mastermob, FALSE)
+			if(newtime)
+				return newtime
+	return chargetime //if a bow somehow gets drawn by something that doesn't fulfill the above we can use the intent value
 
 /datum/intent/arc/bow
 	chargetime = 1
-	chargedrain = 2
+	chargedrain = BOW_CHARGEDRAIN
 	charging_slowdown = 3
 
 /datum/intent/arc/bow/can_charge(atom/clicked_object)
@@ -65,6 +52,9 @@
 		to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 		return FALSE
 	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
+		return FALSE
+	if(needs_loaded_launcher && !launcher_is_loaded())
+		to_chat(mastermob, span_warning("I have nothing nocked!"))
 		return FALSE
 
 	return TRUE
@@ -74,34 +64,14 @@
 		mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
 		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
-/datum/intent/arc/bow/get_chargetime() //same calc as above, but with a higher absolute floor for how fast you can shoot
+/datum/intent/arc/bow/get_chargetime() //same curve as above, but slower and with a higher floor
 	if(mastermob && chargetime)
 		var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/bow = masteritem
-		var/scaling_skill = istype(bow) ? bow.ranged_skill : /datum/skill/combat/bows
-		var/newtime = 0
-		newtime = ((newtime + 10) - (mastermob.get_skill_level(scaling_skill) * (2)))
-		if(strength_check == TRUE)
-			newtime = ((newtime + 10) - (mastermob.STASTR / 2))
-		else
-			newtime = newtime
-		newtime = ((newtime + 20) - (mastermob.STAPER))
-		if(istype(bow) && bow.chambered)
-			newtime *= bow.chambered.charge_time_mult
-		if(newtime > 3)
-			return newtime
-		else
-			return 3
-	else
-		return chargetime
-
-/datum/intent/arc/bow/heavy
-	strength_check = TRUE
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_npc_chargetime(mob/living/user)
-	var/newtime = (10 - user.get_skill_level(ranged_skill) * 2) + (10 - user.STASTR / 2) + (20 - user.STAPER)
-	if(chambered)
-		newtime *= chambered.charge_time_mult
-	return (max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME) * ARCHER_NPC_ROF_PENALTY
+		if(istype(bow))
+			var/newtime = bow.get_draw_time(mastermob, TRUE)
+			if(newtime)
+				return newtime
+	return chargetime
 
 //bow objs ฅ^•ﻌ•^ฅ
 
@@ -137,10 +107,17 @@
 	cartridge_wording = "arrow"
 	load_sound = 'sound/foley/nockarrow.ogg'
 	obj_flags = UNIQUE_RENAME
-	var/heavy_bow = FALSE //used for adding a STR check to the charge time of a bow
+	var/heavy_bow = FALSE //flavour flag for bows with a STR-scaled draw. the scaling itself is draw_per_str
 	cartridge_articles = "an"
 	var/spill_ammo_on_drop = TRUE
-	var/ranged_skill = /datum/skill/combat/bows
+	ranged_skill = /datum/skill/combat/bows
+	release_drain = BOW_RELEASEDRAIN
+	draw_base = BOW_DRAW_BASE
+	draw_floor = BOW_DRAW_FLOOR
+	uses_draw_curve = TRUE
+	per_scales_damage = TRUE
+	early_release_acc_penalty = BOW_EARLY_RELEASE_ACC_PENALTY
+	early_release_embed_mult = BOW_EARLY_RELEASE_EMBED_MULT
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/can_quick_load(mob/user)
 	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
@@ -150,21 +127,16 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")
+	. += span_info("My <b>ARCHERY</b> skill defines how precise my shots are and how fast I can draw.")
+	. += span_info("Bows increase in damage the higher your <b>PERCEPTION</b>.")
+	. += span_info("When I shoot a target too close or too far away, I will only hit the chest.")
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
 	. += span_info("Nocking straight from a quiver requires my other hand to be free.")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize(mapload)
 	. = ..()
-	if(heavy_bow == TRUE)
-		src.possible_item_intents = list(
-									/datum/intent/shoot/bow/heavy,
-									/datum/intent/arc/bow/heavy,
-									INTENT_GENERIC,
-									)
+	if(heavy_bow)
 		desc += " <b>Has a heavy draw.</b>"
-	else
-		return
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/getonmobprop(tag)
 	. = ..()
@@ -260,26 +232,15 @@
 	if(user.get_inactive_held_item() || user.get_num_arms(FALSE) < 2)
 		to_chat(user, span_warning("I need a free hand to fire \the [src]!"))
 		return FALSE
-	if(user.client)
-		if(user.client.chargedprog >= 100)
-			spread = 0
-		else
-			spread = 150 - (150 * (user.client.chargedprog / 100))
-	else
-		spread = 0
+	spread = get_ranged_spread(user)
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
-		BB.accuracy += accfactor * (user.STAPER - 9) * 4 // 9+ PER gives +4 per level. Exponential.
-		BB.bonus_accuracy += (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Does not decrease over range.
-		BB.bonus_accuracy += (user.get_skill_level(ranged_skill) * 5) // +5 per skill level.
-
-		if(user.client && user.client.chargedprog < 100)
-			BB.damage -= (BB.damage * (user.client.chargedprog / 100))
-			BB.embedchance /= 2
-			BB.accuracy -= 15
-		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
-		BB.damage *= damfactor * per_scaling
-	return ..()
+		apply_ranged_accuracy(BB, user)
+		apply_early_release_penalty(BB, user)
+		BB.damage *= damfactor * get_per_damage_scaling(user)
+	. = ..()
+	if(.)
+		pay_release_drain(user)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/update_icon()
 	..()
@@ -309,6 +270,7 @@
 	desc = "A medium length composite bow of glued horn, wood, and sinew with good shooting \
 	characteristics."
 	icon_state = "recurve_bow"
+	release_drain = RECURVE_RELEASEDRAIN
 	force = 9
 	pixel_y = -16
 	pixel_x = -16
@@ -407,6 +369,10 @@
 	bigboy = TRUE
 	dropshrink = 0.8
 	heavy_bow = TRUE
+	release_drain = LONGBOW_RELEASEDRAIN
+	draw_base = LONGBOW_DRAW_BASE
+	draw_floor = LONGBOW_DRAW_FLOOR
+	draw_per_str = LONGBOW_DRAW_PER_STR
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/getonmobprop(tag)
 	. = ..()
@@ -468,6 +434,7 @@
 	accfactor = 1.15 //A fairly mild alternative to the Crude Selfbow, themed to be more like a proper ranged weapon. Same general stats, but with an increased bonus to accuracy.
 	icon_state = "classicbow0"
 	item_state = "classicbow"
+	release_drain = CLASSICBOW_RELEASEDRAIN
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic/update_icon()
 	. = ..()
@@ -532,15 +499,16 @@
 	spread = 1
 	force = 9
 	damfactor = 0.9
+	release_drain = SHORTBOW_RELEASEDRAIN
+	draw_base = SHORTBOW_DRAW_BASE
+	draw_floor = SHORTBOW_DRAW_FLOOR
 
 /datum/intent/shoot/bow/short
-	chargetime = 0.75
-	chargedrain = 1.5
+	chargedrain = SHORTBOW_CHARGEDRAIN
 	charging_slowdown = 2.5
 
 /datum/intent/arc/bow/short
-	chargetime = 0.75
-	chargedrain = 1.5
+	chargedrain = SHORTBOW_CHARGEDRAIN
 	charging_slowdown = 2.5
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint

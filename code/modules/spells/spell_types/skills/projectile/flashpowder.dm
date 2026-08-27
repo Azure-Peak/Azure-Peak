@@ -25,7 +25,6 @@
 	speed = MAGE_PROJ_MEDIUM
 	range = 7
 	hitsound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
-	accuracy = 40
 	guard_deflectable = FALSE //is powder
 
 /obj/projectile/magic/flashpowder/on_hit(target, blocked = FALSE)

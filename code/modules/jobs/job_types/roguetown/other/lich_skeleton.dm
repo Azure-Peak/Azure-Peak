@@ -178,23 +178,23 @@ LICH SKELETONS
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
 	)
 	H.adjust_blindness(-3)
-	var/weapons = list("Bow & 20 Arrows", "Bow & 20 Broadheads", "Longbow & 20 Arrows", "Longbow & 20 Broadheads", "Crossbow & 16 Bolts", "Sling + Ancient Shield")
+	var/weapons = list("Bow & 24 Arrows", "Bow & 24 Broadheads", "Longbow & 24 Arrows", "Longbow & 24 Broadheads", "Crossbow & 16 Bolts", "Sling + Ancient Shield")
 	var/weapon_choice = input(H, "Choose your MISSILE.", "CONDEMN THE LYVING FROM AFAR.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Bow & 20 Arrows")
+		if("Bow & 24 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		if("Bow & 20 Broadheads")
+		if("Bow & 24 Broadheads")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/quiver/broadhead_aalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		if("Longbow & 20 Arrows")
+		if("Longbow & 24 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-		if("Longbow & 20 Broadheads")
+		if("Longbow & 24 Broadheads")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltl = /obj/item/quiver/broadhead_aalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
