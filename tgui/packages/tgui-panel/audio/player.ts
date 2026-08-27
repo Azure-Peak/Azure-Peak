@@ -47,6 +47,8 @@ export class AudioPlayer {
       this.stop();
     }
 
+    url = url.replaceAll('byond://', `http://${window.location.host}/`);
+
     this.options = options;
 
     const audio = new Audio(url);

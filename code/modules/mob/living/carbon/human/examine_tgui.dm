@@ -176,8 +176,7 @@
 		char_examine_theme = pref.examine_theme
 	// Validate — reject meme themes and unknown keys, fall back to default
 	if(char_examine_theme)
-		var/list/valid_themes = get_tgui_themes()
-		if(!(char_examine_theme in valid_themes) || char_examine_theme == "trey_liam")
+		if(!(char_examine_theme in GLOB.tgui_themes) || char_examine_theme == "trey_liam")
 			char_examine_theme = "azure_default"
 
 	var/list/data = list(

@@ -341,13 +341,6 @@
 			lines += "Bakes into [initial(baked_target.name)]."
 		if(fried_target)
 			lines += "Fries into [initial(fried_target.name)]."
-	var/atom/deep_target = proto.deep_fried_type
-	if(deep_target && deep_target != proto.type)
-		lines += "Deep-fries into [initial(deep_target.name)]."
-
-	var/atom/boil_target = proto.boiled_type
-	if(boil_target && boil_target != proto.type)
-		lines += "Boils into [initial(boil_target.name)]."
 
 	var/atom/slice_target = proto.slice_path
 	if(slice_target)

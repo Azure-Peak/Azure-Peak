@@ -52,6 +52,9 @@
 #define CANUNCONSCIOUS	(1<<2)
 #define CANPUSH			(1<<3)
 #define GODMODE			(1<<4)
+#define GODMODE_TARGETABLE	(1<<5)
+
+#define GODMODE_HIDDEN(M) (((M).status_flags & GODMODE) && !((M).status_flags & GODMODE_TARGETABLE))
 
 //Health Defines
 #define HEALTH_THRESHOLD_CRIT 0
@@ -66,6 +69,7 @@
 #define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
 #define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
 #define RANGED_STAT_CAPPEDMULT 0.03	//PER multiplier per point past the softcap. 0.03 = 3% per point.
+#define RANGED_SPREAD_JITTER 1.4 // Add jitter to a shot's spread to get the final angle
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
@@ -110,6 +114,9 @@
 #define EFF_RANGE_EXACT 1
 #define EFF_RANGE_ABOVE 2
 #define EFF_RANGE_BELOW 3
+
+// Damage multiplier for attacking outside of effective range. Also zeroes out penetration.
+#define EFF_RANGE_MISS_DAMFACTOR 0.5
 
 // Swingdelay presets
 #define SWINGDELAY_NORMAL 1	//No penalties, we just swing.
@@ -157,6 +164,12 @@
 #define ATTACK_EFFECT_MECHFIRE	"mech_fire"
 #define ATTACK_EFFECT_MECHTOXIN	"mech_toxin"
 #define ATTACK_EFFECT_BOOP		"boop" //Honk
+
+// Tell us where a mob tends to aim with their attacks
+#define MOB_AIM_GROUND	"ground"
+#define MOB_AIM_LOW		"low"
+#define MOB_AIM_LEVEL	"level"
+#define MOB_AIM_HIGH	"high"
 
 //hurrrddurrrr
 #define QINTENT_BITE			1
@@ -344,6 +357,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define RIPOSTE_SHARPNESS_FACTOR	0.15	//Fraction of blade_int lost on riposte (15%). Heavy weapons add +0.05.
 #define INTEG_PARRY_DECAY_UNARMED	5	//Integrity decay on parry when the attacker is unarmed (fists still wear down shields).
 #define RIPOSTE_INTEG_DIVISOR		5	//max_integrity / this = integrity damage on riposte for non-bladed weapons.
+#define ARCYNE_STRIKE_WARDED		-1	// If an arcyne strike got guarded, rider effects do not goes forth.
 #define SHARPNESS_TIER1_THRESHOLD	0.8	//%-age threshold when damage starts to fall off -- mainly damfactor and STR factor. NOT base damage value.
 #define SHARPNESS_TIER1_FLOOR		0.45//%-age threshold when damfactors and STR factors become 0.
 #define SHARPNESS_TIER2_THRESHOLD	0.2 //%-age threshold when damage *really* falls off. Base damage value included.
@@ -478,6 +492,22 @@ Medical defines
 #define MAX_DODGE_CEIL 5
 #define MAX_DODGE_START 0	// We start at (presumed) 90%
 #define MAX_DODGE_FLOOR -15
+
+// Mbos dodge with a different speed based curve meant to not be overly oppressive for melee players
+#define SIMPLEMOB_DODGE_BASE 20
+#define SIMPLEMOB_DODGE_PER_SPD 3
+#define SIMPLEMOB_DODGE_PER_SKILL 4
+#define SIMPLEMOB_DODGE_CAP 45
+
+// We reduce the dodge chances of simple mobs if they dodge consecutively
+#define SIMPLEMOB_DODGE_FATIGUE_PER_DODGE 5
+#define SIMPLEMOB_DODGE_FATIGUE_MAX 20
+/// Nothing recovers until they stop dodging for a while
+#define SIMPLEMOB_DODGE_RECOVERY_DELAY (6 SECONDS)
+/// Points recovered
+#define SIMPLEMOB_DODGE_FATIGUE_REGEN 5
+#define SIMPLEMOB_WINDED_DURATION (4 SECONDS)
+
 #define DODGE_EXPERT_BASE_CAP 90	//What a Dodge Expert with SPD above 10 is hardset to, before max_dodge is added on top.
 #define MAX_DODGE_CLAMP -5 // at 85%. Base is 90%.
 

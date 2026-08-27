@@ -39,7 +39,7 @@
 	//Eye colour
 	var/eye_color = "000"
 
-	var/voice_color = "a0a0a0"
+	var/voice_color = "#a0a0a0"
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
 	var/detail_color = "000"
@@ -54,15 +54,9 @@
 
 	var/age = "Adult"		//Player's age
 
-	var/accessory = "None"
-	var/detail = "None"
-	var/marking = "None"
-
 	var/shavelevel = 0
 	var/breathe_tick = 0 // Used for gas mask delays.
 	var/socks = "Nude" //Which socks the player wants
-	var/backpack = DBACKPACK		//Which backpack type the player has chosen.
-	var/jumpsuit_style = PREF_SUIT		//suit/skirt
 
 	//Equipment slots
 	var/obj/item/clothing/skin_armor = null
@@ -146,6 +140,8 @@
 	var/nsfwflavortext_cached = ""
 	var/ooc_notes_cached = ""
 	var/erpprefs_cached = ""
+	var/rumour_cached = ""
+	var/noble_gossip_cached = ""
 
 	/// Per-character theme override for examine panel viewers
 	var/examine_theme

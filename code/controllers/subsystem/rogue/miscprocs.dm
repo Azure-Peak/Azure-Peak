@@ -255,7 +255,7 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	var/picked_name = input(src, "Choose how your SECOND voice is described:", "VIRTUE") as null|anything in voice_options
 	if(!picked_name)
 		return FALSE
-	V.second_color = sanitize_hexcolor(newcolor)
+	V.second_color = sanitize_hexcolor(newcolor, 6, TRUE)
 	V.second_desc_path = voice_options[picked_name]
 	to_chat(src, span_notice("Second voice configured: Color [V.second_color] with the '[picked_name]' description."))
 	remove_verb(src, /mob/living/carbon/human/proc/changevoice)
@@ -389,6 +389,21 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 				to_chat(holder, span_boldnotice("You have unlocked a paint miracle: [new_paint_spell]"))
 			holder.mind.AddSpell(new_paint_spell, holder)
 			LAZYADD(granted_spells, new_paint_spell)
+
+/**
+ * Formats a skill or patron check text string with custom status prefixing.
+ *
+ * Output format: "[Check Name: Success/Failure] Content"
+ *
+ * * check_name - The display name of the check (e.g., "Abyssor", "Medical", "Half-Light").
+ * * success - Whether the check succeeded (TRUE = greentext "Success", FALSE = redtext "Failure").
+ * * content - The body text/flavor text to display inside the notice span.
+ */
+/proc/skill_check_text(check_name, success = TRUE, content = "")
+	var/status_text = success ? "Success" : "Failure"
+	var/bracket_text = "\[[check_name]: [status_text]\]"
+	var/prefix = success ? span_greentext(bracket_text) : span_redtext(bracket_text)
+	return "[prefix] [span_notice(content)]"
 
 #undef PRAYER_DEVOTION_TIME_MULT
 #undef PRAYER_DEVOTION_BASE

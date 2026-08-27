@@ -5,8 +5,17 @@
 	var/default_aggro_range = 9
 	/// Default range at which mobs maintain aggro before dropping target
 	var/default_maintain_range = 12
-	/// Default decay rate per second
-	var/default_decay_rate = 2
+	/// Flat threat removed each decay tick, applied after the proportional decay
+	var/default_decay_rate = AGGRO_THREAT_DECAY_FLAT
+	var/decay_rate
+	/// Ceiling on any one mob's threat
+	var/threat_cap = AGGRO_THREAT_CAP
+	/// Threat is scaled by this each decay tick
+	var/decay_mult = AGGRO_THREAT_DECAY_MULT
+	/// How far a challenger must exceed the current focus before we turn on them
+	var/switch_margin = AGGRO_THREAT_SWITCH_MARGIN
+	/// Multiplier on threat from an attacker who isn't our current focus
+	var/peel_bonus = AGGRO_THREAT_PEEL_BONUS
 
 /datum/component/ai_aggro_system/Initialize(threat_threshold, aggro_range, maintain_range, decay_rate)
 	. = ..()
@@ -22,6 +31,7 @@
 	living_mob.ai_controller.blackboard[BB_MOB_AGGRO_TABLE] = list()
 
 	// Set configurable parameters
+	src.decay_rate = decay_rate || default_decay_rate
 	living_mob.ai_controller.set_blackboard_key(BB_THREAT_THRESHOLD, threat_threshold || default_threat_threshold)
 	living_mob.ai_controller.set_blackboard_key(BB_AGGRO_RANGE, aggro_range || default_aggro_range)
 	living_mob.ai_controller.set_blackboard_key(BB_AGGRO_MAINTAIN_RANGE, maintain_range || default_maintain_range)
@@ -90,6 +100,10 @@
 	if(damage)
 		threat_to_add += damage * 0.5
 
+	var/mob/current_focus = victim.ai_controller.blackboard[BB_HIGHEST_THREAT_MOB]
+	if(current_focus && current_focus != attacker)
+		threat_to_add *= peel_bonus
+
 	AI_THINK(victim, "AGGRO: +[threat_to_add] from [attacker]")
 	add_threat(victim, attacker, threat_to_add)
 
@@ -125,9 +139,7 @@
 	else
 		aggro_table[attacker] = amount
 
-	// Ensure threat level isn't negative
-	if(aggro_table[attacker] < 0)
-		aggro_table[attacker] = 0
+	aggro_table[attacker] = clamp(aggro_table[attacker], 0, threat_cap)
 
 	// Update the aggro table
 	victim.ai_controller.blackboard[BB_MOB_AGGRO_TABLE] = aggro_table
@@ -144,7 +156,7 @@
 
 /// Periodically decays threat levels
 /datum/component/ai_aggro_system/process()
-	var/decay_amount = default_decay_rate
+	var/decay_amount = decay_rate || default_decay_rate
 	var/mob/living/living_mob = parent
 	if(!living_mob?.ai_controller)
 		return
@@ -157,7 +169,7 @@
 
 	// Decay all threat values
 	for(var/mob/threat_mob as anything in aggro_table)
-		aggro_table[threat_mob] -= decay_amount
+		aggro_table[threat_mob] = (aggro_table[threat_mob] * decay_mult) - decay_amount
 
 		// If threat drops below 0, mark for removal
 		if(aggro_table[threat_mob] <= 0)
@@ -194,6 +206,13 @@
 		if(aggro_table[threat_mob] > highest_threat)
 			highest_threat = aggro_table[threat_mob]
 			highest_threat_mob = threat_mob
+
+	var/mob/current_focus = source.ai_controller.blackboard[BB_HIGHEST_THREAT_MOB]
+	if(current_focus && current_focus != highest_threat_mob && !QDELETED(current_focus) && current_focus.stat != DEAD)
+		var/focus_threat = aggro_table[current_focus]
+		if(focus_threat && highest_threat < focus_threat + switch_margin)
+			highest_threat = focus_threat
+			highest_threat_mob = current_focus
 
 	// Update highest threat mob if it meets threshold
 	var/threat_threshold = source.ai_controller.blackboard[BB_THREAT_THRESHOLD] || default_threat_threshold

@@ -315,6 +315,8 @@
 /datum/rmb_intent/weak/special_attack(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(!istype(target) || !istype(user) || !target.Adjacent(user))
 		return
+	if(user.incapacitated())
+		return
 
 	user.attempt_steal(user, target)
 	return ..()

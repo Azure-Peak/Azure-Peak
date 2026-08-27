@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/kinetic_burst
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Kinetic Burst"
+	expose_caster_on_deflect = FALSE
 	desc = "Wind up raw arcyne force in a 5x5 area around yourself, then detonate it - hurling everyone caught back, hurting them and leaving them Vulnerable for a moment. \
 	The field follows you as you wind it up. Guard will deflect the strike entirely and you are vulnerable while charging this up."
 	button_icon_state = "gravity_anchor"
@@ -24,15 +25,14 @@
 	damage = 60
 	strike_damage_type = BRUTE
 	blade_class = BCLASS_BLUNT
-	npc_simple_damage_mult = 1.5
 	committed_strike = TRUE
 	interruptible = FALSE
 	lock_direction = FALSE
-	charging_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	windup_time = 2 SECONDS
 	sweep_step = 0
 	vuln_on_hit = 2 SECONDS
-	telegraph_type = /obj/effect/temp_visual/trap/kinesis
+	telegraph_type = /obj/effect/temp_visual/telegraph/kinesis
 	strike_sound = 'sound/magic/repulse.ogg'
 	detonate_sound = 'sound/magic/gravity.ogg'
 
@@ -66,12 +66,11 @@
 		return
 	L.safe_throw_at(get_ranged_target_turf(L, push_dir, push_dist), push_dist, 2, H, force = MOVE_FORCE_STRONG)
 
-/obj/effect/temp_visual/trap/kinesis
-	color = GLOW_COLOR_KINESIS
+/obj/effect/temp_visual/telegraph/kinesis
 	light_color = GLOW_COLOR_KINESIS
 	duration = 3 SECONDS
 
-/obj/effect/temp_visual/trap/kinesis/Initialize(mapload)
+/obj/effect/temp_visual/telegraph/kinesis/Initialize(mapload, custom_duration)
 	. = ..()
 	var/target_alpha = alpha
 	alpha = 0
