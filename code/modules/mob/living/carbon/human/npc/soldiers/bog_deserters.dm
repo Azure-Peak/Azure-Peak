@@ -280,8 +280,9 @@
 	add_random_deserter_armor_hard(H)
 	add_random_deserter_cloak(H)
 	//Head Gear
+	mask = /obj/item/clothing/head/roguetown/roguehood/bogman
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron
 	//wrist Gear
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
@@ -435,7 +436,8 @@
 	add_random_deserter_cloak(H)
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
+	mask = /obj/item/clothing/head/roguetown/roguehood/bogman
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron
 	//wrist Gear
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron

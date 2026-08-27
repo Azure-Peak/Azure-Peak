@@ -62,6 +62,9 @@
 /obj/item/clothing/head/roguetown/roguehood/red
 	color = CLOTHING_RED
 
+/obj/item/clothing/head/roguetown/roguehood/bogman
+	color = "#7a8138"
+
 /obj/item/clothing/head/roguetown/roguehood/black
 	color = CLOTHING_BLACK
 

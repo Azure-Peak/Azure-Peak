@@ -21,8 +21,8 @@
 			if(prob(25))
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	if(prob(50))//HEAD
-		head = /obj/item/clothing/neck/roguetown/coif
-		if(prob(30))
+		head = /obj/item/clothing/head/roguetown/roguehood/bogman
+		if(prob(60))
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	if(prob(50))
 		neck= /obj/item/clothing/neck/roguetown/chaincoif/iron

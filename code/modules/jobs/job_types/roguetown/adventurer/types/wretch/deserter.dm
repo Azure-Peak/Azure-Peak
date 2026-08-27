@@ -1,9 +1,9 @@
-/datum/advclass/wretch/deserter
+/datum/advclass/wretch/deserter_knight
 	name = "Disgraced Knight"
 	tutorial = "You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."
 	allowed_sexes = list(MALE, FEMALE)
 
-	outfit = /datum/outfit/job/roguetown/wretch/deserter
+	outfit = /datum/outfit/job/roguetown/wretch/deserter_knight
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE, TRAIT_BOGWALKER)
@@ -42,7 +42,7 @@
 		"Armor Plates" =	/obj/item/repair_kit/metal,
 	)
 
-/datum/outfit/job/roguetown/wretch/deserter/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/deserter_knight/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."))
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
@@ -181,11 +181,15 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 		)
 
-/datum/advclass/wretch/deserter/generic
+/datum/advclass/wretch/deserter
 	name = "Deserter"
 	tutorial = "You had your post. You had your duty. Dissatisfied, lacking in morale, or simply thinking yourself better than it. - You decided to walk. Now it follows you everywhere you go."
-	outfit = /datum/outfit/job/roguetown/wretch/desertergeneric
+	outfit = /datum/outfit/job/roguetown/wretch/deserter
 	//uncapped, BOG. BOG. BOG. (Jokes aside, their main strength is bogwalker, downside is no D/E + heretical weaponry + miracles + high sneak + whatever else other wretches have)
+
+	subclass_stashed_items = list(
+		"Armor Plates" =	/obj/item/repair_kit/metal,
+	)
 
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg' // same as regular bandits
 	// Slightly more rounded. These can be nudged as needed.
@@ -211,10 +215,11 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN, // Worse at swimming than the above class.
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE, // Able to steal saigas for some hit and runs.
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE, // Able to steal saigas for some hit and runs, doesn't start w/ one.
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
-/datum/outfit/job/roguetown/wretch/desertergeneric/pre_equip(mob/living/carbon/human/H)
+
+/datum/outfit/job/roguetown/wretch/deserter/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 		var/weapons = list("Warhammer & Shield","Sabre & Shield","Axe & Shield","Billhook","Greataxe","Halberd","Crossbow")
@@ -261,10 +266,7 @@
 			"Klappvisier Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 			"Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Snouted Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
-			"Sugarloaf Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
-			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
 			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
-			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
 		)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 		head = helmets[helmchoice]
@@ -279,6 +281,7 @@
 
 		wretch_select_bounty(H)
 
+	mask = /obj/item/clothing/head/roguetown/roguehood/bogman
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/bevor
