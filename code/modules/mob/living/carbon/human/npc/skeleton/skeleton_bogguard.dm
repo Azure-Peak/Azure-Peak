@@ -4,40 +4,43 @@
 
 /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(prob(50))//WRIST
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	if(prob(10))//ARMOUR
-		armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	if(prob(50))//SHIRT
-		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-		if(prob(15))
-			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-			if(prob(15))
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	if(prob(50))//PANTS
-		pants = /obj/item/clothing/under/roguetown/tights/vagrant
-		if(prob(25))
-			pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-			if(prob(25))
-				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	if(prob(60))//WRIST
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	if(prob(90))//SHIRT
+		shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/bog
+	if(prob(75))
+		armor = /obj/item/clothing/suit/roguetown/armor/gambeson
+		if(prob(50))
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	if(prob(25))
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	if(prob(50))//HEAD
 		head = /obj/item/clothing/head/roguetown/roguehood/bogman
 		if(prob(60))
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
-	if(prob(50))
-		neck= /obj/item/clothing/neck/roguetown/chaincoif/iron
-	if(prob(50))//CLOAK
-		cloak = /obj/item/clothing/cloak/tabard/stabard/bog
-	switch(rand(1, 3))
+	neck= /obj/item/clothing/neck/roguetown/chaincoif/iron
+	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+	switch(rand(1, 7))
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/iron
 		if(2)
 			r_hand = /obj/item/rogueweapon/spear
 		if(3)
 			r_hand = /obj/item/rogueweapon/mace
+		if(4)
+			r_hand = /obj/item/rogueweapon/spear/militia
+		if(5)
+			r_hand = /obj/item/rogueweapon/sword/iron
+			l_hand = /obj/item/rogueweapon/shield/wood
+		if(6)
+			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
+		if(7)
+			r_hand = /obj/item/rogueweapon/flail
+			l_hand = /obj/item/rogueweapon/shield/wood
 	H.STASTR = rand(12,14)
 	H.STASPD = 8
-	H.STACON = 3
+	H.STACON = 4
 	H.STAWIL = 8
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
