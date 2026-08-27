@@ -341,6 +341,7 @@
 	name = "Ash Harmonization (Catalyzing Reagent)"
 	input_items = list(/obj/item/ash = 3, /obj/item/storage/roguebag = 1)
 	output_items = list(/obj/item/storage/roguebag/trans = 1)
+	result_name = "batch of catalyzing reagent"
 
 /datum/transmutation_recipe/albedo/bathbombsalvia // look at me. i'm the bathhouse's supplier now
 	name = "Herbal Materia Rendition (Alchemical Diffuser)"
