@@ -323,6 +323,11 @@
 	input_items = list(/obj/item/ingot/bronze = 2)
 	output_items = list(/obj/item/rogueore/copper = 1, /obj/item/rogueore/tin = 1)
 
+/datum/transmutation_recipe/nigredo/iron_decomposition
+	name = "Iron Decomposition"
+	input_items = list(/obj/item/ingot/iron = 1)
+	output_items = list(/obj/item/rogueore/iron = 1)
+
 // ALBEDO: lit 'whitening'. the second stage of the great work, its recipes follow a theme of purification and are irreversable
 /datum/transmutation_recipe/albedo
 	abstract_type = /datum/transmutation_recipe/albedo
