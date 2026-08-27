@@ -8,7 +8,7 @@
 	roundstart = TRUE
 	antag_flag = ROLE_WEREWOLF
 	shared_occurence_type = SHARED_MINOR_THREAT
-	storyteller_antag_flags = STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_MEDIUM
+	//storyteller_antag_flags = STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_MEDIUM
 	storyteller_pill_label = "Verevolfs Lite"
 	storyteller_rumour_name = "Verevolfs Lite"
 	storyteller_slot_key = "Verevolfs Lite"
