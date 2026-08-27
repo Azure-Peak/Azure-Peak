@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "fixed major exploits + inconsistencies w/ tame undead"
-  - code_imp: "categorised trait code COMPLETELY so it should be far easier for devs to tell where stuff is instead of just a huge block, as well as what exactly goes where."

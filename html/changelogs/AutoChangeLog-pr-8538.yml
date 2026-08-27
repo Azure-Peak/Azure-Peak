@@ -1,6 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - rscadd: "Ported Cadwyn Order cloaks and helmets for clerics and Ten Heretics."
-  - rscadd: "Ported Cadwyn Order equipment to the relevant clothing selections."
-  - rscadd: "Cadwyn Order cloaks sewing recipes."

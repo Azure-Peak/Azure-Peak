@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"lib": ["ESNext", "WebWorker"],
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"noEmit": true,
+		"paths": {
+			"tgui": ["./packages/tgui"],
+			"tgui/*": ["./packages/tgui/*"],
+			"interfaces": ["./packages/tgui/interfaces"],
+			"interfaces/*": ["./packages/tgui/interfaces/*"],
+			"pm": ["./packages/tgui/interfaces/PreferencesMenu"],
+			"pm/*": ["./packages/tgui/interfaces/PreferencesMenu/*"],
+			"tgui-panel": ["./packages/tgui-panel"],
+			"tgui-panel/*": ["./packages/tgui-panel/*"],
+			"tgui-dev-server": ["./packages/tgui-dev-server"],
+			"tgui-dev-server/*": ["./packages/tgui-dev-server/*"],
+			"tgui-webworkers": ["./packages/tgui-webworkers"],
+			"tgui-webworkers/*": ["./packages/tgui-webworkers/*"]
+		},
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": false,
+		"strictNullChecks": true,
+		"target": "ESNext",
+		"types": ["*"]
+	},
+	"include": ["./*"]
+}

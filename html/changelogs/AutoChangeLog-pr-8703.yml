@@ -1,9 +1,0 @@
-author: "FeniaFox"
-delete-after: True
-changes:
-  - rscdel: "Removed the Ruma Seonjang entirely. Gun-in gets it's stuff."
-  - rscadd: "Added two new variant skin-options to the ruma mercenaries. In addition to the current skin with ~250 plate integ, they can now pick from a defiant skin with ~200 blacksteel integ, and an enduring skin with ~300 padded integ. This only changes the full-body overskin."
-  - rscadd: "Added large numbers of loadout options to the ruma mercenaries, including the hwando, the two-handable ssangsudo, the kodachi shortsword, naginata polearm, some tossblades, many tanto daggers, and even a longbow option for the gun-in."
-  - rscadd: "added the blacksteel tanto (more or less a blacksteel dagger reskin that's compatible with the eastern dagger sheath)."
-  - balance: "rebalanced the sharpness decay of ruma hwando swords from 200% to 150%."
-  - balance: "rebalanced the wdef of the tanto sheath from 4 to 6, in line with the shortsword scabbard at 7, sword scabbards at 8, and parry dagger/buckler at 9."

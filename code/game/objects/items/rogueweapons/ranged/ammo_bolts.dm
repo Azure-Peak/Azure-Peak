@@ -473,7 +473,7 @@
 	if(!ismob(target) || blocked >= 100)
 		return
 	var/mob/living/M = target
-	apply_scorch_stack(M, 4, def_zone)
+	apply_scorch_stack(M, 3, def_zone)
 
 /obj/item/ammo_casing/caseless/rogue/bolt/water
 	name = "water bolt"

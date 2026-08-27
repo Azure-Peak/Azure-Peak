@@ -291,6 +291,9 @@
 			if(pulledby.grab_state >= GRAB_AGGRESSIVE)
 				return TRUE
 
+/mob/living/carbon/is_legbound()
+	return !!legcuffed
+
 /mob/living/carbon/proc/canBeHandcuffed()
 	return 0
 

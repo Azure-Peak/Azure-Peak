@@ -640,3 +640,6 @@
 
 /obj/item/inqarticles/indexer/can_be_package_wrapped()
 	return 0
+
+/obj/item/mob_item/can_be_package_wrapped()
+	return FALSE

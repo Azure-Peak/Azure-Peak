@@ -374,12 +374,6 @@
 
 
 //mob projectiles
-/obj/projectile/bullet/reusable/arrow/orc
-	armor_penetration = PEN_LIGHT
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
-	embedchance = 100
-	speed = 2 // I guess slower to be slightly more forgiving to players since they're otherwise aimbots
-
 /obj/projectile/bullet/reusable/arrow/ancient
 	damage = 10
 	armor_penetration = PEN_LIGHT

@@ -33,7 +33,7 @@
 	if(!isliving(M) || (M != user))
 		return ..()
 
-	user.visible_message("[user] starts to oil up [M]", "You start to oil up [M]")
+	user.visible_message(span_info("[user] starts to oil up [M]."), span_info("You start to oil up [M]."))
 	if(!do_after(user, 5 SECONDS, M))
 		return
 	M.apply_status_effect(/datum/status_effect/buff/oiled)

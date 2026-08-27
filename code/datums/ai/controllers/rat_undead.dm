@@ -44,8 +44,7 @@
 	var/atom/target = controller.blackboard[target_key]
 
 	if(QDELETED(target) || summoner.buckled || summoner.incapacitated())
-		finish_action(controller, FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	// Instantly consume the summon charge so it can't be spammed during windup
 	controller.set_blackboard_key(BB_RAT_SUMMON_READY, FALSE)
@@ -76,6 +75,6 @@
 		// We got cancelled by something, try again.
 		controller.set_blackboard_key(BB_RAT_SUMMON_READY, TRUE)
 
-	finish_action(controller, TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 #undef BB_RAT_SUMMON_READY

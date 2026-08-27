@@ -35,7 +35,6 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(!player)
 		player = character.client
 	apply_charflaw_equipment(character, player)
-	apply_prefs_special(character, player)
 	apply_prefs_virtue(character, player)
 	apply_prefs_race_bonus(character, player)
 	if(!HAS_TRAIT(character, TRAIT_NO_VOICEPACK_OVERRIDE)) //Only roundstart roles that jobload in, should use this. Prevents prefloaded voicepacks overriding yours.
@@ -219,19 +218,6 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 /proc/apply_qsr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC)
-
-/proc/apply_prefs_special(mob/living/carbon/human/character, client/player)
-	if(!player)
-		player = character.client
-	if(!player)
-		return
-	if(!player.prefs)
-		return
-	var/trait_type = player.prefs.next_special_trait
-	if(!trait_type)
-		return
-	apply_special_trait_if_able(character, player, trait_type)
-	player.prefs.next_special_trait = null
 
 /proc/apply_special_trait_if_able(mob/living/carbon/human/character, client/player, trait_type)
 	if(!charactet_eligible_for_trait(character, player, trait_type))

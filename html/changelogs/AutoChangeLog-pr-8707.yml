@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Take off, and remove Ferramancy Bow & Crossbow options to protect niche and avoid people complaining mage is taking more tools raaa"
-  - balance: "Reworked Riposte / Guard / Limbguard reaction with spells. \"Ground Effect\" (non projectile) spells no longer expose / disarm, but still give you the buffs and such. Walking into it is too punitive. Limb Guard will still lasts forever and block an indefinite amount of spell aimed at the same spot as long as it is up."
-  - balance: "Each cast can be punished one by one guard"
-  - balance: "When an arcyne strike / spell is warded (Guarded), the rider effect such as Scorched will not apply"
-  - rscdel: "Removed the Greater Cleaning Spell, Added Broom to the Arcyne Forge Spell, Arcyne Forge now replaces them for Telomancy and Kinesis."

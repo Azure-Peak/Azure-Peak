@@ -715,6 +715,7 @@
 	id = "oiled"
 	duration = 5 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/oiled
+	examine_text = span_info("SUBJECTPRONOUN is covered in oil!")
 	var/slip_chance = 2 // chance to slip when moving
 
 /datum/status_effect/buff/oiled/on_apply()
@@ -746,7 +747,6 @@
 /atom/movable/screen/alert/status_effect/oiled
 	name = "Oiled"
 	desc = "I'm covered in oil, making me slippery and harder to grab!"
-	icon_state = "oiled"
 
 /atom/proc/liquid_slip(dir=null, total_time = 0.5 SECONDS, height = 16, stun_duration = 1 SECONDS, flip_count = 1)
 	animate(src) // cleanse animations as funny as a ton of stacked flips would be it would be an eye sore

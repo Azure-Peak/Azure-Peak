@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Fixed an exploit allowing a character to have no vices at all, not even the Flawless vice that blocks passive triumph gain."

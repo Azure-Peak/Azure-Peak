@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Arcana crafting recipes now grant xp again like all other recipes. It's no longer a combat skill, in fact it's nigh-useless, so there's no particular reason to gate it."

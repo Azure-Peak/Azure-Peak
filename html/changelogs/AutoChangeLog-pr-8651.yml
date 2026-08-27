@@ -1,6 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Severed limbs, including heads, are now fireproof and acidproof. They're not lavaproof, but this should prevent campfires or errant mage spells from ashing someone's head and RRing them."
-  - bugfix: "Heads can no longer be debrained."
-  - rscadd: "Stakes of all kinds can now be driven through the heart of an incapacitated revenant (or deadite, or anyone else with the deathless trait) to properly kill them. This is not an RR, they can be revived, and is an alternative to throwing their head into the fires of mount decap or whatever. Silver stakes are better at this than wooden ones."
