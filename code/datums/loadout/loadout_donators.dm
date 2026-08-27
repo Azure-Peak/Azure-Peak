@@ -846,7 +846,7 @@
 /datum/loadout_item/donator/kadeguandao
 	name = "Donator Kit - Dawn Cometh"
 	path = /obj/item/enchantingkit/weapon/kadeguandao
-	ckeywhitelist = list("shiroseschnee", "Zerantio")
+	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
 
 /datum/loadout_item/donator/mirrortransform
 	name = "Gift - Scroll of Mirror Transform"
