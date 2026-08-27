@@ -277,7 +277,7 @@
 
 /obj/item/goldslag
 	name = "lustrous slag"
-	desc = "Alchemically-produced gold ore. Its workability is too poor to be used in smithing, but good enough for alchemical work - or purifying certain alloys."
+	desc = "One of the greatest triumphs of Lirvan metallurgy is their ability to work with alchemical gold. Their mastery and alloying of it has reached such a point that they use it in everything, from decoration, to armor, to the weapons of their Tithebound mercenaries. You, however, are not in one of the great Lirvan forges. And this is not a pure sample. \n \n <b>Good enough for alchemical work or purifying certain alloys—but not smithing.</b>"
 	icon = 'icons/roguetown/items/ore.dmi'
 	icon_state = "goldslag"
 	smeltresult = /obj/item/goldslag
