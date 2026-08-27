@@ -15,7 +15,7 @@ GLOBAL_LIST_INIT(bogman_aggro, world.file2list("strings/rt/bogmanaggrolines.txt"
 			cloak = /obj/item/clothing/suit/roguetown/armor/longcoat/brown
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/proc/add_random_deserter_cloak_better(mob/living/carbon/human/H)
-	var/random_deserter_cloak_better = rand(1,4)
+	var/random_deserter_cloak_better = rand(1,3)
 	switch(random_deserter_cloak_better)
 		if(1)
 			cloak = /obj/item/clothing/cloak/tabard/stabard/bog
