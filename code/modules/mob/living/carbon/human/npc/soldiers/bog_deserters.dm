@@ -558,7 +558,7 @@ GLOBAL_LIST_INIT(bogman_aggro, world.file2list("strings/rt/bogmanaggrolines.txt"
 /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear/marshal/pre_equip(mob/living/carbon/human/H)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/iron
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	H.STASTR = 15
 	H.STACON = 12
