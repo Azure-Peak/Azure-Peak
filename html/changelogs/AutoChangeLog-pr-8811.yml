@@ -1,0 +1,6 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscadd: "Blings out the church with the new equipment that has been added in over the year and they haven't recieved (such as golden/silver crosses) to the church roles. Changed out Sexton groundskeeper to look more like he belongs to the church (using the undivided clerical robes)"
+  - bugfix: "Fix templar tabard being called \"crusader\""
+  - balance: "Gives jackchains for Templar (base) and Spellblade, iron bracers for Guardian."

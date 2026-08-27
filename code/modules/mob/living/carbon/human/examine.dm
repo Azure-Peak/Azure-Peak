@@ -1139,7 +1139,7 @@
 		. += "<a href='?src=[REF(src)];task=view_headshot;'>Examine closer</a> [showassess ? " | <a href='?src=[REF(src)];task=assess;'>Assess</a>" : ""]"
 
 	/// Rumours & Gossip
-	if(length(rumour) || length(noble_gossip))
+	if(length(rumour_cached) || length(noble_gossip_cached))
 		if(!obscure_name || (obscure_name && client?.prefs.masked_examine) || observer_privilege)
 			. += "<a href='?src=[REF(src)];task=view_rumours_gossip;'>Recall Rumours & Gossip</a>"
 

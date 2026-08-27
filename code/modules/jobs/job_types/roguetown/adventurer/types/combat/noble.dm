@@ -255,7 +255,7 @@
 				H.grant_language(/datum/language/kazengunese) //Duh
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 
-		var/proficiencies = list("Decorated Sabre + Maille Training + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
+		var/proficiencies = list("Decorated Sabre + Dodge Expert + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
 		var/proficiency_choice = input(H, "Choose your proficiency.", "WHAT IS THY TALENT?") as anything in proficiencies
 		switch(proficiency_choice)
 			if("Decorated Sabre + Dodge Expert + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
@@ -430,6 +430,7 @@
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
 			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
+			"Snouted Burgonet" = /obj/item/clothing/head/roguetown/helmet/heavy/burgonet,
 			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface,
 			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,

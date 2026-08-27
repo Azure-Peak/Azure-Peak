@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Improved AI code to make it less likely to stall."
+  - rscadd: "Created a new Game Master Panel inspired by CM-PVE SS13 with click intercept functions for spawning mobs. It will be refined later."

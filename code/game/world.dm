@@ -73,15 +73,7 @@ GLOBAL_VAR(restart_counter)
 	LoadVerbs(/datum/verbs/menu)
 	load_whitelist()
 
-	load_blacklist()
-
-	load_nameban()
-
-	load_psychokiller()
-
 	load_crownlist()
-
-	load_bypassage()
 
 	load_patreons()
 

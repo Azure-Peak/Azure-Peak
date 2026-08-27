@@ -1,0 +1,6 @@
+{
+	"name": "tgui-webworkers",
+	"version": "0.0.1",
+	"description": "Webworkers for tgui to use",
+	"private": true
+}

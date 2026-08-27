@@ -70,64 +70,42 @@
 /datum/outfit/job/roguetown/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
+	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	beltl = /obj/item/storage/keyring/acolyte
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church, /obj/item/storage/keyring/acolyte, /obj/item/needle/thorn)
+	id = /obj/item/clothing/ring/gold
+	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
 			head = /obj/item/clothing/head/roguetown/roguehood/undivided
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			neck = /obj/item/clothing/neck/roguetown/psicross/undivided/g
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
-			cloak = /obj/item/clothing/cloak/undivided
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			neck = /obj/item/clothing/neck/roguetown/psicross/astrata/g
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
-			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 		if(/datum/patron/divine/noc)
 			head = /obj/item/clothing/head/roguetown/roguehood/nochood
-			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc // this robe is broken unless its in the cloak slot
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			neck = /obj/item/clothing/neck/roguetown/psicross/noc/g
+			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
 		if(/datum/patron/divine/abyssor) // the deep calls!
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			pants = /obj/item/clothing/under/roguetown/tights
-			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
 			head = /obj/item/clothing/head/roguetown/roguehood/abyssor
-			backr = /obj/item/fishingrod/bronze //Less-Occult painter side can have this as a treat
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
 		if(/datum/patron/divine/dendor) //Dendorites all busted. Play Druid.
 			head = /obj/item/clothing/head/roguetown/dendormask
-			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
+			neck = /obj/item/clothing/neck/roguetown/psicross/dendor/g
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
-			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded // Kunai: I think I'll give them a weak ass skin srmor later, once that PR is merged, for the nudist theme
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
-			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			shoes = /obj/item/clothing/shoes/roguetown/boots
-			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
+			neck = /obj/item/clothing/neck/roguetown/psicross/necra/g
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
-			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light/dark //looks better
-			cloak = /obj/item/clothing/cloak/templar/necrancleric
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
-			backpack_contents += list(
-		/obj/item/burial_shroud = 1,
-		)
+			cloak = /obj/item/clothing/cloak/raincloak/mortus
 			var/list/necra_tools = list("Silver Shovel", "Silver Scythe")
 			var/tool_choice = input(H, "A reaper, or a digger?", "HOW WILL YOU APPEASE THE UNDERMAIDEN?") as anything in necra_tools
 			switch(tool_choice) // choose wisely... larp or effectiveness?
@@ -137,25 +115,19 @@
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 					l_hand = /obj/item/rogueweapon/scythe/silver
 		if(/datum/patron/divine/pestra)
-			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
+			head = /obj/item/clothing/head/roguetown/roguehood/phys
+			neck = /obj/item/clothing/neck/roguetown/psicross/pestra/g
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
 			gloves = /obj/item/clothing/gloves/roguetown/angle/phys/cleric
-			head = /obj/item/clothing/head/roguetown/roguehood/black
-			shoes = /obj/item/clothing/shoes/roguetown/boots
-			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			cloak = /obj/item/clothing/cloak/templar/pestran
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
-			beltl = /obj/item/storage/belt/rogue/surgery_bag
+			l_hand = /obj/item/storage/belt/rogue/surgery_bag
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
 			head = /obj/item/clothing/head/roguetown/eoramask
-			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
+			neck = /obj/item/clothing/neck/roguetown/psicross/eora/g
 			cloak = /obj/item/clothing/cloak/templar/eoran
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			beltl = /obj/item/rogueweapon/huntingknife/scissors
 			l_hand = /obj/item/needle/thorn
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			var/robes = list("Modest","Exposed")
 			var/robe_choice = input(H, "Choose your ROBES.", "TAKE UP ROBES.") as anything in robes
 			switch(robe_choice) // This feels wrong to do but I am unsure how else to do it
@@ -165,39 +137,23 @@
 					armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 		if(/datum/patron/divine/malum)
 			head = /obj/item/clothing/head/roguetown/roguehood
-			neck = /obj/item/clothing/neck/roguetown/psicross/malum
-			shoes = /obj/item/clothing/shoes/roguetown/boots
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			pants = /obj/item/clothing/under/roguetown/trou
+			neck = /obj/item/clothing/neck/roguetown/psicross/malum/g
 			cloak = /obj/item/clothing/cloak/templar/malumite
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
-			beltl = /obj/item/rogueweapon/stoneaxe/woodcut //QOL for labor, you're going to be cutting trees regardless of what you want to do
 		if(/datum/patron/divine/ravox)
 			head = /obj/item/clothing/head/roguetown/roguehood/ravox
-			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
+			neck = /obj/item/clothing/neck/roguetown/psicross/ravox/g
 			cloak = /obj/item/clothing/cloak/templar/ravox
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/gladiator //ARE YOU NOT ENTERTAINED?!!
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/ravox
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
-			beltl = /obj/item/rope/chain
-			backr = /obj/item/rogueweapon/woodstaff/quarterstaff
-			H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
+			l_hand = /obj/item/rope/chain
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black
-			mask = /obj/item/clothing/mask/rogue/xylixmask
+			neck = /obj/item/clothing/neck/roguetown/psicross/xylix/g
 			cloak = /obj/item/clothing/cloak/templar/xylixian
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
-			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
-			belt = /obj/item/storage/belt/rogue/leather/suspenders //can't see this one easily
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
 			I.grant_inspiration(H, bard_tier = BARD_T2)
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			if(H.mind)
 				var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
 				var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
@@ -227,12 +183,9 @@
 						backr = /obj/item/rogue/instrument/shamisen
 		else
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
+			neck = /obj/item/clothing/neck/roguetown/psicross/astrata/g
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 	// -- End of section for god specific bonuses --

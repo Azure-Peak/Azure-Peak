@@ -224,9 +224,6 @@ GLOBAL_PROTECT(plevelfiveverbs)
 	if(plev > 5)
 		add_verb(src, GLOB.plevelfiveverbs)
 
-GLOBAL_LIST_EMPTY(hiderole)
-
-
 GLOBAL_LIST_EMPTY(anonymize)
 
 /mob/dead/new_player/verb/anonymize()

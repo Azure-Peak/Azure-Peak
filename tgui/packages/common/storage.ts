@@ -6,6 +6,8 @@
  * @license MIT
  */
 
+import { atomWithStorage } from 'jotai/utils';
+
 export const IMPL_HUB_STORAGE = 1;
 export const IMPL_IFRAME_INDEXED_DB = 2;
 
@@ -244,3 +246,29 @@ class StorageProxy implements StorageBackend {
 }
 
 export const storage = new StorageProxy();
+
+// Jotai helpers
+export const jotaiTguiStorage = {
+  // jotai automatically calls setItem on mount, so we don't need to call set
+  // ourselves
+  getItem: async (key: any, initialValue: any) => {
+    const item = await storage.get(key);
+    // This is like this to allow for falsey values being returned
+    if (item === undefined) {
+      return initialValue;
+    }
+    return item;
+  },
+  setItem: (key: any, value: any) => {
+    return storage.set(key, value);
+  },
+  removeItem: (key: any) => {
+    return storage.remove(key);
+  },
+};
+
+export const atomWithTguiStorage = <Value>(
+  key: string,
+  initialValue: Value,
+  options?: Parameters<typeof atomWithStorage<Value>>[3],
+) => atomWithStorage<Value>(key, initialValue, jotaiTguiStorage, options);

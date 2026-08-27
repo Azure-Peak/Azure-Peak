@@ -261,7 +261,7 @@ const StockRowView = (props: {
               ? 'No region has supply of this good today.'
               : overriding
                 ? 'Closed to the public. You may withdraw as a Clerk / Steward.'
-                : !!data.food_stipend && row.import_price > data.budget
+                : data.food_stipend && row.import_price > data.budget
                   ? 'Food stipend covers this import through the treasury.'
                   : data.charter_active
                     ? 'Import directly. Pays duty to the Crown.'

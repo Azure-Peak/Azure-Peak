@@ -193,43 +193,6 @@ Turf and target are separate in case you want to teleport some distance from a t
 			return 0
 	return 1
 
-//Generalised helper proc for letting mobs rename themselves. Used to be clname() and ainame()
-/mob/proc/apply_pref_name(role, client/C)
-	if(!C)
-		C = client
-	var/oldname = real_name
-	var/newname
-	var/loop = 1
-	var/safety = 0
-
-	var/banned = C ? is_banned_from(C.ckey, "Appearance") : null
-
-	while(loop && safety < 5)
-		if(C && C.prefs.custom_names[role] && !safety && !banned)
-			newname = C.prefs.custom_names[role]
-		else
-			switch(role)
-				if("human")
-					newname = random_unique_name(gender)
-				else
-					return FALSE
-
-		for(var/mob/living/M in GLOB.player_list)
-			if(M == src)
-				continue
-			if(!newname || M.real_name == newname)
-				newname = null
-				loop++ // name is already taken so we roll again
-				break
-		loop--
-		safety++
-
-	if(newname)
-		fully_replace_character_name(oldname,newname)
-		return TRUE
-	return FALSE
-
-
 //Returns a list of all items of interest with their name
 /proc/getpois(mobs_only=FALSE,skip_mindless=FALSE,team=null,skip_antighost=TRUE)
 	var/list/mobs = sortmobs()

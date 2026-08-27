@@ -3,11 +3,11 @@
 	behavior_flags = AI_BEHAVIOR_MOVE_AND_PERFORM
 
 /datum/ai_behavior/use_in_hand/perform(delta_time, datum/ai_controller/controller)
-	. = ..()
 	var/mob/living/pawn = controller.pawn
+	if(pawn.incapacitated())
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	var/obj/item/held = pawn.get_active_held_item()
 	if(!held)
-		finish_action(controller, FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	pawn.activate_hand(pawn.active_hand_index)
-	finish_action(controller, TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED

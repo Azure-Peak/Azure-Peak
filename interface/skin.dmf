@@ -235,34 +235,3 @@ window "popupwindow"
 		statusbar = false
 		can-resize = false
 		icon = 'icons\\tg_32.png'
-
-window "preferencess_window"
-	elem "preferencess_window"
-		type = MAIN
-		pos = 280,80
-		size = 820x900
-		anchor1 = -1,-1
-		anchor2 = -1,-1
-		is-visible = false
-		statusbar = false
-		can-close = false
-		can-resize = false
-		icon = 'icons\\tg_32.png'
-	elem "preferences_browser"
-		type = BROWSER
-		pos = 0,0
-		size = 820x900
-		anchor1 = 0,0
-		anchor2 = 75,100
-		saved-params = ""
-	elem "character_preview_map"
-		type = MAP
-		pos = 310,230
-		size = 172x192
-		anchor1 = 75,30
-		anchor2 = 100,20
-		background-color = #000000
-		right-click = true
-		icon-size = 64
-		zoom-mode = "distort"
-
