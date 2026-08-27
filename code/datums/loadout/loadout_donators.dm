@@ -848,6 +848,10 @@
 	path = /obj/item/enchantingkit/weapon/kadeguandao
 	ckeywhitelist = list("shiroseschnee", "Zerantio")
 
+/datum/loadout_item/donator/mirrortransform
+	name = "Gift - Scroll of Mirror Transform"
+	path = /obj/item/book/granter/spell/mirror_transform
+
 /datum/loadout_item/donator/falling_star
 	name = "Donator Kit - Falling Star"
 	path = /obj/item/enchantingkit/weapon/falling_star

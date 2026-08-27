@@ -75,9 +75,14 @@
 
 	var/spell
 	var/spellname = "conjure bugs"
+	var/required_skill
+	var/required_skill_level = SKILL_LEVEL_NOVICE
 
 /obj/item/book/granter/spell/already_known(mob/user)
 	if(!spell)
+		return TRUE
+	if(required_skill && user.get_skill_level(required_skill) < required_skill_level)
+		to_chat(user, span_warning("I don't have the skill to understand this scroll!"))
 		return TRUE
 	if(user.mind.has_spell(spell, specific = TRUE))
 		to_chat(user, span_warning("You've already read this one!"))
@@ -248,6 +253,27 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	remarks = list("Mediolanum ventis..", "Sana damnatorum..", "Frigidus ossa mortuorum..")
 
 /obj/item/book/granter/spell/bonechill/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
+/obj/item/book/granter/spell/mirror_transform
+	name = "Scroll of Mirror Transform"
+	spell = /datum/action/cooldown/spell/mirror_transform
+	spellname = "Mirror Transform"
+	desc = "A scroll to change one's forme. Requires some form of past arcyne experience to understand."
+	required_skill = /datum/skill/magic/arcane
+	icon_state ="scrolldarkred"
+	icon = 'icons/roguetown/items/misc.dmi'
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Corpus meum est sicut mens mea...", "Forma mea, transitoria..", "Pulchritudinem videbunt...")
+
+/obj/item/book/granter/spell/mirror_transform/onlearned(mob/living/carbon/user)
 	..()
 	if(oneuse)
 		name = "siphoned scroll"
