@@ -27,10 +27,9 @@
 	cmode_music = 'sound/music/cmode/nobility/combat_courtmage.ogg'
 	advjob_examine = TRUE // So that Court Magicians can know if they're teachin' a Apprentice or if someone's a bit more advanced of a player. Just makes the title show up as the advjob's name.
 
-	// job_traits = list(TRAIT_ALCHEMY_EXPERT) removed because of "everyman" concerns, this is now alch-associate only
+	job_traits = list(TRAIT_ALCHEMY_EXPERT)
 	job_subclasses = list(
 		/datum/advclass/wapprentice/associate,
-		/datum/advclass/wapprentice/associate/alchemist,
 		/datum/advclass/wapprentice/associate/apprentice,
 		// /datum/advclass/wapprentice/spellblade
 	)
@@ -73,7 +72,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN, // with no TRAIT_ALCH_EXPERT they can't level this more, meaning they're stuck with basic alchemy
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
@@ -99,34 +98,27 @@
 		backr = choose_implement(H, "lesser")
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
-/datum/advclass/wapprentice/associate/alchemist // separated out to avoid "everyman" mages. artifice will be its own advclass when it comes out
-	name = "Alchemist Associate"
-	tutorial = "No one could truly master the entirety of the arcyne arts. While other mages take a broad focus, you've chosen to focus your studies on one field: alchemy. You may not be as potent in a fight as your peers, but few among them can match you when it comes to transmutation and potent brews."
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT) // only ones that get this, they're the only ones that can do catalyzation and high-tier alchemy
-	outfit = /datum/outfit/job/roguetown/wapprentice/associate/alchemist
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE) // no major, since they're not meant to be independent
-	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
-		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
-	)
+/datum/outfit/job/roguetown/wapprentice/associate/post_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..() 			// small bonus picks to get you into your field of study - also a good character-building tool. Not impactful enough to
+	var/list/choices = list( // be their own subclasses, by design; your choice will not lock you into anything it just gives you a headstart
+		"Arcyne Mastery",
+		"Alchemical Artistry",
+		// "Artificed Luxury" disabled until mgl3pt2 brings artificing to mage proper - also needs a better name
+		)
+	var/list/choice_descs = list(
+		"Arcyne Mastery" = "Grants additional summoning charges, allowing you to fuel your various experiments more quickly.",
+		"Alchemical Artistry" = "Grants an extra level in alchemy skill, giving you a small head-start in such pursuits. Does not affect skill caps.",
+		// "Artificed Luxury" = "Grants a bonus to engineering, giving you a head start in the study of artificery. Does not affect skill caps." disabled until mgl3pt2 brings artificing to mage proper
+		)
+	var/choice = tgui_input_list(H, "Which path have your studies followed thus far?", "CHOOSE YOUR SPECIALTY", choices, "Arcyne Mastery", descriptions = choice_descs)
+	switch(choice)
+		if("Arcyne Mastery")
+			ADD_TRAIT(H, TRAIT_LEYLINE_EXPERTISE, JOB_TRAIT)
+		if("Alchemical Artistry")
+			spawn(3 SECONDS) H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE) // otherwise this applies before advclass skills and does nothing
+		// if("Artificed Luxury") todo in part 2
 
-/datum/outfit/job/roguetown/wapprentice/associate/alchemist/pre_equip(mob/living/carbon/human/H)
-	..()
-	grant_poke_spell(H) // they ARE still unimages. just not ones with a full major. this is TEMPORARY until we find a better way to make "mage, but utility focused, not combat" in a reasonable way
-
-/datum/advclass/wapprentice/associate/apprentice // this has been maid less impactful on purpose - you lose a lot of combat power, but not skill caps, so that you can actually be trained in the new gameplay loops
+/datum/advclass/wapprentice/associate/apprentice // this has been maid less impactful on purpose - you lose a lot of combat power, but not skills/stats, so that you can actually be trained in the new gameplay loops
 	name = "Magician's Apprentice"
 	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, \
 	singed hair, and summoning gone wrong. Expenses and death abound; it is not a path for the pauper \
@@ -134,22 +126,7 @@
 	Under the watchful gaze of the Court Magician and their associates, you may yet live \
 	to become a master of the arcyne arts. And even in the most rote of chores, there is knowledge to be found..."
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE) // lose arcyne power...
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE, TRAIT_ALCHEMY_EXPERT) // ...but the rote tasks you've been doing add to your mundane skills, or at least your potential
-	subclass_skills = list( // however, your combat and arcyne skills are... bad.
-		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
-	)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE) // ...but the rote tasks you've been doing add to your mundane skills, or at least your potential
 
 // Here lies the grave of Azurcaephon Associate, removed because a good portion of mage players are using it as a validhunting class
 // And unlike adventurer, the University being technically keep aligned means they can jump in and gank antags and there's less admins can do about it.
