@@ -1047,6 +1047,8 @@
 	for(var/path in reqs)
 		if(ispath(I.type, path))
 			return path
+		if(ispath(path, /obj/item/rogueore/gold) && istype(I, /obj/item/goldslag)) // special case, this is an alt gold ore item
+			return path
 
 /obj/structure/fluff/alch/trans/proc/gather_ingredients(mob/living/carbon/human/user, datum/transmutation_recipe/R) // sure am glad we cache this
 	var/list/ingredients = list()

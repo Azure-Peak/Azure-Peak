@@ -301,7 +301,7 @@
 			bronzealloy = bronzealloy + 2
 		if(item.smeltresult == /obj/item/ingot/aaslag)
 			purifiedalloy = purifiedalloy + 3
-		if(item.smeltresult == /obj/item/ingot/gold)
+		if((item.smeltresult == /obj/item/ingot/gold) || (item.smeltresult == /obj/item/goldslag))
 			purifiedalloy = purifiedalloy + 2
 		if(item.smeltresult == /obj/item/ingot/silver)
 			blacksteelalloy = blacksteelalloy + 1

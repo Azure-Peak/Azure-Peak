@@ -116,6 +116,12 @@
 	valid_outputs = list(/obj/item/alch/golddust = 1)
 	bonus_chance_outputs = list(/obj/item/alch/golddust = 33)
 
+/datum/alch_grind_recipe/gold_slag // identical to gold ore
+	name = "Gold Slag"
+	valid_input = /obj/item/goldslag
+	valid_outputs = list(/obj/item/alch/golddust = 1)
+	bonus_chance_outputs = list(/obj/item/alch/golddust = 33)
+
 /datum/alch_grind_recipe/silver_ore
 	name = "Silver Ore"
 	valid_input = /obj/item/rogueore/silver

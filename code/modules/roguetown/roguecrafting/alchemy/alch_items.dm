@@ -274,3 +274,15 @@
 		qdel(O)
 		qdel(src)
 		return
+
+/obj/item/goldslag
+	name = "lustrous slag"
+	desc = "Alchemically-produced gold ore. Its workability is too poor to be used in smithing, but good enough for alchemical work - or purifying certain alloys."
+	icon = 'icons/roguetown/items/ore.dmi'
+	icon_state = "goldslag"
+	smeltresult = /obj/item/goldslag
+	w_class = WEIGHT_CLASS_NORMAL
+	resistance_flags = FIRE_PROOF
+	grid_width = 64
+	grid_height = 32
+	materia = list(/datum/materia_aspect/solar, /datum/materia_aspect/metal)

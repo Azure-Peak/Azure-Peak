@@ -151,9 +151,9 @@
 	name = "Chrysopoeia (Gold)"
 	category = "Chrysopoeic Transmutation"
 	catalyst = /obj/item/alch/catalyst/chrysopoeia
-	materia_aspects = list(/datum/materia_aspect/solar)	// this _technically_ creates value - 32 sellprice of iron, 10 for the zenar for solar materia
-	input_items = list(/obj/item/rogueore/iron = 4)		// means you get 8 mammons out of nothing, except you can't buy iron that cheap so it's not econ exploit
-	output_items = list(/obj/item/rogueore/gold = 1) 	// the actual use of this is gilbranze production for high-level artifice in mgl3pt2
+	materia_aspects = list(/datum/materia_aspect/solar)	// this doesn't make real gold ore - it's meant to be outright impossible to make mammon with this
+	input_items = list(/obj/item/rogueore/iron = 4)		// because people were sucking up all the vommie iron
+	output_items = list(/obj/item/goldslag = 1) 		// now you just use this for gilbranze, or gold dust if you're an idiot
 
 // ARGYROPOEIA: an explicitly Noccite work, the catalyst is _impossible_ to create. it's adminspawn-only for now
 // and WILL REMAIN AN EXTREMELY RARE NOCCITE ARTIFACT if a way to obtain it is added in part 2 of mgl3
