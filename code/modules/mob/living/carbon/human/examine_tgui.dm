@@ -10,11 +10,15 @@
 
 	var/mob/viewing
 
+	/// if this is true, you can see name and FT even if they're masked. used by the known characters menu
+	var/override_visible = FALSE
+
 /datum/examine_panel/familiar
 
-/datum/examine_panel/New(mob/holder_mob)
+/datum/examine_panel/New(mob/holder_mob, override = FALSE)
 	if(holder_mob)
 		holder = holder_mob
+	override_visible = override
 
 /datum/examine_panel/Destroy(force)
 	holder = null
@@ -121,17 +125,17 @@
 		var/mob/living/carbon/human/holder_human = holder
 		if(!(holder_human.wear_armor && holder_human.wear_armor.flags_inv) && !(holder_human.wear_shirt && holder_human.wear_shirt.flags_inv))
 			is_naked = TRUE
-		obscured = ((!isobserver(user)) && !holder_human.client?.prefs?.masked_examine) && ((holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE)))
+		obscured = ((!override_visible) && ((!isobserver(user)) && !holder_human.client?.prefs?.masked_examine) && ((holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE))))
 		flavor_text = obscured ? "Obscured" : holder_human.flavortext_cached
 		flavor_text_nsfw = obscured ? "Obscured" : holder_human.nsfwflavortext_cached
 		ooc_notes += holder_human.ooc_notes_cached
 		ooc_notes_nsfw += holder_human.erpprefs_cached
-		char_name = holder_human.name
+		char_name = (override_visible ? holder_human.real_name : holder_human.name)
 		song_url = holder_human.ooc_extra
 		song_title = holder_human.song_title
 		is_vet = holder_human.check_agevet()
 		if(!obscured)
-			if(vampireplayer && (!SEND_SIGNAL(holder_human, COMSIG_DISGUISE_STATUS))&& !isnull(holder_human.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
+			if(vampireplayer && (!SEND_SIGNAL(holder_human, COMSIG_DISGUISE_STATUS)) && !isnull(holder_human.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
 				headshot = holder_human.vampire_headshot_link
 			else if (lichplayer && !isnull(holder_human.lich_headshot_link))//Lich with a valid headshot
 				headshot = holder_human.lich_headshot_link

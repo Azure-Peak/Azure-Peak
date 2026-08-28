@@ -11,7 +11,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	if(href_list["task"] == "view_headshot")
 		if(!ismob(usr))
 			return
-		var/datum/examine_panel/mob_examine_panel = new(src)
+		var/datum/examine_panel/mob_examine_panel = new(src, href_list["overridevisible"])
 		mob_examine_panel.holder = src
 		mob_examine_panel.viewing = usr
 		mob_examine_panel.ui_interact(usr)
