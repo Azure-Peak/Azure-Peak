@@ -61,6 +61,7 @@
 	slice_bclass = BCLASS_CHOP
 	chopping_sound = TRUE
 	cooked_smell = /datum/pollutant/food/fried_meat
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 
 /* ............. Pork Belly ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly
@@ -92,6 +93,7 @@
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	slices_num = 2
 	cooked_smell = /datum/pollutant/food/fried_spidermeat
 	tastes = list("slimy insectoid" = 1)
@@ -103,6 +105,7 @@
 	icon_state = "halfchicken"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	fried_type = null
 	slices_num = 2
 	slice_sound = TRUE
@@ -134,17 +137,6 @@
 	ingredient_size = 1
 	cooked_smell = /datum/pollutant/food/fried_crab
 
-/* ............. Cabbit Meat ................*/
-/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
-	cuisine = CUISINE_SOUTH_IMPERIAL
-	name = "raw cabbit meat"
-	icon_state = "cabbitcutlet"
-	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried
-	slices_num = 1
-	ingredient_size = 1
-
 /* ............. Volf Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf
 	cuisine = CUISINE_NORTHERN
@@ -156,6 +148,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 
 /* ............. Rous Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/rat
@@ -169,6 +162,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 
 /* ............. Bear Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/bear
@@ -341,6 +335,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	slices_num = 1
 	ingredient_size = 1
 
@@ -356,6 +351,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 
 // Do NOT add this to the stockpile, they have other uses and are unique in how they're obtained.
 /* ............. Gnoll Meat ................*/

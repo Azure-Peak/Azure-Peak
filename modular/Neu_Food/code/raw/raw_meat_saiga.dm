@@ -6,6 +6,7 @@
 	icon_state = "steak"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	ingredient_size = 4
 	rotprocess = SHELFLIFE_LONG
 
@@ -17,6 +18,7 @@
 	icon_state = "ribs"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	ingredient_size = 4
 	rotprocess = SHELFLIFE_LONG
 
@@ -28,6 +30,7 @@
 	icon_state = "loin"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	ingredient_size = 4
 	rotprocess = SHELFLIFE_LONG
 
@@ -39,6 +42,7 @@
 	icon_state = "ossobuco"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked
+	smoked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
 	ingredient_size = 4
 	rotprocess = SHELFLIFE_LONG
 
