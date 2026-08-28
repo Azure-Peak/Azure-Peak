@@ -984,6 +984,9 @@
 /obj/structure/fluff/alch/trans/proc/transmute(mob/living/carbon/human/user, datum/transmutation_recipe/path, amount = 1, auto)
 	if(!user || !istype(user))
 		return
+	if(get_dist(user, src) > 1)
+		to_chat(user, span_warning("Too far away!"))
+		return
 	var/datum/transmutation_recipe/recipe
 	for(var/datum/transmutation_recipe/A in GLOB.transmutation_recipes)
 		if(istype(A, path))
