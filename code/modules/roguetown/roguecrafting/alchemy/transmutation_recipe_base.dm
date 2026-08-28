@@ -162,7 +162,7 @@
 	data["materia_reqs"] = materia_display
 
 	if(skill_required)
-		data["craftingdifficulty"] = "[SSskills.level_names_plain[skill_required]]."
+		data["craftingdifficulty"] = "[SSskills.level_names_plain[skill_required]]"
 
 	cached_display_data = data
 
