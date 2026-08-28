@@ -25,6 +25,7 @@
 		"THE DARK SUN GUIDES MY HAND!",
 		"ALL HAIL HE-WHO-HARVESTS!",
 		"ONLY MY DAGGER UNDERSTANDS ME!",
+		"BLOOD FOR THE NEW GODS!", // PRAY TO THE SUN-GOD. https://www.youtube.com/watch?v=JjNYmxdkd1w
 	)
 	antag_flags = FLAG_FAKE_ANTAG
 	rogue_enabled = TRUE // so it shows up in the panel
@@ -64,7 +65,7 @@
 	to_chat(owner, span_cult("I hear a singing. HE awaits sacrifice. Death to the world, in the name of the Dark Star."))
 	to_chat(owner, span_artery("Summon your dagger. Keep it close. Sense HIS TARGETED, slay them, and PECULATE their being into your blade."))
 	to_chat(owner.current, span_redinfo("Assassins do NOT have to escalate against THEIR TARGETS. You must escalate against everyone else. \
-	Your targets are still afforded ERP protections."))
+	Your targets are STILL AFFORDED ERP protections."))
 	owner.current.playsound_local(owner.current,'sound/villain/littlescary.ogg', 10)
 
 /datum/antagonist/assassin/on_removal()
@@ -151,6 +152,7 @@ if any of you remember the old art posts from back i nthe day. That wasp retty f
 
 // KILLING GOD OF HIDDEN DOORWAYS
 	If assassins are still weakshit for whatever reason, let PECULATE open open/close windows. Players WILL shit their pants.
+	...so will the map-designers, though. ONLY LET THEM DO THIS!!!!!
 
 // LINGERING SOVL
 - make spinning the dagger stab you
