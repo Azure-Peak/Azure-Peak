@@ -20,6 +20,13 @@
 	reqs = list(/obj/item/rogueore/cinnabar = 1,
 				/datum/reagent/medicine/manapot = 15)
 
+/datum/crafting_recipe/roguetown/arcana/mirror_transform_scroll
+	name = "Scroll of Mirror Transform"
+	result = /obj/item/book/granter/spell/mirror_transform
+	reqs = list (/obj/item/rogueore/cinnabar = 1,
+				/datum/reagent/medicine/manapot =  10,
+				/obj/item/paper/scroll = 1)
+
 /datum/crafting_recipe/roguetown/arcana/infernalfeather
 	name = "infernal feather"
 	result = /obj/item/natural/feather/infernal
