@@ -65061,7 +65061,6 @@
 "mcw" = (
 /obj/structure/table/finestone,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/obj/item/roguecoin/aalloy/pile,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "mcz" = (
@@ -95233,6 +95232,11 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
+"rKE" = (
+/obj/structure/table/wood/long_table,
+/obj/item/roguecoin/aalloy/pile,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/magician)
 "rKG" = (
 /obj/structure/table/wood/long_table,
 /obj/item/reagent_containers/glass/bottle/rogue/wine{
@@ -299261,7 +299265,7 @@ xxN
 xTP
 mtB
 eOE
-qLQ
+rKE
 nTJ
 nTJ
 ukM
