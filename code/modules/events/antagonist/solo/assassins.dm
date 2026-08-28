@@ -46,6 +46,7 @@
 
 	earliest_start = 0 SECONDS
 	// solo assassin is kill due to various balance fuckeries and plans for the future.
+	// IF YOU ARE RE-ENABLING THIS MAKE 100% SURE IT RESPECTS PREFERENCES!!!!!!!!!!!!!!!!!!!!!!
 	max_occurrences = 0
 	weight = 0
 
@@ -62,7 +63,7 @@
 		return EVENT_CANT_RUN
 	return ..()
 
-// override that includes removal of targeted & hunted individuals. i have 0 clue if this'll work nor how to test it.
+// override that includes removal of targeted & hunted individuals. i'm pretty sure it works.
 /datum/round_event_control/antagonist/solo/assassins/trim_candidates(list/candidates)
 	candidates = ..()
 	for(var/mob/living/candidate in candidates)
