@@ -13,6 +13,9 @@
 	desc = "Recall the name of all targets not currently slain and bound into a dagger. Select a target to get a sense of where they are."
 	click_to_activate = FALSE
 	sound = null
+	// no invocation is intentional. we want you to at least get to your target w/o being instantly foudn out.
+	// find dagger SHOULD have one as you're probably in the shit if you're having to find the fuckin thing.
+	// if you REALLY insist on having one, add a mute-person workaround. thx.
 	ignore_can_speak = TRUE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 	charge_required = FALSE
