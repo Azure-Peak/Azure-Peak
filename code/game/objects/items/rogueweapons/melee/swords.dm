@@ -669,7 +669,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 2)) //Its a cursed blade, it gets to glow ominiously now.
 
 /obj/item/rogueweapon/sword/long/marlin
-	name = "shalal saber"
+	name = "shalal sabre"
 	desc = "A large yet surprisingly agile curved blade meant to be wielded in two hands. It has a similar composition to northwestern \
 	Psydonian longswords, but it's notably lighter."
 	force = 26
@@ -1085,7 +1085,7 @@
 
 /obj/item/rogueweapon/sword/short/ashort
 	name = "decrepit short sword"
-	desc = "A chipped sidearm-sword, wrought from frayed bronze. It's hard to gauge whether it was naturally forged to be so short, or if it's \
+	desc = "A chipped sidearm-sword, wrought from rotted metal. It's hard to gauge whether it was naturally forged to be so short, or if it's \
 	all that remained of a longer blade."
 	icon_state = "ashortsword"
 	sheathe_icon = "ashortsword"
@@ -1167,7 +1167,7 @@
 
 /obj/item/rogueweapon/sword/short/gladius/agladius
 	name = "decrepit gladius"
-	desc = "A hefty shortsword, wrought from frayed bronze. Once, the sidearm of a proud legionnaire; now, a consequence of progress and sacrifice."
+	desc = "A hefty shortsword, wrought from rotted metal. Once, the sidearm of a proud legionnaire; now, a consequence of progress and sacrifice."
 	force = 18
 	max_integrity = 150
 	icon_state = "agladius"
@@ -1341,8 +1341,8 @@
 	name = "sabre"
 	desc = "A very popular backsword made for cavalrymen that originated in Naledi and spread its influence further north, reaching Aavnr as a \"Szablya\" and \
 	notoriously cementing itself as the preferred weapon of the Potentate's Hussars."
-	icon_state = "saber"
-	sheathe_icon = "saber"
+	icon_state = "sabre"
+	sheathe_icon = "sabre"
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/cut/sabre/heavy, /datum/intent/sword/thrust/sabre, /datum/intent/sword/strike)
 	gripped_intents = null
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
@@ -1375,16 +1375,16 @@
 	penfactor = PEN_LIGHT	//Curved blade — can poke through cloth but not mail.
 
 /obj/item/rogueweapon/sword/sabre/dec
-	icon_state = "decsaber"
-	sheathe_icon = "decsaber"
+	icon_state = "decsabre"
+	sheathe_icon = "decsabre"
 
-/obj/item/rogueweapon/sword/saber/iron
-	name = "iron saber"
+/obj/item/rogueweapon/sword/sabre/iron
+	name = "iron sabre"
 	desc = "A Naledian sword mass produced for line infantry. Its fittings are simple, munitions grade, but the construction is sturdy and the blade as threatening \
 	as any."
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
-	icon_state = "isaber"
+	icon_state = "isabre"
 
 /obj/item/rogueweapon/sword/sabre/steppesman
 	name = "aavnic shashka"
@@ -1452,7 +1452,7 @@
 
 /obj/item/rogueweapon/sword/sabre/alloy
 	name = "decrepit khopesh"
-	desc = "A hooked sword, wrought from frayed bronze. The design is not only baffling, but seems to predate history itself."
+	desc = "A hooked sword, wrought from rotted metal. The design is not only baffling, but seems to predate history itself."
 	force = 18
 	max_integrity = 115
 	icon_state = "akhopesh"
@@ -1464,17 +1464,17 @@
 
 /obj/item/rogueweapon/sword/sabre/palloy
 	name = "ancient khopesh"
-	desc = "A polished hook-sword, forged from gilbronze. The Comet Syon's glare once graced this blade; now, it's wielded by those who can't even \
+	desc = "A polished hook-sword, forged from gilbranze. The Comet Syon's glare once graced this blade; now, it's wielded by those who can't even \
 	remember what came before His sacrifice."
 	smeltresult = /obj/item/ingot/aaslag
 	icon_state = "akhopesh"
 
 /obj/item/rogueweapon/sword/sabre/elf
-	name = "elvish saber"
+	name = "elvish sabre"
 	desc = "A single-edged masterwork of Elven design, who's silvered blade glimmers under the sun's glare."
-	icon_state = "esaber"
-	item_state = "esaber"
-	sheathe_icon = "esaber"
+	icon_state = "esabre"
+	item_state = "esabre"
+	sheathe_icon = "esabre"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	force = 23 //Equalized with the Stalker Sabre, with a +1DMG boost to its original stats.
@@ -1500,7 +1500,7 @@
 /obj/item/rogueweapon/sword/sabre/stalker
 	name = "stalker sabre"
 	desc = "A once-elegant blade of ketryl, who's sunless edge now menaces with obsidian-hued mirth."
-	icon_state = "spidersaber"
+	icon_state = "spidersabre"
 	force = 23
 	force_wielded = 23
 	minstr = 7
@@ -2264,7 +2264,7 @@
 	icon_state = "wodao"
 	sheathe_icon = "wodao"
 
-/obj/item/rogueweapon/sword/saber/iron/wodao
+/obj/item/rogueweapon/sword/sabre/iron/wodao
 	name = "iron wodao"
 	desc = "A wrought-iron wodao, mass produced by the thousands in the state arsenals for Xinyi infantry and provincial militias. The blade is competent, its edge sharp, but it will not hold as long under use. But at a fraction of the cost of a hwando, it is more than enough to slay a man or five before it needs to be sharpened."
 	icon_state = "iwodao"
@@ -2448,7 +2448,7 @@
 /obj/item/rogueweapon/sword/sabre/bane
 	name = "\"Bane's Edge\""
 	desc = "A stained sabre made of blacksteel, its edge is coated in long-dried blood as well as poison."
-	icon_state = "poisonsaber"
+	icon_state = "poisonsabre"
 	force = 25
 	max_integrity = 200
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')

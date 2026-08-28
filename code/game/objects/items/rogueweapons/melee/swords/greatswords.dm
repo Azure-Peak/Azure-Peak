@@ -84,7 +84,7 @@
 
 /obj/item/rogueweapon/greatsword/aalloy
 	name = "decrepit greatsword"
-	desc = "A massive blade, wrought in frayed bronze. It is too big to be called a sword; massive, thick, heavy, and far too rough. Indeed, this blade was more like a heap of raw metal."
+	desc = "A massive blade, wrought in rotted metal. It is too big to be called a sword; massive, thick, heavy, and far too rough. Indeed, this blade was more like a heap of raw metal."
 	force = 10
 	force_wielded = 25
 	max_integrity = 150
@@ -98,7 +98,7 @@
 
 /obj/item/rogueweapon/greatsword/paalloy
 	name = "ancient greatsword"
-	desc = "A massive blade, forged from polished gilbronze. Your kind will discover your true nature, in wrath and ruin. You will take to the stars and burn them out, one by one. Only when the last star turns to dust, will you finally realize that She was trying to save you from Man's greatest foe; oblivion."
+	desc = "A massive blade, forged from polished gilbranze. Your kind will discover your true nature, in wrath and ruin. You will take to the stars and burn them out, one by one. Only when the last star turns to dust, will you finally realize that She was trying to save you from Man's greatest foe; oblivion."
 	icon_state = "ancient_gsw"
 	smeltresult = /obj/item/ingot/aaslag
 
@@ -444,5 +444,5 @@
 	gripped_intents = list(/datum/intent/sword/cut/zhanmadao, /datum/intent/rend, /datum/intent/sword/thrust/zhanmadao, /datum/intent/sword/cut/zhanmadao/sweep)
 	alt_grips = null // can't be alt-gripped
 	name = "Zhanmadao"
-	desc = "A traditional Lingyuese weapon, the 'horse chopping saber', first pioneered during the Yuanzhao dynasty to cut through saigas and fogbeasts legs from below. It consists of a long, single-edged blade affixed to a hilt meant strictly for two-handed use, and is designed strictly for cutting and wide sweeping attacks. Quite bad at thrusting, unusable for striking."
+	desc = "A traditional Lingyuese weapon, the 'horse chopping sabre', first pioneered during the Yuanzhao dynasty to cut through saigas and fogbeasts legs from below. It consists of a long, single-edged blade affixed to a hilt meant strictly for two-handed use, and is designed strictly for cutting and wide sweeping attacks. Quite bad at thrusting, unusable for striking."
 	icon_state = "zhanmadao"

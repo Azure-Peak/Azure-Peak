@@ -27,7 +27,7 @@
 
 // Acolyte variant
 /datum/advclass/herald
-	name = "Herald of the abyss"
+	name = "Herald of the Abyss"
 	tutorial = "One of Abyssor's acolytes dedicated to the path of the dream painter. You are amongst the most studious of the cult, capable of casting the most powerful miracles. Detail your visions, bring great tidings... Perfom the grunt work to prepare the greatest rituals. You are beholden to the word of the Bishop whose basement you dwell in."
 	outfit = /datum/outfit/job/roguetown/herald
 	category_tags = list(CTAG_ACOLYTE)

@@ -1,3 +1,68 @@
+/////////////////////////
+// T0 - Emotional Sway //
+/////////////////////////
+
+/datum/action/cooldown/spell/baotha
+	background_icon = 'icons/mob/actions/baothamiracles.dmi'
+	button_icon = 'icons/mob/actions/baothamiracles.dmi'
+	spell_color = GLOW_COLOR_BAOTHA
+	ignore_armor_penalty = TRUE
+	primary_resource_type = SPELL_COST_DEVOTION
+	secondary_resource_type = SPELL_COST_STAMINA
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	point_cost = 0
+	spell_flags = SPELL_PSYDON
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
+/datum/action/cooldown/spell/baotha/emotional_sway
+	name = "Laetitia / Petulantia"
+	desc = "Baotha raises myne mood. Alt-mode to instead surrender my soul to heartbreak. More effective based off of holy skill."
+	button_icon_state = null //i ain't got shit rn lowk chief
+	sound = 'sound/magic/heal.ogg' //i ain't got SHIT rn lowk chief
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_CANTRIP
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 60 SECONDS
+	check_flags = AB_CHECK_CONSCIOUS
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	var/embrace_heartbreak = FALSE
+
+/datum/action/cooldown/spell/baotha/emotional_sway/toggle_alt_mode(mob/user)
+	embrace_heartbreak = !embrace_heartbreak
+	to_chat(user, span_notice("Baotha's blessing will now [embrace_heartbreak ? "decrease" : "increase"] my mood."))
+	return TRUE
+
+/datum/action/cooldown/spell/baotha/emotional_sway/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/user = owner
+	if(!istype(user))
+		return FALSE
+
+	var/holy_skill = user.get_skill_level(associated_skill)
+	var/event_type = embrace_heartbreak ? /datum/stressevent/baotha_heartbreak : /datum/stressevent/baotha_solace
+	user.remove_stress(event_type)
+	var/datum/stressevent/emotional_sway = user.add_stress(event_type)
+	if(!emotional_sway)
+		return FALSE
+	emotional_sway.stressadd = (embrace_heartbreak ? 1 : -1) * 2 * holy_skill
+	to_chat(user, embrace_heartbreak ? span_warning("Sickening plummet. This will all end one dae.") : span_green("Warmth and cherishment."))
+	return TRUE
+
+/datum/stressevent/baotha_solace
+	timer = 1 MINUTES
+	desc = span_green("May I make the most of myne pleasure.")
+
+/datum/stressevent/baotha_heartbreak
+	timer = 1 MINUTES
+	desc = span_red("...nothing ever lasts forever.")
+
 //T0 that tells the user the person's vice.
 /obj/effect/proc_holder/spell/invoked/baothavice
 	name = "Tell Vice"
@@ -29,7 +94,8 @@
 
 	if(HAS_TRAIT(H, TRAIT_DECEIVING_MEEKNESS) && user.get_skill_level(/datum/skill/magic/holy) <= SKILL_LEVEL_NOVICE)
 		if(isnull(fake_vices[H]))
-			fake_vices[H] = pick(GLOB.character_flaws)
+			var/datum/charflaw/cf = pick_assoc(GLOB.character_flaws_singletons)
+			fake_vices[H] = cf.name
 		vice_found = fake_vices[H]
 
 		if(prob(50 + ((H.STAPER - 10) * 10)))
@@ -92,105 +158,6 @@
 		target.visible_message("<span class='info'>[target]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
 	return TRUE
 
-// T1, orison inspired healing spell that pours a drink called Lover's Ruin. Works like a red for baotha blessed, poisons non-blessed.
-/obj/effect/proc_holder/spell/targeted/touch/loversruin
-	name = "Lover's Ruin"
-	desc = "A toast to passion that ends in ash.\n \
-		Beseech Baotha to pour wine onto a container. Poisons those who reject Her comfort; her followers are instead blessed with healing."
-	action_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_state = "ruin"
-	chargedrain = 0
-	chargetime = 0
-	releasedrain = 5
-	miracle = TRUE
-	devotion_cost = 5
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/holy
-	hand_path = /obj/item/melee/touch_attack/loversruin
-	recharge_time = 2 MINUTES
-
-/obj/item/melee/touch_attack/loversruin
-	name = "Baotha's Touch"
-	catchphrase = null
-	possible_item_intents = list(/datum/intent/fill)
-	icon = 'icons/mob/roguehudgrabs.dmi'
-	icon_state = "pulling"
-	icon_state = "grabbing_greyscale"
-	color = "#FFFFFF"
-	var/right_click = FALSE
-
-/obj/item/melee/touch_attack/loversruin/attack_self()
-	qdel(src)
-
-/obj/item/melee/touch_attack/loversruin/afterattack(atom/target, mob/living/carbon/human/user, proximity)
-	if(istype(user.used_intent, /datum/intent/fill) && create_ichor(target, user))
-		qdel(src)
-
-/datum/reagent/medicine/loversruin
-	name = "Lover's Ruin"
-	description = "A sweet smelling concoction. It has small charred petals swimming on the surface."
-	color = "#9c2745"
-	taste_description = "sin"
-
-/datum/reagent/medicine/loversruin/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
-		if(volume >= 10)
-			M.reagents.remove_reagent(/datum/reagent/medicine/loversruin, 2)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-			M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
-		var/list/wCount = M.get_wounds()
-		if(wCount.len > 0)
-			M.heal_wounds(2, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
-		if(volume > 0.99)
-			M.adjustBruteLoss(-2	* REAGENTS_EFFECT_MULTIPLIER, 0)
-			M.adjustFireLoss(-2	* REAGENTS_EFFECT_MULTIPLIER, 0)
-			M.adjustOxyLoss(-2, 0)
-			M.adjustToxLoss(-2, 0)
-			M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5	* REAGENTS_EFFECT_MULTIPLIER)
-			M.adjustCloneLoss(-4	* REAGENTS_EFFECT_MULTIPLIER, 0)
-	else
-		M.adjustToxLoss(3, 0)
-		M.adjustOxyLoss(1, 0)
-	..()
-
-/obj/item/melee/touch_attack/loversruin/proc/create_ichor(atom/thing, mob/living/carbon/human/user)
-	if(!thing.Adjacent(user))
-		to_chat(user, span_info("I need to be closer to [thing] in order to try filling it with the concoction."))
-		return
-
-	if(thing.is_refillable())
-		if(thing.reagents.holder_full())
-			to_chat(user, span_warning("[thing] is full."))
-			return
-
-		user.visible_message(span_info("[user] extends a hand over [thing]. Sweet-smelling ichor drips from [user.p_their()] fingertips, like blood."), span_notice("I call forth [user.patron.name], to fill [thing] with Her blessings..."))
-
-		var/holy_skill = user.get_skill_level(attached_spell.associated_skill)
-		var/drip_speed = 56 - (holy_skill * 8)
-		var/fatigue_spent = 0
-		var/fatigue_used = max(3, holy_skill)
-		while(do_after(user, drip_speed, target = thing))
-			if(thing.reagents.holder_full() || (user.devotion.devotion - fatigue_used <= 0))
-				break
-
-			var/water_qty = max(2, holy_skill*2)
-			var/list/water_contents = list(/datum/reagent/medicine/loversruin = water_qty)
-			var/datum/reagents/reagents_to_add = new()
-			reagents_to_add.add_reagent_list(water_contents)
-			reagents_to_add.trans_to(thing, reagents_to_add.total_volume, transfered_by = user)
-
-			fatigue_spent += fatigue_used
-			user.stamina_add(fatigue_used)
-			user.devotion?.update_devotion(-1.5)
-
-			if(prob(80))
-				playsound(user, 'sound/items/fillcup.ogg', 55, TRUE)
-
-		return max(50, fatigue_spent)
-	else
-		to_chat(user, span_info("I'll need to find a container that can hold Her blessing."))
-
 //T1, Baotha's version of Eora's Bud (now renamed True Peace Bloom). Applies the TRAIT_CRACKHEAD baothans have.
 /obj/effect/proc_holder/spell/invoked/griefflower
 	name = "False Serenity Bloom"
@@ -243,55 +210,80 @@
 	// The rosa ring is supposed to be 'discrete', so it doesn't look heretical to a casual observer.
 	return null
 
-// Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff.
-
-/obj/effect/proc_holder/spell/self/insufflation
-	name = "Insufflation"
-	desc = "Become numb. Imbibes yourself on one of four drugs. Your intent will determine the drug ingested. \n\
-	\
-	Feint intent will dose you on Spice, giving you +5 INT, +3 SPD, and -5 FOR. \n\
-	\
-	Aimed intent will dose you on Moondust, giving you +3 SPD, +3 WILL, and -2 INT. \n\
-	\
-	Strong intent will dose you on Herozium, giving you -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and resistance to damage slowdown. \n\
-	\
-	Swift intent will dose you on Starsugar, giving you +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert."
+// T1 - polls the caster's mood and vice satiety before giving a buff. as you can tell by the typepath i had an entiurely different idea for this ubt whatever
+/obj/effect/proc_holder/spell/invoked/heart_on_sleeve
+	name = "Phentis / Melancholia"
+	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. A sated vice doubles the duration; every unsated vice doubles every stat change."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
 	clothes_req = FALSE
-	associated_skill = /datum/skill/magic/holy
-	chargedloop = /datum/looping_sound/invokeholy
-	releasedrain = 10
+	releasedrain = 30
 	chargedrain = 0
-	chargetime = 15
-	recharge_time = 10 SECONDS
-	invocation_type = "emote"
-	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
+	chargetime = 2 SECONDS //BIG, VERY IMPORTANT spell
+	recharge_time = 2 MINUTES
+	invocations = list("Melancholy! Mania!") //fuck dude I don't know I'm so fried
+	sound = 'sound/magic/heal.ogg'
+	chargedloop = /datum/looping_sound/invokeholy
+	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	miracle = TRUE
 	devotion_cost = 30
+	var/aura_range = 1
 
-/obj/effect/proc_holder/spell/self/insufflation/cast(list/targets, mob/user)
-	if(!ishuman(user))
+/obj/effect/proc_holder/spell/invoked/heart_on_sleeve/cast(list/targets, mob/living/carbon/user)
+	var/stress_threshold = get_stress_threshold(user.get_stress_amount())
+	var/is_good_mood = stress_threshold == STRESS_THRESHOLD_NICE || stress_threshold == STRESS_THRESHOLD_GOOD
+	var/is_bad_mood = stress_threshold >= STRESS_THRESHOLD_STRESSED
+
+	if(!is_good_mood && !is_bad_mood)
+		to_chat(user, span_userdanger("EMPTY."))
 		revert_cast()
 		return FALSE
-	switch(user.rmb_intent.name)
-		if("feint")
-			user.reagents.add_reagent(/datum/reagent/druqks, 4)
-			return TRUE
-		if("aimed")
-			user.reagents.add_reagent(/datum/reagent/moondust_purest, 8)
-			return TRUE
-		if("strong")
-			user.reagents.add_reagent(/datum/reagent/herozium, 8)
-			return TRUE
-		if("swift")
-			user.reagents.add_reagent(/datum/reagent/starsugar, 8)
-			return TRUE
-		else
-			user.reagents.add_reagent(/datum/reagent/herozium, 8)
-			return TRUE
+
+	var/vice_sated = TRUE
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		for(var/datum/charflaw/addiction/vice in human_user.charflaws)
+			if(!vice.sated)
+				vice_sated = FALSE
+				break
+
+	var/stat_multiplier = vice_sated ? 1 : 2
+	var/effect_duration = vice_sated ? 90 SECONDS : 45 SECONDS
+
+	if(is_good_mood)
+		for(var/mob/living/nearby_soul in view(aura_range, user))
+			if(nearby_soul.stat != DEAD)
+				nearby_soul.apply_status_effect(/datum/status_effect/buff/heart_on_sleeve/phentis, stat_multiplier, effect_duration)
+		user.visible_message(span_notice("A warm, passionate haze gathers around [user]."), span_green("TAKE MYNE LOVE FOR BUT A MOTE."))
+	else
+		user.apply_status_effect(/datum/status_effect/buff/heart_on_sleeve/melancholia, stat_multiplier, effect_duration)
+		user.visible_message(span_warning("[user] draws their heartbreak inward."), span_warning("MYNE SORROW IS MINE ALONE."))
+	return TRUE
+
+/datum/status_effect/buff/heart_on_sleeve
+	id = "heart_on_sleeve"
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = /atom/movable/screen/alert/status_effect/buff/heart_on_sleeve
+	duration = 45 SECONDS
+
+/datum/status_effect/buff/heart_on_sleeve/on_creation(mob/living/new_owner, stat_multiplier = 1, effect_duration = 45 SECONDS)
+	duration = effect_duration
+	for(var/stat in effectedstats)
+		effectedstats[stat] *= stat_multiplier
+	return ..()
+
+/datum/status_effect/buff/heart_on_sleeve/phentis
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_INT = 1)
+
+/datum/status_effect/buff/heart_on_sleeve/melancholia
+	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_WIL = 1, STATKEY_CON = -1, STATKEY_INT = -1)
+
+/atom/movable/screen/alert/status_effect/buff/heart_on_sleeve
+	name = "HEART AND SOUL"
+	desc = ""
+	icon_state = "buff"
 
 //Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
 
@@ -389,24 +381,23 @@
 	to_chat(M, span_warning("Gah! Something.. got in my - eyes.."))
 	M.blur_eyes(2)
 
-// T2 - clears all stress. Forget your worries, pookie bear.
+// T2 - shares the caster's current mood, intensified by their holy skill.
 /obj/effect/proc_holder/spell/invoked/lasthigh
-	name = "Last High"
-	desc = "Gives someone but a hint of Baotha's relief, giving them peace and draining their worries- for a bit."
+	name = "Codependence"
+	desc = "Shares my current stress or peace with someone, intensified by my holy skill."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "last_high"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 0
+	chargetime = 2 SECONDS
 	range = 7
 	warnie = "sydwarning"
+	chargedloop = /datum/looping_sound/invokeholy
 	sound = 'sound/magic/timestop.ogg'
-	invocations = list("completely clouds the air around them in a purple smog!")	//useful against any men in the mirror
-	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 5 MINUTES
+	recharge_time = 2 MINUTES
 	miracle = TRUE
 	devotion_cost = 75
 	human_req = TRUE
@@ -420,16 +411,20 @@
 			return FALSE
 
 		target.visible_message(
-			span_info("[target] is covered in a sickly-sweet shimmer-mist. They shudder as an effluvium of spice and numbness benumbs them."),
-			span_notice("The world fades around me. Numbing warmth spreads through my limbs. The world is distant, but it doesn't matter. None of this matters. None of this ever really mattered.")
+			span_info("[target] is taken awash by another's emotions."),
+			span_notice("The world fades around me as unfamiliar emotions flood through my body.")
 		)
-		target.add_stress(/datum/stressevent/lasthigh)
+		target.remove_stress(/datum/stressevent/lasthigh)
+		var/datum/stressevent/shared_mood = target.add_stress(/datum/stressevent/lasthigh)
+		if(!shared_mood)
+			return FALSE
+		var/caster_stress = user.get_stress_amount()
+		shared_mood.stressadd = caster_stress + SIGN(caster_stress) * user.get_skill_level(associated_skill)
 		return TRUE
 
 /datum/stressevent/lasthigh
-	timer = 10 MINUTES
-	stressadd = -99
-	desc = span_hypnophrase("Peace. I am floating on exhalation from Gotte's lips. From here, it's easy to see the truth; none of this matters. None of this ever really mattered.")
+	timer = 2 MINUTES
+	desc = span_red("Foreign feelings wash myne soul. Is this truly how it feels to be another?")
 
 
 // T3 - bond that lasts for 8 minutes as long as bonded are within 7 tiles, TRAIT_NOPAIN, spd = 5 end = 3

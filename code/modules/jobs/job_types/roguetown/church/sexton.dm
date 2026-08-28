@@ -59,12 +59,11 @@
 /datum/outfit/job/roguetown/sexton/groundskeeper/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	armor = /obj/item/clothing/suit/roguetown/armor/workervest
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	gloves = /obj/item/clothing/gloves/roguetown/leather
-	pants = /obj/item/clothing/under/roguetown/trou
-	belt = /obj/item/storage/belt/rogue/leather/sash
-	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
+	head = /obj/item/clothing/head/roguetown/roguehood/undividedcleric
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	beltl = /obj/item/rogueweapon/shovel/small
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel

@@ -23,4 +23,4 @@
 		to_wield = inactive
 	if(to_wield)
 		to_wield.wield(living_pawn)
-	finish_action(controller, TRUE)
+	return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_SUCCEEDED

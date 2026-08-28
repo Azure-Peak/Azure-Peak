@@ -62,6 +62,81 @@
 	reqs = list(/obj/item/ash = 3, /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 2, /datum/reagent/berrypoison = 3)
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/alchemy/moon_purest
+	name = "purified moondust"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/moondust_purest)
+	reqs = list(/obj/item/reagent_containers/powder/moondust = 1, /obj/item/alch/irondust = 3, /obj/item/alch/bonemeal = 1, /obj/item/alch/firedust = 1)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/alchemy/spice_compost
+	name = "spice (compost)"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/spice)
+	reqs = list(/obj/item/ash = 2, /obj/item/compost = 2, /datum/reagent/berrypoison = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/alchemy/spice_compost_3x
+	name = "spice (compost) (x3)"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/spice,
+					/obj/item/reagent_containers/powder/spice,
+					/obj/item/reagent_containers/powder/spice
+				)
+	reqs = list(/obj/item/ash = 3, /obj/item/compost = 3, /datum/reagent/berrypoison = 3)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/alchemy/spice_poo
+	name = "spice (nightsoil)"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/spice)
+	reqs = list(/obj/item/ash = 2, /obj/item/natural/poo = 1, /datum/reagent/berrypoison = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/alchemy/spice_poo_3x
+	name = "spice (nightsoil) (x3)"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/spice,
+					/obj/item/reagent_containers/powder/spice,
+					/obj/item/reagent_containers/powder/spice
+				)
+	reqs = list(/obj/item/ash = 3, /obj/item/natural/poo = 2, /datum/reagent/berrypoison = 3)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/alchemy/herozium
+	name = "herozium"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/herozium)
+	reqs = list(/obj/item/reagent_containers/powder/ozium = 2, /obj/item/alch/horn = 1, /obj/item/alch/firedust = 1, /datum/reagent/berrypoison = 2)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/alchemy/herozium_3x
+	name = "herozium (x3)"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/herozium,
+					/obj/item/reagent_containers/powder/herozium,
+					/obj/item/reagent_containers/powder/herozium
+				)
+	reqs = list(/obj/item/reagent_containers/powder/ozium = 3, /obj/item/alch/horn = 2, /obj/item/alch/firedust = 2, /datum/reagent/berrypoison = 3)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/alchemy/starsugar
+	name = "starsugar"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/starsugar)
+	reqs = list(/obj/item/alch/solardust = 1, /obj/item/alch/salvia = 1, /obj/item/alch/irondust = 1, /obj/item/alch/puresalt = 1, /datum/reagent/berrypoison = 2)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/alchemy/starsugar_3x
+	name = "starsugar (x3)"
+	category = "Table"
+	result = list(/obj/item/reagent_containers/powder/starsugar,
+					/obj/item/reagent_containers/powder/starsugar,
+					/obj/item/reagent_containers/powder/starsugar
+				)
+	reqs = list(/obj/item/alch/solardust = 2, /obj/item/alch/salvia = 2, /obj/item/alch/irondust = 2, /obj/item/alch/puresalt = 2, /datum/reagent/berrypoison = 3)
+	craftdiff = 5
+
 /datum/crafting_recipe/roguetown/alchemy/salt
 	name = "salt pile (fat)"
 	category = "Table"
@@ -236,7 +311,7 @@
 		/obj/item/reagent_containers/food/snacks/grown/manabloom = 1,
 		/obj/item/reagent_containers/lux = 1,
 		/obj/item/alch/calendula = 1,
-		/datum/reagent/water = 98
+		/datum/reagent/water = 90
 	)
 	craftdiff = 4
 	verbage_simple = "mix"
@@ -245,19 +320,37 @@
 	name = "reanimation elixir (impure lux)"
 	category = "Table"
 	result = list(
-		/obj/item/reagent_containers/glass/bottle/frankenbrew/third
+		/obj/item/reagent_containers/glass/bottle/frankenbrew
 	)
 	reqs = list(
 		/obj/item/reagent_containers/glass/bottle = 1,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom = 1,
 		/obj/item/reagent_containers/lux_impure = 1,
 		/obj/item/alch/calendula = 1,
-		/datum/reagent/water = 49
+		/datum/reagent/water = 45
 	)
 	craftdiff = 4
 	verbage_simple = "mix"
 	required_tech_node = "LUX_FILTRATION"
 	tech_unlocked = FALSE
+
+/datum/crafting_recipe/roguetown/alchemy/frankenbrew_leechtick
+	name = "reanimation elixir (leechtick)"
+	category = "Table"
+	result = list(
+		/obj/item/reagent_containers/glass/bottle/frankenbrew/full,
+		/obj/item/heart_blood_vial
+	)
+	reqs = list(
+		/obj/item/reagent_containers/glass/bottle = 1,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom = 1,
+		/obj/item/leechtick_bloated = 1,
+		/obj/item/alch/calendula = 1,
+		/obj/item/heart_blood_vial/filled = 1,
+		/datum/reagent/water = 60
+	)
+	craftdiff = 4
+	verbage_simple = "mix"
 
 /datum/crafting_recipe/roguetown/alchemy/bandage
 	name = "bandages (alchemy)"
