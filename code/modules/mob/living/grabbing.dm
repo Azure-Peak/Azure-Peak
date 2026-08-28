@@ -423,10 +423,7 @@
 				to_chat(user, span_warning("They aren't holding anything on that hand!"))
 				return
 
-/obj/item/grabbing/proc/twistlimb(mob/living/user) //implies limb_grabbed and sublimb are things
-	if(HAS_TRAIT(user, TRAIT_PACIFISM))
-		to_chat(user, span_warning("Why would I do this! Am I insane?!"))
-		return FALSE
+/obj/item/grabbing/proc/twistlimb(mob/living/user) //implies limb_grabbed and sublimb are things -- Kunai: that's fucked up, but hope this fixes that
 	if(user.badluck(5))
 		badluckmessage(user)
 		user.stop_pulling(TRUE)
@@ -449,7 +446,7 @@
 					span_userdanger("[user] twists my [parse_zone(sublimb_grabbed)]![C.next_attack_msg.Join()]"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
 	to_chat(user, span_warning("I twist [C]'s [parse_zone(sublimb_grabbed)].[C.next_attack_msg.Join()]"))
 	C.next_attack_msg.Cut()
-	log_combat(user, C, "limbtwisted [sublimb_grabbed] ")
+	log_combat(user, C, "limbtwisted (prosthetic) [sublimb_grabbed] ")
 	if(limb_grabbed.status == BODYPART_ROBOTIC && armor_block == 0) //Twisting off prosthetics.
 		C.visible_message(span_danger("[C]'s prosthetic [parse_zone(sublimb_grabbed)] twists off![C.next_attack_msg.Join()]"), \
 					span_userdanger("My prosthetic [parse_zone(sublimb_grabbed)] was twisted off of me![C.next_attack_msg.Join()]"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
