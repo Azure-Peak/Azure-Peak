@@ -194,4 +194,4 @@
 /datum/alch_cauldron_recipe/repairelixir
 	name = "Elixir of Restoring"
 	smells_like = "mending"
-	output_reagents = list(/datum/reagent/medicine/restoration = 30)
+	output_reagents = list(/datum/reagent/repairelixir = 30)
