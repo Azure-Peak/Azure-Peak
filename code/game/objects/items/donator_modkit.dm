@@ -409,8 +409,8 @@
 	name = "'Low Cut Padded Gambeson' morphing elixr"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson or Gambeson."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_cropped,
-		/obj/item/clothing/suit/roguetown/armor/gambeson = /obj/item/clothing/suit/roguetown/armor/gambeson/donator_cropped
+		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy			= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_cropped,
+		/obj/item/clothing/suit/roguetown/armor/gambeson				= /obj/item/clothing/suit/roguetown/armor/gambeson/donator_cropped
 	)
 	result_item = null
 
@@ -442,8 +442,8 @@
 	name = "'Short Jacketed Gambeson' morphing elixr"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson or Gambeson."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_arming,
-		/obj/item/clothing/suit/roguetown/armor/gambeson = /obj/item/clothing/suit/roguetown/armor/gambeson/donator_arming
+		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy				= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_arming,
+		/obj/item/clothing/suit/roguetown/armor/gambeson					= /obj/item/clothing/suit/roguetown/armor/gambeson/donator_arming
 	)
 	result_item = null
 
@@ -451,8 +451,8 @@
 	name = "'Long Jacketed Gambeson' morphing elixr"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson or Gambeson."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_jacket,
-		/obj/item/clothing/suit/roguetown/armor/gambeson = /obj/item/clothing/suit/roguetown/armor/gambeson/donator_jacket
+		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy				= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_jacket,
+		/obj/item/clothing/suit/roguetown/armor/gambeson					= /obj/item/clothing/suit/roguetown/armor/gambeson/donator_jacket
 	)
 	result_item = null
 
@@ -552,7 +552,7 @@
 
 /obj/item/enchantingkit/weapon/eirensabre2
 	name = "'Cinis' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/saber)
+	target_items = list(/obj/item/rogueweapon/sword/sabre)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
 
 /obj/item/enchantingkit/weapon/eiren_m
@@ -789,6 +789,17 @@
 	)
 	result_item = /obj/item/rogueweapon/example/euthanasia
 
+/obj/item/enchantingkit/donator_rivercadaver_tabis
+	name = "'Tabis' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of some Leather Boots, Psydonic \
+	Leather Boots, or Inquisitorial Boots."
+	target_items = list(
+	/obj/item/clothing/shoes/roguetown/boots/otavan/inqboots		= /obj/item/clothing/shoes/roguetown/boots/tabi/otavan/inqboots,
+	/obj/item/clothing/shoes/roguetown/boots/psydonboots			= /obj/item/clothing/shoes/roguetown/boots/tabi/otavan,
+	/obj/item/clothing/shoes/roguetown/boots						= /obj/item/clothing/shoes/roguetown/boots/tabi
+	)
+	result_item = null
+
 /obj/item/enchantingkit/weapon/nicksonessang
 	name = "'Dark Delight' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo)
@@ -937,6 +948,15 @@
 	target_items = list(
 		/obj/item/clothing/head/roguetown/helmet/sallet/visored					= /obj/item/clothing/head/roguetown/helmet/sallet/visored/limetease,
 		/obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm			= /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm/limetease,
+	)
+	result_item = null
+
+//limetease - Greatsword/Halberd
+/obj/item/enchantingkit/limetease_swordspear
+	name = "'avantyne-threaded sword' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/greatsword	= /obj/item/rogueweapon/greatsword/limetease,
+		/obj/item/rogueweapon/halberd		= /obj/item/rogueweapon/halberd/limetease
 	)
 	result_item = null
 
@@ -1305,12 +1325,22 @@
 
 /obj/item/enchantingkit/weapon/moonlightdussack
 	name = "'Moonlight Dussack' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Saber, or a Steel Shortsword."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a sabre, or a Steel Shortsword."
 	target_items = list(
 		/obj/item/rogueweapon/sword/short,
 		/obj/item/rogueweapon/sword/sabre
 	)
 	result_item = /obj/item/rogueweapon/example/dussack/moonlight
+
+/obj/item/enchantingkit/weapon/kadeguandao
+	name = "'Dawn Cometh' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item."
+	target_items = list(
+		/obj/item/rogueweapon/halberd,
+		/obj/item/rogueweapon/spear/naginata,
+		/obj/item/rogueweapon/greataxe
+	)
+	result_item = /obj/item/rogueweapon/example/kadeguandao
 
 // Lagomorphica + Stalkerino
 /obj/item/enchantingkit/weapon/donator_lagomorphica_obligatoire
@@ -1318,7 +1348,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of most two-handed swords."
 	target_items = list(
 		/obj/item/rogueweapon/sword/long,
-		/obj/item/rogueweapon/sword/saber,
+		/obj/item/rogueweapon/sword/sabre,
 		/obj/item/rogueweapon/sword/rapier
 	)
 	result_item = /obj/item/rogueweapon/example/lagomorphica_obligatoire
@@ -1328,7 +1358,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of most two-handed swords."
 	target_items = list(
 		/obj/item/rogueweapon/sword/long,
-		/obj/item/rogueweapon/sword/saber,
+		/obj/item/rogueweapon/sword/sabre,
 		/obj/item/rogueweapon/sword/rapier
 	)
 	result_item = /obj/item/rogueweapon/example/lagomorphica_delirante
@@ -1349,7 +1379,7 @@
 	target_items = list(
 		/obj/item/rogueweapon/sword,
 		/obj/item/rogueweapon/sword/long,
-		/obj/item/rogueweapon/sword/saber,
+		/obj/item/rogueweapon/sword/sabre,
 		/obj/item/rogueweapon/sword/rapier
 	)
 	result_item = /obj/item/rogueweapon/example/stalkerino_drowsword

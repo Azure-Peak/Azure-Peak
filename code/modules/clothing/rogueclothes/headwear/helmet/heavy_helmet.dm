@@ -179,6 +179,16 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 	block2add = FOV_BEHIND
 
+/obj/item/clothing/head/roguetown/helmet/heavy/burgonet
+	name = "snouted burgonet"
+	desc = "A burgonet, though this one's not in blacksteel - the visor far more suited for snouts."
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
+	icon_state = "burgonet_s"
+	item_state = "burgonet_s"
+	emote_environment = 3
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	block2add = FOV_BEHIND
+
 /obj/item/clothing/head/roguetown/helmet/heavy/kabuto
 	name = "kabuto"
 	desc = "A Kazengunite helmet of steel plates, gilded in blacksteel and gold trim alike to evoke feelings of nobility and strength. Commonly worn with a mask or mouthguard."

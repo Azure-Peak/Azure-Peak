@@ -9,6 +9,7 @@
 	movement_interrupt = FALSE
 	sound = 'sound/misc/clockloop.ogg'
 	action_icon = 'icons/mob/actions/engineer_skills.dmi'
+	overlay_icon = 'icons/mob/actions/engineer_skills.dmi'
 	invocation_type = "none"
 	associated_skill = /datum/skill/craft/engineering
 	antimagic_allowed = TRUE

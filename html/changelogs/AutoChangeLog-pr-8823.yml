@@ -1,0 +1,4 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - bugfix: "Background for parchments now load reliably."

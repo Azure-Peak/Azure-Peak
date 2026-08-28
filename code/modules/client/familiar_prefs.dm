@@ -124,7 +124,7 @@
 					idx = length(GLOB.planar_lists)
 			cur_plane = GLOB.planar_lists[idx]
 		if("familiar_names")
-			var/new_name = input(user, "Choose your Familiar character's name:", "Identity") as text|null
+			var/new_name = tgui_input_text(user, "Choose your Familiar character's name:", "Familiar Name", familiar_names[planar_origin], MAX_NAME_LEN)
 			if(new_name)
 				new_name = reject_bad_name(new_name)
 				if(new_name)
@@ -142,7 +142,7 @@
 				"they/them" = THEY_THEM,
 				"it/its" = IT_ITS
 			)
-			var/choice = input(user, "Select your familiar's pronouns:", "Pronouns") as null|anything in pronoun_options
+			var/choice = tgui_input_list(user, "Select your familiar's pronouns:", "Familiar Pronouns", pronoun_options, familiar_pronouns[planar_origin])
 			if(choice)
 				familiar_pronouns[planar_origin] = pronoun_options[choice]
 				to_chat(user, "<span class='notice'>Familiar pronouns set to [choice].</span>")
@@ -150,7 +150,7 @@
 		if ("familiar_species")
 			var/list/all_types = GLOB.planar_lists[planar_origin]
 
-			var/choice = input(user, "Select a Familiar type:", "Familiar Type") as null|anything in all_types
+			var/choice = tgui_input_list(user, "Select a Familiar type:", "Familiar Type", all_types, GLOB.familiar_display_names[familiar_species[planar_origin]])
 			if (choice)
 				var/path = all_types[choice]
 				if (path)
@@ -167,7 +167,7 @@
 		if("familiar_headshot")
 			to_chat(user, "<span class='notice'>Please use a relatively SFW image of the head and shoulder area to maintain immersion level. <b>Do not use a real life photo or unserious images.</b></span>")
 			to_chat(user, "<span class='notice'>Ensure it's a direct image link. The photo will be resized to 325x325 pixels.</span>")
-			var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", familiar_headshot_link[planar_origin], max_length = MAX_MESSAGE_LEN, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
+			var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox, file garden):", "Headshot", familiar_headshot_link[planar_origin], max_length = MAX_MESSAGE_LEN, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
 			if(isnull(new_headshot_link))
 				return
 			new_headshot_link = trim(new_headshot_link, MAX_MESSAGE_LEN)
@@ -267,12 +267,12 @@
 
 		if("voice")
 			var/voice_color = familiar_voice_colors[planar_origin]
-			var/new_voice = input(user, "Choose your character's voice color:", "Character Preference","#"+voice_color) as color|null
+			var/new_voice = tgui_color_picker(user, "Choose your character's voice color:", "Voice Color", voice_color)
 			if(new_voice)
 				if(color_hex2num(new_voice) < 230)
 					to_chat(user, "<font color='red'>This voice color is too dark for mortals.</font>")
 					return
-				voice_color = sanitize_hexcolor(new_voice)
+				voice_color = new_voice
 				familiar_voice_colors[planar_origin] = voice_color
 
 		if("pulse")

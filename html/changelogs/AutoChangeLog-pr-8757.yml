@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Donor-specific crossbow should now properly render when uncocked."
-  - rscadd: "'Rapier' and 'Saber' as applicable base weapons for certain donor-specific sword skins."
