@@ -40,10 +40,9 @@
 
 /mob/dead/observer/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
 	. = ..()
-// Create map text prior to modifying message for goonchat
-	if(client?.prefs)
-		if (client?.prefs.chat_on_map && (client.prefs.see_chat_non_mob || ismob(speaker)))
-			create_chat_message(speaker, message_language, raw_message, spans, message_mode)
+	// Create map text prior to modifying message for goonchat
+	if(client)
+		create_chat_message(speaker, message_language, raw_message, spans, message_mode)
 	// Recompose the message, because it's scrambled by default
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mode)
 	to_chat(src, "[message]")

@@ -131,7 +131,7 @@
 
 	if(used_weapon)
 		if(used_weapon.wbalance == WBALANCE_SWIFT)
-			if(mainhand && !offhand && def_swift_capable) // We're one-handing a swift-balanced weapon (rapiers, sabers, etc). Small parry boost (1 wdef equiv.)
+			if(mainhand && !offhand && def_swift_capable) // We're one-handing a swift-balanced weapon (rapiers, sabres, etc). Small parry boost (1 wdef equiv.)
 				prob2defend += 10
 
 	var/obj/item/attacker_weapon = attack_intent.masteritem

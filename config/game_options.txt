@@ -226,9 +226,6 @@ BROTHER_OBJECTIVES_AMOUNT 2
 ## Uncomment to prohibit assistants from becoming most antagonists.
 #PROTECT_ASSISTANT_FROM_ANTAGONIST
 
-## If non-human species are barred from joining as a head of staff
-#ENFORCE_HUMAN_AUTHORITY
-
 ## If late-joining players have a chance to become a traitor/changeling
 ALLOW_LATEJOIN_ANTAGONISTS
 
@@ -565,10 +562,6 @@ MICE_ROUNDSTART 0
 
 ## Determines if players are allowed to print integrated circuits, uncomment to allow.
 #IC_PRINTING
-
-## Uncomment to allow roundstart quirk selection in the character setup menu.
-## This used to be named traits, hence the config name, but it handles quirks, not the other kind of trait!
-#ROUNDSTART_TRAITS
 
 ## Uncomment to disable human moods.
 DISABLE_HUMAN_MOOD

@@ -128,9 +128,15 @@ export default defineConfig({
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
     alias: {
+      // Main TGUI
       tgui: path.resolve(dirname, './packages/tgui'),
+      interfaces: path.resolve(dirname, './packages/tgui/interfaces'),
+      pm: path.resolve(dirname, './packages/tgui/interfaces/PreferencesMenu'),
+      // Other tgui
       'tgui-panel': path.resolve(dirname, './packages/tgui-panel'),
       'tgui-dev-server': path.resolve(dirname, './packages/tgui-dev-server'),
+      'tgui-webworkers': path.resolve(dirname, './packages/tgui-webworkers'),
+      // Roguefont
       roguefont: path.resolve(dirname, '../interface/fonts'),
       'roguefont/languages': path.resolve(
         dirname,

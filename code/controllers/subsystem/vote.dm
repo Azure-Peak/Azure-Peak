@@ -261,12 +261,7 @@ SUBSYSTEM_DEF(vote)
 						greatest_votes = choices[GLOB.master_mode]
 			else if(mode == "map")
 				for (var/non_voter_ckey in non_voters)
-					var/client/C = non_voters[non_voter_ckey]
-					if(C.prefs.preferred_map)
-						var/preferred_map = C.prefs.preferred_map
-						choices[preferred_map] += 1
-						greatest_votes = max(greatest_votes, choices[preferred_map])
-					else if(global.config.defaultmap)
+					if(global.config.defaultmap)
 						var/default_map = global.config.defaultmap.map_name
 						choices[default_map] += 1
 						greatest_votes = max(greatest_votes, choices[default_map])
@@ -339,7 +334,6 @@ SUBSYSTEM_DEF(vote)
 						GLOB.master_mode = .
 			if("map")
 				SSmapping.changemap(global.config.maplist[.])
-				SSmapping.map_voted = TRUE
 			if("endround")
 				if(. == "Continue Playing")
 					log_game("LOG VOTE: CONTINUE PLAYING AT [REALTIMEOFDAY]")

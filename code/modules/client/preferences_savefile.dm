@@ -45,39 +45,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 /datum/preferences/proc/update_preferences(current_version, savefile/S)
 	if(current_version < 29)
-		key_bindings = (hotkeys) ? deepCopyList(GLOB.hotkey_keybinding_list_by_key) : deepCopyList(GLOB.classic_keybinding_list_by_key)
+		key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key)
 		parent.update_movement_keys()
-		to_chat(parent, span_danger("Empty keybindings, setting default to [hotkeys ? "Hotkey" : "Classic"] mode"))
+		to_chat(parent, span_danger("Empty keybindings, setting default to Hotkey mode"))
 	if(current_version < 31) // RAISE THIS TO SAVEFILE_VERSION_MAX (and make sure to add +1 to the version) EVERY TIME YOU ADD SERVER-CHANGING KEYBINDS LIKE CHANGING HOW SAY WORKS!!
-		force_reset_keybindings_direct(TRUE)
-		addtimer(CALLBACK(src, PROC_REF(force_reset_keybindings)), 30)
+		force_reset_keybindings_direct()
+		addtimer(CALLBACK(src, PROC_REF(force_reset_keybindings_direct)), 30)
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
-	if(current_version < 19)
-		pda_style = "mono"
-	if(current_version < 20)
-		pda_color = "#808000"
-	if((current_version < 21) && features["ethcolor"] && (features["ethcolor"] == "#9c3030"))
-		features["ethcolor"] = "9c3030"
-	if(current_version < 23)
-		if(all_quirks)
-			all_quirks -= "Physically Obstructive"
-			all_quirks -= "Neat"
-			all_quirks -= "NEET"
-	if(current_version < 25)
-		randomise = list(RANDOM_UNDERWEAR = TRUE, RANDOM_UNDERWEAR_COLOR = TRUE, RANDOM_UNDERSHIRT = TRUE, RANDOM_SOCKS = TRUE, RANDOM_BACKPACK = TRUE, RANDOM_JUMPSUIT_STYLE = FALSE, RANDOM_SKIN_TONE = TRUE, RANDOM_EYE_COLOR = TRUE)
-		if(S["name_is_always_random"] == 1)
-			randomise[RANDOM_NAME] = TRUE
-		if(S["body_is_always_random"] == 1)
-			randomise[RANDOM_BODY] = TRUE
-		if(S["species_is_always_random"] == 1)
-			randomise[RANDOM_SPECIES] = TRUE
-		if(S["backbag"])
-			S["backbag"]	>> backpack
-		if(S["hair_style_name"])
-			S["hair_style_name"]	>> hairstyle
-		if(S["facial_style_name"])
-			S["facial_style_name"]	>> facial_hairstyle
 	if(current_version < 30)
 		S["voice_color"]		>> voice_color
 	if(current_version < 34) // Update races
@@ -142,27 +117,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		return FALSE
 
 	//general preferences
+	S["favorited_slots"]	>> favorited_slots
 	S["asaycolor"]			>> asaycolor
-	S["ooccolor"]			>> ooccolor
 	S["lastchangelog"]		>> lastchangelog
-	S["UI_style"]			>> UI_style
-	S["hotkeys"]			>> hotkeys
-	S["chat_on_map"]		>> chat_on_map
 	S["showrolls"]			>> showrolls
 	S["chatheadshot"]		>> chatheadshot
-	S["max_chat_length"]	>> max_chat_length
-	S["see_chat_non_mob"]	>> see_chat_non_mob
-	S["tgui_fancy"]			>> tgui_fancy
 	S["tgui_lock"]			>> tgui_lock
 	S["tgui_theme"]			>> tgui_theme
 	S["parchment_skin"]		>> parchment_skin
 	S["statbrowser_theme"]	>> statbrowser_theme
 	S["preferred_ui_language"] >> preferred_ui_language
-	S["buttons_locked"]		>> buttons_locked
 	S["windowflash"]		>> windowflashing
 	S["be_special"]		>> be_special
 	S["no_storyteller_events"] >> no_storyteller_events
-	S["triumphs"]			>> triumphs
+	S["verbose_character_creator"] >> verbose_character_creator
 	S["musicvol"]			>> musicvol
 	S["lobbymusicvol"]		>> lobbymusicvol
 	S["ambiencevol"]		>> ambiencevol
@@ -170,7 +138,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["stopdroning"]		>> stopdroning
 	S["masked_examine"]		>> masked_examine
 	S["full_examine"]		>> full_examine
-	S["feint_hud"]			>> feint_hud
 	S["mute_animal_emotes"]	>> mute_animal_emotes
 	S["autoconsume"]		>> autoconsume
 	S["no_examine_blocks"]	>> no_examine_blocks
@@ -184,9 +151,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["sexable"]			>> sexable
 	S["shake"]				>> shake
 	S["mastervol"]			>> mastervol
-	S["lastclass"]			>> lastclass
-	S["compliance_notifs"]	>> compliance_notifs
-
+	S["compliance_notifs"]  >> compliance_notifs
 
 	S["default_slot"]		>> default_slot
 	S["chat_toggles"]		>> chat_toggles
@@ -194,25 +159,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["combat_toggles"]		>> combat_toggles
 	S["ghost_toggles"]		>> ghost_toggles
 	S["admin_chat_toggles"]	>> admin_chat_toggles
-	S["ghost_form"]			>> ghost_form
-	S["ghost_orbit"]		>> ghost_orbit
-	S["ghost_accs"]			>> ghost_accs
-	S["ghost_others"]		>> ghost_others
-	S["preferred_map"]		>> preferred_map
-	S["ignoring"]			>> ignoring
-	S["ghost_hud"]			>> ghost_hud
-	S["inquisitive_ghost"]	>> inquisitive_ghost
-	S["uses_glasses_colour"]>> uses_glasses_colour
 	S["clientfps"]			>> clientfps
 	S["ambientocclusion"]	>> ambientocclusion
 	S["auto_fit_viewport"]	>> auto_fit_viewport
-	S["widescreenpref"]		>> widescreenpref
 	S["menuoptions"]		>> menuoptions
-	S["enable_tips"]		>> enable_tips
 	S["attack_blip_frequency"] >> attack_blip_frequency
-	S["tip_delay"]			>> tip_delay
-	S["pda_style"]			>> pda_style
-	S["pda_color"]			>> pda_color
 
 	// Custom hotkeys
 	S["key_bindings"]		>> key_bindings
@@ -222,47 +173,74 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		update_preferences(needs_update, S)		//needs_update = savefile_version if we need an update (positive integer)
 
 	//Sanitize
-	asaycolor		= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, 1, initial(asaycolor)))
-	ooccolor		= sanitize_ooccolor(sanitize_hexcolor(ooccolor, 6, 1, initial(ooccolor)))
-	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
-	UI_style		= sanitize_inlist(UI_style, GLOB.available_ui_styles, GLOB.available_ui_styles[1])
-	hotkeys			= sanitize_integer(hotkeys, 0, 1, initial(hotkeys))
-	chat_on_map		= sanitize_integer(chat_on_map, 0, 1, initial(chat_on_map))
-	showrolls		= sanitize_integer(showrolls, 0, 1, initial(showrolls))
-	chatheadshot	= sanitize_integer(chatheadshot, 0, 1, initial(chatheadshot))
-	max_chat_length = sanitize_integer(max_chat_length, 1, CHAT_MESSAGE_MAX_LENGTH, initial(max_chat_length))
-	see_chat_non_mob	= sanitize_integer(see_chat_non_mob, 0, 1, initial(see_chat_non_mob))
-	tgui_fancy		= sanitize_integer(tgui_fancy, 0, 1, initial(tgui_fancy))
-	tgui_lock		= sanitize_integer(tgui_lock, 0, 1, initial(tgui_lock))
-	tgui_theme		= sanitize_text(tgui_theme, initial(tgui_theme))
-	parchment_skin	= sanitize_parchment_skin(parchment_skin)
-	statbrowser_theme = sanitize_statbrowser_theme(statbrowser_theme)
-	preferred_ui_language = sanitize_preferred_ui_language(preferred_ui_language)
-	buttons_locked	= sanitize_integer(buttons_locked, 0, 1, initial(buttons_locked))
-	windowflashing	= sanitize_integer(windowflashing, 0, 1, initial(windowflashing))
-	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
-	toggles			= sanitize_integer(toggles, 0, INFINITY, initial(toggles))
-	combat_toggles = sanitize_integer(combat_toggles, 0, INFINITY, initial(combat_toggles))
-	ghost_toggles = sanitize_integer(ghost_toggles, 0, INFINITY, initial(ghost_toggles))
-	admin_chat_toggles = sanitize_integer(admin_chat_toggles, 0, INFINITY, initial(admin_chat_toggles))
-	chat_toggles = sanitize_integer(chat_toggles, 0, INFINITY, initial(chat_toggles))
-	clientfps		= sanitize_integer(clientfps, 0, 1000, 0)
-	ambientocclusion	= sanitize_integer(ambientocclusion, 0, 1, initial(ambientocclusion))
-	auto_fit_viewport	= sanitize_integer(auto_fit_viewport, 0, 1, initial(auto_fit_viewport))
-	attack_blip_frequency = sanitize_integer(attack_blip_frequency, 0, 100, ATTACK_BLIP_PREF_DEFAULT)
-	widescreenpref	= sanitize_integer(widescreenpref, 0, 1, initial(widescreenpref))
-	ghost_form		= sanitize_inlist(ghost_form, GLOB.ghost_forms, initial(ghost_form))
-	ghost_orbit	= sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
-	ghost_accs		= sanitize_inlist(ghost_accs, GLOB.ghost_accs_options, GHOST_ACCS_DEFAULT_OPTION)
-	ghost_others	= sanitize_inlist(ghost_others, GLOB.ghost_others_options, GHOST_OTHERS_DEFAULT_OPTION)
-	menuoptions		= SANITIZE_LIST(menuoptions)
-	be_special		= SANITIZE_LIST(be_special)
-	pda_style		= sanitize_inlist(pda_style, GLOB.pda_styles, initial(pda_style))
-	pda_color		= sanitize_hexcolor(pda_color, 6, 1, initial(pda_color))
-	key_bindings	= sanitize_islist(key_bindings, list())
+	sanitize_preferences()
 
-	verify_keybindings_valid()
 	return TRUE
+
+/datum/preferences/proc/sanitize_preferences()
+	// bools
+	showrolls			= sanitize_bool(showrolls, initial(showrolls))
+	chatheadshot		= sanitize_bool(chatheadshot, initial(chatheadshot))
+	tgui_lock			= sanitize_bool(tgui_lock, initial(tgui_lock))
+	windowflashing		= sanitize_bool(windowflashing, initial(windowflashing))
+	ambientocclusion	= sanitize_bool(ambientocclusion, initial(ambientocclusion))
+	auto_fit_viewport	= sanitize_bool(auto_fit_viewport, initial(auto_fit_viewport))
+	shake				= sanitize_bool(shake, initial(shake))
+	sexable				= sanitize_bool(sexable, initial(sexable))
+	compliance_notifs	= sanitize_bool(compliance_notifs, initial(compliance_notifs))
+	stopdroning			= sanitize_bool(stopdroning, initial(stopdroning))
+	anonymize			= sanitize_bool(anonymize, initial(anonymize))
+	masked_examine		= sanitize_bool(masked_examine, initial(masked_examine))
+	full_examine		= sanitize_bool(full_examine, initial(full_examine))
+	mute_animal_emotes	= sanitize_bool(mute_animal_emotes, initial(mute_animal_emotes))
+	autoconsume			= sanitize_bool(autoconsume, initial(autoconsume))
+	no_examine_blocks	= sanitize_bool(no_examine_blocks, initial(no_examine_blocks))
+	no_autopunctuate	= sanitize_bool(no_autopunctuate, initial(no_autopunctuate))
+	no_language_fonts	= sanitize_bool(no_language_fonts, initial(no_language_fonts))
+	no_language_icon	= sanitize_bool(no_language_icon, initial(no_language_icon))
+	no_redflash			= sanitize_bool(no_redflash, initial(no_redflash))
+	top_examine			= sanitize_bool(top_examine, initial(top_examine))
+	crt					= sanitize_bool(crt, initial(crt))
+	grain				= sanitize_bool(grain, initial(grain))
+	dnr_pref			= sanitize_bool(dnr_pref, initial(dnr_pref))
+	qsr_pref			= sanitize_bool(qsr_pref, initial(qsr_pref))
+	no_storyteller_events = sanitize_bool(no_storyteller_events, initial(no_storyteller_events))
+	verbose_character_creator = sanitize_bool(verbose_character_creator, initial(verbose_character_creator))
+
+	// ints
+	default_slot		= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
+	toggles				= sanitize_integer(toggles, 0, INFINITY, initial(toggles))
+	combat_toggles		= sanitize_integer(combat_toggles, 0, INFINITY, initial(combat_toggles))
+	ghost_toggles		= sanitize_integer(ghost_toggles, 0, INFINITY, initial(ghost_toggles))
+	admin_chat_toggles	= sanitize_integer(admin_chat_toggles, 0, INFINITY, initial(admin_chat_toggles))
+	chat_toggles		= sanitize_integer(chat_toggles, 0, INFINITY, initial(chat_toggles))
+	clientfps			= sanitize_integer(clientfps, 0, 1000, initial(clientfps))
+	musicvol			= sanitize_integer(musicvol, 0, 100, initial(musicvol))
+	lobbymusicvol		= sanitize_integer(lobbymusicvol, 0, 100, initial(lobbymusicvol))
+	ambiencevol			= sanitize_integer(ambiencevol, 0, 100, initial(ambiencevol))
+	mastervol			= sanitize_integer(mastervol, 0, 100, initial(mastervol))
+	domhand				= sanitize_integer(domhand, 1, 2, initial(domhand))
+	attack_blip_frequency = sanitize_integer(attack_blip_frequency, 0, 100, ATTACK_BLIP_PREF_DEFAULT)
+
+	// lists
+	favorited_slots		= SANITIZE_LIST(favorited_slots)
+	tgui_theme			= sanitize_inlist(tgui_theme, GLOB.tgui_themes, initial(tgui_theme))
+	parchment_skin		= sanitize_inlist(parchment_skin, GLOB.parchment_skins, "leatherbound")
+	statbrowser_theme	= sanitize_inlist(statbrowser_theme, GLOB.statbrowser_themes, "dark")
+	exp					= SANITIZE_LIST(exp)
+	menuoptions			= SANITIZE_LIST(menuoptions)
+	be_special			= SANITIZE_LIST(be_special)
+	key_bindings 		= SANITIZE_LIST(key_bindings)
+
+	// etc
+	asaycolor			= sanitize_ooccolor(sanitize_hexcolor(asaycolor, 6, TRUE, initial(asaycolor)))
+	lastchangelog		= sanitize_text(lastchangelog, initial(lastchangelog))
+	preferred_ui_language = sanitize_preferred_ui_language(preferred_ui_language)
+
+	if(parent && is_banned_from(parent.ckey, ROLE_SYNDICATE))
+		be_special = list()
+	verify_keybindings_valid()
+
 
 /datum/preferences/proc/verify_keybindings_valid()
 	// Sanitize the actual keybinds to make sure they exist.
@@ -307,8 +285,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["version"] , SAVEFILE_VERSION_MAX)		//updates (or failing that the sanity checks) will ensure data is not invalid at load. Assume up-to-date
 
 	//general preferences
+	WRITE_FILE(S["favorited_slots"], favorited_slots)
 	WRITE_FILE(S["asaycolor"], asaycolor)
-	WRITE_FILE(S["triumphs"], triumphs)
 	WRITE_FILE(S["musicvol"], musicvol)
 	WRITE_FILE(S["lobbymusicvol"], lobbymusicvol)
 	WRITE_FILE(S["ambiencevol"], ambiencevol)
@@ -316,7 +294,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["stopdroning"], stopdroning)
 	WRITE_FILE(S["masked_examine"], masked_examine)
 	WRITE_FILE(S["full_examine"], full_examine)
-	WRITE_FILE(S["feint_hud"], feint_hud)
 	WRITE_FILE(S["mute_animal_emotes"], mute_animal_emotes)
 	WRITE_FILE(S["autoconsume"], autoconsume)
 	WRITE_FILE(S["no_examine_blocks"], no_examine_blocks)
@@ -326,53 +303,32 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["no_redflash"], no_redflash)
 	WRITE_FILE(S["top_examine"], top_examine)
 	WRITE_FILE(S["crt"], crt)
+	WRITE_FILE(S["grain"], grain)
 	WRITE_FILE(S["sexable"], sexable)
 	WRITE_FILE(S["shake"], shake)
-	WRITE_FILE(S["lastclass"], lastclass)
 	WRITE_FILE(S["mastervol"], mastervol)
-	WRITE_FILE(S["ooccolor"], ooccolor)
 	WRITE_FILE(S["lastchangelog"], lastchangelog)
-	WRITE_FILE(S["UI_style"], UI_style)
-	WRITE_FILE(S["hotkeys"], hotkeys)
-	WRITE_FILE(S["chat_on_map"], chat_on_map)
 	WRITE_FILE(S["showrolls"], showrolls)
 	WRITE_FILE(S["chatheadshot"] , chatheadshot)
-	WRITE_FILE(S["max_chat_length"], max_chat_length)
-	WRITE_FILE(S["see_chat_non_mob"], see_chat_non_mob)
-	WRITE_FILE(S["tgui_fancy"], tgui_fancy)
 	WRITE_FILE(S["tgui_lock"], tgui_lock)
 	WRITE_FILE(S["tgui_theme"], tgui_theme)
 	WRITE_FILE(S["parchment_skin"], parchment_skin)
 	WRITE_FILE(S["statbrowser_theme"], statbrowser_theme)
 	WRITE_FILE(S["preferred_ui_language"], preferred_ui_language)
-	WRITE_FILE(S["buttons_locked"], buttons_locked)
 	WRITE_FILE(S["windowflash"], windowflashing)
 	WRITE_FILE(S["be_special"], be_special)
 	WRITE_FILE(S["no_storyteller_events"], no_storyteller_events)
+	WRITE_FILE(S["verbose_character_creator"], verbose_character_creator)
 	WRITE_FILE(S["default_slot"], default_slot)
 	WRITE_FILE(S["toggles"], toggles)
 	WRITE_FILE(S["chat_toggles"], chat_toggles)
 	WRITE_FILE(S["combat_toggles"], combat_toggles)
 	WRITE_FILE(S["ghost_toggles"], ghost_toggles)
 	WRITE_FILE(S["admin_chat_toggles"], admin_chat_toggles)
-	WRITE_FILE(S["ghost_form"], ghost_form)
-	WRITE_FILE(S["ghost_orbit"], ghost_orbit)
-	WRITE_FILE(S["ghost_accs"], ghost_accs)
-	WRITE_FILE(S["ghost_others"], ghost_others)
-	WRITE_FILE(S["preferred_map"], preferred_map)
-	WRITE_FILE(S["ignoring"], ignoring)
-	WRITE_FILE(S["ghost_hud"], ghost_hud)
-	WRITE_FILE(S["inquisitive_ghost"], inquisitive_ghost)
-	WRITE_FILE(S["uses_glasses_colour"], uses_glasses_colour)
 	WRITE_FILE(S["clientfps"], clientfps)
 	WRITE_FILE(S["ambientocclusion"], ambientocclusion)
 	WRITE_FILE(S["auto_fit_viewport"], auto_fit_viewport)
-	WRITE_FILE(S["widescreenpref"], widescreenpref)
 	WRITE_FILE(S["menuoptions"], menuoptions)
-	WRITE_FILE(S["enable_tips"], enable_tips)
-	WRITE_FILE(S["tip_delay"], tip_delay)
-	WRITE_FILE(S["pda_style"], pda_style)
-	WRITE_FILE(S["pda_color"], pda_color)
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["attack_blip_frequency"] , attack_blip_frequency)
 	WRITE_FILE(S["compliance_notifs"], compliance_notifs)
@@ -401,36 +357,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		S["race_bonus"] >> race_bonus
 
 /datum/preferences/proc/_load_flaw(S)
-	charflaws = list()
-	var/list/charflaw_types
-	S["charflaws"] >> charflaw_types
-	var/needs_resave = FALSE
-	if(charflaw_types && length(charflaw_types))
-		for(var/flaw_type in charflaw_types)
-			if(!ispath(flaw_type, /datum/charflaw))
-				needs_resave = TRUE
-				continue
-			var/datum/charflaw/cf = new flaw_type()
-			if(!cf)
-				needs_resave = TRUE
-				continue
-			charflaws.Add(cf)
-	// Backwards compatibility: load old single charflaw format
-	else
-		var/charflaw_type
-		S["charflaw"] >> charflaw_type
-		if(ispath(charflaw_type, /datum/charflaw))
-			var/datum/charflaw/cf = new charflaw_type()
-			if(cf)
-				charflaws.Add(cf)
-	// fix saves maid during the period where there was an exploit allowing "true flawless" i.e. no charflaws
-	if(!length(charflaws))
-		charflaws.Add(new /datum/charflaw/noflaw())
-	if(needs_resave)
-		var/list/cleaned_types = list()
-		for(var/datum/charflaw/cf in charflaws)
-			cleaned_types.Add(cf.type)
-		WRITE_FILE(S["charflaws"], cleaned_types)
+	S["charflaws"] >> charflaws
+	// Sanitize
+	charflaws = sanitize_islist(charflaws, list())
+
+	for(var/flaw_type in charflaws)
+		if(!ispath(flaw_type, /datum/charflaw))
+			charflaws -= flaw_type
+			continue
+
+	if(!LAZYLEN(charflaws))
+		charflaws = list(/datum/charflaw/noflaw)
 
 /datum/preferences/proc/_load_culinary_preferences(S)
 	S["favorite_cuisine"] >> favorite_cuisine
@@ -441,12 +378,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/_load_statpack(S)
 	var/statpack_type
 	S["statpack"] >> statpack_type
-	if (statpack_type)
-		statpack = new statpack_type()
-	else
-		statpack = pick(GLOB.statpacks)
-		statpack = GLOB.statpacks[statpack]
-		//statpack = new statpack
+	statpack = GLOB.statpacks[statpack_type]
+	if(!statpack)
+		statpack = GLOB.statpacks[/datum/statpack/wildcard/fated]
 
 /datum/preferences/proc/_load_virtue(S)
 	var/virtue_type
@@ -497,30 +431,23 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	virtue.on_load()
 	virtuetwo.on_load()
 
-	if(origin_type)
+	if(ispath(origin_type, /datum/virtue/origin))
 		virtue_origin = new origin_type
 	else
-		virtue_origin = new /datum/virtue/none
+		virtue_origin = new /datum/virtue/origin/unknown
 
 /datum/preferences/proc/_load_gear_list(savefile/S)
 	S["gear_list"] >> gear_list
-	if(!islist(gear_list))
-		gear_list = list()
+	gear_list = SANITIZE_LIST(gear_list)
 	// Validate: remove items that no longer exist
 	for(var/item_name in gear_list)
 		if(!(item_name in GLOB.loadout_items_by_name))
 			gear_list -= item_name
 
-/datum/preferences/proc/_load_height(S)
-	var/preview_height
-	S["body_height"] >> preview_height
-	if (preview_height)
-		preview_height = new preview_height()
-
 /datum/preferences/proc/_load_combat_music(S)
 	var/combat_music_type
 	S["combat_music"] >> combat_music_type
-	if (GLOB.cmode_tracks_by_type[combat_music_type])
+	if(GLOB.cmode_tracks_by_type[combat_music_type])
 		combat_music = GLOB.cmode_tracks_by_type[combat_music_type]
 	else
 		combat_music = GLOB.cmode_tracks_by_type[default_cmusic_type]
@@ -532,22 +459,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["bark_variance"] >> bark_variance
 	S["mute_barks"] >> mute_barks
 
+	// this instead of sanitize_inlist because we don't always wanna pick
 	if(!(bark_id in GLOB.bark_list))
 		bark_id = pick(GLOB.bark_random_list)
 	var/datum/bark/B = GLOB.bark_list[bark_id]
-	bark_speed = round(clamp(bark_speed, initial(B.minspeed), initial(B.maxspeed)), 1)
-	bark_pitch = clamp(bark_pitch, initial(B.minpitch), initial(B.maxpitch))
-	bark_variance = clamp(bark_variance, initial(B.minvariance), initial(B.maxvariance))
+	bark_speed = round(clamp(bark_speed, B::minspeed, B::maxspeed), 1)
+	bark_pitch = clamp(bark_pitch, B::minpitch, B::maxpitch)
+	bark_variance = clamp(bark_variance, B::minvariance, B::maxvariance)
+	mute_barks = sanitize_bool(mute_barks, initial(mute_barks))
 
 /datum/preferences/proc/_load_appearence(S)
 	S["real_name"]			>> real_name
 	S["gender"]				>> gender
 	S["domhand"]			>> domhand
-//	S["alignment"]			>> alignment
 	S["age"]				>> age
-	S["hair_color"]			>> hair_color
-	S["facial_hair_color"]	>> facial_hair_color
-	S["eye_color"]			>> eye_color
 	S["vampire_skin"]		>> vampire_skin
 	S["vampire_hair"]		>> vampire_hair
 	S["vampire_eyes"]		>> vampire_eyes
@@ -555,21 +480,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["extra_language"]		>> extra_language
 	S["voice_color"]		>> voice_color
 	S["voice_pitch"]		>> voice_pitch
-	if (!voice_pitch)
-		voice_pitch = 1
 	S["skin_tone"]			>> skin_tone
-	S["hairstyle_name"]		>> hairstyle
-	S["facial_style_name"]	>> facial_hairstyle
-	S["accessory"]			>> accessory
-	S["detail"]				>> detail
-	S["backpack"]			>> backpack
-	S["jumpsuit_style"]		>> jumpsuit_style
-	S["uplink_loc"]			>> uplink_spawn_loc
-	S["randomise"]			>> randomise
 	S["feature_mcolor"]		>> features["mcolor"]
 	S["feature_mcolor2"]	>> features["mcolor2"]
 	S["feature_mcolor3"]	>> features["mcolor3"]
-	S["feature_ethcolor"]	>> features["ethcolor"]
 	S["pronouns"]			>> pronouns
 	S["titles_pref"]		>> titles_pref
 	S["clothes_pref"]		>> clothes_pref
@@ -632,19 +546,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_combat_music(S)
 	_load_barks(S)
 
-	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000")
-		WRITE_FILE(S["features["mcolor"]"]	, "#FFF")
-	if(!S["features["mcolor2"]"] || S["features["mcolor2"]"] == "#000")
-		WRITE_FILE(S["features["mcolor2"]"]	, "#FFF")
-	if(!S["features["mcolor3"]"] || S["features["mcolor3"]"] == "#000")
-		WRITE_FILE(S["features["mcolor3"]"]	, "#FFF")
-
-	if(!S["feature_ethcolor"] || S["feature_ethcolor"] == "#000")
-		WRITE_FILE(S["feature_ethcolor"], "9c3030")
-
 	//Character
 	_load_appearence(S)
-	_load_height(S)
 	_load_familiar_prefs(S)
 
 	var/patron_typepath
@@ -654,81 +557,55 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(!selected_patron) //failsafe
 			selected_patron = GLOB.patronlist[default_patron]
 
-	//Custom names
-	for(var/custom_name_id in GLOB.preferences_custom_names)
-		var/savefile_slot_name = custom_name_id + "_name" //TODO remove this
-		S[savefile_slot_name] >> custom_names[custom_name_id]
-
-	S["preferred_ai_core_display"] >> preferred_ai_core_display
-	S["prefered_security_department"] >> prefered_security_department
-
 	//Jobs
 	S["joblessrole"] >> joblessrole
 	//Load prefs
 	S["job_preferences"] >> job_preferences
 	S["job_subprefs"] >> job_subprefs
 
-	//Quirks
-	S["all_quirks"] >> all_quirks
-
 	S["dnr"] >> dnr_pref
 
-	S["update_mutant_colors"]			>> update_mutant_colors
-	update_mutant_colors = sanitize_integer(update_mutant_colors, FALSE, TRUE, initial(update_mutant_colors))
+	S["update_mutant_colors"] >> update_mutant_colors
 
 	S["headshot_link"]			>> headshot_link
-	if(!valid_headshot_link(null, headshot_link, TRUE))
-		headshot_link = null
+	S["vampire_headshot_link"]	>> vampire_headshot_link
+	S["lich_headshot_link"]		>> lich_headshot_link
+	//setting up the hooks for this, but not shown yet
+	S["werewolf_headshot_link"]	>> werewolf_headshot_link
 
-	S["vampire_headshot_link"]			>> vampire_headshot_link
-	if(!valid_headshot_link(null, vampire_headshot_link, TRUE))
-		vampire_headshot_link = null
-
-	S["lich_headshot_link"]			>> lich_headshot_link
-	if(!valid_headshot_link(null, lich_headshot_link, TRUE))
-		lich_headshot_link = null
-
-//setting up the hooks for this, but not shown yet
-	S["werewolf_headshot_link"]			>> werewolf_headshot_link
-	if(!valid_headshot_link(null, werewolf_headshot_link, TRUE))
-		werewolf_headshot_link = null
-
-	S["qsr"]			>> qsr_pref
-	S["flavortext"]			>> flavortext
-	S["ooc_notes"]			>> ooc_notes
-	S["ooc_extra"]			>> ooc_extra
-	S["rumour"]			>> rumour
+	S["qsr"] 					>> qsr_pref
+	S["flavortext"]				>> flavortext
+	S["ooc_notes"]				>> ooc_notes
+	S["ooc_extra"]				>> ooc_extra
+	S["rumour"]					>> rumour
 	S["noble_gossip"]			>> noble_gossip
-	S["averse_chosen_faction"] >> averse_chosen_faction
-	S["song_artist"]		>> song_artist
-	S["song_title"]			>> song_title
-	S["nsfwflavortext"]	>> nsfwflavortext
-	S["erpprefs"]			>> erpprefs
-	S["preset_bounty_enabled"] >> preset_bounty_enabled
-	S["preset_bounty_poster_key"] >> preset_bounty_poster_key
-	S["preset_bounty_severity_key"] >> preset_bounty_severity_key
-	S["preset_bounty_severity_b_key"] >> preset_bounty_severity_b_key
-	S["preset_bounty_severity_v_key"] >> preset_bounty_severity_v_key
-	S["preset_bounty_crime"] >> preset_bounty_crime
+	S["averse_chosen_faction"]	>> averse_chosen_faction
+	S["song_artist"]			>> song_artist
+	S["song_title"]				>> song_title
+	S["nsfwflavortext"]			>> nsfwflavortext
+	S["erpprefs"]				>> erpprefs
 
-	S["img_gallery"]	>> img_gallery
-	img_gallery = SANITIZE_LIST(img_gallery)
+	S["preset_bounty_enabled"]			>> preset_bounty_enabled
+	S["preset_bounty_poster_key"]		>> preset_bounty_poster_key
+	S["preset_bounty_severity_key"]		>> preset_bounty_severity_key
+	S["preset_bounty_severity_b_key"]	>> preset_bounty_severity_b_key
+	S["preset_bounty_severity_v_key"]	>> preset_bounty_severity_v_key
+	S["preset_bounty_crime"]			>> preset_bounty_crime
 
+	S["img_gallery"]		>> img_gallery
 	S["nsfw_img_gallery"]	>> nsfw_img_gallery
-	nsfw_img_gallery = SANITIZE_LIST(nsfw_img_gallery)
 
 	S["examine_theme"]		>> examine_theme
 
-	S["char_accent"]		>> char_accent
-	if (!char_accent)
-		char_accent = "No accent"
-
-	S["pronouns"] >> pronouns
-	S["voice_type"] >> voice_type
-	S["voice_pack"] >> voice_pack
 	S["body_size"] >> features["body_size"]
-	if (!features["body_size"])
-		features["body_size"] = BODY_SIZE_NORMAL
+	S["body_markings"] >> body_markings
+
+	S["descriptor_entries"] >> descriptor_entries
+	S["custom_descriptors"] >> custom_descriptors
+
+	S["customizer_entries"] >> customizer_entries
+	S["topjob"] >> topjob
+
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
 		update_character(needs_update, S)		//needs_update == savefile_version if we need an update (positive integer)
@@ -739,77 +616,109 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	ooc_notes_cached = ooc_notes ? parsemarkdown_basic(html_encode(ooc_notes), hyperlink = TRUE) : ""
 	nsfwflavortext_cached = nsfwflavortext ? parsemarkdown_basic(html_encode(nsfwflavortext), hyperlink = TRUE) : ""
 	erpprefs_cached = erpprefs ? parsemarkdown_basic(html_encode(erpprefs), hyperlink = TRUE) : ""
+	rumour_cached = rumour ? parsemarkdown_basic(html_encode(rumour), hyperlink = TRUE) : ""
+	noble_gossip_cached = noble_gossip ? parsemarkdown_basic(html_encode(noble_gossip), hyperlink = TRUE) : ""
 
-	//Sanitize
+	//Sanitize: Note, some sanitization is already done in subprocs like _load_combat_music
+	sanitize_character(S)
+	return TRUE
 
-	real_name = reject_bad_name(real_name)
+// takes a savefile for writebacks
+/datum/preferences/proc/sanitize_character(savefile/S)
 	gender = sanitize_gender(gender)
+
+	// names
+	real_name = reject_bad_name(real_name)
 	if(!real_name)
 		real_name = random_unique_name(gender)
 
-	for(var/custom_name_id in GLOB.preferences_custom_names)
-		var/namedata = GLOB.preferences_custom_names[custom_name_id]
-		custom_names[custom_name_id] = reject_bad_name(custom_names[custom_name_id],namedata["allow_numbers"])
-		if(!custom_names[custom_name_id])
-			custom_names[custom_name_id] = get_default_name(custom_name_id)
+	nickname = reject_bad_name(nickname)
+	if(!nickname)
+		nickname = initial(nickname)
 
+	// colors
 	if(!features["mcolor"] || features["mcolor"] == "#000")
 		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
 	if(!features["mcolor2"] || features["mcolor2"] == "#000")
 		features["mcolor2"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
 	if(!features["mcolor3"] || features["mcolor3"] == "#000")
 		features["mcolor3"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
+	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 6, FALSE)
+	features["mcolor2"]	= sanitize_hexcolor(features["mcolor2"], 6, FALSE)
+	features["mcolor3"]	= sanitize_hexcolor(features["mcolor3"], 6, FALSE)
+	voice_color			= sanitize_hexcolor(voice_color, 6, TRUE, initial(voice_color))
+	taur_color			= sanitize_hexcolor(taur_color, 6, TRUE, initial(taur_color))
+	vampire_skin = sanitize_hexcolor(vampire_skin, 6, TRUE, null, TRUE)
+	vampire_eyes = sanitize_hexcolor(vampire_eyes, 6, TRUE, null, TRUE)
+	vampire_hair = sanitize_hexcolor(vampire_hair, 6, TRUE, null, TRUE)
+	vampire_ears = sanitize_hexcolor(vampire_ears, 6, TRUE, null, TRUE)
+	highlight_color = sanitize_hexcolor(highlight_color, 6, TRUE, initial(highlight_color))
 
-	if(!features["ethcolor"] || features["ethcolor"] == "#000")
-		features["ethcolor"] = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)]
+	// floats
+	voice_pitch		= sanitize_float(voice_pitch, MIN_VOICE_PITCH, MAX_VOICE_PITCH, 0.01, 1)
+	features["body_size"] = sanitize_float(features["body_size"], BODY_SIZE_MIN, BODY_SIZE_MAX, 0.01, BODY_SIZE_NORMAL)
 
-	randomise = SANITIZE_LIST(randomise)
+	// lists
+	age				= sanitize_inlist(age, pref_species.possible_ages, AGE_ADULT)
+	extra_language	= sanitize_inlist(extra_language, GLOB.languages_character_selection, "None") // None just becomes None so it's fine
+	pronouns		= sanitize_inlist(pronouns, GLOB.pronouns_list, THEY_THEM)
+	titles_pref		= sanitize_inlist(titles_pref, GLOB.titles_list, TITLES_M)
+	clothes_pref	= sanitize_inlist(clothes_pref, GLOB.clothespref_list, CLOTHES_M)
+	voice_type		= sanitize_inlist(voice_type, GLOB.voice_types_list, VOICE_TYPE_MASC)
+	voice_pack		= sanitize_inlist(voice_pack, GLOB.voice_packs_list, VOICE_PACK_DEFAULT)
+	race_bonus		= sanitize_inlist_no_pick(race_bonus, pref_species.custom_selection, initial(race_bonus))
+	examine_theme	= sanitize_inlist_no_pick(examine_theme, GLOB.tgui_themes, initial(examine_theme))
+	taur_type		= sanitize_inlist_no_pick(taur_type, pref_species.get_taur_list(), null)
+	averse_chosen_faction = sanitize_inlist(averse_chosen_faction, GLOB.averse_factions, initial(averse_chosen_faction))
+	// these are fine: null isn't in list -> becomes null again
+	preset_bounty_poster_key		= sanitize_inlist_no_pick(preset_bounty_poster_key, GLOB.bounty_posters, null)
+	preset_bounty_severity_key		= sanitize_inlist_no_pick(preset_bounty_severity_key, GLOB.wretch_severities, null)
+	preset_bounty_severity_v_key	= sanitize_inlist_no_pick(preset_bounty_severity_v_key, GLOB.vagabond_severities, null)
+	preset_bounty_severity_b_key	= sanitize_inlist_no_pick(preset_bounty_severity_b_key, GLOB.bandit_severities, null)
 
-	age				= sanitize_inlist(age, pref_species.possible_ages)
-	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
-	extra_language	= extra_language
-	voice_color		= voice_color
-	voice_pitch		= voice_pitch
-	skin_tone		= skin_tone
-	backpack		= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
-	jumpsuit_style	= sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
-	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
-	if(pronouns in GLOB.pronouns_list)	//In case we have an invalid one after pronoun changes. - Feb. 2026
-		pronouns = sanitize_text(pronouns, THEY_THEM)
-	else
-		pronouns = THEY_THEM
-	titles_pref = sanitize_text(titles_pref, TITLES_M)
-	clothes_pref = sanitize_text(clothes_pref, CLOTHES_M)
-	voice_type = sanitize_text(voice_type, VOICE_TYPE_MASC)
-	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 6, 0)
-	features["mcolor2"]	= sanitize_hexcolor(features["mcolor2"], 6, 0)
-	features["mcolor3"]	= sanitize_hexcolor(features["mcolor3"], 6, 0)
-	features["ethcolor"]	= copytext(features["ethcolor"],1,7)
-	features["feature_lizard_legs"]	= sanitize_inlist(features["legs"], GLOB.legs_list, "Normal Legs")
-	var/list/valid_taur_types = pref_species.get_taur_list()
-	if(!(taur_type in valid_taur_types))
-		taur_type = null
-	taur_color = sanitize_hexcolor(taur_color, 6, 0)
+	img_gallery = SANITIZE_LIST(img_gallery)
+	nsfw_img_gallery = SANITIZE_LIST(nsfw_img_gallery)
+	job_preferences = SANITIZE_LIST(job_preferences)
 
-	S["body_markings"] >> body_markings
+	// text
+	ooc_extra		= sanitize_text(ooc_extra, initial(ooc_extra))
+	song_artist		= sanitize_text(song_artist, initial(song_artist))
+	song_title		= sanitize_text(song_title, initial(song_title))
+	rumour			= sanitize_text(rumour, initial(rumour))
+	noble_gossip	= sanitize_text(noble_gossip, initial(noble_gossip))
+	joblessrole		= sanitize_text(joblessrole, initial(joblessrole))
+	preset_bounty_crime = sanitize_text(preset_bounty_crime, initial(preset_bounty_crime))
+
+	// complex/other stuff
+	preset_bounty_enabled = sanitize_bool(preset_bounty_enabled, initial(preset_bounty_enabled))
+	update_mutant_colors = sanitize_bool(update_mutant_colors, initial(update_mutant_colors))
+
 	body_markings = SANITIZE_LIST(body_markings)
 	validate_body_markings()
 
-	S["descriptor_entries"] >> descriptor_entries
 	descriptor_entries = SANITIZE_LIST(descriptor_entries)
-	S["custom_descriptors"] >> custom_descriptors
 	custom_descriptors = SANITIZE_LIST(custom_descriptors)
 	validate_descriptors()
 
 	var/list/valid_skin_tones = pref_species.get_skin_list()
 	var/list/valid_skin_colors = list()
-	for(var/skin_tone in pref_species.get_skin_list())
+	for(var/skin_tone in valid_skin_tones)
 		valid_skin_colors += valid_skin_tones[skin_tone]
 	skin_tone = sanitize_inlist(skin_tone, valid_skin_colors, valid_skin_colors[1])
 
-	joblessrole	= sanitize_integer(joblessrole, 1, 3, initial(joblessrole))
+	if(!valid_headshot_link(null, headshot_link, TRUE))
+		headshot_link = null
+
+	if(!valid_headshot_link(null, vampire_headshot_link, TRUE))
+		vampire_headshot_link = null
+
+	if(!valid_headshot_link(null, lich_headshot_link, TRUE))
+		lich_headshot_link = null
+
+	if(!valid_headshot_link(null, werewolf_headshot_link, TRUE))
+		werewolf_headshot_link = null
+
 	//Validate job prefs
-	S["topjob"] >> topjob
 	var/topjob_found = FALSE
 	for(var/j in job_preferences)
 		if(job_preferences[j] != JP_LOW && job_preferences[j] != JP_MEDIUM && job_preferences[j] != JP_HIGH)
@@ -824,12 +733,28 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		topjob = null
 		WRITE_FILE(S["topjob"], topjob)
 
-	all_quirks = SANITIZE_LIST(all_quirks)
-
-	S["customizer_entries"] >> customizer_entries
 	validate_customizer_entries()
 
-	return TRUE
+	// Sanitize virtues
+	if(!virtue)
+		virtue = new /datum/virtue/none
+	if(!virtuetwo)
+		virtuetwo = new /datum/virtue/none
+
+	if(LAZYLEN(pref_species.restricted_virtues))
+		if(virtue.type in pref_species.restricted_virtues)
+			virtue = new /datum/virtue/none
+		if(virtuetwo.type in pref_species.restricted_virtues)
+			virtuetwo = new /datum/virtue/none
+
+	if(istype(virtue, virtuetwo) && !virtue.stackable)
+		virtuetwo = new /datum/virtue/none
+	if(virtue.virtuous_only && !statpack.virtuous)
+		virtue = new /datum/virtue/none
+
+	if(!statpack.virtuous)
+		virtuetwo = new /datum/virtue/none
+
 
 /datum/preferences/proc/save_character()
 	if(!path)
@@ -845,11 +770,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["real_name"]			, real_name)
 	WRITE_FILE(S["gender"]				, gender)
 	WRITE_FILE(S["domhand"]				, domhand)
-//	WRITE_FILE(S["alignment"]			, alignment)
 	WRITE_FILE(S["age"]					, age)
-	WRITE_FILE(S["hair_color"]			, hair_color)
-	WRITE_FILE(S["facial_hair_color"]	, facial_hair_color)
-	WRITE_FILE(S["eye_color"]			, eye_color)
 	WRITE_FILE(S["vampire_skin"]		, vampire_skin)
 	WRITE_FILE(S["vampire_hair"]		, vampire_hair)
 	WRITE_FILE(S["vampire_eyes"]		, vampire_eyes)
@@ -858,23 +779,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["voice_color"]			, voice_color)
 	WRITE_FILE(S["voice_pitch"]			, voice_pitch)
 	WRITE_FILE(S["skin_tone"]			, skin_tone)
-	WRITE_FILE(S["hairstyle_name"]		, hairstyle)
-	WRITE_FILE(S["facial_style_name"]	, facial_hairstyle)
-	WRITE_FILE(S["accessory"]			, accessory)
-	WRITE_FILE(S["detail"]				, detail)
-	WRITE_FILE(S["backpack"]			, backpack)
-	WRITE_FILE(S["jumpsuit_style"]		, jumpsuit_style)
-	WRITE_FILE(S["uplink_loc"]			, uplink_spawn_loc)
-	WRITE_FILE(S["randomise"]			, randomise)
 	WRITE_FILE(S["species"]				, pref_species.name)
-	var/list/charflaw_types = list()
-	for(var/datum/charflaw/cf in charflaws)
-		charflaw_types.Add(cf.type)
-	WRITE_FILE(S["charflaws"]			, charflaw_types)
+	WRITE_FILE(S["charflaws"]			, charflaws)
 	WRITE_FILE(S["feature_mcolor"]		, features["mcolor"])
 	WRITE_FILE(S["feature_mcolor2"]		, features["mcolor2"])
 	WRITE_FILE(S["feature_mcolor3"]		, features["mcolor3"])
-	WRITE_FILE(S["feature_ethcolor"]	, features["ethcolor"])
 	WRITE_FILE(S["nickname"]			, nickname)
 	WRITE_FILE(S["highlight_color"]		, highlight_color)
 	WRITE_FILE(S["taur_type"]			, taur_type)
@@ -884,22 +793,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["favorite_drink"]		, favorite_drink)
 	WRITE_FILE(S["topjob"]				, topjob)
 
-	//Custom names
-	for(var/custom_name_id in GLOB.preferences_custom_names)
-		var/savefile_slot_name = custom_name_id + "_name" //TODO remove this
-		WRITE_FILE(S[savefile_slot_name],custom_names[custom_name_id])
-
-	WRITE_FILE(S["preferred_ai_core_display"] ,	preferred_ai_core_display)
-	WRITE_FILE(S["prefered_security_department"] , prefered_security_department)
-
 	//Jobs
 	WRITE_FILE(S["joblessrole"]		, joblessrole)
 	//Write prefs
 	WRITE_FILE(S["job_preferences"] , job_preferences)
 	WRITE_FILE(S["job_subprefs"] , job_subprefs)
-
-	//Quirks
-	WRITE_FILE(S["all_quirks"]			, all_quirks)
 
 	//Patron
 	WRITE_FILE(S["selected_patron"]		, selected_patron.type)
@@ -950,7 +848,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["song_artist"] , song_artist)
 	WRITE_FILE(S["song_title"] , song_title)
 	WRITE_FILE(S["examine_theme"] , examine_theme)
-	WRITE_FILE(S["char_accent"] , char_accent)
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["voice_pack"] , voice_pack)
 	WRITE_FILE(S["pronouns"] , pronouns)

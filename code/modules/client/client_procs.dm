@@ -224,11 +224,6 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	log_admin("[key_name(src)] opened the Realm Economics preview.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "View Economics")
 
-/client/proc/is_content_unlocked()
-	if(!prefs.unlock_content)
-		to_chat(src, "Become a BYOND member to access member-perks and features, as well as support the engine that makes this game possible. Only 10 bucks for 3 months! <a href=\"https://secure.byond.com/membership\">Click Here to find out more</a>.")
-		return 0
-	return 1
 /*
  * Call back proc that should be checked in all paths where a client can send messages
  *
@@ -358,8 +353,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		prefs.chat_toggles &= ~CHAT_GHOSTEARS
 		prefs.chat_toggles &= ~CHAT_GHOSTWHISPER
 		prefs.save_preferences()
-	prefs.last_ip = address				//these are gonna be used for banning
-	prefs.last_id = computer_id			//these are gonna be used for banning
 	fps = prefs.clientfps
 	preferred_ui_language = sanitize_preferred_ui_language(prefs.preferred_ui_language)
 	prefs.preferred_ui_language = preferred_ui_language
@@ -640,12 +633,12 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.directory -= ckey
 	GLOB.clients -= src
 	QDEL_NULL(tgui_panel)
-	QDEL_LIST_ASSOC_VAL(char_render_holders)
 	Master.UpdateTickRate()
 	return ..()
 
 /client/Destroy()
 	SSmouse_entered.hovers -= src
+	QDEL_NULL(game_master_menu)
 	. = ..() //Even though we're going to be hard deleted there are still some things that want to know the destroy is happening
 	QDEL_NULL(droning_sound)
 	last_droning_sound = null
@@ -1028,14 +1021,10 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 //			to_chat(src, span_danger("My previous click was ignored because you've done too many in a second"))
 			return
 
-	if (prefs.hotkeys)
-		// If hotkey mode is enabled, then clicking the map will automatically
-		// unfocus the text bar. This removes the red color from the text bar
-		// so that the visual focus indicator matches reality.
-		winset(src, null, "command=disableInput input.background-color=[COLOR_INPUT_DISABLED] input.text-color = #ad9eb4")
-
-	else
-		winset(src, null, "input.focus=true command=activeInput input.background-color=[COLOR_INPUT_ENABLED] input.text-color = #EEEEEE")
+	// If hotkey mode is enabled, then clicking the map will automatically
+	// unfocus the text bar. This removes the red color from the text bar
+	// so that the visual focus indicator matches reality.
+	winset(src, null, "input.background-color=[COLOR_INPUT_DISABLED] input.text-color = #ad9eb4")
 
 	var/list/old_mods = mob?.click_mods
 	var/old_params = mob?.click_params
@@ -1156,9 +1145,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if (isnull(new_size))
 		CRASH("change_view called without argument.")
 
-	if(prefs && !prefs.widescreenpref && new_size == CONFIG_GET(string/default_view))
-		new_size = CONFIG_GET(string/default_view_square)
-
 	view = new_size
 	apply_clickcatcher()
 	mob.reload_fullscreen()
@@ -1179,51 +1165,8 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	void.UpdateGreed(actualview[1],actualview[2])
 
 /client/proc/AnnouncePR(announcement)
-	if(prefs && prefs.chat_toggles & CHAT_PULLR)
+	if(prefs)
 		to_chat(src, announcement)
-
-/client/proc/show_character_previews(mutable_appearance/MA)
-	var/pos = 0
-
-	var/atom/movable/screen/char_preview/background = LAZYACCESS(char_render_holders, "bg")
-	if(background)
-		screen -= background
-		char_render_holders -= background
-		qdel(background)
-	background = new()
-	LAZYSET(char_render_holders, "bg", background)
-	screen += background
-	background.screen_loc = "character_preview_map:0,0 to 3,3"
-
-	// not cardinal anymore, makes taurs more clear
-	for(var/D in GLOB.cardinals)
-		pos++
-		var/atom/movable/screen/char_preview/O = LAZYACCESS(char_render_holders, "[D]")
-		if(O)
-			screen -= O
-			char_render_holders -= O
-			qdel(O)
-		O = new
-		LAZYSET(char_render_holders, "[D]", O)
-		screen += O
-		O.appearance = MA
-		O.dir = D
-		switch(pos)
-			if(1)
-				O.screen_loc = "character_preview_map:2,2"
-			if(2)
-				O.screen_loc = "character_preview_map:1,2"
-			if(3)
-				O.screen_loc = "character_preview_map:1,1"
-			if(4)
-				O.screen_loc = "character_preview_map:2,1"
-
-/client/proc/clear_character_previews()
-	for(var/atom/movable/screen/S in char_render_holders)
-//		var/atom/movable/screen/S = char_render_holders[index]
-		screen -= S
-		qdel(S)
-	char_render_holders = list()
 
 /client/proc/fullscreen()
 	winset(src, "mainwindow", "statusbar=false")
@@ -1255,16 +1198,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		else
 			whitelisted = 0
 		return whitelisted
-
-/client/proc/blacklisted()
-	if(blacklisted != 2)
-		return blacklisted
-	else
-		if(check_blacklist(ckey))
-			blacklisted = 1
-		else
-			blacklisted = 0
-		return blacklisted
 
 /client/proc/can_commend(silent = FALSE)
 	if(!prefs)

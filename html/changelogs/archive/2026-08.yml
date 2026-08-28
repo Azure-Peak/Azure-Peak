@@ -1192,3 +1192,106 @@
   saltprjak:
   - bugfix: Mace Chant's Tremor no longer gets staggered when you walk into someone.
   - bugfix: Azurean Pilum's frost application no longer prevented by armor
+2026-08-27:
+  BurpleBineapple:
+  - bugfix: low cut gambesons no longer are written out in Title Case
+  KatTheFox:
+  - bugfix: Skeletons no longer inexplicably bleed when their ribs or skull are broken.
+  - bugfix: Necromancer summoned skeletons no longer drop gear on death, because people
+      were exploiting it to repeatedly summon things and sell the gear.
+  - bugfix: Conjured skeleton npcs of all types now properly mark their gear as scavenged.
+  - bugfix: You can no longer nigh-instakill vampires and deadites by dumping 240
+      drams of blessed water on them. Don't ask.
+  - bugfix: Elemental forge et al. no longer lie to you about how to revert. Resist
+      to revert, you don't cast the spell again.
+  - bugfix: The TGUI error screen no longer tells you to report issues downstream.
+  - bugfix: Breathless trait now blocks "breathing in spiky spores".
+  Ketrai:
+  - bugfix: Fixed the encyclopedia description on lesser miracle to display correct
+      values on conditions
+  - rscadd: Added paint pylon geysers to spread puddles in an area.
+  - rscadd: Added 4 more abyssor cult visions as T1 visions.
+  - rscadd: Added 2 more abyssor cult visions as T2 visions.
+  - rscadd: Added 2 more abyssor cult visions as T3 visions.
+  - rscadd: Slightly increased the amount of starting materials the abyssor cult gets.
+  - balance: Reduced the time it takes to deploy paint pylons by 35% 10s => 6.5s
+  - rscadd: Reinvigorating energy restoring paint puddles, only accessible via geysers.
+  Lagomorphica:
+  - balance: iron sabre is now actually a sabre instead of an arming sword
+  - code_imp: all mentions of 'saber' in code are now 'sabre' aside from in changelogs
+  Ollanius:
+  - bugfix: Jacketed gambesons should properly render, now.
+  Quinalion:
+  - rscadd: Added shoutbubble() for prominent shouted emotes.
+  - rscadd: Added shout bubbles to painscream, warcry, agony, and firescream.
+  - code_imp: warcry now records STATS_WARCRIES.
+  ShadowLarkens:
+  - rscadd: Preferences Menu is now written in TGUI and is 99% prettier and at least
+      1% more functional!
+  - rscadd: Fancy character preview in the preferences menu; if/when it breaks, switch
+      main tabs to force it to relayout.
+  - rscadd: Lobby Menu is now separate from the Preferences Menu and is also TGUI.
+      If/when it breaks, use Preferences -> Reopen Lobby Menu and/or OOC -> Refresh
+      TGUI.
+  - rscdel: Deleted all unused and old preferences.
+  SpartanBobby:
+  - bugfix: Fixes spawn loadout issue related to Aristocrat sabre selection
+  WeNeedMorePhoron:
+  - rscadd: Items bought from hoardmaster are now worn
+  - rscadd: Ported Container Cooking system from Vanderlin. Pan, Pot and Oven are
+      now real containers and can contain multiple items that can be cooked at once!
+  - rscadd: Left click a hearth with a pan on to remove an empty pan and middle click
+      let you always remove any container. Left click with a loaded pan to remove
+      items one by one. Use it on itself (Press Q in left hand / E in right hand)
+      will now FLIP the content into the tile, or a tray in front of you, if you have
+      Journeyman cooking or above
+  - rscadd: Tray now can pick up food and utensils en masse and slide them in and
+      out of oven.
+  - rscadd: Baker's Peel is now a one-handable, two hands needed to use tray that
+      have a capacity of 6
+  - rscadd: Pot must be hot before you can boil a stew in it.
+  - rscadd: Migrated hearth fanning to work with the new system and add a flat number
+      of cooking progress to item on the stove.
+  - rscadd: Boiling and Deep Fried recipes eject output, while stew stays in stew.
+  bearrrrrrrr:
+  - rscadd: Baotha miracles mini rework
+  mumblemancer:
+  - bugfix: bog trolls will no longer be super buggy looking when they hit you or
+      stay in ball form.
+  - rscadd: implemented cave troll's special hiding animation :)
+  - bugfix: spellchecked claws missing
+2026-08-28:
+  Fi:
+  - bugfix: Fixed the ported RMH clothing's icons not properly reflecting their colors,
+      a few of their details not dying properly, and made them (dresses and winter
+      coat) more dye-friendly through greyscaling for additional customization.
+  FreeStylaLT:
+  - bugfix: Fixes the pain emote bubble not disappearing properly.
+  KatTheFox:
+  - bugfix: Necromancer simplemob skeletons no longer drop smeltable/sellable iron
+      gear
+  Ketrai:
+  - image: new deep one sprites
+  - bugfix: deep ones drop the correct amount of meat now
+  - bugfix: Attempt at fixing a abyssor quest selection runtime
+  Lamasmaster:
+  - spellcheck: Bishop tutorial text.
+  - rscadd: Blings out the church with the new equipment that has been added in over
+      the year and they haven't recieved (such as golden/silver crosses) to the church
+      roles. Changed out Sexton groundskeeper to look more like he belongs to the
+      church (using the undivided clerical robes)
+  - bugfix: Fix templar tabard being called "crusader"
+  - balance: Gives jackchains for Templar (base) and Spellblade, iron bracers for
+      Guardian.
+  Ryan180602:
+  - rscadd: snout helms to silverface
+  - rscadd: snouted burgonet
+  WeNeedMorePhoron:
+  - rscadd: Improved AI code to make it less likely to stall.
+  - rscadd: Created a new Game Master Panel inspired by CM-PVE SS13 with click intercept
+      functions for spawning mobs. It will be refined later.
+  changelingonberry:
+  - bugfix: fitting pouches to belts now accepts any subtype of pouch
+  - bugfix: sergeant snout helm selector no longer fires twice on spawn
+  nauticall:
+  - bugfix: Background for parchments now load reliably.

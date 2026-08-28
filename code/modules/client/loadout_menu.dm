@@ -143,23 +143,24 @@
 				gear_list[item_name] = meta
 			// Determine which meta key to set
 			var/meta_key
+			var/title
 			switch(action)
 				if("set_color")
 					meta_key = "color"
+					title = "Main Color"
 				if("set_detail_color")
 					meta_key = "detail_color"
+					title = "Detail Color"
 				if("set_altdetail_color")
 					meta_key = "altdetail_color"
+					title = "Alt. Detail Color"
 			if(params["clear"])
 				meta -= meta_key
 			else
 				// Open color picker modal with dye presets
 				var/current = meta[meta_key] || "#FFFFFF"
-				var/picked = tgui_color_picker(ui.user, "Choose color for [item_name]", "Color Picker", current, named_presets = COLOR_MAP)
+				var/picked = tgui_color_picker(ui.user, "Choose color for [item_name]", "Loadout Item [title]", current, named_presets = COLOR_MAP)
 				if(picked)
-					// sanitize_hexcolor returns without #, so prepend it
-					if(picked[1] != "#")
-						picked = "#[picked]"
 					meta[meta_key] = picked
 			return TRUE
 
@@ -201,6 +202,7 @@
 			if(owner?.prefs)
 				owner.prefs.gear_list = gear_list
 				owner.prefs.save_character()
+				owner.prefs.update_pref_data_for_all_viewers()
 			ui.close()
 			return TRUE
 
