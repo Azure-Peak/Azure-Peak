@@ -178,7 +178,7 @@
 
 /datum/alch_cauldron_recipe/trait/negative/evilcaffiene
 	name = "Restless Toxin"
-	smells_like = "boundless effervescence"
+	smells_like = "lightning"
 	output_reagents = list(/datum/reagent/medicine/trait/negative/evilcaffiene = 30)
 
 /datum/alch_cauldron_recipe/trait/negative/singing
