@@ -1098,7 +1098,7 @@ LICH SKELETONS
 
 /obj/item/rogueweapon/shield/bronze/paalloy
 	name = "ancient hoplon shield"
-	desc = "The finest companion to a javelin and gladius, in Her name; a deceptively thin-yet-sturdy shield of gilbronze. This alloy even this thin, used to once surpass steel yet despite aeon's grip being lyfted, it never will regain its former strength."
+	desc = "The finest companion to a javelin and gladius, in Her name; a deceptively thin-yet-sturdy shield of gilbranze. This alloy even this thin, used to once surpass steel yet despite aeon's grip being lyfted, it never will regain its former strength."
 	icon_state = "ancientlegionshield"
 	force = 15
 	throwforce = 25 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!

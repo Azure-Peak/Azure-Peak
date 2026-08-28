@@ -157,7 +157,13 @@
 				continue
 
 			Q.required_phrase = pick(Q.possible_phrases)
-			var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
+			var/chosen_bonus_path
+			var/list/bonus_keys = list()
+			for(var/key in Q.possible_bonus_rewards)
+				bonus_keys += key
+
+			if(length(bonus_keys))
+				chosen_bonus_path = pick(bonus_keys)
 
 			tier_choices.Add(list(list(
 				"quest" = Q,
@@ -210,15 +216,15 @@
 
 	// DEBUG ONLY
 	// for(var/mob/living/carbon/human/H in GLOB.human_list)
-	//	if(H == seeker || H.stat == DEAD)
-	//		continue
-	//	if(!H.mind || !H.mind.assigned_role)
-	//		continue
-	//	if(Q.is_valid_target(H, seeker))
-	//		valid_targets += H
+	// 	if(H == seeker || H.stat == DEAD)
+	// 		continue
+	// 	if(!H.mind || !H.mind.assigned_role)
+	// 		continue
+	// 	if(Q.is_valid_target(H, seeker))
+	// 		valid_targets += H
 
 	// if(length(valid_targets))
-	//	return pick(valid_targets)
+	// 	return pick(valid_targets)
 
 	return null
 

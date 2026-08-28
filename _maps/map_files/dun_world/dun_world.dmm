@@ -64030,15 +64030,12 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/inq/embassy)
 "lSY" = (
-/obj/structure/roguewindow/harem3{
-	name = "frosted window";
-	opacity = 1
+/obj/item/leechtick_bloated,
+/obj/item/leechtick{
+	pixel_x = -9;
+	pixel_y = -11
 	},
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars"
-	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/town/physician)
 "lTb" = (
 /obj/machinery/light/rogue/candle/r,
@@ -74042,6 +74039,32 @@
 /obj/item/flint{
 	pixel_x = 9;
 	pixel_y = 10
+	},
+/obj/structure/rack/rogue/shelf,
+/obj/item/heart_blood_vial{
+	pixel_x = -10;
+	pixel_y = 40
+	},
+/obj/item/heart_blood_vial{
+	pixel_x = -2;
+	pixel_y = 40
+	},
+/obj/item/heart_blood_vial{
+	pixel_x = 6;
+	pixel_y = 40
+	},
+/obj/item/storage/roguebag/leechbait,
+/obj/item/heart_blood_vial{
+	pixel_x = 10;
+	pixel_y = 40
+	},
+/obj/item/heart_blood_vial{
+	pixel_x = -6;
+	pixel_y = 40
+	},
+/obj/item/heart_blood_vial{
+	pixel_x = 2;
+	pixel_y = 40
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
@@ -173975,9 +173998,9 @@ qHj
 qHj
 qHj
 ogs
-lSY
+cDZ
 goa
-hpW
+lSY
 lEd
 jrc
 fYF
@@ -174879,7 +174902,7 @@ qHj
 qHj
 qHj
 ogs
-lSY
+cDZ
 juG
 hpW
 lEd

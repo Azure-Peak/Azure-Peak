@@ -1085,7 +1085,7 @@
 
 /obj/item/rogueweapon/sword/short/ashort
 	name = "decrepit short sword"
-	desc = "A chipped sidearm-sword, wrought from frayed bronze. It's hard to gauge whether it was naturally forged to be so short, or if it's \
+	desc = "A chipped sidearm-sword, wrought from rotted metal. It's hard to gauge whether it was naturally forged to be so short, or if it's \
 	all that remained of a longer blade."
 	icon_state = "ashortsword"
 	sheathe_icon = "ashortsword"
@@ -1167,7 +1167,7 @@
 
 /obj/item/rogueweapon/sword/short/gladius/agladius
 	name = "decrepit gladius"
-	desc = "A hefty shortsword, wrought from frayed bronze. Once, the sidearm of a proud legionnaire; now, a consequence of progress and sacrifice."
+	desc = "A hefty shortsword, wrought from rotted metal. Once, the sidearm of a proud legionnaire; now, a consequence of progress and sacrifice."
 	force = 18
 	max_integrity = 150
 	icon_state = "agladius"
@@ -1452,7 +1452,7 @@
 
 /obj/item/rogueweapon/sword/sabre/alloy
 	name = "decrepit khopesh"
-	desc = "A hooked sword, wrought from frayed bronze. The design is not only baffling, but seems to predate history itself."
+	desc = "A hooked sword, wrought from rotted metal. The design is not only baffling, but seems to predate history itself."
 	force = 18
 	max_integrity = 115
 	icon_state = "akhopesh"
@@ -1464,7 +1464,7 @@
 
 /obj/item/rogueweapon/sword/sabre/palloy
 	name = "ancient khopesh"
-	desc = "A polished hook-sword, forged from gilbronze. The Comet Syon's glare once graced this blade; now, it's wielded by those who can't even \
+	desc = "A polished hook-sword, forged from gilbranze. The Comet Syon's glare once graced this blade; now, it's wielded by those who can't even \
 	remember what came before His sacrifice."
 	smeltresult = /obj/item/ingot/aaslag
 	icon_state = "akhopesh"

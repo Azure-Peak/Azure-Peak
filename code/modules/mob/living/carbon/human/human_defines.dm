@@ -148,6 +148,8 @@
 	var/list/img_gallery = list()
 	var/list/nsfw_img_gallery = list()
 
+	var/ooc_extra_img
+	var/nsfw_ooc_extra_img
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
 	/datum/rmb_intent/aimed,\

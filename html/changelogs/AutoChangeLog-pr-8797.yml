@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Fire Curtain now applies 2 scorched stack if you run through it, If you get THROWN into it (I.e. Fire Blast), it will applies a grace period of 2 seconds for any ticking flame proccing on you, meaning eating a FBlast into a Fire Curtain will NOT instantly proc charred, while running across it will. AI should avoid it more aggressively"

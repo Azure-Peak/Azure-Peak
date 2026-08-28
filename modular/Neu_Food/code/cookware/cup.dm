@@ -195,7 +195,7 @@
 
 /obj/item/reagent_containers/glass/cup/aalloymug
 	name = "decrepit mug"
-	desc = "Frayed bronze, coiled into a cup. Here, adventurers of centuries-past would laugh and legendize; but now, nothing but empty chairs and empty tables remain."
+	desc = "Rotted metal, coiled into a cup. Here, adventurers of centuries-past would laugh and legendize; but now, nothing but empty chairs and empty tables remain."
 	color = "#bb9696"
 	icon_state = "amug"
 	force = 5
@@ -203,7 +203,7 @@
 
 /obj/item/reagent_containers/glass/cup/aalloygob
 	name = "decrepit goblet"
-	desc = "Frayed bronze, coiled into a hooked vessel. To think that this was once a nobleman's goblet; yet, it has endured far longer than their now-withered bloodline."
+	desc = "Rotted metal, coiled into a hooked vessel. To think that this was once a nobleman's goblet; yet, it has endured far longer than their now-withered bloodline."
 	color = "#bb9696"
 	icon_state = "agoblet"
 	force = 10

@@ -1260,3 +1260,38 @@
       stay in ball form.
   - rscadd: implemented cave troll's special hiding animation :)
   - bugfix: spellchecked claws missing
+2026-08-28:
+  Fi:
+  - bugfix: Fixed the ported RMH clothing's icons not properly reflecting their colors,
+      a few of their details not dying properly, and made them (dresses and winter
+      coat) more dye-friendly through greyscaling for additional customization.
+  FreeStylaLT:
+  - bugfix: Fixes the pain emote bubble not disappearing properly.
+  KatTheFox:
+  - bugfix: Necromancer simplemob skeletons no longer drop smeltable/sellable iron
+      gear
+  Ketrai:
+  - image: new deep one sprites
+  - bugfix: deep ones drop the correct amount of meat now
+  - bugfix: Attempt at fixing a abyssor quest selection runtime
+  Lamasmaster:
+  - spellcheck: Bishop tutorial text.
+  - rscadd: Blings out the church with the new equipment that has been added in over
+      the year and they haven't recieved (such as golden/silver crosses) to the church
+      roles. Changed out Sexton groundskeeper to look more like he belongs to the
+      church (using the undivided clerical robes)
+  - bugfix: Fix templar tabard being called "crusader"
+  - balance: Gives jackchains for Templar (base) and Spellblade, iron bracers for
+      Guardian.
+  Ryan180602:
+  - rscadd: snout helms to silverface
+  - rscadd: snouted burgonet
+  WeNeedMorePhoron:
+  - rscadd: Improved AI code to make it less likely to stall.
+  - rscadd: Created a new Game Master Panel inspired by CM-PVE SS13 with click intercept
+      functions for spawning mobs. It will be refined later.
+  changelingonberry:
+  - bugfix: fitting pouches to belts now accepts any subtype of pouch
+  - bugfix: sergeant snout helm selector no longer fires twice on spawn
+  nauticall:
+  - bugfix: Background for parchments now load reliably.

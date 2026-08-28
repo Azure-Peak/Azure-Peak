@@ -1,0 +1,8 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Added smoker & wheeled smoker"
+  - rscadd: "Added salmon meat"
+  - rscadd: "Added smoked bear, smoked meat, smoked deadite meat, smoked fish, smoked salmon"
+  - rscadd: "Added smoked ham and smoked ham bread"
+  - bugfix: "Ham now correctly has 5 slices"
