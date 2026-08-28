@@ -416,7 +416,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	Assassins may seek my skin-and-soul to steal-and-bind." + span_artery("\nHaving this vice will add you to a list of targets hunted by a powerful \
 	class. If they are successful in killing you, you may be round-removed for a time, though you will be recoverable if the assassin is slain and \
 	their dagger is broken.") + span_danger("\nAssassins DO-NOT NEED to ESCALATE against you if you have this vice. To reiterate: please expect \
-	random attacks and-or potential round removal, even if not permanent.")
+	random attacks and-or potential round removal, even if not permanent. You are still granted ERP protection.")
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
