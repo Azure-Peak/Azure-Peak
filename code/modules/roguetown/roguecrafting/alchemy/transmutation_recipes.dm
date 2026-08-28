@@ -69,7 +69,7 @@
 /datum/transmutation_recipe/florid/log
 	name = "Fiber Harmonization (Small Log)"
 	materia_aspects = list(/datum/materia_aspect/plant)
-	input_items =  = list(/obj/item/natural/fibers = 3)
+	input_items = list(/obj/item/natural/fibers = 3)
 	output_items = list(/obj/item/grown/log/tree/small = 1)
 
 // TERRAN RECIPES: earthen material recipes, not including metals
