@@ -808,6 +808,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/robe/limetease/color
 	ckeywhitelist = list("limetease", "simplypoodle", "ketrai", "shiroseschnee", "kimmieweeb")
 
+/datum/loadout_item/donator/lime_swordspear
+	name = "Donator Kit - Ornate Swordspear"
+	path = /obj/item/enchantingkit/limetease_swordspear
+	ckeywhitelist = list("limetease")
+
 /datum/loadout_item/donator/gazelleskull
 	name = "Donator Item - Gazelle Skull"
 	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull

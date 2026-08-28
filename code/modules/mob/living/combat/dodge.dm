@@ -141,11 +141,13 @@
 	tempfixeye = TRUE
 	nodirchange = TRUE
 	fixedeye = TRUE
-	Move(step_to, get_dir(src, step_to))
+	var/moved = Move(step_to, get_dir(src, step_to))
 	nodirchange = FALSE
 	tempfixeye = FALSE
 	fixedeye = was_fixedeye
 	face_atom(target)
+	if(moved)
+		ai_controller?.advance_movement_cooldown()
 	return TRUE
 
 /mob/proc/do_dodge(mob/user, turf/dodge_turf)

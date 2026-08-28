@@ -11,6 +11,8 @@
 	var/datum/admins/holder = null
 	///Needs to implement InterceptClickOn(user,params,atom) proc
 	var/datum/click_intercept = null
+	///The game master panel this client currently has open
+	var/datum/game_master/game_master_menu
 	///Used for admin AI interaction
 	var/AI_Interact = FALSE
 

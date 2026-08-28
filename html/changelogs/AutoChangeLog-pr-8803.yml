@@ -1,0 +1,4 @@
+author: "Fi"
+delete-after: True
+changes:
+  - bugfix: "Fixed the ported RMH clothing's icons not properly reflecting their colors, a few of their details not dying properly, and made them (dresses and winter coat) more dye-friendly through greyscaling for additional customization."

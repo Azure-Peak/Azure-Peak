@@ -2107,6 +2107,32 @@ As Excaliber."
 		to_chat(user, span_info("You tuck your hair under the [src]."))
 	user.update_inv_head()
 
+/obj/item/rogueweapon/halberd/limetease
+	name = "ornate swordpsear"
+	desc = "A steel swordspear, an odd implement decorated with gold ornaments and inlays. \
+	Is it more spear, or is it more sword? It's hard to tell in the hands of a skilled user, dancing seamlessly between the two fighting styles."
+	icon_state = "lime_swordspear"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/greatsword/limetease
+	name = "ornate swordpsear"
+	desc = "A steel swordspear, an odd implement decorated with gold ornaments and inlays. \
+	Is it more spear, or is it more sword? It's hard to tell in the hands of a skilled user, dancing seamlessly between the two fighting styles."
+	icon_state = "lime_swordspear"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// Same as halberd
+/obj/item/rogueweapon/greatsword/limetease/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 // CASTORTROY23
 /obj/item/rogueweapon/example/darling
 	name = "Darling"
