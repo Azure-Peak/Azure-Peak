@@ -73,6 +73,7 @@
 	var/boost = 1 				// bonus to the strength of the bathing buff. bathing is so anti-gamer that this is probably unimpactful but it is flavor, so.
 	var/duration = 15 MINUTES	// how long the infusion lasts. remember that a full bath takes 2 minutes, so don't set this much shorter!
 	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/herb)
+	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/alchemical_bathbomb/rosa
 	effect_desc = "floral" // that's it that's the only change. well besides a new icon when one exists
