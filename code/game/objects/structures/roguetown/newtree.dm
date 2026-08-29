@@ -358,9 +358,7 @@
 	icon = 'icons/roguetown/misc/tree.dmi'
 	icon_state = "cornerleaf-spring-1"
 
-
-/obj/structure/flora/newleaf/corner/Initialize(mapload)
-	. = ..()
+/obj/structure/flora/newleaf/corner/refresh_leaf_icon()
 	icon_state = "cornerleaf-[leaf_season]-[rand(1,2)]"
 	update_icon()
 
@@ -382,10 +380,18 @@
 	max_integrity = 10
 	var/leaf_season = "spring"
 
-/obj/structure/flora/newleaf/Initialize(mapload)
-	. = ..()
+/obj/structure/flora/newleaf/proc/refresh_leaf_icon()
 	icon_state = "leaf-[leaf_season]-[rand(1,2)]"
 	update_icon()
+
+/obj/structure/flora/newleaf/Initialize(mapload)
+	. = ..()
+	refresh_leaf_icon()
+	GLOB.seasonal_leaf_objs |= src
+
+/obj/structure/flora/newleaf/Destroy()
+	GLOB.seasonal_leaf_objs -= src
+	return ..()
 
 /obj/structure/flora/newleaf/summer
 	leaf_season = "summer"
