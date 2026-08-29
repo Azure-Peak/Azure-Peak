@@ -346,7 +346,7 @@
 	major_pot = /datum/alch_cauldron_recipe/antidote
 	med_pot = /datum/alch_cauldron_recipe/strong_antidote
 	minor_pot = /datum/alch_cauldron_recipe/big_mana_potion
-	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/lunar)
+	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/arcyne)
 
 /obj/item/alch/mineraldust
 	name = "mineral dusts"
