@@ -293,7 +293,7 @@
 	known_by[tracker] = competence
 	if(ishuman(tracker))
 		var/mob/living/carbon/human/H = tracker
-		if(HAS_TRAIT(tracker, TRAIT_SLEUTH) && H.current_mark == creator)
+		if(HAS_TRAIT(tracker, TRAIT_PERFECT_TRACKER) && H.current_mark == creator)
 			if(!(tracker in highlighted))
 				real_icon_state = "tracks_marked"
 				real_image = image(icon, src, real_icon_state, ABOVE_OPEN_TURF_LAYER, original_dir)

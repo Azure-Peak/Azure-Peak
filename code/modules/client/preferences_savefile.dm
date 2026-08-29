@@ -595,6 +595,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["img_gallery"]		>> img_gallery
 	S["nsfw_img_gallery"]	>> nsfw_img_gallery
 
+	S["ooc_extra_img"]			>> ooc_extra_img
+	S["nsfw_ooc_extra_img"]		>> nsfw_ooc_extra_img
+
 	S["examine_theme"]		>> examine_theme
 
 	S["body_size"] >> features["body_size"]
@@ -717,6 +720,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(!valid_headshot_link(null, werewolf_headshot_link, TRUE))
 		werewolf_headshot_link = null
+
+	if(!valid_headshot_link(null, ooc_extra_img, TRUE, list("jpg", "jpeg", "png", "gif")))
+		ooc_extra_img = null
+
+	if(!valid_headshot_link(null, nsfw_ooc_extra_img, TRUE, list("jpg", "jpeg", "png", "gif")))
+		nsfw_ooc_extra_img = null
 
 	//Validate job prefs
 	var/topjob_found = FALSE
@@ -866,6 +875,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)
 	WRITE_FILE(S["nsfw_img_gallery"] , nsfw_img_gallery)
+	WRITE_FILE(S["ooc_extra_img"], ooc_extra_img)
+	WRITE_FILE(S["nsfw_ooc_extra_img"], nsfw_ooc_extra_img)
 
 	WRITE_FILE(S["gear_list"], gear_list)
 
