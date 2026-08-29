@@ -158,7 +158,7 @@
 	var/turf/target = get_step_multiz(src, UP)
 	if(istype(target, /turf/open/transparent/openspace))
 		var/obj/structure/flora/newtree/T = new(target)
-		T.base_state = "center-leaf[rand(1,2)]"
+		T.base_state = "leaf-spring-[rand(1,2)]"
 		T.update_icon()
 
 /obj/structure/flora/newtree/proc/build_branches()
@@ -319,7 +319,7 @@
 	. = ..()
 	if(base_state)
 		AddComponent(/datum/component/squeak, list('sound/foley/plantcross1.ogg','sound/foley/plantcross2.ogg','sound/foley/plantcross3.ogg','sound/foley/plantcross4.ogg'), 100)
-		base_state = "center-leaf[rand(1,2)]"
+		base_state = "leaf-spring-[rand(1,2)]"
 	update_icon()
 
 /obj/structure/flora/newbranch/connector
@@ -356,23 +356,42 @@
 
 /obj/structure/flora/newleaf/corner
 	icon = 'icons/roguetown/misc/tree.dmi'
-	icon_state = "corner-leaf1"
+	icon_state = "cornerleaf-spring-1"
 
 
 /obj/structure/flora/newleaf/corner/Initialize(mapload)
 	. = ..()
-	icon_state = "corner-leaf[rand(1,2)]"
+	icon_state = "cornerleaf-[leaf_season]-[rand(1,2)]"
 	update_icon()
+
+/obj/structure/flora/newleaf/corner/summer
+	leaf_season = "summer"
+
+/obj/structure/flora/newleaf/corner/fall
+	leaf_season = "fall"
+
+/obj/structure/flora/newleaf/corner/winter
+	leaf_season = "winter"
 
 /obj/structure/flora/newleaf
 	name = "leaves"
 	desc = "You can see straight through this thicket of leaves to the ground. You'd have to possess a particular talent to walk over this without falling through."
 	icon = 'icons/roguetown/misc/tree.dmi'
-	icon_state = "center-leaf1"
+	icon_state = "leaf-spring-1"
 	density = FALSE
 	max_integrity = 10
+	var/leaf_season = "spring"
 
 /obj/structure/flora/newleaf/Initialize(mapload)
 	. = ..()
-	icon_state = "center-leaf[rand(1,2)]"
+	icon_state = "leaf-[leaf_season]-[rand(1,2)]"
 	update_icon()
+
+/obj/structure/flora/newleaf/summer
+	leaf_season = "summer"
+
+/obj/structure/flora/newleaf/fall
+	leaf_season = "fall"
+
+/obj/structure/flora/newleaf/winter
+	leaf_season = "winter"
