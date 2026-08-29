@@ -5,10 +5,11 @@
 //   grassyel, etc placed by mappers for flavor) are left alone - only the
 //   plain /turf/open/floor/rogue/grass tiles are tracked and converted.
 // - Tree canopy leaf objects (/obj/structure/flora/newleaf and its /corner
-//   variant) swap their icon_state between the spring/summer/fall/winter
-//   sprite sets.
+//   variant, plus the leaf overlays drawn on newtree canopy caps and
+//   newbranch) swap between the spring/summer/fall/winter leaf sprites via
+//   their overridden apply_flora_season() proc.
 GLOBAL_LIST_EMPTY(seasonal_grass_turfs)
-GLOBAL_LIST_EMPTY(seasonal_leaf_objs)
+GLOBAL_LIST_EMPTY(seasonal_flora_objs)
 
 SUBSYSTEM_DEF(season)
 	name = "Season"
@@ -19,8 +20,8 @@ SUBSYSTEM_DEF(season)
 	var/current_season_phase = null
 	var/list/turfs_to_convert = list()
 	var/list/currentrun_turfs = list()
-	var/list/leaves_to_convert = list()
-	var/list/currentrun_leaves = list()
+	var/list/flora_to_convert = list()
+	var/list/currentrun_flora = list()
 
 /datum/controller/subsystem/season/Initialize(start_timeofday)
 	current_season = get_current_season()
@@ -32,8 +33,8 @@ SUBSYSTEM_DEF(season)
 	if(!resumed)
 		currentrun_turfs = turfs_to_convert.Copy()
 		turfs_to_convert = list()
-		currentrun_leaves = leaves_to_convert.Copy()
-		leaves_to_convert = list()
+		currentrun_flora = flora_to_convert.Copy()
+		flora_to_convert = list()
 
 	var/list/turf_run = currentrun_turfs
 	while(turf_run.len)
@@ -44,12 +45,13 @@ SUBSYSTEM_DEF(season)
 		if(MC_TICK_CHECK)
 			return
 
-	var/list/leaf_run = currentrun_leaves
-	while(leaf_run.len)
-		var/obj/structure/flora/newleaf/L = leaf_run[leaf_run.len]
-		leaf_run.len--
+	var/list/flora_run = currentrun_flora
+	var/target_flora_season = get_target_flora_season()
+	while(flora_run.len)
+		var/obj/structure/flora/L = flora_run[flora_run.len]
+		flora_run.len--
 		if(L && !QDELETED(L))
-			apply_season_to_leaf(L)
+			L.apply_flora_season(target_flora_season)
 		if(MC_TICK_CHECK)
 			return
 
@@ -65,7 +67,7 @@ SUBSYSTEM_DEF(season)
 
 /datum/controller/subsystem/season/proc/queue_full_conversion()
 	turfs_to_convert = GLOB.seasonal_grass_turfs.Copy()
-	leaves_to_convert = GLOB.seasonal_leaf_objs.Copy()
+	flora_to_convert = GLOB.seasonal_flora_objs.Copy()
 
 /datum/controller/subsystem/season/proc/get_target_turf_type()
 	switch(current_season)
@@ -92,7 +94,7 @@ SUBSYSTEM_DEF(season)
 	T.ChangeTurf(target_type)
 
 /// Returns the lowercase leaf-sprite season name ("spring"/"summer"/"fall"/"winter") matching current_season.
-/datum/controller/subsystem/season/proc/get_target_leaf_season()
+/datum/controller/subsystem/season/proc/get_target_flora_season()
 	switch(current_season)
 		if("Spring")
 			return "spring"
@@ -103,10 +105,3 @@ SUBSYSTEM_DEF(season)
 		if("Winter")
 			return "winter"
 	return "spring"
-
-/datum/controller/subsystem/season/proc/apply_season_to_leaf(obj/structure/flora/newleaf/L)
-	var/target_season = get_target_leaf_season()
-	if(L.leaf_season == target_season)
-		return
-	L.leaf_season = target_season
-	L.refresh_leaf_icon()
