@@ -1,7 +1,8 @@
 // Tracks outdoor seasonal atoms and updates them as the in-character calendar
 // month rolls over:
 // - Base outdoor grass turfs swap between grass/grassyel/grassred/grasscold/
-//   snowpatchy/snow. Deliberately-mapped grass color variants (grassred,
+//   snow (Early Winter uses grasscold as a transition, Mid/Late Winter both
+//   go to full snow). Deliberately-mapped grass color variants (grassred,
 //   grassyel, etc placed by mappers for flavor) are left alone - only the
 //   plain /turf/open/floor/rogue/grass tiles are tracked and converted.
 // - Tree canopy leaf objects (/obj/structure/flora/newleaf and its /corner
@@ -81,9 +82,7 @@ SUBSYSTEM_DEF(season)
 			switch(current_season_phase)
 				if("Early")
 					return /turf/open/floor/rogue/grasscold
-				if("Mid")
-					return /turf/open/floor/rogue/snowpatchy
-				if("Late")
+				if("Mid", "Late")
 					return /turf/open/floor/rogue/snow
 	return /turf/open/floor/rogue/grass
 
