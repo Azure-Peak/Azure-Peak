@@ -13,6 +13,8 @@ export const FlavorTextPage = (props) => {
     ooc_notes_nsfw,
     headshot,
     is_naked,
+    ooc_extra_image,
+    nsfw_ooc_extra_image,
   } = data;
   const [oocNotesIndex, setOocNotesIndex] = useState('SFW');
   const [flavorTextIndex, setFlavorTextIndex] = useState('SFW');
@@ -132,10 +134,24 @@ export const FlavorTextPage = (props) => {
           }
         >
           {flavorTextIndex === 'SFW' && (
-            <Box dangerouslySetInnerHTML={flavorHTML} />
+            <>
+              <Box dangerouslySetInnerHTML={flavorHTML} />
+              {ooc_extra_image && (
+                <Box mt={1} textAlign="center">
+                  <Image maxWidth="100%" src={resolveAsset(ooc_extra_image)} />
+                </Box>
+              )}
+            </>
           )}
           {flavorTextIndex === 'NSFW' && (
-            <Box dangerouslySetInnerHTML={nsfwHTML} />
+            <>
+              <Box dangerouslySetInnerHTML={nsfwHTML} />
+              {canViewNsfwFlavorText && nsfw_ooc_extra_image && (
+                <Box mt={1} textAlign="center">
+                  <Image maxWidth="100%" src={resolveAsset(nsfw_ooc_extra_image)} />
+                </Box>
+              )}
+            </>
           )}
         </Section>
       </Stack.Item>

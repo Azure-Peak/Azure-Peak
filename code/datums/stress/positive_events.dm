@@ -422,27 +422,27 @@
 /datum/stressevent/blackberrysmoke
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = list(span_blue("A sweet-tart sensation on the tongue."))
+	desc = list(span_blue("A sweet-tart sensation lingers on my tongue."))
 
 /datum/stressevent/applesmoke
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = list(span_blue("A feeling of sourness and coolness on the tongue."))
+	desc = list(span_blue("A cooling feeling and sour-taste linger on my tongue."))
 
 /datum/stressevent/chocolatesmoke
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = list(span_purple("A pleasant feeling of rawness and bitterness on the tongue."))
+	desc = list(span_purple("A pleasant feeling of rawness and bitterness lingers on my tongue."))
 
 /datum/stressevent/strawberrysmoke
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = list(span_blue("A pleasant feeling of sourness and sweetness on the tongue."))
+	desc = list(span_blue("The pleasant taste of sourness and sweetness lingers on my tongue."))
 
 /datum/stressevent/carrotsmoke
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = list(span_blue("A pleasant feeling of very carrot on the tongue."))
+	desc = list(span_blue("A pleasant feeling! Very... carrot-ey on the tongue."))
 
 /datum/stressevent/limesmoke
 	timer = 1 MINUTES
@@ -452,12 +452,12 @@
 /datum/stressevent/salviasmoke
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = list(span_blue("A pleasant feeling spicy, earthy and bitter on the tongue."))
+	desc = list(span_blue("A pleasant feeling! Spicy, earthy and bitter on the tongue."))
 
 /datum/stressevent/valerianasmoke
 	timer = 1 MINUTES
 	stressadd = -1
-	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
+	desc = list(span_blue("A pleasant feeling! Bitter-spicy and tart on the tongue."))
 
 /datum/stressevent/zweed
 	timer = 5 MINUTES
@@ -472,7 +472,7 @@
 /datum/stressevent/abysssmoke
 	timer = 1 MINUTES
 	stressadd = 0
-	desc = list(span_blue("A pleasant feeling slight sourness and sweetnesson... and salty on the tongue? You feel an unpleasant chill run down your spine. You can't shake the feeling of someone staring from behind you..."))
+	desc = list(span_blue("A pleasant feeling! Slight sourness, sweetnesson-- and salty on the tongue? You feel an unpleasant chill run down your spine. You can't shake the feeling of someone staring at you from behind..."))
 
 //
 

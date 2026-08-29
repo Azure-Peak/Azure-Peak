@@ -311,7 +311,7 @@
 		/obj/item/reagent_containers/food/snacks/grown/manabloom = 1,
 		/obj/item/reagent_containers/lux = 1,
 		/obj/item/alch/calendula = 1,
-		/datum/reagent/water = 98
+		/datum/reagent/water = 90
 	)
 	craftdiff = 4
 	verbage_simple = "mix"
@@ -320,19 +320,37 @@
 	name = "reanimation elixir (impure lux)"
 	category = "Table"
 	result = list(
-		/obj/item/reagent_containers/glass/bottle/frankenbrew/third
+		/obj/item/reagent_containers/glass/bottle/frankenbrew
 	)
 	reqs = list(
 		/obj/item/reagent_containers/glass/bottle = 1,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom = 1,
 		/obj/item/reagent_containers/lux_impure = 1,
 		/obj/item/alch/calendula = 1,
-		/datum/reagent/water = 49
+		/datum/reagent/water = 45
 	)
 	craftdiff = 4
 	verbage_simple = "mix"
 	required_tech_node = "LUX_FILTRATION"
 	tech_unlocked = FALSE
+
+/datum/crafting_recipe/roguetown/alchemy/frankenbrew_leechtick
+	name = "reanimation elixir (leechtick)"
+	category = "Table"
+	result = list(
+		/obj/item/reagent_containers/glass/bottle/frankenbrew/full,
+		/obj/item/heart_blood_vial
+	)
+	reqs = list(
+		/obj/item/reagent_containers/glass/bottle = 1,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom = 1,
+		/obj/item/leechtick_bloated = 1,
+		/obj/item/alch/calendula = 1,
+		/obj/item/heart_blood_vial/filled = 1,
+		/datum/reagent/water = 60
+	)
+	craftdiff = 4
+	verbage_simple = "mix"
 
 /datum/crafting_recipe/roguetown/alchemy/bandage
 	name = "bandages (alchemy)"

@@ -18,6 +18,7 @@
 #define FOOD_CAT_GENERIC "Generic Cooking"
 #define FOOD_CAT_OVEN "Oven"
 #define FOOD_CAT_PAN "Pan"
+#define FOOD_CAT_SMOKED "Smoker"
 
 #define COOKSTEP_TOOL "tool"
 #define COOKSTEP_SHARP "sharp"
@@ -25,6 +26,7 @@
 #define COOK_FRY "fry"
 #define COOK_DEEPFRY "deepfry"
 #define COOK_BOIL "boil"
+#define COOK_SMOKE "smoke"
 
 #define STEW_WATER_REQUIRED 30
 #define STEW_TEMPERATURE 374

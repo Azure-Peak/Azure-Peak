@@ -255,7 +255,7 @@
 				H.grant_language(/datum/language/kazengunese) //Duh
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 
-		var/proficiencies = list("Decorated Sabre + Dodge Expert + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
+		var/proficiencies = list("Decorated Sabre + Dodge Expert + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
 		var/proficiency_choice = input(H, "Choose your proficiency.", "WHAT IS THY TALENT?") as anything in proficiencies
 		switch(proficiency_choice)
 			if("Decorated Sabre + Dodge Expert + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
@@ -294,12 +294,12 @@
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
-			if("Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER") //Huntmaster lite, a poacher or perhaps an offical hunter?
+			if("Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER") //Huntmaster lite, a poacher or perhaps an offical hunter?
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/labor/butchering, SKILL_LEVEL_APPRENTICE, TRUE) //To make it worth it w/trait too
 				H.adjust_skillrank_up_to(/datum/skill/misc/hunting, SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_PER, 1)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				beltl = /obj/item/quiver/arrows
 				backpack_contents = list(/obj/item/hunting_map/boars = 1, /obj/item/storage/belt/rogue/pouch/coins/mid = 1)
 				ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, TRAIT_GENERIC) //Unique starting prompt, you sort of did actually earn that
@@ -607,7 +607,7 @@
 				backl = /obj/item/rogueweapon/shield/tower
 			if("Bow & Quiver")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				backl = /obj/item/quiver/arrows
 			if("Crossbow & Quiver")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)

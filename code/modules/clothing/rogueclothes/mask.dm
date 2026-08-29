@@ -388,7 +388,7 @@
 
 /obj/item/clothing/mask/rogue/facemask/aalloy
 	name = "decrepit mask"
-	desc = "Frayed bronze, molded into an unblinking visage. Only the statues, buried within the innards of Mount Decapitation, share its wrinkled lip and sneer of cold command."
+	desc = "Rotted metal, molded into an unblinking visage. Only the statues, buried within the innards of Mount Decapitation, share its wrinkled lip and sneer of cold command."
 	icon_state = "ancientmask"
 	max_integrity = 75
 	color = "#bb9696"

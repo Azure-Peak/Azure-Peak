@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "sergeant snout helm selector no longer fires twice on spawn"

@@ -537,7 +537,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/adagger
 	name = "decrepit dagger"
-	desc = "A short blade, wrought from frayed bronze and tanged within a rotwooden grip. Pieces of a former legionnaire's scabbard cling to the glimmerless alloy."
+	desc = "A short blade, wrought from rotted metal and tanged within a rotwooden grip. Pieces of a former legionnaire's scabbard cling to the glimmerless alloy."
 	force = 12
 	max_integrity = 75
 	icon_state = "adagger"
@@ -1212,7 +1212,7 @@
 
 /obj/item/rogueweapon/huntingknife/throwingknife/aalloy
 	name = "decrepit tossblade"
-	desc = "Chunks of frayed bronze, crudely sharpened into throwing daggers. You might be better off chucking the silverware at them, at this rate. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
+	desc = "Chunks of rotted metal, crudely sharpened into throwing daggers. You might be better off chucking the silverware at them, at this rate. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
 	icon_state = "throw_knifea"
 	color = "#bb9696"
 	force = 7

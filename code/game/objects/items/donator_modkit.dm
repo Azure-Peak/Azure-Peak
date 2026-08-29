@@ -896,7 +896,7 @@
 //sakuyzo
 /obj/item/enchantingkit/weapon/sakuyzo
 	name = "'Hævatein' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/noc)
+	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/noc, /obj/item/rogueweapon/sword/long/undivided, /obj/item/rogueweapon/sword/long/silver)
 	result_item = /obj/item/rogueweapon/sakuyzo/sword
 
 // Ollanius

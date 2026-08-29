@@ -124,7 +124,7 @@
 
 /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
 	name = "decrepit axe"
-	desc = "A hatchet of frayed bronze. It reigns from a tyme before the Comet Syon's impact; when Man wrought metal not to spill blood, but to better shape the world in His image."
+	desc = "A hatchet of rotted metal. It reigns from a tyme before the Comet Syon's impact; when Man wrought metal not to spill blood, but to better shape the world in His image."
 	icon_state = "ahandaxe"
 	force = 17
 	force_wielded = 20

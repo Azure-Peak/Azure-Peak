@@ -241,6 +241,28 @@
 			nsfw_img_gallery[index] = new_galleryimg
 			return CHARACTER_ACT_DATA_UPDATE
 
+		// OOC Extra Image
+		if("ooc_extra_img")
+			var/static/list/valid_ext = list("jpg", "jpeg", "png", "gif")
+			var/new_img = input_image_gallery_entry(user, "OOC Extra Image", ooc_extra_img, valid_ext)
+			if(new_img == null)
+				return CHARACTER_ACT_DATA_UPDATE
+
+			verbose_pref_log_change(user, "notice", "OOC Extra Image", html_encode(ooc_extra_img), html_encode(new_img))
+			ooc_extra_img = new_img || null
+			return CHARACTER_ACT_DATA_UPDATE
+
+		// NSFW OOC Extra Image
+		if("nsfw_ooc_extra_img")
+			var/static/list/valid_ext = list("jpg", "jpeg", "png", "gif")
+			var/new_img = input_image_gallery_entry(user, "NSFW OOC Extra Image", nsfw_ooc_extra_img, valid_ext)
+			if(new_img == null)
+				return CHARACTER_ACT_DATA_UPDATE
+
+			verbose_pref_log_change(user, "notice", "NSFW OOC Extra Image", html_encode(nsfw_ooc_extra_img), html_encode(new_img))
+			nsfw_ooc_extra_img = new_img || null
+			return CHARACTER_ACT_DATA_UPDATE
+
 		// Rumours
 		if("rumour_preview")
 			var/msg = ""
@@ -328,18 +350,29 @@
 			log_game("[user] has set their song title.")
 			return CHARACTER_ACT_DATA_UPDATE
 
-/datum/preferences/proc/input_image_gallery_entry(mob/user, gallery_name, default)
+/datum/preferences/proc/input_image_gallery_entry(mob/user, gallery_name, default, list/valid_extensions = list("jpg", "jpeg", "png"))
 	// Print disclaimers
-	if(gallery_name == "NSFW Gallery")
-		to_chat(user, span_notice("Please use an explicit image [span_bold("of your character")] only when it fits the character and server rules."))
-		to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
-		to_chat(user, span_notice("Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best."))
-		to_chat(user, span_notice("You can only have a maximum of [span_bold("THREE IMAGES")] in your NSFW gallery at a time."))
-	else
-		to_chat(user, span_notice("Please use a relatively SFW image [span_bold("of your character")] to maintain immersion level. Lastly, [span_bold("do not use a real life photo or use any image that is less than serious.")]"))
-		to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
-		to_chat(user, span_notice("Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best."))
-		to_chat(user, span_notice("You can only have a maximum of [span_bold("THREE IMAGES")] in your gallery at a time."))
+	switch(gallery_name)
+		if("NSFW Gallery")
+			to_chat(user, span_notice("Please use an explicit image [span_bold("of your character")] only when it fits the character and server rules."))
+			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
+			to_chat(user, span_notice("Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best."))
+			to_chat(user, span_notice("You can only have a maximum of [span_bold("THREE IMAGES")] in your NSFW gallery at a time."))
+		if("OOC Extra Image") // For OOC Extra
+			to_chat(user, span_notice("Add a link to an image/gif that will be displayed beneath your flavortext."))
+			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
+			to_chat(user, span_notice("The image will be constrained by width but have limitless height."))
+			to_chat(user, span_danger("Abuse of this will get you banned."))
+		if("NSFW OOC Extra Image") // Ditto but for spicy images
+			to_chat(user, span_notice("Add a link to an explicit image/gif that will be displayed beneath your NSFW flavortext."))
+			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
+			to_chat(user, span_notice("The image will be constrained by width but have limitless height."))
+			to_chat(user, span_danger("Abuse of this will get you banned."))
+		else
+			to_chat(user, span_notice("Please use a relatively SFW image [span_bold("of your character")] to maintain immersion level. Lastly, [span_bold("do not use a real life photo or use any image that is less than serious.")]"))
+			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
+			to_chat(user, span_notice("Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best."))
+			to_chat(user, span_notice("You can only have a maximum of [span_bold("THREE IMAGES")] in your gallery at a time."))
 
 	// Get input
 	var/new_galleryimg = tgui_input_text(user, "Input the image link (https, hosts: gyazo, discord, lensdump, imgbox, catbox, file garden) (empty clears):", "[gallery_name] Image", default, max_length = MAX_MESSAGE_LEN, encode = FALSE)
@@ -347,7 +380,7 @@
 	if(new_galleryimg == null || new_galleryimg == "")
 		return new_galleryimg
 
-	if(!valid_headshot_link(user, new_galleryimg))
+	if(!valid_headshot_link(user, new_galleryimg, FALSE, valid_extensions))
 		to_chat(user, span_notice("Invalid image link. Make sure it's a direct link from a valid host (gyazo, discord, lensdump, imgbox, catbox, file garden)."))
 		return null
 
