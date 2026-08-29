@@ -48,30 +48,61 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if(GLOB.todoverride)
 		GLOB.tod = GLOB.todoverride
 	if((GLOB.tod != oldtod) && !GLOB.todoverride && (GLOB.dayspassed>1)) //weather check on tod changes
+		var/season = get_current_season()
 		if(!GLOB.forecast)
+			// Rain is the spring/summer/autumn precipitation, replaced entirely by snow in winter.
+			// Scales the old flat per-tod rain chances: common in Spring (100%), sort of common in
+			// Summer (60%), less common in Autumn (30%), and never in Winter.
+			var/rain_scale = 0
+			switch(season)
+				if("Spring")
+					rain_scale = 100
+				if("Summer")
+					rain_scale = 60
+				if("Autumn")
+					rain_scale = 30
 			switch(GLOB.tod)
 				if("dawn")
-					if(prob(25))
+					if(prob(25 * rain_scale / 100))
 						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(prob(20) && (SSgamemode.current_storyteller.name == "Eora"))
+					if(season == "Winter" && prob(25))
+						GLOB.forecast = PARTICLEWEATHER_SNOW
+					if(season == "Autumn" && prob(5))
+						GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
+					if(season == "Spring" && prob(20))
 						GLOB.forecast = PARTICLEWEATHER_SAKURA
 				if("day")
-					if(prob(20))
+					if(prob(20 * rain_scale / 100))
 						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(prob(30))
-						GLOB.forecast = PARTICLEWEATHER_LEAVES
-					if(prob(20) && (SSgamemode.current_storyteller.name == "Eora"))
+					if(season == "Winter" && prob(20))
+						GLOB.forecast = PARTICLEWEATHER_SNOW
+					if(season == "Autumn")
+						if(prob(45))
+							GLOB.forecast = PARTICLEWEATHER_LEAVES
+						if(prob(5))
+							GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
+					if(season == "Spring" && prob(20))
 						GLOB.forecast = PARTICLEWEATHER_SAKURA
 				if("dusk")
-					if(prob(30))
+					if(prob(30 * rain_scale / 100))
 						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(prob(20))
-						GLOB.forecast = PARTICLEWEATHER_LEAVES
+					if(season == "Winter" && prob(30))
+						GLOB.forecast = PARTICLEWEATHER_SNOW
+					if(season == "Autumn")
+						if(prob(40))
+							GLOB.forecast = PARTICLEWEATHER_LEAVES
+						if(prob(5))
+							GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
 				if("night")
-					if(prob(40))
+					if(prob(40 * rain_scale / 100))
 						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(prob(20))
-						GLOB.forecast = PARTICLEWEATHER_LEAVES
+					if(season == "Winter" && prob(40))
+						GLOB.forecast = PARTICLEWEATHER_SNOW
+					if(season == "Autumn")
+						if(prob(35))
+							GLOB.forecast = PARTICLEWEATHER_LEAVES
+						if(prob(5))
+							GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
 					if(prob(40) && (SSgamemode.current_storyteller.name == "Zizo" || SSgamemode.current_storyteller.name == "Graggar"))
 						GLOB.forecast = PARTICLEWEATHER_BLOODRAIN
 			if(GLOB.forecast != SSParticleWeather?.runningWeather?.target_trait)
@@ -84,16 +115,24 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 						SSParticleWeather?.run_weather(pick(/datum/particle_weather/blood_rain_gentle, /datum/particle_weather/blood_rain_storm))
 					if(PARTICLEWEATHER_SAKURA)
 						SSParticleWeather?.run_weather(pick(/datum/particle_weather/sakura_gentle, /datum/particle_weather/sakura_storm))
+					if(PARTICLEWEATHER_SNOW)
+						// The Autumn "rare early flurry" is always light; true Winter snow can be either tier.
+						if(season == "Autumn")
+							SSParticleWeather?.run_weather(/datum/particle_weather/snow_gentle)
+						else
+							SSParticleWeather?.run_weather(pick(/datum/particle_weather/snow_gentle, /datum/particle_weather/snow_storm))
 
 		else
 			switch(GLOB.forecast) //end the weather now
 				if(PARTICLEWEATHER_RAIN)
-					if(GLOB.tod == "day")
+					if(GLOB.tod == "day" && season == "Autumn")
 						GLOB.forecast = PARTICLEWEATHER_LEAVES
 					else
 						GLOB.forecast = null
 				if(PARTICLEWEATHER_LEAVES)
 					GLOB.forecast = null
+				else
+					GLOB.forecast = null //clears snow/sakura/bloodrain forecasts too
 
 	if(GLOB.tod != oldtod)
 		if(GLOB.tod == "dawn" && SSticker?.current_state == GAME_STATE_PLAYING)
