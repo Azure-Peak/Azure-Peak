@@ -388,7 +388,7 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 // Hags don't get a boon on this person, that's perhaps a choice to add later.
 /datum/virtue/utility/feytouched
 	name = "Feytouched"
-	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
+	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Choice between Pactbound (can receive 30 points of boons; not choosable by certain antags like lyckers) or Vessel (the hag can possess you; use the verb in the RoleUnique tab to toggle)."
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
 	added_traits = list(TRAIT_FEYTOUCHED)
 	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),
@@ -404,7 +404,19 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 		"Pactbound" = "In exchange for your service, you've received some of the hag's power. You gain a 30 point budget and can be given boons - but not cursed.",
 		"Vessel" = "Shirking personal power, you are bound much more tightly to service. The hag can possess you at will, allowing them to speak and act through you."
 		)
-	var/choice = tgui_input_list(recipient, "What nature do you bear?", "FEY NATURE", choices, descriptions = choices)
+	var/force_vessel = FALSE
+	if(recipient.mind)
+		if(recipient.mind.has_antag_datum(/datum/antagonist/vampire))
+			force_vessel = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/werewolf))
+			force_vessel = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/gnoll))
+			force_vessel = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/hag))
+			force_vessel = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton))
+			force_vessel = TRUE
+	var/choice = (force_vessel ? "Vessel" : tgui_input_list(recipient, "What nature do you bear?", "FEY NATURE", choices, descriptions = choices))
 	var/hag_message
 	if(choice == "Vessel")
 		GLOB.fey_vessels[recipient] = TRUE
