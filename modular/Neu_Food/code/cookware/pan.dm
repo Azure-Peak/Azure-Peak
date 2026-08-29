@@ -169,7 +169,7 @@
 
 /obj/item/cooking/pan/aalloy
 	name = "decrepit pan"
-	desc = "Frayed bronze, wrought into a handheld griddle. Just a little oil's more than enough to slicken the surprisingly-unmarred surface."
+	desc = "Rotted metal, wrought into a handheld griddle. Just a little oil's more than enough to slicken the surprisingly-unmarred surface."
 	icon_state = "apan"
 	color = "#bb9696"
 

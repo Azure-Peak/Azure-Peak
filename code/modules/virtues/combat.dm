@@ -135,7 +135,7 @@
 	desc = "I've had an interest in archery from a young age, and I always keep a spare bow and quiver around."
 	ui_fa_icon = "bullseye"
 	custom_text = "+1 to Bows, Up to Legendary, Minimum Apprentice"
-	added_stashed_items = list("Recurve Bow" = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve,
+	added_stashed_items = list("Hunting Bow" = /obj/item/gun/ballistic/revolver/grenadelauncher/bow,
 								"Quiver (Arrows)" = /obj/item/quiver/arrows
 	)
 

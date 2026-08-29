@@ -1,0 +1,6 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscdel: "The recurve prolifiration has been shot, short of few exceptions (such as mounted classes) everyone uses the base bow now - reason it can be done now is because recurve is just reskin of regular bow statwise that's it."
+  - balance: "Veteran Bogman and Poacher start with Longbow instead of Recurve."
+  - image: "I come back to ruin bows in another way - so about making them 64x64 last time - the reverse is happening now (turning them 32x32) and with that new sprites by me - they aren't great but they are servicable and eliminate awkward clipping"

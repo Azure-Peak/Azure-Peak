@@ -577,6 +577,7 @@
 /datum/loadout_item/donator/koruu/kukri/warden
 	name = "Donator Kit - Warden Leachwhacker"
 	path = /obj/item/enchantingkit/weapon/koruu_kukri/warden
+	ckeywhitelist = list("koruu", "pneumothorax", "ryan180602", "vakiova", "maesune", "dakken12")
 
 /datum/loadout_item/donator/dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"

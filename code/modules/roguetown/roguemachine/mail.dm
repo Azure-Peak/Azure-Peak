@@ -11,6 +11,8 @@
 	var/inqonly = FALSE // Has the Inquisitor locked Marque-spending for lessers?
 	var/keycontrol = "puritan"
 	var/static/list/last_free_send = list()
+	var/static/list/ghost_sends = list()
+	var/allow_ghosts = TRUE
 	var/cat_current = "1"
 	var/list/all_category = list(
 		"✤ RELIQUARY ✤",
@@ -63,6 +65,60 @@
 	if(!user || !user.ckey)
 		return
 	last_free_send[user.ckey] = world.time
+
+/obj/structure/roguemachine/mail/proc/ghosts_allowed()
+	return allow_ghosts && CONFIG_GET(flag/ghost_letters)
+
+/obj/structure/roguemachine/mail/proc/ghost_mailbox(mob/user)
+	var/box_key = mail_key(user)
+	if(!box_key)
+		return null
+	return SSroguemachine.ghost_mailboxes[box_key]
+
+/obj/structure/roguemachine/mail/proc/ghost_unread(mob/user)
+	for(var/datum/ghost_letter/GL as anything in ghost_mailbox(user))
+		if(GL.unread)
+			return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/mail/proc/read_mail(mob/user)
+	var/list/box = ghost_mailbox(user)
+	if(!length(box))
+		return FALSE
+	var/body = ""
+	for(var/i = length(box), i >= 1, i--)
+		var/datum/ghost_letter/GL = box[i]
+		body += "<b>From [GL.sender], to [GL.recipient]</b><br>"
+		body += GL.content
+		GL.unread = FALSE
+		if(i > 1)
+			body += "<hr>"
+	return show_parchment(user, body, "ghostmail")
+
+/obj/structure/roguemachine/mail/proc/can_ghost_mail(mob/dead/observer/user, feedback = FALSE)
+	if(!isobserver(user) || !user.ckey)
+		return FALSE
+	if(!ghosts_allowed())
+		if(feedback)
+			to_chat(user, span_warning("The machine is deaf to the dead."))
+		return FALSE
+	var/last = ghost_sends[user.ckey]
+	if(last && world.time < last + GHOST_LETTER_COOLDOWN)
+		if(feedback)
+			var/wait = last + GHOST_LETTER_COOLDOWN - world.time
+			to_chat(user, span_warning("My grip on the world is spent. I could try again in [round(wait / 600) + 1] minute\s."))
+		return FALSE
+	return TRUE
+
+/obj/structure/roguemachine/mail/attack_ghost(mob/dead/observer/user)
+	if(!in_range(src, user) || !ghosts_allowed())
+		return ..()
+	if(!ghost_unread(user) && can_ghost_mail(user, feedback = TRUE))
+		ui_interact(user)
+		return TRUE
+	if(read_mail(user))
+		return TRUE
+	return ..()
 
 /obj/structure/roguemachine/mail/attack_hand(mob/user)
 	if(SSroguemachine.hermailermaster && ishuman(user))
@@ -140,6 +196,8 @@
 	. += span_info("Insert coins to purchase supplies or send a letters.")
 	. += span_info("Left click with a paper or package to send a prewritten letter for free.")
 	. += span_info("You can wrap an item in paper to create a mailable package.")
+	if(isobserver(user) && ghosts_allowed())
+		. += span_info("Mail from beyond the borders can also be received.")
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		. += span_info("<br>The MARQUETTE can be accessed via a secret compartment fitted within the HERMES. Load a Marque to access it.")
 		. += span_info("You can send arrival slips, accusation slips, fully loaded INDEXERs or confessions here.")
@@ -164,7 +222,9 @@
 
 /obj/structure/roguemachine/mail/ui_status(mob/user, datum/ui_state/state)
 	if(isobserver(user))
-		return UI_CLOSE
+		if(!can_ghost_mail(user))
+			return UI_CLOSE
+		return in_range(src, user) ? UI_INTERACTIVE : UI_UPDATE
 	return ..()
 
 /obj/structure/roguemachine/mail/ui_interact(mob/user, datum/tgui/ui)
@@ -178,6 +238,9 @@
 	data["paper_cost"] = 1
 	data["quill_cost"] = 5
 	data["letter_cost"] = 1
+	data["ghost_mode"] = isobserver(user) ? TRUE : FALSE
+	data["delay_min"] = GHOST_LETTER_DELAY_MIN
+	data["delay_max"] = GHOST_LETTER_DELAY_MAX
 	return data
 
 /obj/structure/roguemachine/mail/ui_data(mob/user)
@@ -185,13 +248,126 @@
 	data["balance"] = coin_loaded
 	data["free_send_ready"] = free_send_ready(user) ? TRUE : FALSE
 	data["free_send_remaining_ds"] = free_send_remaining(user)
+	data["letter_count"] = isobserver(user) ? length(ghost_mailbox(user)) : 0
 	return data
 
-/obj/structure/roguemachine/mail/proc/log_mail_send(mob/user, sender_name, recipient_name)
+/obj/structure/roguemachine/mail/proc/log_mail_send(mob/user, sender_name, recipient_name, ghost_send = FALSE, content)
 	if(!user)
 		return
-	user.log_message("sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]", LOG_GAME)
-	message_admins("[key_name(user)] sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]")
+	var/what = ghost_send ? "posted GHOST mail (delayed)" : "sent mail"
+	user.log_message("[what] via [name]/[(loc)] from [sender_name] to [recipient_name]", LOG_GAME)
+	var/link = archive_letter(sender_name, recipient_name, content, key_name(user))
+	message_admins("[key_name(user)] [what] via [name]/[(loc)] from [sender_name] to [recipient_name][link]")
+	return link
+
+/proc/show_parchment(mob/user, body, window = "parchment")
+	if(!user?.client)
+		return FALSE
+	user << browse_rsc('html/book.png')
+	var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+		<html><head><style type=\"text/css\">
+		body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
+	dat += body
+	dat += "</body></html>"
+	user << browse(dat, "window=[window];size=500x400;can_close=1;can_minimize=0;can_maximize=0;can_resize=1;titlebar=1;border=0")
+	return TRUE
+
+/datum/letter_record
+	var/sender
+	var/recipient
+	var/content
+	var/sender_key
+
+/datum/letter_record/New(from_whom, to_whom, body, posted_by)
+	. = ..()
+	sender = from_whom
+	recipient = to_whom
+	content = body
+	sender_key = posted_by
+
+/datum/letter_record/proc/show_letter(mob/user)
+	return show_parchment(user, "<b>From [sender], to [recipient]</b> (sent by [sender_key])<hr>[content]", "letterlog")
+
+/proc/archive_letter(sender, recipient, content, sender_key)
+	if(!content)
+		return ""
+	SSroguemachine.letter_archive += new /datum/letter_record(sender, recipient, content, sender_key)
+	return " <a href='?_src_=holder;[HrefToken(TRUE)];read_letter=[length(SSroguemachine.letter_archive)]'>\[Read Letter\]</a>"
+
+/proc/find_mail_box(destination)
+	if(!destination || !findtext(destination, "#"))
+		return null
+	var/wanted = text2num(copytext(destination, findtext(destination, "#") + 1))
+	for(var/obj/structure/roguemachine/mail/X in SSroguemachine.hermailers)
+		if(X.ournum == wanted)
+			return X
+	return null
+
+/proc/find_mail_human(destination)
+	if(!destination)
+		return null
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(H.real_name == destination)
+			return H
+	return null
+
+/proc/find_mail_ghost(destination)
+	if(!destination)
+		return null
+	for(var/mob/dead/observer/G in GLOB.dead_mob_list)
+		if(G.ckey && G.real_name == destination)
+			return G
+	return null
+
+/proc/mail_fail_msg(destination)
+	return findtext(destination, "#") ? "Cannot send it. Bad number?" : "There's no one by that name to receive it."
+
+/proc/mail_exists(destination)
+	if(!destination)
+		return FALSE
+	if(findtext(destination, "#"))
+		return find_mail_box(destination) ? TRUE : FALSE
+	return (find_mail_human(destination) || find_mail_ghost(destination)) ? TRUE : FALSE
+
+/proc/stamp_mail(obj/item/I, destination, sender)
+	I.mailer = sender
+	I.mailedto = destination
+	I.update_icon()
+
+/proc/deliver_mail(obj/item/I, destination, sender)
+	if(QDELETED(I) || !destination)
+		return FALSE
+	if(findtext(destination, "#"))
+		var/obj/structure/roguemachine/mail/box = find_mail_box(destination)
+		if(!box)
+			return FALSE
+		stamp_mail(I, destination, sender)
+		I.forceMove(box.loc)
+		box.say("New mail!")
+		playsound(box, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		return TRUE
+	var/mob/living/carbon/human/H = find_mail_human(destination)
+	if(I.type == /obj/item/paper && (!H || H.stat == DEAD))
+		var/mob/dead/observer/G = find_mail_ghost(destination)
+		if(G)
+			var/obj/item/paper/P = I
+			deliver_ghost(G, sender, destination, P.info)
+			qdel(I)
+			return TRUE
+	var/obj/item/roguemachine/mastermail/master = SSroguemachine.hermailermaster
+	if(!master)
+		return FALSE
+	stamp_mail(I, destination, sender)
+	I.forceMove(master.loc)
+	var/datum/component/storage/STR = master.GetComponent(/datum/component/storage)
+	STR.handle_item_insertion(I, prevent_warning = TRUE)
+	master.new_mail = TRUE
+	master.update_icon()
+	send_ooc_note("New letter from <b>[sender].</b>", name = destination)
+	if(H)
+		H.apply_status_effect(/datum/status_effect/ugotmail)
+		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
+	return TRUE
 
 /obj/structure/roguemachine/mail/proc/build_sanitized_letter(mob/user, sender, recipient, content)
 	var/obj/item/paper/P = new
@@ -203,10 +379,44 @@
 	P.update_icon()
 	return P
 
+/obj/structure/roguemachine/mail/proc/ghost_post(mob/dead/observer/user, list/params)
+	if(!can_ghost_mail(user, feedback = TRUE))
+		return FALSE
+	var/content = params["content"]
+	if(!length(content))
+		to_chat(user, span_warning("There is nothing written on it."))
+		return FALSE
+	if(length(content) > 2000)
+		to_chat(user, span_warning("Letter too long."))
+		return FALSE
+	var/obj/item/paper/P = build_sanitized_letter(null, params["sender"], params["recipient"], content)
+	if(!P.mailer)
+		P.mailer = "Anonymous"
+	var/target = P.mailedto
+	var/sender = P.mailer
+	if(!mail_exists(target))
+		to_chat(user, span_warning(mail_fail_msg(target)))
+		qdel(P)
+		return FALSE
+	var/datum/pending_mail/PM = new(P, sender, target, user.ckey, rand(GHOST_LETTER_DELAY_MIN, GHOST_LETTER_DELAY_MAX))
+	SSroguemachine.pending_letters += PM
+	ghost_sends[user.ckey] = world.time
+	PM.link = log_mail_send(user, sender, target, TRUE, P.info)
+	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+	to_chat(user, span_notice("The letter slips away into the pipes. It will reach them when it reaches them."))
+	return TRUE
+
 /obj/structure/roguemachine/mail/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	if(..())
 		return TRUE
 	var/mob/user = usr
+	if(isobserver(user))
+		switch(action)
+			if("send_letter")
+				ghost_post(user, params)
+			if("read_letters")
+				read_mail(user)
+		return TRUE
 	switch(action)
 		if("buy_paper")
 			if(coin_loaded >= 1)
@@ -240,61 +450,27 @@
 			var/obj/item/paper/P = build_sanitized_letter(user, params["sender"], params["recipient"], content)
 			var/send2place = P.mailedto
 			var/sentfrom = P.mailer
-			var/sent_ok = FALSE
-			if(findtext(send2place, "#"))
-				var/box2find = text2num(copytext(send2place, findtext(send2place, "#")+1))
-				var/found = FALSE
-				for(var/obj/structure/roguemachine/mail/X in SSroguemachine.hermailers)
-					if(X.ournum == box2find)
-						found = TRUE
-						P.forceMove(X.loc)
-						X.say("New mail!")
-						playsound(X, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-						break
-				if(found)
-					log_mail_send(user, sentfrom, send2place)
-					visible_message(span_warning("[user] sends something."))
-					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-					sent_ok = TRUE
-				else
-					to_chat(user, span_warning("Failed to send. Bad number?"))
-					qdel(P)
+			if(!mail_exists(send2place))
+				to_chat(user, span_warning(mail_fail_msg(send2place)))
+				qdel(P)
+				return TRUE
+			var/body = P.info
+			if(!deliver_mail(P, send2place, sentfrom))
+				to_chat(user, span_warning("The master of mails has perished?"))
+				qdel(P)
+				return TRUE
+			log_mail_send(user, sentfrom, send2place, FALSE, body)
+			visible_message(span_warning("[user] sends something."))
+			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+			if(is_free)
+				mark_free_send(user)
+				to_chat(user, span_notice("Your free letter has been sent. Another may be sent in [HERMES_FREE_COOLDOWN / 600] minute\s."))
 			else
-				var/mob/living/carbon/human/mailrecipient = null
-				for(var/mob/living/carbon/human/H in GLOB.human_list)
-					if(H.real_name == send2place)
-						mailrecipient = H
-				if(!mailrecipient)
-					to_chat(user, span_warning("There's no one by that name to receive it."))
-					qdel(P)
-					return TRUE
-				if(SSroguemachine.hermailermaster)
-					var/obj/item/roguemachine/mastermail/X = SSroguemachine.hermailermaster
-					P.forceMove(X.loc)
-					var/datum/component/storage/STR = X.GetComponent(/datum/component/storage)
-					STR.handle_item_insertion(P, prevent_warning=TRUE)
-					X.new_mail = TRUE
-					X.update_icon()
-					send_ooc_note("New letter from <b>[sentfrom].</b>", name = send2place)
-					mailrecipient.apply_status_effect(/datum/status_effect/ugotmail)
-					mailrecipient.playsound_local(mailrecipient, 'sound/misc/mail.ogg', 100, FALSE, -1)
-					log_mail_send(user, sentfrom, send2place)
-					visible_message(span_warning("[user] sends something."))
-					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-					sent_ok = TRUE
-				else
-					to_chat(user, span_warning("The master of mails has perished?"))
-					qdel(P)
-			if(sent_ok)
-				if(is_free)
-					mark_free_send(user)
-					to_chat(user, span_notice("Your free letter has been sent. Another may be sent in [HERMES_FREE_COOLDOWN / 600] minute\s."))
-				else
-					SStreasury.mint(SStreasury.discretionary_fund, 1, "Mail Income")
-					record_round_statistic(STATS_TAXES_COLLECTED, 1)
-					coin_loaded -= 1
-					if(coin_loaded <= 0)
-						update_icon()
+				SStreasury.mint(SStreasury.discretionary_fund, 1, "Mail Income")
+				record_round_statistic(STATS_TAXES_COLLECTED, 1)
+				coin_loaded -= 1
+				if(coin_loaded <= 0)
+					update_icon()
 			return TRUE
 		if("refund")
 			if(coin_loaded > 0)
@@ -661,61 +837,22 @@
 			var/sentfrom = sanitize(input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null))
 			if(!sentfrom)
 				sentfrom = "Anonymous"
-			if(findtext(send2place, "#"))
-				var/box2find = text2num(copytext(send2place, findtext(send2place, "#")+1))
-
-				var/found = FALSE
-				for(var/obj/structure/roguemachine/mail/X in SSroguemachine.hermailers)
-					if(X.ournum == box2find)
-						found = TRUE
-						P.mailer = sentfrom
-						P.mailedto = send2place
-						P.update_icon()
-						P.forceMove(X.loc)
-						X.say("New mail!")
-						playsound(X, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-						break
-				if(found)
-					log_mail_send(user, sentfrom, send2place)
-					visible_message(span_warning("[user] sends something."))
-					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-					return
-				else
-					to_chat(user, span_warning("Cannot send it. Bad number?"))
-			else
-				if(!send2place)
-					return
-				var/mob/living/carbon/human/mailrecipient = null
-				for(var/mob/living/carbon/human/H in GLOB.human_list)
-					if(H.real_name == send2place)
-						mailrecipient = H
-				if(!mailrecipient)
-					to_chat(user, span_warning("There's no one by that name to receive it."))
-					return
-				var/findmaster
-				if(SSroguemachine.hermailermaster)
-					var/obj/item/roguemachine/mastermail/X = SSroguemachine.hermailermaster
-					findmaster = TRUE
-					P.mailer = sentfrom
-					P.mailedto = send2place
-					P.update_icon()
-					P.forceMove(X.loc)
-					var/datum/component/storage/STR = X.GetComponent(/datum/component/storage)
-					STR.handle_item_insertion(P, prevent_warning=TRUE)
-					X.new_mail=TRUE
-					X.update_icon()
-					playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-				if(!findmaster)
-					to_chat(user, span_warning("The master of mails has perished?"))
-				else
-					log_mail_send(user, sentfrom, send2place)
-					visible_message(span_warning("[user] sends something."))
-					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-					send_ooc_note("New letter from <b>[sentfrom].</b>", name = send2place)
-					if(mailrecipient)
-						mailrecipient.apply_status_effect(/datum/status_effect/ugotmail)
-						mailrecipient.playsound_local(mailrecipient, 'sound/misc/mail.ogg', 100, FALSE, -1)
-					return
+			if(!send2place)
+				return
+			if(!mail_exists(send2place))
+				to_chat(user, span_warning(mail_fail_msg(send2place)))
+				return
+			var/obj/item/paper/letter = istype(P, /obj/item/paper) ? P : null
+			var/body = letter?.info
+			if(!deliver_mail(P, send2place, sentfrom))
+				to_chat(user, span_warning("The master of mails has perished?"))
+				return
+			if(!findtext(send2place, "#"))
+				playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+			log_mail_send(user, sentfrom, send2place, FALSE, body)
+			visible_message(span_warning("[user] sends something."))
+			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+			return
 
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return

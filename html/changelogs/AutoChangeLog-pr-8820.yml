@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - bugfix: "Attempt at fixing a abyssor quest selection runtime"

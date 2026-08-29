@@ -1,0 +1,4 @@
+author: "Fi"
+delete-after: True
+changes:
+  - bugfix: "Fixed the Scout Cloak not appearing as intended upon feminine characters and short characters when facing any direction that is not south—again."

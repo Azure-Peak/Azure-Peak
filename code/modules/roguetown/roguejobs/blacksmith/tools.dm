@@ -420,7 +420,7 @@
 
 /obj/item/rogueweapon/hammer/paalloy
 	name = "ancient hammer"
-	desc = "A hammer of polished gilbronze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaries and great works.."
+	desc = "A hammer of polished gilbranze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaries and great works.."
 	icon_state = "ahammer"
 	force = 21
 	smeltresult = /obj/item/ingot/aaslag
