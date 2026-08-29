@@ -12,7 +12,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(!ismob(usr))
 			return
 		var/mob/M = usr
-		var/datum/examine_panel/mob_examine_panel = new(src, M.mind?.do_i_know(mind))
+		var/datum/examine_panel/mob_examine_panel = new(src, (href_list["overridevisible"] && M.mind?.do_i_know(mind)))
 		mob_examine_panel.holder = src
 		mob_examine_panel.viewing = usr
 		mob_examine_panel.ui_interact(usr)

@@ -312,7 +312,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		if(fcolor && fjob)
 			if (fheresy)
 				contents +="<B><font color=#f1d669>[fheresy]</font></B> "
-			contents += "<B>[link ? "<a style='margin: 0px; padding: 0px;' href='?src=[REF(H)];task=view_headshot'>" : ""]<font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font>[link ? "</a>" : ""]</B><BR>[fjob], [capitalize(fgender)], [fspecies], [fage]"
+			contents += "<B>[link ? "<a style='margin: 0px; padding: 0px;' href='?src=[REF(H)];task=view_headshot;overridevisible=1'>" : ""]<font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font>[link ? "</a>" : ""]</B><BR>[fjob], [capitalize(fgender)], [fspecies], [fage]"
 			contents += "<BR>"
 
 	var/datum/browser/popup = new(user, "PEOPLEIKNOW", "", 260, 400)
