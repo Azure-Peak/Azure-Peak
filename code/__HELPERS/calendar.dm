@@ -123,6 +123,19 @@
 			return "Late"
 	return ""
 
+/// Returns the current in-character month number (1-12).
+/proc/get_current_month()
+	var/list/parts = resolve_ic_date_parts(GLOB.dayspassed)
+	return parts[2]
+
+/// Returns the current in-character season ("Spring"/"Summer"/"Autumn"/"Winter").
+/proc/get_current_season()
+	return get_season_from_month(get_current_month())
+
+/// Returns the current in-character season phase ("Early"/"Mid"/"Late").
+/proc/get_current_season_phase()
+	return get_season_phase(get_current_month())
+
 /proc/get_calendar_events_for_month(month_number)
 	var/list/matches = list()
 	for(var/datum/calendar_event/event in GLOB.calendar_events)

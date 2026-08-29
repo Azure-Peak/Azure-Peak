@@ -430,7 +430,7 @@
 
 /turf/open/floor/rogue/grass/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
-//	GLOB.dirt_list += src
+	GLOB.seasonal_grass_turfs |= src
 	. = ..()
 
 /turf/open/floor/rogue/grass/cardinal_smooth(adjacencies)

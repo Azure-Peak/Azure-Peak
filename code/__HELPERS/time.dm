@@ -98,6 +98,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if(GLOB.tod != oldtod)
 		if(GLOB.tod == "dawn" && SSticker?.current_state == GAME_STATE_PLAYING)
 			GLOB.dayspassed++
+			SSseason?.check_season_change()
 			scom_announce_new_dawn()
 			if(SStreasury?.initialized)
 				SStreasury.tick_rural_tax()
