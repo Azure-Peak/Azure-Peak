@@ -29,6 +29,18 @@
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat =  1)
 
+/datum/transmutation_recipe/florid/westleach_to_swampweed
+	name = "Westleach Sanguination (Swampweed)"
+	materia_aspects = list(/datum/materia_aspect/plant)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 2)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed =  1)
+
+/datum/transmutation_recipe/florid/swampleaf_to_westleach
+	name = "Swampweed Raefication (Westleach)"
+	materia_aspects = list(/datum/materia_aspect/plant)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed = 1)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed =  1)
+
 /datum/transmutation_recipe/florid/berry_to_apple
 	name = "Jacksberry Sanguination (Apple)"
 	materia_aspects = list(/datum/materia_aspect/plant)
