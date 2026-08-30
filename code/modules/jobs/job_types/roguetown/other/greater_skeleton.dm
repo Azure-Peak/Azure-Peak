@@ -179,7 +179,7 @@ NECRO SKELETONS
 
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/iron //intentional jaw weakspot
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/hose/necro
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/hose/dyeable/necro
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light //so they don't die to groin hits too quickly, still a weakspot
