@@ -125,7 +125,8 @@
 
 /// Returns the current in-character month number (1-12).
 /proc/get_current_month()
-	var/list/parts = resolve_ic_date_parts(GLOB.dayspassed)
+	// Treat day 0 as day 1.
+	var/list/parts = resolve_ic_date_parts(GLOB.dayspassed || 1)
 	return parts[2]
 
 /// Returns the current in-character season ("Spring"/"Summer"/"Autumn"/"Winter").
