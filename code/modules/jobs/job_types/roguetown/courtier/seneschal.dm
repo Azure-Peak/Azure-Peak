@@ -27,7 +27,7 @@
 
 
 /datum/advclass/seneschal
-	traits_applied = list(TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_ROYALSERVANT) // They have Expert Sewing
+	traits_applied = list(TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_KEENEARS, TRAIT_ROYALSERVANT) // They have Expert Sewing
 	category_tags = list(CTAG_SENESCHAL)
 	age_mod = /datum/class_age_mod/seneschal
 
@@ -54,6 +54,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/seneschal
@@ -97,6 +100,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/seneschal/headmaid/pre_equip(mob/living/carbon/human/H)
@@ -137,6 +143,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/seneschal/chiefbutler/pre_equip(mob/living/carbon/human/H)
