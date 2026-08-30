@@ -3,7 +3,7 @@
 #define SKILLED_TAILOR "Tailor Apprentice"
 #define SKILLED_HUNTER "Hunter Apprentice"
 #define SKILLED_PHYS "Physician Apprentice"
-#define SKILLED_FORESTER "Forester Apprentice"
+#define SKILLED_COOK "Chef Apprentice"
 #define SKILLED_ARTIF "Artificer Apprentice"
 #define SKILLED_ENCHANT "Enchanter Apprentice"
 
@@ -21,7 +21,7 @@
 		SKILLED_TAILOR,
 		SKILLED_HUNTER,
 		SKILLED_PHYS,
-		SKILLED_FORESTER,
+		SKILLED_COOK,
 		SKILLED_ARTIF,
 		SKILLED_ENCHANT,
 	)
@@ -30,7 +30,7 @@
 		SKILLED_TAILOR	= "Grants Expert Clothier. Butchering, Tanning raised to Apprentice. Sewing raised to Journeyman. Stashed Needle & Scissors.",
 		SKILLED_HUNTER	= "Grants Expert Survivalist. Trapping, Tracking, Butchering, Sewing and Tanning raised to Apprentice.",
 		SKILLED_PHYS	= "Grants Expert Physicker and Alchemist. Alchemy and Medicine raised to Apprentice. Grants secular diagnose, a stashed medicine pouch and an improvised surgery kit.",
-		SKILLED_FORESTER= "Cooking, Athletics, Farming, Fishing, Lumberjacking raised to Apprentice. Stashed hoe.",
+		SKILLED_COOK	= "Grants Homesteader and Cicerone. Cooking to Journeyman, then Athletics, Farming, Fishing, Butchering raised to Apprentice. Stashed hoe and bag with food, fishing rod and frying pan.",
 		SKILLED_ARTIF	= "Grants Expert Forgehand. Carpentry, Masonry, Engineering, Smelting and Ceramics raised to Apprentice. Stashed Hammer, Chisel and Hand Saw.",
 		SKILLED_ENCHANT = "Grants Expert Enchanter and Alchemist. Allows you to do magical rituals. Alchemy, Engineering, Smelting, Blacksmithing and Arcane raised to Apprentice. Stashed Chalk, Mortar, and Pestle."
 	)
@@ -81,13 +81,15 @@
 					recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 				recipient.mind?.special_items["Medicine Pouch"] = /obj/item/storage/belt/rogue/pouch/medicine
 				recipient.mind?.special_items["Improv. Surgery Kit"] = /obj/item/storage/belt/rogue/surgery_bag/full/bad
-			if(SKILLED_FORESTER)
-				added_skills.Add(list(list(/datum/skill/craft/cooking, 2, 2)))
+			if(SKILLED_COOK)
+				added_skills.Add(list(list(/datum/skill/craft/cooking, 3, 3)))
 				added_skills.Add(list(list(/datum/skill/misc/athletics, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/labor/farming, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/labor/fishing, 2, 2)))
-				added_skills.Add(list(list(/datum/skill/labor/lumberjacking, 2, 2)))
+				added_skills.Add(list(list(/datum/skill/labor/butchering, 2, 2)))
+				added_traits.Add(TRAIT_HOMESTEAD_EXPERT, TRAIT_CICERONE)
 				recipient.mind?.special_items["Trusty Hoe"] = /obj/item/rogueweapon/hoe
+				recipient.mind?.special_items["Bag of Food"] = /obj/item/storage/roguebag/food
 			if(SKILLED_ARTIF)
 				added_skills.Add(list(list(/datum/skill/craft/carpentry, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/masonry, 2, 2)))
