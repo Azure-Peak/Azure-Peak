@@ -156,9 +156,9 @@ NECRO SKELETONS
 
 	category_tags = list(CTAG_NSKELETON)
 	subclass_skills = list(
-		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/slings = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
@@ -213,13 +213,16 @@ NECRO SKELETONS
 		if("Bow")
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			beltl = /obj/item/quiver/arrows
+			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Sling")
 			backr = /obj/item/rogueweapon/shield/wood
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/iron
+			H.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
 		if("Crossbow")
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron //NPC-grade crossbow
 			beltl = /obj/item/quiver/bolt/standard
+			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
 
 	H.energy = H.max_energy
 
