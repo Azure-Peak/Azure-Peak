@@ -374,7 +374,9 @@
 	loot_replenish()
 	pixel_x += rand(-3,3)
 	GLOB.seasonal_flora_objs |= src
-	return ..()
+	. = ..()
+	if(!mapload)
+		apply_flora_season(SSseason.get_target_flora_season())
 
 /obj/structure/flora/roguegrass/bush/Destroy()
 	GLOB.seasonal_flora_objs -= src

@@ -129,10 +129,8 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 						GLOB.forecast = PARTICLEWEATHER_LEAVES
 					else
 						GLOB.forecast = null
-				if(PARTICLEWEATHER_LEAVES)
-					GLOB.forecast = null
 				else
-					GLOB.forecast = null //clears snow/sakura/bloodrain forecasts too
+					GLOB.forecast = null //clears leaves/snow/sakura/bloodrain forecasts too
 
 	if(GLOB.tod != oldtod)
 		if(GLOB.tod == "dawn" && SSticker?.current_state == GAME_STATE_PLAYING)

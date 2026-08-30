@@ -90,7 +90,12 @@ SUBSYSTEM_DEF(season)
 	var/target_type = get_target_turf_type()
 	if(T.type == target_type)
 		return
-	T.ChangeTurf(target_type)
+	// ChangeTurf() destroys T and constructs a new turf at the same location, which runs
+	// Destroy() and drops the old object from GLOB.seasonal_grass_turfs (see the Destroy()
+	// overrides in roguefloor.dm) - re-add the result so it stays tracked for future seasons.
+	var/turf/new_turf = T.ChangeTurf(target_type)
+	if(new_turf)
+		GLOB.seasonal_grass_turfs |= new_turf
 
 /// Returns the lowercase leaf-sprite season name ("spring"/"summer"/"fall"/"winter") matching current_season.
 /datum/controller/subsystem/season/proc/get_target_flora_season()

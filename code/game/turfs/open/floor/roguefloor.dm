@@ -251,6 +251,12 @@
 /turf/open/floor/rogue/snow/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
+// Only unregisters - SSseason re-adds the turf itself right after a season-driven ChangeTurf,
+// so this only sticks when something else (construction, mining, etc) changes the turf away.
+/turf/open/floor/rogue/snow/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
+
 /turf/open/floor/rogue/snow/attack_right(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
@@ -310,6 +316,10 @@
 /turf/open/floor/rogue/snowrough/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
+/turf/open/floor/rogue/snowrough/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
+
 /turf/open/floor/rogue/snowpatchy
 	name = "patchy snow"
 	desc = "Half-melted snow revealing the hardy grass underneath."
@@ -328,6 +338,10 @@
 
 /turf/open/floor/rogue/snowpatchy/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/turf/open/floor/rogue/snowpatchy/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
 
 /turf/open/floor/rogue/grasscold
 	name = "tundra grass"
@@ -352,6 +366,10 @@
 
 /turf/open/floor/rogue/grasscold/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/turf/open/floor/rogue/grasscold/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
 
 /turf/open/floor/rogue/grassred
 	name = "red grass"
@@ -380,6 +398,10 @@
 /turf/open/floor/rogue/grassred/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
+/turf/open/floor/rogue/grassred/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
+
 /turf/open/floor/rogue/grassyel
 	name = "yellow grass"
 	desc = "Grass, blessed by Astrata's light."
@@ -404,6 +426,10 @@
 
 /turf/open/floor/rogue/grassyel/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/turf/open/floor/rogue/grassyel/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
 
 /turf/open/floor/rogue/grass
 	name = "grass"
@@ -432,6 +458,15 @@
 	dir = pick(GLOB.cardinals)
 	GLOB.seasonal_grass_turfs |= src
 	. = ..()
+	if(!mapload)
+		// Map-loaded turfs get caught by SSseason's own startup sweep - only newly spawned
+		// (runtime) grass needs to catch up immediately. Deferred a tick since ChangeTurf()
+		// destroys and recreates src, which would be unsafe to do from within our own Initialize().
+		addtimer(CALLBACK(SSseason, TYPE_PROC_REF(/datum/controller/subsystem/season, apply_season_to_turf), src), 0)
+
+/turf/open/floor/rogue/grass/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
 
 /turf/open/floor/rogue/grass/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)

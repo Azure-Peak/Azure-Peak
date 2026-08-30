@@ -152,19 +152,21 @@
 	tree_type = rand(1,2)
 	dir = pick(GLOB.cardinals)
 	SStreesetup.initialize_me |= src
-	build_trees()
+	build_trees(mapload)
 	update_icon()
 	if(istype(loc, /turf/open/floor/rogue/grass))
 		var/turf/T = loc
 		T.ChangeTurf(/turf/open/floor/rogue/dirt)
 
-/obj/structure/flora/newtree/proc/build_trees()
+/obj/structure/flora/newtree/proc/build_trees(mapload)
 	var/turf/target = get_step_multiz(src, UP)
 	if(istype(target, /turf/open/transparent/openspace))
 		var/obj/structure/flora/newtree/T = new(target)
 		T.base_state = "leaf-spring-[rand(1,2)]"
 		T.update_icon()
 		GLOB.seasonal_flora_objs |= T
+		if(!mapload)
+			T.apply_flora_season(SSseason.get_target_flora_season())
 
 /obj/structure/flora/newtree/apply_flora_season(season)
 	if(!base_state)
@@ -336,6 +338,8 @@
 		AddComponent(/datum/component/squeak, list('sound/foley/plantcross1.ogg','sound/foley/plantcross2.ogg','sound/foley/plantcross3.ogg','sound/foley/plantcross4.ogg'), 100)
 		base_state = "leaf-spring-[rand(1,2)]"
 		GLOB.seasonal_flora_objs |= src
+		if(!mapload)
+			apply_flora_season(SSseason.get_target_flora_season())
 	update_icon()
 
 /obj/structure/flora/newbranch/apply_flora_season(season)
@@ -420,6 +424,8 @@
 	. = ..()
 	refresh_leaf_icon()
 	GLOB.seasonal_flora_objs |= src
+	if(!mapload)
+		apply_flora_season(SSseason.get_target_flora_season())
 
 /obj/structure/flora/newleaf/Destroy()
 	GLOB.seasonal_flora_objs -= src
