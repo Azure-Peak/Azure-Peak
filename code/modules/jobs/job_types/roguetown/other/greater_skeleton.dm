@@ -64,7 +64,6 @@ NECRO SKELETONS
 
 /datum/outfit/job/roguetown/greater_skeleton/necro
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC) //remove if you want light-AC only necromancer skeles in future
 
 // Melee fighter with a shield/spear. Holds the line. All-rounder
 /datum/advclass/greater_skeleton/necro/legionnaire
@@ -95,6 +94,7 @@ NECRO SKELETONS
 	..()
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.STASTR = 12
 	H.STAPER = 11
 	H.STASPD = 8
@@ -170,6 +170,7 @@ NECRO SKELETONS
 	..()
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.STASTR = 8
 	H.STASPD = 10
 	H.STACON = 8
@@ -339,7 +340,7 @@ NECRO SKELETONS
 	..()
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC) //sidegrade here
 	H.STASTR = 10
 	H.STASPD = 10
 	H.STACON = 6 //Light armor, slightly stronger than lich sapper due to being far-less disposable
