@@ -1343,3 +1343,25 @@
   - qol: expands sakuyzo's applicable item list for their donator piece
   zeroisthebiggay:
   - rscadd: ooc extra and nsfw ooc extra
+2026-08-30:
+  BurpleBineapple:
+  - bugfix: Fixes Old age mods for classes not applying.
+  Fi:
+  - bugfix: "Fixed the Scout Cloak not appearing as intended upon feminine characters\
+      \ and short characters when facing any direction that is not south\u2014again."
+  Lamasmaster:
+  - rscdel: The recurve prolifiration has been shot, short of few exceptions (such
+      as mounted classes) everyone uses the base bow now - reason it can be done now
+      is because recurve is just reskin of regular bow statwise that's it.
+  - balance: Veteran Bogman and Poacher start with Longbow instead of Recurve.
+  - image: I come back to ruin bows in another way - so about making them 64x64 last
+      time - the reverse is happening now (turning them 32x32) and with that new sprites
+      by me - they aren't great but they are servicable and eliminate awkward clipping
+  changelingonberry:
+  - bugfix: vile veshlie no longer plays cs source
+  - admin: round logs save with the round ID in the filepath
+  pinkledwrenis:
+  - balance: Updated the Potters home to make it role exclusive and to bring their
+      home up to speed with other fleshed out roles.
+  zeratinoalt:
+  - code_imp: updated koruu's donator stuff

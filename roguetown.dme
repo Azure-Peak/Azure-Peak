@@ -1291,6 +1291,7 @@
 #include "code\game\objects\items\taster.dm"
 #include "code\game\objects\items\toys.dm"
 #include "code\game\objects\items\trash.dm"
+#include "code\game\objects\items\twirling.dm"
 #include "code\game\objects\items\twstrap.dm"
 #include "code\game\objects\items\weaponry.dm"
 #include "code\game\objects\items\clothes\neck.dm"
