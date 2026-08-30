@@ -1,10 +1,37 @@
+// Shared by newtree (canopy caps) and newbranch, both of which draw a seasonal leaf overlay
+// through base_state. has_leaf_overlay is the "do I have one at all" flag - kept separate from
+// base_state itself so the same var isn't used as a boolean before spawn and a sprite-name string
+// after (newbranch used to do exactly that). leaf_variant is picked once and reused by every
+// later season change, so an individual leaf/branch doesn't reshuffle its shape every time its
+// color does.
+/obj/structure/flora
+	var/has_leaf_overlay = FALSE
+	var/base_state
+	var/leaf_variant
+
+/// No-op for flora that doesn't carry a leaf overlay (has_leaf_overlay stays FALSE). Overridden by newleaf. SSseason calls this on everything in GLOB.seasonal_flora_objs without needing to know which kind of flora it's touching.
+/obj/structure/flora/proc/apply_flora_season(season)
+	if(!has_leaf_overlay)
+		return
+	base_state = "leaf-[season]-[leaf_variant]"
+	update_icon()
+
+/// Registers into SSseason's tracking list, and - for anything spawned mid-round rather than at map load - immediately catches it up to the current season instead of leaving it looking like whatever season it happened to default to.
+/obj/structure/flora/proc/register_seasonal_flora(mapload)
+	GLOB.seasonal_flora_objs |= src
+	if(!mapload)
+		apply_flora_season(SSseason.get_target_flora_season())
+
+/obj/structure/flora/Destroy()
+	GLOB.seasonal_flora_objs -= src
+	return ..()
+
 /obj/structure/flora/newtree
 	name = "tree"
 	desc = "The thick core of a tree."
 	icon = 'icons/roguetown/misc/tree.dmi'
 	icon_state = "tree1"
 	var/tree_type = 1
-	var/base_state
 	blade_dulling = DULLING_CUT
 	opacity = 1
 	density = 1
@@ -16,10 +43,6 @@
 	max_integrity = 400
 	//If the tree has been burn beforehand.
 	var/burnt = FALSE
-
-/// No-op by default. Overridden by newtree/newbranch/newleaf wherever they carry a leaf sprite, so SSseason can update them all through one list without type-checking.
-/obj/structure/flora/proc/apply_flora_season(season)
-	return
 
 /obj/structure/flora/newtree/get_mechanics_examine(mob/user)
 	. = ..()
@@ -141,7 +164,7 @@
 	. = ..()
 	if(burnt)
 		return
-	if(base_state)
+	if(has_leaf_overlay)
 		. += mutable_appearance(icon, "[base_state]")
 	var/mutable_appearance/M = mutable_appearance(icon, "tree[tree_type]")
 	M.dir = dir
@@ -158,25 +181,17 @@
 		var/turf/T = loc
 		T.ChangeTurf(/turf/open/floor/rogue/dirt)
 
+// Grows a canopy cap directly above, if there's room for one - this is the "leafy top" of a tree,
+// a second newtree instance layered on top rather than part of the trunk itself.
 /obj/structure/flora/newtree/proc/build_trees(mapload)
 	var/turf/target = get_step_multiz(src, UP)
 	if(istype(target, /turf/open/transparent/openspace))
 		var/obj/structure/flora/newtree/T = new(target)
-		T.base_state = "leaf-spring-[rand(1,2)]"
+		T.has_leaf_overlay = TRUE
+		T.leaf_variant = rand(1,2)
+		T.base_state = "leaf-[FLORA_SEASON_SPRING]-[T.leaf_variant]"
 		T.update_icon()
-		GLOB.seasonal_flora_objs |= T
-		if(!mapload)
-			T.apply_flora_season(SSseason.get_target_flora_season())
-
-/obj/structure/flora/newtree/apply_flora_season(season)
-	if(!base_state)
-		return
-	base_state = "leaf-[season]-[rand(1,2)]"
-	update_icon()
-
-/obj/structure/flora/newtree/Destroy()
-	GLOB.seasonal_flora_objs -= src
-	return ..()
+		T.register_seasonal_flora(mapload)
 
 /obj/structure/flora/newtree/proc/build_branches()
 	if(istype(get_turf(src), /turf/open/floor) && prob(90)) // We only want branches in the upper layers
@@ -311,7 +326,7 @@
 	icon_state = "branch-end1"
 	attacked_sound = 'sound/misc/woodhit.ogg'
 //	var/tree_type = 1
-	var/base_state = TRUE
+	has_leaf_overlay = TRUE
 	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN
 	plane = FLOOR_PLANE
 	static_debris = list(/obj/item/grown/log/tree/stick = 1)
@@ -324,7 +339,7 @@
 /obj/structure/flora/newbranch/update_overlays()
 	. = ..()
 	var/mutable_appearance/M
-	if(base_state)
+	if(has_leaf_overlay)
 		M = mutable_appearance(icon, "[base_state]")
 		M.dir = pick(GLOB.cardinals)
 		. += M
@@ -334,23 +349,12 @@
 
 /obj/structure/flora/newbranch/Initialize(mapload)
 	. = ..()
-	if(base_state)
+	if(has_leaf_overlay)
 		AddComponent(/datum/component/squeak, list('sound/foley/plantcross1.ogg','sound/foley/plantcross2.ogg','sound/foley/plantcross3.ogg','sound/foley/plantcross4.ogg'), 100)
-		base_state = "leaf-spring-[rand(1,2)]"
-		GLOB.seasonal_flora_objs |= src
-		if(!mapload)
-			apply_flora_season(SSseason.get_target_flora_season())
+		leaf_variant = rand(1,2)
+		base_state = "leaf-[FLORA_SEASON_SPRING]-[leaf_variant]"
+		register_seasonal_flora(mapload)
 	update_icon()
-
-/obj/structure/flora/newbranch/apply_flora_season(season)
-	if(!base_state)
-		return
-	base_state = "leaf-[season]-[rand(1,2)]"
-	update_icon()
-
-/obj/structure/flora/newbranch/Destroy()
-	GLOB.seasonal_flora_objs -= src
-	return ..()
 
 /obj/structure/flora/newbranch/connector
 	icon_state = "branch-extend"
@@ -361,7 +365,7 @@
 /obj/structure/flora/newbranch/connector/update_overlays()
 	. = ..()
 	var/mutable_appearance/M
-	if(base_state)
+	if(has_leaf_overlay)
 		M = mutable_appearance(icon, "[base_state]")
 		M.dir = pick(GLOB.cardinals)
 		. += M
@@ -370,7 +374,7 @@
 	. += M
 
 /obj/structure/flora/newbranch/leafless
-	base_state = FALSE
+	has_leaf_overlay = FALSE
 
 /obj/structure/flora/newbranch/leafless/update_icon_state()
 	icon_state = ""
@@ -389,17 +393,17 @@
 	icon_state = "cornerleaf-spring-1"
 
 /obj/structure/flora/newleaf/corner/refresh_leaf_icon()
-	icon_state = "cornerleaf-[leaf_season]-[rand(1,2)]"
+	icon_state = "cornerleaf-[leaf_season]-[leaf_variant]"
 	update_icon()
 
 /obj/structure/flora/newleaf/corner/summer
-	leaf_season = "summer"
+	leaf_season = FLORA_SEASON_SUMMER
 
 /obj/structure/flora/newleaf/corner/fall
-	leaf_season = "fall"
+	leaf_season = FLORA_SEASON_FALL
 
 /obj/structure/flora/newleaf/corner/winter
-	leaf_season = "winter"
+	leaf_season = FLORA_SEASON_WINTER
 
 /obj/structure/flora/newleaf
 	name = "leaves"
@@ -408,10 +412,10 @@
 	icon_state = "leaf-spring-1"
 	density = FALSE
 	max_integrity = 10
-	var/leaf_season = "spring"
+	var/leaf_season = FLORA_SEASON_SPRING
 
 /obj/structure/flora/newleaf/proc/refresh_leaf_icon()
-	icon_state = "leaf-[leaf_season]-[rand(1,2)]"
+	icon_state = "leaf-[leaf_season]-[leaf_variant]"
 	update_icon()
 
 /obj/structure/flora/newleaf/apply_flora_season(season)
@@ -422,20 +426,15 @@
 
 /obj/structure/flora/newleaf/Initialize(mapload)
 	. = ..()
+	leaf_variant = rand(1,2)
 	refresh_leaf_icon()
-	GLOB.seasonal_flora_objs |= src
-	if(!mapload)
-		apply_flora_season(SSseason.get_target_flora_season())
-
-/obj/structure/flora/newleaf/Destroy()
-	GLOB.seasonal_flora_objs -= src
-	return ..()
+	register_seasonal_flora(mapload)
 
 /obj/structure/flora/newleaf/summer
-	leaf_season = "summer"
+	leaf_season = FLORA_SEASON_SUMMER
 
 /obj/structure/flora/newleaf/fall
-	leaf_season = "fall"
+	leaf_season = FLORA_SEASON_FALL
 
 /obj/structure/flora/newleaf/winter
-	leaf_season = "winter"
+	leaf_season = FLORA_SEASON_WINTER

@@ -72,17 +72,17 @@ SUBSYSTEM_DEF(season)
 
 /datum/controller/subsystem/season/proc/get_target_turf_type()
 	switch(current_season)
-		if("Spring")
+		if(SEASON_SPRING)
 			return /turf/open/floor/rogue/grass
-		if("Summer")
+		if(SEASON_SUMMER)
 			return /turf/open/floor/rogue/grassyel
-		if("Autumn")
+		if(SEASON_AUTUMN)
 			return /turf/open/floor/rogue/grassred
-		if("Winter")
+		if(SEASON_WINTER)
 			switch(current_season_phase)
-				if("Early")
+				if(SEASON_PHASE_EARLY)
 					return /turf/open/floor/rogue/grasscold
-				if("Mid", "Late")
+				if(SEASON_PHASE_MID, SEASON_PHASE_LATE)
 					return /turf/open/floor/rogue/snow
 	return /turf/open/floor/rogue/grass
 
@@ -100,12 +100,12 @@ SUBSYSTEM_DEF(season)
 /// Returns the lowercase leaf-sprite season name ("spring"/"summer"/"fall"/"winter") matching current_season.
 /datum/controller/subsystem/season/proc/get_target_flora_season()
 	switch(current_season)
-		if("Spring")
-			return "spring"
-		if("Summer")
-			return "summer"
-		if("Autumn")
-			return "fall"
-		if("Winter")
-			return "winter"
-	return "spring"
+		if(SEASON_SPRING)
+			return FLORA_SEASON_SPRING
+		if(SEASON_SUMMER)
+			return FLORA_SEASON_SUMMER
+		if(SEASON_AUTUMN)
+			return FLORA_SEASON_FALL
+		if(SEASON_WINTER)
+			return FLORA_SEASON_WINTER
+	return FLORA_SEASON_SPRING

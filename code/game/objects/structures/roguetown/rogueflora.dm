@@ -373,14 +373,8 @@
 					/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed=1))
 	loot_replenish()
 	pixel_x += rand(-3,3)
-	GLOB.seasonal_flora_objs |= src
 	. = ..()
-	if(!mapload)
-		apply_flora_season(SSseason.get_target_flora_season())
-
-/obj/structure/flora/roguegrass/bush/Destroy()
-	GLOB.seasonal_flora_objs -= src
-	return ..()
+	register_seasonal_flora(mapload)
 
 /obj/structure/flora/roguegrass/bush/proc/refresh_bush_icon()
 	icon_state = "[bush_base_state][bush_season_suffix]"
@@ -389,10 +383,10 @@
 /obj/structure/flora/roguegrass/bush/apply_flora_season(season)
 	var/target_suffix
 	switch(season)
-		if("winter")
-			target_suffix = "winter"
-		if("spring", "summer")
-			target_suffix = "summer"
+		if(FLORA_SEASON_WINTER)
+			target_suffix = FLORA_SEASON_WINTER
+		if(FLORA_SEASON_SPRING, FLORA_SEASON_SUMMER)
+			target_suffix = FLORA_SEASON_SUMMER
 		else
 			target_suffix = ""
 	if(bush_season_suffix == target_suffix)

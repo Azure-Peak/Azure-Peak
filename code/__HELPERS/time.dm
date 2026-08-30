@@ -34,6 +34,66 @@ GLOBAL_VAR_INIT(date_override_day, 1)
 GLOBAL_VAR_INIT(date_override_month, 1)
 GLOBAL_VAR_INIT(date_override_offset, 0)
 
+// Rain is the spring/summer/autumn precipitation, replaced entirely by snow in winter. This scales
+// the old flat per-tod rain chances: common in Spring (100%), sort of common in Summer (60%),
+// less common in Autumn (30%), and never in Winter.
+/proc/get_rain_scale_for_season(season)
+	switch(season)
+		if(SEASON_SPRING)
+			return 100
+		if(SEASON_SUMMER)
+			return 60
+		if(SEASON_AUTUMN)
+			return 30
+	return 0
+
+/proc/roll_dawn_weather(season, rain_scale)
+	if(prob(25 * rain_scale / 100))
+		GLOB.forecast = PARTICLEWEATHER_RAIN
+	if(season == SEASON_WINTER && prob(25))
+		GLOB.forecast = PARTICLEWEATHER_SNOW
+	if(season == SEASON_AUTUMN && prob(5))
+		GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
+	if(season == SEASON_SPRING && prob(20))
+		GLOB.forecast = PARTICLEWEATHER_SAKURA
+
+/proc/roll_day_weather(season, rain_scale)
+	if(prob(20 * rain_scale / 100))
+		GLOB.forecast = PARTICLEWEATHER_RAIN
+	if(season == SEASON_WINTER && prob(20))
+		GLOB.forecast = PARTICLEWEATHER_SNOW
+	if(season == SEASON_AUTUMN)
+		if(prob(45))
+			GLOB.forecast = PARTICLEWEATHER_LEAVES
+		if(prob(5))
+			GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
+	if(season == SEASON_SPRING && prob(20))
+		GLOB.forecast = PARTICLEWEATHER_SAKURA
+
+/proc/roll_dusk_weather(season, rain_scale)
+	if(prob(30 * rain_scale / 100))
+		GLOB.forecast = PARTICLEWEATHER_RAIN
+	if(season == SEASON_WINTER && prob(30))
+		GLOB.forecast = PARTICLEWEATHER_SNOW
+	if(season == SEASON_AUTUMN)
+		if(prob(40))
+			GLOB.forecast = PARTICLEWEATHER_LEAVES
+		if(prob(5))
+			GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
+
+/proc/roll_night_weather(season, rain_scale)
+	if(prob(40 * rain_scale / 100))
+		GLOB.forecast = PARTICLEWEATHER_RAIN
+	if(season == SEASON_WINTER && prob(40))
+		GLOB.forecast = PARTICLEWEATHER_SNOW
+	if(season == SEASON_AUTUMN)
+		if(prob(35))
+			GLOB.forecast = PARTICLEWEATHER_LEAVES
+		if(prob(5))
+			GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
+	if(prob(40) && (SSgamemode.current_storyteller.name == "Zizo" || SSgamemode.current_storyteller.name == "Graggar"))
+		GLOB.forecast = PARTICLEWEATHER_BLOODRAIN
+
 /proc/settod()
 	var/time = station_time()
 	var/oldtod = GLOB.tod
@@ -50,61 +110,16 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if((GLOB.tod != oldtod) && !GLOB.todoverride && (GLOB.dayspassed>1)) //weather check on tod changes
 		var/season = get_current_season()
 		if(!GLOB.forecast)
-			// Rain is the spring/summer/autumn precipitation, replaced entirely by snow in winter.
-			// Scales the old flat per-tod rain chances: common in Spring (100%), sort of common in
-			// Summer (60%), less common in Autumn (30%), and never in Winter.
-			var/rain_scale = 0
-			switch(season)
-				if("Spring")
-					rain_scale = 100
-				if("Summer")
-					rain_scale = 60
-				if("Autumn")
-					rain_scale = 30
+			var/rain_scale = get_rain_scale_for_season(season)
 			switch(GLOB.tod)
 				if("dawn")
-					if(prob(25 * rain_scale / 100))
-						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(season == "Winter" && prob(25))
-						GLOB.forecast = PARTICLEWEATHER_SNOW
-					if(season == "Autumn" && prob(5))
-						GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
-					if(season == "Spring" && prob(20))
-						GLOB.forecast = PARTICLEWEATHER_SAKURA
+					roll_dawn_weather(season, rain_scale)
 				if("day")
-					if(prob(20 * rain_scale / 100))
-						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(season == "Winter" && prob(20))
-						GLOB.forecast = PARTICLEWEATHER_SNOW
-					if(season == "Autumn")
-						if(prob(45))
-							GLOB.forecast = PARTICLEWEATHER_LEAVES
-						if(prob(5))
-							GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
-					if(season == "Spring" && prob(20))
-						GLOB.forecast = PARTICLEWEATHER_SAKURA
+					roll_day_weather(season, rain_scale)
 				if("dusk")
-					if(prob(30 * rain_scale / 100))
-						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(season == "Winter" && prob(30))
-						GLOB.forecast = PARTICLEWEATHER_SNOW
-					if(season == "Autumn")
-						if(prob(40))
-							GLOB.forecast = PARTICLEWEATHER_LEAVES
-						if(prob(5))
-							GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
+					roll_dusk_weather(season, rain_scale)
 				if("night")
-					if(prob(40 * rain_scale / 100))
-						GLOB.forecast = PARTICLEWEATHER_RAIN
-					if(season == "Winter" && prob(40))
-						GLOB.forecast = PARTICLEWEATHER_SNOW
-					if(season == "Autumn")
-						if(prob(35))
-							GLOB.forecast = PARTICLEWEATHER_LEAVES
-						if(prob(5))
-							GLOB.forecast = PARTICLEWEATHER_SNOW //rare early flurry
-					if(prob(40) && (SSgamemode.current_storyteller.name == "Zizo" || SSgamemode.current_storyteller.name == "Graggar"))
-						GLOB.forecast = PARTICLEWEATHER_BLOODRAIN
+					roll_night_weather(season, rain_scale)
 			if(GLOB.forecast != SSParticleWeather?.runningWeather?.target_trait)
 				switch(GLOB.forecast)
 					if(PARTICLEWEATHER_RAIN)
@@ -117,7 +132,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 						SSParticleWeather?.run_weather(pick(/datum/particle_weather/sakura_gentle, /datum/particle_weather/sakura_storm))
 					if(PARTICLEWEATHER_SNOW)
 						// The Autumn "rare early flurry" is always light; true Winter snow can be either tier.
-						if(season == "Autumn")
+						if(season == SEASON_AUTUMN)
 							SSParticleWeather?.run_weather(/datum/particle_weather/snow_gentle)
 						else
 							SSParticleWeather?.run_weather(pick(/datum/particle_weather/snow_gentle, /datum/particle_weather/snow_storm))
@@ -125,7 +140,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 		else
 			switch(GLOB.forecast) //end the weather now
 				if(PARTICLEWEATHER_RAIN)
-					if(GLOB.tod == "day" && season == "Autumn")
+					if(GLOB.tod == "day" && season == SEASON_AUTUMN)
 						GLOB.forecast = PARTICLEWEATHER_LEAVES
 					else
 						GLOB.forecast = null

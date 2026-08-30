@@ -101,13 +101,13 @@
 /proc/get_season_from_month(month_number)
 	switch(CEILING(month_number, 3) / 3)
 		if(1)
-			return "Spring"
+			return SEASON_SPRING
 		if(2)
-			return "Summer"
+			return SEASON_SUMMER
 		if(3)
-			return "Autumn"
+			return SEASON_AUTUMN
 		if(4)
-			return "Winter"
+			return SEASON_WINTER
 	return "Unknown"
 
 /* Returns Early/Mid/Late based on position within the season
@@ -116,11 +116,11 @@
 /proc/get_season_phase(month_number)
 	switch(MODULUS(month_number - 1, 3) + 1)
 		if(1)
-			return "Early"
+			return SEASON_PHASE_EARLY
 		if(2)
-			return "Mid"
+			return SEASON_PHASE_MID
 		if(3)
-			return "Late"
+			return SEASON_PHASE_LATE
 	return ""
 
 /// Returns the current in-character month number (1-12).
