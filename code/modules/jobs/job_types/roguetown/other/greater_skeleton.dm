@@ -357,7 +357,7 @@ NECRO SKELETONS
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC) //sidegrade here
 	H.STASTR = 10
 	H.STASPD = 10
-	H.STACON = 6 //Light armor, slightly stronger than lich sapper due to being far-less disposable
+	H.STACON = 5 //Non-Combat Role, low con.
 	H.STAWIL = 10
 	H.STAINT = 6
 	H.STAPER = 8
