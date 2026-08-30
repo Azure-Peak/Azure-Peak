@@ -214,7 +214,8 @@ NECRO SKELETONS
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			beltl = /obj/item/quiver/arrows
 		if("Sling")
-			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+			backr = /obj/item/rogueweapon/shield/wood
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/iron
 		if("Crossbow")
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron //NPC-grade crossbow
