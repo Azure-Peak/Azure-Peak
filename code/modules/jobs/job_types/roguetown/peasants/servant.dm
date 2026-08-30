@@ -29,8 +29,13 @@
 	)
 
 /datum/advclass/servant
-	traits_applied = list(TRAIT_CICERONE, TRAIT_ROYALSERVANT)
+	traits_applied = list(TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_ROYALSERVANT)
 	age_mod = /datum/class_age_mod/servant
+	subclass_stashed_items = list(
+			"Bag of Food"	= /obj/item/storage/roguebag/food,
+			"Trusty Hoe"	= /obj/item/rogueweapon/hoe,
+			"Needle"		= /obj/item/needle,
+		)
 
 /datum/advclass/servant/servant
 	name = "Servant"
@@ -54,6 +59,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/servant/servant/pre_equip(mob/living/carbon/human/H)
@@ -92,6 +100,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/servant/maid/pre_equip(mob/living/carbon/human/H)
@@ -129,6 +140,9 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/servant/butler/pre_equip(mob/living/carbon/human/H)
