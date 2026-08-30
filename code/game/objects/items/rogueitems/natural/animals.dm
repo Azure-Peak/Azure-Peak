@@ -11,6 +11,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sellprice = 8
 	dropshrink = 0.9
+	materia = list(/datum/materia_aspect/animal)
 
 /obj/item/natural/hide/get_mechanics_examine(mob/user)
 	. = ..()
