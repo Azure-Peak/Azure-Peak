@@ -112,6 +112,10 @@ NECRO SKELETONS
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
 
+	backpack_contents = list(
+		/obj/item/natural/feather = 1, //For your helm
+	)
+
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
@@ -189,6 +193,10 @@ NECRO SKELETONS
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/huntingknife/idagger
 
+	backpack_contents = list(
+		/obj/item/natural/cloth = 1 //for your helm
+	)
+
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
@@ -254,6 +262,10 @@ NECRO SKELETONS
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+
+	backpack_contents = list(
+		/obj/item/natural/feather = 1, //For your helm
+	)
 
 	var/helmets = list(
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,

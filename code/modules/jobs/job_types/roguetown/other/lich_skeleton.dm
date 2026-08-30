@@ -956,7 +956,7 @@ LICH SKELETONS
 
 /obj/item/clothing/head/roguetown/articap/lich
 	name = "decrepit sapper cap"
-	desc = "A cap of roughspun fabrics and leather from beyond your lyfetime, donned by those who are condemned to restless toil."
+	desc = "A cap of decrepit leather from beyond your lyfetime, donned by those who are condemned forever to restless toil. </br>It holds an eerie resemblence to those worn by artificers of this dae and yill."
 	color = "#d6bbbb"
 
 //Do not make this craftable, please. Role Specific. ^
