@@ -742,7 +742,7 @@
 	verbage = "engineers"
 	skillcraft = /datum/skill/craft/engineering
 	tools = list(/obj/item/rogueweapon/huntingknife = 1)
-	craftdiff = 4
+	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/engineering/stickshaft
 	name = "wooden shaft"
@@ -754,7 +754,7 @@
 	verbage = "engineers"
 	skillcraft = /datum/skill/craft/engineering
 	tools = list(/obj/item/rogueweapon/huntingknife = 1)
-	craftdiff = 4
+	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/engineering/cog
 	name = "wooden cogwheel(6x)"
