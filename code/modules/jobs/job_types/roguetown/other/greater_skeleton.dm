@@ -250,14 +250,12 @@ NECRO SKELETONS
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron/chain
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather/black
+	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 
 	var/helmets = list(
-		"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron,
-		"Snouted Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/snouted,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,
 		"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
 		"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
@@ -352,6 +350,7 @@ NECRO SKELETONS
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black
