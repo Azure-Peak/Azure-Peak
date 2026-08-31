@@ -108,7 +108,7 @@
 	result = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/warden
 	reqs = list(
 		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow = 1,
-		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden = 1,
+		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden = 1,
 	)
 	verbage_simple = "re-string"
 	verbage = "re-strings"
@@ -464,7 +464,7 @@
 	verbage_simple = "twist"
 	verbage = "twists"
 	craftdiff = 1 //you should make some ammo first!
-	
+
 /datum/crafting_recipe/roguetown/survival/slingpouchcraft
 	name = "sling bullet pouch"
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -490,7 +490,7 @@
 	verbage_simple = "smooth"
 	verbage = "smooths"
 	craftdiff = 0
-	
+
 /datum/crafting_recipe/roguetown/survival/stonebullets10x
 	name = "sling bullets - stone (x10)"
 	display_category = ITEM_CAT_WEAPONS_AMMO

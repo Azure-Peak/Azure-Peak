@@ -1,0 +1,4 @@
+author: "zeroisthebiggay"
+delete-after: True
+changes:
+  - bugfix: "selecting the size of your character's balls now actually has a change to their sprite's size"

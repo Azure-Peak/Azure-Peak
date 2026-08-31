@@ -13,3 +13,11 @@ GLOBAL_LIST_EMPTY(preference_faiths)
 	var/datum/patron/godhead = /datum/patron
 	/// Whether or not this faith can be accessed in preferences
 	var/preference_accessible = TRUE
+
+/datum/faith/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		"desc" = desc,
+		"worshippers" = worshippers,
+		"godhead" = godhead,
+	)

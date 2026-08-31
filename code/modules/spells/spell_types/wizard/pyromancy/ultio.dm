@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/ultio
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Ultio"
+	expose_caster_on_deflect = FALSE
 	desc = "The caster snaps their finger or hand. The air in a nearby spot excites and shakes with magickal, pyromantic power, spontaneously creating a scorching flame directed at their target, scorching all within.\n\
 	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	fluff_desc = "The spell of Ultio were independently reinvented or refined by three traditions, differing largely in the gesture used to cast the spell - \
@@ -87,7 +88,8 @@
 			L.visible_message(span_warning("[L] shrugs off the flames!"))
 			continue
 		if(istype(caster) && ishuman(L))
-			arcyne_strike(caster, L, null, strike_damage, def_zone, BCLASS_BURN, spell_name = "Ultio", damage_type = BURN, skip_animation = TRUE)
+			if(arcyne_strike(caster, L, null, strike_damage, def_zone, BCLASS_BURN, spell_name = "Ultio", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				continue
 		else
 			L.adjustFireLoss(strike_damage)
 		apply_scorch_stack(L, scorch_stacks, def_zone)

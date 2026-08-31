@@ -740,6 +740,12 @@
 /mob/living/restrained(ignore_grab)
 	return ..() || istype(loc, /obj/item/mob_item)
 
+/mob/living/proc/is_carried()
+	return ismob(buckled) && buckled.buckle_lying > 0
+
+/mob/living/proc/is_legbound()
+	return FALSE
+
 /mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = TRUE, check_immobilized = FALSE, ignore_stasis = FALSE)
 	if(stat || IsUnconscious() || IsStun() || IsParalyzed() || (!ignore_restraints && restrained(ignore_grab)))
 		return TRUE
@@ -1319,6 +1325,25 @@
 	var/combat_modifier = 1
 	var/agg_grab = FALSE
 
+	if(HAS_TRAIT(L, TRAIT_PACIFISM) && !restrained())
+		// Pacifist grips cannot restrain anyone by themselves, unless the target is already restrained of course.
+		// Always break free; skip all resistance calculations.
+		if(L.cmode)
+			visible_message(span_warning("[src] roughly breaks free, slamming [L] down!"), \
+				span_warning("I roughly break free, slamming [L] down!"), null, null, L)
+			log_combat(src, L, "broke pacifist grab & combat punished")
+			playsound(src.loc, 'sound/combat/tf2crit.ogg', 50, TRUE, -1) // free dopamine shot for ruining a grappler pacifist's day
+			L.Knockdown(20)
+		else
+			visible_message(span_warning("[src] easily slips free from [L]'s careful grip!"), \
+				span_warning("I easily slip free from [L]'s careful grip!"), null, null, L)
+			log_combat(src, L, "broke pacifist grab")
+
+		L.changeNext_move(CLICK_CD_GRABBING)
+		playsound(src.loc, 'sound/combat/grabbreak.ogg', 50, TRUE, -1)
+		L.stop_pulling()
+		return TRUE
+
 	if(mind)
 		wrestling_diff += (get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
 	if(L.mind)
@@ -1353,6 +1378,10 @@
 		resist_chance += (STACON - L.STASPD) * 5
 	else
 		resist_chance += (STACON - (agg_grab ? L.STASTR : L.STAWIL)) * 5
+
+	if(HAS_TRAIT(src, TRAIT_PACIFISM)) // pacifists can't bait nor feint anymore, so this is necessary to make them not total pushovers
+		resist_chance = max(resist_chance, 25) // 25% base chance to slip free from grapples, number can be jakked freely based on how it feels
+
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 
@@ -2241,12 +2270,12 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 		return
 	if(!can_look_up())
 		return
-	changeNext_move(HAS_TRAIT(src, TRAIT_SLEUTH) ? CLICK_CD_SLEUTH : CLICK_CD_TRACKING)
+	changeNext_move(HAS_TRAIT(src, TRAIT_PERFECT_TRACKER) ? CLICK_CD_SLEUTH : CLICK_CD_TRACKING)
 	if(m_intent != MOVE_INTENT_SNEAK)
 		visible_message(span_info("[src] begins looking around."))
 	var/looktime = 50 - (STAPER * 2) - (get_skill_level(/datum/skill/misc/tracking) * 5)
 	looktime = clamp(looktime, 7, 50)
-	if(HAS_TRAIT(src, TRAIT_SLEUTH) ? move_after(src, looktime, target = src) : do_after(src, looktime, target = src))
+	if(HAS_TRAIT(src, TRAIT_PERFECT_TRACKER) ? move_after(src, looktime, target = src) : do_after(src, looktime, target = src))
 		for(var/mob/living/M in view(7,src))
 			var/marked = FALSE
 			if(M == src)
@@ -2285,7 +2314,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 			if(marked)
 				if(ishuman(src))
 					var/mob/living/carbon/human/H = src
-					if(H.current_mark == M && HAS_TRAIT(H, TRAIT_SLEUTH))
+					if(H.current_mark == M && HAS_TRAIT(H, TRAIT_PERFECT_TRACKER))
 						found_ping(get_turf(M), client, "trap")
 					else
 						found_ping(get_turf(M), client, "hidden")
@@ -2359,17 +2388,17 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 			to_chat(src, span_notice("You spot a faint trail [dist_text] to the [dir_text]."))
 
 		var/trackskill = get_skill_level(/datum/skill/misc/tracking)
-		var/has_sleuth = HAS_TRAIT(src, TRAIT_SLEUTH)
+		var/has_tracking_perk = HAS_TRAIT(src, TRAIT_PERFECT_TRACKER)
 
-		if(trackskill >= SKILL_LEVEL_EXPERT || has_sleuth)
-			var/search_range = has_sleuth ? 7 : (trackskill + 1) // Up to 7 (full screen) w/ Legendary
+		if(trackskill >= SKILL_LEVEL_EXPERT || has_tracking_perk)
+			var/search_range = has_tracking_perk ? 7 : (trackskill + 1) // Up to 7 (full screen) w/ Legendary
 			var/turf_origin = get_turf(src)
 			var/turf_up_one	= get_step_multiz(turf_origin, UP)
 			var/turf_up_two
-			if(turf_up_one && (trackskill >= SKILL_LEVEL_MASTER || has_sleuth))
+			if(turf_up_one && (trackskill >= SKILL_LEVEL_MASTER || has_tracking_perk))
 				turf_up_two = get_step_multiz(turf_up_one, UP)
 			var/turf_up_three
-			if(turf_up_two && (trackskill >= SKILL_LEVEL_LEGENDARY || has_sleuth))
+			if(turf_up_two && (trackskill >= SKILL_LEVEL_LEGENDARY || has_tracking_perk))
 				turf_up_three = get_step_multiz(turf_up_two, UP)	// We physically cannot go higher on dun world, so we don't. This is very niche already.
 
 			var/list/z_highlights
@@ -2382,7 +2411,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_one)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_one, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_sleuth)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_ONE]"
@@ -2392,7 +2421,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_two)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_two, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_sleuth)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_TWO]"
@@ -2402,7 +2431,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_three)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_three, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_sleuth)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_THREE]"
@@ -2767,12 +2796,14 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 /// Marks a freshly-spawned mob as belonging to a contract/quest: strips its head bounty so it
 /// can't be farmed at a HEADEATER, and arranges for the corpse to dust shortly after death.
-/mob/living/proc/mark_contract_spawned()
+/mob/living/proc/mark_contract_spawned(dust_corpse = TRUE)
 	no_head_bounty = TRUE
 	contract_spawned = TRUE
-	RegisterSignal(src, COMSIG_LIVING_DEATH, PROC_REF(on_contract_death))
+	ADD_TRAIT(src, TRAIT_ZOMBIE_IMMUNE, CONTRACT_SPAWN_TRAIT)
+	if(dust_corpse)
+		RegisterSignal(src, COMSIG_LIVING_DEATH, PROC_REF(on_contract_death))
 
-/mob/living/carbon/mark_contract_spawned()
+/mob/living/carbon/mark_contract_spawned(dust_corpse = TRUE)
 	. = ..()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	if(istype(head))

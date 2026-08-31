@@ -1,0 +1,10 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added bogman hoods"
+  - balance: "deserter knight has recieved fullplate/half plate armor choices in exchange for their prior weaker armor picks being chopped."
+  - balance: "deserter has lost saddleborn + riding skill in exchange for trait_bogwalker"
+  - balance: "deserter has been redone as a class, as more of a remnant of the bog garrison defectors. You're not allied with bandits sire, but the bogs welcome you all the same. Separating it finally from just MAA but evil."
+  - balance: "deserter knight gets more greatweapon picks."
+  - balance: "deserter iron warhammer -> steel warhammer"
+  - refactor: "removes unused ordering code for ordering disgraced MAAs from deserter knights."

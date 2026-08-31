@@ -132,10 +132,12 @@
 		return TRUE
 
 	var/hit_count = 0
+	var/deflected = FALSE
 	for(var/mob/living/victim in jab_turf)
 		if(victim == H || victim.stat == DEAD)
 			continue
-		if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
+		if(spell_guard_check(victim, FALSE, H, punish_caster = deflected ? FALSE : null))
+			deflected = TRUE
 			continue
 		arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!")
 		hit_count++
@@ -146,7 +148,8 @@
 		for(var/mob/living/victim in landing)
 			if(victim == H || victim.stat == DEAD)
 				continue
-			if(spell_guard_check(victim, FALSE, hit_count == 0 ? H : null))
+			if(spell_guard_check(victim, FALSE, H, punish_caster = deflected ? FALSE : null))
+				deflected = TRUE
 				continue
 			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!")
 			hit_count++

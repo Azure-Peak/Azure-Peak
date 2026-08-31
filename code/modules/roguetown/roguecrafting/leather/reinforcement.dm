@@ -1,6 +1,7 @@
 /datum/crafting_recipe/roguetown/leather/reinforcement
 	abstract_type = /datum/crafting_recipe/roguetown/leather/reinforcement
 	category = "Reinforcement"
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/leather/reinforcement/crafteast
 	name = "decorated dobo robe"
@@ -12,10 +13,9 @@
 		/obj/item/clothing/suit/roguetown/armor/basiceast = 1,
 		)
 	tools = list(/obj/item/needle)
-	craftdiff = 3
+
 
 /datum/crafting_recipe/roguetown/leather/reinforcement/studded
-	craftdiff = 4
 	tools = list(/obj/item/needle, /obj/item/rogueweapon/hammer)
 
 /datum/crafting_recipe/roguetown/leather/reinforcement/studded/hood
@@ -56,6 +56,7 @@
 
 /datum/crafting_recipe/roguetown/leather/reinforcement/studded/forester
 	name = "forester's brigandine"
+	craftdiff = 4
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/warden/upgraded)
 	reqs = list(
 		/obj/item/clothing/suit/roguetown/armor/leather/studded/warden = 1,

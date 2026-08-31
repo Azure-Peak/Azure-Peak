@@ -699,19 +699,9 @@
 				if(HAS_TRAIT(src, TRAIT_DEATHLESS) && !mind?.has_antag_datum(/datum/antagonist/vampire))
 					. += span_warning("<i>[m1] absent of lyfe. [t_He] will linger even without blood.</i>")
 				if(HAS_TRAIT(user, TRAIT_COMBAT_AWARE))
-					var/userheld = user.get_active_held_item()
-					var/srcheld = get_active_held_item()
-					var/datum/skill/user_skill = /datum/skill/combat/unarmed	//default
-					var/datum/skill/src_skill = /datum/skill/combat/unarmed
-					if(userheld)
-						var/obj/item/I = userheld
-						if(I.associated_skill)
-							user_skill = I.associated_skill
-					if(srcheld)
-						var/obj/item/I = srcheld
-						if(I.associated_skill)
-							src_skill = I.associated_skill
-					var/skilldiff = user.get_skill_level(user_skill) - get_skill_level(src_skill)
+					var/obj/item/userheld = user.get_active_held_item()
+					var/obj/item/srcheld = get_active_held_item()
+					var/skilldiff = round(user.get_wskill(userheld, /datum/skill/combat/unarmed) - get_wskill(srcheld, /datum/skill/combat/unarmed), 1)
 					if(!skilldiff)
 						. += "<font size = 3><i>[skilldiff_report(skilldiff)] in our wielded skills.</i></font>"
 					else
@@ -790,7 +780,7 @@
 				display_as_wanderer = TRUE
 		else if(job)
 			var/datum/job/J = SSjob.GetJob(job)
-			if(!J || J.wanderer_examine)
+			if(!J || (J.wanderer_examine && !(HAS_TRAIT(src, TRAIT_RESIDENT))))
 				display_as_wanderer = TRUE
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)
@@ -1139,7 +1129,7 @@
 		. += "<a href='?src=[REF(src)];task=view_headshot;'>Examine closer</a> [showassess ? " | <a href='?src=[REF(src)];task=assess;'>Assess</a>" : ""]"
 
 	/// Rumours & Gossip
-	if(length(rumour) || length(noble_gossip))
+	if(length(rumour_cached) || length(noble_gossip_cached))
 		if(!obscure_name || (obscure_name && client?.prefs.masked_examine) || observer_privilege)
 			. += "<a href='?src=[REF(src)];task=view_rumours_gossip;'>Recall Rumours & Gossip</a>"
 

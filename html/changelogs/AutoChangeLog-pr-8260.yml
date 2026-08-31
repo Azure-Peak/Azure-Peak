@@ -1,0 +1,6 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "TRAIT_PACIFISM now properly gates a few missing offensive/battle-contributing actions, mainly from grappling."
+  - balance: "TRAIT_PACIFISM blocks Feint and Bait actions, but reduces Riposte CD by 50%."
+  - bugfix: "Taunting now actually draws aggro from carbons."

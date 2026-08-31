@@ -72,39 +72,50 @@
 	for(var/quest_type in subtypesof(/datum/vision_quest))
 		GLOB.all_vision_quests += new quest_type()
 
-/obj/structure/roguemachine/ritual_rune/attackby(obj/item/I, mob/user, params)
-	if(!istype(I, /obj/item/dream_material))
-		return ..()
-
+/obj/structure/roguemachine/ritual_rune/proc/can_use_rune(mob/user)
 	if(!linked_pool)
 		attempt_pool_link()
 
 	if(!linked_pool || linked_pool.linked_door?.gate_closed)
 		to_chat(user, span_warning("The dream pool gate must be open to receive visions."))
-		return
+		return FALSE
 
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(!(H.patron?.type == /datum/patron/divine/abyssor) && !HAS_TRAIT(H, TRAIT_INK_AFFINITY))
 			to_chat(user, span_warning("You must have some connection to Abyssor or His paints to call forth visions."))
-			return
+			return FALSE
 
-	var/tier = 0
+	return TRUE
+
+/obj/structure/roguemachine/ritual_rune/proc/get_parchment_tier(obj/item/I)
 	if(istype(I, /obj/item/dream_material/parchment_silver))
-		tier = 1
-	else if(istype(I, /obj/item/dream_material/parchment_gold))
-		tier = 2
-	else if(istype(I, /obj/item/dream_material/parchment_dream))
-		tier = 3
-	else
-		to_chat(user, span_warning("The rune doesn't recognize this material."))
-		return
+		return 1
+	if(istype(I, /obj/item/dream_material/parchment_gold))
+		return 2
+	if(istype(I, /obj/item/dream_material/parchment_dream))
+		return 3
+	return 0
 
-	if(tier <= 0)
-		to_chat(user, span_warning("This parchment doesn't seem powerful enough."))
-		return
+/obj/structure/roguemachine/ritual_rune/proc/try_activate_rune(mob/user, obj/item/I)
+	if(!can_use_rune(user))
+		return FALSE
+
+	var/tier = get_parchment_tier(I)
+	if(!tier)
+		to_chat(user, span_warning("The rune doesn't recognize this material."))
+		return FALSE
 
 	attempt_vision_quest(user, tier, I)
+	return TRUE
+
+/obj/structure/roguemachine/ritual_rune/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/dream_material))
+		var/obj/item/dream_material/D = I
+		if(D.is_parchment)
+			try_activate_rune(user, D)
+			return TRUE
+	return ..()
 
 /obj/structure/roguemachine/ritual_rune/proc/attempt_vision_quest(mob/living/carbon/human/user, tier, obj/item/used_parchment)
 	populate_vision_quests()
@@ -146,7 +157,13 @@
 				continue
 
 			Q.required_phrase = pick(Q.possible_phrases)
-			var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
+			var/chosen_bonus_path
+			var/list/bonus_keys = list()
+			for(var/key in Q.possible_bonus_rewards)
+				bonus_keys += key
+
+			if(length(bonus_keys))
+				chosen_bonus_path = pick(bonus_keys)
 
 			tier_choices.Add(list(list(
 				"quest" = Q,
@@ -199,15 +216,15 @@
 
 	// DEBUG ONLY
 	// for(var/mob/living/carbon/human/H in GLOB.human_list)
-	//	if(H == seeker || H.stat == DEAD)
-	//		continue
-	//	if(!H.mind || !H.mind.assigned_role)
-	//		continue
-	//	if(Q.is_valid_target(H, seeker))
-	//		valid_targets += H
+	// 	if(H == seeker || H.stat == DEAD)
+	// 		continue
+	// 	if(!H.mind || !H.mind.assigned_role)
+	// 		continue
+	// 	if(Q.is_valid_target(H, seeker))
+	// 		valid_targets += H
 
 	// if(length(valid_targets))
-	//	return pick(valid_targets)
+	// 	return pick(valid_targets)
 
 	return null
 

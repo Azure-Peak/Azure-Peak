@@ -1,0 +1,6 @@
+author: "twinklover22"
+delete-after: True
+changes:
+  - balance: "Estoc given +3 force and had the rigid intent removed from it's swing."
+  - balance: "Poleaxe given an improved mace and stab intent + a weapon special."
+  - balance: "Shalal Sabre Given better cut intents."

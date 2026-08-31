@@ -1,0 +1,4 @@
+author: "Fi"
+delete-after: True
+changes:
+  - bugfix: "Fixed the Fancy Tinted Spectacles not being visible when worn and removes the unnecessary toggle from both it and its non-tinted variant."

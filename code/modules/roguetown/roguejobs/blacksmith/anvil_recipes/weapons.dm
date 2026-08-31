@@ -486,10 +486,17 @@
 	created_item = /obj/item/rogueweapon/sword/iron
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/bronze/battlemace/iron
+	name = "Warclub, Iron (+1 Iron)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron)
+	created_item = /obj/item/rogueweapon/mace/warhammer/bronze/iron
+	display_category = ITEM_CAT_WEAPONS_MACES
+
 /datum/anvil_recipe/weapons/iron/sabre
 	name = "Sabre, Iron"
 	req_bar = /obj/item/ingot/iron
-	created_item = /obj/item/rogueweapon/sword/saber/iron
+	created_item = /obj/item/rogueweapon/sword/sabre/iron
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/iron/swordshort
@@ -728,6 +735,13 @@
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	createditem_num = 1
 
+/datum/anvil_recipe/weapons/bronze/battlemace/steel
+	name = "Warclub, Steel (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/rogueweapon/mace/warhammer/bronze/steel
+	display_category = ITEM_CAT_WEAPONS_MACES
+
 /datum/anvil_recipe/weapons/steel/dagger_trainer
 	name = "Dagger Trainer, Steel"
 	req_bar = /obj/item/ingot/steel
@@ -815,7 +829,7 @@
 	created_item = /obj/item/rogueweapon/sword
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
-/datum/anvil_recipe/weapons/steel/saber
+/datum/anvil_recipe/weapons/steel/sabre
 	name = "Sabre, Steel"
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/rogueweapon/sword/sabre
@@ -1083,7 +1097,7 @@
 	created_item = /obj/item/rogueweapon/sword/decorated
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
-/datum/anvil_recipe/weapons/decorated/saber
+/datum/anvil_recipe/weapons/decorated/sabre
 	name = "Sabre, Decorated (+1 Steel Sabre)"
 	req_bar = /obj/item/ingot/gold
 	additional_items = list(/obj/item/rogueweapon/sword/sabre)
@@ -1146,7 +1160,7 @@
 	created_item = /obj/item/rogueweapon/mace/steel/silver/decorated
 	display_category = ITEM_CAT_WEAPONS_MACES
 
-/datum/anvil_recipe/weapons/decorated/elfsaber
+/datum/anvil_recipe/weapons/decorated/elfsabre
 	name = "Elegant Sabre, Elvish (+3 Silver)"
 	req_bar = /obj/item/ingot/gold
 	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/silver, /obj/item/ingot/silver)
@@ -1185,6 +1199,13 @@
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/silver
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
+
+/datum/anvil_recipe/weapons/bronze/battlemace/silver
+	name = "Warclub, Silver (+1 Silver)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/ingot/silver)
+	created_item = /obj/item/rogueweapon/mace/warhammer/bronze/silver
+	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/silver/huntingknife
 	name = "Hunting Knife, Silver"

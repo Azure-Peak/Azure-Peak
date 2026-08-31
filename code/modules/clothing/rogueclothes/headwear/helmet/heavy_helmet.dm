@@ -62,7 +62,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	name = "decrepit barbute"
-	desc = "Frayed bronze plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of \
+	desc = "Rotted metal plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of \
 	neglect. The remains of a plume's stub hang atop its rim."
 	body_parts_covered = COVERAGE_HEAD
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
@@ -179,6 +179,16 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 	block2add = FOV_BEHIND
 
+/obj/item/clothing/head/roguetown/helmet/heavy/burgonet
+	name = "snouted burgonet"
+	desc = "A burgonet, though this one's not in blacksteel - the visor far more suited for snouts."
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
+	icon_state = "burgonet_s"
+	item_state = "burgonet_s"
+	emote_environment = 3
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	block2add = FOV_BEHIND
+
 /obj/item/clothing/head/roguetown/helmet/heavy/kabuto
 	name = "kabuto"
 	desc = "A Kazengunite helmet of steel plates, gilded in blacksteel and gold trim alike to evoke feelings of nobility and strength. Commonly worn with a mask or mouthguard."
@@ -232,7 +242,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
 	name = "decrepit savoyard"
-	desc = "Frayed bronze plates, molded into a ventilated casket. It reeks of fetid shit, and each breath - labored and strained - is laced with flaked metal."
+	desc = "Rotted metal plates, molded into a ventilated casket. It reeks of fetid shit, and each breath - labored and strained - is laced with flaked metal."
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
 	icon_state = "ancientsavoyard"
 	color = "#bb9696"
@@ -338,7 +348,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
 	name = "decrepit bascinet"
-	desc = "A chipped greathelm of frayed bronze. The fittings squeal with nauseous annoyance, whenever you move to lift its half-rusted visor up \
+	desc = "A chipped greathelm of rotted metal. The fittings squeal with nauseous annoyance, whenever you move to lift its half-rusted visor up \
 	and down. Add a feather to show the colors of your family or allegiance."
 	icon_state = "ancientknight"
 	item_state = "ancientknight"
@@ -755,6 +765,13 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+
+/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/cleric
+	name = "astrata plumed helmet"
+	desc = "Topped with a magnificent plume, this helmet turns the wearer into a walking beacon of Astrata's wrath. Designed to cut a striking silhouette, it strikes terror into the hearts of nonbelievers from afar."
+	icon_state = "astrataclerichelm"
+	item_state = "astrataclerichelm"
+
 /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute
 	name = "psydonic barbute"
 	desc = "A ceremonial barbute, masterfully forged to represent Psydon's divine authority. The Order of Saint Malum's artisans \
@@ -1087,6 +1104,12 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/heavy/necrahelm/cleric
+	name = "necra skullhelm"
+	desc = "A skull-visaged helm shrouded in a dark hood. The wearer becomes an anonymous herald of Necra, presenting only the face of death to those foolish enough to stand against them."
+	icon_state = "necraclerichelm"
+	item_state = "necraclerichelm"
+
 /obj/item/clothing/head/roguetown/helmet/heavy/dendorhelm
 	name = "dendor helmet"
 	desc = "Headwear commonly worn by Templars in service to Dendor. Its protrusions almost resemble branches. Take root in the earth, and you will never be moved."
@@ -1111,7 +1134,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
 	name = "justice eagle"
-	desc = "Forged in reverence to Ravox, this helm bears the stylized visage of an eagle, symbol of unyielding judgment and \
+	desc = "Forged in reverence to Ravox, this helm bears the stylized visage of an eagle, symbol of unyielding judgement and \
 	divine vigilance. Its hollow eyes see not just foes, but the truth behind every deed."
 	icon_state = "ravoxhelmet"
 	item_state = "ravoxhelmet"
@@ -1133,6 +1156,12 @@
 		if(loc == user && ishuman(user))
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/cleric
+	name = "ravox helmet"
+	desc = "Adorned with powerful ox horns and a seamless blindfold, this helm embodies the steadfast resolve of Ravox. It shuts out the physical world so that judgment may be delivered without bias or hesitation."
+	icon_state = "ravoxclerichelmet"
+	item_state = "ravoxclerichelmet"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 	name = "heavy volfskulle bascinet"

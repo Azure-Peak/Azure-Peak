@@ -1,0 +1,9 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Removed the blockade timer of 30 minutes before you start it."
+  - rscadd: "Increased wave timer to 15 minutes. Warning is now given at 7.5, 5 and 2.5 minute mark instead."
+  - rscadd: "Banditry Losses are now stored in a region as a \"Banditry Hoard\""
+  - rscadd: "Clearing a Blockade from that region will now recover said hoard. This hoard is taxed as a Spoils tax (Default 50%) on contract completion."
+  - rscadd: "If Hoard reaches 200m or more, a Fellowship of 3 or more people can initiate a writ by pledging a 200m deposit without Steward intervention, to create optional Blockade content. You also get Blockade rewards on top of that."
+  - rscadd: "Warden Scout Reports added to the Ledger"

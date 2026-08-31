@@ -70,28 +70,30 @@ export class Changelog extends Component {
   getData = (date, attemptNumber = 1) => {
     const { act } = useBackend();
     const self = this;
-    const maxAttempts = 6;
+    const maxAttempts = 10;
 
     if (attemptNumber > maxAttempts) {
       return this.setData(`Failed to load data after ${maxAttempts} attempts`);
     }
 
-    act('get_month', { date });
+    if (attemptNumber === 1) {
+      act('get_month', { date });
+    }
 
-    fetch(resolveAsset(`${date}.yml`)).then(async (changelogData) => {
-      const result = await changelogData.text();
-      const errorRegex = /^Cannot find/;
+    const assetKey = `${date}.yml`;
+    const assetUrl = resolveAsset(assetKey);
 
-      if (errorRegex.test(result)) {
-        const timeout = 50 + attemptNumber * 50;
+    // resolveAsset returns the bare key until the server's send_asset response
+    // populates loadedMappings. Retry until the mapping is ready rather than
+    // fetching a broken URL and parsing the error body.
+    if (assetUrl === assetKey) {
+      self.setData(`Loading changelog data${'.'.repeat(Math.min(attemptNumber + 3, 10))}`);
+      setTimeout(() => self.getData(date, attemptNumber + 1), 50 * attemptNumber);
+      return;
+    }
 
-        self.setData(`Loading changelog data${'.'.repeat(attemptNumber + 3)}`);
-        setTimeout(() => {
-          self.getData(date, attemptNumber + 1);
-        }, timeout);
-      } else {
-        self.setData(load(result, { schema: CORE_SCHEMA }));
-      }
+    fetch(assetUrl).then(async (response) => {
+      self.setData(load(await response.text(), { schema: CORE_SCHEMA }));
     });
   };
 

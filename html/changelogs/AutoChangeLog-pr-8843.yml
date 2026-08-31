@@ -1,0 +1,6 @@
+author: "kilozombie"
+delete-after: True
+changes:
+  - rscadd: "Wretches now start with 50 mammon"
+  - rscadd: "Unbound Ancient wretches now start with more psila"
+  - rscdel: "Removed random money in the wretchbase"

@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/grenzel_meteor
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
 	name = "Meteor Strike"
+	expose_caster_on_deflect = FALSE
 	desc = "Call down a single massive meteor on a location after a short delay. It obliterates structures across a 5x5 area and caves in the skull of anyone caught beneath it."
 	button_icon_state = "meteor_strike"
 	sound = 'sound/magic/meteorstorm.ogg'
@@ -79,7 +80,8 @@
 				L.visible_message(span_warning("[L] endures the meteor strike!"))
 				continue
 			if(istype(caster) && ishuman(L))
-				arcyne_strike(caster, L, null, head_damage, BODY_ZONE_HEAD, BCLASS_BLUNT, spell_name = "Meteor Strike", damage_type = BRUTE, skip_animation = TRUE, exact_zone = TRUE)
+				if(arcyne_strike(caster, L, null, head_damage, BODY_ZONE_HEAD, BCLASS_BLUNT, spell_name = "Meteor Strike", damage_type = BRUTE, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustBruteLoss(head_damage)
 			L.Knockdown(3)

@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Added Socialite Virtue."
+  - rscdel: "Removed Stash and Beauty options from Well-Off virtue."
+  - balance: "Added a new Well-Off option -- Shrewd Lyfestyle."

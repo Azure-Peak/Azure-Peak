@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - bugfix: "changelog now appears consistently on linux"

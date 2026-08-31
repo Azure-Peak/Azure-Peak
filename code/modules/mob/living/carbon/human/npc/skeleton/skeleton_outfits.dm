@@ -40,8 +40,10 @@
 		/datum/outfit/job/roguetown/skeleton/npc/archer,
 	)
 
+// For underdark lich-miniboss + contracts - Cannot tame + different Spread
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
 	faction = list(FACTION_LICH)
+	skel_untamable = TRUE //No taming this group w/ tame undead
 	skel_outfit_spread = list(
 		/datum/outfit/job/roguetown/skeleton/npc/supereasy,
 		/datum/outfit/job/roguetown/skeleton/npc/easy,
@@ -49,7 +51,8 @@
 		/datum/outfit/job/roguetown/skeleton/npc/hard,
 	)
 
-// for Lich Dungeon
+// for Lich Dungeon, albeit I think not entirely exclusive, so we don't add untamable
+//They're not re-factionised either unlike the above, sire.
 /mob/living/carbon/human/species/skeleton/npc/hardspread
 	threat_point = THREAT_TOUGH
 	skel_outfit_spread = list(
@@ -448,4 +451,3 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
-

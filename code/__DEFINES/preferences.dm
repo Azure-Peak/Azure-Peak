@@ -12,16 +12,9 @@
 #define SOUND_MIDI				(1<<1)
 #define SOUND_AMBIENCE			(1<<2)
 #define SOUND_LOBBY				(1<<3)
-#define MEMBER_PUBLIC			(1<<4)
-#define INTENT_STYLE			(1<<5)
-#define MIDROUND_ANTAG			(1<<6)
 #define SOUND_INSTRUMENTS		(1<<7)
-#define SOUND_SHIP_AMBIENCE		(1<<8)
 #define SOUND_PRAYERS			(1<<9)
 #define ANNOUNCE_LOGIN			(1<<10)
-#define SOUND_ANNOUNCEMENTS		(1<<11)
-#define DISABLE_DEATHRATTLE		(1<<12)
-#define DISABLE_ARRIVALRATTLE	(1<<13)
 #define COMBOHUD_LIGHTING		(1<<14)
 
 #define DEADMIN_ALWAYS			(1<<15)
@@ -31,7 +24,7 @@
 #define TOGGLE_FULLSCREEN		(1<<20)
 #define SCHIZO_VOICE			(1<<21)
 
-#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|MEMBER_PUBLIC|INTENT_STYLE|MIDROUND_ANTAG|SOUND_INSTRUMENTS|SOUND_SHIP_AMBIENCE|SOUND_PRAYERS|SOUND_ANNOUNCEMENTS|TOGGLE_FULLSCREEN)
+#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|SOUND_INSTRUMENTS|SOUND_PRAYERS|TOGGLE_FULLSCREEN)
 
 //Combat toggles
 #define FLOATING_TEXT			(1<<0)
@@ -44,24 +37,16 @@
 #define TOGGLE_ANTIGHOST		(1<<0)
 
 //Chat toggles
-#define CHAT_OOC			(1<<0)
-#define CHAT_DEAD			(1<<1)
 #define CHAT_GHOSTEARS		(1<<2)
-#define CHAT_GHOSTSIGHT		(1<<3)
 #define CHAT_PRAYER			(1<<4)
-#define CHAT_RADIO			(1<<5)
-#define CHAT_PULLR			(1<<6)
 #define CHAT_GHOSTWHISPER	(1<<7)
-#define CHAT_GHOSTPDA		(1<<8)
-#define CHAT_GHOSTRADIO	(1<<9)
-#define CHAT_BANKCARD		(1<<10)
 #define CHAT_ADMINLOOC		(1<<11)
 #define CHAT_ADMINSPAWN		(1<<12)
 #define CHAT_DSAY			(1<<13)
 #define CHAT_MOODMESSAGES	(1<<14)
 #define CHAT_ADMIN_SLOOC	(1<<15)
 
-#define TOGGLES_DEFAULT_CHAT (CHAT_OOC|CHAT_DSAY|CHAT_PRAYER|CHAT_RADIO|CHAT_PULLR|CHAT_GHOSTPDA|CHAT_BANKCARD|CHAT_MOODMESSAGES)
+#define TOGGLES_DEFAULT_CHAT (CHAT_DSAY|CHAT_PRAYER|CHAT_MOODMESSAGES)
 #define TOGGLES_DEFAULT_CHAT_ADMIN (CHAT_ADMINSPAWN|CHAT_ADMINLOOC)
 
 #define SEC_DEPT_NONE "None"
@@ -100,25 +85,6 @@
 #define JP_MEDIUM 2
 #define JP_HIGH 3
 
-//randomised elements
-#define RANDOM_NAME "random_name"
-#define RANDOM_NAME_ANTAG "random_name_antag"
-#define RANDOM_BODY "random_body"
-#define RANDOM_BODY_ANTAG "random_body_antag"
-#define RANDOM_SPECIES "random_species"
-#define RANDOM_GENDER "random_gender"
-#define RANDOM_GENDER_ANTAG "random_gender_antag"
-#define RANDOM_AGE "random_age"
-#define RANDOM_AGE_ANTAG "random_age_antag"
-#define RANDOM_UNDERWEAR "random_underwear"
-#define RANDOM_UNDERWEAR_COLOR "random_underwear_color"
-#define RANDOM_UNDERSHIRT "random_undershirt"
-#define RANDOM_SOCKS "random_socks"
-#define RANDOM_BACKPACK "random_backpack"
-#define RANDOM_JUMPSUIT_STYLE "random_jumpsuit_style"
-#define RANDOM_SKIN_TONE "random_skin_tone"
-#define RANDOM_EYE_COLOR "random_eye_color"
-
 //Age ranges
 #define AGE_ADULT			"Adult"
 #define AGE_MIDDLEAGED		"Middle-Aged"
@@ -141,8 +107,12 @@ GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
 #define TITLES_M	"Lord / Ser"
 #define TITLES_F	"Lady / Dame"
 
+GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F)) // INSTRUCTIONS FOR DOWNSTREAM: Edit this or sanitize_character will eat them
+
 #define CLOTHES_M "Masculine"
 #define CLOTHES_F "Feminine"
+
+GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F)) // INSTRUCTIONS FOR DOWNSTREAM: Edit this or sanitize_character will eat them
 
 // Voice types (LETHALSTONE)
 
@@ -206,3 +176,45 @@ GLOBAL_LIST_INIT(attack_blip_pref_list, list(
 	"Rarely" = ATTACK_BLIP_PREF_RARELY,
 	"Never" = ATTACK_BLIP_PREF_NEVER
 ))
+
+// Limits
+#define MAX_NOTE_SIZE 8192
+#define MAX_SONG_TITLE_LENGTH 60
+#define MAX_HISTORY_ENTRIES 20
+
+// We need to diffentiate between data and preview updates to save cycles
+#define CHARACTER_ACT_DATA_UPDATE 1
+#define CHARACTER_ACT_PREVIEW_UPDATE 2
+
+// The different DM-side tabs
+#define PREFERENCE_TAB_CHARACTER_CREATOR 0
+#define PREFERENCE_TAB_GAME_SETTINGS 1
+#define PREFERENCE_TAB_KEYBINDINGS 2
+
+// Different DM-side popups, these must match the keys of registerPopup's second argument
+// These have to be double quoted because of how setSharedState works
+// INSTRUCTIONS FOR DOWNSTREAM: Just use your own defines folder, all of your code that needs these should be in your modular folder anyways
+#define PREFERENCE_POPUP_CHARFLAW "\"charflaw\""
+#define PREFERENCE_POPUP_CHARACTER_SELECT "\"cs\""
+#define PREFERENCE_POPUP_ORIGIN "\"origin\""
+#define PREFERENCE_POPUP_VIRTUE "\"virtue\""
+#define PREFERENCE_POPUP_SPECIES "\"species\""
+#define PREFERENCE_POPUP_CUSTOMIZER_SELECT "\"customizer_select\""
+#define PREFERENCE_POPUP_STATPACK "\"statpack\""
+#define PREFERENCE_POPUP_TAUR_TYPE "\"taurtype\""
+#define PREFERENCE_POPUP_COMBAT_MUSIC "\"combat_music\""
+#define PREFERENCE_POPUP_MARKING_SELECT "\"marking_select\""
+#define PREFERENCE_POPUP_VERBOSE_LOGS "\"verbose_logs\""
+#define PREFERENCE_POPUP_PATRON_SELECT "\"patron_select\""
+
+// Keep in sync with tgui/packages/tgui/interfaces/PreferencesMenu/popups/Charflaw.tsx#
+#define PREFERENCE_CHARFLAW_APPROVED 0
+#define PREFERENCE_CHARFLAW_DENIAL_HIDE 1
+#define PREFERENCE_CHARFLAW_DENIAL_ALREADY_TAKEN 2
+#define PREFERENCE_CHARFLAW_DENIAL_RESTRICTION 3
+#define PREFERENCE_CHARFLAW_DENIAL_FULL 4
+
+// Settings for how much randomization to do
+#define RANDOMIZE_MINIMAL 0 // Minimal randomization ONLY scrambles enough to support a new pref_species
+#define RANDOMIZE_NORMAL 1 // Default randomize button for players, scrambles appearance and identity but not species and custom text
+#define RANDOMIZE_NEW_CHARACTER 2 // Additionally clears all custom text and randomizes a new species
