@@ -123,7 +123,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 			if(3)
 				organ_eyes.eye_color = "#96fc9e"
 				organ_eyes.accessory_colors = "#96fc9e#96fc9e"
-			if(3)
+			if(4)
 				organ_eyes.eye_color = "#bb68ff"
 				organ_eyes.accessory_colors = "#bb68ff#bb68ff"
 
@@ -173,7 +173,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		if(2)
 			neck = /obj/item/clothing/neck/roguetown/leather
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
-		if(2)
+		if(3)
 			neck = /obj/item/clothing/neck/roguetown/gorget
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
 	if(prob(45)) // whip

@@ -1,5 +1,0 @@
-author: "ToasterStrudes"
-delete-after: True
-changes:
-  - rscadd: "Adds a NEW AND IMPROVED ALT MODE to READ OMEN - The ORB of WISDOM"
-  - refactor: "Has the normal version of read omen use the new dominant pantheon system instead of the deprecated storyteller system."

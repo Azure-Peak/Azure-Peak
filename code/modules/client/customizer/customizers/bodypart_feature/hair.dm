@@ -6,6 +6,7 @@
 	customizer_entry_type = /datum/customizer_entry/hair
 	var/custom_hair_color = TRUE
 	allows_accessory_color_customization = FALSE //Customized through hair color
+	tgui_template = "FeatureChoiceHair"
 	var/natgrad = TRUE
 	var/dyegrad = TRUE
 
@@ -32,68 +33,92 @@
 	hair_entry.pix_color = hair_palette_colour(hair_entry.pix_color, hair_entry)
 	hair_entry_masks(hair_entry)
 
-/datum/customizer_choice/bodypart_feature/hair/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
-	..()
-	if(custom_hair_color)
-		var/datum/customizer_entry/hair/hair_entry = entry
-		dat += "<br>Hair Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=hair_color''><span class='color_holder_box' style='background-color:[hair_entry.hair_color]'></span></a>"
-		if(natgrad)
-			var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.natural_gradient)
-			dat += "<br>Natural Gradient: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=natural_gradient'>[gradient.name]</a>"
-			if(hair_entry.natural_gradient != /datum/hair_gradient/none)
-				dat += "<br>Natural Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=natural_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.natural_color]'></span></a>"
-		if(dyegrad)
-			var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.dye_gradient)
-			dat += "<br>Dye Gradient: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient'>[gradient.name]</a>"
-			if(hair_entry.dye_gradient != /datum/hair_gradient/none)
-				dat += "<br>Dye Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.dye_color]'></span></a>"
+/datum/customizer_choice/bodypart_feature/hair/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = ..()
 
-/datum/customizer_choice/bodypart_feature/hair/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
-	..()
 	var/datum/customizer_entry/hair/hair_entry = entry
-	switch(href_list["customizer_task"])
+
+	data["allow_hair_color"] = custom_hair_color
+	data["hair_color"] = hair_entry.hair_color
+	data["natural_color"] = hair_entry.natural_color
+	data["dye_color"] = hair_entry.dye_color
+
+	if(natgrad)
+		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.natural_gradient)
+		data["natgrad"] = gradient.name
+	else
+		data["natgrad"] = null
+
+	if(dyegrad)
+		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.dye_gradient)
+		data["dyegrad"] = gradient.name
+	else
+		data["dyegrad"] = null
+
+	return data
+
+/datum/customizer_choice/bodypart_feature/hair/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	. = ..()
+	if(.)
+		return
+
+	var/mob/user = ui.user
+	var/datum/customizer_entry/hair/hair_entry = entry
+	switch(params["customizer_task"])
 		if("hair_color")
-			var/new_color = color_pick_sanitized(user, "Choose your hair color:", "Character Preference", hair_entry.hair_color)
+			var/new_color = tgui_color_picker(user, "Choose your hair color:", "Hair Color", hair_entry.hair_color)
 			if(!new_color)
-				return
-			hair_entry.hair_color = sanitize_hexcolor(new_color, 6, TRUE)
+				return TRUE
+			prefs.verbose_pref_log_change(user, "notice", "\"[name]\" hair color", hair_entry.hair_color, new_color)
+			hair_entry.hair_color = new_color
 			prefs.clear_hair_cache(customizer_type)
 			var/list/colors = hair_colors(hair_entry)
 			hair_entry.pix_color = (hair_entry.pix_color in colors) ? hair_entry.pix_color : colors[1]
+			return TRUE
 		if("natural_gradient")
 			if(!natgrad)
-				return
+				return TRUE
 			var/list/choice_list = hair_gradient_types()
-			var/chosen_input = input(user, "Choose your natural gradient:", "Character Preference")	as null|anything in choice_list
+			var/datum/hair_gradient/current = HAIR_GRADIENT(hair_entry.natural_gradient)
+			var/chosen_input = tgui_input_list(user, "Choose your natural gradient:", "Natural Gradient", choice_list, current.name)
 			if(!chosen_input)
-				return
+				return TRUE
+			prefs.verbose_pref_log_change(user, "notice", "\"[name]\" natural gradient", current.name, chosen_input)
 			hair_entry.natural_gradient = choice_list[chosen_input]
 			prefs.clear_hair_cache(customizer_type)
+			return TRUE
 		if("natural_gradient_color")
 			if(!natgrad)
-				return
-			var/new_color = color_pick_sanitized(user, "Choose your natural gradient color:", "Character Preference", hair_entry.natural_color)
+				return TRUE
+			var/new_color = tgui_color_picker(user, "Choose your natural gradient color:", "Natural Color", hair_entry.natural_color)
 			if(!new_color)
-				return
-			hair_entry.natural_color = sanitize_hexcolor(new_color, 6, TRUE)
+				return TRUE
+			prefs.verbose_pref_log_change(user, "notice", "\"[name]\" natural color", hair_entry.natural_color, new_color)
+			hair_entry.natural_color = new_color
 			prefs.clear_hair_cache(customizer_type)
+			return TRUE
 		if("dye_gradient")
 			if(!dyegrad)
-				return
+				return TRUE
 			var/list/choice_list = hair_gradient_types()
-			var/chosen_input = input(user, "Choose your dye gradient:", "Character Preference")	as null|anything in choice_list
+			var/datum/hair_gradient/current = HAIR_GRADIENT(hair_entry.dye_gradient)
+			var/chosen_input = tgui_input_list(user, "Choose your dye gradient:", "Dye Gradient", choice_list, current.name)
 			if(!chosen_input)
-				return
+				return TRUE
+			prefs.verbose_pref_log_change(user, "notice", "\"[name]\" dye gradient", current.name, chosen_input)
 			hair_entry.dye_gradient = choice_list[chosen_input]
 			prefs.clear_hair_cache(customizer_type)
+			return TRUE
 		if("dye_gradient_color")
 			if(!dyegrad)
-				return
-			var/new_color = color_pick_sanitized(user, "Choose your dye gradient color:", "Character Preference", hair_entry.dye_color)
+				return TRUE
+			var/new_color = tgui_color_picker(user, "Choose your dye gradient color:", "Dye Color", hair_entry.dye_color)
 			if(!new_color)
-				return
-			hair_entry.dye_color = sanitize_hexcolor(new_color, 6, TRUE)
+				return TRUE
+			prefs.verbose_pref_log_change(user, "notice", "\"[name]\" dye color", hair_entry.dye_color, new_color)
+			hair_entry.dye_color = new_color
 			prefs.clear_hair_cache(customizer_type)
+			return TRUE
 
 /datum/customizer_choice/bodypart_feature/hair/set_accessory_type(datum/preferences/prefs, newtype, datum/customizer_entry/entry)
 	var/old_accessory = entry.accessory_type
@@ -136,24 +161,27 @@
 	abstract_type = /datum/customizer_choice/bodypart_feature/hair/head
 	name = "Hair"
 	feature_type = /datum/bodypart_feature/hair/head
+	tgui_template = "FeatureChoiceHairHead"
 
-/datum/customizer_choice/bodypart_feature/hair/head/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
-	..()
-	if(custom_hair_color)
-		var/datum/customizer_entry/hair/hair_entry = entry
-		dat += "<br><a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=custom_hair_editor'>Customise</a>"
-		if(hairmask_layers_any(hair_entry_masks(hair_entry)))
-			dat += " | <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=custom_hair_clear'>Clear</a>"
+/datum/customizer_choice/bodypart_feature/hair/head/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	var/list/data = ..()
+	data["has_custom_hair"] = hairmask_layers_any(hair_entry_masks(entry))
+	return data
 
-/datum/customizer_choice/bodypart_feature/hair/head/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
-	if(href_list["customizer_task"] == "custom_hair_editor")
-		prefs.open_hair_editor(user, customizer_type)
+/datum/customizer_choice/bodypart_feature/hair/head/handle_tgui_act(list/params, datum/tgui/ui, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
+	. = ..()
+	if(.)
 		return
-	if(href_list["customizer_task"] == "custom_hair_clear")
-		var/datum/customizer_entry/hair/hair_entry = entry
-		hair_clear(hair_entry)
-		return
-	..()
+
+	var/mob/user = ui.user
+	switch(params["customizer_task"])
+		if("custom_hair_editor")
+			prefs.open_hair_editor(user, customizer_type)
+			return TRUE
+		if("custom_hair_clear")
+			prefs.verbose_pref_log_notification(user, "warning", "Feature \"[name]\" custom hair reset")
+			hair_clear(entry)
+			return TRUE
 
 /datum/preferences
 	var/tmp/list/hairprev_cache = list()
@@ -202,12 +230,8 @@
 	ui.ui_interact(user)
 
 /datum/preferences/proc/refresh_hair_windows(mob/user, current_tab)
-	if(!user?.client)
-		return
-	if(current_tab == 0 && winexists(user, "preferences_browser"))
-		ShowChoices(user, current_tab)
-	if(winexists(user, "customization"))
-		ShowCustomizers(user)
+	character_preview_view.update_body()
+	user?.client?.prefs?.ShowChoices(user)
 
 /datum/custom_hair_ui
 	/// Preferences owner that resolves the active entry and preview cache.

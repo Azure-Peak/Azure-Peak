@@ -163,7 +163,7 @@ export async function DreamMaker(
       throw new Juke.ExitCode(1);
     }
     const requiredMajorVersion = 516;
-    const requiredMinorVersion = 1687;
+    const requiredMinorVersion = 1685;
     const major = Number(version[1]);
     const minor = Number(version[2]);
     if (

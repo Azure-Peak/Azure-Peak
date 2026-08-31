@@ -148,7 +148,7 @@
 #define G_FEMALE 2
 #define G_PLURAL 3
 
-#define MANDATORY_FEATURE_LIST list("mcolor" = "FFF", "mcolor2" = "FFF", "mcolor3" = "FFF", "ethcolor" = "9c3030", "legs" = "Normal Legs", "body_size" = BODY_SIZE_NORMAL)
+#define MANDATORY_FEATURE_LIST list("mcolor" = "FFF", "mcolor2" = "FFF", "mcolor3" = "FFF", "body_size" = BODY_SIZE_NORMAL)
 
 #define BODY_SIZE_NORMAL 1.00
 #define BODY_SIZE_MAX 1.05

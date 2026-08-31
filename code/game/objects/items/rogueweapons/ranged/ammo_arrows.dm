@@ -12,14 +12,9 @@
 	Consult your gods."
 	projectile_type = /obj/projectile/bullet/reusable/arrow
 	caliber = "arrow"
-	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
+	icon = 'icons/roguetown/weapons/ranged/arrow_mob32.dmi'
 	icon_state = "arrow"
 	force = 10
-	pixel_x = -25
-	pixel_y = -25
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = TRUE
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
@@ -58,7 +53,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
-	desc = "An arrow; one end, tipped with flattened and frayed bronze - the other, \
+	desc = "An arrow; one end, tipped with flattened and rotted metal - the other, \
 	inlaid with decayed feathers. The alloy's decrepity forces it to burst into \
 	shrapnel upon impact, shredding flesh."
 	icon_state = "ancientarrow"

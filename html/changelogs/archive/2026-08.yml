@@ -1151,3 +1151,288 @@
   - bugfix: oiling someone up for wrestling and stuff should be less buggy looking
   zeskorion:
   - bugfix: wrenches now use a weapon skill
+2026-08-26:
+  DmitriyPershukov:
+  - rscadd: Added recipes for pure moondust, spice, herozium and starsugar
+  KatTheFox:
+  - bugfix: You can no longer wrap shapeshifted players in packages and mail them
+  Lamasmaster:
+  - balance: Reinforcing has been reduced to Apprentice leatherworking requirement
+      (except forester brigandine since that is an actual brigandine so it remains
+      on expert)
+  - balance: Brigandines now require Steel Bar, Leather and Cloth to make (in different
+      ratios depending on the type of it) -Lightweight is steel recipe now and with
+      it has increased cost in silverface.
+  - balance: Hide Armor reduced to 30 mammon, Studded Armor and Hood down to 35 mammon
+      price, Hardened Leather Armor increased to 45 from 40, Hardened Leather Coat/Jacket
+      increased to 55 from 45 (it costs a lot of materials to make but this is bit
+      closer to reality)
+  - bugfix: Fixes pathing for studded armor in silverface so you can actually purchase
+      it
+  SpartanBobby:
+  - balance: gave one of the 3 aristocrat sword subclasses dodge expert instead of
+      medium arour training (The sabre one)
+  ToasterStrudes:
+  - rscadd: Adds a NEW AND IMPROVED ALT MODE to READ OMEN - The ORB of WISDOM
+  - refactor: Has the normal version of read omen use the new dominant pantheon system
+      instead of the deprecated storyteller system.
+  WeNeedMorePhoron:
+  - bugfix: Fixes quality not mattering for navigator
+  - balance: Invis is now red intent with 2 seconds charge time.
+  - balance: Storage, Weapons and Clothings on spawn are marked as worn with 5% value.
+      Worn modifier don't show on the name and only show on examine.
+  - rscadd: Lowered Tithebound mammons threshold to account for reduction in worn
+      items value.
+  novakid94:
+  - bugfix: Ravox's sharpness protection now benefits the worshipper instead of their
+      opponent.
+  radarseas:
+  - image: added/modified artificer spell icons, they now have a new look + overclock
+      has an icon now.
+  saltprjak:
+  - bugfix: Mace Chant's Tremor no longer gets staggered when you walk into someone.
+  - bugfix: Azurean Pilum's frost application no longer prevented by armor
+2026-08-27:
+  BurpleBineapple:
+  - bugfix: low cut gambesons no longer are written out in Title Case
+  KatTheFox:
+  - bugfix: Skeletons no longer inexplicably bleed when their ribs or skull are broken.
+  - bugfix: Necromancer summoned skeletons no longer drop gear on death, because people
+      were exploiting it to repeatedly summon things and sell the gear.
+  - bugfix: Conjured skeleton npcs of all types now properly mark their gear as scavenged.
+  - bugfix: You can no longer nigh-instakill vampires and deadites by dumping 240
+      drams of blessed water on them. Don't ask.
+  - bugfix: Elemental forge et al. no longer lie to you about how to revert. Resist
+      to revert, you don't cast the spell again.
+  - bugfix: The TGUI error screen no longer tells you to report issues downstream.
+  - bugfix: Breathless trait now blocks "breathing in spiky spores".
+  Ketrai:
+  - bugfix: Fixed the encyclopedia description on lesser miracle to display correct
+      values on conditions
+  - rscadd: Added paint pylon geysers to spread puddles in an area.
+  - rscadd: Added 4 more abyssor cult visions as T1 visions.
+  - rscadd: Added 2 more abyssor cult visions as T2 visions.
+  - rscadd: Added 2 more abyssor cult visions as T3 visions.
+  - rscadd: Slightly increased the amount of starting materials the abyssor cult gets.
+  - balance: Reduced the time it takes to deploy paint pylons by 35% 10s => 6.5s
+  - rscadd: Reinvigorating energy restoring paint puddles, only accessible via geysers.
+  Lagomorphica:
+  - balance: iron sabre is now actually a sabre instead of an arming sword
+  - code_imp: all mentions of 'saber' in code are now 'sabre' aside from in changelogs
+  Ollanius:
+  - bugfix: Jacketed gambesons should properly render, now.
+  Quinalion:
+  - rscadd: Added shoutbubble() for prominent shouted emotes.
+  - rscadd: Added shout bubbles to painscream, warcry, agony, and firescream.
+  - code_imp: warcry now records STATS_WARCRIES.
+  ShadowLarkens:
+  - rscadd: Preferences Menu is now written in TGUI and is 99% prettier and at least
+      1% more functional!
+  - rscadd: Fancy character preview in the preferences menu; if/when it breaks, switch
+      main tabs to force it to relayout.
+  - rscadd: Lobby Menu is now separate from the Preferences Menu and is also TGUI.
+      If/when it breaks, use Preferences -> Reopen Lobby Menu and/or OOC -> Refresh
+      TGUI.
+  - rscdel: Deleted all unused and old preferences.
+  SpartanBobby:
+  - bugfix: Fixes spawn loadout issue related to Aristocrat sabre selection
+  WeNeedMorePhoron:
+  - rscadd: Items bought from hoardmaster are now worn
+  - rscadd: Ported Container Cooking system from Vanderlin. Pan, Pot and Oven are
+      now real containers and can contain multiple items that can be cooked at once!
+  - rscadd: Left click a hearth with a pan on to remove an empty pan and middle click
+      let you always remove any container. Left click with a loaded pan to remove
+      items one by one. Use it on itself (Press Q in left hand / E in right hand)
+      will now FLIP the content into the tile, or a tray in front of you, if you have
+      Journeyman cooking or above
+  - rscadd: Tray now can pick up food and utensils en masse and slide them in and
+      out of oven.
+  - rscadd: Baker's Peel is now a one-handable, two hands needed to use tray that
+      have a capacity of 6
+  - rscadd: Pot must be hot before you can boil a stew in it.
+  - rscadd: Migrated hearth fanning to work with the new system and add a flat number
+      of cooking progress to item on the stove.
+  - rscadd: Boiling and Deep Fried recipes eject output, while stew stays in stew.
+  bearrrrrrrr:
+  - rscadd: Baotha miracles mini rework
+  mumblemancer:
+  - bugfix: bog trolls will no longer be super buggy looking when they hit you or
+      stay in ball form.
+  - rscadd: implemented cave troll's special hiding animation :)
+  - bugfix: spellchecked claws missing
+2026-08-28:
+  Fi:
+  - bugfix: Fixed the ported RMH clothing's icons not properly reflecting their colors,
+      a few of their details not dying properly, and made them (dresses and winter
+      coat) more dye-friendly through greyscaling for additional customization.
+  FreeStylaLT:
+  - bugfix: Fixes the pain emote bubble not disappearing properly.
+  KatTheFox:
+  - bugfix: Necromancer simplemob skeletons no longer drop smeltable/sellable iron
+      gear
+  Ketrai:
+  - image: new deep one sprites
+  - bugfix: deep ones drop the correct amount of meat now
+  - bugfix: Attempt at fixing a abyssor quest selection runtime
+  Lamasmaster:
+  - spellcheck: Bishop tutorial text.
+  - rscadd: Blings out the church with the new equipment that has been added in over
+      the year and they haven't recieved (such as golden/silver crosses) to the church
+      roles. Changed out Sexton groundskeeper to look more like he belongs to the
+      church (using the undivided clerical robes)
+  - bugfix: Fix templar tabard being called "crusader"
+  - balance: Gives jackchains for Templar (base) and Spellblade, iron bracers for
+      Guardian.
+  Ryan180602:
+  - rscadd: snout helms to silverface
+  - rscadd: snouted burgonet
+  WeNeedMorePhoron:
+  - rscadd: Improved AI code to make it less likely to stall.
+  - rscadd: Created a new Game Master Panel inspired by CM-PVE SS13 with click intercept
+      functions for spawning mobs. It will be refined later.
+  changelingonberry:
+  - bugfix: fitting pouches to belts now accepts any subtype of pouch
+  - bugfix: sergeant snout helm selector no longer fires twice on spawn
+  nauticall:
+  - bugfix: Background for parchments now load reliably.
+2026-08-29:
+  FeniaFox:
+  - balance: Towner big fella skin armor buffed to the usual gambeson + leather armor
+      benchmark.
+  - balance: Adventurer monk (non-psydonic) skin armor buffed to the usual gambeson
+      + leather armor benchmark, and adjusted to use meditation repair (25% per 10s,
+      ~40s total), rather than the two layers differing between prayer and resting
+      repair.
+  - balance: Adventurer monk (psydonic) no longer has bonus integrity over other monks
+      to make up for Enduring rendering Psydonic Willpower redundant. Instead gains
+      novice sewing + medicine skills.
+  Ketrai:
+  - rscadd: Added smoker & wheeled smoker
+  - rscadd: Added salmon meat
+  - rscadd: Added smoked bear, smoked meat, smoked deadite meat, smoked fish, smoked
+      salmon
+  - rscadd: Added smoked ham and smoked ham bread
+  - bugfix: Ham now correctly has 5 slices
+  - rscadd: The ability to make revival elixer with bloated leechticks
+  - rscadd: Recipes to decant vials and blood canisters into one another
+  - rscadd: Vial racks, leechtick bait and leechticks to the apothecary
+  - bugfix: Blood canister and vial harddels
+  - bugfix: Revival chair layering
+  - image: Updated zronk chair sprite
+  - balance: Impure lux filtration now grants a revive worth of revival elixer rather
+      than 2/3rds
+  Lamasmaster:
+  - balance: Merges Sleuth and Perfect Tracker into Perfect Tracker, reduces virtue
+      level gain by 1.
+  - balance: Tracking is now capped to default of expert, perfect tracker legendary.
+  Ryan180602:
+  - rscadd: ghostmailing
+  TankTheBirb:
+  - bugfix: Fixed a bug preventing void drakeling familiars from spawning. Double
+      check your familiar preferences if you have issues!
+  WeNeedMorePhoron:
+  - rscadd: Fire Curtain now applies 2 scorched stack if you run through it, If you
+      get THROWN into it (I.e. Fire Blast), it will applies a grace period of 2 seconds
+      for any ticking flame proccing on you, meaning eating a FBlast into a Fire Curtain
+      will NOT instantly proc charred, while running across it will. AI should avoid
+      it more aggressively
+  mumblemancer:
+  - balance: zigs now lose 60 (half) smoketime per manual pinch-out.
+  - bugfix: fixed some strings
+  zeratinoalt:
+  - qol: expands sakuyzo's applicable item list for their donator piece
+  zeroisthebiggay:
+  - rscadd: ooc extra and nsfw ooc extra
+2026-08-30:
+  BurpleBineapple:
+  - bugfix: Fixes Old age mods for classes not applying.
+  Fi:
+  - bugfix: "Fixed the Scout Cloak not appearing as intended upon feminine characters\
+      \ and short characters when facing any direction that is not south\u2014again."
+  Lamasmaster:
+  - rscdel: The recurve prolifiration has been shot, short of few exceptions (such
+      as mounted classes) everyone uses the base bow now - reason it can be done now
+      is because recurve is just reskin of regular bow statwise that's it.
+  - balance: Veteran Bogman and Poacher start with Longbow instead of Recurve.
+  - image: I come back to ruin bows in another way - so about making them 64x64 last
+      time - the reverse is happening now (turning them 32x32) and with that new sprites
+      by me - they aren't great but they are servicable and eliminate awkward clipping
+  changelingonberry:
+  - bugfix: vile veshlie no longer plays cs source
+  - admin: round logs save with the round ID in the filepath
+  pinkledwrenis:
+  - balance: Updated the Potters home to make it role exclusive and to bring their
+      home up to speed with other fleshed out roles.
+  zeratinoalt:
+  - code_imp: updated koruu's donator stuff
+2026-08-31:
+  Fi:
+  - bugfix: Fixed the Fancy Tinted Spectacles not being visible when worn and removes
+      the unnecessary toggle from both it and its non-tinted variant.
+  - bugfix: "Fixed the Volf Mantle not having onmob sprites for feminine characters\
+      \ and dwarves\u2014again."
+  FreeStylaLT:
+  - rscadd: Added Socialite Virtue.
+  - rscdel: Removed Stash and Beauty options from Well-Off virtue.
+  - balance: Added a new Well-Off option -- Shrewd Lyfestyle.
+  - balance: Repair Speeds were adjusted slightly.
+  Ketrai:
+  - rscadd: Added smoker structures to following roles - Warden (tower), hunter houses,
+      inn, soilson, keep.
+  - rscadd: Split timechangetips into tips and fluff, one line from both is displayed
+      on time change.
+  Lamasmaster:
+  - rscadd: Generic See sword and undivided version to Templar guardian and crusader.
+  Ollanius:
+  - rscadd: Supplemental CKEYs to the 'Tabis' donator item, by request.
+  Ryan180602:
+  - rscadd: multi-skills for weapons
+  - code_imp: unifies flourishing
+  - rscadd: lets flourishing show up in game
+  ShadowLarkens:
+  - bugfix: Chat will no longer hang and show a blank screen when storage is lost.
+  WeNeedMorePhoron:
+  - rscadd: Removed the blockade timer of 30 minutes before you start it.
+  - rscadd: Increased wave timer to 15 minutes. Warning is now given at 7.5, 5 and
+      2.5 minute mark instead.
+  - rscadd: Banditry Losses are now stored in a region as a "Banditry Hoard"
+  - rscadd: Clearing a Blockade from that region will now recover said hoard. This
+      hoard is taxed as a Spoils tax (Default 50%) on contract completion.
+  - rscadd: If Hoard reaches 200m or more, a Fellowship of 3 or more people can initiate
+      a writ by pledging a 200m deposit without Steward intervention, to create optional
+      Blockade content. You also get Blockade rewards on top of that.
+  - rscadd: Warden Scout Reports added to the Ledger
+  bearrrrrrrr:
+  - rscadd: you can eat chalk now
+  borneblood:
+  - bugfix: TRAIT_PACIFISM now properly gates a few missing offensive/battle-contributing
+      actions, mainly from grappling.
+  - balance: TRAIT_PACIFISM blocks Feint and Bait actions, but reduces Riposte CD
+      by 50%.
+  - bugfix: Taunting now actually draws aggro from carbons.
+  changelingonberry:
+  - bugfix: changelog now appears consistently on linux
+  kilozombie:
+  - rscadd: Added better mechanics help for some Engineering components and items
+  - rscadd: Wretches now start with 50 mammon
+  - rscadd: Unbound Ancient wretches now start with more psila
+  - rscdel: Removed random money in the wretchbase
+  radarseas:
+  - rscadd: Added bogman hoods
+  - balance: deserter knight has recieved fullplate/half plate armor choices in exchange
+      for their prior weaker armor picks being chopped.
+  - balance: deserter has lost saddleborn + riding skill in exchange for trait_bogwalker
+  - balance: deserter has been redone as a class, as more of a remnant of the bog
+      garrison defectors. You're not allied with bandits sire, but the bogs welcome
+      you all the same. Separating it finally from just MAA but evil.
+  - balance: deserter knight gets more greatweapon picks.
+  - balance: deserter iron warhammer -> steel warhammer
+  - refactor: removes unused ordering code for ordering disgraced MAAs from deserter
+      knights.
+  twinklover22:
+  - balance: Estoc given +3 force and had the rigid intent removed from it's swing.
+  - balance: Poleaxe given an improved mace and stab intent + a weapon special.
+  - balance: Shalal Sabre Given better cut intents.
+  zeroisthebiggay:
+  - bugfix: selecting the size of your character's balls now actually has a change
+      to their sprite's size

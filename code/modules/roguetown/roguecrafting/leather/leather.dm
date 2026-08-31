@@ -286,6 +286,7 @@
 	)
 	result = /obj/item/clothing/cloak/suspenders
 	craftdiff = 3
+	subtype_reqs = TRUE
 
 /datum/crafting_recipe/roguetown/leather/leathermask
 	name = "leather mask"
