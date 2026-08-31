@@ -111,7 +111,7 @@
 #define NAVIGATOR_BUCKET_CARVED "Carved Goods"
 #define NAVIGATOR_BUCKET_POTTERY "Pottery & Ceramics"
 #define NAVIGATOR_BUCKET_TROPHIES "Trophies"
-#define NAVIGATOR_BUCKET_ENCHANTMENTS "Enchantment Scrolls"
+#define NAVIGATOR_BUCKET_ENCHANTMENTS "Enchantment Tinctures"
 #define NAVIGATOR_BUCKET_INSTRUMENTS "Instruments"
 #define NAVIGATOR_BUCKET_SEAFOOD "Seafood"
 #define NAVIGATOR_BUCKET_POTIONS_REAGENTS "Potions & Reagents"
