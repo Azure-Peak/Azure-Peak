@@ -132,15 +132,6 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/leyline = 1, /obj/item/magic/infernal/core = 1)
 	result_atoms = list(/obj/item/enchantmentscroll/greater/lifesteal)
 
-/datum/runeritual/enchanting/lightning
-	name = "Lightning"
-	desc = "Shocks foes."
-	blacklisted = FALSE
-	tier = 3
-	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/leyline = 1, /obj/item/magic/elemental/fragment = 1)
-	result_atoms = list(/obj/item/enchantmentscroll/greater/lightning)
-
-
 /datum/runeritual/enchanting/frostveil
 	name = "Lesser Freezing"
 	desc = "Chills foes."
