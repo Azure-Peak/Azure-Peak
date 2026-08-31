@@ -59045,6 +59045,10 @@
 /obj/structure/ladder,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town)
+"kZe" = (
+/obj/machinery/light/rogue/smoker/wheeled,
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/town)
 "kZj" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -67599,6 +67603,7 @@
 	dir = 10
 	},
 /obj/machinery/light/rogue/candle/l,
+/obj/machinery/light/rogue/smoker/wheeled,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "myE" = (
@@ -73004,6 +73009,7 @@
 	info = "The Inquisition will hardly come search for me here - yet the drow have started to notice my presence in the area. I fear everyday upon which I take breath, risking death by their hand or the Otavans."
 	},
 /obj/structure/table/wood/poor,
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked_z,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/underdark)
 "nDi" = (
@@ -98305,6 +98311,18 @@
 /obj/item/roguestatue/gold/loot,
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/indoors/town/vault)
+"skG" = (
+/obj/structure/closet/crate/chest/crate,
+/obj/item/grown/log/tree/small,
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+/obj/item/flint,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/under/underdark)
 "skI" = (
 /obj/item/roguecoin/copper,
 /turf/open/floor/rogue/cobble,
@@ -100928,6 +100946,10 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/abandonedhotsprings)
+"sIF" = (
+/obj/machinery/light/rogue/smoker,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/exposed/town/keep)
 "sIG" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10
@@ -114059,6 +114081,11 @@
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors)
+"vfu" = (
+/obj/structure/flora/roguegrass,
+/obj/machinery/light/rogue/smoker,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/town)
 "vfy" = (
 /obj/structure/table/wood/large_table/middle_east,
 /obj/item/reagent_containers/glass/cup/wooden{
@@ -115916,6 +115943,10 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/goblinfort)
+"vxH" = (
+/obj/machinery/light/rogue/smoker/wheeled,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/town)
 "vxI" = (
 /obj/effect/decal/mossy,
 /obj/structure/flora/roguegrass/bush/wall,
@@ -123824,7 +123855,7 @@
 /obj/effect/decal/mossy{
 	dir = 4
 	},
-/obj/structure/flora/ausbushes/lavendergrass,
+/obj/machinery/light/rogue/smoker,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
 "wXs" = (
@@ -124624,7 +124655,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/cave)
 "xfI" = (
-/obj/structure/spider/stickyweb,
+/obj/machinery/light/rogue/smoker,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/underdark)
 "xfO" = (
@@ -270850,7 +270881,7 @@ pMG
 njB
 mQr
 slz
-njB
+vfu
 sns
 uZQ
 trN
@@ -278724,7 +278755,7 @@ gHj
 sPj
 qmZ
 sPj
-qmZ
+skG
 weG
 sPj
 sPj
@@ -315522,7 +315553,7 @@ exD
 exD
 njB
 lkt
-exD
+vxH
 wdl
 jZR
 pxc
@@ -315570,7 +315601,7 @@ gfZ
 sPm
 vAw
 vAw
-vAw
+sIF
 hrE
 hrE
 jWw
@@ -420365,7 +420396,7 @@ aBB
 aBB
 xWK
 gKh
-iBM
+kZe
 glU
 iBM
 iBM

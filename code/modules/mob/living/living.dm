@@ -1325,6 +1325,25 @@
 	var/combat_modifier = 1
 	var/agg_grab = FALSE
 
+	if(HAS_TRAIT(L, TRAIT_PACIFISM) && !restrained())
+		// Pacifist grips cannot restrain anyone by themselves, unless the target is already restrained of course.
+		// Always break free; skip all resistance calculations.
+		if(L.cmode)
+			visible_message(span_warning("[src] roughly breaks free, slamming [L] down!"), \
+				span_warning("I roughly break free, slamming [L] down!"), null, null, L)
+			log_combat(src, L, "broke pacifist grab & combat punished")
+			playsound(src.loc, 'sound/combat/tf2crit.ogg', 50, TRUE, -1) // free dopamine shot for ruining a grappler pacifist's day
+			L.Knockdown(20)
+		else
+			visible_message(span_warning("[src] easily slips free from [L]'s careful grip!"), \
+				span_warning("I easily slip free from [L]'s careful grip!"), null, null, L)
+			log_combat(src, L, "broke pacifist grab")
+
+		L.changeNext_move(CLICK_CD_GRABBING)
+		playsound(src.loc, 'sound/combat/grabbreak.ogg', 50, TRUE, -1)
+		L.stop_pulling()
+		return TRUE
+
 	if(mind)
 		wrestling_diff += (get_skill_level(/datum/skill/combat/wrestling)) //NPCs don't use this
 	if(L.mind)
@@ -1359,6 +1378,10 @@
 		resist_chance += (STACON - L.STASPD) * 5
 	else
 		resist_chance += (STACON - (agg_grab ? L.STASTR : L.STAWIL)) * 5
+
+	if(HAS_TRAIT(src, TRAIT_PACIFISM)) // pacifists can't bait nor feint anymore, so this is necessary to make them not total pushovers
+		resist_chance = max(resist_chance, 25) // 25% base chance to slip free from grapples, number can be jakked freely based on how it feels
+
 	resist_chance *= combat_modifier
 	resist_chance = clamp(resist_chance, 5, 95)
 
@@ -2773,12 +2796,14 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 /// Marks a freshly-spawned mob as belonging to a contract/quest: strips its head bounty so it
 /// can't be farmed at a HEADEATER, and arranges for the corpse to dust shortly after death.
-/mob/living/proc/mark_contract_spawned()
+/mob/living/proc/mark_contract_spawned(dust_corpse = TRUE)
 	no_head_bounty = TRUE
 	contract_spawned = TRUE
-	RegisterSignal(src, COMSIG_LIVING_DEATH, PROC_REF(on_contract_death))
+	ADD_TRAIT(src, TRAIT_ZOMBIE_IMMUNE, CONTRACT_SPAWN_TRAIT)
+	if(dust_corpse)
+		RegisterSignal(src, COMSIG_LIVING_DEATH, PROC_REF(on_contract_death))
 
-/mob/living/carbon/mark_contract_spawned()
+/mob/living/carbon/mark_contract_spawned(dust_corpse = TRUE)
 	. = ..()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	if(istype(head))

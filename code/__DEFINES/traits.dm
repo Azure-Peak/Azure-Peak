@@ -1046,6 +1046,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define HUGBOX_TRAIT "hugbox"
 #define ADVENTURER_TRAIT "adventurer"
 #define GRAGGAR_ASSASSINATED "graggar_assassinated"
+#define CONTRACT_SPAWN_TRAIT "contract-spawn"
 
 #define TRAIT_I_AM_INVISIBLE_ON_A_BOAT "invisible_on_tram"
 

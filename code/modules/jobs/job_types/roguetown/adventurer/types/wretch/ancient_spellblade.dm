@@ -73,7 +73,7 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/spellbook = 1,
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //Hilarious
 		)
 
 	// Chant selection — uses undead faction for "MEMORIES" UI
