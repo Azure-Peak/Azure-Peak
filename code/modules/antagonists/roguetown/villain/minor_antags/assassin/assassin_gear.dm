@@ -86,7 +86,7 @@
 		// tried some bullshit w/ the expression being in here like the pale aura from dnr for practice
 		. += span_gamedeadsay("You can hear [stored_souls.len] soul[stored_souls.len > 1 ? "s" : ""] screaming from within...")
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/rmb_self(mob/user)
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/twirl_success(mob/living/user)
 	. = ..()
 	// it funny
 	if(world.time >= last_spoken + 3 SECONDS)
