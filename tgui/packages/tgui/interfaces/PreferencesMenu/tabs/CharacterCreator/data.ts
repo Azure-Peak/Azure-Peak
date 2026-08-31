@@ -195,6 +195,9 @@ export type ExamineData = {
   img_gallery: string[];
   nsfw_img_gallery: string[];
 
+  ooc_extra_img: string;
+  nsfw_ooc_extra_img: string;
+
   flavortext: string | null; // null indicates unset
   nsfwflavortext: string | null; // null indicates unset
   ooc_notes: string | null; // null indicates unset

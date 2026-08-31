@@ -69,7 +69,7 @@
 		backpack_contents += /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang
 		backpack_contents += /obj/item/reagent_containers/powder/black_ichor
 		backpack_contents += /obj/item/reagent_containers/powder/black_ichor
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 		beltr = /obj/item/quiver/poisonarrows
 		beltl = /obj/item/storage/magebag
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/unique/ichor)

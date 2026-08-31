@@ -167,7 +167,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	refresh_compass(user)
 	ui_interact(user)
 
-/obj/item/quest_writ/rmb_self(mob/user)
+/obj/item/quest_writ/rmb_self(mob/user, keybind = FALSE)
 	if(!assigned_quest || !opened)
 		return
 	opened = FALSE

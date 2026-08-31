@@ -85,8 +85,8 @@
 	dat += "<br><b>Voice Color:</b> <a href='?_src_=familiar_prefs;preference=voice;task=select;planar_origin=[cur_plane]'><font color='[familiar_voice_colors[cur_plane]]'>Change</font></a>"
 
 	var/display_name = "None selected"
-	// void drakelings only have one type, so displaying this selection would be moot
-	if(planar_list && planar_list.len > 1)
+	// void drakelings only have one type, but if we don't display it so they can set it, they can't spawn
+	if(planar_list)
 		for (var/name in planar_list)
 			if (planar_list[name] == familiar_species[cur_plane])
 				display_name = name
