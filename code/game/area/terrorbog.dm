@@ -154,6 +154,15 @@
 	droning_sound_night = 'sound/music/area/grimswamp.ogg'
 	loot_budget = LOOT_BUDGET_GRIMBOG_SOUTHEAST
 	deathsight_message = "an utter forest of roots and reeds, the air completely saturated with thick humidity"
+
+/area/rogue/indoors/shelter/bog/skeletonfort/grim
+	icon_state = "bog"
+	droning_sound = 'sound/music/area/grimbog.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimswamp.ogg'
+	deathsight_message = "an overgrown fort, hidden from outsider eyes by thick vines and mist"
+	loot_budget = LOOT_BUDGET_GRIMSKELLYFORT
+
 //PILGRIM END
 
 /area/rogue/indoors/shelter/bog_hag/Entered(atom/movable/AM)
