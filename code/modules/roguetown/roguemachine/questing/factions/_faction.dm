@@ -23,6 +23,8 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_RECOVERY)
 		if(length(boss_mob_types))
 			allowed_quest_types += QUEST_BOUNTY
+		if(length(get_playable_boss_types()))
+			allowed_quest_types += QUEST_NOTORIOUS_BOUNTY
 
 /datum/quest_faction/proc/allows_quest_type(quest_type)
 	return (quest_type in allowed_quest_types)
@@ -31,6 +33,14 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	if(!length(boss_mob_types))
 		return null
 	return pickweight(boss_mob_types)
+
+// Only human bosses can be handed to a ghost
+/datum/quest_faction/proc/get_playable_boss_types()
+	var/list/playable = list()
+	for(var/path in boss_mob_types)
+		if(ispath(path, /mob/living/carbon/human))
+			playable[path] = boss_mob_types[path]
+	return playable
 
 /datum/quest_faction/proc/pick_boss_name()
 	if(!boss_name_file)

@@ -117,7 +117,7 @@ SUBSYSTEM_DEF(questpool)
 	return evergreen_count_by_region[region_name] || 0
 
 /proc/is_kill_type(quest_type)
-	return quest_type == QUEST_KILL_EASY || quest_type == QUEST_CLEAR_OUT || quest_type == QUEST_RAID || quest_type == QUEST_BOUNTY || quest_type == QUEST_RECOVERY
+	return quest_type == QUEST_KILL_EASY || quest_type == QUEST_CLEAR_OUT || quest_type == QUEST_RAID || quest_type == QUEST_BOUNTY || quest_type == QUEST_RECOVERY || quest_type == QUEST_NOTORIOUS_BOUNTY
 
 /proc/is_evergreen_type(quest_type)
 	return quest_type == QUEST_COURIER || quest_type == QUEST_RETRIEVAL
@@ -370,6 +370,50 @@ SUBSYSTEM_DEF(questpool)
 	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q
 
+/// Hoard Recovery: a writ against a region's brigands to reclaim the banditry hoard.
+/// No /datum/blockade is involved - the writ binds to the threat region alone, so
+/// hoard-bearing regions without an economic region (Terrorbog) work. Raised either by a
+/// fellowship's own pledge (is_commission = FALSE, fellowship-gated at issue) or drafted
+/// by the Steward like any defense writ (is_commission = TRUE, fellowship-gated only when
+/// pinned to the ledger). source_fund/cost feed the standard recall-refund machinery.
+/datum/controller/subsystem/questpool/proc/issue_hoard_recovery_request(datum/threat_region/TR, mob/living/carbon/human/requester, datum/fund/source_fund, cost = 0, is_commission = FALSE)
+	if(!TR || !requester)
+		return null
+	var/fid = SSeconomy.pick_blockade_faction_for(TR)
+	if(!fid)
+		return null
+	var/datum/quest/kill/blockade_defense/hoard_recovery/Q = new()
+	Q.faction_id = fid
+	Q.quest_difficulty = QUEST_DIFFICULTY_HARD
+	Q.source = QUEST_SOURCE_BLOCKADE
+	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
+	Q.quest_giver_name = requester.real_name
+	Q.deposit_amount = 0
+	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
+	Q.required_fellowship_size = is_commission ? 0 : BLOCKADE_FELLOWSHIP_REQUIREMENT
+	Q.funding_fund = source_fund
+	Q.funding_cost = cost
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name, Q)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	Q.issued_at = world.time
+	var/obj/item/quest_writ/blockade/scroll = new(get_turf(requester))
+	scroll.base_icon_state = Q.get_scroll_icon()
+	scroll.assigned_quest = Q
+	Q.quest_scroll = scroll
+	Q.quest_scroll_ref = WEAKREF(scroll)
+	scroll.update_quest_text()
+	requester.put_in_hands(scroll)
+	TR.active_hoard_recovery_ref = WEAKREF(Q)
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	log_event("generate", "hoard-recovery [is_commission ? "commission" : "request"] in-hand for [TR.region_name] (faction [Q.faction_id], hoard [TR.banditry_hoard])")
+	return Q
+
 /datum/controller/subsystem/questpool/proc/issue_towner_quest(type, mob/living/carbon/human/poster, posting_tier = TOWNER_POSTING_TIER_MEDIUM, to_hand = FALSE, loadout_variety = null)
 	if(!type || !poster)
 		return null
@@ -460,6 +504,8 @@ SUBSYSTEM_DEF(questpool)
 			return QUEST_DIFFICULTY_MEDIUM
 		if(QUEST_RAID, QUEST_BOUNTY)
 			return QUEST_DIFFICULTY_HARD
+		if(QUEST_NOTORIOUS_BOUNTY)
+			return QUEST_DIFFICULTY_NOTORIOUS
 	return QUEST_DIFFICULTY_EASY
 
 /datum/controller/subsystem/questpool/proc/instantiate_quest_of_type(type)
@@ -476,10 +522,14 @@ SUBSYSTEM_DEF(questpool)
 			return new /datum/quest/kill/raid()
 		if(QUEST_BOUNTY)
 			return new /datum/quest/kill/bounty()
+		if(QUEST_NOTORIOUS_BOUNTY)
+			return new /datum/quest/kill/notorious_bounty()
 		if(QUEST_RECOVERY)
 			return new /datum/quest/kill/recovery()
 		if(QUEST_BLOCKADE_DEFENSE)
 			return new /datum/quest/kill/blockade_defense()
+		if(QUEST_HOARD_RECOVERY)
+			return new /datum/quest/kill/blockade_defense/hoard_recovery()
 		if(QUEST_TOWNER_SMITH_CARAVAN)
 			return new /datum/quest/kill/recovery/towner/smith_caravan()
 		if(QUEST_TOWNER_MINER_OREVEIN)

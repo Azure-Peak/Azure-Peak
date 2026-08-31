@@ -1737,8 +1737,8 @@
 
 /obj/item/rogueweapon/halberd/glaive/koruu
 	name = "Sixty Five Yils"
-	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like few blades before. The inscription, 'At fifteen, I went to join the army; only at eighty was I finally able to return home.' is inscribed in gold into the haft of the guandao."
-	icon_state = "koruu_glaive"
+	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like very few blades before. </br>‎	</br> 'At fifteen, I went to join the army; only at eighty was I finally able to return home.'-- </br>‎	</br>--Is inscribed in gold into the haft of the guandao."
+	icon_state = "koruu_naginata"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/koruu/kukri

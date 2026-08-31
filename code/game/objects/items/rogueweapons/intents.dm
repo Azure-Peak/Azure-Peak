@@ -623,30 +623,55 @@
 	if(ismob(target))
 		var/mob/M = target
 		var/list/targetl = list(target)
-		user.visible_message(span_taunt("[user] taunts [M]!"), span_taunt("I taunt [M]!"), ignored_mobs = targetl)
-		user.emote("taunt")
+		var/mob/living/L = user
+		var/taunticon = "taunt"
+		var/custom_offset = 21
+		var/taunt_message = "[user] taunts [M]!"
+		var/is_pacifist = istype(L.patron, /datum/patron/divine/eora) || HAS_TRAIT(L, TRAIT_PACIFISM)
+
 		if(M.mind)
-			var/mob/living/L = user
-			var/taunticon = "taunt" // Regular fist
-			var/custom_offset = 21
-			if(istype(L.patron, /datum/patron/inhumen/graggar) || L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/paranoid))
-				taunticon = "midfinger" // Very rude, but we're also a Rude Person (or stressed)
-				custom_offset = 23
-
-			var/datum/charflaw/averse/AV = L.get_flaw(/datum/charflaw/averse)
-			if(AV)
-				if(AV.check_aversion(L, M))
-					taunticon = "midfinger"	// We hate this person in particular
-
-			if(istype(L.patron, /datum/patron/divine/eora) || HAS_TRAIT(L, TRAIT_PACIFISM))
+			if(is_pacifist)
 				taunticon = "thumbsdown"
 				custom_offset = 24
+				taunt_message = "[user] berates [M] disapprovingly!"
+			else
+				var/datum/charflaw/averse/AV = L.get_flaw(/datum/charflaw/averse)
+				if(AV && AV.check_aversion(L, M))
+					taunticon = "midfinger"
+					custom_offset = 23
+					taunt_message = "[user] flips [M] off with extreme prejudice!"
+
+				else if(istype(L.patron, /datum/patron/inhumen/graggar))
+					taunticon = "midfinger"
+					custom_offset = 23
+					taunt_message = "[user] rudely flips [M] off!"
+
+				else if(L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/paranoid))
+					taunticon = "midfinger"
+					custom_offset = 23
+					taunt_message = "[user] flips [M] off!"
 
 			L.play_overhead_private_rclickemote(targetl, taunticon, custom_offset)
-			to_chat(M, span_taunt("[user] taunts [M]!"))
-			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
+			to_chat(M, span_taunt(taunt_message))
+			user.visible_message(span_taunt(taunt_message), span_taunt(taunt_message), ignored_mobs = targetl)
+			user.emote("taunt")
+			user.changeNext_move(CLICK_CD_FAST) // Mostly to prevent spamming the animation too heavily.
 		else
+			if(is_pacifist)
+				taunticon = "thumbsdown"
+				custom_offset = 24
+				taunt_message = "[user] berates [M] disapprovingly!"
+
+			user.visible_message(span_taunt(taunt_message), span_taunt(taunt_message), ignored_mobs = targetl)
+			user.emote("taunt")
+
 			M.taunted(user)
+			if(M.ai_controller)
+				M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
+				M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, user)
+			var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
+			if(aggro)
+				aggro.add_threat_to_mob(user, 300)
 	return
 
 /// A punch with claw visual only. All damage, armor, wound, timing, stamina, and parry behavior remains inherited from punch.

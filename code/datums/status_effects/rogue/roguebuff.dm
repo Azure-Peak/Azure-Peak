@@ -1698,7 +1698,7 @@
 
 /datum/status_effect/buff/clash/proc/apply_cooldown()
 	var/newcd = BASE_RCLICK_CD - owner.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS)
-	if(deflected_spell)
+	if(deflected_spell || HAS_TRAIT(owner, TRAIT_PACIFISM))
 		newcd *= 0.5
 	owner.apply_status_effect(/datum/status_effect/debuff/clashcd, newcd)
 
