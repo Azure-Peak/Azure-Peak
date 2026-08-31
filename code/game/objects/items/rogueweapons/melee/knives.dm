@@ -186,7 +186,7 @@
 /obj/item/rogueweapon/huntingknife/twirl_success(mob/living/user)
 	user.visible_message(
 		span_notice("[user] spins [src] around [user.p_their()] finger."),
-		span_notice("You spin [src] around your finger"),
+		span_notice("You spin [src] around your finger."),
 	)
 	playsound(src, twirl_sound, 20, FALSE)
 
