@@ -67,15 +67,17 @@
 		var/weapons = list("Penance - Unarmored","Pugilist","Katar","Knuckledusters","Quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
-			if("Penance - Unarmored") // Loses Dodge Expert, gains Enduring and a weaker Skin Armor.
+			if("Penance - Unarmored") // Loses Dodge Expert, gains Enduring, swaps light armor for skin armor.
 				ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
-				H.change_stat(STATKEY_LCK, 1) // better pity bonus
+				H.change_stat(STATKEY_CON, 1)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					armor = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/monke //a leather armor. Bonus durability over other monks, but you have to stitch it up.
+					armor = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/monke //a leather armor. Sewing repair.
 					shirt = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/monke //a gambeson.
+					H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE) //since enduring makes psydonic willpower redundant.
+					H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
 				else
-					armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/monk //leather armor with light gambeson integ, this one needs resting.
-					shirt = /obj/item/clothing/suit/roguetown/armor/manual/emote/prayer/monk //a light gambeson, repaired by praying.
+					armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/monk //a leather armor. Meditation repair.
+					shirt = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/monk //a gambeson.
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
@@ -196,6 +198,7 @@
 		"Klappvisier Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 		"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 		"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
+		"Snouted Burgonet" = /obj/item/clothing/head/roguetown/helmet/heavy/burgonet,
 		"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 		"None"
 	)

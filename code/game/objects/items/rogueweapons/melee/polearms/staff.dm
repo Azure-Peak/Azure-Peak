@@ -41,6 +41,7 @@
 	anvilrepair = /datum/skill/craft/carpentry
 	resistance_flags = FLAMMABLE
 	twirly = SKILL_LEVEL_JOURNEYMAN
+	twirl_speed = 6
 
 /obj/item/rogueweapon/woodstaff/getonmobprop(tag)
 	. = ..()

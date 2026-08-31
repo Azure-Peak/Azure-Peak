@@ -8453,7 +8453,6 @@
 /area/rogue/indoors/vampire_manor)
 "JQ" = (
 /obj/structure/table/church,
-/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "JR" = (

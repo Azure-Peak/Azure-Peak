@@ -39,6 +39,7 @@
 	)
 	subclass_stashed_items = list(
 		"Armor Plates" = /obj/item/repair_kit/metal,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 
 /datum/outfit/job/roguetown/wretch/heretic_spellblade

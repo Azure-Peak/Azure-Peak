@@ -220,6 +220,7 @@
 #define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness + Does Necra's soulcheck thing.
 //Baotha
 #define TRAIT_CRACKHEAD "Blessing of Baotha" //will never overdose
+#define TRAIT_BAOTHAN_CALM "Baothan Calm" //no freakout! :3
 //Fraggar
 #define TRAIT_ORGAN_EATER "Blessing of Graggar" //can eat organs
 //Matthios
@@ -392,7 +393,6 @@
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
 #define TRAIT_NOHUNGER	"Foodless"
 #define TRAIT_LIGHT_STEP	"Light Step"
-#define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"
@@ -711,7 +711,6 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_BOGWALKER = span_info("The bog's blessing graces me. Kneestingers and leeches will not harm me, and I cannot trigger ambushes within the bog unless sprinting."),
 	TRAIT_NOPVE = span_info("I am a true force of nature. No critter or creechur would dare harm me, and I can exert enough influence to deflect the ire of simple-minded mortals as well."),
-	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
 	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is. I can also tell if someone is hoarding mammons, and with blessed gilded spectacles, I can even see how much they have in their bank."),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can stand on leaves in trees safely."),
@@ -722,6 +721,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_STRENGTH_UNCAPPED = span_warning("MY STRENGTH IS UNBOUND!"),
 	TRAIT_MONK_ROBE = span_notice("I feel closer to the gods in my meager robes.. I feel vigorous, empowered by their light!"),
 	TRAIT_EORAN_CALM = span_notice("Eora has touched me, granting me some calm. She protects me from the peaks of my stress."),
+	TRAIT_BAOTHAN_CALM = span_notice("Baotha embraces and comforts me in my darkest and most stressful moments."),
 	TRAIT_EORAN_SERENE = span_greentext("Eora has blessed me with all-encompassing serenity. I feel no more stress."),
 	TRAIT_NECRAS_VOW = span_warning("I've pledged myself to Necra. If I fall, I am Hers."),
 	TRAIT_PESTRAS_BLESSING = span_infection("The sacred black rot of Pestra burns within me. Should intelligent foes try to harm me, they will feel her greatest plague."),
@@ -1113,6 +1113,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TIMESTOP_TRAIT "timestop"
 #define HUGBOX_TRAIT "hugbox"
 #define ADVENTURER_TRAIT "adventurer"
+#define CONTRACT_SPAWN_TRAIT "contract-spawn"
 
 #define TRAIT_I_AM_INVISIBLE_ON_A_BOAT "invisible_on_tram"
 

@@ -30,10 +30,9 @@
 	return GLOB.tgui_always_state
 
 /datum/theme_picker/ui_data(mob/user)
-	var/list/themes = get_tgui_themes()
 	var/list/theme_list = list()
-	for(var/key in themes)
-		theme_list += list(list("key" = key, "name" = themes[key]))
+	for(var/key in GLOB.tgui_themes)
+		theme_list += list(list("key" = key, "name" = GLOB.tgui_themes[key]))
 	return list(
 		"themes" = theme_list,
 		"current" = user.client.prefs.tgui_theme,
@@ -46,11 +45,11 @@
 	switch(action)
 		if("preview")
 			var/theme_key = params["theme"]
-			var/list/themes = get_tgui_themes()
-			if(!(theme_key in themes))
+			if(!(theme_key in GLOB.tgui_themes))
 				return
 			user.client.prefs.tgui_theme = theme_key
 			user.client.prefs.save_preferences()
+			SStgui.update_user_uis(user)
 			confirmed = TRUE
 			return TRUE
 
