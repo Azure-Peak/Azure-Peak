@@ -21,6 +21,7 @@
 		"MATTHIOS IS JUSTICE!",
 		"MATTHIOS IS MY LORD!",
 	)
+	traits_tier = list(TRAIT_SEEWEALTH = CLERIC_T2)
 	storyteller = /datum/storyteller/matthios
 
 	titles = list(

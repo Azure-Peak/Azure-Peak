@@ -68,7 +68,7 @@
 		switch(choice)
 			if(NOTABLE_SHREWD)
 				ADD_TRAIT(recipient, TRAIT_SEEPRICES, TRAIT_VIRTUE)
-				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
+				ADD_TRAIT(recipient, TRAIT_SEEWEALTH, TRAIT_VIRTUE)
 				if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 					recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
 				else
