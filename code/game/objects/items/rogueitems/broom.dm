@@ -48,9 +48,9 @@
 	return twirl_fumble_bonk(user)
 
 /obj/item/broom/proc/sweep_time(mob/living/user)
-	return max(40 - (user.get_skill_level(associated_skill) * 15), 5)
+	return max(40 - (user.get_wskill(src) * 15), 5)
 /obj/item/broom/proc/sweep_move_time(mob/living/user)
-	return max(40 - (user.get_skill_level(associated_skill) * 15), 5)
+	return max(40 - (user.get_wskill(src) * 15), 5)
 
 /obj/item/broom/proc/sweep_alive(mob/living/user)
 	return !QDELETED(user) && user.stat != DEAD

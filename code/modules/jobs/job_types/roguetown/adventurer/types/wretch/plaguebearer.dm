@@ -32,6 +32,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 		"Poison Arrows Quiver" = /obj/item/quiver/poisonarrows,
 	)
 

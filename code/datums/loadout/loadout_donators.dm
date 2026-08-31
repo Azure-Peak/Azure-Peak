@@ -1027,4 +1027,4 @@
 /datum/loadout_item/donator/rivercadaver_tabis
 	name = "Donator Item - Tabis"
 	path = /obj/item/enchantingkit/donator_rivercadaver_tabis
-	ckeywhitelist = list("rivercadaver","muhsollini","no_originality","helenmoder")
+	ckeywhitelist = list("rivercadaver","poots13","nooriginality","helenmoder","oddbomber3768","waffai","castortroy23","persephoneq")

@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - rscadd: "Split timechangetips into tips and fluff, one line from both is displayed on time change."

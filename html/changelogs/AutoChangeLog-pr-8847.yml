@@ -1,4 +1,0 @@
-author: "Fi"
-delete-after: True
-changes:
-  - bugfix: "Fixed the Volf Mantle not having onmob sprites for feminine characters and dwarves—again."

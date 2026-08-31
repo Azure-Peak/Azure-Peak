@@ -38,7 +38,7 @@ TWIRL CODE
 		var/mob/living/carbon/twirler = user
 		twirler.start_spin(src, twirl_speed)
 
-	if((user.get_skill_level(associated_skill) < twirl_skill_needed()) && prob(fumble_chance))
+	if((user.get_wskill(src) < twirl_skill_needed()) && prob(fumble_chance))
 		twirl_fumble(user)
 	else
 		twirl_success(user)

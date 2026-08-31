@@ -1365,3 +1365,74 @@
       home up to speed with other fleshed out roles.
   zeratinoalt:
   - code_imp: updated koruu's donator stuff
+2026-08-31:
+  Fi:
+  - bugfix: Fixed the Fancy Tinted Spectacles not being visible when worn and removes
+      the unnecessary toggle from both it and its non-tinted variant.
+  - bugfix: "Fixed the Volf Mantle not having onmob sprites for feminine characters\
+      \ and dwarves\u2014again."
+  FreeStylaLT:
+  - rscadd: Added Socialite Virtue.
+  - rscdel: Removed Stash and Beauty options from Well-Off virtue.
+  - balance: Added a new Well-Off option -- Shrewd Lyfestyle.
+  - balance: Repair Speeds were adjusted slightly.
+  Ketrai:
+  - rscadd: Added smoker structures to following roles - Warden (tower), hunter houses,
+      inn, soilson, keep.
+  - rscadd: Split timechangetips into tips and fluff, one line from both is displayed
+      on time change.
+  Lamasmaster:
+  - rscadd: Generic See sword and undivided version to Templar guardian and crusader.
+  Ollanius:
+  - rscadd: Supplemental CKEYs to the 'Tabis' donator item, by request.
+  Ryan180602:
+  - rscadd: multi-skills for weapons
+  - code_imp: unifies flourishing
+  - rscadd: lets flourishing show up in game
+  ShadowLarkens:
+  - bugfix: Chat will no longer hang and show a blank screen when storage is lost.
+  WeNeedMorePhoron:
+  - rscadd: Removed the blockade timer of 30 minutes before you start it.
+  - rscadd: Increased wave timer to 15 minutes. Warning is now given at 7.5, 5 and
+      2.5 minute mark instead.
+  - rscadd: Banditry Losses are now stored in a region as a "Banditry Hoard"
+  - rscadd: Clearing a Blockade from that region will now recover said hoard. This
+      hoard is taxed as a Spoils tax (Default 50%) on contract completion.
+  - rscadd: If Hoard reaches 200m or more, a Fellowship of 3 or more people can initiate
+      a writ by pledging a 200m deposit without Steward intervention, to create optional
+      Blockade content. You also get Blockade rewards on top of that.
+  - rscadd: Warden Scout Reports added to the Ledger
+  bearrrrrrrr:
+  - rscadd: you can eat chalk now
+  borneblood:
+  - bugfix: TRAIT_PACIFISM now properly gates a few missing offensive/battle-contributing
+      actions, mainly from grappling.
+  - balance: TRAIT_PACIFISM blocks Feint and Bait actions, but reduces Riposte CD
+      by 50%.
+  - bugfix: Taunting now actually draws aggro from carbons.
+  changelingonberry:
+  - bugfix: changelog now appears consistently on linux
+  kilozombie:
+  - rscadd: Added better mechanics help for some Engineering components and items
+  - rscadd: Wretches now start with 50 mammon
+  - rscadd: Unbound Ancient wretches now start with more psila
+  - rscdel: Removed random money in the wretchbase
+  radarseas:
+  - rscadd: Added bogman hoods
+  - balance: deserter knight has recieved fullplate/half plate armor choices in exchange
+      for their prior weaker armor picks being chopped.
+  - balance: deserter has lost saddleborn + riding skill in exchange for trait_bogwalker
+  - balance: deserter has been redone as a class, as more of a remnant of the bog
+      garrison defectors. You're not allied with bandits sire, but the bogs welcome
+      you all the same. Separating it finally from just MAA but evil.
+  - balance: deserter knight gets more greatweapon picks.
+  - balance: deserter iron warhammer -> steel warhammer
+  - refactor: removes unused ordering code for ordering disgraced MAAs from deserter
+      knights.
+  twinklover22:
+  - balance: Estoc given +3 force and had the rigid intent removed from it's swing.
+  - balance: Poleaxe given an improved mace and stab intent + a weapon special.
+  - balance: Shalal Sabre Given better cut intents.
+  zeroisthebiggay:
+  - bugfix: selecting the size of your character's balls now actually has a change
+      to their sprite's size
