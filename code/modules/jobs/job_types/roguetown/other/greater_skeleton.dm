@@ -391,8 +391,8 @@ NECRO SKELETONS
 		/obj/item/rogueweapon/hammer/iron = 1,
 		/obj/item/rogueweapon/tongs = 1,
 		/obj/item/rogueweapon/hammer/wood = 1,
-		/obj/item/rogueweapon/chisel/bronze = 1,
-		/obj/item/rogueweapon/handsaw/bronze = 1,
+		/obj/item/rogueweapon/chisel = 1,
+		/obj/item/rogueweapon/handsaw = 1,
 		/obj/item/dye_brush = 1
 	)
 
