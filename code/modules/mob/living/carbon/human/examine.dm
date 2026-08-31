@@ -1076,6 +1076,15 @@
 				carbs.Jitter(10)
 				carbs.stuttering += 25
 
+		if (HAS_TRAIT(user, TRAIT_SEEWEALTH))
+			if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && src != user)
+				. +=span_notice("I cannot tell how much wealth they have.")
+			else
+				var/mammonsonperson = get_mammons_in_atom(src)
+				var/mammonsinbank = SStreasury.get_balance(src)
+				var/totalvalue = mammonsinbank + mammonsonperson
+				. +=span_notice("[src] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.")
+
 		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
 			if(HAS_TRAIT(user, TRAIT_DEATHSIGHT) || stat == DEAD)

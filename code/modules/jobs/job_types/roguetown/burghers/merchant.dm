@@ -23,7 +23,7 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 	cmode_music = 'sound/music/combat_noble.ogg'
 	is_quest_giver = TRUE
 
-	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
+	job_traits = list(TRAIT_SEEPRICES, TRAIT_SEEWEALTH, TRAIT_CICERONE)
 	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 
 	advclass_cat_rolls = list(CTAG_MERCH = 2)
@@ -89,7 +89,6 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 	else if(should_wear_femme_clothes(H))
 		shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)

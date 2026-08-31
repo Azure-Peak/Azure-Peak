@@ -22,7 +22,7 @@
 
 	advclass_cat_rolls = list(CTAG_STEWARD = 2)
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_ROYAL_SUBSIDY)
+	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_SEEWEALTH, TRAIT_ROYAL_SUBSIDY)
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 	job_subclasses = list(
@@ -77,8 +77,6 @@
 	beltl = /obj/item/storage/belt/rogue/pouch/merchant/coins
 	backr = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/scomstone
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 	add_verb(H, /mob/living/carbon/human/proc/adjust_taxes)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
