@@ -12556,9 +12556,9 @@
 /obj/structure/roguemachine/withdraw,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
-	dir = 1
+	dir = 8
 	},
-/turf/open/floor/rogue/hexstone,
+/turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/tavern/grim)
 "bDB" = (
 /obj/structure/flora/newtree,
@@ -21518,9 +21518,8 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/water_temple/three)
 "cKm" = (
-/obj/effect/decal/edge_corner{
-	color = "#3f3f3f"
-	},
+/obj/structure/table/wood/long_table/mid/alt,
+/obj/item/ration_lootbox,
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/tavern/grim)
 "cKo" = (
@@ -24971,17 +24970,6 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/dwarfin)
-"dfd" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/turf/open/floor/rogue/tile/brownbrick/browner,
-/area/rogue/indoors/town/tavern/grim)
 "dfe" = (
 /obj/structure/fluff/railing/wood{
 	pixel_x = 0;
@@ -68405,10 +68393,6 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/grim)
 "iEd" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 5
@@ -179046,7 +179030,10 @@
 /obj/machinery/light/rogue/torchholder{
 	dir = 1
 	},
-/turf/open/floor/rogue/hexstone,
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/tavern/grim)
 "wrd" = (
 /obj/structure/fluff/railing/border/west,
@@ -494153,8 +494140,8 @@ cjv
 vlg
 fLM
 bDz
-caS
-caS
+fDi
+uOG
 wqZ
 pVS
 pVS
@@ -494534,10 +494521,10 @@ mih
 evG
 evG
 wKb
-dfd
+qzM
 iEd
-uOG
-cKm
+hlr
+sdK
 fWb
 eSf
 pVS
@@ -494918,7 +494905,7 @@ fSi
 acY
 olI
 bKl
-hlr
+cKm
 sdK
 rhl
 xcJ
