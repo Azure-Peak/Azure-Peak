@@ -22,6 +22,7 @@
 	glow_intensity = GLOW_INTENSITY_LOW
 	charge_slowdown = 3
 	associated_skill = /datum/skill/magic/holy
+	primary_resource_type = SPELL_COST_DEVOTION
 	devotion_cost = 25
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
@@ -67,14 +68,11 @@
 						to_chat(H, span_userdanger("Unholy wrath rebukes my presence! My body catches aflame!"))
 						H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/divine)
 						H.ignite_mob()
-				if(/datum/patron/inhumen/matthios)
-					if(HAS_TRAIT(H, TRAIT_NOBLE))
-						damage += 10
-						H.adjust_fire_stacks(4) //ditto to Astrata
-						H.visible_message(span_warning("[H]'s blue blood burns bright!"), span_warning("My body burns-- my blood is being transacted into fire!"))
-					else
-						H.visible_message(span_warning("[H] is set aflame with gilded flames!"), span_warning("Gilded flame engulfs me!"))
-					H.adjust_fire_stacks(2)
+				if(/datum/patron/inhumen/matthios) //pseudo-churn - +10 dmg and +2 fire stacks per every 100 gold the person is carrying
+					var/mammons = get_mammons_in_atom(H)
+					damage += round(mammons / 10)
+					H.visible_message(span_warning("[H] is set aflame with gilded flames!"), span_warning("Gilded flame engulfs me!"))
+					H.adjust_fire_stacks(2 + (floor(mammons / 100) * 2))
 					H.ignite_mob()
 					if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 						H.visible_message("<font color='white'>Unholy power rebukes [H]!</font>")
