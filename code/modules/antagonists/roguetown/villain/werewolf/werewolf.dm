@@ -41,7 +41,7 @@
 		TRAIT_STRONGBITE,
 		TRAIT_LYCANRESILENCE,
 		TRAIT_CHUNKYFINGERS, //So they can no longer use weapons at all.
-		TRAIT_UNLYCKERABLE, //Literal archenemy
+		TRAIT_VAMP_IMMUNE, //Literal archenemy
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE // major antag
 	)
@@ -148,7 +148,7 @@
 	//No cross species pollination!!!
 	if(mind.has_antag_datum(/datum/antagonist/gnoll))
 		return FALSE
-	if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED) || HAS_TRAIT(src, TRAIT_IRONMAN) || HAS_TRAIT(src, TRAIT_ROTMAN) || HAS_TRAIT(src, TRAIT_NOWW)) // i don't know if other padding keeps them from turning but just to make sure lmao
+	if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED) || HAS_TRAIT(src, TRAIT_IRONMAN) || HAS_TRAIT(src, TRAIT_ROTMAN) || HAS_TRAIT(src, TRAIT_WOLF_IMMUNE)) // i don't know if other padding keeps them from turning but just to make sure lmao
 		return FALSE
 	return TRUE
 

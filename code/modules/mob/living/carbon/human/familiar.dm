@@ -126,8 +126,8 @@
 		TRAIT_CRITICAL_WEAKNESS, // ...this should prevent them from being literally unkillable, though
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects due to them transforming when killed/stepping on shards.
 		TRAIT_NOMETABOLISM, // partly to avoid potion jank, mostly because fae need to store reagents inside themselves
-		TRAIT_NOWW, // no antag familiars pls
-		TRAIT_UNLYCKERABLE,
+		TRAIT_WOLF_IMMUNE, // no antag familiars pls
+		TRAIT_VAMP_IMMUNE,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
 	)
