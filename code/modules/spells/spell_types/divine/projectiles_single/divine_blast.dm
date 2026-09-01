@@ -15,7 +15,7 @@
 	charge_required = TRUE
 	charge_time = 0
 	hold_drain = 1
-	cooldown_time = 5 SECONDS
+	cooldown_time = 8 SECONDS
 	invocations = list("Sakral Strahl!")
 	invocation_type = INVOCATION_SHOUT
 	spell_color = GLOW_COLOR_LIGHTNING
@@ -30,7 +30,7 @@
 /obj/projectile/energy/divineblast
 	name = "Divine Blast"
 	icon_state = "divine_blast"
-	damage = 20 // wont do much to a divine worshipper
+	damage = 30 // wont do much to a divine worshipper
 	woundclass = BCLASS_STAB // divine blade!
 	nodamage = FALSE
 	npc_simple_damage_mult = 2 // The Simple Skele Gibber
@@ -39,7 +39,7 @@
 
 /obj/projectile/energy/divineblast/arc
 	name = "Arced Divine Blast"
-	damage = 15 // Slightly lower base damage and barely matter due to low to hit but not a problem on acolyte / cleric.
+	damage = 25 // Slightly lower base damage and barely matter due to low to hit but not a problem on acolyte / cleric.
 	arcshot = TRUE
 
 /obj/projectile/energy/divineblast/on_hit(target)
@@ -76,21 +76,26 @@
 		if (ishuman(firer))
 			caster = firer
 			switch(caster.patron.type)
-				if(/datum/patron/divine/undivided)
-					damage += 15 // just more raw damage. As mentioned in UNDIVIDED. Our generics are better as a trade off of not having higher tier uniques.
+				if(/datum/patron/divine/undivided) //more raw dmg
+					damage += 10
 					H.visible_message(span_warning("Holy light slams into [H] with force!"), span_warning("Holy light slams into me with force!"))
-				if(/datum/patron/divine/astrata)
+				if(/datum/patron/divine/astrata) //1 extra burn stack to matthiosans so we're not applying an insane amt of soft stun. Astrata is NOT letting you FF nobles.
+					if(HAS_TRAIT(H, TRAIT_NOBLE))
+						visible_message(span_warning("Astrata refuses her power! [src] fizzles on contact with [H]!"))
+						playsound(get_turf(H), 'sound/magic/magic_nulled.ogg', 100)
+						qdel(src)
+						return BULLET_ACT_BLOCK
 					if(istype(H.patron, /datum/patron/inhumen/matthios))
 						H.visible_message(span_warning("[H] is engulfed in flames!"), span_warning("Astrata's <b>hatred</b> sets me aflame!"))
-						H.adjust_fire_stacks(3) //ANCIENT ENEMY I DO NOT FEAR YOU
+						H.adjust_fire_stacks(3)
 						H.ignite_mob()
 					else
 						H.visible_message(span_warning("[H] is engulfed in flames!"), span_warning("Astrata's fury sets me aflame!"))
 						H.adjust_fire_stacks(2) //Remains regular, setting everyone on fire is funnier
 						H.ignite_mob()
-				if(/datum/patron/divine/abyssor)
+				if(/datum/patron/divine/abyssor) //sovl oxyloss
 					H.visible_message(span_warning("Water seeps from [H]'s lips!"), span_warning("Choking water in my lungs!"))
-					H.Dizzy(5)
+					H.adjustOxyLoss(10)
 					H.emote("drown")
 				if(/datum/patron/divine/dendor)
 					H.Slowdown(2) // Shared with Ravox cuz immobilize + offbal is 2 strong

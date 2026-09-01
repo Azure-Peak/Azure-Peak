@@ -15,7 +15,7 @@
 	charge_required = TRUE
 	charge_time = 0
 	hold_drain = 1
-	cooldown_time = 5 SECONDS
+	cooldown_time = 8 SECONDS
 	invocations = list("Larkas Strahl!")
 	invocation_type = INVOCATION_SHOUT
 	spell_color = GLOW_COLOR_LIGHTNING
@@ -30,7 +30,7 @@
 /obj/projectile/energy/unholyblast
 	name = "Unholy Blast"
 	icon_state = "unholy_blast"
-	damage = 20 // wont do much to a heretical worshipper
+	damage = 30 // wont do much to a heretical worshipper
 	woundclass = BCLASS_CUT // I REALLY wanted to do cut
 	nodamage = FALSE
 	npc_simple_damage_mult = 2 // The Simple Skele Gibber
@@ -39,7 +39,7 @@
 
 /obj/projectile/energy/unholyblast/arc
 	name = "Arced Unholy Blast"
-	damage = 15 // Slightly lower base damage
+	damage = 25 // Slightly lower base damage
 	arcshot = TRUE
 
 /obj/projectile/energy/unholyblast/on_hit(target)
@@ -59,29 +59,28 @@
 		if (ishuman(firer))
 			caster = firer
 			switch(caster.patron.type)
-				if(/datum/patron/inhumen/baotha)
-					H.adjustToxLoss(10)
-					H.Dizzy(5)
-					H.visible_message(span_warning("[H] looks unwell..."), span_warning("I feel dizzy... and I've been poisoned!"))
+				if(/datum/patron/inhumen/baotha) //increased dmg based off of how stressed the enemy gamer is
+					damage += max(H.get_stress_amount(), 0) * 3
+					H.visible_message(span_warning("[H] looks numb..."), span_warning("My heart aches with melancholy."))
 					if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 						H.visible_message("<font color='white'>Unholy power rebukes [H]!</font>")
 						to_chat(H, span_userdanger("Unholy wrath rebukes my presence! My body catches aflame!"))
 						H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/divine)
 						H.ignite_mob()
-				if(/datum/patron/inhumen/matthios) //pseudo-churn - +10 dmg and +2 fire stacks per every 100 gold the person is carrying
+				if(/datum/patron/inhumen/matthios) //pseudo-churn - +5 dmg and +1 fire stacks per every 100 gold the person is carrying
 					var/mammons = get_mammons_in_atom(H)
-					damage += round(mammons / 10)
+					damage += round(mammons / 20)
 					H.visible_message(span_warning("[H] is set aflame with gilded flames!"), span_warning("Gilded flame engulfs me!"))
-					H.adjust_fire_stacks(2 + (floor(mammons / 100) * 2))
+					H.adjust_fire_stacks(2 + (floor(mammons / 100) * 1))
 					H.ignite_mob()
 					if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 						H.visible_message("<font color='white'>Unholy power rebukes [H]!</font>")
 						to_chat(H, span_userdanger("Unholy wrath rebukes my presence! My body catches aflame!"))
 						H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/divine)
 						H.ignite_mob()
-				if(/datum/patron/inhumen/graggar)
+				if(/datum/patron/inhumen/graggar) //flat extra dmg, blurry vision
+					damage += 10
 					H.visible_message(span_warning("A splatter of blood covers [H]'s face!"), span_warning("A glob of blood splatters my vision!"))
-					H.Dizzy(5)
 					H.blur_eyes(5)
 					if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 						H.visible_message("<font color='white'>Unholy power rebukes [H]!</font>")
@@ -89,7 +88,7 @@
 						H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/divine)
 						H.ignite_mob()
 						H.Slowdown(4) //Suffer
-				if(/datum/patron/inhumen/zizo)
+				if(/datum/patron/inhumen/zizo) //not really sure what the thematic here
 					if(istype(H.patron, /datum/patron/divine/necra)) //Hilarious, always hit with full regardless of silver weak
 						H.adjust_fire_stacks(6, /datum/status_effect/fire_handler/fire_stacks/divine)
 						H.ignite_mob()
