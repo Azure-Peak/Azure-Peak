@@ -40,7 +40,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 32
+	damage = 25
 	max_range = MAGE_LONG_PROJ_RANGE
 	damage_type = BURN
 	guard_deflectable = TRUE
@@ -52,7 +52,7 @@
 
 /obj/projectile/energy/divineblast/arc
 	name = "arced divine blast"
-	damage = 22
+	damage = 20
 	arcshot = TRUE
 
 /obj/projectile/energy/divineblast/on_hit(target, blocked = FALSE)
@@ -122,7 +122,6 @@
 	L.visible_message(span_divine("--Divine Smite!!"))
 	var/godless = !L.mind
 	var/fire_stacks = godless ? 10 : 5
-	var/CC_timer = godless ? 8 : 4
 	if(godless)
 		L.emote("superagony")
 	if(ishuman(L))
@@ -134,11 +133,9 @@
 	var/turf/target_turf = get_turf(L)
 	new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
 	playsound(target_turf, 'sound/magic/lightning.ogg', 80)
+	L.electrocute_act(10, L, flags = SHOCK_VISUAL_ONLY)
 	L.adjust_fire_stacks(fire_stacks, /datum/status_effect/fire_handler/fire_stacks/divine)
 	L.ignite_mob()
-	L.apply_status_effect(/datum/status_effect/debuff/exposed, CC_timer SECONDS)
-	L.apply_status_effect(/datum/status_effect/debuff/clickcd, CC_timer SECONDS)
-	L.Slowdown(CC_timer)
 
 /datum/action/cooldown/spell/projectile/divine_blast/Grant(mob/grant_to)
 	. = ..()
