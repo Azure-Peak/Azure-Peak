@@ -467,7 +467,7 @@
 	icon_state = "confessorhood"
 	item_state = "confessorhood"
 	color = null
-	body_parts_covered = NECK | HEAD | HAIR
+	body_parts_covered = NECK | HEAD | HAIR | EARS
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	armor = ARMOR_LEATHER
