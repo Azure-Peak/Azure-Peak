@@ -2,7 +2,7 @@
 	name = "Unholy Blast"
 	desc = "Channel unholy power and sunder the unbelievers. Deals additional damage to wretched conformists and Psydonites. \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
-	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal less damage."
 	button_icon_state = "unholy_blast"
 	cast_range = 12
 	projectile_type = /obj/projectile/energy/unholyblast
@@ -30,7 +30,7 @@
 /obj/projectile/energy/unholyblast
 	name = "Unholy Blast"
 	icon_state = "unholy_blast"
-	damage = 30 // wont do much to a heretical worshipper
+	damage = 30
 	woundclass = BCLASS_CUT // I REALLY wanted to do cut
 	nodamage = FALSE
 	npc_simple_damage_mult = 2 // The Simple Skele Gibber
@@ -39,7 +39,7 @@
 
 /obj/projectile/energy/unholyblast/arc
 	name = "Arced Unholy Blast"
-	damage = 25 // Slightly lower base damage
+	damage = 26 // Slightly lower base damage
 	arcshot = TRUE
 
 /obj/projectile/energy/unholyblast/on_hit(target)
@@ -48,13 +48,13 @@
 		if(out_of_effective_range())
 			return
 		if(H.mob_biotypes & MOB_UNDEAD)
-			damage += 20
+			damage += 10
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
 		if(istype(H.patron, /datum/patron/divine))
-			damage += 20
+			damage += 10
 		if(istype(H.patron, /datum/patron/old_god))
-			damage += 20
+			damage += 10
 		var/mob/living/carbon/human/caster
 		if (ishuman(firer))
 			caster = firer

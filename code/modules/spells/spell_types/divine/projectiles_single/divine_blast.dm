@@ -2,7 +2,7 @@
 	name = "Divine Blast"
 	desc = "Concentrate my belief. Deals more damage to heretics and deadites. \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
-	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal less damage."
 	button_icon_state = "divine_blast"
 	cast_range = 12
 	projectile_type = /obj/projectile/energy/divineblast
@@ -30,7 +30,7 @@
 /obj/projectile/energy/divineblast
 	name = "Divine Blast"
 	icon_state = "divine_blast"
-	damage = 30 // wont do much to a divine worshipper
+	damage = 30
 	woundclass = BCLASS_STAB // divine blade!
 	nodamage = FALSE
 	npc_simple_damage_mult = 2 // The Simple Skele Gibber
@@ -39,7 +39,7 @@
 
 /obj/projectile/energy/divineblast/arc
 	name = "Arced Divine Blast"
-	damage = 25 // Slightly lower base damage and barely matter due to low to hit but not a problem on acolyte / cleric.
+	damage = 26 // Slightly lower base damage and barely matter due to low to hit but not a problem on acolyte / cleric.
 	arcshot = TRUE
 
 /obj/projectile/energy/divineblast/on_hit(target)
@@ -59,11 +59,11 @@
 		var/mob/living/carbon/human/H = target
 		if(istype(H.patron, /datum/patron/divine))
 			if(H in GLOB.excommunicated_players)
-				damage += 20
+				damage += 10
 		if(istype(H.patron, /datum/patron/inhumen))
-			damage += 20
+			damage += 10
 		if(istype(H.patron, /datum/patron/old_god))
-			damage += 20
+			damage += 10
 		if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			H.visible_message("<font color='white'>Divine power rebukes [H]!</font>")
 			to_chat(H, span_userdanger("Divine fury rebukes my presence! My body catches aflame!")) //Its NOT a Silver sunder, for balance reasons w/ the buffs. Change this back to sunders when clergy isn't absolutely fucked to fight.
