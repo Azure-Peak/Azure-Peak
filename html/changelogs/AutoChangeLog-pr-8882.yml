@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Innkeeper now gets a random ingredients package in their kitchen"

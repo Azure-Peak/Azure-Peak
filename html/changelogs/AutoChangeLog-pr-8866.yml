@@ -1,0 +1,4 @@
+author: "zRainbowcat"
+delete-after: True
+changes:
+  - bugfix: "Fixed a bug that counted readiness in lobby as time on mercenary, so merc statue link was always expired even before server actually started round"

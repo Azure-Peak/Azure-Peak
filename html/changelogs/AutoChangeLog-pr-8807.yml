@@ -1,6 +1,0 @@
-author: "FeniaFox"
-delete-after: True
-changes:
-  - balance: "Towner big fella skin armor buffed to the usual gambeson + leather armor benchmark."
-  - balance: "Adventurer monk (non-psydonic) skin armor buffed to the usual gambeson + leather armor benchmark, and adjusted to use meditation repair (25% per 10s, ~40s total), rather than the two layers differing between prayer and resting repair."
-  - balance: "Adventurer monk (psydonic) no longer has bonus integrity over other monks to make up for Enduring rendering Psydonic Willpower redundant. Instead gains novice sewing + medicine skills."

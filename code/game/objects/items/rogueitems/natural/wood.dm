@@ -234,9 +234,9 @@
 	..()
 
 /obj/item/grown/log/tree/bowpartial
-	name = "crude bowstave"
+	name = "bowstave"
 	desc = "A partially completed bow, waiting to be strung."
-	icon_state = "bowpartial"
+	icon_state = "bow_stave"
 	max_integrity = 30
 	firefuel = 10 MINUTES
 	twohands_required = FALSE
@@ -259,8 +259,7 @@
 /obj/item/grown/log/tree/bowpartial/recurve
 	name = "recurve bowstave"
 	desc = "An incomplete recurve bow, waiting to be strung."
-	icon = 'icons/roguetown/items/64x.dmi'
-	icon_state = "recurve_bowstave"
+	icon_state = "recurve_stave"
 
 /obj/item/grown/log/tree/bowpartial/recurve/Initialize(mapload)
 	. = ..()
@@ -271,8 +270,7 @@
 /obj/item/grown/log/tree/bowpartial/longbow
 	name = "long bowstave"
 	desc = "An incomplete longbow, waiting to be strung."
-	icon = 'icons/roguetown/items/64x.dmi'
-	icon_state = "long_bowstave"
+	icon_state = "longbow_stave"
 
 /obj/item/grown/log/tree/bowpartial/longbow/Initialize(mapload)
 	. = ..()

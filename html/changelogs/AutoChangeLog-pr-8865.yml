@@ -1,0 +1,4 @@
+author: "zRainbowcat"
+delete-after: True
+changes:
+  - bugfix: "Added a different name for bullion recipe variant which fixed conflict between two"
