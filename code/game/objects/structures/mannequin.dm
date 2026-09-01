@@ -96,11 +96,18 @@
 	MapEquip()
 	if(mapload)
 		for(var/obj/item/clothing/clothing in get_turf(src))
-			var/slot = MannequinSlotHelper(clothing.slot_flags)
-			if(slot)
-				MannequinEquip(clothing, slot)
+			TryAutoEquip(clothing)
 
 	update_icon()
+
+/// Equips spawned in dungeon clothing etc off the ground at their feet, trying every available slot.
+/obj/structure/mannequin/proc/TryAutoEquip(obj/item/clothing/loose_clothing)
+	if(unchangeable)
+		return
+	for(var/slot in MannequinSlotHelper(loose_clothing.slot_flags))
+		if(!clothing[slot])
+			MannequinEquip(loose_clothing, slot)
+			return
 
 /obj/structure/mannequin/attack_hand(mob/living/user)
 	if(istype(user.a_intent, /datum/intent/unarmed/punch))
@@ -694,33 +701,46 @@
 		if(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT)
 			return SLOT_MANNEQUIN_FEET
 
+/// Returns every mannequin slot this item's slot_flags could go in, in priority order, so callers can fall through to the next open one.
 /obj/structure/mannequin/proc/MannequinSlotHelper(slots_flags)
+	var/list/candidate_slots = list()
 	if(slots_flags & ITEM_SLOT_HEAD)
-		return SLOT_MANNEQUIN_HEAD
+		candidate_slots += SLOT_MANNEQUIN_HEAD
+
+	if(slots_flags & ITEM_SLOT_CLOAK)
+		candidate_slots += SLOT_MANNEQUIN_CLOAK
 
 	if(slots_flags & ITEM_SLOT_NECK)
-		return SLOT_MANNEQUIN_CLOAK
+		candidate_slots += SLOT_MANNEQUIN_NECK
 
 	if(slots_flags & ITEM_SLOT_MASK)
-		return SLOT_MANNEQUIN_MASK
+		candidate_slots += SLOT_MANNEQUIN_MASK
 
 	if(slots_flags & ITEM_SLOT_ARMOR)
-		return SLOT_MANNEQUIN_ARMOR
+		candidate_slots += SLOT_MANNEQUIN_ARMOR
 
 	if(slots_flags & ITEM_SLOT_SHIRT)
-		return SLOT_MANNEQUIN_SHIRT
+		candidate_slots += SLOT_MANNEQUIN_SHIRT
 
 	if(slots_flags & ITEM_SLOT_BELT)
-		return SLOT_MANNEQUIN_BELT
+		candidate_slots += SLOT_MANNEQUIN_BELT
 
 	if(slots_flags & ITEM_SLOT_PANTS)
-		return SLOT_MANNEQUIN_PANTS
+		candidate_slots += SLOT_MANNEQUIN_PANTS
 
 	if(slots_flags & ITEM_SLOT_GLOVES)
-		return SLOT_MANNEQUIN_GLOVES
+		candidate_slots += SLOT_MANNEQUIN_GLOVES
+
+	if(slots_flags & ITEM_SLOT_WRISTS)
+		candidate_slots += SLOT_MANNEQUIN_WRISTS
+
+	if(slots_flags & ITEM_SLOT_RING)
+		candidate_slots += SLOT_MANNEQUIN_RING
 
 	if(slots_flags & ITEM_SLOT_SHOES)
-		return SLOT_MANNEQUIN_FEET
+		candidate_slots += SLOT_MANNEQUIN_FEET
+
+	return candidate_slots
 
 ////Subtypes/////
 /obj/structure/mannequin/male
