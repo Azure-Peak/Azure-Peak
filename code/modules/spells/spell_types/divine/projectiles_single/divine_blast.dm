@@ -1,36 +1,30 @@
-/obj/effect/proc_holder/spell/invoked/projectile/divineblast
+/datum/action/cooldown/spell/projectile/divine_blast
 	name = "Divine Blast"
-	desc = "Shoot out a blast of divine power! Deals more damage to heretics(Psydonians/Inhumen) and Undead! \n\
+	desc = "Concentrate my belief. Deals more damage to heretics and deadites. \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
 	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
-	clothes_req = FALSE
-	range = 12
+	button_icon_state = "divine_blast"
+	cast_range = 12
 	projectile_type = /obj/projectile/energy/divineblast
 	projectile_type_arc = /obj/projectile/energy/divineblast/arc
-	overlay_state = "divine_blast"
-	sound = list('sound/magic/vlightning.ogg')
-	active = FALSE
-	releasedrain = 20
-	chargedrain = 1
-	chargetime = 0
-	recharge_time = 5 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	invocations = list("Göttliche Macht")
-	invocation_type = "shout"
-	glow_color = GLOW_COLOR_LIGHTNING
+	sound = 'sound/magic/vlightning.ogg'
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 25
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = 20
+	charge_required = TRUE
+	charge_time = 0
+	hold_drain = 1
+	cooldown_time = 5 SECONDS
+	invocations = list("Sakral Strahl!")
+	invocation_type = INVOCATION_SHOUT
+	spell_color = GLOW_COLOR_LIGHTNING
 	glow_intensity = GLOW_INTENSITY_LOW
-	charging_slowdown = 3
-	chargedloop = /datum/looping_sound/invokegen
+	charge_slowdown = 3
 	associated_skill = /datum/skill/magic/holy
-	miracle = TRUE
+	primary_resource_type = SPELL_COST_DEVOTION
 	devotion_cost = 25
-	human_req = TRUE
-
-/obj/effect/proc_holder/spell/invoked/projectile/divineblast/cast(list/targets, mob/user = user)
-	projectile_type = arc_mode ? projectile_type_arc : initial(projectile_type)
-	. = ..()
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 
 /obj/projectile/energy/divineblast

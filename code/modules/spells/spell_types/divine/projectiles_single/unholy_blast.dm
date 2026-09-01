@@ -1,32 +1,29 @@
-/obj/effect/proc_holder/spell/invoked/projectile/unholyblast // this CANNOT be a child of divine_blast bc you have to call parent on cast.
+/datum/action/cooldown/spell/projectile/unholy_blast
 	name = "Unholy Blast"
-	desc = "Channel unholy power and sunder the unbelievers. Deals additional damage to wretched conformists and Psydonites! \n\
+	desc = "Channel unholy power and sunder the unbelievers. Deals additional damage to wretched conformists and Psydonites. \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
 	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
-	clothes_req = FALSE
-	range = 12
-	overlay_state = "unholy_blast"
+	button_icon_state = "unholy_blast"
+	cast_range = 12
 	projectile_type = /obj/projectile/energy/unholyblast
 	projectile_type_arc = /obj/projectile/energy/unholyblast/arc
-	sound = list('sound/magic/vlightning.ogg')
-	active = FALSE
-	releasedrain = 20
-	chargedrain = 1
-	chargetime = 0
-	recharge_time = 5 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	invocations = list("Dunkle macht")
-	invocation_type = "shout"
-	glow_color = GLOW_COLOR_LIGHTNING
+	sound = 'sound/magic/vlightning.ogg'
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 25
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = 20
+	charge_required = TRUE
+	charge_time = 0
+	hold_drain = 1
+	cooldown_time = 5 SECONDS
+	invocations = list("Larkas Strahl!")
+	invocation_type = INVOCATION_SHOUT
+	spell_color = GLOW_COLOR_LIGHTNING
 	glow_intensity = GLOW_INTENSITY_LOW
-	charging_slowdown = 3
-	chargedloop = /datum/looping_sound/invokegen
+	charge_slowdown = 3
 	associated_skill = /datum/skill/magic/holy
-	miracle = TRUE
 	devotion_cost = 25
-	human_req = TRUE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 
 /obj/projectile/energy/unholyblast
@@ -43,11 +40,6 @@
 	name = "Arced Unholy Blast"
 	damage = 15 // Slightly lower base damage
 	arcshot = TRUE
-
-/obj/effect/proc_holder/spell/invoked/projectile/unholyblast/cast(list/targets, mob/user = user)
-	projectile_type = arc_mode ? projectile_type_arc : initial(projectile_type)
-	. = ..()
-
 
 /obj/projectile/energy/unholyblast/on_hit(target)
 	if(isliving(target))
