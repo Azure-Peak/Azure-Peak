@@ -133,7 +133,6 @@
 	var/turf/target_turf = get_turf(L)
 	new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
 	playsound(target_turf, 'sound/magic/lightning.ogg', 80)
-	L.electrocute_act(10, L, flags = SHOCK_VISUAL_ONLY)
 	L.adjust_fire_stacks(fire_stacks, /datum/status_effect/fire_handler/fire_stacks/divine)
 	L.ignite_mob()
 
