@@ -24,7 +24,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	name = "decrepit bolt"
-	desc = "An ancient bolt, tipped with frayed bronze. It lacks the luster that it once held, many centuries ago."
+	desc = "An ancient bolt, tipped with rotted metal. It lacks the luster that it once held, many centuries ago."
 	icon_state = "ancientbolt"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/aalloy
 	color = "#bb9696"
@@ -250,7 +250,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
-	desc = "A length of frayed bronze, quilled to take flight and tear down the living. \
+	desc = "A length of rotted metal, quilled to take flight and tear down the living. \
 	Metal flakes occassionally peel off from its core, mysteriously hovering about - \
 	tolerable by the undying, but unbearibly noxious to the living."
 	icon_state = "ancientheavybolt"
@@ -473,7 +473,7 @@
 	if(!ismob(target) || blocked >= 100)
 		return
 	var/mob/living/M = target
-	apply_scorch_stack(M, 4, def_zone)
+	apply_scorch_stack(M, 3, def_zone)
 
 /obj/item/ammo_casing/caseless/rogue/bolt/water
 	name = "water bolt"

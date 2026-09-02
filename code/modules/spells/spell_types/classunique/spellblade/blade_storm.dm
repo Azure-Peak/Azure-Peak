@@ -156,7 +156,7 @@
 		for(var/mob/living/victim in T)
 			if(victim == user || victim.stat == DEAD)
 				continue
-			if(spell_guard_check(victim, FALSE, storm_deflected ? null : user))
+			if(spell_guard_check(victim, FALSE, user, punish_caster = storm_deflected ? FALSE : null))
 				storm_deflected = TRUE
 				continue
 			arcyne_strike(user, victim, weapon, aoe_dmg, def_zone, BCLASS_CUT, spell_name = "Blade Storm (Cut [cut_num])", skip_animation = TRUE, skip_message = TRUE)

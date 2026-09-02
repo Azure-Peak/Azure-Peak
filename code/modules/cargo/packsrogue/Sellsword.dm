@@ -18,6 +18,11 @@
 	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored)
 
+/datum/supply_pack/rogue/Sellsword/visoredsallet_snouted
+	name = "Snouted Visored Sallet"
+	cost = 50
+	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted)
+
 /datum/supply_pack/rogue/Sellsword/steelmask
 	name = "Steel Mask"
 	cost = 30

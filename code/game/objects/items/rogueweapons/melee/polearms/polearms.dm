@@ -241,6 +241,7 @@
 	resistance_flags = FLAMMABLE
 	special = /datum/special_intent/polearm_backstep
 	twirly = SKILL_LEVEL_EXPERT // safely twirling like, a halberd, is going to be harder than a blunt staff
+	twirl_speed = 6
 
 /obj/item/rogueweapon/spear/short
 	force = 25
@@ -412,7 +413,7 @@
 
 /obj/item/rogueweapon/spear/aalloy
 	name = "decrepit spear"
-	desc = "A rotting staff, tipped with frayed bronze. After the stone, but before the sword; an interlude for the violence that would soon \
+	desc = "A rotting staff, tipped with rotted metal. After the stone, but before the sword; an interlude for the violence that would soon \
 	engulf His world."
 	icon_state = "ancient_spear"
 	force = 13
@@ -842,7 +843,7 @@
 
 /obj/item/rogueweapon/halberd/bardiche/aalloy
 	name = "decrepit bardiche"
-	desc = "An imposing poleaxe, wrought from frayed bronze. Whatever noble purpose this weapon held has long since decayed; for \
+	desc = "An imposing poleaxe, wrought from rotted metal. Whatever noble purpose this weapon held has long since decayed; for \
 	it now persists to sunder the chaff that clings to this dying world."
 	max_integrity = 180
 	force = 12
@@ -1239,6 +1240,12 @@
 	wdefense = 6 // A little bit extra
 	max_blade_int = 200
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/spear/boar/noc
+	name = "moonlight spear"
+	desc = "A spear with a wide head and a pair of wings below the head. The wings are designed to prevent a boar from charging past the spearhead. \
+	It is also useful for parrying and stopping a charging opponent. This one in particular is made of blued steel."
+	icon_state = "nocspear"
 
 /obj/item/rogueweapon/spear/blacksteel
 	name = "blacksteel spear"

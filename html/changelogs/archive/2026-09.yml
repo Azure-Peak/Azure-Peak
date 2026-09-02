@@ -1,0 +1,77 @@
+2026-09-01:
+  FreeStylaLT:
+  - server: Admins now have access to the 'Gift' donator loadout selection.
+  GRAGGAR HIMSELF:
+  - bugfix: graggar assassin dagger can no longer be used by random people
+  - bugfix: graggar assassin dagger should now properly display captured souls in
+      endround(?) not sure about this one actually
+  - bugfix: breaking the assassin dagger now allows you to be revived
+  - bugfix: peculate now only works on targets who are inCritical(), "bled out" message
+      level of blood, or dead. you must be adjacent to the target. peculate's skinthiefing
+      ability does not work on constructs or revenants or if the user is either one
+      of these. it also doesn't function if either the user or the target have a disfigurement
+      /wound in order to prevent cheesing it multiple times. peculate also clearly
+      tells everyone around you what youre doing.
+  - bugfix: all assassins should now get their various traits
+  - bugfix: assassin has new description that isnt just the bandit one
+  - bugfix: peculate's face-theft now applies a healable disfigurement /wound.
+  - balance: peculate has to be used on an adjacent target
+  - balance: assassins can now track their daggers
+  - balance: assassins can now track their targets
+  - balance: assassin must be dead to break dagger
+  - balance: all assassins now get expert knives on datum gain
+  - balance: assassin dagger has 200 integ & wdef. this is 50 more integ than a hunting
+      knife & 2 more than a normal dagger. awesome.
+  - balance: necran rites, bishop bibble, bishop staff, and absolver golgatha can
+      all break the dagger if the assassin is dead. we still need more fallbacks but
+      IDK have someone put something in the necra dungeon or add a signal ifthe assassin
+      dies.
+  - rscadd: new, working sound for peculate
+  - rscadd: graggar dagger now adds last words of peculated victims to it's speaking
+      list
+  - rscadd: graggar dagger speaking to assassin & others now looks more like actual
+      whispers
+  - rscadd: assassins now summon their for the first time dagger through a spell
+  - rscadd: everyone can tell if someone has DNR and they are dead. it was already
+      like this but not clear.
+  - rscadd: you will be able to tell if an unmasked, living person, is DNR, if you
+      have expert medicine or above. you can also tell if you have veiled whispers.
+  - rscadd: graggar dagger can be broken by necran ritual
+  - rscadd: graggar dagger now applies DNR and a special trait to tell people that
+      they need to get dat damn assassin
+  - code_imp: DNR examine block has been changed to make more sense. players will
+      see SLIGHTLY different messages.
+  - code_imp: roundstart/solo assassin event is kill
+  - code_imp: tried to add a check to ensure antag injection events dont double up
+      if you already have the datum
+  - code_imp: assassin now appears in antag panel
+  - code_imp: migrant waves now handle banned flaws & banned virtues. needs to be
+      done manually tho
+  Ketrai:
+  - bugfix: fixed bun nutrition values
+  - rscadd: Innkeeper now gets a random ingredients package in their kitchen
+  - qol: Added an ic verb to level up your skills if you are asleep and have points
+  - bugfix: reverts item giving if an item can't be transferred successfully
+  WatermelonsEverywhere:
+  - rscadd: Half-Kin can use cosmetic claw effects now too
+  borneblood:
+  - rscdel: Removed Toxophilite and Marksman virtues.
+  - balance: Trained & Ready has the skills and weapons for Bows and Crossbows now.
+  mumblemancer:
+  - rscadd: bloodletting now removes "infection" reagent from bad surgery. remember
+      to pump out the blood w/ a hand after cutting the vein!
+  - balance: bloodletting now reduces toxloss by a smaller amount
+  - balance: bloodletting blood-loss scales inversely with medicine skill
+  - qol: bloodletting repeats automatically
+  - bugfix: bloodletting does not work if the target is running out of blood
+  - bugfix: people w/ multiple reagents in their blood will now display it properly
+  radarseas:
+  - balance: Keep Footknights now have steel instead of iron warhammers. Since specials
+      on other weapons made its prior case of being a straight-upgrade moot.
+  zRainbowcat:
+  - qol: Added repairing to cooling backpack via hammer and engineering
+  - bugfix: Fixed a bug that counted readiness in lobby as time on mercenary, so merc
+      statue link was always expired even before server actually started round
+  - bugfix: confessional hood coverage
+  - bugfix: Added a different name for bullion recipe variant which fixed conflict
+      between two

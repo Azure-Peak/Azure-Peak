@@ -115,7 +115,8 @@
 		return FALSE
 	playsound(get_turf(victim), 'sound/combat/brutal_impalement.ogg', 100, TRUE)
 	victim.visible_message(span_userdanger("[bull] gores [victim] on its horns!"))
-	arcyne_strike(bull, victim, null, gore_damage, pick(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), BCLASS_STAB, armor_penetration = PEN_HEAVY, spell_name = name, skip_animation = TRUE, exact_zone = TRUE)
+	if(arcyne_strike(bull, victim, null, gore_damage, pick(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG), BCLASS_STAB, armor_penetration = PEN_HEAVY, spell_name = name, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+		return TRUE
 	if(victim.mobility_flags & MOBILITY_STAND)
 		victim.apply_status_effect(/datum/status_effect/debuff/exposed, gore_exposed)
 	var/turf/behind = get_step(get_turf(victim), facing)

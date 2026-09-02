@@ -743,7 +743,7 @@
 					ignited = TRUE
 			if(isliving(target))
 				var/mob/living/M = target
-				apply_scorch_stack(M, 4, BODY_ZONE_CHEST)
+				apply_scorch_stack(M, 3, BODY_ZONE_CHEST)
 				ignited = TRUE
 			if(ignited && single_use)
 				is_active = FALSE
@@ -1097,8 +1097,21 @@
 /datum/intent/peculate
 	name = "peculate"
 	hitsound = null
-	desc = "Thieve the appearance of another."
+	desc = span_cult("The skinthiefing. The soul-taking. ") + "Peculate a dead or bled-out opponent, their head intact, to claim them for the dagger. \
+	You will steal their form... assuming a mortal could easily assume their shape. " + span_info("Skinthiefing will not work on constructs, gnolls, or most NPCs.")
 	icon_state = "inpeculate"
+	attack_verb = list("steals", "peculates", "skinthiefs")
+	max_intent_damage = 0
+
+
+/datum/intent/peculate/examine(mob/user)
+	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+	// todo: add more of these later
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"Hehe... hehehe...\"</i>"))
+		return
+	// call parent for assassins so they can actually see the desc
+	. = ..()
+
 
 //Knuckledusters. Uses the Psydonic Thorns code to swap between this and the wearable, unarmed-damage-multiplying variants.
 /obj/item/rogueweapon/knuckledusters
@@ -1227,162 +1240,6 @@
 		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
 		return
 
-//Unique assassin/antag dagger.
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane
-	name = "profane dagger"
-	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the diamond on its hilt. </br>A chill rolls down my spine. I am not alone."
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate, /datum/intent/dagger/thrust/pick)
-	sellprice = 250
-	icon_state = "graggardagger"
-	sheathe_icon = "graggardagger"
-	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
-	resistance_flags = INDESTRUCTIBLE
-	stealthy_audio = TRUE
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
-		. += "profane dagger whispers, \"[span_danger("Here we are!")]\""
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
-	. = ..()
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if (!HAS_TRAIT(H, TRAIT_ASSASSIN)) // Non-assassins don't like holding the profane dagger.
-			H.add_stress(/datum/stressevent/profane)
-			to_chat(M, "<span class='danger'>Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!</span>")
-			var/message = pick(
-				"<span class='danger'>Help me...</span>",
-				"<span class='danger'>Save me...</span>",
-				"<span class='danger'>It's cold...</span>",
-				"<span class='danger'>Free us...please...</span>",
-				"<span class='danger'>Necra...deliver...us...</span>")
-//			H.visible_message("profane dagger whispers, \"[message]\"")
-			to_chat(M, "profane dagger whispers, \"[message]\"")
-		else
-			var/message = pick(
-				"<span class='danger'>Why...</span>",
-				"<span class='danger'>...Who sent you?</span>",
-				"<span class='danger'>...You will burn for what you've done...</span>",
-				"<span class='danger'>I hate you...</span>",
-				"<span class='danger'>Someone stop them!</span>",
-				"<span class='danger'>Guards! Help!</span>",
-				"<span class='danger'>...What's that in your hand?</span>",
-				"<span class='danger'>...You love me...don't you?</span>",
-				"<span class='danger'>Wait...don't I know you?</span>",
-				"<span class='danger'>I thought you were...my friend...</span>",
-				"<span class='danger'>How long have I been in here...</span>")
-//			H.visible_message("profane dagger whispers, \"[message]\"")
-			to_chat(M, "profane dagger whispers, \"[message]\"")
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
-	if(!istype(target))
-		return FALSE
-	if(target.has_flaw(/datum/charflaw/targeted)) // Check to see if the dagger will do 20 damage or 14
-		force = 20 * 2	//vs trait havers, 2x damage over a steel knife
-	else
-		force = 20 + 4	//vs non-trait havers, 4 more damage over a steel knife
-	return FALSE
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
-	. = ..()
-	if(!ishuman(target))
-		return
-	if(target.stat == DEAD || (target.health < target.crit_threshold)) // Trigger soul steal or identity theft if the target is either dead or in crit
-		if(istype(user.used_intent, /datum/intent/peculate))
-			if(!ishuman(user)) // carbons don't have all features of a human
-				to_chat(user, span_danger("You can't do that!"))
-				return
-			var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
-			if(QDELETED(target_head))
-				to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
-				return
-
-			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 6 SECONDS)
-
-			playsound(
-				user,
-				get_sfx("changeling_absorb"), //todo: turn sound keys into defines.
-				100,
-			)
-			to_chat(user, span_danger("I start absorbing [target]'s identity."))
-			if(!do_after(user, 3 SECONDS, target = target))
-				qdel(transfer_beam)
-				return
-
-			playsound( // and anotha one
-				user,
-				get_sfx("changeling_absorb"),
-				100,
-			)
-
-			if(!do_after(user, 3 SECONDS, target = target))
-				qdel(transfer_beam)
-				return
-
-			if(!user.client)
-				qdel(transfer_beam)
-				return
-			qdel(transfer_beam)
-
-			var/mob/living/carbon/human/human_user = user
-
-			human_user.copy_physical_features(target)
-			to_chat(user, span_purple("I take on a new face.."))
-			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
-
-			return
-
-		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
-			if(target.client == null) //See if the target's soul has left their body
-				to_chat(user, "<span class='danger'>Your target's soul has already escaped its corpse...you try to call it back!</span>")
-				get_profane_ghost(target,user) //Proc to capture a soul that has left the body.
-			else
-				user.adjust_triumphs(1)
-				init_profane_soul(target, user) //If they are still in their body, send them to the dagger!
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user, mob/soul)
-	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
-	record_round_statistic(STATS_ASSASSINATIONS)
-	var/mob/dead/observer/profane/S = new /mob/dead/observer/profane(src)
-	S.forceMove(src)
-	S.name = "soul of [target.real_name]"
-	S.real_name = "soul of [target.real_name]"
-	S.deadchat_name = target.real_name
-	var/mob/keysource = soul || target
-	S.key = keysource.key
-	S.language_holder = target.language_holder.copy(S)
-	target.visible_message("<span class='danger'>[target]'s soul is pulled from their body and sucked into the profane dagger!</span>", "<span class='danger'>My soul is trapped within the profane dagger. Damnation!</span>")
-	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
-	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
-	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/user)
-	var/mob/dead/observer/chosen_ghost
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit() //Check if a soul has already gone to the underworld
-	if(underworld_spirit) // If they are in the underworld, pull them back to the real world and make them a normal ghost. Necra can't save you now!
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		chosen_ghost = ghost.get_ghost(TRUE,TRUE)
-	else //Otherwise, try to get a ghost from the real world
-		chosen_ghost = target.get_ghost(TRUE,TRUE)
-	if(!chosen_ghost || !chosen_ghost.client) // If there is no valid ghost or if that ghost has no active player
-		return FALSE
-	user.adjust_triumphs(1)
-	init_profane_soul(target, user, chosen_ghost)
-	qdel(chosen_ghost)
-	return TRUE
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
-	var/freed_souls = 0
-	for(var/mob/dead/observer/profane/A in src) // for every trapped soul in the dagger, whether they have left the game or not
-		to_chat(A, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
-		A.trapped = FALSE
-		A.returntolobby() //Send the trapped soul back to the lobby
-		user.visible_message("<span class='warning'>The [A.name] flows out from the profane dagger, finally free of its grasp.</span>")
-		freed_souls += 1
-	user.visible_message("<span class='warning'>The profane dagger shatters into putrid smoke!</span>")
-	qdel(src) // Delete the dagger. Forevermore.
-	return freed_souls
 
 // Standard of the keep.
 // Big ol' flag that they keep to give bonuses, used by the manorguard standard bearer.

@@ -234,9 +234,9 @@
 	..()
 
 /obj/item/grown/log/tree/bowpartial
-	name = "crude bowstave"
+	name = "bowstave"
 	desc = "A partially completed bow, waiting to be strung."
-	icon_state = "bowpartial"
+	icon_state = "bow_stave"
 	max_integrity = 30
 	firefuel = 10 MINUTES
 	twohands_required = FALSE
@@ -259,8 +259,7 @@
 /obj/item/grown/log/tree/bowpartial/recurve
 	name = "recurve bowstave"
 	desc = "An incomplete recurve bow, waiting to be strung."
-	icon = 'icons/roguetown/items/64x.dmi'
-	icon_state = "recurve_bowstave"
+	icon_state = "recurve_stave"
 
 /obj/item/grown/log/tree/bowpartial/recurve/Initialize(mapload)
 	. = ..()
@@ -271,8 +270,7 @@
 /obj/item/grown/log/tree/bowpartial/longbow
 	name = "long bowstave"
 	desc = "An incomplete longbow, waiting to be strung."
-	icon = 'icons/roguetown/items/64x.dmi'
-	icon_state = "long_bowstave"
+	icon_state = "longbow_stave"
 
 /obj/item/grown/log/tree/bowpartial/longbow/Initialize(mapload)
 	. = ..()
@@ -436,6 +434,8 @@
 	. = ..()
 	. += span_info("Stakes can be crafted with a stone to make whetstones, which are better at sharpening blades.")
 	. += span_info("Stakes are weak, but can double as improvised weapons with total armor penetration. Crafting a stake with a whetstone can make it into a more refined weapon.")
+	. += span_info("Driving a stake through the heart of an incapacitated revenant is one of the few ways to put them down for the week. Sharper stakes, and ones made of silver, are better at this.")
+	. += span_info("Staking also works to kill many other types of undead - generally, anyone you can't kill with bloodloss can be staked.")
 
 /obj/item/grown/log/tree/stake/getonmobprop(tag)
 	. = ..()
@@ -456,6 +456,10 @@
 		/datum/element/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
+
+/obj/item/grown/log/tree/stake/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/deaditeslayer, time = 20 SECONDS) // improvised as hell, so it takes a while. sharpen it first you peasant
 
 /obj/item/grown/log/tree/stake/attack_obj(obj/O, mob/living/user)
 	. = ..()

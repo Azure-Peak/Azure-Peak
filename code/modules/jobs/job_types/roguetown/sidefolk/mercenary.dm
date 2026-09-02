@@ -47,7 +47,6 @@
 		/datum/advclass/mercenary/rumaclan_sasu,
 		/datum/advclass/mercenary/hangyaku,
 		/datum/advclass/mercenary/chonin,
-		/datum/advclass/mercenary/seonjang,
 		/datum/advclass/mercenary/steppesman,
 		/datum/advclass/mercenary/warscholar,
 		/datum/advclass/mercenary/warscholar_pontifex,
@@ -112,8 +111,8 @@
 			to_chat(M, span_boldnotice("I sense a mercenary statue calling out to me..."))
 			to_chat(M, span_notice("<a href='?src=[REF(statue)];register=[REF(H)]'>Touch the statue from afar</a> to register myself as available for contract."))
 
-			// Store the registration request
-			statue.pending_registrations[H.key] = H
+			statue.pending_registrations[M.key] = H
+			addtimer(CALLBACK(statue, TYPE_PROC_REF(/obj/structure/roguemachine/talkstatue/mercenary, expire_registration), M.key), 5 MINUTES)
 
 /datum/advclass/mercenary/post_equip(mob/living/carbon/human/H) // has to be here because this is done AFTER subclass selection
 	. = ..()

@@ -546,7 +546,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	else
 		. += span_notice("The bottle has been unsealed. It cannot be sold anymore.")
 
-/obj/item/reagent_containers/glass/bottle/brewing_bottle/rmb_self(mob/user)
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/rmb_self(mob/user, keybind = FALSE)
 	. = ..()
 	sealed = FALSE
 	sellprice = 0
