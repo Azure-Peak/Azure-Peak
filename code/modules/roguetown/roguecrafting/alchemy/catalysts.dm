@@ -58,7 +58,7 @@
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/malleability, /datum/materia_aspect/rubedo) // hey i wonder why this has the paradox slash divine aspect
 	difficulty = 7 // (if it _was_ craftable it'd have the highest difficulty)
 
-/obj/item/alch/nigredo_precursor
+/obj/item/alch/precursor/nigredo
 	name = "blackened materia"
 	desc = "The first stage of what was once known as the Great Work, before Her ascension usurped the title: to decompose an object so thoroughly, it resembles raw materia more than anything physical. This 'blackening' - or, in <i>lingua arcana</i>, 'nigredo' - is the foundation of all alchemical decomposition."
 	materia = list(/datum/materia_aspect/nigredo)
@@ -69,11 +69,11 @@
 	icon_state = "nigredo"
 	desc = "A handful of ashy dust that clings together when pressed, like powdered clay, of a sort. It burns your fingers as you touch it - and the stains will not wash out easily."
 	recipe_base_type = /datum/transmutation_recipe/nigredo
-	seed_item = /obj/item/alch/nigredo_precursor
+	seed_item = /obj/item/alch/precursor/nigredo
 	difficulty = 5
 	materia = list(/datum/materia_aspect/nigredo, /datum/materia_aspect/malleability)
 
-/obj/item/alch/albedo_precursor
+/obj/item/alch/precursor/albedo
 	name = "whitened materia"
 	desc = "The second stage of what was once known as the Great Work, before Her ascension usurped the title: to purify materia so completely, it ceases to bear any aspect at all. This 'whitening' - or, in <i>lingua arcana</i>, 'albedo' - is the foundation of all alchemical purification."
 	materia = list(/datum/materia_aspect/albedo)
@@ -84,11 +84,11 @@
 	icon_state = "albedo"
 	desc = "A prismatic gem that radiates with an inner light which swirls, not unlike Lux. The more you look, the deeper it seems to be - and spots will form in your vision if you aren't careful."
 	recipe_base_type = /datum/transmutation_recipe/albedo
-	seed_item = /obj/item/alch/albedo_precursor
+	seed_item = /obj/item/alch/precursor/albedo
 	difficulty = 6
 	materia = list(/datum/materia_aspect/albedo, /datum/materia_aspect/malleability)
 
-/obj/item/alch/xanthosis_precursor
+/obj/item/alch/precursor/xanthosis
 	name = "yellowed materia"
 	desc = "The third stage of what was once known as the Great Work, before Her ascension usurped the title: to enhance the nature of 'empty' materia, until it takes on a new aspect, created ex nihilo, bearing the nature of <i>prima materia</i> itself. This 'yellowing' - or, in <i>lingua arcana</i>, 'xanthosis' - is the foundation of all alchemical enhancement."
 	materia = list(/datum/materia_aspect/xanthosis)
@@ -99,11 +99,11 @@
 	icon_state = "coalboy"
 	desc = "A massive, toper-hued gem that never quite seems to sit still. When struck or even held, it resonates tonally, as if it's composing a song of its own, a Sygnal to the world in crystalline form."
 	recipe_base_type = /datum/transmutation_recipe/xanthosis
-	seed_item = /obj/item/alch/xanthosis_precursor
+	seed_item = /obj/item/alch/precursor/xanthosis
 	difficulty = 6
 	materia = list(/datum/materia_aspect/xanthosis, /datum/materia_aspect/malleability)
 
-/obj/item/alch/rubedo_precursor
+/obj/item/alch/precursor/rubedo
 	name = "reddened materia"
 	desc = "The fourth and final stage of what was once known as the Great Work, before Her ascension usurped the title: to unify the natures of the aspectless 'materia puritas' and the self-aspected 'materia potentia', creating a paradoxical power likened by radical scholars to divinity. This 'reddening' - or, in <i>lingua arcana</i>, 'rubedo' - is the mark of a true alchemist, and the closest a magos has to the power of miracles."
 	materia = list(/datum/materia_aspect/rubedo)
@@ -114,6 +114,6 @@
 	icon_state = "rubedo"
 	desc = "A thick red paste that beats to the metronome of lyfe on its own. Before the modern world had such need of His silver, this paste was the grandest craft of transmutation - a bridge between the material and the divine, through arcyne means."
 	recipe_base_type = /datum/transmutation_recipe/rubedo
-	seed_item = /obj/item/alch/rubedo_precursor
+	seed_item = /obj/item/alch/precursor/rubedo
 	difficulty = 7
 	materia = list(/datum/materia_aspect/rubedo, /datum/materia_aspect/malleability)

@@ -113,19 +113,19 @@
 /datum/materia_aspect/nigredo
 	name = "Putrescere"
 	desc = "The fundament of decomposition, yearning to resolve - to end in purity or spread its misery."
-	cheapest_known_source = /obj/item/alch/nigredo_precursor
+	cheapest_known_source = /obj/item/alch/precursor/nigredo
 
 /datum/materia_aspect/albedo
 	name = "Vacuitas"
 	desc = "The nature of emptiness, the truest form of purity; it yearns ever to be filled."
-	cheapest_known_source = /obj/item/alch/albedo_precursor
+	cheapest_known_source = /obj/item/alch/precursor/albedo
 
 /datum/materia_aspect/xanthosis
 	name = "Citrinitas"
 	desc = "An unfathomable nature, the meta-aspect of <i>prima materia</i> itself. Potent yet inert, it was named simply for its color."
-	cheapest_known_source = /obj/item/alch/xanthosis_precursor
+	cheapest_known_source = /obj/item/alch/precursor/xanthosis
 
 /datum/materia_aspect/rubedo
 	name = "Concordia"
 	desc = "Paradox-of-paradoxes, that which is empty yet powerful, observable yet boundless, wrought of mortal hands yet resembling divinity. The unity of disparate natures brings forth a true wonder."
-	cheapest_known_source = /obj/item/alch/rubedo_precursor
+	cheapest_known_source = /obj/item/alch/precursor/rubedo

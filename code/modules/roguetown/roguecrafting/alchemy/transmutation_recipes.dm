@@ -201,8 +201,8 @@
 	name = "Pure Materia (Precursor to Albedo Catalyst)"
 	category = "Magnum Opus"
 	materia_aspects = list(/datum/materia_aspect/lunar) // outlier
-	input_items = list(/obj/item/alch/nigredo_precursor = 1, /obj/item/alch/puresalt = 1)
-	output_items = list(/obj/item/alch/albedo_precursor = 3) // one for a catalyst, one to take up the chain, one for...?
+	input_items = list(/obj/item/alch/precursor/nigredo = 1, /obj/item/alch/puresalt = 1)
+	output_items = list(/obj/item/alch/precursor/albedo = 3) // one for a catalyst, one to take up the chain, one for...?
 
 /datum/transmutation_recipe/nigredo/soap
 	name = "Fat Saponification (Soap)"
@@ -347,8 +347,8 @@
 	name = "Potent Materia (Precursor to Xanthosis Catalyst)"
 	category = "Magnum Opus"
 	materia_aspects = list(/datum/materia_aspect/arcyne) // outlier
-	input_items = list(/obj/item/alch/albedo_precursor = 1, /obj/item/roguegem/amethyst = 1)
-	output_items = list(/obj/item/alch/xanthosis_precursor = 2) // one for a catalyst, one to take up the chain
+	input_items = list(/obj/item/alch/precursor/albedo = 1, /obj/item/roguegem/amethyst = 1)
+	output_items = list(/obj/item/alch/precursor/xanthosis = 2) // one for a catalyst, one to take up the chain
 
 /datum/transmutation_recipe/albedo/cinnabar // enchanters love this one simple trick
 	name = "Cinnabar Purification"
@@ -400,8 +400,8 @@
 	name = "Harmonic Materia (Precursor to Rubedo Catalyst)"
 	category = "Magnum Opus"
 	materia_aspects = list(/datum/materia_aspect/aalloy) // the ultimate alchemy, the ultimate heresy. all roads lead to an enigma lost to time.
-	input_items = list(/obj/item/alch/albedo_precursor = 1, /obj/item/alch/xanthosis_precursor = 1) // the culmination of your work, yet the result resembles naught before it
-	output_items = list(/obj/item/alch/rubedo_precursor = 1) // and so thy work is done... what? it isn't? such is the nature of a scholar, indeed!
+	input_items = list(/obj/item/alch/precursor/albedo = 1, /obj/item/alch/precursor/xanthosis = 1) // the culmination of your work, yet the result resembles naught before it
+	output_items = list(/obj/item/alch/precursor/rubedo = 1) // and so thy work is done... what? it isn't? such is the nature of a scholar, indeed!
 
 /datum/transmutation_recipe/xanthosis/coal
 	name = "Coal Platonization"

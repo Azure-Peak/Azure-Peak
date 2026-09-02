@@ -332,8 +332,8 @@
 	category = "Magnum Opus"
 	craftdiff = SKILL_LEVEL_MASTER // you need expert to make catalysts, but mages have positive int = they can craft 1 level above their tier, also this should be difficult ic
 	result = list(
-		/obj/item/alch/nigredo_precursor,
-		/obj/item/alch/nigredo_precursor // one for a catalyst, one to take with you up the chain
+		/obj/item/alch/precursor/nigredo,
+		/obj/item/alch/precursor/nigredo // one for a catalyst, one to take with you up the chain
 	)
 	reqs = list(
 		/obj/item/rogueore/cinnabar = 1,
