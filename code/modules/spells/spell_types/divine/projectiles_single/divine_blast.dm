@@ -77,14 +77,12 @@
 				if(!L.mind && L.stat) // executes NPCs that are incapacitated, to make cleaning up blockades a lil better
 					var/turf/target_turf = get_turf(L)
 					new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
-					playsound(target_turf, 'sound/magic/lightning.ogg', 80)
+					playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 					L.dust() // divines are polite & leave stuff for necrans
 					qdel(src)
 					return
-				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK) && !L.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
 					L.visible_message(span_silver("Divine power staggers [L]!"))
-					L.Immobilize(1 SECONDS)
-					L.Slowdown(2 SECONDS)
 				apply_divine_damage(L)
 				var/datum/action/cooldown/spell/projectile/divine_blast/S = source_spell
 				if(S && S.can_apply_god_bonus())
@@ -124,15 +122,9 @@
 	var/fire_stacks = godless ? 10 : 5
 	if(godless)
 		L.emote("superagony")
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		if(H.dna?.species)
-			H.Immobilize(1 SECONDS)
-	else
-		L.Immobilize(1 SECONDS)
 	var/turf/target_turf = get_turf(L)
 	new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
-	playsound(target_turf, 'sound/magic/lightning.ogg', 80)
+	playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 	L.adjust_fire_stacks(fire_stacks, /datum/status_effect/fire_handler/fire_stacks/divine)
 	L.ignite_mob()
 
