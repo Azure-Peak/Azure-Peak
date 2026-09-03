@@ -216,7 +216,7 @@
 	category = "Containers"
 	result = list(/obj/item/reagent_containers/glass/bottle/alchemical, /obj/item/reagent_containers/glass/bottle/alchemical, /obj/item/reagent_containers/glass/bottle/alchemical, /obj/item/reagent_containers/glass/bottle/alchemical, /obj/item/reagent_containers/glass/bottle/alchemical, /obj/item/reagent_containers/glass/bottle/alchemical)
 	reqs = list(/obj/item/natural/stone = 1, /obj/item/natural/dirtclod = 1)
-	craftdiff = 1
+	craftdiff = 0
 	verbage_simple = "forge"
 
 /datum/crafting_recipe/roguetown/alchemy/glassbottles2
@@ -224,7 +224,7 @@
 	category = "Containers"
 	result = list(/obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/bottle)
 	reqs = list(/obj/item/natural/stone = 1, /obj/item/natural/dirtclod = 1)
-	craftdiff = 1
+	craftdiff = 0
 	verbage_simple = "forge"
 
 /datum/crafting_recipe/roguetown/alchemy/distill
