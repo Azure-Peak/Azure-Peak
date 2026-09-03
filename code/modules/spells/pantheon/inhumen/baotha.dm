@@ -296,7 +296,7 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust
 	name = "Enrapturing Powder"
-	desc = "Blows dust of a potent drug at the target, applying a variety of effects. \
+	desc = "Blows dust of a potent drug at the target- or applies it to myself, with alternate-cast- applying a variety of effects. \
 	Your intent will determine the drug thrown at the target. \n\
 	\
 	Feint intent will throw spice at the target, giving them +5 INT, +3 SPD, and -5 FOR. \n\
