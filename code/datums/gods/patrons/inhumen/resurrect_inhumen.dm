@@ -106,6 +106,7 @@
 	id = "matthios_debt"
 	duration = 60 MINUTES
 	tick_interval = 10 SECONDS
+	effectedstats = list(STATKEY_WIL = -4, STATKEY_LCK = -2)
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/matthios_debt
 	var/debt_remaining = 0
 	var/total_debt = 0
