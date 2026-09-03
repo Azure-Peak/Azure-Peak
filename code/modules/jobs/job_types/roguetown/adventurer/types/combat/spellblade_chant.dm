@@ -18,7 +18,7 @@
 	var/mace_weapons
 	switch(faction)
 		if("blackoak")
-			blade_weapons = "Elvish Longsword / Elvish Saber / Elvish Curveblade / Steel Dagger"
+			blade_weapons = "Elvish Longsword / Elvish sabre / Elvish Curveblade / Steel Dagger"
 			phalanx_weapons = "Elvish Glaive"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("zizite")
@@ -30,7 +30,7 @@
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("almah")
-			blade_weapons = "Dual Shamshirs / Shalal Saber & Shield"
+			blade_weapons = "Dual Shamshirs / Shalal sabre & Shield"
 			phalanx_weapons = "Spear / Dory & Shield"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("undead")

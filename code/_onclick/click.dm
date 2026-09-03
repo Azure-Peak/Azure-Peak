@@ -335,8 +335,8 @@
 						return
 */
 
-	// Allows you to click on a box's contents, if that box is on the ground, but no deeper than that
-	if(isturf(A) || isturf(A.loc) || (A.loc && isturf(A.loc.loc)))
+	// Allows you to click on a box's contents, if that box is on the ground or held by something on the ground, but no deeper than that
+	if(isturf(A) || isturf(A.loc) || isturf(A.loc?.loc) || isturf(A.loc?.loc?.loc))
 		var/can_reach = CanReach(A, W)
 		if(can_reach)
 			if(isopenturf(A))
@@ -460,11 +460,11 @@
 		return FALSE
 	if(offhand.wlength >= WLENGTH_GREAT)
 		return FALSE
-	if(mainhand.associated_skill)
-		if(get_skill_level(mainhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
+	if(mainhand.has_wskill())
+		if(get_wskill(mainhand) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
-	if(offhand.associated_skill)
-		if(get_skill_level(offhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
+	if(offhand.has_wskill())
+		if(get_wskill(offhand) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
 	if(mainhand.force <= 9 || offhand.force <= 9) // should prevent things that have tiny damage from being used, those are often tools anyway.
 		return FALSE
@@ -904,9 +904,11 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 /atom/proc/face_atom(atom/A, location, control, params)
 	if(!A)
 		return FALSE
-	if(!A.xyoverride && (!x || !y || !A.x || !A.y))
+	if(!x || !y)
 		return
 	var/atom/holder = A.face_me(location, control, params)
+	if(holder && !holder.xyoverride && (!holder.x || !holder.y))
+		holder = get_turf(holder)
 	if(!holder)
 		return FALSE
 	var/dx = holder.x - x
@@ -1040,14 +1042,6 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /mob/dead/observer/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	return
-/*	var/list/modifier = params2list(params)
-	if(modifier["shift"])
-		var/view = 0
-		if(delta_y > 0)
-			view = -1
-		else
-			view = 1
-		add_view_range(view)*/
 
 /mob/proc/check_click_intercept(params,A)
 	//Client level intercept

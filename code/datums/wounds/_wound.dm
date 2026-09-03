@@ -188,7 +188,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	owner = bodypart_owner.owner
 	var/initial_bleed = bleed_rate
 	bleed_rate = 0
-	if(initial_bleed)
+	var/mob/living/carbon/human/H = owner
+	// this is needed because rib/skull fractures will bleed even non-blooded mobs otherwise - and they override the "no bleeding wounds can apply to skeletons"
+	// check. note that player skeletons, like ancient deathknight/azurcaephan, don't actually get the skeleton species and therefore the NOBLOOD check will not
+	// catch them - so we need to check bodypart skeletonization instead as it's literally the only way to tell
+	if(initial_bleed && !bodypart_owner.skeletonized && !(ishuman(H) && (NOBLOOD in H.dna?.species?.species_traits)))
 		set_bleed_rate(initial_bleed)
 	on_bodypart_gain(affected)
 	INVOKE_ASYNC(src, PROC_REF(on_mob_gain), affected.owner) //this is literally a fucking lint error like new species cannot possible spawn with wounds until after its ass

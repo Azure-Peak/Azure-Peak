@@ -872,6 +872,7 @@
 /datum/emote/living/scream/painscream/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
 	if(.)
+		user.shoutbubble()
 		for(var/mob/living/carbon/human/L in viewers(7,user))
 			if(L == user)
 				L.sate_addiction(/datum/charflaw/addiction/masochist)
@@ -898,6 +899,7 @@
 /datum/emote/living/scream/agony/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
 	if(.)
+		user.shoutbubble()
 		for(var/mob/living/carbon/human/L in viewers(7,user))
 			if(L == user)
 				L.sate_addiction(/datum/charflaw/addiction/masochist)
@@ -913,9 +915,10 @@
 	show_runechat = FALSE
 	needs_emotion = TRUE
 
-/datum/emote/living/scream/superagony/run_emote(mob/user, params, type_override, intentional)
+/datum/emote/living/scream/superagony/run_emote(mob/user, pfarams, type_override, intentional)
 	. = ..()
 	if(.)
+		user.shoutbubble()
 		for(var/mob/living/carbon/human/L in viewers(7,user))
 			if(L == user)
 				L.sate_addiction(/datum/charflaw/addiction/masochist)
@@ -934,6 +937,7 @@
 /datum/emote/living/scream/firescream/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
 	if(.)
+		user.shoutbubble()
 		for(var/mob/living/carbon/human/L in viewers(7,user))
 			if(L == user)
 				L.sate_addiction(/datum/charflaw/addiction/masochist)
@@ -1055,11 +1059,6 @@
 	set category = "Emotes.Noises"
 
 	emote("rage", intentional = TRUE)
-
-/datum/emote/living/rage/run_emote(mob/user, params, type_override, intentional, targetted)
-	. = ..()
-	if(. && user.mind)
-		record_round_statistic(STATS_WARCRIES)
 
 /datum/emote/living/attnwhistle
 	key = "attnwhistle"
@@ -1326,6 +1325,13 @@
 	set category = "Emotes.Noises"
 
 	emote("warcry", intentional = TRUE)
+
+/datum/emote/living/warcry/run_emote(mob/user, params, type_override, intentional, targetted)
+	. = ..()
+	if(.)
+		user.shoutbubble()
+		if(user.mind)
+			record_round_statistic(STATS_WARCRIES)
 
 /datum/emote/living/wave
 	key = "wave"
@@ -1712,15 +1718,9 @@
 			var/color_to_use = human.voice_color
 			if(human.voicecolor_override)
 				color_to_use = human.voicecolor_override
-			msg = "<span style='color:#[color_to_use];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span> " + msg
+			msg = "<span style='color:[color_to_use];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span> " + msg
 		else
 			msg = "<b>[emotelocation]</b> " + msg
-		for(var/mob/M in GLOB.dead_mob_list)
-			if(!M.client || isnewplayer(M))
-				continue
-			var/T = get_turf(emotelocation)
-			if(M.stat == DEAD && M.client && (M.client.prefs?.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
-				M.show_message(msg)
 		var/runechat_msg_to_use = null
 		if(show_runechat)
 			runechat_msg_to_use = runechat_msg ? runechat_msg : pre_color_msg

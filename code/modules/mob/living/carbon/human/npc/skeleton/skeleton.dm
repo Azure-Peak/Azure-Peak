@@ -27,6 +27,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
 	cmode_music = 'sound/music/combat_weird.ogg'
+	taints_loot = TRUE
 
 /mob/living/carbon/human/species/skeleton/npc
 	ambush_faction = "undead"
@@ -145,6 +146,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 			if(W.resolve() == src)
 				active_crystal.active_skeletons -= W
 	active_crystal = null
+	playsound(src, pick('sound/vo/mobs/skel/skeleton_death (1).ogg','sound/vo/mobs/skel/skeleton_death (2).ogg','sound/vo/mobs/skel/skeleton_death (3).ogg','sound/vo/mobs/skel/skeleton_death (4).ogg','sound/vo/mobs/skel/skeleton_death (5).ogg'), 60, TRUE)
 	gib(no_brain = TRUE, no_organs = TRUE)
 
 ////////////////////////////////

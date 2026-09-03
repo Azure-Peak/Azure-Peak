@@ -129,20 +129,18 @@
 	var/atom/current_target = controller.blackboard[target_key]
 	var/mob/living/our_pawn = controller.pawn
 	if(QDELETED(current_target) || !isliving(our_pawn))
-		finish_action(controller, succeeded = FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	if(!COOLDOWN_FINISHED(controller, movement_cooldown))
-		return
+		return AI_BEHAVIOR_INSTANT
 	controller.advance_movement_cooldown()
 	if(get_dist(our_pawn, current_target) < minimum_distance)
 		var/turf/give_ground = get_step_away(our_pawn, current_target)
 		if(give_ground && !give_ground.is_blocked_turf(exclude_mobs = TRUE))
 			our_pawn.Move(give_ground, get_dir(our_pawn, give_ground))
 			our_pawn.face_atom(current_target)
-			finish_action(controller, succeeded = TRUE)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 	our_pawn.combat_sidestep(current_target, null, TRUE)
-	finish_action(controller, succeeded = TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /// Take one step away
 /datum/ai_behavior/step_away
@@ -177,8 +175,7 @@
 	return FALSE
 
 /datum/ai_behavior/step_away/perform(seconds_per_tick, datum/ai_controller/controller)
-	. = ..()
-	finish_action(controller, succeeded = TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/step_away/finish_action(datum/ai_controller/controller, succeeded)
 	. = ..()
@@ -201,8 +198,8 @@
 /datum/ai_behavior/pursue_to_range/perform(seconds_per_tick, datum/ai_controller/controller, target_key, range)
 	var/atom/current_target = controller.blackboard[target_key]
 	if (!QDELETED(current_target) && get_dist(controller.pawn, current_target) > range)
-		return
-	finish_action(controller, succeeded = TRUE)
+		return AI_BEHAVIOR_INSTANT
+	return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_SUCCEEDED
 
 ///instead of taking a single step, we cover the entire distance
 /datum/ai_behavior/cover_minimum_distance
@@ -230,5 +227,4 @@
 	set_movement_target(controller, target = chosen_turf)
 
 /datum/ai_behavior/cover_minimum_distance/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
-	. = ..()
-	finish_action(controller, succeeded = TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED

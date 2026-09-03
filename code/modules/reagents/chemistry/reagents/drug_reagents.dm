@@ -307,49 +307,6 @@
 	..()
 	. = 1
 
-/datum/reagent/drug/pumpup
-	name = "Pump-Up"
-	description = "Take on the world! A fast acting, hard hitting drug that pushes the limit on what you can handle."
-	reagent_state = LIQUID
-	color = "#e38e44"
-	metabolization_rate = 2 * REAGENTS_METABOLISM
-	overdose_threshold = 30
-
-/datum/reagent/drug/pumpup/on_mob_metabolize(mob/living/L)
-	..()
-	ADD_TRAIT(L, TRAIT_STUNRESISTANCE, type)
-
-/datum/reagent/drug/pumpup/on_mob_end_metabolize(mob/living/L)
-	REMOVE_TRAIT(L, TRAIT_STUNRESISTANCE, type)
-	..()
-
-/datum/reagent/drug/pumpup/on_mob_life(mob/living/carbon/M)
-	M.Jitter(5)
-
-	if(prob(5))
-		to_chat(M, "<span class='notice'>[pick("Go! Go! GO!", "You feel ready...", "You feel invincible...")]</span>")
-	if(prob(15))
-		M.losebreath++
-		M.adjustToxLoss(2, 0)
-	..()
-	. = 1
-
-/datum/reagent/drug/pumpup/overdose_start(mob/living/M)
-	to_chat(M, "<span class='danger'>I can't stop shaking, my heart beats faster and faster...</span>")
-
-/datum/reagent/drug/pumpup/overdose_process(mob/living/M)
-	M.Jitter(5)
-	if(prob(5))
-		M.drop_all_held_items()
-	if(prob(15))
-		M.emote(pick("twitch","drool"))
-	if(prob(20))
-		M.losebreath++
-		M.adjustStaminaLoss(4, 0)
-	if(prob(15))
-		M.adjustToxLoss(2, 0)
-	..()
-
 /datum/reagent/drug/mentha // distinct from SS13 menthol, for the mentha zigs
 	name = "Mentha"
 	description = "Extract from the mentha herb. Produces a cooling sensation."
@@ -410,7 +367,7 @@
 
 /datum/reagent/drug/apple
 	name = "Apple"
-	description = "Extract from the apple. Produces a sourness and coolness sensation."
+	description = "Extract from the apple. Produces both a sour and cooling sensation."
 	reagent_state = LIQUID
 	color = "#AF4D43"
 	addiction_threshold = 999
@@ -439,7 +396,7 @@
 
 /datum/reagent/drug/chocolate
 	name = "Chocolate"
-	description = "Extract from the chocolate. Produces a sourness and coolness sensation."
+	description = "Extract from chocolate, often packed into a zig. Tastes like a bag of coins."
 	reagent_state = LIQUID
 	color = "#7B3F00"
 	addiction_threshold = 999
@@ -497,7 +454,7 @@
 
 /datum/reagent/drug/carrot
 	name = "Carrot"
-	description = "Extract from the carrot. Produces a sourness and coolness sensation."
+	description = "Extract from the carrot. Tastes... carroty..."
 	reagent_state = LIQUID
 	color = "#ED9121"
 	addiction_threshold = 999
@@ -526,7 +483,7 @@
 
 /datum/reagent/drug/lime
 	name = "Lime"
-	description = "Extract from the lime. Produces a sourness and coolness sensation."
+	description = "Extract from the lime. Produces a sour and cool sensation."
 	reagent_state = LIQUID
 	color = "#BFFF00"
 	addiction_threshold = 999
@@ -584,7 +541,7 @@
 
 /datum/reagent/drug/valeriana
 	name = "Valeriana"
-	description = "Extract from the valeriana. Produces a bitter-spicy and tart sensation."
+	description = "Extract from the valeriana. Often used for aiding in slumber."
 	reagent_state = LIQUID
 	color = "#4a3c5f"
 	addiction_threshold = 999
@@ -602,7 +559,7 @@
 	if(prob(20))
 		M.drowsyness += 3
 		M.emote(pick("yawn"))
-		M.visible_message("<span class='notice'>[M]'s looks sleepy and relaxed</span>")
+		M.visible_message("<span class='notice'>[M] looks sleepy...</span>")
 	..()
 
 
@@ -649,7 +606,7 @@
 
 /datum/reagent/drug/petun
 	name = "Petun"
-	description = "A highly concentrated form of nicotine. Produces a causes sore throat and mild relaxation."
+	description = "A highly concentrated form of nicotine. Produces a sore throat alongside a feeling of relaxation."
 	reagent_state = LIQUID
 	color = "#7ed9ad"
 	addiction_threshold = 999
@@ -667,7 +624,7 @@
 	if(prob(10))
 		M.emote(pick("drool","sigh"))
 	if(prob(5))
-		M.visible_message("<span class='notice'>[M]'s pleasantly relaxing.</span>")
+		M.visible_message("<span class='notice'>[M] is pleasantly relaxing.</span>")
 	..()
 
 /datum/reagent/drug/petun/on_mob_life(mob/living/carbon/M)
@@ -683,8 +640,8 @@
 	. = 1
 
 /datum/reagent/drug/jacksberries
-	name = "jacksberries"
-	description = "Extract from the jacksberries. Produces a causes sore throat and mild relaxation."
+	name = "Jacksberries Essence"
+	description = "Extract from the jacksberries. Produces a sore throat as well as mild relaxation."
 	reagent_state = LIQUID
 	color = "#57628C"
 	addiction_threshold = 999
@@ -712,14 +669,15 @@
 	. = 1
 
 /datum/reagent/drug/abyss
-	name = "Abyss"
-	description = "Extract from the jacksberries. Produces a causes sore throat and mild relaxation."
+	name = "Abyssorick Jacksberries Essence"
+	description = "An odd form of narcotic found in abyssoric zigarettes. Perhaps the salt, or the fish, causes it to be so \
+	strange? Produces vivid hallucinations."
 	reagent_state = LIQUID
 	color = "#5С0120"
 	addiction_threshold = 999
-	taste_description = "jacksberries"
+	taste_description = "brackish water"
 	trippy = FALSE
-	overdose_threshold=999
+	overdose_threshold = 999
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/abyss/on_mob_end_metabolize(mob/living/M)
@@ -731,7 +689,7 @@
 	if(prob(10))
 		M.emote(pick("drool","gasp"))
 	if(prob(3))
-		M.visible_message("<span class='notice'>[M]'s feels slightly uneasy, <span class='notice'>[M]'s gaze appears puzzled and distant</span>")
+		M.visible_message(span_notice("[src] stumbles, seeming uneasy..."), span_notice("My gaze flickers. I don't feel so good..."))
 	..()
 
 /datum/reagent/drug/abyss/on_mob_life(mob/living/carbon/M)

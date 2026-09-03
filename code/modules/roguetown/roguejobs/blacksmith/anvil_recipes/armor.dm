@@ -653,14 +653,6 @@
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/iron/lbrigandine
-	name = "Light Brigandine, Iron (+1 Cloth)"
-	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/natural/cloth)
-	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/light
-	display_category = ITEM_CAT_ARMOR_CHESTPIECES
-	i_type = "Armor"
-
 /datum/anvil_recipe/armor/iron/halfplate
 	name = "Half-Plate, Iron (+2 Iron, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/iron
@@ -1099,6 +1091,14 @@
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
+/datum/anvil_recipe/armor/steel/lbrigandine
+	name = "Lightweight Brigandine, Steel (+1 Leather, +1 Cloth)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/cloth)
+	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/light
+	display_category = ITEM_CAT_ARMOR_CHESTPIECES
+	i_type = "Armor"
+
 /datum/anvil_recipe/armor/steel/halfplate
 	name = "Half-Plate, Steel (+2 Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steel
@@ -1163,16 +1163,16 @@
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/steel/coatplates
-	name = "Coat Of Plates, Steel (+1 Steel, +1 Cured Leather)"
+	name = "Coat Of Plates, Steel (+1 Steel, +1 Leather, +1 Cloth)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/ingot/steel,/obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/steel,/obj/item/natural/hide/cured,/obj/item/natural/cloth)
 	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/heavy
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/steel/steel/brigandine
-	name = "Brigandine, Steel (+1 Steel, +2 Cloth)"
+	name = "Brigandine, Steel (+1 Steel, +1 Leather, +2 Cloth)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/ingot/steel, /obj/item/natural/cloth, /obj/item/natural/cloth)
+	additional_items = list(/obj/item/ingot/steel, /obj/item/natural/hide/cured, /obj/item/natural/cloth, /obj/item/natural/cloth)
 	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
@@ -1617,6 +1617,13 @@
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
+/datum/anvil_recipe/armor/steel/helmetbarbutedunk_snouted
+	name = "Burgonet, Snouted, Steel (+1 Steel, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/burgonet
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/steel/helmetbuc

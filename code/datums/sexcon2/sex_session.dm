@@ -145,12 +145,9 @@
 		if(desire_stop)
 			break
 
-		if (!doing_subtly)
-			if(speed != base_speed || force != base_force)
-				base_force = force
-				base_speed = speed
-				action.on_perform_message(user, target)
-		else
+		if(speed != base_speed || force != base_force)
+			base_force = force
+			base_speed = speed
 			action.on_perform_message(user, target)
 		action.on_perform(user, target)
 
