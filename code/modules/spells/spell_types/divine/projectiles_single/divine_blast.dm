@@ -76,7 +76,7 @@
 				qdel(src)
 				return BULLET_ACT_BLOCK
 			if(blocked < 100)
-				if(!L.mind && L.stat) // executes NPCs that are incapacitated, to make cleaning up blockades a lil better
+				if(!L.mind && L.stat && ishuman(L)) // executes HUMAN NPCs that are incapacitated, to make cleaning up blockades a lil better
 					var/turf/target_turf = get_turf(L)
 					new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
 					playsound(target_turf, 'sound/magic/lightning.ogg', 50)
