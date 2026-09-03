@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 2 // Two, so the gimmic isn't overdone. Keep in mind these are, very. very. strong.
 	applies_post_equipment = TRUE
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SHATTER_KILL, TRAIT_ARCYNE, TRAIT_DUSTABLE, TRAIT_BLOODLOSS_IMMUNE)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SHATTER_KILL, TRAIT_ARCYNE, TRAIT_SKELETAL_GIB_ON_DEATH, TRAIT_BLOODLOSS_IMMUNE)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,
@@ -24,9 +24,15 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		//ex-servantry skills
+		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/masonry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 	)
+	tempo_capable = FALSE //already removed by being a skeleton, in case we add it to the UI in future.
 	adv_stat_ceiling = list(STAT_INTELLIGENCE = 12, STAT_SPEED = 9, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + spellblade fuckery vs vamp
-	extra_context = "This class is unable to be revived and all forms of death will dust you."
+	extra_context = "This class is unable to be revived and all forms of death will gib you."
 
 /datum/outfit/job/roguetown/wretch/ancient_spellblade
 	var/subclass_selected
@@ -43,6 +49,15 @@
 	..()
 
 	H.become_skeleton()
+	H.can_do_sex = FALSE
+
+	//no swift intent
+	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
+	/datum/rmb_intent/aimed,\
+	/datum/rmb_intent/riposte,\
+	/datum/rmb_intent/strong,\
+	/datum/rmb_intent/weak)
+	H.swap_rmb_intent(num=1)
 
 	// Skeleton antag datum + patron (matching greater_skeleton setup)
 	H.set_patron(/datum/patron/inhumen/zizo)
@@ -132,13 +147,13 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Ancient Khopesh", "Sabre", "Ancient Dagger")
+			var/weapons = list("Ancient Khopesh", "Ancient Longsword", "Ancient Dagger")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/palloy
-				if("Sabre")
-					beltr = /obj/item/rogueweapon/sword/sabre
+				if("Ancient Longsword")
+					beltr = /obj/item/rogueweapon/sword/long/palloy //role unique
 				if("Ancient Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 			if(weapon_choice == "Ancient Dagger")

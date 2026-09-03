@@ -91,7 +91,7 @@
 
 /datum/action/cooldown/spell/graggar/hamstring
 	name = "Hamstring"
-	desc = "Curse your next strike to slow the target."
+	desc = "Curse your next strike to apply a debilitating wound to your enemy - causing 20% reduced dodge chance, -2 SPD and reduced movement speed."
 	fluff_desc = "Escape is a luxury in face of a beast."
 	button_icon_state = "hamstring"
 	sound = 'sound/magic/bloodrage.ogg'
@@ -106,7 +106,7 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Heel, mutt!")
+	invocations = list("Time to die!")
 
 	charge_required = FALSE
 	cooldown_time = 1 MINUTES
@@ -123,7 +123,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/hamstring
 	name = "Hamstring"
-	desc = "Your next attack slows your target and SPD."
+	desc = "Your next attack reduces enemy dodge chance by 20%, slows your target and reduces their overall SPD."
 	icon_state = "hamstring"
 
 /datum/status_effect/hamstring
@@ -178,14 +178,14 @@
 
 /atom/movable/screen/alert/status_effect/debuff/hamstring
 	name = "Graggar's Burden"
-	desc = "My arms and legs are restrained by unholy force!"
+	desc = "My legs are restrained by unholy force!"
 	icon_state = "restrained"
 
 /datum/status_effect/debuff/hamstring
 	id = "hamstring_debuff"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hamstring
 	effectedstats = list(STATKEY_SPD = -2)
-	duration = 30 SECONDS
+	duration = 15 SECONDS
 
 /datum/status_effect/debuff/hamstring/on_apply()
 		. = ..()
@@ -233,6 +233,7 @@
 
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
+	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
 	ignore_armor_penalty = TRUE

@@ -39,12 +39,14 @@
 /datum/organ_dna/penis
 	var/penis_size = DEFAULT_PENIS_SIZE
 	var/functional = TRUE
+	var/sheath_type = SHEATH_TYPE_NONE // Sheath or no sheath
 
 /datum/organ_dna/penis/imprint_organ(obj/item/organ/organ)
 	..()
 	var/obj/item/organ/penis/penis_organ = organ
 	penis_organ.penis_size = penis_size
 	penis_organ.functional = functional
+	penis_organ.sheath_type = sheath_type
 
 /datum/organ_dna/testicles
 	var/ball_size = DEFAULT_TESTICLES_SIZE

@@ -75,3 +75,32 @@
   - bugfix: confessional hood coverage
   - bugfix: Added a different name for bullion recipe variant which fixed conflict
       between two
+2026-09-02:
+  FreeStylaLT:
+  - image: Added an icon for the Perfect Tracker virtue.
+  KatTheFox:
+  - bugfix: Revenants no longer become able to see from their body when moving through
+      z-levels or other specific circumstances.
+  Ketrai:
+  - image: Spider bounty heads use the proper new sprites now
+  - bugfix: Fixed abyssorite vision psydonic vision that didn't have rewards
+  Ollanius:
+  - bugfix: Hounskulls and Pigfaces now properly use their original sprites, after
+      some code- and icon-specific syncing.  To note, 'hounskulls' now inherit their
+      original triangular-styled visor, while 'pigfaces' now inherit their original
+      snoutly-styled visor. I apologize in advance for any accidental mixups this
+      may cause, loadout-wise, for the first few days.
+  - bugfix: Pigface Bascinets now have intended detailmaps; a feather'll give a plume
+      and a cloth'll give an orle, instead of the other way around.
+  - code_imp: Synced up the code relating to Pigfaces and Hounskulls. Credit to Lamas
+      for originally diagnosing this issue; a Hounskull-pathed item will no longer
+      mysteriously pop up as a Pigface, and vice versa.
+  Ratvarr:
+  - image: Siegebows have sprites again. Rejoice the grand one siegebow user
+  Ryan180602:
+  - bugfix: Fixes east-west weapon twirls
+  zRainbowcat:
+  - qol: Added a bulk-load feature to potionseller
+  - bugfix: Fixed pathing in berserker's loadout that tried to place punchdagger on
+      belt when it cannot be there, so dagger just dissapeared. Now it's placed in
+      players hand upon chosing
