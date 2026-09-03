@@ -38,7 +38,7 @@
 
 	for(var/item_name as anything in GLOB.loadout_items_by_name)
 		var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item_name]
-		if(LI.donoritem && !LI.donator_ckey_check(user.ckey))
+		if(LI.donoritem && !LI.donator_ckey_check(user.ckey, user?.client))
 			continue
 
 		var/cat = LI.sort_category
@@ -65,7 +65,7 @@
 			"color_channels" = color_channels
 		))
 
-	var/donator = is_donator(user.ckey)
+	var/donator = (is_donator(user.ckey) || user.client?.holder)
 	data["categories"] = categories
 	data["items"] = items
 	data["max_points"] = LOADOUT_MAX_POINTS + (donator ? LOADOUT_DONATOR_BONUS : 0)
@@ -100,7 +100,7 @@
 			"custom_desc" = meta["custom_desc"]
 		))
 
-	var/triumph_discount = is_donator(user.ckey) ? LOADOUT_TRIUMPH_DISCOUNT : 0
+	var/triumph_discount = (is_donator(user.ckey) || user?.client?.holder) ? LOADOUT_TRIUMPH_DISCOUNT : 0
 	data["selected"] = selected
 	data["total_cost"] = total_cost
 	data["total_triumph_cost"] = total_triumph_cost
@@ -128,7 +128,7 @@
 					var/datum/loadout_item/existing = GLOB.loadout_items_by_name[existing_name]
 					if(existing)
 						total_cost += existing.cost
-				var/max_points = LOADOUT_MAX_POINTS + (is_donator(owner?.ckey) ? LOADOUT_DONATOR_BONUS : 0)
+				var/max_points = LOADOUT_MAX_POINTS + ((is_donator(owner?.ckey) || owner?.holder) ? LOADOUT_DONATOR_BONUS : 0)
 				if((total_cost + LI.cost) <= max_points)
 					gear_list[item_name] = list()
 			return TRUE

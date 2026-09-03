@@ -237,9 +237,9 @@
 	else if(dir & SOUTH)
 		above = TRUE
 	else if(dir & EAST)
-		above = mirrored
-	else if(dir & WEST)
 		above = !mirrored
+	else if(dir & WEST)
+		above = mirrored
 	spin_appearance.layer = layer + (above ? 0.1 : -0.1)
 
 	var/atom/movable/flick_visual/spin = flick_overlay_view(spin_appearance, speed + 2)
