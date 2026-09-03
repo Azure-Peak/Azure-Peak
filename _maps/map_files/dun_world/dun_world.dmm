@@ -62636,6 +62636,7 @@
 /area/rogue/outdoors/exposed/town/keep)
 "lEn" = (
 /obj/structure/table/wood/long_table,
+/obj/item/ration_lootbox,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern)
 "lEq" = (

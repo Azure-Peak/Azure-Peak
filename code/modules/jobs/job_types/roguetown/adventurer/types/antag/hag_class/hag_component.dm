@@ -372,6 +372,8 @@
 		return FALSE
 	if(C.mind.has_antag_datum(/datum/antagonist/skeleton))
 		return FALSE
+	if(C.mind.has_antag_datum(/datum/antagonist/assassin))
+		return FALSE
 	if(HAS_TRAIT(C, TRAIT_FEYTOUCHED) && !C.extra_boon_budget)
 		return FALSE
 	return TRUE
