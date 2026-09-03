@@ -38,7 +38,7 @@
 
 /datum/action/cooldown/spell/baotha/emotional_sway/toggle_alt_mode(mob/user)
 	embrace_heartbreak = !embrace_heartbreak //i feel like i could have just done a true/false check but whatever
-		if(embrace_heartbreak)
+	if(embrace_heartbreak)
 		overlay_icon_state = "mood_sad"
 		to_chat(user, span_notice("Baotha's blessing will now decrease my mood."))
 	else
@@ -292,7 +292,7 @@
 	desc = ""
 	icon_state = "buff"
 
-//Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
+//Enrapturing Powder - T2, dose someone or yourself with drugs.
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust
 	name = "Enrapturing Powder"
@@ -355,7 +355,7 @@
 		return ..()
 	user.reagents.add_reagent(initial(projectile_type:poisontype), initial(projectile_type:poisonamount))
 	user.show_message(span_danger("You feel an intense [initial(projectile_type:poisonfeel)] sensation spreading swiftly from the area!"))
-	to_chat(user, span_warning("Gah! Something.. got in my - eyes.."))
+	to_chat(user, span_warning("Gah! Something got in my eyes...!"))
 	user.blur_eyes(2)
 	return TRUE
 
@@ -399,7 +399,7 @@
 	nodamage = FALSE
 	damage = 1
 	poisontype = /datum/reagent/druqks
-	poisonfeel = "burning" //Insufflation go brr.
+	poisonfeel = "buzzing" //Insufflation go brr.
 	poisonamount = 4 //Lower than the others as it's got an OD threshold of 16 - takes 4 hits to OD if you hit it perfectly, but more like 5.
 
 /obj/projectile/magic/blowingdust/moondust
@@ -408,7 +408,7 @@
 	nodamage = FALSE
 	damage = 1
 	poisontype = /datum/reagent/moondust_purest
-	poisonfeel = "burning" //Insufflation go brr.
+	poisonfeel = "tingling" //Insufflation go brr.
 	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
 
 
@@ -440,7 +440,7 @@
 	sound = 'sound/magic/timestop.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 2 MINUTES
+	recharge_time = 1 MINUTES
 	miracle = TRUE
 	devotion_cost = 75
 	human_req = TRUE
