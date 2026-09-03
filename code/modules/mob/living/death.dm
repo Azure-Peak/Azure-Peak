@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(last_words)
 
-/mob/living/gib(no_brain, no_organs, no_bodyparts)
+/mob/living/gib(no_brain, no_organs, no_bodyparts, drop_items = FALSE)
 	var/prev_lying = lying
 	if(stat != DEAD)
 		death(TRUE)
@@ -12,7 +12,10 @@ GLOBAL_LIST_EMPTY(last_words)
 		gib_animation()
 
 	spill_embedded_objects()
-	
+
+	if(drop_items)
+		unequip_everything()
+
 	spill_organs(no_brain, no_organs, no_bodyparts)
 
 	if(!no_bodyparts)
@@ -48,7 +51,7 @@ GLOBAL_LIST_EMPTY(last_words)
 
 	if(drop_items)
 		unequip_everything()
-	
+
 	if(buckled)
 		buckled.unbuckle_mob(src, force = TRUE)
 
@@ -131,7 +134,7 @@ GLOBAL_LIST_EMPTY(last_words)
 
 	. = ..()
 
-	SEND_SIGNAL(src, COMSIG_LIVING_DEATH, gibbed) 
+	SEND_SIGNAL(src, COMSIG_LIVING_DEATH, gibbed)
 	if(client)
 		client.move_delay = initial(client.move_delay)
 		if(!nocutscene)

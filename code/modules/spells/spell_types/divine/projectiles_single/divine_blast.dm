@@ -13,9 +13,11 @@
 
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 25
+	secondary_resource_type = SPELL_COST_ENERGY
+	secondary_resource_cost = 75
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
-	charge_time = CHARGETIME_MINOR
+	charge_time = CHARGETIME_MINOR + (0.25 SECONDS)
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_swingdelay_type = SWINGDELAY_PENALTY
@@ -78,25 +80,31 @@
 					var/turf/target_turf = get_turf(L)
 					new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
 					playsound(target_turf, 'sound/magic/lightning.ogg', 50)
-					L.dust() // divines are polite & leave stuff for necrans
+					L.dust(drop_items = TRUE) // divines are polite & leave stuff for necrans
 					qdel(src)
 					return
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
+					stuttering += 10
 					L.visible_message(span_silver("Divine power staggers [L]!"))
+					if(HAS_TRAIT(L, TRAIT_NOPAIN) || HAS_TRAIT(L, TRAIT_IRONMAN))
+						L.emote("scream")
+					else
+						L.emote("paincrit")
 				apply_divine_damage(L)
 				var/datum/action/cooldown/spell/projectile/divine_blast/S = source_spell
-				if(S && S.can_apply_god_bonus())
+				if(S && S.can_apply_god_bonus() && !(L.patron?.type in ALL_DIVINE_PATRONS))
 					apply_god_bonus(L)
 					S.consume_god_bonus()
-				L.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/divine)
-				L.ignite_mob()
+				if(!L.mind)
+					L.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/divine)
+					L.ignite_mob()
 	qdel(src)
 
 /datum/action/cooldown/spell/projectile/divine_blast/proc/can_apply_god_bonus()
 	return world.time >= next_bonus_time
 
 /datum/action/cooldown/spell/projectile/divine_blast/proc/consume_god_bonus()
-	next_bonus_time = world.time + 30 SECONDS
+	next_bonus_time = world.time + 45 SECONDS
 
 /obj/projectile/energy/divineblast/proc/apply_divine_damage(mob/living/L)
 	var/damage_to_do = damage
@@ -108,7 +116,10 @@
 		damage_to_do += 60
 	var/mob/living/carbon/human/caster = firer
 	if(istype(caster) && ishuman(L))
-		if(arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+		if(!L.mind)
+			if(arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_MEDIUM, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				return
+		if(arcyne_strike(caster, L, null, damage_to_do, def_zone, BCLASS_BURN, PEN_NONE, spell_name = "Divine Blast", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
 			return
 	else
 		L.apply_damage(damage_to_do, BURN)
@@ -122,6 +133,8 @@
 	var/fire_stacks = godless ? 10 : 5
 	if(godless)
 		L.emote("superagony")
+		L.Stun(3 SECONDS)
+		L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 	var/turf/target_turf = get_turf(L)
 	new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
 	playsound(target_turf, 'sound/magic/lightning.ogg', 50)
