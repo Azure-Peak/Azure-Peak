@@ -577,6 +577,7 @@
 /datum/loadout_item/donator/koruu/kukri/warden
 	name = "Donator Kit - Warden Leachwhacker"
 	path = /obj/item/enchantingkit/weapon/koruu_kukri/warden
+	ckeywhitelist = list("koruu", "pneumothorax", "ryan180602", "vakiova", "maesune", "dakken12")
 
 /datum/loadout_item/donator/dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
@@ -808,6 +809,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/robe/limetease/color
 	ckeywhitelist = list("limetease", "simplypoodle", "ketrai", "shiroseschnee", "kimmieweeb")
 
+/datum/loadout_item/donator/lime_swordspear
+	name = "Donator Kit - Ornate Swordspear"
+	path = /obj/item/enchantingkit/limetease_swordspear
+	ckeywhitelist = list("limetease")
+
 /datum/loadout_item/donator/gazelleskull
 	name = "Donator Item - Gazelle Skull"
 	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull
@@ -842,6 +848,11 @@
 	name = "Donator Kit - Moonlight Dussack"
 	path = /obj/item/enchantingkit/weapon/moonlightdussack
 	ckeywhitelist = list("shiroseschnee")
+
+/datum/loadout_item/donator/kadeguandao
+	name = "Donator Kit - Dawn Cometh"
+	path = /obj/item/enchantingkit/weapon/kadeguandao
+	ckeywhitelist = list("shiroseschnee", "Zerantio")
 
 /datum/loadout_item/donator/falling_star
 	name = "Donator Kit - Falling Star"
@@ -1016,4 +1027,4 @@
 /datum/loadout_item/donator/rivercadaver_tabis
 	name = "Donator Item - Tabis"
 	path = /obj/item/enchantingkit/donator_rivercadaver_tabis
-	ckeywhitelist = list("rivercadaver","muhsollini")
+	ckeywhitelist = list("rivercadaver","poots13","nooriginality","helenmoder","oddbomber3768","waffai","castortroy23","persephoneq")

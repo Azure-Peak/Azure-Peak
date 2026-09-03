@@ -17,6 +17,11 @@
 	dropshrink = 1 // Override for bucket
 	volume = 240
 
+/obj/item/reagent_containers/glass/bucket/pot/Initialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/grid/food/cooking/pot)
+	AddComponent(/datum/component/container_craft, get_container_craft_family(/datum/container_craft/cooking), TRUE)
+
 /obj/item/reagent_containers/glass/bucket/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_notice("Freshwater can be collected by leaving out buckets, pots, washbins, and any other uncovered containers on an uncovered tile while it's raining.")
@@ -28,6 +33,20 @@
 	. += span_info("Once boiling, left-clicking the hearthbound pot with an ingredient will drop it inside. The larger a pot is, the more ingredients can be dropped in at any given time.")
 	. += span_info("After the first ingredient is placed in, the pot will begin turning it - and any other subsequent ingredients - into a brew, over the course of a minute.")
 	. += span_info("Specific ingredients can create specific brews; dried rosa petals for a refreshing tea, coffee beans for a revitalizing drink, and more..")
+
+/obj/item/reagent_containers/glass/bucket/pot/examine(mob/user)
+	. = ..()
+	if(reagents?.total_volume)
+		. += span_notice("It holds [reagents.total_volume] [UNIT_FORM_STRING(reagents.total_volume)] of liquid.")
+		. += reagents.chem_temp >= STEW_TEMPERATURE ? span_notice("It is boiling.") : span_notice("It is not boiling.")
+	var/list/solids = list()
+	for(var/obj/item/thing in contents)
+		solids[thing.name] += 1
+	if(length(solids))
+		var/list/listed = list()
+		for(var/thing_name in solids)
+			listed += solids[thing_name] > 1 ? "[solids[thing_name]] [thing_name]" : thing_name
+		. += span_notice("Inside it: [english_list(listed)].")
 
 /obj/item/reagent_containers/glass/bucket/pot/update_icon()
 	cut_overlays()

@@ -14,10 +14,16 @@
 		"paths": {
 			"tgui": ["./packages/tgui"],
 			"tgui/*": ["./packages/tgui/*"],
+			"interfaces": ["./packages/tgui/interfaces"],
+			"interfaces/*": ["./packages/tgui/interfaces/*"],
+			"pm": ["./packages/tgui/interfaces/PreferencesMenu"],
+			"pm/*": ["./packages/tgui/interfaces/PreferencesMenu/*"],
 			"tgui-panel": ["./packages/tgui-panel"],
 			"tgui-panel/*": ["./packages/tgui-panel/*"],
 			"tgui-dev-server": ["./packages/tgui-dev-server"],
-			"tgui-dev-server/*": ["./packages/tgui-dev-server/*"]
+			"tgui-dev-server/*": ["./packages/tgui-dev-server/*"],
+			"tgui-webworkers": ["./packages/tgui-webworkers"],
+			"tgui-webworkers/*": ["./packages/tgui-webworkers/*"]
 		},
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
@@ -26,5 +32,6 @@
 		"target": "ESNext",
 		"types": ["*"]
 	},
-	"include": ["./*.d.ts", "./packages", "happydom.ts"]
+	"include": ["./*.d.ts", "./packages", "happydom.ts"],
+	"exclude": ["./packages/tgui-webworkers/workers"]
 }

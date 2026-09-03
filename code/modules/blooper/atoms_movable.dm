@@ -21,7 +21,7 @@
 	var/datum/bark/B = GLOB.bark_list[id]
 	if(!B)
 		return FALSE
-	vocal_bark = sound(initial(B.soundpath))
+	vocal_bark = sound(B::soundpath)
 	vocal_bark_id = id
 	return vocal_bark
 

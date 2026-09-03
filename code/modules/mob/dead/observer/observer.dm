@@ -36,7 +36,6 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	var/ghost_orbit = GHOST_ORBIT_CIRCLE
 
 	var/updatedir = 1						//Do we have to update our dir as the ghost moves around?
-	var/lastsetting = null	//Stores the last setting that ghost_others was set to, for a little more efficiency when we update ghost images. Null means no update is necessary
 
 	// Used for displaying in ghost chat, without changing the actual name
 	// of the mob
@@ -61,9 +60,27 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 /mob/dead/observer/profane
 	trapped = TRUE
+	icon = 'icons/roguetown/mob/misc.dmi'
+	icon_state = "hollow"
+	alpha = 60
 
-/mob/dead/observer/profane/setup_ghost_verbs()
-	return
+/mob/dead/observer/profane/Move(NewLoc, direct)
+	// this is how i fixed it on my super old branch idk why the if client is there but im trusting old me
+	if(client)
+		return FALSE
+	. = ..()
+
+/mob/dead/observer/profane/ghost_up()
+	if(client)
+		return FALSE
+	. = ..()
+
+/mob/dead/observer/profane/ghost_down()
+	if(client)
+		return FALSE
+	. = ..()
+
+
 
 /mob/dead/observer/eye
 	see_in_dark = 0
@@ -112,21 +129,6 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 		/mob/dead/observer/proc/tray_view))
 
 	setup_ghost_verbs()
-
-	if(icon_state in GLOB.ghost_forms_with_directions_list)
-		ghostimage_default = image(src.icon,src,src.icon_state + "")
-	else
-		ghostimage_default = image(src.icon,src,src.icon_state)
-	ghostimage_default.override = TRUE
-	GLOB.ghost_images_default |= ghostimage_default
-
-	ghostimage_simple = image(src.icon,src,"")
-	ghostimage_simple.override = TRUE
-	GLOB.ghost_images_simple |= ghostimage_simple
-
-	updateallghostimages()
-
-
 
 	var/turf/T
 	var/mob/body = loc
@@ -213,14 +215,6 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 10)
 
 /mob/dead/observer/Destroy()
-	GLOB.ghost_images_default -= ghostimage_default
-	QDEL_NULL(ghostimage_default)
-
-	GLOB.ghost_images_simple -= ghostimage_simple
-	QDEL_NULL(ghostimage_simple)
-
-	updateallghostimages()
-
 	STOP_PROCESSING(SShaunting, src)
 
 	QDEL_NULL(spawners_menu)
@@ -371,8 +365,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set hidden = 1
 	if (CONFIG_GET(flag/norespawn))
 		return
-	if(trapped)
-		return
 	if ((stat != DEAD || !( SSticker )))
 		to_chat(src, span_boldnotice("I must be dead to use this!"))
 		return
@@ -444,8 +436,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(source)
 			var/atom/movable/screen/alert/A = throw_alert("[REF(source)]_notify_cloning", /atom/movable/screen/alert/notify_cloning)
 			if(A)
-				if(client && client.prefs && client.prefs.UI_style)
-					A.icon = ui_style2icon(client.prefs.UI_style)
+				A.icon = 'icons/mob/roguehud.dmi'
 				A.desc = message
 				var/old_layer = source.layer
 				var/old_plane = source.plane
@@ -580,30 +571,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			else
 				to_chat(A, span_danger("This mob is not located in the game world."))
 
-/mob/dead/observer/verb/change_view_range()
-	set name = "View Range"
-	set desc = ""
-	set hidden = 1
-	if(!check_rights(R_DEBUG))
-		return
-	var/max_view = client.prefs.unlock_content ? GHOST_MAX_VIEW_RANGE_MEMBER : GHOST_MAX_VIEW_RANGE_DEFAULT
-	if(client.view == CONFIG_GET(string/default_view))
-		var/list/views = list()
-		for(var/i in 7 to max_view)
-			views |= i
-		var/new_view = input(usr, "Choose your new view", "Modify view range", 7) as null|anything in views
-		if(new_view)
-			client.change_view(CLAMP(new_view, 7, max_view))
-	else
-		client.change_view(CONFIG_GET(string/default_view))
-
-/mob/dead/observer/verb/add_view_range(input as num)
-	set name = "Add View Range"
-	set hidden = TRUE
-	var/max_view = client.prefs.unlock_content ? GHOST_MAX_VIEW_RANGE_MEMBER : GHOST_MAX_VIEW_RANGE_DEFAULT
-	if(input)
-		client.rescale_view(input, 15, (max_view*2)+1)
-
 /mob/dead/observer/verb/boo()
 	set category = "Ghost"
 	set name = "Boo!"
@@ -657,16 +624,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	else
 		see_invisible = SEE_INVISIBLE_OBSERVER
 
-
-	updateghostimages()
 	..()
-
-/proc/updateallghostimages()
-	listclearnulls(GLOB.ghost_images_default)
-	listclearnulls(GLOB.ghost_images_simple)
-
-	for (var/mob/dead/observer/O in GLOB.player_list)
-		O.updateghostimages()
 
 /mob/dead/observer/proc/horde_respawn()
 	if(trapped)
@@ -678,27 +636,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			to_chat(src, span_warning("Too late."))
 			return FALSE
 		returntolobby(RESPAWNTIME*-1)
-
-
-/mob/dead/observer/proc/updateghostimages()
-	if (!client)
-		return
-
-	if(lastsetting)
-		switch(lastsetting) //checks the setting we last came from, for a little efficiency so we don't try to delete images from the client that it doesn't have anyway
-			if(GHOST_OTHERS_DEFAULT_SPRITE)
-				client.images -= GLOB.ghost_images_default
-			if(GHOST_OTHERS_SIMPLE)
-				client.images -= GLOB.ghost_images_simple
-	lastsetting = client.prefs.ghost_others
-	if(!ghostvision)
-		return
-	if(client.prefs.ghost_others != GHOST_OTHERS_THEIR_SETTING)
-		switch(client.prefs.ghost_others)
-			if(GHOST_OTHERS_DEFAULT_SPRITE)
-				client.images |= (GLOB.ghost_images_default-ghostimage_default)
-			if(GHOST_OTHERS_SIMPLE)
-				client.images |= (GLOB.ghost_images_simple-ghostimage_simple)
 
 /mob/dead/observer/verb/possess()
 	set category = "Ghost"
@@ -790,11 +727,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 /mob/dead/observer/proc/set_ghost_appearance()
 	if((!client) || (!client.prefs))
 		return
-
-	if(client.prefs.randomise[RANDOM_NAME])
-		client.prefs.real_name = random_unique_name(gender)
-	if(client.prefs.randomise[RANDOM_BODY])
-		client.prefs.random_character(gender)
 
 	update_icon()
 

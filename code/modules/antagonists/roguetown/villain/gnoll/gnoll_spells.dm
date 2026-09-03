@@ -15,7 +15,7 @@
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff
 	name = "Track"
-	desc = "Graggar has some worthy folks for you, hunt them down! Cast on self to set target, cast to track target, cast on a person to remember their scent temporarily"
+	desc = "Graggar has some worthy folks for you, hunt them down! Cast on self to set target, cast to track target, cast on a person to remember their scent temporarily."
 	recharge_time = 0.5 SECONDS
 	chargetime = 0.1 SECONDS
 	overlay_icon = 'icons/mob/actions/gnollmiracles.dmi'

@@ -18,6 +18,18 @@
 	/// Similar to extra_spawned_events however these are only used by roundstart events and will only try and run if we have the points to do so
 	var/list/preferred_events
 
+// this is a hack-fix. solo antags, if they have an antag datum, will trim out people who already have said antag datum.
+// before this it seems like it could apply to people if they were already that antag. my chungus life.
+/datum/round_event_control/antagonist/solo/trim_candidates(list/candidates)
+	candidates = ..()
+	// afaik this should work even if iuts somethgig like vampires_and_werewolves which spawns both(???)
+	if(antag_datum)
+		for(var/mob/living/candidate in candidates)
+			if(candidate.mind.has_antag_datum(antag_datum))
+				candidates -= candidate
+	return candidates
+
+
 /datum/round_event_control/antagonist/solo/from_ghosts/get_candidates()
 	var/round_started = SSticker.HasRoundStarted() || SSgamemode?.roundstart_live
 	var/midround_antag_pref_arg = round_started ? FALSE : TRUE

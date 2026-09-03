@@ -143,7 +143,7 @@
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
 	H.choose_name_popup("Decrepit Feral")
 	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
-	
+
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
@@ -161,7 +161,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve //No picks, you're a minor antagonist and this is already more than enough
+	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backl = /obj/item/quiver/broadhead_aalloy
 	//Knife is default softlock protection sidearm, difference is you don't suck at it here as much.
 
