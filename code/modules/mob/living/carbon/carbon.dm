@@ -356,6 +356,9 @@
 	var/breakoutextra = 30 SECONDS
 
 /mob/living/carbon/resist_buckle()
+	if(IsStun())
+		to_chat(src, span_warning("I can't do that right now!"))
+		return
 	if(restrained())
 		changeNext_move(CLICK_CD_BREAKOUT)
 		last_special = world.time + CLICK_CD_BREAKOUT
@@ -385,6 +388,9 @@
 		buckled.user_unbuckle_mob(src,src)
 
 /mob/living/carbon/resist_fire()
+	if(IsStun() || IsImmobilized())
+		to_chat(src, span_warning("I can't do that right now!"))
+		return
 	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks)
 	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks/sunder)
 	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks/divine)
@@ -414,6 +420,9 @@
 		extinguish_mob(TRUE)
 
 /mob/living/carbon/resist_restraints()
+	if(IsStun())
+		to_chat(src, span_warning("I can't do that right now!"))
+		return
 	var/obj/item/I = null
 	var/type = 0
 	if(handcuffed)
