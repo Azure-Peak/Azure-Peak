@@ -23,6 +23,8 @@
 	desc = "Baotha raises myne mood. Alt-mode to instead surrender my soul to heartbreak. More effective based off of holy skill."
 	button_icon_state = null //i ain't got shit rn lowk chief
 	sound = 'sound/magic/heal.ogg' //i ain't got SHIT rn lowk chief
+	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_icon_state = "mood_happy"
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
 	primary_resource_cost = SPELLCOST_MIRACLE
@@ -35,8 +37,14 @@
 	var/embrace_heartbreak = FALSE
 
 /datum/action/cooldown/spell/baotha/emotional_sway/toggle_alt_mode(mob/user)
-	embrace_heartbreak = !embrace_heartbreak
-	to_chat(user, span_notice("Baotha's blessing will now [embrace_heartbreak ? "decrease" : "increase"] my mood."))
+	embrace_heartbreak = !embrace_heartbreak //i feel like i could have just done a true/false check but whatever
+		if(embrace_heartbreak)
+		overlay_icon_state = "mood_sad"
+		to_chat(user, span_notice("Baotha's blessing will now decrease my mood."))
+	else
+		overlay_icon_state = "mood_happy"
+		to_chat(user, span_notice("Baotha's blessing will now increase my mood."))
+	build_all_button_icons(UPDATE_BUTTON_OVERLAY)
 	return TRUE
 
 /datum/action/cooldown/spell/baotha/emotional_sway/cast(atom/cast_on)
@@ -241,16 +249,15 @@
 		revert_cast()
 		return FALSE
 
-	var/vice_sated = TRUE
+	var/stat_multiplier = 1
+	var/effect_duration = 45 SECONDS
 	if(ishuman(user))
 		var/mob/living/carbon/human/human_user = user
 		for(var/datum/charflaw/addiction/vice in human_user.charflaws)
-			if(!vice.sated)
-				vice_sated = FALSE
-				break
-
-	var/stat_multiplier = vice_sated ? 1 : 2
-	var/effect_duration = vice_sated ? 90 SECONDS : 45 SECONDS
+			if(vice.sated)
+				effect_duration *= 2
+			else
+				stat_multiplier *= 2
 
 	if(is_good_mood)
 		for(var/mob/living/nearby_soul in view(aura_range, user))
@@ -278,7 +285,7 @@
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_INT = 1)
 
 /datum/status_effect/buff/heart_on_sleeve/melancholia
-	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_WIL = 1, STATKEY_CON = -1, STATKEY_INT = -1)
+	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATTKEY_FOR = 1, STATKEY_WIL = 1, STATKEY_CON = -1, STATKEY_INT = -1)
 
 /atom/movable/screen/alert/status_effect/buff/heart_on_sleeve
 	name = "HEART AND SOUL"
@@ -315,6 +322,42 @@
 	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
 	devotion_cost = 30
 	human_req = TRUE
+	var/self_cast_mode = FALSE
+
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust/toggle_arc_mode(mob/user)
+	self_cast_mode = !self_cast_mode
+	if(self_cast_mode)
+		to_chat(user, span_notice("[name] self-cast mode enabled."))
+	else
+		to_chat(user, span_notice("[name] self-cast mode disabled."))
+	update_arc_maptext()
+
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust/update_arc_maptext()
+	if(!action)
+		return
+	for(var/datum/hud/hud as anything in action.viewers)
+		var/atom/movable/screen/movable/action_button/button = action.viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/mode_holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in button.vis_contents)
+			mode_holder = existing
+			break
+		if(!mode_holder)
+			mode_holder = new(button)
+			button.vis_contents.Add(mode_holder)
+		if(self_cast_mode)
+			mode_holder.maptext = MAPTEXT("SELF")
+		else
+			mode_holder.maptext = null
+		mode_holder.color = "#d9b3ff"
+
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust/fire_projectile(mob/living/user, atom/target)
+	if(!self_cast_mode)
+		return ..()
+	user.reagents.add_reagent(initial(projectile_type:poisontype), initial(projectile_type:poisonamount))
+	user.show_message(span_danger("You feel an intense [initial(projectile_type:poisonfeel)] sensation spreading swiftly from the area!"))
+	to_chat(user, span_warning("Gah! Something.. got in my - eyes.."))
+	user.blur_eyes(2)
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust/cast(list/targets, mob/user = user)
 	switch(user.rmb_intent.name)
@@ -390,7 +433,7 @@
 	overlay_state = "last_high"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 2 SECONDS
+	chargetime = 0
 	range = 7
 	warnie = "sydwarning"
 	chargedloop = /datum/looping_sound/invokeholy
