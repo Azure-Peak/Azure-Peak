@@ -63,42 +63,39 @@
 		handle_wounds()
 		if(nutrition < NUTRITION_LEVEL_STARVING - 75)
 			return
-		if(!getBruteLoss() && !get_sewable_wounds())
+		var/list/wounds = get_wounds() // literally was calling get_wounds() 3x so just stuffing this into a list and being done with it
+		var/has_brute = getBruteLoss() > 0 // teehee D:
+		var/has_healable_wound = FALSE
+		var/has_bleeding_wound = FALSE
+		for(var/datum/wound/wound as anything in wounds)
+			if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
+				has_healable_wound = TRUE
+			if(wound?.bleed_rate > 0)
+				has_bleeding_wound = TRUE
+		if(!has_brute && !has_healable_wound && !has_bleeding_wound)
 			return
 		var/mob/living/carbon/human/H = src
-		var/ac = H.highest_ac_worn()
-
-		var/sunlight = has_stress_event(/datum/stressevent/sun_sensitivity)
-		var/inq_trauma = has_stress_event(/datum/stressevent/inq_trauma)
-		var/thirsty = has_stress_event(/datum/stressevent/thirst)
-		var/burdened = ac > ARMOR_CLASS_LIGHT
-		var/in_combat = in_combat_until > world.time
-
-		var/healing_multiplier = max(0.5 ** (in_combat + burdened + sunlight + thirsty + inq_trauma), 0.15) // each penalty reduces effects by 50%, min, 15%
-
-		if(HAS_TRAIT(src, TRAIT_NOHUNGER)) // no cheese, scrub >:(
+		var/healing_multiplier = max(0.5 ** ((in_combat_until > world.time) + (H.highest_ac_worn() > ARMOR_CLASS_LIGHT) + has_stress_event(/datum/stressevent/sun_sensitivity) + has_stress_event(/datum/stressevent/thirst) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
+		if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 			healing_multiplier = 0.15
-
-		for(var/datum/wound/wound as anything in get_wounds())
-			if(!istype(wound, /datum/wound/slash/incision))
-				if(wound?.severity <= WOUND_SEVERITY_SEVERE) // they no longer can regen from fatal wounds, rip
-					wound.heal_wound(1 * healing_multiplier)
-
-		if(getBruteLoss()) // they can now heal passively over time, but this will pmuch double the hunger rate
+		if(has_healable_wound)
+			for(var/datum/wound/wound as anything in wounds)
+				if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
+					wound.heal_wound(healing_multiplier)
+		if(has_brute)
 			var/healing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
 			heal_overall_damage(3 * healing_multiplier, 0, 0)
 			nutrition = max(0, nutrition - healing_cost)
-
-		if(get_sewable_wounds()) // more legible for what it does now i hope
+		if(has_bleeding_wound)
 			var/sealing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
-			for(var/datum/wound/wound as anything in get_wounds())
+			for(var/datum/wound/wound as anything in wounds)
 				if(wound.bleed_rate > 0)
 					var/bleed_heal = max(wound.bleed_rate * 0.2, 0.1) * healing_multiplier
 					wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0.025))
 					if(wound.bleed_rate <= 0 && wound.sew_threshold)
 						wound.sew_progress = wound.sew_threshold
 						wound.sew_wound()
-						to_chat(src, span_artery("<i>The [wound] stitched itself...</i>")) // will make telling if this happened easier, for future reports
+						to_chat(src, span_artery("<i>The [wound] stitched itself...</i>"))
 			nutrition = max(0, nutrition - sealing_cost)
 
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
