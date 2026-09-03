@@ -27,7 +27,7 @@
 
 
 	log_game("VAMPIRE TELEPATHY: [(src).real_name] ([(src).ckey]) used vampiric telepathy to say: \"[msg]\"")
-	var/message = span_narsie("<B>[span_purple("VAMPIRE")] - <span style='color:#[voice_color]'>[real_name]</span></B> says: \"[msg]\"")
+	var/message = span_narsie("<B>[span_purple("VAMPIRE")] - <span style='color:[voice_color]'>[real_name]</span></B> says: \"[msg]\"")
 	src.playsound_local(loc, 'sound/misc/vampirespell.ogg', 50, TRUE) //Que since it takes a bit you might go AFK briefly //Little ping when doing it.
 	to_chat(clan?.clan_members, message)
 

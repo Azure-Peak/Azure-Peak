@@ -94,7 +94,8 @@
 
 	if(HAS_TRAIT(H, TRAIT_DECEIVING_MEEKNESS) && user.get_skill_level(/datum/skill/magic/holy) <= SKILL_LEVEL_NOVICE)
 		if(isnull(fake_vices[H]))
-			fake_vices[H] = pick(GLOB.character_flaws)
+			var/datum/charflaw/cf = pick_assoc(GLOB.character_flaws_singletons)
+			fake_vices[H] = cf.name
 		vice_found = fake_vices[H]
 
 		if(prob(50 + ((H.STAPER - 10) * 10)))

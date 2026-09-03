@@ -395,6 +395,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			add_overlay(barding_base_overlay)
 			add_overlay(barding_above_overlay)
 
+/mob/living/simple_animal/is_legbound()
+	return !!legcuffed
+
 ///Extra effects to add when the mob is tamed, such as adding a riding component
 /mob/living/simple_animal/proc/tamed(mob/user)
 	INVOKE_ASYNC(src, PROC_REF(emote), "lower_head", null, null, null, TRUE)
@@ -732,7 +735,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			head.sellprice = 0
 	gib()
 
-/mob/living/simple_animal/mark_contract_spawned()
+/mob/living/simple_animal/mark_contract_spawned(dust_corpse = TRUE)
 	. = ..()
 	head_butcher = null
 

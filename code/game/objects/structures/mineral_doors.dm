@@ -1049,6 +1049,10 @@
 	resident_advclass = list(/datum/advclass/miner, /datum/advclass/minermaster)
 	lockid = "towner_miner"
 
+/obj/structure/mineral_door/wood/towner/potter
+	resident_advclass = list(/datum/advclass/potter)
+	lockid = "towner_potter"
+
 /obj/structure/mineral_door/wood/towner/seamstress
 	resident_advclass = list(/datum/advclass/seamstress)
 	lockid = "towner_seamstress"

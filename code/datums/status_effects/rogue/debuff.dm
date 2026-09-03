@@ -654,13 +654,12 @@
 /datum/status_effect/debuff/dazed/longsword
 	id = "durchlauffen"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/longsword
-	effectedstats = list(STATKEY_WIL = -4, STATKEY_INT = -1)
-	duration = 18 SECONDS
+	effectedstats = list(STATKEY_PER = -3, STATKEY_INT = -3)
 	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/dazed/longsword
-	name = "CAN'T FUCKING BREATHE"
-	desc = "WHAT THE HELL DID THEY DO TO ME?! I NEED TO ATTACK THEM WHILE THEY'RE SWINGING SO THEY CAN'T SHATTER MY WINDPIPE!!"
+	name = "VERY Dazed"
+	desc = "You've been smacked in the face very, very hard. Everything is spinning!"
 	icon_state = "mstrike"
 
 /datum/status_effect/debuff/dazed/longsword2h
@@ -690,8 +689,8 @@
 /datum/status_effect/debuff/dazed/swipe
 	id = "clinch & swipe"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/swipe
-	effectedstats = list(STATKEY_CON = -4, STATKEY_STR = -1)
-	duration = 1.5 SECONDS	//Should last BARELY ENOUGH for someone who's actively grappling and swiping you to get a constant refresh of the dedbuff, otherwise it's useless.
+	effectedstats = list(STATKEY_STR = -2) // Grappling escapes are dependent on their STR/Wrestling vs your CON/Wrestling. We only reduce the victim's STR.
+	duration = 1.5 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/dazed/swipe

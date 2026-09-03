@@ -59,22 +59,12 @@
 	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares."
 	icon_state = "glassesb"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
-	break_sound = "glassbreak"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
 	max_integrity = 30
-	adjustable = CAN_CADJUST
-	toggle_icon_state = TRUE
 
-/obj/item/clothing/mask/rogue/spectacles/fancy_dark
+/obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	name = "fancy tinted spectacles"
 	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares. This variant has a darker tint to its lenses."
 	icon_state = "glassesb_dark"
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
-	break_sound = "glassbreak"
-	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
-	max_integrity = 30
-	adjustable = CAN_CADJUST
-	toggle_icon_state = TRUE
 
 /obj/item/clothing/mask/rogue/faceveil
 	name = "simple veil"
@@ -388,7 +378,7 @@
 
 /obj/item/clothing/mask/rogue/facemask/aalloy
 	name = "decrepit mask"
-	desc = "Frayed bronze, molded into an unblinking visage. Only the statues, buried within the innards of Mount Decapitation, share its wrinkled lip and sneer of cold command."
+	desc = "Rotted metal, molded into an unblinking visage. Only the statues, buried within the innards of Mount Decapitation, share its wrinkled lip and sneer of cold command."
 	icon_state = "ancientmask"
 	max_integrity = 75
 	color = "#bb9696"

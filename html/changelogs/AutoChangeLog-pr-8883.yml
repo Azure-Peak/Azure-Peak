@@ -1,0 +1,4 @@
+author: "zeroisthebiggay"
+delete-after: True
+changes:
+  - bugfix: "custom hair no longer layers above equipped items. this bug still exists if you are using custom hair as well as a top snout, sorry about that manne!"

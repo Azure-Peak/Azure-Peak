@@ -4,17 +4,15 @@ GLOBAL_LIST_INIT(bark_random_list, init_random_bark_list())
 /proc/init_bark_list()
 	. = list()
 	for(var/path in subtypesof(/datum/bark))
-		var/datum/bark/B = new path()
-		.[B.id] = path
-		qdel(B)
+		var/datum/bark/B = path
+		.[B::id] = path
 
 /proc/init_random_bark_list()
 	. = list()
 	for(var/path in subtypesof(/datum/bark))
-		var/datum/bark/B = new path()
-		if(B.allow_random)
-			.[B.id] = path
-		qdel(B)
+		var/datum/bark/B = path
+		if(B::allow_random)
+			.[B::id] = path
 
 //Datums for barks and bark accessories
 /datum/bark
@@ -34,9 +32,12 @@ GLOBAL_LIST_INIT(bark_random_list, init_random_bark_list())
 	var/maxspeed = BARK_DEFAULT_MAXSPEED
 
 	// Visibility vars. Regardless of what's set below, these can still be obtained via adminbus and genetics. Rule of fun.
-	var/list/ckeys_allowed
 	var/ignore = FALSE //Controls whether or not this can be chosen in chargen
 	var/allow_random = FALSE //Allows chargen randomization to use this. This is mainly to restrict the pool to sounds that fit well for most characters
+
+/datum/bark/New()
+	. = ..()
+	CRASH("/datum/bark should never be instantiated!")
 
 /datum/bark/mutedc2
 	name = "Muted String (Low)"

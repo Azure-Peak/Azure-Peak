@@ -1,0 +1,7 @@
+author: "zeroisthebiggay"
+delete-after: True
+changes:
+  - rscadd: "arousal preview in the character lobby"
+  - rscadd: "fully functional boners at high arousal"
+  - rscadd: "toggleable pintle sheaths, keep in mind that by default these are set to 'none', so if you want your character to resume having a sheath, you have to go and reapply it"
+  - image: "removed the unused sprites for 'hyper'-sized 'size four' pintles"

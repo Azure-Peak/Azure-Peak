@@ -167,7 +167,7 @@
 			H.change_stat(STATKEY_STR, 1)
 		if("Bow")
 			beltr = /obj/item/quiver/arrows
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			H.change_stat(STATKEY_PER, 1)
 		if("Sling")
 			beltr = /obj/item/quiver/sling/iron
@@ -298,7 +298,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("Bow")
 			beltr = /obj/item/quiver/arrows
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		else
 			beltr = /obj/item/rogueweapon/sword

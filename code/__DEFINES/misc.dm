@@ -56,7 +56,8 @@
 #define CLOAK_LAYER				17		//only when looking north or west/east
 #define HOOD_LAYER				16
 #define HAIR_LAYER				15		//TODO: make part of head layer?
-#define CUSTOM_HAIR_COVERED_LAYER 14.9	// WHY ARE TOP SNOUTS LIKE THIS I HATE FURRIES
+#define CUSTOM_HAIR_LAYER		14.95	//obviously above (below?) hair layer so it shows up
+#define CUSTOM_HAIR_COVERED_LAYER 14.9	//hat or mask is hiding the hair underneath
 #define MASK_LAYER				14
 #define HAIREXTRA_LAYER			13
 #define MOUTH_LAYER				12
@@ -66,13 +67,19 @@
 #define HANDCUFF_LAYER			8
 #define LEGCUFF_LAYER			7
 #define BODY_FRONT_LAYER		6
-#define CUSTOM_HAIR_LAYER		5.9
+#define CUSTOM_HAIR_ABOVE_SNOUT_LAYER 5.9	//so hair renders over (top) snouts using BODY_FRONT_LAYER (WHY ARE TOP SNOUTS LIKE THIS I HATE FURRIES)
 #define BODY_FRONT_FRONT_LAYER	5
 #define HALO_LAYER				4		//blood cult ascended halo, because there's currently no better solution for adding/removing
 #define SUNDER_LAYER			3
 #define FIRE_LAYER				2		//If you're on fire
 #define TURF_LAYER				1		//If you're on fire
 #define TOTAL_LAYERS			55		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
+
+#define INHAND_FRONT		1
+#define INHAND_BEHIND		2
+
+#define ONMOB_TAG		1
+#define ONMOB_PROP		2
 
 #define BACK_CLOAK_SOUTH_LAYER		(BODY_BEHIND_LAYER+1)
 
@@ -229,42 +236,11 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define GHOST_ORBIT_SQUARE		"square"
 #define GHOST_ORBIT_PENTAGON	"pentagon"
 
-//Ghost showing preferences:
-#define GHOST_ACCS_NONE		1
-#define GHOST_ACCS_DIR		50
-#define GHOST_ACCS_FULL		100
-
-#define GHOST_ACCS_NONE_NAME		"default sprites"
-#define GHOST_ACCS_DIR_NAME			"only directional sprites"
-#define GHOST_ACCS_FULL_NAME		"full accessories"
-
-#define GHOST_ACCS_DEFAULT_OPTION	GHOST_ACCS_FULL
-
-GLOBAL_LIST_INIT(ghost_accs_options, list(GHOST_ACCS_NONE, GHOST_ACCS_DIR, GHOST_ACCS_FULL)) //So save files can be sanitized properly.
-
-#define GHOST_OTHERS_SIMPLE			1
-#define GHOST_OTHERS_DEFAULT_SPRITE		50
-#define GHOST_OTHERS_THEIR_SETTING		100
-
-#define GHOST_OTHERS_SIMPLE_NAME			"white ghost"
-#define GHOST_OTHERS_DEFAULT_SPRITE_NAME	"default sprites"
-#define GHOST_OTHERS_THEIR_SETTING_NAME	"their setting"
-
-#define GHOST_OTHERS_DEFAULT_OPTION			GHOST_OTHERS_THEIR_SETTING
-
-#define GHOST_MAX_VIEW_RANGE_DEFAULT 10
-#define GHOST_MAX_VIEW_RANGE_MEMBER 14
-
-
-GLOBAL_LIST_INIT(ghost_others_options, list(GHOST_OTHERS_SIMPLE, GHOST_OTHERS_DEFAULT_SPRITE, GHOST_OTHERS_THEIR_SETTING)) //Same as ghost_accs_options.
-
 //pda fonts
 #define MONO		"Monospaced"
 #define VT			"VT323"
 #define ORBITRON	"Orbitron"
 #define SHARE		"Share Tech Mono"
-
-GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 
 /////////////////////////////////////
 // atom.appearence_flags shortcuts //

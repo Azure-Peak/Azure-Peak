@@ -13,7 +13,6 @@
 	set_movement_target(controller, (target))
 
 /datum/ai_behavior/eat_dead_body/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	. = ..()
 	var/mob/living/simple_animal/living_pawn = controller.pawn
 	//targetting datum will kill the action if not real anymore
 	var/mob/living/target = controller.blackboard[target_key]
@@ -24,13 +23,14 @@
 
 
 
+	if(living_pawn.incapacitated())
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	if(QDELETED(living_pawn) || QDELETED(target) || !isnull(target.ckey)) //We don't want to eat anything with a ckey
-		return
+		return AI_BEHAVIOR_DELAY
 	//nor do we want to eat anything with a mind
 	if(iscarbon(target))
 		if(C.mind || C.last_mind)
-			finish_action(controller, FALSE, target_key)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	else
 		C = null
 
@@ -46,13 +46,11 @@
 				limb = C.get_bodypart(zone)
 				if(limb && prob(2)) //2% chance per limb to appear and be dismembered
 					limb.dismember()
-					finish_action(controller, TRUE)
-					return
+					return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 			limb = C.get_bodypart(BODY_ZONE_HEAD)
 			if(limb)					// Head is always 100%
 				limb.dismember()
-				finish_action(controller, TRUE)
-				return
+				return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 			limb = C.get_bodypart(BODY_ZONE_CHEST)
 			if(limb)
 				if(!limb.dismember())
@@ -61,8 +59,7 @@
 			if(living_pawn.attack_sound)
 				playsound(living_pawn, pick(living_pawn.attack_sound), 100, TRUE, -1)
 			target.gib()
-		finish_action(controller, TRUE)
-	finish_action(controller, TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 
 /datum/ai_behavior/eat_dead_body/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)

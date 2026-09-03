@@ -347,13 +347,12 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /// Uses weapon skill as the accuracy bonus. Specials can override this for custom behavior.
 /datum/special_intent/proc/get_aimed_zone(mob/living/target)
 	var/bonus = 0
-	var/skill = custom_skill
-	if(!skill)
+	if(custom_skill)
+		bonus += howner.get_skill_level(custom_skill) * 8
+	else
 		var/obj/item/W = iparent
 		if(istype(W))
-			skill = W.associated_skill
-	if(skill)
-		bonus += howner.get_skill_level(skill) * 8
+			bonus += howner.get_wskill(W) * 8
 	return resolve_aimed_zone(howner.zone_selected, howner, target, bonus)
 
 ///A proc that attempts to deal damage to the target, simple mob or carbon.
@@ -1629,7 +1628,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	W.damtype = TOX
 	W.force -= 15
 	W.update_force_dynamic()
-	W.icon_state = "poisonsaber_active"
+	W.icon_state = "poisonsabre_active"
 	howner.regenerate_icons()
 	playsound(W.loc, 'sound/misc/lava_death.ogg', 100)
 
@@ -1639,7 +1638,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	W.damtype = BRUTE
 	W.force += 15
 	W.update_force_dynamic()
-	W.icon_state = "poisonsaber"
+	W.icon_state = "poisonsabre"
 	playsound(W.loc, 'sound/magic/bladescrape.ogg', 100)
 
 /datum/special_intent/permafrost

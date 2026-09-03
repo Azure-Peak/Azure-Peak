@@ -988,6 +988,36 @@
 	verbage_simple = "build"
 	verbage = "builds"
 
+/datum/crafting_recipe/roguetown/structure/smoker
+	name = "smoker"
+	category = "Misc"
+	result = /obj/machinery/light/rogue/smoker
+	reqs = list(/obj/item/grown/log/tree/small = 2,
+				/obj/item/natural/stone = 1,
+				/obj/item/rope = 1)
+	craftdiff = 3
+	verbage_simple = "build"
+	verbage = "builds"
+
+/datum/crafting_recipe/roguetown/structure/smoker/carpentry
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/smoker_wheeled
+	name = "smoker (wheeled)"
+	category = "Misc"
+	result = /obj/machinery/light/rogue/smoker/wheeled
+	reqs = list(/obj/item/grown/log/tree/small = 4,
+				/obj/item/natural/stone = 1,
+				/obj/item/rope = 2)
+	craftdiff = 4
+	verbage_simple = "build"
+	verbage = "builds"
+
+/datum/crafting_recipe/roguetown/structure/smoker_wheeled/carpentry
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/structure/brazier
 	name = "brazier"
 	category = "Lighting"
