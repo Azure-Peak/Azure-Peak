@@ -84,7 +84,7 @@
 					qdel(src)
 					return
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
-					stuttering += 10
+					L.stuttering += 10
 					L.visible_message(span_silver("Divine power staggers [L]!"))
 					if(HAS_TRAIT(L, TRAIT_NOPAIN) || HAS_TRAIT(L, TRAIT_IRONMAN))
 						L.emote("scream")
