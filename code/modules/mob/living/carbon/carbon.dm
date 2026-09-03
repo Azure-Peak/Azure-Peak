@@ -291,6 +291,9 @@
 			if(pulledby.grab_state >= GRAB_AGGRESSIVE)
 				return TRUE
 
+/mob/living/carbon/is_legbound()
+	return !!legcuffed
+
 /mob/living/carbon/proc/canBeHandcuffed()
 	return 0
 
@@ -1354,3 +1357,12 @@
 	if((cmode) && (mind) && (!handcuffed) && (stat == CONSCIOUS))
 		return 0
 	. = ..()
+
+// reset_perspective is called for things like z-level transitions. however, revs specifically need to not have their perspective reset if their
+// body moves away from their head; otherwise you get rev bodies with full sight
+/mob/living/carbon/reset_perspective(atom/A)
+	var/obj/item/organ/dullahan_vision/vision = getorganslot(ORGAN_SLOT_HUD)
+	var/datum/species/dullahan/our_species = dna?.species
+	if(!A && istype(vision) && vision.viewing_head && istype(our_species))
+		return ..(our_species.my_head)
+	return ..()

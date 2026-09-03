@@ -185,13 +185,6 @@
 			else
 				msg = "[styled_name] [msg]"
 
-			for(var/mob/M in GLOB.dead_mob_list)
-				if(!M.client || isnewplayer(M))
-					continue
-				var/turf/T = get_turf(emotelocation)
-				if(M.stat == DEAD && M.client && (M.client.prefs?.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
-					M.show_message(msg)
-
 			var/runechat_msg_to_use = P.show_runechat ? (P.runechat_msg ? P.runechat_msg : pre_color_msg) : null
 			if(P.emote_type == EMOTE_AUDIBLE)
 				emotelocation.audible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)

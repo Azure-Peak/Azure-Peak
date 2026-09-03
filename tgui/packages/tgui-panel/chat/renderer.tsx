@@ -5,11 +5,11 @@
  */
 
 import { createRoot } from 'react-dom/client';
-import { TooltipHTML } from 'tgui/components/TooltipHTML';
 import { createLogger } from 'tgui/logging';
 import { Tooltip } from 'tgui-core/components';
 import { EventEmitter } from 'tgui-core/events';
 import { classes } from 'tgui-core/react';
+import { TooltipHTML } from '../chat_components/TooltipHTML';
 import { store } from '../events/store';
 import { scrollTrackingAtom } from './atom';
 import {

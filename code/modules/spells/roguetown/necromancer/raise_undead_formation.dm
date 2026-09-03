@@ -71,6 +71,10 @@
 
 		var/mob/living/simple_animal/hostile/rogue/skeleton/S = new skeleton_type(spawn_turf, owner, cabal_affine)
 
+		for(var/obj/item/I as anything in S.loot)
+			if(ispath(I, /obj/item) && I::smeltresult)
+				S.loot -= I // previously, people could infinitely farm iron gear to sell/scrap off of their own skellies
+
 		if(!S)
 			continue
 

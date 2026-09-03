@@ -1,0 +1,13 @@
+.GameMaster__pane .Section__title {
+  display: flex;
+  align-items: center;
+  min-height: 2.25em;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.GameMaster__pane .Section__buttons {
+  top: 50%;
+  margin-top: 0;
+  transform: translateY(-50%);
+}

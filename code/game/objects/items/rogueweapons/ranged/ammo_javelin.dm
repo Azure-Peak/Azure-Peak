@@ -36,7 +36,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/javelin/aalloy
 	name = "decrepit javelin"
-	desc = "A missile of frayed bronze. Before you is your weapon; that which rose Man out of the mud, and brought the Beasts of Old Syon to heel. When were you last aware of any other part of you? Do you recall seeing the world in any other way?"
+	desc = "A missile of rotted metal. Before you is your weapon; that which rose Man out of the mud, and brought the Beasts of Old Syon to heel. When were you last aware of any other part of you? Do you recall seeing the world in any other way?"
 	icon_state = "ajavelin"
 	throwforce = 20
 	force = 10
@@ -109,7 +109,7 @@
 	max_integrity = 50						//In-line with other stabbing weapons.
 	force = 18
 	throwforce = 36
-	armor_penetration = PEN_BSTEEL //The main appeal.		
-	thrown_bclass = BCLASS_PICK				
+	armor_penetration = PEN_BSTEEL //The main appeal.
+	thrown_bclass = BCLASS_PICK
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 60, "embedded_fall_chance" = 10)
 	smeltresult = null

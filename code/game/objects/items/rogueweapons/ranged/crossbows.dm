@@ -13,7 +13,7 @@
 	matter that relies more on raw strength than dexterity to master. </br>A favorite \
 	amongst the Keep's ever-dutiful watchmen, both for its relative ease-of-use and \
 	effectiveness against Psydonia's unchivalrous inhabitants."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon = 'icons/roguetown/weapons/ranged32.dmi'
 	icon_state = "crossbow0"
 	item_state = "crossbow"
 	experimental_onhip = TRUE
@@ -311,7 +311,7 @@
 	uses a sophisticated mechanism to renock - and retain - its half-length bolts; a matter that relies more on raw \
 	strength than dexterity to master. </br>Once, these mechanical delights bristled the arms of Zaelorian's ancient \
 	empire; now, it shudders in the grasp of Zizo's deathless crusade."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon = 'icons/roguetown/weapons/ranged32.dmi'
 	icon_state = "ancientcrossbow0"
 	item_state = "ancientcrossbow"
 	max_integrity = 80
@@ -365,7 +365,7 @@
 	beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic draw-strength. It loads \
 	heavier, full-length bolts; purpose-made to pulverize. </br>Assembled in Grenzelhoft, championed by Valoria, and \
 	unfamiliar to the highlands of Azure Peak."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon = 'icons/roguetown/weapons/ranged32.dmi'
 	icon_state = "heavybow0"
 	item_state = "heavybow"
 	possible_item_intents = list(/datum/intent/shoot/crossbow/heavy, /datum/intent/arc/crossbow/heavy, /datum/intent/buttstroke/heavy, /datum/intent/effect/daze) //Remember, this is quite heavy.

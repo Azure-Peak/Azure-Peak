@@ -5,10 +5,11 @@
 	var/image/I = image('icons/mob/talk.dmi', src, "default1", FLY_LAYER)
 	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 
-	var/list/listening = view(6,src)
+	var/list/listening = get_hearers_in_view(6, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	var/list/speech_bubble_recipients = list()
 	for(var/mob/M in listening)
-		speech_bubble_recipients.Add(M.client)
+		if(M.client)
+			speech_bubble_recipients.Add(M.client)
 
 	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), I, speech_bubble_recipients, 30)
 

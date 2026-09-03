@@ -455,8 +455,8 @@
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
 	name = "pigface bascinet"
 	desc = "A steel bascinet helmet with a pigface visor that protects the entire head and face. Add a feather to show the colors of your family or allegiance."
-	icon_state = "bascinet"
-	item_state = "bascinet"
+	icon_state = "pigface"
+	item_state = "pigface"
 	adjustable = CAN_CADJUST
 	emote_environment = 3
 	body_parts_covered = FULL_HEAD
@@ -560,6 +560,7 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
+	stack_fovs = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/attackby(obj/item/W, mob/living/user, params)
 	..()
@@ -626,6 +627,7 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
+	stack_fovs = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/antler/ComponentInitialize()
 	..()
@@ -819,6 +821,7 @@
 	icon_state = "baothahelm"
 	item_state = "baothahelm"
 	body_parts_covered = HEAD | HAIR | EARS | MOUTH | EYES
+	flags_inv = HIDEFACE //so it hides your identity
 	armor_class = ARMOR_CLASS_LIGHT
 	max_integrity = ARMOR_INT_HELMET_ANTAG - 300 //Halved durability, compared to traditional Ascendant-tier armor.
 	smeltresult = /obj/item/ingot/component/baotha

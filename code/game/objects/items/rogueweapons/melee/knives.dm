@@ -144,6 +144,8 @@
 	max_integrity = 175
 	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
 	associated_skill = /datum/skill/combat/knives
+	twirly = SKILL_LEVEL_JOURNEYMAN
+	twirl_verb = "flip"
 	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'
 	throwforce = 12
 	wdefense = 3
@@ -160,8 +162,6 @@
 	inv_storage_delay = 1 SECONDS
 	edelay_type = 1
 
-	//flipping knives has a cooldown on to_chat to reduce chatspam
-	COOLDOWN_DECLARE(flip_cooldown)
 
 /obj/item/rogueweapon/huntingknife/Initialize(mapload)
 	..()
@@ -183,41 +183,12 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/huntingknife/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("You can twirl this weapon by right-clicking it in your hand. Doing so safely requires [skill_to_string(SKILL_LEVEL_JOURNEYMAN)] skills; anything less risks harming yourself.")
-
-/obj/item/rogueweapon/huntingknife/rmb_self(mob/user)
-	. = ..()
-	if(.)
-		return
-
-	SpinAnimation(4, 2) // The spin happens regardless of the cooldown
-
-	if(!COOLDOWN_FINISHED(src, flip_cooldown))
-		return
-
-	COOLDOWN_START(src, flip_cooldown, 3 SECONDS)
-	if((user.get_skill_level(/datum/skill/combat/knives) < SKILL_LEVEL_JOURNEYMAN) && prob(40))
-		user.visible_message(
-			span_danger("While trying to flip [src] [user] drops it instead!"),
-			span_userdanger("While trying to flip [src] you drop it instead!"),
-		)
-		var/mob/living/carbon/human/unfortunate_idiot = user
-		var/dropped_knife_target = pick(
-			BODY_ZONE_PRECISE_L_FOOT,
-			BODY_ZONE_PRECISE_R_FOOT,
-			)
-		unfortunate_idiot.apply_damage(src.force, BRUTE, dropped_knife_target)
-		user.dropItemToGround(src, TRUE)
-	else
-		user.visible_message(
-			span_notice("[user] spins [src] around [user.p_their()] finger."),
-			span_notice("You spin [src] around your finger"),
-		)
-		playsound(src, 'sound/foley/equip/swordsmall1.ogg', 20, FALSE)
-
-	return
+/obj/item/rogueweapon/huntingknife/twirl_success(mob/living/user)
+	user.visible_message(
+		span_notice("[user] spins [src] around [user.p_their()] finger."),
+		span_notice("You spin [src] around your finger."),
+	)
+	playsound(src, twirl_sound, 20, FALSE)
 
 /obj/item/rogueweapon/huntingknife/copper
 	name = "copper knife"
@@ -537,7 +508,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/adagger
 	name = "decrepit dagger"
-	desc = "A short blade, wrought from frayed bronze and tanged within a rotwooden grip. Pieces of a former legionnaire's scabbard cling to the glimmerless alloy."
+	desc = "A short blade, wrought from rotted metal and tanged within a rotwooden grip. Pieces of a former legionnaire's scabbard cling to the glimmerless alloy."
 	force = 12
 	max_integrity = 75
 	icon_state = "adagger"
@@ -1212,7 +1183,7 @@
 
 /obj/item/rogueweapon/huntingknife/throwingknife/aalloy
 	name = "decrepit tossblade"
-	desc = "Chunks of frayed bronze, crudely sharpened into throwing daggers. You might be better off chucking the silverware at them, at this rate. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
+	desc = "Chunks of rotted metal, crudely sharpened into throwing daggers. You might be better off chucking the silverware at them, at this rate. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
 	icon_state = "throw_knifea"
 	color = "#bb9696"
 	force = 7

@@ -1,0 +1,4 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - bugfix: "fixed decrepit/ancient haulberk & maile from being equipped in shirt slot and being medium AC which was unintended."

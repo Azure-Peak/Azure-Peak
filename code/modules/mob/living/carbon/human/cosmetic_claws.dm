@@ -14,6 +14,24 @@
 		CLAW_STYLE_CHITINOUS = /datum/intent/unarmed/punch/cosmetic_claw/chitinous,
 	)
 
+/datum/species/demihuman
+	cosmetic_claw_types = list(
+		CLAW_STYLE_RETRACTABLE = /datum/intent/unarmed/punch/cosmetic_claw/retractable,
+		CLAW_STYLE_HOOKED = /datum/intent/unarmed/punch/cosmetic_claw/hooked,
+		CLAW_STYLE_HEAVY = /datum/intent/unarmed/punch/cosmetic_claw/heavy,
+		CLAW_STYLE_TALONS = /datum/intent/unarmed/punch/cosmetic_claw/talons,
+		CLAW_STYLE_CHITINOUS = /datum/intent/unarmed/punch/cosmetic_claw/chitinous,
+	)
+
+/datum/species/dullahan
+	cosmetic_claw_types = list(
+		CLAW_STYLE_RETRACTABLE = /datum/intent/unarmed/punch/cosmetic_claw/retractable,
+		CLAW_STYLE_HOOKED = /datum/intent/unarmed/punch/cosmetic_claw/hooked,
+		CLAW_STYLE_HEAVY = /datum/intent/unarmed/punch/cosmetic_claw/heavy,
+		CLAW_STYLE_TALONS = /datum/intent/unarmed/punch/cosmetic_claw/talons,
+		CLAW_STYLE_CHITINOUS = /datum/intent/unarmed/punch/cosmetic_claw/chitinous,
+	)
+
 /datum/species/anthromorphsmall
 	cosmetic_claw_types = list(
 		CLAW_STYLE_RETRACTABLE = /datum/intent/unarmed/punch/cosmetic_claw/retractable,
