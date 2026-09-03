@@ -351,7 +351,6 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/triggered = FALSE
 
 /obj/structure/pressure_plate/once/Crossed(atom/movable/AM)
-	. = ..()
 	if(triggered)
 		return
 	if(!anchored)

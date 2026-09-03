@@ -175,6 +175,11 @@
 	icon_state = "mazekey"
 	lockid = "manor"
 
+/obj/item/roguekey/noblegate
+	name = "gate key"
+	icon_state = "brownkey"
+	lockid = "noblehome1gate"
+
 /obj/item/roguekey/heir
 	name = "heir room key"
 	desc = "A highly coveted key belonging to the doors of the heirs of this realm."
