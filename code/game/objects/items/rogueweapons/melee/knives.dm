@@ -719,6 +719,7 @@
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "sdaggerhand"
 	sheathe_icon = "sdaggerhand"
+	sheathe_icon_above = TRUE
 	force = 25
 	max_integrity = 200
 	sellprice = 200
@@ -786,6 +787,7 @@
 	icon = 'icons/roguetown/weapons/special/hand32.dmi'
 	icon_state = "spdaggerhand"
 	sheathe_icon = "spdaggerhand"
+	sheathe_icon_above = TRUE
 	max_integrity = 200
 	wdefense = 9
 

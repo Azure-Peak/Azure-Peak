@@ -36,8 +36,10 @@
 		"embedded_fall_chance" = 0,
 	)
 
-	/// Icon for sheathing. Only null for weapons that are unsheathable.
+	/// State used to display this weapon inside a sheath. Only null for weapons that are unsheathable.
 	var/sheathe_icon = null
+	/// Draw the sheathed appearance over its container instead of under it.
+	var/sheathe_icon_above = FALSE
 
 	var/datum/special_intent/special
 

@@ -12,6 +12,10 @@
 	var/sheathe_time = 0.1 SECONDS
 	var/sheathe_sound = 'sound/foley/equip/scabbard_holster.ogg'
 	var/use_icons = TRUE
+	/// Appearance currently added to the parent for the sheathed weapon.
+	var/mutable_appearance/sheathed_appearance
+	/// Whether sheathed_appearance was added as an overlay rather than an underlay.
+	var/sheathed_appearance_above = FALSE
 
 
 /datum/component/holster/Destroy()
@@ -180,10 +184,21 @@
 /datum/component/holster/proc/update_icon(atom/source, mob/living/user)
 	var/obj/item/I = parent
 	if(use_icons)
+		if(sheathed_appearance)
+			if(sheathed_appearance_above)
+				I.cut_overlay(sheathed_appearance)
+			else
+				I.underlays -= sheathed_appearance
+			sheathed_appearance = null
+
+		I.icon_state = initial(I.icon_state)
 		if(sheathed)
-			I.icon_state = "[initial(I.icon_state)]_[sheathed.sheathe_icon]"
-		else
-			I.icon_state = "[initial(I.icon_state)]"
+			sheathed_appearance = mutable_appearance('icons/obj/items/scabbard_layers.dmi', sheathed.sheathe_icon)
+			sheathed_appearance_above = sheathed.sheathe_icon_above
+			if(sheathed_appearance_above)
+				I.add_overlay(sheathed_appearance)
+			else
+				I.underlays += sheathed_appearance
 
 		I.update_slot_icon()
 
