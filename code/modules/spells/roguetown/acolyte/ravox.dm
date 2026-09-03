@@ -593,7 +593,10 @@
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("By Ravox, stand and fight!")
 
-	charge_required = FALSE
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = 1
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	cooldown_time = 5 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
