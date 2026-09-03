@@ -133,7 +133,7 @@
 	var/fire_stacks = godless ? 10 : 5
 	if(godless)
 		L.emote("superagony")
-		L.Stun(3 SECONDS)
+		L.Immobilize(3 SECONDS)
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 	var/turf/target_turf = get_turf(L)
 	new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
