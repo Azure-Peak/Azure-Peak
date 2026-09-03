@@ -105,7 +105,7 @@
 /datum/status_effect/debuff/matthios_debt
 	id = "matthios_debt"
 	duration = 60 MINUTES
-	tick_interval = 3 SECONDS
+	tick_interval = 10 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/matthios_debt
 	var/debt_remaining = 0
 	var/total_debt = 0
