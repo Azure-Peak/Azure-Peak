@@ -549,4 +549,26 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
 	deathsight_message = "Undercover rooftops overlooking city streets"
 
+/area/rogue/under/cave/licharena/grim
+	name = "lich's manor"
+	loot_budget = LOOT_BUDGET_LICH_MANOR
+	loot_pool_key = "lich_arena"
+	icon_state = "under"
+	first_time_text = "THE LICH'S MANOR"
+	droning_sound = 'sound/music/area/dragonden.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	ceiling_protected = TRUE
+	detail_text = DETAIL_TEXT_LICH_DOMAIN
+	deathsight_message = "A decrepit domain writhe with remains and risen dead around each bend"
+
+/area/rogue/under/cave/licharena/bossroom/grim
+	name = "the lich's lab"
+	loot_budget = LOOT_BUDGET_LICH_LAB
+	first_time_text = "THE LICH'S LABORATORY"
+	deathsight_message = "A decrepit laboratory filled with death and decay"
+
+/area/rogue/under/cave/licharena/bossroom/grim/can_craft_here()
+	return FALSE
+
 //PILGRIM END

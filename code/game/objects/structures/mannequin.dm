@@ -102,8 +102,6 @@
 
 /// Equips spawned in dungeon clothing etc off the ground at their feet, trying every available slot.
 /obj/structure/mannequin/proc/TryAutoEquip(obj/item/clothing/loose_clothing)
-	if(unchangeable)
-		return
 	for(var/slot in MannequinSlotHelper(loose_clothing.slot_flags))
 		if(!clothing[slot])
 			MannequinEquip(loose_clothing, slot)
@@ -149,6 +147,8 @@
 /obj/structure/mannequin/Topic(href, href_list)
 	..()
 	if(tipped_over || !(iscarbon(usr)) || usr.incapacitated(ignore_grab = TRUE) || !Adjacent(usr))
+		return
+	if(unchangeable)
 		return
 	var/mob/living/carbon/user = usr
 	switch(href_list["command"])
