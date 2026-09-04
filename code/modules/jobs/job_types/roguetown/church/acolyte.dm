@@ -125,7 +125,6 @@
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora/g
 			cloak = /obj/item/clothing/cloak/templar/eoran
-			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			beltl = /obj/item/rogueweapon/huntingknife/scissors
 			l_hand = /obj/item/needle/thorn
 			var/robes = list("Modest","Exposed")
