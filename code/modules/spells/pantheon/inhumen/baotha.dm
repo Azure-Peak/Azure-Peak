@@ -221,7 +221,7 @@
 // T1 - polls the caster's mood and vice satiety before giving a buff. as you can tell by the typepath i had an entiurely different idea for this ubt whatever
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve
 	name = "Phentis / Melancholia"
-	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. A sated vice doubles the duration; every unsated vice doubles every stat change."
+	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. Every sated vice doubles the duration; every unsated vice doubles every attribute change."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
@@ -285,7 +285,7 @@
 	effectedstats = list(STATKEY_SPD = 1, STATKEY_INT = 1)
 
 /datum/status_effect/buff/heart_on_sleeve/melancholia
-	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATTKEY_FOR = 1, STATKEY_WIL = 1, STATKEY_CON = -1, STATKEY_INT = -1)
+	effectedstats = list(STATKEY_STR = 1, STATKEY_SPD = 1, STATKEY_WIL = 1, STATKEY_CON = -1, STATKEY_INT = -1)
 
 /atom/movable/screen/alert/status_effect/buff/heart_on_sleeve
 	name = "HEART AND SOUL"
