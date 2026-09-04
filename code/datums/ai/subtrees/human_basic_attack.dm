@@ -155,11 +155,7 @@
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * jitter)
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
-	var/scan_chance = HUMAN_NPC_WEAKPOINT_SCAN_CHANCE
-	var/obj/item/scan_weapon = pawn.get_active_held_item()
-	if(scan_weapon?.associated_skill)
-		var/scan_skill = pawn.get_skill_level(scan_weapon.associated_skill)
-		scan_chance += scan_skill * 5
+	var/scan_chance = HUMAN_NPC_WEAKPOINT_SCAN_CHANCE + (pawn.get_wskill(pawn.get_active_held_item()) * 5)
 	if(prob(scan_chance) && isliving(target))
 		_scan_for_weakpoint(controller, pawn, target)
 
@@ -182,10 +178,7 @@
 	if(!AI_INT_SCALE_PROB(pawn, HUMAN_NPC_INTENT_SWITCH_CHANCE))
 		return
 
-	var/skill_level = SKILL_LEVEL_NONE
-	var/obj/item/held = pawn.get_active_held_item()
-	if(held?.associated_skill)
-		skill_level = pawn.get_skill_level(held.associated_skill)
+	var/skill_level = pawn.get_wskill(pawn.get_active_held_item())
 
 	var/list/weighted = list()
 	for(var/datum/rmb_intent/available in pawn.possible_rmb_intents)
@@ -260,18 +253,14 @@
 		AI_THINK(pawn, "ZONE: hitting cached weakpoint [wp[1]] (aim [wp[4]])")
 		return
 
-	var/obj/item/held = pawn.get_active_held_item()
-	var/skill_level = SKILL_LEVEL_NONE
-	if(held?.associated_skill)
-		skill_level = pawn.get_skill_level(held.associated_skill)
+	var/skill_level = pawn.get_wskill(pawn.get_active_held_item())
 	var/switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
-	switch(skill_level)
-		if(SKILL_LEVEL_JOURNEYMAN)
-			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
-		if(SKILL_LEVEL_EXPERT)
-			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
-		if(SKILL_LEVEL_MASTER to INFINITY)
-			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
+	if(skill_level >= SKILL_LEVEL_MASTER)
+		switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
+	else if(skill_level >= SKILL_LEVEL_EXPERT)
+		switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
+	else if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+		switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
 
 	var/counter = controller.blackboard[BB_HUMAN_NPC_ZONE_COMMIT_COUNTER]
 	if(counter < switch_threshold)
@@ -424,17 +413,13 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 		return
 	var/mob/living/carbon/human/htarget = target
 
-	var/skill_type = null
 	var/bclass = null
 	var/intent_reach = 1
+	var/skill_level = SKILL_LEVEL_NONE
 	if(pawn.used_intent)
 		bclass = pawn.used_intent.blade_class
 		intent_reach = pawn.used_intent.reach || 1
-		var/obj/item/held = pawn.get_active_held_item()
-		if(held?.associated_skill)
-			skill_type = held.associated_skill
-
-	var/skill_level = skill_type ? pawn.get_skill_level(skill_type) : SKILL_LEVEL_NONE
+		skill_level = pawn.get_wskill(pawn.get_active_held_item())
 	var/armor_rating = bclass ? bclass_to_armor_rating(bclass) : "blunt"
 
 	var/list/wounded	= list()
@@ -499,21 +484,20 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 	AI_THINK(pawn, "SCAN: targeting [chosen] (aim [aimheight], skill [skill_level])")
 
 	var/cache_duration = HUMAN_NPC_WEAKPOINT_CACHE_DURATION
-	switch(skill_level)
-		if(SKILL_LEVEL_NONE)
-			cache_duration *= 0.35
-		if(SKILL_LEVEL_NOVICE)
-			cache_duration *= 0.6
-		if(SKILL_LEVEL_APPRENTICE)
-			cache_duration *= 0.8
-		if(SKILL_LEVEL_JOURNEYMAN)
-			cache_duration *= 1.0
-		if(SKILL_LEVEL_EXPERT)
-			cache_duration *= 1.5
-		if(SKILL_LEVEL_MASTER)
-			cache_duration *= 2.0
-		if(SKILL_LEVEL_LEGENDARY to INFINITY)
-			cache_duration *= 3.0
+	if(skill_level >= SKILL_LEVEL_LEGENDARY)
+		cache_duration *= 3.0
+	else if(skill_level >= SKILL_LEVEL_MASTER)
+		cache_duration *= 2.0
+	else if(skill_level >= SKILL_LEVEL_EXPERT)
+		cache_duration *= 1.5
+	else if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+		cache_duration *= 1.0
+	else if(skill_level >= SKILL_LEVEL_APPRENTICE)
+		cache_duration *= 0.8
+	else if(skill_level >= SKILL_LEVEL_NOVICE)
+		cache_duration *= 0.6
+	else
+		cache_duration *= 0.35
 
 	cache_duration *= (1 + ((intent_reach - 1) * 0.1))
 

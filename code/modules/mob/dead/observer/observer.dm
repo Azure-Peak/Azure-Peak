@@ -60,9 +60,27 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 /mob/dead/observer/profane
 	trapped = TRUE
+	icon = 'icons/roguetown/mob/misc.dmi'
+	icon_state = "hollow"
+	alpha = 60
 
-/mob/dead/observer/profane/setup_ghost_verbs()
-	return
+/mob/dead/observer/profane/Move(NewLoc, direct)
+	// this is how i fixed it on my super old branch idk why the if client is there but im trusting old me
+	if(client)
+		return FALSE
+	. = ..()
+
+/mob/dead/observer/profane/ghost_up()
+	if(client)
+		return FALSE
+	. = ..()
+
+/mob/dead/observer/profane/ghost_down()
+	if(client)
+		return FALSE
+	. = ..()
+
+
 
 /mob/dead/observer/eye
 	see_in_dark = 0
@@ -346,8 +364,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set category = "Preferences.Options"
 	set hidden = 1
 	if (CONFIG_GET(flag/norespawn))
-		return
-	if(trapped)
 		return
 	if ((stat != DEAD || !( SSticker )))
 		to_chat(src, span_boldnotice("I must be dead to use this!"))

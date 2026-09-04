@@ -270,7 +270,7 @@ function constraintPosition(pos: Point, size: Point): [boolean, Point] {
 }
 
 // Start dragging the window
-export function dragStartHandler(event): void {
+export function dragStartHandler(event: any): void {
   logger.log('drag start');
   dragging = true;
   dragPointOffset = vecSubtract(
@@ -285,7 +285,7 @@ export function dragStartHandler(event): void {
 }
 
 // End dragging the window
-function dragEndHandler(event): void {
+function dragEndHandler(event: any): void {
   logger.log('drag end');
   dragMoveHandler(event);
   flushWinsetNow();

@@ -577,6 +577,7 @@
 /datum/loadout_item/donator/koruu/kukri/warden
 	name = "Donator Kit - Warden Leachwhacker"
 	path = /obj/item/enchantingkit/weapon/koruu_kukri/warden
+	ckeywhitelist = list("koruu", "pneumothorax", "ryan180602", "vakiova", "maesune", "dakken12")
 
 /datum/loadout_item/donator/dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
@@ -851,7 +852,12 @@
 /datum/loadout_item/donator/kadeguandao
 	name = "Donator Kit - Dawn Cometh"
 	path = /obj/item/enchantingkit/weapon/kadeguandao
-	ckeywhitelist = list("shiroseschnee", "Zerantio")
+	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
+
+/datum/loadout_item/donator/kadedao
+	name = "Donator Kit - Spring Cometh"
+	path = /obj/item/enchantingkit/weapon/kadedao
+	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
 
 /datum/loadout_item/donator/falling_star
 	name = "Donator Kit - Falling Star"
@@ -1011,7 +1017,7 @@
 /datum/loadout_item/donator/chivalre_drowmantle
 	name = "Donator Kit - Scourge Mantle"
 	path = /obj/item/enchantingkit/donator_chivalre_drowmantle
-	ckeywhitelist = list("oddbomber3768")
+	ckeywhitelist = list("oddbomber3768", "wickedcybs")
 
 /datum/loadout_item/donator/chivalre_drowgreatflail
 	name = "Donator Kit - Jagged Skikuldic Greatflail"
@@ -1026,4 +1032,4 @@
 /datum/loadout_item/donator/rivercadaver_tabis
 	name = "Donator Item - Tabis"
 	path = /obj/item/enchantingkit/donator_rivercadaver_tabis
-	ckeywhitelist = list("rivercadaver","muhsollini")
+	ckeywhitelist = list("rivercadaver","poots13","nooriginality","helenmoder","oddbomber3768","waffai","castortroy23","persephoneq")

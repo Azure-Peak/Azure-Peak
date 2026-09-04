@@ -234,7 +234,7 @@
 			if("Flail")
 				beltr = /obj/item/rogueweapon/flail/sflail
 			if ("Warhammer")
-				beltr = /obj/item/rogueweapon/mace/warhammer //Iron warhammer. This is one-handed and pairs well with shields. They can upgrade to steel in-round.
+				beltr = /obj/item/rogueweapon/mace/warhammer/steel //This is one-handed and pairs well with shields, there are many better weapons w/ specials/reach now.
 			if("Sabre")
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				l_hand = /obj/item/rogueweapon/sword/sabre
@@ -635,11 +635,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/takeprotege)
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 
-	add_verb(H, list(
-		/mob/living/carbon/human/proc/request_outlaw,
-		/mob/proc/haltyell,
-		/mob/living/carbon/human/mind/proc/setorders
-	))
+	add_verb(H, /mob/proc/haltyell)
 
 	SStreasury.grant_savings(ECONOMIC_RICH, H)
 

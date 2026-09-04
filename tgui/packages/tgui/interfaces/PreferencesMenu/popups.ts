@@ -216,7 +216,7 @@ type PopupContextForKey = {
  * {@link PopupStateValue} & {@link PopupComponent}
  */
 export type PopupMapEntry = {
-  state_key: string;
+  state_key: PopupStateValue;
   component: PopupComponent;
 };
 
@@ -363,9 +363,12 @@ type PopupSetter = {
  *   )
  * }
  */
-export const usePopupId = (): [string | null, PopupSetter] => {
+export const usePopupId = (): [PopupStateValue | null, PopupSetter] => {
   const setPopupContext = useSetAtom(popupContextAtom);
-  const [state, setState] = useSharedState<string | null>('popup', null);
+  const [state, setState] = useSharedState<PopupStateValue | null>(
+    'popup',
+    null,
+  );
 
   const setter: PopupSetter = (
     nextKey: PopupStateKey | null,
@@ -391,8 +394,8 @@ export const usePopupId = (): [string | null, PopupSetter] => {
  * This just gets the {@link PopupComponent} for whatever {@link PopupStateKey}
  * is currently active. Mostly used by pm/index.tsx.
  */
-export const getActivePopup = (): PopupComponent | null => {
+export const getActivePopup = (): PopupComponent | undefined => {
   const [popupId] = usePopupId();
-  if (!popupId) return null;
+  if (!popupId) return undefined;
   return popupByStateValueMap[popupId];
 };

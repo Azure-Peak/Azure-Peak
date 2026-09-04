@@ -1,5 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - balance: "Merges Sleuth and Perfect Tracker into Perfect Tracker, reduces virtue level gain by 1."
-  - balance: "Tracking is now capped to default of expert, perfect tracker legendary."

@@ -93,7 +93,7 @@ type TreeProps = {
 function TreePage(props: TreeProps) {
   const { tab } = props;
 
-  const backend = useBackend();
+  const backend = useBackend() as any;
   const inView = backend[tab];
 
   return (

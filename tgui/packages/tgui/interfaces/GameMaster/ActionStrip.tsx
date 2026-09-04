@@ -14,7 +14,7 @@ import {
   toTitle,
 } from './types';
 
-export function ActionStrip(props) {
+export function ActionStrip() {
   const { act, data } = useBackend<GameMasterData>();
   const {
     selected_faction,

@@ -1737,8 +1737,8 @@
 
 /obj/item/rogueweapon/halberd/glaive/koruu
 	name = "Sixty Five Yils"
-	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like few blades before. The inscription, 'At fifteen, I went to join the army; only at eighty was I finally able to return home.' is inscribed in gold into the haft of the guandao."
-	icon_state = "koruu_glaive"
+	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like very few blades before. </br>‎	</br> 'At fifteen, I went to join the army; only at eighty was I finally able to return home.'-- </br>‎	</br>--Is inscribed in gold into the haft of the guandao."
+	icon_state = "koruu_naginata"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/koruu/kukri
@@ -2428,11 +2428,25 @@ As Excaliber."
 
 /obj/item/rogueweapon/example/kadeguandao
 	name = "Dawn Cometh"
-	desc = "A polearm of fashioned after those in lingyue. How it ended up here is a wonder. It bears only one true cutting edge, though the false edge is sometimes used for hooking blades away. \
+	desc = "A polearm fashioned after those in lingyue. How it ended up here is a wonder. It bears only one true cutting edge, though the false edge is sometimes used for hooking blades away. \
 	The blade is curved and bears some sort of yari-cross guard to catch blades. Wrapped around the wood handle is red string, taut and tight. \
 	On one strand, a bell like that of a xylixian's lies dormant. It might've rung once, but now it is silent.\
 	</br>‎<font color='ab6141'>	Still morning comes, and you can't outrun</br></font>‎<font color='e0b172'> 	the warm glow of the sun.</font>"
 	icon_state = "kadedao"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	grid_height = 64
+	grid_width = 64
+	bigboy = TRUE
+
+/obj/item/rogueweapon/example/kadedao
+	name = "Spring Cometh"
+	desc = "A blade fashioned after Lingyue's 'Niuweidao,' known mostly for featuring in their fictional literature. How it ended up here is a wonder. It boasts a single profiled cutting edge, and a crescent within the false edge \
+	This blade has a sort of crossguard, which is uncommon for most dao, more often is a Hūshǒu, a disc-shaped guard similar to Tsubas in Kazengun. Instead of a pommel, there's a ring with red string tied around it, taut and tight. \
+	On one strand, a bell like that of a xylixian's lies dormant. It might've rung once, but now it is silent.\
+	</br>‎<font color='ab6141'>	'Cause winter will end just the same</br></font>‎<font color='e0b172'> 	no matter what</font>"
+	icon_state = "kadedaosword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64

@@ -70,12 +70,12 @@
 			return BODY_ZONE_CHEST
 
 /// Melee accuracy check. Computes weapon/intent-specific modifiers and delegates to resolve_aimed_zone().
-/proc/melee_accuracy_check(zone, mob/living/user, mob/living/target, associated_skill, datum/intent/used_intent, obj/item/I)
+/proc/melee_accuracy_check(zone, mob/living/user, mob/living/target, fallback, datum/intent/used_intent, obj/item/I)
 	if(!zone)
 		return
 	var/bonus = 0
 
-	bonus += (user.get_skill_level(associated_skill) * ACC_SKILL_BONUS_PER_LEVEL)
+	bonus += (user.get_wskill(I, fallback) * ACC_SKILL_BONUS_PER_LEVEL)
 
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
