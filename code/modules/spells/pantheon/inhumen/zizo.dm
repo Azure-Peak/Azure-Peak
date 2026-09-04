@@ -532,7 +532,7 @@
 	primary_resource_cost = 100
 	secondary_resource_cost = 100
 	sound = 'sound/magic/swap.ogg'
-	var/exploit_this
+	var/anti_spam
 
 /datum/action/cooldown/spell/zizo/rituos/cast(atom/cast_on)
 	. = ..()
@@ -542,19 +542,16 @@
 
 	var/mob/living/carbon/human/user = owner
 
-	// exploit protection / backlash
-	if(exploit_this)
-		user.zizo_spam_rejection()
-		cooldown_time = 99 MINUTES
+	if(anti_spam)
 		return TRUE
 
-	exploit_this = TRUE
+	anti_spam = TRUE
 
 	var/path_choice = tgui_alert(user, "What path of the Lesser Work do you seek?", "THE LESSER WORK", list("Progress", "Unlife", "Cancel"))
 
 	if(!path_choice || path_choice == "Cancel")
 		reset_spell_cooldown()
-		exploit_this = FALSE
+		anti_spam = FALSE
 		return TRUE
 
 	if(user.stat != CONSCIOUS)
@@ -564,14 +561,16 @@
 	user.grant_language(/datum/language/undead)
 
 	if(!src.run_ritual_chant(user, path_choice))
-		exploit_this = FALSE
+		anti_spam = FALSE
 		return TRUE
 
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
-		user.zizo_vampire_rejection()
-		exploit_this = FALSE
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		user.mind?.RemoveSpell(src)
+		qdel(src)
+		anti_spam = FALSE
 		return TRUE
 
 	switch(path_choice)
@@ -582,7 +581,7 @@
 
 	user.mind?.RemoveSpell(src)
 	qdel(src)
-	exploit_this = FALSE
+	anti_spam = FALSE
 	return TRUE
 
 /////////////////////////

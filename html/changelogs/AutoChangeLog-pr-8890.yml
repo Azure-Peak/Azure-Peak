@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Hounskulls and Pigfaces now properly use their original sprites, after some code- and icon-specific syncing.  To note, 'hounskulls' now inherit their original triangular-styled visor, while 'pigfaces' now inherit their original snoutly-styled visor. I apologize in advance for any accidental mixups this may cause, loadout-wise, for the first few days."
-  - bugfix: "Pigface Bascinets now have intended detailmaps; a feather'll give a plume and a cloth'll give an orle, instead of the other way around."
-  - code_imp: "Synced up the code relating to Pigfaces and Hounskulls. Credit to Lamas for originally diagnosing this issue; a Hounskull-pathed item will no longer mysteriously pop up as a Pigface, and vice versa."

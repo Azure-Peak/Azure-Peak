@@ -1,4 +1,0 @@
-author: "zRainbowcat"
-delete-after: True
-changes:
-  - bugfix: "Fixed pathing in berserker's loadout that tried to place punchdagger on belt when it cannot be there, so dagger just dissapeared. Now it's placed in players hand upon chosing"
