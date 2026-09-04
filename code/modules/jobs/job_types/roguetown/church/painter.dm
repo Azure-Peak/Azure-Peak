@@ -65,6 +65,7 @@
 /datum/outfit/job/roguetown/herald/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
+	id = /obj/item/clothing/ring/silver/cleric
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/storage/keyring/acolyte
@@ -121,7 +122,7 @@
 
 /datum/outfit/job/roguetown/voice/pre_equip(mob/living/carbon/human/H)
 	..()
-	id = /obj/item/clothing/ring/silver
+	id = /obj/item/clothing/ring/gold
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g
@@ -202,7 +203,7 @@
 
 /datum/outfit/job/roguetown/maris/pre_equip(mob/living/carbon/human/H)
 	..()
-	id = /obj/item/clothing/ring/silver
+	id = /obj/item/clothing/ring/silver/cleric
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	backl = /obj/item/storage/backpack/rogue/satchel
 	mask = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
