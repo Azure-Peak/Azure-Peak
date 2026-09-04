@@ -563,7 +563,7 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 		if(/datum/patron/divine/noc)
 			head = /obj/item/clothing/head/roguetown/roguehood/white
-			mask = /obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy //trust the plan, see the reference, know the vision.
+			mask = /obj/item/clothing/mask/rogue/facemask/steel/visor/cleric //trust the plan, see the reference, know the vision.
 			cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/lunar
 			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
@@ -727,13 +727,30 @@
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/zizo)
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black //evil ass cultist look
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black //evil ass cultist mage look
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
+		if(/datum/patron/inhumen/graggar)
+			shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots //tribal-esc shaman look
+			gloves = /obj/item/clothing/gloves/roguetown/angle/gronnfur/cleric //role-unique
+			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+
+			var/helms = list("Skull Mask + Hood (Classic)","Saiga Skull","Antler Hood")
+			var/helm_choice = input(H, "Choose your HEADWEAR.", "SHATTER YOUR BINDS.") as anything in helms
+			switch(helm_choice) //like dendor, consider these as "lesser trophies" and assimilar of a shaman
+				if("Skull Mask + Hood (Classic)")
+					head = /obj/item/clothing/head/roguetown/roguehood/black
+					mask = /obj/item/clothing/mask/rogue/skullmask
+				if("Saiga Skull")
+					head = /obj/item/clothing/head/roguetown/helmet/leather/saiga/druid
+				if("Antler Hood")
+					head = /obj/item/clothing/head/roguetown/antlerhood
 		else
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
