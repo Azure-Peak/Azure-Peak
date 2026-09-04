@@ -413,7 +413,7 @@
 
 /datum/action/cooldown/spell/graggar/avatar
 	name = "Avatar of Rage"
-	desc = "Unleash your true rage for an entire MINUTE, making you immune to slowdown from pain, uncapping strength and granting +3 on top. Removes stun-adjacent & stun effects which is only part that works on a GNOLL"
+	desc = "Unleash your true rage for an entire MINUTE, making you immune to slowdown from pain, uncapping strength and granting +3 on top. Removes stun-adjacent & stun effects as well can be cast while incapacitated."
 	button_icon_state = "avatar"
 	sound = 'sound/magic/graggar_rage.ogg'
 	glow_intensity = GLOW_INTENSITY_MEDIUM
@@ -431,12 +431,14 @@
 
 	charge_required = TRUE
 	charge_slowdown = 2
-	charge_time = 2 SECONDS
+	charge_time = 1 SECONDS
 	cooldown_time = 6 MINUTES
 
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	check_flags = AB_CHECK_CONSCIOUS
+	spell_requirements =	SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/static/list/purged_effects = list(
+	/datum/status_effect/incapacitating/off_balanced,
 	/datum/status_effect/incapacitating/immobilized,
 	/datum/status_effect/incapacitating/paralyzed,
 	/datum/status_effect/incapacitating/stun,
@@ -450,9 +452,8 @@
 		return FALSE
 	for(var/effect in purged_effects)
 		user.remove_status_effect(effect)
-	if(!isgnoll(user))//Gnolls don't get this
-		user.apply_status_effect(/datum/status_effect/buff/bloodrage)
-		user.emote("warcry")
+	user.apply_status_effect(/datum/status_effect/buff/bloodrage)
+	user.emote("warcry")
 	return TRUE
 
 #define BLOODRAGE_FILTER "bloodrage"
