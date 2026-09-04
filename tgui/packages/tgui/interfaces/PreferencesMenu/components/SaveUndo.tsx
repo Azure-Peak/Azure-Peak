@@ -4,7 +4,7 @@ import { Button, Stack } from 'tgui-core/components';
 /**
  * Save/Undo button stack used across the character creator.
  */
-export const SaveUndo = (props) => {
+export const SaveUndo = () => {
   const { act } = useBackendStrict();
 
   return (
