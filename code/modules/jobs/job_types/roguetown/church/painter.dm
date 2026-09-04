@@ -124,7 +124,7 @@
 	id = /obj/item/clothing/ring/silver
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
-	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
+	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g
 	cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_leader
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssor_painter
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
