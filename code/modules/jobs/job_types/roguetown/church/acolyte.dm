@@ -75,10 +75,9 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots
-	beltl = /obj/item/storage/keyring/acolyte
 	backl = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/clothing/ring/gold
-	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
+	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church, /obj/item/storage/keyring/acolyte)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
