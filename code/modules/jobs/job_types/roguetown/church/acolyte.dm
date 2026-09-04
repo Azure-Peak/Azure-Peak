@@ -193,9 +193,6 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
-	//belt items AFTER belt is added, just to be safe
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
-
 /datum/outfit/job/roguetown/monk/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	// -- Start of section for god specific bonuses --
