@@ -68,17 +68,16 @@
 	id = /obj/item/clothing/ring/silver/cleric
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
-	beltl = /obj/item/storage/keyring/acolyte
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/scabbard/gwstrap
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	pants = /obj/item/clothing/under/roguetown/tights
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea
 	head = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
 	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal
-	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
+	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church, /obj/item/storage/keyring/acolyte)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg'
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
@@ -213,7 +212,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
-	pants = /obj/item/clothing/under/roguetown/tights/black
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltr = /obj/item/storage/keyring/acolyte
