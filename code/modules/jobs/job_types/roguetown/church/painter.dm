@@ -65,7 +65,7 @@
 /datum/outfit/job/roguetown/herald/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	id = /obj/item/clothing/ring/silver/cleric
+	id = /obj/item/clothing/ring/gold
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -73,11 +73,15 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
+	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea
 	head = /obj/item/clothing/head/roguetown/roguehood/abyssor_painter
 	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint_heal
-	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church, /obj/item/storage/keyring/acolyte)
+	backpack_contents = list(
+		/obj/item/ritechalk = 1,
+		/obj/item/mini_flagpole/church,
+		/obj/item/storage/keyring/acolyte
+		)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg'
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
@@ -124,7 +128,7 @@
 	id = /obj/item/clothing/ring/gold
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
-	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g
+	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g //represents the cult, has to be somewhat outstanding
 	cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_leader
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssor_painter
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
@@ -140,6 +144,7 @@
 		/obj/item/mini_flagpole/church,
 		/obj/item/storage/keyring/acolyte
 		)
+	H.cmode_music = 'sound/music/combat_holy.ogg' //on-par w/ monks
 	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)
@@ -222,6 +227,7 @@
 		/obj/item/mini_flagpole/church,
 		/obj/item/rogueweapon/huntingknife/paint
 		)
+	H.cmode_music = 'sound/music/combat_holy.ogg' //on-par w/ monks
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
