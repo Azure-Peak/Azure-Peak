@@ -638,6 +638,6 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 
 /datum/combat_music/vheslyn_carnifex_crucinatus
 
-/datum/combat_music/vheslyn_carnifex_rapax
+/datum/combat_music/vheslyn_carnifex_sector
 
 /datum/combat_music/vheslyn_carnifex_praelia
