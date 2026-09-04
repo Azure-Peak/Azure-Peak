@@ -628,7 +628,7 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 /datum/combat_music/vheslyn_basic
 	name = "BURN THE WORLD, SUNDER THE SLAVES"
 	desc = "Everything under heaven is in utter chaos. The situation is excellent."
-	shortname = Burn The World"
+	shortname = "Burn The World"
 	credits = "NEUPINK - Necrokalashnikov Eyes"
 	musicpath = list('sounds/music/cmode/combat_vheslyn_basic.ogg')
 
