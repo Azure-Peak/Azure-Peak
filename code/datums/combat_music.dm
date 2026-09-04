@@ -601,21 +601,43 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 	credits = "Lauren Bousfield - DANCE FOR THE FUTURE (Xrafstar Edit)"
 	musicpath = list('sound/music/cmode/combat_eoran_fanatic.ogg')
 
+
 /datum/combat_music/ducal_march
-	name = "Ducal March"
+	name = "Knight - Ducal March"
 	desc = "Onwards! Banners high! Astrata's light shines brightly off our steel!"
 	shortname = "Ducal March"
 	musicpath = list('sound/music/cmode/combat_rg.ogg')
 
-/datum/combat_music/freak_legion
-	name = "Freak Legion"
-	desc = "The world is a mad, mad place. What's a little more madness?"
-	shortname = "Freak Legion"
+//sovl (lunatic)
+/datum/combat_music/truesight
+	name = "Truesight"
+	desc = "The Keep? No, it doesn't exist. I'm on NT Maya trade vessel. My name is Trey, Trey Liam."
+	shortname = "Truesight"
 	credits = "Britannica - Bows"
 	musicpath = list('sound/music/cmode/combat_maniac3.ogg')
 
-/datum/combat_music/hunter
-	name = "Hunter"
-	desc = "The Hunter does us all a great service. And we are right to adore Him."
-	shortname = "Hunter"
-	musicpath = list('sounds/music/cmode/combat_hunter.ogg')
+//munitioneer
+/datum/combat_music/forgehound
+	name = "Munitioneer - Rogue Malumite"
+	desc = "You call me evil, but unfortunately for you, I'm a necessary evil."	
+	shortname = "Rogue Malumite"
+	credits = "FM Einheit - Riots"
+	musicpath = list('sounds/music/cmode/combat_forgehound.ogg')
+
+//we're fucking evil 
+/datum/combat_music/vheslyn_basic
+	name = "BURN THE WORLD, SUNDER THE SLAVES"
+	desc = "Everything under heaven is in utter chaos. The situation is excellent."
+	shortname = Burn The World"
+	credits = "NEUPINK - Necrokalashnikov Eyes"
+	musicpath = list('sounds/music/cmode/combat_vheslyn_basic.ogg')
+
+/datum/combat_music/vheslyn_praetor
+
+/datum/combat_music/vheslyn_haruspex
+
+/datum/combat_music/vheslyn_carnifex_crucinatus
+
+/datum/combat_music/vheslyn_carnifex_rapax
+
+/datum/combat_music/vheslyn_carnifex_praelia
