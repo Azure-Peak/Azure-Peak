@@ -8,48 +8,48 @@
 /datum/transmutation_recipe/florid/fiber_to_grain
 	name = "Fiber Sanguination (Grain)"
 	materia_aspects = list(/datum/materia_aspect/plant)
-	input_items = list(/obj/item/natural/fibers = 4)
+	input_items = list(/obj/item/natural/fibers = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)
 
 /datum/transmutation_recipe/florid/grain_to_fibers
 	name = "Grain Raefication (Fibers)"
 	materia_aspects = list(/datum/materia_aspect/air)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)
-	output_items = list(/obj/item/natural/fibers = 3)
+	output_items = list(/obj/item/natural/fibers = 2)
 
 /datum/transmutation_recipe/florid/grain_to_westleach
 	name = "Grain Sanguination (Westleach)"
 	materia_aspects = list(/datum/materia_aspect/herb)
-	input_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 2)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
 
 /datum/transmutation_recipe/florid/westleach_to_grain
 	name = "Westleach Raefication (Grain)"
 	materia_aspects = list(/datum/materia_aspect/plant)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
-	output_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat =  1)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)
 
 /datum/transmutation_recipe/florid/westleach_to_swampweed
 	name = "Westleach Sanguination (Swampweed)"
-	materia_aspects = list(/datum/materia_aspect/plant)
-	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 2)
+	materia_aspects = list(/datum/materia_aspect/herb)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed =  1)
 
 /datum/transmutation_recipe/florid/swampleaf_to_westleach
 	name = "Swampweed Raefication (Westleach)"
-	materia_aspects = list(/datum/materia_aspect/plant)
+	materia_aspects = list(/datum/materia_aspect/herb)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/swampweed = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed =  1)
 
 /datum/transmutation_recipe/florid/berry_to_apple
 	name = "Jacksberry Sanguination (Apple)"
-	materia_aspects = list(/datum/materia_aspect/plant)
-	input_items = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2)
+	materia_aspects = list(/datum/materia_aspect/herb)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
 
 /datum/transmutation_recipe/florid/apple_to_berry
 	name = "Apple Raefication (Jacksberry)"
-	materia_aspects = list(/datum/materia_aspect/air)
+	materia_aspects = list(/datum/materia_aspect/herb)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
 
@@ -64,7 +64,7 @@
 	name = "Mutatio Substantiation (Transformative Reagent)"
 	materia_aspects = list(/datum/materia_aspect/change)
 	input_items = list(/obj/item/alch/hypericum = 1, /obj/item/alch/salvia = 1, /obj/item/alch/taraxacum = 1) // yes, it's evil sui dust
-	output_items = list(/obj/item/mutation_reagent = 1)
+	output_items = list(/obj/item/mutation_reagent = 4)
 
 /datum/transmutation_recipe/florid/tea
 	name = "Fiber Invigoration (Tea Leaf)"
@@ -81,8 +81,14 @@
 /datum/transmutation_recipe/florid/log
 	name = "Fiber Harmonization (Small Log)"
 	materia_aspects = list(/datum/materia_aspect/plant)
-	input_items = list(/obj/item/natural/fibers = 3)
+	input_items = list(/obj/item/natural/fibers = 1)
 	output_items = list(/obj/item/grown/log/tree/small = 1)
+
+/datum/transmutation_recipe/florid/logbig
+	name = "Wood Agglomeration (Log)"
+	materia_aspects = list(/datum/materia_aspect/herb)
+	input_items = list(/obj/item/grown/log/tree/small = 2)
+	output_items = list(/obj/item/grown/log/tree = 1)
 
 // TERRAN RECIPES: earthen material recipes, not including metals
 /datum/transmutation_recipe/terran
@@ -206,8 +212,8 @@
 
 /datum/transmutation_recipe/nigredo/soap
 	name = "Fat Saponification (Soap)"
-	output_items = list(/obj/item/soap = 6)	// kris get the nigredo catalyst
-	input_items = list(/obj/item/reagent_containers/food/snacks/fat = 1, /obj/item/reagent_containers/powder/salt = 1) // sodium.
+	output_items = list(/obj/item/soap = 8)	// kris get the nigredo catalyst
+	input_items = list(/obj/item/reagent_containers/food/snacks/tallow = 1, /obj/item/reagent_containers/powder/salt = 1) // sodium.
 	unique_sellable = TRUE
 
 /datum/transmutation_recipe/nigredo/ash_bulk // nigredo fuels your other experiments' ash needs better than fire
@@ -223,6 +229,12 @@
 	if(B.amount != B.maxamount)
 		return FALSE
 	return TRUE
+
+/datum/transmutation_recipe/nigredo/ash_coal // requested, as coal's chemically similar to ash or w/e
+	name = "Coal Combustion (Ash)"
+	input_items = list(/obj/item/rogueore/coal)
+	output_items = list(/obj/item/ash = 12)
+	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/nigredo/smelt_decomposition
 	name = "Nigredic Decomposition"
