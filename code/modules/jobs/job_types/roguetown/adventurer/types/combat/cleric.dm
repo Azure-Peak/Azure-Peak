@@ -743,7 +743,7 @@
 
 			var/helms = list("Skull Mask + Hood (Classic)","Saiga Skull","Antler Hood")
 			var/helm_choice = input(H, "Choose your HEADWEAR.", "SHATTER YOUR BINDS.") as anything in helms
-			switch(helm_choice) //like dendor, consider these as "lesser trophies" and assimilar of a shaman
+			switch(helm_choice) //like dendor, consider these as "lesser trophies" and asimilar of a shaman
 				if("Skull Mask + Hood (Classic)")
 					head = /obj/item/clothing/head/roguetown/roguehood/black
 					mask = /obj/item/clothing/mask/rogue/skullmask
