@@ -1,4 +1,0 @@
-author: "zRainbowcat"
-delete-after: True
-changes:
-  - bugfix: "fixed merchant's pq requirements not working on latejoin"
