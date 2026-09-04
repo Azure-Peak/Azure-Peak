@@ -593,3 +593,29 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 	shortname = "Ready to Die"
 	credits = "T-87 SULFURHEAD - I'M READY TO DIE, ARE YOU? (https://www.youtube.com/watch?v=cJpAxIvd8_g)"
 	musicpath = list('sound/music/cmode/combat_ready_to_die.ogg')
+
+/datum/combat_music/eoran_fanatic
+	name = "Eoran Fanatic"
+	desc = "\"LOVE WINS - ONLY IF YOU FIGHT FOR IT.\""
+	shortname = "Eoran Fanatic"
+	credits = "Lauren Bousfield - DANCE FOR THE FUTURE (Xrafstar Edit)"
+	musicpath = list('sound/music/cmode/combat_eoran_fanatic.ogg')
+
+/datum/combat_music/ducal_march
+	name = "Ducal March"
+	desc = "Onwards! Banners high! Astrata's light shines brightly off our steel!"
+	shortname = "Ducal March"
+	musicpath = list('sound/music/cmode/combat_rg.ogg')
+
+/datum/combat_music/freak_legion
+	name = "Freak Legion"
+	desc = "The world is a mad, mad place. What's a little more madness?"
+	shortname = "Freak Legion"
+	credits = "Britannica - Bows"
+	musicpath = list('sound/music/cmode/combat_maniac3.ogg')
+
+/datum/combat_music/hunter
+	name = "Hunter"
+	desc = "The Hunter does us all a great service. And we are right to adore Him."
+	shortname = "Hunter"
+	musicpath = list('sounds/music/cmode/combat_hunter.ogg')
