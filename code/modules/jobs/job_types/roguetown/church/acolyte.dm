@@ -125,7 +125,7 @@
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora/g
 			cloak = /obj/item/clothing/cloak/templar/eoran
-			beltl = /obj/item/rogueweapon/huntingknife/scissors
+			r_hand = /obj/item/rogueweapon/huntingknife/scissors
 			l_hand = /obj/item/needle/thorn
 			var/robes = list("Modest","Exposed")
 			var/robe_choice = input(H, "Choose your ROBES.", "TAKE UP ROBES.") as anything in robes
