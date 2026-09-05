@@ -2,10 +2,10 @@
 	name = "Abandoned Thrall"
 	tutorial = "An unfortunate victim of a vampire attack, you were never much of anything in life... and with vampiric blood so thin you likely won't be much of anything in undeath."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/vagabond/thrall
 	category_tags = list(CTAG_VAGABOND)
-	traits_applied = list(TRAIT_SILVER_WEAK)
+	traits_applied = list(TRAIT_SILVER_WEAK, TRAIT_UNHOLY_LYFE)
 	maximum_possible_slots = 3
 	subclass_stats = list(
 		STATKEY_STR = -1,
@@ -21,10 +21,10 @@
 	..()
 
 	head = /obj/item/clothing/head/roguetown/roguehood
-	
+
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
-	
+
 	else if(should_wear_masc_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/tights/vagrant
 
@@ -32,14 +32,14 @@
 			pants = /obj/item/clothing/under/roguetown/tights/vagrant/l
 
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
-		
+
 		if(prob(50))
 			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	
+
 	if(H.mind)
 		H.job = "Stray" //Used for my shitcode job checks to remove certain vampire abilties, edited to make it not be obvious in the stewardry who is a vamp
 		H.change_stat(STATKEY_WIL, rand(-2, 2))

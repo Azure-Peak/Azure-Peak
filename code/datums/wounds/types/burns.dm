@@ -121,6 +121,7 @@
 		"The ribcage crackles with heat!",
 	)
 	mortal = TRUE
+	unholy_death = TRUE
 
 /datum/wound/charring/head
 	name = "head charring"
@@ -130,3 +131,4 @@
 		"The head is engulfed in searing heat!",
 	)
 	mortal = TRUE
+	unholy_death = TRUE

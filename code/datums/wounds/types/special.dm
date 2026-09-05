@@ -176,7 +176,7 @@
 /datum/wound/facial/disfigurement/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-	
+
 /datum/wound/facial/disfigurement/nose
 	name = "rhinotomy"
 	check_name = span_warning("NOSE")
@@ -211,6 +211,7 @@
 	disabling = TRUE
 	critical = TRUE
 	mortal = TRUE
+	unholy_death = TRUE
 
 /datum/wound/cbt/can_stack_with(datum/wound/other)
 	if(istype(other, /datum/wound/cbt))
@@ -292,6 +293,7 @@
 		"Molten lux splatters out from %VICTIM's sundered ribs!",
 	)
 	severity = WOUND_SEVERITY_FATAL
+	unholy_death = TRUE
 	bypass_bloody_wound_check = TRUE
 	whp = 100
 	sewn_whp = 35
@@ -323,6 +325,7 @@
 		"%VICTIM's head is set on fire by the SACRED FLAMES!",
 	)
 	severity = WOUND_SEVERITY_FATAL
+	unholy_death = TRUE
 	bypass_bloody_wound_check = TRUE
 	whp = 100
 	sewn_whp = 35
@@ -370,7 +373,7 @@
 		bodypart_owner?.dismemberable = FALSE
 		addtimer(CALLBACK(src, PROC_REF(reset_dismemberment_immunity)), immunity_time)
 		playsound(affected?.owner, 'sound/combat/dismemberment/grievous-behead.ogg', 250, FALSE, -1)
-		
+
 /datum/wound/grievous/proc/reset_dismemberment_immunity()
 	if (!bodypart_owner || QDELETED(src))
 		return
@@ -498,4 +501,4 @@
 
 #undef OOZE_UPG_WHPRATE
 #undef OOZE_UPG_PAINRATE
-#undef OOZE_UPG_SELFHEAL 
+#undef OOZE_UPG_SELFHEAL

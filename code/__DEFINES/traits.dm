@@ -52,6 +52,7 @@
 #define TRAIT_SWIFTCAST "Spell Acceleration"
 #define TRAIT_FOG_WARDED "Fog Warded"
 #define TRAIT_ARMOR_BREAK "Loose Straps"
+#define TRAIT_UNHOLY_LYFE "Unholy Lyfe"
 
 //Redundant traits? Probably can shoot these later, future coder.
 #define TRAIT_XENOPHOBIC "Xenophobic"
@@ -527,6 +528,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
 	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will be crippled if my ribs shatter or die if I am paralyised."),
 	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
+	TRAIT_UNHOLY_LYFE = span_danger ("My anatomy leaves me susceptible to being smited with powerful enough strike."),
 	TRAIT_CLAIMED_BY_DARKSTAR = span_danger("My soul has been trapped inside an assassin's dagger. I will not be able to return to lyfe until the dagger is destroyed..."),
 	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
 	TRAIT_INFINITE_STAMINA = "I have boundless energy, I will never tire.",

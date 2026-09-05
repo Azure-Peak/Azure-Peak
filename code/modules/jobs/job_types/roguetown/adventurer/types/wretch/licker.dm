@@ -9,6 +9,7 @@
 	traits_applied = list(
 		TRAIT_STEELHEARTED,
 		TRAIT_SILVER_WEAK,
+		TRAIT_UNHOLY_LYFE,
 	)
 	maximum_possible_slots = 2
 	applies_post_equipment = FALSE
