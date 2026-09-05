@@ -205,6 +205,9 @@
 	light_system = MOVABLE_LIGHT
 	light_outer_range = 15
 	light_power = 2
+	force = 18
+	force_wielded = 25
+	max_integrity = 200
 	light_color = "#e66b45"
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden/attack_right(mob/user)
