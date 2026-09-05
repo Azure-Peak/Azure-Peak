@@ -130,7 +130,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden
+	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
@@ -175,6 +175,7 @@
 
 /obj/machinery/light/rogue/campfire/lamplighter
 	name = "lamplighter's staff"
+	desc = "A staff planted into the ground, flames bite out from the lamptern atop it."
 	icon = 'icons/roguetown/misc/lighting64.dmi'
 	icon_state = "ironlamp1"
 	base_state = "ironlamp"
@@ -234,6 +235,7 @@
 
 /obj/machinery/light/rogue/campfire/lampwarden
 	name = "lampwarden's staff"
+	desc = "A staff planted into the ground, flames bite out from the lamptern atop it."
 	icon = 'icons/roguetown/misc/lighting64.dmi'
 	icon_state = "wardlamp1"
 	base_state = "wardlamp"
