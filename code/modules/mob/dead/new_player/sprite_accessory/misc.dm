@@ -29,22 +29,17 @@
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/scart
-	name = "Scar2"
+	name = "Scar (Alt)"
 	layer = BODY_LAYER
-	icon_state = "scar2"
+	icon_state = "scaralt"
 
 /datum/sprite_accessory/face_detail/slashedeye_r
-	name = "Slashed Eye (r)"
-	icon_state = "slashedeye_r"
-	layer = BODY_LAYER
-
-/datum/sprite_accessory/face_detail/slashedeye_r
-	name = "Slashed Eye (r)"
+	name = "Slashed Eye (R)"
 	icon_state = "slashedeye_r"
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/slashedeye_l
-	name = "Slashed Eye (l)"
+	name = "Slashed Eye (L)"
 	icon_state = "slashedeye_l"
 	layer = BODY_LAYER
 
@@ -60,13 +55,13 @@
 	color_disabled = FALSE
 
 /datum/sprite_accessory/face_detail/tattoo_eye_r
-	name = "Tattoo (r Eye)"
+	name = "Tattoo (Right Eye)"
 	icon_state = "tattoo_eye_r"
 	layer = BODY_LAYER
 	color_disabled = FALSE
 
 /datum/sprite_accessory/face_detail/tattoo_eye_l
-	name = "Tattoo (l Eye)"
+	name = "Tattoo (Left Eye)"
 	icon_state = "tattoo_eye_l"
 	layer = BODY_LAYER
 	color_disabled = FALSE
@@ -78,17 +73,17 @@
 	color_disabled = FALSE
 
 /datum/sprite_accessory/face_detail/burnface_r
-	name = "Burns (r)"
+	name = "Burns (R)"
 	icon_state = "burnface_r"
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/burnface_l
-	name = "Burns (l)"
+	name = "Burns (L)"
 	icon_state = "burnface_l"
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/burneye_r
-	name = "Burned Eye (r)"
+	name = "Burned Eye (R)"
 	icon_state = "burneye_r"
 	layer = BODY_LAYER
 
@@ -98,18 +93,23 @@
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/deadeye_r
-	name = "Dead Eye (r)"
+	name = "Dead Eye (R)"
 	icon_state = "deadeye_r"
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/deadeye_l
-	name = "Dead Eye (l)"
+	name = "Dead Eye (L)"
 	icon_state = "deadeye_l"
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/scarhead
 	name = "Scarred Head"
 	icon_state = "scarhead"
+	layer = BODY_LAYER
+
+/datum/sprite_accessory/face_detail/eyebags
+	name = "Eyebags"
+	icon_state = "eyebags"
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/accessory
@@ -129,15 +129,21 @@
 	layer = BODY_FRONT_LAYER
 
 /datum/sprite_accessory/accessory/earrings/sil
-	name = "Earrings (Colorable)"
+	name = "Earrings (S)"
 	icon_state = "earrings_sil"
 	layer = BODY_FRONT_LAYER
 	color_disabled = FALSE
 
-/datum/sprite_accessory/accessory/earrings/em
-	name = "Earrings (E)"
-	icon_state = "earrings_em"
+/datum/sprite_accessory/accessory/earrings/hoop
+	name = "Hoop Earrings (G)"
+	icon_state = "earrings_hoop"
 	layer = BODY_FRONT_LAYER
+
+/datum/sprite_accessory/accessory/earrings/hoop/sil
+	name = "Hoop Earrings (S)"
+	icon_state = "earrings_sil_hoop"
+	layer = BODY_FRONT_LAYER
+	color_disabled = FALSE
 
 /datum/sprite_accessory/accessory/eyepierce
 	name = "Pierced Brow (L)"
@@ -169,5 +175,11 @@
 /datum/sprite_accessory/accessory/warpaint
 	name = "Warpaint"
 	icon_state = "warpaint"
+	layer = BODY_FRONT_LAYER
+	color_disabled = FALSE
+
+/datum/sprite_accessory/accessory/warpaint_stripes
+	name = "Striped Warpaint"
+	icon_state = "warpaint_stripes"
 	layer = BODY_FRONT_LAYER
 	color_disabled = FALSE
