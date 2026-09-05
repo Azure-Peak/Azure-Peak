@@ -59,7 +59,7 @@
 	var/datum/stressevent/emotional_sway = user.add_stress(event_type)
 	if(!emotional_sway)
 		return FALSE
-	emotional_sway.stressadd = (embrace_heartbreak ? 1 : -1) * 2 * holy_skill
+	emotional_sway.stressadd = (embrace_heartbreak ? 1 : -1) * max(5, 2 * holy_skill)
 	to_chat(user, embrace_heartbreak ? span_warning("Sickening plummet. This will all end one dae.") : span_green("Warmth and cherishment."))
 	return TRUE
 
@@ -121,49 +121,6 @@
 			return FALSE
 
 	to_chat(user, span_info("They are... [span_warning("a [vice_found]")]"))
-	return TRUE
-
-//Baotha's Blessings - T0, reverses overdose effect on a target + soothing moodlet. Useful to T0/Devotee because it allows them to stop an OD death, but puts them on the clock. (Medieval narcan..... #BanNarcan)
-
-/obj/effect/proc_holder/spell/invoked/baothablessings
-	name = "Baotha's Blessings"
-	desc = "Gets the target drunk and stops them from overdosing for a time."
-	action_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_state = "blessing"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 4
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/heal.ogg'
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 30 SECONDS
-	miracle = TRUE
-	devotion_cost = 10
-
-/obj/effect/proc_holder/spell/invoked/baothablessings/cast(list/targets, mob/living/user)
-	if(isliving(targets[1]))
-		var/mob/living/carbon/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your hollow husk of a body, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		if(target.has_status_effect(/datum/status_effect/buff/baothablessing))
-			to_chat(user, span_warning("They're already blessed by these effects!"))
-			revert_cast()
-			return FALSE
-		target.apply_status_effect(/datum/status_effect/buff/baothablessing) //Gets the trait temorarily, basically will just stop any active/upcoming ODs.
-		target.visible_message("<span class='info'>[target]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
 	return TRUE
 
 //T1, Baotha's version of Eora's Bud (now renamed True Peace Bloom). Applies the TRAIT_CRACKHEAD baothans have.
@@ -424,7 +381,7 @@
 	to_chat(M, span_warning("Gah! Something.. got in my - eyes.."))
 	M.blur_eyes(2)
 
-// T2 - shares the caster's current mood, intensified by their holy skill.
+// T0 - shares the caster's current mood, intensified by their holy skill.
 /obj/effect/proc_holder/spell/invoked/lasthigh
 	name = "Codependence"
 	desc = "Shares my current stress or peace with someone, intensified by my holy skill."
@@ -442,7 +399,7 @@
 	antimagic_allowed = TRUE
 	recharge_time = 1 MINUTES
 	miracle = TRUE
-	devotion_cost = 75
+	devotion_cost = 10
 	human_req = TRUE
 	invocation_type = "whisper"
 	invocations = list("Release your love to me.")
