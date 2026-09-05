@@ -65,7 +65,6 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firestrike)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firespin)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/oil_spill)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/wicklight)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/burn_it_down)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/survival/lampwarden)
 	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter/warden
@@ -119,6 +118,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/bulwark_of_oil)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/smoke_food)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/anoint_foe)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/wicklight)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/provide_beacon)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/survival/lampstaff)
 	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter
