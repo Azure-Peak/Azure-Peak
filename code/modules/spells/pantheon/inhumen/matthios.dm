@@ -455,7 +455,7 @@
 		var/mob/living/target = cast_on
 		if(HAS_TRAIT(target, TRAIT_BLACKBLOOD))
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
 		owner.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))

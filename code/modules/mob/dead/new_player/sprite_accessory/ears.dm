@@ -357,6 +357,13 @@
 	icon_state = "elfshort"
 	color_key_defaults = list(KEY_SKIN_COLOR)
 
+/datum/sprite_accessory/ears/elf_long
+	name = "Elf (Long)"
+	icon = 'icons/mob/sprite_accessory/elf.dmi'
+	icon_state = "elflong"
+	color_key_defaults = list(KEY_SKIN_COLOR)
+	can_flick = TRUE
+
 /datum/sprite_accessory/ears/elf_small
 	name = "Elf (Small)"
 	icon = 'icons/mob/sprite_accessory/elf.dmi'
@@ -377,13 +384,13 @@
 	color_key_defaults = list(KEY_SKIN_COLOR)
 
 /datum/sprite_accessory/ears/goblin_alt
-	name = "Goblin Alt"
+	name = "Goblin (Alt)"
 	icon = 'icons/mob/sprite_accessory/halforc.dmi'
 	icon_state = "goblinalt"
 	color_key_defaults = list(KEY_SKIN_COLOR)
 
 /datum/sprite_accessory/ears/goblin_small
-	name = "Goblin Small"
+	name = "Goblin (Small)"
 	icon = 'icons/mob/sprite_accessory/halforc.dmi'
 	icon_state = "goblinsmall"
 	color_key_defaults = list(KEY_SKIN_COLOR)

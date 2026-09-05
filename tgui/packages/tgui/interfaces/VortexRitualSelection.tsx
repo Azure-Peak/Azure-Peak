@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { Box, Button, Icon, NoticeBox, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  Icon,
+  NoticeBox,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -22,7 +29,7 @@ type Data = {
   rituals: RitualChoice[];
 };
 
-export const VortexRitualSelection = (props) => {
+export const VortexRitualSelection = () => {
   const { act, data } = useBackend<Data>();
   const [selectedRitualId, setSelectedRitualId] = useState<string | null>(null);
 
@@ -67,7 +74,8 @@ export const VortexRitualSelection = (props) => {
                 >
                   <Box bold>{ritual.name}</Box>
                   <Box color="label" fontSize="0.9em">
-                    Status: {ritual.has_materials ? 'Ready' : 'Missing Materials'}
+                    Status:{' '}
+                    {ritual.has_materials ? 'Ready' : 'Missing Materials'}
                   </Box>
                   <Box color="gray" fontSize="0.9em" italic>
                     {ritual.desc}
@@ -88,7 +96,9 @@ export const VortexRitualSelection = (props) => {
 
                   <Section title="Required Materials">
                     {selectedRitual.ingredients.length === 0 && (
-                      <NoticeBox info>No external offerings required.</NoticeBox>
+                      <NoticeBox info>
+                        No external offerings required.
+                      </NoticeBox>
                     )}
                     {selectedRitual.ingredients.map((ing) => (
                       <Box key={ing.name} fontSize="0.9em">
@@ -100,11 +110,13 @@ export const VortexRitualSelection = (props) => {
                   <Section title="Ritual Readiness">
                     {selectedRitual.has_materials ? (
                       <NoticeBox info>
-                        <Icon name="gift" /> All alignment materials are arrayed on the outer rim.
+                        <Icon name="gift" /> All alignment materials are arrayed
+                        on the outer rim.
                       </NoticeBox>
                     ) : (
                       <NoticeBox>
-                        <Icon name="gift" /> Materials are missing or incorrectly placed.
+                        <Icon name="gift" /> Materials are missing or
+                        incorrectly placed.
                       </NoticeBox>
                     )}
                   </Section>
