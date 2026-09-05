@@ -59,7 +59,6 @@
 	icon2 = "glasspane2"
 	icon2step = 3
 	dropshrink = 0.9
-	bundlesound = 'sound/foley/dropsound/glass_drop.ogg'
 
 /obj/item/natural/bundle/glass/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
 	if(!..()) //was it caught by a mob?

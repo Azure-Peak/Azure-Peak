@@ -46,4 +46,3 @@
 	icon1step = 3
 	icon2 = "brickbundle3"
 	icon2step = 4
-	bundlesound = 'sound/foley/brickdrop.ogg'

@@ -640,7 +640,6 @@ BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've 
 	icon1step = 3
 	icon2 = "stoneblockbundle3"
 	icon2step = 4
-	bundlesound = 'sound/foley/stone_scrape.ogg'
 
 /obj/structure/roguerock/attackby(obj/item/W, mob/living/user, params)
 	. = ..()

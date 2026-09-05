@@ -505,4 +505,3 @@
 	icon2 = "plankbundle3"
 	icon2step = 5
 	smeltresult = /obj/item/ash
-	bundlesound = 'sound/foley/dropsound/wooden_drop.ogg'

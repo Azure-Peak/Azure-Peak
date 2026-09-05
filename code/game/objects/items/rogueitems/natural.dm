@@ -48,13 +48,13 @@
 		return
 	to_chat(user, span_notice("I begin to collect [src]."))
 	if(move_after(user, bundling_time, target = src))
+		// we're basically always just going to bundle the same kind of item. easier check.
+		var/bundletype = src.type
 		// list that contains all items we're going to try to bundle.
 		var/list/bundle_jutsu = list()
-		// create a bundle. we'll delete it if shit gets fucked up. we blow it up later.
-		var/obj/item/natural/bundle/sacrifical_bundle = new src.bundletype()
 		// search for items of the stacktype in the src turf.
 		for(var/obj/item/natural/N in get_turf(src))
-			if(istype(N, sacrifical_bundle.stacktype))
+			if(istype(N, bundletype))
 				bundle_jutsu += N
 		// bundlecount is now = bundle_jutsu.len for easy counting purposes.
 		var/bundlecount = bundle_jutsu.len
@@ -70,15 +70,9 @@
 				B.update_bundle()
 				bundlecount -= add_amount_clamped
 				user.put_in_hands(B)
-		// EVERYTHING STILL IN THE LIST DIES.
-		// we do it this way to avoid a RMB 1 cloth on tile self and it deletes the cloth, or something stupid.
-		for(var/obj/item/natural/N in bundle_jutsu)
-			if(istype(N, sacrifical_bundle.stacktype))
-				qdel(N)
-		// play a cool fucking sound as determined by the whatever
-		playsound(user, sacrifical_bundle.bundlesound, 70, FALSE, -4)
-		// YOU MUST DIE.
-		qdel(sacrifical_bundle)
+		playsound(user, drop_sound, 70, FALSE, -4)
+		for(var/obj/O in bundle_jutsu)
+			qdel(O)
 
 /obj/item/natural/bundle
 	name = "bundle"
@@ -100,8 +94,6 @@
 	var/stackname = "fibers"
 	var/base_width = 32
 	var/base_height = 32
-	// all bundles will make a sound
-	var/bundlesound = "rustle"
 
 /obj/item/natural/bundle/Initialize(mapload)
 	. = ..()

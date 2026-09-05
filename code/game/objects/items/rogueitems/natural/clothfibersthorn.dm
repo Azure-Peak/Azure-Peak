@@ -499,7 +499,6 @@
 	icon2 = "stickbundle2"
 	icon2step = 7
 	icon3 = "stickbundle3"
-	bundlesound = 'sound/foley/dropsound/wooden_drop.ogg'
 
 /obj/item/natural/bundle/stick/full
 	amount = 10
