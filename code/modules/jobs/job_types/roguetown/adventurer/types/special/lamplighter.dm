@@ -177,6 +177,8 @@
 	name = "lamplighter's staff"
 	icon = 'icons/roguetown/misc/lighting64.dmi'
 	icon_state = "ironlamp1"
+	base_state = "ironlamp"
+	bulb_color = "#e66b45"
 	on = TRUE
 	fueluse = -1
 	cookonme = FALSE
@@ -225,15 +227,17 @@
 	if ((user.used_intent.type == /datum/intent/use))
 		A.spark_act()
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden/proc/deploy_lampstaff(mob/user, atom/location) //theres probably a better way to do this but it works
+/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden/proc/deploy_lampstaff(mob/user, atom/location)
 	to_chat(user, "<span class='notice'>You plant the staff down.</span>")
-	new /obj/machinery/light/rogue/campfire/lamplighter/warden(location)
+	new /obj/machinery/light/rogue/campfire/lampwarden(location)
 	qdel(src)
 
-/obj/machinery/light/rogue/campfire/lamplighter/warden
+/obj/machinery/light/rogue/campfire/lampwarden
 	name = "lampwarden's staff"
 	icon = 'icons/roguetown/misc/lighting64.dmi'
 	icon_state = "wardlamp1"
+	base_state = "wardlamp"
+	bulb_color = "#e66b45"
 	on = TRUE
 	fueluse = -1
 	cookonme = FALSE
