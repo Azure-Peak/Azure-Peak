@@ -172,3 +172,33 @@
       to 'none', so if you want your character to resume having a sheath, you have
       to go and reapply it
   - image: removed the unused sprites for 'hyper'-sized 'size four' pintles
+2026-09-05:
+  Lamasmaster:
+  - rscadd: Guts you can gutspill, no more liver drop on gutspills.
+  Quinalion:
+  - rscadd: Added new long elf ears with a flick animation.
+  - rscadd: Added two new tiefling tail variants.
+  - rscadd: Added new earrings.
+  - rscdel: Removed the redundant Emerald Earrings.
+  - rscadd: Added a new striped warpaint.
+  - rscadd: Added eyebags as a Face Detail.
+  - image: Ported the updated dwarf sprites from Vanderlin.
+  Ryan180602:
+  - bugfix: left-hand twirling onmob.
+  mumblemancer:
+  - bugfix: summoned skeletons no longer have vices
+  nauticall:
+  - bugfix: (Attempts to) fix the TGUI character preview window being tiny.
+  - code_imp: Updates tgui-core to 6.1.3.
+  radarseas:
+  - balance: Knight Banneret can no longer request someone to be outlawed, the marshal/sergeant
+      retain this as garrison leading roles.
+  - bugfix: Knight Banneret no longer gets a redundant order-rehersing ability that
+      they physically cannot use.
+  - balance: the hand can now request outlaw alongside remembering their agents.
+  - balance: Pestra's black rot items are correctly marked as oddly heretical.
+  - balance: the heretical rotfang dagger that literally says its herecy, is now reasonably
+      an alarmingly suspicious heretical item.
+  - qol: all forms of healing miracle rejections use a consistant small feedback in
+      chat and a blue font on the recieving end.
+  - bugfix: fixed trait_ironman not giving the correct feedback of who's getting miracled.

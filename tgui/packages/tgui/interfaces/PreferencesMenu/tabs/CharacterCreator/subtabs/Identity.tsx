@@ -36,7 +36,7 @@ import {
 import { classes } from 'tgui-core/react';
 import type { AllPagesData, IdentityData, VirtueWithMetadata } from '../data';
 
-export const SubtabIdentity = (props) => {
+export const SubtabIdentity = () => {
   return (
     <Section
       fill
@@ -73,7 +73,7 @@ export const SubtabIdentity = (props) => {
   );
 };
 
-export const SubtabIdentityCardInfo = (props) => {
+export const SubtabIdentityCardInfo = () => {
   const { act, data } = useBackendStrict<AllPagesData & IdentityData>();
   const {
     clothes_pref,
@@ -222,7 +222,7 @@ export const SubtabIdentityCardInfo = (props) => {
   );
 };
 
-export const SubtabIdentityCardGameplay = (props) => {
+export const SubtabIdentityCardGameplay = () => {
   const { act, data } = useBackendStrict<IdentityData>();
   const {
     age,
@@ -320,7 +320,7 @@ export const SubtabIdentityCardGameplay = (props) => {
   );
 };
 
-const SubtabIdentityCardGameplayCardCulinary = (props) => {
+const SubtabIdentityCardGameplayCardCulinary = () => {
   const [constantData] = useConstantPrefs();
   const { data } = useBackendStrict<IdentityData>();
   const { favorite_cuisine, favorite_dish, favorite_drink } = data;
@@ -387,7 +387,7 @@ const CulinaryPrefItem = (props: CulinaryPrefItemProps) => {
   );
 };
 
-const SubtabIdentityCardVoice = (props) => {
+const SubtabIdentityCardVoice = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<IdentityData>();
   const { voice_type, voice_color, voice_pack, voice_pitch } = data;
@@ -484,7 +484,7 @@ const SubtabIdentityCardVoice = (props) => {
   );
 };
 
-const SubtabIdentityCardBark = (props) => {
+const SubtabIdentityCardBark = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<IdentityData>();
   const {
@@ -595,7 +595,7 @@ const SubtabIdentityCardBark = (props) => {
   );
 };
 
-export const SubtabIdentityCardVirtues = (props) => {
+export const SubtabIdentityCardVirtues = () => {
   const { data } = useBackendStrict<IdentityData>();
   const { virtues } = data;
 
@@ -679,7 +679,7 @@ export const VirtueEntry = (props: { entry: VirtueWithMetadata }) => {
   );
 };
 
-export const SubtabIdentityCardVices = (props) => {
+export const SubtabIdentityCardVices = () => {
   const { act, data } = useBackendStrict<IdentityData>();
   const { charflaws, has_averse, averse_chosen_faction } = data;
   const [, setPopupId] = usePopupId();

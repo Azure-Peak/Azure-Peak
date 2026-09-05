@@ -362,19 +362,17 @@
 	color_key_defaults = list(KEY_SKIN_COLOR)
 	can_wag = TRUE
 
-/datum/sprite_accessory/tail/dullahan
-	name = "Revenant"
+/datum/sprite_accessory/tail/tiefling/drake
+	name = "Drake"
 	icon = 'icons/mob/sprite_accessory/tails/tiefling.dmi'
-	icon_state = "tiebtail"
+	icon_state = "draketail"
 	color_key_defaults = list(KEY_SKIN_COLOR)
-	can_wag = TRUE
 
-/datum/sprite_accessory/tail/dullahan/heart
-	name = "Succubus"
+/datum/sprite_accessory/tail/tiefling/spear
+	name = "Spear"
 	icon = 'icons/mob/sprite_accessory/tails/tiefling.dmi'
-	icon_state = "hearttail"
+	icon_state = "speartail"
 	color_key_defaults = list(KEY_SKIN_COLOR)
-	can_wag = TRUE
 
 /datum/sprite_accessory/tail/rattlesnake
 	name = "Rattlesnake"
