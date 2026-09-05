@@ -56,13 +56,11 @@
 					if(!istype(wound, /datum/wound/slash/incision))
 						wound.heal_wound(0.4)
 
+	var/noregen = nutrition < NUTRITION_LEVEL_STARVING - 75 || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
+
 	/// Blackblood regeneration. Being in combat, under sunlight, or suffering trauma now reduces regeneration.
-	if(stat != DEAD && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
-		if(has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-			return
+	if(stat != DEAD && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
 		handle_wounds()
-		if(nutrition < NUTRITION_LEVEL_STARVING - 75)
-			return
 		var/list/wounds = get_wounds() // literally was calling get_wounds() 3x so just stuffing this into a list and being done with it
 		var/has_brute = getBruteLoss() > 0 // teehee D:
 		var/has_healable_wound = FALSE
@@ -98,9 +96,7 @@
 						to_chat(src, span_artery("<i>The [wound] stitched itself...</i>"))
 			nutrition = max(0, nutrition - sealing_cost)
 
-	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
-		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-			return
+	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
 		handle_wounds()
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
 			for(var/datum/wound/wound as anything in get_wounds())
@@ -118,7 +114,7 @@
 	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
 		handle_passive_blood()
 
-	if (QDELETED(src)) // diseases can qdel the mob via transformations
+	if(QDELETED(src)) // diseases can qdel the mob via transformations
 		return
 
 	handle_environment()
