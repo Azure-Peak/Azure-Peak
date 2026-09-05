@@ -60,7 +60,7 @@
 
 /datum/outfit/job/roguetown/lampwarden/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers."))
+	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers. Were my staff to be destroyed I've been trained to craft another."))
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/cauterize)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firestrike)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firespin)
@@ -112,7 +112,7 @@
 
 /datum/outfit/job/roguetown/lampwicker/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers."))
+	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers. Were my staff to be destroyed I've been trained to craft another."))
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/scare_beast)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/sooth_the_soul)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/bulwark_of_oil)
