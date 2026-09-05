@@ -161,11 +161,15 @@
 	if(owner.surrendering)
 		owner.resist_fire()
 
+	if(HAS_TRAIT(owner, TRAIT_NOFIRE_STACK))
+		return TRUE
+
 	var/decay_multiplier = stacks / STACK_DECAY_SCALE_FACTOR
 	decay_multiplier = max(decay_multiplier, 20) // Floor so low stacks (~1) extinguish in ~10 seconds instead of lingering for over a minute
 	if(!(owner.mobility_flags & MOBILITY_STAND))
 		decay_multiplier *= STACK_DECAY_PRONE_MULTIPLIER
-
+	if(HAS_TRAIT(owner, TRAIT_NOFIREDECAY))
+		decay_multiplier = 0
 	var/fire_resist_decay = HAS_TRAIT(owner, TRAIT_FIRE_RESIST) ? 2 : 1
 	adjust_stacks(decay_multiplier * owner.fire_stack_decay_rate * STACK_DECAY_MULTIPLIER * fire_resist_decay * wait * 0.1)
 

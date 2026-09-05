@@ -130,3 +130,13 @@
 		"The head is engulfed in searing heat!",
 	)
 	mortal = TRUE
+
+/datum/wound/lampcautery
+	name = "cauterized wound"
+	whp = 240
+	bleed_rate = 0
+	clotting_rate = 0
+	clotting_threshold = 0
+	passive_healing = 1
+	woundpain = 100
+	healable_by_miracles = FALSE

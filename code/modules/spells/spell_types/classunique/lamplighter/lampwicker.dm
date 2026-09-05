@@ -3,8 +3,8 @@
 /datum/action/cooldown/spell/lamplighter/scare_beast
 	name = "Scare Beast"
 	desc = "Wave your staff towards a beast, sending fear into its heart with biting flames!"
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "empower_weapon"
+	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
+	button_icon_state = "scarebeast"
 	sound = 'sound/misc/smelter_sound3.ogg'
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
@@ -17,7 +17,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -38,8 +38,8 @@
 /datum/action/cooldown/spell/lamplighter/sooth_the_soul
 	name = "Soothe the Soul"
 	desc = "Surround yourself or your target with soothing warmth, restoring their energy for thirty seconds."
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "empower_weapon"
+	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
+	button_icon_state = "soothe"
 	sound = 'sound/misc/smelter_sound3.ogg'
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
@@ -52,7 +52,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -100,8 +100,8 @@
 /datum/action/cooldown/spell/lamplighter/bulwark_of_oil
 	name = "Bulwark of Oil"
 	desc = "Surround yourself or your target with a wreath of burning oil, intercepting three attacks and applying an oil stack and ten burn damage to the attacker."
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "empower_weapon"
+	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
+	button_icon_state = "oilshield"
 	sound = 'sound/misc/smelter_sound2.ogg'
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
@@ -114,7 +114,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -213,8 +213,8 @@
 /datum/action/cooldown/spell/lamplighter/smoke_food
 	name = "Smoke Food"
 	desc = "Smoke food with your lamptern, increasing its lifespan."
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "empower_weapon"
+	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
+	button_icon_state = "smokefood"
 	sound = 'sound/misc/smelter_sound2.ogg'
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
@@ -227,7 +227,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -256,7 +256,7 @@
 /datum/action/cooldown/spell/lamplighter/anoint_foe
 	name = "Anoint Foe"
 	desc = "Swing your staff forward, splashing oil in an arc and applying 2 oil stacks. Can be alt cast to open the lamptern instead and activate the oil stacks of those it hits. Each stack does five burn damage when activate, at five and twenty stacks you apply vulnerable and expose respectively."
-	button_icon_state = "falling_crescent"
+	button_icon_state = "oilsplash"
 	invocations = list("Splash!")
 	blade_class = BCLASS_BLUNT
 	windup_time = TELEGRAPH_DODGEABLE
@@ -264,19 +264,18 @@
 	damage = 45
 	parent_type = /datum/action/cooldown/spell/telegraphed_strike
 	click_to_activate = TRUE
-	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
+	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
 	sound = 'sound/misc/fire_place.ogg'
 	strike_sound = 'sound/misc/smelter_sound2.ogg'
 	glow_intensity = GLOW_INTENSITY_HIGH
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MINOR_AOE
 	cooldown_time = 30 SECONDS
-	charging_slowdown = 1
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
 	swipe_state = "flame"
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 	var/ignite = FALSE
@@ -331,6 +330,46 @@
 		else
 			holder.maptext = null
 
+/datum/action/cooldown/spell/lamplighter/wicklight
+	name = "Light the Wicks"
+	desc = "Ignite any lights in a 7x7 tile radius around yourself."
+	button_icon_state = "wicks"
+	invocations = list("Light!")
+	parent_type = /datum/action/cooldown/spell/telegraphed_strike
+	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
+	sound = 'sound/misc/fire_place.ogg'
+	strike_sound = 'sound/misc/smelter_sound2.ogg'
+	glow_intensity = GLOW_INTENSITY_HIGH
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_MINOR_AOE
+	cooldown_time = 30 SECONDS
+	associated_skill = /datum/skill/combat/staves
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	spell_color = GLOW_COLOR_FIRE
+	spell_requirements = SPELL_REQUIRES_HUMAN
+
+/datum/action/cooldown/spell/lamplighter/wicklight/cast(atom/cast_on)
+	. = ..()
+
+	if(!ishuman(owner))
+		return FALSE
+	for(var/obj/O in range(7, owner))
+		if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
+			continue
+		if(istype(O, /obj/item/flashlight/flare/light))
+			qdel(O)
+		O.spark_act()
+
+	for(var/mob/M in range(7, owner))
+		for(var/obj/O in M.contents)
+			if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
+				continue
+			if(istype(O, /obj/item/flashlight/flare/light))
+				qdel(O)
+			O.spark_act()
+	owner.visible_message(span_red("[owner] releases a flickering wave of heat that ignites lights around them!"))
+	return TRUE
+
 // Provide Beacon
 
 #define PROVIDE_BEACON_SLOWDOWN_ID "beacon_slowdown"
@@ -339,8 +378,8 @@
 /datum/action/cooldown/spell/lamplighter/provide_beacon
 	name = "Provide Beacon"
 	desc = "Raise your lamptern high, taking fire stacks every five seconds over the course of fourty seconds, every five seconds anyone around you regenerates energy. You do NOT gain resistance against the fire, be ready to pat the flames out."
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "empower_weapon"
+	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
+	button_icon_state = "beacon"
 	sound = 'sound/misc/smelter_sound2.ogg'
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
@@ -353,7 +392,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 

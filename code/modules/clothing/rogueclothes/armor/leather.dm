@@ -145,6 +145,23 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	color = "#7D6653"
 
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter
+	name = "lampwicker's coat"
+	desc = "A hardened leather coat stained by oil and scorch marks."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampcoat1"
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter/warden
+	name = "lampwarden's coat"
+	desc = "A hardened leather coat with a wide leather guard across the upper chest, pocked by scars and bitemarks."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampcoat2"
+
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
 	name = "confessional coat"
 	desc = "A sturdy raincoat draped atop of a tightly-fastened boiled leather cuirass. Saint Astratan youths often fashion little pieces of memorabilia and stitch it on the inner pockets of the coat to remind the confessors that their cause is virtuous, and that they mustn't lose sight of what matters."

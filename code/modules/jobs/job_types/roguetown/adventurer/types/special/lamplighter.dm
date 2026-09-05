@@ -32,7 +32,7 @@
 
 /datum/advclass/lampwarden
 	name = "Lampwarden"
-	tutorial = "Bastion to the Dark, you are a scared traveler's salvation againts the horrors of our realm. Be their guard and guide through these godless nites."
+	tutorial = "Bastion to the Dark, you are a scared traveler's protector against the horrors of our realm. Be their guard and guide through these godless nites."
 	outfit = /datum/outfit/job/roguetown/lampwarden
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	category_tags = list(CTAG_LAMPLIGHTER)
@@ -65,18 +65,22 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firestrike)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firespin)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/oil_spill)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/wicklight)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/burn_it_down)
-	//head = Lamplighter hat here Soon:tm:
-	//neck = Lamplighter neckpiece here Soon:tm:
-	//armor = Lamplighter coat here Soon:tm:
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
+	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/survival/lampwarden)
+	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter/warden
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter/warden
+	mask = /obj/item/clothing/mask/rogue/lamplighter
+	gloves = /obj/item/clothing/gloves/roguetown/angle
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/dark
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	backr = /obj/item/storage/backpack/rogue/satchel
-	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter
-	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden
+	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
-	backpack_contents = list(/obj/item/recipe_book/survival = 1,
+	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 						/obj/item/rogueweapon/huntingknife = 1)
 
 /datum/advclass/lampwicker
@@ -116,32 +120,34 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/smoke_food)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/anoint_foe)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/provide_beacon)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/varnish)
-	//head = Lamplighter hat here Soon:tm:
-	//neck = Lamplighter neckpiece here Soon:tm:
-	//armor = Lamplighter coat here Soon:tm:
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
+	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/survival/lampstaff)
+	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter
+	mask = /obj/item/clothing/mask/rogue/lamplighter/beaked
+	gloves = /obj/item/clothing/gloves/roguetown/angle
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/dark
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	backr = /obj/item/storage/backpack/rogue/satchel
-	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter
-	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden
+	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
-	backpack_contents = list(/obj/item/recipe_book/survival = 1,
+	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 						/obj/item/rogueweapon/huntingknife = 1)
 
-// SPECIAL STAFF :SPARKLES"
+// SPECIAL STAFF :SPARKLES:
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter //TODO: FINISH THIS
+/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter
 	name = "lamplighter's staff"
 	possible_item_intents = list(/datum/intent/spear/bash, /datum/intent/use)
+	icon_state = "ironlamp"
 	light_system = MOVABLE_LIGHT
 	light_outer_range = 15
 	light_power = 2
 	light_color = "#e66b45"
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/attack_right(mob/user)
-	. = ..()
 	var/turf/target_turf = get_step(user,user.dir)
 	if(target_turf.is_blocked_turf(TRUE) || (locate(/mob/living) in target_turf))
 		to_chat(user, span_danger("I can't plant the staff here!"))
@@ -152,9 +158,8 @@
 	return NONE
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("I can right click the lampstaff to plant it into the floor, where it will function as a campfire.")
-	. += span_info("I can use the <b>use</b> intent to light things with the lamp.")
+	. += span_info("Right-Click the lampstaff to plant it into the floor, where it will function as a campfire.")
+	. += span_info("I can <b>use</b> the lampstaff to light things as if it were a regular lamptern.")
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()
@@ -170,6 +175,8 @@
 
 /obj/machinery/light/rogue/campfire/lamplighter
 	name = "lamplighter's staff"
+	icon = 'icons/roguetown/misc/lighting64.dmi'
+	icon_state = "ironlamp1"
 	on = TRUE
 	fueluse = -1
 	cookonme = FALSE
@@ -185,5 +192,62 @@
 	return TRUE
 
 /obj/machinery/light/rogue/campfire/lamplighter/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("I can right click the lampstaff to pull it off the floor.")
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden
+	name = "lampwarden's staff"
+	possible_item_intents = list(/datum/intent/spear/bash, /datum/intent/use)
+	icon_state = "wardlamp"
+	light_system = MOVABLE_LIGHT
+	light_outer_range = 15
+	light_power = 2
+	light_color = "#e66b45"
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden/attack_right(mob/user)
+	var/turf/target_turf = get_step(user,user.dir)
+	if(target_turf.is_blocked_turf(TRUE) || (locate(/mob/living) in target_turf))
+		to_chat(user, span_danger("I can't plant the staff here!"))
+		return NONE
+	if(isopenturf(target_turf))
+		deploy_lampstaff(user, target_turf)
+		return TRUE
+	return NONE
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden/get_mechanics_examine(mob/user)
+	. += span_info("Right-click the lampstaff to plant it into the floor, where it will function as a campfire.")
+	. += span_info("I can <b>use</b> the lampstaff to light things as if it were a regular lamptern.")
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
+	if (!proximity)
+		return
+	if ((user.used_intent.type == /datum/intent/use))
+		A.spark_act()
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden/proc/deploy_lampstaff(mob/user, atom/location) //theres probably a better way to do this but it works
+	to_chat(user, "<span class='notice'>You plant the staff down.</span>")
+	new /obj/machinery/light/rogue/campfire/lamplighter/warden(location)
+	qdel(src)
+
+/obj/machinery/light/rogue/campfire/lamplighter/warden
+	name = "lampwarden's staff"
+	icon = 'icons/roguetown/misc/lighting64.dmi'
+	icon_state = "wardlamp1"
+	on = TRUE
+	fueluse = -1
+	cookonme = FALSE
+	max_integrity = 300
+	density = 1
+
+/obj/machinery/light/rogue/campfire/lampwarden/attack_right(mob/user)
+	if(..())
+		return TRUE
+	user.visible_message(span_notice("[user] retrieves [src]."), span_notice("You pick up [src]."))
+	new /obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden(drop_location())
+	qdel(src)
+	return TRUE
+
+/obj/machinery/light/rogue/campfire/lampwarden/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("I can right click the lampstaff to pull it off the floor.")
