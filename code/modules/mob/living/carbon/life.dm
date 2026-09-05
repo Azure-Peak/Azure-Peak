@@ -386,7 +386,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		if(sunder_stacks >= 31)
 			adjustBruteLoss(1)
 			if(prob(3)) //3% chance of blood vomiting
-				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire. No immobilise yet.
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
 
 		if(sunder_stacks >= 41) //At this point you've taken (2) blows (or are a vampire) or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(1)
@@ -394,8 +394,6 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				confused += 8
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
 				Dizzy(5)
-			if(prob(5)) //5% chance to collapse randomly
-				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
 
 		if(sunder_stacks >= 101) //We are beyond the point of lethal, somehow. This will cripple you severely.
 			adjustBruteLoss(1)
