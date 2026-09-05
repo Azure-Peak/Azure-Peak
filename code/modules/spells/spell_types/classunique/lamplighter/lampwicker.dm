@@ -91,8 +91,6 @@
 
 #undef SOOTHE_FILTER
 
-// Light the Wicks
-
 // Bulwark of Oil
 
 #define BULWARK_FILTER "bulwark_glow"
@@ -330,6 +328,8 @@
 		else
 			holder.maptext = null
 
+// Light the Wicks
+
 /datum/action/cooldown/spell/lamplighter/wicklight
 	name = "Light the Wicks"
 	desc = "Ignite any lights in a 7x7 tile radius around yourself."
@@ -370,7 +370,7 @@
 	owner.visible_message(span_red("[owner] releases a flickering wave of heat that ignites lights around them!"))
 	return TRUE
 
-// Provide Beacon
+// ULT - Provide Beacon
 
 #define PROVIDE_BEACON_SLOWDOWN_ID "beacon_slowdown"
 #define BEACON_FILTER "beacon_filter"
