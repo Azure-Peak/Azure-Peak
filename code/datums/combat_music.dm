@@ -395,7 +395,7 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 	musicpath = list('sound/music/cmode/church/combat_necra.ogg')
 
 /datum/combat_music/noble
-	name = "Noble (Merchant/Freifechter)"
+	name = "Noble (Merchant)"
 	desc = ""
 	shortname = "Noble"
 	musicpath = list('sound/music/combat_noble.ogg')

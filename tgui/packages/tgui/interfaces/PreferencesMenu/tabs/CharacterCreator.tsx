@@ -99,6 +99,7 @@ const Sidebar = (props) => {
     hide_pq,
     pq,
     preview_background,
+    preview_boner_state,
     real_name,
     headshot_link,
     triumphs,
@@ -176,6 +177,16 @@ const Sidebar = (props) => {
               />
             </Stack.Item>
           </Stack>
+        </Stack.Item>
+        <Stack.Item>
+          <Button
+            fluid
+            icon="venus-mars"
+            tooltip="Preview how your character looks at rest, half-aroused, and fully aroused. This is a preview only setting and isn't saved."
+            onClick={() => act('cycle_boner_preview')}
+          >
+            {preview_boner_state}
+          </Button>
         </Stack.Item>
         <Stack.Item grow minHeight={0}>
           <Stack fill vertical className="PreferencesMenu__Sidebar__Scrollable">
