@@ -376,24 +376,24 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 //WE HANDLE SUNDERSTACKS HERE
 	if(sunder_stacks)
 		sunder_stacks = max(sunder_stacks - 1, 0) //Takes a bit to shrug off
-		if(cultslurring < 5) //Fucks up our ability to talk, completely until all sunderstacks are gone
-			cultslurring += 1.2
+
+		apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
 
 		if(sunder_stacks >= 21)
-			apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
+			if(cultslurring < 5) //Fucks up our ability to talk, completely until we're below 20 stacks
+				cultslurring += 1.2
 
-		if(sunder_stacks >= 41)
+		if(sunder_stacks >= 31)
 			adjustBruteLoss(1)
-			if(prob(3)) //5% chance of random dizziness
+			if(prob(3)) //3% chance of blood vomiting
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire. No immobilise yet.
-				Dizzy(3)
 
-		if(sunder_stacks >= 71) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
+		if(sunder_stacks >= 41) //At this point you've taken (2) blows (or are a vampire) or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(1)
 			if(prob(12)) //12% chance to have random movement + stun + dizziness
 				confused += 8
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
-				Dizzy(15)
+				Dizzy(5)
 			if(prob(5)) //5% chance to collapse randomly
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
 				Knockdown(15)
