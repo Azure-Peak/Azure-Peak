@@ -119,7 +119,6 @@
 	sewn_clotting_threshold = 0.5
 	sew_threshold = 150 //absolutely awful to sew up
 	critical = TRUE
-	unholy_death = TRUE
 	/// Organs we can disembowel associated with chance to disembowel
 	var/static/list/affected_organs = list(
 		ORGAN_SLOT_STOMACH = 100,
