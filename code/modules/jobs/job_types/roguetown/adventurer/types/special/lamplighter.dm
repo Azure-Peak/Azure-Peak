@@ -34,7 +34,7 @@
 	name = "Lampwarden"
 	tutorial = "Bastion to the Dark, you are a scared traveler's protector against the horrors of our realm. Be their guard and guide through these godless nites."
 	outfit = /datum/outfit/job/roguetown/lampwarden
-	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
+	cmode_music = 'sound/music/cmode/adventurer/combat_lamplighter.ogg'
 	category_tags = list(CTAG_LAMPLIGHTER)
 	traits_applied = list(TRAIT_OUTDOORSMAN)
 	subclass_stats = list(
@@ -86,7 +86,7 @@
 	name = "Lampwicker"
 	tutorial = "Salvation in the Light, you've saved many a tired and dying traveler under the protection of the Lampwardens. Be the comforting warmth through these godless nites."
 	outfit = /datum/outfit/job/roguetown/lampwicker
-	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
+	cmode_music = 'sound/music/cmode/adventurer/combat_lamplighter.ogg'
 	category_tags = list(CTAG_LAMPLIGHTER)
 	traits_applied = list(TRAIT_WOODSMAN)
 	subclass_stats = list(
