@@ -142,6 +142,27 @@
 	new /obj/item/rope(loc, 1)
 	qdel(src)
 
+/// This override lets you "clear" the meathook. It'll move a max of 50 items.
+/obj/structure/meathook/MiddleClick(mob/user, params)
+	. = ..()
+	if(user.mmb_intent)
+		return
+	// just so that you cant forcemove 50 items easily. this is maybe a shitty idea so lets add a defensive mechanism or two
+	if(world.time >= last_cleared + 5 SECONDS)
+		user.visible_message(span_notice("[user] begins to clear [src] of debris..."))
+		if(do_after(user, 8 SECONDS, TRUE, src, same_direction = TRUE))
+			var/items_moved = 0
+			for(var/obj/item/I in get_turf(src))
+				// defensive mechanism #2
+				if(items_moved >= 50)
+					break // STOP SEARCHING
+				I.forceMove(get_turf(user))
+				items_moved++
+			last_cleared = world.time
+	else
+		to_chat(user, span_notice("The hook has been cleared recently. Wait a few seconds."))
+
+
 #undef VIABLE_MOB_CHECK
 #undef UNHOOK_SELF_TIME
 #undef UNHOOK_OTHER_TIME
