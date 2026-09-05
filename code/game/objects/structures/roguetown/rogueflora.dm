@@ -312,7 +312,7 @@
 	log_combat(user, pushed_mob, "head slammed", null, "against [src]")
 
 /obj/structure/flora/roguetree/stump/attackby(obj/item/I, mob/living/user, params)
-	if(!user.cmode)
+	if(!(user.cmode || istype(user.used_intent, /datum/intent/axe/chop)))
 		if(!(I.item_flags & ABSTRACT))
 			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 				var/list/click_params = params2list(params)
