@@ -88,7 +88,7 @@
 	outfit = /datum/outfit/job/roguetown/lampwicker
 	cmode_music = 'sound/music/cmode/adventurer/combat_lamplighter.ogg'
 	category_tags = list(CTAG_LAMPLIGHTER)
-	traits_applied = list(TRAIT_WOODSMAN)
+	traits_applied = list(TRAIT_OUTDOORSMAN)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_PER = 2,
