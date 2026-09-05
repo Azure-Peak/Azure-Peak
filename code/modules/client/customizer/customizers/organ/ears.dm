@@ -87,6 +87,7 @@
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/elf_long,
 		/datum/sprite_accessory/ears/elf_small)
 
 /datum/customizer/organ/ears/elf
@@ -101,6 +102,7 @@
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/elf_long,
 		/datum/sprite_accessory/ears/elf_small,
 		/datum/sprite_accessory/ears/wispy,
 		/datum/sprite_accessory/ears/small)
@@ -311,8 +313,8 @@
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elf_short,
-		/datum/sprite_accessory/ears/elf_small
-		)
+		/datum/sprite_accessory/ears/elf_long,
+		/datum/sprite_accessory/ears/elf_small)
 
 // ---- Dullahan
 /datum/customizer/organ/ears/dullahan
