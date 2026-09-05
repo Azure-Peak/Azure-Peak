@@ -178,7 +178,7 @@
 	icon = 'icons/roguetown/misc/lighting64.dmi'
 	icon_state = "ironlamp1"
 	base_state = "ironlamp"
-	bulb_color = "#e66b45"
+	bulb_colour = "#e66b45"
 	on = TRUE
 	fueluse = -1
 	cookonme = FALSE
@@ -237,7 +237,7 @@
 	icon = 'icons/roguetown/misc/lighting64.dmi'
 	icon_state = "wardlamp1"
 	base_state = "wardlamp"
-	bulb_color = "#e66b45"
+	bulb_colour = "#e66b45"
 	on = TRUE
 	fueluse = -1
 	cookonme = FALSE
