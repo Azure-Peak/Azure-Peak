@@ -1107,7 +1107,7 @@
 	if(!opened && I.get_sharpness())
 		if ( \
 			!isturf(src.loc) || \
-			!(locate(/obj/structure/table) in src.loc) && \
+			!has_table_surface(src.loc) && \
 			!(locate(/obj/structure/table/optable) in src.loc) && \
 			!(locate(/obj/item/storage/bag/tray) in src.loc) \
 			)
