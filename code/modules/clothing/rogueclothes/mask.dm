@@ -838,7 +838,8 @@
 /obj/item/clothing/mask/rogue/facemask/padded
 	name = "padded mask"
 	desc = "A padded cloth mask with a visor, it will prevent bad smells more than damage."
-	icon_state = "gambesonmask"
+	icon_state = "paddedmask"
+	color = "#9d9d7a"
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
@@ -856,7 +857,8 @@
 /obj/item/clothing/mask/rogue/facemask/leather
 	name = "padded leather mask"
 	desc = "A padded leather mask with a visor, it will prevent bad smells and some damage."
-	icon_state = "leathermask"
+	icon_state = "paddedmask"
+	color = "#786a4a"
 	blocksound = SOFTHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
@@ -867,9 +869,6 @@
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
 	smeltresult = /obj/item/ash
-
-/obj/item/clothing/mask/rogue/facemask/leather/ComponentInitialize()
-	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
 //chainmaille masks = pretty much like a normal mask except is made to protect against cutting damage instead of blunt damage.
 

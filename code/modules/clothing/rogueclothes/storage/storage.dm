@@ -714,3 +714,33 @@
 	desc = "This belt has been sewn out of cloth, as opposed to tied. Which makes it superior. Obviously."
 	icon_state = "clothsash"
 	salvage_result = /obj/item/natural/cloth
+
+//donator backpack
+
+/obj/item/storage/backpack/rogue/backpack/liz
+	name = "belted backpack"
+	desc = "One special design for backpacks, being tied around your waist instead of the back."
+	icon_state = "beltedpack"
+	item_state = "beltedpack"
+	icon = 'icons/roguetown/clothing/storage.dmi'
+	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = ITEM_SLOT_BACK_L
+	resistance_flags = FIRE_PROOF
+	max_integrity = 300
+	equip_sound = 'sound/blank.ogg'
+	bloody_icon_state = "bodyblood"
+	sewrepair = TRUE
+	component_type = /datum/component/storage/concrete/roguetown/backpack
+
+/obj/item/storage/backpack/rogue/backpack/liz/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/fur) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Fur") as anything in COLOR_MAP
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_fur"
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
