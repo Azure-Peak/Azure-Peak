@@ -64228,6 +64228,12 @@
 /obj/structure/fluff/railing/wood/west,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town/grim)
+"hTq" = (
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town/grim)
 "hTt" = (
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
@@ -70672,6 +70678,9 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 1
+	},
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = -32
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town/grim)
@@ -116152,6 +116161,10 @@
 /obj/structure/fluff/wallclock,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains/grim)
+"ooO" = (
+/obj/structure/fluff/walldeco/psybanner/astrata/red,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/church/chapel/grim/almonry)
 "ooR" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/cave/mazedungeon)
@@ -133946,6 +133959,9 @@
 /obj/structure/fluff/signage{
 	name = "Keeper Keepsakes"
 	},
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = -32
+	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town/grim)
 "qun" = (
@@ -146370,6 +146386,12 @@
 	},
 /turf/open/floor/rogue/tile/bluebrick,
 /area/rogue/indoors/town/bath/grim/abyssorbath)
+"rYI" = (
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_x = 32
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town/grim)
 "rYK" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/town/roofs/grim)
@@ -155414,6 +155436,12 @@
 /obj/item/roguekey/zhurch/onmap,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/zhurch)
+"tbl" = (
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/town/grim)
 "tbr" = (
 /obj/machinery/light/rogue/torchholder/l,
 /obj/structure/fluff/railing/wood{
@@ -172886,6 +172914,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement/grim)
+"veI" = (
+/obj/structure/fluff/walldeco/psybanner/astrata/red,
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/outdoors/town/grim)
 "veM" = (
 /obj/structure/bars/passage{
 	redstone_id = "Puzzle1";
@@ -179031,7 +179063,7 @@
 /obj/item/roguegem/random,
 /obj/structure/closet/crate/chest/crate,
 /turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/north/grim)
+/area/rogue/outdoors/bog/south/grim/se)
 "vQe" = (
 /obj/structure/bars/passage{
 	max_integrity = 9999;
@@ -418267,7 +418299,7 @@ spe
 mQE
 mbT
 hiZ
-vQd
+mQE
 ycu
 tWS
 tWS
@@ -441227,7 +441259,7 @@ wvm
 wvm
 wvm
 tEl
-qnk
+vQd
 doz
 wvm
 wvm
@@ -498484,7 +498516,7 @@ gRB
 gRB
 gRB
 aDp
-aDp
+rYI
 gRB
 aDp
 gRB
@@ -498859,7 +498891,7 @@ gRB
 gRB
 gRB
 dfx
-bcr
+ooO
 bcr
 caL
 caL
@@ -500380,7 +500412,7 @@ aTh
 mDI
 abg
 gRB
-dfx
+tbl
 dEG
 dEG
 dEG
@@ -505373,7 +505405,7 @@ uRw
 fBo
 hnZ
 uRw
-mwf
+veI
 vOU
 emD
 aDp
@@ -506114,7 +506146,7 @@ pNX
 mya
 jQy
 uNQ
-aDp
+hTq
 mwf
 gRB
 aDp
@@ -507665,7 +507697,7 @@ xQM
 xQM
 hJm
 uRw
-mwf
+veI
 sqX
 emD
 gRB
