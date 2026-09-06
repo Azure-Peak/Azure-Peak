@@ -2332,6 +2332,7 @@
 #include "code\modules\language\language.dm"
 #include "code\modules\language\language_holder.dm"
 #include "code\modules\language\language_menu.dm"
+#include "code\modules\language\language_segments.dm"
 #include "code\modules\language\machine.dm"
 #include "code\modules\language\mushroom.dm"
 #include "code\modules\language\narsian.dm"
