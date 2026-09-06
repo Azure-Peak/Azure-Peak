@@ -462,3 +462,4 @@
 	return
 
 #undef BEACON_FILTER
+#undef PROVIDE_BEACON_SLOWDOWN_ID
