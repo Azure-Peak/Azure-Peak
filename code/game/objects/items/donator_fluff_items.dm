@@ -3255,17 +3255,23 @@ As Excaliber."
 
 // ROSYSATURNIIDAE
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
-	name = "Beaked Mask"
+	name = "beaked mask"
 	desc = "A plated steel mask made to resemble a bird's beak.<br> \
 	While similar to the long masks of Pestra's faithful, this is designed to protect against far less insidious dangers. Namely, bladed weapons.<br> \
-	<font color='3399FF'>The light in your past will be your enemy, and whenever it catches you, it will burn you.</font><br>	\
-	<font color='3399FF'>But first, it must catch you. Go into the dark ahead, and do not look back.</font>"
+	<font color='3399FF'>'The magpie's song, a fleeting flight, guides the heart through the encroaching night.'</font>"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "birdmask"
 
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask/ComponentInitialize()
 	pass() // *flips the bird at you* (this isnt meant to be adjustable)
+
+/obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
+	name = "rosestone clasped collar"
+	desc = "<font color='FFCCFF'>'To love someone is to choose to let them own a part of your spirit, and to own a part of theirs in return.'</font>"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "rosecollar"
 
 // NOIRE + CO.
 /obj/item/clothing/cloak/furcloak/woodland
@@ -3716,3 +3722,17 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	smeltresult = /obj/item/ingot/drow
+
+/obj/item/clothing/head/roguetown/wizhat/bighat
+	name = "Eryn’s archwyzardly hat"
+	desc = "In the oldest days, a magos’s mastery of the Arcyne was documented by the size of their hat. This one is comically large."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "bighat"
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	dynamic_hair_suffix = "+generic"
+	color = "#660fcc"
+	detail_color = CLOTHING_GOLD
+	altdetail_color = CLOTHING_GOLD

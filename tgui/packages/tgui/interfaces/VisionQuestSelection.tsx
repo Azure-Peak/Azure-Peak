@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { Box, Button, Icon, NoticeBox, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  Icon,
+  NoticeBox,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -23,7 +30,7 @@ type Data = {
   choices: QuestChoice[];
 };
 
-export const VisionQuestSelection = (props) => {
+export const VisionQuestSelection = () => {
   const { act, data } = useBackend<Data>();
   const [selectedQuestId, setSelectedQuestId] = useState<string | null>(null);
   const [selectedReward, setSelectedReward] = useState<string | null>(null);
@@ -90,7 +97,8 @@ export const VisionQuestSelection = (props) => {
                   <Section title="Vision Details">
                     <Box bold>{selectedQuest.name}</Box>
                     <Box color="label" fontSize="0.9em">
-                      Target: {selectedQuest.target_name} ({selectedQuest.target_description})
+                      Target: {selectedQuest.target_name} (
+                      {selectedQuest.target_description})
                     </Box>
                   </Section>
 
@@ -111,7 +119,8 @@ export const VisionQuestSelection = (props) => {
 
                   <Section title="Locked Bonus Reward">
                     <NoticeBox info>
-                      <Icon name="gift" /> Pre-destined Bonus: <b>{selectedQuest.bonus_reward_name}</b>
+                      <Icon name="gift" /> Pre-destined Bonus:{' '}
+                      <b>{selectedQuest.bonus_reward_name}</b>
                     </NoticeBox>
                   </Section>
 

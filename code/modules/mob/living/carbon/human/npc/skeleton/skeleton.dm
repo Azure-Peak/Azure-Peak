@@ -133,6 +133,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/no_equipment/after_creation()
 	..()
 	STAINT = 1
+	if(src.charflaws)
+		for(var/datum/charflaw/cf in src.charflaws)
+			src.charflaws.Remove(cf)
+			QDEL_NULL(cf)
+
 
 /mob/living/carbon/human/species/skeleton/no_equipment
 	skel_outfit = null

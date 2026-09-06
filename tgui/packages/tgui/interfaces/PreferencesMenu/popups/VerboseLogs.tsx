@@ -8,7 +8,7 @@ export type PopupVerboseLogsData = {
   logs: string[];
 } & PopupData;
 
-const PopupVerboseLogs = (props) => {
+const PopupVerboseLogs = () => {
   const { data } = usePopupBackend<PopupVerboseLogsData>();
   const { popup_data_ready } = data;
 
@@ -33,7 +33,7 @@ declare module 'pm/popups' {
 }
 registerPopup('VerboseLogs', 'verbose_logs', PopupVerboseLogs);
 
-export const PopupVerboseLogsInner = (props) => {
+export const PopupVerboseLogsInner = () => {
   const { data } = usePopupBackend<PopupVerboseLogsData>();
   const { logs } = data;
 
