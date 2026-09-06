@@ -336,6 +336,20 @@
 	icon_state = "gravehat"
 	item_state = "gravehat"
 
+/obj/item/clothing/head/roguetown/inqhat/lamplighter
+	name = "lampwicker's hat"
+	desc = "A seared and stained tricorn hat."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lamphat1"
+
+/obj/item/clothing/head/roguetown/inqhat/lamplighter/warden
+	name = "lampwarden's hat"
+	desc = "A seared and stained widebrim hat."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lamphat2"
+
 /obj/item/clothing/head/roguetown/headband/red
 	color = CLOTHING_RED
 
