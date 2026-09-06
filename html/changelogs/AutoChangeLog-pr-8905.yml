@@ -1,0 +1,4 @@
+author: "Aroliacue"
+delete-after: True
+changes:
+  - rscadd: "Added new filters for the Blacksmithing page of the encyclopedia."

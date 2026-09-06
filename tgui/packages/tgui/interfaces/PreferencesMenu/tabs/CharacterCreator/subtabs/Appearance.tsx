@@ -20,7 +20,7 @@ import {
 import type { AppearanceData, Marking } from '../data';
 import { FeatureChoice } from './Appearance/FeatureChoice';
 
-export const SubtabAppearance = (props) => {
+export const SubtabAppearance = () => {
   return (
     <Section
       fill
@@ -51,7 +51,7 @@ export const SubtabAppearance = (props) => {
   );
 };
 
-const SubtabAppearanceCardBody = (props) => {
+const SubtabAppearanceCardBody = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const {
     allowed_taur_types,
@@ -158,7 +158,7 @@ const SubtabAppearanceCardBody = (props) => {
   );
 };
 
-const SkinToneSelection = (props) => {
+const SkinToneSelection = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const { available_skin_tones, skin_tone } = data;
 
@@ -205,7 +205,7 @@ const SkinToneSelection = (props) => {
   );
 };
 
-const SubtabAppearanceCardFeatures = (props) => {
+const SubtabAppearanceCardFeatures = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const { customizers } = data;
 
@@ -250,7 +250,7 @@ const SubtabAppearanceCardFeatures = (props) => {
 };
 
 // Markings
-const SubtabAppearanceCardMarkings = (props) => {
+const SubtabAppearanceCardMarkings = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const { marking_zones } = data;
   const [, setPopupId] = usePopupId();

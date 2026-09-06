@@ -5,7 +5,7 @@ import type { KeyBind, KeybindsPageData } from 'pm/data';
 import { useBackendStrict } from 'tgui/backend';
 import { Box, Button, Section } from 'tgui-core/components';
 
-export const KeyBinds = (props) => {
+export const KeyBinds = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<KeybindsPageData>();
   const { keybindings } = data;

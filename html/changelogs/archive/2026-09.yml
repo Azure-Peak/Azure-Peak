@@ -104,3 +104,101 @@
   - bugfix: Fixed pathing in berserker's loadout that tried to place punchdagger on
       belt when it cannot be there, so dagger just dissapeared. Now it's placed in
       players hand upon chosing
+2026-09-04:
+  BurpleBineapple:
+  - rscadd: TRAIT_LONGSWORDSMAN/Freifechters now have master intents on any "stock"
+      longsword.
+  - rscadd: Freifechter master intents are now special versions of the base longsword
+      instead of wholly unique for the experience of a "longsword without training
+      wheels".
+  - balance: TRAIT_LONGSWORDSMAN no longer activates when wielding non-standard longswords
+      like the kriegsmesser or executioner's swords.
+  - balance: Freifechter Longswordsman has had their CON cap raised to 12 to match
+      Freifechter Lancer.
+  - bugfix: The fencing jacket uses the correct armor flags instead of being weaker
+      than hardened leather.
+  - bugfix: Mordhau defense is fixed to be 6 wdef (vs 8 wdef normally). Freifechter
+      mordhau is 4 wdef because of their master skill.
+  Lamasmaster:
+  - rscdel: Ravox Aegis
+  - balance: Ravox Arena moved to T4, Trial of Glory T2, Judgement T0 (smites mindless
+      enemies now)
+  - balance: Graggar Hamstring now reduces dodge chance.
+  borneblood:
+  - bugfix: Graggar T1 - Hamstring works now.
+  - rscdel: Removed some unnecessary Rituos zizo fluff.
+  radarseas:
+  - rscadd: Added ancient longsword, its an artificed Gilbranze longsword that loses
+      some offensive potental in exchange for a little bit more durability and defense.
+      - Its currently not craftable and doesn't have an ancient varient (yet).
+  - code_imp: added trait_skeletal_gib_on_death, a non-user facing trait that gibs
+      you w/ the same sound effects as skeles.
+  - rscadd: skeletons make a bit more noise on dying apart from just the gib noises.
+  - rscadd: skeletons/deadites can now taunt w/ RMB and no weaponry, w/ the middle
+      finger taunt against non-deathless people so you can RAGE AGAINST THE LYVING!
+  - balance: unbound deathknight + spellblade + lich spellblade recieved the ancient
+      longsword.
+  - balance: unbound skeletons + siege skeletons gib on death now.
+  - balance: steel sabre removed from unbound spellblade's choices, replaced w/ longsword.
+  - balance: death knights recieved a gorget + arming cap + 1str to make up for the
+      balance nerfs so they're slightly more durable.
+  - balance: death knights can now pick flail + shield.
+  - balance: death knights have journeyman knives + flails, their riding was knocked
+      down from journeyman -> apprentice. Their wresting was knocked down from expert
+      (why?) to Journeyman.
+  - rscadd: unimplimented vhelsynites now do the middle finger taunt like averse people.
+  - rscdel: Removed the old death longsword, it never displayed properly inhand.
+  - bugfix: fixed unbounds having swift intent, they only have 4 intents like every
+      other skeleton now.
+  - bugfix: unbound skeletons were getting simplemob claw intent, they now get proper
+      clawing instead of being completely harmless without a weapon, save for having
+      to somehow pin and choke you to death.
+  - bugfix: Baotha helmet + coif not hiding identity
+  - bugfix: You can no longer avoid the FOV stacking penalty and powergame the ever
+      living fuck out of a few certain helmets for more protection than intended at
+      no FOV penalty, I know precisely what and who you people are.
+  - bugfix: fixed decrepit/ancient haulberk & maile from being equipped in shirt slot
+      and being medium AC which was unintended.
+  zRainbowcat:
+  - bugfix: Fixed noble aristocrat sabre variants. Dodge expert is now selectable,
+      maille training now actually gives you something
+  - bugfix: fixed merchant's pq requirements not working on latejoin
+  zeroisthebiggay:
+  - bugfix: custom hair no longer layers above equipped items. this bug still exists
+      if you are using custom hair as well as a top snout, sorry about that manne!
+  - rscadd: arousal preview in the character lobby
+  - rscadd: fully functional boners at high arousal
+  - rscadd: toggleable pintle sheaths, keep in mind that by default these are set
+      to 'none', so if you want your character to resume having a sheath, you have
+      to go and reapply it
+  - image: removed the unused sprites for 'hyper'-sized 'size four' pintles
+2026-09-05:
+  Lamasmaster:
+  - rscadd: Guts you can gutspill, no more liver drop on gutspills.
+  Quinalion:
+  - rscadd: Added new long elf ears with a flick animation.
+  - rscadd: Added two new tiefling tail variants.
+  - rscadd: Added new earrings.
+  - rscdel: Removed the redundant Emerald Earrings.
+  - rscadd: Added a new striped warpaint.
+  - rscadd: Added eyebags as a Face Detail.
+  - image: Ported the updated dwarf sprites from Vanderlin.
+  Ryan180602:
+  - bugfix: left-hand twirling onmob.
+  mumblemancer:
+  - bugfix: summoned skeletons no longer have vices
+  nauticall:
+  - bugfix: (Attempts to) fix the TGUI character preview window being tiny.
+  - code_imp: Updates tgui-core to 6.1.3.
+  radarseas:
+  - balance: Knight Banneret can no longer request someone to be outlawed, the marshal/sergeant
+      retain this as garrison leading roles.
+  - bugfix: Knight Banneret no longer gets a redundant order-rehersing ability that
+      they physically cannot use.
+  - balance: the hand can now request outlaw alongside remembering their agents.
+  - balance: Pestra's black rot items are correctly marked as oddly heretical.
+  - balance: the heretical rotfang dagger that literally says its herecy, is now reasonably
+      an alarmingly suspicious heretical item.
+  - qol: all forms of healing miracle rejections use a consistant small feedback in
+      chat and a blue font on the recieving end.
+  - bugfix: fixed trait_ironman not giving the correct feedback of who's getting miracled.

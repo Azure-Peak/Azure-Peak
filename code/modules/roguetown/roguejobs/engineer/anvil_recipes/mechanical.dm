@@ -8,6 +8,7 @@
 
 /datum/anvil_recipe/engineering/nails
 	name = "8x nails"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/construction/nail
 	createditem_num = 8
@@ -18,6 +19,7 @@
 
 /datum/anvil_recipe/engineering/jingle_bells
 	name = "Jingling Bells"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/jingle_bells
 	createditem_num = 5
@@ -25,6 +27,7 @@
 
 /datum/anvil_recipe/engineering/flint
 	name = "Flint (x3) (+1 stone)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/natural/stone)
 	created_item = /obj/item/flint
@@ -34,6 +37,7 @@
 
 /datum/anvil_recipe/engineering/mess_kit
 	name = "Mess Kit (+2 Tin)"	// reduced cost using tin/pewter
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/tin, /obj/item/ingot/tin)
 	created_item = /obj/item/storage/gadget/messkit
@@ -44,6 +48,7 @@
 //Lockpicks and rings moved from blacksmithing, to fit with locks being engineered
 /datum/anvil_recipe/engineering/lockpicks
 	name = "Lockpick (x3)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/lockpick
 	createditem_num = 3
@@ -52,6 +57,7 @@
 
 /datum/anvil_recipe/engineering/lockpickring
 	name = "Lockpickring (x3)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/lockpickring
 	createditem_num = 3
@@ -60,6 +66,7 @@
 
 /datum/anvil_recipe/engineering/chains
 	name = "Chains (x2)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rope/chain
 	createditem_num = 2
@@ -68,6 +75,7 @@
 
 /datum/anvil_recipe/engineering/ironscissors
 	name = "Iron Scissors (+1 Gear)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/huntingknife/scissors
@@ -78,6 +86,7 @@
 
 /datum/anvil_recipe/engineering/steelscissors
 	name = "steel Scissors (+1 Gear)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/huntingknife/scissors/steel
@@ -89,6 +98,7 @@
 
 /datum/anvil_recipe/engineering/bronze/locks
 	name = "Lock (x3)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/customlock
 	createditem_num = 3
@@ -97,6 +107,7 @@
 
 /datum/anvil_recipe/engineering/bronze/keys
 	name = "Key (x3)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/customblank
 	createditem_num = 3
@@ -105,6 +116,7 @@
 
 /datum/anvil_recipe/engineering/bronze/wrench
 	name = "Engineering Wrench (+1 Gear)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/rogueweapon/contraption/linker
 	additional_items = list(/obj/item/roguegear)
@@ -114,6 +126,7 @@
 
 /datum/anvil_recipe/engineering/bronze/gear
 	name = "Gear (x2)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/roguegear
 	createditem_num = 2
@@ -122,6 +135,7 @@
 
 /datum/anvil_recipe/engineering/folding_table
 	name = "Folding Table (+1 Small Log)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/folding_table_stored
@@ -130,6 +144,7 @@
 
 /datum/anvil_recipe/engineering/folding_alchcauldron
 	name = "Folding Cauldron (+1 Stone Pot, +1 Tin Ingot)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/reagent_containers/glass/bucket/pot/stone, /obj/item/ingot/tin)
 	created_item = /obj/item/folding_alchcauldron_stored
@@ -138,6 +153,7 @@
 
 /datum/anvil_recipe/engineering/folding_alchstation_stored
 	name = "Alchemical Station Kit (+1 Small Log, +1 Bottle, +1 Gear)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/reagent_containers/glass/bottle, /obj/item/roguegear)
 	created_item = /obj/item/folding_alchstation_stored
@@ -146,6 +162,7 @@
 
 /datum/anvil_recipe/engineering/bronze/lamptern
 	name = "Lamptern, Bronze (x3)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/flashlight/flare/torch/lantern/bronzelamptern
 	createditem_num = 3
@@ -154,6 +171,7 @@
 
 /datum/anvil_recipe/engineering/bronze/waterpurifier
 	name = "Self-Purifying Waterskin (+1 Waterskin)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/bottle/waterskin/purifier
 	additional_items = list(/obj/item/reagent_containers/glass/bottle/waterskin)
@@ -162,6 +180,7 @@
 
 /datum/anvil_recipe/engineering/bronze/coolingbackpack
 	name = "Cooling Backpack (+1 Gear, +1 Backpack)" // why are these recipes capitalized differently than every other crafting recipe my ocddddddddddd
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/storage/backpack/rogue/artibackpack
 	additional_items = list(/obj/item/roguegear, /obj/item/storage/backpack/rogue/backpack)
@@ -170,6 +189,7 @@
 
 /datum/anvil_recipe/engineering/bronze/mobilestove
 	name = "Mobile Stove (+1 Gear, +1 Tin Ingot)"// capitalized to fall in line with the rest of engineering recipes T_T
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/mobilestove
 	additional_items = list(/obj/item/roguegear, /obj/item/ingot/tin)
@@ -178,6 +198,7 @@
 
 /datum/anvil_recipe/engineering/bronze/smokebomb
 	name = "gas belcher shells (x3) (+1 Gear)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/smokeshell
 	additional_items = list(/obj/item/roguegear)
@@ -187,6 +208,7 @@
 
 /datum/anvil_recipe/engineering/bronze/grappler
 	name = "Grappler (+1 Iron Pick, +1 Chain, +3 Gears)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/grapplinghook
 	additional_items = list(/obj/item/rogueweapon/pick, /obj/item/roguegear, /obj/item/roguegear, /obj/item/roguegear, /obj/item/rope/chain)
@@ -195,6 +217,7 @@
 
 /datum/anvil_recipe/engineering/bronze/headhook
 	name = "Headhook, Bronze (+2 Fibers)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/storage/hip/headhook/bronze
 	additional_items = list(/obj/item/natural/fibers, /obj/item/natural/fibers)
@@ -203,6 +226,7 @@
 
 /datum/anvil_recipe/engineering/bronze/orestore
 	name = "Mechanized Ore Bag, Bronze (+1 Sac, +1 Gear)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/storage/hip/orestore/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/storage/roguebag)
@@ -212,6 +236,7 @@
 //contraptions and tools
 /datum/anvil_recipe/engineering/bronze/autoshears
 	name = "Auto Shears (+1 Bronze Ingot, +1 Gear)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/contraption/shears
@@ -220,6 +245,7 @@
 
 /datum/anvil_recipe/engineering/bronze/metalizer
 	name = "Wood Metalizer (+2 Gears)"
+	category = "Engineering"
 	req_bar= /obj/item/ingot/bronze
 	additional_items = list( /obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/contraption/wood_metalizer
@@ -228,6 +254,7 @@
 
 /datum/anvil_recipe/engineering/bronze/lockimprover
 	name = "Lock Improver (1 bronze, +1 Gear"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/contraption/lock_imprinter
@@ -236,6 +263,7 @@
 
 /datum/anvil_recipe/engineering/bronze/tools/drill
 	name = "Clockwork Drill (+1 Iron Ingot, +1 Gear, +1 Wooden Plank)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/iron, /obj/item/roguegear, /obj/item/natural/wood/plank)
 	created_item = /obj/item/rogueweapon/contraption/pick/drill
@@ -246,6 +274,7 @@
 //most are just improving the existing quivers with a bit of bronze and a gear.
 /datum/anvil_recipe/engineering/bronze/mech_bow_quiver
 	name = "Mechanized Bow Quiver (+1 Gear, +1 Quiver))"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/quiver)
 	created_item = /obj/item/quiver/mechanized/bow
@@ -255,6 +284,7 @@
 
 /datum/anvil_recipe/engineering/bronze/mech_crossbow_quiver
 	name = "Mechanized Bolt Quiver (+1 Gear, +1 Bolt Pouch)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/quiver/bolt)
 	created_item = /obj/item/quiver/mechanized/crossbow
@@ -264,6 +294,7 @@
 
 /datum/anvil_recipe/engineering/bronze/mech_siegebow_quiver
 	name = "Mechanized Heavy Bolt Quiver (+1 Gear, +1 Heavy Bolt Pouch)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/quiver/bolt/heavy)
 	created_item = /obj/item/quiver/mechanized/siegebow
@@ -274,6 +305,7 @@
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/bronzeprosthetic
 	name = "bronze prosthetic (+2 Gears)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/contraption/bronzeprosthetic
@@ -281,6 +313,7 @@
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/ironprosthetic
 	name = "iron prosthetic (+2 Gears)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/contraption/ironprosthetic
@@ -288,6 +321,7 @@
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/steelprosthetic
 	name = "steel prosthetic (+2 Gears)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/contraption/steelprosthetic
@@ -295,6 +329,7 @@
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/goldprosthetic
 	name = "gold prosthetic (+2 Gears)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/gold
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/contraption/goldprosthetic
@@ -303,6 +338,7 @@
 // ------------ Rings ----------------
 /datum/anvil_recipe/engineering/serfstone
 	name = "Serf Stone (+1 Amethyst, +1 Topar)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/roguegem/amethyst, /obj/item/roguegem/yellow) //using topar since the description calls it a "dull gem"
 	created_item = /obj/item/scomstone/bad
@@ -310,6 +346,7 @@
 
 /datum/anvil_recipe/engineering/houndstone
 	name = "Houndstone (+1 Amethyst, +1 Topar)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/roguegem/amethyst, /obj/item/roguegem/yellow)
 	created_item = /obj/item/scomstone/bad/garrison
@@ -317,6 +354,7 @@
 
 /datum/anvil_recipe/engineering/scomstone
 	name = "SCOM Stone (+1 Amethyst, +1 Gemerald)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/gold
 	additional_items = list(/obj/item/roguegem/amethyst, /obj/item/roguegem/green)
 	created_item = /obj/item/scomstone
@@ -324,6 +362,7 @@
 
 /datum/anvil_recipe/engineering/emeraldchoker
 	name = "emerald choker (+1 Amethyst, +1 Gold Ingot, +1 Gemerald)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/gold
 	additional_items = list(/obj/item/roguegem/amethyst, /obj/item/ingot/gold, /obj/item/roguegem/green)
 	created_item = /obj/item/listenstone
@@ -332,6 +371,7 @@
 //combat gear
 /datum/anvil_recipe/engineering/artificerarmor
 	name = "Artificer armor (+2 Ancient Alloy Ingot, +2 Gears)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer
@@ -340,6 +380,7 @@
 
 /datum/anvil_recipe/engineering/volticgauntlet
 	name = "Voltic Gauntlet (+1 Tin ingot, +2 Gears, +1 Cinnabar Ore)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear, /obj/item/ingot/tin, /obj/item/rogueore/cinnabar)
 	created_item = /obj/item/clothing/gloves/roguetown/chain/contraption/voltic
@@ -348,6 +389,7 @@
 
 /datum/anvil_recipe/engineering/steamshield
 	name = "Steam Shield (+1 Wood Plank, +2 Gears, +2 Bronze Ingots)"
+	category = "Engineering"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear, /obj/item/natural/wood/plank, /obj/item/ingot/bronze, /obj/item/ingot/bronze)
 	created_item = /obj/item/rogueweapon/shield/steam

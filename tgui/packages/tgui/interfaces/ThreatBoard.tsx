@@ -10,7 +10,7 @@ type Data = {
   }[];
 };
 
-export const ThreatBoard = (props) => {
+export const ThreatBoard = () => {
   const { data } = useBackend<Data>();
 
   return (

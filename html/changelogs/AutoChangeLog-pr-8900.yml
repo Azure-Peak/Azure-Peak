@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "Baotha helmet + coif not hiding identity"
-  - bugfix: "You can no longer avoid the FOV stacking penalty and powergame the ever living fuck out of a few certain helmets for more protection than intended at no FOV penalty, I know precisely what and who you people are."
