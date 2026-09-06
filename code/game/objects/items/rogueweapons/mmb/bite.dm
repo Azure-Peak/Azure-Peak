@@ -194,9 +194,14 @@
 				if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 					to_chat(user, span_warning("BLEH! [bite_victim] tastes of SILVER! My gift cannot take hold."))
 				else
-					caused_wound?.werewolf_infect_attempt()
-					if(prob(50))
-						user.werewolf_feed(bite_victim, 10)
+					if(user.mind.has_antag_datum(/datum/antagonist/werewolf/noinfect))
+						to_chat(user, span_warning("My curse is not strong enough to infect [bite_victim]."))
+						if(prob(50))
+							user.werewolf_feed(bite_victim, 10)
+					else
+						caused_wound?.werewolf_infect_attempt()
+						if(prob(50))
+							user.werewolf_feed(bite_victim, 10)
 			if(istype(user.dna.species, /datum/species/gnoll))
 				if(prob(30))
 					user.gnoll_feed(bite_victim, 10)

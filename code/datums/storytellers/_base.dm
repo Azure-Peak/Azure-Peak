@@ -183,6 +183,9 @@
 		// Determine which events are valid to pick
 		for(var/datum/round_event_control/event as anything in mode.event_pools[track])
 			var/players_amt = roundstart_players_amt
+			if((event.storyteller_antag_flags & STORYTELLER_ANTAG_MEDIUM) && type != /datum/storyteller/gamemode/no_antag)
+				invalid_reasons[event] = "Medium Intensity only"
+				continue
 			if(forced)
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
