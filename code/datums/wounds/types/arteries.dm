@@ -70,6 +70,7 @@
 	woundpain = 100
 	sewn_woundpain = 50
 	mortal = TRUE
+	unholy_death = TRUE
 
 /datum/wound/artery/chest/on_mob_gain(mob/living/affected)
 	. = ..()

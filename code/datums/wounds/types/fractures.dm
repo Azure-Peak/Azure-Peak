@@ -154,6 +154,7 @@
 	)
 	paralysis = TRUE
 	shatter_wound = TRUE
+	unholy_death = TRUE
 
 /datum/wound/fracture/head/brain
 	name = "depressed cranial fracture"
@@ -177,6 +178,7 @@
 	)
 	paralysis = TRUE
 	shatter_wound = TRUE
+	unholy_death = TRUE
 
 /datum/wound/fracture/head/eyes
 	name = "orbital fracture"
@@ -295,6 +297,7 @@
 	)
 	whp = 100
 	shatter_wound = TRUE
+	unholy_death = TRUE
 
 /datum/wound/fracture/neck/shatter/on_mob_gain(mob/living/affected)
 	. = ..()

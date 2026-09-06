@@ -130,6 +130,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				max_thralls = 0
 				ADD_TRAIT(vampdude, TRAIT_NOVAMPMITOSIS, TRAIT_GENERIC) //no bloodpool vamps
 
+		ADD_TRAIT(vampdude, TRAIT_UNHOLY_LYFE, TRAIT_GENERIC)
 		if(HAS_TRAIT(vampdude, TRAIT_DNR)) //if you have DNR, we add dustable
 			ADD_TRAIT(vampdude, TRAIT_DUSTABLE, TRAIT_GENERIC)
 

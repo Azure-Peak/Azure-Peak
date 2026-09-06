@@ -68,6 +68,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/shatter_wound = FALSE
 	/// Some wounds cause instant death for CRITICAL_WEAKNESS
 	var/mortal = FALSE
+	/// Some wounds cause death of the user for Revenants / Vampires
+	var/unholy_death = FALSE
 	/// Amount we heal passively while sleeping
 	var/sleep_healing = 1
 	/// Amount we heal passively, always
@@ -276,6 +278,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	if(mortal && HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
 		affected.death()
 	if(shatter_wound && HAS_TRAIT(affected, TRAIT_SHATTER_KILL))
+		affected.death()
+	if(unholy_death && HAS_TRAIT(affected, TRAIT_UNHOLY_LYFE))
 		affected.death()
 	// wounds bad enough to have 0 sleepheal kill way faster than you can sleep them off anyway... for everyone BUT
 	// deathless/deadite-immune players, who also have a good chance of being RRd by them if they die in a random cave
