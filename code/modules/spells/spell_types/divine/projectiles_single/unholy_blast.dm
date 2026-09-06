@@ -132,7 +132,8 @@
 	var/godless = !L.mind
 	var/fire_stacks = godless ? 10 : 5
 	if(godless)
-		L.emote("superagony")
+		if(iscarbon(L))
+			L.emote("superagony")
 		L.Immobilize(3 SECONDS)
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 	var/turf/target_turf = get_turf(L)
