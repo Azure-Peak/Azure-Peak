@@ -995,7 +995,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
 
-		to_chat(M, span_userdanger("I can't pick up the silver, it is my BANE!"))
+		to_chat(M, span_silver("I can't pick up the silver, it is my BANE!"))
 		M.Knockdown(10)
 		M.Paralyze(10)
 		M.adjustFireLoss(25)
