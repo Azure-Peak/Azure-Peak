@@ -969,6 +969,11 @@
 	path = /obj/item/enchantingkit/rosy/birdmask
 	ckeywhitelist = list("rosysaturniidae")
 
+/datum/loadout_item/donator/rosy/rosecollar
+	name = "Donator Kit - Rosestone Clasped Collar"
+	path = /obj/item/enchantingkit/rosy/rosecollar
+	ckeywhitelist = list("rosysaturniidae")
+
 /datum/loadout_item/donator/nero_woodlandcloak
 	name = "Gift - Woodland Mantle"
 	path = /obj/item/clothing/cloak/furcloak/woodland
@@ -1033,3 +1038,9 @@
 	name = "Donator Item - Tabis"
 	path = /obj/item/enchantingkit/donator_rivercadaver_tabis
 	ckeywhitelist = list("rivercadaver","poots13","nooriginality","helenmoder","oddbomber3768","waffai","castortroy23","persephoneq")
+
+/datum/loadout_item/donator/glassfeddockterr_bighat
+	name = "Donator Item - Eryn's Archwyzardry Hat"
+	path = /obj/item/clothing/head/roguetown/wizhat/bighat
+	ckeywhitelist = list("glassfeddockterr")
+
