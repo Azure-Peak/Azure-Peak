@@ -1,0 +1,4 @@
+author: "zRainbowcat"
+delete-after: True
+changes:
+  - bugfix: "edited conjured skeleton's items so they are dissapearing once stripped, preventing existence of glued-up junk"
