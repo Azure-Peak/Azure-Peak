@@ -59,6 +59,9 @@
 	. += span_info("Middle click to toggle hair.")
 	. += span_info("Alt Right click to move hood layer under or above hair.")
 
+/obj/item/clothing/head/roguetown/roguehood/white
+	color = CLOTHING_WHITE
+
 /obj/item/clothing/head/roguetown/roguehood/red
 	color = CLOTHING_RED
 
