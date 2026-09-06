@@ -89,3 +89,30 @@
 	light_color = LIGHT_COLOR_FIRE
 	blend_mode = BLEND_ADD
 	duration = 8
+
+/datum/action/cooldown/spell/telegraphed_strike/dragons_breath/matthios
+	name = "Drakkyn's Breath"
+	fluff_desc = "Legends speak of men manifesting destruction with mere speech wrecking havoc across countrysides and battlefields alike. Where other techniques were lost to tyme and relentless witch-hunting, one still remains in arsenal of those devoted to the Gilded God."
+	background_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	sound = 'sound/magic/fireball.ogg'
+	spell_color = GLOW_COLOR_MATTHIOS
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Vol Tal Shel!")
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MAJOR_AOE
+	cooldown_time = 30 SECONDS
+
+	ignore_armor_penalty = TRUE
+	attunement_school = null
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
