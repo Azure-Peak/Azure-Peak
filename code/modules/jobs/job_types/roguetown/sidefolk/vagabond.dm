@@ -81,7 +81,7 @@
 	var/datum/advclass/favorite = roleprefs["favorite_advclass"]
 	var/favorite_name = favorite ? favorite::name : "Choose"
 	var/HTML = {"
-		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+		<i>You can choose a favorite subclass and title here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
 		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/>
 		<i>Set your [title]-specific bounty here. Only applies to the Wanted subclass. If a global bounty is set, this will override it.</i><br><i>Any fields set here will not prompt you at roundstart.</i><br/><br/>
 		<b>Bounty Poster:</b> <a href="?src=[REF(src)];poster=1">[roleprefs["bounty_poster_key"]?GLOB.bounty_posters[roleprefs["bounty_poster_key"]]:"Unset"]</a><br/>

@@ -807,14 +807,14 @@
 			if(display_as_wanderer)
 				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is <EM>[used_name]</EM>, the wandering [race_name]."))
 			else if(used_title)
-				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is <EM>[used_name]</EM>, the [race_name] [used_title]."))
+				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is <EM>[used_name]</EM>, the [race_name][used_title]."))
 			else
 				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is the <EM>[used_name]</EM>, the [race_name]."))
 		else
 			if(display_as_wanderer)
 				. += (span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the wandering [race_name]."))
 			else if(used_title)
-				. += (span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the [race_name] [used_title]."))
+				. += (span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the [race_name][used_title]."))
 			else
 				. += (span_info("ø ------------ ø\nThis is the <EM>[used_name]</EM>, the [race_name]."))
 
@@ -850,7 +850,8 @@
 
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
-				. += span_warning("A witch! Their presence brings an unsettling aura.")
+				var/witch_title = (src.titles_pref == TITLES_F) ? "witch" : "warlock"
+				. += span_warning("A [witch_title]! Their presence brings an unsettling aura.")
 			else if(HAS_TRAIT(user, TRAIT_FREEMAN) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
 				. += span_notice("A practitioner of the old ways.")
 			else

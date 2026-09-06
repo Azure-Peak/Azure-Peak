@@ -27,7 +27,13 @@
 			dat += "<center><h1 style='padding-top: 0;'>-- [category] --</h1></center>"
 			categories_used += category
 		var/list/character_data = actor_data["data"]
-		dat += "<b>[character_data["name"]]</b> as <b>[character_data["rank"]]</b><br>"
+		var/display_rank = character_data["rank"]
+		if(character_data["rank"] != "Adventurer" && character_data["rank"] != "Towner")
+			var/mob/living/carbon/human/H = character_data["mob"]
+			if(H)
+				display_rank = H.get_role_title()
+
+		dat += "<b>[character_data["name"]]</b> as <b>[display_rank]</b><br>"
 
 	var/datum/browser/popup = new(src, "actors", "<center>This Story's Actors</center>", 387, 420)
 	popup.set_content(dat)

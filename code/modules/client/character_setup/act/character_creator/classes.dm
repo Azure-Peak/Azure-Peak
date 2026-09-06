@@ -51,7 +51,7 @@
 			if(!job)
 				return CHARACTER_ACT_DATA_UPDATE
 
-			job.show_explain(user)
+			job.show_explain(user, titles_pref)
 			return CHARACTER_ACT_DATA_UPDATE
 
 /datum/preferences/proc/SetJobPreferenceLevel(datum/job/job, level)

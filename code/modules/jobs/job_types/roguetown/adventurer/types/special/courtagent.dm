@@ -75,7 +75,7 @@
 		<b>Codename:</b> <a href="?src=[REF(src)];codename=1">[subprefs["codename"]?subprefs["codename"]:"Unset"]</a><br/>
 		<b>Hand Notes:</b> <a href="?src=[REF(src)];hand_file_notes=1">Edit</a> <a href="?src=[REF(src)];markdownhelp=1">\[?\]</a><br/>
 		[subprefs["hand_file_notes_raw"]?parsemarkdown("---[subprefs["hand_file_notes_raw"]]\n---",usr):""]
-		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/>
+		<i>You can choose a favorite subclass and title here. You'll automatically select this subclass on roundstart if possible.</i><br/>
 		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a>
 		<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
 	"}

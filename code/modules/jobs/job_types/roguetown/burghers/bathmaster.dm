@@ -27,11 +27,12 @@
 	job_subclasses = list(
 		/datum/advclass/bathmaster
 	)
-	has_subprefs = FALSE // only one subclass
+	has_subprefs = TRUE // Doesn't have subclasses, but allows class title preference for those that have them.
 
 
 /datum/advclass/bathmaster
 	name = "Bathmaster"
+	f_title = "Bathmatron"
 	tutorial = "You are renting out the bathhouse in a joint operation with the Innkeep. You provide security for the bathwenches and help them to find work--when you're not being a trouble-making rake that others suffer to tolerate."
 	outfit = /datum/outfit/job/roguetown/bathmaster/basic
 	category_tags = list(CTAG_BATHMOM)

@@ -47,7 +47,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY, TRAIT_MARRIAGE_CAPABLE)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
 	job_subclasses = list(/datum/advclass/bishop)
-	has_subprefs = FALSE // only one subclass
+	has_subprefs = TRUE // Doesn't have subclasses, but allows class title preference for those that have them.
 
 /datum/advclass/bishop
 	name = "Bishop"

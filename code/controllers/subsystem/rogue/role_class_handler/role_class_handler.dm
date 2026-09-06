@@ -133,6 +133,15 @@ SUBSYSTEM_DEF(role_class_handler)
 	if(H.mind)
 		H.mind.picked_advclass = picked_class
 	picked_class.equipme(H)
+	// Below improves how titles are fetched for known people to better support new advclass f_title.
+	var/datum/job/J = SSjob.GetJob(H.job)
+	if(J && H.mind)
+		for(var/X in J.peopleknowme)
+			for(var/datum/mind/MF in get_minds(X))
+				H.mind.person_knows_me(MF)
+		for(var/X in J.peopleiknow)
+			for(var/datum/mind/MF in get_minds(X))
+				H.mind.i_know_person(MF)
 	H.invisibility = 0
 	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used.static_inventory // dis line sux its basically a loop anyways if i remember
 	qdel(GET_IT_OUT)
@@ -143,7 +152,7 @@ SUBSYSTEM_DEF(role_class_handler)
 		picked_class.boost_by_plus_power(plus_factor, H)
 
 	if(related_handler.register_id)
-		add_class_register_msg(related_handler.register_id, "[H.real_name] is the [picked_class.name]", related_handler.linked_client.mob)
+		add_class_register_msg(related_handler.register_id, "[H.real_name] is the [picked_class.get_used_title(H.titles_pref)]", related_handler.linked_client.mob)
 
 
 	// In retrospect, If I don't just delete these Ill have to actually attempt to keep track of when a byond browser window is actually open lol
