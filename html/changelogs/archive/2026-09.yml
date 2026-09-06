@@ -202,3 +202,43 @@
   - qol: all forms of healing miracle rejections use a consistant small feedback in
       chat and a blue font on the recieving end.
   - bugfix: fixed trait_ironman not giving the correct feedback of who's getting miracled.
+2026-09-06:
+  Aroliacue:
+  - rscadd: Added new filters for the Blacksmithing page of the encyclopedia.
+  FreeStylaLT:
+  - bugfix: Fixes panel actions not respecting subtle when starting / finishing.
+  KatTheFox:
+  - balance: Staking is now approximately twice as fast.
+  Ketrai:
+  - rscadd: Added new dormouse ears and two new murid tails. Variants included
+  RosySaturniidae:
+  - rscadd: two new dono items waow
+  WeNeedMorePhoron:
+  - rscadd: Rendering preserves temperature making it not take ages
+  - rscadd: Fat rendering phrasing has been fixed and tweaked
+  - rscadd: Seeds can be carried in tray and roasted in oven
+  mumblemancer:
+  - code_imp: zigboxes dropshrink = 0.5
+  radarseas:
+  - balance: Added back the cuirass + fluted cuirass choices to deserter knight.
+  - balance: Redone Necromancer skeleton classes, they should be better geared off-the-bat.
+  - balance: Necromancer Ballistiares can now pick a munition crossbow as a weapon
+      choice, its slightly worse than regular crossbows. They also get regular recurve
+      bows now.
+  - balance: Necromancer Ballistiares specs expert into their ranged weapon pick.
+  - balance: Necromancer Ballistiares get a wooden shield w/ their sling choice, they
+      do not however get any sling skill vs Lich Ballistiares.
+  - balance: Lich Sapper's Chisel [Iron -> Bronze] (until we have an ancient varient,
+      I'll probably do later or something.)
+  - balance: Necromancer player skeletons have feathers/cloths if their helmets can
+      fit one.
+  - balance: Necromancer bulwarks have lost a few choices of helmet that didn't cover
+      mouth.
+  - balance: Necromancer Legionnaires now have iron barbute helms instead of a choice.
+  - balance: Lich sapper can pick between armored helmet and armorless stylish cap.
+  - balance: Bone Sapper -> Bone Toiler, a sidegrade of lich's sapper skeletons, that
+      Necromancer skeles are. Magic potental for Maile Training.
+  - bugfix: Necromancer skeletons have wrestling skill levels, for some reasoning
+      they didn't, whoops!
+  zRainbowcat:
+  - qol: toast crumbs no longer rot

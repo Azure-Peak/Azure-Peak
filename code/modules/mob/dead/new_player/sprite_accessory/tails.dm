@@ -159,6 +159,15 @@
 	name = "Murid"
 	icon_state = "murid"
 
+/datum/sprite_accessory/tail/murid_alt
+	name = "Murid (Alternative, Wags)"
+	icon_state = "murid2"
+	can_wag = TRUE
+
+/datum/sprite_accessory/tail/murid_dormouse
+	name = "Murid (Dormouse)"
+	icon_state = "murid3"
+
 /datum/sprite_accessory/tail/orca
 	name = "Orca"
 	icon_state = "orca"

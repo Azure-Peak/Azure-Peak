@@ -1287,12 +1287,21 @@
 /obj/item/enchantingkit/rosy/birdmask
 	name = "'Beaked Mask' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Maille Mask, alongside \
-	its Fluted variants."
+	its Fluted variant."
 	target_items = list(
 		/obj/item/clothing/mask/rogue/facemask/steel/maille,
 		/obj/item/clothing/mask/rogue/facemask/steel/maille/fluted
 	)
 	result_item = /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
+
+// RosySaturniidae - Rosestone Clasped Collar
+/obj/item/enchantingkit/rosy/rosecollar
+	name = "'Rosestone Clasped Collar' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Amulet of Eora."
+	target_items = list(
+		/obj/item/clothing/neck/roguetown/psicross/eora
+	)
+	result_item = /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 
 // Noire and Co.
 /obj/item/enchantingkit/nero_woodlandbrig
