@@ -218,8 +218,10 @@
 /mob/living/carbon/proc/start_spin(obj/item/I, speed = 4)
 	if(QDELETED(I) || I.inhand_spinning || !(I in held_items))
 		return
+	var/mirrored = !(get_held_index_of_item(I) % 2 == 0)
 	var/list/built = build_inhand_overlays(I)
-	var/mutable_appearance/spin_appearance = built[I.inhand_index(dir)]
+	var/index = I.inhand_index(dir, mirrored)
+	var/mutable_appearance/spin_appearance = built[index]
 	if(!spin_appearance)
 		spin_appearance = built[INHAND_FRONT] || built[INHAND_BEHIND]
 	if(!spin_appearance)
@@ -228,19 +230,8 @@
 	I.inhand_spinning = TRUE
 	update_inv_hands()
 
-	var/mirrored = !(get_held_index_of_item(I) % 2 == 0)
 	var/list/grip = I.grip_offset(dir, mirrored)
-
-	var/above = TRUE
-	if(dir & NORTH)
-		above = FALSE
-	else if(dir & SOUTH)
-		above = TRUE
-	else if(dir & EAST)
-		above = mirrored
-	else if(dir & WEST)
-		above = !mirrored
-	spin_appearance.layer = layer + (above ? 0.1 : -0.1)
+	spin_appearance.layer = layer + (index == INHAND_FRONT ? 0.1 : -0.1)
 
 	var/atom/movable/flick_visual/spin = flick_overlay_view(spin_appearance, speed + 2)
 	if(spin)

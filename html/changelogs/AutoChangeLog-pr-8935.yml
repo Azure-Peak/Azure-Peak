@@ -1,0 +1,6 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Added some fluff stressevents to T2 - Vicious Roar (ft. It also making you roar)."
+  - bugfix: "T0 - Judgement, has been fixed."
+  - spellcheck: "Rewrote some of Graggar's invocations."

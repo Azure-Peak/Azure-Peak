@@ -11,7 +11,7 @@ import { useSettings } from '../settings/use-settings';
 import { metaAtom, playingAtom } from './atoms';
 import { player } from './handlers';
 
-export function NowPlayingWidget(props) {
+export function NowPlayingWidget() {
   const { settings, updateSettings } = useSettings();
   const meta = useAtomValue(metaAtom);
   const {

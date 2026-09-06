@@ -19,7 +19,7 @@ function UnreadCountWidget(props: UnreadCountWidgetProps) {
   return <Box className="UnreadCount">{Math.min(value, 99)}</Box>;
 }
 
-export function ChatTabs(props) {
+export function ChatTabs() {
   const { addChatPage, changeChatPage, pages, pagesRecord, currentPageId } =
     useChatPages();
 
