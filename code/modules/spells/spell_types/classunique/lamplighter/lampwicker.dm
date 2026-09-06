@@ -164,6 +164,7 @@
 		return
 	if(H.has_status_effect(/datum/status_effect/debuff/oil_stack))
 		var/datum/status_effect/debuff/oil_stack/o = H.has_status_effect(/datum/status_effect/debuff/oil_stack)
+		apply_scorch_stack(H, 1)
 		o.add_stacks(1)
 		H.adjustFireLoss(10)
 		defend = defend - 1
@@ -171,6 +172,7 @@
 		playsound(get_turf(owner), 'sound/combat/parry/deflect_6.ogg', 40, TRUE)
 		return COMPONENT_NO_ATTACK
 	else
+		apply_scorch_stack(H, 1)
 		H.adjustFireLoss(10)
 		H.apply_status_effect(/datum/status_effect/debuff/oil_stack)
 		defend = defend - 1
@@ -256,10 +258,10 @@
 	desc = "Swing your staff forward, splashing oil in an arc and applying 2 oil stacks. Can be alt cast to open the lamptern instead and activate the oil stacks of those it hits. Each stack does five burn damage when activate, at five and twenty stacks you apply vulnerable and expose respectively."
 	button_icon_state = "oilsplash"
 	invocations = list("Splash!")
-	blade_class = BCLASS_BLUNT
+	blade_class = BCLASS_BURN
 	windup_time = TELEGRAPH_DODGEABLE
 	sweep_step = 0
-	damage = 45
+	damage = 15
 	parent_type = /datum/action/cooldown/spell/telegraphed_strike
 	click_to_activate = TRUE
 	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
@@ -268,7 +270,7 @@
 	glow_intensity = GLOW_INTENSITY_HIGH
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MINOR_AOE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 10 SECONDS
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
 	swipe_state = "flame"
@@ -290,6 +292,7 @@
 	return flat
 
 /datum/action/cooldown/spell/lamplighter/anoint_foe/on_hit_target(mob/living/carbon/human/H, mob/living/L, facing)
+	apply_scorch_stack(L, 1)
 	var/datum/status_effect/debuff/oil_stack/o = L.has_status_effect(/datum/status_effect/debuff/oil_stack)
 	if(ignite && L.has_status_effect(/datum/status_effect/debuff/oil_stack))
 		o.activate()
@@ -332,7 +335,7 @@
 
 /datum/action/cooldown/spell/lamplighter/wicklight
 	name = "Light the Wicks"
-	desc = "Ignite any lights in a 7x7 tile radius around yourself."
+	desc = "Ignite any flammables in a 7x7 tile radius around yourself. Be careful."
 	button_icon_state = "wicks"
 	invocations = list("Light!")
 	parent_type = /datum/action/cooldown/spell/telegraphed_strike

@@ -77,7 +77,7 @@
 	blade_class = BCLASS_BLUNT
 	windup_time = TELEGRAPH_DODGEABLE
 	sweep_step = 0
-	damage = 45
+	damage = 20
 	parent_type = /datum/action/cooldown/spell/telegraphed_strike
 	click_to_activate = TRUE
 	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
@@ -86,7 +86,7 @@
 	glow_intensity = GLOW_INTENSITY_HIGH
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MINOR_AOE
-	cooldown_time = 20 SECONDS
+	cooldown_time = 10 SECONDS
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
 	swipe_state = "flame"
@@ -110,6 +110,7 @@
 	return flat
 
 /datum/action/cooldown/spell/lamplighter/firestrike/on_hit_target(mob/living/carbon/human/H, mob/living/L, facing)
+	apply_scorch_stack(L, 1)
 	var/datum/status_effect/debuff/oil_stack/o = L.has_status_effect(/datum/status_effect/debuff/oil_stack)
 	if(ignite && L.has_status_effect(/datum/status_effect/debuff/oil_stack))
 		o.activate()
@@ -158,7 +159,7 @@
 	blade_class = BCLASS_BURN
 	windup_time = TELEGRAPH_DODGEABLE
 	sweep_step = 0
-	damage = 30
+	damage = 15
 	parent_type = /datum/action/cooldown/spell/telegraphed_strike
 	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
 	sound = 'sound/misc/fire_place.ogg'
@@ -166,7 +167,7 @@
 	glow_intensity = GLOW_INTENSITY_HIGH
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MAJOR_AOE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 15 SECONDS
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
 	swipe_state = "flame"
@@ -189,6 +190,7 @@
 	return flat
 
 /datum/action/cooldown/spell/lamplighter/firespin/on_hit_target(mob/living/carbon/human/H, mob/living/L, facing)
+	apply_scorch_stack(L, 1)
 	var/datum/status_effect/debuff/oil_stack/o = L.has_status_effect(/datum/status_effect/debuff/oil_stack)
 	if(L.has_status_effect(/datum/status_effect/debuff/oil_stack))
 		o.add_stacks(1)
@@ -215,7 +217,7 @@
 	invocations = list()
 	invocation_type = INVOCATION_NONE
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 20 SECONDS
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
@@ -328,16 +330,16 @@
 	owner.balloon_alert_to_viewers("<font color='#FF4500'>stacks ignited!!</font>")
 	if(stacks >= 20)
 		owner.apply_status_effect(/datum/status_effect/debuff/exposed)
-		apply_scorch_stack(owner, 3)
+		apply_scorch_stack(owner, 4)
 		owner.remove_status_effect(/datum/status_effect/debuff/oil_stack)
 		return
 	if(stacks >= 5)
 		owner.apply_status_effect(/datum/status_effect/debuff/vulnerable)
-		apply_scorch_stack(owner, 2)
+		apply_scorch_stack(owner, 3)
 		owner.remove_status_effect(/datum/status_effect/debuff/oil_stack)
 		return
 	else
-		apply_scorch_stack(owner, 1)
+		apply_scorch_stack(owner, 2)
 		owner.remove_status_effect(/datum/status_effect/debuff/oil_stack)
 		return
 
