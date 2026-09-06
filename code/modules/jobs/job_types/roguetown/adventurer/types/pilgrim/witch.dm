@@ -34,8 +34,8 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	belt = /obj/item/storage/belt/rogue/leather/black
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
-	beltl = /obj/item/storage/magebag/starter
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/aalloy
+	beltl = /obj/item/storage/magebag/witch
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 
@@ -71,7 +71,8 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
+								/obj/item/chalk = 1,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -87,6 +88,7 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
@@ -107,7 +109,8 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
+								/obj/item/chalk = 1,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)

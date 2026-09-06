@@ -11,7 +11,8 @@
 	var/obj/item/stored_core = null
 	var/list/item_values = list(
 		/obj/item/rogueweapon = 10,
-		/obj/item/clothing = 5
+		/obj/item/clothing = 5,
+		/obj/item/reagent_containers = 5
 	)
 
 	/// Synthesis recipe list
@@ -222,13 +223,13 @@
 		return
 	if(!mode || !stored_core)
 		return
-	
+
 	to_chat(user, span_notice("You begin scooping the core back out of the cauldron..."))
 	if(do_after(user, 2 SECONDS, target = src))
 		stored_core.forceMove(drop_location())
 		if(!user.put_in_hands(stored_core))
 			to_chat(user, span_notice("You set [stored_core] on the ground."))
-		
+
 		mode = null
 		stored_core = null
 		update_icon_overlaps()

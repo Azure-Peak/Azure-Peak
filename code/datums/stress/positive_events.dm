@@ -171,6 +171,11 @@
 	desc = span_blue("I feel soothed in this warm, clean water.")
 	timer = 1 MINUTES
 
+/datum/stressevent/bathbomb
+	stressadd = -1
+	desc = span_blue("The softly-scented water calms and refreshes.")
+	timer = 5 MINUTES
+
 /datum/stressevent/bathwater/on_apply(mob/living/user)
 	. = ..()
 	if(user.client)
@@ -288,6 +293,13 @@
 	stressadd = -1
 	desc = span_green("I'm just a bit cleaner.")
 
+/datum/stressevent/alchsoap
+	timer = 20 MINUTES
+	stressadd = -1
+	desc = span_blue("Eora's love lingers with me and brightens my mood.")
+
+/datum/stressevent/alchsoap/baotha
+	desc = span_blue("A nostalgic longing returns to me. Her touch reminds me of a simpler time...")
 
 /datum/stressevent/pacified
 	timer = 30 MINUTES

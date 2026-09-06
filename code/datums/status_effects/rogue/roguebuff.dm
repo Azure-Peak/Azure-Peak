@@ -669,6 +669,10 @@
 
 #undef REWIND_AURA
 
+/datum/status_effect/buff/healing/soap
+	block_combat_mode = TRUE
+	healing_on_tick = 5 // quarter strength, sorry! it's soap, what'd you expect
+
 //lasts shorter than magic, one chomp every 3 seconds is good enough, let's not forget food can have multiple slices. This does not heal wounds, wounds are healed automatically like psydonitian trait, but it consumes 1% hunger a tick.
 #define CONSUME_AURA "consumehealing"
 

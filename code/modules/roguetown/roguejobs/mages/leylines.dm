@@ -28,7 +28,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 
 /proc/get_leyline_charges(mob/living/user)
 	var/used = GLOB.leyline_activations[user.real_name] || 0
-	return max(GLOB.dayspassed + 1 - used, 0)
+	return max(GLOB.dayspassed + (HAS_TRAIT(user, TRAIT_LEYLINE_EXPERTISE) ? 3 : 1) - used, 0)
 
 /proc/spend_leyline_charge(mob/living/user)
 	if(!GLOB.leyline_activations[user.real_name])
@@ -149,6 +149,15 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	max_uses_per_day = 4
 	max_tier = 1
 	color = "#C0C0FF" // soft blue-white — tame, safe
+
+/obj/structure/leyline/tamed/Initialize(mapload)
+	. = ..()
+	if(istype(get_area(src), /area/rogue/indoors/town/magician) && (SSmapping.config.map_name != "Dun World")) // hacky temp measure
+		new /obj/item/trans_table_upgrade(loc)
+		new /obj/item/alch/catalyst/florid(loc)
+		new /obj/item/alch/catalyst/terran(loc)
+		new /obj/item/alch/catalyst/nigredo(loc)
+		new /obj/item/storage/roguebag/trans(loc)
 
 /obj/structure/leyline/normal
 	leyline_type = "normal"

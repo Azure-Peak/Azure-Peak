@@ -355,6 +355,8 @@
 						continue
 					if(IT.unmintable && !accepts_unmintable)
 						continue
+					if(IT.GetComponent(/datum/component/unsellable))
+						continue
 				var/base_price = I.get_real_price()
 				var/category = get_derived_category(I.type) || ITEM_CAT_MISCELLANEOUS
 				var/bucket = get_navigator_bucket_for_item(I, category)

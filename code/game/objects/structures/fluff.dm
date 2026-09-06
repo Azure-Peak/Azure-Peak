@@ -804,6 +804,483 @@
 		qdel(src)
 		return ..()
 
+/obj/structure/fluff/alch/trans
+	name = "transmutation lab"
+	icon = 'icons/roguetown/misc/alchemy.dmi' // temporary deconflict
+	icon_state = "transgender" // i love the artist that did this
+	desc = "Metal and glass, porcelain and gilbranze, copper and bronze - a chorus for works, Great and Lesser. \
+	The greatest of them have been lost to time.\n\nA secure pair of drums hold your catalytic samples in metal \
+	tubes, held still from all things by their inner arcynic constructs. The cabinet beneath is simply mundane, though no less useful."
+	var/cur_user		 						// avoiding tgui headaches right off the bat. update THIS DID NOT SAVE THIS ONE
+	var/datum/tgui/current_ui					// to avoid edge cases. will it work? idfk
+	// data for crafting menu begins here
+	var/cached_craftability
+	var/last_surroundings_hash
+	var/selected_catalyst						// i hate frontend code what the fuck do you mean this has to be stored on the backend aaaa
+	// data for puzzle menu begins here
+	var/obj/item/seed_item						// item we're trying to turn into a catalyst
+	var/obj/item/alch/catalyst/current_recipe	// this will be a path! not an actual item!
+	var/list/selected_steps						// current selections for the recipe
+	var/list/last_attempt						// your last guess, stored so we can display it below the input
+	var/list/step_titles = list("harmonize", "sanguinate", "raefy", "platonize", "distill")
+
+/obj/structure/fluff/alch/trans/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/trans) // to store our transmutation catalysts in. what did you think it meant?
+
+/obj/structure/fluff/alch/trans/uni/Initialize(mapload) // bit less roundstart gruntwork for uni, not enough to make metals n such
+	. = ..()
+	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/florid(loc))
+	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/terran(loc))
+	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/nigredo(loc))
+
+/obj/structure/fluff/alch/trans/get_mechanics_examine(mob/user)
+	. = ..()
+	if(!can_transmute(user)) // this is real alchemical shit get out of here novices
+		return
+	. += span_info("Standing nearby allows one to craft basic alchemical recipes.")
+	. += span_info("Left click to open the interface. Within, you can create catalysts and perform transmutation. See the Encyclopedia for more details.")
+	. += span_info("Drag the workstation to yourself to open the catalyst inventory. Catalysts stored here will enable transmutation recipes for the workstation.")
+	. += span_info("Right click to cancel a catalyzation experiment, refunding the seed item. Close the catalyzation window first!")
+
+/obj/structure/fluff/alch/trans/attackby(obj/item/with, mob/user, params)
+	. = ..()
+	if(istype(with, /obj/item/alch/catalyst))
+		var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+		if(catalyst_storage)
+			if(catalyst_storage.handle_item_insertion(with, FALSE, user))
+				return
+	if(!can_transmute(user)) // obligatory
+		to_chat(user, span_warning("I have no idea how to use this."))
+		return
+	if(user.ensure_skills().get_skill_level(/datum/skill/craft/alchemy) < SKILL_LEVEL_EXPERT)
+		to_chat(user, span_warning("I'm not quite skilled enough to create my own catalysts. It takes an alchemical expert to do so safely."))
+		return
+	if(current_recipe)
+		if(!istype(with, /obj/item/alch/catalyzation_reagent))
+			return
+		// attempt to create a catalyst
+		for(var/idx in selected_steps)
+			if(idx == 0)
+				to_chat(user, span_warning("I don't think this is the right number of steps for this...")) // we are nice here and don't eat your dust bcs this is probably a misclick
+				return
+		var/matches = TRUE
+		for(var/idx in 1 to length(selected_steps))
+			last_attempt[idx] = selected_steps[idx]
+			if(selected_steps[idx]!=GLOB.catalyst_recipes[current_recipe][idx])
+				matches = FALSE
+		if(matches)
+			var/obj/item/alch/catalyst/result = new current_recipe(loc)
+			var/steps_desc = step_titles[selected_steps[1]]
+			for(var/idx in 2 to length(selected_steps))
+				steps_desc += (idx == length(selected_steps) ? ", and ": ", ") // doing this inside the loop means we handle the extreme edge case of a 2-step recipe
+				steps_desc += step_titles[selected_steps[idx]]
+			user.visible_message(
+				span_notice("[user] transforms \the [seed_item] into \a [result]!"),
+				span_notice("\The [with] glows softly as I apply it to the catalyzation equipment. I carefully [steps_desc] \the [seed_item], transforming it into \a [result]!")
+				)
+			current_ui?.close() // end of the flow, everyone get out so we can be prepped for next time
+			QDEL_NULL(seed_item)
+			current_recipe = null
+			selected_steps = null
+			last_attempt = null
+			QDEL_NULL(with)
+			return
+		to_chat(user, span_warning("You sprinkle [with] over the catalyzation equipment, causing some of it to glow. Seems this setup won't do what you want..."))
+		QDEL_NULL(with)
+		return
+	if(seed_item)
+		to_chat(user, span_warning("[src] already has an item placed on it for work!"))
+		return
+	if(cur_user) // should be impossible with these checks
+		to_chat(user, span_warning("Someone is already using this."))
+		return
+	if(HAS_TRAIT(with, TRAIT_NODROP)) // lol. lmao.
+		to_chat(user, span_warning("I can't get [with] onto the table for processing!"))
+		return
+	for(var/obj/item/alch/catalyst/path as anything in typesof(/obj/item/alch/catalyst))
+		if(path::seed_item && ispath(with.type, path::seed_item))
+			current_recipe=path
+			seed_item = with
+			seed_item.forceMove(src)
+			user.visible_message(
+				span_notice("[user] places [seed_item] on [src], preparing to work!"),
+				span_notice("I place [seed_item] on [src] and clamp [src.gender==PLURAL ? "them" : "it"] in place, preparing to work.")
+				)
+			selected_steps = list()
+			last_attempt = list()
+			for(var/idx in 1 to current_recipe::difficulty)
+				selected_steps += 0
+				last_attempt += 0
+			break
+	if(!current_recipe)
+		to_chat(user, span_warning("This doesn't seem like it'd make a useful catalyst..."))
+		return
+	ui_interact(user)
+
+/obj/structure/fluff/alch/trans/attack_right(mob/user, list/modifiers)
+	if(seed_item)
+		if(current_ui)
+			current_ui.close()
+		user.put_in_hands(seed_item)
+		to_chat(user, span_notice("I carefully detach [seed_item] from [src]."))
+		seed_item = null
+		current_recipe = null
+		cur_user = null
+		current_ui = null
+		return TRUE
+	return ..()
+
+/obj/structure/fluff/alch/trans/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(cur_user)
+		to_chat(user, span_warning("Someone is already using this."))
+		return
+	if(!can_transmute(user))
+		to_chat(user, span_warning("I have no idea how to use this."))
+		return
+	if(ui_interact(user))
+		cur_user = user
+	return
+
+/obj/structure/fluff/alch/trans/ui_close(mob/user)
+	. = ..()
+	cur_user = null
+	current_ui = null
+
+/obj/structure/fluff/alch/trans/ui_interact(mob/user, datum/tgui/ui)
+	var/menu_type = (current_recipe ? "Catalyzation" : "TransCraft")
+	var/window_title = (current_recipe ? "Catalyzation" : "Transmutation Menu")
+
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(ui && ui.interface!=menu_type)
+		ui.close()
+		ui = null
+	if(!ui)
+		ui = new(user, src, menu_type, window_title)
+		ui.set_state(GLOB.not_incapacitated_turf_state)
+		ui.open()
+	current_ui = ui
+	return current_ui
+
+/obj/structure/fluff/alch/trans/ui_act(action, params)
+	. = ..()
+	switch(action)
+		if("setcatalyst")
+			selected_catalyst = params["catalyst"]
+			return
+		if("craft")
+			var/path = text2path(params["item"])
+			var/amount = params["amount"] || 1
+			var/auto = params["auto"]
+			transmute(usr, path, amount, auto)
+		if("add_step")
+			var/step = params["id"]
+			if(step)
+				var/idx=selected_steps.Find(0)
+				if(idx)
+					selected_steps[idx] = step
+		if("del_step")
+			var/idx = params["id"]
+			if(idx && idx <= length(selected_steps))
+				selected_steps[idx] = 0
+
+/obj/structure/fluff/alch/trans/proc/transmute(mob/living/carbon/human/user, datum/transmutation_recipe/path, amount = 1, auto)
+	if(!user || !istype(user))
+		return
+	if(get_dist(user, src) > 1)
+		to_chat(user, span_warning("Too far away!"))
+		return
+	var/datum/transmutation_recipe/recipe
+	for(var/datum/transmutation_recipe/A in GLOB.transmutation_recipes)
+		if(istype(A, path))
+			recipe = A
+			break
+	if(!recipe)
+		return
+	while(amount > 0 || auto)
+		amount--
+		var/result = transmute_attempt(user, recipe)
+		if(!result)
+			return
+
+/obj/structure/fluff/alch/trans/proc/transmute_attempt(mob/living/carbon/human/user, datum/transmutation_recipe/R)
+	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+	var/found = FALSE
+	for(var/obj/item/alch/catalyst/catalyst in catalyst_storage.contents())
+		if(ispath(catalyst.type, R.catalyst))
+			found = TRUE
+	if(!found)
+		to_chat(user, span_warning("Lacking \a [R.catalyst::name] to craft!"))
+		return FALSE
+	if (HAS_TRAIT(user, TRAIT_CURSE_MALUM))
+		to_chat(user, span_warning("Your cursed hands tremble and fail to craft... Malum forbids it."))
+		return
+	if(user.doing)
+		return
+	if(!can_transmute(user) || (user.get_skill_level(/datum/skill/craft/alchemy) < R.skill_required))
+		to_chat(user, span_warning("I'm not experienced enough with transmutation to craft this!"))
+		return FALSE
+	var/list/ingredients = gather_ingredients(user, R)
+	if(!ingredients)
+		to_chat(user, span_warning("Not enough items to craft!"))
+		return FALSE
+	var/list/materia_ingredients = gather_materia(user, R, ingredients)
+	if(!materia_ingredients)
+		to_chat(user, span_warning("Missing <i>prima materia</i> to craft!"))
+		return FALSE
+	playsound(loc, 'sound/foley/scribble.ogg', 100, TRUE)
+	if(!do_after(user, 1 SECONDS, target = user))
+		to_chat(user, span_warning("Must stay still to craft!"))
+		return FALSE
+	ingredients = gather_ingredients(user, R)
+	if(!ingredients)
+		to_chat(user, span_warning("Not enough items to craft!"))
+		return FALSE
+	materia_ingredients = gather_materia(user, R, ingredients)
+	if(!materia_ingredients)
+		to_chat(user, span_warning("Missing <i>prima materia</i> to craft!"))
+		return FALSE
+	R.create_outputs(user, ingredients, materia_ingredients, src)
+	if(user.mind && isliving(user))
+		var/mob/living/L = user
+		var/amt2raise = (L.STAINT * 2) + (R.skill_required * 10)
+		if(amt2raise > 0)
+			user.mind.add_sleep_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
+	return TRUE
+
+/// returns the array index of the path I is a child path of, or null if it's not in the list
+/obj/structure/fluff/alch/trans/proc/find_in_reqs(obj/item/I, list/reqs)
+	for(var/path in reqs)
+		if(ispath(I.type, path))
+			return path
+		if(ispath(path, /obj/item/rogueore/gold) && istype(I, /obj/item/goldslag)) // special case, this is an alt gold ore item
+			return path
+
+/obj/structure/fluff/alch/trans/proc/gather_ingredients(mob/living/carbon/human/user, datum/transmutation_recipe/R) // sure am glad we cache this
+	var/list/ingredients = list()
+	var/list/needed_items = R.input_items.Copy()
+	var/list/env_items = get_environment(user)
+	var/list/single_items = list()
+	var/list/bundles = list() // don't... don't ask. it hurts.
+	for(var/obj/item/I in env_items)
+		if(R.validate_ingredient(I))
+			return list(I) // this is a snowflake recipe
+		if(I.can_craft_with() && (find_in_reqs(I, needed_items) || R.validate_ingredient(I)))
+			single_items += I
+		else if(istype(I, /obj/item/natural/bundle) || R.validate_ingredient(I))
+			var/obj/item/natural/bundle/B = I
+			if(needed_items[B.stacktype])
+				bundles += I
+		else if(istype(I, /obj/item/construction/bundle) || R.validate_ingredient(I))
+			var/obj/item/construction/bundle/B = I
+			if(needed_items[B.stacktype])
+				bundles += I
+	for(var/obj/item/bundle in bundles) // we prioritize bundles first...
+		var/obj/item/natural/bundle/bundlethesecond = bundle
+		var/obj/item/construction/bundle/bundlethethird = bundle
+		if(istype(bundlethesecond))
+			needed_items[bundlethesecond.stacktype] -= min(bundlethesecond.amount, needed_items[bundlethesecond.stacktype]) // transmuting with bundles is lossy
+			ingredients += bundlethesecond
+		if(istype(bundlethethird))
+			needed_items[bundlethethird.stacktype] -= min(bundlethethird.amount, needed_items[bundlethethird.stacktype]) // transmuting with bundles is lossy
+			ingredients += bundlethethird
+	var/list/materiaful_items = list()
+	for(var/obj/item/I in single_items) // ...then single items that don't contain needed materia, to avoid edge cases where an item could work for ingredient and materia, causing the first one to pick it to win...
+		var/cont = FALSE
+		var/used_as = find_in_reqs(I, needed_items)
+		if(needed_items[used_as]<=0)
+			continue
+		for(var/aspect as anything in I.materia)
+			if(R.materia_aspects.Find(aspect))
+				materiaful_items += I
+				cont = TRUE
+		if(cont)
+			continue
+		ingredients += I
+		needed_items[used_as] -= 1
+	for(var/obj/item/I in materiaful_items) // ...then the rest
+		var/used_as = find_in_reqs(I, needed_items)
+		if(needed_items[used_as]<=0)
+			continue
+		ingredients += I
+		needed_items[used_as] -= 1
+	// after we've checked all the valid items, if we're short, no dice
+	for(var/path in needed_items)
+		if(needed_items[path])
+			return FALSE
+	return ingredients
+
+/obj/structure/fluff/alch/trans/proc/gather_materia(mob/living/carbon/human/user, datum/transmutation_recipe/R, list/ingredients)
+	var/list/env_items = get_environment(user)
+	var/list/materia_reqs = R.materia_aspects.Copy()
+	var/list/materia_items = list()
+	env_items.RemoveAll(ingredients)
+	if(!length(env_items))
+		return FALSE
+	for(var/obj/item/I in env_items)
+		if(!length(I.materia))
+			continue
+		if((I.type in R.output_items) && !R.allow_output_materia)
+			continue
+		for(var/path in I.materia)
+			if(materia_reqs.Find(path))
+				materia_items |= list(I)
+				materia_reqs.Remove(path)
+	if(length(materia_reqs))
+		return FALSE
+	return materia_items
+
+/obj/structure/fluff/alch/trans/ui_data(mob/user)
+	if(!current_ui)
+		return
+	if(current_ui.interface == "TransCraft")
+		return transcraft_data(user)
+	else
+		return catalyzation_data(user)
+
+/obj/structure/fluff/alch/trans/proc/catalyzation_data(user)
+	var/list/data = list()
+	data["recipe"] = (current_recipe ? current_recipe::name : null)
+	data["difficulty"] = (current_recipe ? current_recipe::difficulty : null)
+	data["current_steps"] = selected_steps
+	data["history"] = last_attempt
+	data["answer"] = (current_recipe ? GLOB.catalyst_recipes[current_recipe] : null)
+	return data
+
+/obj/structure/fluff/alch/trans/proc/transcraft_data(user)
+	var/list/data = list()
+	data["selectedcatalyst"] = selected_catalyst
+
+	var/list/surroundings = get_environment(user)
+	var/new_hash = list2params(surroundings)
+
+	var/list/catalysts = list()
+	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+	for(var/obj/item/alch/catalyst/catalyst in catalyst_storage.contents())
+		catalysts[catalyst.name] = catalyst.icon_state
+	data["catalysts"] = catalysts
+
+	if(new_hash == last_surroundings_hash && cached_craftability)
+		data["craftability"] = cached_craftability
+		return data
+
+	last_surroundings_hash = new_hash
+	var/list/craftability = list()
+	for(var/rec in GLOB.transmutation_recipes)
+		var/datum/transmutation_recipe/R = rec
+		var/list/ings = gather_ingredients(user, R)
+		var/list/mats = gather_materia(user, R, ings)
+		craftability[R::name] = (islist(ings) && islist(mats))
+
+	cached_craftability = craftability
+	data["craftability"] = craftability
+	return data
+
+/obj/structure/fluff/alch/trans/proc/get_surroundings(mob/user)
+	. = list()
+	.["tool_behaviour"] = list()
+	.["other"] = list()
+	.["materia"] = list()
+	for(var/obj/item/I in get_environment(user))
+		if(!I.can_craft_with())
+			continue
+		if(I.flags_1 & HOLOGRAM_1)
+			continue
+		if(length(I.materia))
+			for(var/aspect in I.materia)
+				if(!.["materia"][aspect])
+					.["materia"][aspect] = list(I)
+				else
+					.["materia"][aspect] += I
+		if(istype(I, /obj/item/natural/bundle))
+			var/obj/item/natural/bundle/B = I
+			.["other"][B.stacktype] += B.amount
+		else if(istype(I, /obj/item/construction/bundle))
+			var/obj/item/construction/bundle/B = I
+			.["other"][B.stacktype] += B.amount
+		else if(I.tool_behaviour)
+			.["tool_behaviour"] += I.tool_behaviour
+			.["other"][I.type] += 1
+		else
+			if(istype(I, /obj/item/reagent_containers))
+				var/obj/item/reagent_containers/RC = I
+				if(RC.is_drainable())
+					for(var/datum/reagent/A in RC.reagents.reagent_list)
+						.["other"][A.type] += A.volume
+				if(istype(RC, /obj/item/reagent_containers/glass)) // Only count glass bottles themselves as a valid crafting item if it's empty
+					if(RC.reagents.total_volume == 0)
+						.["other"][I.type] += 1
+				else
+					.["other"][I.type] += 1
+			else
+				.["other"][I.type] += 1
+
+/obj/structure/fluff/alch/trans/proc/get_environment(mob/user)
+	. = list()
+	for(var/obj/item/I in user.held_items)
+		. += I
+	if(!isturf(user.loc))
+		return
+	var/list/L = block(get_step(user, SOUTHWEST), get_step(user, NORTHEAST))
+	for(var/A in L)
+		var/turf/T = A
+		if(T.Adjacent(user))
+			for(var/B in T)
+				var/atom/movable/AM = B
+				if(AM.flags_1 & HOLOGRAM_1)
+					continue
+				. += AM
+				var/list/crafting_items = AM.get_crafting_contents()
+				if(crafting_items)
+					for(var/atom/movable/crafting_item as anything in crafting_items)
+						. += crafting_item
+	for(var/slot in list(SLOT_R_STORE, SLOT_L_STORE))
+		. += user.get_item_by_slot(slot)
+	for(var/obj/item/I in .)
+		if(!I.can_craft_with())
+			. -= I
+
+/obj/structure/fluff/alch/trans/ui_static_data(mob/user)
+	var/list/data = list()
+
+	var/list/transmutation_recipes = list()
+	for(var/datum/transmutation_recipe/R as anything in GLOB.transmutation_recipes)
+		if(!R.name)
+			continue
+		if(is_abstract(R))
+			continue
+		if(R.snowflake_hidden)
+			continue
+		transmutation_recipes[R.type] = R.cached_display_data
+
+	data["transmutation_recipes"] = transmutation_recipes
+	return data
+
+// we don't check materia here, so recipes will show up as craftable if their item inputs are present but no materia is. this is fine because i bca to implement bespoke materia checks here
+/obj/structure/fluff/alch/trans/proc/check_contents(datum/transmutation_recipe/R, list/contents)
+	contents = contents["other"]
+	main_loop:
+		for(var/A in R.input_items)
+			var/needed_amount = R.input_items[A]
+			for(var/B in contents)
+				if(ispath(B, A))
+					if(!R.subtype_reqs && (B in subtypesof(A)))
+						continue
+					if(contents[B] >= R.input_items[A])
+						continue main_loop
+					else
+						needed_amount -= contents[B]
+						if(needed_amount <= 0)
+							continue main_loop
+						else
+							continue
+			return FALSE
+	return TRUE
+
 /obj/structure/fluff/statue
 	name = "statue"
 	desc = "Dead stone designed to compel living minds."
@@ -1609,3 +2086,7 @@
 /obj/effect/wisp/prestidigitation/willowwisp
 	name = "Will-o'-the-wisp"
 	desc = "A small, fiery ball of light made up of mystical energy."
+
+/obj/effect/wisp/prestidigitation/runelight
+	name = "arcyne mote"
+	desc = "An ethereal ball of pure light, manifested through an arcyne sigil."

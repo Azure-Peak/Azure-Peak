@@ -64309,11 +64309,11 @@
 	pixel_y = -32
 	},
 /obj/structure/closet/crate/chest/neu,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "lTF" = (
@@ -69730,6 +69730,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/phys,
 /obj/item/clothing/head/roguetown/witchhat,
 /obj/item/broom,
+/obj/item/storage/roguebag/trans,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "mVD" = (
@@ -79741,6 +79742,14 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
+"oNr" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/obj/item/storage/roguebag/trans,
+/turf/open/floor/rogue/church,
+/area/rogue/indoors/town/magician)
 "oNs" = (
 /obj/structure/mannequin,
 /obj/item/clothing/mask/rogue/facemask/goldmask,
@@ -80464,7 +80473,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/pestra_sanctum)
 "oSF" = (
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "oSK" = (
@@ -94095,7 +94104,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement)
 "rvd" = (
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans/uni,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "rvg" = (
@@ -95628,6 +95637,11 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
+"rKE" = (
+/obj/structure/table/wood/long_table,
+/obj/item/roguecoin/aalloy/pile,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/magician)
 "rKG" = (
 /obj/structure/table/wood/long_table,
 /obj/item/reagent_containers/glass/bottle/rogue/wine{
@@ -100185,6 +100199,7 @@
 /obj/structure/fluff/railing/border,
 /obj/machinery/light/rogue/candle/blue/l,
 /obj/structure/closet/crate/chest/old_crate,
+/obj/item/storage/roguebag/trans,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "sBW" = (
@@ -299805,7 +299820,7 @@ xxN
 xTP
 mtB
 eOE
-qLQ
+rKE
 nTJ
 nTJ
 ukM
@@ -302060,7 +302075,7 @@ jfk
 npz
 jfk
 gRD
-xTP
+oNr
 qNZ
 etL
 dKd

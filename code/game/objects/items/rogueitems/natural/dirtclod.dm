@@ -5,6 +5,7 @@
 	dropshrink = 0
 	throwforce = 0
 	w_class = WEIGHT_CLASS_TINY
+	materia = list(/datum/materia_aspect/mundane, /datum/materia_aspect/earth)
 
 	var/being_deleted = FALSE
 
