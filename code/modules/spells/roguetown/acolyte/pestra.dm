@@ -304,6 +304,7 @@
 		ORGAN_SLOT_LIVER,
 		ORGAN_SLOT_STOMACH,
 		ORGAN_SLOT_APPENDIX,
+		ORGAN_SLOT_GUTS,
 	)
 
 	// Remove organs that are already present

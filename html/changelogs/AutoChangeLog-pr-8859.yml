@@ -1,0 +1,14 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - balance: "Redone Necromancer skeleton classes, they should be better geared off-the-bat."
+  - balance: "Necromancer Ballistiares can now pick a munition crossbow as a weapon choice, its slightly worse than regular crossbows. They also get regular recurve bows now."
+  - balance: "Necromancer Ballistiares specs expert into their ranged weapon pick."
+  - balance: "Necromancer Ballistiares get a wooden shield w/ their sling choice, they do not however get any sling skill vs Lich Ballistiares."
+  - balance: "Lich Sapper's Chisel [Iron -> Bronze] (until we have an ancient varient, I'll probably do later or something.)"
+  - balance: "Necromancer player skeletons have feathers/cloths if their helmets can fit one."
+  - balance: "Necromancer bulwarks have lost a few choices of helmet that didn't cover mouth."
+  - balance: "Necromancer Legionnaires now have iron barbute helms instead of a choice."
+  - balance: "Lich sapper can pick between armored helmet and armorless stylish cap."
+  - balance: "Bone Sapper -> Bone Toiler, a sidegrade of lich's sapper skeletons, that Necromancer skeles are. Magic potental for Maile Training."
+  - bugfix: "Necromancer skeletons have wrestling skill levels, for some reasoning they didn't, whoops!"
