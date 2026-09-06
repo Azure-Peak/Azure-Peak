@@ -11,6 +11,7 @@
 		if(GLOB.date_override_enabled)
 			GLOB.date_override_enabled = FALSE
 			GLOB.date_override_offset = 0
+			SSseason?.check_season_change()
 			log_admin("[key_name(usr)] cleared the IC date override")
 			message_admins(span_adminnotice("[key_name_admin(usr)] cleared the IC date override. Date is now: [get_current_ic_date_as_string()]"))
 			SSblackbox.record_feedback("tally", "admin_verb", 1, "Set IC Date - Clear")
@@ -56,6 +57,7 @@
 		GLOB.date_override_month = target_month
 		GLOB.date_override_offset = offset
 
+		SSseason?.check_season_change()
 		log_admin("[key_name(usr)] set IC date override to [target_day]/[target_month] (offset: [offset] days)")
 		message_admins(span_adminnotice("[key_name_admin(usr)] set IC date override. New date: [get_current_ic_date_as_string()], time: [get_current_ic_time_as_string()]"))
 		to_chat(src, span_notice("IC Date set to: [get_current_ic_date_as_string()]"))

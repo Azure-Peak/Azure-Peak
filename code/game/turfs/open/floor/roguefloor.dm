@@ -19,6 +19,13 @@
 		icon = smooth_icon
 	. = ..()
 
+// Shared by every rogue floor turf rather than just the seasonal grass/snow family - removing
+// something that was never in the list is a harmless no-op, and this way SSseason's tracking
+// can never go stale no matter what a turf gets changed into.
+/turf/open/floor/rogue/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	return ..()
+
 /turf/open/floor/rogue/ruinedwood
 	icon_state = "wooden_floor"
 	name = "wooden floorboards"
@@ -430,8 +437,13 @@
 
 /turf/open/floor/rogue/grass/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
-//	GLOB.dirt_list += src
+	GLOB.seasonal_grass_turfs |= src
 	. = ..()
+	if(!mapload)
+		// Map-loaded turfs get caught by SSseason's own startup sweep - only newly spawned
+		// (runtime) grass needs to catch up immediately. Deferred a tick since ChangeTurf()
+		// destroys and recreates src, which would be unsafe to do from within our own Initialize().
+		addtimer(CALLBACK(SSseason, TYPE_PROC_REF(/datum/controller/subsystem/season, apply_season_to_turf), src), 0)
 
 /turf/open/floor/rogue/grass/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)

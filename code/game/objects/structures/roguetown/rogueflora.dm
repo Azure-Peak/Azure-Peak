@@ -363,6 +363,8 @@
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 	var/list/looty = list()
 	var/bushtype
+	var/bush_base_state
+	var/bush_season_suffix = ""
 
 /obj/structure/flora/roguegrass/bush/Initialize(mapload)
 	if(prob(88) && isnull(bushtype))
@@ -371,7 +373,26 @@
 					/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed=1))
 	loot_replenish()
 	pixel_x += rand(-3,3)
-	return ..()
+	. = ..()
+	register_seasonal_flora(mapload)
+
+/obj/structure/flora/roguegrass/bush/proc/refresh_bush_icon()
+	icon_state = "[bush_base_state][bush_season_suffix]"
+
+// Fall uses the plain (unsuffixed) sprites, Spring reuses the summer sprites (no separate spring art), Winter gets its own.
+/obj/structure/flora/roguegrass/bush/apply_flora_season(season)
+	var/target_suffix
+	switch(season)
+		if(FLORA_SEASON_WINTER)
+			target_suffix = FLORA_SEASON_WINTER
+		if(FLORA_SEASON_SPRING, FLORA_SEASON_SUMMER)
+			target_suffix = FLORA_SEASON_SUMMER
+		else
+			target_suffix = ""
+	if(bush_season_suffix == target_suffix)
+		return
+	bush_season_suffix = target_suffix
+	refresh_bush_icon()
 
 /obj/structure/flora/roguegrass/bush/proc/loot_replenish()
 	if(bushtype)
@@ -464,7 +485,8 @@
 		unhide(user)
 
 /obj/structure/flora/roguegrass/bush/update_icon()
-	icon_state = "bush[rand(2, 4)]"
+	bush_base_state = "bush[rand(2, 4)]"
+	refresh_bush_icon()
 
 /obj/structure/flora/roguegrass/bush/CanAStarPass(ID, travel_dir, caller)
 	if(occupied)
@@ -499,6 +521,7 @@
 	name = "westleach bush"
 	desc = "Large, red leaves peek out of it with an alluring aroma."
 	icon_state = "bush1"
+	bush_base_state = "bush1"
 
 /obj/structure/flora/roguegrass/bush/westleach/update_icon()
 	return
@@ -525,7 +548,8 @@
 
 /obj/structure/flora/roguegrass/bush/wall/Initialize(mapload)
 	. = ..()
-	icon_state = "bushwall[pick(1,2)]"
+	bush_base_state = "bushwall[pick(1,2)]"
+	refresh_bush_icon()
 
 /obj/structure/flora/roguegrass/bush/wall/update_icon()
 	return
@@ -541,6 +565,10 @@
 /obj/structure/flora/roguegrass/bush/wall/tall/Initialize(mapload)
 	. = ..()
 	icon_state = "tallbush[pick(1,2)]"
+
+// tallbush sprites have no winter variant - opt out of the reskin the base bush types get.
+/obj/structure/flora/roguegrass/bush/wall/tall/apply_flora_season(season)
+	return
 
 
 /obj/structure/flora/rogueshroom
