@@ -23,6 +23,10 @@
 	var/can_set = TRUE
 	/// Emote we use when applied
 	var/gain_emote = "paincrit"
+	/// Which bone this fracture drives (null = derive from body_zone for limbs; some wounds have no bone, e.g. pelvis/ears).
+	var/bone_slot = null
+	/// If TRUE this fracture drives its bone straight to a MAJOR fracture (a heavy/shatter hit); else it escalates one tier.
+	var/big_break = FALSE
 
 	// Limbs bleed worse, but bleed for far shorter periods than slashes etc.
 	bleed_rate = 15				// Artery is 20, but doesn't stop.
@@ -48,34 +52,36 @@
 
 /datum/wound/fracture/on_bodypart_gain(obj/item/bodypart/affected)
 	. = ..()
-	affected.temporary_crit_paralysis(20 SECONDS)
-	ADD_TRAIT(affected, TRAIT_FINGERLESS, "[type]")
 	ADD_TRAIT(affected, TRAIT_BRITTLE, "[type]")
-	switch(affected.body_zone)
-		if(BODY_ZONE_R_LEG)
-			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_RIGHT_LEG, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
-		if(BODY_ZONE_L_LEG)
-			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_LEFT_LEG, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
-		if(BODY_ZONE_HEAD)
-			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_SKULL, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
-		if(BODY_ZONE_PRECISE_NECK)
-			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_SPINE, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
+	sync_bone(affected)
 
 /datum/wound/fracture/on_bodypart_loss(obj/item/bodypart/affected)
 	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_FINGERLESS, "[type]")
 	REMOVE_TRAIT(affected, TRAIT_BRITTLE, "[type]")
-	if(!affected.owner)
-		return
-	switch(affected.body_zone)
-		if(BODY_ZONE_R_LEG)
-			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_RIGHT_LEG)
-		if(BODY_ZONE_L_LEG)
-			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_LEFT_LEG)
-		if(BODY_ZONE_HEAD)
-			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_SKULL)
-		if(BODY_ZONE_PRECISE_NECK)
-			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_SPINE)
+
+/datum/wound/fracture/proc/get_bone(obj/item/bodypart/affected)
+	if(!affected || !iscarbon(affected.owner))
+		return null
+	var/mob/living/carbon/C = affected.owner
+	var/slot = bone_slot
+	if(!slot)
+		switch(affected.body_zone)
+			if(BODY_ZONE_L_ARM)
+				slot = ORGAN_SLOT_BONE_L_ARM
+			if(BODY_ZONE_R_ARM)
+				slot = ORGAN_SLOT_BONE_R_ARM
+			if(BODY_ZONE_L_LEG)
+				slot = ORGAN_SLOT_BONE_L_LEG
+			if(BODY_ZONE_R_LEG)
+				slot = ORGAN_SLOT_BONE_R_LEG
+	if(!slot)
+		return null
+	return C.getorganslot(slot)
+
+/datum/wound/fracture/proc/sync_bone(obj/item/bodypart/affected)
+	var/obj/item/organ/bone/B = get_bone(affected)
+	if(B)
+		B.fracture_from_hit(big_break)
 
 /datum/wound/fracture/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -91,6 +97,9 @@
 	passive_healing = max(passive_healing, 1)
 	heal_wound(initial(whp)/1.6) //heal a little more than of maximum fracture
 	can_set = FALSE
+	var/obj/item/organ/bone/B = get_bone(bodypart_owner)
+	if(B)
+		B.mend()
 	return TRUE
 
 /datum/wound/fracture/head
@@ -105,8 +114,7 @@
 	sound_effect = "headcrush"
 	whp = 150
 	sleep_healing = 0
-	/// Most head fractures are serious enough to cause paralysis.
-	var/paralysis = FALSE
+	bone_slot = ORGAN_SLOT_BONE_SKULL
 	/// Some head fractures instantly kill you if you have critical weakness. Others won't.
 	mortal = TRUE
 	/// Some head fractures will knock your lights out, if not flat-out paralyze you.
@@ -116,33 +124,8 @@
 
 /datum/wound/fracture/head/on_mob_gain(mob/living/affected)
 	. = ..()
-	ADD_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-	affected.apply_status_effect(/datum/status_effect/debuff/dazed/skullshatter)
 	if(knockout)
 		affected.Unconscious(knockout)
-	if(paralysis)
-		ADD_TRAIT(affected, TRAIT_NO_BITE, "[type]")
-		ADD_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-		ADD_TRAIT(affected, TRAIT_NOPAIN, "[type]")
-		if(iscarbon(affected))
-			var/mob/living/carbon/carbon_affected = affected
-			carbon_affected.update_disabled_bodyparts()
-
-/datum/wound/fracture/head/on_mob_loss(mob/living/affected)
-	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-	affected.remove_status_effect(/datum/status_effect/debuff/dazed/skullshatter)
-	if(paralysis)
-		REMOVE_TRAIT(affected, TRAIT_NO_BITE, "[type]")
-		REMOVE_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-		REMOVE_TRAIT(affected, TRAIT_NOPAIN, "[type]")
-		if(iscarbon(affected))
-			var/mob/living/carbon/carbon_affected = affected
-			carbon_affected.update_disabled_bodyparts()
-
-/datum/wound/fracture/head/on_life()
-	. = ..()
-	owner?.stuttering = max(owner.stuttering, 5)
 
 /datum/wound/fracture/head/shatter
 	name = "shattered skull"
@@ -152,8 +135,8 @@
 		"THE HEAD IS PULVERIZED!",
 		"THE SKULL IS MINCED INTO DUST!",
 	)
-	paralysis = TRUE
 	shatter_wound = TRUE
+	big_break = TRUE
 
 /datum/wound/fracture/head/brain
 	name = "depressed cranial fracture"
@@ -165,7 +148,6 @@
 	embed_chance = 100	// Didn't we remove embeding..?
 	bleed_rate = 10		// Aooouuugh.. my brain..
 	knockout = 4 SECONDS //We did hit the brain after all
-	paralysis = FALSE
 
 /datum/wound/fracture/head/brain/shatter
 	name = "shattered cranium"
@@ -175,8 +157,8 @@
 		"THE CRANIUM COMES APART IN A GRUESOME WAY!",
 		"THE CRANIUM CAVES IN!",
 	)
-	paralysis = TRUE
 	shatter_wound = TRUE
+	big_break = TRUE
 
 /datum/wound/fracture/head/eyes
 	name = "orbital fracture"
@@ -188,18 +170,7 @@
 	)
 	embed_chance = 100
 	clotting_threshold = 0.4	//Eye-bone fucked
-	paralysis = FALSE			//Fucks your eyes, but won't paralyze you anymore.
-
-/datum/wound/fracture/head/eyes/on_mob_gain(mob/living/affected)
-	. = ..()
-	affected.become_blind("[type]")
-	addtimer(CALLBACK(affected, TYPE_PROC_REF(/mob/living, cure_blind), "[type]"), 30 SECONDS)
-	affected.become_nearsighted("[type]")
-
-/datum/wound/fracture/head/eyes/on_mob_loss(mob/living/affected)
-	. = ..()
-	affected.cure_blind("[type]")	//Fallback incase you somehow get un-skullcracked before the timer.
-	affected.cure_nearsighted("[type]")
+	bone_slot = ORGAN_SLOT_BONE_NOSE
 
 /datum/wound/fracture/head/ears
 	name = "temporal fracture"
@@ -211,7 +182,6 @@
 		"The ear canal is pierced!",
 	)
 	embed_chance = 100
-	paralysis = FALSE
 	knockout = 25
 	clotting_threshold = 0.3	//Ears gonna bleed worse than just a fracture
 
@@ -235,21 +205,14 @@
 		"The nasal bone is punctured!",
 		"The nasal bone is pierced!",
 	)
-	paralysis = FALSE	//Fucks your nose, but won't paralyze you anymore.
 	knockout = 20		//Longer knockout than a normal head-fracture
 	clotting_threshold = 0.3	//Nose bleeds as bad as ears gonna bleed worse than just a fracture
+	bone_slot = ORGAN_SLOT_BONE_NOSE
 
 /datum/wound/fracture/head/nose/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.confused += 15	//Strong-drunk-walk effect, basically.
 	affected.dizziness += 15
-	ADD_TRAIT(affected, TRAIT_MISSING_NOSE, "[type]")
-	ADD_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-
-/datum/wound/fracture/head/nose/on_mob_loss(mob/living/affected)
-	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_MISSING_NOSE, "[type]")
-	REMOVE_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
 
 /datum/wound/fracture/mouth
 	name = "mandibular fracture"
@@ -265,16 +228,7 @@
 	bleed_rate = 5				//Lower than others, still bad though.
 	clotting_threshold = 0.3	//Slightly higher still
 	clotting_rate = 0.1			//Slower clotting, not bad though for bleeder wound.
-
-/datum/wound/fracture/mouth/on_mob_gain(mob/living/affected)
-	. = ..()
-	ADD_TRAIT(affected, TRAIT_NO_BITE, "[type]")
-	ADD_TRAIT(affected, TRAIT_GARGLE_SPEECH, "[type]")
-
-/datum/wound/fracture/mouth/on_mob_loss(mob/living/affected)
-	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_NO_BITE, "[type]")
-	REMOVE_TRAIT(affected, TRAIT_GARGLE_SPEECH, "[type]")
+	bone_slot = ORGAN_SLOT_BONE_JAW
 
 /datum/wound/fracture/neck
 	name = "cervical fracture"
@@ -284,6 +238,7 @@
 		"The spine cracks!",
 		"The spine pops!",
 	)
+	bone_slot = ORGAN_SLOT_BONE_SPINE
 
 /datum/wound/fracture/neck/shatter
 	name = "shattered spine"
@@ -295,24 +250,12 @@
 	)
 	whp = 100
 	shatter_wound = TRUE
+	big_break = TRUE
 
 /datum/wound/fracture/neck/shatter/on_mob_gain(mob/living/affected)
 	. = ..()
-	ADD_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-	ADD_TRAIT(affected, TRAIT_NOPAIN, "[type]")
-	if(iscarbon(affected))
-		var/mob/living/carbon/carbon_affected = affected
-		carbon_affected.update_disabled_bodyparts()
 	if(HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
 		affected.death()
-
-/datum/wound/fracture/neck/shatter/on_mob_loss(mob/living/affected)
-	. = ..()
-	REMOVE_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
-	REMOVE_TRAIT(affected, TRAIT_NOPAIN, "[type]")
-	if(iscarbon(affected))
-		var/mob/living/carbon/carbon_affected = affected
-		carbon_affected.update_disabled_bodyparts()
 
 /datum/wound/fracture/chest
 	name = "rib fracture"
@@ -327,6 +270,8 @@
 	bleed_rate = 25				//Higher than artery
 	clotting_threshold = 1		//Will always bleed bad
 	clotting_rate = 1			//Good clotting rate; within 24 ticks (~3 seconds) will lower heavily.
+	bone_slot = ORGAN_SLOT_BONE_RIBCAGE
+	big_break = TRUE
 
 /datum/wound/fracture/chest/on_mob_gain(mob/living/affected)
 	. = ..()

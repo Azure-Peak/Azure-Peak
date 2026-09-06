@@ -1054,10 +1054,15 @@
 			src.apply_status_effect(/datum/status_effect/buff/undermaidenbargainheal)
 			return
 		if(health <= HEALTH_THRESHOLD_DEAD && !HAS_TRAIT(src, TRAIT_NODEATH))
-			INVOKE_ASYNC(src, PROC_REF(emote), "deathgurgle")
-			death()
-			cure_blind(UNCONSCIOUS_BLIND)
-			return
+			if(can_heartattack() && !HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
+				if(!undergoing_cardiac_arrest())
+					INVOKE_ASYNC(src, PROC_REF(emote), "deathgurgle")
+					set_heartattack(TRUE)
+			else
+				INVOKE_ASYNC(src, PROC_REF(emote), "deathgurgle")
+				death()
+				cure_blind(UNCONSCIOUS_BLIND)
+				return
 		if(((blood_volume in -INFINITY to BLOOD_VOLUME_SURVIVE) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE)) || IsUnconscious() || IsSleeping() || getOxyLoss() > 75 || (HAS_TRAIT(src, TRAIT_DEATHCOMA)) || (health <= HEALTH_THRESHOLD_FULLCRIT && !HAS_TRAIT(src, TRAIT_NOHARDCRIT)))
 			if(stat != UNCONSCIOUS) // Transition into hardcrit — announce once
 				var/bled_out = (blood_volume in -INFINITY to BLOOD_VOLUME_SURVIVE) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE)
@@ -1211,6 +1216,27 @@
 	for(var/X in internal_organs)
 		var/obj/item/organ/I = X
 		I.Insert(src)
+
+/mob/living/carbon/proc/get_protecting_bone(organ_slot)
+	for(var/obj/item/organ/bone/B in internal_organs)
+		if(B.protects && (organ_slot in B.protects))
+			return B
+	return null
+
+/mob/living/carbon/proc/jaw_disrupts_eating()
+	var/obj/item/organ/bone/jaw = getorganslot(ORGAN_SLOT_BONE_JAW)
+	if(!jaw || !jaw.is_major_fracture())
+		return FALSE
+	return prob(45)
+
+/mob/living/carbon/proc/is_recuperating()
+	if(IsSleeping())
+		return TRUE
+	if((mobility_flags & MOBILITY_STAND))
+		return FALSE
+	if(!(locate(/obj/structure/bed) in loc))
+		return FALSE
+	return (locate(/obj/machinery/light/rogue) in range(3, src))
 
 /mob/living/carbon/proc/update_disabled_bodyparts()
 	for(var/obj/item/bodypart/BP as anything in bodyparts)

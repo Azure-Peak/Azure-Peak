@@ -8,24 +8,44 @@
 	gender = PLURAL
 	w_class = WEIGHT_CLASS_SMALL
 
+	medical_organ = TRUE
 	healing_factor = STANDARD_ORGAN_HEALING
 	decay_factor = STANDARD_ORGAN_DECAY
 
-	high_threshold_passed = "<span class='warning'>I feel some sort of constriction around my chest as my breathing becomes shallow and rapid.</span>"
-	now_fixed = "<span class='warning'>My lungs seem to once again be able to hold air.</span>"
-	high_threshold_cleared = "<span class='info'>The constriction around my chest loosens as my breathing calms down.</span>"
+// Minor: occasional gasp + reduced stamina regen (see update_stamina). Severe: harsher stamina
+// penalty + gasping that briefly blocks speech. Dead/missing: increasing oxyloss.
+/obj/item/organ/lungs/on_injury_changed()
+	if(!owner)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			to_chat(owner, span_warning("My chest tightens; my breaths come short and quick."))
+		if(ORGAN_INJURY_SEVERE)
+			to_chat(owner, span_danger("Each breath is a ragged, wheezing struggle!"))
+		if(ORGAN_INJURY_DEAD)
+			to_chat(owner, span_userdanger("My lungs give out - I cannot draw breath!"))
+		if(ORGAN_INJURY_NONE)
+			to_chat(owner, span_info("My breathing settles, steady once more."))
 
-
-/obj/item/organ/lungs/on_life()
-	..()
-	if((!failed) && ((organ_flags & ORGAN_FAILING)))
-		if(owner.stat == CONSCIOUS)
-			owner.visible_message("<span class='danger'>[owner] grabs [owner.p_their()] throat, struggling for breath!</span>", \
-								"<span class='danger'>I suddenly feel like you can't breathe!</span>")
-		failed = TRUE
-	else if(!(organ_flags & ORGAN_FAILING))
-		failed = FALSE
-	return
+/obj/item/organ/lungs/apply_injury_effects()
+	if(!owner)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			if(prob(40))
+				owner.adjustOxyLoss(1)	//minor oxygen debt, mostly cleared by breathing
+			if(prob(15))
+				owner.emote("gasp")
+				owner.silent = max(owner.silent, 1)	//a gasp clips your words
+		if(ORGAN_INJURY_SEVERE)
+			owner.adjustOxyLoss(3)	//now it builds faster than you can recover
+			if(prob(25))
+				owner.emote("gasp")
+				owner.silent = max(owner.silent, 2)
+		if(ORGAN_INJURY_DEAD)
+			owner.adjustOxyLoss(6)	//rapid suffocation
+			if(prob(20))
+				owner.emote("gasp")
 
 /obj/item/organ/lungs/prepare_eat()
 	var/obj/S = ..()
@@ -45,3 +65,4 @@
 	name = "construct aersource"
 	desc = "A complex hollow crystal, which courses with air through unknowable means. Steam wisps around it in a vortex."
 	icon_state = "lungs-con"
+	two_state = TRUE	//a crystal aersource: whole, or shattered

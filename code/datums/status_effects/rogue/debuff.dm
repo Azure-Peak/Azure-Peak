@@ -1,6 +1,46 @@
 /datum/status_effect/debuff
 	status_type = STATUS_EFFECT_REFRESH
 
+/datum/status_effect/debuff/pain
+	duration = -1
+	needs_processing = FALSE
+
+/datum/status_effect/debuff/pain/light
+	id = "pain_light"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/pain/light
+
+/atom/movable/screen/alert/status_effect/debuff/pain/light
+	name = "Aching"
+	desc = "A dull ache nags at my body."
+	icon_state = "pain1"
+
+/datum/status_effect/debuff/pain/moderate
+	id = "pain_moderate"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/pain/moderate
+
+/atom/movable/screen/alert/status_effect/debuff/pain/moderate
+	name = "In Pain"
+	desc = "Pain grips me; my hands shake and threaten to drop what they hold."
+	icon_state = "pain2"
+
+/datum/status_effect/debuff/pain/severe
+	id = "pain_severe"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/pain/severe
+
+/atom/movable/screen/alert/status_effect/debuff/pain/severe
+	name = "Agony"
+	desc = "The agony threatens to drop me where I stand."
+	icon_state = "pain3"
+
+/datum/status_effect/debuff/pain/agony
+	id = "pain_agony"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/pain/agony
+
+/atom/movable/screen/alert/status_effect/debuff/pain/agony
+	name = "Unbearable Agony"
+	desc = "The pain is blinding - my heart itself may give out."
+	icon_state = "pain4"
+
 ///////////////////////////
 
 /datum/status_effect/debuff/hungryt1

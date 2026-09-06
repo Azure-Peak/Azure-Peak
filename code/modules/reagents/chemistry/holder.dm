@@ -303,7 +303,7 @@
 	R.handle_reactions()
 	return amount
 
-/datum/reagents/proc/metabolize(mob/living/carbon/C, can_overdose = FALSE, liverless = FALSE)
+/datum/reagents/proc/metabolize(mob/living/carbon/C, can_overdose = FALSE, liverless = FALSE, rate_mult = 1)
 	var/list/cached_reagents = reagent_list
 	var/list/cached_addictions = addiction_list
 	if(C)
@@ -345,6 +345,8 @@
 							if(istype(R, A))
 								A.addiction_stage = -15 // you're satisfied for a good while.
 				need_mob_update += R.on_mob_life(C)
+				if(rate_mult > 1)
+					remove_reagent(R.type, R.metabolization_rate * (rate_mult - 1))
 
 	if(can_overdose)
 		if(addiction_tick == 6)

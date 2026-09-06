@@ -72,9 +72,22 @@
 
 			if(!(M.stat == DEAD || (HAS_TRAIT(M, TRAIT_FAKEDEATH))))
 				if(heart && istype(heart))
-					heart_strength = span_danger("an unstable")
-					if(heart.beating)
-						heart_strength = "a healthy"
+					if(!heart.beating)
+						heart_strength = span_danger("no")
+					else
+						switch(M.pulse)
+							if(PULSE_SLOW)
+								heart_strength = "a slow, heavy"
+							if(PULSE_NORM)
+								heart_strength = "a steady"
+							if(PULSE_FAST)
+								heart_strength = "a quick"
+							if(PULSE_2FAST)
+								heart_strength = span_danger("a frantic, racing")
+							if(PULSE_THREADY)
+								heart_strength = span_danger("a faint, thready")
+							else
+								heart_strength = "a faint"
 				if(lungs && istype(lungs))
 					lung_strength = span_danger("strained")
 					if(!(M.failed_last_breath || M.losebreath))

@@ -7,7 +7,7 @@
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_STRONGBITE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE, TRAIT_RAGE)
+	traits_applied = list(TRAIT_STRONGBITE, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE, TRAIT_RAGE)
 	extra_context = "This subclass gains access to the RAGE ability."
 	// total of 5 because int gets nuked by 2 similar to barbarian, still better then adv barb for +1
 	subclass_stats = list(

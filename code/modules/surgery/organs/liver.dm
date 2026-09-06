@@ -9,6 +9,7 @@
 	slot = ORGAN_SLOT_LIVER
 	desc = ""
 
+	medical_organ = TRUE
 	maxHealth = STANDARD_ORGAN_THRESHOLD
 	healing_factor = STANDARD_ORGAN_HEALING
 	decay_factor = STANDARD_ORGAN_DECAY
@@ -18,41 +19,48 @@
 	var/toxLethality = LIVER_DEFAULT_TOX_LETHALITY//affects how much damage toxins do to the liver
 	var/filterToxins = FALSE //whether to filter toxins
 
-#define HAS_SILENT_TOXIN 0 //don't provide a feedback message if this is the only toxin present
-#define HAS_NO_TOXIN 1
-#define HAS_PAINFUL_TOXIN 2
-
 /obj/item/organ/liver/on_life()
 	var/mob/living/carbon/C = owner
-	..()	//perform general on_life()
-	if(HAS_TRAIT(C, TRAIT_NOMETABOLISM))
-		return // don't even bother
-	if(istype(C))
-		if(!(organ_flags & ORGAN_FAILING))//can't process reagents with a failing liver
+	..()	//base on_life -> apply_injury_effects (per-state toxloss/puke)
+	if(!istype(C))
+		return
+	//A working liver (not dead) still filters toxins and drives reagent metabolism.
+	if(injury != ORGAN_INJURY_DEAD && !HAS_TRAIT(C, TRAIT_NOMETABOLISM))
+		if(filterToxins && !HAS_TRAIT(owner, TRAIT_TOXINLOVER))
+			//handle liver toxin filtration (no longer self-damaging - the liver is stateful, not HP-based)
+			for(var/datum/reagent/toxin/T in C.reagents.reagent_list)
+				var/thisamount = C.reagents.get_reagent_amount(T.type)
+				if (thisamount && thisamount <= toxTolerance)
+					C.reagents.remove_reagent(T.type, 1)
+		//metabolize reagents - a faster pulse burns them through quicker
+		C.reagents.metabolize(C, can_overdose=TRUE, rate_mult = pulse_metabolism_mult(C.pulse))
+	else	//a dead liver cannot metabolize - same as having none
+		C.liver_failure()
 
-			var/provide_pain_message = HAS_NO_TOXIN
-			if(filterToxins && !HAS_TRAIT(owner, TRAIT_TOXINLOVER))
-				//handle liver toxin filtration
-				for(var/datum/reagent/toxin/T in C.reagents.reagent_list)
-					var/thisamount = C.reagents.get_reagent_amount(T.type)
-					if (thisamount && thisamount <= toxTolerance)
-						C.reagents.remove_reagent(T.type, 1)
-					else
-						damage += (thisamount*toxLethality)
-						if(provide_pain_message != HAS_PAINFUL_TOXIN)
-							provide_pain_message = T.silent_toxin ? HAS_SILENT_TOXIN : HAS_PAINFUL_TOXIN
+// Minor: puke now and then. Severe: toxloss rises slowly. Dead/missing: toxloss rises fast
+// (handled by liver_failure()/the liver_failure status, the same as having no liver).
+/obj/item/organ/liver/apply_injury_effects()
+	if(!owner)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			if(prob(2))
+				owner.vomit(10)
+		if(ORGAN_INJURY_SEVERE)
+			owner.adjustToxLoss(0.5)
 
-			//metabolize reagents
-			C.reagents.metabolize(C, can_overdose=TRUE)
-
-			if(provide_pain_message && damage > 10 && prob(damage/3))//the higher the damage the higher the probability
-				to_chat(C, span_warning("I feel a dull pain in my abdomen."))
-
-		else	//for when our liver's failing
-			C.liver_failure()
-
-	if(damage > maxHealth)//cap liver damage
-		damage = maxHealth
+/obj/item/organ/liver/on_injury_changed()
+	if(!owner)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			to_chat(owner, span_warning("My gut churns uneasily."))
+		if(ORGAN_INJURY_SEVERE)
+			to_chat(owner, span_danger("A sickly heat spreads through my belly - I feel poison seeping into me."))
+		if(ORGAN_INJURY_DEAD)
+			to_chat(owner, span_userdanger("My liver fails utterly!"))
+		if(ORGAN_INJURY_NONE)
+			to_chat(owner, span_info("The sickness in my gut subsides."))
 
 /obj/item/organ/liver/Remove(mob/living/carbon/carbon, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
@@ -61,10 +69,6 @@
 /obj/item/organ/liver/Insert(mob/living/carbon/carbon, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
 	carbon.remove_status_effect(/datum/status_effect/debuff/liver_failure)
-
-#undef HAS_SILENT_TOXIN
-#undef HAS_NO_TOXIN
-#undef HAS_PAINFUL_TOXIN
 
 /obj/item/organ/liver/prepare_eat()
 	var/obj/S = ..()
@@ -86,6 +90,8 @@
 	name = "construct decay regulator"
 	icon_state = "liver-con"
 	desc = "A construct's decay regulator. Swirling with pestran energies, it prevents corrosion and rot. Unfortunately, this makes them susceptible to toxins."
+	two_state = TRUE	//a pestran regulator: whole, or shattered
+
 /obj/item/organ/liver/alien
 	name = "alien liver" // doesnt matter for actual aliens because they dont take toxin damage
 	icon_state = "liver-x" // Same sprite as fly-person liver.

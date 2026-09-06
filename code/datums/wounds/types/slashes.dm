@@ -119,7 +119,7 @@
 	sewn_clotting_threshold = 0.5
 	sew_threshold = 150 //absolutely awful to sew up
 	critical = TRUE
-	/// Organs we can disembowel associated with chance to disembowel
+	/// Gut organs (no protecting bone) a gutspill lays bare, associated with the chance to expose each.
 	var/static/list/affected_organs = list(
 		ORGAN_SLOT_STOMACH = 100,
 		ORGAN_SLOT_GUTS = 100,
@@ -139,25 +139,29 @@
 /datum/wound/slash/disembowel/on_bodypart_gain(obj/item/bodypart/affected)
 	. = ..()
 	var/mob/living/carbon/gutted = affected.owner
-	var/atom/drop_location = gutted.drop_location()
-	var/list/spilled_organs = list()
+	if(!gutted)
+		return
 	for(var/obj/item/organ/organ as anything in gutted.internal_organs)
-		var/org_zone = check_zone(organ.zone)
-		if(org_zone != BODY_ZONE_CHEST)
+		if(check_zone(organ.zone) != BODY_ZONE_CHEST)
 			continue
 		if(!(organ.slot in affected_organs))
 			continue
-		var/spill_prob = affected_organs[organ.slot]
-		if(prob(spill_prob))
-			spilled_organs += organ
-	for(var/obj/item/organ/spilled as anything in spilled_organs)
-		spilled.Remove(owner)
-		spilled.forceMove(drop_location)
+		if(prob(affected_organs[organ.slot]))
+			organ.exposed = TRUE
 	if(istype(affected, /obj/item/bodypart/chest))
 		var/obj/item/bodypart/chest/cavity = affected
 		if(cavity.cavity_item)
-			cavity.cavity_item.forceMove(drop_location)
+			cavity.cavity_item.forceMove(gutted.drop_location())
 			cavity.cavity_item = null
+
+/datum/wound/slash/disembowel/on_bodypart_loss(obj/item/bodypart/affected)
+	. = ..()
+	var/mob/living/carbon/gutted = affected.owner
+	if(!gutted)
+		return
+	for(var/obj/item/organ/organ as anything in gutted.internal_organs)
+		if(organ.slot in affected_organs)
+			organ.exposed = FALSE
 
 /datum/wound/slash/incision
 	name = "incision"

@@ -292,6 +292,44 @@
 	REMOVE_TRAIT(owner, TRAIT_NOPAIN, id)
 	. = ..()
 
+/datum/status_effect/buff/ozium/tick()
+	restart_heart(owner)
+	if(prob(8))
+		mend_minor_injury(owner)
+
+/proc/restart_heart(mob/living/affected)
+	if(!iscarbon(affected))
+		return
+	var/mob/living/carbon/C = affected
+	if(!C.undergoing_cardiac_arrest())
+		return
+	var/obj/item/organ/heart/heart = C.getorganslot(ORGAN_SLOT_HEART)
+	if(heart && !heart.is_dead_organ())
+		C.set_heartattack(FALSE)
+		to_chat(C, span_green("My heart lurches back into rhythm!"))
+
+/proc/mend_minor_injury(mob/living/affected)
+	if(!iscarbon(affected))
+		return FALSE
+	var/mob/living/carbon/C = affected
+	var/list/menders = list()
+	for(var/obj/item/organ/organ in C.internal_organs)
+		if(istype(organ, /obj/item/organ/bone))
+			var/obj/item/organ/bone/checked_bone = organ
+			if(checked_bone.is_minor_fracture())
+				menders += checked_bone
+			continue
+		if(organ.medical_organ && (organ.crit_injury == ORGAN_INJURY_MINOR))
+			menders += organ
+	if(!length(menders))
+		return FALSE
+	var/obj/item/organ/picked = pick(menders)
+	if(istype(picked, /obj/item/organ/bone))
+		var/obj/item/organ/bone/picked_bone = picked
+		picked_bone.set_fracture(BONE_FRACTURE_NONE, force = TRUE)
+		return TRUE
+	return picked.heal_injury()
+
 /datum/status_effect/buff/moondust
 	id = "moondust"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
@@ -302,6 +340,9 @@
 	. = ..()
 	owner.add_stress(/datum/stressevent/moondust)
 
+/datum/status_effect/buff/moondust/tick()
+	owner.adjustOxyLoss(-3)
+
 /datum/status_effect/buff/moondust_purest
 	id = "purest moondust"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
@@ -311,6 +352,9 @@
 /datum/status_effect/buff/moondust_purest/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/moondust_purest)
+
+/datum/status_effect/buff/moondust_purest/tick()
+	owner.adjustOxyLoss(-5)
 
 /datum/status_effect/buff/herozium
 	id = "herozium"
@@ -323,16 +367,17 @@
 	. = ..()
 	owner.add_stress(/datum/stressevent/ozium)
 	ADD_TRAIT(owner, TRAIT_NOPAIN, id)
-	ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	originalcmode = owner.cmode_music
 	owner.cmode_music = 'sound/music/combat_ozium.ogg'
 
 /datum/status_effect/buff/herozium/on_remove()
 	owner.remove_stress(/datum/stressevent/ozium)
 	REMOVE_TRAIT(owner, TRAIT_NOPAIN, id)
-	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 	owner.cmode_music = originalcmode
 	. = ..()
+
+/datum/status_effect/buff/herozium/tick()
+	restart_heart(owner)
 
 /datum/status_effect/buff/starsugar
 	id = "starsugar"
