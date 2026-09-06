@@ -12,7 +12,7 @@
 	if((movement_type & FLYING) && !(movement_type & FLOATING))	//TODO: Better floating
 		float(on = TRUE)
 
-	if (client)
+	if(client)
 		var/turf/T = get_turf(src)
 		if(!T)
 			var/msg = "[ADMIN_LOOKUPFLW(src)] was found to have no .loc with an attached client, if the cause is unknown it would be wise to ask how this was accomplished."
@@ -21,17 +21,17 @@
 			log_game("[key_name(src)] was found to have no .loc with an attached client.")
 
 		// This is a temporary error tracker to make sure we've caught everything
-		else if (registered_z != T.z)
+		else if(registered_z != T.z)
 #ifdef TESTING
 			message_admins("[ADMIN_LOOKUPFLW(src)] has somehow ended up in Z-level [T.z] despite being registered in Z-level [registered_z]. If you could ask them how that happened and notify coderbus, it would be appreciated.")
 #endif
 			log_game("Z-TRACKING: [src] has somehow ended up in Z-level [T.z] despite being registered in Z-level [registered_z].")
 			update_z(T.z)
-	else if (registered_z)
+	else if(registered_z)
 		log_game("Z-TRACKING: [src] of type [src.type] has a Z-registration despite not having a client.")
 		update_z(null)
 
-	if (notransform)
+	if(notransform)
 		return
 	if(!loc)
 		return
@@ -39,6 +39,7 @@
 	//Breathing, if applicable - CURRENTLY NOT IMPLEMENTED
 	//handle_breathing(times_fired)
 
+	// SIMPLE WOUNDS
 	if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		handle_wounds()
 		handle_embedded_objects()
@@ -46,19 +47,20 @@
 		//passively heal even wounds with no passive healing
 		heal_wounds(1)
 
-	/// ENDVRE AS HE DOES.
-	if(!stat && (HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS)))
+	// PSYDONITE PASSIVE HEALING -- Does not stack with Blackblooded, the latter overwrites this.
+	if(!stat && HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		handle_wounds()
-		//passively heal wounds, when you're in trouble..
+		// Passively heal wounds when you're in trouble.
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
 			for(var/datum/wound/wound as anything in get_wounds())
 				if(wound?.severity <= WOUND_SEVERITY_MODERATE)
 					if(!istype(wound, /datum/wound/slash/incision))
 						wound.heal_wound(0.4)
 
+	// REGEN RESTRICTIONS -- Starving, or being on fire/silverfired.
 	var/noregen = nutrition < NUTRITION_LEVEL_STARVING - 75 || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 
-	/// Blackblood regeneration. Being in combat, under sunlight, or suffering trauma now reduces regeneration.
+	// BLACKBLOOD REGEN -- Every tick from this will cost hunger across three different instances, so the more hurt, the more hungry you'll become. If you're not hurt, then this basically is skipped.
 	if(stat != DEAD && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
 		handle_wounds()
 		var/list/wounds = get_wounds() // literally was calling get_wounds() 3x so just stuffing this into a list and being done with it
@@ -70,32 +72,36 @@
 				has_healable_wound = TRUE
 			if(wound?.bleed_rate > 0)
 				has_bleeding_wound = TRUE
-		if(!has_brute && !has_healable_wound && !has_bleeding_wound)
-			return
-		var/mob/living/carbon/human/H = src
-		var/healing_multiplier = max(0.5 ** ((in_combat_until > world.time) + (H.highest_ac_worn() > ARMOR_CLASS_LIGHT) + has_stress_event(/datum/stressevent/sun_sensitivity) + has_stress_event(/datum/stressevent/thirst) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
-		if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-			healing_multiplier = 0.15
-		if(has_healable_wound)
-			for(var/datum/wound/wound as anything in wounds)
-				if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
-					wound.heal_wound(healing_multiplier)
-		if(has_brute)
-			var/healing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
-			heal_overall_damage(3 * healing_multiplier, 0, 0)
-			nutrition = max(0, nutrition - healing_cost)
-		if(has_bleeding_wound)
-			var/sealing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
-			for(var/datum/wound/wound as anything in wounds)
-				if(wound.bleed_rate > 0)
-					var/bleed_heal = max(wound.bleed_rate * 0.2, 0.1) * healing_multiplier
-					wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0.025))
-					if(wound.bleed_rate <= 0 && wound.sew_threshold)
-						wound.sew_progress = wound.sew_threshold
-						wound.sew_wound()
-						to_chat(src, span_artery("<i>The [wound] stitched itself...</i>"))
-			nutrition = max(0, nutrition - sealing_cost)
+		if(has_brute || has_healable_wound || has_bleeding_wound)
+			var/mob/living/carbon/human/H = src
+			var/healing_multiplier = max(0.5 ** (
+				(in_combat_until > world.time) + (H.highest_ac_worn() > ARMOR_CLASS_LIGHT) + has_stress_event(/datum/stressevent/sun_sensitivity) + has_stress_event(/datum/stressevent/thirst) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
+			if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+				healing_multiplier = 0.15
+			// Wound healing.
+			if(has_healable_wound)
+				for(var/datum/wound/wound as anything in wounds)
+					if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
+						wound.heal_wound(healing_multiplier)
+			// Brute healing.
+			if(has_brute)
+				var/healing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
+				heal_overall_damage(3 * healing_multiplier, 0, 0)
+				nutrition = max(0, nutrition - healing_cost)
+			// Bleeding/sealing.
+			if(has_bleeding_wound)
+				var/sealing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
+				for(var/datum/wound/wound as anything in wounds)
+					if(wound.bleed_rate > 0)
+						var/bleed_heal = max(wound.bleed_rate * 0.2, 0.1) * healing_multiplier
+						wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0.025))
+						if(wound.bleed_rate <= 0 && wound.sew_threshold)
+							wound.sew_progress = wound.sew_threshold
+							wound.sew_wound()
+							to_chat(src, span_artery("<i>The [wound] stitched itself...</i>"))
+				nutrition = max(0, nutrition - sealing_cost)
 
+	// LYCAN RESILIENCE -- This had a nasty return which was causing an awful glitch. Don't use return on Life(), pls.
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
 		handle_wounds()
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
@@ -103,13 +109,14 @@
 				if(!istype(wound, /datum/wound/slash/incision))
 					wound.heal_wound(3)
 
-	if(!stat && HAS_TRAIT(src, TRAIT_DEADITE)) //Deadites are always regenerating unless under the effects of ANY KIND OF firestacks. Finish them off or restrain them.
-		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-			return
-		handle_wounds()
-		heal_overall_damage(3, 2) //Brute heals better than our burns.
-		for(var/datum/wound/wound as anything in get_wounds())
-			wound.heal_wound(0.5) //Skullcracks and severe wounds keep us down longer. BUT WE STILL GET BACK UP.
+	// DEADITE REGEN -- Same as above, but a victim of copypasta. Don't use return on Life(), pls.
+	if(!stat && HAS_TRAIT(src, TRAIT_DEADITE))
+		var/deadite_on_fire = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
+		if(!deadite_on_fire)
+			handle_wounds()
+			heal_overall_damage(3, 2)
+			for(var/datum/wound/wound as anything in get_wounds())
+				wound.heal_wound(0.5)
 
 	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
 		handle_passive_blood()
