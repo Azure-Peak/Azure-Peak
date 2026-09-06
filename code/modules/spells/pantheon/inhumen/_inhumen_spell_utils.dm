@@ -289,12 +289,17 @@
 
 	var/mob/living/carbon/human/H = owner
 
+	// Matthios' loan covers the entire investment.
+	if(H.has_status_effect(/datum/status_effect/buff/matthios_loan))
+		return TRUE
+
 	var/bank = 0
 	if(SStreasury.has_account(H))
 		bank = SStreasury.get_balance(H)
 
 	var/onhand = get_mammons_in_atom(H)
 	var/total = bank + onhand
+
 	var/list/range = get_investment_range(H)
 	var/min_invest = range[1]
 
@@ -350,27 +355,49 @@
 /proc/cmp_coin_value_desc(obj/item/roguecoin/A, obj/item/roguecoin/B)
 	return B.sellprice - A.sellprice
 
-/atom/movable/screen/alert/status_effect/debuff/doomed
-	name = "Doom"
-	desc = "You have precisely 3 seconds to live. See you on the other side."
+/atom/movable/screen/alert/status_effect/debuff/dramatic_finish // NPC ONLY!!!!!!!!!!!!!! DO -NOT- USE THIS ON PLAYERS!!!!!!!!!!!!!!
+	name = "Dramatic Finish"
+	desc = "You have been mogged by the awesomeness of a God, ser. Have a nice death!"
 	icon_state = "permadeath"
 
-/datum/status_effect/debuff/doom
+/datum/status_effect/debuff/dramatic_finish
 	id = "doom"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/doomed
-	duration = 3 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dramatic_finish
+	duration = 1.5 SECONDS
 	status_type = STATUS_EFFECT_UNIQUE
+	var/mob/living/causer
 
-/datum/status_effect/debuff/doom/on_apply()
+/datum/status_effect/debuff/dramatic_finish/on_creation(mob/living/new_owner, mob/living/new_causer)
 	. = ..()
-	owner.add_filter(MAMMON_FILTER, 2, list("type" = "outline", "color" = "#911096ff", "alpha" = 175, "size" = 2))
+	owner = new_owner
+	causer = new_causer
 
-/datum/status_effect/debuff/doom/on_remove()
+/datum/status_effect/debuff/dramatic_finish/on_apply()
 	. = ..()
+	if(!.)
+		return FALSE
+	owner.add_filter(MAMMON_FILTER, 2, list("type" = "outline", "color" = "#ffd651ff", "alpha" = 175, "size" = 2))
 	var/mob/living/L = owner
 	if(!istype(L))
-		return
-	L.gib()
+		return TRUE
+	L.SpinAnimation(speed = 0.4 SECONDS, loops = -1, clockwise = TRUE, segments = 8, parallel = TRUE)
+	INVOKE_ASYNC(src, PROC_REF(force_retreat))
+	return TRUE
+
+/datum/status_effect/debuff/dramatic_finish/proc/force_retreat()
+	while(owner && !QDELETED(owner) && !QDELETED(src))
+		if(causer && !QDELETED(causer) && causer != owner)
+			var/direction = get_dir(causer, owner)
+			if(direction)
+				step(owner, direction)
+		sleep(1.5)
+
+/datum/status_effect/debuff/dramatic_finish/on_remove()
+	var/mob/living/L = owner
+	if(istype(L))
+		explosion(L, 0, 0, 0, 0, FALSE, FALSE, 0, TRUE, FALSE, null)
+		L.gib()
+	return ..()
 
 /atom/movable/screen/alert/status_effect/buff/mammonite
 	name = "Mammonite Strike"
@@ -441,21 +468,25 @@
 /datum/status_effect/buff/mammonite/proc/do_mammon_execution(mob/living/target)
 	if(QDELETED(owner) || QDELETED(target))
 		return
-	owner.visible_message(span_boldwarning("[target] suddenly contorts, twists and lets out a blood-curling screech--!"), span_notice("Their life was worth less than the investment."))
+	owner.visible_message(span_boldwarning("[target] is slammed by the unrestrained might of a raging dragon!"), span_notice("Their life was worth less than the investment!~"))
 	target.emote("superagony")
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
-	target.apply_status_effect(/datum/status_effect/debuff/doom)
-	target.safe_throw_at(target, 3, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
+	target.apply_status_effect(/datum/status_effect/debuff/dramatic_finish, owner)
 
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
 	if(QDELETED(owner) || QDELETED(target))
 		return
-
 	var/damage = bonus_damage
-	var/apen = damage * 0.75
-
-	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, BCLASS_SMASH, apen, "Mammonite", FALSE, FALSE, FALSE, BRUTE, 1)
+	var/mammon_spent = round(bonus_damage / 3)
+	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_HEAVY)
+	var/bclass = BCLASS_BLUNT
+	var/damtype = BRUTE
+	var/npc_mult = 2
+	if(mammon_spent >= 80)
+		bclass = BCLASS_BURN
+		damtype = BURN
+	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, npc_mult, 1)
 	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of greed!"), span_notice("My investment pays off in full!"))
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)

@@ -3162,6 +3162,7 @@
 #include "code\modules\spells\pantheon\divine\undivided.dm"
 #include "code\modules\spells\pantheon\inhumen\_inhumen_spell_items.dm"
 #include "code\modules\spells\pantheon\inhumen\_inhumen_spell_utils.dm"
+#include "code\modules\spells\pantheon\inhumen\_matthios_spell_utils.dm"
 #include "code\modules\spells\pantheon\inhumen\baotha.dm"
 #include "code\modules\spells\pantheon\inhumen\graggar.dm"
 #include "code\modules\spells\pantheon\inhumen\matthios.dm"
