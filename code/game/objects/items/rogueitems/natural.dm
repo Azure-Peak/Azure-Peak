@@ -39,6 +39,40 @@
 	else
 		return ..()
 
+// All "natural" items may have a "bundletype". Let's make bundling stuff a universal proc!
+/obj/item/natural/attack_right(mob/user)
+	. = ..()
+	if(!src.bundletype)
+		return
+	if(user.get_active_held_item())
+		return
+	to_chat(user, span_notice("I begin to collect [src]."))
+	if(move_after(user, bundling_time, target = src))
+		// we're basically always just going to bundle the same kind of item. easier check.
+		var/bundletype = src.type
+		// list that contains all items we're going to try to bundle.
+		var/list/bundle_jutsu = list()
+		// search for items of the stacktype in the src turf.
+		for(var/obj/item/natural/N in get_turf(src))
+			if(istype(N, bundletype))
+				bundle_jutsu += N
+		// bundlecount is now = bundle_jutsu.len for easy counting purposes.
+		var/bundlecount = bundle_jutsu.len
+		while(bundlecount > 0)
+			if(bundlecount == 1)
+				var/obj/item/natural/N = bundle_jutsu[1]
+				bundle_jutsu.Remove(N)
+				bundlecount--
+			else if(bundlecount >= 2)
+				var/obj/item/natural/bundle/B = new src.bundletype(get_turf(user))
+				var/add_amount_clamped = clamp(bundlecount, 2, B.maxamount)
+				B.amount = add_amount_clamped
+				B.update_bundle()
+				bundlecount -= add_amount_clamped
+				user.put_in_hands(B)
+		playsound(user, drop_sound, 70, FALSE, -4)
+		for(var/obj/O in bundle_jutsu)
+			qdel(O)
 
 /obj/item/natural/bundle
 	name = "bundle"
