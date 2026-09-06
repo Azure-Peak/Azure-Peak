@@ -13,7 +13,7 @@
 	/// Bloodpool cost per life tick while disguised
 	var/disguise_upkeep = 0
 	/// Minimum bloodpool required to maintain disguise
-	var/min_bloodpool = 50
+	var/min_bloodpool = 100
 
 /datum/component/vampire_disguise/Initialize(upkeep = 0, min_blood = 50)
 	if(!ishuman(parent))
