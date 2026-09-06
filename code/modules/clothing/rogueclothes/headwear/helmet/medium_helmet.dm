@@ -817,7 +817,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/baotha
 	name = "saccharine sallet"
-	desc = "Lo', the twins of beauty; Eora and Belladoth, they sought a prize which but one may have.."
+	desc = "<font color='bf64d0'>...ah, but none of this really matters, anyway.</font>"
 	icon_state = "baothahelm"
 	item_state = "baothahelm"
 	body_parts_covered = HEAD | HAIR | EARS | MOUTH | EYES

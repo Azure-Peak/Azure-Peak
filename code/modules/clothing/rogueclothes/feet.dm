@@ -584,7 +584,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/baotha
 	name = "saccharine heels"
-	desc = "..yet, even as She indulges and mourns beneath the stars, one must wonder; is She truly damned by the Pantheon, or by Herself alone?"
+	desc = "Yet, as the lepers begged for comfort from Eora, she gave them naught but love and platitude; and Belladoth's heart throbbed with pity."
 	icon_state = "baothaboots"
 	item_state = "baothaboots"
 	chunkcolor = "#6d1c87"

@@ -393,7 +393,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/baotha
 	name = "saccharine vestments"
-	desc = "A gemmed chalice, Eora's own, swilled with Psydonia's most noxious venoms - and but a simple sip was enough to bring Her to death's door.."
+	desc = "Although mighty Ravox's hand demanded justice for the Eoran priestess' treachery, Eora stayed it, and merely stripped her of vestements and title. The lepers would die, but they would die in comfort and love."
 	icon_state = "baothagamb"
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_PADDED
