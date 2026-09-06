@@ -27,7 +27,7 @@ type Data = {
   aspect_data?: AspectData;
 };
 
-export const HeartCanister = (props) => {
+export const HeartCanister = () => {
   const { data } = useBackend<Data>();
   const { filled = false, aspect_data } = data || {};
 

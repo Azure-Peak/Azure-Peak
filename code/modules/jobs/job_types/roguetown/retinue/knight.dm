@@ -635,11 +635,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/takeprotege)
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 
-	add_verb(H, list(
-		/mob/living/carbon/human/proc/request_outlaw,
-		/mob/proc/haltyell,
-		/mob/living/carbon/human/mind/proc/setorders
-	))
+	add_verb(H, /mob/proc/haltyell)
 
 	SStreasury.grant_savings(ECONOMIC_RICH, H)
 

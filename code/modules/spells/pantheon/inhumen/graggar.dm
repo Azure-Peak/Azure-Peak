@@ -48,7 +48,7 @@
 	cooldown_time = 2 MINUTES
 
 	check_flags = AB_CHECK_CONSCIOUS
-	spell_requirements =	SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/graggar/rush/cast(atom/cast_on)
 	. = ..()
@@ -91,8 +91,8 @@
 
 /datum/action/cooldown/spell/graggar/hamstring
 	name = "Hamstring"
-	desc = "Curse your next strike to slow the target."
-	fluff_desc = "Escape is a luxury in face of a beast."
+	desc = "Curse your next strike to apply a debilitating pressure upon your enemy. On hit, applies a status that reduces their Dodge by 20%, SPD by 2 and Movement Speed by 50% for 15 seconds."
+	fluff_desc = "A miracle wrought from willpower steeped in malice. A servant of Sinistar may channel this spite through their strikes, branding their prey with their own ill intent. Not to stand and fight, but to flee in terror. To run as far as their leaden legs will carry them, and die screaming."
 	button_icon_state = "hamstring"
 	sound = 'sound/magic/bloodrage.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -106,7 +106,7 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Heel, mutt!")
+	invocations = list("Time to die!")
 
 	charge_required = FALSE
 	cooldown_time = 1 MINUTES
@@ -123,7 +123,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/hamstring
 	name = "Hamstring"
-	desc = "Your next attack slows your target and SPD."
+	desc = "Your next attack reduces enemy dodge chance by 20%, slows your target and reduces their overall SPD."
 	icon_state = "hamstring"
 
 /datum/status_effect/hamstring
@@ -160,9 +160,11 @@
 		return
 	if(!isliving(target))
 		return
-	var/mob/living/living_target = target
-	living_target.apply_status_effect(/datum/status_effect/debuff/hamstring)
-	living_target.visible_message(span_warning("The strike from [user]'s weapon causes [living_target] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	var/mob/living/H = target
+	H.apply_status_effect(/datum/status_effect/debuff/hamstring)
+	H.visible_message(span_warning("The strike from [user]'s weapon causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	H.emote("pain")
+	playsound(get_turf(H), 'sound/combat/brutal_impalement.ogg', 100, TRUE)
 	qdel(src)
 
 /datum/status_effect/hamstring/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
@@ -174,29 +176,28 @@
 		return
 	H.apply_status_effect(/datum/status_effect/debuff/hamstring)
 	H.visible_message(span_warning("The strike from [M]'s fist causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	H.emote("pain")
+	playsound(get_turf(H), 'sound/combat/brutal_impalement.ogg', 100, TRUE)
 	qdel(src)
 
 /atom/movable/screen/alert/status_effect/debuff/hamstring
-	name = "Graggar's Burden"
-	desc = "My arms and legs are restrained by unholy force!"
+	name = "Accursed Pressure"
+	desc = "Unholy force chokes my lyfeblood, slowing its flow through my veins and weighing down my every movement!"
 	icon_state = "restrained"
 
 /datum/status_effect/debuff/hamstring
 	id = "hamstring_debuff"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hamstring
 	effectedstats = list(STATKEY_SPD = -2)
-	duration = 30 SECONDS
+	duration = 15 SECONDS
 
 /datum/status_effect/debuff/hamstring/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
+	. = ..()
+	owner.add_movespeed_modifier("hamstring_slowdown", multiplicative_slowdown = 1.5)
 
 /datum/status_effect/debuff/hamstring/on_remove()
 	. = ..()
-	if(iscarbon(owner))
-		var/mob/living/carbon/C = owner
-		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
+	owner.remove_movespeed_modifier("hamstring_slowdown")
 
 ///////////////////////////////
 // T2 - Vicious Entanglement //
@@ -233,6 +234,7 @@
 
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
+	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
 	ignore_armor_penalty = TRUE

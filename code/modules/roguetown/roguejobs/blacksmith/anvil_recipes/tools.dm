@@ -38,6 +38,7 @@
 // --------- Copper -----------
 /datum/anvil_recipe/tools/copper/sickle
 	name = "Sickle, Copper (+1 Stick)"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/sickle/copper
@@ -46,6 +47,7 @@
 
 /datum/anvil_recipe/tools/copper/pick
 	name = "Pick, Copper (+1 Stick)"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pick/copper
@@ -54,6 +56,7 @@
 
 /datum/anvil_recipe/tools/copper/pitchfork
 	name = "Pitchfork, Copper (+2 Sticks)"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pitchfork/copper
@@ -62,12 +65,14 @@
 
 /datum/anvil_recipe/tools/copper/lamptern
 	name = "Lamptern, Copper"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/flashlight/flare/torch/lantern/copper
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
 
 /datum/anvil_recipe/tools/copper/hammer
 	name = "Hammer, Copper (+Stick)"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/copper
@@ -79,6 +84,7 @@
 
 /datum/anvil_recipe/tools/aalloy/thresher
 	name = "Thresher, Decrepit (+1 Stick)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/thresher/aalloy
@@ -87,6 +93,7 @@
 
 /datum/anvil_recipe/tools/aalloy/hoe
 	name = "Hoe, Decrepit (+2 Sticks)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hoe/aalloy
@@ -95,6 +102,7 @@
 
 /datum/anvil_recipe/tools/aalloy/pitchfork
 	name = "Pitchfork, Decrepit (+2 Sticks)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pitchfork/aalloy
@@ -103,6 +111,7 @@
 
 /datum/anvil_recipe/tools/aalloy/hammer
 	name = "Hammer, Decrepit (+1 Stick)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/aalloy
@@ -111,6 +120,7 @@
 
 /datum/anvil_recipe/tools/paalloy/hammer
 	name = "Hammer, Ancient (+1 Stick)"
+	category = "Ancient Alloy"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/paalloy
@@ -119,6 +129,7 @@
 
 /datum/anvil_recipe/tools/aalloy/sickle
 	name = "Sickle, Decrepit (+1 Stick)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/sickle/aalloy
@@ -127,6 +138,7 @@
 
 /datum/anvil_recipe/tools/aalloy/tongs
 	name = "Tongs, Decrepit"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/tongs/aalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -134,6 +146,7 @@
 
 /datum/anvil_recipe/tools/paalloy/tongs
 	name = "Tongs, Ancient"
+	category = "Ancient Alloy"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/tongs/paalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -141,6 +154,7 @@
 
 /datum/anvil_recipe/tools/aalloy/pick
 	name = "Pickaxe, Decrepit (+1 Stick)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pick/aalloy
@@ -149,6 +163,7 @@
 
 /datum/anvil_recipe/tools/aalloy/shovel
 	name = "Shovel, Decrepit (+2 Sticks)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/shovel/aalloy
@@ -157,6 +172,7 @@
 
 /datum/anvil_recipe/tools/aalloy/sewingneedle
 	name = "Needles, Decrepit (x3)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/needle/aalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -164,18 +180,21 @@
 
 /datum/anvil_recipe/tools/aalloy/pan
 	name = "Frypan, Decrepit"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/cooking/pan/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/blacksteel/pan
 	name = "Frypan, Blacksteel"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/cooking/pan/blacksteel
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/aalloy/agobs
 	name = "Goblet, Decrepit (x3)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/reagent_containers/glass/cup/aalloygob
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -183,6 +202,7 @@
 
 /datum/anvil_recipe/tools/aalloy/amugs
 	name = "Mug, Decrepit (x3)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/reagent_containers/glass/cup/aalloymug
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -190,12 +210,14 @@
 
 /datum/anvil_recipe/tools/aalloy/pot
 	name = "Cooking Pot, Decrepit"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/reagent_containers/glass/bucket/pot/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/aalloy/platter
 	name = "Platter, Decrepit (x3)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/cooking/platter/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -203,12 +225,14 @@
 
 /datum/anvil_recipe/tools/aalloy/bowl
 	name = "Bowl, Decrepit"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/reagent_containers/glass/bowl/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/aalloy/fork
 	name = "Fork, Decrepit (x3)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/kitchen/fork/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -216,6 +240,7 @@
 
 /datum/anvil_recipe/tools/aalloy/spoon
 	name = "Spoon, Decrepit (x3)"
+	category = "Decrepit Alloy"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/kitchen/spoon/aalloy
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -224,6 +249,7 @@
 // ------- BRONZE -----------
 /datum/anvil_recipe/tools/bronze/thresher
 	name = "Thresher, Bronze (+1 Stick)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/thresher/bronze
@@ -232,6 +258,7 @@
 
 /datum/anvil_recipe/tools/bronze/hoe
 	name = "Hoe, Bronze (+2 Sticks)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hoe/bronze
@@ -240,6 +267,7 @@
 
 /datum/anvil_recipe/tools/bronze/pitchfork
 	name = "Pitchfork, Bronze (+2 Sticks)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pitchfork/bronze
@@ -248,6 +276,7 @@
 
 /datum/anvil_recipe/tools/bronze/hammer
 	name = "Hammer, Bronze (+1 Stick)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/bronze
@@ -256,6 +285,7 @@
 
 /datum/anvil_recipe/tools/bronze/sickle
 	name = "Sickle, Bronze (+1 Stick)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/sickle/bronze
@@ -264,6 +294,7 @@
 
 /datum/anvil_recipe/tools/bronze/tongs
 	name = "Tongs, Bronze"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/rogueweapon/tongs/bronze
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -271,6 +302,7 @@
 
 /datum/anvil_recipe/tools/bronze/pick
 	name = "Axepick, Bronze (+1 Stick, +1 Bronze)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/ingot/bronze)
 	created_item = /obj/item/rogueweapon/pick/bronze
@@ -279,6 +311,7 @@
 
 /datum/anvil_recipe/tools/bronze/shovel
 	name = "Shovel, Bronze (+2 Sticks)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/shovel/bronze
@@ -287,6 +320,7 @@
 
 /datum/anvil_recipe/tools/bronze/sewingneedle
 	name = "Needle, Bronze (x2)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/needle/bronze
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -295,6 +329,7 @@
 
 /datum/anvil_recipe/tools/bronze/pan
 	name = "Frypan, Bronze"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/cooking/pan/bronze
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -302,6 +337,7 @@
 
 /datum/anvil_recipe/tools/bronze/pot
 	name = "Cooking Pot, Bronze"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/bucket/pot/bronze
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -309,6 +345,7 @@
 
 /datum/anvil_recipe/tools/bronze/handsaw
 	name = "Handsaw, Bronze (+1 Stick)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/handsaw/bronze
@@ -316,12 +353,14 @@
 
 /datum/anvil_recipe/tools/bronze/chisel
 	name = "Chisel, Bronze"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/rogueweapon/chisel/bronze
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/tools/bronze/gobs
 	name = "Goblet, Bronze (x2)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/cup/bronzegob
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -329,6 +368,7 @@
 
 /datum/anvil_recipe/tools/bronze/amugs
 	name = "Mug, Bronze (x2)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/cup/bronzemug
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -337,6 +377,7 @@
 
 /datum/anvil_recipe/tools/bronze/platter
 	name = "Platter, Bronze (x2)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/cooking/platter/bronze
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -345,6 +386,7 @@
 
 /datum/anvil_recipe/tools/bronze/bowl
 	name = "Bowl, Bronze"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/reagent_containers/glass/bowl/bronze
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -352,6 +394,7 @@
 
 /datum/anvil_recipe/tools/bronze/fork
 	name = "Fork, Bronze (x2)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/kitchen/fork/bronze
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -360,6 +403,7 @@
 
 /datum/anvil_recipe/tools/bronze/spoon
 	name = "Spoon, Bronze (x2)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/kitchen/spoon/bronze
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -368,6 +412,7 @@
 
 /datum/anvil_recipe/tools/bronze/lamptern
 	name = "Handlamptern, Bronze (+3 Sticks)"
+	category = "Bronze"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/flashlight/flare/torch/lantern/bronze
@@ -378,12 +423,14 @@
 
 /datum/anvil_recipe/tools/iron/blowrod
 	name = "Glass Blowing Rod"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rogueweapon/blowrod
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/tools/iron/surgerytools
 	name = "Surgeon's Bag (+1 Iron, +1 Cured Leather)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/iron, /obj/item/natural/hide/cured)
 	created_item = /obj/item/storage/belt/rogue/surgery_bag/full
@@ -391,6 +438,7 @@
 
 /datum/anvil_recipe/tools/iron/torch
 	name = "Fieftorches (x5) (+1 Coal)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/rogueore/coal)
 	created_item = /obj/item/flashlight/flare/torch/metal
@@ -399,12 +447,14 @@
 
 /datum/anvil_recipe/tools/iron/pan
 	name = "Frypan, Iron"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/cooking/pan
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/iron/keyring
 	name = "Keyrings (x3)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/storage/keyring
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -412,6 +462,7 @@
 
 /datum/anvil_recipe/tools/iron/sewingneedle
 	name = "Needles, Iron (x3)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/needle
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -419,6 +470,7 @@
 
 /datum/anvil_recipe/tools/iron/shovel
 	name = "Shovel, Iron (+2 Sticks)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/shovel
@@ -427,6 +479,7 @@
 
 /datum/anvil_recipe/tools/iron/hammer
 	name = "Hammer, Iron (+1 Stick)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/iron
@@ -435,6 +488,7 @@
 
 /datum/anvil_recipe/tools/iron/handsaw
 	name = "Handsaw, Iron (+1 Stick)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/handsaw
@@ -442,12 +496,14 @@
 
 /datum/anvil_recipe/tools/iron/chisel
 	name = "Chisel, Iron"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rogueweapon/chisel
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/tools/iron/tongs
 	name = "Tongs, Iron"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rogueweapon/tongs
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -455,6 +511,7 @@
 
 /datum/anvil_recipe/tools/iron/sickle
 	name = "Sickle, Iron (+1 Stick)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/sickle
@@ -463,6 +520,7 @@
 
 /datum/anvil_recipe/tools/iron/pick
 	name = "Pickaxe, Iron (+1 Stick)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pick
@@ -471,6 +529,7 @@
 
 /datum/anvil_recipe/tools/iron/hoe
 	name = "Hoe, Iron (+2 Sticks)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hoe
@@ -479,6 +538,7 @@
 
 /datum/anvil_recipe/tools/iron/pitchfork
 	name = "Pitchfork, Iron (+2 Sticks)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pitchfork
@@ -487,6 +547,7 @@
 
 /datum/anvil_recipe/tools/iron/lamptern
 	name = "Lampterns, Iron (x3)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/flashlight/flare/torch/lantern
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -494,6 +555,7 @@
 
 /datum/anvil_recipe/tools/iron/scrap
 	name = "Scrap, Iron"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/scrap
 	display_category = ITEM_CAT_SALVAGE
@@ -501,6 +563,7 @@
 
 /datum/anvil_recipe/tools/iron/cups
 	name = "Cups, Iron (x3)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/reagent_containers/glass/cup
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -508,6 +571,7 @@
 
 /datum/anvil_recipe/tools/iron/thresher
 	name = "Thresher, Iron (+1 Stick)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/thresher
@@ -516,6 +580,7 @@
 
 /datum/anvil_recipe/tools/iron/headhook
 	name = "Headhook, Iron (+2 Fibers)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/natural/fibers, /obj/item/natural/fibers)
 	created_item = /obj/item/storage/hip/headhook
@@ -526,6 +591,7 @@
 
 /datum/anvil_recipe/tools/steel/metalrepairkit
 	name = "Armor Plates (x2) (+1 Steel, +1 Iron, +1 Cured Leather)"
+	category = "Steel"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/iron, /obj/item/natural/hide/cured)
 	created_item = /obj/item/repair_kit/metal
@@ -535,6 +601,7 @@
 
 /datum/anvil_recipe/tools/steel/hammer
 	name = "Claw Hammer (+1 Stick)"
+	category = "Steel"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/steel
@@ -542,6 +609,7 @@
 
 /datum/anvil_recipe/tools/steel/pick
 	name = "Pickaxe, Steel (+1 Stick)"
+	category = "Steel"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pick/steel
@@ -550,6 +618,7 @@
 
 /datum/anvil_recipe/tools/steel/cups
 	name = "Goblet, Steel (x3)"
+	category = "Steel"
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/reagent_containers/glass/cup/steel
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -557,6 +626,7 @@
 
 /datum/anvil_recipe/tools/steel/chefknife
 	name = "Chef's Knife"
+	category = "Steel"
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/rogueweapon/huntingknife/chefknife
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -564,6 +634,7 @@
 
 /datum/anvil_recipe/tools/steel/cleaver
 	name = "Cleaver"
+	category = "Steel"
 	req_bar = /obj/item/ingot/steel
 	created_item = /obj/item/rogueweapon/huntingknife/chefknife/cleaver
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -573,6 +644,7 @@
 
 /datum/anvil_recipe/tools/silver/carafe
 	name = "Carafe, Silver (x2)"
+	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/reagent_containers/glass/carafe/silver
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -580,6 +652,7 @@
 
 /datum/anvil_recipe/tools/silver/cups
 	name = "Goblet, Silver (x3)"
+	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/reagent_containers/glass/cup/silver
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -587,6 +660,7 @@
 
 /datum/anvil_recipe/tools/silver/smallcups
 	name = "Cup, Silver (x3)"
+	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/reagent_containers/glass/cup/silver/small
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -594,6 +668,7 @@
 
 /datum/anvil_recipe/tools/silver/shovel
 	name = "Shovel, Silver (+1 Small Log)"
+	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/shovel/silver
@@ -601,6 +676,7 @@
 
 /datum/anvil_recipe/tools/silver/spoon
 	name = "Spoon, Silver (x3)"
+	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/kitchen/spoon/silver
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -608,6 +684,7 @@
 
 /datum/anvil_recipe/tools/silver/fork
 	name = "Fork, Silver (x3)"
+	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/kitchen/fork/silver
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -617,6 +694,7 @@
 
 /datum/anvil_recipe/tools/gold/cups
 	name = "Goblet, Gold (x3)"
+	category = "Gold"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/reagent_containers/glass/cup/golden
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -624,6 +702,7 @@
 
 /datum/anvil_recipe/tools/gold/carafe
 	name = "Carafe, Gold (x2)"
+	category = "Gold"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/reagent_containers/glass/carafe/gold
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -631,6 +710,7 @@
 
 /datum/anvil_recipe/tools/gold/smallcups
 	name = "Cup, Gold (x3)"
+	category = "Gold"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/reagent_containers/glass/cup/golden/small
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -638,12 +718,14 @@
 
 /datum/anvil_recipe/tools/gold/bowl
 	name = "Bowl, Gold"
+	category = "Gold"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/reagent_containers/glass/bowl/gold
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/gold/fork
 	name = "Fork, Gold (x3)"
+	category = "Gold"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/kitchen/fork/gold
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -651,6 +733,7 @@
 
 /datum/anvil_recipe/tools/gold/spoon
 	name = "Spoon, Gold (x3)"
+	category = "Gold"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/kitchen/spoon/gold
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -659,24 +742,28 @@
 // --------- COOKING RECIPES -----------
 /datum/anvil_recipe/tools/iron/pot
 	name = "Cooking Pot, Iron"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/reagent_containers/glass/bucket/pot
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/iron/kettle
 	name = "Cooking Kettle, Iron"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/reagent_containers/glass/bucket/pot/kettle
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/copper/pot
 	name = "Cooking Pot, Copper"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/reagent_containers/glass/bucket/pot/copper
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/tools/copper/platter
 	name = "Platter, Copper (x2)"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/cooking/platter/copper
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -684,6 +771,7 @@
 
 /datum/anvil_recipe/tools/tin/platter
 	name = "Platter, Pewter (x2)"
+	category = "Tin"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/cooking/platter/pewter
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -691,6 +779,7 @@
 
 /datum/anvil_recipe/tools/tin/cup
 	name = "Cup, Pewter (x2)"
+	category = "Tin"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/reagent_containers/glass/cup/silver/pewter
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -698,6 +787,7 @@
 
 /datum/anvil_recipe/tools/gold/platter
 	name = "Platter, Gold (x2)"
+	category = "Gold"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/cooking/platter/gold
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -705,6 +795,7 @@
 
 /datum/anvil_recipe/tools/silver/platter
 	name = "Platter, Silver (x2)"
+	category = "Silver"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/cooking/platter/silver
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -712,6 +803,7 @@
 
 /datum/anvil_recipe/tools/iron/spoon
 	name = "Spoon, Iron (x3)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/kitchen/spoon/iron
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -719,6 +811,7 @@
 
 /datum/anvil_recipe/tools/tin/spoon
 	name = "Spoon, Pewter (x3)"
+	category = "Tin"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/kitchen/spoon/tin
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -726,6 +819,7 @@
 
 /datum/anvil_recipe/tools/iron/fork
 	name = "Fork, Iron (x3)"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/kitchen/fork/iron
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -733,6 +827,7 @@
 
 /datum/anvil_recipe/tools/tin/fork
 	name = "Fork, Pewter (x3)"
+	category = "Tin"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/kitchen/fork/tin
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -740,6 +835,7 @@
 
 /datum/anvil_recipe/tools/iron/bowl
 	name = "Bowl, Iron"
+	category = "Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/reagent_containers/glass/bowl/iron
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -748,6 +844,7 @@
 // --------- HEARTBEAST TOOLS -----------
 /datum/anvil_recipe/tools/heartbeast_vials
 	name = "Blood Vials"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/heart_blood_vial
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -756,6 +853,7 @@
 
 /datum/anvil_recipe/tools/heartbeast_canisters
 	name = "Blood Canisters"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/heart_blood_canister
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -764,6 +862,7 @@
 
 /datum/anvil_recipe/tools/aspect_canisters
 	name = "Aspect Canisters"
+	category = "Copper"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/heart_canister
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -773,6 +872,7 @@
 //Blacksteel.
 /datum/anvil_recipe/tools/blacksteel/hammer
 	name = "Blacksteel Hammer (+1 Stick)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/blacksteel
@@ -780,6 +880,7 @@
 
 /datum/anvil_recipe/tools/blacksteel/pick
 	name = "Blacksteel Pickaxe (+1 Stick)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pick/blacksteel
@@ -787,12 +888,14 @@
 
 /datum/anvil_recipe/tools/blacksteel/tongs
 	name = "Blacksteel Tongs"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/rogueweapon/tongs/blacksteel
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/tools/blacksteel/handsaw
 	name = "Handsaw, Blacksteel (+1 Stick)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/handsaw/blacksteel
@@ -800,12 +903,14 @@
 
 /datum/anvil_recipe/tools/blacksteel/chisel
 	name = "Chisel, Blacksteel"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/rogueweapon/chisel/blacksteel
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/tools/blacksteel/thresher
 	name = "Thresher, Blacksteel (+1 Stick)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/thresher/blacksteel
@@ -814,6 +919,7 @@
 
 /datum/anvil_recipe/tools/blacksteel/hoe
 	name = "Hoe, Blacksteel (+2 Sticks)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hoe/blacksteel
@@ -822,6 +928,7 @@
 
 /datum/anvil_recipe/tools/blacksteel/pitchfork
 	name = "Pitchfork, Blacksteel (+2 Sticks)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick,/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pitchfork/blacksteel
@@ -830,6 +937,7 @@
 
 /datum/anvil_recipe/tools/blacksteel/sickle
 	name = "Sickle, Blacksteel (+1 Stick)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/sickle/blacksteel
@@ -838,6 +946,7 @@
 
 /datum/anvil_recipe/tools/blacksteel/shovel
 	name = "Shovel, Blacksteel (+2 Sticks)"
+	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/shovel/blacksteel
