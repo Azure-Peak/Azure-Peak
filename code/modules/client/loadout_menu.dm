@@ -9,6 +9,7 @@
 /datum/loadout_menu
 	var/client/owner
 	var/list/gear_list = list()
+	var/preview = FALSE
 
 /datum/loadout_menu/New(client/C)
 	owner = C
@@ -91,13 +92,21 @@
 		var/list/meta = gear_list[item_name]
 		if(!islist(meta))
 			meta = list()
+		if(meta["custom_name"] && !meta["custom_name_parsed"]) // handling for older savefiles
+			meta["custom_name_parsed"] = sanitize(meta["custom_name"])
+			gear_list[item_name] = meta
+		if(meta["custom_desc"] && !meta["custom_desc_parsed"]) // handling for older savefiles
+			meta["custom_desc_parsed"] = sanitize(meta["custom_desc"])
+			gear_list[item_name] = meta
 		selected += list(list(
 			"name" = item_name,
 			"color" = meta["color"],
 			"detail_color" = meta["detail_color"],
 			"altdetail_color" = meta["altdetail_color"],
 			"custom_name" = meta["custom_name"],
-			"custom_desc" = meta["custom_desc"]
+			"custom_name_parsed" = meta["custom_name_parsed"],
+			"custom_desc" = meta["custom_desc"],
+			"custom_desc_parsed" = meta["custom_desc_parsed"]
 		))
 
 	var/triumph_discount = (is_donator(user.ckey) || user?.client?.holder) ? LOADOUT_TRIUMPH_DISCOUNT : 0
@@ -106,6 +115,7 @@
 	data["total_triumph_cost"] = total_triumph_cost
 	data["effective_triumph_cost"] = max(0, total_triumph_cost - triumph_discount)
 	data["player_triumphs"] = user.get_triumphs() || 0
+	data["preview"] = preview
 	return data
 
 /datum/loadout_menu/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -175,8 +185,10 @@
 				gear_list[item_name] = meta
 			if(custom_name)
 				meta["custom_name"] = copytext(custom_name, 1, MAX_NAME_LEN)
+				meta["custom_name_parsed"] = parsemarkdown_basic(html_encode(meta["custom_name"]))
 			else
 				meta -= "custom_name"
+				meta -= "custom_name_parsed"
 			return TRUE
 
 		if("set_custom_desc")
@@ -190,8 +202,11 @@
 				gear_list[item_name] = meta
 			if(custom_desc)
 				meta["custom_desc"] = copytext(custom_desc, 1, LOADOUT_MAX_DESC_LEN)
+				meta["custom_desc_parsed"] = parsemarkdown_basic(html_encode(meta["custom_desc"]))
+				meta["custom_desc_parsed"] = replacetext(meta["custom_desc_parsed"], "\n", "<br/>") // markdown processor eats newlines otherwise
 			else
 				meta -= "custom_desc"
+				meta -= "custom_desc_parsed"
 			return TRUE
 
 		if("clear_all")
@@ -205,6 +220,9 @@
 				owner.prefs.update_pref_data_for_all_viewers()
 			ui.close()
 			return TRUE
+
+		if("preview")
+			preview = !preview
 
 #undef LOADOUT_MAX_POINTS
 #undef LOADOUT_MAX_DESC_LEN
