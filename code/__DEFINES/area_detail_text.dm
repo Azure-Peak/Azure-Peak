@@ -48,6 +48,7 @@ One must wonder if those stygian-filligreed constructs have survived in the peat
 Abyssor rests offshore. Even his quietest exhale is enough to send waves from the hadal to crash onto sand."
 #define DETAIL_TEXT_NORTH_COAST_HAMLET "Empty houses, and rotting fields. A half-hundred homesteaders broke ground here, before the touch of Zizo swept the north. Some of their bones still yet remain, clustered around their once-chapel in a twisted pantomime of lyfe. Above the altar, a promise has been scratched into stained glass: This too shall stand."
 #define DETAIL_TEXT_MAD_DUKE_COURT ""
+#define DETAIL_TEXT_FALLEN_MANOR "A once-grand attempt at nobility now reduced to no more than a crumbling mess of what was once overly optimistic expansion, destroyed by the fallen 'Duke's' greed and lust for more control than he could truly handle. Not happy with simply being a serf, he sought more, and fell to ruin because of it. Now known as the Fallen 'Duke', he rots in his decayed manor, surrounded by his undead minions."
 
 // Actual Azure Coast
 #define DETAIL_TEXT_ACTUAL_COAST ""
@@ -75,6 +76,7 @@ Rusted metals distantly grind in anoxic pus-condensate in-tune with the Signal. 
 
 #define DETAIL_TEXT_HIS_VAULT ""
 #define DETAIL_TEXT_FISHMAN_DUNGEON ""
+#define DETAIL_TEXT_WATER_TEMPLE "An ancient cistern lost to time and neglect, now overrun with the indescribable- only those brave enough to delve it's inner sanctums able to say for sure what lurks within"
 
 // Forsaken Cathedral
 #define DETAIL_TEXT_FORSAKEN_CATHEDRAL ""

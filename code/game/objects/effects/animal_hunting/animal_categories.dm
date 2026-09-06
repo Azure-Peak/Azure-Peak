@@ -35,7 +35,18 @@
 		/area/rogue/outdoors/woods/south = 30,
 		/area/rogue/outdoors/woods/southwest = 30,
 		/area/rogue/outdoors/woods/northwest = 30,
-		/area/rogue/outdoors/rtfield = 50
+		/area/rogue/outdoors/rtfield = 50,
+		// Pilgrim counterparts
+		/area/rogue/outdoors/woods/grim = 30,
+		/area/rogue/outdoors/woods/grim/north = 30,
+		/area/rogue/outdoors/woods/grim/northeast = 30,
+		/area/rogue/outdoors/woods/grim/northeast/wardenscheckpoint = 30,
+		/area/rogue/outdoors/woods/grim/southeast = 30,
+		/area/rogue/outdoors/woods/grim/south = 30,
+		/area/rogue/outdoors/woods/grim/southwest = 30,
+		/area/rogue/outdoors/woods/grim/northwest = 30,
+		/area/rogue/outdoors/rtfield/grim = 50,
+		/area/rogue/outdoors/rtfield/grim/south = 50
 	)
 
 /datum/hunting_category/mid_tier
@@ -58,7 +69,16 @@
 		/area/rogue/outdoors/woods/southeast = 50,
 		/area/rogue/outdoors/woods/south = 50,
 		/area/rogue/outdoors/woods/southwest = 50,
-		/area/rogue/outdoors/woods/northwest = 50
+		/area/rogue/outdoors/woods/northwest = 50,
+		// Pilgrim counterparts
+		/area/rogue/outdoors/woods/grim = 50,
+		/area/rogue/outdoors/woods/grim/north = 50,
+		/area/rogue/outdoors/woods/grim/northeast = 50,
+		/area/rogue/outdoors/woods/grim/northeast/wardenscheckpoint = 50,
+		/area/rogue/outdoors/woods/grim/southeast = 50,
+		/area/rogue/outdoors/woods/grim/south = 50,
+		/area/rogue/outdoors/woods/grim/southwest = 50,
+		/area/rogue/outdoors/woods/grim/northwest = 50
 	)
 
 /datum/hunting_category/high_tier
@@ -87,7 +107,17 @@
 		/area/rogue/outdoors/woods/south = 20,
 		/area/rogue/outdoors/woods/southwest = 20,
 		/area/rogue/outdoors/woods/northwest = 20,
-		/area/rogue/outdoors/mountains/decap = 50
+		/area/rogue/outdoors/mountains/decap = 50,
+		// Pilgrim counterparts
+		/area/rogue/outdoors/woods/grim = 20,
+		/area/rogue/outdoors/woods/grim/north = 20,
+		/area/rogue/outdoors/woods/grim/northeast = 20,
+		/area/rogue/outdoors/woods/grim/northeast/wardenscheckpoint = 20,
+		/area/rogue/outdoors/woods/grim/southeast = 20,
+		/area/rogue/outdoors/woods/grim/south = 20,
+		/area/rogue/outdoors/woods/grim/southwest = 20,
+		/area/rogue/outdoors/woods/grim/northwest = 20,
+		/area/rogue/outdoors/mountains/decap/grim = 50
 	)
 
 /datum/hunting_category/cursed
@@ -112,7 +142,11 @@
 	preferred_areas = list(
 		/area/rogue/outdoors/beach/forest = 1000,
 		/area/rogue/outdoors/beach/forest/north = 1000,
-		/area/rogue/outdoors/beach/forest/south = 1000
+		/area/rogue/outdoors/beach/forest/south = 1000,
+		// Pilgrim counterparts
+		/area/rogue/outdoors/beach/forest/grim = 1000,
+		/area/rogue/outdoors/beach/forest/north/grim = 1000,
+		/area/rogue/outdoors/beach/forest/south/grim = 1000
 	)
 
 /datum/hunting_category/spiders
@@ -130,7 +164,11 @@
 		/area/rogue/under/underdark = 40,
 		/area/rogue/under/underdark/south = 40,
 		/area/rogue/under/underdark/north = 40,
-		/area/rogue/under/cavewet = 40
+		/area/rogue/under/cavewet = 40,
+		// Pilgrim counterparts
+		/area/rogue/under/underdark/grim = 40,
+		/area/rogue/under/underdark/south/grim = 40,
+		/area/rogue/under/underdark/north/grim = 40
 	)
 
 /datum/hunting_category/mire_spiders
@@ -157,7 +195,12 @@
 		/area/rogue/under/cavewet/bogcaves/central = 60,
 		/area/rogue/under/cavewet/bogcaves/south = 60,
 		/area/rogue/under/cavewet/bogcaves/north = 60,
-		/area/rogue/under/cavewet/bogcaves/coastcaves = 60
+		/area/rogue/under/cavewet/bogcaves/coastcaves = 60,
+		// Pilgrim counterparts
+		/area/rogue/outdoors/bog/north/grim = 60,
+		/area/rogue/outdoors/bog/north/grim/ne = 60,
+		/area/rogue/outdoors/bog/south/grim = 60,
+		/area/rogue/outdoors/bog/south/grim/se = 60
 	)
 
 // HUNTING MAP PREFERRED CATEGORIES

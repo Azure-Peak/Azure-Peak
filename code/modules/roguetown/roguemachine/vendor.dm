@@ -409,6 +409,19 @@
 
 	update_icon()
 
+/obj/structure/roguemachine/vendor/tavernstaff
+	keycontrol = "tavern"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/tavernstaff/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/tavernstaff, /obj/item/roguekey/tavernstaff/two, /obj/item/roguekey/tavernstaff/three, /obj/item/roguekey/tavernstaff/four, /obj/item/roguekey/tavernstaff/five))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
 /obj/structure/roguemachine/vendor/merchant
 	keycontrol = "merchant"
 
@@ -454,6 +467,19 @@
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/druid //contains the keys to the druid bedrooms
+	keycontrol = "druidtreebig"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/druid/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/church/druid, /obj/item/roguekey/church/druid/two, /obj/item/roguekey/church/druidmaster, /obj/item/storage/keyring, /obj/item/roguekey/church/druidmaster, /obj/item/storage/keyring))
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
@@ -511,6 +537,32 @@
 		held_items[P]["NAME"] = P.name
 		held_items[P]["PRICE"] = 0
 
+/obj/structure/roguemachine/vendor/keep_menatarms
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_menatarms/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/manatarms, /obj/item/roguekey/manor/manatarms/two, /obj/item/roguekey/manor/manatarms/three, /obj/item/roguekey/manor/manatarms/four, /obj/item/roguekey/manor/manatarms/five, /obj/item/roguekey/manor/manatarms/six))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_vipguests
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_vipguests/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/guestvip, /obj/item/roguekey/manor/guestvip/two))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
 /obj/structure/roguemachine/vendor/keep_squire
 	keycontrol = "lord"
 	will_hawk = FALSE
@@ -538,6 +590,34 @@
 		held_items[P]["NAME"] = P.name
 		held_items[P]["PRICE"] = 0
 
+// UNIVERSITY ROOMS
+
+/obj/structure/roguemachine/vendor/collegekeys
+	keycontrol = "mage"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/collegekeys/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/associate, /obj/item/roguekey/associate/two, /obj/item/roguekey/associate/three, /obj/item/roguekey/associate/four))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/collegekeys_two
+	keycontrol = "mage"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/collegekeys_two/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/apprentice, /obj/item/roguekey/apprentice/two))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
 /obj/structure/roguemachine/vendor/inq_keys
 	keycontrol = "puritan"
 	will_hawk = FALSE
@@ -546,6 +626,21 @@
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/ortho_one, /obj/item/roguekey/ortho_two, /obj/item/roguekey/ortho_three))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+//MERCENARY//
+
+/obj/structure/roguemachine/vendor/merc_keys
+	keycontrol = "mercenary"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/merc_keys/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/mercenary/bedrooms, /obj/item/roguekey/mercenary/bedrooms/ii, /obj/item/roguekey/mercenary/bedrooms/iii, /obj/item/roguekey/mercenary/bedrooms/iv, /obj/item/roguekey/mercenary/bedrooms/v, /obj/item/roguekey/mercenary/bedrooms/vi, /obj/item/roguekey/mercenary/bedrooms/vii, /obj/item/roguekey/mercenary/bedrooms/viii, /obj/item/roguekey/mercenary/cell))
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
@@ -624,3 +719,31 @@
 	. += span_info("The PEDDLER CART will bind to the first key inserted into its lock by left-clicking with said key.")
 	. += span_info("Owners of the PEDDLER CART can UNLOCK it by left-clicking with the relevant key, allowing them both restock wares and vend whatever coinage might've been earned from completed sales.")
 	. += span_info("Owners of the PEDDLER CART can ANCHOR it by right-clicking with the relevant key, preventing the wheels from moving.")
+//PILGRIM
+
+/obj/structure/roguemachine/vendor/church_bedroomset_grim
+	keycontrol = "priest"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/church_bedroomset_grim/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/church/roomi, /obj/item/roguekey/church/roomii, /obj/item/roguekey/church/roomiii, /obj/item/roguekey/church/roomiv, /obj/item/roguekey/church/roomv, /obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/apothecaryrooms
+	keycontrol = "apothecary"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/apothecaryrooms/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/apothecary/roomone, /obj/item/roguekey/apothecary/roomtwo))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+//PILGRIM END

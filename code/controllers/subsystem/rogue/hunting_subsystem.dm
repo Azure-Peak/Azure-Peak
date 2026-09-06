@@ -7,14 +7,23 @@ GLOBAL_LIST_INIT(bog_mire, list(
 	/area/rogue/under/cavewet/bogcaves/central,
 	/area/rogue/under/cavewet/bogcaves/south,
 	/area/rogue/under/cavewet/bogcaves/north,
-	/area/rogue/under/cavewet/bogcaves/coastcaves
+	/area/rogue/under/cavewet/bogcaves/coastcaves,
+	// Pilgrim counterparts
+	/area/rogue/outdoors/bog/north/grim,
+	/area/rogue/outdoors/bog/north/grim/ne,
+	/area/rogue/outdoors/bog/south/grim,
+	/area/rogue/outdoors/bog/south/grim/se
 ))
 
 GLOBAL_LIST_INIT(underdark, list(
 	/area/rogue/under/underdark,
 	/area/rogue/under/underdark/south,
 	/area/rogue/under/underdark/north,
-	/area/rogue/under/cavewet
+	/area/rogue/under/cavewet,
+	// Pilgrim counterparts
+	/area/rogue/under/underdark/grim,
+	/area/rogue/under/underdark/south/grim,
+	/area/rogue/under/underdark/north/grim
 ))
 
 GLOBAL_LIST_INIT(main_forest, list(
@@ -24,13 +33,26 @@ GLOBAL_LIST_INIT(main_forest, list(
 	/area/rogue/outdoors/woods/southeast,
 	/area/rogue/outdoors/woods/south,
 	/area/rogue/outdoors/woods/southwest,
-	/area/rogue/outdoors/woods/northwest
+	/area/rogue/outdoors/woods/northwest,
+	// Pilgrim counterparts
+	/area/rogue/outdoors/woods/grim,
+	/area/rogue/outdoors/woods/grim/north,
+	/area/rogue/outdoors/woods/grim/northeast,
+	/area/rogue/outdoors/woods/grim/northeast/wardenscheckpoint,
+	/area/rogue/outdoors/woods/grim/southeast,
+	/area/rogue/outdoors/woods/grim/south,
+	/area/rogue/outdoors/woods/grim/southwest,
+	/area/rogue/outdoors/woods/grim/northwest
 ))
 
 GLOBAL_LIST_INIT(coastal_forest, list(
 	/area/rogue/outdoors/beach/forest,
 	/area/rogue/outdoors/beach/forest/north,
-	/area/rogue/outdoors/beach/forest/south
+	/area/rogue/outdoors/beach/forest/south,
+	// Pilgrim counterparts
+	/area/rogue/outdoors/beach/forest/grim,
+	/area/rogue/outdoors/beach/forest/north/grim,
+	/area/rogue/outdoors/beach/forest/south/grim
 ))
 
 SUBSYSTEM_DEF(hunting)

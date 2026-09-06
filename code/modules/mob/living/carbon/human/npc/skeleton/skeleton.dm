@@ -53,6 +53,10 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
+/mob/living/carbon/human/species/skeleton/npc/fallenduke
+	threat_point = THREAT_ELITE
+	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/fallenduke
+
 /mob/living/carbon/human/species/skeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()

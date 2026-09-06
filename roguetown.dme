@@ -1137,6 +1137,7 @@
 #include "code\game\area\random_dungeons\forsaken_cathedral.dm"
 #include "code\game\area\random_dungeons\gethsmane.dm"
 #include "code\game\area\random_dungeons\his_vault.dm"
+#include "code\game\area\random_dungeons\water_temple.dm"
 #include "code\game\area\town\town.dm"
 #include "code\game\area\town\undertown.dm"
 #include "code\game\gamemodes\objective.dm"

@@ -255,6 +255,39 @@
 /turf/closed/wall/mineral/rogue/wooddark/slitted
 	icon_state = "slittedwooddark"
 
+/turf/closed/wall/mineral/rogue/woodbark
+	name = "bark wall"
+	desc = "a natural wall of dark bark."
+	icon = 'icons/turf/roguewall.dmi'
+	icon_state = "woodbark"
+	smooth = SMOOTH_FALSE
+	blade_dulling = DULLING_BASHCHOP
+	max_integrity = 1100
+	break_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
+	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
+	above_floor = /turf/open/floor/rogue/ruinedwood
+	baseturfs = /turf/open/floor/rogue/ruinedwood
+	neighborlay = "dirtedge"
+	climbdiff = 3
+	burn_power = 20
+	spread_chance = 4
+
+/turf/closed/wall/mineral/rogue/woodbark/Initialize()
+	dir = pick(NORTH, SOUTH, EAST, WEST)
+	return ..()
+
+/turf/closed/wall/mineral/rogue/woodbark/window
+	name = "bark window"
+	desc = "a natural window of dark wood, punched through the stump of a branch."
+	icon_state = "woodbarkwindow"
+	opacity = FALSE
+	max_integrity = 850
+
+/turf/closed/wall/mineral/rogue/woodbark/window/CanPass(atom/movable/mover, turf/target)
+	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
+		return 1
+	return ..()
+
 /turf/closed/wall/mineral/rogue/wooddark/window
 	name = "dark wood window"
 	icon_state = "subwindow"

@@ -1,4 +1,4 @@
-// Azure Coast - the northern part of the map - may not be actually coast 
+// Azure Coast - the northern part of the map - may not be actually coast
 /area/rogue/outdoors/beach/forest
 	name = "Azure Coast"
 	loot_budget = LOOT_BUDGET_AZURE_COAST
@@ -64,3 +64,86 @@
 	deathsight_message = "somewhere betwixt Abyssor's realm and Dendor's bounty"
 	threat_region = THREAT_REGION_AZUREAN_COAST
 	detail_text = DETAIL_TEXT_MAD_DUKE_COURT
+//PILGRIM
+
+/area/rogue/outdoors/beach/forest/grim
+	name = "Bilewood"
+	loot_budget = LOOT_BUDGET_AZURE_COAST
+	loot_pool_key = "azure_coast"
+	icon_state = "beach"
+	icon_state = "woods"
+	ambientsounds = AMB_FORESTDAY
+	ambientnight = AMB_FORESTNIGHT
+	spookysounds = SPOOKY_CROWS
+	spookynight = SPOOKY_FOREST
+	droning_sound = list(, 'sound/music/area/grimtwilight.ogg', 'sound/music/area/grimdrama.ogg')
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimforest.ogg'
+	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
+	soundenv = 15
+	ambush_times = list("night","dusk")
+	ambush_mobs = list(
+				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 30,
+				/mob/living/simple_animal/hostile/retaliate/rogue/mole = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/bobcat = 20,
+				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 15,
+				/mob/living/carbon/human/species/human/northern/searaider/ambush = 10,
+				/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 3,
+				/mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush = 4,
+				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
+				/mob/living/carbon/human/species/orc/npc/footsoldier = 10,
+				/mob/living/carbon/human/species/orc/npc/archer = 3,
+				/mob/living/carbon/human/species/orc/npc/berserker = 10,
+				/mob/living/carbon/human/species/orc/npc/marauder = 10,
+				/mob/living/carbon/human/species/orc/npc/warlord = 4,
+				/mob/living/carbon/human/species/goblin/npc/ambush/sea = 40,
+				/mob/living/carbon/human/species/hobgoblin/npc/ambush = 12,
+				/mob/living/carbon/human/species/goblin/npc/archer/sea = 10,
+				new /datum/ambush_config/huscarl_raiding_party = 4)
+	first_time_text = "BILEWOOD"
+	converted_type = /area/rogue/indoors/shelter/woods/grim
+	deathsight_message = "somewhere betwixt Abyssor's realm and Dendor's bounty"
+	threat_region = THREAT_REGION_AZUREAN_COAST
+	detail_text = DETAIL_TEXT_NORTH_COAST
+
+/area/rogue/outdoors/beach/forest/hamlet/grim
+	name = "Bilewood - Hamlet"
+	first_time_text = "BILEWOOD HAMLET"
+	droning_sound = list(, 'sound/music/area/grimtwilight.ogg', 'sound/music/area/grimdrama.ogg', 'sound/music/area/grimcoast.ogg')
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimforest.ogg'
+	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
+	ambush_mobs = null // We don't want actual ambushes in Hamlet but we also don't want to misuse outdoors/beach lol
+	threat_region = THREAT_REGION_AZUREAN_COAST
+	detail_text = DETAIL_TEXT_NORTH_COAST_HAMLET
+
+/area/rogue/outdoors/beach/forest/north/grim
+	name = "Bilewood - North"
+	first_time_text = "BILEWOOD NORTH"
+	droning_sound = list(, 'sound/music/area/grimtwilight.ogg', 'sound/music/area/grimdrama.ogg', 'sound/music/area/grimcoast.ogg')
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimforest.ogg'
+	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
+	threat_region = THREAT_REGION_AZUREAN_COAST
+
+/area/rogue/outdoors/beach/forest/south/grim
+	name = "Bilewood - South"
+	first_time_text = "BILEWOOD SOUTH"
+	droning_sound = list(, 'sound/music/area/grimtwilight.ogg', 'sound/music/area/grimdrama.ogg', 'sound/music/area/grimcoast.ogg')
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimforest.ogg'
+	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
+	threat_region = THREAT_REGION_AZUREAN_COAST
+
+/area/rogue/under/cave/dukecourt/grim
+	name = "Fallen Manor"
+	loot_budget = LOOT_BUDGET_FALLEN_MANOR
+	icon_state = "duke"
+	first_time_text = "FALLEN MANOR"
+	droning_sound = list(, 'sound/music/area/manor.ogg', 'sound/music/area/manor2.ogg')
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
+	deathsight_message = "somewhere within a derelict manor, abandoned by those of reasonable mind"
+	threat_region = THREAT_REGION_AZUREAN_COAST
+	detail_text = DETAIL_TEXT_FALLEN_MANOR
+//PILGRIM END

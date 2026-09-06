@@ -133,6 +133,10 @@
 	skillcraft = /datum/skill/craft/engineering
 	ignoredensity = TRUE
 
+/datum/crafting_recipe/roguetown/engineering/shopbars/shoptwo
+	name = "trade window bars"
+	result = /obj/structure/bars/shoptwo
+
 /datum/crafting_recipe/roguetown/engineering/distiller
 	name = "copper distiller"
 	category = "Machines"

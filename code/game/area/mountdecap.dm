@@ -216,3 +216,79 @@
 	deathsight_message = "a twisted tangle of soaring peaks"
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+//PILGRIM
+
+/area/rogue/outdoors/mountains/decap/grim
+	name = "Mount Grymspyre"
+	loot_budget = LOOT_BUDGET_MOUNT_GRYMSPYRE
+	icon_state = "decap"
+	ambush_mobs = list(
+				// Singles — budget filler across all factions
+				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 15,
+				/mob/living/carbon/human/species/human/northern/highwayman/mount_reaver = 15,
+				/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 5,
+				/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 4,
+				/mob/living/carbon/human/species/skeleton/npc/medium = 15,
+				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
+				// Packs
+				new /datum/ambush_config/pair_of_direbear = 10,
+				new /datum/ambush_config/trio_of_highwaymen = 10,
+				new /datum/ambush_config/road_knight_escort = 5,
+				new /datum/ambush_config/singular_minotaur = 10,
+				new /datum/ambush_config/duo_minotaur = 5,
+				new /datum/ambush_config/solo_treasure_hunter = 15,
+				new /datum/ambush_config/duo_treasure_hunter = 2,
+				new /datum/ambush_config/medium_skeleton_party = 10,
+				new /datum/ambush_config/heavy_skeleton_party = 5,
+				)
+	droning_sound = 'sound/music/area/grimspire.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimspyre.ogg'
+	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
+	first_time_text = "MOUNT GRYMSPYRE"
+	ambush_times = list("night","dawn","dusk","day")
+	converted_type = /area/rogue/indoors/shelter/mountains/decap/grim
+	deathsight_message = "a spyre of jagged rock and winding crevices, surrounded by snow"
+	threat_region = THREAT_REGION_MOUNT_DECAP
+	detail_text = DETAIL_TEXT_DECAP
+
+/area/rogue/indoors/shelter/mountains/decap/grim
+	name = "Mount Grymspyre"
+	icon_state = "decap"
+	loot_budget = LOOT_BUDGET_GRYMSPYRE_SHELTERS
+	loot_pool_key = "decap_shelters"
+	droning_sound = 'sound/music/area/grimspire.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimspyre.ogg'
+	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
+	threat_region = THREAT_REGION_MOUNT_DECAP
+	deathsight_message = "the cover of jagged rock and winding crevices, buried in snow"
+	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+
+/area/rogue/under/cave/grimspyre
+	name = "Grymspyre Caverns"
+	icon_state = "decap"
+	loot_budget = LOOT_BUDGET_GRYMSPYRE_SHELTERS
+	loot_pool_key = "decap_shelters"
+	droning_sound = list('sound/music/area/grimcaves.ogg','sound/music/area/grimcaverns.ogg')
+	droning_sound_dusk = null
+	droning_sound_night = null
+	first_time_text = "GRYMSPYRE CAVERNS"
+	threat_region = THREAT_REGION_MOUNT_DECAP
+	deathsight_message = "deep within jagged rock and winding crevices, volcanic ash in the air"
+	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+
+/area/rogue/under/cave/grimspyre/depths
+	name = "Grymspyre Depths"
+	icon_state = "decap"
+	loot_budget = LOOT_BUDGET_GRYMSPYRE_DEPTHS
+	loot_pool_key = "decap_shelters"
+	droning_sound = 'sound/music/area/grimcaves.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	first_time_text = "GRYMSPYRE DEPTHS"
+	threat_region = THREAT_REGION_MOUNT_DECAP
+	deathsight_message = "deep within volcanic caverns, air thick with heat distortion"
+	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+//PILGRIM END

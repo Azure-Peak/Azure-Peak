@@ -1346,6 +1346,17 @@
 	wallcraft = TRUE
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/structure/bulletinboard
+	name = "bulletin board"
+	category = "Displays"
+	result = /obj/structure/roguemachine/noticeboard/wall/bulletinboard
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	tools = list(/obj/item/rogueweapon/hammer)
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	wallcraft = TRUE
+
 /datum/crafting_recipe/roguetown/structure/torchholder
 	name = "sconce"
 	category = "Lighting"

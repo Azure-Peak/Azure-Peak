@@ -3,6 +3,7 @@
 #ifndef LOWMEMORYMODE
 	#ifdef ALL_MAPS
 		#include "map_files\dun_world\dun_world.dmm"
+		#include "map_files\jagged_jaw\jagged_jaw.dmm"
 		#include "map_files\roguetest\roguetest.dmm"
 		#include "map_files\otherz\wretch_coast.dmm"
 
