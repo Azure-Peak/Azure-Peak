@@ -37,6 +37,8 @@
 	)
 	/// List of boon paths the hag has pre-prepared: [boon_path] = quantity
 	var/list/prepared_boons = list()
+	/// List of names the hag's taken and can give out
+	var/list/datum/hag_identity/stored_names = list()
 
 /datum/component/hag_curio_tracker/Initialize(mapload)
 	if(!isliving(parent))
@@ -47,6 +49,12 @@
 
 	// Let's avoid lagging the server on round start.
 	addtimer(CALLBACK(src, PROC_REF(recognize_fey)), 10 SECONDS)
+
+/datum/component/hag_curio_tracker/PreTransfer()
+	GLOB.active_hags -= parent
+
+/datum/component/hag_curio_tracker/PostTransfer()
+	GLOB.active_hags |= parent
 
 /datum/component/hag_curio_tracker/Destroy()
 	GLOB.active_hags -= parent
@@ -66,7 +74,7 @@
 				H.mind.i_know_person(hag_mob.mind)
 			found_any = TRUE
 			to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
-			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name] is walking the lands this week."))
+			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name], a [(H in GLOB.fey_vessels) ? "vessel" : "pactbound"], is walking the lands this week."))
 	if(found_any)
 		to_chat(hag_mob, span_boldnotice("As your eyes adjust to the emerald gloom, the threads of the Mossmother's older puppets become visible to you..."))
 
@@ -87,7 +95,11 @@
 		if(hag_mob && hag_mob.mind && victim)
 			hag_mob.mind.i_know_person(victim)
 
-	var/datum/hag_boon/B = new boon_path(true_name, src, set_points)
+
+	var/mob/living/victim = find_target(true_name)
+	var/datum/hag_boon/B = new boon_path(true_name, src, set_points, parent)
+	if(victim && HAS_TRAIT(victim, TRAIT_FEYTOUCHED))
+		B.transmutable = FALSE // you can't curse your feytouched for ez levelups
 	var/list/name_list = boon_registry[true_name]
 	name_list += B
 
@@ -251,6 +263,9 @@
 
 	var/active_victims = 0
 	for(var/v_name in boon_registry)
+		var/mob/living/victim = find_target(v_name)
+		if(victim && HAS_TRAIT(victim, TRAIT_FEYTOUCHED))
+			continue // feytouched don't count against your cap since they're already bound and can only have up to 30 pts of boons max
 		var/has_real_boon = FALSE
 		for(var/datum/hag_boon/B in boon_registry[v_name])
 			// If they have a valid hag boon that IS NOT a curse and IS NOT a scar
@@ -273,6 +288,10 @@
 		else
 			max_victims = 6
 			max_points = 110
+
+	var/mob/living/carbon/C = L
+	if(istype(C) && HAS_TRAIT(C, TRAIT_FEYTOUCHED))
+		max_points = C.extra_boon_budget
 
 	// Only block if we are trying to boon a NEW person and we're at the limit
 	// We check if the target currently has a real boon.
@@ -324,6 +343,20 @@
 					to_chat(parent, span_warning("[name_to_check] already possesses the knowledge this boon would grant."))
 					return FALSE
 
+	// Name check
+	if(ispath(boon_path, /datum/hag_boon/name))
+		var/mob/living/carbon/human/H = L
+		if(!H || !istype(H))
+			to_chat(parent, span_warning("This boon can only be applied to people!"))
+			return FALSE
+		if(!length(stored_names))
+			to_chat(parent, span_warning("I have no names to give!"))
+			return FALSE
+		var/datum/component/hag_name/idtheft = L.GetComponent(/datum/component/hag_name)
+		if(!idtheft || idtheft.identity.name != "Unknown")
+			to_chat(parent, span_warning("This boon can only be granted to the nameless!"))
+			return FALSE
+
 	return TRUE
 
 /datum/component/hag_curio_tracker/proc/antag_check(mob/living/carbon/C)
@@ -341,7 +374,7 @@
 		return FALSE
 	if(C.mind.has_antag_datum(/datum/antagonist/assassin))
 		return FALSE
-	if(HAS_TRAIT(C, TRAIT_FEYTOUCHED))
+	if(HAS_TRAIT(C, TRAIT_FEYTOUCHED) && !C.extra_boon_budget)
 		return FALSE
 	return TRUE
 
