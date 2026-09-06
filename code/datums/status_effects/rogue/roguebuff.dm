@@ -723,6 +723,8 @@
 
 #undef CONSUME_AURA
 
+/datum/status_effect/buff/healing/leechseed
+	outline_colour = GLOW_COLOR_DENDOR
 
 /atom/movable/screen/alert/status_effect/buff/healing/campfire
 	name = "Camp Rest"

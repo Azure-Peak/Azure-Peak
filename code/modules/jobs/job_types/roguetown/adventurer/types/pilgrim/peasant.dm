@@ -71,4 +71,4 @@
 			else
 				r_hand = seeds[seed_choice]
 		H.set_blindness(0)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/blesscrop/secular)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/dendor/bless/secular)

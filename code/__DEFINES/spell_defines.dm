@@ -22,10 +22,11 @@
 #define GLOW_COLOR_NOC "#9acdff" //Noc's lightbulb
 #define GLOW_COLOR_RAVOX "#7A1E30" //Ravox Crimson
 #define GLOW_COLOR_MALUM "#884610" //Malum Orange
+#define GLOW_COLOR_DENDOR "#707E47" //Dendor Green
 
 //Gods - Ascendant
 #define GLOW_COLOR_GRAGGAR "#19345E" //Graggar Dark Blue
-#define GLOW_COLOR_ZIZO "#b76bff" //Graggar Dark Purple
+#define GLOW_COLOR_ZIZO "#b76bff" //Zizo Dark Purple
 #define GLOW_COLOR_BAOTHA "#ff008c" //Baotha Violent Rose
 #define GLOW_COLOR_MATTHIOS "#ffd900" //Matthios Golden
 
