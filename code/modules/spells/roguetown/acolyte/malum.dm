@@ -305,7 +305,7 @@
 	duration = 50
 
 /////////////////////
-// T3 - Heat Metal //
+// T2 - Heat Metal //
 /////////////////////
 
 /datum/action/cooldown/spell/malum/heatmetal
