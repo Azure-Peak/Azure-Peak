@@ -1438,7 +1438,7 @@
 
 /obj/item/clothing/neck/roguetown/coif/baotha
 	name = "saccharine veil"
-	desc = "And yet, their methods differed; Belladoth proposed with Her lust and temptation, Eora with Her love and warmth.."
+	desc = "Their methods differed; Eora's love and warmth promised empty comfort, whereas Belladoth subsumed the priestess' pains entirely..."
 	icon_state = "baothacoif"
 	item_state = "baothacoif"
 	armor = ARMOR_PADDED

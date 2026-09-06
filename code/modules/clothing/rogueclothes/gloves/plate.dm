@@ -108,7 +108,7 @@
 
 /obj/item/clothing/gloves/roguetown/plate/baotha
 	name = "saccharine gauntlets"
-	desc = "Belladonna's ego died on that dae, and Baotha's venomous id rose in Her stead; for it was better to numb the regret than to face the guilt.."
+	desc = "Belladoth took the priestess in Her holy embrace and took her pain, and the pain of the priestess' congregation. The greatest taboo; combination of divinity and mortalkind to create something not quite either. Baotha was born."
 	icon_state = "baothagloves"
 	item_state = "baothagloves"
 	chunkcolor = "#6d1c87"
