@@ -231,6 +231,8 @@ SUBSYSTEM_DEF(gamemode)
 	var/forced_preset = FALSE
 	/// Whether soft antags (wretch/gnoll/assassin) scale with population under admin fine-tuning.
 	var/soft_scaling = TRUE
+	/// When TRUE, every player who spawns this round receives TRAIT_DNR.
+	var/dnr_round = FALSE
 	/// Admin per-antag roundstart slot overrides. null = derive from preset; a number = hard override.
 	var/list/admin_slots = list(
 		"Wretch" = null,
@@ -1539,6 +1541,9 @@ SUBSYSTEM_DEF(gamemode)
 		dat += "</td></tr>"
 	dat += "</table>"
 
+	dat += "<HR><b>--- Round Types ---</b>"
+	dat += "<BR>Merciless Round (all spawning players get TRAIT_DNR): <a href='byond://?src=[REF(src)];panel=main;action=toggle_dnr_round'>[dnr_round ? "<font color='red'>ON</font>" : "OFF"]</a>"
+
 	dat += "<HR>Active Players: [active_players]	(Royalty: [royalty], Garrison: [garrison], Town Workers: [constructor], Holy Warriors: [holy_warrior], Acolytes: [half_combatant])"
 	dat += "<BR>Effective Population: [effective_pop] (Total: [active_players] + Garrison Bonus: [garrison * 2] + Holy Warrior Bonus: [holy_warrior * 2] + Acolyte Bonus: [half_combatant * 1])"
 	dat += "<BR>Antagonist Count vs Maximum: [get_antag_count()] / [get_antag_cap()]"
@@ -1852,6 +1857,14 @@ SUBSYSTEM_DEF(gamemode)
 				if("halt_storyteller")
 					halted_storyteller = !halted_storyteller
 					message_admins("[key_name_admin(usr)] has [halted_storyteller ? "HALTED" : "un-halted"] the Storyteller.")
+				if("toggle_dnr_round")
+					dnr_round = !dnr_round
+					message_admins("[key_name_admin(usr)] has turned the DNR round type [dnr_round ? "ON" : "OFF"]. All spawning players will [dnr_round ? "" : "no longer "]receive TRAIT_DNR.")
+					log_admin("[key_name(usr)] set DNR round = [dnr_round ? "ON" : "OFF"].")
+					if(dnr_round)
+						to_world(span_boldannounce("This round is <b>MERCILESS</b>. All who walk these lands carry the burden of a final death."))
+					else
+						to_world(span_boldannounce("The Merciless decree has been lifted. Death is no longer final."))
 				if("vars")
 					var/track = href_list["track"]
 					switch(href_list["var"])

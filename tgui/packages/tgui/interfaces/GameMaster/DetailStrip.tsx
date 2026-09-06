@@ -1,14 +1,9 @@
 import { Box, Section, Stack, Tooltip } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
-import {
-  ELLIPSIS,
-  type GameMasterData,
-  shortPath,
-  toTitle,
-} from './types';
+import { ELLIPSIS, type GameMasterData, shortPath, toTitle } from './types';
 
-export function DetailStrip(props) {
+export function DetailStrip() {
   const { data } = useBackend<GameMasterData>();
   const { selected_detail } = data;
 
@@ -21,10 +16,7 @@ export function DetailStrip(props) {
   }
 
   const { name, category, threat, path } = selected_detail;
-  const facts = [
-    toTitle(category),
-    threat > 0 ? `tp ${threat}` : 'no tp',
-  ];
+  const facts = [toTitle(category), threat > 0 ? `tp ${threat}` : 'no tp'];
 
   return (
     <Section>

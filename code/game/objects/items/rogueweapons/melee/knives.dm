@@ -885,7 +885,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/stake/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/deaditeslayer, time = 15 SECONDS)
+	AddComponent(/datum/component/deaditeslayer, time = 7 SECONDS)
 
 /obj/item/rogueweapon/huntingknife/idagger/stake/get_mechanics_examine(mob/user)
 	. = ..()
@@ -919,7 +919,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed/ComponentInitialize()
 	AddComponent(\
@@ -931,7 +931,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/get_mechanics_examine(mob/user)
 	. = ..()
@@ -952,7 +952,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/preblessed/ComponentInitialize()
 	AddComponent(\
@@ -964,7 +964,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/stake/inq
 	name = "otavan stake"

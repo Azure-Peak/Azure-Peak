@@ -22,7 +22,7 @@ type TelemetryRequestPayload = {
 const logger = createLogger('telemetry');
 
 let telemetry: Telemetry | null = null;
-let wasRequestedWithPayload;
+let wasRequestedWithPayload: TelemetryRequestPayload | null;
 
 export function telemetryRequest(payload: TelemetryRequestPayload): void {
   // Defer telemetry request until we have the actual telemetry
