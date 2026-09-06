@@ -652,7 +652,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/leather/baotha
 	name = "saccharine cuffs"
-	desc = "The priestess, desperate to relieve the pain of her sicky congregation, attempted to take more than Eora's grace would give; but she was discovered, and the Eleven were incensed."
+	desc = "The priestess, desperate to relieve the pain of her sickly congregation, attempted to take more than Eora's grace would give; but she was discovered, and the Eleven were incensed."
 	icon_state = "baothabracers"
 	chunkcolor = "#6d1c87"
 	armor = ARMOR_PADDED

@@ -53,7 +53,7 @@
 
 /obj/item/clothing/under/roguetown/skirt/baotha
 	name = "saccharine fauldcoat"
-	desc = "Even as her sister gasped in despair and Ravox yelled in righteous fury, Baotha was born; her ploy was complete. She was cast out, and went without protest. The Eleven became the Ten."
+	desc = "Even as her sister gasped in despair and Ravox yelled in righteous fury, Baotha was born; her ploy was complete. She was cast out without protest. The Eleven became the Ten."
 	armor = ARMOR_PADDED
 	icon_state = "baothaskirt"
 	chunkcolor = "#6d1c87"

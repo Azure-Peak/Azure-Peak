@@ -817,7 +817,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/baotha
 	name = "saccharine sallet"
-	desc = "<font color='bf64d0'>...but none of this really matters, anyway.</font>"
+	desc = "<font color='bf64d0'>...ah, but none of this really matters, anyway.</font>"
 	icon_state = "baothahelm"
 	item_state = "baothahelm"
 	body_parts_covered = HEAD | HAIR | EARS | MOUTH | EYES

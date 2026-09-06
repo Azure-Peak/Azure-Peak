@@ -568,7 +568,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/baotha
 	name = "saccharine plate armor"
-	desc = "Belladoth saw the cruelty in her sibs' judgements; the punishment of mortalkind's imperfection on an imperfect world drove her mad with heart-ache."
+	desc = "Belladoth saw the cruelty in her sibs' judgements. The punishment of mortalkind's imperfection on an imperfect world drove her mad with heart-ache."
 	icon_state = "baothaplate"
 	item_state = "baothaplate"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG - 350 //Halved durability, compared to traditional Ascendant-tier armor.

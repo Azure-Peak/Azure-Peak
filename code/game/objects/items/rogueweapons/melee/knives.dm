@@ -639,7 +639,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/baotha
 	name = "saccharine misericorde"
-	desc = "<font color='bf64d0'>...and those closest to you are oft the ones that most easily scar you.</font>"
+	desc = "<font color='bf64d0'>Those closest to you are oft the ones that most easily scar you.</font>"
 	icon_state = "baothamisericorde"
 	sheathe_icon = "baothamisericorde"
 	force = 25
