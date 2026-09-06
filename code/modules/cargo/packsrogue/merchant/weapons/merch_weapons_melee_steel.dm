@@ -140,6 +140,11 @@
 	cost = 105 // 3 Steel Ingot
 	contains = list(/obj/item/rogueweapon/greatsword)
 
+/datum/supply_pack/rogue/steel_weapons/greatflail
+	name = "Greatflail"
+	cost = 85 // 2 Steel Ingots, 1 Small Log, 1 Chain.
+	contains = list(/obj/item/rogueweapon/flail/peasantwarflail/iron/steel)
+
 /datum/supply_pack/rogue/steel_weapons/estoc
 	name = "Estoc"
 	cost = 70 // 2 Steel Ingot

@@ -166,10 +166,21 @@
 	name = "Gift - Helmet Cosmetic, Orle"
 	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_dyeable
 
-//Brief explanation - as Spear found out, using a Morphing Elixir on a storage item works.. but permenantly deletes -anything- stored inside.
-//To prevent any chance of someone accidentally destroying a round-important item, I'm replacing the kits with the main thing..
-// ..for now(?). If someone else comes around and adds a check that prevents belts with stored items inside from being transformed, then they can -
-// - restore the original Morphing Elixir filepaths, saved below.______qdel_list_wrapper(list/L)
+/datum/loadout_item/donator/universal/greatcoat
+	name = "Gift - Greatcoat"
+	path = /obj/item/clothing/cloak/donator_greatcoat
+
+/datum/loadout_item/donator/universal/greatcoat_dyeable
+	name = "Gift - Greatcoat, Dyeable"
+	path = /obj/item/clothing/cloak/donator_greatcoat/dyeable
+
+/datum/loadout_item/donator/universal/shadedhat
+	name = "Gift - Shaded Hat"
+	path = /obj/item/clothing/head/roguetown/roguehood/shadedhat
+
+/datum/loadout_item/donator/universal/beltedbackpackkit
+	name = "Gift - Kit, Belted Backpack"
+	path = /obj/item/enchantingkit/beltedbackpack
 
 /datum/loadout_item/donator/universal/doublet
 	name = "Gift - Doublet"
@@ -604,6 +615,14 @@
 	path = /obj/item/enchantingkit/drd_lsword
 	ckeywhitelist = list("drd2021")
 
+/datum/loadout_item/donator/drd/tiara
+	name = "Donator Item - Ornate Coronet"
+	path = /obj/item/clothing/head/roguetown/nyle/consortcrown/drd
+
+/datum/loadout_item/donator/drd/smallsword
+	name = "Donator Kit - 'Mære'"
+	path = /obj/item/enchantingkit/drd_rapier
+
 /datum/loadout_item/donator/drd/caparison
 	name = "Donator Item - House Woerden Caparison"
 	path = /obj/item/caparison/drd
@@ -969,11 +988,6 @@
 	path = /obj/item/enchantingkit/rosy/birdmask
 	ckeywhitelist = list("rosysaturniidae")
 
-/datum/loadout_item/donator/rosy/rosecollar
-	name = "Donator Kit - Rosestone Clasped Collar"
-	path = /obj/item/enchantingkit/rosy/rosecollar
-	ckeywhitelist = list("rosysaturniidae")
-
 /datum/loadout_item/donator/nero_woodlandcloak
 	name = "Gift - Woodland Mantle"
 	path = /obj/item/clothing/cloak/furcloak/woodland
@@ -1039,8 +1053,47 @@
 	path = /obj/item/enchantingkit/donator_rivercadaver_tabis
 	ckeywhitelist = list("rivercadaver","poots13","nooriginality","helenmoder","oddbomber3768","waffai","castortroy23","persephoneq")
 
-/datum/loadout_item/donator/glassfeddockterr_bighat
-	name = "Donator Item - Eryn's Archwyzardry Hat"
-	path = /obj/item/clothing/head/roguetown/wizhat/bighat
-	ckeywhitelist = list("glassfeddockterr")
+/datum/loadout_item/donator/flybrokenwings_drowparasol
+	name = "Donator Item - Skikuldic Parasol"
+	path = /obj/item/rogueweapon/mace/donator_flybrokenwings_parasol
+	ckeywhitelist = list("flybrokenwings")
 
+/datum/loadout_item/donator/naman_lance
+	name = "Donator Kit - Noble Lance"
+	path = /obj/item/enchantingkit/donator_naman_lance
+	ckeywhitelist = list("copperwilson")
+
+/datum/loadout_item/donator/naman_sabre
+	name = "Donator Kit - Noble Sabre"
+	path = /obj/item/enchantingkit/donator_naman_sabre
+	ckeywhitelist = list("copperwilson")
+
+/datum/loadout_item/donator/naman_tassetedbeltpack
+	name = "Donator Kit - Tasseted Beltpack"
+	path = /obj/item/enchantingkit/donator_naman_tassetedbeltpack
+	ckeywhitelist = list("copperwilson")
+
+/datum/loadout_item/donator/naman_deccoatofplates
+	name = "Donator Kit - Decorated Coat Of Plates"
+	path = /obj/item/enchantingkit/donator_naman_deccoatofplates
+	ckeywhitelist = list("copperwilson")
+
+/datum/loadout_item/donator/naman_scarfedridercloak
+	name = "Donator Item - Rider's Scarfed Cloak"
+	path = /obj/item/clothing/cloak/half/rider/donator_naman
+	ckeywhitelist = list("copperwilson")
+
+/datum/loadout_item/donator/sanshoom_prowlerrobe
+	name = "Donator Kit - Prowler Robe"
+	path = /obj/item/enchantingkit/donator_sanshoom_prowlerrobe
+	ckeywhitelist = list("sanshoom")
+
+/datum/loadout_item/donator/sanshoom_prowlermask
+	name = "Donator Kit - Prowler Mask"
+	path = /obj/item/enchantingkit/donator_sanshoom_prowlermask
+	ckeywhitelist = list("sanshoom")
+
+/datum/loadout_item/donator/trueterrydactyl_shibari
+	name = "Donator Item - Smallclothes, Shibari"
+	path = /obj/item/undies/bikini/shibari
+	ckeywhitelist = list("trueterrydactyl")

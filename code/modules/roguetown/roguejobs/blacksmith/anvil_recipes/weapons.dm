@@ -1039,6 +1039,13 @@
 	display_category = ITEM_CAT_WEAPONS_MACES
 	i_type = "Weapons"
 
+/datum/anvil_recipe/weapons/steel/sgreatflail
+	name = "Greatflail, Steel (+1 Steel, +1 Chain, +1 Small Log)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/rope/chain, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/flail/peasantwarflail/iron/steel
+	display_category = ITEM_CAT_WEAPONS_FLAILS
+
 /datum/anvil_recipe/weapons/steel/battlewrench
 	name = "Reinforced Wrench, Steel (+1 Wrench)"
 	category = "Steel"
