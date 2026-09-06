@@ -599,7 +599,7 @@
 				beltl = /obj/item/quiver/sling/bronze
 			if("A Bow With Bronze Arrows")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic
+				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				beltl = /obj/item/quiver/bronzearrows
 			if("Another Shortsword & Skills In Dual-Wielding")
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
@@ -742,7 +742,7 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Autumned Bow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/autumn
+				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/autumn
 				beltr = /obj/item/quiver/arrows
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/autumn/light
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/autumn/light
@@ -762,14 +762,12 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/autumn
-	name = "autumnwoad recurve bow"
-	desc = "A medium length composite bow of glued horn, wood, and sinew with good shooting \
-	characteristics. Hewn from an Azurian elk tree branch, it still feels as if it is one \
-	with nature; unsullied by the cruder butcherments of Man. </br>'The summer sun is fading \
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/autumn
+	name = "autumnwoad bow"
+	desc = "A medium length bow hewn from an Azurian elk tree branch, it still feels as if it is one with nature; unsullied by the cruder butcherments of Man. \
+	</br>'The summer sun is fading \
 	as the year grows old, and darker days are drawing near..'"
-	icon = 'icons/roguetown/weapons/64.dmi'
-	icon_state = "autumnrecurve_bow"
+	icon_state = "bow_blackoak"
 
 /obj/item/rogueweapon/sword/long/elvish/autumn
 	name = "autumned elvish longsword"

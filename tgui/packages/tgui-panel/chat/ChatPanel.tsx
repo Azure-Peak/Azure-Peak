@@ -54,8 +54,8 @@ export function ChatPanel(props: Props) {
     chatRenderer.assignStyle({
       width: '100%',
       'white-space': 'pre-wrap',
-      'font-size': props.fontSize,
-      'line-height': props.lineHeight,
+      'font-size': props.fontSize || null,
+      'line-height': `${props.lineHeight}`,
     });
   }, [props.fontSize, props.lineHeight]);
 

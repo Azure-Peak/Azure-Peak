@@ -1,41 +1,56 @@
 /datum/advclass/wretch/ancient_deathknight
 	name = "Unbound Ancient Death Knight"
-	tutorial = "You were once a Death Knight - a warrior risen from death to serve a master. How long you have been dead - you do not remember anymore. And you find yourself severed from any master's command. Why do you fight? Does it matter? All that you know is to move forward. The world sees you as an abomination. Seek your own path."
+	tutorial = "You were once a Death Knight - a once-champion risen from death through unknown means, without a purpose, nor master to serve. How long you have been dead - you do not remember anymore. Why do you fight? Does it matter? All that you know is to move forward, the ancient mantra of battle woven into your mynd, swerve, parry, riposte and cleave. The world sees you as an abomination. Seek your own path."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/wretch/ancient_deathknight
 	class_select_category = CLASS_CAT_ACCURSED
 	category_tags = list(CTAG_WRETCH)
-	maximum_possible_slots = 2 // Two so that the gimmick isn't overdone
+	maximum_possible_slots = 2 // Two, keep in mind battleready /w this gear + skillset and a decent amount of str make them very strong.
 	applies_post_equipment = TRUE
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_SHATTER_KILL, TRAIT_BLOODLOSS_IMMUNE, TRAIT_DUSTABLE)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_SHATTER_KILL, TRAIT_BLOODLOSS_IMMUNE, TRAIT_SKELETAL_GIB_ON_DEATH)
 	subclass_stats = list(
-		STATKEY_STR = 2,
+		STATKEY_STR = 3,
 		STATKEY_WIL = 1,
 		STATKEY_SPD = -1,
-		STATKEY_INT = -2, // Weighted 1. 0 CON for limb reattachment tradeoff.
+		STATKEY_INT = -2, // Weighted 3. 0 CON for limb reattachment tradeoff.
 	)
 	subclass_skills = list(
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, //Ability to break out of being boxed in, for parity w/ unbound spellblade.
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, //Higher than lich skeles, still vulnerable to a degree
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE, //Lower than most wretches w/ martial builds.
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+		//ex-servantry skills
+		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/masonry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 	)
-
+	tempo_capable = FALSE //already removed by being a skeleton, in case we add it to the UI in future.
 	adv_stat_ceiling = list(STAT_INTELLIGENCE = 8, STAT_SPEED = 9, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + decent skills vs vamp
-	extra_context = "This class is unable to be revived and all forms of death will dust you."
+	extra_context = "This class is unable to be revived and all forms of death will gib you."
 
 /datum/outfit/job/roguetown/wretch/ancient_deathknight/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.become_skeleton()
+	H.can_do_sex = FALSE
+
+	//no swift intent
+	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
+	/datum/rmb_intent/aimed,\
+	/datum/rmb_intent/riposte,\
+	/datum/rmb_intent/strong,\
+	/datum/rmb_intent/weak)
+	H.swap_rmb_intent(num=1)
 
 	// Skeleton antag datum + patron (matching greater_skeleton setup)
 	H.set_patron(/datum/patron/inhumen/zizo)
@@ -51,7 +66,8 @@
 	pants = /obj/item/clothing/under/roguetown/platelegs/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
+	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
+	mask = /obj/item/clothing/head/roguetown/armingcap/padded //a little bit extra protection as stage 2 skullcrack is death.
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 
 	H.taints_loot = TRUE //For that shitty-ass reanimated corpse gear look.
@@ -80,12 +96,12 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
-			
-	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in list("Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
+
+	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in list("Ancient Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Flail + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
 	switch(weapon_choice)
-		if("Longsword + Shield")
+		if("Ancient Longsword + Shield")
 			beltl = /obj/item/rogueweapon/scabbard/sword
-			l_hand = /obj/item/rogueweapon/sword/long/death
+			l_hand = /obj/item/rogueweapon/sword/long/palloy //role unique
 			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Ancient Greatsword") //No Flameberge, go be a REAL death knight for that.
@@ -99,6 +115,10 @@
 			beltr = /obj/item/rogueweapon/mace/steel/palloy
 			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+		if("Ancient Flail + Shield")
+			beltr = /obj/item/rogueweapon/flail/sflail/paflail
+			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Ancient Warhammer + Shield")
 			beltr = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
 			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
@@ -115,7 +135,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/padagger = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1, //Hilarious
 	)
 
 	if(H.mind)

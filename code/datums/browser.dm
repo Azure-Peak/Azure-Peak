@@ -164,7 +164,7 @@
 	else
 		WARNING("Browser [title] tried to close with a null ID")
 
-/datum/browser/modal/alert/New(User,Message,Title,Button1="Ok",Button2,Button3,StealFocus = 1,Timeout=6000)
+/datum/browser/modal/alert/New(User,Message,Title,Button1="Ok",Button2,Button3,StealFocus = 1,Timeout=6000,Width=350,Height=150)
 	if (!User)
 		return
 
@@ -180,7 +180,7 @@
 
 	output += {"</div>"}
 
-	..(User, ckey("[User]-[Message]-[Title]-[world.time]-[rand(1,10000)]"), Title, 350, 150, src, StealFocus, Timeout)
+	..(User, ckey("[User]-[Message]-[Title]-[world.time]-[rand(1,10000)]"), Title, Width, Height, src, StealFocus, Timeout)
 	set_content(output)
 
 /datum/browser/modal/alert/Topic(href,href_list)
@@ -207,14 +207,14 @@
 			return Button3
 
 //Same shit, but it returns the button number, could at some point support unlimited button amounts.
-/proc/askuser(mob/User,Message, Title, Button1="Ok", Button2, Button3, StealFocus = 1, Timeout = 6000)
+/proc/askuser(mob/User,Message, Title, Button1="Ok", Button2, Button3, StealFocus = 1, Timeout = 6000, Width = 350, Height = 150)
 	if (!istype(User))
 		if (istype(User, /client/))
 			var/client/C = User
 			User = C.mob
 		else
 			return
-	var/datum/browser/modal/alert/A = new(User, Message, Title, Button1, Button2, Button3, StealFocus, Timeout)
+	var/datum/browser/modal/alert/A = new(User, Message, Title, Button1, Button2, Button3, StealFocus, Timeout, Width, Height)
 	A.open()
 	A.wait()
 	if (A.selectedbutton)

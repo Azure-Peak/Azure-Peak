@@ -26,16 +26,11 @@ enum Subtab {
   VILLAIN = 4,
 }
 
-export const CharacterCreator = (props) => {
+export const CharacterCreator = () => {
   const [subtab, setSubtab] = useSharedState(
     'charactercreatorsubtab',
     Subtab.IDENTITY,
   );
-
-  // Remove once https://github.com/tgstation/tgui-core/pull/274 lands
-  useEffect(() => {
-    window.dispatchEvent(new Event('resize'));
-  }, []);
 
   return (
     <Stack fill>
@@ -90,7 +85,7 @@ export const CharacterCreator = (props) => {
   );
 };
 
-const Sidebar = (props) => {
+const Sidebar = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<AllPagesData>();
   const {
@@ -99,11 +94,24 @@ const Sidebar = (props) => {
     hide_pq,
     pq,
     preview_background,
+    preview_boner_state,
     real_name,
     headshot_link,
     triumphs,
   } = data;
   const [popupId, setPopupId] = usePopupId();
+
+  const previewVisible = !!character_preview_view && !popupId;
+
+  // The ByondUi map control gets unmounted/remounted every time a popup
+  // opens/closes or the user leaves/returns to this tab (see below), and
+  // each fresh instance needs its own kick or it can render at native
+  // (tiny) resolution instead of being magnified to full size.
+  useEffect(() => {
+    if (previewVisible) {
+      window.dispatchEvent(new Event('resize'));
+    }
+  }, [previewVisible]);
 
   return (
     <Stack.Item mr={2} mt={1} width={15}>
@@ -123,7 +131,7 @@ const Sidebar = (props) => {
         </Stack.Item>
         <Stack.Item width={15} height={15}>
           {/* This needs to be turned off when there's a popup because otherwise it'll intersect */}
-          {character_preview_view && !popupId ? (
+          {previewVisible ? (
             <ByondUi
               params={{
                 id: character_preview_view,
@@ -176,6 +184,16 @@ const Sidebar = (props) => {
               />
             </Stack.Item>
           </Stack>
+        </Stack.Item>
+        <Stack.Item>
+          <Button
+            fluid
+            icon="venus-mars"
+            tooltip="Preview how your character looks at rest, half-aroused, and fully aroused. This is a preview only setting and isn't saved."
+            onClick={() => act('cycle_boner_preview')}
+          >
+            {preview_boner_state}
+          </Button>
         </Stack.Item>
         <Stack.Item grow minHeight={0}>
           <Stack fill vertical className="PreferencesMenu__Sidebar__Scrollable">

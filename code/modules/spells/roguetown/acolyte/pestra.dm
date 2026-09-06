@@ -163,22 +163,24 @@
 	var/list/names_with_amounts = list()
 	var/datum/reagent/top_reagent = null
 	var/top_volume = 0
-	var/more_than_one = names.len > 1
+	var/more_than_one = FALSE
+
 
 	for(var/datum/reagent/R in human_target.reagents.reagent_list)
 		if(R.volume > 0 && R.type != /datum/reagent/water && R.type != /datum/reagent/consumable/nutriment)
-			names += R.name
-			names_with_amounts += "[R.name] ([round(R.volume, 0.1)]u)"
-
+			names += LOWER_TEXT(R.name)
+			names_with_amounts += "[LOWER_TEXT(R.name)] ([round(R.volume, 0.1)]u)"
 			if(R.volume > top_volume)
 				top_volume = R.volume
 				top_reagent = R
+	// now that the list has names we can check if we've got more than 1
+	more_than_one = names.len > 1
 	// the way for babies to check if something's wrong with them on the run, just throw a leech and diagnose! cant be simpler than that
 	if(has_cheele)
-		if(names.len)
-			to_chat(user, span_red("The blood-sucking creecher stirs uncomfortably... a foreign substance may be in their blood."))
-		else if(more_than_one)
+		if(more_than_one)
 			to_chat(user, span_red("The blood-sucking creecher stirs very uncomfortably... more than one foreign substances may be in their blood."))
+		else if(names.len)
+			to_chat(user, span_red("The blood-sucking creecher stirs uncomfortably... a foreign substance may be in their blood."))
 		else
 			to_chat(user, span_blue("The blood-sucking creecher seems unbothered and content; hinting a clean blood."))
 	// and this is mostly for when you have surgical tools, pestrans with miracles can cheat better (of course why the hell not rolls eyes), it takes an incision only rather than a forceps inside
@@ -189,11 +191,12 @@
 		else if(is_high_tier && has_hemostat && !miracle)
 			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I easily discern [english_list(names)] within.</i>"))
 
-		else if(is_mid_tier && has_hemostat && top_reagent && !miracle)
-			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [top_reagent.name] within.</i>"))
-
 		else if(is_mid_tier && has_hemostat && more_than_one && !miracle)
-			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [top_reagent.name], though other substances may be present.</i>"))
+			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [LOWER_TEXT(top_reagent.name)], though other substances may be present.</i>"))
+
+		else if(is_mid_tier && has_hemostat && top_reagent && !miracle)
+			to_chat(user, span_boldwarning("<i>Studying the blood drawn upon the instrument, I can only see heavy traces of [LOWER_TEXT(top_reagent.name)] within.</i>"))
+
 	else
 		if(miracle && has_incision)
 			to_chat(user, span_boldgreen("<i>Even with divine insight, I perceive no foreign substances within their blood.</i>"))
@@ -301,6 +304,7 @@
 		ORGAN_SLOT_LIVER,
 		ORGAN_SLOT_STOMACH,
 		ORGAN_SLOT_APPENDIX,
+		ORGAN_SLOT_GUTS,
 	)
 
 	// Remove organs that are already present
@@ -742,12 +746,12 @@
 			return FALSE
 		var/mob/living/target = targets[1]
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
 		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Vhelsynites aren't affected
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE

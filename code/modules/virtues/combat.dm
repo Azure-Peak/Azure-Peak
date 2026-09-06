@@ -104,18 +104,24 @@
 		"Mace Skill (JMAN)" = /datum/skill/combat/maces,
 		"Polearm Skill (JMAN)" = /datum/skill/combat/polearms,
 		"Staves Skill (JMAN)" = /datum/skill/combat/staves,
+		"Bow Skill (JMAN)" = /datum/skill/combat/bows, // this is JMAN now cause of ansari's changes making having PER mandatory, should be fine I hope? nerf later if it isn't
+		"Crossbow Skill (JMAN)" = /datum/skill/combat/crossbows, // ditto also crossbows fucking suck at any level below expert D:
 		"Stashed Messer" = list(/obj/item/rogueweapon/sword/short/messer/iron/virtue),
-		"Stashed Parrying Dagger" = list(/obj/item/rogueweapon/huntingknife/idagger/virtue),
 		"Stashed Arming Sword" = list(/obj/item/rogueweapon/sword/iron),
-		"Stashed Quarterstaff" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron),
-		"Stashed Sling" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
-		"Stashed Spear (& Strap)" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/scabbard/gwstrap),
-		"Stashed Mace" = list(/obj/item/rogueweapon/mace),
-		"Stashed Katar" = list(/obj/item/rogueweapon/katar/bronze),
-		"Stashed Knuckles" = list(/obj/item/clothing/gloves/roguetown/knuckles/bronze),
+		"Stashed Parrying Dagger" = list(/obj/item/rogueweapon/huntingknife/idagger/virtue),
 		"Stashed Axe" = list(/obj/item/rogueweapon/stoneaxe/woodcut),
+		"Stashed Spear (& Strap)" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/scabbard/gwstrap),
+		"Stashed Quarterstaff" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron),
+		"Stashed Mace" = list(/obj/item/rogueweapon/mace),
+		"Stashed Knuckles" = list(/obj/item/clothing/gloves/roguetown/knuckles/bronze),
+		"Stashed Katar" = list(/obj/item/rogueweapon/katar/bronze),
 		"Stashed Whip" = list(/obj/item/rogueweapon/whip),
-		"Stashed Warclub" = list(/obj/item/rogueweapon/mace/warhammer/bronze/iron)
+		"Stashed Sling" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
+		// the idea is that, unlike the sling, you'll need to toast your triumphs to get your ammo in too, technically increasing the cost and not making this so free, or you can bite the bullet and not have other jman skills of course
+		"Stashed Bow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow), // the snazzier one!
+		"Stashed Quiver" = list(/obj/item/quiver/arrows), // pls insert 1 more dosh
+		"Stashed Crossbow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/iron), // the weaker one!
+		"Stashed Bolts" = list(/obj/item/quiver/bolt/standard), // pls insert 1 more dosh
 	)
 
 /datum/virtue/combat/combat_virtue/apply_to_human(mob/living/carbon/human/recipient)
@@ -129,37 +135,6 @@
 				for(var/stuff in stash)
 					var/obj/item/I = stuff
 					recipient.mind?.special_items[capitalize(I::name)] = I
-
-/datum/virtue/combat/bowman
-	name = "Toxophilite"
-	desc = "I've had an interest in archery from a young age, and I always keep a spare bow and quiver around."
-	ui_fa_icon = "bullseye"
-	custom_text = "+1 to Bows, Up to Legendary, Minimum Apprentice"
-	added_stashed_items = list("Recurve Bow" = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve,
-								"Quiver (Arrows)" = /obj/item/quiver/arrows
-	)
-
-/datum/virtue/combat/bowman/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.get_skill_level(/datum/skill/combat/bows) < SKILL_LEVEL_APPRENTICE)
-		recipient.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE, silent = TRUE)
-	else
-		added_skills = list(list(/datum/skill/combat/bows, 1, 6))
-
-
-/datum/virtue/combat/crossbowman
-	name = "Marksman"
-	desc = "Warfare is changing, and the crossbow is the next pedestal. I have always been ahead of the curve, as compared to my peers."
-	ui_fa_icon = "circle-dot-o"
-	custom_text = "+1 to Crossbows, Up to Legendary, Minimum Apprentice"
-	added_stashed_items = list(
-		"Quiver (Bolts)" = /obj/item/quiver/bolt/standard
-	)
-
-/datum/virtue/combat/crossbowman/apply_to_human(mob/living/carbon/human/recipient)
-	if(recipient.get_skill_level(/datum/skill/combat/crossbows) < SKILL_LEVEL_APPRENTICE)
-		recipient.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_APPRENTICE, silent = TRUE)
-	else
-		added_skills = list(list(/datum/skill/combat/crossbows, 1, 6))
 
 /datum/virtue/combat/guarded
 	name = "Guarded"

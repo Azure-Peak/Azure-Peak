@@ -141,7 +141,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/canMouseDown = FALSE
 	var/can_parry = FALSE
+	/// Weapon's actual skill
 	var/datum/skill/associated_skill
+	/// Secondary skills with factored effectiveness
+	var/list/secondary_skills
 
 	var/list/possible_item_intents = list(/datum/intent/use)
 	var/saved_intent_index = 1 // Stores the last selected intent index when item is dropped
@@ -232,6 +235,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/picklvl = 0
 
 	var/list/examine_effects = list()
+
+	/// For giving donor items highlights.
+	var/examine_highlight_severity = null
+	var/examine_highlight_desc = null
 
 	///played when an item that is equipped blocks a hit
 	var/list/blocksound
@@ -669,8 +676,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			var/percent = round(((blade_int / max_blade_int) * 100), 1)
 			inspec += "[percent]% ([blade_int]) <span class='info'><a href='?src=[REF(src)];explainsharpness=1'>{?}</a></span>"
 
-		if(associated_skill && associated_skill.name)
-			inspec += "\n<b>SKILL:</b> [associated_skill.name] <span class='info'><a href='?src=[REF(src)];explainskill=1'>{?}</a></span>"
+		if(has_wskill())
+			var/list/lines = list()
+			if(associated_skill)
+				var/datum/skill/primary = associated_skill
+				lines += "- [initial(primary.name)] (1x)"
+			if(length(secondary_skills))
+				var/list/ordered = sortTim(secondary_skills.Copy(), /proc/cmp_numeric_dsc, TRUE)
+				for(var/sk in ordered)
+					var/datum/skill/secondary = sk
+					lines += "- [initial(secondary.name)] ([ordered[sk]]x)"
+				LAZYCLEARLIST(ordered)
+			inspec += "\n<details><summary><b>ASSOCIATED SKILLS</b> <span class='info'><a href='?src=[REF(src)];explainskill=1'>{?}</a></span></summary>[jointext(lines, "<br>")]</details>"
 
 		if(istype(src, /obj/item/rogueweapon))
 			var/obj/item/rogueweapon/W = src
@@ -880,6 +897,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/dropped(mob/user, silent = FALSE)
 	SHOULD_CALL_PARENT(TRUE)
+	end_spin()
 	for(var/X in actions)
 		var/datum/action/A = X
 		A.Remove(user)
@@ -1866,8 +1884,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
 *
+* Types that cannot override this proc (i.e. one reskinned by a morphing elixir, which keeps its own
+* type) can instead set `examine_highlight_severity` and `examine_highlight_desc`.
+*
 * If this returns null, the item will not be shown as heretical.*/
 /obj/item/proc/get_examine_highlight_status()
+	if(examine_highlight_severity && examine_highlight_desc)
+		return list(examine_highlight_severity, examine_highlight_desc)
 	return null
 
 /** Returns an HTML-formatted string explaining how/why this item has the highlight status it does.

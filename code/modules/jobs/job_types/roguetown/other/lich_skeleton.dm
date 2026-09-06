@@ -183,11 +183,11 @@ LICH SKELETONS
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bow & 20 Arrows")
-			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Bow & 20 Broadheads")
-			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			beltl = /obj/item/quiver/broadhead_aalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Longbow & 20 Arrows")
@@ -399,7 +399,6 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/labor/mining, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/lumberjacking, 6, TRUE) //Get up a deathfort, very fast by maximal yields from logs.
 
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/minershelm
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden //Structure inspection
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
 	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
@@ -415,7 +414,7 @@ LICH SKELETONS
 		/obj/item/rogueweapon/tongs/paalloy = 1,
 		/obj/item/rogueweapon/hammer/wood = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
-		/obj/item/rogueweapon/chisel = 1, //avoiding a dupe glitch I have no idea how to fix atm
+		/obj/item/rogueweapon/chisel/bronze = 1,
 		/obj/item/rogueweapon/handsaw/bronze = 1,
 		/obj/item/dye_brush = 1
 	)
@@ -436,6 +435,14 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
+
+	var/hats = list("Function (Gilbranze Helmet)", "Form (Sapper Cap)")
+	var/hat_choice = input(H, "Choose your HAT.", "ARMOR OR STYLE.") as anything in hats
+	switch(hat_choice)
+		if("Function (Gilbranze Helmet)")
+			head = /obj/item/clothing/head/roguetown/helmet/kettle/minershelm
+		if("Form (Sapper Cap)")
+			head = /obj/item/clothing/head/roguetown/articap/lich
 
 	H.energy = H.max_energy
 
@@ -725,11 +732,13 @@ LICH SKELETONS
 	H.adjust_blindness(-3)
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Ancient Khopesh", "Ancient Dagger")
+			var/weapons = list("Ancient Khopesh", "Ancient Longsword", "Ancient Dagger")
 			var/weapon_choice = input(H, "Choose your BLADE.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/palloy
+				if("Ancient Longsword")
+					beltr = /obj/item/rogueweapon/sword/long/palloy //role unique
 				if("Ancient Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 			if(weapon_choice == "Ancient Dagger")
@@ -943,6 +952,13 @@ LICH SKELETONS
 /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket/lich
 	name = "decrepit sapper jacket"
 	desc = "A jacket of rugged leather with some scraps of fur and roughspun fabrics from beyond your lyfetime, donned by those who are condemned to toil forevermore."
+	color = "#d6bbbb"
+
+//Do not make this craftable, please. Role Specific. ^
+
+/obj/item/clothing/head/roguetown/articap/lich
+	name = "decrepit sapper cap"
+	desc = "A cap of decrepit leather from beyond your lyfetime, donned by those who are condemned forever to restless toil. </br>It holds an eerie resemblence to those worn by artificers of this dae and yill."
 	color = "#d6bbbb"
 
 //Do not make this craftable, please. Role Specific. ^
