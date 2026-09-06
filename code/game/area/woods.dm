@@ -28,6 +28,7 @@
 	deathsight_message = "somewhere in the wilds"
 	threat_region = THREAT_REGION_AZURE_GROVE
 	detail_text = DETAIL_TEXT_AZURE_GROVE
+	area_sniff_message = "You smell old, mighty trees."
 
 /area/rogue/indoors/shelter/woods
 	name = "Azure Grove"
@@ -37,7 +38,7 @@
 	droning_sound_night = 'sound/music/area/forestnight.ogg'
 	threat_region = THREAT_REGION_AZURE_GROVE
 	deathsight_message = "somewhere in the wilds"
-
+	area_sniff_message = "You smell old, mighty trees... But someone cut them into planks."
 
 /area/rogue/outdoors/woods/north
 	name = "Azure Grove - North"

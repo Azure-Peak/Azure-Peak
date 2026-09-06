@@ -1,4 +1,4 @@
-// Azure Coast - the northern part of the map - may not be actually coast 
+// Azure Coast - the northern part of the map - may not be actually coast
 /area/rogue/outdoors/beach/forest
 	name = "Azure Coast"
 	loot_budget = LOOT_BUDGET_AZURE_COAST
@@ -37,6 +37,7 @@
 	deathsight_message = "somewhere betwixt Abyssor's realm and Dendor's bounty"
 	threat_region = THREAT_REGION_AZUREAN_COAST
 	detail_text = DETAIL_TEXT_NORTH_COAST
+	area_sniff_message = "You smell deadite animals."
 
 /area/rogue/outdoors/beach/forest/hamlet
 	name = "The Azure Coast - Hamlet"
@@ -44,6 +45,7 @@
 	ambush_mobs = null // We don't want actual ambushes in Hamlet but we also don't want to misuse outdoors/beach lol
 	threat_region = THREAT_REGION_AZUREAN_COAST
 	detail_text = DETAIL_TEXT_NORTH_COAST_HAMLET
+	area_sniff_message = "You smell deadites and the sea."
 
 /area/rogue/outdoors/beach/forest/north
 	name = "The Azure Coast - North"
@@ -64,3 +66,4 @@
 	deathsight_message = "somewhere betwixt Abyssor's realm and Dendor's bounty"
 	threat_region = THREAT_REGION_AZUREAN_COAST
 	detail_text = DETAIL_TEXT_MAD_DUKE_COURT
+	area_sniff_message = "You smell an old fool."
