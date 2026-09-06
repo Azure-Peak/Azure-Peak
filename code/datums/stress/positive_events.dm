@@ -14,11 +14,6 @@
 /datum/stressevent/convert/recipient
 	desc = span_green("I was a blind fool, before. Now I see what I have been missing.")
 
-/datum/stressevent/seeblessed
-	timer = 30 MINUTES
-	stressadd = -2
-	desc = span_green("I feel joy within these halls.")
-
 /datum/stressevent/viewsinpunish
 	timer = 5 MINUTES
 	stressadd = -2
@@ -277,6 +272,11 @@
 	timer = 10 MINUTES
 	stressadd = -1
 	desc = span_green("My meditations were rewarding.")
+
+/datum/stressevent/meditation_undivided
+	timer = 20 MINUTES
+	stressadd = -4
+	desc = span_undivided("My communion with the Divines proved fruitful.")
 
 /datum/stressevent/bathcleaned
 	timer = 20 MINUTES

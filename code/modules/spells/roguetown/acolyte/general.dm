@@ -175,8 +175,7 @@
 
 /datum/action/cooldown/spell/miracle/fortify
 	name = "Fortify"
-	desc = "Amplifies all incoming sources of healing for the chosen target. Combining this with the 'Miracle' blessing allows for the mending \
-	of more extreme injuries. </br>Most healing Miracles cannot affect devoted Psydonians."
+	desc = "Amplifies all incoming sources of healing by 30% for the chosen target. If the target already carries the buff they will instead recieve an instant heal. Undead take burn damage and get set on fire. Does not work on devout Psydonites, Constructs or Blackblooded individuals."
 	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
 	button_icon_state = "fortify"
 	sound = 'sound/magic/heal.ogg'
@@ -227,15 +226,16 @@
 	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
 
 	if(H.patron?.undead_hater && (spelltarget.mob_biotypes & MOB_UNDEAD)) //positive energy harms the undead
-		spelltarget.visible_message(span_danger("[spelltarget] is burned by holy light!"), span_userdanger("I'm burned by holy light!"))
+		spelltarget.visible_message(span_danger("[spelltarget] is seared by divine light!"), span_userdanger("I'm lit ablaze by divine light!"))
 		spelltarget.adjustFireLoss(25)
 		spelltarget.fire_act(1,10)
 		return TRUE
 
-	spelltarget.visible_message(span_info("A wreath of gentle light passes over [spelltarget]!"), span_notice("I'm bathed in holy light!"))
 	if(iscarbon(spelltarget) && !spelltarget.has_status_effect(/datum/status_effect/buff/fortify))
+		spelltarget.visible_message(span_info("A gentle glow surrounds [spelltarget]!"), span_notice("I'm emboldened by divine favour!"))
 		spelltarget.apply_status_effect(/datum/status_effect/buff/fortify)
 	else
+		spelltarget.visible_message(span_info("A ray of divine light encompasses [spelltarget]!"), span_notice("I'm restored by divine light!"))
 		spelltarget.adjustBruteLoss(-25)
 		spelltarget.adjustFireLoss(-25)
 		spelltarget.adjustOxyLoss(-15)
@@ -268,6 +268,7 @@
 	charge_time = 1 SECONDS
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	cooldown_time = 2 MINUTES
 
 	spell_flags = SPELL_PSYDON
@@ -349,6 +350,7 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = FALSE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	cooldown_time = 1 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
@@ -530,7 +532,6 @@
 		//Noc is fine as is
 		//Pestra has actually nothing, son 😢
 		/datum/action/cooldown/spell/ravox/battlecry::name					= /datum/action/cooldown/spell/ravox/battlecry,
-		/datum/action/cooldown/spell/undivided/gallow_humor::name			= /datum/action/cooldown/spell/undivided/gallow_humor,
 		/obj/effect/proc_holder/spell/targeted/touch/parlor_trick::name		= /obj/effect/proc_holder/spell/targeted/touch/parlor_trick
 	)
 
