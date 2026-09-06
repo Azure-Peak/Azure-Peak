@@ -122,17 +122,9 @@
 	stress_examine = TRUE
 	stress_desc = span_red("Helldweller... better stay away.")
 
-/datum/species/tieberian/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
 /datum/species/tieberian/after_creation(mob/living/carbon/C)
 	..()
 	to_chat(C, "<span class='info'>I can speak Infernal with ,h before my speech.</span>")
-
-/datum/species/tieberian/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)
 
 /datum/species/tieberian/qualifies_for_rank(rank, list/features)
 	return TRUE
