@@ -7278,6 +7278,9 @@
 /area/rogue/outdoors/town/grim)
 "aUm" = (
 /obj/machinery/light/rogue/candle/l,
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/manor/grim)
 "aUp" = (
@@ -18481,6 +18484,9 @@
 	dir = 10
 	},
 /obj/machinery/light/rogue/candle/r,
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/manor/grim)
 "cnm" = (
@@ -26274,10 +26280,13 @@
 /obj/structure/table/wood/long_table{
 	dir = 1
 	},
-/obj/item/rogueweapon/huntingknife/cleaver,
 /obj/item/rogueweapon/huntingknife/cleaver{
-	pixel_x = -6;
-	pixel_y = 5
+	pixel_x = 12;
+	pixel_y = 0
+	},
+/obj/item/rogueweapon/huntingknife/cleaver{
+	pixel_x = 2;
+	pixel_y = 1
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/manor/grim)
@@ -30624,12 +30633,26 @@
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/kitchen/rollingpin{
 	pixel_x = 7;
-	pixel_y = 0
+	pixel_y = -30
 	},
-/obj/item/kitchen/rollingpin,
+/obj/item/kitchen/rollingpin{
+	pixel_x = 2;
+	pixel_y = -28
+	},
 /obj/item/reagent_containers/peppermill{
-	pixel_x = -5;
-	pixel_y = 8
+	pixel_x = -7;
+	pixel_y = -25
+	},
+/obj/structure/rack/rogue/shelf/notdense{
+	pixel_y = -31
+	},
+/obj/item/millstone{
+	pixel_y = 9;
+	pixel_x = -9
+	},
+/obj/item/reagent_containers/glass/bowl/bronze{
+	pixel_x = 10;
+	pixel_y = 12
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/manor/grim)
@@ -39327,6 +39350,14 @@
 /obj/structure/chair/hotspring_bench/left,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/rtfield/eora/grim)
+"eOl" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/obj/structure/fluff/wallclock,
+/turf/open/floor/rogue/tile/brownbrick/browner,
+/area/rogue/indoors/town/manor/grim)
 "eOo" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/grim)
@@ -62577,6 +62608,44 @@
 "hJc" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/cave/underhamlet)
+"hJf" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/structure/closet/crate/roguecloset/inn,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/fork,
+/obj/item/kitchen/spoon,
+/obj/item/kitchen/spoon,
+/obj/item/kitchen/spoon,
+/obj/item/kitchen/spoon,
+/obj/item/kitchen/spoon,
+/obj/item/kitchen/spoon,
+/obj/item/reagent_containers/glass/cup/wooden,
+/obj/item/reagent_containers/glass/cup/wooden,
+/obj/item/reagent_containers/glass/cup/wooden,
+/obj/item/reagent_containers/glass/cup/wooden,
+/obj/item/reagent_containers/glass/cup/wooden,
+/obj/item/reagent_containers/glass/cup/wooden,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/town/basement/keep/grim)
 "hJg" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grass,
@@ -95184,10 +95253,6 @@
 /obj/structure/fluff/railing/border{
 	dir = 4
 	},
-/obj/item/millstone{
-	pixel_y = 9;
-	pixel_x = -9
-	},
 /obj/item/flint{
 	pixel_x = 7;
 	pixel_y = 13
@@ -103686,28 +103751,32 @@
 "mLz" = (
 /obj/structure/rack/rogue/shelf/big,
 /obj/structure/rack/rogue/shelf,
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = -6;
-	pixel_y = 42
-	},
-/obj/item/reagent_containers/glass/cup/golden/small{
-	pixel_x = -6;
-	pixel_y = 20
-	},
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = 8;
-	pixel_y = 42
-	},
-/obj/item/reagent_containers/glass/cup/golden/small{
-	pixel_x = 8;
-	pixel_y = 20
-	},
 /obj/structure/fluff/railing/border{
 	dir = 4
 	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 8
+	},
+/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy{
+	pixel_x = 0;
+	pixel_y = 42
+	},
+/obj/item/reagent_containers/glass/cup/ceramic/fancy{
+	pixel_x = 5;
+	pixel_y = 22
+	},
+/obj/item/reagent_containers/glass/cup/ceramic/fancy{
+	pixel_x = -6;
+	pixel_y = 22
+	},
+/obj/item/reagent_containers/glass/cup/ceramic/fancy{
+	pixel_x = -6;
+	pixel_y = 13
+	},
+/obj/item/reagent_containers/glass/cup/ceramic/fancy{
+	pixel_x = 4;
+	pixel_y = 13
 	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/manor/grim)
@@ -103828,7 +103897,7 @@
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
-/turf/open/floor/rogue/wood,
+/turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/manor/grim)
 "mMd" = (
 /obj/structure/table/wood/long_table/mid/alt,
@@ -114000,7 +114069,8 @@
 /obj/structure/fluff/railing/border{
 	dir = 8
 	},
-/obj/structure/fluff/wallclock,
+/obj/structure/rack/rogue/shelf/notdense,
+/obj/structure/rack/rogue/shelf/big,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/manor/grim)
 "oaN" = (
@@ -120710,29 +120780,13 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/beach/forest/hamlet/grim)
 "oQU" = (
-/obj/item/kitchen/spoon/iron,
-/obj/item/kitchen/spoon/iron,
-/obj/item/kitchen/spoon/iron,
-/obj/item/kitchen/spoon/iron,
-/obj/item/kitchen/spoon/iron,
-/obj/item/kitchen/spoon/iron,
-/obj/item/kitchen/fork/iron,
-/obj/item/kitchen/fork/iron,
-/obj/item/kitchen/fork/iron,
-/obj/item/kitchen/fork/iron,
-/obj/item/kitchen/fork/iron,
-/obj/item/kitchen/fork/iron,
-/obj/item/reagent_containers/glass/cup/wooden,
-/obj/item/reagent_containers/glass/cup/wooden,
-/obj/item/reagent_containers/glass/cup/silver/pewter,
-/obj/item/reagent_containers/glass/cup/silver/pewter,
-/obj/item/reagent_containers/glass/cup,
-/obj/item/reagent_containers/glass/cup,
+/obj/item/kitchen/spoon/bronze,
+/obj/item/kitchen/spoon/bronze,
+/obj/item/kitchen/spoon/bronze,
+/obj/item/kitchen/fork/bronze,
+/obj/item/kitchen/fork/bronze,
+/obj/item/kitchen/fork/bronze,
 /obj/structure/closet/crate/roguecloset/inn,
-/obj/item/reagent_containers/glass/cup/ceramic/fancy,
-/obj/item/reagent_containers/glass/cup/ceramic/fancy,
-/obj/item/reagent_containers/glass/cup/ceramic/fancy,
-/obj/item/reagent_containers/glass/cup/ceramic/fancy,
 /obj/item/kitchen/fork/gold,
 /obj/item/kitchen/fork/gold,
 /obj/item/kitchen/fork/gold,
@@ -120745,10 +120799,15 @@
 /obj/item/kitchen/spoon/silver,
 /obj/item/kitchen/spoon/silver,
 /obj/item/kitchen/spoon/silver,
-/obj/item/reagent_containers/glass/cup/golden,
-/obj/item/reagent_containers/glass/cup/golden,
-/obj/item/reagent_containers/glass/cup/silver,
-/obj/item/reagent_containers/glass/cup/silver,
+/obj/item/reagent_containers/glass/cup/bronzemug,
+/obj/item/reagent_containers/glass/cup/bronzemug,
+/obj/item/reagent_containers/glass/cup/bronzemug,
+/obj/item/reagent_containers/glass/cup/silver/small,
+/obj/item/reagent_containers/glass/cup/silver/small,
+/obj/item/reagent_containers/glass/cup/silver/small,
+/obj/item/reagent_containers/glass/cup/golden/small,
+/obj/item/reagent_containers/glass/cup/golden/small,
+/obj/item/reagent_containers/glass/cup/golden/small,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor/grim)
 "oQV" = (
@@ -126720,6 +126779,10 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog/grim)
+"pCl" = (
+/obj/structure/fluff/railing/corner,
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/town/manor/grim)
 "pCm" = (
 /obj/structure/roguerock,
 /obj/effect/decal/cobbleedge{
@@ -129632,12 +129695,12 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "pTk" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/town/basement/keep/grim)
+/obj/structure/table/wood/poor,
+/obj/item/rope/chain,
+/obj/item/rope/chain,
+/obj/item/rope/chain,
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/town/manor/grim)
 "pTm" = (
 /obj/item/rogueore/iron,
 /turf/open/floor/rogue/dirt,
@@ -173119,7 +173182,7 @@
 /obj/item/clothing/cloak/tabard/stabard/surcoat/councillor,
 /obj/item/clothing/cloak/tabard/stabard/surcoat/councillor,
 /obj/item/clothing/cloak/tabard/stabard/surcoat/councillor,
-/turf/open/floor/rogue/wood,
+/turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/manor/grim)
 "vfN" = (
 /obj/structure/table/wood,
@@ -175741,6 +175804,12 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement/keep/grim)
+"vwK" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/manor/grim)
 "vwM" = (
 /obj/machinery/light/rogue/candle,
 /obj/effect/decal/cleanable/blood/old,
@@ -179928,7 +179997,6 @@
 /obj/structure/fluff/railing/border{
 	dir = 8
 	},
-/obj/item/reagent_containers/glass/bowl/gold,
 /obj/item/candle/gold/lit{
 	pixel_y = 16;
 	pixel_x = 11
@@ -180491,54 +180559,34 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/north/grim)
 "vZh" = (
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
-	},
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
-	},
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
-	},
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
-	},
-/obj/item/cooking/platter/gold,
-/obj/item/cooking/platter/gold,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter/pewter,
-/obj/item/cooking/platter/pewter,
-/obj/item/reagent_containers/glass/bowl/silver{
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/glass/bowl/silver{
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/glass/bowl/silver{
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/glass/bowl/gold,
-/obj/item/reagent_containers/glass/bowl/gold,
-/obj/item/reagent_containers/glass/bowl/gold,
-/obj/item/reagent_containers/glass/bowl,
-/obj/item/reagent_containers/glass/bowl,
-/obj/item/reagent_containers/glass/bowl,
 /obj/structure/closet/crate/roguecloset/inn,
-/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy{
-	pixel_x = -1;
-	pixel_y = 7
-	},
+/obj/item/reagent_containers/glass/bowl/bronze,
+/obj/item/reagent_containers/glass/bowl/bronze,
+/obj/item/reagent_containers/glass/bowl/bronze,
+/obj/item/reagent_containers/glass/bowl/silver,
+/obj/item/reagent_containers/glass/bowl/silver,
+/obj/item/reagent_containers/glass/bowl/silver,
+/obj/item/reagent_containers/glass/bowl/gold,
+/obj/item/reagent_containers/glass/bowl/gold,
+/obj/item/reagent_containers/glass/bowl/gold,
+/obj/item/cooking/platter/bronze,
+/obj/item/cooking/platter/bronze,
+/obj/item/cooking/platter/bronze,
 /obj/item/cooking/platter/silver,
 /obj/item/cooking/platter/silver,
 /obj/item/cooking/platter/silver,
 /obj/item/cooking/platter/gold,
+/obj/item/cooking/platter/gold,
+/obj/item/cooking/platter/gold,
+/obj/item/reagent_containers/glass/cup/bronzegob,
+/obj/item/reagent_containers/glass/cup/bronzegob,
+/obj/item/reagent_containers/glass/cup/bronzegob,
+/obj/item/reagent_containers/glass/cup/silver,
+/obj/item/reagent_containers/glass/cup/silver,
+/obj/item/reagent_containers/glass/cup/silver,
+/obj/item/reagent_containers/glass/cup/golden,
+/obj/item/reagent_containers/glass/cup/golden,
+/obj/item/reagent_containers/glass/cup/golden,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor/grim)
 "vZi" = (
@@ -181645,11 +181693,9 @@
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/church/chapel/grim/almonry)
 "wgg" = (
-/obj/structure/closet/crate/chest,
-/obj/item/rope/chain,
-/obj/item/rope/chain,
-/obj/item/rope/chain,
-/turf/open/floor/rogue/wood,
+/obj/machinery/light/rogue/hearth,
+/obj/structure/fluff/railing/border/north,
+/turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/manor/grim)
 "wgh" = (
 /obj/structure/roguemachine/scomm/r{
@@ -384569,7 +384615,7 @@ rOV
 uXy
 lrf
 lrf
-pTk
+dGb
 rOV
 ktX
 iqU
@@ -384951,7 +384997,7 @@ jiY
 lrf
 xId
 lrf
-dGb
+hJf
 rOV
 ktX
 foU
@@ -506411,7 +506457,7 @@ mOO
 qEe
 qEe
 qEe
-rNc
+eOl
 rNc
 dxy
 wSH
@@ -515216,7 +515262,7 @@ cAG
 eUt
 aUm
 wgg
-mxo
+pTk
 vfM
 qGL
 oVC
@@ -515596,9 +515642,9 @@ vCL
 okM
 eNa
 eNa
-mxo
-mxo
-mxo
+vwK
+pCl
+oag
 mMb
 qGL
 bnd
@@ -515978,7 +516024,7 @@ mxo
 paj
 rIX
 wBo
-mxo
+vwK
 okM
 qfF
 qGL
@@ -516360,7 +516406,7 @@ fBN
 vFz
 tLd
 iTS
-mxo
+vwK
 mMQ
 tRC
 qGL
@@ -516742,7 +516788,7 @@ mxo
 okM
 fZj
 fZj
-mxo
+vwK
 okM
 uqr
 qGL
