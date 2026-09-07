@@ -685,14 +685,122 @@ Inquisitorial armory down here
 /obj/item/inqarticles/inqslip_kit
 	name = "Inquisitorial Slip Kit"
 	desc = "A collection of tools used to draft, stamp, and issue Inquisitorial Slips in the field. Provided with the required materials, it allows for the preparation of official documents on the spot.<br><br>The writer's reading skill dictates how long it may take to produce a slip, and a particularly \"<b>good writer</b>\" can reduce the usual preparation time to roughly a quarter of what is normally required."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "slip_crafting_kit"
+	icon = 'icons/roguetown/items/misc_inq.dmi'
+	icon_state = "slip_kit"
 	w_class = WEIGHT_CLASS_SMALL
 	grid_height = 32
 	grid_width = 32
 	slot_flags = ITEM_SLOT_HIP
 	intdamage_factor = 0
 	sellprice = 0
+
+	var/crafting = FALSE
+	var/craft_progress = 0
+	var/craft_type
+	var/craft_requested
+
+/obj/item/inqarticles/inqslip_kit/attack_self(mob/user)
+	. = ..()
+	if(crafting)
+		to_chat(user, span_warning("The slip kit is already being used."))
+		return
+	var/choice = input(user, "What would you like to prepare?", "Inquisitorial Slip Kit") as null|anything in list("Draft Confession", "Draft Accusation", "Draft Requisition")
+	if(!choice)
+		return
+	switch(choice)
+		if("Draft Confession")
+			craft_type = "confession"
+		if("Draft Accusation")
+			craft_type = "accusation"
+		if("Draft Requisition")
+			var/requisition_choice = input(user, "What would you like to requisition?", "Inquisitorial Requisition") as null|anything in list("Indexer", "Litany", "Emergency")
+			if(!requisition_choice)
+				return
+			craft_type = "requisition"
+			craft_requested = requisition_choice
+	if(!craft_type)
+		return
+	start_crafting(user)
+
+/obj/item/inqarticles/inqslip_kit/proc/start_crafting(mob/user)
+	if(crafting)
+		return FALSE
+	crafting = TRUE
+	craft_progress = 0
+	to_chat(user, span_notice("You begin preparing the [craft_type] with your Inquisitorial Slip Kit..."))
+	while(craft_progress < 30)
+		if(QDELETED(src) || !user || QDELETED(user))
+			crafting = FALSE
+			craft_type = null
+			craft_requested = null
+			craft_progress = 0
+			return FALSE
+		if(!do_after(user, 5 SECONDS, src))
+			to_chat(user, span_warning("You stop preparing the document."))
+			crafting = FALSE
+			craft_type = null
+			craft_requested = null
+			craft_progress = 0
+			return FALSE
+		craft_progress += 5
+		if(craft_progress < 30)
+			to_chat(user, span_notice("You continue preparing the [craft_type]... ([craft_progress]/30 seconds)"))
+	finish_crafting(user)
+	return TRUE
+
+/obj/item/inqarticles/inqslip_kit/proc/finish_crafting(mob/user)
+	if(!user || QDELETED(src))
+		crafting = FALSE
+		craft_type = null
+		craft_requested = null
+		craft_progress = 0
+		return FALSE
+	var/obj/item/inqarticles/created
+	switch(craft_type)
+		if("confession")
+			created = new /obj/item/paper/inqslip/confession(get_turf(user))
+		if("accusation")
+			created = new /obj/item/paper/inqslip/accusation(get_turf(user))
+		if("requisition")
+			var/obj/item/inqarticles/requisition/r = new /obj/item/inqarticles/requisition(get_turf(user))
+			switch(craft_requested)
+				if("Indexer")
+					r.name = "Requisition (Indexer)"
+					r.desc = "An official Inquisitorial requisition for an Indexer."
+					r.requisition_type = "Indexer"
+					r.requested = /obj/item/inqarticles/indexer
+				if("Litany")
+					r.name = "Requisition (Litany)"
+					r.desc = "An official Inquisitorial requisition for a holy Litany."
+					r.requisition_type = "Litany"
+					r.requested = /obj/item/inqarticles/litany
+				if("Emergency") // can only be requested when there is only one orthodoxist left alive, and you get the blood of a dead orthodoxist, and also only during non-extended, higher intensity rounds
+					r.name = "Requisition (Emergency)"
+					r.desc = "An official Inquisitorial requisition for the holiest relic set of the Orthodoxy. For really, really bleak situations only."
+					r.requisition_type = "Emergency"
+					r.requested = /obj/item/inqarticles/terminator
+			if(r.requested)
+				created = r
+			else
+				qdel(r)
+	if(created)
+		to_chat(user, span_notice("You finish preparing the [created.name]."))
+		user.put_in_hands(created)
+	crafting = FALSE
+	craft_type = null
+	craft_requested = null
+	craft_progress = 0
+	return !!created
+
+/obj/item/inqarticles/requisition
+	name = "requisition"
+	desc = "An official Inquisitorial requisition awaiting specification."
+	icon = 'icons/roguetown/items/misc_inq.dmi'
+	icon_state = "requisition"
+	w_class = WEIGHT_CLASS_TINY
+	sellprice = 0
+	var/requested
+	var/requisition_type
 
 /obj/item/inqarticles/indexer
 	name = "\improper INDEXER"
@@ -1937,3 +2045,97 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 					qdel(src) //Deletes itself upon blessing a single weapon.
 			else
 				to_chat(user, span_info("It has already been blessed."))
+
+/obj/item/inqarticles/terminator
+	name = "Litany of Syon"
+	desc = "A final litany, reserved for those who have reached the hour from which there is no return. This can only be used by the Lord Inquisitor himself, when either the Bishop, Martyr or Duke are dead, and at a sufficiently higher-intensity round."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "litany"
+	item_state = "litany"
+	w_class = WEIGHT_CLASS_TINY
+	var/in_use = FALSE
+
+/obj/item/inqarticles/terminator/attack_self(mob/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+	if(in_use)
+		to_chat(user, span_warning("The litany is already being recited."))
+		return
+	in_use = TRUE
+	user.visible_message(span_boldwarning("[user] unfolds [src], raising it high as they begin a final and solemn rite."))
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v Psydon. Creator of All Existence. Hear me.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v I stand before death, and I do not ask Thee to spare me.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v I ask only that my death be enough.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v Take my flesh. Take my blood. Take every breath I have left.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v And forge them into something worthy of Thy name.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v No retreat. No surrender. No tomorrow.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v Let the heavens remember me. Let the earth bear witness.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v I go willingly into the fire, because there is nowhere else left to go.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v PSYDON, MAKE MY LIFE A WEAPON!")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v MAKE MY SOUL A BLADE!")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v MAKE MY DEATH MEAN SOMETHING!")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v BY THY WILL! BY MY BLOOD! BY MY DEATH!")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v GOD OF CREATION, ACCEPT THIS FINAL SACRIFICE!")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v I GO NOW.")
+	if(!do_after(user, 30, target = user))
+		in_use = FALSE
+		return
+	user.say(",v AND I SHALL NOT RETURN.")
+	user.visible_message(span_blue("[user] finishes the final words of the litany. For a moment, there is only silence."))
+	in_use = FALSE
+	sleep(60)
+	user.psydo_nyte()
+	user.playsound_local(user, 'sound/misc/psydong.ogg', 100, FALSE)
+	sleep(20)
+	user.psydo_nyte()
+	user.playsound_local(user, 'sound/misc/psydong.ogg', 100, FALSE)
+	sleep(15)
+	user.psydo_nyte()
+	user.playsound_local(user, 'sound/misc/psydong.ogg', 100, FALSE)
+	sleep(10)
+	user.visible_message(span_blue("And well. That's all it is. Silence. Your God is dead. You live in a corpse. LOL!"))
+	user.gib()
+	qdel(src)

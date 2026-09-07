@@ -582,10 +582,13 @@
 
 /obj/effect/proc_holder/spell/invoked/psydonlux_tamper/lesser
 	name = "LAMENT"
-	desc = "A rudimentary lux-magicka, taught to novice Oblates. Bear another's pain as your own, if only for a moment. </br>‎  </br>Transfers a portion of the target's injuries onto yourself. It cannot mend wounds, restore blood, or heal lasting afflictions."
+	desc = "A rudimentary lux-magicka, taught to novice Oblates. Bear another's pain as your own, if only for a moment. </br>‎  </br>Transfers the target's damage onto yourself. It cannot mend wounds, restore blood, nor heal lasting afflictions. This cannot be used during combat, with combat mode, and requires you and your target to be standing still."
 
 /obj/effect/proc_holder/spell/invoked/psydonlux_tamper/lesser/cast(list/targets, mob/living/user)
-	if(!ishuman(targets[1]))
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	if(!targets || !targets.len || !ishuman(targets[1]))
 		to_chat(user, span_warning("Their Lux cannot be interacted with."))
 		revert_cast()
 		return FALSE
@@ -598,33 +601,35 @@
 		to_chat(user, span_warning("[H] is irreversibly gone... There's nothing we can do to bring them back anymore!"))
 		user.emote("cry")
 		revert_cast()
-	if(HAS_TRAIT(H, TRAIT_UNFORGIVABLE)) //ANCIENT ENEMY, I DO NOT FEAR YOU.
+		return FALSE
+	if(HAS_TRAIT(H, TRAIT_UNFORGIVABLE)) // ANCIENT ENEMY, I DO NOT FEAR YOU.
 		H.visible_message(span_info("[H] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
 		playsound(H, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 		user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-		user.adjust_fire_stacks(15, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
+		user.adjust_fire_stacks(15, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
 		user.Knockdown(10)
 		user.Jitter(30)
 		user.ignite_mob()
 		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
-			user.emote("agony")
+			user.emote("superagony")
 		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
 			user.freak_out()
-		to_chat(user, span_userdanger("I recoil as I'm violently SMITED by profane flame as I attempt to purify their lux by the merging of-.. wait, where's THEIR LUX?!"))
-		return
+		to_chat(user, span_userdanger("I recoil as I'm violently SMITED by profane flame as I attempt to purify their Lux by the merging of-.. wait, where's THEIR LUX?!"))
+		revert_cast()
+		return FALSE
 	if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_DEADITE))
 		to_chat(user, span_warning("[H]'s Lux is extinguished... What can I do?!"))
 		user.emote("cry")
 		revert_cast()
 		return FALSE
-	if(!ishuman(user))
+	if(!do_after(5 SECONDS, user))
 		revert_cast()
 		return FALSE
 	var/mob/living/carbon/human/C = user
-	var/brute_transfer = H.getBruteLoss() * 0.25
-	var/burn_transfer = H.getFireLoss() * 0.25
-	var/tox_transfer = H.getToxLoss() * 0.25
-	var/oxy_transfer = H.getOxyLoss() * 0.25
+	var/brute_transfer = H.getBruteLoss()
+	var/burn_transfer = H.getFireLoss()
+	var/tox_transfer = H.getToxLoss()
+	var/oxy_transfer = H.getOxyLoss()
 	H.adjustBruteLoss(-brute_transfer)
 	H.adjustFireLoss(-burn_transfer)
 	H.adjustToxLoss(-tox_transfer)
@@ -634,7 +639,7 @@
 	C.adjustToxLoss(tox_transfer)
 	C.adjustOxyLoss(oxy_transfer)
 	H.visible_message(span_blue("[user] weakly connects their Lux with [H]'s own."))
-	user.emote(pick("cry","pain","painmoan","whimper","gag"))
+	user.emote(pick("cry", "painscream", "pain", "whimper", "paincrit"))
 	playsound(get_turf(user), 'sound/magic/psydonbleeds.ogg', 50, TRUE)
 	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
 	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97")

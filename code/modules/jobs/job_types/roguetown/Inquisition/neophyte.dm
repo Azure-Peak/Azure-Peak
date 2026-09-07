@@ -23,8 +23,6 @@
 	virtue_restrictions = list(
 		/datum/virtue/combat/dualwielder,
 		/datum/virtue/combat/combat_virtue,
-		/datum/virtue/combat/crossbowman,
-		/datum/virtue/combat/bowman,
 		/datum/virtue/thief/drug_runner, // we have penitent now, to compensate the loss of this
 		)
 	advclass_cat_rolls = list(CTAG_NEOPHYTE = 2)
@@ -198,7 +196,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	)
 	tempo_capable = FALSE
@@ -233,21 +231,20 @@
 		/obj/item/paper/inqslip/arrival/neophyte = 1,
 		/obj/item/armor_brush = 1,
 		/obj/item/polishing_cream = 3,
-		/obj/item/contraption/folding_table_stored = 1,
 		)
 
 /datum/advclass/servitor
 	name = "Servitor"
-	tutorial = "The embassy stands because someone keeps it standing. As a Servitor, you tend the gardens, repair the grounds, haul supplies, prepare ammo, and see to the countless humble labors that keep the Inquisition running. Though your duties are rarely glorious, every Orthodoxist depends upon your work, and diligence is its own form of devotion."
+	tutorial = "The embassy stands because someone keeps it standing. As a Servitor, you tend the gardens, repair the grounds, haul supplies, prepare ammo, and see to the countless humble labors that keep the Embassy running. Though your duties are rarely glorious, every Orthodoxist depends upon your work, and diligence is its own form of devotion."
 	outfit = /datum/outfit/job/roguetown/neophyte/basic
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_JACKOFALLTRADES, TRAIT_SELF_RELIANCE, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_ROYAL_SUBSIDY, TRAIT_CAUTIOUS_FISHER)
+	traits_applied = list(TRAIT_JACKOFALLTRADES, TRAIT_SELF_RELIANCE, TRAIT_ROYAL_SUBSIDY, TRAIT_CAUTIOUS_FISHER)
 	subclass_stats = list(
 		STATKEY_SPD = 2, // awful stats to compensate its utility
 		STATKEY_WIL = 2,
 		STATKEY_CON = -3,
-		STATKEY_LCK = -2,
+		STATKEY_LCK = -3,
 	)
 	subclass_skills = list(
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
