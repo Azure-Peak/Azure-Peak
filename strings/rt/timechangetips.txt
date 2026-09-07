@@ -9,7 +9,7 @@ Blacksteel is a blessed alloy of pure silver and steel. Its recipe was stolen by
 Skeletons have no BRAIN. Try to FEINT them. But don't tell this to everyone!
 A DODGING rogue who keeps their eyes FIXED retreats only backwards.
 An arcing arrow can only hit a target below you, not above you. A thrown rock, however...
-The Aragn is a large black spider capable of outrunning even the swiftest of elves. Its venom is paralytic, and it preys within sewers and bogs.
+The Aragn is a large black spider capable of outrunning even the swiftest of elves. Its venom is paralytic. It preys within sewers and bogs.
 The bog be a dangerous place full of chittering fiends. That dendorite may be covered in leaves and mud, at least they make for a good guide.
 With the care they put into their work, it is said that the food made by Eora's faithful energize the soul like no other dish.
 Pomegranate arils are boons sent to mortals by Eora to test whether they're dedicated enough to care for something precious.
@@ -72,3 +72,40 @@ FORTUNE represents your actor's luck. This affects their chance to sway seemingl
 Remember that there is another face behind the masks of every actor you meet. Cruelty in service of a story becomes unacceptable when it is done purely out of single-minded malice.
 New? Overwhelmed? Confused? Try checking out 'A Tutorialeer's Handbook' from the Loadout's 'Miscellanious' section, in order to get a crash course on everything you'd need to know!
 In the mynd's eye, otherwise known as the OOC tab... A handy Azurean encyclopedia can be found. Recipes, spells, anything a burgeoning adventurer might need!
+The heads of goblins, minotaurs, dragons, trolls, and various other creachers can be sold to the HEADEATER in town. The heads of CONTRACTUALLY-FOUGHT EVYLDOERS cannot.
+Looking through telescopes can provide interesting benefits... or stressing sights.
+TRIUMPHs can be spent by right-clicking your mood indicator. This will temporarily abate any stress upon your ACTOR.
+The ENCYCLOPEDIA in your OOC TAB contains a wealth of information on various topics!
+An actor's ORIGIN provides a free language.
+REAGENTS can be ground in a mortar and pestle through the MIDDLE-MOUSE BUTTON. This will turn certain items into a "LIQUID" form.
+TALLOW can be used to OIL someone, making any grabbing of an exposed body-part have a chance to fail! Try oiled wrestling tonite!
+The strange, blue sounds coming from another ACTOR may be a MINDLINK! MINDLINKS are two-way magic communications currently on speaker!
+GHOSTS can send letters through the HERMES!
+Certain items, like sticks and cloth, can be BUNDLED through the RIGHT-MOUSE BUTTON!
+Mining can be done by walking into a rock wall with APPRENTICE or greater skill. Ore-bags will also automatically pick up ore at this level.
+Click the "CRAFT" button with your RIGHT-MOUSE BUTTON in order to repeat your last crafting attempt.
+Floors are built depending on the direction which you face. Make sure you face the same direction if you wish for them to be the same!
+Some paintings can be taken from walls and sold.
+Carts can be enhanced with greater load capacity through a Woodcutters Wheelbrace.
+The BLOODLETTING surgery can be performed on an arm or a leg. It will reduce toxin build-up and purge the 'INFECTION' from bad surgery. Antidote is still better.
+TARGETING your NOSE and then EXAMINING a reagent container will let you sniff said container, exposing the smells and tastes of what's within!
+If someone has a GUTSPILL injury, they will likely need to have their organs replaced in ADDITION to the wound being stitched!
+Wounds that cause DISMEMBERMENT will result in the bleeding stump being present on the CHEST! Grip there, NOT at the limb... unless it's been re-attached.
+FACES can be reconstructed through a surgery targeting the head. This surgery can also change your name... or disfigure you, should it go wrong.
+MEDITATION will provide a brief but potent mental boost.
+Most POLEARMS have a 'SWEET-SPOT', where you must stab in order to get maximum penetration.
+Press 'STOP SOUNDS' in your preferences tab if a sound keeps looping and wont stop.
+STEWARDS are often in need of various craftsman goods! From gambesons to ingots, to even apples! Towners, stop by and see if anything is needed!
+TOWNERS can claim a house by ALT-CLICKING on a town-house door.
+LEECHTICKS can be removed from your person by "GRABBING" at where they are on your actor's sprite.
+If your ACTOR has unspent DREAM-POINTS, or you simply misclicked, you can RE-OPEn the DREAM TAB while sleeping through "OPEN DREAM MENU" in the IC TAB!
+ZIGS and PIPES can be put out with RIGHT-CLICK. This will reduce their smoke-ability, however.
+GRAGGARITES can eat organs to restore some of their energy.
+RIGHT-MOUSE BUTTON on TREES, LOGS, CLOCKS, TRAINING DUMMIES, and certain other structures in order to access your actor's "STASH"!
+Bottles will leak if not closed before being placed in a belt or backpack.
+Forming a FELLOWSHIP in your IC TAB will allow for handling harder contracts. It also lets you choose an incredible name for your adventuring party.
+NOTORIOUS contracts involve fighting another player. Beware!
+STEWARDS and INNKEEPS can both provide contracts to adventurers.
+REVENANTS may take a STAKE to the chest to be put down!
+Elves, tieflings, and some others can flick their ears with *eflick.
+
