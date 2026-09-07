@@ -359,18 +359,14 @@
 	for(var/obj/O in range(7, owner))
 		if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
 			continue
-		if(istype(O, /obj/item/flashlight/flare/light))
-			qdel(O)
 		O.spark_act()
 
 	for(var/mob/M in range(7, owner))
 		for(var/obj/O in M.contents)
 			if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
 				continue
-			if(istype(O, /obj/item/flashlight/flare/light))
-				qdel(O)
 			O.spark_act()
-	owner.visible_message(span_red("[owner] releases a flickering wave of heat that ignites lights around them!"))
+	owner.visible_message(span_red("[owner] releases a flickering wave of heat that ignites flammables around them!"))
 	return TRUE
 
 // ULT - Provide Beacon
