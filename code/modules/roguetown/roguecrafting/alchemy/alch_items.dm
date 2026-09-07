@@ -238,6 +238,7 @@
 	materia = list(/datum/materia_aspect/change, /datum/materia_aspect/herb)
 	icon = 'icons/roguetown/misc/alchemy.dmi'
 	icon_state = "transisdust" // placeholder
+	w_class = WEIGHT_CLASS_TINY
 	var/list/results = list( // adds up to  96% normal herbs, 4% fyritius
 		/obj/structure/flora/roguegrass/herb/atropa = 6,
 		/obj/structure/flora/roguegrass/herb/matricaria = 6,
@@ -255,7 +256,7 @@
 		/obj/structure/flora/roguegrass/herb/artemisia = 6,
 		/obj/structure/flora/roguegrass/herb/rosa = 6,
 		/obj/structure/flora/roguegrass/swampweed = 6,
-		/obj/structure/flora/roguegrass/pyroclasticflowers = 4 // rare treat
+		/obj/structure/flora/roguegrass/herb/fyritius = 4 // rare treat
 	)
 
 /obj/item/mutation_reagent/attack_obj(obj/O, mob/living/user)
