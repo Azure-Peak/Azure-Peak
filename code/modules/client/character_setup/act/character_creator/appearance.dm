@@ -17,10 +17,33 @@
 
 	switch(action)
 		if("bodytype")
-			var/static/list/friendlyGenders = list("male" = "masculine", "female" = "feminine")
-			var/pickedGender = gender == "male" ? "female" : "male"
-			verbose_pref_log_change(user, "notice", "Body Type", friendlyGenders[gender], friendlyGenders[pickedGender])
-			gender = pickedGender
+			if(AGENDER in pref_species.species_traits)
+				var/pickedGender = gender == MALE ? FEMALE : MALE
+				gender = pickedGender
+				genderize_customizer_entries()
+				return CHARACTER_ACT_PREVIEW_UPDATE
+
+			var/list/valid_options = ui_data_bodytype_options()
+			var/chosen = params["body_type"]
+			if(!(chosen in valid_options))
+				return CHARACTER_ACT_DATA_UPDATE
+
+			var/old_bodytype = ui_data_bodytype()
+			if(chosen == old_bodytype)
+				return CHARACTER_ACT_DATA_UPDATE
+
+			switch(chosen)
+				if("masculine")
+					gender = MALE
+					features["bulky_body"] = FALSE
+				if("feminine")
+					gender = FEMALE
+					features["bulky_body"] = FALSE
+				if("feminine_bulky")
+					gender = FEMALE
+					features["bulky_body"] = TRUE
+
+			verbose_pref_log_change(user, "notice", "Body Type", valid_options[old_bodytype], valid_options[chosen])
 			genderize_customizer_entries()
 			return CHARACTER_ACT_PREVIEW_UPDATE
 		if("race_bonus_select")

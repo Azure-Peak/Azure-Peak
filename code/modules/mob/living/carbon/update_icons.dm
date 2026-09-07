@@ -183,7 +183,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species)
-				if(gender == MALE)
+				if(H.is_bulky_offset())
 					if(OFFSET_HANDS in H.dna.species.offset_features)
 						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
 						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
@@ -203,7 +203,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species.sexes)
-				if(gender == MALE)
+				if(H.is_bulky_offset())
 					if(OFFSET_HANDS in H.dna.species.offset_features)
 						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
 						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
@@ -361,7 +361,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species.sexes)
-				if(gender == MALE)
+				if(H.is_bulky_offset())
 					if(OFFSET_HANDS in H.dna.species.offset_features)
 						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
 						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]

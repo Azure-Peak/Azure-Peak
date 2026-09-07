@@ -10,6 +10,7 @@
 /datum/preferences/proc/ui_data_character_creator_appearance_body(mob/user)
 	var/list/data = list(
 		"body_type" = ui_data_bodytype(),
+		"body_type_options" = ui_data_bodytype_options(),
 
 		// Appearance stuff
 		"use_skintones" = pref_species.use_skintones,
@@ -36,17 +37,23 @@
 
 	return data
 
-/// Gets the body type as a user friendly string
+/// Gets the current body type as a machine-readable key: "masculine", "feminine", "feminine_bulky", or "other" for agender species.
 /datum/preferences/proc/ui_data_bodytype()
-	var/bodytype = null
-	if(!(AGENDER in pref_species.species_traits))
-		if(gender == MALE)
-			bodytype = "Masculine"
-		else if(gender == FEMALE)
-			bodytype = "Feminine"
-		else
-			bodytype = "Other"
-	return bodytype
+	if(AGENDER in pref_species.species_traits)
+		return "other"
+	if(gender == MALE)
+		return "masculine"
+	if(features["bulky_body"] && pref_species.limbs_icon_f_bulky)
+		return "feminine_bulky"
+	return "feminine"
+
+/// Gets the body types selectable for the current species, as an assoc list of key -> user facing name. Empty for agender species.
+/datum/preferences/proc/ui_data_bodytype_options()
+	if(AGENDER in pref_species.species_traits)
+		return list()
+	. = list("masculine" = "Masculine", "feminine" = "Feminine")
+	if(pref_species.limbs_icon_f_bulky)
+		.["feminine_bulky"] = "Feminine (Bulky)"
 
 /// Gets all valid skintones as an assoc list Name -> Hex
 /datum/preferences/proc/get_valid_skin_tones()

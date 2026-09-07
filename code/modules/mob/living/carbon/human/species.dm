@@ -14,6 +14,8 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	var/default_color = "#FFF"	// if alien colors are disabled, this is the color that will be used by that race
 	var/limbs_icon_m
 	var/limbs_icon_f
+	/// If set, characters of this species can opt into a bulky (masculine-skeleton) female body via the appearance tab, swapping limbs_icon_f for this while worn.
+	var/limbs_icon_f_bulky
 	var/icon_override
 	var/icon_override_m
 	var/icon_override_f
@@ -39,6 +41,8 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 
 	var/dam_icon
 	var/dam_icon_f
+	/// Damage overlay used while the bulky body option is active, if limbs_icon_f_bulky is set.
+	var/dam_icon_f_bulky
 
 	var/hairyness = null
 
@@ -576,7 +580,7 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 		if(H.lip_style && (LIPS in species_traits))
 			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[H.lip_style]", -BODY_LAYER)
 			lip_overlay.color = H.lip_color
-			if(H.gender == MALE)
+			if(H.is_bulky_offset())
 				if(OFFSET_FACE in H.dna.species.offset_features)
 					lip_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE][1]
 					lip_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE][2]

@@ -86,10 +86,10 @@
 	var/datum/species/species = owner.dna.species
 	for(var/mutable_appearance/appearance as anything in appearance_list)
 		var/list/offset_list
-		if(humie.gender == FEMALE)
-			offset_list = species.offset_features[feature_female_key]
-		else
+		if(humie.is_bulky_offset())
 			offset_list = species.offset_features[feature_male_key]
+		else
+			offset_list = species.offset_features[feature_female_key]
 		if(offset_list)
 			appearance.pixel_x += offset_list[1]
 			appearance.pixel_y += offset_list[2]
