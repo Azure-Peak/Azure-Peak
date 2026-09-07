@@ -22,7 +22,7 @@ export type AllPagesData = {
 export type AppearanceData = BodyData & FeaturesData & MarkingsData;
 
 export type BodyData = {
-  body_type: string; // key: "masculine" | "feminine" | "feminine_muscular" | "other"
+  body_type: string; // key: "masculine" | "feminine" | "feminine_bulky" | "other"
   body_type_options: Record<string, string>; // key -> user facing name; empty for agender species
 
   // Appearance stuff

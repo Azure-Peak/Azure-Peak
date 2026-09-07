@@ -35,7 +35,6 @@
 	limbs_icon_f_bulky = 'icons/roguetown/mob/bodies/f/ft_muscular.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
-	dam_icon_f_bulky = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	soundpack_m = /datum/voicepack/male
 	soundpack_f = /datum/voicepack/female
 	offset_features = list(

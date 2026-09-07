@@ -38,11 +38,14 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	OFFSET_FACE_F = list(0,0), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,0), \
 	OFFSET_NECK_F = list(0,0), OFFSET_MOUTH_F = list(0,0), OFFSET_PANTS_F = list(0,0), \
 	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES = list(0,0), OFFSET_UNDIES_F = list(0,0))
+	/// Offset table used instead of offset_features while a character is rendering the bulky body option,
+	/// for species whose own male body doesn't share the bulky body's silhouette (mt.dmi/ft_muscular.dmi) —
+	/// e.g. elves, whose actual male sprite is slimmer and tuned separately. Leave null for species whose
+	/// own male body already matches that silhouette; offset_features is used for them either way.
+	var/list/offset_features_bulky
 
 	var/dam_icon
 	var/dam_icon_f
-	/// Damage overlay used while the bulky body option is active, if limbs_icon_f_bulky is set.
-	var/dam_icon_f_bulky
 
 	var/hairyness = null
 
@@ -581,13 +584,13 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[H.lip_style]", -BODY_LAYER)
 			lip_overlay.color = H.lip_color
 			if(H.is_bulky_offset())
-				if(OFFSET_FACE in H.dna.species.offset_features)
-					lip_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE][1]
-					lip_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE][2]
+				if(OFFSET_FACE in H.get_offset_features())
+					lip_overlay.pixel_x += H.get_offset_features()[OFFSET_FACE][1]
+					lip_overlay.pixel_y += H.get_offset_features()[OFFSET_FACE][2]
 			else
-				if(OFFSET_FACE_F in H.dna.species.offset_features)
-					lip_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE_F][1]
-					lip_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE_F][2]
+				if(OFFSET_FACE_F in H.get_offset_features())
+					lip_overlay.pixel_x += H.get_offset_features()[OFFSET_FACE_F][1]
+					lip_overlay.pixel_y += H.get_offset_features()[OFFSET_FACE_F][2]
 			standing += lip_overlay
 
 

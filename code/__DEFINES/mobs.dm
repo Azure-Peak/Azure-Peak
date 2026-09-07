@@ -334,6 +334,23 @@
 #define OFFSET_HANDS_F "handsf"
 #define OFFSET_UNDIES_F "underwearf"
 
+// Reference offset table for the bulky body option, tuned for characters standing on the shared
+// mt.dmi/ft_muscular.dmi silhouette (copied from Human's own offsets, since Human's default male body
+// already is that silhouette). Species whose own male body doesn't match that shape (e.g. elves, who use
+// their own slimmer sprite) should set their offset_features_bulky to this instead of leaving it null.
+#define OFFSET_FEATURES_BULKY_REFERENCE list(\
+	OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,1), OFFSET_WRISTS = list(0,1),\
+	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
+	OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
+	OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), OFFSET_PANTS = list(0,1), \
+	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDIES = list(0,1), \
+	OFFSET_ID_F = list(0,-1), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
+	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-1), OFFSET_HEAD_F = list(0,-1), \
+	OFFSET_FACE_F = list(0,-1), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-1), \
+	OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
+	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
+	)
+
 //MINOR TWEAKS/MISC
 #define AGE_MIN				18	//youngest a character can be
 #define AGE_MAX				85	//oldest a character can be

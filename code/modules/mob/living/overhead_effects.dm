@@ -6,12 +6,11 @@
 		return
 	if(stat != DEAD)
 		var/mob/living/carbon/human/humie = src
-		var/datum/species/species =	humie.dna.species
 		var/list/offset_list
-		if(humie.gender == FEMALE)
-			offset_list = species.offset_features[OFFSET_HEAD_F]
+		if(humie.is_bulky_offset())
+			offset_list = humie.get_offset_features()[OFFSET_HEAD]
 		else
-			offset_list = species.offset_features[OFFSET_HEAD]
+			offset_list = humie.get_offset_features()[OFFSET_HEAD_F]
 		if(!private)
 			var/mutable_appearance/appearance = mutable_appearance(icon_path, overlay_name, overlay_layer)
 			if(offset_list)
@@ -99,11 +98,10 @@
 	var/icon_plane = WEATHER_EFFECT_PLANE	//Will show up through the cone.
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
-		var/datum/species/SPC =	H.dna.species
-		if(H.gender == FEMALE)
-			offset_list = SPC.offset_features[OFFSET_HEAD_F]
+		if(H.is_bulky_offset())
+			offset_list = H.get_offset_features()[OFFSET_HEAD]
 		else
-			offset_list = SPC.offset_features[OFFSET_HEAD]
+			offset_list = H.get_offset_features()[OFFSET_HEAD_F]
 	for(var/mob/M in targets)
 		vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
 	// Seeing it on ourselves gives better feedback that it worked / was seen.

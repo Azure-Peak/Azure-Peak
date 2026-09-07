@@ -36,10 +36,10 @@
 	limbs_icon_f_bulky = 'icons/roguetown/mob/bodies/f/ft_muscular.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
-	dam_icon_f_bulky = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	use_f = TRUE
 	soundpack_m = /datum/voicepack/male/elf
 	soundpack_f = /datum/voicepack/female/elf
+	offset_features_bulky = OFFSET_FEATURES_BULKY_REFERENCE
 	offset_features = list(
 		OFFSET_ID = list(0,2), OFFSET_GLOVES = list(0,0), OFFSET_WRISTS = list(0,1),\
 		OFFSET_CLOAK = list(0,2), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
