@@ -80,7 +80,8 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-						/obj/item/rogueweapon/huntingknife = 1)
+						/obj/item/rogueweapon/huntingknife = 1,
+						/obj/item/book/rogue/lamplighter = 1)
 
 /datum/advclass/lampwicker
 	name = "Lampwicker"
@@ -134,7 +135,8 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-						/obj/item/rogueweapon/huntingknife = 1)
+						/obj/item/rogueweapon/huntingknife = 1,
+						/obj/item/book/rogue/lamplighter = 1)
 
 // SPECIAL STAFF :SPARKLES:
 

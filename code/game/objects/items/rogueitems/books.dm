@@ -611,6 +611,12 @@
 	base_icon_state = "book6"
 	bookfile = "naledi4.json"
 
+/obj/item/book/rogue/lamplighter
+	name = "Roadsman's Codex"
+	desc = "By Lampsmith Arlniss"
+	icon_state = "lawtome_0"
+	base_icon_state = "lawtome"
+	bookfile = "lamplighter.json"
 
 /obj/item/book/rogue/playerbook
 	var/player_book_text
