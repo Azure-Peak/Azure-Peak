@@ -1,4 +1,4 @@
-/proc/getfishingloot(var/mob/living/carbon/human/fisherman, var/list/modlist, turf/target, var/skill_power = 1)
+/proc/getfishingloot(mob/living/carbon/human/fisherman, list/modlist, turf/target, skill_power = 1)
 	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
 	var/salwt_coast = list(/turf/open/water/ocean)
 	var/salwt_deep = list(/turf/open/water/ocean/deep, /turf/open/water/ocean/deep/dark)
@@ -6,9 +6,9 @@
 	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
 	if(ishuman(fisherman))
 		if(fisherman.patron.type == /datum/patron/divine/abyssor)
-			modlist["dangerFishingMod"] *= 1.10  // +10% danger
-			modlist["treasureFishingMod"] *= 0.90  // -10% treasure
-			modlist["rareFishingMod"] *= 1.25  // +25% rare
+			modlist["dangerFishingMod"] *= 1.10	// +10% danger
+			modlist["treasureFishingMod"] *= 0.90	// -10% treasure
+			modlist["rareFishingMod"] *= 1.25	// +25% rare
 		if(fisherman.STALUC > 10)
 			var/trait_bonus = 0
 			if(HAS_TRAIT(fisherman, TRAIT_CAUTIOUS_FISHER))
@@ -32,12 +32,12 @@
 		fishingloot = pickweightAllowZero(createMudFishWeightListModlist(modlist))
 	return fishingloot
 
-/proc/upgradecagemodlist(var/mob/living/carbon/human/fisherman, var/list/modlist, var/skill_power = 1)
+/proc/upgradecagemodlist(mob/living/carbon/human/fisherman, list/modlist, skill_power = 1)
 	if(ishuman(fisherman))
 		if(fisherman.patron.type == /datum/patron/divine/abyssor)
-			modlist["dangerFishingMod"] *= 1.10  // +10% danger
-			modlist["treasureFishingMod"] *= 0.90  // -10% treasure
-			modlist["rareFishingMod"] *= 1.25  // +25% rare
+			modlist["dangerFishingMod"] *= 1.10	// +10% danger
+			modlist["treasureFishingMod"] *= 0.90	// -10% treasure
+			modlist["rareFishingMod"] *= 1.25	// +25% rare
 		if(fisherman.STALUC > 10)
 			var/trait_bonus = 0
 			if(HAS_TRAIT(fisherman, TRAIT_CAUTIOUS_FISHER))
@@ -50,7 +50,7 @@
 			modlist["dangerFishingMod"] *= (1 - (trait_bonus * 3))
 	return modlist
 
-/proc/getbaitlife(var/fishing_skill, var/obj/item/bait, var/basechance = 80)
+/proc/getbaitlife(fishing_skill, obj/item/bait, basechance = 80)
 	if(bait.baitresilience > 0)
 		if(fishing_skill >= SKILL_LEVEL_MASTER)
 			bait.baitresilience = max(0, bait.baitresilience - 1)

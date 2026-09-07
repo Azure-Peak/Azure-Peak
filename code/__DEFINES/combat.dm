@@ -19,20 +19,20 @@
 #define TOX			"toxin"
 #define OXY			"oxygen"
 #define CLONE		"clone"
-#define STAMINA 	"stamina"
+#define STAMINA	"stamina"
 #define BRAIN		"brain"
 
 //Omnibus'ing melee attack types
 #define MELEE_TYPES list("blunt", "slash", "stab")
 
 //bitflag damage defines used for suicide_act
-#define BRUTELOSS 	            	(1<<0)
-#define FIRELOSS 	            	(1<<1)
-#define TOXLOSS 	            	(1<<2)
-#define OXYLOSS 	            	(1<<3)
-#define SHAME 			            (1<<4)
-#define MANUAL_SUICIDE          	(1<<5)	//suicide_act will do the actual killing.
-#define MANUAL_SUICIDE_NONLETHAL	(1<<6)  //when the suicide is conditionally lethal
+#define BRUTELOSS					(1<<0)
+#define FIRELOSS					(1<<1)
+#define TOXLOSS					(1<<2)
+#define OXYLOSS					(1<<3)
+#define SHAME						(1<<4)
+#define MANUAL_SUICIDE				(1<<5)	//suicide_act will do the actual killing.
+#define MANUAL_SUICIDE_NONLETHAL	(1<<6)	//when the suicide is conditionally lethal
 
 #define EFFECT_STUN			"stun"
 #define EFFECT_KNOCKDOWN	"knockdown"
@@ -41,7 +41,7 @@
 #define EFFECT_IMMOBILIZE	"immobilize"
 #define EFFECT_IRRADIATE	"irradiate"
 #define EFFECT_STUTTER		"stutter"
-#define EFFECT_SLUR 		"slur"
+#define EFFECT_SLUR		"slur"
 #define EFFECT_EYE_BLUR		"eye_blur"
 #define EFFECT_DROWSY		"drowsy"
 #define EFFECT_JITTER		"jitter"
@@ -52,6 +52,9 @@
 #define CANUNCONSCIOUS	(1<<2)
 #define CANPUSH			(1<<3)
 #define GODMODE			(1<<4)
+#define GODMODE_TARGETABLE	(1<<5)
+
+#define GODMODE_HIDDEN(M) (((M).status_flags & GODMODE) && !((M).status_flags & GODMODE_TARGETABLE))
 
 //Health Defines
 #define HEALTH_THRESHOLD_CRIT 0
@@ -66,6 +69,7 @@
 #define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
 #define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
 #define RANGED_STAT_CAPPEDMULT 0.03	//PER multiplier per point past the softcap. 0.03 = 3% per point.
+#define RANGED_SPREAD_JITTER 1.4 // Add jitter to a shot's spread to get the final angle
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
@@ -111,6 +115,9 @@
 #define EFF_RANGE_ABOVE 2
 #define EFF_RANGE_BELOW 3
 
+// Damage multiplier for attacking outside of effective range. Also zeroes out penetration.
+#define EFF_RANGE_MISS_DAMFACTOR 0.5
+
 // Swingdelay presets
 #define SWINGDELAY_NORMAL 1	//No penalties, we just swing.
 #define SWINGDELAY_PENALTY 2 //We suffer a defensive penalty if struck during it. Otherwise, normal.
@@ -124,7 +131,7 @@
 #define GRAB_KILL					3
 
 //Grab breakout odds
-#define BASE_GRAB_RESIST_CHANCE 	30
+#define BASE_GRAB_RESIST_CHANCE	30
 
 //slowdown when in softcrit. Note that crawling slowdown will also apply at the same time!
 #define SOFTCRIT_ADD_SLOWDOWN 1
@@ -158,13 +165,19 @@
 #define ATTACK_EFFECT_MECHTOXIN	"mech_toxin"
 #define ATTACK_EFFECT_BOOP		"boop" //Honk
 
+// Tell us where a mob tends to aim with their attacks
+#define MOB_AIM_GROUND	"ground"
+#define MOB_AIM_LOW		"low"
+#define MOB_AIM_LEVEL	"level"
+#define MOB_AIM_HIGH	"high"
+
 //hurrrddurrrr
-#define QINTENT_BITE		 1
-#define QINTENT_JUMP		 2
-#define QINTENT_KICK		 3
-#define QINTENT_SPECIAL		 4
-#define QINTENT_GIVE		 5
-#define QINTENT_SPELL		 6
+#define QINTENT_BITE			1
+#define QINTENT_JUMP			2
+#define QINTENT_KICK			3
+#define QINTENT_SPECIAL			4
+#define QINTENT_GIVE			5
+#define QINTENT_SPELL			6
 
 //Intent blade class for dismember class
 #define BCLASS_BLUNT		"blunt"
@@ -182,7 +195,7 @@
 #define BCLASS_BURN			"charring"
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
-#define BCLASS_SUNDER       "sunder"
+#define BCLASS_SUNDER		"sunder"
 #define BCLASS_DISARM		"disarm"
 
 //Material class (what material is striking)
@@ -212,7 +225,7 @@
 
 //NOTE: INTENT_HOTKEY_* defines are not actual intents!
 //they are here to support hotkeys
-#define INTENT_HOTKEY_LEFT  "left"
+#define INTENT_HOTKEY_LEFT	"left"
 #define INTENT_HOTKEY_RIGHT "right"
 
 //the define for visible message range in combat
@@ -239,8 +252,8 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //Combat object defines
 
 //Embedded objects
-#define EMBEDDED_PAIN_CHANCE 					15	//Chance for embedded objects to cause pain (damage user)
-#define EMBEDDED_ITEM_FALLOUT 					5	//Chance for embedded object to fall out (causing pain but removing the object)
+#define EMBEDDED_PAIN_CHANCE					15	//Chance for embedded objects to cause pain (damage user)
+#define EMBEDDED_ITEM_FALLOUT					5	//Chance for embedded object to fall out (causing pain but removing the object)
 #define EMBED_CHANCE							45	//Chance for an object to embed into somebody when thrown (if it's sharp)
 #define EMBEDDED_PAIN_MULTIPLIER				2	//Coefficient of multiplication for the damage the item does while embedded (this*item.w_class)
 #define EMBEDDED_FALL_PAIN_MULTIPLIER			5	//Coefficient of multiplication for the damage the item does when it falls out (this*item.w_class)
@@ -259,16 +272,16 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TRIGGER_GUARD_NORMAL 1
 //Gun bolt types
 ///Gun has a bolt, it stays closed while not cycling. The gun must be racked to have a bullet chambered when a mag is inserted.
-///  Example: c20, shotguns, m90
+///	Example: c20, shotguns, m90
 #define BOLT_TYPE_STANDARD 1
 ///Gun has a bolt, it is open when ready to fire. The gun can never have a chambered bullet with no magazine, but the bolt stays ready when a mag is removed.
-///  Example: Some SMGs, the L6
+///	Example: Some SMGs, the L6
 #define BOLT_TYPE_OPEN 2
 ///Gun has no moving bolt mechanism, it cannot be racked. Also dumps the entire contents when emptied instead of a magazine.
-///  Example: Break action shotguns, revolvers
+///	Example: Break action shotguns, revolvers
 #define BOLT_TYPE_NO_BOLT 3
 ///Gun has a bolt, it locks back when empty. It can be released to chamber a round if a magazine is in.
-///  Example: Pistols with a slide lock, some SMGs
+///	Example: Pistols with a slide lock, some SMGs
 #define BOLT_TYPE_LOCKING 4
 //Sawn off nerfs
 ///accuracy penalty of sawn off guns
@@ -285,7 +298,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define AMMO_BOX_FULL_EMPTY 2
 
 //Projectile Reflect
-#define REFLECT_NORMAL 				(1<<0)
+#define REFLECT_NORMAL				(1<<0)
 #define REFLECT_FAKEPROJECTILE		(1<<1)
 
 //Object/Item sharpness
@@ -321,6 +334,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define DAMAGE_PRECISION 0.1
 
 #define STRONG_STANCE_DMG_BONUS 0.15
+#define WEAK_STANCE_DMG_MULT 0.2
 #define STRONG_SHP_BONUS 3
 #define STRONG_INTG_BONUS 3
 
@@ -343,12 +357,20 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define RIPOSTE_SHARPNESS_FACTOR	0.15	//Fraction of blade_int lost on riposte (15%). Heavy weapons add +0.05.
 #define INTEG_PARRY_DECAY_UNARMED	5	//Integrity decay on parry when the attacker is unarmed (fists still wear down shields).
 #define RIPOSTE_INTEG_DIVISOR		5	//max_integrity / this = integrity damage on riposte for non-bladed weapons.
+#define ARCYNE_STRIKE_WARDED		-1	// If an arcyne strike got guarded, rider effects do not goes forth.
 #define SHARPNESS_TIER1_THRESHOLD	0.8	//%-age threshold when damage starts to fall off -- mainly damfactor and STR factor. NOT base damage value.
 #define SHARPNESS_TIER1_FLOOR		0.45//%-age threshold when damfactors and STR factors become 0.
 #define SHARPNESS_TIER2_THRESHOLD	0.2 //%-age threshold when damage *really* falls off. Base damage value included.
 
 #define UNARMED_DAMAGE_DEFAULT		15
 #define UNARMED_DAMAGE_CIVILBARB	5
+
+#define PARRY_PER_WDEF_POINT 10
+#define PARRY_PER_SKILL_LEVEL 20
+
+//Base weapon-defense for an unarmed parry. Multiplied by PARRY_PER_WDEF_POINT to become a parry percentage.
+#define UNARMED_BASE_WDEF_BARE 2		// Bare fists — still bad, but not hopeless
+#define UNARMED_BASE_WDEF_EQUIPPED 8	// Bracers / knuckles / bandages — 80 base parry for expert pugilists
 
 /// Damage multiplier of silver weapons against mobs with TRAIT_SIMPLE_WOUNDS
 #define SILVER_SIMPLEMOB_DAM_MULT 3
@@ -361,8 +383,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
 #define EXPOSED_INTEG_MOD 2.5	//Multiplier for melee integrity / simple-mob damage if we hit an Exposed target.
 #define VULN_INTEG_MOD 1.3		//Multiplier for melee integrity / simple-mob damage if we hit a Vulnerable target.
-#define EXPOSED_INTEG_FLAT 45	//Flat integrity damage added when hitting an Exposed target.
-#define VULN_INTEG_FLAT 20		//Flat integrity damage added when hitting a Vulnerable target.
+#define EXPOSED_CAST_LOCKOUT 4 SECONDS	// Cap on how long Exposed can deny casting
 #define BASE_RCLICK_CD 30 SECONDS
 #define BAIT_RCLICK_CD 20 SECONDS
 #define BIND_CD 15 SECONDS
@@ -385,7 +406,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL -2
 
 /* TEMPO DEFINES */
-#define TEMPO_CULL_DELAY 	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
+#define TEMPO_CULL_DELAY	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
 #define TEMPO_DELAY_ONE 30 SECONDS	//How long the attacker will stay "in memory" before getting deleted, the more attackers the shorter the duration.
 #define TEMPO_DELAY_TWO	15 SECONDS
 #define TEMPO_DELAY_MAX	8 SECONDS
@@ -423,13 +444,13 @@ Medical defines
 #define CONSTITUTION_BLEEDRATE_MOD 0.05	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
 #define CONSTITUTION_BLEEDRATE_CAP 20	//The CON value up to which we get a bleedrate reduction.
 
-#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL 
+#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL
 #define WILLPOWER_MODIFIER	5	//How much stamina (flat value) we gain (or lose) for every WIL above / below 10.
 
 #define SPEED_MOVSPD_MOD 0.075	//Multiplicative modifier for our speed, per point (for both <10 and >10 values)
 
 /*
- Misc. Category. Spin it out if needed
+	Misc. Category. Spin it out if needed
 */
 #define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.7 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
@@ -437,7 +458,7 @@ Medical defines
 #define CRIT_ARMOUR_THRESHOLD 0.35 // ratio of obj_integrity and max_integrity for zone armour. Beyond this, crits are prevented.
 
 /*
-	Critical Resistance Defines 
+	Critical Resistance Defines
 */
 // Normal classes are guaranteed 4 resists, NPC 1, noblood / revenant 1
 #define CRIT_RESISTANCE_STACKS_PLAYER 4
@@ -469,7 +490,50 @@ Medical defines
 #define PROB_ATTACK_EMOTE_NPC 10
 
 #define MAX_DODGE_CEIL 5
+#define MAX_DODGE_START 0	// We start at (presumed) 90%
 #define MAX_DODGE_FLOOR -15
+
+// Mbos dodge with a different speed based curve meant to not be overly oppressive for melee players
+#define SIMPLEMOB_DODGE_BASE 20
+#define SIMPLEMOB_DODGE_PER_SPD 3
+#define SIMPLEMOB_DODGE_PER_SKILL 4
+#define SIMPLEMOB_DODGE_CAP 45
+
+// We reduce the dodge chances of simple mobs if they dodge consecutively
+#define SIMPLEMOB_DODGE_FATIGUE_PER_DODGE 5
+#define SIMPLEMOB_DODGE_FATIGUE_MAX 20
+/// Nothing recovers until they stop dodging for a while
+#define SIMPLEMOB_DODGE_RECOVERY_DELAY (6 SECONDS)
+/// Points recovered
+#define SIMPLEMOB_DODGE_FATIGUE_REGEN 5
+#define SIMPLEMOB_WINDED_DURATION (4 SECONDS)
+
+#define DODGE_EXPERT_BASE_CAP 90	//What a Dodge Expert with SPD above 10 is hardset to, before max_dodge is added on top.
+#define MAX_DODGE_CLAMP -5 // at 85%. Base is 90%.
+
+/*
+	Melee Accuracy Defines. See resolve_aimed_zone() and melee_accuracy_check().
+*/
+#define ACC_MAJOR_ZONE_BONUS 10			//Aiming at a major limb rather than one of its precise subzones.
+#define ACC_FACE_SUBZONE_PENALTY 24		//Aiming at a face subzone on a player.
+#define ACC_PER_BONUS_PER_POINT 8		//Accuracy gained per PER above 10.
+#define ACC_PER_BONUS_CAP 40			//Ceiling on the PER bonus. Reached at PER 15.
+#define ACC_PER_PENALTY_PER_POINT 10	//Accuracy lost per PER below 10. Deliberately harsher than the bonus.
+#define ACC_SKILL_BONUS_PER_LEVEL 8		//Accuracy per level of the weapon's associated skill.
+#define ACC_STAB_BONUS 10
+#define ACC_PICK_BONUS 15
+#define ACC_CUT_BONUS 6
+#define ACC_BLUNT_PRECISE_PENALTY 10	//Blunt and smash aimed at a precise subzone. A mace can't hit the eyes very well.
+#define ACC_SHORT_WEAPON_BONUS 10		//SHORT weapons, and unarmed, aim better.
+#define ACC_AIMED_BONUS 20				//AIMED stance.
+#define ACC_SWIFT_PENALTY 20			//SWIFT stance.
+#define ACC_GRABBED_BONUS 10			//Target is held in a passive grab.
+#define ACC_AGGRESSIVE_GRAB_BONUS 20	//Target is held in an aggressive grab or better.
+#define ACC_PRONE_TARGET_BONUS 30		//Target is off their feet.
+#define ACC_OPENED_TARGET_BONUS 20		//Target is Exposed or Vulnerable.
+#define ACC_PRONE_ATTACKER_LEG_BONUS 5	//Attacking legs or feet while we are prone ourselves.
+#define ACC_MIN 5						//Accuracy is always clamped between these two.
+#define ACC_MAX 95
 
 // How long we can't use stealth & other misc. things for
 #define IN_COMBAT_DELAY 10 SECONDS

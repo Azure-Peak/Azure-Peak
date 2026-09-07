@@ -70,7 +70,7 @@
 /obj/item/fishingrod/afterattack(obj/target, mob/user, proximity)
 	var/sl = user.get_skill_level(/datum/skill/labor/fishing) // User's skill level
 	var/ft = 120 //Time to get a catch, in ticks
-	var/fpp =  60 - (sl * 10) // Fishing power penalty based on fishing skill level
+	var/fpp =	60 - (sl * 10) // Fishing power penalty based on fishing skill level
 	var/list/modlist
 	if(user.used_intent.type == SPEAR_BASH)
 		return ..()
@@ -136,7 +136,7 @@
 									if(getbaitlife(sl, baited, 100)) // Higher chance for it to flee with your bait.
 										to_chat(user, "<span class='warning'>...And took my bait, too.</span>")
 										qdel(baited)
-										baited = null													
+										baited = null
 						else
 							to_chat(user, "<span class='warning'>Not even a nibble...</span>")
 							user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2) // Pity XP.

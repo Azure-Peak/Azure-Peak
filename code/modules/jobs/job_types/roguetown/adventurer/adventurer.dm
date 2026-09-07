@@ -53,9 +53,6 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/rogue/bard,
 		/datum/advclass/rogue/swashbuckler,
 		/datum/advclass/rogue/antiquarian,
-		/datum/advclass/mystic,
-		/datum/advclass/mystic/resilientsoul,
-		/datum/advclass/mystic/holyblade,
 		/datum/advclass/mage,
 		/datum/advclass/mage/spellsinger,
 		/datum/advclass/mage/spellblade,
@@ -78,6 +75,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/foreigner/bronzeclad,
 		/datum/advclass/foreigner/lesserblackoak
 	)
+	has_subprefs = TRUE
 
 /datum/status_effect/advclass_selection
 	id = "advclass_selection"

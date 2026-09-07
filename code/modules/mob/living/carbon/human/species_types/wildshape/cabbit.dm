@@ -28,6 +28,8 @@
 		faction += "cabbits"
 
 /datum/species/shapecabbit
+	custom_rotation_icon = TRUE
+	custom_base_icon = "cabbit"
 	name = "cabbit"
 	id = "shapecabbit"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
@@ -54,6 +56,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		)
 
 	languages = list(
@@ -101,7 +104,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshsmall"
 	item_d_type = "slash"
 
 /obj/item/rogueweapon/cabbit_claw
@@ -136,7 +139,7 @@
 /obj/item/rogueweapon/cabbit_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/cabbit_claw/Initialize()
+/obj/item/rogueweapon/cabbit_claw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
@@ -172,3 +175,12 @@
 	user.put_in_hands(left, TRUE, FALSE, TRUE)
 	user.put_in_hands(right, TRUE, FALSE, TRUE)
 	extended = TRUE
+
+/mob/living/carbon/human/species/wildshape/cabbit/can_be_held(mob/by)
+	return TRUE
+
+/mob/living/carbon/human/species/wildshape/cabbit/set_item_sprite(obj/item/mob_item/orb)
+	..()
+	orb.mob_overlay_icon = 'icons/roguetown/mob/cabbit_item.dmi'
+	orb.worn_offsets = list("x" = 0, "y" = 25)
+	orb.alternate_worn_layer = BODY_UNDER_LAYER

@@ -25,15 +25,3 @@
 			usr.visible_message(span_notice("[usr] rips [I] out of [usr.p_them()]self!"), span_notice("I remove [I] from myself."))
 		else
 			usr.visible_message(span_notice("[usr] rips [I] out of [src]!"), span_notice("I rip [I] from [src]."))
-
-/mob/living/simple_animal/pet/familiar/Topic(href, href_list)
-	. = ..()
-	if(href_list["task"] == "view_fam_headshot") //please lord forgive me for the shitcode i am about to write
-		if(!ismob(usr))
-			return
-		var/datum/examine_panel/familiar/mob_examine_panel = new(src)
-		mob_examine_panel.holder = src
-		mob_examine_panel.viewing = usr
-		mob_examine_panel.ui_interact(usr)
-		return
-        

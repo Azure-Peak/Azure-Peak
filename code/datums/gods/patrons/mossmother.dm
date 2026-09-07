@@ -21,12 +21,12 @@
 	return FALSE	//heathen
 
 /datum/patron/mossmother/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("Without any particular cause or reason, [target] is healed!")
 	*message_self = span_notice("My wounds close without cause.")

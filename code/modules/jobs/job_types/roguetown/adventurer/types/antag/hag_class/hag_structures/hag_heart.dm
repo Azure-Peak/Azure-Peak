@@ -17,7 +17,7 @@
 	var/static/alist/rite_requirements = alist(
 		1 = list(/obj/item/reagent_containers/lux = 2, /obj/item/reagent_containers/food/snacks/fish/creepy_squid = 1, /obj/item/reagent_containers/glass/bottle/rogue/elfblue = 1),
 		2 = list(/obj/item/rogueweapon/sword/rapier/lord = 1, /obj/item/magic/voidstone = 1, /obj/item/blueprint/mace_mushroom = 1),
-		3 = list(/obj/item/rogueore/lithmyc = 1, /obj/item/roguegem/blood_diamond = 1, /obj/item/reagent_containers/food/snacks/eoran_aril/ashen = 1, /obj/item/ingot/lithmyc = 1, /obj/item/rogueweapon/mace/mushroom = 1, /obj/item/rogueweapon/spear/dreamscape_trident = 1),
+		3 = list(/obj/item/rogueore/lithmyc = 1, /obj/item/roguegem/blood_diamond = 1, /obj/item/reagent_containers/food/snacks/eoran_aril/ashen = 1, /obj/item/ingot/lithmyc = 1, /obj/item/rogueweapon/mace/mushroom = 1, /obj/item/rogueweapon/spear/trident/dreamscape_trident = 1),
 	)
 	var/list/delivered_items = list()
 	var/rite_started = FALSE
@@ -81,71 +81,71 @@
 		begin_tutorial()
 
 	// if(timer_id)
-	// 	var/time_left = timeleft(timer_id)
-	// 	if(time_left > 0)
-	// 		. += span_boldnotice("The Grand Rite of [chosen_rite.name] is in progress! [DisplayTimeText(time_left)] remain.")
-	// 	else
-	// 		. += span_boldnotice("The Grand Rite is reaching its crescendo...")
-	// 	return
+	//	var/time_left = timeleft(timer_id)
+	//	if(time_left > 0)
+	//		. += span_boldnotice("The Grand Rite of [chosen_rite.name] is in progress! [DisplayTimeText(time_left)] remain.")
+	//	else
+	//		. += span_boldnotice("The Grand Rite is reaching its crescendo...")
+	//	return
 
 	// if(current_stage > max_stages)
-	// 	. += span_boldnotice("The tithes are complete. <b>Interact</b> with the heart to choose your Grand Rite.")
-	// 	return
+	//	. += span_boldnotice("The tithes are complete. <b>Interact</b> with the heart to choose your Grand Rite.")
+	//	return
 
 	// . += span_notice("The heart demands Stage [current_stage] tithes. Offer one of the following:")
 	// var/list/options = rite_requirements[current_stage]
 	// for(var/path in options)
-	// 	. += span_info("- [options[path]]x [initial(path:name)]")
+	//	. += span_info("- [options[path]]x [initial(path:name)]")
 
 // /obj/structure/roguemachine/hag_heart/attackby(obj/item/I, mob/living/user)
-// 	if(current_stage > max_stages || timer_id)
-// 		return ..()
+//	if(current_stage > max_stages || timer_id)
+//		return ..()
 
-// 	var/list/current_reqs = rite_requirements[current_stage]
-// 	var/path_to_check = I.type
-	
-// 	// Check if the item matches any requirement for this stage
-// 	var/is_valid_contribution = FALSE
-// 	for(var/req_path in current_reqs)
-// 		if(istype(I, req_path))
-// 			path_to_check = req_path // Use the requirement path for consistent indexing
-// 			is_valid_contribution = TRUE
-// 			break
+//	var/list/current_reqs = rite_requirements[current_stage]
+//	var/path_to_check = I.type
 
-// 	if(!is_valid_contribution)
-// 		return ..()
+//	// Check if the item matches any requirement for this stage
+//	var/is_valid_contribution = FALSE
+//	for(var/req_path in current_reqs)
+//		if(istype(I, req_path))
+//			path_to_check = req_path // Use the requirement path for consistent indexing
+//			is_valid_contribution = TRUE
+//			break
 
-// 	var/total_needed = current_reqs[path_to_check]
-// 	var/already_delivered = delivered_items[path_to_check] || 0
+//	if(!is_valid_contribution)
+//		return ..()
 
-// 	// Consume the item
-// 	user.transferItemToLoc(I, src, TRUE) // Move to null/src before deletion for safety
-// 	qdel(I)
+//	var/total_needed = current_reqs[path_to_check]
+//	var/already_delivered = delivered_items[path_to_check] || 0
 
-// 	already_delivered++
-// 	delivered_items[path_to_check] = already_delivered
+//	// Consume the item
+//	user.transferItemToLoc(I, src, TRUE) // Move to null/src before deletion for safety
+//	qdel(I)
 
-// 	to_chat(user, span_notice("The heart pulses greedily as it consumes the [initial(path_to_check:name)]. ([already_delivered]/[total_needed])"))
-// 	playsound(src, 'sound/magic/heartbeat.ogg', 100, TRUE)
+//	already_delivered++
+//	delivered_items[path_to_check] = already_delivered
 
-// 	// Check if THIS specific requirement path is satisfied
-// 	if(already_delivered >= total_needed)
-// 		to_chat(user, span_boldnotice("The heart has been satiated with [initial(path_to_check:name)] for this stage!"))
-// 		current_stage++
-// 		delivered_items.Cut() // Clear for the next stage
-		
-// 		if(current_stage > max_stages)
-// 			to_chat(user, span_boldnotice("The tithes are complete! The heart is ready to channel your spite."))
-	
-// 	return TRUE
+//	to_chat(user, span_notice("The heart pulses greedily as it consumes the [initial(path_to_check:name)]. ([already_delivered]/[total_needed])"))
+//	playsound(src, 'sound/magic/heartbeat.ogg', 100, TRUE)
+
+//	// Check if THIS specific requirement path is satisfied
+//	if(already_delivered >= total_needed)
+//		to_chat(user, span_boldnotice("The heart has been satiated with [initial(path_to_check:name)] for this stage!"))
+//		current_stage++
+//		delivered_items.Cut() // Clear for the next stage
+
+//		if(current_stage > max_stages)
+//			to_chat(user, span_boldnotice("The tithes are complete! The heart is ready to channel your spite."))
+
+//	return TRUE
 
 // /obj/structure/roguemachine/hag_heart/attack_hand(mob/living/user)
-// 	if(!HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
-// 		return
-// 	if(current_stage > max_stages && !timer_id && !rite_started)
-// 		select_rite(user)
-// 		return
-// 	..()
+//	if(!HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
+//		return
+//	if(current_stage > max_stages && !timer_id && !rite_started)
+//		select_rite(user)
+//		return
+//	..()
 
 /obj/structure/roguemachine/hag_heart/proc/select_rite(mob/living/user)
 	// We check for the component locally just to ensure a Hag is the one starting it
@@ -163,7 +163,7 @@
 		return
 
 	chosen_rite = rites[selection]
-	
+
 	priority_announce("A terrible, ancient cackle echoes across the land. The Grand Rite of [chosen_rite.name] has begun!", "The Mossmother Stirs")
 	for(var/mob/M in GLOB.player_list)
 		M.playsound_local(M, 'sound/hag/hag_cackles.ogg', 100, FALSE)

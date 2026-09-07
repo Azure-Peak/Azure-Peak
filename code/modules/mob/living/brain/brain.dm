@@ -7,7 +7,7 @@
 	base_intents = list(INTENT_HELP, INTENT_HARM) //for mechas
 	speech_span = SPAN_ROBOT
 
-/mob/living/brain/Initialize()
+/mob/living/brain/Initialize(mapload)
 	. = ..()
 
 	create_dna(src)

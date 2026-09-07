@@ -1,6 +1,9 @@
 //the saiga
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga
+	threat_point = THREAT_DEADLY
+	anatomy_type = /datum/anatomy/quadruped/standard
+	attack_aim = MOB_AIM_HIGH
 	name = "saiga doe"
 	desc = "Chiefly reputed friends of man, the saiga is the most ubiqutous beast of burden in the known world. They are driven to haul caravans and ploughs, ridden by mounted warriors on the field, and are much beloved by all."
 	icon = 'icons/roguetown/mob/monster/saiga.dmi'
@@ -40,12 +43,13 @@
 						/obj/item/alch/viscera = 2)
 	head_butcher = /obj/item/natural/head/saiga
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
-	health = 400
-	maxHealth = 400
+	health = SAIGA_HEALTH
+	maxHealth = SAIGA_HEALTH
 	food_type = list(
 				/obj/item/reagent_containers/food/snacks/grown/wheat,
 				/obj/item/reagent_containers/food/snacks/grown/oat,
 				/obj/item/reagent_containers/food/snacks/grown/apple,
+				/obj/item/reagent_containers/food/snacks/grown/maize
 				)
 	tame_chance = 25
 	bonus_tame_chance = 15
@@ -76,6 +80,7 @@
 	remains_type = /obj/effect/decal/remains/saiga
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigakid
+	threat_point = THREAT_TRASH
 	name = "saiga calf"
 	icon_state = "saigakid"
 	icon_living = "saigakid"
@@ -86,16 +91,15 @@
 					/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
 					/obj/item/natural/bone = 3,
 					)
-	health = 20
+	health = SAIGA_CALF_HEALTH
 	pass_flags = PASSTABLE | PASSMOB
 	mob_size = MOB_SIZE_SMALL
-	maxHealth = 20
+	maxHealth = SAIGA_CALF_HEALTH
 	melee_damage_lower = 1
 	melee_damage_upper = 6
 	STACON = 5
 	STASTR = 5
 	STASPD = 5
-	defprob = 50
 	pixel_x = -16
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/saiga
 	tame = TRUE
@@ -135,6 +139,7 @@
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigaboy
+	threat_point = THREAT_TRASH
 	name = "saiga calf"
 	desc = ""
 	gender = MALE
@@ -244,25 +249,8 @@
 		if("idle")
 			return pick('sound/vo/mobs/saiga/idle (1).ogg','sound/vo/mobs/saiga/idle (2).ogg','sound/vo/mobs/saiga/idle (3).ogg','sound/vo/mobs/saiga/idle (4).ogg','sound/vo/mobs/saiga/idle (5).ogg','sound/vo/mobs/saiga/idle (6).ogg','sound/vo/mobs/saiga/idle (7).ogg')
 
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_R_ARM, BODY_ZONE_PRECISE_R_HAND)
-			return "r_leg"
-		if(BODY_ZONE_L_LEG, BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_L_ARM, BODY_ZONE_PRECISE_L_HAND)
-			return "l_leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-	return ..()
-
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigaboy
+	threat_point = THREAT_TRASH
 	icon = 'icons/roguetown/mob/monster/saiga.dmi'
 	name = "saiga"
 	gender = MALE
@@ -294,14 +282,13 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame
 	tame = TRUE
 
-
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S
 	update_icon()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled/Initialize(mapload)
 	. = ..()
 	var/obj/item/natural/saddle/S = new(src)
 	ssaddle = S

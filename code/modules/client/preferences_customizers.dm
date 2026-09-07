@@ -38,60 +38,6 @@
 		var/datum/customizer_choice/customizer_choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
 		customizer_choice.validate_entry(src, entry)
 
-/datum/preferences/proc/print_customizers_page()
-	var/list/dat = list()
-	. = dat
-	if(!pref_species)
-		return
-	var/list/customizers = pref_species.customizers
-	if(!customizers)
-		return
-	dat += "<table width='100%'>"
-	dat += "<td valign='top' width='33%'>"
-	var/iterated_customizers = 0
-	for(var/customizer_type in customizers)
-		var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
-		if(!customizer.is_allowed(src))
-			continue
-		var/datum/customizer_entry/entry = get_customizer_entry_for_customizer_type(customizer_type)
-		if(!entry)
-			stack_trace("Missing customizer entry in preferences for customizer [customizer_type]")
-			continue
-		var/datum/customizer_choice/choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
-
-		var/customizer_link
-
-		if(entry.disabled)
-			customizer_link = "href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=toggle_missing'"
-		else
-			if(customizer.allows_disabling)
-				customizer_link = "href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=toggle_missing' class='linkOn'"
-			else
-				customizer_link = ""
-
-		dat += "<table align='center'; width='100%'; height='100px'; style='background-color:#1c1313'><td width=100%>"
-		dat += "<a [customizer_link]>[customizer.name]</a>"
-		if(!entry.disabled)
-			var/choice_link
-			if(length(customizer.customizer_choices) > 1)
-				choice_link = "href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=change_choice'"
-			else
-				choice_link = "class='linkOff'"
-			if(length(customizer.customizer_choices) > 1)
-				dat += "<br><a [choice_link]>[choice.name]</a>"
-
-			var/list/choice_list = choice.show_pref_choices(src, entry, customizer_type)
-			if(choice_list)
-				dat += choice_list
-
-		dat += "</td></table><br>"
-		iterated_customizers += 1
-		if(iterated_customizers >= 5)
-			dat += "</td><td valign='top' width='33%'>"
-			iterated_customizers = 0
-	dat += "</td></table>"
-	return
-
 /// We dont associate the entries just to be safer for save/load, so we can't lookup easily and we do this.
 /datum/preferences/proc/get_customizer_entry_for_customizer_type(customizer_type)
 	for(var/datum/customizer_entry/entry as anything in customizer_entries)
@@ -137,37 +83,6 @@
 			continue
 		customizer_choice.apply_customizer_to_character(human, src, entry)
 
-/datum/preferences/proc/handle_customizer_topic(mob/user, href_list)
-	//needs_update = TRUE
-	var/customizer_type = text2path(href_list["customizer"])
-	var/datum/customizer_entry/entry = get_customizer_entry_for_customizer_type(customizer_type)
-	if(!entry)
-		return
-	var/datum/customizer_choice/choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
-	var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
-	switch(href_list["customizer_task"])
-		if("toggle_missing")
-			if(customizer.allows_disabling)
-				entry.disabled = !entry.disabled
-		if("change_choice")
-			var/list/choice_list = list()
-			for(var/choice_type in customizer.customizer_choices)
-				var/datum/customizer_choice/iter_choice = CUSTOMIZER_CHOICE(choice_type)
-				choice_list[iter_choice.name] = choice_type
-			var/chosen_input = tgui_input_list(user, "Choose your [lowertext(customizer.name)]:", "Character Preference", choice_list)
-			if(!chosen_input)
-				return
-			var/choice_type = choice_list[chosen_input]
-			if(choice_type == choice.type)
-				return
-			customizer_entries -= entry
-			customizer_entries += customizer.create_customizer_entry(src, choice_type)
-		else
-			choice.handle_topic(user, href_list, src, entry, customizer_type)
-	if(ishuman(user))
-		var/mob/living/carbon/human/humanized = user
-		humanized.update_body_parts(TRUE)
-
 /datum/preferences/proc/reset_all_customizer_accessory_colors()
 	for(var/datum/customizer_entry/entry as anything in customizer_entries)
 		var/datum/customizer_choice/choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
@@ -177,14 +92,6 @@
 	for(var/datum/customizer_entry/entry as anything in customizer_entries)
 		var/datum/customizer_choice/choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
 		choice.randomize_entry(entry, src)
-
-/datum/preferences/proc/ShowCustomizers(mob/user)
-	var/list/dat = list()
-	dat += "<style>span.color_holder_box{display: inline-block; width: 20px; height: 8px; border:1px solid #000; padding: 0px;}</style>"
-	dat += print_customizers_page()
-	var/datum/browser/popup = new(user, "customization", "<div align='center'>Customization</div>", 630, 730)
-	popup.set_content(dat.Join())
-	popup.open(FALSE)
 
 /datum/preferences/proc/get_hair_color()
 	var/datum/customizer_entry/hair/entry = get_customizer_entry_of_type(/datum/customizer_entry/hair)

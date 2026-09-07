@@ -68,7 +68,6 @@
 	name = "porcelain bowl"
 	desc = "A bowl made out of porcelain."
 	icon_state = "bowl_porcelain"
-	sellprice = 10
 
 /obj/item/reagent_containers/glass/bowl/carved/amber
 	name = "amber bowl"

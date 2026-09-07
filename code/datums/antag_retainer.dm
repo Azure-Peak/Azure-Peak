@@ -13,8 +13,6 @@
 	var/list/aspirants = list()
 	var/list/assassins = list()
 
-	var/head_rebel_decree = FALSE
-
 	///vampire stuff
 	var/mob/living/carbon/human/vampire_lord
 	var/king_submitted = FALSE

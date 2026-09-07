@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(bunker_bypasses, load_bypasses_from_file())
 	set category = "Server"
 	set name = "Add Bunker Bypass"
 
-	var/selection = input("Who would you like to let in?", "CKEY", "") as text|null
+	var/selection = input(usr, "Who would you like to let in?", "CKEY", "") as text|null
 	if(selection)
 		add_bunker_bypass(selection, ckey)
 

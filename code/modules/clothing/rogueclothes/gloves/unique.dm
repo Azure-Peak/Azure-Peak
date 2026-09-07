@@ -40,6 +40,7 @@
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
 	unarmed_bonus = 3 //Light armor with good durability and a flat unarmed damage bonus. Loadout-selectable.
+	unarmed_weapon_effects = TRUE
 
 /obj/item/clothing/gloves/roguetown/bandages/get_mechanics_examine(mob/user)
 	. = ..()
@@ -68,6 +69,7 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	unarmed_bonus = 8
+	unarmed_weapon_effects = TRUE
 
 /obj/item/clothing/gloves/roguetown/knuckles/get_mechanics_examine(mob/user)
 	. = ..()

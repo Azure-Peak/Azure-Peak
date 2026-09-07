@@ -73,7 +73,7 @@
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	max_integrity = 300
 
-/obj/structure/fluff/psycross/necra/Initialize()
+/obj/structure/fluff/psycross/necra/Initialize(mapload)
 	. = ..()
 	// - I don't think these need to hear anymore, so I'm cautiously turning this off..
 	// chance2hear isn't referenced anywhere in the code!
@@ -139,7 +139,7 @@
 	var/new_integrity = round(health_percentage * new_max_integrity)
 	max_integrity = new_max_integrity
 	obj_integrity = min(new_integrity, max_integrity)
-	
+
 	return TRUE
 
 /obj/structure/fluff/psycross/necra/cloth/proc/deactivate_cross()
@@ -246,7 +246,7 @@
 		return
 
 	var/is_lich = target.mind?.has_antag_datum(/datum/antagonist/lich)
-	
+
 	if(is_lich)
 		// Stronger debuff for liches
 		target.apply_status_effect(/datum/status_effect/debuff/necran_cross/strong)
@@ -362,7 +362,7 @@
 	var/list/filter_params = list(
 		"type" = "layer",
 		"icon" = icon('icons/mob/mob_effects_fog.dmi', "subtle"),
-		"render_source" = H.render_target, 
+		"render_source" = H.render_target,
 		"blend_mode" = BLEND_INSET_OVERLAY
 	)
 	H.add_filter(NECRAN_MISTS_FILTER, 1, filter_params)

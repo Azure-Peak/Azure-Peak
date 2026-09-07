@@ -118,7 +118,7 @@
 	if(!istype(user))
 		return
 	var/new_note = tgui_input_text(user, "Enter a new custom note for the [controlled_role]:", "Update Role Note", "", MAX_MESSAGE_LEN)
-	
+
 	if(!new_note)
 		return
 
@@ -166,7 +166,7 @@
 	name = "church miniature flagpole"
 	controlled_role = "church"
 	flag_color = "#00FFFF" // Cyan
-	authorized_jobs = list("Bishop", "Keeper", "Templar", "Druid", "Acolyte", "Sexton", "Head Physician", "Apothecary")
+	authorized_jobs = list("Bishop", "Keeper", "Templar", "Druid", "Acolyte", "Sexton", "Head Physician", "Apothecary", "Painter")
 
 /obj/item/mini_flagpole/fisher
 	name = "fisher miniature flagpole"

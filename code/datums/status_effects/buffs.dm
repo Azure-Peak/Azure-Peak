@@ -402,7 +402,7 @@
 /datum/status_effect/buff/tempo_three/on_remove()
 	. = ..()
 	owner.remove_filter(TEMPO_MAX_FILTER)
-	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE,  TRAIT_STATUS_EFFECT)
+	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE,	TRAIT_STATUS_EFFECT)
 #undef TEMPO_MAX_FILTER
 
 /datum/status_effect/buff/weapon_binded

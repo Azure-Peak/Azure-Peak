@@ -2,7 +2,10 @@
 	name = "Psyaltrist"
 	tutorial = "You spent some time with cathedral choirs and psyaltrists. Now you spend your days applying the musical arts to the practical on behalf of His most Holy of Inquisitions."
 	outfit = /datum/outfit/job/roguetown/psyaltrist
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH, TRAIT_STEELHEARTED, TRAIT_INQUISITION)
+	traits_applied = list(
+		TRAIT_DODGEEXPERT,
+		TRAIT_EMPATH
+	)
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	subclass_stats = list(
@@ -28,7 +31,7 @@
 	subclass_stashed_items = list(
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
-	
+
 /datum/outfit/job/roguetown/psyaltrist/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/helmet/leather/chapeau
 	neck = /obj/item/clothing/neck/roguetown/leather
@@ -96,7 +99,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Flanged Mace")
 			l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 /datum/outfit/job/roguetown/psyaltrist
 	job_bitflag = BITFLAG_HOLY_WARRIOR

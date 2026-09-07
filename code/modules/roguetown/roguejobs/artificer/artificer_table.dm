@@ -47,16 +47,16 @@
 	// Heal interval: 10s at fast, 20s at slow
 	var/heal_interval = is_fast ? 10 : 20
 
-	charge_accumulator +=  world.time / 10
-	heal_accumulator   +=  world.time / 10
+	charge_accumulator +=	world.time / 10
+	heal_accumulator	+=	world.time / 10
 
 	// --- Contraption charging ---
 	if(charge_accumulator >= charge_interval)
 		charge_accumulator -= charge_interval
 		var/turf/T = get_turf(src)
 		var/charged_any = FALSE
-		for(var/obj/item/contraption/C in T.contents)
-			if(istype(C, /obj/item/contraption/wood_metalizer))
+		for(var/obj/item/rogueweapon/contraption/C in T.contents)
+			if(istype(C, /obj/item/rogueweapon/contraption/wood_metalizer))
 				return //we won't charge the metalizer at this time
 			if(C.current_charge >= C.max_stored_charge)
 				continue
@@ -78,12 +78,12 @@
 				continue
 			// Don't heal while the construct is already processing minerals
 			if(H.has_status_effect(/datum/status_effect/buff/ingotmuncher) \
-			|| H.has_status_effect(/datum/status_effect/buff/oremuncher)   \
+			|| H.has_status_effect(/datum/status_effect/buff/oremuncher)	\
 			|| H.has_status_effect(/datum/status_effect/buff/gemmuncher))
 				continue
 
 			var/brute_heal = is_fast ? 4 : 2
-			var/fire_heal  = is_fast ? 4 : 2
+			var/fire_heal	= is_fast ? 4 : 2
 			var/energy_gain = is_fast ? 10 : 5
 
 			H.adjustBruteLoss(-brute_heal)

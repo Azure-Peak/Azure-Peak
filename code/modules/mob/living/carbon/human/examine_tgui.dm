@@ -36,7 +36,7 @@
 
 /datum/examine_panel/familiar/ui_static_data(mob/user) //altered and condensed version used for familiars. sorry
 
-	var/flavor_text
+	var/flavor_text = ""
 	var/flavor_text_nsfw //probably breaks if i remove it entirely, just leaving it null
 	var/ooc_notes = ""
 	var/ooc_notes_nsfw
@@ -50,15 +50,15 @@
 	var/is_naked = FALSE
 	var/obscured = FALSE
 
-	var/mob/living/simple_animal/pet/familiar/fam = holder
+	var/mob/living/carbon/human/species/familiar/fam = holder
 	var/datum/preferences/prefs = holder.client?.prefs
 	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
 
 	if(!fam_pref.familiar_headshot_link) // prefs object from the dev period before we had examines; update that shit
 		fam_pref.instantiate_examine_prefs()
 
-	flavor_text = fam_pref.familiar_flavortext_display[fam.planar_origin]
-	ooc_notes = fam_pref.familiar_ooc_notes_display[fam.planar_origin]
+	flavor_text += fam_pref.familiar_flavortext_display[fam.planar_origin]
+	ooc_notes += fam_pref.familiar_ooc_notes_display[fam.planar_origin]
 	headshot = fam_pref.familiar_headshot_link[fam.planar_origin]
 	char_name = fam_pref.familiar_names[fam.planar_origin]
 	song_url = fam_pref.familiar_ooc_extra[fam.planar_origin]
@@ -91,7 +91,7 @@
 	return data
 
 /datum/examine_panel/familiar/ui_data(mob/user)
-	var/list/data = list( 
+	var/list/data = list(
 		"is_playing" = is_playing,
 	)
 	return data
@@ -106,8 +106,11 @@
 	var/headshot = ""
 	var/list/img_gallery = list()
 	var/list/nsfw_img_gallery = list()
+	var/ooc_extra_image
+	var/nsfw_ooc_extra_image
 	var/char_name
 	var/song_url
+	var/song_title
 	var/has_song = FALSE
 	var/is_vet = FALSE
 	var/is_naked = FALSE
@@ -125,6 +128,7 @@
 		ooc_notes_nsfw += holder_human.erpprefs_cached
 		char_name = holder_human.name
 		song_url = holder_human.ooc_extra
+		song_title = holder_human.song_title
 		is_vet = holder_human.check_agevet()
 		if(!obscured)
 			if(vampireplayer && (!SEND_SIGNAL(holder_human, COMSIG_DISGUISE_STATUS))&& !isnull(holder_human.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
@@ -136,6 +140,9 @@
 			img_gallery = holder_human.img_gallery
 			if(is_naked)
 				nsfw_img_gallery = holder_human.nsfw_img_gallery
+			ooc_extra_image = holder_human.ooc_extra_img
+			if(is_naked)
+				nsfw_ooc_extra_image = holder_human.nsfw_ooc_extra_img
 		if(!headshot)
 			headshot = "headshot_red.png"
 
@@ -146,6 +153,7 @@
 		flavor_text_nsfw = pref.nsfwflavortext_cached
 		ooc_notes = pref.ooc_notes_cached
 		ooc_notes_nsfw = pref.erpprefs_cached
+		song_title = pref.song_title
 		if(vampireplayer && (!SEND_SIGNAL(pref, COMSIG_DISGUISE_STATUS))&& !isnull(pref.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
 			headshot = pref.vampire_headshot_link
 		else if (lichplayer && !isnull(pref.lich_headshot_link))//Lich with a valid headshot
@@ -155,6 +163,9 @@
 		img_gallery = pref.img_gallery
 		if(is_naked)
 			nsfw_img_gallery = pref.nsfw_img_gallery
+		ooc_extra_image = pref.ooc_extra_img
+		if(is_naked)
+			nsfw_ooc_extra_image = pref.nsfw_ooc_extra_img
 		char_name = pref.real_name
 		song_url = pref.ooc_extra
 		is_vet = viewing.check_agevet()
@@ -173,8 +184,7 @@
 		char_examine_theme = pref.examine_theme
 	// Validate — reject meme themes and unknown keys, fall back to default
 	if(char_examine_theme)
-		var/list/valid_themes = get_tgui_themes()
-		if(!(char_examine_theme in valid_themes) || char_examine_theme == "trey_liam")
+		if(!(char_examine_theme in GLOB.tgui_themes) || char_examine_theme == "trey_liam")
 			char_examine_theme = "azure_default"
 
 	var/list/data = list(
@@ -190,11 +200,14 @@
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
 		"nsfw_img_gallery" = nsfw_img_gallery,
+		"ooc_extra_image" = ooc_extra_image,
+		"nsfw_ooc_extra_image" = nsfw_ooc_extra_image,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
 		"is_donator" = is_donator(holder.ckey),
 		"is_naked" = is_naked,
 		"examine_theme" = char_examine_theme,
+		"song_title" = has_song ? song_title : null
 	)
 	return data
 

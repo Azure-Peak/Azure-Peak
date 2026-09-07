@@ -1,4 +1,4 @@
-/*	........   Milling recipes   ................ */
+/*	........	Milling recipes	................ */
 /datum/crafting_recipe/roguetown/cooking/wheat_flour
 	name = "wheat flour"
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)

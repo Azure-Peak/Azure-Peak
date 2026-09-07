@@ -1,6 +1,13 @@
 /mob/living/carbon/human/species/skeleton/npc/summon //Unique skilled NPC summons exclusive to necromancers, these guys are a menace to fight.
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/summon
 
+/mob/living/carbon/human/species/skeleton/npc/summon/after_creation()
+	. = ..()
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+
 /datum/outfit/job/roguetown/npc/skeleton/npc/summon //On par getup almost with greater summons, because sovl.
 
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -35,9 +42,10 @@
 	H.STACON = 7 //Decently tough, has a lifespan + player tied, will still crumble to fients/numbers.
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE) //Good parrying, still will crumble to numbers. Intended so lone advs/garrison can't just solo through a necromancer's summons with ease.
-	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	ADD_TRAIT(H, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the necromancer for a gravemark
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE) //Good parrying, still will crumble to numbers. Intended so lone advs/garrison can't just solo through a necromancer's summons with ease.
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.energy = H.max_energy //Always combat-ready

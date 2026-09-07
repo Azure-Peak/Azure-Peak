@@ -2,7 +2,7 @@
 	name = "Assassin - Professional Hitman"
 	tutorial = "You are no street-thug or yoeman, you have honed your trade for years if not outright decades. Your craft? Blending in anywhere possible, waiting for your target to be alone, and finishing the hit. After all, dead men tell no tales."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/assassin/hitman
 	category_tags = list(CTAG_ASSASSIN)
 	traits_applied = list(TRAIT_BLACKBAGGER, TRAIT_UNCONVERTIBLE)	// Agent (15)47 - Lets you use the blackbag and garrote you
@@ -57,9 +57,10 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	backl = /obj/item/rogueweapon/mace/cudgel
 	r_hand = /obj/item/clothing/gloves/roguetown/knuckles
+	beltl = /obj/item/rogueweapon/scabbard/sheath
 
 	if(!istype(H.patron, /datum/patron/inhumen/graggar))
-		var/inputty = input(H, "Would you like to change your patron to Graggar?", "The beast roars", "No") as anything in list("Yes", "No")
+		var/inputty = input(H, "Would you like to change your patron to Graggar?", "THE BEAST ROARS", "No") as anything in list("Yes", "No")
 		if(inputty == "Yes")
 			to_chat(H, span_warning("My former deity has abandoned me.. Graggar is my new master."))
 			H.set_patron(/datum/patron/inhumen/graggar)

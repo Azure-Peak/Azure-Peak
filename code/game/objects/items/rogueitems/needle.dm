@@ -55,7 +55,7 @@
 	. += span_info("Needles require fibers to stitch, which can be found by cutting grass or foraging through bushes.")
 	. += span_info("To rethread an emptied needle, left-click it with a strand of fiber. A fiber bundle works too, and will keep feeding strands in one at a time until the needle is full.")
 
-/obj/item/needle/Initialize()
+/obj/item/needle/Initialize(mapload)
 	. = ..()
 	thread_overlay = mutable_appearance(icon, "[icon_state]string")
 	if(stringamt > 0)
@@ -324,7 +324,14 @@
 
 /obj/item/needle/pestra
 	name = "needle of pestra"
+	icon_state = "pestraneedle"
 	desc = span_green("This needle has been blessed by the goddess of medicine herself!")
+	infinite = TRUE
+
+/obj/item/needle/tailor
+	name = "tailor's needle"
+	icon_state = "tailorneedle"
+	desc = "An elongated needle made for the true professional of their craft - for no masterwork was born of a faulty tool."
 	infinite = TRUE
 
 /obj/item/needle/bronze

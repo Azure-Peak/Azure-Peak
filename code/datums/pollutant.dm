@@ -46,7 +46,7 @@
 			continue
 		if(H.has_stress_event(/datum/stressevent/perfume))
 			continue
-	
+
 		H.add_stress(/datum/stressevent/perfume)
 
 ///Smoke coming from cigarettes and fires
@@ -126,3 +126,28 @@
 	name = "myrrh"
 	scent = "myrrh"
 	color = "#9e8574"
+
+/datum/pollutant/fragrance/citrus
+	name = "citrus"
+	scent = "citrus"
+	color = "#f4d03f"
+
+/datum/pollutant/fragrance/tea
+	name = "tea"
+	scent = "tea"
+	color = "#2fc637"
+
+/datum/pollutant/fragrance/coffee
+	name = "coffee"
+	scent = "coffee"
+	color = "#6f4e37"
+
+/datum/pollutant/fragrance/floral
+	name = "floral"
+	scent = "flower"
+	color = "#04240d"
+
+/datum/pollutant/fragrance/Jackberry
+	name = "Jackberry"
+	scent = "Jackberry"
+	color = "#050337"

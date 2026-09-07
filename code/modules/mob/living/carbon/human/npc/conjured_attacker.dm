@@ -9,7 +9,7 @@
 	var/gear_tier = 1
 	var/datum/weakref/summoner_ref
 
-/mob/living/carbon/human/species/human/northern/conjured_attacker/Initialize()
+/mob/living/carbon/human/species/human/northern/conjured_attacker/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/human/northern)
 	gender = pick(MALE, FEMALE)
@@ -95,12 +95,12 @@
 	H.STAPER = 12 + tier
 	H.STAINT = 10
 	H.STALUC = 10
-	H.adjust_skillrank(/datum/skill/combat/unarmed, skill, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, skill, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	mask = /obj/item/clothing/mask/rogue/padded
+	mask = /obj/item/clothing/mask/rogue/facemask/padded
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
@@ -115,41 +115,41 @@
 /datum/outfit/job/roguetown/conjured_attacker/sabre/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = attacker_skill(H)
-	H.adjust_skillrank(/datum/skill/combat/swords, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, skill, TRUE)
 	r_hand = /obj/item/rogueweapon/sword/sabre
 	l_hand = /obj/item/rogueweapon/sword/sabre
 
 /datum/outfit/job/roguetown/conjured_attacker/rapier/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = attacker_skill(H)
-	H.adjust_skillrank(/datum/skill/combat/swords, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, skill, TRUE)
 	r_hand = /obj/item/rogueweapon/sword/rapier
 	l_hand = /obj/item/rogueweapon/sword/rapier
 
 /datum/outfit/job/roguetown/conjured_attacker/dagger/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = attacker_skill(H)
-	H.adjust_skillrank(/datum/skill/combat/knives, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, skill, TRUE)
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger
 	l_hand = /obj/item/rogueweapon/huntingknife/idagger
 
 /datum/outfit/job/roguetown/conjured_attacker/axe/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = attacker_skill(H)
-	H.adjust_skillrank(/datum/skill/combat/axes, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, skill, TRUE)
 	r_hand = /obj/item/rogueweapon/stoneaxe/battle
 	l_hand = /obj/item/rogueweapon/stoneaxe/battle
 
 /datum/outfit/job/roguetown/conjured_attacker/hammer/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = attacker_skill(H)
-	H.adjust_skillrank(/datum/skill/combat/maces, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, skill, TRUE)
 	r_hand = /obj/item/rogueweapon/mace/warhammer
 	l_hand = /obj/item/rogueweapon/mace/warhammer
 
 /datum/outfit/job/roguetown/conjured_attacker/whip/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = attacker_skill(H)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, skill, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, skill, TRUE)
 	r_hand = /obj/item/rogueweapon/whip
 	l_hand = /obj/item/rogueweapon/whip

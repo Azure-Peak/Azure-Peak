@@ -28,7 +28,7 @@
 	else
 		desc = initial(desc)
 
-/obj/item/listeningdevice/Initialize()
+/obj/item/listeningdevice/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive()
 	inqdesc = "An ever-attentive ear... [span_notice("This ear hasn't been bent. It's unlabelled.")]"

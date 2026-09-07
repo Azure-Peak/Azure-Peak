@@ -1,6 +1,5 @@
 
 /datum/ai_controller/reiver_rider
-	movement_delay = REIVER_RIDER_MOVEMENT_SPEED
 	ai_movement = /datum/ai_movement/hybrid_pathing
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic()
@@ -15,7 +14,6 @@
 
 /datum/ai_controller/reiver_rider/lance
 
-	movement_delay = REIVER_RIDER_MOVEMENT_SPEED
 	ai_movement = /datum/ai_movement/hybrid_pathing
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic()
@@ -31,7 +29,6 @@
 	)
 
 /datum/ai_controller/reiver_crossbow
-	movement_delay = REIVER_CROSSBOW_MOVEMENT_SPEED * 1.2 //ranged malus
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

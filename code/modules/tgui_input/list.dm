@@ -11,7 +11,7 @@
  * * timeout - The timeout of the input box, after which the menu will close and qdel itself. Set to zero for no timeout.
  * * descriptions - Optional assoc list mapping item display names to tooltip descriptions.
  */
-/proc/tgui_input_list(mob/user, message, title = "Select", list/items, default, timeout = 0, strict_modern = FALSE, ui_state = GLOB.tgui_always_state, list/descriptions)
+/proc/tgui_input_list(mob/user, message, title = "Select", list/items, default, timeout = 0, ui_state = GLOB.tgui_always_state, list/descriptions)
 	if (!user)
 		user = usr
 	if(!length(items))
@@ -26,9 +26,6 @@
 	if(isnull(user.client))
 		return null
 
-	/// Client does NOT have tgui_input on: Returns regular input
-	if(!user.client.prefs.tgui_pref && !strict_modern)
-		return input(user, message, title, default) as null|anything in items
 	var/datum/tgui_list_input/input = new(user, message, title, items, default, timeout, ui_state, descriptions)
 	if(input.invalid)
 		qdel(input)

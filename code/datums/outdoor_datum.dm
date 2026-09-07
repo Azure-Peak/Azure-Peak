@@ -9,14 +9,14 @@ Sunlight System
 		Sunlight Objects (this file)
 			- Grayscale version of lighting_object
 			- Has 3 states
-				- SKY_BLOCKED  (0)
+				- SKY_BLOCKED	(0)
 					- Turfs that have an opaque turf above them. Has no light themselves but is affected by SKY_VISIBLE_BORDER
 				- SKY_VISIBLE (1)
 					- Turfs that with no opaque turfs above it (no roof, glass roof, etc), with no neighbouring SKY_BLOCKED tiles
-					  Emits no light, but is fully white to display the overlay color
-				- SKY_VISIBLE_BORDER  (2)
+						Emits no light, but is fully white to display the overlay color
+				- SKY_VISIBLE_BORDER	(2)
 					- Turfs that with no opaque turfs above it (no roof, glass roof, etc), which neighbour at least one SKY_BLOCKED tile.
-				     Emits light to SKY_BLOCKED tiles, and fully white to display the overlay color
+						Emits light to SKY_BLOCKED tiles, and fully white to display the overlay color
 
 */
 
@@ -31,8 +31,8 @@ Sunlight System
 	plane = WEATHER_EFFECT_PLANE
 
 	/* misc vars */
-	var/state 					 = SKY_VISIBLE	// If we can see the see the sky, are blocked, or we have a blocked neighbour (SKY_BLOCKED/VISIBLE/VISIBLE_BORDER)
-	var/weatherproof			 = FALSE        // If we have a weather overlay
+	var/state						= SKY_VISIBLE	// If we can see the see the sky, are blocked, or we have a blocked neighbour (SKY_BLOCKED/VISIBLE/VISIBLE_BORDER)
+	var/weatherproof				= FALSE		// If we have a weather overlay
 	var/turf/source_turf
 
 	var/mutable_appearance/sunlight_overlay
@@ -89,11 +89,11 @@ Sunlight System
 
 /atom/movable/outdoor_effect/proc/calc_sunlight_spread()
 
-	var/list/turf/turfs                    = list()
+	var/list/turf/turfs					= list()
 	var/datum/lighting_corner/C
 	var/turf/T
 	var/list/tempMasterList = list() /* to mimimize double ups */
-	var/list/corners  = list() /* corners we are currently affecting */
+	var/list/corners	= list() /* corners we are currently affecting */
 
 	//Set lum so we can see things
 	var/oldLum = luminosity
@@ -271,12 +271,12 @@ Sunlight System
 
 	//Check yourself (before you wreck yourself)
 	if(isclosedturf(src)) //Closed, but we might be transparent
-		.["SKYVISIBLE"]   =  istransparentturf(src) // a column of glass should still let the sun in
-		.["WEATHERPROOF"] =  TRUE
+		.["SKYVISIBLE"]	=	istransparentturf(src) // a column of glass should still let the sun in
+		.["WEATHERPROOF"] =	TRUE
 	else
 		if(recursionStarted)
 			// This src is acting as a ceiling - so if we are a floor we weatherproof + block the sunlight of our down-Z turf
-			.["SKYVISIBLE"]   = istransparentturf(src) //If we are glass floor, we don't block
+			.["SKYVISIBLE"]	= istransparentturf(src) //If we are glass floor, we don't block
 			for(var/obj/structure/thing in src.contents) // Checks to see if weatherproof objects on the tile
 				if(thing.weatherproof == TRUE)
 					.["WEATHERPROOF"] = TRUE // returns true to block the weather
@@ -284,7 +284,7 @@ Sunlight System
 					return .
 			.["WEATHERPROOF"] = weatherproof //If we are air or space, we aren't weatherproof
 		else //We are open, so assume open to the elements
-			.["SKYVISIBLE"]   = TRUE
+			.["SKYVISIBLE"]	= TRUE
 			.["WEATHERPROOF"] = FALSE
 
 	// Early leave if we can't see the sky - if we are an opaque turf, we already know the results
@@ -296,21 +296,21 @@ Sunlight System
 	//Ceiling Check
 	// Psuedo-roof, for the top of the map (no actual turf exists up here) -- We assume these are solid, if you add glass pseudo_roofs then fix this
 	if (pseudo_roof)
-		.["SKYVISIBLE"]   =  FALSE
-		.["WEATHERPROOF"] =  TRUE
+		.["SKYVISIBLE"]	=	FALSE
+		.["WEATHERPROOF"] =	TRUE
 	else
 		// EVERY turf must be transparent for sunlight - so &=
 		// ANY turf must be closed for weatherproof - so |=
 		var/turf/ceiling = get_step_multiz(src, UP)
 		if(ceiling)
 			var/list/ceilingStat = ceiling.get_ceiling_status(TRUE) //Pass TRUE because we are now acting as a ceiling
-			.["SKYVISIBLE"]   &= ceilingStat["SKYVISIBLE"]
+			.["SKYVISIBLE"]	&= ceilingStat["SKYVISIBLE"]
 			.["WEATHERPROOF"] |= ceilingStat["WEATHERPROOF"]
 
 	var/area/turf_area = get_area(src)
 	var/turf/above_turf = get_step_multiz(src, UP)
 	if((!above_turf && !turf_area.outdoors))
-		.["SKYVISIBLE"]   =  FALSE
-		.["WEATHERPROOF"] =  TRUE
+		.["SKYVISIBLE"]	=	FALSE
+		.["WEATHERPROOF"] =	TRUE
 
 #undef SUN_FALLOFF

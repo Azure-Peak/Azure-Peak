@@ -73,6 +73,8 @@
 	var/requires_aspect_access = FALSE
 	/// Visual impact intensity for on-hit effects. See SPELL_IMPACT defines.
 	var/spell_impact_intensity = SPELL_IMPACT_NONE
+	/// Whether a guard deflecting this spell's non-projectile effect will expose the caster or not
+	var/expose_caster_on_deflect = TRUE
 	/// If true, the spell can be refunded. Set by learnspell when learned.
 	var/refundable = FALSE
 	/// Aspect type path this spell was granted by, if any. Used by the aspect picker
@@ -151,12 +153,18 @@
 	/// Whether the charge bar has completed and the spell is being held ready. While TRUE, hold_drain bleeds per process tick.
 	var/fully_charged = FALSE
 	/**
-	 * Per-tick cost to hold the spell once charged. Charge-up itself is free.
-	 *
-	 * Drained every SSfastprocess tick (wait = 2, i.e. 5x/second) from the moment
-	 * the charge bar completes until the spell is cast or dropped.
-	 */
+		* Cost per 0.2 seconds to hold the spell once charged. Charge-up itself is free.
+		*
+		* Drained on SSmousecharge (wait = 1, scaled by 0.5 in process()) from the moment
+		* hold_grace_time expires until the spell is cast or dropped.
+		*/
 	var/hold_drain = 1
+	var/hold_grace_time = SPELL_HOLD_GRACE
+	var/hold_max_time = SPELL_HOLD_MAX
+	var/fully_charged_at = 0
+	var/hold_instability = 0
+	var/hold_warned = 0
+	var/next_hold_shake = 0
 	/// Time to charge.
 	var/charge_time = 0
 	/// Slowdown while charging.
@@ -172,6 +180,8 @@
 	// Following vars are used for mouse pointer charge only
 	/// World time that the charge started.
 	var/charge_started_at = 0
+	/// Lag compensation for charging. If the server lag, we credits them for time held down.
+	var/charge_started_realtime = 0
 	/// Charge target time, from get_charge_time().
 	var/charge_target_time = 0
 	/// Whether the spell is currently charged, for cases where you want to keep casting after the initial charge (projectiles).
@@ -186,6 +196,8 @@
 	var/weapon_penalty_active = FALSE
 	/// If TRUE, this spell ignores armor cooldown penalties (for armored casters like Tithebound).
 	var/ignore_armor_penalty = FALSE
+	/// If FALSE, victim antimagic does not stop this spell. Natural mob abilities are not magic.
+	var/blocked_by_antimagic = TRUE
 	/// If TRUE, casting will -not- apply the combat tag (skips stealth reveal and rest interruption).
 	var/ignore_combat_tag = FALSE
 	/// If TRUE, spell charges on button press, then waits for a separate middle-click to cast.
@@ -193,6 +205,23 @@
 	var/charge_then_click = FALSE
 	var/blocks_defense_while_channeling = FALSE
 	var/cancel_penalty_mult = 1
+
+	/// Roots the caster for the length of the cast
+	var/freeze_cast = FALSE
+	/// Sounds played as the wind-up begins. One is picked at random.
+	var/list/telegraph_sound
+	/// If TRUE, faction allies of the caster are skipped by this spell's area effects.
+	var/spare_allies = FALSE
+	/// Extra offsets for mob_charge_effect, on top of the rune's own. For oversized casters.
+	var/cast_effect_x_offset = 0
+	var/cast_effect_y_offset = 0
+
+	/// How long the caster is left open after the spell resolves. 0 disables the whole recovery step.
+	var/recovery_time = 0
+	/// Status effect applied to the caster for the recovery window.
+	var/recovery_status = /datum/status_effect/debuff/exposed
+	/// Movement slowdown during recovery. NONE (0) disables it.
+	var/recovery_slowdown = CHARGING_SLOWDOWN_NONE
 
 	/// Lore/flavor text. Shown on hover in spell lists, always shown in detailed examine.
 	var/fluff_desc = ""
@@ -223,6 +252,8 @@
 		var/obj/effect/R = new /obj/effect/spell_rune
 		R.icon = button_icon
 		R.icon_state = button_icon_state
+		R.pixel_x += cast_effect_x_offset
+		R.pixel_y += cast_effect_y_offset
 		mob_charge_effect = R
 
 	if(!charge_required)
@@ -249,6 +280,7 @@
 			UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 		UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOB_DEATH, COMSIG_MOVABLE_MOVED, COMSIG_MOB_KICKED_SUCCESSFUL, COMSIG_CARBON_SWAPHANDS))
 	STOP_PROCESSING(SSfastprocess, src)
+	STOP_PROCESSING(SSmousecharge, src)
 	charge_sound_instance = null
 	return ..()
 
@@ -259,18 +291,30 @@
 		if(!can_cast_spell(TRUE))
 			cancel_casting()
 			return PROCESS_KILL
+		if(is_held_ready())
+			if(!fully_charged_at)
+				fully_charged_at = world.time
+			var/held_for = world.time - fully_charged_at
+			if(held_for < hold_grace_time)
+				refresh_charge_intent()
+				return
+			if(has_hold_cap() && held_for >= hold_max_time)
+				tear_loose()
+				return PROCESS_KILL
+			handle_hold_instability(held_for)
 		if(hold_drain)
+			var/ramped_drain = hold_drain * 0.5 * (1 + (hold_instability * SPELL_HOLD_DRAIN_RAMP))
 			if(primary_resource_type == SPELL_COST_STAMINA && iscarbon(owner))
 				var/mob/living/carbon/C = owner
 				if(C.stamina >= C.max_stamina)
 					owner.balloon_alert(owner, "Too exhausted to hold the spell!")
-					cancel_casting()
+					cancel_casting(voluntary = is_held_ready())
 					return PROCESS_KILL
-			if(!check_resource_available(primary_resource_type, hold_drain))
+			if(!check_resource_available(primary_resource_type, ramped_drain))
 				owner.balloon_alert(owner, "I cannot hold the spell any longer!")
-				cancel_casting()
+				cancel_casting(voluntary = is_held_ready())
 				return PROCESS_KILL
-			invoke_resource_cost(primary_resource_type, hold_drain)
+			invoke_resource_cost(primary_resource_type, ramped_drain)
 		refresh_charge_intent()
 		return
 
@@ -286,21 +330,25 @@
 
 	// Update mouse charge pointer based on progress
 	if(owner.client && charge_started_at && charge_target_time)
-		var/progress = world.time - charge_started_at
+		var/progress = max(world.time - charge_started_at, charge_started_realtime ? REALTIMEOFDAY - charge_started_realtime : 0)
 		var/percentage = clamp((progress / charge_target_time) * 100, 0, 100)
 		var/new_icon = SSmousecharge.access(percentage)
 		if(owner.client.mouse_pointer_icon != new_icon)
 			owner.client.mouse_pointer_icon = new_icon
 
 	// Charge goal reached — enter the held phase; keep processing so hold_drain bleeds while held.
-	if(world.time > (charge_started_at + charge_target_time))
+	if(charge_complete())
 		fully_charged = TRUE
+		fully_charged_at = world.time
+		if(charge_sound_instance)
+			owner.stop_sound_channel(CHANNEL_CHARGED_SPELL)
+			playsound(owner, sound(null, repeat = 0), 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
 		if(owner.client)
 			owner.client.mouse_pointer_icon = 'icons/effects/mousemice/swang/acharged.dmi'
 			if(hide_charge_effect)
-				owner.playsound_local(owner, 'sound/magic/charged.ogg', 40, TRUE)
+				owner.playsound_local(owner, 'sound/magic/charge_ready.ogg', 50, TRUE)
 			else
-				playsound(owner, 'sound/magic/charged.ogg', 40, TRUE)
+				playsound(owner, 'sound/magic/charge_ready.ogg', 50, TRUE)
 
 /datum/action/cooldown/spell/Grant(mob/grant_to)
 	// Spells are hard baked to pratically only work with living owners
@@ -345,7 +393,7 @@
 	// to allow people to click unavailable abilities to get a feedback chat message
 	// about why the ability is unavailable.
 	// It is otherwise redundant, however, as IsAvailable() checks can_cast_spell as well.
-	if(!can_cast_spell())
+	if(!can_cast_spell(feedback = !npc_controlled()))
 		return FALSE
 
 	return ..()
@@ -378,13 +426,14 @@
 				other_spell.UnregisterSignal(on_who.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 			UnregisterSignal(on_who.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 
-		if(charge_required)
-			// If pointed we setup signals to override mouse down to call InterceptClickOn()
-			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
-		else
-			// Non-charge spells still need to intercept middle-click MouseDown
-			// to prevent the old system from starting its charging flow
-			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(intercept_mousedown))
+		if(owner.client) // NPC skip this
+			if(charge_required)
+				// If pointed we setup signals to override mouse down to call InterceptClickOn()
+				RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
+			else
+				// Non-charge spells still need to intercept middle-click MouseDown
+				// to prevent the old system from starting its charging flow
+				RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(intercept_mousedown))
 
 	return ..()
 
@@ -481,6 +530,11 @@
 /datum/action/cooldown/spell/InterceptClickOn(mob/living/clicker, list/modifiers, atom/click_target)
 	if(istext(modifiers))
 		modifiers = params2list(modifiers)
+	// The AI drives abilities through Trigger(target) with no click behind them.
+	if(isnull(modifiers) && npc_controlled())
+		if(QDELETED(click_target))
+			return FALSE
+		return PreActivate(click_target)
 	if(!LAZYACCESS(modifiers, MIDDLE_CLICK))
 		return
 
@@ -509,7 +563,7 @@
 /datum/action/cooldown/spell/PreActivate(atom/target)
 	charged = FALSE
 	fully_charged = FALSE
-	STOP_PROCESSING(SSfastprocess, src)
+	STOP_PROCESSING(SSmousecharge, src)
 	if(owner?.channeling_spell == src)
 		owner.channeling_spell = null
 	if(!is_valid_target(target))
@@ -685,7 +739,7 @@
 			return FALSE
 
 	var/mob/living/living_owner = owner
-	if(istype(living_owner) && living_owner.has_status_effect(/datum/status_effect/debuff/exposed))
+	if(istype(living_owner) && living_owner.has_status_effect(/datum/status_effect/debuff/cast_disrupted))
 		if(feedback)
 			owner.balloon_alert(owner, "Too exposed to focus!")
 		return FALSE
@@ -745,7 +799,7 @@
 	if(LAZYLEN(required_items))
 		var/found = FALSE
 		for(var/obj/item/I in owner.contents)
-			if(is_type_in_list(I, required_items))
+			if(is_type_in_list(I, required_items) || HAS_TRAIT(owner, TRAIT_HALLOWED))
 				found = TRUE
 				break
 		if(!found && feedback)
@@ -909,15 +963,18 @@
 
 		//Psydonites/Vheslynites feel nothing
 		if((primary_resource_type == SPELL_COST_DEVOTION) && HAS_TRAIT(cast_on, TRAIT_PSYDONITE) && !(spell_flags & SPELL_PSYDON) || HAS_TRAIT(cast_on, TRAIT_UNFORGIVABLE) && !(spell_flags & SPELL_PSYDON))
-			cast_on.visible_message(span_info("[cast_on] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			cast_on.visible_message(span_info("[cast_on] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return sig_return | SPELL_CANCEL_CAST
 
-	if(charge_required && !click_to_activate)
+	// An NPC has no mouse to hold, so it charges through a do_after even on click-to-activate spells.
+	if(charge_required && (!click_to_activate || npc_controlled()))
 		// Use a simple do_after for non-click charge spells
 		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		on_start_charge()
+		charge_started_at = world.time
+		charge_target_time = charge_time
 		apply_charge_intent()
 		var/success = TRUE
 		if(!do_after(owner, charge_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move, allow_movement = !require_no_move))
@@ -991,9 +1048,7 @@
 		smoke.set_up(smoke_amt, loca = get_turf(owner))
 		smoke.start()
 
-	// Clean up overhead spell icon
-	if(mob_charge_effect)
-		owner.vis_contents -= mob_charge_effect
+	clear_cast_effect(owner)
 
 	// Clean up glow
 	if(spell_glow_light)
@@ -1006,6 +1061,55 @@
 	// Reset mouse pointer
 	if(owner.client)
 		owner.client.mouse_pointer_icon = 'icons/effects/mousemice/human.dmi'
+
+/// Announces the wind-up. Called at the head of whichever commitment phase the spell uses.
+/datum/action/cooldown/spell/proc/announce_telegraph(mob/living/caster)
+	if(QDELETED(caster))
+		return
+	if(telegraph_sound)
+		playsound(get_turf(caster), telegraph_sound, 100, TRUE)
+
+/// Roots the caster for `duration`. No-op unless the spell opts in via freeze_cast.
+/// The duration is a safety cap - the commitment path that applied it is expected to clear it.
+/datum/action/cooldown/spell/proc/apply_cast_freeze(mob/living/caster, duration)
+	if(!freeze_cast || !isliving(caster) || duration <= 0)
+		return
+	caster.Immobilize(duration, ignore_canstun = TRUE)
+
+/datum/action/cooldown/spell/proc/clear_cast_freeze(mob/living/caster)
+	if(!freeze_cast || !isliving(caster))
+		return
+	caster.SetImmobilized(0, ignore_canstun = TRUE)
+
+/// Shows/hides the overhead cast rune. Shared by the charge-up and telegraph-windup paths.
+/datum/action/cooldown/spell/proc/show_cast_effect(mob/caster)
+	if(mob_charge_effect && !QDELETED(caster))
+		caster.vis_contents |= mob_charge_effect
+
+/datum/action/cooldown/spell/proc/clear_cast_effect(mob/caster)
+	if(mob_charge_effect && !QDELETED(caster))
+		caster.vis_contents -= mob_charge_effect
+
+/// Opens the caster up for recovery_time after the spell resolves. Callers decide when the spell has
+/// actually resolved - instant spells can fire this from after_cast, telegraphed ones only once the hit lands.
+/datum/action/cooldown/spell/proc/start_recovery(mob/living/caster)
+	if(!recovery_time || QDELETED(caster))
+		clear_recovery_penalty(caster)
+		return
+	if(recovery_status)
+		caster.apply_status_effect(recovery_status, recovery_time)
+	caster.apply_status_effect(/datum/status_effect/debuff/clickcd, recovery_time)
+	set_recovery_penalty(caster)
+	sleep(recovery_time)
+	clear_recovery_penalty(caster)
+
+/datum/action/cooldown/spell/proc/set_recovery_penalty(mob/living/caster)
+	if(recovery_slowdown <= CHARGING_SLOWDOWN_NONE || QDELETED(caster))
+		return
+	caster.add_movespeed_modifier(MOVESPEED_ID_SPELL_RECOVERY, TRUE, 100, override = TRUE, multiplicative_slowdown = recovery_slowdown)
+
+/datum/action/cooldown/spell/proc/clear_recovery_penalty(mob/living/caster)
+	caster?.remove_movespeed_modifier(MOVESPEED_ID_SPELL_RECOVERY)
 
 /// Provides feedback after a spell cast occurs, in the form of a cast sound and/or invocation
 /datum/action/cooldown/spell/proc/spell_feedback(mob/living/invoker)
@@ -1051,12 +1155,19 @@
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
 	fully_charged = FALSE
+	fully_charged_at = 0
+	hold_instability = 0
+	hold_warned = 0
+	next_hold_shake = 0
 	if(owner)
 		owner.tempfixeye = TRUE
 		if(!owner.fixedeye)
 			owner.nodirchange = TRUE
 		owner.channeling_spell = src
-	START_PROCESSING(SSfastprocess, src)
+		announce_telegraph(owner)
+		apply_cast_freeze(owner, charge_time)
+	STOP_PROCESSING(SSfastprocess, src)
+	START_PROCESSING(SSmousecharge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
 	if(charge_slowdown)
@@ -1065,9 +1176,7 @@
 	if(charge_sound_instance)
 		playsound(owner, charge_sound_instance, 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
 
-	// Overhead spell icon rune
-	if(mob_charge_effect)
-		owner.vis_contents += mob_charge_effect
+	show_cast_effect(owner)
 
 	// Spell glow light
 	if(glow_intensity && spell_color && isliving(owner))
@@ -1113,13 +1222,17 @@
 /datum/action/cooldown/spell/proc/end_charging()
 	currently_charging = FALSE
 	fully_charged = FALSE
+	fully_charged_at = 0
+	hold_warned = 0
+	next_hold_shake = 0
 	charge_started_at = null
+	charge_started_realtime = 0
 	charge_target_time = null
 	// Only drop the cache if we're not about to enter the "charged, waiting to fire" phase
 	// (charge-then-click spells). Caller sets charged=TRUE after this returns on success.
 	if(owner?.channeling_spell == src && !charged)
 		owner.channeling_spell = null
-	STOP_PROCESSING(SSfastprocess, src)
+	STOP_PROCESSING(SSmousecharge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
 	// Clean up glow before the owner guard below - the light is owner-independent and
@@ -1134,6 +1247,7 @@
 		UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 	UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOB_DEATH, COMSIG_MOVABLE_MOVED, COMSIG_MOB_KICKED_SUCCESSFUL, COMSIG_CARBON_SWAPHANDS))
 	clear_charge_intent()
+	clear_cast_freeze(owner)
 
 	// When charging ends, other spells may have had their buttons stuck red
 	// because can_cast_spell() returned FALSE while we were charging.
@@ -1150,9 +1264,7 @@
 		owner.stop_sound_channel(CHANNEL_CHARGED_SPELL)
 		playsound(owner, sound(null, repeat = 0), 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
 
-	// Clean up overhead spell icon
-	if(mob_charge_effect)
-		owner.vis_contents -= mob_charge_effect
+	clear_cast_effect(owner)
 
 	if(has_visual_effects)
 		var/mob/living/caster = owner
@@ -1204,12 +1316,57 @@
 	if(SW && SW.duration != -1)
 		SW.duration = max(SW.duration, world.time + (charge_swingdelay_duration || 20))
 
+/// Bypass the straining / mouse hold mechanics for NPC
+/datum/action/cooldown/spell/proc/is_held_ready()
+	return charge_required && click_to_activate && !npc_controlled()
+
+/datum/action/cooldown/spell/proc/has_hold_cap()
+	return is_held_ready() && !charge_then_click && hold_max_time > hold_grace_time
+
+/datum/action/cooldown/spell/proc/handle_hold_instability(held_for)
+	if(!has_hold_cap())
+		return
+	hold_instability = clamp((held_for - hold_grace_time) / (hold_max_time - hold_grace_time), 0, 1)
+
+	var/mob/living/living_owner = owner
+	if(!istype(living_owner))
+		return
+
+	if(world.time >= next_hold_shake)
+		living_owner.do_jitter_animation(round(hold_instability * 300))
+		shake_camera(living_owner, 2, 0.05 + (hold_instability * 0.15))
+		next_hold_shake = world.time + round(9 - (hold_instability * 6), 1)
+
+	if(!hold_warned)
+		hold_warned = 1
+		living_owner.balloon_alert_to_viewers("<font color='#d4d36c'>Straining</font>")
+	else if(hold_warned < 2 && hold_instability >= 0.66)
+		hold_warned = 2
+		living_owner.balloon_alert_to_viewers("<font color='#a8665a'>Unraveling</font>")
+
+/datum/action/cooldown/spell/proc/tear_loose()
+	var/mob/living/living_owner = owner
+	if(istype(living_owner))
+		living_owner.do_jitter_animation(600)
+		shake_camera(living_owner, 4, 0.4)
+		living_owner.balloon_alert_to_viewers("<font color='#bb2b2b'>The spell unravels!</font>", "<font color='#bb2b2b'>The spell unravels — the backlash guts me!</font>")
+		playsound(living_owner, 'sound/magic/magic_nulled.ogg', 60, TRUE)
+	cancel_casting(voluntary = TRUE, cost_mult_override = SPELL_HOLD_TEAR_COST)
+
 /datum/action/cooldown/spell/proc/is_cancel_penalized()
 	if(!cancel_penalty_mult)
 		return FALSE
 	if(!source_aspect || ispath(source_aspect, /datum/magic_aspect/pseudo))
 		return FALSE
 	return TRUE
+
+/// Whether the charge window has elapsed. Credits real held time so tick lag can't eat a full charge.
+/datum/action/cooldown/spell/proc/charge_complete()
+	if(world.time >= (charge_started_at + charge_target_time))
+		return TRUE
+	if(charge_started_realtime && (REALTIMEOFDAY - charge_started_realtime) >= charge_target_time)
+		return TRUE
+	return FALSE
 
 /datum/action/cooldown/spell/proc/past_cancel_commitment()
 	if(fully_charged || charged)
@@ -1218,7 +1375,7 @@
 		return FALSE
 	return (world.time - charge_started_at) >= max(charge_target_time * CANCEL_GRACE_FRACTION, CANCEL_GRACE_MINIMUM)
 
-/datum/action/cooldown/spell/proc/apply_cancel_penalty(was_fully_charged)
+/datum/action/cooldown/spell/proc/apply_cancel_penalty(was_fully_charged, cost_mult_override = 0)
 	if(!owner)
 		return
 
@@ -1226,16 +1383,17 @@
 	if(penalty_cooldown > 0)
 		StartCooldown(penalty_cooldown)
 
-	owner.balloon_alert(owner, was_fully_charged ? "Canceled! Full cost applied!" : "Canceled! Partial cost applied!")
+	if(!cost_mult_override)
+		owner.balloon_alert(owner, was_fully_charged ? "Canceled! Full cost applied!" : "Canceled! Partial cost applied!")
 
 	// Last, because a drain that caps the stamina bar emotes and sleeps.
-	var/cost_mult = (was_fully_charged ? CANCEL_PENALTY_COST_CHARGED : CANCEL_PENALTY_COST_PARTIAL) * cancel_penalty_mult
+	var/cost_mult = (cost_mult_override || (was_fully_charged ? CANCEL_PENALTY_COST_CHARGED : CANCEL_PENALTY_COST_PARTIAL)) * cancel_penalty_mult
 	invoke_resource_cost(primary_resource_type, primary_resource_cost * cost_mult)
 	invoke_resource_cost(secondary_resource_type, secondary_resource_cost * cost_mult)
 
 /// Cancel casting and all its effects.
 /// [voluntary] must only be TRUE when the caster themselves backed out.
-/datum/action/cooldown/spell/proc/cancel_casting(voluntary = FALSE)
+/datum/action/cooldown/spell/proc/cancel_casting(voluntary = FALSE, cost_mult_override = 0)
 	if(QDELETED(src)) // Timer
 		return
 	if(auto_cancel_timer)
@@ -1252,7 +1410,7 @@
 	if(!penalise)
 		return FALSE
 	// Async so the stamina drain (which can emote) leaves the SIGNAL_HANDLER call stack.
-	INVOKE_ASYNC(src, PROC_REF(apply_cancel_penalty), was_fully_charged)
+	INVOKE_ASYNC(src, PROC_REF(apply_cancel_penalty), was_fully_charged, cost_mult_override)
 	return TRUE
 
 /// Checks if the current OWNER of the spell is in a valid state to say the spell's invocation
@@ -1384,8 +1542,7 @@
 	return TRUE
 
 /// Charge the owner with the cost of the spell. Drains both primary and secondary resources.
-/// Returns the sum of stamina + energy spent (devotion/blood are excluded — the return
-/// feeds the implement refund pool, which only tracks the two mundane resource bars).
+/// Returns the sum of stamina + energy spent. Refund does not touch devotion / blood.
 /datum/action/cooldown/spell/proc/invoke_cost()
 	if(!owner)
 		return
@@ -1509,6 +1666,9 @@
 		if(HAS_TRAIT(user, TRAIT_SWIFTCAST))
 			stats += span_info(" <font color='#8c00ff'>(Swiftcast)</font>")
 
+	if(display_charge > 0 && has_hold_cap())
+		stats += span_info("Hold: [DisplayTimeText(hold_grace_time)] free, then it destabilizes and drains ever faster until it tears loose at [DisplayTimeText(hold_max_time)]")
+
 	// Cooldown
 	stats += get_cooldown_stat_lines(user)
 
@@ -1589,27 +1749,27 @@
 	var/stat_label = get_stat_label()
 	if((primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
 		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
-			breakdown += span_smallgreen("  Dominant faith: -[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
+			breakdown += span_smallgreen("	Dominant faith: -[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
 		else
-			breakdown += span_smallred("  Suppressed faith: +[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
+			breakdown += span_smallred("	Suppressed faith: +[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
 	if(stat_value > SPELL_SCALING_THRESHOLD)
 		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  [stat_label]: -[DisplayTimeText(stat_mod)]")
+		breakdown += span_smallgreen("	[stat_label]: -[DisplayTimeText(stat_mod)]")
 	else if(stat_value < SPELL_SCALING_THRESHOLD)
 		var/diff = SPELL_SCALING_THRESHOLD - stat_value
 		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallred("  [stat_label]: +[DisplayTimeText(stat_mod)]")
+		breakdown += span_smallred("	[stat_label]: +[DisplayTimeText(stat_mod)]")
 	if(!user.check_armor_skill())
 		var/armor_mod = base * UNTRAINED_ARMOR_CD_PENALTY
-		breakdown += span_smallred("  Untrained armor: +[DisplayTimeText(armor_mod)]")
+		breakdown += span_smallred("	Untrained armor: +[DisplayTimeText(armor_mod)]")
 	var/armor_mult = get_armor_cd_multiplier(user)
 	if(armor_mult > 0)
 		var/armor_mod = base * armor_mult
 		var/armor_label = user.check_armor_skill() ? "Armor weight" : "Untrained armor"
-		breakdown += span_smallred("  [armor_label]: +[DisplayTimeText(armor_mod)]")
+		breakdown += span_smallred("	[armor_label]: +[DisplayTimeText(armor_mod)]")
 	if(HAS_TRAIT(user, TRAIT_LEYLINE_HASTE))
-		breakdown += span_smallgreen("  <font color='#00e1ff'>Ley Lines (-25%)</font>")
+		breakdown += span_smallgreen("	<font color='#00e1ff'>Ley Lines (-25%)</font>")
 	return breakdown
 
 /// Breakdown of resource cost modifiers for examine.
@@ -1620,11 +1780,11 @@
 	if(stat_value > SPELL_SCALING_THRESHOLD)
 		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/stat_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  [stat_label]: -[stat_mod]")
+		breakdown += span_smallgreen("	[stat_label]: -[stat_mod]")
 	else if(stat_value < SPELL_SCALING_THRESHOLD)
 		var/diff = SPELL_SCALING_THRESHOLD - stat_value
 		var/stat_mod = base_cost * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallred("  [stat_label]: +[stat_mod]")
+		breakdown += span_smallred("	[stat_label]: +[stat_mod]")
 	return breakdown
 
 /// Intercept middle-click MouseDown for non-charge V2 spells.
@@ -1648,13 +1808,15 @@
 		return
 
 	var/list/modifiers = params2list(params)
+	if(charge_started_at || currently_charging)
+		if(LAZYACCESS(modifiers, BUTTON_CHANGED) == RIGHT_CLICK)
+			cancel_casting(voluntary = TRUE)
+		return COMPONENT_CLIENT_MOUSEDOWN_INTERCEPT
+	if(LAZYACCESS(modifiers, BUTTON_CHANGED) != MIDDLE_CLICK)
+		return
 	if(LAZYACCESS(modifiers, SHIFT_CLICKED))
 		return
 	if(LAZYACCESS(modifiers, CTRL_CLICKED))
-		return
-	if(LAZYACCESS(modifiers, LEFT_CLICK))
-		return
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		return
 	if(LAZYACCESS(modifiers, ALT_CLICKED))
 		return
@@ -1662,8 +1824,6 @@
 		return
 	if(!IsAvailable())
 		return COMPONENT_CLIENT_MOUSEDOWN_INTERCEPT // Still consume the click so it doesn't fall through to old charge system
-	if(charge_started_at || currently_charging)
-		return
 
 	if(istype(_target, /atom/movable/screen/inventory))
 		pass() // Inventory clicks resolve to the actual item later in ClickOn — allow charging
@@ -1690,6 +1850,7 @@
 
 	on_start_charge()
 	charge_started_at = world.time
+	charge_started_realtime = REALTIMEOFDAY
 	charge_target_time = charge_time
 
 	if(HAS_TRAIT(owner, TRAIT_SWIFTCAST)) // Makes your next spell be instant.
@@ -1707,6 +1868,10 @@
 	if(QDELETED(src) || QDELETED(owner))
 		return
 
+	var/list/modifiers = params2list(params)
+	if(LAZYACCESS(modifiers, BUTTON_CHANGED) != MIDDLE_CLICK)
+		return
+
 	// Stop the failsafe timer
 	if(auto_cancel_timer)
 		deltimer(auto_cancel_timer)
@@ -1717,7 +1882,7 @@
 		cancel_casting()
 		return
 
-	var/success = world.time >= (charge_started_at + charge_target_time)
+	var/success = charge_complete()
 
 	// Charge-then-click: releasing the mouse doesn't cast — wait for a second click
 	if(charge_then_click)
@@ -1727,7 +1892,8 @@
 		// Charge complete — transition to "click to cast" mode, still bleeding hold_drain while held.
 		on_end_charge(TRUE)
 		fully_charged = TRUE
-		START_PROCESSING(SSfastprocess, src)
+		fully_charged_at = world.time
+		START_PROCESSING(SSmousecharge, src)
 		charge_started_at = 0
 		UnregisterSignal(source, list(COMSIG_CLIENT_MOUSEUP, COMSIG_CLIENT_MOUSEDOWN))
 		RegisterSignal(source, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(cast_after_charge))
@@ -1743,8 +1909,6 @@
 	if(!on_end_charge(success, quiet = penalised)) // Give them another try — end_charging() already re-registered MOUSEDOWN
 		return
 
-	var/list/modifiers = params2list(params)
-
 	// At this point we DO care about the _target value
 	if(isnull(location) || istype(_target, /atom/movable/screen))
 		_target = resolve_out_of_view_click(source, params)
@@ -1753,8 +1917,7 @@
 
 	// Call this directly to do all the relevant checks and aim assist
 	// If it fails (cooldown, invalid target), end_charging() already re-registered MOUSEDOWN
-	InterceptClickOn(owner, modifiers, _target)
-	source.click_intercept_time = 0
+	INVOKE_ASYNC(src, PROC_REF(finish_intercepted_cast), source, modifiers, _target)
 
 /// Handle the second click for charge-then-click spells.
 /// Spell is already charged — this middle-click picks the target and casts.
@@ -1765,7 +1928,10 @@
 		return
 
 	var/list/modifiers = params2list(params)
-	if(!LAZYACCESS(modifiers, MIDDLE_CLICK))
+	if(LAZYACCESS(modifiers, BUTTON_CHANGED) == RIGHT_CLICK)
+		cancel_casting(voluntary = TRUE)
+		return
+	if(LAZYACCESS(modifiers, BUTTON_CHANGED) != MIDDLE_CLICK)
 		return
 
 	if(auto_cancel_timer)
@@ -1786,17 +1952,25 @@
 			RegisterSignal(source, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(cast_after_charge))
 			return
 
-	InterceptClickOn(owner, modifiers, _target)
-	source.click_intercept_time = 0
+	INVOKE_ASYNC(src, PROC_REF(finish_intercepted_cast), source, modifiers, _target)
 
-/datum/action/cooldown/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
+/// Runs the actual cast out of the mouse signal handler, which must not sleep.
+/datum/action/cooldown/spell/proc/finish_intercepted_cast(client/source, list/modifiers, atom/_target)
+	InterceptClickOn(owner, modifiers, _target)
+	if(source)
+		source.click_intercept_time = 0
+
+/// punish_caster overrides expose_caster_on_deflect for one call, for spells that mix a direct strike with a telegraphed zone.
+/datum/action/cooldown/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker, punish_caster)
 	if(!isliving(target))
 		return FALSE
 	if(target == owner)
 		return FALSE
 	if(isnull(attacker))
 		attacker = owner
-	return target.guard_deflect_spell(name, no_message, attacker)
+	if(isnull(punish_caster))
+		punish_caster = expose_caster_on_deflect
+	return target.guard_deflect_spell(name, no_message, attacker, punish_caster)
 
 /datum/action/cooldown/spell/proc/signal_cancel()
 	SIGNAL_HANDLER

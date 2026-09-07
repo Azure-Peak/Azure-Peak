@@ -36,6 +36,8 @@
 	var/greet_text
 	/// Whether this wave can roll at all. If not, it can still be forced to be ran.
 	var/can_roll = TRUE
+	/// If TRUE, this wave never rolls naturally on its track and is triumph only
+	var/triumph_only = FALSE
 	/// If defined, this will be the wave type to increment for purposes of checking `max_spawns`
 	var/shared_wave_type = null
 	/// Whether we want to spawn people on the rolled location, this may not be desired for bandits or other things that set the location
@@ -109,7 +111,7 @@
 	)
 
 /datum/migrant_wave/assassin
-	name = "Assassin Hit"
+	name = "Death Cult Rising"
 	track = MIGRANT_TRACK_SPECIAL
 	weight = 12
 	min_round_time = 60 MINUTES
@@ -122,7 +124,7 @@
 	)
 
 /datum/migrant_wave/gnolls
-	name = "Gnoll raid"
+	name = "Gnoll Raid"
 	track = MIGRANT_TRACK_SPECIAL
 	weight = 12
 	min_round_time = 45 MINUTES

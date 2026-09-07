@@ -29,7 +29,7 @@
 
 /obj/item/tallowpot/Destroy()
 	. = ..()
-	STOP_PROCESSING(SSobj, src)	
+	STOP_PROCESSING(SSobj, src)
 
 /obj/item/tallowpot/process()
 	if(heatedup > 0)
@@ -46,7 +46,7 @@
 		qdel(tallow)
 		tallow = initial(tallow)
 		update_icon()
-	
+
 /obj/item/tallowpot/attacked_by(obj/item/I, mob/living/user)
 	. = ..()
 	if(istype(I, /obj/item/reagent_containers/food/snacks/tallow))
@@ -60,7 +60,7 @@
 		else
 			to_chat(user, span_info("The [src] already has tallow in it."))
 
-	if(istype(I, /obj/item/flashlight/flare/torch/))		
+	if(istype(I, /obj/item/flashlight/flare/torch/))
 		heatedup = 28
 		visible_message(span_info("[user] warms [src] with [I]."))
 		update_icon()
@@ -70,8 +70,8 @@
 		visible_message(span_info("[user] warms [src] with [I]."))
 		update_icon()
 
-	if(istype(I, /obj/item/clothing/ring/signet))	
-		if(tallow && heatedup)	
+	if(istype(I, /obj/item/clothing/ring/signet))
+		if(tallow && heatedup)
 			var/obj/item/clothing/ring/signet/ring = I
 			ring.tallowed = TRUE
 			ring.tallow_color = tallow_color
@@ -87,7 +87,7 @@
 		icon_state = "[initial(icon_state)]"
 
 /obj/item/tallowpot/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Left click with a chunk of tallow to fill it up.")
-    . += span_info("Once filled, left-clicking the tallowpot with a torch, lamptern, candle, or any other handheld source of heat will temporarily melt the tallow inside.")
-    . += span_info("Heated tallowpots can be left-clicked with a signet ring to prepare a stamp, which can be used to seal certain foldable letters.")
+	. = ..()
+	. += span_info("Left click with a chunk of tallow to fill it up.")
+	. += span_info("Once filled, left-clicking the tallowpot with a torch, lamptern, candle, or any other handheld source of heat will temporarily melt the tallow inside.")
+	. += span_info("Heated tallowpots can be left-clicked with a signet ring to prepare a stamp, which can be used to seal certain foldable letters.")

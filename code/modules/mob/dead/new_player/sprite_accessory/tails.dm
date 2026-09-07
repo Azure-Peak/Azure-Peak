@@ -159,6 +159,15 @@
 	name = "Murid"
 	icon_state = "murid"
 
+/datum/sprite_accessory/tail/murid_alt
+	name = "Murid (Alternative, Wags)"
+	icon_state = "murid2"
+	can_wag = TRUE
+
+/datum/sprite_accessory/tail/murid_dormouse
+	name = "Murid (Dormouse)"
+	icon_state = "murid3"
+
 /datum/sprite_accessory/tail/orca
 	name = "Orca"
 	icon_state = "orca"
@@ -362,19 +371,17 @@
 	color_key_defaults = list(KEY_SKIN_COLOR)
 	can_wag = TRUE
 
-/datum/sprite_accessory/tail/dullahan
-	name = "Revenant"
+/datum/sprite_accessory/tail/tiefling/drake
+	name = "Drake"
 	icon = 'icons/mob/sprite_accessory/tails/tiefling.dmi'
-	icon_state = "tiebtail"
+	icon_state = "draketail"
 	color_key_defaults = list(KEY_SKIN_COLOR)
-	can_wag = TRUE
 
-/datum/sprite_accessory/tail/dullahan/heart
-	name = "Succubus"
+/datum/sprite_accessory/tail/tiefling/spear
+	name = "Spear"
 	icon = 'icons/mob/sprite_accessory/tails/tiefling.dmi'
-	icon_state = "hearttail"
+	icon_state = "speartail"
 	color_key_defaults = list(KEY_SKIN_COLOR)
-	can_wag = TRUE
 
 /datum/sprite_accessory/tail/rattlesnake
 	name = "Rattlesnake"
@@ -411,6 +418,25 @@
 	color_keys = 3
 	color_key_names = list("Tail", "Tail Fluff", "Tail Barb")
 
+/datum/sprite_accessory/tail/goblin1
+	name = "Goblin"
+	icon_state = "goblintail"
+
+/datum/sprite_accessory/tail/goblin2
+	name = "Goblin (Impaler)"
+	icon_state = "impgob"
+
+/datum/sprite_accessory/tail/goblin3
+	name = "Goblin (Tiefling)"
+	icon_state = "tiefgob"
+
+/datum/sprite_accessory/tail/goblin4
+	name = "Goblin (Fluffy)"
+	icon_state = "fluffgob"
+	color_keys = 2
+	color_key_names = list("Tail", "Tail Fluff")
+
+
 //From Caustic Cove
 /datum/sprite_accessory/tail/large_snake
 	icon = 'icons/mob/tails/large_snake.dmi'
@@ -425,7 +451,7 @@
 /datum/sprite_accessory/tail/large_snake_plain
 	icon = 'icons/mob/tails/large_snake.dmi'
 	name = "Large Snake Plain"
-	icon_state = "large_snake_plain"	
+	icon_state = "large_snake_plain"
 
 /datum/sprite_accessory/tail/large_snake_plain/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return TRUE	//Always visible.

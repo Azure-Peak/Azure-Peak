@@ -118,8 +118,8 @@
 	bolt.fired_from = get_turf(H)
 	bolt.def_zone = BODY_ZONE_CHEST
 	bolt.spell_impact_intensity = SPELL_IMPACT_MEDIUM
-	bolt.accuracy += (H.STAINT - 9) * 4
-	bolt.bonus_accuracy += (H.STAINT - 8) * 3
+	bolt.accuracy += (H.STAPER - 9) * 4
+	bolt.bonus_accuracy += (H.STAPER - 8) * 3
 	if(H.mind)
 		bolt.bonus_accuracy += (H.get_skill_level(associated_skill) * 5)
 	bolt.setAngle(angle)
@@ -139,9 +139,7 @@
 	accuracy = 60
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	npc_simple_damage_mult = 1.5
 	intdamfactor = 1
-	movement_type = UNSTOPPABLE
 	ricochets_max = 5
 	ricochet_chance = 100
 	ricochet_auto_aim_angle = 40

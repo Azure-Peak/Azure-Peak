@@ -9,9 +9,9 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 	var/list/turf/masters
 	var/list/datum/light_source/affecting // Light sources affecting us.
 
-	var/x     = 0
-	var/y     = 0
-	var/z     = 0
+	var/x		= 0
+	var/y		= 0
+	var/z		= 0
 
 	var/lum_r = 0
 	var/lum_g = 0
@@ -19,9 +19,9 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 
 	var/needs_update = FALSE
 
-	var/cache_r  = LIGHTING_SOFT_THRESHOLD
-	var/cache_g  = LIGHTING_SOFT_THRESHOLD
-	var/cache_b  = LIGHTING_SOFT_THRESHOLD
+	var/cache_r	= LIGHTING_SOFT_THRESHOLD
+	var/cache_g	= LIGHTING_SOFT_THRESHOLD
+	var/cache_b	= LIGHTING_SOFT_THRESHOLD
 	var/cache_mx = 0
 
 /datum/lighting_corner/New(turf/new_turf, diagonal)
@@ -30,11 +30,11 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 	masters[new_turf] = turn(diagonal, 180)
 	z = new_turf.z
 
-	var/vertical   = diagonal & ~(diagonal - 1) // The horizontal directions (4 and 8) are bigger than the vertical ones (1 and 2), so we can reliably say the lsb is the horizontal direction.
-	var/horizontal = diagonal & ~vertical       // Now that we know the horizontal one we can get the vertical one.
+	var/vertical	= diagonal & ~(diagonal - 1) // The horizontal directions (4 and 8) are bigger than the vertical ones (1 and 2), so we can reliably say the lsb is the horizontal direction.
+	var/horizontal = diagonal & ~vertical		// Now that we know the horizontal one we can get the vertical one.
 
-	x = new_turf.x + (horizontal == EAST  ? 0.5 : -0.5)
-	y = new_turf.y + (vertical   == NORTH ? 0.5 : -0.5)
+	x = new_turf.x + (horizontal == EAST	? 0.5 : -0.5)
+	y = new_turf.y + (vertical	== NORTH ? 0.5 : -0.5)
 
 	// My initial plan was to make this loop through a list of all the dirs (horizontal, vertical, diagonal).
 	// Issue being that the only way I could think of doing it was very messy, slow and honestly overengineered.
@@ -48,8 +48,8 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 		if (!T.corners)
 			T.corners = list(null, null, null, null)
 
-		masters[T]   = diagonal
-		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(diagonal, 180))
+		masters[T]	= diagonal
+		i			= GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(diagonal, 180))
 		T.corners[i] = src
 
 	// Now the horizontal one.
@@ -58,8 +58,8 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 		if (!T.corners)
 			T.corners = list(null, null, null, null)
 
-		masters[T]   = ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
-		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
+		masters[T]	= ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
+		i			= GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
 		T.corners[i] = src
 
 	// And finally the vertical one.
@@ -68,8 +68,8 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 		if (!T.corners)
 			T.corners = list(null, null, null, null)
 
-		masters[T]   = ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
-		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
+		masters[T]	= ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
+		i			= GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
 		T.corners[i] = src
 
 // God that was a mess, now to do the rest of the corner code! Hooray!
@@ -100,13 +100,13 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 	else if (mx < LIGHTING_SOFT_THRESHOLD)
 		. = 0 // 0 means soft lighting.
 
-	cache_r  = round(lum_r * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
-	cache_g  = round(lum_g * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
-	cache_b  = round(lum_b * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_r	= round(lum_r * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_g	= round(lum_g * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_b	= round(lum_b * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
 	#else
-	cache_r  = round(lum_r * ., LIGHTING_ROUND_VALUE)
-	cache_g  = round(lum_g * ., LIGHTING_ROUND_VALUE)
-	cache_b  = round(lum_b * ., LIGHTING_ROUND_VALUE)
+	cache_r	= round(lum_r * ., LIGHTING_ROUND_VALUE)
+	cache_g	= round(lum_g * ., LIGHTING_ROUND_VALUE)
+	cache_b	= round(lum_b * ., LIGHTING_ROUND_VALUE)
 	#endif
 	cache_mx = round(mx, LIGHTING_ROUND_VALUE)
 

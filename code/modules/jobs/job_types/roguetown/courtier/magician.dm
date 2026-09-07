@@ -31,6 +31,7 @@
 	job_subclasses = list(
 		/datum/advclass/courtmage
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/courtmage
 	name = "Court Magician"
@@ -65,7 +66,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE, // more stam for holding spells
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,

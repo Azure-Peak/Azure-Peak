@@ -1,6 +1,6 @@
 // Scaling: No storyteller slot caps or solo event. Gnoll slots come from:
-//  - The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)
-//  - Migrant waves (+2 slots, capped by storyteller maxcap)
+//	- The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)
+//	- Migrant waves (+2 slots, capped by storyteller maxcap)
 /datum/antagonist/gnoll
 	name = "Gnoll"
 	roundend_category = "Gnolls"
@@ -22,6 +22,8 @@
 		owner.special_role = null
 
 /datum/antagonist/gnoll/greet()
+	// this might be unneeded but admins wanted to stress this from the sounds of it
+	to_chat(owner.current, span_redinfo("Please keep in mind that Hunted targets are still permitted ERP protections."))
 	return ..()
 
 /mob/living/carbon/human/proc/gnoll_feed(mob/living/carbon/human/target, healing_amount = 10)
@@ -108,3 +110,8 @@
 	miss_text = "strikes the air!"
 	miss_sound = "bluntwooshlarge"
 	attack_verb = list("punches", "strikes", "tears")
+
+/obj/item/storage/backpack/rogue/satchel/gnoll
+	name = "stained satchel"
+	desc = "A fetid sack fashioned into a storage accessory. Whatever's put there inevitably comes out twice the bloody."
+	mob_overlay_icon = null

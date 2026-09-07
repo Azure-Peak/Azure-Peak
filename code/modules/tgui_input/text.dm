@@ -2,8 +2,6 @@
  * Creates a TGUI window with a text input. Returns the user's response.
  *
  * This proc should be used to create windows for text entry that the caller will wait for a response from.
- * If tgui fancy chat is turned off: Will return a normal input. If max_length is specified, will return
- * stripped_multiline_input.
  *
  * Arguments:
  * * user - The user to show the text input to.
@@ -11,7 +9,7 @@
  * * title - The title of the text input modal, shown on the top of the TGUI window.
  * * default - The default (or current) value, shown as a placeholder.
  * * max_length - Specifies a max length for input. MAX_MESSAGE_LEN is default (4096)
- * * multiline -  Bool that determines if the input box is much larger. Good for large messages, laws, etc.
+ * * multiline -	Bool that determines if the input box is much larger. Good for large messages, laws, etc.
  * * encode - Toggling this determines if input is filtered via html_encode. Setting this to FALSE gives raw input.
  * * timeout - The timeout of the textbox, after which the modal will close and qdel itself. Set to zero for no timeout.
  */
@@ -27,19 +25,6 @@
 
 	if(isnull(user.client))
 		return null
-
-	// Client does NOT have tgui_input on: Returns regular input
-	if(!user.client.prefs.tgui_pref)
-		if(encode)
-			if(multiline)
-				return stripped_multiline_input(user, message, title, default, PREVENT_CHARACTER_TRIM_LOSS(max_length))
-			else
-				return stripped_input(user, message, title, default, PREVENT_CHARACTER_TRIM_LOSS(max_length))
-		else
-			if(multiline)
-				return input(user, message, title, default) as message|null
-			else
-				return input(user, message, title, default) as text|null
 
 	var/datum/tgui_input_text/text_input = new(user, message, title, default, max_length, multiline, encode, timeout, ui_state, bigmodal)
 	text_input.ui_interact(user)

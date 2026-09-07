@@ -1,4 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur
+	attack_aim = MOB_AIM_HIGH
+	anatomy_type = /datum/anatomy/biped/tough
 	icon = 'icons/mob/newminotaur.dmi'
 	name = "Minotaur"
 	desc = "An unusually giant relative of the more familiar manners of Wild-Kin. This one looks aggressive."
@@ -30,6 +32,7 @@
 	faction = list(FACTION_CAVES)
 	threat_point = THREAT_ELITE
 	ambush_faction = "wildlife"
+	var/sweep_ability = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/minotaur_sweep/slam
 
 	health = MINOTAUR_HEALTH
 	maxHealth = MINOTAUR_HEALTH
@@ -43,15 +46,14 @@
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, 
-	//obj/item/bodypart, 
+	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
+	//obj/item/bodypart,
 	//obj/item/organ
 	)
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	pooptype = null
 
 	deaggroprob = 0
-	defprob = 40
 	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg','sound/combat/wooshes/blunt/wooshhuge (3).ogg')
@@ -62,16 +64,23 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/minotaur
+	move_base_delay = MOVEMENT_DELAY_SPD_17
 
 //	stat_attack = UNCONSCIOUS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	update_icon()
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BASHDOORS, TRAIT_GENERIC)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+
+	var/datum/action/cooldown/spell/telegraphed_strike/mob_ability/minotaur_charge/charge = new(src)
+	charge.Grant(src)
+	if(sweep_ability)
+		var/datum/action/cooldown/spell/telegraphed_strike/mob_ability/minotaur_sweep/sweep = new sweep_ability(src)
+		sweep.Grant(src)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/female
 	icon_state = "MinotaurFem"
@@ -83,6 +92,7 @@
 	icon_living = "MinotaurMale_Axe"
 	icon_dead = "MinotaurMale_dead"
 	base_intents = list(/datum/intent/simple/minotaur_axe)
+	sweep_ability = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/minotaur_sweep/axe
 	melee_damage_lower = 65
 	melee_damage_upper = 85
 	limb_destroyer = TRUE
@@ -119,54 +129,11 @@
 		if("idle")
 			return pick('sound/vo/mobs/minotaur/minoidle.ogg', 'sound/vo/mobs/minotaur/minoidle2.ogg')
 
-
-/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "nose"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "leg"
-		if(BODY_ZONE_L_LEG)
-			return "leg"
-		if(BODY_ZONE_R_ARM)
-			return "foreleg"
-		if(BODY_ZONE_L_ARM)
-			return "foreleg"
-	return ..()
-
 /datum/intent/simple/minotaur_unarmed
 	name = "minotaur unarmed"
 	icon_state = "instrike"
 	attack_verb = list("punches", "strikes", "kicks", "steps on", "crushes", "bites")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
@@ -180,8 +147,8 @@
 /datum/intent/simple/minotaur_axe
 	name = "minotaur axe"
 	icon_state = "instrike"
-	attack_verb = list("hacks at", "slashes", "chops", "steps on", "crushes", "bites")
-	animname = "blank22"
+	attack_verb = list("hacks at", "slashes", "chops", "cleaves", "carves into", "buries its axe into")
+	animname = "chop"
 	blade_class = BCLASS_CUT
 	hitsound = "genchop"
 	chargetime = 10
@@ -189,7 +156,7 @@
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
-	reach = 2 
+	reach = 2
 	item_d_type = "stab"
 	clickcd = MINOTAUR_AXE_ATTACK_SPEED
 
@@ -202,15 +169,15 @@
 	name = "Wounded Minotaur"
 	icon_state = "wminotaur"
 	icon_living = "wminotaur"
-	health = 400	//Regular is 600.
-	maxHealth = 400
+	health = MINOTAUR_WOUNDED_HEALTH
+	maxHealth = MINOTAUR_WOUNDED_HEALTH
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/axe/wounded
 	name = "Wounded Minotaur"
 	icon_state = "wminotaur_axe"
 	icon_living = "wminotaur_axe"
-	health = 400	//Regular is 600.
-	maxHealth = 400
+	health = MINOTAUR_WOUNDED_HEALTH
+	maxHealth = MINOTAUR_WOUNDED_HEALTH
 
 //Same as usual wounded, unique for orc dungeon. Prisoner-minotaur, doesn't attack orcs for dungeon related stuff.
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/wounded/chained

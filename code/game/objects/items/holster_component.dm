@@ -41,6 +41,17 @@
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(attack_by))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(examine_check))
 	RegisterSignal(parent, COMSIG_ATOM_UPDATE_ICON, PROC_REF(update_icon))
+	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(update_sheathed_ref))
+
+// through some manner of unforseen tomfoolery (or admin intervention), our sheathed blade has left our contents without clearing our sheathed ref
+// let's fix that and update the icon so that people don't try to draw a sword that isn't there, yes?
+/datum/component/holster/proc/update_sheathed_ref(datum/source, atom/movable/thing, newloc)
+	if(!sheathed || (thing != sheathed))
+		return
+	sheathed = null
+	var/obj/item/sheathe = parent
+	var/mob/living/player = (isliving(sheathe.loc) ? sheathe.loc : null)
+	update_icon(player)
 
 /datum/component/holster/proc/search_turf(atom/source, turf/T, mob/living/user)
 	to_chat(user, span_notice("I search for my sword..."))
@@ -51,6 +62,12 @@
 /datum/component/holster/proc/weapon_check(mob/living/user, obj/A)
 	if(sheathed)
 		to_chat(user, span_warning("The sheath is occupied!"))
+		return FALSE
+	if(!istype(A, /obj/item/rogueweapon))
+		return FALSE
+	var/obj/item/rogueweapon/RW = A
+	if(!RW.sheathe_icon)
+		to_chat(user, span_warning("[A] won't fit in there."))
 		return FALSE
 	if(valid_blade && !istype(A, valid_blade))
 		to_chat(user, span_warning("[A] won't fit in there."))
@@ -63,15 +80,7 @@
 		if(A.type in invalid_blades)
 			to_chat(user, span_warning("[A] won't fit in there."))
 			return FALSE
-	if(istype(A, /obj/item/rogueweapon))
-		var/obj/item/rogueweapon/RW = A
-		if(!RW.sheathe_icon)
-			to_chat(user, span_warning("[A] won't fit in there."))
-			return FALSE
-	else
-		return FALSE
 	return TRUE
-
 
 /datum/component/holster/proc/eat_sword(mob/living/user, obj/A)
 	if(!weapon_check(user, A))
@@ -89,7 +98,10 @@
 		return FALSE
 	I.clear_grip_state()
 
-	A.forceMove(src)
+	if(user.offered_item_ref?.resolve() == A)
+		user.cancel_offering_item((user.m_intent == MOVE_INTENT_SNEAK))
+
+	A.forceMove(parent)
 	sheathed = A
 	update_icon(user)
 
@@ -108,6 +120,10 @@
 /datum/component/holster/proc/puke_sword(mob/living/user)
 	if(!sheathed)
 		return FALSE
+	if(sheathed.loc != parent) // could happen in certain niche scenarios like offering items n sheathing at the same time. should be fixed but in case there are more
+		sheathed = null
+		update_icon(user)
+		return FALSE
 	var/obj/item/I = parent
 	if(I.obj_broken)
 		user.visible_message(
@@ -119,9 +135,10 @@
 	if(!move_after(user, sheathe_time, target = user))
 		return FALSE
 
-	sheathed.forceMove(user.loc)
-	sheathed.pickup(user)
-	user.put_in_hands(sheathed)
+	// store the reference somewhere in case sheathed gets nulled.
+	var/obj/item/rogueweapon/drawn = sheathed
+	drawn.pickup(user)
+	user.put_in_hands(drawn)
 	sheathed = null
 	update_icon(user)
 
@@ -203,7 +220,7 @@
 
 	if(user)
 		user.update_inv_back()
-		
+
 	I.getonmobprop(tag)
 
 /datum/component/holster/simplestrap/update_icon(mob/living/user)

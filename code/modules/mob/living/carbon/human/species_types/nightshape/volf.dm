@@ -7,7 +7,7 @@
 	wildshape_icon = 'icons/roguetown/mob/monster/volf.dmi'
 	wildshape_icon_state = "volf_brown"
 
-/mob/living/carbon/human/species/wildshape/night_volf/gain_inherent_skills()	
+/mob/living/carbon/human/species/wildshape/night_volf/gain_inherent_skills()
 	if(src.mind)
 		src.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 		src.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
@@ -58,6 +58,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 	)
 	languages = list(/datum/language/beast)
 

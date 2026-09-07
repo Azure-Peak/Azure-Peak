@@ -10,7 +10,7 @@
 /datum/component/baotha_joyride/partner
 	ispartner = TRUE
 
-/datum/component/baotha_joyride/Initialize(mob/living/partner_mob, mob/living/caster_mob, var/holy_skill)
+/datum/component/baotha_joyride/Initialize(mob/living/partner_mob, mob/living/caster_mob, holy_skill)
 	if(!isliving(parent) || !isliving(partner_mob))
 		return COMPONENT_INCOMPATIBLE
 
@@ -20,7 +20,7 @@
 	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_deletion))
 
 	START_PROCESSING(SSprocessing, src)
-	addtimer(CALLBACK(src, .proc/remove_bond), duration)
+	addtimer(CALLBACK(src, PROC_REF(remove_bond)), duration)
 
 	var/mob/living/L = parent
 	L.apply_status_effect(/datum/status_effect/baotha_joyride)
@@ -68,16 +68,16 @@
 	var/filter = owner.get_filter(JOYRIDE_FILTER)
 	if (!filter)
 		owner.add_filter(JOYRIDE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
-		
-	ADD_TRAIT(owner, TRAIT_NOPAIN, src)
-	ADD_TRAIT(owner, TRAIT_CRACKHEAD, src)
+
+	ADD_TRAIT(owner, TRAIT_NOPAIN, REF(src))
+	ADD_TRAIT(owner, TRAIT_CRACKHEAD, REF(src))
 
 /datum/status_effect/baotha_joyride/on_remove()
 	. = ..()
 
 	owner.remove_filter(JOYRIDE_FILTER)
-	REMOVE_TRAIT(owner, TRAIT_NOPAIN, src)
-	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, src)
+	REMOVE_TRAIT(owner, TRAIT_NOPAIN, REF(src))
+	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, REF(src))
 
 /atom/movable/screen/alert/status_effect/baotha_joyride
 	name = "Joyride"

@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar
 	subclass_languages = list(/datum/language/celestial)
 	class_select_category = CLASS_CAT_NALEDI
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_WARMAGE)
 	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_NALEDI)
 	subclass_stats = list(
@@ -28,7 +28,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
@@ -56,7 +55,7 @@
 		"BLACK" = "#242526"
 	))
 	if(H.mind)
-		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
 		H.mind.AddSpell(new /datum/action/cooldown/spell/ley_lines)
 	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/naledi
@@ -96,7 +95,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
 	subclass_languages = list(/datum/language/celestial, /datum/language/thievescant)
 	class_select_category = CLASS_CAT_NALEDI
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_WARMAGE)
 	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE, TRAIT_NALEDI)
 	subclass_stats = list(
@@ -107,6 +106,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT, // Bare-handed abilities no weapon and read AA. Match unarmed.
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -146,7 +146,7 @@
 		"BLACK" = "#242526"
 	))
 	if(H.mind)
-		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
 		H.mind.AddSpell(new /datum/action/cooldown/spell/fist_of_psydon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/grasp_of_psydon())
@@ -213,7 +213,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_vizier
 	subclass_languages = list(/datum/language/celestial)
 	class_select_category = CLASS_CAT_NALEDI
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_WARMAGE)
 	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_NALEDI)
 	subclass_stats = list(
@@ -286,9 +286,9 @@
 
 
 	if(H.mind)
-		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
+		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
-		grant_poke_spell_ex(H)
+		grant_poke_spell(H)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diminish)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)

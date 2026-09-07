@@ -1,8 +1,8 @@
 /*
 	MouseDrop:
 
-	Called on the atom you're dragging.  In a lot of circumstances we want to use the
-	receiving object instead, so that's the default action.  This allows you to drag
+	Called on the atom you're dragging.	In a lot of circumstances we want to use the
+	receiving object instead, so that's the default action.	This allows you to drag
 	almost anything into a trash can.
 */
 /atom/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
@@ -130,7 +130,7 @@
 		mob.tempfixeye = TRUE
 		mob.nodirchange = TRUE
 		// for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
-		// 	eyet.update_icon(mob)
+		//	eyet.update_icon(mob)
 
 	if(delay)
 		selected_target[1] = object
@@ -225,7 +225,7 @@
 	var/datum/intent/curplaying
 	var/obj/effect/spell_rune_under/spell_rune
 
-/atom/proc/should_click_on_mouse_up(var/atom/original_object)
+/atom/proc/should_click_on_mouse_up(atom/original_object)
 	return TRUE
 
 /client/MouseUp(object, location, control, params)
@@ -235,6 +235,10 @@
 
 	if(SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEUP, object, location, control, params) & COMPONENT_CLIENT_MOUSEUP_INTERCEPT)
 		click_intercept_time = world.time
+
+	if(mob?.channeling_spell?.currently_charging)
+		charging = 0
+		return
 
 	if(charging && isliving(mob))
 		update_to_mob(mob, 0)
@@ -253,8 +257,8 @@
 		mob.nodirchange = FALSE
 
 	// if(mob.hud_used)
-	// 	for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
-	// 		eyet.update_icon(mob) //Update eye icon
+	//	for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
+	//		eyet.update_icon(mob) //Update eye icon
 
 	if(!mob.atkswinging)
 		return
@@ -308,7 +312,7 @@
 		L.update_charging_movespeed(L.used_intent)
 		progress = 0
 		charge_start_time = world.time
-		charge_start_timeofday = world.timeofday
+		charge_start_timeofday = REALTIMEOFDAY
 		sections = null //commented //From what I can tell, this used to be for the mouse icon changing per % of the cast.
 		goal = L.used_intent.get_chargetime() //How much charge to get in order to cast
 		part = 1
@@ -337,22 +341,20 @@
 
 /client/proc/update_to_mob(mob/living/L, seconds_per_tick)
 	if(charging)
-		var/expected_timeofday = charge_start_timeofday + goal
-		var/actual_timeofday = world.timeofday
-		var/lag_buffer = max(0, (expected_timeofday - progress - actual_timeofday))
-
-		if(progress < goal - lag_buffer) // Add a lag buffer to prevent accidentally losing a full charge due to a lag spike
-			progress = world.time - charge_start_time
-			progress = min(progress, goal)
+		progress = min(max(world.time - charge_start_time, REALTIMEOFDAY - charge_start_timeofday), goal)
+		if(progress < goal)
 			chargedprog = ((progress / goal) * 100)
 			var/new_icon = SSmousecharge.access(chargedprog)
 			if(mouse_pointer_icon != new_icon)
 				mouse_pointer_icon = new_icon
-		else //Fully charged spell
+		else //Fully charged
 			if(!doneset)
 				doneset = 1
+				if(L.used_intent?.warnie == "aimwarn")
+					L.stop_sound_channel(CHANNEL_WEAPON_DRAW)
+				if(L.used_intent?.ready_sound)
+					L.playsound_local(L, L.used_intent.ready_sound, 70, TRUE)
 				if(L.curplaying && !L.used_intent.keep_looping)
-					playsound(L, 'sound/magic/charged.ogg', 100, TRUE)
 					L.curplaying.on_mouse_up()
 				chargedprog = 100
 				var/new_icon = 'icons/effects/mousemice/swang/acharged.dmi'

@@ -141,11 +141,28 @@ export const SexSession = () => {
                       inline
                       compact
                       color="transparent"
+                      onClick={() => act('toggle_subtle')}
+                    >
+                      {data.doing_subtly ? 'DOING SUBTLY' : 'DOING VISIBLY'}
+                    </Button>
+                    <Button
+                      inline
+                      compact
+                      color="transparent"
                       onClick={() => act('toggle_finished')}
                     >
                       {data.do_until_finished
                         ? "UNTIL I'M FINISHED"
                         : 'UNTIL I STOP'}
+                    </Button>
+                    {' | '}
+                    <Button
+                      inline
+                      compact
+                      color="transparent"
+                      onClick={() => act('toggle_freeuse')}
+                    >
+                      {data.freeuse ? 'FREEUSE ON' : 'FREEUSE OFF'}
                     </Button>
                     {!!data.has_knotted_penis && (
                       <>
@@ -180,7 +197,7 @@ export const SexSession = () => {
                       placeholder="Set arousal..."
                       value={arousalInput}
                       onChange={setArousalInput}
-                      width="120px"
+                      width="100px"
                       onEnter={() => {
                         const amount = parseInt(arousalInput, 10);
                         if (!Number.isNaN(amount)) {

@@ -34,15 +34,13 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	src.transform = src.transform.Scale(1.25, 1.25)
 	src.pixel_y += round(0.25 * 16)
-	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
-		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
-	for(var/obj/item/held_item in held_items)
-		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		lock_gear_piece(gear, "large_goblin_gear")
 
 /mob/living/carbon/human/species/goblin/npc/large/death(gibbed, nocutscene = FALSE)
 	. = ..()
-	if(!gibbed)
-		dust(FALSE, FALSE, TRUE)
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		REMOVE_TRAIT(gear, TRAIT_NODROP, "large_goblin_gear")
 
 /mob/living/carbon/human/species/goblin/npc/large/hell
 	race = /datum/species/goblin/hell
@@ -65,32 +63,27 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	H.STAPER = 6
 	H.STAINT = 8 // I am Evil
 	H.STALUC = 4
+	// Gives it armor for some much needed buff
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
+	head = /obj/item/clothing/head/roguetown/helmet/goblin
+	belt = /obj/item/storage/belt/rogue/leather
 	var/loadout = rand(1, 4)
 	switch(loadout)
 		if(1) // mace brute
-			r_hand = /obj/item/rogueweapon/mace
-			l_hand = /obj/item/rogueweapon/shield/wood
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+			r_hand = /obj/item/rogueweapon/mace/steel
+			l_hand = /obj/item/rogueweapon/shield/heater
 		if(2) // greataxe berserker
-			r_hand = /obj/item/rogueweapon/greataxe/militia
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+			r_hand = /obj/item/rogueweapon/greataxe
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if(3) // flail and shield
 			r_hand = /obj/item/rogueweapon/flail
-			l_hand = /obj/item/rogueweapon/shield/wood
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+			l_hand = /obj/item/rogueweapon/shield/heater
 		if(4) // bottle bomber
-			r_hand = /obj/item/rogueweapon/mace
+			r_hand = /obj/item/rogueweapon/mace/steel
 			neck = /obj/item/storage/belt/rogue/pouch/bombs
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	gloves = /obj/item/clothing/gloves/roguetown/leather
-	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)

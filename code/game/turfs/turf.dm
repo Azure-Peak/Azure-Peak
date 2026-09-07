@@ -23,7 +23,7 @@
 
 	flags_1 = CAN_BE_DIRTY_1
 	var/turf_flags = NONE
-	
+
 	var/list/image/blueprint_data //for the station blueprints, images of objects eg: pipes
 
 	var/explosion_level = 0	//for preventing explosion dodging
@@ -283,7 +283,7 @@
 				continue
 
 		// If the thing is dense AND we're including mobs or the thing isn't a mob AND if there's a source atom and
-		// it cannot pass through the thing on the turf,  we consider the turf blocked.
+		// it cannot pass through the thing on the turf,	we consider the turf blocked.
 		if(movable_content.density && (!exclude_mobs || !ismob(movable_content)))
 			if(source_atom && movable_content.CanPass(source_atom, get_dir(src, source_atom)))
 				continue
@@ -572,9 +572,9 @@
 /turf/proc/Distance(turf/T, mob/traverser)
 	return get_dist(src,T)
 
-//  This Distance proc assumes that only cardinal movement is
-//  possible. It results in more efficient (CPU-wise) pathing
-//  for bots and anything else that only moves in cardinal dirs.
+//	This Distance proc assumes that only cardinal movement is
+//	possible. It results in more efficient (CPU-wise) pathing
+//	for bots and anything else that only moves in cardinal dirs.
 /turf/proc/Distance_cardinal(turf/T, mob/traverser)
 	if(!src || !T)
 		return FALSE
@@ -719,7 +719,7 @@
 
 /proc/clear_reagents_to_vomit_pool(mob/living/carbon/M, obj/effect/decal/cleanable/vomit/V)
 	M.reagents.trans_to(V, M.reagents.total_volume / 10, transfered_by = M)
-	for(var/datum/reagent/R in M.reagents.reagent_list)                //clears the stomach of anything that might be digested as food
+	for(var/datum/reagent/R in M.reagents.reagent_list)				//clears the stomach of anything that might be digested as food
 		if(istype(R, /datum/reagent/consumable))
 			var/datum/reagent/consumable/nutri_check = R
 			if(nutri_check.nutriment_factor >0)

@@ -13,7 +13,6 @@
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	outfit = /datum/outfit/job/roguetown/lunatic
-	bypass_lastclass = TRUE
 	bypass_jobban = FALSE
 	min_pq = 100 //the magic of an allowlist server.
 	max_pq = null
@@ -31,6 +30,7 @@
 	job_subclasses = list(
 		/datum/advclass/lunatic
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/lunatic
 	name = "Lunatic"
@@ -63,6 +63,6 @@
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	pants = /obj/item/clothing/under/roguetown/tights/vagrant
-	belt  = /obj/item/storage/belt/rogue/leather/rope
+	belt	= /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/rogueweapon/huntingknife/stoneknife
 	beltr = /obj/item/flashlight/flare/torch

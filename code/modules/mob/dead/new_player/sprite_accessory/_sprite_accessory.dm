@@ -6,6 +6,8 @@
 	var/icon
 	/// Icon state of the accessory
 	var/icon_state
+	/// States to be stacked on top of each other to generate the character creator icon
+	var/list/preview_states
 	/// Whether the states for this accessory have an extra state that will get overlayed ontop of the resulting state. Per layer, suffix "_extra"
 	var/extra_state = FALSE
 	/// Pixel x offset
@@ -41,7 +43,38 @@
 			stack_trace("Sprite accessory of [type] has more than 1 color key but doesn't have a color key name list")
 		else if (color_key_names.len < color_keys)
 			stack_trace("Sprite accessory of [type] has missing color key names")
+	// best effort default
+	if(!preview_states)
+		preview_states = generate_preview_states()
 	return ..()
+
+/datum/sprite_accessory/proc/generate_preview_states()
+	. = list()
+
+	if(relevant_layers)
+		for(var/iterated_layer in relevant_layers)
+			if(color_keys > 1)
+				for(var/color_index in 1 to color_keys)
+					. += "[icon_state]_[get_layer_suffix(iterated_layer)]_[color_index]"
+			else
+				. += "[icon_state]_[get_layer_suffix(iterated_layer)]"
+	else
+		if(color_keys > 1)
+			for(var/color_index in 1 to color_keys)
+				. += "[icon_state]_[color_index]"
+		else
+			. += icon_state
+
+	if(extra_state)
+		. += "[icon_state]_extra"
+
+/datum/sprite_accessory/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		"icon" = REF(icon),
+		"pixel_x" = pixel_x,
+		"preview_states" = preview_states,
+	)
 
 /datum/sprite_accessory/proc/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return TRUE
@@ -102,8 +135,12 @@
 			icon_bundle.Insert(icon_states[icon_state], icon_state)
 
 		accessory_icon_cache[key] = icon_bundle
+		// Colours are part of the key, so this is unbounded without a cap.
+		trim_cache(accessory_icon_cache, SPRITE_ACCESSORY_ICON_CACHE_LEN)
 
-	var/icon/cached_icon = icon(accessory_icon_cache[key])
+	// Appearances only reference the icon and nothing here mutates it, so hand out the cached
+	// object rather than deep copying the whole bundle on every single cache hit.
+	var/icon/cached_icon = accessory_icon_cache[key]
 	/// Generate mutable appearances from the icon
 	var/appearance_list = list()
 	if(relevant_layers)
@@ -125,14 +162,12 @@
 	var/list/color_list = color_string_to_list(color_string)
 	if(!color_list)
 		color_list = list()
-	if(color_list.len < color_keys)
-		//stack_trace("Sprite accessory [type] was passed an insufficient amount of colors.")
-		while(color_list.len < color_keys)
-			color_list += "#FFFFFF"
-	else if(color_list.len > color_keys)
-		//stack_trace("Sprite accessory [type] was passed too much of colors.")
-		while(color_list.len > color_keys)
-			color_list -= color_list[color_list.len]
+	while(color_list.len < color_keys)
+		color_list += "#FFFFFF"
+	if(color_list.len > color_keys)
+		// Truncate by index. Removing by value here would drop every entry matching the last
+		// colour, leaving fewer colours than color_keys and runtimeing in generate_icon_state().
+		color_list.Cut(color_keys + 1)
 	return color_list_to_string(color_list)
 
 /datum/sprite_accessory/proc/generate_icon_states(overlay_icon_state, color_string)
@@ -153,7 +188,7 @@
 	var/icon/result_icon
 	for(var/color_index in 1 to color_keys)
 		var/color_to_use = color_list[color_index]
-		var/lookup_state = one_color ? overlay_icon_state  : "[overlay_icon_state]_[color_index]"
+		var/lookup_state = one_color ? overlay_icon_state	: "[overlay_icon_state]_[color_index]"
 		var/icon/color_key_icon = icon(icon, lookup_state)
 		color_key_icon.Blend(color_to_use, ICON_MULTIPLY)
 		if(!result_icon)
@@ -189,7 +224,7 @@
 /datum/sprite_accessory/proc/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return icon_state
 
-/datum/sprite_accessory/proc/get_default_colors(var/key_source_list)
+/datum/sprite_accessory/proc/get_default_colors(key_source_list)
 	var/list/color_list = list()
 	for(var/i in 1 to color_keys)
 		var/color

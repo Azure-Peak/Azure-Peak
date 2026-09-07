@@ -40,7 +40,7 @@
 
 /datum/round_event/rogue/skeleton_siege
 	announceWhen	= 1
-	var/spawncount = 5  // Number of skeletons per area
+	var/spawncount = 5	// Number of skeletons per area
 	var/spawn_delay = 30 SECONDS
 	var/waves = 3
 
@@ -58,8 +58,8 @@
 		// Only allow ground-level town areas, no roofs or underground
 		if(!istype(A, /area/rogue/under) && !istype(A, /area/rogue/outdoors/town/roofs))
 			if(istype(A, /area/rogue/indoors/town/tavern) || \
-			   istype(A, /area/rogue/indoors/town/church/chapel) || \
-			   istype(A, /area/rogue/indoors/town/manor))
+				istype(A, /area/rogue/indoors/town/church/chapel) || \
+				istype(A, /area/rogue/indoors/town/manor))
 				indoor_areas += A
 			else if(istype(A, /area/rogue/outdoors/town))
 				outdoor_areas += A

@@ -100,6 +100,8 @@
 
 	post_equip(H)
 
+	H.flag_gear_as_worn()
+
 	H.advjob = name
 
 	var/turf/TU = get_turf(H)
@@ -198,8 +200,9 @@
 		limited_vices = vice_limits
 	if(!length(current_vices) || !length(limited_vices))
 		return
-	for(var/datum/charflaw/cf in current_vices)
-		if(is_vice_limited(cf, limited_vices))
+	for(var/cf_type in current_vices)
+		if(is_vice_limited(cf_type, limited_vices))
+			var/datum/charflaw/cf = GLOB.character_flaws_singletons[cf_type]
 			. += cf.name
 
 /datum/advclass/proc/get_prefs_restriction_names(client/player)
@@ -273,6 +276,45 @@
 
 	if(prob(pickprob))
 		return TRUE
+
+/datum/advclass/proc/prefs_lock_reason(datum/preferences/prefs)
+	if(!prefs)
+		return "unavailable"
+
+	var/datum/species/pref_species = prefs.pref_species
+	if(length(allowed_sexes))
+		var/list/local_allowed_sexes = allowed_sexes.Copy()
+		if(!immune_to_genderswap && pref_species?.gender_swapping)
+			if(MALE in allowed_sexes)
+				local_allowed_sexes -= MALE
+				local_allowed_sexes += FEMALE
+			if(FEMALE in allowed_sexes)
+				local_allowed_sexes -= FEMALE
+				local_allowed_sexes += MALE
+		if(length(local_allowed_sexes) && !(prefs.gender in local_allowed_sexes))
+			return "sex"
+
+	if(length(forbidden_races) && (pref_species?.type in forbidden_races))
+		return "species"
+
+	if(length(allowed_ages) && !(prefs.age in allowed_ages))
+		return "age"
+
+	if(length(allowed_patrons) && !(prefs.selected_patron?.type in allowed_patrons))
+		return "faith"
+
+	if(length(virtue_limits))
+		for(var/virtuetype in virtue_limits)
+			if(istype(prefs.virtue, virtuetype) || istype(prefs.virtuetwo, virtuetype))
+				return "virtue"
+
+	#ifdef USES_PQ
+	if(min_pq != -100 && prefs.parent)
+		if(get_playerquality(prefs.parent.ckey) < min_pq)
+			return "reputation"
+	#endif
+
+	return null
 
 // Basically the handler has a chance to plus up a class, heres a generic proc you can override to handle behavior related to it.
 // For now you just get an extra stat in everything depending on how many plusses you managed to get.

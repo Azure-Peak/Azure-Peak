@@ -166,7 +166,7 @@
 						/obj/item/recipe_book/ceramics = 1,
 						/obj/item/recipe_book/builder = 1,
 						/obj/item/clothing/mask/rogue/spectacles/golden = 1, //putting them in the bag because bad eye sight virtue strips these
-						/obj/item/contraption/linker = 1,
+						/obj/item/rogueweapon/contraption/linker = 1,
 						/obj/item/mini_flagpole/artificer = 1,
 						/obj/item/rogueweapon/spellbook = 1,
 						)

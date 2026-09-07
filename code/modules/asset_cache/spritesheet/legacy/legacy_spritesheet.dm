@@ -16,8 +16,8 @@
 	/// List of arguments to pass into queuedInsert
 	/// Exists so we can queue icon insertion, mostly for stuff like preferences
 	var/list/to_generate = list()
-	var/list/sizes = list()    // "32x32" -> list(10, icon/normal, icon/stripped)
-	var/list/sprites = list()  // "foo_bar" -> list("32x32", 5)
+	var/list/sizes = list()	// "32x32" -> list(10, icon/normal, icon/stripped)
+	var/list/sprites = list()	// "foo_bar" -> list("32x32", 5)
 	var/list/cached_spritesheets_needed
 	var/generating_cache = FALSE
 	var/fully_generated = FALSE
@@ -310,7 +310,7 @@
 		return
 #endif
 	inserted_icon = icon(inserted_icon, icon_state=icon_state, dir=dir, frame=frame, moving=moving)
-	if (!inserted_icon || !length(icon_states(inserted_icon)))  // that direction or state doesn't exist
+	if (!inserted_icon || !length(icon_states(inserted_icon)))	// that direction or state doesn't exist
 		return
 
 	var/start_usage = world.tick_usage

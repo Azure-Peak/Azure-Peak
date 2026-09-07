@@ -2,8 +2,8 @@
 	name = "soap"
 	desc = "One of Pestra's more humble and unassuming gifts. Take care not to slip!"
 	gender = PLURAL
-	icon = 'icons/obj/items_and_weapons.dmi'
-	icon_state = "soap"
+	icon = 'icons/roguetown/items/soaps.dmi'
+	icon_state = "soap_plain"
 	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
@@ -15,6 +15,10 @@
 	dropshrink = 0.7
 	var/cleanspeed = 20 //as fast as 5 arcyne Prestidigitation
 	var/uses = 100
+	var/datum/pollutant/fragrance/fragrance_type
+	fragrance_type = 0
+	var/datum/reagent/medicine/medicine_type
+	medicine_type = 0
 
 /obj/item/soap/ComponentInitialize()
 	. = ..()
@@ -98,10 +102,91 @@
 				visible_message(span_info("[user] expertly cleans and soothes [target] with the [src]."))
 				to_chat(target, span_love("I feel so relaxed and clean!"))
 				target.add_stress(/datum/stressevent/bathcleaned)
+				if(fragrance_type)
+					target.AddComponent(/datum/component/temporary_pollution_emission, fragrance_type, 5, 10 MINUTES)
+				if(medicine_type && target.reagents)
+					target.reagents.add_reagent(medicine_type, 1)
 			else
 				visible_message(span_info("[user] tries their best to scrub [target] with the [src]."))
 				to_chat(target, span_warning("That's a bit nicer, I guess."))
 				target.add_stress(/datum/stressevent/bath)
+				if(fragrance_type)
+					target.AddComponent(/datum/component/temporary_pollution_emission, fragrance_type, 5, 10 MINUTES)
+				if(medicine_type && target.reagents)
+					target.reagents.add_reagent(medicine_type, 1)
 			uses -= 1
 			if(uses == 0)
 				qdel(src)
+
+/obj/item/soap/bath
+	name = "herbal soap"
+	desc = "A soap made from various herbs"
+	icon_state = "soap_herbal"
+	w_class = WEIGHT_CLASS_TINY
+	item_flags = NOBLUDGEON
+
+/obj/item/soap/rosa
+	name = "rosa soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar has a pleasant rosa aroma. It has a cute heart stamped into the center."
+	icon_state = "soap_rosa"
+	fragrance_type = /datum/pollutant/fragrance/rose
+
+/obj/item/soap/vanilla //
+	name = "vanilla soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar has a pleasant vanilla aroma."
+	icon_state = "soap_vanilla"
+	fragrance_type = /datum/pollutant/fragrance/vanilla
+
+/obj/item/soap/calendula // Has to be used in bath or hotspring turfs, gotta work up some soapysuds to get the healing juices to work
+	name = "calendula soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar carries minor healing properties when used in bathwaters."
+	icon_state = "soap_calendula"
+	fragrance_type = /datum/pollutant/fragrance/floral
+	medicine_type = /datum/reagent/medicine/healthpot
+
+/obj/item/soap/mana // Has to be used in bath or hotspring turfs
+	name = "mana soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar carries minor restorative properties when used in bathwaters."
+	icon_state = "soap_mana"
+	fragrance_type = /datum/pollutant/fragrance/floral
+	medicine_type = /datum/reagent/medicine/manapot
+
+/obj/item/soap/citrus
+	name = "citrus soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar has a pleasant citrus aroma."
+	icon_state = "soap_citrus"
+	fragrance_type = /datum/pollutant/fragrance/citrus
+
+/obj/item/soap/tea
+	name = "tea-leaf soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar has a pleasant tea aroma."
+	icon_state = "soap_tea"
+	fragrance_type = /datum/pollutant/fragrance/tea
+
+/obj/item/soap/coffee
+	name = "coffee soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar has a pleasant coffee aroma."
+	icon_state = "soap_coffee"
+	fragrance_type = /datum/pollutant/fragrance/coffee
+
+/obj/item/soap/jackberry
+	name = "jackberry soap"
+	uses = 100
+	cleanspeed = 50
+	desc = "One of Pestra's more humble and unassuming gifts. This bar has a pleasant jackberry aroma."
+	icon_state = "soap_jackberry"
+	fragrance_type = /datum/pollutant/fragrance/Jackberry

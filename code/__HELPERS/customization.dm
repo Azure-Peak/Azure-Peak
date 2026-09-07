@@ -49,25 +49,19 @@
 	)
 	return cache
 
+/// Falls back to the "none" gradient for anything that is not a registered gradient type.
+/proc/sanitize_hair_gradient(gradient_type)
+	return GLOB.hair_gradients[gradient_type] ? gradient_type : /datum/hair_gradient/none
+
 /mob/living/carbon/human/proc/set_hair_color(new_color, new_nat_gradient, new_nat_color, new_dye_gradient, new_dye_color, updates_body = TRUE)
 	var/datum/bodypart_feature/hair/feature = get_bodypart_feature_of_slot(BODYPART_FEATURE_HAIR)
 	if(!feature)
 		return
-	var/list/valid_gradients = list()
-	for(var/gradient_type in GLOB.hair_gradients)
-		valid_gradients[gradient_type] = gradient_type
-
 	feature.accessory_colors = new_color
 	feature.hair_color = new_color
-	if(LAZYISIN(valid_gradients, new_nat_gradient))
-		feature.natural_gradient = valid_gradients[new_nat_gradient]
-	else
-		feature.natural_gradient = /datum/hair_gradient/none
+	feature.natural_gradient = sanitize_hair_gradient(new_nat_gradient)
 	feature.natural_color = new_nat_color
-	if(!isnull(new_dye_gradient))
-		feature.hair_dye_gradient = new_dye_gradient
-	else
-		feature.hair_dye_gradient = /datum/hair_gradient/none
+	feature.hair_dye_gradient = sanitize_hair_gradient(new_dye_gradient)
 	feature.hair_dye_color = new_dye_color
 	if(updates_body)
 		update_body_parts()
@@ -76,16 +70,10 @@
 	var/datum/bodypart_feature/hair/feature = get_bodypart_feature_of_slot(BODYPART_FEATURE_FACIAL_HAIR)
 	if(!feature)
 		return
-
-	var/list/valid_gradients = list()
-	for(var/gradient_type in GLOB.hair_gradients)
-		valid_gradients[gradient_type] = gradient_type
-
-
 	feature.hair_color = new_color
-	feature.natural_gradient = valid_gradients[new_nat_gradient]
+	feature.natural_gradient = sanitize_hair_gradient(new_nat_gradient)
 	feature.natural_color = new_nat_color
-	feature.hair_dye_gradient = new_dye_gradient
+	feature.hair_dye_gradient = sanitize_hair_gradient(new_dye_gradient)
 	feature.hair_dye_color = new_dye_color
 	if(updates_body)
 		update_body_parts()

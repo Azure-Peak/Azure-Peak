@@ -9,6 +9,8 @@
 	organ_slot = ORGAN_SLOT_ANTENNAS
 
 /datum/customizer/organ/antennas/moth
+	allows_disabling = TRUE
+	default_disabled = FALSE
 	customizer_choices = list(/datum/customizer_choice/organ/antennas/moth)
 
 /datum/customizer_choice/organ/antennas/moth

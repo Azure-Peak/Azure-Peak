@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/undead
+	anatomy_type = /datum/anatomy/quadruped/undead
 	icon = 'icons/roguetown/mob/monster/deadites/boar_undead.dmi'
 	name = "deadite bramblesnout"
 	desc = "The terrifying bramblesnout, claimed by undeath. Its viciously curved tusks are splintered but lethal, backed by a ruined mass of muscle that no longer feels pain, fatigue, or mercy."
@@ -8,57 +9,41 @@
 	health = BOAR_HEALTH_UNDEAD
 	maxHealth = BOAR_HEALTH_UNDEAD
 	ai_controller = /datum/ai_controller/boar/undead
+	move_base_delay = MOVEMENT_DELAY_SLOW
+	charge_type = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/undead
 
 	head_butcher = /obj/item/natural/head/boar/undead
 	botched_butcher_results = list(
-		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2, 
-		/obj/item/alch/sinew = 2, 
+		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
+		/obj/item/alch/sinew = 2,
 		/obj/item/natural/bone = 4,
 		/obj/item/alch/viscera = 1,
 		/obj/item/natural/hide = 1,
 	)
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 4,
-		/obj/item/reagent_containers/food/snacks/fat = 2, 
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 3, 
-		/obj/item/alch/bone = 1, 
-		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/fat = 2,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 3,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
 		/obj/item/natural/hide = 2,
 	)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 5,
-		/obj/item/reagent_containers/food/snacks/fat = 3, 
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 4, 
-		/obj/item/alch/bone = 1, 
-		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/fat = 3,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 4,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
 		/obj/item/natural/hide = 3,
 	)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/deadite, 15 MINUTES, BOAR_HEALTH_UNDEAD, 300, "boar_downed", 0)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_R_ARM, BODY_ZONE_PRECISE_R_HAND)
-			return "r_leg"
-		if(BODY_ZONE_L_LEG, BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_L_ARM, BODY_ZONE_PRECISE_L_HAND)
-			return "l_leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-	return ..()
+	AddComponent(/datum/component/deadite, 15 MINUTES, "boar_downed", 0)
 
 /datum/species/terrorhog
 	name = "Terrorhog"
@@ -108,7 +93,7 @@
 /mob/living/carbon/human/species/wildshape/terrorhog/gain_inherent_skills()
 	return FALSE
 
-/mob/living/carbon/human/species/wildshape/terrorhog/Initialize()
+/mob/living/carbon/human/species/wildshape/terrorhog/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
@@ -169,7 +154,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "swings its massive head wildly!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshlarge"
 	swingdelay = 0.7 SECONDS
 	cleave = /datum/cleave_pattern/frontal_t
 
@@ -192,7 +177,7 @@
 	max_blade_int = 8000
 	max_integrity = 8000
 
-/obj/item/rogueweapon/terrorhog_tusks/Initialize()
+/obj/item/rogueweapon/terrorhog_tusks/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
@@ -200,7 +185,7 @@
 /datum/component/terrorhog_tracker
 	var/death_processed = FALSE
 
-/datum/component/terrorhog_tracker/Initialize()
+/datum/component/terrorhog_tracker/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_damage))
@@ -222,10 +207,10 @@
 	var/mob/living/carbon/human/H = parent
 	var/turf/T = get_turf(H)
 	var/mob/living/simple_animal/hostile/retaliate/rogue/terrorhog_corpse/C = new(T)
-	
+
 	spawn(1)
 		C.death()
-		
+
 	H.visible_message(span_userdanger("[H] crashes down with a massive thud, its squealing finally falling silent."))
 	qdel(H)
 
@@ -270,29 +255,29 @@
 	maxHealth = 1
 
 	botched_butcher_results = list(
-		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2, 
-		/obj/item/alch/sinew = 2, 
+		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
+		/obj/item/alch/sinew = 2,
 		/obj/item/natural/bone = 4,
 		/obj/item/alch/viscera = 1,
 		/obj/item/natural/hide = 1,
 	)
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 4,
-		/obj/item/reagent_containers/food/snacks/fat = 2, 
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 3, 
-		/obj/item/alch/bone = 1, 
-		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/fat = 2,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 3,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
 		/obj/item/natural/hide = 2,
 	)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 5,
-		/obj/item/reagent_containers/food/snacks/fat = 3, 
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 4, 
-		/obj/item/alch/bone = 1, 
-		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/fat = 3,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 4,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
 		/obj/item/natural/hide = 3,
 	)
@@ -317,7 +302,7 @@
 	post_icon_state = null
 
 /datum/special_intent/terrorhog_onslaught/process_attack()
-	SHOULD_CALL_PARENT(FALSE) 
+	SHOULD_CALL_PARENT(FALSE)
 
 	if(!isliving(howner) || howner.stat == DEAD)
 		return FALSE
@@ -328,7 +313,7 @@
 
 	var/list/valid_targets = list()
 	for(var/mob/living/L in orange(7, howner))
-		if(L.stat == DEAD) 
+		if(L.stat == DEAD)
 			continue
 		var/shared_faction = FALSE
 		if(L.faction && howner.faction)
@@ -356,7 +341,7 @@
 			var/mob/living/victim = pick(valid_targets)
 
 			// If anyone were to comment this out, the same guy could get nerded.
-			valid_targets -= victim 
+			valid_targets -= victim
 
 			var/turf/victim_turf = get_turf(victim)
 			if(!victim_turf)
@@ -416,7 +401,7 @@
 	src.dir = raw_dir
 
 	playsound(src, 'sound/vo/mobs/boar/boar_charge.ogg', 50, TRUE)
-	
+
 	var/turf/destination = get_turf(target)
 	addtimer(CALLBACK(src, PROC_REF(start_phantom_drive), destination), 0.8 SECONDS)
 
@@ -450,7 +435,7 @@
 		for(var/mob/living/L in T)
 			if(L == master_hog)
 				continue
-				
+
 			var/shared_faction = FALSE
 			if(L.faction && master_hog.faction)
 				for(var/F in L.faction)

@@ -5,7 +5,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_condottiero
 	class_select_category = CLASS_CAT_ETRUSCA
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BRAVO)
 	subclass_languages = list(/datum/language/etruscan, /datum/language/thievescant)
 	cmode_music = 'sound/music/combat_condottiero.ogg'
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -81,7 +81,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_balestrieri
 	class_select_category = CLASS_CAT_ETRUSCA
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
 	subclass_languages = list(/datum/language/etruscan, /datum/language/thievescant)
 	cmode_music = 'sound/music/combat_condottiero.ogg'
 	traits_applied = list(TRAIT_DODGEEXPERT)

@@ -2,7 +2,7 @@
 	name = "Accelerating Akathist"
 	desc = "Accelerate your allies with your bardic song!"
 	button_icon_state = "bardsong_t3_base"
-	invocations = list("plays a blisteringly fast series of notes!")
+	invocations = list("%CASTER plays a blisteringly fast series of notes!")
 	song_effect = /datum/status_effect/buff/playing_melody/accelakathist
 
 /datum/status_effect/buff/playing_melody/accelakathist

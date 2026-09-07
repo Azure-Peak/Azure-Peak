@@ -229,14 +229,15 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'flex-start',
                   gap: '6px',
+                  flexWrap: 'wrap',
                   marginBottom: '6px',
                   fontSize: FONT_BODY,
                   color: INK_SOFT,
                 }}
               >
-                <span>{activeGroup.label}:</span>
+                <span>Actions:</span>
                 <button
                   type="button"
                   style={inkButtonStyle({
@@ -347,6 +348,20 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
                 >
                   Sell ×
                 </button>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  gap: '6px',
+                  flexWrap: 'wrap',
+                  marginBottom: '6px',
+                  fontSize: FONT_BODY,
+                  color: INK_SOFT,
+                }}
+              >
+                <span>Permissions:</span>
                 <button
                   type="button"
                   style={inkButtonStyle({
@@ -382,6 +397,86 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
                   }
                 >
                   Close All
+                </button>
+                <button
+                  type="button"
+                  style={inkButtonStyle({
+                    color: SEAL_GREEN,
+                    disabled: aldermanActing,
+                  })}
+                  disabled={aldermanActing}
+                  onClick={() =>
+                    act('allow_withdraw_category', {
+                      category: activeGroup.category,
+                    })
+                  }
+                  title={
+                    aldermanActing
+                      ? aldermanBlockTitle
+                      : `Allow withdraws for all ${activeGroup.label}.`
+                  }
+                >
+                  Draws On
+                </button>
+                <button
+                  type="button"
+                  style={inkButtonStyle({
+                    color: SEAL_RED,
+                    disabled: aldermanActing,
+                  })}
+                  disabled={aldermanActing}
+                  onClick={() =>
+                    act('bar_withdraw_category', {
+                      category: activeGroup.category,
+                    })
+                  }
+                  title={
+                    aldermanActing
+                      ? aldermanBlockTitle
+                      : `Bar withdraws for all ${activeGroup.label}.`
+                  }
+                >
+                  Draws Off
+                </button>
+                <button
+                  type="button"
+                  style={inkButtonStyle({
+                    color: SEAL_GREEN,
+                    disabled: aldermanActing,
+                  })}
+                  disabled={aldermanActing}
+                  onClick={() =>
+                    act('allow_autoexport_category', {
+                      category: activeGroup.category,
+                    })
+                  }
+                  title={
+                    aldermanActing
+                      ? aldermanBlockTitle
+                      : `Let the daily sweep ship ${activeGroup.label} surplus abroad.`
+                  }
+                >
+                  Auto-Export On
+                </button>
+                <button
+                  type="button"
+                  style={inkButtonStyle({
+                    color: SEAL_RED,
+                    disabled: aldermanActing,
+                  })}
+                  disabled={aldermanActing}
+                  onClick={() =>
+                    act('bar_autoexport_category', {
+                      category: activeGroup.category,
+                    })
+                  }
+                  title={
+                    aldermanActing
+                      ? aldermanBlockTitle
+                      : `Stop shipping ${activeGroup.label} away over threshold.`
+                  }
+                >
+                  Auto-Export Off
                 </button>
               </div>
               {activeGroup.rows.map((row) => {
@@ -571,8 +666,8 @@ const RegionRow = (props: {
           <span
             title={
               side === 'import'
-                ? 'Units available today at this price. Buying beyond exhausts daily production and the price climbs.'
-                : 'Units the buyer still wants today at this price. Selling beyond saturates demand and the price drops.'
+                ? `${region.capacity_today} of ${region.capacity_total} units left today at this price, up to ${region.batch_capacity} per shipment. Buying beyond that increases the price.`
+                : `${region.capacity_today} of ${region.capacity_total} units still wanted today at this price, up to ${region.batch_capacity} per shipment. Selling beyond that drops the price.`
             }
             style={{
               color: capacityColor,
@@ -685,6 +780,7 @@ const StockpileStrip = (props: { row: MarketRow; aldermanActing: boolean }) => {
   const limitAuto = !!row.automatic_limit;
   const accepting = !!row.accepting;
   const withdrawDisabled = !!row.withdraw_disabled;
+  const autoexportDisabled = !!row.autoexport_disabled;
   const margin = row.margin_per_unit;
   const potential = row.arbitrage_potential;
   const blockTitle =
@@ -806,6 +902,19 @@ const StockpileStrip = (props: { row: MarketRow; aldermanActing: boolean }) => {
         title={aldermanActing ? blockTitle : 'Allow player withdraws.'}
       >
         {withdrawDisabled ? 'No-W' : 'W-OK'}
+      </button>
+      <button
+        type="button"
+        style={flagPillStyle(!autoexportDisabled)}
+        disabled={aldermanActing}
+        onClick={() => act('toggle_autoexport_disabled', { good_id: goodId })}
+        title={
+          aldermanActing
+            ? blockTitle
+            : 'Toggle Auto-Export. Having it off means surplus over the cap will not be shipped away and surplus over threshold will not be shipped away.'
+        }
+      >
+        {autoexportDisabled ? 'No-X' : 'X-OK'}
       </button>
     </div>
   );

@@ -1,5 +1,14 @@
 //intents
 
+/proc/sling_draw_sound(chargetime)
+	switch(chargetime)
+		if(0 to 7)
+			return 'sound/combat/Ranged/sling-draw-01-5ds.ogg'
+		if(7 to 11)
+			return 'sound/combat/Ranged/sling-draw-01.ogg'
+		else
+			return 'sound/combat/Ranged/sling-draw-01-14ds.ogg'
+
 /datum/intent/swing/sling
 	chargetime = 1 //used for edge cases only, /datum/intent/shoot/sling/get_chargetime handles the actual number
 	chargedrain = 1.5
@@ -14,7 +23,7 @@
 /datum/intent/swing/sling/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] swings [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/Ranged/sling-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/swing/sling/get_chargetime() //determines swing length. damage is in /obj/item/gun/ballistic/revolver/grenadelauncher/sling/process_fire
 	if(mastermob && chargetime)
@@ -37,6 +46,7 @@
 	chargetime = 1
 	chargedrain = 1.5
 	charging_slowdown = 3
+	ready_sound = 'sound/foley/slingload.ogg'
 
 /datum/intent/arc/sling/can_charge(atom/clicked_object)
 	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
@@ -47,7 +57,7 @@
 /datum/intent/arc/sling/prewarning()
 	if(mastermob)
 		mastermob.visible_message(span_warning("[mastermob] swings [masteritem] in an arc!"))
-		playsound(mastermob, pick('sound/combat/Ranged/sling-draw-01.ogg'), 100, FALSE)
+		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/arc/sling/get_chargetime() //same calculations as swing but with a greater base for throwing through teammates
 	if(mastermob && chargetime)
@@ -70,15 +80,14 @@
 	var/newtime = 20 - (user.get_skill_level(/datum/skill/combat/slings) * 1.5) - (user.STAPER / 2) - (user.STASTR / 5)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(ARCHER_NPC_MIN_SLING_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
+	return (max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME) * ARCHER_NPC_ROF_PENALTY
 
 //objs
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	name = "sling"
-	flags_ai_inventory = AI_ITEM_GUN
 	desc = "Twisted fibers manifest into a strung pouch capable of hurling stones afar."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon = 'icons/roguetown/weapons/ranged32.dmi'
 	icon_state = "sling"
 	item_state = "sling"
 	experimental_onhip = TRUE
@@ -174,7 +183,7 @@
 			user.transferItemToLoc(A, temp_stone) //off to stone purgatory you go
 			A = new /obj/item/ammo_casing/caseless/rogue/sling_bullet //putting a temporary sling bullet in its place. bonus force is kept on the sling and set to 0 if shot or stone is ejected
 		..()
-		
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/attack_self(mob/user) //more unholy code
 	if (temp_stone != null) //if there's a 'stone' in the sling, drop it and delete the temporary ammo inside
 		user.dropItemToGround(temp_stone) //pulling the stone from stone purgatory and dropping it
@@ -192,7 +201,7 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
+		spread = 0
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.embedchance = 0.1 //for some reason, if the embedchance is 0, the reusable projectile will not drop after hitting a mob. so it's a 1/1000 chance now

@@ -74,6 +74,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	GLOB.material_baseline_prices[/obj/item/ingot/copper] = SELLPRICE_COPPER_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/tin] = SELLPRICE_TIN_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/steel] = SELLPRICE_STEEL_INGOT
+	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = SELLPRICE_BRONZE_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/gold] = SELLPRICE_GOLD_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/silver] = SELLPRICE_SILVER_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = round(SELLPRICE_COPPER_INGOT * INGOT_BRONZE_FROM_COPPER + SELLPRICE_TIN_INGOT * INGOT_BRONZE_FROM_TIN)

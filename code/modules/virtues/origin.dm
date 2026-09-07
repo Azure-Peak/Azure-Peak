@@ -1,3 +1,5 @@
+GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have to access client prefs midgame
+
 // Race list means RESTRICTED from the LISTED races.
 /datum/virtue/origin/unknown
 	name = "Nowhere"
@@ -124,7 +126,7 @@
 	\
 	<br>The islands of Kazengun are the seat of power of the Shogunate, a land of \
 	Astratan Order and divine fervour and reverence often compared to that seen in Otava. This Pantheon is larger than that of the Holy See, \
-	but its tenants are all but heretical in the domain of the See.  All of Kazengun reveres Order, as ordained by Astrata, the mother goddess, \
+	but its tenants are all but heretical in the domain of the See.	All of Kazengun reveres Order, as ordained by Astrata, the mother goddess, \
 	and by extension, the social stratification and aristocracy entwined within it, but the Pantheon also openly embraces ‘heretical’ beliefs and Ascendant gods as a simple facet of divinity.\
 	\
 	<br>A land divided, the Kazengun Shogunate also encompasses the lands of Lingyue- the former Empire across the mainland of Kazengun, \
@@ -203,7 +205,7 @@
 	added_languages = list(/datum/language/draconic)
 	desc = "I originate from the draconic lands of Lirvas, a hellish debt society known for its strict hierarchy. To be above someone in Lirvas is to be their master, to be below them is to know endless debt and servitude. Drakians and Kobolds originate from these lands—a gift from Matthios to the dragons that once reigned supreme over the kingdom. Today, only the great drake Zarvlor remains.<br>"
 	origin_desc = "A haven for draconic people of all origins, Lirvas' history was once wholly of wealth and prosperity. To venture to the so-called \
-	'dragon lands' was considered a must for any adventurer, as no culture could quite compare to one built by dragons and sisseans alike. \
+	'dragon lands' was considered a must for any adventurer, as no culture could quite compare to one built by dragons and zardmen alike. \
 	Now, centuries after Zizo's ascendance, Lirvas has become one of the few places no adventurer dares travel to. To describe the kingdom as \
 	a hierarchy would hardly be apt; it stands proudly with different rings of social status, shrinking gradually in size as one climbs to the top. \
 	In Lirvas, wealth is everything in determining which ring you stand on, and how hard it is to climb higher."
@@ -236,12 +238,12 @@
 	Despite vast differences amongst these races, they all have things in common. Their forms over the generations have garnered darker or \
 	paler complexions, their bodies slightly shorter than their surface dwelling compatriots, dark elves being amongst the tallest species in \
 	the Underdark, despite on average being shorted than an average Hammerholdian humen. Despite this in most cases noticable lack of height, these \
-	races have also grown sturdier, more resilient and more cautious and keen, out of pure necessity. Survival in these depths demands one's all.  \
+	races have also grown sturdier, more resilient and more cautious and keen, out of pure necessity. Survival in these depths demands one's all.	\
 	A fact those of the surface that delve deep into these cavers, tend to forget, resulting in their untimely demise. Or worse.\n<br><br>\
 	\
 	The Underdark itself is a gigantic system of different caves, caverns tunnels and hollowed out underground regions that span leagues upon \
-	leagues both across and deep into Psydonia's soil. Not all of these systems are inherenty connected, paved or make logical sense,  but the \
-	Underdwellers always have  knack for traversing them. Underdark as a whole, is split into Western and Eastern, Western being the one that \
+	leagues both across and deep into Psydonia's soil. Not all of these systems are inherenty connected, paved or make logical sense,	but the \
+	Underdwellers always have	knack for traversing them. Underdark as a whole, is split into Western and Eastern, Western being the one that \
 	resides beneath Azuria and its continent, and the Eastern that is located deep within Raneshen and Kazengun's soil, noticeably less populated \
 	than the western counterpart, shrouded in mystery; more so than the other. Most important fact remains, Western and Eastern Underdark are NOT \
 	connected directly, only point where one could pass from one into the other, in theory being a marvel of artifice, constructed by the deep \
@@ -252,7 +254,7 @@
 	Underdwellers live a harsh lyfe, filled with hard toil, sweat and blood, and thusly they are no strangers to violence and darker things one \
 	could experience in mortal lyfe. Most settlements in these depths practice some sort of violent cultural tradition, engage in bloodsports, or \
 	both. And so much more. They live and have lived very different lives for a millennia, which often causes Underdwellers to have trouble adapting \
-	to surface cultures and  communities, often perceived as strange at best, and downright evil at worst. A stigma developed by those who live upon \
+	to surface cultures and	communities, often perceived as strange at best, and downright evil at worst. A stigma developed by those who live upon \
 	the surface about their home and culture, believing all things evil crawl out of the very depths they reside in. A stigma that has lessened in \
 	recent yils, but still vastly present nonetheless."
 
@@ -272,3 +274,24 @@
 
 /datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.dna.species.origin = origin_name
+
+// Familiar origins
+/datum/virtue/origin/familiar/fae
+	name = "Fae"
+	origin_name = "The Faewyld"
+	origin_desc = "Little and less is known about where the fae come from. Some say another plane, layered over Psydonia; others say merely hidden groves, tucked far away from mortal sight. All that is certain is that wherever they come from, they rarely seem to leave."
+
+/datum/virtue/origin/familiar/elemental
+	name = "Elemental"
+	origin_name = "The Depths"
+	origin_desc = "Little and less is known about where elementals come from. Some say another plane, layered over Psydonia; others say they're merely deep underground, far below the caves-and-tunnels of mortals. All that is certain is that wherever they come from, they rarely seem to leave."
+
+/datum/virtue/origin/familiar/void
+	name = "Voidborn"
+	origin_name = "The Void"
+	origin_desc = "Little and less is known about the origin of void beings. Some magi claim it is the space between realms, filled with unfathomable predators; others claim it is the far past. Whatever the case, seeing a voidborn being can only mean two things: a powerful magos has been at work here, and you are in danger."
+
+/datum/virtue/origin/familiar/infernal
+	name = "Infernal"
+	origin_name = "The Hells"
+	origin_desc = "Infernals are tight-lipped about their home, and mortals tend to prefer sylver'd blades to questions. All that is known is that every being that crawls out of the hellish pits bears a deep-rooted malice towards Psydonia and all that dwell upon it."

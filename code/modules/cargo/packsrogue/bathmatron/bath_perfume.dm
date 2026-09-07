@@ -71,6 +71,11 @@
 	cost = EXPENSIVE_PERFUME_PRICE
 	contains = list(/obj/item/perfume/myrrh)
 
+/datum/supply_pack/rogue/bath_perfume/citrus
+	name = "Citrus Perfume"
+	cost = EXPENSIVE_PERFUME_PRICE
+	contains = list(/obj/item/perfume/citrus)
+
 /*
 	held_items[/obj/item/lipstick] = list("PRICE" = rand(33,50),"NAME" = "red lipstick")
 	held_items[/obj/item/lipstick/jade] = list("PRICE" = rand(33,50),"NAME" = "jade lipstick")
@@ -97,6 +102,38 @@
 	name = "Black Lipstick"
 	cost = 33
 	contains = list(/obj/item/lipstick/black)
+
+// Soaps
+
+/datum/supply_pack/rogue/bath_perfume/rosa_soap
+	name = "Rosa Soap"
+	cost = CHEAP_PERFUME_PRICE
+	contains = list(/obj/item/soap/rosa)
+
+/datum/supply_pack/rogue/bath_perfume/vanilla_soap
+	name = "Vanilla Soap"
+	cost = EXPENSIVE_PERFUME_PRICE
+	contains = list(/obj/item/soap/vanilla)
+
+/datum/supply_pack/rogue/bath_perfume/calendula_soap
+	name = "Calendula Soap"
+	cost = EXPENSIVE_PERFUME_PRICE
+	contains = list(/obj/item/soap/calendula)
+
+/datum/supply_pack/rogue/bath_perfume/mana_soap
+	name = "Manabloom Soap"
+	cost = EXPENSIVE_PERFUME_PRICE
+	contains = list(/obj/item/soap/mana)
+
+/datum/supply_pack/rogue/bath_perfume/citrus_soap
+	name = "Citrus Soap"
+	cost = CHEAP_PERFUME_PRICE
+	contains = list(/obj/item/soap/citrus)
+
+/datum/supply_pack/rogue/bath_perfume/jackberry_soap
+	name = "Jackberry Soap"
+	cost = CHEAP_PERFUME_PRICE
+	contains = list(/obj/item/soap/jackberry)
 
 #undef CHEAP_PERFUME_PRICE
 #undef EXPENSIVE_PERFUME_PRICE

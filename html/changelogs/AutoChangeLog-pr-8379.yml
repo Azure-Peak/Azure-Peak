@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Your character's pronouns are now preserved when shapeshifting (e.g. wildshape, zad form)"

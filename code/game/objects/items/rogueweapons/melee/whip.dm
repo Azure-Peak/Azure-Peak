@@ -8,7 +8,7 @@
 	icon = 'icons/roguetown/weapons/whips32.dmi'
 	sharpness = IS_BLUNT
 	//dropshrink = 0.75
-	wlength = WLENGTH_LONG
+	wlength = WLENGTH_GREAT // It has a 3 reach attack.
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BELT
 	associated_skill = /datum/skill/combat/whipsflails
@@ -32,7 +32,7 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 //////////////////////////
-// INTENTS!             //
+// INTENTS!				//
 //////////////////////////
 
 //Lash = default, can't dismember, so more range and some pen.
@@ -73,21 +73,21 @@
 
 //Bludgeon = Sidegrade of the Crack that functions like a ranged mace. Unique to the Nagaika, or the Steppsman's whip.
 /datum/intent/whip/crack/blunt
-    name = "bludgeon"
-    desc = "Wind up and deliver a powerful strike with the reinforced tip of your whip, shortening your reach but increasing the power. </br>Strikes deliver powerful blunt damage, lacking any cutting power but increasing damage against integrity."
-    blade_class = BCLASS_BLUNT
-    penfactor = PEN_NONE
-    recovery = 6
-    reach = 2            //Less range than a normal whip by 1 compared to crack.
-    icon_state = "instrike"
-    item_d_type = "blunt"
-    intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	name = "bludgeon"
+	desc = "Wind up and deliver a powerful strike with the reinforced tip of your whip, shortening your reach but increasing the power. </br>Strikes deliver powerful blunt damage, lacking any cutting power but increasing damage against integrity."
+	blade_class = BCLASS_BLUNT
+	penfactor = PEN_NONE
+	recovery = 6
+	reach = 2			//Less range than a normal whip by 1 compared to crack.
+	icon_state = "instrike"
+	item_d_type = "blunt"
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 /datum/intent/flail/smash/ranged/psywhip
-    name = "Meteor Strike"
-    desc = "Swing the weight of your whip around your body, using the angular momentum to deliver a devastating strike, propelling your enemy back and savaging them at the same time."
-    chargedrain = 0 //The charge time is indicative of a warmup, not a hold.
-    chargedloop = /datum/looping_sound/flailswing
-    keep_looping = FALSE
+	name = "Meteor Strike"
+	desc = "Swing the weight of your whip around your body, using the angular momentum to deliver a devastating strike, propelling your enemy back and savaging them at the same time."
+	chargedrain = 0 //The charge time is indicative of a warmup, not a hold.
+	chargedloop = /datum/looping_sound/flailswing
+	keep_looping = FALSE
 
 //Punish = Non-lethal sorta damage.
 /datum/intent/whip/punish
@@ -158,7 +158,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 
 /obj/item/rogueweapon/whip/antique/psywhip
-	name = "Daybreak"
+	name = "\"Daybreak\""
 	desc = "A chain-linked whip, meticulously assembled from a hundred pieces of blessed silver. Its origins are steeped in mythos: most believe it to originate from an ancient bloodline of vampyre-killers, which once saved Psydonia from a powerful lyckerlorde. Whether it was happenstance or fate itself that eventually led it into your grasp, however, is better left unspoken. </br>'There, upon the Cathedral's ceiling, was painted a scene-most-beautiful: of a robed Psydon standing before the Archdevil, parting the nite's sky with a crack from His fiery whip. Just as He had done prior, so too must you bring daelight to the darkness.'"
 	icon_state = "psywhip"
 	is_silver = TRUE

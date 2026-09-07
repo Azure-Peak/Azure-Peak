@@ -81,8 +81,6 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 			return BULLET_ACT_BLOCK
 		if(out_of_effective_range())
 			return
-		if(blocked >= 100)
-			return ..()
 		// Stack the debuff
 		var/datum/status_effect/debuff/mockery_stack/existing = M.has_status_effect(/datum/status_effect/debuff/mockery_stack)
 		if(existing)
@@ -115,12 +113,9 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 		span_userdanger("The bard's words sting - I can't focus!"))
 
 /datum/status_effect/debuff/mockery_stack/proc/add_stack()
-	if(stacks >= MOCKERY_STACKS_MAX)
-		duration = MOCKERY_STACK_DURATION
-		return
 	remove_stack_effects()
 	stacks = min(stacks + 1, MOCKERY_STACKS_MAX)
-	duration = MOCKERY_STACK_DURATION
+	refresh()
 	apply_stack_effects()
 	owner.balloon_alert_to_viewers("mocked (x[stacks])")
 	if(stacks >= MOCKERY_STACKS_MAX)

@@ -23,7 +23,7 @@
 
 	var/honey_color = ""
 
-/obj/item/reagent_containers/food/snacks/rogue/honey/Initialize()
+/obj/item/reagent_containers/food/snacks/rogue/honey/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(8,-8)
 	pixel_y = rand(8,-8)

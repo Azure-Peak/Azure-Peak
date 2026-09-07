@@ -38,7 +38,7 @@
 	if (!controller.blackboard[bb_key]) // this saves us like a micro second of processing time by early returning even though we check later.
 		return
 
-	var/list/filtered_targets = hearers(7, controller.pawn) -  controller.pawn
+	var/list/filtered_targets = hearers(7, controller.pawn) -	controller.pawn
 	var/turf/our_position = get_turf(controller.pawn)
 	controller.set_blackboard_key(BB_BASIC_MOB_FLEE_TARGET, get_closest_atom(/atom/, filtered_targets, our_position))
 	. = ..()

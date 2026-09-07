@@ -1,3 +1,6 @@
+/obj/item/clothing/head/roguetown/crown
+	body_parts_covered = NONE
+
 /obj/item/clothing/head/roguetown/crown/fakecrown
 	name = "fake crown"
 	desc = "You shouldn't be seeing this."
@@ -41,6 +44,7 @@
 
 /obj/item/clothing/head/roguetown/circlet
 	name = "golden circlet"
+	body_parts_covered = NONE
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	icon_state = "circlet"

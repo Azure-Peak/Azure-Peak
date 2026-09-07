@@ -3,9 +3,9 @@
  * Adds text, trims left and right side
  *
  * Arguments:
- *  payload - a string list containing entry & channel
+ *	payload - a string list containing entry & channel
  * Returns:
- *  string - the altered entry
+ *	string - the altered entry
  */
 /datum/tgui_say/proc/alter_entry(payload)
 	var/entry = payload["entry"]
@@ -25,10 +25,10 @@
  * Delegates the speech to the proper channel.
  *
  * Arguments:
- * 	entry - the text to broadcast
- * 	channel - the channel to broadcast in
+ *	entry - the text to broadcast
+ *	channel - the channel to broadcast in
  * Returns:
- *  boolean - on success or failure
+ *	boolean - on success or failure
  */
 /datum/tgui_say/proc/delegate_speech(entry, channel)
 	switch(channel)
@@ -64,30 +64,30 @@
  * Sends a message to the say modal to send its current value.
  */
 // /datum/tgui_say/proc/force_say()
-// 	window.send_message("force")
-// 	stop_typing()
+//	window.send_message("force")
+//	stop_typing()
 
 /**
  * Makes the player force say what's in their current input box.
  */
 // /mob/living/carbon/human/proc/force_say()
-// 	if(stat != CONSCIOUS || !client?.tgui_say?.window_open)
-// 		return FALSE
-// 	client.tgui_say.force_say()
+//	if(stat != CONSCIOUS || !client?.tgui_say?.window_open)
+//		return FALSE
+//	client.tgui_say.force_say()
 	// if(client.typing_indicators)
-	// 	log_speech_indicators("[key_name(client)] FORCED to stop typing, indicators enabled.")
+	//	log_speech_indicators("[key_name(client)] FORCED to stop typing, indicators enabled.")
 	// else
-	// 	log_speech_indicators("[key_name(client)] FORCED to stop typing, indicators DISABLED.")
+	//	log_speech_indicators("[key_name(client)] FORCED to stop typing, indicators DISABLED.")
 	// SEND_SIGNAL(src, COMSIG_HUMAN_FORCESAY)
 
 /**
  * Handles text entry and forced speech.
  *
  * Arguments:
- *  type - a string "entry" or "force" based on how this function is called
- *  payload - a string list containing entry & channel
+ *	type - a string "entry" or "force" based on how this function is called
+ *	payload - a string list containing entry & channel
  * Returns:
- *  boolean - success or failure
+ *	boolean - success or failure
  */
 /datum/tgui_say/proc/handle_entry(type, payload)
 	if(!payload?["channel"] || !payload["entry"])

@@ -113,12 +113,12 @@
 	attachment_overlay = mutable_appearance('icons/obj/structures/heart_items.dmi', "leechsuck")
 	update_overlay()
 
-	detach_timer = addtimer(CALLBACK(src, .proc/on_full), 1 MINUTES, TIMER_STOPPABLE)
+	detach_timer = addtimer(CALLBACK(src, PROC_REF(on_full)), 1 MINUTES, TIMER_STOPPABLE)
 	switch_zone()
 	playsound(parent, 'sound/vo/mobs/spider/speak (1).ogg', 40)
 
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/on_examine)
-	RegisterSignal(parent, COMSIG_LIVING_GRAB_SELF_ATTEMPT, .proc/on_grab_self_attempt)
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(parent, COMSIG_LIVING_GRAB_SELF_ATTEMPT, PROC_REF(on_grab_self_attempt))
 
 /datum/component/leechtick_attachment/Destroy()
 	// Clean up timers
@@ -181,7 +181,7 @@
 	L.adjustBruteLoss(1, 0)
 	current_zone = pick(possible_zones)
 	update_overlay()
-	zone_switch_timer = addtimer(CALLBACK(src, .proc/switch_zone), rand(10, 40), TIMER_STOPPABLE)
+	zone_switch_timer = addtimer(CALLBACK(src, PROC_REF(switch_zone)), rand(10, 40), TIMER_STOPPABLE)
 
 /datum/component/leechtick_attachment/proc/on_full()
 	if(!parent)
@@ -223,7 +223,7 @@
 	)
 
 	// Use global do_after with callback instead of sleeping in signal handler
-	INVOKE_ASYNC(src, .proc/start_removal_async, L)
+	INVOKE_ASYNC(src, PROC_REF(start_removal_async), L)
 	return COMPONENT_CANCEL_GRAB_ATTACK
 
 /datum/component/leechtick_attachment/proc/start_removal_async(mob/living/L)
@@ -271,7 +271,7 @@
 /datum/status_effect/debuff/leech_schizophrenia/on_creation(mob/living/new_owner, ...)
 	. = ..()
 
-	duration = rand(14 MINUTES, 28 MINUTES) 
+	duration = rand(14 MINUTES, 28 MINUTES)
 	current_cooldown = world.time + message_cooldown
 	return .
 

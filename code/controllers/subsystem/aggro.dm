@@ -2,4 +2,4 @@ PROCESSING_SUBSYSTEM_DEF(aggro)
 	name = "Aggro Decay"
 	priority = FIRE_PRIORITY_SLOW_OBJECTS
 	flags = SS_NO_INIT | SS_BACKGROUND
-	wait = 10 SECONDS
+	wait = 5 SECONDS

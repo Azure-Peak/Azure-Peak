@@ -4,6 +4,8 @@
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "skeleton_formation"
+
+	spell_color = GLOW_COLOR_ZIZO
 	cast_range = 7
 	sound = 'sound/magic/magnet.ogg'
 	primary_resource_cost = 40
@@ -68,6 +70,10 @@
 				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
 
 		var/mob/living/simple_animal/hostile/rogue/skeleton/S = new skeleton_type(spawn_turf, owner, cabal_affine)
+
+		for(var/obj/item/I as anything in S.loot)
+			if(ispath(I, /obj/item) && I::smeltresult)
+				S.loot -= I // previously, people could infinitely farm iron gear to sell/scrap off of their own skellies
 
 		if(!S)
 			continue

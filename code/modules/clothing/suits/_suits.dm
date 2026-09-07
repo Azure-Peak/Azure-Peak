@@ -4,7 +4,7 @@
 	var/fire_resist = T0C+100
 	armor = ARMOR_CLOTHING
 	drop_sound = 'sound/blank.ogg'
-	pickup_sound =  'sound/blank.ogg'
+	pickup_sound =	'sound/blank.ogg'
 	slot_flags = ITEM_SLOT_OCLOTHING
 	var/blood_overlay_type = "suit"
 	var/togglename = null

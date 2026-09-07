@@ -23,7 +23,7 @@
 			found_duplicate = TRUE
 
 	// We found no same type effects in there outside of us
-	if(!found_duplicate) 
+	if(!found_duplicate)
 		SStriumphs.post_equip_calls.Remove(triumph_buy_id)
 
 /datum/triumph_buy/grenzelhoft_maximum/on_activate(mob/living/carbon/human/H)
@@ -32,5 +32,5 @@
 	H.set_species(/datum/species/human/northern)
 	H.skin_tone = "fff0e9"
 	H.update_body()
-	 // Yeah, you gotta do this after setting species haha! theres an after_creation() proc that goes with set_species and this handles the stats in it.
+		// Yeah, you gotta do this after setting species haha! theres an after_creation() proc that goes with set_species and this handles the stats in it.
 	H.roll_stats()

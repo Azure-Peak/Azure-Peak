@@ -42,7 +42,7 @@
 
 		<ul>
 			<li><b>Defense Commissions</b> - drawn against the Pledge or the Crown's Purse, posted to boards or handed to a bearer.</li>
-			<li><b>Blockade Writs</b> - given to a fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT]. The Steward may recall an unanswered writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes, recovering the draft.</li>
+			<li><b>Blockade Writs</b> - given to a fellowship of at least [BLOCKADE_FELLOWSHIP_REQUIREMENT]. The Steward may recall an unanswered writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes, recovering the draft.</li>
 			<li><b>Requests</b> - daily quota of [COMMISSION_REQUESTS_PER_DAY] reward-less commissions, Steward-only.</li>
 		</ul>
 
@@ -63,11 +63,12 @@
 		<h3>Region and Reward</h3>
 		<p>Defense commissions pay out in proportion to the threat they spawn. Each threat region carries a <b>reward multiplier</b> (surfaced in the commission UI beside the region name): Azure Basin at x0.75, Azure Grove at x1.0, Azurean Coast at x1.2, Terrorbog / Mount Decapitation / Underdark at x1.5. A Bounty in Terrorbog costs the same draft as a Bounty in Azure Basin - but the Terrorbog commission pays the bearer roughly twice as much. The Steward can use this to steer adventurers toward regions the realm most needs cleared.</p>
 
-		<p><b>Blockade Writs</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m draft regardless of region. The writ pays a base of [BLOCKADE_SCROLL_REWARD]m, plus a flat travel stipend based on distance. The waves are the same strength everywhere, though may varies in actual threat due to regional faction composition. Having an additional 4th or 5th person 4 or 5 person tackling the blockade raises the rewards and the challenge slightly per person. </p>
+		<p><b>Blockade Writs</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m draft regardless of region. The writ pays a base of [BLOCKADE_SCROLL_REWARD]m, plus a flat travel stipend based on distance. The waves are the same strength everywhere, though the actual threat varies with regional faction composition. Each additional person beyond the 3rd in range of the blockade, up to the 6th, increases the wave's strength and the payout.</p>
 
-		<p>Multiple blockades may stand at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
 
-		<p>The Steward may recall an unanswered Blockade Writ after 15 minutes. An accepted writ has a 30-minute completion timer before it is automatically forfeit. Each wave adds 10 minutes. Wave timers are independent of the recall timer - once a Writ is taken, the bearer must finish it promptly.</p>
+		<p>Multiple blockades may exist at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
+
+		<p>The Steward may recall an unanswered Blockade Writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes. The waves begin when the bearer arrives, which must be broken within [BLOCKADE_RECALL_WINDOW_DS / 600] minutes of the wave spawning. There'll be a warning at the 5 minutes, 2 minutes and 1 minute mark.</p>
 		</div>
 	"}
 
@@ -278,12 +279,16 @@
 
 		<p>The total is shown on the Steward's Trade panel as <i>Projected Banditry Losses</i>, broken down per region with base and per-head amounts.</p>
 
+		<h3>Banditry Hoard</h3>
+		<p>Mammons that bandits have stolen from the Crown is stored in a region as bandit hoard. Scouts Report and the Steward's Panels will tell how much this number is.
+		</p>
+
+		<p>A Hoard Recovery writ (Started by Steward issuing it, or a fellowship pledging mammons and doing it themselves), or a pre-existing Blockade writ targeting the region will recover the hoard. This is then taxed by the Crown. A region must reaches a minimum of [HOARD_RECOVERY_HOARD_MINIMUM]m before a recovery writ can be issued by a Fellowship of 3 or more.</p>
+
 		<h3>The Floor and Banditry Debt</h3>
-		<p>Banditry alone will not reduce the Crown's Purse below <b>[BANDITRY_DEBT_FLOOR]m</b>. Anything beyond that becomes <b>banditry debt</b> - an accruing arrears that skims every coin of treasury inflow (stockpile earnings, taxes, levies, fines, loan repayments) until paid.</p>
+		<p>Banditry alone will not reduce the Crown's Purse below <b>[BANDITRY_DEBT_FLOOR]m</b>. Anything beyond that becomes <b>banditry debt</b> - an accruing arrears that skims all treasury inflow (stockpile earnings, taxes, levies, fines, loan repayments) until paid.</p>
 
 		<h3>What You Can Do</h3>
-		<p>Issue Commissions and Blockade Writs against Dangerous and Bleak regions. Use levy exemption as bait. The retinue and garrison can also clear regions directly. As regional threat falls, so does the dawn drain. Banditry debt only shrinks as new income is earned and skimmed.</p>
-
-		<p>This system is a placeholder until raid and siege content ships.</p>
+		<p>Issue Commissions and Blockade Writs against Dangerous and Bleak regions. Use levy exemption as bait. The retinue and garrison can also clear regions directly. As regional threat falls, so does the dawn drain. Banditry debt only shrinks as new income is earned and skimmed. The hoards however, can be reclaimed by Blockade clearing or Hoard Recovery writ.</p>
 		</div>
 	"}

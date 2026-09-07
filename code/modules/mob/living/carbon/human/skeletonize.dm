@@ -29,7 +29,7 @@
 	eyes.Insert(src)
 	for(var/obj/item/bodypart/B in bodyparts)
 		B.skeletonize(FALSE)
-	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)
+	src.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	update_a_intents()
 
 	update_body()
@@ -50,6 +50,7 @@
 	ADD_TRAIT(src, TRAIT_FACELESS_KNOWN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOWW, TRAIT_GENERIC) // you're a SKELETON
 
 	// Skeleton voicepack
 	if(dna?.species)

@@ -41,6 +41,7 @@
 	var/multiplier = get_farming_effort_multiplier(user)
 	user.stamina_add(fatigue_amount / multiplier)
 
+/// You almost certainly do not want to call this proc directly, as it will bypass the sleep levelling system and can bypass trait caps as well. Use the global proc add_sleep_experience instead, which does respect both of those systems.
 /proc/adjust_experience(mob/user, skill_type, exp_amount)
 	user.adjust_experience(skill_type, exp_amount)
 

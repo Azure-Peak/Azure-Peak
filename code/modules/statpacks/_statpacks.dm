@@ -5,6 +5,8 @@ GLOBAL_LIST_EMPTY(statpacks)
 	var/name
 	/// Flavor description of the statpack (don't include stat totals in this, we'll render them automatically)
 	var/desc
+	/// What FontAwesome icon the Preferences Menu should use
+	var/ui_fa_icon
 	/// An associative list of only the stats we're altering. The value can also be a list to signify a range of values - maximum length of 2 for these.
 	var/list/stat_array = list()
 	var/virtuous = FALSE
@@ -73,3 +75,10 @@ GLOBAL_LIST_EMPTY(statpacks)
 
 	result = "([concat.Join(", ")])"
 	return result
+
+/datum/statpack/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		"desc" = description_string(),
+		"icon" = ui_fa_icon,
+	)

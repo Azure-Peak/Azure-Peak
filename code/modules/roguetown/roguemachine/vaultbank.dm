@@ -1,4 +1,4 @@
-#define MAMMON_PER_FORCE 1 
+#define MAMMON_PER_FORCE 1
 
 /obj/structure/roguemachine/vaultbank
 	name = "\improper JAWBANK"
@@ -33,7 +33,7 @@
 	var/knockedoffbefore = 0
 	var/drillgoal = 100
 
-/obj/structure/roguemachine/vaultbank/Initialize()
+/obj/structure/roguemachine/vaultbank/Initialize(mapload)
 	..()
 	enforce_placement()
 	if(SStreasury)

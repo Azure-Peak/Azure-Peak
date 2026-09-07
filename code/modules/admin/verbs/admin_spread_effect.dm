@@ -11,11 +11,11 @@
 	for(var/type in effect_types)
 		effect_names[type] = "[type]"
 
-	var/selected_type = input("Select an effect to spread:", "Choose Effect") as null|anything in effect_names
+	var/selected_type = input(usr, "Select an effect to spread:", "Choose Effect") as null|anything in effect_names
 	if(!selected_type)
 		return
 
-	var/new_radius = input("Enter effect radius (1-10):", "Set Effect Radius", 2) as num|null
+	var/new_radius = input(usr, "Enter effect radius (1-10):", "Set Effect Radius", 2) as num|null
 	if(!new_radius)
 		return
 	new_radius = clamp(new_radius, 1, 10)

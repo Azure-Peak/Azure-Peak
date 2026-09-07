@@ -41,9 +41,11 @@
 /datum/withdraw_tab/proc/do_withdraw(datum/roguestock/D, mob/user)
 	if(!D || !parent_structure)
 		return FALSE
+	if(get_dist(parent_structure, user) > 1)
+		return FALSE
 	D.refresh_auto_price()
 	var/total_price = D.withdraw_price
-	if(D.withdraw_disabled)
+	if(D.withdraw_disabled && !has_fiscal_authority(user))
 		parent_structure.say("Not available.")
 		return FALSE
 	if(D.stockpile_amount <= 0)
@@ -73,7 +75,7 @@
 /datum/withdraw_tab/proc/do_direct_import(datum/roguestock/D, mob/user)
 	if(!D || !ishuman(user) || !parent_structure)
 		return FALSE
-	if(D.withdraw_disabled)
+	if(D.withdraw_disabled && !has_fiscal_authority(user))
 		parent_structure.say("Not available.")
 		return FALSE
 	if(!D.trade_good_id)
@@ -111,6 +113,7 @@
 	if(!using_stipend)
 		SStreasury.mint(SStreasury.discretionary_fund, unit_cost, "Direct import reimbursement: [D.name] from [region.name]")
 	record_round_statistic(STATS_STOCKPILE_DIRECT_IMPORTS, price)
+	record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, 1, price)
 	if(!using_stipend && chartered && surcharge > 0)
 		SStreasury.mint(SStreasury.discretionary_fund, surcharge, "Royal Custom: direct import of [D.name]")
 		record_round_statistic(STATS_STOCKPILE_REVENUE, surcharge)

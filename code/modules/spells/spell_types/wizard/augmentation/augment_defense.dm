@@ -25,6 +25,8 @@
 
 	if(target.has_status_effect(/datum/status_effect/debuff/exposed))
 		target.remove_status_effect(/datum/status_effect/debuff/exposed)
+	if(target.has_status_effect(/datum/status_effect/debuff/cast_disrupted))
+		target.remove_status_effect(/datum/status_effect/debuff/cast_disrupted)
 	if(target.has_status_effect(/datum/status_effect/debuff/vulnerable))
 		target.remove_status_effect(/datum/status_effect/debuff/vulnerable)
 	if(target.has_status_effect(/datum/status_effect/debuff/feinted))

@@ -4,7 +4,7 @@
 	outfit = /datum/outfit/job/roguetown/mercenary/vaquero
 	class_select_category = CLASS_CAT_ETRUSCA
 	cmode_music = 'sound/music/combat_vaquero.ogg'
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BRAVO)
 	subclass_languages = list(/datum/language/etruscan)
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_virtues = list(

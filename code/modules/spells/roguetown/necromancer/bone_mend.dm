@@ -1,8 +1,11 @@
 /datum/action/cooldown/spell/bonemend
 	name = "Bone Mend"
-	desc = "Mend the chosen target's bones with a burst of necrotic magick. Requires standing still for a few seconds."
-	button_icon = 'icons/mob/actions/actions_spells.dmi'
-	button_icon_state = "skeleton"
+	desc = "Mend the chosen target's bones with a burst of necrotic magick. Requires a moment to channel and only works at short-range. Heals only undead on the targeted limb."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "bonemend"
+	spell_color = GLOW_COLOR_ZIZO
+
 	cast_range = 2
 	sound = 'sound/magic/whiteflame.ogg'
 	charge_required = TRUE

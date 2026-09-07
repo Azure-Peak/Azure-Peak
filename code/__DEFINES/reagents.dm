@@ -1,4 +1,4 @@
-#define SOLID 			1
+#define SOLID			1
 #define LIQUID			2
 #define GAS				3
 
@@ -10,10 +10,10 @@
 
 #define TRANSPARENT		(1<<4)	// Used on containers which you want to be able to see the reagents off.
 #define AMOUNT_VISIBLE	(1<<5)	// For non-transparent containers that still have the general amount of reagents in them visible.
-#define NO_REACT        (1<<6)  // Applied to a reagent holder, the contents will not react with each other.
+#define NO_REACT		(1<<6)	// Applied to a reagent holder, the contents will not react with each other.
 
 // Is an open container for all intents and purposes.
-#define OPENCONTAINER 	(REFILLABLE | DRAINABLE | TRANSPARENT)
+#define OPENCONTAINER	(REFILLABLE | DRAINABLE | TRANSPARENT)
 
 
 #define TOUCH			1	// splashing
@@ -29,6 +29,11 @@
 #define REM_REAGENT		3	// reagent removed (may still exist)
 #define CLEAR_REAGENTS	4	// all reagents were cleared
 #define REACT_REAGENTS	5	// a reaction occured
+
+///The smallest amount of volume allowed - prevents tiny numbers
+#define CHEMICAL_VOLUME_MINIMUM 0.001
+///The maximum temperature a reagent holder can attain
+#define CHEMICAL_MAXIMUM_TEMPERATURE 99999
 
 #define MIMEDRINK_SILENCE_DURATION 30  //ends up being 60 seconds given 1 tick every 2 seconds
 //used by chem masters and pill presses

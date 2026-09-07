@@ -221,7 +221,7 @@
 	subtype_reqs = TRUE
 	structurecraft = /obj/structure/artificer_table
 	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
+	craftdiff = 2 //It's a brush. The consumable cream still needs expert, so this can drop to apprentice.
 
 /datum/crafting_recipe/roguetown/engineering/polishcream
 	name = "Polish Cream"
@@ -235,7 +235,7 @@
 	)
 	structurecraft = /obj/structure/artificer_table
 	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
+	craftdiff = 4 //high, but we dont want polishing to be come commonplace or an expectation.
 
 //crossbows, crossbow bolts, and specialized arrows and bolts
 
@@ -790,6 +790,22 @@
 	)
 	reqs = list(
 		/obj/item/natural/wood/plank = 3,
+		/obj/item/grown/log/tree/stick = 2,
+	)
+	verbage_simple = "engineer"
+	verbage = "engineers"
+	skillcraft = /datum/skill/craft/engineering
+	tools = list(/obj/item/rogueweapon/huntingknife = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/windmill
+	name = "windmill"
+	category = "Rotational"
+	display_category = ITEM_CAT_ENG_MACHINERY
+	result = list(/obj/item/rotation_contraption/windmill)
+	reqs = list(
+		/obj/item/natural/wood/plank = 4,
+		/obj/item/natural/cloth = 2,
 		/obj/item/grown/log/tree/stick = 2,
 	)
 	verbage_simple = "engineer"

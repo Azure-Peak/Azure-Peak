@@ -24,15 +24,15 @@
 		return
 
 	// Speech logic
-	if(findtext(message, ",y", 1, 3))
+	if(findtext(message, ",m", 1, 3))
 		message = trim(copytext(message, 3))
 		message = span_centcomradio("[message]")
 		var/formatted = "The voice of [speaker] echoes, \"<i>[capitalize(message)]</i>\"."
-		
+
 		for(var/mob/living/M in members)
 			// Slightly more secretive!
 			M.playsound_local(M, 'sound/magic/mindlink.ogg', 75, TRUE)
 			M.audible_message(formatted, hearing_distance = 0, runechat_message = message, custom_spans = list("mindlink", "italic"))
-		
+
 		speaker.log_talk(message, LOG_SAY, tag="Coven Link")
 		speech_args[SPEECH_MESSAGE] = null

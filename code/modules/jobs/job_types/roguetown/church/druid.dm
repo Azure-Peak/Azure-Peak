@@ -13,7 +13,7 @@
 	outfit = /datum/outfit/job/roguetown/druid
 	tutorial = "You have always been drawn to the wild, and the wild drawn to you. When your calling came, it was from Dendor. Your patron claims dominion over all nature--promising bounties to those who act in his name to bring balance to His domain. The forest is the most comfortable place for you, toiling alongside soilsons and soilbrides...although sometimes what lies beyond the gates fills your soul with a feral yearning."
 
-	spells = list(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+	spells = list(/datum/action/cooldown/spell/projectile/divine_blast)
 
 	display_order = JDO_DRUID
 	give_bank_account = TRUE
@@ -30,6 +30,7 @@
 	job_subclasses = list(
 		/datum/advclass/druid
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/druid
 	name = "Druid"

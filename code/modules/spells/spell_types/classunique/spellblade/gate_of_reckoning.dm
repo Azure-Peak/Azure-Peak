@@ -116,7 +116,7 @@
 		for(var/mob/living/victim in T)
 			if(victim == user || victim.stat == DEAD)
 				continue
-			if(spell_guard_check(victim, FALSE, deflected ? null : user))
+			if(spell_guard_check(victim, FALSE, user, punish_caster = deflected ? FALSE : null))
 				deflected = TRUE
 				continue
 			arcyne_strike(user, victim, weapon, phantom_damage, BODY_ZONE_CHEST, BCLASS_STAB, \

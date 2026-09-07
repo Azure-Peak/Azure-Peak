@@ -1,9 +1,9 @@
 //supposedly the fastest way to do this according to https://gist.github.com/Giacom/be635398926bb463b42a
 #define RANGE_TURFS(RADIUS, CENTER) \
-  block( \
-    locate(max(CENTER.x-(RADIUS),1),          max(CENTER.y-(RADIUS),1),          CENTER.z), \
-    locate(min(CENTER.x+(RADIUS),world.maxx), min(CENTER.y+(RADIUS),world.maxy), CENTER.z) \
-  )
+	block( \
+	locate(max(CENTER.x-(RADIUS),1),			max(CENTER.y-(RADIUS),1),			CENTER.z), \
+	locate(min(CENTER.x+(RADIUS),world.maxx), min(CENTER.y+(RADIUS),world.maxy), CENTER.z) \
+	)
 
 #define Z_TURFS(ZLEVEL) block(locate(1,1,ZLEVEL), locate(world.maxx, world.maxy, ZLEVEL))
 #define CULT_POLL_WAIT 2400
@@ -155,12 +155,12 @@
 		processing_list += A.contents
 
 /** recursive_organ_check
-  * inputs: O (object to start with)
-  * outputs:
-  * description: A pseudo-recursive loop based off of the recursive mob check, this check looks for any organs held
-  *				 within 'O', toggling their frozen flag. This check excludes items held within other safe organ
-  *				 storage units, so that only the lowest level of container dictates whether we do or don't decompose
-  */
+	* inputs: O (object to start with)
+	* outputs:
+	* description: A pseudo-recursive loop based off of the recursive mob check, this check looks for any organs held
+	*					within 'O', toggling their frozen flag. This check excludes items held within other safe organ
+	*					storage units, so that only the lowest level of container dictates whether we do or don't decompose
+	*/
 /proc/recursive_organ_check(atom/O)
 
 	var/list/processing_list = list(O)
@@ -359,13 +359,13 @@
 			active_players++
 	return active_players
 
-/proc/showCandidatePollWindow(mob/M, poll_time, Question, list/candidates, ignore_category, time_passed, flashwindow = TRUE)
+/proc/showCandidatePollWindow(mob/M, poll_time, Question, list/candidates, ignore_category, time_passed, flashwindow = TRUE, poll_width = 350, poll_height = 150)
 	set waitfor = 0
 
 //	SEND_SOUND(M, 'sound/misc/roundstart.ogg') //Alerting them to their consideration
 	if(flashwindow)
 		window_flash(M.client)
-	switch(ignore_category ? askuser(M,Question,"Please answer in [DisplayTimeText(poll_time)]!","Yes","No","Never for this round", StealFocus=0, Timeout=poll_time) : askuser(M,Question,"Please answer in [DisplayTimeText(poll_time)]!","Yes","No", StealFocus=0, Timeout=poll_time))
+	switch(ignore_category ? askuser(M,Question,"Please answer in [DisplayTimeText(poll_time)]!","Yes","No","Never for this round", StealFocus=0, Timeout=poll_time, Width=poll_width, Height=poll_height) : askuser(M,Question,"Please answer in [DisplayTimeText(poll_time)]!","Yes","No", StealFocus=0, Timeout=poll_time, Width=poll_width, Height=poll_height))
 		if(1)
 			to_chat(M, span_notice("Choice registered: Yes."))
 			if(time_passed + poll_time <= world.time)
@@ -387,7 +387,7 @@
 		else
 			candidates -= M
 
-/proc/pollGhostCandidates(Question, jobbanType, gametypeCheck, be_special_flag = 0, poll_time = 300, ignore_category = null, flashwindow = TRUE)
+/proc/pollGhostCandidates(Question, jobbanType, gametypeCheck, be_special_flag = 0, poll_time = 300, ignore_category = null, flashwindow = TRUE, poll_width = 350, poll_height = 150)
 	var/list/candidates = list()
 
 	for(var/mob/dead/observer/G in GLOB.player_list)
@@ -401,9 +401,9 @@
 	for(var/mob/dead/new_player/lobby_nerd in GLOB.player_list)
 		candidates += lobby_nerd
 
-	return pollCandidates(Question, jobbanType, gametypeCheck, be_special_flag, poll_time, ignore_category, flashwindow, candidates)
+	return pollCandidates(Question, jobbanType, gametypeCheck, be_special_flag, poll_time, ignore_category, flashwindow, candidates, poll_width, poll_height)
 
-/proc/pollCandidates(Question, jobbanType, gametypeCheck, be_special_flag = 0, poll_time = 300, ignore_category = null, flashwindow = TRUE, list/group = null)
+/proc/pollCandidates(Question, jobbanType, gametypeCheck, be_special_flag = 0, poll_time = 300, ignore_category = null, flashwindow = TRUE, list/group = null, poll_width = 350, poll_height = 150)
 	var/time_passed = world.time
 	if (!Question)
 		Question = "Would you like to be a special role?"
@@ -421,7 +421,8 @@
 			if(is_banned_from(M.ckey, list(jobbanType, ROLE_SYNDICATE)) || QDELETED(M))
 				continue
 
-		showCandidatePollWindow(M, poll_time, Question, result, ignore_category, time_passed, flashwindow)
+		showCandidatePollWindow(M, poll_time, Question, result, ignore_category, time_passed, flashwindow, poll_width, poll_height)
+		SEND_SOUND(M, 'sound/misc/updatebook.ogg')
 	sleep(poll_time)
 
 	//Check all our candidates, to make sure they didn't log off or get deleted during the wait period.
@@ -464,7 +465,7 @@
 
 	return new_character
 
-/proc/send_to_playing_players(thing) //sends a whatever to all playing players; use instead of to_chat(world, where needed)
+/proc/send_to_playing_players(thing) //sends a whatever to all playing players; use instead of to_world(where needed)
 	for(var/M in GLOB.player_list)
 		if(M && !isnewplayer(M))
 			to_chat(M, thing)

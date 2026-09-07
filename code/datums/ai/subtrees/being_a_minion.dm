@@ -45,6 +45,6 @@
 	var/mob/target = controller.blackboard[target_key]
 
 	if (QDELETED(target))
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
-	return
+	return AI_BEHAVIOR_DELAY

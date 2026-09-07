@@ -174,6 +174,7 @@
 		spawn(100) // The time it takes to complete an interval. If you adjust this, please adjust the sound too. It's 'about' perfect at 100. Anything less It'll start overlapping.
 			loc.visible_message(span_warning("The meister spills its bounty!"))
 			SStreasury.burn(SStreasury.discretionary_fund, 20, "ATM drill - Freefolk")
+			record_treasury_expense(TREASURY_FLOW_MISC, "ATM Drill", 20)
 			mammonsiphoned += 20
 			budget2change(20, null, "SILVER")
 			playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)

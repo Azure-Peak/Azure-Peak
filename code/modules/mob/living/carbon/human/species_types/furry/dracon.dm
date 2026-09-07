@@ -9,7 +9,7 @@
 	origin = "Lirvas"
 	base_name = "Zard"
 	desc_title = "Drakian"
-	desc = "Mighty scaled individuals who claim to be descendants of the dragons of yore."
+	desc = "Hailing from Lirvas, Drakians are winged relatives of the Zardmen, results of Matthios's doomed attempts to mimic the forms of drakkyn. Though they may share visual similarities, and their pride tends to befit such, no Drakian would ever claim to be a descendent of the drakkyn, as to do so is to invite a terrible wasting curse."
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -46,6 +46,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		ORGAN_SLOT_TAIL = /obj/item/organ/tail/lizard,
 		ORGAN_SLOT_SNOUT = /obj/item/organ/snout/lizard,
 		ORGAN_SLOT_TAIL_FEATURE = /obj/item/organ/tail_feature/lizard_spines,

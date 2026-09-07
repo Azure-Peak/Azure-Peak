@@ -14,7 +14,7 @@
 			return
 	else
 		return ..()
-		
+
 	return ..()
 
 /obj/item/rogueore/gold
@@ -23,7 +23,7 @@
 	icon_state = "oregold1"
 	smeltresult = /obj/item/ingot/gold
 
-/obj/item/rogueore/gold/Initialize()
+/obj/item/rogueore/gold/Initialize(mapload)
 	icon_state = "oregold[rand(1,3)]"
 	..()
 
@@ -35,7 +35,7 @@
 	smeltresult = /obj/item/ingot/silver
 	sellprice = SELLPRICE_SILVER_ORE
 
-/obj/item/rogueore/silver/Initialize()
+/obj/item/rogueore/silver/Initialize(mapload)
 	icon_state = "oresilv[rand(1,3)]"
 	..()
 
@@ -46,7 +46,7 @@
 	icon_state = "oreiron1"
 	smeltresult = /obj/item/ingot/iron
 
-/obj/item/rogueore/iron/Initialize()
+/obj/item/rogueore/iron/Initialize(mapload)
 	icon_state = "oreiron[rand(1,3)]"
 	..()
 
@@ -61,7 +61,7 @@
 	smeltresult = /obj/item/ingot/copper
 	sellprice = SELLPRICE_COPPER_ORE
 
-/obj/item/rogueore/copper/Initialize()
+/obj/item/rogueore/copper/Initialize(mapload)
 	icon_state = "orecop[rand(1,3)]"
 	..()
 
@@ -76,7 +76,7 @@
 	smeltresult = /obj/item/ingot/tin
 	sellprice = SELLPRICE_TIN_ORE
 
-/obj/item/rogueore/tin/Initialize()
+/obj/item/rogueore/tin/Initialize(mapload)
 	icon_state = "oretin[rand(1,3)]"
 	..()
 
@@ -91,7 +91,7 @@
 	firefuel = 30 MINUTES
 	smeltresult = /obj/item/rogueore/coal
 
-/obj/item/rogueore/coal/Initialize()
+/obj/item/rogueore/coal/Initialize(mapload)
 	icon_state = "orecoal[rand(1,3)]"
 	..()
 
@@ -119,9 +119,9 @@
 	sellprice = 100
 	smeltresult = /obj/item/ingot/lithmyc
 
-/obj/item/rogueore/lithmyc/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
+/obj/item/rogueore/lithmyc/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot
 	name = "ingot"
@@ -299,9 +299,9 @@
 	smeltresult = /obj/item/ingot/steel //Smelting it removes the blessing
 	sellprice = 20
 
-/obj/item/ingot/steelholy/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
+/obj/item/ingot/steelholy/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/
 	name = "blessed silver bar"
@@ -312,9 +312,9 @@
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
-/obj/item/ingot/silverblessed/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
+/obj/item/ingot/silverblessed/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/bullion
 	name = "blessed silver bullion"
@@ -347,37 +347,37 @@
 	smeltresult = /obj/item/ingot/aaslag
 	sellprice = 6
 
-/obj/item/ingot/aaslag/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
+/obj/item/ingot/aaslag/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
 
 /obj/item/ingot/bsslag
 	name = "blacksteel-speckled slag"
-	desc = "A mass of smoldered blacksteel, rendered lame from the forge's heat. It has taken its secrets to the grave." 
+	desc = "A mass of smoldered blacksteel, rendered lame from the forge's heat. It has taken its secrets to the grave."
 	icon_state = "blacksteelslag"
 	sellprice = 7
 
 /obj/item/ingot/jadeslag
 	name = "jade-speckled slag"
-	desc = "A mass of smoldered jade, rendered lame from the forge's heat. Heavenly beauty, left barely recognizable." 
+	desc = "A mass of smoldered jade, rendered lame from the forge's heat. Heavenly beauty, left barely recognizable."
 	icon_state = "jadeslag"
 	sellprice = 9
 
 /obj/item/ingot/silverslag
 	name = "silver-speckled slag"
-	desc = "A mass of smoldered silver, rendered lame from the forge's heat. Holy might, marred and tarnished." 
+	desc = "A mass of smoldered silver, rendered lame from the forge's heat. Holy might, marred and tarnished."
 	icon_state = "silverslag"
 	sellprice = 9
 
 /obj/item/ingot/goldslag
 	name = "gold-speckled slag"
-	desc = "A mass of smoldered gold, rendered lame from the forge's heat. Haughty dreams, brought lower than low." 
+	desc = "A mass of smoldered gold, rendered lame from the forge's heat. Haughty dreams, brought lower than low."
 	icon_state = "goldslag"
 	sellprice = 12
 
 /obj/item/ingot/copperslag
 	name = "copper-speckled slag"
-	desc = "A mass of smoldered copper, rendered lame from the forge's heat. Primeval innovation, gnarled into rubble." 
+	desc = "A mass of smoldered copper, rendered lame from the forge's heat. Primeval innovation, gnarled into rubble."
 	icon_state = "copperslag"
 	sellprice = 3
 
@@ -389,9 +389,9 @@
 	smeltresult = /obj/item/ingot/weeping
 	sellprice = 222
 
-/obj/item/ingot/weeping/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
+/obj/item/ingot/weeping/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/draconic
 	name = "draconic ingot"
@@ -400,9 +400,9 @@
 	smeltresult = /obj/item/ingot/draconic
 	sellprice = 333
 
-/obj/item/ingot/draconic/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
+/obj/item/ingot/draconic/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/lithmyc
 	name = "lithmyc ingot"
@@ -411,9 +411,9 @@
 	smeltresult = /obj/item/ingot/lithmyc
 	sellprice = 444
 
-/obj/item/ingot/lithmyc/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
+/obj/item/ingot/lithmyc/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/ketryl
 	name = "ketryl ingot"
@@ -436,9 +436,9 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	sellprice = 256
 
-/obj/item/ingot/vampire/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
+/obj/item/ingot/vampire/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/ingot/avantyne
 	name = "avantyne wafer"
@@ -471,11 +471,11 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.patron.type == /datum/patron/inhumen/graggar)
-			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.  </br>Melting away its crystalline shell is ideal, if you wish to ensure no chance for error while conducting such a ritual.")
+			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.	</br>Melting away its crystalline shell is ideal, if you wish to ensure no chance for error while conducting such a ritual.")
 
-/obj/item/ingot/component/glutcrystal/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 1))
+/obj/item/ingot/component/glutcrystal/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 1))
 
 /obj/item/ingot/component/heapofrawiron
 	name = "heap of raw iron"

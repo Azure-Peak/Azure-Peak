@@ -25,7 +25,7 @@
 
 //print a testing-mode debug message to world.log and world
 #ifdef TESTING
-#define testing(msg) log_world("## TESTING: [msg]"); to_chat(world, "## TESTING: [msg]")
+#define testing(msg) log_world("## TESTING: [msg]"); to_world("## TESTING: [msg]")
 #else
 #define testing(msg)
 #endif
@@ -77,7 +77,7 @@
 	CRASH("Deprecated log_law")
 
 /proc/log_seen_internal(text)
-	// Do nothing! 
+	// Do nothing!
 
 /proc/log_attack(text)
 	logger.Log(LOG_CATEGORY_ATTACK, text)
@@ -106,7 +106,7 @@
 	logger.Log(LOG_CATEGORY_GAME_SAY, text)
 
 /proc/log_npc_say(text)
-    logger.Log(LOG_CATEGORY_GAME_SAY, text)
+	logger.Log(LOG_CATEGORY_GAME_SAY, text)
 
 /proc/log_ooc(text)
 	logger.Log(LOG_CATEGORY_GAME_OOC, text)

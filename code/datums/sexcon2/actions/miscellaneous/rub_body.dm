@@ -7,6 +7,8 @@
 /datum/sex_action/miscellaneous/rub_body/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
+	if(target.freeuse)
+		return TRUE
 	if(!check_location_accessible(user, target, BODY_ZONE_CHEST, TRUE))
 		return FALSE
 	return TRUE
@@ -20,17 +22,23 @@
 		return FALSE
 	if(user == target)
 		return FALSE
+	if(target.freeuse)
+		return TRUE
 	if(!check_location_accessible(user, target, BODY_ZONE_CHEST, TRUE))
 		return FALSE
 	return TRUE
 
 /datum/sex_action/miscellaneous/rub_body/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] places [user.p_their()] hands onto [target]..."))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] [do_subtle ? "subtly " : ""]places [user.p_their()] hands onto [target]..."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/miscellaneous/rub_body/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] stops rubbing [target]'s body ..."))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] stops [do_subtle ? "subtly " : ""]rubbing [target]'s body ..."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/miscellaneous/rub_body/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/locked = user.get_active_precise_hand()
@@ -38,11 +46,13 @@
 
 /datum/sex_action/miscellaneous/rub_body/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] rubs [target]'s body..."))
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective(do_subtle)] rubs [target]'s body..."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/miscellaneous/rub_body/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.make_sucking_noise()
+	var/do_subtle = sex_session.doing_subtly
+	user.make_sucking_noise(do_subtle)
 
-	sex_session.perform_sex_action(target, 0.5, 0, TRUE)
+	sex_session.perform_sex_action(target, 0.5, 0, TRUE, sex_session.speed, sex_session.force)
 	sex_session.handle_passive_ejaculation(target)

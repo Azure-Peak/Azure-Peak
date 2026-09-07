@@ -112,7 +112,7 @@ Key procs
 	cached_multiplicative_slowdown = .
 
 	SEND_SIGNAL(src, COMSIG_MOB_MOVESPEED_UPDATED)
-	
+
 	if(updating_glide_size)
 		set_glide_size(DELAY_TO_GLIDE_SIZE(cached_multiplicative_slowdown))
 
@@ -143,10 +143,10 @@ Key procs
 		. = FALSE
 
 /**
-  * Sort the list of move speed modifiers
-  *
-  * Verifies it too. Sorts highest priority (first applied) to lowest priority (last applied)
-  */
+	* Sort the list of move speed modifiers
+	*
+	* Verifies it too. Sorts highest priority (first applied) to lowest priority (last applied)
+	*/
 /mob/proc/sort_movespeed_modlist()
 	if(!movespeed_modification)
 		return

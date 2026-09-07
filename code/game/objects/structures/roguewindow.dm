@@ -22,7 +22,7 @@
 	break_sound = "glassbreak"
 	destroy_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
 
-/obj/structure/roguewindow/Initialize()
+/obj/structure/roguewindow/Initialize(mapload)
 	update_icon()
 	..()
 
@@ -102,7 +102,7 @@
 	dir = turn(dirin, 180)
 	lockdir = dir
 
-/obj/structure/roguewindow/openclose/Initialize()
+/obj/structure/roguewindow/openclose/Initialize(mapload)
 	..()
 	lockdir = dir
 	icon_state = base_state
@@ -119,7 +119,7 @@
 	dir = turn(dirin, 180)
 	lockdir = dir
 
-/obj/structure/roguewindow/openclose/reinforced/Initialize()
+/obj/structure/roguewindow/openclose/reinforced/Initialize(mapload)
 	..()
 	lockdir = dir
 	icon_state = base_state
@@ -134,28 +134,31 @@
 	dir = turn(dirin, 180)
 	lockdir = dir
 
-/obj/structure/roguewindow/openclose/reinforced/brick/Initialize()
+/obj/structure/roguewindow/openclose/reinforced/brick/Initialize(mapload)
 	..()
 	lockdir = dir
 	icon_state = base_state
 
 /obj/structure/roguewindow/harem1
-	name = "harem window"
-	icon_state = "harem1-solid"
-	base_state = "harem1-solid"
+	name = "shrafa window"
+	desc = "A latticed window of colored glass, made in Ranesheni style."
+	icon_state = "shrafa1-solid"
+	base_state = "shrafa1-solid"
 
 /obj/structure/roguewindow/harem2
-	name = "harem window"
-	icon_state = "harem2-solid"
-	base_state = "harem2-solid"
+	name = "shrafa window"
+	desc = "A latticed window of colored glass, made in Ranesheni style."
+	icon_state = "shrafa2-solid"
+	base_state = "shrafa2-solid"
 	opacity = TRUE
 
 /obj/structure/roguewindow/harem3
-	name = "harem window"
-	icon_state = "harem3-solid"
-	base_state = "harem3-solid"
+	name = "shrafa window"
+	desc = "A screened window of latticed wood, without any glaze to let air through and keep prying eyes out."
+	icon_state = "shrafa3-solid"
+	base_state = "shrafa3-solid"
 
-/obj/structure/roguewindow/openclose/Initialize()
+/obj/structure/roguewindow/openclose/Initialize(mapload)
 	lockdir = dir
 	icon_state = base_state
 	GLOB.TodUpdate += src

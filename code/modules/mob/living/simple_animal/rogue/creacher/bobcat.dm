@@ -1,5 +1,7 @@
 //Bobcats are a faster, still hostile, predator — stronger than raccoons but weaker than volfs.
 /mob/living/simple_animal/hostile/retaliate/rogue/bobcat
+	attack_aim = MOB_AIM_LOW
+	anatomy_type = /datum/anatomy/quadruped/trash
 	icon = 'icons/roguetown/mob/monster/bobcat.dmi'
 	name = "lynx"
 	desc = "An adorable albiet hated creacher of Azuria's northern coast, hunting livestock and vulnerable people alike."
@@ -34,8 +36,8 @@
 	faction = list(FACTION_WOLFS, FACTION_ZOMBIE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/bobcat
-	health = 100
-	maxHealth = 100
+	health = BOBCAT_HEALTH
+	maxHealth = BOBCAT_HEALTH
 	melee_damage_lower = 15
 	melee_damage_upper = 25
 	vision_range = 7
@@ -54,7 +56,6 @@
 	STASPD = 15
 	simple_detect_bonus = 40
 	deaggroprob = 0
-	defprob = 40
 	del_on_deaggro = 44 SECONDS
 	retreat_health = 0.3
 	food = 0
@@ -66,9 +67,10 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 	melee_cooldown = WOLF_ATTACK_SPEED
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bobcat/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bobcat/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
@@ -108,44 +110,3 @@
 		Retaliate()
 		GiveTarget(pulledby)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bobcat/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "nose"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "leg"
-		if(BODY_ZONE_L_LEG)
-			return "leg"
-		if(BODY_ZONE_R_ARM)
-			return "foreleg"
-		if(BODY_ZONE_L_ARM)
-			return "foreleg"
-	return ..()

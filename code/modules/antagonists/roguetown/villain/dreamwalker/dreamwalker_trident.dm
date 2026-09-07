@@ -5,7 +5,7 @@
 	density = FALSE
 	anchored = TRUE
 
-/obj/item/rogueweapon/spear/dreamscape_trident/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
 	var/turf/impact_turf = get_turf(hit_atom)
 	if(!impact_turf)
@@ -19,7 +19,7 @@
 		create_shockwave(impact_turf, distance)
 		shockwave_cooldown = world.time + shockwave_cooldown_interval
 
-/obj/item/rogueweapon/spear/dreamscape_trident/proc/create_shockwave(turf/epicenter, distance)
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/proc/create_shockwave(turf/epicenter, distance)
 	// Alledgedly makes this proc asyncronous, required for this to execute properly
 	set waitfor = FALSE
 	var/max_radius = min(7, round(distance / shockwave_divisor))
@@ -41,7 +41,7 @@
 		sleep(5)
 	revert_shockwave(epicenter, visual_effects, max_radius)
 
-/obj/item/rogueweapon/spear/dreamscape_trident/proc/revert_shockwave(turf/epicenter, list/visual_effects, max_radius)
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/proc/revert_shockwave(turf/epicenter, list/visual_effects, max_radius)
 	set waitfor = FALSE
 	for(var/radius in max_radius to 1 step -1)
 		var/list/ring_turfs = get_ring_turfs(epicenter, radius)
@@ -51,7 +51,7 @@
 		sleep(5)
 	visual_effects.Cut()
 
-/obj/item/rogueweapon/spear/dreamscape_trident/proc/get_ring_turfs(turf/center, radius)
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/proc/get_ring_turfs(turf/center, radius)
 	var/list/ring_turfs = list()
 
 	if(radius <= 0)
@@ -87,7 +87,7 @@
 			ring_turfs -= T
 	return ring_turfs
 
-/obj/item/rogueweapon/spear/dreamscape_trident/proc/affect_mob(mob/living/L, distance, radius, threshold)
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/proc/affect_mob(mob/living/L, distance, radius, threshold)
 	if(L.stat == DEAD)
 		return
 
@@ -113,7 +113,7 @@
 		L.set_resting(TRUE, TRUE)
 		L.visible_message(span_warning("[L] looses their footing as the ground shakes!"))
 
-/obj/item/rogueweapon/spear/dreamscape_trident/proc/knockup_effect(mob/living/L)
+/obj/item/rogueweapon/spear/trident/dreamscape_trident/proc/knockup_effect(mob/living/L)
 	// Animation
 	animate(L, pixel_y = L.pixel_y + 16, time = 3, easing = SINE_EASING)
 	spawn(3)

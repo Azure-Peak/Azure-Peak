@@ -52,13 +52,13 @@
 	var/datum/weakref/user
 
 /**
-  * Create a new callback datum
-  *
-  * Arguments
-  * * thingtocall the object to call the proc on
-  * * proctocall the proc to call on the target object
-  * * ... an optional list of extra arguments to pass to the proc
-  */
+	* Create a new callback datum
+	*
+	* Arguments
+	* * thingtocall the object to call the proc on
+	* * proctocall the proc to call on the target object
+	* * ... an optional list of extra arguments to pass to the proc
+	*/
 /datum/callback/New(thingtocall, proctocall, ...)
 	if (thingtocall)
 		object = thingtocall
@@ -68,13 +68,13 @@
 	if(usr)
 		user = WEAKREF(usr)
 /**
-  * Immediately Invoke proctocall on thingtocall, with waitfor set to false
-  *
-  * Arguments:
-  * * thingtocall Object to call on
-  * * proctocall Proc to call on that object
-  * * ... optional list of arguments to pass as arguments to the proc being called
-  */
+	* Immediately Invoke proctocall on thingtocall, with waitfor set to false
+	*
+	* Arguments:
+	* * thingtocall Object to call on
+	* * proctocall Proc to call on that object
+	* * ... optional list of arguments to pass as arguments to the proc being called
+	*/
 /world/proc/ImmediateInvokeAsync(thingtocall, proctocall, ...)
 	set waitfor = FALSE
 
@@ -89,13 +89,13 @@
 		call(thingtocall, proctocall)(arglist(calling_arguments))
 
 /**
-  * Invoke this callback
-  *
-  * Calls the registered proc on the registered object, if the user ref
-  * can be resolved it also inclues that as an arg
-  *
-  * If the datum being called on is varedited, the call is wrapped via WrapAdminProcCall
-  */
+	* Invoke this callback
+	*
+	* Calls the registered proc on the registered object, if the user ref
+	* can be resolved it also inclues that as an arg
+	*
+	* If the datum being called on is varedited, the call is wrapped via WrapAdminProcCall
+	*/
 /datum/callback/proc/Invoke(...)
 	if(!usr)
 		var/datum/weakref/W = user
@@ -127,13 +127,13 @@
 	return call(object, delegate)(arglist(calling_arguments))
 
 /**
-  * Invoke this callback async (waitfor=false)
-  *
-  * Calls the registered proc on the registered object, if the user ref
-  * can be resolved it also inclues that as an arg
-  *
-  * If the datum being called on is varedited, the call is wrapped via WrapAdminProcCall
-  */
+	* Invoke this callback async (waitfor=false)
+	*
+	* Calls the registered proc on the registered object, if the user ref
+	* can be resolved it also inclues that as an arg
+	*
+	* If the datum being called on is varedited, the call is wrapped via WrapAdminProcCall
+	*/
 /datum/callback/proc/InvokeAsync(...)
 	set waitfor = FALSE
 
@@ -163,7 +163,7 @@
 
 /**
 	Helper datum for the select callbacks proc
-  */
+	*/
 /datum/callback_select
 	var/list/finished
 	var/pendingcount
@@ -189,16 +189,16 @@
 		finished[index] = rtn
 
 /**
-  * Runs a list of callbacks asyncronously, returning only when all have finished
-  *
-  * Callbacks can be repeated, to call it multiple times
-  *
-  * Arguments:
-  * * list/callbacks the list of callbacks to be called
-  * * list/callback_args the list of lists of arguments to pass into each callback
-  * * savereturns Optionally save and return the list of returned values from each of the callbacks
-  * * resolution The number of byond ticks between each time you check if all callbacks are complete
-  */
+	* Runs a list of callbacks asyncronously, returning only when all have finished
+	*
+	* Callbacks can be repeated, to call it multiple times
+	*
+	* Arguments:
+	* * list/callbacks the list of callbacks to be called
+	* * list/callback_args the list of lists of arguments to pass into each callback
+	* * savereturns Optionally save and return the list of returned values from each of the callbacks
+	* * resolution The number of byond ticks between each time you check if all callbacks are complete
+	*/
 /proc/callback_select(list/callbacks, list/callback_args, savereturns = TRUE, resolution = 1)
 	if (!callbacks)
 		return

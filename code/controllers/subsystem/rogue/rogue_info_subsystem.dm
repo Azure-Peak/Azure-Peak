@@ -4,19 +4,19 @@ SUBSYSTEM_DEF(rogueinfo)
 
 	var/list/role_visibility = list(
 		"blacksmith" = FALSE,
-		"artificer"  = FALSE,
-		"steward"    = FALSE,
-		"duke"       = FALSE,
+		"artificer"	= FALSE,
+		"steward"	= FALSE,
+		"duke"		= FALSE,
 		"apothecary" = FALSE,
-		"church"     = FALSE,
-		"fisher"     = FALSE,
+		"church"		= FALSE,
+		"fisher"		= FALSE,
 		"university" = FALSE,
-		"innkeeper"  = FALSE,
-		"tailor"     = FALSE,
-		"bathhouse"  = FALSE,
-		"merchant"   = FALSE,
-		"freeform1"  = FALSE,
-		"freeform2"  = FALSE
+		"innkeeper"	= FALSE,
+		"tailor"		= FALSE,
+		"bathhouse"	= FALSE,
+		"merchant"	= FALSE,
+		"freeform1"	= FALSE,
+		"freeform2"	= FALSE
 	)
 
 	var/list/role_data = list(
@@ -80,7 +80,7 @@ SUBSYSTEM_DEF(rogueinfo)
 
 	var/list/all_flags = list()
 
-/datum/controller/subsystem/rogueinfo/Initialize()
+/datum/controller/subsystem/rogueinfo/Initialize(mapload)
 	. = ..()
 
 /datum/controller/subsystem/rogueinfo/proc/set_role_visibility(role_name, new_status)

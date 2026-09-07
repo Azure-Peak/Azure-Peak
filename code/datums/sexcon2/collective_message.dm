@@ -58,29 +58,29 @@
 		return
 
 // /datum/collective_message/proc/register_collective_tab()
-// 	for(var/mob/living/carbon/human/person in involved_mobs)
-// 		if(person?.client?.chatOutput)
-// 			person.client.chatOutput.addCollectiveTab(collective_span_class, collective_display_name)
+//	for(var/mob/living/carbon/human/person in involved_mobs)
+//		if(person?.client?.chatOutput)
+//			person.client.chatOutput.addCollectiveTab(collective_span_class, collective_display_name)
 
 // /datum/collective_message/proc/update_collective_tab()
-// 	for(var/mob/living/carbon/human/person in involved_mobs)
-// 		if(person?.client?.chatOutput)
-// 			person.client.chatOutput.updateCollectiveTab(collective_span_class, collective_display_name)
+//	for(var/mob/living/carbon/human/person in involved_mobs)
+//		if(person?.client?.chatOutput)
+//			person.client.chatOutput.updateCollectiveTab(collective_span_class, collective_display_name)
 
 // /datum/collective_message/proc/unregister_collective_tab()
-// 	for(var/mob/living/carbon/human/person in involved_mobs)
-// 		if(person?.client?.chatOutput)
-// 			person.client.chatOutput.removeCollectiveTab(collective_span_class)
+//	for(var/mob/living/carbon/human/person in involved_mobs)
+//		if(person?.client?.chatOutput)
+//			person.client.chatOutput.removeCollectiveTab(collective_span_class)
 
 // We don't have goon chat
 // /datum/chatOutput/proc/addCollectiveTab(collective_id, display_name)
-// 	var/list/params = list(collective_id, display_name)
-// 	src.owner << output(list2params(params), "browseroutput:addCollectiveTab")
+//	var/list/params = list(collective_id, display_name)
+//	src.owner << output(list2params(params), "browseroutput:addCollectiveTab")
 
 // /datum/chatOutput/proc/updateCollectiveTab(collective_id, display_name)
-// 	var/list/params = list(collective_id, display_name)
-// 	src.owner << output(list2params(params), "browseroutput:updateCollectiveTab")
+//	var/list/params = list(collective_id, display_name)
+//	src.owner << output(list2params(params), "browseroutput:updateCollectiveTab")
 
 // /datum/chatOutput/proc/removeCollectiveTab(collective_id)
-// 	var/list/params = list(collective_id)
-// 	owner << output(list2params(params), "browseroutput:removeCollectiveTab")
+//	var/list/params = list(collective_id)
+//	owner << output(list2params(params), "browseroutput:removeCollectiveTab")

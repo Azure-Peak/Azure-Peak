@@ -1,5 +1,4 @@
 /datum/ai_controller/mole
-	movement_delay = MOLE_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

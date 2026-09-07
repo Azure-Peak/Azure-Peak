@@ -115,7 +115,7 @@
 		"Cultor" = SKIN_COLOR_CULTOR,
 		"Spiritus" = SKIN_COLOR_SPIRITUS,
 		"Planetar" = SKIN_COLOR_PLANETAR,
-		"Deva"	   = SKIN_COLOR_DEVA,
+		"Deva"		= SKIN_COLOR_DEVA,
 		"Solar" = SKIN_COLOR_SOLAR,
 		"Empyrea" = SKIN_COLOR_EMPYREA,
 		"Gaeia" = SKIN_COLOR_GAEIA,
@@ -124,6 +124,16 @@
 		"Necral" = SKIN_COLOR_NECRAL,
 		"Abyssal" = SKIN_COLOR_ABYSSAL,
 		"Figulus" = SKIN_COLOR_FIGULUS,
+		"Shale" = SKIN_COLOR_SHALE,
+		"Coral" = SKIN_COLOR_CORAL,
+		"Deep Abyssal" = SKIN_COLOR_DEEP_ABYSSAL,
+		"Walnut" = SKIN_COLOR_WALNUT,
+		"Wooden" = SKIN_COLOR_WOODEN,
+		"Granite" = SKIN_COLOR_GRANITE,
+		"Husher" = SKIN_COLOR_HUSHER,
+		"Mahogany" = SKIN_COLOR_MAHOGANY,
+		"Wintermute" = SKIN_COLOR_WINTERMUTE,
+		"Blood" = SKIN_COLOR_BLOOD,
 	)
 
 /datum/species/aasimar/get_hairc_list()

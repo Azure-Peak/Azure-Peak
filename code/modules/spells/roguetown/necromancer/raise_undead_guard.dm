@@ -43,7 +43,7 @@
 
 /datum/action/cooldown/spell/raise_undead_guard/proc/add_skeleton_faction(mob/living/skeleton, caster_name)
 	if(!QDELETED(skeleton))
-		skeleton.faction |= list("cabal", "[caster_name]_faction")
+		skeleton.faction = list("cabal", "[caster_name]_faction")
 
 /datum/action/cooldown/spell/raise_undead_guard/necromancer
 	spawn_lifespan = 45 MINUTES //Longer cooldown, therefore, technically less total than before -> more player skeles will fill in for this.

@@ -21,6 +21,7 @@
 	min_pq = -4 //silly jesters are funny so low PQ requirement
 	max_pq = null
 	round_contrib_points = 2
+	has_subprefs = FALSE // only one subclass
 
 
 /datum/outfit/job/roguetown/jester/pre_equip(mob/living/carbon/human/H)

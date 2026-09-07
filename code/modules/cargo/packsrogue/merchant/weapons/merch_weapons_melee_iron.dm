@@ -12,7 +12,7 @@
 /datum/supply_pack/rogue/iron_weapons/sabre
 	name = "Sabre"
 	cost = 25 // 1 Iron Ingot
-	contains = list(/obj/item/rogueweapon/sword/saber/iron)
+	contains = list(/obj/item/rogueweapon/sword/sabre/iron)
 
 /datum/supply_pack/rogue/iron_weapons/greatsword
 	name = "Iron Greatsword"
@@ -139,6 +139,11 @@
 	cost = 40 // 2 Iron Ingot
 	contains = list(/obj/item/rogueweapon/mace/goden)
 
+/datum/supply_pack/rogue/iron_weapons/quarterstaff
+	name = "Quarterstaff"
+	cost = 30 // 1 Iron Ingot, 1 Small Log
+	contains = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron)
+
 /datum/supply_pack/rogue/iron_weapons/maul
 	name = "Maul"
 	cost = 40 // 2 Iron Ingot
@@ -161,7 +166,7 @@
 
 /datum/supply_pack/rogue/iron_weapons/ironshield
 	name = "Shield, Iron"
-	cost = 40 // 2 iron 
+	cost = 40 // 2 iron
 	contains = list(/obj/item/rogueweapon/shield/iron)
 
 /datum/supply_pack/rogue/iron_weapons/towershield

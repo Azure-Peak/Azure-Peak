@@ -146,7 +146,7 @@
 	reqs = list(/obj/item/natural/hide/cured = 1)
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_armor/coat/tailcoat
-	name =  "tailcoat"
+	name =	"tailcoat"
 	result = /obj/item/clothing/suit/roguetown/armor/leather/heavy/tailcoat
 	reqs = list(
 		/obj/item/natural/hide/cured = 2,

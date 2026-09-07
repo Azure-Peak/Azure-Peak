@@ -3,7 +3,7 @@
 
 /obj/item/book/granter
 	due_date = 0 // Game time in deciseconds
-	unique = 1   // 0  Normal book, 1  Should not be treated as normal book, unable to be copied, unable to be modified
+	unique = 1	// 0	Normal book, 1	Should not be treated as normal book, unable to be copied, unable to be modified
 	var/list/remarks = list() //things to read about while learning.
 	var/pages_to_mastery = 3 //Essentially controls how long a mob must keep the book in his hand to actually successfully learn
 	var/reading = FALSE //sanity
@@ -97,7 +97,7 @@
 /obj/item/book/granter/spell/random
 	icon_state = "random_book"
 
-/obj/item/book/granter/spell/random/Initialize()
+/obj/item/book/granter/spell/random/Initialize(mapload)
 	. = ..()
 	var/static/banned_spells = list(/obj/item/book/granter/spell/mimery_blockade)
 	var/real_type = pick(subtypesof(/obj/item/book/granter/spell) - banned_spells)
@@ -135,13 +135,13 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "learning_tome"
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
-	pickup_sound =  'sound/blank.ogg'
+	pickup_sound =	'sound/blank.ogg'
 
 /obj/item/book/granter/crafting_recipe/on_reading_finished(mob/user)
 	. = ..()
 	if(!user.mind)
 		return
-	
+
 	for(var/crafting_recipe_type in crafting_recipe_types)
 		var/datum/crafting_recipe/R = crafting_recipe_type
 		user.mind.teach_crafting_recipe(crafting_recipe_type)

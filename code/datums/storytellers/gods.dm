@@ -283,7 +283,7 @@
 		"Set 5" = list(
 			STATS_VAMPIRES_KILLED = list("name" = "Vampires killed:", "points" = 12.5, "capacity" = 70),
 		),
-		"Set 6" = list(		
+		"Set 6" = list(
 			STATS_SKELETONS_KILLED = list("name" = "Skeletons killed:", "points" = 5, "capacity" = 50),
 		)
 	)
@@ -410,7 +410,7 @@
 		"Set 3" = list(
 			STATS_CLINGY_PEOPLE = list("name" = "Clingy people:", "points" = 6.5, "capacity" = 75),
 		),
-		"Set 4" = list(		
+		"Set 4" = list(
 			STATS_BEAUTIFUL_PEOPLE = list("name" = "Beautiful people:", "points" = 9, "capacity" = 50),
 		),
 		"Set 5" = list(
@@ -490,7 +490,7 @@
 		EVENT_TRACK_RAIDS = 0.8,
 	)
 
-	cost_variance = 50  // Events will be highly variable in cost
+	cost_variance = 50	// Events will be highly variable in cost
 
 	influence_sets = list(
 		"Set 1" = list(
@@ -541,7 +541,7 @@
 		EVENT_TRACK_RAIDS = 1.2,
 	)
 
-	cost_variance = 30  // Makes events more erratic in timing
+	cost_variance = 30	// Makes events more erratic in timing
 
 	influence_sets = list(
 		"Set 1" = list(
@@ -609,7 +609,7 @@
 		)
 	)
 
-	cost_variance = 10  // Less randomness, more direct
+	cost_variance = 10	// Less randomness, more direct
 
 /datum/storyteller/matthios
 	name = "Matthios"
@@ -649,7 +649,7 @@
 			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
 			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 25),
 		),
-		"Set 4" = list(		
+		"Set 4" = list(
 			STATS_ITEMS_PICKPOCKETED = list("name" = "Items pickpocketed:", "points" = 4.5, "capacity" = 80),
 		),
 		"Set 5" = list(
@@ -657,7 +657,7 @@
 		)
 	)
 
-	cost_variance = 15  // Keeps a balance between predictability and randomness
+	cost_variance = 15	// Keeps a balance between predictability and randomness
 
 #undef DIVINE_STORYTELLERS
 #undef INHUMEN_STORYTELLERS

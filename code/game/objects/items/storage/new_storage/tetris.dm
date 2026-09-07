@@ -32,7 +32,7 @@
 	var/grid = TRUE
 	var/storage_flags = NONE
 
-/obj/item/storage/Initialize()
+/obj/item/storage/Initialize(mapload)
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	if(STR)
@@ -705,7 +705,7 @@
 			else
 				storing.forceMove(parent.drop_location())
 		return FALSE
-	storing.on_enter_storage(master)
+	storing.on_enter_storage(master, user)
 	storing.item_flags |= IN_STORAGE
 	storing.mouse_opacity = MOUSE_OPACITY_OPAQUE //So you can click on the area around the item to equip it, instead of having to pixel hunt
 	if(user)
@@ -789,6 +789,7 @@
 		removed.moveToNullspace()
 	removed.update_icon()
 	SEND_SIGNAL(removed, COMSIG_AFTER_STORAGE_REMOVE, parent, carrying_mob, src)
+	SEND_SIGNAL(parent, COMSIG_STORAGE_REMOVED, removed)
 	update_icon()
 	refresh_mob_views()
 	return TRUE

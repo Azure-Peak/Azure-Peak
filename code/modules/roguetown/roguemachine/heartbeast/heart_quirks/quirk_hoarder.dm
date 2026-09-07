@@ -158,9 +158,9 @@
 		return COMPONENT_INCOMPATIBLE
 
 	heart_component = heart
-	RegisterSignal(parent, COMSIG_ITEM_PICKUP, .proc/on_pickup)
-	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/on_moved)
-	RegisterSignal(parent, COMSIG_MOVABLE_POST_THROW, .proc/on_post_throw)
+	RegisterSignal(parent, COMSIG_ITEM_PICKUP, PROC_REF(on_pickup))
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+	RegisterSignal(parent, COMSIG_MOVABLE_POST_THROW, PROC_REF(on_post_throw))
 
 	// Find the hoarder quirk in the heart component
 	hoarder_quirk = heart_component.active_quirks[/datum/flesh_quirk/hoarder]
@@ -177,7 +177,7 @@
 		return
 
 	current_holder = user
-	RegisterSignal(current_holder, COMSIG_MOVABLE_MOVED, .proc/on_holder_moved)
+	RegisterSignal(current_holder, COMSIG_MOVABLE_MOVED, PROC_REF(on_holder_moved))
 
 /datum/component/hoarded_item/proc/on_moved(datum/source, atom/old_loc, movement_dir, forced, list/old_locs, momentum_change)
 	SIGNAL_HANDLER
@@ -198,19 +198,19 @@
 
 	// it's a good safety check
 	if(I.loc != current_holder)
-		UnregisterSignal(current_holder, COMSIG_MOVABLE_MOVED, .proc/on_holder_moved)
+		UnregisterSignal(current_holder, COMSIG_MOVABLE_MOVED, PROC_REF(on_holder_moved))
 		current_holder = null
 		return
 
 	if(get_dist(source, heart_component.heart_beast) > 3)
 		hoarder_quirk.handle_thief(I, current_holder, heart_component)
-		UnregisterSignal(current_holder, COMSIG_MOVABLE_MOVED, .proc/on_holder_moved)
+		UnregisterSignal(current_holder, COMSIG_MOVABLE_MOVED, PROC_REF(on_holder_moved))
 		qdel(src)
 
 /datum/component/hoarded_item/proc/on_post_throw(datum/source, datum/thrownthing/TT, spin)
 	SIGNAL_HANDLER
 	var/obj/item/I = parent
-	var/mob/living/thief = TT.thrower 
+	var/mob/living/thief = TT.thrower
 
 	if(isliving(thief))
 		hoarder_quirk.handle_thief(I, thief, heart_component)
@@ -227,7 +227,7 @@
 
 	if(istype(I.loc, /obj/structure/closet))
 		return TRUE
-	
+
 	// Further checks are handled by the movable on the mob itself
 	return FALSE
 

@@ -9,7 +9,7 @@
 #define UNIQUE_RENAME			(1<<5) // can you customize the description/name of the thing?
 #define USES_TGUI				(1<<6)	//put on things that use tgui on ui_interact instead of custom/old UI.
 #define FROZEN					(1<<7)
-#define BLOCK_Z_OUT_DOWN		(1<<8)  // Should this object block z falling from loc?
+#define BLOCK_Z_OUT_DOWN		(1<<8)	// Should this object block z falling from loc?
 #define BLOCK_Z_OUT_UP			(1<<9) // Should this object block z uprise from loc?
 #define BLOCK_Z_IN_DOWN			(1<<10) // Should this object block z falling from above?
 #define BLOCK_Z_IN_UP			(1<<11) // Should this object block z uprise from below?
@@ -28,7 +28,7 @@
 #define NO_MAT_REDEMPTION			(1<<5) // Stops you from putting things like an RCD or other items into an ORM or protolathe for materials.
 #define DROPDEL						(1<<6) // When dropped, it calls qdel on itself
 #define NOBLUDGEON				(1<<7)		// when an item has this it produces no "X has been hit by Y with Z" message in the default attackby()
-#define ABSTRACT				(1<<9) 	// for all things that are technically items but used for various different stuff
+#define ABSTRACT				(1<<9)	// for all things that are technically items but used for various different stuff
 #define IMMUTABLE_SLOW			(1<<10) // When players should not be able to change the slowdown of the item (Speed potions, etc)
 #define IN_STORAGE				(1<<11) //is this item in the storage item, such as backpack? used for tooltips
 #define SURGICAL_TOOL			(1<<12)	//Tool commonly used for surgery: won't attack targets in an active surgical operation on help intent (in case of mistakes)
@@ -42,15 +42,15 @@
 #define LAVAPROTECT (1<<0)
 #define STOPSPRESSUREDAMAGE		(1<<1)	//SUIT and HEAD items which stop pressure damage. To stop you taking all pressure damage you must have both a suit and head item with this flag.
 #define BLOCK_GAS_SMOKE_EFFECT	(1<<2)	// blocks the effect that chemical clouds would have on a mob --glasses, mask and helmets ONLY!
-#define MASKINTERNALS				    (1<<3)		// mask allows internals
-#define NOSLIP                  (1<<4)   //prevents from slipping on wet floors, in space etc
+#define MASKINTERNALS					(1<<3)		// mask allows internals
+#define NOSLIP					(1<<4)	//prevents from slipping on wet floors, in space etc
 #define THICKMATERIAL				(1<<5)	//prevents syringes, parapens and hypos if the external suit or helmet (if targeting head) has this flag. Example: space suits, biosuit, bombsuits, thick suits that cover your body.
 #define VOICEBOX_TOGGLABLE (1<<6) // The voicebox in this clothing can be toggled.
 #define VOICEBOX_DISABLED (1<<7) // The voicebox is currently turned off.
 #define SCAN_REAGENTS (1<<9) // Allows helmets, masks and glasses to scan reagents.
 #define BLOCKS_SHOVE_KNOCKDOWN (1<<10) // Prevents shovies against a dense object from knocking the wearer down.
-#define SNUG_FIT               (1<<11) //Prevents knock-off from things like hat-throwing.
-#define ANTI_TINFOIL_MANEUVER   (1<<12) //Hats with negative effects when worn (i.e the tinfoil hat).
+#define SNUG_FIT				(1<<11) //Prevents knock-off from things like hat-throwing.
+#define ANTI_TINFOIL_MANEUVER	(1<<12) //Hats with negative effects when worn (i.e the tinfoil hat).
 #define CANT_SLEEP_IN			(1<<13) //Makes you unable to sleep with this on
 #define TAUR_COMPATIBLE			(1<<14) // Clothing that can be worn by taurs
 #define NOT_SHOW_IN_STORAGE	(1<<15)	// Whether we'll show up if we're held in aesthetic storage.

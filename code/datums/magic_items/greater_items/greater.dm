@@ -80,7 +80,7 @@
 		targeted.visible_message(span_danger("[source] chills [targeted]!"))
 		src.last_used = world.time
 
-/datum/magic_item/greater/frostveil/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
+/datum/magic_item/greater/frostveil/on_hit_response(obj/item/I, mob/living/carbon/human/owner, mob/living/carbon/human/attacker)
 	if(world.time < src.last_used + 20 SECONDS)
 		return
 	if(isliving(attacker) && attacker != owner)
@@ -94,7 +94,7 @@
 	glow_color = "#FF4500"
 	var/last_used
 
-/datum/magic_item/greater/phoenixguard/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
+/datum/magic_item/greater/phoenixguard/on_hit_response(obj/item/I, mob/living/carbon/human/owner, mob/living/carbon/human/attacker)
 	if(world.time < src.last_used + PHOENIX_GUARD_COOLDOWN)
 		return
 	if(isliving(attacker) && attacker != owner)
@@ -109,7 +109,7 @@
 	glow_color = "#A0E65C"
 	var/active_item = FALSE
 
-/datum/magic_item/greater/woundclosing/on_equip(var/obj/item/i, var/mob/living/user, slot)
+/datum/magic_item/greater/woundclosing/on_equip(obj/item/i, mob/living/user, slot)
 	if(slot == ITEM_SLOT_HANDS)
 		return
 	if(active_item)
@@ -119,7 +119,7 @@
 		to_chat(user, span_notice("[i] feels warm against fingers."))
 		active_item = TRUE
 
-/datum/magic_item/greater/woundclosing/on_drop(var/obj/item/i, var/mob/living/user)
+/datum/magic_item/greater/woundclosing/on_drop(obj/item/i, mob/living/user)
 	if(active_item)
 		active_item = FALSE
 		user.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/wound_closure)
@@ -131,7 +131,7 @@
 	glow_color = "#20B2AA"
 	var/active_item = FALSE
 
-/datum/magic_item/greater/returningweapon/on_equip(var/obj/item/i, var/mob/living/user, slot)
+/datum/magic_item/greater/returningweapon/on_equip(obj/item/i, mob/living/user, slot)
 	if(slot == ITEM_SLOT_HANDS)
 		return
 	if(active_item)
@@ -141,7 +141,7 @@
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/summonweapon)
 		to_chat(user, span_notice("I feel the magick within [i] resonate with my own."))
 
-/datum/magic_item/greater/returningweapon/on_drop(var/obj/item/i, var/mob/living/user)
+/datum/magic_item/greater/returningweapon/on_drop(obj/item/i, mob/living/user)
 	if(active_item)
 		user.mind.RemoveSpell(/obj/effect/proc_holder/spell/targeted/summonweapon)
 		to_chat(user, span_notice("the warmth of [i] fades away."))
@@ -159,7 +159,7 @@
 	var/mastersling = FALSE
 	var/legendsling = FALSE
 
-/datum/magic_item/greater/archery/on_equip(var/obj/item/i, var/mob/living/user, slot)
+/datum/magic_item/greater/archery/on_equip(obj/item/i, mob/living/user, slot)
 	if(slot == ITEM_SLOT_HANDS)
 		return
 	if(active_item)
@@ -204,7 +204,7 @@
 		to_chat(user, span_notice("I feel more dexterious!"))
 		active_item = TRUE
 
-/datum/magic_item/greater/archery/on_drop(var/obj/item/i, var/mob/living/user)
+/datum/magic_item/greater/archery/on_drop(obj/item/i, mob/living/user)
 	if(active_item)
 		active_item = FALSE
 		user.change_stat(STATKEY_PER, 0, "archery_enchant")

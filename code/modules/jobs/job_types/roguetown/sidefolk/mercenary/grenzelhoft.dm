@@ -5,7 +5,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft
 	class_select_category = CLASS_CAT_GRENZELHOFT
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	traits_applied = list(TRAIT_HEAVYARMOR)
@@ -73,7 +73,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_halberdier
 	class_select_category = CLASS_CAT_GRENZELHOFT
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_VANGUARD)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	traits_applied = list(TRAIT_HEAVYARMOR)
@@ -139,7 +139,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman
 	class_select_category = CLASS_CAT_GRENZELHOFT
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_MARKSMAN)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	traits_applied = list(TRAIT_DODGEEXPERT)
@@ -218,7 +218,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_mage
 	class_select_category = CLASS_CAT_GRENZELHOFT
-	category_tags = list(CTAG_MERCENARY)
+	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_WARMAGE)
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	traits_applied = list(TRAIT_INTELLECTUAL, TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT)

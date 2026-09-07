@@ -14,7 +14,7 @@
 
 /particles/mist/waterfall
 	count = 75
-	lifespan =  generator("num", 2 SECONDS, 3 SECONDS)
+	lifespan =	generator("num", 2 SECONDS, 3 SECONDS)
 	position = generator("box", list(-20, 4), list(20, 10), UNIFORM_RAND)
 
 // All the smoke variant particles.

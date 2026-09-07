@@ -33,18 +33,20 @@
 	..()
 	var/obj/item/organ/eyes/eyes_organ = organ
 	eyes_organ.eye_color = eye_color
-	eyes_organ.heterochromia  = heterochromia
+	eyes_organ.heterochromia	= heterochromia
 	eyes_organ.second_color = second_color
 
 /datum/organ_dna/penis
 	var/penis_size = DEFAULT_PENIS_SIZE
 	var/functional = TRUE
+	var/sheath_type = SHEATH_TYPE_NONE // Sheath or no sheath
 
 /datum/organ_dna/penis/imprint_organ(obj/item/organ/organ)
 	..()
 	var/obj/item/organ/penis/penis_organ = organ
 	penis_organ.penis_size = penis_size
 	penis_organ.functional = functional
+	penis_organ.sheath_type = sheath_type
 
 /datum/organ_dna/testicles
 	var/ball_size = DEFAULT_TESTICLES_SIZE
@@ -58,14 +60,11 @@
 
 /datum/organ_dna/breasts
 	var/breast_size = DEFAULT_BREASTS_SIZE
-	var/lactating = FALSE
 
 /datum/organ_dna/breasts/imprint_organ(obj/item/organ/organ)
 	..()
 	var/obj/item/organ/breasts/breasts_organ = organ
 	breasts_organ.breast_size = breast_size
-	breasts_organ.lactating = lactating
-	breasts_organ.milk_max = max(75, breasts_organ.breast_size * 100)
 
 /datum/organ_dna/vagina
 	var/fertility = TRUE

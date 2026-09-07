@@ -8,7 +8,7 @@
 	var/locked_at = 0
 	var/cooldown_until = 0
 
-/obj/effect/landmark/quest_spawner/Initialize()
+/obj/effect/landmark/quest_spawner/Initialize(mapload)
 	. = ..()
 	GLOB.quest_landmarks_list += src
 	if(!region)
@@ -27,8 +27,14 @@
 
 /obj/effect/landmark/quest_spawner/proc/get_safe_spawn_turf()
 	var/list/possible_turfs = list()
+	var/turf/origin = get_turf(src)
+	if(!origin)
+		return null
 	for(var/turf/open/floor/T in view(7, src))
-		if(T.density || istransparentturf(T))
+		if(T.z != origin.z)
+			continue
+
+		if(T.density)
 			continue
 
 		if(get_area(T) != get_area(src)) //No more spawning in guild room...
@@ -43,12 +49,12 @@
 			continue
 
 		possible_turfs += T
-	return length(possible_turfs) ? pick(possible_turfs) : get_turf(src)
+	return length(possible_turfs) ? pick(possible_turfs) : origin
 
 /obj/effect/landmark/quest_spawner/generic
 	name = "generic quest landmark"
 	icon_state = "quest_marker_low"
-	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN)
+	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY)
 
 /obj/effect/landmark/quest_spawner/defense
 	name = "defense quest landmark"

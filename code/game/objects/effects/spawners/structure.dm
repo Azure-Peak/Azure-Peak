@@ -8,7 +8,7 @@ again.
 	name = "map structure spawner"
 	var/list/spawn_list
 
-/obj/effect/spawner/structure/Initialize()
+/obj/effect/spawner/structure/Initialize(mapload)
 	. = ..()
 	if(spawn_list && spawn_list.len)
 		for(var/I in spawn_list)

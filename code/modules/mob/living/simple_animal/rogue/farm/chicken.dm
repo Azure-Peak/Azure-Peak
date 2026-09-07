@@ -34,7 +34,7 @@
 		/obj/item/alch/viscera = 1
 		)
 	var/egg_type = /obj/item/reagent_containers/food/snacks/rogue/egg
-	food_type = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue,/obj/item/natural/worms,/obj/item/reagent_containers/food/snacks/grown/wheat,/obj/item/reagent_containers/food/snacks/grown/oat)
+	food_type = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue,/obj/item/natural/worms,/obj/item/reagent_containers/food/snacks/grown/wheat,/obj/item/reagent_containers/food/snacks/grown/oat,/obj/item/reagent_containers/food/snacks/grown/rice)
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
 	response_disarm_continuous = "gently pushes aside"
@@ -65,6 +65,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
+	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/get_sound(input)
 	switch(input)
@@ -114,7 +115,7 @@
 			return "wing"
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/chicken/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/chicken/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
@@ -172,11 +173,11 @@
 						foundchaff += S
 				if(foundchaff.len)
 					stop_automated_movement = TRUE
-					Goto(pick(foundchaff),move_to_delay)
+					Goto(pick(foundchaff))
 					addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
 			else
 				stop_automated_movement = TRUE
-				Goto(pick(foundnests),move_to_delay)
+				Goto(pick(foundnests))
 				addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
 
 

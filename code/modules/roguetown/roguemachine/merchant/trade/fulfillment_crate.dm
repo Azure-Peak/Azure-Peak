@@ -21,7 +21,7 @@
 		return TRUE
 	return FALSE
 
-/obj/structure/roguemachine/ship_fulfillment/Initialize()
+/obj/structure/roguemachine/ship_fulfillment/Initialize(mapload)
 	. = ..()
 	set_light(1, 1, 1, l_color = "#c8a060")
 	add_overlay(mutable_appearance(icon, "vendor-merch"))

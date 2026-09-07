@@ -42,13 +42,19 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 			checkings_owner.temporarilyRemoveItemFromInventory(checking, TRUE) //Clear out of there yeah?
 		SSwardrobe.recycle_object(checking)
 
+	// these aren't ~real~ inventory slots and /datum/bodypart_feature/underwear can't clean up after itself
+	if(legwear_socks)
+		to_nuke += legwear_socks
+	if(underwear)
+		to_nuke += underwear
+
 	for(var/obj/item/delete as anything in to_nuke)
 		qdel(delete)
 
 ///Let's extract our dummies organs and limbs for storage, to reduce the cache missed that spamming a dummy cause
 /mob/living/carbon/human/dummy/proc/harvest_organs()
 	for(var/slot in list(ORGAN_SLOT_BRAIN, ORGAN_SLOT_HEART, ORGAN_SLOT_LUNGS, ORGAN_SLOT_APPENDIX, \
-		ORGAN_SLOT_EYES, ORGAN_SLOT_EARS, ORGAN_SLOT_TONGUE, ORGAN_SLOT_LIVER, ORGAN_SLOT_STOMACH))
+		ORGAN_SLOT_EYES, ORGAN_SLOT_EARS, ORGAN_SLOT_TONGUE, ORGAN_SLOT_LIVER, ORGAN_SLOT_STOMACH, ORGAN_SLOT_GUTS))
 		var/obj/item/organ/current_organ = getorganslot(slot) //Time to cache it lads
 		if(current_organ)
 			current_organ.Remove(src, special = TRUE) //Please don't somehow kill our dummy
@@ -66,6 +72,8 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	return ..()
 
 /mob/living/carbon/human/dummy/proc/wipe_state()
+	// oh my god without this message breaks what the fuckkkkkk
+	real_name = ""
 	delete_equipment()
 	cut_overlays(TRUE)
 

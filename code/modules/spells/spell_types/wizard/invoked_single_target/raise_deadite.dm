@@ -1,8 +1,11 @@
 /datum/action/cooldown/spell/raise_deadite
 	name = "Raise Deadite"
 	desc = "Infuse the target with quick acting Rot, raising them as a deadite. They will not be friendly to you."
-	button_icon = 'icons/mob/actions/roguespells.dmi'
-	button_icon_state = "blesscrop"
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "raise_deadite"
+
+	spell_color = GLOW_COLOR_ZIZO
 	sound = 'sound/magic/whiteflame.ogg'
 
 	click_to_activate = TRUE
@@ -16,11 +19,11 @@
 
 	charge_required = TRUE
 	charge_swingdelay_type = SWINGDELAY_CANCEL
-	charge_time = 6 SECONDS
+	charge_time = 5 SECONDS
 	hold_drain = 1
 	charge_slowdown = 2
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 30 SECONDS
+	cooldown_time = 20 SECONDS //shorter as this is basically a soft "get back into round" spell.
 
 	associated_skill = /datum/skill/magic/arcane
 	point_cost = 3

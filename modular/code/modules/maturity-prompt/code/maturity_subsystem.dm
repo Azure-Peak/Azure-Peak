@@ -24,7 +24,7 @@ SUBSYSTEM_DEF(maturity_guard)
 	var/current_day
 
 
-/datum/controller/subsystem/maturity_guard/Initialize()
+/datum/controller/subsystem/maturity_guard/Initialize(mapload)
 	var/current_time = world.realtime
 	current_day = text2num(time2text(current_time, "DD"))
 	current_month = text2num(time2text(current_time, "MM"))
@@ -87,18 +87,18 @@ SUBSYSTEM_DEF(maturity_guard)
 	// prompt.wait()
 	// prompt_cache -= user_ckey
 	// if(prompt)
-	// 	. = list(prompt.year, prompt.month, prompt.day)
+	//	. = list(prompt.year, prompt.month, prompt.day)
 
-	// 	var/check_result = validate_dob(prompt.year, prompt.month, prompt.day)
-	// 	switch(check_result)
-	// 		if(AGE_CHECK_INVALID)
-	// 			to_chat_immediate(user, "<span class='warning'>Invalid information entered. Please try again.</span>")
-	// 		if(AGE_CHECK_UNDERAGE)
-	// 			create_underage_ban(user)
-	// 		if(AGE_CHECK_PASSED)
-	// 			add_age_to_db(user, prompt.year, prompt.month)
-	// 			user.client.maturity_prompt_whitelist = TRUE
-	// 	qdel(prompt)
+	//	var/check_result = validate_dob(prompt.year, prompt.month, prompt.day)
+	//	switch(check_result)
+	//		if(AGE_CHECK_INVALID)
+	//			to_chat_immediate(user, "<span class='warning'>Invalid information entered. Please try again.</span>")
+	//		if(AGE_CHECK_UNDERAGE)
+	//			create_underage_ban(user)
+	//		if(AGE_CHECK_PASSED)
+	//			add_age_to_db(user, prompt.year, prompt.month)
+	//			user.client.maturity_prompt_whitelist = TRUE
+	//	qdel(prompt)
 
 
 /datum/controller/subsystem/maturity_guard/proc/get_age_from_db(mob/user)
@@ -141,7 +141,7 @@ SUBSYSTEM_DEF(maturity_guard)
 
 	var/datum/DBQuery/add_age_to_db = SSdbcore.NewQuery(
 		"INSERT INTO [format_table_name("player_dob")] (ckey, dob_year, dob_month) VALUES(:ckey, :dob_year, :dob_month) \
-		 ON DUPLICATE KEY UPDATE dob_year = :dob_year, dob_month = :dob_month",
+			ON DUPLICATE KEY UPDATE dob_year = :dob_year, dob_month = :dob_month",
 		list("ckey" = user.ckey, "dob_year" = year, "dob_month" = month),
 	)
 
@@ -156,7 +156,7 @@ SUBSYSTEM_DEF(maturity_guard)
 	//Rudimentary sanity check
 	if(!isnum(player_year) || !isnum(player_month))
 		return AGE_CHECK_INVALID
-	
+
 	if(!simple_check && !isnum(player_day))
 		return AGE_CHECK_INVALID
 
@@ -206,7 +206,7 @@ SUBSYSTEM_DEF(maturity_guard)
 	var/player_ban_notification = "<span class='boldannounce'>You have been banned by the AGE CHECK SYSTEM from the server.\nReason: You do not meet the minimum age requirements for this community. [discord_appeal_text]</span>"
 
 	if(!SSdbcore.Connect())
-	 	// Just a stopgap measure... this really isn't intended to be used without a db attached
+			// Just a stopgap measure... this really isn't intended to be used without a db attached
 		message_admins("[user.ckey] has FAILED THE AGE CHECK but couldn't be banned due to lack of database connection.")
 		blacklisted_cache |= user.ckey
 		to_chat(user, player_ban_notification)

@@ -8,7 +8,7 @@
 	display_category = ITEM_CAT_ARMOR_LEGS
 	result = list(/obj/item/clothing/under/roguetown/trou/artipants)
 	reqs = list(/obj/item/natural/cloth = 1,
-	            /obj/item/natural/hide/cured = 2)
+				/obj/item/natural/hide/cured = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
 
@@ -17,8 +17,8 @@
 	display_category = ITEM_CAT_ARMOR_LEGS
 	result = list(/obj/item/clothing/under/roguetown/trou/leather/pontifex)
 	reqs = list(/obj/item/natural/cloth = 1,
-	            /obj/item/natural/fibers = 1,
-	            /obj/item/natural/hide/cured = 2)
+				/obj/item/natural/fibers = 1,
+				/obj/item/natural/hide/cured = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 
@@ -27,7 +27,7 @@
 	display_category = ITEM_CAT_ARMOR_BOOTS
 	result = list(/obj/item/clothing/shoes/roguetown/gladiator)
 	reqs = list(/obj/item/natural/hide/cured = 2,
-	            /obj/item/natural/fibers = 1)
+				/obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
 
@@ -36,9 +36,9 @@
 	display_category = ITEM_CAT_ARMOR_BOOTS
 	result = list(/obj/item/clothing/shoes/roguetown/grenzelhoft)
 	reqs = list(/obj/item/natural/hide/cured = 1,
-	            /obj/item/reagent_containers/food/snacks/tallow = 1,
+				/obj/item/reagent_containers/food/snacks/tallow = 1,
 				/obj/item/natural/fur = 1,
-	            /obj/item/natural/fibers = 1)
+				/obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
 
@@ -47,9 +47,9 @@
 	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = list(/obj/item/clothing/gloves/roguetown/angle/grenzelgloves)
 	reqs = list(/obj/item/natural/hide/cured = 1,
-	            /obj/item/reagent_containers/food/snacks/tallow = 1,
+				/obj/item/reagent_containers/food/snacks/tallow = 1,
 				/obj/item/natural/fur = 1,
-	            /obj/item/natural/fibers = 1)
+				/obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
 
@@ -58,8 +58,8 @@
 	display_category = ITEM_CAT_ARMOR_LEGS
 	result = list(/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan)
 	reqs = list(/obj/item/reagent_containers/food/snacks/tallow = 1,
-	            /obj/item/natural/fibers = 1,
-	            /obj/item/natural/hide/cured = 2,
+				/obj/item/natural/fibers = 1,
+				/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
@@ -69,9 +69,9 @@
 	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = list(/obj/item/clothing/gloves/roguetown/otavan)
 	reqs = list(/obj/item/natural/hide/cured = 1,
-	            /obj/item/reagent_containers/food/snacks/tallow = 1,
+				/obj/item/reagent_containers/food/snacks/tallow = 1,
 				/obj/item/natural/fur = 1,
-	            /obj/item/natural/fibers = 1,
+				/obj/item/natural/fibers = 1,
 				/obj/item/natural/cloth = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
@@ -91,9 +91,9 @@
 	display_category = ITEM_CAT_ARMOR_BOOTS
 	result = list(/obj/item/clothing/shoes/roguetown/boots/otavan)
 	reqs = list(/obj/item/natural/hide/cured = 1,
-	            /obj/item/reagent_containers/food/snacks/tallow = 1,
+				/obj/item/reagent_containers/food/snacks/tallow = 1,
 				/obj/item/natural/fur = 1,
-	            /obj/item/natural/fibers = 1)
+				/obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
 
@@ -102,7 +102,7 @@
 	display_category = ITEM_CAT_ARMOR_BOOTS
 	result = list(/obj/item/clothing/shoes/roguetown/simpleshoes/buckle)
 	reqs = list(/obj/item/natural/hide/cured = 1,
-	            /obj/item/natural/fibers = 2)
+				/obj/item/natural/fibers = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 6
 
@@ -110,7 +110,7 @@
 	name = "pontifex's kaftan"
 	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex)
 	reqs = list(/obj/item/natural/hide/cured = 4,
-	            /obj/item/natural/cloth = 1,
+				/obj/item/natural/cloth = 1,
 				/obj/item/reagent_containers/food/snacks/tallow = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
@@ -120,7 +120,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket)
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fur = 1,
-	            /obj/item/natural/cloth = 1)
+				/obj/item/natural/cloth = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 
@@ -129,7 +129,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/vest/winterjacket)
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fur = 2,
-	            /obj/item/natural/cloth = 1)
+				/obj/item/natural/cloth = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 
@@ -137,8 +137,8 @@
 	name = "shamanic coat"
 	result = list(/obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi)
 	reqs = list(/obj/item/natural/hide/cured = 2,
-	            /obj/item/natural/fibers = 1,
-	            /obj/item/natural/fur = 1)
+				/obj/item/natural/fibers = 1,
+				/obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 
@@ -147,8 +147,8 @@
 	display_category = ITEM_CAT_ARMOR_LEGS
 	result = list(/obj/item/clothing/under/roguetown/trou/leather/atgervi)
 	reqs = list(/obj/item/natural/hide/cured = 2,
-	            /obj/item/natural/fibers = 1,
-	            /obj/item/natural/fur = 1)
+				/obj/item/natural/fibers = 1,
+				/obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 
@@ -157,8 +157,8 @@
 	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = list(/obj/item/clothing/gloves/roguetown/angle/atgervi)
 	reqs = list(/obj/item/natural/hide/cured = 2,
-	            /obj/item/natural/fibers = 1,
-	            /obj/item/natural/fur = 1)
+				/obj/item/natural/fibers = 1,
+				/obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 
@@ -167,8 +167,8 @@
 	display_category = ITEM_CAT_ARMOR_BOOTS
 	result = list(/obj/item/clothing/shoes/roguetown/boots/leather/atgervi)
 	reqs = list(/obj/item/natural/hide/cured = 2,
-	            /obj/item/natural/fibers = 1,
-	            /obj/item/natural/fur = 1)
+				/obj/item/natural/fibers = 1,
+				/obj/item/natural/fur = 1)
 	tools = list(/obj/item/needle)
 	craftdiff = 5
 

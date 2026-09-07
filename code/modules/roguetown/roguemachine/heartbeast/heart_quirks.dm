@@ -96,7 +96,7 @@
 	var/obj/structure/roguemachine/chimeric_heart_beast/heart_beast = beast.heart_beast
 	var/royal_title = heart_beast.royal_title
 
-	var/has_title = findtext(lowertext(message), lowertext(royal_title))
+	var/has_title = findtext(LOWER_TEXT(message), LOWER_TEXT(royal_title))
 	if(!has_title)
 		effects["score_penalty"] = 25
 		effects["happiness_multiplier"] = 0
@@ -181,7 +181,7 @@
 
 	//Honestly, they're happy if you say nothing at all :)
 	effects["punctuation_override"] = " "
-	
+
 	if(last_char == "!")
 		effects["score_penalty"] = 25
 		effects["happiness_multiplier"] = 0

@@ -15,7 +15,9 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 15,
 	)
 	boss_mob_types = list(
-		/mob/living/carbon/human/species/human/northern/outlaw_tank = 100,
+		/mob/living/carbon/human/species/human/northern/outlaw_tank = 40,
+		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 30,
+		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 30,
 	)
 	boss_title_templates = list(
 		"Sergeant %N",

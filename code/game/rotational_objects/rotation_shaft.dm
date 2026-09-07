@@ -1,3 +1,4 @@
+/*
 /datum/looping_sound/cog_loop
 	mid_sounds = 'sound/items/hogcrank1.ogg'
 	mid_length = 0.5 SECONDS
@@ -9,12 +10,13 @@
 	mid_length = 1 SECONDS
 	volume = 30
 	extra_range = -2
-
+*/
 /obj/structure/rotation_piece
 	name = "shaft"
 	icon = 'icons/roguetown/misc/shafts_cogs.dmi'
 	icon_state = "shaft"
-	layer = ABOVE_MOB_LAYER
+	plane = GAME_PLANE
+	layer = BELOW_MOB_LAYER
 	rotation_structure = TRUE
 	initialize_dirs = CONN_DIR_FORWARD | CONN_DIR_FLIP
 	var/in_stack = 1
@@ -39,7 +41,7 @@
 
 /obj/structure/rotation_piece/start_deconstruct(mob/living/user, obj/item/rotation_contraption/type)
 	user.visible_message(span_notice("[user] starts to disassemble [src]."), span_notice("You start to disassemble [src]."))
-	if(!do_after(user, 2.5 SECONDS  - (user?.get_skill_level(/datum/skill/craft/engineering)  * 2), src))
+	if(!do_after(user, 2.5 SECONDS	- (user?.get_skill_level(/datum/skill/craft/engineering)	* 2), src))
 		return
 	var/obj/item/rotation_contraption/contraption = new type(get_turf(src))
 	if(in_stack > 1)
@@ -52,19 +54,19 @@
 	icon_state = "1"
 	cog_size = COG_SMALL
 	stress_use = 3
-	var/datum/looping_sound/soundloop
+	//var/datum/looping_sound/soundloop
 
 /obj/structure/rotation_piece/cog/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Meshes with adjacent cogwheels to transfer rotation sideways.")
 	. += span_info("Different cog sizes change the output RPM when they mesh together.")
 
-/obj/structure/rotation_piece/cog/Initialize()
-	soundloop = new /datum/looping_sound/cog_loop(src, FALSE)
+/obj/structure/rotation_piece/cog/Initialize(mapload)
+	//soundloop = new /datum/looping_sound/cog_loop(src, FALSE)
 	. = ..()
 
 /obj/structure/rotation_piece/cog/Destroy()
-	QDEL_NULL(soundloop)
+	//QDEL_NULL(soundloop)
 	return ..()
 
 /obj/structure/rotation_piece/cog/large
@@ -78,9 +80,9 @@
 	. = ..()
 	. += span_info("Large cogwheels use more stress but alter RPM more strongly when meshed with smaller cogs.")
 
-/obj/structure/rotation_piece/cog/large/Initialize()
+/obj/structure/rotation_piece/cog/large/Initialize(mapload)
 	. = ..()
-	soundloop = new /datum/looping_sound/cog_loop/heavy(src, FALSE)
+	//soundloop = new /datum/looping_sound/cog_loop/heavy(src, FALSE)
 	var/matrix/skew = matrix()
 	skew.Scale(1.5, 1.5)
 	transform = skew
@@ -136,6 +138,7 @@
 			surrounding |= structure
 	return surrounding
 
+/*
 /obj/structure/rotation_piece/cog/proc/update_soundloop()
 	if(!soundloop)
 		return
@@ -145,12 +148,13 @@
 		return
 	if(soundloop.stopped)
 		soundloop.start()
+*/
 
 /obj/structure/rotation_piece/cog/proc/has_active_rotation()
 	return rotation_network && !rotation_network?.overstressed && rotations_per_minute && rotation_network?.total_stress
 
 /obj/structure/rotation_piece/cog/update_animation_effect()
-	update_soundloop()
+	//update_soundloop()
 	if(!has_active_rotation())
 		animate(src, icon_state = "1", time = 1)
 		return
@@ -173,7 +177,7 @@
 	return rotations_per_minute * cog_ratio
 
 /obj/structure/rotation_piece/cog/large/update_animation_effect()
-	update_soundloop()
+	//update_soundloop()
 	if(!has_active_rotation())
 		animate(src, icon_state = "l1", time = 1)
 		return

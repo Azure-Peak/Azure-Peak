@@ -1,4 +1,8 @@
 //body damage zones
+// Baseline Health for body parts.
+#define BODYPART_MAX_DAMAGE_CHEST 300
+#define BODYPART_MAX_DAMAGE_LIMB 200	//Head, arms and legs all share this.
+
 #define BODY_ZONE_HEAD		"head"
 #define BODY_ZONE_CHEST		"chest"
 #define BODY_ZONE_L_ARM		"l_arm"
@@ -22,7 +26,7 @@
 #define BODY_ZONE_PRECISE_R_FOOT	"r_foot"
 
 //user-readable body parts
-#define READABLE_ZONE_HEAD 		"Head"
+#define READABLE_ZONE_HEAD		"Head"
 #define READABLE_ZONE_CHEST		"Chest"
 #define READABLE_ZONE_ARMS		"Arms"
 #define READABLE_ZONE_L_ARM		"Left arm"
@@ -30,6 +34,7 @@
 #define READABLE_ZONE_LEGS		"Legs"
 #define READABLE_ZONE_L_LEG		"Left leg"
 #define READABLE_ZONE_R_LEG		"Right leg"
+#define READABLE_ZONE_TAUR		"Tauric half"
 
 #define READABLE_ZONE_SKULL		"Skull"
 #define READABLE_ZONE_NOSE		"Nose"
@@ -72,6 +77,7 @@
 #define ORGAN_SLOT_TAIL "tail"
 #define ORGAN_SLOT_PARASITE_EGG "parasite_egg"
 #define ORGAN_SLOT_REGENERATIVE_CORE "regen_core"
+#define ORGAN_SLOT_GUTS "guts"
 
 #define ORGAN_SLOT_FRILLS "frills"
 #define ORGAN_SLOT_HORNS "horns"
@@ -138,7 +144,7 @@
 #define WOUND_SEVERITY_BIOHAZARD 6
 
 /// Wound severity is determined by bleed rate (default)
-#define SEVERITY_TYPE_BLEED "bleed" 
+#define SEVERITY_TYPE_BLEED "bleed"
 /// Wound severity is determined by the wound's hp (alternative)
 #define SEVERITY_TYPE_WHP "whp"
 /// Wound severity is determined by how burnt the host limb is (burn_dam as a percent of max_damage)

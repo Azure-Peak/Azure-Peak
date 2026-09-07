@@ -6,7 +6,7 @@
 	item_state = "tights"
 //	adjustable = CAN_CADJUST
 
-/obj/item/clothing/under/roguetown/tights/random/Initialize()
+/obj/item/clothing/under/roguetown/tights/random/Initialize(mapload)
 	color = pick("#544236", "#435436", "#543836", "#79763f")
 	..()
 
@@ -43,7 +43,7 @@
 	l_sleeve_status = SLEEVE_TORN
 	body_parts_covered = GROIN|LEG_RIGHT
 
-/obj/item/clothing/under/roguetown/tights/vagrant/Initialize()
+/obj/item/clothing/under/roguetown/tights/vagrant/Initialize(mapload)
 	color = pick("#6b5445", "#435436", "#704542", "#79763f")
 	..()
 
@@ -124,7 +124,7 @@
 	detail_color = CLOTHING_WHITE
 	altdetail_color = CLOTHING_WHITE
 
-/obj/item/clothing/under/roguetown/tights/hose/Initialize()
+/obj/item/clothing/under/roguetown/tights/hose/Initialize(mapload)
 	. = ..()
 	update_icon()
 

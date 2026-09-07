@@ -9,7 +9,7 @@
 	townie_contract_gate_exempt = TRUE
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	
+
 
 	outfit = null
 	outfit_female = null
@@ -48,6 +48,54 @@
 		/datum/advclass/vagabond_thrall,
 		/datum/advclass/vagabond_accursed
 	)
+	has_subprefs = TRUE
+	default_subprefs = list("bounty_poster_key" = null, "bounty_severity_key" = null, "my_crime" = null, "favorite_advclass" = null)
+
+/datum/job/roguetown/vagabond/Topic(href, list/href_list)
+	var/client/C = usr.client
+	if(!C || !C.prefs)
+		return
+	var/list/roleprefs = get_roleprefs(C)
+	if(href_list["poster"])
+		var/list/poster_choices = list()
+		for(var/key in GLOB.bounty_posters)
+			poster_choices[GLOB.bounty_posters[key]] = key
+		roleprefs["bounty_poster_key"] = poster_choices[tgui_input_list(usr, "Who placed a bounty on you?", "Bounty Poster", poster_choices)]
+		update_subprefs_window(usr)
+	if(href_list["severity"])
+		var/list/sev_choices = list()
+		for(var/key in GLOB.vagabond_severities)
+			sev_choices[GLOB.vagabond_severities[key]] = key
+		roleprefs["bounty_severity_key"] = sev_choices[tgui_input_list(usr, "How severe are your crimes?", "Bounty Amount", sev_choices)]
+		update_subprefs_window(usr)
+	if(href_list["crime"])
+		roleprefs["my_crime"] = tgui_input_text(usr, "What is your crime?", "Crime", roleprefs["my_crime"], multiline=TRUE, encode=FALSE)
+		update_subprefs_window(usr)
+	. = ..()
+
+/datum/job/roguetown/vagabond/update_subprefs_window(mob/user)
+	var/client/C = usr.client
+	if(!C || !C.prefs)
+		return
+	var/list/roleprefs = get_roleprefs(C)
+	var/datum/advclass/favorite = roleprefs["favorite_advclass"]
+	var/favorite_name = favorite ? favorite::name : "Choose"
+	var/HTML = {"
+		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/>
+		<i>Set your [title]-specific bounty here. Only applies to the Wanted subclass. If a global bounty is set, this will override it.</i><br><i>Any fields set here will not prompt you at roundstart.</i><br/><br/>
+		<b>Bounty Poster:</b> <a href="?src=[REF(src)];poster=1">[roleprefs["bounty_poster_key"]?GLOB.bounty_posters[roleprefs["bounty_poster_key"]]:"Unset"]</a><br/>
+		<b>Bounty Severity:</b> <a href="?src=[REF(src)];severity=1">[roleprefs["bounty_severity_key"]?GLOB.vagabond_severities[roleprefs["bounty_severity_key"]]:"Unset"]</a><br/>
+		<b>Bounty Reason:</b> <a href="?src=[REF(src)];crime=1">[roleprefs["my_crime"]?"Edit":"Unset"]</a><br/>
+		[roleprefs["my_crime"]?roleprefs["my_crime"]:""]<br/>
+		<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
+	"}
+	// the fact that the window width/height will be different each time is the main reason this isn't all done in a parent proc on /datum/job
+	var/datum/browser/popup = new(user, "[JOB_SUBPREFS_WINDOW_ID]", "<div align='center'>[title] Preferences</div>", 500, 500)
+	popup.set_content(HTML)
+	popup.open(FALSE)
+	if(winexists(usr, "[JOB_SUBPREFS_WINDOW_ID]"))
+		winset(usr, "[JOB_SUBPREFS_WINDOW_ID]", "focus=true")
 
 /datum/job/roguetown/vagabond/New()
 	. = ..()
@@ -74,8 +122,13 @@
 	var/bounty_poster_key
 	var/bounty_severity_key
 	var/my_crime
+	var/list/roleprefs = P?.job_subprefs?["Vagabond"]
 
-	if(P?.preset_bounty_enabled)
+	if(roleprefs && length(roleprefs))
+		bounty_poster_key = roleprefs["bounty_poster_key"]
+		bounty_severity_key = roleprefs["bounty_severity_key"]
+		my_crime = roleprefs["my_crime"]
+	else if(P?.preset_bounty_enabled)
 		bounty_poster_key = P.preset_bounty_poster_key
 		bounty_severity_key = P.preset_bounty_severity_v_key
 		my_crime = P.preset_bounty_crime

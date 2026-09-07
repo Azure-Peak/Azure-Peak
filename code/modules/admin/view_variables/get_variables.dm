@@ -89,19 +89,19 @@
 
 	switch(.["class"])
 		if(VV_TEXT)
-			.["value"] = input("Enter new text:", "Text", current_value) as null|text
+			.["value"] = input(src, "Enter new text:", "Text", current_value) as null|text
 			if(.["value"] == null)
 				.["class"] = null
 				return
 		if(VV_MESSAGE)
-			.["value"] = input("Enter new text:", "Text", current_value) as null|message
+			.["value"] = input(src, "Enter new text:", "Text", current_value) as null|message
 			if(.["value"] == null)
 				.["class"] = null
 				return
 
 
 		if(VV_NUM)
-			.["value"] = input("Enter new number:", "Num", current_value) as null|num
+			.["value"] = input(src, "Enter new number:", "Num", current_value) as null|num
 			if(.["value"] == null)
 				.["class"] = null
 				return
@@ -128,7 +128,7 @@
 			var/type = current_value
 			var/error = ""
 			do
-				type = input("Enter type:[error]", "Type", type) as null|text
+				type = input(src, "Enter type:[error]", "Type", type) as null|text
 				if(!type)
 					break
 				type = text2path(type)
@@ -146,7 +146,7 @@
 				.["class"] = null
 				return
 			var/list/things = vv_reference_list(type, subtypes)
-			var/value = input("Select reference:", "Reference", current_value) as null|anything in things
+			var/value = input(src, "Select reference:", "Reference", current_value) as null|anything in things
 			if(!value)
 				.["class"] = null
 				return
@@ -159,7 +159,7 @@
 				.["class"] = null
 				return
 			var/list/things = vv_reference_list(type, subtypes)
-			var/value = input("Select reference:", "Reference", current_value) as null|anything in things
+			var/value = input(src, "Select reference:", "Reference", current_value) as null|anything in things
 			if(!value)
 				.["class"] = null
 				return
@@ -172,26 +172,26 @@
 				.["class"] = null
 				return
 			var/list/things = vv_reference_list(type, subtypes)
-			var/value = input("Select reference:", "Reference", current_value) as null|anything in things
+			var/value = input(src, "Select reference:", "Reference", current_value) as null|anything in things
 			if(!value)
 				.["class"] = null
 				return
 			.["value"] = things[value]
 
 		if(VV_CLIENT)
-			.["value"] = input("Select reference:", "Reference", current_value) as null|anything in GLOB.clients
+			.["value"] = input(src, "Select reference:", "Reference", current_value) as null|anything in GLOB.clients
 			if(.["value"] == null)
 				.["class"] = null
 				return
 
 		if(VV_FILE)
-			.["value"] = input("Pick file:", "File") as null|file
+			.["value"] = input(src, "Pick file:", "File") as null|file
 			if(.["value"] == null)
 				.["class"] = null
 				return
 
 		if(VV_ICON)
-			.["value"] = input("Pick icon:", "Icon") as null|icon
+			.["value"] = input(src, "Pick icon:", "Icon") as null|icon
 			if(.["value"] == null)
 				.["class"] = null
 				return
@@ -234,7 +234,7 @@
 			var/type = current_value
 			var/error = ""
 			do
-				type = input("Enter type:[error]", "Type", type) as null|text
+				type = input(src, "Enter type:[error]", "Type", type) as null|text
 				if(!type)
 					break
 				type = text2path(type)
@@ -256,15 +256,15 @@
 		if(VV_TEXT_LOCATE)
 			var/datum/D
 			do
-				var/ref = input("Enter reference:", "Reference") as null|text
+				var/ref = input(src, "Enter reference:", "Reference") as null|text
 				if(!ref)
 					break
 				D = locate(ref)
 				if(!D)
-					alert("Invalid ref!")
+					alert(src, "Invalid ref!")
 					continue
 				if(!D.can_vv_mark())
-					alert("Datum can not be marked!")
+					alert(src, "Datum can not be marked!")
 					continue
 			while(!D)
 			.["type"] = D.type

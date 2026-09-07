@@ -2,6 +2,7 @@ import { type ReactNode, useState } from 'react';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
+import { formatRatioPct } from './common/format';
 
 type RumorLogEntry = {
   title: string;
@@ -32,11 +33,6 @@ const DISPATCH_DEBOUNCE_MS = 500;
 
 const pts = (n: number) => `${n}\u00A0pt${n === 1 ? '' : 's'}`;
 
-const formatMultiplierDelta = (delta: number): string => {
-  const pct = Math.round(delta * 100);
-  return `${pct}%`;
-};
-
 const regionRewardFlavor = (
   regionName: string,
   mult: number | undefined,
@@ -44,9 +40,9 @@ const regionRewardFlavor = (
   if (typeof mult !== 'number' || mult === 1) return null;
   if (mult > 1) {
     const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
-    return `${regionName} is a ${descriptor} region - rumors from there tend to be ${formatMultiplierDelta(mult - 1)} more lucrative.`;
+    return `${regionName} is a ${descriptor} region - rumors from there tend to be ${formatRatioPct(mult - 1)} more lucrative.`;
   }
-  return `${regionName} is a settled region - rumors from there tend to be ${formatMultiplierDelta(1 - mult)} less lucrative.`;
+  return `${regionName} is a settled region - rumors from there tend to be ${formatRatioPct(1 - mult)} less lucrative.`;
 };
 
 const FormRow = (props: { label: string; children: ReactNode }) => (

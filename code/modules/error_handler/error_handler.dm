@@ -18,14 +18,14 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 		//if we got to here without silently ending, the byond bug has been fixed.
 		log_world("The bug with recursion runtimes has been fixed. Please remove the snowflake check from world/Error in [__FILE__]:[__LINE__]")
 		return //this will never happen.
-	
+
 	else if(copytext(E.name,1,18) == "Out of resources!")
 		log_world("BYOND out of memory. Restarting")
 		log_game("BYOND out of memory. Restarting")
 		TgsEndProcess()
 		Reboot(reason = 1)
 		return ..()
-	
+
 	if (islist(stack_trace_storage))
 		for (var/line in splittext(E.desc, "\n"))
 			if (text2ascii(line) != 32)
@@ -92,10 +92,10 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 	var/list/usrinfo = null
 	var/locinfo
 	if(istype(usr))
-		usrinfo = list("  usr: [key_name(usr)]")
+		usrinfo = list("	usr: [key_name(usr)]")
 		locinfo = loc_name(usr)
 		if(locinfo)
-			usrinfo += "  usr.loc: [locinfo]"
+			usrinfo += "	usr.loc: [locinfo]"
 	// The proceeding mess will almost definitely break if error messages are ever changed
 	var/list/splitlines = splittext(E.desc, "\n")
 	var/list/desclines = list()
@@ -109,14 +109,14 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 					usrinfo = null
 				continue // Our usr info is better, replace it
 
-			if(copytext(line, 1, 3) != "  ")
-				desclines += ("  " + line) // Pad any unpadded lines, so they look pretty
+			if(copytext(line, 1, 3) != "	")
+				desclines += ("	" + line) // Pad any unpadded lines, so they look pretty
 			else
 				desclines += line
 	if(usrinfo) //If this info isn't null, it hasn't been added yet
 		desclines.Add(usrinfo)
 	if(silencing)
-		desclines += "  (This error will now be silenced for [DisplayTimeText(configured_error_silence_time)])"
+		desclines += "	(This error will now be silenced for [DisplayTimeText(configured_error_silence_time)])"
 	if(GLOB.error_cache)
 		GLOB.error_cache.log_error(E, desclines)
 

@@ -6,7 +6,6 @@
 	item_state = "spice"
 	possible_transfer_amounts = list()
 	volume = 15
-	sellprice = 10
 	grid_width = 32
 	grid_height = 32
 	dropshrink = 0.75
@@ -21,7 +20,6 @@
 	volume = 15
 	list_reagents = list(/datum/reagent/druqks = 15)
 	grind_results = list(/datum/reagent/druqks = 15)
-	sellprice = 10
 
 /datum/reagent/druqks
 	name = "Drukqs"
@@ -171,7 +169,7 @@
 	volume = 1
 	sellprice = 0
 
-/obj/item/reagent_containers/powder/rocknut/Initialize()
+/obj/item/reagent_containers/powder/rocknut/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/rocknutdry,
@@ -259,7 +257,7 @@
 
 /datum/reagent/allspice
 	name = "allspice"
-	description = "A blend of toasted spices, temptingly aromatic to the senses." 
+	description = "A blend of toasted spices, temptingly aromatic to the senses."
 	color = "#CE8C33"
 	overdose_threshold = 0
 	metabolization_rate = 1
@@ -323,7 +321,6 @@
 	volume = 18
 	list_reagents = list(/datum/reagent/moondust_purest = 18)
 	grind_results = list(/datum/reagent/moondust_purest = 15)
-	sellprice = 30
 
 /datum/reagent/moondust_purest
 	name = "Purest Moondust"
@@ -382,7 +379,6 @@
 	volume = 15
 	list_reagents = list(/datum/reagent/starsugar = 15, /datum/reagent/consumable/nutriment = 24) // monster and newports diet
 	grind_results = list(/datum/reagent/starsugar = 15)
-	sellprice = 25
 
 /datum/reagent/starsugar
 	name = "starsugar"
@@ -468,7 +464,6 @@
 	volume = 15
 	list_reagents = list(/datum/reagent/herozium = 15)
 	grind_results = list(/datum/reagent/herozium = 15)
-	sellprice = 30
 
 /atom/movable/screen/fullscreen/herozium
 	icon = 'icons/roguetown/maniac/fullscreen_wakeup.dmi'
@@ -503,7 +498,7 @@
 	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	..()
 	. = 1
-	
+
 
 /datum/reagent/herozium/on_mob_end_metabolize(mob/living/M)
 	M.clear_fullscreen("herozium")

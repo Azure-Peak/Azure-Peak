@@ -149,7 +149,7 @@
 /obj/item/clothing/head/roguetown/chaperon/noble/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -410,31 +410,70 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_RED
 
+/obj/item/clothing/head/roguetown/flamboyant
+	name = "flamboyant hat"
+	desc = "A luxurious purple feathered hat with wide brim."
+	icon_state = "flamboyant"
+	item_state = "flamboyant"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/wizhat
 	name = "wizard hat"
 	desc = "Used to distinguish dangerous wizards from senile old men."
 	icon_state = "wizardhat"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	dynamic_hair_suffix = "+generic"
+	color = CLOTHING_MAGE_BLUE
+	detail_color = CLOTHING_GOLD
+	altdetail_color = CLOTHING_BROWN
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/wizhat/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/head/roguetown/wizhat/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
 /obj/item/clothing/head/roguetown/wizhat/red
-	icon_state = "wizardhatred"
+	color = CLOTHING_SCARLET
 
 /obj/item/clothing/head/roguetown/wizhat/yellow
-	icon_state = "wizardhatyellow"
+	color = CLOTHING_MAGE_YELLOW
+	detail_color = CLOTHING_WHITE
 
 /obj/item/clothing/head/roguetown/wizhat/green
-	icon_state = "wizardhatgreen"
+	color = CLOTHING_MAGE_GREEN
 
 /obj/item/clothing/head/roguetown/wizhat/black
-	icon_state = "wizardhatblack"
+	color = CLOTHING_BLACK
+	detail_color = CLOTHING_WHITE
 
 /obj/item/clothing/head/roguetown/wizhat/gen
 	icon_state = "wizardhatgen"
+	detail_tag = "_detail"
+	altdetail_tag = ""
+	color = CLOTHING_PEASANT_BROWN
+	detail_color = CLOTHING_WHITE
+	altdetail_color = ""
 
 /obj/item/clothing/head/roguetown/wizhat/gen/wise
 	name = "wise hat"
@@ -464,6 +503,11 @@
 	desc = "Keeps the hair in check, and looks proper."
 	icon_state = "shawl"
 
+/obj/item/clothing/head/roguetown/turban
+	name = "turban"
+	desc = "A long, continuous strip of cloth that is wrapped around the top of a persons head. It is worn mostly in the southern reaches of Psydonia."
+	icon_state = "turban"
+
 /obj/item/clothing/head/roguetown/articap
 	name = "artificer's cap"
 	desc = "A sporting cap with a small gear adornment. Popular fashion amongst engineers."
@@ -475,8 +519,8 @@
 
 // azure addition - random wizard hats
 
-/obj/item/clothing/head/roguetown/wizhat/random/Initialize()
-	icon_state = pick("wizardhatred", "wizardhatyellow", "wizardhatgreen", "wizardhat")
+/obj/item/clothing/head/roguetown/wizhat/random/Initialize(mapload)
+	color = pick(CLOTHING_MAGE_GREEN, CLOTHING_SCARLET, CLOTHING_MAGE_BLUE, CLOTHING_BLACK)
 	..()
 
 /obj/item/clothing/head/roguetown/witchhat
@@ -582,7 +626,7 @@
 /obj/item/clothing/head/roguetown/veiled/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -619,15 +663,16 @@
 	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
 	salvage_result = /obj/item/natural/silk
+	sewrepair = TRUE
 
-/obj/item/clothing/head/roguetown/courtphysician/Initialize()
+/obj/item/clothing/head/roguetown/courtphysician/Initialize(mapload)
 	. = ..()
 	update_icon()
 
 /obj/item/clothing/head/roguetown/courtphysician/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()
@@ -641,14 +686,14 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_RED
 
-/obj/item/clothing/head/roguetown/courtphysician/female/Initialize()
+/obj/item/clothing/head/roguetown/courtphysician/female/Initialize(mapload)
 	. = ..()
 	update_icon()
 
 /obj/item/clothing/head/roguetown/courtphysician/female/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
 		pic.appearance_flags = RESET_COLOR
 		if(get_detail_color())
 			pic.color = get_detail_color()

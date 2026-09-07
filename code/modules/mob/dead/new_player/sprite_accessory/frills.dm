@@ -97,3 +97,15 @@
 /datum/sprite_accessory/frills/earlike_long
 	name = "Earlike (Long)"
 	icon_state = "earlike_long"
+
+/datum/sprite_accessory/frills/zardish
+	name = "Zardish"
+	icon_state = "zard_frills"
+
+/datum/sprite_accessory/frills/zardish_big
+	name = "Zardish (Big)"
+	icon_state = "zard_frills_big"
+
+/datum/sprite_accessory/frills/zardish_big_alt
+	name = "Zardish (Big - Alternative)"
+	icon_state = "zard_frills_bigalt"

@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/crossing_blast
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Crossing Blast"
+	expose_caster_on_deflect = FALSE
 	desc = "Arm a burst of raw arcyne force, then release it in radiating arms around you, striking and hurling back everyone nearby. Toggle its shape (Shift+G): a cross strikes the cardinal arms, a saltire the diagonals, and a star both at once."
 	button_icon_state = "energetic_blast"
 	sound = 'sound/magic/vlightning.ogg'
@@ -24,13 +25,12 @@
 	damage = 75
 	strike_damage_type = BRUTE
 	blade_class = BCLASS_BLUNT
-	npc_simple_damage_mult = 1.5
 	committed_strike = TRUE
 	interruptible = FALSE
-	charging_slowdown = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	windup_time = TELEGRAPH_AREA_DENIAL
 	sweep_step = 0
-	telegraph_type = /obj/effect/temp_visual/trap/telomancy
+	telegraph_type = /obj/effect/temp_visual/telegraph/telomancy
 	strike_sound = 'sound/magic/vlightning.ogg'
 	detonate_sound = 'sound/magic/blink.ogg'
 
@@ -114,8 +114,7 @@
 		return
 	L.safe_throw_at(get_ranged_target_turf(L, push_dir, push_dist), push_dist, 2, H, force = MOVE_FORCE_STRONG)
 
-/obj/effect/temp_visual/trap/telomancy
-	color = GLOW_COLOR_ARCANE
+/obj/effect/temp_visual/telegraph/telomancy
 	light_color = GLOW_COLOR_ARCANE
 	duration = 3 SECONDS
 

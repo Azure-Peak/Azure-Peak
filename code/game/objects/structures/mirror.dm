@@ -29,7 +29,7 @@
 		return
 
 	var/mob/living/carbon/human/H = user
-	
+
 	if(obj_broken || !Adjacent(user))
 		return
 
@@ -158,7 +158,7 @@
 			H.set_species(newrace, icon_update=0)
 
 			if(H.dna.species.use_skintones)
-				var/new_s_tone = input(user, "Choose your skin tone:", "Race change")  as null|anything in GLOB.skin_tones
+				var/new_s_tone = input(user, "Choose your skin tone:", "Race change")	as null|anything in GLOB.skin_tones
 				if(!user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 					return
 
@@ -225,7 +225,7 @@
 			for(var/accessory_type in accessory_choice.sprite_accessories)
 				var/datum/sprite_accessory/accessory/acc = new accessory_type()
 				valid_accessories[acc.name] = accessory_type
-			
+
 			var/new_style = input(user, "Choose your accessory", "Accessory Styling") as null|anything in valid_accessories
 			if(new_style)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
@@ -234,7 +234,7 @@
 					for(var/datum/bodypart_feature/accessory/old_acc in head.bodypart_features)
 						head.remove_bodypart_feature(old_acc)
 						break
-					
+
 					// Add new accessory if not "none"
 					if(new_style != "none")
 						var/datum/bodypart_feature/accessory/accessory_feature = new()
@@ -248,7 +248,7 @@
 			for(var/detail_type in face_choice.sprite_accessories)
 				var/datum/sprite_accessory/face_detail/detail = new detail_type()
 				valid_details[detail.name] = detail_type
-			
+
 			var/new_detail = input(user, "Choose your face detail", "Face Detail") as null|anything in valid_details
 			if(new_detail)
 				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
@@ -257,7 +257,7 @@
 					for(var/datum/bodypart_feature/face_detail/old_detail in head.bodypart_features)
 						head.remove_bodypart_feature(old_detail)
 						break
-					
+
 					// Add new face detail if not "none"
 					if(new_detail != "none")
 						var/datum/bodypart_feature/face_detail/detail_feature = new()
@@ -299,7 +299,7 @@
 		if(prob(50) && !H.has_stress_event(/datum/stressevent/uncanny) && !H.has_stress_event(/datum/stressevent/beautiful))
 			H.add_stress(/datum/stressevent/beautiful)
 			H.visible_message(span_notice("[H] admires [H.p_their()] reflection in [src]."), span_smallgreen("I look great.. From this angle."))
-		else 
+		else
 			if(!H.has_stress_event(/datum/stressevent/beautiful) && !H.has_stress_event(/datum/stressevent/uncanny))
 				H.add_stress(/datum/stressevent/uncanny)
 				H.visible_message(span_notice("[H] admires [H.p_their()] reflection in [src]."), span_warning("I look like a monster from this angle..."))

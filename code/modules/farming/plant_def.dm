@@ -288,14 +288,14 @@
 	maturation_time = FAST_GROWING
 
 // /datum/plant_def/manabloom
-// 	name = "manabloom"
-// 	icon_state = "manabloom"
-// 	produce_type = /obj/item/reagent_containers/food/snacks/grown/manabloom
-// 	produce_amount_min = 1
-// 	produce_amount_max = 3
-// 	maturation_time = FAST_GROWING
-// 	water_drain_rate = 1 / (2 MINUTES)
-// 	can_grow_underground = TRUE
+//	name = "manabloom"
+//	icon_state = "manabloom"
+//	produce_type = /obj/item/reagent_containers/food/snacks/grown/manabloom
+//	produce_amount_min = 1
+//	produce_amount_max = 3
+//	maturation_time = FAST_GROWING
+//	water_drain_rate = 1 / (2 MINUTES)
+//	can_grow_underground = TRUE
 
 /datum/plant_def/garlick
 	name = "garlick sprouts"
@@ -323,7 +323,7 @@
 	perennial = TRUE
 	produce_amount_max = 3
 	maturation_nutrition = 60
-	produce_nutrition =  35
+	produce_nutrition =	35
 	maturation_time = 6 MINUTES
 	produce_time = 3 MINUTES
 	water_drain_rate = 1 / (2 MINUTES)

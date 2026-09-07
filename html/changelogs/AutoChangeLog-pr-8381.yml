@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "Added a single-use pressure plate object."

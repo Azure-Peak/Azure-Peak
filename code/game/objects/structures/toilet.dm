@@ -12,7 +12,7 @@
 	var/buildstacktype
 	var/buildstackamount = 1
 
-/obj/structure/toilet/Initialize()
+/obj/structure/toilet/Initialize(mapload)
 	. = ..()
 
 /obj/structure/toilet/attack_hand(mob/living/user)

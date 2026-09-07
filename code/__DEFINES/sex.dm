@@ -7,13 +7,13 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 
 #define SEX_ACTION(sex_action_type) GLOB.sex_actions[sex_action_type]
 
-#define COMSIG_SEX_ADJUST_AROUSAL "sex_adjust_arousal"                  // (amount) - Adjust arousal level
-#define COMSIG_SEX_SET_AROUSAL "sex_set_arousal"                        // (amount) - Set arousal to specific value
+#define COMSIG_SEX_ADJUST_AROUSAL "sex_adjust_arousal"					// (amount) - Adjust arousal level
+#define COMSIG_SEX_SET_AROUSAL "sex_set_arousal"						// (amount) - Set arousal to specific value
 #define COMSIG_SEX_AROUSAL_CHANGED "sex_arosual_change"					// fires to the parent about a change
-#define COMSIG_SEX_FREEZE_AROUSAL "sex_freeze_arousal"                  // (freeze_state) - Toggle arousal freeze
-#define COMSIG_SEX_GET_AROUSAL "sex_get_arousal"                        // () - Get current arousal info
-#define COMSIG_SEX_CLIMAX "sex_climax"                                  // (type, target) - Handle climax event
-#define COMSIG_SEX_RECEIVE_ACTION "sex_receive_action"                  // (arousal_amt, pain_amt, giving, force, speed) - Receive action effects
+#define COMSIG_SEX_FREEZE_AROUSAL "sex_freeze_arousal"					// (freeze_state) - Toggle arousal freeze
+#define COMSIG_SEX_GET_AROUSAL "sex_get_arousal"						// () - Get current arousal info
+#define COMSIG_SEX_CLIMAX "sex_climax"									// (type, target) - Handle climax event
+#define COMSIG_SEX_RECEIVE_ACTION "sex_receive_action"					// (arousal_amt, pain_amt, giving, force, speed) - Receive action effects
 
 // Knotting Component Signals
 /// Attempts to knot a target. Args: (target, force_level)
@@ -113,12 +113,24 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 #define SHEATH_TYPE_NORMAL 1
 #define SHEATH_TYPE_SLIT 2
 
+#define SHEATH_TYPES_BY_NAME list(\
+	"No Sheath" = SHEATH_TYPE_NONE,\
+	"Sheath" = SHEATH_TYPE_NORMAL,\
+	"Slit" = SHEATH_TYPE_SLIT,\
+	)
+
 #define EARS_NORMAL 0
 #define EARS_SENSITIVE 1 //Should this be used for ANYTHING else - move it. / Also only works on ANTHROS for some reason
 
 #define ERECT_STATE_NONE 0
 #define ERECT_STATE_PARTIAL 1
 #define ERECT_STATE_HARD 2
+
+#define ERECT_STATES_BY_NAME list(\
+	"Unaroused" = ERECT_STATE_NONE,\
+	"Half-Aroused" = ERECT_STATE_PARTIAL,\
+	"Aroused" = ERECT_STATE_HARD,\
+	)
 
 #define MIN_TESTICLES_SIZE 1
 #define DEFAULT_TESTICLES_SIZE 2

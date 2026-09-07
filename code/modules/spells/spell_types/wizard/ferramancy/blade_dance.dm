@@ -5,6 +5,7 @@
 /datum/action/cooldown/spell/blade_dance
 	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
 	name = "Blade Dance"
+	expose_caster_on_deflect = FALSE
 	desc = "Wreathe yourself in a whirling storm of arcyne blades that moves with you, slashing everything in the tiles around you.\n\n\
 	Deals 20 brute damage per second for 10 seconds to everything in the tiles adjacent to you."
 	button_icon_state = "blade_dance"
@@ -127,7 +128,7 @@
 		qdel(src)
 		return
 
-	if(caster.IsKnockdown() || caster.IsStun() || caster.IsParalyzed() || caster.has_status_effect(/datum/status_effect/debuff/exposed))
+	if(caster.IsKnockdown() || caster.IsStun() || caster.IsParalyzed() || caster.has_status_effect(/datum/status_effect/debuff/cast_disrupted))
 		caster.visible_message(span_boldwarning("[caster]'s storm of blades scatters!"), span_warning("My blade dance is broken!"))
 		qdel(src)
 		return
@@ -149,11 +150,12 @@
 				return
 			if(ishuman(L) && ishuman(caster))
 				var/target_zone = caster.zone_selected || BODY_ZONE_CHEST
-				arcyne_strike(caster, L, null, tick_damage, target_zone, \
+				if(arcyne_strike(caster, L, null, tick_damage, target_zone, \
 					BCLASS_CUT, spell_name = "Blade Dance", \
-					damage_type = BRUTE, npc_simple_damage_mult = 1, \
+					damage_type = BRUTE, \
 					skip_animation = TRUE, skip_message = TRUE, \
-					allow_shield_check = TRUE)
+					allow_shield_check = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustBruteLoss(tick_damage)
 			new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_METAL, SPELL_IMPACT_MEDIUM)

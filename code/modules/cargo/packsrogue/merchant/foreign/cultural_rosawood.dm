@@ -24,6 +24,11 @@
 	cost = 110
 	contains = list(/obj/item/rogueweapon/halberd/glaive/elvish)
 
+/datum/supply_pack/rogue/rosawood/elvish_dirk
+	name = "Elvish Dirk"
+	cost = 45
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/elvish)
+
 /datum/supply_pack/rogue/rosawood/woad_helm
 	name = "Woad Elven Helm"
 	cost = 95
@@ -35,13 +40,13 @@
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light)
 
 /datum/supply_pack/rogue/rosawood/blackoak_barbute
-	name = "Black Oak Barbute"
+	name = "Elven Barbute"
 	cost = 85
 	contains = list(/obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak)
 
 /datum/supply_pack/rogue/rosawood/blackoak_barbute_winged
-	name = "Winged Barbute"
-	cost = 95
+	name = "Winged Elven Barbute"
+	cost = 85
 	contains = list(/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak)
 
 /datum/supply_pack/rogue/rosawood/woad_plate
@@ -55,12 +60,12 @@
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light)
 
 /datum/supply_pack/rogue/rosawood/elven_boots
-	name = "Elven Boots"
+	name = "Woad Elven Boots"
 	cost = 35
 	contains = list(/obj/item/clothing/shoes/roguetown/boots/elven_boots)
 
 /datum/supply_pack/rogue/rosawood/elven_gloves
-	name = "Elven Gloves"
+	name = "Woad Elven Gloves"
 	cost = 30
 	contains = list(/obj/item/clothing/gloves/roguetown/elven_gloves)
 

@@ -55,6 +55,7 @@
 #define span_hypnophrase(str) ("<span class='hypnophrase'>" + (str) + "</span>")
 #define span_infection(str) ("<span class='infection'>" + (str) + "</span>")
 #define span_info(str) ("<span class='info'>" + (str) + "</span>")
+#define span_redinfo(str) ("<span class='redinfo'>" + (str) + "</span>")
 #define span_interface(str) ("<span class='interface'>" + (str) + "</span>")
 #define span_italics(str) ("<span class='italics'>" + (str) + "</span>")
 #define span_looc(str) ("<span class='looc'>" + (str) + "</span>")

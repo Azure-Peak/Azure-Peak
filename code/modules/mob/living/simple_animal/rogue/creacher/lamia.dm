@@ -1,4 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia
+	threat_point = THREAT_DANGEROUS
+	anatomy_type = /datum/anatomy/biped/lamia
 	icon = 'icons/roguetown/mob/monster/lamia.dmi'
 	name = "lamia"
 	desc = "This slithering monstrosity has a human torso, a large snake tail, and four bladed arms."
@@ -25,8 +27,8 @@
 						/obj/item/natural/hide = 1)
 	faction = list(FACTION_ORCS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST|MOB_REPTILE
-	health = 200
-	maxHealth = 200
+	health = LAMIA_HEALTH
+	maxHealth = LAMIA_HEALTH
 	melee_damage_lower = 35
 	melee_damage_upper = 50
 	vision_range = 9
@@ -41,7 +43,6 @@
 	STASTR = 11
 	STASPD = 12
 	deaggroprob = 0
-	defprob = 35
 	del_on_deaggro = 999 SECONDS
 	retreat_health = 0.1
 	food = 0
@@ -54,7 +55,7 @@
 	var/sneak_cooldown = 0
 	var/sneak_cooldown_delay = 30 SECONDS
 
-/mob/living/simple_animal/hostile/retaliate/rogue/lamia/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/lamia/Initialize(mapload)
 	. = ..()
 	if(prob(20))
 		gender = MALE
@@ -74,48 +75,6 @@
 		light_check = world.time + light_check_delay
 		if(light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD)
 			sneak_now()
-	return ..()
-
-/mob/living/simple_animal/hostile/retaliate/rogue/lamia/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "head"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "bladed arm"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "bladed arm"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "tail"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "tail"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "tail"
-		if(BODY_ZONE_L_LEG)
-			return "tail"
-		if(BODY_ZONE_R_ARM)
-			return "tail"
-		if(BODY_ZONE_L_ARM)
-			return "tail"
 	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia/proc/sneak_now()

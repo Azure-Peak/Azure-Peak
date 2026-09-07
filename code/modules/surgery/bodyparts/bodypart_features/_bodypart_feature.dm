@@ -18,6 +18,12 @@
 /datum/bodypart_feature/proc/bodypart_overlays(mutable_appearance/standing)
 	return
 
+/// Returns extra appearances that need a layer of their own instead of riding along with the
+/// accessory overlay. Nested overlays float at their parent's layer, so anything that has to sort
+/// against other accessories (snouts, markings) has to be emitted as a sibling appearance here.
+/datum/bodypart_feature/proc/extra_bodypart_overlays(obj/item/bodypart/bodypart)
+	return
+
 /datum/bodypart_feature/proc/get_bodypart_overlay(obj/item/bodypart/bodypart)
 	if(!accessory_type)
 		return
@@ -29,9 +35,12 @@
 	for(var/standing in appearances)
 		bodypart_icon(standing)
 		bodypart_overlays(standing)
+	var/list/extra_appearances = extra_bodypart_overlays(bodypart)
+	if(extra_appearances)
+		appearances += extra_appearances
 	return appearances
 
-/datum/bodypart_feature/proc/get_cache_key()
+/datum/bodypart_feature/proc/get_cache_key(obj/item/bodypart/bodypart)
 	return "[accessory_type]-[accessory_colors]"
 
 /// Sets an accessory type and optionally colors too.
