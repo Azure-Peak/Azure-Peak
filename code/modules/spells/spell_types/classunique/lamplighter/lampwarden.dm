@@ -206,7 +206,7 @@
 
 /datum/action/cooldown/spell/lamplighter/oil_spill
 	name = "To Bring Light"
-	desc = "Open up your lamptern staff, spilling oil on the next person you strike with it and applying an Oil Stack. Each stack does five burn damage when activate, at five and twenty stacks you apply vulnerable and expose respectively."
+	desc = "Open up your lamptern staff, spilling oil on the next person you strike with it and applying an Oil Stack. Any amount of stacks will apply a stack of scorched, but at five stacks you will apply two stacks of scorched and vulnerable, and at twenty you will apply three stacks and expose the target."
 	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
 	button_icon_state = "bringlight"
 	sound = 'sound/misc/smelter_sound2.ogg'

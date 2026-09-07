@@ -137,7 +137,7 @@
 /datum/status_effect/buff/bulwark_of_oil
 	id = "bulwark of oil"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/bulwark_of_oil
-	duration = 30 SECONDS
+	duration = 15 SECONDS
 	status_type = STATUS_EFFECT_UNIQUE
 	var/defend = 3
 
@@ -150,6 +150,7 @@
 
 /datum/status_effect/buff/bulwark_of_oil/on_remove()
 	UnregisterSignal(owner, COMSIG_MOB_ITEM_BEING_ATTACKED)
+	UnregisterSignal(owner, COMSIG_MOB_ATTACKED_BY_HAND)
 	owner.remove_filter(BULWARK_FILTER)
 	. = ..()
 
@@ -181,8 +182,8 @@
 		return COMPONENT_NO_ATTACK
 
 
-/datum/status_effect/buff/bulwark_of_oil/proc/unarmed_defend(mob/living/carbon/human/parent, mob/living/carbon/human/attacker, mob/living/carbon/human/defender)
-	var/mob/living/carbon/human/H = attacker
+/datum/status_effect/buff/bulwark_of_oil/proc/unarmed_defend(mob/living/parent, mob/living/attacker, mob/living/defender)
+	var/mob/living/H = attacker
 	if(defender == attacker)
 		return
 	if(defend == 0)
@@ -205,6 +206,27 @@
 		playsound(get_turf(owner), 'sound/surgery/cautery2.ogg', 40, TRUE)
 		return COMPONENT_HAND_NO_ATTACK
 
+/datum/status_effect/buff/bulwark_of_oil/proc/simple_defend(mob/user)
+	var/mob/living/H = user
+	if(defend == 0)
+		owner.remove_status_effect(/datum/status_effect/buff/bulwark_of_oil)
+		return
+	if(H.has_status_effect(/datum/status_effect/debuff/oil_stack))
+		var/datum/status_effect/debuff/oil_stack/o = H.has_status_effect(/datum/status_effect/debuff/oil_stack)
+		o.add_stacks(1)
+		H.adjustFireLoss(10)
+		defend = defend - 1
+		owner.balloon_alert_to_viewers("<font color='#FF4500'>blocked! [defend]/3</font>")
+		playsound(get_turf(owner), 'sound/combat/parry/deflect_6.ogg', 40, TRUE)
+		return
+	else
+		H.adjustFireLoss(10)
+		H.apply_status_effect(/datum/status_effect/debuff/oil_stack)
+		defend = defend - 1
+		owner.balloon_alert_to_viewers("<font color='#FF4500'>blocked! [defend]/3</font>")
+		playsound(get_turf(owner), 'sound/combat/clash_struck.ogg', 40, TRUE)
+		playsound(get_turf(owner), 'sound/surgery/cautery2.ogg', 40, TRUE)
+		return
 
 #undef BULWARK_FILTER
 
@@ -255,7 +277,7 @@
 
 /datum/action/cooldown/spell/lamplighter/anoint_foe
 	name = "Anoint Foe"
-	desc = "Swing your staff forward, splashing oil in an arc and applying 2 oil stacks. Can be alt cast to open the lamptern instead and activate the oil stacks of those it hits. Each stack does five burn damage when activate, at five and twenty stacks you apply vulnerable and expose respectively."
+	desc = "Swing your staff forward, splashing oil in an arc and applying 2 oil stacks. Can be alt cast to open the lamptern instead and activate the oil stacks of those it hits. Any amount of stacks will apply a stack of scorched, but at five stacks you will apply two stacks of scorched and vulnerable, and at twenty you will apply three stacks and expose the target."
 	button_icon_state = "oilsplash"
 	invocations = list("Splash!")
 	blade_class = BCLASS_BURN
