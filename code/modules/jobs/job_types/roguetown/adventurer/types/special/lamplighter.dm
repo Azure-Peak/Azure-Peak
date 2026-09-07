@@ -118,10 +118,10 @@
 	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers. Were my staff to be destroyed I've been trained to craft another."))
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/scare_beast)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/sooth_the_soul)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/bulwark_of_oil)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/smoke_food)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/anoint_foe)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/wicklight)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/anoint_foe)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/bulwark_of_oil)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/provide_beacon)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/survival/lampstaff)
 	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter
