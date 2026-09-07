@@ -9,6 +9,7 @@
 //   variant, plus the leaf overlays drawn on newtree canopy caps and
 //   newbranch) swap between the spring/summer/fall/winter leaf sprites via
 //   their overridden apply_flora_season() proc.
+
 GLOBAL_LIST_EMPTY(seasonal_grass_turfs)
 GLOBAL_LIST_EMPTY(seasonal_flora_objs)
 
