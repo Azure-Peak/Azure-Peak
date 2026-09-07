@@ -144,6 +144,7 @@
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter
 	name = "lamplighter's staff"
+	dec = "A reinforced quarterstaff with a lamptern mounted atop. While the design is simple in theory, these are built to enable a Lamplighter to perform borderline miracles. The Roadsmen despise losing them."
 	possible_item_intents = list(/datum/intent/spear/bash, /datum/intent/use)
 	icon_state = "ironlamp"
 	light_system = MOVABLE_LIGHT
@@ -204,6 +205,7 @@
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden
 	name = "lampwarden's staff"
+	dec = "A reinforced quarterstaff with a lamptern mounted atop. While the design is simple in theory, these are built to enable a Lampwarden to perform incredible feats of pyrotechnics. The Roadsmen despise losing them."
 	possible_item_intents = list(/datum/intent/spear/bash, /datum/intent/use)
 	icon_state = "wardlamp"
 	light_system = MOVABLE_LIGHT
