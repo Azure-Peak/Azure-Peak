@@ -352,6 +352,7 @@
 	charge_slowdown = 1
 	cooldown_time = 3 MINUTES
 
+	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 
@@ -421,6 +422,95 @@
 #undef LEECHSEED_FILTER
 
 
+///////////////////
+// T3 - Wyldsong //
+///////////////////
+
+/datum/action/cooldown/spell/dendor/wyldsong
+	name = "Leeching Seed"
+	desc = "Curse a target with Dendor's seedling, slowing the target and making it bloom out into a healing aura."
+	button_icon_state = "leech"
+	sound = 'sound/magic/dendor_howl.ogg'
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Bloom!")
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = 1
+	cooldown_time = 3 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/dendor/wyldsong/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if(!isliving(spelltarget))
+		return FALSE
+
+	spelltarget.apply_status_effect(/datum/status_effect/debuff/leechseed)
+
+	return TRUE
+
+
+////////////////////////
+// T4 - Feral Impulse //
+////////////////////////
+
+/datum/action/cooldown/spell/dendor/impulse_gift
+	name = "Gift of Ferocity"
+	desc = "Grant a target the ability to invoke Dendor's ferocious form."
+	button_icon_state = "leech"
+	sound = 'sound/magic/dendor_howl.ogg'
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 20
+
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	ignore_armor_penalty = TRUE
+	cooldown_time = 10 MINUTES
+	charge_time = 0.1 SECONDS
+
+	invocations = list("Malum's hand will heed you from harm!")
+	invocation_type = INVOCATION_SHOUT
+	cast_range = SPELL_RANGE_GROUND
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/dendor/impulse_gift/cast(atom/cast_on)
+	. = ..()
+	if(!isliving(cast_on))
+		to_chat(owner, span_warning("This must be cast upon a living target."))
+		return FALSE
+	if(cast_on == owner)
+		to_chat(owner, span_warning("You cannot reinforce yourself."))
+		return FALSE
+
+	var/mob/living/target = cast_on
+
+	if(target.mind?.has_spell(/datum/action/cooldown/spell/astrata/firecloak))
+		to_chat(owner, span_warning("[target] already holds a fragment of Malum's blessings."))
+		return FALSE
+
+	var/datum/action/cooldown/spell/astrata/firecloak/SP = new /datum/action/cooldown/spell/astrata/firecloak
+	target.mind?.AddSpell(SP, target)
+	target.visible_message(span_warning("A shadow settles over [target], promising protection."))
+	to_chat(target, span_notice("You have been gifted a fragment of Dendor. Use it to undergo a feral rage."))
+
+	return TRUE
 
 
 
@@ -433,29 +523,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
 ///////////////////
 // T2 - Wyldcall //
 ///////////////////
@@ -531,45 +599,10 @@
 			to_chat(usr, "With Dendor's aide, you soothe [animal] of their anger.")
 	return tamed
 
-//////////////////////
-// T3 - Vine Sprout //
-//////////////////////
-
-/obj/effect/proc_holder/spell/targeted/conjure_vines
-	name = "Vine Sprout"
-	desc = "Summon vines nearby."
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "blesscrop"
-	releasedrain = 30
-	invocations = list("Treefather, bring forth vines.")
-	invocation_type = "shout"
-	devotion_cost = 30
-	range = 1
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
-	sound = 'sound/items/dig_shovel.ogg'
-	associated_skill = /datum/skill/magic/holy
-	miracle = TRUE
-
-/obj/effect/proc_holder/spell/targeted/conjure_vines/cast(list/targets, mob/user = usr)
-	. = ..()
-	var/turf/target_turf = get_step(user, user.dir)
-	var/turf/target_turf_two = get_step(target_turf, turn(user.dir, 90))
-	var/turf/target_turf_three = get_step(target_turf, turn(user.dir, -90))
-	if(!locate(/obj/structure/vine) in target_turf)
-		new /obj/structure/vine/dendor(target_turf)
-	if(!locate(/obj/structure/vine) in target_turf_two)
-		new /obj/structure/vine/dendor(target_turf_two)
-	if(!locate(/obj/structure/vine) in target_turf_three)
-		new /obj/structure/vine/dendor(target_turf_three)
-
-	return TRUE
+*/
 
 ///////////////////////////
-// T4 - Call of the Moon //
+// T? - Call of the Moon //
 ///////////////////////////
 
 /obj/effect/proc_holder/spell/self/howl/call_of_the_moon

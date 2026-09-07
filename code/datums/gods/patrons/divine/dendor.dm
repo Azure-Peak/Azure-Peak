@@ -12,13 +12,12 @@
 					/datum/action/cooldown/spell/dendor/howl					= CLERIC_T1,
 					/datum/action/cooldown/spell/dendor/pounce 					= CLERIC_T2,
 					/datum/action/cooldown/spell/dendor/leech 					= CLERIC_T2,
-					/*datum/action/cooldown/spell/dendor/shape					= CLERIC_T3,
-					/datum/action/cooldown/spell/dendor/cocoon					= CLERIC_T3,
-					/datum/action/cooldown/spell/dendor/feral_impulse			= CLERIC_T4,*/
+					/datum/action/cooldown/spell/dendor/wyldsong				= CLERIC_T3,
+					/obj/effect/proc_holder/spell/self/wildshape				= CLERIC_T3,
+					/datum/action/cooldown/spell/dendor/impulse_gift			= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/dendor		= CLERIC_T4,
 	)
 /* For Druid
-					/datum/action/cooldown/spell/dendor/wildshape				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/conjure_vines		= CLERIC_T3,
 					/datum/action/cooldown/spell/dendor/treecall				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/root_affinity			= CLERIC_T4,
