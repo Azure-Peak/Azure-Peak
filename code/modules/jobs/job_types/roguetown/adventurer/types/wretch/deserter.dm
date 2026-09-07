@@ -160,6 +160,8 @@
 		var/armors = list(
 			"Fullplate"			= /obj/item/clothing/suit/roguetown/armor/plate/full,
 			"Fluted Fullplate"		= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted,
+			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 			"Coat of Plates"		= /obj/item/clothing/suit/roguetown/armor/brigandine/heavy,
 			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate,

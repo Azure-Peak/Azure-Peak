@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - balance: "Blackblood's regeneration gets stunted by 50% for every 'bad scenario' a Blackblood is in and shouldn't be, including (and specifically) being in combat."

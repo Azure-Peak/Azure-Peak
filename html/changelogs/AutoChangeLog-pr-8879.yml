@@ -1,8 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - rscadd: "bloodletting now removes \"infection\" reagent from bad surgery. remember to pump out the blood w/ a hand after cutting the vein!"
-  - balance: "bloodletting now reduces toxloss by a smaller amount"
-  - balance: "bloodletting blood-loss scales inversely with medicine skill"
-  - qol: "bloodletting repeats automatically"
-  - bugfix: "bloodletting does not work if the target is running out of blood"

@@ -41,12 +41,23 @@
 		return TRUE
 	return FALSE
 
+/datum/bodypart_feature/hair/proc/get_custom_hair_pixel_layer(obj/item/bodypart/bodypart)
+	if(custom_pixels_covered(bodypart))
+		return CUSTOM_HAIR_COVERED_LAYER
+	var/mob/living/carbon/human/human = bodypart?.owner
+	if(!istype(human))
+		return CUSTOM_HAIR_LAYER
+	var/obj/item/organ/snout/snout = human.getorganslot(ORGAN_SLOT_SNOUT)
+	var/datum/sprite_accessory/snout/accessory = snout?.accessory_type ? SPRITE_ACCESSORY(snout.accessory_type) : null
+	if(accessory?.draws_over_hair)
+		return CUSTOM_HAIR_ABOVE_SNOUT_LAYER
+	return CUSTOM_HAIR_LAYER
+
 /datum/bodypart_feature/hair/extra_bodypart_overlays(obj/item/bodypart/bodypart)
 	var/icon/custom_icon = get_custom_overlay_icon()
 	if(!custom_icon)
 		return
-	var/pixel_layer = custom_pixels_covered(bodypart) ? CUSTOM_HAIR_COVERED_LAYER : CUSTOM_HAIR_LAYER
-	return list(mutable_appearance(custom_icon, layer = -pixel_layer))
+	return list(mutable_appearance(custom_icon, layer = -get_custom_hair_pixel_layer(bodypart)))
 
 /// Derives cache from bodyparts_covered.
 /datum/bodypart_feature/hair/get_cache_key(obj/item/bodypart/bodypart)
@@ -54,7 +65,7 @@
 	var/mask_hash = get_custom_mask_hash()
 	if(!mask_hash)
 		return .
-	return "[.]-[mask_hash]-[custom_pixels_covered(bodypart)]"
+	return "[.]-[mask_hash]-[get_custom_hair_pixel_layer(bodypart)]"
 
 /// Drops the cached mask derivatives when they no longer describe the current mask data.
 /datum/bodypart_feature/hair/proc/validate_custom_cache()

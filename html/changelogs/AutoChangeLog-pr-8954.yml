@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "you can MMB toggle between ear show, hair+ear show, and both hidden"
+  - rscadd: "MMB layering for belt under cloak"

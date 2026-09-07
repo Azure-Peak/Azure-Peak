@@ -1,4 +1,4 @@
-export const SubtabDescriptorsDownstream = (props) => {
+export const SubtabDescriptorsDownstream = () => {
   // Suggested format:
   // return (
   //   <>
@@ -14,7 +14,7 @@ export const SubtabDescriptorsDownstream = (props) => {
   return null;
 };
 
-export const SubtabDescriptorsOtherInfoDownstream = (props) => {
+export const SubtabDescriptorsOtherInfoDownstream = () => {
   // Suggeted format:
   // return (
   //   <Box mt={2}>My downstream options here</Box>
@@ -22,7 +22,7 @@ export const SubtabDescriptorsOtherInfoDownstream = (props) => {
   return null;
 };
 
-export const SubtabDescriptorsOtherInfoListDownstream = (props) => {
+export const SubtabDescriptorsOtherInfoListDownstream = () => {
   // Suggested format:
   // return (
   //   <>
@@ -41,7 +41,7 @@ export const SubtabDescriptorsOtherInfoListDownstream = (props) => {
   return null;
 };
 
-export const SubtabDescriptorsTextDescriptionsDownstream = (props) => {
+export const SubtabDescriptorsTextDescriptionsDownstream = () => {
   // Suggested format:
   // return (
   //   <>

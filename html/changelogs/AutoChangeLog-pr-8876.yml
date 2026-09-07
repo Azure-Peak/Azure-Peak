@@ -1,4 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "people w/ multiple reagents in their blood will now display it properly"

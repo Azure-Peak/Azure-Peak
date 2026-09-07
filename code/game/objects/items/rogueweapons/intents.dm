@@ -641,6 +641,11 @@
 					custom_offset = 23
 					taunt_message = "[user] flips [M] off with extreme prejudice!"
 
+				else if(istype(L.patron, /datum/patron/vheslyn))
+					taunticon = "midfinger"
+					custom_offset = 23
+					taunt_message = "[user] flips [M] off with extreme prejudice!"
+
 				else if(istype(L.patron, /datum/patron/inhumen/graggar))
 					taunticon = "midfinger"
 					custom_offset = 23
@@ -714,6 +719,7 @@
 	releasedrain = 1	//More than punch cus pen factor.
 	swingdelay = 0
 	penfactor = PEN_NONE
+	rmb_ranged = TRUE //for taunt sovl
 	candodge = TRUE
 	canparry = TRUE
 	blade_class = BCLASS_CUT
@@ -721,6 +727,51 @@
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
 
+/datum/intent/unarmed/claw/rmb_ranged(atom/target, mob/user)
+	if(user.stat >= UNCONSCIOUS)
+		return
+	if(ismob(target))
+		var/mob/M = target
+		var/list/targetl = list(target)
+		var/mob/living/L = user
+		var/taunticon = "taunt"
+		var/custom_offset = 21
+		var/taunt_message = "[user] taunts [M]!"
+		var/is_pacifist = istype(L.patron, /datum/patron/divine/eora) || HAS_TRAIT(L, TRAIT_PACIFISM) //keeping it because its funny, yes even for deadite Eorans to just thumbs you down while the rest give the finger
+
+		if(M.mind)
+			if(is_pacifist)
+				taunticon = "thumbsdown"
+				custom_offset = 24
+				taunt_message = "[user] berates [M] disapprovingly!"
+
+			else if(!HAS_TRAIT(M, TRAIT_DEATHLESS) && HAS_TRAIT(L, TRAIT_DEATHLESS)) //RAGE AGAINST THE LYVING
+				taunticon = "midfinger"
+				custom_offset = 23
+				taunt_message = "[user] flips [M] off with extreme prejudice!"
+
+			L.play_overhead_private_rclickemote(targetl, taunticon, custom_offset)
+			to_chat(M, span_taunt(taunt_message))
+			user.visible_message(span_taunt(taunt_message), span_taunt(taunt_message), ignored_mobs = targetl)
+			user.emote("taunt")
+			user.changeNext_move(CLICK_CD_FAST) // Mostly to prevent spamming the animation too heavily.
+		else
+			if(is_pacifist)
+				taunticon = "thumbsdown"
+				custom_offset = 24
+				taunt_message = "[user] berates [M] disapprovingly!"
+
+			user.visible_message(span_taunt(taunt_message), span_taunt(taunt_message), ignored_mobs = targetl)
+			user.emote("taunt")
+
+			M.taunted(user)
+			if(M.ai_controller)
+				M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
+				M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, user)
+			var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
+			if(aggro)
+				aggro.add_threat_to_mob(user, 300)
+	return
 
 /datum/intent/unarmed/shove
 	name = "shove"

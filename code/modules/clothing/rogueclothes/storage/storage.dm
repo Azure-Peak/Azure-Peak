@@ -25,6 +25,18 @@
 		return TRUE
 	..()
 
+/obj/item/storage/belt/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Middle-clicking a belt adjusts its layer..")
+
+/obj/item/storage/belt/rogue/MiddleClick(mob/user)
+	if(!ishuman(user))
+		return
+	var/under_tabard = (alternate_worn_layer != UNDER_TABARD_LAYER)
+	alternate_worn_layer = under_tabard ? UNDER_TABARD_LAYER : initial(alternate_worn_layer)
+	to_chat(user, span_info("I wear [src] [under_tabard ? "under" : "over"] my tabard."))
+	user.update_inv_belt()
+
 /obj/item/storage/belt/rogue/leather
 	name = "belt"
 	desc = "A fine leather strap notched with holes for a buckle to secure itself."

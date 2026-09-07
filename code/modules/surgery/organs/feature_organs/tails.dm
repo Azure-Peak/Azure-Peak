@@ -64,7 +64,7 @@
 
 /obj/item/organ/tail/dullahan
 	name = "revenant tail"
-	accessory_type =	/datum/sprite_accessory/tail/dullahan
+	accessory_type =	/datum/sprite_accessory/tail/tiefling
 
 /obj/item/organ/tail/akula
 	name = "axian tail"

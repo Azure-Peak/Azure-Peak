@@ -304,6 +304,7 @@
 		ORGAN_SLOT_LIVER,
 		ORGAN_SLOT_STOMACH,
 		ORGAN_SLOT_APPENDIX,
+		ORGAN_SLOT_GUTS,
 	)
 
 	// Remove organs that are already present
@@ -745,12 +746,12 @@
 			return FALSE
 		var/mob/living/target = targets[1]
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
 		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Vhelsynites aren't affected
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE

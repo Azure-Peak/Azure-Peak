@@ -29,7 +29,7 @@ type SpeciesPopupData = {
   current_subspecies: string;
 } & PopupData;
 
-const PopupSpeciesSelector = (props) => {
+const PopupSpeciesSelector = () => {
   const [constantData] = useConstantPrefs();
   const { data } = usePopupBackend<SpeciesPopupData>();
   const { popup_data_ready } = data;

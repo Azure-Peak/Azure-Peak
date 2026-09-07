@@ -487,11 +487,11 @@
 		),
 	)
 	var_overrides = list(
-		"wlength" = WLENGTH_SHORT,
+		"wlength" = WLENGTH_SHORT
+	)
+	additive_var_overrides = list(
 		"wdefense" = -2
 	)
-
-/datum/alt_grip/mordhau/sword/frei
 
 /datum/alt_grip/mordhau/broadsword
 	grip_intents = list(
@@ -685,52 +685,29 @@
 	)
 
 /datum/alt_grip/halfsword/frei
+	name = "mezza spada"
 	trait_applied = list(TRAIT_LONGSWORDSMAN)
 	additive_var_overrides = list(
-		"wdefense" = 3
+		"wdefense" = 2
 	)
 	grip_intents = list(
-		/datum/intent/sword/thrust/long/halfsword/frei,
-		/datum/intent/effect/daze/longsword2h,
-		/datum/intent/shield/block
+		/datum/intent/sword/thrust/long/halfsword/jab,
+		/datum/intent/shield/block,
+		/datum/intent/sword/thrust/long/deep/halfsword/frei,
+		/datum/intent/sword/thrust/long/halfsword/frei
 	)
 
-/datum/alt_grip/roof_guard
-	name = "roof guard"
+/datum/alt_grip/mordhau/sword/frei
+	name = "abrazare"
 	two_handed = TRUE
 	additive_var_overrides = list(
-		wdefense = -1 //HOWEVER. this gives me the idea that using roof guard will reduce your parry by a little. glass cannon mode against swift players kind of
+		"wdefense" = -4
 	)
 	trait_applied = list(TRAIT_LONGSWORDSMAN)
 	grip_intents = list(
-		/datum/intent/sword/cut/master,
-		/datum/intent/sword/thrust/long/master,
+		/datum/intent/sword/strike/bash/mordhau,
+		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze/longsword
-	)
-	onmobprop_overrides = list(
-		"altgrip" = list(
-			"shrink" = 0.6,
-			"sx" = -2,
-			"sy" = 9,
-			"nx" = 5,
-			"ny" = 5,
-			"wx" = 0,
-			"wy" = 7,
-			"ex" = -2,
-			"ey" = 7,
-			"northabove" = 0,
-			"southabove" = 1,
-			"eastabove" = 1,
-			"westabove" = 0,
-			"nturn" = 117,
-			"sturn" = -301,
-			"wturn" = -75,
-			"eturn" = -110,
-			"nflip" = 8,
-			"sflip" = 8,
-			"wflip" = 1,
-			"eflip" = 0,
-		),
 	)
 
 /datum/alt_grip/halfsword/greatsword

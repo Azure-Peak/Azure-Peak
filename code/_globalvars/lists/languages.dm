@@ -4,6 +4,8 @@ GLOBAL_LIST_INIT_TYPED(language_datum_instances, /datum/language, init_language_
 GLOBAL_LIST_INIT(all_languages, init_all_languages())
 /// List of language prototypes to reference, assoc "name" = typepath
 GLOBAL_LIST_INIT(language_types_by_name, init_language_types_by_name())
+/// List of language prototypes to reference, assoc "key" = typepath.
+GLOBAL_LIST_INIT(language_types_by_key, init_language_types_by_key())
 /// List of languages selectable in character setup
 GLOBAL_LIST_INIT(languages_character_selection, list(
 	/datum/language/elvish,
@@ -45,4 +47,13 @@ GLOBAL_LIST_INIT(languages_character_selection, list(
 		if(!initial(lang_type.key))
 			continue
 		lang_list[initial(lang_type.name)] = lang_type
+	return lang_list
+
+/proc/init_language_types_by_key()
+	var/list/lang_list = list()
+	for(var/datum/language/lang_type as anything in typesof(/datum/language))
+		var/key = LOWER_TEXT(initial(lang_type.key))
+		if(!key || lang_list[key])
+			continue
+		lang_list[key] = lang_type
 	return lang_list
