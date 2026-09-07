@@ -47247,10 +47247,12 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grimspyre)
 "fNK" = (
-/obj/structure/roguemachine/talkstatue/mercenary{
+/obj/structure/roguemachine/vendor/keep_councillors{
+	density = 0;
+	name = "COUNCILOR'S KEYS";
 	pixel_y = 32
 	},
-/turf/open/floor/rogue/blocks,
+/turf/open/floor/carpet/red,
 /area/rogue/under/town/basement/keep/grim)
 "fNN" = (
 /obj/structure/flora/roguegrass,
@@ -56504,11 +56506,6 @@
 /obj/structure/fluff/railing/border{
 	dir = 4
 	},
-/obj/structure/roguemachine/vendor/keep_councillors{
-	density = 0;
-	name = "COUNCILOR'S KEYS";
-	pixel_y = 32
-	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/basement/keep/grim)
 "gWT" = (
@@ -62811,17 +62808,17 @@
 /area/rogue/outdoors/beach/forest/hamlet/grim)
 "hKn" = (
 /obj/structure/table/wood/poor,
-/obj/item/bottle_kit{
-	pixel_x = -6;
-	pixel_y = 3
+/obj/item/candle/candlestick/silver/lit{
+	pixel_y = 18;
+	pixel_x = 0
 	},
 /obj/item/bottle_kit{
 	pixel_x = 6;
 	pixel_y = 2
 	},
-/obj/item/candle/candlestick/silver/lit{
-	pixel_y = 18;
-	pixel_x = 0
+/obj/item/bottle_kit{
+	pixel_x = -6;
+	pixel_y = 3
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/basement/keep/grim)
@@ -99601,6 +99598,12 @@
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"mlo" = (
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
+/turf/open/floor/carpet/red,
+/area/rogue/under/town/basement/keep/grim)
 "mlp" = (
 /obj/machinery/light/rogue/campfire/fireplace{
 	pixel_x = 16;
@@ -100460,9 +100463,9 @@
 /turf/open/floor/rogue/metal/barograte/open,
 /area/rogue/under/underdark/north/grim)
 "mrC" = (
-/obj/structure/fermentation_keg/random/water,
-/turf/open/floor/rogue/blocks,
-/area/rogue/under/town/basement/keep/grim)
+/obj/structure/flora/roguegrass/water/reeds,
+/turf/closed/mineral/random/rogue/med,
+/area/rogue/indoors/cave/central)
 "mrD" = (
 /obj/structure/table/wood/long_table,
 /obj/item/reagent_containers/glass/mortar{
@@ -101767,7 +101770,7 @@
 "mzy" = (
 /obj/structure/bars,
 /turf/open/transparent/openspace,
-/area/rogue/outdoors/exposed/under/sewer/grim)
+/area/rogue/under/town/basement/keep/grim)
 "mzz" = (
 /obj/structure/fluff/walldeco/vinez/r,
 /turf/open/floor/rogue/grassred,
@@ -115302,6 +115305,10 @@
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/garrison/grim)
+"ojz" = (
+/obj/structure/fermentation_keg/water,
+/turf/open/floor/rogue/blocks,
+/area/rogue/under/town/basement/keep/grim)
 "ojA" = (
 /obj/structure/table/church,
 /obj/item/candle/candlestick/gold/single{
@@ -175770,7 +175777,7 @@
 /area/rogue/under/cave/grimspyre)
 "vwY" = (
 /obj/structure/fluff/walldeco/vinez/glow,
-/turf/closed/mineral/rogue/bedrock,
+/turf/closed/mineral/random/rogue/med,
 /area/rogue/indoors/cave/central)
 "vxg" = (
 /obj/structure/fluff/railing/border,
@@ -265382,10 +265389,10 @@ xhV
 xhV
 xhV
 xhV
-bxI
+mrC
 vwY
 vwY
-lcQ
+llS
 vwY
 mCZ
 msQ
@@ -265764,10 +265771,10 @@ xhV
 xhV
 bxI
 vwY
-lcQ
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
+llS
 chE
 msQ
 xhV
@@ -266146,9 +266153,9 @@ xhV
 vcw
 vcw
 vcw
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
 mCZ
 msQ
 xhV
@@ -266528,7 +266535,7 @@ vcw
 vcw
 vcw
 vcw
-lcQ
+llS
 vwY
 chE
 msQ
@@ -266549,8 +266556,8 @@ gun
 gun
 gun
 gun
-sPo
-sPo
+gun
+gun
 vbr
 sPo
 sPo
@@ -266909,9 +266916,9 @@ vcw
 vcw
 vcw
 vcw
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
 msQ
 msQ
 mCZ
@@ -266931,8 +266938,8 @@ gun
 gun
 gun
 gun
-ndf
-ndf
+lcQ
+lcQ
 vbr
 ndf
 ndf
@@ -267290,9 +267297,9 @@ vcw
 vcw
 vcw
 vcw
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
 vcw
 msQ
 msQ
@@ -267667,13 +267674,13 @@ msQ
 msQ
 xhV
 vwY
-lcQ
+llS
 vcw
 vcw
 vcw
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
 vwY
 vcw
 msQ
@@ -268048,12 +268055,12 @@ msQ
 msQ
 msQ
 chE
-lcQ
-lcQ
+llS
+llS
 vwY
 vcw
 vcw
-lcQ
+llS
 vcw
 vcw
 vcw
@@ -268429,15 +268436,15 @@ vcw
 msQ
 msQ
 msQ
-lcQ
-lcQ
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
+llS
+llS
 vcw
-lcQ
+llS
 vcw
-lcQ
+llS
 vcw
 vcw
 msQ
@@ -268812,15 +268819,15 @@ msQ
 msQ
 msQ
 vwY
-lcQ
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
+llS
 vcw
 vwY
 vcw
-lcQ
-lcQ
+llS
+llS
 vcw
 msQ
 msQ
@@ -269194,15 +269201,15 @@ msQ
 msQ
 msQ
 vwY
-lcQ
+llS
 vcw
 vcw
 vcw
 vcw
 vcw
 vcw
-lcQ
-lcQ
+llS
+llS
 msQ
 xhV
 msQ
@@ -269575,16 +269582,16 @@ mCZ
 msQ
 msQ
 msQ
-lcQ
+llS
 vcw
 vcw
 vcw
 vwY
-lcQ
+llS
 vwY
 vcw
-lcQ
-lcQ
+llS
+llS
 msQ
 msQ
 xhV
@@ -269957,15 +269964,15 @@ vcw
 lzi
 msQ
 msQ
-lcQ
-lcQ
+llS
+llS
 vwY
 vcw
 vcw
 vcw
 vcw
 vcw
-lcQ
+llS
 lzi
 xhV
 msQ
@@ -270339,14 +270346,14 @@ vcw
 lzi
 msQ
 msQ
-lcQ
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
+llS
 vwY
 vcw
-lcQ
-lcQ
+llS
+llS
 lzi
 xhV
 msQ
@@ -270722,13 +270729,13 @@ msQ
 ceq
 pPt
 vwY
-lcQ
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
+llS
 vcw
 vcw
-lcQ
+llS
 msQ
 msQ
 msQ
@@ -271103,12 +271110,12 @@ jmP
 ceq
 msQ
 msQ
-lcQ
+llS
 vwY
-lcQ
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
+llS
 vcw
 vwY
 msQ
@@ -271487,9 +271494,9 @@ msQ
 ceq
 msQ
 pCF
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
 vcw
 vcw
 vwY
@@ -271873,8 +271880,8 @@ pCF
 vcw
 vcw
 vcw
-lcQ
-lcQ
+llS
+llS
 msQ
 msQ
 lcQ
@@ -272253,10 +272260,10 @@ ceq
 msQ
 pCF
 duX
-lcQ
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
+llS
 msQ
 msQ
 lcQ
@@ -272636,9 +272643,9 @@ ceq
 msQ
 vcw
 naP
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
 msQ
 msQ
 lcQ
@@ -273018,9 +273025,9 @@ msQ
 msQ
 vcw
 duX
-lcQ
-lcQ
-lcQ
+llS
+llS
+llS
 msQ
 msQ
 cac
@@ -273401,7 +273408,7 @@ msQ
 msQ
 vcw
 vwY
-lcQ
+llS
 vwY
 msQ
 msQ
@@ -273783,7 +273790,7 @@ msQ
 msQ
 vcw
 vwY
-lcQ
+llS
 pCF
 msQ
 msQ
@@ -274164,7 +274171,7 @@ msQ
 msQ
 msQ
 msQ
-lcQ
+llS
 bfT
 vcw
 msQ
@@ -389907,15 +389914,15 @@ yly
 xAn
 rOV
 rOV
-rOV
 vJb
-tNP
+jnF
+jnF
 uIw
-jnF
+uIw
 rOV
-xyP
 xAn
-jnF
+xAn
+xyP
 rOV
 wOZ
 wOZ
@@ -390288,9 +390295,9 @@ xAn
 xAn
 flW
 rOV
-say
 rOV
 sGf
+yly
 yly
 yly
 oex
@@ -390670,10 +390677,10 @@ jMa
 rnD
 jMa
 rOV
-say
 rOV
 iUe
-uIw
+ojz
+ojz
 uIw
 xAn
 vwG
@@ -391053,8 +391060,8 @@ xAn
 xAn
 xAn
 rOV
-rOV
 bhV
+yly
 yly
 yly
 oex
@@ -391435,11 +391442,11 @@ xAn
 xAn
 xAn
 rOV
-rOV
 bTq
 pEz
-mrC
+tNP
 faK
+xAn
 rOV
 xAn
 xAn
@@ -391817,9 +391824,9 @@ xAn
 rOV
 laa
 rOV
-say
-say
-say
+rOV
+rOV
+rOV
 rOV
 rOV
 rOV
@@ -392200,17 +392207,17 @@ rOV
 ora
 rOV
 rOV
-luJ
-cKG
-fdk
+rOV
+rOV
+rOV
 rOV
 uLo
 xAn
 xAn
 rOV
-xVy
-liW
-fdk
+rOV
+rOV
+rOV
 rOV
 rjc
 rjc
@@ -392582,17 +392589,17 @@ wvm
 oHk
 wvm
 rOV
-pdh
-dup
-hXa
+rOV
+rOV
+rOV
 rOV
 xAn
 yly
 xAn
 rOV
-dBI
-dup
-dup
+xVy
+liW
+fdk
 rOV
 rjc
 rpB
@@ -392960,21 +392967,21 @@ drY
 drY
 drY
 drY
-wvm
+drY
 pQj
 wvm
 rOV
-qLB
-ihM
-hXa
+luJ
+cKG
+fdk
 diz
-rlI
-rYq
-rlI
-iJC
-hXa
-oZx
-qWb
+xAn
+yly
+xAn
+rOV
+dBI
+dup
+dup
 rOV
 wQb
 qBC
@@ -393342,21 +393349,21 @@ drY
 drY
 drY
 drY
+drY
+drY
 wvm
-wvm
-wvm
 rOV
+pdh
+dup
+hXa
 rOV
-rOV
-rOV
-rOV
-wTi
+mlo
 rYq
-waK
-rOV
-rOV
-rOV
-rOV
+rlI
+iJC
+hXa
+oZx
+qWb
 rOV
 pFZ
 rtc
@@ -393728,17 +393735,17 @@ drY
 drY
 wvm
 rOV
-luJ
+qLB
+ihM
 hXa
-hXa
-cqk
-rlI
+rOV
+wTi
 rYq
-rlI
-wmQ
-hXa
-hXa
-hXa
+waK
+rOV
+rOV
+rOV
+rOV
 rOV
 rjc
 rjc
@@ -394110,17 +394117,17 @@ drY
 drY
 wvm
 rOV
-pdh
-dup
-cKG
+rOV
+rOV
+rOV
 rOV
 fNK
-yly
-xAn
-rOV
-fEG
-bll
-lDw
+rYq
+rlI
+wmQ
+hXa
+hXa
+hXa
 rjc
 sFo
 qUj
@@ -394492,17 +394499,17 @@ drY
 drY
 wvm
 rOV
-ktj
-ihM
-fdk
-say
+luJ
+hXa
+hXa
+cqk
 gWS
 pla
 xAn
 rOV
-ora
-rOV
-rOV
+fEG
+bll
+lDw
 rjc
 wQb
 qBC
@@ -394874,15 +394881,15 @@ drY
 drY
 wvm
 rOV
+pdh
+dup
+cKG
 rOV
-say
-say
-say
 eTC
 yly
 xAn
 rOV
-vbr
+ora
 rjc
 rjc
 rjc
@@ -395255,10 +395262,10 @@ vXM
 drY
 drY
 wvm
-wvm
-wvm
-wvm
-wvm
+rOV
+ktj
+ihM
+fdk
 rOV
 rTS
 jyy
@@ -395634,13 +395641,13 @@ uTf
 rES
 uTf
 uTf
-vXM
-vXM
-drY
-drY
 drY
 drY
 wvm
+rOV
+rOV
+rOV
+rOV
 rOV
 rOV
 rOV
@@ -396018,10 +396025,10 @@ rES
 uTf
 uTf
 tvE
-vXM
-drY
-drY
-drY
+wvm
+wvm
+wvm
+wvm
 wvm
 wvm
 wvm
@@ -501692,8 +501699,8 @@ nBZ
 nBZ
 nBZ
 nBZ
-nBZ
-nBZ
+tnn
+tnn
 tnn
 tnn
 tnn
@@ -502067,7 +502074,7 @@ ghR
 oEz
 nBZ
 tnn
-nBZ
+tnn
 nBZ
 nBZ
 nBZ
@@ -502841,7 +502848,7 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
+tnn
 tnn
 tnn
 tnn
@@ -503606,7 +503613,7 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
+tnn
 tnn
 tnn
 tnn
@@ -504378,8 +504385,8 @@ tnn
 tnn
 nBZ
 nBZ
-nBZ
-nBZ
+tnn
+tnn
 tnn
 qsP
 qsP
@@ -504761,7 +504768,7 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
+tnn
 qsP
 qsP
 qsP
@@ -505526,9 +505533,9 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
-nBZ
-nBZ
+tnn
+tnn
+tnn
 tnn
 tnn
 tnn
@@ -505910,8 +505917,8 @@ tnn
 nBZ
 nBZ
 nBZ
-nBZ
-nBZ
+tnn
+tnn
 tnn
 tnn
 cPF
@@ -506292,9 +506299,9 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
-nBZ
-nBZ
+tnn
+tnn
+tnn
 tnn
 tnn
 rYT
@@ -506674,10 +506681,10 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
-nBZ
-nBZ
-nBZ
+tnn
+tnn
+tnn
+tnn
 rYT
 rYT
 qsP
@@ -507056,8 +507063,8 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
-nBZ
+tnn
+tnn
 rYT
 dby
 pwN
@@ -507438,7 +507445,7 @@ tnn
 nBZ
 nBZ
 nBZ
-nBZ
+tnn
 rYT
 rYT
 dby
@@ -507818,7 +507825,7 @@ tnn
 tnn
 nBZ
 nBZ
-nBZ
+tnn
 qsP
 qsP
 qsP
@@ -508199,7 +508206,7 @@ tnn
 nBZ
 nBZ
 nBZ
-nBZ
+wyC
 rYT
 qsP
 qsP
@@ -508579,7 +508586,7 @@ tnn
 nBZ
 nBZ
 nBZ
-nBZ
+wyC
 wyC
 rYT
 qsP
@@ -508959,7 +508966,7 @@ tnn
 nBZ
 nBZ
 nBZ
-nBZ
+wyC
 wyC
 wyC
 wyC
@@ -509339,8 +509346,8 @@ tnn
 tnn
 nBZ
 nBZ
-nBZ
-nBZ
+wyC
+wyC
 wyC
 wyC
 wyC
@@ -509720,8 +509727,8 @@ tnn
 tnn
 nBZ
 nBZ
-nBZ
-nBZ
+wyC
+wyC
 wyC
 wyC
 wyC
@@ -510101,8 +510108,8 @@ tnn
 nBZ
 nBZ
 nBZ
-nBZ
-nBZ
+wyC
+wyC
 wyC
 wyC
 wyC
@@ -510481,8 +510488,8 @@ tnn
 nBZ
 nBZ
 nBZ
-nBZ
-nBZ
+wyC
+wyC
 wyC
 wyC
 wyC
@@ -510861,8 +510868,8 @@ tnn
 tnn
 tnn
 nBZ
-nBZ
-nBZ
+wyC
+wyC
 wyC
 wyC
 wyC
@@ -511243,7 +511250,7 @@ tnn
 tnn
 nBZ
 nBZ
-nBZ
+wyC
 wyC
 wyC
 wyC
@@ -512383,7 +512390,7 @@ nBZ
 nBZ
 nBZ
 nBZ
-nBZ
+wyC
 wyC
 wyC
 wyC
@@ -512761,9 +512768,9 @@ tnn
 tnn
 nBZ
 nBZ
-nBZ
-nBZ
-nBZ
+wyC
+wyC
+wyC
 wyC
 wyC
 wyC
@@ -754623,7 +754630,7 @@ gDv
 gDv
 gDv
 gDv
-sds
+efd
 efd
 bLg
 bLg
@@ -755006,8 +755013,8 @@ efd
 gDv
 gDv
 nNj
-bLg
-frV
+wyO
+eTW
 frV
 efd
 efd
