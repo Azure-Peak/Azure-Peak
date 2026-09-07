@@ -111,7 +111,7 @@
 	)
 
 /datum/migrant_wave/assassin
-	name = "Assassin Hit"
+	name = "Death Cult Rising"
 	track = MIGRANT_TRACK_SPECIAL
 	weight = 12
 	min_round_time = 60 MINUTES
@@ -124,7 +124,7 @@
 	)
 
 /datum/migrant_wave/gnolls
-	name = "Gnoll raid"
+	name = "Gnoll Raid"
 	track = MIGRANT_TRACK_SPECIAL
 	weight = 12
 	min_round_time = 45 MINUTES

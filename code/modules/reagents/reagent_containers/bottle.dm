@@ -121,7 +121,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 			user.mob_timers["bottleopen_warn"] = world.time
 	return
 
-/obj/item/reagent_containers/glass/bottle/rmb_self(mob/user)
+/obj/item/reagent_containers/glass/bottle/rmb_self(mob/user, keybind = FALSE)
 	. = ..()
 	toggle_cork(user)
 

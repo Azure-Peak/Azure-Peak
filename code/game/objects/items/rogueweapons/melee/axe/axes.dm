@@ -124,7 +124,7 @@
 
 /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
 	name = "decrepit axe"
-	desc = "A hatchet of frayed bronze. It reigns from a tyme before the Comet Syon's impact; when Man wrought metal not to spill blood, but to better shape the world in His image."
+	desc = "A hatchet of rotted metal. It reigns from a tyme before the Comet Syon's impact; when Man wrought metal not to spill blood, but to better shape the world in His image."
 	icon_state = "ahandaxe"
 	force = 17
 	force_wielded = 20
@@ -655,11 +655,12 @@
 
 /obj/item/rogueweapon/greataxe/steel/knight
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/mace/strike, /datum/intent/axe/rangedthrust)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/mace/strike/poleaxe, /datum/intent/spear/thrust/militia)
 	name = "poleaxe"
 	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of steel. It is the ultimate weapon for a well-seasoned knight, capable of \
 	humbling any foe that may assail their presence. </br>'Away with you, vile beggar!'"
 	icon_state = "steelpoleaxe"
+	special = /datum/special_intent/side_sweep
 	max_blade_int = 300
 
 /obj/item/rogueweapon/greataxe/steel/knight/attackby(obj/item/W, mob/living/user, params)

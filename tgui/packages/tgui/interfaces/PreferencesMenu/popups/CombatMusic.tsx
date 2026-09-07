@@ -17,7 +17,7 @@ export type PopupCombatMusicData = {
   combat_music: string | null;
 } & PopupData;
 
-const PopupCombatMusic = (props) => {
+const PopupCombatMusic = () => {
   const [constantData] = useConstantPrefs();
   const { data } = usePopupBackend<PopupCombatMusicData>();
   const { popup_data_ready } = data;

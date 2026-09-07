@@ -403,7 +403,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		var/datum/virtue/V = virtue_type
 		virtue = new V.type
 		if(length(V.picked_choices))
-			virtue.picked_choices = V.picked_choices
+			virtue_choices = V.picked_choices.Copy()
 		qdel(V)
 	else if(ispath(virtue_type, /datum/virtue))
 		virtue = new virtue_type
@@ -415,7 +415,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		var/datum/virtue/V = virtuetwo_type
 		virtuetwo = new V.type
 		if(length(V.picked_choices))
-			virtuetwo.picked_choices = V.picked_choices
+			virtuetwo_choices = V.picked_choices.Copy()
 		qdel(V)
 	else if(ispath(virtuetwo_type, /datum/virtue))
 		virtuetwo = new virtuetwo_type
@@ -423,10 +423,22 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		virtuetwo = new /datum/virtue/none
 
 	if(length(virtue_choices))
-		virtue.picked_choices = virtue_choices.Copy()
+		var/error_found = FALSE
+		for(var/choice in virtue_choices)
+			if(!(choice in virtue.extra_choices))
+				error_found = TRUE
+				break
+		if(!error_found)
+			virtue.picked_choices = virtue_choices.Copy()
 
 	if(length(virtuetwo_choices))
-		virtuetwo.picked_choices = virtuetwo_choices.Copy()
+		var/error_found = FALSE
+		for(var/choice in virtuetwo_choices)
+			if(!(choice in virtuetwo.extra_choices))
+				error_found = TRUE
+				break
+		if(!error_found)
+			virtuetwo.picked_choices = virtuetwo_choices.Copy()
 
 	virtue.on_load()
 	virtuetwo.on_load()
@@ -595,6 +607,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["img_gallery"]		>> img_gallery
 	S["nsfw_img_gallery"]	>> nsfw_img_gallery
 
+	S["ooc_extra_img"]			>> ooc_extra_img
+	S["nsfw_ooc_extra_img"]		>> nsfw_ooc_extra_img
+
 	S["examine_theme"]		>> examine_theme
 
 	S["body_size"] >> features["body_size"]
@@ -717,6 +732,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(!valid_headshot_link(null, werewolf_headshot_link, TRUE))
 		werewolf_headshot_link = null
+
+	if(!valid_headshot_link(null, ooc_extra_img, TRUE, list("jpg", "jpeg", "png", "gif")))
+		ooc_extra_img = null
+
+	if(!valid_headshot_link(null, nsfw_ooc_extra_img, TRUE, list("jpg", "jpeg", "png", "gif")))
+		nsfw_ooc_extra_img = null
 
 	//Validate job prefs
 	var/topjob_found = FALSE
@@ -866,6 +887,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)
 	WRITE_FILE(S["nsfw_img_gallery"] , nsfw_img_gallery)
+	WRITE_FILE(S["ooc_extra_img"], ooc_extra_img)
+	WRITE_FILE(S["nsfw_ooc_extra_img"], nsfw_ooc_extra_img)
 
 	WRITE_FILE(S["gear_list"], gear_list)
 

@@ -50,6 +50,9 @@
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/atom/target = controller.blackboard[target_key]
 
+	if(pawn.incapacitated())
+		return FALSE
+
 	var/obj/item/held_item = pawn.get_active_held_item()
 	if(istype(held_item, /obj/item/rogueweapon/shield))
 		var/obj/item/offhand = pawn.get_inactive_held_item()
@@ -78,10 +81,12 @@
 		_scan_for_weakpoint(controller, pawn, target)
 
 /datum/ai_behavior/basic_melee_attack/human_npc/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	controller.behavior_cooldowns[src] = world.time + get_cooldown(controller)
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/atom/target = controller.blackboard[target_key]
 	var/datum/targetting_datum/td = controller.blackboard[targetting_datum_key]
+
+	if(pawn.incapacitated())
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
 	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
@@ -94,12 +99,10 @@
 
 	if(!td.can_attack(pawn, target))
 		AI_THINK(pawn, "ATTACK: can't attack [target] - td rejected")
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	if(ismob(target) && target:stat == DEAD)
 		AI_THINK(pawn, "ATTACK: target [target] is dead")
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK)
 	var/hiding_target = td.find_hidden_mobs(pawn, target)
@@ -110,14 +113,13 @@
 
 	if(!pawn.CanReach(target, pawn.get_active_held_item()))
 		AI_THINK(pawn, "ATTACK: can't reach [target]")
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS)
 		// Don't open with a special — need a few normal swings first
 		var/attacks_done = controller.blackboard[BB_HUMAN_NPC_SWINGS_TAKEN]
 		if(attacks_done >= 2 && _try_weapon_special(controller))
-			return
+			return AI_BEHAVIOR_DELAY
 
 	_update_combat_intent(controller, pawn, target)
 	var/list/modifiers = list()
@@ -127,7 +129,7 @@
 		#endif
 		var/feint_ready = world.time >= (controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] || 0)
 		var/technique_ready = world.time >= (controller.blackboard[BB_HUMAN_NPC_TECHNIQUE_CD] || 0)
-		if(feint_ready && technique_ready && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+		if(feint_ready && technique_ready && !pawn.is_carried() && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
 			var/feint_cd = npc_technique_cd(pawn, HUMAN_NPC_FEINT_COOLDOWN)
@@ -143,7 +145,7 @@
 
 	var/atom/swing_at = resolve_swing_target(controller, pawn, target, target_key, hiding_target)
 	if(!swing_at)
-		return
+		return AI_BEHAVIOR_DELAY
 
 	controller.ai_interact(swing_at, TRUE, TRUE, modifiers)
 
@@ -153,16 +155,13 @@
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * jitter)
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
-	var/scan_chance = HUMAN_NPC_WEAKPOINT_SCAN_CHANCE
-	var/obj/item/scan_weapon = pawn.get_active_held_item()
-	if(scan_weapon?.associated_skill)
-		var/scan_skill = pawn.get_skill_level(scan_weapon.associated_skill)
-		scan_chance += scan_skill * 5
+	var/scan_chance = HUMAN_NPC_WEAKPOINT_SCAN_CHANCE + (pawn.get_wskill(pawn.get_active_held_item()) * 5)
 	if(prob(scan_chance) && isliving(target))
 		_scan_for_weakpoint(controller, pawn, target)
 
 	if(sidesteps_after && !pawn.mind?.has_antag_datum(/datum/antagonist/zombie) && prob(sidestep_chance))
 		pawn.combat_sidestep(target, sidestep_offsets, sidestep_seeks_flank)
+	return AI_BEHAVIOR_DELAY
 
 /datum/ai_behavior/basic_melee_attack/human_npc/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
@@ -179,10 +178,7 @@
 	if(!AI_INT_SCALE_PROB(pawn, HUMAN_NPC_INTENT_SWITCH_CHANCE))
 		return
 
-	var/skill_level = SKILL_LEVEL_NONE
-	var/obj/item/held = pawn.get_active_held_item()
-	if(held?.associated_skill)
-		skill_level = pawn.get_skill_level(held.associated_skill)
+	var/skill_level = pawn.get_wskill(pawn.get_active_held_item())
 
 	var/list/weighted = list()
 	for(var/datum/rmb_intent/available in pawn.possible_rmb_intents)
@@ -257,18 +253,14 @@
 		AI_THINK(pawn, "ZONE: hitting cached weakpoint [wp[1]] (aim [wp[4]])")
 		return
 
-	var/obj/item/held = pawn.get_active_held_item()
-	var/skill_level = SKILL_LEVEL_NONE
-	if(held?.associated_skill)
-		skill_level = pawn.get_skill_level(held.associated_skill)
+	var/skill_level = pawn.get_wskill(pawn.get_active_held_item())
 	var/switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
-	switch(skill_level)
-		if(SKILL_LEVEL_JOURNEYMAN)
-			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
-		if(SKILL_LEVEL_EXPERT)
-			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
-		if(SKILL_LEVEL_MASTER to INFINITY)
-			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
+	if(skill_level >= SKILL_LEVEL_MASTER)
+		switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
+	else if(skill_level >= SKILL_LEVEL_EXPERT)
+		switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
+	else if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+		switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
 
 	var/counter = controller.blackboard[BB_HUMAN_NPC_ZONE_COMMIT_COUNTER]
 	if(counter < switch_threshold)
@@ -421,17 +413,13 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 		return
 	var/mob/living/carbon/human/htarget = target
 
-	var/skill_type = null
 	var/bclass = null
 	var/intent_reach = 1
+	var/skill_level = SKILL_LEVEL_NONE
 	if(pawn.used_intent)
 		bclass = pawn.used_intent.blade_class
 		intent_reach = pawn.used_intent.reach || 1
-		var/obj/item/held = pawn.get_active_held_item()
-		if(held?.associated_skill)
-			skill_type = held.associated_skill
-
-	var/skill_level = skill_type ? pawn.get_skill_level(skill_type) : SKILL_LEVEL_NONE
+		skill_level = pawn.get_wskill(pawn.get_active_held_item())
 	var/armor_rating = bclass ? bclass_to_armor_rating(bclass) : "blunt"
 
 	var/list/wounded	= list()
@@ -496,21 +484,20 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 	AI_THINK(pawn, "SCAN: targeting [chosen] (aim [aimheight], skill [skill_level])")
 
 	var/cache_duration = HUMAN_NPC_WEAKPOINT_CACHE_DURATION
-	switch(skill_level)
-		if(SKILL_LEVEL_NONE)
-			cache_duration *= 0.35
-		if(SKILL_LEVEL_NOVICE)
-			cache_duration *= 0.6
-		if(SKILL_LEVEL_APPRENTICE)
-			cache_duration *= 0.8
-		if(SKILL_LEVEL_JOURNEYMAN)
-			cache_duration *= 1.0
-		if(SKILL_LEVEL_EXPERT)
-			cache_duration *= 1.5
-		if(SKILL_LEVEL_MASTER)
-			cache_duration *= 2.0
-		if(SKILL_LEVEL_LEGENDARY to INFINITY)
-			cache_duration *= 3.0
+	if(skill_level >= SKILL_LEVEL_LEGENDARY)
+		cache_duration *= 3.0
+	else if(skill_level >= SKILL_LEVEL_MASTER)
+		cache_duration *= 2.0
+	else if(skill_level >= SKILL_LEVEL_EXPERT)
+		cache_duration *= 1.5
+	else if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+		cache_duration *= 1.0
+	else if(skill_level >= SKILL_LEVEL_APPRENTICE)
+		cache_duration *= 0.8
+	else if(skill_level >= SKILL_LEVEL_NOVICE)
+		cache_duration *= 0.6
+	else
+		cache_duration *= 0.35
 
 	cache_duration *= (1 + ((intent_reach - 1) * 0.1))
 

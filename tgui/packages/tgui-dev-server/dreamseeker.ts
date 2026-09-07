@@ -98,7 +98,7 @@ export class DreamSeeker {
         instances.push(instance);
         instanceByPid.set(pid, instance);
       }
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER') {
         logger.error(err.message, err.code);
       } else {

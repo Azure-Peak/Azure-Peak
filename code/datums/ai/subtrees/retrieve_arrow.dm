@@ -53,13 +53,11 @@
 	var/obj/item/ammo_casing/arrow = controller.blackboard[arrow_key]
 
 	if(!arrow || QDELETED(arrow))
-		finish_action(controller, FALSE, arrow_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(!pawn.CanReach(arrow))
 		AI_THINK(pawn, "SCAVENGE: can't reach [arrow], dropping it")
-		finish_action(controller, FALSE, arrow_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	// Find the quiver again at perform time in case equipment changed
 	var/obj/item/quiver/Q = null
@@ -70,16 +68,14 @@
 
 	if(!Q || Q.get_current_weight() >= (Q.max_storage - ARCHER_NPC_SCAVENGE_RESERVE))
 		AI_THINK(pawn, "SCAVENGE: quiver full or missing, aborting")
-		finish_action(controller, FALSE, arrow_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(!Q.eatarrow(arrow))
 		AI_THINK(pawn, "SCAVENGE: [arrow] wouldn't fit, aborting")
-		finish_action(controller, FALSE, arrow_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	AI_THINK(pawn, "SCAVENGE: stowed [arrow] - now [Q.get_current_weight()]/[Q.max_storage], [length(Q.arrows)] loose")
-	finish_action(controller, TRUE, arrow_key)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/retrieve_arrow/finish_action(datum/ai_controller/controller, succeeded, arrow_key)
 	. = ..()

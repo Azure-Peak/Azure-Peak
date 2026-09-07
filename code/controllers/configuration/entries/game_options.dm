@@ -255,6 +255,9 @@
 
 /datum/config_entry/flag/ghost_interaction
 
+/datum/config_entry/flag/ghost_letters
+	config_entry_value = TRUE
+
 /datum/config_entry/flag/near_death_experience //If carbons can hear ghosts when unconscious and very close to death
 
 /datum/config_entry/flag/silent_ai

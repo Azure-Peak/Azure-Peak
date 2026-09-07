@@ -13,6 +13,10 @@
 	maximum_possible_slots = 2
 	applies_post_equipment = FALSE
 
+	subclass_stashed_items = list(
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+	)
+
 /datum/outfit/job/roguetown/wretch/licker/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)

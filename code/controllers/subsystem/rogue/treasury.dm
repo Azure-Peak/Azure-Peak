@@ -27,6 +27,7 @@ SUBSYSTEM_DEF(treasury)
 		TAX_CATEGORY_HEADEATER_LEVY = 0.15,
 		TAX_CATEGORY_IMPORT_TARIFF = 0.15,
 		TAX_CATEGORY_EXPORT_DUTY = 0.15,
+		TAX_CATEGORY_RECOVERED_SPOILS = 0.50,
 		TAX_CATEGORY_FINE = 1.0,
 	)
 	var/trade_spread = 0.10
@@ -698,6 +699,8 @@ SUBSYSTEM_DEF(treasury)
 			return "Import Tariff"
 		if(TAX_CATEGORY_EXPORT_DUTY)
 			return "Export Duty"
+		if(TAX_CATEGORY_RECOVERED_SPOILS)
+			return "Recovered Spoils"
 		if(TAX_CATEGORY_FINE)
 			return "Fine"
 	return capitalize(category)

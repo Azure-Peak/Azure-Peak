@@ -45,10 +45,12 @@ function setupApp() {
   });
 
   // Resize the panel to match the non-browser output
-  Byond.winget('legacy_output_selector').then((output: { size: string }) => {
+  Byond.winget('legacy_output_selector').then((output: Record<string, any>) => {
     // No idea why this always returns the correct size +4px but let's call
     // it a BYOND moment and roll with the punches
-    const size = output.size.split('x').map((v) => Number.parseInt(v, 10));
+    const size = output.size
+      .split('x')
+      .map((v: string) => Number.parseInt(v, 10));
     size[0] -= 4;
 
     Byond.winset('browseroutput', {

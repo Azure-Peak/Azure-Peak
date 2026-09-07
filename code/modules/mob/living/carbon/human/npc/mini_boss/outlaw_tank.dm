@@ -81,6 +81,7 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
 	neck = /obj/item/clothing/neck/roguetown/bevor/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	belt = /obj/item/storage/belt/rogue/leather
 	r_hand = /obj/item/rogueweapon/mace/steel
 	l_hand = /obj/item/rogueweapon/shield/tower
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)

@@ -186,6 +186,11 @@
 	cost = 40
 	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron)
 
+/datum/supply_pack/rogue/armor_iron/visored_snouted
+	name = "Helmet, Sallet, Visored, Snouted"
+	cost = 40
+	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/snouted)
+
 /datum/supply_pack/rogue/armor_iron/knightarmet
 	name = "Helmet, Armet, Knight's"
 	cost = 40
@@ -251,6 +256,11 @@
 	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron)
 
+/datum/supply_pack/rogue/armor_iron/helmet_roundface_snouted
+	name = "Helmet, Roundface Bascinet, Snouted"
+	cost = 50
+	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron/snouted)
+
 /datum/supply_pack/rogue/armor_iron/helmet_etruscan_bascinet
 	name = "Helmet, Etruscan Bascinet"
 	cost = 50
@@ -260,6 +270,11 @@
 	name = "Helmet, Armet"
 	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/iron)
+
+/datum/supply_pack/rogue/armor_iron/helmet_armet_snouted
+	name = "Helmet, Armet, Snouted"
+	cost = 50
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/iron/snouted)
 
 /datum/supply_pack/rogue/armor_iron/helmet_savoyard
 	name = "Helmet, Savoyard"

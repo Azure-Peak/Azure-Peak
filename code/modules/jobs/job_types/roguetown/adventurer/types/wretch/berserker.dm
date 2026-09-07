@@ -35,6 +35,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 
 /datum/outfit/job/roguetown/wretch/berserker
@@ -84,7 +85,7 @@
 					if("Knuckledusters")
 						gloves = /obj/item/clothing/gloves/roguetown/knuckles
 					if("Punch Dagger")
-						beltr = /obj/item/rogueweapon/katar/punchdagger
+						r_hand = /obj/item/rogueweapon/katar/punchdagger
 			if("Martial Expert") // designed to compete with unarmed by giving you alternatives to approaching fights- only expert
 				var/list/martial_options = list("Greatsword", "Battle Axe", "Grand Mace", "Longsword")
 				var/weapon_choice = input(H, "Choose your WEAPONS of WAR!", "SPILL THEIR ENTRAILS.") as anything in martial_options

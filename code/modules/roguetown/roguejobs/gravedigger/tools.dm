@@ -176,12 +176,15 @@
 						if(D.holie && D.holie.stage < 4)
 							D.holie.attackby(src, user)
 						else
-							if(istype(T, /turf/open/floor/rogue/dirt/road))
+							// Prevent deleting graves by changing the turf it's on if there is a grave on the turf
+							if(istype(T, /turf/open/floor/rogue/dirt/road) && !D.holie)
 								qdel(heldclod)
 								T.ChangeTurf(/turf/open/floor/rogue/dirt, flags = CHANGETURF_INHERIT_AIR)
-							else
+							else if (!D.holie)
 								heldclod.forceMove(T)
-
+							else
+								to_chat(user, span_warning("I cannot put the clod here, there's a grave in the way"))
+								return
 							heldclod = null
 							playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
 							update_icon()
@@ -395,7 +398,7 @@
 	desc = "This relic, bestowed on the Order of the Veiled Lady, is cold to the touch. Faint whispers of the lost and the damned can be heard in its presence, and an inscription on the handle reads the Order's motto: \"Rest to the Restless, Death to the Deathless\""
 	icon_state = "zoe_silence"
 	icon = 'icons/obj/items/donor_weapons_48.dmi'
-	
+
 /obj/item/rogueweapon/shovel/zoe_silence/getonmobprop(tag)
 	if(tag)
 		switch(tag)

@@ -76,6 +76,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/toggleguests,	/*toggles whether guests can join the current game*/
 	/datum/admins/proc/announce,		/*priority announce something to all clients.*/
 	/datum/admins/proc/set_admin_notice, /*announcement all clients see when joining the server.*/
+	/client/proc/toggle_game_master,	/*opens the game master panel*/
 	/client/proc/toggle_aghost_invis, /* lets us choose whether our in-game mob goes visible when we aghost (off by default) */
 	/client/proc/admin_ghost,			/*allows us to ghost/reenter body at will*/
 	/client/proc/hearallasghost,

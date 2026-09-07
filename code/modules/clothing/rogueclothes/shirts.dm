@@ -492,6 +492,21 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH|HIDEBOOB
 
+/obj/item/clothing/suit/roguetown/shirt/tunic/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
 /obj/item/clothing/suit/roguetown/shirt/tunic/green
 	color = CLOTHING_GREEN
 
@@ -527,6 +542,21 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	flags_inv = HIDECROTCH|HIDEBOOB
+
+/obj/item/clothing/suit/roguetown/shirt/dress/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gen
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
@@ -927,13 +957,16 @@
 	desc = "A simple light green dress, tailored to flatter the figure."
 	icon_state = "greendress"
 	item_state = "greendress"
+	sleevetype = null
+	sleeved = null
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
+	boobed = TRUE
 	detail_tag = "_detail"
 	altdetail_tag = "_detailalt"
-	color = CLOTHING_WHITE
+	color = "#BEF686"
 	detail_color = CLOTHING_WHITE
-	altdetail_color = CLOTHING_WHITE
+	altdetail_color = "#996633"
 
 /obj/item/clothing/suit/roguetown/shirt/dress/blue
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
@@ -941,11 +974,14 @@
 	desc = "A simple light blue dress, tailored to flatter the figure."
 	icon_state = "bluedress"
 	item_state = "bluedress"
+	sleevetype = null
+	sleeved = null
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
+	boobed = TRUE
 	detail_tag = "_detail"
-	color = CLOTHING_WHITE
-	detail_color = CLOTHING_WHITE
+	color = "#ADD8E6"
+	detail_color = "#996633"
 
 /obj/item/clothing/suit/roguetown/shirt/dress/tavern
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
@@ -953,11 +989,14 @@
 	desc = "A simple green dress with a corset, its skirt has slits for easy movement."
 	icon_state = "taverndress"
 	item_state = "taverndress"
+	sleevetype = null
+	sleeved = null
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
+	boobed = TRUE
 	detail_tag = "_detail"
-	color = CLOTHING_WHITE
-	detail_color = CLOTHING_WHITE
+	color = "#BEF686"
+	detail_color = "#996633"
 
 /obj/item/clothing/suit/roguetown/shirt/dress/courtesan
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
@@ -965,12 +1004,10 @@
 	desc = "A luxurious dress designed to attract attention, often worn by courtesans."
 	icon_state = "courtesandress"
 	item_state = "courtesandress"
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	boobed = TRUE
 	detail_tag = "_detail"
-	color = CLOTHING_WHITE
-	detail_color = CLOTHING_WHITE
+	color = "#FFFF00"
+	detail_color = "#FFFFFF"
 
 /obj/item/clothing/suit/roguetown/shirt/dress/nightgown
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
@@ -978,10 +1015,12 @@
 	desc = "An elegant and enticing nightgown, made for comfort and allure."
 	icon_state = "nightgown"
 	item_state = "nightgown"
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleevetype = null
+	sleeved = null
 	r_sleeve_status = SLEEVE_NOMOD
 	l_sleeve_status = SLEEVE_NOMOD
+	boobed = TRUE
+	color = "#FF0000"
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/blouse
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
@@ -989,10 +1028,7 @@
 	desc = "A finely tailored blouse made from soft, lightweight fabric, with delicate buttons and subtly decorated cuffs."
 	icon_state = "blouse"
 	item_state = "blouse"
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	color = CLOTHING_WHITE
+	color = "#FFFFFF"
 
 /obj/item/clothing/suit/roguetown/shirt/tunic/winter
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
@@ -1000,12 +1036,10 @@
 	desc = "A thick, well-crafted winter coat designed to retain heat and protect against harsh cold while remaining comfortable for daily wear."
 	icon_state = "wintercoat"
 	item_state = "wintercoat"
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	boobed = FALSE
 	detail_tag = "_detail"
-	color = CLOTHING_WHITE
-	detail_color = CLOTHING_WHITE
+	color = "#99CCFF"
+	detail_color = "#FFFFFF"
 
 /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress
 	name = "thin winter dress"

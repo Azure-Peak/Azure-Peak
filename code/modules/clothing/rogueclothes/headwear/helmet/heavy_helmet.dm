@@ -62,7 +62,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	name = "decrepit barbute"
-	desc = "Frayed bronze plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of \
+	desc = "Rotted metal plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of \
 	neglect. The remains of a plume's stub hang atop its rim."
 	body_parts_covered = COVERAGE_HEAD
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
@@ -179,6 +179,16 @@
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 	block2add = FOV_BEHIND
 
+/obj/item/clothing/head/roguetown/helmet/heavy/burgonet
+	name = "snouted burgonet"
+	desc = "A burgonet, though this one's not in blacksteel - the visor far more suited for snouts."
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
+	icon_state = "burgonet_s"
+	item_state = "burgonet_s"
+	emote_environment = 3
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
+	block2add = FOV_BEHIND
+
 /obj/item/clothing/head/roguetown/helmet/heavy/kabuto
 	name = "kabuto"
 	desc = "A Kazengunite helmet of steel plates, gilded in blacksteel and gold trim alike to evoke feelings of nobility and strength. Commonly worn with a mask or mouthguard."
@@ -232,7 +242,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
 	name = "decrepit savoyard"
-	desc = "Frayed bronze plates, molded into a ventilated casket. It reeks of fetid shit, and each breath - labored and strained - is laced with flaked metal."
+	desc = "Rotted metal plates, molded into a ventilated casket. It reeks of fetid shit, and each breath - labored and strained - is laced with flaked metal."
 	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
 	icon_state = "ancientsavoyard"
 	color = "#bb9696"
@@ -338,7 +348,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
 	name = "decrepit bascinet"
-	desc = "A chipped greathelm of frayed bronze. The fittings squeal with nauseous annoyance, whenever you move to lift its half-rusted visor up \
+	desc = "A chipped greathelm of rotted metal. The fittings squeal with nauseous annoyance, whenever you move to lift its half-rusted visor up \
 	and down. Add a feather to show the colors of your family or allegiance."
 	icon_state = "ancientknight"
 	item_state = "ancientknight"
@@ -1693,7 +1703,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/barbute/iron
 	name = "iron barbute"
-	desc = "A steel helmet that provides excellent coverage, while uniquely keeping its wearer's field-of-view almost entirely unrestricted. The cruciformic visor is \
+	desc = "An iron helmet that provides excellent coverage, while uniquely keeping its wearer's field-of-view almost entirely unrestricted. The cruciformic visor is \
 	an inherited design, borne from the earliest daes of Psydonia. Mounted on the back is a unique couplet, fit for adopting feathered greatplumes."
 	icon_state = "ibarbute"
 	smeltresult = /obj/item/ingot/iron

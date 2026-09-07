@@ -7,12 +7,9 @@
 	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 
 /datum/ai_behavior/find_aggro_targets/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	. = ..()
-
 	var/mob/living/living_mob = controller.pawn
 	if(!living_mob)
-		finish_action(controller, succeeded = FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
@@ -23,11 +20,9 @@
 	if(commanded_target)
 		if(!QDELETED(commanded_target) && !commanded_target.stat && targetting_datum.can_attack(living_mob, commanded_target))
 			if(commanded_target == controller.blackboard[target_key])
-				finish_action(controller, succeeded = FALSE)
-				return
+				return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 			controller.set_blackboard_key(target_key, commanded_target)
-			finish_action(controller, succeeded = TRUE)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 		controller.clear_blackboard_key(BB_CURRENT_PET_TARGET)
 		if(controller.blackboard[target_key] == commanded_target)
 			controller.clear_blackboard_key(target_key)
@@ -61,8 +56,7 @@
 
 	if(current_target)
 		if(current_target == controller.blackboard[target_key])
-			finish_action(controller, succeeded = FALSE)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 		AI_THINK(living_mob, "SCAN: locking [current_target]")
 		AI_WORLD_THINK(living_mob, "LOCKED target [current_target]")
 		controller.set_blackboard_key(target_key, current_target)
@@ -73,16 +67,14 @@
 		else
 			controller.clear_blackboard_key(hiding_location_key)
 
-		finish_action(controller, succeeded = TRUE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 	controller.clear_blackboard_key(target_key)
 
 	if(living_mob.pet_passive)
-		finish_action(controller, succeeded = FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
-	scan_for_new_targets(controller, living_mob, target_key, targetting_datum, hiding_location_key, targetting_datum_key)
+	return scan_for_new_targets(controller, living_mob, target_key, targetting_datum, hiding_location_key, targetting_datum_key)
 
 /datum/ai_behavior/find_aggro_targets/proc/scan_for_new_targets(datum/ai_controller/controller, mob/living/living_mob, target_key, datum/targetting_datum/targetting_datum, hiding_location_key, targetting_datum_key)
 	var/aggro_range = controller.blackboard[BB_AGGRO_RANGE] || 9
@@ -91,8 +83,7 @@
 
 	if(!potential_targets.len)
 		failed_to_find_anyone(controller, target_key, targetting_datum_key, hiding_location_key)
-		finish_action(controller, succeeded = FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/list/filtered_targets = list()
 	var/list/client_targets = list()
@@ -121,8 +112,7 @@
 	if(!filtered_targets.len)
 		AI_THINK(living_mob, "SCAN: nobody in range [aggro_range]")
 		failed_to_find_anyone(controller, target_key, targetting_datum_key, hiding_location_key)
-		finish_action(controller, succeeded = FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/mob/living/chosen_target = pick_spread_target(living_mob, length(client_targets) ? client_targets : filtered_targets, ally_focus)
 	if(!chosen_target)
@@ -142,15 +132,15 @@
 
 	if(highest_threat)
 		controller.set_blackboard_key(target_key, highest_threat)
+		return AI_BEHAVIOR_DELAY
 	else if(chosen_target && !QDELETED(chosen_target))
 		controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, chosen_target)
 		controller.set_blackboard_key(target_key, chosen_target)
 		var/atom/potential_hiding_location = find_hiding_location(living_mob, chosen_target)
 		if(potential_hiding_location)
 			controller.set_blackboard_key(hiding_location_key, potential_hiding_location)
-		finish_action(controller, succeeded = TRUE)
-	else
-		finish_action(controller, succeeded = FALSE)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 /datum/ai_behavior/find_aggro_targets/proc/pick_spread_target(mob/living/living_mob, list/candidates, list/ally_focus)
 	if(!length(candidates))
@@ -188,7 +178,7 @@
 		if(pawn)
 			pawn.cmode = TRUE
 		controller.CancelActions()
-		controller.modify_cooldown(controller, world.time + get_cooldown(controller))
+		controller.modify_cooldown(src, world.time + get_cooldown(controller))
 
 /datum/ai_behavior/find_aggro_targets/bum/finish_action(datum/ai_controller/controller, succeeded, ...)
 	. = ..()

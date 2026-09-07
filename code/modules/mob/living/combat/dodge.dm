@@ -141,11 +141,13 @@
 	tempfixeye = TRUE
 	nodirchange = TRUE
 	fixedeye = TRUE
-	Move(step_to, get_dir(src, step_to))
+	var/moved = Move(step_to, get_dir(src, step_to))
 	nodirchange = FALSE
 	tempfixeye = FALSE
 	fixedeye = was_fixedeye
 	face_atom(target)
+	if(moved)
+		ai_controller?.advance_movement_cooldown()
 	return TRUE
 
 /mob/proc/do_dodge(mob/user, turf/dodge_turf)
@@ -163,17 +165,11 @@
 	var/defender_offhand = get_inactive_held_item()
 	if(ishuman(src))
 		defender_human = src
-		if(defender_mainhand && defender_mainhand?.associated_skill)
-			defender_skill = get_skill_level(defender_mainhand.associated_skill)
-		else
-			defender_skill = get_skill_level(/datum/skill/combat/unarmed)
+		defender_skill = get_wskill(defender_mainhand, /datum/skill/combat/unarmed)
 	if(ishuman(user))
 		attacker_human = user
 		attacker_weapon = attacker_human.get_active_held_item()
-		if(attacker_weapon && attacker_weapon?.associated_skill)
-			attacker_skill = attacker_human.get_skill_level(attacker_weapon.associated_skill)
-		else
-			attacker_skill = attacker_human.get_skill_level(/datum/skill/combat/unarmed)
+		attacker_skill = attacker_human.get_wskill(attacker_weapon, /datum/skill/combat/unarmed)
 	var/prob2defend = attacker.defprob
 	var/ignore_DE_bonus = FALSE
 	var/is_in_cone = defender.can_see_cone(user)
@@ -202,7 +198,7 @@
 			prob2defend = prob2defend - ( attacker_weapon.wbalance * ((attacker.STASPD - defender.STASPD) * 10) )
 		if(attacker_weapon.wbalance == WBALANCE_HEAVY && defender.STASPD > attacker.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
 			prob2defend = prob2defend + ( attacker_weapon.wbalance * ((attacker.STASPD - defender.STASPD) * 10) )
-		prob2defend = prob2defend - (attacker_human.get_skill_level(attacker_weapon.associated_skill) * 10)
+		prob2defend = prob2defend - (attacker_human.get_wskill(attacker_weapon) * 10)
 	if(defender_human)
 		if(!defender_human?.check_armor_skill() || defender_human?.legcuffed)
 			defender_human.Knockdown(1)
@@ -210,10 +206,10 @@
 			to_chat(defender_human, span_warning("I can't dodge in such unfitting armor! I'm knocked down!"))
 			return FALSE
 		if(attacker_weapon) //the enemy attacked us with a weapon
-			if(!attacker_weapon.associated_skill) //the enemy weapon doesn't have a skill because its improvised, so penalty to attack
+			if(!attacker_weapon.has_wskill()) //the enemy weapon doesn't have a skill because its improvised, so penalty to attack
 				prob2defend = prob2defend + 10
 			else
-				prob2defend = prob2defend + (defender_human.get_skill_level(attacker_weapon.associated_skill) * 10)
+				prob2defend = prob2defend + (defender_human.get_wskill(attacker_weapon) * 10)
 		else //the enemy attacked us unarmed or is nonhuman
 			if(attacker_human)
 				if(attacker_human.used_intent.unarmed)
@@ -223,14 +219,17 @@
 						prob2defend = prob2defend - ((attacker.STASPD - defender.STASPD) * 10)
 			else if(attacker.skills)
 				var/datum/intent/attacker_intent = attacker.used_intent
-				var/attacker_skill_type = attacker_intent?.masteritem?.associated_skill || /datum/skill/combat/unarmed
-				prob2defend = prob2defend - (attacker.get_skill_level(attacker_skill_type) * 10)
+				prob2defend = prob2defend - (attacker.get_wskill(attacker_intent?.masteritem, /datum/skill/combat/unarmed) * 10)
 				prob2defend = prob2defend + (defender_human.get_skill_level(/datum/skill/combat/unarmed) * 10)
 
 
 
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 			prob2defend -= 40
+			ignore_DE_bonus = TRUE
+
+		if(defender.has_status_effect(/datum/status_effect/debuff/hamstring))
+			prob2defend -= 20
 			ignore_DE_bonus = TRUE
 
 		// dodging while knocked down sucks ass
@@ -254,7 +253,7 @@
 			ignore_DE_bonus = TRUE
 
 		if(attacker_weapon && defender_mainhand)	//Skilldiff applies extra stamloss, tentative
-			drained += (attacker_human.get_skill_level(attacker_weapon.associated_skill) - defender_human.get_skill_level(defender_mainhand.associated_skill)) * 2
+			drained += (attacker_human.get_wskill(attacker_weapon) - defender_human.get_wskill(defender_mainhand)) * 2
 
 			if(istype(attacker.rmb_intent, /datum/rmb_intent/swift) && attacker_weapon.wbalance != WBALANCE_HEAVY)
 				// We drain extra stam if we're being attacked by swift stance, inversely based on our dodgetime
@@ -310,7 +309,7 @@
 		var/mob/living/simple_animal/beast = isanimal(src) ? src : null
 		prob2defend = SIMPLEMOB_DODGE_BASE + ((defender.STASPD - attacker.STASPD) * SIMPLEMOB_DODGE_PER_SPD)
 		if(attacker_weapon && attacker_human)
-			prob2defend -= attacker_human.get_skill_level(attacker_weapon.associated_skill) * SIMPLEMOB_DODGE_PER_SKILL
+			prob2defend -= attacker_human.get_wskill(attacker_weapon) * SIMPLEMOB_DODGE_PER_SKILL
 		if(beast)
 			prob2defend -= beast.current_dodge_fatigue()
 		prob2defend = clamp(prob2defend, 5, SIMPLEMOB_DODGE_CAP)

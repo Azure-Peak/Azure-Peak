@@ -134,7 +134,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/aalloy
 	name = "decrepit half-plate"
-	desc = "Frayed bronze layers, wrought into plate armor. Once, the hauberk of a rising champion; now, nothing more than a fool's tomb."
+	desc = "Rotted metal layers, wrought into plate armor. Once, the hauberk of a rising champion; now, nothing more than a fool's tomb."
 	icon_state = "ancientplate"
 	item_state = "ancientplate"
 	max_integrity = ARMOR_INT_CHEST_PLATE_DECREPIT
@@ -146,14 +146,11 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/paalloy
 	name = "ancient half-plate"
-	desc = "Polished gilbronze layers, artificed into plate armor. Let none impede the march of progress, and let Her champions bring \
+	desc = "Polished gilbranze layers, artificed into plate armor. Let none impede the march of progress, and let Her champions bring \
 	the unenlightened masses to kneel."
 	icon_state = "ancientplate"
 	item_state = "ancientplate"
 	smeltresult = /obj/item/ingot/aaslag
-
-/obj/item/clothing/suit/roguetown/armor/plate/paalloy/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARTIFICE)
 
 /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer
 	name = "artificed half-plate"
@@ -161,7 +158,7 @@
 	smeltresult = /obj/item/ingot/aaslag
 	icon_state = "artificerplate"
 	item_state = "artificerplate"
-	armor_class = ARMOR_CLASS_LIGHT // Artificer made gilbronze.
+	armor_class = ARMOR_CLASS_LIGHT // Artificer made gilbranze.
 	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE
 	var/powered = FALSE
 	var/mode = 1
@@ -775,7 +772,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
 	name = "decrepit cuirass"
-	desc = "Frayed bronze, pounded into a breastplate. It feels more like a corset than a cuirass; there's barely enough width \
+	desc = "Rotted metal, pounded into a breastplate. It feels more like a corset than a cuirass; there's barely enough width \
 	to let those aching lungs breathe."
 	icon_state = "ancientcuirass"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT

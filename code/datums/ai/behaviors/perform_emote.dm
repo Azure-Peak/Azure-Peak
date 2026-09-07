@@ -3,9 +3,9 @@
 /datum/ai_behavior/perform_emote/perform(delta_time, datum/ai_controller/controller, emote)
 	var/mob/living/living_pawn = controller.pawn
 	if(!istype(living_pawn))
-		return
+		return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_FAILED
 	living_pawn.emote(emote)
-	finish_action(controller, TRUE)
+	return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_SUCCEEDED
 
 /**
 * Allows the intrepid coder to send a basic emote

@@ -45,6 +45,8 @@
 	var/mob/living/target = controller.blackboard[target_key]
 	if(!isliving(target))
 		return FALSE
+	if(pawn.incapacitated())
+		return FALSE
 
 	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = _find_archer_bow(pawn)
 	if(!bow)
@@ -73,23 +75,22 @@
 	return TRUE
 
 /datum/ai_behavior/ranged_attack_bow/perform(delta_time, datum/ai_controller/controller, target_key)
-	. = ..()
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/mob/living/target = controller.blackboard[target_key]
 
+	if(pawn.incapacitated())
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
 	if(!isliving(target) || target.stat == DEAD)
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = pawn.get_active_held_item()
 	if(!istype(bow))
 		bow = _find_archer_bow(pawn)
 		if(!bow)
-			finish_action(controller, FALSE, target_key)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 		_enter_bow_stance(controller, pawn, bow)
 		if(pawn.get_active_held_item() != bow)
-			finish_action(controller, FALSE, target_key)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/dist = get_dist(pawn, target)
 	var/is_crossbow = istype(bow, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
@@ -97,13 +98,11 @@
 	if(!bow.chambered)
 		if(is_crossbow)
 			if(!_quiver_has_ammo(pawn))
-				finish_action(controller, FALSE, target_key)
-				return
+				return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 			if(!_reload_crossbow(controller, pawn, bow, target))
-				return
+				return AI_BEHAVIOR_DELAY
 		else if(!_chamber_from_quiver(pawn, bow))
-			finish_action(controller, FALSE, target_key)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	pawn.face_atom(target)
 
@@ -141,30 +140,31 @@
 		var/turf/lane = _archer_firing_lane_turf(pawn, target)
 		if(lane)
 			set_movement_target(controller, lane)
-			return
+			return AI_BEHAVIOR_DELAY
 
 	if(dist > ARCHER_NPC_SHOOT_RANGE)
 		set_movement_target(controller, target)
-		return
+		return AI_BEHAVIOR_DELAY
 	var/turf/juke_to = controller.blackboard[BB_ARCHER_NPC_REPOSITION_TURF]
 	if(juke_to && world.time < controller.blackboard[BB_ARCHER_NPC_REPOSITION_UNTIL] && get_turf(pawn) != juke_to && !juke_to.is_blocked_turf(exclude_mobs = TRUE))
 		set_movement_target(controller, juke_to)
-		return
+		return AI_BEHAVIOR_DELAY
 	controller.clear_blackboard_key(BB_ARCHER_NPC_REPOSITION_TURF)
 	if(dist > ARCHER_NPC_KITE_RANGE)
 		if(has_los)
 			controller.ai_movement.stop_moving_towards(controller) // in the pocket (kite < dist <= shoot) - hold and loose
-			return
+			return AI_BEHAVIOR_DELAY
 		var/turf/vantage = _archer_los_turf(pawn, target)
 		set_movement_target(controller, vantage || target) // sight blocked - sidestep for an angle, or push in until one opens
-		return
+		return AI_BEHAVIOR_DELAY
 	var/turf/retreat = _archer_retreat_turf(pawn, target)
 	if(retreat)
 		set_movement_target(controller, retreat)
 	else if(dist <= ARCHER_NPC_KITE_FLOOR)
-		finish_action(controller, FALSE, target_key) // boxed in with the foe adjacent - draw steel
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED // boxed in with the foe adjacent - draw steel
 	else
 		controller.ai_movement.stop_moving_towards(controller) // boxed in but they're not adjacent - stand and shoot
+	return AI_BEHAVIOR_DELAY
 
 /datum/ai_behavior/ranged_attack_bow/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	. = ..()

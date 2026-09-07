@@ -648,20 +648,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	else if(all_objectives.len || memory || personal_objectives.len)
 		to_chat(recipient, "<i>[output]</i>")
 
-/// output current targets to the player
-/datum/mind/proc/recall_targets(mob/recipient, window=1)
-	var/output = "<B>[recipient.real_name]'s Hitlist:</B><br>"
-	for(var/mob/living/carbon in GLOB.mob_living_list) // Iterate through all mobs in the world
-		if((carbon.real_name != recipient.real_name) && (carbon.has_flaw(/datum/charflaw/targeted) && (!istype(carbon, /mob/living/carbon/human/dummy)))) //To be on the list they must be targeted, not the user and not a dummy (There is a dummy that has all vices for some reason)
-			output += "<br>[carbon.real_name]"
-			output += "<br>[carbon.real_name]"
-			if (carbon.job)
-				output += " - [carbon.job]"
-	output += "<br>Your creed is blood, your faith is steel. You will not rest until these souls are yours. Use the profane dagger to trap their souls for Graggar."
-
-	if(window)
-		recipient << browse(output,"window=memory")
-
 // Graggar culling event - tells people where the other is.
 /datum/mind/proc/recall_culling(mob/recipient, window=1)
 	var/output = "<B>[recipient.real_name]'s Rival:</B><br>"

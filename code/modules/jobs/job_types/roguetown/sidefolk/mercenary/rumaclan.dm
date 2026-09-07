@@ -183,23 +183,23 @@
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 			if("Dress")
 				l_hand = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
-		var/weapons = list("Recurve & Tanto","Recurve & Kodachi","Sling & Tanto","Sling & Kodachi","Kodachi & Tanto","Kodachi, Tanto, & Tossblades","Dual Tanto","Blacksteel Tanto")
+		var/weapons = list("Bow & Tanto","Bow & Kodachi","Sling & Tanto","Sling & Kodachi","Kodachi & Tanto","Kodachi, Tanto, & Tossblades","Dual Tanto","Blacksteel Tanto")
 		var/weapon_choice = input(H, "Choose your weapon.", "WHEN STEEL MUST SPEAK...") as anything in weapons
 		switch(weapon_choice)
-			if("Recurve & Tanto")
+			if("Bow & Tanto")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE) //Dedicated bow user, best skill there.
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				belt = /obj/item/storage/belt/rogue/leather
 				beltr = /obj/item/quiver/arrows
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				beltl = /obj/item/rogueweapon/scabbard/sheath/kazengun
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
-			if("Recurve & Kodachi")
+			if("Bow & Kodachi")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE) //bit more of a hybrid, so a touch less bow skill.
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				belt = /obj/item/storage/belt/rogue/leather
 				beltr = /obj/item/quiver/arrows
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				beltl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 				r_hand = /obj/item/rogueweapon/sword/short/kazengun
 			if("Sling & Tanto")

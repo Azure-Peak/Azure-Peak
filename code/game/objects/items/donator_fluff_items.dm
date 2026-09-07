@@ -1712,6 +1712,21 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
 
+/obj/item/rogueweapon/example/ryan_naginata
+	name = "+5 common profane naginata"
+	desc = "A traditional Kazengunite polearm, tarnished with profane iconography. A caged slave of a weapon under new management."
+	icon_state = "naginata_ryan"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	grid_height = 64
+	grid_width = 64
+	bigboy = TRUE
+	examine_highlight_severity = EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING
+	examine_highlight_desc = HERESYDESC_ZIZO_WEAPON
+	twirly = SKILL_LEVEL_JOURNEYMAN
+	twirl_speed = 6
+
 //KORUU
 /obj/item/clothing/head/roguetown/mentorhat/koruu
 	name = "well-worn bamboo hat"
@@ -1737,8 +1752,8 @@
 
 /obj/item/rogueweapon/halberd/glaive/koruu
 	name = "Sixty Five Yils"
-	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like few blades before. The inscription, 'At fifteen, I went to join the army; only at eighty was I finally able to return home.' is inscribed in gold into the haft of the guandao."
-	icon_state = "koruu_glaive"
+	desc = "A beautiful guandao forged out of steel and interlocked with blacksteel, much like very few blades before. </br>‎	</br> 'At fifteen, I went to join the army; only at eighty was I finally able to return home.'-- </br>‎	</br>--Is inscribed in gold into the haft of the guandao."
+	icon_state = "koruu_naginata"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/koruu/kukri
@@ -2107,6 +2122,32 @@ As Excaliber."
 		to_chat(user, span_info("You tuck your hair under the [src]."))
 	user.update_inv_head()
 
+/obj/item/rogueweapon/halberd/limetease
+	name = "ornate swordpsear"
+	desc = "A steel swordspear, an odd implement decorated with gold ornaments and inlays. \
+	Is it more spear, or is it more sword? It's hard to tell in the hands of a skilled user, dancing seamlessly between the two fighting styles."
+	icon_state = "lime_swordspear"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/greatsword/limetease
+	name = "ornate swordpsear"
+	desc = "A steel swordspear, an odd implement decorated with gold ornaments and inlays. \
+	Is it more spear, or is it more sword? It's hard to tell in the hands of a skilled user, dancing seamlessly between the two fighting styles."
+	icon_state = "lime_swordspear"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// Same as halberd
+/obj/item/rogueweapon/greatsword/limetease/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
 // CASTORTROY23
 /obj/item/rogueweapon/example/darling
 	name = "Darling"
@@ -2402,11 +2443,25 @@ As Excaliber."
 
 /obj/item/rogueweapon/example/kadeguandao
 	name = "Dawn Cometh"
-	desc = "A polearm of fashioned after those in lingyue. How it ended up here is a wonder. It bears only one true cutting edge, though the false edge is sometimes used for hooking blades away. \
+	desc = "A polearm fashioned after those in lingyue. How it ended up here is a wonder. It bears only one true cutting edge, though the false edge is sometimes used for hooking blades away. \
 	The blade is curved and bears some sort of yari-cross guard to catch blades. Wrapped around the wood handle is red string, taut and tight. \
 	On one strand, a bell like that of a xylixian's lies dormant. It might've rung once, but now it is silent.\
 	</br>‎<font color='ab6141'>	Still morning comes, and you can't outrun</br></font>‎<font color='e0b172'> 	the warm glow of the sun.</font>"
 	icon_state = "kadedao"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	grid_height = 64
+	grid_width = 64
+	bigboy = TRUE
+
+/obj/item/rogueweapon/example/kadedao
+	name = "Spring Cometh"
+	desc = "A blade fashioned after Lingyue's 'Niuweidao,' known mostly for featuring in their fictional literature. How it ended up here is a wonder. It boasts a single profiled cutting edge, and a crescent within the false edge \
+	This blade has a sort of crossguard, which is uncommon for most dao, more often is a Hūshǒu, a disc-shaped guard similar to Tsubas in Kazengun. Instead of a pommel, there's a ring with red string tied around it, taut and tight. \
+	On one strand, a bell like that of a xylixian's lies dormant. It might've rung once, but now it is silent.\
+	</br>‎<font color='ab6141'>	'Cause winter will end just the same</br></font>‎<font color='e0b172'> 	no matter what</font>"
+	icon_state = "kadedaosword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
@@ -3215,17 +3270,23 @@ As Excaliber."
 
 // ROSYSATURNIIDAE
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
-	name = "Beaked Mask"
+	name = "beaked mask"
 	desc = "A plated steel mask made to resemble a bird's beak.<br> \
 	While similar to the long masks of Pestra's faithful, this is designed to protect against far less insidious dangers. Namely, bladed weapons.<br> \
-	<font color='3399FF'>The light in your past will be your enemy, and whenever it catches you, it will burn you.</font><br>	\
-	<font color='3399FF'>But first, it must catch you. Go into the dark ahead, and do not look back.</font>"
+	<font color='3399FF'>'The magpie's song, a fleeting flight, guides the heart through the encroaching night.'</font>"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "birdmask"
 
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask/ComponentInitialize()
 	pass() // *flips the bird at you* (this isnt meant to be adjustable)
+
+/obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
+	name = "rosestone clasped collar"
+	desc = "<font color='FFCCFF'>'To love someone is to choose to let them own a part of your spirit, and to own a part of theirs in return.'</font>"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "rosecollar"
 
 // NOIRE + CO.
 /obj/item/clothing/cloak/furcloak/woodland
@@ -3676,3 +3737,17 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	smeltresult = /obj/item/ingot/drow
+
+/obj/item/clothing/head/roguetown/wizhat/bighat
+	name = "Eryn’s archwyzardly hat"
+	desc = "In the oldest days, a magos’s mastery of the Arcyne was documented by the size of their hat. This one is comically large."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "bighat"
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	dynamic_hair_suffix = "+generic"
+	color = "#660fcc"
+	detail_color = CLOTHING_GOLD
+	altdetail_color = CLOTHING_GOLD

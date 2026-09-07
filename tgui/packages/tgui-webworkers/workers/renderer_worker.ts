@@ -32,7 +32,10 @@ const getImageRetry = async (
 
 self.onmessage = async (e: MessageEvent<RenderRequest>) => {
   const { id, imageSize, iconRef, iconStates, offsetX } = e.data;
-
+  if(id === undefined || imageSize === undefined || iconRef === undefined || iconStates === undefined || offsetX === undefined) {
+   console.log("got weird data packet:", e.data);
+    return;
+  }
   const canvas = new OffscreenCanvas(imageSize, imageSize);
   const ctx = canvas.getContext('2d', { alpha: true })!;
   // Pixel art please

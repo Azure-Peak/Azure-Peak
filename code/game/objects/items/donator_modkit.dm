@@ -106,6 +106,14 @@
 	TI.righthand_file = RI::righthand_file
 	TI.sheathe_icon = RI::sheathe_icon ? RI::sheathe_icon : TI.sheathe_icon
 	TI.bigboy = RI::bigboy
+	TI.examine_highlight_severity = RI::examine_highlight_severity
+	TI.examine_highlight_desc = RI::examine_highlight_desc
+	TI.twirly = RI::twirly
+	TI.twirl_speed = RI::twirl_speed
+	TI.twirl_verb = RI::twirl_verb
+	TI.twirl_sound = RI::twirl_sound
+	TI.twirl_cmode = RI::twirl_cmode
+	TI.fumble_chance = RI::fumble_chance
 
 	to_chat(user, span_notice("You apply the [src] to [I], using the enchanting dust and tools to turn it into [RI::name]."))
 	I.name = "[RI::name] <font size = 1>([I.name])</font>"
@@ -626,6 +634,16 @@
 	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm)
 	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm/ryan
 
+//Ryan180602 - Naginata
+/obj/item/enchantingkit/weapon/ryan_naginata
+	name = "'+5 common profane naginata' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of most polearms."
+	target_items = list(
+		/obj/item/rogueweapon/spear,
+		/obj/item/rogueweapon/halberd
+	)
+	result_item = /obj/item/rogueweapon/example/ryan_naginata
+
 //Dakken12 - Armet/Hounskull/Swords
 /obj/item/enchantingkit/dakken_zizhelm
 	name = "'armoured avantyne barbute' morphing elixir"
@@ -896,7 +914,7 @@
 //sakuyzo
 /obj/item/enchantingkit/weapon/sakuyzo
 	name = "'Hævatein' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/noc)
+	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/noc, /obj/item/rogueweapon/sword/long/undivided, /obj/item/rogueweapon/sword/long/silver)
 	result_item = /obj/item/rogueweapon/sakuyzo/sword
 
 // Ollanius
@@ -948,6 +966,15 @@
 	target_items = list(
 		/obj/item/clothing/head/roguetown/helmet/sallet/visored					= /obj/item/clothing/head/roguetown/helmet/sallet/visored/limetease,
 		/obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm			= /obj/item/clothing/head/roguetown/helmet/heavy/abyssorgreathelm/limetease,
+	)
+	result_item = null
+
+//limetease - Greatsword/Halberd
+/obj/item/enchantingkit/limetease_swordspear
+	name = "'avantyne-threaded sword' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/greatsword	= /obj/item/rogueweapon/greatsword/limetease,
+		/obj/item/rogueweapon/halberd		= /obj/item/rogueweapon/halberd/limetease
 	)
 	result_item = null
 
@@ -1278,12 +1305,21 @@
 /obj/item/enchantingkit/rosy/birdmask
 	name = "'Beaked Mask' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Maille Mask, alongside \
-	its Fluted variants."
+	its Fluted variant."
 	target_items = list(
 		/obj/item/clothing/mask/rogue/facemask/steel/maille,
 		/obj/item/clothing/mask/rogue/facemask/steel/maille/fluted
 	)
 	result_item = /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
+
+// RosySaturniidae - Rosestone Clasped Collar
+/obj/item/enchantingkit/rosy/rosecollar
+	name = "'Rosestone Clasped Collar' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Amulet of Eora."
+	target_items = list(
+		/obj/item/clothing/neck/roguetown/psicross/eora
+	)
+	result_item = /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 
 // Noire and Co.
 /obj/item/enchantingkit/nero_woodlandbrig
@@ -1332,6 +1368,15 @@
 		/obj/item/rogueweapon/greataxe
 	)
 	result_item = /obj/item/rogueweapon/example/kadeguandao
+
+/obj/item/enchantingkit/weapon/kadedao
+	name = "'Spring Cometh' morphing elixr"
+	desc = "A small container of special morphing dust, perfect to make a specific item."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short,
+		/obj/item/rogueweapon/sword/sabre
+	)
+	result_item = /obj/item/rogueweapon/example/kadedao
 
 // Lagomorphica + Stalkerino
 /obj/item/enchantingkit/weapon/donator_lagomorphica_obligatoire

@@ -86,6 +86,7 @@
 	reqs = list(/obj/item/storage/belt/rogue/leather/cloth = 1,
 				/obj/item/storage/belt/rogue/pouch = 1)
 	craftdiff = 1
+	subtype_reqs = TRUE
 	verbage_simple = "tie"
 	verbage = "tie"
 
@@ -126,6 +127,7 @@
 	reqs = list(/obj/item/storage/belt/rogue/leather/rope = 1,
 				/obj/item/storage/belt/rogue/pouch = 1)
 	craftdiff = 1
+	subtype_reqs = TRUE
 	verbage_simple = "tie"
 	verbage = "ties"
 
