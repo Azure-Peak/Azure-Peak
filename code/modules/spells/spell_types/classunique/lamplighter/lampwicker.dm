@@ -356,10 +356,16 @@
 
 	if(!ishuman(owner))
 		return FALSE
+
 	for(var/obj/O in range(7, owner))
 		if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
 			continue
+		if(istype(O, /obj/structure/flora)) // lets not burn the WHOLE forest down
+			continue
 		O.spark_act()
+
+	for(var/obj/structure/flora/F in range(3, owner)) // But we can burn a little forest down as a treat
+		F.spark_act()
 
 	for(var/mob/M in range(7, owner))
 		for(var/obj/O in M.contents)
