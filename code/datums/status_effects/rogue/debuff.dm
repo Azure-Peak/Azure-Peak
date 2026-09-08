@@ -941,7 +941,7 @@
 	id = "Vampire Bite"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/vampbite
 	duration = 30 SECONDS
-	tick_interval = 3 SECONDS
+	tick_interval = 5 SECONDS
 
 /datum/status_effect/debuff/vampbite/on_apply()
 	. = ..()

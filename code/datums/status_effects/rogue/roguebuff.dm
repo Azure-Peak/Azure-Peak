@@ -669,9 +669,6 @@
 
 #undef REWIND_AURA
 
-//lasts shorter than magic, one chomp every 3 seconds is good enough, let's not forget food can have multiple slices. This does not heal wounds, wounds are healed automatically like psydonitian trait, but it consumes 1% hunger a tick.
-#define CONSUME_AURA "consumehealing"
-
 /datum/status_effect/buff/foodhealing
 	id = "consumehealing"
 	status_type = STATUS_EFFECT_UNIQUE
@@ -689,8 +686,6 @@
 	return ..()
 
 /datum/status_effect/buff/foodhealing/tick()
-	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_blood(get_turf(owner))
-	H.color = "#830000ff"
 	// Base heal.
 	var/base_heal = healing_on_tick
 	// Fare: +10% healing per tier
@@ -709,9 +704,6 @@
 	owner.adjustCloneLoss(-heal_amount, 0)
 	owner.energy_add(10)
 	owner.update_damage_overlays()
-
-#undef CONSUME_AURA
-
 
 /atom/movable/screen/alert/status_effect/buff/healing/campfire
 	name = "Camp Rest"

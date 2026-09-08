@@ -427,9 +427,9 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 
 /datum/reagent/organpoison/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_ORGAN_EATER) || (HAS_TRAIT(eater, TRAIT_BLACKBLOOD) && !HAS_TRAIT(eater, TRAIT_VAMPBITE)))
+	if(HAS_TRAIT(M, TRAIT_ORGAN_EATER) || (HAS_TRAIT(M, TRAIT_BLACKBLOOD) && !HAS_TRAIT(M, TRAIT_VAMPBITE)))
 		M.energy_add(10) //Slowly add energy back.
-		if(HAS_TRAIT(eater, TRAIT_BLACKBLOOD) && !HAS_TRAIT(eater, TRAIT_VAMPBITE))
+		if(HAS_TRAIT(M, TRAIT_BLACKBLOOD) && !HAS_TRAIT(M, TRAIT_VAMPBITE))
 			M.reagents.add_reagent(/datum/reagent/medicine/healthpot/zarum/blood, 1) // exclusive to blackvolfs
 	if(!HAS_TRAIT(M, TRAIT_NASTY_EATER) && !HAS_TRAIT(M, TRAIT_ORGAN_EATER))
 		M.add_nausea(9)
