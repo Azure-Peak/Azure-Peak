@@ -533,6 +533,26 @@
 	stressadd = 4
 	desc = span_red("THE INQUISITION?! BY MY PATRON, NOT THEM!!")
 
+/datum/stressevent/see_bloodhound
+	timer = 3 MINUTES
+	stressadd = 2
+	desc = span_red("I smell a Bloodhound... I hate the scent of these mutts!")
+
+/datum/stressevent/see_euphore
+	timer = 3 MINUTES
+	stressadd = 2
+	desc = span_red("I smell an Euphore... I hate the scent of thesee leeches!")
+
+/datum/stressevent/bitten_by_bloodhound
+	timer = 3 MINUTES
+	stressadd = 2
+	desc = span_red("I have been bitten by a damned mutt! Disgraceful!")
+
+/datum/stressevent/bitten_by_euphore
+	timer = 3 MINUTES
+	stressadd = 2
+	desc = span_red("I have been bitten by a damned leech! Disgraceful!")
+
 /datum/stressevent/water_splashed_noble
 	timer = 30 SECONDS
 	stressadd = 2

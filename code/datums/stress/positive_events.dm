@@ -563,3 +563,13 @@
 	timer = 15 MINUTES
 	stressadd = -2
 	desc = span_green("I feel a presence scarcely watching over me. Ah, blessed be the Ten Saints and their guidance! They too will me to ENDURE!")
+
+/datum/stressevent/bitten_euphore
+	timer = 3 MINUTES
+	stressadd = -2
+	desc = span_green("I bit an Euphore! Serves them right!")
+
+/datum/stressevent/bitten_bloodhound
+	timer = 3 MINUTES
+	stressadd = -2
+	desc = span_green("I bit a Bloodhound! Serves them right!")

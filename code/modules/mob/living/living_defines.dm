@@ -257,5 +257,7 @@
 	/// Bypasses positioning and exposure checks entirely
 	var/freeuse = FALSE
 
-	/// Inquisition trauma should only happen once per examined.
+	/// Inquisition trauma should only happen once per examined. Additional Blackblood see-each-other special interactions, too.
 	var/list/examined_inquisitors = list()
+	var/list/examined_warbeasts = list()
+	var/list/examined_sweetbites = list()

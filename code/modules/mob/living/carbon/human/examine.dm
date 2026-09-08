@@ -1093,6 +1093,28 @@
 					carbs.Jitter(10)
 					carbs.stuttering += 25
 
+		if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && HAS_TRAIT(src, TRAIT_UNLYCKERABLE) && HAS_TRAIT(user, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_VAMPBITE) && src != user)
+			var/mob/living/carbon/carbs = user
+			if(HAS_TRAIT(user, TRAIT_NOMOOD))
+				return
+			if(!(src in examined_warbeasts))
+				examined_warbeasts += src
+				if(!carbs.has_stress_event(/datum/stressevent/see_bloodhound))
+					carbs.add_stress(/datum/stressevent/see_bloodhound)
+					to_chat(carbs, span_danger("Your blood boils at the sight of that Bloodhound. An instinctive hatred surges through you. You must BITE them."))
+					carbs.emote("hiss")
+
+		if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && HAS_TRAIT(src, TRAIT_VAMPBITE) && HAS_TRAIT(user, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_UNLYCKERABLE) && src != user)
+			var/mob/living/carbon/carbs = user
+			if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(user, TRAIT_NOMOOD))
+				return
+			if(!(src in examined_sweetbites))
+				examined_sweetbites += src
+				if(!carbs.has_stress_event(/datum/stressevent/see_euphore))
+					carbs.add_stress(/datum/stressevent/see_euphore)
+					to_chat(carbs, span_danger("Your blood boils at the sight of that Euphore. An instinctive hatred surges through you. You must BITE them."))
+					carbs.emote("growl")
+
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
 			// if you have deathsight, you get the deathsight message. always.
 			if(!HAS_TRAIT(user, TRAIT_DEATHSIGHT))
