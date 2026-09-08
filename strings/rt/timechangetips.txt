@@ -192,3 +192,4 @@ SNEAK when walking through grass or onto sticks to avoid ambushes. SPRINTING int
 Mining is improved by an actor's FORTUNE. A high WILLPOWER to increase your stamina works wonders, too.
 REGULAR SKELELONS can be dispatched by stabbing them in the nose or cracking their skulls. Decapitation is a universal death for their kind.
 SAUSAGES can be made with any MINCE. If truly in a pickle, try using FAT as a filler! Your customers will never know the difference!
+Water breaks falls.
