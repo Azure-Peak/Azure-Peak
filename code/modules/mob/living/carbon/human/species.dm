@@ -3,6 +3,36 @@
 GLOBAL_LIST_EMPTY(roundstart_races)
 GLOBAL_LIST_EMPTY(roundstart_races_paths)
 
+/// One alternate silhouette a character can be rendered on, shared by every species offering it. The sprites and
+/// offsets live here rather than on /datum/species so the ~40 species that offer no builds don't each carry a
+/// copy they can never use, and so a bulky elf and a bulky human are guaranteed to be drawn on the same body.
+/datum/body_build
+	/// The BODY_BUILD_* id this build is registered under.
+	var/id
+	var/limbs_icon_m
+	var/limbs_icon_f
+	var/list/offset_features
+
+/datum/body_build/bulky
+	id = BODY_BUILD_BULKY
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mt.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/ft_muscular.dmi'
+	offset_features = OFFSET_FEATURES_BULKY_REFERENCE
+
+/datum/body_build/slim
+	id = BODY_BUILD_SLIM
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fm.dmi'
+	offset_features = OFFSET_FEATURES_SLIM_REFERENCE
+
+GLOBAL_LIST_INIT(body_builds, init_body_builds())
+
+/proc/init_body_builds()
+	. = list()
+	for(var/build_type in subtypesof(/datum/body_build))
+		var/datum/body_build/build = new build_type
+		.[build.id] = build
+
 /datum/species
 	var/id	// if the game needs to manually check my race to do something not included in a proc here, it will use this
 	var/limbs_id		//this is used if you want to use a different species limb sprites. Mainly used for angels as they look like humans.
@@ -23,12 +53,6 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	/// male is bulky where a human female is slim. Set each to the build matching limbs_icon_m/limbs_icon_f.
 	var/default_body_build_m
 	var/default_body_build_f
-	/// Limb sprites per build, shared by every species offering that build, so a bulky elf and a bulky human are
-	/// drawn on the same body. A species can override one of these if it needs its own take on a build.
-	var/limbs_icon_m_bulky = 'icons/roguetown/mob/bodies/m/mt.dmi'
-	var/limbs_icon_f_bulky = 'icons/roguetown/mob/bodies/f/ft_muscular.dmi'
-	var/limbs_icon_m_slim = 'icons/roguetown/mob/bodies/m/mem.dmi'
-	var/limbs_icon_f_slim = 'icons/roguetown/mob/bodies/f/fm.dmi'
 	var/icon_override
 	var/icon_override_m
 	var/icon_override_f
@@ -51,12 +75,6 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	OFFSET_FACE_F = list(0,0), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,0), \
 	OFFSET_NECK_F = list(0,0), OFFSET_MOUTH_F = list(0,0), OFFSET_PANTS_F = list(0,0), \
 	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES = list(0,0), OFFSET_UNDIES_F = list(0,0))
-	/// Offset tables per build, used instead of offset_features whenever a character is rendering on that build.
-	/// They belong to the silhouette rather than the species, so clothing lines up with the body actually being
-	/// drawn — a bulky elf reads the same table as a bulky human. offset_features is only consulted by species
-	/// that offer no builds at all.
-	var/list/offset_features_bulky = OFFSET_FEATURES_BULKY_REFERENCE
-	var/list/offset_features_slim = OFFSET_FEATURES_SLIM_REFERENCE
 
 	var/dam_icon
 	var/dam_icon_f
@@ -215,20 +233,26 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 // PROCS //
 ///////////
 
-/// The build this species falls back to for a given gender when nothing valid has been picked.
+/// The build this species falls back to for a given gender when nothing valid has been picked. Guaranteed to
+/// name a build the species actually offers, so callers can trust the result without re-validating it: a
+/// default that isn't in allowed_body_builds would otherwise reach the savefile and the UI, where it renders
+/// as a blank dropdown and a body the species has no sprites for.
 /datum/species/proc/get_default_body_build(gender)
-	return (gender == MALE) ? default_body_build_m : default_body_build_f
+	if(!length(allowed_body_builds))
+		return null
+	var/build = (gender == MALE) ? default_body_build_m : default_body_build_f
+	if(build in allowed_body_builds)
+		return build
+	return allowed_body_builds[1]
 
 /// The limb sprite sheet this character's body is drawn from: the sheet belonging to their current build if
 /// their species offers builds, otherwise the species' own limbs_icon_m/limbs_icon_f. Every consumer of a body
 /// sprite should go through here rather than reading limbs_icon_m/limbs_icon_f directly, or overlays meant to
 /// sit on the body (damage, body hair) end up drawn against a silhouette the character isn't wearing.
 /datum/species/proc/get_limbs_icon(mob/living/carbon/human/H)
-	switch(H.get_body_build())
-		if(BODY_BUILD_BULKY)
-			return (H.gender == MALE) ? limbs_icon_m_bulky : limbs_icon_f_bulky
-		if(BODY_BUILD_SLIM)
-			return (H.gender == MALE) ? limbs_icon_m_slim : limbs_icon_f_slim
+	var/datum/body_build/build = GLOB.body_builds[H.get_body_build()]
+	if(build)
+		return (H.gender == MALE) ? build.limbs_icon_m : build.limbs_icon_f
 	return (H.gender == MALE) ? limbs_icon_m : limbs_icon_f
 
 /datum/species/proc/is_organ_slot_allowed(mob/living/carbon/human/human, organ_slot)
@@ -613,14 +637,7 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 		if(H.lip_style && (LIPS in species_traits))
 			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[H.lip_style]", -BODY_LAYER)
 			lip_overlay.color = H.lip_color
-			if(H.is_bulky_offset())
-				if(OFFSET_FACE in H.get_offset_features())
-					lip_overlay.pixel_x += H.get_offset_features()[OFFSET_FACE][1]
-					lip_overlay.pixel_y += H.get_offset_features()[OFFSET_FACE][2]
-			else
-				if(OFFSET_FACE_F in H.get_offset_features())
-					lip_overlay.pixel_x += H.get_offset_features()[OFFSET_FACE_F][1]
-					lip_overlay.pixel_y += H.get_offset_features()[OFFSET_FACE_F][2]
+			H.apply_offset(lip_overlay, OFFSET_FACE, OFFSET_FACE_F)
 			standing += lip_overlay
 
 

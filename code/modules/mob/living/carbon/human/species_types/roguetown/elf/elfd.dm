@@ -59,13 +59,14 @@
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fm.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
+	// Superseded by the slim build, which decides the clothing cut before is_bulky_body() ever reads this.
+	// Kept as the fallback for anything that strips this species of its builds.
 	use_f = TRUE
 	soundpack_m = /datum/voicepack/male/elf
 	soundpack_f = /datum/voicepack/female/elf
 	allowed_body_builds = ALL_BODY_BUILDS
 	default_body_build_m = BODY_BUILD_SLIM
 	default_body_build_f = BODY_BUILD_SLIM
-	offset_features = OFFSET_FEATURES_SLIM_REFERENCE
 	race_bonus = list(STAT_PERCEPTION = 1, STAT_INTELLIGENCE = 1)
 	enflamed_icon = "widefire"
 	organs = list(

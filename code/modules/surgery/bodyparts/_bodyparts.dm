@@ -121,16 +121,25 @@
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
 	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
 	var/specific_render_zone = aux ? aux_zone : body_zone
+	var/is_hand_zone = (specific_render_zone == BODY_ZONE_PRECISE_L_HAND || specific_render_zone == BODY_ZONE_PRECISE_R_HAND)
+
 	for(var/key in specific_markings)
 		var/color = specific_markings[key]
 		var/datum/body_marking/BM = GLOB.body_markings[key]
 
 		var/render_limb_string = specific_render_zone
+		var/pixel_y_offset = 0
 		if(BM.gendered && (!BM.gender_only_chest || specific_render_zone == BODY_ZONE_CHEST))
-			var/gendaar = (human_owner.gender == FEMALE) ? "f" : "m"
+			var/gendaar = human_owner.is_bulky_body() ? "m" : "f"
 			render_limb_string = "[render_limb_string]_[gendaar]"
+			// A slim male borrows the _f art from slim females, but his hand (mem.dmi) sits a pixel above hers
+			// (fm.dmi), so nudge it down to meet him. Only reached for gendered markings, since one drawn as a
+			// single shared sprite was never drawn against her body to begin with.
+			if(is_hand_zone && gendaar == "f" && human_owner.gender == MALE)
+				pixel_y_offset = -1
 
 		var/mutable_appearance/accessory_overlay = mutable_appearance(BM.icon, "[BM.icon_state]_[render_limb_string]", -specific_layer)
+		accessory_overlay.pixel_y += pixel_y_offset
 		if(override_color)
 			accessory_overlay.color = "#[override_color]"
 		else

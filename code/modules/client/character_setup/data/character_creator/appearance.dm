@@ -59,12 +59,10 @@
 	if(!length(pref_species.allowed_body_builds))
 		return list("masculine" = "Masculine", "feminine" = "Feminine")
 	. = list()
-	for(var/build in list(BODY_BUILD_BULKY, BODY_BUILD_SLIM))
-		if(build in pref_species.allowed_body_builds)
-			.["masculine_[build]"] = "Masculine ([capitalize(build)])"
-	for(var/build in list(BODY_BUILD_SLIM, BODY_BUILD_BULKY))
-		if(build in pref_species.allowed_body_builds)
-			.["feminine_[build]"] = "Feminine ([capitalize(build)])"
+	for(var/gender_key in list("masculine", "feminine"))
+		for(var/build in ALL_BODY_BUILDS)
+			if(build in pref_species.allowed_body_builds)
+				.["[gender_key]_[build]"] = "[capitalize(gender_key)] ([capitalize(build)])"
 
 /// Gets all valid skintones as an assoc list Name -> Hex
 /datum/preferences/proc/get_valid_skin_tones()

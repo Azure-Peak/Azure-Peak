@@ -32,10 +32,11 @@
 			if(chosen == old_bodytype)
 				return CHARACTER_ACT_DATA_UPDATE
 
-			// Keys are "masculine"/"feminine" on species without builds, or "<gender>_<build>" with one.
-			var/list/parts = splittext(chosen, "_")
-			gender = (parts[1] == "masculine") ? MALE : FEMALE
-			features["body_build"] = (length(parts) > 1) ? parts[2] : null
+			// Keys are "masculine"/"feminine" on species without builds, or "<gender>_<build>" with one. Split on
+			// the first underscore only, so a build whose own id contains one still round-trips intact.
+			var/split = findtext(chosen, "_")
+			gender = (copytext(chosen, 1, split || 0) == "masculine") ? MALE : FEMALE
+			features["body_build"] = split ? copytext(chosen, split + 1) : null
 
 			verbose_pref_log_change(user, "notice", "Body Type", valid_options[old_bodytype], valid_options[chosen])
 			genderize_customizer_entries()

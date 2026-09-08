@@ -40,7 +40,6 @@
 	allowed_body_builds = ALL_BODY_BUILDS
 	default_body_build_m = BODY_BUILD_BULKY
 	default_body_build_f = BODY_BUILD_SLIM
-	offset_features = OFFSET_FEATURES_BULKY_REFERENCE
 	race_bonus = list(STAT_PERCEPTION = 1, STAT_CONSTITUTION = 1)
 	enflamed_icon = "widefire"
 	organs = list(
