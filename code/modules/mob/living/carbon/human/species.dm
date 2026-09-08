@@ -15,21 +15,10 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	var/list/offset_features
 	/// TRUE if worn clothing should use its masculine cut on this build. See is_bulky_body().
 	var/bulky_cut = FALSE
-	/// How many pixels this build's body sits above the one its offset_features were tuned for. The table is
-	/// raised by this much at init so every reader of it is corrected; the raw number stays available for the
-	/// nudges that are applied separately from the table, like body markings and legwear.
-	var/offset_y_shift = 0
-
-/datum/body_build/New()
-	. = ..()
-	if(!offset_y_shift)
-		return
-	var/list/exempt = BUILD_SHIFT_EXEMPT_OFFSETS
-	var/list/raised = list()
-	for(var/key in offset_features)
-		var/list/xy = offset_features[key]
-		raised[key] = (key in exempt) ? list(xy[1], xy[2]) : list(xy[1], xy[2] + offset_y_shift)
-	offset_features = raised
+	/// Pixel nudge for body markings on this build, by body zone, for a character wearing marking art drawn for
+	/// a body that isn't his - see get_specific_markings_overlays. Positive moves a marking up. A zone left out
+	/// is not nudged, which is why the legs never appear here: a raised body leaves the feet planted.
+	var/list/marking_offsets
 
 /// Whether this build has a body for the given gender, and so can be offered to them.
 /datum/body_build/proc/supports_gender(gender)
@@ -47,6 +36,11 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fm.dmi'
 	offset_features = OFFSET_FEATURES_SLIM_REFERENCE
+	marking_offsets = list(
+		BODY_ZONE_HEAD = 1,
+		BODY_ZONE_PRECISE_L_HAND = -1,
+		BODY_ZONE_PRECISE_R_HAND = -1,
+	)
 
 /// The Wood Elf male body, kept as an option for elves after they standardised onto mem.dmi. It is the slim
 /// body one pixel higher, so it borrows the slim table wholesale and raises it rather than defining its own.
@@ -54,8 +48,13 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 /datum/body_build/elven
 	id = BODY_BUILD_ELVEN
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/met.dmi'
-	offset_features = OFFSET_FEATURES_SLIM_REFERENCE
-	offset_y_shift = 1
+	offset_features = OFFSET_FEATURES_ELVEN_REFERENCE
+	marking_offsets = list(
+		BODY_ZONE_HEAD = 2,
+		BODY_ZONE_CHEST = 1,
+		BODY_ZONE_L_ARM = 1,
+		BODY_ZONE_R_ARM = 1,
+	)
 
 GLOBAL_LIST_INIT(body_builds, init_body_builds())
 

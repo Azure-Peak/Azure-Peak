@@ -116,27 +116,6 @@
 /obj/item/bodypart/proc/adjust_marking_overlays(list/appearance_list)
 	return
 
-/// Per-zone pixel nudges applied to a slim male's body markings. He shares the _f marking art with slim
-/// females, but his body (mem.dmi) and hers (fm.dmi) don't line up everywhere, so the shared sprite needs
-/// shifting to meet him on the zones that differ. Positive moves a marking up, negative moves it down; a zone
-/// absent from this list isn't nudged at all. Add or tweak an entry here if a marking sits off by a pixel.
-/// Zones a build's offset_y_shift does not reach, for the same reason as BUILD_SHIFT_EXEMPT_OFFSETS: a raised
-/// build lifts the torso but leaves the feet on the ground, so markings drawn on the legs stay put.
-GLOBAL_LIST_INIT(build_shift_exempt_zones, list(
-	BODY_ZONE_L_LEG,
-	BODY_ZONE_R_LEG,
-	BODY_ZONE_PRECISE_L_FOOT,
-	BODY_ZONE_PRECISE_R_FOOT,
-	"l_leg_above",
-	"r_leg_above",
-))
-
-GLOBAL_LIST_INIT(slim_male_marking_offsets, list(
-	BODY_ZONE_PRECISE_L_HAND = -1,
-	BODY_ZONE_PRECISE_R_HAND = -1,
-	BODY_ZONE_HEAD = 1,
-))
-
 /obj/item/bodypart/proc/get_specific_markings_overlays(list/specific_markings, aux = FALSE, mob/living/carbon/human/human_owner, override_color)
 	var/list/appearance_list = list()
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
@@ -153,10 +132,9 @@ GLOBAL_LIST_INIT(slim_male_marking_offsets, list(
 			var/gendaar = human_owner.is_bulky_body() ? "m" : "f"
 			render_limb_string = "[render_limb_string]_[gendaar]"
 			// Only gendered markings need this: one drawn as a single shared sprite was never drawn against her
-			// body to begin with. See slim_male_marking_offsets for the per-zone amounts.
+			// body to begin with. The per-zone amounts live on the build, as marking_offsets.
 			if(gendaar == "f" && human_owner.gender == MALE)
-				var/build_shift = (specific_render_zone in GLOB.build_shift_exempt_zones) ? 0 : human_owner.get_body_build_shift()
-				pixel_y_offset = (GLOB.slim_male_marking_offsets[specific_render_zone] || 0) + build_shift
+				pixel_y_offset = human_owner.get_marking_offset(specific_render_zone)
 
 		var/mutable_appearance/accessory_overlay = mutable_appearance(BM.icon, "[BM.icon_state]_[render_limb_string]", -specific_layer)
 		accessory_overlay.pixel_y += pixel_y_offset

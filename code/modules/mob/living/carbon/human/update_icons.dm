@@ -1814,11 +1814,11 @@ generate/load female uniform sprites matching all previously decided variables
 		return build
 	return S.get_default_body_build(gender)
 
-/// How many pixels this character's build sits above the body its offset table was tuned for. Already baked
-/// into the table itself, so this is only for nudges applied outside it - body markings and legwear.
-/mob/living/carbon/proc/get_body_build_shift()
+/// Pixel nudge for a body marking on the given zone, from this character's build. Zero when the build lists no
+/// entry for that zone, or when the character is on no build at all.
+/mob/living/carbon/proc/get_marking_offset(zone)
 	var/datum/body_build/build = GLOB.body_builds[get_body_build()]
-	return build ? build.offset_y_shift : 0
+	return build ? (build.marking_offsets?[zone] || 0) : 0
 
 /// Whether worn clothing should use its bulky (masculine) cut rather than its slim (feminine) one. The build
 /// decides it outright where a species offers builds — that's what separates the two silhouettes, and it's why

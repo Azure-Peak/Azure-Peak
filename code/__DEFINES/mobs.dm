@@ -347,10 +347,6 @@
 #define ALL_BODY_BUILDS list(BODY_BUILD_BULKY, BODY_BUILD_SLIM, BODY_BUILD_ELVEN)
 /// The two builds any human-shaped species can offer.
 #define STANDARD_BODY_BUILDS list(BODY_BUILD_BULKY, BODY_BUILD_SLIM)
-/// Offset slots a build's offset_y_shift skips. A raised build like elven lifts the torso, but its legs stretch
-/// down from the hip rather than moving with it - the feet stay planted on the ground - so anything hanging off
-/// the legs keeps the unraised position. Add a slot here if it hangs from the legs rather than the body.
-#define BUILD_SHIFT_EXEMPT_OFFSETS list(OFFSET_PANTS, OFFSET_PANTS_F)
 
 // Offset table for the bulky build, tuned for the shared mt.dmi/ft_muscular.dmi silhouette. Taken from
 // Human's own offsets, which every mt.dmi species had already converged on identically. Both genders read
@@ -383,6 +379,23 @@
 	OFFSET_FACE_F = list(0,-1), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-1), \
 	OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
 	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
+	)
+
+// Offset table for the elven build: the slim table raised a pixel, except on the legs. A raised body lifts
+// the torso but leaves the feet planted, so the leg slots keep their slim values while everything hanging
+// off the body moves up with it. Written out in full so it reads the same way as its two neighbours.
+#define OFFSET_FEATURES_ELVEN_REFERENCE list(\
+	OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,2), OFFSET_WRISTS = list(0,2), \
+	OFFSET_HANDS = list(0,1), OFFSET_CLOAK = list(0,2), OFFSET_FACEMASK = list(0,1), \
+	OFFSET_HEAD = list(0,1), OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), \
+	OFFSET_BACK = list(0,1), OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), \
+	OFFSET_PANTS = list(0,0), OFFSET_SHIRT = list(0,2), OFFSET_ARMOR = list(0,2), \
+	OFFSET_UNDIES = list(0,2), OFFSET_ID_F = list(0,0), OFFSET_GLOVES_F = list(0,1), \
+	OFFSET_WRISTS_F = list(0,1), OFFSET_HANDS_F = list(0,1), OFFSET_CLOAK_F = list(0,1), \
+	OFFSET_FACEMASK_F = list(0,0), OFFSET_HEAD_F = list(0,0), OFFSET_FACE_F = list(0,0), \
+	OFFSET_BELT_F = list(0,1), OFFSET_BACK_F = list(0,0), OFFSET_NECK_F = list(0,0), \
+	OFFSET_MOUTH_F = list(0,0), OFFSET_PANTS_F = list(0,0), OFFSET_SHIRT_F = list(0,1), \
+	OFFSET_ARMOR_F = list(0,1), OFFSET_UNDIES_F = list(0,0), \
 	)
 
 //MINOR TWEAKS/MISC
