@@ -196,10 +196,10 @@
 #define QSR_WARBEAST "Bloodhound"
 
 /datum/virtue/combat/otavan_experiment
-	name = "Ordo Purificandi Experiment"
-	desc = "My blood is resistant to Blessed Quicksilver, and when I became a nite-creacher, it meant the curse could never be cleansed from me. What should have been the end of me instead became my salvation when I was captured and sent to the Otavan Inquisition. Or so I thought... What happened there... Gods, help me... I... the screams..."
+	name = "Ordo Purificati Subject"
+	desc = "My blood is resistant to Blessed Quicksilver, so when I became a nite-creacher, the curse could never be cleansed from me. What should have been my end became my salvation when I was captured by the Otavan Inquisition and shipped off somewhere foggy. I remember little of what happened there. Not who they were, nor what they did. Only what became of me... I had become someone else entirely. No. Not someone. 'Something'. Different. I constantly feel watched by HIM. Like if I slip out of the line, HE will know. And retribution will be swift."
 	ui_fa_icon = "biohazard"
-	custom_text = "A result of the Inquisition's darkest experiments from the secret faction of the \"Ordo Purificandi\". Your body now bears the consequences: your humenity is regained... but your frayed Lux diminishes all healing you receive, you are still afflicted by silver, and sunlight leaves you deeply uncomfortable. Some qualities of the nite-creacher remain within you, twisted into something new. Perhaps they will fade with time. Perhaps they will become something else entirely."
+	custom_text = "A result of the Inquisition's darkest experiments from the secret faction of the \"Ordo Purificandi\". Your body now bears the consequences: your humenity is regained... but your frayed Lux diminishes all healing you receive, you are still lethally afflicted by silver, and being under sunlight leaves you deeply uncomfortable. Some qualities of the nite-creacher remain within you, as perhaps the only positives from this condition."
 	max_choices = 1
 	restricted = TRUE
 	races = list(/datum/species/construct/metal, /datum/species/elf/sun, /datum/species/gnoll, /datum/species/goblin, /datum/species/ooze, /datum/species/kobold, /datum/species/aasimar, /datum/species/dullahan, /datum/species/tieberian)
@@ -254,7 +254,7 @@
 				if(QSR_WARBEAST)
 					recipient.grant_language(/datum/language/beast)
 					ADD_TRAIT(recipient, TRAIT_PERFECT_TRACKER, TRAIT_VIRTUE)
-					ADD_TRAIT(recipient, TRAIT_UNLYCKERABLE, TRAIT_VIRTUE) // this does nothing, mostly to tell them apart
+					ADD_TRAIT(recipient, TRAIT_NOWW, TRAIT_VIRTUE)
 					recipient.change_stat(STATKEY_CON, -1)
 					recipient.change_stat(STATKEY_WIL, -1)
 			to_chat(recipient, span_danger("DISCLAIMER: This option exists to support roleplay and backstory continuity, not to diminish the threat or narrative weight of vampires, werewolves, or similar antagonistic entities. You are a tortured survivor of the Otavan Inquisition, and your very LUX fears them. Failure to roleplay this appropriately may result in this option's removal. Have fun and don't be cringe."))

@@ -533,6 +533,11 @@
 	stressadd = 4
 	desc = span_red("THE INQUISITION?! BY MY PATRON, NOT THEM!!")
 
+/datum/stressevent/inq_trauma_worse
+	timer = 5 SECONDS
+	stressadd = 100
+	desc = span_red("STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!! STOP!!")
+
 /datum/stressevent/see_bloodhound
 	timer = 3 MINUTES
 	stressadd = 2
