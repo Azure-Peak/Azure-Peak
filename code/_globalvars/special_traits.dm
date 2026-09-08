@@ -37,7 +37,6 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	apply_charflaw_equipment(character, player)
 	apply_prefs_virtue(character, player)
 	apply_prefs_race_bonus(character, player)
-	apply_prefs_quirk(character, player)
 	if(!HAS_TRAIT(character, TRAIT_NO_VOICEPACK_OVERRIDE)) //Only roundstart roles that jobload in, should use this. Prevents prefloaded voicepacks overriding yours.
 		apply_voicepacks(character, player)
 	if(player.prefs.dnr_pref || SSgamemode?.dnr_round)
@@ -62,6 +61,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(assigned_job)
 		assigned_job.clamp_stats(character)
 	check_trait_incompatibilities(character)
+	apply_prefs_quirk(character, player) // this needs to be after all traits are applied, so that trait incompats will work
 	character.calculate_energy()
 	character.calculate_stamina()
 	character.energy = character.max_energy
@@ -139,8 +139,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(prefs.statpack.virtuous)
 		.++
 	var/flaws = 0
-	for(var/datum/charflaw/cf in prefs.charflaws) // difficulty flaws don't count as each other's extra vice
-		if(!cf.needs_extra_vice)
+	for(var/datum/charflaw/cf as anything in prefs.charflaws) // difficulty flaws don't count as each other's extra vice
+		if(!cf::needs_extra_vice)
 			flaws++
 	if(flaws >= 2)
 		.++
@@ -154,17 +154,29 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return
 
 	var/slots = get_quirk_slots(player.prefs)
-	var/datum/quirk/lesser_type = player.prefs.quirklesser
-	var/datum/quirk/greater_type = player.prefs.quirkgreater
+	var/datum/quirk/lesser = player.prefs.quirklesser
+	var/datum/quirk/greater = player.prefs.quirkgreater
 
-	if(slots && lesser_type)
-		if(quirk_check(lesser_type, player.prefs))
-			apply_quirk(character, lesser_type)
+	if(slots && lesser)
+		if(quirk_check(lesser, player.prefs))
+			var/trait_blocked = FALSE
+			for(var/T in character.status_traits)
+				if(T in lesser.restricted_traits)
+					to_chat(character, "Incorrect Lesser Quirk parameters! It will not be applied.")
+					trait_blocked = TRUE
+			if(!trait_blocked)
+				apply_quirk(character, lesser)
 		else
 			to_chat(character, "Incorrect Lesser Quirk parameters! It will not be applied.")
-	if((slots >= 2) && greater_type)
-		if(quirk_check(greater_type, player.prefs))
-			apply_quirk(character, greater_type)
+	if((slots >= 2) && greater)
+		if(quirk_check(greater, player.prefs))
+			var/trait_blocked = FALSE
+			for(var/T in character.status_traits)
+				if(T in greater.restricted_traits)
+					to_chat(character, "Incorrect Greater Quirk parameters! It will not be applied.")
+					trait_blocked = TRUE
+			if(!trait_blocked)
+				apply_quirk(character, greater)
 		else
 			to_chat(character, "Incorrect Greater Quirk parameters! It will not be applied.")
 

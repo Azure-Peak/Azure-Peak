@@ -34,7 +34,12 @@ import {
   Stack,
 } from 'tgui-core/components';
 import { classes } from 'tgui-core/react';
-import type { AllPagesData, IdentityData, VirtueWithMetadata } from '../data';
+import type {
+  AllPagesData,
+  IdentityData,
+  QuirkWithMetadata,
+  VirtueWithMetadata,
+} from '../data';
 
 export const SubtabIdentity = () => {
   return (
@@ -62,6 +67,9 @@ export const SubtabIdentity = () => {
           </Stack.Item>
           <Stack.Item>
             <SubtabIdentityCardVirtues />
+          </Stack.Item>
+          <Stack.Item>
+            <SubtabIdentityCardQuirks />
           </Stack.Item>
           <Stack.Item>
             <SubtabIdentityCardVices />
@@ -675,6 +683,53 @@ export const VirtueEntry = (props: { entry: VirtueWithMetadata }) => {
           Pick Bonus {virtue.next_cost > 0 ? `(${virtue.next_cost} TRI)` : null}
         </Button>
       ) : null}
+    </Box>
+  );
+};
+
+export const SubtabIdentityCardQuirks = () => {
+  const { data } = useBackendStrict<IdentityData>();
+  const { quirks } = data;
+
+  return (
+    <Section title="Quirks" className="PreferencesMenu__Section__Quirks">
+      <Stack vertical>
+        {quirks.map((quirk) => (
+          <Stack.Item key={quirk.id}>
+            <QuirkEntry entry={quirk} />
+          </Stack.Item>
+        ))}
+      </Stack>
+    </Section>
+  );
+};
+
+export const QuirkEntry = (props: { entry: QuirkWithMetadata }) => {
+  const { entry } = props;
+  const { id, slot_name, quirk, spawn_error } = entry;
+  const [, setPopupId] = usePopupId();
+
+  return (
+    <Box>
+      <Stack align="center">
+        <Stack.Item>{slot_name}:</Stack.Item>
+        <Stack.Item grow>
+          <Button
+            fluid
+            icon="bars"
+            className={spawn_error ? 'Quirk__SpawnError' : undefined}
+            tooltip={
+              spawn_error
+                ? `This quirk will not be applied on spawn: ${spawn_error}`
+                : null
+            }
+            onClick={() => setPopupId('Quirk', { id })}
+          >
+            {quirk.name}
+            {spawn_error ? ' (!)' : null}
+          </Button>
+        </Stack.Item>
+      </Stack>
     </Box>
   );
 };

@@ -31,6 +31,7 @@ export type ConstantData = {
   taur_types: Record<Path, ConstantTaurType>;
   tgui_themes: Record<string, string>;
   virtues: Record<Path, ConstantVirtue>;
+  quirks: Record<Path, ConstantQuirk>;
   voicepacks: string[];
   // other data
   lore_primer: TrustedHTML;
@@ -300,6 +301,17 @@ export type ConstantVirtue = {
   added_traits: Trait[];
   added_stashed_items: string[];
   added_languages: string[];
+};
+
+/** {@link ConstantData.quirks} */
+export type ConstantQuirk = {
+  name: string;
+  desc: TrustedHTML;
+  mechdesc: TrustedHTML;
+  greater: boolean;
+  icon: string | null;
+  restricted_traits: string[];
+  added_traits: Trait[];
 };
 
 export type Skill = {

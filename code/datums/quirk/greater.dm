@@ -8,12 +8,14 @@
 	desc = "I've kept my hands busy and my mind sharp. I can craft things quicker than most."
 	added_traits = list(TRAIT_GOODCRAFTER)
 	greater = TRUE
+	ui_fa_icon = "hammer"
 
 /datum/quirk/feytouched
 	name = "Feytouched"
 	desc = "While I may not be as changed as some, I'm bound by pact or nature to the hag's cause."
 	mechdesc = "You and the hag will know each other automatically and can communicate. You're expected to cooperate with them."
 	greater = TRUE
+	ui_fa_icon = "ghost"
 
 /datum/quirk/feytouched/apply_to_human(mob/living/carbon/human/recipient)
 	if(!recipient.mind)
@@ -36,6 +38,7 @@
 	greater = TRUE
 	restricted_species = list(/datum/species/construct, /datum/species/dullahan, /datum/species/ooze)
 	restricted_traits = list(TRAIT_OUTLAW) // just like noble virtue you can't take this on wretches and thelike
+	ui_fa_icon = "crown"
 
 /datum/quirk/wyldeater // not quite as good as inhumen digestion but maybe slightly less likely to get you flagged as a graggarite?
 	name = "Wyld Metabolism"
@@ -43,3 +46,4 @@
 	added_traits = list(TRAIT_WILD_EATER)
 	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall)
 	greater = TRUE
+	ui_fa_icon = "drumstick-bite"

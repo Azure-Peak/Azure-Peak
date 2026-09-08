@@ -49,6 +49,7 @@
 		"max_bark_variance" = null,
 
 		"virtues" = ui_data_character_creator_identity_virtues(user),
+		"quirks" = ui_data_character_creator_identity_quirks(user),
 	)
 
 	// Subprocs
@@ -159,5 +160,36 @@
 		heretic = TRUE
 	if(!virtue_check(V, heretic, pref_species))
 		return "Incorrect virtue parameters."
+
+	return null
+
+// No downstream override necessary, see data/popup/quirk.dm
+/datum/preferences/proc/ui_data_character_creator_identity_quirks(mob/user)
+	var/list/data = list()
+
+	var/list/slot_names = get_quirk_slot_names()
+
+	var/index = 1
+	for(var/datum/quirk/Q as anything in get_all_quirks())
+		UNTYPED_LIST_ADD(data, list(
+			"id" = index,
+			"slot_name" = slot_names[index],
+			"quirk" = Q.ui_data(user),
+			"spawn_error" = quirk_spawn_error(index, Q)
+		))
+		index += 1
+
+	return data
+
+/datum/preferences/proc/quirk_spawn_error(index, datum/quirk/Q)
+	var/slots = get_quirk_slots(src)
+	if(slots < index)
+		if(index == 1)
+			return "This quirk slot needs either a second standalone vice or a virtuous statpack."
+		if(index == 2)
+			return "This quirk slot needs both a second standalone vice and a virtuous statpack."
+
+	if(!quirk_check(Q, src))
+		return "Incorrect quirk parameters."
 
 	return null

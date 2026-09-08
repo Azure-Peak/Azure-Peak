@@ -9,11 +9,13 @@
 	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/lizardfolk)
 	restricted_virtues = list(/datum/virtue/combat/second_chance) // you're probably already unbreathing
 	added_traits = list(TRAIT_WATERBREATHING) // notably NOT breathless
+	ui_fa_icon = "lungs"
 
 /datum/quirk/goodlover // no beautiful trait for you. if you want to triumph farm, you need to earn your erp instead of being ontologically beautiful. sorry!
 	name = "Fabled Lover"
 	desc = "It's a lucky thing to share my bed. One might even call it a true TRIUMPH."
 	added_traits = list(TRAIT_GOODLOVER)
+	ui_fa_icon = "bed"
 
 /datum/quirk/wyrdbeauty
 	name = "Otherworldly"
@@ -21,11 +23,13 @@
 	added_traits = list(TRAIT_BEAUTIFUL_UNCANNY)
 	allowed_species = list(/datum/species/aasimar, /datum/species/dullahan, /datum/species/construct)
 	allowed_virtues = list(/datum/virtue/combat/second_chance) // hacky, but w/e
+	ui_fa_icon = "person-rays"
 
 /datum/quirk/large // this is - literally just cucking yourself by making your sprite bigger, idt we need to curb this?
 	name = "Large"
 	desc = "I'm just bigger than most others, plain and simple. Alas, it hasn't affected my strength."
 	restricted_virtues = list(/datum/virtue/size/giant) // ...except, if you stack it with the giant virtue and big guy, you literally take up two entire tiles. which is probably bad
+	ui_fa_icon = "expand"
 
 /datum/quirk/large/apply_to_human(mob/living/carbon/human/recipient) // same as giant virtue - just without the mechanical effects
 	. = ..()
@@ -38,17 +42,20 @@
 	desc = "My face is distressing to look upon."
 	mechdesc = "This will grant no mechanical stress."
 	added_traits = list(TRAIT_DISFIGURED)
+	ui_fa_icon = "eye-slash"
 
 /datum/quirk/tainted
 	name = "Tainted"
 	desc = "My lux bears some manner of curse; it cannot be safely transplanted."
 	mechdesc = "You will be unable to donate lux to revive others."
 	added_traits = list(TRAIT_TAINTEDLUX)
+	ui_fa_icon = "circle-half-stroke"
 
 /datum/quirk/outdoorsman
 	name = "Outdoorsy"
 	desc = "I feel at home in the wyld. Sleeping in tree branches is almost as comfortable as a bed to me."
 	added_traits = list(TRAIT_OUTDOORSMAN)
+	ui_fa_icon = "tree"
 
 /datum/quirk/caustic
 	name = "Prickly"
@@ -56,3 +63,4 @@
 	mechdesc = "Doesn't affect grabs."
 	added_traits = list(TRAIT_CAUSTIC)
 	allowed_species = list(/datum/species/ooze, /datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/aasimar, /datum/species/dullahan)
+	ui_fa_icon = "road-spikes"
