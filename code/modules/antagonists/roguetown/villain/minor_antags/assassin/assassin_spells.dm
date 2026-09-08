@@ -32,11 +32,14 @@
 		if(L == assassin || istype(L, /mob/living/carbon/human/dummy))
 			continue
 		var/is_hunted = L.has_flaw(/datum/charflaw/targeted)
+		var/is_deathmarked = L.has_flaw(/datum/charflaw/marked_for_death)
 		var/is_trapped = HAS_TRAIT(L, TRAIT_CLAIMED_BY_DARKSTAR)
-		var/is_valid_prey = is_hunted && !is_trapped
+		var/is_valid_prey = (is_hunted || is_deathmarked) && !is_trapped
 
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
+			if(is_deathmarked)
+				entry_name += " (DnR)"
 			var/target_job = L.get_role_title()
 			if(target_job)
 				entry_name += " - [target_job]"

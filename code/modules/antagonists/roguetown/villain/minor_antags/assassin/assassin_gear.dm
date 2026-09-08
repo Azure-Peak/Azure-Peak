@@ -188,7 +188,7 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
 		return FALSE
-	if(target.has_flaw(/datum/charflaw/targeted)) // dagger deals more dmg to ppl who r targeted
+	if(target.has_flaw(/datum/charflaw/targeted) || target.has_flaw(/datum/charflaw/marked_for_death)) // dagger deals more dmg to ppl who r targeted
 		force = 40	//vs trait havers, 2x damage over a steel knife
 		update_force_dynamic()
 	else
@@ -264,7 +264,7 @@
 		die_motherfucker_die(target, get_last = face_flag)
 
 		// they get yoinked either way
-		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
+		if(target.has_flaw(/datum/charflaw/targeted) || target.has_flaw(/datum/charflaw/marked_for_death)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
 			if(HAS_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR)) // no doubling up if theyre already claimed
 				return FALSE
 			init_profane_soul(target, user)

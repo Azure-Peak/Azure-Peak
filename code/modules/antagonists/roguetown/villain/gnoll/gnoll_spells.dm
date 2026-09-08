@@ -66,14 +66,19 @@
 		if(L == user || istype(L, /mob/living/carbon/human/dummy) || !L.mind)
 			continue
 		var/is_hunted = L.has_flaw(/datum/charflaw/hunted)
+		var/is_bloodmarked = L.has_flaw(/datum/charflaw/bloodprice)
 		// Don't uncomment for now
 		// var/target_role = L.job
-		var/is_valid_prey = is_hunted
+		var/is_valid_prey = (is_hunted || is_bloodmarked)
 		// if(!is_valid_prey)
 		//	if(target_role in combat_roles)
 		//		is_valid_prey = TRUE
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
+			if(is_hunted)
+				entry_name += " (Non-Lethal)"
+			if(is_bloodmarked)
+				entry_name += " (Lethal, DnR)"
 			possible_targets[entry_name] = L
 
 	if(!length(possible_targets))

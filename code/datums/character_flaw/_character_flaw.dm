@@ -392,27 +392,53 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/hunted
 	name = "Hunted"
-	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
-	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY GNOLLS. \
-	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK. IT REQUIRES AN EXTRA VICE."
+	desc = "Something in my past has drawn the attention of Sinistar's champions. Gnolls have marked me as prey, and they may appear at any time to hunt me down. Their intent is to pursue, intimidate, capture, or otherwise harass me, but they are not automatically out for my death. \
+	\nTHIS IS A DIFFICULT FLAW. YOU WILL BE HUNTED BY GNOLLS. EXPECT A MORE DIFFICULT EXPERIENCE AND BE PREPARED TO PLAY ALONG WITH THEIR ATTENTION. \
+	\nThis is a NON-SERIOUS threat. Gnolls MUST ESCALATE before attempting to engage in combat against you. Having this flaw means accepting that you may be pursued or attacked, not that you have been given a death sentence, so expect roleplay over combat. \
+	\nPLAY AT YOUR OWN RISK. THIS FLAW REQUIRES AN EXTRA VICE."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
-
-/datum/charflaw/hunted/on_mob_creation(mob/user)
-	. = ..()
-	ADD_TRAIT(user, TRAIT_DNR, TRAIT_GENERIC)
 
 /datum/charflaw/hunted/flaw_on_life(mob/user)
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
-		if(H.name) // If you don't check this, the log entry wont have a name as flaw_on_life is checked at least once before the name is set.
+		if(H.name)
 			log_hunted("[H.ckey] playing as [H.name] had the hunted flaw by vice.")
 			logged = TRUE
 
 /datum/charflaw/hunted/apply_post_equipment(mob/user)
+	..()
+
+	if(!ishuman(user))
+		return
+
+/datum/charflaw/bloodprice
+	name = "Blood Price"
+	desc = "Something in my past has earned me the hatred of Sinistar's champions. Gnolls have placed a price upon my blood, and they do not merely wish to frighten or drive me away — they want me dead. I am a marked enemy, and their hunters may pursue me wherever I go. \
+	\nTHIS IS A DIFFICULT FLAW. YOU WILL BE HUNTED BY GNOLLS WHO ACTIVELY SEEK YOUR DEATH. EXPECT A MORE DIFFICULT EXPERIENCE AND BE PREPARED FOR DEADLY ATTACKS. \
+	\nThis is a SERIOUS threat. Gnolls hunting you have NO ESCALATION REQUIREMENT and may immediately resort to deadly violence against you. They hate you, and killing you is the purpose of their hunt. \
+	\nPLAY AT YOUR OWN RISK. THIS FLAW REQUIRES AN EXTRA VICE."
+	ui_fa_icon = "tooth"
+	needs_extra_vice = TRUE
+	var/logged = FALSE
+
+/datum/charflaw/bloodprice/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_DNR, TRAIT_GENERIC)
+
+/datum/charflaw/bloodprice/flaw_on_life(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(logged == FALSE)
+		if(H.name)
+			log_hunted("[H.ckey] playing as [H.name] had the blood price flaw by vice.")
+			logged = TRUE
+
+/datum/charflaw/bloodprice/apply_post_equipment(mob/user)
 	..()
 	if(!ishuman(user))
 		return
@@ -428,20 +454,45 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	needs_extra_vice = TRUE
 	var/logged = FALSE
 
-/datum/charflaw/targeted/on_mob_creation(mob/user)
-	. = ..()
-	ADD_TRAIT(user, TRAIT_DNR, TRAIT_GENERIC)
-
 /datum/charflaw/targeted/flaw_on_life(mob/user)
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
-		if(H.name) // If you don't check this, the log entry wont have a name as flaw_on_life is checked at least once before the name is set.
-			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.") // we log this in the same place as hunted because making a seperate log for it would be silly
+		if(H.name)
+			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.")
 			logged = TRUE
 
 /datum/charflaw/targeted/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+
+/datum/charflaw/marked_for_death
+	name = "Marked for Death"
+	desc = "Someone, somewhere, has offered up my name to the Bloodsworn of Graggar, and sacrificed themselves to further curse the end of your existence. \
+	Assassins may seek my skin-and-soul to steal-and-bind." + span_artery("\nHaving this vice will add you to a list of targets hunted by a powerful \
+	class. If they are successful in killing you, you may be round-removed for a time, though you will be recoverable if the assassin is slain and \
+	their dagger is broken.") + span_danger("\nAssassins DO-NOT NEED to ESCALATE against you if you have this vice. To reiterate: please expect \
+	random attacks and guaranteed round removal. You are still granted ERP protection.")
+	ui_fa_icon = "crosshairs"
+	needs_extra_vice = TRUE
+	var/logged = FALSE
+
+/datum/charflaw/marked_for_death/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_DNR, TRAIT_GENERIC)
+
+/datum/charflaw/marked_for_death/flaw_on_life(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(logged == FALSE)
+		if(H.name)
+			log_hunted("[H.ckey] playing as [H.name] had the marked for death flaw by vice.")
+			logged = TRUE
+
+/datum/charflaw/marked_for_death/apply_post_equipment(mob/user)
 	..()
 	if(!ishuman(user))
 		return
