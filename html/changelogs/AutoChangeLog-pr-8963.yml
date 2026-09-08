@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "Psychosis should no longer shake your screen forever. It goes away after some time and if you turn off combat mode."
