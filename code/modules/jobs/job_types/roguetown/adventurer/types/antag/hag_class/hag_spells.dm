@@ -435,6 +435,11 @@
 			return FALSE
 		confirmed_read = TRUE
 
+	if(alert(victim, "[user] is attempting to steal your name! Do you want to allow this? (Nothing bad will happen if you say no; however, if they tricked you, please be a good sport about it!)", "ONOMASTIC SIPHON", "Yes", "No") != "Yes")
+		to_chat(user, span_warning("They resisted your attempts... but at least they won't remember doing so."))
+		to_chat(victim, span_warning("Your name is safe... why was that ever in question? You can't seem to remember...")) // this is, essentially, voiding the interaction. i.e. don't go after the hag for this please i beg
+		return TRUE
+
 	var/datum/component/hag_name/existing_name = victim.GetComponent(/datum/component/hag_name)
 	if(existing_name && (existing_name.identity.name != "Unknown")) // we've already given them this name, so we obviously already know it
 		H.stored_names[existing_name.identity.name] = existing_name.identity
