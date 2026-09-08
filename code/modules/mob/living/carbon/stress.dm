@@ -113,8 +113,11 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 					src.set_blurriness(100)
 					apply_status_effect(/datum/status_effect/debuff/badvision)
 					add_stress(/datum/stressevent/sun_sensitivity_dark)
-				else
-					add_stress(/datum/stressevent/sun_sensitivity)
+				else if(HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+					if(HAS_TRAIT(src, TRAIT_VAMPBITE))
+						add_stress(/datum/stressevent/sun_sensitivity)
+					else
+						add_stress(/datum/stressevent/sun_sensitivity_dark)
 		else
 			remove_stress(/datum/stressevent/lesser_sun_sensitivity)
 			remove_stress(/datum/stressevent/sun_sensitivity)

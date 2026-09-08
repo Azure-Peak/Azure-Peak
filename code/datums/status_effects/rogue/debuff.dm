@@ -941,6 +941,7 @@
 	id = "Vampire Bite"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/vampbite
 	duration = 30 SECONDS
+	tick_interval = 3 SECONDS
 
 /datum/status_effect/debuff/vampbite/on_apply()
 	. = ..()
@@ -956,6 +957,26 @@
 			PM.backdrop(owner)
 			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
 			PM.backdrop(owner)
+
+/datum/status_effect/debuff/vampbite/tick()
+	. = ..()
+	if(owner.mind)
+		return
+	if(!prob(50))
+		return
+	owner.Immobilize(1.5 SECONDS) // 50% chance
+	if(!prob(50))
+		return
+	owner.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS) // 25% chance
+	if(!prob(50))
+		return
+	owner.apply_status_effect(/datum/status_effect/debuff/sensitive_nerves) // 12.5% chance
+	if(!prob(50))
+		return
+	owner.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS) // 6.25% chance
+	if(!prob(50))
+		return
+	owner.Unconscious(30 SECONDS) // 3.125% chance
 
 /datum/status_effect/debuff/vampbite/on_remove()
 	. = ..()

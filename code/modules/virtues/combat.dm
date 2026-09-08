@@ -149,10 +149,10 @@
 	add_verb(recipient, /mob/living/carbon/human/proc/emote_ffsalute)
 	add_verb(recipient, /mob/living/carbon/human/proc/toggle_guarded)
 
-
 #define SC_ROTCURED "Rotcured"
 #define SC_PALLID "Pallid"
-#define SC_BLACKBLOOD "Blackblood"
+#define SC_BLACKBLOOD_W "Blackblood Type-W"
+#define SC_BLACKBLOOD_V "Blackblood Type-V"
 
 /datum/virtue/combat/second_chance
 	name = "Second Chance"
@@ -167,12 +167,15 @@
 	extra_choices = list(
 		SC_ROTCURED,
 		SC_PALLID,
-		SC_BLACKBLOOD,
+		SC_BLACKBLOOD_V,
+		SC_BLACKBLOOD_W,
 	)
+
 	choice_tooltips = list(
-		SC_ROTCURED = "<font color='#4a8d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe.<br><br><font color=red>(Grants Easy Dismember, Painless, Breathless, Deathless, Poison Immune, Deadite Immune, Silver Weakness.)<font color=white><br><br>(Additionally, you can eat brains, you don't suffer nausea, and your heart does not beat.)</font>",
-		SC_PALLID = "<font color='#8d4848'>I was once afflicted with vampirism, but was cured by somethign short of divine intervention. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me. Traces I hope will fade in time.<br><br><font color=red>(Grants Darkvision, Breathless, Deadite Immunity and Silver Weakness.)<br><br><font color=white>(Additionally, being outdoors causes stress.)</font>",
-		SC_BLACKBLOOD = "<font color='#8b488d'>I was once a nite-creacher, be it lycanthrope or vampyre, before the Otavan Inquisition subdued and exported me as a test subject of an experimental \"cure\" for my Quicksilver-resistant taint. This intense therapy had me warped, inside, outside, body and mind, into something 'idealistically' humen-like for Otavan standards, even if I am now no different than a sentient, hollowed ghoul.<br><br><font color=red>(Grants Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion, and Silver Weakness.)<br><br><font color=white>(Additionally, consuming any food will grant a minor healing buff. You bleed slower and passively recover from wounds (while not hungry). You will feel stressed when exposed to Sunlight, and panic while being around or interacting with members of the Inquisition.)",
+		SC_ROTCURED = "I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe. (Grants Easy Dismember, Painless, Breathless, Deathless, Poison Immune, Deadite Immune, Silver Weakness.)(Additionally, you can eat brains, you don't suffer nausea, and your heart does not beat.)",
+		SC_PALLID = "I was once afflicted with vampyrism, but was cured by somethign short of divine intervention. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me. Traces I hope will fade in time.(Grants Darkvision, Breathless, Deadite Immunity and Silver Weakness.)(Additionally, being outdoors causes stress.)",
+		SC_BLACKBLOOD_V = "I was once a vampyre, before the Otavan Inquisition subdued and exported me as a test subject of an experimental \"cure\" for my Quicksilver-resistant taint. This intense therapy had me warped, inside, outside, body and mind, into something 'idealistically' humen-like for Otavan standards, even if I am now no different than a sentient, hollowed ghoul. (Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion and Silver Weakness. You can regenerate from minor wounds and brute damage, at the cost of hunger. This variant can heal from drinking blood and has a pleasant bite.)",
+		SC_BLACKBLOOD_W = "I was once a lycanthrope, before the Otavan Inquisition subdued and exported me as a test subject of an experimental \"cure\" for my Quicksilver-resistant taint. This intense therapy had me warped, inside, outside, body and mind, into something 'idealistically' humen-like for Otavan standards, even if I am now no different than a sentient, hollowed ghoul. (Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion, and Silver Weakness. You can regenerate from minor wounds and brute damage, at the cost of hunger. This variant knows Beast language and is afflicted less by sunlight.)",
 	)
 
 /datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
@@ -180,7 +183,7 @@
 		if(QDELETED(src) || QDELETED(recipient))
 			return
 
-		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
+		if(recipient.mind && (recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie)))
 			to_chat(recipient, "Second Chance cannot be applied to your role, so it has been removed.")
 			QDEL_NULL(src)
 			return
@@ -196,7 +199,7 @@
 					ADD_TRAIT(recipient, TRAIT_TOXIMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-					to_chat(recipient, "You are no longer a rotting corpse, at least not a dying one.</font>")
+					to_chat(recipient, "You are no longer a rotting corpse, at least not a dying one.")
 
 				if(SC_PALLID)
 					ADD_TRAIT(recipient, TRAIT_PALLID, TRAIT_VIRTUE)
@@ -204,21 +207,18 @@
 					ADD_TRAIT(recipient, TRAIT_NOBREATH, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-					to_chat(recipient, "You are no longer one scorned by Astrata, by the mercy of the gods.</font>")
+					to_chat(recipient, "You are no longer one scorned by Astrata, by the mercy of the gods.")
 
-				if(SC_BLACKBLOOD)
+				if(SC_BLACKBLOOD_V)
+					ADD_TRAIT(recipient, TRAIT_VAMPBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_HALFHEAL, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_STRONGBITE, TRAIT_VIRTUE)
-					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.</font>")
-
-					// blackened blood, finally
 					recipient.dna.species.blood_color = "#530000"
-
-					// inquisition trauma goes here
+					to_chat(recipient, "You are no longer one among the bloodsucking nite creechers, by the ingenuity of HIS followers.")
 					if(!(recipient.patron?.type == /datum/patron/old_god))
 						var/datum/charflaw/averse/A
 						for(var/datum/charflaw/averse/F in recipient.charflaws)
@@ -226,19 +226,45 @@
 							break
 						if(A)
 							A.chosen_group |= GLOB.averse_factions["Inquisition"]
-							to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
 						else
 							A = new
 							A.set_jobflag("Inquisition")
 							recipient.charflaws += A
-							to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
+						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
+					else
+						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
+					to_chat(recipient, span_danger("DISCLAIMER: This Second Choice option exists to support roleplay and backstory continuity, not to diminish the threat or narrative weight of vampires, werewolves, or similar antagonistic entities. You are a tortured survivor of the Otavan Inquisition, and your very LUX fears them. Failure to roleplay this appropriately may result in this option's removal. Have fun and don't be cringe."))
+
+				if(SC_BLACKBLOOD_W)
+					recipient.AddSpell(new /obj/effect/proc_holder/spell/self/howl/call_of_the_moon)
+					ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_HALFHEAL, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_STRONGBITE, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
+					recipient.dna.species.blood_color = "#530000"
+					to_chat(recipient, "You are no longer one among the howling nite creechers, by the ingenuity of HIS followers.")
+					if(!(recipient.patron?.type == /datum/patron/old_god))
+						var/datum/charflaw/averse/A
+						for(var/datum/charflaw/averse/F in recipient.charflaws)
+							A = F
+							break
+						if(A)
+							A.chosen_group |= GLOB.averse_factions["Inquisition"]
+						else
+							A = new
+							A.set_jobflag("Inquisition")
+							recipient.charflaws += A
+						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
 					else
 						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
 					to_chat(recipient, span_danger("DISCLAIMER: This Second Choice option exists to support roleplay and backstory continuity, not to diminish the threat or narrative weight of vampires, werewolves, or similar antagonistic entities. You are a tortured survivor of the Otavan Inquisition, and your very LUX fears them. Failure to roleplay this appropriately may result in this option's removal. Have fun and don't be cringe."))
 
 #undef SC_ROTCURED
-#undef SC_BLACKBLOOD
 #undef SC_PALLID
+#undef SC_BLACKBLOOD_W
+#undef SC_BLACKBLOOD_V
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"

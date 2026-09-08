@@ -680,7 +680,6 @@
 	examine_text = "<font color='#b3b3b3'>SUBJECTPRONOUN is healing unnaturally fast!</font>"
 	var/fare_power = 0
 	var/healing_on_tick = 1
-	var/outline_colour = "#8a8a8a"
 
 /datum/status_effect/buff/foodhealing/on_creation(mob/living/new_owner, new_healing_on_tick, new_fare_power)
 	if(!isnull(new_healing_on_tick))
@@ -689,19 +688,9 @@
 		fare_power = new_fare_power
 	return ..()
 
-/datum/status_effect/buff/foodhealing/on_apply()
-	var/filter = owner.get_filter(CONSUME_AURA)
-	if(!filter)
-		owner.add_filter(CONSUME_AURA, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
-	return TRUE
-
-/datum/status_effect/buff/foodhealing/on_remove()
-	. = ..()
-	owner.remove_filter(CONSUME_AURA)
-
 /datum/status_effect/buff/foodhealing/tick()
-	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
-	H.color = "#bdbdbd"
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_blood(get_turf(owner))
+	H.color = "#830000ff"
 	// Base heal.
 	var/base_heal = healing_on_tick
 	// Fare: +10% healing per tier
