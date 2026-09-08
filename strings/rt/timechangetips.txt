@@ -124,7 +124,6 @@ ROUND-START CLOTHES have very little value. Consider selling them to the tailor'
 Most items can be sold to the merchant's NAVIGATOR. Beware the Guildmaster's poor humors!
 SURRENDER by RIGHT-CLICKING on your combat-mode toggle. It may just save your lyfe.
 ENABLE COMPLIANT MODE by MIDDLE-MOUSE-BUTTON clicking your combat-mode toggle. This allows anyone to grab you without resistance!
-STEWS can often be made higher quality by cooking the ingredients before boiling them.
 Some simple-minded creachers are LARGE and cannot be struck upon the head without first destroying their LEG... or having a long-reach weapon.
 CHARGING an opponent by running into them can be an efficient way to down a mage or an archer. Alternatively; it can be a way to be struck down if they GUARD before you land it.
 Shields provide a bonus to charge rolls.
