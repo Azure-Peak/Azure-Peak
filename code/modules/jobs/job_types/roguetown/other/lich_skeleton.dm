@@ -10,6 +10,9 @@ LICH SKELETONS
 
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted)
+	virtue_restrictions = list(
+		/datum/virtue/combat/otavan_experiment, // pls
+		)
 
 /datum/outfit/job/roguetown/greater_skeleton/lich
 

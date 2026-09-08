@@ -38,6 +38,7 @@
 		/datum/virtue/utility/woodwalker, //This should be given to them when they are actually after a Hunted
 		/datum/virtue/utility/feytouched, // They are already FAE
 		/datum/virtue/utility/riding, // Hags literally get a teleportation mechanic, it doesn't make much sense.
+		/datum/virtue/combat/otavan_experiment, // pls
 		)
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted) // could you fucking imagine
 	job_subclasses = list(

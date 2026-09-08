@@ -27,6 +27,11 @@
 		/datum/advclass/hand/advisor
 	)
 
+	virtue_restrictions = list(
+		/datum/virtue/combat/otavan_experiment, // pls
+		)
+
+
 /datum/outfit/job/roguetown/hand
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked

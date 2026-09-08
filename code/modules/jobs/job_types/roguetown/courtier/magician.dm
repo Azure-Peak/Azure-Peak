@@ -26,6 +26,9 @@
 
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/wanted)
+	virtue_restrictions = list(
+		/datum/virtue/combat/otavan_experiment, // pls
+		)
 
 	job_traits = list(TRAIT_ARCYNE, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT)
 	job_subclasses = list(

@@ -24,7 +24,11 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 	is_quest_giver = TRUE
 
 	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
-	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
+	virtue_restrictions = list(
+		/datum/virtue/utility/skilled,
+		/datum/virtue/utility/apprentice,
+		/datum/virtue/combat/otavan_experiment,
+		) //Commerce role, not a craftsman.
 
 	advclass_cat_rolls = list(CTAG_MERCH = 2)
 	job_subclasses = list(

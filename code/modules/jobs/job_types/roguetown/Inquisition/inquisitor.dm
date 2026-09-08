@@ -23,6 +23,10 @@
 	max_pq = null
 	round_contrib_points = 2
 	vice_restrictions = list(/datum/charflaw/silverweakness)
+	virtue_restrictions = list(
+		/datum/virtue/combat/otavan_experiment, // pls
+		)
+
 	job_subclasses = list(
 		/datum/advclass/inquisitor/inspector,
 		/datum/advclass/inquisitor/ordinator

@@ -18,6 +18,9 @@
 	give_bank_account = FALSE
 	hidden_job = TRUE
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
+	virtue_restrictions = list(
+		/datum/virtue/combat/otavan_experiment, // pls
+		)
 
 /datum/outfit/job/roguetown/greater_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()

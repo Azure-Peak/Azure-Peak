@@ -37,7 +37,8 @@
 	// JOB TRAITS == prev. job traits are now granted on datum-gain.
 
 	virtue_restrictions = list(
-		/datum/virtue/utility/feytouched
+		/datum/virtue/utility/feytouched,
+		/datum/virtue/combat/otavan_experiment, // you got the ninja confessors on ur ass, zero chance
 	)
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build
