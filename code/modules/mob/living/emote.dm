@@ -1529,14 +1529,16 @@
 /mob/living/carbon/human/verb/emote_snap()
 	set name = "Snap"
 	set category = "Emotes.Noises"
+
 	emote("snap", intentional = TRUE)
 	if(!mind?.assigned_role || mind.assigned_role.type != /datum/job/roguetown/inquisitor)
 		return
-	for(var/mob/living/carbon/human/H in view(7, src))
+	for(var/mob/living/carbon/human/H in view(8, src))
 		if(H == src || !H.has_trait(TRAIT_BLACKBLOOD))
 			continue
 		H.Stun(5 SECONDS)
 		H.face_atom(src)
+		H.add_stress(/datum/stressevent/inq_trauma_worse)
 
 /datum/emote/living/blink
 	key = "blink"

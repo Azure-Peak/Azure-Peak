@@ -199,7 +199,7 @@
 	name = "Ordo Purificati Subject"
 	desc = "My blood is resistant to Blessed Quicksilver, so when I became a nite-creacher, the curse could never be cleansed from me. What should have been my end became my salvation when I was captured by the Otavan Inquisition and shipped off somewhere foggy. I remember little of what happened there. Not who they were, nor what they did. Only what became of me... I had become someone else entirely. No. Not someone. 'Something'. Different. I constantly feel watched by HIM. Like if I slip out of the line, HE will know. And retribution will be swift."
 	ui_fa_icon = "biohazard"
-	custom_text = "A result of the Inquisition's darkest experiments from the secret faction of the \"Ordo Purificandi\". Your body now bears the consequences: your humenity is regained... but your frayed Lux diminishes all healing you receive, you are still lethally afflicted by silver, and being under sunlight leaves you deeply uncomfortable. Some qualities of the nite-creacher remain within you, as perhaps the only positives from this condition."
+	custom_text = "A result of the Inquisition's darkest experiments from the secret faction of the \"Ordo Purificati\". Your body now bears the consequences: your humenity is regained... but your frayed Lux diminishes all healing you receive, you are still lethally afflicted by silver, and being under sunlight leaves you deeply uncomfortable. Some qualities of the nite-creacher remain within you, as perhaps the only positives from this condition."
 	max_choices = 1
 	restricted = TRUE
 	races = list(/datum/species/construct/metal, /datum/species/elf/sun, /datum/species/gnoll, /datum/species/goblin, /datum/species/ooze, /datum/species/kobold, /datum/species/aasimar, /datum/species/dullahan, /datum/species/tieberian)
@@ -210,7 +210,7 @@
 		QSR_WARBEAST
 		)
 	choice_tooltips = list(
-		QSR_BLACKBLOOD = "Once a nite-creacher, I was taken by the Otavan Inquisition and subjected to their experimental \"cure\". My Quicksilver-resistant blood made me impossible to cleanse, so they changed me instead. (Grants Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion, and Silver Weakness. Food grants minor healing, you bleed slower, recover from wounds while not hungry, stress under Sunlight, and panic around the Inquisition.)",
+		QSR_BLACKBLOOD = "Once a nite-creacher, I was taken by the Otavan Inquisition and subjected to their experimental \"cure\". Whatever they did to me has hollowed me into something no different than a shambling ghoul. A far cry from the majestic creature I once was, a farther cry from an ideal humen... (Grants Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion, and Silver Weakness. Food grants minor healing, you bleed slower, recover from wounds while not hungry, stress under Sunlight, and panic around the Inquisition.)",
 		QSR_SWEETBITE = "Still the result of Otavan intervention, I am a mutation of the ordinary Blackblood, retaining or obtaining the biting qualities of a vampyre. My blood and body have taken on something of the old curse, leaving me with an unnatural affinity for the bite. In turn, I have gained a new aversion to other mutants, particularly those bearing a lycanthrope's nature. (REDUCES YOUR WIL AND CON BY 1!!)",
 		QSR_WARBEAST = "Still the result of Otavan intervention, I am a mutation of the ordinary Blackblood, retaining or obtaining the instincts of a warbeast. I can speak the language of beasts as naturally as my own, and raw meat has become far more satisfying to me than ordinary food. In turn, I have gained a new aversion to other mutants, particularly those bearing a vampyre's nature. (REDUCES YOUR WIL AND CON BY 1!!)",
 	)
@@ -218,10 +218,6 @@
 /datum/virtue/combat/otavan_experiment/apply_to_human(mob/living/carbon/human/recipient)
 	spawn(100)
 		if(QDELETED(src) || QDELETED(recipient))
-			return
-		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
-			to_chat(recipient, "Quicksilver Resistant cannot be applied to your role, so it has been removed.")
-			QDEL_NULL(src)
 			return
 		for(var/choice in picked_choices)
 			ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_VIRTUE)
@@ -247,6 +243,7 @@
 				to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
 			switch(choice)
 				if(QSR_SWEETBITE)
+					recipient.grant_language(/datum/language/undead)
 					ADD_TRAIT(recipient, TRAIT_VAMPBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_GOODLOVER, TRAIT_VIRTUE)
 					recipient.change_stat(STATKEY_CON, -1)
