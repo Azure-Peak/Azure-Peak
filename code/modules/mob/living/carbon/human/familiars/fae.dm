@@ -50,6 +50,7 @@
 		TRAIT_UNLYCKERABLE,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
+		TRAIT_NONAMESTEAL
 	)
 	origin = "The Faewyld"
 	origin_default = /datum/virtue/origin/familiar/fae

@@ -470,26 +470,36 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 		"Vessel" = "Shirking personal power, you are bound much more tightly to service. The hag can possess you at will, allowing them to speak and act through you."
 		)
 	var/force_vessel = FALSE
+	var/cannot_apply = FALSE
 	if(recipient.mind)
 		if(recipient.mind.has_antag_datum(/datum/antagonist/vampire))
 			force_vessel = TRUE
+			cannot_apply = TRUE
 		if(recipient.mind.has_antag_datum(/datum/antagonist/werewolf))
 			force_vessel = TRUE
+			cannot_apply = TRUE
+		if(recipient.mind.has_antag_datum(/datum/antagonist/dreamwalker))
+			force_vessel = TRUE
+			cannot_apply = TRUE
 		if(recipient.mind.has_antag_datum(/datum/antagonist/gnoll))
 			force_vessel = TRUE
 		if(recipient.mind.has_antag_datum(/datum/antagonist/hag))
 			force_vessel = TRUE
 		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton))
 			force_vessel = TRUE
+			cannot_apply = TRUE
 	var/choice = (force_vessel ? "Vessel" : tgui_input_list(recipient, "What nature do you bear?", "FEY NATURE", choices, descriptions = choices))
 	var/hag_message
-	if(choice == "Vessel")
-		GLOB.fey_vessels[recipient] = TRUE
-		hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a vessel, is walking the lands this week."
-		add_verb(recipient, /mob/living/carbon/human/proc/toggle_vessel)
+	if(!cannot_apply)
+		if(choice == "Vessel")
+			GLOB.fey_vessels[recipient] = TRUE
+			hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a vessel, is walking the lands this week."
+			add_verb(recipient, /mob/living/carbon/human/proc/toggle_vessel)
+		else
+			recipient.extra_boon_budget = 30
+			hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a pactbound, is walking the lands this week."
 	else
-		recipient.extra_boon_budget = 30
-		hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name], a pactbound, is walking the lands this week."
+		hag_message = "A familiar rhythm pulses in the roots... [recipient.real_name] is walking the lands this week."
 
 	for(var/mob/living/hag_mob in GLOB.active_hags)
 		var/datum/mind/hag_mind = hag_mob.mind
@@ -511,3 +521,9 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 
 	GLOB.fey_vessels[src] = !(GLOB.fey_vessels[src])
 	to_chat(src, span_warning("You are now [GLOB.fey_vessels[src]?"":"un"]able to be possessed."))
+
+// used for antag datum gains
+/proc/disable_vessel(mob/living/carbon/human/H)
+	if(H in GLOB.fey_vessels)
+		GLOB.fey_vessels[H] = FALSE
+		remove_verb(H, /mob/living/carbon/human/proc/toggle_vessel)

@@ -430,6 +430,10 @@
 		to_chat(user, span_warning("They're not aware enough to give me their name!"))
 		return FALSE
 
+	if(HAS_TRAIT(victim, TRAIT_NONAMESTEAL))
+		to_chat(user, span_warning("Their name is too tightly bound to them; I cannot take it."))
+		return FALSE
+
 	if(!confirmed_read) // i know how you people are
 		if(alert(user, "Have you read the description of this spell? It contains EXTREMELY important information about its use. Please, PLEASE read it, or you might do something rule-breaking.", "Confirmation", "Stop", "Proceed") != "Proceed")
 			return FALSE
