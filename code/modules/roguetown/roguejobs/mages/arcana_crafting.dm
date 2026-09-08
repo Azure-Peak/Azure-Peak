@@ -209,3 +209,10 @@
 	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver = 1,
 				/obj/item/rogueore/cinnabar = 1)
 
+/datum/crafting_recipe/roguetown/arcana/bound_wisp
+	name = "bound wisp"
+	result = /obj/structure/wisp_lantern
+	reqs = list(/obj/item/magic/fae/fairydust = 2)
+	req_table = FALSE
+	craftdiff = 0
+

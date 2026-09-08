@@ -1659,3 +1659,25 @@
 /obj/effect/wisp/prestidigitation/willowwisp
 	name = "Will-o'-the-wisp"
 	desc = "A small, fiery ball of light made up of mystical energy."
+
+/obj/structure/wisp_lantern
+	name = "bound wisp"
+	desc = "A will-o'-the-wisp, coaxed into a fragile shell of fae magic. The light dances within, eager to be free."
+	icon = 'icons/roguetown/items/lighting.dmi'
+	icon_state = "wisp"
+	anchored = TRUE
+	density = FALSE
+	layer = ABOVE_ALL_MOB_LAYER
+	max_integrity = 35
+	light_outer_range = 5
+	light_color = "#3FBAFD"
+	light_system = MOVABLE_LIGHT
+	resistance_flags = LAVA_PROOF | FIRE_PROOF | FREEZE_PROOF
+
+/obj/structure/wisp_lantern/Initialize(mapload)
+	. = ..()
+	set_light_range(light_outer_range)
+
+/obj/structure/wisp_lantern/examine(mob/user)
+	. = ..()
+	. += span_notice("It glows with an ethereal blue light.")
