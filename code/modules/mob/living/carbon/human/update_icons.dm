@@ -1930,8 +1930,7 @@ generate/load female uniform sprites matching all previously decided variables
 		. += "not_coloured"
 
 	. += gender
-	if(gender == FEMALE && dna.features["bulky_body"])
-		. += "bulky"
+	. += get_body_build()
 
 	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		. += BP.body_zone
@@ -2030,44 +2029,57 @@ generate/load female uniform sprites matching all previously decided variables
 	apply_overlay(BODYPARTS_LAYER)
 	update_damage_overlays()
 
-/// Whether the character's own bulky-body opt-in is currently in effect: a female character whose
-/// species offers a bulky body (limbs_icon_f_bulky) and who has picked it. Separated out because it
-/// answers a narrower question than is_bulky_body() — an actual male is never "opted in", he's just male.
-/mob/living/carbon/proc/is_bulky_opt_in()
-	return (gender == FEMALE && dna?.species?.limbs_icon_f_bulky && dna.features["bulky_body"])
+/// The body build this character is rendering on (a BODY_BUILD_* value), or null if their species offers no
+/// builds and is drawn on its own limbs_icon_m/limbs_icon_f. Falls back to the species' default build whenever
+/// features["body_build"] is missing or names a build this species doesn't offer, so mobs that never went
+/// through character creation — NPCs, spawned humans, old savefiles — render on their species' native shape.
+/mob/living/carbon/proc/get_body_build()
+	var/datum/species/S = dna?.species
+	if(!S || !length(S.allowed_body_builds))
+		return null
+	var/build = dna.features?["body_build"]
+	if(build in S.allowed_body_builds)
+		return build
+	return S.get_default_body_build(gender)
 
-/// Whether worn clothing should use its bulky (masculine) cut rather than its slim (feminine) one. True
-/// for male characters, for species that force one cut via use_m/use_f, and for female characters who've
-/// opted into a bulky body — checked before use_f/use_m, so a female on a use_f species (e.g. elves,
-/// where males default to female-cut clothes) can still pick the masculine cut for her bulky body.
+/// Whether worn clothing should use its bulky (masculine) cut rather than its slim (feminine) one. The build
+/// decides it outright where a species offers builds — that's what separates the two silhouettes, and it's why
+/// a slim male wears the feminine cut exactly as elves always have. Species without builds fall back to
+/// use_f/use_m, which force one cut species-wide, and otherwise to plain gender.
 /mob/living/carbon/proc/is_bulky_body()
+	switch(get_body_build())
+		if(BODY_BUILD_BULKY)
+			return TRUE
+		if(BODY_BUILD_SLIM)
+			return FALSE
 	if(!dna?.species)
 		return (gender == MALE)
-	if(is_bulky_opt_in())
-		return TRUE
 	if(dna.species.use_f)
 		return FALSE
 	if(dna.species.use_m)
 		return TRUE
 	return (gender == MALE)
 
-/// Whether OFFSET_X (rather than OFFSET_X_F) should be used for pixel adjustments on worn clothing,
-/// held items, and body accessories (hair, horns, etc). Unlike is_bulky_body(), this never follows a
-/// species' use_f/use_m — those only ever changed which clothing cut renders, not which offset table
-/// applied, so an actual male on a use_f species (e.g. elves) still uses the masculine offset key here.
-/// The bulky-body opt-in still applies, so a bulky female matches the masculine offset baseline too.
+/// Whether OFFSET_X (rather than OFFSET_X_F) should be used for pixel adjustments on worn clothing, held items,
+/// and body accessories (hair, horns, etc). This is a different question from is_bulky_body(): the offset keys
+/// track the body's own proportions, so they follow gender and never use_f/use_m — a male elf reads the
+/// masculine keys despite wearing feminine-cut clothes. The bulky build is the one exception, since its female
+/// body is pixel-identical to its male one and so shares the masculine keys.
 /mob/living/carbon/proc/is_bulky_offset()
-	if(is_bulky_opt_in())
+	if(get_body_build() == BODY_BUILD_BULKY)
 		return TRUE
 	return (gender == MALE)
 
-/// The offset table to read OFFSET_X/OFFSET_X_F pixel adjustments from. Normally just the species' own
-/// offset_features — except for a bulky-opted-in character on a species whose real male body doesn't
-/// share the bulky body's silhouette (offset_features_bulky is set), where that reference table is used
-/// instead so she lines up with the shared mt.dmi/ft_muscular.dmi shape rather than her species' own.
+/// The offset table to read OFFSET_X/OFFSET_X_F pixel adjustments from. Offsets belong to the silhouette being
+/// drawn rather than to the species, so a character on a build reads that build's shared table and lines up
+/// with everyone else wearing the same body. Only species offering no builds fall back to their own
+/// offset_features.
 /mob/living/carbon/human/proc/get_offset_features()
-	if(is_bulky_opt_in() && dna.species.offset_features_bulky)
-		return dna.species.offset_features_bulky
+	switch(get_body_build())
+		if(BODY_BUILD_BULKY)
+			return dna.species.offset_features_bulky
+		if(BODY_BUILD_SLIM)
+			return dna.species.offset_features_slim
 	return dna.species.offset_features
 
 /mob/living/carbon/proc/has_boobed_overlay()

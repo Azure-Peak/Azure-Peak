@@ -37,23 +37,34 @@
 
 	return data
 
-/// Gets the current body type as a machine-readable key: "masculine", "feminine", "feminine_bulky", or "other" for agender species.
+/// Gets the current body type as a machine-readable key: a gender on its own for species without body builds,
+/// a gender and build otherwise (e.g. "masculine_slim"), or "other" for agender species.
 /datum/preferences/proc/ui_data_bodytype()
 	if(AGENDER in pref_species.species_traits)
 		return "other"
-	if(gender == MALE)
-		return "masculine"
-	if(features["bulky_body"] && pref_species.limbs_icon_f_bulky)
-		return "feminine_bulky"
-	return "feminine"
+	var/gender_key = (gender == MALE) ? "masculine" : "feminine"
+	if(!length(pref_species.allowed_body_builds))
+		return gender_key
+	var/build = features["body_build"]
+	if(!(build in pref_species.allowed_body_builds))
+		build = pref_species.get_default_body_build(gender)
+	return "[gender_key]_[build]"
 
-/// Gets the body types selectable for the current species, as an assoc list of key -> user facing name. Empty for agender species.
+/// Gets the body types selectable for the current species, as an assoc list of key -> user facing name. Empty
+/// for agender species. Species offering body builds get one entry per gender and build, so the same silhouette
+/// is named the same thing on every race that offers it.
 /datum/preferences/proc/ui_data_bodytype_options()
 	if(AGENDER in pref_species.species_traits)
 		return list()
-	. = list("masculine" = "Masculine", "feminine" = "Feminine")
-	if(pref_species.limbs_icon_f_bulky)
-		.["feminine_bulky"] = "Feminine (Bulky)"
+	if(!length(pref_species.allowed_body_builds))
+		return list("masculine" = "Masculine", "feminine" = "Feminine")
+	. = list()
+	for(var/build in list(BODY_BUILD_BULKY, BODY_BUILD_SLIM))
+		if(build in pref_species.allowed_body_builds)
+			.["masculine_[build]"] = "Masculine ([capitalize(build)])"
+	for(var/build in list(BODY_BUILD_SLIM, BODY_BUILD_BULKY))
+		if(build in pref_species.allowed_body_builds)
+			.["feminine_[build]"] = "Feminine ([capitalize(build)])"
 
 /// Gets all valid skintones as an assoc list Name -> Hex
 /datum/preferences/proc/get_valid_skin_tones()

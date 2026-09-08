@@ -32,16 +32,10 @@
 			if(chosen == old_bodytype)
 				return CHARACTER_ACT_DATA_UPDATE
 
-			switch(chosen)
-				if("masculine")
-					gender = MALE
-					features["bulky_body"] = FALSE
-				if("feminine")
-					gender = FEMALE
-					features["bulky_body"] = FALSE
-				if("feminine_bulky")
-					gender = FEMALE
-					features["bulky_body"] = TRUE
+			// Keys are "masculine"/"feminine" on species without builds, or "<gender>_<build>" with one.
+			var/list/parts = splittext(chosen, "_")
+			gender = (parts[1] == "masculine") ? MALE : FEMALE
+			features["body_build"] = (length(parts) > 1) ? parts[2] : null
 
 			verbose_pref_log_change(user, "notice", "Body Type", valid_options[old_bodytype], valid_options[chosen])
 			genderize_customizer_entries()

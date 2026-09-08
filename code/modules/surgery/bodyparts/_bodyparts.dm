@@ -523,12 +523,7 @@
 		return
 	var/datum/species/S = H.dna.species
 	species_id = S.limbs_id
-	if(H.gender == MALE)
-		species_icon = S.limbs_icon_m
-	else
-		species_icon = S.limbs_icon_f
-		if(S.limbs_icon_f_bulky && H.dna.features["bulky_body"])
-			species_icon = S.limbs_icon_f_bulky
+	species_icon = S.get_limbs_icon(H)
 	species_flags_list = H.dna.species.species_traits
 
 

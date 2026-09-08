@@ -613,7 +613,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["examine_theme"]		>> examine_theme
 
 	S["body_size"] >> features["body_size"]
-	S["bulky_body"] >> features["bulky_body"]
+	S["body_build"] >> features["body_build"]
 	S["body_markings"] >> body_markings
 
 	S["descriptor_entries"] >> descriptor_entries
@@ -673,9 +673,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// floats
 	voice_pitch		= sanitize_float(voice_pitch, MIN_VOICE_PITCH, MAX_VOICE_PITCH, 0.01, 1)
 	features["body_size"] = sanitize_float(features["body_size"], BODY_SIZE_MIN, BODY_SIZE_MAX, 0.01, BODY_SIZE_NORMAL)
-	features["bulky_body"] = sanitize_bool(features["bulky_body"])
-	if(gender != FEMALE || !pref_species.limbs_icon_f_bulky)
-		features["bulky_body"] = FALSE
+	// A build the species doesn't offer (race swap, or a savefile predating builds) falls back to its default,
+	// so the character keeps rendering on their species' native shape rather than a body it has no sprites for.
+	if(!length(pref_species.allowed_body_builds))
+		features["body_build"] = null
+	else if(!(features["body_build"] in pref_species.allowed_body_builds))
+		features["body_build"] = pref_species.get_default_body_build(gender)
 
 	// lists
 	age				= sanitize_inlist(age, pref_species.possible_ages, AGE_ADULT)
@@ -887,7 +890,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])
-	WRITE_FILE(S["bulky_body"] , features["bulky_body"])
+	WRITE_FILE(S["body_build"] , features["body_build"])
 	WRITE_FILE(S["nsfwflavortext"] , html_decode(nsfwflavortext))
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)

@@ -14,8 +14,21 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	var/default_color = "#FFF"	// if alien colors are disabled, this is the color that will be used by that race
 	var/limbs_icon_m
 	var/limbs_icon_f
-	/// If set, characters of this species can opt into a bulky (masculine-skeleton) female body via the appearance tab, swapping limbs_icon_f for this while worn.
-	var/limbs_icon_f_bulky
+	/// Body builds this species offers in character creation, from ALL_BODY_BUILDS. Null (the default) means the
+	/// species only has its own limbs_icon_m/limbs_icon_f and shows the plain Masculine/Feminine choice instead.
+	var/list/allowed_body_builds
+	/// The build a new character of this species starts on, and the one fallen back to whenever
+	/// features["body_build"] is unset or invalid — so NPCs and old savefiles keep rendering as they always did.
+	/// Split by gender, because a species' native male and female bodies need not be the same build: a human
+	/// male is bulky where a human female is slim. Set each to the build matching limbs_icon_m/limbs_icon_f.
+	var/default_body_build_m
+	var/default_body_build_f
+	/// Limb sprites per build, shared by every species offering that build, so a bulky elf and a bulky human are
+	/// drawn on the same body. A species can override one of these if it needs its own take on a build.
+	var/limbs_icon_m_bulky = 'icons/roguetown/mob/bodies/m/mt.dmi'
+	var/limbs_icon_f_bulky = 'icons/roguetown/mob/bodies/f/ft_muscular.dmi'
+	var/limbs_icon_m_slim = 'icons/roguetown/mob/bodies/m/mem.dmi'
+	var/limbs_icon_f_slim = 'icons/roguetown/mob/bodies/f/fm.dmi'
 	var/icon_override
 	var/icon_override_m
 	var/icon_override_f
@@ -38,11 +51,12 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	OFFSET_FACE_F = list(0,0), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,0), \
 	OFFSET_NECK_F = list(0,0), OFFSET_MOUTH_F = list(0,0), OFFSET_PANTS_F = list(0,0), \
 	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES = list(0,0), OFFSET_UNDIES_F = list(0,0))
-	/// Offset table used instead of offset_features while a character is rendering the bulky body option,
-	/// for species whose own male body doesn't share the bulky body's silhouette (mt.dmi/ft_muscular.dmi) —
-	/// e.g. elves, whose actual male sprite is slimmer and tuned separately. Leave null for species whose
-	/// own male body already matches that silhouette; offset_features is used for them either way.
-	var/list/offset_features_bulky
+	/// Offset tables per build, used instead of offset_features whenever a character is rendering on that build.
+	/// They belong to the silhouette rather than the species, so clothing lines up with the body actually being
+	/// drawn — a bulky elf reads the same table as a bulky human. offset_features is only consulted by species
+	/// that offer no builds at all.
+	var/list/offset_features_bulky = OFFSET_FEATURES_BULKY_REFERENCE
+	var/list/offset_features_slim = OFFSET_FEATURES_SLIM_REFERENCE
 
 	var/dam_icon
 	var/dam_icon_f
@@ -200,6 +214,22 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 ///////////
 // PROCS //
 ///////////
+
+/// The build this species falls back to for a given gender when nothing valid has been picked.
+/datum/species/proc/get_default_body_build(gender)
+	return (gender == MALE) ? default_body_build_m : default_body_build_f
+
+/// The limb sprite sheet this character's body is drawn from: the sheet belonging to their current build if
+/// their species offers builds, otherwise the species' own limbs_icon_m/limbs_icon_f. Every consumer of a body
+/// sprite should go through here rather than reading limbs_icon_m/limbs_icon_f directly, or overlays meant to
+/// sit on the body (damage, body hair) end up drawn against a silhouette the character isn't wearing.
+/datum/species/proc/get_limbs_icon(mob/living/carbon/human/H)
+	switch(H.get_body_build())
+		if(BODY_BUILD_BULKY)
+			return (H.gender == MALE) ? limbs_icon_m_bulky : limbs_icon_f_bulky
+		if(BODY_BUILD_SLIM)
+			return (H.gender == MALE) ? limbs_icon_m_slim : limbs_icon_f_slim
+	return (H.gender == MALE) ? limbs_icon_m : limbs_icon_f
 
 /datum/species/proc/is_organ_slot_allowed(mob/living/carbon/human/human, organ_slot)
 	return TRUE
@@ -596,11 +626,7 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 
 #ifdef MATURESERVER
 		if(H.dna.species.hairyness)
-			var/mutable_appearance/bodyhair_overlay
-			if(H.gender == MALE)
-				bodyhair_overlay = mutable_appearance(H.dna.species.limbs_icon_m, "[H.dna.species.hairyness]", -BODY_LAYER)
-			else
-				bodyhair_overlay = mutable_appearance(H.dna.species.limbs_icon_f, "[H.dna.species.hairyness]", -BODY_LAYER)
+			var/mutable_appearance/bodyhair_overlay = mutable_appearance(H.dna.species.get_limbs_icon(H), "[H.dna.species.hairyness]", -BODY_LAYER)
 			bodyhair_overlay.color = "#" + H.hair_color
 			standing += bodyhair_overlay
 #endif
