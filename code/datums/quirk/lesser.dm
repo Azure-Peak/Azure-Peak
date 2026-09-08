@@ -55,6 +55,7 @@
 	name = "Outdoorsy"
 	desc = "I feel at home in the wyld. Sleeping in tree branches is almost as comfortable as a bed to me."
 	added_traits = list(TRAIT_OUTDOORSMAN)
+	allowed_species = list(/datum/species/tabaxi, /datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/dullahan)
 	ui_fa_icon = "tree"
 
 /datum/quirk/caustic
