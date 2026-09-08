@@ -677,7 +677,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	// so the character keeps rendering on their species' native shape rather than a body it has no sprites for.
 	if(!length(pref_species.allowed_body_builds))
 		features["body_build"] = null
-	else if(!(features["body_build"] in pref_species.allowed_body_builds))
+	else if(!pref_species.is_body_build_valid(features["body_build"], gender))
 		features["body_build"] = pref_species.get_default_body_build(gender)
 
 	// lists

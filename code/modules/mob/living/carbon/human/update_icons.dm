@@ -1810,20 +1810,24 @@ generate/load female uniform sprites matching all previously decided variables
 	if(!S || !length(S.allowed_body_builds))
 		return null
 	var/build = dna.features?["body_build"]
-	if(build in S.allowed_body_builds)
+	if(S.is_body_build_valid(build, gender))
 		return build
 	return S.get_default_body_build(gender)
+
+/// How many pixels this character's build sits above the body its offset table was tuned for. Already baked
+/// into the table itself, so this is only for nudges applied outside it - body markings and legwear.
+/mob/living/carbon/proc/get_body_build_shift()
+	var/datum/body_build/build = GLOB.body_builds[get_body_build()]
+	return build ? build.offset_y_shift : 0
 
 /// Whether worn clothing should use its bulky (masculine) cut rather than its slim (feminine) one. The build
 /// decides it outright where a species offers builds — that's what separates the two silhouettes, and it's why
 /// a slim male wears the feminine cut exactly as elves always have. Species without builds fall back to
 /// use_f/use_m, which force one cut species-wide, and otherwise to plain gender.
 /mob/living/carbon/proc/is_bulky_body()
-	switch(get_body_build())
-		if(BODY_BUILD_BULKY)
-			return TRUE
-		if(BODY_BUILD_SLIM)
-			return FALSE
+	var/datum/body_build/build = GLOB.body_builds[get_body_build()]
+	if(build)
+		return build.bulky_cut
 	if(!dna?.species)
 		return (gender == MALE)
 	if(dna.species.use_f)
@@ -1838,7 +1842,8 @@ generate/load female uniform sprites matching all previously decided variables
 /// masculine keys despite wearing feminine-cut clothes. The bulky build is the one exception, since its female
 /// body is pixel-identical to its male one and so shares the masculine keys.
 /mob/living/carbon/proc/is_bulky_offset()
-	if(get_body_build() == BODY_BUILD_BULKY)
+	var/datum/body_build/build = GLOB.body_builds[get_body_build()]
+	if(build?.bulky_cut)
 		return TRUE
 	return (gender == MALE)
 

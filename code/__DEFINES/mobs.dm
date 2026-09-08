@@ -341,7 +341,16 @@
 // (feminine cut, as elves have always rendered). See /datum/species/allowed_body_builds.
 #define BODY_BUILD_BULKY "bulky"
 #define BODY_BUILD_SLIM "slim"
-#define ALL_BODY_BUILDS list(BODY_BUILD_BULKY, BODY_BUILD_SLIM)
+/// The old Wood Elf male sprite: the slim body raised a pixel. Masculine only, and offered to elves alone.
+#define BODY_BUILD_ELVEN "elven"
+/// Every build, in the order they should be listed to the player.
+#define ALL_BODY_BUILDS list(BODY_BUILD_BULKY, BODY_BUILD_SLIM, BODY_BUILD_ELVEN)
+/// The two builds any human-shaped species can offer.
+#define STANDARD_BODY_BUILDS list(BODY_BUILD_BULKY, BODY_BUILD_SLIM)
+/// Offset slots a build's offset_y_shift skips. A raised build like elven lifts the torso, but its legs stretch
+/// down from the hip rather than moving with it - the feet stay planted on the ground - so anything hanging off
+/// the legs keeps the unraised position. Add a slot here if it hangs from the legs rather than the body.
+#define BUILD_SHIFT_EXEMPT_OFFSETS list(OFFSET_PANTS, OFFSET_PANTS_F)
 
 // Offset table for the bulky build, tuned for the shared mt.dmi/ft_muscular.dmi silhouette. Taken from
 // Human's own offsets, which every mt.dmi species had already converged on identically. Both genders read

@@ -31,7 +31,7 @@
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
 	soundpack_m = /datum/voicepack/male
 	soundpack_f = /datum/voicepack/female
-	allowed_body_builds = ALL_BODY_BUILDS
+	allowed_body_builds = STANDARD_BODY_BUILDS
 	default_body_build_m = BODY_BUILD_BULKY
 	default_body_build_f = BODY_BUILD_SLIM
 	race_bonus = list(STAT_PERCEPTION = 1, STAT_WILLPOWER = 1)

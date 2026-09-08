@@ -154,6 +154,7 @@
 	// sit a couple of pixels apart, so the nudge stays gendered even though the sprite doesn't.
 	if(!owner.is_bulky_body())
 		tag = tag + "_f"
+		// No build shift here: legwear hangs off the legs, which stay planted on a raised build.
 		pixel_y = (owner.gender == MALE) ? -2 : 0
 	if(is_species(owner,/datum/species/dwarf) || is_species(owner,/datum/species/kobold) || is_species(owner,/datum/species/dwarf/gnome) || is_species(owner,/datum/species/goblinp))
 		pixel_y = 0

@@ -9,21 +9,53 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 /datum/body_build
 	/// The BODY_BUILD_* id this build is registered under.
 	var/id
+	/// Limb sprites. A null here means the build isn't offered to that gender at all.
 	var/limbs_icon_m
 	var/limbs_icon_f
 	var/list/offset_features
+	/// TRUE if worn clothing should use its masculine cut on this build. See is_bulky_body().
+	var/bulky_cut = FALSE
+	/// How many pixels this build's body sits above the one its offset_features were tuned for. The table is
+	/// raised by this much at init so every reader of it is corrected; the raw number stays available for the
+	/// nudges that are applied separately from the table, like body markings and legwear.
+	var/offset_y_shift = 0
+
+/datum/body_build/New()
+	. = ..()
+	if(!offset_y_shift)
+		return
+	var/list/exempt = BUILD_SHIFT_EXEMPT_OFFSETS
+	var/list/raised = list()
+	for(var/key in offset_features)
+		var/list/xy = offset_features[key]
+		raised[key] = (key in exempt) ? list(xy[1], xy[2]) : list(xy[1], xy[2] + offset_y_shift)
+	offset_features = raised
+
+/// Whether this build has a body for the given gender, and so can be offered to them.
+/datum/body_build/proc/supports_gender(gender)
+	return (gender == MALE) ? limbs_icon_m : limbs_icon_f
 
 /datum/body_build/bulky
 	id = BODY_BUILD_BULKY
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mt.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/ft_muscular.dmi'
 	offset_features = OFFSET_FEATURES_BULKY_REFERENCE
+	bulky_cut = TRUE
 
 /datum/body_build/slim
 	id = BODY_BUILD_SLIM
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fm.dmi'
 	offset_features = OFFSET_FEATURES_SLIM_REFERENCE
+
+/// The Wood Elf male body, kept as an option for elves after they standardised onto mem.dmi. It is the slim
+/// body one pixel higher, so it borrows the slim table wholesale and raises it rather than defining its own.
+/// There is no female counterpart sprite, so no limbs_icon_f - it is offered to masculine characters only.
+/datum/body_build/elven
+	id = BODY_BUILD_ELVEN
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/met.dmi'
+	offset_features = OFFSET_FEATURES_SLIM_REFERENCE
+	offset_y_shift = 1
 
 GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
@@ -241,9 +273,19 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	if(!length(allowed_body_builds))
 		return null
 	var/build = (gender == MALE) ? default_body_build_m : default_body_build_f
-	if(build in allowed_body_builds)
+	if(is_body_build_valid(build, gender))
 		return build
-	return allowed_body_builds[1]
+	for(var/fallback in allowed_body_builds)
+		if(is_body_build_valid(fallback, gender))
+			return fallback
+	return null
+
+/// Whether this species offers `build`, and that build has a body for `gender`.
+/datum/species/proc/is_body_build_valid(build, gender)
+	if(!(build in allowed_body_builds))
+		return FALSE
+	var/datum/body_build/candidate = GLOB.body_builds[build]
+	return candidate?.supports_gender(gender)
 
 /// The limb sprite sheet this character's body is drawn from: the sheet belonging to their current build if
 /// their species offers builds, otherwise the species' own limbs_icon_m/limbs_icon_f. Every consumer of a body
