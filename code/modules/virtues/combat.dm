@@ -180,7 +180,7 @@
 		if(QDELETED(src) || QDELETED(recipient))
 			return
 
-		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
+		if(HAS_TRAIT(recipient, TRAIT_UNLYCKERABLE) || HAS_TRAIT(recipient, TRAIT_NOWW) || HAS_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE) || recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
 			to_chat(recipient, "Second Chance cannot be applied to your role, so it has been removed.")
 			QDEL_NULL(src)
 			return
