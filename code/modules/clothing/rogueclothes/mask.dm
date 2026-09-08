@@ -939,3 +939,8 @@
 	armor = ARMOR_BRONZE
 	max_integrity = ARMOR_INT_MASK_STONE
 	smeltresult = null
+
+/obj/item/clothing/mask/rogue/facemask/steel/visor/cleric
+	name = "clerical helmetless visor"
+	desc = "A thin visor of flimsy iron and a thin-silver coating with faint runic-wards and etchings into the material in strange runic wards and sigils, \
+	while this flimsy mask offers barely any protection, the many Noccite cults of Psydonia aclaim the gaps make it easier for Noc's silvered light to enighten the mind."

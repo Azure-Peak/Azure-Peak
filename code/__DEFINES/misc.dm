@@ -91,6 +91,7 @@
 //this means under armour needs to stick with sleeves
 #define UNDER_ARMOR_LAYER			(ARMOR_LAYER+0.5)
 #define UNDER_ARMORSLEEVE_LAYER		(ARMORSLEEVE_LAYER+0.5)
+#define UNDER_TABARD_LAYER			(TABARD_LAYER+0.5)
 #define UNDER_HAT_LAYER			(HEAD_LAYER+1)
 
 //AND -1 MEANS "ABOVE", OK?, OK!?!

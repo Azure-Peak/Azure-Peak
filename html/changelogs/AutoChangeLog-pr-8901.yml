@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - refactor: "Refactored Kindled Exchange's conditionals and debt code, fixing a couple of problems it currently had."

@@ -43,7 +43,7 @@ const COLS = [
   [DepartmentEnum.PEASANTS, DepartmentEnum.ANTAGONIST, DepartmentEnum.NONE],
 ];
 
-export const SubtabClass = (props) => {
+export const SubtabClass = () => {
   const [constantData] = useConstantPrefs();
 
   if (!constantData) {
@@ -84,7 +84,7 @@ export const SubtabClass = (props) => {
   );
 };
 
-const Controls = (props) => {
+const Controls = () => {
   const { act, data } = useBackendStrict<ClassData>();
   const { joblessrole } = data;
 
@@ -105,7 +105,7 @@ const Controls = (props) => {
   );
 };
 
-const ExplainerKey = (props) => {
+const ExplainerKey = () => {
   return (
     <Stack.Item>
       <Section

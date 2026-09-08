@@ -25,8 +25,8 @@ function isProtectedError(error: ErrorEvent): boolean {
 
 export class AudioPlayer {
   element: HTMLAudioElement | null;
-  options: AudioOptions;
-  volume: number;
+  options: AudioOptions = {};
+  volume: number = 1;
 
   onPlaySubscribers: (() => void)[];
   onStopSubscribers: (() => void)[];

@@ -67,8 +67,8 @@ class HubStorageBackend implements StorageBackend {
 class IFrameIndexedDbBackend implements StorageBackend {
   public impl: StorageImplementation;
 
-  private documentElement: HTMLIFrameElement;
-  private iframeWindow: Window;
+  private documentElement: HTMLIFrameElement | undefined;
+  private iframeWindow: Window | undefined;
 
   constructor() {
     this.impl = IMPL_IFRAME_INDEXED_DB;
@@ -127,20 +127,23 @@ class IFrameIndexedDbBackend implements StorageBackend {
       };
 
       window.addEventListener('message', handler);
-      this.iframeWindow.postMessage({ type: 'get', key: key }, '*');
+      this.iframeWindow?.postMessage({ type: 'get', key: key }, '*');
     });
   }
 
   async set(key: string, value: any): Promise<void> {
-    this.iframeWindow.postMessage({ type: 'set', key: key, value: value }, '*');
+    this.iframeWindow?.postMessage(
+      { type: 'set', key: key, value: value },
+      '*',
+    );
   }
 
   async remove(key: string): Promise<void> {
-    this.iframeWindow.postMessage({ type: 'remove', key: key }, '*');
+    this.iframeWindow?.postMessage({ type: 'remove', key: key }, '*');
   }
 
   async clear(): Promise<void> {
-    this.iframeWindow.postMessage({ type: 'clear' }, '*');
+    this.iframeWindow?.postMessage({ type: 'clear' }, '*');
   }
 
   async destroy(): Promise<void> {

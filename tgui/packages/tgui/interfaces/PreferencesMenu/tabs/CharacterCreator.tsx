@@ -26,16 +26,11 @@ enum Subtab {
   VILLAIN = 4,
 }
 
-export const CharacterCreator = (props) => {
+export const CharacterCreator = () => {
   const [subtab, setSubtab] = useSharedState(
     'charactercreatorsubtab',
     Subtab.IDENTITY,
   );
-
-  // Remove once https://github.com/tgstation/tgui-core/pull/274 lands
-  useEffect(() => {
-    window.dispatchEvent(new Event('resize'));
-  }, []);
 
   return (
     <Stack fill>
@@ -90,7 +85,7 @@ export const CharacterCreator = (props) => {
   );
 };
 
-const Sidebar = (props) => {
+const Sidebar = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<AllPagesData>();
   const {
@@ -105,6 +100,18 @@ const Sidebar = (props) => {
     triumphs,
   } = data;
   const [popupId, setPopupId] = usePopupId();
+
+  const previewVisible = !!character_preview_view && !popupId;
+
+  // The ByondUi map control gets unmounted/remounted every time a popup
+  // opens/closes or the user leaves/returns to this tab (see below), and
+  // each fresh instance needs its own kick or it can render at native
+  // (tiny) resolution instead of being magnified to full size.
+  useEffect(() => {
+    if (previewVisible) {
+      window.dispatchEvent(new Event('resize'));
+    }
+  }, [previewVisible]);
 
   return (
     <Stack.Item mr={2} mt={1} width={15}>
@@ -124,7 +131,7 @@ const Sidebar = (props) => {
         </Stack.Item>
         <Stack.Item width={15} height={15}>
           {/* This needs to be turned off when there's a popup because otherwise it'll intersect */}
-          {character_preview_view && !popupId ? (
+          {previewVisible ? (
             <ByondUi
               params={{
                 id: character_preview_view,

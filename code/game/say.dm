@@ -132,13 +132,19 @@ GLOBAL_LIST_INIT(freqtospan, list(
 					namepart = "Unknown"
 			spanpart1 = "<span class='smallyell'>"
 
-	var/languageicon = ""
-	if(message_language && show_language_icon())
-		var/datum/language/D = GLOB.language_datum_instances[message_language]
-		if(istype(D) && D.display_icon(src))
-			languageicon = SPAN_TOOLTIP_DANGEROUS_HTML("<b>[D.name]</b>[D.desc ? "<br>" + D.desc : ""]", "<span style=\"position: relative; bottom: 4px;\">[D.get_icon()] </span>")
+	var/languageicon = get_language_marker(message_language)
 
 	return "[spanpart1][spanpart2][colorpart][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][arrowpart][endspanpart][messagepart]"
+
+/atom/movable/proc/get_language_marker(datum/language/language, content = "")
+	if(!language || !show_language_icon())
+		return content
+	var/datum/language/language_datum = GLOB.language_datum_instances[language]
+	if(!istype(language_datum) || !language_datum.display_icon(src))
+		return content
+	var/tooltip = "<b>[language_datum.name]</b>[language_datum.desc ? "<br>" + language_datum.desc : ""]"
+	var/marked = "<span style=\"position: relative; bottom: 4px;\">[language_datum.get_icon()] </span>[content]"
+	return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip, marked)
 
 /atom/movable/proc/handle_language_spans(list/spans)
 	return spans
@@ -182,46 +188,87 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	else
 		return verb_say
 
-/atom/movable/proc/say_quote(input, list/spans=list(speech_span), message_mode)
+/atom/movable/proc/say_quote(input, list/spans=list(speech_span), message_mode, plaintext_input)
 	if(!input)
 		input = "..."
 
-	if(copytext(input, length(input) - 1) == "!!")
+	if(isnull(plaintext_input))
+		plaintext_input = input
+		input = parsemarkdown_basic(input, limited = TRUE, barebones = TRUE)
+
+	if(copytext(plaintext_input, length(plaintext_input) - 1) == "!!")
 		spans |= SPAN_YELL
 
-	input = parsemarkdown_basic(input, limited = TRUE, barebones = TRUE)
 	var/spanned = attach_spans(input, spans)
 	if(isliving(src))
 		var/mob/living/L = src
 		if(L.cmode)
 			return "— \"[spanned]\""
-	return "[say_mod(input, message_mode)], \"[spanned]\""
+	return "[say_mod(plaintext_input, message_mode)], \"[spanned]\""
 
-/atom/movable/proc/quoteless_say_quote(input, list/spans = list(speech_span), message_mode)
-	input = parsemarkdown_basic(input, limited = TRUE, barebones = TRUE)
+/atom/movable/proc/quoteless_say_quote(input, list/spans = list(speech_span), message_mode, plaintext_input)
+	if(isnull(plaintext_input))
+		input = parsemarkdown_basic(input, limited = TRUE, barebones = TRUE)
 	var/pos = findtext(input, "*")
 	return pos? copytext(input, pos + 1) : input
 
 /atom/movable/proc/check_language_hear(language)
 	return FALSE
 
-/atom/movable/proc/lang_treat(atom/movable/speaker, datum/language/language, raw_message, list/spans, message_mode, no_quote = FALSE)
-	if(has_language(language) || check_language_hear(language))
-		var/atom/movable/AM = speaker.GetSource()
-		if(AM) //Basically means "if the speaker is virtual"
-			return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
-		else
-			return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
-	else if(language)
-		var/atom/movable/AM = speaker.GetSource()
-		var/datum/language/D = GLOB.language_datum_instances[language]
-		raw_message = D.scramble(raw_message)
-		if(AM)
-			return no_quote ? AM.quoteless_say_quote(raw_message, spans, message_mode) : AM.say_quote(raw_message, spans, message_mode)
-		else
-			return no_quote ? speaker.quoteless_say_quote(raw_message, spans, message_mode) : speaker.say_quote(raw_message, spans, message_mode)
-	else
+/// show_icons is for the browser chat only. Runechat renders as maptext, which cannot draw the
+/// <img> a language icon is made of.
+/atom/movable/proc/lang_treat(atom/movable/speaker, datum/language/language, raw_message, list/spans, message_mode, no_quote = FALSE, show_icons = TRUE)
+	if(!language)
 		return "makes a strange sound."
+
+	var/atom/movable/source = speaker.GetSource()
+	var/atom/movable/quoter = source ? source : speaker
+
+	var/list/segments = parse_language_segments(raw_message, language)
+	if(segments)
+		return lang_treat_segments(speaker, quoter, segments, language, spans, message_mode, no_quote, show_icons)
+
+	if(!(has_language(language) || check_language_hear(language)))
+		var/datum/language/language_datum = GLOB.language_datum_instances[language]
+		raw_message = language_datum.scramble(raw_message)
+
+	return no_quote ? quoter.quoteless_say_quote(raw_message, spans, message_mode) : quoter.say_quote(raw_message, spans, message_mode)
+
+/// Every run that leaves the message's main language is marked with its own language icon, right
+/// where the switch happens. The main language keeps the single icon at the head of the message.
+/atom/movable/proc/lang_treat_segments(atom/movable/speaker, atom/movable/quoter, list/segments, datum/language/base_language, list/spans, message_mode, no_quote = FALSE, show_icons = TRUE)
+	var/list/understood = list()
+	var/list/outer_spans = length(spans) ? spans.Copy() : list()
+	for(var/language_span in LANGUAGE_SPANS)
+		outer_spans -= language_span
+
+	var/rendered = ""
+	var/plaintext = ""
+
+	for(var/datum/language_segment/segment as anything in segments)
+		var/datum/language/segment_language = segment.language
+		var/text = segment.text
+
+		if(isnull(understood[segment_language]))
+			understood[segment_language] = (has_language(segment_language) || check_language_hear(segment_language)) ? TRUE : FALSE
+		if(!understood[segment_language])
+			var/datum/language/language_datum = GLOB.language_datum_instances[segment_language]
+			text = language_datum.scramble(text)
+
+		plaintext += text
+		text = parsemarkdown_basic(text, limited = TRUE, barebones = TRUE)
+
+		var/list/segment_spans = get_language_spans(speaker, segment_language)
+		if(length(segment_spans))
+			segment_spans = handle_language_spans(segment_spans.Copy())
+			if(length(segment_spans))
+				text = "[message_spans_start(segment_spans)][text]</span>"
+
+		if(show_icons && segment_language != base_language)
+			text = get_language_marker(segment_language, text)
+		rendered += text
+
+	return no_quote ? quoter.quoteless_say_quote(rendered, outer_spans, message_mode, plaintext) : quoter.say_quote(rendered, outer_spans, message_mode, plaintext)
 
 /proc/get_radio_span(freq)
 	var/returntext = GLOB.freqtospan["[freq]"]

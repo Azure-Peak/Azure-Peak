@@ -133,6 +133,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/no_equipment/after_creation()
 	..()
 	STAINT = 1
+	if(src.charflaws)
+		for(var/datum/charflaw/cf in src.charflaws)
+			src.charflaws.Remove(cf)
+			QDEL_NULL(cf)
+
 
 /mob/living/carbon/human/species/skeleton/no_equipment
 	skel_outfit = null
@@ -169,6 +174,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/conjured/Destroy()
 	release_conjured_gear()
 	return ..()
+
+/mob/living/carbon/human/species/skeleton/conjured/death(gibbed, nocutscene = FALSE)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
 
 /mob/living/carbon/human/species/skeleton/conjured/after_creation()
 	..()
@@ -217,8 +227,10 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 	equipOutfit(outfit)
 
-	for(var/obj/item/gear in (get_equipped_items() + held_items))
-		ADD_TRAIT(gear, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 
 /datum/outfit/job/roguetown/conjured_skeleton
 

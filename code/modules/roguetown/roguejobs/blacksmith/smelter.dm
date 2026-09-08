@@ -126,7 +126,7 @@
 
 	if(attacking_item.firefuel)
 		. = ..()
-		if(!.) //False/null if using the item as fuel. If true, we want to try smelt it so go onto next segment.
+		if(!attacking_item || QDELING(attacking_item) || attacking_item.loc != user) //Tries to use the item as fuel. ..() returns true even if it does get consumed so we have to loc check.
 			return
 
 	if(attacking_item.smeltresult)
