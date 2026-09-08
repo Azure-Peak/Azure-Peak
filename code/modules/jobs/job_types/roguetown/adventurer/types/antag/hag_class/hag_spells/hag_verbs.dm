@@ -73,3 +73,21 @@
 		AddComponent(/datum/component/hag_name, identity)
 		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 1) - 1
 		to_chat(src, span_warning("I assume the mantle of [identity.name]."))
+
+/mob/living/carbon/human/proc/remember_feytouched()
+	set name = "Remember Feytouched"
+	set category = "RoleUnique.Hag"
+	set desc = "Recall who treads the roots, currently."
+
+	// Just in case.
+	if(stat || !HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
+		return
+	var/did = FALSE
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(HAS_TRAIT(H, TRAIT_FEYTOUCHED))
+			if(!did)
+				to_chat(src, span_green("My vassels currently are:"))
+				did = TRUE
+			to_chat(src, span_green(H.name))
+	if(!did)
+		to_chat(src, span_green("The roots are silent for the mote."))
