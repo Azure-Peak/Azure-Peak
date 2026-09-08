@@ -1422,8 +1422,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 								I.detail_color = metadata["detail_color"]
 							if(metadata["altdetail_color"] && I.altdetail_tag)
 								I.altdetail_color = metadata["altdetail_color"]
-							if(metadata["custom_name"])
+							if(metadata["custom_name_parsed"])
+								I.name = metadata["custom_name_parsed"] // this is sanitized when we apply the markdown procesor
+							else if(metadata["custom_name"])
 								I.name = sanitize(metadata["custom_name"])
-							if(metadata["custom_desc"])
+							if(metadata["custom_desc_parsed"])
+								I.desc = metadata["custom_desc_parsed"] // this is sanitized when we apply the markdown procesor
+							else if(metadata["custom_desc"])
 								I.desc = html_encode(metadata["custom_desc"])
 							I.update_icon()
