@@ -212,6 +212,7 @@
 					ADD_TRAIT(recipient, TRAIT_STRONGBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_VAMPBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.</font>")
 
