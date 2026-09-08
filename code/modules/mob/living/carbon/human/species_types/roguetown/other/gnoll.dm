@@ -38,8 +38,8 @@
 		TRAIT_NUDIST,
 		TRAIT_HERESIARCH, //Just because I'm putting their spawns here, that's all.
 		TRAIT_ZURCH,
-		TRAIT_UNLYCKERABLE, //Just stop
-		TRAIT_NOWW,
+		TRAIT_VAMP_IMMUNE, //Just stop
+		TRAIT_WOLF_IMMUNE,
 		TRAIT_MASTERFUL_HUNTER,
 		TRAIT_TOUGH_COOKIE,
 		TRAIT_HARDSOLE,

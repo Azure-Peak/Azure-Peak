@@ -251,7 +251,7 @@
 				if(QSR_WARBEAST)
 					recipient.grant_language(/datum/language/beast)
 					ADD_TRAIT(recipient, TRAIT_PERFECT_TRACKER, TRAIT_VIRTUE)
-					ADD_TRAIT(recipient, TRAIT_NOWW, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_WOLF_IMMUNE, TRAIT_VIRTUE)
 					recipient.change_stat(STATKEY_CON, -1)
 					recipient.change_stat(STATKEY_WIL, -1)
 			to_chat(recipient, span_danger("DISCLAIMER: This option exists to support roleplay and backstory continuity, not to diminish the threat or narrative weight of vampires, werewolves, or similar antagonistic entities. You are a tortured survivor of the Otavan Inquisition, and your very LUX fears them. Failure to roleplay this appropriately may result in this option's removal. Have fun and don't be cringe."))

@@ -1093,7 +1093,7 @@
 					carbs.Jitter(10)
 					carbs.stuttering += 25
 
-		if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && HAS_TRAIT(src, TRAIT_UNLYCKERABLE) && HAS_TRAIT(user, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_VAMPBITE) && src != user)
+		if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && HAS_TRAIT(src, TRAIT_VAMP_IMMUNE) && HAS_TRAIT(user, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_VAMPBITE) && src != user)
 			var/mob/living/carbon/carbs = user
 			if(HAS_TRAIT(user, TRAIT_NOMOOD))
 				return
@@ -1104,7 +1104,7 @@
 					to_chat(carbs, span_danger("Your blood boils at the sight of that Bloodhound. An instinctive hatred surges through you. You must BITE them."))
 					carbs.emote("hiss")
 
-		if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && HAS_TRAIT(src, TRAIT_VAMPBITE) && HAS_TRAIT(user, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_UNLYCKERABLE) && src != user)
+		if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && HAS_TRAIT(src, TRAIT_VAMPBITE) && HAS_TRAIT(user, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_VAMP_IMMUNE) && src != user)
 			var/mob/living/carbon/carbs = user
 			if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(user, TRAIT_NOMOOD))
 				return

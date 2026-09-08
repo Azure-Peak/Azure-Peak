@@ -66,7 +66,7 @@
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(1 SECONDS, 2 SECONDS))
 		return
 
-	if(HAS_TRAIT(victim, TRAIT_BLACKBLOOD) || victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
+	if((HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_WOLF_IMMUNE)) || victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie))) // -- bloodhounds can become vamps, unlike default bb and euphores
 		to_chat(src, span_danger("I'm going to puke..."))
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
@@ -158,7 +158,7 @@
 					if(victim.stat == DEAD) // If you accept the prompt as a corpse, you get turned into a corpse vampire, which RR's you pretty much
 						return FALSE
 
-					if(HAS_TRAIT(victim, TRAIT_UNLYCKERABLE))
+					if(HAS_TRAIT(victim, TRAIT_VAMP_IMMUNE))
 						return FALSE
 
 					var/mob/living/carbon/human/H = victim
