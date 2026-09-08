@@ -1,6 +1,8 @@
 /datum/preferences
 	/// A preview of the current character
 	var/atom/movable/screen/map_view/char_preview/character_preview_view
+	/// Whether we have a boner or not lmao
+	var/preview_boner_state = ERECT_STATE_NONE
 
 /datum/preferences/proc/create_character_preview_view(mob/user)
 	if(!character_preview_view)
@@ -11,7 +13,19 @@
 
 /datum/preferences/proc/render_new_preview_appearance(mob/living/carbon/human/dummy/mannequin)
 	copy_to(mannequin, 1, TRUE, TRUE)
+	var/obj/item/organ/penis/preview_penis = mannequin.getorganslot(ORGAN_SLOT_PENIS)
+	if(preview_penis)
+		preview_penis.update_erect_state(preview_boner_state)
 	return mannequin.appearance
+
+/datum/preferences/proc/cycle_boner_preview()
+	switch(preview_boner_state)
+		if(ERECT_STATE_NONE)
+			preview_boner_state = ERECT_STATE_PARTIAL
+		if(ERECT_STATE_PARTIAL)
+			preview_boner_state = ERECT_STATE_HARD
+		else
+			preview_boner_state = ERECT_STATE_NONE
 
 /datum/preferences/proc/update_preview(mob/user)
 	character_preview_view?.update_body()

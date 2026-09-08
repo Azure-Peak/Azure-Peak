@@ -157,7 +157,7 @@
 		if(attacked_item.obj_integrity >= attacked_item.max_integrity)
 			break
 
-	while(do_after(user, CLICK_CD_FAST, target = attacked_item))
+	while(do_after(user, CLICK_CD_QUICK, target = attacked_item))
 	repair_busy = FALSE
 
 /obj/item/rogueweapon/hammer/proc/repair_structure(obj/structure/attacked_structure, mob/living/user)

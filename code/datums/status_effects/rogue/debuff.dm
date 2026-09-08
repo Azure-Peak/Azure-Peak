@@ -654,13 +654,12 @@
 /datum/status_effect/debuff/dazed/longsword
 	id = "durchlauffen"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/longsword
-	effectedstats = list(STATKEY_WIL = -4, STATKEY_INT = -1)
-	duration = 18 SECONDS
+	effectedstats = list(STATKEY_PER = -3, STATKEY_INT = -3)
 	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/dazed/longsword
-	name = "CAN'T FUCKING BREATHE"
-	desc = "WHAT THE HELL DID THEY DO TO ME?! I NEED TO ATTACK THEM WHILE THEY'RE SWINGING SO THEY CAN'T SHATTER MY WINDPIPE!!"
+	name = "VERY Dazed"
+	desc = "You've been smacked in the face very, very hard. Everything is spinning!"
 	icon_state = "mstrike"
 
 /datum/status_effect/debuff/dazed/longsword2h
@@ -690,8 +689,8 @@
 /datum/status_effect/debuff/dazed/swipe
 	id = "clinch & swipe"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/swipe
-	effectedstats = list(STATKEY_CON = -4, STATKEY_STR = -1)
-	duration = 1.5 SECONDS	//Should last BARELY ENOUGH for someone who's actively grappling and swiping you to get a constant refresh of the dedbuff, otherwise it's useless.
+	effectedstats = list(STATKEY_STR = -2) // Grappling escapes are dependent on their STR/Wrestling vs your CON/Wrestling. We only reduce the victim's STR.
+	duration = 1.5 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/dazed/swipe
@@ -1168,7 +1167,7 @@
 		phy.bleed_mod = 1.15 + (con_mod * 0.1) // at 15 con you'll bleed from a wound by .825
 	else
 		phy.bleed_mod = 1.15 // if you already have low con, we're not going to turbofuck you. ok?
-	H.visible_message(span_warning("[owner]'s blood runs thin and begins GUSHING out of their wounds!"), span_danger("A FOUL SPELL IS CAUSING ME TO BLEED EN MASSE!"))
+	H.visible_message(span_artery("[owner]'s blood runs thin and begins GUSHING out of their wounds!"), span_danger("I CAN'T STOP THIS BLEEDING!"))
 
 /datum/status_effect/debuff/bloody_mess/on_remove()
 	. = ..()
@@ -1177,7 +1176,7 @@
 	var/mob/living/carbon/human/H = owner
 	var/datum/physiology/phy = H.physiology
 	phy.bleed_mod = initial(phy.bleed_mod) // con can lower from the bleeding so we want it to just directly be set back to the initial
-	H.visible_message(span_warning("[owner] has their wounds calm..."), span_warning("My wounds stop bleeding so heavily!"))
+	H.visible_message(span_warning("[owner]'s blood thickens a little, returning to normal."), span_warning("My wounds stop bleeding so heavily!"))
 
 
 /atom/movable/screen/alert/status_effect/debuff/bloody_mess
@@ -1197,7 +1196,7 @@
 	var/datum/physiology/phy = H.physiology
 	var/pain_mod = phy.pain_mod
 	phy.pain_mod = pain_mod * 1.15 // this then gets reduced by wil, among other things. change as needed.
-	H.visible_message(span_warning("[owner] looks to be in great pain, their wounds BLACKENING!"), span_danger("EVERYTHING HURTS!! MY WOUNDS PAIN HAS INCREASED!!"))
+	H.visible_message(span_artery("[owner] stiffens, blackening streaks crawling through their wounds!"), span_danger("I AM IN MISERY! EVERYTHING HURTS WORSE!"))
 
 /datum/status_effect/debuff/sensitive_nerves/on_remove()
 	. = ..()
@@ -1207,7 +1206,7 @@
 	var/datum/physiology/phy = H.physiology
 	var/pain_mod = phy.pain_mod
 	phy.pain_mod = pain_mod / 1.15 // this should be a define fuuuck
-	H.visible_message(span_warning("[owner]'s wounds suddenly return to normal!"), span_warning("My magickally induced pain subsides!"))
+	H.visible_message(span_warning("[owner]'s wounds slowly return to normal!"), span_warning("The unnaturally induced pain subsides!"))
 
 
 /atom/movable/screen/alert/status_effect/debuff/sensitive_nerves

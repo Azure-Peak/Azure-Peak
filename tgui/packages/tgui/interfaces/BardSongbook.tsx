@@ -46,7 +46,6 @@ export const BardSongbook = () => {
           slots_remaining={rhythm_slots_remaining}
           can_unlearn={can_unlearn}
           unlearn_cooldown_text={unlearn_cooldown_text}
-          act={act}
         />
         <Section
           title={`Songs (${song_slots_remaining} slot${song_slots_remaining !== 1 ? 's' : ''} remaining)`}

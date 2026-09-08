@@ -44,6 +44,7 @@
 	edelay_type = 1
 	special = /datum/special_intent/shin_swipe
 	twirly = SKILL_LEVEL_EXPERT // possible, but harder than staves n knives
+	twirl_speed = 6
 
 /obj/item/rogueweapon/sword/Initialize(mapload)
 	. = ..()
@@ -183,6 +184,32 @@
 /obj/item/rogueweapon/sword/avantyne/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
 
+/obj/item/rogueweapon/sword/church
+	name = "see arming sword"
+	desc = "A blessed arming sword, wielded by the Holy See's templars in their stalwart defense against evil. Originating in the wake of the Celestial Empire's \
+	collapse, legends say that it is the grandfather to longswords all across Psydonia: the triumph of an ancient Malumite priest, stricken with divine \
+	inspiration in humenity's darkest hour. Centuries later, it still remains the ideal choice for skewering infidels and monsters alike. </br>'I am the \
+	holder of light, in the dark abyss..' </br>'..I am the holder of order and ward against vileness..' </br>'..let the Gods guide my hand, and let the Inhumen cower before me.'"
+	icon_state = "see_sword"
+	max_integrity = 180
+
+/obj/item/rogueweapon/sword/undivided
+	name = "decaritterschwerte"
+	desc = "A blessed arming sword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bears the winged motif of an angel, and \
+	psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'With a drop of holy Eclipsum, doth the blade rise..' </br>'..gilded, \
+	gleaming, radiant heat, warm my soul, immolate my enemies..' </br>'..and let me vanquish all those who would dare to Divide us, once more.'"
+	icon_state = "deca_sword"
+	max_integrity = 180
+	force = 25
+	force_wielded = 28
+
+// The stock longsword fighting kit. A TRAIT_LONGSWORDSMAN only replaces these with the master intents
+// below, so any /sword/long subtype that redefines these won't work for a frei. Kept as defines so the
+// type below and uses_stock_longsword_kit() don't drift apart.
+#define LONGSWORD_STOCK_INTENTS list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, SWORD_STRIKE)
+#define LONGSWORD_STOCK_GRIPPED_INTENTS list(/datum/intent/sword/cut/long, /datum/intent/sword/thrust/long, /datum/intent/sword/chop/long, /datum/intent/sword/thrust/long/deep)
+#define LONGSWORD_STOCK_ALT_GRIPS list(/datum/alt_grip/mordhau/sword, /datum/alt_grip/halfsword)
+
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
 	desc = "A lethal and perfectly balanced weapon. The longsword is the protagonist of endless tales and myths \
@@ -191,9 +218,9 @@
 	have created and perfected many fighting techniques of todae."
 	force = 25
 	force_wielded = 30
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut/long, /datum/intent/sword/thrust/long, /datum/intent/sword/chop/long, /datum/intent/sword/thrust/long/deep)
-	alt_grips = list(/datum/alt_grip/mordhau/sword, /datum/alt_grip/halfsword)
+	possible_item_intents = LONGSWORD_STOCK_INTENTS
+	gripped_intents = LONGSWORD_STOCK_GRIPPED_INTENTS
+	alt_grips = LONGSWORD_STOCK_ALT_GRIPS
 	icon_state = "longsword"
 	icon = 'icons/roguetown/weapons/swords64.dmi'
 	item_state = "longsword"
@@ -216,10 +243,66 @@
 	wdefense_wbonus = 4
 	smeltresult = /obj/item/ingot/steel
 	special = /datum/special_intent/side_sweep
+	/// One-handed intents a TRAIT_LONGSWORDSMAN fights with.
+	var/list/master_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/effect/daze/longsword/clinch)
+	/// Two-handed intents a TRAIT_LONGSWORDSMAN fights with.
+	var/list/master_gripped_intents = list(/datum/intent/sword/cut/master, /datum/intent/sword/thrust/long/master, /datum/intent/sword/chop/long/master, /datum/intent/sword/thrust/long/deep/master)
+	/// Alt grips a TRAIT_LONGSWORDSMAN gets.
+	var/list/master_alt_grips = list(/datum/alt_grip/mordhau/sword/frei, /datum/alt_grip/halfsword/frei)
+	/// Whether this sword is valid for TRAIT_LONGSWORDSMAN
+	var/master_trainable = FALSE
+	/// Flag for if the master intents are active, e.g., this is being held by someone with TRAIT_LONGSWORDSMAN.
+	var/master_training_active = FALSE
 
 /obj/item/rogueweapon/sword/long/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/skill_blessed, TRAIT_LONGSWORDSMAN, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
+	master_trainable = uses_stock_longsword_kit()
+	// The master's skill and the master's intents go together. No master skill unless using master intents.
+	if(master_trainable)
+		AddComponent(/datum/component/skill_blessed, TRAIT_LONGSWORDSMAN, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
+
+/// Whether this sword is still a plain longsword. Special swords like the greatkopesh don't count.
+/obj/item/rogueweapon/sword/long/proc/uses_stock_longsword_kit()
+	if(!length(master_item_intents) || !length(master_gripped_intents))
+		return FALSE
+	if(!compare_list(possible_item_intents, LONGSWORD_STOCK_INTENTS))
+		return FALSE
+	if(!compare_list(gripped_intents, LONGSWORD_STOCK_GRIPPED_INTENTS))
+		return FALSE
+	if(!compare_list(alt_grips, LONGSWORD_STOCK_ALT_GRIPS))
+		return FALSE
+	return TRUE
+
+/obj/item/rogueweapon/sword/long/equipped(mob/user, slot, initial = FALSE)
+	. = ..()
+	update_master_training(user, slot == ITEM_SLOT_HANDS)
+
+/obj/item/rogueweapon/sword/long/dropped(mob/user, silent = FALSE)
+	. = ..()
+	if(QDELETED(src))
+		return
+	update_master_training(user, FALSE)
+
+/// Swaps the master kit in while a TRAIT_LONGSWORDSMAN has the sword in hand, and back out the moment
+/// it leaves their hands - the sword is not special in any way, the fencer is.
+/obj/item/rogueweapon/sword/long/proc/update_master_training(mob/user, held)
+	if(!master_trainable)
+		return
+	var/should_train = (held && user && HAS_TRAIT(user, TRAIT_LONGSWORDSMAN)) ? TRUE : FALSE
+	if(should_train == master_training_active)
+		return
+	if(altgripped || wielded)
+		ungrip(iscarbon(user) ? user : null, FALSE)
+	if(should_train)
+		possible_item_intents = master_item_intents.Copy()
+		gripped_intents = master_gripped_intents.Copy()
+		alt_grips = length(master_alt_grips) ? master_alt_grips.Copy() : null
+	else
+		// master_trainable is only ever set on a sword still carrying the stock kit so we give it the stock back.
+		possible_item_intents = LONGSWORD_STOCK_INTENTS
+		gripped_intents = LONGSWORD_STOCK_GRIPPED_INTENTS
+		alt_grips = LONGSWORD_STOCK_ALT_GRIPS
+	master_training_active = should_train
 
 /obj/item/rogueweapon/sword/long/iron
 	name = "bastard sword"
@@ -302,14 +385,24 @@
 		return .
 	if(tag)
 		switch(tag)
-			if("gen") return list("shrink" = 0.5, "sx" = -14, "sy" = -8, "nx" = 15, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
+			if("gen") return list("shrink" = 0.5, "sx" = -14, "sy" = -8, "nx" = 15, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1, "gripx" = 20, "gripy" = 20)
 			if("wielded") return list("shrink" = 0.6,"sx" = 9,"sy" = -4,"nx" = -7,"ny" = 1,"wx" = -9,"wy" = 2,"ex" = 10,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 			if("onback") return list("shrink" = 0.5, "sx" = -1, "sy" = 2, "nx" = 0, "ny" = 2, "wx" = 2, "wy" = 1, "ex" = 0, "ey" = 1, "nturn" = 0, "sturn" = 0, "wturn" = 70, "eturn" = 15, "nflip" = 1, "sflip" = 1, "wflip" = 1, "eflip" = 1, "northabove" = 1, "southabove" = 0, "eastabove" = 0, "westabove" = 0)
 			if("onbelt") return list("shrink" = 0.4, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
 			if("altgrip") return list("shrink" = 0.6,"sx" = 2,"sy" = 3,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
-/obj/item/rogueweapon/sword/long/death
-	color = CLOTHING_BLACK
+/obj/item/rogueweapon/sword/long/palloy //no decrepit version, this is a recent artifice found only on unbounds.
+	name = "ancient longsword"
+	desc = "A lethal and perfectly balanced weapon. An artificed recreation of the traditional blades of this era created with \
+	reborn purpose; this blade of polished Gilbranze stands as a reborn testament of Progress against the rot that would claim the old, \
+	it menaces with a slightly-more durable and defensive design over that of traditional steel longswords."
+	icon_state = "ancientlongsword"
+	sheathe_icon = "longsword" //FOR NOW, UNTIL THE REFACTOR IS IN// YELL AT ME, SHADOWS OF ERAS PAST IN THE DISC IF MY DUMBASS FORGOT TO ADD ONE POST-REFACTOR MERGE AND YOUR CODEBASE /IS/ AZURE PEAK
+	max_integrity = 130 //uniquely, slightly more durable as its a unique-weapon for unbound DK.
+	force = 25
+	force_wielded = 28
+	wdefense_wbonus = 5 //Uniquely, higher defense + lower force slightly, its a side-grade under decablade's unique aspect of durability-alone for a mixture of more durable, less force and more defense.
+	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/sword/long/broadsword
 	name = "broadsword"
@@ -455,10 +548,6 @@
 	icon_state = "elongsword"
 	sheathe_icon = "elongsword"
 	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/effect/daze/longsword/clinch)
-	gripped_intents = list(/datum/intent/sword/cut/master, /datum/intent/sword/thrust/long/master)
-	alt_grips = list( /datum/alt_grip/roof_guard, /datum/alt_grip/halfsword/frei)
-	//wlength = WLENGTH_NORMAL //they're all about exploiting weaknesses, given their damage nerfs i think feet are okay
 	wdefense = 5
 	wdefense_wbonus = 3
 	max_blade_int = 300
@@ -674,8 +763,9 @@
 	Psydonian longswords, but it's notably lighter."
 	force = 26
 	force_wielded = 31
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut/long, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	alt_grips = list()
 	icon_state = "marlin"
 	item_state = "marlin"
 	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
@@ -770,7 +860,7 @@
 	max_blade_int = 363
 	smelt_bar_num = 2
 
-/obj/item/rogueweapon/sword/long/exe/cloth/rmb_self(mob/user)
+/obj/item/rogueweapon/sword/long/exe/cloth/rmb_self(mob/user, keybind = FALSE)
 	user.changeNext_move(CLICK_CD_MELEE)
 	playsound(user, "clothwipe", 100, TRUE)
 	SEND_SIGNAL(src, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRONG)
@@ -2549,3 +2639,7 @@
 	max_integrity = 110	//Iron arming sword + 10
 	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
 	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
+
+#undef LONGSWORD_STOCK_INTENTS
+#undef LONGSWORD_STOCK_GRIPPED_INTENTS
+#undef LONGSWORD_STOCK_ALT_GRIPS

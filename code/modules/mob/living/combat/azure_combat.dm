@@ -136,16 +136,8 @@
 	var/list/statdiffs = list(strdiff, perdiff, spddiff, fordiff, intdiff)
 
 	//Skill check, very simple. If you're more skilled with your weapon than the opponent is with theirs -> +10% to disarm or vice-versa.
-	var/skilldiff
-	if(IM?.associated_skill)
-		skilldiff = get_skill_level(IM.associated_skill)
-	else
-		skilldiff = get_skill_level(/datum/skill/combat/unarmed)
-
-	if(IU?.associated_skill)
-		skilldiff = skilldiff - HU.get_skill_level(IU.associated_skill)
-	else
-		skilldiff = skilldiff - HU.get_skill_level(/datum/skill/combat/unarmed)
+	var/skilldiff = get_wskill(IM, /datum/skill/combat/unarmed)
+	skilldiff -= HU.get_wskill(IU, /datum/skill/combat/unarmed)
 
 	//Weapon checks.
 	var/lengthdiff = IM?.wlength - IU?.wlength //The longer the weapon the better.
@@ -566,7 +558,7 @@
 		return
 	if(istype(used_weapon.associated_skill, /datum/skill/combat/unarmed))
 		return
-	if(get_skill_level(used_weapon.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
+	if(get_wskill(used_weapon) < SKILL_LEVEL_JOURNEYMAN)
 		return
 	if(has_status_effect(/datum/status_effect/debuff/bindcd))
 		return

@@ -152,9 +152,6 @@
 	item_state = "ancientplate"
 	smeltresult = /obj/item/ingot/aaslag
 
-/obj/item/clothing/suit/roguetown/armor/plate/paalloy/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARTIFICE)
-
 /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer
 	name = "artificed half-plate"
 	desc = "Forbidden knowledge, resurrected into a weightless vessel of gilbranze-and-magicka. It holds a slot for an arcyne meld to power it."

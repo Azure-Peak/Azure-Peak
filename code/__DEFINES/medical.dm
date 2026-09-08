@@ -77,6 +77,7 @@
 #define ORGAN_SLOT_TAIL "tail"
 #define ORGAN_SLOT_PARASITE_EGG "parasite_egg"
 #define ORGAN_SLOT_REGENERATIVE_CORE "regen_core"
+#define ORGAN_SLOT_GUTS "guts"
 
 #define ORGAN_SLOT_FRILLS "frills"
 #define ORGAN_SLOT_HORNS "horns"
