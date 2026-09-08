@@ -1292,7 +1292,7 @@
 /datum/status_effect/buff/knowledgerituos
 	id = "knowledgerituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
-	duration = 25 MINUTES
+	duration = 20 MINUTES
 	effectedstats = list(STATKEY_INT = 1)
 
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
@@ -1326,7 +1326,7 @@
 	id = "utilityrituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	effectedstats = list(STATKEY_WIL = 1) //Bare minimal needed to labor slightly easier.
-	duration = 25 MINUTES
+	duration = 20 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	name = "Progressive Trance"
@@ -2786,7 +2786,7 @@
 /datum/status_effect/eoranaura
 	id = "eoranaura"
 	var/outline_colour = "#EEBBBB"
-	duration = 10 MINUTES
+	duration = 20 MINUTES
 	tick_interval = -1
 	examine_text = span_good("SUBJECTPRONOUN is bathed in Eora's Light!")
 	alert_type = null

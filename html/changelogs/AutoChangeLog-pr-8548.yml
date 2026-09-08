@@ -1,0 +1,5 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - balance: "Several changes to Divine Blast and Profane Blast. Read the PR for more details."
+  - rscadd: "span_divine, span_profane and span_silver for tgchat."
