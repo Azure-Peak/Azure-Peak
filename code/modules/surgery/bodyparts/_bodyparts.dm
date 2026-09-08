@@ -116,12 +116,21 @@
 /obj/item/bodypart/proc/adjust_marking_overlays(list/appearance_list)
 	return
 
+/// Per-zone pixel nudges applied to a slim male's body markings. He shares the _f marking art with slim
+/// females, but his body (mem.dmi) and hers (fm.dmi) don't line up everywhere, so the shared sprite needs
+/// shifting to meet him on the zones that differ. Positive moves a marking up, negative moves it down; a zone
+/// absent from this list isn't nudged at all. Add or tweak an entry here if a marking sits off by a pixel.
+GLOBAL_LIST_INIT(slim_male_marking_offsets, list(
+	BODY_ZONE_PRECISE_L_HAND = -1,
+	BODY_ZONE_PRECISE_R_HAND = -1,
+	BODY_ZONE_HEAD = 1,
+))
+
 /obj/item/bodypart/proc/get_specific_markings_overlays(list/specific_markings, aux = FALSE, mob/living/carbon/human/human_owner, override_color)
 	var/list/appearance_list = list()
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
 	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
 	var/specific_render_zone = aux ? aux_zone : body_zone
-	var/is_hand_zone = (specific_render_zone == BODY_ZONE_PRECISE_L_HAND || specific_render_zone == BODY_ZONE_PRECISE_R_HAND)
 
 	for(var/key in specific_markings)
 		var/color = specific_markings[key]
@@ -132,11 +141,10 @@
 		if(BM.gendered && (!BM.gender_only_chest || specific_render_zone == BODY_ZONE_CHEST))
 			var/gendaar = human_owner.is_bulky_body() ? "m" : "f"
 			render_limb_string = "[render_limb_string]_[gendaar]"
-			// A slim male borrows the _f art from slim females, but his hand (mem.dmi) sits a pixel above hers
-			// (fm.dmi), so nudge it down to meet him. Only reached for gendered markings, since one drawn as a
-			// single shared sprite was never drawn against her body to begin with.
-			if(is_hand_zone && gendaar == "f" && human_owner.gender == MALE)
-				pixel_y_offset = -1
+			// Only gendered markings need this: one drawn as a single shared sprite was never drawn against her
+			// body to begin with. See slim_male_marking_offsets for the per-zone amounts.
+			if(gendaar == "f" && human_owner.gender == MALE)
+				pixel_y_offset = GLOB.slim_male_marking_offsets[specific_render_zone] || 0
 
 		var/mutable_appearance/accessory_overlay = mutable_appearance(BM.icon, "[BM.icon_state]_[render_limb_string]", -specific_layer)
 		accessory_overlay.pixel_y += pixel_y_offset
