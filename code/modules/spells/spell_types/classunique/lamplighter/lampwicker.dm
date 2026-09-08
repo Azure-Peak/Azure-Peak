@@ -32,7 +32,7 @@
 		spelltarget.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, owner)
 		spelltarget.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEEING, TRUE)
 		spelltarget.ai_controller.CancelActions()
-		addtimer(CALLBACK(src, PROC_REF(end_fear), spelltarget), 3 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(end_fear), spelltarget), 10 SECONDS)
 		return TRUE
 
 /datum/action/cooldown/spell/lamplighter/scare_beast/proc/end_fear(mob/living/target)
