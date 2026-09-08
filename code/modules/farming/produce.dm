@@ -164,6 +164,7 @@
 	chopping_sound = TRUE
 	var/equippedloc = null
 	var/list/bitten_names = list()
+	var/busy = FALSE // this is set to true at the start of the marriage flow to prevent spamclicking from fucking everything up
 
 /obj/item/reagent_containers/food/snacks/grown/apple/On_Consume(mob/living/eater)
 	..()

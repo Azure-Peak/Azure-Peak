@@ -69,7 +69,7 @@
 // Remove head.
 /datum/species/dullahan/help(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	// Only do it if the precise selection is the head, to avoid mistakes. Also STRONG intent because this is irritating to do on accident.
-	if(target != user || user.zone_selected != BODY_ZONE_HEAD || !istype(user.rmb_intent, /datum/rmb_intent/strong)) 
+	if(target != user || user.zone_selected != BODY_ZONE_HEAD || !istype(user.rmb_intent, /datum/rmb_intent/strong))
 		return ..()
 
 	if(headless)
@@ -518,16 +518,21 @@
 	var/rendered = compose_message(src, message_language, message, , spans, message_mode)
 	for(var/_AM in listening)
 		var/atom/movable/AM = _AM
-		var/turf/listener_turf = get_turf(AM)
+		var/atom/movable/loc_check = AM // revs hear from their head, so we need to check the positioning of the head, not the body
+		if(isdullahan(AM))
+			var/mob/living/carbon/human/target = AM
+			var/datum/species/dullahan/target_species = target.dna.species
+			loc_check = target_species.headless ? target_species.my_head : AM
+		var/turf/listener_turf = get_turf(loc_check)
 		var/turf/listener_ceiling = get_step_multiz(listener_turf, UP)
 		if(listener_ceiling)
 			listener_has_ceiling = TRUE
 			if(istransparentturf(listener_ceiling))
 				listener_has_ceiling = FALSE
 		if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
-			if(AM.z != src.loc.z)
+			if(loc_check.z != src.loc.z)
 				continue
-		if(Zs_too && AM.z != src.loc.z && !Zs_all)
+		if(Zs_too && loc_check.z != src.loc.z && !Zs_all)
 			if(!Zs_yell && !HAS_TRAIT(AM, TRAIT_KEENEARS))
 				if(listener_turf.z < speaker_turf.z && listener_has_ceiling)	//Listener is below the speaker and has a ceiling above them
 					continue
@@ -546,11 +551,18 @@
 					for(var/mob/living/MH in viewers(world.view, speaker_ceiling))
 						if(M == MH && MH.z == speaker_ceiling?.z)
 							speaker_obstructed = FALSE
+					for(var/obj/item/bodypart/head/dullahan/DH in range(world.view, speaker_ceiling))
+						if(DH.original_owner && M == DH.original_owner && DH.z == speaker_ceiling?.z)
+							speaker_obstructed = FALSE
 
 				if(!listener_has_ceiling)
 					for(var/mob/living/ML in viewers(world.view, listener_ceiling))
 						if(ML == src && ML.z == listener_ceiling?.z)
 							listener_obstructed = FALSE
+					for(var/obj/item/bodypart/head/dullahan/DH in range(world.view, listener_ceiling))
+						if(DH.original_owner && src == DH.original_owner && DH.z == listener_ceiling?.z)
+							speaker_obstructed = FALSE
+
 				if(listener_obstructed && speaker_obstructed)
 					continue
 		var/highlighted_message

@@ -25,17 +25,6 @@
 	chunkcolor = "#8c9599"
 	material_category = ARMOR_MAT_LEATHER
 
-/obj/item/clothing/head/roguetown/helmet/MiddleClick(mob/user)
-	if(!ishuman(user))
-		return
-	if(flags_inv & HIDE_HEADTOP)
-		flags_inv &= ~HIDE_HEADTOP
-	else
-		flags_inv |= HIDE_HEADTOP
-	persist_inv_flags(HIDE_HEADTOP)
-	to_chat(user, span_info("I wear \the [src] [(flags_inv & HIDE_HEADTOP) ? "over" : "under"] my hair."))
-	user.update_inv_head()
-
 /obj/item/clothing/head/roguetown/helmet/getonmobprop(tag)
 	if(tag)
 		switch(tag)
@@ -52,7 +41,6 @@
 	. = ..()
 	. += span_info("Visored helmets can be articulated by right-clicking them. Lifted visors offer a wider field of view, but expose your face to precise strikes.")
 	. += span_info("Certain helmets can be further decorated by left-clicking them with a feather, cloth, or both.")
-	. += span_info("MMB will reveal my character's hair from underneath \the [src].")
 
 /obj/item/clothing/head/roguetown/helmet/skullcap
 	name = "iron skull cap"
