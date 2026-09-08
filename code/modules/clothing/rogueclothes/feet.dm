@@ -58,7 +58,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/aalloy
 	name = "decrepit boots"
-	desc = "Frayed bronze greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
+	desc = "Rotted metal greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
 	max_integrity = 40
 	armor = ARMOR_BRONZE
 	icon_state = "ancientboots"
@@ -73,7 +73,7 @@
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 	max_integrity = ARMOR_INT_SIDE_STEEL
-	color = "#bb9696"
+	color = "#FFFFFF"
 	armor = ARMOR_PLATE
 	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
@@ -220,7 +220,7 @@
 
 /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	name = "decrepit sandals"
-	desc = "Frayed bronze platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
+	desc = "Rotted metal platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
 	color = "#bb9696"
 	armor = ARMOR_LEATHER
@@ -895,6 +895,11 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/shoes/courtphysician/female/keeper //unique to keepers, intended to also be unarmored. Role is grab-immune sire, please.
+	name = "pestrian heels"
+	desc = "Leather heels, oft worn by those of Pestra's sects.</br> Raised just enough to fit the warped feet of those mutated by sickness without being uncomfortable; the solemn tap of these oft bears grim news, or salvation."
+	detail_color = CLOTHING_GREEN
 
 //Wraps
 

@@ -19,9 +19,9 @@
 	// Chair state variables
 	var/charge = 0
 	var/max_charge = 100
-	var/brew_required = 50
+	var/brew_required = 40
 	var/current_brew = 0
-	var/max_brew = 100
+	var/max_brew = 80
 	var/chair_skill_level = 4
 
 	var/static/list/brew_overlays = list(
@@ -33,6 +33,10 @@
 	var/brew_alpha = 200
 	var/cranking = FALSE
 	pixel_x = -8
+
+// We don't have a north state
+/obj/structure/chair/frankenstein/handle_layer()
+	return
 
 /obj/structure/chair/frankenstein/zizo
 	chair_skill_level = 2
@@ -167,10 +171,13 @@
 /obj/item/reagent_containers/glass/bottle/frankenbrew
 	name = "bottle of Reanimation Elixir"
 	desc = "A volatile chemical mixture that helps the deceased conduct electricity. Looks expensive..."
-	list_reagents = list(/datum/reagent/frankenbrew = 50)
+	list_reagents = list(/datum/reagent/frankenbrew = 40)
 
-/obj/item/reagent_containers/glass/bottle/frankenbrew/third
-	list_reagents = list(/datum/reagent/frankenbrew = 34) // round up
+/obj/item/reagent_containers/glass/bottle/frankenbrew/quarter
+	list_reagents = list(/datum/reagent/frankenbrew = 10)
+
+/obj/item/reagent_containers/glass/bottle/frankenbrew/full
+	list_reagents = list(/datum/reagent/frankenbrew = 50)
 
 /obj/structure/chair/frankenstein/proc/start_cranking_animation()
 	if(cranking)

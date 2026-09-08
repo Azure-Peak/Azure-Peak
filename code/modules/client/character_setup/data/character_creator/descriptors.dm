@@ -12,6 +12,9 @@
 		"img_gallery" = img_gallery,
 		"nsfw_img_gallery" = nsfw_img_gallery,
 
+		"ooc_extra_img" = ooc_extra_img,
+		"nsfw_ooc_extra_img" = nsfw_ooc_extra_img,
+
 		"flavortext" = flavortext,
 		"nsfwflavortext" = nsfwflavortext,
 		"ooc_notes" = ooc_notes,

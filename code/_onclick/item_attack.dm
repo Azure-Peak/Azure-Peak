@@ -199,6 +199,9 @@
 			return
 	if(HAS_TRAIT(user, TRAIT_DUALWIELDER))
 		user.process_dualwield(M, src, null)
+
+	M.on_attacked_as_pacifist(user)
+
 	var/rmb_stam_penalty = 0
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 		rmb_stam_penalty = EXTRA_STAMDRAIN_SWIFSTRONG
@@ -248,6 +251,8 @@
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)
 	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
 	if(M.attacked_by(src, user))
+		M.on_hit_as_pacifist(user)
+
 		var/tempsound = cached_intent?.hitsound
 		if(tempsound)
 			playsound(M.loc, tempsound, 100, FALSE, -1)
@@ -679,11 +684,11 @@
 			var/datum/component/silverbless/blesscomp = GetComponent(/datum/component/silverbless)
 			if(blesscomp?.is_blessed)
 				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder))
-					to_chat(victim, span_danger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+					to_chat(victim, span_silver("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 			else
 				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-					to_chat(victim, span_danger("Blessed silver rebukes my presence! These fires are lashing at my very soul!"))
+					to_chat(victim, span_silver("Blessed silver rebukes my presence! These fires are lashing at my very soul!"))
 				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder)
 			victim.ignite_mob()
 
@@ -805,3 +810,20 @@
 	return 1
 
 #undef ATTACK_OVERRIDE_NODEFENSE
+
+/mob/living/proc/on_attacked_as_pacifist(mob/living/attacker)
+	if(!HAS_TRAIT(src, TRAIT_PACIFISM))
+		return
+	// The pacifist's Clash cooldown is reduced when attacked.
+	reduce_intent_cooldown(src, /datum/status_effect/debuff/clashcd, amount = 5 SECONDS)
+
+/mob/living/proc/on_hit_as_pacifist(mob/living/attacker)
+	if(!HAS_TRAIT(src, TRAIT_PACIFISM))
+		return
+	// The person who hit the pacifist feels remorse.
+	if(HAS_TRAIT(attacker, TRAIT_NOMOOD))
+		return
+	if(attacker.patron?.type in ALL_INHUMEN_PATRONS)
+		attacker.add_stress(/datum/stressevent/remorse_evil)
+	else
+		attacker.add_stress(/datum/stressevent/remorse)

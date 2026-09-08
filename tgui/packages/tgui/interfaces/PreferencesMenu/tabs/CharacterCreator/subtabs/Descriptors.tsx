@@ -10,6 +10,7 @@ import {
   SubtabDescriptorsTextDescriptionsDownstream,
 } from 'pm/downstream/tabs/CharacterCreator/subtabs/Descriptors';
 import { type ReactNode, useEffect, useState } from 'react';
+import { resolveAsset } from 'tgui/assets';
 import { useBackendStrict, useSharedState } from 'tgui/backend';
 import { gameDataAtom } from 'tgui/events/store';
 import { LoadingScreen } from 'tgui/interfaces/common/LoadingScreen';
@@ -17,13 +18,14 @@ import {
   Box,
   Button,
   Dropdown,
+  Image,
   Section,
   Stack,
   TextArea,
 } from 'tgui-core/components';
 import type { AllPagesData, DescriptorData } from '../data';
 
-export const SubtabDescriptors = (props) => {
+export const SubtabDescriptors = () => {
   return (
     <Section
       fill
@@ -50,7 +52,7 @@ export const SubtabDescriptors = (props) => {
   );
 };
 
-const FormattingHelp = (props) => {
+const FormattingHelp = () => {
   return (
     <Box fontSize={1.1}>
       <Box fontSize={1.2}>
@@ -88,7 +90,7 @@ const FormattingHelp = (props) => {
   );
 };
 
-const MechanicalDescriptions = (props) => {
+const MechanicalDescriptions = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<DescriptorData>();
   const { descriptors, descriptors_custom } = data;
@@ -177,7 +179,7 @@ const MechanicalDescriptions = (props) => {
   );
 };
 
-const OtherInfo = (props) => {
+const OtherInfo = () => {
   const { act, data } = useBackendStrict<DescriptorData>();
   const {
     examine_theme,
@@ -186,6 +188,8 @@ const OtherInfo = (props) => {
     song_title,
     img_gallery,
     nsfw_img_gallery,
+    ooc_extra_img,
+    nsfw_ooc_extra_img,
   } = data;
 
   return (
@@ -233,6 +237,56 @@ const OtherInfo = (props) => {
                 </Stack.Item>
               </Stack>
             </Stack.Item>
+          </Stack>
+        </LabeledGridList.Item>
+        <LabeledGridList.Item label="OOC Extra Image">
+          <Stack vertical>
+            <Stack.Item>
+              <Button
+                ellipsis
+                fluid
+                tooltip={ooc_extra_img || 'Unset'}
+                onClick={() => act('ooc_extra_img')}
+              >
+                {ooc_extra_img || 'Unset'}
+              </Button>
+            </Stack.Item>
+            {ooc_extra_img && (
+              <Stack.Item>
+                <Box textAlign="center">
+                  <Image
+                    height="80px"
+                    width="80px"
+                    src={resolveAsset(ooc_extra_img)}
+                  />
+                </Box>
+              </Stack.Item>
+            )}
+          </Stack>
+        </LabeledGridList.Item>
+        <LabeledGridList.Item label="NSFW OOC Extra Image">
+          <Stack vertical>
+            <Stack.Item>
+              <Button
+                ellipsis
+                fluid
+                tooltip={nsfw_ooc_extra_img || 'Unset'}
+                onClick={() => act('nsfw_ooc_extra_img')}
+              >
+                {nsfw_ooc_extra_img || 'Unset'}
+              </Button>
+            </Stack.Item>
+            {nsfw_ooc_extra_img && (
+              <Stack.Item>
+                <Box textAlign="center">
+                  <Image
+                    height="80px"
+                    width="80px"
+                    src={resolveAsset(nsfw_ooc_extra_img)}
+                  />
+                </Box>
+              </Stack.Item>
+            )}
           </Stack>
         </LabeledGridList.Item>
         <ImageGalleryEdit
@@ -307,7 +361,7 @@ const ImageGalleryEdit = (props: {
   );
 };
 
-const TextDescriptions = (props) => {
+const TextDescriptions = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<DescriptorData>();
   const {

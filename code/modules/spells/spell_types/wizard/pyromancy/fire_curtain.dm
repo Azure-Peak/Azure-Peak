@@ -1,13 +1,17 @@
-#define CURTAIN_TICK_DAMAGE 30
+#define CURTAIN_TICK_DAMAGE 50
+#define CURTAIN_SCORCH_PER_TICK 2
+#define CURTAIN_THROWN_BURN_COOLDOWN (2 SECONDS)
+#define CURTAIN_THROWN_GRACE (1 SECONDS)
 #define CURTAIN_BURN_KEY "curtain_burn"
+#define CURTAIN_GRACE_KEY "curtain_grace"
 
 /datum/action/cooldown/spell/fire_curtain
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Fire Curtain"
 	desc = "Conjure a 5x2 curtain of flame at a target location, perpendicular to your facing. \
-	After a 2-second telegraph, the fire erupts. Burning for 10 seconds. \
-	The fire does not block movement but will burn anything that passes through or stands in it. \
-	You are not immune to your own curtain.\n\
+	After a 3-second telegraph, the fire erupts. Burning for 10 seconds. \
+	The fire does not block movement but will burn anything that passes through or stands in it, \
+	applying two scorched stacks per burn. You are not immune to your own curtain.\n\
 	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	button_icon_state = "fire_curtain"
 	sound = 'sound/magic/fireball.ogg'
@@ -47,6 +51,7 @@
 /datum/action/cooldown/spell/fire_curtain/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	stats += span_info("Damage: [CURTAIN_TICK_DAMAGE] burn per second (up to [DisplayTimeText(curtain_life)] in the flames)")
+	stats += span_info("Scorched: [CURTAIN_SCORCH_PER_TICK] stacks per burn")
 	return stats
 
 /datum/action/cooldown/spell/fire_curtain/cast(atom/cast_on)
@@ -126,10 +131,11 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	light_outer_range = LIGHT_RANGE_FIRE
 	light_color = LIGHT_COLOR_FIRE
-	object_slowdown = 15
+	ai_path_weight = 15
 	var/lifetime = 10 SECONDS
 	var/tick_damage = CURTAIN_TICK_DAMAGE
 	var/burn_cooldown = 1 SECONDS
+	var/list/burn_times
 	var/datum/weakref/caster_ref
 	var/aim_zone
 
@@ -150,21 +156,32 @@
 /obj/effect/curtain_fire/Crossed(atom/movable/AM, oldLoc)
 	. = ..()
 	if(isliving(AM))
-		burn_occupant(AM)
+		var/mob/living/L = AM
+		burn_occupant(L, !!L.throwing)
 
 /obj/effect/curtain_fire/process(seconds_per_tick)
 	var/turf/T = get_turf(src)
 	if(!isturf(T))
 		return
 	for(var/mob/living/L in T)
-		burn_occupant(L)
+		burn_occupant(L, !!L.throwing)
 
-/obj/effect/curtain_fire/proc/burn_occupant(mob/living/L)
+/obj/effect/curtain_fire/proc/burn_occupant(mob/living/L, involuntary = FALSE)
 	if(HAS_TRAIT(L, TRAIT_NOFIRE))
 		return
-	if(L.mob_timers[CURTAIN_BURN_KEY] && world.time < L.mob_timers[CURTAIN_BURN_KEY])
+	// Grace timer for those who were involuntarily thrown into the fire curtain so that it doesn't instaproc charred in involuntary situation
+	if(L.mob_timers[CURTAIN_GRACE_KEY] && world.time < L.mob_timers[CURTAIN_GRACE_KEY])
 		return
-	L.mob_timers[CURTAIN_BURN_KEY] = world.time + burn_cooldown
+	var/mob_key = REF(L)
+	if(involuntary)
+		if(L.mob_timers[CURTAIN_BURN_KEY] && world.time < L.mob_timers[CURTAIN_BURN_KEY])
+			return
+	else if(LAZYACCESS(burn_times, mob_key) && world.time < burn_times[mob_key])
+		return
+	L.mob_timers[CURTAIN_BURN_KEY] = world.time + CURTAIN_THROWN_BURN_COOLDOWN
+	LAZYSET(burn_times, mob_key, world.time + burn_cooldown)
+	if(involuntary)
+		L.mob_timers[CURTAIN_GRACE_KEY] = world.time + CURTAIN_THROWN_GRACE
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
@@ -174,8 +191,12 @@
 		var/fallback_zone = check_zone(hit_zone)
 		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, no_debuff = TRUE)
 		L.apply_damage(tick_damage, BURN, fallback_zone, armor_block)
-	apply_scorch_stack(L, 1, hit_zone)
+	apply_scorch_stack(L, CURTAIN_SCORCH_PER_TICK, hit_zone)
 	L.emote("pain", forced = TRUE)
 
 #undef CURTAIN_TICK_DAMAGE
+#undef CURTAIN_SCORCH_PER_TICK
+#undef CURTAIN_THROWN_BURN_COOLDOWN
+#undef CURTAIN_THROWN_GRACE
 #undef CURTAIN_BURN_KEY
+#undef CURTAIN_GRACE_KEY

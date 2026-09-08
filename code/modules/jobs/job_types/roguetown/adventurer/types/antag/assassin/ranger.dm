@@ -2,7 +2,7 @@
 	name = "Assassin - Ranger"
 	tutorial = "You spent your life tracking the biggest game of all - mortal men. The direbears you've killed do not even compare to the men you've felled. Track your pray, put down the feral dog, and get your pay.."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/assassin/ranger
 	category_tags = list(CTAG_ASSASSIN)
 	traits_applied = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN, TRAIT_UNCONVERTIBLE)	// Master of the Forest - Tosses them a bone for wilderness chases.
@@ -59,6 +59,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/kettle
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
+	beltl = /obj/item/rogueweapon/scabbard/sheath
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Yew Longbow","Crossbow")
@@ -75,7 +76,7 @@
 				beltl = /obj/item/quiver/bolt/standard
 
 	if(!istype(H.patron, /datum/patron/inhumen/graggar))
-		var/inputty = input(H, "Would you like to change your patron to Graggar?", "The beast roars", "No") as anything in list("Yes", "No")
+		var/inputty = input(H, "Would you like to change your patron to Graggar?", "THE BEAST ROARS", "No") as anything in list("Yes", "No")
 		if(inputty == "Yes")
 			to_chat(H, span_warning("My former deity has abandoned me.. Graggar is my new master."))
 			H.set_patron(/datum/patron/inhumen/graggar)

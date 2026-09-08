@@ -35,7 +35,7 @@
 		G.open_orbit_menu()
 	else
 		if(G.client)
-			if(isscryeye(G) || G.trapped)
+			if(isscryeye(G))
 				return
 			if(alert(usr, "Travel with the boatman?", "", "Yes", "No") == "Yes")
 				G.returntolobby(0)

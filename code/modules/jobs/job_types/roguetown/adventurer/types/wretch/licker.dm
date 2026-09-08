@@ -13,6 +13,10 @@
 	maximum_possible_slots = 2
 	applies_post_equipment = FALSE
 
+	subclass_stashed_items = list(
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+	)
+
 /datum/outfit/job/roguetown/wretch/licker/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
@@ -22,6 +26,7 @@
 			possible_classes += CHECKS
 
 		var/datum/advclass/C = input(H.client, "What is my class?", "Adventure") as null|anything in possible_classes
+		H.licker_subclass = C
 		C.equipme(H)
 
 		H.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE)

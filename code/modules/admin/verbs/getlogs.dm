@@ -28,7 +28,9 @@
 		if ("Open")
 			src << run(file(path))
 		if ("Download")
-			src << ftp(file(path))
+			var/regex/R = regex(@"round-[^-]+-(.+)/([^/]+)")
+			var/suggested_name = R.Find(path) ? "[R.group[1]]-[R.group[2]]" : path
+			src << ftp(file(path), suggested_name)
 		else
 			return
 	to_chat(src, "Attempting to send [path], this may take a fair few minutes if the file is very large.")

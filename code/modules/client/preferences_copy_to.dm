@@ -91,6 +91,9 @@
 	character.img_gallery = img_gallery
 	character.nsfw_img_gallery = nsfw_img_gallery
 
+	character.ooc_extra_img = ooc_extra_img
+	character.nsfw_ooc_extra_img = nsfw_ooc_extra_img
+
 	character.examine_theme = examine_theme
 	character.ooc_extra = ooc_extra
 

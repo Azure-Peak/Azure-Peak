@@ -40,6 +40,9 @@
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
 	. += span_info("<b>Townsfolk</b> may post contracts of their own using their own coin. It can be pinned to the board or handed over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission any of them, but it will draw from the Crown's Purse at double the price. Only the poster may open what is recovered.")
 	. += span_info("Your <b>fellowship</b> may turn in contracts you hold on your behalf, should you fall in battle. The reward and levy is credited to the one who turns it in, using their tax exempt status, if any.")
+	// TODO: flavor - plain placeholder, rewrite
+	. += span_info("A <b>Fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more</b> may call for a <b>Hoard Recovery</b> in a region whose banditry hoard has reached <b>[HOARD_RECOVERY_HOARD_MINIMUM] mammons</b>, after pledging <b>[HOARD_RECOVERY_PLEDGE] mammons</b>. It pays the standard blockade reward, and the reclaimed hoard is taxed by the Crown as <b>Recovered Spoils</b>. The Steward may also commission a hoard recovery writ like any other defense commission.")
+	. += span_info("A <b>Notorious Bounty</b> may be taken up by a ghost, who then plays the outlaw fighting against you. Its reward rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS] mammons</b> when that happens, or by <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b> when none answers.")
 	. += span_info("The <b>[english_list(GLOB.contract_proxy_officials)]</b> may turn in any completed contract on the holder's behalf, crediting the reward to the holder's own account. They take no cut.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
@@ -65,7 +68,7 @@
 	if(Q in SSquestpool.pool)
 		to_chat(user, span_warning("This writ is already pinned to the ledger."))
 		return
-	if(!Q.blockade_ref?.resolve())
+	if(Q.blockade_ref && !Q.blockade_ref.resolve())
 		to_chat(user, span_warning("The blockade this writ answers has already been lifted."))
 		return
 	Q.required_fellowship_size = BLOCKADE_FELLOWSHIP_REQUIREMENT
@@ -121,6 +124,12 @@
 	data["pool"] = build_pool_listing()
 	data["active"] = build_active_listing(user)
 	data["regions"] = build_region_listing()
+	data["hoard_recovery_regions"] = build_hoard_recovery_region_listing()
+	data["hoard_recovery_pledge"] = HOARD_RECOVERY_PLEDGE
+	data["hoard_recovery_fellowship_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
+	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
+	data["scout_regions"] = SSregionthreat.build_scout_region_rows()
+	data["spoils_tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_RECOVERED_SPOILS)
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
@@ -207,6 +216,62 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
 		known += TR.region_name
 	return known
+
+/obj/structure/roguemachine/contractledger/proc/build_hoard_recovery_region_listing()
+	var/list/listing = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		if(TR.banditry_hoard < HOARD_RECOVERY_HOARD_MINIMUM)
+			continue
+		// A true blockade takes precedence
+		if(TR.has_active_blockade())
+			continue
+		var/datum/quest/existing = TR.active_hoard_recovery_ref?.resolve()
+		listing += list(list(
+			"region" = TR.region_name,
+			"hoard" = TR.banditry_hoard,
+			"danger" = TR.get_danger_level(),
+			"active" = (existing && !QDELETED(existing)) ? TRUE : FALSE,
+		))
+	return listing
+
+/obj/structure/roguemachine/contractledger/proc/request_hoard_recovery(mob/living/carbon/human/user, region_name)
+	if(!ishuman(user))
+		return
+	var/datum/threat_region/TR = SSregionthreat.get_region(region_name)
+	if(!TR)
+		return
+	if(TR.banditry_hoard < HOARD_RECOVERY_HOARD_MINIMUM)
+		to_chat(user, span_warning("The hoard in [TR.region_name] is below [HOARD_RECOVERY_HOARD_MINIMUM] mammons - you cannot raise a Recovery writ for it."))
+		return
+	if(TR.has_active_blockade())
+		to_chat(user, span_warning("[TR.region_name] is under an active blockade - it must be cleared with a Blockade Defense writ."))
+		return
+	var/datum/quest/existing = TR.active_hoard_recovery_ref?.resolve()
+	if(existing && !QDELETED(existing))
+		to_chat(user, span_warning("A recovery writ for [TR.region_name] is already abroad."))
+		return
+	var/datum/fellowship/F = user.current_fellowship
+	if(!F || length(F.get_members()) < BLOCKADE_FELLOWSHIP_REQUIREMENT)
+		to_chat(user, span_warning("Only a Fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more may call for a Hoard Recovery."))
+		return
+	if(!SStreasury.has_account(user))
+		to_chat(user, span_warning("No account on record - register with a Meister before calling for a recovery."))
+		return
+	var/datum/fund/pledge_account = SStreasury.get_account(user)
+	if(SStreasury.get_balance(user) < HOARD_RECOVERY_PLEDGE)
+		to_chat(user, span_warning("Raising a recovery writ requires a pledge of [HOARD_RECOVERY_PLEDGE] mammons."))
+		return
+	if(!SStreasury.burn(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery pledge ([TR.region_name])"))
+		to_chat(user, span_warning("The pledge could not be withdrawn from your account."))
+		return
+	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_hoard_recovery_request(TR, user, pledge_account, HOARD_RECOVERY_PLEDGE)
+	if(!Q)
+		SStreasury.mint(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery pledge refund (issue failure)")
+		to_chat(user, span_warning("No recovery writ can be raised for [TR.region_name] right now. Your pledge is returned."))
+		return
+	playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
+	to_chat(user, span_notice("Recovery writ issued for [TR.region_name]."))
+	SSquestpool.log_event("hoard_recovery_request", "[user.real_name] called a hoard recovery on [TR.region_name] (hoard [TR.banditry_hoard], pledge [HOARD_RECOVERY_PLEDGE])")
 
 /obj/structure/roguemachine/contractledger/proc/build_pool_listing()
 	var/list/listing = list()
@@ -317,4 +382,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			return TRUE
 		if("compose_towner")
 			compose_towner_from_tgui(user, params)
+			return TRUE
+		if("request_hoard_recovery")
+			request_hoard_recovery(user, params["region"])
 			return TRUE

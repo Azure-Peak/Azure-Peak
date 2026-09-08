@@ -5,6 +5,7 @@ import type { BooleanLike } from 'tgui-core/react';
 export type AllPagesData = {
   character_preview_view: string | null; // null indicates error
   preview_background: string | null; // null indicates error
+  preview_boner_state: string;
 
   loaded_slot: number;
   real_name: string;
@@ -194,6 +195,9 @@ export type ExamineData = {
 
   img_gallery: string[];
   nsfw_img_gallery: string[];
+
+  ooc_extra_img: string;
+  nsfw_ooc_extra_img: string;
 
   flavortext: string | null; // null indicates unset
   nsfwflavortext: string | null; // null indicates unset

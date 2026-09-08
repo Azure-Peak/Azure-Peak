@@ -434,7 +434,7 @@
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/survival/quarterstaff_psydonic/bullion
-	name = "psydonic silver-reinforced quarterstaff"
+	name = "psydonic silver-reinforced quarterstaff (bullion)"
 	category = "Tools"
 	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
 	reqs = list(
@@ -583,19 +583,6 @@
 		/obj/item/natural/fibers = 2,
 		/obj/item/ingot/blacksteel = 1,
 		)
-
-/datum/crafting_recipe/roguetown/survival/bow
-	name = "bow"
-	display_category = ITEM_CAT_WEAPONS_AMMO
-	category = "Tools"
-	result = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic)
-	reqs = list(
-		/obj/item/grown/log/tree = 1,
-		/obj/item/natural/cloth = 1,
-		/obj/item/natural/fibers = 3,
-		)
-	skillcraft = /datum/skill/craft/crafting
-	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/fishingcage
 	name = "fishing cage"

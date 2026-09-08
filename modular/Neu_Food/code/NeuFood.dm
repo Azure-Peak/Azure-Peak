@@ -66,7 +66,9 @@
 		if(!length(R.ingredients))
 			continue
 		recipe_links += "<a href='byond://?src=[REF(src)];view_wiki=[R.get_wiki_key()]'>[R.name]</a> (starts with [R.step_label(R.ingredients[1])])"
-
+	if(smoked_type)
+		var/obj/item/SMT = smoked_type
+		. += "Ready to be <b>smoked</b> into [initial(SMT.name)]."
 	if(slice_path)
 		var/obj/item/ST = slice_path
 		. += span_smallnotice("Ready to be <b>sliced</b> into [initial(ST.name)].")

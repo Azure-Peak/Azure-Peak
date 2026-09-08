@@ -10,7 +10,11 @@
 	max_pq = null
 	antag_job = TRUE
 
-	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
+	// assassins are an embodiment of graggar's many-faces and absorption of the people he's killed thru-out his life.
+	// daggers should be implied to be his fragments or some other weird shit. maybe vheslyn. idfk man i dont lore for shit.
+	tutorial = "\"A MAN SPEAKS A NAME. WE DO THE REST!\", so-says your cursed dagger. Whether puppeted by dark forces or by \
+	choice, you have become a devout of the Sinistar. As His devout pray for His wrath, you dispense it, skin-thiefing and soul-taking those \
+	deemed worthy of a blood-hunt."
 
 	outfit = null
 	outfit_female = null
@@ -30,15 +34,12 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE
 
-	// Base job traits, we give one-specialty trait per role.
-	job_traits = list(
-		TRAIT_ASSASSIN,
-		TRAIT_DODGEEXPERT,
-		TRAIT_STEELHEARTED,
-		TRAIT_HERESIARCH,	//Just so they can use the Zurch.
-		TRAIT_ANTISCRYING,
+	// JOB TRAITS == prev. job traits are now granted on datum-gain.
+
+	virtue_restrictions = list(
+		/datum/virtue/utility/feytouched
 	)
-	cmode_music = 'sound/music/cmode/antag/combat_assassin.ogg'
+	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build
 	job_subclasses = list(
 		/datum/advclass/assassin_ranger,
@@ -62,7 +63,6 @@
 		var/datum/antagonist/new_antag = new /datum/antagonist/assassin()
 		H.mind.add_antag_datum(new_antag)
 		H.grant_language(/datum/language/thievescant)
-		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "ASSASSIN"), 5 SECONDS)
 		var/wanted = list("I am a notorious criminal", "I am a nobody")
 		var/wanted_choice = input(H, "Are you a known criminal?") as anything in wanted
 		switch(wanted_choice)

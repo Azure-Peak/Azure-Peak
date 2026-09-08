@@ -560,6 +560,10 @@
 	name = "Donator Kit - Unorthodoxist Psydonite Helm"
 	path = /obj/item/enchantingkit/ryan_psyhelm
 
+/datum/loadout_item/donator/ryan/naginata
+	name = "Donator Kit - +5 Common Profane Naginata"
+	path = /obj/item/enchantingkit/weapon/ryan_naginata
+
 /datum/loadout_item/donator/koruu
 	name = "Donator Item - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
@@ -577,6 +581,7 @@
 /datum/loadout_item/donator/koruu/kukri/warden
 	name = "Donator Kit - Warden Leachwhacker"
 	path = /obj/item/enchantingkit/weapon/koruu_kukri/warden
+	ckeywhitelist = list("koruu", "pneumothorax", "ryan180602", "vakiova", "maesune", "dakken12")
 
 /datum/loadout_item/donator/dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
@@ -851,7 +856,12 @@
 /datum/loadout_item/donator/kadeguandao
 	name = "Donator Kit - Dawn Cometh"
 	path = /obj/item/enchantingkit/weapon/kadeguandao
-	ckeywhitelist = list("shiroseschnee", "Zerantio")
+	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
+
+/datum/loadout_item/donator/kadedao
+	name = "Donator Kit - Spring Cometh"
+	path = /obj/item/enchantingkit/weapon/kadedao
+	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
 
 /datum/loadout_item/donator/falling_star
 	name = "Donator Kit - Falling Star"
@@ -963,6 +973,11 @@
 	path = /obj/item/enchantingkit/rosy/birdmask
 	ckeywhitelist = list("rosysaturniidae")
 
+/datum/loadout_item/donator/rosy/rosecollar
+	name = "Donator Kit - Rosestone Clasped Collar"
+	path = /obj/item/enchantingkit/rosy/rosecollar
+	ckeywhitelist = list("rosysaturniidae")
+
 /datum/loadout_item/donator/nero_woodlandcloak
 	name = "Gift - Woodland Mantle"
 	path = /obj/item/clothing/cloak/furcloak/woodland
@@ -1011,7 +1026,7 @@
 /datum/loadout_item/donator/chivalre_drowmantle
 	name = "Donator Kit - Scourge Mantle"
 	path = /obj/item/enchantingkit/donator_chivalre_drowmantle
-	ckeywhitelist = list("oddbomber3768")
+	ckeywhitelist = list("oddbomber3768", "wickedcybs")
 
 /datum/loadout_item/donator/chivalre_drowgreatflail
 	name = "Donator Kit - Jagged Skikuldic Greatflail"
@@ -1026,4 +1041,19 @@
 /datum/loadout_item/donator/rivercadaver_tabis
 	name = "Donator Item - Tabis"
 	path = /obj/item/enchantingkit/donator_rivercadaver_tabis
-	ckeywhitelist = list("rivercadaver","muhsollini")
+	ckeywhitelist = list("rivercadaver","poots13","nooriginality","helenmoder","oddbomber3768","waffai","castortroy23","persephoneq")
+
+/datum/loadout_item/donator/glassfeddockterr_bighat
+	name = "Donator Item - Eryn's Archwyzardry Hat"
+	path = /obj/item/clothing/head/roguetown/wizhat/bighat
+	ckeywhitelist = list("glassfeddockterr")
+
+/datum/loadout_item/donator/koruu_cadwyncloak
+	name = "Donator Item - Sefirot's Cloak"
+	path = /obj/item/clothing/cloak/templar/ravoxcleric/koruu
+	ckeywhitelist = list("koruu")
+
+/datum/loadout_item/donator/koruu_cadwynhelm
+	name = "Donator Item - Gebura"
+	path = /obj/item/enchantingkit/donator_koruu_ravoxclerichelm
+	ckeywhitelist = list("koruu")

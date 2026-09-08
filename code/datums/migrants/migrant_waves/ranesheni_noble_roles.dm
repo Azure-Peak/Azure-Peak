@@ -212,7 +212,7 @@
 /datum/advclass/ranesheni_advisor
 	name = "Advisor"
 	outfit = /datum/outfit/job/roguetown/ranesheni/advisor
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_SLEUTH, TRAIT_PERFECT_TRACKER, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DODGEEXPERT, TRAIT_PERFECT_TRACKER, TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_RANESHENI_ADVISOR)
 	subclass_stats = list(
 		STATKEY_SPD = 2,

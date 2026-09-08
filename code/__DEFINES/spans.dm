@@ -55,6 +55,7 @@
 #define span_hypnophrase(str) ("<span class='hypnophrase'>" + (str) + "</span>")
 #define span_infection(str) ("<span class='infection'>" + (str) + "</span>")
 #define span_info(str) ("<span class='info'>" + (str) + "</span>")
+#define span_redinfo(str) ("<span class='redinfo'>" + (str) + "</span>")
 #define span_interface(str) ("<span class='interface'>" + (str) + "</span>")
 #define span_italics(str) ("<span class='italics'>" + (str) + "</span>")
 #define span_looc(str) ("<span class='looc'>" + (str) + "</span>")
@@ -106,6 +107,11 @@
 
 #define span_astrata(str) ("<span class='astrata'>" + (str) + "</span>")
 #define span_undivided(str) ("<span class='undivided'>" + (str) + "</span>")
+
+#define span_divine(str) ("<span class='divine'>" + (str) + "</span>")
+#define span_profane(str) ("<span class='profane'>" + (str) + "</span>")
+#define span_silver(str) ("<span class='silver'>" + (str) + "</span>")
+
 /// Displays a tooltip. Tooltip is text-only, and HTML will be ignored.
 /// * SPAN_LINKIFY doesn't work here.
 #define SPAN_TOOLTIP(tip, str) ("<span data-component=\"Tooltip\" data-content=\"[html_encode(tip)]\" class=\"tooltip\">[str]</span>")

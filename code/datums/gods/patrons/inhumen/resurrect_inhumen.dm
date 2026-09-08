@@ -2,9 +2,8 @@
 
 /obj/effect/proc_holder/spell/invoked/resurrect/matthios
 	name = "Rekindled Exchange"
-	desc = "Revives the target by invoking a deal with Matthios. In exchange for their lyfe returned, they will be placed\
-	in a lasting debt to Him. Any coins within their hands will be spent paying off said debt. Blood for gold."
-	debuff_type = /datum/status_effect/debuff/debt_indicator
+	desc = "Uses primordial fyre to revive the target and reenact the Free God's First Transaction, putting them in a long-lasting debt to Him. The debt is periodically paid with their mammon."
+	debuff_type = null
 	alt_required_items = list()
 	required_items = list()
 	sound = 'sound/magic/slimesquish.ogg'
@@ -17,6 +16,194 @@
 	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	required_structure = /obj/structure/fluff/psycross/matthios
 	matthios = TRUE // is this true?!
+
+#define MATTHIOS_DEBT_MIN 150
+#define MATTHIOS_DEBT_MAX 250
+
+/obj/effect/proc_holder/spell/invoked/resurrect/matthios/cast(list/targets, mob/living/carbon/human/user)
+	. = ..()
+	if(!.)
+		return FALSE
+	var/mob/living/carbon/human/target = targets[1]
+	// Find any nearby cross.
+	var/obj/structure/fluff/psycross/found_cross
+	for(var/obj/structure/fluff/psycross/C in view(1, target))
+		found_cross = C
+		break
+	if(!found_cross)
+		to_chat(user, span_warning("You see no holy nor profane cross through which to work this exchange."))
+		return FALSE
+	var/is_matthios = istype(found_cross, /obj/structure/fluff/psycross/matthios)
+	var/is_astrata = istype(found_cross, /obj/structure/fluff/psycross/astrata)
+	var/list/options = list("Charity", "Debt")
+
+	if(is_matthios) // matthios cross lets you trade lux instead of money as a third option
+		options += "Waiver"
+	else if(is_astrata) // astrata cross forces you to only be charitable, its harder to hold an exchange under that gaze
+		options = list("Charity")
+
+	var/choice = input(user, "Choose the transaction.", name) as anything in options
+	if(choice == "Waiver") // pay off debts with lux, any around you first, otherwise, devitalize self
+		var/obj/item/reagent_containers/lux/found_lux
+		for(var/obj/item/reagent_containers/lux/L in view(1, user))
+			found_lux = L
+			break
+		if(!found_lux)
+			for(var/obj/item/reagent_containers/lux_moss/M in view(1, user))
+				found_lux = M
+				break
+		if(found_lux)
+			qdel(found_lux)
+			to_chat(user, span_nicegreen("The Lux is consumed for this exchange, accounting no debts with Him!"))
+			return TRUE
+		if(user.has_status_effect(/datum/status_effect/debuff/devitalised))
+			to_chat(user, span_warning("Your Lux is too faint to be used as a waiver right now."))
+			return FALSE
+		user.apply_status_effect(/datum/status_effect/debuff/devitalised)
+		to_chat(user, span_userdanger("You waiver your very Lux for this exchange, accounting no debts with Him!"))
+		return TRUE
+
+	var/debt = rand(MATTHIOS_DEBT_MIN, MATTHIOS_DEBT_MAX)
+	if(target.patron in ALL_INHUMEN_PATRONS) // discount for the homies
+		debt *= 0.5
+	else if(HAS_TRAIT(target, TRAIT_NOBLE)) // we HATE nobles, but they can pay this off anyway so shrug
+		debt *= 3
+	debt = round(debt)
+
+	if(choice == "Charity") // we shoulder the L, mammon goes to matthios
+		user.apply_status_effect(/datum/status_effect/debuff/matthios_debt, debt, user)
+		to_chat(user, span_userdanger("You shoulder the burden of resurrection yourself. Matthios records your debt."))
+		to_chat(target, span_nicegreen("Warm sanctity wraps around your rekindled soul. Someone else has paid your toll."))
+		return TRUE
+	if(choice == "Debt") // they shoulder the L, mammon goes to caster
+		target.apply_status_effect(/datum/status_effect/debuff/matthios_debt, debt, user)
+		to_chat(user, span_nicegreen("You leave the burden where it belongs. Matthios smiles upon your bargain."))
+		if(target.patron in ALL_INHUMEN_PATRONS)
+			to_chat(target, span_userdanger("Your soul returns, as courtesy of the Free God!"))
+		else
+			to_chat(target, span_userdanger("Your soul returns, but it feels as if your Patron demands compensation..?"))
+		return TRUE
+	return FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/matthios_debt
+	name = "Hoarding Compulsion"
+	desc = "I need more mammon to tithe my beloved Patron, for I owe them my lyfe! I must hoard more mammon until they are satisfied..."
+	icon_state = "pom_regret"
+
+/atom/movable/screen/alert/status_effect/debuff/matthios_debt/examine_ui(mob/user)
+	var/list/inspec = list("----------------------")
+	inspec += "<br><span class='notice'><b>[name]</b></span>"
+	inspec += "<br>[desc]"
+	var/mob/living/L = user
+	if(L)
+		var/datum/status_effect/debuff/matthios_debt/D = L.has_status_effect(/datum/status_effect/debuff/matthios_debt)
+		if(D)
+			inspec += "<br><span class='boldwarning'>Need... [D.debt_remaining] more mammon...</span>"
+	inspec += "<br>----------------------"
+	to_chat(user, "[inspec.Join()]")
+
+/datum/status_effect/debuff/matthios_debt
+	id = "matthios_debt"
+	duration = 60 MINUTES
+	tick_interval = 10 SECONDS
+	effectedstats = list(STATKEY_WIL = -4, STATKEY_LCK = -2)
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/matthios_debt
+	var/debt_remaining = 0
+	var/total_debt = 0
+	var/mob/living/carbon/human/debtor
+	var/mob/living/carbon/human/creditor
+
+/datum/status_effect/debuff/matthios_debt/on_creation(mob/living/carbon/human/new_owner, debt_amount, mob/living/carbon/human/source)
+	debtor = new_owner
+	creditor = source
+	debt_remaining = max(0, debt_amount)
+	total_debt = debt_remaining
+	..()
+
+/datum/status_effect/debuff/matthios_debt/on_apply()
+	. = ..()
+	if(!ishuman(owner))
+		return FALSE
+	if(debt_remaining <= 0)
+		return FALSE
+	to_chat(owner, span_userdanger("You feel a strange compulsion to hoard... I need... [debt_remaining] mammon..."))
+	return TRUE
+
+/datum/status_effect/debuff/matthios_debt/tick()
+	if(!debtor || QDELETED(debtor))
+		qdel(src)
+		return
+	if(debt_remaining <= 0)
+		qdel(src)
+		return
+	var/paid = remove_debt_mammon(debtor, debt_remaining)
+	if(paid <= 0)
+		return
+	debt_remaining = max(0, debt_remaining - paid)
+	if(creditor && !QDELETED(creditor))
+		if(creditor != debtor)
+			mint_matthios_payment(creditor, paid)
+	if(debt_remaining <= 0)
+		to_chat(debtor, span_nicegreen("The odd burden of compulsion lifts from your soul. You feel... free? It's a good feeling."))
+		qdel(src)
+
+/datum/status_effect/debuff/matthios_debt/proc/mint_matthios_payment(mob/living/carbon/human/H, amount)
+	if(!H || amount <= 0)
+		return
+	if(SStreasury.has_account(H))
+		SStreasury.mint(SStreasury.get_account(H), amount, "Meister reports an e3#rr@o#r?!")
+		return
+	for(var/obj/item/matthios_canister/firstlaw/C in H.contents)
+		if(!C || QDELETED(C))
+			continue
+		C.stored_value += amount
+		return
+	var/obj/item/matthios_canister/firstlaw/C = new()
+	C.stored_value = amount
+	H.put_in_hands(C)
+
+/proc/remove_debt_mammon(atom/A, amount) // tightest check i can muster for this
+	if(!A || amount <= 0)
+		return 0
+	var/remaining = amount
+	var/list/coins = list()
+	collect_coins_recursive(A, coins)
+	coins = sortTim(coins, /proc/cmp_coin_value_desc)
+	for(var/obj/item/roguecoin/C in coins)
+		if(remaining <= 0)
+			break
+		if(QDELETED(C))
+			continue
+		var/value_per = C.sellprice
+		if(value_per <= 0)
+			continue
+		var/quantity = C.quantity
+		if(quantity <= 0)
+			continue
+		var/stack_value = value_per * quantity
+		if(stack_value <= remaining)
+			remaining -= stack_value
+			qdel(C)
+			continue
+		var/coins_to_remove = ceil(remaining / value_per)
+		coins_to_remove = min(coins_to_remove, quantity)
+		C.set_quantity(quantity - coins_to_remove)
+		var/removed_value = coins_to_remove * value_per
+		remaining -= removed_value
+		if(C.quantity <= 0)
+			qdel(C)
+	if(remaining > 0 && ishuman(A))
+		var/mob/living/carbon/human/H = A
+		var/datum/fund/account = SStreasury.get_account(H)
+		if(account)
+			var/from_bank = min(remaining, account.balance)
+			if(from_bank > 0)
+				if(SStreasury.burn(account, from_bank, "Meister reports an e3#rr@o#r?!"))
+					remaining -= from_bank
+	return max(0, amount - remaining)
+
+#undef MATTHIOS_DEBT_MIN
+#undef MATTHIOS_DEBT_MAX
 
 /obj/effect/proc_holder/spell/invoked/resurrect/graggar
 	name = "Blood for Graggar"
@@ -67,124 +254,6 @@
 	zizo = TRUE
 	debuff_type = null
 	required_structure = /obj/structure/fluff/psycross/zizocross
-
-/// - MATTHIOS - ///
-
-#define NOBLE_MULTIPLIER 2.5
-
-/datum/component/debt_collector
-	var/debt_remaining = 0
-	/// There's a couple instances where on_equip() is called twice incorrectly. I'm applying a small cooldown to prevent abuse of this...
-	var/next_payment_time = 0
-
-/datum/component/debt_collector/Initialize(start_debt = 200)
-	if(!ishuman(parent))
-		return COMPONENT_INCOMPATIBLE
-
-	var/mob/living/carbon/human/H = parent
-	if(HAS_TRAIT(H, TRAIT_NOBLE))
-		debt_remaining = start_debt * NOBLE_MULTIPLIER
-	else
-		debt_remaining = start_debt
-	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_equip))
-
-/datum/component/debt_collector/proc/on_equip(mob/living/carbon/human/H, obj/item/I, slot)
-	SIGNAL_HANDLER
-
-	if(slot != ITEM_SLOT_HANDS)
-		return
-
-	if(world.time < next_payment_time)
-		return
-
-	// Set the cooldown immediately to "lock" this tick
-	next_payment_time = world.time + 1
-
-	// Only interact with standard currency, so no marques or psila
-	if(istype(I, /obj/item/roguecoin/gold) || istype(I, /obj/item/roguecoin/silver) || istype(I, /obj/item/roguecoin/copper))
-		addtimer(CALLBACK(src, PROC_REF(process_payment), H, I), 1)
-
-/datum/component/debt_collector/proc/process_payment(mob/living/carbon/human/H, obj/item/roguecoin/C)
-	var/total_real_value = C.get_real_price()
-	if(debt_remaining <= 0)
-		clear_debt(H)
-		return
-
-	if(total_real_value > debt_remaining)
-		var/refund_budget = total_real_value - debt_remaining
-		refund_budget = max(0, floor(refund_budget))
-		to_chat(H, span_warning("A golden hand claims [C] and manifest the remainder."))
-
-		qdel(C)
-		// We need a delay to stop the old coin pile from merging with the refund prematurely. Delay one tick :D
-		// I love coin code!!
-		spawn(1)
-			budget2change(refund_budget, H)
-
-		debt_remaining = 0
-		clear_debt(H)
-
-	else
-		debt_remaining -= total_real_value
-		to_chat(H, span_warning("As you grasp [C], [total_real_value] worth of debt vanishes. Remaining: [debt_remaining]."))
-		playsound(H, 'sound/foley/coins1.ogg', 50, TRUE)
-		qdel(C)
-		if(debt_remaining <= 0)
-			clear_debt(H)
-
-/datum/component/debt_collector/proc/clear_debt(mob/living/carbon/human/H)
-	to_chat(H, span_nicegreen("The weight of your debt has lifted!"))
-	H.remove_status_effect(/datum/status_effect/debuff/debt_indicator)
-	qdel(src)
-
-#undef NOBLE_MULTIPLIER
-
-/atom/movable/screen/alert/status_effect/debuff/debt_indicator
-	name = "Indentured Spirit"
-	desc = "A spiritual debt weighs heavy on your soul, sapping your vitality. Standard coins you touch are consumed to appease Matthios."
-	icon_state = "pom_regret"
-
-/atom/movable/screen/alert/status_effect/debuff/debt_indicator/examine_ui(mob/user)
-	var/list/inspec = list("----------------------")
-	inspec += "<br><span class='notice'><b>[name]</b></span>"
-	if(desc)
-		inspec += "<br>[desc]"
-
-	// Find the component to show the live debt count
-	var/datum/component/debt_collector/DC = user.GetComponent(/datum/component/debt_collector)
-	if(DC)
-		inspec += "<br><span class='boldwarning'>Current Debt: [DC.debt_remaining] mammon.</span>"
-
-	// Stat penalties logic from the base proc
-	for(var/S in attached_effect?.effectedstats)
-		if(attached_effect.effectedstats[S] > 0)
-			inspec += "<br><span class='purple'>[S]</span> \Roman [attached_effect.effectedstats[S]]"
-		else if(attached_effect.effectedstats[S] < 0)
-			var/newnum = attached_effect.effectedstats[S] * -1
-			inspec += "<br><span class='danger'>[S]</span> \Roman [newnum]"
-
-	inspec += "<br>----------------------"
-	to_chat(user, "[inspec.Join()]")
-
-/datum/status_effect/debuff/debt_indicator
-	id = "debt_indicator"
-	// You should pay off the debt!
-	duration = 45 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/debt_indicator
-	effectedstats = list(
-		STATKEY_STR = -2,
-		STATKEY_SPD = -4,
-		STATKEY_CON = -2
-	)
-
-/datum/status_effect/debuff/debt_indicator/on_apply()
-	. = ..()
-	owner.AddComponent(/datum/component/debt_collector, 200)
-	to_chat(owner, span_userdanger("A cold, crushing weight settles over your limbs... you are indentured."))
-
-/datum/status_effect/debuff/debt_indicator/on_remove()
-	. = ..()
-	to_chat(owner, span_nicegreen("The crushing weight lifts from your soul. You are free!"))
 
 /// - GRAGGAR ///
 
@@ -625,221 +694,3 @@
 	for(var/S in distribution)
 		effectedstats[S] = -distribution[S]
 	return ..()
-
-/obj/effect/proc_holder/spell/invoked/resurrect/matthios/cast(list/targets, mob/living/carbon/human/user)
-	. = ..()
-
-	if(!.)
-		return FALSE
-
-	var/mob/living/carbon/human/target = targets[1]
-
-	var/obj/structure/fluff/psycross/found_cross
-	var/astrata_cross = FALSE
-
-	for(var/atom/A in oview(1, target))
-		if(istype(A, /obj/structure/fluff/psycross/matthios))
-			found_cross = A
-			break
-
-		if(istype(A, /obj/structure/fluff/psycross/astrata))
-			found_cross = A
-			astrata_cross = TRUE
-			break
-
-		if(istype(A, /turf))
-			var/turf/T = A
-
-			for(var/obj/O in T.contents)
-				if(istype(O, /obj/structure/fluff/psycross/matthios))
-					found_cross = O
-					break
-
-				if(istype(O, /obj/structure/fluff/psycross/astrata))
-					found_cross = O
-					astrata_cross = TRUE
-					break
-
-		if(found_cross)
-			break
-
-	var/datum/component/debt_collector/user_dc = user.GetComponent(/datum/component/debt_collector)
-	var/user_indebted = FALSE
-
-	if(user_dc && user_dc.debt_remaining > 0)
-		user_indebted = TRUE
-
-	if(astrata_cross)
-		if(user_indebted)
-			user.visible_message(span_boldwarning("[user]'s counterfeit sanctity shatters beneath Astrata's gaze! HERETIC!"))
-
-			new /obj/effect/temp_visual/explosion(user)
-			playsound(user, 'sound/magic/churn.ogg', 50)
-			playsound(user, 'sound/misc/explode/explosion.ogg', 50)
-
-			user.adjust_fire_stacks(15)
-			user.ignite_mob()
-
-			if(found_cross)
-				found_cross.visible_message(span_userdanger("[found_cross] erupts with blinding solar fury! Astrata is NOT happy!!"))
-
-			to_chat(user, span_userdanger("Matthios turns his back on you, as Astrata sees right through your profane act!"))
-			to_chat(target, span_nicegreen("Warm sanctity wraps around your rekindled soul, but not so warmly upon another. What a surprise to be back to."))
-
-			return TRUE
-
-		var/cost = rand(100, 150)
-		var/paid = pay_matthios_mammon(user, cost)
-
-		if(paid >= cost)
-			to_chat(user, span_nicegreen("You quietly trade with Matthios into veiling the miracle from Astrata's divine scrutiny."))
-			to_chat(target, span_nicegreen("Warm sanctity wraps around your rekindled soul. It feels great to be back."))
-
-			return TRUE
-
-		var/unpaid = max(0, cost - paid)
-
-		user.apply_status_effect(/datum/status_effect/debuff/debt_indicator)
-
-		user_dc = user.GetComponent(/datum/component/debt_collector)
-
-		if(user_dc)
-			user_dc.debt_remaining += unpaid
-		else
-			user.AddComponent(/datum/component/debt_collector, unpaid)
-
-		to_chat(user, span_userdanger("Your hoard proves lighter than your ambition. Matthios accepts what little you managed to offer, but the remainder settles quietly under YOUR name."))
-		to_chat(target, span_nicegreen("Warm sanctity wraps around your rekindled soul. It feels great to be back."))
-
-		return TRUE
-
-	if(found_cross && !astrata_cross)
-		var/mode = input(user, "Choose the transaction.", name) as anything in list("Charity","Debt")
-
-		if(mode == "Charity")
-			var/cost = rand(70, 140)
-
-			if(HAS_TRAIT(target, TRAIT_FREEMAN))
-				cost = round(cost / 3)
-
-			var/paid = pay_matthios_mammon(user, cost)
-
-			if(paid < cost)
-				var/unpaid = cost - paid
-
-				user.apply_status_effect(/datum/status_effect/debuff/debt_indicator)
-
-				user_dc = user.GetComponent(/datum/component/debt_collector)
-
-				if(user_dc)
-					user_dc.debt_remaining += unpaid
-				else
-					user.AddComponent(/datum/component/debt_collector, unpaid)
-
-				to_chat(user, span_userdanger("You attempt to purchase their absolution outright, but Matthios notices the missing balance. The remainder becomes YOUR debt."))
-
-			else
-				to_chat(user, span_nicegreen("You fully shoulder the burden of resurrection yourself. Matthios leaves the revived soul untouched."))
-				to_chat(target, span_nicegreen("You rise strangely free of obligation, as if someone else paid your toll."))
-
-			return TRUE
-
-		if(mode == "Debt")
-			var/final_debt = rand(150,200)
-
-			if(HAS_TRAIT(target, TRAIT_FREEMAN))
-				final_debt = round(final_debt / 3)
-
-			to_chat(user, span_userdanger("Matthios smiles upon your respectful bargain and greed!"))
-
-			var/discount_cap = round(final_debt / 2)
-			var/stolen = pay_matthios_mammon(target, discount_cap)
-
-			if(stolen > 0)
-				budget2change(stolen, get_turf(user))
-				final_debt = max(0, final_debt - stolen)
-				playsound(user, 'sound/effects/matth_barter.ogg', 100, TRUE)
-				to_chat(user, span_nicegreen("[stolen] mammon materializes before you... Your sanctioned cut of the transaction."))
-				to_chat(target, span_userdanger("Part of your remaining wealth is forcefully extracted to sweeten Matthios' bargain."))
-
-			target.apply_status_effect(/datum/status_effect/debuff/debt_indicator)
-
-			var/datum/component/debt_collector/target_dc = target.GetComponent(/datum/component/debt_collector)
-
-			if(target_dc)
-				target_dc.debt_remaining += final_debt
-			else
-				target.AddComponent(/datum/component/debt_collector, final_debt)
-
-			to_chat(target, span_userdanger("Your soul returns and your eyes open, as you feel a growing compulsion toward touching mammon..."))
-
-			return TRUE
-
-	if(user_indebted)
-		to_chat(user, span_boldwarning("You invoke an unsanctioned miracle while already indebted. Matthios' patience snaps completely."))
-		to_chat(target, span_userdanger("NO, MATTHIOS!! O' LORD!! WAIT! I'LL PAY, I'LL PA--!!"))
-
-		new /obj/effect/temp_visual/explosion(user)
-		playsound(user, 'sound/magic/churn.ogg', 50)
-		playsound(user, 'sound/misc/explode/explosion.ogg', 50)
-
-		user.death()
-
-		for(var/mob/living/carbon/human/H in list(user, target))
-			H.apply_status_effect(/datum/status_effect/debuff/debt_indicator)
-
-			var/datum/component/debt_collector/DC = H.GetComponent(/datum/component/debt_collector)
-
-			if(DC)
-				DC.debt_remaining += 200
-			else
-				H.AddComponent(/datum/component/debt_collector, 200)
-
-		to_chat(target, span_userdanger("You are alive again... purchased through catastrophe, desperation, and divine impatience."))
-
-		return TRUE
-
-	for(var/mob/living/carbon/human/H in list(user, target))
-		H.apply_status_effect(/datum/status_effect/debuff/debt_indicator)
-
-		var/datum/component/debt_collector/DC = H.GetComponent(/datum/component/debt_collector)
-
-		if(DC)
-			DC.debt_remaining += 200
-		else
-			H.AddComponent(/datum/component/debt_collector, 200)
-
-	to_chat(user, span_userdanger("Without sacred sanction, the miracle runs wild. Both souls are seized by His ledger."))
-	to_chat(target, span_userdanger("Your soul returns, burdened by an unsanctioned bargain struck improperly."))
-
-	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/resurrect/proc/pay_matthios_mammon(mob/living/carbon/human/H, amount)
-	if(!H || amount <= 0)
-		return 0
-
-	if(!SStreasury.has_account(H))
-		SStreasury.create_bank_account(H, 0)
-
-	var/bank = SStreasury.get_balance(H)
-	var/onhand = get_mammons_in_atom(H)
-
-	var/remaining = amount
-	var/paid = 0
-
-	var/drained_onhand = min(onhand, remaining)
-
-	if(drained_onhand > 0)
-		var/removed = remove_mammons_from_atom(H, drained_onhand)
-		paid += removed
-		remaining -= removed
-
-	if(remaining > 0)
-		var/from_bank = min(bank, remaining)
-
-		if(from_bank > 0)
-			SStreasury.burn(SStreasury.get_account(H), from_bank, "matthios_transaction")
-			paid += from_bank
-			remaining -= from_bank
-
-	return paid

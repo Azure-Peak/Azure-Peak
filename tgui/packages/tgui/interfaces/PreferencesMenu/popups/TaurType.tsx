@@ -11,7 +11,7 @@ export type PopupTaurTypeData = {
   taur_type: Path;
 } & PopupData;
 
-const PopupTaurType = (props) => {
+const PopupTaurType = () => {
   const [constantData] = useConstantPrefs();
   const { data } = usePopupBackend<PopupTaurTypeData>();
   const { popup_data_ready } = data;

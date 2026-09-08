@@ -83,12 +83,12 @@
 	if(H.mind)
 		var/weapons = list(
 			"Longsword + Crossbow",
-			"Billhook + Recurve Bow",
+			"Billhook + Bow",
 			"Mace + Shield",
 			"Flail + Shield",
 			"Longsword + Shield",
 			"Grand Mace + Longsword",
-			"Sabre + Recurve Bow",
+			"Sabre + Bow",
 			"Flamberge",
 			"Poleaxe",
 			"Estoc",
@@ -112,21 +112,21 @@
 			if("Flail + Shield")
 				beltr = /obj/item/rogueweapon/flail/sflail
 				backl = /obj/item/rogueweapon/shield/tower/metal
-			if("Billhook + Recurve Bow")
+			if("Billhook + Bow")
 				r_hand = /obj/item/rogueweapon/spear/billhook
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 				beltr = /obj/item/quiver/arrows
-				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			if("Grand Mace + Longsword")
 				r_hand = /obj/item/rogueweapon/sword/long
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				l_hand = /obj/item/rogueweapon/mace/goden/steel
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Sabre + Recurve Bow")
+			if("Sabre + Bow")
 				l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre
 				beltr = /obj/item/quiver/arrows
-				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			if("Flamberge")
 				r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
 				backr = /obj/item/rogueweapon/scabbard/gwstrap

@@ -164,6 +164,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/img_gallery = list()
 	var/list/nsfw_img_gallery = list()
 
+	var/ooc_extra_img
+	var/nsfw_ooc_extra_img
+
 	var/datum/familiar_prefs/familiar_prefs
 
 	var/taur_type = null
