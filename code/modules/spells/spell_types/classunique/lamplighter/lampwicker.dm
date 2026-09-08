@@ -2,7 +2,7 @@
 
 /datum/action/cooldown/spell/lamplighter/scare_beast
 	name = "Scare Beast"
-	desc = "Wave your staff towards a beast, sending fear into its heart with biting flames!"
+	desc = "Wave your staff towards a beast, sending fear into its heart with biting flames! This will only work against the Mindless."
 	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
 	button_icon_state = "scarebeast"
 	sound = 'sound/misc/smelter_sound3.ogg'
@@ -17,7 +17,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -25,11 +25,20 @@
 	. = ..()
 	var/mob/living/spelltarget = cast_on
 	if(!isliving(cast_on))
+		to_chat(owner, span_warning("That won't work."))
 		return FALSE
 	if(!spelltarget.mind && spelltarget.ai_controller)
+		spelltarget.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEE_TARGET, owner)
+		spelltarget.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, owner)
 		spelltarget.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEEING, TRUE)
 		spelltarget.ai_controller.CancelActions()
+		addtimer(CALLBACK(src, PROC_REF(end_fear), spelltarget), 3 SECONDS)
 		return TRUE
+
+/datum/action/cooldown/spell/lamplighter/scare_beast/proc/end_fear(mob/living/target)
+	target.ai_controller.CancelActions()
+	target.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEEING, FALSE)
+	return
 
 // Soothe the Soul
 
@@ -52,7 +61,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -112,7 +121,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -142,6 +151,7 @@
 	var/defend = 3
 
 /datum/status_effect/buff/bulwark_of_oil/on_apply()
+	SIGNAL_HANDLER
 	. = ..()
 	RegisterSignal(owner, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(weapon_defend))
 	RegisterSignal(owner, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(unarmed_defend))
@@ -158,8 +168,6 @@
 	var/mob/living/carbon/human/H = user
 	if(user == target)
 		return
-	if(user != H)
-		return
 	if(defend == 0)
 		owner.remove_status_effect(/datum/status_effect/buff/bulwark_of_oil)
 		return
@@ -171,7 +179,7 @@
 		defend = defend - 1
 		owner.balloon_alert_to_viewers("<font color='#FF4500'>blocked! [defend]/3</font>")
 		playsound(get_turf(owner), 'sound/combat/parry/deflect_6.ogg', 40, TRUE)
-		return COMPONENT_NO_ATTACK
+		return COMPONENT_ITEM_NO_ATTACK
 	else
 		apply_scorch_stack(H, 1)
 		H.adjustFireLoss(10)
@@ -179,7 +187,7 @@
 		defend = defend - 1
 		owner.balloon_alert_to_viewers("<font color='#FF4500'>blocked! [defend]/3</font>")
 		playsound(get_turf(owner), 'sound/combat/parry/deflect_6.ogg', 40, TRUE)
-		return COMPONENT_NO_ATTACK
+		return COMPONENT_ITEM_NO_ATTACK
 
 
 /datum/status_effect/buff/bulwark_of_oil/proc/unarmed_defend(mob/living/parent, mob/living/attacker, mob/living/defender)
@@ -249,7 +257,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -268,7 +276,6 @@
 	// Same as chill food, but we use fire. Waow.
 	food.warming += 15 MINUTES
 	food.add_filter("smokefood_glow", 2, list("type" = "outline", "color" = "#5c362f", "alpha" = 150, "size" = 1))
-	food.name = "[food.name] (smoked)"
 	new /obj/effect/temp_visual/small_smoke(get_turf(food))
 	owner.visible_message(span_notice("[owner] holds their lamptern to [food]. The heat and smoke from the lamptern preserving the food."), span_notice("I smoke [food] with my lamptern."))
 	return TRUE
@@ -297,7 +304,7 @@
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
 	swipe_state = "flame"
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 	var/ignite = FALSE
@@ -369,7 +376,7 @@
 	primary_resource_cost = SPELLCOST_MINOR_AOE
 	cooldown_time = 30 SECONDS
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -412,14 +419,14 @@
 	self_cast_possible = TRUE
 	primary_resource_type = SPELL_COST_NONE
 	primary_resource_cost = 0
-	invocations = list()
+	invocations = list("Come to the light!")
 	invocation_type = INVOCATION_SHOUT
 	charge_required = FALSE
 	cooldown_time = 10 MINUTES
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 

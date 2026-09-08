@@ -17,7 +17,7 @@
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM // No doing this while gingerbreadmanning
 	cooldown_time = 3 MINUTES
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	associated_skill = /datum/skill/combat/staves
 	spell_color = GLOW_COLOR_FIRE
 
@@ -45,9 +45,6 @@
 			if(!no_embeds)
 				to_chat(owner, span_warning("We cannot cauterize wounds with objects inside this limb!"))
 				return FALSE
-		/*if(!do_after(owner, (delay - (0.5 SECONDS * HU.get_skill_level(associated_skill)))))
-			to_chat(owner, span_warning("We were interrupted!"))
-			return FALSE*/ //Witty wants this to have no doafter, but I can put it back if its a problem
 		var/foundwound = FALSE
 		if(length(affecting.wounds))
 			for(var/datum/wound/wound in affecting.wounds)
@@ -59,8 +56,6 @@
 					target.adjustFireLoss(10)
 			if(foundwound)
 				playsound(target, 'sound/surgery/cautery1.ogg', 100, TRUE)
-			affecting.change_bodypart_status(BODYPART_ORGANIC, heal_limb = TRUE)
-			affecting.update_disabled()
 			return TRUE
 		else
 			to_chat(owner, span_warning("The limb is free of wounds."))
@@ -91,7 +86,7 @@
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
 	swipe_state = "flame"
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 	var/ignite = FALSE
@@ -172,7 +167,7 @@
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
 	swipe_state = "flame"
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -221,7 +216,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -308,7 +303,7 @@
 	RegisterSignal(owner, COMSIG_ATOM_FIRE_ACT, PROC_REF(activate))
 	owner.balloon_alert_to_viewers("<font color='#FF4500'>oil coated!</font>")
 
-/datum/status_effect/buff/oil_spill/on_remove()
+/datum/status_effect/buff/oil_stack/on_remove()
 	UnregisterSignal(owner, COMSIG_COMPONENT_CLEAN_ACT)
 	UnregisterSignal(owner, COMSIG_ATOM_FIRE_ACT)
 	. = ..()
@@ -364,7 +359,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	associated_skill = /datum/skill/combat/staves
-	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lampwarden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
+	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	spell_color = GLOW_COLOR_FIRE
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
@@ -413,6 +408,7 @@
 	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "burnitdown")
 	REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, "burnitdown")
 	REMOVE_TRAIT(owner, TRAIT_FIRE_RESIST, "burnitdown")
+	REMOVE_TRAIT(owner, TRAIT_NOFIREDECAY, "burnitdown")
 	owner.balloon_alert_to_viewers("<font color='#FF4500'>smoldering!</font>")
 	. = ..()
 
