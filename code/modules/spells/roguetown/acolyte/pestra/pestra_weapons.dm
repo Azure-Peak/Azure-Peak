@@ -9,6 +9,9 @@
 	// Identical to dagger except it uses the heavier cut to help build rot.
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_PESTRA_WEAPON)
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ichor_stained)
@@ -18,6 +21,9 @@
 	desc = "A malevolent little ball of stabilized black rot, siphoned from the heartbeast."
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "ichor"
+
+/obj/item/reagent_containers/powder/black_ichor/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_BLACK_ROT)
 
 /datum/component/ichor_stained
 	dupe_mode = COMPONENT_DUPE_UNIQUE

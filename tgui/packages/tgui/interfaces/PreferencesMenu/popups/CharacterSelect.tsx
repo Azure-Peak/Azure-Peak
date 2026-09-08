@@ -23,7 +23,7 @@ export type Slot = {
   species: string | null; // null indicates nonexistent
 };
 
-const PopupCharacterSelect = (props) => {
+const PopupCharacterSelect = () => {
   const { data } = usePopupBackend<PopupCharacterSelectData>();
   const { popup_data_ready, slots } = data;
 
@@ -47,7 +47,7 @@ declare module 'pm/popups' {
 }
 registerPopup('CharacterSelect', 'cs', PopupCharacterSelect);
 
-const PopupCharacterSelectInner = (props) => {
+const PopupCharacterSelectInner = () => {
   const { act, data } = usePopupBackend<PopupCharacterSelectData>();
   const { favorited_slots, slots } = data;
   const [adv, setAdv] = useState(false);

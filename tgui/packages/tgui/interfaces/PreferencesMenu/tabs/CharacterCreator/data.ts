@@ -5,6 +5,7 @@ import type { BooleanLike } from 'tgui-core/react';
 export type AllPagesData = {
   character_preview_view: string | null; // null indicates error
   preview_background: string | null; // null indicates error
+  preview_boner_state: string;
 
   loaded_slot: number;
   real_name: string;

@@ -10,12 +10,13 @@ import type { BooleanLike } from 'tgui-core/react';
 export interface PenisCustomizer extends CustomizerChoice {
   penis_size: string;
   penis_functional: BooleanLike;
+  sheath_type: string;
 }
 export const FeatureChoicePenis = (props: { customizer: Customizer }) => {
   const { customizer } = props;
   const { act } = useBackendStrict();
   const { choices } = customizer;
-  const { penis_size, penis_functional } = choices as PenisCustomizer;
+  const { penis_size, penis_functional, sheath_type } = choices as PenisCustomizer;
 
   return (
     <Stack.Item>
@@ -44,6 +45,19 @@ export const FeatureChoicePenis = (props: { customizer: Customizer }) => {
             }
           >
             {penis_functional ? 'YES' : 'NO'}
+          </Button>
+        </LabeledGridList.Item>
+        <LabeledGridList.Item label="Sheath">
+          <Button
+            fluid
+            onClick={() =>
+              act('change_customizer', {
+                customizer: customizer.type,
+                customizer_task: 'sheath_type',
+              })
+            }
+          >
+            {sheath_type}
           </Button>
         </LabeledGridList.Item>
       </LabeledGridList>

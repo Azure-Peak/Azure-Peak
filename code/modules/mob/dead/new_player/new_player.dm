@@ -277,11 +277,10 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if(job.plevel_req > client.patreonlevel())
 		return JOB_UNAVAILABLE_GENERIC
 	#ifdef USES_PQ
-	if(!job.required || latejoin)
-		if(!isnull(job.min_pq) && (get_playerquality(ckey) < job.min_pq))
-			return JOB_UNAVAILABLE_PQ
-		if(!isnull(job.max_pq) && (get_playerquality(ckey) > job.max_pq))
-			return JOB_UNAVAILABLE_PQ
+	if(!isnull(job.min_pq) && (get_playerquality(ckey) < job.min_pq))
+		return JOB_UNAVAILABLE_PQ
+	if(!isnull(job.max_pq) && (get_playerquality(ckey) > job.max_pq))
+		return JOB_UNAVAILABLE_PQ
 	#endif
 	var/datum/species/pref_species = client.prefs.pref_species
 	if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))

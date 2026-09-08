@@ -24,6 +24,7 @@ Add a new override in your modular folder that looks like this:
 	return list(
 		"character_preview_view" = character_preview_view?.assigned_map,
 		"preview_background" = character_preview_view?.preview_background.icon_state,
+		"preview_boner_state" = find_key_by_value(ERECT_STATES_BY_NAME, preview_boner_state),
 
 		"loaded_slot" = loaded_slot,
 		"real_name" = real_name,
