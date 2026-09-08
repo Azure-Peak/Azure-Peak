@@ -780,6 +780,8 @@
 		on_examine_face(user)
 		var/used_name = name
 		var/used_title = get_role_title()
+		if(HAS_TRAIT(src, TRAIT_RESIDENT) && used_title == "Licker" && licker_subclass)
+			used_title = licker_subclass.name
 		if(SSticker.regentmob == src)
 			used_title = "[used_title]" + " Regent"
 		var/display_as_wanderer = FALSE
@@ -1075,17 +1077,21 @@
 			var/mob/living/carbon/carbs = user
 			if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(user, TRAIT_NOMOOD))
 				return
-			if(!carbs.has_stress_event(/datum/stressevent/inq_trauma))
-				carbs.add_stress(/datum/stressevent/inq_trauma)
-				if(prob(20))
-					carbs.stress_freakout()
-				else if(prob(40))
-					carbs.freak_out()
-				else
-					carbs.emote("gulp")
-			if(!HAS_TRAIT(user, TRAIT_STEELHEARTED))
-				carbs.Jitter(10)
-				carbs.stuttering += 25
+
+			if(!(src in examined_inquisitors)) // only once per inquisitor!
+				examined_inquisitors += src
+
+				if(!carbs.has_stress_event(/datum/stressevent/inq_trauma))
+					carbs.add_stress(/datum/stressevent/inq_trauma)
+					if(prob(20))
+						carbs.stress_freakout()
+					else if(prob(40))
+						carbs.freak_out()
+					else
+						carbs.emote("gulp")
+				if(!HAS_TRAIT(user, TRAIT_STEELHEARTED))
+					carbs.Jitter(10)
+					carbs.stuttering += 25
 
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
 			// if you have deathsight, you get the deathsight message. always.

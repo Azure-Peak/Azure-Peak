@@ -1970,6 +1970,7 @@
 	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
 	created_item = /obj/item/rogueweapon/sword/long/exe
 	display_category = ITEM_CAT_WEAPONS_SWORDS
+	appro_skill = /datum/skill/craft/weaponsmithing
 	i_type = "Weapons"
 
 /datum/anvil_recipe/valuables/iron/rawheapofiron

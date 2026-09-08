@@ -560,6 +560,10 @@
 	name = "Donator Kit - Unorthodoxist Psydonite Helm"
 	path = /obj/item/enchantingkit/ryan_psyhelm
 
+/datum/loadout_item/donator/ryan/naginata
+	name = "Donator Kit - +5 Common Profane Naginata"
+	path = /obj/item/enchantingkit/weapon/ryan_naginata
+
 /datum/loadout_item/donator/koruu
 	name = "Donator Item - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
@@ -1044,3 +1048,12 @@
 	path = /obj/item/clothing/head/roguetown/wizhat/bighat
 	ckeywhitelist = list("glassfeddockterr")
 
+/datum/loadout_item/donator/koruu_cadwyncloak
+	name = "Donator Item - Sefirot's Cloak"
+	path = /obj/item/clothing/cloak/templar/ravoxcleric/koruu
+	ckeywhitelist = list("koruu")
+
+/datum/loadout_item/donator/koruu_cadwynhelm
+	name = "Donator Item - Gebura"
+	path = /obj/item/enchantingkit/donator_koruu_ravoxclerichelm
+	ckeywhitelist = list("koruu")
