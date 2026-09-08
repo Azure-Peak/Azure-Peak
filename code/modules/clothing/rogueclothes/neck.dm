@@ -186,8 +186,8 @@
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
-	name = "lampwicker's collar"
-	desc = "A sturdy leather collar reaching past the neck hardened by beast and burn."
+	name = "lamplighter's collar"
+	desc = "A large neck covering made to protect the neck from splashing oil and jumping flames."
 	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
 	icon_state = "lampneck"

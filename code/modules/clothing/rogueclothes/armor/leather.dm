@@ -146,8 +146,8 @@
 	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter
-	name = "lampwicker's coat"
-	desc = "A hardened leather coat stained by oil and scorch marks."
+	name = "lampwicker's overcoat"
+	desc = "A Lamplighters overcoat is made to protect them both from the elements and from their own tools, treated to be resistant to flames, these hardy overcoats often still aren’t enough, evidenced by the many burns lamplighters seem to carry regardless."
 	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
@@ -155,8 +155,8 @@
 	color = null
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter/warden
-	name = "lampwarden's coat"
-	desc = "A hardened leather coat with a wide leather guard across the upper chest, pocked by scars and bitemarks."
+	name = "lampwarden's overcoat"
+	desc = "A heavier leather overcoat favored by Lampwardens, when combined with the usual collar stand covering the neck, these overcoats protect Lampwardens from the fire and oil of their own staves as they escort travellers. The burns covering their grim owners are evidence that these often still aren’t ."
 	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
