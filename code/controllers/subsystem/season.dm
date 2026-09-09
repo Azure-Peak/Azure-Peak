@@ -31,6 +31,35 @@
 		return FALSE
 	return !is_weatherproof()
 
+/// Shuffles `things` in SEASON_SHUFFLE_CHUNK-tile square blocks rather than tile by tile.
+///
+/// The aim is to scatter a conversion across the map without also scattering it in *time*.
+/// Every ChangeTurf() re-queues its 8 neighbours with SSicon_smooth, which dedups only in the
+/// short window before an atom actually gets smoothed - and SSicon_smooth is a ticker
+/// subsystem running every tick, so that window is tiny. Shuffling tile by tile spreads a
+/// tile's neighbours right across the drain, so it gets re-smoothed once per neighbour rather
+/// than once in total, and the smoothing bill (up to 9 atoms queued per converted turf) is
+/// what actually shows up as tick lag. Keeping each block contiguous restores the dedup for
+/// everything except block edges, and the resulting clumps read more like patchy snowfall
+/// than the television-static look of per-tile randomness.
+/proc/season_chunk_shuffle(list/things)
+	var/list/chunk_lookup = list() // "z_cx_cy" -> that block's list
+	var/list/chunk_order = list() // the same lists, as a flat list we can shuffle
+	for(var/atom/A as anything in things)
+		var/turf/T = get_turf(A)
+		if(!T)
+			continue
+		var/key = "[T.z]_[round(T.x / SEASON_SHUFFLE_CHUNK)]_[round(T.y / SEASON_SHUFFLE_CHUNK)]"
+		var/list/bucket = chunk_lookup[key]
+		if(!bucket)
+			bucket = list()
+			chunk_lookup[key] = bucket
+			chunk_order += list(bucket)
+		bucket += A
+	. = list()
+	for(var/list/bucket as anything in shuffle(chunk_order))
+		. += bucket
+
 GLOBAL_LIST_EMPTY(seasonal_grass_turfs)
 GLOBAL_LIST_EMPTY(seasonal_flora_objs)
 GLOBAL_LIST_EMPTY(seasonal_water_turfs)
@@ -39,7 +68,11 @@ SUBSYSTEM_DEF(season)
 	name = "Season"
 	flags = SS_BACKGROUND
 	wait = 2 SECONDS
-	runlevels = RUNLEVEL_GAME
+	// Lobby included so the roundstart sweep - the whole map, every single round - drains
+	// while players are still on the lobby screen instead of costing them tick time in the
+	// world. SSicon_smooth, which does the expensive half of the work, already runs from
+	// RUNLEVEL_SETUP onwards.
+	runlevels = RUNLEVEL_LOBBY | RUNLEVEL_SETUP | RUNLEVEL_GAME
 	var/current_season = null
 	var/current_season_phase = null
 	var/list/turfs_to_convert = list()
@@ -138,37 +171,65 @@ SUBSYSTEM_DEF(season)
 	var/new_season = get_current_season()
 	var/new_phase = get_current_season_phase()
 	if(new_season == current_season && new_phase == current_season_phase)
-		if(instant)
-			// Nothing rolled over, but an admin asking for an instant result shouldn't be
-			// left staring at a map that's still half-way through an earlier transition.
-			finish_gradual_conversion()
-			return
 		// No rollover, but a transition started on an earlier dawn may still owe us atoms.
-		advance_gradual_conversion()
+		tick_existing_transition(instant)
 		return
+	// Snapshot how the outgoing season renders before we move the clock on, so we can tell
+	// whether the incoming one actually looks any different.
+	var/old_turf_type = get_target_turf_type()
+	var/old_flora_season = get_target_flora_season()
+	var/old_frozen = waters_should_freeze()
 	current_season = new_season
 	current_season_phase = new_phase
+	var/same_turf = (get_target_turf_type() == old_turf_type)
+	var/same_flora = (get_target_flora_season() == old_flora_season)
+	var/same_water = (waters_should_freeze() == old_frozen)
+	if(same_turf && same_flora && same_water)
+		// Seven of the twelve monthly rollovers land inside a season whose three phases all
+		// render identically - phases only diverge in Winter, where Mid brings the snow and
+		// the freeze. Nothing on the map would change, so don't chunk-shuffle and then walk
+		// every tracked atom across four in-game days to convert none of them, and don't
+		// announce a transition to admins that they'd see no evidence of.
+		tick_existing_transition(instant)
+		return
 	if(instant)
 		abort_gradual_conversion()
 		queue_full_conversion()
 		return
 	begin_gradual_conversion()
 
-/// Converts everything at once. Used at roundstart (nobody is in the world yet to watch it
-/// happen) and for admin-forced date changes.
+/// Nudges a transition that's already running, without starting a new one.
+/datum/controller/subsystem/season/proc/tick_existing_transition(instant = FALSE)
+	if(instant)
+		// An admin asking for an instant result shouldn't be left staring at a map that's
+		// still half-way through an earlier transition.
+		finish_gradual_conversion()
+		return
+	advance_gradual_conversion()
+
+/// Converts everything at once. Used at roundstart - where the lobby runlevel gives it time
+/// to finish before anyone is in the world to watch - and for admin-forced date changes.
 /datum/controller/subsystem/season/proc/queue_full_conversion()
-	turfs_to_convert = shuffle(GLOB.seasonal_grass_turfs)
-	flora_to_convert = shuffle(GLOB.seasonal_flora_objs)
-	water_to_convert = shuffle(GLOB.seasonal_water_turfs)
+	turfs_to_convert = season_chunk_shuffle(GLOB.seasonal_grass_turfs)
+	flora_to_convert = season_chunk_shuffle(GLOB.seasonal_flora_objs)
+	water_to_convert = season_chunk_shuffle(GLOB.seasonal_water_turfs)
 
 /// Spreads a season change over SEASON_TRANSITION_DAYS dawns instead of repainting the whole
-/// map under everyone's feet at once. The lists are shuffled because they're built in mapload
-/// order - taking a slice off an unshuffled list would convert one contiguous slab of the map
-/// per day, which reads as a rendering artifact rather than as a thaw.
+/// map under everyone's feet at once. The lists are scattered because they're built in mapload
+/// order - taking a slice off an unscattered list would convert one contiguous slab of the map
+/// per day, which reads as a rendering artifact rather than as a thaw. Each day's share is
+/// still a contiguous run of whole blocks, so the smoothing dedup described on
+/// season_chunk_shuffle() holds within a day as well as across one.
 /datum/controller/subsystem/season/proc/begin_gradual_conversion()
-	pending_turfs = shuffle(GLOB.seasonal_grass_turfs)
-	pending_flora = shuffle(GLOB.seasonal_flora_objs)
-	pending_water = shuffle(GLOB.seasonal_water_turfs)
+	if(transition_days_left > 0)
+		// A transition is still running - don't overwrite its pending_* lists out from under it.
+		// apply_season_to_turf() etc. read current_season live rather than a captured target, so
+		// letting the existing schedule finish will still land every atom on *this* rollover's
+		// target once its day comes up. No atoms get stranded, and nothing needs restarting.
+		return
+	pending_turfs = season_chunk_shuffle(GLOB.seasonal_grass_turfs)
+	pending_flora = season_chunk_shuffle(GLOB.seasonal_flora_objs)
+	pending_water = season_chunk_shuffle(GLOB.seasonal_water_turfs)
 	transition_days_left = SEASON_TRANSITION_DAYS
 	transition_total = length(pending_turfs) + length(pending_flora) + length(pending_water)
 	transition_converted = 0

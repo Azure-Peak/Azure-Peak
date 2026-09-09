@@ -167,6 +167,10 @@
 /turf/open/water/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag = "blunt")
 	..()
 	playsound(src, pick('sound/foley/water_land1.ogg','sound/foley/water_land2.ogg','sound/foley/water_land3.ogg'), 100, FALSE)
+	if(isobj(AM))
+		var/obj/O = AM
+		if(O.extinguishable)
+			O.extinguish()
 
 
 /turf/open/water/cardinal_smooth(adjacencies)
@@ -349,14 +353,6 @@
 		QDEL_NULL(water_overlay)
 	if(water_top_overlay)
 		QDEL_NULL(water_top_overlay)
-
-/turf/open/water/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag = "blunt")
-	if(!isobj(AM))
-		return
-	var/obj/O = AM
-	if(!O.extinguishable)
-		return
-	O.extinguish()
 
 /turf/open/water/get_slowdown(mob/user)
 	var/returned = slowdown

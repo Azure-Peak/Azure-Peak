@@ -21,3 +21,7 @@
 // happen all at once; so do admin-forced date changes, so testing a season doesn't mean
 // waiting out four dawns. See SSseason.
 #define SEASON_TRANSITION_DAYS 4
+
+// Edge length, in tiles, of the square blocks season_chunk_shuffle() scatters conversions in.
+// Bigger blocks mean less repeated icon smoothing but chunkier-looking transitions.
+#define SEASON_SHUFFLE_CHUNK 8
