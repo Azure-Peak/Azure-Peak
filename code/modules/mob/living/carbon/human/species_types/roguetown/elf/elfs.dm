@@ -31,7 +31,7 @@
 	liked_food = NONE
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
-	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/met.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fm.dmi'
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
@@ -41,7 +41,7 @@
 	soundpack_m = /datum/voicepack/male/elf
 	soundpack_f = /datum/voicepack/female/elf
 	allowed_body_builds = ALL_BODY_BUILDS
-	default_body_build_m = BODY_BUILD_SLIM
+	default_body_build_m = BODY_BUILD_ELVEN
 	default_body_build_f = BODY_BUILD_SLIM
 	race_bonus = list(STAT_SPEED = 1)
 	enflamed_icon = "widefire"
