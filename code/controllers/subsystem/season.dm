@@ -59,6 +59,10 @@ SUBSYSTEM_DEF(season)
 	/// it has got through. Logged when the queues run dry.
 	var/drain_started = 0
 	var/drain_count = 0
+	/// Totals behind the admin readouts for a gradual transition: how many atoms it started
+	/// with, and how many have been through the queues across all its days so far.
+	var/transition_total = 0
+	var/transition_converted = 0
 
 /datum/controller/subsystem/season/Initialize(start_timeofday)
 	current_season = get_current_season()
@@ -121,6 +125,7 @@ SUBSYSTEM_DEF(season)
 	if(drain_started)
 		var/elapsed = (world.time - drain_started) / 10
 		log_world("SSseason: converted [drain_count] atoms in [elapsed]s ([current_season] [current_season_phase], [transition_days_left] transition day(s) left)")
+		report_drain_complete(elapsed, drain_count)
 		drain_started = 0
 		drain_count = 0
 
@@ -165,6 +170,9 @@ SUBSYSTEM_DEF(season)
 	pending_flora = shuffle(GLOB.seasonal_flora_objs)
 	pending_water = shuffle(GLOB.seasonal_water_turfs)
 	transition_days_left = SEASON_TRANSITION_DAYS
+	transition_total = length(pending_turfs) + length(pending_flora) + length(pending_water)
+	transition_converted = 0
+	message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition underway - [transition_total] atoms spread over [SEASON_TRANSITION_DAYS] in-game days."))
 	advance_gradual_conversion()
 
 /datum/controller/subsystem/season/proc/abort_gradual_conversion()
@@ -172,6 +180,26 @@ SUBSYSTEM_DEF(season)
 	pending_flora = list()
 	pending_water = list()
 	transition_days_left = 0
+	transition_total = 0
+	transition_converted = 0
+
+/// Admin-facing readout for a batch that just finished draining. A gradual transition reports
+/// one of these per in-game day - a percentage step while days remain, then a completion line
+/// on the last. A sweep with no transition behind it (roundstart, or an admin date change)
+/// reports itself as one-shot instead, so the two can't be confused for each other.
+/datum/controller/subsystem/season/proc/report_drain_complete(elapsed, converted)
+	if(!transition_total)
+		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] applied - [converted] atoms in [elapsed]s."))
+		return
+	transition_converted += converted
+	var/still_owed = length(pending_turfs) + length(pending_flora) + length(pending_water)
+	if(transition_days_left <= 0 && !still_owed)
+		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition COMPLETE - [transition_converted]/[transition_total] atoms converted."))
+		transition_total = 0
+		transition_converted = 0
+		return
+	var/pct = clamp(round(transition_converted / transition_total * 100), 0, 100)
+	message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition [pct]% converted ([transition_converted]/[transition_total]) - [transition_days_left] in-game day(s) left."))
 
 /// Dumps everything a transition still owes into the queues at once, ending it early.
 /datum/controller/subsystem/season/proc/finish_gradual_conversion()
