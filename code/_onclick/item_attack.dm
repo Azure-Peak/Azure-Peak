@@ -146,6 +146,13 @@
 			user.OffBalance(5 SECONDS)
 			return FALSE
 
+	if(force && HAS_TRAIT(user, TRAIT_STALKPHOBIA) && M.mind?.has_antag_datum(/datum/antagonist/assassin))
+		if(prob(50))
+			user.emote("scream")
+			user.Stun(2 SECONDS)
+			user.OffBalance(5 SECONDS)
+			return FALSE
+
 	if(force && user.has_status_effect(/datum/status_effect/debuff/deadite_grace) && M.mind)
 		to_chat(user, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
 		user.remove_status_effect(/datum/status_effect/debuff/deadite_grace)

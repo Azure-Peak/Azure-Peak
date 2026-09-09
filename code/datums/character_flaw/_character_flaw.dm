@@ -417,7 +417,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/hunted
 	name = "Gnoll Prey (Hunted)"
-	desc = "I have been marked for the hunt by Sinistar's champions for one reason or another. I can try to fight back and escape, but they will actively pursue me. YOU ARE SIGNING UP TO BE HUNTED, EXPECT LOW ESCALATION."
+	desc = "I have been marked for the hunt by Sinistar's champions for one reason or another. I can try to fight back and escape, but they will actively pursue me. YOU ARE SIGNING UP TO BE HUNTED, EXPECT LOW ESCALATION. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -438,7 +438,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/bloodprice
 	name = "Gnoll Prey (Blood Price)"
-	desc = "I have a price on my blood, and Sinistar's champions want me DEAD and GONE. My death is their priority above capture, intimidation, or sport. YOU ARE SIGNING UP TO BE A MARKED TARGET FOR DEATH. EXPECT NO ESCALATION, YOU ARE WAIVERING ALL RULE PROTECTIONS."
+	desc = "I have a price on my blood, and Sinistar's champions want me DEAD and GONE. My death is their priority above capture, intimidation, or sport. YOU ARE SIGNING UP TO BE A MARKED TARGET FOR DEATH. EXPECT NO ESCALATION. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -463,7 +463,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/targeted
 	name = "Assassin's Mark (Targeted)"
-	desc = "Someone has offered my name to the Bloodsworn of Graggar. Their assassins may hunt me at any time, and if they kill me, I will be temporarily removed from the round, until their cursed is broken. THIS VICE ALLOWS ASSASSINS TO ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND POSSIBLE ROUND REMOVAL. YOU STILL HAVE ERP PROTECTION."
+	desc = "Someone has offered my name to the Bloodsworn of Graggar. Their assassins may hunt me at any time, and if they kill me, I will be temporarily removed from the round, until their cursed is broken. THIS VICE ALLOWS ASSASSINS TO ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND POSSIBLE ROUND REMOVAL. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)."
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -484,7 +484,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/marked_for_death
 	name = "Assassin's Mark (Marked for Death)"
-	desc = "Someone has offered my name to the Bloodsworn of Graggar, and sacrificed themselves to curse my Lux. Their assassins will hunt me relentlessly, and if they kill me, I'm done for. THIS VICE ALLOWS ASSASSINS TO HUNT AND ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND GUARANTEED ROUND REMOVAL ON DEATH. YOU HAVE NO PROTECTION."
+	desc = "Someone has offered my name to the Bloodsworn of Graggar, and sacrificed themselves to curse my Lux. Their assassins will hunt me relentlessly, and if they kill me, I'm done for. THIS VICE ALLOWS ASSASSINS TO HUNT AND ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND GUARANTEED ROUND REMOVAL ON DEATH. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)"
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -503,6 +503,31 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			logged = TRUE
 
 /datum/charflaw/marked_for_death/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+
+/datum/charflaw/low_profile
+	name = "Assassin's Mark (Low Profile)"
+	desc = "Someone has offered my name to the Bloodsworn of Graggar, but I was deemed unworthy. I have received a disturbing letter from them about it, and that I'll be under watch, and to cooperate, or else. THIS VICE IS PURELY FOR ROLEPLAY. ENCOUNTERS ARE LIKELY NOT GOING TO BE LETHAL, BUT CAN BE. EXPECT THEM TO ALWAYS KNOW WHERE YOU ARE."
+	ui_fa_icon = "crosshairs"
+	needs_extra_vice = TRUE
+	var/logged = FALSE
+
+/datum/charflaw/low_profile/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_STALKPHOBIA, TRAIT_GENERIC)
+
+/datum/charflaw/low_profile/flaw_on_life(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(logged == FALSE)
+		if(H.name)
+			log_hunted("[H.ckey] playing as [H.name] had the ASSASSIN'S MARK (LOW PROFILE) flaw by vice (No DnR, Low-Esc, Non-Lethal).")
+			logged = TRUE
+
+/datum/charflaw/low_profile/apply_post_equipment(mob/user)
 	..()
 	if(!ishuman(user))
 		return

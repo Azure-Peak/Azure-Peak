@@ -62,6 +62,11 @@
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/proc/select_new_target(mob/user)
 	var/list/possible_targets = list()
 
+	to_chat(user, span_artery("You focus on the possible targets... You instinctively consider what each of them may be."))
+	to_chat(user, span_artery("BLOOD PRICE - They are not prey, but death-marked who have done something worth of you and your entire brethen's ire. You must kill them. No escalation is required. If you kill them, they won't come back."))
+	to_chat(user, span_artery("HUNTED - They are prey worth chasing, and you're guaranteed to have a good fight. You may kill them with low escalation, but it is not a must. You're in for the thrill of the hunt, or your own personal objectives."))
+	to_chat(user, span_artery("LAMBS - They are easy pickings not worth your attention for the most part, yet their scent crosses your nose. You don't need to kill them at all, but you may hunt, stalk or harrass them for fun. They cannot fight back and fear you."))
+
 	for(var/mob/living/L in GLOB.player_list)
 		if(L == user || istype(L, /mob/living/carbon/human/dummy) || !L.mind)
 			continue
@@ -76,10 +81,12 @@
 		//		is_valid_prey = TRUE
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
+			if(is_hunted)
+				entry_name += " (Hunted)"
 			if(is_lamb)
-				entry_name += " (Non-Lethal, Lamb)"
+				entry_name += " (Lamb)"
 			if(is_bloodmarked)
-				entry_name += " (Kill On Sight, DnR)"
+				entry_name += " (Blood Price)"
 			possible_targets[entry_name] = L
 
 	if(!length(possible_targets))

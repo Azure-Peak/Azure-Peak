@@ -340,9 +340,10 @@
 // ASSASSIN ANTAG TRAITS
 #define TRAIT_CLAIMED_BY_DARKSTAR "Claimed by the Dark Star" // applied to targeted users that get dagger'd
 #define TRAIT_ASSASSIN	"Assassin" // needed by assassin to use dagger
+#define TRAIT_STALKPHOBIA "Disturbing Revelations"
 
 // GNOLL ANTAG TRAITS
-#define TRAIT_GNOLLPHOBIA "Gnollphobia"
+#define TRAIT_GNOLLPHOBIA "Phobia of Gnolls"
 
 //ASCENDANT GOD CURSES
 
@@ -708,6 +709,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ENGINEERING_GOGGLES = span_warning("I can see structural details others can't."),
 	TRAIT_ASSASSIN = span_cult("Holy my Hecatomb. Holy my Hunger. Wholly I offer my flesh. The Sinistar has chosen me to be one of his huntsmen."),
 	TRAIT_GNOLLPHOBIA = span_cult("I just can't with Gnolls. I can hand on anything in this world except for them. If I ever try to fight one, I'll certainly lose."),
+	TRAIT_STALKPHOBIA = span_cult("Ever since I read that letter, something primal has awaken within me that fears whatever blade is pointed to my neck. I'll certainly lose if I try to fight an Assassin."),
 	TRAIT_MASTER_CARPENTER = span_warning("I've been trained to make the most of wood"),
 	TRAIT_MASTER_MASON = span_warning("I've been trained to make the most of stone"),
 	TRAIT_EQUESTRIAN = span_warning("I am a capable rider. My mount is an extension of me."),

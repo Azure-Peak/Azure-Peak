@@ -28,18 +28,28 @@
 	// hotwired gnoll sniff code
 	var/list/possible_targets = list()
 
+	to_chat(assassin, span_artery("You focus on the possible targets... You remember very clear and quick instructions about your possible targets."))
+	to_chat(assassin, span_artery("HIGH PRIORITY TARGETS - You can kill them without escalation. If you kill them, they won't come back, as they are Do Not Resurrect."))
+	to_chat(assassin, span_artery("MEDIUM PRIORITY TARGETS - You can kill them with low escalation. If you kill them, they will be trapped in your dagger, until it is broken."))
+	to_chat(assassin, span_artery("LOW PRIORITY TARGETS - You don't need to kill them. They are still under investigation, and you're free to use them for your own goals. If you find a reason to kill them, do so; otherwise, leave them be. They cannot fight back."))
+
 	for(var/mob/living/L in GLOB.player_list)
 		if(L == assassin || istype(L, /mob/living/carbon/human/dummy))
 			continue
+		var/is_watched = L.has_flaw(/datum/charflaw/low_profile)
 		var/is_hunted = L.has_flaw(/datum/charflaw/targeted)
 		var/is_deathmarked = L.has_flaw(/datum/charflaw/marked_for_death)
 		var/is_trapped = HAS_TRAIT(L, TRAIT_CLAIMED_BY_DARKSTAR)
-		var/is_valid_prey = (is_hunted || is_deathmarked) && !is_trapped
+		var/is_valid_prey = (is_hunted || is_deathmarked || is_watched) && !is_trapped
 
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
 			if(is_deathmarked)
-				entry_name += " (DnR)"
+				entry_name += " (High Priority)"
+			if(is_hunted)
+				entry_name += " (Medium Priority)"
+			if(is_watched)
+				entry_name += " (Low Priority)"
 			var/target_job = L.get_role_title()
 			if(target_job)
 				entry_name += " - [target_job]"
