@@ -1120,7 +1120,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/silver/anointed
 	name = "anointed silver psycross"
-	desc = "'The horrors persist, but so do I!' This cross has been anointed by a shard of SYON, giving it warding properties."
+	desc = "'Rest easy, for He shall awaken one dae, and no evyls shall go on thereafter.'<br><br><font color='#00f7ff'><i>This cross has been anointed by a shard of SYON, giving it mild warding properties.</i></font>"
 	aura_color = "#7cfbff"
 
 /obj/item/clothing/neck/roguetown/psicross/silver

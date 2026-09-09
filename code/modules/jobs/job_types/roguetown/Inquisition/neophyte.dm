@@ -20,6 +20,7 @@
 		/datum/advclass/neophyte/page,
 		/datum/advclass/neophyte/oblate,
 	)
+	job_traits = list(TRAIT_INQUISITION, TRAIT_HOMESTEAD_EXPERT)
 
 /datum/outfit/job/roguetown/neophyte
 	has_loadout = TRUE
@@ -31,7 +32,7 @@
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
 	virtue_limits = list(/datum/virtue/combat/combat_virtue, /datum/virtue/combat/dualwielder)
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_GOODWRITER, TRAIT_KEENEARS) // fucking snitch, bro
+	traits_applied = list(TRAIT_GOODWRITER, TRAIT_KEENEARS) // fucking snitch, bro
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
@@ -65,7 +66,7 @@
 	beltl = /obj/item/rogueweapon/huntingknife/combat/silver
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
-	neck = /obj/item/clothing/neck/roguetown/psicross/silver/anointed
+	neck = /obj/item/clothing/neck/roguetown/psicross/silver
 	backpack_contents = list(
 		/obj/item/needle = 1,
 		/obj/item/storage/keyring/neophyte = 1,
@@ -81,7 +82,7 @@
 	outfit = /datum/outfit/job/roguetown/neophyte/page
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_SQUIRE_REPAIR)
+	traits_applied = list(TRAIT_SQUIRE_REPAIR)
 	maximum_possible_slots = 1 // one is enough, they wouldn't send too many newbies to the front, the other two don't add to the deathball
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -148,7 +149,7 @@
 	outfit = /datum/outfit/job/roguetown/neophyte/oblate
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_PACIFISM, TRAIT_SILVER_BLESSED)
+	traits_applied = list(TRAIT_PACIFISM, TRAIT_SILVER_BLESSED)
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_SPD = 2,
@@ -229,7 +230,7 @@
 		if("Draft Accusation")
 			craft_type = "accusation"
 		if("Draft INDEXER Requisition")
-			craft_type = "indexer"
+			craft_type = "requisition (INDEXER)"
 	start_crafting(user)
 
 /obj/item/inqarticles/inqslip_kit/proc/start_crafting(mob/user)
@@ -268,7 +269,7 @@
 			return FALSE
 		craft_progress++
 		if(craft_progress < 40)
-			to_chat(user, span_notice("You continue preparing the [craft_type]... ([craft_progress]/40)."))
+			to_chat(user, span_warning("You continue preparing the [craft_type]... ([craft_progress]/40)."))
 	return finish_crafting(user)
 
 /obj/item/inqarticles/inqslip_kit/proc/finish_crafting(mob/user)
@@ -283,9 +284,9 @@
 			created = new /obj/item/paper/inqslip/confession(get_turf(user))
 		if("accusation")
 			created = new /obj/item/paper/inqslip/accusation(get_turf(user))
-		if("indexer")
+		if("requisition (INDEXER)")
 			var/obj/item/inqarticles/requisition/requisition = new(get_turf(user))
-			requisition.desc += " It seems penned for an Indexer."
+			requisition.desc += " <i>It seems penned for an INDEXER.</i>"
 			requisition.requested = /obj/item/inqarticles/indexer
 			created = requisition
 	if(created)
