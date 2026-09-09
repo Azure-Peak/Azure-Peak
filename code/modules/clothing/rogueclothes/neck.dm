@@ -1118,6 +1118,11 @@
 	icon_state = "psycross_b"
 	item_state = "psycross_b"
 
+/obj/item/clothing/neck/roguetown/psicross/silver/anointed
+	name = "anointed silver psycross"
+	desc = "'The horrors persist, but so do I!' This cross has been anointed by a shard of SYON, giving it warding properties."
+	aura_color = "#7cfbff"
+
 /obj/item/clothing/neck/roguetown/psicross/silver
 	name = "silver psycross"
 	desc = "'The horrors persist, but so do I!'"

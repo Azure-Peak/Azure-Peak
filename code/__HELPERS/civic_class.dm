@@ -15,7 +15,7 @@
 			return "KEEP"
 		if("Sergeant", "Man at Arms", "Warden", "Watchman", "Veteran")
 			return "KEEP"
-		if("Inquisitor", "Absolutionist", "Orthodoxist")
+		if("Inquisitor", "Absolutionist", "Orthodoxist", "Neophyte")
 			return "INQUISITION"
 		if("Wretch", "Bandit", "Assassin", "Lunatic")
 			return "EXCLUDED"
