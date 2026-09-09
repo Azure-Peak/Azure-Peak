@@ -24,6 +24,7 @@
 // can never go stale no matter what a turf gets changed into.
 /turf/open/floor/rogue/Destroy()
 	GLOB.seasonal_grass_turfs -= src
+	GLOB.seasonal_water_turfs -= src
 	return ..()
 
 /turf/open/floor/rogue/ruinedwood
@@ -247,7 +248,8 @@
 	landsound = 'sound/foley/jumpland/grassland.wav'
 	slowdown = 0
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/turf/open/floor/rogue/snow,)
+	canSmoothWith = list(/turf/open/floor/rogue/snow,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowedge"
 	spread_chance = 0
 
@@ -306,7 +308,8 @@
 	landsound = 'sound/foley/jumpland/grassland.wav'
 	slowdown = 0
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/turf/open/floor/rogue/snowrough)
+	canSmoothWith = list(/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowroughedge"
 	spread_chance = 0
 
@@ -330,7 +333,8 @@
 	slowdown = 0
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowpatchy_grassedge"
 
 /turf/open/floor/rogue/snowpatchy/cardinal_smooth(adjacencies)
@@ -350,7 +354,8 @@
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "grass_coldedge"
 
 /turf/open/floor/rogue/grasscold/Initialize(mapload)
@@ -429,7 +434,8 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "grassedge"
 
 	spread_chance = 15
@@ -1611,3 +1617,128 @@
 		target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
 	turf_destruction("blunt")
 	return
+
+// --- Seasonal ice ------------------------------------------------------------------------
+// SSseason lays these over freezable /turf/open/water in Mid/Late Winter via freeze_over(),
+// which pushes the original water type onto baseturfs - so thaw() is just a ScrapeAway() back
+// to whatever subtype was actually there. Only ice with seasonal_freeze set thaws; anything a
+// mapper places by hand is permanent, mirroring how SSseason ignores mapped grass variants.
+//
+// The depth rule, which is what the sprites encode: water_level 2 freezes solid (pale whiteice
+// / light bogice), water_level 3 freezes thin (blue ice / dark brownice). Darker and more
+// saturated means more water underneath, means it can give way.
+/turf/open/floor/rogue/frozen_water
+	name = "ice"
+	desc = "The shallows have frozen over, milky and clouded with trapped air."
+	icon_state = "whiteice"
+	layer = MID_TURF_LAYER
+	footstep = FOOTSTEP_STONE
+	barefootstep = FOOTSTEP_HARD_BAREFOOT
+	clawfootstep = FOOTSTEP_HARD_CLAW
+	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+	landsound = 'sound/foley/jumpland/grassland.wav'
+	slowdown = 0
+	smooth = SMOOTH_TRUE
+	canSmoothWith = list(/turf/open/floor/rogue/frozen_water,
+						/turf/open/floor/rogue/grass,
+						/turf/open/floor/rogue/grasscold,
+						/turf/open/floor/rogue/snowpatchy,
+						/turf/open/floor/rogue/snow,
+						/turf/open/floor/rogue/snowrough,)
+	neighborlay = "whiteice"
+	/// Set by freeze_over(). Only seasonally-frozen ice thaws again - mapped ice is permanent.
+	var/seasonal_freeze = FALSE
+	/// Ice over water_level 3. Cracks and drops you through.
+	var/thin_ice = FALSE
+	/// Clean ice is slick. Bog crust is not - it's hummocked and rimed, you crunch through it.
+	var/slippery_ice = TRUE
+
+/turf/open/floor/rogue/frozen_water/cardinal_smooth(adjacencies)
+	roguesmooth(adjacencies)
+
+/turf/open/floor/rogue/frozen_water/examine(mob/user)
+	. = ..()
+	if(thin_ice)
+		. += span_warning("It creaks. There is a lot of water under this.")
+
+/// Melts back to whatever water this was laid over. Returns the new turf, or null if this ice
+/// wasn't seasonal (mapper-placed) and shouldn't thaw at all.
+/turf/open/floor/rogue/frozen_water/proc/thaw()
+	if(!seasonal_freeze)
+		return null
+	return ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
+
+/turf/open/floor/rogue/frozen_water/turf_destruction(damage_flag)
+	. = ..()
+	// Drop through to the water on our baseturf stack. Ice mapped straight onto the ground
+	// has nothing underneath to fall into, so leave it be rather than scraping to bedrock.
+	if(length(baseturfs) <= 1)
+		return
+	visible_message(span_danger("[src] splinters and gives way!"))
+	playsound(src, 'sound/foley/waterenter.ogg', 100, FALSE)
+	ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
+
+// Chopping or picking a hole in the ice puts the water back for the rest of the round -
+// SSseason only re-freezes on a season change, so a hole you cut stays a hole. This is what
+// keeps the fisher employed in winter: getfishingloot()'s freshwater list wants a real
+// /turf/open/water underfoot, and the thaw-through leaves exactly the subtype that was there.
+/turf/open/floor/rogue/frozen_water/attackby(obj/item/C, mob/user, params)
+	if(length(baseturfs) > 1 && (istype(user.used_intent, /datum/intent/axe/chop) || istype(user.used_intent, /datum/intent/pick)))
+		playsound(src, 'sound/foley/hit_rock.ogg', 100, TRUE)
+		user.visible_message(span_notice("[user] starts cutting a hole in [src]."), span_notice("I start cutting a hole in [src]."))
+		if(do_after(user, 5 SECONDS, target = src))
+			user.changeNext_move(CLICK_CD_MELEE)
+			turf_destruction("blunt")
+		return
+	. = ..()
+
+/turf/open/floor/rogue/frozen_water/proc/ice_crack()
+	for(var/mob/living/target in contents)
+		target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
+	turf_destruction("blunt")
+
+/turf/open/floor/rogue/frozen_water/Entered(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/H = AM
+	if(H.is_floor_hazard_immune())
+		return
+	if(HAS_TRAIT(H, TRAIT_LIGHT_STEP) || H.m_intent == MOVE_INTENT_SNEAK)
+		return
+	if(thin_ice && prob(25))
+		to_chat(H, span_warning("The [src] under me begins to crack!"))
+		addtimer(CALLBACK(src, PROC_REF(ice_crack)), 2 SECONDS, TIMER_UNIQUE)
+		return
+	if(slippery_ice && prob(20))
+		var/list/possible_turfs = list()
+		for(var/turf/T in range(1, H))
+			if(T == src || T.density)
+				continue
+			possible_turfs += T
+		if(!length(possible_turfs))
+			return
+		H.forceMove(pick(possible_turfs))
+		to_chat(H, span_warning("I slip on [src]!"))
+
+/turf/open/floor/rogue/frozen_water/deep
+	name = "thin ice"
+	desc = "Dark blue ice over deep water. You can see straight down through it."
+	icon_state = "ice"
+	neighborlay = "ice"
+	thin_ice = TRUE
+
+/turf/open/floor/rogue/frozen_water/mire
+	name = "frozen mire"
+	desc = "The bog has set into a rimed, hummocked crust, dead reeds still standing through it."
+	icon_state = "bogice"
+	neighborlay = "bogice"
+	slowdown = 1
+	slippery_ice = FALSE
+
+/turf/open/floor/rogue/frozen_water/mire/deep
+	name = "thin mire crust"
+	desc = "A dark, sodden crust over deep bog. It sags underfoot."
+	icon_state = "brownice"
+	neighborlay = "brownice"
+	thin_ice = TRUE

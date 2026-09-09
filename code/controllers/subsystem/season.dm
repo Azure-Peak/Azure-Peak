@@ -9,9 +9,15 @@
 //   variant, plus the leaf overlays drawn on newtree canopy caps and
 //   newbranch) swap between the spring/summer/fall/winter leaf sprites via
 //   their overridden apply_flora_season() proc.
+// - Freezable water turfs (those with a freeze_type set - still murk, ponds and clean
+//   shallows, but never rivers, ocean, sewers or interiors) gain a layer of ice in Mid/Late
+//   Winter and lose it again on the thaw. Freezing uses PlaceOnTop(), so the original water
+//   subtype rides along on baseturfs and the thaw is a plain ScrapeAway() back to it. Both
+//   the liquid and the frozen turfs live in the same tracking list.
 
 GLOBAL_LIST_EMPTY(seasonal_grass_turfs)
 GLOBAL_LIST_EMPTY(seasonal_flora_objs)
+GLOBAL_LIST_EMPTY(seasonal_water_turfs)
 
 SUBSYSTEM_DEF(season)
 	name = "Season"
@@ -24,6 +30,8 @@ SUBSYSTEM_DEF(season)
 	var/list/currentrun_turfs = list()
 	var/list/flora_to_convert = list()
 	var/list/currentrun_flora = list()
+	var/list/water_to_convert = list()
+	var/list/currentrun_water = list()
 
 /datum/controller/subsystem/season/Initialize(start_timeofday)
 	current_season = get_current_season()
@@ -37,6 +45,8 @@ SUBSYSTEM_DEF(season)
 		turfs_to_convert = list()
 		currentrun_flora = flora_to_convert.Copy()
 		flora_to_convert = list()
+		currentrun_water = water_to_convert.Copy()
+		water_to_convert = list()
 
 	var/list/turf_run = currentrun_turfs
 	while(turf_run.len)
@@ -57,6 +67,15 @@ SUBSYSTEM_DEF(season)
 		if(MC_TICK_CHECK)
 			return
 
+	var/list/water_run = currentrun_water
+	while(water_run.len)
+		var/turf/W = water_run[water_run.len]
+		water_run.len--
+		if(W && !QDELETED(W))
+			apply_season_to_water(W)
+		if(MC_TICK_CHECK)
+			return
+
 /// Re-checks the calendar and, if the season (or phase, for winter's snow buildup) has changed, queues every tracked seasonal atom for conversion.
 /datum/controller/subsystem/season/proc/check_season_change()
 	var/new_season = get_current_season()
@@ -70,6 +89,7 @@ SUBSYSTEM_DEF(season)
 /datum/controller/subsystem/season/proc/queue_full_conversion()
 	turfs_to_convert = GLOB.seasonal_grass_turfs.Copy()
 	flora_to_convert = GLOB.seasonal_flora_objs.Copy()
+	water_to_convert = GLOB.seasonal_water_turfs.Copy()
 
 /datum/controller/subsystem/season/proc/get_target_turf_type()
 	switch(current_season)
@@ -110,3 +130,29 @@ SUBSYSTEM_DEF(season)
 		if(SEASON_WINTER)
 			return FLORA_SEASON_WINTER
 	return FLORA_SEASON_SPRING
+
+/// Water freezes a phase behind the ground: Early Winter is grasscold, and only once the snow
+/// has settled in (Mid/Late) does standing water ice over.
+/datum/controller/subsystem/season/proc/waters_should_freeze()
+	if(current_season != SEASON_WINTER)
+		return FALSE
+	return (current_season_phase == SEASON_PHASE_MID) || (current_season_phase == SEASON_PHASE_LATE)
+
+/// Freezes a tracked water turf, or thaws a tracked ice turf, to match the current season.
+/// Both freezing and thawing replace the turf, so - as with apply_season_to_turf() - the
+/// result has to be re-added to the tracking list to survive into the next season.
+/datum/controller/subsystem/season/proc/apply_season_to_water(turf/T)
+	var/should_freeze = waters_should_freeze()
+	var/turf/new_turf
+	if(istype(T, /turf/open/water))
+		if(!should_freeze)
+			return
+		var/turf/open/water/W = T
+		new_turf = W.freeze_over()
+	else if(istype(T, /turf/open/floor/rogue/frozen_water))
+		if(should_freeze)
+			return
+		var/turf/open/floor/rogue/frozen_water/F = T
+		new_turf = F.thaw()
+	if(new_turf)
+		GLOB.seasonal_water_turfs |= new_turf

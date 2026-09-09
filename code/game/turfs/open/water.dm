@@ -43,12 +43,33 @@
 	var/swim_skill = FALSE
 	nomouseover = FALSE
 	var/swimdir = FALSE
+	/// Ice turf SSseason lays over this one in Mid/Late Winter. Null (the default) means
+	/// this water never freezes and is never tracked - moving water, interiors, flavor turfs.
+	var/freeze_type = null
 
 /turf/open/water/Initialize(mapload)
 	.	= ..()
 	water_overlay = new(src)
 	water_top_overlay = new(src)
 	update_icon()
+	if(freeze_type)
+		// Deliberately no runtime catch-up here, unlike /turf/open/floor/rogue/grass. Most
+		// water that appears mid-round in winter appears *because* ice broke or was cut open,
+		// and re-freezing it on the spot would close the hole the moment it was made. Tracked
+		// only, so the next season change picks it up.
+		GLOB.seasonal_water_turfs |= src
+
+/// Lays this turf's ice on top, pushing our own type onto baseturfs so thaw() can restore the
+/// exact subtype (swamp vs swamp/deep, pond vs cleanshallow) without a lookup table.
+/// Returns the new ice turf, or null if we can't or shouldn't freeze.
+/turf/open/water/proc/freeze_over()
+	if(!freeze_type)
+		return null
+	var/turf/open/floor/rogue/frozen_water/F = PlaceOnTop(null, freeze_type, CHANGETURF_INHERIT_AIR)
+	if(!istype(F))
+		return null
+	F.seasonal_freeze = TRUE
+	return F
 
 /turf/open/water/update_icon()
 	if(water_overlay)
@@ -320,6 +341,7 @@
 	return
 
 /turf/open/water/Destroy()
+	GLOB.seasonal_water_turfs -= src
 	. = ..()
 	if(water_overlay)
 		QDEL_NULL(water_overlay)
@@ -393,6 +415,7 @@
 	slowdown = 3
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+	freeze_type = /turf/open/floor/rogue/frozen_water/mire
 
 /turf/open/water/bloody
 	name = "blood"
@@ -473,6 +496,7 @@
 	water_color = "#705a43"
 	slowdown = 5
 	swim_skill = TRUE
+	freeze_type = /turf/open/floor/rogue/frozen_water/mire/deep
 
 /turf/open/water/swamp/deep/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
@@ -532,6 +556,7 @@
 	slowdown = 3
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water
+	freeze_type = /turf/open/floor/rogue/frozen_water
 
 /turf/open/water/cleanshallow/Initialize(mapload)
 	icon_state = "rock"
@@ -668,3 +693,4 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+	freeze_type = /turf/open/floor/rogue/frozen_water/deep
