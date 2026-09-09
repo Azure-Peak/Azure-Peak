@@ -24,4 +24,4 @@
 
 // Edge length, in tiles, of the square blocks season_chunk_shuffle() scatters conversions in.
 // Bigger blocks mean less repeated icon smoothing but chunkier-looking transitions.
-#define SEASON_SHUFFLE_CHUNK 8
+#define SEASON_SHUFFLE_CHUNK 1

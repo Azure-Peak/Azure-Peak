@@ -1624,13 +1624,13 @@
 // to whatever subtype was actually there. Only ice with seasonal_freeze set thaws; anything a
 // mapper places by hand is permanent, mirroring how SSseason ignores mapped grass variants.
 //
-// The depth rule, which is what the sprites encode: water_level 2 freezes solid (pale whiteice
-// / light bogice), water_level 3 freezes thin (blue ice / dark brownice). Darker and more
-// saturated means more water underneath, means it can give way.
+// The depth rule, which is what the sprites encode: water_level 2 freezes solid (ice / light
+// bogice), water_level 3 freezes thin (darkice / dark brownice). Darker and more saturated
+// means more water underneath, means it can give way.
 /turf/open/floor/rogue/frozen_water
 	name = "ice"
 	desc = "The shallows have frozen over, milky and clouded with trapped air."
-	icon_state = "whiteice"
+	icon_state = "ice"
 	layer = MID_TURF_LAYER
 	footstep = FOOTSTEP_STONE
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
@@ -1645,7 +1645,7 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,)
-	neighborlay = "whiteice"
+	neighborlay = "ice"
 	/// Set by freeze_over(). Only seasonally-frozen ice thaws again - mapped ice is permanent.
 	var/seasonal_freeze = FALSE
 	/// Ice over water_level 3. Cracks and drops you through.
@@ -1724,8 +1724,8 @@
 /turf/open/floor/rogue/frozen_water/deep
 	name = "thin ice"
 	desc = "Dark blue ice over deep water. You can see straight down through it."
-	icon_state = "ice"
-	neighborlay = "ice"
+	icon_state = "darkice"
+	neighborlay = "darkice"
 	thin_ice = TRUE
 
 /turf/open/floor/rogue/frozen_water/mire
