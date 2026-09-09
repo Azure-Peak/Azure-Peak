@@ -43,9 +43,11 @@
 	var/swim_skill = FALSE
 	nomouseover = FALSE
 	var/swimdir = FALSE
-	/// Ice turf SSseason lays over this one in Mid/Late Winter. Null (the default) means
-	/// this water never freezes and is never tracked - moving water, interiors, flavor turfs.
-	var/freeze_type = null
+	/// Ice turf SSseason lays over this one in Mid/Late Winter. Still freshwater is the
+	/// default - lakes, the slack water off a river - so plain /turf/open/water freezes.
+	/// Anything that shouldn't (moving water, salt water, interiors, flavor turfs) nulls
+	/// this out on its own subtype below, and null also means "never tracked at all".
+	var/freeze_type = /turf/open/floor/rogue/frozen_water
 
 /turf/open/water/Initialize(mapload)
 	.	= ..()
@@ -384,6 +386,7 @@
 	water_color = "#FFFFFF"
 	slowdown = 3
 	water_reagent = /datum/reagent/water/bathwater
+	freeze_type = null // indoors, and the point of it is that it's warm
 
 /turf/open/water/bath/Initialize(mapload)
 	.	= ..()
@@ -399,6 +402,7 @@
 	slowdown = 3
 	wash_in = FALSE
 	water_reagent = /datum/reagent/water/gross/sewage
+	freeze_type = null // enclosed, and warmer than anything above ground
 
 /turf/open/water/sewer/Initialize(mapload)
 	icon_state = "paving"
@@ -427,6 +431,7 @@
 	slowdown = 3
 	wash_in = FALSE
 	water_reagent = /datum/reagent/blood/shitty
+	freeze_type = null // set dressing, not weather-driven
 
 /turf/open/water/swamp/Initialize(mapload)
 	icon_state = "dirt"
@@ -556,7 +561,6 @@
 	slowdown = 3
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water
-	freeze_type = /turf/open/floor/rogue/frozen_water
 
 /turf/open/water/cleanshallow/Initialize(mapload)
 	icon_state = "rock"
@@ -573,6 +577,7 @@
 	wash_in = TRUE
 	swim_skill = TRUE
 	swimdir = TRUE
+	freeze_type = null // moving water; freezing it would also stall the SSrivers conveyor
 
 /turf/open/water/river/flow
 	icon_state = "rockwd2"
@@ -656,6 +661,7 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/salty
+	freeze_type = null // salt water, and tidal - subtypes inherit the exemption
 
 /turf/open/water/ocean/deep
 	name = "salt water"

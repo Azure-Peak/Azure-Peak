@@ -15,6 +15,22 @@
 //   subtype rides along on baseturfs and the thaw is a plain ScrapeAway() back to it. Both
 //   the liquid and the frozen turfs live in the same tracking list.
 
+/// Should SSseason treat this turf as open to the sky? Checked at conversion time rather
+/// than at registration, so a roof raised (or torn off) mid-round is honoured on the next
+/// season change - and so the cost is one predicate per tracked turf per season change,
+/// inside an already tick-budgeted background subsystem, not anything per-tick.
+///
+/// Both halves are needed. is_weatherproof() alone is not enough: it walks up the z-stack
+/// and, whenever any turf exists above, ends up testing the TOP turf's area instead of this
+/// one's - so an indoor garden with open sky on the z-level above still reads as exposed.
+/// The area check catches that; is_weatherproof() then catches the reverse case, an outdoor
+/// area that's been roofed over by a tent or built ceiling.
+/turf/proc/is_seasonally_exposed()
+	var/area/turf_area = loc
+	if(!turf_area?.outdoors)
+		return FALSE
+	return !is_weatherproof()
+
 GLOBAL_LIST_EMPTY(seasonal_grass_turfs)
 GLOBAL_LIST_EMPTY(seasonal_flora_objs)
 GLOBAL_LIST_EMPTY(seasonal_water_turfs)
@@ -63,7 +79,9 @@ SUBSYSTEM_DEF(season)
 		var/obj/structure/flora/L = flora_run[flora_run.len]
 		flora_run.len--
 		if(L && !QDELETED(L))
-			L.apply_flora_season(target_flora_season)
+			var/turf/flora_turf = get_turf(L)
+			if(flora_turf?.is_seasonally_exposed())
+				L.apply_flora_season(target_flora_season)
 		if(MC_TICK_CHECK)
 			return
 
@@ -108,6 +126,8 @@ SUBSYSTEM_DEF(season)
 	return /turf/open/floor/rogue/grass
 
 /datum/controller/subsystem/season/proc/apply_season_to_turf(turf/open/floor/rogue/T)
+	if(!T.is_seasonally_exposed())
+		return
 	var/target_type = get_target_turf_type()
 	if(T.type == target_type)
 		return
@@ -142,6 +162,8 @@ SUBSYSTEM_DEF(season)
 /// Both freezing and thawing replace the turf, so - as with apply_season_to_turf() - the
 /// result has to be re-added to the tracking list to survive into the next season.
 /datum/controller/subsystem/season/proc/apply_season_to_water(turf/T)
+	if(!T.is_seasonally_exposed())
+		return
 	var/should_freeze = waters_should_freeze()
 	var/turf/new_turf
 	if(istype(T, /turf/open/water))
