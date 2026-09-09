@@ -15,3 +15,9 @@
 #define FLORA_SEASON_SUMMER "summer"
 #define FLORA_SEASON_FALL "fall"
 #define FLORA_SEASON_WINTER "winter"
+
+// In-game days a mid-round season change is spread across, rather than converting the whole
+// map in one sweep while players are standing on it. Roundstart conversions ignore this and
+// happen all at once; so do admin-forced date changes, so testing a season doesn't mean
+// waiting out four dawns. See SSseason.
+#define SEASON_TRANSITION_DAYS 4

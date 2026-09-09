@@ -48,6 +48,17 @@ SUBSYSTEM_DEF(season)
 	var/list/currentrun_flora = list()
 	var/list/water_to_convert = list()
 	var/list/currentrun_water = list()
+	/// Atoms still owed to an in-progress gradual transition, in shuffled order. Each dawn
+	/// moves a share of these into the *_to_convert queues above.
+	var/list/pending_turfs = list()
+	var/list/pending_flora = list()
+	var/list/pending_water = list()
+	/// Dawns left in the current gradual transition. 0 means none is running.
+	var/transition_days_left = 0
+	/// Drain instrumentation: when the current batch started converting, and how many atoms
+	/// it has got through. Logged when the queues run dry.
+	var/drain_started = 0
+	var/drain_count = 0
 
 /datum/controller/subsystem/season/Initialize(start_timeofday)
 	current_season = get_current_season()
@@ -55,7 +66,17 @@ SUBSYSTEM_DEF(season)
 	queue_full_conversion()
 	return ..()
 
+/datum/controller/subsystem/season/stat_entry()
+	var/pending = length(pending_turfs) + length(pending_flora) + length(pending_water)
+	var/queued = length(turfs_to_convert) + length(currentrun_turfs)
+	queued += length(flora_to_convert) + length(currentrun_flora)
+	queued += length(water_to_convert) + length(currentrun_water)
+	return ..("[current_season] [current_season_phase] | Q:[queued] P:[pending] D:[transition_days_left]")
+
 /datum/controller/subsystem/season/fire(resumed = FALSE)
+	if(!drain_started && (length(turfs_to_convert) || length(flora_to_convert) || length(water_to_convert)))
+		drain_started = world.time
+		drain_count = 0
 	if(!resumed)
 		currentrun_turfs = turfs_to_convert.Copy()
 		turfs_to_convert = list()
@@ -70,6 +91,7 @@ SUBSYSTEM_DEF(season)
 		turf_run.len--
 		if(T && !QDELETED(T))
 			apply_season_to_turf(T)
+			drain_count++
 		if(MC_TICK_CHECK)
 			return
 
@@ -82,6 +104,7 @@ SUBSYSTEM_DEF(season)
 			var/turf/flora_turf = get_turf(L)
 			if(flora_turf?.is_seasonally_exposed())
 				L.apply_flora_season(target_flora_season)
+			drain_count++
 		if(MC_TICK_CHECK)
 			return
 
@@ -91,23 +114,92 @@ SUBSYSTEM_DEF(season)
 		water_run.len--
 		if(W && !QDELETED(W))
 			apply_season_to_water(W)
+			drain_count++
 		if(MC_TICK_CHECK)
 			return
 
-/// Re-checks the calendar and, if the season (or phase, for winter's snow buildup) has changed, queues every tracked seasonal atom for conversion.
-/datum/controller/subsystem/season/proc/check_season_change()
+	if(drain_started)
+		var/elapsed = (world.time - drain_started) / 10
+		log_world("SSseason: converted [drain_count] atoms in [elapsed]s ([current_season] [current_season_phase], [transition_days_left] transition day(s) left)")
+		drain_started = 0
+		drain_count = 0
+
+/// Called at every dawn (and by the admin date verb). Rolls a season/phase change over into a
+/// gradual transition, and otherwise nudges an already-running one along by a day.
+///
+/// `instant` skips the gradual path entirely and converts the map in one sweep - passed by the
+/// admin Set IC Date verb, so testing a season doesn't mean sitting through four dawns.
+/datum/controller/subsystem/season/proc/check_season_change(instant = FALSE)
 	var/new_season = get_current_season()
 	var/new_phase = get_current_season_phase()
 	if(new_season == current_season && new_phase == current_season_phase)
+		if(instant)
+			// Nothing rolled over, but an admin asking for an instant result shouldn't be
+			// left staring at a map that's still half-way through an earlier transition.
+			finish_gradual_conversion()
+			return
+		// No rollover, but a transition started on an earlier dawn may still owe us atoms.
+		advance_gradual_conversion()
 		return
 	current_season = new_season
 	current_season_phase = new_phase
-	queue_full_conversion()
+	if(instant)
+		abort_gradual_conversion()
+		queue_full_conversion()
+		return
+	begin_gradual_conversion()
 
+/// Converts everything at once. Used at roundstart (nobody is in the world yet to watch it
+/// happen) and for admin-forced date changes.
 /datum/controller/subsystem/season/proc/queue_full_conversion()
-	turfs_to_convert = GLOB.seasonal_grass_turfs.Copy()
-	flora_to_convert = GLOB.seasonal_flora_objs.Copy()
-	water_to_convert = GLOB.seasonal_water_turfs.Copy()
+	turfs_to_convert = shuffle(GLOB.seasonal_grass_turfs)
+	flora_to_convert = shuffle(GLOB.seasonal_flora_objs)
+	water_to_convert = shuffle(GLOB.seasonal_water_turfs)
+
+/// Spreads a season change over SEASON_TRANSITION_DAYS dawns instead of repainting the whole
+/// map under everyone's feet at once. The lists are shuffled because they're built in mapload
+/// order - taking a slice off an unshuffled list would convert one contiguous slab of the map
+/// per day, which reads as a rendering artifact rather than as a thaw.
+/datum/controller/subsystem/season/proc/begin_gradual_conversion()
+	pending_turfs = shuffle(GLOB.seasonal_grass_turfs)
+	pending_flora = shuffle(GLOB.seasonal_flora_objs)
+	pending_water = shuffle(GLOB.seasonal_water_turfs)
+	transition_days_left = SEASON_TRANSITION_DAYS
+	advance_gradual_conversion()
+
+/datum/controller/subsystem/season/proc/abort_gradual_conversion()
+	pending_turfs = list()
+	pending_flora = list()
+	pending_water = list()
+	transition_days_left = 0
+
+/// Dumps everything a transition still owes into the queues at once, ending it early.
+/datum/controller/subsystem/season/proc/finish_gradual_conversion()
+	if(transition_days_left <= 0)
+		return
+	transition_days_left = 1 // makes take_transition_share() hand back the whole remainder
+	advance_gradual_conversion()
+
+/// Moves this dawn's share of the pending atoms into the live conversion queues.
+/datum/controller/subsystem/season/proc/advance_gradual_conversion()
+	if(transition_days_left <= 0)
+		return
+	turfs_to_convert += take_transition_share(pending_turfs)
+	flora_to_convert += take_transition_share(pending_flora)
+	water_to_convert += take_transition_share(pending_water)
+	transition_days_left--
+
+/// A 1/days_left slice off the front of `pending`, removed from it. Dividing by the days that
+/// are actually left (rather than always by SEASON_TRANSITION_DAYS) means rounding can never
+/// strand a remainder: the final dawn always takes everything still outstanding.
+/datum/controller/subsystem/season/proc/take_transition_share(list/pending)
+	if(!length(pending))
+		return list()
+	var/count = length(pending)
+	if(transition_days_left > 1)
+		count = CEILING(length(pending) / transition_days_left, 1)
+	. = pending.Copy(1, count + 1)
+	pending.Cut(1, count + 1)
 
 /datum/controller/subsystem/season/proc/get_target_turf_type()
 	switch(current_season)
