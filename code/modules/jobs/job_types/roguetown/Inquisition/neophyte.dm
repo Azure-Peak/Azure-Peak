@@ -6,6 +6,7 @@
 	total_positions = 3
 	spawn_positions = 3
 	allowed_sexes = list(MALE, FEMALE)
+	allowed_patrons = list(/datum/patron/old_god) // endvre
 	forbidden_races = list(/datum/species/construct/metal)
 	tutorial = "You are a Neophyte, an apprentice, helping hand or aide for the local embassy. Your responsibilities are little, but so are your obligations."
 	outfit = /datum/outfit/job/roguetown/neophyte/
@@ -129,7 +130,6 @@
 		"Dexterous (Dodge Expert, -2 LUC)"
 	))
 	if(choice == "Devoted (T1 Miracles)")
-		H.set_patron(/datum/patron/old_god)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)
 	else if(choice == "Determined (Enduring, -2 WIL)")
@@ -186,9 +186,8 @@
 		/obj/item/storage/keyring/neophyte = 1,
 		/obj/item/natural/cloth = 1,
 		/obj/item/inqarticles/inqslip_kit = 1,
- 		/obj/item/rogueweapon/huntingknife/combat/silver = 1,
+		/obj/item/rogueweapon/huntingknife/combat/silver = 1,
 	)
-	H.set_patron(/datum/patron/old_god)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
 	if(H.mind)
