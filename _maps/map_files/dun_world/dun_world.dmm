@@ -202,12 +202,7 @@
 /area/rogue/outdoors/town)
 "acb" = (
 /obj/structure/closet/crate/chest,
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Soilson's Kitchen"
-	},
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
+/turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
 "acc" = (
 /obj/structure/fluff/walldeco/customflag{
@@ -1104,11 +1099,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
 "alj" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "Outpost Watchtower - 1st Floor"
-	},
 /obj/effect/decal/cleanable/debris/stony,
-/turf/open/floor/rogue/metal,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
 "alk" = (
 /mob/living/simple_animal/pet/cat/rogue/black{
@@ -14465,9 +14457,6 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "cLB" = (
-/obj/effect/decal/cobbleedge{
-	dir = 5
-	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
@@ -14475,6 +14464,9 @@
 /obj/structure/roguemachine/goldface/public/tailor{
 	pixel_x = -32;
 	density = 0
+	},
+/obj/effect/decal/cobbleedge{
+	dir = 4
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
@@ -15906,12 +15898,10 @@
 /area/rogue/indoors/town)
 "cZB" = (
 /obj/structure/fluff/railing/border/west,
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Wardens' Outpost"
+/obj/structure/roguemachine/scomm/receive_only{
+	scom_tag = "Outpost Fort - Exterior"
 	},
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
+/turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield)
 "cZE" = (
 /obj/structure/bars/pipe{
@@ -19383,10 +19373,10 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
 "dHR" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "South Gate - 2nd Floor"
+/obj/effect/decal/cobbleedge{
+	dir = 1
 	},
-/turf/open/floor/rogue/metal,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "dHT" = (
 /obj/effect/decal/mossy{
@@ -33965,12 +33955,10 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Cathedral - Exterior"
+/obj/structure/roguemachine/scomm/receive_only{
+	scom_tag = "Cathedral - Front"
 	},
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
+/turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "gtr" = (
 /obj/item/storage/belt/rogue/leather/rope{
@@ -34922,13 +34910,16 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/exposed/town/keep)
 "gCs" = (
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "Cathedral - Kitchen"
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f";
+	dir = 8
 	},
-/turf/open/floor/rogue/metal{
-	dir = 4
+/obj/structure/standingbell{
+	name = "clinic service bell";
+	dir = 1
 	},
-/area/rogue/indoors/town/church/chapel)
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/physician)
 "gCw" = (
 /obj/structure/bars,
 /obj/structure/trap/shock,
@@ -38125,12 +38116,8 @@
 /area/rogue/indoors/inq)
 "hij" = (
 /obj/structure/fluff/railing/corner,
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "North Gate - 2nd Floor"
-	},
-/turf/open/floor/rogue/metal{
-	dir = 4
-	},
+/obj/effect/decal/cobbleedge,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "him" = (
 /obj/structure/flora/roguegrass/bush,
@@ -39051,15 +39038,13 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/druidsgrove)
 "hsi" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "North Gate - Exterior"
-	},
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = -32
 	},
-/turf/open/floor/rogue/metal{
-	dir = 4
+/obj/structure/roguemachine/scomm/receive_only/l{
+	scom_tag = "North Gate - Exterior"
 	},
+/turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "hsp" = (
 /obj/item/bedsheet/rogue/fabric_double,
@@ -47475,15 +47460,6 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/manor)
-"iVh" = (
-/obj/effect/decal/edge_corner{
-	color = "#3f3f3f"
-	},
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "Guild - Exterior"
-	},
-/turf/open/floor/rogue/metal,
-/area/rogue/outdoors/town)
 "iVj" = (
 /obj/structure/table/wood/poor,
 /obj/item/toy/cards/deck/syndicate{
@@ -52965,10 +52941,10 @@
 	color = "#3f3f3f";
 	dir = 8
 	},
-/obj/structure/roguemachine/scomm/r{
+/obj/structure/roguemachine/scomm/receive_only/r{
 	scom_tag = "Town Smith - Front Door"
 	},
-/turf/open/floor/rogue/metal,
+/turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "jSK" = (
 /obj/structure/table/wood/poor,
@@ -53095,13 +53071,11 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/basement/keep)
 "jTX" = (
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Soilson's House"
+/obj/structure/roguemachine/scomm/l{
+	scom_tag = "Guild - Exterior"
 	},
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
-/area/rogue/outdoors/town)
+/turf/open/floor/rogue/metal,
+/area/rogue/indoors/town/dwarfin)
 "jTY" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -63760,10 +63734,15 @@
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/under/cave)
 "lOh" = (
-/obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/powder/salt,
-/obj/item/reagent_containers/powder/salt,
-/turf/open/floor/rogue/ruinedwood/herringbone,
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Soilson's House"
+	},
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Soilson's House"
+	},
+/turf/open/floor/rogue/metal{
+	icon_state = "plating2"
+	},
 /area/rogue/indoors/town)
 "lOj" = (
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
@@ -66941,12 +66920,10 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/west)
 "msf" = (
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Northeastern Gate"
+/obj/structure/roguemachine/scomm/receive_only{
+	scom_tag = "East Gate - Interior"
 	},
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
+/turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
 "msh" = (
 /obj/structure/closet/crate/roguecloset/inn,
@@ -73409,8 +73386,11 @@
 	color = "#3f3f3f";
 	dir = 4
 	},
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "Tailor's Shop - Exterior"
+/obj/effect/decal/cobbleedge{
+	dir = 4
+	},
+/obj/structure/roguemachine/scomm/receive_only/l{
+	scom_tag = "Tailor Shop - Exterior"
 	},
 /turf/open/floor/rogue/metal{
 	dir = 4
@@ -73482,12 +73462,10 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "nIk" = (
-/obj/structure/roguemachine/scomm{
+/obj/structure/roguemachine/scomm/receive_only{
 	scom_tag = "North House - No.2"
 	},
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
+/turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "nIn" = (
 /obj/machinery/light/rogue/torchholder/c,
@@ -82110,14 +82088,6 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
-"phN" = (
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "South Gate - 2nd Floor East"
-	},
-/turf/open/floor/rogue/metal{
-	dir = 4
-	},
-/area/rogue/indoors/town)
 "phS" = (
 /obj/machinery/light/rogue/campfire/fireplace,
 /obj/effect/decal/cobbleedge{
@@ -90342,14 +90312,6 @@
 /obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
-"qJl" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "Wardens' Barracks - 1st Floor"
-	},
-/turf/open/floor/rogue/metal{
-	dir = 4
-	},
-/area/rogue/indoors/town)
 "qJp" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/grassyel,
@@ -110246,14 +110208,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town)
-"uuk" = (
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "Outpost Watchtower - Ground Floor"
-	},
-/turf/open/floor/rogue/metal{
-	dir = 4
-	},
-/area/rogue/indoors/shelter/woods)
 "uul" = (
 /obj/structure/mineral_door/wood/violet,
 /turf/open/floor/rogue/concrete,
@@ -122594,14 +122548,6 @@
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
-"wLv" = (
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Inn - Exterior"
-	},
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
-/area/rogue/indoors/town/tavern)
 "wLx" = (
 /obj/structure/mineral_door/wood{
 	icon_state = "wcv";
@@ -275792,7 +275738,7 @@ cEb
 kRg
 kRg
 uBc
-jTX
+iGU
 cne
 pfQ
 exD
@@ -280364,7 +280310,7 @@ fFC
 tzV
 xVJ
 pGa
-wLv
+rbu
 rbu
 rbu
 rbu
@@ -280799,7 +280745,7 @@ vKr
 onG
 dAu
 pxE
-gCs
+jte
 djq
 aYA
 vwt
@@ -285775,7 +285721,7 @@ gyd
 dOI
 eSr
 vcD
-iVh
+ohS
 xqO
 haU
 ohS
@@ -286677,8 +286623,8 @@ jWX
 sqX
 smL
 vgo
-cbR
 awX
+jTX
 ehv
 bUt
 rbd
@@ -290237,7 +290183,7 @@ nWM
 xjP
 ksk
 akv
-dsq
+gCs
 sQo
 sQo
 qte
@@ -291197,8 +291143,8 @@ jWX
 ufu
 smL
 vgo
-eDF
 drh
+eDF
 ehv
 bUt
 jDG
@@ -320432,7 +320378,7 @@ dpy
 nTq
 iaB
 fiq
-uuk
+bWg
 lGG
 jaH
 jaH
@@ -402424,7 +402370,7 @@ pLh
 pLh
 jdu
 phz
-phN
+jdu
 lbY
 wMR
 dgv
@@ -430808,7 +430754,7 @@ pLh
 pLh
 nzr
 dyE
-qJl
+dyE
 pLh
 pLh
 tJR
