@@ -67,6 +67,14 @@
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("I don't want to harm [src]!"))
 		return FALSE
+
+	if(HAS_TRAIT(user, TRAIT_GNOLLPHOBIA) && isgnoll(src))
+		if(prob(50))
+			user.emote("scream")
+			user.Stun(2 SECONDS)
+			user.OffBalance(5 SECONDS)
+			return FALSE
+
 	if(user.has_status_effect(/datum/status_effect/debuff/deadite_grace) && src.mind)
 		to_chat(user, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
 		user.remove_status_effect(/datum/status_effect/debuff/deadite_grace)

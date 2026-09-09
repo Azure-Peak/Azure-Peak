@@ -390,12 +390,34 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		var/mob/living/carbon/human/H = user
 		ADD_TRAIT(H, TRAIT_ARMOR_BREAK, TRAIT_GENERIC)
 
+/datum/charflaw/stalked
+	name = "Gnoll Prey (Lamb)"
+	desc = "I have been marked as leisure prey by Sinistar's champions. But I have a phobia of these creachers, leaving me helpless against them and expected to fear, flee, hide, or submit rather than fight back. THIS VICE IS PURELY FOR ROLEPLAY, DO NOT EXPECT COMBAT. YOU ARE SIGNING UP TO BE THE VICTIM."
+	ui_fa_icon = "tooth"
+	needs_extra_vice = TRUE
+	var/logged = FALSE
+
+/datum/charflaw/stalked/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_GNOLLPHOBIA, TRAIT_GENERIC)
+
+/datum/charflaw/stalked/flaw_on_life(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(logged == FALSE)
+		if(H.name)
+			log_hunted("[H.ckey] playing as [H.name] had the GNOLL PREY (LAMB) flaw by vice (Non-Lethal, No/Low-Esc, Victim).")
+			logged = TRUE
+
+/datum/charflaw/stalked/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+
 /datum/charflaw/hunted
-	name = "Hunted"
-	desc = "Something in my past has drawn the attention of Sinistar's champions. Gnolls have marked me as prey, and they may appear at any time to hunt me down. Their intent is to pursue, intimidate, capture, or otherwise harass me, but they are not automatically out for my death. \
-	\nTHIS IS A DIFFICULT FLAW. YOU WILL BE HUNTED BY GNOLLS. EXPECT A MORE DIFFICULT EXPERIENCE AND BE PREPARED TO PLAY ALONG WITH THEIR ATTENTION. \
-	\nThis is a NON-SERIOUS threat. Gnolls MUST ESCALATE before attempting to engage in combat against you. Having this flaw means accepting that you may be pursued or attacked, not that you have been given a death sentence, so expect roleplay over combat. \
-	\nPLAY AT YOUR OWN RISK. THIS FLAW REQUIRES AN EXTRA VICE."
+	name = "Gnoll Prey (Hunted)"
+	desc = "I have been marked for the hunt by Sinistar's champions for one reason or another. I can try to fight back and escape, but they will actively pursue me. YOU ARE SIGNING UP TO BE HUNTED, EXPECT LOW ESCALATION."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -406,21 +428,17 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
 		if(H.name)
-			log_hunted("[H.ckey] playing as [H.name] had the hunted flaw by vice.")
+			log_hunted("[H.ckey] playing as [H.name] had the GNOLL PREY (HUNTED) flaw by vice (Lethal, Low-Esc).")
 			logged = TRUE
 
 /datum/charflaw/hunted/apply_post_equipment(mob/user)
 	..()
-
 	if(!ishuman(user))
 		return
 
 /datum/charflaw/bloodprice
-	name = "Blood Price"
-	desc = "Something in my past has earned me the hatred of Sinistar's champions. Gnolls have placed a price upon my blood, and they do not merely wish to frighten or drive me away — they want me dead. I am a marked enemy, and their hunters may pursue me wherever I go. \
-	\nTHIS IS A DIFFICULT FLAW. YOU WILL BE HUNTED BY GNOLLS WHO ACTIVELY SEEK YOUR DEATH. EXPECT A MORE DIFFICULT EXPERIENCE AND BE PREPARED FOR DEADLY ATTACKS. \
-	\nThis is a SERIOUS threat. Gnolls hunting you have NO ESCALATION REQUIREMENT and may immediately resort to deadly violence against you. They hate you, and killing you is the purpose of their hunt. \
-	\nPLAY AT YOUR OWN RISK. THIS FLAW REQUIRES AN EXTRA VICE."
+	name = "Gnoll Prey (Blood Price)"
+	desc = "I have a price on my blood, and Sinistar's champions want me DEAD and GONE. My death is their priority above capture, intimidation, or sport. YOU ARE SIGNING UP TO BE A MARKED TARGET FOR DEATH. EXPECT NO ESCALATION, YOU ARE WAIVERING ALL RULE PROTECTIONS."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -435,7 +453,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
 		if(H.name)
-			log_hunted("[H.ckey] playing as [H.name] had the blood price flaw by vice.")
+			log_hunted("[H.ckey] playing as [H.name] had the GNOLL PREY (BLOOD PRICE) flaw by vice (DnR, Lethal, No-Esc).")
 			logged = TRUE
 
 /datum/charflaw/bloodprice/apply_post_equipment(mob/user)
@@ -444,12 +462,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 
 /datum/charflaw/targeted
-	name = "Targeted"
-	desc = "Someone, somewhere, has offered up my name to the Bloodsworn of Graggar. \
-	Assassins may seek my skin-and-soul to steal-and-bind." + span_artery("\nHaving this vice will add you to a list of targets hunted by a powerful \
-	class. If they are successful in killing you, you may be round-removed for a time, though you will be recoverable if the assassin is slain and \
-	their dagger is broken.") + span_danger("\nAssassins DO-NOT NEED to ESCALATE against you if you have this vice. To reiterate: please expect \
-	random attacks and-or potential round removal, even if not permanent. You are still granted ERP protection.")
+	name = "Assassin's Mark (Targeted)"
+	desc = "Someone has offered my name to the Bloodsworn of Graggar. Their assassins may hunt me at any time, and if they kill me, I will be temporarily removed from the round, until their cursed is broken. THIS VICE ALLOWS ASSASSINS TO ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND POSSIBLE ROUND REMOVAL. YOU STILL HAVE ERP PROTECTION."
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -460,7 +474,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
 		if(H.name)
-			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.")
+			log_hunted("[H.ckey] playing as [H.name] had the ASSASSIN'S MARK (TARGETED) flaw by vice (No DnR, Low-Esc).")
 			logged = TRUE
 
 /datum/charflaw/targeted/apply_post_equipment(mob/user)
@@ -469,12 +483,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 
 /datum/charflaw/marked_for_death
-	name = "Marked for Death"
-	desc = "Someone, somewhere, has offered up my name to the Bloodsworn of Graggar, and sacrificed themselves to further curse the end of your existence. \
-	Assassins may seek my skin-and-soul to steal-and-bind." + span_artery("\nHaving this vice will add you to a list of targets hunted by a powerful \
-	class. If they are successful in killing you, you may be round-removed for a time, though you will be recoverable if the assassin is slain and \
-	their dagger is broken.") + span_danger("\nAssassins DO-NOT NEED to ESCALATE against you if you have this vice. To reiterate: please expect \
-	random attacks and guaranteed round removal. You are still granted ERP protection.")
+	name = "Assassin's Mark (Marked for Death)"
+	desc = "Someone has offered my name to the Bloodsworn of Graggar, and sacrificed themselves to curse my Lux. Their assassins will hunt me relentlessly, and if they kill me, I'm done for. THIS VICE ALLOWS ASSASSINS TO HUNT AND ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND GUARANTEED ROUND REMOVAL ON DEATH. YOU HAVE NO PROTECTION."
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -489,7 +499,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
 		if(H.name)
-			log_hunted("[H.ckey] playing as [H.name] had the marked for death flaw by vice.")
+			log_hunted("[H.ckey] playing as [H.name] had the ASSASSIN'S MARK (MARKED FOR DEATH) flaw by vice (DnR, No-Esc).")
 			logged = TRUE
 
 /datum/charflaw/marked_for_death/apply_post_equipment(mob/user)

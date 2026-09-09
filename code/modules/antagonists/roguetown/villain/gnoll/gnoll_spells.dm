@@ -66,19 +66,20 @@
 		if(L == user || istype(L, /mob/living/carbon/human/dummy) || !L.mind)
 			continue
 		var/is_hunted = L.has_flaw(/datum/charflaw/hunted)
+		var/is_lamb = L.has_flaw(/datum/charflaw/stalked)
 		var/is_bloodmarked = L.has_flaw(/datum/charflaw/bloodprice)
 		// Don't uncomment for now
 		// var/target_role = L.job
-		var/is_valid_prey = (is_hunted || is_bloodmarked)
+		var/is_valid_prey = (is_hunted || is_bloodmarked || is_lamb)
 		// if(!is_valid_prey)
 		//	if(target_role in combat_roles)
 		//		is_valid_prey = TRUE
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
-			if(is_hunted)
-				entry_name += " (Non-Lethal)"
+			if(is_lamb)
+				entry_name += " (Non-Lethal, Lamb)"
 			if(is_bloodmarked)
-				entry_name += " (Lethal, DnR)"
+				entry_name += " (Kill On Sight, DnR)"
 			possible_targets[entry_name] = L
 
 	if(!length(possible_targets))
@@ -181,8 +182,10 @@
 	var/channel_time = 15 SECONDS
 	if(target.has_flaw(/datum/charflaw/hunted))
 		channel_time = 6 SECONDS
+	if(target.has_flaw(/datum/charflaw/stalked))
+		channel_time = 2 SECONDS
 
-	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
+	to_chat(user, span_notice("You begin pulling [target] into Gragger's plane"))
 	to_chat(target, span_userdanger("The world around you begins to dissolve into a blood scented nightmare!"))
 	user.visible_message(span_userdanger("[user] tears a blood red rift into space with a claw, and begins dragging [target] into it!"))
 	tracker.channeling_abduction = TRUE
