@@ -392,7 +392,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/stalked
 	name = "Gnoll Prey (Lamb)"
-	desc = "I have been marked as leisure prey by Sinistar's champions. But I have a phobia of these creachers, leaving me helpless against them and expected to fear, flee, hide, or submit rather than fight back. THIS VICE IS PURELY FOR ROLEPLAY, DO NOT EXPECT COMBAT. YOU ARE SIGNING UP TO BE THE VICTIM."
+	desc = "I have been marked as leisure prey by Sinistar's champions. But I have a phobia of these creachers, leaving me helpless against them and expected to fear, flee, hide, or submit rather than fight back. YOU ARE SIGNING UP TO BE A VICTIM. EXPECT TO BE STALKED RANDOMLY AND MECHANICALLY INTERACTED WITH VERY LITTLE ESCALATION OR REASON. (Please, use some common sense and try not to get into 'private scenes' while having this vice)"
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -417,7 +417,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/hunted
 	name = "Gnoll Prey (Hunted)"
-	desc = "I have been marked for the hunt by Sinistar's champions for one reason or another. I can try to fight back and escape, but they will actively pursue me. YOU ARE SIGNING UP TO BE HUNTED, EXPECT LOW ESCALATION. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)."
+	desc = "I have been marked for the hunt by Sinistar's champions for one reason or another. I can try to fight back and escape, but they will actively pursue me. YOU ARE SIGNING UP TO BE A MARKED TARGET. EXPECT TO BE ATTACKED RANDOMLY WITH VERY LITTLE ESCALATION OR REASON. (Please, use some common sense and try not to get into 'private scenes' while having this vice)."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -438,7 +438,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/bloodprice
 	name = "Gnoll Prey (Blood Price)"
-	desc = "I have a price on my blood, and Sinistar's champions want me DEAD and GONE. My death is their priority above capture, intimidation, or sport. YOU ARE SIGNING UP TO BE A MARKED TARGET FOR DEATH. EXPECT NO ESCALATION. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)."
+	desc = "I have a fatal price on my blood, and Sinistar's champions want me DEAD and GONE. My death is their top priority above capture, intimidation, or sport. YOU ARE SIGNING UP TO BE A MARKED TARGET. EXPECT TO BE ATTACKED RANDOMLY WITH VERY LITTLE ESCALATION OR REASON. YOU WILL BE PERMANENTLY KILLED IF YOU DIE. (Please, use some common sense and try not to get into 'private scenes' while having this vice)."
 	ui_fa_icon = "tooth"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -463,7 +463,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/targeted
 	name = "Assassin's Mark (Targeted)"
-	desc = "Someone has offered my name to the Bloodsworn of Graggar. Their assassins may hunt me at any time, and if they kill me, I will be temporarily removed from the round, until their cursed is broken. THIS VICE ALLOWS ASSASSINS TO ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND POSSIBLE ROUND REMOVAL. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)."
+	desc = "Someone has offered my name to the Bloodsworn of Graggar. Their assassins may hunt me at any time, and if they kill me, I will be temporarily removed from the round, until their cursed blade is broken. YOU ARE SIGNING UP TO BE A MARKED TARGET. EXPECT TO BE ATTACKED RANDOMLY WITH VERY LITTLE ESCALATION OR REASON. (Please, use some common sense and try not to get into 'private scenes' while having this vice)."
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -484,7 +484,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/marked_for_death
 	name = "Assassin's Mark (Marked for Death)"
-	desc = "Someone has offered my name to the Bloodsworn of Graggar, and sacrificed themselves to curse my Lux. Their assassins will hunt me relentlessly, and if they kill me, I'm done for. THIS VICE ALLOWS ASSASSINS TO HUNT AND ATTACK WITHOUT ESCALATION. EXPECT RANDOM ATTACKS AND GUARANTEED ROUND REMOVAL ON DEATH. (THIS REMOVES ANY SCENE PROTECTION FOR BOTH YOU AND YOUR PARTNER)"
+	desc = "Someone has offered my name to the Bloodsworn of Graggar, and sacrificed themselves to curse my Lux. Their assassins will hunt me relentlessly, and if they kill me, I'm done for. YOU ARE SIGNING UP TO BE A MARKED TARGET. EXPECT TO BE ATTACKED RANDOMLY WITH VERY LITTLE ESCALATION OR REASON. YOU WILL BE PERMANENTLY KILLED IF YOU DIE. (Please, use some common sense and try not to get into 'private scenes' while having this vice)."
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
@@ -509,7 +509,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/low_profile
 	name = "Assassin's Mark (Low Profile)"
-	desc = "Someone has offered my name to the Bloodsworn of Graggar, but I was deemed unworthy. I have received a disturbing letter from them about it, and that I'll be under watch, and to cooperate, or else. THIS VICE IS PURELY FOR ROLEPLAY. ENCOUNTERS ARE LIKELY NOT GOING TO BE LETHAL, BUT CAN BE. EXPECT THEM TO ALWAYS KNOW WHERE YOU ARE."
+	desc = "Someone has offered my name to the Bloodsworn of Graggar, but I was deemed unworthy. I have received a disturbing letter from them about it, and that I'll be under watch, and to cooperate, or else. YOU ARE SIGNING UP TO BE A VICTIM. EXPECT TO BE STALKED RANDOMLY AND MECHANICALLY INTERACTED WITH VERY LITTLE ESCALATION OR REASON. (Please, use some common sense and try not to get into 'private scenes' while having this vice)"
 	ui_fa_icon = "crosshairs"
 	needs_extra_vice = TRUE
 	var/logged = FALSE
