@@ -1146,3 +1146,8 @@
 	name = "Donator Item - Lux In Tenebris"
 	path = /obj/item/enchantingkit/donator_koruu_astrataclerichelm
 	ckeywhitelist = list("koruu", "oddbomber3768", "nooriginality", "vakiova", "maesune")
+
+/datum/loadout_item/donator/mortosasye_deepcutdress
+	name = "Donator Item - Deep Cut Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
+	ckeywhitelist = list("mortosasye")
