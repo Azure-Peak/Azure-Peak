@@ -81,7 +81,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/longcoat/rosa
 	name = "regal coat"
-	desc = "A finely crafted leather coat adorned with rosas. Favored by generals who claim Eora as their patron, however true it may be."
+	desc = "A finely crafted leather coat adorned with rosas. A favorite among the more modest of Otavan nobility, who choose not to clad themselves in silver."
 	icon_state = "rosacoat7"
 	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
