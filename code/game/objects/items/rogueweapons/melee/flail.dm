@@ -197,14 +197,10 @@
 	minstr = 5
 
 /obj/item/rogueweapon/flail/sflail/silver
-	force = 35
 	icon_state = "silverflail"
 	name = "silver morningstar"
-	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
 	desc = "A heavy, silver flail. It follows the Grenzelhoftian design of a 'morning star', utilizing a longer chain to extend its reach. While stronger than a steel flail, it requires far more strength to effectively swing."
 	smeltresult = /obj/item/ingot/silver
-	max_integrity = 200 //Same value as before, for reference.
-	minstr = 12
 	is_silver = TRUE
 
 /obj/item/rogueweapon/flail/sflail/silver/ComponentInitialize()
@@ -222,7 +218,6 @@
 	name = "swift journey"
 	desc = "The striking head is full of teeth, rattling viciously with every strike, with every rotation. Each set coming from one the wielder has laid to rest. Carried alongside them as a great show of respect."
 	icon_state = "necraflail"
-	force = 35
 	is_silver = TRUE
 
 /obj/item/rogueweapon/flail/sflail/necraflail/ComponentInitialize()
@@ -240,9 +235,6 @@
 	name = "psydonic flail"
 	desc = "An ornate flail, plated in a ceremonial veneer of silver. Its flanged head can crumple even the toughest of darksteel-maille."
 	icon_state = "psyflail"
-	force = 35
-	minstr = 11
-	wdefense = 0
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -272,7 +264,6 @@
 	name = "\"Consecratia\""
 	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."
 	icon_state = "psymorningstar"
-	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
 
 /obj/item/rogueweapon/flail/sflail/psyflail/relic/ComponentInitialize()
 	AddComponent(\

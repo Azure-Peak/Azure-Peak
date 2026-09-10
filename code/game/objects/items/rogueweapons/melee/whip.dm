@@ -82,10 +82,10 @@
 	icon_state = "instrike"
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-/datum/intent/flail/smash/ranged/psywhip
+
+/datum/intent/flail/smash/ranged/psywhip //It is a small blessing this is allowed on a one-handed weapon.
 	name = "Meteor Strike"
 	desc = "Swing the weight of your whip around your body, using the angular momentum to deliver a devastating strike, propelling your enemy back and savaging them at the same time."
-	chargedrain = 0 //The charge time is indicative of a warmup, not a hold.
 	chargedloop = /datum/looping_sound/flailswing
 	keep_looping = FALSE
 
@@ -162,10 +162,9 @@
 	desc = "A chain-linked whip, meticulously assembled from a hundred pieces of blessed silver. Its origins are steeped in mythos: most believe it to originate from an ancient bloodline of vampyre-killers, which once saved Psydonia from a powerful lyckerlorde. Whether it was happenstance or fate itself that eventually led it into your grasp, however, is better left unspoken. </br>'There, upon the Cathedral's ceiling, was painted a scene-most-beautiful: of a robed Psydon standing before the Archdevil, parting the nite's sky with a crack from His fiery whip. Just as He had done prior, so too must you bring daelight to the darkness.'"
 	icon_state = "psywhip"
 	is_silver = TRUE
-	force = 25
+	force = 22
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish, /datum/intent/flail/smash/ranged/psywhip)
-	minstr = 11
-	wdefense = 0
+	minstr = 9
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/silver
 
@@ -184,10 +183,8 @@
 	name = "silver whip"
 	desc = "A hefty, silver whip. The uncoiled leather is tipped with a silver barb, which can sunder the blighted from a remarkable distance. </br>'Die, monster! You don't belong in this world!'"
 	icon_state = "silverwhip"
-	force = 23 //Experimental change - adds a +2 to force, as a bridge between handweapons and blunt weapons. Higher strength minimum. Do not raise above 25, unless you want to resurrect maille-shatterers.
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
-	minstr = 11
-	wdefense = 0
+	minstr = 9
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -207,9 +204,7 @@
 	desc = "An ornate whip, plated in a ceremonial veneer of silver. Crack the leather and watch as the apostates clammer aside."
 	icon_state = "psywhip_lesser"
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
-	force = 23
-	minstr = 11
-	wdefense = 0
+	minstr = 9
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 

@@ -897,7 +897,6 @@
 	desc = "A branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
 	icon_state = "heavystake_silver"
 	possible_item_intents = list(/datum/intent/dagger/thrust/pick, /datum/intent/dagger/thrust/quick, /datum/intent/dagger/cut, /datum/intent/dagger/sucker_punch)
-	force = 20
 	throwforce = 20
 	wdefense = 0
 	max_integrity = 50
@@ -969,7 +968,6 @@
 /obj/item/rogueweapon/huntingknife/idagger/stake/inq
 	name = "otavan stake"
 	desc = "A smaller branch that has been broken off of an Otavan boswellia tree, sharpened to a fine point. It can lay most unholy creechers to rest, but only by piercing their hearts."
-	force = 15
 	throwforce = 15
 	icon_state = "stake_otavan"
 
@@ -1215,7 +1213,7 @@
 	max_integrity = 150
 	wdefense = 3
 	icon_state = "throw_knifesil"
-	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 0)
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 0) //Higher embed chance, doesn't fall.
 	is_silver = TRUE
 
 /obj/item/rogueweapon/huntingknife/throwingknife/silver/ComponentInitialize()
