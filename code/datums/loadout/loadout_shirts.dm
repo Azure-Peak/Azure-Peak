@@ -259,3 +259,4 @@
 	name = "Blouse"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/blouse
 	sort_category = "Shirts"
+

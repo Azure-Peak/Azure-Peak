@@ -233,3 +233,4 @@
 	name = "Toga, Dress"
 	path = /obj/item/clothing/cloak/tabard/toga/dress
 	sort_category = "Cloaks"
+

@@ -78,3 +78,4 @@
 /obj/item/clothing/suit/roguetown/armor/silkcoat/Initialize(mapload)
 	. = ..()
 	color = pick(CLOTHING_PURPLE, null,CLOTHING_GREEN, CLOTHING_RED)
+

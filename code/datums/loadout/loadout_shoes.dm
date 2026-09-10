@@ -69,3 +69,4 @@
 	name = "Classical Sandals"
 	path = /obj/item/clothing/shoes/roguetown/sandals/toga
 	sort_category = "Shoes"
+
