@@ -211,7 +211,7 @@
 	icon_state = "rosagloves2"
 
 /obj/item/clothing/gloves/roguetown/rosa/three
-	name = "velvet gloves"
+	name = "silvered gloves"
 	icon_state = "rosagloves3"
 
 /obj/item/clothing/gloves/roguetown/rosa/four

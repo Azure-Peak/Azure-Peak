@@ -234,3 +234,12 @@
 	path = /obj/item/clothing/cloak/tabard/toga/dress
 	sort_category = "Cloaks"
 
+/datum/loadout_item/rosacloak
+	name = "Regal Cloak"
+	path = /obj/item/clothing/cloak/rosa
+	sort_category = "Cloaks"
+
+/datum/loadout_item/rosacloaktwo
+	name = "Courtly Cloak"
+	path = /obj/item/clothing/cloak/rosa/two
+	sort_category = "Cloaks"

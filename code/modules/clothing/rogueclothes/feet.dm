@@ -970,7 +970,7 @@
 	icon_state = "rosashoes2"
 
 /obj/item/clothing/shoes/roguetown/rosa/three
-	name = "velvet shoes"
+	name = "silvered shoes"
 	icon_state = "rosashoes3"
 
 /obj/item/clothing/shoes/roguetown/rosa/four
