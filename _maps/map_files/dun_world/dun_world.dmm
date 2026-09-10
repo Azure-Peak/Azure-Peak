@@ -611,19 +611,6 @@
 	},
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/indoors/town)
-"afU" = (
-/obj/structure/closet/crate/roguecloset/inn,
-/obj/item/rogueore/cinnabar,
-/obj/item/rogueore/cinnabar,
-/obj/item/rogueore/cinnabar,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/turf/open/floor/rogue/wood/nosmooth,
-/area/rogue/indoors/town/dwarfin)
 "afY" = (
 /turf/open/floor/rogue/cobblerock{
 	smooth = 0
@@ -6678,10 +6665,6 @@
 "bnL" = (
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach/forest/north)
-"bnM" = (
-/obj/effect/decal/cleanable/roguerune/arcyne/summoning/mid,
-/turf/open/floor/rogue/wood/nosmooth,
-/area/rogue/indoors/town/dwarfin)
 "bnN" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/ruinedwood,
@@ -30122,10 +30105,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town/church/chapel)
-"fEx" = (
-/obj/effect/decal/cleanable/roguerune/arcyne/enchantment,
-/turf/open/floor/rogue/wood/nosmooth,
-/area/rogue/indoors/town/dwarfin)
 "fEz" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/grass,
@@ -53461,10 +53440,6 @@
 	},
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/outdoors/town/roofs)
-"jSi" = (
-/obj/structure/leyline/tamed,
-/turf/open/floor/rogue/wood/nosmooth,
-/area/rogue/indoors/town/dwarfin)
 "jSl" = (
 /obj/effect/decal/cleanable/blood,
 /obj/structure/roguemachine/bounty,
@@ -64906,22 +64881,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/druidsgrove)
-"lTj" = (
-/obj/structure/closet/crate/roguecloset/inn,
-/obj/item/magic/manacrystal,
-/obj/item/magic/manacrystal,
-/obj/item/magic/manacrystal,
-/obj/item/magic/manacrystal,
-/obj/item/reagent_containers/food/snacks/grown/manabloom,
-/obj/item/reagent_containers/food/snacks/grown/manabloom,
-/obj/item/reagent_containers/food/snacks/grown/manabloom,
-/obj/item/magic/obsidian,
-/obj/item/magic/obsidian,
-/obj/item/magic/obsidian,
-/obj/item/chalk,
-/obj/item/chalk,
-/turf/open/floor/rogue/wood/nosmooth,
-/area/rogue/indoors/town/dwarfin)
 "lTl" = (
 /obj/structure/fluff/railing/wood/west{
 	pixel_y = -1
@@ -90131,12 +90090,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/magician)
-"qyP" = (
-/obj/structure/closet/crate/roguecloset/inn,
-/obj/item/magic/artifact,
-/obj/item/magic/artifact,
-/turf/open/floor/rogue/wood/nosmooth,
-/area/rogue/indoors/town/dwarfin)
 "qyR" = (
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/town)
@@ -177812,7 +177765,7 @@ qFt
 vGa
 vGa
 cqm
-lTj
+tNJ
 aUD
 tNJ
 tNJ
@@ -177820,7 +177773,7 @@ rGX
 tNJ
 tNJ
 aUD
-qyP
+tNJ
 lGX
 cqm
 cHC
@@ -178264,15 +178217,15 @@ qFt
 vGa
 vGa
 cqm
-jSi
 tNJ
-bnM
+tNJ
+tNJ
 tNJ
 rGX
 tNJ
-fEx
 tNJ
-afU
+tNJ
+tNJ
 lGX
 cqm
 ksA
