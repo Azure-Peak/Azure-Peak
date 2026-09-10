@@ -1,0 +1,5 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - balance: "Rituos (zizo rituals) now last 20 instead of 25 minutes to be in line with everything else."
+  - bugfix: "Eoran ritual being half the duration of the other rituals."

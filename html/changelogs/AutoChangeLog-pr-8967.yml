@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Wanderers will now show up as such in the known menu, instead of showing up as \"Malpractitioner\" or \"Hag\""

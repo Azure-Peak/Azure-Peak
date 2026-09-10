@@ -30,6 +30,9 @@
 	for(var/obj/item/reagent_containers/food/snacks/item in removing_items)
 		item.initialize_cooked_food(created_output, 1)
 
+	for(var/obj/item/seeds/seed in removing_items)
+		seed.initialize_cooked_seed(created_output, 1)
+
 /datum/container_craft/oven/try_craft(obj/item/crafter, list/pathed_items, mob/initiator, datum/callback/on_craft_start, datum/callback/on_craft_failed)
 	if(!lit_oven(crafter))
 		return FALSE

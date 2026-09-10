@@ -9,7 +9,7 @@ Blacksteel is a blessed alloy of pure silver and steel. Its recipe was stolen by
 Skeletons have no BRAIN. Try to FEINT them. But don't tell this to everyone!
 A DODGING rogue who keeps their eyes FIXED retreats only backwards.
 An arcing arrow can only hit a target below you, not above you. A thrown rock, however...
-The Aragn is a large black spider capable of outrunning even the swiftest of elves. Its venom is paralytic, and it preys within sewers and bogs.
+The Aragn is a large black spider capable of outrunning even the swiftest of elves. Its venom is paralytic. It preys within sewers and bogs.
 The bog be a dangerous place full of chittering fiends. That dendorite may be covered in leaves and mud, at least they make for a good guide.
 With the care they put into their work, it is said that the food made by Eora's faithful energize the soul like no other dish.
 Pomegranate arils are boons sent to mortals by Eora to test whether they're dedicated enough to care for something precious.
@@ -72,3 +72,125 @@ FORTUNE represents your actor's luck. This affects their chance to sway seemingl
 Remember that there is another face behind the masks of every actor you meet. Cruelty in service of a story becomes unacceptable when it is done purely out of single-minded malice.
 New? Overwhelmed? Confused? Try checking out 'A Tutorialeer's Handbook' from the Loadout's 'Miscellanious' section, in order to get a crash course on everything you'd need to know!
 In the mynd's eye, otherwise known as the OOC tab... A handy Azurean encyclopedia can be found. Recipes, spells, anything a burgeoning adventurer might need!
+The heads of goblins, minotaurs, dragons, trolls, and various other creachers can be sold to the HEADEATER in town. The heads of CONTRACTUALLY-FOUGHT EVYLDOERS cannot.
+Looking through telescopes can provide interesting benefits... or stressing sights.
+TRIUMPHs can be spent by right-clicking your mood indicator. This will temporarily abate any stress upon your ACTOR.
+The ENCYCLOPEDIA in your OOC TAB contains a wealth of information on various topics!
+An actor's ORIGIN provides a free language.
+REAGENTS can be ground in a mortar and pestle through the MIDDLE-MOUSE BUTTON. This will turn certain items into a "LIQUID" form.
+TALLOW can be used to OIL someone, making any grabbing of an exposed body-part have a chance to fail! Try oiled wrestling tonite!
+The strange, blue sounds coming from another ACTOR may be a MINDLINK! MINDLINKS are two-way magic communications currently on speaker!
+GHOSTS can send letters through the HERMES!
+Certain items, like sticks and cloth, can be BUNDLED through the RIGHT-MOUSE BUTTON!
+Mining can be done by walking into a rock wall with APPRENTICE or greater skill. Ore-bags will also automatically pick up ore at this level.
+Click the "CRAFT" button with your RIGHT-MOUSE BUTTON in order to repeat your last crafting attempt.
+Floors are built depending on the direction which you face. Make sure you face the same direction if you wish for them to be the same!
+Some paintings can be taken from walls and sold.
+Carts can be enhanced with greater load capacity through a Woodcutters Wheelbrace.
+The BLOODLETTING surgery can be performed on an arm or a leg. It will reduce toxin build-up and purge the 'INFECTION' from bad surgery. Antidote is still better.
+TARGETING your NOSE and then EXAMINING a reagent container will let you sniff said container, exposing the smells and tastes of what's within!
+If someone has a GUTSPILL injury, they will likely need to have their organs replaced in ADDITION to the wound being stitched!
+Wounds that cause DISMEMBERMENT will result in the bleeding stump being present on the CHEST! Grip there, NOT at the limb... unless it's been re-attached.
+FACES can be reconstructed through a surgery targeting the head. This surgery can also change your name... or disfigure you, should it go wrong.
+MEDITATION will provide a brief but potent mental boost.
+Certain polearm intents have a SWEET-SPOT. A spear's STAB requires two-tiles between you and your target for max penetration. A spear's CUT does not, however.
+Press 'STOP SOUNDS' in your preferences tab if a sound keeps looping and won't stop.
+STEWARDS are often in need of various craftsman goods! From gambesons to ingots, to even apples! Towners, stop by and see if anything is needed!
+TOWNERS can claim a house by ALT-CLICKING on a town-house door.
+LEECHTICKS can be removed from your person by "GRABBING" at where they are on your actor's sprite.
+If your ACTOR has unspent DREAM-POINTS, or you simply misclicked, you can RE-OPEn the DREAM TAB while sleeping through "OPEN DREAM MENU" in the IC TAB!
+ZIGS and PIPES can be put out with RIGHT-CLICK. This will reduce their smoke-ability, however.
+GRAGGARITES can eat organs to restore some of their energy.
+RIGHT-MOUSE BUTTON on TREES, LOGS, CLOCKS, TRAINING DUMMIES, and certain other structures in order to access your actor's "STASH"!
+Bottles will leak if not closed before being placed in a belt or backpack.
+Forming a FELLOWSHIP in your IC TAB will allow for handling harder contracts. It also lets you choose an incredible name for your adventuring party.
+NOTORIOUS contracts involve fighting another player. Beware!
+STEWARDS and INNKEEPS can both provide contracts to adventurers.
+REVENANTS may take a STAKE to the chest to be put down!
+Elves, tieflings, and some others can flick their ears with *eflick.
+JACKSBERRIES provide both nutrition and water.
+Multiple people stitching a wound will make it heal faster.
+CAUTERIZATION surgery will heal a wound, albeit dealing burn damage in the process. Certain wounds may take many cauterization attempts, but it could still save a lyfe!
+Artificers can make all sorts of contraptions, from voltaic gauntlets to impact grenades. Consider ordering something bronze todae!
+GRAB a creature and then CLICK on the meathook with an empty hand to put the creature upon it.
+Mages can ENCHANT various items through gathering summoning materials.
+Chocolate, honey, and butter slices can be melted onto griddles.
+Bandages can be treated with a variety of medicines, such as aqua vitae, lifeblood, Pestran Medicine, and blessed water. FEED the bandage with a container of the liquid!
+RIGHT-CLICKING rough dirt tiles will pick up a clod.
+ROCKS can be found by digging in the dirt with a SPADE. Worms can also be found in this same way.
+Need to break a rock? Sharpen a STICK into a STAKE with an item using CUT INTENT. STAKES aren't very good at it, but they ARE still picks! Also consider BASHING the rock!
+Most CRAFTING SKILLS have something of a "TRAINING RECIPE" with a low difficulty. You can use this to raise a skill up fairly quickly... and hopefully switch to something else once you're a novice.
+ROUND-START CLOTHES have very little value. Consider selling them to the tailor's ragpicker instead of the merchant.
+Most items can be sold to the merchant's NAVIGATOR. Beware the Guildmaster's poor humors!
+SURRENDER by RIGHT-CLICKING on your combat-mode toggle. It may just save your lyfe.
+ENABLE COMPLIANT MODE by MIDDLE-MOUSE-BUTTON clicking your combat-mode toggle. This allows anyone to grab you without resistance!
+Some simple-minded creachers are LARGE and cannot be struck upon the head without first destroying their LEG... or having a long-reach weapon.
+CHARGING an opponent by running into them can be an efficient way to down a mage or an archer. Alternatively; it can be a way to be struck down if they GUARD before you land it.
+Shields provide a bonus to charge rolls.
+WRITING on a sign requires a short stabbing implement. A regular stone knife won't CUT it!
+Some INTENTS have different delays. Striking an ATTACKER using a "RED" intent will stop it, but if you fail to do so, you will be unable to block or dodge it! "YELLOW" intents will lower their parry chance while they swing.
+DEVELOPERS make mistakes. Please consider making a bug-report with round-information and reproduction steps if something seems wrong!
+ADMINS are not omniscient. Please consider making an AHELP if someone is breaking the rules.
+A head on a belt will slow your ACTOR down.
+A TOSSBLADE can be put into a boot.
+If your REVIVAL SPELL seems to not be working, EXAMINE the spell. HEARTBEAST research may have made it require a much-easier-to-acquire resource.
+The EXCIDIUM allows for quick prosecution of a criminal wretch without having to go through the marshal, the Duchess, and three guardsmen. Consider asking which your captured criminal would prefer.
+Things inside CARTS can be used for crafting. Load them up with sticks, wood, or bricks, then have a much more enjoyable time building.
+Start building structures with the floors, then the walls. Remember: a three-by-three floor-plan requires four-by-four walls!
+CHISELING stones into bricks requires a chisel AND a mallet. Combine the two items by slapping one onto the other, then brick-away.
+MANY items can be "BUNDLED" by clicking on one with another. Most of these items can also be bundled by pressing RIGHT-MOUSE-BUTTON on them.
+Hanging out in the inn restores energy.
+In rare instances, drinking bog-water can preserve your LYFE instead of end it. Consider it if your ACTOR is on the verge of bleeding out. Just... mind the puking.
+MINDFUL SKELELONS lose their ability to walk if their ribs are cracked.
+Ending a message with TWO EXCLAMATION POINTS!! shouts it very loud. ONE EXCLAMATION POINT! shouts it less so. Starting a message with #whispers it quietly... and starting a "me" with @does it subtly.
+Some DRUQK combinations will knock your ACTOR unconscious.
+DWARFS can make PREZZELS. Dark elves can make SPIDER-MEAT pies. They would all rather die than reveal this ancestral art to another.
+Before stepping on ice, LOOK and consider if a madman has put lava at the end of your slip-and-slide.
+DUAL-WIELDER allows SLURBOWS to be DUAL-FIRED.
+EYE DAMAGE can be treated by healing potions.
+RIGHT-MOUSE CLICKING a class in the CLASS SELECTION MENU will allow you to set various preferences related to it.
+KEEPERS require fresh meat. Consider selling your left-over rous kills and un-stockpileable meat stores to them.
+PLACE A COIN in the mouth of a corpse soon to be buried. If no mouth is present, throw it in the grave, or place it within a pouch on their neck. THE CARRIAGEMAN demands his toll.
+Sometimes, having your combat music set to default will result in PSYster eggs...
+BINS can store objects, as well as liquid reagents.
+POISON ARROWS deal damage to a shot opponent's stamina, often leaving them tuckered out three swings in.
+The BLUE bar is called 'ENERGY'. The GREEN bar is called 'STAMINA'.
+A spellblade's "CAEDO!" can be blocked by GUARDING.
+Click the IC Date in the Round Info tab to learn more about the Azurean calendar and yil'ly events!
+All work and no play rarely makes for a fun week. TALK TO PEOPLE!
+The MERCHANT can order more exotic items and summon ships if their ORDERS are FULFILLED. Consider asking them what their boats require for export!
+Standing on someone and STOMPING their NECK deals suffocation damage.
+TILL grass with a HOE to turn it into dirt.
+BOILING murk-water turns it into regular water. BOILING sea-water produces usable salt.
+Wild pumpkins are everywhere in the Grove. Roast their seeds for a quick snack.
+ROTATE items for better inventory management by pressing RIGHT-MOUSE BUTTON on an inventory slot.
+READY-UP for GOODIES in your ACTOR'S STASH!
+Paying POLL TAXES early prevents paying higher taxes, if the Regent decides to hike them up three daes into the week.
+Planning on head-hunting? Consider buying a HEADHOOK and enchanting it with a STORING scroll from a mage.
+POUCHES can hold far more than coins.
+MOST storage containers can be enchanted with an EFFICIENT STORING enchantment, vastly increasing their space.
+PARCHMENTS can be written on with a quill, then have an item placed in them. Putting this package in the HERMES will send both the item AND the message!
+MESS KITS can be a fantastic way to cook on the go. A BEDROLL is also quite nice, especially when paired with a CAMPFIRE!
+All the mushrooms in the underdark have different results when broken. The same kind that produces wood produces edible mushrooms! Cook them over a campfire for a quick snack!
+SMALL LOGS turn into sticks when destroyed. Use them to build a quick fire!
+CRITICALLY WEAK creachers, like goblins, can be slain with a well-placed cut to the neck.
+A MINDFUL and PRONE creacher can be slain by CUTTING the neck until it "BLOSSOMS" in a shower of gore. Stop cutting thereafter, unless you seek their head.
+Cracking the ribcage and then PIERCING or PICKING the chest can allow for a "HEART-CRITICAL", which will swiftly bleed out nearly any opponent.
+One mammon is not worth dying over.
+LOOK AROUND to find MANEATERS, HIDDEN PERSONS, and other things, like tracks! MANEATERS in particular are swell to find; set them ALIGHT or CHOP them to pieces.
+FIGHTING A RIVER'S CURRENT IS DOOMED TO FAIL! Flow with it to conserve your stamina.
+POTIONS OF MANNA restore your ENERGY. They are useful for both martials and mages alike.
+KICK one foe into another and both will fall.
+SHIFT RIGHT-MOUSE-CLICK on an OPEN TILE to look down it.
+Some bars can be crawled under by going prone.
+Metal equipment from goblins, bandits, and other sources, can all be melted down into scrap for improvised repair kits. Use a lamptern or a torch to melt them down.
+BATHHOUSE ATTENDANTS can give massages, providing FANTASTIC bonuses to an actor's STATS.
+Some tails can be HIDDEN when wearing trousers. MIDDLE-MOUSE CLICK on your pants to hide or reveal the tail.
+BLACKSMITHS are often overworked and underpaid. Consider bringing them a snack when you come to collect your order.
+SNEAK when walking through grass or onto sticks to avoid ambushes. SPRINTING into a boulder can trip you upon it, ALSO causing an ambush.
+Mining is improved by an actor's FORTUNE. A high WILLPOWER to increase your stamina works wonders, too.
+REGULAR SKELELONS can be dispatched by stabbing them in the nose or cracking their skulls. Decapitation is a universal death for their kind.
+SAUSAGES can be made with any MINCE. If truly in a pickle, try using FAT as a filler! Your customers will never know the difference!
+Water breaks falls.
+POISON JACKSBERRIES can be ground in a mortar to produce poison.
+It possible, albeit rare, for both poisonous and safe jacksberries to be the same color.

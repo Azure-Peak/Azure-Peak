@@ -106,7 +106,7 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Time to die!")
+	invocations = list("Die screaming!")
 
 	charge_required = FALSE
 	cooldown_time = 1 MINUTES
@@ -223,7 +223,7 @@
 	secondary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Be still!")
+	invocations = list("Be wrangled by gore!")
 
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
@@ -286,8 +286,7 @@
 /datum/action/cooldown/spell/graggar/graggar_battlecry
 	name = "Vicious Roar"
 	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites."
-	fluff_desc = "The battlefield quakes with your roar! Shaken to their core, they will prove easy pickings for a worthy champion such as yourself; the power of the Sinistar, unleashed.\
-	SLAUGHTER THE LAMBS - DRINK THEIR MARROW - FEAST UPON THEIR FLESH - LEAVE NO TRACE OF THEIR PATHETIC EXISTENCE! - THE SINISTAR HUNGERS!"
+	fluff_desc = "Your roar drowns out reason and restraint, stirring (or stilling) the blood of all who hear it. Mercy becomes weakness, the fallen become meat, and the battlefield becomes a place where nothing is forbidden. Your own Paradise made manifest."
 	button_icon_state = "vicious_roar"
 	sound = 'sound/magic/battle_cry_graggar.ogg'
 	glow_intensity = 0
@@ -299,7 +298,7 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Kneel before the might of the Sinistar!")
+	invocations = list("REND AND TEAR! TIL NAUGHT BUT RED REMAINS!!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = FALSE
@@ -312,21 +311,23 @@
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
-
+	H.emote("roar")
 	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
 		if(istype(target.patron, /datum/patron/inhumen))
+			to_chat(target, span_danger("You feel your blood boil! It's time to wage war!"))
 			target.apply_status_effect(/datum/status_effect/buff/call_to_slaughter)	//Buffs inhumens
 			continue
 		if(istype(target.patron, /datum/patron/old_god))
-			to_chat(target, span_danger("You feel a surge of cold wash over you; leaving your body as quick as it hit.."))	//No effect on Psydonians!
+			to_chat(target, span_danger("You feel a surge of cold wash over you, yet it leaves your body as quick as it hits.")) //No effect on Psydonites!
 			continue
 		if(istype(target.patron, /datum/patron/vheslyn))
-			to_chat(target, span_danger("You feel... nothing..")) //No effect on Vheslynites, fear them.
+			to_chat(target, span_danger("You feel... nothing. Even the concept of war is an extension of HIM. You will erase it, too.")) //No effect on Vheslynites, fear them.
 			continue
 		if(!owner.faction_check_mob(target))
 			continue
 		if(target.mob_biotypes & MOB_UNDEAD)
 			continue
+		to_chat(target, span_danger("You feel your blood chill! I must survive..."))
 		target.apply_status_effect(/datum/status_effect/debuff/call_to_slaughter)	//Debuffs non-inhumens/psydonians
 	return TRUE
 
@@ -340,9 +341,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/call_to_slaughter
 	duration = 2.5 MINUTES
 	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 2, STATKEY_CON = 1)
-
-/datum/status_effect/buff/call_to_slaughter/on_remove()
-	. = ..()
 
 /atom/movable/screen/alert/status_effect/debuff/call_to_slaughter
 	name = "Vicious Roar"
@@ -375,7 +373,7 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Bleed for your God!")
+	invocations = list("Let my prey's suffering be thy feast!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
@@ -394,10 +392,13 @@
 	var/mob/living/spelltarget = cast_on
 
 	if(!isliving(spelltarget))
-		to_chat(owner, span_warning("There is nothing to BLEED."))
+		to_chat(owner, span_warning("They are not bleeding."))
 		return FALSE
 	else
-		spelltarget.visible_message("<font color='bloody'>My lyfeblood flows away!</font>")
+		spelltarget.emote("painscream")
+		playsound(get_turf(spelltarget), 'sound/combat/brutal_impalement.ogg', 100, TRUE)
+		playsound(spelltarget, 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
+		to_chat(span_bloody("My heart races, as my lyfeblood begins to liquefy and bleed faster!"))
 		if(spelltarget.anti_magic_check(TRUE, TRUE))
 			return FALSE
 		if(spell_guard_check(spelltarget, TRUE))
@@ -428,7 +429,7 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("I will tear you apart!")
+	invocations = list("I WILL TEAR YOU LIMB FROM LIMB!!")
 
 	charge_required = TRUE
 	charge_slowdown = 2

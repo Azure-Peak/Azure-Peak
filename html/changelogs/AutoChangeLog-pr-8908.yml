@@ -1,5 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - bugfix: "(Attempts to) fix the TGUI character preview window being tiny."
-  - code_imp: "Updates tgui-core to 6.1.3."
