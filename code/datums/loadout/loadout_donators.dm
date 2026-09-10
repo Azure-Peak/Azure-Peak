@@ -1068,7 +1068,7 @@
 	path = /obj/item/clothing/cloak/rosa
 	ckeywhitelist = list("bloom77")
 
-/datum/loadout_item/donator/bloom_cloak
+/datum/loadout_item/donator/bloom_cloaktwo
 	name = "Donator Item - Courtly Cloak"
 	path = /obj/item/clothing/cloak/rosa/two
 	ckeywhitelist = list("bloom77")
