@@ -1098,3 +1098,24 @@
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/six
 	name = "maroon dress"
 	icon_state = "rosadress6"
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat
+	name = "regal coat"
+	desc = "A finely crafted leather coat adorned with rosas. A favorite among the more modest of Otavan nobility, who choose not to clad themselves in silver."
+	icon_state = "rosacoat7"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	boobed = FALSE
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/two
+	name = "courtly coat"
+	icon_state = "rosacoat8"
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/three
+	name = "royal coat"
+	icon_state = "rosacoat9"
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
+	name = "stately coat"
+	icon_state = "rosacoat10"

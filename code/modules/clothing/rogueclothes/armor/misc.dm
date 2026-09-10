@@ -78,25 +78,3 @@
 /obj/item/clothing/suit/roguetown/armor/silkcoat/Initialize(mapload)
 	. = ..()
 	color = pick(CLOTHING_PURPLE, null,CLOTHING_GREEN, CLOTHING_RED)
-
-/obj/item/clothing/suit/roguetown/armor/longcoat/rosa
-	name = "regal coat"
-	desc = "A finely crafted leather coat adorned with rosas. A favorite among the more modest of Otavan nobility, who choose not to clad themselves in silver."
-	icon_state = "rosacoat7"
-	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
-	boobed = FALSE
-	color = null
-
-/obj/item/clothing/suit/roguetown/armor/longcoat/rosa/two
-	name = "courtly coat"
-	icon_state = "rosacoat8"
-
-/obj/item/clothing/suit/roguetown/armor/longcoat/rosa/three
-	name = "royal coat"
-	icon_state = "rosacoat9"
-
-/obj/item/clothing/suit/roguetown/armor/longcoat/rosa/four
-	name = "stately coat"
-	icon_state = "rosacoat10"

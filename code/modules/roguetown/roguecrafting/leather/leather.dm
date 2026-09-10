@@ -396,17 +396,17 @@
 		/obj/item/natural/silk = 2,
 		/obj/item/alch/rosa = 1
 	)
-	result = list(/obj/item/clothing/suit/roguetown/armor/longcoat/rosa)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/leather/rosacoat/two
 	name = "courtly coat"
-	result = list(/obj/item/clothing/suit/roguetown/armor/longcoat/rosa/two)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/two)
 
 /datum/crafting_recipe/roguetown/leather/rosacoat/three
 	name = "royal coat"
-	result = list(/obj/item/clothing/suit/roguetown/armor/longcoat/rosa/three)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/three)
 
 /datum/crafting_recipe/roguetown/leather/rosacoat/four
 	name = "stately coat"
-	result = list(/obj/item/clothing/suit/roguetown/armor/longcoat/rosa/four)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four)
