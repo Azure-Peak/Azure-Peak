@@ -701,3 +701,26 @@
 	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
 	icon_state = "maidband"
 	body_parts_covered = NONE
+
+/obj/item/clothing/head/roguetown/rosa
+	name = "scarlet hat"
+	desc = "A finely crafted hat of silk and leather, adorned with rosas."
+	icon_state = "rosahat2"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+
+/obj/item/clothing/head/roguetown/rosa/three
+	name = "velvet hat"
+	icon_state = "rosahat3"
+
+/obj/item/clothing/head/roguetown/rosa/four
+	name = "obsidian hat"
+	icon_state = "rosahat4"
+
+/obj/item/clothing/head/roguetown/rosa/five
+	name = "sable hat"
+	icon_state = "rosahat5"
+
+/obj/item/clothing/head/roguetown/rosa/six
+	name = "maroon cap"
+	icon_state = "rosahat6"

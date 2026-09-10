@@ -1069,3 +1069,32 @@
 /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/raneshen
 	detail_color = CLOTHING_WHITE
 	color = CLOTHING_RED
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosa
+	name = "ivory dress"
+	desc = "A finely crafted dress adorned with rosas, a common sight among Eoran worshipping nobles."
+	icon_state = "rosadress1"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	boobed = FALSE
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
+	name = "scarlet dress"
+	icon_state = "rosadress2"
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosa/three
+	name = "velvet dress"
+	icon_state = "rosadress3"
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosa/four
+	name = "obsidian dress"
+	icon_state = "rosadress4"
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosa/five
+	name = "sable dress"
+	icon_state = "rosadress5"
+
+/obj/item/clothing/suit/roguetown/shirt/tunic/rosa/six
+	name = "maroon dress"
+	icon_state = "rosadress6"

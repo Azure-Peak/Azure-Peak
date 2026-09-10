@@ -79,3 +79,23 @@
 	. = ..()
 	color = pick(CLOTHING_PURPLE, null,CLOTHING_GREEN, CLOTHING_RED)
 
+/obj/item/clothing/suit/roguetown/armor/rosa
+	name = "regal coat"
+	desc = "A finely crafted leather coat adorned with rosas. Favored by generals who claim Eora as their patron, however true it may be."
+	icon_state = "rosacoat7"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	boobed = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/rosa/two
+	name = "courtly coat"
+	icon_state = "rosacoat8"
+
+/obj/item/clothing/suit/roguetown/armor/rosa/three
+	name = "royal coat"
+	icon_state = "rosacoat9"
+
+/obj/item/clothing/suit/roguetown/armor/rosa/four
+	name = "stately coat"
+	icon_state = "rosacoat10"
