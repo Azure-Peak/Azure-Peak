@@ -1,6 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Marriage is now properly functional. Again. But like actually this time."
-  - bugfix: "Revenants now hear from their head, not their body, consistently. Previously, this was only true if the head was near the body and on the same zlevel."
-  - bugfix: "Fixed a duplication exploit allowing for infinite coal. You can already get that from the azure peak playerbase, you don't need an exploit for it."

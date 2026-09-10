@@ -1,3 +1,22 @@
+/mob/living/proc/revive_check(mob/user)
+	if(!mind)
+		to_chat(user, span_warning("[src]'s mind cannot be found."))
+		return FALSE
+	if(HAS_TRAIT(src, TRAIT_DNR))
+		to_chat(user, span_warning("[src] can't be brought back."))
+		return FALSE
+	if(!key && !get_ghost(FALSE, TRUE))
+		to_chat(user, span_warning("[src]'s soul has departed."))
+		return FALSE
+	var/choice = tgui_alert(src, "[user] is attempting to bring you back to life. Do you wish to return?", "Resurrection", list("Accept", "Decline"), timeout = 15 SECONDS)
+	if(choice == "Accept")
+		return TRUE
+	if(choice == "Decline")
+		to_chat(user, span_warning("[src] has declined the resurrection."))
+		return FALSE
+	to_chat(user, span_warning("[src] can still be revived, but are not responding."))
+	return null
+
 /// SPELL DATUMS
 
 /obj/effect/proc_holder/spell/invoked/resurrect/matthios
@@ -21,9 +40,6 @@
 #define MATTHIOS_DEBT_MAX 250
 
 /obj/effect/proc_holder/spell/invoked/resurrect/matthios/cast(list/targets, mob/living/carbon/human/user)
-	. = ..()
-	if(!.)
-		return FALSE
 	var/mob/living/carbon/human/target = targets[1]
 	// Find any nearby cross.
 	var/obj/structure/fluff/psycross/found_cross
@@ -33,10 +49,15 @@
 	if(!found_cross)
 		to_chat(user, span_warning("You see no holy nor profane cross through which to work this exchange."))
 		return FALSE
+
+	// Check whether the soul can actually be revived, cos i revived someone who was pmuch departed lol oops!!
+	if(!target.revive_check(user))
+		return FALSE
+
 	var/is_matthios = istype(found_cross, /obj/structure/fluff/psycross/matthios)
 	var/is_astrata = istype(found_cross, /obj/structure/fluff/psycross/astrata)
-	var/list/options = list("Charity", "Debt")
 
+	var/list/options = list("Charity", "Debt")
 	if(is_matthios) // matthios cross lets you trade lux instead of money as a third option
 		options += "Waiver"
 	else if(is_astrata) // astrata cross forces you to only be charitable, its harder to hold an exchange under that gaze
@@ -55,35 +76,37 @@
 		if(found_lux)
 			qdel(found_lux)
 			to_chat(user, span_nicegreen("The Lux is consumed for this exchange, accounting no debts with Him!"))
-			return TRUE
-		if(user.has_status_effect(/datum/status_effect/debuff/devitalised))
-			to_chat(user, span_warning("Your Lux is too faint to be used as a waiver right now."))
-			return FALSE
-		user.apply_status_effect(/datum/status_effect/debuff/devitalised)
-		to_chat(user, span_userdanger("You waiver your very Lux for this exchange, accounting no debts with Him!"))
-		return TRUE
-
-	var/debt = rand(MATTHIOS_DEBT_MIN, MATTHIOS_DEBT_MAX)
-	if(target.patron in ALL_INHUMEN_PATRONS) // discount for the homies
-		debt *= 0.5
-	else if(HAS_TRAIT(target, TRAIT_NOBLE)) // we HATE nobles, but they can pay this off anyway so shrug
-		debt *= 3
-	debt = round(debt)
-
-	if(choice == "Charity") // we shoulder the L, mammon goes to matthios
-		user.apply_status_effect(/datum/status_effect/debuff/matthios_debt, debt, user)
-		to_chat(user, span_userdanger("You shoulder the burden of resurrection yourself. Matthios records your debt."))
-		to_chat(target, span_nicegreen("Warm sanctity wraps around your rekindled soul. Someone else has paid your toll."))
-		return TRUE
-	if(choice == "Debt") // they shoulder the L, mammon goes to caster
-		target.apply_status_effect(/datum/status_effect/debuff/matthios_debt, debt, user)
-		to_chat(user, span_nicegreen("You leave the burden where it belongs. Matthios smiles upon your bargain."))
-		if(target.patron in ALL_INHUMEN_PATRONS)
-			to_chat(target, span_userdanger("Your soul returns, as courtesy of the Free God!"))
 		else
-			to_chat(target, span_userdanger("Your soul returns, but it feels as if your Patron demands compensation..?"))
-		return TRUE
-	return FALSE
+			if(user.has_status_effect(/datum/status_effect/debuff/devitalised))
+				to_chat(user, span_warning("Your Lux is too faint to be used as a waiver right now."))
+				return FALSE
+			user.apply_status_effect(/datum/status_effect/debuff/devitalised)
+			to_chat(user, span_userdanger("You waiver your very Lux for this exchange, accounting no debts with Him!"))
+	else
+		var/debt = rand(MATTHIOS_DEBT_MIN, MATTHIOS_DEBT_MAX)
+		if(target.patron in ALL_INHUMEN_PATRONS)
+			debt *= 0.5
+		else if(HAS_TRAIT(target, TRAIT_NOBLE) && !HAS_TRAIT(target, TRAIT_FREEMAN))
+			debt *= 3
+		debt = round(debt)
+		if(choice == "Charity") // we shoulder the L, all mammon here goes to matthios
+			user.apply_status_effect(/datum/status_effect/debuff/matthios_debt, debt, user)
+		else if(choice == "Debt") // they shoulder the L, part of the mammon goes to caster
+			target.apply_status_effect(/datum/status_effect/debuff/matthios_debt, debt, user)
+	// the flavortext goes here
+	if(choice == "Waiver")
+		to_chat(user, span_nicegreen("The Lux is consumed for this exchange, accounting no debts with Him!"))
+		to_chat(target, span_nicegreen("Warm sanctity wraps around your rekindled soul. Someone else has paid your toll."))
+	else if(choice == "Charity")
+		to_chat(user, span_userdanger("You shoulder the burden of resurrection yourself. Matthios records your debt with Him."))
+		to_chat(target, span_nicegreen("Warm sanctity wraps around your rekindled soul. Someone else has paid your toll."))
+	else if(choice == "Debt")
+		to_chat(user, span_nicegreen("You leave the burden where it belongs. Matthios smiles upon your bargain."))
+		to_chat(target, span_userdanger("Your soul returns, but it feels as if your Patron demands compensation..?"))
+	. = ..()
+	if(!.)
+		return FALSE
+	return TRUE
 
 /atom/movable/screen/alert/status_effect/debuff/matthios_debt
 	name = "Hoarding Compulsion"
@@ -105,7 +128,7 @@
 /datum/status_effect/debuff/matthios_debt
 	id = "matthios_debt"
 	duration = 60 MINUTES
-	tick_interval = 10 SECONDS
+	tick_interval = 5 SECONDS
 	effectedstats = list(STATKEY_WIL = -4, STATKEY_LCK = -2)
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/matthios_debt
 	var/debt_remaining = 0

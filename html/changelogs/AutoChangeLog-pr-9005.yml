@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - admin: "increases the window size of  he actors manifest, VV, player panel and logs windows"

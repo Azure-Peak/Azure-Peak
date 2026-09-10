@@ -1106,7 +1106,7 @@
 						. += span_danger("Their body holds not even a glimmer of life. No miracle or medicine can bring them back.")
 				// if theyre alive, you dont have deathsight, but youre an expert at medicine, you can tell.
 				else if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT)
-					. += span_danger("Their fifth-humor is visibly unbalanced. This will be their only chance at lyfe.")
+					. += span_danger("Their humors are visibly unbalanced. This will be their only chance at lyfe.")
 			// deathsight always works even on the living.
 			else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
 				if(HAS_TRAIT_FROM_ONLY(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))

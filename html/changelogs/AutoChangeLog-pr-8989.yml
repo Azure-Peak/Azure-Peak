@@ -1,0 +1,7 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Emotes now properly appear as Runechat messages above your character's head."
+  - balance: "The ogre mask now has the durability of a steel mask and blocks vision as intended."
+  - rscadd: "You can now light another character's cigarette while kissing them."
+  - qol: "Removed the redundant dram count description from vessels."

@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Morto's unique donator-specific dress."
+  - code_imp: "Stages some supplemental assets for later, including some more donator-specific sprites."

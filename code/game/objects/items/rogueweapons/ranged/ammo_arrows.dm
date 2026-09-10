@@ -245,7 +245,6 @@
 /obj/item/ammo_casing/caseless/rogue/arrow/elemental
 	name = "elemental arrow"
 	desc = "An iron broadhead arrow coated with an alchemical tincture."
-	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
 	caliber = "arrow"
 	ammo_weight = 1
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
@@ -271,7 +270,7 @@
 	name = "fire arrow"
 	desc = "An iron broadhead drenched in a flammable tincture. It smolders faintly."
 	projectile_type = /obj/projectile/bullet/arrow/elemental/fire
-	icon_state = "arrow_pyroclastic"
+	icon_state = "arrow_pyro"
 
 /obj/projectile/bullet/arrow/elemental/fire
 	name = "fire arrow"

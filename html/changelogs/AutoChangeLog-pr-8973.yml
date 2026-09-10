@@ -1,0 +1,6 @@
+author: "kilozombie"
+delete-after: True
+changes:
+  - rscadd: "Dun World hamlet expanded. Town center given a well, church given a basement, caves expanded, farmer's house given a second floor, inn given a humid hookah den, stairs added to the coast"
+  - qol: "Dun World hamlet touched up. Herbs and bushes can now spawn, inn rooms expanded, basements detailed, west house given a proper porch, smithy house made into a small storefront, various layouts retooled to become more usable"
+  - bugfix: "Giant stupid skywall removed from the northmost point of the top Z-level on Dun World"

@@ -259,7 +259,6 @@
 // I don't know if that is possible, may have some cases relating to eye signals.
 /datum/species/dullahan/on_species_gain(mob/living/carbon/user, datum/species/old_species)
 	..()
-	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	RegisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS, PROC_REF(on_say_postprocess))
 	// TODO SEXCON2: Re-enable Dullahan detached head ERP support
 	//RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))
