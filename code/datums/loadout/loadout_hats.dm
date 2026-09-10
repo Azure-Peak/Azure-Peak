@@ -229,28 +229,3 @@
 	name = "Flamboyant Hat"
 	path = /obj/item/clothing/head/roguetown/flamboyant
 	sort_category = "Hats"
-
-/datum/loadout_item/rosahat
-	name = "Scarlet Hat"
-	path = /obj/item/clothing/head/roguetown/rosa
-	sort_category = "Hats"
-
-/datum/loadout_item/rosahatthree
-	name = "Velvet hat"
-	path = /obj/item/clothing/head/roguetown/rosa/three
-	sort_category = "Hats"
-
-/datum/loadout_item/rosahatfour
-	name = "Obsidian Hat"
-	path = /obj/item/clothing/head/roguetown/rosa/four
-	sort_category = "Hats"
-
-/datum/loadout_item/rosahatfive
-	name = "Sable Hat"
-	path = /obj/item/clothing/head/roguetown/rosa/five
-	sort_category = "Hats"
-
-/datum/loadout_item/rosahatsix
-	name = "Maroon Cap"
-	path = /obj/item/clothing/head/roguetown/rosa/six
-	sort_category = "Hats"
