@@ -1135,7 +1135,7 @@
 /datum/loadout_item/donator/koruu_cadwynhelm_ravox
 	name = "Donator Item - Gebura"
 	path = /obj/item/enchantingkit/donator_koruu_ravoxclerichelm
-	ckeywhitelist = list("koruu")
+	ckeywhitelist = list("koruu", "oddbomber3768", "nooriginality", "vakiova", "maesune")
 
 /datum/loadout_item/donator/bloom_coat
 	name = "Donator Item - Royal Coat"
