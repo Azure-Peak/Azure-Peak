@@ -1151,7 +1151,6 @@
 	name = "Donator Item - Courtly Cloak"
 	path = /obj/item/clothing/cloak/rosa/two
 	ckeywhitelist = list("bloom77")
-	ckeywhitelist = list("koruu", "oddbomber3768", "nooriginality", "vakiova", "maesune")
 
 /datum/loadout_item/donator/koruu_cadwyncloak_astrata
 	name = "Donator Item - Cloak of the Order of the Sun"
