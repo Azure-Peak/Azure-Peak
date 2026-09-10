@@ -87,7 +87,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
 	boobed = FALSE
-	color = NULL
+	color = null
 
 /obj/item/clothing/suit/roguetown/armor/longcoat/rosa/two
 	name = "courtly coat"
