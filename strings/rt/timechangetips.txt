@@ -194,3 +194,5 @@ SAUSAGES can be made with any MINCE. If truly in a pickle, try using FAT as a fi
 Water breaks falls.
 POISON JACKSBERRIES can be ground in a mortar to produce poison.
 It possible, albeit rare, for both poisonous and safe jacksberries to be the same color.
+Your "STANCE" determines a number of factors in combat. Check your HOTKEYS to see what is bound to what-- a quick switch to defense or aimed may save your lyfe!
+Most shields can be given heraldry by RIGHT-MOUSE clicking on them.
