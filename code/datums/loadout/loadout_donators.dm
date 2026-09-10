@@ -851,6 +851,11 @@
 	path = /obj/item/enchantingkit/morto_staff
 	ckeywhitelist = list("mortosasye")
 
+/datum/loadout_item/donator/mortosasye_deepcutdress
+	name = "Donator Item - Deep Cut Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
+	ckeywhitelist = list("mortosasye")
+
 /datum/loadout_item/donator/racobio_staff
 	name = "Donator Kit - Obsidian Tower"
 	path = /obj/item/enchantingkit/racobio_staff

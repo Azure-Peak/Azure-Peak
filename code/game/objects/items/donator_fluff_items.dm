@@ -2626,6 +2626,16 @@ As Excaliber."
 	icon_state = "mystralstaff"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
+	name = "deep cut dress"
+	desc = "A daring dress with a deep V-cut neckline, secured at the sides by sleek, fitted fabric straps. It is tailored to its owner specific measurements. It seems to have a light coat of frost."
+	icon_state = "mortosasye_deepcutdress"
+	item_state = "mortosasye_deepcutdress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	color = null
+	allowed_sex = list(FEMALE)
+
 // RACOBIO
 /obj/item/rogueweapon/woodstaff/implement/grand/racobio
 

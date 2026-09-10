@@ -71,10 +71,6 @@
 	human.update_damage_overlays()
 	return TRUE
 
-/datum/species/shapecabbit/on_species_gain(mob/living/carbon/carbon, datum/species/old_species)
-	. = ..()
-	RegisterSignal(carbon, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
 /datum/species/shapecabbit/update_damage_overlays(mob/living/carbon/human/human)
 	human.remove_overlay(DAMAGE_LAYER)
 	return TRUE
