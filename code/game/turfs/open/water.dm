@@ -64,15 +64,19 @@
 		// only, so the next season change picks it up.
 		GLOB.seasonal_water_turfs |= src
 
-/// Lays this turf's ice on top, pushing our own type onto baseturfs so thaw() can restore the
-/// exact subtype (swamp vs swamp/deep, pond vs cleanshallow) without a lookup table.
-/// Returns the new ice turf, or null if we can't or shouldn't freeze.
+/// Lays this turf's ice on top, pushing our own type onto baseturfs so thaw() (a ScrapeAway())
+/// can restore the exact subtype (swamp vs swamp/deep, pond vs cleanshallow) without a lookup
+/// table. Returns the new ice turf, or null if we can't or shouldn't freeze.
+///
 /turf/open/water/proc/freeze_over()
 	if(!freeze_type)
 		return null
+	var/list/water_stack = length(baseturfs) ? baseturfs.Copy() : list(baseturfs)
+	water_stack += type
 	var/turf/open/floor/rogue/frozen_water/F = PlaceOnTop(null, freeze_type, CHANGETURF_INHERIT_AIR)
 	if(!istype(F))
 		return null
+	F.baseturfs = water_stack
 	F.seasonal_freeze = TRUE
 	return F
 

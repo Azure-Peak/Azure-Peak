@@ -1766,6 +1766,10 @@
 	if(thin_ice)
 		. += span_warning("It creaks. There is a lot of water under this.")
 
+/turf/open/floor/rogue/frozen_water/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("You can break this ice by using your bare hands, or a tool with Chop intent, on combat mode.")
+
 /// Melts back to whatever water this was laid over. Returns the new turf, or null if this ice
 /// wasn't seasonal (mapper-placed) and shouldn't thaw at all.
 /turf/open/floor/rogue/frozen_water/proc/thaw()
@@ -1787,8 +1791,10 @@
 // SSseason only re-freezes on a season change, so a hole you cut stays a hole. This is what
 // keeps the fisher employed in winter: getfishingloot()'s freshwater list wants a real
 // /turf/open/water underfoot, and the thaw-through leaves exactly the subtype that was there.
+//
+// (axe/chop, sword/chop, dagger/chop/cleaver, etc), not just axes.
 /turf/open/floor/rogue/frozen_water/attackby(obj/item/C, mob/user, params)
-	if(length(baseturfs) > 1 && (istype(user.used_intent, /datum/intent/axe/chop) || istype(user.used_intent, /datum/intent/pick)))
+	if(length(baseturfs) > 1 && (user.used_intent?.blade_class == BCLASS_CHOP || istype(user.used_intent, /datum/intent/pick)))
 		playsound(src, 'sound/foley/hit_rock.ogg', 100, TRUE)
 		user.visible_message(span_notice("[user] starts cutting a hole in [src]."), span_notice("I start cutting a hole in [src]."))
 		if(do_after(user, 5 SECONDS, target = src))
@@ -1796,6 +1802,18 @@
 			turf_destruction("blunt")
 		return
 	. = ..()
+
+/turf/open/floor/rogue/frozen_water/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(length(baseturfs) <= 1)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	user.visible_message(span_notice("[user] starts punching through [src]."), span_notice("I start punching through [src]."))
+	if(do_after(user, 10 SECONDS, target = src))
+		playsound(src, 'sound/foley/hit_rock.ogg', 100, TRUE)
+		turf_destruction("blunt")
 
 /turf/open/floor/rogue/frozen_water/proc/ice_crack()
 	for(var/mob/living/target in contents)
