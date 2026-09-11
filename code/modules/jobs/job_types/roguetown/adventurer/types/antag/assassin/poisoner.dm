@@ -56,7 +56,7 @@
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-					/obj/item/folding_alchstation_stored = 1,
+					/obj/item/folding_alchcauldron_stored = 1,
 					/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 					/obj/item/lockpickring/mundane = 1,
 					/obj/item/reagent_containers/glass/bottle/rogue/strongpoison = 1,
