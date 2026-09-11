@@ -529,7 +529,7 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 			add_verb(H, /mob/living/carbon/human/verb/choose_cosmetic_claws)
 
 	SEND_SIGNAL(C, COMSIG_SPECIES_GAIN, src, old_species)
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech), TRUE)
 
 
 /datum/species/proc/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
