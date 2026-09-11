@@ -403,7 +403,9 @@ SUBSYSTEM_DEF(season)
 /// active dig hole - that ChangeTurf() would otherwise drop on the floor same as it would for any
 /// other reason a dirt tile's type changed underfoot. The plain data rides along explicitly below;
 /// a tile mid-dig (an active `holie`) is left alone entirely rather than fought over with whatever
-/// system is tracking that hole, and picks up the swap next time it's sampled once the dig ends.
+/// system is tracking that hole - re-queued instead of dropped, so it picks the swap back up on
+/// the very next drain (a few seconds later) rather than sitting on the wrong season's look until
+/// the next actual rollover, which might be weeks off.
 /datum/controller/subsystem/season/proc/apply_season_to_path(turf/open/floor/rogue/T)
 	if(!T.is_seasonally_exposed())
 		return
@@ -414,6 +416,7 @@ SUBSYSTEM_DEF(season)
 	if(istype(T, /turf/open/floor/rogue/dirt))
 		old_dirt = T
 		if(old_dirt.holie)
+			icon_turfs_to_convert += T
 			return
 	var/turf/new_turf = T.ChangeTurf(target_type)
 	if(!new_turf)
@@ -426,4 +429,13 @@ SUBSYSTEM_DEF(season)
 		new_dirt.bloodiness = old_dirt.bloodiness
 		new_dirt.dirt_amt = old_dirt.dirt_amt
 		if(old_dirt.muddy)
+			// become_muddy() touches more than the plain data above - carry those over too,
+			// rather than letting the new type's (dry) compile-time defaults quietly take over
+			// while the tile still displays a mud puddle.
 			new_dirt.icon_state = "mud[rand(1,3)]"
+			new_dirt.name = old_dirt.name
+			new_dirt.slowdown = old_dirt.slowdown
+			new_dirt.footstep = old_dirt.footstep
+			new_dirt.barefootstep = old_dirt.barefootstep
+			new_dirt.heavyfootstep = old_dirt.heavyfootstep
+			new_dirt.track_prob = old_dirt.track_prob
