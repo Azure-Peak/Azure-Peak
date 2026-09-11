@@ -18,7 +18,7 @@
 	subclass_skills = list(
 		// MAIN COMBAT SKILLS
 		// instead of getting an alternate melee choice, youre good at ALL the ranged stuff. awesome.
-		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/slings = SKILL_LEVEL_EXPERT,
 		// wrestling. fuck my life.
