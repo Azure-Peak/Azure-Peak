@@ -20,9 +20,9 @@
 	subclass_skills = list(
 		// MAIN COMBAT SKILLS
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,		// all classes get expert knives by default. this is here to be Clear.
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT // as a backup. if you REALLY want to push into STR, you can, i guess.
+		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT, // as a backup. if you REALLY want to push into STR, you can, i guess.
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,	// grandfathered. if you *really need* a ranged option.
-
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN, // see: maces. only assassin class that gets this.
 		// lamas isnt going to be happy about these two but their blackbags are limited & they were previously grandfathered in
 		// as a one-off role that only shows up sometimes i think this is O.K. to keep.
 		/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER,
