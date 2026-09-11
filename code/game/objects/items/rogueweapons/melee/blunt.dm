@@ -750,6 +750,9 @@
 	desc = "An ornate mace, plated in a ceremonial veneer of silver. Do not go quietly into the darkness; shatter your chains, roar with all your might, and bring the whole damndable temple down with you. </br>Even the unholy aren't immune to discombobulation."
 	icon_state = "psymace"
 	minstr = 12
+	force = 15
+	force_wielded = 35
+	wdefense_wbonus = 5
 	wbalance = WBALANCE_HEAVY
 	smelt_bar_num = 2
 	is_silver = TRUE
