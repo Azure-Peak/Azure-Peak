@@ -1069,7 +1069,7 @@
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 100,\
-		added_int = 50,\ //Voila, extra integrity for your wall breakage.
+		added_int = 50,\
 		added_def = 2,\
 	)
 
