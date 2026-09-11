@@ -21,6 +21,10 @@
 //   since code elsewhere (become_muddy()'s dry-out) resets icon_state to a fixed, season-unaware
 //   default. Making the Winter look a real type means that default is correct either way. See
 //   apply_season_to_path().
+// - Map-placed decorative decals with a winter_icon_state (old cobble edges, etc) get a direct
+//   icon_state swap - no per-instance state, no smoothing, and few enough of them on a map that
+//   they're synced all at once rather than run through the queue/drain machinery at all. See
+//   sync_seasonal_decals().
 
 /// Should SSseason treat this turf as open to the sky? Checked at conversion time rather
 /// than at registration, so a roof raised (or torn off) mid-round is honoured on the next
@@ -71,6 +75,7 @@ GLOBAL_LIST_EMPTY(seasonal_grass_turfs)
 GLOBAL_LIST_EMPTY(seasonal_flora_objs)
 GLOBAL_LIST_EMPTY(seasonal_water_turfs)
 GLOBAL_LIST_EMPTY(seasonal_icon_turfs)
+GLOBAL_LIST_EMPTY(seasonal_decal_objs)
 
 SUBSYSTEM_DEF(season)
 	name = "Season"
@@ -240,6 +245,7 @@ SUBSYSTEM_DEF(season)
 	flora_to_convert = season_chunk_shuffle(GLOB.seasonal_flora_objs)
 	water_to_convert = season_chunk_shuffle(GLOB.seasonal_water_turfs)
 	icon_turfs_to_convert = season_chunk_shuffle(GLOB.seasonal_icon_turfs)
+	sync_seasonal_decals()
 
 /// Spreads a season change over SEASON_TRANSITION_DAYS dawns instead of repainting the whole
 /// map under everyone's feet at once. The lists are scattered because they're built in mapload
@@ -258,6 +264,7 @@ SUBSYSTEM_DEF(season)
 	pending_flora = season_chunk_shuffle(GLOB.seasonal_flora_objs)
 	pending_water = season_chunk_shuffle(GLOB.seasonal_water_turfs)
 	pending_icon = season_chunk_shuffle(GLOB.seasonal_icon_turfs)
+	sync_seasonal_decals()
 	transition_days_left = SEASON_TRANSITION_DAYS
 	transition_total = length(pending_turfs) + length(pending_flora) + length(pending_water) + length(pending_icon)
 	transition_converted = 0
@@ -444,3 +451,20 @@ SUBSYSTEM_DEF(season)
 			new_dirt.barefootstep = old_dirt.barefootstep
 			new_dirt.heavyfootstep = old_dirt.heavyfootstep
 			new_dirt.track_prob = old_dirt.track_prob
+
+/// Map-placed decorative decals (old cobble edges, etc - see winter_icon_state on
+/// /obj/effect/decal) that have a Winter sprite. Unlike everything else in this file these
+/// aren't spread across the gradual transition's days or chunk-shuffled for smoothing dedup -
+/// they don't smooth at all, and the population is small enough (a handful of map decorations,
+/// not tens of thousands of turfs) that converting all of them in one pass costs nothing
+/// worth budgeting for. Called directly from queue_full_conversion() and
+/// begin_gradual_conversion() rather than running through the queue/drain machinery at all.
+/datum/controller/subsystem/season/proc/sync_seasonal_decals()
+	var/snowed = should_show_snow_icons()
+	for(var/obj/effect/decal/D as anything in GLOB.seasonal_decal_objs)
+		var/turf/T = get_turf(D)
+		if(!T?.is_seasonally_exposed())
+			continue
+		var/target_state = snowed ? D.winter_icon_state : D.summer_icon_state
+		if(D.icon_state != target_state)
+			D.icon_state = target_state

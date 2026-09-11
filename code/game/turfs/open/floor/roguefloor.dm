@@ -1320,6 +1320,12 @@
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "mossyedge"
 	mouse_opacity = 0
+	// No dedicated "snow-mossy" sprite - close enough a variant of plain cobblestone edging that
+	// it can just borrow that one, and under a foot of snow the distinction wouldn't read anyway.
+	// "snowcobbleedge" specifically (not "snowcobblestone_edges") because this decal is a single
+	// directional sprite rotated via dir, not a one-sprite-per-direction set - matching how this
+	// state is actually used, unlike /obj/effect/decal/cobble/mossy below.
+	winter_icon_state = "snowcobbleedge"
 
 /obj/effect/decal/cobble/mossy
 	name = "mossy brick floor"
@@ -1327,6 +1333,7 @@
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "mossystone_edges"
 	mouse_opacity = 0
+	winter_icon_state = "snowcobblestone_edges"
 
 /obj/effect/decal/edge
 	name = "stone edge"
@@ -1377,6 +1384,7 @@
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "cobblestone_edges"
 	mouse_opacity = 0
+	winter_icon_state = "snowcobblestone_edges"
 
 /obj/effect/decal/carpet
 	name = "exotic rug"
