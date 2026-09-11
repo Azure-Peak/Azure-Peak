@@ -239,6 +239,14 @@
 	name = "Gift - Kit, Long Jacketed Gambeson"
 	path = /obj/item/enchantingkit/donator_jacketed_gambeson_long
 
+/datum/loadout_item/donator/universal/armorpiece_decapauldron
+	name = "Gift - Armor Cosmetic, Decablessed Pauldrons"
+	path = /obj/item/enchantingkit/donator_universal_decapauldron
+
+/datum/loadout_item/donator/universal/armorpiece_steelpauldron
+	name = "Gift - Armor Cosmetic, Steel Pauldrons"
+	path = /obj/item/enchantingkit/donator_universal_steelpauldron
+
 // --- GRENZEL REGIONAL ---
 
 /datum/loadout_item/donator/universal/regional/grenzelhat

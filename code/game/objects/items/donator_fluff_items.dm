@@ -686,6 +686,24 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+/obj/item/clothing/wrists/roguetown/bracers/donator_decapauldron
+	name = "decablessed pauldrons"
+	desc = "Oversized blessed steel pauldrons that protect the forearms and upper-arms. Surprisingly protective and regal, but heavy...!"
+	item_state = "decapauldron"
+	icon_state = "decapauldron"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/wrists/roguetown/bracers/donator_steelpauldron
+	name = "steel pauldrons"
+	desc = "Oversized steel pauldrons that protect the forearms and upper-arms. Surprisingly protective and durable, but heavy...!"
+	item_state = "steelpauldron"
+	icon_state = "steelpauldron"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 /obj/item/clothing/head/roguetown/decoration/orle
 	name = "noble striped decoration"
 	desc = "A delicate weaving of colored fabric, intended to be worn atop a helmet; a touch of elegance, indiscriminate of the alloy."
