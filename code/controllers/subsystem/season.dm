@@ -16,6 +16,10 @@
 //   Winter and lose it again on the thaw. Freezing uses PlaceOnTop(), so the original water
 //   subtype rides along on baseturfs and the thaw is a plain ScrapeAway() back to it. Both
 //   the liquid and the frozen turfs live in the same tracking list.
+// - Paths (dirt, dirt/road, cobble, cobblerock - anything with seasonal_icon_swap set) get a
+//   "snow"-prefixed icon_state and neighborlay in Winter instead of a different type - there's no
+//   behavioral difference, just a sprite, so there's no reason to pay ChangeTurf()'s cost the way
+//   grass and water do. See apply_season_to_icon_turf().
 //
 // A rollover that actually changes how a category renders doesn't convert everything at once -
 // it ramps in over the calendar month it happens in, 25% more of that category's tracked atoms
@@ -72,6 +76,7 @@
 GLOBAL_LIST_EMPTY(seasonal_grass_turfs)
 GLOBAL_LIST_EMPTY(seasonal_flora_objs)
 GLOBAL_LIST_EMPTY(seasonal_water_turfs)
+GLOBAL_LIST_EMPTY(seasonal_icon_turfs)
 
 SUBSYSTEM_DEF(season)
 	name = "Season"
@@ -90,6 +95,8 @@ SUBSYSTEM_DEF(season)
 	var/list/currentrun_flora = list()
 	var/list/water_to_convert = list()
 	var/list/currentrun_water = list()
+	var/list/icon_turfs_to_convert = list()
+	var/list/currentrun_icon = list()
 	/// Drain instrumentation: when the current batch started converting, and how many atoms
 	/// it has got through. Logged when the queues run dry.
 	var/drain_started = 0
@@ -128,10 +135,11 @@ SUBSYSTEM_DEF(season)
 	var/queued = length(turfs_to_convert) + length(currentrun_turfs)
 	queued += length(flora_to_convert) + length(currentrun_flora)
 	queued += length(water_to_convert) + length(currentrun_water)
+	queued += length(icon_turfs_to_convert) + length(currentrun_icon)
 	return ..("[current_season] [current_season_phase] | Q:[queued]")
 
 /datum/controller/subsystem/season/fire(resumed = FALSE)
-	if(!drain_started && (length(turfs_to_convert) || length(flora_to_convert) || length(water_to_convert)))
+	if(!drain_started && (length(turfs_to_convert) || length(flora_to_convert) || length(water_to_convert) || length(icon_turfs_to_convert)))
 		drain_started = world.time
 		drain_count = 0
 	if(!resumed)
@@ -141,6 +149,8 @@ SUBSYSTEM_DEF(season)
 		flora_to_convert = list()
 		currentrun_water = water_to_convert.Copy()
 		water_to_convert = list()
+		currentrun_icon = icon_turfs_to_convert.Copy()
+		icon_turfs_to_convert = list()
 
 	var/list/turf_run = currentrun_turfs
 	while(turf_run.len)
@@ -175,6 +185,16 @@ SUBSYSTEM_DEF(season)
 		if(MC_TICK_CHECK)
 			return
 
+	var/list/icon_run = currentrun_icon
+	while(icon_run.len)
+		var/turf/open/floor/rogue/I = icon_run[icon_run.len]
+		icon_run.len--
+		if(I && !QDELETED(I))
+			apply_season_to_icon_turf(I)
+			drain_count++
+		if(MC_TICK_CHECK)
+			return
+
 	if(drain_started)
 		var/elapsed = (world.time - drain_started) / 10
 		log_world("SSseason: converted [drain_count] atoms in [elapsed]s ([current_season] [current_season_phase])")
@@ -187,7 +207,8 @@ SUBSYSTEM_DEF(season)
 	// the real current month and let it ramp normally from here.
 	if(pending_true_season_sync && !length(turfs_to_convert) && !length(currentrun_turfs) && \
 			!length(flora_to_convert) && !length(currentrun_flora) && \
-			!length(water_to_convert) && !length(currentrun_water))
+			!length(water_to_convert) && !length(currentrun_water) && \
+			!length(icon_turfs_to_convert) && !length(currentrun_icon))
 		pending_true_season_sync = FALSE
 		var/baseline_season = current_season
 		var/baseline_phase = current_season_phase
@@ -225,12 +246,20 @@ SUBSYSTEM_DEF(season)
 /// necessarily last calendar month. They default to the subsystem's own current values, which is
 /// right for force_full (they're unused there) but wrong to rely on for a normal sync: callers
 /// that mean to compare against a real "before" (check_season_change(), the roundstart baseline
-/// flip in fire()) pass explicit ones. Comparing against the calendar's month-1 instead of the
-/// actual prior render used to be the approach here, and looked identical for natural day-by-day
-/// dawns - but broke the moment an admin date-jumped straight into a month whose render matches
-/// its own preceding month (mid-Autumn, say): "month - 1" would find Early Autumn, conclude
-/// nothing had changed, and queue nothing at all, stranding the map on whatever season it had
-/// actually been showing before the jump.
+/// flip in fire()) pass explicit ones.
+///
+/// Whether a category is "still the same as before" is decided against *two* baselines, and it
+/// only counts as unchanged if it matches both:
+///  - Calendar month - 1. This is what keeps a ramp going on weeks 2-4: current_season/phase only
+///    actually change on the day a month rolls over, so `prev_season` (last week's actual render)
+///    trivially equals *this* week's for the rest of that month - relying on prev_season alone
+///    would ramp week 1 and then silently queue nothing for the remaining three weeks, since
+///    nothing "changed" between one week's check and the next.
+///  - `prev_season`/`prev_phase`, the actual last-rendered state. This is what catches an admin
+///    date-jump straight into a month whose render happens to match its own calendar-preceding
+///    month (mid-Autumn, say, landing on "month - 1 = Early Autumn, same grassred, no change"):
+///    without this, the map would be stranded on whatever season it actually showed before the
+///    jump, since the calendar-month check alone can't tell a real jump from natural adjacency.
 ///
 /// Deliberately doesn't track "how much of this category is already converted" anywhere - it just
 /// resamples straight off the full tracked list every time it runs. That's safe because
@@ -246,15 +275,29 @@ SUBSYSTEM_DEF(season)
 	var/turf_pct = 100
 	var/flora_pct = 100
 	var/water_pct = 100
+	var/icon_pct = 100
 	if(!force_full)
-		turf_pct = coverage_pct_for(get_target_turf_type() == get_target_turf_type(prev_season))
-		flora_pct = coverage_pct_for(get_target_flora_season() == get_target_flora_season(prev_season))
-		water_pct = coverage_pct_for(waters_should_freeze() == waters_should_freeze(prev_season, prev_phase))
-		announce_coverage_progress(turf_pct, flora_pct, water_pct)
+		var/calendar_month = get_current_month() - 1
+		if(calendar_month < 1)
+			calendar_month += CALENDAR_MONTHS_PER_YEAR
+		var/calendar_season = get_season_from_month(calendar_month)
+		var/calendar_phase = get_season_phase(calendar_month)
+
+		var/turf_same = (get_target_turf_type() == get_target_turf_type(calendar_season)) && (get_target_turf_type() == get_target_turf_type(prev_season))
+		var/flora_same = (get_target_flora_season() == get_target_flora_season(calendar_season)) && (get_target_flora_season() == get_target_flora_season(prev_season))
+		var/water_same = (waters_should_freeze() == waters_should_freeze(calendar_season, calendar_phase)) && (waters_should_freeze() == waters_should_freeze(prev_season, prev_phase))
+		var/icon_same = (should_show_snow_icons() == should_show_snow_icons(calendar_season)) && (should_show_snow_icons() == should_show_snow_icons(prev_season))
+
+		turf_pct = coverage_pct_for(turf_same)
+		flora_pct = coverage_pct_for(flora_same)
+		water_pct = coverage_pct_for(water_same)
+		icon_pct = coverage_pct_for(icon_same)
+		announce_coverage_progress(turf_pct, flora_pct, water_pct, icon_pct)
 
 	turfs_to_convert += queue_coverage_share(GLOB.seasonal_grass_turfs, turf_pct)
 	flora_to_convert += queue_coverage_share(GLOB.seasonal_flora_objs, flora_pct)
 	water_to_convert += queue_coverage_share(GLOB.seasonal_water_turfs, water_pct)
+	icon_turfs_to_convert += queue_coverage_share(GLOB.seasonal_icon_turfs, icon_pct)
 
 /// 0 if this category's target hasn't changed since last month (nothing to ramp, and nothing
 /// queued). Otherwise 25% per in-game week that's elapsed this month, capped at 100 on week 4 -
@@ -284,7 +327,7 @@ SUBSYSTEM_DEF(season)
 /// Admin-facing readout for a normal (non-instant) coverage sync. Categories that just hit 100%
 /// this week are reported as COMPLETE; categories still ramping report their percentage. Categories
 /// with nothing to do (pct 0) aren't mentioned at all.
-/datum/controller/subsystem/season/proc/announce_coverage_progress(turf_pct, flora_pct, water_pct)
+/datum/controller/subsystem/season/proc/announce_coverage_progress(turf_pct, flora_pct, water_pct, icon_pct)
 	var/list/complete = list()
 	var/list/progress = list()
 	if(turf_pct == 100)
@@ -299,6 +342,10 @@ SUBSYSTEM_DEF(season)
 		complete += "water"
 	else if(water_pct > 0)
 		progress += "water [water_pct]%"
+	if(icon_pct == 100)
+		complete += "paths"
+	else if(icon_pct > 0)
+		progress += "paths [icon_pct]%"
 	if(length(complete))
 		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition COMPLETE for [english_list(complete)]."))
 	if(length(progress))
@@ -377,3 +424,36 @@ SUBSYSTEM_DEF(season)
 		new_turf = F.thaw()
 	if(new_turf)
 		GLOB.seasonal_water_turfs |= new_turf
+
+/// Should seasonal_icon_swap terrain (dirt, road, cobblestone, cobblerock) currently be showing
+/// its snow sprite? Tied to the same months grass turns to snow - paths pick up their scatter of
+/// snow on the same day the ground around them does, no separate delay the way water has.
+/// `season` defaults to current - see get_target_turf_type() for why the param exists.
+/datum/controller/subsystem/season/proc/should_show_snow_icons(season = current_season)
+	return season == SEASON_WINTER
+
+/// Swaps a seasonal_icon_swap turf's icon_state (and neighborlay, for the types that have an
+/// active one) between its cached summer_icon_state and a "snow"-prefixed winter version, then
+/// re-smooths it and its neighbors so any edge overlays catch up. Unlike apply_season_to_turf()/
+/// apply_season_to_water(), nothing gets replaced or re-tracked - same turf, same GLOB entry,
+/// just a different sprite.
+///
+/// A currently-muddy dirt tile is left alone - a live puddle takes precedence over the season's
+/// default look, and update_water() already restores the right icon_state on its own once it
+/// dries out (see roguefloor.dm).
+/datum/controller/subsystem/season/proc/apply_season_to_icon_turf(turf/open/floor/rogue/T)
+	if(!T.is_seasonally_exposed())
+		return
+	if(istype(T, /turf/open/floor/rogue/dirt))
+		var/turf/open/floor/rogue/dirt/D = T
+		if(D.muddy)
+			return
+	var/snowed = should_show_snow_icons()
+	var/target_state = snowed ? "snow[T.summer_icon_state]" : T.summer_icon_state
+	if(T.icon_state == target_state)
+		return
+	T.icon_state = target_state
+	if(T.winter_neighborlay)
+		T.neighborlay = snowed ? T.winter_neighborlay : initial(T.neighborlay)
+	QUEUE_SMOOTH(T)
+	QUEUE_SMOOTH_NEIGHBORS(T)

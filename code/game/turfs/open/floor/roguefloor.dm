@@ -7,6 +7,21 @@
 	icon = 'icons/turf/roguefloor.dmi'
 	baseturfs = list(/turf/open/transparent/openspace)
 	neighborlay = ""
+	/// If TRUE, SSseason swaps this turf's icon_state to a "snow"-prefixed variant during Winter
+	/// and back the rest of the year - a lighter-weight sibling to grass's full ChangeTurf() swap
+	/// for terrain that only needs a different sprite, not a different type or different behavior.
+	/// Left FALSE (the default) for anything with no winter sprite yet.
+	var/seasonal_icon_swap = FALSE
+	/// The neighborlay to use while snowed. Not always just "snow" + the summer neighborlay -
+	/// dirt and road's winter sprite families are named "snowdirt"/"snowroad", not
+	/// "snowdirtedge"/"snowroadedge" - so this is set explicitly per type instead of derived. Null
+	/// means this type has no active neighborlay to swap (e.g. cobblerock, whose own is disabled).
+	var/winter_neighborlay
+	/// Cached by register_seasonal_icon() the first time this turf registers: its actual
+	/// pre-Winter icon_state. Needed because /cobble randomizes its icon_state once at
+	/// Initialize(), so SSseason has to remember which of the three variants to restore, not just
+	/// assume a fixed default.
+	var/summer_icon_state
 
 /turf/open/floor/rogue/break_tile()
 	return //unbreakable
@@ -19,12 +34,22 @@
 		icon = smooth_icon
 	. = ..()
 
+/// Called from the most-derived Initialize() of any seasonal_icon_swap turf, once its icon_state
+/// has finished settling (after any per-instance randomization, e.g. /cobble's) - registering any
+/// earlier would cache the wrong "summer" look for those.
+/turf/open/floor/rogue/proc/register_seasonal_icon()
+	if(!seasonal_icon_swap)
+		return
+	summer_icon_state = icon_state
+	GLOB.seasonal_icon_turfs |= src
+
 // Shared by every rogue floor turf rather than just the seasonal grass/snow family - removing
 // something that was never in the list is a harmless no-op, and this way SSseason's tracking
 // can never go stale no matter what a turf gets changed into.
 /turf/open/floor/rogue/Destroy()
 	GLOB.seasonal_grass_turfs -= src
 	GLOB.seasonal_water_turfs -= src
+	GLOB.seasonal_icon_turfs -= src
 	return ..()
 
 /turf/open/floor/rogue/ruinedwood
@@ -500,6 +525,8 @@
 						/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/AzureSand)
 	neighborlay = "dirtedge"
+	seasonal_icon_swap = TRUE
+	winter_neighborlay = "snowdirt"
 	var/muddy = FALSE
 	var/bloodiness = 20
 	var/obj/structure/closet/dirthole/holie
@@ -566,6 +593,7 @@
 /turf/open/floor/rogue/dirt/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
 	. = ..()
+	register_seasonal_icon()
 	update_water()
 
 /turf/open/floor/rogue/dirt/update_water()
@@ -638,6 +666,7 @@
 						/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/AzureSand,)
 	neighborlay = "roadedge"
+	winter_neighborlay = "snowroad"
 	slowdown = 0
 
 /turf/open/floor/rogue/dirt/road/attack_right(mob/user)
@@ -1173,6 +1202,8 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
 	neighborlay = "cobbleedge"
+	seasonal_icon_swap = TRUE
+	winter_neighborlay = "snowcobbleedge"
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/dirt,
 						/turf/open/floor/rogue/grass,
@@ -1190,6 +1221,7 @@
 /turf/open/floor/rogue/cobble/Initialize(mapload)
 	. = ..()
 	icon_state = "cobblestone[rand(1,3)]"
+	register_seasonal_icon()
 
 /turf/open/floor/rogue/cobble/mossy
 	name = "mossy cobblestone"
@@ -1256,6 +1288,7 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
 //	neighborlay = "cobblerock"
+	seasonal_icon_swap = TRUE
 	smooth = SMOOTH_MORE
 	canSmoothWith = list(/turf/open/floor/rogue,
 						/turf/closed/mineral,
@@ -1263,6 +1296,10 @@
 
 /turf/open/floor/rogue/cobblerock/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/turf/open/floor/rogue/cobblerock/Initialize(mapload)
+	. = ..()
+	register_seasonal_icon()
 
 /turf/open/floor/rogue/cobblerock/no_smooth
 	smooth = SMOOTH_FALSE
