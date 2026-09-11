@@ -1438,11 +1438,12 @@
 
 /obj/item/clothing/neck/roguetown/coif/baotha
 	name = "saccharine veil"
-	desc = "And yet, their methods differed; Belladoth proposed with Her lust and temptation, Eora with Her love and warmth.."
+	desc = "Their methods differed; Eora's love and warmth promised comfort. But love was not enough to save the lepers. If it was, the priestess' beloved would have lived forever."
 	icon_state = "baothacoif"
 	item_state = "baothacoif"
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
+	flags_inv = HIDEFACE
 	body_parts_covered = NECK | HAIR | EARS | HEAD | NOSE
 	armor_class = ARMOR_CLASS_LIGHT
 	adjustable = CAN_CADJUST

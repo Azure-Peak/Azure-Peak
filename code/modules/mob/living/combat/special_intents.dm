@@ -347,13 +347,12 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 /// Uses weapon skill as the accuracy bonus. Specials can override this for custom behavior.
 /datum/special_intent/proc/get_aimed_zone(mob/living/target)
 	var/bonus = 0
-	var/skill = custom_skill
-	if(!skill)
+	if(custom_skill)
+		bonus += howner.get_skill_level(custom_skill) * 8
+	else
 		var/obj/item/W = iparent
 		if(istype(W))
-			skill = W.associated_skill
-	if(skill)
-		bonus += howner.get_skill_level(skill) * 8
+			bonus += howner.get_wskill(W) * 8
 	return resolve_aimed_zone(howner.zone_selected, howner, target, bonus)
 
 ///A proc that attempts to deal damage to the target, simple mob or carbon.
@@ -1576,13 +1575,20 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/dagger_dash
 	name = "Dagger Dash"
-	desc = "Become quicker on your feet and pass through other beings for a short time. Boost scales with worn armor."
+	desc = "Become quicker on your feet and pass through other beings for a short time. Boost scales with worn armor. Afterwards, neither Phase nor Dagger Dash can be used until 30 seconds later."
 	cooldown = 90 SECONDS
 	stamcost = 25
+
+/datum/special_intent/dagger_dash/check_reqs(mob/living/carbon/human/user, obj/item/I)
+	if(user.has_status_effect(/datum/status_effect/debuff/slip_recovery))
+		user.balloon_alert(user, "Still winded!")
+		return FALSE
+	return ..()
 
 /datum/special_intent/dagger_dash/process_attack()
 	SHOULD_CALL_PARENT(FALSE)
 	howner.apply_status_effect(/datum/status_effect/buff/dagger_dash)
+	howner.apply_status_effect(/datum/status_effect/debuff/slip_recovery)
 	playsound(howner, 'sound/combat/dagger_boost.ogg', 100, TRUE)
 	apply_cooldown()
 

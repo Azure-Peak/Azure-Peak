@@ -735,7 +735,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			head.sellprice = 0
 	gib()
 
-/mob/living/simple_animal/mark_contract_spawned()
+/mob/living/simple_animal/mark_contract_spawned(dust_corpse = TRUE)
 	. = ..()
 	head_butcher = null
 

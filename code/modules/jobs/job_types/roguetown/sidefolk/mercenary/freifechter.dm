@@ -14,7 +14,8 @@
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
-		STATKEY_WIL = 3
+		STATKEY_WIL = 2,
+		STATKEY_CON = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
@@ -27,7 +28,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE
 	)
 	virtue_limits = list(/datum/virtue/combat/dualwielder)
-	adv_stat_ceiling = list(STAT_STRENGTH = 12, STAT_SPEED = 12, STAT_CONSTITUTION = 10)
+	adv_stat_ceiling = list(STAT_STRENGTH = 12, STAT_SPEED = 12, STAT_CONSTITUTION = 12)
 
 /datum/outfit/job/roguetown/mercenary/freelancer/pre_equip(mob/living/carbon/human/H)
 	..()

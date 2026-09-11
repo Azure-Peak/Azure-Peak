@@ -14,7 +14,7 @@ export function canPageAcceptType(page: Page, type: string): boolean {
 }
 
 export function createPage(obj: Record<string, unknown> = {}): Page {
-  const acceptedTypes = {};
+  const acceptedTypes: Record<string, boolean> = {};
 
   for (const typeDef of MESSAGE_TYPES) {
     acceptedTypes[typeDef.type] = !!typeDef.important;
@@ -33,7 +33,7 @@ export function createPage(obj: Record<string, unknown> = {}): Page {
 }
 
 export function createMainPage(): Page {
-  const acceptedTypes = {};
+  const acceptedTypes: Record<string, boolean> = {};
   for (const typeDef of MESSAGE_TYPES) {
     acceptedTypes[typeDef.type] = true;
   }
@@ -73,7 +73,7 @@ export function isSameMessage(
   );
 }
 
-type SerializedMessage = {
+export type SerializedMessage = {
   type: string;
   createdAt: number;
 } & Partial<{

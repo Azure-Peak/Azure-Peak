@@ -56,6 +56,7 @@ const TaxationColumn = (props: { t: TreasurySnapshot }) => {
           { label: 'Headeater Levy', value: t.royal.headeater_levy },
           { label: 'Import Tariff', value: t.royal.import_tariff },
           { label: 'Export Duty', value: t.royal.export_duty },
+          { label: 'Recovered Spoils', value: t.royal.recovered_spoils },
           { label: 'Other', value: t.royal.other_fees },
         ]}
       />
@@ -147,6 +148,11 @@ const ObligationsColumn = (props: { t: TreasurySnapshot }) => {
       {t.banditry_owed > 0 && (
         <Breakdown>Banditry: {t.banditry_owed} still owed</Breakdown>
       )}
+      {t.banditry_hoard > 0 && (
+        <Breakdown>
+          Bandit hoards: {t.banditry_hoard} awaiting recovery
+        </Breakdown>
+      )}
       {showDebtRow && (
         <table style={twoColTable}>
           <tbody>
@@ -184,6 +190,7 @@ export const TreasurySection = (props: Props) => {
   const { t, balance } = props;
   const hasObligations =
     t.banditry_owed > 0 ||
+    t.banditry_hoard > 0 ||
     t.bankruptcy_count > 0 ||
     t.arrears_count > 0 ||
     t.treasury_debt_repaid > 0 ||

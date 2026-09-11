@@ -403,7 +403,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		var/datum/virtue/V = virtue_type
 		virtue = new V.type
 		if(length(V.picked_choices))
-			virtue.picked_choices = V.picked_choices
+			virtue_choices = V.picked_choices.Copy()
 		qdel(V)
 	else if(ispath(virtue_type, /datum/virtue))
 		virtue = new virtue_type
@@ -415,7 +415,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		var/datum/virtue/V = virtuetwo_type
 		virtuetwo = new V.type
 		if(length(V.picked_choices))
-			virtuetwo.picked_choices = V.picked_choices
+			virtuetwo_choices = V.picked_choices.Copy()
 		qdel(V)
 	else if(ispath(virtuetwo_type, /datum/virtue))
 		virtuetwo = new virtuetwo_type
@@ -423,10 +423,22 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		virtuetwo = new /datum/virtue/none
 
 	if(length(virtue_choices))
-		virtue.picked_choices = virtue_choices.Copy()
+		var/error_found = FALSE
+		for(var/choice in virtue_choices)
+			if(!(choice in virtue.extra_choices))
+				error_found = TRUE
+				break
+		if(!error_found)
+			virtue.picked_choices = virtue_choices.Copy()
 
 	if(length(virtuetwo_choices))
-		virtuetwo.picked_choices = virtuetwo_choices.Copy()
+		var/error_found = FALSE
+		for(var/choice in virtuetwo_choices)
+			if(!(choice in virtuetwo.extra_choices))
+				error_found = TRUE
+				break
+		if(!error_found)
+			virtuetwo.picked_choices = virtuetwo_choices.Copy()
 
 	virtue.on_load()
 	virtuetwo.on_load()

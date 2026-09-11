@@ -49,8 +49,6 @@
 	var/hoe_damage = null //the durability damage recieved for every work cycle
 	var/work_time = 3 SECONDS // the time it takes to make new soil or till soil
 
-	var/twirly // set this to a skill level to gate twirling. if it's falsy, you can't twirl the weapon. knives and staves are jman, swords are expert
-	COOLDOWN_DECLARE(twirl_cooldown) //twirling has a cooldown on to_chat to reduce chatspam
 
 /obj/item/rogueweapon/Initialize(mapload)
 	. = ..()
@@ -124,33 +122,11 @@
 			ungrip(user)
 		altgrip(user)
 		user.update_inv_hands()
-	else if(twirly)
-		SpinAnimation(4, 2) // The spin happens regardless of the cooldown
-
-		if(!COOLDOWN_FINISHED(src, twirl_cooldown))
-			return ..()
-
-		COOLDOWN_START(src, twirl_cooldown, 3 SECONDS)
-		var/twirlskill = twirly - ((associated_skill == /datum/skill/combat/arcyne) ? 1 : 0) // AA is proliferated quite sparingly, jman AA is like expert in most wskills
-		if((user.get_skill_level(associated_skill) < twirlskill) && prob(40))
-			user.visible_message(
-				span_danger("While trying to twirl [src] [user] drops it instead!"),
-				span_userdanger("While trying to twirl [src] you drop it instead!"),
-			)
-			var/mob/living/carbon/human/unfortunate_idiot = user
-			var/dropped_knife_target = pick(
-				BODY_ZONE_PRECISE_L_FOOT,
-				BODY_ZONE_PRECISE_R_FOOT,
-				)
-			unfortunate_idiot.apply_damage(src.force, BRUTE, dropped_knife_target)
-			user.dropItemToGround(src, TRUE)
-		else
-			user.visible_message(
-				span_notice("[user] twirls [src] in a dramatic flourish!"),
-				span_notice("You twirl [src] dramatically."),
-			)
-			playsound(src, 'sound/foley/equip/swordsmall1.ogg', 20, FALSE)
+		return
 	return ..()
+
+/obj/item/rogueweapon/twirl_skill_needed()
+	return twirly - ((associated_skill == /datum/skill/combat/arcyne) ? 1 : 0)
 
 /obj/item/shaft
 	name = "debug shaft"
@@ -208,5 +184,4 @@
 /obj/item/rogueweapon/get_mechanics_examine(mob/user)
 	. = ..()
 	if(twirly)
-		var/twirlskill = twirly - ((associated_skill == /datum/skill/combat/arcyne) ? 1 : 0)
-		. += span_info("You can twirl this weapon by right-clicking it in your hand[has_altgrip_modes()?" out of combat mode":""]. Doing so safely requires [skill_to_string(twirlskill)] skills; anything less risks harming yourself.")
+		. += span_info("Right-click to twirl it one-handed[has_altgrip_modes()?", out of combat mode":""]. Safe at [skill_to_string(twirl_skill_needed())] skill.")

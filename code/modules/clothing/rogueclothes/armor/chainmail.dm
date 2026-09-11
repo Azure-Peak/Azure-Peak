@@ -203,8 +203,10 @@
 	desc = "Rotted metal rings and rotting leather, woven together to form a sleeved maille-atekon; one that's been uncomfortably \
 	tucked beneath a matching cuirass. Such are the last remains of those who've dared to march against the undying legions, be it \
 	yils or centuries prior."
+	slot_flags = ITEM_SLOT_ARMOR
 	icon_state = "ancientcuirasshauberk"
 	item_state = "ancientcuirasshauberk"
+	armor_class = ARMOR_CLASS_HEAVY
 	max_integrity = ARMOR_INT_CHEST_PLATE_DECREPITLIGHT // 200 INT.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
@@ -212,8 +214,10 @@
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked \
 	beneath a matching cuirass. It eminates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
 	come, do you suppose Her death knights would bear such a mantle?"
+	slot_flags = ITEM_SLOT_ARMOR
 	icon_state = "ancientcuirasshauberk"
 	item_state = "ancientcuirasshauberk"
+	armor_class = ARMOR_CLASS_HEAVY
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted

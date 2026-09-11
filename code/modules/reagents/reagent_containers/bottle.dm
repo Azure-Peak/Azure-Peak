@@ -121,7 +121,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 			user.mob_timers["bottleopen_warn"] = world.time
 	return
 
-/obj/item/reagent_containers/glass/bottle/rmb_self(mob/user)
+/obj/item/reagent_containers/glass/bottle/rmb_self(mob/user, keybind = FALSE)
 	. = ..()
 	toggle_cork(user)
 
@@ -142,13 +142,6 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 		to_chat(user, span_warning("I need to take [src] out first!"))
 		return
 	toggle_cork(user)
-
-/obj/item/reagent_containers/glass/bottle/examine()
-	. = ..()
-	if(closed)
-		. += span_notice("It is sealed with a cork.")
-	else
-		. += span_notice("It is open. Hopefully a cork is nearby.")
 
 /obj/item/reagent_containers/glass/bottle/Initialize(mapload)
 	. = ..()

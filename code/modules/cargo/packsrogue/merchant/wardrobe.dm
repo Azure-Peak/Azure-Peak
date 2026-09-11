@@ -176,7 +176,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	name = "Fancy Spectacles, Tinted"
 	cost = 30
 	contains = list(
-					/obj/item/clothing/mask/rogue/spectacles/fancy_dark,
+					/obj/item/clothing/mask/rogue/spectacles/fancy/dark,
 				)
 
 /datum/supply_pack/rogue/wardrobe/masks/goldspecs

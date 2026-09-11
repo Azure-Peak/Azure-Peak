@@ -20,8 +20,9 @@
 	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/ash
 	resistance_flags = FLAMMABLE
+	twirly = SKILL_LEVEL_EXPERT
+	twirl_sound = 'sound/combat/sidesweep_hit.ogg'
 	var/sweeping = FALSE
-	COOLDOWN_DECLARE(twirl_cooldown) // Prevents the twirl from spamming chat.
 
 /obj/item/broom/getonmobprop(tag)
 	. = ..()
@@ -41,35 +42,15 @@
 	. = ..()
 	. += span_info("Sweeping time decreases with higher Cooking skill.")
 	. += span_info("STRONG intent will make you do a power-sweeping, targeting a 3x3 area!")
-	. += span_info("You can twirl [src] by right-clicking it in your hand while in combat mode. Doing so safely requires Expert skill; anything less risks harming yourself.")
+	. += span_info("Right-click to twirl it one-handed.")
 
-/obj/item/broom/rmb_self(mob/user)
-	. = ..()
-	SpinAnimation(4, 2)
-	if(!COOLDOWN_FINISHED(src, twirl_cooldown))
-		return
-	COOLDOWN_START(src, twirl_cooldown, 3 SECONDS)
-	// smack thineself loser nerd
-	if(user.get_skill_level(associated_skill) < SKILL_LEVEL_EXPERT && prob(40))
-		var/crit = prob(60)
-		var/critmsg = " <span class='crit'><b>Critical hit!</b> [user] is knocked out!</span>"
-		user.visible_message(span_danger("While trying to twirl [src] [user] flings it instead, hitting [user.p_themselves()] in the head![crit ? critmsg : ""]"), span_userdanger("While trying to twirl [src] you fling it instead, hitting yourself in the head![crit ? critmsg : ""]"))
-		var/mob/living/carbon/human/unfortunate_idiot = user
-		unfortunate_idiot.apply_damage(src.force, BRUTE, BODY_ZONE_PRECISE_SKULL)
-		if(crit)
-			unfortunate_idiot.flash_fullscreen("whiteflash3")
-			unfortunate_idiot.Unconscious(5 SECONDS)
-			playsound(get_turf(unfortunate_idiot), 'sound/combat/tf2crit.ogg', 100, FALSE)
-		playsound(get_turf(unfortunate_idiot), 'sound/misc/bonk.ogg', 100, FALSE)
-		user.dropItemToGround(src, TRUE)
-		return
-	user.visible_message(span_notice("[user] twirls [src] in a dramatic flourish!"), span_notice("You twirl [src] dramatically."))
-	playsound(src, 'sound/combat/sidesweep_hit.ogg', 20, FALSE)
+/obj/item/broom/twirl_fumble(mob/living/user)
+	return twirl_fumble_bonk(user)
 
 /obj/item/broom/proc/sweep_time(mob/living/user)
-	return max(40 - (user.get_skill_level(associated_skill) * 15), 5)
+	return max(40 - (user.get_wskill(src) * 15), 5)
 /obj/item/broom/proc/sweep_move_time(mob/living/user)
-	return max(40 - (user.get_skill_level(associated_skill) * 15), 5)
+	return max(40 - (user.get_wskill(src) * 15), 5)
 
 /obj/item/broom/proc/sweep_alive(mob/living/user)
 	return !QDELETED(user) && user.stat != DEAD

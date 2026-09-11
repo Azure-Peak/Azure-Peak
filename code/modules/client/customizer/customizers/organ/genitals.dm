@@ -21,6 +21,8 @@
 	..()
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
 	penis_entry.penis_size = sanitize_integer(penis_entry.penis_size, MIN_PENIS_SIZE, MAX_PENIS_SIZE, DEFAULT_PENIS_SIZE)
+	if(!(penis_entry.sheath_type in list(SHEATH_TYPE_NONE, SHEATH_TYPE_NORMAL, SHEATH_TYPE_SLIT)))
+		penis_entry.sheath_type = SHEATH_TYPE_NONE
 
 /datum/customizer_choice/organ/penis/imprint_organ_dna(datum/organ_dna/organ_dna, datum/customizer_entry/entry, datum/preferences/prefs)
 	..()
@@ -28,6 +30,7 @@
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
 	penis_dna.penis_size = penis_entry.penis_size
 	penis_dna.functional = penis_entry.functional
+	penis_dna.sheath_type = penis_entry.sheath_type
 
 /datum/customizer_choice/organ/penis/tgui_pref_choices(datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	var/list/data = ..()
@@ -35,6 +38,7 @@
 	var/datum/customizer_entry/organ/penis/penis_entry = entry
 	data["penis_size"] = find_key_by_value(PENIS_SIZES_BY_NAME, penis_entry.penis_size)
 	data["penis_functional"] = penis_entry.functional
+	data["sheath_type"] = find_key_by_value(SHEATH_TYPES_BY_NAME, penis_entry.sheath_type)
 
 	return data
 
@@ -63,10 +67,20 @@
 			penis_entry.functional = !penis_entry.functional
 			prefs.verbose_pref_log_change(user, "notice", "\"[name]\" functionality", !penis_entry.functional ? "Functional" : "Not Functional", penis_entry.functional ? "Functional" : "Not Functional")
 			return TRUE
+		if("sheath_type")
+			var/named_sheath = tgui_input_list(user, "Choose your sheath type:", "Character Preference", SHEATH_TYPES_BY_NAME, find_key_by_value(SHEATH_TYPES_BY_NAME, penis_entry.sheath_type))
+			if(isnull(named_sheath))
+				return TRUE
+			var/new_sheath = SHEATH_TYPES_BY_NAME[named_sheath]
+			var/old_sheath = find_key_by_value(SHEATH_TYPES_BY_NAME, penis_entry.sheath_type)
+			prefs.verbose_pref_log_change(user, "notice", "\"[name]\" sheath", old_sheath, named_sheath)
+			penis_entry.sheath_type = new_sheath
+			return TRUE
 
 /datum/customizer_entry/organ/penis
 	var/penis_size = DEFAULT_PENIS_SIZE
 	var/functional = TRUE
+	var/sheath_type = SHEATH_TYPE_NONE
 
 /datum/customizer/organ/penis/human
 	customizer_choices = list(/datum/customizer_choice/organ/penis/human)
