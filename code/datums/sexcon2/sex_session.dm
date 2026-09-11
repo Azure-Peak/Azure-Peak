@@ -186,18 +186,39 @@
 		return FALSE
 	if(user.stat != CONSCIOUS)
 		return FALSE
-	if(!user.Adjacent(target) && !action.ranged_action)
+	var/datum/species/dullahan/D = target.dna?.species
+	var/rev_exemption = FALSE
+	var/sametile_exemption = FALSE
+	var/held_exemption = FALSE
+	if(D && istype(D) && D.headless && (user.Adjacent(D.my_head) || user.is_holding(D.my_head)))
+		rev_exemption = TRUE // headless revs start a sex session from range, since you're technically panelling the mob and not the head. we handle head adjacency checks in check_location_accessible
+		if(user.is_holding(D.my_head))
+			held_exemption = TRUE
+		if(get_turf(D.my_head) == get_turf(user))
+			sametile_exemption = TRUE
+	var/datum/species/dullahan/E = user.dna?.species
+	if(E && istype(E) && E.headless && (target.Adjacent(E.my_head) || target.is_holding(E.my_head)))
+		rev_exemption = TRUE
+		if(target.is_holding(D.my_head))
+			held_exemption = TRUE
+		if(get_turf(D.my_head) == get_turf(target))
+			sametile_exemption = TRUE
+	if(D && E && istype(D) && istype(E) && D.headless && E.headless && (D.my_head.Adjacent(E.my_head))) // so they can make out
+		rev_exemption = TRUE
+		if(get_turf(D.my_head) == get_turf(E.my_head))
+			sametile_exemption = TRUE
+	if(!rev_exemption && !user.Adjacent(target) && !action.ranged_action)
 		return FALSE
 	if(target.freeuse)
 		return TRUE
 	if(action.check_incapacitated && user.incapacitated())
 		return FALSE
-	if(action.check_same_tile)
+	if(action.check_same_tile && !sametile_exemption)
 		var/same_tile = (get_turf(user) == get_turf(target))
 		var/grab_bypass = (action.aggro_grab_instead_same_tile && user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
 		if(!same_tile && !grab_bypass)
 			return FALSE
-	if(action.require_grab)
+	if(action.require_grab && !held_exemption)
 		var/grabstate = user.get_highest_grab_state_on(target)
 		if(grabstate == null || grabstate < action.required_grab_state)
 			return FALSE

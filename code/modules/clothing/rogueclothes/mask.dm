@@ -489,15 +489,16 @@
 	name = "soldier's half-mask"
 	desc = "\"The first lesson of war is that it would be better to live in peace.\""
 	block2add = null
-	armor = ARMOR_PLATE // because it's only half
-	max_integrity = ARMOR_INT_MASK_IRON
+	armor = ARMOR_PLATE
+	max_integrity = ARMOR_INT_MASK_IRON //Half integrity of a full mask, but does not block fov
 	icon_state = "kazengunmouthguard"
 	item_state = "kazengunmouthguard"
 
 /obj/item/clothing/mask/rogue/facemask/steel/kazengun/full
 	name = "ogre mask"
 	desc = "\"The second lesson: Rich men have dreams. Poor men die to make them come true.\""
-	max_integrity = ARMOR_INT_MASK_IRON
+	block2add = FOV_BEHIND
+	max_integrity = ARMOR_INT_MASK_STEEL
 	icon_state = "kazengunfaceguard"
 	item_state = "kazengunfaceguard"
 

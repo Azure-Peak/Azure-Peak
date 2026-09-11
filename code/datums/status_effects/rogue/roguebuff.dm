@@ -239,43 +239,6 @@
 	desc = ""
 	icon_state = "acid"
 
-/datum/status_effect/buff/baothablessing
-	id = "druqks"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/baothablessing
-	duration = 2 MINUTES
-
-/datum/status_effect/buff/baothablessing/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-	if(owner?.client)
-		if(owner.client.screen && owner.client.screen.len)
-			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
-			PM.backdrop(owner)
-			owner.add_stress(/datum/stressevent/high)
-
-/datum/status_effect/buff/baothablessing/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-	if(owner?.client)
-		if(owner.client.screen && owner.client.screen.len)
-			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
-			PM.backdrop(owner)
-			owner.remove_stress(/datum/stressevent/high)
-
-	. = ..()
-
-/atom/movable/screen/alert/status_effect/buff/baothablessing
-	name = "Baothan Blessing"
-	desc = "Baotha has blessed you with immunity to overdose. Rejoice!"
-	icon_state = "acid"
-
 /datum/status_effect/buff/ozium
 	id = "ozium"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
@@ -1292,7 +1255,7 @@
 /datum/status_effect/buff/knowledgerituos
 	id = "knowledgerituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
-	duration = 25 MINUTES
+	duration = 20 MINUTES
 	effectedstats = list(STATKEY_INT = 1)
 
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
@@ -1326,7 +1289,7 @@
 	id = "utilityrituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	effectedstats = list(STATKEY_WIL = 1) //Bare minimal needed to labor slightly easier.
-	duration = 25 MINUTES
+	duration = 20 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	name = "Progressive Trance"
@@ -2786,7 +2749,7 @@
 /datum/status_effect/eoranaura
 	id = "eoranaura"
 	var/outline_colour = "#EEBBBB"
-	duration = 10 MINUTES
+	duration = 20 MINUTES
 	tick_interval = -1
 	examine_text = span_good("SUBJECTPRONOUN is bathed in Eora's Light!")
 	alert_type = null

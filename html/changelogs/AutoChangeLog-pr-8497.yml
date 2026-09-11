@@ -1,0 +1,4 @@
+author: "plsleavemealon"
+delete-after: True
+changes:
+  - rscadd: "Ports a hat and cape sprite from vanderlin"

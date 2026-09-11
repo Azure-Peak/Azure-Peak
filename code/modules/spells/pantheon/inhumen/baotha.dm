@@ -23,6 +23,8 @@
 	desc = "Baotha raises myne mood. Alt-mode to instead surrender my soul to heartbreak. More effective based off of holy skill."
 	button_icon_state = null //i ain't got shit rn lowk chief
 	sound = 'sound/magic/heal.ogg' //i ain't got SHIT rn lowk chief
+	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
+	overlay_icon_state = "mood_happy"
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
 	primary_resource_cost = SPELLCOST_MIRACLE
@@ -35,8 +37,14 @@
 	var/embrace_heartbreak = FALSE
 
 /datum/action/cooldown/spell/baotha/emotional_sway/toggle_alt_mode(mob/user)
-	embrace_heartbreak = !embrace_heartbreak
-	to_chat(user, span_notice("Baotha's blessing will now [embrace_heartbreak ? "decrease" : "increase"] my mood."))
+	embrace_heartbreak = !embrace_heartbreak //i feel like i could have just done a true/false check but whatever
+	if(embrace_heartbreak)
+		overlay_icon_state = "mood_sad"
+		to_chat(user, span_notice("Baotha's blessing will now decrease my mood."))
+	else
+		overlay_icon_state = "mood_happy"
+		to_chat(user, span_notice("Baotha's blessing will now increase my mood."))
+	build_all_button_icons(UPDATE_BUTTON_OVERLAY)
 	return TRUE
 
 /datum/action/cooldown/spell/baotha/emotional_sway/cast(atom/cast_on)
@@ -51,7 +59,7 @@
 	var/datum/stressevent/emotional_sway = user.add_stress(event_type)
 	if(!emotional_sway)
 		return FALSE
-	emotional_sway.stressadd = (embrace_heartbreak ? 1 : -1) * 2 * holy_skill
+	emotional_sway.stressadd = (embrace_heartbreak ? 1 : -1) * max(5, 2 * holy_skill)
 	to_chat(user, embrace_heartbreak ? span_warning("Sickening plummet. This will all end one dae.") : span_green("Warmth and cherishment."))
 	return TRUE
 
@@ -115,49 +123,6 @@
 	to_chat(user, span_info("They are... [span_warning("a [vice_found]")]"))
 	return TRUE
 
-//Baotha's Blessings - T0, reverses overdose effect on a target + soothing moodlet. Useful to T0/Devotee because it allows them to stop an OD death, but puts them on the clock. (Medieval narcan..... #BanNarcan)
-
-/obj/effect/proc_holder/spell/invoked/baothablessings
-	name = "Baotha's Blessings"
-	desc = "Gets the target drunk and stops them from overdosing for a time."
-	action_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
-	overlay_state = "blessing"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 4
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/heal.ogg'
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 30 SECONDS
-	miracle = TRUE
-	devotion_cost = 10
-
-/obj/effect/proc_holder/spell/invoked/baothablessings/cast(list/targets, mob/living/user)
-	if(isliving(targets[1]))
-		var/mob/living/carbon/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your hollow husk of a body, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		if(target.has_status_effect(/datum/status_effect/buff/baothablessing))
-			to_chat(user, span_warning("They're already blessed by these effects!"))
-			revert_cast()
-			return FALSE
-		target.apply_status_effect(/datum/status_effect/buff/baothablessing) //Gets the trait temorarily, basically will just stop any active/upcoming ODs.
-		target.visible_message("<span class='info'>[target]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
-	return TRUE
-
 //T1, Baotha's version of Eora's Bud (now renamed True Peace Bloom). Applies the TRAIT_CRACKHEAD baothans have.
 /obj/effect/proc_holder/spell/invoked/griefflower
 	name = "False Serenity Bloom"
@@ -213,7 +178,7 @@
 // T1 - polls the caster's mood and vice satiety before giving a buff. as you can tell by the typepath i had an entiurely different idea for this ubt whatever
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve
 	name = "Phentis / Melancholia"
-	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. A sated vice doubles the duration; every unsated vice doubles every stat change."
+	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. Every sated vice doubles the duration; every unsated vice doubles every attribute change."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
@@ -241,16 +206,15 @@
 		revert_cast()
 		return FALSE
 
-	var/vice_sated = TRUE
+	var/stat_multiplier = 1
+	var/effect_duration = 45 SECONDS
 	if(ishuman(user))
 		var/mob/living/carbon/human/human_user = user
 		for(var/datum/charflaw/addiction/vice in human_user.charflaws)
-			if(!vice.sated)
-				vice_sated = FALSE
-				break
-
-	var/stat_multiplier = vice_sated ? 1 : 2
-	var/effect_duration = vice_sated ? 90 SECONDS : 45 SECONDS
+			if(vice.sated)
+				effect_duration *= 2
+			else
+				stat_multiplier *= 2
 
 	if(is_good_mood)
 		for(var/mob/living/nearby_soul in view(aura_range, user))
@@ -285,11 +249,11 @@
 	desc = ""
 	icon_state = "buff"
 
-//Enrapturing Powder - T2, basically a crackhead blowing cocaine in your face.
+//Enrapturing Powder - T2, dose someone or yourself with drugs.
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust
 	name = "Enrapturing Powder"
-	desc = "Blows dust of a potent drug at the target, applying a variety of effects. \
+	desc = "Blows dust of a potent drug at the target- or applies it to myself, with alternate-cast- applying a variety of effects. \
 	Your intent will determine the drug thrown at the target. \n\
 	\
 	Feint intent will throw spice at the target, giving them +5 INT, +3 SPD, and -5 FOR. \n\
@@ -315,6 +279,42 @@
 	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
 	devotion_cost = 30
 	human_req = TRUE
+	var/self_cast_mode = FALSE
+
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust/toggle_arc_mode(mob/user)
+	self_cast_mode = !self_cast_mode
+	if(self_cast_mode)
+		to_chat(user, span_notice("[name] self-cast mode enabled."))
+	else
+		to_chat(user, span_notice("[name] self-cast mode disabled."))
+	update_arc_maptext()
+
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust/update_arc_maptext()
+	if(!action)
+		return
+	for(var/datum/hud/hud as anything in action.viewers)
+		var/atom/movable/screen/movable/action_button/button = action.viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/mode_holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in button.vis_contents)
+			mode_holder = existing
+			break
+		if(!mode_holder)
+			mode_holder = new(button)
+			button.vis_contents.Add(mode_holder)
+		if(self_cast_mode)
+			mode_holder.maptext = MAPTEXT("SELF")
+		else
+			mode_holder.maptext = null
+		mode_holder.color = "#d9b3ff"
+
+/obj/effect/proc_holder/spell/invoked/projectile/blowingdust/fire_projectile(mob/living/user, atom/target)
+	if(!self_cast_mode)
+		return ..()
+	user.reagents.add_reagent(initial(projectile_type:poisontype), initial(projectile_type:poisonamount))
+	user.show_message(span_danger("You feel an intense [initial(projectile_type:poisonfeel)] sensation spreading swiftly from the area!"))
+	to_chat(user, span_warning("Gah! Something got in my eyes...!"))
+	user.blur_eyes(2)
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust/cast(list/targets, mob/user = user)
 	switch(user.rmb_intent.name)
@@ -356,7 +356,7 @@
 	nodamage = FALSE
 	damage = 1
 	poisontype = /datum/reagent/druqks
-	poisonfeel = "burning" //Insufflation go brr.
+	poisonfeel = "buzzing" //Insufflation go brr.
 	poisonamount = 4 //Lower than the others as it's got an OD threshold of 16 - takes 4 hits to OD if you hit it perfectly, but more like 5.
 
 /obj/projectile/magic/blowingdust/moondust
@@ -365,7 +365,7 @@
 	nodamage = FALSE
 	damage = 1
 	poisontype = /datum/reagent/moondust_purest
-	poisonfeel = "burning" //Insufflation go brr.
+	poisonfeel = "tingling" //Insufflation go brr.
 	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
 
 
@@ -381,7 +381,7 @@
 	to_chat(M, span_warning("Gah! Something.. got in my - eyes.."))
 	M.blur_eyes(2)
 
-// T2 - shares the caster's current mood, intensified by their holy skill.
+// T0 - shares the caster's current mood, intensified by their holy skill.
 /obj/effect/proc_holder/spell/invoked/lasthigh
 	name = "Codependence"
 	desc = "Shares my current stress or peace with someone, intensified by my holy skill."
@@ -390,16 +390,16 @@
 	overlay_state = "last_high"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 2 SECONDS
+	chargetime = 0
 	range = 7
 	warnie = "sydwarning"
 	chargedloop = /datum/looping_sound/invokeholy
 	sound = 'sound/magic/timestop.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
-	recharge_time = 2 MINUTES
+	recharge_time = 1 MINUTES
 	miracle = TRUE
-	devotion_cost = 75
+	devotion_cost = 10
 	human_req = TRUE
 	invocation_type = "whisper"
 	invocations = list("Release your love to me.")
