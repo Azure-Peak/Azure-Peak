@@ -1,6 +1,8 @@
 /datum/advclass/assassin_hitman
-	name = "Assassin - Professional Hitman"
-	tutorial = "You are no street-thug or yoeman, you have honed your trade for years if not outright decades. Your craft? Blending in anywhere possible, waiting for your target to be alone, and finishing the hit. After all, dead men tell no tales."
+	name = "Snickersnacker"
+	tutorial = "Some devotees of Psydon say that killing Graggarites through cuts is wrong, as blood empowers the Sinistar. \
+	You prove that he cares not whether blood flows, as long as death follows. \
+	Use your garrote, strength, or a mace to assist in your slayings. Snick-snack, a neck cracks."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/assassin/hitman
