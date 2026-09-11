@@ -54,14 +54,14 @@
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
+					/obj/item/folding_alchstation_stored = 1,
 					/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 					/obj/item/lockpickring/mundane = 1,
-					/obj/item/rogueweapon/huntingknife/idagger/steel/corroded = 1,	// ideally, we'd actually add the poisoning thing to their *assasin dagger* but im not sure how to do that in an efficient way.
-					/obj/item/rogueweapon/scabbard/sheath = 1,
 					/obj/item/reagent_containers/glass/bottle/rogue/strongpoison = 1,
 					/obj/item/reagent_containers/glass/bottle/rogue/stampoison = 1,
 					/obj/item/recipe_book/alchemy = 1,
-					/obj/item/folding_alchstation_stored = 1,
+					/obj/item/rogueweapon/scabbard/sheath = 1,
+					/obj/item/rogueweapon/huntingknife/idagger/steel/corroded = 1,	// ideally, we'd actually add the poisoning thing to their *assasin dagger* but im not sure how to do that in an efficient way.
 					)
 	mask = /obj/item/clothing/mask/rogue/physician/phys
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
