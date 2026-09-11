@@ -1,9 +1,14 @@
 SUBSYSTEM_DEF(icon_smooth)
 	name = "Icon Smoothing"
 	init_order = INIT_ORDER_ICON_SMOOTHING
-	wait = 1
+	// Was SS_TICKER (every tick, front of the queue, ahead of every other subsystem) - purely
+	// cosmetic overlay work doesn't need that priority, and it meant a mass SSseason conversion
+	// sweep's smoothing fallout competed for top-of-tick CPU instead of yielding to anything more
+	// important. SS_BACKGROUND only runs on spare tick time; wait is now real deciseconds (was a
+	// tick count under SS_TICKER) rather than "every tick".
+	wait = 3
 	priority = FIRE_PRIORITY_SMOOTHING
-	flags = SS_TICKER
+	flags = SS_BACKGROUND
 	var/list/smooth_queue = list()
 	var/list/deferred = list()
 
