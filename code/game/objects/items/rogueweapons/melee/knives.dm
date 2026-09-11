@@ -897,6 +897,7 @@
 	desc = "A branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
 	icon_state = "heavystake_silver"
 	possible_item_intents = list(/datum/intent/dagger/thrust/pick, /datum/intent/dagger/thrust/quick, /datum/intent/dagger/cut, /datum/intent/dagger/sucker_punch)
+	force = 20
 	throwforce = 20
 	wdefense = 0
 	max_integrity = 50
