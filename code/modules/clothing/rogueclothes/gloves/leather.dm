@@ -205,6 +205,7 @@
 	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/gloves/roguetown/rosa/two
 	name = "scarlet gloves"

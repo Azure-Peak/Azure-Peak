@@ -1106,6 +1106,7 @@
 	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	salvage_result = /obj/item/natural/hide/cured
 	boobed = FALSE
 
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/two

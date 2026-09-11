@@ -392,7 +392,7 @@
 	name = "regal coat"
 	display_category = ITEM_CAT_GARMENT_FINE
 	reqs = list(
-		/obj/item/natural/hide/cured = 3,
+		/obj/item/natural/hide/cured = 2,
 		/obj/item/natural/silk = 2,
 		/obj/item/alch/rosa = 1
 	)
