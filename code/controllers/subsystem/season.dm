@@ -14,6 +14,13 @@
 //   Winter and lose it again on the thaw. Freezing uses PlaceOnTop(), so the original water
 //   subtype rides along on baseturfs and the thaw is a plain ScrapeAway() back to it. Both
 //   the liquid and the frozen turfs live in the same tracking list.
+//
+// A rollover that actually changes how a category renders doesn't convert everything at once -
+// it ramps in over the calendar month it happens in, 25% more of that category's tracked atoms
+// each in-game week, landing on full coverage by the month's 4th week. That target percentage is
+// a pure function of the current IC date (which week of which month), not anything SSseason
+// remembers about "how far along" a transition is - so there's nothing to lose or get stuck by
+// not persisting across rounds. See sync_seasonal_coverage().
 
 /// Should SSseason treat this turf as open to the sky? Checked at conversion time rather
 /// than at registration, so a roof raised (or torn off) mid-round is honoured on the next
@@ -81,34 +88,22 @@ SUBSYSTEM_DEF(season)
 	var/list/currentrun_flora = list()
 	var/list/water_to_convert = list()
 	var/list/currentrun_water = list()
-	/// Atoms still owed to an in-progress gradual transition, in shuffled order. Each dawn
-	/// moves a share of these into the *_to_convert queues above.
-	var/list/pending_turfs = list()
-	var/list/pending_flora = list()
-	var/list/pending_water = list()
-	/// Dawns left in the current gradual transition. 0 means none is running.
-	var/transition_days_left = 0
 	/// Drain instrumentation: when the current batch started converting, and how many atoms
 	/// it has got through. Logged when the queues run dry.
 	var/drain_started = 0
 	var/drain_count = 0
-	/// Totals behind the admin readouts for a gradual transition: how many atoms it started
-	/// with, and how many have been through the queues across all its days so far.
-	var/transition_total = 0
-	var/transition_converted = 0
 
 /datum/controller/subsystem/season/Initialize(start_timeofday)
 	current_season = get_current_season()
 	current_season_phase = get_current_season_phase()
-	queue_full_conversion()
+	sync_seasonal_coverage(force_full = TRUE)
 	return ..()
 
 /datum/controller/subsystem/season/stat_entry()
-	var/pending = length(pending_turfs) + length(pending_flora) + length(pending_water)
 	var/queued = length(turfs_to_convert) + length(currentrun_turfs)
 	queued += length(flora_to_convert) + length(currentrun_flora)
 	queued += length(water_to_convert) + length(currentrun_water)
-	return ..("[current_season] [current_season_phase] | Q:[queued] P:[pending] D:[transition_days_left]")
+	return ..("[current_season] [current_season_phase] | Q:[queued]")
 
 /datum/controller/subsystem/season/fire(resumed = FALSE)
 	if(!drain_started && (length(turfs_to_convert) || length(flora_to_convert) || length(water_to_convert)))
@@ -157,141 +152,111 @@ SUBSYSTEM_DEF(season)
 
 	if(drain_started)
 		var/elapsed = (world.time - drain_started) / 10
-		log_world("SSseason: converted [drain_count] atoms in [elapsed]s ([current_season] [current_season_phase], [transition_days_left] transition day(s) left)")
-		report_drain_complete(elapsed, drain_count)
+		log_world("SSseason: converted [drain_count] atoms in [elapsed]s ([current_season] [current_season_phase])")
 		drain_started = 0
 		drain_count = 0
 
-/// Called at every dawn (and by the admin date verb). Rolls a season/phase change over into a
-/// gradual transition, and otherwise nudges an already-running one along by a day.
-///
-/// `instant` skips the gradual path entirely and converts the map in one sweep - passed by the
-/// admin Set IC Date verb, so testing a season doesn't mean sitting through four dawns.
+/// Called at every dawn (and by the admin date verb). Refreshes current_season/phase, then either
+/// applies the calendar's target coverage in full (instant - admin date changes, so testing a
+/// season doesn't mean waiting out someone else's week) or, on a normal dawn, only actually
+/// re-syncs coverage on the first dawn of an in-game week (see sync_seasonal_coverage) - the other
+/// six dawns are a cheap no-op.
 /datum/controller/subsystem/season/proc/check_season_change(instant = FALSE)
-	var/new_season = get_current_season()
-	var/new_phase = get_current_season_phase()
-	if(new_season == current_season && new_phase == current_season_phase)
-		// No rollover, but a transition started on an earlier dawn may still owe us atoms.
-		tick_existing_transition(instant)
-		return
-	// Snapshot how the outgoing season renders before we move the clock on, so we can tell
-	// whether the incoming one actually looks any different.
-	var/old_turf_type = get_target_turf_type()
-	var/old_flora_season = get_target_flora_season()
-	var/old_frozen = waters_should_freeze()
-	current_season = new_season
-	current_season_phase = new_phase
-	var/same_turf = (get_target_turf_type() == old_turf_type)
-	var/same_flora = (get_target_flora_season() == old_flora_season)
-	var/same_water = (waters_should_freeze() == old_frozen)
-	if(same_turf && same_flora && same_water)
-		// Seven of the twelve monthly rollovers land inside a season whose three phases all
-		// render identically - phases only diverge in Winter, where Mid brings the snow and
-		// the freeze. Nothing on the map would change, so don't chunk-shuffle and then walk
-		// every tracked atom across four in-game days to convert none of them, and don't
-		// announce a transition to admins that they'd see no evidence of.
-		tick_existing_transition(instant)
-		return
+	current_season = get_current_season()
+	current_season_phase = get_current_season_phase()
 	if(instant)
-		abort_gradual_conversion()
-		queue_full_conversion()
+		sync_seasonal_coverage(force_full = TRUE)
+		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] applied in full."))
 		return
-	begin_gradual_conversion()
+	var/list/date_parts = resolve_ic_date_parts(GLOB.dayspassed)
+	var/day_of_month = date_parts[1]
+	if(MODULUS(day_of_month - 1, CALENDAR_DAYS_IN_WEEK) != 0)
+		return // only days 1, 8, 15, 22 - the first dawn of each in-game week - do anything
+	sync_seasonal_coverage()
 
-/// Nudges a transition that's already running, without starting a new one.
-/datum/controller/subsystem/season/proc/tick_existing_transition(instant = FALSE)
-	if(instant)
-		// An admin asking for an instant result shouldn't be left staring at a map that's
-		// still half-way through an earlier transition.
-		finish_gradual_conversion()
-		return
-	advance_gradual_conversion()
+/// The heart of the gradual transition. For each tracked category (ground, flora, water), works
+/// out what fraction of it *should* currently be converted to this month's target, and queues a
+/// freshly-shuffled sample of that size for the drain to walk through.
+///
+/// Deliberately doesn't track "how much of this category is already converted" anywhere - it just
+/// resamples straight off the full tracked list every time it runs. That's safe because
+/// apply_season_to_turf()/apply_season_to_water() are no-ops for anything already at the target
+/// type, and apply_flora_season() is cheap to repeat - so a queued atom that happened to be
+/// converted already just costs one wasted type check, not a wrong result. It's also why nothing
+/// here needs to survive a round restart: re-run this with no memory of the past and it converges
+/// on the same answer, because the answer only ever depended on the calendar date.
+/datum/controller/subsystem/season/proc/sync_seasonal_coverage(force_full = FALSE)
+	var/turf_pct = 100
+	var/flora_pct = 100
+	var/water_pct = 100
+	if(!force_full)
+		var/prev_month = get_current_month() - 1
+		if(prev_month < 1)
+			prev_month += CALENDAR_MONTHS_PER_YEAR
+		var/prev_season = get_season_from_month(prev_month)
+		var/prev_phase = get_season_phase(prev_month)
+		turf_pct = coverage_pct_for(get_target_turf_type() == get_target_turf_type(prev_season, prev_phase))
+		flora_pct = coverage_pct_for(get_target_flora_season() == get_target_flora_season(prev_season))
+		water_pct = coverage_pct_for(waters_should_freeze() == waters_should_freeze(prev_season, prev_phase))
+		announce_coverage_progress(turf_pct, flora_pct, water_pct)
 
-/// Converts everything at once. Used at roundstart - where the lobby runlevel gives it time
-/// to finish before anyone is in the world to watch - and for admin-forced date changes.
-/datum/controller/subsystem/season/proc/queue_full_conversion()
-	turfs_to_convert = season_chunk_shuffle(GLOB.seasonal_grass_turfs)
-	flora_to_convert = season_chunk_shuffle(GLOB.seasonal_flora_objs)
-	water_to_convert = season_chunk_shuffle(GLOB.seasonal_water_turfs)
+	turfs_to_convert += queue_coverage_share(GLOB.seasonal_grass_turfs, turf_pct)
+	flora_to_convert += queue_coverage_share(GLOB.seasonal_flora_objs, flora_pct)
+	water_to_convert += queue_coverage_share(GLOB.seasonal_water_turfs, water_pct)
 
-/// Spreads a season change over SEASON_TRANSITION_DAYS dawns instead of repainting the whole
-/// map under everyone's feet at once. The lists are scattered because they're built in mapload
-/// order - taking a slice off an unscattered list would convert one contiguous slab of the map
-/// per day, which reads as a rendering artifact rather than as a thaw. Each day's share is
-/// still a contiguous run of whole blocks, so the smoothing dedup described on
-/// season_chunk_shuffle() holds within a day as well as across one.
-/datum/controller/subsystem/season/proc/begin_gradual_conversion()
-	if(transition_days_left > 0)
-		// A transition is still running - don't overwrite its pending_* lists out from under it.
-		// apply_season_to_turf() etc. read current_season live rather than a captured target, so
-		// letting the existing schedule finish will still land every atom on *this* rollover's
-		// target once its day comes up. No atoms get stranded, and nothing needs restarting.
-		return
-	pending_turfs = season_chunk_shuffle(GLOB.seasonal_grass_turfs)
-	pending_flora = season_chunk_shuffle(GLOB.seasonal_flora_objs)
-	pending_water = season_chunk_shuffle(GLOB.seasonal_water_turfs)
-	transition_days_left = SEASON_TRANSITION_DAYS
-	transition_total = length(pending_turfs) + length(pending_flora) + length(pending_water)
-	transition_converted = 0
-	message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition underway - [transition_total] atoms spread over [SEASON_TRANSITION_DAYS] in-game days."))
-	advance_gradual_conversion()
+/// 0 if this category's target hasn't changed since last month (nothing to ramp, and nothing
+/// queued). Otherwise 25% per in-game week that's elapsed this month, capped at 100 on week 4 -
+/// so by the month's last week, every tracked atom in the category gets queued regardless of what
+/// any previous week did.
+/datum/controller/subsystem/season/proc/coverage_pct_for(same_as_last_month)
+	if(same_as_last_month)
+		return 0
+	var/list/date_parts = resolve_ic_date_parts(GLOB.dayspassed)
+	var/week_of_month = CEILING(date_parts[1] / CALENDAR_DAYS_IN_WEEK, 1)
+	return min(week_of_month * 25, 100)
 
-/datum/controller/subsystem/season/proc/abort_gradual_conversion()
-	pending_turfs = list()
-	pending_flora = list()
-	pending_water = list()
-	transition_days_left = 0
-	transition_total = 0
-	transition_converted = 0
-
-/// Admin-facing readout for a batch that just finished draining. A gradual transition reports
-/// one of these per in-game day - a percentage step while days remain, then a completion line
-/// on the last. A sweep with no transition behind it (roundstart, or an admin date change)
-/// reports itself as one-shot instead, so the two can't be confused for each other.
-/datum/controller/subsystem/season/proc/report_drain_complete(elapsed, converted)
-	if(!transition_total)
-		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] applied - [converted] atoms in [elapsed]s."))
-		return
-	transition_converted += converted
-	var/still_owed = length(pending_turfs) + length(pending_flora) + length(pending_water)
-	if(transition_days_left <= 0 && !still_owed)
-		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition COMPLETE - [transition_converted]/[transition_total] atoms converted."))
-		transition_total = 0
-		transition_converted = 0
-		return
-	var/pct = clamp(round(transition_converted / transition_total * 100), 0, 100)
-	message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition [pct]% converted ([transition_converted]/[transition_total]) - [transition_days_left] in-game day(s) left."))
-
-/// Dumps everything a transition still owes into the queues at once, ending it early.
-/datum/controller/subsystem/season/proc/finish_gradual_conversion()
-	if(transition_days_left <= 0)
-		return
-	transition_days_left = 1 // makes take_transition_share() hand back the whole remainder
-	advance_gradual_conversion()
-
-/// Moves this dawn's share of the pending atoms into the live conversion queues.
-/datum/controller/subsystem/season/proc/advance_gradual_conversion()
-	if(transition_days_left <= 0)
-		return
-	turfs_to_convert += take_transition_share(pending_turfs)
-	flora_to_convert += take_transition_share(pending_flora)
-	water_to_convert += take_transition_share(pending_water)
-	transition_days_left--
-
-/// A 1/days_left slice off the front of `pending`, removed from it. Dividing by the days that
-/// are actually left (rather than always by SEASON_TRANSITION_DAYS) means rounding can never
-/// strand a remainder: the final dawn always takes everything still outstanding.
-/datum/controller/subsystem/season/proc/take_transition_share(list/pending)
-	if(!length(pending))
+/// A chunk-shuffled sample covering `pct`% of `tracked`, sized off the category's full tracked
+/// count (not off however much of it still needs converting) - see sync_seasonal_coverage() for
+/// why that's fine.
+/datum/controller/subsystem/season/proc/queue_coverage_share(list/tracked, pct)
+	if(pct <= 0)
 		return list()
-	var/count = length(pending)
-	if(transition_days_left > 1)
-		count = CEILING(length(pending) / transition_days_left, 1)
-	. = pending.Copy(1, count + 1)
-	pending.Cut(1, count + 1)
+	var/target_count = round(length(tracked) * pct / 100)
+	if(target_count <= 0)
+		return list()
+	var/list/shuffled = season_chunk_shuffle(tracked)
+	if(target_count < length(shuffled))
+		shuffled.Cut(target_count + 1)
+	return shuffled
 
-/datum/controller/subsystem/season/proc/get_target_turf_type()
-	switch(current_season)
+/// Admin-facing readout for a normal (non-instant) coverage sync. Categories that just hit 100%
+/// this week are reported as COMPLETE; categories still ramping report their percentage. Categories
+/// with nothing to do (pct 0) aren't mentioned at all.
+/datum/controller/subsystem/season/proc/announce_coverage_progress(turf_pct, flora_pct, water_pct)
+	var/list/complete = list()
+	var/list/progress = list()
+	if(turf_pct == 100)
+		complete += "ground"
+	else if(turf_pct > 0)
+		progress += "ground [turf_pct]%"
+	if(flora_pct == 100)
+		complete += "flora"
+	else if(flora_pct > 0)
+		progress += "flora [flora_pct]%"
+	if(water_pct == 100)
+		complete += "water"
+	else if(water_pct > 0)
+		progress += "water [water_pct]%"
+	if(length(complete))
+		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition COMPLETE for [english_list(complete)]."))
+	if(length(progress))
+		message_admins(span_adminnotice("SSseason: [current_season] [current_season_phase] transition in progress - [english_list(progress)]."))
+
+/// `season`/`phase` default to the subsystem's current values - pass explicit ones (as
+/// sync_seasonal_coverage() does for "last month") to ask what a different point in the calendar
+/// would target, without touching current_season/current_season_phase.
+/datum/controller/subsystem/season/proc/get_target_turf_type(season = current_season, phase = current_season_phase)
+	switch(season)
 		if(SEASON_SPRING)
 			return /turf/open/floor/rogue/grass
 		if(SEASON_SUMMER)
@@ -299,7 +264,7 @@ SUBSYSTEM_DEF(season)
 		if(SEASON_AUTUMN)
 			return /turf/open/floor/rogue/grassred
 		if(SEASON_WINTER)
-			switch(current_season_phase)
+			switch(phase)
 				if(SEASON_PHASE_EARLY)
 					return /turf/open/floor/rogue/grasscold
 				if(SEASON_PHASE_MID, SEASON_PHASE_LATE)
@@ -319,9 +284,10 @@ SUBSYSTEM_DEF(season)
 	if(new_turf)
 		GLOB.seasonal_grass_turfs |= new_turf
 
-/// Returns the lowercase leaf-sprite season name ("spring"/"summer"/"fall"/"winter") matching current_season.
-/datum/controller/subsystem/season/proc/get_target_flora_season()
-	switch(current_season)
+/// Returns the lowercase leaf-sprite season name ("spring"/"summer"/"fall"/"winter") matching
+/// `season` (defaults to current_season - see get_target_turf_type() for why the param exists).
+/datum/controller/subsystem/season/proc/get_target_flora_season(season = current_season)
+	switch(season)
 		if(SEASON_SPRING)
 			return FLORA_SEASON_SPRING
 		if(SEASON_SUMMER)
@@ -333,11 +299,12 @@ SUBSYSTEM_DEF(season)
 	return FLORA_SEASON_SPRING
 
 /// Water freezes a phase behind the ground: Early Winter is grasscold, and only once the snow
-/// has settled in (Mid/Late) does standing water ice over.
-/datum/controller/subsystem/season/proc/waters_should_freeze()
-	if(current_season != SEASON_WINTER)
+/// has settled in (Mid/Late) does standing water ice over. `season`/`phase` default to current -
+/// see get_target_turf_type() for why the params exist.
+/datum/controller/subsystem/season/proc/waters_should_freeze(season = current_season, phase = current_season_phase)
+	if(season != SEASON_WINTER)
 		return FALSE
-	return (current_season_phase == SEASON_PHASE_MID) || (current_season_phase == SEASON_PHASE_LATE)
+	return (phase == SEASON_PHASE_MID) || (phase == SEASON_PHASE_LATE)
 
 /// Freezes a tracked water turf, or thaws a tracked ice turf, to match the current season.
 /// Both freezing and thawing replace the turf, so - as with apply_season_to_turf() - the
