@@ -49,14 +49,6 @@
 
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
-/datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(L)
-		var/mob/living/carbon/human/H = L
-		if(!H.mind)
-			return
-		H.ambushable = FALSE
-
 /datum/outfit/job/roguetown/assassin/post_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
