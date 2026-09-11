@@ -2,6 +2,13 @@
 	desc = ""
 	canSmoothWith = null
 	smooth = SMOOTH_FALSE
+	// None of these turfs' cardinal_smooth() implementations (all of them route through
+	// roguesmooth()) ever read a diagonal adjacency bit - only N_NORTH/N_SOUTH/N_EAST/N_WEST.
+	// Leaving smooth_diag at its /atom default of TRUE means calculate_adjacencies() still does
+	// up to 4 extra find_type_in_direction() lookups per smoothing event for bits nothing ever
+	// consumes - wasted work on every mass SSseason conversion sweep as well as every ordinary
+	// turf change. Off here since it's inherited by the whole grass/dirt/snow/cobble family.
+	smooth_diag = FALSE
 	var/smooth_icon = null
 	var/prettifyturf = FALSE
 	icon = 'icons/turf/roguefloor.dmi'

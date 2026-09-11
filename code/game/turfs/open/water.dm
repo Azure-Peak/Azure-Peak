@@ -25,6 +25,9 @@
 	bullet_sizzle = TRUE
 	bullet_bounce_sound = null //needs a splashing sound one day.
 	smooth = SMOOTH_MORE
+	// cardinal_smooth()/roguesmooth() only ever reads cardinal adjacency bits - see the same note
+	// on /turf/open/floor/rogue.
+	smooth_diag = FALSE
 	canSmoothWith = list(/turf/closed/mineral,/turf/closed/wall/mineral/rogue, /turf/open/floor/rogue)
 	footstep = null
 	barefootstep = null
