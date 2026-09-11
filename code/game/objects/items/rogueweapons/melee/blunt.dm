@@ -285,7 +285,6 @@
 	icon_state = "silvermace"
 	smeltresult = /obj/item/ingot/silver
 	minstr = 10
-	wdefense = 3
 	smelt_bar_num = 2
 	swingsound = BLUNTWOOSH_LARGE
 	is_silver = TRUE
