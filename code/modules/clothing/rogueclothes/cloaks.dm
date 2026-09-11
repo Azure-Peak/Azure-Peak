@@ -2087,7 +2087,6 @@
 	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
 	salvage_result = /obj/item/natural/silk
 
-
 /obj/item/clothing/cloak/rosa/two
 	name = "courtly cloak"
 	icon_state = "rosacloak8"
