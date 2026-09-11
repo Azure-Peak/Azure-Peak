@@ -371,6 +371,7 @@
 						/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "grass_coldedge"
+	winter_type = /turf/open/floor/rogue/grasscold/winter
 
 /turf/open/floor/rogue/grasscold/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -378,6 +379,18 @@
 
 /turf/open/floor/rogue/grasscold/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/// Mapper-placed flavor grass (grassred/grassyel/grasscold) isn't part of SSseason's normal
+/// spring/summer/autumn color-cycling - a battlefield's red grass or a wheat field's yellow grass
+/// is meant to keep its own identity the rest of the year. But leaving it untouched through Winter
+/// specifically read as wrong (a pristine patch sitting in the middle of a snowed-over map), so it
+/// gets the same Winter-only ChangeTurf() pair everything else in this file does - full "snow"
+/// look, reverting to its own original color come thaw.
+/turf/open/floor/rogue/grasscold/winter
+	icon_state = "snow"
+	neighborlay = "snowedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/grasscold
 
 /turf/open/floor/rogue/grassred
 	name = "red grass"
@@ -398,6 +411,7 @@
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,)
 	neighborlay = "grass_rededge"
+	winter_type = /turf/open/floor/rogue/grassred/winter
 
 /turf/open/floor/rogue/grassred/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -405,6 +419,13 @@
 
 /turf/open/floor/rogue/grassred/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/// See /turf/open/floor/rogue/grasscold/winter for why this exists.
+/turf/open/floor/rogue/grassred/winter
+	icon_state = "snow"
+	neighborlay = "snowedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/grassred
 
 /turf/open/floor/rogue/grassyel
 	name = "yellow grass"
@@ -423,6 +444,7 @@
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,)
 	neighborlay = "grass_yeledge"
+	winter_type = /turf/open/floor/rogue/grassyel/winter
 
 /turf/open/floor/rogue/grassyel/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -430,6 +452,13 @@
 
 /turf/open/floor/rogue/grassyel/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/// See /turf/open/floor/rogue/grasscold/winter for why this exists.
+/turf/open/floor/rogue/grassyel/winter
+	icon_state = "snow"
+	neighborlay = "snowedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/grassyel
 
 /turf/open/floor/rogue/grass
 	name = "grass"
@@ -666,18 +695,22 @@
 /// water saturation and an active dig hole (see /turf/open/floor/rogue/dirt's vars) all keep
 /// working exactly as they do the rest of the year, with the season only changing what the
 /// "clean" look underneath resolves to. become_muddy()/update_water()'s `initial(icon_state)`
-/// dry-out correctly lands on "snowdirt" here, the same way it lands on "dirt" on the summer type
-/// - no separate season-awareness needed in that code at all.
+/// dry-out correctly lands on "snow" here, the same way it lands on "dirt" on the summer type -
+/// no separate season-awareness needed in that code at all. Base sprite *and* edge family are
+/// both plain snow's ("snow"/"snowedge") rather than a dedicated "snowdirt" set - a dirt path in
+/// Winter is meant to be indistinguishable from the snow around it, and mixing edge art from a
+/// different sheet than the base tile produced a visibly jagged seam.
 /turf/open/floor/rogue/dirt/winter
-	icon_state = "snowdirt"
-	neighborlay = "snowdirt"
+	icon_state = "snow"
+	neighborlay = "snowedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/dirt
 
-/// See /turf/open/floor/rogue/dirt/winter - same reasoning, for dirt/road specifically.
+/// See /turf/open/floor/rogue/dirt/winter - same reasoning, for dirt/road specifically. Base
+/// sprite and edge family are both snowrough's ("snowrough"/"snowroughedge").
 /turf/open/floor/rogue/dirt/road/winter
-	icon_state = "snowroad"
-	neighborlay = "snowroad"
+	icon_state = "snowrough"
+	neighborlay = "snowroughedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/dirt/road
 
@@ -1249,6 +1282,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
 	neighborlay = "mossystone_edges"
+	// Overrides the winter_type inherited from /cobble - there's no "snow-mossy" sprite, and
+	// without this override mossy cobblestone would silently ChangeTurf() into plain
+	// /cobble/winter every Winter, quietly losing its mossy name/desc/look for the season.
+	winter_type = /turf/open/floor/rogue/cobble/mossy/winter
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/dirt,
 						/turf/open/floor/rogue/grass,
@@ -1265,6 +1302,17 @@
 /turf/open/floor/rogue/cobble/mossy/Initialize(mapload)
 	. = ..()
 	icon_state = "mossystone[rand(1,3)]"
+
+/// No dedicated "snow-mossy" sprite exists yet, so this reuses plain cobble's snowcobblestone
+/// family rather than leaving mossy cobblestone with no Winter look at all.
+/turf/open/floor/rogue/cobble/mossy/winter
+	neighborlay = "snowcobbleedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/cobble/mossy
+
+/turf/open/floor/rogue/cobble/mossy/winter/Initialize(mapload)
+	. = ..()
+	icon_state = "snowcobblestone[rand(1,3)]"
 
 /obj/effect/decal/mossy
 	name = "mossy brick floor"
@@ -1695,12 +1743,13 @@
 	landsound = 'sound/foley/jumpland/grassland.wav'
 	slowdown = 0
 	smooth = SMOOTH_TRUE
+	// Deliberately one-directional: snow/snowrough/snowpatchy list frozen_water so snow draws an
+	// ice edge onto itself at the border, but ice doesn't list them back, so it never draws a
+	// snow edge onto itself in turn - two overlapping edge overlays there produced visible
+	// artifacts. grass/grasscold stay listed since that pairing isn't the one that looked wrong.
 	canSmoothWith = list(/turf/open/floor/rogue/frozen_water,
 						/turf/open/floor/rogue/grass,
-						/turf/open/floor/rogue/grasscold,
-						/turf/open/floor/rogue/snowpatchy,
-						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/grasscold,)
 	neighborlay = "ice"
 	/// Set by freeze_over(). Only seasonally-frozen ice thaws again - mapped ice is permanent.
 	var/seasonal_freeze = FALSE

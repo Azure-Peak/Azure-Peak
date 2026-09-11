@@ -402,10 +402,16 @@ SUBSYSTEM_DEF(season)
 /// dirt (and dirt/road) carries real per-instance state - water saturation, muddiness, blood, an
 /// active dig hole - that ChangeTurf() would otherwise drop on the floor same as it would for any
 /// other reason a dirt tile's type changed underfoot. The plain data rides along explicitly below;
-/// a tile mid-dig (an active `holie`) is left alone entirely rather than fought over with whatever
-/// system is tracking that hole - re-queued instead of dropped, so it picks the swap back up on
-/// the very next drain (a few seconds later) rather than sitting on the wrong season's look until
-/// the next actual rollover, which might be weeks off.
+/// a tile with a `holie` (an /obj/structure/closet/dirthole) is left alone entirely rather than
+/// fought over with whatever system is tracking that hole.
+///
+/// This is a plain skip, not a requeue: `holie` isn't a short-lived "someone is digging right
+/// now" flag - it's set for the object's whole lifetime, up to and including a finished, filled
+/// grave sitting there indefinitely (see hole.dm), and only clears when that object is destroyed.
+/// Re-queueing on every drain (an earlier version of this did) meant every grave tile re-added
+/// itself to the queue every fire() tick forever - a permanent busy-loop, not a brief retry. A
+/// skipped tile stays tracked in GLOB.seasonal_icon_turfs and picks up the swap at the next real
+/// season change, same as any other atom that doesn't get sampled into a given day's share.
 /datum/controller/subsystem/season/proc/apply_season_to_path(turf/open/floor/rogue/T)
 	if(!T.is_seasonally_exposed())
 		return
@@ -416,7 +422,6 @@ SUBSYSTEM_DEF(season)
 	if(istype(T, /turf/open/floor/rogue/dirt))
 		old_dirt = T
 		if(old_dirt.holie)
-			icon_turfs_to_convert += T
 			return
 	var/turf/new_turf = T.ChangeTurf(target_type)
 	if(!new_turf)
