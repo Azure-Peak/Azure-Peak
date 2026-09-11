@@ -112,6 +112,7 @@
 	TI.twirl_speed = RI::twirl_speed
 	TI.twirl_verb = RI::twirl_verb
 	TI.twirl_sound = RI::twirl_sound
+	TI.twirl_flourish_sound = RI::twirl_flourish_sound
 	TI.twirl_cmode = RI::twirl_cmode
 	TI.fumble_chance = RI::fumble_chance
 

@@ -425,3 +425,35 @@
   - rscdel: ever heard of fifth humor, buddy?
   - rscadd: the other 4 humors
   - code_imp: quotes/tips will alternate depending on what day of the week it is
+2026-09-11:
+  Ollanius:
+  - rscadd: Morto's unique donator-specific dress.
+  - code_imp: Stages some supplemental assets for later, including some more donator-specific
+      sprites.
+  - rscadd: Shalwar Pants and Dupatta Sash. Credit to Dromkii for the sprites!
+  Quinalion:
+  - image: "Dendorite\u2019s helmet now looks normal."
+  - bugfix: Emotes now properly appear as Runechat messages above your character's
+      head.
+  - balance: The ogre mask now has the durability of a steel mask and blocks vision
+      as intended.
+  - rscadd: You can now light another character's cigarette while kissing them.
+  - qol: Removed the redundant dram count description from vessels.
+  Ryan180602:
+  - balance: jester's floor of music skill is expert
+  WeNeedMorePhoron:
+  - balance: Dash like effects lock eachother out for 30 seconds
+  changelingonberry:
+  - admin: increases the window size of  he actors manifest, VV, player panel and
+      logs windows
+  kilozombie:
+  - rscadd: Dun World hamlet expanded. Town center given a well, church given a basement,
+      caves expanded, farmer's house given a second floor, inn given a humid hookah
+      den, stairs added to the coast
+  - qol: Dun World hamlet touched up. Herbs and bushes can now spawn, inn rooms expanded,
+      basements detailed, west house given a proper porch, smithy house made into
+      a small storefront, various layouts retooled to become more usable
+  - bugfix: Giant stupid skywall removed from the northmost point of the top Z-level
+      on Dun World
+  zRainbowcat:
+  - bugfix: Xylix decoy now copy your looks properly
