@@ -1,6 +1,8 @@
 /datum/advclass/assassin_poisoner
-	name = "Assassin - Poisoner"
-	tutorial = "You've known you way around poisons, natural or man-made, for most of your life. From brewing antidotes, to creating lethal mixes. You blend in well in even noble courts as a medicine man, hiding your true inentions.."
+	name = "Poisoner"
+	tutorial = "You bear not one, but two blades. Particularly skilled in their usage, you stand out among the Bloodsworn \
+	for your ability to both perform surgeries and make a variety of potions. Many of your kind have snuck into courts in order \
+	to poison kings, courtiers, and jesters alike. Check your belt for your corroded dagger; when intrigue fails, you are still a vile combatant."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/assassin/poisoner
