@@ -86,7 +86,7 @@
 /datum/intent/flail/smash/ranged/psywhip //It is a small blessing this is allowed on a one-handed weapon.
 	name = "Meteor Strike"
 	desc = "Swing the weight of your whip around your body, using the angular momentum to deliver a devastating strike, propelling your enemy back and savaging them at the same time."
-	chargedrain = 0
+	chargedrain = 0 //The charge time is indicative of a warmup, not a hold.
 	chargedloop = /datum/looping_sound/flailswing
 	keep_looping = FALSE
 
