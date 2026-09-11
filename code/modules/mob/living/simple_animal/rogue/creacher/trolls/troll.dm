@@ -125,29 +125,17 @@
 	if(has_status_effect(/datum/status_effect/fire_handler))
 		adjustHealth(-rand(20,35))
 
+// these procs apply to all trolls. that being said; if you want your regular trolls to hide, USE BOG TROLLS!!
+// normal trolls DO NOT have the overrides to make these function right.
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/hide()
 	flick("troll_hiding", src)
-	sleep(1 SECONDS)
 	icon_state = "troll_hide"
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/ambush()
-	flick("troll_ambush", src)
-	sleep(1 SECONDS)
-	icon_state = initial(icon_state)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/LoseTarget()
-	..()
-	if(health > 0)
-		hide()
-
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Moved()
-	. = ..()
-	if(icon_state != initial(icon_state))
+	// find out a better way to do hide & ambush procs on trolls if youre adding another thats going to use these
+	if(src.icon_state == "troll_hide")
+		flick("troll_ambush", src)
 		icon_state = initial(icon_state)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/GiveTarget()
-	..()
-	ambush()
 
 /obj/effect/decal/remains/troll
 	name = "remains"

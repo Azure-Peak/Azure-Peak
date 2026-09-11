@@ -40,7 +40,7 @@
 	animal.update_icon()
 	user.visible_message(span_notice("[user] fits a caparison onto [animal]."), span_notice("I fit a caparison onto [animal]."))
 
-/obj/item/caparison/rmb_self(mob/user)
+/obj/item/caparison/rmb_self(mob/user, keybind = FALSE)
 	attack_right(user)
 
 /obj/item/caparison/attack_right(mob/user)

@@ -53,7 +53,7 @@
 /datum/loadout_item/flimsy_visor
 	name = "Helmetless Visor"
 	path = /obj/item/clothing/mask/rogue/facemask/steel/visor/flimsy
-	sort_category = "Acccessories"
+	sort_category = "Accessories"
 
 /datum/loadout_item/halfmask
 	name = "Halfmask"

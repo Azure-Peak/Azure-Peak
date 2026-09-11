@@ -46,7 +46,7 @@
 		controller.set_blackboard_key(BB_RETALIATE_ATTACKS_LEFT, 2)
 	if (isliving(dreamfiend))
 		if (world.time < dreamfiend.melee_cooldown)
-			return
+			return AI_BEHAVIOR_INSTANT
 
 	. = ..()
 	//targetting datum will kill the action if not real anymore
@@ -54,8 +54,7 @@
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!targetting_datum.can_attack(dreamfiend, target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return . | AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/hiding_target = targetting_datum.find_hidden_mobs(dreamfiend, target) //If this is valid, theyre hidden in something!
 
@@ -76,13 +75,14 @@
 
 	if(sidesteps_after && prob(sidestep_chance))
 		if(dreamfiend.stat == DEAD)
-			return
+			return . | AI_BEHAVIOR_DELAY
 		dreamfiend.combat_sidestep(target, sidestep_offsets, sidestep_seeks_flank)
 		
 	if(retaliation_count <= 0)
 		var/main_target = controller.blackboard[BB_MAIN_TARGET]
 		controller.clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
 		controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, main_target)
+	return . | AI_BEHAVIOR_DELAY
 
 /datum/ai_behavior/basic_melee_attack/abyssal/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
@@ -137,21 +137,17 @@
 	set_movement_target(controller, target)
 
 /datum/ai_behavior/kick/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	. = ..()
-
 	var/mob/living/user = controller.pawn
 	var/mob/living/mob = controller.blackboard[target_key]
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!istype(mob, /mob/living/carbon/human))
-		finish_action(controller, TRUE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 	
 	var/mob/living/carbon/human/target = mob
 
 	if(!targetting_datum.can_attack(user, target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	user.do_attack_animation(target, ATTACK_EFFECT_DISARM)
 	playsound(target, 'sound/combat/hits/kick/kick.ogg', 100, TRUE, -1)
@@ -238,8 +234,7 @@
 	user.stamina_add(15)
 	target.forcesay(GLOB.hit_appends)
 
-	finish_action(controller, TRUE, target_key)
-	return
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/kick/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()

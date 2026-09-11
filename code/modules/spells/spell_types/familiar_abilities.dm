@@ -368,7 +368,7 @@
 
 /datum/action/cooldown/spell/earthen_forge
 	name = "Earthen Forge"
-	desc = "Shape your earthen form into a tool or weapon. When the item breaks, you will revert to your original form. Cast again to manually revert."
+	desc = "Shape your earthen form into a tool or weapon. When the item breaks, you will revert to your original form. Resist to manually revert."
 
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	button_icon_state = "arcyne_forge"
@@ -504,7 +504,7 @@
 
 /datum/action/cooldown/spell/earthen_forge/void // lmao
 	name = "Void Forge"
-	desc = "Shape your ever-malleable form into a tool or weapon. When the item breaks, you will revert to your original form. Cast again to manually revert."
+	desc = "Shape your ever-malleable form into a tool or weapon. When the item breaks, you will revert to your original form. Resist to manually revert."
 
 /datum/action/cooldown/spell/arcyne_forge/elementalt2
 	name = "Greater Earthen Shaping"

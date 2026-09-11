@@ -30,3 +30,5 @@
 		return
 	if(landed.x != from.x && landed.y != from.y)
 		controller.movement_cooldown += controller.movement_delay
+		var/atom/movable/pawn = controller.pawn
+		pawn.set_glide_size(DELAY_TO_GLIDE_SIZE(controller.movement_delay * 2))

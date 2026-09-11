@@ -39,6 +39,8 @@ GLOBAL_VAR(restart_counter)
 
 	log_world("World loaded at [time_stamp()]!")
 
+	music_prune()
+
 	SetupExternalRSC()
 
 	make_datum_references_lists()	//initialises global lists for referencing frequently used datums (so that we only ever do it once)
@@ -71,15 +73,7 @@ GLOBAL_VAR(restart_counter)
 	LoadVerbs(/datum/verbs/menu)
 	load_whitelist()
 
-	load_blacklist()
-
-	load_nameban()
-
-	load_psychokiller()
-
 	load_crownlist()
-
-	load_bypassage()
 
 	load_patreons()
 

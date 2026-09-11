@@ -92,6 +92,10 @@
 
 /datum/magic_item/mythic/briarcurse/on_apply(obj/item/i)
 	.=..()
+	if(istype(i, /obj/item/clothing/gloves/roguetown/knuckles) || istype(i, /obj/item/clothing/gloves/roguetown/bandages))
+		var/obj/item/clothing/gloves/roguetown/glove = i
+		glove.unarmed_bonus += 10
+		return
 	i.force = i.force + 10
 	if (i.force_wielded)
 		i.force_wielded = i.force_wielded + 10

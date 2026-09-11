@@ -214,6 +214,11 @@
 	path = /obj/item/clothing/cloak/sash
 	sort_category = "Cloaks"
 
+/datum/loadout_item/sash_dupatta
+	name = "Sash, Dupatta"
+	path = /obj/item/clothing/cloak/sash/dupatta
+	sort_category = "Cloaks"
+
 /datum/loadout_item/ranger_cloak
 	name = "Ranger Cloak, Forest Green"
 	path = /obj/item/clothing/cloak/rangercloak
@@ -234,3 +239,4 @@
 	path = /obj/item/clothing/cloak/tabard/toga/dress
 	sort_category = "Cloaks"
 
+j

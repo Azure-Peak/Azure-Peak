@@ -50,6 +50,83 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 			sig += "\ref[overlay]"
 	return sig.Join(",")
 
+/obj/item/proc/onmob_prop()
+	var/tag
+	var/list/prop
+	if(altgripped)
+		tag = "altgrip"
+		prop = getonmobprop(tag)
+	if(!prop && wielded)
+		tag = "wielded"
+		prop = getonmobprop(tag)
+	if(!prop)
+		tag = "gen"
+		prop = getonmobprop(tag)
+	return list(tag, prop)
+
+/obj/item/proc/dir_name(check_dir)
+	if(check_dir & NORTH)
+		return "north"
+	if(check_dir & SOUTH)
+		return "south"
+	if(check_dir & EAST)
+		return "east"
+	if(check_dir & WEST)
+		return "west"
+	return "south"
+
+/obj/item/proc/dir_prefix(check_dir)
+	return copytext(dir_name(check_dir), 1, 2)
+
+/obj/item/proc/inhand_index(check_dir)
+	if(!experimental_inhand)
+		return INHAND_FRONT
+	var/list/prop = onmob_prop()[ONMOB_PROP]
+	if(!prop)
+		return INHAND_FRONT
+	return prop["[dir_name(check_dir)]above"] == 1 ? INHAND_FRONT : INHAND_BEHIND
+
+/obj/item/proc/grip_offset(grip_dir = SOUTH, mirrored = FALSE)
+	if(!experimental_inhand)
+		return list(0, 0)
+	var/list/prop = onmob_prop()[ONMOB_PROP]
+	if(!prop)
+		return list(0, 0)
+
+	var/prefix = dir_prefix(grip_dir)
+	var/offset_x = prop["[prefix]x"] || 0
+	var/offset_y = prop["[prefix]y"] || 0
+
+	if(!isnull(prop["gripx"]) || !isnull(prop["gripy"]))
+		var/centre = sprite_size() * 0.5
+		var/local_x = (prop["gripx"] || 0) - centre
+		var/local_y = (prop["gripy"] || 0) - centre
+
+		var/matrix/grip = matrix()
+		switch(prop["[prefix]flip"])
+			if(NORTH, SOUTH)
+				grip.Scale(1, -1)
+			if(EAST, WEST)
+				grip.Scale(-1, 1)
+		grip.Turn(prop["[prefix]turn"] || 0)
+		grip.Scale(prop["shrink"] || 1)
+
+		offset_x += (grip.a * local_x) + (grip.b * local_y) + grip.c
+		offset_y += (grip.d * local_x) + (grip.e * local_y) + grip.f
+
+	if(mirrored)
+		offset_x = -offset_x + (mirror_fix(prop["shrink"], inhand_y_dimension > 32) || 0)
+	return list(offset_x, offset_y)
+
+/obj/item/proc/sprite_size()
+	var/static/list/sizes = list()
+	var/key = "[icon]|[icon_state]"
+	. = sizes[key]
+	if(!.)
+		var/icon/source = icon(icon, icon_state)
+		. = source.Height() || 32
+		sizes[key] = .
+
 /obj/item/proc/get_extra_onmob_index()
 	//perhaps in the future: force items like flasks to use getflaticon to get their filled states and drinking cups too. that's all
 	return

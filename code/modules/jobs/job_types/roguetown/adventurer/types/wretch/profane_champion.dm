@@ -28,7 +28,10 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 	)
-	subclass_stashed_items = list("Armor Plates"=/obj/item/repair_kit/metal)
+	subclass_stashed_items = list(
+		"Armor Plates" = /obj/item/repair_kit/metal,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+	)
 
 	tempo_capable = TRUE
 

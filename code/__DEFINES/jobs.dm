@@ -133,12 +133,28 @@
 #define JCOLOR_GARRISON "#173266"
 #define JCOLOR_CHURCH "#b0955d"
 #define JCOLOR_BURGHER "#759259"
+#define JCOLOR_GUILD "#91a77d"
 #define JCOLOR_ATC "#5b9bd5"
 #define JCOLOR_PEASANT "#685542"
 #define JCOLOR_SIDEFOLK "#aea176"
 #define JCOLOR_WANDERER	"#23763a"
 #define JCOLOR_INQUISITION "#6c6c6c"
-#define JCOLOR_ANTAGONIST	"#b8252c"
+#define JCOLOR_ANTAGONIST  "#b8252c"
+
+/// Key value for taking the department's string and getting a color back
+#define JCOLOR_BY_DEPARTMENT list(\
+	"Noblemen" = JCOLOR_NOBLE,\
+	"Courtiers" = JCOLOR_COURTIER,\
+	"Retinue" = JCOLOR_RETINUE,\
+	"Garrison" = JCOLOR_GARRISON,\
+	"Church" = JCOLOR_CHURCH,\
+	"Inquisition" = JCOLOR_INQUISITION,\
+	"Burghers" = JCOLOR_BURGHER,\
+	"Guildsmen" = JCOLOR_GUILD,\
+	"Peasants" = JCOLOR_PEASANT,\
+	"Sidefolk" = JCOLOR_SIDEFOLK,\
+	"Wanderers" = JCOLOR_WANDERER,\
+)
 // PUT THESE ON THE FIRST ROLE IN THE LIST BELOW (IE NOBLE ON LORD) TO GET DESIRED COLOUR OF THE DEPARTMENT SELECT
 // job display orders //
 

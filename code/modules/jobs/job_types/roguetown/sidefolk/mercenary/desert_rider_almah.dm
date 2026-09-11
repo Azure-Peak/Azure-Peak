@@ -2,7 +2,7 @@
 	name = "Desert Rider Almah"
 	tutorial = "You're an Almah - a blade dancer, trained in the arts of spellbladery, an art originating from Azurea in ancient time. Your people have refined spellbladery into an artform. They call you a bladedancer - for the beautiful, bloody tapestry of magycks and blade you weave out of your foes in battle."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_almah
 	class_select_category = CLASS_CAT_RANESHENI
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_WARMAGE)
@@ -12,7 +12,7 @@
 	subclass_stats = list(
 		STATKEY_SPD = 1, // Weighted 7. Swap str for spd
 		STATKEY_INT = 1, // Weighted 7. But a very nice statblock
-		STATKEY_PER = 1, 
+		STATKEY_PER = 1,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 2, // With 2 Wil they should not be struggling
 	)
@@ -114,7 +114,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/blade_weapons = list("Dual Shamshirs", "Shalal Saber & Shield")
+			var/blade_weapons = list("Dual Shamshirs", "Shalal sabre & Shield")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in blade_weapons
 			switch(weapon_choice)
 				if("Dual Shamshirs")
@@ -123,7 +123,7 @@
 					l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 					beltl = /obj/item/rogueweapon/scabbard/sword
 					beltr = /obj/item/rogueweapon/scabbard/sword
-				if("Shalal Saber & Shield")
+				if("Shalal sabre & Shield")
 					r_hand = /obj/item/rogueweapon/sword/long/marlin
 					beltr = /obj/item/rogueweapon/scabbard/sword
 					backl = /obj/item/rogueweapon/shield/tower/raneshen

@@ -52,3 +52,8 @@
 
 /datum/mob_descriptor/proc/get_description(mob/living/described)
 	return describe
+
+/datum/mob_descriptor/proc/constant_ui_data()
+	return list(
+		"name" = name,
+	)

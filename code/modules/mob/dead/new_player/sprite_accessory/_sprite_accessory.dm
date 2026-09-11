@@ -6,6 +6,8 @@
 	var/icon
 	/// Icon state of the accessory
 	var/icon_state
+	/// States to be stacked on top of each other to generate the character creator icon
+	var/list/preview_states
 	/// Whether the states for this accessory have an extra state that will get overlayed ontop of the resulting state. Per layer, suffix "_extra"
 	var/extra_state = FALSE
 	/// Pixel x offset
@@ -41,7 +43,38 @@
 			stack_trace("Sprite accessory of [type] has more than 1 color key but doesn't have a color key name list")
 		else if (color_key_names.len < color_keys)
 			stack_trace("Sprite accessory of [type] has missing color key names")
+	// best effort default
+	if(!preview_states)
+		preview_states = generate_preview_states()
 	return ..()
+
+/datum/sprite_accessory/proc/generate_preview_states()
+	. = list()
+
+	if(relevant_layers)
+		for(var/iterated_layer in relevant_layers)
+			if(color_keys > 1)
+				for(var/color_index in 1 to color_keys)
+					. += "[icon_state]_[get_layer_suffix(iterated_layer)]_[color_index]"
+			else
+				. += "[icon_state]_[get_layer_suffix(iterated_layer)]"
+	else
+		if(color_keys > 1)
+			for(var/color_index in 1 to color_keys)
+				. += "[icon_state]_[color_index]"
+		else
+			. += icon_state
+
+	if(extra_state)
+		. += "[icon_state]_extra"
+
+/datum/sprite_accessory/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		"icon" = REF(icon),
+		"pixel_x" = pixel_x,
+		"preview_states" = preview_states,
+	)
 
 /datum/sprite_accessory/proc/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	return TRUE

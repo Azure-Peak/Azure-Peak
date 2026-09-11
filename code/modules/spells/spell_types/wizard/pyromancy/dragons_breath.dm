@@ -22,7 +22,7 @@
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	damage = 60
+	damage = 65
 	strike_damage_type = BURN
 	blade_class = BCLASS_BURN
 	committed_strike = TRUE

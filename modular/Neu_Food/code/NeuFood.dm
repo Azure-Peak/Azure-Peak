@@ -30,6 +30,24 @@
 	var/process_step // used for pie making and other similar modular foods
 	var/datum/food_recipe/active_recipe
 	var/current_step = 1
+	var/datum/food_recipe/prepped_recipe
+
+/obj/item/reagent_containers/food/snacks/rogue/proc/get_cook_hints()
+	. = list()
+	if(eat_effect == /datum/status_effect/debuff/rotfood)
+		return
+	var/obj/item/baked_target = (cooked_type != type) ? cooked_type : null
+	var/obj/item/fried_target = (fried_type != type) ? fried_type : null
+	var/obj/item/deepfried_target = (deep_fried_type != type) ? deep_fried_type : null
+	if(baked_target && baked_target == fried_target)
+		. += "<b>Cook</b> it in an oven or in a pan over a hearth to make [initial(baked_target.name)]."
+	else
+		if(baked_target)
+			. += "<b>Bake</b> it in an oven to make [initial(baked_target.name)]."
+		if(fried_target)
+			. += "<b>Fry</b> it in a pan over a hearth to make [initial(fried_target.name)]."
+	if(deepfried_target)
+		. += "<b>Deep fry</b> it in a pot of tallow over a hearth to make [initial(deepfried_target.name)]."
 
 /obj/item/reagent_containers/food/snacks/rogue/examine(mob/user)
 	. = ..()
@@ -37,37 +55,33 @@
 		var/entry = active_recipe.ingredients[current_step]
 		. += span_smallnotice("Recipe: <b>[active_recipe.name]</b>. Next step: [active_recipe.step_label(entry)].")
 
-	var/list/prep = list()
+	var/list/cook_hints = get_cook_hints()
+	if(length(cook_hints))
+		. += span_smallnotice(cook_hints.Join(" "))
 
-	var/list/possible = SScooking.recipe_index[src.type]
-	if(possible && possible.len)
-		var/list/recipe_links = list()
-		for(var/datum/food_recipe/R in possible)
-			if(R.hidden)
-				continue
-			if(!length(R.ingredients))
-				continue
-			recipe_links += "<a href='byond://?src=[REF(src)];view_wiki=[R.get_wiki_key()]'>[R.name]</a> (starts with [R.step_label(R.ingredients[1])])"
-		if(length(recipe_links))
-			prep += "This could be used to prepare: [recipe_links.Join(", ")]."
-
-	if(cooked_type)
-		var/obj/item/CT = cooked_type
-		prep += "Ready to be <b>cooked</b> into [initial(CT.name)]."
-	if(fried_type)
-		var/obj/item/FT = fried_type
-		prep += "Ready to be <b>fried</b> into [initial(FT.name)]."
+	var/list/recipe_links = list()
+	for(var/datum/food_recipe/R in (prepped_recipe ? null : SScooking.recipe_index[src.type]))
+		if(R.hidden)
+			continue
+		if(!length(R.ingredients))
+			continue
+		recipe_links += "<a href='byond://?src=[REF(src)];view_wiki=[R.get_wiki_key()]'>[R.name]</a> (starts with [R.step_label(R.ingredients[1])])"
+	if(smoked_type)
+		var/obj/item/SMT = smoked_type
+		. += "Ready to be <b>smoked</b> into [initial(SMT.name)]."
 	if(slice_path)
 		var/obj/item/ST = slice_path
-		prep += "Ready to be <b>sliced</b> into [initial(ST.name)]."
+		. += span_smallnotice("Ready to be <b>sliced</b> into [initial(ST.name)].")
 
-	var/datum/food_recipe/producing = SScooking.get_producing_recipe(src.type)
+	var/datum/food_recipe/producing = prepped_recipe || SScooking.get_producing_recipe(src.type)
 	if(producing && !producing.hidden)
 		. += span_smallnotice("(<a href='byond://?src=[REF(src)];view_wiki=[producing.get_wiki_key()]'>View recipe</a> in the Encyclopedia.)")
 
-	if(length(prep))
+	if(length(recipe_links) == 1)
+		. += span_smallnotice("This could be used to prepare [recipe_links[1]].")
+	else if(length(recipe_links))
 		var/list/prep_lines = list()
-		for(var/line in prep)
+		for(var/line in recipe_links)
 			prep_lines += "<span class='smallnotice'> - [line]</span>"
 		. += "<details><summary><span class='smallnotice'>Recipes</span></summary>[prep_lines.Join("<br>")]</details>"
 
@@ -207,18 +221,22 @@
 			cooked_smell = active_recipe.result_smell
 	if(active_recipe.cook_method)
 		set_cook_handoff(active_recipe.cook_method, active_recipe.result_type)
-		to_chat(user, span_nicegreen("[name] is ready to be cooked."))
-		active_recipe = null
-		current_step = 1
+		finish_preparation(user)
 		return
 	if(active_recipe.needs_cooking)
 		cooked_type = active_recipe.result_type
 		fried_type = active_recipe.result_type
-		to_chat(user, span_nicegreen("[name] is ready to be cooked."))
-		active_recipe = null
-		current_step = 1
+		finish_preparation(user)
 		return
 	finalize_cooking()
+
+/obj/item/reagent_containers/food/snacks/rogue/proc/finish_preparation(mob/living/user)
+	prepped_recipe = active_recipe
+	name = "raw [active_recipe.name]"
+	var/list/cook_hints = get_cook_hints()
+	to_chat(user, span_nicegreen("[name] is prepared.[length(cook_hints) ? " [cook_hints.Join(" ")]" : " It is ready to be cooked."]"))
+	active_recipe = null
+	current_step = 1
 
 /obj/item/reagent_containers/food/snacks/rogue/proc/set_cook_handoff(method, result)
 	switch(method)

@@ -37,6 +37,15 @@ GLOBAL_LIST_EMPTY(prayers)
 
 	var/datum/storyteller/storyteller
 
+/datum/patron/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		"domain" = domain,
+		"desc" = desc,
+		"worshippers" = worshippers,
+		"associated_faith" = associated_faith,
+	)
+
 /datum/patron/proc/on_gain(mob/living/pious)
 	for(var/trait in mob_traits)
 		ADD_TRAIT(pious, trait, "[type]")

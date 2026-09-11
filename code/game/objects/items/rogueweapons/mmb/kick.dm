@@ -68,6 +68,8 @@
 /mob/living/proc/can_kick(atom/A, do_message = TRUE)
 	if(get_num_legs() < 2)
 		return FALSE
+	if(incapacitated(ignore_restraints = TRUE))
+		return FALSE
 	if(!A.Adjacent(src))
 		return FALSE
 	if(A == src)

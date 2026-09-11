@@ -556,7 +556,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
 			if("Hunting Bow")
-				hand_items += /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				hand_items += /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				sack_items += /obj/item/quiver/arrows
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Goedendag")

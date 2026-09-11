@@ -165,7 +165,7 @@
 			else
 				I.forceMove(parent.drop_location())
 		return FALSE
-	I.on_enter_storage(master)
+	I.on_enter_storage(master, M)
 	I.item_flags |= IN_STORAGE
 	refresh_mob_views()
 	I.mouse_opacity = MOUSE_OPACITY_OPAQUE //So you can click on the area around the item to equip it, instead of having to pixel hunt

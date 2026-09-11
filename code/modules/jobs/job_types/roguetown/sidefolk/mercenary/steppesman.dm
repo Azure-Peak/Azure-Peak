@@ -43,10 +43,10 @@
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/classes = list("Szabrista - Saber Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
+		var/classes = list("Szabrista - sabre Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
 		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
 		switch(classchoice)
-			if("Szabrista - Saber Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
+			if("Szabrista - sabre Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
 				H.set_blindness(0)
 				to_chat(H, span_warning("The Szabristas are the elites of the southern steppes, veterans of conflict across the realm. Outfitted with a shishka and shield, these warriors sacrifice their swiftness for armor and civilized respect."))
 				shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman

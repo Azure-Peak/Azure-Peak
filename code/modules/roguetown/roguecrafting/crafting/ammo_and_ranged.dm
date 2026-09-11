@@ -108,7 +108,7 @@
 	result = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/warden
 	reqs = list(
 		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow = 1,
-		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden = 1,
+		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden = 1,
 	)
 	verbage_simple = "re-string"
 	verbage = "re-strings"

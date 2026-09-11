@@ -1,6 +1,7 @@
 /datum/virtue/utility/noble
 	name = "Nobility"
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom."
+	ui_fa_icon = "crown"
 	restricted = TRUE
 	max_choices = 1
 	races = list(/datum/species/construct, /datum/species/dullahan)
@@ -41,28 +42,23 @@
 	SStreasury.noble_incomes[recipient] = (SStreasury.noble_incomes[recipient] || 0) + 15
 	SStreasury.grant_estate_income(recipient, 15, !already_has_income)
 
-#define NOTABLE_BEAUTY "Beauty"
-#define NOTABLE_STASH "Stashed Riches"
 #define NOTABLE_RESIDENCY "Residency"
-#define NOTABLE_SHREWD "Shrewd Appraisal"
+#define NOTABLE_SHREWD "Shrewd Lyfestyle"
 
 /datum/virtue/utility/notable
 	name = "Well Off"
 	desc = "Fate or effort had blessed my lyfe with spoils, natural or earned."
-	max_choices = 2	//Tentative. 2 is more interesting than getting all 4 easily.
-	choice_costs = list(0, 0)
-	stackable = TRUE
+	ui_fa_icon = "coins"
+	max_choices = 2
+	choice_costs = list(0, 8)
+	stackable = FALSE
 	extra_choices = list(	//These are so individually bespoke it's not even worth assoc listing them, all are snowflaked in the application proc instead.
-		NOTABLE_BEAUTY,
-		NOTABLE_STASH,
+		NOTABLE_SHREWD,
 		NOTABLE_RESIDENCY,
-		NOTABLE_SHREWD
 	)
 	choice_tooltips = list(
-		NOTABLE_BEAUTY = "Just looking at me relieves some of the hardships of the world, and I'm quite good in bed.",
-		NOTABLE_STASH = "I've a hidden coinpurse for a particularly dark dae.",
+		NOTABLE_SHREWD = "I've managed to secure a Meister account and a lump sum within it. Grants Secular Appraise -- a spell that allows you to tell how much wealth someone has on them, and in their Meister.",
 		NOTABLE_RESIDENCY = "I am a Resident of Azure Peak, with access to one of its buildings all to myself.",
-		NOTABLE_SHREWD = "Grants Secular Appraise -- a spell that allows you to tell how much wealth someone has on them, and in their Meister."
 	)
 
 /datum/virtue/utility/notable/apply_to_human(mob/living/carbon/human/recipient)
@@ -70,18 +66,16 @@
 		return
 	for(var/choice in picked_choices)
 		switch(choice)
-			if(NOTABLE_BEAUTY)
-				ADD_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_GOODLOVER, TRAIT_VIRTUE)
-				if(isdullahan(recipient))
-					REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-					ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
-				recipient.mind?.special_items["Hand Mirror"] = /obj/item/handmirror
-			if(NOTABLE_STASH)
-				recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
 			if(NOTABLE_SHREWD)
 				ADD_TRAIT(recipient, TRAIT_SEEPRICES, TRAIT_VIRTUE)
 				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
+				if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
+					recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
+				else
+					if(!SStreasury.has_account(recipient))
+						SStreasury.create_bank_account(recipient)
+					if(SStreasury.generate_money_account(rand(80, 120), recipient))
+						record_round_statistic(STATS_MAMMONS_DEPOSITED, rand(80, 120))
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
 				if(recipient.mind)
@@ -126,14 +120,70 @@
 								recipient.forceMove(spawn_loc)
 								to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself in the local tavern."))
 
-#undef NOTABLE_BEAUTY
-#undef NOTABLE_STASH
 #undef NOTABLE_RESIDENCY
 #undef NOTABLE_SHREWD
+
+#define SOCIALITE_MASSAGE "Massage Ability"
+#define SOCIALITE_NUTCRACKER "Nutcracker Trait"
+#define SOCIALITE_EMPATH "Empath Trait"
+
+/datum/virtue/utility/socialite
+	name = "Socialite"
+	desc = "I thrive in social settings, easily reading the emotions of others and charming those around me. My presence is always felt at any gathering."
+	ui_fa_icon = "people-arrows"
+	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER)
+	max_choices = 4
+	choice_costs = list(0, 0, 2, 4)
+	extra_choices = list(
+	SOCIALITE_MASSAGE,
+	SOCIALITE_NUTCRACKER,
+	SOCIALITE_EMPATH,
+	"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookie,
+	"Rosa Bouquet" = /obj/item/bouquet/rosa,
+	"Salvia Bouquet" = /obj/item/bouquet/salvia,
+	"Calendula Bouquet" = /obj/item/bouquet/calendula,
+	"Matricaria Bouquet" = /obj/item/bouquet/matricaria,
+	"Red Lipstick" = /obj/item/lipstick,
+	"Purple Lipstick" = /obj/item/lipstick/purple,
+	"Jade Lipstick" = /obj/item/lipstick/jade,
+	"Black Lipstick" = /obj/item/lipstick/black,
+	"Lavender Perfume" = /obj/item/perfume/lavender,
+	"Cherry Perfume" = /obj/item/perfume/cherry,
+	"Rose Perfume" = /obj/item/perfume/rose,
+	"Jasmine Perfume" = /obj/item/perfume/jasmine,
+	"Mint Perfume" = /obj/item/perfume/mint,
+	"Vanilla Perfume" = /obj/item/perfume/vanilla,
+	"Pear Perfume" = /obj/item/perfume/pear,
+	"Strawberry Perfume" = /obj/item/perfume/strawberry,
+	"Cinnamon Perfume" = /obj/item/perfume/cinnamon,
+	)
+
+/datum/virtue/utility/socialite/apply_to_human(mob/living/carbon/human/recipient)
+	..()
+	recipient.mind.special_items["Hand Mirror"] = /obj/item/handmirror
+	for(var/choice in picked_choices)
+		switch(choice)
+			if(SOCIALITE_MASSAGE)
+				if(recipient.mind)
+					recipient.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
+			if(SOCIALITE_NUTCRACKER)
+				ADD_TRAIT(recipient, TRAIT_NUTCRACKER, TRAIT_VIRTUE)
+			if(SOCIALITE_EMPATH)
+				ADD_TRAIT(recipient, TRAIT_EMPATH, TRAIT_VIRTUE)
+			else
+				recipient.mind.special_items[choice] = extra_choices[choice]
+	if(isdullahan(recipient))
+		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
+		ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
+
+#undef SOCIALITE_MASSAGE
+#undef SOCIALITE_NUTCRACKER
+#undef SOCIALITE_EMPATH
 
 /datum/virtue/utility/failed_squire
 	name = "Failed Squire"
 	desc = "I was once a squire in training, but failed to achieve knighthood. Though my dreams of glory were dashed, I retained my knowledge of equipment maintenance and repair, including how to polish arms and armor."
+	ui_fa_icon = "toolbox"
 	added_traits = list(TRAIT_SQUIRE_REPAIR)
 	added_stashed_items = list(
 		"Hammer" = /obj/item/rogueweapon/hammer/iron,
@@ -150,6 +200,7 @@
 /datum/virtue/utility/intellectual
 	name = "Intellectual"
 	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal closeby. I can tell people's exact prowess."
+	ui_fa_icon = "book"
 	custom_text = "Maximizes Assess benefits with a bonus of the target's Stats. Allows the choice of up to 6 languages to learn."
 	added_traits = list(TRAIT_INTELLECTUAL)
 	added_skills = list(list(/datum/skill/misc/reading, 3, 6))
@@ -191,21 +242,25 @@
 /datum/virtue/utility/hollow
 	name = "Hollow"
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
+	ui_fa_icon = "lungs"
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
 
 /datum/virtue/utility/deadened
 	name = "Deadened"
 	desc = "Some terrible incident colours my past, and now, I feel nothing."
+	ui_fa_icon = "face-meh-o"
 	added_traits = list(TRAIT_NOMOOD, TRAIT_DETACHED)
 
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
 	desc = "Raw, toxic or spoiled food doesn't bother my superior digestive system."
+	ui_fa_icon = "drumstick-bite"
 	added_traits = list(TRAIT_NASTY_EATER)
 
 /datum/virtue/utility/prowler
 	name = "Prowler"
 	desc = "I've learned to stalk the shadows, in step and in sight. My hands had also been honed to be deft."
+	ui_fa_icon = "moon"
 	max_choices = 3	//Tentative, feels more fun to limit yourself to a set out of these rather than all of them. (Used to be 6)
 	choice_costs = list(0, 0, 0)
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
@@ -249,6 +304,7 @@
 /datum/virtue/utility/performer
 	name = "Performer"
 	desc = "Music, artistry and the act of showmanship carried me through life. I've hidden a favorite instrument of mine, know how to please anyone I touch, and how to crack the eggs of hecklers."
+	ui_fa_icon = "guitar"
 	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
 	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
 	added_skills = list(list(/datum/skill/misc/music, 4, 4))
@@ -278,6 +334,7 @@
 	name = "Cunning Provisioner"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
 	desc = "You've worked in or around the docks enough to steal away a sack of supplies that no one would surely miss, just in case. You've picked up on some cooking and fishing tips in your spare time, as well."
+	ui_fa_icon = "fish-fins"
 	added_stashed_items = list("Bag of Food" = /obj/item/storage/roguebag/food)
 	added_skills = list(list(/datum/skill/craft/cooking, 3, 6),
 						list(/datum/skill/labor/fishing, 2, 6))
@@ -286,6 +343,7 @@
 	name = "Pilgrim (-3 TRI)"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
 	desc= "As they say, 'hearth is where the heart is'. You are intimately familiar with the labors of lyfe, and have stowed away everything necessary to start anew: a hunting dagger, your trusty hoe, and a sack of assorted supplies."
+	ui_fa_icon = "house-fire"
 	triumph_cost = 3
 	added_stashed_items = list(
 		"Hoe" = /obj/item/rogueweapon/hoe,
@@ -303,6 +361,7 @@
 /datum/virtue/utility/ugly
 	name = "Ugly"
 	desc = "Be it your family's habits in and out of womb, your own choices or Xylix's cruel roll of fate, you have been left unbearable to look at. Stuck to the unseen pits and crevices of the town, you've grown used to the foul odours of lyfe that often follow you. Corpses do not stink for you, and that is all the company you might find."
+	ui_fa_icon = "eye-slash"
 	custom_text = "Incompatible with Beautiful virtue."
 	added_traits = list(TRAIT_UNSEEMLY, TRAIT_NOSTINK)
 
@@ -316,19 +375,22 @@
 /datum/virtue/utility/keenears
 	name = "Keen Ears"
 	desc = "Cowering from authorities, loved ones or by a generous gift of the gods, you've adapted a keen sense of hearing, and can identify the speakers even when they are out of sight, their whispers ringing louder."
+	ui_fa_icon = "ear-listen"
 	added_traits = list(TRAIT_KEENEARS)
 	custom_text = "You can identify known people who speak even when they are out of sight. You can hear people speaking normally above and below you, regardless of obstacles in the way. You can hear whispers from one tile further."
 
 /datum/virtue/utility/tracker
-	name = "Sleuth"
+	name = "Perfect Tracker"
 	desc = "You realised long ago that the ability to find a man is as helpful to aid the law as it is to evade it."
-	added_skills = list(list(/datum/skill/misc/tracking, 3, 6))
-	added_traits = list(TRAIT_SLEUTH)
+	ui_fa_icon = "binoculars"
+	added_skills = list(list(/datum/skill/misc/tracking, 2, 6))
+	added_traits = list(TRAIT_PERFECT_TRACKER)
 	custom_text = "- Upon right clicking a track, you will Mark the person who made them <i>(Expert skill required, not exclusive to this Virtue)</i>.\n- Further tracks found will be automatically highlighted as theirs, along with the person themselves, if they are not sneaking or invisible at the time.\n- Reduces the cooldown for tracking, allows track examining right away, and movement no longer cancels tracking."
 
 /datum/virtue/utility/bronzelimbs
 	name = "Bronze Limbs"
 	desc = "Through connections or wealth, my limb had been replaced by one of bronze and gears, that can grip and hold onto things. I've learned just a bit of Engineering as a result."
+	ui_fa_icon = "robot"
 	custom_text = "Replaces your chosen limbs with a prosthetic Bronze ones."
 	added_skills = list(list(/datum/skill/craft/engineering, 1, 6))
 	max_choices = 4
@@ -374,11 +436,13 @@
 /datum/virtue/utility/woodwalker
 	name = "Woodwalker"
 	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling."
+	ui_fa_icon = "tree"
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
 
 /datum/virtue/heretic/zchurch_keyholder
 	name = "Defiled Keyholder"
 	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
+	ui_fa_icon = "mask"
 	added_traits = list(TRAIT_ZURCH)
 
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
@@ -387,6 +451,7 @@
 /datum/virtue/utility/feytouched
 	name = "Feytouched"
 	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
+	ui_fa_icon = "ghost"
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
 	added_traits = list(TRAIT_FEYTOUCHED)
 	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),

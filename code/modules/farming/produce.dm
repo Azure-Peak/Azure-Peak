@@ -164,6 +164,7 @@
 	chopping_sound = TRUE
 	var/equippedloc = null
 	var/list/bitten_names = list()
+	var/busy = FALSE // this is set to true at the start of the marriage flow to prevent spamclicking from fucking everything up
 
 /obj/item/reagent_containers/food/snacks/grown/apple/On_Consume(mob/living/eater)
 	..()
@@ -277,7 +278,6 @@
 	splat_color = "#FFA500"
 	tastes = list("overpoweringly sweet" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-	deep_fried_type = /obj/item/reagent_containers/food/snacks/marmalade
 	eat_effect = /datum/status_effect/buff/sweet
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/plum
@@ -336,7 +336,6 @@
 	splat_color = "#272C3F"
 	tastes = list("overpoweringly sweet" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-	deep_fried_type = /obj/item/reagent_containers/food/snacks/jamtallow
 	eat_effect = /datum/status_effect/buff/sweet
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry
@@ -480,7 +479,6 @@
 	filling_color = "#6b4d18"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	grind_results = list(/datum/reagent/consumable/acorn_powder = 4)
-	deep_fried_type = /obj/item/reagent_containers/food/snacks/dragee
 	eat_effect = /datum/status_effect/buff/sweet
 
 /obj/item/reagent_containers/food/snacks/grown/sugarcane
@@ -504,7 +502,6 @@
 	icon_state = "sugar"
 	tastes = list("sweet" = 1)
 	list_reagents = list(/datum/reagent/consumable/sugar = 15)
-	deep_fried_type = /obj/item/reagent_containers/food/snacks/caramel
 
 /obj/item/reagent_containers/food/snacks/pepper
 	name = "pepper"
@@ -844,7 +841,6 @@
 	tastes = list("a horrifically bad idea" = 1, "slightly fruity aftertaste" = 1)
 	bitesize = 2
 	list_reagents = list(/datum/reagent/toxin/killersice = 1, /datum/reagent/starsugar = 8, /datum/reagent/water = 7, /datum/reagent/consumable/nutriment = 3) //Feeling a little.. under the weather?
-	deep_fried_type = /obj/item/reagent_containers/food/snacks/grown/skysugarslab
 	sellprice = 23
 
 /obj/item/reagent_containers/food/snacks/grown/skysugarslab

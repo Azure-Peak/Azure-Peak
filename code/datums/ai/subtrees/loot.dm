@@ -14,6 +14,8 @@
 		return
 
 	var/mob/living/pawn = controller.pawn
+	if(pawn.incapacitated())
+		return
 	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
 	if(!inv)
 		return
@@ -73,22 +75,20 @@
 /datum/ai_behavior/loot_pick_up/perform(delta_time, datum/ai_controller/controller, target_key)
 	var/obj/item/target = controller.blackboard[target_key]
 	if(QDELETED(target) || !isturf(target.loc))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/mob/living/carbon/human/pawn = controller.pawn
+	if(pawn.incapacitated())
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	if(!pawn.Adjacent(target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
 	if(!inv)
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(QDELETED(target) || !isturf(target.loc))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/slot_flag = inv.find_space_for(target)
 	if(!slot_flag)
@@ -96,17 +96,15 @@
 		controller.add_blackboard_key_lazylist(BB_LOOT_BLACKLIST, target)
 		// Prune it after 5 minutes so the list doesn't grow forever
 		addtimer(CALLBACK(controller, TYPE_PROC_REF(/datum/ai_controller, remove_thing_from_blackboard_key), BB_LOOT_BLACKLIST, target), 5 MINUTES)
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/obj/item/container = inv.container_refs[slot_flag]
 	var/datum/component/storage/STR = container?.GetComponent(/datum/component/storage)
 	if(!STR)
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	STR.handle_item_insertion(target, prevent_warning = TRUE, user = pawn)
-	finish_action(controller, TRUE, target_key)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/loot_pick_up/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	. = ..()

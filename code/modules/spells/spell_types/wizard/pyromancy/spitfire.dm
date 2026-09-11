@@ -1,4 +1,4 @@
-#define SPITFIRE_DAMAGE 40
+#define SPITFIRE_DAMAGE 50
 /datum/action/cooldown/spell/projectile/spitfire
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Spitfire"
@@ -51,7 +51,7 @@
 
 /obj/projectile/magic/spitfire/arc
 	name = "arced spitfire"
-	damage = 27
+	damage = 38
 	arcshot = TRUE
 
 /obj/projectile/magic/spitfire/on_hit(target, blocked = FALSE)

@@ -2,6 +2,7 @@
 	name = "clandestine tube"
 	desc = "A crude pneumatic tube. It seems to connect somewhere nearby."
 	obfuscated = TRUE
+	allow_ghosts = FALSE
 	var/next_send_time = 0
 	var/notify_bathhouse = FALSE
 	/// This tube's identity for pairing
@@ -39,9 +40,10 @@
 		to_chat(user, span_warning("The tube rumbles but nothing happens. It doesn't seem connected to anything."))
 		return FALSE
 	var/recipient_name = I?.mailedto || target.name
+	var/obj/item/paper/letter = istype(I, /obj/item/paper) ? I : null
 	I.forceMove(target)
 	playsound(target, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-	log_mail_send(user, sender_name, recipient_name)
+	log_mail_send(user, sender_name, recipient_name, FALSE, letter?.info)
 	visible_message(span_warning("[user] sends something."))
 	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 	if(target.notify_bathhouse)
@@ -50,6 +52,8 @@
 	return TRUE
 
 /obj/structure/roguemachine/mail/paired_hermes/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(isobserver(usr))
+		return TRUE
 	if(action == "send_tube")
 		var/mob/user = usr
 		var/content = params["content"]

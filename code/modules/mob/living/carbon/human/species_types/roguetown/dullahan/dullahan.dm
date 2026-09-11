@@ -64,6 +64,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		// Customizable eyes means overriden eyes get thrown out.
 		// HUD organ deals with less parenting problems aswell.
 		ORGAN_SLOT_HUD = /obj/item/organ/dullahan_vision,
@@ -258,7 +259,6 @@
 // I don't know if that is possible, may have some cases relating to eye signals.
 /datum/species/dullahan/on_species_gain(mob/living/carbon/user, datum/species/old_species)
 	..()
-	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	RegisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS, PROC_REF(on_say_postprocess))
 	// TODO SEXCON2: Re-enable Dullahan detached head ERP support
 	//RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))

@@ -10,6 +10,7 @@
 	movement_interrupt = FALSE
 	sound = 'sound/magic/diagnose.ogg'
 	action_icon = 'icons/mob/actions/engineer_skills.dmi'
+	overlay_icon = 'icons/mob/actions/engineer_skills.dmi'
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/arcane
 	antimagic_allowed = TRUE

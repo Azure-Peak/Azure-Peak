@@ -28,6 +28,7 @@
 	var/sellprice = 0 //sanitize this somewhere so it cant be decimals
 	var/static_price = FALSE
 	var/looted = FALSE
+	var/worn_out = FALSE
 	var/no_loot_taint = FALSE
 	/// An item spawned via the handle_special_items_retrieval proc, that is not triumph
 	var/special_item = FALSE
@@ -51,6 +52,8 @@
 		if(derived)
 			sellprice = derived
 			randomize_price()
+	if(worn_out)
+		return max(1, round(sellprice * WORN_SELL_MULT))
 	if(looted)
 		return max(1, round(sellprice * LOOTED_SELL_MULT))
 	return sellprice

@@ -35,21 +35,21 @@
 	increased. Most healing Miracles cannot affect devoted Psydonians.\
 	<br><br><b>Patron Conditions:</b>\
 	<ul>\
-	<li><b>Abyssor:</b> +60% healing when the target is standing in water.</li>\
-	<li><b>Astrata:</b> +80% healing during daytime. Up to +100% if the target has the Noble trait (does not stack with daytime).</li>\
-	<li><b>Dendor:</b> Up to +80% from nearby natural objects (grass, trees, mushrooms, soil). Each wise tree grants an additional +60%.</li>\
-	<li><b>Eora:</b> +100% if the target is a pacifist. +60% if the caster is also a pacifist. Up to +160% total.</li>\
-	<li><b>Malum:</b> Up to +100% scaling with nearby fire sources (torches, campfires, hearths, candles, forges).</li>\
-	<li><b>Necra:</b> +100% when the target is below 25% health. +50% if the caster has Necran Mists active. Up to +150% total.</li>\
-	<li><b>Noc:</b> +40% healing during nighttime.</li>\
-	<li><b>Pestra:</b> +40% when the target is laying down (not buckled). Also restores blood and heals toxin damage.</li>\
-	<li><b>Ravox:</b> +40% if the target is using a strong attack intent. +20% if holding a weapon. +80% with blood restoration if cast on self while at low blood (30s cooldown). Up to +140% total.</li>\
-	<li><b>Xylix:</b> 50% chance of a random +40% to +100% bonus.</li>\
-	<li><b>Undivided:</b> Always +80% with no conditions.</li>\
-	<li><b>Baotha:</b> +20% if the target is drunk or on drugs. +20% if experiencing withdrawal. Up to +80% additional from wound pain and bleeding. Up to +120% total.</li>\
-	<li><b>Graggar:</b> Up to +100% scaling with nearby blood decals.</li>\
-	<li><b>Matthios:</b> +100% if the target has the Freeman trait.</li>\
-	<li><b>Zizo:</b> Up to +200% scaling with nearby bones and bone bundles.</li>\
+	<li><b>Abyssor:</b> +16.67% healing when the target is standing in water.</li>\
+	<li><b>Astrata:</b> +16.67% healing during daytime. Up to +16.67% if the target has the Noble trait (bonuses do not stack)</li>\
+	<li><b>Dendor:</b> Up to +16.67% from nearby natural objects (grass, trees, mushrooms, soil).</li>\
+	<li><b>Eora:</b> +16.67% if the target is a pacifist. Up to +16.67% if the caster is also a pacifist. (bonuses do not stack)</li>\
+	<li><b>Malum:</b> Up to +16.67% scaling with nearby fire sources (torches, campfires, hearths, candles, forges).</li>\
+	<li><b>Necra:</b> +16.67% when the target is below 25% health. Up to +16.67% if the caster has Necran Mists active. (bonuses do not stack)</li>\
+	<li><b>Noc:</b> +16.67% healing during nighttime.</li>\
+	<li><b>Pestra:</b> +16.67% when the target is laying down (not buckled). Also restores blood and heals toxin damage.</li>\
+	<li><b>Ravox:</b> +16.67% if the target is using a strong attack intent. Up to +16.67% if holding a weapon. An infusion of blood if cast on self while at low blood (30s cooldown). (bonuses do not stack)</li>\
+	<li><b>Xylix:</b> 50% chance of a +16.67% bonus.</li>\
+	<li><b>Undivided:</b> Always +16.67% with no conditions.</li>\
+	<li><b>Baotha:</b> +16.67% if the target is drunk or on drugs. Up to +16.67% if experiencing withdrawal. Up to +16.67% from wound pain and bleeding. (bonuses do not stack)</li>\
+	<li><b>Graggar:</b> Up to +16.67% scaling with nearby blood decals.</li>\
+	<li><b>Matthios:</b> +16.67% if the target has the Freeman trait.</li>\
+	<li><b>Zizo:</b> Up to +16.67% scaling with nearby bones and bone bundles.</li>\
 	</ul>"
 	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
 	button_icon_state = "heal"
@@ -82,13 +82,13 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
 		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -99,7 +99,7 @@
 		spelltarget.emote("pain")
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
-		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
+		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_blue("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -208,7 +208,7 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -219,7 +219,7 @@
 		spelltarget.emote("pain")
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
-		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
+		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_notice("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
