@@ -2,26 +2,17 @@
 	desc = ""
 	canSmoothWith = null
 	smooth = SMOOTH_FALSE
-	// None of these turfs' cardinal_smooth() implementations (all of them route through
-	// roguesmooth()) ever read a diagonal adjacency bit - only N_NORTH/N_SOUTH/N_EAST/N_WEST.
-	// Leaving smooth_diag at its /atom default of TRUE means calculate_adjacencies() still does
-	// up to 4 extra find_type_in_direction() lookups per smoothing event for bits nothing ever
-	// consumes - wasted work on every mass SSseason conversion sweep as well as every ordinary
-	// turf change. Off here since it's inherited by the whole grass/dirt/snow/cobble family.
+	// roguesmooth() only ever reads cardinal adjacency bits, so this skips calculate_adjacencies()
+	// computing 4 unused diagonal ones - inherited by the whole grass/dirt/snow/cobble family.
 	smooth_diag = FALSE
 	var/smooth_icon = null
 	var/prettifyturf = FALSE
 	icon = 'icons/turf/roguefloor.dmi'
 	baseturfs = list(/turf/open/transparent/openspace)
 	neighborlay = ""
-	/// If set, SSseason ChangeTurf()s this into winter_type during Winter, the same way it does
-	/// grass - the sibling of water's freeze_type, for ground/path turfs whose winter look needs
-	/// to be a real type rather than just a different sprite. That distinction matters here
-	/// specifically because dirt carries real per-instance state (mud, blood, an active dig hole)
-	/// that a plain icon_state swap either can't touch or actively fights with (its mud dry-out
-	/// code resets icon_state to a fixed default with no idea a season is involved) - a subtype
-	/// sidesteps that by making the Winter look the turf's own compile-time default, the same way
-	/// "dirt" already is for the non-Winter one.
+	/// If set, SSseason ChangeTurf()s this into winter_type during Winter (sibling of water's
+	/// freeze_type). A real type rather than an icon swap, since dirt carries per-instance state
+	/// (mud, blood, a dig hole) a bare icon_state swap can't safely coexist with.
 	var/winter_type
 	/// The reverse of winter_type - set on the Winter form, pointing back to what it thaws to.
 	var/summer_type
@@ -39,9 +30,7 @@
 	if(winter_type || summer_type)
 		GLOB.seasonal_icon_turfs |= src
 
-// Shared by every rogue floor turf rather than just the seasonal grass/snow family - removing
-// something that was never in the list is a harmless no-op, and this way SSseason's tracking
-// can never go stale no matter what a turf gets changed into.
+// Harmless no-op if never tracked - keeps SSseason's lists from going stale regardless of type.
 /turf/open/floor/rogue/Destroy()
 	GLOB.seasonal_grass_turfs -= src
 	GLOB.seasonal_water_turfs -= src
@@ -388,12 +377,9 @@
 /turf/open/floor/rogue/grasscold/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
-/// Mapper-placed flavor grass (grassred/grassyel/grasscold) isn't part of SSseason's normal
-/// spring/summer/autumn color-cycling - a battlefield's red grass or a wheat field's yellow grass
-/// is meant to keep its own identity the rest of the year. But leaving it untouched through Winter
-/// specifically read as wrong (a pristine patch sitting in the middle of a snowed-over map), so it
-/// gets the same Winter-only ChangeTurf() pair everything else in this file does - full "snow"
-/// look, reverting to its own original color come thaw.
+/// Mapper-placed flavor grass (grassred/grassyel/grasscold) skips SSseason's normal color-cycling
+/// (keeps its own identity year-round) but still gets this Winter-only ChangeTurf() pair, so it
+/// doesn't sit pristine in the middle of a snowed-over map - reverts to its own color come thaw.
 /turf/open/floor/rogue/grasscold/winter
 	icon_state = "snow"
 	neighborlay = "snowedge"
@@ -703,30 +689,20 @@
 /turf/open/floor/rogue/dirt/road/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
-/// The Winter form of plain dirt - a real subtype rather than an icon swap so that mud, blood,
-/// water saturation and an active dig hole (see /turf/open/floor/rogue/dirt's vars) all keep
-/// working exactly as they do the rest of the year, with the season only changing what the
-/// "clean" look underneath resolves to. become_muddy()/update_water()'s `initial(icon_state)`
-/// dry-out correctly lands on "snow" here, the same way it lands on "dirt" on the summer type -
-/// no separate season-awareness needed in that code at all. Base sprite *and* edge family are
-/// both plain snow's ("snow"/"snowedge") rather than a dedicated "snowdirt" set - a dirt path in
-/// Winter is meant to be indistinguishable from the snow around it, and mixing edge art from a
-/// different sheet than the base tile produced a visibly jagged seam.
+/// Real subtype (not an icon swap) so mud/blood/water/dig-hole state on /dirt survives, and
+/// become_muddy()/update_water()'s initial(icon_state) dry-out still lands correctly. Sprite and
+/// edge family match plain snow's exactly, to avoid a jagged seam between two spritesheets.
 ///
-/// Doesn't list summer dirt in its own canSmoothWith - only dirt's list was extended to include
-/// this type, not the reverse. That one-sidedness is deliberate: roguesmooth() draws a tile's
-/// border using the *neighbor's* neighborlay, so this lets Winter dirt's own snowedge spill onto
-/// an adjacent unconverted (e.g. indoor) dirt tile, while that dirt tile draws no dirtedge border
-/// back - the snow visually creeps up to the threshold instead of a hard two-sided seam.
+/// Left out of its own canSmoothWith (only dirt's list includes this type, not the reverse) so
+/// its snowedge spills onto an adjacent indoor dirt tile instead of both sides drawing a border -
+/// see roguesmooth().
 /turf/open/floor/rogue/dirt/winter
 	icon_state = "snow"
 	neighborlay = "snowedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/dirt
 
-/// See /turf/open/floor/rogue/dirt/winter - same reasoning (both the sprite/edge choice and the
-/// one-sided canSmoothWith spill), for dirt/road specifically. Base sprite and edge family are
-/// both snowrough's ("snowrough"/"snowroughedge").
+/// Same reasoning as dirt/winter, for dirt/road - sprite/edge family is snowrough's instead.
 /turf/open/floor/rogue/dirt/road/winter
 	icon_state = "snowrough"
 	neighborlay = "snowroughedge"
@@ -1280,9 +1256,7 @@
 	. = ..()
 	icon_state = "cobblestone[rand(1,3)]"
 
-/// See /turf/open/floor/rogue/dirt/winter for why this is a subtype rather than an icon swap -
-/// cobble itself has no per-instance state to lose, but the same mechanism is used everywhere for
-/// consistency (one code path in SSseason, not two).
+/// Same subtype-not-icon-swap approach as dirt/winter, kept for one shared SSseason code path.
 /turf/open/floor/rogue/cobble/winter
 	neighborlay = "snowcobbleedge"
 	winter_type = null
@@ -1302,9 +1276,8 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
 	neighborlay = "mossystone_edges"
-	// Overrides the winter_type inherited from /cobble - there's no "snow-mossy" sprite, and
-	// without this override mossy cobblestone would silently ChangeTurf() into plain
-	// /cobble/winter every Winter, quietly losing its mossy name/desc/look for the season.
+	// Overrides the winter_type inherited from /cobble, else this would silently ChangeTurf()
+	// into plain /cobble/winter every Winter, losing its mossy name/desc for the season.
 	winter_type = /turf/open/floor/rogue/cobble/mossy/winter
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/dirt,
@@ -1341,11 +1314,9 @@
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "mossyedge"
 	mouse_opacity = 0
-	// No dedicated "snow-mossy" sprite - close enough a variant of plain cobblestone edging that
-	// it can just borrow that one, and under a foot of snow the distinction wouldn't read anyway.
-	// "snowcobbleedge" specifically (not "snowcobblestone_edges") because this decal is a single
-	// directional sprite rotated via dir, not a one-sprite-per-direction set - matching how this
-	// state is actually used, unlike /obj/effect/decal/cobble/mossy below.
+	// Reuses cobble's plain snowcobbleedge (no dedicated snow-mossy sprite) - "snowcobbleedge"
+	// not "snowcobblestone_edges" since this decal is a single directional sprite, unlike
+	// /obj/effect/decal/cobble/mossy below.
 	winter_icon_state = "snowcobbleedge"
 
 /obj/effect/decal/cobble/mossy

@@ -1,58 +1,31 @@
-// Tracks outdoor seasonal atoms and updates them as the in-character calendar
-// month rolls over:
-// - Base outdoor grass turfs swap between grass/grassyel/grassred/snow, one
-//   type per season - all three months of Winter target snow alike. Deliberately-
-//   mapped grass color variants (grassred, grassyel, grasscold, etc placed by
-//   mappers for flavor) are left alone - only the plain
-//   /turf/open/floor/rogue/grass tiles are tracked and converted.
-// - Tree canopy leaf objects (/obj/structure/flora/newleaf and its /corner
-//   variant, plus the leaf overlays drawn on newtree canopy caps and
-//   newbranch) swap between the spring/summer/fall/winter leaf sprites via
-//   their overridden apply_flora_season() proc.
-// - Freezable water turfs (those with a freeze_type set - still murk, ponds and clean
-//   shallows, but never rivers, ocean, sewers or interiors) gain a layer of ice in Mid/Late
-//   Winter and lose it again on the thaw. Freezing uses PlaceOnTop(), so the original water
-//   subtype rides along on baseturfs and the thaw is a plain ScrapeAway() back to it. Both
-//   the liquid and the frozen turfs live in the same tracking list.
-// - Paths (dirt, dirt/road, cobble, cobblerock - anything with winter_type set) ChangeTurf()
-//   between their summer type and a Winter sibling, the same way grass does and for the same
-//   reason water's ice layer does: dirt in particular carries real per-instance state (mud
-//   saturation, blood, an active dig hole) that a plain icon_state swap can't safely coexist with,
-//   since code elsewhere (become_muddy()'s dry-out) resets icon_state to a fixed, season-unaware
-//   default. Making the Winter look a real type means that default is correct either way. See
-//   apply_season_to_path().
-// - Map-placed decorative decals with a winter_icon_state (old cobble edges, etc) get a direct
-//   icon_state swap - no per-instance state, no smoothing, and few enough of them on a map that
-//   they're synced all at once rather than run through the queue/drain machinery at all. See
-//   sync_seasonal_decals().
+// Tracks outdoor seasonal atoms and updates them as the in-character calendar month rolls over:
+// - Grass: plain /turf/open/floor/rogue/grass cycles grass/grassyel/grassred/snow by season.
+//   Mapper-placed flavor grass (grassred/grassyel/grasscold) keeps its own identity year-round
+//   but still swaps to snow in Winter (see winter_type/summer_type below).
+// - Flora: tree canopy leaf objects/overlays swap sprites via apply_flora_season().
+// - Water: turfs with freeze_type gain/lose an ice layer in Mid/Late Winter via PlaceOnTop()/
+//   ScrapeAway(), which lets the original water subtype ride along on baseturfs.
+// - Paths: dirt/dirt-road/cobble/cobblerock (anything with winter_type set) ChangeTurf() into a
+//   Winter sibling turf rather than an icon swap, since dirt carries per-instance state a bare
+//   icon swap can't safely coexist with. See apply_season_to_path().
+// - Decals: map-placed decorative decals with a winter_icon_state get a direct icon_state swap.
+//   See sync_seasonal_decals().
 
-/// Should SSseason treat this turf as open to the sky? Checked at conversion time rather
-/// than at registration, so a roof raised (or torn off) mid-round is honoured on the next
-/// season change - and so the cost is one predicate per tracked turf per season change,
-/// inside an already tick-budgeted background subsystem, not anything per-tick.
-///
-/// Both halves are needed. is_weatherproof() alone is not enough: it walks up the z-stack
-/// and, whenever any turf exists above, ends up testing the TOP turf's area instead of this
-/// one's - so an indoor garden with open sky on the z-level above still reads as exposed.
-/// The area check catches that; is_weatherproof() then catches the reverse case, an outdoor
-/// area that's been roofed over by a tent or built ceiling.
+/// Should SSseason treat this turf as open to the sky? Checked live at conversion time (not
+/// cached) so a roof built/removed mid-round is honored. Both checks matter: is_weatherproof()
+/// alone misreads an indoor garden under open sky above as exposed, since it tests the TOP
+/// turf's area when one exists; the area check alone misses an outdoor area roofed over.
 /turf/proc/is_seasonally_exposed()
 	var/area/turf_area = loc
 	if(!turf_area?.outdoors)
 		return FALSE
 	return !is_weatherproof()
 
-/// Shuffles `things` in SEASON_SHUFFLE_CHUNK-tile square blocks rather than tile by tile.
-///
-/// The aim is to scatter a conversion across the map without also scattering it in *time*.
-/// Every ChangeTurf() re-queues its 8 neighbours with SSicon_smooth, which dedups only in the
-/// short window before an atom actually gets smoothed - and SSicon_smooth is a ticker
-/// subsystem running every tick, so that window is tiny. Shuffling tile by tile spreads a
-/// tile's neighbours right across the drain, so it gets re-smoothed once per neighbour rather
-/// than once in total, and the smoothing bill (up to 9 atoms queued per converted turf) is
-/// what actually shows up as tick lag. Keeping each block contiguous restores the dedup for
-/// everything except block edges, and the resulting clumps read more like patchy snowfall
-/// than the television-static look of per-tile randomness.
+/// Shuffles `things` in SEASON_SHUFFLE_CHUNK-tile blocks instead of tile-by-tile, so a
+/// conversion scatters across the map without scattering each tile's ChangeTurf() neighbors
+/// across the whole drain - SSicon_smooth only dedups within a short window, so per-tile
+/// shuffling would turn every converted tile's smoothing into several separate resmooths
+/// instead of one shared one. Contiguous blocks also read as patchy snowfall, not static.
 /proc/season_chunk_shuffle(list/things)
 	var/list/chunk_lookup = list() // "z_cx_cy" -> that block's list
 	var/list/chunk_order = list() // the same lists, as a flat list we can shuffle
@@ -81,10 +54,7 @@ SUBSYSTEM_DEF(season)
 	name = "Season"
 	flags = SS_BACKGROUND
 	wait = 2 SECONDS
-	// Lobby included so the roundstart sweep - the whole map, every single round - drains
-	// while players are still on the lobby screen instead of costing them tick time in the
-	// world. SSicon_smooth, which does the expensive half of the work, already runs from
-	// RUNLEVEL_SETUP onwards.
+	// Lobby included so the once-per-round full-map sweep drains before anyone's in the world.
 	runlevels = RUNLEVEL_LOBBY | RUNLEVEL_SETUP | RUNLEVEL_GAME
 	var/current_season = null
 	var/current_season_phase = null
@@ -216,11 +186,8 @@ SUBSYSTEM_DEF(season)
 	var/same_water = (waters_should_freeze() == old_frozen)
 	var/same_icon = (should_show_snow_icons() == old_snowed_paths)
 	if(same_turf && same_flora && same_water && same_icon)
-		// Seven of the twelve monthly rollovers land inside a season whose three phases all
-		// render identically - phases only diverge in Winter, where Mid brings the freeze.
-		// Nothing on the map would change, so don't chunk-shuffle and then walk every tracked
-		// atom across four in-game days to convert none of them, and don't announce a
-		// transition to admins that they'd see no evidence of.
+		// Most rollovers land inside a season whose phases all render identically (only Winter's
+		// Mid freeze is a mid-season visual change) - nothing to convert or announce.
 		tick_existing_transition(instant)
 		return
 	if(instant)
@@ -248,17 +215,13 @@ SUBSYSTEM_DEF(season)
 	sync_seasonal_decals()
 
 /// Spreads a season change over SEASON_TRANSITION_DAYS dawns instead of repainting the whole
-/// map under everyone's feet at once. The lists are scattered because they're built in mapload
-/// order - taking a slice off an unscattered list would convert one contiguous slab of the map
-/// per day, which reads as a rendering artifact rather than as a thaw. Each day's share is
-/// still a contiguous run of whole blocks, so the smoothing dedup described on
-/// season_chunk_shuffle() holds within a day as well as across one.
+/// map under everyone's feet at once. Lists are pre-shuffled (mapload order would otherwise
+/// convert one contiguous map slab per day) but each day's share stays block-contiguous, so
+/// season_chunk_shuffle()'s smoothing dedup still holds.
 /datum/controller/subsystem/season/proc/begin_gradual_conversion()
 	if(transition_days_left > 0)
-		// A transition is still running - don't overwrite its pending_* lists out from under it.
-		// apply_season_to_turf() etc. read current_season live rather than a captured target, so
-		// letting the existing schedule finish will still land every atom on *this* rollover's
-		// target once its day comes up. No atoms get stranded, and nothing needs restarting.
+		// Already running - don't clobber pending_*. apply_season_to_turf() etc. read
+		// current_season live, so the existing schedule still lands atoms on the latest target.
 		return
 	pending_turfs = season_chunk_shuffle(GLOB.seasonal_grass_turfs)
 	pending_flora = season_chunk_shuffle(GLOB.seasonal_flora_objs)
@@ -400,25 +363,16 @@ SUBSYSTEM_DEF(season)
 /datum/controller/subsystem/season/proc/should_show_snow_icons()
 	return current_season == SEASON_WINTER
 
-/// ChangeTurf()s a winter_type turf between its summer and Winter forms, the same way
-/// apply_season_to_turf() does for grass. Unlike grass, the two forms aren't otherwise-independent
-/// types SSseason picks between - they're a summer/winter pair specific to this one turf (see
-/// winter_type/summer_type on /turf/open/floor/rogue), so which direction to go is read off the
-/// turf itself rather than off a single global target.
+/// ChangeTurf()s a winter_type turf between summer/Winter forms, like apply_season_to_turf()
+/// does for grass - but direction is read off the turf's own winter_type/summer_type, since
+/// these are a summer/winter pair specific to one turf rather than a single global target.
 ///
-/// dirt (and dirt/road) carries real per-instance state - water saturation, muddiness, blood, an
-/// active dig hole - that ChangeTurf() would otherwise drop on the floor same as it would for any
-/// other reason a dirt tile's type changed underfoot. The plain data rides along explicitly below;
-/// a tile with a `holie` (an /obj/structure/closet/dirthole) is left alone entirely rather than
-/// fought over with whatever system is tracking that hole.
-///
-/// This is a plain skip, not a requeue: `holie` isn't a short-lived "someone is digging right
-/// now" flag - it's set for the object's whole lifetime, up to and including a finished, filled
-/// grave sitting there indefinitely (see hole.dm), and only clears when that object is destroyed.
-/// Re-queueing on every drain (an earlier version of this did) meant every grave tile re-added
-/// itself to the queue every fire() tick forever - a permanent busy-loop, not a brief retry. A
-/// skipped tile stays tracked in GLOB.seasonal_icon_turfs and picks up the swap at the next real
-/// season change, same as any other atom that doesn't get sampled into a given day's share.
+/// dirt (and dirt/road) carries per-instance state (water, mud, blood, an active dig hole) that
+/// ChangeTurf() would otherwise drop - carried over explicitly below. A tile with a `holie`
+/// (/obj/structure/closet/dirthole) is skipped entirely, not requeued: holie is set for the
+/// hole's whole lifetime including a permanent finished grave (see hole.dm), so requeueing once
+/// turned every grave tile into a permanent busy-loop, re-adding itself every fire() tick. A
+/// skipped tile just picks up the swap at the next real season change.
 /datum/controller/subsystem/season/proc/apply_season_to_path(turf/open/floor/rogue/T)
 	if(!T.is_seasonally_exposed())
 		return
@@ -452,13 +406,9 @@ SUBSYSTEM_DEF(season)
 			new_dirt.heavyfootstep = old_dirt.heavyfootstep
 			new_dirt.track_prob = old_dirt.track_prob
 
-/// Map-placed decorative decals (old cobble edges, etc - see winter_icon_state on
-/// /obj/effect/decal) that have a Winter sprite. Unlike everything else in this file these
-/// aren't spread across the gradual transition's days or chunk-shuffled for smoothing dedup -
-/// they don't smooth at all, and the population is small enough (a handful of map decorations,
-/// not tens of thousands of turfs) that converting all of them in one pass costs nothing
-/// worth budgeting for. Called directly from queue_full_conversion() and
-/// begin_gradual_conversion() rather than running through the queue/drain machinery at all.
+/// Map-placed decals with a winter_icon_state get swapped directly - no smoothing, and few
+/// enough of them that converting all at once costs nothing worth budgeting for. Called
+/// straight from queue_full_conversion()/begin_gradual_conversion(), not the queue/drain path.
 /datum/controller/subsystem/season/proc/sync_seasonal_decals()
 	var/snowed = should_show_snow_icons()
 	for(var/obj/effect/decal/D as anything in GLOB.seasonal_decal_objs)
