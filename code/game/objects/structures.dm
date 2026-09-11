@@ -18,7 +18,7 @@
 	var/broken_icon_state = null //if the structure is broken, use this icon
 //	move_resist = MOVE_FORCE_STRONG
 
-/obj/structure/Initialize()
+/obj/structure/Initialize(mapload)
 	if (!armor)
 		armor = ARMOR_STRUCTURE
 	. = ..()
@@ -43,7 +43,7 @@
 						if(S.smashable)
 							is_bigguy = TRUE
 				if(is_bigguy && obj_integrity > max_integrity / 3)
-					if(max_integrity > 1000) 	//Custom-set HP door, should be respected
+					if(max_integrity > 1000)	//Custom-set HP door, should be respected
 						take_damage(max_integrity / 6 + 1)
 					else
 						if(H.STASTR >= 13)	//STR adding role w/ Giant or half-orc, seems fair
@@ -51,7 +51,7 @@
 						else
 							take_damage(max_integrity / 3 + 1)
 					H.Immobilize(20)
-					//hurts you a little bit but doesn't immediately chestfrac  you lmao
+					//hurts you a little bit but doesn't immediately chestfrac	you lmao
 					H.apply_damage(20, BRUTE, "chest", H.run_armor_check("chest", "blunt", damage = 20))
 					audible_message(span_warning("\The [src] shakes under the force of a great impact!"))
 					playsound(src, "meteor", 100, TRUE)
@@ -172,8 +172,8 @@
 	var/extra_integrity = 0
 	switch(severity)
 		if(EXPLODE_DEVASTATE) extra_integrity = 1500
-		if(EXPLODE_HEAVY)     extra_integrity = 0
-		if(EXPLODE_LIGHT)     extra_integrity = 0
+		if(EXPLODE_HEAVY)		extra_integrity = 0
+		if(EXPLODE_LIGHT)		extra_integrity = 0
 
 	var/hard_cap = max_integrity
 	switch(severity)
@@ -255,11 +255,11 @@
 		var/healthpercent = (obj_integrity/max_integrity) * 100
 		switch(healthpercent)
 			if(50 to 99)
-				return  "It looks slightly damaged."
+				return	"It looks slightly damaged."
 			if(25 to 50)
-				return  "It appears heavily damaged."
+				return	"It appears heavily damaged."
 			if(1 to 25)
-				return  span_warning("It's falling apart!")
+				return	span_warning("It's falling apart!")
 
 /obj/structure/proc/set_climbable(new_climbable)
 	if(new_climbable == climbable)

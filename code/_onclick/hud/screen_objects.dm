@@ -17,6 +17,20 @@
 	var/lastclick
 	var/category
 
+	/**
+	 * Map name assigned to this object.
+	 * Automatically set by /client/proc/add_obj_to_map.
+	 */
+	var/assigned_map
+	/**
+	 * Mark this object as garbage-collectible after you clean the map
+	 * it was registered on.
+	 *
+	 * This could probably be changed to be a proc, for conditional removal.
+	 * But for now, this works.
+	 */
+	var/del_on_map_removal = TRUE
+
 /atom/movable/screen/Destroy()
 	master = null
 	hud = null
@@ -118,7 +132,7 @@
 		var/mob/living/carbon/human/H = usr
 		H.print_levels(H)
 
-/atom/movable/screen/skills/should_click_on_mouse_up(var/atom/original_object)
+/atom/movable/screen/skills/should_click_on_mouse_up(atom/original_object)
 	return FALSE
 
 /atom/movable/screen/craft
@@ -267,7 +281,7 @@
 
 
 /atom/movable/screen/inventory/hand
-	nomouseover =  TRUE
+	nomouseover =	TRUE
 	var/held_index = 0
 	var/obj/effect/overlay/vis/handcuff_vis
 	var/obj/effect/overlay/vis/grabbed_vis
@@ -376,6 +390,7 @@
 /atom/movable/screen/close/Click()
 	var/datum/component/storage/S = master
 	S.hide_from(usr)
+	SEND_SIGNAL(S.parent, COMSIG_STORAGE_CLOSED, usr)
 	return TRUE
 
 /atom/movable/screen/drop
@@ -400,23 +415,20 @@
 	usr.a_intent_change(INTENT_HOTKEY_RIGHT)
 
 /atom/movable/screen/act_intent/segmented/Click(location, control, params)
-	if(usr.client.prefs.toggles & INTENT_STYLE)
-		var/_x = text2num(params2list(params)["icon-x"])
-		var/_y = text2num(params2list(params)["icon-y"])
+	var/_x = text2num(params2list(params)["icon-x"])
+	var/_y = text2num(params2list(params)["icon-y"])
 
-		if(_x<=16 && _y<=16)
-			usr.a_intent_change(INTENT_HARM)
+	if(_x<=16 && _y<=16)
+		usr.a_intent_change(INTENT_HARM)
 
-		else if(_x<=16 && _y>=17)
-			usr.a_intent_change(INTENT_HELP)
+	else if(_x<=16 && _y>=17)
+		usr.a_intent_change(INTENT_HELP)
 
-		else if(_x>=17 && _y<=16)
-			usr.a_intent_change(INTENT_GRAB)
+	else if(_x>=17 && _y<=16)
+		usr.a_intent_change(INTENT_GRAB)
 
-		else if(_x>=17 && _y>=17)
-			usr.a_intent_change(INTENT_DISARM)
-	else
-		return ..()
+	else if(_x>=17 && _y>=17)
+		usr.a_intent_change(INTENT_DISARM)
 
 /atom/movable/screen/act_intent/proc/switch_intent(index as num)
 	return
@@ -557,50 +569,16 @@
 
 	user.playsound_local(user, 'sound/misc/click.ogg', 100)
 
-	if(usr.client.prefs.toggles & INTENT_STYLE)
-		var/_x = text2num(params2list(params)["icon-x"])
-		var/_y = text2num(params2list(params)["icon-y"])
-		var/clicked = get_index_at_loc(_x, _y)
-		if(!clicked)
+	var/_x = text2num(params2list(params)["icon-x"])
+	var/_y = text2num(params2list(params)["icon-y"])
+	var/clicked = get_index_at_loc(_x, _y)
+	if(!clicked)
+		return
+	if(modifiers["left"])
+		if(modifiers["shift"])
+			user.examine_intent(clicked, FALSE)
 			return
-/*		if(_x<=64)
-			if(user.active_hand_index == 2)
-				if(modifiers["right"])
-					if(clicked != user.l_index)
-						user.rog_intent_change(clicked,1)
-					else
-						if(user.oactive)
-							user.oactive = FALSE
-//						else
-//							user.oactive = TRUE
-						switch_intent(user.r_index, user.l_index, user.oactive)
-					return
-				if(!user.swap_hand(1))
-					return
-			if(modifiers["left"])
-				if(modifiers["shift"])
-					user.examine_intent(clicked, FALSE)
-					return
-			user.rog_intent_change(clicked)
-		else*/
-//			if(user.active_hand_index == 1)
-//				if(modifiers["right"])
-//					if(clicked != user.r_index)
-//						user.rog_intent_change(clicked,1)
-//					else
-//						if(user.oactive)
-//							user.oactive = FALSE
-//						else
-//							user.oactive = TRUE
-//						switch_intent(user.r_index, user.l_index, user.oactive)
-//					return
-//				if(!user.swap_hand(2))
-//					return
-		if(modifiers["left"])
-			if(modifiers["shift"])
-				user.examine_intent(clicked, FALSE)
-				return
-		user.rog_intent_change(clicked)
+	user.rog_intent_change(clicked)
 
 /atom/movable/screen/act_intent/rogintent/proc/get_index_at_loc(xl, yl)
 /*	if(xl<=64)
@@ -744,7 +722,7 @@
 			L.toggle_cmode()
 			update_icon()
 
-/atom/movable/screen/cmode/should_click_on_mouse_up(var/atom/original_object)
+/atom/movable/screen/cmode/should_click_on_mouse_up(atom/original_object)
 	return FALSE
 
 /atom/movable/screen/mov_intent
@@ -1070,8 +1048,8 @@
 	var/list/limb_vis = list()
 	var/list/wound_vis = list()
 	var/list/bleed_vis = list()
-	var/list/limb_cache = list()  // zone -> "color|wound_alpha|bleed"
-	var/list/flash_vis = list()  // zone -> reusable flash overlay
+	var/list/limb_cache = list()	// zone -> "color|wound_alpha|bleed"
+	var/list/flash_vis = list()	// zone -> reusable flash overlay
 	var/obj/effect/overlay/vis/selection_vis
 
 /atom/movable/screen/zone_sel/Destroy()
@@ -1868,7 +1846,7 @@
 			state2use = "mood_sick"
 	icon_state = state2use
 
-/atom/movable/screen/stress/proc/flick_pain(var/critical = FALSE)
+/atom/movable/screen/stress/proc/flick_pain(critical = FALSE)
 	if(critical)
 		flick("mood_ouch", src)
 	else
@@ -1928,7 +1906,7 @@
 			if(M.get_triumphs() <= 0)
 				to_chat(M, span_warning("I haven't TRIUMPHED."))
 				return
-			if(alert("Do you want to remember a TRIUMPH?", "", "Yes (-3 TRI)", "No") == "Yes (-3 TRI)")
+			if(alert(usr, "Do you want to remember a TRIUMPH?", "", "Yes (-3 TRI)", "No") == "Yes (-3 TRI)")
 				if(!M.has_stress_event(/datum/stressevent/triumph))
 					M.add_stress(/datum/stressevent/triumph)
 					M.adjust_triumphs(-3)
@@ -2179,14 +2157,6 @@
 	layer = 24
 	plane = 24
 	blend_mode = BLEND_MULTIPLY
-
-/atom/movable/screen/char_preview
-	name = "Me."
-	icon_state = ""
-//	var/list/prevcolors = list("background-color=#000000","background-color=#242f28","background-color=#302323","background-color=#999a63","background-color=#7e7e7e")
-
-//atom/movable/screen/char_preview/Click()
-//	winset(usr.client, "preferencess_window.character_preview_map", pick(prevcolors))
 
 #define READ_RIGHT 1
 #define READ_LEFT 2

@@ -1,4 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat
+	attack_aim = MOB_AIM_LOW
+	anatomy_type = /datum/anatomy/quadruped/trash
 	icon = 'icons/roguetown/mob/monster/bigrat.dmi'
 	name = "rous"
 	desc = "This is a big rat with beady red eyes, drawn to decay and filth."
@@ -37,18 +39,18 @@
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_sound = 'sound/combat/wooshes/punch/punchwoosh (2).ogg'
-	health = 65
-	maxHealth = 65
+	health = RAT_HEALTH
+	maxHealth = RAT_HEALTH
 	melee_damage_lower = 17
 	melee_damage_upper = 21
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
 	milkies = FALSE
-	food_type = list(/obj/item/reagent_containers/food/snacks, 
-//					/obj/item/bodypart, 
-//					/obj/item/organ, 
-					/obj/item/natural/bone, 
+	food_type = list(/obj/item/reagent_containers/food/snacks,
+//					/obj/item/bodypart,
+//					/obj/item/organ,
+					/obj/item/natural/bone,
 					/obj/item/natural/hide)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -56,11 +58,10 @@
 	STASTR = 9
 	STASPD = 10
 	deaggroprob = 0
-	defprob = 40
 	attack_same = 1
 	retreat_health = 0.3
 	aggressive = 1
-	
+
 
 	remains_type = /obj/effect/decal/remains/bigrat
 	eat_forever = TRUE
@@ -69,6 +70,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/big_rat
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 	melee_cooldown = RAT_ATTACK_SPEED
 	stat_attack = UNCONSCIOUS
 	var/undead_rat = FALSE
@@ -82,7 +84,7 @@
 	pixel_x = -16
 	pixel_y = -8
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
@@ -135,47 +137,6 @@
 		Retaliate()
 		GiveTarget(pulledby)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/bigrat/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "nose"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "leg"
-		if(BODY_ZONE_L_LEG)
-			return "leg"
-		if(BODY_ZONE_R_ARM)
-			return "foreleg"
-		if(BODY_ZONE_L_ARM)
-			return "foreleg"
-	return ..()
 
 /datum/intent/simple/bite/bigrat
 	clickcd = RAT_ATTACK_SPEED

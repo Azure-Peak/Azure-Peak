@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Woodland Mantle, Brigandine, and Shawl as donator-exclusive items for Noire and Co."
-  - rscadd: "Added additional CKEYs, at Noire's request, to the Sylvan weaponry whitelist."
-  - rscadd: "Shawls as a new all-accessible hood."

@@ -101,7 +101,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(ic_blocked)
 		//The filter warning message shows the sanitized message though.
 		to_chat(src, span_warning("That message contained a word prohibited in IC chat! Consider reviewing the server rules.\n<span replaceRegex='show_filtered_ic_chat'>\"[message]\"</span>"))
-		SSblackbox.record_feedback("tally", "ic_blocked_words", 1, lowertext(config.ic_filter_regex.match))
+		SSblackbox.record_feedback("tally", "ic_blocked_words", 1, LOWER_TEXT(config.ic_filter_regex.match))
 		return
 
 	var/datum/saymode/saymode = SSradio.saymodes[talk_key]
@@ -181,7 +181,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(saymode && !saymode.handle_message(src, message, language))
 		return
 
-	message = treat_message(message, language) // unfortunately we still need this
+	message = treat_segmented_message(message, language) // unfortunately we still need this
 	var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, args)
 	if (sigreturn & COMPONENT_UPPERCASE_SPEECH)
 		message = uppertext(message)
@@ -224,16 +224,9 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	spans |= speech_span
 
-	if(language)
-		var/datum/language/L = GLOB.language_datum_instances[language]
-		if(ishuman(src))
-			var/mob/living/carbon/human/H = src
-			if(H.dna?.species)
-				var/list/stuff = H.dna.species.get_span_language(L)
-				if(stuff)
-					spans |= stuff
-		else
-			spans |= L.spans
+	var/list/language_spans = get_language_spans(src, language)
+	if(length(language_spans))
+		spans |= language_spans
 
 	var/radio_return = radio(message, message_mode, spans, language)
 	if(radio_return & ITALICS)
@@ -292,7 +285,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/eavesdropping
 	var/eavesrendered
 	if(eavesdrop_range)
-		eavesdropping = stars(message)
+		eavesdropping = stars(strip_language_segments(message))
 		eavesrendered = compose_message(src, message_language, eavesdropping, , spans, message_mode)
 
 	var/rendered = compose_message(src, message_language, message, , spans, message_mode)
@@ -313,7 +306,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			keenears = HAS_TRAIT(H, TRAIT_KEENEARS)
 			var/name_to_highlight = H.nickname
 			if(name_to_highlight && name_to_highlight != "" && name_to_highlight != "Please Change Me")	//We don't need to highlight an unset or blank one.
-				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = #[H.highlight_color]>[name_to_highlight]</font></b>")
+				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = '[H.highlight_color]'>[name_to_highlight]</font></b>")
 		if(eavesdrop_range && get_dist(source, AM) > message_range+keenears && !(the_dead[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, , spans, message_mode, original_message)
 		else if(highlighted_message)
@@ -333,18 +326,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		mob_color = H.voice_color
 		if(H.voicecolor_override)
 			mob_color = H.voicecolor_override
-	var/chatmsg = "<font color = #[mob_color]><b>[src]</b></font> " + sign_verb + "."
+	var/chatmsg = "<font color = [mob_color]><b>[src]</b></font> " + sign_verb + "."
 	visible_message(chatmsg, runechat_message = sign_verb, log_seen = SEEN_LOG_EMOTE, ignored_mobs = understanders)
-
-	//speech bubble
-	var/list/speech_bubble_recipients = list()
-	for(var/mob/M in listening)
-		if(M.client?.prefs)
-			if(M.client && !M.client.prefs.chat_on_map)
-				speech_bubble_recipients.Add(M.client)
-	var/image/I = image('icons/mob/talk.dmi', src, "[bubble_type][say_test(message)]", FLY_LAYER)
-	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
-	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), I, speech_bubble_recipients, 30)
 
 /datum/species/proc/get_span_language(datum/language/message_language)
 	if(!message_language)
@@ -355,11 +338,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 /mob/proc/can_see_runechat(atom/movable/speaker)
 	if(!client || !client.prefs)
 		return FALSE
-	if(!client.prefs.chat_on_map)
-		return FALSE
 	if(stat >= UNCONSCIOUS)
-		return FALSE
-	if(!ismob(speaker) && !client.prefs.see_chat_non_mob)
 		return FALSE
 	return TRUE
 
@@ -398,6 +377,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/speaker_has_ceiling		= TRUE
 	var/turf/speaker_turf = get_turf(src)
 	var/turf/speaker_ceiling = get_step_multiz(speaker_turf, UP)
+	var/plain_message = strip_language_segments(message)
 	if(speaker_ceiling)
 		if(istransparentturf(speaker_ceiling))
 			speaker_has_ceiling = FALSE
@@ -405,10 +385,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		eavesdrop_range = EAVESDROP_EXTRA_RANGE
 	if(message_mode != MODE_WHISPER)
 		Zs_too = TRUE
-		if(say_test(message) == "2")	//CIT CHANGE - ditto
+		if(say_test(plain_message) == "2")	//CIT CHANGE - ditto
 			message_range += 10
 			Zs_yell = TRUE
-		if(say_test(message) == "3")	//Big "!!" shout
+		if(say_test(plain_message) == "3")	//Big "!!" shout
 			Zs_all = TRUE
 	// AZURE EDIT: thaumaturgical loudness (from orisons)
 	if (has_status_effect(/datum/status_effect/thaumaturgy))
@@ -463,14 +443,19 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/eavesdropping
 	var/eavesrendered
 	if(eavesdrop_range)
-		eavesdropping = stars(message)
+		eavesdropping = stars(plain_message)
 		eavesrendered = compose_message(src, message_language, eavesdropping, , spans, message_mode)
 
 	var/rendered = compose_message(src, message_language, message, , spans, message_mode)
 	for(var/_AM in listening)
 		var/hearall = FALSE
 		var/atom/movable/AM = _AM
-		var/turf/listener_turf = get_turf(AM)
+		var/atom/movable/loc_check = AM // revs hear from their head, so we need to check the positioning of the head, not the body
+		if(isdullahan(AM))
+			var/mob/living/carbon/human/target = AM
+			var/datum/species/dullahan/target_species = target.dna.species
+			loc_check = target_species.headless ? target_species.my_head : AM
+		var/turf/listener_turf = get_turf(loc_check)
 		var/turf/listener_ceiling = get_step_multiz(listener_turf, UP)
 		if(istype(_AM, /obj/item/listeningdevice)) // Very evil snowflake code.
 			hearall = TRUE
@@ -480,7 +465,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				listener_has_ceiling = FALSE
 		if(!hearall)
 			if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
-				if(AM.z != src.z)
+				if(loc_check.z != src.loc.z)
 					continue
 		if(Zs_too && listener_turf.z != speaker_turf.z && !Zs_all)
 			if(!Zs_yell && !HAS_TRAIT(AM, TRAIT_KEENEARS) && !hearall)
@@ -501,11 +486,17 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 					for(var/mob/living/MH in viewers(world.view, speaker_ceiling))
 						if(M == MH && MH.z == speaker_ceiling?.z)
 							speaker_obstructed = FALSE
+					for(var/obj/item/bodypart/head/dullahan/DH in range(world.view, speaker_ceiling))
+						if(DH.original_owner && M == DH.original_owner && DH.z == speaker_ceiling?.z)
+							speaker_obstructed = FALSE
 
 				if(!listener_has_ceiling)
 					for(var/mob/living/ML in viewers(world.view, listener_ceiling))
 						if(ML == src && ML.z == listener_ceiling?.z)
 							listener_obstructed = FALSE
+					for(var/obj/item/bodypart/head/dullahan/DH in range(world.view, listener_ceiling))
+						if(DH.original_owner && src == DH.original_owner && DH.z == listener_ceiling?.z)
+							speaker_obstructed = FALSE
 				if(listener_obstructed && speaker_obstructed)
 					continue
 		var/highlighted_message
@@ -515,7 +506,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			keenears = HAS_TRAIT(H, TRAIT_KEENEARS)
 			var/name_to_highlight = H.nickname
 			if(name_to_highlight && name_to_highlight != "" && name_to_highlight != "Please Change Me")	//We don't need to highlight an unset or blank one.
-				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = #[H.highlight_color]>[name_to_highlight]</font></b>")
+				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = '[H.highlight_color]'>[name_to_highlight]</font></b>")
 
 			if(H != src && message_mode != MODE_WHISPER && H.has_flaw(/datum/charflaw/addiction/clamorous))
 				var/chance = 5
@@ -537,16 +528,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_LIVING_SAY_SPECIAL, src, message)
-
-	//speech bubble
-	var/list/speech_bubble_recipients = list()
-	for(var/mob/M in listening)
-		if(M.client?.prefs)
-			if(M.client && !M.client.prefs.chat_on_map)
-				speech_bubble_recipients.Add(M.client)
-	var/image/I = image('icons/mob/talk.dmi', src, "[bubble_type][say_test(message)]", FLY_LAYER)
-	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
-	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), I, speech_bubble_recipients, 30)
 
 	//Listening gets trimmed here if a vocal bark's present. If anyone ever makes this proc return listening, make sure to instead initialize a copy of listening in here to avoid wonkiness
 	if(SEND_SIGNAL(src, COMSIG_MOVABLE_QUEUE_BARK, listening, args) || vocal_bark || vocal_bark_id)
@@ -598,18 +579,43 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 /mob/living/proc/get_key(message)
 	var/key = copytext(message, 1, 2)
 	if(key in GLOB.department_radio_prefixes)
-		return lowertext(copytext(message, 2, 3))
+		return LOWER_TEXT(copytext(message, 2, 3))
 
 /mob/living/proc/get_message_language(message)
-	if(copytext(message, 1, 2) == ",")
-		var/key = lowertext(copytext(message, 2, 3))
-		for(var/ld in GLOB.all_languages)
-			var/datum/language/LD = ld
-			if(initial(LD.key) == key)
-				return LD
-	return null
+	if(copytext(message, 1, 2) != ",")
+		return null
+	if(copytext(message, 3, 4) == "(")
+		return null
+	return GLOB.language_types_by_key[LOWER_TEXT(copytext(message, 2, 3))]
 
-/mob/living/proc/treat_message(message, language)
+/mob/living/proc/treat_segmented_message(message, datum/language/language)
+	var/list/segments = parse_language_segments(message, language)
+	if(!segments)
+		return treat_message(message, language)
+
+	var/datum/language/base_datum = GLOB.language_datum_instances[language]
+	var/base_mixes = base_datum?.code_switching
+
+	var/capitalize_segment = TRUE
+	for(var/datum/language_segment/segment as anything in segments)
+		if(segment.language != language && !can_switch_to_language(segment.language, base_mixes))
+			segment.language = language
+		segment.text = treat_message(segment.text, segment.language, capitalize_segment)
+		capitalize_segment = FALSE
+
+	return build_language_segments(segments, language)
+
+/// Whether src can drop `language` into the middle of a message, given whether the language the
+/// message is otherwise in mixes at all.
+/mob/living/proc/can_switch_to_language(datum/language/language, base_mixes = TRUE)
+	if(!base_mixes)
+		return FALSE
+	var/datum/language/language_datum = GLOB.language_datum_instances[language]
+	if(!language_datum?.code_switching)
+		return FALSE
+	return can_speak_in_language(language)
+
+/mob/living/proc/treat_message(message, language, capitalize_message = TRUE)
 	if(HAS_TRAIT(src, TRAIT_ZOMBIE_SPEECH) && !ispath(language, /datum/language/undead))
 		message = "[repeat_string(rand(1, 3), "U")][repeat_string(rand(1, 6), "H")]..."
 	else if(HAS_TRAIT(src, TRAIT_GARGLE_SPEECH))
@@ -633,7 +639,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(HAS_TRAIT(src, TRAIT_SIMPLESPEECH))
 		message = simplespeech(message)
 
-	message = capitalize(message)
+	if(capitalize_message)
+		message = capitalize(message)
 
 	return message
 

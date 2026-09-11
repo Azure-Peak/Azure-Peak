@@ -53,7 +53,7 @@
 		GLOB.dominant_faith_tracker.calculate_dominant_faith(TRUE)
 	GLOB.dominant_faith_tracker.last_announce_time = 0
 	GLOB.dominant_faith_tracker.announce_reign()
-	to_chat(world, "debugged faiths. current dominant faith: [GLOB.dominant_faith_tracker.dominant_faith]")
+	to_world("debugged faiths. current dominant faith: [GLOB.dominant_faith_tracker.dominant_faith]")
 
 /datum/dominant_faith_tracker/proc/roundstart_setup()
 	addtimer(CALLBACK(src, PROC_REF(calculate_dominant_faith), TRUE), 5 MINUTES) // wait a bit after roundstart spam settles down and the first wave of latejoins pops in

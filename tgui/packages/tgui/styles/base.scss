@@ -19,3 +19,13 @@ $font-size: 1 * $unit !default;
 @function rem($px) {
   @return 1rem * math.div($px, $unit);
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

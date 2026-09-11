@@ -3,7 +3,7 @@
 	name = "Baseturf skipover placeholder"
 	desc = ""
 
-/turf/baseturf_skipover/Initialize()
+/turf/baseturf_skipover/Initialize(mapload)
 	. = ..()
 	stack_trace("[src]([type]) was instanced which should never happen. Changing into the next baseturf down...")
 	ScrapeAway()

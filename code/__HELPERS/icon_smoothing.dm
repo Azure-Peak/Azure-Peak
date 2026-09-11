@@ -73,8 +73,8 @@
 
 #define NULLTURF_BORDER 123456789
 
-#define DEFAULT_UNDERLAY_ICON 			'icons/turf/floors.dmi'
-#define DEFAULT_UNDERLAY_ICON_STATE 	"plating"
+#define DEFAULT_UNDERLAY_ICON			'icons/turf/floors.dmi'
+#define DEFAULT_UNDERLAY_ICON_STATE	"plating"
 
 /atom/var/smooth = SMOOTH_FALSE
 /atom/var/smooth_diag = TRUE

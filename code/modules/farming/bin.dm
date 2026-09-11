@@ -27,7 +27,7 @@
 	if(W==/datum/weather/rain)
 		START_PROCESSING(SSweather,src)
 
-/obj/item/roguebin/Initialize()
+/obj/item/roguebin/Initialize(mapload)
 	if(!base_state)
 		create_reagents(600, DRAINABLE | AMOUNT_VISIBLE | REFILLABLE)
 		icon_state = "washbin[rand(1,2)]"

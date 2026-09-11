@@ -86,7 +86,7 @@
 					else
 						user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_SUCCESS)
 				I.obj_integrity = min(I.obj_integrity + (max_integrity/10), I.max_integrity) //10%
-				src.obj_integrity = min(src.obj_integrity - 10, src.max_integrity) //can restore 700% for good cloth kits, and 300% for bad cloth, 400% for bad metal,  1000% for good metal kit.
+				src.obj_integrity = min(src.obj_integrity - 10, src.max_integrity) //can restore 700% for good cloth kits, and 300% for bad cloth, 400% for bad metal,	1000% for good metal kit.
 				if(I.obj_broken && I.obj_integrity >= I.max_integrity)
 					var/obj/item/T = I
 					T.obj_fix()
@@ -164,7 +164,7 @@
 	if(!user.cmode)
 		if(try_construct_consume(src, M, user))
 			return
-		else 
+		else
 			return ..()
 	else
 		return ..()

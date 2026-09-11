@@ -1,5 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - bugfix: "fixed Resident virtue takes not being known to the rest of the town and viceversa."
-  - bugfix: "fixed Adventurer Resident virtue takers not spawning in the tavern."

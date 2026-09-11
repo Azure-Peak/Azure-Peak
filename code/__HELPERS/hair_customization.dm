@@ -48,7 +48,7 @@ GLOBAL_LIST_INIT(hair_preview_dirs, list(SOUTH, WEST, NORTH, EAST))
 /proc/hairmask_clean(mask)
 	if(!istext(mask) || length(mask) != 256)
 		return null
-	mask = lowertext(mask)
+	mask = LOWER_TEXT(mask)
 	for(var/i in 1 to 256)
 		var/char_code = text2ascii(mask, i)
 		if(char_code < 48)

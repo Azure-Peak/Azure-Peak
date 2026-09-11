@@ -45,7 +45,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogue/instrument/Initialize()
+/obj/item/rogue/instrument/Initialize(mapload)
 	soundloop = new(src, FALSE)
 	. = ..()
 
@@ -60,18 +60,6 @@
 	if(soundloop)
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/playing_music)
-
-/obj/item/rogue/instrument/proc/check_file(infile, filename, user)
-	var/file_ext = lowertext(copytext(filename, -4))
-	var/file_size = length(infile)
-
-	if(file_ext != ".ogg")
-		return "SONG MUST BE AN OGG."
-	if(file_size > 4 * 1024 * 1024)
-		return "TOO BIG. 4 MEGS OR LESS."
-
-	message_admins("[ADMIN_LOOKUPFLW(user)] uploaded a song [filename] of size [file_size / 1000000] (~MB).")
-	return null
 
 /obj/item/rogue/instrument/attack_self(mob/living/user)
 	var/stressevent = /datum/stressevent/music
@@ -137,26 +125,23 @@
 					say("NOT YET!")
 					return
 				playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-				var/infile = input(user, "CHOOSE A NEW SONG", src) as null|file
-
-				if(!infile)
+				var/newfile = music_upload(user, src)
+				if(!newfile)
 					return
 				if(playing || !(src in user.held_items) || user.get_inactive_held_item())
 					return
 
-				var/filename = "[infile]"
-				var/file_error = check_file(infile, filename, user)
-				if(file_error)
-					to_chat(user, span_warning(file_error))
-					return
-
 				lastfilechange = world.time
-				fcopy(infile,"data/jukeboxuploads/[user.ckey]/[filename]")
-				curfile = file("data/jukeboxuploads/[user.ckey]/[filename]")
+				curfile = newfile
 
-				var/songname = input(user, "Name your song:", "Song Name") as text|null
-				if(songname)
-					song_list[songname] = curfile
+				var/path = "[curfile]"
+				var/entry = input(user, "Name your song:", "Song Name") as text|null
+				if(QDELETED(src))
+					return
+				var/songname = strip_html(entry, MAX_NAME_LEN)
+				if(!songname || songname == "Upload New Song")
+					songname = copytext(path, findlasttext(path, "/") + 1)
+				song_list[songname] = newfile
 				return
 
 			curfile = song_list[choice]

@@ -1,4 +1,4 @@
-/datum/config_entry/flag/autoadmin  // if autoadmin is enabled
+/datum/config_entry/flag/autoadmin	// if autoadmin is enabled
 	protection = CONFIG_ENTRY_LOCKED
 
 /datum/config_entry/string/autoadmin_rank	// the rank for autoadmins
@@ -87,8 +87,6 @@
 
 /datum/config_entry/flag/log_job_debug	// log roundstart divide occupations debug information to a file
 
-/datum/config_entry/flag/allow_admin_ooccolor	// Allows admins with relevant permissions to have their own ooc colour
-
 /datum/config_entry/flag/allow_admin_asaycolor //Allows admins with relevant permissions to have a personalized asay color
 
 /datum/config_entry/flag/allow_vote_restart	// allow votes to restart
@@ -102,7 +100,7 @@
 	integer = FALSE
 	min_val = 0
 
-/datum/config_entry/number/vote_period  // length of voting period (deciseconds, default 1 minute)
+/datum/config_entry/number/vote_period	// length of voting period (deciseconds, default 1 minute)
 	config_entry_value = 600
 	integer = FALSE
 	min_val = 0
@@ -119,7 +117,7 @@
 	config_entry_value = 20
 	integer = FALSE
 	min_val = 1
-	max_val = 100   //byond will start crapping out at 50, so this is just ridic
+	max_val = 100	//byond will start crapping out at 50, so this is just ridic
 	var/sync_validate = FALSE
 
 /datum/config_entry/number/fps/ValidateAndSet(str_val)
@@ -286,14 +284,6 @@
 	min_val = 0
 	integer = FALSE
 
-/datum/config_entry/flag/maprotation
-
-/datum/config_entry/number/maprotatechancedelta
-	config_entry_value = 0.75
-	min_val = 0
-	max_val = 1
-	integer = FALSE
-
 /datum/config_entry/number/soft_popcap
 	config_entry_value = null
 	min_val = 0
@@ -371,14 +361,6 @@
 /datum/config_entry/flag/announce_admin_logout
 
 /datum/config_entry/flag/announce_admin_login
-
-/datum/config_entry/flag/allow_map_voting
-	deprecated_by = /datum/config_entry/flag/preference_map_voting
-
-/datum/config_entry/flag/allow_map_voting/DeprecationUpdate(value)
-	return value
-
-/datum/config_entry/flag/preference_map_voting
 
 /datum/config_entry/number/client_warn_version
 	config_entry_value = null

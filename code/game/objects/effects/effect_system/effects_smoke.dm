@@ -31,7 +31,7 @@
 			set_opacity(0) //if we were blocking view, we aren't now because we're fading out
 		stoplag()
 
-/obj/effect/particle_effect/smoke/Initialize()
+/obj/effect/particle_effect/smoke/Initialize(mapload)
 	. = ..()
 	create_reagents(500)
 	START_PROCESSING(SSobj, src)
@@ -167,8 +167,8 @@
 
 
 /obj/effect/particle_effect/smoke/healing_gas
-  color = "#da4011"
-  lifetime = 15
+	color = "#da4011"
+	lifetime = 15
 
 /obj/effect/particle_effect/smoke/healing_gas/smoke_mob(mob/living/carbon/M)
 	breathin = TRUE

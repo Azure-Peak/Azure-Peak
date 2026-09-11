@@ -47,7 +47,7 @@ SUBSYSTEM_DEF(hunting)
 /datum/controller/subsystem/hunting/fire(resumed = 0)
 	if(!(SSticker.current_state == GAME_STATE_PLAYING && active_spawners.len > 0))
 		return
-	//to_chat(world, span_alert("SSHunting: Firing. Managing [active_spawners.len] spawner landmarks."))
+	//to_world(span_alert("SSHunting: Firing. Managing [active_spawners.len] spawner landmarks."))
 
 	var/amount_to_respawn = max(1, round(active_spawners.len * 0.25))
 
@@ -57,13 +57,13 @@ SUBSYSTEM_DEF(hunting)
 			active_spawners -= JS
 			continue
 
-		//to_chat(world, span_alert("SSHunting: Spawning new trail at [JS.x], [JS.y]."))
+		//to_world(span_alert("SSHunting: Spawning new trail at [JS.x], [JS.y]."))
 		JS.respawn_trail()
 
-/datum/controller/subsystem/hunting/Initialize()
+/datum/controller/subsystem/hunting/Initialize(mapload)
 	. = ..()
 	for(var/group_type in subtypesof(/datum/hunting_area_group))
-		var/datum/hunting_area_group/GA = new group_type() 
+		var/datum/hunting_area_group/GA = new group_type()
 		var/list/group_list = GA.get_areas()
 
 		if(!group_list || !group_list.len)

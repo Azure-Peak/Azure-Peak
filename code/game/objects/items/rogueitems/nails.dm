@@ -1,5 +1,5 @@
 /////////////
-//  Nails  //
+//	Nails	//
 ////////////
 
 /obj/item/construction/nail

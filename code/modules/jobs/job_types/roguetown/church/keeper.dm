@@ -17,9 +17,9 @@
 	round_contrib_points = 3
 
 	job_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_HOMESTEAD_EXPERT,
-						  TRAIT_ALCHEMY_EXPERT, TRAIT_SEWING_EXPERT,
-						  TRAIT_SURVIVAL_EXPERT, TRAIT_NOSTINK,
-						  TRAIT_GRABIMMUNE, TRAIT_STEELHEARTED)
+							TRAIT_ALCHEMY_EXPERT, TRAIT_SEWING_EXPERT,
+							TRAIT_SURVIVAL_EXPERT, TRAIT_NOSTINK,
+							TRAIT_GRABIMMUNE, TRAIT_STEELHEARTED)
 
 	advclass_cat_rolls = list(CTAG_KEEPER = 2)
 	job_subclasses = list(
@@ -65,25 +65,25 @@
 	..()
 	neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 	cloak = /obj/item/clothing/cloak/templar/pestran
-	gloves = /obj/item/clothing/gloves/roguetown/leather
+	gloves = /obj/item/clothing/gloves/roguetown/angle/phys //unique to keepers, they get the armored varient
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran/keeper
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	belt = /obj/item/storage/belt/rogue/leather
+	shoes = /obj/item/clothing/shoes/courtphysician/female/keeper //aurafarming, you can always swap these out with loadout items [unique varient that only keepers get]
+	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/keeper
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
-							 /obj/item/rogueweapon/scabbard/sheath = 1,
-							 /obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-							 /obj/item/heart_canister = 2,
-							 /obj/item/heart_blood_vial/filled = 2,
-							 /obj/item/heart_blood_canister/filled = 1,
-							 /obj/item/heart_blood_vial = 5,
-							 /obj/item/heart_blood_canister = 1,
-							 /obj/item/storage/keyring/keeper = 1)
+								/obj/item/rogueweapon/scabbard/sheath = 1,
+								/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
+								/obj/item/heart_canister = 2,
+								/obj/item/heart_blood_vial/filled = 2,
+								/obj/item/heart_blood_canister/filled = 1,
+								/obj/item/heart_blood_vial = 5,
+								/obj/item/heart_blood_canister = 1,
+								/obj/item/storage/keyring/keeper = 1)
 	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H))
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)

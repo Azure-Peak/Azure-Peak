@@ -55,7 +55,7 @@
 	. += span_info("Needles require fibers to stitch, which can be found by cutting grass or foraging through bushes.")
 	. += span_info("To rethread an emptied needle, left-click it with a strand of fiber. A fiber bundle works too, and will keep feeding strands in one at a time until the needle is full.")
 
-/obj/item/needle/Initialize()
+/obj/item/needle/Initialize(mapload)
 	. = ..()
 	thread_overlay = mutable_appearance(icon, "[icon_state]string")
 	if(stringamt > 0)

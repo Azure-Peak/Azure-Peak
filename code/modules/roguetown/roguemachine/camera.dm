@@ -26,7 +26,7 @@
 	icon_state = "camera-br"
 	SSroguemachine.cameras -= src
 
-/obj/structure/roguemachine/camera/Initialize()
+/obj/structure/roguemachine/camera/Initialize(mapload)
 	. = ..()
 	set_light(1, 1, 1, l_color = "#ff0d0d")
 	SSroguemachine.cameras += src

@@ -112,6 +112,11 @@
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
 
+/obj/item/clothing/head/roguetown/helmet/leather/saiga/druid //armored skull for drip. haha, no.
+	name = "worn saiga skull"
+	desc = "The skull of a once-fearsome saiga. Looks like its sustained some damage and won't protect your skull."
+	armor = ARMOR_CLOTHING //no armor
+
 /obj/item/clothing/head/roguetown/helmet/leather/advanced
 	name = "hardened leather helmet"
 	desc = "Sturdy, durable, flexible. A comfortable and reliable hood made of hardened leather."
@@ -174,7 +179,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 
-/obj/item/clothing/head/roguetown/grenzelhofthat/Initialize()
+/obj/item/clothing/head/roguetown/grenzelhofthat/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -197,7 +202,7 @@
 /obj/item/clothing/head/roguetown/grenzelhofthat/loadout
 	name = "aesthetic grenzelhoft plume hat"
 
-/obj/item/clothing/head/roguetown/grenzelhofthat/loadout/Initialize()
+/obj/item/clothing/head/roguetown/grenzelhofthat/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -238,6 +243,6 @@
 /obj/item/clothing/head/roguetown/mentorhat/loadout
 	name = "aesthetic worn bamboo hat"
 
-/obj/item/clothing/head/roguetown/mentorhat/loadout/Initialize()
+/obj/item/clothing/head/roguetown/mentorhat/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()

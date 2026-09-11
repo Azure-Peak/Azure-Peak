@@ -8,12 +8,12 @@
 	var/unlocked = FALSE
 	var/is_recipe_node = FALSE
 
-	var/required_tier = 1        	// Heartbeast Language Tier requirement
-	var/cost = 50                	// Tech Points cost
+	var/required_tier = 1			// Heartbeast Language Tier requirement
+	var/cost = 50					// Tech Points cost
 	var/list/prerequisites = list() // List of required node paths
 	var/recipe_override = null
 
-	var/selection_weight = 10    // Higher number = more likely to appear
+	var/selection_weight = 10	// Higher number = more likely to appear
 	/// If TRUE, broadcasts a message to eligible players upon being unlocked.
 	var/should_notify = FALSE
 	/// Custom text to show when unlocked. If null, defaults to a standard message.

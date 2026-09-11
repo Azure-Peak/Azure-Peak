@@ -20,7 +20,7 @@
 		to_chat(user, "<span class='boldwarning'>I cannot send IC messages (muted).</span>")
 		return FALSE
 	else if(!params)
-		var/custom_emote = copytext(sanitize(input("What does your character subtly do?") as text|null), 1, MAX_MESSAGE_LEN)
+		var/custom_emote = copytext(sanitize(input(user, "What does your character subtly do?") as text|null), 1, MAX_MESSAGE_LEN)
 		if(custom_emote)
 			message = custom_emote
 			emote_type = EMOTE_VISIBLE
@@ -34,16 +34,9 @@
 		message = trim(replacetext(message, "$n", "<b>[user]</b>"))
 	else
 		message = "<b>[user]</b> " + message
-/*
-	for(var/mob/M in GLOB.dead_mob_list)
-		if(!M.client || isnewplayer(M))
-			continue
-		var/T = get_turf(user)
-		if(M.stat == DEAD && M.client && (M.client.prefs?.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
-			M.show_message(message)*/
 	user.do_subtle_emote(message)
 
-/mob/proc/do_subtle_emote(var/message)
+/mob/proc/do_subtle_emote(message)
 	var/distance = 4
 	var/list/ghostless = get_hearers_in_view(distance, src)
 	var/list/mobsinview = list()

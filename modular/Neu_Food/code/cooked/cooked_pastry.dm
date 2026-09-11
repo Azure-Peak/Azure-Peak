@@ -1,5 +1,5 @@
 // For definition - any non-bread premium product dough that is also not a cake.
-/*	.................   Pastry   ................... */
+/*	.................	Pastry	................... */
 /obj/item/reagent_containers/food/snacks/rogue/pastry
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -115,7 +115,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 
-/*	.................   Cookies  ................... */
+/*	.................	Cookies	................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/halfcookie_raw
 	name = "slab of half-done cookiedough"
 	desc = "Doughy, soft, and speckled with chocolate. A little less than 'unacceptable', but still far too raw to peck at.. maybe some more chocolate, to round it out?"
@@ -462,7 +462,7 @@
 	bitesize = 3
 	eat_effect = /datum/status_effect/buff/snackbuff
 
-/*	.............   Pumpkin balls   ................ */
+/*	.............	Pumpkin balls	................ */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw
 	name = "uncooked pumpkin ball"
 	desc = "A simple ball of dough, yearning to be cookied or fried."
@@ -498,7 +498,7 @@
 		icon_state = "pumpkinball1"
 		name = "pumpkin ball"
 
-/*	.............   Pumpkin loaf   ................ */
+/*	.............	Pumpkin loaf	................ */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinloaf_raw
 	name = "raw pumpkin loaf"
 	desc = "Into the oven you go!"
@@ -692,7 +692,7 @@
 		rotprocess = SHELFLIFE_DECENT
 		addtimer(CALLBACK(src, PROC_REF(begin_rotting)), 20, TIMER_CLIENT_TIME)
 
-/*	.................   Muffins   ................... */
+/*	.................	Muffins	................... */
 /obj/item/reagent_containers/food/snacks/rogue/muffin
 	dish_type = DISH_PASTRY
 	name = "muffin"
@@ -741,7 +741,7 @@
 	faretype = FARE_FINE
 	cooked_type = null
 
-/*	.................   Strudel   ................... */
+/*	.................	Strudel	................... */
 /obj/item/reagent_containers/food/snacks/rogue/strudel
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_PASTRY
@@ -795,7 +795,7 @@
 	tastes = list("crispy apples" = 1, "rocknut" = 1 ,"sugar" = 1)
 	faretype = FARE_LAVISH
 
-/*	.................   Tarts  ................... */
+/*	.................	Tarts	................... */
 /obj/item/reagent_containers/food/snacks/rogue/dot_tart
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -869,11 +869,11 @@
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 10)
 	tastes = list("crispy dough" = 1, "divinely fruity sweetness" = 1)
 
-/obj/item/reagent_containers/food/snacks/rogue/dot_tart/goldapple/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 155, "size" = 1))
+/obj/item/reagent_containers/food/snacks/rogue/dot_tart/goldapple/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 155, "size" = 1))
 
-/*	.................   Bookbread   ................... */
+/*	.................	Bookbread	................... */
 /obj/item/reagent_containers/food/snacks/rogue/bookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_PASTRY

@@ -19,6 +19,9 @@
 	var/word
 	var/style = "info"
 	switch(item_quality)
+		if(ITEM_QUALITY_WORN)
+			word = "worn"
+			style = "warning"
 		if(ITEM_QUALITY_LOOTED)
 			word = "scavenged"
 			style = "warning"
@@ -179,4 +182,3 @@
 				if(80 to 99)
 					result = span_warning("It's a little damaged.")
 	return result
-	

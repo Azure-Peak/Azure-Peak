@@ -6,8 +6,8 @@
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "ladder11"
 	anchored = TRUE
-	var/obj/structure/ladder/down   //the ladder below this one
-	var/obj/structure/ladder/up     //the ladder above this one
+	var/obj/structure/ladder/down	//the ladder below this one
+	var/obj/structure/ladder/up		//the ladder above this one
 	obj_flags = BLOCK_Z_OUT_DOWN
 	max_integrity = 0
 
@@ -38,13 +38,13 @@
 		L = locate() in GET_TURF_BELOW(T)
 		if (L)
 			down = L
-			L.up = src  // Don't waste effort looping the other way
+			L.up = src	// Don't waste effort looping the other way
 			L.update_icon()
 	if (!up)
 		L = locate() in GET_TURF_ABOVE(T)
 		if (L)
 			up = L
-			L.down = src  // Don't waste effort looping the other way
+			L.down = src	// Don't waste effort looping the other way
 			L.update_icon()
 
 	update_icon()
@@ -94,9 +94,9 @@
 		return
 
 	if (up && down)
-		var/result = alert("Go up or down [src]?", "Ladder", "Up", "Down", "Cancel")
+		var/result = alert(user, "Go up or down [src]?", "Ladder", "Up", "Down", "Cancel")
 		if (!in_range(src, user))
-			return  // nice try
+			return	// nice try
 		switch(result)
 			if("Up")
 				travel(TRUE, user, is_ghost, up)
@@ -141,9 +141,9 @@
 	desc = ""
 	resistance_flags = INDESTRUCTIBLE
 	var/id
-	var/height = 0  // higher numbers are considered physically higher
+	var/height = 0	// higher numbers are considered physically higher
 
-/obj/structure/ladder/unbreakable/Initialize()
+/obj/structure/ladder/unbreakable/Initialize(mapload)
 	GLOB.ladders += src
 	return ..()
 
@@ -161,19 +161,19 @@
 	for (var/O in GLOB.ladders)
 		var/obj/structure/ladder/unbreakable/L = O
 		if (L.id != id)
-			continue  // not one of our pals
+			continue	// not one of our pals
 		if (!down && L.height == height - 1)
 			down = L
 			L.up = src
 			L.update_icon()
 			if (up)
-				break  // break if both our connections are filled
+				break	// break if both our connections are filled
 		else if (!up && L.height == height + 1)
 			up = L
 			L.down = src
 			L.update_icon()
 			if (down)
-				break  // break if both our connections are filled
+				break	// break if both our connections are filled
 
 	update_icon()
 
@@ -199,8 +199,8 @@
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "ladderwall"
 	anchored = TRUE
-	var/obj/structure/ladder/down   //the ladder below this one
-	var/obj/structure/ladder/up     //the ladder above this one
+	var/obj/structure/ladder/down	//the ladder below this one
+	var/obj/structure/ladder/up		//the ladder above this one
 	obj_flags = BLOCK_Z_OUT_DOWN
 	max_integrity = 200
 	blade_dulling = DULLING_BASHCHOP

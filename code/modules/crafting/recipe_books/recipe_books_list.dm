@@ -177,12 +177,13 @@
 
 	types = list(
 		/datum/food_recipe,
-		/datum/stew_recipe,
+		/datum/container_craft,
 		/datum/crafting_recipe/roguetown/cooking,
 		/datum/book_entry/cooking_basics,
 		/datum/book_entry/cooking_ingredients,
 		/datum/book_entry/cooking_pies,
 		/datum/book_entry/cooking_deepfry,
+		/datum/book_entry/container_craft,
 		/datum/book_entry/cuisine
 	)
 

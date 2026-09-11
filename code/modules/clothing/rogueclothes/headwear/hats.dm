@@ -436,7 +436,7 @@
 	worn_y_dimension = 64
 	sewrepair = TRUE
 
-/obj/item/clothing/head/roguetown/wizhat/Initialize()
+/obj/item/clothing/head/roguetown/wizhat/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -522,7 +522,7 @@
 
 // azure addition - random wizard hats
 
-/obj/item/clothing/head/roguetown/wizhat/random/Initialize()
+/obj/item/clothing/head/roguetown/wizhat/random/Initialize(mapload)
 	color = pick(CLOTHING_MAGE_GREEN, CLOTHING_SCARLET, CLOTHING_MAGE_BLUE, CLOTHING_BLACK)
 	..()
 
@@ -668,7 +668,7 @@
 	salvage_result = /obj/item/natural/silk
 	sewrepair = TRUE
 
-/obj/item/clothing/head/roguetown/courtphysician/Initialize()
+/obj/item/clothing/head/roguetown/courtphysician/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -689,7 +689,7 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_RED
 
-/obj/item/clothing/head/roguetown/courtphysician/female/Initialize()
+/obj/item/clothing/head/roguetown/courtphysician/female/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -707,3 +707,26 @@
 	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
 	icon_state = "maidband"
 	body_parts_covered = NONE
+
+/obj/item/clothing/head/roguetown/rosa
+	name = "scarlet hat"
+	desc = "A finely crafted hat of silk and leather, adorned with rosas. It continues the tradition of wide brimmed Otavan hats."
+	icon_state = "rosahat2"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+
+/obj/item/clothing/head/roguetown/rosa/three
+	name = "velvet hat"
+	icon_state = "rosahat3"
+
+/obj/item/clothing/head/roguetown/rosa/four
+	name = "obsidian hat"
+	icon_state = "rosahat4"
+
+/obj/item/clothing/head/roguetown/rosa/five
+	name = "sable hat"
+	icon_state = "rosahat5"
+
+/obj/item/clothing/head/roguetown/rosa/six
+	name = "maroon cap"
+	icon_state = "rosahat6"

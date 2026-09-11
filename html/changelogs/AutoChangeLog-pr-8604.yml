@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - bugfix: "Fixed blunt dealing incorrect amounts of damage to Exposed-affected mobs."

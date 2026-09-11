@@ -1,41 +1,4 @@
-/datum/vision_quest/abyssor_mutated
-	name = "The Deepfather"
-	description = "He calls out from depths, you answer."
-	required_tier = 3
-	possible_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
-	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
-	target_description = "unknown"
-	summary = "It cannot be."
-	vision_text = "Darkness envelops me. \
-	Walls rise up, I'm ever sinking deeper. A rounded pit ever sinking deeper into the abyss. \
-	The light of the surface long gone. I'm alone, abandoned. \
-	The writhing won't stop. A cloying shroud that presses in, tasting of iron and forgotten things. \
-	I peer down, an undulating mass under my feet. \
-	I have no feet, the creeping slime has enveloped them. It is just I, and the horror at the bottom of his great expanse. \
-	Countless eyes like pearls, slide open from the uniform, writhing mass, surrounding me. \
-	Tendrils caress my back, filling every pore with a suffocating intimacy. Crevices between the flesh I did not know to possess. \
-	\n\nWhen the squirming darkness finally parts, a suffocating warmth settles. A red glow suffuses the void, whilst my footing is found upon a mighty, pulsating rock. \
-	The realization hits. Abyssor? Is that you? \
-	Mishapen, tumorous and decrepit. A form no longer bearing Psydon's grace. It matters naught. \
-	He is a sleeping giant not at peace, but tormented by a fever-dream. The past distant, where he stood above the seas, as SYON approaches. \
-	The fragment lies here now, an affliction. The flesh burns where it touches the stone, not just mine, but His just the same. \
-	A challenge to overcome, we must be greater, for His struggle is the greatest."
-	possible_phrases = list(
-		"The deepfather is ill",
-		"Abyssor requires your faith",
-		"Some tumors are pure",
-		"His sleep is pained"
-	)
-	valid_roles = list()
-	// Any role is valid.
-
-/datum/vision_quest/dreamfiend
+/datum/vision_quest/tier_3
 	name = "The Dreameater"
 	description = "It calls out from depths, you answer."
 	required_tier = 3
@@ -73,18 +36,37 @@
 		"naledi speaks of daemons, the dream speaks of fiends"
 	)
 
-/datum/vision_quest/leviathan
+/datum/vision_quest/tier_3/abyssor_mutated
+	name = "The Deepfather"
+	description = "He calls out from depths, you answer."
+	target_description = "unknown"
+	summary = "It cannot be."
+	vision_text = "Darkness envelops me. \
+	Walls rise up, I'm ever sinking deeper. A rounded pit ever sinking deeper into the abyss. \
+	The light of the surface long gone. I'm alone, abandoned. \
+	The writhing won't stop. A cloying shroud that presses in, tasting of iron and forgotten things. \
+	I peer down, an undulating mass under my feet. \
+	I have no feet, the creeping slime has enveloped them. It is just I, and the horror at the bottom of his great expanse. \
+	Countless eyes like pearls, slide open from the uniform, writhing mass, surrounding me. \
+	Tendrils caress my back, filling every pore with a suffocating intimacy. Crevices between the flesh I did not know to possess. \
+	\n\nWhen the squirming darkness finally parts, a suffocating warmth settles. A red glow suffuses the void, whilst my footing is found upon a mighty, pulsating rock. \
+	The realization hits. Abyssor? Is that you? \
+	Mishapen, tumorous and decrepit. A form no longer bearing Psydon's grace. It matters naught. \
+	He is a sleeping giant not at peace, but tormented by a fever-dream. The past distant, where he stood above the seas, as SYON approaches. \
+	The fragment lies here now, an affliction. The flesh burns where it touches the stone, not just mine, but His just the same. \
+	A challenge to overcome, we must be greater, for His struggle is the greatest."
+	possible_phrases = list(
+		"The deepfather is ill",
+		"Abyssor requires your faith",
+		"Some tumors are pure",
+		"His sleep is pained"
+	)
+	valid_roles = list()
+	// Any role is valid.
+
+/datum/vision_quest/tier_3/leviathan
 	name = "The Leviathan"
 	description = "It calls out from depths, you answer."
-	required_tier = 3
-	possible_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
-	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
 	target_description = "unknown"
 	summary = "There are angels under the surface."
 	vision_text = "The surface of the water ripples. \
@@ -111,18 +93,9 @@
 		"leviathans desire to invade the land"
 	)
 
-/datum/vision_quest/deadly_waters
+/datum/vision_quest/tier_3/deadly_waters
 	name = "The Drowned"
 	description = "They call out from depths, you answer."
-	required_tier = 3
-	possible_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
-	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
 	target_description = "unknown"
 	summary = "We cannot inherit His domain."
 	vision_text = "The storm calms, the last couple drops of His torrent dimple the beach sand. \
@@ -148,18 +121,9 @@
 		"ships do not tame the seas"
 	)
 
-/datum/vision_quest/black_salt
+/datum/vision_quest/tier_3/black_salt
 	name = "The Salt"
 	description = "The water calls, and you must consume."
-	required_tier = 3
-	possible_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
-	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_shards = "distant shards",
-		/obj/item/dream_material/dream_star = "wronged stars"
-	)
 	target_description = "unknown"
 	summary = "Salt is His holy gift to us."
 	vision_text = "So incredibly parched. \
@@ -186,3 +150,59 @@
 		"the waves will embrace you",
 		"seek meaning in the salt"
 	)
+
+/datum/vision_quest/tier_3/day_six_psydon
+	name = "The Tide Below"
+	description = "The deep dark waters bubble up through the cellar tiles, carrying old secrets."
+	target_description = "unknown"
+	summary = "The subterranean depths reclaim the surface on Psydon's Dae."
+	vision_text = "Brine trickles up through the cracks in the flagstones, cold and smelling of kelp. \
+	By noon, the throne room is ankle-deep in black water that ripples without disturbance. \
+	Things with pale, translucent ribs dart beneath the surface, bumping against the legs of sleeping guards. \
+	The well sings of old grievances buried by time. Unearthed by the tides. \
+	Hands grip the legs, whispers of truth delivered through the marrow instead of deaf ears. \
+	Of the injustice unseen in great wars of the past, the lies between spouses, otherwise only sung by zad or rat alike. \
+	The dessicated husk of an old councillor, now languishing in the sewers, a service lended by a great scheme. \
+	Psydon's Dae dredges up the stains of the past."
+	possible_phrases = list(
+		"Psydon's Dae shall reveal old secrets",
+		"On Psydon's Dae hidden truths of the past must be spoken",
+		"On Psydon's Dae, the guilty shall confess",
+		"Drink no water on Psydon's Dae"
+	)
+
+/datum/vision_quest/tier_3/day_six_psydon/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	var/current_day = get_current_day_of_week()
+	if(current_day > 5)
+		return FALSE
+	if(!..())
+		return FALSE
+	return TRUE
+
+/datum/vision_quest/tier_3/day_seven_sun
+	name = "The White Zenith"
+	description = "The zenith fire blazes white, consuming all decay and forging new iron."
+	target_description = "unknown"
+	summary = "Solar fire purges the old world to make way for new growth on Sun's Dae."
+	vision_text = "Astrata reaches its zenith and locks into place, shedding its amber glow for a searing heat. \
+	The air turns thick, yet nothing catches instead, rotting wood turns back to green saplings, and rusted iron sheds its flakes like dry skin. \
+	Crowds gather under the blaze, shedding heavy cloaks as old scars itch with new life. \
+	Yet those burdened by corrupt blood or rotting minds feel the heat sink straight into their lux, cooking them from within. \
+	Next are those who would doubt the light, melting together into a formless mass so that they may finally agree. \
+	Her light, her truth, her future. Even the very earth does not shield the unfaithful. \
+	Malum's mantle abused by the craven, turned into a boiling coffin under her radiance. \
+	Sun's Dae melts the crucible down, forging either a weapon or worthless slag."
+	possible_phrases = list(
+		"Sun's Dae shall burn away the rot",
+		"On Sun's Dae the old iron is forged anew",
+		"On Sun's Dae, the weak shall wither in the blaze",
+		"The zenith sun shall spare only the tempered"
+	)
+
+/datum/vision_quest/tier_3/day_seven_sun/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	var/current_day = get_current_day_of_week()
+	if(current_day > 6)
+		return FALSE
+	if(!..())
+		return FALSE
+	return TRUE

@@ -139,9 +139,7 @@
 	accuracy = 60
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	npc_simple_damage_mult = 1.5
 	intdamfactor = 1
-	movement_type = UNSTOPPABLE
 	ricochets_max = 5
 	ricochet_chance = 100
 	ricochet_auto_aim_angle = 40

@@ -6,7 +6,7 @@
 	name = "Orison"
 	desc = "The fundamental teachings of theology return to you:\n \
 	<b>Light</b>: Issue a prayer for illumination, causing you or another living creature to begin glowing with light for five minutes - this stacks each time you cast it, with no upper limit. Using thaumaturgy on a person will remove this blessing from them, and MMB on your praying hand will remove any light blessings from yourself.\n \
-	<b>Fill</b>: Beseech your Divine to create a small quantity of water in a container that you touch for some devotion.\n \
+	<b>Fill</b>: Beseech your Divine to create a small quantity of water in a container that you touch for some devotion. Pestrans create foul-tasting medicine. Baothans create sweet, soothing wine. \n \
 	<b>Voice</b>: Direct a sliver of divine thaumaturgy into your being, causing your voice to become LOUD when you next speak. Known to sometimes scare the rats inside the SCOMlines. Can be used on light sources at range, and it will cause them flicker.\n \
 	<b>Bless</b>: Utter a prayer for redemption to your Divine to bring a repentant soul into their flock. The close bonds of the Ten uniquely allow an initiate to choose whichever they feel closest to. THIS IS ONLY TO BE USED AFTER A CONVERSION IN ROLEPLAY. DO NOT USE THIS WITHOUT A ROLEPLAY BASIS OR THERE WILL BE DIRE CONSEQUENCES."
 
@@ -284,10 +284,10 @@
 /datum/reagent/water/blessed/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_UNDEAD)
-		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(0.5	* REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -310,7 +310,8 @@
 
 	if (method == TOUCH)
 		if (M.mob_biotypes & MOB_UNDEAD)
-			M.adjustFireLoss(2*reac_volume, 0)
+			var/effective_volume = min(reac_volume, 30) // realistically the entire pot isn't going to be metabolized if you throw it at someone. also you could basically instakill with this so
+			M.adjustFireLoss(2*effective_volume, 0)
 			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("DAMNATION, BLESSED WATER! IT BUUUURNS!"))
 			M.emote("scream")
 
@@ -326,8 +327,8 @@
 	if(istype(M,/mob/living/carbon/human/))
 		M_hum = M
 	if((M.mob_biotypes & MOB_UNDEAD) || (M_hum.patron.undead_hater == FALSE))
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -335,15 +336,15 @@
 			if (upd)
 				M.update_damage_overlays()
 	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
 			var/upd = M.heal_wounds(1)
 			if (upd)
 				M.update_damage_overlays()
-		M.stamina_add(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.stamina_add(0.5	* REAGENTS_EFFECT_MULTIPLIER)
 
 /datum/reagent/water/medicine
 	name = "Pestran Medicine"
@@ -368,6 +369,30 @@
 		if(wCount.len > 0)
 			M.heal_wounds(2)
 		..()
+
+/datum/reagent/consumable/ethanol/loversruin //slightly worse healing than pestran med with same booze power as wine, very possible to have negative effects
+	name = "Lover's Ruin"
+	description = "A sweet smelling concoction. It has small charred petals swimming on the surface."
+	color = "#9c2745"
+	taste_description = "numbness-sweetened winery"
+	boozepwr = 30
+
+/datum/reagent/consumable/ethanol/loversruin/on_mob_life(mob/living/carbon/M)
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/consumable/ethanol/loversruin, 2)
+	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(2, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.4 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.4 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-0.4, 0)
+		M.adjustToxLoss(-0.4, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5 * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-4 * REAGENTS_EFFECT_MULTIPLIER, 0)
+	..()
 
 /datum/action/cooldown/spell/touch/orison/proc/create_water(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	// normally we wouldn't use fatigue here to keep in line w/ other holy magic, but we have to since water is a persistent resource
@@ -396,6 +421,8 @@
 				water_contents = list(/datum/reagent/water/blessed = water_qty)
 			if(caster.patron.name == "Pestra")
 				water_contents = list(/datum/reagent/water/medicine = water_qty)
+			if(caster.patron.name == "Baotha")
+				water_contents = list(/datum/reagent/consumable/ethanol/loversruin = water_qty)
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
 			reagents_to_add.trans_to(victim, reagents_to_add.total_volume, transfered_by = caster)
@@ -621,12 +648,13 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		// however, they can have TRAIT_PSYDONITE as a treat
 		ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)
 
-	// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording
-	if(istype(new_convert.patron, /datum/patron/old_god))
-		caster.add_stress(/datum/stressevent/convert/psydon)
-	else
-		caster.add_stress(/datum/stressevent/convert)
-	new_convert.add_stress(/datum/stressevent/convert/recipient)
+	if(!(ispath(new_patron, /datum/patron/divine) && istype(old_patron, /datum/patron/divine))) // sigh.
+		// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording
+		if(istype(new_convert.patron, /datum/patron/old_god))
+			caster.add_stress(/datum/stressevent/convert/psydon)
+		else
+			caster.add_stress(/datum/stressevent/convert)
+		new_convert.add_stress(/datum/stressevent/convert/recipient)
 
 	message_admins("CONVERSION: [caster.real_name] ([caster.ckey]) has converted [new_convert.real_name] ([new_convert.ckey]) to [new_convert.patron.name]")
 	log_game("CONVERSION: [caster.real_name] ([caster.ckey]) converted [new_convert.real_name] ([new_convert.ckey]) to [new_convert.patron.name]")

@@ -15,10 +15,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	race = /datum/species/human/northern
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
-					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
+						/obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	faction = list(FACTION_UNDEAD)
 	var/skel_outfit = /datum/outfit/job/roguetown/npc/skeleton
 	var/skel_fragile = FALSE
+	var/skel_untamable = FALSE
 	ambushable = FALSE
 	rot_type = null
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
@@ -26,12 +27,19 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
 	cmode_music = 'sound/music/combat_weird.ogg'
+	taints_loot = TRUE
 
 /mob/living/carbon/human/species/skeleton/npc
 	ambush_faction = "undead"
 	ai_controller = /datum/ai_controller/human_npc
 	skel_fragile = TRUE
 	blood_toll_bucket = STATS_KILLED_DEADITES
+	var/list/skel_outfit_spread
+
+/mob/living/carbon/human/species/skeleton/npc/Initialize(mapload)
+	if(length(skel_outfit_spread))
+		skel_outfit = pick(skel_outfit_spread)
+	return ..()
 
 /mob/living/carbon/human/species/skeleton/npc/after_creation()
 	..()
@@ -45,7 +53,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
-/mob/living/carbon/human/species/skeleton/Initialize()
+/mob/living/carbon/human/species/skeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()
 	spawn(10)
@@ -80,6 +88,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	if(skel_untamable) //For Re-Factionised Groups
+		ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC)
 	if(skel_fragile)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	else
@@ -123,6 +133,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/no_equipment/after_creation()
 	..()
 	STAINT = 1
+	if(src.charflaws)
+		for(var/datum/charflaw/cf in src.charflaws)
+			src.charflaws.Remove(cf)
+			QDEL_NULL(cf)
+
 
 /mob/living/carbon/human/species/skeleton/no_equipment
 	skel_outfit = null
@@ -136,6 +151,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 			if(W.resolve() == src)
 				active_crystal.active_skeletons -= W
 	active_crystal = null
+	playsound(src, pick('sound/vo/mobs/skel/skeleton_death (1).ogg','sound/vo/mobs/skel/skeleton_death (2).ogg','sound/vo/mobs/skel/skeleton_death (3).ogg','sound/vo/mobs/skel/skeleton_death (4).ogg','sound/vo/mobs/skel/skeleton_death (5).ogg'), 60, TRUE)
 	gib(no_brain = TRUE, no_organs = TRUE)
 
 ////////////////////////////////
@@ -159,6 +175,11 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	release_conjured_gear()
 	return ..()
 
+/mob/living/carbon/human/species/skeleton/conjured/death(gibbed, nocutscene = FALSE)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
+
 /mob/living/carbon/human/species/skeleton/conjured/after_creation()
 	..()
 
@@ -172,6 +193,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ADD_TRAIT(src, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CABAL, TRAIT_GENERIC)
+
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the Zizite cleric for a gravemark, sire.
 
 	var/datum/component/conjured_minion/minion = GetComponent(/datum/component/conjured_minion)
 	var/mob/living/master = minion?.summoner_ref?.resolve()
@@ -204,13 +227,16 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 	equipOutfit(outfit)
 
-	for(var/obj/item/gear in (get_equipped_items() + held_items))
-		ADD_TRAIT(gear, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 
 /datum/outfit/job/roguetown/conjured_skeleton
 
 /datum/outfit/job/roguetown/conjured_skeleton/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
+	ADD_TRAIT(H, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Ask the Cleric for a Gravemark
 	H.STASTR = 10
 	H.STASPD = 12
 	H.STACON = 8

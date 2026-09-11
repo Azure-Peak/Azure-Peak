@@ -276,88 +276,88 @@
 //****** RMB Intents ******
 
 /datum/keybinding/carbon/rmb_intent_1
-    hotkey_keys = list("Shift1")
-    name = "rmb_intent_1"
-    full_name = "Select Feint Stance"
-    description = "Selects the Feint RMB stance."
-    category = CATEGORY_CARBON
+	hotkey_keys = list("Shift1")
+	name = "rmb_intent_1"
+	full_name = "Select Feint Stance"
+	description = "Selects the Feint RMB stance."
+	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_1/down(client/user)
-    if (!iscarbon(user.mob))
-        return FALSE
-    var/mob/living/carbon/C = user.mob
-    C.swap_rmb_intent(null, 1)
-    return TRUE
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.swap_rmb_intent(null, 1)
+	return TRUE
 
 /datum/keybinding/carbon/rmb_intent_2
-    hotkey_keys = list("Shift2")
-    name = "rmb_intent_2"
-    full_name = "Select Aimed Stance"
-    description = "Selects the Aimed RMB stance."
-    category = CATEGORY_CARBON
+	hotkey_keys = list("Shift2")
+	name = "rmb_intent_2"
+	full_name = "Select Aimed Stance"
+	description = "Selects the Aimed RMB stance."
+	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_2/down(client/user)
-    if (!iscarbon(user.mob))
-        return FALSE
-    var/mob/living/carbon/C = user.mob
-    C.swap_rmb_intent(null, 2)
-    return TRUE
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.swap_rmb_intent(null, 2)
+	return TRUE
 
 /datum/keybinding/carbon/rmb_intent_3
-    hotkey_keys = list("Shift3")
-    name = "rmb_intent_3"
-    full_name = "Select Strong Stance"
-    description = "Selects the Strong RMB stance."
-    category = CATEGORY_CARBON
+	hotkey_keys = list("Shift3")
+	name = "rmb_intent_3"
+	full_name = "Select Strong Stance"
+	description = "Selects the Strong RMB stance."
+	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_3/down(client/user)
-    if (!iscarbon(user.mob))
-        return FALSE
-    var/mob/living/carbon/C = user.mob
-    C.swap_rmb_intent(null, 3)
-    return TRUE
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.swap_rmb_intent(null, 3)
+	return TRUE
 
 /datum/keybinding/carbon/rmb_intent_4
-    hotkey_keys = list("Shift4")
-    name = "rmb_intent_4"
-    full_name = "Select Swift Stance"
-    description = "Selects the Swift RMB stance."
-    category = CATEGORY_CARBON
+	hotkey_keys = list("Shift4")
+	name = "rmb_intent_4"
+	full_name = "Select Swift Stance"
+	description = "Selects the Swift RMB stance."
+	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_4/down(client/user)
-    if (!iscarbon(user.mob))
-        return FALSE
-    var/mob/living/carbon/C = user.mob
-    C.swap_rmb_intent(null, 4)
-    return TRUE
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.swap_rmb_intent(null, 4)
+	return TRUE
 
 /datum/keybinding/carbon/rmb_intent_5
-    hotkey_keys = list("Shift5")
-    name = "rmb_intent_5"
-    full_name = "Select Defend Stance"
-    description = "Selects the Defend RMB stance."
-    category = CATEGORY_CARBON
+	hotkey_keys = list("Shift5")
+	name = "rmb_intent_5"
+	full_name = "Select Defend Stance"
+	description = "Selects the Defend RMB stance."
+	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_5/down(client/user)
-    if (!iscarbon(user.mob))
-        return FALSE
-    var/mob/living/carbon/C = user.mob
-    C.swap_rmb_intent(null, 5)
-    return TRUE
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.swap_rmb_intent(null, 5)
+	return TRUE
 
 /datum/keybinding/carbon/rmb_intent_6
-    hotkey_keys = list("Shift6")
-    name = "rmb_intent_6"
-    full_name = "Select Weak Stance"
-    description = "Selects the Weak RMB stance."
-    category = CATEGORY_CARBON
+	hotkey_keys = list("Shift6")
+	name = "rmb_intent_6"
+	full_name = "Select Weak Stance"
+	description = "Selects the Weak RMB stance."
+	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/rmb_intent_6/down(client/user)
-    if (!iscarbon(user.mob))
-        return FALSE
-    var/mob/living/carbon/C = user.mob
-    C.swap_rmb_intent(null, 6)
-    return TRUE
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.swap_rmb_intent(null, 6)
+	return TRUE
 
 /datum/keybinding/carbon/cycle_rmb_intent
 	hotkey_keys = list("N")
@@ -372,100 +372,3 @@
 	var/mob/living/carbon/C = user.mob
 	C.cycle_rmb_intent()
 	return TRUE
-
-// ** Action Buttons **
-// I stopped at 6 because it is probably the maximum number you can comfortably reach on keyboard
-/datum/keybinding/carbon/actions
-	var/action_taken = 1
-/datum/keybinding/carbon/actions/down(client/user)
-	if(!iscarbon(user.mob))
-		return FALSE
-	var/mob/living/carbon/C = user.mob
-	var/datum/hud/H = C.hud_used
-	if(H?.rearrange_mode)
-		H.rearrange_hint(C)
-		return TRUE
-	var/count = 0
-	for(var/datum/action/A as anything in C.actions)
-		var/atom/movable/screen/movable/action_button/B = H ? A.viewers[H] : null
-		if(B && B.moved)
-			continue
-		count++
-		if(count == action_taken)
-			A.Trigger()
-			return TRUE
-	return FALSE
-
-/datum/keybinding/carbon/actions/action_1
-	hotkey_keys = list("Alt1")
-	name = "action_1"
-	full_name = "Action 1"
-	description = "Select the first action."
-	category = CATEGORY_CARBON
-	action_taken = 1
-
-/datum/keybinding/carbon/actions/action_2
-	hotkey_keys = list("Alt2")
-	name = "action_2"
-	full_name = "Action 2"
-	description = "Select the second action."
-	category = CATEGORY_CARBON
-	action_taken = 2
-
-/datum/keybinding/carbon/actions/action_3
-	hotkey_keys = list("Alt3")
-	name = "action_3"
-	full_name = "Action 3"
-	description = "Select the third action."
-	category = CATEGORY_CARBON
-	action_taken = 3
-
-/datum/keybinding/carbon/actions/action_4
-	hotkey_keys = list("Alt4")
-	name = "action_4"
-	full_name = "Action 4"
-	description = "Select the fourth action."
-	category = CATEGORY_CARBON
-	action_taken = 4
-
-/datum/keybinding/carbon/actions/action_5
-	hotkey_keys = list("Alt5")
-	name = "action_5"
-	full_name = "Action 5"
-	description = "Select the fifth action."
-	category = CATEGORY_CARBON
-	action_taken = 5
-
-/datum/keybinding/carbon/actions/action_6
-	hotkey_keys = list("Alt6")
-	name = "action_6"
-	full_name = "Action 6"
-	description = "Select the sixth action."
-	category = CATEGORY_CARBON
-	action_taken = 6
-
-/datum/keybinding/carbon/actions/action_7
-	hotkey_keys = list("Alt7")
-	name = "action_7"
-	full_name = "Action 7"
-	description = "Select the seventh action."
-	category = CATEGORY_CARBON
-	action_taken = 7
-
-
-/datum/keybinding/carbon/actions/action_8
-	hotkey_keys = list("Alt8")
-	name = "action_8"
-	full_name = "Action 8"
-	description = "Select the eighth action."
-	category = CATEGORY_CARBON
-	action_taken = 8
-
-
-/datum/keybinding/carbon/actions/action_9
-	hotkey_keys = list("Alt9")
-	name = "action_9"
-	full_name = "Action 9"
-	description = "Select the ninth action."
-	category = CATEGORY_CARBON
-	action_taken = 9

@@ -7,9 +7,9 @@
 // Tome: One-handed, lighter, less durable. Rebinds aspect spells;
 //
 // Tiers:
-//   Lesser  (Toper/Amethyst gems) - 20% refund, lowest durability
-//   Greater (Emerald-Ruby gems)   - 25% refund, mid durability
-//   Grand   (Riddle of Steel)     - 30% refund, highest durability
+//	Lesser	(Toper/Amethyst gems) - 20% refund, lowest durability
+//	Greater (Emerald-Ruby gems)	- 25% refund, mid durability
+//	Grand	(Riddle of Steel)		- 30% refund, highest durability
 //
 // Attunement glow: After a spell with an attunement_school is cast through the implement,
 // it takes on the spell's color as a subtle glow. Changes if a different element is cast.

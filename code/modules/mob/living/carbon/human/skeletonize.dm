@@ -29,7 +29,7 @@
 	eyes.Insert(src)
 	for(var/obj/item/bodypart/B in bodyparts)
 		B.skeletonize(FALSE)
-	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)
+	src.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	update_a_intents()
 
 	update_body()

@@ -12,7 +12,7 @@
 	gender = NEUTER
 	throw_speed = 0.8
 
-/obj/item/net/Initialize()
+/obj/item/net/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 

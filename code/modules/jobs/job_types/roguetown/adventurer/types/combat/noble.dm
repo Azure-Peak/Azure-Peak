@@ -72,7 +72,7 @@
 					pants = /obj/item/clothing/under/roguetown/trou/beltpants
 					shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 				if(should_wear_femme_clothes(H))
-					shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/azure
+					shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/azure
 					shoes = /obj/item/clothing/shoes/roguetown/boots
 				cloak = /obj/item/clothing/cloak/half/azure
 				head = /obj/item/clothing/head/roguetown/chaperon/noble
@@ -154,7 +154,7 @@
 				if(should_wear_masc_clothes(H))
 					armor = /obj/item/clothing/cloak/tabard/stabard/dungeon
 				if(should_wear_femme_clothes(H))
-					armor = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/raneshen
+					armor = /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/raneshen
 				shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/raneshen //Shittier version with regular gambeson protection levels
 				pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen
@@ -255,9 +255,18 @@
 				H.grant_language(/datum/language/kazengunese) //Duh
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 
-		var/proficiencies = list("Decorated Sabre + Maille Training + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
+		var/proficiencies = list("Decorated Sabre + Dodge Expert + 1 WIL", "Decorated Sabre + Maille Training + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
 		var/proficiency_choice = input(H, "Choose your proficiency.", "WHAT IS THY TALENT?") as anything in proficiencies
 		switch(proficiency_choice)
+			if("Decorated Sabre + Dodge Expert + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
+				beltl = /obj/item/rogueweapon/scabbard/sword/noble
+				r_hand = /obj/item/rogueweapon/sword/sabre/dec
+				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				H.change_stat(STATKEY_WIL, 1)
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
 			if("Decorated Sabre + Maille Training + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
@@ -294,12 +303,12 @@
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
-			if("Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER") //Huntmaster lite, a poacher or perhaps an offical hunter?
+			if("Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER") //Huntmaster lite, a poacher or perhaps an offical hunter?
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/labor/butchering, SKILL_LEVEL_APPRENTICE, TRUE) //To make it worth it w/trait too
 				H.adjust_skillrank_up_to(/datum/skill/misc/hunting, SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_PER, 1)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				beltl = /obj/item/quiver/arrows
 				backpack_contents = list(/obj/item/hunting_map/boars = 1, /obj/item/storage/belt/rogue/pouch/coins/mid = 1)
 				ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, TRAIT_GENERIC) //Unique starting prompt, you sort of did actually earn that
@@ -311,17 +320,17 @@
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_INTELLECTUAL, TRAIT_GENERIC)
 				var/crowns = list(
-					"Consort's Crown" 	= /obj/item/clothing/head/roguetown/nyle/consortcrown,
-					"Circlet" 	= /obj/item/clothing/head/roguetown/circlet,
-					"Jade Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/jade,
-					"Amber Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/amber,
-					"Shell Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/shell,
-					"Rosestone Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/rose,
-					"Cerulite Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/turq,
-					"Onyxa Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/onyxa,
-					"Heartstone Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/coral,
-					"Opal Circlet" 	= /obj/item/clothing/head/roguetown/circlet/carvedgem/opal,
-					"Hennin" 	= /obj/item/clothing/head/roguetown/hennin,
+					"Consort's Crown"	= /obj/item/clothing/head/roguetown/nyle/consortcrown,
+					"Circlet"	= /obj/item/clothing/head/roguetown/circlet,
+					"Jade Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/jade,
+					"Amber Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/amber,
+					"Shell Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/shell,
+					"Rosestone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/rose,
+					"Cerulite Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/turq,
+					"Onyxa Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/onyxa,
+					"Heartstone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/coral,
+					"Opal Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/opal,
+					"Hennin"	= /obj/item/clothing/head/roguetown/hennin,
 					"None"
 					)
 				var/crownchoice = input(H, "Choose your Crown/Hat.", "TAKE UP OPULANCE") as anything in crowns
@@ -417,7 +426,7 @@
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Sugarloaf Helmet"  = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
+			"Sugarloaf Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
 			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
 			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
 			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
@@ -425,11 +434,12 @@
 			"Snouted Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 			"Snouted Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted,
-			"Hounskull Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
-			"Etruscan Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+			"Hounskull Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+			"Etruscan Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
 			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
+			"Snouted Burgonet" = /obj/item/clothing/head/roguetown/helmet/heavy/burgonet,
 			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface,
 			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
@@ -606,7 +616,7 @@
 				backl = /obj/item/rogueweapon/shield/tower
 			if("Bow & Quiver")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				backl = /obj/item/quiver/arrows
 			if("Crossbow & Quiver")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -617,7 +627,7 @@
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 				beltr = /obj/item/quiver/sling/iron
 		var/helmets = list(
-			"Sallet" 	= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
+			"Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
 			"Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
 			"Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/iron,
 			"Chain Coif"		= /obj/item/clothing/neck/roguetown/chaincoif/iron,

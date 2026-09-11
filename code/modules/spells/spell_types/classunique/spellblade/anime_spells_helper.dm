@@ -2,7 +2,7 @@
 These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
 without going through the click pipeline, so spells can deliver weapon-style strikes. */
 
-/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, npc_simple_damage_mult = 1, intdamage_factor, exact_zone = FALSE)
+/proc/arcyne_strike(mob/living/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, intdamage_factor, exact_zone = FALSE)
 	if(!user || !target || QDELETED(user) || QDELETED(target))
 		return FALSE
 
@@ -36,6 +36,8 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		def_zone = user.zone_selected || BODY_ZONE_CHEST
 
 	// exact_zone bypasses the roll entirely, striking precisely where the caster aimed.
+	var/aimed_zone = def_zone
+	var/list/roll_out = list()
 	if(!exact_zone && def_zone != BODY_ZONE_CHEST && isliving(target))
 		// A bound weapon carries arcyne as its own skill, so Bind Armament transfers accuracy onto it.
 		var/datum/skill/accuracy_skill = weapon?.associated_skill || /datum/skill/combat/arcyne
@@ -73,8 +75,12 @@ without going through the click pipeline, so spells can deliver weapon-style str
 
 	var/datum/status_effect/buff/clash/limbguard/LG = target.has_status_effect(/datum/status_effect/buff/clash/limbguard)
 	if(LG?.is_active && LG.protected_zone == def_zone && user != target)
-		LG.process_attack(target, target, user, weapon, def_zone)
-		return 0
+	// Only an attack with an actual weapon can trigger a the full guard deflect effect. So no disarming / exposure from blocking fire breath.
+		if(weapon)
+			LG.process_attack(target, target, user, weapon, def_zone)
+		else
+			LG.block_spell(target, user, spell_name)
+		return ARCYNE_STRIKE_WARDED
 
 	// Optional shield check — blocked like a projectile (shield takes 25% as integrity damage).
 	if(allow_shield_check && ishuman(target))
@@ -85,13 +91,9 @@ without going through the click pipeline, so spells can deliver weapon-style str
 				if(I.block_chance > 0)
 					I.take_damage(floor(damage / 4))
 					break
-			return 0
+			return ARCYNE_STRIKE_WARDED
 
-	// NPC damage multiplier (e.g. fireball's npc_simple_damage_mult)
-	if(npc_simple_damage_mult != 1 && istype(target, /mob/living/simple_animal))
-		damage = round(damage * npc_simple_damage_mult)
-
-	// Default intdamage factor: blunt gets 1.6x; everything else gets 1.0
+	// Default intdamage factor: blunt gets 1.6x (same as melee blunt), others get 1.0
 	if(isnull(intdamage_factor))
 		intdamage_factor = (blade_class == BCLASS_BLUNT) ? BLUNT_DEFAULT_INT_DAMAGEFACTOR : 1
 	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage, intdamfactor = intdamage_factor, no_debuff = TRUE)
@@ -111,7 +113,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 					if(dismember_chance && prob(dismember_chance))
 						affecting.dismember(damage_type, blade_class, user, def_zone)
 			else
-				target.simple_woundcritroll(blade_class, wound_damage, user, def_zone, crit_message = TRUE)
+				target.simple_woundcritroll(blade_class, wound_damage, user, def_zone, crit_message = TRUE, ranged = TRUE)
 
 	var/attack_verb = "strikes"
 	var/hit_sound
@@ -131,7 +133,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 
 	playsound(get_turf(target), hit_sound, 100, TRUE)
 	if(!skip_message)
-		var/weapon_name = weapon ? weapon.name : lowertext(spell_name)
+		var/weapon_name = weapon ? weapon.name : LOWER_TEXT(spell_name)
 		var/armor_msg = ""
 		if(!damage_dealt)
 			armor_msg += VISMSG_ARMOR_BLOCKED
@@ -146,6 +148,10 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			span_danger("[user] [attack_verb] \the [target] with [weapon_name] in the [parse_zone(def_zone)]![armor_msg]"),
 			span_danger("[user] [attack_verb] me in the [span_userdanger(parse_zone(def_zone))]![armor_msg]"),
 			null, COMBAT_MESSAGE_RANGE)
+
+	if(isliving(target))
+		var/mob/living/L = target
+		L.show_ranged_accuracy_fail(user, aimed_zone, def_zone, roll_out)
 
 	log_combat(user, target, "spell-struck ([spell_name])", zone=def_zone)
 	return max(0, damage - armor_block)

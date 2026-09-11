@@ -2,7 +2,6 @@
 	button_icon = 'icons/mob/actions/mage_shared.dmi'
 	name = "Greater Arcyne Bolt"
 	desc = "Fire a concentrated bolt of arcyne energy at a single target. \
-	Deals 50% increased damage to simple-minded creechurs. \
 	Toggle arc mode (Shift+G) while the spell is active to lob it over obstacles at reduced damage."
 	fluff_desc = "Ancient attack magyck. Oft nicknamed the \"Magician's Sling\" since its inception. Likely from the same era as soulshot or even earlier. While most magos have abandoned the Arcyne Bolt in favor of the powerful, deadly Soulshot that \"cannot miss\", the Arcyne Bolt is still favored by some Magos for its ability to be arced over ally's head and lack of ability to pierce through the body of enemies. This variation of Arcyne Bolt has been refined from its original, weaker version into a reliable, powerful spell. Whether it is as good at felling demons as it used to be is still up for debate."
 	button_icon_state = "greater_arcyne_bolt"
@@ -48,7 +47,6 @@
 	flag = "blunt"
 	woundclass = BCLASS_BLUNT
 	intdamfactor = 1
-	npc_simple_damage_mult = 1.5
 	nodamage = FALSE
 	speed = MAGE_PROJ_FAST
 	max_range = MAGE_LONG_PROJ_RANGE

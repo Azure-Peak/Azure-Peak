@@ -1,3 +1,4 @@
+//! WARNING: This file is not the same as /tg/'s! Be careful when updating!
 import type { ExtractAtomValue } from 'jotai';
 import type { sendAct } from './act';
 import type { backendStateAtom } from './store';
@@ -45,6 +46,14 @@ export type DebugState = {
 };
 
 export type BackendState<TData> = ExtractAtomValue<typeof backendStateAtom> & {
+  act: typeof sendAct;
+  data: TData;
+};
+
+export type BackendStateStrict<TData> = Omit<
+  ExtractAtomValue<typeof backendStateAtom>,
+  'data'
+> & {
   act: typeof sendAct;
   data: TData;
 };

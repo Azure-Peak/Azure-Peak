@@ -35,9 +35,9 @@
 	/// Some surgeries require specific organs to be present in the patient
 	var/list/required_organs
 	/**
-	 * list of chems needed to complete the step.
-	 * Even on success, the step will have no effect if there aren't the chems required in the mob.
-	 */
+		* list of chems needed to complete the step.
+		* Even on success, the step will have no effect if there aren't the chems required in the mob.
+		*/
 	var/list/chems_needed
 	/// Any chem on the list required, or all of them?
 	var/require_all_chems = TRUE
@@ -78,9 +78,9 @@
 	/// Handles techweb-oriented surgeries
 	var/requires_tech = FALSE
 	/**
-	 * type; doesn't show up if this type exists.
-	 * Set to /datum/surgery_step if you want to hide a "base" surgery  (useful for typing parents IE healing.dm just make sure to null it out again)
-	 */
+		* type; doesn't show up if this type exists.
+		* Set to /datum/surgery_step if you want to hide a "base" surgery	(useful for typing parents IE healing.dm just make sure to null it out again)
+		*/
 	var/replaced_by
 	/// Repeatable surgery steps will repeat until failure
 	var/repeating = FALSE

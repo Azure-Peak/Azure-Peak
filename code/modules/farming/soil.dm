@@ -63,7 +63,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 		/obj/item/rogueweapon/halberd/bardiche/scythe
 	)
 
-/obj/structure/soil/Initialize()
+/obj/structure/soil/Initialize(mapload)
 	. = ..()
 	GLOB.soil_list += src
 
@@ -362,7 +362,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 	if (adjust_amount && pre_plant_health != plant_health)
 		needs_icon_update = TRUE
 
-/obj/structure/soil/Initialize()
+/obj/structure/soil/Initialize(mapload)
 	START_PROCESSING(SSfarming, src)
 	GLOB.weather_act_upon_list += src
 	. = ..()
@@ -468,9 +468,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		var/plant_color
 		if(plant_dead == TRUE)
 			plant_color = null
-		else if(plant_health <=  MAX_PLANT_HEALTH * 0.3)
+		else if(plant_health <=	MAX_PLANT_HEALTH * 0.3)
 			plant_color = "#9c7b43"
-		else if (plant_health <=  MAX_PLANT_HEALTH * 0.6)
+		else if (plant_health <=	MAX_PLANT_HEALTH * 0.6)
 			plant_color = "#d8b573"
 		if(plant_dead == TRUE)
 			plant_state = "[plant.icon_state]3"
@@ -498,9 +498,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		// Plant health feedback
 		if(plant_dead == TRUE)
 			. += span_warning("It's dead!")
-		else if(plant_health <=  MAX_PLANT_HEALTH * 0.3)
+		else if(plant_health <=	MAX_PLANT_HEALTH * 0.3)
 			. += span_warning("It's dying!")
-		else if (plant_health <=  MAX_PLANT_HEALTH * 0.6)
+		else if (plant_health <=	MAX_PLANT_HEALTH * 0.6)
 			. += span_warning("It's brown and unhealthy...")
 		// Plant maturation and produce feedback
 		if(matured)
@@ -756,7 +756,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 	water = MAX_PLANT_WATER
 	nutrition = MAX_PLANT_NUTRITION
 
-/obj/structure/soil/debug_soil/Initialize()
+/obj/structure/soil/debug_soil/Initialize(mapload)
 	. = ..()
 	insert_plant(GLOB.plant_defs[/datum/plant_def/wheat])
 

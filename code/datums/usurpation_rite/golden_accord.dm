@@ -1,13 +1,13 @@
 /**
- # Rite of Golden Accord
-
- Republic-coded usurpation rite. Subtly Matthios coded.
-
- Design intent: Makes the merchant class a political threat. Makes steward an insider threat, and gives the Merchant in particular a path to the throne. Guildmaster and Bathmatron can also invoke it. No god is invoked - originally I intended for Matthios to be invoked but that would immediately make them valid in the eyes of everyone. So instead, any reference or accusation of heresy is tangential and this is framed as a purely secular assertion of commercial power. 
- 
- The assenter needs 200 mammons in their bank account at the time of invocation / assent. (Not the invoker, that was too inconvenient from my own testing). Steward should have the easiest time by just assigning paper money to would be plotter - and merchant can hand out money. This means a Steward could in theory, stop such a plot easily through fining.
-
- Not accessible to outlaws and undead.
+ * Rite of Golden Accord
+ *
+ * Republic-coded usurpation rite. Subtly Matthios coded.
+ *
+ * Design intent: Makes the merchant class a political threat. Makes steward an insider threat, and gives the Merchant in particular a path to the throne. Guildmaster and Bathmatron can also invoke it. No god is invoked - originally I intended for Matthios to be invoked but that would immediately make them valid in the eyes of everyone. So instead, any reference or accusation of heresy is tangential and this is framed as a purely secular assertion of commercial power.
+ *
+ * The assenter needs 200 mammons in their bank account at the time of invocation / assent. (Not the invoker, that was too inconvenient from my own testing). Steward should have the easiest time by just assigning paper money to would be plotter - and merchant can hand out money. This means a Steward could in theory, stop such a plot easily through fining.
+ *
+ * Not accessible to outlaws and undead.
  */
 
 /datum/usurpation_rite/golden_accord

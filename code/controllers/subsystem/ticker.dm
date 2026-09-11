@@ -49,8 +49,6 @@ SUBSYSTEM_DEF(ticker)
 	var/queue_delay = 0
 	var/list/queued_players = list()		//used for join queues when the server exceeds the hard population cap
 
-	var/maprotatechecked = 0
-
 	var/news_report
 
 	var/late_join_disabled
@@ -139,7 +137,7 @@ SUBSYSTEM_DEF(ticker)
 //			start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
-//			to_chat(world, span_boldnotice("Welcome to [station_name()]!"))
+//			to_world(span_boldnotice("Welcome to [station_name()]!"))
 			send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.config.map_name]! (Round ID: [GLOB.round_id])"), CONFIG_GET(string/chat_announce_new_game))
 			current_state = GAME_STATE_PREGAME
 			//Everyone who wants to be an observer is now spawned
@@ -212,7 +210,6 @@ SUBSYSTEM_DEF(ticker)
 
 		if(GAME_STATE_PLAYING)
 			check_queue()
-			check_maprotate()
 
 			check_for_lord()
 			if(!roundend_check_paused && SSgamemode.check_finished(force_ending) || force_ending)
@@ -237,21 +234,16 @@ SUBSYSTEM_DEF(ticker)
 			if(!player)
 				continue
 			if(player.client.prefs.job_preferences[V] == JP_HIGH)
-				if(player.ready == PLAYER_READY_TO_PLAY)
-					if(player.client.prefs.lastclass == V)
-						if(player.IsJobUnavailable(V) != JOB_AVAILABLE)
-							to_chat(player, span_warning("You cannot be [V] and thus are not considered."))
-							continue
 				readied_jobs.Add(V)
 		/*
 			// These else conditions stop the round from starting unless there is a merchant, king, and queen.
 		else
 			var/list/stuffy = list("Set a Ruler to 'high' in your class preferences to start the game!", "PLAY Ruler NOW!", "A Ruler is required to start.", "Pray for a Ruler.", "One day, there will be a Ruler.", "Just try playing Ruler.", "If you don't play Ruler, the game will never start.", "We need at least one Ruler to start the game.", "We're waiting for you to pick Ruler to start.", "Still no Ruler is readied..", "I'm going to lose my mind if we don't get a Ruler readied up.","No. The game will not start because there is no Ruler.","What's the point of ROGUETOWN without a Ruler?")
-			to_chat(world, span_purple("[pick(stuffy)]"))
+			to_world(span_purple("[pick(stuffy)]"))
 			return FALSE
 	else
 		var/list/stuffy = list("Set Merchant to 'high' in your class preferences to start the game!", "PLAY Merchant NOW!", "A Merchant is required to start.", "Pray for a Merchant.", "One day, there will be a Merchant.", "Just try playing Merchant.", "If you don't play Merchant, the game will never start.", "We need at least one Merchant to start the game.", "We're waiting for you to pick Merchant to start.", "Still no Merchant is readied..", "I'm going to lose my mind if we don't get a Merchant readied up.","No. The game will not start because there is no Merchant.","What's the point of ROGUETOWN without a Merchant?")
-		to_chat(world, span_purple("[pick(stuffy)]"))
+		to_world(span_purple("[pick(stuffy)]"))
 		return FALSE
 	*/
 
@@ -263,12 +255,12 @@ SUBSYSTEM_DEF(ticker)
 			amt_ready++
 
 	if(amt_ready < 2)
-		to_chat(world, span_purple("[amt_ready]/20 players ready."))
+		to_world(span_purple("[amt_ready]/20 players ready."))
 		failedstarts++
 		if(failedstarts > 7)
-			to_chat(world, span_purple("[failedstarts]/13"))
+			to_world(span_purple("[failedstarts]/13"))
 		if(failedstarts >= 13)
-			to_chat(world, span_greentext("Starting ROGUEFIGHT..."))
+			to_world(span_greentext("Starting ROGUEFIGHT..."))
 			var/icon/ikon
 			var/file_path = "icons/roguefight_title.dmi"
 			ASSERT(fexists(file_path))
@@ -312,7 +304,7 @@ SUBSYSTEM_DEF(ticker)
 	gnollslot_update()
 	update_scaling_slots(estimated_pop)
 
-	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs
+	can_continue = can_continue && SSjob.DivideOccupations(list())				//Distribute jobs
 
 	CHECK_TICK
 
@@ -393,10 +385,10 @@ SUBSYSTEM_DEF(ticker)
 	Master.SetRunLevel(RUNLEVEL_GAME)
 /*
 	if(SSevents.holidays)
-		to_chat(world, span_notice("and..."))
+		to_world(span_notice("and..."))
 		for(var/holidayname in SSevents.holidays)
 			var/datum/holiday/holiday = SSevents.holidays[holidayname]
-			to_chat(world, "<h4>[holiday.greet()]</h4>")
+			to_world("<h4>[holiday.greet()]</h4>")
 */
 	PostSetup()
 	log_game("GAME SETUP: postsetup success")
@@ -517,7 +509,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round(input)
 	if(!input)
 		return
-	to_chat(world, fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
+	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
 
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)
@@ -547,23 +539,10 @@ SUBSYSTEM_DEF(ticker)
 					return
 				queued_players -= next_in_line //Client disconnected, remove he
 			queue_delay = 0 //No vacancy: restart timer
-		if(25 to INFINITY)  //No response from the next in line when a vacancy exists, remove he
+		if(25 to INFINITY)	//No response from the next in line when a vacancy exists, remove he
 			to_chat(next_in_line, span_danger("No response received. You have been removed from the line."))
 			queued_players -= next_in_line
 			queue_delay = 0
-
-/datum/controller/subsystem/ticker/proc/check_maprotate()
-	if (!CONFIG_GET(flag/maprotation))
-		return
-	if (maprotatechecked)
-		return
-
-	maprotatechecked = 1
-
-	//map rotate chance defaults to 75% of the length of the round (in minutes)
-	if (!prob((world.time/600)*CONFIG_GET(number/maprotatechancedelta)))
-		return
-	INVOKE_ASYNC(SSmapping, TYPE_PROC_REF(/datum/controller/subsystem/mapping, maprotate))
 
 /datum/controller/subsystem/ticker/proc/HasRoundStarted()
 	return current_state >= GAME_STATE_PLAYING
@@ -593,13 +572,11 @@ SUBSYSTEM_DEF(ticker)
 
 	queue_delay = SSticker.queue_delay
 	queued_players = SSticker.queued_players
-	maprotatechecked = SSticker.maprotatechecked
 	round_start_time = SSticker.round_start_time
 	round_start_irl = SSticker.round_start_irl
 
 	queue_delay = SSticker.queue_delay
 	queued_players = SSticker.queued_players
-	maprotatechecked = SSticker.maprotatechecked
 
 	switch (current_state)
 		if(GAME_STATE_SETTING_UP)
@@ -710,18 +687,18 @@ SUBSYSTEM_DEF(ticker)
 
 	var/skip_delay = check_rights()
 	if(delay_end && !skip_delay)
-		to_chat(world, span_boldannounce("A game master has delayed the round end."))
+		to_world(span_boldannounce("A game master has delayed the round end."))
 		return
 
 	SStriumphs.end_triumph_saving_time()
-	to_chat(world, span_boldannounce("Rebooting World in [DisplayTimeText(delay)]. [reason]"))
+	to_world(span_boldannounce("Rebooting World in [DisplayTimeText(delay)]. [reason]"))
 
 	var/start_wait = world.time
 	UNTIL(round_end_sound_sent || (world.time - start_wait) > (delay * 2))	//don't wait forever
 	sleep(delay - (world.time - start_wait))
 
 	if(delay_end && !skip_delay)
-		to_chat(world, span_boldannounce("Reboot was cancelled by an admin."))
+		to_world(span_boldannounce("Reboot was cancelled by an admin."))
 		return
 	if(end_string)
 		end_state = end_string
@@ -729,14 +706,14 @@ SUBSYSTEM_DEF(ticker)
 	var/statspage = CONFIG_GET(string/roundstatsurl)
 	var/gamelogloc = CONFIG_GET(string/gamelogurl)
 	if(statspage)
-		to_chat(world, span_info("Round statistics and logs can be viewed <a href=\"[statspage][GLOB.round_id]\">at this website!</a>"))
+		to_world(span_info("Round statistics and logs can be viewed <a href=\"[statspage][GLOB.round_id]\">at this website!</a>"))
 	else if(gamelogloc)
-		to_chat(world, span_info("Round logs can be located <a href=\"[gamelogloc]\">at this website!</a>"))
+		to_world(span_info("Round logs can be located <a href=\"[gamelogloc]\">at this website!</a>"))
 
 	log_game(span_boldannounce("Rebooting World. [reason]"))
 
 	if(end_party)
-		to_chat(world, span_boldannounce("It's over!"))
+		to_world(span_boldannounce("It's over!"))
 		world.Del()
 	else
 		world.Reboot()
@@ -839,7 +816,7 @@ SUBSYSTEM_DEF(ticker)
 		to_chat(nocite, span_userdanger("AGONY. I CAN NOT HEAR [nocite.patron]. THEY ARE LOST TO ME."))
 		nocite.emote("painscream", intentional = FALSE)
 
-	for(var/obj/machinery/light/light in GLOB.machines) //this entire block may  cause insane lag i'm not sure sorry
+	for(var/obj/machinery/light/light in GLOB.machines) //this entire block may	cause insane lag i'm not sure sorry
 		if(prob(70))
 			light.seton(TRUE)
 		else

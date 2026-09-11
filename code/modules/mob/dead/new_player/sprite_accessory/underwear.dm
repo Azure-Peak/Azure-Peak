@@ -30,6 +30,7 @@
 /datum/sprite_accessory/underwear/bikini
 	name = "Bikini"
 	icon_state = "female_bikini"
+	preview_states = list("bikini_f_0")
 	underwear_type = /obj/item/undies/bikini
 	hides_breasts = TRUE
 
@@ -61,6 +62,7 @@
 /datum/sprite_accessory/underwear/leotard
 	name = "Leotard"
 	icon_state = "female_leotard"
+	preview_states = list("female_leotard_0")
 	underwear_type = /obj/item/undies/leotard
 	hides_breasts = TRUE
 
@@ -87,6 +89,7 @@
 /datum/sprite_accessory/underwear/athletic_leotard
 	name = "Athletic Leotard"
 	icon_state = "female_sleeved_leotard"
+	preview_states = list("female_athletic_leotard")
 	underwear_type = /obj/item/undies/athletic_leotard
 	hides_breasts = TRUE
 

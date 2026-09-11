@@ -8,4 +8,4 @@
 
 /obj/item/organ/soul/fire
 	name = "soul fire"
-	accessory_type =  /datum/sprite_accessory/soul/fire
+	accessory_type =	/datum/sprite_accessory/soul/fire

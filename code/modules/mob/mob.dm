@@ -85,7 +85,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * set a random nutrition level
  * * Intialize the movespeed of the mob
  */
-/mob/Initialize()
+/mob/Initialize(mapload)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_MOB_CREATED, src)
 	GLOB.mob_list += src
 	GLOB.mob_directory[tag] = src
@@ -471,12 +471,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 	return
 
 /**
-  * Examine a mob
-  *
-  * mob verbs are faster than object verbs. See
-  * [this byond forum post](https://secure.byond.com/forum/?post=1326139&page=2#comment8198716)
-  * for why this isn't atom/verb/examine()
-  */
+	* Examine a mob
+	*
+	* mob verbs are faster than object verbs. See
+	* [this byond forum post](https://secure.byond.com/forum/?post=1326139&page=2#comment8198716)
+	* for why this isn't atom/verb/examine()
+	*/
 /mob/verb/examinate(atom/A as mob|obj|turf in view()) //It used to be oview(12), but I can't really say why
 	set name = "Examine"
 	set hidden = 1
@@ -656,13 +656,13 @@ GLOBAL_VAR_INIT(mobids, 1)
 	unset_machine()
 
 //suppress the .click/dblclick macros so people can't use them to identify the location of items or aimbot
-/mob/verb/DisClick(argu = null as anything, sec = "" as text, number1 = 0 as num  , number2 = 0 as num)
+/mob/verb/DisClick(argu = null as anything, sec = "" as text, number1 = 0 as num	, number2 = 0 as num)
 	set name = ".click"
 	set hidden = TRUE
 	set category = null
 	return
 
-/mob/verb/DisDblClick(argu = null as anything, sec = "" as text, number1 = 0 as num  , number2 = 0 as num)
+/mob/verb/DisDblClick(argu = null as anything, sec = "" as text, number1 = 0 as num	, number2 = 0 as num)
 	set name = ".dblclick"
 	set hidden = TRUE
 	set category = null
@@ -902,7 +902,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	mob_spell_list += S
 	S.action.Grant(src)
 
-/mob/proc/HasSpell(var/spell_type)
+/mob/proc/HasSpell(spell_type)
 	for(var/obj/effect/proc_holder/spell/spell as anything in mob_spell_list)
 		if(spell.type == spell_type)
 			return spell
@@ -1150,6 +1150,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	VV_DROPDOWN_OPTION(VV_HK_GIVE_SPELL, "Give Spell")
 	VV_DROPDOWN_OPTION(VV_HK_REMOVE_SPELL, "Remove Spell")
 	VV_DROPDOWN_OPTION(VV_HK_GODMODE, "Toggle Godmode")
+	VV_DROPDOWN_OPTION(VV_HK_GODMODE_TARGETABLE, "Toggle Godmode (Targetable)")
 	VV_DROPDOWN_OPTION(VV_HK_DROP_ALL, "Drop Everything")
 	VV_DROPDOWN_OPTION(VV_HK_REGEN_ICONS, "Regenerate Icons")
 	VV_DROPDOWN_OPTION(VV_HK_PLAYER_PANEL, "Show player panel")
@@ -1170,6 +1171,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!check_rights(R_ADMIN,0))
 			return
 		usr.client.cmd_admin_godmode(src)
+	if(href_list[VV_HK_GODMODE_TARGETABLE])
+		if(!check_rights(R_ADMIN,0))
+			return
+		usr.client.cmd_admin_godmode_targetable(src)
 	if(href_list[VV_HK_GIVE_SPELL])
 		if(!check_rights(NONE))
 			return
@@ -1217,6 +1222,28 @@ GLOBAL_VAR_INIT(mobids, 1)
 	var/datum/language_holder/H = get_language_holder()
 	H.open_language_menu(usr)
 
+///Show the sleep level up screen if available
+/mob/living/verb/open_sleep_adv_menu()
+	set name = "Open Dream Menu"
+	set category = "IC"
+	set hidden = FALSE
+
+	if(!mind || !mind.sleep_adv)
+		to_chat(src, span_warning("You have no dreams to contemplate."))
+		return
+
+	if(!IsSleeping())
+		to_chat(src, span_warning("You must be asleep to enter your dreams."))
+		return
+
+	var/datum/sleep_adv/SA = mind.sleep_adv
+
+	if(SA.sleep_adv_points <= 0)
+		to_chat(src, span_warning("You lack the inspiration granted by a proper rest in order to contemplate your dreams."))
+		return
+
+	SA.show_ui(src)
+
 /// Custom pose setting
 /mob/living/carbon/human/verb/set_pose()
 	set name = "Set Pose"
@@ -1226,7 +1253,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(stat != CONSCIOUS)
 		to_chat(src, span_warning("I can't set my pose right now."))
 		return
-	var/new_pose = tgui_input_text(src, "Set your character's pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE,  encode = TRUE, bigmodal = TRUE, max_length = 256)
+	var/new_pose = tgui_input_text(src, "Set your character's pose (MARKDOWN AVAILABLE):", "SET POSE", pose_text, multiline = FALSE,	encode = TRUE, bigmodal = TRUE, max_length = 256)
 	if(isnull(new_pose))
 		return
 
@@ -1307,7 +1334,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/say_mod(input, message_mode)
 	var/customsayverb = findtext(input, "*")
 	if(customsayverb)
-		return lowertext(copytext(input, 1, customsayverb))
+		return LOWER_TEXT(copytext(input, 1, customsayverb))
 	. = ..()
 
 /atom/movable/proc/attach_spans(input, list/spans)
@@ -1336,7 +1363,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	SEND_SIGNAL(src, COMSIG_MOB_GET_STATUS_TAB_ITEMS, .)
 	if(client)
 		. += list(list("IC DATE: ", "[get_current_ic_date_as_string()] (CLICK FOR CALENDAR)", "src=[REF(client)];statbrowser_calendar=1"))
-		. += list(list("tod", GLOB.tod, "IC TIME: [get_current_ic_time_as_string()]"))
+		. += list(list("tod", get_current_ic_tod_as_string(), "IC TIME: [get_current_ic_time_as_string()]"))
 	return .
 
 /mob/proc/get_stats_tab_items()

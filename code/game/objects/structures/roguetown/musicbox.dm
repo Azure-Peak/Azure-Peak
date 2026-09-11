@@ -65,7 +65,7 @@
 	. = ..()
 	. += span_info("Left-click the music box to open its interface. If the music box is currently off, selecting a new song to play will automatically turn it back on.")
 
-/obj/structure/roguemachine/musicbox/Initialize()
+/obj/structure/roguemachine/musicbox/Initialize(mapload)
 	. = ..()
 	curfile = pick(init_curfile)
 	soundloop = new(src, FALSE)
@@ -174,7 +174,7 @@
 	curvol = 65
 	playuponspawn = TRUE
 /* The fuck is this
-/obj/structure/roguemachine/musicbox/Initialize()
+/obj/structure/roguemachine/musicbox/Initialize(mapload)
 	. = ..()
 	soundloop.extra_range = 12
 	soundloop.falloff = 6

@@ -196,8 +196,13 @@
 	sort_category = "Hats"
 
 /datum/loadout_item/shawl
-	name = "Shawl (Hijab Variant)"
+	name = "Shawl"
 	path = /obj/item/clothing/head/roguetown/shawl
+	sort_category = "Hats"
+
+/datum/loadout_item/shawlhood
+	name = "Shawl (Hijab Variant)"
+	path = /obj/item/clothing/head/roguetown/roguehood/shawlhood
 	sort_category = "Hats"
 
 /datum/loadout_item/maidband

@@ -281,7 +281,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 				else
 					image_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 				target.playsound_local(H, 'sound/blank.ogg',35,1)
-				A = image(image_file,H,"dualsaberred1", layer=ABOVE_MOB_LAYER)
+				A = image(image_file,H,"dualsabrered1", layer=ABOVE_MOB_LAYER)
 			if("taser")
 				if(side == "right")
 					image_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
@@ -539,10 +539,9 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			sleep(30)
 			target.client.images.Remove(speech_overlay)
 		var/spans = list(person.speech_span)
-		if(target.client?.prefs)
-			if (target.client?.prefs.chat_on_map)
-				sleep(30)
-				target.create_chat_message(person, understood_language, chosen, spans, 0)
+		if(target.client)
+			sleep(30)
+			target.create_chat_message(person, understood_language, chosen, spans, 0)
 	/*else // Radio talk -- Could be updated for SCOM use by a less-amateur coder
 		var/chosen = specific_message
 		if(!chosen)
@@ -723,7 +722,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			to_chat(target, "<h1 class='alert'>Bad Omen</h1>")
 			to_chat(target, "<br><br><span class='alert'>The [SSticker.rulertype] is dead! We need a new ruler.</span><br><br>")
 			SEND_SOUND(target, 'sound/misc/evilevent.ogg')
-		if("priest dead") 
+		if("priest dead")
 			to_chat(target, "<h1 class='alert'>Bad Omen</h1>")
 			to_chat(target, "<br><br><span class='alert'>The High Priest is dead!</span><br><br>")
 			SEND_SOUND(target, 'sound/misc/evilevent.ogg')
@@ -931,7 +930,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 /obj/effect/hallucination/danger/anomaly
 	name = "him."
 
-/obj/effect/hallucination/danger/anomaly/Initialize()
+/obj/effect/hallucination/danger/anomaly/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -1151,7 +1150,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 
 	for(var/obj/obj in oview(3, carbon))
 		objs += obj
-	
+
 	var/obj/obj = safepick(objs)
 
 	if(!obj)
@@ -1235,7 +1234,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 /datum/hallucination/chasing_mob/Destroy()
 	if(target.client && hallucinated_image)
 		target.client.images -= hallucinated_image
-	
+
 	QDEL_NULL(hallucinated_image)
 
 	return ..()
@@ -1246,7 +1245,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	set waitfor = FALSE
 	..()
 	for(var/turf/open/floor/floor in view(dreamer))
-		if(prob(40)) 
+		if(prob(40))
 			continue
 
 		var/mutable_appearance/appearance = image(floor.icon, floor, floor.icon_state, floor.layer + 0.01)
@@ -1262,7 +1261,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 
 	qdel(src)
 
-/datum/hallucination/floor_shift/proc/floor_back(mob/living/carbon/dreamer, mutable_appearance/appearance, offset, lower_duration)	
+/datum/hallucination/floor_shift/proc/floor_back(mob/living/carbon/dreamer, mutable_appearance/appearance, offset, lower_duration)
 	animate(appearance, pixel_y = -offset, time = lower_duration, flags = ANIMATION_RELATIVE)
 	addtimer(CALLBACK(src, PROC_REF(floor_remove), dreamer, appearance), lower_duration)
 

@@ -1,11 +1,11 @@
 //PORT OF https://github.com/BeeStation/BeeStation-Hornet/pull/11210
 /*
  *	[What does this do?]
- * 		It supports to make adjustment for each map
+ *		It supports to make adjustment for each map
  *
- * 	[Why don't you just make this with map json file?]
- * 		Some stuff is easy to mistake.
- * 		Being a part of DM files can make a failsafe.
+ *	[Why don't you just make this with map json file?]
+ *		Some stuff is easy to mistake.
+ *		Being a part of DM files can make a failsafe.
  *
 */
 /datum/map_adjustment

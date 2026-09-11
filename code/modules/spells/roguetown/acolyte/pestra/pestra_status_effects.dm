@@ -158,7 +158,7 @@
 	duration = 60 SECONDS
 	tick_interval = 3 SECONDS
 	effectedstats = list(STATKEY_CON = -1,
-						 STATKEY_STR = -2)
+							STATKEY_STR = -2)
 	var/outline_colour = "#095000"
 
 /datum/status_effect/debuff/pestilent_plague/on_apply()

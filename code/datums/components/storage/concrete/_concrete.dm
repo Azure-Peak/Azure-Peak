@@ -13,7 +13,7 @@
 	var/list/_contents_limbo // Where objects go to live mid transfer
 	var/list/_user_limbo // The last users before the component started moving
 
-/datum/component/storage/concrete/Initialize()
+/datum/component/storage/concrete/Initialize(mapload)
 	. = ..()
 	RegisterSignal(parent, COMSIG_ATOM_CONTENTS_DEL, PROC_REF(on_contents_del))
 	RegisterSignal(parent, COMSIG_OBJ_DECONSTRUCT, PROC_REF(on_deconstruct))
@@ -165,7 +165,7 @@
 			else
 				I.forceMove(parent.drop_location())
 		return FALSE
-	I.on_enter_storage(master)
+	I.on_enter_storage(master, M)
 	I.item_flags |= IN_STORAGE
 	refresh_mob_views()
 	I.mouse_opacity = MOUSE_OPACITY_OPAQUE //So you can click on the area around the item to equip it, instead of having to pixel hunt

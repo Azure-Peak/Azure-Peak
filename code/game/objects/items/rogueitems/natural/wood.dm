@@ -26,7 +26,7 @@
 	. += span_info("Full logs, small logs, and sticks can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for full logs include quarterstaffs, bows, oars, and boats.")
 
-/obj/item/grown/log/tree/Initialize()
+/obj/item/grown/log/tree/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/woodstaff,
@@ -137,7 +137,7 @@
 	. = ..()
 	. += span_info("'Slapcrafts' for small logs include stone-and-wooden tools, cutlery, prosthetics, buckets, paper, weapons, shields, tarots, and bows. Left-clicking a small log with a handsaw turns it into planks, which is quite useful for carpentry and construction.")
 
-/obj/item/grown/log/tree/small/Initialize()
+/obj/item/grown/log/tree/small/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/stoneaxe,
@@ -234,9 +234,9 @@
 	..()
 
 /obj/item/grown/log/tree/bowpartial
-	name = "crude bowstave"
+	name = "bowstave"
 	desc = "A partially completed bow, waiting to be strung."
-	icon_state = "bowpartial"
+	icon_state = "bow_stave"
 	max_integrity = 30
 	firefuel = 10 MINUTES
 	twohands_required = FALSE
@@ -245,7 +245,7 @@
 	smeltresult = /obj/item/rogueore/coal
 	lumber_amount = 0
 
-/obj/item/grown/log/tree/bowpartial/Initialize()
+/obj/item/grown/log/tree/bowpartial/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/bow,
@@ -259,10 +259,9 @@
 /obj/item/grown/log/tree/bowpartial/recurve
 	name = "recurve bowstave"
 	desc = "An incomplete recurve bow, waiting to be strung."
-	icon = 'icons/roguetown/items/64x.dmi'
-	icon_state = "recurve_bowstave"
+	icon_state = "recurve_stave"
 
-/obj/item/grown/log/tree/bowpartial/recurve/Initialize()
+/obj/item/grown/log/tree/bowpartial/recurve/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/recurvebow,
@@ -271,10 +270,9 @@
 /obj/item/grown/log/tree/bowpartial/longbow
 	name = "long bowstave"
 	desc = "An incomplete longbow, waiting to be strung."
-	icon = 'icons/roguetown/items/64x.dmi'
-	icon_state = "long_bowstave"
+	icon_state = "longbow_stave"
 
-/obj/item/grown/log/tree/bowpartial/longbow/Initialize()
+/obj/item/grown/log/tree/bowpartial/longbow/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/longbow,
@@ -320,7 +318,7 @@
 				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
 					L.consider_ambush()
 
-/obj/item/grown/log/tree/stick/Initialize()
+/obj/item/grown/log/tree/stick/Initialize(mapload)
 	icon_state = "stick[rand(1,2)]"
 	..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -351,30 +349,6 @@
 	user.visible_message(span_warning("[user] snaps [src]."))
 	playsound(user,'sound/items/seedextract.ogg', 100, FALSE)
 	qdel(src)
-
-/obj/item/grown/log/tree/stick/attack_right(mob/living/user)
-	. = ..()
-	if(user.get_active_held_item())
-		return
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, 4 SECONDS, target = src))
-		var/stackcount = 0
-		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			stackcount++
-		while(stackcount > 0)
-			if(stackcount == 1)
-				var/obj/item/grown/log/tree/stick/S = new(get_turf(user))
-				user.put_in_hands(S)
-				stackcount--
-			else if(stackcount >= 2)
-				var/obj/item/natural/bundle/stick/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 10)
-				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 10)
-				user.put_in_hands(B)
-		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			qdel(F)
-		playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 
 
 /obj/item/grown/log/tree/stick/attackby(obj/item/I, mob/living/user, params)
@@ -411,6 +385,35 @@
 				to_chat(user, "I can't add any more sticks to the bundle without it falling apart.")
 			return
 
+// FOR SOME GODDAMN REASON STICKS ARENT A NATURAL AND ARE THEIR OWN THING. UGH.
+/obj/item/grown/log/tree/stick/attack_right(mob/user)
+	if(user.get_active_held_item())
+		return
+	to_chat(user, span_notice("I begin to collect [src]."))
+	if(move_after(user, 4 SECONDS, target = src))
+		// list that contains all items we're going to try to bundle.
+		var/list/bundle_jutsu = list()
+		// search for items of the stacktype in the src turf.
+		for(var/obj/item/grown/log/tree/stick/S in get_turf(src))
+			bundle_jutsu += S
+		// bundlecount is now = bundle_jutsu.len for easy counting purposes.
+		var/bundlecount = bundle_jutsu.len
+		while(bundlecount > 0)
+			if(bundlecount == 1)
+				var/obj/item/grown/log/tree/stick/N = bundle_jutsu[1]
+				bundle_jutsu.Remove(N)
+				bundlecount--
+			else if(bundlecount >= 2)
+				var/obj/item/natural/bundle/B = new /obj/item/natural/bundle/stick(get_turf(user))
+				var/add_amount_clamped = clamp(bundlecount, 2, B.maxamount)
+				B.amount = add_amount_clamped
+				B.update_bundle()
+				bundlecount -= add_amount_clamped
+				user.put_in_hands(B)
+		playsound(user, drop_sound, 70, FALSE, -4)
+		for(var/obj/O in bundle_jutsu)
+			qdel(O)
+
 /obj/item/grown/log/tree/stake
 	name = "stake"
 	icon_state = "stake"
@@ -436,6 +439,8 @@
 	. = ..()
 	. += span_info("Stakes can be crafted with a stone to make whetstones, which are better at sharpening blades.")
 	. += span_info("Stakes are weak, but can double as improvised weapons with total armor penetration. Crafting a stake with a whetstone can make it into a more refined weapon.")
+	. += span_info("Driving a stake through the heart of an incapacitated revenant is one of the few ways to put them down for the week. Sharper stakes, and ones made of silver, are better at this.")
+	. += span_info("Staking also works to kill many other types of undead - generally, anyone you can't kill with bloodloss can be staked.")
 
 /obj/item/grown/log/tree/stake/getonmobprop(tag)
 	. = ..()
@@ -446,7 +451,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/grown/log/tree/stake/Initialize()
+/obj/item/grown/log/tree/stake/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/whetstone,
@@ -456,6 +461,10 @@
 		/datum/element/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
+
+/obj/item/grown/log/tree/stake/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // improvised as hell, so it takes a while. sharpen it first you peasant
 
 /obj/item/grown/log/tree/stake/attack_obj(obj/O, mob/living/user)
 	. = ..()
@@ -501,28 +510,6 @@
 	bundletype = /obj/item/natural/bundle/plank
 	smeltresult = /obj/item/ash
 
-/obj/item/natural/wood/plank/attack_right(mob/living/user)
-	if(user.get_active_held_item())
-		return
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, 4 SECONDS, target = src))
-		var/stackcount = 0
-		for(var/obj/item/natural/wood/plank/F in get_turf(src))
-			stackcount++
-		while(stackcount > 0)
-			if(stackcount == 1)
-				var/obj/item/natural/wood/plank/S = new(get_turf(user))
-				user.put_in_hands(S)
-				stackcount--
-			else if(stackcount >= 2)
-				var/obj/item/natural/bundle/plank/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 6)
-				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 6)
-				user.put_in_hands(B)
-		for(var/obj/item/natural/wood/plank/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 80)
-			qdel(F)
 
 /obj/item/natural/bundle/plank
 	name = "stack of wooden planks"

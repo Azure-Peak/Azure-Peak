@@ -6,7 +6,7 @@
 	icon_state = "stonebig2"
 	color ="#994a4a" // bloodstained look
 
-/obj/structure/ichor_stone/Initialize()
+/obj/structure/ichor_stone/Initialize(mapload)
 	. = ..()
 	set_light(3, 3, 20, l_color = LIGHT_COLOR_BLOOD_MAGIC) //The funny rock, glows now.
 

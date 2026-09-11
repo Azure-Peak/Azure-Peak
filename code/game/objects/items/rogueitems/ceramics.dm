@@ -122,6 +122,82 @@
 	. = ..()
 	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
 
+/obj/item/reagent_containers/glass/bottle/clayamphorabaked
+	name = "ceramic amphora"
+	desc = "A large cermaic amphora, a vessel with an ancient design that originated off of Etrusca's coast. Tyme caresses its curves and cracks with a faint, ethereal glimmer."
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayamphorabaked"
+	volume = 200 // Amphoras can store large amounts of liquid.
+	reagent_flags = OPENCONTAINER
+	glaze_bonus_pct = GLAZE_BONUS_PCT
+	grid_height = 64
+	grid_width = 64
+	dropshrink = 1.3
+	throwforce = 30 // you are getting a giant vase lobbed at you. its going to hurt.
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvase/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
+
+
+/obj/item/reagent_containers/glass/bottle/claybamanabaked
+	name = "ceramic bamana pot"
+	desc = "A wide Naledian style pot that is useful for holding large amounts of liquid. Tyme caresses its curves and cracks with a faint, ethereal glimmer."
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claybamanabaked"
+	volume = 130 // holds about a teapot amount of liquid
+	reagent_flags = OPENCONTAINER
+	glaze_bonus_pct = GLAZE_BONUS_PCT
+	grid_height = 64
+	grid_width = 64
+	dropshrink = FALSE
+
+/obj/item/reagent_containers/glass/bottle/claybamanabaked/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
+
+/obj/item/reagent_containers/glass/bottle/clayskinnybaked
+	name = "skinny ceramic vase"
+	desc = "A skinny ceramic vessel that holds a meager amount of liquid. Tyme caresses its curves and cracks with a faint, ethereal glimmer. "
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayskinnybaked"
+	volume = 35 // it did say a meager amount.
+	reagent_flags = OPENCONTAINER
+	glaze_bonus_pct = GLAZE_BONUS_PCT
+	dropshrink = FALSE // so its not TOO skinny
+
+/obj/item/reagent_containers/glass/bottle/clayskinnybaked/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
+
+
+/obj/item/reagent_containers/glass/bottle/clayfootbaked
+	name = "standing ceramic vase"
+	desc = "A curious ceramic vessel with two humenoid legs helping it stand upright. Tyme caresses its curves and cracks with a faint, ethereal glimmer. "
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayfeetbaked"
+	volume = 100 // it just feels right.
+	reagent_flags = OPENCONTAINER
+	glaze_bonus_pct = GLAZE_BONUS_PCT
+	grid_height = 64
+	grid_width = 32
+
+/obj/item/reagent_containers/glass/bottle/claytallbaked
+	name = "tall ceramic vase"
+	desc = "A remarkably tall clay vessel for storing copious amounts of liquid. Tyme caresses its curves and cracks with a faint, ethereal glimmer. "
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claytallvasebaked"
+	volume = 160 // gorp!
+	reagent_flags = OPENCONTAINER
+	glaze_bonus_pct = GLAZE_BONUS_PCT
+	grid_height = 64
+	grid_width = 64
+	dropshrink = FALSE
+
+/obj/item/reagent_containers/glass/bottle/clayfootbaked/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
+
 //Flask (was a cup) - subtype of regular cup but can shatter.
 /obj/item/natural/clay/claycup
 	name = "unfired clay flask"
@@ -146,6 +222,64 @@
 	cooked_type = /obj/item/reagent_containers/glass/cup/carved/porcelain
 	desc = "A small cup fashioned from clay. It still needs to be fired to be useful."
 	smeltresult = /obj/item/reagent_containers/glass/cup/carved/porcelain
+
+/obj/item/natural/clay/rawmug
+	name = "unfired clay mug"
+	icon = 'modular/Neu_Food/icons/cookware/cup.dmi'
+	icon_state = "claymugraw"
+	cooked_type = /obj/item/reagent_containers/glass/cup/mug
+	desc = "A small mug fashioned from clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/cup/mug
+
+
+/obj/item/natural/clay/rawamphora
+	name = "unfired amphora"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayamphoraraw"
+	cooked_type = /obj/item/reagent_containers/glass/bottle/clayamphorabaked
+	desc = "A large amphora fashioned from clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/bottle/clayamphorabaked
+
+/obj/item/natural/clay/rawbamana
+	name = "unfired bamana pot"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claybamanaraw"
+	cooked_type = /obj/item/reagent_containers/glass/bottle/claybamanabaked
+	desc = "A wide bamana pot fashioned from clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/bottle/claybamanabaked
+
+/obj/item/natural/clay/rawtallvase
+	name = "unfired tall vase"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claytallvaseraw"
+	cooked_type = /obj/item/reagent_containers/glass/bottle/claytallbaked
+	desc = "A tall vase fashioned from clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/bottle/claytallbaked
+
+/obj/item/natural/clay/rawskinnyvase
+	name = "unfired skinny vase"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayskinnyraw"
+	cooked_type = /obj/item/reagent_containers/glass/bottle/clayskinnybaked
+	desc = "A skinny vase fashioned out of clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/bottle/clayskinnybaked
+
+/obj/item/natural/clay/rawcarafe
+	name = "unfired carafe"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claycaraferaw"
+	cooked_type = /obj/item/reagent_containers/glass/carafe/porcelain
+	desc = "A carafe fashioned out of clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/carafe/porcelain
+
+
+/obj/item/natural/clay/rawfoot
+	name = "standing unfired vase"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayfeetraw"
+	cooked_type = /obj/item/reagent_containers/glass/bottle/clayfootbaked
+	desc = "A strange standing vase fashioned out of clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/bottle/clayfootbaked
 
 /obj/item/natural/clay/rawcupfancy
 	name = "unfired fancy clay goblet"
@@ -175,7 +309,7 @@
 	name = "unfired clay fork"
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "clayporcelainforkraw"
-	cooked_type = /obj/item/kitchen/fork/carved/porcelain 
+	cooked_type = /obj/item/kitchen/fork/carved/porcelain
 	desc = "A fancy fork fashioned from clay. It still needs to be fired to be useful."
 
 /obj/item/natural/clay/rawplatter
@@ -250,7 +384,7 @@
 	smeltresult = null	//No resource return
 	glaze_bonus_pct = GLAZE_BONUS_PCT
 
-/obj/item/roguestatue/clay/Initialize()
+/obj/item/roguestatue/clay/Initialize(mapload)
 	. = ..()
 	icon_state = "claystatuecooked[pick(1,2,3,4,5)]"
 
@@ -262,7 +396,7 @@
 	smeltresult = /obj/item/natural/glass
 	glaze_bonus_pct = GLAZE_BONUS_PCT
 
-/obj/item/roguestatue/glass/Initialize()
+/obj/item/roguestatue/glass/Initialize(mapload)
 	. = ..()
 	icon_state = "statueglass[pick(1,2,3,4,5)]"
 
@@ -358,6 +492,14 @@
 	cooked_type = /obj/item/natural/clay/porcelain/tablet
 	smeltresult = /obj/item/natural/clay/porcelain/tablet
 
+/obj/item/natural/clay/rawbox
+	name = "unfired clay box"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainboxraw"
+	desc = "A medium-sized box fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/box
+	smeltresult = /obj/item/natural/clay/porcelain/box
+
 /obj/item/natural/clay/rawturtle
 	name = "unfired clay turtle statuette"
 	icon = 'icons/roguetown/items/cooking.dmi'
@@ -434,7 +576,7 @@
 	name = "unfired clay pot"
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "clayporcelainpotraw"
-	desc = "A large clay pot fashioned out of clay."
+	desc = "A large pot fashioned out of clay."
 	cooked_type = /obj/item/reagent_containers/glass/bucket/pot/porcelain
 	smeltresult = /obj/item/reagent_containers/glass/bucket/pot/porcelain
 
@@ -478,7 +620,7 @@
 	desc = "This is a base item, if you are seeing this, it's a bug, report it lol."
 	dropshrink = FALSE
 	obj_flags = CAN_BE_HIT|UNIQUE_RENAME
-	
+
 /obj/item/natural/clay/porcelain/bauble
 	name = "porcelain bauble"
 	desc = "A small porcelain bauble."
@@ -497,7 +639,7 @@
 	name = "porcelain figurine"
 	desc = "A small figurine made out of porcelain."
 	icon_state = "clayporcelainfigurine"
-	
+
 /obj/item/natural/clay/porcelain/urn
 	name = "large porcelain urn"
 	desc = "A large, lidded urn made out of porcelain."
@@ -532,7 +674,12 @@
 	name = "porcelain display stand"
 	desc = "A small display stand made out of porcelain."
 	icon_state = "clayporcelainstand"
-	
+
+/obj/item/natural/clay/porcelain/box
+	name = "ornate porcelain box"
+	desc = "A medium-sized box made out of porcelain, useful for storing baubles and trinkets."
+	icon_state = "clayporcelainbox"
+
 /obj/item/natural/clay/porcelain/fish
 	name = "porcelain fish figurine"
 	desc = "A small fish figurine made out of porcelain."
@@ -562,7 +709,7 @@
 	name = "porcelain caryatid"
 	desc = "A medium-sized caryatid made out of porcelain."
 	icon_state = "clayporcelaincaryatid"
-		
+
 /obj/item/natural/clay/porcelain/beaver
 	name = "porcelain beaver statuette"
 	desc = "A medium-sized beaver statuette made out of porcelain."
@@ -572,10 +719,9 @@
 	name = "porcelain octopus statuette"
 	desc = "A large octopus statuette made out of porcelain."
 	icon_state = "clayporcelainoctopus"
-	
+
 /obj/item/natural/clay/porcelain/carp
 	name = "porcelain carp statuette"
 	desc = "A large carp statuette made out of porcelain."
 	icon_state = "clayporcelaincarp"
-	
-	
+

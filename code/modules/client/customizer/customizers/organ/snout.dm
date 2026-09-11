@@ -457,7 +457,7 @@
 	name = "Tabaxian Snout"
 	organ_type = /obj/item/organ/snout/cat
 	sprite_accessories = list(
-	    /datum/sprite_accessory/snout/cat,
+		/datum/sprite_accessory/snout/cat,
 		/datum/sprite_accessory/snout/scanid,
 		/datum/sprite_accessory/snout/scanidalt,
 		/datum/sprite_accessory/snout/scanidalt2,
@@ -492,11 +492,11 @@
 	customizer_choices = list(/datum/customizer_choice/organ/snout/wings)
 	name = "Veil"
 	allows_disabling = TRUE
-	default_disabled =  TRUE
+	default_disabled =	TRUE
 
 /datum/customizer_choice/organ/snout/wings
 	name = "Veil"
 	organ_type = /obj/item/organ/snout/anthro
 	sprite_accessories = list(
-	    /datum/sprite_accessory/snout/masked,
+		/datum/sprite_accessory/snout/masked,
 		)

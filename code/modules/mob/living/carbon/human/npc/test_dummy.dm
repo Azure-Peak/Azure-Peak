@@ -9,7 +9,7 @@
 	a_intent = INTENT_HARM
 	d_intent = INTENT_PARRY
 
-/mob/living/carbon/human/species/human/northern/guard_dummy/Initialize()
+/mob/living/carbon/human/species/human/northern/guard_dummy/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/human/northern)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)

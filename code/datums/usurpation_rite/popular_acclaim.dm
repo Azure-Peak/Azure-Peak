@@ -1,15 +1,15 @@
 /**
-# Rite of Popular Acclaim
-
-Secular populist usurpation rite.
-
-Design Intent: Originally, I wanted a Matthios themed rite accessible to bandits, but realized that just made them even more valid in the eyes of others. And I really wanted to move away from the anachronistic marxist framing of Matthios in old roguetown lore. So instead, inspired by it, I made a purely secular rite that just so happens to be accessible to bandits. Thematically, this is about as close to the "Peasant Rebel" antagonist as I can get with this system, adjusted for AP where this antagonist class is dead and for our own environment. 
-
-Outlaws and bandits count DOUBLE for this - for the risk they take. 
-
-However, of all of the usurpation rites, this one takes the most voices - a total of TEN (10!!) weighted voices - but bandits and outlaws count as two voices each, so it can be achieved with just 5 actual people if they're all outlaws.
-
-The dead has no voice in this. The world is not progressive enough for that.
+ * Rite of Popular Acclaim
+ *
+ * Secular populist usurpation rite.
+ *
+ * Design Intent: Originally, I wanted a Matthios themed rite accessible to bandits, but realized that just made them even more valid in the eyes of others. And I really wanted to move away from the anachronistic marxist framing of Matthios in old roguetown lore. So instead, inspired by it, I made a purely secular rite that just so happens to be accessible to bandits. Thematically, this is about as close to the "Peasant Rebel" antagonist as I can get with this system, adjusted for AP where this antagonist class is dead and for our own environment.
+ *
+ * Outlaws and bandits count DOUBLE for this - for the risk they take.
+ *
+ * However, of all of the usurpation rites, this one takes the most voices - a total of TEN (10!!) weighted voices - but bandits and outlaws count as two voices each, so it can be achieved with just 5 actual people if they're all outlaws.
+ *
+ * The dead has no voice in this. The world is not progressive enough for that.
 */
 
 /datum/usurpation_rite/popular_acclaim

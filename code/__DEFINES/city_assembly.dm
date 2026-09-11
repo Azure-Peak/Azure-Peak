@@ -12,7 +12,7 @@
 #define ASSEMBLY_WEIGHT_4 8
 
 // Removal motion floors (doubled weight + mob count).
-#define ASSEMBLY_REMOVAL_WEIGHT_FLOOR 8   // i.e. 4 in displayed terms
+#define ASSEMBLY_REMOVAL_WEIGHT_FLOOR 8	// i.e. 4 in displayed terms
 #define ASSEMBLY_REMOVAL_MOB_FLOOR 2
 
 // Session-wide quorum: minimum distinct voters across all motions. Below this, status quo.
@@ -65,6 +65,6 @@
 // Poll tax debt behavior on failure: if payer cannot afford, skip quietly (no trait/debt).
 #define ASSEMBLY_POLL_SKIP_INSOLVENT TRUE
 
-// These jobs cannot hold office due to abuse potentials by 
+// These jobs cannot hold office due to abuse potentials by
 // direct import / export that benefits their roles massively
 #define ASSEMBLY_OFFICE_INELIGIBLE_JOBS list("Merchant", "Shophand", "Bathmaster", "Bathhouse Attendant")

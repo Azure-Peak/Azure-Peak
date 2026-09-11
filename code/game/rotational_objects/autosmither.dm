@@ -53,7 +53,7 @@
 	var/list/post_start_list = list(STEP_BUTTON, STEP_LEVER, STEP_FIDDLE)
 	debris = list(/obj/item/roguegear = 2, /obj/item/natural/wood/plank = 2, /obj/item/ingot/steel = 1)
 
-/obj/structure/autosmither/Initialize()
+/obj/structure/autosmither/Initialize(mapload)
 	. = ..()
 	var/turf/turf = get_step(src, EAST)
 	hopper = new hopper_type(turf)

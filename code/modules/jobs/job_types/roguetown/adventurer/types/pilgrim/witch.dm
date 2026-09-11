@@ -172,7 +172,7 @@
 	// Do-after before transforming
 	if(!do_after(caster, 3 SECONDS, target = caster))
 		to_chat(caster, span_warning("Transformation interrupted!"))
-		revert_cast(caster)  // Refund the cooldown
+		revert_cast(caster)	// Refund the cooldown
 		return
 
 	// Call parent to actually transform
@@ -182,14 +182,14 @@
 	// Check if restrained before allowing revert
 	if(shape.restrained(ignore_grab = FALSE))
 		to_chat(shape, span_warn("I am restrained, I can't transform back!"))
-		revert_cast(shape)  // Refund the cooldown
+		revert_cast(shape)	// Refund the cooldown
 		return
 
 	// Add do-after for witches when reverting
 	shape.visible_message(span_warning("[shape] compresses and takes another form!"), span_notice("I begin to twist back into my normal form..."))
 	if(!do_after(shape, 3 SECONDS, target = shape))
 		to_chat(shape, span_warning("Transformation revert interrupted!"))
-		revert_cast(shape)  // Refund the cooldown
+		revert_cast(shape)	// Refund the cooldown
 		return
 
 	return ..()

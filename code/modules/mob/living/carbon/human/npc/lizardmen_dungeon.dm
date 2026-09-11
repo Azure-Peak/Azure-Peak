@@ -16,7 +16,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 
 
 
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/Initialize()
+/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/Initialize(mapload)
 	. = ..()
 	gender = pick(MALE, FEMALE)
 	set_species(/datum/species/lizardfolk)

@@ -23,7 +23,7 @@
 	name = "mobl"
 	var/master = null
 
-	var/list/container = list(  )
+	var/list/container = list(	)
 
 /obj/effect/overlay/thermite
 	name = "thermite"
@@ -71,7 +71,7 @@
 	desc = ""
 	icon_state = "nothing"
 	light_color = "#FFFFFF"
-	light_outer_range =  MINIMUM_USEFUL_LIGHT_RANGE
+	light_outer_range =	MINIMUM_USEFUL_LIGHT_RANGE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	light_system = MOVABLE_LIGHT
 
@@ -98,6 +98,6 @@
 		return INITIALIZE_HINT_QDEL
 
 /obj/effect/dummy/lighting_obj/moblight/Destroy()
-    set_light_on(FALSE)
-    QDEL_NULL(light)
-    return ..()
+	set_light_on(FALSE)
+	QDEL_NULL(light)
+	return ..()

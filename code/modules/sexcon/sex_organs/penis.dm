@@ -15,7 +15,7 @@
 /obj/item/organ/penis/get_cache_key()
 	return "[..()]-[sheath_type]-[erect_state]-[penis_size]"
 
-/obj/item/organ/penis/Initialize()
+/obj/item/organ/penis/Initialize(mapload)
 	. = ..()
 
 /obj/item/organ/penis/Insert(mob/living/carbon/M, special, drop_if_replaced)
@@ -73,7 +73,7 @@
 	var/original_owner_name = null
 	var/insertion_timestamp = null
 
-/obj/item/penis_fake/Initialize()
+/obj/item/penis_fake/Initialize(mapload)
 	. = ..()
 	insertion_timestamp = world.time
 

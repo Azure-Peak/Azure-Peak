@@ -13,7 +13,7 @@
 	/// Ref to our mouthpiece. Not a weakref since we subscribe to its COMSIG_QDELETING and clear it manually.
 	var/obj/item/hookah_mouthpiece/mouthpiece = null
 
-/obj/structure/shisha/Initialize()
+/obj/structure/shisha/Initialize(mapload)
 	. = ..()
 	mouthpiece = new /obj/item/hookah_mouthpiece(src)
 	RegisterSignal(mouthpiece, COMSIG_QDELETING, PROC_REF(on_mouhtpiece_delete))
@@ -259,7 +259,7 @@
 			return
 
 		playsound(get_turf(src), 'sound/foley/shisha_gurgle.ogg', rand(50, 70), FALSE, -1)
-		
+
 		if(!do_after(user, 2 SECONDS, target = user) || QDELETED(src) || !lit)
 			return
 

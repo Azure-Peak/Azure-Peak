@@ -1,8 +1,3 @@
-/*				//Var for keeping track of timer
-var/global/feeding_hole_wheat_count = 0
-var/global/feeding_hole_reset_timer
-*/
-			//WIP for now it does really nothing, but people will be gaslighted into thinking it does.
 /obj/structure/feedinghole
 	name = "FEEDING HOLE"
 	desc = ""

@@ -41,6 +41,8 @@
 /datum/withdraw_tab/proc/do_withdraw(datum/roguestock/D, mob/user)
 	if(!D || !parent_structure)
 		return FALSE
+	if(get_dist(parent_structure, user) > 1)
+		return FALSE
 	D.refresh_auto_price()
 	var/total_price = D.withdraw_price
 	if(D.withdraw_disabled && !has_fiscal_authority(user))

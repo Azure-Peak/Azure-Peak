@@ -1,6 +1,7 @@
 /datum/virtue/utility/riding
 	name = "Saddleborn"
 	desc = "I am skilled at riding animals of all kinds, and have an especially strong bond with one, allowing me to call it from afar and send it away as needed. Should my treasured companion ever die, my mood will not recover."
+	ui_fa_icon = "horse"
 	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -10 to mood for the rest of the round (cannot be recovered from in any circumstance)."
 	added_skills = list(list(/datum/skill/misc/riding, 1, SKILL_LEVEL_EXPERT))
 	added_traits = list(TRAIT_EQUESTRIAN)
@@ -91,7 +92,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	choices = sortList(choices)
 
-	var/choice = input("What form does your treasured steed take?") as null|anything in choices
+	var/choice = input(user, "What form does your treasured steed take?") as null|anything in choices
 	var/mob/living/simple_animal/our_chosen_honse = choices[choice]
 
 	if (!our_chosen_honse)
@@ -104,7 +105,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	//spawn in our creature and set it up
 	var/mob/living/simple_animal/the_real_honse
 	if(ispath(our_chosen_honse, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
-		var/fogbeast_color_choice = input("What color is your trusty steed?") as null|anything in GLOB.valid_fogbeast_colors
+		var/fogbeast_color_choice = input(user, "What color is your trusty steed?") as null|anything in GLOB.valid_fogbeast_colors
 		the_real_honse = new our_chosen_honse(user.loc, fogbeast_color_choice)
 	else
 		the_real_honse = new our_chosen_honse(user.loc)
@@ -218,7 +219,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		return FALSE
 
 	// otherwise, start a do_after then stasis the horse and hurl it into nullspace.
-	// if they do it from town or centcomm, give the horse a healing effect
+	// if they do it from town or centcom, give the horse a healing effect
 
 	var/area/rogue/place = get_area(user.loc)
 	var/should_heal = (is_centcom_level(user.loc.z) || place.town_area || place.keep_area)

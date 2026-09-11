@@ -14,13 +14,13 @@
  * This keeps the first few days focused on lower-tier encounters.
  *
  * Leyline types:
- *   Tamed (hamlet/tower) — 4 uses/day, T1 only, neutral alignment.
- *     Neutral = not aligned with anything, so rituals always get -1 mob (training wheels).
- *   Normal (coast/grove/decap) — 2 uses/day, up to T4. Realm-aligned.
- *     Matching ritual alignment = full mob count. Wrong alignment = -1 mob.
- *   Powerful (bog) — 2 uses/day, up to T5. Void-aligned. Always +1 primary mob.
- *     Wrong alignment in Bog nets to normal — the +1 and -1 cancel out.
- *     Only leyline type that supports the T5 Void Dragon ritual (uses a T4 circle).
+ *	Tamed (hamlet/tower) — 4 uses/day, T1 only, neutral alignment.
+ *		Neutral = not aligned with anything, so rituals always get -1 mob (training wheels).
+ *	Normal (coast/grove/decap) — 2 uses/day, up to T4. Realm-aligned.
+ *		Matching ritual alignment = full mob count. Wrong alignment = -1 mob.
+ *	Powerful (bog) — 2 uses/day, up to T5. Void-aligned. Always +1 primary mob.
+ *		Wrong alignment in Bog nets to normal — the +1 and -1 cancel out.
+ *		Only leyline type that supports the T5 Void Dragon ritual (uses a T4 circle).
  */
 
 GLOBAL_LIST_EMPTY(leyline_sites)
@@ -62,7 +62,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	var/last_reset_day = 0
 	var/max_tier = 0
 
-/obj/structure/leyline/Initialize()
+/obj/structure/leyline/Initialize(mapload)
 	. = ..()
 	last_process = world.time
 	GLOB.leyline_sites += src

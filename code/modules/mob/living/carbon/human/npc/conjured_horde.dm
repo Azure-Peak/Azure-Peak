@@ -8,7 +8,7 @@
 	var/gear_tier = 1
 	var/datum/weakref/summoner_ref
 
-/mob/living/carbon/human/species/dwarf/gnome/conjured_horde/Initialize()
+/mob/living/carbon/human/species/dwarf/gnome/conjured_horde/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/dwarf/gnome)
 	gender = pick(MALE, FEMALE)

@@ -16,24 +16,24 @@
  * See leylines.dm for charge and gating implementation.
  *
  * Alignment:
- *   Each ritual and leyline has an alignment. Matching = full mob count.
- *   Wrong alignment = -1 mob (primary reduced first, then secondary if primary is already 1).
- *   Neutral leylines (tamed) are not aligned with anything — always wrong, always -1.
- *   This means tamed leylines give the guaranteed minimum (2 mobs for T1) as training wheels.
- *   Powerful leylines (Bog) always give +1 primary independent of alignment penalty,
- *   so wrong alignment in Bog nets to the same as a normal aligned leyline.
+ *	Each ritual and leyline has an alignment. Matching = full mob count.
+ *	Wrong alignment = -1 mob (primary reduced first, then secondary if primary is already 1).
+ *	Neutral leylines (tamed) are not aligned with anything — always wrong, always -1.
+ *	This means tamed leylines give the guaranteed minimum (2 mobs for T1) as training wheels.
+ *	Powerful leylines (Bog) always give +1 primary independent of alignment penalty,
+ *	so wrong alignment in Bog nets to the same as a normal aligned leyline.
  *
  * Composition: T1-T2 = 3 base primary. T3 = 2 primary + 2 secondary. T4 = 1 primary + 3 secondary.
  * Gone wrong: flat 33% chance, +2 extra mobs. More risk, more reward. Bring friends.
  *
  * Chants: Latin/English alternating pairs, 2 seconds per line, tier scales the count.
- *   Primary count = tier * 2 + 2. Secondary = primary (T4/T5) or primary - 2 (T3, shaves one pair from middle).
- *   T3+ add secondary chants — other nearby invokers respond (call and response).
- *   T3 rituals require at least 1 secondary invoker (checked at ritual level, not rune level).
- *   This means a T3 circle can still be solo-invoked for T1/T2 rituals, but T3 rituals need a partner.
- *   T4 requires 3 invokers at the rune level (grand warded matrix). T5 (void dragon) same.
- *   Final two lines (CLIMAX + CTA) are spoken in sync by all invokers.
- *   Chanting is loud (range 14) and visible, drawing attention from other players.
+ *	Primary count = tier * 2 + 2. Secondary = primary (T4/T5) or primary - 2 (T3, shaves one pair from middle).
+ *	T3+ add secondary chants — other nearby invokers respond (call and response).
+ *	T3 rituals require at least 1 secondary invoker (checked at ritual level, not rune level).
+ *	This means a T3 circle can still be solo-invoked for T1/T2 rituals, but T3 rituals need a partner.
+ *	T4 requires 3 invokers at the rune level (grand warded matrix). T5 (void dragon) same.
+ *	Final two lines (CLIMAX + CTA) are spoken in sync by all invokers.
+ *	Chanting is loud (range 14) and visible, drawing attention from other players.
  */
 
 // ===== Shared chant lines — defined once, reused across tiers to prevent desync =====
@@ -52,14 +52,14 @@
 #define INFERNAL_ENG_4 "Hell itself bows! Obey!"
 #define INFERNAL_CLIMAX "Incinerate! The inferno answers!"
 #define INFERNAL_CTA "Burn! Evoca et Incende!"
-#define INFERNAL_RES_1 "Ignis!"       // Fire — matches LAT_1 (open the gate of fire)
-#define INFERNAL_RES_2 "Venite!"      // Come — matches ENG_1 (break free, come to me)
-#define INFERNAL_RES_3 "Cruor!"       // Blood — matches LAT_2 (blood burns, chains break)
-#define INFERNAL_RES_4 "Ardete!"      // Burn — matches ENG_2 (burn hotter)
-#define INFERNAL_RES_5 "Audite!"      // Listen — matches LAT_3 (my will is law)
-#define INFERNAL_RES_6 "Servite!"     // Submit — matches ENG_3 (submit, you are bound)
-#define INFERNAL_RES_7 "Exurite!"     // Burn them — matches LAT_4 (hell obeys)
-#define INFERNAL_RES_8 "Obedit!"      // Obey — matches ENG_4 (hell itself bows)
+#define INFERNAL_RES_1 "Ignis!"		// Fire — matches LAT_1 (open the gate of fire)
+#define INFERNAL_RES_2 "Venite!"		// Come — matches ENG_1 (break free, come to me)
+#define INFERNAL_RES_3 "Cruor!"		// Blood — matches LAT_2 (blood burns, chains break)
+#define INFERNAL_RES_4 "Ardete!"		// Burn — matches ENG_2 (burn hotter)
+#define INFERNAL_RES_5 "Audite!"		// Listen — matches LAT_3 (my will is law)
+#define INFERNAL_RES_6 "Servite!"		// Submit — matches ENG_3 (submit, you are bound)
+#define INFERNAL_RES_7 "Exurite!"		// Burn them — matches LAT_4 (hell obeys)
+#define INFERNAL_RES_8 "Obedit!"		// Obey — matches ENG_4 (hell itself bows)
 
 // Fae — nature, growth, wild fury
 #define FAE_LAT_1 "Flores aperiuntur."
@@ -72,14 +72,14 @@
 #define FAE_ENG_4 "Grow wild! Consume everything!"
 #define FAE_CLIMAX "Fly! The wild answers!"
 #define FAE_CTA "Bloom! Evoca et Cresce!"
-#define FAE_RES_1 "Florete!"         // Bloom — matches LAT_1 (flowers open)
-#define FAE_RES_2 "Volate!"          // Fly — matches ENG_1 (come, playful fae)
-#define FAE_RES_3 "Cantate!"         // Sing — matches LAT_2 (forest sings)
-#define FAE_RES_4 "Ludite!"          // Play — matches ENG_2 (spin and flutter)
-#define FAE_RES_5 "Furiae!"          // Furies — matches LAT_3 (nature rages)
-#define FAE_RES_6 "Prodite!"         // Come forth — matches ENG_3 (show your fury)
-#define FAE_RES_7 "Crescite!"        // Grow — matches LAT_4 (fury descends)
-#define FAE_RES_8 "Vorare!"          // Devour — matches ENG_4 (consume everything)
+#define FAE_RES_1 "Florete!"			// Bloom — matches LAT_1 (flowers open)
+#define FAE_RES_2 "Volate!"			// Fly — matches ENG_1 (come, playful fae)
+#define FAE_RES_3 "Cantate!"			// Sing — matches LAT_2 (forest sings)
+#define FAE_RES_4 "Ludite!"			// Play — matches ENG_2 (spin and flutter)
+#define FAE_RES_5 "Furiae!"			// Furies — matches LAT_3 (nature rages)
+#define FAE_RES_6 "Prodite!"			// Come forth — matches ENG_3 (show your fury)
+#define FAE_RES_7 "Crescite!"		// Grow — matches LAT_4 (fury descends)
+#define FAE_RES_8 "Vorare!"			// Devour — matches ENG_4 (consume everything)
 
 // Earthen — stone, tremors, upheaval
 #define EARTHEN_LAT_1 "Terra audit vocem meam."
@@ -92,14 +92,14 @@
 #define EARTHEN_ENG_4 "Ruin everything! Leave nothing standing!"
 #define EARTHEN_CLIMAX "Quake! The earth answers!"
 #define EARTHEN_CTA "Shatter! Evoca et Surge!"
-#define EARTHEN_RES_1 "Terra!"        // Earth — matches LAT_1 (earth hears me)
-#define EARTHEN_RES_2 "Surgite!"      // Rise — matches ENG_1 (rise from the deep)
-#define EARTHEN_RES_3 "Tremite!"      // Tremble — matches LAT_2 (foundations tremble)
-#define EARTHEN_RES_4 "Frangite!"     // Shatter — matches ENG_2 (shatter the earth)
-#define EARTHEN_RES_5 "Mons!"         // Mountain — matches LAT_3 (the mountain obeys)
-#define EARTHEN_RES_6 "Devorate!"     // Devour — matches ENG_3 (swallow the ground)
-#define EARTHEN_RES_7 "Ruina!"        // Ruin — matches LAT_4 (total ruin)
-#define EARTHEN_RES_8 "Contere!"      // Crush — matches ENG_4 (leave nothing standing)
+#define EARTHEN_RES_1 "Terra!"		// Earth — matches LAT_1 (earth hears me)
+#define EARTHEN_RES_2 "Surgite!"		// Rise — matches ENG_1 (rise from the deep)
+#define EARTHEN_RES_3 "Tremite!"		// Tremble — matches LAT_2 (foundations tremble)
+#define EARTHEN_RES_4 "Frangite!"		// Shatter — matches ENG_2 (shatter the earth)
+#define EARTHEN_RES_5 "Mons!"			// Mountain — matches LAT_3 (the mountain obeys)
+#define EARTHEN_RES_6 "Devorate!"		// Devour — matches ENG_3 (swallow the ground)
+#define EARTHEN_RES_7 "Ruina!"		// Ruin — matches LAT_4 (total ruin)
+#define EARTHEN_RES_8 "Contere!"		// Crush — matches ENG_4 (leave nothing standing)
 
 // Leyline
 #define LEYLINE_LAT_1 "Nexus patet."
@@ -122,14 +122,14 @@
 #define VOID_CLIMAX "Watch! The void answers!"
 #define VOID_CTA_T2 "Gaze! Evoca et Cognosce!"
 #define VOID_CTA_T5 "Consume! Evoca et Devora!"
-#define VOID_RES_1 "Vacuitas!"        // Emptiness — matches LAT_1 (the void watches)
-#define VOID_RES_2 "Specta!"          // See/Watch — matches ENG_1 (see me, turn your gaze)
-#define VOID_RES_3 "Finis!"           // End — matches LAT_2 (nothing answers)
-#define VOID_RES_4 "Tenebrae!"        // Darkness — matches ENG_2 (I know you hear)
-#define VOID_RES_5 "Nihil!"           // Nothing — matches LAT_3 (I call beyond all)
-#define VOID_RES_6 "Vorago!"          // Chasm — matches ENG_3 (past every boundary)
-#define VOID_RES_7 "Devorate!"        // Devour — matches LAT_4 (void dragon rises)
-#define VOID_RES_8 "Expergisce!"     // Awaken — matches ENG_4 (the dragon wakes)
+#define VOID_RES_1 "Vacuitas!"		// Emptiness — matches LAT_1 (the void watches)
+#define VOID_RES_2 "Specta!"			// See/Watch — matches ENG_1 (see me, turn your gaze)
+#define VOID_RES_3 "Finis!"			// End — matches LAT_2 (nothing answers)
+#define VOID_RES_4 "Tenebrae!"		// Darkness — matches ENG_2 (I know you hear)
+#define VOID_RES_5 "Nihil!"			// Nothing — matches LAT_3 (I call beyond all)
+#define VOID_RES_6 "Vorago!"			// Chasm — matches ENG_3 (past every boundary)
+#define VOID_RES_7 "Devorate!"		// Devour — matches LAT_4 (void dragon rises)
+#define VOID_RES_8 "Expergisce!"		// Awaken — matches ENG_4 (the dragon wakes)
 
 /datum/runeritual/summoning
 	abstract_type = /datum/runeritual/summoning
@@ -512,7 +512,7 @@
 	name = "Arcyne Invoker"
 	real_name = "Arcyne Invoker"
 
-/mob/living/carbon/human/species/npc/arcyne_invoker/Initialize()
+/mob/living/carbon/human/species/npc/arcyne_invoker/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/human/northern)
 	gender = pick(MALE, FEMALE)

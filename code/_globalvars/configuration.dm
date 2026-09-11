@@ -16,7 +16,7 @@ GLOBAL_VAR_INIT(shuttle_left, FALSE)
 GLOBAL_VAR_INIT(tinted_weldhelh, TRUE)
 
 
-// Debug is used exactly once (in living.dm) but is commented out in a lot of places.  It is not set anywhere and only checked.
+// Debug is used exactly once (in living.dm) but is commented out in a lot of places.	It is not set anywhere and only checked.
 // Debug2 is used in conjunction with a lot of admin verbs and therefore is actually legit.
 GLOBAL_VAR_INIT(Debug, FALSE)	// global debug switch
 GLOBAL_VAR_INIT(Debug2, FALSE)

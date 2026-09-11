@@ -1,6 +1,6 @@
 /datum/language/raneshi
 	name = "Sama'glos"
-	desc = ""
+	desc = "The primary language of the Raneshi Empire, beginning its lyfe as a dialect of Celestial it maintains some mutual intelligibility with the parent tongue but is very much its own language."
 	speech_verb = "states"
 	ask_verb = "questions"
 	exclaim_verb = "shouts"

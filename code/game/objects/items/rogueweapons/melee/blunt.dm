@@ -73,8 +73,19 @@
 	clickcd = CLICK_CD_HEAVY
 	swingdelay = 10
 
-/datum/intent/mace/demolish/lesser
-	demolition_mod = 2.5
+/datum/intent/mace/lesserdemolish
+	name = "break"
+	desc = "A deliberate structure-breaking blow. Deals triple the damage to structures"
+	icon_state = "incrush"
+	blade_class = BCLASS_SMASH
+	attack_verb = list("demolishes", "crushes", "wrecks")
+	animname = "strike"
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	item_d_type = "blunt"
+	penfactor = PEN_NONE
+	demolition_mod = 3
+	clickcd = CLICK_CD_HEAVY
+	swingdelay = 10
 
 /datum/intent/mace/rangedthrust
 	name = "thrust"
@@ -138,6 +149,9 @@
 	desc = "A titanic blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
 	maxrange = 5
 
+/datum/intent/mace/strike/poleaxe
+	damfactor = 1.2
+
 //blunt objs ฅ^•ﻌ•^ฅ
 
 /obj/item/rogueweapon/mace
@@ -191,7 +205,7 @@
 
 /obj/item/rogueweapon/mace/alloy
 	name = "decrepit mace"
-	desc = "Frayed bronze, perched atop a rotwooden shaft. His sacrifice had drowned Old Syon, and - in its wake - left Man bereft of all it had accomplished. With all other prayers falling upon deaf ears, Man had crafted this idol in tribute to its new God; violence."
+	desc = "Rotted metal, perched atop a rotwooden shaft. His sacrifice had drowned Old Syon, and - in its wake - left Man bereft of all it had accomplished. With all other prayers falling upon deaf ears, Man had crafted this idol in tribute to its new God; violence."
 	icon_state = "amace"
 	force = 17
 	force_wielded = 21
@@ -328,7 +342,7 @@
 	name = "bogbark club"
 	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
 	aura_color = "#00ff00"
-	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/demolish)
+	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/lesserdemolish)
 	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
 
 /obj/item/rogueweapon/mace/woodclub
@@ -448,7 +462,7 @@
 /obj/item/rogueweapon/mace/cudgel/flanged/silver
 	name = "silver flanged mace"
 	desc = "A flanged mace of silver, fit for a holy paladin's grasp. The weight within your hand is not of silver, alone - but of the fate that you may yet avert; for yourself, and \
-    for the world you love. </br>'Please do not wait for me..' \ </br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' \
+	for the world you love. </br>'Please do not wait for me..' \ </br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' \
 	</br>'Hear my song being sung by the bards..' </br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' \
 	</br>'..and know that my spirit will always be with you..' </br>'..woven into the very fabric of the world we cherished together.'"
 	force = 30
@@ -481,7 +495,7 @@
 /obj/item/rogueweapon/mace/cudgel/flanged/psy
 	name = "psydonic flanged mace"
 	desc = "A flanged mace of blessed silver, wielded by His children. The rosewood handle's curved nature beckons your fingers to curl along its grooves, and to never let go; \
-    no matter the weather nor odds. </br>'Please do not wait for me..' \ </br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' \
+	no matter the weather nor odds. </br>'Please do not wait for me..' \ </br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' \
 	</br>'Hear my song being sung by the bards..' </br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' \
 	</br>'..and know that my spirit will always be with you..' </br>'..woven into the very fabric of the world we cherished together.'"
 	force = 30
@@ -800,29 +814,65 @@
 	max_integrity = 200
 
 /obj/item/rogueweapon/mace/warhammer/bronze
-	force = 22
+	force = 25
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
 	name = "bronze warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with bronze. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "bronzeclub"
+	max_blade_int = 150
 	wbalance = WBALANCE_HEAVY
-	throwforce = 30
+	throwforce = 25
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 20)
 	smeltresult = /obj/item/ingot/bronze
 	wdefense = 3
 	max_integrity = 180
+	sharpness = IS_SHARP
+
+/obj/item/rogueweapon/mace/warhammer/bronze/iron
+	force = 20 //just a tad weaker than the bronze to balance it out, this weapon has some versatile intents and i dont want it to be TOO strong.
+	name = "iron warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with iron. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "iclub"
+	max_blade_int = 100
+	throwforce = 20 // still hurts, just less
+	smeltresult = /obj/item/ingot/iron
+	wdefense = 2
+	max_integrity = 120
+
+/obj/item/rogueweapon/mace/warhammer/bronze/steel
+	force = 28 //just a little better than the bronze club but barely
+	name = "steel warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with steel. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "steelclub"
+	max_blade_int = 175
+	throwforce = 25
+	smeltresult = /obj/item/ingot/steel
+	wdefense = 3
+	max_integrity = 200
+
+/obj/item/rogueweapon/mace/warhammer/bronze/silver
+	name = "silver warclub"
+	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with silver. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
+	icon_state = "clubsilver"
+	throwforce = 30
+	smeltresult = /obj/item/ingot/silver
+	wdefense = 4
+	is_silver = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/bronze/decorated
+	force = 30 // this requires GOLD to make, its going to be a bit more heavy.
 	name = "decorated bronze warclub"
-	desc = "Flowers, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
+	desc = "beads, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
 	max_integrity = 250
+	max_blade_int = 200
 	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/alloy
 	name = "decrepit warhammer"
-	desc = "A macehead of frayed bronze, spiked and perched atop a thin shaft. To see such a knightly implement abandoned to decay and neglect; that wounds the heart greater than any well-poised strike."
+	desc = "A macehead of rotted metal, spiked and perched atop a thin shaft. To see such a knightly implement abandoned to decay and neglect; that wounds the heart greater than any well-poised strike."
 	icon_state = "awarhammer"
 	force = 17
 	max_integrity = 150
@@ -1012,7 +1062,7 @@
 	smelt_bar_num = 3 //Please don't...
 	max_integrity = 370
 
-//Psydonite maul. Intended for FUCKING SHIT UP.
+//Psydonite reliquary maul. Intended for FUCKING SHIT UP.
 /obj/item/rogueweapon/mace/maul/grand/psy
 	name = "psydonic maul"
 	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/sweep, /datum/intent/mace/demolish, /datum/intent/effect/hobble)
@@ -1146,10 +1196,10 @@
 	var/last_hit_time = 0
 	var/reset_timeout = 75 SECONDS
 
-/datum/component/mushroom_mace/Initialize()
+/datum/component/mushroom_mace/Initialize(mapload)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, .proc/on_attack)
+	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack))
 
 /datum/component/mushroom_mace/proc/on_attack(obj/item/source, mob/living/target, mob/living/user)
 	SIGNAL_HANDLER
@@ -1234,6 +1284,9 @@
 	if(L.stat == DEAD)
 		return
 
+	if(HAS_TRAIT(L, TRAIT_NOBREATH))
+		return
+
 	to_chat(L, span_danger("You breathe in the spiky spores!"))
 	L.apply_damage(damage_amount, BRUTE)
 
@@ -1256,7 +1309,7 @@
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/boom, /datum/intent/mace/strike/dislocate, /datum/intent/mace/smash)
 	smeltresult = /obj/item/ingot/lithmyc
 
-/obj/item/rogueweapon/mace/mushroom/Initialize()
+/obj/item/rogueweapon/mace/mushroom/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/mushroom_mace)
 
@@ -1268,11 +1321,12 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_width = 32
 	grid_height = 64
-	possible_item_intents = list(/datum/intent/use, /datum/intent/mace/strike, /datum/intent/mace/strike/dislocate)
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate)
 	force = 20
 	max_integrity = 200
 	dropshrink = 0.8
 	throwforce = 15
+	associated_skill = /datum/skill/combat/maces
 	anvilrepair = /datum/skill/craft/engineering
 	wdefense = 3
 	wdefense_wbonus = 3
@@ -1297,7 +1351,7 @@
 	force = 13
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged)
-	gripped_intents = list(/datum/intent/use, /datum/intent/mace/strike, /datum/intent/mace/strike/dislocate, /datum/intent/mace/demolish/lesser)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/lesserdemolish)
 	minstr = 8
 	max_integrity = 350
 	w_class = WEIGHT_CLASS_BULKY
@@ -1409,20 +1463,20 @@
 
 /obj/item/rogueweapon/contraption/linker/mace/decrepit
 	name = "Decrepit Wrench"
-	desc = "An ancient wrench, reinforced with frayed bronze. Once a tool of progress, repurposed into little more than a cudgel"
+	desc = "An ancient wrench, reinforced with rotted metal. Once a tool of progress, repurposed into little more than a cudgel"
 	max_integrity = 150
 	icon_state = "2hdecrepit"
 	smeltresult = /obj/item/ingot/aaslag
 	force = 18
 	max_stored_charge = 40
 
-/obj/item/rogueweapon/contraption/linker/mace/decrepit/Initialize()
+/obj/item/rogueweapon/contraption/linker/mace/decrepit/Initialize(mapload)
 	. = ..()
 	current_charge = rand(0, max_stored_charge) // it's an ancient artifact, rather than crafted. might have some charge left
 
 /obj/item/rogueweapon/contraption/linker/mace/big/decrepit
 	name = "Massive Decrepit Wrench"
-	desc = "A massive tool of ancient, frayed bronze. The teeth at its head have been stripped clean from countless years of pointless toil, maintaining a great construct of no clear purpose"
+	desc = "A massive tool of ancient, rotted metal. The teeth at its head have been stripped clean from countless years of pointless toil, maintaining a great construct of no clear purpose"
 	max_integrity = 200
 	icon_state = "decrepitwrench"
 	smeltresult = /obj/item/ingot/aaslag
@@ -1430,6 +1484,6 @@
 	force_wielded = 21
 	max_stored_charge = 40
 
-/obj/item/rogueweapon/contraption/linker/mace/big/decrepit/Initialize()
+/obj/item/rogueweapon/contraption/linker/mace/big/decrepit/Initialize(mapload)
 	. = ..()
 	current_charge = rand(0, max_stored_charge) // it's an ancient artifact, rather than crafted. might have some charge left

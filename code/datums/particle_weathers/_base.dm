@@ -7,21 +7,21 @@
 
 
 	spawning = 0
-	width                  = 800  // I think this is supposed to be in pixels, but it doesn't match bounds, so idk - 800x800 seems to prevent particle-less edges
-	height                 = 800
-	count                  = 1200 // max live particles rendered per client
+	width					= 800	// I think this is supposed to be in pixels, but it doesn't match bounds, so idk - 800x800 seems to prevent particle-less edges
+	height					= 800
+	count					= 1200 // max live particles rendered per client
 	//Set bounds to rough screensize + some extra on the side and top movement for "wind"
-	bound1                 = list(-500,-256,-10)
-	bound2                 = list(500,500,10)
-	lifespan               = 285   // live for 30s max (fadein + lifespan + fade)
-	fade                   = 10    // 1s fade out
-	fadein				   = 5     // 0.5s fade in
+	bound1					= list(-500,-256,-10)
+	bound2					= list(500,500,10)
+	lifespan				= 285	// live for 30s max (fadein + lifespan + fade)
+	fade					= 10	// 1s fade out
+	fadein					= 5		// 0.5s fade in
 
 	//Obnoxiously 3D -- INCREASE Z level to make them further away
-	transform			   = list( 1, 0, 0,  0  ,
-								   0, 1, 0,  0  ,
-								   0, 0, 1, 1/4, //Get twice as Small every 4 Z
-								   0, 0, 0,  1  )
+	transform				= list( 1, 0, 0,	0	,
+									0, 1, 0,	0	,
+									0, 0, 1, 1/4, //Get twice as Small every 4 Z
+									0, 0, 0,	1	)
 
 //Animate particle effect to a severity
 /particles/weather/proc/animateSeverity(severityMod)
@@ -288,7 +288,7 @@
 		L.weather = FALSE
 
 //Not using looping_sounds properly. somebody smart should fix this //actually this kind of works, just done a bit backwards
-/datum/particle_weather/proc/weather_sound_effect(mob/living/L, var/outside = TRUE)
+/datum/particle_weather/proc/weather_sound_effect(mob/living/L, outside = TRUE)
 	var/datum/looping_sound/currentSound = currentSounds[L]
 	if(currentSound)
 		//SET VOLUME
@@ -349,7 +349,7 @@
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
+	var/weather_type = input(usr, "Choose a weather", "Weather")	as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
 	if(!weather_type)
 		return
 
@@ -369,7 +369,7 @@
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
+	var/weather_type = input(usr, "Choose a weather", "Weather")	as null|anything in sortList(subtypesof(/datum/particle_weather), /proc/cmp_typepaths_asc)
 	if(!weather_type)
 		return
 
@@ -384,7 +384,7 @@
 	"Gold" = "#f9a602"
 	)
 
-	var/color = input("Choose a weather color", "Weather")  as null|anything in selectable_colors
+	var/color = input(usr, "Choose a weather color", "Weather")	as null|anything in selectable_colors
 	if(!color )
 		color = "#ccffff" //base rain color
 

@@ -22,6 +22,6 @@
 			add_overlay(M)
 	..()
 
-/obj/item/storage/belt/Initialize()
+/obj/item/storage/belt/Initialize(mapload)
 	. = ..()
 	update_icon()

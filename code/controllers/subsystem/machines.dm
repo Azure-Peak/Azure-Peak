@@ -6,7 +6,7 @@ SUBSYSTEM_DEF(machines)
 	var/list/processing = list()
 	var/list/currentrun = list()
 
-/datum/controller/subsystem/machines/Initialize()
+/datum/controller/subsystem/machines/Initialize(mapload)
 	fire()
 	return ..()
 

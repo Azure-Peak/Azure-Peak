@@ -22,7 +22,7 @@ SUBSYSTEM_DEF(input)
 	/// currentrun list of clients
 	var/list/client/currentrun
 
-/datum/controller/subsystem/input/Initialize()
+/datum/controller/subsystem/input/Initialize(mapload)
 	setup_macrosets()
 	refresh_client_macro_sets()
 

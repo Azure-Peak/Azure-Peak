@@ -31,7 +31,7 @@ GLOBAL_VAR(king_throne)
 	if(active_rite?.contester == M)
 		active_rite.cancel_counter_claim()
 
-/obj/structure/roguethrone/Initialize()
+/obj/structure/roguethrone/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive()
 	if(GLOB.king_throne == null)

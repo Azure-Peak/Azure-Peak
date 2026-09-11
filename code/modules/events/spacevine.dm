@@ -112,7 +112,7 @@
 	if(!isvineimmune(eater))
 		eater.adjustToxLoss(5)
 
-/datum/vine_mutation/explosive  //OH SHIT IT CAN CHAINREACT RUN!!!
+/datum/vine_mutation/explosive	//OH SHIT IT CAN CHAINREACT RUN!!!
 	name = "explosive"
 	hue = "#ff0000"
 	quality = NEGATIVE
@@ -149,10 +149,10 @@
 
 /datum/vine_mutation/vine_eating/on_spread(obj/structure/vine/holder, turf/target)
 	var/obj/structure/vine/prey = locate() in target
-	if(prey && !prey.mutations.Find(src))  //Eat all vines that are not of the same origin
+	if(prey && !prey.mutations.Find(src))	//Eat all vines that are not of the same origin
 		qdel(prey)
 
-/datum/vine_mutation/aggressive_spread  //very OP, but im out of other ideas currently
+/datum/vine_mutation/aggressive_spread	//very OP, but im out of other ideas currently
 	name = "aggressive spreading"
 	hue = "#333333"
 	severity = 3
@@ -230,7 +230,7 @@
 	break_sound = "plantcross"
 	destroy_sound = null
 
-/obj/structure/vine/Initialize()
+/obj/structure/vine/Initialize(mapload)
 	. = ..()
 	dir = pick(GLOB.cardinals)
 	icon_state = "Light[rand(1,2)]"

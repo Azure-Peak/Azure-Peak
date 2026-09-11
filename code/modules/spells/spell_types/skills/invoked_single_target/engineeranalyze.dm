@@ -10,6 +10,7 @@
 	movement_interrupt = FALSE
 	sound = 'sound/magic/diagnose.ogg'
 	action_icon = 'icons/mob/actions/engineer_skills.dmi'
+	overlay_icon = 'icons/mob/actions/engineer_skills.dmi'
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/arcane
 	antimagic_allowed = TRUE
@@ -35,7 +36,7 @@
 			if(analyzedstructure.redstone_attached.len > 0)
 				examination += "☼ ATTACHED STRUCTURES "
 				for(var/obj/structure/attachedstructures in analyzedstructure.redstone_attached)
-					examination += "   - [attachedstructures.name] "
+					examination += "	- [attachedstructures.name] "
 			else
 				examination += "☼ NO ATTACHED STRUCTURES"
 		examination += "ø ------------ ø</span>"

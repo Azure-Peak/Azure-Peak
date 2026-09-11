@@ -31,7 +31,7 @@
 	if(locate(/obj/item/fishingcage) in T)
 		to_chat(user, span_warning("There's already a fishing cage here."))
 		return
-	
+
 	if(istype(T, /turf/open/water))
 		if(do_after(user, deploy_speed, target = src))
 			user.transferItemToLoc(src, T)
@@ -118,4 +118,3 @@
 	. = ..()
 	if(icon_state == "fishingcage_caught")
 		. += span_warning("Something seems to be inside...")
-	

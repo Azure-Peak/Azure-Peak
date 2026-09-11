@@ -32,7 +32,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambeson normally? This restores the new greyscaled style.",, "Yes", "No") != "No")
 			icon_state = "gambeson"
 			color = "#976E6B"
 			update_icon()
@@ -44,7 +44,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your gambeson traditionally? This restores the original coloration.",, "Yes", "No") != "No")
 			icon_state = "gambesonold"
 			color = null
 			update_icon()
@@ -98,6 +98,9 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	shiftable = FALSE
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/light/dark
+	color = "#646464"
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
 	name = "padded arming jacket"
 	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
@@ -133,7 +136,7 @@
 	if(!shiftable)
 		return
 	if(shifted)
-		if(alert("Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson normally? -Restores greyscaling, new style.",, "Yes", "No") != "No")
 			icon_state = "gambesonp"
 			color = "#976E6B"
 			update_icon()
@@ -145,7 +148,7 @@
 					H.update_inv_armor()
 			return
 	else
-		if(alert("Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
+		if(alert(user, "Would you like to wear your padded gambeson traditionally? -Removes Greyscaling, old style.",, "Yes", "No") != "No")
 			icon_state = "gambesonpold"
 			color = null
 			update_icon()
@@ -182,7 +185,7 @@
 			H.update_inv_shirt()
 			H.update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -220,7 +223,7 @@
 /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
 	name = "aesthetic fencing shirt"
 
-/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/freifechter/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -276,7 +279,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_shirt()
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -292,7 +295,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
 	name = "aesthetic grenzelhoftian hip-shirt"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -315,7 +318,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
 	name = "aesthetic hierophant's shawl"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -341,6 +344,12 @@
 	shiftable = FALSE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq/cleric //trash varient for aura
+	name = "worn psydonic leather tunic"
+	desc = "A firm and rugged leather tunic; made to ENDURE, made to PERSIST, its seen a lot of wear and tear in its tyme."
+	armor = ARMOR_PADDED_BAD
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe
 	name = "stalker robe"
 	desc = "A robe-like gambeson of moth-eaten cloth and cheap purple dye. No self-respecting elf would be seen wearing this."
@@ -353,7 +362,7 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
 	name = "aesthetic stalker robe"
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 //Hand's gambeson, looks fancy
@@ -370,7 +379,7 @@
 	detail_color = "#6e423a"
 	shiftable = FALSE
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -393,7 +402,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/baotha
 	name = "saccharine vestments"
-	desc = "A gemmed chalice, Eora's own, swilled with Psydonia's most noxious venoms - and but a simple sip was enough to bring Her to death's door.."
+	desc = "Although mighty Ravox's hand demanded justice for the Eoran priestess' treachery, Eora stayed it, and merely stripped her of vestements and title. The lepers would die, but they would die in comfort and love."
 	icon_state = "baothagamb"
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_PADDED
@@ -407,7 +416,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	smeltresult = /obj/item/ingot/component/baotha
 
-/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize()
+/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VESTMENTS")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)

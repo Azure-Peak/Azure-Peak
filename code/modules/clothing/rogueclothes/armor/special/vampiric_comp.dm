@@ -36,10 +36,10 @@
 		if(istype(I, target_armor_path))
 			add_item(I)
 
-	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_item_equipped)
-	RegisterSignal(H, COMSIG_MOB_DROPITEM, .proc/on_item_dropped)
-	RegisterSignal(H, COMSIG_MOB_ITEM_ATTACK, .proc/on_successful_strike)
-	RegisterSignal(H, COMSIG_MOB_ITEM_AFTERATTACK, .proc/on_attack_finished)
+	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_item_equipped))
+	RegisterSignal(H, COMSIG_MOB_DROPITEM, PROC_REF(on_item_dropped))
+	RegisterSignal(H, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_successful_strike))
+	RegisterSignal(H, COMSIG_MOB_ITEM_AFTERATTACK, PROC_REF(on_attack_finished))
 
 /datum/component/vampiric_striker/proc/on_item_equipped(mob/user, obj/item/source, slot)
 	SIGNAL_HANDLER
@@ -72,7 +72,7 @@
 	if(target.stat == DEAD || !target.mind)
 		return
 	current_victim_ref = WEAKREF(target)
-	RegisterSignal(target, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, .proc/handle_target_armor_shred)
+	RegisterSignal(target, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, PROC_REF(handle_target_armor_shred))
 
 /datum/component/vampiric_striker/proc/handle_target_armor_shred(mob/living/carbon/human/target, armor_damage_taken, obj/item/clothing/damaged_item, current_layer, total_layers)
 	SIGNAL_HANDLER
@@ -139,11 +139,11 @@
 		return
 
 	repair_from_shard(S.repair_value)
-	
+
 	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(parent))
 	E.color = S.effect_color
 	playsound(parent, 'sound/magic/magic_nulled.ogg', 70, TRUE)
-	
+
 	UnregisterSignal(S, COMSIG_MOVABLE_CROSSED)
 	qdel(S)
 
@@ -163,12 +163,12 @@
 				most_broken = I
 
 		if(!most_broken)
-			break 
+			break
 
 		var/needed = most_broken.max_integrity - most_broken.obj_integrity
 		var/applied = min(remaining_repair, needed)
 		most_broken.obj_integrity += applied
-		
+
 		if(most_broken.max_blade_int && most_broken.blade_int < most_broken.max_blade_int)
 			most_broken.blade_int = most_broken.max_blade_int
 		remaining_repair -= applied
@@ -178,7 +178,7 @@
 
 		most_broken.update_icon()
 
-		if(needed > applied) 
+		if(needed > applied)
 			break
 
 /datum/component/vampiric_striker/Destroy()

@@ -11,7 +11,7 @@
 /datum/time_of_day/sunrise
 	name = "Sunrise"
 	color = "#F598AB"
-	start = 9.5 HOURS  //9:30:00 AM
+	start = 9.5 HOURS	//9:30:00 AM
 
 /datum/time_of_day/daytime
 	name = "Daytime"
@@ -34,7 +34,7 @@
 	start = 16 HOURS //4:00:00 PM
 
 GLOBAL_VAR_INIT(GLOBAL_LIGHT_RANGE, 3)
-GLOBAL_LIST_EMPTY(SUNLIGHT_QUEUE_WORK)   /* turfs to be stateChecked */
+GLOBAL_LIST_EMPTY(SUNLIGHT_QUEUE_WORK)	/* turfs to be stateChecked */
 GLOBAL_LIST_EMPTY(SUNLIGHT_QUEUE_UPDATE) /* turfs to have their colors updated via corners (filter out the unroofed dudes) */
 GLOBAL_LIST_EMPTY(SUNLIGHT_QUEUE_CORNER) /* turfs to have their color/lights/etc updated */
 
@@ -54,19 +54,19 @@ SUBSYSTEM_DEF(outdoor_effects)
 	var/picked_color
 	//Ensure midnight is the liast step
 	var/list/datum/time_of_day/time_cycle_steps = list(new /datum/time_of_day/dawn(),
-	                                                   new /datum/time_of_day/sunrise(),
-	                                                   new /datum/time_of_day/daytime(),
-	                                                   new /datum/time_of_day/sunset(),
-	                                                   new /datum/time_of_day/dusk(),
-	                                                   new /datum/time_of_day/midnight())
-	var/alist/turf_weather_affectable_z_levels = alist()												   
+														new /datum/time_of_day/sunrise(),
+														new /datum/time_of_day/daytime(),
+														new /datum/time_of_day/sunset(),
+														new /datum/time_of_day/dusk(),
+														new /datum/time_of_day/midnight())
+	var/alist/turf_weather_affectable_z_levels = alist()
 	var/next_day = FALSE // Resets when station_time is less than the next start time.
 
 // /datum/controller/subsystem/outdoor_effects/proc/fullPlonk()
-// 	for(var/zlevel in SSmapping.levels_by_trait(ZTRAIT_WEATHER_STUFF))
-// 		if(SSmapping.level_trait(zlevel, ZTRAIT_IGNORE_WEATHER_TRAIT))
-// 			continue
-// 		turf_weather_affectable_z_levels[zlevel] = TRUE
+//	for(var/zlevel in SSmapping.levels_by_trait(ZTRAIT_WEATHER_STUFF))
+//		if(SSmapping.level_trait(zlevel, ZTRAIT_IGNORE_WEATHER_TRAIT))
+//			continue
+//		turf_weather_affectable_z_levels[zlevel] = TRUE
 
 /datum/controller/subsystem/outdoor_effects/Initialize(timeofday)
 	if(!initialized)
@@ -287,11 +287,11 @@ SUBSYSTEM_DEF(outdoor_effects)
 //get our weather overlay
 /datum/controller/subsystem/outdoor_effects/proc/get_weather_overlay() //TODO VANDERLIN: Restore this to 32x48 for some extra
 	var/mutable_appearance/MA = new /mutable_appearance()
-	MA.icon 			  = 'icons/effects/weather_overlay.dmi'
-	MA.icon_state 		  = "weather_overlay"
-	MA.plane			  = WEATHER_OVERLAY_PLANE
-	MA.blend_mode   	  = BLEND_OVERLAY
-	MA.invisibility 	  = INVISIBILITY_LIGHTING
+	MA.icon				= 'icons/effects/weather_overlay.dmi'
+	MA.icon_state			= "weather_overlay"
+	MA.plane				= WEATHER_OVERLAY_PLANE
+	MA.blend_mode			= BLEND_OVERLAY
+	MA.invisibility		= INVISIBILITY_LIGHTING
 	return MA
 
 
@@ -301,9 +301,9 @@ SUBSYSTEM_DEF(outdoor_effects)
 
 	var/mutable_appearance/MA = new /mutable_appearance()
 
-	MA.blend_mode   = BLEND_OVERLAY
-	MA.icon		 = LIGHTING_ICON
-	MA.icon_state   = null
+	MA.blend_mode	= BLEND_OVERLAY
+	MA.icon			= LIGHTING_ICON
+	MA.icon_state	= null
 	MA.plane		= SUNLIGHTING_PLANE /* we put this on a lower level than lighting so we dont multiply anything */
 	MA.invisibility = INVISIBILITY_LIGHTING
 
@@ -321,9 +321,9 @@ SUBSYSTEM_DEF(outdoor_effects)
 		MA.color = SUNLIGHT_DARK_MATRIX
 	else
 		MA.color = list(
-					fr, fr, fr,  00 ,
-					fg, fg, fg,  00 ,
-					fb, fb, fb,  00 ,
-					fa, fa, fa,  00 ,
-					00, 00, 00,  01 )
+					fr, fr, fr,	00 ,
+					fg, fg, fg,	00 ,
+					fb, fb, fb,	00 ,
+					fa, fa, fa,	00 ,
+					00, 00, 00,	01 )
 	return MA

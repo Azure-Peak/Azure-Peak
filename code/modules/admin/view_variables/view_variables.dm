@@ -177,7 +177,7 @@
 
 			// onkeydown
 			function handle_keydown() {
-				if(event.keyCode == 116) {  //F5 (to refresh properly)
+				if(event.keyCode == 116) {	//F5 (to refresh properly)
 					document.getElementById("refresh_link").click();
 					event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 					return false;
@@ -275,7 +275,7 @@ datumrefresh=[refid];[HrefToken()]'>Refresh</a>
 	</body>
 </html>
 "}
-	src << browse(html, "window=variables[refid];size=475x650")
+	src << browse(html, "window=variables[refid];size=660x700")
 
 /client/proc/vv_update_display(datum/D, span, content)
 	src << output("[span]:[content]", "variables[REF(D)].browser:replace_span")

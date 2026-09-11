@@ -123,7 +123,7 @@
 	for(var/mob/living/victim in victims)
 		if(QDELETED(victim) || victim.stat == DEAD)
 			continue
-		if(spell_guard_check(victim, FALSE, deflected ? null : user))
+		if(spell_guard_check(victim, FALSE, user, punish_caster = deflected ? FALSE : null))
 			if(!deflected)
 				deflected = TRUE
 				user.Slowdown(2)

@@ -63,6 +63,12 @@
 	if(sheathed)
 		to_chat(user, span_warning("The sheath is occupied!"))
 		return FALSE
+	if(!istype(A, /obj/item/rogueweapon))
+		return FALSE
+	var/obj/item/rogueweapon/RW = A
+	if(!RW.sheathe_icon)
+		to_chat(user, span_warning("[A] won't fit in there."))
+		return FALSE
 	if(valid_blade && !istype(A, valid_blade))
 		to_chat(user, span_warning("[A] won't fit in there."))
 		return FALSE
@@ -74,15 +80,7 @@
 		if(A.type in invalid_blades)
 			to_chat(user, span_warning("[A] won't fit in there."))
 			return FALSE
-	if(istype(A, /obj/item/rogueweapon))
-		var/obj/item/rogueweapon/RW = A
-		if(!RW.sheathe_icon)
-			to_chat(user, span_warning("[A] won't fit in there."))
-			return FALSE
-	else
-		return FALSE
 	return TRUE
-
 
 /datum/component/holster/proc/eat_sword(mob/living/user, obj/A)
 	if(!weapon_check(user, A))

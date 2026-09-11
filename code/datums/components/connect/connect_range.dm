@@ -11,9 +11,9 @@
 	/// The turfs currently connected to this component
 	var/list/turfs = list()
 	/**
-	 * The atom the component is tracking. The component will delete itself if the tracked is deleted.
-	 * Signals will also be updated whenever it moves (if it's a movable).
-	 */
+		* The atom the component is tracking. The component will delete itself if the tracked is deleted.
+		* Signals will also be updated whenever it moves (if it's a movable).
+		*/
 	var/atom/tracked
 
 	/// The component will hook into signals only on turfs not farther from tracked than this.

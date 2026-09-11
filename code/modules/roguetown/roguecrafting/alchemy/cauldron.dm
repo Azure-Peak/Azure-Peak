@@ -37,7 +37,7 @@
 	. += span_info("Left-click the cauldron with a container on the 'FEED' intent to fill it up. Likewise, left-clicking the cauldron with a container on the 'FILL' intent will gradually transfer the cauldron's brew into the container.")
 	. += span_info("Combining certain herbs, powders, and other ingredients can create a wide variety of alchemical wonders.")
 
-/obj/machinery/light/rogue/cauldron/Initialize()
+/obj/machinery/light/rogue/cauldron/Initialize(mapload)
 	create_reagents(500, DRAINABLE | AMOUNT_VISIBLE | REFILLABLE)
 	. = ..()
 
@@ -215,7 +215,7 @@
 		return ..()
 	return
 
-/obj/machinery/light/rogue/cauldron/folding/Initialize()
+/obj/machinery/light/rogue/cauldron/folding/Initialize(mapload)
 	. = ..()
 	burn_out()
 	create_reagents(90, DRAINABLE | AMOUNT_VISIBLE | REFILLABLE)

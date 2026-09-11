@@ -277,7 +277,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 						readable_coverage = body_parts_covered2organ_names(C.body_parts_covered_dynamic, verbose = TRUE)
 					for(var/coverageflag in readable_coverage)
 						for(var/type in damtypes)
-							switch(type)			//We get the max armor  values for this coverage flag
+							switch(type)			//We get the max armor	values for this coverage flag
 								if("blunt")
 									blunt_max[coverageflag] = max(C.armor.getRating(type), blunt_max[coverageflag])
 								if("slash")
@@ -432,18 +432,12 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(!ismob(usr))
 			return
 		var/msg = ""
-		if(rumour && length(rumour))
-			var/rumour_display = rumour
-			rumour_display = html_encode(rumour_display)
-			rumour_display = parsemarkdown_basic(rumour_display, hyperlink = TRUE)
-			msg += "<b>You recall what you heard around Town about [src]...</b><br>[rumour_display]"
-		if(((HAS_TRAIT(usr, TRAIT_NOBLE)) || observer_privilege) && length(noble_gossip))
+		if(length(rumour_cached))
+			msg += "<b>You recall what you heard around Town about [src]...</b><br>[rumour_cached]"
+		if(((HAS_TRAIT(usr, TRAIT_NOBLE)) || observer_privilege) && length(noble_gossip_cached))
 			if(msg)
 				msg += "<br><br>"
-			var/gossip_display = noble_gossip
-			gossip_display = html_encode(gossip_display)
-			gossip_display = parsemarkdown_basic(gossip_display, hyperlink = TRUE)
-			msg += "<b>You recall what the other Blue-bloods hushed about [src]...</b><br>[gossip_display]"
+			msg += "<b>You recall what the other Blue-bloods hushed about [src]...</b><br>[noble_gossip_cached]"
 		if(msg)
 			to_chat(usr, "<span class='info'>[msg]</span>")
 		else	//Edge-case of there being ONLY noble gossip, but we aren't a noble.
@@ -493,7 +487,8 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			dots += "<font color='#404040'>&#9675;</font>"
 	return "<font color='[color]'>[label]</font> [dots]"
 
-/proc/skilldiff_report(var/input)
+/proc/skilldiff_report(input)
+	input = clamp(round(input, 1), -SKILL_LEVEL_LEGENDARY, SKILL_LEVEL_LEGENDARY)
 	switch (input)
 		if(-6)
 			return "<font color = '#ff4ad2'>I know nothing. They -- everything</font>"

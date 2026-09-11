@@ -18,7 +18,7 @@ SUBSYSTEM_DEF(sun)
 	return ..("P:[solars.len]")
 
 /datum/controller/subsystem/sun/fire()
-	angle = (360 + angle + rate * 6) % 360	 // increase/decrease the angle to the sun, adjusted by the rate
+	angle = (360 + angle + rate * 6) % 360		// increase/decrease the angle to the sun, adjusted by the rate
 
 	// now calculate and cache the (dx,dy) increments for line drawing
 	var/s = sin(angle)

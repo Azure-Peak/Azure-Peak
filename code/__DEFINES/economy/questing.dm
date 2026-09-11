@@ -1,6 +1,7 @@
 #define QUEST_DIFFICULTY_EASY "Easy"
 #define QUEST_DIFFICULTY_MEDIUM "Medium"
 #define QUEST_DIFFICULTY_HARD "Hard"
+#define QUEST_DIFFICULTY_NOTORIOUS "Notorious"
 
 #define QUEST_RETRIEVAL "Retrieval"
 #define QUEST_COURIER "Courier"
@@ -10,8 +11,10 @@
 #define QUEST_BOUNTY "Bounty"
 #define QUEST_RECOVERY "Recovery"
 #define QUEST_BLOCKADE_DEFENSE "Blockade Defense"
+#define QUEST_HOARD_RECOVERY "Hoard Recovery"
 #define QUEST_TOWNER_SMITH_CARAVAN "Smith Caravan"
 #define QUEST_TOWNER_MINER_OREVEIN "Ore Vein"
+#define QUEST_NOTORIOUS_BOUNTY "Notorious Bounty"
 
 #define QUEST_TURNIN_SELF 1
 #define QUEST_TURNIN_FELLOWSHIP 2
@@ -57,12 +60,15 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 	QUEST_BOUNTY = BURGHER_PLEDGE_COST_MAJOR,
 	QUEST_RAID = BURGHER_PLEDGE_COST_MAJOR,
 	QUEST_BLOCKADE_DEFENSE = BLOCKADE_SCROLL_PLEDGE_COST,
+	QUEST_HOARD_RECOVERY = BLOCKADE_SCROLL_PLEDGE_COST,
 ))
 
 // Multipliers applied to the base TP for kill request rewards
 #define QUEST_KILL_THREAT_MULT 1.0
 // Bounty's main target is further multiplied
 #define QUEST_BOUNTY_THREAT_MULT 1
+// 2x the threat point value is ideal
+#define QUEST_NOTORIOUS_BOUNTY_THREAT_MULT 2
 
 // Max mobs for kill request to avoid lagging
 #define QUEST_KILL_MAX_MOBS 20
@@ -76,6 +82,8 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_TP_BUDGET_CLEAR_OUT 80
 #define QUEST_TP_BUDGET_RAID 150
 #define QUEST_TP_BUDGET_BOUNTY_GOONS 120
+// Small starting escort so the boss isn't alone against ambient mobs and full parties.
+#define QUEST_TP_BUDGET_NOTORIOUS_GOONS 50
 #define QUEST_TP_BUDGET_RECOVERY 80
 
 // TP budget variance
@@ -84,6 +92,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Bands of threat cleared on completion
 #define QUEST_BANDS_KILL_EASY 1
 #define QUEST_BANDS_CLEAR_OUT 2
+#define QUEST_BANDS_NOTORIOUS 3
 #define QUEST_BANDS_RAID 4
 #define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
@@ -100,10 +109,12 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_DIFFICULTY_BONUS_EASY 0
 #define QUEST_DIFFICULTY_BONUS_MEDIUM 0
 #define QUEST_DIFFICULTY_BONUS_HARD 25
+#define QUEST_DIFFICULTY_BONUS_NOTORIOUS 75
 
 #define QUEST_DEPOSIT_EASY 5
 #define QUEST_DEPOSIT_MEDIUM 10
 #define QUEST_DEPOSIT_HARD 20
+#define QUEST_DEPOSIT_NOTORIOUS 20
 
 
 // Jobs may override via /datum/job.max_active_quests.
@@ -148,7 +159,29 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 	QUEST_RAID = 30,\
 	QUEST_BOUNTY = 15,\
 	QUEST_RECOVERY = 5,\
+	QUEST_NOTORIOUS_BOUNTY = 20,\
 )
+
+#define NOTORIOUS_BOUNTY_POLL_TIME (15 SECONDS)
+#define NOTORIOUS_BOUNTY_POLL_WIDTH 520
+#define NOTORIOUS_BOUNTY_POLL_HEIGHT 260
+#define NOTORIOUS_BOUNTY_PROX_RANGE 35
+
+#define NOTORIOUS_BOUNTY_CONTROL_TIME (15 MINUTES)
+#define NOTORIOUS_BOUNTY_LEASH_RANGE 40
+#define NOTORIOUS_BOUNTY_LEASH_INTERVAL (10 SECONDS)
+#define NOTORIOUS_BOUNTY_GOON_CAP 3
+// Extra goons compensate when no ghost answers the poll and the boss stays an NPC.
+#define NOTORIOUS_BOUNTY_REINFORCE_TP 140
+#define NOTORIOUS_BOUNTY_REINFORCE_CAP 7
+// Flat mammon bump when a player assumes the boss - the hunt got harder, the pay follows.
+#define NOTORIOUS_BOUNTY_PLAYER_BONUS 125
+#define NOTORIOUS_BOUNTY_NPC_BONUS 60
+
+#define NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH 1
+#define NOTORIOUS_BOUNTY_ENGAGE_RANGE 10
+// Grace period between the boss dying and the player being released to a ghost.
+#define NOTORIOUS_BOUNTY_DEATH_RELEASE (5 SECONDS)
 
 
 #define QUEST_EVERGREEN_TYPE_WEIGHTS list(\
@@ -173,9 +206,12 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_DELIVERY_THREAT_BONUS 20
 
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
-#define BLOCKADE_WAVE_TIMER_DS (10 MINUTES)
+#define BLOCKADE_WAVE_TIMER_DS (15 MINUTES)
 
-#define BLOCKADE_ARM_TIMEOUT_DS (30 MINUTES)
+// Minimum Pledge to call a hoard recovery writ from a fellowship without being the Steward.
+#define HOARD_RECOVERY_PLEDGE 200
+#define HOARD_RECOVERY_HOARD_MINIMUM 200
+
 #define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
 
 #define BLOCKADE_TOTAL_WAVES 3

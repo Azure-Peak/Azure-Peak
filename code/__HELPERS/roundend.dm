@@ -83,7 +83,7 @@
 			if(!team_ids[T])
 				team_ids[T] = team_gid++
 			antag_info["team"]["id"] = team_ids[T]
- 
+
 		if(A.objectives.len)
 			for(var/datum/objective/O in A.objectives)
 				var/result = O.check_completion() ? "SUCCESS" : "FAIL"
@@ -124,7 +124,7 @@
 
 	log_game("The round has ended.")
 
-	to_chat(world, "<BR><BR><BR><span class='reallybig'>So ends this tale on [realm_name].</span>")
+	to_world("<BR><BR><BR><span class='reallybig'>So ends this tale on [realm_name].</span>")
 	get_end_reason()
 
 	var/list/key_list = list()
@@ -154,7 +154,7 @@
 	add_roundplayed(key_list)
 
 	update_god_rankings()
-	
+
 	for(var/mob/M in GLOB.mob_list)
 		M.do_game_over()
 
@@ -163,13 +163,13 @@
 		cb.InvokeAsync()
 	LAZYCLEARLIST(round_end_events)
 
-	to_chat(world, "Round ID: [GLOB.rogue_round_id]")
+	to_world("Round ID: [GLOB.rogue_round_id]")
 
 	sleep(5 SECONDS)
 
 	gamemode_report()
 
-	to_chat(world, personal_objectives_report())
+	to_world(personal_objectives_report())
 
 	sleep(10 SECONDS)
 
@@ -247,7 +247,7 @@
 						"The people of Azuria prepare to look forward; their actions locked in the impermeable past.")
 
 	if(end_reason)
-		to_chat(world, span_bigbold("[end_reason]."))
+		to_world(span_bigbold("[end_reason]."))
 	else
 		var/mob/living/ruler = rulermob
 		var/ruler_name = ruler?.real_name || "an unknown sovereign"
@@ -259,11 +259,11 @@
 			"[title] [ruler_name] has kept the realm together for another week.", \
 			"The rule of [title] [ruler_name] holds firm. [realm_name] endures.", \
 			"Through strife and struggle, [title] [ruler_name] has held [realm_name] together.")
-		to_chat(world, span_bigbold("[good_ending]"))
+		to_world(span_bigbold("[good_ending]"))
 
 	// Epilogue — additional flavor text set by usurpation rites
 	if(roundend_epilogue)
-		to_chat(world, "<BR><b><i>[roundend_epilogue]</i></b>")
+		to_world("<BR><b><i>[roundend_epilogue]</i></b>")
 
 /datum/controller/subsystem/ticker/proc/gamemode_report()
 	var/list/all_teams = list()
@@ -274,7 +274,7 @@
 		header_parts += "<br>"
 		header_parts += "<div style='text-align: center; font-size: 1.2em;'>VILLAINS:</div>"
 		header_parts += "<hr class='paneldivider'>"
-		to_chat(world, header_parts)
+		to_world(header_parts)
 
 	for(var/datum/team/A in GLOB.antagonist_teams)
 		if(!A.members)
@@ -697,6 +697,6 @@
 //Legacy versions of the original prompts, listed at the end of each round. Kept below for posterity, and - for creative minds - repurposement.
 //"Without a Monarch, they were doomed to become slaves of Zizo." //"Without a Monarch, they were doomed to be eaten by nite creachers." //"Without a Monarch, they were doomed to become victims of Gehenna."
 //"Without a Monarch, they were doomed to wander the wilderness as exiles." //"Without a Monarch, the Lich made them his playthings." //"Without a Monarch, some jealous rival reigned in tyranny."
-//"Without a Monarch, the gnomes eventually destroyed the town with explosives." //"Without a Monarch, the courtesans sucked the town dry and moved on to the next one." 
+//"Without a Monarch, the gnomes eventually destroyed the town with explosives." //"Without a Monarch, the courtesans sucked the town dry and moved on to the next one."
 //"Without a Monarch, the town was abandoned." //"The peasant rebels took control of the throne, hail the new community!" //"When the Vampires finished sucking the town dry, they moved on to the next one."
 //"The Werevolves formed an unholy clan, marauding [realm_name] until the end of its daes."

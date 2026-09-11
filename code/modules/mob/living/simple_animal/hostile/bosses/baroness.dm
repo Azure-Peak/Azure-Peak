@@ -62,11 +62,12 @@
 	var/next_summon = 0
 	var/list/minions = list( /mob/living/carbon/human/species/dwarfskeleton/ambush/knight/summoned = 100)
 
-/mob/living/simple_animal/hostile/boss/baroness/Initialize()
+/mob/living/simple_animal/hostile/boss/baroness/Initialize(mapload)
 	. = ..()
 	//REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC) //Increased damage malus from silver. Minor over-time damage increase from bleeding wounds. Un-// if it's too easy.
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Not undead but if we ever change this.
 
 /mob/living/simple_animal/hostile/boss/baroness/Shoot()
 	projectiletype = pick(allowed_projectile_types)
@@ -179,7 +180,7 @@
 	duration = 10
 	randomdir = FALSE
 
-/obj/effect/temp_visual/baroness_dying/Initialize()
+/obj/effect/temp_visual/baroness_dying/Initialize(mapload)
 	. = ..()
 	visible_message(span_boldannounce("The Baroness' staff shatters and she crumples to the floor."))
 	INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "Mistress!...", null, list("colossus", "yell"))
@@ -239,7 +240,7 @@
 	name = "baroness"
 	icon_state = "instrike"
 	attack_verb = list("magically slashes", "magically cuts", "magically stabs")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = 'sound/combat/hits/bladed/genchop (1).ogg'
 	chargetime = 15

@@ -54,9 +54,9 @@
  * "key" = (
  * /path,
  * /other/path{
- *     var = list("name" = 'filepath');
- *     other_var = /path
- *     },
+ *		var = list("name" = 'filepath');
+ *		other_var = /path
+ *		},
  * /turf,
  * /area)
  *
@@ -775,7 +775,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 			// Saves like 1.5 deciseconds
 			var/atom_def = text2path(path_to_init) //path definition, e.g /obj/foo/bar
 
-			if(!ispath(atom_def, /atom)) // Skip the item if the path does not exist.  Fix your crap, mappers!
+			if(!ispath(atom_def, /atom)) // Skip the item if the path does not exist.	Fix your crap, mappers!
 				if(bad_paths)
 					// Rare case, avoid the var to save time most of the time
 					LAZYOR(bad_paths[copytext(line, 1, -1)], model_key)
@@ -844,7 +844,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 			var/path_text = trimtext(copytext(member_string, 1, variables_start))
 			var/atom_def = text2path(path_text) //path definition, e.g /obj/foo/bar
 
-			if(!ispath(atom_def, /atom)) // Skip the item if the path does not exist.  Fix your crap, mappers!
+			if(!ispath(atom_def, /atom)) // Skip the item if the path does not exist.	Fix your crap, mappers!
 				if(bad_paths)
 					LAZYOR(bad_paths[path_text], model_key)
 				continue
@@ -913,7 +913,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 	index = members.len
 	if(members[index] != /area/template_noop)
 		if(members_attributes[index] != default_list)
-			world.preloader_setup(members_attributes[index], members[index])//preloader for assigning  set variables on atom creation
+			world.preloader_setup(members_attributes[index], members[index])//preloader for assigning	set variables on atom creation
 		var/area/area_instance = loaded_areas[members[index]]
 		if(!area_instance)
 			var/area_type = members[index]
@@ -1003,7 +1003,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 	var/position
 	var/old_position = 1
 	while(position != 0)
-		// find next delimiter that is not within  "..."
+		// find next delimiter that is not within	"..."
 		position = find_next_delimiter_position(text,old_position,delimiter)
 
 		// check if this is a simple variable (as in list(var1, var2)) or an associative one (as in list(var1="foo",var2=7))
@@ -1021,7 +1021,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 			var/trim_right = trimtext(copytext(text, equal_position + length(text[equal_position]), position))
 			var/right_constant = parse_constant(trim_right)
 			.[left_constant] = right_constant
-		else  // simple var
+		else	// simple var
 			. += list(left_constant)
 
 /datum/parsed_map/proc/parse_constant(text)

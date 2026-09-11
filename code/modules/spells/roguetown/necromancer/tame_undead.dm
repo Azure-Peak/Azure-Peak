@@ -34,6 +34,11 @@
 		reset_spell_cooldown()
 		return FALSE
 
+	if(HAS_TRAIT(target, TRAIT_NOZIZORECRUIT))
+		to_chat(owner, span_warning("[target]'s will is bound to another already, this will not work."))
+		reset_spell_cooldown()
+		return FALSE
+
 	target.faction |= list("cabal", "[owner.mind.current.real_name]_faction")
 	target.visible_message(span_notice("[target] turns its head to pay heed to [owner]!"))
 	if(!target.ai_controller)

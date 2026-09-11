@@ -21,7 +21,7 @@ LINEN BINS
 	var/list/dream_messages = list("white")
 	var/datum/weakref/signal_sleeper //this is our goldylocks
 
-/obj/item/bedsheet/Initialize()
+/obj/item/bedsheet/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/bed_tuckable, 0, 0, 0)
 
@@ -35,7 +35,7 @@ LINEN BINS
 	coverup(user)
 	add_fingerprint(user)
 
-/obj/item/bedsheet/rmb_self(mob/living/user)
+/obj/item/bedsheet/rmb_self(mob/living/user, keybind = FALSE)
 	setDir(turn(dir,180))
 	update_icon()
 	to_chat(user, span_notice("I flip [src]."))

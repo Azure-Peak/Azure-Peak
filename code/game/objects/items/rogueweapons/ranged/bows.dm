@@ -101,16 +101,16 @@
 	var/newtime = (10 - user.get_skill_level(ranged_skill) * 2) + (10 - user.STASTR / 2) + (20 - user.STAPER)
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME
+	return (max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME) * ARCHER_NPC_ROF_PENALTY
 
 //bow objs ฅ^•ﻌ•^ฅ
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	has_item_quality = TRUE
-	name = "crude selfbow"
-	desc = "This roughly hewn selfbow is just a bit too little of everything. Too little length, \
-	too little poundage, too slow a shot."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	name = "oak hunting bow"
+	desc = "A typical hunting bow used by peasants, hunters and levies in absence of more powerful warbows, \
+	it is too weak to pose real threat to armour but in skilled hands a deadly tool all the same."
+	icon = 'icons/roguetown/weapons/ranged32.dmi'
 	icon_state = "bow"
 	item_state = "bow"
 	experimental_onhip = TRUE
@@ -149,7 +149,7 @@
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
 	. += span_info("Nocking straight from a quiver requires my other hand to be free.")
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize()
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize(mapload)
 	. = ..()
 	if(heavy_bow == TRUE)
 		src.possible_item_intents = list(
@@ -191,12 +191,12 @@
 					)
 			if("onbelt")
 				return list(
-					"shrink" = 0.6,
+					"shrink" = 0.7,
 					"sx" = 0,
 					"sy" = -3,
-					"nx" = 4,
+					"nx" = 3,
 					"ny" = -5,
-					"wx" = -3,
+					"wx" = -7,
 					"wy" = -5,
 					"ex" = 2,
 					"ey" = -5,
@@ -211,16 +211,15 @@
 					"northabove" = 1,
 					"southabove" = 0,
 					"eastabove" = 0,
-					"westabove" = 0,
-					)
+					"westabove" = 0)
 			if("onback")
 				return list(
-					"shrink" = 0.6,
-					"sx" = 0,
+					"shrink" = 0.7,
+					"sx" = -1,
 					"sy" = 0,
-					"nx" = 4,
-					"ny" = 0,
-					"wx" = 0,
+					"nx" = 0,
+					"ny" = 1,
+					"wx" = -2,
 					"wy" = 0,
 					"ex" = 0,
 					"ey" = 0,
@@ -235,9 +234,7 @@
 					"northabove" = 1,
 					"southabove" = 0,
 					"eastabove" = 0,
-					"westabove" = 0,
-					)
-
+					"westabove" = 0,)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/shoot_with_empty_chamber()
 	return
@@ -264,7 +261,7 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
+		spread = 0
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.accuracy += accfactor * (user.STAPER - 9) * 4 // 9+ PER gives +4 per level. Exponential.
@@ -283,7 +280,7 @@
 	..()
 
 	var/matrix/mat = matrix()
-	mat.Translate(20,20)
+	mat.Translate(0,0)
 
 	cut_overlays()
 	if(chambered)
@@ -306,16 +303,10 @@
 	name = "recurve bow"
 	desc = "A medium length composite bow of glued horn, wood, and sinew with good shooting \
 	characteristics."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "recurve_bow"
 	force = 9
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = TRUE
-	dropshrink = 0.8
 
+/*
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -390,24 +381,17 @@
 					"southabove" = 0,
 					"eastabove" = 0,
 					"westabove" = 0,)
-
+*/
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 	name = "yew longbow"
 	desc = "A sturdy warbow made of a tillered yew stave. It's difficult to handle, but the \
 	power is worth the effort."
-	icon = 'icons/roguetown/weapons/64.dmi'
 	icon_state = "longbow"
 	slot_flags = ITEM_SLOT_BACK
 	damfactor = 1.3
 	accfactor = 0.9
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = TRUE
-	dropshrink = 0.8
 	heavy_bow = TRUE
-
+/*
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -460,47 +444,22 @@
 					"eastabove" = 0,
 					"westabove" = 0,
 					)
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic
-	name = "bow"
-	desc = "The bow is your life; to hold it high and pull the string is to know the path of destiny."
-	var/hasloadedsprite = TRUE
-	accfactor = 1.15 //A fairly mild alternative to the Crude Selfbow, themed to be more like a proper ranged weapon. Same general stats, but with an increased bonus to accuracy.
-	icon_state = "classicbow0"
-	item_state = "classicbow"
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic/update_icon()
-	. = ..()
-	cut_overlays()
-	icon_state = "[item_state][0]"
-
-	if(chambered && hasloadedsprite)
-		icon_state = "[item_state][1]"
-
-	if(!ismob(loc))
-		return
-	var/mob/M = loc
-	M.update_inv_hands()
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic/getonmobprop(tag)
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.7,"sx" = -3,"sy" = -2,"nx" = 5,"ny" = -1,"wx" = -3,"wy" = 0,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 9,"sturn" = -100,"wturn" = -102,"eturn" = 10,"nflip" = 1,"sflip" = 8,"wflip" = 8,"eflip" = 1)
-			if("onbelt")
-				return list("shrink" = 0.6,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-			if("onback")
-				return list("shrink" = 0.6,"sx" = 1,"sy" = -1,"nx" = 1,"ny" = -1,"wx" = 3,"wy" = -1,"ex" = 0,"ey" = -1,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-
+*/
 
 //Unique Bows
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/watchman
+	name = "yew hunting bow"
+	desc = "A typical hunting bow made out of sturdier wood for the town guard with Azure wrapping on the stave, \
+	it is too weak to pose real threat to armour but in skilled hands a deadly tool all the same."
+	icon_state = "bow_watchman"
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden
 	name = "blackhorn bow"
 	desc = "When a northern black-horned saiga is old enough, it will shed its two-metre long antlers. As time passes, they harden progressively more but keep a degree of flexibility that can outdo even yew.\
 		Wardens often collect such antlers in the rare occasion they are found and send them to be filed, strung and treated by a master bowyer. Such tradition carries merit even todae, \
 		and thus one can see Azurian wardens carrying their endemic blackhorn bows with pride."
-	icon_state = "recurve_warden"
+	icon_state = "bow_warden"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/warden
 	name = "blackhorn longbow"
@@ -511,19 +470,18 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/steppesman
 	name = "aavnic riding bow"
 	desc = "A short recurve warbow made for the express purpose of shooting on saigaback, a skill every archer in Aavnr takes much more seriously than their Northern counterparts. Every seasoned Druzhina is themselves a good bowyer and usually makes their own bow, this one is made with the purpure-ish crimson wood of a Vörötslevé tree."
-	icon_state = "recurve_riding"
+	icon_state = "recurve_bow_steppesman"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/blackoak
 	name = "woad recurve bow"
 	desc = "A medium length composite bow of glued horn, wood, and sinew with fine shooting characteristics. Hewn from a living Black Oak branch, it carries the quiet strength of untouched groves; unyielding, unbroken, and fiercely guarded from the hands of Man."
-	icon_state = "blackoakrecurve_bow"
+	icon_state = "recurve_bow_blackoak"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 	name = "short bow"
 	desc = "As the eagle was killed by the arrow winged with his own feather, so the hand of the world is wounded by its own skill."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
-	icon_state = "bow" //No time for sprite this shit
-	item_state = "bow"
+	icon_state = "bow_short"
+	item_state = "bow_short"
 	possible_item_intents = list(
 		/datum/intent/shoot/bow/short,
 		/datum/intent/arc/bow/short,

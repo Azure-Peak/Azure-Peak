@@ -7,9 +7,9 @@
 		/obj/item/dream_material/dream_spike = 3
 	)
 	reward_items = list(
-		/obj/item/dream_material/dream_seed = 3
+		/obj/item/dream_material/dream_seed = 5
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"#Depth coral, bloom for us."
 	)
 
@@ -87,6 +87,55 @@
 		"#Currents flow fast, rip through the waves like a phantom."
 	)
 
+/datum/abyssal_ritual/seed_transmutation/healing_geyser
+	name = "Transmute Seed of Healing Geyser"
+	desc = "Infuses a basic dream seed with vibrant dream spikes to create a seed that sprouts into a soothing geyser, mending wounds."
+	required_ingredients = list(
+		/obj/item/dream_material/dream_seed = 1,
+		/obj/item/dream_material/dream_spike = 2
+	)
+	reward_items = list(
+		/obj/item/dream_material/dream_seed/geyser/healing = 2
+	)
+	invocation_phases = list(
+		"#The depths heal the ripples of a broken surface.",
+		"#Abyssor's embrace mends bone and sinew.",
+		"#Mend us, oh calm current of the abyss."
+	)
+
+/datum/abyssal_ritual/seed_transmutation/invigorating_geyser
+	name = "Transmute Seed of Invigorating Geyser"
+	desc = "Infuses a basic dream seed with gleaming dream fishes and spikes to create a seed that sprouts into an invigorating geyser, restoring energy."
+	required_ingredients = list(
+		/obj/item/dream_material/dream_seed = 1,
+		/obj/item/dream_material/dream_fishes = 1,
+		/obj/item/dream_material/dream_spike = 1
+	)
+	reward_items = list(
+		/obj/item/dream_material/dream_seed/geyser/invigorating = 2
+	)
+	invocation_phases = list(
+		"#The tide refreshes the weary spirit.",
+		"#Let the current flow through the tired.",
+		"#Awaken, and pour refreshing drink into the gasping mouths of the parched."
+	)
+
+/datum/abyssal_ritual/seed_transmutation/spiked_geyser
+	name = "Transmute Seed of Spiked Geyser"
+	desc = "Infuses a basic dream seed with sharp dream shards to create a seed that sprouts into a spiked geyser, lashing out at anyone, but it harms those attuned to the paints less."
+	required_ingredients = list(
+		/obj/item/dream_material/dream_seed = 1,
+		/obj/item/dream_material/dream_spike = 3
+	)
+	reward_items = list(
+		/obj/item/dream_material/dream_seed/geyser/spiked = 3
+	)
+	invocation_phases = list(
+		"#The abyss churns with fury and pain.",
+		"#Let the sharpened rocks from the sea floor strike true.",
+		"#Rise, bitter torrent of the drowned and forgotten."
+	)
+
 /datum/abyssal_ritual/imagine_parchment
 	name = "Imagine Parchment"
 	desc = "Through hundreds of years of abyssorite experience and out of vital necessity, The Thallacite lends some of its power to let any abyssorite imagine.. parchment."
@@ -98,7 +147,7 @@
 	reward_items = list(
 		/obj/item/dream_material/parchment_raw = 3
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"Abyssor, hwja'ajaba!",
 		"Iä! Iä! Abyssor fhtagn!"
 	)
@@ -151,7 +200,7 @@
 	reward_items = list(
 		/obj/item/dream_material/parchment_dream = 1
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"Abyssor, hwja'ajaba!",
 		"Iä! Iä! Abyssor fhtagn!",
 		"The deep rises to my call!",
@@ -170,7 +219,7 @@
 		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3,
 		/obj/item/clothing/head/roguetown/roguehood/abyssor_painter = 3
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"Paints swirl and swell.",
 		"Robes to paint anew three.",
 		"Abyssor brings new dreads upon the sands."
@@ -322,13 +371,13 @@
 
 	required_ingredients = list(
 		/obj/item/dream_material/dream_blade = 1,
-		/obj/item/rogueweapon/huntingknife
+		/obj/item/rogueweapon/huntingknife = 1,
 
 	)
 	reward_items = list(
 		/obj/item/rogueweapon/huntingknife/paint = 1
 	)
-	invocation_phases  = list(
+	invocation_phases	= list(
 		"#Cut through the silence."
 	)
 

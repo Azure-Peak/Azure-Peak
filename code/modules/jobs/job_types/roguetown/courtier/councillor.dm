@@ -1,7 +1,7 @@
 /datum/job/roguetown/councillor
 	title = "Councillor"
 	flag = COUNCILLOR
-	department_flag = COUNCILLOR
+	department_flag = COURTIERS
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 3
@@ -190,7 +190,7 @@
 	pants = /obj/item/clothing/under/roguetown/trou/beltpants
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/keyring/manorbase
 	belt = /obj/item/storage/belt/rogue/leather

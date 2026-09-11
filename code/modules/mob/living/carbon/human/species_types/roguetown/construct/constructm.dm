@@ -316,18 +316,18 @@
 		var/obj/item/natural/stone/S = I
 		var/pow = S.magic_power + 2
 		var/brute = M.getBruteLoss()
-		var/fire  = M.getFireLoss()
+		var/fire	= M.getFireLoss()
 		var/MAX_DMG = 200
 		var/MULT = 5
 		// Normalize damage
 		var/brute_ratio = clamp(brute / MAX_DMG, 0, 1)
-		var/fire_ratio  = clamp(fire  / MAX_DMG, 0, 1)
+		var/fire_ratio	= clamp(fire	/ MAX_DMG, 0, 1)
 		// Linear 100% to 0% (min 1) effectiveness ratio
 		var/brute_factor = 1 - brute_ratio
-		var/fire_factor  = 1 - fire_ratio
+		var/fire_factor	= 1 - fire_ratio
 		// Final healing
 		var/brute_heal = max(1, round(pow * MULT * brute_factor))
-		var/fire_heal  = max(1, round(pow * MULT * fire_factor))
+		var/fire_heal	= max(1, round(pow * MULT * fire_factor))
 		M.energy_add(5 + (S.magic_power * 10))
 		M.adjustBruteLoss(-brute_heal)
 		M.adjustFireLoss(-fire_heal)
@@ -766,7 +766,7 @@
 	density = FALSE
 	layer = MOB_LAYER+1
 
-/obj/effect/particle_effect/thick_steam/Initialize()
+/obj/effect/particle_effect/thick_steam/Initialize(mapload)
 	. = ..()
 	QDEL_IN(src, 20)
 

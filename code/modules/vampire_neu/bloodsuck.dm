@@ -59,7 +59,7 @@
 		return
 
 	if(VDrinker && istype(victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver) || HAS_TRAIT(victim, TRAIT_SILVER_BLESSED))
-		to_chat(src, span_userdanger("SILVER! MY BANE!"))
+		to_chat(src, span_silver("SILVER! MY BANE!"))
 		src.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/sunder)
 		src.Stun(5)
 		src.ignite_mob()
@@ -101,14 +101,14 @@
 		blood_handle |= BLOOD_PREFERENCE_FANCY //More variety
 	if(VVictim)
 		blood_handle |= BLOOD_PREFERENCE_KIN
-		blood_handle  &= ~BLOOD_PREFERENCE_LIVING
+		blood_handle	&= ~BLOOD_PREFERENCE_LIVING
 
 	clan.handle_bloodsuck(src, blood_handle)
 
 	if(victim.bloodpool > 0)
 		var/used_vitae = 150
 		victim.blood_volume = max(victim.blood_volume - 45, 0) // good fucking lord vampires are hungy, 50 blood per cycle?
-		if(victim.bloodpool < used_vitae)  // We assume they're left with 250 vitae or less, so we take it all
+		if(victim.bloodpool < used_vitae)	// We assume they're left with 250 vitae or less, so we take it all
 			used_vitae = victim.bloodpool
 			to_chat(src, span_warning("...But alas, only leftovers..."))
 		victim.adjust_bloodpool(-used_vitae)

@@ -127,7 +127,6 @@
 /datum/action/cooldown/spell/projectile/sacred_flame
 	name = "Sacred Flame"
 	desc = "Emit a bolt of holy fire that sunders a target, setting them on fire and slowing them down for 6 seconds. \
-	Damage is increased by 100% versus simple-minded creechurs. \
 	The CC effects cannot be reapplied to the same target within 15 seconds."
 	fluff_desc = "The fourth gift to men, sliver of Astrata's fury against the horrors of Psydonia, bringing evyl to its knees at hands of Her devoted."
 	background_icon = 'icons/mob/actions/astratamiracles.dmi'
@@ -171,7 +170,7 @@
 
 /obj/projectile/magic/sacred_flame
 	name = "bolt of holy fire"
-	tracer_type = /obj/effect/projectile/tracer/stun
+	tracer_type = /obj/effect/projectile/tracer/solar_beam
 	muzzle_type = null
 	impact_type = null
 	hitscan = TRUE
@@ -180,7 +179,6 @@
 	expose_caster_on_deflect = TRUE
 	light_color = "#a98107"
 	damage = 50
-	npc_simple_damage_mult = 2
 	damage_type = BURN
 	accuracy = 50 //Astrata show me true or something?
 	nodamage = FALSE
@@ -202,7 +200,6 @@
 			if(out_of_effective_range())
 				return
 			if(blocked < 100)
-				L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
 				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
 					L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/sunder)
 					L.Immobilize(0.5 SECONDS)
@@ -308,7 +305,7 @@
 				human.apply_status_effect(/datum/status_effect/buff/pyre)
 				human.add_stress(/datum/stressevent/astrata_pyre)
 
-/obj/machinery/light/rogue/campfire/miracle_pyre/Initialize()
+/obj/machinery/light/rogue/campfire/miracle_pyre/Initialize(mapload)
 	. = ..()
 	if(lifespan)
 		QDEL_IN(src, lifespan) //delete after it runs out
@@ -404,112 +401,13 @@
 // T3 - Anastasis - Revive. //
 //////////////////////////////
 
-/obj/effect/proc_holder/spell/invoked/revive
-	name = "Anastasis"
-	desc = "Focus Astratas energy through a stationary psycross, reviving the target from death."
-	action_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_state = "revive"
-	releasedrain = 90
-	chargedrain = 0
-	chargetime = 50
-	range = 1
-	warnie = "sydwarning"
-	no_early_release = TRUE
-	movement_interrupt = TRUE
-	chargedloop = /datum/looping_sound/invokeholy
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/revive.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 2 MINUTES
-	miracle = TRUE
-	devotion_cost = 80
-	/// Amount of PQ gained for reviving people
-	var/revive_pq = PQ_GAIN_REVIVE
-
-/obj/effect/proc_holder/spell/invoked/revive/start_recharge()
-	var/old_recharge = recharge_time
-	// Because the cooldown for anastasis is so incredibly low, not having tech impacts them more heavily than other faiths
-	var/tech_resurrection_modifier = SSchimeric_tech.get_resurrection_multiplier()
-	if(tech_resurrection_modifier > 1)
-		recharge_time = initial(recharge_time) * (tech_resurrection_modifier * 1.25)
-	else
-		recharge_time = initial(recharge_time)
-	if(charge_counter >= old_recharge && old_recharge > 0)
-		charge_counter = recharge_time
-	. = ..()
-
-/obj/effect/proc_holder/spell/invoked/revive/cast(list/targets, mob/living/user)
-	..()
-
-	if(!isliving(targets[1]))
-		revert_cast()
-		return FALSE
-
-	var/mob/living/target = targets[1]
-	if(!target.check_revive(user))
-		revert_cast()
-		return FALSE
-	if(GLOB.tod == "night")
-		to_chat(user, span_warning("Let there be light."))
-	for(var/obj/structure/fluff/psycross/S in oview(5, user))
-		S.AOE_flash(user, range = 8)
-	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
-			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
-			revert_cast()
-			return FALSE
-		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
-		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
-		target.dust()
-		return TRUE
-	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-		target.visible_message(span_astrata("Nothing happens. They are not being let go."))
-		return FALSE
-	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
-	if(!target.revive(full_heal = FALSE))
-		to_chat(user, span_warning("Nothing happens."))
-		revert_cast()
-		return FALSE
-
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-	//GET OVER HERE!
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
-	target.grab_ghost(force = TRUE) // even suicides
-	target.emote("breathgasp")
-	target.Jitter(100)
-	record_round_statistic(STATS_ASTRATA_REVIVALS)
-	target.update_body()
-	target.visible_message(span_astrata("[target] is revived by holy light!"), span_green("I awake from the void."))
-	if(revive_pq && !HAS_TRAIT(target, TRAIT_IWASREVIVED) && user?.ckey)
-		adjust_playerquality(revive_pq, user.ckey)
-		ADD_TRAIT(target, TRAIT_IWASREVIVED, "[type]")
-	target.mind.remove_antag_datum(/datum/antagonist/zombie)
-	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it - Failsafe for it.
-	target.apply_status_effect(/datum/status_effect/debuff/revived)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
-	if(HAS_TRAIT(target, TRAIT_IRONMAN))
-		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
-		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
-
-	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/revive/cast_check(skipcharge, mob/user = usr)
-	if(!..())
-		return FALSE
-	var/found = null
-	for(var/obj/structure/fluff/psycross/S in oview(5, user))
-		found = S
-	if(!found)
-		to_chat(user, span_warning("I need a holy cross."))
-		return FALSE
-	return TRUE
-
-
-
+/datum/action/cooldown/spell/miracle/anastasis/astrata
+	name = "Sunblessed Anastasis"
+	desc = "Resurrect a person that is free of rot and decay, deadites (such as lyckers / skeletons) instead explode when it is attempted."
+	fluff_desc = "The greatest feat any priest can manage is reversion of death, a true rebirth unlike the perversion Necromancers aspire to."
+	background_icon = 'icons/mob/actions/astratamiracles.dmi'
+	button_icon = 'icons/mob/actions/astratamiracles.dmi'
+	spell_color = GLOW_COLOR_ASTRATA
 
 // =====================
 // Immolation Component
@@ -536,7 +434,7 @@
 	ispartner = TRUE
 	immolate = TRUE
 
-/datum/component/immolation/Initialize(mob/living/partner_mob, mob/living/carbon/caster_mob, var/holy_skill, var/is_astrata)
+/datum/component/immolation/Initialize(mob/living/partner_mob, mob/living/carbon/caster_mob, holy_skill, is_astrata)
 	if(!isliving(parent) || !iscarbon(partner_mob))
 		return COMPONENT_INCOMPATIBLE
 
@@ -563,7 +461,7 @@
 	START_PROCESSING(SSprocessing, src)
 	RegisterSignal(parent, COMSIG_LIVING_MIRACLE_HEAL_APPLY, PROC_REF(on_heal))
 	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_deletion))
-	addtimer(CALLBACK(src, .proc/remove_immolation), duration)
+	addtimer(CALLBACK(src, PROC_REF(remove_immolation)), duration)
 
 	// Apply visual effect
 	var/mob/living/L = parent

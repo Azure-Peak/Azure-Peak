@@ -46,7 +46,7 @@
 
 	return
 
-/datum/component/rot/corpse/Initialize()
+/datum/component/rot/corpse/Initialize(mapload)
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
 	. = ..()

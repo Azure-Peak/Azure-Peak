@@ -94,7 +94,7 @@ SUBSYSTEM_DEF(ParticleWeather)
 
 /datum/controller/subsystem/ParticleWeather/proc/make_eligible(possible_weather)
 	elligble_weather = possible_weather
-// 	next_hit = null
+//	next_hit = null
 
 /datum/controller/subsystem/ParticleWeather/proc/getweatherEffect()
 	if(!weatherEffect)

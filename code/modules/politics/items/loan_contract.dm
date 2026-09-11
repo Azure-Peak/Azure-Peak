@@ -15,7 +15,7 @@
 	var/principal_due_on_day = 0
 	var/source_fund_id = "crown"
 
-/obj/item/loan_contract/Initialize()
+/obj/item/loan_contract/Initialize(mapload)
 	. = ..()
 	if(!total_due && principal)
 		total_due = FLOOR(principal * (1 + (interest_rate * term_days)), 1)

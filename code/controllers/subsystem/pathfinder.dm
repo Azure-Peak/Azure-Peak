@@ -5,7 +5,7 @@ SUBSYSTEM_DEF(pathfinder)
 	var/datum/flowcache/mobs
 	var/datum/flowcache/circuits
 
-/datum/controller/subsystem/pathfinder/Initialize()
+/datum/controller/subsystem/pathfinder/Initialize(mapload)
 	mobs = new(20)
 	circuits = new(3)
 	return ..()

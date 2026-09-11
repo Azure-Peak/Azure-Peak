@@ -19,7 +19,7 @@
 			return "INQUISITION"
 		if("Wretch", "Bandit", "Assassin", "Lunatic")
 			return "EXCLUDED"
-		if("Adventurer", "Court Agent", "Mercenary", "Hangyaku", "Lirvan", "Routier", "Seonjang", "Slayer", "Trader", "Pilgrim", "Villager", "Sellsword")
+		if("Adventurer", "Court Agent", "Mercenary", "Hangyaku", "Lirvan", "Routier", "Slayer", "Trader", "Pilgrim", "Villager", "Sellsword")
 			return "TOWN_TRANSIENT"
 		if("Peasant", "Towner", "Sidefolk", "Serf", "Vagabond", "Bathhouse Attendant", "Cook", "Tapster", "Soilson")
 			return "TOWN_PEASANT"

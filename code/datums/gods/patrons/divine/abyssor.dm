@@ -7,7 +7,7 @@
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/aquatic_compulsion	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/abyssor_wind				= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssor_bends			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssor_undertow		= CLERIC_T2,
@@ -21,7 +21,7 @@
 		/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 		/obj/effect/proc_holder/spell/invoked/aquatic_compulsion	= CLERIC_T0,
 		/obj/effect/proc_holder/spell/self/abyssor_wind				= CLERIC_T0,
-		/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+		/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 		/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 		/datum/action/cooldown/spell/ink_presence					= CLERIC_T1,
 		/datum/action/cooldown/spell/paint_blessing					= CLERIC_T1,
@@ -68,12 +68,12 @@
 	return FALSE
 
 /datum/patron/divine/abyssor/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("A mist of salt-scented vapour settles on [target]!")
 	*message_self = span_notice("I'm invigorated by healing vapours!")

@@ -64,7 +64,7 @@
 
 	var/cast_dir = H.dir
 	for(var/turf/affected_turf in affected_turfs)
-		new /obj/effect/temp_visual/trap_wall(affected_turf)
+		new /obj/effect/temp_visual/telegraph/wall(affected_turf)
 		addtimer(CALLBACK(src, PROC_REF(spawn_ward), affected_turf, H, cast_dir), 1 SECONDS)
 
 	H.visible_message(span_notice("[H] raises a shimmering arrow ward!"))

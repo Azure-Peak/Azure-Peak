@@ -114,7 +114,7 @@
 		switch(weapon_choice)
 			if("Bowhunter - Blackhorn Bow + 20 Broadheads")
 				beltr = /obj/item/quiver/arrows
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
 			if("Spearhunter - Spear + Sling, +I STR / -I SPD")
 				beltr = /obj/item/quiver/sling/iron
@@ -126,7 +126,7 @@
 				H.change_stat(STATKEY_STR, 1)
 
 		var/helmets = list(
-			"Path of the Antelope" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
+			"Path of the Antelope"	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
 			"Path of the Volf"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf,
 			"Path of the Ram"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/goat,
 			"Path of the Bear"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/bear,
@@ -138,7 +138,7 @@
 			head = helmets[helmchoice]
 
 		var/hoods = list(
-			"Common Shroud" 	= /obj/item/clothing/head/roguetown/roguehood/warden,
+			"Common Shroud"	= /obj/item/clothing/head/roguetown/roguehood/warden,
 			"Antlered Shroud"		= /obj/item/clothing/head/roguetown/roguehood/warden/antler,
 			"None"
 		)

@@ -14,7 +14,7 @@
 	/// How many uses remaining has it got
 	var/uses_remaining = 10
 
-/obj/item/perfume/Initialize()
+/obj/item/perfume/Initialize(mapload)
 	. = ..()
 	if(!fragrance_type)
 		uses_remaining = 0
@@ -63,7 +63,7 @@
 	playsound(user.loc, 'sound/items/perfume.ogg', 100, TRUE)
 	target.AddComponent(/datum/component/temporary_pollution_emission, fragrance_type, 5, 10 MINUTES)
 
-/obj/item/perfume/random/Initialize()
+/obj/item/perfume/random/Initialize(mapload)
 	fragrance_type = pick(subtypesof(/datum/pollutant/fragrance))
 	name = fragrance_type.name + " perfume"
 	. = ..()

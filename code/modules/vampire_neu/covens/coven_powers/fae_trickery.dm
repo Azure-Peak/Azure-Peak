@@ -25,7 +25,7 @@
 /datum/coven_power/fae_trickery/darkling_trickery/activate(mob/living/target)
 	. = ..()
 	target.visible_message(span_suicide("[target] is disarmed!"),
-					span_boldwarning("I'm disarmed!"))	
+					span_boldwarning("I'm disarmed!"))
 	playsound(get_turf(target), 'sound/magic/mockery.ogg', 40, FALSE)
 	var/turnangle = (prob(50) ? 270 : 90)
 	var/turndir = turn(target.dir, turnangle)
@@ -297,7 +297,7 @@
 		if(AM != owner)
 			AM.adjustBruteLoss(35)
 			AM.Knockdown(5)
-			AM.visible_message(span_suicide("[AM] is disarmed!"), 
+			AM.visible_message(span_suicide("[AM] is disarmed!"),
 							span_boldwarning("I'm disarmed!"))
 			playsound(get_turf(AM), 'sound/magic/mockery.ogg', 40, FALSE)
 			var/target_turf = get_ranged_target_turf(get_turf(AM), pick(GLOB.cardinals), rand(2, 5))
@@ -442,7 +442,7 @@
 		to_chat(riddler, span_danger("Your riddle is too complicated."))
 		return FALSE
 
-/datum/riddle/proc/answer_riddle(mob/living/answerer, the_answer, var/atom/movable/screen/alert/riddle/alert)
+/datum/riddle/proc/answer_riddle(mob/living/answerer, the_answer, atom/movable/screen/alert/riddle/alert)
 	if(the_answer != riddle_answer)
 		alert.bad_answers++
 		to_chat(answerer,

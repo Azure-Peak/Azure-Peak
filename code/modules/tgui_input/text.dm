@@ -9,7 +9,7 @@
  * * title - The title of the text input modal, shown on the top of the TGUI window.
  * * default - The default (or current) value, shown as a placeholder.
  * * max_length - Specifies a max length for input. MAX_MESSAGE_LEN is default (4096)
- * * multiline -  Bool that determines if the input box is much larger. Good for large messages, laws, etc.
+ * * multiline -	Bool that determines if the input box is much larger. Good for large messages, laws, etc.
  * * encode - Toggling this determines if input is filtered via html_encode. Setting this to FALSE gives raw input.
  * * timeout - The timeout of the textbox, after which the modal will close and qdel itself. Set to zero for no timeout.
  */

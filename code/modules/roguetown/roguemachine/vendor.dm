@@ -24,7 +24,7 @@
 	. += span_info("Owners of the storefront's PEDDLER can unlock it, allowing them both restock wares and vend whatever coinage might've been earned from completed sales.")
 	. += span_info("Left-clicking a PEDDLER with an open land allows you to browse and purchase its wares. Click on the 'Stored Mammons' option to retrieve any coinage or change left behind.")
 
-/obj/structure/roguemachine/vendor/proc/get_group_items(var/param)
+/obj/structure/roguemachine/vendor/proc/get_group_items(param)
 	// Accepts either:
 	// - an object/ref (e.g. REF(rep) from attack_hand links), or
 	// - a key string in the form "type_name"
@@ -288,7 +288,7 @@
 	update_icon()
 	icon_state = "streetvendor0"
 
-/obj/structure/roguemachine/vendor/Initialize()
+/obj/structure/roguemachine/vendor/Initialize(mapload)
 	. = ..()
 	update_icon()
 	START_PROCESSING(SSroguemachine, src)
@@ -383,7 +383,7 @@
 /obj/structure/roguemachine/vendor/bathhouse
 	keycontrol = "nightman"
 
-/obj/structure/roguemachine/vendor/inn/Initialize()
+/obj/structure/roguemachine/vendor/inn/Initialize(mapload)
 	. = ..()
 
 	// Add room keys with a price of 20
@@ -412,7 +412,7 @@
 /obj/structure/roguemachine/vendor/merchant
 	keycontrol = "merchant"
 
-/obj/structure/roguemachine/vendor/merchant/Initialize()
+/obj/structure/roguemachine/vendor/merchant/Initialize(mapload)
 	. = ..()
 	for(var/X in list(/obj/item/roguekey/apartments/stall1,/obj/item/roguekey/apartments/stall2,/obj/item/roguekey/apartments/stall3))
 		var/obj/P = new X(src)
@@ -424,7 +424,7 @@
 /obj/structure/roguemachine/vendor/stablemaster
 	keycontrol = "stablemaster"
 
-/obj/structure/roguemachine/vendor/stablemaster/Initialize()
+/obj/structure/roguemachine/vendor/stablemaster/Initialize(mapload)
 	. = ..()
 	for(var/X in list(/obj/item/roguekey/apartments/stablemaster_1,/obj/item/roguekey/apartments/stablemaster_2,/obj/item/roguekey/apartments/stablemaster_3,/obj/item/roguekey/apartments/stablemaster_4,/obj/item/roguekey/apartments/stablemaster_5))
 		var/obj/P = new X(src)
@@ -437,7 +437,7 @@
 	keycontrol = "priest"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/church_bedroomset_one/Initialize()
+/obj/structure/roguemachine/vendor/church_bedroomset_one/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/church/roomi, /obj/item/roguekey/church/roomii, /obj/item/roguekey/church/roomiii, /obj/item/roguekey/church/roomiv, /obj/item/roguekey/church/roomv))
@@ -450,7 +450,7 @@
 	keycontrol = "priest"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/church_bedroomset_two/Initialize()
+/obj/structure/roguemachine/vendor/church_bedroomset_two/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx))
@@ -463,7 +463,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_knights/Initialize()
+/obj/structure/roguemachine/vendor/keep_knights/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/manor/knight, /obj/item/roguekey/manor/knight/two, /obj/item/roguekey/manor/knight/three, /obj/item/roguekey/manor/knight/four))
@@ -476,7 +476,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_princes/Initialize()
+/obj/structure/roguemachine/vendor/keep_princes/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/heir/one, /obj/item/roguekey/heir/two))
@@ -489,7 +489,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_councillors/Initialize()
+/obj/structure/roguemachine/vendor/keep_councillors/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/manor/councillor, /obj/item/roguekey/manor/councillor/two, /obj/item/roguekey/manor/councillor/three))
@@ -502,7 +502,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_guests/Initialize()
+/obj/structure/roguemachine/vendor/keep_guests/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/storage/keyring/manor/guest/one, /obj/item/storage/keyring/manor/guest/two, /obj/item/storage/keyring/manor/guest/three, /obj/item/storage/keyring/manor/guest/four))
@@ -515,7 +515,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_squire/Initialize()
+/obj/structure/roguemachine/vendor/keep_squire/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/manor/squire, /obj/item/roguekey/manor/squire/two, /obj/item/roguekey/manor/squire/three, /obj/item/roguekey/manor/squire/four))
@@ -529,7 +529,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_servant/Initialize()
+/obj/structure/roguemachine/vendor/keep_servant/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/manor/servant, /obj/item/roguekey/manor/servant/two, /obj/item/roguekey/manor/servant/three, /obj/item/roguekey/manor/servant/four, /obj/item/roguekey/manor/servant/five, /obj/item/roguekey/manor/servant/six))
@@ -542,7 +542,7 @@
 	keycontrol = "puritan"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/inq_keys/Initialize()
+/obj/structure/roguemachine/vendor/inq_keys/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/ortho_one, /obj/item/roguekey/ortho_two, /obj/item/roguekey/ortho_three))

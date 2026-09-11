@@ -422,13 +422,13 @@
 	var/list/targets = list(O, src)
 	add_fingerprint(user)
 	user.visible_message(span_warning("[user] [actuallyismob ? "tries to ":""]stuff [O] into [src]."), \
-				 	 	span_warning("I [actuallyismob ? "try to ":""]stuff [O] into [src]."), \
-				 	 	span_hear("I hear clanging."))
+								span_warning("I [actuallyismob ? "try to ":""]stuff [O] into [src]."), \
+								span_hear("I hear clanging."))
 	if(actuallyismob)
 		if(do_after_mob(user, targets, 40))
 			user.visible_message(span_notice("[user] stuffs [O] into [src]."), \
-							 	 span_notice("I stuff [O] into [src]."), \
-							 	 span_hear("I hear a loud bang."))
+										span_notice("I stuff [O] into [src]."), \
+										span_hear("I hear a loud bang."))
 			O.forceMove(T)
 			close()
 	else
@@ -472,7 +472,7 @@
 		to_chat(usr, span_warning("This mob type can't use this verb."))
 
 // Objects that try to exit a locker by stepping were doing so successfully,
-// and due to an oversight in turf/Enter() were going through walls.  That
+// and due to an oversight in turf/Enter() were going through walls.	That
 // should be independently resolved, but this is also an interesting twist.
 /obj/structure/closet/Exit(atom/movable/AM)
 	open()

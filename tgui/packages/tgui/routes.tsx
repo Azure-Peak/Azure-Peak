@@ -72,13 +72,13 @@ export function getRoutedComponent(name: string) {
     (name: string) => `./${name}/index.jsx`,
   ];
 
-  let esModule;
+  let esModule: any;
   while (!esModule && interfacePathBuilders.length > 0) {
     const interfacePathBuilder = interfacePathBuilders.shift()!;
     const interfacePath = interfacePathBuilder(name);
     try {
       esModule = requireInterface(interfacePath);
-    } catch (err) {
+    } catch (err: any) {
       if (err.code !== 'MODULE_NOT_FOUND') {
         throw new Error('notFound');
       }
@@ -122,7 +122,7 @@ export function RoutedComponent() {
     const Component = getRoutedComponent(name);
 
     return <Component />;
-  } catch (err) {
+  } catch (err: any) {
     switch (err.message) {
       case 'notFound':
         return <RoutingErrorWindow type="notFound" name={name} />;

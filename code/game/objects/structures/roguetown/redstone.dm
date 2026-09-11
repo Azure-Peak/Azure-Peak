@@ -147,6 +147,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/lever/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click the lever to actuate whatever might be connected to it. The time needed to complete this action scales with your character's Strength.")
+	. += span_info("A skilled Engineer could use a wrench to link this to a device.")
+	. += span_info("The Master of the Guild of Craft can unlink devices from each other by using their special wrench.")
 
 /obj/structure/lever/attack_hand(mob/user)
 	if(isliving(user))
@@ -173,7 +175,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
-			levername = sanitize(input("What name would you like to carve into the lever?"))
+			levername = sanitize(input(user, "What name would you like to carve into the lever?"))
 			if (levername)
 				name = levername + "(lever)"
 				desc = "A lever with a name carved into it."
@@ -274,6 +276,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	anchored = TRUE
 	redstone_structure = TRUE
 
+/obj/structure/pressure_plate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A skilled Engineer could use a wrench to link this to a device.")
+	. += span_info("The Master of the Guild of Craft can unlink devices from each other by using their special wrench.")
+
 /obj/structure/pressure_plate/Crossed(atom/movable/AM)
 	. = ..()
 	if(!anchored)
@@ -317,7 +324,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/platename
-			platename = sanitize(input("What name would you like to carve into the plate?"))
+			platename = sanitize(input(user, "What name would you like to carve into the plate?"))
 			if (platename)
 				name = platename + "(plate)"
 				desc = "a plate with a name carved into it"
@@ -392,7 +399,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/masterkey = TRUE //if masterkey can open this regardless
 	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
 
-/obj/structure/englauncher/Initialize()
+/obj/structure/englauncher/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -439,7 +446,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the launcher.</span>")
 		if(do_after(user, 10))
 			var/launchername
-			launchername = sanitize(input("What name would you like to carve into the launcher?"))
+			launchername = sanitize(input(user, "What name would you like to carve into the launcher?"))
 			if (launchername)
 				name = launchername + "(launcher)"
 				desc = "a launcher with a name carved into it"
@@ -687,7 +694,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	// Use MOVE_FORCE_STRONG to ensure move_resist doesn't block the throw
 	I.throw_at(target, 7, 3, null, FALSE, FALSE, null, MOVE_FORCE_STRONG)
 
-/obj/structure/englauncher/proc/container_aerosolize(var/launcher_liquid, var/launcher_direction)
+/obj/structure/englauncher/proc/container_aerosolize(launcher_liquid, launcher_direction)
 	var/turf/T = get_step(src, launcher_direction) //check for turf
 	if(T)
 		var/obj/item/reagent_containers/con = launcher_liquid //get the container
@@ -776,10 +783,15 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	max_integrity = 0
 	redstone_structure = TRUE
 /*
-/obj/structure/floordoor/Initialize()
+/obj/structure/floordoor/Initialize(mapload)
 	AddComponent(/datum/component/squeak, list('sound/foley/footsteps/FTMET_A1.ogg','sound/foley/footsteps/FTMET_A2.ogg','sound/foley/footsteps/FTMET_A3.ogg','sound/foley/footsteps/FTMET_A4.ogg'), 100)
 	return ..()
 */
+/obj/structure/floordoor/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A skilled Engineer could use a wrench to link this to a device.")
+	. += span_info("The Master of the Guild of Craft can unlink devices from each other by using their special wrench.")
+
 /obj/structure/floordoor/obj_break(damage_flag)
 	set_is_platform(FALSE)
 	obj_flags &= ~BLOCK_Z_IN_UP
@@ -820,7 +832,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	nomouseover = TRUE
 	mouse_opacity = 0
 
-/obj/structure/floordoor/gatehatch/Initialize()
+/obj/structure/floordoor/gatehatch/Initialize(mapload)
 	AddComponent(/datum/component/squeak, list('sound/foley/footsteps/FTMET_A1.ogg','sound/foley/footsteps/FTMET_A2.ogg','sound/foley/footsteps/FTMET_A3.ogg','sound/foley/footsteps/FTMET_A4.ogg'), 40)
 	return ..()
 
@@ -869,7 +881,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/hatchname
-			hatchname = sanitize(input("What name would you like to carve into the hatch?"))
+			hatchname = sanitize(input(user, "What name would you like to carve into the hatch?"))
 			if (hatchname)
 				name = hatchname + "(hatch)"
 				desc = "a hatch with a name carved into it"

@@ -7,7 +7,7 @@
 	var/ambush_in_progress = FALSE
 	var/ambush_grace_period = 5 SECONDS
 
-/datum/component/fogged/Initialize()
+/datum/component/fogged/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -16,8 +16,8 @@
 	if(!HAS_TRAIT(L, TRAIT_FOG_WARDED))
 		L.apply_status_effect(/datum/status_effect/debuff/fog_chilled)
 	// Listen for movement
-	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/on_moved)
-	RegisterSignal(parent, COMSIG_WARDED_TRAIT_CHANGE, .proc/handle_ward_change)
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+	RegisterSignal(parent, COMSIG_WARDED_TRAIT_CHANGE, PROC_REF(handle_ward_change))
 
 /datum/component/fogged/Destroy()
 	var/mob/living/L = parent
@@ -117,7 +117,7 @@
 		V.mob_timers["ambush_cooldown"] = world.time + final_cooldown
 		to_chat(V, span_userdanger("The fog churns violently... something has found you!"))
 		shake_camera(V, 2, 2)
-	
+
 	ambush_in_progress = FALSE
 
 /datum/component/fogged/proc/calculate_victim_score(mob/living/victim, time_entered)
@@ -132,9 +132,9 @@
 
 	// High Threat (Combat/Antag/Leaders) - 25 Points
 	if((job_title in GLOB.garrison_positions) || \
-	   (job_title in GLOB.retinue_positions) || \
-	   (job_title in GLOB.inquisition_positions) || \
-	   (job_title in GLOB.antagonist_positions))
+		(job_title in GLOB.retinue_positions) || \
+		(job_title in GLOB.inquisition_positions) || \
+		(job_title in GLOB.antagonist_positions))
 		score += 25
 
 	// Medium Threat (Nobles/Court/Magic) - 15 Points

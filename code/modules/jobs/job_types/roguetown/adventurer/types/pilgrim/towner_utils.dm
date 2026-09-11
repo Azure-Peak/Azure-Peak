@@ -83,7 +83,7 @@
 
 	// Living targets
 	else if(ismob(A))
-		var/zone_name = lowertext(parse_zone(zone_selected))
+		var/zone_name = LOWER_TEXT(parse_zone(zone_selected))
 
 		if(cmode)
 			var/list/aggressive = list(

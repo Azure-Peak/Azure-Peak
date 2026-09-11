@@ -19,8 +19,8 @@
 	metabolization_rate = 0.1
 
 /datum/reagent/vitae/overdose_process(mob/living/M)
-	M.adjustOrganLoss(ORGAN_SLOT_HEART, 0.25  * REAGENTS_EFFECT_MULTIPLIER)
-	M.adjustFireLoss(0.25  * REAGENTS_EFFECT_MULTIPLIER, 0)
+	M.adjustOrganLoss(ORGAN_SLOT_HEART, 0.25	* REAGENTS_EFFECT_MULTIPLIER)
+	M.adjustFireLoss(0.25	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 	. = 1
 

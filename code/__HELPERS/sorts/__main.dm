@@ -20,7 +20,7 @@ GLOBAL_DATUM_INIT(sortInstance, /datum/sortInstance, new())
 	//whether we are sorting list keys (0: L[i]) or associated values (1: L[L[i]])
 	var/associative = 0
 
-	//This controls when we get *into* galloping mode.  It is initialized	to MIN_GALLOP.
+	//This controls when we get *into* galloping mode.	It is initialized	to MIN_GALLOP.
 	//The mergeLo and mergeHi methods nudge it higher for random data, and lower for highly structured data.
 	var/minGallop = MIN_GALLOP
 
@@ -84,8 +84,8 @@ GLOBAL_DATUM_INIT(sortInstance, /datum/sortInstance, new())
 
 /*
 Sorts the specified portion of the specified array using a binary
-insertion sort.  This is the best method for sorting small numbers
-of elements.  It requires O(n log n) compares, but O(n^2) data
+insertion sort.	This is the best method for sorting small numbers
+of elements.	It requires O(n log n) compares, but O(n^2) data
 movement (worst case).
 
 If the initial part of the specified range is already sorted,
@@ -127,7 +127,7 @@ Returns the length of the run beginning at the specified position and reverses t
 A run is the longest ascending sequence with:
 	a[lo] <= a[lo + 1] <= a[lo + 2] <= ...
 or the longest descending sequence with:
-	a[lo] >  a[lo + 1] >  a[lo + 2] >  ...
+	a[lo] >	a[lo + 1] >	a[lo + 2] >	...
 
 For its intended use in a stable mergesort, the strictness of the
 definition of "descending" is needed so that the call can safely
@@ -311,9 +311,9 @@ reverse a descending sequence without violating stability.
  * @param base the index of the first element in the range
  * @param len the length of the range; must be > 0
  * @param hint the index at which to begin the search, 0 <= hint < n.
- *	 The closer hint is to the result, the faster this method will run.
+ *		The closer hint is to the result, the faster this method will run.
 	* @param c the comparator used to order the range, and to search
-	* @return the int k,  0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
+	* @return the int k,	0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
 	*/
 /datum/sortInstance/proc/gallopRight(key, base, len, hint)
 	//ASSERT(len > 0 && hint >= 0 && hint < len)
@@ -386,7 +386,7 @@ reverse a descending sequence without violating stability.
 	outer:
 		while(1)
 			var/count1 = 0	//# of times in a row that first run won
-			var/count2 = 0	//	"	"	"	"	"	"  second run won
+			var/count2 = 0	//	"	"	"	"	"	"	second run won
 
 			//do the straightfoward thin until one run starts winning consistently
 
@@ -453,7 +453,7 @@ reverse a descending sequence without violating stability.
 
 			if(minGallop < 0)
 				minGallop = 0
-			minGallop += 2;  // Penalize for leaving gallop mode
+			minGallop += 2;	// Penalize for leaving gallop mode
 
 
 	if(len1 == 1)
@@ -486,7 +486,7 @@ reverse a descending sequence without violating stability.
 	outer:
 		while(1)
 			var/count1 = 0	//# of times in a row that first run won
-			var/count2 = 0	//	"	"	"	"	"	"  second run won
+			var/count2 = 0	//	"	"	"	"	"	"	second run won
 
 			//do the straightfoward thing until one run starts winning consistently
 			do

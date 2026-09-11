@@ -302,7 +302,7 @@
 	w_class = WEIGHT_CLASS_GIGANTIC
 	set_light(2, 2, 2, l_color = "#1b7bf1")
 
-/obj/item/roguemachine/navigator/Initialize()
+/obj/item/roguemachine/navigator/Initialize(mapload)
 	. = ..()
 	if(anchored)
 		START_PROCESSING(SSroguemachine, src)

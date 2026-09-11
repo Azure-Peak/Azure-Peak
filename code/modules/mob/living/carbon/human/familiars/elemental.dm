@@ -25,7 +25,7 @@
 	origin_default = /datum/virtue/origin/familiar/elemental
 
 // so they can actually do repairs
-/mob/living/carbon/human/species/familiar/elemental/Initialize()
+/mob/living/carbon/human/species/familiar/elemental/Initialize(mapload)
 	. = ..()
 	src.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE)
@@ -38,11 +38,11 @@
 	return istype(ley, /obj/structure/leyline/normal/coast)
 
 /mob/living/carbon/human/species/familiar/elemental/pondstone_toad
-    name = "Pondstone Toad"
-    desc = "This damp, heavy toad pulses with unseen strength. Its skin is cool and lined with mineral veins."
-    summoning_emote = "A deep thrum echoes beneath your feet, and a mossy toad pushes itself free from the earth, humming low."
-    icon_state = "pondstone"
-    speak_emote = list("croaks low", "grumbles")
+	name = "Pondstone Toad"
+	desc = "This damp, heavy toad pulses with unseen strength. Its skin is cool and lined with mineral veins."
+	summoning_emote = "A deep thrum echoes beneath your feet, and a mossy toad pushes itself free from the earth, humming low."
+	icon_state = "pondstone"
+	speak_emote = list("croaks low", "grumbles")
 
 /mob/living/carbon/human/species/familiar/elemental/gravemoss_serpent
 	name = "Gravemoss Serpent"
@@ -59,17 +59,17 @@
 	speak_emote = list("rumbles", "speaks slowly")
 
 /mob/living/carbon/human/species/familiar/elemental/brass_thrum
-    name = "Brass Thrum"
-    desc = "A mechanical spider-like creature of brass and whirring gears, its movements precise and accompanied by a faint, rhythmic hum."
-    icon = 'icons/mob/drone.dmi'
-    icon_state = "drone_clock"
-    summoning_emote = "A metallic clatter as a brass spider-like automaton unfolds itself."
-    speak_emote = list("chitters", "whirs")
+	name = "Brass Thrum"
+	desc = "A mechanical spider-like creature of brass and whirring gears, its movements precise and accompanied by a faint, rhythmic hum."
+	icon = 'icons/mob/drone.dmi'
+	icon_state = "drone_clock"
+	summoning_emote = "A metallic clatter as a brass spider-like automaton unfolds itself."
+	speak_emote = list("chitters", "whirs")
 
 /mob/living/carbon/human/species/familiar/elemental/gemspire_beetle
-    name = "Gemspire Beetle"
-    desc = "A four-legged, spider-like automaton adorned with crystalline spires, blending arcane energy with intricate clockwork."
-    icon = 'icons/mob/drone.dmi'
-    icon_state = "drone_gem"
-    summoning_emote = "A faint chime as a gem-encrusted mechanical beetle scuttles into view."
-    speak_emote = "chimes"
+	name = "Gemspire Beetle"
+	desc = "A four-legged, spider-like automaton adorned with crystalline spires, blending arcane energy with intricate clockwork."
+	icon = 'icons/mob/drone.dmi'
+	icon_state = "drone_gem"
+	summoning_emote = "A faint chime as a gem-encrusted mechanical beetle scuttles into view."
+	speak_emote = "chimes"

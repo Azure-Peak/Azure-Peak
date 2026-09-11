@@ -67,11 +67,11 @@
 	var/ringing = FALSE
 
 /*
-	/obj/structure/stationary_bell/Initialize()
+	/obj/structure/stationary_bell/Initialize(mapload)
 		. = ..()
 		create_barriers()
 
-    // Function to create barriers around the bell
+	// Function to create barriers around the bell
 	/obj/structure/stationary_bell/proc/create_barriers()
 		for(var/direction in GLOB.cardinals)
 			var/turf/adjacent_turf = get_step(src, direction)
@@ -126,6 +126,6 @@
 	grid_width = 64
 	grid_height = 32
 
-/obj/item/jingle_bells/Initialize()
+/obj/item/jingle_bells/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS)

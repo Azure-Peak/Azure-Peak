@@ -86,7 +86,7 @@
 				BCLASS_BLUNT, spell_name = "Energetic Blast", \
 				allow_shield_check = TRUE, damage_type = BRUTE, \
 				skip_animation = TRUE)
-			if(!damage_dealt)
+			if(damage_dealt <= 0)
 				blocked = TRUE
 			new /obj/effect/temp_visual/spell_impact(get_turf(victim), spell_color, spell_impact_intensity)
 			already_hit += victim

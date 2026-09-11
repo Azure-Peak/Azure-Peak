@@ -133,6 +133,10 @@
 		legcuffed = null
 		if(!QDELETED(src))
 			update_inv_legcuffed()
+	else if(I == underwear)
+		underwear = null
+	else if(I == legwear_socks)
+		legwear_socks = null
 
 //handle stuff to update when a mob equips/unequips a mask.
 /mob/living/proc/wear_mask_update(obj/item/I, toggle_off = 1)
@@ -169,6 +173,10 @@
 		var/datum/component/storage/STR = A.GetComponent(/datum/component/storage)
 		if(STR)
 			processing_list += STR.return_inv(TRUE)
+		// this is probably a shitty way to do this but we need holsters to get checked too
+		var/datum/component/holster/HOL = A.GetComponent(/datum/component/holster)
+		if(HOL && HOL.sheathed)
+			processing_list += HOL.sheathed
 	return processing_list
 
 //Vanderlin port - Matthios Eyes ability to nab most expensive items.

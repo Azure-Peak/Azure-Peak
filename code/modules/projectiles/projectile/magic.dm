@@ -185,7 +185,7 @@
 	var/locker_suck = TRUE
 	var/obj/structure/closet/locker_temp_instance = /obj/structure/closet/decay
 
-/obj/projectile/magic/locker/Initialize()
+/obj/projectile/magic/locker/Initialize(mapload)
 	. = ..()
 	locker_temp_instance = new(src)
 
@@ -226,7 +226,7 @@
 	var/weakened_icon = "decursed"
 	var/auto_destroy = TRUE
 
-/obj/structure/closet/decay/Initialize()
+/obj/structure/closet/decay/Initialize(mapload)
 	. = ..()
 	if(auto_destroy)
 		addtimer(CALLBACK(src, PROC_REF(bust_open)), 5 MINUTES)
@@ -373,7 +373,7 @@
 	damage_type = BRUTE
 	nodamage = FALSE
 	light_color = "#f8af07"
-	light_outer_range =  2
+	light_outer_range =	2
 
 	//explosion values
 	var/exp_heavy = 0

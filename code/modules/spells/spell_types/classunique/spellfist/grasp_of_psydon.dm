@@ -3,6 +3,7 @@
 	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	button_icon_state = "grasp_of_psydon"
 	name = "Grasp of Psydon"
+	expose_caster_on_deflect = FALSE
 	desc = "Slam your open palm forward, sending forth tendrils of arcyne force to a target area up to 4 paces away on the same level. After a brief telegraph, all targets in the area are yanked toward you. \
 		At 3+ momentum: consumes 3 to deal 40 blunt damage to the aimed bodypart on each yanked target.\n\n\
 		'Push forth your hand with your conduit open, and imagine, with His will, seizing upon the very object or person you desire within your grasp, then, pull your hand backward. Close, and clench your fist, pushing forward slightly, opening your conduit again, and you shall seize your enemy from afar, and pull them toward you.'"
@@ -92,9 +93,11 @@
 			victim.visible_message(span_warning("[victim] breaks free of the tendrils!"))
 			continue
 		var/def_zone = H.zone_selected || BODY_ZONE_CHEST
-		arcyne_strike(H, victim, null, base_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon")
+		if(arcyne_strike(H, victim, null, base_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon") == ARCYNE_STRIKE_WARDED)
+			continue
 		if(empowered)
-			arcyne_strike(H, victim, null, empowered_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon (Empowered)")
+			if(arcyne_strike(H, victim, null, empowered_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon (Empowered)") == ARCYNE_STRIKE_WARDED)
+				continue
 		victim.throw_at(caster_turf, pull_distance, 4)
 
 		victim.visible_message(span_warning("[victim] is yanked toward [H] by tendrils of arcyne force!"))

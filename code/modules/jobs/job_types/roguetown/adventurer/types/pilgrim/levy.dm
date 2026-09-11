@@ -184,8 +184,8 @@
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 
 		var/helmets = list(
-		"Nasal Helmet" 	= /obj/item/clothing/head/roguetown/helmet/nasal/iron,
-		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
+		"Nasal Helmet"	= /obj/item/clothing/head/roguetown/helmet/nasal/iron,
+		"Kettle Helmet"	= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
 		"Leather Helmet"	= /obj/item/clothing/head/roguetown/helmet/leather,
 		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
 		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,

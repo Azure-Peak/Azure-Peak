@@ -129,7 +129,7 @@
 	detail_color = CLOTHING_WHITE
 	altdetail_color = CLOTHING_WHITE
 
-/obj/item/clothing/under/roguetown/chainlegs/iron/hose/dyeable/Initialize()
+/obj/item/clothing/under/roguetown/chainlegs/iron/hose/dyeable/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -161,7 +161,7 @@
 	detail_color = CLOTHING_WHITE
 	altdetail_color = CLOTHING_WHITE
 
-/obj/item/clothing/under/roguetown/chainlegs/hose/dyeable/Initialize()
+/obj/item/clothing/under/roguetown/chainlegs/hose/dyeable/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -186,7 +186,7 @@
 	name = "layer a cloth hose atop steel chain hosen"
 	result = list(/obj/item/clothing/under/roguetown/chainlegs/hose/dyeable)
 	reqs = list(/obj/item/clothing/under/roguetown/tights/hose = 1,
-	            /obj/item/clothing/under/roguetown/chainlegs/hose = 1)
+				/obj/item/clothing/under/roguetown/chainlegs/hose = 1)
 	craftdiff = 0 //Straight-forward. Note that this is a copy of Draganfrukt's helmet-and-hat combination system, which also has the slight caveat..
 	req_table = TRUE //..of resetting the durability of both items, when crafted and uncrafted. This check helps to reduce a lot of potential cheese, but should be tweaked later.
 	bypass_dupe_test = TRUE
@@ -195,7 +195,7 @@
 	name = "layer a cloth hose atop iron chain hosen"
 	result = list(/obj/item/clothing/under/roguetown/chainlegs/iron/hose/dyeable)
 	reqs = list(/obj/item/clothing/under/roguetown/tights/hose = 1,
-	            /obj/item/clothing/under/roguetown/chainlegs/iron = 1)
+				/obj/item/clothing/under/roguetown/chainlegs/iron = 1)
 	craftdiff = 0
 	req_table = TRUE
 	bypass_dupe_test = TRUE
@@ -221,7 +221,7 @@
 
 /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
 	name = "decrepit chain kilt"
-	desc = "Frayed bronze rings, linked together with bindings of rotting leather to form a waist's drape. The maille jingles with every step, singing the hymn to a cadence once savored by marching legionnaires."
+	desc = "Rotted metal rings, linked together with bindings of rotting leather to form a waist's drape. The maille jingles with every step, singing the hymn to a cadence once savored by marching legionnaires."
 	icon_state = "achainkilt"
 	sleevetype = "achainkilt"
 	max_integrity = ARMOR_INT_LEG_DECREPIT_CHAIN

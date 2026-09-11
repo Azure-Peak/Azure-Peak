@@ -1,5 +1,5 @@
 /datum/component/after_image
-	dupe_mode =	 COMPONENT_DUPE_UNIQUE_PASSARGS
+	dupe_mode =		COMPONENT_DUPE_UNIQUE_PASSARGS
 	var/rest_time
 	var/list/obj/effect/after_image/after_images
 

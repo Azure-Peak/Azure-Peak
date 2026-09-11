@@ -22,13 +22,15 @@
 		return
 
 	message_admins("[key_name_admin(src)] accessed file: [path]")
-	switch(alert("View (in game), Open (in your system's text editor), or Download?", path, "View", "Open", "Download"))
+	switch(alert(src, "View (in game), Open (in your system's text editor), or Download?", path, "View", "Open", "Download"))
 		if ("View")
 			src << browse("<pre style='word-wrap: break-word;'>[html_encode(file2text(file(path)))]</pre>", list2params(list("window" = "viewfile.[path]")))
 		if ("Open")
 			src << run(file(path))
 		if ("Download")
-			src << ftp(file(path))
+			var/regex/R = regex(@"round-[^-]+-(.+)/([^/]+)")
+			var/suggested_name = R.Find(path) ? "[R.group[1]]-[R.group[2]]" : path
+			src << ftp(file(path), suggested_name)
 		else
 			return
 	to_chat(src, "Attempting to send [path], this may take a fair few minutes if the file is very large.")

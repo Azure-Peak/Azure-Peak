@@ -5,7 +5,7 @@
 	var/z_value = 1 //actual z placement
 	var/linkage = SELFLOOPING
 	var/xi
-	var/yi   //imaginary placements on the grid
+	var/yi	//imaginary placements on the grid
 
 /datum/space_level/New(new_z, new_name, list/new_traits = list())
 	z_value = new_z

@@ -1,4 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead
+	threat_point = THREAT_DEADLY
+	anatomy_type = /datum/anatomy/quadruped/undead
 	name = "deadite saiga"
 	desc = "A deadite saiga, its eyes glow with an eerie light."
 	icon = 'icons/roguetown/mob/monster/deadites/saiga_undead.dmi'
@@ -53,9 +55,10 @@
 		/obj/item/alch/viscera = 1
 	)
 	ai_controller = /datum/ai_controller/undead
+	move_base_delay = MOVEMENT_DELAY_LUMBERING
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/deadite)

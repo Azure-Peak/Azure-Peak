@@ -184,9 +184,9 @@
 	playsound(src, 'sound/misc/clockloop.ogg', 25, TRUE)
 
 /obj/item/rogueweapon/contraption/attack_obj(obj/O, mob/living/user)
+	if(brute_attack && (user.used_intent.type != /datum/intent/use))
+		return ..()
 	if(!current_charge)
-		if(brute_attack && (user.used_intent.type != /datum/intent/use))
-			return ..()
 		flick(off_icon, src)
 		to_chat(user, span_info("The contraption beeps! It requires \a [initial(accepted_power_source.name)]!"))
 		playsound(src, 'sound/magic/magic_nulled.ogg', 100, TRUE)
@@ -266,12 +266,13 @@
 
 /obj/item/rogueweapon/contraption/linker/get_mechanics_examine(mob/user)
 	. = ..()
+	. += span_info("Wrenches consume gears to perform a variety of artificing functions.")
+	. += span_info("Use of a wrench requires a high Engineering skill, and may befuddle your character otherwise.")
 	. += span_info("Use it like a multitool on compatible machinery to store a target in its buffer, then use it again on another compatible target to link them.")
 	. += span_info("Right click it in-hand to wipe its stored buffer.")
 	. += span_info("Right-click an adjacent rotatable rotational object while holding this to rotate it.")
 	. += span_info("Middle-click an adjacent placed shaft, cogwheel, or gearbox while holding this to disassemble it back into an item pile.")
-	if(user.get_skill_level(/datum/skill/craft/engineering) >= 4)
-		. += span_info("Holding it in your hands grants Tune Up, which spends wrench charge to repair or enhance compatible engineering targets.")
+	. += span_info("Holding it in your hands grants Tune Up, which spends wrench charge to repair or enhance compatible engineering targets.")
 
 /obj/item/rogueweapon/contraption/linker/attack_right(mob/user)
 	. = ..()
@@ -585,7 +586,7 @@
 	var/active_item = FALSE
 
 
-/obj/item/rogueweapon/contraption/pick/drill/Initialize()
+/obj/item/rogueweapon/contraption/pick/drill/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 

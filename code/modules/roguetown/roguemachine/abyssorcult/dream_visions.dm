@@ -174,7 +174,7 @@
 	temporary_target_scry()
 
 /datum/component/vision_quest_tracker/proc/sanitize_speech_phrase(phrase)
-	var/cleaned = lowertext(phrase)
+	var/cleaned = LOWER_TEXT(phrase)
 	cleaned = replacetext(cleaned, "&#39;", "'")
 	cleaned = replacetext(cleaned, "&apos;", "'")
 	cleaned = replacetext(cleaned, "’", "'")

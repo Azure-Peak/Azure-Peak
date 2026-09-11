@@ -23,7 +23,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	d_intent = INTENT_DODGE
 	threat_point = THREAT_ELITE
 
-/mob/living/carbon/human/species/human/northern/outlaw_ranger/Initialize()
+/mob/living/carbon/human/species/human/northern/outlaw_ranger/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))
@@ -82,6 +82,8 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	belt = /obj/item/storage/belt/rogue/leather
+	beltr = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/short/iron
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 	backl = /obj/item/quiver/npc

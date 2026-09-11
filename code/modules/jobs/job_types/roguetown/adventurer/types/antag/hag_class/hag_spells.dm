@@ -86,16 +86,16 @@
 	. += "THE ART OF GIVING AND TAKING"
 	. += "═══════════════════════════"
 	. += "BOON CAPACITY:"
-	. += "  • Tier 1: Up to 60 points of boons"
-	. += "  • Tier 2: Up to 85 points of boons"
-	. += "  • Tier 3: Up to 110 points of boons"
+	. += "	• Tier 1: Up to 60 points of boons"
+	. += "	• Tier 2: Up to 85 points of boons"
+	. += "	• Tier 3: Up to 110 points of boons"
 	. += ""
 	. += "PROGRESSION:"
-	. += "  • Curse 1 person → Tier 2 (Requires 20 points)"
-	. += "  • Curse 2 people → Tier 3 (Requires 60 points total)"
+	. += "	• Curse 1 person → Tier 2 (Requires 20 points)"
+	. += "	• Curse 2 people → Tier 3 (Requires 60 points total)"
 	. += ""
 	. += "AFFECTED TARGETS:"
-	. += "  • Positive Boons: 4/5/6 people (scales with tier)"
+	. += "	• Positive Boons: 4/5/6 people (scales with tier)"
 	. += ""
 	. += "Use this rite to view the boons that you have granted to allies,"
 	. += "or twist your gifts into curses against your enemies."
@@ -177,7 +177,7 @@
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	// to_chat(ui.user, "DEBUG: Action [action] received. Params: [json_encode(params)]")
-	// to_chat(world, "DEBUG: Action [action] received. Params: [json_encode(params)]")
+	// to_world("DEBUG: Action [action] received. Params: [json_encode(params)]")
 
 	var/mob/living/user = ui.user
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
@@ -365,7 +365,7 @@
 		return FALSE
 
 	user.visible_message(span_warning("[user]'s fingers twitch as if pulling invisible strings..."), \
-						 span_notice("I have woven the coven web between [coven_members.len] souls."))
+							span_notice("I have woven the coven web between [coven_members.len] souls."))
 
 	var/datum/mindlink/coven/C = new(coven_members)
 	GLOB.mindlinks += C

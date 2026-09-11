@@ -20,7 +20,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 
 
-/mob/living/carbon/human/species/human/northern/deranged_knight/Initialize()
+/mob/living/carbon/human/species/human/northern/deranged_knight/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

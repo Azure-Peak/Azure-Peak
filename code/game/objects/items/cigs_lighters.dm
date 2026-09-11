@@ -115,7 +115,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 20 //40 seconds
 	grind_results = list(/datum/reagent/carbon = 2)
 
-/obj/item/match/firebrand/Initialize()
+/obj/item/match/firebrand/Initialize(mapload)
 	. = ..()
 	matchignite()
 
@@ -148,7 +148,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/nextdragtime = 0
 	var/lit = FALSE
 	var/starts_lit = FALSE
-	var/icon_on = "cigon"  //Note - these are in masks.dmi not in cigarette.dmi
+	var/icon_on = "cigon"	//Note - these are in masks.dmi not in cigarette.dmi
 	var/icon_off = "cigoff"
 	var/type_butt = /obj/item/cigbutt
 	var/lastHolder = null
@@ -161,7 +161,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	user.visible_message(span_suicide("[user] is huffing [src] as quickly as [user.p_they()] can! It looks like [user.p_theyre()] trying to give [user.p_them()]self cancer."))
 	return (TOXLOSS|OXYLOSS)
 
-/obj/item/clothing/mask/cigarette/Initialize()
+/obj/item/clothing/mask/cigarette/Initialize(mapload)
 	. = ..()
 	create_reagents(chem_volume, INJECTABLE | NO_REACT)
 	if(list_reagents)
@@ -265,9 +265,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			if (src == C.mouth) // if it's in the human/monkey mouth, transfer reagents to the mob
 				var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
 				/*
-				 * Given the amount of time the cig will last, and how often we take a hit, find the number
-				 * of chems to give them each time so they'll have smoked it all by the end.
-				 */
+					* Given the amount of time the cig will last, and how often we take a hit, find the number
+					* of chems to give them each time so they'll have smoked it all by the end.
+					*/
 				if (smoke_all)
 					if(!smoketime)
 						to_smoke = reagents.total_volume
@@ -291,6 +291,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			M.dropItemToGround(src, silent = TRUE)
 			M.mouth = new type_butt(M)
 			record_featured_stat(FEATURED_STATS_SMOKERS, M) //
+			M.visible_message(span_warning("[M] spits out [M.mouth]."))
+			M.dropItemToGround(M.mouth, silent = FALSE)
 		else
 			new type_butt(location)
 		qdel(src)
@@ -347,6 +349,20 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		user.visible_message(span_notice("[user] pinches out [src] with [user.p_their()] fingers."), \
 				span_notice("I pinch out [src] with my fingers."))
 		extinguish()
+		smoketime -= 60 // takes half off
+		if(smoketime <= 0)
+			var/turf/location = get_turf(src)
+			if(iscarbon(loc))
+				var/mob/living/carbon/M = loc
+				M.dropItemToGround(src, silent = TRUE)
+				M.mouth = new type_butt(M)
+				M.dropItemToGround(M.mouth, silent = FALSE)
+				to_chat(user, span_notice("[src] didn\'t have enough in it to withstand my pinch!"))
+			else
+				new type_butt(location)
+				user.visible_message(span_notice("[user] pinches [src], the last of it's contents shriveling to naught!"))
+			qdel(src)
+
 		return 1
 	return ..()
 
@@ -367,7 +383,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	muteinmouth = FALSE
 	salvage_result = null
 
-/obj/item/clothing/mask/cigarette/rollie/Initialize()
+/obj/item/clothing/mask/cigarette/rollie/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
@@ -382,11 +398,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 240
 	list_reagents = list(/datum/reagent/drug/westleach = 45)
 
-/obj/item/clothing/mask/cigarette/rollie/trippy
-	name = "trippy zig"
-	desc = "A paper wrapped cartridge of... What?"
-	list_reagents = list(/datum/reagent/drug/westleach = 15, /datum/reagent/drug/mushroomhallucinogen = 35)
-	starts_lit = TRUE
+
 
 /obj/item/clothing/mask/cigarette/rollie/cannabis
 	name = "swampleaf zig"
@@ -412,7 +424,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_state = "roach"
 	muteinmouth = FALSE
 
-/obj/item/cigbutt/roach/Initialize()
+/obj/item/cigbutt/roach/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
@@ -560,6 +572,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 240
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/jacksberries = 12, /datum/reagent/berrypoison = 3)
 
+// Abyss cheroots are produced with salt water and fish. They aren't dupes, as much as they may seem it... apparently.
 /obj/item/clothing/mask/cigarette/rollie/abyss
 	name = "jacksberries zig"
 	desc = "Dried westleach and jackberries carefully wrapped in fine paper. It has a particularly smooth taste with a burns and scratches effect."
@@ -649,7 +662,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "pipeoff"
 	item_state = "pipeoff"
-	icon_on = "pipeon"  //Note - these are in masks.dmi
+	icon_on = "pipeon"	//Note - these are in masks.dmi
 	icon_off = "pipeoff"
 	smoketime = 120
 	chem_volume = 100
@@ -666,10 +679,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	desc = ""
 	icon_state = "longpipeoff"
 	item_state = "longpipeoff"
-	icon_on = "longpipeon"  //Note - these are in masks.dmi
+	icon_on = "longpipeon"	//Note - these are in masks.dmi
 	icon_off = "longpipeoff"
 
-/obj/item/clothing/mask/cigarette/pipe/crafted/Initialize()
+/obj/item/clothing/mask/cigarette/pipe/crafted/Initialize(mapload)
 	. = ..()
 	src.packeditem = 0
 	src.smoketime = 0
@@ -766,12 +779,33 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 //		name = "empty [initial(name)]"
 	return
 
+// pipes should NOT inherit the being-destroyed part of zigarette behavior so we do this instead.
+// its a little dumb but should work, just copied the attack_self. DO NOT CALL PARENT!!!!
+/obj/item/clothing/mask/cigarette/pipe/attack_right(mob/user)
+	var/turf/location = get_turf(user)
+	if(lit)
+		name = copytext(name,5,length(name)+1)
+		user.visible_message(span_notice("[user] puts out [src]."), span_notice("I put out [src]."))
+		lit = 0
+		set_light_on(FALSE)
+		update_icon_state()
+		STOP_PROCESSING(SSobj, src)
+		return
+	if(!lit && smoketime > 0)
+		smoketime = 0
+		to_chat(user, span_notice("I empty [src] onto [location]."))
+		new /obj/item/ash(location)
+		packeditem = 0
+		reagents.clear_reagents()
+//		name = "empty [initial(name)]"
+	return
+
 /obj/item/clothing/mask/cigarette/pipe/cobpipe
 	name = "corn cob pipe"
 	desc = ""
 	icon_state = "cobpipeoff"
 	item_state = "cobpipeoff"
-	icon_on = "cobpipeon"  //Note - these are in masks.dmi
+	icon_on = "cobpipeon"	//Note - these are in masks.dmi
 	icon_off = "cobpipeoff"
 	smoketime = 0
 
@@ -802,7 +836,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	light_color = LIGHT_COLOR_FIRE
 	grind_results = list(/datum/reagent/iron = 1, /datum/reagent/fuel = 5, /datum/reagent/fuel/oil = 5)
 
-/obj/item/lighter/Initialize()
+/obj/item/lighter/Initialize(mapload)
 	. = ..()
 	if(!overlay_state)
 		overlay_state = pick(overlay_list)
@@ -937,7 +971,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		COLOR_ASSEMBLY_PURPLE
 		)
 
-/obj/item/lighter/greyscale/Initialize()
+/obj/item/lighter/greyscale/Initialize(mapload)
 	. = ..()
 	if(!lighter_color)
 		lighter_color = pick(color_list)

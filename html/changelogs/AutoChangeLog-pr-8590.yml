@@ -1,7 +1,0 @@
-author: "FeniaFox"
-delete-after: True
-changes:
-  - code_imp: "streamlined skin armor code to be neater and make better use of inheritance (~70 line delta yay)."
-  - rscdel: "Removed chest layer skin from sojourner, to allow layering vastly-superior ward there again."
-  - rscadd: "Added alternative skin option to sojourner, using meditation repair. Same stats, just a flavor sidegrade."
-  - bugfix: "fixed disciple loadout options being misleading & it having nonfunctional slowdown-resist traits."

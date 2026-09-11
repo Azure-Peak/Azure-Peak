@@ -146,7 +146,7 @@ Also added 'exclude' turf to avoid travelling over; defaults to null
 			if(source_stairs)
 				T = source_stairs.get_transit_destination(dir_to_check)
 			if(T != exclude)
-				var/datum/PathNode/CN = openc[T]  //current checking turf
+				var/datum/PathNode/CN = openc[T]	//current checking turf
 				var/reverse = GLOB.reverse_dir[dir_to_check]
 				var/newg = cur.g + call(cur.source,dist)(T, caller) // add the travel distance between these two tiles to the distance so far
 				if(CN)
@@ -158,7 +158,7 @@ Also added 'exclude' turf to avoid travelling over; defaults to null
 							open.ReSort(CN)//reorder the changed element in the list
 				else
 				//is not already in open list, so add it
-					if(call(cur.source,adjacent)(caller, T, id)) 
+					if(call(cur.source,adjacent)(caller, T, id))
 						CN = new(T,cur,newg,call(T,dist)(end, caller),cur.nodes_traversed+1, ALL_DIRS^reverse)
 						open.Insert(CN)
 						openc[T] = CN

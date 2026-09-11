@@ -36,7 +36,7 @@
 	icon_state = "pretzelgsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
-	
+
 /obj/item/rogueweapon/example/waffai_flamberge
 	name = "Xenolalia"
 	desc = "Excerpt, Ordres des Pauvres Chevaliers d'SYON, (16th Edition, published 1501): <br> 'Hark! This is my testament; if you truly believe in kindness, know this. It must be cultivated; it must be won, fiercely! And it must be defended- with every last drop of blood! God, called PSYDON, has entrusted us with the world itself- how can we be so prideful as to judge it?'"
@@ -47,7 +47,7 @@
 // stinkethstoneth
 /obj/item/rogueweapon/example/stinketh_sabre
 	name = "fencer's shashka"
-	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
+	desc = "A heirloom shashka with guardless hilt plated in silver and adorned	with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
 	icon_state = "stinketh_shashka"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 

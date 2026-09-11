@@ -13,7 +13,7 @@
 	var/timerid
 	var/harvested = FALSE
 
-/obj/structure/flora/roguegrass/herb/Initialize()
+/obj/structure/flora/roguegrass/herb/Initialize(mapload)
 	. = ..()
 	GLOB.herb_locations |= src
 	loot_replenish()
@@ -81,7 +81,7 @@
 	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
 	icon_state = "random_herb"
 
-/obj/structure/flora/roguegrass/herb/random/Initialize()
+/obj/structure/flora/roguegrass/herb/random/Initialize(mapload)
 	var/type = pick(list(/obj/structure/flora/roguegrass/herb/atropa,
 	/obj/structure/flora/roguegrass/herb/matricaria,
 	/obj/structure/flora/roguegrass/herb/symphitum,

@@ -28,7 +28,7 @@
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout
 	name = "aesthetic grenzelhoft gloves"
 
-/obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout/Initialize()
+/obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -53,7 +53,7 @@
 /obj/item/clothing/gloves/roguetown/angle/freifechter/loadout
 	name = "aesthetic fencing gloves"
 
-/obj/item/clothing/gloves/roguetown/angle/freifechter/loadout/Initialize()
+/obj/item/clothing/gloves/roguetown/angle/freifechter/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -62,6 +62,11 @@
 	desc = "And when he woke up, his whole skeleton was missing, and the physicker was never heard of again! </br>Ah, anyways; that's how I lost my writ of practice."
 	icon_state = "feldgloves"
 	item_state = "feldgloves"
+
+/obj/item/clothing/gloves/roguetown/angle/phys/cleric
+	name = "thin physicker's gloves"
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_SIDE_LEATHER
 
 /obj/item/clothing/gloves/roguetown/angle/phys
 	name = "physicker's gloves"

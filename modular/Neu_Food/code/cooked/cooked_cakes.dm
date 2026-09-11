@@ -1,4 +1,4 @@
-//	.................   Cake base   .................
+//	.................	Cake base	.................
 /obj/item/reagent_containers/food/snacks/rogue/cake_base
 	name = "cake base"
 	desc = "With this sweet thing, you shall make them sing."
@@ -11,7 +11,7 @@
 	foodtype = GRAIN | DAIRY
 	rotprocess = SHELFLIFE_LONG
 
-//	.................   Cooked   .................
+//	.................	Cooked	.................
 /obj/item/reagent_containers/food/snacks/rogue/cake
 	dish_type = DISH_PASTRY
 	name = "cake"
@@ -47,8 +47,8 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 	rotprocess = SHELFLIFE_LONG
 
-//	.................   Frosted cake   .................
-//	.................        Raw       .................
+//	.................	Frosted cake	.................
+//	.................		Raw		.................
 /obj/item/reagent_containers/food/snacks/rogue/frostedcakeuncooked
 	name = "frosted cake base"
 	desc = "With this sweet frosted thing, you shall make them sing and dance."
@@ -61,7 +61,7 @@
 	foodtype = GRAIN | DAIRY | SUGAR
 	rotprocess = SHELFLIFE_LONG
 
-//	.................   Cooked   .................
+//	.................	Cooked	.................
 /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -102,7 +102,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Apple cake   ..................
+//	..................	Apple cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/applecake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -143,7 +143,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Applenut cake   ..................
+//	..................	Applenut cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/applenutcake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -184,7 +184,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Berry cake   ..................
+//	..................	Berry cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/berrycake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -232,7 +232,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/berrycakeslice/poison
 	list_reagents = list(/datum/reagent/berrypoison = 1, /datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL, /datum/reagent/water = 1)
 
-//	..................   Blackberry cake   ..................
+//	..................	Blackberry cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/blackberrycake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -273,8 +273,8 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Carrot cake   ..................
-//         This could've been a berry cake too.
+//	..................	Carrot cake	..................
+//			This could've been a berry cake too.
 /obj/item/reagent_containers/food/snacks/rogue/carrotcake
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_PASTRY
@@ -315,7 +315,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Lemon cake   ..................
+//	..................	Lemon cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/lemoncake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -356,7 +356,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Lime cake   ..................
+//	..................	Lime cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/limecake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -398,7 +398,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 /*
-//	..................   Manabloom cake   ..................
+//	..................	Manabloom cake	..................
 // For whatever reason, this considerably dull the taste in favor of revitalizing the eater's energy.
 // It is intended only for characters with the ability to tap into the arcane to make this cake.
 
@@ -439,7 +439,7 @@
 	rotprocess = SHELFLIFE_LONG
 */
 
-//	..................   Mentha cake   ..................
+//	..................	Mentha cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/menthacake
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_PASTRY
@@ -480,7 +480,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Peace cake   ..................
+//	..................	Peace cake	..................
 // Peaceflower cake has the drawback of turning its eater into a pacifist for a few minutes.
 /obj/item/reagent_containers/food/snacks/rogue/peacecake
 	dish_type = DISH_PASTRY
@@ -530,7 +530,7 @@
 		eater.apply_status_effect(/datum/status_effect/buff/peacecake)
 	return ..()
 
-//	..................   Raspberry cake   ..................
+//	..................	Raspberry cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/raspberrycake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -571,7 +571,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Rocknut cake   ..................
+//	..................	Rocknut cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/rocknutcake
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_PASTRY
@@ -612,7 +612,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Strawberry cake   ..................
+//	..................	Strawberry cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/strawberrycake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -653,7 +653,7 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Tangerine cake   ..................
+//	..................	Tangerine cake	..................
 /obj/item/reagent_containers/food/snacks/rogue/tangerinecake
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY
@@ -694,8 +694,8 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Honey cake   ..................
-//	..................           Raw            ..................
+//	..................	Honey cake	..................
+//	..................			Raw			..................
 /obj/item/reagent_containers/food/snacks/rogue/hcakeuncooked
 	name = "unbaked cake"
 	icon = 'modular/Neu_Food/icons/raw/raw_cakes.dmi'
@@ -708,7 +708,7 @@
 	foodtype = GRAIN | DAIRY | SUGAR
 	rotprocess = SHELFLIFE_DECENT
 
-//	.................   Cooked   .................
+//	.................	Cooked	.................
 /obj/item/reagent_containers/food/snacks/rogue/hcake
 	cuisine = CUISINE_RANESHENI
 	dish_type = DISH_PASTRY|DISH_SWEET
@@ -749,8 +749,8 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	rotprocess = SHELFLIFE_LONG
 
-//	..................   Cheesecake   ..................
-//	..................      Raw       ..................
+//	..................	Cheesecake	..................
+//	..................		Raw		..................
 /obj/item/reagent_containers/food/snacks/rogue/ccakeuncooked
 	name = "unbaked cake of cheese"
 	icon = 'modular/Neu_Food/icons/raw/raw_cakes.dmi'
@@ -763,7 +763,7 @@
 	foodtype = GRAIN | DAIRY
 	rotprocess = SHELFLIFE_DECENT
 
-//	.................   Cooked   .................
+//	.................	Cooked	.................
 /obj/item/reagent_containers/food/snacks/rogue/ccake
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_PASTRY|DISH_DAIRY

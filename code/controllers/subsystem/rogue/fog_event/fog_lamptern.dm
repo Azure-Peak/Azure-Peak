@@ -85,7 +85,7 @@
 	if(!ishuman(user) || holder == user)
 		return
 	holder = user
-	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/consume_fuel)
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(consume_fuel))
 
 /obj/item/lantern/fog_repelling/proc/stop_tracking()
 	if(holder)
@@ -111,7 +111,7 @@
 	. = ..()
 
 	if(holder)
-		if(loc != holder  || istype(loc, /obj/item/storage/backpack) || istype(loc, /obj/structure/closet))
+		if(loc != holder	|| istype(loc, /obj/item/storage/backpack) || istype(loc, /obj/structure/closet))
 			to_chat(holder, span_warning("The protective light of [src] fades as it leaves your person!"))
 			holder.remove_status_effect(/datum/status_effect/buff/fog_ward_caster)
 			extinguish()
@@ -140,7 +140,7 @@
 			return
 
 		// 1 unit of reagent = 25 units of fuel
-		var/oil_to_fuel_ratio = 25 
+		var/oil_to_fuel_ratio = 25
 		var/available_reagent = container.reagents.get_reagent_amount(/datum/reagent/sanctified_oil)
 
 		var/units_needed = CEILING((max_fuel - fuel) / oil_to_fuel_ratio, 1)
@@ -148,11 +148,11 @@
 
 		if(transfer_amount > 0)
 			user.visible_message(span_notice("[user] carefully refills [src]."), \
-								 span_notice("You refill [src] with sanctified oil."))
+									span_notice("You refill [src] with sanctified oil."))
 
 			container.reagents.remove_reagent(/datum/reagent/sanctified_oil, transfer_amount)
 			fuel = min(fuel + (transfer_amount * oil_to_fuel_ratio), max_fuel)
-			
+
 			playsound(src, 'sound/items/drink_bottle (2).ogg', 50, TRUE)
 			update_icon()
 		return TRUE
