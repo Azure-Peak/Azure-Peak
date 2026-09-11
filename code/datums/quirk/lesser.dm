@@ -65,3 +65,15 @@
 	added_traits = list(TRAIT_CAUSTIC)
 	allowed_species = list(/datum/species/ooze, /datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/aasimar, /datum/species/dullahan)
 	ui_fa_icon = "road-spikes"
+
+/datum/quirk/nightowl
+	name = "Night Owl"
+	desc = "For one reason or another, I've a nocturnal sleep cycle."
+	added_traits = list(TRAIT_NIGHT_OWL)
+	ui_fa_icon = "moon"
+
+/datum/quirk/nostink
+	name = "Deadened Nose"
+	desc = "Whether used to filth, or simply a quirk of biology, horrid smells don't bother me."
+	added_traits = list(TRAIT_NOSTINK)
+	ui_fa_icon = "cloud"
