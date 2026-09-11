@@ -369,7 +369,8 @@
 	canSmoothWith = list(/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/frozen_water,)
+						/turf/open/floor/rogue/frozen_water,
+						/turf/open/floor/rogue/grasscold/winter) // one-sided, see dirt/winter
 	neighborlay = "grass_coldedge"
 	winter_type = /turf/open/floor/rogue/grasscold/winter
 
@@ -409,7 +410,8 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/grassred/winter,) // one-sided, see dirt/winter
 	neighborlay = "grass_rededge"
 	winter_type = /turf/open/floor/rogue/grassred/winter
 
@@ -442,7 +444,8 @@
 	canSmoothWith = list(/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/grassyel/winter,) // one-sided, see dirt/winter
 	neighborlay = "grass_yeledge"
 	winter_type = /turf/open/floor/rogue/grassyel/winter
 
@@ -541,7 +544,8 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/AzureSand)
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/dirt/winter) // one-sided, see dirt/winter - lets its snow edge spill onto an unconverted (e.g. indoor) dirt tile instead of drawing a dirtedge border back at it
 	neighborlay = "dirtedge"
 	winter_type = /turf/open/floor/rogue/dirt/winter
 	var/muddy = FALSE
@@ -680,7 +684,8 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/AzureSand,)
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/dirt/road/winter) // one-sided, see dirt/road/winter
 	neighborlay = "roadedge"
 	winter_type = /turf/open/floor/rogue/dirt/road/winter
 	slowdown = 0
@@ -700,14 +705,21 @@
 /// both plain snow's ("snow"/"snowedge") rather than a dedicated "snowdirt" set - a dirt path in
 /// Winter is meant to be indistinguishable from the snow around it, and mixing edge art from a
 /// different sheet than the base tile produced a visibly jagged seam.
+///
+/// Doesn't list summer dirt in its own canSmoothWith - only dirt's list was extended to include
+/// this type, not the reverse. That one-sidedness is deliberate: roguesmooth() draws a tile's
+/// border using the *neighbor's* neighborlay, so this lets Winter dirt's own snowedge spill onto
+/// an adjacent unconverted (e.g. indoor) dirt tile, while that dirt tile draws no dirtedge border
+/// back - the snow visually creeps up to the threshold instead of a hard two-sided seam.
 /turf/open/floor/rogue/dirt/winter
 	icon_state = "snow"
 	neighborlay = "snowedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/dirt
 
-/// See /turf/open/floor/rogue/dirt/winter - same reasoning, for dirt/road specifically. Base
-/// sprite and edge family are both snowrough's ("snowrough"/"snowroughedge").
+/// See /turf/open/floor/rogue/dirt/winter - same reasoning (both the sprite/edge choice and the
+/// one-sided canSmoothWith spill), for dirt/road specifically. Base sprite and edge family are
+/// both snowrough's ("snowrough"/"snowroughedge").
 /turf/open/floor/rogue/dirt/road/winter
 	icon_state = "snowrough"
 	neighborlay = "snowroughedge"
@@ -1251,7 +1263,8 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/AzureSand)
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/cobble/winter) // one-sided, see dirt/winter
 
 /turf/open/floor/rogue/cobble/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1294,7 +1307,8 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/cobble/mossy/winter,) // one-sided, see dirt/winter
 
 /turf/open/floor/rogue/cobble/mossy/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
