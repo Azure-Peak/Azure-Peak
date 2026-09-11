@@ -16,10 +16,13 @@
 //   Winter and lose it again on the thaw. Freezing uses PlaceOnTop(), so the original water
 //   subtype rides along on baseturfs and the thaw is a plain ScrapeAway() back to it. Both
 //   the liquid and the frozen turfs live in the same tracking list.
-// - Paths (dirt, dirt/road, cobble, cobblerock - anything with seasonal_icon_swap set) get a
-//   "snow"-prefixed icon_state and neighborlay in Winter instead of a different type - there's no
-//   behavioral difference, just a sprite, so there's no reason to pay ChangeTurf()'s cost the way
-//   grass and water do. See apply_season_to_icon_turf().
+// - Paths (dirt, dirt/road, cobble, cobblerock - anything with winter_type set) ChangeTurf()
+//   between their summer type and a Winter sibling, the same way grass does and for the same
+//   reason water's ice layer does: dirt in particular carries real per-instance state (mud
+//   saturation, blood, an active dig hole) that a plain icon_state swap can't safely coexist with,
+//   since code elsewhere (become_muddy()'s dry-out) resets icon_state to a fixed, season-unaware
+//   default. Making the Winter look a real type means that default is correct either way. See
+//   apply_season_to_path().
 //
 // A rollover that actually changes how a category renders doesn't convert everything at once -
 // it ramps in over the calendar month it happens in, 25% more of that category's tracked atoms
@@ -190,7 +193,7 @@ SUBSYSTEM_DEF(season)
 		var/turf/open/floor/rogue/I = icon_run[icon_run.len]
 		icon_run.len--
 		if(I && !QDELETED(I))
-			apply_season_to_icon_turf(I)
+			apply_season_to_path(I)
 			drain_count++
 		if(MC_TICK_CHECK)
 			return
@@ -425,35 +428,44 @@ SUBSYSTEM_DEF(season)
 	if(new_turf)
 		GLOB.seasonal_water_turfs |= new_turf
 
-/// Should seasonal_icon_swap terrain (dirt, road, cobblestone, cobblerock) currently be showing
-/// its snow sprite? Tied to the same months grass turns to snow - paths pick up their scatter of
-/// snow on the same day the ground around them does, no separate delay the way water has.
-/// `season` defaults to current - see get_target_turf_type() for why the param exists.
+/// Should winter_type terrain (dirt, road, cobblestone, cobblerock) currently be in its Winter
+/// form? Tied to the same months grass turns to snow - paths pick up their scatter of snow on the
+/// same day the ground around them does, no separate delay the way water has. `season` defaults
+/// to current - see get_target_turf_type() for why the param exists.
 /datum/controller/subsystem/season/proc/should_show_snow_icons(season = current_season)
 	return season == SEASON_WINTER
 
-/// Swaps a seasonal_icon_swap turf's icon_state (and neighborlay, for the types that have an
-/// active one) between its cached summer_icon_state and a "snow"-prefixed winter version, then
-/// re-smooths it and its neighbors so any edge overlays catch up. Unlike apply_season_to_turf()/
-/// apply_season_to_water(), nothing gets replaced or re-tracked - same turf, same GLOB entry,
-/// just a different sprite.
+/// ChangeTurf()s a winter_type turf between its summer and Winter forms, the same way
+/// apply_season_to_turf() does for grass. Unlike grass, the two forms aren't otherwise-independent
+/// types SSseason picks between - they're a summer/winter pair specific to this one turf (see
+/// winter_type/summer_type on /turf/open/floor/rogue), so which direction to go is read off the
+/// turf itself rather than off a single global target.
 ///
-/// A currently-muddy dirt tile is left alone - a live puddle takes precedence over the season's
-/// default look, and update_water() already restores the right icon_state on its own once it
-/// dries out (see roguefloor.dm).
-/datum/controller/subsystem/season/proc/apply_season_to_icon_turf(turf/open/floor/rogue/T)
+/// dirt (and dirt/road) carries real per-instance state - water saturation, muddiness, blood, an
+/// active dig hole - that ChangeTurf() would otherwise drop on the floor same as it would for any
+/// other reason a dirt tile's type changed underfoot. The plain data rides along explicitly below;
+/// a tile mid-dig (an active `holie`) is left alone entirely rather than fought over with whatever
+/// system is tracking that hole, and picks up the swap next time it's sampled once the dig ends.
+/datum/controller/subsystem/season/proc/apply_season_to_path(turf/open/floor/rogue/T)
 	if(!T.is_seasonally_exposed())
 		return
-	if(istype(T, /turf/open/floor/rogue/dirt))
-		var/turf/open/floor/rogue/dirt/D = T
-		if(D.muddy)
-			return
-	var/snowed = should_show_snow_icons()
-	var/target_state = snowed ? "snow[T.summer_icon_state]" : T.summer_icon_state
-	if(T.icon_state == target_state)
+	var/target_type = should_show_snow_icons() ? T.winter_type : T.summer_type
+	if(!target_type || T.type == target_type)
 		return
-	T.icon_state = target_state
-	if(T.winter_neighborlay)
-		T.neighborlay = snowed ? T.winter_neighborlay : initial(T.neighborlay)
-	QUEUE_SMOOTH(T)
-	QUEUE_SMOOTH_NEIGHBORS(T)
+	var/turf/open/floor/rogue/dirt/old_dirt
+	if(istype(T, /turf/open/floor/rogue/dirt))
+		old_dirt = T
+		if(old_dirt.holie)
+			return
+	var/turf/new_turf = T.ChangeTurf(target_type)
+	if(!new_turf)
+		return
+	GLOB.seasonal_icon_turfs |= new_turf
+	if(old_dirt && istype(new_turf, /turf/open/floor/rogue/dirt))
+		var/turf/open/floor/rogue/dirt/new_dirt = new_turf
+		new_dirt.water_level = old_dirt.water_level
+		new_dirt.muddy = old_dirt.muddy
+		new_dirt.bloodiness = old_dirt.bloodiness
+		new_dirt.dirt_amt = old_dirt.dirt_amt
+		if(old_dirt.muddy)
+			new_dirt.icon_state = "mud[rand(1,3)]"
