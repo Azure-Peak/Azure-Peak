@@ -21,7 +21,7 @@
 		STATKEY_CON = -2,
 	)
 
-	subclass_mage_aspects = list("mastery" = TRUE, "major" = 1, "minor" = 3, "utilities" = 9, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 1, "minor" = 3, "utilities" = 13, "ward" = TRUE)
 
 	subclass_skills = list(
 	/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,

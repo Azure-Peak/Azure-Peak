@@ -14,44 +14,31 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/arcyne_forge,
-		/datum/action/cooldown/spell/mending,
+		/datum/action/cooldown/spell/touch/conjure_repairkit,
 	)
 
-/datum/magic_aspect/exowardry
-	name = "Exowardry"
-	latin_name = "Minor Aspectus Exotutelae"
-	desc = "TODO"
+/datum/magic_aspect/illusion
+	name = "Illusion"
+	latin_name = "Minor Aspectus Illusio"
+	desc = "The art of warping light and space, illusionists know that the best defense is to never be caught in a fight in the first place."
 	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_ARCANE
+	school_color = GLOW_COLOR_ILLUSION
 	binding_chants = list(
-		"Let me raise walls against my foes.",
-		"Exotutela, mihi adesse!",
+		"Let me weave what is not there.",
+		"Illusio, mihi adesse!",
 	)
 	unbinding_chants = list(
-		"I lower the walls I have raised.",
-		"Exotutela, me relinquere!",
+		"I unravel the veil I have spun.",
+		"Illusio, me relinquere!",
 	)
-	fixed_spells = list(
-		/datum/action/cooldown/spell/forcewall,
-	)
-
-
-/datum/magic_aspect/displacement
-	name = "Displacement"
-	latin_name = "Minor Aspectus Translationis"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_DISPLACEMENT
-	binding_chants = list(
-		"Let me step between the spaces between the realms.",
-		"Translatio, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I close the paths I have opened. I walk the realms no longer.",
-		"Translatio, me relinquere!",
-	)
-	fixed_spells = list(
+	pointbuy_budget = 3
+	pointbuy_spells = list(
 		/datum/action/cooldown/spell/phase,
+		/datum/action/cooldown/spell/invisibility,
+		// 1-cost utility filler
+		/datum/action/cooldown/spell/light,
+		/datum/action/cooldown/spell/nondetection,
+		/datum/action/cooldown/spell/projectile/waterbolt,
 	)
 
 /datum/magic_aspect/autowardry
@@ -104,26 +91,8 @@
 		/datum/action/cooldown/spell/augment_buff/grasp,
 		// 1-cost utility filler
 		/datum/action/cooldown/spell/light,
-		/datum/action/cooldown/spell/mending,
+		/datum/action/cooldown/spell/touch/conjure_repairkit,
 		/datum/action/cooldown/spell/create_campfire,
-	)
-
-/datum/magic_aspect/illusion
-	name = "Illusion"
-	latin_name = "Minor Aspectus Illusio"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_ILLUSION
-	binding_chants = list(
-		"Let me weave what is not there.",
-		"Illusio, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I unravel the veil I have spun.",
-		"Illusio, me relinquere!",
-	)
-	fixed_spells = list(
-		/datum/action/cooldown/spell/invisibility,
 	)
 
 /datum/magic_aspect/hearthcraft
@@ -143,6 +112,7 @@
 	fixed_spells = list(
 		/datum/action/cooldown/spell/great_shelter,
 		/datum/action/cooldown/spell/create_campfire,
+		/datum/action/cooldown/spell/forcewall,
 	)
 
 /datum/magic_aspect/aegiscraft
@@ -179,4 +149,5 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/wither,
+		/datum/action/cooldown/spell/readomen,
 	)
