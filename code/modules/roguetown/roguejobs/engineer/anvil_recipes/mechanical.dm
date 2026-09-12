@@ -243,14 +243,14 @@
 	craftdiff = 4
 	display_category = ITEM_CAT_TOOLS_FIELD
 
-/datum/anvil_recipe/engineering/bronze/metalizer
-	name = "Wood Metalizer (+2 Gears)"
-	category = "Engineering"
-	req_bar= /obj/item/ingot/bronze
-	additional_items = list( /obj/item/roguegear, /obj/item/roguegear)
-	created_item = /obj/item/rogueweapon/contraption/wood_metalizer
-	craftdiff = 4
-	display_category = ITEM_CAT_TOOLS_WORKSHOP
+// /datum/anvil_recipe/engineering/bronze/metalizer
+// 	name = "Wood Metalizer (+2 Gears)"
+// 	category = "Engineering"
+// 	req_bar= /obj/item/ingot/bronze
+// 	additional_items = list( /obj/item/roguegear, /obj/item/roguegear)
+// 	created_item = /obj/item/rogueweapon/contraption/wood_metalizer
+// 	craftdiff = 4
+// 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/engineering/bronze/lockimprover
 	name = "Lock Improver (1 bronze, +1 Gear"
