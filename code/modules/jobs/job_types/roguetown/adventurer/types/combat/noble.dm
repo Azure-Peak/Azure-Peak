@@ -260,7 +260,7 @@
 					gloves = /obj/item/clothing/gloves/roguetown/rosa/six
 				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 				pants = /obj/item/clothing/under/roguetown/trou/leather/eastern
-				/obj/item/clothing/shoes/roguetown/rosa/seven
+				shoes = /obj/item/clothing/shoes/roguetown/rosa/seven
 				belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 				beltr = /obj/item/flashlight/flare/torch/lantern
 				id = /obj/item/clothing/ring/gold
