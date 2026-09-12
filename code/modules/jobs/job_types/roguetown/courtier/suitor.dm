@@ -179,7 +179,6 @@
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	beltl = /obj/item/rogueweapon/scabbard/sword/noble
-	beltr = /obj/item/rogueweapon/sword/sabre/dec
 	backr = /obj/item/storage/backpack/rogue/satchel
 	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/signet
@@ -196,3 +195,19 @@
 
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/gallant
 	color = "#384d8a"
+
+/datum/outfit/job/roguetown/suitor/gallant/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/weapons = list( // All decorated/gilded weapons, rich pompous ass that you are.
+	"Sabre",
+	"Rapier",
+	"Arming Sword"
+	)
+	var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO INVITE ENVY") as anything in weapons
+	switch(weapon_choice)
+		if("Sabre")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/dec)
+		if("Rapier")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/dec)
+		if("Arming Sword")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/decorated)
