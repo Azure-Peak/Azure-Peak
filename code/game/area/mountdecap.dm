@@ -283,7 +283,6 @@
 	name = "Grymspyre Depths"
 	icon_state = "decap"
 	loot_budget = LOOT_BUDGET_GRYMSPYRE_DEPTHS
-	loot_pool_key = "decap_shelters"
 	droning_sound = 'sound/music/area/grimcaves.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
@@ -291,4 +290,21 @@
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	deathsight_message = "deep within volcanic caverns, air thick with heat distortion"
 	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+
+/area/rogue/under/cave/grimspyre/depths/ancientforge
+	name = "Ancient Dwarven Workshop"
+	loot_budget = LOOT_BUDGET_DWARFSHOP
+	icon_state = "decap"
+	droning_sound = 'sound/music/area/grimdepths.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	first_time_text = "ANCIENT DWARVEN WORKSHOP"
+/area/rogue/under/cave/grimspyre/depths
+	ceiling_protected = TRUE
+	threat_region = THREAT_REGION_MOUNT_DECAP
+	detail_text = DETAIL_TEXT_DECAP_DWARFSHOP
+
+/area/rogue/under/cave/grimspyre/depths/ancientforge/can_craft_here()
+	return FALSE
+
 //PILGRIM END

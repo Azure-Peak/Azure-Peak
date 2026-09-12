@@ -1146,6 +1146,16 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 
+/datum/crafting_recipe/roguetown/structure/bettingtable
+	name = "betting table"
+	category = "Tables"
+	result = /obj/structure/table/wood/betting
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/natural/cloth = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+
 /datum/crafting_recipe/roguetown/structure/bakers_trough
 	name = "baker's trough"
 	category = "Misc"

@@ -62,6 +62,7 @@ Abyssor rests offshore. Even his quietest exhale is enough to send waves from th
 #define DETAIL_TEXT_DECAP_GOBLIN_FORTRESS ""
 #define DETAIL_TEXT_DECAP_NECRAN_LABYRINTH ""
 #define DETAIL_TEXT_DECAP_MINOTAUR_FORTRESS ""
+#define DETAIL_TEXT_DECAP_DWARFSHOP ""
 
 // Azure Basin & Nearby
 #define DETAIL_TEXT_AZURE_BASIN ""

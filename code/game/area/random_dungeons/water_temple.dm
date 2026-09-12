@@ -10,6 +10,7 @@
 	detail_text = DETAIL_TEXT_WATER_TEMPLE
 
 /area/rogue/under/cave/water_temple/one
+	loot_budget = LOOT_BUDGET_WATEMPLE_ONE
 	droning_sound = 'sound/music/area/dungeondrone.ogg'
 	droning_sound_dusk = 'sound/music/area/dungeondrone.ogg'
 	droning_sound_night = 'sound/music/area/dungeondrone.ogg'
@@ -17,6 +18,7 @@
 	first_time_text = "PURIFICATION"
 
 /area/rogue/under/cave/water_temple/two
+	loot_budget = LOOT_BUDGET_WATEMPLE_TWO
 	droning_sound = 'sound/music/area/dungeondrone.ogg'
 	droning_sound_dusk = 'sound/music/area/dungeondrone.ogg'
 	droning_sound_night = 'sound/music/area/dungeondrone.ogg'
@@ -24,6 +26,7 @@
 	first_time_text = "PROCESSING"
 
 /area/rogue/under/cave/water_temple/three
+	loot_budget = LOOT_BUDGET_WATEMPLE_THREE
 	droning_sound = 'sound/music/area/dungeondrone.ogg'
 	droning_sound_dusk = 'sound/music/area/dungeondrone.ogg'
 	droning_sound_night = 'sound/music/area/dungeondrone.ogg'
