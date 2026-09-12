@@ -79,7 +79,7 @@
 					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 				head = /obj/item/clothing/head/roguetown/chaperon/noble
 				gloves = /obj/item/clothing/gloves/roguetown/leather/black
-				neck = /obj/item/clothing/neck/roguetown/psicross/shell
+				neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 				belt = /obj/item/storage/belt/rogue/leather/plaquesilver //On-part with courtier noblilty
 				beltr = /obj/item/flashlight/flare/torch/lantern
@@ -225,7 +225,7 @@
 				cloak = /obj/item/clothing/cloak/half/rider/orange
 				pants = /obj/item/clothing/under/roguetown/trou/shadowpants
 				mask = /obj/item/alch/rosa //SOVL
-				head = /obj/item/clothing/head/roguetown/duelhat/aristocrat
+				head = /obj/item/clothing/head/roguetown/duelisthat/aristocrat
 				belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 				beltr = /obj/item/flashlight/flare/torch/lantern
 				id = /obj/item/clothing/ring/gold

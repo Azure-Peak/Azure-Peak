@@ -398,20 +398,15 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 
-/obj/item/clothing/head/roguetown/duelhat/aristocrat
-	name = "noble's feathered hat"
-	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
-	icon_state = "duelhat"
-	sewrepair = TRUE
-	color = COLOR_ORANGE
-	detail_tag = "_detail"
-	detail_color = COLOR_RED
-
 /obj/item/clothing/head/roguetown/duelisthat //vanderlin sprite
 	name = "dashing feathered hat"
 	desc = "A feathered leather hat, for a daring rogue."
 	icon_state = "duelisthat"
 	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/duelisthat/aristocrat //different flavor, same thing
+	name = "noble's feathered hat"
+	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
 
 /obj/item/clothing/head/roguetown/flamboyant
 	name = "flamboyant hat"
