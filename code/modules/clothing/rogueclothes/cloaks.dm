@@ -2078,6 +2078,7 @@
 	name = "regal cloak"
 	desc = "A finely crafted cloak of silk adorned with rosas."
 	icon_state = "rosacloak7"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
