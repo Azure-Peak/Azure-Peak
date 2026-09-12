@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "lowers profane shard projectile speed and gives it a 0.5s cast."

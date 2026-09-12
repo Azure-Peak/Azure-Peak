@@ -1,0 +1,5 @@
+author: "Moku-Mok"
+delete-after: True
+changes:
+  - rscadd: "Non-Frei Punchdaggers can be worn on beltr or beltr, so your hip slots."
+  - bugfix: "Berserker spawns with Punchdagger if chosen.\nfix:Munitioneer spawns with ammo for crossbow if chosen."

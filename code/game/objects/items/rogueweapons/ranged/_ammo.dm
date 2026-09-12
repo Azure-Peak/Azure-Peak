@@ -58,6 +58,6 @@
 
 	if(is_silver_proj && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
 		SEND_SIGNAL(victim, COMSIG_FORCE_UNDISGUISE)
-		to_chat(victim, span_danger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+		to_chat(victim, span_silver("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 		victim.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/sunder) // Ammunition can't be blessed.
 		victim.ignite_mob()

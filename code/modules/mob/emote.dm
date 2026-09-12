@@ -56,8 +56,10 @@
 				return
 
 	// autopunctuation
-	if((act == "me" || act == "subtle") && !client?.prefs?.no_autopunctuate)
-		param = autopunct_bare(param)
+	if((act == "me" || act == "subtle"))
+		param = accent_emote_quotes(param)
+		if(!client?.prefs?.no_autopunctuate)
+			param = autopunct_bare(param)
 
 	var/list/key_emotes = GLOB.emote_list[act]
 	var/mute_time = 0

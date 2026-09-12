@@ -27,7 +27,8 @@
 
 /datum/action/cooldown/spell/ravox/judgement
 	name = "Judgement"
-	desc = "Bless your next strike to slow the target. Mindless creechers get smited."
+	desc = "Bless your next strike to apply a debilitating pressure upon your enemy. On hit, applies a status that reduces their Movement Speed by 50% for 15 seconds. Attacking the mindless will cause them to be smited, dealing bonus damage."
+	fluff_desc = "A miracle wrought from willpower tempered in another's moral compass. A servant of the Justicar may channel this force through their strikes, branding their prey with their own past burdens. So they can stand and fight. So they can face their sins head on. For justice is never good nor evil, but fair."
 	button_icon_state = "judgement"
 	sound = 'sound/magic/battletrance.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -95,37 +96,43 @@
 		return
 	if(!isliving(target))
 		return
-	var/mob/living/living_target = target
-	if(!living_target.mind)
-		living_target.adjustBruteLoss(20)
-		living_target.adjustFireLoss(20)
-		living_target.apply_status_effect(/datum/status_effect/debuff/judgement)
-		living_target.visible_message(span_warning("The strike from [user]'s weapon smites [living_target]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	var/mob/living/D = target
+	if(!D.mind)
+		D.adjustBruteLoss(20)
+		D.adjustFireLoss(20)
+		D.apply_status_effect(/datum/status_effect/debuff/judgement)
+		D.visible_message(span_warning("The strike from [user]'s weapon smites [D]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+		var/turf/target_turf = get_turf(D)
+		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 	else
-		living_target.apply_status_effect(/datum/status_effect/debuff/judgement)
-		living_target.visible_message(span_warning("The strike from [user]'s weapon causes [living_target] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+		D.apply_status_effect(/datum/status_effect/debuff/judgement)
+		D.visible_message(span_warning("The strike from [user]'s weapon causes [D] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	qdel(src)
 
-/datum/status_effect/judgement/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
-	if(!istype(M))
+/datum/status_effect/judgement/proc/hand_attack(datum/source, mob/living/carbon/human/user, mob/living/carbon/human/D, datum/martial_art/attacker_style)
+	if(!istype(user))
 		return
-	if(!istype(H))
+	if(!istype(D))
 		return
-	if(!istype(M.used_intent, INTENT_HARM))
+	if(!istype(user.used_intent, INTENT_HARM))
 		return
-	if(!H.mind)
-		H.adjustBruteLoss(20)
-		H.adjustFireLoss(20)
-		H.apply_status_effect(/datum/status_effect/debuff/judgement)
-		H.visible_message(span_warning("[M]'s fist smites [H]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	if(!D.mind)
+		D.adjustBruteLoss(20)
+		D.adjustFireLoss(20)
+		D.apply_status_effect(/datum/status_effect/debuff/judgement)
+		D.visible_message(span_warning("[user]'s fist smites [D]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+		var/turf/target_turf = get_turf(D)
+		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 	else
-		H.apply_status_effect(/datum/status_effect/debuff/judgement)
-		H.visible_message(span_warning("The strike from [M]'s fist causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+		D.apply_status_effect(/datum/status_effect/debuff/judgement)
+		D.visible_message(span_warning("The strike from [user]'s fist causes [D] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	qdel(src)
 
 /atom/movable/screen/alert/status_effect/debuff/judgement
-	name = "Ravox's Burden"
-	desc = "My arms and legs are restrained by divine chains!"
+	name = "Weight of Sins"
+	desc = "My entire body is stiffened by the unseen burden of my every living sins!"
 	icon_state = "restrained"
 
 /datum/status_effect/debuff/judgement
@@ -134,15 +141,12 @@
 	duration = 15 SECONDS
 
 /datum/status_effect/debuff/judgement/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
+	. = ..()
+	owner.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
 
 /datum/status_effect/debuff/judgement/on_remove()
 	. = ..()
-	if(iscarbon(owner))
-		var/mob/living/carbon/C = owner
-		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
+	owner.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // T1 - Tug of War - Chain projectile that off-balances + stuns. Exposes the user.							//

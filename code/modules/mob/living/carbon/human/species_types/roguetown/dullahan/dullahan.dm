@@ -259,10 +259,9 @@
 // I don't know if that is possible, may have some cases relating to eye signals.
 /datum/species/dullahan/on_species_gain(mob/living/carbon/user, datum/species/old_species)
 	..()
-	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	RegisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS, PROC_REF(on_say_postprocess))
 	// TODO SEXCON2: Re-enable Dullahan detached head ERP support
-	//RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))
+	RegisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE, PROC_REF(on_erp_location_accessible))
 	RegisterSignal(user, COMSIG_LIVING_REVIVE, PROC_REF(on_aheal))
 	my_head = user.get_bodypart(BODY_ZONE_HEAD)
 	RegisterSignal(my_head, COMSIG_QDELETING, PROC_REF(on_head_destroyed))
@@ -272,7 +271,7 @@
 
 	UnregisterSignal(user, COMSIG_MOB_SAY)
 	UnregisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS)
-	//UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE) // TODO SEXCON2
+	UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE)
 	if(my_head && my_head.owner ~= user)
 		// Give their head back instead?
 		// In TG Dullahan heads are always off, thus they give back heads.
@@ -337,47 +336,26 @@
 	my_head.say(speech_args[SPEECH_MESSAGE], spans = speech_args[SPEECH_SPANS], sanitize = FALSE, message_range = message_range, message_mode = speech_args[SPEECH_MODE])
 	speech_args[SPEECH_MESSAGE] = ""
 
-// TODO SEXCON2: Reimplement for sexcon2 system
-/*
-/datum/species/dullahan/proc/on_erp_location_accessible(datum/source, list/check_args)
-	// Allows Dullahan heads but not necro.
-	var/obj/item/bodypart/bodypart = check_args[ERP_BODYPART]
-	var/mob/living/carbon/human/target = check_args[ERP_TARGET]
-	var/mob/living/carbon/human/user = check_args[ERP_USER]
-	var/self_target = check_args[ERP_SELF_TARGET]
-	var/datum/sex_action/action = check_args[ERP_ACTION]
-
-	var/success_flags = 0
-	// This datum is the user, get target's species.
-	if(check_zone(check_args[ERP_LOCATION]) == BODY_ZONE_HEAD && !bodypart && isdullahan(target))
-		var/datum/species/dullahan/dullahan = target.dna.species
-		bodypart = dullahan.my_head
-
-		// Not close to the bodypart they want to interact with.
-		var/same_tile = (get_turf(bodypart) == get_turf(user))
-		if(!same_tile && !user.is_holding(bodypart))
-			return SIG_CHECK_FAIL
-		success_flags |= SKIP_ADJACENCY_CHECK
-	check_args[ERP_BODYPART] = bodypart
-
-	if(action.check_same_tile && (user != target || self_target))
-		var/same_tile = (get_turf(user) == get_turf(target))
-		var/grab_bypass = (action.aggro_grab_instead_same_tile && user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
-		var/same_tile_bodypart = (get_turf(bodypart) == get_turf(user)) || user.is_holding(bodypart)
-
-		if(!same_tile && !grab_bypass && !same_tile_bodypart)
-			return SIG_CHECK_FAIL
-		success_flags |= SKIP_TILE_CHECK
-
-	if(action.require_grab && (user != target || self_target))
-		var/grabstate = user.get_highest_grab_state_on(target)
-
-		if((grabstate == null || grabstate < action.required_grab_state) && !user.is_holding(bodypart))
-			return SIG_CHECK_FAIL
-		success_flags |= SKIP_GRAB_CHECK
-
-	return success_flags
-*/
+/datum/species/dullahan/proc/on_erp_location_accessible(datum/unused, datum/sex_action/source, mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
+	var/restrict_parts = FALSE // we're the user. we can access any zone of theirs with our head, as long as it's nearby. probably.
+	if(target.dna?.species == src) // we're the target, i.e. we're checking if OUR OWN parts are accessible. only affect head zones
+		restrict_parts = TRUE
+	if(!headless || !my_head)
+		return FALSE // don't do anything special if their head is attached
+	var/static/list/head_zones = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_EARS, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_SKULL)
+	if(restrict_parts)
+		var/found_zone = FALSE
+		for(var/zone in head_zones)
+			if(findtext(zone, location))
+				found_zone = TRUE
+				break
+		if(!found_zone)
+			return FALSE // we only want to actually affect head zones
+	if(source.require_grab && !(user == target) && !user.is_holding(my_head)) // we count "holding the head" as a grab
+		return FALSE
+	if(source.check_same_tile && !target.is_holding(my_head) && !(get_turf(target) == get_turf(my_head)) && !user.is_holding(my_head) && !(get_turf(user) == get_turf(my_head)))
+		return FALSE
+	return TRUE // we don't do a clothing check because the clothing on rev heads isn't interactable
 
 /datum/species/dullahan/proc/get_nodrop_head()
 	var/obj/item/bodypart/head/dullahan/head = my_head

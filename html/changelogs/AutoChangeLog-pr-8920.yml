@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Rendering preserves temperature making it not take ages"
-  - rscadd: "Fat rendering phrasing has been fixed and tweaked"
-  - rscadd: "Seeds can be carried in tray and roasted in oven"

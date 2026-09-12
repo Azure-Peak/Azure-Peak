@@ -96,6 +96,10 @@
 	return 0
 
 /datum/sex_action/proc/check_location_accessible(mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
+	if(SEND_SIGNAL(target, COMSIG_ERP_LOCATION_ACCESSIBLE, src, user, target, location, grabs, skipundies))
+		return TRUE
+	if(SEND_SIGNAL(user, COMSIG_ERP_LOCATION_ACCESSIBLE, src, user, target, location, grabs, skipundies))
+		return TRUE
 	var/obj/item/bodypart/bodypart = target.get_bodypart(location)
 	var/self_target = FALSE
 	if(target == user)
