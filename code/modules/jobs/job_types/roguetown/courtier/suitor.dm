@@ -60,22 +60,23 @@
 
 /datum/outfit/job/roguetown/suitor/envoy/pre_equip(mob/living/carbon/human/H)
 	..()
-	belt = /obj/item/storage/belt/rogue/leather
-	neck = /obj/item/roguekey/manor
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	backr = /obj/item/storage/backpack/rogue/satchel
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
-	pants = /obj/item/clothing/under/roguetown/tights
-	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	pants = /obj/item/clothing/under/roguetown/tights/puritan
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/signet
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	if(should_wear_femme_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown
+		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/six
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/blouse
+		shoes = /obj/item/clothing/shoes/roguetown/rosa
 		backl = /obj/item/rogue/instrument/harp
 	else if(should_wear_masc_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
+		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
+		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 		backl = /obj/item/rogue/instrument/lute
 
 	/*if(H.mind)
@@ -83,6 +84,10 @@
 		H.mind.add_antag_datum(new_antag)*/
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
+		/obj/item/roguekey/manor = 1,
+		)
 
 /datum/advclass/suitor/schemer
 	name = "Schemer"
@@ -113,19 +118,21 @@
 /datum/outfit/job/roguetown/suitor/schemer/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
-	pants = /obj/item/clothing/under/roguetown/tights/black
+	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
-	belt = /obj/item/storage/belt/rogue/leather/black
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	neck = /obj/item/roguekey/manor
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backr = /obj/item/storage/backpack/rogue/satchel
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/signet
 	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/silktunic
 	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
+		/obj/item/roguekey/manor = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1,
 		/obj/item/lockpick = 1,
 		)
@@ -164,19 +171,22 @@
 	..()
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/gallant
-	pants = /obj/item/clothing/under/roguetown/tights/black
+	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
-	belt = /obj/item/storage/belt/rogue/leather
-	neck = /obj/item/roguekey/manor
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	beltr = /obj/item/rogueweapon/sword/sabre/dec
 	backr = /obj/item/storage/backpack/rogue/satchel
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/signet
-	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/mid = 1, /obj/item/flashlight/flare/torch/lantern = 1)
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1, 
+		/obj/item/roguekey/manor = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1)
 	/*if(H.mind)
 		var/datum/antagonist/new_antag = new /datum/antagonist/suitor()
 		H.mind.add_antag_datum(new_antag)*/
