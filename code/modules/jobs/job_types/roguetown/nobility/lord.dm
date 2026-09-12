@@ -127,19 +127,11 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/outfit/job/roguetown/lord
 	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
-	beltl = /obj/item/storage/keyring/lord
 	beltr = /obj/item/rogueweapon/scabbard/sword/royal
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
-	shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince/lord
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy //DNR guarrenteed role, won't save you since your legs are unarmored by default, but it at least prevents a cheap swift-intent gutspill ending you.
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
-	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
-		/obj/item/blueprint/mace_mushroom = 1, 
-		/obj/item/hunting_map/white_stag = 1, 
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1
-	)
 	id = /obj/item/scomstone/garrison
 
 /datum/outfit/job/roguetown/lord/pre_equip(mob/living/carbon/human/H)
@@ -154,7 +146,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		cloak = /obj/item/clothing/cloak/lordcloak/ladycloak
 		wrists = /obj/item/clothing/wrists/roguetown/royalsleeves
 	else if(should_wear_masc_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/black
+		armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince/lord
 		cloak = /obj/item/clothing/cloak/lordcloak
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	if(H.wear_mask)
@@ -165,6 +157,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			qdel(H.wear_mask)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
+	backpack_contents = list(
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
+		/obj/item/blueprint/mace_mushroom = 1, 
+		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1
+	)
 
 /datum/outfit/job/roguetown/lord/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
