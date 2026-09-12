@@ -6,6 +6,7 @@
 	icon_state = "bars_passage"
 	density = FALSE
 	anchored = TRUE
+	blade_dulling = DULLING_BASHCHOP
 	CanAtmosPass = ATMOS_PASS_NO
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 

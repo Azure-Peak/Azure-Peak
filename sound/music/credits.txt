@@ -8,6 +8,7 @@ banditcamp.ogg: Tooth and Tail OST (2017) - Fuel For The Firebrand
 bath.ogg: Mabisyo - No Baby (Cropped to 1:00)
 combat_ManAtArms.ogg: T87-Sulfurhead - Ready or Not [https://www.youtube.com/@T87-Sulfurhead]
 combat_acolyte: T-87 SULFURHEAD - Hellions [https://www.youtube.com/@T87-Sulfurhead]
+combat_adonai: corru.works - BSTRD [https://corruworks.bandcamp.com]
 combat_ascended: TO PIERCE THE BLACK SKY /// ENVY INTERLUDE - UNFORTUNATE DEVELOPMENT
 combat_astrata: T-87 SULFURHEAD - Heliotrix [https://www.youtube.com/@T87-Sulfurhead]
 combat_bandit.ogg: Deus Ex - Battery Park Combat
@@ -46,6 +47,7 @@ combat_starsugar.ogg: FEMTANYL - DOGMATICA
 combat_steppe.ogg: MusicImaginary - Tatars [https://www.hellishquart.com]
 combat_thewall: T-87 SULFURHEAD - The Wall[https://www.youtube.com/@T87-Sulfurhead]
 combat_thrall: T-87 SULFURHEAD - STOLEN SKY[https://www.youtube.com/@T87-Sulfurhead]
+combat_timestopper: corru.works - Timestopper Tactics[https://corruworks.bandcamp.com]
 combat_towner.ogg: T-87 SULFURHEAD - Catharsis [https://www.youtube.com/@T87-Sulfurhead]
 combat_towner2.ogg: T-87 SULFURHEAD - Burning Hovel [https://www.youtube.com/@T87-Sulfurhead]
 combat_towner3.ogg: T-87 SULFURHEAD - Knowledge & Pain[https://www.youtube.com/@T87-Sulfurhead]

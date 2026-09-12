@@ -4211,3 +4211,78 @@ As Excaliber."
 	desc = "Topped with a magnificent plume, this helmet turns the wearer into a walking beacon of Astrata's wrath. Designed to cut a striking silhouette, it strikes terror into the hearts of nonbelievers from afar."
 	icon_state = "astrataclerichelm"
 	item_state = "astrataclerichelm"
+
+// REZATHEDWARF
+
+/obj/item/clothing/cloak/half/donator_rezathedwarf
+	name = "Noah's Glimmering Cloak"
+	desc = "Cloak from the infamous Redcloaks, said to have dyed their cloaks in the blood of their first kills. Even now, it pulses \
+	and brightens with magical energy of wild color, perhaps of the dead souls that are rumored to be within it. If the old stories \
+	are true, anyone who wears this is sure to go insane."
+	icon_state = "rezacloak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	color = CLOTHING_SCARLET
+	detail_tag = "_detail"
+	detail_color = CLOTHING_GOLD
+	allowed_sex = list(MALE)
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/cloak/half/donator_rezathedwarf/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/half/donator_rezathedwarf/attack_right(mob/user)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/half/donator_rezathedwarf/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/duelhat/donator_rezathedwarf
+	name = "Noah Enclave's hat"
+	desc = "A well-made hat, trimmed with gold and silver, plumed with a rare feather. Rumored to be copied across the world by a \
+	merchant selling its likeness and using the wearer's name. Much to the original wearer's chagrin."
+	icon_state = "rezahat"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	color = CLOTHING_BLACK
+	detail_tag = "_detail"
+	detail_color = COLOR_SILVER
+	altdetail_tag = "_detailalt"
+	altdetail_color = CLOTHING_PURPLE
+
+/obj/item/clothing/head/roguetown/duelhat/donator_rezathedwarf/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/head/roguetown/duelhat/donator_rezathedwarf/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
+/obj/item/rogueweapon/sword/sabre/donator_rezathedwarf
+	name = "The Enclave Blade"
+	desc = "A decorated saber of gold and steel, with added gems to show wealth and majesty, heavily reinforced with blacksteel to \
+	keep its integrity and stopping power. Looted from the last living noble of an Astratan-blessed family. Taken after dueling the \
+	founder of the house in his days as a slave. On its handle reads, originally read, \"The Chosen Have Nothing to Fear,\" but a new \
+	line was added across the other side of the handle. \"Except the Conqueror.\""
+	icon_state = "rezasword"
+	icon = 'icons/obj/items/donor_weapons.dmi'

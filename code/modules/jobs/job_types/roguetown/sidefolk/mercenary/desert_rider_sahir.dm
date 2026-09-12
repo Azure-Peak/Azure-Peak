@@ -1,3 +1,5 @@
+#define SAHIR_PHASE_DURATION_MULTIPLIER 2
+
 /datum/advclass/mercenary/desert_rider_sahir
 	name = "Desert Rider Sahir"
 	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts. Some of your rank knows the way of the sword- a necessity when one happens upon monstrsities that are resilient to magyck in the desert. Sahir are granted Ziqa, a cantrip which allows them to easily evade foes and slip capture."
@@ -113,7 +115,7 @@
 	playsound(sahir, 'sound/items/firesnuff.ogg', 70, TRUE)
 	sahir.balloon_alert_to_viewers("<font color='[GLOW_COLOR_DISPLACEMENT]'>Phased!</font>")
 	sahir.visible_message(span_warning("<b>Howling dust and sand flows from [sahir]!</b>"), span_notice("<b>I slip through dust and sand!</b>"))
-	sahir.apply_status_effect(/datum/status_effect/buff/phase)
+	sahir.apply_status_effect(/datum/status_effect/buff/phase, SAHIR_PHASE_DURATION_MULTIPLIER)
 	sahir.apply_status_effect(/datum/status_effect/debuff/slip_recovery)
 
 	for(var/turf/storm_turf in range(1, sahir))
@@ -127,3 +129,5 @@
 	color = "#e3c68a"
 	lifetime = 3
 	breathin = FALSE
+
+#undef SAHIR_PHASE_DURATION_MULTIPLIER

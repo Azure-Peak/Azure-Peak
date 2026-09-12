@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Elemental familiars no longer qdel themselves if you abandon them for too long. You monster."
-  - bugfix: "Void drakelings being dismissed via the free familiar ritual will now refund the resources used to summon them."
