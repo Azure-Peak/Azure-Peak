@@ -330,21 +330,14 @@
 			if(ispath(extra_choices[choice], /obj/item))
 				recipient.mind?.special_items[choice] = extra_choices[choice]
 
-/datum/virtue/utility/granary
-	name = "Cunning Provisioner"
-	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
-	desc = "You've worked in or around the docks enough to steal away a sack of supplies that no one would surely miss, just in case. You've picked up on some cooking and fishing tips in your spare time, as well."
-	ui_fa_icon = "fish-fins"
-	added_stashed_items = list("Bag of Food" = /obj/item/storage/roguebag/food)
-	added_skills = list(list(/datum/skill/craft/cooking, 3, 6),
-						list(/datum/skill/labor/fishing, 2, 6))
 
 /datum/virtue/utility/homesteader
 	name = "Pilgrim (-3 TRI)"
-	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
+	added_traits = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_CICERONE, TRAIT_SEEDKNOW)
 	desc= "As they say, 'hearth is where the heart is'. You are intimately familiar with the labors of lyfe, and have stowed away everything necessary to start anew: a hunting dagger, your trusty hoe, and a sack of assorted supplies."
 	ui_fa_icon = "house-fire"
 	triumph_cost = 3
+	softcap = TRUE
 	added_stashed_items = list(
 		"Hoe" = /obj/item/rogueweapon/hoe,
 		"Bag of Food" = /obj/item/storage/roguebag/food,
@@ -355,7 +348,7 @@
 						list(/datum/skill/labor/farming, 3, 3),
 						list(/datum/skill/labor/fishing, 3, 3),
 						list(/datum/skill/labor/lumberjacking, 2, 2),
-						list(/datum/skill/combat/knives, 2, 2)
+						list(/datum/skill/labor/butchering, 2, 2),
 	)
 
 /datum/virtue/utility/ugly

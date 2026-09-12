@@ -6,7 +6,7 @@
 	category_tags = list(CTAG_TRADER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 	class_select_category = CLASS_CAT_TRADER
 
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_KEENEARS)
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_KEENEARS, TRAIT_CICERONE)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_SPD = 2
@@ -22,8 +22,17 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE
+		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE
 	)
+
+	subclass_stashed_items = list(
+			"Bag of Food"	= /obj/item/storage/roguebag/food,
+			"Trusty Hoe"	= /obj/item/rogueweapon/hoe,
+		)
 
 /datum/outfit/job/roguetown/adventurer/servant/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -51,5 +60,6 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/needle = 1,
 		)
