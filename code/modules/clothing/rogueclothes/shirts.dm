@@ -285,6 +285,9 @@
 
 // End royal clothes
 
+//Is this terrible, Y E S. But who cares, its gonna be copy royal colors anyway so I just *shrug*
+/obj/item/clothing/suit/roguetown/shirt/dress/royal/prince/lord
+	desc = "A gold-embroidered dress shirt specially tailored by the finest tailors in the land for the monarch of Azuria."
 
 //Is this terrible, yes, but at this point ehhhhhhhh.
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/hand_m

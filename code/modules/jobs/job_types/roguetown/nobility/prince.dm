@@ -339,7 +339,7 @@
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/astrocrat //because it doesn't render properly on fem sprites
 	cloak = /obj/item/clothing/cloak/half //intentional exclusion of Azurian colors, meant to be blend in.
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
-	gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
+	//intentional lack of rosa gear, they're meant to fly under the radar.
 	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/gold
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold

@@ -188,7 +188,7 @@
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/court
 	mask = /obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	gloves = /obj/item/clothing/gloves/roguetown/rosa/eight
-	shoes = /obj/item/clothing/shoes/roguetown/rosa/ten
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
@@ -212,7 +212,7 @@
 	armor = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light // Look, it would be silly to get mauled by a single wolf
 	pants = /obj/item/clothing/under/roguetown/trou/beltpants
-	shoes = /obj/item/clothing/shoes/roguetown/rosa/ten //to make them distinctly court-role obvious
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backr = /obj/item/storage/backpack/rogue/satchel
