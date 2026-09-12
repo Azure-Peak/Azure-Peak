@@ -174,10 +174,7 @@
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	if(should_wear_femme_clothes(H)) //because masc doesn't properly render this.
-		armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
-	else if(should_wear_masc_clothes(H)) //it has its own coat pick. huzzar!
-		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
+	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
