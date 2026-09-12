@@ -70,7 +70,6 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/silktunic
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/steward
-	mask = /obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
@@ -87,6 +86,8 @@
 		if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/eyepatch/left))
 			qdel(H.wear_mask)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
+	else
+		mask = /obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 	add_verb(H, /mob/living/carbon/human/proc/adjust_taxes)

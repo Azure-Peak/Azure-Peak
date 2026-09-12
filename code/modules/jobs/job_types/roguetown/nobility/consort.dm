@@ -34,6 +34,7 @@
 
 /datum/outfit/job/roguetown/lady
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord //weaker than duke's one
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
@@ -52,9 +53,8 @@
 	ADD_TRAIT(H, TRAIT_KEENEARS, TRAIT_GENERIC)
 //		SSticker.rulermob = H
 	if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch
+		armor = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch
 	else if(should_wear_masc_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	if(H.wear_mask) //sovl injection

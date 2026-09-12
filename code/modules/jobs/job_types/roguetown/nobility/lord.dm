@@ -128,7 +128,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	beltr = /obj/item/rogueweapon/scabbard/sword/royal
-	backr = /obj/item/storage/backpack/rogue/satchel/black
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy //DNR guarrenteed role, won't save you since your legs are unarmored by default, but it at least prevents a cheap swift-intent gutspill ending you.
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
@@ -157,14 +156,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			qdel(H.wear_mask)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	backpack_contents = list(
-		/obj/item/storage/keyring/lord = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
-		/obj/item/blueprint/mace_mushroom = 1, 
-		/obj/item/hunting_map/white_stag = 1, 
-		/obj/item/rogueweapon/scabbard/sheath/royal = 1
-	)
 
 /datum/outfit/job/roguetown/lord/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
@@ -230,6 +221,16 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/outfit/job/roguetown/lord/warrior/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
+	//assigned per subclass to prevent duplication glitches with items
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
+		/obj/item/blueprint/mace_mushroom = 1, 
+		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1
+	)
 
 /**
 	Merchant Lord subclass. Consider this an evolution from Sheltered Aristocrat.
@@ -279,6 +280,16 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/outfit/job/roguetown/lord/merchant/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
+	//assigned per subclass to prevent duplication glitches with items
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
+		/obj/item/blueprint/mace_mushroom = 1, 
+		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1
+	)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 
@@ -328,6 +339,16 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/outfit/job/roguetown/lord/mage/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
+	//assigned per subclass to prevent duplication glitches with items
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
+		/obj/item/blueprint/mace_mushroom = 1, 
+		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1
+	)
 
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rogueweapon/spellbook = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/chalk = 1, /obj/item/hunting_map/white_stag = 1,)
 
@@ -371,6 +392,16 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/outfit/job/roguetown/lord/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
+	//assigned per subclass to prevent duplication glitches with items
+	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backpack_contents = list(
+		/obj/item/storage/keyring/lord = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
+		/obj/item/blueprint/mace_mushroom = 1, 
+		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/scabbard/sheath/royal = 1
+	)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, pick(0,0,1), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, pick(0,1), TRUE)
