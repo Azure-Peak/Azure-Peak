@@ -79,12 +79,12 @@
 					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 				head = /obj/item/clothing/head/roguetown/chaperon/noble
 				gloves = /obj/item/clothing/gloves/roguetown/leather/black
-
+				neck = /obj/item/clothing/neck/roguetown/psicross/shell
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 				belt = /obj/item/storage/belt/rogue/leather/plaquesilver //On-part with courtier noblilty
 				beltr = /obj/item/flashlight/flare/torch/lantern
-				id = /obj/item/clothing/ring/silver
-				H.cmode_music = 'sound/music/combat_squire.ogg'
+				id = /obj/item/clothing/ring/gold
+				H.cmode_music = 'sound/music/combat_noble.ogg'
 				//No unique language cause true Azurian-Origin Azurians know the tongue. Keeps the idea of foreign marrages, same courts
 			if("Underdark") //Matron vs halfcloak fits
 				if(should_wear_masc_clothes(H))
@@ -103,9 +103,8 @@
 				id = /obj/item/clothing/ring/gold
 				H.cmode_music = 'sound/music/combat_delf.ogg'
 				change_origin(H, /datum/virtue/origin/racial/underdark) //Yeah obviously
-			if("Grenzelhoft") //Half-cloak and grenzelshirt, or fancy cloak
-				if(should_wear_femme_clothes(H))
-					armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/astrocrat
+			if("Grenzelhoft") //Half-cloak and grenzelshirt, with fancy cloak - Gender Neutral.
+				armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/astrocrat
 				cloak = /obj/item/clothing/cloak/half/red
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/astrocrat
 				shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
