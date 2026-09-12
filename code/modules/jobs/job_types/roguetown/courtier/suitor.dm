@@ -107,6 +107,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
@@ -148,7 +149,7 @@
 	tutorial = "With honor and the flash of your steel, you meet your rivals in open challenge. You'll win favour not with whispers or warmth, but with roaring applause."
 	outfit = /datum/outfit/job/roguetown/suitor/gallant
 	category_tags = list(CTAG_CONSORT)
-	traits_applied = list(TRAIT_MEDIUMARMOR) //now that i think about it, its funny if they lose their mind as people die
+	traits_applied = list(TRAIT_MEDIUMARMOR) //now that i think about it, its funny if they lose their mind as people die (also consistant w/ astrocrat adv)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_PER = 2,
@@ -192,13 +193,6 @@
 		H.mind.add_antag_datum(new_antag)*/
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
-
-
-/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/gallant
-	color = "#384d8a"
-
-/datum/outfit/job/roguetown/suitor/gallant/choose_loadout(mob/living/carbon/human/H)
-	. = ..()
 	var/weapons = list( // All decorated/gilded weapons, rich pompous ass that you are trying to pretend to be.
 	"Sabre",
 	"Rapier",
@@ -212,3 +206,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/dec)
 		if("Arming Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/decorated)
+
+
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/gallant
+	color = "#384d8a"
