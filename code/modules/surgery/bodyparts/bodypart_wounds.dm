@@ -423,14 +423,16 @@
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			used = round(damage_dividend * 20 + (dam / 2))
-			if(prob(used) && !owner.mind)
+			if(prob(used) && !owner.mind) //mindless always die to one critical sunder
 				attempted_wounds += /datum/wound/sunder/chest
-			if(prob(used) && owner.sunder_stacks > 100 && owner.mind)
+			if(prob(used) && owner.sunder_stacks > 100 && owner.mind) //over 100 sunder_stacks opens us to lethality
 				attempted_wounds += /datum/wound/sunder/chest
 			if(prob(used) && owner.sunder_stacks < 150 && owner.mind) //We don't want too many stacks or we'll never recover.
 				owner.sunder_stacks += 40
-				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
+				owner.visible_message(span_blue("[owner]'s body visibly wilts away at the blow, a blessed sunder!"), span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)
+			if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || user?.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+				owner.sunder_stacks += 20 //vamps take (20) additional sunderstacks totaling to 60, this means two strikes will kill a vampire if they strike true.
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -567,14 +569,16 @@
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			used = round(damage_dividend * 20 + (dam / 2), 1)
-			if(prob(used) && !owner.mind)
+			if(prob(used) && !owner.mind) //mindless always die in one critical sunder
 				attempted_wounds += /datum/wound/sunder/head
-			if(prob(used) && owner.sunder_stacks > 100 && owner.mind)
+			if(prob(used) && owner.sunder_stacks > 100 && owner.mind) //over 100 sunderstacks opens to lethality
 				attempted_wounds += /datum/wound/sunder/head
 			if(prob(used) && owner.sunder_stacks < 150 && owner.mind) //We don't want too many stacks or we'll never recover.
 				owner.sunder_stacks += 40
-				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
+				owner.visible_message(span_blue("[owner]'s body visibly wilts away at the blow, a blessed sunder!"), span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)
+			if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || user?.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+				owner.sunder_stacks += 20 //vamps take (20) additional sunderstacks totaling to 60, this means two strikes will kill a vampire if they strike true.
 	var/has_crit_attempt = length(attempted_wounds) || try_knockout
 	if(!has_crit_attempt)
 		return FALSE
