@@ -66,6 +66,9 @@
 			if("Psydonic Flanged Mace")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+            if("Psydonic Whip")
+			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H))
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		var/armors = list("Confessor - Dodge Expert, Complete Coverage", "Arbalist - Master Crossbows, +III STR / -III SPD")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
