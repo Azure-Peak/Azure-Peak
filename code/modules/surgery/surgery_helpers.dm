@@ -107,7 +107,7 @@
 			to_chat(user, span_warning("I need to hold a [is_robotic ? "screwdriver" : "cautery"] in your inactive hand to stop [M]'s surgery!"))
 */
 
-/proc/get_location_accessible(mob/victim, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
+/proc/get_location_accessible(mob/victim, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE, check_cosmetics = FALSE)
 	var/covered_locations = NONE	//based on body_parts_covered
 	if(iscarbon(victim))
 		var/mob/living/carbon/carbon_victim = victim
@@ -118,6 +118,10 @@
 		for(var/obj/item/equipped_item in carbon_victim.get_equipped_items(include_pockets = FALSE, include_beltslots = FALSE))
 			if(zone2covered(location, equipped_item.body_parts_covered_dynamic) && equipped_item.surgery_cover)
 				return FALSE
+			if(check_cosmetics)
+				for(var/obj/item/cosmetic_item in equipped_item.contents)
+					if(zone2covered(location, cosmetic_item.body_parts_covered_dynamic) && cosmetic_item.surgery_cover)
+						return FALSE
 		if(ishuman(carbon_victim))
 			var/mob/living/carbon/human/human_victim = carbon_victim
 			if(!skipundies)
