@@ -98,7 +98,7 @@
 				mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask/delf
 				gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves //Unarmored varient
 				backl = /obj/item/storage/backpack/rogue/satchel/black
-				belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+				belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 				beltr = /obj/item/flashlight/flare/torch/lantern
 				id = /obj/item/clothing/ring/gold
 				H.cmode_music = 'sound/music/combat_delf.ogg'
@@ -111,7 +111,7 @@
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
 				head = /obj/item/clothing/head/roguetown/grenzelhofthat/triumph
 				gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
-				belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+				belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 				beltr = /obj/item/flashlight/flare/torch/lantern
 				id = /obj/item/clothing/ring/blacksteel //Most Grenzelhoftian ass ring you can get
 				neck = /obj/item/clothing/neck/roguetown/psicross/undivided //The Ten Undivided!
@@ -238,7 +238,7 @@
 				pants = /obj/item/clothing/under/roguetown/skirt/black
 				shoes = /obj/item/clothing/shoes/roguetown/sandals
 				head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black
-				belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+				belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 				beltr = /obj/item/flashlight/flare/torch/lantern
 				wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
 				neck = /obj/item/clothing/neck/roguetown/psicross/g //Not warded or anything, just raw psydonic status vs ring

@@ -72,7 +72,7 @@
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/silktunic
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
-	belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	beltr = /obj/item/storage/keyring/steward
 	beltl = /obj/item/storage/belt/rogue/pouch/merchant/coins
 	backr = /obj/item/storage/backpack/rogue/satchel

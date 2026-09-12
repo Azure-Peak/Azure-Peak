@@ -165,7 +165,7 @@
 	cloak = /obj/item/clothing/cloak/half/azure //What peak is it sire? what do you think it is?
 	id = /obj/item/clothing/ring/silver
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/storage/keyring/manorbase = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 	)
@@ -191,13 +191,13 @@
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/ten
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	backl = /obj/item/storage/backpack/rogue/satchel/black
-	belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
 	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	cloak = /obj/item/clothing/cloak/half/azure //What peak is it sire? what do you think it is?
 	id = /obj/item/clothing/ring/gold
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/storage/keyring/steward,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1, //high starting funds
 	)
@@ -212,7 +212,7 @@
 	armor = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light // Look, it would be silly to get mauled by a single wolf
 	pants = /obj/item/clothing/under/roguetown/trou/beltpants
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/rosa/ten //to make them distinctly court-role obvious
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backr = /obj/item/storage/backpack/rogue/satchel
@@ -225,7 +225,7 @@
 		/obj/item/hunting_map/white_stag = 1,
 		/obj/item/hunting_map/boars = 1,
 		/obj/item/storage/keyring/manorbase = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel = 1, //pawned off their decorated dagger for hunting gear
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1, //pawned off their fancier dagger for hunting gear
 		/obj/item/storage/belt/rogue/pouch/coins/mid, // a mediocre pouch of coins
 	)
 	if(H.mind)
@@ -246,12 +246,12 @@
 	pants = /obj/item/clothing/under/roguetown/trou/beltpants
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/storage/backpack/rogue/satchel/black
-	belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	beltl = /obj/item/rogueweapon/scabbard/sheath/noble
 	cloak = /obj/item/clothing/cloak/half/azure //What peak is it sire? what do you think it is?
 	id = /obj/item/clothing/ring/silver
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/storage/keyring/manorbase = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid, // a mediocre pouch of coins
 	)
