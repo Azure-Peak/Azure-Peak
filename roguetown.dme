@@ -3208,6 +3208,7 @@
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_bed.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_black_rot.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_components.dm"
+#include "code\modules\spells\roguetown\acolyte\pestra\pestra_fleshcraft.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_status_effects.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_symptoms.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_weapons.dm"
