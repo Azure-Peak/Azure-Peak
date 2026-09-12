@@ -130,7 +130,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	beltl = /obj/item/storage/keyring/lord
 	beltr = /obj/item/rogueweapon/scabbard/sword/royal
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	pants = /obj/item/clothing/under/roguetown/tights/purtian
+	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince/lord
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
 	backpack_contents = list(
