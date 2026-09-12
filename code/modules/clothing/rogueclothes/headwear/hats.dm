@@ -164,7 +164,7 @@
 /obj/item/clothing/head/roguetown/chaperon/noble/steward
 	name = "Steward's chaperon"
 	desc = "A noble's chaperon made for the local Steward. \"All that glitters is not always gold.\""
-	color = "#641E16"
+	color = "#722017"
 	detail_color = "#b68e37ff"
 
 /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
