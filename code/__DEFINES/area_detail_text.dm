@@ -37,6 +37,8 @@
 #define DETAIL_TEXT_UNDERCOAST ""
 #define DETAIL_TEXT_TEMPLE_SHATTERED_GOD "Masonry now forms impenetrable islands of purposeless granite. Cobblestone fractals underfoot. \n\ A sense of holiness lingers here, despite time."
 #define DETAIL_TEXT_ORC_RUIN "An old coastal wayfort, now filed with Inhumenity like pus in a wound. Beneath salt-stained cliffs, iron-masked raiders sharpen their blades, and prepare for war."
+#define DETAIL_TEXT_MENAGERIE "The Mad Duke kept a menagerie of things here. Even long after his death, the sadism of his jailors lingers as a maddening curse, perpetuating the cycle through those afflicted."
+#define DETAIL_TEXT_MENAGERIE_DEEP "The deepest reaches of the Menagerie held an ancient captive whose influence gradually spread and warped the very walls that held him. The veil between the world and the void is terrifyingly thin here, and nothing is as it seems."
 
 // Terrorbog
 #define DETAIL_TEXT_TERRORBOG "Fetid sulfuric smell. The land is in misery; my feet find sogging ground choked in vine and scumwater. The land itself is engulfed in its own anguish. Somewhere, a baby bird has tumbled out of its nest and landed in a dark puddle, left to an uncertain fate.\n\
