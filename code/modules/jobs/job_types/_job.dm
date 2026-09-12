@@ -183,7 +183,10 @@
 	var/has_subprefs = TRUE
 
 	/// Default state of the subprefs; for most roles, this will just be the subclass selection.
-	var/list/default_subprefs = list("favorite_advclass" = null)
+	var/list/default_subprefs = list(
+		"favorite_advclass" = null,
+		"advclass_title_prefs" = null
+	)
 
 ///Returns the client's subprefs list for this job, initializing it if it does not exist. Will be null if the client or prefs are null.
 /datum/job/proc/get_roleprefs(client/C)
@@ -198,6 +201,18 @@
 		prefs.job_subprefs[title] = default_subprefs.Copy()
 	return prefs.job_subprefs[title]
 
+///	Returns the client's preferred title for a given advclass type, falling back to the default if no preference is set.
+/datum/job/proc/get_advclass_title_pref(mob/living/carbon/human/H, advclass_type)
+	if(!H?.mind)
+		return ADVCLASS_TITLE_AUTO
+	var/list/roleprefs = H.mind.job_subprefs[title]
+	if(!roleprefs || !islist(roleprefs))
+		return ADVCLASS_TITLE_AUTO
+	var/list/title_prefs = roleprefs["advclass_title_prefs"]
+	if(!title_prefs || !islist(title_prefs))
+		return ADVCLASS_TITLE_AUTO
+	return title_prefs[advclass_type] || ADVCLASS_TITLE_AUTO
+
 /datum/job/proc/update_subprefs_window(mob/user)
 	if(!advclass_cat_rolls)
 		return
@@ -206,12 +221,37 @@
 		return
 	var/list/roleprefs = get_roleprefs(C)
 	var/datum/advclass/favorite = roleprefs["favorite_advclass"]
-	var/favorite_name = favorite ? favorite::name : "Choose"
-	var/HTML = {"
-		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
-		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a>
-		<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
-	"}
+	if(!favorite && length(job_subclasses) == 1)
+		favorite = job_subclasses[1]
+	var/datum/advclass/favorite_ref
+	if(favorite)
+		favorite_ref = SSrole_class_handler.get_advclass_by_name(initial(favorite.name))
+	var/favorite_name = favorite_ref ? favorite_ref.get_used_title(C.prefs.titles_pref) : "Choose"
+	var/list/title_prefs = roleprefs["advclass_title_prefs"]
+	if(!title_prefs || !islist(title_prefs))
+		title_prefs = list()
+	var/title_pref = favorite ? title_prefs[favorite] : ADVCLASS_TITLE_AUTO
+	var/title_pref_name = "Automatic"
+	switch(title_pref)
+		if(ADVCLASS_TITLE_DEFAULT)
+			title_pref_name = "Masculine"
+		if(ADVCLASS_TITLE_FEMININE)
+			title_pref_name = "Feminine"
+
+	var/HTML
+	if(length(job_subclasses) == 1)
+		HTML = {"
+			<i>You can choose a favorite class title here.</i><br/><br/>
+			<b>Class title:</b> <a href="?src=[REF(src)];class_title_pref=1">[title_pref_name]</a>
+			<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
+		"}
+	else
+		HTML = {"
+			<i>You can choose a favorite subclass and title here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+			<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/>
+			<b>Class title:</b> <a href="?src=[REF(src)];class_title_pref=1">[title_pref_name]</a>
+			<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
+		"}
 	// the fact that the window width/height will be different each time is the main reason this isn't all done in a parent proc on /datum/job
 	var/datum/browser/popup = new(user, "[JOB_SUBPREFS_WINDOW_ID]", "<div align='center'>[title] Preferences</div>", 500, 250)
 	popup.set_content(HTML)
@@ -244,10 +284,9 @@
 	return title in list("Wretch", "Gnoll", "Assassin")
 
 /datum/job/proc/get_used_title(mob/player)
-	var/titles = player.titles_pref
 	var/used_name = display_title || title
-	if((titles == TITLES_F) && f_title)
-		used_name = f_title
+	if(player.titles_pref == TITLES_F && f_title)
+		return f_title
 	return used_name
 
 /client/proc/job_greet(datum/job/greeting_job)
@@ -317,9 +356,7 @@
 		H.hydration = 1000
 
 	if(H.islatejoin && announce_latejoin)
-		var/used_title = display_title || title
-		if((H.titles_pref == TITLES_F) && f_title)
-			used_title = f_title
+		var/used_title = get_used_title(H)
 		scom_announce("[H.real_name] the [used_title] arrives to Azure Peak.")
 
 	if(give_bank_account)
@@ -345,7 +382,7 @@
 			mob_rank = "Adventurer"
 		else
 			mob_rank = H.mind.assigned_role
-		GLOB.actors_list[H.mobid] = list("name" = mob_name, "rank" = mob_rank)
+		GLOB.actors_list[H.mobid] = list("name" = mob_name, "rank" = mob_rank, "mob" = H)
 
 	if(islist(advclass_cat_rolls))
 		hugboxify_for_class_selection(H)
@@ -551,11 +588,20 @@
 
 /datum/job/proc/get_informed_title(mob/mob)
 	if(mob.gender == FEMALE && f_title)
-		return f_title
-
+		// Below is a hack to get the advclass title for females.
+		// Since the advclass f_title is stored in the advclass datum and not the job datum.
+		// Defaults to the job title if the advclass doesn't have either.
+		var/mob/living/carbon/human/H = mob
+		var/datum/advclass/AC = H.get_advclass_datum()
+		if(AC?.f_title)
+			return AC.f_title
+		if(f_title)
+			return f_title
 	return display_title || title
 
-/datum/job/proc/show_explain(mob/user)
+/datum/job/proc/show_explain(mob/user, titles_pref = null)
+	if(isnull(titles_pref))
+		titles_pref = user.titles_pref
 	if(!class_setup_examine)
 		to_chat(user, span_danger("[title] does not allow examining it!"))
 		return
@@ -570,10 +616,10 @@
 			sclass_count++
 			var/datum/advclass/adv = sclass
 			var/datum/advclass/adv_ref = SSrole_class_handler.get_advclass_by_name(initial(adv.name))
-			dat += "<details><summary><b><font color ='#ece9e9'>[adv_ref.name]</font></b></summary>"
+			dat += "<details><summary><b><font color ='#ece9e9'>[adv_ref.get_used_title(titles_pref)]</font></b></summary>"
 			dat += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse>"
 			dat += "<tr style='vertical-align:top'>"
-			dat += "<td width = 70%><i><font color ='#ece9e9'>[adv_ref.tutorial]</font></i></td>"
+			dat += "<td width = 70%><i><font color ='#ece9e9'>[adv_ref.get_used_tutorial(titles_pref)]</font></i></td>"
 			dat += "<td width = 30%; style='text-align:right'>"
 			if(length(adv_ref.subclass_stats))
 				dat += "<font color ='#7a4d0a'>Stat Bonuses:</font><font color ='#d4b164'>"
@@ -780,10 +826,31 @@
 		for(var/ctag in advclass_cat_rolls)
 			var/list/subsystem_ctag_list = SSrole_class_handler.sorted_class_categories[ctag]
 			for(var/datum/advclass/advdatum in subsystem_ctag_list)
-				class_sel[advdatum.name] = advdatum.type
+				class_sel[advdatum.get_used_title(C.prefs.titles_pref)] = advdatum.type
 		var/input = class_sel[tgui_input_list(usr, "What path do your talents follow?", "Subclass Select", class_sel)]
 		if(input)
 			roleprefs["favorite_advclass"] = input
+		update_subprefs_window(usr)
+	if(href_list["class_title_pref"])
+		var/datum/advclass/favorite = roleprefs["favorite_advclass"]
+		if(!favorite && length(job_subclasses) == 1)
+			favorite = job_subclasses[1]
+		if(favorite)
+			var/title_choice = tgui_input_list(
+				usr,
+				"How should this subclass title be displayed?",
+				"Subclass Title",
+				list("Automatic", "Masculine", "Feminine")
+			)
+			if(!roleprefs["advclass_title_prefs"])
+				roleprefs["advclass_title_prefs"] = list()
+			switch(title_choice)
+				if("Automatic")
+					roleprefs["advclass_title_prefs"][favorite] = ADVCLASS_TITLE_AUTO
+				if("Masculine")
+					roleprefs["advclass_title_prefs"][favorite] = ADVCLASS_TITLE_DEFAULT
+				if("Feminine")
+					roleprefs["advclass_title_prefs"][favorite] = ADVCLASS_TITLE_FEMININE
 		update_subprefs_window(usr)
 	if(href_list["subprefsreset"])
 		prefs.job_subprefs[title] = default_subprefs.Copy()

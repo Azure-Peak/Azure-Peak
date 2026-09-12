@@ -55,7 +55,7 @@
 		/datum/advclass/wretch/maestro
 	)
 	has_subprefs = TRUE
-	default_subprefs = list("bounty_poster_key" = null, "bounty_severity_key" = null, "my_crime" = null, "favorite_advclass" = null)
+	default_subprefs = list("bounty_poster_key" = null, "bounty_severity_key" = null, "my_crime" = null, "favorite_advclass" = null, "advclass_title_prefs" = null)
 
 // for future viewers, here's how you add subprefs to a job. adventurer provides a simpler example for how to merely add subclass favoriting.
 /datum/job/roguetown/wretch/Topic(href, list/href_list)
@@ -88,9 +88,20 @@
 	var/list/roleprefs = get_roleprefs(C)
 	var/datum/advclass/favorite = roleprefs["favorite_advclass"] // note that this key is shared between a bunch of different things n is treated specially. if it's set, you'll automatically try to roll that subclass
 	var/favorite_name = favorite ? favorite::name : "Choose"
+	var/list/title_prefs = roleprefs["advclass_title_prefs"]
+	if(!title_prefs || !islist(title_prefs))
+		title_prefs = list()
+	var/title_pref = favorite ? title_prefs[favorite] : ADVCLASS_TITLE_AUTO
+	var/title_pref_name = "Automatic"
+	switch(title_pref)
+		if(ADVCLASS_TITLE_DEFAULT)
+			title_pref_name = "Masculine"
+		if(ADVCLASS_TITLE_FEMININE)
+			title_pref_name = "Feminine"
 	var/HTML = {"
-		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
-		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/><br/>
+		<i>You can choose a favorite subclass and title here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/>
+		<b>Class title:</b> <a href="?src=[REF(src)];class_title_pref=1">[title_pref_name]</a><br/><br/>
 		<i>Set your [title]-specific bounty here. If a global bounty is set, this will override it.</i><br><i>Any fields set here will not prompt you at roundstart.</i><br/><br/>
 		<b>Bounty Poster:</b> <a href="?src=[REF(src)];poster=1">[roleprefs["bounty_poster_key"]?GLOB.bounty_posters[roleprefs["bounty_poster_key"]]:"Unset"]</a><br/>
 		<b>Bounty Severity:</b> <a href="?src=[REF(src)];severity=1">[roleprefs["bounty_severity_key"]?GLOB.wretch_severities[roleprefs["bounty_severity_key"]]:"Unset"]</a><br/>

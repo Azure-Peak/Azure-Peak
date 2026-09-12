@@ -6,7 +6,6 @@
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	f_title = "Princess"
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
@@ -223,7 +222,7 @@
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 /datum/advclass/heir/inbred
-	name = "Inbred wastrel"
+	name = "Inbred Wastrel"
 	tutorial = "Your bloodline ensures Psydon smiles upon you by divine right, the blessing of nobility... until you were born, anyway. You are a child forsaken, and even though your body boils as you go about your day, your spine creaks, and your drooling form needs to be waited on tirelessly you are still considered more important then the peasant that keeps the town fed and warm. Remind them of that fact when your lungs are particularly pus free."
 	outfit = /datum/outfit/job/roguetown/heir/inbred
 	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_GOODLOVER)

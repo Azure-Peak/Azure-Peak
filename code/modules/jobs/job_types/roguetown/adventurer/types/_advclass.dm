@@ -1,8 +1,13 @@
 /datum/advclass
 	var/name
+	/// Displays only title for feminine characters.
+	var/f_title
 	var/list/classes
 	var/outfit
 	var/tutorial = "Choose me!"
+	/// Feminine-specific tutorial shown in the class-picker. If not set, defaults to the tutorial var.
+	/// It CANNOT have (= "Choose me!") after it or every advclass with f_title will have it.
+	var/f_tutorial
 	var/townie_contract_gate_exempt = FALSE
 	var/townie_contract_gate_hide_in_list = FALSE
 	/// Subclass-specific tutorial shown via to_chat on spawn, separate from the class-picker tutorial.
@@ -72,6 +77,37 @@
 	var/class_tempo_faction = null
 
 	var/tempo_capable = TRUE
+
+/// Returns the advclass title based on the character's global title preference.
+/datum/advclass/proc/get_used_title(titles_pref)
+	if(titles_pref == TITLES_F && f_title)
+		return f_title
+	return name
+
+/// Returns the advclass title using the per-advclass preference, otherwise returns the character's global title preference.
+/datum/advclass/proc/get_used_title_with_pref(mob/living/carbon/human/H)
+	if(!H)
+		return name
+	var/titles_pref = H.titles_pref
+	var/title_pref = ADVCLASS_TITLE_AUTO
+	var/datum/job/J
+	if(H.job)
+		J = SSjob.GetJob(H.job)
+	if(J)
+		title_pref = J.get_advclass_title_pref(H, type)
+	switch(title_pref)
+		if(ADVCLASS_TITLE_DEFAULT)
+			return name
+		if(ADVCLASS_TITLE_FEMININE)
+			return f_title || name
+		else
+			return get_used_title(titles_pref)
+
+/// Returns the feminine tutorial for the class-picker if it exists, otherwise returns the default tutorial.
+/datum/advclass/proc/get_used_tutorial(titles_pref)
+	if(titles_pref == TITLES_F && f_tutorial)
+		return f_tutorial
+	return tutorial
 
 /datum/advclass/New()
 	if(ispath(age_mod) && !istype(age_mod))
@@ -315,6 +351,22 @@
 	#endif
 
 	return null
+
+// Fetches constant UI data for the class-picker.
+// It basically mimics the _job.dm's constant_ui_data proc, but for advclasses. This is used in the class-picker to show the feminine title, if it exists.
+/datum/advclass/proc/constant_ui_data()
+	return list(
+		"titles" = list(
+			TITLES_M = name,
+			TITLES_F = f_title || name,
+		),
+		"department_flag" = 0,
+		"display_order" = 0,
+		"class_setup_examine" = FALSE,
+		"tutorial" = tutorial,
+		"round_contrib_points" = 0,
+		"has_subprefs" = FALSE,
+	)
 
 // Basically the handler has a chance to plus up a class, heres a generic proc you can override to handle behavior related to it.
 // For now you just get an extra stat in everything depending on how many plusses you managed to get.

@@ -107,6 +107,10 @@ GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
 #define TITLES_M	"Lord / Ser"
 #define TITLES_F	"Lady / Dame"
 
+#define ADVCLASS_TITLE_AUTO 0
+#define ADVCLASS_TITLE_DEFAULT 1
+#define ADVCLASS_TITLE_FEMININE 2
+
 GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F)) // INSTRUCTIONS FOR DOWNSTREAM: Edit this or sanitize_character will eat them
 
 #define CLOTHES_M "Masculine"

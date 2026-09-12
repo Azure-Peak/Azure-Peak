@@ -17,7 +17,7 @@
 	townie_contract_gate_exempt = TRUE
 	class_setup_examine = FALSE
 	has_subprefs = TRUE
-	default_subprefs = list("codename" = null, "hand_file_notes" = null, "hand_file_notes_raw" = null)
+	default_subprefs = list("codename" = null, "hand_file_notes" = null, "hand_file_notes_raw" = null, "favorite_advclass" = null, "advclass_title_prefs" = null)
 
 /datum/job/roguetown/adventurer/courtagent/Topic(href, list/href_list)
 	var/client/C = usr.client
@@ -59,10 +59,20 @@
 	if(!prefs.job_subprefs || !islist(prefs.job_subprefs))
 		prefs.job_subprefs = list()
 	if(!prefs.job_subprefs[title])
-		prefs.job_subprefs[title] = list("codename" = null, "hand_file_notes" = null, "favorite_advclass" = null)
+		prefs.job_subprefs[title] = list("codename" = null, "hand_file_notes" = null, "favorite_advclass" = null, "advclass_title_prefs" = null)
 	var/list/subprefs = prefs.job_subprefs[title]
 	var/datum/advclass/favorite = subprefs["favorite_advclass"]
 	var/favorite_name = favorite ? favorite::name : "Choose"
+	var/list/title_prefs = subprefs["advclass_title_prefs"]
+	if(!title_prefs || !islist(title_prefs))
+		title_prefs = list()
+	var/title_pref = favorite ? title_prefs[favorite] : ADVCLASS_TITLE_AUTO
+	var/title_pref_name = "Automatic"
+	switch(title_pref)
+		if(ADVCLASS_TITLE_DEFAULT)
+			title_pref_name = "Masculine"
+		if(ADVCLASS_TITLE_FEMININE)
+			title_pref_name = "Feminine"
 	var/HTML = {"
 		You can define a codename and the contents of the Hand's file on you here. Keep codenames sensible, please.<br/>
 		In addition to what you write here, the Hand's file will contain your name, descriptors, species, and subclass.<br/><br/>
@@ -73,10 +83,11 @@
 			<li>- Anything else the Hand would know about you, but nobody else. Do you have a habit of encoding your communiques with a pre-established method? Do you have a shared past? Be reasonable, as always.</li>
 		</ul><br/>
 		<b>Codename:</b> <a href="?src=[REF(src)];codename=1">[subprefs["codename"]?subprefs["codename"]:"Unset"]</a><br/>
-		<b>Hand Notes:</b> <a href="?src=[REF(src)];hand_file_notes=1">Edit</a> <a href="?src=[REF(src)];markdownhelp=1">\[?\]</a><br/>
+		<b>Hand Notes:</b> <a href="?src=[REF(src)];hand_file_notes=1">Edit</a> <a href="?src=[REF(src)];markdownhelp=1">\[?\]</a><br/><br/>
 		[subprefs["hand_file_notes_raw"]?parsemarkdown("---[subprefs["hand_file_notes_raw"]]\n---",usr):""]
-		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/>
-		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a>
+		<i>You can choose a favorite subclass and title here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/>
+		<b>Class title:</b> <a href="?src=[REF(src)];class_title_pref=1">[title_pref_name]</a>
 		<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
 	"}
 	var/datum/browser/popup = new(user, "[JOB_SUBPREFS_WINDOW_ID]", "<div align='center'>[title] Preferences</div>", 600, 900)
