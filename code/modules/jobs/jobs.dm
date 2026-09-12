@@ -198,6 +198,7 @@ GLOBAL_LIST_INIT(inquisition_positions, list( //Self explanatory
 	"Inquisitor",
 	"Absolver",
 	"Orthodoxist",
+	"Neophyte",
 ))
 
 GLOBAL_LIST_INIT(aspirant_eligible_positions, list(ASPIRANT_ELIGIBLE_POSITIONS))

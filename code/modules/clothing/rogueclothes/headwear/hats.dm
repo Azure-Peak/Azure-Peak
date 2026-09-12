@@ -300,6 +300,10 @@
 	//dropshrink = 0.75
 	dynamic_hair_suffix = null
 
+/obj/item/clothing/head/roguetown/headband/monk/black
+	color = COLOR_ALMOST_BLACK
+	desc = "A simple length of cloth, wrapped carefully around the head and secured with modest leather strips. It offers little protection, but serves as a humble mark of devotion for those still learning the ways of the faith. A small comfort for the novice who has yet to earn a proper helm, and a reminder that even the smallest servant has a place in the cause."
+
 /obj/item/clothing/head/roguetown/headband/monk
 	name = "padded headband"
 	desc = "A winding length of cloth, meticulously lined with heavy leather strips. Errant impacts are thwarted, yet not a degree of vision is impaired; valuable traits, for the Monk who must enlighten their villains with a white-knuckled sermon. </br>'..I kick ass for the Lord!'"

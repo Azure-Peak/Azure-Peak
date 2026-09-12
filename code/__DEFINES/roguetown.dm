@@ -481,6 +481,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_ORTHODOXIST	"CAT_ORTHODOXIST"	// For Orthodoxist subclasses
 #define CTAG_INQUSITOR		"CAT_INQUISITOR"	// For Inquisitor subclasses
 #define CTAG_ABSOLVER		"CAT_ABSOLVER"		// For Absolver (sub)class
+#define CTAG_NEOPHYTE		"CAT_NEOPHYTE"		// For Neophyte subclasses
 #define CTAG_COURTAGENT		"CAT_COURTAGENT"	// Court agent classes
 #define CTAG_WRETCH			"CAT_WRETCH"		// Wretch classes untethered from adventurer
 #define CTAG_TRADER			"CAT_TRADER"		// Trader classes untethered from adventurer

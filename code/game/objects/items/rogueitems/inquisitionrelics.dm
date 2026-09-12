@@ -510,6 +510,8 @@ Inquisitorial armory down here
 	for(var/obj/item/flashlight/flare/torch/lantern/psycenser/G in contents)
 		if(G.on)
 			return TRUE
+	for(var/obj/item/clothing/neck/roguetown/psicross/silver/anointed/A in contents)
+		return TRUE
 	return FALSE
 
 /mob/living/carbon/human/proc/process_golgatha_rebuke(mob/living/attacker)
