@@ -235,7 +235,7 @@ And it also helps for the character set panel
 
 /datum/clan/proc/apply_clan_components(mob/living/carbon/human/H)
 	H.AddComponent(/datum/component/sunlight_vulnerability)
-	if (H.job == "Stray")
+	if(H.get_vampire_generation() == GENERATION_THINNERBLOOD)
 		return
 	H.AddComponent(/datum/component/vampire_disguise)
 
@@ -370,7 +370,7 @@ And it also helps for the character set panel
 
 /datum/clan/proc/setup_vampire_abilities(mob/living/carbon/human/H)
 	H.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix_neu)
-	if (H.job == "Stray")
+	if(H.get_vampire_generation() == GENERATION_THINNERBLOOD)
 		return
 	add_verb(H, /mob/living/carbon/human/proc/disguise_verb)
 	add_verb(H, /mob/living/carbon/human/proc/vampire_telepathy)
@@ -569,8 +569,10 @@ And it also helps for the character set panel
 /datum/action/clan_menu
 	name = "Clan Menu"
 	desc = "Open your clan's power management interface"
+	background_icon = 'icons/mob/actions/vampspells.dmi'
 	background_icon_state = "spell"
-	button_icon_state = "coven"
+	button_icon = 'icons/mob/actions/vampspells.dmi'
+	button_icon_state = "clan_menu"
 
 /datum/action/clan_menu/Trigger(trigger_flags)
 	if(!owner || !ishuman(owner))

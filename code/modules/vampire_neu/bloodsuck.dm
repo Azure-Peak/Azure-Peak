@@ -129,6 +129,8 @@
 			victim.death()
 			victim.adjustBruteLoss(-50, TRUE)
 			victim.adjustFireLoss(-50, TRUE)
+			to_chat(victim, span_userdanger("I have been consumed by my kindred!"))
+			visible_message(span_danger("Some dark energy begins to flow from [victim] into [src]...")) //reverse of siring, teehehe
 			return
 		else if(victim.blood_volume < BLOOD_VOLUME_SURVIVE && victim.stat != DEAD)
 			to_chat(src, span_warning("This sad sacrifice for your own pleasure affects something deep in your mind."))
@@ -187,7 +189,7 @@
 
 	var/vampire_choice = tgui_alert(
 		src,
-		"Would you like to rise as a lycker spawn? Warning: refusal may or may not mortally wound you.",
+		"Would you like to rise as a lycker spawn?", //we don't mortally wound you, the vampyre does.
 		"THE CURSE OF ASTRATA",
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT
@@ -242,7 +244,7 @@
 		client.init_verbs()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
-	visible_message(span_red("[src] rises as a new spawn!"))
+	visible_message(span_red("[src] takes on a deathly paleness..."))
 
 	original_mind?.transfer_to(src, TRUE)
 
@@ -258,7 +260,19 @@
 	apply_status_effect(/datum/status_effect/incapacitating/stun, VAMP_CONVERT_POST_STUN)
 
 	vampire_conversion_prompt_active = FALSE
+
+	//rid the vamp reagents
+	src.reagents.remove_reagent(/datum/reagent/vampsolution, 30) //remove all of our vamp bite reagents
+	remove_status_effect(/datum/status_effect/debuff/vampbite) //status effect itself too
+
+	Unconscious(20 SECONDS)
+	sleep(10 SECONDS)
+	to_chat(src, span_narsie("Death is not the end..."))
+	visible_message(span_warning("[src] convulses on the floor momentarily..."))
+	src.Jitter(15) //Convulse a bit.
+	sleep(15 SECONDS)
+	src.flash_fullscreen("redflash3")
+	to_chat(src, span_cult("I arise anew, through death into a second lyfe, as an unnatural craving for blood and unbreakable enthrallment to another's will floods my mynd and senses."))
+	to_chat(src, span_hypnophrase("My will is <b>[sire.clan.clan_leader]'s</b> command."))
+	visible_message(span_red("[src]'s' eyes light up with an eerie crimson glow..."))
 	return
-
-
-
