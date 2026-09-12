@@ -86,10 +86,14 @@
 
 /datum/outfit/job/roguetown/heir/daring/pre_equip(mob/living/carbon/human/H)
 	..()
+	if(should_wear_masc_clothes(H))
+		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/three
+		cloak = /obj/item/clothing/cloak/half/azure
+	if(should_wear_femme_clothes(H))
+		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/three
+		cloak = /obj/item/clothing/cloak/half/rider
 	head = /obj/item/clothing/head/roguetown/circlet
-	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/three
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	cloak = /obj/item/clothing/cloak/half/azure
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
 	gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
@@ -223,7 +227,6 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 		gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
 	if(should_wear_femme_clothes(H))
-		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 		gloves = /obj/item/clothing/gloves/roguetown/rosa/six
 		head = /obj/item/clothing/head/roguetown/hennin
 		l_hand = /obj/item/clothing/head/roguetown/circlet // So we still get one.
@@ -275,7 +278,6 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 		gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
 	if(should_wear_femme_clothes(H))
-		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 		gloves = /obj/item/clothing/gloves/roguetown/rosa/six
 		head = /obj/item/clothing/head/roguetown/hennin
 		l_hand = /obj/item/clothing/head/roguetown/circlet // So we still get one.
