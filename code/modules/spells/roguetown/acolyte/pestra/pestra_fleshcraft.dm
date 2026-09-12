@@ -14,8 +14,8 @@
 	movement_interrupt = FALSE
 	sound = 'sound/gore/flesh_eat_03.ogg'
 	spell_tier = 1
-	invocations = list("Flesh, remember the shape I give you...")
-	invocation_type = "whisper"
+	invocations = list("begins contorting with a sickening crack.")
+	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	devotion_cost = 25
 	recharge_time = 20 SECONDS
