@@ -32,8 +32,8 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/tanning =	SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/tanning =	SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_EXPERT,
@@ -44,7 +44,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/munitioneerpile, //uniquely gets 75 vs 50 starting funds
 	)
 /datum/outfit/job/roguetown/wretch/munitioneer/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You are a passable warrior- though weak- but your true strength lies in your ability to bend the resources of Azuria to your will."))
@@ -70,8 +70,10 @@
 		/obj/item/rogueweapon/huntingknife/combat = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/riddleofsteel = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-		/obj/item/rogueweapon/hammer/bronze = 1
+		/obj/item/rogueweapon/chisel/bronze = 1,
+		/obj/item/rogueweapon/handsaw/bronze = 1,
+		/obj/item/rogueweapon/hammer/bronze = 2, //so you can split efforts if you get several in on a fort.
+		/obj/item/dye_brush = 1
 		)
 
 /datum/outfit/job/roguetown/wretch/munitioneer/choose_loadout(mob/living/carbon/human/H)

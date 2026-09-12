@@ -128,8 +128,8 @@
 	/// This job is immune to species-based swapped gender locks
 	var/immune_to_genderswap = FALSE
 
-	/// Jobs that are obsfuscated on actor screen
-	var/obsfuscated_job = FALSE
+	/// Jobs that are obfuscated on actor screen
+	var/obfuscated_job = FALSE
 
 	///Jobs that are hidden from actor screen
 	var/hidden_job = FALSE
@@ -341,7 +341,7 @@
 	if (!hidden_job)
 		var/mob_name = H.real_name
 		var/mob_rank
-		if (obsfuscated_job)
+		if (obfuscated_job)
 			mob_rank = "Adventurer"
 		else
 			mob_rank = H.mind.assigned_role

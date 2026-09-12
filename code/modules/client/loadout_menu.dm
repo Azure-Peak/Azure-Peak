@@ -186,6 +186,8 @@
 			if(custom_name)
 				meta["custom_name"] = copytext(custom_name, 1, MAX_NAME_LEN)
 				meta["custom_name_parsed"] = parsemarkdown_basic(html_encode(meta["custom_name"]))
+				if(findtext(meta["custom_name_parsed"], "\\improper") == 1) // \improper at the start of a string - convert it to a byond macro
+					meta["custom_name_parsed"] = ("\improper"+copytext(meta["custom_name_parsed"], 10)) // this is useful for when you have lowercase text encased in markdown tags
 			else
 				meta -= "custom_name"
 				meta -= "custom_name_parsed"

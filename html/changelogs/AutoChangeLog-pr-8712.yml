@@ -1,0 +1,9 @@
+author: "Juubo"
+delete-after: True
+changes:
+  - rscadd: "masquerade lite"
+  - rscadd: "werewolf lite"
+  - rscadd: "vote reset on sub-40 round starts"
+  - code_imp: "added STORYTELLER_ANTAG_MEDIUM for coders to use in other antag weeks"
+  - code_imp: "added DEFAULT_ANTAG_BLACKLISTED_COMBAT_ROLES to exclude combat roles"
+  - code_imp: "added /datum/antagonist/werewolf/noinfect if admins want to give werewolf without an infection chance"

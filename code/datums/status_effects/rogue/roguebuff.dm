@@ -2401,7 +2401,7 @@
 	duration = 5 SECONDS
 	var/original_alpha = 255
 
-/datum/status_effect/buff/phase/on_creation(mob/living/new_owner)
+/datum/status_effect/buff/phase/on_creation(mob/living/new_owner, duration_mult = 1)
 	if(ishuman(new_owner))
 		var/mob/living/carbon/human/H = new_owner
 		switch(H.highest_ac_worn())
@@ -2417,6 +2417,7 @@
 			if(ARMOR_CLASS_HEAVY)
 				duration = 2 SECONDS
 				effectedstats[STATKEY_SPD] = 1
+	duration *= duration_mult
 	. = ..()
 
 /datum/status_effect/buff/phase/on_apply()

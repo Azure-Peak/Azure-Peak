@@ -19,7 +19,7 @@
 	outfit = null
 	outfit_female = null
 
-	obsfuscated_job = TRUE
+	obfuscated_job = TRUE
 	give_bank_account = FALSE
 
 	display_order = JDO_ASSASSIN
