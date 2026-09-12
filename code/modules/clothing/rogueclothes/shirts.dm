@@ -212,6 +212,9 @@
 	color = CLOTHING_WHITE
 	boobed = TRUE
 
+/obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/astrocrat
+	detail_color = CLOTHING_BLACK
+
 /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
 	name = "tinker suit"
 	desc = "Typical fashion of the best engineers."
@@ -1062,12 +1065,8 @@
 	detail_color = CLOTHING_BLACK
 	color = CLOTHING_BLACK
 
-/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/azure
-	detail_color = CLOTHING_WHITE
-	color = CLOTHING_AZURE
-
 /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/raneshen
-	detail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_RED
 	color = CLOTHING_RED
 
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosa
