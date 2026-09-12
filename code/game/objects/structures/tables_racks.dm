@@ -39,6 +39,14 @@
 	hidingspot = TRUE
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 
+/proc/has_table_surface(location)
+	return !!get_table_surface(location)
+
+/proc/get_table_surface(location)
+	if(!location)
+		return null
+	return (locate(/obj/structure/table) in location) || (locate(/obj/structure/flora/roguetree/stump) in location)
+
 /obj/structure/table/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
@@ -142,7 +150,7 @@
 		return 1
 	if(mover.throwing)
 		return 1
-	if(locate(/obj/structure/table) in get_turf(mover))
+	if(has_table_surface(get_turf(mover)))
 		return 1
 	else
 		return !density
