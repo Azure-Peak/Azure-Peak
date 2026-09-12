@@ -88,10 +88,9 @@
 	..()
 	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/three
-		cloak = /obj/item/clothing/cloak/half/azure
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/three
-		cloak = /obj/item/clothing/cloak/half/rider
+	cloak = /obj/item/clothing/cloak/half/azuria
 	head = /obj/item/clothing/head/roguetown/circlet
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	pants = /obj/item/clothing/under/roguetown/tights/puritan

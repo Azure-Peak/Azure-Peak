@@ -67,7 +67,7 @@
 				H.cmode_music = 'sound/music/combat_noble.ogg'
 			if("Azuria") //Azurian Nobility in Style. Unlike Courtiers, you're more in your fanciest of attire.
 				if(should_wear_masc_clothes(H))
-					cloak = /obj/item/clothing/cloak/half/azure
+					cloak = /obj/item/clothing/cloak/half/azuria
 					shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 					armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
 					pants = /obj/item/clothing/under/roguetown/trou/beltpants

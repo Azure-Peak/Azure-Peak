@@ -190,6 +190,35 @@
 	color = CLOTHING_AZURE
 	detail_color = CLOTHING_WHITE
 
+//copies lord colors
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/Initialize(mapload)
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/lordcolor(primary,secondary)
+	color = primary
+	detail_color = secondary
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_head()
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
+
 /obj/item/clothing/head/roguetown/chaperon/noble/hand
 	name = "hand's chaperon"
 	desc = "A noble's chaperon made for the right hand man. \"Heavy is the head that bears the crown.\""
