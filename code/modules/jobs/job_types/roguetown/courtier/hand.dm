@@ -28,7 +28,7 @@
 	)
 
 /datum/outfit/job/roguetown/hand
-	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	shoes = /obj/item/clothing/shoes/roguetown/rosa/ten
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/hand
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
@@ -207,7 +207,7 @@
 	r_hand = /obj/item/rogueweapon/sword/rapier/hand
 	beltr = /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/dtace
-	head = /obj/item/clothing/head/roguetown/chaperon/noble/hand
+	head = /obj/item/clothing/head/roguetown/chaperon/noble/hand/advisor
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 
 //Advisor start. Trades combat skills for more knowledge and skills - for older hands, hands that don't do combat - people who wanna play wizened old advisors.

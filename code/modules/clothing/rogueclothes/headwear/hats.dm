@@ -196,6 +196,14 @@
 	color = CLOTHING_AZURE
 	detail_color = CLOTHING_WHITE
 
+/obj/item/clothing/head/roguetown/chaperon/noble/hand/blademaster
+	color = "#715944"
+	detail_color = CLOTHING_AZURE
+
+/obj/item/clothing/head/roguetown/chaperon/noble/hand/advisor
+	color = "#445671"
+	detail_color = CLOTHING_AZURE
+
 /obj/item/clothing/head/roguetown/chaperon/councillor
 	name = "chaperon hat"
 	desc = "A fancy hat worn by nobles."
