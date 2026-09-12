@@ -39,6 +39,7 @@
 	var/atom/movable/screen/stress/stressies
 	var/atom/movable/screen/cmode_button
 	var/atom/movable/screen/rmbintent/rmb_intent
+	var/atom/movable/screen/action_button_toggle
 
 	var/list/static_inventory = list() //the screen objects which are static
 	var/list/toggleable_inventory = list() //the screen objects which can be hidden
@@ -75,6 +76,9 @@
 
 /datum/hud/New(mob/owner)
 	mymob = owner
+//	Below adds a button to the HUD that toggles the action buttons on and off.
+//	Inactive until I can find a fitting icon for it.
+//	action_button_toggle = new /atom/movable/screen/action_button_toggle(null, src)
 
 	if (!ui_style)
 		// will fall back to the default if any of these are null
@@ -115,6 +119,7 @@
 	QDEL_NULL(bloodpool)
 	QDEL_NULL(vis_holder)
 	QDEL_NULL(module_store_icon)
+	QDEL_NULL(action_button_toggle)
 	QDEL_LIST(static_inventory)
 
 	inv_slots.Cut()
@@ -178,6 +183,10 @@
 				screenmob.client.screen += hotkeybuttons
 			if(infodisplay.len)
 				screenmob.client.screen += infodisplay
+//	Adds a button to the HUD that toggles the action buttons on and off.
+//	Inactive until I can find a fitting icon for it.
+//			if(action_button_toggle)
+//				screenmob.client.screen += action_button_toggle
 
 
 			if(action_intent)

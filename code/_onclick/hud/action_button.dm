@@ -2,6 +2,30 @@
 #define AB_REARRANGE_TINT "#96ff96"
 #define AB_DROP_TINT "#40ff40"
 
+/atom/movable/screen/action_button_toggle
+	var/datum/hud/our_hud
+
+	icon = 'icons/mob/actions.dmi'
+	icon_state = "hide"
+	screen_loc = "WEST:4,SOUTH:3"
+	layer = ABOVE_HUD_LAYER
+	mouse_opacity = MOUSE_OPACITY_OPAQUE
+
+/atom/movable/screen/action_button_toggle/New(loc, datum/hud/hud)
+	our_hud = hud
+	..()
+
+/atom/movable/screen/action_button_toggle/Click(location, control, params)
+	if(!our_hud || !our_hud.mymob)
+		return
+
+	our_hud.mymob.toggle_action_buttons()
+	return TRUE
+
+/atom/movable/screen/action_button_toggle/Destroy()
+	our_hud = null
+	return ..()
+
 /atom/movable/screen/movable/action_button
 	var/datum/action/linked_action
 	var/datum/hud/our_hud
@@ -156,7 +180,8 @@
 /mob/proc/update_action_buttons(reload_screen)
 	if(!hud_used || !client)
 		return
-
+	if(hud_used.action_button_toggle)
+		hud_used.action_button_toggle.icon_state = hud_used.action_buttons_hidden ? "show" : "hide"
 	if(hud_used.hud_shown != HUD_STYLE_STANDARD)
 		return
 
@@ -187,6 +212,18 @@
 			B.set_hotkey_label(button_number <= 9 ? button_number : null)
 			if(reload_screen)
 				client.screen += B
+
+/mob/proc/toggle_action_buttons()
+	if(!hud_used)
+		return
+	hud_used.action_buttons_hidden = !hud_used.action_buttons_hidden
+	if(hud_used.action_button_toggle)
+		hud_used.action_button_toggle.icon_state = hud_used.action_buttons_hidden ? "show" : "hide"
+	update_action_buttons()
+	if(hud_used.action_buttons_hidden)
+		to_chat(src, "Action buttons hidden.")
+	else
+		to_chat(src, "Action buttons shown.")
 
 /datum/hud/proc/toggle_rearrange_mode()
 	rearrange_mode = !rearrange_mode

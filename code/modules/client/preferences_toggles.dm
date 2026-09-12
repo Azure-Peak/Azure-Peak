@@ -40,6 +40,13 @@
 		else
 			to_chat(src, "Screen shake disabled.")
 
+/client/verb/toggle_action_buttons()
+	set category = "Preferences.Options"
+	set name = "Toggle Action Buttons"
+	set desc = "Show or hide the action button bar."
+	if(mob)
+		mob.toggle_action_buttons()
+
 /client/verb/masked_examine()
 	set category = "Preferences.Options"
 	set name = "Toggle Masked Examine"
