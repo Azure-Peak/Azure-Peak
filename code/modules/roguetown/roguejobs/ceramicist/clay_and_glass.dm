@@ -20,6 +20,7 @@
 	var/burning = 0				// This variable measures the progress of the burning act
 	var/burntime = 5 MINUTES	// How long must it be left unattended to burn and be ruined?
 	var/burned_color = "#302d2d"
+	materia = list(/datum/materia_aspect/earth, /datum/materia_aspect/change)
 
 /obj/item/natural/clay/Initialize(mapload)
 	if(cooked_type)

@@ -1,12 +1,12 @@
 /*
-Code for relaxing bath, which is a soft, "active roleplay" alternative to sleeping. 
+Code for relaxing bath, which is a soft, "active roleplay" alternative to sleeping.
 Removes the tired moodlet, gives a triumph, gives dream points without opportunity of
-dreaming. Still have to go to sleep to learn skills. Also gives healing tickrate + energy regen. 
+dreaming. Still have to go to sleep to learn skills. Also gives healing tickrate + energy regen.
 */
 
 /mob/living/carbon/human/proc/relaxing_bath(source_type)
 	var/bathing_spot = src.loc
-	var/pool
+	var/atom/pool
 
 	var/list/wash = list('sound/foley/watermove (1).ogg','sound/foley/watermove (2).ogg', 'sound/foley/waterwash (1).ogg', 'sound/foley/waterwash (2).ogg')
 	playsound(src, pick(wash), 100, FALSE)
@@ -17,7 +17,7 @@ dreaming. Still have to go to sleep to learn skills. Also gives healing tickrate
 		pool = locate(/obj/structure/hotspring) in get_turf(src)
 
 	src.visible_message(span_info("[src] begins to soak in [pool]."), span_info("I settle into the water, beginning to soak."), span_info("Someone sloshes idly in some water."))
-	
+
 	if(src.has_status_effect(/datum/status_effect/debuff/sleepytime))
 		to_chat(src, span_green("I am taking a relaxing bath. It will remove this tiring feeling I suffer from."))
 	else
@@ -30,9 +30,14 @@ dreaming. Still have to go to sleep to learn skills. Also gives healing tickrate
 	var/buff_strength = 1
 	var/ultimate_soak = FALSE
 	var/soapy = FALSE
+	var/scentmessaged = FALSE
+	var/datum/component/bath_infusion/bathbomb = pool.GetComponent(/datum/component/bath_infusion)
 
 	if(src.patron?.type == /datum/patron/divine/eora || src.patron?.type == /datum/patron/inhumen/baotha) //BAoTHa
 		buff_strength = 2
+
+	if(bathbomb)
+		buff_strength += bathbomb.boost
 
 	while(do_after(src, ticks, target = pool))
 		if(src.loc != bathing_spot)
@@ -65,6 +70,11 @@ dreaming. Still have to go to sleep to learn skills. Also gives healing tickrate
 				to_chat(src, span_warning("I'm not getting anything out of this. I should at least remove my armor and my helmet, or use some soap."))
 				break //No healing for you
 
+		if(bathbomb)
+			if(!has_stress_event(/datum/stressevent/bathbomb))
+				add_stress(/datum/stressevent/bathbomb)
+			if(!scentmessaged)
+				to_chat(src, span_green("The water's [bathbomb.smell] infusion soothes my body and mind."))
 
 		// Play occasional water sounds
 		if(prob(30))

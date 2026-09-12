@@ -681,6 +681,7 @@
 	desc = "If they couldn't protect their previous owners, how confident are you in these bones protecting you?"
 	icon_state = "boneshield"
 	smeltresult = null
+	materia = list(/datum/materia_aspect/defense, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/shield/iron/graggar
 	name = "vicious targe"

@@ -452,6 +452,7 @@
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop)
 	resistance_flags = FLAMMABLE
 	anvilrepair = /datum/skill/craft/weaponsmithing
+	materia = list(/datum/materia_aspect/tool, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver
 	name = "silver war axe"

@@ -74,7 +74,14 @@
 				for(var/obj/item/ing in src.ingredients)
 					if(!istype(ing,/obj/item/alch))
 						continue
+					if(istype(ing, /obj/item/alch/hag_moss) && !lastuser.mind?.has_antag_datum(/datum/antagonist/hag))
+						continue // only hags can make potions with moss
 					var/obj/item/alch/alching = ing
+					if(alching.complete_pot != null)
+						if(outcomes[alching.complete_pot] != null)
+							outcomes[alching.complete_pot] += 5
+						else
+							outcomes[alching.complete_pot] = 5
 					if(alching.major_pot != null)
 						if(outcomes[alching.major_pot] != null)
 							outcomes[alching.major_pot] += 3

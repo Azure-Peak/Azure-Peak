@@ -58,6 +58,12 @@
 	if(ispath(special))
 		special = new special()
 
+	if(!length(materia)) // some weapons will want custom aspects
+		if(is_tool)
+			materia = list(/datum/materia_aspect/tool)
+		else
+			materia = list(/datum/materia_aspect/weapon)
+
 /obj/item/rogueweapon/dropped(mob/user, silent)
 	. = ..()
 	if(istype(src, /obj/item/rogueweapon/shield))

@@ -303,6 +303,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
+	/// aspects of prima materia for alchemical use. see prima_materia.dm
+	var/list/materia = list()
 
 /obj/item/Initialize(mapload)
 	. = ..()

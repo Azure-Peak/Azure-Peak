@@ -538,6 +538,7 @@
 	max_integrity = 60
 	throwforce = 20
 	special = null
+	materia = list(/datum/materia_aspect/weapon, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/spear/billhook
 	name = "billhook"
