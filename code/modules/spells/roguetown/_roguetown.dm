@@ -112,11 +112,7 @@
 			var/obj/projectile/magic/M = P
 			M.spell_impact_intensity = spell_impact_intensity
 		P.def_zone = user.zone_selected
-		// Accuracy modification code, same as bow rebalance PR
-		P.accuracy += (user.STAPER - 9) * 4
-		P.bonus_accuracy += (user.STAPER - 8) * 3
-		if(user.mind)
-			P.bonus_accuracy += (user.get_skill_level(associated_skill) * 5) // +5% per level
+		user.apply_spell_accuracy(P)
 		P.firer = user
 		P.preparePixelProjectile(target, user)
 		for(var/V in projectile_var_overrides)

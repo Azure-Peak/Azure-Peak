@@ -2,20 +2,22 @@
 
 /proc/sling_draw_sound(chargetime)
 	switch(chargetime)
-		if(0 to 7)
-			return 'sound/combat/Ranged/sling-draw-01-5ds.ogg'
-		if(7 to 11)
+		if(0 to 11)
 			return 'sound/combat/Ranged/sling-draw-01.ogg'
 		else
 			return 'sound/combat/Ranged/sling-draw-01-14ds.ogg'
 
 /datum/intent/swing/sling
-	chargetime = 1 //used for edge cases only, /datum/intent/shoot/sling/get_chargetime handles the actual number
-	chargedrain = 1.5
+	chargetime = 1 //used for edge cases only, the sling's get_draw_time() handles the actual number
+	chargedrain = SLING_CHARGEDRAIN
 	charging_slowdown = 3
+	needs_loaded_launcher = TRUE
 
 /datum/intent/swing/sling/can_charge(atom/clicked_object)
 	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
+		return FALSE
+	if(needs_loaded_launcher && !launcher_is_loaded())
+		to_chat(mastermob, span_warning("I have nothing loaded!"))
 		return FALSE
 
 	return TRUE
@@ -25,31 +27,26 @@
 		mastermob.visible_message(span_warning("[mastermob] swings [masteritem]!"))
 		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
-/datum/intent/swing/sling/get_chargetime() //determines swing length. damage is in /obj/item/gun/ballistic/revolver/grenadelauncher/sling/process_fire
+/datum/intent/swing/sling/get_chargetime() //swing length lives on the sling itself so players and NPCs share one curve. damage is in /obj/item/gun/ballistic/revolver/grenadelauncher/sling/process_fire
 	if(mastermob && chargetime)
-		var/newtime = 0 //value to determine charging time in deciseconds
-		newtime = (newtime + 20) //base 2.0 seconds
-		newtime = (newtime - (mastermob.get_skill_level(/datum/skill/combat/slings) * 1.5)) //each point of skill is -0.15 seconds, maximum -0.9 seconds
-		newtime = (newtime - (mastermob.STAPER / 2)) //each point of perception is -0.05 seconds, maximum -1.0 second
-		newtime = (newtime - (mastermob.STASTR / 5)) //each point of strength is -0.02 seconds, maximum -0.4 seconds
-		var/obj/item/gun/ballistic/gun = masteritem
-		if(istype(gun) && gun.chambered)
-			newtime *= gun.chambered.charge_time_mult
-		if(newtime > 0.5)
-			return newtime //final time to 'charge' the sling. for example, 10 STR, 14 PER, and expert skill equals 5 or 0.5 seconds
-		else
-			return 0.5 //the minimum time to charge. used since a mixture of different factors is to be expected. very difficult to surpass
-	else
-		return chargetime //failsafe default value should the above conditions not be met
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/sling/sling = masteritem
+		if(istype(sling))
+			var/newtime = sling.get_draw_time(mastermob, FALSE)
+			if(newtime)
+				return newtime
+	return chargetime //failsafe default value should the above conditions not be met
 
 /datum/intent/arc/sling
 	chargetime = 1
-	chargedrain = 1.5
+	chargedrain = SLING_CHARGEDRAIN
 	charging_slowdown = 3
 	ready_sound = 'sound/foley/slingload.ogg'
 
 /datum/intent/arc/sling/can_charge(atom/clicked_object)
 	if(istype(clicked_object, /obj/item/quiver) && istype(mastermob?.get_active_held_item(), /obj/item/gun/ballistic))
+		return FALSE
+	if(needs_loaded_launcher && !launcher_is_loaded())
+		to_chat(mastermob, span_warning("I have nothing loaded!"))
 		return FALSE
 
 	return TRUE
@@ -59,28 +56,14 @@
 		mastermob.visible_message(span_warning("[mastermob] swings [masteritem] in an arc!"))
 		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
-/datum/intent/arc/sling/get_chargetime() //same calculations as swing but with a greater base for throwing through teammates
+/datum/intent/arc/sling/get_chargetime() //same curve as swing but slower, for throwing through teammates
 	if(mastermob && chargetime)
-		var/newtime = 0 //value to determine charging time in deciseconds
-		newtime = (newtime + 22) //base 2.2 seconds
-		newtime = (newtime - (mastermob.get_skill_level(/datum/skill/combat/slings) * 1.5)) //each point of skill is -0.15 seconds, maximum -0.9 seconds
-		newtime = (newtime - (mastermob.STAPER / 2)) //each point of perception is -0.05 seconds, maximum -1.0 second
-		newtime = (newtime - (mastermob.STASTR / 5)) //each point of strength is -0.02 seconds, maximum -0.4 seconds
-		var/obj/item/gun/ballistic/gun = masteritem
-		if(istype(gun) && gun.chambered)
-			newtime *= gun.chambered.charge_time_mult
-		if(newtime > 0.5)
-			return newtime //final time to 'charge' the sling. for example, 10 STR, 14 PER, and expert skill equals 0.7 seconds
-		else
-			return 0.5 //the minimum time to charge. used since a mixture of different factors is to be expected. very difficult to surpass
-	else
-		return chargetime //failsafe default value should the above conditions not be met
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/sling/get_npc_chargetime(mob/living/user)
-	var/newtime = 20 - (user.get_skill_level(/datum/skill/combat/slings) * 1.5) - (user.STAPER / 2) - (user.STASTR / 5)
-	if(chambered)
-		newtime *= chambered.charge_time_mult
-	return (max(0, newtime) + ARCHER_NPC_MIN_AIM_TIME + ARCHER_NPC_NOCK_TIME) * ARCHER_NPC_ROF_PENALTY
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/sling/sling = masteritem
+		if(istype(sling))
+			var/newtime = sling.get_draw_time(mastermob, TRUE)
+			if(newtime)
+				return newtime
+	return chargetime //failsafe default value should the above conditions not be met
 
 //objs
 
@@ -111,12 +94,20 @@
 	obj_flags = UNIQUE_RENAME
 	grid_width = 32
 	grid_height = 64
+	ranged_skill = /datum/skill/combat/slings
+	per_scales_damage = TRUE
+	release_drain = SLING_RELEASEDRAIN
+	draw_base = SLING_DRAW_BASE
+	draw_floor = SLING_DRAW_FLOOR
+	uses_draw_curve = TRUE
 	var/atom/movable/temp_stone = null //stones are not ammo so they aren't acceptable by ballistics. this var will keep the stone temporarily stored
 	var/bonus_stone_force = 0 //above comment is relevant. a magical stone's bonus force is kept on the sling itself and changed accordingly
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Slings increase in damage and accuracy the higher your <b>PERCEPTION</b> and <b>STRENGTH</b>.")
+	. += span_info("My <b>SLINGS</b> skill defines how precise my shots are and how fast I can swing.")
+	. += span_info("Slings increase in damage the higher your <b>PERCEPTION</b>.")
+	. += span_info("When I shoot a target too close or too far away, I will only hit the chest.")
 	. += span_info("Slings can be loaded directly from a pouch while your offhand is occupied by another item.")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/getonmobprop(tag)
@@ -195,29 +186,20 @@
 	..()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
-	if(user.client)
-		if(user.client.chargedprog >= 100)
-			spread = 0
-		else
-			spread = 150 - (150 * (user.client.chargedprog / 100))
-	else
-		spread = 0
+	spread = get_ranged_spread(user)
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.embedchance = 0.1 //for some reason, if the embedchance is 0, the reusable projectile will not drop after hitting a mob. so it's a 1/1000 chance now
-		BB.accuracy += accfactor * (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Exponential.
-		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
-		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/slings) * 5) // +5 per Sling level.
+		apply_ranged_accuracy(BB, user)
 		BB.damage *= damfactor
-		if(user.client && user.client.chargedprog < 100)
-			BB.damage = BB.damage - (BB.damage * (user.client.chargedprog / 100))
-		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
-		BB.damage = BB.damage * per_scaling + bonus_stone_force
-		// PER scales damage by 10% per point up to softcap, then 5% per point. Stone bonus force is added flat.
+		apply_early_release_penalty(BB, user)
+		BB.damage = BB.damage * get_per_damage_scaling(user) + bonus_stone_force
 		if (temp_stone != null) //reseting after stone ammo use
 			bonus_stone_force = 0 //stone is thrown, so the bonus is lost
 			temp_stone = null //stone is gone, forever.
 	. = ..()
+	if(.)
+		pay_release_drain(user)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/update_icon()
 	. = ..()
@@ -238,13 +220,6 @@
 	start_empty = TRUE
 
 // RESKINS GO BELOW. THIS IS MOSTLY FOR FLAVOR/SOVL. P L E A S E DON'T MAKE THIS ANY DIFFERENT FROM YOUR NORMAL SLING, THANK YOU.
-
-/datum/intent/swing/sling/can_charge(atom/clicked_object)
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/sling/S = masteritem
-	if(!S?.chambered)
-		return FALSE
-
-	return ..()
 
 /datum/intent/swing/sling/wood/prewarning()
 	if(mastermob)

@@ -57,7 +57,6 @@
 	flag = "blunt"
 	range = 16
 	speed = MAGE_PROJ_SLOW
-	accuracy = 100
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
 	intdamfactor = 1

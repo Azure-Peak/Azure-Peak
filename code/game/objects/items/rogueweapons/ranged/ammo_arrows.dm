@@ -1,5 +1,5 @@
 //arrows ฅ^•ﻌ•^ฅ
-#define MIN_ARROW_RANGE		3
+#define MIN_ARROW_RANGE		2
 #define MAX_ARROW_RANGE		14
 #define DAM_FALLOFF_ARROW	0.5
 #define MIN_SPLINTER_RANGE	1
@@ -80,7 +80,6 @@
 	damage = 20
 	damage_type = BRUTE
 	armor_penetration = PEN_NONE
-	//accuracy = 65 // Default defined by projectile.dm
 	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
@@ -124,7 +123,6 @@
 	name = "stone arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 	damage = 30
-	accuracy = 60
 
 // Broadheads are high damage, low AP. Very high base damage - relies on breaking armor
 // Broadheads check against slash armor instead of piercing.
@@ -151,7 +149,6 @@
 /obj/projectile/bullet/reusable/arrow/steel
 	name = "bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel
-	accuracy = 75
 	damage = 30
 	armor_penetration = PEN_HEAVY
 	embedchance = 80 // Easy embeds!
@@ -425,7 +422,6 @@
 	armor_penetration = PEN_HEAVY
 	icon_state = "blacksteelarrow_proj"
 	embedchance = 80
-	accuracy = 100
 
 /obj/projectile/bullet/reusable/arrow/iron/paint
 	name = "painted arrow"

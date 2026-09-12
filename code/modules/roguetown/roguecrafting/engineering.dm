@@ -240,12 +240,14 @@
 //crossbows, crossbow bolts, and specialized arrows and bolts
 
 
-//Arrows, mostly standard arrows are 10x and special ones are 5x per ingot. fewer than bolts
-/datum/crafting_recipe/roguetown/engineering/ironarrow_ten
-	name = "iron arrow (x10)"
+//Arrows, mostly standard arrows are 12x and special ones are 6x per ingot. fewer than bolts
+/datum/crafting_recipe/roguetown/engineering/ironarrow_twelve
+	name = "iron arrow (x12)"
 	category = "Ammo"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron,
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron,
 		/obj/item/ammo_casing/caseless/rogue/arrow/iron,
 		/obj/item/ammo_casing/caseless/rogue/arrow/iron,
 		/obj/item/ammo_casing/caseless/rogue/arrow/iron,
@@ -265,11 +267,13 @@
 	craftdiff = 3
 	skillcraft = /datum/skill/craft/engineering
 
-/datum/crafting_recipe/roguetown/engineering/bronzearrow_ten
-	name = "bronze arrow (x10)"
+/datum/crafting_recipe/roguetown/engineering/bronzearrow_twelve
+	name = "bronze arrow (x12)"
 	category = "Ammo"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/bronze,
+		/obj/item/ammo_casing/caseless/rogue/arrow/bronze,
 		/obj/item/ammo_casing/caseless/rogue/arrow/bronze,
 		/obj/item/ammo_casing/caseless/rogue/arrow/bronze,
 		/obj/item/ammo_casing/caseless/rogue/arrow/bronze,
@@ -289,11 +293,13 @@
 	craftdiff = 3
 	skillcraft = /datum/skill/craft/engineering
 
-/datum/crafting_recipe/roguetown/engineering/steelarrow_ten
-	name = "steel arrow (x10)"
+/datum/crafting_recipe/roguetown/engineering/steelarrow_twelve
+	name = "steel arrow (x12)"
 	category = "Ammo"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel,
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel,
 		/obj/item/ammo_casing/caseless/rogue/arrow/steel,
 		/obj/item/ammo_casing/caseless/rogue/arrow/steel,
 		/obj/item/ammo_casing/caseless/rogue/arrow/steel,
@@ -313,11 +319,12 @@
 	craftdiff = 3
 	skillcraft = /datum/skill/craft/engineering
 
-/datum/crafting_recipe/roguetown/engineering/poisonarrow_five
-	name = "poison arrow (x5)"
+/datum/crafting_recipe/roguetown/engineering/poisonarrow_six
+	name = "poison arrow (x6)"
 	category = "Ammo"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
 		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
 		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
 		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
@@ -332,11 +339,13 @@
 	craftdiff = 3
 	skillcraft = /datum/skill/craft/engineering
 
-/datum/crafting_recipe/roguetown/engineering/poisonarrow_ten
-	name = "poison arrow (x10)"
+/datum/crafting_recipe/roguetown/engineering/poisonarrow_twelve
+	name = "poison arrow (x12)"
 	category = "Ammo"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
+		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
 		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
 		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
 		/obj/item/ammo_casing/caseless/rogue/arrow/poison,
@@ -519,25 +528,26 @@
 	craftdiff = 3
 	skillcraft = /datum/skill/craft/engineering
 
-/datum/crafting_recipe/roguetown/engineering/pyrobolt_three
-	name = "pyroclastic bolt (x3)"
+/datum/crafting_recipe/roguetown/engineering/pyrobolt_four
+	name = "pyroclastic bolt (x4)"
 	category = "Ammo"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
 		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
 		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
 		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
+		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
 	)
 	reqs = list(
-		/obj/item/ammo_casing/caseless/rogue/bolt = 3,
+		/obj/item/ammo_casing/caseless/rogue/bolt = 4,
 		/obj/item/alch/solardust = 1,
 	)
 	structurecraft = /obj/structure/artificer_table
 	craftdiff = 3
 	skillcraft = /datum/skill/craft/engineering
 
-/datum/crafting_recipe/roguetown/engineering/pyrobolt_five
-	name = "pyroclastic bolt (x5)"
+/datum/crafting_recipe/roguetown/engineering/pyrobolt_eight
+	name = "pyroclastic bolt (x8)"
 	category = "Ammo"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
@@ -546,16 +556,18 @@
 		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
 		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
 		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
+		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
+		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
+		/obj/item/ammo_casing/caseless/rogue/bolt/pyro,
 	)
 	reqs = list(
-		/obj/item/ammo_casing/caseless/rogue/bolt = 5,
+		/obj/item/ammo_casing/caseless/rogue/bolt = 8,
 		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
 	)
 	structurecraft = /obj/structure/artificer_table
 	craftdiff = 3
 	skillcraft = /datum/skill/craft/engineering
 
-//siegebow stuff
 /datum/crafting_recipe/roguetown/engineering/heavycrossbow
 	name = "siegebow with heavy bolt pouch"
 	category = "Weapons"
