@@ -5,6 +5,7 @@
 	zone = BODY_ZONE_PRECISE_MOUTH
 	slot = ORGAN_SLOT_TONGUE
 	attack_verb = list("licked", "slobbered", "slapped", "frenched", "tongued")
+	medical_organ = TRUE
 	var/list/languages_possible
 	var/say_mod = null
 	var/taste_sensitivity = 15 // lower is more sensitive.
@@ -39,14 +40,63 @@
 	. = ..()
 	languages_possible = languages_possible_base
 
+#define TONGUE_ORGAN_SOURCE "tongue_organ"
+
+// Minor: messages slightly delayed. Severe: messages randomly cut off. Dead/missing: cannot talk.
+/obj/item/organ/tongue/on_injury_changed()
+	if(!owner)
+		return
+	if(injury == ORGAN_INJURY_DEAD)
+		ADD_TRAIT(owner, TRAIT_MUTE, TONGUE_ORGAN_SOURCE)
+		to_chat(owner, span_userdanger("My tongue is ruined - I cannot form words at all!"))
+		return
+	REMOVE_TRAIT(owner, TRAIT_MUTE, TONGUE_ORGAN_SOURCE)
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			to_chat(owner, span_warning("My tongue feels thick and slow in my mouth."))
+		if(ORGAN_INJURY_SEVERE)
+			to_chat(owner, span_danger("My tongue barely obeys me; my words break apart."))
+		if(ORGAN_INJURY_NONE)
+			to_chat(owner, span_info("My tongue loosens; my speech is my own again."))
+
+/obj/item/organ/tongue/apply_injury_effects()
+	return	//tongue speech effects are signal-driven (handle_speech), not per-tick
+
+#undef TONGUE_ORGAN_SOURCE
+
+// Minor: halting, stuttered speech. Severe: words randomly break off. (Dead = mute, handled above.)
 /obj/item/organ/tongue/proc/handle_speech(datum/source, list/speech_args)
+	SIGNAL_HANDLER
+	if(!speech_args)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			speech_args[SPEECH_MESSAGE] = stutter(speech_args[SPEECH_MESSAGE])
+		if(ORGAN_INJURY_SEVERE)
+			speech_args[SPEECH_MESSAGE] = cut_off_speech(speech_args[SPEECH_MESSAGE])
+
+/// Drops a random scatter of words so a severely-injured tongue's speech breaks apart.
+/obj/item/organ/tongue/proc/cut_off_speech(message)
+	if(!message)
+		return message
+	var/list/words = splittext(message, " ")
+	if(length(words) <= 1)
+		return message
+	var/list/kept = list()
+	for(var/word in words)
+		if(prob(35))
+			continue
+		kept += word
+	if(!length(kept))
+		kept += pick(words)
+	return jointext(kept, " ")
 
 /obj/item/organ/tongue/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
 	if(say_mod && M.dna && M.dna.species)
 		M.dna.species.say_mod = say_mod
-	if (modifies_speech)
-		RegisterSignal(M, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	//Registered always (not just for species speech-mods) so tongue-injury speech effects work too.
+	RegisterSignal(M, COMSIG_MOB_SAY, PROC_REF(handle_speech), override = TRUE)
 	M.UnregisterSignal(M, COMSIG_MOB_SAY)
 	for(var/datum/wound/facial/ears/tongue_wound as anything in M.get_wounds())
 		qdel(tongue_wound)
@@ -71,6 +121,7 @@
 	icon_state = "tongue-con"
 	say_mod = "crackles"
 	taste_sensitivity = 30 //It's dead, jim.
+	two_state = TRUE	//artifice-set tongue: whole, or shattered (mute)
 
 /obj/item/organ/tongue/lizard
 	name = "forked tongue"

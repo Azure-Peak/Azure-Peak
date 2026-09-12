@@ -368,6 +368,13 @@ All foods are distributed among various categories. Use common sense.
 		if(!canconsume(M, user))
 			return FALSE
 
+		var/mob/living/carbon/eater = M
+		if(eater.jaw_disrupts_eating())
+			to_chat(eater, span_warning("My jaw won't work right - I can't manage to [eatverb] it!"))
+			if(user != eater)
+				to_chat(user, span_warning("[eater]'s broken jaw won't let [eater.p_them()] [eatverb] it!"))
+			return FALSE
+
 		var/fullness = M.nutrition + 10
 		for(var/datum/reagent/consumable/C in M.reagents.reagent_list) //we add the nutrition value of what we're currently digesting
 			fullness += C.nutriment_factor * C.volume / C.metabolization_rate

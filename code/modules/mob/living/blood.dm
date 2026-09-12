@@ -120,8 +120,13 @@
 			adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
 			return
 
-	//Blood regeneration if there is some space
-	if(blood_volume < BLOOD_VOLUME_NORMAL && blood_volume)
+	var/block_regen = FALSE
+	if(iscarbon(src))
+		var/mob/living/carbon/C = src
+		var/obj/item/organ/heart/regen_heart = C.getorganslot(ORGAN_SLOT_HEART)
+		if(regen_heart && (regen_heart.is_severe() || regen_heart.is_dead_organ()))
+			block_regen = TRUE
+	if(blood_volume < BLOOD_VOLUME_NORMAL && blood_volume && !block_regen)
 		var/nutrition_ratio = 1
 //			switch(nutrition)
 //				if(0 to NUTRITION_LEVEL_STARVING)
@@ -194,6 +199,12 @@
 					if(has_status_effect(/datum/status_effect/debuff/bloody_mess))
 						oxy_amt *= 6
 				adjustOxyLoss(oxy_amt)
+				adjust_bodytemperature(-8, min_temp = BODYTEMP_COLD_DAMAGE_LIMIT)
+				if(blood_volume <= BLOOD_VOLUME_SURVIVE && prob(5) && iscarbon(src))
+					var/mob/living/carbon/bled_out = src
+					if(bled_out.can_heartattack() && !bled_out.undergoing_cardiac_arrest())
+						to_chat(bled_out, span_userdanger("There is not enough blood left in me - my heart falters and stops!"))
+						bled_out.set_heartattack(TRUE)
 				if(world.time >= last_gasp)
 					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
 					if(ishuman(src))
@@ -205,11 +216,14 @@
 								H.emote(pick("struggles to breathe, deathly pale!"))
 
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
-				if(getOxyLoss())
+				if(getOxyLoss() && (!iscarbon(src) || pulse != PULSE_NONE))
 					adjustOxyLoss(-1.6)
 
 	//Bleeding out
 	bleed_rate = get_bleed_rate() // expensive proc, but we zero it on bled-out mobs
+	if(bleed_rate && iscarbon(src))
+		var/mob/living/carbon/C = src
+		bleed_rate *= pulse_bleed_mod(C.pulse)
 	if(HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH))
 		bleed_rate = FALSE
 	if(bleed_rate)
@@ -219,6 +233,30 @@
 	// We assume that in non-vampires bloodpool represents "usable" blood that is regenerated slower than blood_volume
 	if(!clan && blood_volume > BLOOD_VOLUME_SAFE)
 		adjust_bloodpool(BLOODPOL_REGEN, FALSE)
+
+/proc/pulse_metabolism_mult(pulse)
+	switch(pulse)
+		if(PULSE_FAST)
+			return 1.3
+		if(PULSE_2FAST)
+			return 1.6
+	return 1
+
+/proc/pulse_bleed_mod(pulse)
+	switch(pulse)
+		if(PULSE_NONE)
+			return 0.25
+		if(PULSE_SLOW)
+			return 0.7
+		if(PULSE_NORM)
+			return 1
+		if(PULSE_FAST)
+			return 1.4
+		if(PULSE_2FAST)
+			return 1.8
+		if(PULSE_THREADY)
+			return 0.5
+	return 1
 
 /mob/living/proc/get_bleed_rate()
 	if (!blood_volume)

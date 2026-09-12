@@ -79,6 +79,11 @@
 	else if(user.used_intent.type == INTENT_POUR)
 		if(!canconsume(M, user))
 			return
+		if(iscarbon(M))
+			var/mob/living/carbon/drinker = M
+			if(drinker.jaw_disrupts_eating())	//a broken jaw fumbles drinking too
+				to_chat(drinker, span_warning("My jaw won't work right - I fumble the drink!"))
+				return
 		if(M != user)
 			M.visible_message(span_danger("[user] attempts to feed [M] something."), \
 						span_danger("[user] attempts to feed you something."))

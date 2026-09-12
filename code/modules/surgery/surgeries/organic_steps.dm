@@ -90,6 +90,8 @@
 	var/obj/item/bodypart/bodypart = target.get_bodypart(check_zone(target_zone))
 	bodypart?.add_embedded_object(tool, crit_message = FALSE)
 	notify_embed(user, tool, target, target_zone)
+	if(bodypart?.cavity_is_open())	//the retractor now holds the limb open - lay its interior out
+		bodypart.open_cavity(user)
 	return TRUE
 
 /// Cauterize
@@ -131,6 +133,7 @@
 		span_notice("[user] cauterizes the wounds on [target]'s [parse_zone(target_zone)]."))
 	var/obj/item/bodypart/bodypart = target.get_bodypart(check_zone(target_zone))
 	if(bodypart)
+		bodypart.close_cavity()	//sealing the patient up tucks any laid-out organs back inside
 		for(var/datum/wound/bleeder in bodypart.wounds)
 			bleeder.cauterize_wound()
 		bodypart.receive_damage(burn = 25) //painful, but the wounds go away eh?
@@ -197,6 +200,8 @@
 		if (target.has_status_effect(/datum/status_effect/buff/ozium))
 			target.emote ("groan")
 		bodypart.add_wound(fracture_type)
+		if(bodypart.cavity_is_open())	//bone's sawn through now - lay the interior out
+			bodypart.open_cavity(user)
 	return TRUE
 
 /// Drill bone

@@ -11,6 +11,12 @@
 	var/list/internal_organs_slot= list()
 	/// Organs that have visible overlays (eyes, ears, etc.) - tracked separately to avoid iterating all internal organs
 	var/list/visible_organs = list()
+	/// Circulatory pulse (PULSE_NONE..PULSE_THREADY), recomputed each life tick from the heart + blood volume. Drives bleeding pressure.
+	var/pulse = PULSE_NORM
+	/// Stored pain. Rises instantly to match wound/fracture/organ pain, then fades slowly (PAIN_DECAY_RATE).
+	var/pain = 0
+	/// Current pain stage (0-4), tracked so we only message + re-sync the indicator on a change.
+	var/pain_level = 0
 	///Can't talk. Value goes down every life proc. //NOTE TO FUTURE CODERS: DO NOT INITIALIZE NUMERICAL VARS AS NULL OR I WILL MURDER YOU.
 	var/silent = FALSE
 	///How many dream images we have left to send

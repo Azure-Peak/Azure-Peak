@@ -58,58 +58,135 @@
 	check_cremation()
 
 /mob/living/carbon/handle_random_events()//BP/WOUND BASED PAIN
+	var/wound_pain = get_complex_pain()
+	if(wound_pain > pain)
+		pain = wound_pain
+	else
+		pain = max(wound_pain, pain - PAIN_DECAY_RATE)
+
 	//Being sundered will shut off no_pain trait, until the sunder flames wear off.
 	//Werewolves are exempt.
 	if(HAS_TRAIT(src, TRAIT_NOPAIN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && (!has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
+		set_pain_level(0)
 		return
-	if(!stat)
-		var/painpercent = get_complex_pain() / pain_threshold
-		painpercent = painpercent * 100
+	if(stat)
+		return
 
-		if(world.time > mob_timers["painstun"])
-			mob_timers["painstun"] = world.time + 100
-			var/probby = 40 - (STAWIL * 2)
-			probby = max(probby, 10)
-			if(lying || IsKnockdown())
-				if(prob(3) && (painpercent >= 80) )
-					emote("painmoan")
+	var/painpercent = (pain / pain_threshold) * 100
+	var/level = 0
+	if(painpercent >= PAIN_LEVEL_4)
+		level = 4
+	else if(painpercent >= PAIN_LEVEL_3)
+		level = 3
+	else if(painpercent >= PAIN_LEVEL_2)
+		level = 2
+	else if(painpercent >= PAIN_LEVEL_1)
+		level = 1
+	set_pain_level(level)
+	if(!level)
+		return
+
+	switch(level)
+		if(1)
+			if(prob(4))
+				emote("twitch")
+			if(prob(4))
+				emote("painmoan")
+		if(2)
+			if(prob(12))
+				emote("twitch")
+			if(prob(6))
+				emote("painmoan")
+			if(prob(3))
+				drop_from_pain()
+		else
+			if(prob(15))
+				emote("twitch")
+			if(prob(8))
+				emote("painmoan")
+			if(prob(5))
+				drop_from_pain()
+
+	if(level >= 4 && prob(4) && !undergoing_cardiac_arrest())
+		to_chat(src, span_userdanger("The agony is too much - my heart seizes in my chest!"))
+		set_heartattack(TRUE)
+
+	if(level >= 3 && world.time > mob_timers["painstun"])
+		mob_timers["painstun"] = world.time + 100
+		var/probby = max(40 - (STAWIL * 2), 10)
+		if(lying || IsKnockdown())
+			if(prob(8))
+				emote("painmoan")
+		else if(prob(25) && (HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) || STAWIL >= 15) && (!HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_IRONMAN))) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
+			Immobilize(15) // EAT A MICROSTUN. YOU'RE AVOIDING A PAINCRIT.
+			if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT))
+				visible_message(span_info("[src] audibly grits [src.p_their()] teeth, ENDURING through [src.p_their()] pain."), span_info("Through my faith in HIM, I ENDURE."))
 			else
-				if(painpercent >= 100)
-					if(prob(25) && (HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) || STAWIL >= 15) && (!HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_IRONMAN))) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
-						Immobilize(15) // EAT A MICROSTUN. YOU'RE AVOIDING A PAINCRIT.
-						if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT))
-							visible_message(span_info("[src] audibly grits [src.p_their()] teeth, ENDURING through [src.p_their()] pain."), span_info("Through my faith in HIM, I ENDURE."))
-						else
-							visible_message(span_info("[src] trembles for a moment, but [src.p_they()] remain standing."), span_info("My strong constitution keeps me upright."))
-						stuttering += 5
-						emote("painmoan")
-						return
-					if(prob(probby) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !has_status_effect(/datum/status_effect/buff/psyhealing))
-						Immobilize(10)
-						emote("painscream")
-						stuttering += 5
-						addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
-						addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
-						mob_timers["painstun"] = world.time + 160
-					if(prob(probby) && HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE)	&& (has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
-						Immobilize(10)
-						emote("superagony")
-						to_chat(src, span_userdanger("THE SACRED FLAMES, I FEEL PAIN AGAIN!"))
-						stuttering += 5
-						cultslurring += 10 //To indicate this isn't a natural kind of agony
-						addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
-						addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
-						mob_timers["painstun"] = world.time + 160
-					else
-						emote("painmoan")
-						stuttering += 5
-				else
-					if(painpercent >= 80)
-						if(probby)
-							emote("painmoan")
+				visible_message(span_info("[src] trembles for a moment, but [src.p_they()] remain standing."), span_info("My strong constitution keeps me upright."))
+			stuttering += 5
+			emote("painmoan")
+		else if(prob(probby) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !has_status_effect(/datum/status_effect/buff/psyhealing))
+			Immobilize(10)
+			emote("painscream")
+			stuttering += 5
+			addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
+			addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
+			mob_timers["painstun"] = world.time + 160
+		//Sundered flames tear through pain immunity - the painless feel it again.
+		else if(prob(probby) && HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && (has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
+			Immobilize(10)
+			emote("superagony")
+			to_chat(src, span_userdanger("THE SACRED FLAMES, I FEEL PAIN AGAIN!"))
+			stuttering += 5
+			cultslurring += 10 //To indicate this isn't a natural kind of agony
+			addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
+			addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
+			mob_timers["painstun"] = world.time + 160
 
-		if(painpercent >= 100)
-			add_stress(/datum/stressevent/painmax)
+	if(level >= 3)
+		add_stress(/datum/stressevent/painmax)
+
+/mob/living/carbon/proc/drop_from_pain()
+	var/list/droppable = list()
+	for(var/obj/item/held in held_items)
+		droppable += held
+	if(!length(droppable))
+		return
+	var/obj/item/dropped = pick(droppable)
+	if(dropItemToGround(dropped))
+		to_chat(src, span_warning("A spasm of pain wracks my hand - I lose my grip on [dropped]!"))
+		visible_message(span_warning("[src] drops [dropped], shuddering with pain!"))
+
+/mob/living/carbon/proc/set_pain_level(level)
+	if(level != pain_level)
+		if(level > pain_level)
+			switch(level)
+				if(1)
+					to_chat(src, span_warning("A dull, persistent ache settles into my body."))
+				if(2)
+					to_chat(src, span_warning("The pain sharpens; my hands tremble with it."))
+				if(3)
+					to_chat(src, span_danger("The pain swells to agony - it is hard to stay standing!"))
+				if(4)
+					to_chat(src, span_userdanger("The pain is blinding and unbearable - my very heart could give out!"))
+		else if(level > 0)
+			to_chat(src, span_info("The pain ebbs a little."))
+		else
+			to_chat(src, span_info("The pain finally fades."))
+		pain_level = level
+	var/static/list/pain_states = list(
+		/datum/status_effect/debuff/pain/light,
+		/datum/status_effect/debuff/pain/moderate,
+		/datum/status_effect/debuff/pain/severe,
+		/datum/status_effect/debuff/pain/agony,
+	)
+	for(var/i in 1 to length(pain_states))
+		var/path = pain_states[i]
+		if(i == level)
+			if(!has_status_effect(path))
+				apply_status_effect(path)
+		else if(has_status_effect(path))
+			remove_status_effect(path)
 
 /mob/living/carbon/proc/handle_roguebreath()
 	return
@@ -172,6 +249,13 @@
 		if(has_adrenaline)
 			bodypart_pain *= 0.5
 		. += bodypart_pain
+	for(var/obj/item/organ/bone/bone in internal_organs)
+		var/bone_pain = bone.get_pain()
+		if(!bone_pain)
+			continue
+		if(has_adrenaline)
+			bone_pain *= 0.5
+		. += bone_pain
 
 #undef BURN_PAIN_WEIGHT
 
@@ -202,9 +286,72 @@
 	if(stat != DEAD)
 		for(var/obj/item/organ/O as anything in internal_organs)
 			O.on_life()
+		handle_missing_organs()
+		handle_pulse()
+		handle_head_blur()
 	else
+		pulse = PULSE_NONE
 		for(var/obj/item/organ/O as anything in internal_organs)
 			O.on_death()
+
+/mob/living/carbon/proc/handle_head_blur()
+	var/blur = 0
+	var/obj/item/organ/brain/brain = getorganslot(ORGAN_SLOT_BRAIN)
+	if(brain)
+		if(brain.injury == ORGAN_INJURY_MINOR)
+			blur += 4
+		else if(brain.injury >= ORGAN_INJURY_SEVERE)
+			blur += 6
+	var/obj/item/organ/bone/skull = getorganslot(ORGAN_SLOT_BONE_SKULL)
+	if(istype(skull))
+		if(skull.is_minor_fracture())
+			blur += 4
+		else if(skull.is_major_fracture())
+			blur += 6
+	if(blur)
+		blur_eyes(blur)
+		confused = max(confused, blur)
+		dizziness = max(dizziness, blur)
+
+/mob/living/carbon/proc/handle_pulse()
+	if(dna?.species && (NOBLOOD in dna.species.species_traits))
+		pulse = PULSE_NONE
+		return
+	var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)
+	if(!heart || heart.is_dead_organ() || !heart.beating)
+		pulse = PULSE_NONE
+		return
+	var/new_pulse = PULSE_NORM
+	switch(blood_volume)
+		if(-INFINITY to BLOOD_VOLUME_SURVIVE)
+			new_pulse = PULSE_THREADY
+		if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
+			new_pulse = PULSE_2FAST
+		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
+			new_pulse = PULSE_FAST
+	if(heart.is_severe())
+		new_pulse = max(new_pulse, PULSE_2FAST)
+	else if(heart.is_minor())
+		new_pulse = max(new_pulse, PULSE_FAST)
+	if(cmode || m_intent == MOVE_INTENT_RUN)
+		new_pulse = max(new_pulse, PULSE_FAST)
+	if(stat >= UNCONSCIOUS && new_pulse < PULSE_2FAST)
+		new_pulse = PULSE_SLOW
+	pulse = new_pulse
+
+/mob/living/carbon/proc/handle_missing_organs()
+	if(!HAS_TRAIT(src, TRAIT_NOBREATH))
+		if(!getorganslot(ORGAN_SLOT_LUNGS))
+			adjustOxyLoss(2)
+		if(!getorganslot(ORGAN_SLOT_HEART))
+			adjustOxyLoss(4)
+	if(!HAS_TRAIT(src, TRAIT_NOHUNGER) && !getorganslot(ORGAN_SLOT_STOMACH))
+		if(nutrition > NUTRITION_LEVEL_STARVING)
+			set_nutrition(NUTRITION_LEVEL_STARVING)
+	if(getorganslot(ORGAN_SLOT_EYES))
+		cure_blind("no_eyes")
+	else
+		become_blind("no_eyes")
 
 /mob/living/carbon/handle_embedded_objects()
 	for(var/obj/item/bodypart/bodypart as anything in bodyparts)

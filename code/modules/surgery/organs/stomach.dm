@@ -7,6 +7,7 @@
 	attack_verb = list("gored", "squished", "slapped", "digested")
 	desc = ""
 
+	medical_organ = TRUE
 	healing_factor = STANDARD_ORGAN_HEALING
 	decay_factor = STANDARD_ORGAN_DECAY
 
@@ -19,28 +20,41 @@
 
 /obj/item/organ/stomach/on_life()
 	var/mob/living/carbon/human/H = owner
-	var/datum/reagent/Nutri
-
-	..()
+	..()	//base -> apply_injury_effects (hunger clamp)
 	if(istype(H))
-		if(!(organ_flags & ORGAN_FAILING))
+		if(injury != ORGAN_INJURY_DEAD)
 			H.dna.species.handle_digestion(H)
 		handle_disgust(H)
 
-	if(damage < low_threshold)
+// An injured stomach can no longer keep you fed: it locks your nutrition at a ceiling you cannot
+// climb above until it is repaired. Minor: Hungry. Severe: Starving. Dead/missing: Starving + slow toxloss.
+/obj/item/organ/stomach/apply_injury_effects()
+	if(!owner)
 		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			if(owner.nutrition > NUTRITION_LEVEL_HUNGRY)
+				owner.set_nutrition(NUTRITION_LEVEL_HUNGRY)
+		if(ORGAN_INJURY_SEVERE)
+			if(owner.nutrition > NUTRITION_LEVEL_STARVING)
+				owner.set_nutrition(NUTRITION_LEVEL_STARVING)
+		if(ORGAN_INJURY_DEAD)
+			if(owner.nutrition > NUTRITION_LEVEL_STARVING)
+				owner.set_nutrition(NUTRITION_LEVEL_STARVING)
+			owner.adjustToxLoss(0.5)	//a ruined gut slowly poisons you
 
-	Nutri = locate(/datum/reagent/consumable/nutriment) in H.reagents.reagent_list
-
-	if(Nutri)
-		if(prob((damage/40) * Nutri.volume * Nutri.volume))
-			H.vomit(damage)
-			to_chat(H, span_warning("My stomach reels in pain as you're incapable of holding down all that food!"))
-
-	else if(Nutri && damage > high_threshold)
-		if(prob((damage/10) * Nutri.volume * Nutri.volume))
-			H.vomit(damage)
-			to_chat(H, span_warning("My stomach reels in pain as you're incapable of holding down all that food!"))
+/obj/item/organ/stomach/on_injury_changed()
+	if(!owner)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			to_chat(owner, span_warning("My stomach cramps - no matter how I eat, the hunger lingers."))
+		if(ORGAN_INJURY_SEVERE)
+			to_chat(owner, span_danger("My stomach twists violently - I am wracked with starving hunger!"))
+		if(ORGAN_INJURY_DEAD)
+			to_chat(owner, span_userdanger("My stomach is ruined - I starve, and the rot of it seeps into me!"))
+		if(ORGAN_INJURY_NONE)
+			to_chat(owner, span_info("My stomach settles, able to hold food once more."))
 
 /obj/item/organ/stomach/proc/handle_disgust(mob/living/carbon/human/H)
 	if(H.disgust)
@@ -93,6 +107,7 @@
 	name = "construct soulseed"
 	icon_state = "stomach-con"
 	desc = "The seat of a construct's soul, where a stomach would go. Wisps of lux cycle about, impossible to grab."
+	two_state = TRUE	//the soulseed: whole, or shattered
 
 /obj/item/organ/stomach/ethereal
 	name = "biological battery"

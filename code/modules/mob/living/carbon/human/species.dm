@@ -137,6 +137,20 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 		//ORGAN_SLOT_BREASTS = /obj/item/organ/breasts,
 		//ORGAN_SLOT_VAGINA = /obj/item/organ/vagina,
 		)
+	var/list/bones = list(
+		ORGAN_SLOT_BONE_SKULL = /obj/item/organ/bone/skull,
+		ORGAN_SLOT_BONE_NOSE = /obj/item/organ/bone/nose,
+		ORGAN_SLOT_BONE_JAW = /obj/item/organ/bone/jaw,
+		ORGAN_SLOT_BONE_RIBCAGE = /obj/item/organ/bone/ribcage,
+		ORGAN_SLOT_BONE_SPINE = /obj/item/organ/bone/spine,
+		ORGAN_SLOT_BONE_L_ARM = /obj/item/organ/bone/arm,
+		ORGAN_SLOT_BONE_R_ARM = /obj/item/organ/bone/arm/right,
+		ORGAN_SLOT_BONE_L_LEG = /obj/item/organ/bone/leg,
+		ORGAN_SLOT_BONE_R_LEG = /obj/item/organ/bone/leg/right,
+		)
+	var/list/innate_organs = list(
+		ORGAN_SLOT_LUX = /obj/item/organ/lux,
+		)
 	/// List of bodypart features of this species
 	var/list/bodypart_features
 
@@ -353,8 +367,7 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 		for(var/organ_slot in organ_dna_list)
 			C.dna.organ_dna[organ_slot] = organ_dna_list[organ_slot]
 
-	//what should be put in if there is no mutantorgan (brains handled seperately)
-	var/list/slot_mutantorgans = organs
+	var/list/slot_mutantorgans = organs + bones + innate_organs
 
 	var/list/slots_to_iterate = list()
 	for(var/slot in C.dna.organ_dna)

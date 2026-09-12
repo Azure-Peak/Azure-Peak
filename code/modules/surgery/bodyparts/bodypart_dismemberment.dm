@@ -46,6 +46,21 @@
 			istype(src, /obj/item/bodypart/l_leg/prosthetic) || \
 			istype(src, /obj/item/bodypart/r_leg/prosthetic)
 
+/// The bone that must be majorly fractured before this limb can tear off.
+/obj/item/bodypart/proc/dismember_bone_slot()
+	switch(body_zone)
+		if(BODY_ZONE_L_ARM)
+			return ORGAN_SLOT_BONE_L_ARM
+		if(BODY_ZONE_R_ARM)
+			return ORGAN_SLOT_BONE_R_ARM
+		if(BODY_ZONE_L_LEG)
+			return ORGAN_SLOT_BONE_L_LEG
+		if(BODY_ZONE_R_LEG)
+			return ORGAN_SLOT_BONE_R_LEG
+		if(BODY_ZONE_HEAD)
+			return ORGAN_SLOT_BONE_SPINE
+	return null
+
 /obj/item/bodypart
 	/// Wound we get when surgically reattached
 	var/attach_wound = /datum/wound/artery/reattachment
@@ -91,6 +106,14 @@
 			var/d_type = "slash"
 			if(victim.run_armor_check(zone_precise, d_type, armor_penetration = PEN_NONE, damage = damage))
 				to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
+				return FALSE
+
+		var/gating_slot = dismember_bone_slot()
+		if(gating_slot)
+			var/obj/item/organ/bone/gating_bone = C.getorganslot(gating_slot)
+			if(gating_bone && !gating_bone.is_major_fracture())
+				if(user)
+					to_chat(user, span_warning("[C]'s [name] holds fast - the bone within isn't shattered enough to tear it free!"))
 				return FALSE
 
 	if(C.status_flags & GODMODE)
@@ -227,6 +250,8 @@
 /obj/item/bodypart/proc/drop_limb(special)
 	if(!owner)
 		return FALSE
+
+	close_cavity()
 
 	var/atom/drop_location = owner.drop_location()
 	var/mob/living/carbon/was_owner = owner

@@ -5,6 +5,8 @@
 	zone = BODY_ZONE_CHEST
 	slot = ORGAN_SLOT_HEART
 
+	medical_organ = TRUE
+	chronic_cap = ORGAN_INJURY_SEVERE	//toxins make the heart falter and arrest, but don't destroy the organ outright
 	healing_factor = STANDARD_ORGAN_HEALING
 	decay_factor = 5 * STANDARD_ORGAN_DECAY		//designed to fail about 5 minutes after death
 
@@ -128,17 +130,49 @@
 			H.stop_sound_channel(CHANNEL_HEARTBEAT)
 			beat = BEAT_NONE
 
-	if(organ_flags & ORGAN_FAILING)	//heart broke, stopped beating, death imminent
-		if(owner.stat == CONSCIOUS)
-			owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as if [owner.p_their()] heart is stopping!"), \
-				span_danger("I feel a terrible pain in my chest, as if my heart has stopped!"))
+	//A heart that isn't beating (cardiac arrest from any cause, or a dead heart) circulates no oxygen.
+	if(!beating)
+		owner.adjustOxyLoss(4)
+	//A severely strained heart hammers and skips - you twitch and shiver.
+	if(injury == ORGAN_INJURY_SEVERE && !owner.stat)
+		owner.jitteriness = max(owner.jitteriness, 3)
+		if(prob(10))
+			owner.emote(pick("shiver", "twitch"))
+	//Toxins poison the heart over time as chronic strain (faltering -> SEVERE) rather than decaying it.
+	var/tox = owner.getToxLoss()
+	if(tox > HEART_TOXIN_FLOOR)
+		adjust_strain((tox - HEART_TOXIN_FLOOR) * 0.05)
+	else
+		adjust_strain(-1)
+	//Enough poison stops the heart - a restartable arrest (ozium can shock it back), not organ death.
+	if(strain >= ORGAN_STRAIN_DEAD && beating && !is_dead_organ() && owner.can_heartattack())
+		to_chat(owner, span_userdanger("My heart, poisoned past all endurance, shudders and stops!"))
 		owner.set_heartattack(TRUE)
-		failed = TRUE
+
+// Minor: bleed slightly faster. Severe: bleed much faster + no blood regen (see blood.dm).
+// Dead/missing: circulation stops - heart attack + rapid oxyloss.
+/obj/item/organ/heart/on_injury_changed()
+	if(!owner)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			to_chat(owner, span_warning("My heart stutters; I feel my pulse race unevenly."))
+		if(ORGAN_INJURY_SEVERE)
+			to_chat(owner, span_danger("My heart hammers wildly - I can feel the blood pouring from my wounds!"))
+		if(ORGAN_INJURY_DEAD)
+			owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as [owner.p_their()] heart gives out!"), \
+				span_userdanger("My heart stops!"))
+			owner.set_heartattack(TRUE)
+			failed = TRUE
+		if(ORGAN_INJURY_NONE)
+			to_chat(owner, span_info("My heartbeat steadies."))
+
 /obj/item/organ/heart/construct
 	name = "construct core"
 	desc = "Swirling with a blessing of Astrata and pulsing with lux inside. This allows a construct to move."
 	icon_state = "heartcon-on"
 	icon_base = "heartcon"
+	two_state = TRUE	//a metal core: whole, or shattered
 
 /obj/item/organ/heart/cursed
 	name = "cursed heart"

@@ -99,12 +99,7 @@
 
 /mob/living/carbon/spirit/updatehealth()
 	. = ..()
-	var/slow = 0
-	if(!HAS_TRAIT(src, TRAIT_IGNOREDAMAGESLOWDOWN))
-		var/health_deficiency = (maxHealth - health)
-		if(health_deficiency >= 45)
-			slow += (health_deficiency / 25)
-	add_movespeed_modifier(MOVESPEED_ID_SPIRIT_HEALTH_SPEEDMOD, TRUE, 100, override = TRUE, multiplicative_slowdown = slow)
+	remove_movespeed_modifier(MOVESPEED_ID_SPIRIT_HEALTH_SPEEDMOD)
 
 /mob/living/carbon/spirit/toggle_move_intent(mob/user) // Override so they can't run.
 	return

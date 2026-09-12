@@ -14,7 +14,6 @@
 	storyteller_maxcaps = list(/datum/storyteller/gamemode/guaranteed_antag = 2, /datum/storyteller/gamemode/guaranteed_antag/low_wretch = 3)
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,
-		TRAIT_IGNOREDAMAGESLOWDOWN,
 		TRAIT_NOPAIN,
 		TRAIT_NOPAINSTUN,
 		TRAIT_CRITICAL_RESISTANCE,
