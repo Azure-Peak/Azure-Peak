@@ -303,7 +303,7 @@
 	RegisterSignal(owner, COMSIG_ATOM_FIRE_ACT, PROC_REF(activate))
 	owner.balloon_alert_to_viewers("<font color='#FF4500'>oil coated!</font>")
 
-/datum/status_effect/buff/oil_stack/on_remove()
+/datum/status_effect/debuff/oil_stack/on_remove()
 	UnregisterSignal(owner, COMSIG_COMPONENT_CLEAN_ACT)
 	UnregisterSignal(owner, COMSIG_ATOM_FIRE_ACT)
 	. = ..()

@@ -36,6 +36,8 @@
 		return TRUE
 
 /datum/action/cooldown/spell/lamplighter/scare_beast/proc/end_fear(mob/living/target)
+	if(QDELETED(target) || !target.ai_controller)
+		return
 	target.ai_controller.CancelActions()
 	target.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEEING, FALSE)
 	return
