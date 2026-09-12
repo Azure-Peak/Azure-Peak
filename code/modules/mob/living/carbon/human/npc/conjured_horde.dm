@@ -41,6 +41,8 @@
 	equipOutfit(new /datum/outfit/job/roguetown/conjured_gnome)
 	for(var/obj/item/gear in (get_equipped_items() + held_items))
 		ADD_TRAIT(gear, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/held_item in held_items)
+		held_item.AddComponent(/datum/component/item_on_drop/dust)
 	def_intent_change(INTENT_PARRY)
 	dna.species.handle_body(src)
 	random_voice_NPC()

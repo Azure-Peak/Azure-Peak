@@ -35,130 +35,10 @@
 	. += span_info("Note that this behavior mostly applies to walls and trees that're only one level tall. Those with higher Climbing skills can 'cling' to higher walls, allowing them to scale multiple levels without falling.")
 	. += span_info("Certain walls can be destroyed through different means. Rock walls succumb to tools that pick, wood walls crumble to tools that chop, and all walls vanish when introduced to blastpowder and siegeweapons.")
 
-/turf/closed/wall/mineral/rogue/stone
-	name = "stone wall"
-	desc = "A wall of smooth unyielding stone."
-	icon = 'icons/turf/walls/stone_wall.dmi'
-	icon_state = "stone"
-	smooth = SMOOTH_MORE
-	blade_dulling = DULLING_BASH
-	max_integrity = 1800
-	sheet_type = /obj/item/natural/stone
-	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
-	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
-	canSmoothWith = list(/turf/closed/wall/mineral/rogue/stone)
-	above_floor = /turf/open/floor/rogue/blocks
-	baseturfs = /turf/open/floor/rogue/blocks
-	neighborlay = "dirtedge"
-	climbdiff = 3
-	damage_deflection = 10
 
-/turf/closed/wall/mineral/rogue/stone/turf_destruction()
-	loud_message("The sound of a crumbling stone wall rings out", hearing_distance = 14)
-	. = ..()
-
-/turf/closed/wall/mineral/rogue/stone/unbreakable
-	name = "heavy stone wall"
-	desc = "Seems nigh-indestructable"
-	max_integrity = 10000000
-	damage_deflection = 99999999
-
-/turf/closed/wall/mineral/rogue/stone/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
-	to_chat(user, span_warning("TOO HARD!"))
-	return FALSE
-
-/turf/closed/wall/mineral/rogue/stone/window
-	name = "stone window"
-	desc = "A window with a solid and sturdy stone frame."
-	opacity = FALSE
-	max_integrity = 1300
-
-/turf/closed/wall/mineral/rogue/stone/window/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
-		return 1
-	return ..()
-
-/turf/closed/wall/mineral/rogue/stone/window/Initialize(mapload)
-	. = ..()
-	icon_state = "stone"
-	var/mutable_appearance/M = mutable_appearance(icon, "stonehole", layer = ABOVE_NORMAL_TURF_LAYER)
-	add_overlay(M)
-
-/turf/closed/wall/mineral/rogue/stone/window/unbreakable
-	name = "heavy stone window"
-	desc = "Seems nigh-indestructable"
-	max_integrity = 10000000
-	damage_deflection = 99999999
-
-/turf/closed/wall/mineral/rogue/stone/window/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
-	to_chat(user, span_warning("TOO HARD!"))
-	return FALSE
-
-/turf/closed/wall/mineral/rogue/stone/moss
-	icon = 'icons/turf/walls/mossy_stone.dmi'
-	climbdiff = 4
-
-/turf/closed/wall/mineral/rogue/stone/moss/unbreakable
-	desc = "Seems nigh-indestructable"
-	max_integrity = 10000000
-	damage_deflection = 99999999
-
-/turf/closed/wall/mineral/rogue/stone/moss/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
-	to_chat(user, span_warning("TOO HARD!"))
-	return FALSE
-
-/turf/closed/wall/mineral/rogue/stone/window/moss
-	icon = 'icons/turf/walls/mossy_stone.dmi'
-	climbdiff = 4
-
-/turf/closed/wall/mineral/rogue/stone/window/moss/unbreakable
-	desc = "Seems nigh-indestructable"
-	max_integrity = 10000000
-	damage_deflection = 99999999
-
-/turf/closed/wall/mineral/rogue/stone/window/moss/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
-	to_chat(user, span_warning("TOO HARD!"))
-	return FALSE
-
-/turf/closed/wall/mineral/rogue/craftstone
-	name = "stone wall"
-	desc = "A durable wall made from specially-crafted stone."
-	icon = 'icons/turf/walls/craftstone.dmi'
-	icon_state = "box"
-	smooth = SMOOTH_MORE
-	blade_dulling = DULLING_BASH
-	max_integrity = 2200
-	sheet_type = /obj/item/natural/stone
-	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
-	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
-	canSmoothWith = list(/turf/closed/wall/mineral/rogue/craftstone)
-	above_floor = /turf/open/floor/rogue/blocks
-	baseturfs = /turf/open/floor/rogue/blocks
-	neighborlay = "dirtedge"
-	climbdiff = 3
-	damage_deflection = 10
-
-/turf/closed/wall/mineral/rogue/craftstone/turf_destruction()
-	loud_message("The sound of heavy stone bricks crumbling apart rings out", hearing_distance = 14)
-	. = ..()
-
-/turf/closed/wall/mineral/rogue/stonebrick
-	name = "brick wall"
-	desc = "Rows of overlapping bricks form this wall."
-	icon = 'icons/turf/walls/stonebrick.dmi'
-	icon_state = "stonebrick"
-	smooth = SMOOTH_MORE
-	blade_dulling = DULLING_BASH
-	max_integrity = 1500
-	sheet_type = /obj/item/natural/stone
-	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
-	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
-	canSmoothWith = list(/turf/closed/wall/mineral/rogue/stonebrick, /turf/closed/wall/mineral/rogue/wooddark)
-	above_floor = /turf/open/floor/rogue/blocks
-	baseturfs = /turf/open/floor/rogue/blocks
-	neighborlay = "dirtedge"
-	climbdiff = 4
-	damage_deflection = 20
+//////////////////
+// Wooden walls //
+//////////////////
 
 /turf/closed/wall/mineral/rogue/wood
 	name = "wooden wall"
@@ -167,7 +47,7 @@
 	icon_state = "wood"
 	smooth = SMOOTH_MORE
 	blade_dulling = DULLING_BASHCHOP
-	max_integrity = 1100
+	max_integrity = 800
 	break_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 	canSmoothWith = list(/turf/closed/wall/mineral/rogue/wood, /obj/structure/roguewindow, /obj/structure/roguetent, /turf/closed/wall/mineral/rogue/wooddark)
@@ -184,7 +64,7 @@
 	name = "wooden window"
 	desc = "A window with a rough-hewn wood frame."
 	opacity = FALSE
-	max_integrity = 550
+	max_integrity = 600
 
 /turf/closed/wall/mineral/rogue/wood/window/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
@@ -196,26 +76,6 @@
 	var/mutable_appearance/M = mutable_appearance(icon, "woodhole", layer = ABOVE_NORMAL_TURF_LAYER)
 	add_overlay(M)
 
-/turf/closed/wall/mineral/rogue/tent
-	name = "tent"
-	desc = "Made from durable fabric stretched over wooden branches."
-	icon = 'icons/turf/roguewall.dmi'
-	icon_state = "tent"
-	smooth = SMOOTH_FALSE
-	blade_dulling = DULLING_BASHCHOP
-	max_integrity = 300
-	break_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
-	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
-//	canSmoothWith = list(/turf/closed/wall/mineral/rogue/wood, /obj/structure/roguewindow, /turf/closed/wall/mineral/rogue/wooddark)
-//	sheet_type = /obj/item/grown/log/tree/lumber
-	above_floor = /turf/open/floor/rogue/twig
-	baseturfs = /turf/open/floor/rogue/twig
-	neighborlay = "dirtedge"
-	climbdiff = 1
-
-	burn_power = 20
-	spread_chance = 9
-
 /turf/closed/wall/mineral/rogue/wooddark
 	name = "dark wood wall"
 	desc = "Made from durable, somewhat darker wood." // i am not sure if the wood is really dark
@@ -223,7 +83,7 @@
 	icon_state = "corner"
 	smooth = SMOOTH_FALSE
 	blade_dulling = DULLING_BASHCHOP
-	max_integrity = 1100
+	max_integrity = 1000
 	break_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 //	sheet_type = /obj/item/grown/log/tree/lumber
@@ -259,7 +119,7 @@
 	name = "dark wood window"
 	icon_state = "subwindow"
 	opacity = FALSE
-	max_integrity = 850
+	max_integrity = 800
 
 /turf/closed/wall/mineral/rogue/wooddark/window/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
@@ -272,7 +132,7 @@
 	icon_state = ""
 	smooth = SMOOTH_FALSE
 	blade_dulling = DULLING_BASHCHOP
-	max_integrity = 1100
+	max_integrity = 800
 	break_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 	above_floor = /turf/open/floor/rogue/rooftop
@@ -328,7 +188,7 @@
 	icon_state = "decowood"
 	smooth = SMOOTH_FALSE
 	blade_dulling = DULLING_BASHCHOP
-	max_integrity = 1100
+	max_integrity = 1200
 	break_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 //	sheet_type = /obj/item/grown/log/tree/lumber
@@ -347,6 +207,135 @@
 	name = "decorated wooden wall"
 	icon_state = "decowood-vert"
 
+/////////////////
+// Stone walls //
+/////////////////
+
+/turf/closed/wall/mineral/rogue/stone
+	name = "stone wall"
+	desc = "A wall of smooth unyielding stone."
+	icon = 'icons/turf/walls/stone_wall.dmi'
+	icon_state = "stone"
+	smooth = SMOOTH_MORE
+	blade_dulling = DULLING_BASH
+	max_integrity = 1000
+	sheet_type = /obj/item/natural/stone
+	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
+	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
+	canSmoothWith = list(/turf/closed/wall/mineral/rogue/stone)
+	above_floor = /turf/open/floor/rogue/blocks
+	baseturfs = /turf/open/floor/rogue/blocks
+	neighborlay = "dirtedge"
+	climbdiff = 3
+	damage_deflection = 10//This makes up for same integrity as well it's easier to make than wooden walls
+
+/turf/closed/wall/mineral/rogue/stone/turf_destruction()
+	loud_message("The sound of a crumbling stone wall rings out", hearing_distance = 14)
+	. = ..()
+
+/turf/closed/wall/mineral/rogue/stone/unbreakable
+	name = "heavy stone wall"
+	desc = "Seems nigh-indestructable"
+	max_integrity = 10000000
+	damage_deflection = 99999999
+
+/turf/closed/wall/mineral/rogue/stone/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
+	to_chat(user, span_warning("TOO HARD!"))
+	return FALSE
+
+/turf/closed/wall/mineral/rogue/stone/window
+	name = "stone window"
+	desc = "A window with a solid and sturdy stone frame."
+	opacity = FALSE
+	max_integrity = 800
+
+/turf/closed/wall/mineral/rogue/stone/window/CanPass(atom/movable/mover, turf/target)
+	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
+		return 1
+	return ..()
+
+/turf/closed/wall/mineral/rogue/stone/window/Initialize(mapload)
+	. = ..()
+	icon_state = "stone"
+	var/mutable_appearance/M = mutable_appearance(icon, "stonehole", layer = ABOVE_NORMAL_TURF_LAYER)
+	add_overlay(M)
+
+/turf/closed/wall/mineral/rogue/stone/window/unbreakable
+	name = "heavy stone window"
+	desc = "Seems nigh-indestructable"
+	max_integrity = 10000000
+	damage_deflection = 99999999
+
+/turf/closed/wall/mineral/rogue/stone/window/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
+	to_chat(user, span_warning("TOO HARD!"))
+	return FALSE
+
+/turf/closed/wall/mineral/rogue/stone/moss
+	icon = 'icons/turf/walls/mossy_stone.dmi'
+	climbdiff = 4
+
+/turf/closed/wall/mineral/rogue/stone/moss/unbreakable
+	desc = "Seems nigh-indestructable"
+	max_integrity = 10000000
+	damage_deflection = 99999999
+
+/turf/closed/wall/mineral/rogue/stone/moss/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
+	to_chat(user, span_warning("TOO HARD!"))
+	return FALSE
+
+/turf/closed/wall/mineral/rogue/stone/window/moss
+	icon = 'icons/turf/walls/mossy_stone.dmi'
+	climbdiff = 4
+
+/turf/closed/wall/mineral/rogue/stone/window/moss/unbreakable
+	desc = "Seems nigh-indestructable"
+	max_integrity = 10000000
+	damage_deflection = 99999999
+
+/turf/closed/wall/mineral/rogue/stone/window/moss/unbreakable/attackby(obj/item/I, mob/user, params, multiplier)
+	to_chat(user, span_warning("TOO HARD!"))
+	return FALSE
+
+/turf/closed/wall/mineral/rogue/craftstone
+	name = "stone wall"
+	desc = "A durable wall made from specially-crafted stone."
+	icon = 'icons/turf/walls/craftstone.dmi'
+	icon_state = "box"
+	smooth = SMOOTH_MORE
+	blade_dulling = DULLING_BASH
+	max_integrity = 1200
+	sheet_type = /obj/item/natural/stone
+	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
+	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
+	canSmoothWith = list(/turf/closed/wall/mineral/rogue/craftstone)
+	above_floor = /turf/open/floor/rogue/blocks
+	baseturfs = /turf/open/floor/rogue/blocks
+	neighborlay = "dirtedge"
+	climbdiff = 3
+	damage_deflection = 10
+
+/turf/closed/wall/mineral/rogue/craftstone/turf_destruction()
+	loud_message("The sound of heavy stone bricks crumbling apart rings out", hearing_distance = 14)
+	. = ..()
+
+/turf/closed/wall/mineral/rogue/stonebrick
+	name = "brick wall"
+	desc = "Rows of overlapping bricks form this wall."
+	icon = 'icons/turf/walls/stonebrick.dmi'
+	icon_state = "stonebrick"
+	smooth = SMOOTH_MORE
+	blade_dulling = DULLING_BASH
+	max_integrity = 1300
+	sheet_type = /obj/item/natural/stone
+	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
+	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
+	canSmoothWith = list(/turf/closed/wall/mineral/rogue/stonebrick, /turf/closed/wall/mineral/rogue/wooddark)
+	above_floor = /turf/open/floor/rogue/blocks
+	baseturfs = /turf/open/floor/rogue/blocks
+	neighborlay = "dirtedge"
+	climbdiff = 4
+	damage_deflection = 15
+
 /turf/closed/wall/mineral/rogue/decostone
 	name = "decorated stone wall"
 	desc = "The mason did an excellent job etching details into this wall."
@@ -354,7 +343,7 @@
 	icon_state = "decostone-b"
 	smooth = SMOOTH_MORE
 	blade_dulling = DULLING_BASH
-	max_integrity = 1800
+	max_integrity = 1400
 	sheet_type = /obj/item/natural/stone
 	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
 	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
@@ -405,7 +394,7 @@
 	icon_state = "brick"
 	smooth = SMOOTH_MORE
 	blade_dulling = DULLING_BASH
-	max_integrity = 2000	//200 more than base stone wall
+	max_integrity = 1600
 	sheet_type = /obj/item/natural/brick
 	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
 	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
@@ -420,60 +409,11 @@
 	name = "brick window"
 	desc = "A window with a solid and sturdy stone frame."
 	opacity = FALSE
-	max_integrity = 1500
+	max_integrity = 1400
 
-/turf/closed/wall/shroud //vines
-	name = "thick treetop"
-	desc = "All the birds flew away before I could see one!"
-	icon = 'icons/turf/roguewall.dmi'
-	icon_state = "shroud1"
-	var/smooth_icon = 'icons/turf/smoothrocks.dmi'
-	smooth = SMOOTH_MORE|SMOOTH_BORDER
-	canSmoothWith = null
-	baseturfs = /turf/open/floor/rogue/shroud
-	blade_dulling = DULLING_CUT
-	opacity = 1
-	density = TRUE
-	max_integrity = 200
-//	layer = EDGED_TURF_LAYER /ROGTODO make these have borders and smooth
-	temperature = TCMB
-	sheet_type = null
-	attacked_sound = list('sound/combat/hits/onvine/vinehit.ogg')
-	debris = list(/obj/item/grown/log/tree/stick = 1, /obj/item/natural/thorn = 2, /obj/item/natural/fibers = 1)
-	climbdiff = 0
-	above_floor = /turf/open/floor/rogue/shroud
-	var/res = 0
-	var/res_replenish
-
-/turf/closed/wall/shroud/attack_right(mob/user)
-	if(isliving(user))
-		var/mob/living/L = user
-		user.changeNext_move(CLICK_CD_MELEE)
-		playsound(src, "plantcross", 50, FALSE, -1)
-		if(do_after(L, rand(5,10), target = src))
-			if(!res && world.time > res_replenish)
-				res = rand(1,3)
-			if(res && prob(50))
-				res--
-				if(res <= 0)
-					res_replenish = world.time + 8 MINUTES
-				var/obj/item/B = new /obj/item/grown/log/tree/stick(user.loc)
-				user.put_in_hands(B)
-				user.visible_message(span_notice("[user] finds [B] in [src]."))
-				return
-			user.visible_message(span_warning("[user] searches through [src]."))
-			if(!res)
-				to_chat(user, span_warning("Picked clean... I should try later."))
-	..()
-
-/turf/closed/wall/shroud/Initialize(mapload)
-	. = ..()
-	icon_state = "shroud[pick(1,2)]"
-	dir = pick(GLOB.cardinals)
-	res = rand(1,3)
-	var/turf/open/transparent/openspace/target = get_step_multiz(src, UP)
-	if(istype(target))
-		target.ChangeTurf(/turf/open/floor/rogue/dirt/road)
+/////////////////
+// Metal walls //
+/////////////////
 
 /turf/closed/wall/mineral/rogue/pipe
 	name = "metal wall"
@@ -572,3 +512,81 @@
 
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/cand
 	icon_state = "decostone-cand-red"
+
+
+////////////////
+// Misc walls //
+////////////////
+
+/turf/closed/wall/mineral/rogue/tent
+	name = "tent"
+	desc = "Made from durable fabric stretched over wooden branches."
+	icon = 'icons/turf/roguewall.dmi'
+	icon_state = "tent"
+	smooth = SMOOTH_FALSE
+	blade_dulling = DULLING_BASHCHOP
+	max_integrity = 300
+	break_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
+	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
+//	canSmoothWith = list(/turf/closed/wall/mineral/rogue/wood, /obj/structure/roguewindow, /turf/closed/wall/mineral/rogue/wooddark)
+//	sheet_type = /obj/item/grown/log/tree/lumber
+	above_floor = /turf/open/floor/rogue/twig
+	baseturfs = /turf/open/floor/rogue/twig
+	neighborlay = "dirtedge"
+	climbdiff = 1
+
+	burn_power = 20
+	spread_chance = 9
+
+/turf/closed/wall/shroud //vines
+	name = "thick treetop"
+	desc = "All the birds flew away before I could see one!"
+	icon = 'icons/turf/roguewall.dmi'
+	icon_state = "shroud1"
+	var/smooth_icon = 'icons/turf/smoothrocks.dmi'
+	smooth = SMOOTH_MORE|SMOOTH_BORDER
+	canSmoothWith = null
+	baseturfs = /turf/open/floor/rogue/shroud
+	blade_dulling = DULLING_CUT
+	opacity = 1
+	density = TRUE
+	max_integrity = 200
+//	layer = EDGED_TURF_LAYER /ROGTODO make these have borders and smooth
+	temperature = TCMB
+	sheet_type = null
+	attacked_sound = list('sound/combat/hits/onvine/vinehit.ogg')
+	debris = list(/obj/item/grown/log/tree/stick = 1, /obj/item/natural/thorn = 2, /obj/item/natural/fibers = 1)
+	climbdiff = 0
+	above_floor = /turf/open/floor/rogue/shroud
+	var/res = 0
+	var/res_replenish
+
+/turf/closed/wall/shroud/attack_right(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		user.changeNext_move(CLICK_CD_MELEE)
+		playsound(src, "plantcross", 50, FALSE, -1)
+		if(do_after(L, rand(5,10), target = src))
+			if(!res && world.time > res_replenish)
+				res = rand(1,3)
+			if(res && prob(50))
+				res--
+				if(res <= 0)
+					res_replenish = world.time + 8 MINUTES
+				var/obj/item/B = new /obj/item/grown/log/tree/stick(user.loc)
+				user.put_in_hands(B)
+				user.visible_message(span_notice("[user] finds [B] in [src]."))
+				return
+			user.visible_message(span_warning("[user] searches through [src]."))
+			if(!res)
+				to_chat(user, span_warning("Picked clean... I should try later."))
+	..()
+
+/turf/closed/wall/shroud/Initialize(mapload)
+	. = ..()
+	icon_state = "shroud[pick(1,2)]"
+	dir = pick(GLOB.cardinals)
+	res = rand(1,3)
+	var/turf/open/transparent/openspace/target = get_step_multiz(src, UP)
+	if(istype(target))
+		target.ChangeTurf(/turf/open/floor/rogue/dirt/road)

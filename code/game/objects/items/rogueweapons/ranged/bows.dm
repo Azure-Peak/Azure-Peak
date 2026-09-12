@@ -470,7 +470,7 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/steppesman
 	name = "aavnic riding bow"
 	desc = "A short recurve warbow made for the express purpose of shooting on saigaback, a skill every archer in Aavnr takes much more seriously than their Northern counterparts. Every seasoned Druzhina is themselves a good bowyer and usually makes their own bow, this one is made with the purpure-ish crimson wood of a Vörötslevé tree."
-	icon_state = "recurve_riding"
+	icon_state = "recurve_bow_steppesman"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/blackoak
 	name = "woad recurve bow"

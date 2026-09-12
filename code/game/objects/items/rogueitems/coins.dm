@@ -284,6 +284,10 @@
 	. = ..()
 	set_quantity(10) // 50 mammons, to avoid being dead broke when latejoining
 
+/obj/item/roguecoin/silver/pile/munitioneerpile/Initialize(mapload) //for muntineer, exclusely to speed up them aquiring materials w/ out having to benefit town by selling to them or lose the arms race against the guild.
+	. = ..()
+	set_quantity(16) // 80 mammons, to avoid being dead broke when latejoining
+
 /obj/item/roguecoin/gold/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))

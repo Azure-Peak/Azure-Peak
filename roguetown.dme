@@ -1980,6 +1980,7 @@
 #include "code\modules\events\antagonist\solo\dreamwalker.dm"
 #include "code\modules\events\antagonist\solo\lich.dm"
 #include "code\modules\events\antagonist\solo\masquerade.dm"
+#include "code\modules\events\antagonist\solo\masqueradelite.dm"
 #include "code\modules\events\antagonist\solo\rebels.dm"
 #include "code\modules\events\antagonist\solo\vampires.dm"
 #include "code\modules\events\antagonist\solo\vampires_and_werewolves.dm"

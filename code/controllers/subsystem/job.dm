@@ -910,9 +910,9 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/JobDebug(message)
 	log_job_debug(message)
 
-/datum/controller/subsystem/job/proc/bitflag_to_department(department_flag, obsfuscated = FALSE)
+/datum/controller/subsystem/job/proc/bitflag_to_department(department_flag, obfuscated = FALSE)
 	var/key = "Wanderers"
-	if(obsfuscated)
+	if(obfuscated)
 		return key
 	switch(department_flag) // Omega tier slop.
 		if(NOBLEMEN)

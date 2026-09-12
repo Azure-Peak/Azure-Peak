@@ -275,7 +275,7 @@ datumrefresh=[refid];[HrefToken()]'>Refresh</a>
 	</body>
 </html>
 "}
-	src << browse(html, "window=variables[refid];size=475x650")
+	src << browse(html, "window=variables[refid];size=660x700")
 
 /client/proc/vv_update_display(datum/D, span, content)
 	src << output("[span]:[content]", "variables[REF(D)].browser:replace_span")

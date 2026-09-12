@@ -10,7 +10,7 @@
 	allowed_patrons = list(/datum/patron/divine/noc)
 	maximum_possible_slots = 2 // The Special Snowflake And Their Friend
 	subclass_languages = list(/datum/language/grenzelhoftian)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE, TRAIT_UNCONVERTIBLE)
 	tempo_capable = FALSE
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -66,6 +66,7 @@
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/ritechalk = 1,
+		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/keyring/acolyte = 1,
 		/obj/item/rogueweapon/spellbook = 1,

@@ -1,0 +1,8 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - balance: "munitioneer has a full toolset for masonary + carpentry + smithing starting off like sapper skeletons."
+  - balance: "munitioneer has sewing/skincrafting raised to journeyman."
+  - balance: "munitioneer has 80 vs 50 starting funds, they no longer recieve a mid-range pouch of coin on top of their starting funds for an obscene amount of mammon. Go licker Astrocrat if you want to drown in coin."
+  - balance: "munitioneer has armor on their hood, no more easily skullcracking them, rejoice!"
+  - code_imp: "muntioneer hood has some new flavor on examine."

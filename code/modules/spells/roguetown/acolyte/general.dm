@@ -438,8 +438,7 @@
 	sparks_amt = 2
 
 	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_AURA
-	self_cast_possible = FALSE //Why are you trying to set YOURSELF on fire.
+	cast_range = 2
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
 
@@ -447,8 +446,11 @@
 
 	invocation_type = INVOCATION_NONE //It has seperate message ON USE
 
-	charge_required = FALSE
-	cooldown_time = 10 SECONDS
+	charge_required = TRUE
+	charge_time = CHARGETIME_POKE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 15 SECONDS
 
 	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
@@ -477,7 +479,7 @@
 			spelltarget.visible_message(span_warning("[spelltarget] shields against the divine flame!"))
 			return TRUE
 		if(spelltarget.fire_stacks < 1)
-			spelltarget.adjust_fire_stacks(2)
+			spelltarget.adjust_fire_stacks(1)
 			spelltarget.ignite_mob()
 			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]", zone=owner.zone_selected)
 			return TRUE
