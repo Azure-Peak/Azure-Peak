@@ -10,13 +10,14 @@
 	var/datum/component/hag_curio_tracker/tracker
 	/// How powerful a boon is. Not used for all types of boons.
 	var/points = 1
-	/// Whether or not this boon can be transmuted into a curse. 
+	/// Whether or not this boon can be transmuted into a curse.
 	/// Curses should never be able to transmuted.
 	/// Some boons can only be triggered into specific curses, rather than free form.
 	var/transmutable = TRUE
 	var/hag_curse = FALSE
 	var/hag_is_valid = TRUE
 	var/hag_trait = FALSE
+	var/mob/living/carbon/human/granter // hag that granted us
 
 /datum/hag_boon/curse_scar
 	name = "Curse Scar"
@@ -25,11 +26,12 @@
 	transmutable = FALSE
 	hag_curse = FALSE
 
-/datum/hag_boon/New(t_name, datum/component/hag_curio_tracker/T, set_points)
+/datum/hag_boon/New(t_name, datum/component/hag_curio_tracker/T, set_points, mob/living/carbon/human/hag)
 	src.time_granted = world.time
 	src.true_name = t_name
 	src.tracker = T
 	src.points = set_points
+	src.granter = hag
 	var/mob/living/L = find_target()
 	if(L)
 		apply_boon_effect(L)

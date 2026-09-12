@@ -142,7 +142,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		else
 			vampdude.set_clan_direct(forcing_clan)
 			forcing_clan = null
-
+		disable_vessel(vampdude)
 
 	if(!clan_setup_deferred)
 		after_gain()

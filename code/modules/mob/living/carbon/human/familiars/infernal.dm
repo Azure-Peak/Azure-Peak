@@ -45,6 +45,7 @@
 		TRAIT_UNLYCKERABLE,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_UNCONVERTIBLE,
+		TRAIT_NONAMESTEAL,
 	)
 	origin = "The Hells"
 	origin_default = /datum/virtue/origin/familiar/infernal

@@ -1239,6 +1239,10 @@
 		return
 	if(HAS_TRAIT(src, TRAIT_FREEMAN) && HAS_TRAIT(examiner, TRAIT_FREEMAN))
 		heretic_text += "⚖️" //♠ is the original
+	if(HAS_TRAIT(src, TRAIT_FEYTOUCHED) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED)))
+		heretic_text += "🌿"
+	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED)))
+		heretic_text += "🌳"
 	//Defunct as of *fsalute changes, leaving here as a symbol reference.
 	/*else if(HAS_TRAIT(src, TRAIT_CABAL) && HAS_TRAIT(examiner, TRAIT_CABAL))
 		heretic_text += "♦"
