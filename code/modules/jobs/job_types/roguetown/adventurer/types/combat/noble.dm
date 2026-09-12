@@ -247,7 +247,7 @@
 				H.grant_language(/datum/language/celestial) //Yes
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 				mask = /obj/item/clothing/mask/rogue/lordmask/tarnished //Be an Actual Naledian for the real deal.
-				change_origin(H, /datum/virtue/origin/racial/naledi) //so you get the mask pick + it just makes sense.
+				change_origin(H, /datum/virtue/origin/naledi) //so you get the mask pick + it just makes sense.
 			if("Kazengun") //Semi-Placeholdery until we have proper noble clothing for Kazengun
 				if(should_wear_masc_clothes(H))
 					head = /obj/item/clothing/head/roguetown/smokingcap

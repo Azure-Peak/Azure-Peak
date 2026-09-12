@@ -148,17 +148,16 @@
 /datum/outfit/job/roguetown/councillor/herald/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_masc_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/two
 		shirt = /obj/item/clothing/suit/roguetown/shirt/fancyjacket
 		gloves = /obj/item/clothing/gloves/roguetown/rosa/two
 		pants = /obj/item/clothing/under/roguetown/trou/beltpants
 		shoes = /obj/item/clothing/shoes/roguetown/rosa/ten
 	if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa
 		gloves = /obj/item/clothing/gloves/roguetown/rosa
 		shoes = /obj/item/clothing/shoes/roguetown/rosa
 		//no trousers because it breaks on fem-sprite
+	head = /obj/item/clothing/head/roguetown/chaperon/noble/court
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
@@ -178,15 +177,16 @@
 /datum/outfit/job/roguetown/councillor/cofferer/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_masc_clothes(H))
-		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
+		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 		pants = /obj/item/clothing/under/roguetown/trou/beltpants
 	if(should_wear_femme_clothes(H))
-		head = /obj/item/clothing/head/roguetown/rosa
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
-		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/foursa
+		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/four
 		shoes = /obj/item/clothing/shoes/roguetown/rosa
 		//no trousers because it breaks on fem-sprite
+	head = /obj/item/clothing/head/roguetown/chaperon/noble/court
+	mask = /obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	gloves = /obj/item/clothing/gloves/roguetown/rosa/eight
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/ten
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
@@ -208,8 +208,8 @@
 
 /datum/outfit/job/roguetown/councillor/huntmaster/pre_equip(mob/living/carbon/human/H)
 	..()
-	mask = /obj/item/flowercrown/rosa
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
+	armor = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light // Look, it would be silly to get mauled by a single wolf
 	pants = /obj/item/clothing/under/roguetown/trou/beltpants
 	shoes = /obj/item/clothing/shoes/roguetown/boots
@@ -238,10 +238,10 @@
 
 /datum/outfit/job/roguetown/councillor/castellan/pre_equip(mob/living/carbon/human/H)
 	..()
-	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
-	head = /obj/item/clothing/head/roguetown/chaperon/noble
-	gloves = /obj/item/clothing/gloves/roguetown/rosa/ten
-	shoes = /obj/item/clothing/shoes/roguetown/rosa/ten
+	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat
+	head = /obj/item/clothing/head/roguetown/chaperon/noble/court
+	gloves = /obj/item/clothing/gloves/roguetown/rosa/two
+	shoes = /obj/item/clothing/shoes/roguetown/rosa/eight
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light // Technically an important figure
 	pants = /obj/item/clothing/under/roguetown/trou/beltpants
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
