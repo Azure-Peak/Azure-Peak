@@ -78,6 +78,7 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 		backl = /obj/item/rogue/instrument/lute
+		cloak = /obj/item/clothing/cloak/half/red
 
 	/*if(H.mind)
 		var/datum/antagonist/new_antag = new /datum/antagonist/suitor()
@@ -198,7 +199,7 @@
 
 /datum/outfit/job/roguetown/suitor/gallant/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list( // All decorated/gilded weapons, rich pompous ass that you are.
+	var/weapons = list( // All decorated/gilded weapons, rich pompous ass that you are trying to pretend to be.
 	"Sabre",
 	"Rapier",
 	"Arming Sword"
