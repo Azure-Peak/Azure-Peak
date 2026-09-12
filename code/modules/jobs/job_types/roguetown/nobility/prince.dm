@@ -97,6 +97,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	beltl = /obj/item/rogueweapon/scabbard/sword/royal
 	backr = /obj/item/storage/backpack/rogue/satchel
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/gold
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
@@ -159,9 +160,10 @@
 	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
-	mask = /obj/item/clothing/mask/rogue/spectacles/fancy
+	mask = /obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	gloves = /obj/item/clothing/gloves/roguetown/rosa/six
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/gold
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	if(H.mind)
@@ -208,20 +210,21 @@
 
 /datum/outfit/job/roguetown/heir/aristocrat/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/circlet
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
-	gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
-	id = /obj/item/clothing/ring/gold
+	id = /obj/item/clothing/ring/rose
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	if(should_wear_masc_clothes(H))
+		head = /obj/item/clothing/head/roguetown/circlet
 		pants = /obj/item/clothing/under/roguetown/tights/puritan
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
-		belt = /obj/item/storage/belt/rogue/leather
+		gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
 	if(should_wear_femme_clothes(H))
 		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
+		gloves = /obj/item/clothing/gloves/roguetown/rosa/six
 		head = /obj/item/clothing/head/roguetown/hennin
 		l_hand = /obj/item/clothing/head/roguetown/circlet // So we still get one.
 		armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
@@ -260,19 +263,22 @@
 
 /datum/outfit/job/roguetown/heir/inbred/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/circlet
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
+	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
 	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
-	gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
-	id = /obj/item/clothing/ring/gold
+	id = /obj/item/clothing/ring/rose
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	if(should_wear_masc_clothes(H))
+		head = /obj/item/clothing/head/roguetown/circlet
 		pants = /obj/item/clothing/under/roguetown/tights/puritan
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
-		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
+		gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
 	if(should_wear_femme_clothes(H))
 		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
+		gloves = /obj/item/clothing/gloves/roguetown/rosa/six
 		head = /obj/item/clothing/head/roguetown/hennin
+		l_hand = /obj/item/clothing/head/roguetown/circlet // So we still get one.
 		armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
@@ -317,22 +323,27 @@
 
 /datum/outfit/job/roguetown/heir/scamp/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/circlet
-	mask = /obj/item/clothing/head/roguetown/roguehood/black
+	head = /obj/item/clothing/head/roguetown/roguehood/black
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	beltl = /obj/item/quiver/sling/iron
 	beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	backr = /obj/item/storage/backpack/rogue/satchel
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shorts
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
-	cloak = /obj/item/clothing/cloak/half/azure
-	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
+	if(should_wear_masc_clothes(H))
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
+	if(should_wear_femme_clothes(H))
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/blouse
+		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/astrocrat //because it doesn't render properly on fem sprites
+	cloak = /obj/item/clothing/cloak/half //intentional exclusion of Azurian colors, meant to be blend in.
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	gloves = /obj/item/clothing/gloves/roguetown/rosa/nine
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	id = /obj/item/clothing/ring/gold
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 
 	backpack_contents = list(
+		/obj/item/clothing/head/roguetown/circlet = 1, //so they still get one
 		/obj/item/storage/keyring/heir = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
 		/obj/item/lockpickring/mundane = 1,
