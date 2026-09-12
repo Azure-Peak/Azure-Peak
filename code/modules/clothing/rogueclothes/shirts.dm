@@ -212,6 +212,9 @@
 	color = CLOTHING_WHITE
 	boobed = TRUE
 
+/obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/astrocrat
+	detail_color = CLOTHING_BLACK
+
 /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
 	name = "tinker suit"
 	desc = "Typical fashion of the best engineers."
@@ -282,6 +285,9 @@
 
 // End royal clothes
 
+//Is this terrible, Y E S. But who cares, its gonna be copy royal colors anyway so I just *shrug*
+/obj/item/clothing/suit/roguetown/shirt/dress/royal/prince/lord
+	desc = "A gold-embroidered dress shirt specially tailored by the finest tailors in the land for the monarch of Azuria."
 
 //Is this terrible, yes, but at this point ehhhhhhhh.
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/hand_m
@@ -1062,12 +1068,8 @@
 	detail_color = CLOTHING_BLACK
 	color = CLOTHING_BLACK
 
-/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/azure
-	detail_color = CLOTHING_WHITE
-	color = CLOTHING_AZURE
-
 /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/raneshen
-	detail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_RED
 	color = CLOTHING_RED
 
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosa

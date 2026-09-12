@@ -34,11 +34,13 @@
 
 /datum/outfit/job/roguetown/lady
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
-	pants = /obj/item/clothing/under/roguetown/tights
-	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord //weaker than duke's one
+	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	backr = /obj/item/storage/backpack/rogue/satchel/short
-	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 	id = /obj/item/scomstone/garrison
 	job_bitflag = BITFLAG_ROYALTY
 
@@ -51,12 +53,19 @@
 	ADD_TRAIT(H, TRAIT_KEENEARS, TRAIT_GENERIC)
 //		SSticker.rulermob = H
 	if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch
+		armor = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch
 	else if(should_wear_masc_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
+	if(H.wear_mask) //sovl injection
+		if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/eyepatch))
+			qdel(H.wear_mask)
+			mask = /obj/item/clothing/mask/rogue/lordmask
+		if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/eyepatch/left))
+			qdel(H.wear_mask)
+			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/rich,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated,
 		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/storage/keyring/lord = 1,
