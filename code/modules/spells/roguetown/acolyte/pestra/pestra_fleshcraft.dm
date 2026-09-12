@@ -44,6 +44,13 @@
 		to_chat(caster, span_warning("They are too far away."))
 		return FALSE
 
+	if(!(target == user))
+		var/consent = alert(target, "[user] offers a reshape. Accept?", "Fleshcraft", "Yes", "No")
+		if(consent != "Yes" || QDELETED(target))
+			to_chat(user, span_warning("The reshape was rejected."))
+			revert_cast()
+			return FALSE
+
 	return perform_fleshcraft_transform(target, caster)
 
 /proc/perform_fleshcraft_transform(mob/living/carbon/human/target, mob/living/carbon/human/caster)
