@@ -27,7 +27,8 @@
 
 /obj/structure/flora/roguegrass/maneater/real/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("MANEATERs can rarely spawn when triggering an ambush over certain patches of grass. This chance is made a guarantee if someone passes the certain patch of grass while the 'RUN' button is toggled.")
+	. += span_info("When hidden, MANEATERS will snatch at anything sprinting over them. Beasts tread heavier, though.")
+	. += span_info("Once roused, MANEATERS will snatch at anything that traipses over them, no matter however slowly.")
 	. += span_info("Triggering a MANEATER's ambush immediately thrusts you into it. Spam the 'RESIST' hotkey as quickly as you can to break free. The chance to break free with each resist scales with your character's Strength.")
 	. += span_info("Failing to escape a MANEATER's clutches within a short timeframe will result in you taking massive damage to the limbs. This can quickly lead to being dismembered, and - for mindless bodies - completely gibbed.")
 
@@ -85,7 +86,7 @@
 		return
 	if(!victim.ambushable() && victim.mind)
 		return
-	if(victim.m_intent == MOVE_INTENT_SNEAK)
+	if(victim.mind && !aggroed && victim.m_intent != MOVE_INTENT_RUN)
 		return
 
 	if(!aggroed)
