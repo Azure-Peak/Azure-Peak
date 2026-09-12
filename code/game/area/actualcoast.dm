@@ -12,6 +12,7 @@
 	converted_type = /area/rogue/under/lake
 	first_time_text = "CITY HARBOR"
 	deathsight_message = "a windswept shore"
+	area_sniff_message = "You smell the town, faintly, buried underneath the scent of the sea."
 	detail_text = DETAIL_TEXT_ACTUAL_COAST
 
 // No sea raiders here! The Central Coast is relatively safe.
@@ -27,6 +28,7 @@
 	)
 	first_time_text = "CENTRAL COAST"
 	threat_region = THREAT_REGION_AZURE_GROVE
+	area_sniff_message = "You smell the seas and the sands."
 
 /area/rogue/outdoors/beach/north
 	name = "Northern Coast"
@@ -42,6 +44,7 @@
 	)
 	first_time_text = "NORTHERN COAST"
 	threat_region = THREAT_REGION_AZUREAN_COAST
+	area_sniff_message = "You smell the seas and the sands."
 
 /area/rogue/outdoors/beach/south
 	name = "Southern Coast"
@@ -58,3 +61,4 @@
 	first_time_text = "SOUTHERN COAST"
 	detail_text = DETAIL_TEXT_CITY_COAST
 	threat_region = THREAT_REGION_AZURE_BASIN
+	area_sniff_message = "You smell the seas and the sands."

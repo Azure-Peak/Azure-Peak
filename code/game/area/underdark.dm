@@ -27,6 +27,7 @@
 	)
 	converted_type = /area/rogue/outdoors/caves
 	deathsight_message = "an acid-scarred depths"
+	area_sniff_message = "You smell mushrooms."
 	detail_text = DETAIL_TEXT_UNDERDARK
 	threat_region = THREAT_REGION_UNDERDARK
 
@@ -46,3 +47,4 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	detail_text = DETAIL_TEXT_MELTED_UNDERCITY
+	area_sniff_message = "You smell acid."

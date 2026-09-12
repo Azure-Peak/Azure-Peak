@@ -34,6 +34,7 @@
 	deathsight_message = "a wretched, fetid bog"
 	detail_text = DETAIL_TEXT_TERRORBOG
 	var/list/recent_intruders = list()
+	area_sniff_message = "You smell peat."
 
 /area/rogue/outdoors/bog/Entered(atom/movable/AM)
 	..()
@@ -46,7 +47,7 @@
 
 	if(L in GLOB.active_hags)
 		return
-	
+
 	GLOB.bogged_players += L.real_name
 
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
@@ -76,6 +77,7 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	deathsight_message = "a wretched, fetid bog"
+	area_sniff_message = "You smell peat, but muted."
 
 /area/rogue/outdoors/bog/north
 	name = "Northern Terrorbog"
@@ -109,6 +111,7 @@
 	droning_sound_night = null
 	deathsight_message = "a nasty wicked place deep betwixt the roots of the bog"
 	var/list/recent_intruders = list()
+	area_sniff_message = "You smell the fey."
 
 /area/rogue/indoors/shelter/bog_hag/root_maze
 	name = "The Deepest Roots"
@@ -128,7 +131,7 @@
 		return
 
 	GLOB.bogged_players += L.real_name
-	
+
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
 		return
 

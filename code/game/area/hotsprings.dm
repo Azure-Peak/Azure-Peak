@@ -11,6 +11,7 @@
 	converted_type = /area/rogue/indoors/shelter/rtfield
 	deathsight_message = "somewhere high up in a mountains, where cherry blossoms bloom"
 	detail_text = DETAIL_TEXT_EORAN_SHRINE
+	area_sniff_message = "You smell cherry blossoms."
 
 /area/rogue/outdoors/rtfield/abandonedhotsprings
 	name = "Abandoned Hot Springs"
@@ -25,6 +26,7 @@
 	converted_type = /area/rogue/indoors/abandonedhotsprings
 	deathsight_message = "somewhere above a swamp, where cherry blossoms bloom and spiders chitter"
 	detail_text = DETAIL_TEXT_ABANDONED_HOT_SPRINGS
+	area_sniff_message = "You smell mineral water."
 
 /area/rogue/indoors/abandonedhotsprings
 	icon_state = "eora"
@@ -34,3 +36,4 @@
 	droning_sound = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_dusk = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_night = 'sound/newmusic/lovecraft2.ogg'
+	area_sniff_message = "You smell mineral water and dried tea."
