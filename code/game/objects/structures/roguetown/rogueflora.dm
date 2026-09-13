@@ -564,12 +564,8 @@
 
 /obj/structure/flora/roguegrass/bush/wall/tall/Initialize(mapload)
 	. = ..()
-	icon_state = "tallbush[pick(1,2)]"
-
-// tallbush sprites have no winter variant - opt out of the reskin the base bush types get.
-/obj/structure/flora/roguegrass/bush/wall/tall/apply_flora_season(season)
-	return
-
+	bush_base_state = "tallbush[pick(1,2)]"
+	refresh_bush_icon()
 
 /obj/structure/flora/rogueshroom
 	name = "mushroom"
