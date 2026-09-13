@@ -182,6 +182,10 @@
 	name = "Gift - Shaded Hat"
 	path = /obj/item/clothing/head/roguetown/roguehood/shadedhat
 
+/datum/loadout_item/donator/universal/brimmedhat
+	name = "Gift - Brimmed Hat"
+	path = /obj/item/clothing/head/roguetown/duelhat/donator_brimmedhat
+
 /datum/loadout_item/donator/universal/beltedbackpackkit
 	name = "Gift - Kit, Belted Backpack"
 	path = /obj/item/enchantingkit/beltedbackpack
@@ -1142,6 +1146,11 @@
 	path = /obj/item/enchantingkit/donator_koruu_ravoxclerichelm
 	ckeywhitelist = list("koruu", "oddbomber3768", "nooriginality", "vakiova", "maesune")
 
+/datum/loadout_item/donator/bloom_coat
+	name = "Donator Item - Royal Coat"
+	path = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/three
+	ckeywhitelist = list("bloom77")
+
 /datum/loadout_item/donator/koruu_cadwyncloak_astrata
 	name = "Donator Item - Cloak of the Order of the Sun"
 	path = /obj/item/clothing/cloak/templar/astratancleric/koruu
@@ -1151,3 +1160,18 @@
 	name = "Donator Item - Lux In Tenebris"
 	path = /obj/item/enchantingkit/donator_koruu_astrataclerichelm
 	ckeywhitelist = list("koruu", "oddbomber3768", "nooriginality", "vakiova", "maesune")
+
+/datum/loadout_item/donator/lief_friend
+	name = "Donator Item - Aurum's Amulets"
+	path = /obj/item/clothing/neck/roguetown/psicross/liefdonator
+	ckeywhitelist = list("linxsysart", "pessime959")
+
+
+/datum/loadout_item/donator/rezathedwarf
+	name = "Donator Item - Noah's Glimmering Cloak"
+	path = /obj/item/clothing/cloak/half/donator_rezathedwarf
+	ckeywhitelist = list("rezathedwarf", "maesune")
+
+/datum/loadout_item/donator/rezathedwarf/blade
+	name = "Donator Kit - The Enclave Blade"
+	path = /obj/item/enchantingkit/weapon/donator_rezathedwarf_blade

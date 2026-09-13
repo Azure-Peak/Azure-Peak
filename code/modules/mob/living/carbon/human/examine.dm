@@ -782,8 +782,16 @@
 		var/used_title = get_role_title()
 		if(HAS_TRAIT(src, TRAIT_RESIDENT) && used_title == "Licker" && licker_subclass)
 			used_title = licker_subclass.name
-		if(SSticker.regentmob == src)
-			used_title = "[used_title]" + " Regent"
+		if(SSticker.rulermob != src)
+			if(SSticker.regentmob == src)
+				if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+					used_title = "Ancient Lord Regent"
+				else
+					used_title = "[used_title] Regent"
+			else if(src.mind?.has_antag_datum(/datum/antagonist/lich))
+				used_title = "Lich"
+			else if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+				used_title = "Ancient Lord"
 		var/display_as_wanderer = FALSE
 		if(observer_privilege)
 			used_name = real_name
@@ -795,6 +803,10 @@
 			var/datum/job/J = SSjob.GetJob(job)
 			if(!J || (J.wanderer_examine && !(HAS_TRAIT(src, TRAIT_RESIDENT))))
 				display_as_wanderer = TRUE
+		if(src.mind?.has_antag_datum(/datum/antagonist/lich))
+			display_as_wanderer = FALSE
+		if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord) && SSticker.rulermob != src && SSticker.regentmob != src)
+			display_as_wanderer = TRUE
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		var/datum/antagonist/lich/lichplayer = src.mind?.has_antag_datum(/datum/antagonist/lich)

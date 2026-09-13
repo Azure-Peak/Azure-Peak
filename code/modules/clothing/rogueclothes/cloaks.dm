@@ -2066,6 +2066,32 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
+/obj/item/clothing/cloak/half/duelcape  //sprites from vanderlin
+	name = "duelist cape"
+	desc = "A flamboyant red duelists cape that is sure to catch the eye."
+	icon_state = "duelistcape"
+	item_state = "duelistcape"
+	color = null
+	nodismemsleeves = TRUE
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	inhand_mod = FALSE
+
+/obj/item/clothing/cloak/rosa
+	name = "regal cloak"
+	desc = "A finely crafted cloak of silk adorned with rosas."
+	icon_state = "rosacloak7"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	salvage_result = /obj/item/natural/silk
+
+/obj/item/clothing/cloak/rosa/two
+	name = "courtly cloak"
+	icon_state = "rosacloak8"
+
 /obj/item/clothing/cloak/sash/dupatta
 	name = "dupatta"
 	desc = "A regional variant of the humble sash, loosely fit to fight against the Ranesheni heat."

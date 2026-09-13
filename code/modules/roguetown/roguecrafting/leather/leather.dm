@@ -295,3 +295,118 @@
 	reqs = list(/obj/item/natural/hide/cured = 2)
 	tools = list(/obj/item/needle)
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/leather/rosagloves
+	name = "ivory gloves"
+	display_category = ITEM_CAT_GARMENT_FINE
+	reqs = list(
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/natural/silk = 2
+	)
+	result = list(/obj/item/clothing/gloves/roguetown/rosa)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/two
+	name = "scarlet gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/two)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/three
+	name = "velvet gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/three)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/four
+	name = "obsidian gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/four)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/five
+	name = "sable gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/five)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/six
+	name = "maroon gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/six)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/seven
+	name = "regal gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/seven)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/eight
+	name = "courtly gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/eight)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/nine
+	name = "royal gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/nine)
+
+/datum/crafting_recipe/roguetown/leather/rosagloves/ten
+	name = "stately gloves"
+	result = list(/obj/item/clothing/gloves/roguetown/rosa/ten)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes
+	name = "ivory shoes"
+	display_category = ITEM_CAT_GARMENT_FINE
+	reqs = list(
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/natural/silk = 2
+	)
+	result = list(/obj/item/clothing/shoes/roguetown/rosa)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/two
+	name = "scarlet shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/two)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/three
+	name = "velvet shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/three)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/four
+	name = "obsidian shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/four)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/five
+	name = "sable shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/five)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/six
+	name = "maroon shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/six)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/seven
+	name = "regal shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/seven)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/eight
+	name = "courtly shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/eight)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/nine
+	name = "royal shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/nine)
+
+/datum/crafting_recipe/roguetown/leather/rosashoes/ten
+	name = "stately shoes"
+	result = list(/obj/item/clothing/shoes/roguetown/rosa/ten)
+
+/datum/crafting_recipe/roguetown/leather/rosacoat
+	name = "regal coat"
+	display_category = ITEM_CAT_GARMENT_FINE
+	reqs = list(
+		/obj/item/natural/hide/cured = 2,
+		/obj/item/natural/silk = 2,
+		/obj/item/alch/rosa = 1
+	)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/leather/rosacoat/two
+	name = "courtly coat"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/two)
+
+/datum/crafting_recipe/roguetown/leather/rosacoat/three
+	name = "royal coat"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/three)
+
+/datum/crafting_recipe/roguetown/leather/rosacoat/four
+	name = "stately coat"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four)
