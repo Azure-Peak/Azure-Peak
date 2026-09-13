@@ -306,7 +306,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			keenears = HAS_TRAIT(H, TRAIT_KEENEARS)
 			var/name_to_highlight = H.nickname
 			if(name_to_highlight && name_to_highlight != "" && name_to_highlight != "Please Change Me")	//We don't need to highlight an unset or blank one.
-				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = #[H.highlight_color]>[name_to_highlight]</font></b>")
+				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = '[H.highlight_color]'>[name_to_highlight]</font></b>")
 		if(eavesdrop_range && get_dist(source, AM) > message_range+keenears && !(the_dead[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, , spans, message_mode, original_message)
 		else if(highlighted_message)
@@ -450,7 +450,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	for(var/_AM in listening)
 		var/hearall = FALSE
 		var/atom/movable/AM = _AM
-		var/turf/listener_turf = get_turf(AM)
+		var/atom/movable/loc_check = AM // revs hear from their head, so we need to check the positioning of the head, not the body
+		if(isdullahan(AM))
+			var/mob/living/carbon/human/target = AM
+			var/datum/species/dullahan/target_species = target.dna.species
+			loc_check = target_species.headless ? target_species.my_head : AM
+		var/turf/listener_turf = get_turf(loc_check)
 		var/turf/listener_ceiling = get_step_multiz(listener_turf, UP)
 		if(istype(_AM, /obj/item/listeningdevice)) // Very evil snowflake code.
 			hearall = TRUE
@@ -460,7 +465,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				listener_has_ceiling = FALSE
 		if(!hearall)
 			if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
-				if(AM.z != src.z)
+				if(loc_check.z != src.loc.z)
 					continue
 		if(Zs_too && listener_turf.z != speaker_turf.z && !Zs_all)
 			if(!Zs_yell && !HAS_TRAIT(AM, TRAIT_KEENEARS) && !hearall)
@@ -481,11 +486,17 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 					for(var/mob/living/MH in viewers(world.view, speaker_ceiling))
 						if(M == MH && MH.z == speaker_ceiling?.z)
 							speaker_obstructed = FALSE
+					for(var/obj/item/bodypart/head/dullahan/DH in range(world.view, speaker_ceiling))
+						if(DH.original_owner && M == DH.original_owner && DH.z == speaker_ceiling?.z)
+							speaker_obstructed = FALSE
 
 				if(!listener_has_ceiling)
 					for(var/mob/living/ML in viewers(world.view, listener_ceiling))
 						if(ML == src && ML.z == listener_ceiling?.z)
 							listener_obstructed = FALSE
+					for(var/obj/item/bodypart/head/dullahan/DH in range(world.view, listener_ceiling))
+						if(DH.original_owner && src == DH.original_owner && DH.z == listener_ceiling?.z)
+							speaker_obstructed = FALSE
 				if(listener_obstructed && speaker_obstructed)
 					continue
 		var/highlighted_message
@@ -495,7 +506,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			keenears = HAS_TRAIT(H, TRAIT_KEENEARS)
 			var/name_to_highlight = H.nickname
 			if(name_to_highlight && name_to_highlight != "" && name_to_highlight != "Please Change Me")	//We don't need to highlight an unset or blank one.
-				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = #[H.highlight_color]>[name_to_highlight]</font></b>")
+				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = '[H.highlight_color]'>[name_to_highlight]</font></b>")
 
 			if(H != src && message_mode != MODE_WHISPER && H.has_flaw(/datum/charflaw/addiction/clamorous))
 				var/chance = 5

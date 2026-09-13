@@ -469,4 +469,15 @@
 							'sound/foley/footsteps/highheel3.ogg',
 							'sound/foley/footsteps/highheel4.ogg',
 							)
+			if(SFX_TRICK)
+				soundin = pick(
+							'sound/misc/trick/trick1.ogg',
+							'sound/misc/trick/trick2.ogg',
+							'sound/misc/trick/trick3.ogg',
+							'sound/misc/trick/trick4.ogg',
+							'sound/misc/trick/trick5.ogg',
+							'sound/misc/trick/trick6.ogg',
+							'sound/misc/trick/trick7.ogg',
+							'sound/misc/trick/trick8.ogg',
+							)
 	return soundin

@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "lowers range and firestack on ignition. gives it a 0.5s chargeup. increases CD to 15s."

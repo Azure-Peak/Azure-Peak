@@ -1,0 +1,6 @@
+author: "kilozombie"
+delete-after: True
+changes:
+  - rscadd: "Wretchbase, Bandit base, and Vampire Lord manor all get Mercenary stones now. Godspeed and commission a merc to be evyl"
+  - rscadd: "Vampire Lord manor has HERMES spots now"
+  - bugfix: "Wretchbase Zizo chapel benches no longer block you wrongly"

@@ -1,0 +1,4 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - balance: "All normal half-plate objects are ARMOR_CLASS_HEAVY"

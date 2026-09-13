@@ -90,6 +90,9 @@ Add a new override in your modular folder that looks like this:
 		if("set_preview_background")
 			character_preview_view?.preview_background.set_background(params["bg"])
 			return CHARACTER_ACT_DATA_UPDATE
+		if("cycle_preview_size")
+			character_preview_view?.cycle_forced_size(user)
+			return CHARACTER_ACT_DATA_UPDATE
 		if("cycle_boner_preview")
 			cycle_boner_preview()
 			return CHARACTER_ACT_PREVIEW_UPDATE

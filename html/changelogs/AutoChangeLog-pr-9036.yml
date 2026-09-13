@@ -1,0 +1,4 @@
+author: "Fi"
+delete-after: True
+changes:
+  - balance: "Revised the examination titles of the Lich and the Vampire Lord. The Lich's true title is always revealed unless masked, and the Vampire Lord's title is always obfuscated but is now \"Ancient Lord\" when revealed by the throat or regency (\"Ancient Lord Regent\")."

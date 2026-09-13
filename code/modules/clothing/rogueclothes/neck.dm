@@ -1438,7 +1438,7 @@
 
 /obj/item/clothing/neck/roguetown/coif/baotha
 	name = "saccharine veil"
-	desc = "And yet, their methods differed; Belladoth proposed with Her lust and temptation, Eora with Her love and warmth.."
+	desc = "Their methods differed; Eora's love and warmth promised comfort. But love was not enough to save the lepers. If it was, the priestess' beloved would have lived forever."
 	icon_state = "baothacoif"
 	item_state = "baothacoif"
 	armor = ARMOR_PADDED
@@ -1816,3 +1816,7 @@
 		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
 	return
 
+/obj/item/clothing/neck/roguetown/psicross/liefdonator
+	name = "Aurum's Amulets"
+	desc = "A long gold chain that was double woven for strength. At regular intervals, a gold loop just barely big enough to have something attached to it. Two of the loops had charms dangling from them. Each gold still. One in the shape of a Xylixian mask, the other in the shape of Dendor's claws."
+	icon_state = "lief_amulet"

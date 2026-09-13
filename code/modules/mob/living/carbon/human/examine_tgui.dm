@@ -204,7 +204,7 @@
 		"nsfw_ooc_extra_image" = nsfw_ooc_extra_image,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
-		"is_donator" = is_donator(holder.ckey),
+		"is_donator" = is_donator(holder?.ckey),
 		"is_naked" = is_naked,
 		"examine_theme" = char_examine_theme,
 		"song_title" = has_song ? song_title : null
