@@ -144,14 +144,17 @@ const footerStyle: React.CSSProperties = {
 const QUOTE_DEBOUNCE_MS = 120;
 
 const computeFillTarget = (quote: TradeQuote | null): number => {
-  if (!quote || !quote.ok) return 0;
+  if (!quote?.ok) return 0;
   const isImport = quote.side === 'import';
   const bulkCap = isImport
     ? quote.max_units
     : Math.min(quote.max_units, quote.stockpile_amount);
   let target = Math.min(quote.batch_capacity, bulkCap);
   if (isImport && quote.base_unit_price > 0) {
-    target = Math.min(target, Math.floor(quote.balance / quote.base_unit_price));
+    target = Math.min(
+      target,
+      Math.floor(quote.balance / quote.base_unit_price),
+    );
     if (quote.is_alderman_acting && quote.warrant_remaining >= 0) {
       target = Math.min(
         target,
@@ -181,11 +184,10 @@ export const TradeModal = (props: TradeModalProps) => {
   }, [request]);
 
   useEffect(() => {
-    if (!request || request.side !== 'export' || autoFilledRef.current) return;
+    if (request?.side !== 'export' || autoFilledRef.current) return;
     const fresh = data.trade_quote;
     if (
-      !fresh ||
-      fresh.side !== 'export' ||
+      fresh?.side !== 'export' ||
       fresh.region_id !== request.regionId ||
       fresh.good_id !== request.goodId
     ) {

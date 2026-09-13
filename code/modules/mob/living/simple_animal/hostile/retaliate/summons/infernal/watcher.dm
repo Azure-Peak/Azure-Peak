@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher
+	anatomy_type = /datum/anatomy/orb
 	threat_point = 70
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "infernal watcher"
@@ -40,7 +41,6 @@
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	canparry = TRUE
-	defprob = 35
 	// del_on_deaggro = 44 SECONDS
 	retreat_health = 0
 	food = 0
@@ -48,17 +48,13 @@
 	dodgetime = 30
 	aggressive = 1
 //	stat_attack = UNCONSCIOUS
-	ranged = TRUE
-	ranged_cooldown_time = 80
-	projectiletype = /obj/projectile/magic/aoe/fireball/rogue
-	ranged_message = "stares"
+	ai_controller = /datum/ai_controller/infernal/harasser
+	move_base_delay = MOVEMENT_DELAY_SPD_10
 
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/Initialize(mapload)
 	. = ..()
-	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)	//no wounding the watcher
-	return
+	var/datum/action/cooldown/spell/projectile/fireball/mob_ability/watcher/great/eyefire = new(src)
+	eyefire.Grant(src)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/death(gibbed)
 	..()

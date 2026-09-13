@@ -23,7 +23,7 @@
 	var/med_name
 	var/minor_name
 
-/obj/item/alch/Initialize()
+/obj/item/alch/Initialize(mapload)
 	. = ..()
 	if(!isnull(major_pot))
 		var/datum/alch_cauldron_recipe/rec = locate(major_pot) in GLOB.alch_cauldron_recipes
@@ -281,7 +281,7 @@
 /obj/item/alch/transisdust/attack_self(mob/living/user)
 	..()
 
-	if(alert("Do you wish to change your self?", "Dust of Self", "Yes", "No") != "Yes")
+	if(alert(user, "Do you wish to change your self?", "Dust of Self", "Yes", "No") != "Yes")
 		return
 	user.visible_message(
 		span_warn("[user] begins to use [src]."),
@@ -293,7 +293,7 @@
 	var/p_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in GLOB.pronouns_list
 	if(p_input)
 		user.pronouns = p_input
-	if(alert("Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
+	if(alert(user, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
 		user.gender = "male" ? "female" : "male"
 
 	if(!do_after(user, 5 SECONDS))
@@ -373,7 +373,7 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
 	w_class = WEIGHT_CLASS_TINY
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer	= 8.9 //On top of helmet
 
 	major_pot = /datum/alch_cauldron_recipe/berrypoison
 	med_pot = /datum/alch_cauldron_recipe/per_potion
@@ -422,13 +422,13 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
 	w_class = WEIGHT_CLASS_TINY
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer	= 8.9 //On top of helmet
 
 	major_pot = /datum/alch_cauldron_recipe/big_health_potion
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/health_potion
 
-/obj/item/alch/calendula/Initialize()
+/obj/item/alch/calendula/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/calenduladry,
@@ -448,7 +448,7 @@
 	med_pot = /datum/alch_cauldron_recipe/int_potion
 	minor_pot = /datum/alch_cauldron_recipe/stamina_potion
 
-/obj/item/alch/mentha/Initialize()
+/obj/item/alch/mentha/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/menthadry,
@@ -477,13 +477,13 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
 	w_class = WEIGHT_CLASS_TINY
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer	= 8.9 //On top of helmet
 
 	major_pot = /datum/alch_cauldron_recipe/con_potion
 	med_pot = /datum/alch_cauldron_recipe/str_potion
 	minor_pot = /datum/alch_cauldron_recipe/end_potion
 
-/obj/item/alch/salvia/Initialize()
+/obj/item/alch/salvia/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/salviadry,
@@ -504,7 +504,7 @@
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
 	minor_pot = /datum/alch_cauldron_recipe/antidote
 
-/obj/item/alch/hypericum/Initialize()
+/obj/item/alch/hypericum/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/zigardry,
@@ -533,7 +533,7 @@
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
 	minor_pot = /datum/alch_cauldron_recipe/stam_poison
 
-/obj/item/alch/valeriana/Initialize()
+/obj/item/alch/valeriana/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/cooking/salviavalerianadry,
@@ -575,7 +575,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
 	muteinmouth = FALSE
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer	= 8.9 //On top of helmet
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals
 	major_pot = /datum/alch_cauldron_recipe/lck_potion
 	med_pot = /datum/alch_cauldron_recipe/antidote

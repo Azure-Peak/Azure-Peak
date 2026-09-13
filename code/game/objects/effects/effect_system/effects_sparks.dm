@@ -34,7 +34,7 @@
 	plane = ABOVE_LIGHTING_PLANE
 
 
-/obj/effect/particle_effect/sparks/Initialize()
+/obj/effect/particle_effect/sparks/Initialize(mapload)
 	..()
 	dir = pick(GLOB.cardinals)
 	return INITIALIZE_HINT_LATELOAD

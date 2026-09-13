@@ -47,7 +47,7 @@
 	legwears_feature = null
 	return ..()
 
-/obj/item/legwears/random/Initialize()
+/obj/item/legwears/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -73,7 +73,7 @@
 	desc = "A legwear made just for the pure aesthetics. Made out of thin silk. Popular among nobles."
 	icon_state = "silk"
 
-/obj/item/legwears/silk/random/Initialize()
+/obj/item/legwears/silk/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -99,7 +99,7 @@
 	desc = "A legwear popular among wenches."
 	icon_state = "fishnet"
 
-/obj/item/legwears/fishnet/random/Initialize()
+/obj/item/legwears/fishnet/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -125,7 +125,7 @@
 	desc = "A legwear popular among those who plan to venture into colder climates."
 	icon_state = "thigh"
 
-/obj/item/legwears/thigh_high/random/Initialize()
+/obj/item/legwears/thigh_high/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -147,7 +147,7 @@
 	desc = "A legwear popular among those who enjoy taller boots."
 	icon_state = "knee"
 
-/obj/item/legwears/knee_high/random/Initialize()
+/obj/item/legwears/knee_high/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 

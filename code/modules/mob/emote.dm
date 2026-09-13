@@ -1,7 +1,7 @@
 //The code execution of the emote datum is located at code/datums/emotes.dm
-/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE)
+/mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE, quiet = FALSE)
 	var/oldact = act
-	act = lowertext(act)
+	act = LOWER_TEXT(act)
 
 	if(HAS_TRAIT(src, TRAIT_NOBREATH))
 		var/static/list/nobreath_blocked = list(
@@ -56,8 +56,10 @@
 				return
 
 	// autopunctuation
-	if((act == "me" || act == "subtle") && !client?.prefs?.no_autopunctuate)
-		param = autopunct_bare(param)
+	if((act == "me" || act == "subtle"))
+		param = accent_emote_quotes(param)
+		if(!client?.prefs?.no_autopunctuate)
+			param = autopunct_bare(param)
 
 	var/list/key_emotes = GLOB.emote_list[act]
 	var/mute_time = 0
@@ -71,7 +73,7 @@
 	else
 		for(var/datum/emote/P in key_emotes)
 			mute_time = P.mute_time
-			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal)))
+			if(P.run_emote(src, param, m_type, intentional, targetted, (animal ? animal : P.is_animal), quiet))
 				break
 		if(intentional)
 			SEND_SIGNAL(src, COMSIG_MOB_EMOTED, act, intentional)
@@ -131,7 +133,7 @@
 	return FALSE
 
 
-/datum/emote/spin/run_emote(mob/user, params ,  type_override, intentional)
+/datum/emote/spin/run_emote(mob/user, params ,	type_override, intentional)
 	. = ..()
 	if(.)
 		user.spin(20, 1)
@@ -184,13 +186,6 @@
 				pre_color_msg = trim(replacetext(pre_color_msg, "$n", "[emotelocation]"))
 			else
 				msg = "[styled_name] [msg]"
-
-			for(var/mob/M in GLOB.dead_mob_list)
-				if(!M.client || isnewplayer(M))
-					continue
-				var/turf/T = get_turf(emotelocation)
-				if(M.stat == DEAD && M.client && (M.client.prefs?.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
-					M.show_message(msg)
 
 			var/runechat_msg_to_use = P.show_runechat ? (P.runechat_msg ? P.runechat_msg : pre_color_msg) : null
 			if(P.emote_type == EMOTE_AUDIBLE)

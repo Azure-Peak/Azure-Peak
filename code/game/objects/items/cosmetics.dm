@@ -19,7 +19,7 @@
 	name = "black lipstick"
 	colour = "black"
 
-/obj/item/lipstick/Initialize()
+/obj/item/lipstick/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -44,7 +44,7 @@
 				H.lip_style = null
 				H.update_body()
 				return
-			
+
 			user.visible_message(
 				span_notice("[user] does [user.p_their()] lips with \the [src]."), \
 				span_notice("I take a moment to apply \the [src]. Perfect!")
@@ -69,7 +69,7 @@
 					H.lip_style = null
 					H.update_body()
 				return
-			
+
 			user.visible_message(
 				span_warning("[user] begins to do [H]'s lips with \the [src]."), \
 				span_notice("I begin to apply \the [src] on [H]'s lips...")

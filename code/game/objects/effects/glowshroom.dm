@@ -137,7 +137,7 @@
 /obj/structure/glowshroom/dendorite
 	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay.
 
-/obj/structure/glowshroom/dendorite/Initialize()
+/obj/structure/glowshroom/dendorite/Initialize(mapload)
 	. = ..()
 	if(timeleft)
 		QDEL_IN(src, timeleft)

@@ -6,7 +6,7 @@
 /datum/magic_item/proc/do_literally_anything_thanks()
 	return
 
-/datum/magic_item/proc/on_apply(var/obj/item/i)
+/datum/magic_item/proc/on_apply(obj/item/i)
 	if(glow_color)
 		i.filters += filter(type="outline", color=glow_color, size=1)
 	RegisterSignal(i, COMSIG_PROJECTILE_ON_HIT, PROC_REF(projectile_hit))
@@ -32,23 +32,23 @@
 
 /datum/magic_item/proc/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)	//when enchanted item hits a mob/living, do effect.
 
-/datum/magic_item/proc/on_hit_turf(var/turf/target, var/obj/item/I, var/mob/living/user)		//when enchated item hits a turf, do effect
+/datum/magic_item/proc/on_hit_turf(turf/target, obj/item/I, mob/living/user)		//when enchated item hits a turf, do effect
 
-/datum/magic_item/proc/on_hit_structure(var/obj/target, var/obj/item/I, var/mob/living/user)	//when enchanted item hits structure, do effect
+/datum/magic_item/proc/on_hit_structure(obj/target, obj/item/I, mob/living/user)	//when enchanted item hits structure, do effect
 
-/datum/magic_item/proc/on_equip(var/obj/item/i, var/mob/living/user, slot)	//when enchanted item is placed into an equipment slot, do effect
+/datum/magic_item/proc/on_equip(obj/item/i, mob/living/user, slot)	//when enchanted item is placed into an equipment slot, do effect
 
-/datum/magic_item/proc/on_pickup(var/obj/item/i, var/mob/living/user)		//when enchanted item is picked up, do effect
+/datum/magic_item/proc/on_pickup(obj/item/i, mob/living/user)		//when enchanted item is picked up, do effect
 
-/datum/magic_item/proc/on_use(var/obj/item/i, var/mob/living/user)		//when enchanted item is used in hand, do effect
+/datum/magic_item/proc/on_use(obj/item/i, mob/living/user)		//when enchanted item is used in hand, do effect
 
-/datum/magic_item/proc/on_drop(var/obj/item/i, var/mob/living/user)		//when enchanted item is dropped, do effect
+/datum/magic_item/proc/on_drop(obj/item/i, mob/living/user)		//when enchanted item is dropped, do effect
 	addtimer(CALLBACK(src, PROC_REF(drop_effects), i, user), 1)
 
-/datum/magic_item/proc/drop_effects(var/obj/item/i, var/mob/living/user)
+/datum/magic_item/proc/drop_effects(obj/item/i, mob/living/user)
 
 /datum/magic_item/proc/projectile_hit(atom/fired_from, atom/movable/firer, atom/target, Angle)	//effects when shooting a protectile from an enchanted item
 
-/datum/magic_item/proc/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)//use for worn items such as armor to have effects on hit.
+/datum/magic_item/proc/on_hit_response(obj/item/I, mob/living/carbon/human/owner, mob/living/carbon/human/attacker)//use for worn items such as armor to have effects on hit.
 
-/datum/magic_item/proc/attack_right(var/obj/item/i, var/mob/living/user) // Use for when you right click on an item (like shimmering lens)
+/datum/magic_item/proc/attack_right(obj/item/i, mob/living/user) // Use for when you right click on an item (like shimmering lens)

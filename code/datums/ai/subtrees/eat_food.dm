@@ -11,7 +11,7 @@
 	if(pawn.doing)
 		return
 	if(!istype(target, /obj/item/reagent_containers/food/snacks/rogue))
-		behavior = /datum/ai_behavior/eat_food_from_ground       //if it's a snack then we can just use item interaction otherwise eat from ground
+		behavior = /datum/ai_behavior/eat_food_from_ground		//if it's a snack then we can just use item interaction otherwise eat from ground
 
 	controller.queue_behavior(behavior, BB_BASIC_MOB_FOOD_TARGET)
 	return SUBTREE_RETURN_FINISH_PLANNING //we are going to eat...no distractions.

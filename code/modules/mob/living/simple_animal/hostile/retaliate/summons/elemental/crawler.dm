@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler
+	anatomy_type = /datum/anatomy/construct/trash
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "earthen crawler"
 	desc = "This is a relatively small elemental formed of dirt, rock, and clay. It \
@@ -34,8 +35,6 @@
 	pooptype = null
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	defprob = 20
-	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
 	retreat_health = 0
 	food = 0
@@ -50,7 +49,10 @@
 	STASTR = 8
 	STASPD = 8
 
-/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler/Initialize()
+	ai_controller = /datum/ai_controller/elemental
+	move_base_delay = MOVEMENT_DELAY_SPD_3
+
+/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler/Initialize(mapload)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	. = ..()
 

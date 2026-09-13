@@ -28,7 +28,7 @@
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/fruit/plum = 4, /obj/item/reagent_containers/food/snacks/sugar = 2)
 	brewed_amount = 6
 	brew_time = 5 MINUTES
-	sell_value = 90 
+	sell_value = 90
 
 	ages = TRUE
 	age_times = list(
@@ -101,7 +101,7 @@
 	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/whipwine
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(/obj/item/alch/atropa = 1, /obj/item/reagent_containers/food/snacks/sugar = 1, /obj/item/alch/matricaria = 1,
-						 /obj/item/alch/paris = 1, /obj/item/rogueweapon/whip = 1) // poisonous herbs, sugar, and an actual whip. the power of Mistranslations...
+							/obj/item/alch/paris = 1, /obj/item/rogueweapon/whip = 1) // poisonous herbs, sugar, and an actual whip. the power of Mistranslations...
 	brewed_amount = 4
 	brew_time = 7 MINUTES
 	sell_value = 160
@@ -115,10 +115,10 @@
 	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/luxintenebre
 	needed_reagents = list(/datum/reagent/water = 198) // standard
 	needed_items = list(/obj/item/reagent_containers/lux_impure = 1, /obj/item/reagent_containers/food/snacks/sugar = 2,
-						 /obj/item/alch/calendula = 1) // a single lux, sugar, and a healing herb. seems fair 2 me.
+							/obj/item/alch/calendula = 1) // a single lux, sugar, and a healing herb. seems fair 2 me.
 	brewed_amount = 2 // should make 2 bottles
 	brew_time = 5 MINUTES
-	sell_value = 200  // this shits heretical and has a high black market value - #Translates into 100c per bottle. Little devilish stuff, it is!
+	sell_value = 200	// this shits heretical and has a high black market value - #Translates into 100c per bottle. Little devilish stuff, it is!
 
 /datum/brewing_recipe/winespiced
 	name = "Wine, Spiced"

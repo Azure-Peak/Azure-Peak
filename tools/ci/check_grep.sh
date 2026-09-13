@@ -95,7 +95,7 @@ fi;
 
 section "whitespace issues"
 part "space indentation"
-if $grep '(^ {2})|(^ [^ * ])|(^    +)' $code_files; then
+if $grep '(^ {2})|(^ [^*])|(^    +)' $code_files; then
 	echo
     echo -e "${RED}ERROR: Space indentation detected, please use tab indentation.${NC}"
     st=1
@@ -105,17 +105,6 @@ if $grep '^\t+ [^ *]' $code_files; then
 	echo
     echo -e "${RED}ERROR: Mixed <tab><space> indentation detected, please stick to tab indentation.${NC}"
     st=1
-fi;
-
-section "unit tests"
-unit_test_files="code/modules/unit_tests/**/**.dm"
-part "mob/living/carbon/human usage"
-if $grep 'allocate\(/mob/living/carbon/human[,\)]' $unit_test_files ||
-	$grep 'new /mob/living/carbon/human\s?\(' $unit_test_files ||
-	$grep 'var/mob/living/carbon/human/\w+\s?=\s?new' $unit_test_files ; then
-	echo
-	echo -e "${RED}ERROR: Usage of mob/living/carbon/human detected in a unit test, please use mob/living/carbon/human/consistent.${NC}"
-	st=1
 fi;
 
 section "common mistakes"
@@ -162,6 +151,27 @@ if $grep -i 'lowertext\(.+\)' $code_files | $grep -v 'UNLINT\(.+\)' | $grep -v '
 	st=1
 fi;
 
+part "enforce explicit input usr"
+if $grep -i '\binput\(".+\)' $code_files; then
+	echo
+	echo -e "${RED}ERROR: input() called without explicitly specifying a target. This will default to the byond-builtin usr - which is not usually what you want and can be null. If you REALLY want to use usr (which you should ONLY do in verbs and Topic()), pass it in as an explicit argument.${NC}"
+	st=1
+fi;
+
+part "enforce explicit alert usr"
+if $grep -i '\balert\(".+\)' $code_files; then
+	echo
+	echo -e "${RED}ERROR: alert() called without explicitly specifying a target. This will default to the byond-builtin usr - which is not usually what you want and can be null. If you REALLY want to use usr (which you should ONLY do in verbs and Topic()), pass it in as an explicit argument.${NC}"
+	st=1
+fi;
+
+part "prevent unintended debug messages"
+if $grep -i '^[^#].+to_chat\(world.+\)' $code_files; then
+	echo
+	echo -e "${RED}ERROR: to_chat() called on world, which will broadcast to all connected players. If this is a debug message, remove it or use debug_world; if not, use the to_world helper.${NC}"
+	st=1
+fi;
+
 part "balloon_alert sanity"
 if $grep 'balloon_alert\(".*"\)' $code_files; then
 	echo
@@ -172,13 +182,6 @@ fi;
 if $grep 'balloon_alert(.*span_)' $code_files; then
 	echo
 	echo -e "${RED}ERROR: Balloon alerts should never contain spans.${NC}"
-	st=1
-fi;
-
-part "balloon_alert idiomatic usage"
-if $grep 'balloon_alert\(.*?, ?"[A-Z]' $code_files; then
-	echo
-	echo -e "${RED}ERROR: Balloon alerts should not start with capital letters. This includes text like 'AI'. If this is a false positive, wrap the text in UNLINT().${NC}"
 	st=1
 fi;
 

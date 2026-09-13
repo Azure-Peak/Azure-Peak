@@ -74,7 +74,7 @@
 	dead = TRUE
 	rotprocess = SHELFLIFE_SHORT
 
-/obj/item/reagent_containers/food/snacks/smallrat/Initialize()
+/obj/item/reagent_containers/food/snacks/smallrat/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 	if(dead)

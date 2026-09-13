@@ -1,5 +1,4 @@
 /datum/ai_controller/deepone
-	movement_delay = DEEPONE_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
@@ -14,7 +13,6 @@
 	)
 
 /datum/ai_controller/deepone_ranged
-	movement_delay = DEEPONE_MOVEMENT_SPEED * 1.2 //ranged malus
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 

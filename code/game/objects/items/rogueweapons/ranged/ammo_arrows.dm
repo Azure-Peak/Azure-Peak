@@ -12,7 +12,7 @@
 	Consult your gods."
 	projectile_type = /obj/projectile/bullet/reusable/arrow
 	caliber = "arrow"
-	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
+	icon = 'icons/roguetown/weapons/ranged/arrow_mob32.dmi'
 	icon_state = "arrow"
 	force = 10
 	dropshrink = 0.6
@@ -53,7 +53,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
-	desc = "An arrow; one end, tipped with flattened and frayed bronze - the other, \
+	desc = "An arrow; one end, tipped with flattened and rotted metal - the other, \
 	inlaid with decayed feathers. The alloy's decrepity forces it to burst into \
 	shrapnel upon impact, shredding flesh."
 	icon_state = "ancientarrow"
@@ -79,7 +79,6 @@
 	name = "arrow"
 	damage = 20
 	damage_type = BRUTE
-	npc_simple_damage_mult = 2
 	armor_penetration = PEN_NONE
 	//accuracy = 65 // Default defined by projectile.dm
 	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
@@ -95,6 +94,7 @@
 	speed = 0.4
 	min_range = MIN_ARROW_RANGE
 	max_range = MAX_ARROW_RANGE
+	dam_falloff_factor = DAM_FALLOFF_ARROW
 	var/trains_ranged_skill = TRUE
 
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
@@ -135,7 +135,6 @@
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
 	embedchance = 30
-	npc_simple_damage_mult = 2
 
 
 /obj/projectile/bullet/reusable/arrow/iron/aalloy
@@ -156,7 +155,6 @@
 	damage = 30
 	armor_penetration = PEN_HEAVY
 	embedchance = 80 // Easy embeds!
-	npc_simple_damage_mult = 3
 
 // Significantly worse armour-piercing, slightly more damage. Should still penetrate most things.
 // Note that it's pretty likely the skeleton using these has a longbow, which penetrates more stuff.
@@ -177,7 +175,6 @@
 	damage = 50
 	armor_penetration = PEN_NONE
 	embedchance = 70
-	npc_simple_damage_mult = 3 //More damage over simplemobs!
 	speed = 0.15 // Faster!
 
 // POISON AMMO
@@ -227,7 +224,6 @@
 	damage = 60 //The rarest, but most powerful arrow subtype. Intended to be incredibly scarce, in practice - a 'silver bullet', to the most literal extent.
 	armor_penetration = PEN_HEAVY
 	embedchance = 100
-	npc_simple_damage_mult = 7 //..or 420 damage against a mindless mob. Strike true; reduce if these become craftable or more easily acquirable, through any means.
 	is_silver_proj = TRUE
 
 /obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
@@ -249,7 +245,6 @@
 /obj/item/ammo_casing/caseless/rogue/arrow/elemental
 	name = "elemental arrow"
 	desc = "An iron broadhead arrow coated with an alchemical tincture."
-	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
 	caliber = "arrow"
 	ammo_weight = 1
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
@@ -275,7 +270,7 @@
 	name = "fire arrow"
 	desc = "An iron broadhead drenched in a flammable tincture. It smolders faintly."
 	projectile_type = /obj/projectile/bullet/arrow/elemental/fire
-	icon_state = "arrow_pyroclastic"
+	icon_state = "arrow_pyro"
 
 /obj/projectile/bullet/arrow/elemental/fire
 	name = "fire arrow"
@@ -430,7 +425,6 @@
 	armor_penetration = PEN_HEAVY
 	icon_state = "blacksteelarrow_proj"
 	embedchance = 80
-	npc_simple_damage_mult = 7 //..or 350 damage against a mindless mob.
 	accuracy = 100
 
 /obj/projectile/bullet/reusable/arrow/iron/paint

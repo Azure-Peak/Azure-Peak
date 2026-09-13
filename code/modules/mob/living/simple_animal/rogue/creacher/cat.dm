@@ -1,4 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/cat
+	threat_point = THREAT_TRASH
+	attack_aim = MOB_AIM_GROUND
+	anatomy_type = /datum/anatomy/quadruped/trash
 	name = "cat"
 	desc = "A ferocious little beast."
 	icon = 'icons/mob/pets.dmi'
@@ -13,8 +16,8 @@
 	turns_per_move = 5
 
 	// Combat setup
-	health = 50
-	maxHealth = 50
+	health = CAT_HEALTH
+	maxHealth = CAT_HEALTH
 	melee_damage_lower = 5
 	melee_damage_upper = 10
 	obj_damage = 10
@@ -32,14 +35,12 @@
 	pass_flags = PASSTABLE
 	mobility_flags = MOBILITY_FLAGS_DEFAULT
 	move_resist = MOVE_FORCE_WEAK
-	speed = 1
 	retreat_distance = 3
 	minimum_distance = 1
 
 	// Behavior
 	faction = list(FACTION_ROGUEANIMAL)
 	deaggroprob = 15
-	defprob = 30
 	dodgetime = 10
 	del_on_deaggro = 99 SECONDS
 
@@ -47,6 +48,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
+	move_base_delay = MOVEMENT_DELAY_LUMBERING
 
 	// Loot
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat = 1)

@@ -32,7 +32,7 @@
 	var/maxdist = 320
 	var/refresh = 1
 
-/obj/effect/tracker/Initialize()
+/obj/effect/tracker/Initialize(mapload)
 	. = ..()
 	absolute_X = (x * 32)
 	absolute_Y = (y * 32)

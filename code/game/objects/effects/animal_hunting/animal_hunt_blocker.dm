@@ -4,7 +4,7 @@
 	/// Cooldown period (90 seconds)
 	var/hunt_cooldown = 90 SECONDS
 
-/datum/component/hunting_blocker/Initialize()
+/datum/component/hunting_blocker/Initialize(mapload)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 

@@ -89,3 +89,9 @@
 #define CONJURE_RECOIL_LIGHT 0
 #define CONJURE_RECOIL_PARTIAL 1
 #define CONJURE_RECOIL_FULL 2
+
+// CONJURATION SUMMON REPLACEMENT MODE
+// Summons at capacity = the entire group get replaced. Best used with summon amount = the capacity.
+#define CONJURE_SUMMON_GROUP 0
+// Summons are individual - casting at capacity dismisses the oldest.
+#define CONJURE_SUMMON_SINGLES 1

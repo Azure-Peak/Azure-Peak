@@ -10,15 +10,15 @@ SUBSYSTEM_DEF(traumas)
 
 #define PHOBIA_FILE "phobia.json"
 
-/datum/controller/subsystem/traumas/Initialize()
+/datum/controller/subsystem/traumas/Initialize(mapload)
 	//phobia types is to pull from randomly for brain traumas, e.g. conspiracies is for special assignment only
 	phobia_types = sortList(list("spiders", "lizards",
 						"skeletons", "snakes",
 						"strangers", "birds", "falling", "anime"))
 
 	phobia_words = list(
-		"spiders"   = strings(PHOBIA_FILE, "spiders"),
-		"lizards"   = strings(PHOBIA_FILE, "lizards"),
+		"spiders"	= strings(PHOBIA_FILE, "spiders"),
+		"lizards"	= strings(PHOBIA_FILE, "lizards"),
 		"skeletons" = strings(PHOBIA_FILE, "skeletons"),
 		"snakes"	= strings(PHOBIA_FILE, "snakes"),
 		"strangers"	= strings(PHOBIA_FILE, "strangers"),
@@ -28,9 +28,9 @@ SUBSYSTEM_DEF(traumas)
 	)
 
 	phobia_objs = list(
-		"spiders"   = typecacheof(list(/obj/structure/spider)),
+		"spiders"	= typecacheof(list(/obj/structure/spider)),
 
-		"lizards"   = typecacheof(list(
+		"lizards"	= typecacheof(list(
 									/obj/item/organ/tail/lizard)),
 
 		"skeletons" = typecacheof(list(/obj/item/organ/tongue/bone,

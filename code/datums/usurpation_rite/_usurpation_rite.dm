@@ -1,5 +1,5 @@
 /**
- * # Usurpation Rite
+ * Usurpation Rite
  *
  * Base datum for rites of succession.
  *
@@ -228,7 +228,7 @@
 
 	var/realm = SSticker.realm_name || "Azure Peak"
 	// Imitate the text whenever a new Duke joins the game
-	to_chat(world, "<b><span class='notice'><span class='big'>[invoker.real_name] is [SSticker.rulertype] of [realm].</span></span></b>")
+	to_world("<b><span class='notice'><span class='big'>[invoker.real_name] is [SSticker.rulertype] of [realm].</span></span></b>")
 
 /datum/usurpation_rite/proc/fail(reason)
 	on_fail(reason)

@@ -7,12 +7,12 @@
 	traits_tier = list(TRAIT_NASTY_EATER = CLERIC_T1)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/graggar/rush					= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/graggar/hamstring				= CLERIC_T1,
-					/datum/action/cooldown/spell/projectile/graggar_net		 	= CLERIC_T2,
+					/datum/action/cooldown/spell/projectile/graggar_net				= CLERIC_T2,
 					/datum/action/cooldown/spell/graggar/graggar_battlecry		= CLERIC_T2,
-					/datum/action/cooldown/spell/graggar/exsanguinate		 	= CLERIC_T3,
+					/datum/action/cooldown/spell/graggar/exsanguinate				= CLERIC_T3,
 					/datum/action/cooldown/spell/graggar/avatar					= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/graggar		= CLERIC_T4,
 	)
@@ -32,12 +32,12 @@
 	)
 
 /datum/patron/inhumen/graggar/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus,
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus,
 	is_inhumen
 )
 	*is_inhumen = TRUE

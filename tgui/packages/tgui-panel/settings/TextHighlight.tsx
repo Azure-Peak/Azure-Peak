@@ -14,7 +14,7 @@ import { chatRenderer } from '../chat/renderer';
 import { WARN_AFTER_HIGHLIGHT_AMT } from './constants';
 import { useHighlights } from './use-highlights';
 
-export function TextHighlightSettings(props) {
+export function TextHighlightSettings() {
   const {
     highlights: { highlightSettings },
     addHighlight,
@@ -78,7 +78,9 @@ function extractRegex(highlight: string): string | null {
   return expr;
 }
 
-function TextHighlightSetting(props) {
+function TextHighlightSetting(
+  props: { id: string } & React.ComponentProps<typeof Stack.Item>,
+) {
   const { id, ...rest } = props;
   const {
     highlights: { highlightSettingById },

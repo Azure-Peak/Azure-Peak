@@ -117,7 +117,7 @@
 		target.visible_message(span_danger("[M] has been splashed with something!"), \
 						span_danger("[M] has been splashed with something!"))
 		for(var/datum/reagent/A in reagents.reagent_list)
-			R += "[A.type]  ([num2text(A.volume)]),"
+			R += "[A.type]	([num2text(A.volume)]),"
 
 		if(thrownby)
 			log_combat(thrownby, M, "splashed", R)

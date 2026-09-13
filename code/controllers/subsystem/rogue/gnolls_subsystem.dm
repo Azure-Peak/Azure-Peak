@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(gnoll_scaling)
 /datum/controller/subsystem/gnoll_scaling/proc/unlock_gnoll_scaling()
 	var/players_amt = get_active_player_count(alive_check = 1, afk_check = 1, human_check = 1)
 	if(players_amt < 25)
-		addtimer(CALLBACK(src, .proc/unlock_gnoll_scaling), 6000)
+		addtimer(CALLBACK(src, PROC_REF(unlock_gnoll_scaling)), 6000)
 		return
 
 	gnoll_playercount_lock = FALSE
@@ -54,7 +54,7 @@ SUBSYSTEM_DEF(gnoll_scaling)
 
 	// Aiming for rougly 30 minutes into the round
 	// Will not unlock scaling if there's too few players
-	addtimer(CALLBACK(src, .proc/unlock_gnoll_scaling), 24000)
+	addtimer(CALLBACK(src, PROC_REF(unlock_gnoll_scaling)), 24000)
 	var/datum/storyteller/ST = get_storyteller_for_gnoll_scaling()
 	if(!ST)
 		gnoll_scaling_mode = GNOLL_SCALING_SINGLE

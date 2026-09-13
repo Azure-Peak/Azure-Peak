@@ -14,9 +14,9 @@ SUBSYSTEM_DEF(dbcore)
 	var/last_error
 	var/list/active_queries = list()
 
-	var/connection  // Arbitrary handle returned from rust_g.
+	var/connection	// Arbitrary handle returned from rust_g.
 
-/datum/controller/subsystem/dbcore/Initialize()
+/datum/controller/subsystem/dbcore/Initialize(mapload)
 	//We send warnings to the admins during subsystem init, as the clients will be New'd and messages
 	//will queue properly with goonchat
 	switch(schema_mismatch)
@@ -211,7 +211,7 @@ You are expected to do your own escaping of the data, and expected to provide yo
 The duplicate_key arg can be true to automatically generate this part of the query
 	or set to a string that is appended to the end of the query
 Ignore_errors instructes mysql to continue inserting rows if some of them have errors.
-	 the erroneous row(s) aren't inserted and there isn't really any way to know why or why errored
+		the erroneous row(s) aren't inserted and there isn't really any way to know why or why errored
 Delayed insert mode was removed in mysql 7 and only works with MyISAM type tables,
 	It was included because it is still supported in mariadb.
 	It does not work with duplicate_key and the mysql server ignores it in those cases
@@ -246,7 +246,7 @@ Delayed insert mode was removed in mysql 7 and only works with MyISAM type table
 	for (var/list/row in rows)
 		if (has_row)
 			query_parts += ","
-		query_parts += "\n  ("
+		query_parts += "\n	("
 		var/has_col = FALSE
 		for (var/column in columns)
 			if (has_col)
@@ -294,7 +294,7 @@ Delayed insert mode was removed in mysql 7 and only works with MyISAM type table
 	var/affected
 	var/last_insert_id
 
-	var/list/item  //list of data values populated by NextRow()
+	var/list/item	//list of data values populated by NextRow()
 
 /datum/DBQuery/New(connection, sql, arguments)
 	SSdbcore.active_queries[src] = TRUE

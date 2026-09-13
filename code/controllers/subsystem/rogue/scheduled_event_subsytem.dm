@@ -7,7 +7,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	var/list/fog_schedule = list()
 	var/fog_timer_id
 
-/datum/controller/subsystem/event_scheduler/Initialize()
+/datum/controller/subsystem/event_scheduler/Initialize(mapload)
 	. = ..()
 	load_fog_schedule()
 	if(check_schedule_new())
@@ -15,11 +15,11 @@ SUBSYSTEM_DEF(event_scheduler)
 
 	/// UNCOMMENT BELOW FOR DEBUGGING PURPOSES, ENABLES FOG REGARDLESS OF SCHEDULER ///
 
-	// fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), 1 MINUTES, TIMER_STOPPABLE)
-	// addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
+	// fog_timer_id = addtimer(CALLBACK(src, PROC_REF(trigger_fog_event)), 1 MINUTES, TIMER_STOPPABLE)
+	// addtimer(CALLBACK(src, PROC_REF(delayed_tech_unlock)), 1 MINUTES)
 	// fog_scheduled = TRUE
 
-/datum/controller/subsystem/event_scheduler/proc/schedule_fog(var/delayinminutes = 40)
+/datum/controller/subsystem/event_scheduler/proc/schedule_fog(delayinminutes = 40)
 	if(fog_scheduled || fog_active)
 		return
 
@@ -28,10 +28,10 @@ SUBSYSTEM_DEF(event_scheduler)
 	priority_announce("The fog looms over the hills in the distance. The Peaks are hungry tonight.\n\n\
 	- The fog is lethal, do not venture forth without a fog-repelling lamptern. These relics protect those in their light.\n\
 	- Necran clergy may ward off the fog or perform rituals to safeguard entire areas.\n\
-	- Lampterns are not eternal, they must be refilled with blessed, golden-colored oils.", 
+	- Lampterns are not eternal, they must be refilled with blessed, golden-colored oils.",
 	"Azure Peak Weather")
-	addtimer(CALLBACK(src, .proc/delayed_tech_unlock), 1 MINUTES)
-	fog_timer_id = addtimer(CALLBACK(src, .proc/trigger_fog_event), fogtime, TIMER_STOPPABLE)
+	addtimer(CALLBACK(src, PROC_REF(delayed_tech_unlock)), 1 MINUTES)
+	fog_timer_id = addtimer(CALLBACK(src, PROC_REF(trigger_fog_event)), fogtime, TIMER_STOPPABLE)
 
 /datum/controller/subsystem/event_scheduler/proc/trigger_fog_event()
 	fog_active = TRUE
@@ -39,7 +39,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	priority_announce("The fog bellows in from over the hills, coating the peaks in ominous hue.\n\n\
 	- The fog is lethal; do not venture forth without a fog-repelling lamptern. These relics protect those in their light.\n\
 	- Necran clergy may ward off the fog or perform rituals to safeguard entire areas.\n\
-	- Lampterns are not eternal; they must be refilled with blessed, golden-colored oils.", 
+	- Lampterns are not eternal; they must be refilled with blessed, golden-colored oils.",
 	"Azure Peak Weather")
 
 /proc/show_current_datetime()
@@ -50,7 +50,7 @@ SUBSYSTEM_DEF(event_scheduler)
 	var/min = text2num(time2text(world.timeofday, "mm"))
 	var/weekday = time2text(world.timeofday, "Day") // Full day name
 
-	to_chat(world, span_userdanger("Today is [weekday], [mm]/[dd]/20[yy] at [hh]:[min]"))
+	to_world(span_userdanger("Today is [weekday], [mm]/[dd]/20[yy] at [hh]:[min]"))
 
 /datum/controller/subsystem/event_scheduler/proc/update_mob_fog_status(atom/movable/AM, area_is_safe)
 	if(!ishuman(AM))
@@ -181,7 +181,7 @@ SUBSYSTEM_DEF(event_scheduler)
 		ui_interact(usr)
 
 /datum/controller/subsystem/event_scheduler/proc/check_schedule_new()
-	var/weekday = lowertext(time2text(world.timeofday, "Day")) 
+	var/weekday = LOWER_TEXT(time2text(world.timeofday, "Day"))
 	var/time_str = fog_schedule[weekday]
 
 	if(!time_str || time_str == "")
@@ -189,7 +189,7 @@ SUBSYSTEM_DEF(event_scheduler)
 
 	var/curr_hh = text2num(time2text(world.timeofday, "hh"))
 	var/curr_mm = text2num(time2text(world.timeofday, "mm"))
-	
+
 	var/list/split = splittext(time_str, ":")
 	var/targ_hh = text2num(split[1])
 	var/targ_mm = text2num(split[2])
@@ -217,13 +217,13 @@ SUBSYSTEM_DEF(event_scheduler)
 	else if(end_win > 1440)
 		if(now_mins >= start_win || now_mins <= (end_win - 1440))
 			result = TRUE
-			
+
 	// Standard daytime window
 	else
 		if(now_mins >= start_win && now_mins <= end_win)
 			result = TRUE
 
-	//to_chat(world, span_userdanger("FOG DEBUG: Time [curr_hh]:[curr_mm] | Target [targ_hh]:[targ_mm] | Window: [start_h]:[start_m] to [end_h]:[end_m] | Result: [result]"))
+	//to_world(span_userdanger("FOG DEBUG: Time [curr_hh]:[curr_mm] | Target [targ_hh]:[targ_mm] | Window: [start_h]:[start_m] to [end_h]:[end_m] | Result: [result]"))
 	return result
 
 /client/proc/manage_fog_schedule()

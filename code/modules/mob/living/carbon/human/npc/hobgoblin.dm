@@ -50,7 +50,7 @@
 	a_intent = INTENT_HELP
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
 
-//////////////////   BODYPARTS	//////////////////
+//////////////////	BODYPARTS	//////////////////
 	// Dismemberable by default (unlike goblins); high CON is the counterweight.
 /obj/item/bodypart/chest/hobgoblin
 	max_pain_damage = 100
@@ -71,7 +71,7 @@
 	max_pain_damage = 75
 
 
-//////////////////   PROCS	//////////////////
+//////////////////	PROCS	//////////////////
 /obj/item/bodypart/head/hobgoblin/update_icon_dropped()
 	return
 
@@ -84,7 +84,7 @@
 /mob/living/carbon/human/species/hobgoblin/update_inv_armor()
 	update_wearable()
 
-/mob/living/carbon/human/species/hobgoblin/Initialize()
+/mob/living/carbon/human/species/hobgoblin/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
@@ -183,7 +183,7 @@
 			equipOutfit(O)
 
 
-//////////////////   OUTFITS	//////////////////
+//////////////////	OUTFITS	//////////////////
 
 /datum/outfit/job/roguetown/npc/hobgoblin/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -1,17 +1,17 @@
-#define BB_KICK_COOLDOWN           "bb_kick_cooldown"
-#define BB_GRAB_REACTION_AT        "bb_grab_reaction_at"
-#define BB_GRAB_REACTION_GRABBER   "bb_grab_reaction_grabber"
-#define KICK_COOLDOWN              (20 SECONDS)
-#define KICK_WALLED_CHANCE         30  // target backed against a wall
-#define KICK_CHOKEPOINT_CHANCE     25  // target in a doorway/corridor (2+ dense neighbors)
-#define KICK_STACKED_ENEMY_CHANCE  20  // non-allied mob behind target to knock into
-#define KICK_OPPORTUNISTIC_CHANCE  10  // target is off-balanced, prone, or stunned
-#define KICK_EXHAUSTED_CHANCE      35  // target is fatigued - kick guarantees knockdown
-#define KICK_EXHAUSTED_THRESHOLD   1 // 1 = fully exhausted, guarantees knockdown per species.dm
-#define KICK_CHOKEPOINT_THRESHOLD  2   // minimum dense cardinal neighbors to count as chokepoint
-#define GRAB_REACTION_BASE         20  // deciseconds; reduced by (STAINT + STAPER)
-#define GRAB_REACTION_MIN          3   // floor so even maxed stats can't be frame-perfect
-#define GRAB_REACTION_JITTER       2   // +/- deciseconds of randomness
+#define BB_KICK_COOLDOWN			"bb_kick_cooldown"
+#define BB_GRAB_REACTION_AT		"bb_grab_reaction_at"
+#define BB_GRAB_REACTION_GRABBER	"bb_grab_reaction_grabber"
+#define KICK_COOLDOWN				(20 SECONDS)
+#define KICK_WALLED_CHANCE			30	// target backed against a wall
+#define KICK_CHOKEPOINT_CHANCE		25	// target in a doorway/corridor (2+ dense neighbors)
+#define KICK_STACKED_ENEMY_CHANCE	20	// non-allied mob behind target to knock into
+#define KICK_OPPORTUNISTIC_CHANCE	10	// target is off-balanced, prone, or stunned
+#define KICK_EXHAUSTED_CHANCE		35	// target is fatigued - kick guarantees knockdown
+#define KICK_EXHAUSTED_THRESHOLD	1 // 1 = fully exhausted, guarantees knockdown per species.dm
+#define KICK_CHOKEPOINT_THRESHOLD	2	// minimum dense cardinal neighbors to count as chokepoint
+#define GRAB_REACTION_BASE			20	// deciseconds; reduced by (STAINT + STAPER)
+#define GRAB_REACTION_MIN			3	// floor so even maxed stats can't be frame-perfect
+#define GRAB_REACTION_JITTER		2	// +/- deciseconds of randomness
 
 /datum/ai_planning_subtree/kick_attack
 
@@ -22,6 +22,8 @@
 		return
 	var/mob/living/pawn = controller.pawn
 	if(!pawn.Adjacent(target))
+		return
+	if(pawn.incapacitated(ignore_restraints = TRUE) || pawn.is_carried() || pawn.is_legbound())
 		return
 	if(pawn.IsOffBalanced())
 		return
@@ -132,28 +134,21 @@
 	set_movement_target(controller, target)
 
 /datum/ai_behavior/npc_kick_attack/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
-	. = ..()
 	var/mob/living/pawn = controller.pawn
 	var/mob/living/target = controller.blackboard[target_key]
 
 	if(!target || QDELETED(target) || !pawn.Adjacent(target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	if(pawn.incapacitated(ignore_restraints = TRUE) || pawn.is_carried() || pawn.is_legbound())
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(!pawn.can_kick(target, do_message = FALSE))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	// Aim low when prone - kick at feet/legs
 	if(!(pawn.mobility_flags & MOBILITY_STAND))
 		pawn.aimheight_change(rand(1, 4))
-
-	// Set up kick intent
-	var/old_mmb = pawn.mmb_intent
-	pawn.mmb_intent = new INTENT_KICK(pawn)
-	pawn.try_kick(target)
-	QDEL_NULL(pawn.mmb_intent)
-	pawn.mmb_intent = old_mmb
 
 	var/kick_cd = npc_technique_cd(pawn, KICK_COOLDOWN)
 	controller.set_blackboard_key(BB_KICK_COOLDOWN, world.time + kick_cd)
@@ -163,8 +158,16 @@
 	// combo into a full attack right after.
 	if(pawn.next_click < world.time + 1.2 SECONDS)
 		pawn.next_click = world.time + 1.2 SECONDS
+
+	// Set up kick intent
+	var/old_mmb = pawn.mmb_intent
+	pawn.mmb_intent = new INTENT_KICK(pawn)
+	pawn.try_kick(target)
+	QDEL_NULL(pawn.mmb_intent)
+	pawn.mmb_intent = old_mmb
+
 	AI_THINK(pawn, "KICK: kicked [target]!")
-	finish_action(controller, TRUE, target_key)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/npc_kick_attack/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	. = ..()

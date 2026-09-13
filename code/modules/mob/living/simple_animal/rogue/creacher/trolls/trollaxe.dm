@@ -23,7 +23,7 @@
 	name = "troll axe"
 	icon_state = "instrike"
 	attack_verb = list("hacks at", "slashes", "chops", "crushes")
-	animname = "blank22"
+	animname = "chop"
 	hitsound = "genchop"
 	blade_class = BCLASS_CHOP
 	chargetime = 20

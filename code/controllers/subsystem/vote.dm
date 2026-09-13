@@ -261,12 +261,7 @@ SUBSYSTEM_DEF(vote)
 						greatest_votes = choices[GLOB.master_mode]
 			else if(mode == "map")
 				for (var/non_voter_ckey in non_voters)
-					var/client/C = non_voters[non_voter_ckey]
-					if(C.prefs.preferred_map)
-						var/preferred_map = C.prefs.preferred_map
-						choices[preferred_map] += 1
-						greatest_votes = max(greatest_votes, choices[preferred_map])
-					else if(global.config.defaultmap)
+					if(global.config.defaultmap)
 						var/default_map = global.config.defaultmap.map_name
 						choices[default_map] += 1
 						greatest_votes = max(greatest_votes, choices[default_map])
@@ -319,7 +314,7 @@ SUBSYSTEM_DEF(vote)
 			text += "<b>Vote Result: Inconclusive - No Votes!</b>"
 	log_vote(text)
 	remove_action_buttons()
-	to_chat(world, "\n<font color='purple'>[text]</font>")
+	to_world("\n<font color='purple'>[text]</font>")
 	return .
 
 /datum/controller/subsystem/vote/proc/result()
@@ -339,16 +334,15 @@ SUBSYSTEM_DEF(vote)
 						GLOB.master_mode = .
 			if("map")
 				SSmapping.changemap(global.config.maplist[.])
-				SSmapping.map_voted = TRUE
 			if("endround")
 				if(. == "Continue Playing")
 					log_game("LOG VOTE: CONTINUE PLAYING AT [REALTIMEOFDAY]")
 					GLOB.round_timer = world.time + ROUND_EXTENSION_TIME
 					send2chat(new /datum/tgs_message_content("Round has been extended!"), CONFIG_GET(string/chat_announce_new_game))
 				else
-					log_game("LOG VOTE: ELSE  [REALTIMEOFDAY]")
+					log_game("LOG VOTE: ELSE	[REALTIMEOFDAY]")
 					log_game("LOG VOTE: ROUNDVOTEEND [REALTIMEOFDAY]")
-					to_chat(world, "\n<font color='purple'>[ROUND_END_TIME_VERBAL]</font>")
+					to_world("\n<font color='purple'>[ROUND_END_TIME_VERBAL]</font>")
 					SSgamemode.roundvoteend = TRUE
 					SSgamemode.round_ends_at = world.time + ROUND_END_TIME
 			if("storyteller")
@@ -369,7 +363,7 @@ SUBSYSTEM_DEF(vote)
 		if(!active_admins)
 			SSticker.Reboot("Restart vote successful.", "restart vote")
 		else
-			to_chat(world, "<span style='boldannounce'>Notice:Restart vote will not restart the server automatically because there are active gamemasters on.</span>")
+			to_world("<span style='boldannounce'>Notice:Restart vote will not restart the server automatically because there are active gamemasters on.</span>")
 			message_admins("A restart vote has passed, but there are active admins on with +server, so it has been canceled. If you wish, you may restart the server.")
 
 	return .
@@ -460,7 +454,7 @@ SUBSYSTEM_DEF(vote)
 		)
 	return TRUE
 
-/datum/controller/subsystem/vote/proc/save_storyteller_vote_log(winning_choice = null, state = "active")
+/datum/controller/subsystem/vote/proc/save_storyteller_vote_log(winning_choice = null, state = "active", starting_pop = null)
 	var/json_file = file(LAST_STORYTELLER_VOTE_LOG_FILE)
 	var/list/file_data = list()
 	if(!fexists(json_file))
@@ -478,6 +472,8 @@ SUBSYSTEM_DEF(vote)
 		file_data -= "winner"
 	if(winner_type)
 		file_data["storyteller_vote"] = "[winner_type]"
+	if(!isnull(starting_pop))
+		file_data["storyteller_vote_pop"] = starting_pop
 	var/list/votes = list()
 	for(var/voter_ckey in storyteller_vote_log)
 		var/list/vote_data = storyteller_vote_log[voter_ckey]
@@ -566,7 +562,7 @@ SUBSYSTEM_DEF(vote)
 			if("restart")
 				choices.Add("Restart Round","Continue Playing")
 			if("gamemode")
-				choices.Add(config.votable_modes)	
+				choices.Add(config.votable_modes)
 			if("map")
 				for(var/map in global.config.maplist)
 					var/datum/map_config/VM = config.maplist[map]
@@ -620,7 +616,7 @@ SUBSYSTEM_DEF(vote)
 				SEND_SOUND(M, vote_alert)
 		if(mode == "storyteller")
 			save_storyteller_vote_log(null, "active")
-		to_chat(world, "\n<font color='purple'><b>[text]</b>\nClick <a href='?src=[REF(src)]'>here</a> to place your vote.\nYou have [DisplayTimeText(vp)] to vote.</font>")
+		to_world("\n<font color='purple'><b>[text]</b>\nClick <a href='?src=[REF(src)]'>here</a> to place your vote.\nYou have [DisplayTimeText(vp)] to vote.</font>")
 		for(var/client/C in GLOB.clients)
 			if(!isliving(C.mob))
 				show_vote(C)
@@ -629,7 +625,7 @@ SUBSYSTEM_DEF(vote)
 		return TRUE
 	return FALSE
 
-// Helper for sending an active vote to someone who has just logged in 
+// Helper for sending an active vote to someone who has just logged in
 /datum/controller/subsystem/vote/proc/send_vote(client/C)
 	if(!mode || !C)
 		return

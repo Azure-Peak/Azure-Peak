@@ -1,12 +1,11 @@
 /**
- # Rite of Lunar Ascension
-
- Noc-themed usurpation rite. 
-
- Design intent: Makes the university a threat and give mage a unique path to usurp the throne without nobility. It requires six mages total (The invoker + 5 more to assent). So technically a full house university plus one can initiate a coup but good luck holding it. Its  existence and implicit threat may lend some weight to displeasing the university, and perhaps encourage in town conflict over magical law as couping to declare a magocracy is now a theoretical possibility in response to excessive restrictions on magic - especially with outsider / adventurer mage help.
-
- Accessible to outlaws and undead, technically.
- 
+ * Rite of Lunar Ascension
+ *
+ * Noc-themed usurpation rite.
+ *
+ * Design intent: Makes the university a threat and give mage a unique path to usurp the throne without nobility. It requires six mages total (The invoker + 5 more to assent). So technically a full house university plus one can initiate a coup but good luck holding it. Its	existence and implicit threat may lend some weight to displeasing the university, and perhaps encourage in town conflict over magical law as couping to declare a magocracy is now a theoretical possibility in response to excessive restrictions on magic - especially with outsider / adventurer mage help.
+ *
+ * Accessible to outlaws and undead, technically.
  */
 /datum/usurpation_rite/lunar_ascension
 	name = "Rite of Lunar Ascension"

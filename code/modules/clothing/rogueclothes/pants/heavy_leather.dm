@@ -59,14 +59,14 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/Initialize()
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/Initialize(mapload)
 	..()
 	update_icon()
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout
 	name = "aesthetic fencing breeches"
 
-/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout/Initialize()
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -97,7 +97,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_pants()
 
-/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/Initialize()
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -113,7 +113,7 @@
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout
 	name = "aesthetic grenzelhoftian paumpers"
 
-/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout/Initialize()
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -122,12 +122,12 @@
 	desc = "Foreign pants, with leather insewns."
 	icon_state = "eastpants1"
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
 	name = "aesthetic cut-throat's pants"
 
-/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout/Initialize()
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -136,12 +136,12 @@
 	desc = "Weird pants typically worn by the destitute in Kazengun. Or, those looking to make a fashion statement."
 	icon_state = "eastpants2"
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout
 	name = "aesthetic strange ripped pants"
 
-/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout/Initialize()
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 
@@ -150,7 +150,7 @@
 	desc = "A form of Kazengunite peasant's trousers. The fabric used in their manufacture is strong, and could probably turn away a few blows."
 	icon_state = "baggypants"
 	item_state = "baggypants"
-	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
 	name = "silk tights"
@@ -161,7 +161,7 @@
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
 	name = "aesthetic shadowy silk tights"
 
-/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout/Initialize()
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
 

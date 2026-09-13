@@ -1,6 +1,6 @@
 //VAMPIRE SERVANT CLASSES//
 // These classes are high in skills/traits to give them potental to be good drivers for roleplay gimmics under the vlord. Such as making a feast, where the town shows up and finds themselves the feast suddenly.
-//Or perhaps hosting tournies where the victors get turned into vampyric champions hand-picked by the vlord. Or perhaps as a smithing operation where people mysteriously disappear delivering materials but then show up fighting in good  gear later.
+//Or perhaps hosting tournies where the victors get turned into vampyric champions hand-picked by the vlord. Or perhaps as a smithing operation where people mysteriously disappear delivering materials but then show up fighting in good	gear later.
 
 //The general shtick behind these classes is that they are absolute statbeasts for crafting, or utility. In the case of servantry, a lot of skills usually pretty useless to antagonists when it comes to large-scale fighting, like farming.
 //Or music despite not getting bard mechanics (which is intentional), they're also able to make disguises.

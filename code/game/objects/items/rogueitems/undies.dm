@@ -80,6 +80,12 @@
 	icon_state = "eoran_reg"
 	sprite_acc = /datum/sprite_accessory/underwear/briefs/eoran
 
+/obj/item/undies/bandages
+	name = "bandages"
+	icon_state = "bandages"
+	covers_breasts = TRUE
+	sprite_acc = /datum/sprite_accessory/underwear/bandages
+
 // Craft
 
 /datum/crafting_recipe/roguetown/sewing/undies
@@ -127,4 +133,10 @@
 	name = "braies"
 	result = list(/obj/item/undies/braies)
 	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/bandages_underwear
+	name = "bandages (underwear)"
+	result = list(/obj/item/undies/bandages)
+	reqs = list(/obj/item/natural/cloth/bandage = 1)
 	craftdiff = 2

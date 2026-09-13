@@ -35,3 +35,7 @@
 		return TRUE
 	else
 		return FALSE
+
+// global check for mindless npcs: used for pve things like cleric longsword
+/proc/is_npc(mob/living/L)
+	return (istype(L) && HAS_TRAIT(L, TRAIT_NPC_EXAMINE) && !L.mind)

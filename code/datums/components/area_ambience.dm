@@ -4,7 +4,7 @@
 	/// whether mob is outside or not
 	var/is_outside = FALSE
 
-/datum/component/area_ambience/Initialize()
+/datum/component/area_ambience/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 

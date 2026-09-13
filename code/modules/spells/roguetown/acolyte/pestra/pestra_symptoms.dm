@@ -115,11 +115,11 @@
 	var/datum/wound/applied_wound = chest_part.bodypart_attacked_by(
 		bclass = chosen_bclass,
 		dam = damage_amount,
-		user = null,  // No specific user, it's the rot itself
+		user = null,	// No specific user, it's the rot itself
 		zone_precise = BODY_ZONE_CHEST,
 		silent = FALSE,
 		crit_message = TRUE,
-		armor = 0  // Rot bypasses armor
+		armor = 0	// Rot bypasses armor
 	)
 
 	if(applied_wound)

@@ -2,7 +2,7 @@
 /// Override handle_drop() in subtypes to define behavior.
 /datum/component/item_on_drop
 
-/datum/component/item_on_drop/Initialize()
+/datum/component/item_on_drop/Initialize(mapload)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_dropped))

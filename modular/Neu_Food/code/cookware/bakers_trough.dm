@@ -27,7 +27,7 @@
 	var/base_knead_time = 2 SECONDS
 	var/busy = FALSE
 
-/obj/structure/bakers_trough/Initialize()
+/obj/structure/bakers_trough/Initialize(mapload)
 	. = ..()
 	update_trough_icon()
 

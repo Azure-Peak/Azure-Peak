@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 ///Whether /atom/Initialize() has already run for the object
 #define INITIALIZED_1				(1<<12)
 /// was this spawned by an admin? used for stat tracking stuff.
-#define ADMIN_SPAWNED_1			    (1<<13)
+#define ADMIN_SPAWNED_1				(1<<13)
 /// should not get harmed if this gets caught by an explosion?
 #define PREVENT_CONTENTS_EXPLOSION_1 (1<<14)
 #define HOARDMASTER_SPAWNED_1		(1<<15)

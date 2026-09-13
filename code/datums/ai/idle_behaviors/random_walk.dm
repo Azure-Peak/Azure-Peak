@@ -17,7 +17,7 @@
 		var/move_dir = pick(GLOB.alldirs)
 		var/turf/target_turf = get_step(wanderer, move_dir)
 		if(target_turf?.can_traverse_safely(wanderer))
-			step_towards(wanderer, target_turf, wanderer.cached_multiplicative_slowdown)
+			step_towards(wanderer, target_turf)
 
 /datum/idle_behavior/idle_random_walk/less_walking
 	walk_chance = 5

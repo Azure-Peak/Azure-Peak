@@ -210,7 +210,7 @@
 	. = ..()
 	if(.)
 		var/mob/living/user = owner
-		addtimer(CALLBACK(src, .proc/self_consume, user), 1)
+		addtimer(CALLBACK(src, PROC_REF(self_consume), user), 1)
 
 /datum/action/cooldown/spell/umbral_viscosity/single_use/proc/self_consume(mob/living/L)
 	if(L?.mind)
@@ -254,14 +254,16 @@
 
 	var/affected_count = 0
 	for(var/obj/effect/ink_trail/trail in range(transmute_range, center))
-		trail.buff_payload = /datum/status_effect/buff/umbral_recovery
-		trail.debuff_payload = null
-		trail.icon_state = "paint_gray"
-		trail.color = "#b6e6b6"
-		trail.consume_buff = TRUE
-		trail.deny_buff = TRUE
-		trail.refresh_lifetime(15 SECONDS)
-		trail.apply_to_pulled = TRUE
+		trail.apply_custom_effect(
+			new_buff = /datum/status_effect/buff/umbral_recovery,
+			new_debuff = null,
+			new_icon_state = "paint_gray",
+			new_color = "#b6e6b6",
+			consume = TRUE,
+			deny = TRUE,
+			new_duration = 15 SECONDS,
+			to_pulled = TRUE
+		)
 		affected_count++
 
 	if(affected_count > 0)

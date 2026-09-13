@@ -4,7 +4,7 @@
 	and their fashioning into a multitude of different objects and valuables, including glass."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/potter
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -42,9 +42,9 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/rogueweapon/blowrod
-	beltr = /obj/item/rogueweapon/tongs   // Necessary for removing hot glass panes from furnaces.
+	beltr = /obj/item/rogueweapon/tongs	// Necessary for removing hot glass panes from furnaces.
 	backl = /obj/item/storage/backpack/rogue/backpack
-	backr = /obj/item/rogueweapon/shovel  // For getting clay
+	backr = /obj/item/rogueweapon/shovel	// For getting clay
 
 	backpack_contents = list(
 		/obj/item/natural/clay = 3,

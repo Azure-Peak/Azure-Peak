@@ -1,6 +1,9 @@
 //Sprites contributed by VelSlime
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob
+	threat_point = THREAT_LOW
+	anatomy_type = /datum/anatomy/amorphous
+	attack_aim = MOB_AIM_GROUND
 	name = "ooze"
 	desc = "A strange, amorphous animated blob of ooze."
 	icon_state = "ooze"
@@ -15,16 +18,16 @@
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
 	botched_butcher_results = list(/obj/item/alch/viscera = 1)
-	butcher_results = list(/obj/item/alch/waterdust = 2, 
+	butcher_results = list(/obj/item/alch/waterdust = 2,
 							/obj/item/alch/viscera = 2)
-	perfect_butcher_results = list(/obj/item/reagent_containers/lux_impure = 1, 
-									/obj/item/alch/waterdust = 3, 
+	perfect_butcher_results = list(/obj/item/reagent_containers/lux_impure = 1,
+									/obj/item/alch/waterdust = 3,
 									/obj/item/alch/viscera = 3)
 	head_butcher = null
 	faction = list("zombie")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
-	health = WOLF_HEALTH
-	maxHealth = WOLF_HEALTH
+	health = OOZE_BLOB_HEALTH
+	maxHealth = OOZE_BLOB_HEALTH
 	melee_damage_lower = 19
 	melee_damage_upper = 29
 	vision_range = 7
@@ -45,7 +48,6 @@
 	STASPD = 9
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	defprob = 40
 	del_on_deaggro = 44 SECONDS
 	retreat_health = 0.3
 	food = 0
@@ -60,6 +62,7 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 	melee_cooldown = WOLF_ATTACK_SPEED
 	color = "#88ff7d"
 
@@ -82,7 +85,7 @@
 				C.visible_message(span_danger("\The [src] fails to drag \the [C] down!"))
 			chomp_cd = world.time
 
-/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
@@ -91,7 +94,6 @@
 		gender = FEMALE
 	update_icon()
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
-
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/death(gibbed)
 	..()
@@ -124,44 +126,3 @@
 		Retaliate()
 		GiveTarget(pulledby)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/simple_limb_hit(zone) // BLOB :D
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "blob"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "blob"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "blob"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "blob"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "blob"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "blob"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "blob"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "blob"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "blob"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "blob"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "blob"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "blob"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "blob"
-		if(BODY_ZONE_HEAD)
-			return "blob"
-		if(BODY_ZONE_R_LEG)
-			return "blob"
-		if(BODY_ZONE_L_LEG)
-			return "blob"
-		if(BODY_ZONE_R_ARM)
-			return "blob"
-		if(BODY_ZONE_L_ARM)
-			return "blob"
-	return ..()

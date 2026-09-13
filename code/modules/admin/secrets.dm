@@ -170,9 +170,9 @@
 			if(!check_rights(R_ADMIN))
 				return
 			if(!SSticker.HasRoundStarted())
-				alert("The game hasn't started yet!")
+				alert(usr, "The game hasn't started yet!")
 			else
-				alert("The game mode is Storytellers")
+				alert(usr, "The game mode is Storytellers")
 		if("manifest")
 			if(!check_rights(R_ADMIN))
 				return
@@ -222,9 +222,9 @@
 			if(!check_rights(R_FUN))
 				return
 			if(!SSticker.HasRoundStarted())
-				alert("The game hasn't started yet!")
+				alert(usr, "The game hasn't started yet!")
 				return
-			var/objective = copytext(sanitize(input("Enter an objective")),1,MAX_MESSAGE_LEN)
+			var/objective = copytext(sanitize(input(usr, "Enter an objective")),1,MAX_MESSAGE_LEN)
 			if(!objective)
 				return
 			SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Traitor All", "[objective]"))
@@ -299,7 +299,7 @@
 	if (usr)
 		log_admin("[key_name(usr)] used secret [item]")
 		if (ok)
-			to_chat(world, text("<B>A secret has been activated by []!</B>", usr.key))
+			to_world(text("<B>A secret has been activated by []!</B>", usr.key))
 
 /proc/portalAnnounce(announcement, playlightning)
 	set waitfor = 0

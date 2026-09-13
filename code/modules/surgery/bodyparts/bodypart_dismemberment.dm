@@ -42,9 +42,9 @@
 /// Returns TRUE if this bodypart is any kind of prosthetic limb
 /obj/item/bodypart/proc/is_prosthetic_limb()
 	return istype(src, /obj/item/bodypart/l_arm/prosthetic) || \
-	       istype(src, /obj/item/bodypart/r_arm/prosthetic) || \
-	       istype(src, /obj/item/bodypart/l_leg/prosthetic) || \
-	       istype(src, /obj/item/bodypart/r_leg/prosthetic)
+			istype(src, /obj/item/bodypart/r_arm/prosthetic) || \
+			istype(src, /obj/item/bodypart/l_leg/prosthetic) || \
+			istype(src, /obj/item/bodypart/r_leg/prosthetic)
 
 /obj/item/bodypart
 	/// Wound we get when surgically reattached
@@ -73,7 +73,7 @@
 			if(zone_precise != BODY_ZONE_PRECISE_NECK)
 				return FALSE
 			if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
-				var/has_mind = TRUE  // DEBUG: Temporarily forced to TRUE for testing
+				var/has_mind = TRUE	// DEBUG: Temporarily forced to TRUE for testing
 				var/not_buckled = !C.buckled
 
 				// Check if currently standing OR within grace period after being knocked down
@@ -603,7 +603,7 @@
 		H.remove_status_effect(/datum/status_effect/buff/overclock)
 		to_chat(H, span_warning("Without any prosthetics, I can no longer overclock them."))
 
-	
+
 //adding this in seperate to add the overclock skill if we add an attachment
 /obj/item/bodypart/attach_limb(mob/living/carbon/C, special)
 	. = ..()

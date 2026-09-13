@@ -22,7 +22,7 @@
 /obj/item/clothing/head/roguetown/crown/serpcrown/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_VIBE_CROWN, VIBEDESC_CROWN)
 
-/obj/item/clothing/head/roguetown/crown/serpcrown/Initialize()
+/obj/item/clothing/head/roguetown/crown/serpcrown/Initialize(mapload)
 	. = ..()
 	if(SSroguemachine.crown)
 		qdel(src)

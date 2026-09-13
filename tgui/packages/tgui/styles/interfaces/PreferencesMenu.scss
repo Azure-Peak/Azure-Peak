@@ -1,240 +1,534 @@
+//! WARNING: Not a mirror of /tg/'s PreferencesMenu.scss, please use caution when updating tgui styles!
+
 @use 'sass:color';
 @use 'sass:map';
-@use '../colors.scss';
-@use '../base.scss';
+@use '../base';
+@use '../colors';
 
-$department_map: (
-  'Assistant': var(--color-gray),
-  'Captain': colors.fg(var(--color-blue)),
-  'Cargo': var(--color-brown),
-  'Command': var(--color-yellow),
-  'Security': var(--color-red),
-  'Engineering': hsl(from var(--color-orange) h s calc(l + 7.5)),
-  'Medical': var(--color-teal),
-  'Science': colors.fg(var(--color-purple)),
-  'Service': var(--color-green),
-  'Silicon': var(--color-pink),
-);
+// Mixins must be at the top
+@mixin colored-section($color) {
+  color: var(#{$color});
 
-.ChoicedSelection {
-  padding: var(--space-m);
-  background-color: var(--color-base);
-  box-shadow: 0 0.5em 1em hsla(0, 0%, 0%, 0.5);
+  .Section__title {
+    border-bottom-color: var(#{$color});
+  }
+
+  .Section__titleText {
+    color: var(#{$color}-light);
+  }
+
+  .Button {
+    background-color: var(#{$color}) !important;
+    border-color: var(#{$color}-light) !important;
+    outline-color: var(#{$color}-dark) !important;
+  }
 }
 
+// Theme colors for the UI
+@mixin cs-colors($colors) {
+  --color-virtue: #{map.get($colors, 'virtue')};
+  --color-virtue-light: #{color.adjust(
+      map.get($colors, 'virtue'),
+      $lightness: 10%
+    )};
+  --color-virtue-dark: #{color.adjust(
+      map.get($colors, 'virtue'),
+      $lightness: -10%
+    )};
+
+  --color-vice: #{map.get($colors, 'vice')};
+  --color-vice-light: #{color.adjust(map.get($colors, 'vice'), $lightness: 10%)};
+  --color-vice-dark: #{color.adjust(map.get($colors, 'vice'), $lightness: -10%)};
+
+  --color-faith: #{map.get($colors, faith)};
+  --color-faith-light: #{color.adjust(map.get($colors, faith), $lightness: 10%)};
+  --color-faith-dark: #{color.adjust(map.get($colors, faith), $lightness: -10%)};
+
+  --color-faith-ascendent: #{map.get($colors, faith-ascendent)};
+  --color-faith-ascendent-light: #{color.adjust(
+      map.get($colors, faith-ascendent),
+      $lightness: 10%
+    )};
+  --color-faith-ascendent-dark: #{color.adjust(
+      map.get($colors, faith-ascendent),
+      $lightness: -10%
+    )};
+
+  --color-faith-geneism: #{map.get($colors, faith-geneism)};
+  --color-faith-geneism-light: #{color.adjust(
+      map.get($colors, faith-geneism),
+      $lightness: 20%
+    )};
+  --color-faith-geneism-dark: #{color.adjust(
+      map.get($colors, faith-geneism),
+      $lightness: -10%
+    )};
+}
+
+// Everything is prefixed with this
 .PreferencesMenu {
-  &__Antags {
-    &__antagSelection {
-      gap: var(--space-l);
+  // we need this because the default tab text color is too faint
+  --tab-color: #ccc;
 
-      @mixin animate-hover {
-        .antagonist-icon-parent .antagonist-icon {
+  &__Sidebar {
+    &__Scrollable {
+      overflow-y: auto;
+    }
+  }
+
+  .Modal {
+    padding: 0;
+    position: relative;
+    border-radius: 16px;
+  }
+
+  &__Popup {
+    &.Section {
+      border-radius: 16px;
+      padding: 0;
+
+      // disable nested section margins
+      .Section {
+        margin: 0;
+      }
+
+      > .Section__title {
+        padding: var(--space-l);
+
+        > .Section__buttons {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+
+          width: base.rem(45px);
+        }
+      }
+
+      > .Section__rest > .Section__content {
+        padding: 0;
+      }
+    }
+  }
+
+  .PreferencesMenu__Popup__Close {
+    border: none !important;
+    border-radius: 0;
+    background-color: transparent !important;
+    margin-right: 0 !important;
+    padding-top: var(--space-l);
+    height: 100%;
+    width: 100%;
+
+    opacity: 0.5;
+    text-align: center;
+    color: var(--color-text);
+    transition-property: background-color, opacity;
+    transition-duration: var(--transition-time-medium);
+
+    .Button__content {
+      font-size: base.rem(16px);
+    }
+
+    &:hover {
+      opacity: 1;
+      background-color: var(--button-background-danger) !important;
+      transition-duration: 0s;
+    }
+  }
+
+  &__Button__FillContents {
+    height: 100%;
+
+    .Button__content,
+    .ImageButton__content,
+    .ImageButton__content--text {
+      height: 100%;
+    }
+  }
+
+  &__PatronSelection {
+    --color-faith-used: var(--color-faith);
+    --color-faith-used-light: var(--color-faith-light);
+    --color-faith-used-dark: var(--color-faith-dark);
+
+    &.Ascendents {
+      --color-faith-used: var(--color-faith-ascendent);
+      --color-faith-used-light: var(--color-faith-ascendent-light);
+      --color-faith-used-dark: var(--color-faith-ascendent-dark);
+    }
+
+    &.Genesism {
+      --color-faith-used: var(--color-faith-geneism);
+      --color-faith-used-light: var(--color-faith-geneism-light);
+      --color-faith-used-dark: var(--color-faith-geneism-dark);
+    }
+
+    // Actual Styles
+    color: var(--color-faith-used-light) !important;
+
+    & > .Button {
+      background-color: var(--color-faith-used-dark) !important;
+      border-color: var(--color-faith-used-dark) !important;
+
+      &:hover {
+        background-color: var(--color-faith-used) !important;
+        border-color: var(--color-faith-used) !important;
+      }
+    }
+
+    & .Section__titleText {
+      color: var(--color-faith-used-light) !important;
+    }
+
+    & .Section__content {
+      color: var(--color-text) !important;
+    }
+  }
+
+  &__Section {
+    // Random fix: apparently WV2 thinks Section__content should be focus ringed
+    // It is incorrect and therefore we hide it
+    & .Section__content:focus-visible {
+      outline: none;
+    }
+
+    // General styles/helpers
+    &__NoChildPadding {
+      .Section {
+        margin-top: 0 !important;
+      }
+    }
+
+    // Obey max height
+    &__MaxHeight {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      & > .Section__rest {
+        flex-grow: 1;
+        min-height: 0;
+
+        & > .Section__content {
+          height: 100%;
+        }
+      }
+    }
+
+    // Virtue/Vice colorization
+    &__Virtues {
+      @include colored-section(--color-virtue);
+
+      .Virtue__SpawnError {
+        background-color: var(--color-virtue-dark) !important;
+        border-color: var(--color-virtue-dark) !important;
+      }
+    }
+
+    &__Vices {
+      @include colored-section(--color-vice);
+    }
+  }
+
+  // general grid class
+  &__Grid {
+    display: grid;
+    gap: 4px 4px;
+
+    // fix a few problematic default styles
+    .Section {
+      margin: 0;
+    }
+
+    .Section__titleText {
+      font-size: 1em !important;
+    }
+
+    .Section:first-child {
+      margin: 0;
+    }
+
+    // used for two-column layouts
+    &.PreferencesMenu__TwoColumn {
+      grid-template-columns: 50% 50%;
+    }
+
+    // separate from TwoColumn because other people may wanna fuck with the
+    // markings grid
+    &.PreferencesMenu__Markings {
+      grid-template-columns: 50% 50%;
+    }
+
+    // used for the features display to make a nice consistent grid
+    &.PreferencesMenu__Features {
+      grid-template-columns: 33% 33% 33%;
+    }
+
+    // used for the features popup to make a nice consistent grid
+    // TODO: add option for smaller/more
+    &.PreferencesMenu__FiveColumn__ImageButton {
+      grid-template-columns: 20% 20% 20% 20% 20%;
+
+      .ImageButton {
+        width: min-content;
+      }
+    }
+  }
+
+  &__Class {
+    &__Name:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    &__PriorityButton {
+      border: var(--border-thickness-tiny) solid hsla(0, 0%, 0%, 0.3);
+
+      &--off::after {
+        content: '';
+
+        background: hsla(0, 0%, 0%, 0.2);
+        display: block;
+        height: 80%;
+        left: 50%;
+        position: relative;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%) rotate(40deg);
+        width: 2px;
+      }
+
+      &.Button {
+        &.Button--color--light-grey {
+          background-color: darkgray;
+
           &:hover {
-            transform: scale(1.3);
-            transition: transform var(--transition-time-fast) ease-out;
-          }
-        }
-      }
-
-      &__antagonist {
-        .antagonist-icon-parent {
-          cursor: var(--cursor-pointer);
-          border-style: solid;
-          border-radius: var(--border-radius-circular);
-          border-width: var(--border-thickness-large);
-          box-sizing: content-box;
-          overflow: hidden;
-          position: relative;
-
-          height: 96px;
-          width: 96px;
-
-          .antagonist-icon {
-            image-rendering: pixelated;
-            border-radius: var(--border-radius-circular);
-            overflow: hidden;
-            transition: transform var(--transition-time-fast) ease-in;
+            background-color: color.adjust(darkgray, $lightness: 20%);
           }
         }
 
-        &--off {
-          @include animate-hover;
+        &.Button--color--white {
+          background-color: black;
 
-          .antagonist-icon-parent {
-            border-color: var(--color-red);
-
-            .antagonist-icon {
-              opacity: 0.5;
-
-              &:hover {
-                opacity: 1;
-              }
-            }
+          &:hover {
+            background-color: color.adjust(black, $lightness: 20%);
           }
         }
 
-        &--on {
-          @include animate-hover;
+        &.Button--color--yellow {
+          background-color: #dfb200;
 
-          .antagonist-icon-parent {
-            border-color: var(--color-green);
+          &:hover {
+            background-color: color.adjust(#dfb200, $lightness: 20%);
           }
         }
 
-        &--banned {
-          .antagonist-icon-parent {
-            border-color: var(--color-grey);
-          }
+        &.Button--color--green {
+          background-color: #27ab4e;
 
-          .antagonist-icon {
-            opacity: 0.5;
+          &:hover {
+            background-color: color.adjust(#27ab4e, $lightness: 20%);
           }
         }
 
-        .antagonist-banned-slash {
-          background: var(--color-grey);
+        &.Button--color--red {
+          background-color: #a11111;
 
-          width: 100%;
-          height: 3px;
-
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translateY(-50%) translateX(-50%) rotate(35deg);
-
-          opacity: 0.8;
-        }
-
-        .antagonist-days-left {
-          text-align: center;
-          text-shadow: 1px 1px 1px hsl(0, 0%, 13.3%);
-
-          width: 100%;
-
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translateY(-50%) translateX(-50%);
+          &:hover {
+            background-color: color.adjust(#a11111, $lightness: 20%);
+          }
         }
       }
     }
   }
 
-  &__Jobs {
-    > * {
-      flex: 1;
-    }
-
-    &__departments {
-      @each $department-name, $color-value in $department_map {
-        &--#{$department-name} {
-          &.head {
-            background: $color-value;
-
-            .job-name {
-              font-weight: bold;
-            }
-          }
-
-          background: colors.fg($color-value);
-          border: var(--border-thickness-small) outset colors.fg($color-value);
-          color: black;
-
-          > * {
-            height: calc(100% + 0.2em);
-            padding-bottom: 0.2em;
-          }
-
-          .options {
-            margin-right: var(--space-xxs);
-            background: hsla(0, 0%, 0%, 0.2);
-            height: 100%;
-          }
-        }
-
-        &--Captain {
-          border: var(--border-thickness-medium)
-            outset
-            hsla(60, 100%, 39.2%, 1);
-
-          &:first-child {
-            border-top: var(--border-thickness-medium)
-              outset
-              hsla(60, 100%, 39.2%, 1);
-          }
-
-          .job-name {
-            font-size: 17px;
-          }
-        }
-      }
-
-      &__priority {
-        border: var(--border-thickness-tiny) solid hsla(0, 0%, 0%, 0.3);
-
-        &--off::after {
-          content: '';
-
-          background: hsla(0, 0%, 0%, 0.2);
-          display: block;
-          height: 80%;
-          left: 50%;
-          position: relative;
-          top: 50%;
-          transform: translateX(-50%) translateY(-50%) rotate(40deg);
-          width: 2px;
-        }
-      }
-    }
-
-    &__PriorityHeader {
-      font-weight: bold;
-      transform: translateX(-4px) translateY(-8px) rotate(315deg);
-      white-space: nowrap;
-      width: 19px;
-    }
+  &__TextEditor__Unsaved {
+    border-color: #f00 !important;
   }
 
-  &__Quirks {
-    &__QuirkList {
-      scrollbar-color: var(--color-grey) transparent;
-      background-color: var(--color-light-grey);
-      width: 100%;
-      overflow-x: hidden;
-      overflow-y: scroll;
+  // Charflaw coloring
+  &__Charflaw {
+    &__Flipped {
+      .Icon.fas {
+        scale: -1 1;
+      }
+    }
 
-      &__quirk {
-        cursor: var(--cursor-pointer);
-        background-color: var(--color-white);
-        border-bottom: var(--border-thickness-tiny) solid var(--color-black);
-        color: hsl(0, 0%, 6.7%);
-        transition: background-color var(--transition-time-fast) ease-in;
+    @each $color-name, $color-value in colors.$color-map {
+      .Icon.fas {
+        margin-left: 1rem;
+      }
 
-        $quality_map: (
-          'positive': var(--color-green),
-          'neutral': var(--color-white),
-          'negative': var(--color-red),
-        );
-
-        @each $quality, $color-value in $quality_map {
-          &--#{$quality} {
-            background-color: $color-value;
-            transition: background-color var(--transition-time-fast) ease-in;
-          }
-        }
-
-        &:hover {
-          background-color: var(--color-grey);
-          transition: background-color var(--transition-time-fast) ease-out;
-
-          @each $quality, $color-value in $quality_map {
-            .PreferencesMenu__Quirks__QuirkList__quirk--#{$quality} {
-              background-color: hsl(from $color-value h s calc(l - 10));
-              transition: background-color var(--transition-time-fast) ease-out;
-            }
-          }
+      &.ImageButton__color--#{$color-name} {
+        .Icon.fas {
+          color: $color-value;
         }
       }
     }
   }
+
+  // for LabeledGridList, remove when tgui fixes LabeledList
+  &__LabeledGridList {
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+
+    // this is weird like this to be pixel perfect with old LabeledList
+    row-gap: calc(var(--space-s) * 2);
+    column-gap: calc(var(--space-m) * 2);
+
+    align-items: baseline;
+
+    &__Divider {
+      // span all columns
+      grid-column: 1 /4;
+    }
+
+    &__Label {
+      // first column
+      grid-column: 1 / 2;
+    }
+
+    &__Content {
+      &__Center {
+        // second column
+        grid-column: 2 / 3;
+      }
+
+      &__Full {
+        // first & second & third column
+        grid-column: 1 / 4;
+      }
+
+      &__Left {
+        // first & second column
+        grid-column: 1 / 3;
+      }
+
+      &__Right {
+        // second & third column
+        grid-column: 2 / 4;
+      }
+    }
+
+    &__Buttons {
+      // third column
+      grid-column: 3 / 4;
+    }
+  }
+}
+
+// These define the cs-colors for each theme supported, add new entries with new
+// tgui themes
+$default-virtue: #a08357;
+$default-vice: #8b0e0e;
+$default-faith: #a89424;
+$default-faith-ascendent: #a82424;
+$default-faith-geneism: #818181;
+
+:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_ascendant:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_default:root {
+  @include cs-colors(
+    (
+      'virtue': #5e4d33,
+      'vice': #8d1111,
+      'faith': #8d7c1b,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_gilbranze:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_green:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_lane:root {
+  @include cs-colors(
+    (
+      'virtue': #72562c,
+      'vice': #7e1212,
+      'faith': $default-faith,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_lingyue:root {
+  @include cs-colors(
+    (
+      'virtue': $default-virtue,
+      'vice': $default-vice,
+      'faith': $default-faith,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_psydonic:root {
+  @include cs-colors(
+    (
+      'virtue': #86683b,
+      'vice': #720c0c,
+      'faith': #978311,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
+}
+
+.theme-azure_purple:root {
+  @include cs-colors(
+    (
+      'virtue': #86683b,
+      'vice': #880f0f,
+      'faith': #978311,
+      'faith-ascendent': $default-faith-ascendent,
+      'faith-geneism': $default-faith-geneism,
+    )
+  );
 }

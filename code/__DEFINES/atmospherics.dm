@@ -9,7 +9,7 @@
 #define META_GAS_OVERLAY		4
 #define META_GAS_DANGER			5
 #define META_GAS_ID				6
-#define META_GAS_FUSION_POWER   7
+#define META_GAS_FUSION_POWER	7
 //ATMOS
 //stuff you should probably leave well alone!
 /// kPa*L/(K*mol)
@@ -72,7 +72,7 @@
 #define WALL_HEAT_TRANSFER_COEFFICIENT		0.0
 #define OPEN_HEAT_TRANSFER_COEFFICIENT		0.4
 /// a hack for now
-#define WINDOW_HEAT_TRANSFER_COEFFICIENT	0.1	
+#define WINDOW_HEAT_TRANSFER_COEFFICIENT	0.1
 /// a hack to help make vacuums "cold", sacrificing realism for gameplay
 #define HEAT_CAPACITY_VACUUM				7000
 
@@ -100,11 +100,11 @@
 //return values for reactions (bitflags)
 #define NO_REACTION		0
 #define REACTING		1
-#define STOP_REACTIONS 	2
+#define STOP_REACTIONS	2
 
 // Pressure limits.
 /// This determins at what pressure the ultra-high pressure red icon is displayed. (This one is set as a constant)
-#define HAZARD_HIGH_PRESSURE				550	
+#define HAZARD_HIGH_PRESSURE				550
 /// This determins when the orange pressure icon is displayed (it is 0.7 * HAZARD_HIGH_PRESSURE)
 #define WARNING_HIGH_PRESSURE				325
 /// This is when the gray low pressure icon is displayed. (it is 2.5 * HAZARD_LOW_PRESSURE)
@@ -193,7 +193,7 @@
 #define VOLUME_PUMP_LEAK_AMOUNT				0.1
 //used for device_type vars
 #define UNARY		1
-#define BINARY 		2
+#define BINARY		2
 #define TRINARY		3
 #define QUATERNARY	4
 
@@ -207,10 +207,10 @@
 /// Boom 3x3 base explosion
 #define TANK_FRAGMENT_PRESSURE				(40.*ONE_ATMOSPHERE)
 /// +1 for each SCALE kPa aboe threshold
-#define TANK_FRAGMENT_SCALE	    			(6.*ONE_ATMOSPHERE)
-#define TANK_MAX_RELEASE_PRESSURE 			(ONE_ATMOSPHERE*3)
-#define TANK_MIN_RELEASE_PRESSURE 			0
-#define TANK_DEFAULT_RELEASE_PRESSURE 		16
+#define TANK_FRAGMENT_SCALE					(6.*ONE_ATMOSPHERE)
+#define TANK_MAX_RELEASE_PRESSURE			(ONE_ATMOSPHERE*3)
+#define TANK_MIN_RELEASE_PRESSURE			0
+#define TANK_DEFAULT_RELEASE_PRESSURE		16
 
 //CANATMOSPASS
 #define ATMOS_PASS_YES 1
@@ -299,33 +299,33 @@
 //AIRLOCK CONTROLLER TAGS
 
 //RnD toxins burn chamber
-#define INCINERATOR_TOXMIX_IGNITER 				"toxmix_igniter"
-#define INCINERATOR_TOXMIX_VENT 				"toxmix_vent"
+#define INCINERATOR_TOXMIX_IGNITER				"toxmix_igniter"
+#define INCINERATOR_TOXMIX_VENT				"toxmix_vent"
 #define INCINERATOR_TOXMIX_DP_VENTPUMP			"toxmix_airlock_pump"
-#define INCINERATOR_TOXMIX_AIRLOCK_SENSOR 		"toxmix_airlock_sensor"
-#define INCINERATOR_TOXMIX_AIRLOCK_CONTROLLER 	"toxmix_airlock_controller"
-#define INCINERATOR_TOXMIX_AIRLOCK_INTERIOR 	"toxmix_airlock_interior"
-#define INCINERATOR_TOXMIX_AIRLOCK_EXTERIOR 	"toxmix_airlock_exterior"
+#define INCINERATOR_TOXMIX_AIRLOCK_SENSOR		"toxmix_airlock_sensor"
+#define INCINERATOR_TOXMIX_AIRLOCK_CONTROLLER	"toxmix_airlock_controller"
+#define INCINERATOR_TOXMIX_AIRLOCK_INTERIOR	"toxmix_airlock_interior"
+#define INCINERATOR_TOXMIX_AIRLOCK_EXTERIOR	"toxmix_airlock_exterior"
 
 //Atmospherics/maintenance incinerator
-#define INCINERATOR_ATMOS_IGNITER 				"atmos_incinerator_igniter"
-#define INCINERATOR_ATMOS_MAINVENT 				"atmos_incinerator_mainvent"
-#define INCINERATOR_ATMOS_AUXVENT 				"atmos_incinerator_auxvent"
+#define INCINERATOR_ATMOS_IGNITER				"atmos_incinerator_igniter"
+#define INCINERATOR_ATMOS_MAINVENT				"atmos_incinerator_mainvent"
+#define INCINERATOR_ATMOS_AUXVENT				"atmos_incinerator_auxvent"
 #define INCINERATOR_ATMOS_DP_VENTPUMP			"atmos_incinerator_airlock_pump"
-#define INCINERATOR_ATMOS_AIRLOCK_SENSOR 		"atmos_incinerator_airlock_sensor"
+#define INCINERATOR_ATMOS_AIRLOCK_SENSOR		"atmos_incinerator_airlock_sensor"
 #define INCINERATOR_ATMOS_AIRLOCK_CONTROLLER	"atmos_incinerator_airlock_controller"
-#define INCINERATOR_ATMOS_AIRLOCK_INTERIOR 		"atmos_incinerator_airlock_interior"
-#define INCINERATOR_ATMOS_AIRLOCK_EXTERIOR 		"atmos_incinerator_airlock_exterior"
+#define INCINERATOR_ATMOS_AIRLOCK_INTERIOR		"atmos_incinerator_airlock_interior"
+#define INCINERATOR_ATMOS_AIRLOCK_EXTERIOR		"atmos_incinerator_airlock_exterior"
 
 //Syndicate lavaland base incinerator (lavaland_surface_syndicate_base1.dmm)
-#define INCINERATOR_SYNDICATELAVA_IGNITER 				"syndicatelava_igniter"
-#define INCINERATOR_SYNDICATELAVA_MAINVENT 				"syndicatelava_mainvent"
-#define INCINERATOR_SYNDICATELAVA_AUXVENT 				"syndicatelava_auxvent"
+#define INCINERATOR_SYNDICATELAVA_IGNITER				"syndicatelava_igniter"
+#define INCINERATOR_SYNDICATELAVA_MAINVENT				"syndicatelava_mainvent"
+#define INCINERATOR_SYNDICATELAVA_AUXVENT				"syndicatelava_auxvent"
 #define INCINERATOR_SYNDICATELAVA_DP_VENTPUMP			"syndicatelava_airlock_pump"
-#define INCINERATOR_SYNDICATELAVA_AIRLOCK_SENSOR 		"syndicatelava_airlock_sensor"
-#define INCINERATOR_SYNDICATELAVA_AIRLOCK_CONTROLLER 	"syndicatelava_airlock_controller"
-#define INCINERATOR_SYNDICATELAVA_AIRLOCK_INTERIOR 		"syndicatelava_airlock_interior"
-#define INCINERATOR_SYNDICATELAVA_AIRLOCK_EXTERIOR	 	"syndicatelava_airlock_exterior"
+#define INCINERATOR_SYNDICATELAVA_AIRLOCK_SENSOR		"syndicatelava_airlock_sensor"
+#define INCINERATOR_SYNDICATELAVA_AIRLOCK_CONTROLLER	"syndicatelava_airlock_controller"
+#define INCINERATOR_SYNDICATELAVA_AIRLOCK_INTERIOR		"syndicatelava_airlock_interior"
+#define INCINERATOR_SYNDICATELAVA_AIRLOCK_EXTERIOR			"syndicatelava_airlock_exterior"
 
 //MULTIPIPES
 //IF YOU EVER CHANGE THESE CHANGE SPRITES TO MATCH.

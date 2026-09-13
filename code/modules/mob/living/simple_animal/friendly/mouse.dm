@@ -28,7 +28,7 @@
 	var/body_color //brown, gray and white, leave blank for random
 	gold_core_spawnable = FRIENDLY_SPAWN
 
-/mob/living/simple_animal/mouse/Initialize()
+/mob/living/simple_animal/mouse/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/squeak, list('sound/blank.ogg'=1), 100)
 	if(!body_color)

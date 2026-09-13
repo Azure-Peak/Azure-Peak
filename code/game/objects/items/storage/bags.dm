@@ -21,13 +21,18 @@
 /obj/item/storage/bag/tray/check_spill()
 	return
 
+/obj/item/storage/bag/tray/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a food item or utensils with a tray to sweep every valid items onto the tray at once.")
+	. += span_info("Left-click the top of an oven with a loaded tray to slide everything bakeable inside; an empty tray gathers everything out. Left-click a table to empty the tray onto it.")
+
 /obj/item/storage/bag/tray/psy
 	name = "tray"
 	icon = 'icons/obj/food/containers.dmi'
 	icon_state = "tray_psy"
 	desc = ""
 
-/obj/item/storage/bag/tray/Initialize()
+/obj/item/storage/bag/tray/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -59,8 +64,8 @@
 /obj/item/storage/bag/tray/proc/do_scatter(obj/item/I)
 	if (I)
 		for (var/i in 1 to rand(1, 2))
-			var/xOffset = rand(-16, 16)  // Adjust the range as needed
-			var/yOffset = rand(-16, 16)  // Adjust the range as needed
+			var/xOffset = rand(-16, 16)	// Adjust the range as needed
+			var/yOffset = rand(-16, 16)	// Adjust the range as needed
 
 			I.x = xOffset
 			I.y = yOffset
@@ -74,7 +79,7 @@
 		qdel(dummy)
 	tray_display_dummies = list()
 	vis_contents = list()
-	
+
 	if (contents.len > 0)
 		for(var/obj/item/thing_in_tray in contents)
 			var/obj/dummy = new()
@@ -84,7 +89,7 @@
 			dummy.pixel_x = rand(-8, 8)
 			dummy.pixel_y = rand(-8, 8)
 			dummy.vis_flags = VIS_INHERIT_ID | VIS_INHERIT_LAYER | VIS_INHERIT_PLANE
-			
+
 			tray_display_dummies += dummy
 			vis_contents += dummy
 

@@ -13,3 +13,5 @@
 	#define COMPONENT_CLIENT_MOUSEUP_INTERCEPT (1<<0)
 /// from base of client/MouseUp(): (/client, object, location, control, params)
 #define COMSIG_CLIENT_MOUSEDRAG "client_mousedrag"
+// from /client/proc/handle_popup_close() : (window_id)
+#define COMSIG_POPUP_CLEARED "popup_cleared"

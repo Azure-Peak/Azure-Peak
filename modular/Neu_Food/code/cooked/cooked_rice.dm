@@ -1,4 +1,4 @@
-/* .............   RICE   ................ */
+/* .............	RICE	................ */
 /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	cuisine = CUISINE_SOUTHEASTERN
 	name = "cooked rice"
@@ -10,7 +10,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_LONG
 
-/*	.................   Rice & pork  ................... */
+/*	.................	Rice & pork	................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricepork
 	cuisine = CUISINE_SOUTHEASTERN
 	dish_type = DISH_MEAT
@@ -24,7 +24,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Rice & pork & cucumbers ................... */
+/*	.................	Rice & pork & cucumbers ................... */
 /obj/item/reagent_containers/food/snacks/rogue/riceporkcuc
 	cuisine = CUISINE_SOUTHEASTERN
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -38,7 +38,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	.................   Rice & beef ................... */
+/*	.................	Rice & beef ................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricebeef
 	cuisine = CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
 	dish_type = DISH_MEAT
@@ -52,7 +52,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Rice & beef & carrots ................... */
+/*	.................	Rice & beef & carrots ................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricebeefcar
 	cuisine = CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -66,7 +66,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	.................   Rice & shrimp ................... */
+/*	.................	Rice & shrimp ................... */
 /obj/item/reagent_containers/food/snacks/rogue/riceshrimp
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN
 	dish_type = DISH_SEAFOOD
@@ -80,7 +80,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Rice & shrimp & carrots ................... */
+/*	.................	Rice & shrimp & carrots ................... */
 /obj/item/reagent_containers/food/snacks/rogue/riceshrimpcar
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN
 	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
@@ -94,7 +94,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	.................   Rice & bird ................... */
+/*	.................	Rice & bird ................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricebird
 	cuisine = CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
 	dish_type = DISH_POULTRY
@@ -108,7 +108,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Rice & bird & carrots ................... */
+/*	.................	Rice & bird & carrots ................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricebirdcar
 	cuisine = CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
 	dish_type = DISH_POULTRY|DISH_VEGETABLE
@@ -122,7 +122,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	.................   Rice & egg ................... */
+/*	.................	Rice & egg ................... */
 /obj/item/reagent_containers/food/snacks/rogue/riceegg
 	cuisine = CUISINE_SOUTHEASTERN
 	dish_type = DISH_EGG
@@ -136,7 +136,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Rice & cheese ................... */
+/*	.................	Rice & cheese ................... */
 /obj/item/reagent_containers/food/snacks/rogue/ricecheese
 	cuisine = CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN
 	dish_type = DISH_DAIRY
@@ -150,7 +150,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Rice & egg & cheese ................... */
+/*	.................	Rice & egg & cheese ................... */
 /obj/item/reagent_containers/food/snacks/rogue/riceeggcheese
 	cuisine = CUISINE_SOUTHEASTERN
 	dish_type = DISH_EGG|DISH_DAIRY

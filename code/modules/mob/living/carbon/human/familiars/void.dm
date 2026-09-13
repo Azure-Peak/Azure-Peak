@@ -46,7 +46,7 @@
 			src.pass_flags = PASSTABLE | PASSMOB
 			src.movement_type = FLYING
 			TryAddFlight()
-			src.mind.AddSpell(new /datum/action/cooldown/spell/projectile/lesser_fetch/fae/void)
+			src.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fetch/fae/void)
 			src.mind.AddSpell(new /datum/action/cooldown/spell/invisibility/fae)
 		if("infernal") // nerfed abberant beam, fire res
 			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an abberant beam to blast your foes."))

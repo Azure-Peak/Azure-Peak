@@ -5,13 +5,13 @@
 	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
 	outfit = /datum/outfit/job/roguetown/hag
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT,
-	 					  TRAIT_ANCIENT_HAG, TRAIT_EDIT_DESCRIPTORS,
-						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
-						  TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
-						  TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
-						  TRAIT_DARKVISION, TRAIT_NOHUNGER,
-						  TRAIT_TECHNOPHOBE, TRAIT_NOPVE, TRAIT_UNCONVERTIBLE,
-						  TRAIT_NOWW)
+								TRAIT_ANCIENT_HAG, TRAIT_EDIT_DESCRIPTORS,
+							TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
+							TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
+							TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
+							TRAIT_DARKVISION, TRAIT_NOHUNGER,
+							TRAIT_TECHNOPHOBE, TRAIT_NOPVE, TRAIT_UNCONVERTIBLE,
+							TRAIT_NOWW)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -138,7 +138,7 @@
 	printplayer(owner)
 
 	if(grand_rite_victory)
-		to_chat(world, span_boldnotice("THE MOSS MOTHER HAS ASCENDED!"))
+		to_world(span_boldnotice("THE MOSS MOTHER HAS ASCENDED!"))
 		to_chat(owner, span_greentext("Your sisters have completed the Grand Rite. You have TRIUMPHED!"))
 		if(owner.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 50, FALSE)
@@ -146,12 +146,12 @@
 		// to_chat(owner, span_notice("The Grand Rite was not completed, but your harvest of souls was bountiful."))
 		to_chat(owner, span_notice("Your harvest of souls was bountiful."))
 		to_chat(owner, span_info("Your Personal Spite Score: [individual_spite_score] points."))
-		to_chat(world, span_notice("The Hag [owner.current.real_name] has left a mark of misery of [individual_spite_score] points."))
+		to_world(span_notice("The Hag [owner.current.real_name] has left a mark of misery of [individual_spite_score] points."))
 	else
 		// If dead or scoreless and no Grand Rite happened
 		var/fail_reason = !is_living ? "Your physical form was broken and the roots withered." : "You failed to sow enough discord among the mortals."
 		to_chat(owner, span_redtext("FAILURE: [fail_reason]"))
-		to_chat(world, span_redtext("The Hag [owner.current ? owner.current.real_name : "unknown"] has FAILED!"))
+		to_world(span_redtext("The Hag [owner.current ? owner.current.real_name : "unknown"] has FAILED!"))
 		if(owner.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/fail.ogg', 50, FALSE)
 

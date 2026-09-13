@@ -12,7 +12,7 @@
 	var/open = TRUE
 	var/obj/item/rogueweapon/sword/long/heirloom
 
-/obj/structure/fireaxecabinet/Initialize()
+/obj/structure/fireaxecabinet/Initialize(mapload)
 	. = ..()
 	heirloom = new /obj/item/rogueweapon/sword/long/heirloom
 	update_icon()
@@ -145,7 +145,7 @@
 	icon_state = "fireaxe"
 	heirloom = /obj/item/rogueweapon/greatsword/bsword/psy/unforgotten/
 
-/obj/structure/fireaxecabinet/unforgotten/Initialize()
+/obj/structure/fireaxecabinet/unforgotten/Initialize(mapload)
 	. = ..()
 	heirloom = new /obj/item/rogueweapon/greatsword/bsword/psy/unforgotten
 	desc = heirloom.desc

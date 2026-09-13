@@ -6,7 +6,7 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	icon = 'icons/effects/dad.dmi'
 	icon_state = "dad"
 
-/obj/effect/dream_horror/Initialize()
+/obj/effect/dream_horror/Initialize(mapload)
 	. = ..()
 	if(prob(1))
 		name = "Dad"
@@ -17,7 +17,9 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.patron.type == /datum/patron/divine/abyssor)
-			. += span_danger("One of the greatest and eldest of the dreamfiends. It's said creatures of the dream take ages to grow in size... And this one is a true leviathan.")
+			. += skill_check_text("Abyssor", TRUE, "One of the greatest and eldest of the dreamfiends. It's said creatures of the dream take ages to grow in size... And this one is a true leviathan.")
+		else
+			. += skill_check_text("Abyssor", FALSE, "My devotion to Abyssor is too weak, the whispers of the void remain silent.")
 
 /datum/stressevent/dream_horror
 	timer = 999 MINUTES

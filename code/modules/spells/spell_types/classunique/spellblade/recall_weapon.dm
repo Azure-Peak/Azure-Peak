@@ -52,6 +52,15 @@
 	else if(ismob(bound_weapon.loc))
 		var/mob/holder = bound_weapon.loc
 		holder.dropItemToGround(bound_weapon, TRUE)
+	else if(isitem(bound_weapon.loc))
+		var/obj/item/strapitem = bound_weapon.loc
+		var/datum/component/holster/strap = strapitem.GetComponent(/datum/component/holster)
+		if(strap)
+			strap.sheathed = null
+			if(ismob(strapitem.loc))
+				strap.update_icon(strapitem.loc)
+			else
+				strap.update_icon()
 
 	var/turf/weapon_turf = get_turf(bound_weapon)
 	if(!weapon_turf)

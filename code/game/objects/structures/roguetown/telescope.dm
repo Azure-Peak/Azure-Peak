@@ -26,21 +26,21 @@
 		return
 	// TODO: STATUS EFFECT THAT CALLS EARLY RETURN IF YOU'VE USED A TELE W/I THE LAST 15. OR. ALT MESSAGE.
 
-	var/mob/living/carbon/human/H = user	
+	var/mob/living/carbon/human/H = user
 
 	if(H.has_status_effect(/datum/status_effect/telescope_used))
 		to_chat(H, span_warning("My mind and eyes are exhausted! Let me rest!"))
 		return
-	
+
 	var/picked_message = "You see nothing noteworthy." // debug
 	var/got_fucked = FALSE // if u got astrata'd you can try again. as a treat.
 
 	// these are so we can apply them at the end AFTER getting the message. visual clarity.
 	var/status_effect = null
 	var/stress_event = null
-	
+
 	to_chat(H,span_info("I begin looking through the telescope..."))
-	H.emote("hmm", intentional = TRUE)
+	H.emote("hmm", forced = TRUE)
 	if(do_after(H, 15 SECONDS, TRUE))
 		// DAY.
 		// ...who the fuck looks through a telescope during the day?
@@ -51,8 +51,8 @@
 			if(affecting && affecting.receive_damage(0,5))
 				// this also should blur the eyes but idk if adjust_blurriness is permanent or not and i dont want to risk it
 				H.update_damage_overlays()
-		
-		// DUSK. 
+
+		// DUSK.
 		// ZURANUS only appears in the Dusk hours, while Astrata is lowering but Noc still isnt fully awakened.
 		// If ZURANUS is not visible... IDK. Stars, I guess.
 		else if(GLOB.tod == "dusk")
@@ -75,8 +75,8 @@
 				var/star_audio = pick(star_sounds)
 				picked_message = span_info("NOC is settling in, the stars are just starting to shine!")
 				H.playsound_local(H, star_audio, 40, TRUE)
-		
-		// DAWN. 
+
+		// DAWN.
 		// KYTHERIA is VISIBLE... ASTRATA MIGHT ALSO BLIND YOU. MOOD BUFF OR BLINDNESS.. CHOOSE WISELY...
 		else if(GLOB.tod == "dawn")
 			var/what_do_see = rand(0,2) // 33% of each
@@ -96,7 +96,7 @@
 					if(affecting && affecting.receive_damage(0,5))
 						// this also should blur the eyes but idk if adjust_blurriness is permanent or not and i dont want to risk it
 						H.update_damage_overlays()
-		
+
 		// NITE. most planets are visible. chance to see jove, hermes, noc, AND nepolx. random stars, too... or that XYLIXIAN FALSE-STAR.
 		else if(GLOB.tod == "night")
 			var/what_do_see = rand(0, 5)
@@ -141,7 +141,7 @@
 					if(is_user_magic(H))
 						// if theyre capable of using a scrying orb, nepolx makes them less likely 2 fuck it up
 						status_effect = /datum/status_effect/buff/transparent_eyeball
-				if(5) // JOVE. graggar ate ravox's celestial body, which turned it blue and gave it red(er) eyes. 
+				if(5) // JOVE. graggar ate ravox's celestial body, which turned it blue and gave it red(er) eyes.
 					picked_message = span_warning("Jove's bleeding vortex marrs its width with a crimson trail... ")
 					H.playsound_local(H, 'sound/magic/psydonbleeds.ogg', 40, TRUE) // HE IS COMING.
 					switch(H.patron?.type) // fucks w/ ravoxites and noccites.

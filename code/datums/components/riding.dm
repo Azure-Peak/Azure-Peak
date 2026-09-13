@@ -21,14 +21,14 @@
 
 	var/del_on_unbuckle_all = FALSE
 
-/datum/component/riding/Initialize()
+/datum/component/riding/Initialize(mapload)
 	if(!ismovableatom(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_MOVABLE_BUCKLE, PROC_REF(vehicle_mob_buckle))
 	RegisterSignal(parent, COMSIG_MOVABLE_UNBUCKLE, PROC_REF(vehicle_mob_unbuckle))
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(vehicle_moved))
 
-/datum/component/riding/no_ocean/Initialize()//no copy paste
+/datum/component/riding/no_ocean/Initialize(mapload)//no copy paste
 	. = ..()
 	forbid_turf_typecache = typecacheof(/turf/open/water/ocean/deep)
 
@@ -70,12 +70,12 @@
 		M.set_glide_size(AM.glide_size)
 		if(rider.m_intent == MOVE_INTENT_RUN)
 			riding_xp_move_counter++
-			if(riding_xp_move_counter >= 5) 			 	// Determines how many steps are needed before Riding-type EXP is rewarded. In this case, you obtain EXP every time you travel five tiles while riding a mount.
-				var/xp_amt = rider.STAINT * 0.1 		 	// Scales the amount of Riding-type EXP that's rewarded, based on your character's INT. Same as every other skill.
+			if(riding_xp_move_counter >= 5)					// Determines how many steps are needed before Riding-type EXP is rewarded. In this case, you obtain EXP every time you travel five tiles while riding a mount.
+				var/xp_amt = rider.STAINT * 0.1				// Scales the amount of Riding-type EXP that's rewarded, based on your character's INT. Same as every other skill.
 				rider.mind && rider.mind.add_sleep_experience(/datum/skill/misc/riding, xp_amt)
 				riding_xp_move_counter = 0
 		else
-			riding_xp_move_counter = 0					 	// Resets the counter if you're not running while riding.
+			riding_xp_move_counter = 0							// Resets the counter if you're not running while riding.
 	handle_vehicle_offsets()
 	handle_vehicle_layer()
 
@@ -240,7 +240,7 @@
 /datum/component/riding/human
 	del_on_unbuckle_all = TRUE
 
-/datum/component/riding/human/Initialize()
+/datum/component/riding/human/Initialize(mapload)
 	. = ..()
 	RegisterSignal(parent, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_host_unarmed_melee))
 

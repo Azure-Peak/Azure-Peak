@@ -1,8 +1,8 @@
 /*
 	MouseDrop:
 
-	Called on the atom you're dragging.  In a lot of circumstances we want to use the
-	receiving object instead, so that's the default action.  This allows you to drag
+	Called on the atom you're dragging.	In a lot of circumstances we want to use the
+	receiving object instead, so that's the default action.	This allows you to drag
 	almost anything into a trash can.
 */
 /atom/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
@@ -130,7 +130,7 @@
 		mob.tempfixeye = TRUE
 		mob.nodirchange = TRUE
 		// for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
-		// 	eyet.update_icon(mob)
+		//	eyet.update_icon(mob)
 
 	if(delay)
 		selected_target[1] = object
@@ -225,7 +225,7 @@
 	var/datum/intent/curplaying
 	var/obj/effect/spell_rune_under/spell_rune
 
-/atom/proc/should_click_on_mouse_up(var/atom/original_object)
+/atom/proc/should_click_on_mouse_up(atom/original_object)
 	return TRUE
 
 /client/MouseUp(object, location, control, params)
@@ -257,8 +257,8 @@
 		mob.nodirchange = FALSE
 
 	// if(mob.hud_used)
-	// 	for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
-	// 		eyet.update_icon(mob) //Update eye icon
+	//	for(var/atom/movable/screen/eye_intent/eyet in mob.hud_used.static_inventory)
+	//		eyet.update_icon(mob) //Update eye icon
 
 	if(!mob.atkswinging)
 		return

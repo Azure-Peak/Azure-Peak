@@ -52,7 +52,7 @@ SUBSYSTEM_DEF(triumphs)
 	// These get on_activate() called in /datum/outfit/job/roguetown/post_equip() in roguetown.dm
 	var/list/post_equip_calls = list()
 
-/datum/controller/subsystem/triumphs/Initialize()
+/datum/controller/subsystem/triumphs/Initialize(mapload)
 	. = ..()
 
 	prep_the_triumphs_leaderboard()
@@ -184,7 +184,7 @@ SUBSYSTEM_DEF(triumphs)
 	call_menu_refresh()
 
 /datum/controller/subsystem/triumphs/proc/end_triumph_saving_time()
-	to_chat(world, span_boldannounce(" Recording VICTORIES to the WORLD END MACHINE. "))
+	to_world(span_boldannounce(" Recording VICTORIES to the WORLD END MACHINE. "))
 	var/encoded = json_encode(triumph_leaderboard)
 	if(!length(encoded))
 		return

@@ -3,7 +3,7 @@
 	dodgetime = 30
 	ambushable = FALSE
 
-/mob/living/carbon/human/species/npc/deadite/Initialize()
+/mob/living/carbon/human/species/npc/deadite/Initialize(mapload)
 	. = ..()
 	//picked from a list because 1: Races that look better w/deaditing here 2: We need deadite infectable races for immersion's sake I.E not sun elves 3: we can bias towards common azurian races
 	//Yes it requires spamming the list with several entries to weight it, if you can do better. please do so. this sucks.
@@ -46,7 +46,7 @@
 	random_hair_NPC()
 
 	var/list/deadite_firstnames = world.file2list("strings/rt/names/other/deaditenpcfirst.txt")
-	var/list/deadite_lastnames  = world.file2list("strings/rt/names/other/deaditenpclast.txt")
+	var/list/deadite_lastnames	= world.file2list("strings/rt/names/other/deaditenpclast.txt")
 
 
 	real_name = "[pick(deadite_firstnames)] [pick(deadite_lastnames)]"
@@ -100,7 +100,7 @@
 /mob/living/carbon/human/proc/try_do_deadite_bite(mob/living/victim)
 	if(!src || stat >= DEAD)
 		return FALSE
-	
+
 	var/obj/item/grabbing/bite/bite = get_item_by_slot(SLOT_MOUTH)
 	if(istype(bite))
 		// 50% chance to continue biting if already started

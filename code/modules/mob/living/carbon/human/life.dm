@@ -55,14 +55,7 @@
 		adjustToxLoss(2)
 	else if(leprosy == 2)
 		if(client)
-			if(check_blacklist(client.ckey))
-				ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
-				leprosy = 1
-				var/obj/item/bodypart/B = get_bodypart(BODY_ZONE_HEAD)
-				if(B)
-					B.sellprice = rand(16, 33)
-			else
-				leprosy = 3
+			leprosy = 3
 	//heart attack stuff
 	handle_heart()
 	update_energy()
@@ -192,7 +185,7 @@
 			mask_sound = pick('sound/items/confessormask1.ogg', 'sound/items/confessormask2.ogg', 'sound/items/confessormask3.ogg',
 							'sound/items/confessormask4.ogg', 'sound/items/confessormask5.ogg', 'sound/items/confessormask6.ogg',
 							'sound/items/confessormask7.ogg', 'sound/items/confessormask8.ogg', 'sound/items/confessormask9.ogg',
-					 		'sound/items/confessormask10.ogg')
+								'sound/items/confessormask10.ogg')
 			playsound(src, mask_sound, 90, FALSE, 4, 0)
 			return
 

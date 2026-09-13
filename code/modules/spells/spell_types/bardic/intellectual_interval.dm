@@ -2,6 +2,7 @@
 	name = "Intellectual Interval"
 	desc = "A song for thinkers that sharpens the mind. Grants INT to audience members."
 	button_icon_state = "melody_t1_base"
+	invocations = list("%CASTER plays a soft, clinical tune! The world sharpens into focus!")
 	song_effect = /datum/status_effect/buff/playing_melody/intellectual_interval
 
 /datum/status_effect/buff/playing_melody/intellectual_interval

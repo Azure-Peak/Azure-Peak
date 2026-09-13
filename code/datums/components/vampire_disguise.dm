@@ -119,7 +119,7 @@
 	if(!disguised || (H.get_vampire_generation() >= GENERATION_METHUSELAH))
 		return FALSE
 
-	H.visible_message("<font color='white'>[H]'s curse manifests!</font>", ignored_mobs = list(H))
+	H.visible_message(span_silver("[H]'s curse manifests!"), ignored_mobs = list(H))
 	remove_disguise(H)
 	to_chat(H, span_danger("My disguise is forcibly broken!"))
 	return TRUE

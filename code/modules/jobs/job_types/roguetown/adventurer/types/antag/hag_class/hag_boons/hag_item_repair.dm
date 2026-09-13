@@ -9,15 +9,15 @@
 	/// Valid soil types for the Mossmother's touch
 	var/static/list/natural_turfs = list(
 		/turf/open/floor/rogue/dirt, /turf/open/floor/rogue/snow,
-		/turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel, 
+		/turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassyel,
 		/turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grasscold,
 		/turf/open/water/swamp
 	)
 
-/datum/component/hag_artifact_repair/Initialize()
+/datum/component/hag_artifact_repair/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
-	
+
 	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_item_equipped))
 	RegisterSignal(parent, COMSIG_MOB_DROPITEM, PROC_REF(on_item_dropped))
 	START_PROCESSING(SSprocessing, src)
@@ -54,7 +54,7 @@
 		if(I.obj_integrity < I.max_integrity)
 			I.obj_integrity = min(I.obj_integrity + (I.max_integrity * 0.01), I.max_integrity)
 			needs_update = TRUE
-		
+
 		if(I.blade_int < I.max_blade_int)
 			I.add_bintegrity(min(I.blade_int + (I.max_blade_int * 0.01), I.max_blade_int), L)
 

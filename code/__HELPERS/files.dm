@@ -109,6 +109,109 @@
 /proc/pathflatten(path)
 	return replacetext(path, "/", "_")
 
+#define MUSIC_MAX_SIZE (4 * 1024 * 1024)
+#define MUSIC_MAX_LENGTH (15 MINUTES)
+
+/proc/music_upload(mob/user, atom/source, max_size = MUSIC_MAX_SIZE)
+	var/ckey = user?.ckey
+	if(!ckey)
+		return
+
+	var/client/uploader = user.client
+	if(uploader)
+		uploader.upload_limit = max_size
+		uploader.upload_exts = list(".ogg")
+
+	var/infile = input(user, "CHOOSE A NEW SONG", "[source]") as null|file
+
+	if(uploader)
+		uploader.upload_limit = null
+		uploader.upload_exts = null
+
+	if(!infile || QDELETED(user) || QDELETED(source) || user.ckey != ckey)
+		return
+
+	var/filename = "[infile]"
+	filename = copytext(filename, findlasttext(filename, "/") + 1)
+	filename = copytext(filename, findlasttext(filename, "\\") + 1)
+	filename = SANITIZE_FILENAME(filename)
+	while(length(filename) && (copytext(filename, 1, 2) == "." || copytext(filename, 1, 2) == " "))
+		filename = copytext(filename, 2)
+
+	if(length(filename) < 5 || LOWER_TEXT(copytext(filename, -4)) != ".ogg")
+		to_chat(user, span_warning("THAT IS NOT THE RIGHT STYLE."))
+		return
+	if(length(filename) > 96)
+		to_chat(user, span_warning("THAT NAME IS TOO LONG."))
+		return
+
+	var/static/list/reserved = list(
+		"con", "prn", "aux", "nul",
+		"com1", "com2", "com3", "com4", "com5", "com6", "com7", "com8", "com9",
+		"lpt1", "lpt2", "lpt3", "lpt4", "lpt5", "lpt6", "lpt7", "lpt8", "lpt9",
+	)
+	if(LOWER_TEXT(copytext(filename, 1, -4)) in reserved)
+		to_chat(user, span_warning("THAT NAME IS NOT ALLOWED."))
+		return
+
+	var/size = length(infile)
+	if(size < 64)
+		to_chat(user, span_warning("THAT IS NOT A SONG."))
+		return
+	if(size > max_size)
+		to_chat(user, span_warning("TOO BIG. [round(max_size / (1024 * 1024), 0.1)] MEGABYTES OR LESS."))
+		return
+
+	var/static/notch = 0
+	notch = WRAP(notch + 1, 0, SHORT_REAL_LIMIT)
+	var/scratch = "tmp/musicupload.[ckey].[notch].ogg"
+	if(!fcopy(infile, scratch))
+		to_chat(user, span_warning("THE SONG WOULD NOT TAKE."))
+		return
+
+	var/duration = rustg_sound_length(scratch)
+	if(!isnum(duration) || duration <= 0)
+		fdel(scratch)
+		message_admins("[ADMIN_LOOKUPFLW(user)] tried to upload [filename] ([size] bytes), which is not playable audio.")
+		log_game("[key_name(user)] tried to upload undecodable audio named [filename] ([size] bytes).")
+		to_chat(user, span_warning("THAT IS NOT A SONG."))
+		return
+	if(duration > MUSIC_MAX_LENGTH)
+		fdel(scratch)
+		to_chat(user, span_warning("TOO LONG. [MUSIC_MAX_LENGTH / (1 MINUTES)] MINUTES OR LESS."))
+		return
+
+	var/header = file2text(scratch)
+	if(length(header) && copytext(header, 1, 5) != "OggS")
+		fdel(scratch)
+		message_admins("[ADMIN_LOOKUPFLW(user)] tried to upload [filename] ([size] bytes), which is not an Ogg.")
+		log_game("[key_name(user)] tried to upload a non-Ogg file named [filename] ([size] bytes).")
+		to_chat(user, span_warning("THIS IS NOT THE RIGHT STYLE."))
+		return
+
+	if(QDELETED(source))
+		fdel(scratch)
+		return
+
+	var/path = "data/jukeboxuploads/[ckey]/[filename]"
+	if(!fcopy(scratch, path))
+		fdel(scratch)
+		to_chat(user, span_warning("THE SONG WOULD NOT TAKE."))
+		return
+	fdel(scratch)
+
+	message_admins("[ADMIN_LOOKUPFLW(user)] uploaded a song [filename], [round(size / (1024 * 1024), 0.01)] MB and [round(duration / (1 SECONDS))] seconds long.")
+	log_game("[key_name(user)] uploaded a music file to [path] ([size] bytes).")
+	return file(path)
+
+/proc/music_prune()
+	var/root = "data/jukeboxuploads/"
+	for(var/folder in flist(root))
+		for(var/song in flist("[root][folder]"))
+			fdel("[root][folder][song]")
+		fdel("[root][folder]")
+	fdel(root)
+
 /// Save file as an external file then md5 it.
 /// Used because md5ing files stored in the rsc sometimes gives incorrect md5 results.
 /// https://www.byond.com/forum/post/2611357

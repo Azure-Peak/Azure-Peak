@@ -61,7 +61,7 @@
 	for(var/turf/T in range(aoe_range, centerpoint))
 		if(!(T in get_hear(aoe_range, centerpoint)))
 			continue
-		new /obj/effect/temp_visual/pillar_warning/fadein(T, GTSTRIKE_TELEGRAPH)
+		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, GTSTRIKE_TELEGRAPH)
 
 	H.visible_message(span_boldwarning("[H] calls down a massive storm of lightning!"))
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE, 6)

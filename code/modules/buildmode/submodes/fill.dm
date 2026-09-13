@@ -1,12 +1,12 @@
 /datum/buildmode_mode/fill
 	key = "fill"
-	
+
 	use_corner_selection = TRUE
 	var/objholder = null
 
 /datum/buildmode_mode/fill/show_help(client/c)
 	to_chat(c, span_notice("***********************************************************"))
-	to_chat(c, span_notice("Left Mouse Button on turf/obj/mob      = Select corner"))
+	to_chat(c, span_notice("Left Mouse Button on turf/obj/mob		= Select corner"))
 	to_chat(c, span_notice("Left Mouse Button + Alt on turf/obj/mob = Delete region"))
 	to_chat(c, span_notice("Right Mouse Button on buildmode button = Select object type"))
 	to_chat(c, span_notice("***********************************************************"))
@@ -17,11 +17,11 @@
 	if(!ispath(objholder))
 		objholder = pick_closest_path(target_path)
 		if(!objholder)
-			alert("No path has been selected.")
+			alert(c, "No path has been selected.")
 			return
 		else if(ispath(objholder, /area))
 			objholder = null
-			alert("Area paths are not supported for this mode, use the area edit mode instead.")
+			alert(c, "Area paths are not supported for this mode, use the area edit mode instead.")
 			return
 	deselect_region()
 

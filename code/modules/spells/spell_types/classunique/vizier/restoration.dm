@@ -88,11 +88,11 @@
 			if(!W)
 				continue
 			if(W.bleed_rate > 0)
-				W.set_bleed_rate(0)
+				W.set_bleed_rate(W.bleed_rate - 3)
 				step_check = TRUE
 
 	if(step_check)
-		C.visible_message(span_info("Origin arts reverse [C]'s bleeding!"),	span_notice("My bleeding wounds close, as if reverting in time!"))
+		C.visible_message(span_info("Origin arts reverse [C]'s bleeding!"),	span_notice("My bleeding wounds begin to creep shut, as if reverting in time!"))
 		return TRUE
 
 	// Healing

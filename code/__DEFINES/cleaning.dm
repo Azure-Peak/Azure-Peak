@@ -1,6 +1,6 @@
 //Cleaning tool strength
 // 1 is also a valid cleaning strength but completely unused so left undefined
-#define CLEAN_WEAK 			2
+#define CLEAN_WEAK			2
 /// Acceptable tools
 #define CLEAN_MEDIUM		3
 /// Industrial strength

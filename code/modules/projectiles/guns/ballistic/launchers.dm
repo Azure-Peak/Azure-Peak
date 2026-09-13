@@ -14,9 +14,13 @@
 	var/accfactor = 1 // Multiplier for projectile accuracy. Used by bows and crossbows.
 	var/penfactor = 0 // Additive modifier for projectile PEN tier. Slurbow uses -1 to reduce bolt pen by one tier.
 	var/npc_force_arc = FALSE // Set by AI to force arc shot over allies
+	var/quickloading = FALSE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/proc/get_npc_chargetime(mob/living/user)
 	return ARCHER_NPC_SIMULATED_CHARGETIME
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/proc/can_quick_load(mob/user)
+	return TRUE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/proc/get_npc_drawtime(mob/living/user)
 	return max(0, get_npc_chargetime(user) - ARCHER_NPC_NOCK_TIME)

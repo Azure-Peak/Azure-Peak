@@ -8,7 +8,7 @@
 	var/key_of_buyer = null // Key of the person who bought it.
 	var/ckey_of_buyer = null //ckey of the person who bought it. I don't feel like dealing with the fact zeth used key for triumphs
 
-	var/desc = "ERROR  " // desc shown for it on the menu
+	var/desc = "ERROR	" // desc shown for it on the menu
 	var/triumph_cost = 107 // cost in triumphs for something
 	var/category = TRIUMPH_CAT_ACTIVE_DATUMS // category we sort something into
 	var/visible_on_active_menu = FALSE // Whether we are visible on active menu

@@ -13,7 +13,7 @@ var/player_weight = 1 // players are more likely to join a server with less play
 var/admin_weight = 5 // admins are more likely to join a server with less admins
 
 var/player_substr = "players=" // search for this substring to locate # of players
-var/admin_substr  = "admins=" // search for this to locate # of admins
+var/admin_substr	= "admins=" // search for this to locate # of admins
 
 /world
 	name = "TGstation Redirector"

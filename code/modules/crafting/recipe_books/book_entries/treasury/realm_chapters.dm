@@ -68,7 +68,7 @@
 
 		<p>Multiple blockades may exist at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
 
-		<p>The Steward may recall an unanswered Blockade Writ after 15 minutes. An accepted writ has a 30-minute completion timer before it is automatically forfeit. Each wave adds 10 minutes. Wave timers are independent of the recall timer - once a Writ is taken, the bearer must finish it promptly.</p>
+		<p>The Steward may recall an unanswered Blockade Writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes. The waves begin when the bearer arrives, which must be broken within [BLOCKADE_RECALL_WINDOW_DS / 600] minutes of the wave spawning. There'll be a warning at the 5 minutes, 2 minutes and 1 minute mark.</p>
 		</div>
 	"}
 
@@ -279,12 +279,16 @@
 
 		<p>The total is shown on the Steward's Trade panel as <i>Projected Banditry Losses</i>, broken down per region with base and per-head amounts.</p>
 
+		<h3>Banditry Hoard</h3>
+		<p>Mammons that bandits have stolen from the Crown is stored in a region as bandit hoard. Scouts Report and the Steward's Panels will tell how much this number is.
+		</p>
+
+		<p>A Hoard Recovery writ (Started by Steward issuing it, or a fellowship pledging mammons and doing it themselves), or a pre-existing Blockade writ targeting the region will recover the hoard. This is then taxed by the Crown. A region must reaches a minimum of [HOARD_RECOVERY_HOARD_MINIMUM]m before a recovery writ can be issued by a Fellowship of 3 or more.</p>
+
 		<h3>The Floor and Banditry Debt</h3>
-		<p>Banditry alone will not reduce the Crown's Purse below <b>[BANDITRY_DEBT_FLOOR]m</b>. Anything beyond that becomes <b>banditry debt</b> - an accruing arrears that skims every coin of treasury inflow (stockpile earnings, taxes, levies, fines, loan repayments) until paid.</p>
+		<p>Banditry alone will not reduce the Crown's Purse below <b>[BANDITRY_DEBT_FLOOR]m</b>. Anything beyond that becomes <b>banditry debt</b> - an accruing arrears that skims all treasury inflow (stockpile earnings, taxes, levies, fines, loan repayments) until paid.</p>
 
 		<h3>What You Can Do</h3>
-		<p>Issue Commissions and Blockade Writs against Dangerous and Bleak regions. Use levy exemption as bait. The retinue and garrison can also clear regions directly. As regional threat falls, so does the dawn drain. Banditry debt only shrinks as new income is earned and skimmed.</p>
-
-		<p>This system is a placeholder until raid and siege content ships.</p>
+		<p>Issue Commissions and Blockade Writs against Dangerous and Bleak regions. Use levy exemption as bait. The retinue and garrison can also clear regions directly. As regional threat falls, so does the dawn drain. Banditry debt only shrinks as new income is earned and skimmed. The hoards however, can be reclaimed by Blockade clearing or Hoard Recovery writ.</p>
 		</div>
 	"}

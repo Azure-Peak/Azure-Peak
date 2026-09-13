@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 
+import { formatRatioPct } from '../../common/format';
 import {
   cardStyle,
   dashedFrameStyle,
@@ -114,7 +115,6 @@ const demandColor = (mult: number): string => {
 };
 
 const formatMult = (m: number): string => `${m.toFixed(2)}x`;
-const formatPct = (n: number): string => `${Math.round(n * 100)}%`;
 
 const matrixContainerStyle: React.CSSProperties = {
   ...dashedFrameStyle,
@@ -452,7 +452,7 @@ export const MarketView = ({
                     fontWeight: 'bold',
                   }}
                 >
-                  {c.refused ? 'REFUSING' : formatPct(c.fill_ratio)}
+                  {c.refused ? 'REFUSING' : formatRatioPct(c.fill_ratio)}
                 </span>
               </div>
             ))

@@ -2,7 +2,7 @@
 /mob/verb/Create_Scroll()
 
 	//Background to construct the scrolling image from
-	var/background_dmi = input("Pick background DMI:", "Icon") as null|icon
+	var/background_dmi = input(usr, "Pick background DMI:", "Icon") as null|icon
 
 	//Is background a DMI?
 	if(!(isfile(background_dmi) && (copytext("[background_dmi]",-4) == ".dmi")))
@@ -11,7 +11,7 @@
 
 
 	//Icon to apply the scrolling animation to
-	var/foreground_dmi = input("Pick foreground DMI:", "Icon") as null|icon
+	var/foreground_dmi = input(usr, "Pick foreground DMI:", "Icon") as null|icon
 
 	//Is foreground a DMI?
 	if(!(isfile(foreground_dmi) && (copytext("[foreground_dmi]",-4) == ".dmi")))
@@ -20,7 +20,7 @@
 
 
 	//Mask icon to define the area of the background to use
-	var/mask_dmi = input("Pick mask DMI:", "Icon") as null|icon
+	var/mask_dmi = input(usr, "Pick mask DMI:", "Icon") as null|icon
 
 	//Is mask a DMI?
 	if(!(isfile(mask_dmi) && (copytext("[mask_dmi]",-4) == ".dmi")))
@@ -29,7 +29,7 @@
 
 
 	//Number of frames
-	var/frames = input("Number of frames:", "Number") as null|num
+	var/frames = input(usr, "Number of frames:", "Number") as null|num
 
 	//Is frames an int?
 	if(!isnum(frames))
@@ -42,7 +42,7 @@
 
 
 	//Duration of each frame
-	var/duration = input("Frame duration:", "Number") as null|num
+	var/duration = input(usr, "Frame duration:", "Number") as null|num
 
 	//Is duration a number?
 	if(!isnum(duration))

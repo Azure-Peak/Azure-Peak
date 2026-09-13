@@ -10,7 +10,7 @@ GLOBAL_LIST_EMPTY(loadout_items_by_name)
 	var/list/ckeywhitelist
 	var/donator_unlocked = FALSE
 	var/triumph_cost
-	var/sort_category = "Misc" 	//Used for sorting loadout items in the menu. Should be one of the following: One per each file
+	var/sort_category = "Misc"	//Used for sorting loadout items in the menu. Should be one of the following: One per each file
 
 /datum/loadout_item/New()
 	if(isnull(donoritem))
@@ -20,8 +20,8 @@ GLOBAL_LIST_EMPTY(loadout_items_by_name)
 		var/obj/targetitem = path
 		desc = targetitem.desc
 
-/datum/loadout_item/proc/donator_ckey_check(key)
-	if(donator_unlocked && is_donator(key))
+/datum/loadout_item/proc/donator_ckey_check(key, client/user)
+	if((donator_unlocked && (is_donator(key) || user?.holder)))
 		return TRUE
 	if(ckeywhitelist && ckeywhitelist.Find(key))
 		return TRUE

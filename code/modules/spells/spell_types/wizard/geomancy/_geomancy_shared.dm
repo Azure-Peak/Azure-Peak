@@ -10,7 +10,7 @@
 	max_integrity = 300
 	var/timeleft = 10 SECONDS
 
-/obj/structure/earthen_wall/Initialize()
+/obj/structure/earthen_wall/Initialize(mapload)
 	. = ..()
 	if(timeleft)
 		QDEL_IN(src, timeleft)
@@ -32,7 +32,6 @@
 	accuracy = 50
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	npc_simple_damage_mult = 1.5
 	intdamfactor = SPELL_BLUNT_INT_DAMAGEFACTOR
 	object_damage_multiplier = 2
 	hitsound = 'sound/combat/hits/onstone/wallhit.ogg'
@@ -74,8 +73,7 @@
 #undef MT_ROCKSHOT
 #undef ROCKSHOT_DR_DURATION
 
-/obj/effect/temp_visual/trap/geomancy
-	color = GLOW_COLOR_EARTHEN
+/obj/effect/temp_visual/telegraph/geomancy
 	light_color = GLOW_COLOR_EARTHEN
 	duration = 4 SECONDS
 

@@ -16,7 +16,7 @@ GLOBAL_LIST_EMPTY(steward_export_machines)
 	resistance_flags = FIRE_PROOF | LAVA_PROOF | INDESTRUCTIBLE | UNACIDABLE
 	layer = BELOW_OBJ_LAYER
 
-/obj/structure/roguemachine/steward_export/Initialize()
+/obj/structure/roguemachine/steward_export/Initialize(mapload)
 	. = ..()
 	GLOB.steward_export_machines += src
 

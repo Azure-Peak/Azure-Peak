@@ -8,7 +8,7 @@
 	<h2>Stations and Implements</h2>
 	<b>Table</b> - A flat working surface. Cutting ingredients and assembling most dishes both require one.<br>
 	<b>Oven</b> - Bake breads, roasts, pies. Fuel goes on the bottom shelf, food on top.<br>
-	<b>Hearth</b> - An open flame. Clicking a hearth with a pot or pan sets it on top. Right-click to fan the flame and cook faster, at the risk of burning.<br>
+	<b>Hearth</b> - An open flame. Clicking a hearth with a pot or pan sets it on top. Right-click to fan the flame, which burns fuel faster but increases the speed at which food cooks.<br>
 	<b>Pot</b> - Fill with water, throw in vegetables or meat, boil into soup. Also used to melt tallow for deep frying.<br>
 	<b>Pan</b> - Used to fry most things over an open flame.<br>
 	<b>Knife</b> - Any small bladed weapon on CUT or CHOP intent. Slices ingredients into smaller portions on a table.<br>
@@ -40,6 +40,6 @@
 	</div>
 	<div>
 	<h2>Spoilage</h2>
-	Food left out too long will spoil. To prevent it: dehydrate it on a drying rack (if available), put it on a cooling table,  wrap it in ration paper, or store it in a chest (not a closet).<br>
+	Food left out too long will spoil. To prevent it: dehydrate it on a drying rack (if available), put it on a cooling table,	wrap it in ration paper, or store it in a chest (not a closet).<br>
 	</div>
 	"}

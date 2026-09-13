@@ -9,7 +9,7 @@
 	dynamic_hair_suffix = ""
 	sewrepair = TRUE
 
-/obj/item/clothing/head/roguetown/priestmask/Initialize()
+/obj/item/clothing/head/roguetown/priestmask/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CHOSEN, "VISAGE")
 

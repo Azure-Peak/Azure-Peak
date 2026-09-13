@@ -68,8 +68,7 @@
 	var/language = dreamer.get_random_understood_language()
 	var/message = dreamer.compose_message(speaker, language, speech)
 	dreamer.playsound_local(dreamer, pick(speech_sounds), vol = 60, vary = FALSE)
-	if(dreamer.client.prefs?.chat_on_map)
-		dreamer.create_chat_message(speaker, language, speech, spans = list(dreamer.speech_span))
+	dreamer.create_chat_message(speaker, language, speech, spans = list(dreamer.speech_span))
 	to_chat(dreamer, message)
 
 /datum/antagonist/maniac/proc/handle_mob_hallucination(mob/living/dreamer)
@@ -184,7 +183,7 @@
 		INVOKE_ASYNC(src, PROC_REF(handle_waking_up_floor), floor, dreamer)
 
 /datum/antagonist/maniac/proc/handle_waking_up_floor(turf/open/floor, mob/living/dreamer)
-	var/mutable_appearance/fake_floor = image('icons/roguetown/maniac/dreamer_floors.dmi', floor,  pick("rcircuitanim", "gcircuitanim"), floor.layer + 0.1)
+	var/mutable_appearance/fake_floor = image('icons/roguetown/maniac/dreamer_floors.dmi', floor,	pick("rcircuitanim", "gcircuitanim"), floor.layer + 0.1)
 	dreamer.client.images += fake_floor
 	var/offset = pick(-1, 1, 2)
 	var/disappearfirst = 3 SECONDS

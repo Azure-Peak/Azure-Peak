@@ -71,6 +71,8 @@
 /datum/sex_action/proc/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(debug_erp_panel_verb)
 		return FALSE
+	if(target.freeuse)
+		return TRUE
 	if(user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
 		return TRUE //Battlefuck buff
 	return TRUE
@@ -94,6 +96,10 @@
 	return 0
 
 /datum/sex_action/proc/check_location_accessible(mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
+	if(SEND_SIGNAL(target, COMSIG_ERP_LOCATION_ACCESSIBLE, src, user, target, location, grabs, skipundies))
+		return TRUE
+	if(SEND_SIGNAL(user, COMSIG_ERP_LOCATION_ACCESSIBLE, src, user, target, location, grabs, skipundies))
+		return TRUE
 	var/obj/item/bodypart/bodypart = target.get_bodypart(location)
 	var/self_target = FALSE
 	if(target == user)
@@ -101,6 +107,9 @@
 
 	if(!bodypart)
 		return FALSE
+
+	if(target.freeuse)
+		return TRUE
 
 	if(user.get_highest_grab_state_on(target) == GRAB_AGGRESSIVE)
 		return TRUE //Battlefuck buff
@@ -165,13 +174,16 @@
 	SHOULD_CALL_PARENT(TRUE)
 	lock_sex_object(user, target)
 
+
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
 	var/message = get_start_message(user, target)
 	if(message)
-		user.visible_message(message)
+		user.visible_message(message, vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 	var/sound = get_start_sound(user, target)
 	if(sound)
-		playsound(target, sound, 20, TRUE, ignore_walls = FALSE)
+		playsound(target, sound, 20, TRUE, extrarange = (do_subtle ? -6 : 0), ignore_walls = FALSE)
 
 	return TRUE
 
@@ -191,9 +203,11 @@
 	SHOULD_CALL_PARENT(TRUE)
 	unlock_sex_object(user, target)
 
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
 	var/message = get_finish_message(user, target)
 	if(message)
-		user.visible_message(message)
+		user.visible_message(message, vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 	return
 

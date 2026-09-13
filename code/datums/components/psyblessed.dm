@@ -25,9 +25,10 @@
 	RegisterSignal(parent, COMSIG_ITEM_OBJFIX, PROC_REF(on_fix))
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equipped))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_dropped))
+	RegisterSignal(parent, COMSIG_ITEM_RESTORE_BINTEGRITY, PROC_REF(on_restore_bintegrity))
 
 /datum/component/silverbless/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_PARENT_EXAMINE, COMSIG_ITEM_OBJFIX, COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_DROPPED))
+	UnregisterSignal(parent, list(COMSIG_PARENT_EXAMINE, COMSIG_ITEM_OBJFIX, COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_DROPPED, COMSIG_ITEM_RESTORE_BINTEGRITY))
 
 /datum/component/silverbless/proc/on_equipped(obj/item/equipped, mob/user, slot)
 	if(is_blessed && slot & ITEM_SLOT_HANDS)
@@ -97,3 +98,11 @@
 	if(I.force_wielded)
 		I.force_wielded += added_force
 	I.wdefense += round(added_def * (is_blessed == BLESSING_TENNITE ? TENNITE_BLESSING_DIVISOR : 1))
+
+/datum/component/silverbless/proc/on_restore_bintegrity(datum/source)
+	if(!is_blessed)
+		return
+	var/obj/item/I = parent
+	if(I.max_blade_int)
+		var/blessing_divisor = (is_blessed == BLESSING_TENNITE) ? TENNITE_BLESSING_DIVISOR : 1
+		I.max_blade_int += round(added_blade_int * blessing_divisor)

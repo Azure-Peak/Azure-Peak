@@ -141,11 +141,11 @@
 			var/MAX_DMG = 300 // total brute or total burn > than this? hammer time, cause this will only heal 5 per cast
 			var/MULT = 5
 			var/brute_ratio = min(brute / MAX_DMG, 1)
-			var/fire_ratio  = min(fire / MAX_DMG, 1)
+			var/fire_ratio	= min(fire / MAX_DMG, 1)
 			var/brute_factor = 1 - (0.9 * brute_ratio)
-			var/fire_factor  = 1 - (0.9 * fire_ratio)
+			var/fire_factor	= 1 - (0.9 * fire_ratio)
 			var/brute_heal = max(5, round(power * MULT * brute_factor))
-			var/fire_heal  = max(5, round(power * MULT * fire_factor))
+			var/fire_heal	= max(5, round(power * MULT * fire_factor))
 
 			M.adjustBruteLoss(-brute_heal)
 			M.adjustFireLoss(-fire_heal)

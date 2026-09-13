@@ -18,7 +18,6 @@
 	health = 40
 	maxHealth = 40
 	move_to_delay = 5
-	d_intent = INTENT_DODGE
 	minbodytemp = 180
 	lose_patience_timeout = 150
 	vision_range = 5
@@ -44,8 +43,6 @@
 	var/deaggroprob = 10
 	var/eat_forever
 
-	candodge = TRUE
-
 	var/summon_tier = 0 // Tier of summoning
 	var/summon_primer = null // The message they get when summoned
 	var/list/death_loot = list() // Items spawned on death — cleared for bound creatures
@@ -65,7 +62,6 @@
 		if(damage > 5 && prob(damage * 3))
 			emote("pain")
 		if(damage > 10)
-			Immobilize(clamp(damage/2, 1, 30))
 			shake_camera(src, 1, 1)
 		if(show_redflash())
 			if(damage < 10)
@@ -124,7 +120,7 @@
 		return TRUE
 	for(var/obj/item/F in foundfood)
 		var/turf/T = get_turf(F)
-		Goto(T,move_to_delay,0)
+		Goto(T, 0)
 		return TRUE
 	return FALSE
 
@@ -181,11 +177,11 @@
 						return TRUE
 	for(var/mob/living/eattarg in foundfood)
 		var/turf/T = get_turf(eattarg)
-		Goto(T,move_to_delay,0)
+		Goto(T, 0)
 		return TRUE
 	return FALSE
 
-/mob/living/simple_animal/hostile/retaliate/rogue/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/Initialize(mapload)
 	. = ..()
 	if(milkies)
 		udder = new()
@@ -284,7 +280,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/beckoned(mob/user)
 	if(tame && !stop_automated_movement)
 		stop_automated_movement = TRUE
-		Goto(user,move_to_delay)
+		Goto(user)
 		addtimer(CALLBACK(src, PROC_REF(return_action)), 3 SECONDS)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/food_tempted(obj/item/O, mob/user)
@@ -292,5 +288,5 @@
 	if(food_typecache?[O.type] && !stop_automated_movement)
 
 		stop_automated_movement = TRUE
-		Goto(user,move_to_delay)
+		Goto(user)
 		addtimer(CALLBACK(src, PROC_REF(return_action)), 3 SECONDS)

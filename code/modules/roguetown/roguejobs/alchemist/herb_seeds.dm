@@ -142,3 +142,8 @@
 	name = "manabloom seeds"
 	seed_identity = "manabloom seeds"
 	makes_herb = /obj/structure/flora/roguegrass/herb/manabloom
+
+/obj/item/herbseed/fyritius
+	name = "fyritius seeds"
+	seed_identity = "fyritius seeds"
+	makes_herb = /obj/structure/flora/roguegrass/herb/fyritius

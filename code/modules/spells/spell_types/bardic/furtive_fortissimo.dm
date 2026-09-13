@@ -2,7 +2,7 @@
 	name = "Furtive Fortissimo"
 	desc = "With cat like tread, apply light steps to audience members."
 	button_icon_state = "bardsong_t1_base"
-	invocations = list("plays a sneaky, playful tune. The world draws closer to listen, in on the joke.")
+	invocations = list("%CASTER plays a sneaky, playful tune. The world draws closer to listen, in on the joke.")
 	song_effect = /datum/status_effect/buff/playing_melody/furtive_fortissimo
 
 /datum/status_effect/buff/playing_melody/furtive_fortissimo

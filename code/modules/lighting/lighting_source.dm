@@ -1,29 +1,29 @@
 // Yes this doesn't align correctly on anything other than 4 width tabs.
 // If you want it to go switch everybody to elastic tab stops.
 // Actually that'd be great if you could!
-#define EFFECT_UPDATE(level)                \
+#define EFFECT_UPDATE(level)				\
 	if (needs_update == LIGHTING_NO_UPDATE) \
 		SSlighting.sources_queue += src; \
-	if (needs_update < level)               \
-		needs_update = level;    \
+	if (needs_update < level)				\
+		needs_update = level;	\
 
 // This is where the fun begins.
 // These are the main datums that emit light.
 
 /datum/light_source
-	var/atom/top_atom        // The atom we're emitting light from (for example a mob if we're from a flashlight that's being held).
-	var/atom/source_atom     // The atom that we belong to.
+	var/atom/top_atom		// The atom we're emitting light from (for example a mob if we're from a flashlight that's being held).
+	var/atom/source_atom		// The atom that we belong to.
 
-	var/turf/source_turf     // The turf under the above.
-	var/turf/pixel_turf      // The turf the top_atom appears to over.
-	var/light_power    // Intensity of the emitter light.
+	var/turf/source_turf		// The turf under the above.
+	var/turf/pixel_turf		// The turf the top_atom appears to over.
+	var/light_power	// Intensity of the emitter light.
 	/// The range of the emitted light.
 	var/light_inner_range
 	/// Range where light begins to taper into darkness in tiles.
 	var/light_outer_range
 	/// Adjusts curve for falloff gradient
 	var/light_falloff_curve = LIGHTING_DEFAULT_FALLOFF_CURVE
-	var/light_color    // The colour of the light, string, decomposed by parse_light_color()
+	var/light_color	// The colour of the light, string, decomposed by parse_light_color()
 
 	// Variables for keeping track of the colour.
 	var/lum_r
@@ -35,11 +35,11 @@
 	var/tmp/applied_lum_g
 	var/tmp/applied_lum_b
 
-	var/list/datum/lighting_corner/effect_str     // List used to store how much we're affecting corners.
+	var/list/datum/lighting_corner/effect_str		// List used to store how much we're affecting corners.
 
 	var/applied = FALSE // Whether we have applied our light yet or not.
 
-	var/needs_update = LIGHTING_NO_UPDATE    // Whether we are queued for an update.
+	var/needs_update = LIGHTING_NO_UPDATE	// Whether we are queued for an update.
 
 
 /datum/light_source/New(atom/owner, atom/top)
@@ -135,9 +135,9 @@
 // Decompile the hexadecimal colour into lumcounts of each perspective.
 /datum/light_source/proc/parse_light_color()
 	if (light_color)
-		lum_r = GetRedPart   (light_color) / 255
+		lum_r = GetRedPart	(light_color) / 255
 		lum_g = GetGreenPart (light_color) / 255
-		lum_b = GetBluePart  (light_color) / 255
+		lum_b = GetBluePart	(light_color) / 255
 	else
 		lum_r = 1
 		lum_g = 1
@@ -181,39 +181,39 @@
 // This is the same as the above but it takes into account Z-distance.
 #define LUM_FALLOFF_MULTIZ(C)(CLAMP01(-(sqrt((C.x - _turf_x) ** 2 +(C.y - _turf_y) ** 2 + (C.z - _turf_z) ** 2 + LIGHTING_HEIGHT) / _range_divisor + _range_subtrahend)) ** light_falloff_curve)
 
-#define APPLY_CORNER(C)                          \
-	if(C.z == _turf_z) {                         \
-		. = LUM_FALLOFF(C);                      \
-	}                                            \
-	else {                                       \
-		. = LUM_FALLOFF_MULTIZ(C)                \
-	}                                            \
-	. *= _light_power;                            \
-	var/OLD = effect_str[C];                     \
-	C.update_lumcount                            \
-	(                                            \
-		(. * _lum_r) - (OLD * _applied_lum_r),     \
-		(. * _lum_g) - (OLD * _applied_lum_g),     \
-		(. * _lum_b) - (OLD * _applied_lum_b)      \
+#define APPLY_CORNER(C)							\
+	if(C.z == _turf_z) {							\
+		. = LUM_FALLOFF(C);						\
+	}											\
+	else {										\
+		. = LUM_FALLOFF_MULTIZ(C)				\
+	}											\
+	. *= _light_power;							\
+	var/OLD = effect_str[C];						\
+	C.update_lumcount							\
+	(											\
+		(. * _lum_r) - (OLD * _applied_lum_r),		\
+		(. * _lum_g) - (OLD * _applied_lum_g),		\
+		(. * _lum_b) - (OLD * _applied_lum_b)		\
 	);
 
-#define UPDATE_CORNER(C)                          \
-	var/OLD = effect_str[C];                     \
+#define UPDATE_CORNER(C)							\
+	var/OLD = effect_str[C];						\
 	. = max(_light_update_mult * OLD + _light_update_shift, 0);\
-	C.update_lumcount                            \
-	(                                            \
-		(. * _lum_r) - (OLD * _applied_lum_r),     \
-		(. * _lum_g) - (OLD * _applied_lum_g),     \
-		(. * _lum_b) - (OLD * _applied_lum_b)      \
+	C.update_lumcount							\
+	(											\
+		(. * _lum_r) - (OLD * _applied_lum_r),		\
+		(. * _lum_g) - (OLD * _applied_lum_g),		\
+		(. * _lum_b) - (OLD * _applied_lum_b)		\
 	);
 
-#define REMOVE_CORNER(C)                         \
-	. = -effect_str[C];                          \
-	C.update_lumcount                            \
-	(                                            \
-		. * _applied_lum_r,                       \
-		. * _applied_lum_g,                       \
-		. * _applied_lum_b                        \
+#define REMOVE_CORNER(C)							\
+	. = -effect_str[C];							\
+	C.update_lumcount							\
+	(											\
+		. * _applied_lum_r,						\
+		. * _applied_lum_g,						\
+		. * _applied_lum_b						\
 	);
 
 // This is the define used to calculate falloff.
@@ -333,7 +333,7 @@
 			if(!length(check_above_turfs))
 				break
 			impacted_turfs += check_above_turfs // add them to the impacted
-		
+
 		while(length(check_below_turfs))
 			var/list/turf/below_turfs = SSmapping.get_same_z_turfs_below(check_below_turfs)
 			if(!length(below_turfs))
@@ -345,7 +345,7 @@
 					check_below_turfs += candidate_turf // new transparent turfs to check below
 
 		var/list/cached_corners
-		for(var/turf/impacted_turf as anything in impacted_turfs)		
+		for(var/turf/impacted_turf as anything in impacted_turfs)
 			if (!impacted_turf.lighting_corners_initialised)
 				impacted_turf.generate_missing_corners()
 			cached_corners = impacted_turf.corners

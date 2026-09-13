@@ -9,16 +9,10 @@
 	var/plant_def_type
 	var/seed_identity = "some seed"
 
-	var/cooking = 0
-	var/cooktime = 20 SECONDS
-	var/burning = 0
-	var/burntime = 3 MINUTES
-
-	var/burned_color = "#302d2d"
 	var/cooked_smell = /datum/pollutant/food/roasted_seeds
 	var/cooked_type = /obj/item/reagent_containers/food/snacks/roastseeds
 
-/obj/item/seeds/Initialize()
+/obj/item/seeds/Initialize(mapload)
 	. = ..()
 	if(plant_def_type)
 		var/datum/plant_def/def = GLOB.plant_defs[plant_def_type]
@@ -65,54 +59,16 @@
 	soil.insert_plant(GLOB.plant_defs[plant_def_type])
 	qdel(src)
 
-// Cook a seed, burninput is separate so that burning doesn't scale up with skills. Based on 'snacks.dm'
-/obj/item/seeds/cooking(input as num, burninput, atom/A)
-	if(!input)
-		return
-	if(cooktime)
-		var/added_input = input
-		if(cooking < cooktime)
-			cooking = cooking + added_input
-			if(cooking >= cooktime)
-				return heating_act(A)
-			return
-	burning(burninput)
-
 /obj/item/seeds/heating_act(atom/A)
-	if(istype(A,/obj/machinery/light/rogue/oven))
-		var/obj/item/result
-		if(cooked_type)
-			result = new cooked_type(A)
-			if(cooked_smell)
-				result.AddComponent(/datum/component/temporary_pollution_emission, cooked_smell, 20, 5 MINUTES)
-		else
-			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
-		initialize_cooked_seed(result, 1)
-		return result
-	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove))
-		var/obj/item/result
-		if(cooked_type)
-			result = new cooked_type(A)
-			if(cooked_smell)
-				result.AddComponent(/datum/component/temporary_pollution_emission, cooked_smell, 20, 5 MINUTES)
-		else
-			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
-		initialize_cooked_seed(result, 1)
-		return result
-	var/obj/item/result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
+	var/obj/item/result
+	if(cooked_type)
+		result = new cooked_type(A)
+		if(cooked_smell)
+			result.AddComponent(/datum/component/temporary_pollution_emission, cooked_smell, 20, 5 MINUTES)
+	else
+		result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
 	initialize_cooked_seed(result, 1)
 	return result
-
-/obj/item/seeds/burning(input as num)
-	if(!input)
-		return
-	if(burntime)
-		burning = burning + input
-		if(burning >= burntime)
-			name = "burned [name]"
-			color = burned_color
-		if(burning > (burntime * 2))
-			burn()
 
 /obj/item/seeds/proc/initialize_cooked_seed(obj/item/seeds/S, cooking_efficiency = 1)
 	if(reagents)
@@ -223,8 +179,8 @@
 	plant_def_type = /datum/plant_def/potato
 
 /obj/item/seeds/fyritius
-    seed_identity = "fyritius seeds"
-    plant_def_type = /datum/plant_def/fyritiusflower
+	seed_identity = "fyritius seeds"
+	plant_def_type = /datum/plant_def/fyritiusflower
 
 /obj/item/seeds/poppy
 	seed_identity = "poppy seeds"

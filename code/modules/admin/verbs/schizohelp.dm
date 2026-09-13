@@ -60,7 +60,7 @@ GLOBAL_LIST_EMPTY_TYPED(schizohelps, /datum/schizohelp)
 	if(schizo.owner == src.mob)
 		to_chat(src, span_warning("I can't answer my own meditation!"))
 		return
-	var/answer = input("Answer their meditations...", "VOICE")
+	var/answer = input(usr, "Answer their meditations...", "VOICE")
 	if(!answer || QDELETED(schizo))
 		return
 	schizo.answer_schizo(answer, src.mob)
@@ -83,7 +83,7 @@ GLOBAL_LIST_EMPTY_TYPED(schizohelps, /datum/schizohelp)
 	GLOB.schizohelps += src
 	if(timeout)
 		QDEL_IN(src, timeout)
-	
+
 /datum/schizohelp/Destroy(force)
 	. = ..()
 	owner = null

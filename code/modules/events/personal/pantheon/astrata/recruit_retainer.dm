@@ -42,7 +42,7 @@
 		if(!human_mob.client.prefs || human_mob.client.prefs?.no_storyteller_events)
 			continue
 
-		if(istype(human_mob.mind?.assigned_role, /datum/job/roguetown/councillor) ||  human_mob.job == "Noble")
+		if(istype(human_mob.mind?.assigned_role, /datum/job/roguetown/councillor) ||	human_mob.job == "Noble")
 			minor_nobles += human_mob
 		else
 			valid_targets += human_mob

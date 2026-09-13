@@ -55,7 +55,7 @@
 /obj/effect/temp_visual/zad_tracked/zad_flight/ascend
 	duration = ZAD_ASCEND_DURATION
 
-/obj/effect/temp_visual/zad_tracked/zad_flight/ascend/Initialize()
+/obj/effect/temp_visual/zad_tracked/zad_flight/ascend/Initialize(mapload)
 	. = ..()
 	pixel_y = 0
 	alpha = 255
@@ -66,7 +66,7 @@
 	duration = ZAD_DESCEND_DURATION
 	alpha = 255
 
-/obj/effect/temp_visual/zad_tracked/zad_flight/descend/Initialize()
+/obj/effect/temp_visual/zad_tracked/zad_flight/descend/Initialize(mapload)
 	. = ..()
 	pixel_y = ZAD_FLIGHT_TRAVEL_HEIGHT
 	alpha = 255
@@ -77,7 +77,7 @@
 	duration = ZAD_BOMB_DESCEND_DURATION_VAR_MAX
 	alpha = 0
 
-/obj/effect/temp_visual/zad_tracked/zad_flight/descend_long/Initialize()
+/obj/effect/temp_visual/zad_tracked/zad_flight/descend_long/Initialize(mapload)
 	. = ..()
 	pixel_y = ZAD_FLIGHT_TRAVEL_HEIGHT
 	alpha = 255
@@ -123,7 +123,7 @@
 	icon_state = "crow1"
 	duration = 1.5 SECONDS
 
-/obj/effect/temp_visual/zad_tracked/zad_flight/plummet/Initialize()
+/obj/effect/temp_visual/zad_tracked/zad_flight/plummet/Initialize(mapload)
 	. = ..()
 	pixel_y = ZAD_FLIGHT_TRAVEL_HEIGHT
 	alpha = 255
@@ -135,7 +135,7 @@
 	icon = 'icons/roguetown/mob/monster/crow.dmi'
 	icon_state = "crow"
 
-/obj/effect/temp_visual/zad_tracked/zad_flight/arrival/Initialize()
+/obj/effect/temp_visual/zad_tracked/zad_flight/arrival/Initialize(mapload)
 	. = ..()
 	pixel_y = 4
 	animate(src, pixel_y = 0, time = 4, easing = SINE_EASING)
@@ -320,7 +320,7 @@
 	duration = ZAD_BOMB_DESCEND_DURATION_VAR_MAX
 	randomdir = FALSE
 
-/obj/effect/temp_visual/zad_tracked/zad_bomb_overlay/Initialize()
+/obj/effect/temp_visual/zad_tracked/zad_bomb_overlay/Initialize(mapload)
 	. = ..()
 	transform = matrix() * 0.65
 

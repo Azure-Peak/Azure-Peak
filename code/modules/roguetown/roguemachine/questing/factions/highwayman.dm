@@ -15,7 +15,8 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 8,
 	)
 	boss_mob_types = list(
-		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 100,
+		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 70,
+		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 30,
 	)
 	boss_title_templates = list(
 		"%N the Cutthroat",

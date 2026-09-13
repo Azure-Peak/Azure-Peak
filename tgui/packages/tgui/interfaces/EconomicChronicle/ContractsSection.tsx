@@ -1,11 +1,12 @@
+import { withPct } from '../common/format';
 import { SEAL_AMBER, SEAL_GREEN, SEAL_RED } from '../common/parchment';
+import { SummarySegment } from '../common/SummarySegment';
 import {
   Breakdown,
   compactCardStyle,
   dividedTwoColumnLayout,
   dividerStyle,
   Row,
-  SectionTitle,
   twoColTable,
   verticalDividerStyle,
 } from './styles';
@@ -103,9 +104,26 @@ const FavorsColumn = (props: {
 };
 
 export const ContractsSection = (props: Props) => {
+  const { c } = props;
+  const completion =
+    c.taken_total > 0
+      ? Math.round((c.completed_total / c.taken_total) * 1000) / 10
+      : null;
   return (
     <div style={compactCardStyle}>
-      <SectionTitle>Guild Contracts &amp; Royal Favors</SectionTitle>
+      <SummarySegment
+        title="Guild Contracts &amp; Royal Favors"
+        items={[
+          { label: 'Issued', value: c.generated_total },
+          { label: 'Taken', value: c.taken_total },
+          {
+            label: 'Completed',
+            value: withPct(c.completed_total, completion),
+            color: SEAL_GREEN,
+          },
+          { label: 'Paid out', value: `${c.mammons_paid}m` },
+        ]}
+      />
       <div style={dividedTwoColumnLayout}>
         <ContractsColumn c={props.c} />
         <div style={verticalDividerStyle} />

@@ -20,7 +20,7 @@
 	var/y_distance_sign = SIGN(y_distance)
 
 	var/x = abs_x_distance >> 1 //Counters for steps taken, setting to distance/2
-	var/y = abs_y_distance >> 1 //Bit-shifting makes me l33t.  It also makes get_line() unnecessarily fast.
+	var/y = abs_y_distance >> 1 //Bit-shifting makes me l33t.	It also makes get_line() unnecessarily fast.
 
 	if(abs_x_distance >= abs_y_distance) //x distance is greater than y
 		for(var/distance_counter in 0 to (abs_x_distance - 1))//It'll take abs_x_distance steps to get there

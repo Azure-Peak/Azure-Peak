@@ -52,7 +52,7 @@ GLOBAL_VAR(moneymaster)
 	..()
 
 
-/obj/structure/roguemachine/money/Initialize()
+/obj/structure/roguemachine/money/Initialize(mapload)
 	. = ..()
 	icon_state = "money[rand(1,2)]"
 	update_icon()
@@ -61,7 +61,7 @@ GLOBAL_VAR(moneymaster)
 	pixel_y = 0
 	pixel_x = 32
 
-/obj/structure/roguemachine/money/r/Initialize()
+/obj/structure/roguemachine/money/r/Initialize(mapload)
 	. = ..()
 	icon_state = "money1"
 	update_icon()
@@ -70,7 +70,7 @@ GLOBAL_VAR(moneymaster)
 	pixel_y = 0
 	pixel_x = -32
 
-/obj/structure/roguemachine/money/l/Initialize()
+/obj/structure/roguemachine/money/l/Initialize(mapload)
 	. = ..()
 	icon_state = "money2"
 	update_icon()
@@ -234,7 +234,7 @@ GLOBAL_VAR(moneymaster)
 	pixel_x = -16
 	izmaster = TRUE
 
-/obj/structure/roguemachine/money/twins/Initialize()
+/obj/structure/roguemachine/money/twins/Initialize(mapload)
 	. = ..()
 	budget = rand(50,200)
 	icon_state = "twins"

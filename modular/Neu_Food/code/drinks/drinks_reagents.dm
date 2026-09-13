@@ -15,10 +15,10 @@
 /datum/reagent/consumable/rosewater/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_BEAST)
-		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(0.5	* REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.1, 0)
 		M.adjustToxLoss(-2, 0)
 		var/list/our_wounds = M.get_wounds()
@@ -44,10 +44,10 @@
 /datum/reagent/consumable/rosewater_spiced/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_BEAST)
-		M.adjustFireLoss(0.8  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(0.8	* REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.46  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.46  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.46	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.46	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.2, 0)
 		M.adjustToxLoss(-3, 0)
 		var/list/our_wounds = M.get_wounds()
@@ -76,7 +76,7 @@
 	M.Jitter(2)
 	if(prob(5))
 		M.heart_attack()
-	
+
 /datum/reagent/consumable/caffeine/coffee
 	cuisine = CUISINE_RANESHENI
 	name = "coffee"
@@ -102,10 +102,10 @@
 /datum/reagent/consumable/caffeine/coffee_spiced/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_BEAST)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.15, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -138,10 +138,10 @@
 /datum/reagent/consumable/caffeine/tea_spiced/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if (M.mob_biotypes & MOB_BEAST)
-		M.adjustFireLoss(-0.1  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
 	else
-		M.adjustBruteLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustFireLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustBruteLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustOxyLoss(-0.15, 0)
 		var/list/our_wounds = M.get_wounds()
 		if (LAZYLEN(our_wounds))
@@ -190,11 +190,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1) //at a metabolism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.75	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.75	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.25, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.75	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/chocolate
@@ -215,11 +215,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.3  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/spiced_chocolate
@@ -240,11 +240,11 @@
 	if(wCount.len > 0)
 		M.heal_wounds(1)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-0.15, 0)
-		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.5  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.5	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
 /datum/reagent/consumable/soothing_valerian_tea

@@ -36,7 +36,7 @@
 	dreams = list(
 		"...there is no light in the suffocating dark. You choose a direction and your arms and legs tear at the thick, oily waters in a desperate attempt to reach the surface. Your heart pounds, and your body yearns for another breath...",
 		"...a wave rocks to the side of the boat, and you tumble into the yawning abyss. Lightning splits the sky as the old captain hurls a buoy into the churning sea. Salt water burns your lungs as you thrash and claw, struggling towards your lifeline...",
-		"...the current  the beach draws you out further into the ocean, relentless and fast. Your muscles burn as you struggle, every stroke a battle. 'Across, not against!' a voice from your past chides, guiding you as you break free of the riptide's grasp..."
+		"...the current	the beach draws you out further into the ocean, relentless and fast. Your muscles burn as you struggle, every stroke a battle. 'Across, not against!' a voice from your past chides, guiding you as you break free of the riptide's grasp..."
 
 	)
 	expert_name = "Swimmer"
@@ -118,6 +118,8 @@
 		"... the blood may have gotten lost in the rain, but the wounded man's boots are as fresh as jackberries, perfectly marked in the sand. You raise your bow, nock an arrow, and carefully trace them towards a cave..."
 	)
 	expert_name = "Tracker"
+	max_untraited_level = SKILL_LEVEL_EXPERT
+	trait_uncap = list(TRAIT_PERFECT_TRACKER = SKILL_LEVEL_LEGENDARY)
 
 // Shouldn't be given to adventurers/mercs etc willy nilly, only locals are really experienced hunters, as hunting is very region dependent.
 /datum/skill/misc/hunting
@@ -132,4 +134,4 @@
 	expert_name = "Tracker"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_MASTERFUL_HUNTER = SKILL_LEVEL_LEGENDARY,
-					   TRAIT_EXPERT_HUNTER = SKILL_LEVEL_EXPERT)
+						TRAIT_EXPERT_HUNTER = SKILL_LEVEL_EXPERT)

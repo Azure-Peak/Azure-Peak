@@ -80,7 +80,7 @@
 /obj/structure/stairs/fancy/l
 	icon_state = "fancy_stairs_l"
 
-/obj/structure/stairs/fancy/Initialize()
+/obj/structure/stairs/fancy/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)

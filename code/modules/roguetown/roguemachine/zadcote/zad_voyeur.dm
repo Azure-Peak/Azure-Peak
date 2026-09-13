@@ -77,7 +77,7 @@
 	name = "scrying through a zad"
 	var/datum/weakref/bonded_cage
 
-/mob/dead/observer/eye/screye/zadcote_voyeur/Initialize()
+/mob/dead/observer/eye/screye/zadcote_voyeur/Initialize(mapload)
 	. = ..()
 	add_verb(src, /mob/dead/observer/eye/screye/zadcote_voyeur/proc/end_zad_voyeur)
 

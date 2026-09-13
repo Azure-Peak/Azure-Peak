@@ -26,12 +26,12 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
-		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		altdetail_color = COLOR_MAP[choicealt]
 		altdetail_tag = "_detailalt"
-		if(choicealt in pridelist)
+		if(choicealt in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -57,7 +57,7 @@
 	name = "blacksteel bucket helm"
 	desc = "An antiquated greathelm of blacksteel, crested with a thick and luscious plume. How much will it take for \
 	your faith to sway - and how little will it be? Will you clasp to the atrocities of the past and believe yourself \
-	unredeemable, or will you mantle the burden of doing what is right? </br>‎  </br>It is never too late to \
+	unredeemable, or will you mantle the burden of doing what is right? </br>‎	</br>It is never too late to \
 	change; for the better, and for the worse."
 	icon_state = "bkhelm"
 	item_state = "bkhelm"
@@ -103,7 +103,7 @@
 	item_state = "psybarbs"
 	icon = 'icons/roguetown/clothing/wrists.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer	= 8.9 //On top of helmet
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	armor_class = ARMOR_CLASS_NONE
 	block2add = FOV_DEFAULT
@@ -133,7 +133,7 @@
 	armor = ARMOR_PLATE_BSTEEL
 	body_parts_covered = HAIR
 	max_integrity = ARMOR_INT_SIDE_COVERAGE_BONUS //Translates into 50INT. Tremendously weaker - intended for aesthetics above all else.
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer	= 8.9 //On top of helmet
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	armor_class = ARMOR_CLASS_NONE
 	block2add = FOV_DEFAULT
@@ -144,7 +144,7 @@
 /obj/item/clothing/neck/roguetown/bevor/blacksteel
 	name = "ancient blacksteel neckguard"
 	desc = "An antiquated bevor of blacksteel, unfettered in both pristineness and protection. What good comes from creation, if you never \
-	stop to savor it? </br>‎  </br>A lyfe with labor has meaning; a lyfe dedicated to labor, none."
+	stop to savor it? </br>‎	</br>A lyfe with labor has meaning; a lyfe dedicated to labor, none."
 	icon_state = "bsneckguardclassic"
 	smeltresult = /obj/item/ingot/blacksteel
 	armor = ARMOR_PLATE_BSTEEL

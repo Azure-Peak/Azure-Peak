@@ -23,11 +23,11 @@
 	var/fakename
 
 /obj/item/mattcoin/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Right-click the coin in your active hand to access a specially-hijacked SCOMline, allowing you to securely communicate with fellow freedmen.")
-    . += span_info("A special hex conceals this object from loyalist eyes. To anyone still shackled to tyranny, it will appear in examinations and inventory as a mere 'gold ring' or 'rontz ring'.")
+	. = ..()
+	. += span_info("Right-click the coin in your active hand to access a specially-hijacked SCOMline, allowing you to securely communicate with fellow freedmen.")
+	. += span_info("A special hex conceals this object from loyalist eyes. To anyone still shackled to tyranny, it will appear in examinations and inventory as a mere 'gold ring' or 'rontz ring'.")
 
-/obj/item/mattcoin/Initialize()
+/obj/item/mattcoin/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive()
 	update_icon()

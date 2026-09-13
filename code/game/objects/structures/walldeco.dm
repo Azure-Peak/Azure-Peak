@@ -49,7 +49,7 @@
 	pixel_y = 0
 	pixel_x = -32
 
-/obj/structure/fluff/walldeco/wantedposter/Initialize()
+/obj/structure/fluff/walldeco/wantedposter/Initialize(mapload)
 	. = ..()
 	icon_state = "wanted[rand(1,3)]"
 	dir = pick(GLOB.cardinals)
@@ -104,7 +104,7 @@
 	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
 	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
 	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
-	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")	
+	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")
 	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
 	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
 	. += span_info("Using armor and weapons as intended will gradually wear their integrity down. Once it breaks, they can no longer be used or provide protection. Blacksmiths, tailors, repair kits, and certain tools can amend this.")
@@ -186,7 +186,7 @@
 	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
 	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
 	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
-	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")	
+	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")
 	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
 	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
 	. += span_info("Using armor and weapons as intended will gradually wear their integrity down. Once it breaks, they can no longer be used or provide protection. Blacksmiths, tailors, repair kits, and certain tools can amend this.")
@@ -221,6 +221,27 @@
 
 /obj/structure/fluff/walldeco/sign/merchantsign/left
 	icon_state = "shopsign_merchant_left"
+
+/obj/structure/fluff/walldeco/sign/apothecarysign
+	name = "clinic sign"
+	icon_state = "shopsign_apothecary_right"
+	desc = "For all your medical attention needs."
+	plane = -1
+	pixel_y = 16
+
+/obj/structure/fluff/walldeco/sign/apothecarysign/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("When you're injured, this is where you go, your local Apothecary. Be it for gushing wounds, missing limbs or organs, or even death, the Clinic can get you fixed up and back on your feet.")
+	. += span_info("The Apothecary stocks a variety of medical supplies, potions, and equipment to treat most injuries, often at good prices in their Peddler, should there be someone working the counter.")
+	. += span_info("Healing Potions, Mana Potions, Antidotes, Stamina and other enhancing potions can all be found or bartered for at the Apothecary, given they have the ingredients available and a willing worker.")
+	. += span_info("Keep in mind your constitution, some can take a lot more punishment than others, and should you bite off more than you can chew, you may end up laid flat and lifeless in one of the beds here.")
+
+/obj/structure/fluff/walldeco/sign/apothecarysign/left
+	name = "clinic sign"
+	icon_state = "shopsign_apothecary_left"
+	desc = "For all your medical attention needs."
+	plane = -1
+	pixel_y = 16
 
 /obj/structure/fluff/walldeco/psybanner
 	name = "psydonic banner"
@@ -345,7 +366,7 @@
 	breakoutextra = 5 MINUTES
 	buckleverb = "tie"
 
-/obj/structure/fluff/walldeco/chains/Initialize()
+/obj/structure/fluff/walldeco/chains/Initialize(mapload)
 	icon_state = "chains[rand(1,8)]"
 	..()
 
@@ -354,7 +375,7 @@
 	desc = "A banner flutters in the breeze in the proud heraldic colors of the Duchy."
 	icon_state = "wallflag"
 
-/obj/structure/fluff/walldeco/customflag/Initialize()
+/obj/structure/fluff/walldeco/customflag/Initialize(mapload)
 	. = ..()
 	if(GLOB.lordprimary)
 		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
@@ -591,7 +612,10 @@
 #undef STEAK_ALARM_DISABLE_TIME
 
 /obj/structure/fluff/walldeco/vinez // overlay vines for more flexibile mapping
+	name = "ivy"
 	icon_state = "vinez"
+	max_integrity = 10
+	mouse_opacity = 1
 
 /obj/structure/fluff/walldeco/vinez/l
 	pixel_x = -32
@@ -608,6 +632,49 @@
 
 /obj/structure/fluff/walldeco/vinez/red
 	icon_state = "vinez_red"
+
+/obj/structure/fluff/walldeco/vinez/glow//glowy vines
+	name = "glowing ivy"
+	icon_state = "vinez"
+	mouse_opacity = 1
+
+/obj/structure/fluff/walldeco/vinez/glow/Initialize()
+	. = ..()
+	set_light(4, 0, 1, l_color = "#75a35b", l_on = TRUE)
+
+/obj/structure/fluff/walldeco/vinez/glow/l
+	pixel_x = -32
+
+/obj/structure/fluff/walldeco/vinez/glow/r
+	pixel_x = 32
+
+/obj/structure/fluff/walldeco/vinez/glow/blue
+	name = "blue glowing ivy"
+	icon_state = "vinez_blue"
+
+/obj/structure/fluff/walldeco/vinez/glow/blue/Initialize()
+	. = ..()
+	set_light(4, 0, 1, l_color = "#5a83b8", l_on = TRUE)
+
+/obj/structure/fluff/walldeco/vinez/glow/blue/l
+	pixel_x = -32
+
+/obj/structure/fluff/walldeco/vinez/glow/blue/r
+	pixel_x = 32
+
+/obj/structure/fluff/walldeco/vinez/glow/red
+	name = "red glowing ivy"
+	icon_state = "vinez_red"
+
+/obj/structure/fluff/walldeco/vinez/glow/red/Initialize()
+	. = ..()
+	set_light(4, 0, 1, l_color = "#a84d4d", l_on = TRUE)
+
+/obj/structure/fluff/walldeco/vinez/glow/red/l
+	pixel_x = -32
+
+/obj/structure/fluff/walldeco/vinez/glow/red/r
+	pixel_x = 32
 
 /obj/structure/fluff/walldeco/bath // suggestive stonework
 	icon_state = "bath1"

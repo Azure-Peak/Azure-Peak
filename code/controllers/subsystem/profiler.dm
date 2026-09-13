@@ -11,7 +11,7 @@ SUBSYSTEM_DEF(profiler)
 	msg += "|W:[round(write_cost,1)]ms"
 	return ..(msg)
 
-/datum/controller/subsystem/profiler/Initialize()
+/datum/controller/subsystem/profiler/Initialize(mapload)
 	var/profiling = CONFIG_GET(flag/auto_profile)
 	if(profiling)
 		StartProfiling()
@@ -56,7 +56,7 @@ SUBSYSTEM_DEF(profiler)
 	if(allow_yield)
 		CHECK_TICK
 
-	// Filename: profiler-<HH.MM.SS>-<reason>-<iteration>.json  — chronologically sortable, self-describing, collision-free.
+	// Filename: profiler-<HH.MM.SS>-<reason>-<iteration>.json	— chronologically sortable, self-describing, collision-free.
 	var/stamp = "[time2text(world.realtime, "hh.mm.ss")]-[reason]-[Master.iteration]"
 
 	if(!length(current_profile_data)) //Would be nice to have explicit proc to check this

@@ -25,7 +25,7 @@ GLOBAL_PROTECT(agevetted_list)
 	if(!check_rights())
 		return
 
-	var/selection = input("Who would you like to verify?", "CKEY", "") as text|null
+	var/selection = input(usr, "Who would you like to verify?", "CKEY", "") as text|null
 	if(selection)
 		if(alert(src, "Confirm: [selection] as being ID verified?", "Age Vetting", "Yes!", "No") == "Yes!")
 			add_agevet(selection, ckey, src) // keep the client ref to save us a duplicate list call
@@ -71,7 +71,7 @@ GLOBAL_PROTECT(agevetted_list)
 	fdel(json_file)
 	WRITE_FILE(json_file,json_encode(file_data))
 
-// for more convenient host oversight and perhaps an eventual database import. 
+// for more convenient host oversight and perhaps an eventual database import.
 /proc/log_agevet_to_csv(target_ckey, admin_ckey = "SYSTEM")
 	if(IsAdminAdvancedProcCall()) // sorry for using this twice
 		return

@@ -11,6 +11,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked
 	name = "succulent venison ribs"
@@ -25,6 +26,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked
 	name = "tender venison loins"
@@ -39,6 +41,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked
 	name = "venison prime steak"
@@ -53,6 +56,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked
 	name = "vile venison steak"
@@ -67,6 +71,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked
@@ -82,6 +87,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked
@@ -98,6 +104,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked
@@ -114,6 +121,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w/cooked
@@ -128,6 +136,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_AND_HALF_MEALS)
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w/cooked
 	name = "royal venison ribs"
@@ -142,6 +151,7 @@
 	volume = 100
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w/cooked
 	name = "royal venison loins"
@@ -155,6 +165,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_AND_HALF_MEALS)
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_w/cooked
 	name = "royal venison prime steak"
@@ -169,6 +180,7 @@
 	volume = 100
 	fried_type = null
 	cooked_type = null
+	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_w/cooked/Initialize(mapload)
 	AddComponent(/datum/component/stag_essence)

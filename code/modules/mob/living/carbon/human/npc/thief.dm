@@ -9,7 +9,7 @@
 
 
 
-/mob/living/carbon/human/species/human/northern/thief/Initialize()
+/mob/living/carbon/human/species/human/northern/thief/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

@@ -81,6 +81,6 @@
 			var/mob/living/carbon/human/H = owner.current
 			the_name = H.real_name
 		if(!totaldonated)
-			to_chat(world, "[the_name] was a bandit.")
+			to_world("[the_name] was a bandit.")
 		else
-			to_chat(world, "[the_name] was a bandit. Their band stole [totaldonated] mammons worth of loot!")
+			to_world("[the_name] was a bandit. Their band stole [totaldonated] mammons worth of loot!")

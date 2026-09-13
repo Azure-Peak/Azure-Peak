@@ -30,7 +30,7 @@
 	var/ignore_los = FALSE
 	var/glow_intensity = 0 // How much does the user glow when using the ability
 	var/glow_color = null // The color of the glow
-	var/hide_charge_effect = FALSE // If true, will not show the spell's icon when charging 
+	var/hide_charge_effect = FALSE // If true, will not show the spell's icon when charging
 	/// This spell holder's cooldown does not scale with any stat
 	var/is_cdr_exempt = FALSE
 	var/obj/effect/mob_charge_effect = null
@@ -42,7 +42,7 @@
 
 	var/skipcharge = FALSE
 
-/obj/effect/proc_holder/Initialize()
+/obj/effect/proc_holder/Initialize(mapload)
 	. = ..()
 	if(has_action)
 		action = new base_action(src)
@@ -156,6 +156,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 	var/cost = 0 //how many points it costs to learn this spell
 	var/xp_gain = FALSE
+	var/expose_caster_on_deflect = TRUE
 
 	var/school = "evocation" //not relevant at now, but may be important later if there are changes to how spells work. the ones I used for now will probably be changed... maybe spell presets? lacking flexibility but with some other benefit?
 
@@ -180,7 +181,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/list/invocations = list() //what is uttered when the wizard casts the spell
 	var/invocation_emote_self = null
 	var/invocation_type = "none" //can be none, whisper, emote and shout
-	var/range = 7 	// the range of the spell; outer radius for aoe spells. set to 0 for self.
+	var/range = 7	// the range of the spell; outer radius for aoe spells. set to 0 for self.
 	var/message = "" //whatever it says to the guy affected by it
 	var/selection_type = "view" //can be "range" or "view"
 	var/cooldown_min = 0 //This defines what spell quickened four times has as a cooldown. Make sure to set this for every spell
@@ -241,22 +242,22 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/list/breakdown = list()
 	if(miracle && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
 		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
-			breakdown += span_smallgreen("  Dominant faith: -[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
+			breakdown += span_smallgreen("	Dominant faith: -[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
 		else
-			breakdown += span_smallred("  Suppressed faith: +[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
+			breakdown += span_smallred("	Suppressed faith: +[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/int_mod = initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  Intelligence: -[DisplayTimeText(int_mod)]")
+		breakdown += span_smallgreen("	Intelligence: -[DisplayTimeText(int_mod)]")
 	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
 		var/diffy = SPELL_SCALING_THRESHOLD - user.STAINT
 		var/int_mod = initial(recharge_time) * diffy * COOLDOWN_REDUCTION_PER_INT
-		breakdown += span_smallred("  Intelligence: +[DisplayTimeText(int_mod)]")
+		breakdown += span_smallred("	Intelligence: +[DisplayTimeText(int_mod)]")
 	var/armor_mult = get_armor_cd_multiplier(user)
 	if(armor_mult > 0)
 		var/armor_mod = initial(recharge_time) * armor_mult
 		var/armor_label = user.check_armor_skill() ? "Armor weight" : "Untrained armor"
-		breakdown += span_smallred("  [armor_label]: +[DisplayTimeText(armor_mod)]")
+		breakdown += span_smallred("	[armor_label]: +[DisplayTimeText(armor_mod)]")
 	return breakdown
 
 /obj/effect/proc_holder/spell/proc/get_fatigue_breakdown(mob/living/user)
@@ -264,11 +265,11 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/int_mod = releasedrain * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallgreen("  Intelligence: -[int_mod]")
+		breakdown += span_smallgreen("	Intelligence: -[int_mod]")
 	else if(user.STAINT < SPELL_SCALING_THRESHOLD)
 		var/diff = SPELL_SCALING_THRESHOLD - user.STAINT
 		var/int_mod = releasedrain * diff * FATIGUE_REDUCTION_PER_INT
-		breakdown += span_smallred("  Intelligence: +[int_mod]")
+		breakdown += span_smallred("	Intelligence: +[int_mod]")
 	return breakdown
 
 /obj/effect/proc_holder/spell/proc/calculate_cooldown(mob/living/user)
@@ -518,7 +519,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		ss = pick(sound)
 	playsound(get_turf(usr), ss,100,FALSE)
 
-/obj/effect/proc_holder/spell/Initialize()
+/obj/effect/proc_holder/spell/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 
@@ -778,11 +779,11 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 						continue
 					possible_targets += M
 
-				//targets += input("Choose the target for the spell.", "Targeting") as mob in possible_targets
+				//targets += input(user, "Choose the target for the spell.", "Targeting") as mob in possible_targets
 				//Adds a safety check post-input to make sure those targets are actually in range.
 				var/mob/M
 				if(!random_target)
-					M = input("Choose the target for the spell.", "Targeting") as null|mob in sortNames(possible_targets)
+					M = input(user, "Choose the target for the spell.", "Targeting") as null|mob in sortNames(possible_targets)
 				else
 					switch(random_target_priority)
 						if(TARGET_RANDOM)
@@ -891,7 +892,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				return FALSE
 			if(!H.has_active_hand())
 				return FALSE
-	
+
 	if((invocation_type == "whisper" || invocation_type == "shout") && isliving(user))
 		var/mob/living/living_user = user
 		if(!living_user.can_speak_vocal())
@@ -936,14 +937,16 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /// Returns FALSE if the spell should proceed normally.
 /// The caster is Exposed when guard deflects (pseudo-melee punishment); pass attacker to override who is punished.
 /// Usage in cast(): if(spell_guard_check(L)) continue
-/obj/effect/proc_holder/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
+/obj/effect/proc_holder/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker, punish_caster)
 	if(!isliving(target))
 		return FALSE
 	if(target == (ranged_ability_user || action?.owner))
 		return FALSE
 	if(isnull(attacker))
 		attacker = ranged_ability_user || action?.owner
-	return target.guard_deflect_spell(name, no_message, attacker)
+	if(isnull(punish_caster))
+		punish_caster = expose_caster_on_deflect
+	return target.guard_deflect_spell(name, no_message, attacker, punish_caster)
 
 /obj/effect/proc_holder/spell/proc/generate_wiki_html(mob/user)
 	var/s_range

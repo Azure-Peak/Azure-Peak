@@ -38,7 +38,7 @@
 	/// List of boon paths the hag has pre-prepared: [boon_path] = quantity
 	var/list/prepared_boons = list()
 
-/datum/component/hag_curio_tracker/Initialize()
+/datum/component/hag_curio_tracker/Initialize(mapload)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(src, COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED, PROC_REF(handle_curse_cleared))
@@ -338,6 +338,8 @@
 	if(C.mind.has_antag_datum(/datum/antagonist/hag))
 		return FALSE
 	if(C.mind.has_antag_datum(/datum/antagonist/skeleton))
+		return FALSE
+	if(C.mind.has_antag_datum(/datum/antagonist/assassin))
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_FEYTOUCHED))
 		return FALSE

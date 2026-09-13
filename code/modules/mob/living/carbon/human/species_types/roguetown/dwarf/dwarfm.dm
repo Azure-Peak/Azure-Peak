@@ -8,6 +8,7 @@
 	origin_default = /datum/virtue/origin/hammerhold
 	origin = "Hammerhold"
 	sub_name = "Mountain Dwarf"
+	desc_title = "Mountain Dwarf"
 	clothes_id = "dwarf"
 	desc = "<b>Dwarf</b><br>\
 	A proud and robust race of short mountain folk, \

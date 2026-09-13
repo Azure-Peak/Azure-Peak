@@ -125,10 +125,10 @@
 	points = 75
 
 // /datum/hag_boon/trait/counter_counterspell
-// 	name = "Trait - Counter Counterspell"
-// 	trait_to_apply = TRAIT_COUNTERCOUNTERSPELL
-// 	desc = "Prevents Counterspells from affecting the bearer."
-// 	points = 40
+//	name = "Trait - Counter Counterspell"
+//	trait_to_apply = TRAIT_COUNTERCOUNTERSPELL
+//	desc = "Prevents Counterspells from affecting the bearer."
+//	points = 40
 
 /datum/hag_boon/trait/keen_ears
 	name = "Trait - Keen Ears"
@@ -174,9 +174,9 @@
 
 // Disabled for now, they have a blessing for stamina.
 // /datum/hag_boon/trait/infinite_energy
-// 	name = "Trait - No Fatigue"
-// 	trait_to_apply = TRAIT_INFINITE_ENERGY
-// 	points = 100
+//	name = "Trait - No Fatigue"
+//	trait_to_apply = TRAIT_INFINITE_ENERGY
+//	points = 100
 
 /datum/hag_boon/trait/unbound_strength
 	name = "Trait - Unbound Strength"

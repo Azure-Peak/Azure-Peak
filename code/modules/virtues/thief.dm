@@ -1,6 +1,7 @@
 /datum/virtue/thief/drug_runner
 	name = "Dust Runner"
 	desc = "I run dust for the Thieves' Guild, and an associate has left a delivery in my stash nearby for me to pick up; they will also supply me via HERMES daily. I can spot others in the Guild, and Matthiosites and Bathhouse workers recognize me for it."
+	ui_fa_icon = "person-through-window"
 	added_traits = list(TRAIT_DUSTRUNNER, TRAIT_DRUG_SUPPLY)
 	added_languages = list(/datum/language/thievescant)
 	added_skills = list(list(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, SKILL_LEVEL_JOURNEYMAN))

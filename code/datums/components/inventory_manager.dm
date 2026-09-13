@@ -23,9 +23,9 @@
 
 	container_refs = alist()
 
-	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM,   PROC_REF(on_equip))
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM,	PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(on_unequip))
-	RegisterSignal(parent, COMSIG_MOB_DROPITEM,        PROC_REF(on_drop))
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM,		PROC_REF(on_drop))
 
 	full_reappraise()
 
@@ -128,11 +128,12 @@
 	SIGNAL_HANDLER
 	// The unequip signal's third arg is `force`, not a slot, so work off the item itself.
 	for(var/slot_flag in container_refs)
-		if(container_refs[slot_flag] == equipment)
-			UnregisterSignal(equipment, COMSIG_PARENT_QDELETING)
-			_purge_slot(slot_flag)
-			container_refs -= slot_flag
-			return
+		if(container_refs[slot_flag] != equipment)
+			continue
+		UnregisterSignal(equipment, list(COMSIG_PARENT_QDELETING, COMSIG_STORAGE_ADDED))
+		_purge_slot(slot_flag)
+		container_refs -= slot_flag
+		break
 	_remove_item(equipment)
 
 /datum/component/ai_inventory_manager/proc/on_drop(datum/source, obj/item/dropped)
@@ -231,7 +232,7 @@
 		return
 	var/mob/living/carbon/human/H = parent
 
-	var/obj/item/active   = H.get_active_held_item()
+	var/obj/item/active	= H.get_active_held_item()
 	var/obj/item/inactive = H.get_inactive_held_item()
 
 	// Snapshot and clear FIRST to prevent reentrant calls from re-running
@@ -281,25 +282,6 @@
 	STR.handle_item_insertion(it, prevent_warning = TRUE, user = H)
 	_classify_item(it, slot_flag)
 	return TRUE
-
-/// Remove an empty container from inventory tracking and drop it on the ground
-/datum/component/ai_inventory_manager/proc/drop_empty_container(obj/item/reagent_containers/container)
-	var/mob/living/carbon/human/H = parent
-	_remove_item(container)
-
-	// If it's in storage, pull it out and drop it
-	if(container.loc != H)
-		for(var/slot_flag in container_refs)
-			var/obj/item/storage_item = container_refs[slot_flag]
-			var/datum/component/storage/STR = storage_item?.GetComponent(/datum/component/storage)
-			if(!STR)
-				continue
-			if(container in STR.contents())
-				STR.remove_from_storage(container, H)
-				break
-
-	if(container.loc == H)
-		H.dropItemToGround(container)
 
 /// Returns the actual usable item (may differ from what's in inventory_map)
 /datum/component/ai_inventory_manager/proc/draw_usable_item(obj/item/it, category)

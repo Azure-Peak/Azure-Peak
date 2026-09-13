@@ -51,8 +51,7 @@
 		TRAIT_SILVER_BLESSED,
 		TRAIT_INQUISITION,
 		TRAIT_PERFECT_TRACKER,
-		TRAIT_PURITAN,
-		TRAIT_SLEUTH,
+		TRAIT_PURITAN
 		)
 	subclass_stats = list(
 		STATKEY_CON = 1,
@@ -100,7 +99,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
 	beltl = /obj/item/rogueweapon/whip/antique/psywhip
 	head = /obj/item/clothing/head/roguetown/inqhat
-	mask = /obj/item/clothing/mask/rogue/spectacles/inq/spawnpair
+	mask = /obj/item/clothing/mask/rogue/spectacles/inq
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/inqgloves
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	id = /obj/item/clothing/ring/signet/psy

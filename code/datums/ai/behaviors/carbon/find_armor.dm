@@ -3,6 +3,8 @@
 
 /datum/ai_behavior/find_and_set/armor/search_tactic(datum/ai_controller/controller, locate_path, search_range)
 	var/mob/living/carbon/living_pawn = controller.pawn
+	if(living_pawn.incapacitated())
+		return
 
 
 	var/list/armor = list()

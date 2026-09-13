@@ -1,8 +1,10 @@
 //Subtype of wolf, but non-hostile until attacked instead of default hostile.
 /mob/living/simple_animal/hostile/retaliate/rogue/fox
+	attack_aim = MOB_AIM_LOW
 	icon = 'icons/roguetown/mob/monster/fox.dmi'
 	name = "venard"
 	desc = "A majestic beast of Dendor's realm, hopping through the local fauna."
+	anatomy_type = /datum/anatomy/quadruped/trash
 	icon_state = "fox"
 	icon_living = "fox"
 	icon_dead = "fox_dead"
@@ -59,7 +61,6 @@
 	ai_controller = null
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	defprob = 40
 	del_on_deaggro = 44 SECONDS
 	retreat_health = 0.3
 	food = 0
@@ -72,9 +73,10 @@
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
+	move_base_delay = MOVEMENT_DELAY_SPD_3
 	melee_cooldown = WOLF_ATTACK_SPEED
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fox/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 
@@ -117,47 +119,6 @@
 			GiveTarget(pulledby)
 
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fox/simple_limb_hit(zone)
-	if(!zone)
-		return ""
-	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "nose"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			return "mouth"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
-		if(BODY_ZONE_PRECISE_NECK)
-			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_STOMACH)
-			return "stomach"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "leg"
-		if(BODY_ZONE_L_LEG)
-			return "leg"
-		if(BODY_ZONE_R_ARM)
-			return "foreleg"
-		if(BODY_ZONE_L_ARM)
-			return "foreleg"
-	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fox/guildpet
 	name = "Mimi the Fox"
@@ -165,6 +126,7 @@
 	density = 0 // You can walk through them
 	aggressive = FALSE
 	ai_controller = /datum/ai_controller/generic
+	move_base_delay = MOVEMENT_DELAY_SLOW
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fox/guildpet/get_sound(input)
 	switch(input)

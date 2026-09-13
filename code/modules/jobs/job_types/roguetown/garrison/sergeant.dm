@@ -51,9 +51,6 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	id = /obj/item/scomstone/garrison
 
-/datum/outfit/job/roguetown/sergeant/pre_equip(mob/living/carbon/human/H)
-	..()
-	head = snouthelm_pick(H, /obj/item/clothing/head/roguetown/helmet/sallet/visored, /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted)
 
 //Rare-ish anti-armor two hander sword. Kinda alternative of a bastard sword type. Could be cool.
 /datum/advclass/sergeant/sergeant
@@ -86,17 +83,18 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER,	// We are basically identical to a regular MAA, except having better athletics to help us manage our order usage better
 		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT, //John Athlete apparently
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,	//Decent tracking akin to Skirmisher.
 	)
 
 /datum/outfit/job/roguetown/sergeant/sergeant/pre_equip(mob/living/carbon/human/H)
 	..()
+	head = snouthelm_pick(H, /obj/item/clothing/head/roguetown/helmet/sallet/visored, /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/movemovemove)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/takeaim)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/hold)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/onfeet)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/guard) // We'll just use Watchmen as sorta conscripts yeag?
 	add_verb(H, list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders))
 	backpack_contents = list(

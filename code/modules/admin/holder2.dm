@@ -153,7 +153,7 @@ generally it would be used like so:
 /proc/admin_proc()
 	if(!check_rights(R_ADMIN,0))
 		return
-	to_chat(world, "you have enough rights!")
+	to_world("you have enough rights!")
 
 NOTE: it checks usr! not src! So if you're checking somebody's rank in a proc which they did not call
 you will have to do something like if(client.rights & R_ADMIN) myself.

@@ -3,7 +3,7 @@
 	tutorial = "You know your trade by the passage of a needle through cloth and leather alike. Mend and sew garments for the townsfolk - Coats, pants, hats, hoods, and so much more. So what if you overcharge? You're the reason everyone looks good in the first place."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/seamstress
 	traits_applied = list(TRAIT_SEWING_EXPERT)
 
@@ -42,7 +42,7 @@
 						/obj/item/natural/cloth = 2,
 						/obj/item/natural/bundle/fibers/full = 1,
 						/obj/item/flashlight/flare/torch = 1,
-						/obj/item/needle/thorn = 1,
+						/obj/item/needle/tailor = 1,
 						/obj/item/recipe_book/sewing = 1,
 						/obj/item/recipe_book/leatherworking = 1
 						)

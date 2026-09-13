@@ -18,7 +18,7 @@ GLOBAL_VAR_INIT(donatorLoaded, 0)
 	var/keyAsCkey = ckey(key)
 	if(!GLOB.donatorLoaded)
 		load_donators()
-	
+
 	if(!keyAsCkey)
 		return FALSE
 	else
@@ -65,10 +65,10 @@ GLOBAL_VAR_INIT(donatorLoaded, 0)
 	set name = "BC - Add Donator Ckey"
 	set category = "Server"
 
-	var/key = input("CKey to Add", "Add Donator CKey") as null|text
+	var/key = input(usr, "CKey to Add", "Add Donator CKey") as null|text
 
 	if(key)
-		var/confirm = alert("Add [key] to the donator list? (They need to reconnect to update status)", , "Yes", "No")
+		var/confirm = alert(usr, "Add [key] to the donator list? (They need to reconnect to update status)", , "Yes", "No")
 		if(confirm == "Yes")
 			message_admins("[key_name(usr)] added [key] to the donator list.")
 			log_admin("[key_name(usr)] added [key] to the donator list.")
@@ -80,10 +80,10 @@ GLOBAL_VAR_INIT(donatorLoaded, 0)
 	set name = "BC - Remove Donator Ckey"
 	set category = "Server"
 
-	var/key = input("CKey to Remove", "Remove Donator CKey") as null|anything in GLOB.donatorCkeys
+	var/key = input(usr, "CKey to Remove", "Remove Donator CKey") as null|anything in GLOB.donatorCkeys
 
 	if(key)
-		var/confirm = alert("Remove [key] from the donator list?", , "Yes", "No")
+		var/confirm = alert(usr, "Remove [key] from the donator list?", , "Yes", "No")
 		if(confirm == "Yes")
 			message_admins("[key_name(usr)] removed [key] from the donator list.")
 			log_admin("[key_name(usr)] removed [key] from the donator list.")

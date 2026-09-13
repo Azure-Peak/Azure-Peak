@@ -1,8 +1,8 @@
-#define STAMINA_DISENGAGE_THRESHOLD    0.85 // 85% stamina damage = nearly exhausted
-#define STAMINA_REENGAGE_THRESHOLD     0.3  // recover to 30% before re-engaging
-#define BB_STAMINA_DISENGAGED          "bb_stamina_disengaged"
-#define BB_LAST_RANGED_HIT_TIME        "bb_last_ranged_hit_time"
-#define RANGED_PRESSURE_WINDOW         (5 SECONDS) // if hit by ranged within this window, don't disengage
+#define STAMINA_DISENGAGE_THRESHOLD	0.85 // 85% stamina damage = nearly exhausted
+#define STAMINA_REENGAGE_THRESHOLD		0.3	// recover to 30% before re-engaging
+#define BB_STAMINA_DISENGAGED			"bb_stamina_disengaged"
+#define BB_LAST_RANGED_HIT_TIME		"bb_last_ranged_hit_time"
+#define RANGED_PRESSURE_WINDOW			(5 SECONDS) // if hit by ranged within this window, don't disengage
 
 /// NPCs back off when nearly exhausted to recover stamina. Ranged pressure keeps them engaged.
 /datum/ai_planning_subtree/stamina_disengage

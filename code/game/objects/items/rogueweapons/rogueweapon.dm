@@ -42,18 +42,19 @@
 	var/datum/special_intent/special
 
 	var/malumblessed_w = FALSE
-	
+
 	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
 	var/is_tool = FALSE
 	/// sigh
 	var/hoe_damage = null //the durability damage recieved for every work cycle
 	var/work_time = 3 SECONDS // the time it takes to make new soil or till soil
 
-/obj/item/rogueweapon/Initialize()
+
+/obj/item/rogueweapon/Initialize(mapload)
 	. = ..()
 	if(!destroy_message)
 		destroy_message = span_warning("\The [src] shatters!")
-	
+
 	if(ispath(special))
 		special = new special()
 
@@ -115,14 +116,17 @@
 	can_parry = initial(can_parry)
 	..()
 
-/obj/item/rogueweapon/rmb_self(mob/user)
-	if(!has_altgrip_modes())
-		return ..()
-	if(wielded && !altgripped)
-		ungrip(user)
-	altgrip(user)
-	user.update_inv_hands()
+/obj/item/rogueweapon/rmb_self(mob/user, keybind = FALSE)
+	if(has_altgrip_modes() && (keybind || user.cmode))
+		if(wielded && !altgripped)
+			ungrip(user)
+		altgrip(user)
+		user.update_inv_hands()
+		return
 	return ..()
+
+/obj/item/rogueweapon/twirl_skill_needed()
+	return twirly - ((associated_skill == /datum/skill/combat/arcyne) ? 1 : 0)
 
 /obj/item/shaft
 	name = "debug shaft"
@@ -176,3 +180,8 @@
 	blade_dulling = new_shaft
 	qdel(S)
 	new replaced_shaft(src.drop_location())
+
+/obj/item/rogueweapon/get_mechanics_examine(mob/user)
+	. = ..()
+	if(twirly)
+		. += span_info("Right-click to twirl it one-handed[has_altgrip_modes()?", out of combat mode":""]. Safe at [skill_to_string(twirl_skill_needed())] skill.")

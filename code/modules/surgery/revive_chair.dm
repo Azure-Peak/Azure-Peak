@@ -19,9 +19,9 @@
 	// Chair state variables
 	var/charge = 0
 	var/max_charge = 100
-	var/brew_required = 50
+	var/brew_required = 40
 	var/current_brew = 0
-	var/max_brew = 100
+	var/max_brew = 80
 	var/chair_skill_level = 4
 
 	var/static/list/brew_overlays = list(
@@ -34,11 +34,15 @@
 	var/cranking = FALSE
 	pixel_x = -8
 
+// We don't have a north state
+/obj/structure/chair/frankenstein/handle_layer()
+	return
+
 /obj/structure/chair/frankenstein/zizo
 	chair_skill_level = 2
 	current_brew = 50
 
-/obj/structure/chair/frankenstein/Initialize()
+/obj/structure/chair/frankenstein/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -96,7 +100,7 @@
 
 			// Animate filling
 			user.visible_message(
-				span_notice("[user] begins filling the [src] with [container]."), 
+				span_notice("[user] begins filling the [src] with [container]."),
 				span_notice("You begin filling the [src] with [container].")
 			)
 
@@ -165,12 +169,15 @@
 	taste_description = "lightning and regret"
 
 /obj/item/reagent_containers/glass/bottle/frankenbrew
-	name = "vial of Reanimation Elixir"
+	name = "bottle of Reanimation Elixir"
 	desc = "A volatile chemical mixture that helps the deceased conduct electricity. Looks expensive..."
-	list_reagents = list(/datum/reagent/frankenbrew = 50)
+	list_reagents = list(/datum/reagent/frankenbrew = 40)
 
-/obj/item/reagent_containers/glass/bottle/frankenbrew/third
-	list_reagents = list(/datum/reagent/frankenbrew = 34) // round up
+/obj/item/reagent_containers/glass/bottle/frankenbrew/quarter
+	list_reagents = list(/datum/reagent/frankenbrew = 10)
+
+/obj/item/reagent_containers/glass/bottle/frankenbrew/full
+	list_reagents = list(/datum/reagent/frankenbrew = 50)
 
 /obj/structure/chair/frankenstein/proc/start_cranking_animation()
 	if(cranking)
@@ -215,7 +222,7 @@
 
 	// Start cranking
 	user.visible_message(
-		span_notice("[user] begins cranking [src]."), 
+		span_notice("[user] begins cranking [src]."),
 		span_notice("You start cranking [src]...")
 	)
 
@@ -312,7 +319,7 @@
 		occupant.emote("gasp")
 		occupant.Jitter(100)
 		occupant.electrocute_act(100, src, 1)
-		occupant.visible_message(span_notice("[occupant] jerks awake with a gasp!"), 
+		occupant.visible_message(span_notice("[occupant] jerks awake with a gasp!"),
 								span_userdanger("You awaken with agonizing pain as unnatural energy courses through your veins!"))
 		current_brew -= brew_required
 		charge = 0
@@ -322,7 +329,7 @@
 		occupant.mind.remove_antag_datum(/datum/antagonist/zombie)
 		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), DEATHMARK_GRACE_PERIOD) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
 		return TRUE
-	
+
 /obj/structure/chair/frankenstein/proc/deathmark(mob/living/victim)
 	if(victim.stat != DEAD)
 		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.

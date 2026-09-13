@@ -105,8 +105,6 @@
 
 /datum/config_entry/flag/protect_assistant_from_antagonist	//If assistants can be traitor/cult/other
 
-/datum/config_entry/flag/enforce_human_authority	//If non-human species are barred from joining as a head of staff
-
 /datum/config_entry/flag/allow_latejoin_antagonists	// If late-joining players can be traitor/changeling
 
 /datum/config_entry/flag/use_antag_rep // see game_options.txt for details
@@ -257,6 +255,9 @@
 
 /datum/config_entry/flag/ghost_interaction
 
+/datum/config_entry/flag/ghost_letters
+	config_entry_value = TRUE
+
 /datum/config_entry/flag/near_death_experience //If carbons can hear ghosts when unconscious and very close to death
 
 /datum/config_entry/flag/silent_ai
@@ -340,8 +341,6 @@
 	integer = FALSE
 
 /datum/config_entry/flag/ic_printing
-
-/datum/config_entry/flag/roundstart_traits
 
 /datum/config_entry/flag/enable_night_shifts
 

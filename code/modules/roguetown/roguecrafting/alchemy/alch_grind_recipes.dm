@@ -3,33 +3,6 @@
 	valid_outputs = list(/obj/item/alch/viscera = 1)
 	bonus_chance_outputs = list(/obj/item/alch/viscera = 75)
 
-//Runes -> dust
-// Unused for now not clogging up the grind recipes
-// /datum/alch_grind_recipe/fire_rune
-// 	valid_input = /obj/item/rune/spell/fire_rune
-// 	valid_outputs = list(/obj/item/alch/firedust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/firedust = 33)
-
-// /datum/alch_grind_recipe/water_rune
-// 	valid_input = /obj/item/rune/spell/water_rune
-// 	valid_outputs = list(/obj/item/alch/waterdust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/waterdust = 33)
-
-// /datum/alch_grind_recipe/air_rune
-// 	valid_input = /obj/item/rune/spell/air_rune
-// 	valid_outputs = list(/obj/item/alch/airdust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/airdust = 33)
-
-// /datum/alch_grind_recipe/earth_rune
-// 	valid_input = /obj/item/rune/spell/earth_rune
-// 	valid_outputs = list(/obj/item/alch/earthdust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/earthdust = 33)
-
-// /datum/alch_grind_recipe/blank_rune
-// 	valid_input = /obj/item/rune/spell/blank_rune
-// 	valid_outputs = list(/obj/item/alch/runedust = 2)
-// 	bonus_chance_outputs = list(/obj/item/alch/runedust = 33)
-
 //Objects -> dusts
 /datum/alch_grind_recipe/crow
 	name = "Crow"
@@ -216,13 +189,13 @@
 
 // Start of gem dust section - I've included gold dust as an additional product because of lesser alchemy, grinding up a gem should give you a bit extra (I mean come on it's a gem)
 
-/datum/alch_grind_recipe/mineraldustyellow  // costs two gold to make
+/datum/alch_grind_recipe/mineraldustyellow	// costs two gold to make
 	name = "Mineral Dust (Toper)"
 	valid_input = /obj/item/roguegem/yellow
 	valid_outputs = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/golddust = 1)
 	bonus_chance_outputs = list(/obj/item/alch/golddust = 66)
 
-/datum/alch_grind_recipe/mineraldustgreen  // costs 4 gold to make
+/datum/alch_grind_recipe/mineraldustgreen	// costs 4 gold to make
 	name = "Mineral Dust (Gemerald)"
 	valid_input = /obj/item/roguegem/green
 	valid_outputs = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/earthdust = 1, /obj/item/alch/golddust = 2)
@@ -249,7 +222,7 @@
 /datum/alch_grind_recipe/mineraldustriddle //why are you doing this...
 	name = "Mineral Dust (Riddle of Steel)"
 	valid_input = /obj/item/riddleofsteel
-	valid_outputs = list(/obj/item/alch/mineraldust = 2, /obj/item/alch/airdust = 1, /obj/item/alch/irondust = 1, /obj/item/alch/firedust = 1, /obj/item/alch/magicdust = 1, /obj/item/alch/silverdust = 1, /obj/item/alch/coaldust = 1, /obj/item/alch/runedust = 1, /obj/item/alch/waterdust = 1)  // if you're crazy enough to grind a riddle you should get at LEAST one of every dust.
+	valid_outputs = list(/obj/item/alch/mineraldust = 2, /obj/item/alch/airdust = 1, /obj/item/alch/irondust = 1, /obj/item/alch/firedust = 1, /obj/item/alch/magicdust = 1, /obj/item/alch/silverdust = 1, /obj/item/alch/coaldust = 1, /obj/item/alch/runedust = 1, /obj/item/alch/waterdust = 1)	// if you're crazy enough to grind a riddle you should get at LEAST one of every dust.
 	bonus_chance_outputs = list(/obj/item/alch/mineraldust = 25, /obj/item/alch/airdust = 25, /obj/item/alch/irondust = 25, /obj/item/alch/firedust = 25, /obj/item/alch/magicdust = 25, /obj/item/alch/silverdust = 25, /obj/item/alch/coaldust = 25, /obj/item/alch/runedust = 25, /obj/item/alch/waterdust = 25)
 
 // End of gem dust section

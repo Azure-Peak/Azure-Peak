@@ -117,7 +117,7 @@
 		final_stats[target] = (final_stats[target] || 0) - 1
 
 	// Remaining 5 stats
-	var/list/winners = potential_stats 
+	var/list/winners = potential_stats
 	for(var/i in 1 to stat_buff_amt)
 		var/target = pick(winners)
 		final_stats[target] = (final_stats[target] || 0) + 1
@@ -136,7 +136,7 @@
 
 /obj/effect/proc_holder/spell/invoked/twist_food/cast(list/targets, mob/living/user)
 	var/obj/item/target = targets[1]
-	
+
 	if(!istype(target, /obj/item/reagent_containers/food/snacks))
 		to_chat(user, span_warning("You can only twist food!"))
 		revert_cast()
@@ -175,7 +175,7 @@
 		revert_cast()
 		return FALSE
 	H.visible_message(span_notice("[H] begins prying at the base of [boulder]..."), \
-					 span_notice("You strain against [boulder], looking for a hidden cache."))
+						span_notice("You strain against [boulder], looking for a hidden cache."))
 
 	if(!do_after(H, 4 SECONDS, target = boulder))
 		revert_cast()

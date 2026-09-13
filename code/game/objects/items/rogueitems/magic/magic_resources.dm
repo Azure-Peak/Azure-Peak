@@ -55,7 +55,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
-	alternate_worn_layer  = 8.9
+	alternate_worn_layer	= 8.9
 
 /obj/item/magic/manacrystal
 	name = "crystalized mana"
@@ -70,7 +70,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	dropshrink = 0.8
 
-/obj/item/magic/artifact/Initialize()
+/obj/item/magic/artifact/Initialize(mapload)
 	.=..()
 	var/list/listy = list("runedartifact", "runedartifact1")
 	var/newicon = pick(listy)
@@ -93,28 +93,28 @@
 
 
 /obj/item/magic/infernal/ash//T1 mage summon loot
-    name = "infernal ash"
-    icon_state = "infernalash"
-    desc = "Ash burnt and burnt once again. Smells of brimstone and hellfire. Still has embers within."
-    tier = 1
+	name = "infernal ash"
+	icon_state = "infernalash"
+	desc = "Ash burnt and burnt once again. Smells of brimstone and hellfire. Still has embers within."
+	tier = 1
 
 /obj/item/magic/infernal/fang//T2 mage summon loot
-    name = "hellhound fang"
-    icon_state = "hellhound_fang"
-    desc = "A sharp fang that glows bright red, no matter how long it's left to cool."
-    tier = 2
+	name = "hellhound fang"
+	icon_state = "hellhound_fang"
+	desc = "A sharp fang that glows bright red, no matter how long it's left to cool."
+	tier = 2
 
 /obj/item/magic/infernal/core// T3 mage summon loot
-    name = "infernal core"
-    icon_state = "infernal_core"
-    desc = "A molten orb of rock and magick. It gives off waves of magical heat and energy."
-    tier = 3
+	name = "infernal core"
+	icon_state = "infernal_core"
+	desc = "A molten orb of rock and magick. It gives off waves of magical heat and energy."
+	tier = 3
 
 /obj/item/magic/infernal/flame//T4 mage summon loot
-    name = "abyssal flame"
-    icon_state = "abyssalflame"
-    desc = "A  flickering, black flame contained in a crystal; the heart of an archfiend. Or atleast, what passes for one. It pulses with dense thrums of magick."
-    tier = 4
+	name = "abyssal flame"
+	icon_state = "abyssalflame"
+	desc = "A	flickering, black flame contained in a crystal; the heart of an archfiend. Or atleast, what passes for one. It pulses with dense thrums of magick."
+	tier = 4
 
 //FAIRY
 /obj/item/magic/fae
@@ -126,60 +126,60 @@
 	. += span_notice("It can be used to heal Fae summons.")
 
 /obj/item/magic/fae/fairydust	//T1 mage summon loot
-    name = "fairy dust"
-    icon_state = "fairy_dust"
-    desc = "A glittering powder from a fae sprite."
-    tier = 1
+	name = "fairy dust"
+	icon_state = "fairy_dust"
+	desc = "A glittering powder from a fae sprite."
+	tier = 1
 
 /obj/item/magic/fae/iridescentscale	//T2 mage summon loot
-    name = "iridescent scales"
-    icon_state = "iridescent_scale"
-    desc = "Tiny, colorful scales from a glimmerwing, they shine with inate magic"
-    tier = 2
+	name = "iridescent scales"
+	icon_state = "iridescent_scale"
+	desc = "Tiny, colorful scales from a glimmerwing, they shine with inate magic"
+	tier = 2
 
 /obj/item/magic/fae/heartwoodcore	//T3 mage summon loot
-    name = "heartwood core"
-    icon_state = "heartwood_core"
-    desc = "A piece of enchanted wood imbued with the dryad’s essence. Merely holding it transports one's mind to ancient times."
-    tier = 3
+	name = "heartwood core"
+	icon_state = "heartwood_core"
+	desc = "A piece of enchanted wood imbued with the dryad’s essence. Merely holding it transports one's mind to ancient times."
+	tier = 3
 
 /obj/item/magic/fae/sylvanessence	//T4 mage summon loot
-    name = "sylvan essence"
-    icon_state = "sylvanessence"
-    desc = "A swirling, multicolored liquid with emitting a dizzying array of lights."
-    tier = 4
+	name = "sylvan essence"
+	icon_state = "sylvanessence"
+	desc = "A swirling, multicolored liquid with emitting a dizzying array of lights."
+	tier = 4
 
 //ELEMENTAL
 /obj/item/magic/elemental
-    w_class = WEIGHT_CLASS_SMALL
+	w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/magic/elemental/examine(mob/user)
 	. = ..()
 	. += span_notice("It can be used to heal Elemental summons.")
 
 /obj/item/magic/elemental/mote
-    name = "elemental mote"
-    icon_state = "mote"
-    desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    tier = 1
+	name = "elemental mote"
+	icon_state = "mote"
+	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	tier = 1
 
 /obj/item/magic/elemental/shard
-    name = "elemental shard"
-    icon_state = "shard"
-    desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    tier = 2
+	name = "elemental shard"
+	icon_state = "shard"
+	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	tier = 2
 
 /obj/item/magic/elemental/fragment
-    name = "elemental fragment"
-    icon_state = "fragment"
-    desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    tier = 3
+	name = "elemental fragment"
+	icon_state = "fragment"
+	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	tier = 3
 
 /obj/item/magic/elemental/relic
-    name = "elemental relic"
-    icon_state = "relic"
-    desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    tier = 4
+	name = "elemental relic"
+	icon_state = "relic"
+	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	tier = 4
 
 #undef LEYLINE_SELLPRICE
 #undef VOIDSTONE_SELLPRICE

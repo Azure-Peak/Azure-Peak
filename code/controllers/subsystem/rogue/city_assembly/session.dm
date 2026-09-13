@@ -13,7 +13,7 @@
 	ballots[ASSEMBLY_MOTION_ELECTION] = list()
 	ballots[ASSEMBLY_MOTION_TRADE_AUTH] = list()
 	ballots[ASSEMBLY_MOTION_DEFENSE_AUTH] = list()
-	// ballots[ASSEMBLY_MOTION_POLL_TAX] = list()  // disabled pending anti-dodge design
+	// ballots[ASSEMBLY_MOTION_POLL_TAX] = list()	// disabled pending anti-dodge design
 	ballots[ASSEMBLY_MOTION_RECALL] = list()
 	ballots[ASSEMBLY_MOTION_CENSURE] = list()
 

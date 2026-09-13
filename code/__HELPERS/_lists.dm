@@ -335,7 +335,7 @@
 
 	return null
 
-/proc/pickweightAllowZero(list/L) //The original pickweight proc will sometimes pick entries with zero weight.  I'm not sure if changing the original will break anything, so I left it be.
+/proc/pickweightAllowZero(list/L) //The original pickweight proc will sometimes pick entries with zero weight.	I'm not sure if changing the original will break anything, so I left it be.
 	var/total = 0
 	var/item
 	for (item in L)
@@ -765,7 +765,7 @@ GLOBAL_LIST_EMPTY(string_lists)
 		else
 			j = mid
 
-	if(i == 1 || i ==  L.len) // Edge cases
+	if(i == 1 || i ==	L.len) // Edge cases
 		return (call(cmp)(L[i],A) > 0) ? i : i+1
 	else
 		return i
@@ -784,7 +784,7 @@ GLOBAL_LIST_EMPTY(string_lists)
 /**
  * Returns a newline-separated list that counts equal-ish items, outputting count and item names, optionally with icons.
  */
-/proc/counting_english_list(var/list/input, output_icons = TRUE, nothing_text = "nothing", line_prefix = "\t", first_item_prefix = "\n", last_item_suffix = "\n", and_text = "\n", comma_text = "\n", final_comma_text = "")
+/proc/counting_english_list(list/input, output_icons = TRUE, nothing_text = "nothing", line_prefix = "\t", first_item_prefix = "\n", last_item_suffix = "\n", and_text = "\n", comma_text = "\n", final_comma_text = "")
 	// Counted input items.
 	var/list/counts = list()
 	// Actual objects for later reference (for icons and formatting).
@@ -847,7 +847,7 @@ GLOBAL_LIST_EMPTY(string_lists)
 				return_list += bit
 
 	return return_list
-/* 
+/*
 Port of: https://github.com/Monkestation/Vanderlin/commit/84b8b6a716a80040145bb9372641084b32708923 by Sutures / noelle-lavenza
 // A wrapper for baseturf string lists, to offer support of non list values, and a stack_trace if we have major issues
 */
@@ -866,7 +866,7 @@ Port of: https://github.com/Monkestation/Vanderlin/commit/84b8b6a716a80040145bb9
 	icon = 'icons/turf/debug.dmi'
 	icon_state = "debug_turf"
 
-/proc/find_key_by_value(var/list/list, value)
+/proc/find_key_by_value(list/list, value)
 	for(var/key in list)
 		var/found_value = list[key]
 		if(found_value == value)

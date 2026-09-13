@@ -92,7 +92,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet
@@ -167,7 +167,7 @@
 			H.change_stat(STATKEY_STR, 1)
 		if("Bow")
 			beltr = /obj/item/quiver/arrows
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			H.change_stat(STATKEY_PER, 1)
 		if("Sling")
 			beltr = /obj/item/quiver/sling/iron
@@ -197,7 +197,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet
@@ -212,7 +212,7 @@
 
 // No Cavalry Option.
 
-//  SQUIRE - Pseudo Cavalry/MAA/Skirmisher. Jack of All Trades. Master of None. Can't get trained due to Knight not getting good training.
+//	SQUIRE - Pseudo Cavalry/MAA/Skirmisher. Jack of All Trades. Master of None. Can't get trained due to Knight not getting good training.
 
 /datum/advclass/heartfelt/retinue/squire
 	name = "Heartfelt Squire"
@@ -298,7 +298,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("Bow")
 			beltr = /obj/item/quiver/arrows
-			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		else
 			beltr = /obj/item/rogueweapon/sword
@@ -315,7 +315,7 @@
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		if("Snouted Visored Sallet")
 			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted
-		if("Slitted Kettle") 
+		if("Slitted Kettle")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 		if("Simple Helmet")
 			head = /obj/item/clothing/head/roguetown/helmet

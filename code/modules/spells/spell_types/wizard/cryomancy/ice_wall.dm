@@ -11,7 +11,7 @@
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	attunement_school = ASPECT_NAME_CRYOMANCY
 	charge_swingdelay_type = SWINGDELAY_NORMAL
-	telegraph_type = /obj/effect/temp_visual/trapice
+	telegraph_type = /obj/effect/temp_visual/telegraph/ice
 	invocations = list("Murus Glaciei!")
 
 /datum/action/cooldown/spell/forcewall/ice/spawn_wall(turf/target, mob/caster)

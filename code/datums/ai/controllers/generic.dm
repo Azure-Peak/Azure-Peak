@@ -1,5 +1,4 @@
 /datum/ai_controller/generic //Placeholder for mobs missing their AI Controller
-	movement_delay = MOLE_MOVEMENT_SPEED
 	can_climb_structures = FALSE //farm animals stay penned
 
 	ai_movement = /datum/ai_movement/hybrid_pathing

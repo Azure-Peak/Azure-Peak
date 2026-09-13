@@ -20,7 +20,7 @@
 				largest_click_time = M.next_click - world.time
 			else
 				largest_click_time = 0
-		log_admin("DEBUG: [key_name(M)]  next_move = [M.next_move]  lastDblClick = [M.next_click]  world.time = [world.time]")
+		log_admin("DEBUG: [key_name(M)]	next_move = [M.next_move]	lastDblClick = [M.next_click]	world.time = [world.time]")
 		M.next_move = 1
 		M.next_click = 0
 	message_admins("[ADMIN_LOOKUPFLW(largest_move_mob)] had the largest move delay with [largest_move_time] frames / [DisplayTimeText(largest_move_time)]!")

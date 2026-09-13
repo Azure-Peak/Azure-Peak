@@ -22,6 +22,7 @@
 	L.become_skeleton()
 	ADD_TRAIT(L, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(L, TRAIT_SHATTER_KILL, TRAIT_GENERIC)
+	ADD_TRAIT(L, TRAIT_SKELETAL_GIB_ON_DEATH, TRAIT_GENERIC)
 
 /datum/antagonist/unbound_death_knight/proc/equip_knight()
 	owner.unknow_all_people()
@@ -63,8 +64,8 @@
 	INVOKE_ASYNC(src, PROC_REF(greet)) // Solvful text while we wait 30 seconds for poll to finish
 	// Firstly, we will try finding targets for protect/kill.
 	var/list/targets = pollCandidates(
-		"Would you like to be a target for a death knight?", 
-		ignore_category = POLL_IGNORE_DEATHKNIGHT_TARGET, 
+		"Would you like to be a target for a death knight?",
+		ignore_category = POLL_IGNORE_DEATHKNIGHT_TARGET,
 		group = hoomans
 	)
 	if(!length(targets))
@@ -82,7 +83,7 @@
 	if(poor_sod) // Prioritizing player to player interactions at all costs
 		var/datum/objective/lordscommandment
 		if(rand(50))
-			lordscommandment = new /datum/objective/protect 
+			lordscommandment = new /datum/objective/protect
 		else
 			lordscommandment = new /datum/objective/assassinate
 
@@ -104,10 +105,10 @@
 
 /datum/outfit/job/roguetown/unbound_deathknight/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE) //Full antagonist, they keep this.
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
@@ -133,11 +134,11 @@
 	H.change_stat(STATKEY_SPD, -3)
 
 	H.ambushable = FALSE
-
+	//we allow swift intent, solo full antag undead
 	H.adjust_blindness(-3)
 
 	var/helmets = list(
-		"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/black,
+		"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/black,
 		"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard/black,
 		"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/black,
 		"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/black,
@@ -156,7 +157,7 @@
 	switch(weapon_choice)
 		if("Longsword")
 			beltl = /obj/item/rogueweapon/scabbard/sword
-			l_hand = /obj/item/rogueweapon/sword/long/death
+			l_hand = /obj/item/rogueweapon/sword/long
 			backl = /obj/item/rogueweapon/shield/tower/metal
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if ("Warhammer")
@@ -169,7 +170,7 @@
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 	)
 	H.set_blindness(0)

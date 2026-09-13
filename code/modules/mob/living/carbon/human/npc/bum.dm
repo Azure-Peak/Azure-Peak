@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 
 
 
-/mob/living/carbon/human/species/human/northern/bum/Initialize()
+/mob/living/carbon/human/species/human/northern/bum/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))

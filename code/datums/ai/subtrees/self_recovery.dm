@@ -2,8 +2,8 @@
 /datum/ai_planning_subtree/simple_self_recovery
 	var/datum/ai_behavior/behavior = /datum/ai_behavior/simple_rest_and_recuperate
 	var/heal_message = "'s wounds begin to knit and mend."
-	var/bleed_clot = 0.02 	// 2% of mob's max hp bleed clotted every perform
-	var/brute_heal = 0.10  // 10% of mob's max hp healed every perform
+	var/bleed_clot = 0.02	// 2% of mob's max hp bleed clotted every perform
+	var/brute_heal = 0.10	// 10% of mob's max hp healed every perform
 
 /datum/ai_planning_subtree/simple_self_recovery/SelectBehaviors(datum/ai_controller/controller, delta_time)
 	. = ..()

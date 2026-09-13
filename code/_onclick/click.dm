@@ -75,7 +75,7 @@
 		max_dodge = CLAMP((newmax), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
 
 /*
-	Before anything else, defer these calls to a per-mobtype handler.  This allows us to
+	Before anything else, defer these calls to a per-mobtype handler.	This allows us to
 	remove istype() spaghetti code, but requires the addition of other handler procs to simplify it.
 
 	Alternately, you could hardcode every mob's variation in a flat ClickOn() proc; however,
@@ -243,7 +243,7 @@
 		return
 
 	if(restrained())
-		changeNext_move(CLICK_CD_HANDCUFFED)   //Doing shit in cuffs shall be vey slow
+		changeNext_move(CLICK_CD_HANDCUFFED)	//Doing shit in cuffs shall be vey slow
 		RestrainedClickOn(A)
 		return
 
@@ -335,8 +335,8 @@
 						return
 */
 
-	// Allows you to click on a box's contents, if that box is on the ground, but no deeper than that
-	if(isturf(A) || isturf(A.loc) || (A.loc && isturf(A.loc.loc)))
+	// Allows you to click on a box's contents, if that box is on the ground or held by something on the ground, but no deeper than that
+	if(isturf(A) || isturf(A.loc) || isturf(A.loc?.loc) || isturf(A.loc?.loc?.loc))
 		var/can_reach = CanReach(A, W)
 		if(can_reach)
 			if(isopenturf(A))
@@ -441,7 +441,7 @@
 
 /mob/living/proc/is_swinging(disrupt_only = FALSE)
 	if(!disrupt_only)
-		return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt))
+		return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt) || has_status_effect(/datum/status_effect/swingdelay/penalty))
 	else
 		return (has_status_effect(/datum/status_effect/swingdelay/disrupt))
 
@@ -460,17 +460,17 @@
 		return FALSE
 	if(offhand.wlength >= WLENGTH_GREAT)
 		return FALSE
-	if(mainhand.associated_skill)
-		if(get_skill_level(mainhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
+	if(mainhand.has_wskill())
+		if(get_wskill(mainhand) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
-	if(offhand.associated_skill)
-		if(get_skill_level(offhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
+	if(offhand.has_wskill())
+		if(get_wskill(offhand) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
 	if(mainhand.force <= 9 || offhand.force <= 9) // should prevent things that have tiny damage from being used, those are often tools anyway.
 		return FALSE
 	return TRUE
 
-/mob/living/proc/process_dualwield(atom/A, obj/item/attack_weapon, params)
+/mob/living/proc/process_dualwield(obj/item/attack_weapon)
 	if(!HAS_TRAIT(src, TRAIT_DUALWIELDER))
 		return
 
@@ -506,24 +506,9 @@
 
 	dualwield_resets_in = world.time + 3 SECONDS
 
-	// Finisher attack
 	if(dualwield_finisher)
 		dualwield_finisher = FALSE
-		dualwield_processing = TRUE
-
-		if(stamina_add(3))
-			balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
-			to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
-			to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
-			if(attack_weapon && offhand)
-				offhand.melee_attack_chain(src, A, params)
-			else
-				UnarmedAttack(A, TRUE, params)
-		playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
-		playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
-		dualwield_processing = FALSE
-		swap_hand()
-		return
+		return swap_hand()
 
 	// Build combo
 	dualwield_attack_count++
@@ -535,6 +520,29 @@
 	// Swap only after everything else is finished
 	if(attack_weapon)
 		swap_hand()
+
+/mob/living/proc/fire_dualwield_paired(atom/A, params)
+	if(dualwield_processing)
+		return
+	if(QDELETED(src) || QDELETED(A))
+		return
+	dualwield_processing = TRUE
+	if(stamina_add(3))
+		balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
+		to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
+		to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
+		if(a_intent)
+			used_intent = a_intent
+		dualwield_twoswing = TRUE
+		var/obj/item/paired_weapon = get_active_held_item()
+		if(paired_weapon)
+			paired_weapon.melee_attack_chain(src, A, params)
+		else
+			UnarmedAttack(A, TRUE, params)
+		dualwield_twoswing = FALSE
+	playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
+	playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
+	dualwield_processing = FALSE
 
 //Branching path for Adjacent clicks with or without items
 //DOES NOT ACTUALLY KNOW IF YOU'RE ADJACENT, DO NOT CALL ON IT'S OWN
@@ -625,8 +633,8 @@
 		var/list/next = list()
 		--depth
 
-		for(var/atom/target in checking)  // will filter out nulls
-			if(closed[target] || isarea(target))  // avoid infinity situations
+		for(var/atom/target in checking)	// will filter out nulls
+			if(closed[target] || isarea(target))	// avoid infinity situations
 				continue
 			closed[target] = TRUE
 			if(isturf(target) || isturf(target.loc) || IsDirectlyAccessible(target)) //Directly accessible atoms
@@ -719,7 +727,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	Translates into attack_hand, etc.
 
 	Note: proximity_flag here is used to distinguish between normal usage (flag=1),
-	and usage when clicking on things telekinetically (flag=0).  This proc will
+	and usage when clicking on things telekinetically (flag=0).	This proc will
 	not be called at ranged except with telekinesis.
 
 	proximity_flag is not currently passed to attack_hand, and is instead used
@@ -732,7 +740,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	Ranged unarmed attack:
 
 	This currently is just a default for all mobs, involving
-	laser eyes and telekinesis.  You could easily add exceptions
+	laser eyes and telekinesis.	You could easily add exceptions
 	for things like ranged glove touches, spitting alien acid/neurotoxin,
 	animals lunging, etc.
 */
@@ -748,9 +756,9 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	return
 
 /**
-  *Middle click
-  *Mainly used for swapping hands
-  */
+	*Middle click
+	*Mainly used for swapping hands
+	*/
 /mob/proc/MiddleClickOn(atom/A, params)
 	. = SEND_SIGNAL(src, COMSIG_MOB_MIDDLECLICKON, A)
 	if(. & COMSIG_MOB_CANCEL_CLICKON)
@@ -890,7 +898,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 		user.client.open_listed_turf(T)
 
 /mob/proc/CtrlRightClickOn(atom/A, params)
-	pointed(A)
+	linepoint(A)
 
 /*
 	Misc helpers
@@ -904,9 +912,11 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 /atom/proc/face_atom(atom/A, location, control, params)
 	if(!A)
 		return FALSE
-	if(!A.xyoverride && (!x || !y || !A.x || !A.y))
+	if(!x || !y)
 		return
 	var/atom/holder = A.face_me(location, control, params)
+	if(holder && !holder.xyoverride && (!holder.x || !holder.y))
+		holder = get_turf(holder)
 	if(!holder)
 		return FALSE
 	var/dx = holder.x - x
@@ -1040,14 +1050,6 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /mob/dead/observer/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	return
-/*	var/list/modifier = params2list(params)
-	if(modifier["shift"])
-		var/view = 0
-		if(delta_y > 0)
-			view = -1
-		else
-			view = 1
-		add_view_range(view)*/
 
 /mob/proc/check_click_intercept(params,A)
 	//Client level intercept
@@ -1064,7 +1066,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /* RightClickOn */
 
-/atom/proc/rmb_self(mob/user)
+/atom/proc/rmb_self(mob/user, keybind = FALSE)
 	return
 
 /mob/proc/rmb_on(atom/A, params)
@@ -1099,7 +1101,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 		targeti.pixel_x = -1
 		src.client.images |= targeti
 		// for(var/atom/movable/screen/eye_intent/eyet in hud_used.static_inventory)
-		// 	eyet.update_icon(src) //Update eye icon
+		//	eyet.update_icon(src) //Update eye icon
 	else
 		UntargetMob()
 
@@ -1118,7 +1120,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	src.client.images -= targeti
 	//clear hud icon
 	// for(var/atom/movable/screen/eye_intent/eyet in hud_used.static_inventory)
-	// 	eyet.update_icon(src)
+	//	eyet.update_icon(src)
 
 /mob/proc/ShiftRightClickOn(atom/A, params)
 //	pointed(A, params)
@@ -1161,7 +1163,7 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 		nodirchange = TRUE
 	tempfixeye = TRUE
 	// for(var/atom/movable/screen/eye_intent/eyet in hud_used.static_inventory)
-	// 	eyet.update_icon(src) //Update eye icon
+	//	eyet.update_icon(src) //Update eye icon
 
 /// A special proc to fire rmb_intents *before* checking click cooldown, since some intents (guard) should be used regardless of CD.
 /mob/proc/try_special_attack(atom/A, list/modifiers)

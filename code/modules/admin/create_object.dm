@@ -34,7 +34,7 @@
 	/obj/item, /obj/item/clothing, /obj/item,
 	/obj/item/reagent_containers, /obj/item/gun)
 
-	var/path = input("Select the path of the object you wish to create.", "Path", /obj) in sortList(create_object_forms, GLOBAL_PROC_REF(cmp_typepaths_asc))
+	var/path = input(user, "Select the path of the object you wish to create.", "Path", /obj) in sortList(create_object_forms, GLOBAL_PROC_REF(cmp_typepaths_asc))
 	var/html_form = create_object_forms[path]
 
 	if (!html_form)

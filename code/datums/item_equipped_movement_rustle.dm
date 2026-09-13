@@ -100,7 +100,7 @@ with light edits to work with roguecode */
 
 /datum/component/item_equipped_movement_rustle/proc/try_step(obj/item/clothing/source)//(mob/source)
 	SIGNAL_HANDLER
-	/*if (source.moving_diagonally == FIRST_DIAG_STEP)   //you can uncomment these if someone ever implements diagonal movement
+	/*if (source.moving_diagonally == FIRST_DIAG_STEP)	//you can uncomment these if someone ever implements diagonal movement
 		return*/
 	move_counter++
 	if(move_counter >= move_delay)
@@ -110,7 +110,7 @@ with light edits to work with roguecode */
 
 /datum/component/item_equipped_movement_rustle/proc/try_step_quick(obj/item/clothing/source)//(mob/source)
 	SIGNAL_HANDLER
-	/*if (source.moving_diagonally == FIRST_DIAG_STEP)   //you can uncomment these if someone ever implements diagonal movement
+	/*if (source.moving_diagonally == FIRST_DIAG_STEP)	//you can uncomment these if someone ever implements diagonal movement
 		return*/
 	move_counter++
 	if(move_counter >= (move_delay / 2))

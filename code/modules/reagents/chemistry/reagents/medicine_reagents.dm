@@ -5,7 +5,7 @@
 // where all the reagents related to medicine go.
 
 /datum/reagent/medicine
-	name = "Medicine"
+	name = "medicine"
 	taste_description = "bitterness"
 
 /datum/reagent/medicine/on_mob_life(mob/living/carbon/M)
@@ -13,7 +13,7 @@
 	. = ..()
 
 /datum/reagent/medicine/salglu_solution
-	name = "Saline-Glucose Solution"
+	name = "saline-glucose solution"
 	description = "Has a 33% chance per metabolism cycle to heal brute and burn damage. Can be used as a temporary blood substitute."
 	reagent_state = LIQUID
 	color = "#DCDCDC"
@@ -33,8 +33,8 @@
 		last_added = new_blood_level - M.blood_volume
 		M.blood_volume = new_blood_level
 	if(prob(33))
-		M.adjustBruteLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-0.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		. = TRUE
 	..()
 
@@ -48,7 +48,7 @@
 		holder.add_reagent(/datum/reagent/consumable/sugar, 1)
 		holder.remove_reagent(/datum/reagent/medicine/salglu_solution, 0.5)
 	if(prob(33))
-		M.adjustBruteLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER, FALSE, FALSE, BODYPART_ORGANIC)
-		M.adjustFireLoss(0.5  * REAGENTS_EFFECT_MULTIPLIER, FALSE, FALSE, BODYPART_ORGANIC)
+		M.adjustBruteLoss(0.5	* REAGENTS_EFFECT_MULTIPLIER, FALSE, FALSE, BODYPART_ORGANIC)
+		M.adjustFireLoss(0.5	* REAGENTS_EFFECT_MULTIPLIER, FALSE, FALSE, BODYPART_ORGANIC)
 		. = TRUE
 	..()

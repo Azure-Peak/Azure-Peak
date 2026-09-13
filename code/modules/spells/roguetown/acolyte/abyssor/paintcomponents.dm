@@ -1,10 +1,10 @@
 #define UMBRAL_FILTER_COATING "umbral_coating"
-#define UMBRAL_FILTER_GLOW    "umbral_glow"
+#define UMBRAL_FILTER_GLOW	"umbral_glow"
 
-#define UMBRAL_COLOR_INK      "#03000a"
-#define UMBRAL_COLOR_GLOW     "#8a00e6"
-#define UMBRAL_INK_ALPHA      230
-#define UMBRAL_GLOW_ALPHA     180
+#define UMBRAL_COLOR_INK		"#03000a"
+#define UMBRAL_COLOR_GLOW		"#8a00e6"
+#define UMBRAL_INK_ALPHA		230
+#define UMBRAL_GLOW_ALPHA		180
 
 #define UMBRAL_MINDLESS_DAMAGE 100
 #define UMBRAL_CONSCIOUS_DAMAGE 10
@@ -27,26 +27,26 @@
 		caster_ref = WEAKREF(caster)
 
 	apply_outline()
-	RegisterSignal(parent_weapon, COMSIG_ITEM_ATTACK_SUCCESS, .proc/on_attack_success)
-	RegisterSignal(parent_weapon, COMSIG_PARENT_QDELETING, .proc/on_qdel)
-	addtimer(CALLBACK(src, .proc/remove_enchantment), duration)
+	RegisterSignal(parent_weapon, COMSIG_ITEM_ATTACK_SUCCESS, PROC_REF(on_attack_success))
+	RegisterSignal(parent_weapon, COMSIG_PARENT_QDELETING, PROC_REF(on_qdel))
+	addtimer(CALLBACK(src, PROC_REF(remove_enchantment)), duration)
 
 /datum/component/umbral_enchant/proc/apply_outline()
 	if(outline_applied)
 		return
 
 	parent_weapon.add_filter(UMBRAL_FILTER_COATING, 1, list(
-		"type"  = "outline", 
-		"color" = UMBRAL_COLOR_INK, 
-		"alpha" = UMBRAL_INK_ALPHA, 
-		"size"  = 1
+		"type"	= "outline",
+		"color" = UMBRAL_COLOR_INK,
+		"alpha" = UMBRAL_INK_ALPHA,
+		"size"	= 1
 	))
 
 	parent_weapon.add_filter(UMBRAL_FILTER_GLOW, 2, list(
-		"type"  = "outline", 
-		"color" = UMBRAL_COLOR_GLOW, 
-		"alpha" = UMBRAL_GLOW_ALPHA, 
-		"size"  = 1
+		"type"	= "outline",
+		"color" = UMBRAL_COLOR_GLOW,
+		"alpha" = UMBRAL_GLOW_ALPHA,
+		"size"	= 1
 	))
 
 	outline_applied = TRUE

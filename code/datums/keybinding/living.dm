@@ -288,7 +288,7 @@
 		return FALSE
 	var/obj/item/I = L.get_active_held_item()
 	if(I)
-		I.rmb_self(L)
+		I.rmb_self(L, keybind = TRUE)
 		return TRUE
 	return FALSE
 
@@ -327,3 +327,100 @@
 		M.pixelshift_layer = M.pixelshift_layer - 0.01
 		M.layer = 4 + M.pixelshift_layer
 	return TRUE
+
+// ** Action Buttons **
+// I stopped at 6 because it is probably the maximum number you can comfortably reach on keyboard
+/datum/keybinding/living/actions
+	var/action_taken = 1
+/datum/keybinding/living/actions/down(client/user)
+	if(!isliving(user.mob))
+		return FALSE
+	var/mob/living/C = user.mob
+	var/datum/hud/H = C.hud_used
+	if(H?.rearrange_mode)
+		H.rearrange_hint(C)
+		return TRUE
+	var/count = 0
+	for(var/datum/action/A as anything in C.actions)
+		var/atom/movable/screen/movable/action_button/B = H ? A.viewers[H] : null
+		if(B && B.moved)
+			continue
+		count++
+		if(count == action_taken)
+			A.Trigger()
+			return TRUE
+	return FALSE
+
+/datum/keybinding/living/actions/action_1
+	hotkey_keys = list("Alt1")
+	name = "action_1"
+	full_name = "Action 1"
+	description = "Select the first action."
+	category = CATEGORY_HUMAN
+	action_taken = 1
+
+/datum/keybinding/living/actions/action_2
+	hotkey_keys = list("Alt2")
+	name = "action_2"
+	full_name = "Action 2"
+	description = "Select the second action."
+	category = CATEGORY_HUMAN
+	action_taken = 2
+
+/datum/keybinding/living/actions/action_3
+	hotkey_keys = list("Alt3")
+	name = "action_3"
+	full_name = "Action 3"
+	description = "Select the third action."
+	category = CATEGORY_HUMAN
+	action_taken = 3
+
+/datum/keybinding/living/actions/action_4
+	hotkey_keys = list("Alt4")
+	name = "action_4"
+	full_name = "Action 4"
+	description = "Select the fourth action."
+	category = CATEGORY_HUMAN
+	action_taken = 4
+
+/datum/keybinding/living/actions/action_5
+	hotkey_keys = list("Alt5")
+	name = "action_5"
+	full_name = "Action 5"
+	description = "Select the fifth action."
+	category = CATEGORY_HUMAN
+	action_taken = 5
+
+/datum/keybinding/living/actions/action_6
+	hotkey_keys = list("Alt6")
+	name = "action_6"
+	full_name = "Action 6"
+	description = "Select the sixth action."
+	category = CATEGORY_HUMAN
+	action_taken = 6
+
+/datum/keybinding/living/actions/action_7
+	hotkey_keys = list("Alt7")
+	name = "action_7"
+	full_name = "Action 7"
+	description = "Select the seventh action."
+	category = CATEGORY_HUMAN
+	action_taken = 7
+
+
+/datum/keybinding/living/actions/action_8
+	hotkey_keys = list("Alt8")
+	name = "action_8"
+	full_name = "Action 8"
+	description = "Select the eighth action."
+	category = CATEGORY_HUMAN
+	action_taken = 8
+
+
+/datum/keybinding/living/actions/action_9
+	hotkey_keys = list("Alt9")
+	name = "action_9"
+	full_name = "Action 9"
+	description = "Select the ninth action."
+	category = CATEGORY_HUMAN
+	action_taken = 9

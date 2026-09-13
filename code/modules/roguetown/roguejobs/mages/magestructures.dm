@@ -27,7 +27,7 @@
 	climbable = FALSE
 	climb_time = 0
 
-/obj/structure/arcyne_wall/Initialize()
+/obj/structure/arcyne_wall/Initialize(mapload)
 	. = ..()
 
 /obj/structure/arcyne_wall/caster
@@ -136,7 +136,7 @@
 			playsound(user,pick('sound/items/drink_gen (1).ogg','sound/items/drink_gen (2).ogg','sound/items/drink_gen (3).ogg'), 100, TRUE)
 		return
 	..()
-	
+
 
 /obj/machinery/light/rogue/forge/arcane
 	icon = 'icons/roguetown/misc/forge.dmi'

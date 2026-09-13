@@ -12,12 +12,12 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/astratan/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
-		if(choice in pridelist)
+		if(choice in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -117,12 +117,12 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/undivided/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
-		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
 		user.visible_message(span_warning("[user] adds [W] to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
 		detail_tag = "_detail"
-		if(choice in pridelist)
+		if(choice in GLOB.pridelist)
 			detail_tag = "_detailp"
 		update_icon()
 		if(loc == user && ishuman(user))
@@ -150,6 +150,6 @@
 	unenchantable = TRUE
 	smeltresult = null
 
-/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#79d5ff", "alpha" = 120, "size" = 1)) //Enchanted look.
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#79d5ff", "alpha" = 120, "size" = 1)) //Enchanted look.

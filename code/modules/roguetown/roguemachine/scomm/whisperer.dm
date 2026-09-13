@@ -29,9 +29,9 @@
 		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_INQUIS_WHISPERER)
 
 /obj/item/speakerinq/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("A special enchantment conceals this object from the gazes of the masses-whom-need-not-know your work. While worn as a ring, this will look like a regular psydonian signet ring.")
-    . += span_info("Wearing it on your hip or leaving it in the open will make it examinable as a quite-obviously weird object that most will reasonably act on, due to its concerningly odd nature.")
+	. = ..()
+	. += span_info("A special enchantment conceals this object from the gazes of the masses-whom-need-not-know your work. While worn as a ring, this will look like a regular psydonian signet ring.")
+	. += span_info("Wearing it on your hip or leaving it in the open will make it examinable as a quite-obviously weird object that most will reasonably act on, due to its concerningly odd nature.")
 
 /obj/item/speakerinq/proc/repeat_message(message, atom/A, tcolor, message_language)
 	if(!ismob(loc))
@@ -79,7 +79,7 @@
 	SSroguemachine.scomm_machines -= src
 	return ..()
 
-/obj/item/speakerinq/Initialize()
+/obj/item/speakerinq/Initialize(mapload)
 	. = ..()
 	icon_state = "scomite_active"
 	update_icon()

@@ -31,6 +31,7 @@
 	var/banditry_total = diff["banditry_drain_total"] || 0
 	var/banditry_burned = diff["banditry_drain_burned"] || 0
 	var/banditry_debt_accrued = diff["banditry_drain_accrued_debt"] || 0
+	var/banditry_hoard = diff["banditry_hoard_total"] || 0
 	var/orders_rolled = diff["orders_rolled"] || 0
 	var/urgent_rolled = diff["urgent_rolled"] || 0
 	var/day = diff["day"] || GLOB.dayspassed
@@ -65,12 +66,14 @@
 		if(banditry_debt_accrued > 0)
 			body += "<i>Treasury could not absorb the full hit. <font color='#c44'>[banditry_debt_accrued]m</font> accrued as banditry debt: future inflow shall be skimmed against it until paid. ([banditry_burned]m drawn from purse, [banditry_debt_accrued]m owed.)</i><br>"
 		body += "<br>"
+	if(banditry_hoard > 0)
+		body += "<b>Brigand Hoard:</b> <font color='#c44'>[banditry_hoard]m</font> across their hoards. A hoard recovery (or breaking a blockade there) will reclaim it, with part of it taxed by the Crown as Recovered Spoils.<br><br>"
 	if(orders_rolled)
 		body += "<b>Standing orders posted this morning:</b> [orders_rolled]"
 		if(urgent_rolled)
 			body += " ([urgent_rolled] urgent)"
 		body += "<br><br>"
-	if(!length(blockades_fired) && !length(blockades_cleared) && !length(events_fired) && !length(events_expired) && !orders_rolled && banditry_total <= 0)
+	if(!length(blockades_fired) && !length(blockades_cleared) && !length(events_fired) && !length(events_expired) && !orders_rolled && banditry_total <= 0 && banditry_hoard <= 0)
 		body += "<i>The roads are quiet. No shipment was disturbed overnight.</i><br>"
 
 	body += "<hr><center><i>Consult the Contract Ledger to commission a response.</i></center>"

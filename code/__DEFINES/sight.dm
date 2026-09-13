@@ -21,7 +21,7 @@
 
 #define BORGMESON		(1<<0)
 #define BORGTHERM		(1<<1)
-#define BORGXRAY 		(1<<2)
+#define BORGXRAY		(1<<2)
 #define BORGMATERIAL	(1<<3)
 
 //for clothing visor toggles, these determine which vars to toggle

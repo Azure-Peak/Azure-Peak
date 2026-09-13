@@ -39,7 +39,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mage
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot
+	beltr = /obj/item/storage/magebag
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/rogueweapon/huntingknife
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -48,7 +48,8 @@
 		backr = choose_implement(H, "lesser")
 		backpack_contents = list(
 			/obj/item/rogueweapon/spellbook = 1,
-			/obj/item/chalk = 1
+			/obj/item/chalk = 1,
+			/obj/item/reagent_containers/glass/bottle/rogue/manapot = 1
 			)
 	backpack_contents |= list(
 		/obj/item/flashlight/flare/torch = 1,
@@ -58,6 +59,64 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
+
+/datum/advclass/mage/alchemist
+	name = "Alchemist"
+	tutorial = "You are an alchemist of the road, traveling the world in search of rare reagents, forgotten recipes, \
+	and opportunities to put your craft to the test. You trade in potions, powders, and peculiar concoctions, turning \
+	the spoils of your adventures into something useful. Every monster, ruin, and strange plant might be the key \
+	ingredient to your next creation. Just be careful what you mix together. Some things have a tendency to explode."
+	outfit = /datum/outfit/job/roguetown/adventurer/alchemist
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT,TRAIT_SEEDKNOW, TRAIT_ARCYNE)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_PER = 3,
+		STATKEY_WIL = 1
+	)
+	age_mod = /datum/class_age_mod/apprentice_alchemist
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
+	subclass_skills = list(
+		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/mining = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_NOVICE,
+	)
+
+/datum/outfit/job/roguetown/adventurer/alchemist/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("You are an alchemist traveling the world in search of rare reagents and new discoveries. You turn the spoils of your adventures into strange and useful concoctions."))
+	head = /obj/item/clothing/head/roguetown/roguehood/black
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	pants = /obj/item/clothing/under/roguetown/tights/black
+	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/mageyellow
+	belt = /obj/item/storage/belt/rogue/leather/black
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/storage/backpack/rogue/satchel
+	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	beltl = /obj/item/storage/magebag
+	beltr = /obj/item/flashlight/flare/torch/lantern
+	backpack_contents = list(
+		/obj/item/paper/scroll = 3,
+		/obj/item/natural/feather = 1,
+		/obj/item/roguegem/amethyst = 1,
+		/obj/item/rogueweapon/spellbook = 1,
+		/obj/item/chalk = 1,
+		/obj/item/rogueweapon/huntingknife/idagger = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
+
 
 /datum/advclass/mage/spellblade
 	name = "Azurcaephan"
@@ -316,7 +375,7 @@
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt =  /obj/item/clothing/suit/roguetown/armor/gambeson
+	shirt =	/obj/item/clothing/suit/roguetown/armor/gambeson
 	armor =	/obj/item/clothing/suit/roguetown/armor/leather/heavy
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	neck = /obj/item/clothing/neck/roguetown/leather

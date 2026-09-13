@@ -19,20 +19,18 @@
 	return ..()
 
 /datum/ai_behavior/run_away_from_target/perform(delta_time, datum/ai_controller/controller, target_key, hiding_location_key)
-	. = ..()
 	//
 	var/atom/target = controller.blackboard[hiding_location_key] || controller.blackboard[target_key]
-	var/escaped =  QDELETED(target) || !can_see(controller.pawn, target, run_distance) // If we can't see it we got away
+	var/escaped =	QDELETED(target) || !can_see(controller.pawn, target, run_distance) // If we can't see it we got away
 	if (escaped)
-		finish_action(controller, succeeded = TRUE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 	if (!in_range(controller.pawn, controller.current_movement_target))
 		if(until_destination)
-			finish_action(controller, succeeded = TRUE)
-		return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+		return AI_BEHAVIOR_DELAY
 	if (plot_path_away_from(controller, target))
-		return
-	finish_action(controller, succeeded = TRUE)
+		return AI_BEHAVIOR_DELAY
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/run_away_from_target/proc/plot_path_away_from(datum/ai_controller/controller, atom/target)
 	var/turf/target_destination = get_turf(controller.pawn)

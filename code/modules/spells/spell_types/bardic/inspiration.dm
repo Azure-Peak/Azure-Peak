@@ -6,9 +6,9 @@
 	var/maxsongs = 2
 	var/songsbought = 0
 	var/datum/rhythm_tracker/rhythm_tracker = null
-	var/allegro_enabled = FALSE  // Maestro - Wretch Bard only — restore energy every 5th rhythm proc
+	var/allegro_enabled = FALSE	// Maestro - Wretch Bard only — restore energy every 5th rhythm proc
 	var/allegro_counter = 0
-	var/bonus_rhythm_picks = 0  // Added on top of the tier's default pick count
+	var/bonus_rhythm_picks = 0	// Added on top of the tier's default pick count
 
 /datum/inspiration/New(mob/living/carbon/human/holder)
 	. = ..()

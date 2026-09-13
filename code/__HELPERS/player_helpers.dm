@@ -35,7 +35,7 @@
 		var/mob/living/L = i
 		var/mob/living/carbon/C = L
 		if (istype(C) && !C.last_mind)
-			continue  // never had a client
+			continue	// never had a client
 
 		if(L.ckey && !GLOB.directory[L.ckey])
 			msg += "<b>[L.name]</b> ([L.key]), the [L.job] (<font color='#ffcc00'><b>Disconnected</b></font>)\n"

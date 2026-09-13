@@ -39,7 +39,10 @@
 	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites get extremely funny messages trying to do this.
 		to_chat(user, span_warning(pick("I stare uselessly at their weapon..", "I drool as I stare at their weapon..", "I stare at their weapon... and forgot what I was doing..")))
 		return
-	
+	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+		to_chat(user, span_warning(pick("I will not lure another into violence.", "I refuse to tempt them into striking.", "I have no desire to coax another into violence.")))
+		return
+
 	var/mob/living/carbon/human/HT = target
 	var/mob/living/carbon/human/HU = user
 	var/target_zone = HT.zone_selected
@@ -56,7 +59,7 @@
 		return
 
 	HU.visible_message(span_danger("[HU] baits an attack from [HT]!"))
-	
+
 	HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 
 
@@ -108,7 +111,7 @@
 		HU.changeNext_move(0.1 SECONDS, override = TRUE)
 		to_chat(HU, span_notice("[HT.p_they(TRUE)] fell for my bait <b>perfectly</b>! One more!"))
 		to_chat(HT, span_danger("I fall for [HU.p_their()]'s bait <b>perfectly</b>! I'm losing my footing! <b>I can't let this happen again!</b>"))
-	
+
 	if(HU.has_duelist_ring() && HT.has_duelist_ring() || HT.bait_stacks >= 2)	//We're explicitly (hopefully non-lethally) dueling. Flavor.
 		HT.emote("gasp")
 		HT.OffBalance(2 SECONDS)
@@ -150,22 +153,22 @@
 
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
 	var/datum/special_intent/active_special
-	var/skillreq
+	var/skill_level = SKILL_LEVEL_NONE
 
 	if(istype(W, /obj/item/rogueweapon) && W.special)
 		active_special = W.special
-		skillreq = W.associated_skill
+		skill_level = user.get_wskill(W)
 	else if(!W && ishuman(user))
 		var/mob/living/carbon/human/HU = user
 		if(HU.unarmed_special)
 			active_special = HU.unarmed_special
-			skillreq = /datum/skill/combat/unarmed
+			skill_level = user.get_skill_level(/datum/skill/combat/unarmed)
 
 	if(active_special)
 		if(active_special.custom_skill)
-			skillreq = active_special.custom_skill
+			skill_level = user.get_skill_level(active_special.custom_skill)
 		if(!HAS_TRAIT(user, TRAIT_BATTLEMASTER))
-			if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
+			if(skill_level < SKILL_LEVEL_JOURNEYMAN)
 				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 				return
 		var/atom/parent = W ? W : user
@@ -201,6 +204,9 @@
 	if(HAS_TRAIT(user, TRAIT_DEADITE)) //You're not even smart enough to know what you're doing to begin with.
 		to_chat(user, span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?")))
 		return
+	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+		to_chat(user, span_warning(pick("I will not invite violence with false intent.", "I will not provoke bloodshed through trickery.", "I cannot bring myself to threaten another, even falsely.", "I will not pretend to attack another.")))
+		return
 
 	var/mob/living/L = target
 	user.visible_message(span_danger("[user] feints an attack at [target]!"))
@@ -209,17 +215,11 @@
 	var/ourskill = 0
 	var/theirskill = 0
 	var/skill_factor = 0
-	if(I?.associated_skill)
-		ourskill = user.get_skill_level(I.associated_skill)
-	else
-		ourskill = user.get_skill_level(/datum/skill/combat/unarmed)
+	ourskill = user.get_wskill(I, /datum/skill/combat/unarmed)
 	if(L.mind)
 		I = L.get_active_held_item()
-		if(I?.associated_skill)
-			theirskill = L.get_skill_level(I.associated_skill)
-		else
-			theirskill = L.get_skill_level(/datum/skill/combat/unarmed)
-	perc += (ourskill - theirskill)*15 	//skill is of the essence
+		theirskill = L.get_wskill(I, /datum/skill/combat/unarmed)
+	perc += (ourskill - theirskill)*15	//skill is of the essence
 	perc += (user.STAINT - L.STAINT)*10	//but it's also mostly a mindgame
 	skill_factor = (ourskill - theirskill)/2
 
@@ -315,6 +315,8 @@
 /datum/rmb_intent/weak/special_attack(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(!istype(target) || !istype(user) || !target.Adjacent(user))
 		return
-	
+	if(user.incapacitated())
+		return
+
 	user.attempt_steal(user, target)
 	return ..()

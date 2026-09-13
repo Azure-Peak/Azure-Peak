@@ -7,9 +7,9 @@
  * @license MIT
  */
 
-import { vecLength, vecSubtract } from 'tgui-core/vector';
 import { focusMap } from 'tgui/focus';
 import { canStealFocus, globalEvents } from 'tgui-core/events';
+import { vecLength, vecSubtract } from 'tgui-core/vector';
 
 // Empyrically determined number for the smallest possible
 // text you can select with the mouse.
@@ -47,7 +47,7 @@ export function setupPanelFocusHacks(): void {
     }
   });
 
-  globalEvents.on('keydown', (key) => {
+  globalEvents.on('keydown', (key: any) => {
     if (key.isModifierKey()) {
       return;
     }

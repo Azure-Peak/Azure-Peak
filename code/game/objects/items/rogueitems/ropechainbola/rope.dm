@@ -21,7 +21,7 @@
 	var/matthios_chains = FALSE
 	dropshrink = 0.9
 
-/obj/item/rope/Initialize()
+/obj/item/rope/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/ropebelt,
@@ -108,7 +108,7 @@
 
 	var/surrender_mod = 1
 	if(C.compliance || C.surrendering || HAS_TRAIT(C, TRAIT_BAGGED))
-		surrender_mod = 0.5	
+		surrender_mod = 0.5
 	if(src.matthios_chains && HAS_TRAIT(C, TRAIT_NOBLE))
 		surrender_mod = 0.5
 
@@ -159,7 +159,7 @@
 
 	playsound(loc, cuffsound, 30, TRUE, -2)
 
-	if(!do_mob(user, C, 60 * surrender_mod) || C.get_num_legs(FALSE) < 2)
+	if(!do_mob(user, C, 60 * surrender_mod, double_progress = TRUE, can_move = FALSE) || C.get_num_legs(FALSE) < 2)
 		to_chat(user, span_warning("I fail to tie up [C]!"))
 		return
 

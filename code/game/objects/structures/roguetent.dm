@@ -14,7 +14,7 @@
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 	destroy_sound = 'sound/combat/hits/onwood/destroywalldoor.ogg'
 
-/obj/structure/roguetent/Initialize()
+/obj/structure/roguetent/Initialize(mapload)
 	update_icon()
 	..()
 

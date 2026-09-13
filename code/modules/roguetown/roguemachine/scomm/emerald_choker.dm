@@ -38,7 +38,7 @@
 	else
 		icon_state = "listenstone_act"
 
-/obj/item/listenstone/Initialize()
+/obj/item/listenstone/Initialize(mapload)
 	. = ..()
 	update_icon()
 	SSroguemachine.scomm_machines += src

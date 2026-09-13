@@ -5,7 +5,7 @@
 	dish_type = DISH_FRUIT
 	name = "raisins"
 	desc = "Jackberries that've been pruned of their juiciness, and turned into flavorful nuggets. Like the humble hardtack, so \
-	too will these raisins outlast their creators.  When combined with honey and doused in a pot of boiling fat, it can birth \
+	too will these raisins outlast their creators.	When combined with honey and doused in a pot of boiling fat, it can birth \
 	'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "raisins5"

@@ -213,6 +213,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "crown towner commission ([chosen_type])"))
 			to_chat(poster, span_warning("The Crown's Purse refused the draft."))
 			return
+		record_treasury_expense(TREASURY_FLOW_CONTRACT, treasury_role_of(poster), cost)
 	else
 		if(!SStreasury.has_account(poster))
 			to_chat(poster, span_warning("You have no account on record."))

@@ -65,14 +65,14 @@
 	releasedrain = 40
 	recharge_time = 33 SECONDS
 	invocations = list("Cow pie n' raw sod, makes th' rye! Drink it down an' kiss the sky!",
-					   "Cow pie n' raw sod, makes th' rye! That foul drink'll make ye cry!",
-					   "Cow pie n' raw sod, makes th' rye! By the gods, I'd rather die!",
-					   "Cow pie n' raw sod, makes th' rye! Even goats refuse to try!",
-					   "Compost rich n' dark as sin, makes the harvest rollin' in!",
-					   "Compost steamed in morning dew, makes the garden fresh an' new!",
-					   "Manure fresh from stable floor, makes the crops grow more an' more!",
-					   "Manure n' maggots, squirm n' crawl, makes the tallest cornstalks tall!",
-					   "Sludge n' slurry, thick n' brown, makes the greenest crop in town!")
+						"Cow pie n' raw sod, makes th' rye! That foul drink'll make ye cry!",
+						"Cow pie n' raw sod, makes th' rye! By the gods, I'd rather die!",
+						"Cow pie n' raw sod, makes th' rye! Even goats refuse to try!",
+						"Compost rich n' dark as sin, makes the harvest rollin' in!",
+						"Compost steamed in morning dew, makes the garden fresh an' new!",
+						"Manure fresh from stable floor, makes the crops grow more an' more!",
+						"Manure n' maggots, squirm n' crawl, makes the tallest cornstalks tall!",
+						"Sludge n' slurry, thick n' brown, makes the greenest crop in town!")
 
 /obj/effect/proc_holder/spell/targeted/blesscrop/cast(list/targets,mob/user = usr)
 	. = ..()
@@ -193,7 +193,7 @@
 	if (!user.has_language(/datum/language/beast))
 		user.grant_language(/datum/language/beast)
 		to_chat(user, span_boldnotice("The vestige of the hidden moon high above reveals His truth: the knowledge of beast-tongue was in me all along."))
-	
+
 	if (!first_cast)
 		to_chat(user, span_boldwarning("So it is murmured in the Earth and Air: the Call of the Moon is sacred, and to share knowledge gleaned from it with those not of Him is a SIN."))
 		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))

@@ -1,11 +1,10 @@
 /datum/ai_controller/spider
-	movement_delay = HONEYSPIDER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic/allow_items(),
-		BB_BASIC_MOB_TAMED  = FALSE
+		BB_BASIC_MOB_TAMED	= FALSE
 	)
 
 	planning_subtrees = list(
@@ -20,13 +19,12 @@
 
 /datum/ai_controller/spider/honeyspider
 	// Same as spider but no obstacle smashing
-	movement_delay = HONEYSPIDER_MOVEMENT_SPEED
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic/allow_items(),
-		BB_BASIC_MOB_TAMED  = FALSE
+		BB_BASIC_MOB_TAMED	= FALSE
 	)
 
 	planning_subtrees = list(

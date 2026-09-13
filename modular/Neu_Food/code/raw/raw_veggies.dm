@@ -57,4 +57,4 @@
 	icon_state = "pesto"
 	desc = "A luxurious local blend of rocknut, oil, and garlick. A blend invented by immigrants from Navarno. It's best served in a noodle dish."
 	tastes = list("fresh nutty savoriness" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/water/blessed = 1, /datum/reagent/drug/nicotine = 1, /datum/reagent/consumable/acorn_powder = 4)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/water/blessed = 1, /datum/reagent/drug/westleach = 1, /datum/reagent/consumable/acorn_powder = 4)

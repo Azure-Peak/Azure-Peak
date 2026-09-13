@@ -141,7 +141,7 @@
 	icon_state = "ramcurledsmall"
 
 /datum/sprite_accessory/horns/smallramhornsalt
-	name  = "Small Ram Horns Alt"
+	name	= "Small Ram Horns Alt"
 	icon_state = "ramcurledsmallalt"
 
 /datum/sprite_accessory/horns/smallramhornsthree
@@ -297,3 +297,7 @@
 	color_key_names = list("Horns", "Cloth")
 	default_colors = list("#555555", "#B41919")
 	relevant_layers = list(BODY_ADJ_LAYER)
+
+/datum/sprite_accessory/horns/goblin
+	name = "Goblin"
+	icon_state = "goblinhorns"

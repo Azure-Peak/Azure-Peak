@@ -2,7 +2,7 @@
 	name = "Healing Hymn"
 	desc = "Recuperate your allies' bodies with your song! Refills health slowly over time!"
 	button_icon_state = "melody_t3_base"
-	invocations = list("plays a beautiful, stirring song. The world around them becomes more vivid.")
+	invocations = list("%CASTER plays a beautiful, stirring song. The world around them becomes more vivid.")
 	song_effect = /datum/status_effect/buff/playing_melody/rejuvenation
 
 /datum/status_effect/buff/playing_melody/rejuvenation

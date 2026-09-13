@@ -19,7 +19,7 @@
 	effectedstats = list(STATKEY_SPD = 3)
 	duration = ATTUNE_BUFF_DURATION
 
-/datum/status_effect/buff/attune_haste/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/attune_haste/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
@@ -58,7 +58,7 @@
 	effectedstats = list(STATKEY_STR = 4)
 	duration = ATTUNE_BUFF_DURATION
 
-/datum/status_effect/buff/attune_giant/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/attune_giant/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
@@ -97,7 +97,7 @@
 	exclusive_group = "augment_perception"
 	exclusive_priority = 2 // supersedes Guidance
 
-/datum/status_effect/buff/attune_hawk/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/attune_hawk/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
@@ -136,7 +136,7 @@
 	exclusive_group = "augment_perception"
 	exclusive_priority = 1 // yields to Hawk's Eyes
 
-/datum/status_effect/buff/guidance/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/guidance/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
@@ -175,7 +175,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/fortitude
 	duration = STAT_BUFF_SELF_DURATION
 
-/datum/status_effect/buff/fortitude/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/fortitude/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
@@ -278,7 +278,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/iron_skin
 	duration = STAT_BUFF_SELF_DURATION
 
-/datum/status_effect/buff/iron_skin/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/iron_skin/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()

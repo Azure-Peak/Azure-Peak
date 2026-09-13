@@ -62,9 +62,9 @@
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_SUIT, OFFSET_SUIT)
 
 /datum/sprite_accessory/piercing/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-    if(owner.underwear && owner.underwear.covers_breasts)
-        return FALSE
-    return is_human_part_visible(owner, HIDEBOOB|HIDEJUMPSUIT)
+	if(owner.underwear && owner.underwear.covers_breasts)
+		return FALSE
+	return is_human_part_visible(owner, HIDEBOOB|HIDEJUMPSUIT)
 
 /datum/sprite_accessory/piercing/rings
 	icon = 'modular/icons/mob/sprite_accessory/piercings/rings.dmi'

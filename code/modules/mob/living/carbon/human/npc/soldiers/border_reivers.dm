@@ -10,7 +10,7 @@
 
 
 
-/mob/living/carbon/human/species/human/northern/border_reiver/Initialize()
+/mob/living/carbon/human/species/human/northern/border_reiver/Initialize(mapload)
 	. = ..()
 	//Begin RANDOMISE here
 	set_species(pick(NPC_RACES_TYPES))
@@ -400,7 +400,7 @@
 	maxHealth = 200
 	ai_controller = /datum/ai_controller/reiver_crossbow
 	gender = MALE
-	mob_biotypes = MOB_HUMANOID 
+	mob_biotypes = MOB_HUMANOID
 	robust_searching = 1
 	turns_per_move = 1
 	move_to_delay = 3
@@ -476,7 +476,7 @@
 	name = "hack"
 	icon_state = "instrike"
 	attack_verb = list("hacks at", "chops at", "bashes")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = list("genchop", "genslash")
 	chargetime = 0

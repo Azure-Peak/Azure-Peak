@@ -78,7 +78,7 @@
 /datum/customizer/organ/horns/tiefling
 	customizer_choices = list(/datum/customizer_choice/organ/horns/tiefling)
 	allows_disabling = TRUE
-	default_disabled =  TRUE
+	default_disabled =	TRUE
 
 /datum/customizer_choice/organ/horns/tiefling
 	name = "Horns"
@@ -141,7 +141,7 @@
 /datum/customizer/organ/horns/demihuman
 	customizer_choices = list(/datum/customizer_choice/organ/horns/demihuman)
 	allows_disabling = TRUE
-	default_disabled =  TRUE
+	default_disabled =	TRUE
 
 /datum/customizer_choice/organ/horns/demihuman
 	name = "Horns"
@@ -207,7 +207,7 @@
 /datum/customizer/organ/horns/anthro
 	customizer_choices = list(/datum/customizer_choice/organ/horns/anthro)
 	allows_disabling = TRUE
-	default_disabled =  TRUE
+	default_disabled =	TRUE
 
 /datum/customizer_choice/organ/horns/anthro
 	name = "Horns"
@@ -270,11 +270,24 @@
 		/datum/sprite_accessory/horns/large/highrise
 		)
 
+/datum/customizer/organ/horns/humanoid/goblin
+	default_disabled = TRUE
+	customizer_choices = list(/datum/customizer_choice/organ/horns/goblin)
+
+/datum/customizer_choice/organ/horns/goblin
+	name = "Horns"
+	organ_type = /obj/item/organ/horns
+	sprite_accessories = list(
+		/datum/sprite_accessory/horns/goblin,
+		/datum/sprite_accessory/horns/tiefling,
+		/datum/sprite_accessory/horns/tieflingalt,
+		)
+
 /datum/customizer/organ/horns/tusks
 	name = "Tusks"
 	customizer_choices = list(/datum/customizer_choice/organ/horns/tusks)
 	allows_disabling = TRUE
-	default_disabled =  TRUE
+	default_disabled =	TRUE
 
 /datum/customizer_choice/organ/horns/tusks
 	name = "Tusks"
@@ -288,7 +301,7 @@
 	name = "Headwing"
 	customizer_choices = list(/datum/customizer_choice/organ/horns/wings)
 	allows_disabling = TRUE
-	default_disabled =  TRUE
+	default_disabled =	TRUE
 
 /datum/customizer_choice/organ/horns/wings
 	name = "Headwing"

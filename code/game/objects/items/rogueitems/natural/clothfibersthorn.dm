@@ -28,7 +28,7 @@
 	. += span_info("Fibers can also be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for fibers include tools, bows, torches, amulets, bouquets, needles, bags, and flower crowns.")
 
-/obj/item/natural/fibers/Initialize()
+/obj/item/natural/fibers/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/stonehoe,
@@ -72,31 +72,6 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
-/obj/item/natural/fibers/attack_right(mob/user)
-	if(user.get_active_held_item())
-		return
-	var/is_legendary = FALSE
-	if(user.get_skill_level(/datum/skill/labor/farming) == SKILL_LEVEL_LEGENDARY) //check if the user has legendary farming skill
-		is_legendary = TRUE //they do
-	if(is_legendary)
-		bundling_time = 2 //if legendary skill, the move_after is fast, 0.2 seconds
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, bundling_time, target = src))
-		var/fibercount = 0
-		for(var/obj/item/natural/fibers/F in get_turf(src))
-			fibercount++
-		while(fibercount > 0)
-			if(fibercount == 1)
-				new /obj/item/natural/fibers(get_turf(user))
-				fibercount--
-			else if(fibercount >= 2)
-				var/obj/item/natural/bundle/fibers/B = new(get_turf(user))
-				B.amount = clamp(fibercount, 2, 6)
-				B.update_bundle()
-				fibercount -= clamp(fibercount, 2, 6)
-				user.put_in_hands(B)
-		for(var/obj/item/natural/fibers/F in get_turf(src))
-			qdel(F)
 
 /obj/item/natural/silk
 	name = "silk"
@@ -117,24 +92,6 @@
 	spitoutmouth = FALSE
 	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/silk
-
-/obj/item/natural/silk/attack_right(mob/user)
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, bundling_time, target = src))
-		var/silkcount = 0
-		for(var/obj/item/natural/silk/F in get_turf(src))
-			silkcount++
-		while(silkcount > 0)
-			if(silkcount == 1)
-				new /obj/item/natural/silk(get_turf(user))
-				silkcount--
-			else if(silkcount >= 2)
-				var/obj/item/natural/bundle/silk/B = new(get_turf(user))
-				B.amount = clamp(silkcount, 2, 6)
-				B.update_bundle()
-				silkcount -= clamp(silkcount, 2, 6)
-		for(var/obj/item/natural/silk/F in get_turf(src))
-			qdel(F)
 
 #ifdef TESTSERVER
 
@@ -195,7 +152,7 @@
 	. += span_info("Drinking water and, to a lesser extent, lifeblood can help counteract the effects of blood loss. Lifeblood, needles, cauteries, and miracles can stop a wound from bleeding.")
 	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss.")
 
-/obj/item/natural/cloth/Initialize()
+/obj/item/natural/cloth/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/longbowpartial,
@@ -208,28 +165,6 @@
 		/datum/element/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
-
-/obj/item/natural/cloth/attack_right(mob/user)
-	if(user.get_active_held_item())
-		return
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, bundling_time, target = src))
-		var/clothcount = 0
-		for(var/obj/item/natural/cloth/F in get_turf(src))
-			clothcount++
-		while(clothcount > 0)
-			if(clothcount == 1)
-				new /obj/item/natural/cloth(get_turf(user))
-				clothcount--
-			else if(clothcount >= 2)
-				var/obj/item/natural/bundle/cloth/B = new(get_turf(user))
-				B.amount = clamp(clothcount, 2, 10)
-				B.update_bundle()
-				clothcount -= clamp(clothcount, 2, 10)
-				user.put_in_hands(B)
-		for(var/obj/item/natural/cloth/F in get_turf(src))
-			qdel(F)
-		playsound(user, "rustle", 70, FALSE, -4)
 
 /obj/item/natural/cloth/examine(mob/user)
 	. = ..()
@@ -428,7 +363,7 @@
 	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
 	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
 
-/obj/item/natural/thorn/Initialize()
+/obj/item/natural/thorn/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/tneedle,
@@ -664,7 +599,7 @@
 	spitoutmouth = FALSE
 	experimental_inhand = FALSE
 
-/obj/item/natural/bowstring/Initialize()
+/obj/item/natural/bowstring/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/bow,
@@ -691,24 +626,3 @@
 	stacktype = /obj/item/natural/worms
 	stackname = "worms"
 	bundling_time = 1 SECONDS
-
-/obj/item/natural/worms/attack_right(mob/user)
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, bundling_time, target = src))
-		var/wormcount = 0
-		for(var/obj/item/natural/worms/F in get_turf(src))
-			wormcount++
-		while(wormcount > 0)
-			if(wormcount == 1)
-				new /obj/item/natural/worms(user.drop_location())
-				wormcount--
-			else if(wormcount >= 2)
-				var/obj/item/natural/bundle/worms/B = new(user.drop_location())
-				B.amount = clamp(wormcount, 2, 12)
-				B.update_bundle()
-				wormcount -= clamp(wormcount, 2, 12)
-				user.put_in_hands(B)
-		for(var/obj/item/natural/worms/F in get_turf(src))
-			qdel(F)
-
-

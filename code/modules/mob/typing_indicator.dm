@@ -1,10 +1,10 @@
 GLOBAL_DATUM_INIT(shared_typing_indicator, /obj/effect/overlay/typing_indicator, new(null))
 
 /**
-  * Displays typing indicator.
-  * @param timeout_override - Sets how long until this will disappear on its own without the user finishing their message or logging out. Defaults to TYPING_INDICATOR_TIMEOUT
-  * @param force - shows even if src.typing_indicator_enabled is FALSE.
-  */
+	* Displays typing indicator.
+	* @param timeout_override - Sets how long until this will disappear on its own without the user finishing their message or logging out. Defaults to TYPING_INDICATOR_TIMEOUT
+	* @param force - shows even if src.typing_indicator_enabled is FALSE.
+	*/
 /mob/proc/display_typing_indicator(timeout_override = TYPING_INDICATOR_TIMEOUT, force = FALSE)
 	if(((!typing_indicator_enabled || (stat != CONSCIOUS)) && !force) || typing_indicator_current)
 		return
@@ -18,8 +18,8 @@ GLOBAL_DATUM_INIT(shared_typing_indicator, /obj/effect/overlay/typing_indicator,
 	typing_indicator_timerid = addtimer(CALLBACK(src, PROC_REF(clear_typing_indicator)), timeout_override, TIMER_STOPPABLE)
 
 /**
-  * Removes typing indicator.
-  */
+	* Removes typing indicator.
+	*/
 /mob/proc/clear_typing_indicator()
 	if(!typing_indicator_current)
 		return

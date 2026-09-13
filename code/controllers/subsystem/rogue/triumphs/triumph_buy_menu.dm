@@ -16,7 +16,7 @@
 /datum/triumph_buy_menu/Destroy(force, ...)
 	linked_client = null
 	. = ..()
-	
+
 
 /datum/triumph_buy_menu/proc/triumph_menu_startup_slop()
 	var/datum/asset/thicc_assets = get_asset_datum(/datum/asset/simple/blackedstone_triumph_buy_menu_slop_layout)
@@ -52,7 +52,7 @@
 				<div id='triumph_quantity_div'>
 					I have [SStriumphs.get_triumphs(linked_client.ckey)] Triumphs
 				</div>
-			</div> 
+			</div>
 			<div style='width:100%;float:left'>
 		"}
 /*
@@ -82,10 +82,10 @@
 				<tbody>
 	"}
 
-	
+
 	if(current_category == TRIUMPH_CAT_ACTIVE_DATUMS)
 		// Mostly so we can stop the filler message from not being displayed if someone has a non-visible triumph buy, and theres nothing else in.
-		var/found_one_blank_sloppy_toppy = FALSE 
+		var/found_one_blank_sloppy_toppy = FALSE
 		if(SStriumphs.active_triumph_buy_queue.len)
 			for(var/datum/triumph_buy/auugh in SStriumphs.active_triumph_buy_queue)
 				if(!auugh.visible_on_active_menu) // If we aren't set to be able to be visible on the main menu
@@ -99,7 +99,7 @@
 					data += "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[auugh];'><span class='strikethru_back'>ROUND STARTED</span></a></td>"
 				else
 					data += "<td class='triumph_buy_wrapper'><a class='triumph_text_buy' href='?src=\ref[src];handle_buy_button=\ref[auugh];'>UNBUY</a></td>"
-				
+
 				data += "</tr>"
 
 				found_one_blank_sloppy_toppy = TRUE // WE GOT ONE WOOHOO
@@ -182,7 +182,7 @@
 				current_page = sent_page
 				show_menu()
 
-	//This sends a reference to a datum, 
+	//This sends a reference to a datum,
 	if(href_list["handle_buy_button"])
 		var/datum/triumph_buy/target_datum = locate(href_list["handle_buy_button"])
 		if(target_datum)
@@ -205,5 +205,3 @@
 
 	if(href_list["close"])
 		SStriumphs.remove_triumph_buy_menu(linked_client)
-
-	

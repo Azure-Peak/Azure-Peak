@@ -255,7 +255,7 @@
 
 /obj/item/carvedgem/jade
 	name = "jade base"
-	desc =  "if you are seeing this, it's a bug, report it to coders!"
+	desc =	"if you are seeing this, it's a bug, report it to coders!"
 	icon = 'icons/roguetown/gems/gem_jade.dmi'
 	icon_state = "cutgem_jade"
 	grid_height = 32

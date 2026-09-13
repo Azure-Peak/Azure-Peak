@@ -29,7 +29,7 @@
 	var/list/overlay_to_index = list()
 	var/current_overlays = 0
 
-/obj/item/canvas/Initialize()
+/obj/item/canvas/Initialize(mapload)
 	. = ..()
 	draw = icon(icon, icon_state)
 	base = icon(icon, icon_state)
@@ -618,7 +618,7 @@
 	grid_width = 64
 	var/list/colors = list()
 
-/obj/item/paint_palette/Initialize()
+/obj/item/paint_palette/Initialize(mapload)
 	. = ..()
 	update_overlays()
 

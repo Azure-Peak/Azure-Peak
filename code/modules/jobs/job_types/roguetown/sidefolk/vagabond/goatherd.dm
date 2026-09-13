@@ -2,7 +2,7 @@
 	name = "Lone Goatherd"
 	tutorial = "Having lost your idyllic pastoral existence, only a solitary member of your herd now remains as a reminder of what was. Is your sole charge a friend, or is it food? You decide."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/vagabond/goatherd
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	category_tags = list(CTAG_VAGABOND)
@@ -42,6 +42,6 @@
 		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/misc/riding, rand(1,6), TRUE)//This could potentially be hilarious
 
-/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/Initialize()
+/mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/Initialize(mapload)
 	..()
 	tamed()

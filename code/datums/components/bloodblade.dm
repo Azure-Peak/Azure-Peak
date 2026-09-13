@@ -2,18 +2,18 @@
 	dupe_mode = COMPONENT_DUPE_UNIQUE // To avoid weird filter override this is the way..
 	var/counter = 0
 
-/datum/component/bloodblade/Initialize()
+/datum/component/bloodblade/Initialize(mapload)
 	if(!istype(parent, /obj/item/rogueweapon))
 		return COMPONENT_INCOMPATIBLE
 	var/obj/item/I = parent
-	
+
 	coat(I)
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(onhit))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 
 	addtimer(CALLBACK(src, PROC_REF(timeout)), 30 SECONDS)
 
-/datum/component/bloodblade/proc/coat(var/obj/item/I)
+/datum/component/bloodblade/proc/coat(obj/item/I)
 	counter = 3
 	I.force += 10
 	I.force_wielded += 10
@@ -22,7 +22,7 @@
 	I.add_filter("bloodblade", 2, list("type" = "outline", "color" = "#000000", "alpha" = 200, "size" = 1))
 	return
 
-/datum/component/bloodblade/proc/onhit(var/obj/item/I)
+/datum/component/bloodblade/proc/onhit(obj/item/I)
 	if(counter > 1)
 		counter -= 1
 	else

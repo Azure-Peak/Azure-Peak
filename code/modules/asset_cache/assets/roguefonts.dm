@@ -31,4 +31,6 @@
 		"etruscan.ttf" = 'interface/fonts/languages/etruscan.ttf',
 		"gronnic.ttf" = 'interface/fonts/languages/gronnic.ttf',
 		"aavnic.ttf" = 'interface/fonts/languages/aavnic.ttf',
+		"parisienne.ttf" = 'interface/fonts/tegaki/parisienne.ttf',
+		"parisienne_data.json" = 'interface/fonts/tegaki/parisienne_data.json',
 	)

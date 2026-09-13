@@ -69,7 +69,7 @@
 
 ///Exists as a helper so outside code can modify delay while also modifying timer
 /datum/move_loop/proc/set_delay(new_delay)
-	delay =  max(new_delay, world.tick_lag)
+	delay =	max(new_delay, world.tick_lag)
 	timer = world.time + delay
 
 /datum/move_loop/process()
@@ -556,7 +556,7 @@
 		var/turf/moving_towards = get_step(moving, testdir)
 		var/atom/old_loc = moving.loc
 		moving.Move(moving_towards, testdir)
-		if(old_loc != moving.loc)  //If it worked, we're done
+		if(old_loc != moving.loc)	//If it worked, we're done
 			return TRUE
 		potential_dirs -= testdir
 	return FALSE

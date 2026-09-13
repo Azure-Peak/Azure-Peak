@@ -1,6 +1,6 @@
 // High efforts (i.e. spiced / buttered / onioned or whatever) meal where meat
 // Is the main ingredient.
-/*	..................   Pepper steak   ................... */
+/*	..................	Pepper steak	................... */
 /obj/item/reagent_containers/food/snacks/rogue/peppersteak
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_MEAT
@@ -18,7 +18,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
-/*	..................   Ducal steak   ................... */
+/*	..................	Ducal steak	................... */
 /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	tastes = list("steak" = 1, "pepper" = 1, "garlick" = 1)
@@ -28,7 +28,7 @@
 	icon_state = "ducalsteak"
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	..................   Onion steak   ................... */
+/*	..................	Onion steak	................... */
 /obj/item/reagent_containers/food/snacks/rogue/onionsteak
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -46,7 +46,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
-/*	..................   Carrot Steak   ................... */
+/*	..................	Carrot Steak	................... */
 /obj/item/reagent_containers/food/snacks/rogue/carrotsteak
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -63,7 +63,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
-/*	.................   Steak & carrot & onion   ................... */
+/*	.................	Steak & carrot & onion	................... */
 /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -79,7 +79,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	.................   Wiener Cabbage   ................... */
+/*	.................	Wiener Cabbage	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienercabbage
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -97,7 +97,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 
 
-/*	.................   Wiener & Fried potato   ................... */
+/*	.................	Wiener & Fried potato	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotato
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_NORTHERN
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -114,7 +114,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Wiener & Fried onions   ................... */
+/*	.................	Wiener & Fried onions	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wieneronions
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -131,7 +131,7 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Wiener & potato & onions   ................... */
+/*	.................	Wiener & potato & onions	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_NORTHERN
 	dish_type = DISH_MEAT|DISH_VEGETABLE
@@ -148,7 +148,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	.................  Spiced Baked Poultry  ................... */
+/*	.................	Spiced Baked Poultry	................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced
 	cuisine = CUISINE_RANESHENI
 	name = "spiced bird-roast"
@@ -159,7 +159,7 @@
 	tastes = list("spicy birdmeat" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................  Ducal Spiced Baked Poultry  ................... */
+/*	.................	Ducal Spiced Baked Poultry	................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced/ducal
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "ducal bird-roast"
@@ -169,7 +169,7 @@
 	tastes = list("spicy birdmeat" = 1, "garlick" = 1)
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/*	.................  Baked Butter Poultry  ................... */
+/*	.................	Baked Butter Poultry	................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/butter
 	cuisine = CUISINE_OTAVAIS
 	name = "butter bird-roast"
@@ -180,7 +180,7 @@
 	tastes = list("buttery birdmeat" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................  Baked Double Poultry  ................... */
+/*	.................	Baked Double Poultry	................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/doublestacked
 	name = "bird filled bird-roast"
 	desc = "A plump bird, roasted perfection.. filled with another bird - what compelled you to make this? Psydon Weeps at your hubris."
@@ -189,7 +189,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER*2)
 
-/*	.................   Frybird & Tato   ................... */
+/*	.................	Frybird & Tato	................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybirdtato
 	cuisine = CUISINE_NORTHERN
 	dish_type = DISH_POULTRY|DISH_VEGETABLE
@@ -206,7 +206,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/*	.................   Frybird Bucket   ................... */
+/*	.................	Frybird Bucket	................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybirdbucket
 	cuisine = CUISINE_NORTHERN
 	dish_type = DISH_POULTRY
@@ -223,7 +223,7 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/* .............   Fried Cabbit w/ Garlick  ................ */
+/* .............	Fried Cabbit w/ Garlick	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
 	name = "garlick cabbit"
@@ -232,7 +232,7 @@
 	icon_state = "frycabbit_garlick"
 	tastes = list("warm cabbit" = 1, "garlick" = 1)
 
-/* .............   Fried Cabbit w/ Garlick & Cucumber ................ */
+/* .............	Fried Cabbit w/ Garlick & Cucumber ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick/cucumber
 	name = "elven cabbit roast"
 	desc = "A slab of cabbit, fried to a perfect crispy texture - coated over in glove of garlick and served with side of cucumber. Thought to bring good luck by rangers!"
@@ -240,7 +240,7 @@
 	tastes = list("warm cabbit" = 1, "garlick" = 1, "cucumber" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/* .............  Garlicked Fried Volf   ................ */
+/* .............	Garlicked Fried Volf	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick
 	name = "garlick volf"
 	desc = "A slab of volf, fried to a perfect medium rare. A bit gamey and chewy, but tasty. This piece has been coated over in glove of garlick."
@@ -248,7 +248,7 @@
 	icon_state = "fryvolf_garlick"
 	tastes = list("gamey volf" = 1, "garlick" = 1)
 
-/* .............  Garlicked Fried Volf w/ Cucumber  ................ */
+/* .............	Garlicked Fried Volf w/ Cucumber	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick/cucumber
 	name = "hunter's feast"
 	desc = "A slab of volf, fried to a perfect medium rare. A bit gamey and chewy, but tasty. This piece has been coated over in glove of garlick and served with side of cucumber."
@@ -256,7 +256,7 @@
 	tastes = list("gamey volf" = 1, "garlick" = 1, "cucumber" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/* .............  Honey glazed venison ribs  ................ */
+/* .............	Honey glazed venison ribs	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked/glazed
 	name = "forest glaze"
 	desc = "A helping of venison ribs glazed to perfection in honey. The golden brown flesh is almost shiny enough for you to see your own reflection."
@@ -266,7 +266,7 @@
 	faretype = FARE_FINE
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/* .............  Wine glazed venison loins  ................ */
+/* .............	Wine glazed venison loins	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked/sauced
 	name = "forest bounty"
 	desc = "Venison tenderloin cut into fine slices, covered in a mixture of berry paste and wine-glazing. The liqour seems to have caramelized into a tasty layer of glaze."
@@ -276,7 +276,7 @@
 	faretype = FARE_LAVISH
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/* .............  Choice venison cut  ................ */
+/* .............	Choice venison cut	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice
 	name = "forest trove"
 	desc = "A choice cut of venison seared to perfection with a hint of pink flesh still visible."
@@ -296,7 +296,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	rotprocess = null
 
-/* .............  Deadite saiga cube  ................ */
+/* .............	Deadite saiga cube	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked/cubed
 	name = "carrion coulis"
 	desc = "A gelatinous, ghoulish delight fashioned from wyrd loins. Poke it to see it shudder and wobble."
@@ -309,7 +309,7 @@
 	rotprocess = null
 	cooked_smell = /datum/pollutant/food/strange_meat
 
-/* .............  Deadite saiga rib crown  ................ */
+/* .............	Deadite saiga rib crown	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
 	name = "couronne de baies-noires"
 	desc = "A crown fashioned from wyrd meat rib-bones, cooked to the point most of the juicy meat has sagged to the bottom. The meat-mash is dotted with countless jackberries down below."
@@ -320,7 +320,7 @@
 	rotprocess = null
 	cooked_smell = /datum/pollutant/food/strange_meat
 
-/* .............  Deadite saiga roses  ................ */
+/* .............	Deadite saiga roses	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
 	name = "bouquet des trépassés"
 	desc = "A strange dish of prime wyrd meat, sliced thin and assembled to look like roses. These are typically left on graves to commemorate someone. Otavan vampires make a habit out of trying to steal these off graves, for they desire the strange flesh."
@@ -332,7 +332,7 @@
 	rotprocess = null
 	cooked_smell = /datum/pollutant/food/strange_meat
 
-/* .............  Deadite saiga wellington  ................ */
+/* .............	Deadite saiga wellington	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
 	name = "grave galette"
 	desc = "A patchwork amalgamation of various meats, but primarily that of wyrd meat. It is a meatloaf, but you'd rather it didn't exist at all."
@@ -385,7 +385,7 @@
 	fried_type = null
 	cooked_smell = /datum/pollutant/food/strange_meat
 
-/* .............  Rocknut Rub Venison Steak  ................ */
+/* .............	Rocknut Rub Venison Steak	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga/cooked/rubbed
 	name = "forest purity"
 	desc = "A delicious slab of grilled venison. Prepared with love, and rocknut powder. Whether rocknut spice tastes like love hasn't been concluded as of yet."
@@ -395,7 +395,7 @@
 	faretype = FARE_FINE
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/* .............  Pale Medallions (Stag venison)  ................ */
+/* .............	Pale Medallions (Stag venison)	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w/cooked/medal
 	name = "royal medallions"
 	desc = "Praise yourself for slaying me. For next time, you might not be so lucky."
@@ -405,7 +405,7 @@
 	faretype = FARE_LAVISH
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/* .............  Pale Tartar (Stag venison)  ................ */
+/* .............	Pale Tartar (Stag venison)	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w/cooked/tartar
 	name = "royal tartar"
 	desc = "A collection of finely ground murder. Prepared by a murderer. Covered with the entrails of various plants and the unborn child of a majestic avian."
@@ -415,7 +415,7 @@
 	faretype = FARE_LAVISH
 	eat_effect = /datum/status_effect/buff/greatmealbuff
 
-/* .............  Pale ribs (Stag venison)  ................ */
+/* .............	Pale ribs (Stag venison)	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w/cooked/ribs
 	name = "royal bones"
 	desc = "Ribs faintly smelling of coffee. Yet the fluid seems to have been fully absorbed by the flesh. Dark brown greedily supped by hanks that bear sharpened ribs. As if coated in old blood, as if poised to strike anew."

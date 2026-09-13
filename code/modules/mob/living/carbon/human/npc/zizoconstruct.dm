@@ -20,7 +20,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 
 
 
-/mob/living/carbon/human/species/construct/metal/zizoconstruct/Initialize()
+/mob/living/carbon/human/species/construct/metal/zizoconstruct/Initialize(mapload)
 	. = ..()
 	cut_overlays()
 	spawn(10)

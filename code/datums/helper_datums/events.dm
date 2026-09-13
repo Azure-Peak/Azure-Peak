@@ -33,8 +33,8 @@
 	event += cb
 	return cb
 
-//  Arguments: event_type as text, any number of additional arguments to pass to event handler
-//  Returns: null
+//	Arguments: event_type as text, any number of additional arguments to pass to event handler
+//	Returns: null
 /datum/events/proc/fireEvent(eventName, ...)
 	var/list/event = listgetindex(events,eventName)
 	if(istype(event))

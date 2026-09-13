@@ -24,7 +24,7 @@
 	. += span_info("Left-click with a torch, lamptern, flint, or another ignitioneer to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or another source of ignition.")
 	. += span_info("Once lit, most bombs will detonate after a very short period of time.")
 
-/obj/item/bomb/Initialize()
+/obj/item/bomb/Initialize(mapload)
 	..()
 	fuze = rand(40,60)
 
@@ -105,7 +105,7 @@
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -120,7 +120,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			light()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state
@@ -161,7 +161,7 @@
 	var/obj/item/bomb/b_type = /obj/item/bomb
 	var/list/obj/item/tripwire/wire_trigger = list()
 
-/obj/item/bomb/tripbomb/Initialize()
+/obj/item/bomb/tripbomb/Initialize(mapload)
 	..()
 	icon_state = b_type.icon_state
 
@@ -199,7 +199,7 @@
 /obj/item/tripwire
 	name = "fibre tripwire"
 	desc = "You almost missed it - phew. Best cut it with a blade to disarm it."
-	icon = 'icons/roguetown/items/misc.dmi'	
+	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "wire"
 	anchored = TRUE
 	var/obj/item/bomb/tripbomb/payload
@@ -227,7 +227,7 @@
 		qdel(I)
 	/*if(istype(I, /obj/item/natural/fibers))
 		if(payload.wire_trigger.len == 2)
-			to_chat(span_warning("I can not extend [src] anymore."))
+			to_chat(user, span_warning("I can not extend [src] anymore."))
 			return ..()
 		if(!do_after(user, 7 SECONDS - user.get_skill_level(/datum/skill/craft/traps), TRUE, src))
 			to_chat(user, span_warning("I stop extending [src]."))
@@ -277,8 +277,8 @@
 	var/radius = 3
 
 /obj/item/bomb/smoke/attack_self(mob/user)
-    ..()
-    light()
+	..()
+	light()
 
 /obj/item/bomb/smoke/ex_act()
 	if(!QDELETED(src))
@@ -301,7 +301,7 @@
 
 /obj/item/bomb/smoke/explode()
 	var/turf/T = get_turf(src)
-	if(!T) 
+	if(!T)
 		return FALSE
 	playsound(loc, 'sound/items/smokebomb.ogg', 50)
 	var/datum/effect_system/smoke_spread/smoke = new /datum/effect_system/smoke_spread
@@ -309,7 +309,7 @@
 	smoke.start()
 	new /obj/item/ash(T)
 	qdel(src)
-	
+
 /obj/item/tntstick
 	name = "blastpowder stick"
 	desc = "A bewicked vessel, filled to the brim with explosive powder. Ignition begets eruption; a dizzying shockwave which pulverizes stone, wood, and flesh alike with little discrimination."
@@ -322,7 +322,7 @@
 	throw_speed = 0.5
 	var/fuze = 50
 	var/lit = FALSE
-	var/prob2fail = 1 
+	var/prob2fail = 1
 	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 64
@@ -388,7 +388,7 @@
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -403,7 +403,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			light()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state
@@ -434,14 +434,14 @@
 	icon_state = "satchel_bomb"
 	var/lit_state = "satchel_bomb-lit"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_BULKY 
+	w_class = WEIGHT_CLASS_BULKY
 	throwforce = 0
 	throw_range = 2
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.3
 	var/fuze = 50
 	var/lit = FALSE
-	var/prob2fail = 1 
+	var/prob2fail = 1
 	var/PVE_damage = 300
 	grid_width = 256
 	grid_height = 256
@@ -455,14 +455,14 @@
 	icon_state = "satchel_bomb"
 	lit_state = "satchel_bomb-lit"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_BULKY 
+	w_class = WEIGHT_CLASS_BULKY
 	dropshrink = 5
 	throwforce = 0
 	throw_range = 1
 	throw_speed = 0.3
 	fuze = 50
 	lit = FALSE
-	prob2fail = 0 
+	prob2fail = 0
 	PVE_damage = 500
 	grid_width = 256
 	grid_height = 256
@@ -474,9 +474,9 @@
 	light()
 
 /obj/item/satchel_bomb/ex_act()
-    if(!QDELETED(src))
-        lit = TRUE
-        explode(TRUE)
+	if(!QDELETED(src))
+		lit = TRUE
+		explode(TRUE)
 
 /obj/item/satchel_bomb/proc/light()
 	if(!lit)
@@ -540,7 +540,7 @@
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -555,7 +555,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			light()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state
@@ -591,7 +591,7 @@
 	grid_width = 32
 	grid_height = 32
 
-/obj/item/impact_grenade/Initialize()
+/obj/item/impact_grenade/Initialize(mapload)
 	. = ..()
 
 // Define a base explodes() proc that subtypes can override because its now explodes proc
@@ -606,14 +606,14 @@
 
 /obj/item/impact_grenade/attack_self(mob/user)
 	..()
-	explodes() 
+	explodes()
 
 /obj/item/impact_grenade/attackby(obj/item/I, mob/user, params)
 	..()
 
 	if(!istype(I, /obj/item/natural/fibers))
 		return
-	
+
 	I.visible_message(
 		span_warning("[user] begins to prepare [src].."),
 		span_notice("I begin to set-up [src] with [I].")
@@ -628,7 +628,7 @@
 			to_chat(user, span_warningbig("Uh oh."))
 			explodes()
 		return
-	
+
 	var/obj/item/bomb/tripbomb/trip = new /obj/item/bomb/tripbomb(get_turf(src))
 	trip.b_type = type
 	trip.icon_state = icon_state

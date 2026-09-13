@@ -25,7 +25,7 @@
 	item_state = "beekeeper"
 	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
-	alternate_worn_layer  = 8.9 //On top of helmet
+	alternate_worn_layer	= 8.9 //On top of helmet
 	body_parts_covered = HEAD|HAIR|EARS|NECK
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	sleevetype = null
@@ -134,7 +134,7 @@
 	color = primary
 	update_icon()
 
-/obj/item/clothing/head/roguetown/jester/Initialize()
+/obj/item/clothing/head/roguetown/jester/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_JINGLE_BELLS, 2)
 	if(GLOB.lordprimary)
@@ -145,13 +145,3 @@
 /obj/item/clothing/head/roguetown/jester/jester/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
-
-/obj/item/clothing/head/roguetown/jester/MiddleClick(mob/user)
-	if(!ishuman(user))
-		return
-	if(flags_inv & HIDE_HEADTOP)
-		flags_inv &= ~HIDE_HEADTOP
-	else
-		flags_inv |= HIDE_HEADTOP
-	persist_inv_flags(HIDE_HEADTOP)
-	user.update_inv_head()

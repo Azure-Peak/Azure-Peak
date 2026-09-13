@@ -69,10 +69,10 @@
 	// var/list/our_known_alts = list()
 
 	// for (var/known_alt in all_known_alts)
-	// 	if (known_alt[1] == ckey)
-	// 		our_known_alts += known_alt[2]
-	// 	else if (known_alt[2] == ckey)
-	// 		our_known_alts += known_alt[1]
+	//	if (known_alt[1] == ckey)
+	//		our_known_alts += known_alt[2]
+	//	else if (known_alt[2] == ckey)
+	//		our_known_alts += known_alt[1]
 
 	var/list/found
 
@@ -89,14 +89,14 @@
 			return
 
 		// if (!isnull(GLOB.round_id))
-		// 	query_data += list(list(
-		// 		"telemetry_ckey" = row["ckey"],
-		// 		"address" = row["address"],
-		// 		"computer_id" = row["computer_id"],
-		// 	))
+		//	query_data += list(list(
+		//		"telemetry_ckey" = row["ckey"],
+		//		"address" = row["address"],
+		//		"computer_id" = row["computer_id"],
+		//	))
 
 		// if (row["ckey"] in our_known_alts)
-		// 	continue
+		//	continue
 
 		if (world.IsBanned(row["ckey"], row["address"], row["computer_id"], real_bans_only = TRUE))
 			found = row
@@ -114,31 +114,31 @@
 
 	// Only log them all at the end, since it's not as important as reporting an evader
 	// for (var/list/one_query as anything in query_data)
-	// 	var/datum/db_query/query = SSdbcore.NewQuery({"
-	// 		INSERT INTO [format_table_name("telemetry_connections")] (
-	// 			ckey,
-	// 			telemetry_ckey,
-	// 			address,
-	// 			computer_id,
-	// 			first_round_id,
-	// 			latest_round_id
-	// 		) VALUES(
-	// 			:ckey,
-	// 			:telemetry_ckey,
-	// 			INET_ATON(:address),
-	// 			:computer_id,
-	// 			:round_id,
-	// 			:round_id
-	// 		) ON DUPLICATE KEY UPDATE latest_round_id = :round_id
-	// 	"}, list(
-	// 		"ckey" = ckey,
-	// 		"telemetry_ckey" = one_query["telemetry_ckey"],
-	// 		"address" = one_query["address"],
-	// 		"computer_id" = one_query["computer_id"],
-	// 		"round_id" = GLOB.round_id,
-	// 	))
-	// 	query.Execute()
-	// 	qdel(query)
+	//	var/datum/db_query/query = SSdbcore.NewQuery({"
+	//		INSERT INTO [format_table_name("telemetry_connections")] (
+	//			ckey,
+	//			telemetry_ckey,
+	//			address,
+	//			computer_id,
+	//			first_round_id,
+	//			latest_round_id
+	//		) VALUES(
+	//			:ckey,
+	//			:telemetry_ckey,
+	//			INET_ATON(:address),
+	//			:computer_id,
+	//			:round_id,
+	//			:round_id
+	//		) ON DUPLICATE KEY UPDATE latest_round_id = :round_id
+	//	"}, list(
+	//		"ckey" = ckey,
+	//		"telemetry_ckey" = one_query["telemetry_ckey"],
+	//		"address" = one_query["address"],
+	//		"computer_id" = one_query["computer_id"],
+	//		"round_id" = GLOB.round_id,
+	//	))
+	//	query.Execute()
+	//	qdel(query)
 
 #undef TGUI_TELEMETRY_MAX_CONNECTIONS
 #undef TGUI_TELEMETRY_RESPONSE_WINDOW

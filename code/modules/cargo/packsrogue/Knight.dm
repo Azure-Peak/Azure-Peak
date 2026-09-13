@@ -23,6 +23,11 @@
 	cost = 60
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
 
+/datum/supply_pack/rogue/Knight/armet_snouted
+	name = "Snouted Armet"
+	cost = 60
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted)
+
 /datum/supply_pack/rogue/Knight/froggy
 	name = "Froggemund Helm"
 	cost = 100
@@ -213,6 +218,6 @@
 
 // The hedge-knight can buy tamed saigas now to make use of their riding skill.
 
-/obj/structure/closet/crate/chest/saigabuck/Initialize()
+/obj/structure/closet/crate/chest/saigabuck/Initialize(mapload)
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled(src)

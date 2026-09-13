@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/conjure_summon/attacker
 	name = "Summon Rogue"
-	desc = "Call forth a swift, lightly-armored rogue. Toggle its loadout with Shift+G: Twin Sabres, Twin Rapiers, Twin Axes, Twin Daggers, Twin Hammers, or Twin Whips.  \
+	desc = "Call forth a swift, lightly-armored rogue. Toggle its loadout with Shift+G: Twin Sabres, Twin Rapiers, Twin Axes, Twin Daggers, Twin Hammers, or Twin Whips.	\
 	Its prowess scales with your Arcyne Armament."
 	button_icon_state = "primetriangle"
 	invocations = list("Exsurge, sicarius!")

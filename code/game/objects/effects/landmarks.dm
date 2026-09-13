@@ -13,7 +13,7 @@
 
 INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
-/obj/effect/landmark/Initialize()
+/obj/effect/landmark/Initialize(mapload)
 	. = ..()
 	GLOB.landmarks_list += src
 
@@ -35,7 +35,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	if(delete_after_roundstart)
 		qdel(src)
 
-/obj/effect/landmark/start/Initialize()
+/obj/effect/landmark/start/Initialize(mapload)
 	GLOB.start_landmarks_list += src
 	if(jobspawn_override.len)
 		for(var/X in jobspawn_override)
@@ -346,7 +346,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon = 'icons/effects/landmarks_static.dmi'
 	icon_state = "wiznerd_spawn"
 
-/obj/effect/landmark/start/wizard/Initialize()
+/obj/effect/landmark/start/wizard/Initialize(mapload)
 	. = ..()
 	GLOB.wizardstart += loc
 
@@ -355,7 +355,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon = 'icons/effects/landmarks_static.dmi'
 	icon_state = "snukeop_spawn"
 
-/obj/effect/landmark/start/nukeop/Initialize()
+/obj/effect/landmark/start/nukeop/Initialize(mapload)
 	. = ..()
 	GLOB.nukeop_start += loc
 
@@ -366,7 +366,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	jobspawn_override = list("Bandit")
 	delete_after_roundstart = FALSE
 
-/obj/effect/landmark/start/bandit/Initialize()
+/obj/effect/landmark/start/bandit/Initialize(mapload)
 	. = ..()
 	GLOB.bandit_starts += loc
 
@@ -375,7 +375,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "arrow"
 	delete_after_roundstart = FALSE
 
-/obj/effect/landmark/start/lich/Initialize()
+/obj/effect/landmark/start/lich/Initialize(mapload)
 	. = ..()
 	GLOB.lich_starts += loc
 
@@ -384,7 +384,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon = 'icons/mob/landmarks.dmi'
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/delf/Initialize()
+/obj/effect/landmark/start/delf/Initialize(mapload)
 	. = ..()
 	GLOB.delf_starts += loc
 
@@ -426,7 +426,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon = 'icons/effects/landmarks_static.dmi'
 	icon_state = "snukeop_leader_spawn"
 
-/obj/effect/landmark/start/nukeop_leader/Initialize()
+/obj/effect/landmark/start/nukeop_leader/Initialize(mapload)
 	. = ..()
 	GLOB.nukeop_leader_start += loc
 
@@ -437,7 +437,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 /obj/effect/landmark/start/new_player
 	name = "New Player"
 
-/obj/effect/landmark/start/new_player/Initialize()
+/obj/effect/landmark/start/new_player/Initialize(mapload)
 	. = ..()
 	GLOB.newplayer_start += loc
 
@@ -600,7 +600,7 @@ GLOBAL_LIST_EMPTY(travel_tile_locations)
 /obj/effect/landmark/travel_tile_location
 	name = "travel tile location"
 
-/obj/effect/landmark/travel_tile_location/Initialize()
+/obj/effect/landmark/travel_tile_location/Initialize(mapload)
 	. = ..()
 	GLOB.travel_tile_locations += src
 
@@ -615,7 +615,7 @@ GLOBAL_LIST_EMPTY(travel_spawn_points)
 	icon_state = "generic_event"
 	var/taken = FALSE
 
-/obj/effect/landmark/travel_spawn_point/Initialize()
+/obj/effect/landmark/travel_spawn_point/Initialize(mapload)
 	. = ..()
 	GLOB.travel_spawn_points += src
 
@@ -632,7 +632,7 @@ GLOBAL_LIST_EMPTY(travel_spawn_points)
 		return point.loc
 	return null
 
-/proc/create_travel_tiles(var/atom/location, travel_id, travel_goes_to_id, required_trait)
+/proc/create_travel_tiles(atom/location, travel_id, travel_goes_to_id, required_trait)
 	for(var/obj/effect/landmark/travel_tile_location/landmark as anything in GLOB.travel_tile_locations)
 		if(get_dist(location, landmark) > 5)
 			continue

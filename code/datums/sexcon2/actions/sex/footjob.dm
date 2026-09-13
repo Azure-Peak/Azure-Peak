@@ -20,6 +20,8 @@
 		return FALSE
 	if(check_sex_lock(user, ORGAN_SLOT_PENIS))
 		return FALSE
+	if(target.freeuse)
+		return TRUE
 	// Need to be on the floor
 	if(user.resting)
 		return FALSE
@@ -29,24 +31,32 @@
 	return TRUE
 
 /datum/sex_action/sex/footjob/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] grabs [target]'s feet and shoves [user.p_their()] pintle inbetween!")
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	return span_warning("[user] [do_subtle ? "subtly " : ""]grabs [target]'s feet and shoves [user.p_their()] pintle inbetween!")
 
 /datum/sex_action/sex/footjob/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] pintle out from inbetween [target]'s feet.")
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	return span_warning("[user] [do_subtle ? "subtly " : ""]pulls [user.p_their()] pintle out from inbetween [target]'s feet.")
 
 /datum/sex_action/sex/footjob/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.visible_message(span_love("[user] cums over [target]'s feet!"))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_love("[user] [do_subtle ? "subtly " : ""]cums over [target]'s feet!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 	return "onto"
 
 /datum/sex_action/sex/footjob/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fucks [target]'s feet."))
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective(do_subtle)] fucks [target]'s feet."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/sex/footjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	playsound(user, 'sound/misc/mat/fingering.ogg', 20, TRUE, -2, ignore_walls = FALSE)
-	do_thrust_animate(user, target, sex_session)
-	do_onomatopoeia(user)
+	var/do_subtle = sex_session.doing_subtly
+	playsound(user, 'sound/misc/mat/fingering.ogg', 20, TRUE, (do_subtle ? -6 : -2), ignore_walls = FALSE)
+	if(!do_subtle)
+		do_thrust_animate(user, target, sex_session)
 
-	sex_session.perform_sex_action(user, 2, 4, TRUE)
+	sex_session.perform_sex_action(user, 2, 4, TRUE, sex_session.speed, sex_session.force)
 	sex_session.handle_passive_ejaculation(target)

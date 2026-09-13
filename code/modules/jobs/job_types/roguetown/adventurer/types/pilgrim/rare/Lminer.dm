@@ -11,7 +11,7 @@
 	maximum_possible_slots = 1
 	pickprob = 5
 	category_tags = list(CTAG_TOWNER)
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_SMITHING_EXPERT)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_SMITHING_EXPERT, TRAIT_MASTER_MASON)
 	subclass_stats = list(
 		STATKEY_LCK = 4,
 		STATKEY_STR = 2,

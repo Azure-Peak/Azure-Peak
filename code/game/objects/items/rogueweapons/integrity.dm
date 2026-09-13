@@ -135,4 +135,5 @@
 //Just used for grindstones, currently, to restore quality of a blade.
 /obj/item/proc/restore_bintegrity()
 	max_blade_int = initial(max_blade_int)//Given it's reduced above.
-	blade_int = initial(max_blade_int)//Now return it.
+	SEND_SIGNAL(src, COMSIG_ITEM_RESTORE_BINTEGRITY)
+	blade_int = max_blade_int//Now return it.

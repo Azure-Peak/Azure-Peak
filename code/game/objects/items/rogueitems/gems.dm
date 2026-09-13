@@ -141,9 +141,9 @@
 		if(H.patron.type == /datum/patron/inhumen/graggar)
 			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.")
 
-/obj/item/roguegem/blood_diamond/Initialize()
-  ..()
-  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
+/obj/item/roguegem/blood_diamond/Initialize(mapload)
+	..()
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
 
 /obj/item/roguegem/amethyst
 	name = "amythortz"
@@ -160,7 +160,7 @@
 	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
 	icon_state = "roguegem"
 
-/obj/item/roguegem/random/Initialize()
+/obj/item/roguegem/random/Initialize(mapload)
 	..()
 	var/newgem = list(/obj/item/roguegem/ruby = 5,
 		/obj/item/roguegem/green = 15,
@@ -188,7 +188,7 @@
 	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
 	icon_state = "gemcraft"
 
-/obj/item/roguegem/random_gemcraft/Initialize()
+/obj/item/roguegem/random_gemcraft/Initialize(mapload)
 	..()
 	var/newgem = list(
 		/obj/item/roguegem/onyxa = 9, // 25%
@@ -220,7 +220,7 @@
 	drop_sound = 'sound/items/gem.ogg'
 	sellprice = 400
 
-/obj/item/riddleofsteel/Initialize()
+/obj/item/riddleofsteel/Initialize(mapload)
 	. = ..()
 	set_light(2, 2, 1, l_color = "#ff0d0d")
 
@@ -237,7 +237,7 @@
 	drop_sound = 'sound/items/gem.ogg'
 	sellprice = 20
 
-/obj/item/pearl/Initialize()
+/obj/item/pearl/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/pearlcross,
@@ -254,7 +254,7 @@
 	desc = "A beautiful blue pearl. A bounty of Abyssor. Can be strung up into amulets."
 	sellprice = 60
 
-/obj/item/pearl/blue/Initialize()
+/obj/item/pearl/blue/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/bpearlcross,

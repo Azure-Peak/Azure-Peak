@@ -14,9 +14,9 @@
 		STATKEY_LCK = 2,//We have a total of +12 in stats.
 	)
 	subclass_skills = list(
-		/datum/skill/combat/whipsflails, SKILL_LEVEL_MASTER,
-		/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/staves, SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,

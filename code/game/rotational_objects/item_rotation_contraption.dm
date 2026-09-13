@@ -2,7 +2,7 @@
 	name = ""
 	desc = ""
 
-	w_class =  WEIGHT_CLASS_SMALL
+	w_class =	WEIGHT_CLASS_SMALL
 	grid_height = 32
 	grid_width = 32
 
@@ -25,7 +25,7 @@
 	if(resize_factor)
 		transform = transform.Scale(resize_factor, resize_factor)
 
-/obj/item/rotation_contraption/Initialize()
+/obj/item/rotation_contraption/Initialize(mapload)
 	. = ..()
 	if(placed_type)
 		set_type(placed_type)
@@ -176,6 +176,12 @@
 	grid_height = 96
 	grid_width = 96
 
+/obj/item/rotation_contraption/windmill
+	placed_type = /obj/structure/windmill
+
+/obj/item/rotation_contraption/windmill/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Windmills only turn under open sky, and spin slower on each level below the top of the map.")
 
 /obj/item/rotation_contraption/debug_source
 	placed_type = /obj/structure/debug_rotation_source

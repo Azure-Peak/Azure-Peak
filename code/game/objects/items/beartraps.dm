@@ -109,7 +109,7 @@
 	grid_width = 256
 	grid_height = 256
 
-/obj/item/restraints/legcuffs/beartrap/Initialize()
+/obj/item/restraints/legcuffs/beartrap/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -211,8 +211,8 @@
 				I.take_damage(50, BRUTE, "stab")
 			visible_message(span_warning(msg))
 			close_trap()
-		
-	
+
+
 
 /obj/item/restraints/legcuffs/beartrap/dropped(mob/living/carbon/human/user)
 	..()

@@ -20,10 +20,11 @@
 			continue
 		if(CA.cmode)
 			continue
+		if(HAS_TRAIT(CA, TRAIT_NOMOOD))
+			continue
 		if(CA.get_stress_amount() <= 0)
 			CA.add_stress(/datum/stressevent/joke)
 			CA.emote(pick("laugh","chuckle","giggle"), forced = TRUE)
-			
 			// Apply Xylix buff to those with the trait who hear the laughter
 			// Only apply if the hearer is not the one laughing and not the spell caster
 			for(var/mob/living/carbon/human/H in hearers(7, CA))

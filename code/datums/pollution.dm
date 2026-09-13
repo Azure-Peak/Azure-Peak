@@ -92,23 +92,27 @@
 	if(!dominant_pollutant)
 		return
 
-	var/smell_string
+	var/smell_string // this code is whack. We just pick a smell string at random that isn't always "unmistakable" and "bombards your nostrils". It sucks, but its better.
 	switch(dominiant_smell_power)
-		if(0 to POLLUTANT_SMELL_NORMAL)
+		if(0 to INFINITY)
 			if(sniffer.mob_biotypes & MOB_ROBOTIC)
 				smell_string = "Your sensors detect trace amounts of [dominant_pollutant.scent] in the air."
 			else
-				smell_string = "The subtle [dominant_pollutant.descriptor] of [dominant_pollutant.scent] tickles your nose..."
-		if(POLLUTANT_SMELL_NORMAL to POLLUTANT_SMELL_STRONG)
-			if(sniffer.mob_biotypes & MOB_ROBOTIC)
-				smell_string = "Your sensors pick up the presence of [dominant_pollutant.scent] in the air."
-			else
-				smell_string = "The [dominant_pollutant.descriptor] of [dominant_pollutant.scent] fills the air."
-		if(POLLUTANT_SMELL_STRONG to INFINITY)
-			if(sniffer.mob_biotypes & MOB_ROBOTIC)
-				smell_string = "Your sensors pick up an intense concentration of [dominant_pollutant.scent]."
-			else
-				smell_string = "The unmistakable [dominant_pollutant.descriptor] of [dominant_pollutant.scent] bombards your nostrils."
+				smell_string = pick(
+					"The subtle [dominant_pollutant.descriptor] of [dominant_pollutant.scent] tickles your nose...",
+					"The [dominant_pollutant.descriptor] of [dominant_pollutant.scent] fills the air.",
+					"There is a hint of [dominant_pollutant.scent] in the air.",
+					"The faint [dominant_pollutant.descriptor] of [dominant_pollutant.scent] lingers in the air.")
+//		if(POLLUTANT_SMELL_NORMAL to POLLUTANT_SMELL_STRONG)
+//if(sniffer.mob_biotypes & MOB_ROBOTIC)
+//				smell_string = "Your sensors pick up the presence of [dominant_pollutant.scent] in the air."
+//			else
+//				smell_string = "The [dominant_pollutant.descriptor] of [dominant_pollutant.scent] fills the air."
+//		if(POLLUTANT_SMELL_STRONG to INFINITY)
+//			if(sniffer.mob_biotypes & MOB_ROBOTIC)
+//				smell_string = "Your sensors pick up an intense concentration of [dominant_pollutant.scent]."
+//			else
+//				smell_string = "The unmistakable [dominant_pollutant.descriptor] of [dominant_pollutant.scent] bombards your nostrils."
 
 	if(dominant_pollutant.descriptor == SCENT_DESC_ODOR)
 		to_chat(sniffer, span_warning(smell_string))

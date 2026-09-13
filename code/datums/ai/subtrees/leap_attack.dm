@@ -1,12 +1,12 @@
-#define LEAP_CHANCE_OBSTACLE    35    // % chance to leap when path is much longer than direct (railing/obstacle)
-#define LEAP_CHANCE_OPEN        0     //
-#define LEAP_MIN_DISTANCE       4     // tiles - target must be at least this far to leap
-#define LEAP_MAX_DISTANCE       8     // tiles - don't leap if target is too far (waste of stamina)
-#define LEAP_OBSTACLE_PATH_RATIO 1.5  // path must be at least this much longer than direct distance to count as "obstacle in the way"
-#define LEAP_STAMINA_RESERVE    0.5   // require at least this much stamina headroom (0-1, fraction of max)
-#define LEAP_COOLDOWN           (10 SECONDS)
-#define LEAP_RUN_RANGE          3     // jump_action with MOVE_INTENT_RUN reaches 3 tiles
-#define LEAP_WALK_RANGE         2     // without run, 2 tiles
+#define LEAP_CHANCE_OBSTACLE	35	// % chance to leap when path is much longer than direct (railing/obstacle)
+#define LEAP_CHANCE_OPEN		0		//
+#define LEAP_MIN_DISTANCE		4		// tiles - target must be at least this far to leap
+#define LEAP_MAX_DISTANCE		8		// tiles - don't leap if target is too far (waste of stamina)
+#define LEAP_OBSTACLE_PATH_RATIO 1.5	// path must be at least this much longer than direct distance to count as "obstacle in the way"
+#define LEAP_STAMINA_RESERVE	0.5	// require at least this much stamina headroom (0-1, fraction of max)
+#define LEAP_COOLDOWN			(10 SECONDS)
+#define LEAP_RUN_RANGE			3		// jump_action with MOVE_INTENT_RUN reaches 3 tiles
+#define LEAP_WALK_RANGE			2		// without run, 2 tiles
 
 /// Leap toward a distant target to close the gap. Mirrors the old npc_try_jump pre-AI-controller behavior.
 /datum/ai_planning_subtree/leap_attack
@@ -109,12 +109,10 @@
 /datum/ai_behavior/human_npc_leap/perform(delta_time, datum/ai_controller/controller, target_key)
 	var/mob/living/carbon/human/pawn = controller.pawn
 	if(!controller.can_move())
-		finish_action(controller, FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	var/mob/living/target = controller.blackboard[target_key]
 	if(!target || QDELETED(target))
-		finish_action(controller, FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	// Pick a destination — prefer a turf adjacent to the target so we land in melee range, not on top
 	var/turf/dest = get_step_towards(target, pawn)
@@ -122,8 +120,7 @@
 		dest = get_turf(target)
 	if(!dest || dest.density)
 		AI_THINK(pawn, "LEAP abort: no valid destination")
-		finish_action(controller, FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	// Validate the leap path itself — if there's a wall/dense structure on the line between us
 	// and dest, we'd just slam into it. Don't waste stamina and cooldown on a doomed jump.
@@ -136,13 +133,11 @@
 				continue
 			if(T.density)
 				AI_THINK(pawn, "LEAP abort: wall in leap path at [T]")
-				finish_action(controller, FALSE)
-				return
+				return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 			for(var/obj/structure/S in T)
 				if(S.density)
 					AI_THINK(pawn, "LEAP abort: structure [S] in leap path")
-					finish_action(controller, FALSE)
-					return
+					return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	// Set up jump intent — jump_action() reads mmb_intent.clickcd
 	var/datum/intent/old_mmb = pawn.mmb_intent
@@ -166,7 +161,7 @@
 	pawn.m_intent = old_m_intent
 
 	controller.set_blackboard_key(BB_HUMAN_NPC_JUMP_COOLDOWN, world.time + LEAP_COOLDOWN)
-	finish_action(controller, jumped)
+	return AI_BEHAVIOR_DELAY | (jumped ? AI_BEHAVIOR_SUCCEEDED : AI_BEHAVIOR_FAILED)
 
 #undef LEAP_CHANCE_OBSTACLE
 #undef LEAP_CHANCE_OPEN

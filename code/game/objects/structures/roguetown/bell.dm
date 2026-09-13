@@ -9,7 +9,7 @@
 	var/last_ring
 	var/datum/looping_sound/boatloop/soundloop
 
-/obj/structure/boatbell/Initialize()
+/obj/structure/boatbell/Initialize(mapload)
 	soundloop = new(src, FALSE)
 	soundloop.start()
 	. = ..()
@@ -52,7 +52,7 @@
 	. += span_info("Ringing the bell will play a distinct audio cue to every living character who's associated with the bell's location, notifying them - irregardless of where they are - that someone's requesting their presence.")
 	. += span_info("Note that unlike the SCOM or HERMES, these living characters aren't informed as to who's specifically requesting their presence; only that someone has rung the bell, and that their presence is desired back home.")
 
-/obj/structure/standingbell/Initialize()
+/obj/structure/standingbell/Initialize(mapload)
 	. = ..()
 	localarea = get_area_name(src)
 	if(specific_location)

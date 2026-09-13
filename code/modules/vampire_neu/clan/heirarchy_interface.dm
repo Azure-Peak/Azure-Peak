@@ -144,8 +144,8 @@
 
 		var/start_center_x = center_x + position.superior.node_x + 60 // Center of superior node
 		var/start_center_y = center_y + position.superior.node_y + 40 // Bottom of superior node
-		var/end_center_x = center_x + position.node_x + 60  // Center of current node
-		var/end_center_y = center_y + position.node_y + 10  // Top of current node
+		var/end_center_x = center_x + position.node_x + 60	// Center of current node
+		var/end_center_y = center_y + position.node_y + 10	// Top of current node
 
 		// Calculate distance and angle
 		var/dx = end_center_x - start_center_x

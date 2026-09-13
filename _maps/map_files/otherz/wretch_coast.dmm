@@ -1429,6 +1429,12 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/woods/vampire_lair)
+"fY" = (
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Old Manor"
+	},
+/turf/open/floor/rogue/tile/brick,
+/area/rogue/indoors/vampire_manor)
 "fZ" = (
 /obj/structure/bed/rogue/bedroll{
 	dir = 1
@@ -1973,6 +1979,10 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/vampire_manor)
+"iz" = (
+/obj/structure/roguemachine/mail/r,
+/turf/open/floor/rogue/tile,
+/area/rogue/under/cave/inhumen)
 "iA" = (
 /obj/effect/decal/cleanable/blood/old{
 	icon_state = "floor5-old"
@@ -4012,6 +4022,12 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
+"qQ" = (
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/woods/wretch_lair)
 "qR" = (
 /obj/effect/decal/carpet/square,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -4267,8 +4283,10 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "rV" = (
-/obj/structure/chair/bench/church/r,
 /obj/effect/landmark/start/wretch{
+	dir = 1
+	},
+/obj/structure/chair/bench/church/r{
 	dir = 1
 	},
 /turf/open/floor/rogue/churchbrick,
@@ -4284,6 +4302,9 @@
 /area/rogue/outdoors/woods/wretch_lair)
 "rZ" = (
 /obj/structure/fluff/railing/border/north,
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/vampire_lair)
 "sa" = (
@@ -4621,6 +4642,9 @@
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
 /obj/item/natural/feather,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Old Throne Room"
+	},
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/vampire_manor)
 "ti" = (
@@ -6423,8 +6447,10 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/woods/wretch_lair)
 "AO" = (
-/obj/structure/chair/bench/church/mid,
 /obj/effect/landmark/start/wretch{
+	dir = 1
+	},
+/obj/structure/chair/bench/church/mid{
 	dir = 1
 	},
 /turf/open/floor/rogue/churchbrick,
@@ -7307,6 +7333,10 @@
 "EC" = (
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/banditcamp)
+"ED" = (
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/wooddark/end/east,
+/area/rogue/indoors/banditcamp)
 "EE" = (
 /obj/machinery/light/rogue/candle/floorcandle{
 	pixel_y = -9
@@ -7695,8 +7725,10 @@
 "Gu" = (
 /obj/machinery/light/rogue/candle,
 /obj/effect/decal/cleanable/blood,
-/obj/structure/roguemachine/mail/r,
-/obj/structure/fluff/clock,
+/obj/structure/fluff/clock{
+	dir = 1;
+	pixel_x = 6
+	},
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "Gv" = (
@@ -7749,6 +7781,12 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/inhumen)
+"GH" = (
+/obj/structure/chair/bench/church/r{
+	dir = 1
+	},
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/inhumen)
 "GI" = (
 /obj/effect/decal/cobbleedge{
@@ -8453,7 +8491,6 @@
 /area/rogue/indoors/vampire_manor)
 "JQ" = (
 /obj/structure/table/church,
-/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "JR" = (
@@ -8627,7 +8664,9 @@
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/indoors/vampire_manor)
 "Kx" = (
-/obj/structure/chair/bench/church/mid,
+/obj/structure/chair/bench/church/mid{
+	dir = 1
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/inhumen)
 "Ky" = (
@@ -10502,8 +10541,10 @@
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/vampire_manor)
 "SS" = (
-/obj/structure/chair/bench/church/mid,
 /obj/effect/decal/cleanable/debris/stony,
+/obj/structure/chair/bench/church/mid{
+	dir = 1
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/inhumen)
 "ST" = (
@@ -13615,7 +13656,7 @@ JQ
 wV
 dh
 rV
-sa
+GH
 rV
 Mh
 IW
@@ -30765,7 +30806,7 @@ Ev
 lB
 jh
 Gu
-bK
+iz
 bK
 Zl
 Zl
@@ -31671,7 +31712,7 @@ Dq
 qW
 qW
 UM
-Xm
+qQ
 Ev
 Ev
 Ev
@@ -33840,7 +33881,7 @@ nk
 iL
 iL
 eE
-DR
+ED
 DR
 Ux
 yI
@@ -43264,7 +43305,7 @@ or
 or
 jA
 Uj
-Xw
+fY
 Ue
 aF
 mU

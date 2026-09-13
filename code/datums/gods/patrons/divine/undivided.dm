@@ -15,7 +15,7 @@
 					/datum/action/cooldown/spell/miracle/fortify/undivided		= CLERIC_T3,
 					/datum/action/cooldown/spell/undivided/gallow_humor			= CLERIC_T3,
 					/datum/action/cooldown/spell/undivided/undivided_battlecry	= CLERIC_T4,
-					/obj/effect/proc_holder/spell/invoked/resurrect/undivided	= CLERIC_T4
+					/datum/action/cooldown/spell/miracle/anastasis/undivided	= CLERIC_T4
 	)
 	confess_lines = list(
 		"THE HOLY DECAGRAM SHALL SHIELD MY SOUL!",
@@ -41,12 +41,12 @@
 		return TRUE
 
 /datum/patron/divine/undivided/on_lesser_heal(
-    mob/living/user,
-    mob/living/target,
-    message_out,
-    message_self,
-    conditional_buff,
-    situational_bonus
+	mob/living/user,
+	mob/living/target,
+	message_out,
+	message_self,
+	conditional_buff,
+	situational_bonus
 )
 	*message_out = span_info("A wreath of holy power passes over [target]!") // we're always good.
 	*message_self = ("I'm bathed in holy power!")

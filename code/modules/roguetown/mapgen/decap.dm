@@ -34,7 +34,7 @@
 	allowed_areas = list(/area/rogue/outdoors/mountains/decap)
 
 /datum/mapGeneratorModule/decapgrass
-	clusterCheckFlags =  CLUSTER_CHECK_SAME_ATOMS
+	clusterCheckFlags =	CLUSTER_CHECK_SAME_ATOMS
 	allowed_turfs = list(/turf/open/floor/rogue/grass, /turf/open/floor/rogue/grassred, /turf/open/floor/rogue/grassyel, /turf/open/floor/rogue/grasscold)
 	excluded_turfs = list()
 	allowed_areas = list(/area/rogue/outdoors/mountains/decap)

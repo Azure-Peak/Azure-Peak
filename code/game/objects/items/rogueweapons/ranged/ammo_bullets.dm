@@ -69,27 +69,27 @@
 	else
 		. += span_smallnotice("It has some squiggly jiggly scratches on it.")
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/stone/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
-/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/Initialize()
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot/Initialize(mapload)
 	. = ..()
 	inscription = pick(sling_inscriptions)
 
@@ -116,7 +116,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	name = "decrepit sling bullet"
-	desc = "A pellet of frayed bronze. The alloy flakes apart in your grasp, staining the palm with flecks of brown-and-red."
+	desc = "A pellet of rotted metal. The alloy flakes apart in your grasp, staining the palm with flecks of brown-and-red."
 	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/aalloy
 	icon_state = "ancient_sling_bullet"
 	color = "#bb9696"
@@ -139,7 +139,6 @@
 	damage = 40
 	damage_type = BRUTE
 	armor_penetration = PEN_NONE
-	npc_simple_damage_mult = 2
 	icon = 'icons/roguetown/weapons/ranged/sling_mob.dmi'
 	icon_state = "stone_sling_bullet"
 	range = 15
@@ -149,7 +148,6 @@
 	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // Slings are meant to break armor so this will help
 	flag = "blunt"
 	speed = 0.4
-	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.
 
 /obj/projectile/bullet/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -178,7 +176,6 @@
 	woundclass = BCLASS_BLUNT
 	flag = "blunt"
 	speed = 0.4
-	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.
 	ricochets_max = 2
 	ricochet_chance = 80
 	ricochet_auto_aim_angle = 40
@@ -364,7 +361,6 @@
 	flag = "piercing"
 	armor_penetration = PEN_NONE
 	speed = 0.1
-	npc_simple_damage_mult = 2 // I know this isn't used in Azure Peak but trust me some downstream guys are going to thank me for this because everything that uses it shoots so fucking slow that even volves are hard to kill.
 
 /obj/item/ammo_casing/caseless/rogue/bullet
 	name = "lead sphere"
@@ -378,12 +374,6 @@
 
 
 //mob projectiles
-/obj/projectile/bullet/reusable/arrow/orc
-	armor_penetration = PEN_LIGHT
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
-	embedchance = 100
-	speed = 2 // I guess slower to be slightly more forgiving to players since they're otherwise aimbots
-
 /obj/projectile/bullet/reusable/arrow/ancient
 	damage = 10
 	armor_penetration = PEN_LIGHT

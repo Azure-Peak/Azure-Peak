@@ -18,6 +18,11 @@
 	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored)
 
+/datum/supply_pack/rogue/Iconoclast/visoredsallet_snouted
+	name = "Snouted Visored Sallet"
+	cost = 50
+	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted)
+
 /datum/supply_pack/rogue/Iconoclast/savoyard
 	name = "Savoyard Helmet"
 	cost = 60
@@ -32,6 +37,11 @@
 	name = "Armet"
 	cost = 60
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
+
+/datum/supply_pack/rogue/Iconoclast/armet_snouted
+	name = "Snouted Armet"
+	cost = 60
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted)
 
 //////////
 // NECK //
@@ -146,7 +156,7 @@
 /datum/supply_pack/rogue/Iconoclast/steelflail
 	name = "Steel Flail"
 	cost = 60
-	contains =  list(/obj/item/rogueweapon/flail/sflail)
+	contains =	list(/obj/item/rogueweapon/flail/sflail)
 
 /////////////
 // SHIELDS //

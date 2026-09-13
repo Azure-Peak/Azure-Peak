@@ -223,6 +223,12 @@
 	ingredients = list(/obj/item/clothing/neck/roguetown/psicross = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/psycrossbun_raw
 
+/datum/food_recipe/dough/decabun
+	name = "decacross bun"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/doughslice
+	ingredients = list(/obj/item/clothing/neck/roguetown/psicross/undivided = COOKSTEP_TOOL)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/decabun_raw
+
 /datum/food_recipe/dough/strudel_from_smalldough
 	name = "strudel dough (from smalldough)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/doughslice

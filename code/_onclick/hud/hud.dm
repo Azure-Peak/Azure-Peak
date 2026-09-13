@@ -4,13 +4,6 @@
 	including inventories and item quick actions.
 */
 
-// The default UI style is the first one in the list
-GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
-	"Rogue" = 'icons/mob/roguehud.dmi')))
-
-/proc/ui_style2icon(ui_style)
-	return GLOB.available_ui_styles[ui_style] || GLOB.available_ui_styles[GLOB.available_ui_styles[1]]
-
 /datum/hud
 	var/mob/mymob
 
@@ -85,7 +78,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 
 	if (!ui_style)
 		// will fall back to the default if any of these are null
-		ui_style = ui_style2icon(owner.client && owner.client.prefs && owner.client.prefs.UI_style)
+		ui_style = 'icons/mob/roguehud.dmi'
 
 	if(!hand_slots)
 		hand_slots = list()
