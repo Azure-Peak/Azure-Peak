@@ -434,7 +434,7 @@
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/survival/quarterstaff_psydonic/bullion
-	name = "psydonic silver-reinforced quarterstaff"
+	name = "psydonic silver-reinforced quarterstaff (bullion)"
 	category = "Tools"
 	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
 	reqs = list(

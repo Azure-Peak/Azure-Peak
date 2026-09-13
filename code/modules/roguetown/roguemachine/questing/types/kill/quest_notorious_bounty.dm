@@ -191,6 +191,8 @@
 		var/mob/dead/new_player/N = chosen
 		N.close_spawn_windows()
 	boss.key = chosen.key
+	if(boss.client && boss.ai_controller)
+		QDEL_NULL(boss.ai_controller)
 	RegisterSignal(boss, COMSIG_LIVING_DEATH, PROC_REF(on_player_boss_death))
 	// Prevent the mob from getting instaambushed
 	boss.ambushable = FALSE

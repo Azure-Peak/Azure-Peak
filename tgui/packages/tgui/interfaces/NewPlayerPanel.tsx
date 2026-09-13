@@ -41,7 +41,7 @@ type Job = {
   players: string | null;
 };
 
-export const NewPlayerPanel = (props) => {
+export const NewPlayerPanel = () => {
   const { data } = useBackend<Data>();
   const { ticker_state } = data;
 
@@ -83,7 +83,7 @@ export const NewPlayerPanel = (props) => {
   );
 };
 
-const WelcomeAnimation = (props) => {
+const WelcomeAnimation = () => {
   const { data } = useBackend<Data>();
   const { server_name } = data;
 
@@ -100,7 +100,7 @@ const WelcomeAnimation = (props) => {
   );
 };
 
-const NewPlayerButtons = (props) => {
+const NewPlayerButtons = () => {
   const { act, data } = useBackend<Data>();
 
   return (
@@ -124,7 +124,7 @@ const NewPlayerButtons = (props) => {
   );
 };
 
-const PreGame = (props) => {
+const PreGame = () => {
   const { act, data } = useBackend<Data>();
   const { time_remaining, ready, ready_count, ready_jobs } = data;
 
@@ -197,7 +197,7 @@ const PreGame = (props) => {
   );
 };
 
-const ActiveGame = (props) => {
+const ActiveGame = () => {
   const { act, data } = useBackend<Data>();
   const { migrant } = data;
 
@@ -240,7 +240,7 @@ const ActiveGame = (props) => {
   );
 };
 
-const SettingUpGame = (props) => {
+const SettingUpGame = () => {
   return (
     <Stack.Item grow>
       <Section fill>
@@ -257,7 +257,7 @@ const SettingUpGame = (props) => {
   );
 };
 
-const FinishedGame = (props) => {
+const FinishedGame = () => {
   return (
     <Stack.Item grow>
       <Section fill>

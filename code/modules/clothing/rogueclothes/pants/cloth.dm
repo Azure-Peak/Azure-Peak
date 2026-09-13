@@ -161,6 +161,10 @@
 	detail_color = CLOTHING_WHITE
 	altdetail_color = CLOTHING_WHITE
 
+/obj/item/clothing/under/roguetown/tights/clothlegs/Initialize(mapload)
+	. = ..()
+	update_icon()
+
 /obj/item/clothing/under/roguetown/tights/clothlegs/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
@@ -184,3 +188,31 @@
 	detail_color = "CLOTHING_WHITE"
 	desc = "A pair of baggy pants of Ranesheni origin, with a long banner-like cloth draped between the two pant legs."
 	salvage_result = /obj/item/natural/cloth
+
+/obj/item/clothing/under/roguetown/tights/shalwar
+	name = "shalwar pants"
+	icon_state = "shalwar"
+	desc = "A pair of cloth shalwar pants, with a baggy fit and a tapered ankle. Originating from Ranesheni, these pants are known for their comfort and ease of movement."
+	armor = ARMOR_PADDED
+	max_integrity = ARMOR_INT_LEG_LEATHER
+	blocksound = SOFTUNDERHIT
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	sewrepair = TRUE
+	body_parts_covered = GROIN|LEGS
+	cold_protection = 10
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/under/roguetown/tights/shalwar/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/under/roguetown/tights/shalwar/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

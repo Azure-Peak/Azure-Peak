@@ -25,7 +25,7 @@ import {
 } from 'tgui-core/components';
 import type { AllPagesData, DescriptorData } from '../data';
 
-export const SubtabDescriptors = (props) => {
+export const SubtabDescriptors = () => {
   return (
     <Section
       fill
@@ -52,7 +52,7 @@ export const SubtabDescriptors = (props) => {
   );
 };
 
-const FormattingHelp = (props) => {
+const FormattingHelp = () => {
   return (
     <Box fontSize={1.1}>
       <Box fontSize={1.2}>
@@ -90,7 +90,7 @@ const FormattingHelp = (props) => {
   );
 };
 
-const MechanicalDescriptions = (props) => {
+const MechanicalDescriptions = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<DescriptorData>();
   const { descriptors, descriptors_custom } = data;
@@ -179,7 +179,7 @@ const MechanicalDescriptions = (props) => {
   );
 };
 
-const OtherInfo = (props) => {
+const OtherInfo = () => {
   const { act, data } = useBackendStrict<DescriptorData>();
   const {
     examine_theme,
@@ -361,7 +361,7 @@ const ImageGalleryEdit = (props: {
   );
 };
 
-const TextDescriptions = (props) => {
+const TextDescriptions = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<DescriptorData>();
   const {

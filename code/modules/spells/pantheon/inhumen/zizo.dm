@@ -235,14 +235,15 @@
 ////////////////
 /datum/action/cooldown/spell/projectile/zizo/profane
 	name = "Profane"
-	desc = "Instantly launch a cursed bone shard that pierces any armor and always lodges into its victim."
+	desc = "Launch a cursed bone shard that pierces any armor and always lodges into its victim."
 	fluff_desc = "An early Cabal sacrament: bone, profaned through Zizo's teachings, proved a willing conduit for Avantyne's anti-life qualities. Splinters touched by Her grace pierce any ward and bury themselves deep in living flesh, a lasting testament to Her cruelty."
 	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
 	cast_range = SPELL_RANGE_PROJECTILE
 	primary_resource_cost = 15
 	secondary_resource_cost = 15
-	charge_required = FALSE
+	charge_required = TRUE
+	charge_time = CHARGETIME_POKE
 	cooldown_time = 30 SECONDS
 
 	spell_flags = SPELL_PSYDON
@@ -296,7 +297,7 @@
 	expose_caster_on_deflect = TRUE
 	armor_penetration = PEN_BSTEEL
 	range = SPELL_RANGE_PROJECTILE
-	speed = MAGE_PROJ_FAST
+	speed = 1.5
 	accuracy = 40
 	var/embed_chance = 100
 
@@ -532,7 +533,7 @@
 	primary_resource_cost = 100
 	secondary_resource_cost = 100
 	sound = 'sound/magic/swap.ogg'
-	var/exploit_this
+	var/anti_spam
 
 /datum/action/cooldown/spell/zizo/rituos/cast(atom/cast_on)
 	. = ..()
@@ -542,19 +543,16 @@
 
 	var/mob/living/carbon/human/user = owner
 
-	// exploit protection / backlash
-	if(exploit_this)
-		user.zizo_spam_rejection()
-		cooldown_time = 99 MINUTES
+	if(anti_spam)
 		return TRUE
 
-	exploit_this = TRUE
+	anti_spam = TRUE
 
 	var/path_choice = tgui_alert(user, "What path of the Lesser Work do you seek?", "THE LESSER WORK", list("Progress", "Unlife", "Cancel"))
 
 	if(!path_choice || path_choice == "Cancel")
 		reset_spell_cooldown()
-		exploit_this = FALSE
+		anti_spam = FALSE
 		return TRUE
 
 	if(user.stat != CONSCIOUS)
@@ -564,14 +562,16 @@
 	user.grant_language(/datum/language/undead)
 
 	if(!src.run_ritual_chant(user, path_choice))
-		exploit_this = FALSE
+		anti_spam = FALSE
 		return TRUE
 
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
-		user.zizo_vampire_rejection()
-		exploit_this = FALSE
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		user.mind?.RemoveSpell(src)
+		qdel(src)
+		anti_spam = FALSE
 		return TRUE
 
 	switch(path_choice)
@@ -582,7 +582,7 @@
 
 	user.mind?.RemoveSpell(src)
 	qdel(src)
-	exploit_this = FALSE
+	anti_spam = FALSE
 	return TRUE
 
 /////////////////////////

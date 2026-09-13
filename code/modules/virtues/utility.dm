@@ -123,17 +123,21 @@
 #undef NOTABLE_RESIDENCY
 #undef NOTABLE_SHREWD
 
+#define SOCIALITE_MASSAGE "Massage Ability"
+#define SOCIALITE_NUTCRACKER "Nutcracker Trait"
+#define SOCIALITE_EMPATH "Empath Trait"
+
 /datum/virtue/utility/socialite
 	name = "Socialite"
 	desc = "I thrive in social settings, easily reading the emotions of others and charming those around me. My presence is always felt at any gathering."
 	ui_fa_icon = "people-arrows"
-	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER, TRAIT_EMPATH)
-	max_choices = 3
-	choice_costs = list(0, 0, 4)
+	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER)
+	max_choices = 4
+	choice_costs = list(0, 0, 2, 4)
 	extra_choices = list(
-	"Massage Ability",
-	"Hand Mirror" = /obj/item/handmirror,
-	"Nutcracker" = TRAIT_NUTCRACKER,
+	SOCIALITE_MASSAGE,
+	SOCIALITE_NUTCRACKER,
+	SOCIALITE_EMPATH,
 	"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookie,
 	"Rosa Bouquet" = /obj/item/bouquet/rosa,
 	"Salvia Bouquet" = /obj/item/bouquet/salvia,
@@ -156,17 +160,25 @@
 
 /datum/virtue/utility/socialite/apply_to_human(mob/living/carbon/human/recipient)
 	..()
+	recipient.mind.special_items["Hand Mirror"] = /obj/item/handmirror
 	for(var/choice in picked_choices)
-		if(choice == "Nutcracker")
-			ADD_TRAIT(recipient, TRAIT_NUTCRACKER, TRAIT_VIRTUE)
-		else if(choice == "Massage")
-			if(recipient.mind)
-				recipient.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
-		else
-			recipient.mind.special_items[choice] = extra_choices[choice]
+		switch(choice)
+			if(SOCIALITE_MASSAGE)
+				if(recipient.mind)
+					recipient.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
+			if(SOCIALITE_NUTCRACKER)
+				ADD_TRAIT(recipient, TRAIT_NUTCRACKER, TRAIT_VIRTUE)
+			if(SOCIALITE_EMPATH)
+				ADD_TRAIT(recipient, TRAIT_EMPATH, TRAIT_VIRTUE)
+			else
+				recipient.mind.special_items[choice] = extra_choices[choice]
 	if(isdullahan(recipient))
 		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
+
+#undef SOCIALITE_MASSAGE
+#undef SOCIALITE_NUTCRACKER
+#undef SOCIALITE_EMPATH
 
 /datum/virtue/utility/failed_squire
 	name = "Failed Squire"
@@ -370,6 +382,7 @@
 /datum/virtue/utility/tracker
 	name = "Perfect Tracker"
 	desc = "You realised long ago that the ability to find a man is as helpful to aid the law as it is to evade it."
+	ui_fa_icon = "binoculars"
 	added_skills = list(list(/datum/skill/misc/tracking, 2, 6))
 	added_traits = list(TRAIT_PERFECT_TRACKER)
 	custom_text = "- Upon right clicking a track, you will Mark the person who made them <i>(Expert skill required, not exclusive to this Virtue)</i>.\n- Further tracks found will be automatically highlighted as theirs, along with the person themselves, if they are not sneaking or invisible at the time.\n- Reduces the cooldown for tracking, allows track examining right away, and movement no longer cancels tracking."

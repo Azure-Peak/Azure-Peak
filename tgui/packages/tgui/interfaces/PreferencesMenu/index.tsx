@@ -14,7 +14,7 @@ import { CharacterCreator } from './tabs/CharacterCreator';
 import { GameSettings } from './tabs/GameSettings';
 import { KeyBinds } from './tabs/KeyBinds';
 
-export const PreferencesMenu = (props) => {
+export const PreferencesMenu = () => {
   const [, setConstantData] = useConstantPrefs();
   const { config } = useBackendStrict();
 
@@ -22,7 +22,7 @@ export const PreferencesMenu = (props) => {
   try {
     const Component = getActivePopup();
     popup = Component ? <Component /> : null;
-  } catch (e) {
+  } catch (e: any) {
     popup = <PopupRouteError e={e} />;
   }
 
@@ -65,7 +65,7 @@ export const PreferencesMenu = (props) => {
   );
 };
 
-export const PreferencesMenuContent = (props) => {
+export const PreferencesMenuContent = () => {
   const { act, data } = useBackendStrict<AllPagesData>();
   const { current_tab } = data;
 
@@ -103,7 +103,7 @@ export const PreferencesMenuContent = (props) => {
   );
 };
 
-export const PreferencesMenuTabs = (props) => {
+export const PreferencesMenuTabs = () => {
   const { data } = useBackendStrict<AllPagesData>();
   const { current_tab } = data;
 

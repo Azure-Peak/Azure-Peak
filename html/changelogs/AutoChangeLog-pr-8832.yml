@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Roundstart known characters will no longer have their role title show up as \"unknown\"."
+  - rscadd: "Clicking the name of a known character in the known menu will now trigger their headshot/flavortext/ooc notes window. You can do this from anywhere, allowing you to read the OOC notes of all the people that are supposed to, icly, know and work with you. If they have rumors/gossip, a ? will show up next to their name that you can click to view that as well."

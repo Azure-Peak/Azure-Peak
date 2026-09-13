@@ -1146,6 +1146,16 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 
+/datum/crafting_recipe/roguetown/structure/bettingtable
+	name = "betting table"
+	category = "Tables"
+	result = /obj/structure/table/wood/betting
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/natural/cloth = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+
 /datum/crafting_recipe/roguetown/structure/bakers_trough
 	name = "baker's trough"
 	category = "Misc"
@@ -1345,6 +1355,17 @@
 	skillcraft = /datum/skill/craft/carpentry
 	wallcraft = TRUE
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/bulletinboard
+	name = "bulletin board"
+	category = "Displays"
+	result = /obj/structure/roguemachine/noticeboard/wall/bulletinboard
+	reqs = list(/obj/item/natural/wood/plank = 2)
+	tools = list(/obj/item/rogueweapon/hammer)
+	skillcraft = /datum/skill/craft/carpentry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	wallcraft = TRUE
 
 /datum/crafting_recipe/roguetown/structure/torchholder
 	name = "sconce"

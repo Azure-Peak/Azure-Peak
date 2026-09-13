@@ -59,6 +59,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		//ORGAN_SLOT_TAIL = /obj/item/organ/tail/tiefling,
 		//ORGAN_SLOT_HORNS = /obj/item/organ/horns/tiefling, We don't need these. No duplicate horns!
 		)
@@ -121,17 +122,9 @@
 	stress_examine = TRUE
 	stress_desc = span_red("Helldweller... better stay away.")
 
-/datum/species/tieberian/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
 /datum/species/tieberian/after_creation(mob/living/carbon/C)
 	..()
 	to_chat(C, "<span class='info'>I can speak Infernal with ,h before my speech.</span>")
-
-/datum/species/tieberian/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)
 
 /datum/species/tieberian/qualifies_for_rank(rank, list/features)
 	return TRUE

@@ -3,7 +3,7 @@ import { type ConstantData, useConstantPrefs } from 'pm/constant_data';
 import { registerPopup } from 'pm/popups';
 import { Box } from 'tgui-core/components';
 
-const PopupLorePrimer = (props) => {
+const PopupLorePrimer = () => {
   const [constantData] = useConstantPrefs();
 
   return (

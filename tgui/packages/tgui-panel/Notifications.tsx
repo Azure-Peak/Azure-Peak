@@ -4,15 +4,18 @@
  * @license MIT
  */
 
+import type { ReactNode } from 'react';
 import { Flex } from 'tgui-core/components';
 
-export function Notifications(props) {
+export function Notifications(props: React.PropsWithChildren) {
   const { children } = props;
 
   return <div className="Notifications">{children}</div>;
 }
 
-function NotificationsItem(props) {
+function NotificationsItem(
+  props: React.PropsWithChildren<{ rightSlot?: ReactNode }>,
+) {
   const { rightSlot, children } = props;
 
   return (

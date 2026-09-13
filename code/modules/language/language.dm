@@ -15,6 +15,7 @@
 	var/key							// Character used to speak in language
 	// If key is null, then the language isn't real or learnable.
 	var/flags							// Various language flags.
+	var/code_switching = TRUE
 	var/list/syllables				// Used when scrambling text for a non-speaker.
 	var/sentence_chance = 5		// Likelihood of making a new sentence after each syllable.
 	var/space_chance = 55		// Likelihood of getting a space in the random scramble string
@@ -119,3 +120,14 @@
 	return speech_verb
 
 #undef SCRAMBLE_CACHE_LEN
+
+/proc/get_language_spans(atom/movable/speaker, datum/language/language)
+	var/datum/language/language_datum = GLOB.language_datum_instances[language]
+	if(!language_datum)
+		return null
+	if(ishuman(speaker))
+		var/mob/living/carbon/human/human_speaker = speaker
+		if(!human_speaker.dna?.species)
+			return null
+		return human_speaker.dna.species.get_span_language(language_datum)
+	return language_datum.spans
