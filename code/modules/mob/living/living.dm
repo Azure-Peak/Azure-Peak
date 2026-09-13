@@ -1879,6 +1879,9 @@
 		stacks = max(-fire_stacks, stacks)
 	apply_status_effect(fire_type, stacks)
 
+	if(ispath(fire_type, /datum/status_effect/fire_handler/fire_stacks/sunder))
+		apply_status_effect(/datum/status_effect/debuff/silver_lingering_damage)
+
 /**
  * Set the fire stacks on a mob
  *

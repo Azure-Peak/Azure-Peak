@@ -272,17 +272,16 @@ All foods are distributed among various categories. Use common sense.
 	// check to see if what we're eating is appropriate fare for our "social class" (aka nobles shouldn't be eating sticks of butter you troglodytes)
 	if (ishuman(eater))
 		var/mob/living/carbon/human/human_eater = eater
-		if(!HAS_TRAIT(human_eater, TRAIT_NOREGEN) || !(human_eater.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || human_eater.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
-			if(HAS_TRAIT(human_eater, TRAIT_BLACKBLOOD))
-				var/datum/status_effect/buff/foodhealing/H = eater.has_status_effect(/datum/status_effect/buff/foodhealing)
-				if(H)
-					if(faretype > H.fare_power)
-						eater.remove_status_effect(/datum/status_effect/buff/foodhealing)
-						eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
-					else if(faretype == H.fare_power)
-						H.duration += 2 SECONDS
-				else
+		if(HAS_TRAIT(human_eater, TRAIT_BLACKBLOOD) && !(HAS_TRAIT(human_eater, TRAIT_NOHEAL) || HAS_TRAIT(human_eater, TRAIT_NOHEAL)))
+			var/datum/status_effect/buff/foodhealing/H = eater.has_status_effect(/datum/status_effect/buff/foodhealing)
+			if(H)
+				if(faretype > H.fare_power)
+					eater.remove_status_effect(/datum/status_effect/buff/foodhealing)
 					eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
+				else if(faretype == H.fare_power)
+					H.duration += 2 SECONDS
+			else
+				eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
 
 		if(faretype >= FAVORITE_FOOD_MINFARE && ((cuisine & human_eater.favorite_cuisine) || (dish_type & human_eater.favorite_dish)))
 			if(human_eater.add_stress(/datum/stressevent/favourite_food))

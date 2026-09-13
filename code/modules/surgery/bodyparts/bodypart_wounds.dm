@@ -50,7 +50,7 @@
 /obj/item/bodypart/proc/heal_wounds(heal_amount)
 	if(!length(wounds))
 		return FALSE
-	if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && owner.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || owner.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_NOREGEN))
 		return
 	var/healed_any = FALSE
 	for(var/datum/wound/wound as anything in wounds)

@@ -684,11 +684,11 @@
 			var/datum/component/silverbless/blesscomp = GetComponent(/datum/component/silverbless)
 			if(blesscomp?.is_blessed)
 				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder))
-					to_chat(victim, span_silver("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+					to_chat(victim, span_silver("The purity of silver rebukes my presence!"))
 				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 			else
 				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-					to_chat(victim, span_silver("Blessed silver rebukes my presence! These fires are lashing at my very soul!"))
+					to_chat(victim, span_silver("The divinity of blessed silver rebukes my presence!!"))
 				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder)
 			victim.ignite_mob()
 
