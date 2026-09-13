@@ -369,7 +369,7 @@
 	name = "woad elven boots"
 	desc = "'Tread lightly, for the ground remembers every footfall.'"
 	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark)
-	armor = ARMOR_BRIGANDINE //Resistant to blunt and stab, but very weak to slash.
+	armor = ARMOR_BRIGANDINE
 	max_integrity = ARMOR_INT_SIDE_IRON
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT

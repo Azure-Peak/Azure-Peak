@@ -15,7 +15,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfhand"
 	item_state = "welfhand"
-	armor = ARMOR_BRIGANDINE //Resistant to blunt and stab, super weak to slash.
+	armor = ARMOR_BRIGANDINE
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_IRON
