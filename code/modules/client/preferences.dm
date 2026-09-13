@@ -56,6 +56,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
 	var/datum/virtue/virtue_origin = new /datum/virtue/origin/unknown
+	var/datum/quirk/quirklesser = new /datum/quirk/none
+	var/datum/quirk/quirkgreater = new /datum/quirk/none
 	var/age = AGE_ADULT						//age of character
 	var/skin_tone = "caucasian1"		//Skin color
 	var/vampire_skin = null

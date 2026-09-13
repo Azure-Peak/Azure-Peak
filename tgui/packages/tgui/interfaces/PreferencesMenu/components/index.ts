@@ -6,6 +6,7 @@ export { LabeledGridList } from './LabeledGridList';
 export { LabeledListLikeTooltip } from './LabeledListLikeTooltip';
 export { MarkingImageButton } from './MarkingImageButton';
 export { PrefPopup, PrefPopupGuard } from './PrefPopup';
+export { QuirkDetails } from './QuirkDetails';
 export { SaveUndo } from './SaveUndo';
 export { SpriteAccessoryImageButton } from './SpriteAccessoryImageButton';
 export { TabCollapsible } from './TabCollapsible';

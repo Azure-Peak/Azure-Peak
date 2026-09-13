@@ -293,7 +293,7 @@
 						var/mob/living/L = user
 						if(L.STAINT > 10)
 							prob2craft += ((10-L.STAINT)*-1)*2
-						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
+						if((HAS_TRAIT(L, TRAIT_INTELLECTUAL) || HAS_TRAIT(L, TRAIT_GOODCRAFTER)) && L.STAINT > 8)
 							prob2craft += 5
 						if(HAS_TRAIT(L, TRAIT_MALUMCHOSEN))
 							prob2craft += 20
