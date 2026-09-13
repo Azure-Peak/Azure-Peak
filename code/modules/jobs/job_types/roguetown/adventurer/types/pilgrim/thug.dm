@@ -15,7 +15,7 @@
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 1,
-		STATKEY_CON = 2
+		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -158,9 +158,7 @@
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_WIL = 2,
-		STATKEY_CON = 5,
-		STATKEY_SPD = -2
+		STATKEY_CON = 3
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
