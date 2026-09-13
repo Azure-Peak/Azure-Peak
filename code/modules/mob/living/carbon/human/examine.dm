@@ -1076,6 +1076,15 @@
 				if (THEY_THEM, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
 
+		if (HAS_TRAIT(user, TRAIT_SEEWEALTH))
+			if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && src != user)
+				. +=span_notice("I cannot tell how much wealth they have.")
+			else
+				var/mammonsonperson = get_mammons_in_atom(src)
+				var/mammonsinbank = SStreasury.get_balance(src)
+				var/totalvalue = mammonsinbank + mammonsonperson
+				. +=span_notice("[src] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.")
+
 		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_userdanger("A MONSTER!")
