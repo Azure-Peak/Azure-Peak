@@ -25,6 +25,9 @@
 	bullet_sizzle = TRUE
 	bullet_bounce_sound = null //needs a splashing sound one day.
 	smooth = SMOOTH_MORE
+	// cardinal_smooth()/roguesmooth() only ever reads cardinal adjacency bits - see the same note
+	// on /turf/open/floor/rogue.
+	smooth_diag = FALSE
 	canSmoothWith = list(/turf/closed/mineral,/turf/closed/wall/mineral/rogue, /turf/open/floor/rogue)
 	footstep = null
 	barefootstep = null
@@ -43,12 +46,39 @@
 	var/swim_skill = FALSE
 	nomouseover = FALSE
 	var/swimdir = FALSE
+	/// Ice turf SSseason lays over this one in Mid/Late Winter. Still freshwater is the
+	/// default - lakes, the slack water off a river - so plain /turf/open/water freezes.
+	/// Anything that shouldn't (moving water, salt water, interiors, flavor turfs) nulls
+	/// this out on its own subtype below, and null also means "never tracked at all".
+	var/freeze_type = /turf/open/floor/rogue/frozen_water
 
 /turf/open/water/Initialize(mapload)
 	.	= ..()
 	water_overlay = new(src)
 	water_top_overlay = new(src)
 	update_icon()
+	if(freeze_type)
+		// Deliberately no runtime catch-up here, unlike /turf/open/floor/rogue/grass. Most
+		// water that appears mid-round in winter appears *because* ice broke or was cut open,
+		// and re-freezing it on the spot would close the hole the moment it was made. Tracked
+		// only, so the next season change picks it up.
+		GLOB.seasonal_water_turfs |= src
+
+/// Lays this turf's ice on top, pushing our own type onto baseturfs so thaw() (a ScrapeAway())
+/// can restore the exact subtype (swamp vs swamp/deep, pond vs cleanshallow) without a lookup
+/// table. Returns the new ice turf, or null if we can't or shouldn't freeze.
+///
+/turf/open/water/proc/freeze_over()
+	if(!freeze_type)
+		return null
+	var/list/water_stack = length(baseturfs) ? baseturfs.Copy() : list(baseturfs)
+	water_stack += type
+	var/turf/open/floor/rogue/frozen_water/F = PlaceOnTop(null, freeze_type, CHANGETURF_INHERIT_AIR)
+	if(!istype(F))
+		return null
+	F.baseturfs = water_stack
+	F.seasonal_freeze = TRUE
+	return F
 
 /turf/open/water/update_icon()
 	if(water_overlay)
@@ -144,6 +174,10 @@
 /turf/open/water/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag = "blunt")
 	..()
 	playsound(src, pick('sound/foley/water_land1.ogg','sound/foley/water_land2.ogg','sound/foley/water_land3.ogg'), 100, FALSE)
+	if(isobj(AM))
+		var/obj/O = AM
+		if(O.extinguishable)
+			O.extinguish()
 
 
 /turf/open/water/cardinal_smooth(adjacencies)
@@ -320,19 +354,12 @@
 	return
 
 /turf/open/water/Destroy()
+	GLOB.seasonal_water_turfs -= src
 	. = ..()
 	if(water_overlay)
 		QDEL_NULL(water_overlay)
 	if(water_top_overlay)
 		QDEL_NULL(water_top_overlay)
-
-/turf/open/water/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag = "blunt")
-	if(!isobj(AM))
-		return
-	var/obj/O = AM
-	if(!O.extinguishable)
-		return
-	O.extinguish()
 
 /turf/open/water/get_slowdown(mob/user)
 	var/returned = slowdown
@@ -362,6 +389,7 @@
 	water_color = "#FFFFFF"
 	slowdown = 3
 	water_reagent = /datum/reagent/water/bathwater
+	freeze_type = null // indoors, and the point of it is that it's warm
 
 /turf/open/water/bath/Initialize(mapload)
 	.	= ..()
@@ -377,6 +405,7 @@
 	slowdown = 3
 	wash_in = FALSE
 	water_reagent = /datum/reagent/water/gross/sewage
+	freeze_type = null // enclosed, and warmer than anything above ground
 
 /turf/open/water/sewer/Initialize(mapload)
 	icon_state = "paving"
@@ -393,6 +422,7 @@
 	slowdown = 3
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+	freeze_type = /turf/open/floor/rogue/frozen_water/mire
 
 /turf/open/water/bloody
 	name = "blood"
@@ -404,6 +434,7 @@
 	slowdown = 3
 	wash_in = FALSE
 	water_reagent = /datum/reagent/blood/shitty
+	freeze_type = null // set dressing, not weather-driven
 
 /turf/open/water/swamp/Initialize(mapload)
 	icon_state = "dirt"
@@ -473,6 +504,7 @@
 	water_color = "#705a43"
 	slowdown = 5
 	swim_skill = TRUE
+	freeze_type = /turf/open/floor/rogue/frozen_water/mire/deep
 
 /turf/open/water/swamp/deep/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
@@ -548,6 +580,7 @@
 	wash_in = TRUE
 	swim_skill = TRUE
 	swimdir = TRUE
+	freeze_type = null // moving water; freezing it would also stall the SSrivers conveyor
 
 /turf/open/water/river/flow
 	icon_state = "rockwd2"
@@ -631,6 +664,7 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/salty
+	freeze_type = null // salt water, and tidal - subtypes inherit the exemption
 
 /turf/open/water/ocean/deep
 	name = "salt water"
@@ -668,3 +702,4 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+	freeze_type = /turf/open/floor/rogue/frozen_water/deep
