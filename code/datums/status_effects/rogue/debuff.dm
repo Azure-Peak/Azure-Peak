@@ -146,6 +146,54 @@
 
 /////////
 
+/datum/status_effect/debuff/silver_lingering_damage
+	id = "silver_lingering_damage"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/silver_lingering_damage
+	effectedstats = list(STATKEY_SPD = -2, STATKEY_WIL = -2, STATKEY_LCK = -2)
+	duration = 10 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+	tick_interval = 1 SECONDS
+	var/list/nopain_sources
+	var/list/nopainstun_sources
+
+/datum/status_effect/debuff/silver_lingering_damage/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_NOHEAL, "silver_lingering_damage")
+	ADD_TRAIT(owner, TRAIT_NOREGEN, "silver_lingering_damage")
+	if(HAS_TRAIT(owner, TRAIT_NOPAIN))
+		nopain_sources = list()
+		for(var/source in owner.status_traits[TRAIT_NOPAIN])
+			nopain_sources += source
+		REMOVE_TRAIT(owner, TRAIT_NOPAIN, nopain_sources)
+	if(HAS_TRAIT(owner, TRAIT_NOPAINSTUN))
+		nopainstun_sources = list()
+		for(var/source in owner.status_traits[TRAIT_NOPAINSTUN])
+			nopainstun_sources += source
+		REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, nopainstun_sources)
+	return TRUE
+
+/datum/status_effect/debuff/silver_lingering_damage/tick()
+	. = ..()
+	owner.adjustFireLoss(7)
+
+/datum/status_effect/debuff/silver_lingering_damage/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_NOHEAL, "silver_lingering_damage")
+	REMOVE_TRAIT(owner, TRAIT_NOREGEN, "silver_lingering_damage")
+	if(nopain_sources)
+		for(var/source in nopain_sources)
+			ADD_TRAIT(owner, TRAIT_NOPAIN, source)
+	if(nopainstun_sources)
+		for(var/source in nopainstun_sources)
+			ADD_TRAIT(owner, TRAIT_NOPAINSTUN, source)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/silver_lingering_damage
+	name = "Aftershock: Silver"
+	desc = "<font color='#c4ecff'><b>MY BODY IS BEING UNDONE BY THIS PURITY!</b></font>"
+	icon_state = "vblood3"
+
+/////////
+
 /datum/status_effect/debuff/uncookedfood
 	id = "uncookedfood"
 	effectedstats = null

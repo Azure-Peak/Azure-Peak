@@ -82,9 +82,9 @@
 #define TRAIT_SHATTER_KILL "Shatterable Form" //Lesser ver of critical weakness that only instantly kills on chest fractures/paralysis. ALSO prevents rolling voicepacks, used for skeletons.
 #define TRAIT_DNR "Bane of Existence"
 
-#define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
-#define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
-#define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
+#define TRAIT_NOHEAL "Soul Decay" // Only affects magic healing, such as miracle or supernatural heals.
+#define TRAIT_NOREGEN "Foul Humors" // Only affects natural healing, such as resting, campfires, potions, etc.
+#define TRAIT_HALFHEAL "Lux Decay" // -50% Magic Heal.
 
 #define TRAIT_EASYDISMEMBER	"Easy Dismemberment"
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
@@ -737,9 +737,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_INK_AFFINITY = span_info("I can thread sacred abyssorite paint splotches safely, and benefit from them."),
 	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
 	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
-	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect."),
-	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
-	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
+	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect!"),
+	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Resting and potions have no effect on me!"),
+	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved!"),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
 ))
 

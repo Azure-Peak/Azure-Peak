@@ -12,7 +12,7 @@
 		var/mob/living/H = target
 		if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			H.visible_message(span_silver("The silver sunders [target]!"))
-			to_chat(H, span_silver("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+			to_chat(H, span_silver("The purity of silver rebukes my presence!"))
 			H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/sunder)
 
 /datum/magic_item/mundane/silver/on_equip(obj/item/i, mob/living/user)
