@@ -33,7 +33,7 @@ type Data = {
   selected_curse_path: string | null;
 };
 
-export const HagTransmutation = (props) => {
+export const HagTransmutation = () => {
   const { act, data } = useBackend<Data>();
   const [tab, setTab] = React.useState(0);
   const { victims, curse_options, total_points, selected_curse_path } = data;

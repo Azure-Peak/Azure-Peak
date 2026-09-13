@@ -42,7 +42,7 @@ export type PopupVirtueContext = {
   id: number;
 };
 
-const PopupVirtueSelector = (props) => {
+const PopupVirtueSelector = () => {
   const [constantData] = useConstantPrefs();
   const [context] = usePopupContext<PopupVirtueContext>();
   const { data } = usePopupBackend<PopupVirtueData>();
@@ -230,7 +230,7 @@ const VirtueTab = (props: {
   constantVirtue: ConstantVirtue;
   virtue: VirtueAvailability;
   viewing: Path;
-  setViewing: React.Dispatch<React.SetStateAction<Path | null>>;
+  setViewing: React.Dispatch<React.SetStateAction<Path>>;
   virtues: Path[];
 }) => {
   const {

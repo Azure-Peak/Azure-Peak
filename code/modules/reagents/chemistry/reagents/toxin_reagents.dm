@@ -2,7 +2,7 @@
 //////////////////////////Poison stuff (Toxins & Acids)///////////////////////
 
 /datum/reagent/toxin
-	name = "Toxin"
+	name = "toxin"
 	description = "A toxic chemical."
 	color = "#CF3600" // rgb: 207, 54, 0
 	taste_description = "bitterness"
@@ -17,14 +17,14 @@
 	return ..()
 
 /datum/reagent/toxin/amatoxin
-	name = "Amatoxin"
+	name = "amatoxin"
 	description = "A powerful poison derived from certain species of mushroom."
 	color = "#792300" // rgb: 121, 35, 0
 	toxpwr = 2.5
 	taste_description = "mushroom"
 
 /datum/reagent/toxin/mutagen
-	name = "Unstable mutagen"
+	name = "unstable mutagen"
 	description = "Might cause unpredictable mutations. Keep away from children."
 	color = "#00FF00"
 	toxpwr = 0
@@ -49,7 +49,7 @@
 #define	LIQUID_PLASMA_BP (50+T0C)
 
 /datum/reagent/toxin/plasma
-	name = "Plasma"
+	name = "plasma"
 	description = "Plasma in its liquid form."
 	taste_description = "bitterness"
 	specific_heat = SPECIFIC_HEAT_PLASMA
@@ -64,7 +64,7 @@
 	..()
 
 /datum/reagent/toxin/lexorin
-	name = "Lexorin"
+	name = "lexorin"
 	description = "A powerful poison used to stop respiration."
 	color = "#7DC3A0"
 	toxpwr = 0
@@ -84,7 +84,7 @@
 	..()
 
 /datum/reagent/toxin/slimejelly
-	name = "Slime Jelly"
+	name = "slime jelly"
 	description = "A gooey semi-liquid produced from one of the deadliest lifeforms in existence. SO REAL."
 	color = "#801E28" // rgb: 128, 30, 40
 	toxpwr = 0
@@ -102,7 +102,7 @@
 	..()
 
 /datum/reagent/toxin/minttoxin
-	name = "Mint Toxin"
+	name = "mint toxin"
 	description = "Useful for dealing with undesirable customers."
 	color = "#CF3600" // rgb: 207, 54, 0
 	toxpwr = 0
@@ -114,7 +114,7 @@
 	return ..()
 
 /datum/reagent/toxin/carpotoxin
-	name = "Carpotoxin"
+	name = "carpotoxin"
 	description = "A deadly neurotoxin produced by the dreaded spess carp."
 	silent_toxin = TRUE
 	color = "#003333" // rgb: 0, 51, 51
@@ -122,7 +122,7 @@
 	taste_description = "fish"
 
 /datum/reagent/toxin/zombiepowder
-	name = "Zombie Powder"
+	name = "zombie powder"
 	description = "A strong neurotoxin that puts the subject into a death-like state."
 	silent_toxin = TRUE
 	reagent_state = SOLID
@@ -161,7 +161,7 @@
 			M.fakedeath(type)
 
 /datum/reagent/toxin/ghoulpowder
-	name = "Ghoul Powder"
+	name = "ghoul powder"
 	description = "A strong neurotoxin that slows metabolism to a death-like state, while keeping the patient fully active. Causes toxin buildup if used too long."
 	reagent_state = SOLID
 	color = "#664700" // rgb: 102, 71, 0
@@ -182,7 +182,7 @@
 	. = 1
 
 /datum/reagent/toxin/mindbreaker
-	name = "Mindbreaker Toxin"
+	name = "mindbreaker toxin"
 	description = "A powerful hallucinogen. Not a thing to be messed with. For some mental patients. it counteracts their symptoms and anchors them to reality."
 	color = "#B31008" // rgb: 139, 166, 233
 	toxpwr = 0
@@ -215,12 +215,12 @@
 				C.adjustToxLoss(damage)
 
 /datum/reagent/toxin/plantbgone/weedkiller
-	name = "Weed Killer"
+	name = "weed killer"
 	description = "A harmful toxic mixture to kill weeds. Do not ingest!"
 	color = "#4B004B" // rgb: 75, 0, 75
 
 /datum/reagent/toxin/pestkiller
-	name = "Pest Killer"
+	name = "pest killer"
 	description = "A harmful toxic mixture to kill pests. Do not ingest!"
 	color = "#4B004B" // rgb: 75, 0, 75
 	toxpwr = 1
@@ -232,7 +232,7 @@
 		M.adjustToxLoss(damage)
 
 /datum/reagent/toxin/spore
-	name = "Spore Toxin"
+	name = "spore toxin"
 	description = "A natural toxin produced by blob spores that inhibits vision when ingested."
 	color = "#9ACD32"
 	toxpwr = 1
@@ -244,7 +244,7 @@
 	return ..()
 
 /datum/reagent/toxin/spore_burning
-	name = "Burning Spore Toxin"
+	name = "burning spore toxin"
 	description = "A natural toxin produced by blob spores that induces combustion in its victim."
 	color = "#9ACD32"
 	toxpwr = 0.5
@@ -256,7 +256,7 @@
 	return ..()
 
 /datum/reagent/toxin/chloralhydrate
-	name = "Chloral Hydrate"
+	name = "chloral hydrate"
 	description = "A powerful sedative that induces confusion and drowsiness before putting its target to sleep."
 	silent_toxin = TRUE
 	reagent_state = SOLID
@@ -279,7 +279,7 @@
 	..()
 
 /datum/reagent/toxin/fakebeer	//disguised as normal beer for use by emagged brobots
-	name = "Beer"
+	name = "beer"
 	description = "A specially-engineered sedative disguised as beer. It induces instant sleep in its target."
 	color = "#664300" // rgb: 102, 67, 0
 	metabolization_rate = 1.5 * REAGENTS_METABOLISM
@@ -298,14 +298,14 @@
 	return ..()
 
 /datum/reagent/toxin/coffeepowder
-	name = "Coffee Grounds"
+	name = "coffee grounds"
 	description = "Finely ground coffee beans, used to make coffee."
 	reagent_state = SOLID
 	color = "#5B2E0D" // rgb: 91, 46, 13
 	toxpwr = 0.5
 
 /datum/reagent/toxin/teapowder
-	name = "Ground Tea Leaves"
+	name = "ground tea leaves"
 	description = "Finely shredded tea leaves, used for making tea."
 	reagent_state = SOLID
 	color = "#7F8400" // rgb: 127, 132, 0
@@ -313,7 +313,7 @@
 	taste_description = "green tea"
 
 /datum/reagent/toxin/mutetoxin //the new zombie powder.
-	name = "Mute Toxin"
+	name = "mute toxin"
 	description = "A nonlethal poison that inhibits speech in its victim."
 	silent_toxin = TRUE
 	color = "#F0F8FF" // rgb: 240, 248, 255
@@ -325,7 +325,7 @@
 	..()
 
 /datum/reagent/toxin/histamine
-	name = "Histamine"
+	name = "histamine"
 	description = "Histamine's effects become more dangerous depending on the dosage amount. They range from mildly annoying to incredibly lethal."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -359,7 +359,7 @@
 	. = 1
 
 /datum/reagent/toxin/formaldehyde
-	name = "Formaldehyde"
+	name = "formaldehyde"
 	description = "Formaldehyde, on its own, is a fairly weak toxin. It contains trace amounts of Histamine, very rarely making it decay into Histamine."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -375,7 +375,7 @@
 		return ..()
 
 /datum/reagent/toxin/venom
-	name = "Venom"
+	name = "venom"
 	description = "An exotic poison extracted from highly toxic fauna. Causes scaling amounts of toxin damage and bruising depending and dosage. Often decays into Histamine."
 	reagent_state = LIQUID
 	color = "#F0FFF0"
@@ -394,7 +394,7 @@
 	..()
 
 /datum/reagent/toxin/fentanyl
-	name = "Fentanyl"
+	name = "fentanyl"
 	description = "Fentanyl will inhibit brain function and cause toxin damage before eventually knocking out its victim."
 	reagent_state = LIQUID
 	color = "#64916E"
@@ -411,7 +411,7 @@
 	return TRUE
 
 /datum/reagent/toxin/cyanide
-	name = "Cyanide"
+	name = "cyanide"
 	description = "An infamous poison known for its use in assassination. Causes small amounts of toxin damage with a small chance of oxygen damage or a stun."
 	reagent_state = LIQUID
 	color = "#FFFFFF"
@@ -425,7 +425,7 @@
 	return ..()
 
 /datum/reagent/toxin/bad_food
-	name = "Bad Food"
+	name = "bad food"
 	description = "The result of some abomination of cookery, food so bad it's toxic."
 	reagent_state = LIQUID
 	color = "#d6d6d8"
@@ -434,7 +434,7 @@
 	taste_description = "bad cooking"
 
 /datum/reagent/toxin/itching_powder
-	name = "Itching Powder"
+	name = "itching powder"
 	description = "A powder that induces itching upon contact with the skin. Causes the victim to scratch at their itches and has a very low chance to decay into Histamine."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -466,7 +466,7 @@
 	..()
 
 /datum/reagent/toxin/initropidril
-	name = "Initropidril"
+	name = "initropidril"
 	description = "A powerful poison with insidious effects. It can cause stuns, lethal breathing failure, and cardiac arrest."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -497,7 +497,7 @@
 	return ..() || .
 
 /datum/reagent/toxin/pancuronium
-	name = "Pancuronium"
+	name = "pancuronium"
 	description = "An undetectable toxin that swiftly incapacitates its victim. May also cause breathing failure."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -515,7 +515,7 @@
 	..()
 
 /datum/reagent/toxin/sodium_thiopental
-	name = "Sodium Thiopental"
+	name = "sodium thiopental"
 	description = "Sodium Thiopental induces heavy weakness in its target as well as unconsciousness."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -531,7 +531,7 @@
 	return TRUE
 
 /datum/reagent/toxin/sulfonal
-	name = "Sulfonal"
+	name = "sulfonal"
 	description = "A stealthy poison that deals minor toxin damage and eventually puts the target to sleep."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -545,7 +545,7 @@
 	return ..()
 
 /datum/reagent/toxin/amanitin
-	name = "Amanitin"
+	name = "amanitin"
 	description = "A very powerful delayed toxin. Upon full metabolization, a massive amount of toxin damage will be dealt depending on how long it has been in the victim's bloodstream."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -560,7 +560,7 @@
 	..()
 
 /datum/reagent/toxin/lipolicide
-	name = "Lipolicide"
+	name = "lipolicide"
 	description = "A powerful toxin that will destroy fat cells, massively reducing body weight in a short time. Deadly to those without nutriment in their body."
 	silent_toxin = TRUE
 	taste_description = "mothballs"
@@ -577,7 +577,7 @@
 	return ..()
 
 /datum/reagent/toxin/coniine
-	name = "Coniine"
+	name = "coniine"
 	description = "Coniine metabolizes extremely slowly, but deals high amounts of toxin damage and stops breathing."
 	reagent_state = LIQUID
 	color = "#7DC3A0"
@@ -589,7 +589,7 @@
 	return ..()
 
 /datum/reagent/toxin/spewium
-	name = "Spewium"
+	name = "spewium"
 	description = "A powerful emetic, causes uncontrollable vomiting.	May result in vomiting organs at high doses."
 	reagent_state = LIQUID
 	color = "#2f6617" //A sickly green color
@@ -614,7 +614,7 @@
 		to_chat(C, span_danger("I feel something lumpy come up..."))
 
 /datum/reagent/toxin/curare
-	name = "Curare"
+	name = "curare"
 	description = "Causes slight toxin damage followed by chain-stunning and oxygen damage."
 	reagent_state = LIQUID
 	color = "#191919"
@@ -629,7 +629,7 @@
 	..()
 
 /datum/reagent/toxin/heparin //Based on a real-life anticoagulant. I'm not a doctor, so this won't be realistic.
-	name = "Heparin"
+	name = "heparin"
 	description = "A powerful anticoagulant. Victims will bleed uncontrollably and suffer scaling bruising."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -647,7 +647,7 @@
 
 
 /datum/reagent/toxin/rotatium //Rotatium. Fucks up my rotation and is hilarious
-	name = "Rotatium"
+	name = "rotatium"
 	description = "A constantly swirling, oddly colourful fluid. Causes the consumer's sense of direction and hand-eye coordination to become wild."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
@@ -674,7 +674,7 @@
 	..()
 
 /datum/reagent/toxin/anacea
-	name = "Anacea"
+	name = "anacea"
 	description = "A toxin that quickly purges medicines and metabolizes very slowly."
 	reagent_state = LIQUID
 	color = "#3C5133"
@@ -688,7 +688,7 @@
 	return ..()
 
 /datum/reagent/toxin/drow
-	name = "Drow Toxin"
+	name = "drow toxin"
 	description = "How are you even reading this?"
 	reagent_state = LIQUID
 	color = "#410233"
@@ -696,7 +696,7 @@
 
 //ACID
 /datum/reagent/toxin/acid
-	name = "Sulphuric acid"
+	name = "sulphuric acid"
 	description = "A strong mineral acid with the molecular formula H2SO4."
 	color = "#00FF32"
 	toxpwr = 1
@@ -729,7 +729,7 @@
 	T.acid_act(acidpwr, reac_volume)
 
 /datum/reagent/toxin/acid/fluacid
-	name = "Fluorosulfuric acid"
+	name = "fluorosulfuric acid"
 	description = "Fluorosulfuric acid is an extremely corrosive chemical substance."
 	color = "#5050FF"
 	toxpwr = 2
@@ -741,7 +741,7 @@
 	..()
 
 /datum/reagent/toxin/acid/nitracid
-	name = "Nitric acid"
+	name = "nitric acid"
 	description = "Nitric acid is an extremely corrosive chemical substance that violently reacts with living organic tissue."
 	color = "#5050FF"
 	toxpwr = 6
@@ -753,7 +753,7 @@
 	..()
 
 /datum/reagent/toxin/delayed
-	name = "Toxin Microcapsules"
+	name = "toxin microcapsules"
 	description = "Causes heavy toxin damage after a brief time of inactivity."
 	reagent_state = LIQUID
 	metabolization_rate = 0 //stays in the system until active.
@@ -772,7 +772,7 @@
 	..()
 
 /datum/reagent/toxin/mimesbane
-	name = "Mime's Bane"
+	name = "mime's bane"
 	description = "A nonlethal neurotoxin that interferes with the victim's ability to gesture."
 	silent_toxin = TRUE
 	color = "#F0F8FF" // rgb: 240, 248, 255
@@ -786,7 +786,7 @@
 	REMOVE_TRAIT(L, TRAIT_EMOTEMUTE, type)
 
 /datum/reagent/toxin/bonehurtingjuice //oof ouch
-	name = "Bone Hurting Juice"
+	name = "bone hurting juice"
 	description = "A strange substance that looks a lot like water. Drinking it is oddly tempting. Oof ouch."
 	silent_toxin = TRUE //no point spamming them even more.
 	color = "#AAAAAA77" //RGBA: 170, 170, 170, 77
@@ -824,7 +824,7 @@
 	return ..()
 
 /datum/reagent/toxin/bungotoxin
-	name = "Bungotoxin"
+	name = "bungotoxin"
 	description = "A horrible cardiotoxin that protects the humble bungo pit."
 	silent_toxin = TRUE
 	color = "#EBFF8E"

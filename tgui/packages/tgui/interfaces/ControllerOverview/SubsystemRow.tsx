@@ -49,20 +49,20 @@ export function SubsystemRow(props: Props) {
   let rangeDisplay = {};
   if (showBars) {
     if (sortType === SortType.Cost) {
-      valueDisplay = `${value.toFixed(2)}ms`;
+      valueDisplay = `${typeof value === 'number' ? value.toFixed(2) : value}ms`;
       rangeDisplay = {
         average: [75, 124.99],
         bad: [125, Infinity],
       };
     } else {
-      valueDisplay = `${value.toFixed(2)}%`;
+      valueDisplay = `${typeof value === 'number' ? value.toFixed(2) : value}%`;
       rangeDisplay = {
         average: [10, 24.99],
         bad: [25, Infinity],
       };
     }
   } else {
-    valueDisplay = value;
+    valueDisplay = `${value}`;
   }
 
   return (
@@ -75,7 +75,7 @@ export function SubsystemRow(props: Props) {
       <Table.Cell onClick={() => setSelected(subsystem)}>
         {showBars ? (
           <ProgressBar
-            value={value}
+            value={typeof value === 'number' ? value : 0}
             maxValue={max}
             ranges={rangeDisplay}
             mb={0.5}

@@ -22,7 +22,7 @@ export type ColorPickerData = {
   named_presets: Record<string, string> | null;
 };
 
-export const ColorPickerModal = (props) => {
+export const ColorPickerModal = () => {
   const { data } = useBackend<ColorPickerData>();
   const {
     timeout,

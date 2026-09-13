@@ -356,6 +356,9 @@
 	var/breakoutextra = 30 SECONDS
 
 /mob/living/carbon/resist_buckle()
+	if(IsStun())
+		to_chat(src, span_warning("I can't do that right now!"))
+		return
 	if(restrained())
 		changeNext_move(CLICK_CD_BREAKOUT)
 		last_special = world.time + CLICK_CD_BREAKOUT
@@ -385,6 +388,9 @@
 		buckled.user_unbuckle_mob(src,src)
 
 /mob/living/carbon/resist_fire()
+	if(IsStun() || IsImmobilized())
+		to_chat(src, span_warning("I can't do that right now!"))
+		return
 	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks)
 	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks/sunder)
 	adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks/divine)
@@ -396,15 +402,17 @@
 	var/datum/status_effect/fire_handler/fire_stacks/vheslyn_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
 	var/datum/status_effect/fire_handler/fire_stacks/sunder/blessed/blessed_sunder = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 
-	if(fire_status?.stacks + sunder_status?.stacks + vheslyn_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 10 || !(mobility_flags & MOBILITY_STAND))
-		Paralyze(50, TRUE, TRUE)
-		spin(32,2)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks/sunder)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks/divine)
-		adjust_fire_stacks(-5, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
-		adjust_fire_stacks(-3, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Harder to remove
-		visible_message(span_warning("[src] rolls on the ground, trying to put [p_them()]self out!"))
+	if(!mind || !cmode)
+		if(fire_status?.stacks + sunder_status?.stacks + vheslyn_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 10 || !(mobility_flags & MOBILITY_STAND))
+			Paralyze(30, TRUE, TRUE)
+			Knockdown(50)
+			spin(32,2)
+			adjust_fire_stacks(-4, /datum/status_effect/fire_handler/fire_stacks)
+			adjust_fire_stacks(-4, /datum/status_effect/fire_handler/fire_stacks/sunder)
+			adjust_fire_stacks(-4, /datum/status_effect/fire_handler/fire_stacks/divine)
+			adjust_fire_stacks(-4, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
+			adjust_fire_stacks(-2, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Harder to remove
+			visible_message(span_warning("[src] rolls on the ground, trying to put [p_them()]self out!"))
 	else
 		visible_message(span_notice("[src] pats the flames to extinguish them."))
 	addtimer(CALLBACK(src, PROC_REF(check_try_extinguish)), 3 SECONDS)
@@ -414,6 +422,9 @@
 		extinguish_mob(TRUE)
 
 /mob/living/carbon/resist_restraints()
+	if(IsStun())
+		to_chat(src, span_warning("I can't do that right now!"))
+		return
 	var/obj/item/I = null
 	var/type = 0
 	if(handcuffed)
@@ -806,6 +817,10 @@
 		see_in_dark = max(see_in_dark, 12)
 
 	if(HAS_TRAIT(src, TRAIT_NITEVISION))
+		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE)
+		see_in_dark = max(see_in_dark, 12)
+
+	if(HAS_TRAIT(src, TRAIT_BLIND))
 		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE)
 		see_in_dark = max(see_in_dark, 12)
 
@@ -1357,3 +1372,12 @@
 	if((cmode) && (mind) && (!handcuffed) && (stat == CONSCIOUS))
 		return 0
 	. = ..()
+
+// reset_perspective is called for things like z-level transitions. however, revs specifically need to not have their perspective reset if their
+// body moves away from their head; otherwise you get rev bodies with full sight
+/mob/living/carbon/reset_perspective(atom/A)
+	var/obj/item/organ/dullahan_vision/vision = getorganslot(ORGAN_SLOT_HUD)
+	var/datum/species/dullahan/our_species = dna?.species
+	if(!A && istype(vision) && vision.viewing_head && istype(our_species))
+		return ..(our_species.my_head)
+	return ..()

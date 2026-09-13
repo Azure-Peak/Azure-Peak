@@ -30,7 +30,7 @@ export type PopupCustomizerSelectContext = {
   task: CustomizerSelectTask;
 };
 
-const PopupCustomizerSelect = (props) => {
+const PopupCustomizerSelect = () => {
   const [constantData] = useConstantPrefs();
   const [context] = usePopupContext<PopupCustomizerSelectContext>();
   const { data } = usePopupBackend<CustomizerSelectData>();

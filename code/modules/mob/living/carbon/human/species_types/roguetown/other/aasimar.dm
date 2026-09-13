@@ -97,18 +97,9 @@
 	)
 	mechanics_explanations = list("Are the only race whose lux is already purified when extracted. However, their lux takes far longer to regrow than every other races.")
 
-/datum/species/aasimar/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
-
 /datum/species/aasimar/after_creation(mob/living/carbon/C)
 	..()
 	to_chat(C, "<span class='info'>I can speak Celestial with ,c before my speech.</span>")
-
-/datum/species/aasimar/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)
 
 /datum/species/aasimar/get_skin_list()
 	return list(
@@ -124,6 +115,16 @@
 		"Necral" = SKIN_COLOR_NECRAL,
 		"Abyssal" = SKIN_COLOR_ABYSSAL,
 		"Figulus" = SKIN_COLOR_FIGULUS,
+		"Shale" = SKIN_COLOR_SHALE,
+		"Coral" = SKIN_COLOR_CORAL,
+		"Deep Abyssal" = SKIN_COLOR_DEEP_ABYSSAL,
+		"Walnut" = SKIN_COLOR_WALNUT,
+		"Wooden" = SKIN_COLOR_WOODEN,
+		"Granite" = SKIN_COLOR_GRANITE,
+		"Husher" = SKIN_COLOR_HUSHER,
+		"Mahogany" = SKIN_COLOR_MAHOGANY,
+		"Wintermute" = SKIN_COLOR_WINTERMUTE,
+		"Blood" = SKIN_COLOR_BLOOD,
 	)
 
 /datum/species/aasimar/get_hairc_list()

@@ -306,7 +306,7 @@
 	)
 	valid_roles = list("Templar", "Knight", "Sergeant", "Men-at-arms", "Squire", "Mercenary", "Warden")
 
-/datum/vision_quest/orthodoxist_echo
+/datum/vision_quest/tier_1/orthodoxist_echo
 	name = "Psydonic Vision"
 	description = "A psydonite stands in Abyssor's gaze. You are the prophet, you will deliver his missive."
 	target_description = "an Orthodoxist"

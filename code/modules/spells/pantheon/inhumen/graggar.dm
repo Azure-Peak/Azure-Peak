@@ -48,7 +48,7 @@
 	cooldown_time = 2 MINUTES
 
 	check_flags = AB_CHECK_CONSCIOUS
-	spell_requirements =	SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/graggar/rush/cast(atom/cast_on)
 	. = ..()
@@ -91,8 +91,8 @@
 
 /datum/action/cooldown/spell/graggar/hamstring
 	name = "Hamstring"
-	desc = "Curse your next strike to slow the target."
-	fluff_desc = "Escape is a luxury in face of a beast."
+	desc = "Curse your next strike to apply a debilitating pressure upon your enemy. On hit, applies a status that reduces their Dodge by 20%, SPD by 2 and Movement Speed by 50% for 15 seconds."
+	fluff_desc = "A miracle wrought from willpower steeped in malice. A servant of Sinistar may channel this spite through their strikes, branding their prey with their own ill intent. Not to stand and fight, but to flee in terror. To run as far as their leaden legs will carry them, and die screaming."
 	button_icon_state = "hamstring"
 	sound = 'sound/magic/bloodrage.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -106,7 +106,7 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Heel, mutt!")
+	invocations = list("Die screaming!")
 
 	charge_required = FALSE
 	cooldown_time = 1 MINUTES
@@ -123,7 +123,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/hamstring
 	name = "Hamstring"
-	desc = "Your next attack slows your target and SPD."
+	desc = "Your next attack reduces enemy dodge chance by 20%, slows your target and reduces their overall SPD."
 	icon_state = "hamstring"
 
 /datum/status_effect/hamstring
@@ -160,9 +160,11 @@
 		return
 	if(!isliving(target))
 		return
-	var/mob/living/living_target = target
-	living_target.apply_status_effect(/datum/status_effect/debuff/hamstring)
-	living_target.visible_message(span_warning("The strike from [user]'s weapon causes [living_target] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	var/mob/living/H = target
+	H.apply_status_effect(/datum/status_effect/debuff/hamstring)
+	H.visible_message(span_warning("The strike from [user]'s weapon causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	H.emote("pain")
+	playsound(get_turf(H), 'sound/combat/brutal_impalement.ogg', 100, TRUE)
 	qdel(src)
 
 /datum/status_effect/hamstring/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
@@ -174,29 +176,28 @@
 		return
 	H.apply_status_effect(/datum/status_effect/debuff/hamstring)
 	H.visible_message(span_warning("The strike from [M]'s fist causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	H.emote("pain")
+	playsound(get_turf(H), 'sound/combat/brutal_impalement.ogg', 100, TRUE)
 	qdel(src)
 
 /atom/movable/screen/alert/status_effect/debuff/hamstring
-	name = "Graggar's Burden"
-	desc = "My arms and legs are restrained by unholy force!"
+	name = "Accursed Pressure"
+	desc = "Unholy force chokes my lyfeblood, slowing its flow through my veins and weighing down my every movement!"
 	icon_state = "restrained"
 
 /datum/status_effect/debuff/hamstring
 	id = "hamstring_debuff"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hamstring
 	effectedstats = list(STATKEY_SPD = -2)
-	duration = 30 SECONDS
+	duration = 15 SECONDS
 
 /datum/status_effect/debuff/hamstring/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
+	. = ..()
+	owner.add_movespeed_modifier("hamstring_slowdown", multiplicative_slowdown = 1.5)
 
 /datum/status_effect/debuff/hamstring/on_remove()
 	. = ..()
-	if(iscarbon(owner))
-		var/mob/living/carbon/C = owner
-		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
+	owner.remove_movespeed_modifier("hamstring_slowdown")
 
 ///////////////////////////////
 // T2 - Vicious Entanglement //
@@ -222,7 +223,7 @@
 	secondary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Be still!")
+	invocations = list("Be wrangled by gore!")
 
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
@@ -233,6 +234,7 @@
 
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
+	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_HUMAN
 
 	ignore_armor_penalty = TRUE
@@ -284,8 +286,7 @@
 /datum/action/cooldown/spell/graggar/graggar_battlecry
 	name = "Vicious Roar"
 	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites."
-	fluff_desc = "The battlefield quakes with your roar! Shaken to their core, they will prove easy pickings for a worthy champion such as yourself; the power of the Sinistar, unleashed.\
-	SLAUGHTER THE LAMBS - DRINK THEIR MARROW - FEAST UPON THEIR FLESH - LEAVE NO TRACE OF THEIR PATHETIC EXISTENCE! - THE SINISTAR HUNGERS!"
+	fluff_desc = "Your roar drowns out reason and restraint, stirring (or stilling) the blood of all who hear it. Mercy becomes weakness, the fallen become meat, and the battlefield becomes a place where nothing is forbidden. Your own Paradise made manifest."
 	button_icon_state = "vicious_roar"
 	sound = 'sound/magic/battle_cry_graggar.ogg'
 	glow_intensity = 0
@@ -297,7 +298,7 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Kneel before the might of the Sinistar!")
+	invocations = list("REND AND TEAR! TIL NAUGHT BUT RED REMAINS!!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = FALSE
@@ -310,21 +311,23 @@
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
-
+	H.emote("roar")
 	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
 		if(istype(target.patron, /datum/patron/inhumen))
+			to_chat(target, span_danger("You feel your blood boil! It's time to wage war!"))
 			target.apply_status_effect(/datum/status_effect/buff/call_to_slaughter)	//Buffs inhumens
 			continue
 		if(istype(target.patron, /datum/patron/old_god))
-			to_chat(target, span_danger("You feel a surge of cold wash over you; leaving your body as quick as it hit.."))	//No effect on Psydonians!
+			to_chat(target, span_danger("You feel a surge of cold wash over you, yet it leaves your body as quick as it hits.")) //No effect on Psydonites!
 			continue
 		if(istype(target.patron, /datum/patron/vheslyn))
-			to_chat(target, span_danger("You feel... nothing..")) //No effect on Vheslynites, fear them.
+			to_chat(target, span_danger("You feel... nothing. Even the concept of war is an extension of HIM. You will erase it, too.")) //No effect on Vheslynites, fear them.
 			continue
 		if(!owner.faction_check_mob(target))
 			continue
 		if(target.mob_biotypes & MOB_UNDEAD)
 			continue
+		to_chat(target, span_danger("You feel your blood chill! I must survive..."))
 		target.apply_status_effect(/datum/status_effect/debuff/call_to_slaughter)	//Debuffs non-inhumens/psydonians
 	return TRUE
 
@@ -338,9 +341,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/call_to_slaughter
 	duration = 2.5 MINUTES
 	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 2, STATKEY_CON = 1)
-
-/datum/status_effect/buff/call_to_slaughter/on_remove()
-	. = ..()
 
 /atom/movable/screen/alert/status_effect/debuff/call_to_slaughter
 	name = "Vicious Roar"
@@ -373,7 +373,7 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Bleed for your God!")
+	invocations = list("Let my prey's suffering be thy feast!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
@@ -392,10 +392,13 @@
 	var/mob/living/spelltarget = cast_on
 
 	if(!isliving(spelltarget))
-		to_chat(owner, span_warning("There is nothing to BLEED."))
+		to_chat(owner, span_warning("They are not bleeding."))
 		return FALSE
 	else
-		spelltarget.visible_message("<font color='bloody'>My lyfeblood flows away!</font>")
+		spelltarget.emote("painscream")
+		playsound(get_turf(spelltarget), 'sound/combat/brutal_impalement.ogg', 100, TRUE)
+		playsound(spelltarget, 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
+		to_chat(span_bloody("My heart races, as my lyfeblood begins to liquefy and bleed faster!"))
 		if(spelltarget.anti_magic_check(TRUE, TRUE))
 			return FALSE
 		if(spell_guard_check(spelltarget, TRUE))
@@ -426,7 +429,7 @@
 	secondary_resource_cost = SPELLCOST_CANTRIP
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("I will tear you apart!")
+	invocations = list("I WILL TEAR YOU LIMB FROM LIMB!!")
 
 	charge_required = TRUE
 	charge_slowdown = 2

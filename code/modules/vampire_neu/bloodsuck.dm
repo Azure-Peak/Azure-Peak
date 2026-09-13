@@ -59,7 +59,7 @@
 		return
 
 	if(VDrinker && istype(victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver) || HAS_TRAIT(victim, TRAIT_SILVER_BLESSED))
-		to_chat(src, span_userdanger("SILVER! MY BANE!"))
+		to_chat(src, span_silver("SILVER! MY BANE!"))
 		src.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/sunder)
 		src.Stun(5)
 		src.ignite_mob()

@@ -82,13 +82,13 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
 		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -99,7 +99,7 @@
 		spelltarget.emote("pain")
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
-		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
+		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_blue("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -208,7 +208,7 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
-		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -219,7 +219,7 @@
 		spelltarget.emote("pain")
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
-		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
+		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_notice("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -438,8 +438,7 @@
 	sparks_amt = 2
 
 	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_AURA
-	self_cast_possible = FALSE //Why are you trying to set YOURSELF on fire.
+	cast_range = 2
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
 
@@ -447,8 +446,11 @@
 
 	invocation_type = INVOCATION_NONE //It has seperate message ON USE
 
-	charge_required = FALSE
-	cooldown_time = 10 SECONDS
+	charge_required = TRUE
+	charge_time = CHARGETIME_POKE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 15 SECONDS
 
 	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
@@ -477,7 +479,7 @@
 			spelltarget.visible_message(span_warning("[spelltarget] shields against the divine flame!"))
 			return TRUE
 		if(spelltarget.fire_stacks < 1)
-			spelltarget.adjust_fire_stacks(2)
+			spelltarget.adjust_fire_stacks(1)
 			spelltarget.ignite_mob()
 			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]", zone=owner.zone_selected)
 			return TRUE

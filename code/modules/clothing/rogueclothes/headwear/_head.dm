@@ -39,3 +39,26 @@
 /obj/item/clothing/head/roguetown/dropped(mob/user)
 	. = ..()
 	user.update_fov_angles()
+
+/obj/item/clothing/head/roguetown/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Middle-clicking headwear cycles ears/hair visual.")
+
+/obj/item/clothing/head/roguetown/MiddleClick(mob/user)
+	if(!ishuman(user))
+		return
+	cycle_headtop(user)
+
+/obj/item/clothing/head/roguetown/proc/cycle_headtop(mob/user)
+	switch(flags_inv & HIDE_HEADTOP)
+		if(HIDE_HEADTOP)
+			flags_inv &= ~HIDEEARS
+			to_chat(user, span_info("I free my ears from under \the [src]."))
+		if(HIDEHAIR)
+			flags_inv &= ~HIDEHAIR
+			to_chat(user, span_info("I pull my hair out from under \the [src]."))
+		else
+			flags_inv |= HIDE_HEADTOP
+			to_chat(user, span_info("I tuck my hair and ears under \the [src]."))
+	persist_inv_flags(HIDE_HEADTOP)
+	user.update_inv_head()

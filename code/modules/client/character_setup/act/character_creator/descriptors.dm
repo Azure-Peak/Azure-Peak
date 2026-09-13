@@ -68,9 +68,8 @@
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("preview_examine")
-			var/datum/examine_panel/preview_examine_panel = new(user)
+			var/datum/examine_panel/preview_examine_panel = new()
 			preview_examine_panel.pref = src
-			preview_examine_panel.holder = user
 			preview_examine_panel.viewing = user
 			preview_examine_panel.ui_interact(user)
 			return CHARACTER_ACT_DATA_UPDATE

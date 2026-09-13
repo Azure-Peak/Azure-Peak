@@ -183,7 +183,7 @@
 				. = TRUE
 
 /datum/runeritual/binding/release_familiar
-	name = "Free Familiar"
+	name = " iar"
 	desc = "Terminate your contract with a familiar, sending them back from whence they came unharmed."
 	blacklisted = FALSE
 	invocation = "Exsolvo spiritus!" // "release spirit." very creative
@@ -208,6 +208,12 @@
 	user.mind?.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
 	fam.mind?.RemoveSpell(/datum/action/cooldown/spell/message_summoner)
 	fam.mind?.unknow_all_people()
+
+	if(istype(fam, /mob/living/carbon/human/species/familiar/void))
+		var/static/list/refund_costs = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
+		for(var/index in refund_costs)
+			for(var/i in 1 to refund_costs[index])
+				new index(loc)
 
 	var/exit_msg
 	if(isdead(fam))

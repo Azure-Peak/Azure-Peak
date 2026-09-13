@@ -47,7 +47,7 @@ export function setupPanelFocusHacks(): void {
     }
   });
 
-  globalEvents.on('keydown', (key) => {
+  globalEvents.on('keydown', (key: any) => {
     if (key.isModifierKey()) {
       return;
     }

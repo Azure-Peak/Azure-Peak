@@ -135,6 +135,13 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 	credits = "T-87 SULFURHEAD - Cutpurse (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/cmode/antag/combat_cutpurse.ogg')
 
+/datum/combat_music/bandit_mage
+	name = "Bandit Mage (Hedge Mage)"
+	desc = "I probably wouldn't shove a lucid memory of my mynd being torn apart in a stranger's face, if I didn't want to get skullcracked."
+	shortname = "Bandit Mage"
+	credits = "corru.works - Timestopper Tactics (https://corruworks.bandcamp.com)"
+	musicpath = list('sound/music/cmode/antag/combat_timestopper.ogg')
+
 /datum/combat_music/barbarian
 	name = "Barbarian"
 	desc = ""
@@ -269,6 +276,13 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 	credits = "Ben_19M - THE WHOLE BODY IS BULLETPROOF (https://www.youtube.com/@Ben_19M)"
 	musicpath = list('sound/music/combat_bloodrage.ogg')
 
+/datum/combat_music/heretic_psydon
+	name = "Heretic - Psydon"
+	desc = "THERE IS A TUMOR DIRECTLY BEHIND MY LEFT EYEBALL."
+	shortname = "Psy-Heretic"
+	credits = "corru.works - BSTRD (https://corruworks.bandcamp.com)"
+	musicpath = list('sound/music/cmode/antag/combat_adonai.ogg')
+
 /datum/combat_music/heretic_baotha
 	name = "Heretic - Baotha"
 	desc = ""
@@ -395,7 +409,7 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 	musicpath = list('sound/music/cmode/church/combat_necra.ogg')
 
 /datum/combat_music/noble
-	name = "Noble (Merchant/Freifechter)"
+	name = "Noble (Merchant)"
 	desc = ""
 	shortname = "Noble"
 	musicpath = list('sound/music/combat_noble.ogg')

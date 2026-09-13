@@ -21,6 +21,8 @@
 	equipOutfit(outfit)
 	for(var/obj/item/gear in (get_equipped_items() + held_items))
 		ADD_TRAIT(gear, TRAIT_NODROP, TRAIT_GENERIC)
+	for(var/obj/item/held_item in held_items)
+		held_item.AddComponent(/datum/component/item_on_drop/dust)
 
 /mob/living/carbon/human/species/human/northern/conjured_peasant/Destroy()
 	release_conjured_gear()

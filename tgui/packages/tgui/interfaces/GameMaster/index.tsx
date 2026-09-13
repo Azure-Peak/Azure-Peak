@@ -7,7 +7,7 @@ import { CreaturePane } from './CreaturePane';
 import { DetailStrip } from './DetailStrip';
 import { FactionRail } from './FactionRail';
 
-export function GameMaster(props) {
+export function GameMaster() {
   const [factionQuery, setFactionQuery] = useState('');
   const [creatureQuery, setCreatureQuery] = useState('');
 

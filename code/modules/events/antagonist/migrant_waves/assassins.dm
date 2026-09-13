@@ -1,5 +1,5 @@
 /datum/round_event_control/antagonist/migrant_wave/assassins
-	name = "Assassin Migration"
+	name = "Death Cult Rising -- Assassin Slots"
 	typepath = /datum/round_event/migrant_wave/assassins
 	wave_type = /datum/migrant_wave/assassin
 	max_occurrences = 2
@@ -28,4 +28,4 @@
 			if(!player.client)
 				continue
 
-			to_chat(player, span_danger("Graggar demands blood, assassins flock to Azuria. An assassin slot has been opened."))
+			to_chat(player, span_danger("GRAGGAR DEMANDS BLOOD! A curse descends upon Azuria, an ASSASSIN slot has been OPENED!"))

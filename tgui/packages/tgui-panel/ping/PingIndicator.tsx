@@ -10,7 +10,7 @@ import { Box } from 'tgui-core/components';
 import { toFixed } from 'tgui-core/math';
 import { pingAtom } from './atoms';
 
-export function PingIndicator(props) {
+export function PingIndicator() {
   const ping = useAtomValue(pingAtom);
 
   const color = Color.lookup(ping.networkQuality, [
