@@ -183,18 +183,8 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species)
-				if(gender == MALE)
-					if(OFFSET_HANDS in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-						behindhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						behindhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-				else
-					if(OFFSET_HANDS_F in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
-						behindhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						behindhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
+				H.apply_offset(inhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
+				H.apply_offset(behindhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
 	else
 		var/icon_file = I.lefthand_file
 		if(get_held_index_of_item(I) % 2 == 0)
@@ -203,14 +193,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species.sexes)
-				if(gender == MALE)
-					if(OFFSET_HANDS in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-				else
-					if(OFFSET_HANDS_F in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
+				H.apply_offset(inhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
 
 	.[INHAND_FRONT] = inhand_overlay
 	.[INHAND_BEHIND] = behindhand_overlay
@@ -361,14 +344,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species.sexes)
-				if(gender == MALE)
-					if(OFFSET_HANDS in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-				else
-					if(OFFSET_HANDS_F in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
+				H.apply_offset(inhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
 
 		overlays_standing[HANDCUFF_LAYER] = inhand_overlay
 		apply_overlay(HANDCUFF_LAYER)
