@@ -22,10 +22,10 @@
 	gender = PLURAL
 	icon_state = "blackboots"
 	item_state = "blackboots"
-	max_integrity = 80
+	max_integrity = ARMOR_INT_SIDE_LEATHER
 	sewrepair = TRUE
 	salvage_amount = 1
-	armor = ARMOR_CLOTHING
+	armor = ARMOR_LEATHER_NPC //Your Jordans are fake
 	salvage_result = /obj/item/natural/hide/cured
 	var/atom/movable/holdingknife = null
 
@@ -105,7 +105,6 @@
 	icon_state = "nobleboots"
 	item_state = "nobleboots"
 	sewrepair = TRUE
-	armor = ARMOR_CLOTHING
 	salvage_amount = 2
 	salvage_result = /obj/item/natural/hide/cured
 
@@ -251,7 +250,6 @@
 	icon_state = "leatherboots"
 	item_state = "leatherboots"
 	sewrepair = TRUE
-	armor = ARMOR_CLOTHING
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
 
