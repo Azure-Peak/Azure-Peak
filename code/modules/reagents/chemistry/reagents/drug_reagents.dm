@@ -1,11 +1,11 @@
 /datum/reagent/drug
-	name = "Drug"
+	name = "drug"
 	metabolization_rate = 0.1
 	taste_description = "bitterness"
 	var/trippy = TRUE //Does this drug make you trip?
 
 /datum/reagent/drug/swampweed
-	name = "Swamp Oil"
+	name = "swampweed oil"
 	description = "The crushed or liquidated essence of the swampweed plant. Produces vivid hallucinations... and, some say, enhances the mentalisms."
 	color = "#388151" // rgb: 96, 165, 132
 	overdose_threshold = 30
@@ -62,7 +62,7 @@
 	..()
 
 /datum/reagent/drug/westleach
-	name = "Westleach Extract"
+	name = "extract of westleach"
 	description = "An extract of the westleach plant. Provides a stimulating effect pleasant to many."
 	reagent_state = LIQUID
 	color = "#d8e29e" // rgb: 96, 165, 132
@@ -94,7 +94,7 @@
 	. = 1
 
 /datum/reagent/drug/crank
-	name = "Crank"
+	name = "crank"
 	description = "Reduces stun times by about 200%. If overdosed or addicted it will deal significant Toxin, Brute and Brain damage."
 	reagent_state = LIQUID
 	color = "#FA00C8"
@@ -142,7 +142,7 @@
 	. = 1
 
 /datum/reagent/drug/methamphetamine
-	name = "Methamphetamine"
+	name = "methamphetamine"
 	description = "Reduces stun times by about 300%, speeds the user up, and allows the user to quickly recover stamina while dealing a small amount of Brain damage. If overdosed the subject will move randomly, laugh randomly, drop items and suffer from Toxin and Brain damage. If addicted the subject will constantly jitter and drool, before becoming dizzy and losing motor control and eventually suffer heavy toxin damage."
 	reagent_state = LIQUID
 	color = "#FAFAFA"
@@ -226,7 +226,7 @@
 	. = 1
 
 /datum/reagent/drug/aranesp
-	name = "Aranesp"
+	name = "aranesp"
 	description = "Amps you up, gets you going, and rapidly restores stamina damage. Side effects include breathlessness and toxicity."
 	reagent_state = LIQUID
 	color = "#78FFF0"
@@ -244,7 +244,7 @@
 	. = 1
 
 /datum/reagent/drug/happiness
-	name = "Happiness"
+	name = "happiness"
 	description = "Fills you with ecstasic numbness and causes minor brain damage. Highly addictive. If overdosed causes sudden mood swings."
 	reagent_state = LIQUID
 	color = "#FFF378"
@@ -308,7 +308,7 @@
 	. = 1
 
 /datum/reagent/drug/mentha // distinct from SS13 menthol, for the mentha zigs
-	name = "Mentha"
+	name = "extract of mentha"
 	description = "Extract from the mentha herb. Produces a cooling sensation."
 	reagent_state = LIQUID
 	color = "#3eb489"
@@ -337,7 +337,7 @@
 	. = 1
 
 /datum/reagent/drug/blackberry
-	name = "Blackberry"
+	name = "extract of blackberry"
 	description = "Extract from the blackberry. Produces a sweet-tart sensation."
 	reagent_state = LIQUID
 	color = "#4D0135"
@@ -366,7 +366,7 @@
 	. = 1
 
 /datum/reagent/drug/apple
-	name = "Apple"
+	name = "extract of apple"
 	description = "Extract from the apple. Produces both a sour and cooling sensation."
 	reagent_state = LIQUID
 	color = "#AF4D43"
@@ -395,7 +395,7 @@
 	. = 1
 
 /datum/reagent/drug/chocolate
-	name = "Chocolate"
+	name = "extract of chocolate"
 	description = "Extract from chocolate, often packed into a zig. Tastes like a bag of coins."
 	reagent_state = LIQUID
 	color = "#7B3F00"
@@ -424,7 +424,7 @@
 	. = 1
 
 /datum/reagent/drug/strawberry
-	name = "Strawberry"
+	name = "extract of strawberry"
 	description = "Extract from the strawberry. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
 	color = "#FC5A8D"
@@ -453,7 +453,7 @@
 	. = 1
 
 /datum/reagent/drug/carrot
-	name = "Carrot"
+	name = "extract of carrot"
 	description = "Extract from the carrot. Tastes... carroty..."
 	reagent_state = LIQUID
 	color = "#ED9121"
@@ -482,7 +482,7 @@
 	. = 1
 
 /datum/reagent/drug/lime
-	name = "Lime"
+	name = "extract of lime"
 	description = "Extract from the lime. Produces a sour and cool sensation."
 	reagent_state = LIQUID
 	color = "#BFFF00"
@@ -511,7 +511,7 @@
 	. = 1
 
 /datum/reagent/drug/salvia
-	name = "Salvia"
+	name = "extract of salvia"
 	description = "Extract from the salvia. Produces a spicy, earthy and bitter sensation."
 	reagent_state = LIQUID
 	color = "#FF33FF"
@@ -540,7 +540,7 @@
 	. = 1
 
 /datum/reagent/drug/valeriana
-	name = "Valeriana"
+	name = "extract of valeriana"
 	description = "Extract from the valeriana. Often used for aiding in slumber."
 	reagent_state = LIQUID
 	color = "#4a3c5f"
@@ -570,7 +570,7 @@
 	. = 1
 
 /datum/reagent/drug/calendula
-	name = "Calendula"
+	name = "extract of calendula"
 	description = "Extract from the calendula. Produces a bitter-spicy and tart sensation."
 	reagent_state = LIQUID
 	color = "#a57006"
@@ -605,7 +605,7 @@
 	. = 1
 
 /datum/reagent/drug/petun
-	name = "Petun"
+	name = "extract of petun"
 	description = "A highly concentrated form of nicotine. Produces a sore throat alongside a feeling of relaxation."
 	reagent_state = LIQUID
 	color = "#7ed9ad"
@@ -640,7 +640,7 @@
 	. = 1
 
 /datum/reagent/drug/jacksberries
-	name = "Jacksberries Essence"
+	name = "extract of jacksberries"
 	description = "Extract from the jacksberries. Produces a sore throat as well as mild relaxation."
 	reagent_state = LIQUID
 	color = "#57628C"
@@ -669,7 +669,7 @@
 	. = 1
 
 /datum/reagent/drug/abyss
-	name = "Abyssorick Jacksberries Essence"
+	name = "extract of abyssorick jacksberries"
 	description = "An odd form of narcotic found in abyssoric zigarettes. Perhaps the salt, or the fish, causes it to be so \
 	strange? Produces vivid hallucinations."
 	reagent_state = LIQUID

@@ -1,6 +1,6 @@
 
 /datum/crafting_recipe/roguetown/cooking/mix_taraxamint
-	name = "Taraxacum-Mentha tea mix"
+	name = "taraxacum-mentha tea mix"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
 		/obj/item/alch/taraxacum = 1,
@@ -11,7 +11,7 @@
 	req_table = TRUE
 
 /datum/crafting_recipe/roguetown/cooking/mix_utricasalvia
-	name = "Utrica-Salvia tea mix"
+	name = "utrica-salvia tea mix"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
 		/obj/item/alch/urtica = 1,
@@ -22,7 +22,7 @@
 	req_table = TRUE
 
 /datum/crafting_recipe/roguetown/cooking/mix_sbiten
-	name = "Sbiten Brick"
+	name = "sbiten Brick"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
 		/obj/item/reagent_containers/food/snacks/rogue/honey = 1,
@@ -34,7 +34,7 @@
 
 
 /datum/crafting_recipe/roguetown/cooking/tar_brick
-	name = "Westleach tar brick"
+	name = "westleach tar brick"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
 		/datum/reagent/consumable/tea/badidea = 120,

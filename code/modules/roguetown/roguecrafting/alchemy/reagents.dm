@@ -1,6 +1,6 @@
 //Potions
 /datum/reagent/medicine/healthpot
-	name = "Health Potion"
+	name = "health potion"
 	description = "Gradually regenerates all types of damage."
 	reagent_state = LIQUID
 	color = "#ff0000"
@@ -29,21 +29,21 @@
 	..()
 
 /datum/reagent/medicine/healthpot/zarum/blood
-	name = "Blackened Sludge"
+	name = "blackened sludge"
 	description = "A fairly disgusting, bubbling mess of an unknown origin that seems to be constantly fermenting onto itself, exhuding a foul smell."
 	color = "#241a1a"
 	taste_description = "sins of Otava"
 	scent_description = "dark darker yet darker"
 
 /datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
-	name = "Honeyed Zarum"
+	name = "honeyed zarum"
 	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."
 	color = "#dd9700"
 	taste_description = "sweet-sour fish-glazed honey"
 	scent_description = "sweet fermented pungence"
 
 /datum/reagent/medicine/healthpot/zarum
-	name = "Zarum"
+	name = "zarum"
 	description = "A fermented sauce of fish innards and vinegar, which gradually regenerates all types of damage."
 	reagent_state = LIQUID
 	color = "#891305"
@@ -76,7 +76,7 @@
 	..()
 
 /datum/reagent/medicine/stronghealth
-	name = "Strong Health Potion"
+	name = "strong health potion"
 	description = "Quickly regenerates all types of damage."
 	color = "#820000"
 	taste_description = "rich lifeblood"
@@ -103,7 +103,7 @@
 	. = 1
 
 /datum/reagent/medicine/manapot
-	name = "Mana Potion"
+	name = "mana potion"
 	description = "Gradually regenerates energy."
 	reagent_state = LIQUID
 	color = "#000042"
@@ -120,7 +120,7 @@
 	..()
 
 /datum/reagent/medicine/strongmana
-	name = "Strong Mana Potion"
+	name = "strong mana potion"
 	description = "Rapidly regenerates energy."
 	color = "#0000ff"
 	taste_description = "raw power"
@@ -134,7 +134,7 @@
 	..()
 
 /datum/reagent/medicine/restoration
-	name = "Restoration Potion"
+	name = "restoration potion"
 	description = "Simultaneously regenerates health and energy. Inherits a higher potency than common lifeblood and manna, but remains inferior to stronger brews."
 	color = "#ff8da1"
 	taste_description = "reinvigorative creaminess"
@@ -164,7 +164,7 @@
 
 // Stamina potion no longer grant green bar directly which led to it being far too powerful when abused
 /datum/reagent/medicine/stampot
-	name = "Fortitude Potion"
+	name = "fortitude potion"
 	description = "Hardens the humors against fatigue, granting Fortitude for a short while."
 	reagent_state = LIQUID
 	color = "#129c00"
@@ -182,7 +182,7 @@
 	return TRUE
 
 /datum/reagent/medicine/strongstam
-	name = "Strong Fortitude Potion"
+	name = "strong fortitude potion"
 	description = "Rapidly hardens the humors against fatigue, granting Fortitude for a short while."
 	color = "#13df00"
 	taste_description = "sparkly static"
@@ -203,7 +203,7 @@
 	Previously, antidote did not have a dylovene-like effect and just purged toxin damage while poison will outlast them.
 **/
 /datum/reagent/medicine/antidote
-	name = "Antidote"
+	name = "antidote"
 	description = "Gradually purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#00ff00"
@@ -227,7 +227,7 @@
 
 // About 3 time as potent as antidote
 /datum/reagent/medicine/strong_antidote
-	name = "Strong Antidote"
+	name = "strong antidote"
 	description = "Rapidly purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#004200"
@@ -305,6 +305,7 @@
 	name = STATKEY_WIL
 	color = "#ffff00"
 	taste_description = "oversweetened milk"
+	scent_description = "sugar"
 	buff_type = /datum/status_effect/buff/alch/statbuff/endurancepot
 
 /datum/reagent/buff/speed
@@ -326,7 +327,7 @@
 	they neutralize each other into this useless sludge.
 */
 /datum/reagent/ruined_potion
-	name = "Odd water"
+	name = "odd water"
 	description = "A foul mess of conflicting alchemical essences that tried to push nature too far. Utterly useless."
 	reagent_state = LIQUID
 	color = "#6b5d4f" // muddy brownish-green
@@ -350,8 +351,8 @@ A dose of ingested potion is defined as 5u, projectile deliver at most 2u, you a
 If you want to expand on poisons theres tons of fun effects TG chemistry has that could be added, randomzied damage values for more unpredictable poison, add trait based resists instead of the clunky race check etc.*/
 
 /datum/reagent/berrypoison	// Weaker poison, balanced to make you wish for death and incapacitate but not kill
-	name = "Berry Poison"
-	description = ""
+	name = "berry poison"
+	description = "Gradually debilitates the body's humors, inducing nausea and poisoning-of-blood."
 	reagent_state = LIQUID
 	color = "#47b2e0"
 	taste_description = "bitterness"
@@ -371,8 +372,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 
 /datum/reagent/strongpoison		// Strong poison, meant to be somewhat difficult to produce using alchemy or spawned with select antags. Designed to kill in one full dose (5u) better drink antidote fast
-	name = "Strong Poison"
-	description = ""
+	name = "strong poison"
+	description = "Rapidly debilitates the body's humors, inducing severe nausea and poisoning-of-blood."
 	reagent_state = LIQUID
 	color = "#1a1616"
 	taste_description = "burning"
@@ -392,8 +393,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/bloodacid // Quietus Poison for Vampires
-	name = "Vitae Acid"
-	description = ""
+	name = "vitae acid"
+	description = "Burns away the body's humors, inducing lethal nausea and the curdling of blood-in-circulation."
 	reagent_state = LIQUID
 	color = "#ff3300"
 	taste_description = "burning"
@@ -416,15 +417,14 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/organpoison
-	name = "Organ Poison"
-	description = ""
+	name = "organ poison"
+	description = "Induces severe nausea and light poisoning-of blood. Lightly regenerates energy to those with more humanitarian diets."
 	reagent_state = LIQUID
 	color = "#2c1818"
 	taste_description = "sour meat"
 	scent_description = "rancid meat"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 	harmful = TRUE
-
 
 /datum/reagent/organpoison/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_ORGAN_EATER))
@@ -435,8 +435,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/sleep_powder
-	name = "Sleep Poison"
-	description = ""
+	name = "sleep poison"
+	description = "Rapidly induces unconsciousness."
 	color = "#ddd3df" // rgb: 96, 165, 132
 	metabolization_rate = 1
 	taste_description = "numbing mintiness"
@@ -446,8 +446,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	..()
 
 /datum/reagent/stampoison
-	name = "Stamina Poison"
-	description = ""
+	name = "stamina poison"
+	description = "Gradually drains energy."
 	reagent_state = LIQUID
 	color = "#083b1c"
 	taste_description = "breathlessness"
@@ -462,8 +462,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/strongstampoison
-	name = "Strong Stamina Poison"
-	description = ""
+	name = "strong stamina poison"
+	description = "Rapidly drains energy."
 	reagent_state = LIQUID
 	color = "#041d0e"
 	taste_description = "frozen air"
@@ -478,8 +478,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/toxin/killersice
-	name = "Killer's Ice"
-	description = "c8c9e9"
+	name = "killer's ice"
+	description = "A notoriously lethal poison that freezes the body's humors from the inside-out. Just a single drop is all it takes."
 	reagent_state = LIQUID
 	color = "#FFFFFF"
 	taste_description = "cold needles"
@@ -493,7 +493,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/chemical_reaction/alch/vitae_essence
-	name = "Vitae Decoction"
+	name = "vitae cecoction"
 	id = /datum/reagent/medicine/vitae_essence
 	results = list(/datum/reagent/medicine/vitae_essence = 1)
 	required_reagents = list(/datum/reagent/vitae = 1, /datum/reagent/toxin/fyritiusnectar = 5)
@@ -503,8 +503,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 |Ingredients|
 \----------*/
 /datum/reagent/undeadash
-	name = "Spectral Powder"
-	description = ""
+	name = "spectral powder"
+	description = "Remains of what one was."
 	reagent_state = SOLID
 	color = "#330066"
 	taste_description = "tombstones"
@@ -512,7 +512,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/toxin/fyritiusnectar
 	name = "fyritius nectar"
-	description = "oh no"
+	description = "A powdery-flecked pseudoliquid with incendiary properties, especially when applied to bare skin."
 	reagent_state = LIQUID
 	color = "#ffc400"
 	metabolization_rate = 0.5
@@ -571,7 +571,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 
 /datum/reagent/medicine/vitae_essence
-	name = "Vitae Decoction"
+	name = "vitae decoction"
 	description = "Decoction of essence of lyfe, used to restore one's lux humours."
 	color = "#67c7ff" // rgb: 96, 165, 132
 	overdose_threshold = 10
@@ -584,21 +584,21 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/fire_resist
-	name = "Fire Resistance"
+	name = "elixir of fire resistance"
 	color = "#ff7300"
-	taste_description = "burning coal"
+	taste_description = "burning coals"
 
 /datum/reagent/fire_resist/on_mob_life(mob/living/carbon/M)
 	M.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
 	return ..()
 
 /datum/reagent/fermented_crab
-	name = "Fermented Crab"
-	description = ""
+	name = "fermented crab"
+	description = "A pungent 'remedy' to failings by the bedside."
 	color = "#abaa7c"
 	overdose_threshold = 15
 	metabolization_rate = 0.2
-	taste_description = "randcid, putrid crab"
+	taste_description = "rancid, putrid crab"
 
 /datum/reagent/fermented_crab/overdose_process(mob/living/M)
 	M.adjustToxLoss(1, FALSE)
