@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Most non-unique reagents now have their capitalization standardized (like Water -> water, Blackberry -> extract of blackberry, etc.) for a neater presentation. Note that uniquely-named reagents - chiefly imported liqours - remain capitalized, as they're proper names."
+  - bugfix: "Certain reagents have been given a more historically appropriate name. Most notably, the series of fruity reagents extractable from flavored zigarettes are now named \"extract of [FRUITNAME]\", and fire resistance juices are now named \"elixir of fire resistance.\""
+  - rscadd: "Minor descriptions to most remaining reagents that lacked one. I don't actually know if these're visible in-game, but it's good to have just in case."
