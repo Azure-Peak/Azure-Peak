@@ -413,6 +413,13 @@
 	redstone_structure = TRUE
 	broken_icon_state = "passage1b"
 
+/obj/structure/bars/passage/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most gates are traditionally linked to a lever or winch. Left-clicking the right lever or winch will open the gate that they're connected to.")
+	. += span_info("A skilled Engineer could use a wrench to link this to a device.")
+	. += span_info("The Master of the Guild of Craft can unlink devices from each other by using their special wrench.")
+	. += span_info("While a length process, gates can also be bypassed through destroying them with enough strikes. Bombs of blastpowder in particular excel at damaging these structures.")
+
 /obj/structure/bars/passage/steel
 	name = "steel bars"
 	max_integrity = 2500

@@ -42,29 +42,23 @@
 	SStreasury.noble_incomes[recipient] = (SStreasury.noble_incomes[recipient] || 0) + 15
 	SStreasury.grant_estate_income(recipient, 15, !already_has_income)
 
-#define NOTABLE_BEAUTY "Beauty"
-#define NOTABLE_STASH "Stashed Riches"
 #define NOTABLE_RESIDENCY "Residency"
-#define NOTABLE_SHREWD "Shrewd Appraisal"
+#define NOTABLE_SHREWD "Shrewd Lyfestyle"
 
 /datum/virtue/utility/notable
 	name = "Well Off"
 	desc = "Fate or effort had blessed my lyfe with spoils, natural or earned."
 	ui_fa_icon = "coins"
-	max_choices = 2	//Tentative. 2 is more interesting than getting all 4 easily.
-	choice_costs = list(0, 0)
-	stackable = TRUE
+	max_choices = 2
+	choice_costs = list(0, 8)
+	stackable = FALSE
 	extra_choices = list(	//These are so individually bespoke it's not even worth assoc listing them, all are snowflaked in the application proc instead.
-		NOTABLE_BEAUTY,
-		NOTABLE_STASH,
+		NOTABLE_SHREWD,
 		NOTABLE_RESIDENCY,
-		NOTABLE_SHREWD
 	)
 	choice_tooltips = list(
-		NOTABLE_BEAUTY = "Just looking at me relieves some of the hardships of the world, and I'm quite good in bed.",
-		NOTABLE_STASH = "I've a hidden coinpurse for a particularly dark dae.",
+		NOTABLE_SHREWD = "I've managed to secure a Meister account and a lump sum within it. Grants Secular Appraise -- a spell that allows you to tell how much wealth someone has on them, and in their Meister.",
 		NOTABLE_RESIDENCY = "I am a Resident of Azure Peak, with access to one of its buildings all to myself.",
-		NOTABLE_SHREWD = "Grants Secular Appraise -- a spell that allows you to tell how much wealth someone has on them, and in their Meister."
 	)
 
 /datum/virtue/utility/notable/apply_to_human(mob/living/carbon/human/recipient)
@@ -72,18 +66,16 @@
 		return
 	for(var/choice in picked_choices)
 		switch(choice)
-			if(NOTABLE_BEAUTY)
-				ADD_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_GOODLOVER, TRAIT_VIRTUE)
-				if(isdullahan(recipient))
-					REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-					ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
-				recipient.mind?.special_items["Hand Mirror"] = /obj/item/handmirror
-			if(NOTABLE_STASH)
-				recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
 			if(NOTABLE_SHREWD)
 				ADD_TRAIT(recipient, TRAIT_SEEPRICES, TRAIT_VIRTUE)
 				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
+				if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
+					recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
+				else
+					if(!SStreasury.has_account(recipient))
+						SStreasury.create_bank_account(recipient)
+					if(SStreasury.generate_money_account(rand(80, 120), recipient))
+						record_round_statistic(STATS_MAMMONS_DEPOSITED, rand(80, 120))
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
 				if(recipient.mind)
@@ -128,10 +120,53 @@
 								recipient.forceMove(spawn_loc)
 								to_chat(recipient, span_notice("As a resident of Azure Peak, you find yourself in the local tavern."))
 
-#undef NOTABLE_BEAUTY
-#undef NOTABLE_STASH
 #undef NOTABLE_RESIDENCY
 #undef NOTABLE_SHREWD
+
+/datum/virtue/utility/socialite
+	name = "Socialite"
+	desc = "I thrive in social settings, easily reading the emotions of others and charming those around me. My presence is always felt at any gathering."
+	ui_fa_icon = "people-arrows"
+	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER, TRAIT_EMPATH)
+	max_choices = 3
+	choice_costs = list(0, 0, 4)
+	extra_choices = list(
+	"Massage Ability",
+	"Hand Mirror" = /obj/item/handmirror,
+	"Nutcracker" = TRAIT_NUTCRACKER,
+	"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookie,
+	"Rosa Bouquet" = /obj/item/bouquet/rosa,
+	"Salvia Bouquet" = /obj/item/bouquet/salvia,
+	"Calendula Bouquet" = /obj/item/bouquet/calendula,
+	"Matricaria Bouquet" = /obj/item/bouquet/matricaria,
+	"Red Lipstick" = /obj/item/lipstick,
+	"Purple Lipstick" = /obj/item/lipstick/purple,
+	"Jade Lipstick" = /obj/item/lipstick/jade,
+	"Black Lipstick" = /obj/item/lipstick/black,
+	"Lavender Perfume" = /obj/item/perfume/lavender,
+	"Cherry Perfume" = /obj/item/perfume/cherry,
+	"Rose Perfume" = /obj/item/perfume/rose,
+	"Jasmine Perfume" = /obj/item/perfume/jasmine,
+	"Mint Perfume" = /obj/item/perfume/mint,
+	"Vanilla Perfume" = /obj/item/perfume/vanilla,
+	"Pear Perfume" = /obj/item/perfume/pear,
+	"Strawberry Perfume" = /obj/item/perfume/strawberry,
+	"Cinnamon Perfume" = /obj/item/perfume/cinnamon,
+	)
+
+/datum/virtue/utility/socialite/apply_to_human(mob/living/carbon/human/recipient)
+	..()
+	for(var/choice in picked_choices)
+		if(choice == "Nutcracker")
+			ADD_TRAIT(recipient, TRAIT_NUTCRACKER, TRAIT_VIRTUE)
+		else if(choice == "Massage")
+			if(recipient.mind)
+				recipient.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
+		else
+			recipient.mind.special_items[choice] = extra_choices[choice]
+	if(isdullahan(recipient))
+		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
+		ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
 
 /datum/virtue/utility/failed_squire
 	name = "Failed Squire"

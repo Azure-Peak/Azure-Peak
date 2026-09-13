@@ -1,10 +1,8 @@
-// TEMPORARY: banditry drain is a placeholder consequence until proper raid/siege
-// content ships. Delete this file when raids land. See BANDITRY_DRAIN_* in economy.dm.
-
 /datum/controller/subsystem/economy/proc/preview_banditry_drain()
-	var/list/result = list("total" = 0, "lines" = list(), "debt" = SStreasury?.banditry_debt || 0)
+	var/list/result = list("total" = 0, "lines" = list(), "debt" = SStreasury?.banditry_debt || 0, "by_region" = list(), "hoard_total" = 0)
 	var/pop = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		result["hoard_total"] += TR.banditry_hoard
 		var/level = TR.get_danger_level()
 		var/cost = 0
 		switch(level)
@@ -17,8 +15,15 @@
 		var/base_cost = (level == DANGER_LEVEL_BLEAK) ? BANDITRY_DRAIN_BLEAK_FLAT : BANDITRY_DRAIN_DANGEROUS_FLAT
 		var/per_player = (level == DANGER_LEVEL_BLEAK) ? BANDITRY_DRAIN_BLEAK_PER_PLAYER : BANDITRY_DRAIN_DANGEROUS_PER_PLAYER
 		result["total"] += cost
+		result["by_region"][TR.region_name] = cost
 		result["lines"] += "[TR.region_name] ([level]) -[cost]m ([base_cost] base + [per_player]m/head x [pop])"
 	return result
+
+/datum/controller/subsystem/economy/proc/total_banditry_hoard()
+	var/total = 0
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		total += TR.banditry_hoard
+	return total
 
 /datum/controller/subsystem/economy/proc/tick_banditry_drain()
 	if(!SStreasury?.discretionary_fund)
@@ -34,12 +39,25 @@
 	if(burn_now > 0)
 		SStreasury.burn(SStreasury.discretionary_fund, burn_now, "Banditry losses (untended regions)")
 		record_treasury_expense(TREASURY_FLOW_BANDITRY, "Crown", burn_now)
+		var/list/by_region = preview["by_region"]
+		var/remaining = burn_now
+		for(var/region_name in by_region)
+			if(remaining <= 0)
+				break
+			var/datum/threat_region/TR = SSregionthreat.get_region(region_name)
+			if(!TR)
+				continue
+			var/share = min(by_region[region_name], remaining)
+			TR.banditry_hoard += share
+			remaining -= share
 	if(shortfall > 0)
 		SStreasury.banditry_debt += shortfall
 	record_round_statistic(STATS_BANDITRY_LOSSES, total_drain)
 	GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] = SStreasury.banditry_debt
+	GLOB.azure_round_stats[STATS_BANDITRY_HOARD_OUTSTANDING] = total_banditry_hoard()
 	if(daily_report_diff)
 		daily_report_diff["banditry_drain_total"] = total_drain
 		daily_report_diff["banditry_drain_burned"] = burn_now
 		daily_report_diff["banditry_drain_accrued_debt"] = shortfall
 		daily_report_diff["banditry_drain_lines"] = preview["lines"]
+		daily_report_diff["banditry_hoard_total"] = total_banditry_hoard()

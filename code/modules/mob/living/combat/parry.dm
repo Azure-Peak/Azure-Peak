@@ -62,11 +62,11 @@
 
 	if(mainhand)
 		if(mainhand.can_parry)
-			mainhand_defense += (defender.get_skill_level(mainhand.associated_skill) * PARRY_PER_SKILL_LEVEL)
+			mainhand_defense += (defender.get_wskill(mainhand) * PARRY_PER_SKILL_LEVEL)
 			mainhand_defense += (mainhand.wdefense_dynamic * PARRY_PER_WDEF_POINT)
 	if(offhand)
 		if(offhand.can_parry)
-			offhand_defense += (defender.get_skill_level(offhand.associated_skill) * PARRY_PER_SKILL_LEVEL)
+			offhand_defense += (defender.get_wskill(offhand) * PARRY_PER_SKILL_LEVEL)
 			offhand_defense += (offhand.wdefense_dynamic * PARRY_PER_WDEF_POINT)
 
 	if(mainhand_defense >= offhand_defense)
@@ -110,7 +110,7 @@
 	if(highest_defense > 0 && (!allow_unarmed_fallback || highest_defense >= unarmed_defense))
 		// Weapon parry wins
 		if(used_weapon)
-			defender_skill = defender.get_skill_level(used_weapon.associated_skill)
+			defender_skill = defender.get_wskill(used_weapon)
 		else
 			defender_skill = unarmed_skill
 		prob2defend += highest_defense
@@ -136,7 +136,7 @@
 
 	var/obj/item/attacker_weapon = attack_intent.masteritem
 	if(attacker_weapon)
-		attacker_skill = attacker.get_skill_level(attacker_weapon.associated_skill)
+		attacker_skill = attacker.get_wskill(attacker_weapon)
 
 		if(attack_intent.sharpness_penalty)
 			attacker_weapon.remove_bintegrity(attack_intent.sharpness_penalty)
@@ -264,25 +264,29 @@
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 		exp_multi = exp_multi/2
 
-	var/attacker_skill_type
+	var/attacker_skilltype
+	var/attacker_factor = 1
 
 	if(attacker_weapon)
-		attacker_skill_type = attacker_weapon.associated_skill
+		attacker_skilltype = attacker.get_wskill_type(attacker_weapon)
+		attacker_factor = attacker.get_wskill_factor(attacker_weapon)
 	else
-		attacker_skill_type = /datum/skill/combat/unarmed
+		attacker_skilltype = /datum/skill/combat/unarmed
 
 	if(weapon_parry == TRUE)
 		if(do_parry(used_weapon, drained, user, untrained_armor)) //show message
+			var/defender_skilltype = get_wskill_type(used_weapon)
+			var/defender_factor = get_wskill_factor(used_weapon)
 			//only gain experience if attacker and defender aren't using non-combat skills for their weapons
-			if(ispath(attacker_skill_type, /datum/skill/combat) && ispath(used_weapon.associated_skill, /datum/skill/combat))
+			if(ispath(attacker_skilltype, /datum/skill/combat) && ispath(defender_skilltype, /datum/skill/combat))
 				if ((mobility_flags & MOBILITY_STAND) && !isanimal(attacker))
 					var/skill_target = attacker_skill
 					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER))
 						skill_target -= SKILL_LEVEL_NOVICE
 					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER))
 						skill_target -= SKILL_LEVEL_NOVICE
-					if (can_train_combat_skill(src, used_weapon.associated_skill, skill_target))
-						mind.add_sleep_experience(used_weapon.associated_skill, max(round(STAINT*exp_multi), 0), FALSE)
+					if (can_train_combat_skill(src, defender_skilltype, skill_target))
+						mind.add_sleep_experience(defender_skilltype, max(round(STAINT*exp_multi*defender_factor), 0), FALSE)
 
 				//attacker skill gain
 				if(attacker.mind && !isanimal(attacker))
@@ -292,8 +296,8 @@
 							skill_target -= SKILL_LEVEL_NOVICE
 						if(HAS_TRAIT(src, TRAIT_BADTRAINER))
 							skill_target -= SKILL_LEVEL_NOVICE
-						if (can_train_combat_skill(attacker, attacker_skill_type, skill_target))
-							attacker.mind.add_sleep_experience(attacker_skill_type, max(round(STAINT*exp_multi), 0), FALSE)
+						if (can_train_combat_skill(attacker, attacker_skilltype, skill_target))
+							attacker.mind.add_sleep_experience(attacker_skilltype, max(round(STAINT*exp_multi*attacker_factor), 0), FALSE)
 
 			if(prob(66) && attacker_weapon)
 				if((used_weapon.flags_1 & CONDUCT_1) && (attacker_weapon.flags_1 & CONDUCT_1))
@@ -355,7 +359,7 @@
 	if(weapon_parry == FALSE)
 		if(do_unarmed_parry(drained, user, untrained_armor))
 			//only gain experience if attacker isn't using a non-combat skill for their weapon
-			if(ispath(attacker_skill_type, /datum/skill/combat))
+			if(ispath(attacker_skilltype, /datum/skill/combat))
 				if((mobility_flags & MOBILITY_STAND) && !isanimal(attacker))
 					var/skill_target = attacker_skill
 					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER))

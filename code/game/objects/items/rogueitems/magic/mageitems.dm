@@ -56,6 +56,18 @@
 	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
 	var/chosen_keyword
 
+/obj/item/chalk/attack(mob/living/target, mob/living/user)
+
+	user.visible_message(span_notice("[user] begins nibbling on [src]."), span_notice("I begin nibbling on [src]."))
+	if(!do_after(user, 2 SECONDS, target = src))
+		return
+	playsound(user.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
+	user.visible_message(span_notice("[user] finishes eating [src]."), span_notice("I finish eating [src]. Yum!"))
+	user.reagents.add_reagent(/datum/reagent/medicine/manapot, 15)
+	qdel(src)
+
+
+
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
 	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		to_chat(user, span_cult("Nothing comes in mind to draw with the chalk."))

@@ -77,7 +77,7 @@
 	..()
 	user.update_inv_hands()
 
-/obj/item/book/rogue/rmb_self(mob/user)
+/obj/item/book/rogue/rmb_self(mob/user, keybind = FALSE)
 	attack_right(user)
 	return
 

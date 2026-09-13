@@ -10,10 +10,11 @@
 	var/atom/movable/contained_atom
 	var/datum/proximity_monitor/proximity_monitor
 	var/revealing = FALSE
+	var/prox_range = 7
 
 /obj/effect/quest_spawn/Initialize(mapload)
 	. = ..()
-	proximity_monitor = new(src, 7)
+	proximity_monitor = new(src, prox_range)
 
 /obj/effect/quest_spawn/Destroy(force)
 	QDEL_NULL(contained_atom)
@@ -45,7 +46,7 @@
 	if(our_turf.z != scroll_turf.z)
 		return
 
-	if(get_dist(our_turf, scroll_turf) > 7)
+	if(get_dist(our_turf, scroll_turf) > prox_range)
 		return
 
 	// Pop every spawner this quest owns at once so the whole encounter materializes together.
@@ -80,6 +81,19 @@
 
 /obj/effect/quest_spawn/ex_act()
 	return
+
+/obj/effect/quest_spawn/notorious
+	prox_range = NOTORIOUS_BOUNTY_PROX_RANGE
+
+/obj/effect/quest_spawn/notorious/reveal_contained()
+	if(!contained_atom || revealing)
+		return
+	if(isliving(contained_atom))
+		var/datum/component/quest_object/quest_component = GetComponent(/datum/component/quest_object)
+		var/datum/quest/kill/notorious_bounty/quest = quest_component?.quest_ref?.resolve()
+		if(istype(quest))
+			INVOKE_ASYNC(quest, TYPE_PROC_REF(/datum/quest/kill/notorious_bounty, offer_boss_control), contained_atom)
+	return ..()
 
 /obj/effect/temp_visual/contract_phantom
 	name = "approaching threat"

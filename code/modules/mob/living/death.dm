@@ -12,7 +12,7 @@ GLOBAL_LIST_EMPTY(last_words)
 		gib_animation()
 
 	spill_embedded_objects()
-	
+
 	spill_organs(no_brain, no_organs, no_bodyparts)
 
 	if(!no_bodyparts)
@@ -48,7 +48,7 @@ GLOBAL_LIST_EMPTY(last_words)
 
 	if(drop_items)
 		unequip_everything()
-	
+
 	if(buckled)
 		buckled.unbuckle_mob(src, force = TRUE)
 
@@ -131,7 +131,7 @@ GLOBAL_LIST_EMPTY(last_words)
 
 	. = ..()
 
-	SEND_SIGNAL(src, COMSIG_LIVING_DEATH, gibbed) 
+	SEND_SIGNAL(src, COMSIG_LIVING_DEATH, gibbed)
 	if(client)
 		client.move_delay = initial(client.move_delay)
 		if(!nocutscene)
@@ -184,11 +184,7 @@ GLOBAL_LIST_EMPTY(last_words)
 		explosion(get_turf(src), heavy_impact_range = 0, light_impact_range = 1, flash_range = 2, smoke = FALSE, soundin = 'sound/misc/explode/incendiary (2).ogg')
 		playsound(src, 'sound/magic/soulshot.ogg', 60, FALSE)
 		src.gib()
-
-	// AZURE EDIT BEGIN: necra acolyte/priest deathsight trait
-	// this was a player that just died, so do the honors
-	// Vheslynites/second life people don't show up for this.
-	if (client)
+	if (client && !contract_spawned)
 		if (!gibbed && !( (src.mind && src.mind.has_antag_datum(/datum/antagonist/zombie)) || (src.mind && src.mind.has_antag_datum(/datum/antagonist/skeleton)) || HAS_TRAIT(src, TRAIT_SECONDLIFE) || HAS_TRAIT(src, TRAIT_UNFORGIVABLE) )) // because I hate being jumpscared by "OOH SOMEONE DIED IN THE CHURCH" when they're just killing a deadite with burn rot to rez them
 			for (var/mob/living/player in GLOB.player_list)
 				if (player.stat == DEAD || isbrain(player))

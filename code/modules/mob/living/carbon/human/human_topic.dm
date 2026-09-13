@@ -488,6 +488,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	return "<font color='[color]'>[label]</font> [dots]"
 
 /proc/skilldiff_report(input)
+	input = clamp(round(input, 1), -SKILL_LEVEL_LEGENDARY, SKILL_LEVEL_LEGENDARY)
 	switch (input)
 		if(-6)
 			return "<font color = '#ff4ad2'>I know nothing. They -- everything</font>"

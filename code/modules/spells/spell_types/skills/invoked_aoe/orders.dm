@@ -57,8 +57,6 @@
 			if(target.job in affectedjobs)
 				affectedtargets += target
 				continue
-			if(owner.advjob == "Disgraced Knight" && target.advjob == "Disgraced Man at Arms") //Special line so Disgraced Knight can buff Disgraced Man at Arms
-				affectedtargets += target
 		if(!length(affectedtargets))
 			to_chat(owner, span_alert("There are no subordinates close enough to hear my orders!"))
 			return FALSE

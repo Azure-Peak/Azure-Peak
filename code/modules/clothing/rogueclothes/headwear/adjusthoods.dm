@@ -62,6 +62,17 @@
 /obj/item/clothing/head/roguetown/roguehood/red
 	color = CLOTHING_RED
 
+/obj/item/clothing/head/roguetown/roguehood/bogman
+	name = "bogman's hood"
+	desc = "A head's best friend, worn and proven by aeon's grip, its once-vibrant colors long worn out after its former owner deserted their post."
+	color = "#7a8138"
+
+/obj/item/clothing/head/roguetown/roguehood/bogman/black
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/head/roguetown/roguehood/bogman/brown
+	color = "#997C4F"
+
 /obj/item/clothing/head/roguetown/roguehood/black
 	color = CLOTHING_BLACK
 
