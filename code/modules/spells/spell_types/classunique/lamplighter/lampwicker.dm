@@ -153,7 +153,6 @@
 	var/defend = 3
 
 /datum/status_effect/buff/bulwark_of_oil/on_apply()
-	SIGNAL_HANDLER
 	. = ..()
 	RegisterSignal(owner, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(weapon_defend))
 	RegisterSignal(owner, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(unarmed_defend))
