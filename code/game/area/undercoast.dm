@@ -56,3 +56,27 @@
 	ceiling_protected = TRUE
 	deathsight_message = "a dark cave where Abyssor's dream echoes"
 	detail_text = DETAIL_TEXT_ORC_RUIN
+
+/area/rogue/under/cave/menageriedungeon
+	name = "Menagerie"
+	loot_budget = LOOT_BUDGET_MENAGERIE
+	icon_state = "under"
+	first_time_text = "MENAGERIE"
+	droning_sound = 'sound/music/area/dungeon.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	ceiling_protected = TRUE
+	deathsight_message = "a twisted collection of cages and cells"
+	detail_text = DETAIL_TEXT_MENAGERIE
+
+/area/rogue/under/cave/menageriedeep
+	name = "Menagerie Deep"
+	loot_budget = LOOT_BUDGET_MENAGERIE_DEEP
+	icon_state = "under"
+	first_time_text = "BENEATH"
+	droning_sound = 'sound/music/area/dungeon2.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	ceiling_protected = TRUE
+	deathsight_message = "a twisted collection of cages and cells"
+	detail_text = DETAIL_TEXT_MENAGERIE_DEEP
