@@ -13,6 +13,7 @@
 	subclass_stats = list(
 		STATKEY_PER = 3,
 		STATKEY_INT = 1,
+		STATKEY_WIL = 1,
 		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
@@ -86,6 +87,7 @@
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	subclass_stats = list(
 		STATKEY_STR = 2,
+		STATKEY_INT = 1,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1
 	)

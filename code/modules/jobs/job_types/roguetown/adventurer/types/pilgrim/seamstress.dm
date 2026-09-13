@@ -11,8 +11,7 @@
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_INT = 2,
-		STATKEY_PER = 1,
-		STATKEY_STR = -1
+		STATKEY_PER = 1
 	)
 	subclass_skills = list(
 		/datum/skill/craft/sewing = SKILL_LEVEL_EXPERT,

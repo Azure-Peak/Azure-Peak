@@ -11,10 +11,10 @@
 	maximum_possible_slots = 5 // They're still Towners who contribute to the econ, even when not fighting or bog-larping.
 
 	subclass_stats = list(
-		STATKEY_CON = 1,
+		STATKEY_CON = 2,
 		STATKEY_STR = 1,
-		STATKEY_WIL = 1,
-		STATKEY_INT = -1,
+		STATKEY_WIL = 2,
+		STATKEY_PER = 1
 	)
 
 	subclass_skills = list(

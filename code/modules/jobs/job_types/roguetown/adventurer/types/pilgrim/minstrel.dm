@@ -10,7 +10,8 @@
 	traits_applied = list(TRAIT_EMPATH, TRAIT_GOODLOVER, TRAIT_HOMESTEAD_EXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 1,
-		STATKEY_INT = 1,
+		STATKEY_INT = 2,
+		STATKEY_PER = 1,
 		STATKEY_WIL = 1,
 		STATKEY_LCK = 1
 	)

@@ -10,7 +10,8 @@
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
 		STATKEY_STR = 1,
-		STATKEY_INT = -1
+		STATKEY_WIL = 3,
+		STATKEY_INT = 2
 	)
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	subclass_skills = list(

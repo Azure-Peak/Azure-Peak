@@ -15,9 +15,11 @@
 	pickprob = 5
 	category_tags = list(CTAG_TOWNER)
 	subclass_stats = list(
+		STATKEY_LCK = 4,
 		STATKEY_INT = 3,
 		STATKEY_CON = 2,
-		STATKEY_WIL = 1
+		STATKEY_WIL = 1,
+		STATKEY_SPD = 2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,

@@ -12,6 +12,7 @@
 		STATKEY_LCK = 2,
 		STATKEY_CON = 1,
 		STATKEY_STR = 1,
+		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,

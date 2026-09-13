@@ -11,6 +11,7 @@
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_LCK = 2,
+		STATKEY_INT = 2,
 		STATKEY_SPD = 1
 	)
 	age_mod = /datum/class_age_mod/fisher

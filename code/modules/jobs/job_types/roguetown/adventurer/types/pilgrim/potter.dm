@@ -13,7 +13,7 @@
 		STATKEY_PER = 2,
 		STATKEY_WIL = 2,
 		STATKEY_CON = 1,
-		STATKEY_SPD = -1
+		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN, // Potters are fairly active, having to source their own clay.

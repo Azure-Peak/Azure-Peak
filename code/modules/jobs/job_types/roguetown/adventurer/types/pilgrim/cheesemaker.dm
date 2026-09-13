@@ -12,7 +12,8 @@
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
 		STATKEY_INT = 2,
-		STATKEY_CON = 2,//Cheeese diet
+		STATKEY_CON = 2,
+		STATKEY_SPD = 1,
 		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
