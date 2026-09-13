@@ -38,8 +38,11 @@
 //			src.emote("attackgrunt")
 		if(used_intent.releasedrain)
 			stamina_add(ceil(used_intent.releasedrain * rmb_stam_penalty))
+		var/dualwield_armed = FALSE
 		if(HAS_TRAIT(src, TRAIT_DUALWIELDER))
-			process_dualwield(L, null, null)
+			var/datum/intent/dualwield_cached_intent = used_intent
+			dualwield_armed = process_dualwield()
+			used_intent = dualwield_cached_intent
 		if(L.has_status_effect(/datum/status_effect/buff/clash) && L.get_active_held_item() && ishuman(L))
 			var/mob/living/carbon/human/H = L
 			var/obj/item/IM = L.get_active_held_item()
@@ -65,6 +68,8 @@
 			return
 		if(HAS_TRAIT(src, TRAIT_EMPOWERED_UNARMED) || !L.checkdefense(used_intent, src))
 			L.attack_hand(src, params)
+			if(dualwield_armed)
+				fire_dualwield_paired(L, params)
 		return
 	else
 		var/item_skip = FALSE

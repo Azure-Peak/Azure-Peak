@@ -24,7 +24,8 @@
 	if(pulledby || pulling)
 		return FALSE
 
-	if(world.time < (last_parry + parrydelay))
+	var/paired_swing = user?.dualwield_twoswing
+	if(!paired_swing && world.time < (last_parry + parrydelay))
 		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 			return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable))
@@ -38,11 +39,12 @@
 	if(attack_intent && !attack_intent.canparry)
 		return FALSE
 
-	last_parry = world.time
-	if(!istype(rmb_intent, /datum/rmb_intent/riposte))
-		var/parrytime = setparrytime
-		parrytime -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
-		changeNext_def(parrytime)
+	if(!paired_swing)
+		last_parry = world.time
+		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
+			var/parrytime = setparrytime
+			parrytime -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
+			changeNext_def(parrytime)
 
 	var/drained = BASE_PARRY_STAMINA_DRAIN
 	var/weapon_parry = FALSE

@@ -34,13 +34,15 @@
 		var/mob/living/simple_animal/beast = src
 		if(beast.is_winded())
 			return FALSE
-	if(world.time < last_dodge + dodgetime)
+	var/paired_swing = user?.dualwield_twoswing
+	if(!paired_swing && world.time < last_dodge + dodgetime)
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/riposted))
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable))
 		return FALSE
-	last_dodge = world.time
+	if(!paired_swing)
+		last_dodge = world.time
 	if(src.loc == user.loc)
 		return FALSE
 	if(attack_intent)
