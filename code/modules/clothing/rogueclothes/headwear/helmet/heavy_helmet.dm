@@ -1253,7 +1253,7 @@
 	merely worn - it watches alongside its bearer."
 	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark)
 	body_parts_covered = FULL_HEAD|NECK
-	armor = ARMOR_BLACKOAK //Resistant to blunt & stab, but very weak to slash.
+	armor = ARMOR_BRIGANDINE
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "welfhead"
