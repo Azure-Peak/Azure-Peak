@@ -166,6 +166,7 @@
 			if(isnull(vagina_choice))
 				vagina_choice = "no"
 			set_bits(H, ORGAN_SLOT_VAGINA, vagina_options[vagina_choice])
+
 /// Population-scaled gnoll count for a scaling mode, capped at the mode's maximum (DYNAMIC 3, FLAT 2, SINGLE 1,
 /// NONE 0). Scales with population like wretch slots (+1 per 10 players above 40), just clamped lower.
 /proc/gnoll_scaled_slots(mode)
