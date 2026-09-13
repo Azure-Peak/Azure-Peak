@@ -92,15 +92,15 @@
 	category_tags = list(CTAG_LAMPLIGHTER)
 	traits_applied = list(TRAIT_OUTDOORSMAN)
 	subclass_stats = list(
-		STATKEY_STR = 1,
-		STATKEY_PER = 2,
+		STATKEY_PER = 1,
+		STATKEY_INT = 2,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 3,
 	)
 	subclass_skills = list(
-		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -110,7 +110,7 @@
 		/datum/skill/craft/masonry = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/lampwicker/pre_equip(mob/living/carbon/human/H)
