@@ -222,6 +222,27 @@
 /obj/structure/fluff/walldeco/sign/merchantsign/left
 	icon_state = "shopsign_merchant_left"
 
+/obj/structure/fluff/walldeco/sign/apothecarysign
+	name = "clinic sign"
+	icon_state = "shopsign_apothecary_right"
+	desc = "For all your medical attention needs."
+	plane = -1
+	pixel_y = 16
+
+/obj/structure/fluff/walldeco/sign/apothecarysign/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("When you're injured, this is where you go, your local Apothecary. Be it for gushing wounds, missing limbs or organs, or even death, the Clinic can get you fixed up and back on your feet.")
+	. += span_info("The Apothecary stocks a variety of medical supplies, potions, and equipment to treat most injuries, often at good prices in their Peddler, should there be someone working the counter.")
+	. += span_info("Healing Potions, Mana Potions, Antidotes, Stamina and other enhancing potions can all be found or bartered for at the Apothecary, given they have the ingredients available and a willing worker.")
+	. += span_info("Keep in mind your constitution, some can take a lot more punishment than others, and should you bite off more than you can chew, you may end up laid flat and lifeless in one of the beds here.")
+
+/obj/structure/fluff/walldeco/sign/apothecarysign/left
+	name = "clinic sign"
+	icon_state = "shopsign_apothecary_left"
+	desc = "For all your medical attention needs."
+	plane = -1
+	pixel_y = 16
+
 /obj/structure/fluff/walldeco/psybanner
 	name = "psydonic banner"
 	desc = "A banner of fine fabric bearing the symbol of Psydon, the Weeping God, creator of the world. \
@@ -591,7 +612,10 @@
 #undef STEAK_ALARM_DISABLE_TIME
 
 /obj/structure/fluff/walldeco/vinez // overlay vines for more flexibile mapping
+	name = "ivy"
 	icon_state = "vinez"
+	max_integrity = 10
+	mouse_opacity = 1
 
 /obj/structure/fluff/walldeco/vinez/l
 	pixel_x = -32
@@ -608,6 +632,49 @@
 
 /obj/structure/fluff/walldeco/vinez/red
 	icon_state = "vinez_red"
+
+/obj/structure/fluff/walldeco/vinez/glow//glowy vines
+	name = "glowing ivy"
+	icon_state = "vinez"
+	mouse_opacity = 1
+
+/obj/structure/fluff/walldeco/vinez/glow/Initialize()
+	. = ..()
+	set_light(4, 0, 1, l_color = "#75a35b", l_on = TRUE)
+
+/obj/structure/fluff/walldeco/vinez/glow/l
+	pixel_x = -32
+
+/obj/structure/fluff/walldeco/vinez/glow/r
+	pixel_x = 32
+
+/obj/structure/fluff/walldeco/vinez/glow/blue
+	name = "blue glowing ivy"
+	icon_state = "vinez_blue"
+
+/obj/structure/fluff/walldeco/vinez/glow/blue/Initialize()
+	. = ..()
+	set_light(4, 0, 1, l_color = "#5a83b8", l_on = TRUE)
+
+/obj/structure/fluff/walldeco/vinez/glow/blue/l
+	pixel_x = -32
+
+/obj/structure/fluff/walldeco/vinez/glow/blue/r
+	pixel_x = 32
+
+/obj/structure/fluff/walldeco/vinez/glow/red
+	name = "red glowing ivy"
+	icon_state = "vinez_red"
+
+/obj/structure/fluff/walldeco/vinez/glow/red/Initialize()
+	. = ..()
+	set_light(4, 0, 1, l_color = "#a84d4d", l_on = TRUE)
+
+/obj/structure/fluff/walldeco/vinez/glow/red/l
+	pixel_x = -32
+
+/obj/structure/fluff/walldeco/vinez/glow/red/r
+	pixel_x = 32
 
 /obj/structure/fluff/walldeco/bath // suggestive stonework
 	icon_state = "bath1"
