@@ -476,3 +476,84 @@
   - rscadd: Ports a hat and cape sprite from vanderlin
   voidwytch:
   - rscadd: Added TEN new sets of clothes, acquirable at the Tailor only
+2026-09-13:
+  1393F:
+  - spellcheck: A misspell in the description of the psydonic chestplate has been
+      fixed
+  Athena148:
+  - rscdel: Strength affecting voice pitch
+  BurpleBineapple:
+  - bugfix: Boak woad plate armor is ARMOR_CLASS_MEDIUM
+  - balance: All normal half-plate objects are ARMOR_CLASS_HEAVY
+  Dorodomki:
+  - bugfix: 'fixed a donator ckey
+
+      :cl:'
+  Fi:
+  - spellcheck: Corrected typos of the word "obfuscated" in the code.
+  - balance: Revised the examination titles of the Lich and the Vampire Lord. The
+      Lich's true title is always revealed unless masked, and the Vampire Lord's title
+      is always obfuscated but is now "Ancient Lord" when revealed by the throat or
+      regency ("Ancient Lord Regent").
+  Juubo:
+  - rscadd: masquerade lite
+  - rscadd: werewolf lite
+  - rscadd: vote reset on sub-40 round starts
+  - code_imp: added STORYTELLER_ANTAG_MEDIUM for coders to use in other antag weeks
+  - code_imp: added DEFAULT_ANTAG_BLACKLISTED_COMBAT_ROLES to exclude combat roles
+  - code_imp: added /datum/antagonist/werewolf/noinfect if admins want to give werewolf
+      without an infection chance
+  Ketrai:
+  - rscadd: Heartbeast hoarder withdrawal messages changed.
+  Lamasmaster:
+  - qol: Iron Bars can now be attacked by both Cutting/Striking intents.
+  - balance: Reduced wall integrity.
+  Moku-Mok:
+  - rscadd: Non-Frei Punchdaggers can be worn on beltr or beltr, so your hip slots.
+  - bugfix: 'Berserker spawns with Punchdagger if chosen.
+
+      fix:Munitioneer spawns with ammo for crossbow if chosen.'
+  Ollanius:
+  - bugfix: Most non-unique reagents now have their capitalization standardized (like
+      Water -> water, Blackberry -> extract of blackberry, etc.) for a neater presentation.
+      Note that uniquely-named reagents - chiefly imported liqours - remain capitalized,
+      as they're proper names.
+  - bugfix: Certain reagents have been given a more historically appropriate name.
+      Most notably, the series of fruity reagents extractable from flavored zigarettes
+      are now named "extract of [FRUITNAME]", and fire resistance juices are now named
+      "elixir of fire resistance."
+  - rscadd: Minor descriptions to most remaining reagents that lacked one. I don't
+      actually know if these're visible in-game, but it's good to have just in case.
+  Ryan180602:
+  - balance: lowers profane shard projectile speed and gives it a 0.5s cast.
+  - rscadd: donor items for a player
+  - bugfix: reza donor item
+  - rscadd: confrontation zpellblade naginata gets the regular hauberk like everyone
+      else.
+  - balance: lowers range and firestack on ignition. gives it a 0.5s chargeup. increases
+      CD to 15s.
+  - bugfix: conjured glued-on items no longer stay glued and ash appropriately
+  SaundMinah:
+  - bugfix: changed code to be able to transform the right helmet.
+  WeNeedMorePhoron:
+  - rscadd: Duration of Sahir's phase has been doubled.
+  crunchypretzels:
+  - rscadd: two new combat mode tracks
+  kilozombie:
+  - rscadd: Wretchbase, Bandit base, and Vampire Lord manor all get Mercenary stones
+      now. Godspeed and commission a merc to be evyl
+  - rscadd: Vampire Lord manor has HERMES spots now
+  - bugfix: Wretchbase Zizo chapel benches no longer block you wrongly
+  radarseas:
+  - balance: munitioneer has a full toolset for masonary + carpentry + smithing starting
+      off like sapper skeletons.
+  - balance: munitioneer has sewing/skincrafting raised to journeyman.
+  - balance: munitioneer has 80 vs 50 starting funds, they no longer recieve a mid-range
+      pouch of coin on top of their starting funds for an obscene amount of mammon.
+      Go licker Astrocrat if you want to drown in coin.
+  - balance: munitioneer has armor on their hood, no more easily skullcracking them,
+      rejoice!
+  - code_imp: muntioneer hood has some new flavor on examine.
+  voidwytch:
+  - bugfix: high society cloak issue
+  - bugfix: velvet dress two electric boogaloo rename
