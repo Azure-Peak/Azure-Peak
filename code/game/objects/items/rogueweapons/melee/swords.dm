@@ -1639,7 +1639,7 @@
 	inhand_y_dimension = 64
 	dropshrink = 0.75
 	max_blade_int = 230
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/thrust/rapier/lunge)
 	gripped_intents = null
 	special = /datum/special_intent/piercing_lunge
 	parrysound = list(
@@ -1733,14 +1733,10 @@
 				"westabove" = 0,
 				)
 
-/datum/intent/sword/cut/rapier
-	clickcd = CLICK_CD_QUICK
-	damfactor = 0.75
-
 /datum/intent/sword/thrust/rapier
 	clickcd = 8
 	damfactor = 1.1
-	penfactor = PEN_MEDIUM
+	penfactor = PEN_LIGHT
 
 /datum/intent/sword/thrust/rapier/lunge
 	name = "deep lunge"
@@ -1773,7 +1769,7 @@
 	icon_state = "blacksteelrapier"
 	sheathe_icon = "blacksteelrapier"
 	max_blade_int = 400
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/thrust/rapier/lunge)
 	wdefense = 9 //Absurdly high defense, but no added integrity; for the discerning duelmaster.
 	var/used = FALSE
 	var/list/selection = list(
@@ -1931,7 +1927,7 @@
 	grid_height = 64
 	dropshrink = 0
 	bigboy = FALSE
-	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier)
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier)
 	gripped_intents = null
 	force_wielded = 0
 
