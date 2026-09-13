@@ -158,53 +158,33 @@
 
 /datum/status_effect/debuff/silver_lingering_damage/on_apply()
 	. = ..()
-
-	to_chat(owner, span_warning("SILVER DEBUG: Lingering damage applied."))
-
 	ADD_TRAIT(owner, TRAIT_NOHEAL, "silver_lingering_damage")
-	to_chat(owner, span_warning("SILVER DEBUG: NOHEAL applied."))
-
+	ADD_TRAIT(owner, TRAIT_NOREGEN, "silver_lingering_damage")
 	if(HAS_TRAIT(owner, TRAIT_NOPAIN))
 		nopain_sources = list()
 		for(var/source in owner.status_traits[TRAIT_NOPAIN])
 			nopain_sources += source
-		to_chat(owner, span_warning("SILVER DEBUG: NOPAIN sources found: [jointext(nopain_sources, ", ")]"))
 		REMOVE_TRAIT(owner, TRAIT_NOPAIN, nopain_sources)
-		to_chat(owner, span_warning("SILVER DEBUG: NOPAIN removed."))
-
 	if(HAS_TRAIT(owner, TRAIT_NOPAINSTUN))
 		nopainstun_sources = list()
 		for(var/source in owner.status_traits[TRAIT_NOPAINSTUN])
 			nopainstun_sources += source
-		to_chat(owner, span_warning("SILVER DEBUG: NOPAINSTUN sources found: [jointext(nopainstun_sources, ", ")]"))
 		REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, nopainstun_sources)
-		to_chat(owner, span_warning("SILVER DEBUG: NOPAINSTUN removed."))
-
 	return TRUE
 
 /datum/status_effect/debuff/silver_lingering_damage/tick()
 	. = ..()
-	to_chat(owner, span_warning("SILVER DEBUG: Lingering damage tick."))
 	owner.adjustFireLoss(7)
 
 /datum/status_effect/debuff/silver_lingering_damage/on_remove()
-	to_chat(owner, span_warning("SILVER DEBUG: Lingering damage removed."))
-
 	REMOVE_TRAIT(owner, TRAIT_NOHEAL, "silver_lingering_damage")
-	to_chat(owner, span_warning("SILVER DEBUG: NOHEAL removed."))
-
+	REMOVE_TRAIT(owner, TRAIT_NOREGEN, "silver_lingering_damage")
 	if(nopain_sources)
-		to_chat(owner, span_warning("SILVER DEBUG: Restoring NOPAIN sources: [jointext(nopain_sources, ", ")]"))
 		for(var/source in nopain_sources)
 			ADD_TRAIT(owner, TRAIT_NOPAIN, source)
-
 	if(nopainstun_sources)
-		to_chat(owner, span_warning("SILVER DEBUG: Restoring NOPAINSTUN sources: [jointext(nopainstun_sources, ", ")]"))
 		for(var/source in nopainstun_sources)
 			ADD_TRAIT(owner, TRAIT_NOPAINSTUN, source)
-
-	to_chat(owner, span_warning("SILVER DEBUG: Trait restoration complete."))
-
 	return ..()
 
 /atom/movable/screen/alert/status_effect/debuff/silver_lingering_damage
