@@ -88,11 +88,9 @@
 	maximum_possible_slots = 2 // i dont want an army of towner thugs
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	subclass_stats = list(
-		STATKEY_WIL = -2,
-		STATKEY_CON = -2,
-		STATKEY_STR = -1,
+		STATKEY_PER = 1,
 		STATKEY_SPD = 2,
-		STATKEY_INT = 2,
+		STATKEY_INT = 2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
@@ -162,10 +160,7 @@
 		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
 		STATKEY_CON = 5,
-		STATKEY_SPD = -4,
-		STATKEY_INT = -6,
-		STATKEY_PER = -3,
-		STATKEY_LCK = -1,
+		STATKEY_SPD = -2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
