@@ -1160,7 +1160,7 @@
 /datum/loadout_item/donator/lief_friend
 	name = "Donator Item - Aurum's Amulets"
 	path = /obj/item/clothing/neck/roguetown/psicross/liefdonator
-	ckeywhitelist = list("linxsysart", "Pessime959")
+	ckeywhitelist = list("linxsysart", "pessime959")
 
 
 /datum/loadout_item/donator/rezathedwarf
