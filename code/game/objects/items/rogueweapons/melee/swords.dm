@@ -1288,10 +1288,8 @@
 	in favor of a hollow beak to hook and draw harm away from its user. Short in length, yet lethally light in weight."
 	icon_state = "psyswordshort"
 	sheathe_icon = "psyswordshort"
-	force = 20
-	force_wielded = 20
+	force = 20 //Doakes.gif
 	minstr = 7
-	wdefense = 3
 	wbalance = WBALANCE_SWIFT
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
@@ -1325,10 +1323,8 @@
 	icon = 'icons/roguetown/weapons/daggers32.dmi'
 	icon_state = "silverswordshort"
 	sheathe_icon = "psyswordshort"
-	force = 20
-	force_wielded = 20
+	force = 20 //Doakes.gif
 	minstr = 7
-	wdefense = 3
 	wbalance = WBALANCE_SWIFT
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
@@ -1811,14 +1807,10 @@
 	in an untrained hand - is surprisingly adept at both parrying and riposting."
 	icon_state = "silverrapier"
 	sheathe_icon = "silverrapier"
-	max_integrity = 225
-	max_blade_int = 225
 	force = 20
-	force_wielded = 20
 	minstr = 8
-	wdefense = 8
 	smeltresult = /obj/item/ingot/silver
-	is_silver = TRUE
+	is_silver = TRUE //Blessing component covers extra wdef and integrity, don't give it snowflake values.
 
 /obj/item/rogueweapon/sword/rapier/silver/ComponentInitialize()
 	AddComponent(\
@@ -1837,12 +1829,8 @@
 	maille, but also serves as the symbol of an Otavan diplomat's authority."
 	icon_state = "silverrapier"
 	sheathe_icon = "silverrapier"
-	max_integrity = 225
-	max_blade_int = 225
 	force = 20
-	force_wielded = 20
 	minstr = 8
-	wdefense = 8
 	smeltresult = /obj/item/ingot/silverblessed
 	is_silver = TRUE
 
@@ -1875,12 +1863,11 @@
 	crowned upon a basket hilt that keeps righteous hands safe from harm.</b>"
 	icon_state = "psyrapier"
 	sheathe_icon = "psyrapier"
-	max_integrity = 300
+	max_integrity = 300 //Keeps extra integ/blade integ because its a relic.
 	max_blade_int = 300
 	force = 20
-	force_wielded = 20
 	minstr = 8
-	wdefense = 8
+	wdefense = 8 //This keeps its special wdefense since its a relic.
 	smeltresult = /obj/item/ingot/silver
 	is_silver = TRUE
 
@@ -1985,14 +1972,11 @@
 	icon_state = "silversword"
 	sheathe_icon = "silversword"
 	force = 20
-	force_wielded = 25
+	force_wielded = 25 //Doakes.gif
 	minstr = 9
-	wdefense = 5
-	is_silver = TRUE
+	is_silver = TRUE //Silver blessing component covers extra wdef and integrity. Don't give it snowflake values for those.
 	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 2
-	max_blade_int = 230
-	max_integrity = 200
 
 /obj/item/rogueweapon/sword/silver/ComponentInitialize()
 	AddComponent(\
@@ -2012,14 +1996,11 @@
 	icon_state = "silversword"
 	sheathe_icon = "silversword"
 	force = 20
-	force_wielded = 25
+	force_wielded = 25 //Doakes.gif
 	minstr = 9
-	wdefense = 5
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 	smelt_bar_num = 2
-	max_blade_int = 230
-	max_integrity = 200
 	smelt_bar_num = 1
 
 /obj/item/rogueweapon/sword/psy/ComponentInitialize()
@@ -2050,7 +2031,7 @@
 	sword, better known as a 'ram-dao', now serves to satiate the spite of vengeful spirits - not through bloodshed, but through sunderance."
 	icon_state = "ram_dao"
 	sheathe_icon = "scabbard_decsword3"
-	force = 25
+	force = 25 //Comparable to the silver war axe, given the intents. This gets a pass.
 	no_loot_taint = TRUE
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
 	gripped_intents = null
