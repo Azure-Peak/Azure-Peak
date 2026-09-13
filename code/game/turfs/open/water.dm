@@ -538,6 +538,22 @@
 	dir = pick(GLOB.cardinals)
 	.	= ..()
 
+/turf/open/water/cleanshallow/deep
+	name = "deep water"
+	desc = "Clear and deep water, beautiful but dangerous should you not know how to swim."
+	icon = 'icons/turf/roguefloor.dmi'
+	icon_state = "rockw4"
+	water_level = 3
+	slowdown = 5
+	swim_skill = TRUE
+	water_color = "#5d7e84"
+
+/turf/open/water/cleanshallow/deep/Initialize()
+	. = ..()
+	icon_state = "rock"
+	water_color = "#5d7e84"
+	update_icon()
+
 /turf/open/water/river
 	name = "river"
 	desc = "A river of crystal clear water flows swiftly along the contours of the land."
@@ -551,6 +567,85 @@
 
 /turf/open/water/river/flow
 	icon_state = "rockwd2"
+
+/turf/open/water/river/flow/deep
+	name = "deep river"
+	desc = "A deep and flowing river of crystal clear water."
+	icon_state = "rockwd"
+	water_level = 3
+	slowdown = 5
+	swim_skill = TRUE
+	water_color = "#5a7a80"
+
+/turf/open/water/river/flow/deep/Initialize()
+	. = ..()
+	icon_state = "rock"
+	update_icon()
+
+/turf/open/water/river/flow/deep/west
+	dir = 8
+
+/turf/open/water/river/flow/deep/east
+	dir = 4
+
+/turf/open/water/river/flow/deep/north
+	dir = 1
+
+/turf/open/water/river/flow/murk
+	name = "murk river"
+	desc = "A foul river of weeds and algae."
+	icon_state = "dirtwd2"
+	water_level = 2
+	water_color = "#705a43"
+	slowdown = 3
+	wash_in = TRUE
+	water_reagent = /datum/reagent/water/gross
+
+/turf/open/water/river/flow/murk/Initialize()
+	. = ..()
+	icon_state = "rock"
+	update_icon()
+
+/turf/open/water/river/flow/murk/Entered(atom/movable/AM, atom/oldLoc)
+	. = ..()
+	if(!oldLoc)
+		return
+	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE) || HAS_TRAIT(AM, TRAIT_BOGWALKER))
+		return
+	if(isliving(AM) && !AM.throwing)
+		if(ishuman(AM))
+			var/mob/living/carbon/human/C = AM
+			if(istype(C.buckled, /obj/vehicle/ridden) || isliving(C.buckled))
+				return
+			var/chance = 3
+			if(C.m_intent == MOVE_INTENT_RUN)
+				chance = 6
+			if(C.m_intent == MOVE_INTENT_SNEAK)
+				chance = 1
+			if(!prob(chance))
+				return
+			if(C.blood_volume <= 0)
+				return
+			if(HAS_TRAIT(C, TRAIT_LEECHRESIST))
+				var/avoid_chance = 20
+				avoid_chance += (C.STASPD - 10) * 10
+				avoid_chance += (C.STALUC - 10) * 5
+				avoid_chance = clamp(avoid_chance, 0, 100)
+				if(prob(avoid_chance))
+					return
+				else
+					to_chat(C, span_notice("Ouch! I am being sucked off!!"))
+			var/list/zonee = list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG, BODY_ZONE_CHEST)
+			for(var/i = 1; i <= zonee.len; i++)
+				var/zone = pick(zonee)
+				var/obj/item/bodypart/BP = C.get_bodypart(zone)
+				if(!BP)
+					continue
+				if(BP.skeletonized)
+					continue
+				var/obj/item/natural/worms/leech/I = new(C)
+				BP.add_embedded_object(I, silent = TRUE)
+				return .
 
 /turf/open/water/river/flow/west
 	dir = 8
@@ -668,3 +763,37 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+
+/turf/open/water/river/flow/murk/deep
+	name = "deep murk river"
+	desc = "A deep and foul river of weeds and algae."
+	icon_state = "dirtwd"
+	water_level = 3
+	water_color = "#705a43"
+	slowdown = 5
+	swim_skill = TRUE
+	wash_in = TRUE
+	water_reagent = /datum/reagent/water/gross
+
+/turf/open/water/river/flow/murk/deep/Initialize()
+	. = ..()
+	icon_state = "rock"
+	update_icon()
+
+/turf/open/water/river/flow/murk/west
+	dir = 8
+
+/turf/open/water/river/flow/murk/east
+	dir = 4
+
+/turf/open/water/river/flow/murk/north
+	dir = 1
+
+/turf/open/water/river/flow/murk/deep/west
+	dir = 8
+
+/turf/open/water/river/flow/murk/deep/east
+	dir = 4
+
+/turf/open/water/river/flow/murk/deep/north
+	dir = 1

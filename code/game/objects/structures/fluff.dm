@@ -371,6 +371,15 @@
 	icon_state = "barsbent"
 	layer = BELOW_OBJ_LAYER
 
+/obj/structure/bars/shoptwo
+	icon_state = "barsshop"
+	layer = BELOW_OBJ_LAYER
+
+/obj/structure/bars/shoptwo/obj_break(damage_flag)
+	icon_state = "barsshopb"
+	density = FALSE
+	..()
+
 /obj/structure/bars/shop/bronze
 	color = "#ff9c1a"
 

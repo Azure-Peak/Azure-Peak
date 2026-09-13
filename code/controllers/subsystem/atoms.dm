@@ -13,11 +13,15 @@ SUBSYSTEM_DEF(atoms)
 	var/list/late_loaders = list()
 
 	var/list/BadInitializeCalls = list()
+	var/list/AtomInitCounts = list()
 
 /datum/controller/subsystem/atoms/Initialize(timeofday)
 	GLOB.fire_overlay.appearance_flags = RESET_COLOR
 	initialized = INITIALIZATION_INNEW_MAPLOAD
 	InitializeAtoms()
+	var/initlog = InitLog()
+	if(initlog)
+		text2file(initlog, "[GLOB.log_directory]/initialize.log")
 	return ..()
 
 /datum/controller/subsystem/atoms/proc/InitializeAtoms(list/atoms)
@@ -59,6 +63,9 @@ SUBSYSTEM_DEF(atoms)
 
 /datum/controller/subsystem/atoms/proc/InitAtom(atom/A, list/arguments)
 	var/the_type = A.type
+
+	AtomInitCounts[the_type]++
+
 	if(QDELING(A))
 		BadInitializeCalls[the_type] |= BAD_INIT_QDEL_BEFORE
 		return TRUE
@@ -111,6 +118,7 @@ SUBSYSTEM_DEF(atoms)
 		InitializeAtoms()
 	old_initialized = SSatoms.old_initialized
 	BadInitializeCalls = SSatoms.BadInitializeCalls
+	AtomInitCounts = SSatoms.AtomInitCounts
 
 /datum/controller/subsystem/atoms/proc/InitLog()
 	. = ""
@@ -125,6 +133,11 @@ SUBSYSTEM_DEF(atoms)
 			. += "- Qdel'd in New()\n"
 		if(fails & BAD_INIT_SLEPT)
 			. += "- Slept during Initialize()\n"
+	if(AtomInitCounts.len)
+		. += "\n=== TOTAL ATOM INITIALIZATION COUNTS ===\n"
+		for(var/path in AtomInitCounts)
+			if(AtomInitCounts[path] > 999)
+				. += "[path] initialized [AtomInitCounts[path]] time(s).\n"
 
 /datum/controller/subsystem/atoms/Shutdown()
 	var/initlog = InitLog()
