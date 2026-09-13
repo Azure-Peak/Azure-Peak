@@ -4228,8 +4228,8 @@ As Excaliber."
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/head/roguetown/duelhat/donator_rezathedwarf
-	name = "Noah Enclave's hat"
+/obj/item/clothing/head/roguetown/duelhat/donator_brimmedhat
+	name = "brimmed hat"
 	desc = "A well-made hat, trimmed with gold and silver, plumed with a rare feather. Rumored to be copied across the world by a \
 	merchant selling its likeness and using the wearer's name. Much to the original wearer's chagrin."
 	icon_state = "rezahat"
@@ -4241,11 +4241,11 @@ As Excaliber."
 	altdetail_tag = "_detailalt"
 	altdetail_color = CLOTHING_PURPLE
 
-/obj/item/clothing/head/roguetown/duelhat/donator_rezathedwarf/Initialize(mapload)
+/obj/item/clothing/head/roguetown/duelhat/donator_brimmedhat/Initialize(mapload)
 	. = ..()
 	update_icon()
 
-/obj/item/clothing/head/roguetown/duelhat/donator_rezathedwarf/update_icon()
+/obj/item/clothing/head/roguetown/duelhat/donator_brimmedhat/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
