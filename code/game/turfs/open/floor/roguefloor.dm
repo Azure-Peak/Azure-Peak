@@ -275,7 +275,7 @@
 		var/mob/living/L = user
 		if(L.stat != CONSCIOUS)
 			return
-		var/obj/item/I = new /obj/item/natural/dirtclod/snow(src)
+		var/obj/item/I = new /obj/item/natural/snowball(src)
 		if(L.put_in_active_hand(I))
 			L.visible_message(span_warning("[L] picks up some snow."))
 			ChangeTurf(/turf/open/floor/rogue/snowpatchy, flags = CHANGETURF_INHERIT_AIR)
@@ -285,7 +285,7 @@
 	. = ..()
 
 /turf/open/floor/rogue/snow/attackby(obj/item/C, mob/user, params)
-	if(istype(C, /obj/item/natural/dirtclod/snow))
+	if(istype(C, /obj/item/natural/snowball))
 		for(var/elements in contents)
 			if(!istype(elements, /obj/effect/decal/cleanable/blood/footprints/mud))
 				continue

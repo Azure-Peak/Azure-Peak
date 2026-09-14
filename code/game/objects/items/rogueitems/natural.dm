@@ -219,3 +219,18 @@
 
 		storage.update_item(src)
 		storage.orient2hud()
+
+/obj/item/natural/snowball
+	name = "snowball"
+	desc = "A tightly packed ball of snow."
+	icon_state = "snowball"
+	dropshrink = 0
+	force = 0
+	throwforce = 0
+	throw_speed = 4
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/natural/snowball/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
+	if(!..()) //wasn't caught by a mob
+		playsound(get_turf(src), pick(GLOB.barefootstep[FOOTSTEP_SOFT_BAREFOOT][1]), GLOB.barefootstep[FOOTSTEP_SOFT_BAREFOOT][2], TRUE)
+		qdel(src)
