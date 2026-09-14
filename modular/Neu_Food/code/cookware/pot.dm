@@ -37,7 +37,6 @@
 /obj/item/reagent_containers/glass/bucket/pot/examine(mob/user)
 	. = ..()
 	if(reagents?.total_volume)
-		. += span_notice("It holds [reagents.total_volume] [UNIT_FORM_STRING(reagents.total_volume)] of liquid.")
 		. += reagents.chem_temp >= STEW_TEMPERATURE ? span_notice("It is boiling.") : span_notice("It is not boiling.")
 	var/list/solids = list()
 	for(var/obj/item/thing in contents)

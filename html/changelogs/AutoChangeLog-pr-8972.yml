@@ -1,6 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Nocblades are now unconvertible, as a patron-locked role."
-  - bugfix: "Prayers are no longer double-sanitized in chat, meaning apostrophes will no longer be mutated in your prayer whisper"
-  - bugfix: "Conversions from one of the Ten to another no longer provide a mood buff, this was the last mechanical benefit they had. This isn't a gamey thing it's meant to be a roleplay tool, guys, come on."

@@ -1,4 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - code_imp: "quotes/tips will alternate depending on what day of the week it is"

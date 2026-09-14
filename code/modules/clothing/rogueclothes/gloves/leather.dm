@@ -197,3 +197,48 @@
 /obj/item/clothing/gloves/roguetown/cloth/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
+
+/obj/item/clothing/gloves/roguetown/rosa
+	name = "ivory gloves"
+	desc = "Finely crafted gloves of silk and leather."
+	icon_state = "rosagloves1"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/gloves/roguetown/rosa/two
+	name = "scarlet gloves"
+	icon_state = "rosagloves2"
+
+/obj/item/clothing/gloves/roguetown/rosa/three
+	name = "silvered gloves"
+	icon_state = "rosagloves3"
+
+/obj/item/clothing/gloves/roguetown/rosa/four
+	name = "obsidian gloves"
+	icon_state = "rosagloves4"
+
+/obj/item/clothing/gloves/roguetown/rosa/five
+	name = "sable gloves"
+	icon_state = "rosagloves5"
+
+/obj/item/clothing/gloves/roguetown/rosa/six
+	name = "maroon gloves"
+	icon_state = "rosagloves6"
+
+/obj/item/clothing/gloves/roguetown/rosa/seven
+	name = "regal gloves"
+	icon_state = "rosagloves7"
+
+/obj/item/clothing/gloves/roguetown/rosa/eight
+	name = "courtly gloves"
+	icon_state = "rosagloves8"
+
+/obj/item/clothing/gloves/roguetown/rosa/nine
+	name = "royal gloves"
+	icon_state = "rosagloves9"
+
+/obj/item/clothing/gloves/roguetown/rosa/ten
+	name = "stately gloves"
+	icon_state = "rosagloves10"

@@ -1,7 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - qol: "meathook mechanics examine given"
-  - qol: "meathook is faster if the target is dead"
-  - qol: "meathook can be MMB'd to move items off it's tile"
-  - balance: "touched meathook times a bit for hooking/unhooking\ncode; tried to make meathook code more readable"

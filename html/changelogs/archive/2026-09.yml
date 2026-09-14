@@ -355,3 +355,229 @@
   - rscadd: more gameplay tips in timechangers
   radarseas:
   - rscadd: Added heretic daggers to heretic spies of other inhumen patrons.
+2026-09-10:
+  KatTheFox:
+  - bugfix: Nocblades are now unconvertible, as a patron-locked role.
+  - bugfix: Prayers are no longer double-sanitized in chat, meaning apostrophes will
+      no longer be mutated in your prayer whisper
+  - bugfix: Conversions from one of the Ten to another no longer provide a mood buff,
+      this was the last mechanical benefit they had. This isn't a gamey thing it's
+      meant to be a roleplay tool, guys, come on.
+  Lamasmaster:
+  - bugfix: Elemental arrows using wrong icons.
+  - image: Shortens the arrow sprites to fit better on the bows and onmob, elemental
+      arrows now have a unified sprite.
+  Ollanius:
+  - bugfix: CKEY-specific shibari ropes now properly render their object sprite.
+  - bugfix: Iron Pigfaces and Bascinets now have their proper unreversed naming schemes,
+      just like their Steel variants.
+  - bugfix: Fixes an errant capitalization on 'cooling backpack'.
+  - bugfix: Dwarven bodytypes can now wear Grenzelhoftian boots, Freifechter boots,
+      and Freifechter pants.
+  - bugfix: Tabis can now be worn by both men and women.
+  - bugfix: Morphing elixirs that can potentially delete items now have a warning
+      in their description. This is only notable towards the types that can alter
+      storage-centric equipment, such as belts and satchels.
+  - bugfix: Plackarts no longer mysteriously obscure one's uncovered chest and crotch.
+  - rscadd: Detailing support for decorated armor, allowing for the steel to be colored
+      independantly from the golden trim.
+  - rscadd: Belted backpacks and shaded hats, as Donator-specific items. Note that
+      belted backpacks, despite the name, do not actually go on the belt; they're
+      just a reskin.
+  - rscadd: Plackarts can now be morphed from studded- and heavy leather armorpieces,
+      alongside steel- and fluted halfplate.
+  - rscadd: Elegant Stechers and Winged Spears, morphed from Stechers and Enduring
+      Spears via the 'Elegant Armory' Morphing Elixir.
+  - rscadd: Donator-specific greatcoats, coming in both dyeable and leatherspun variants.
+      RMBing allows them to be worn more loosely around the shoulders.
+  - rscadd: The Inquisitor's longcoat can now be attached to an Ordinator's set of
+      plate armor.
+  - rscadd: Scabbard support for Lagomorphica's and Stalkerino's swords.
+  - rscadd: CKEY-locked donator items to Naman, Terrydactal, DRD, Lizzy, and Sanshoom.
+  - rscadd: Standalone Shieldcrest variant for orles.
+  SaundMinah:
+  - rscadd: Added ckeys to previous donor items originally merged by my request.
+  - rscadd: Added Astratan Cadwyn Items for Specific Donors
+  - rscadd: Added additional Ckeys to Ravoxian Cadwyn Items.
+  ShadowLarkens:
+  - rscadd: You can now force the preview grid size to 1x1, 2x2, or 3x3 instead of
+      autosizing to character.
+  - bugfix: Refreshing preview while outside 1x1 grid size will no longer break the
+      character position.
+  - bugfix: highlight_color ignored the red channel, no longer.
+  - bugfix: Taurs will no longer infect every credit icon after them with their tauriness
+  bearrrrrrrr:
+  - rscadd: BEEEEG Baotha update pt 2, peep github for more info.
+  borneblood:
+  - bugfix: Rekindled Exchange now checks if you're dead before doing its thing, oops.
+  mumblemancer:
+  - code_imp: all RMB bundling is now universal
+  - rscadd: bones should now be RMB collectable as well as cured leather
+  - qol: meathook mechanics examine given
+  - qol: meathook is faster if the target is dead
+  - qol: meathook can be MMB'd to move items off it's tile
+  - balance: 'touched meathook times a bit for hooking/unhooking
+
+      code; tried to make meathook code more readable'
+  - rscadd: assassins are forced gaggar patron on antag datum gain
+  - rscadd: assassins who (somehow) clerics of a different faith will gain gaggar
+      miracles
+  - rscdel: ever heard of fifth humor, buddy?
+  - rscadd: the other 4 humors
+  - code_imp: quotes/tips will alternate depending on what day of the week it is
+2026-09-11:
+  Ollanius:
+  - rscadd: Morto's unique donator-specific dress.
+  - code_imp: Stages some supplemental assets for later, including some more donator-specific
+      sprites.
+  - rscadd: Shalwar Pants and Dupatta Sash. Credit to Dromkii for the sprites!
+  Quinalion:
+  - image: "Dendorite\u2019s helmet now looks normal."
+  - bugfix: Emotes now properly appear as Runechat messages above your character's
+      head.
+  - balance: The ogre mask now has the durability of a steel mask and blocks vision
+      as intended.
+  - rscadd: You can now light another character's cigarette while kissing them.
+  - qol: Removed the redundant dram count description from vessels.
+  Ryan180602:
+  - balance: jester's floor of music skill is expert
+  WeNeedMorePhoron:
+  - balance: Dash like effects lock eachother out for 30 seconds
+  changelingonberry:
+  - admin: increases the window size of  he actors manifest, VV, player panel and
+      logs windows
+  kilozombie:
+  - rscadd: Dun World hamlet expanded. Town center given a well, church given a basement,
+      caves expanded, farmer's house given a second floor, inn given a humid hookah
+      den, stairs added to the coast
+  - qol: Dun World hamlet touched up. Herbs and bushes can now spawn, inn rooms expanded,
+      basements detailed, west house given a proper porch, smithy house made into
+      a small storefront, various layouts retooled to become more usable
+  - bugfix: Giant stupid skywall removed from the northmost point of the top Z-level
+      on Dun World
+  zRainbowcat:
+  - bugfix: Xylix decoy now copy your looks properly
+2026-09-12:
+  BurpleBineapple:
+  - rscadd: Added a rare FOR based easter egg to weapon flourishing.
+  Dorodomki:
+  - rscadd: 'Added new donator item for lief
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Elemental familiars no longer qdel themselves if you abandon them for
+      too long. You monster.
+  - bugfix: Void drakelings being dismissed via the free familiar ritual will now
+      refund the resources used to summon them.
+  - bugfix: Revenant heads can now be properly panelled
+  borneblood:
+  - bugfix: Fixed more things with Rekindled Exchange
+  plsleavemealon:
+  - rscadd: Ports a hat and cape sprite from vanderlin
+  voidwytch:
+  - rscadd: Added TEN new sets of clothes, acquirable at the Tailor only
+2026-09-13:
+  1393F:
+  - spellcheck: A misspell in the description of the psydonic chestplate has been
+      fixed
+  Athena148:
+  - rscdel: Strength affecting voice pitch
+  BurpleBineapple:
+  - bugfix: Boak woad plate armor is ARMOR_CLASS_MEDIUM
+  - balance: All normal half-plate objects are ARMOR_CLASS_HEAVY
+  Dorodomki:
+  - bugfix: 'fixed a donator ckey
+
+      :cl:'
+  Fi:
+  - spellcheck: Corrected typos of the word "obfuscated" in the code.
+  - balance: Revised the examination titles of the Lich and the Vampire Lord. The
+      Lich's true title is always revealed unless masked, and the Vampire Lord's title
+      is always obfuscated but is now "Ancient Lord" when revealed by the throat or
+      regency ("Ancient Lord Regent").
+  Juubo:
+  - rscadd: masquerade lite
+  - rscadd: werewolf lite
+  - rscadd: vote reset on sub-40 round starts
+  - code_imp: added STORYTELLER_ANTAG_MEDIUM for coders to use in other antag weeks
+  - code_imp: added DEFAULT_ANTAG_BLACKLISTED_COMBAT_ROLES to exclude combat roles
+  - code_imp: added /datum/antagonist/werewolf/noinfect if admins want to give werewolf
+      without an infection chance
+  Ketrai:
+  - rscadd: Heartbeast hoarder withdrawal messages changed.
+  Lamasmaster:
+  - qol: Iron Bars can now be attacked by both Cutting/Striking intents.
+  - balance: Reduced wall integrity.
+  Moku-Mok:
+  - rscadd: Non-Frei Punchdaggers can be worn on beltr or beltr, so your hip slots.
+  - bugfix: 'Berserker spawns with Punchdagger if chosen.
+
+      fix:Munitioneer spawns with ammo for crossbow if chosen.'
+  Ollanius:
+  - bugfix: Most non-unique reagents now have their capitalization standardized (like
+      Water -> water, Blackberry -> extract of blackberry, etc.) for a neater presentation.
+      Note that uniquely-named reagents - chiefly imported liqours - remain capitalized,
+      as they're proper names.
+  - bugfix: Certain reagents have been given a more historically appropriate name.
+      Most notably, the series of fruity reagents extractable from flavored zigarettes
+      are now named "extract of [FRUITNAME]", and fire resistance juices are now named
+      "elixir of fire resistance."
+  - rscadd: Minor descriptions to most remaining reagents that lacked one. I don't
+      actually know if these're visible in-game, but it's good to have just in case.
+  Ryan180602:
+  - balance: lowers profane shard projectile speed and gives it a 0.5s cast.
+  - rscadd: donor items for a player
+  - bugfix: reza donor item
+  - rscadd: confrontation zpellblade naginata gets the regular hauberk like everyone
+      else.
+  - balance: lowers range and firestack on ignition. gives it a 0.5s chargeup. increases
+      CD to 15s.
+  - bugfix: conjured glued-on items no longer stay glued and ash appropriately
+  SaundMinah:
+  - bugfix: changed code to be able to transform the right helmet.
+  WeNeedMorePhoron:
+  - rscadd: Duration of Sahir's phase has been doubled.
+  crunchypretzels:
+  - rscadd: two new combat mode tracks
+  kilozombie:
+  - rscadd: Wretchbase, Bandit base, and Vampire Lord manor all get Mercenary stones
+      now. Godspeed and commission a merc to be evyl
+  - rscadd: Vampire Lord manor has HERMES spots now
+  - bugfix: Wretchbase Zizo chapel benches no longer block you wrongly
+  radarseas:
+  - balance: munitioneer has a full toolset for masonary + carpentry + smithing starting
+      off like sapper skeletons.
+  - balance: munitioneer has sewing/skincrafting raised to journeyman.
+  - balance: munitioneer has 80 vs 50 starting funds, they no longer recieve a mid-range
+      pouch of coin on top of their starting funds for an obscene amount of mammon.
+      Go licker Astrocrat if you want to drown in coin.
+  - balance: munitioneer has armor on their hood, no more easily skullcracking them,
+      rejoice!
+  - code_imp: muntioneer hood has some new flavor on examine.
+  voidwytch:
+  - bugfix: high society cloak issue
+  - bugfix: velvet dress two electric boogaloo rename
+2026-09-14:
+  KatTheFox:
+  - bugfix: Roundstart known characters will no longer have their role title show
+      up as "unknown".
+  - rscadd: Clicking the name of a known character in the known menu will now trigger
+      their headshot/flavortext/ooc notes window. You can do this from anywhere, allowing
+      you to read the OOC notes of all the people that are supposed to, icly, know
+      and work with you. If they have rumors/gossip, a ? will show up next to their
+      name that you can click to view that as well.
+  OrbisAnima:
+  - bugfix: Makes it so the Ride with backdoor action uses the same logic as the regular
+      riding action in the ERP panel
+  Ryan180602:
+  - bugfix: dual wield proccing instant red intents
+  - bugfix: Advance spell works diagonally now.
+  anything86:
+  - qol: Players no longer drop on the floor paralyzed when trying to extinguish themselves
+      if their combat mode is on
+  borneblood:
+  - image: Changed Divine/Profane Blast's spell icon.
+  - spellcheck: Changed Profane Blast's chant.
+  radarseas:
+  - rscadd: Necrans now flip off deadites with taunting, sovl. This does not include
+      vampires, so no metagaming.

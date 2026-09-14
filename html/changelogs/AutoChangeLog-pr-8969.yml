@@ -1,7 +1,0 @@
-author: "ShadowLarkens"
-delete-after: True
-changes:
-  - rscadd: "You can now force the preview grid size to 1x1, 2x2, or 3x3 instead of autosizing to character."
-  - bugfix: "Refreshing preview while outside 1x1 grid size will no longer break the character position."
-  - bugfix: "highlight_color ignored the red channel, no longer."
-  - bugfix: "Taurs will no longer infect every credit icon after them with their tauriness"

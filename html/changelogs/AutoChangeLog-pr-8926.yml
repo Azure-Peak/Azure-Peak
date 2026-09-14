@@ -1,5 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - code_imp: "all RMB bundling is now universal"
-  - rscadd: "bones should now be RMB collectable as well as cured leather"

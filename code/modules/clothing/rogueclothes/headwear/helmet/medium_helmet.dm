@@ -693,7 +693,10 @@
 
 /obj/item/clothing/head/roguetown/roguehood/warden/munitioneer
 	name = "forgehound's hood"
-	desc = "Beneath his gleaming mask, the fyrmanne smiles. He is a salamander upon the worlde, belching flame, cleaning away history, and leaving a new land for the lyving."
+	desc = "<i><font color='ff9933'>'Beneath his gleaming mask, the fyrmanne smiles. He is a salamander upon the worlde, belching flame, cleaning away history, and leaving a new land for the lyving.'</font></i>\
+	</br>A thick hood of masterwork quality, it is expertly fitted with thick-leather within the fabric to cushion the skull from blows."
+	max_integrity = ARMOR_INT_HELMET_LEATHER
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/head/roguetown/helmet/bronze
 	name = "bronze illyriahelm"
