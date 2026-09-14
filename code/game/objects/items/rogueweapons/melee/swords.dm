@@ -53,6 +53,11 @@
 		icon_state = "[rand_icon]"
 		sheathe_icon = "[rand_icon]"
 
+/obj/item/rogueweapon/sword/ComponentInitialize()
+	.=..()
+	AddComponent(/datum/component/skill_blessed, TRAIT_FREEBLADE, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
+
+
 /obj/item/rogueweapon/sword/iron
 	name = "iron arming sword"
 	desc = "A long iron blade attached to a hilt, separated by a crossguard. The arming sword has been Psydonia's implement of war by excellence for generations, \
@@ -288,7 +293,7 @@
 /obj/item/rogueweapon/sword/long/proc/update_master_training(mob/user, held)
 	if(!master_trainable)
 		return
-	var/should_train = (held && user && HAS_TRAIT(user, TRAIT_LONGSWORDSMAN)) ? TRUE : FALSE
+	var/should_train = (held && user && (HAS_TRAIT(user, TRAIT_LONGSWORDSMAN) || HAS_TRAIT(user, TRAIT_FREEBLADE))) ? TRUE : FALSE
 	if(should_train == master_training_active)
 		return
 	if(altgripped || wielded)
@@ -442,6 +447,14 @@
 	max_integrity = 160
 	wdefense_wbonus = 3
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/sword/long/matthios
+	name = "Emancipator"
+	desc = "A magnificent longsword of unthinkable quality, the hilt twisted into the undeniable shape of Matthios' Eagle, a rontz placed against the blade. Take your destiny, Freemen, liberate us from this madness."
+	icon_state = "matthioslongsword"
+
+/obj/item/rogueweapon/sword/long/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
 
 /obj/item/rogueweapon/sword/broken
 	name = "broken sword"

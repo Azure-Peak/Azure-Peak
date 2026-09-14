@@ -851,6 +851,14 @@
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
 	. += span_hypnophrase("'..the feeling of Aeon's grasp upon your shoulders, imparting the world's burden unto flesh and bone..'")
 
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/grinning
+	name = "grinning cuirass"
+	icon_state = "grinningcuirass"
+	desc = "The steel of this chestpiece is deformed into sharp fangs crowning under the breast, equal parts to catch blades and mock your opponent, while gilt tooth-inlays line the waist. Stay hungry, hustler. Get your laughs in while you can."
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/grinning/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_GRINNING)
+
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	name = "iron breastplate"
 	desc = "An iron cuirass. While most would sneer at the idea of wearing 'lesser alloys', many-a-levyman can attest to its robustness."
