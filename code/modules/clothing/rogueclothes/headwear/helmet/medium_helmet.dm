@@ -268,6 +268,14 @@
 	desc = "An iron 'sallet'-styled helmet with an adjustable visor, its bevor drawn forward into a muzzle. Favored by those with snouts. Out for a stroll, now, are we?"
 	icon_state = "isallet_visor_s"
 
+/obj/item/clothing/head/roguetown/helmet/sallet/visored/grinning
+	name = "besilked sallet"
+	desc = "The gilded steel of the helm cradles your face between two great drakkyn-jaws. Pass a coin through the slit and place it on your tongue, for the ferryman is never far away."
+	icon_state = "grinningsallet"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/visored/grinning/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_GRINNING)
+
 /obj/item/clothing/head/roguetown/helmet/sallet/raneshen
 	name = "kulah khud"
 	desc = "A sturdy, conical helm that has served the Empire well throughout its many campaigns. It's a sight to see, thousands of these bobbing as an army marches. The only greater humiliation than losing it is losing one's medallion."

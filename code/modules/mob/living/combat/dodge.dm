@@ -194,7 +194,7 @@
 			dodgemod = 5
 		prob2defend = prob2defend - (attacker.STASPD * dodgemod)
 	if(attacker_weapon)
-		if(attacker_weapon.wbalance == WBALANCE_SWIFT && attacker.STASPD > defender.STASPD) //nme weapon is quick, so they get a bonus based on spddiff
+		if(attacker_weapon.wbalance == WBALANCE_SWIFT && attacker.STASPD > defender.STASPD && !HAS_TRAIT(attacker, TRAIT_FREEBLADE)) //nme weapon is quick, so they get a bonus based on spddiff
 			prob2defend = prob2defend - ( attacker_weapon.wbalance * ((attacker.STASPD - defender.STASPD) * 10) )
 		if(attacker_weapon.wbalance == WBALANCE_HEAVY && defender.STASPD > attacker.STASPD) //nme weapon is slow, so its easier to dodge if we're faster
 			prob2defend = prob2defend + ( attacker_weapon.wbalance * ((attacker.STASPD - defender.STASPD) * 10) )
@@ -215,7 +215,7 @@
 				if(attacker_human.used_intent.unarmed)
 					prob2defend = prob2defend - (attacker_human.get_skill_level(/datum/skill/combat/unarmed) * 10)
 					prob2defend = prob2defend + (defender_human.get_skill_level(/datum/skill/combat/unarmed) * 10)
-					if(attacker.STASPD > defender.STASPD) //unarmed is inherently swift
+					if(attacker.STASPD > defender.STASPD && !HAS_TRAIT(attacker, TRAIT_FREEBLADE)) //unarmed is inherently swift
 						prob2defend = prob2defend - ((attacker.STASPD - defender.STASPD) * 10)
 			else if(attacker.skills)
 				var/datum/intent/attacker_intent = attacker.used_intent
