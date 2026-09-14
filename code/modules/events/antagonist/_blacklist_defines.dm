@@ -17,6 +17,7 @@
 		"Wretch",\
 		"Gnoll",\
 		"Veteran",\
+		"Hag",\
 	)
 
 #define DEFAULT_ANTAG_BLACKLISTED_COMBAT_ROLES list(\

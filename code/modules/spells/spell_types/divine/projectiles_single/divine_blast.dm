@@ -31,7 +31,7 @@
 	var/current_mode = 1
 	var/list/modes = list(
 		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/divineblast, "invocation" = "Sakral Strahl!"),
-		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/divineblast/arc, "invocation" = "Sakral Strahl!"),
+		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/divineblast/arc, "invocation" = "Sakral Strahlum!"),
 	)
 
 /obj/projectile/energy/divineblast

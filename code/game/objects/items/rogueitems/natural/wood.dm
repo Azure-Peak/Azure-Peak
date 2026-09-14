@@ -369,7 +369,7 @@
 	if(istype(I, /obj/item/grown/log/tree/stick))
 		var/obj/item/natural/B = I
 		var/obj/item/natural/bundle/stick/N = new(src.loc)
-		to_chat(user, "I tie the sticks into a bundle.")
+		to_chat(user, span_info("I tie the sticks into a bundle."))
 		qdel(B)
 		qdel(src)
 		user.put_in_hands(N)
@@ -379,10 +379,10 @@
 			if(B.amount < B.maxamount)
 				B.amount++
 				B.update_bundle()
-				user.visible_message("[user] adds [src] to [I].", "I add [src] to [I].")
+				user.visible_message(span_info("[user] adds [src] to [I]."), span_info("I add [src] to [I]."))
 				qdel(src)
 			else
-				to_chat(user, "I can't add any more sticks to the bundle without it falling apart.")
+				to_chat(user, span_info("I can't add any more sticks to the bundle without it falling apart."))
 			return
 
 // FOR SOME GODDAMN REASON STICKS ARENT A NATURAL AND ARE THEIR OWN THING. UGH.

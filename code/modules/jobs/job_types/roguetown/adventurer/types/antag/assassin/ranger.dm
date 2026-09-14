@@ -1,6 +1,7 @@
 /datum/advclass/assassin_ranger
-	name = "Assassin - Ranger"
-	tutorial = "You spent your life tracking the biggest game of all - mortal men. The direbears you've killed do not even compare to the men you've felled. Track your pray, put down the feral dog, and get your pay.."
+	name = "Headhunter"
+	tutorial = "You prefer to see your targets dead from a range. Skilled in bows, crossbows, and slings, rain death from afar. \
+	If need be, your dagger serves as the perfect back-up weapon. You've slain enough beasts in the woods; claim the Dark Star's blood-bounties."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/assassin/ranger
@@ -15,27 +16,32 @@
 		STATKEY_INT = 1,
 	)
 	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,			// Fall-back/melee weapon is using a big ol' axe.
-		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,			//Good ranged weapon options
+		// MAIN COMBAT SKILLS
+		// instead of getting an alternate melee choice, youre good at ALL the ranged stuff. awesome.
+		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/slings = SKILL_LEVEL_EXPERT,
+		// wrestling. fuck my life.
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT, // already expert, just here for clarification.
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		// CHICHANERY
+		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, // re-attach heads
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
+		// ASSASSIN ESSENTIALS
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 	)
+	extra_context = "All assassins are DODGE EXPERTS, able to access the ZURCH, have NOSTINK, have ANTI-SCRYING, and are steel-hearted. \
+	Each class also can summon the 'PROFANE DAGGER', which they are all experts in using."
 
 /datum/outfit/job/roguetown/assassin/ranger/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -53,6 +59,7 @@
 					/obj/item/rogueweapon/huntingknife/idagger/warden_machete = 1,
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,
+					/obj/item/lockpickring/mundane = 1,
 					)
 	mask = /obj/item/clothing/mask/rogue/wildguard
 	neck = /obj/item/clothing/neck/roguetown/coif
