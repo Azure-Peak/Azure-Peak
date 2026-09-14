@@ -278,7 +278,6 @@
 		var/obj/item/I = new /obj/item/natural/snowball(src)
 		if(L.put_in_active_hand(I))
 			L.visible_message(span_warning("[L] picks up some snow."))
-			ChangeTurf(/turf/open/floor/rogue/snowpatchy, flags = CHANGETURF_INHERIT_AIR)
 		else
 			qdel(I)
 

@@ -227,10 +227,10 @@
 	dropshrink = 0
 	force = 0
 	throwforce = 0
-	throw_speed = 4
+	throw_speed = 2
 	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/natural/snowball/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
 	if(!..()) //wasn't caught by a mob
-		playsound(get_turf(src), pick(GLOB.barefootstep[FOOTSTEP_SOFT_BAREFOOT][1]), GLOB.barefootstep[FOOTSTEP_SOFT_BAREFOOT][2], TRUE)
+		playsound(get_turf(src), 'sound/foley/footsteps/ftsnow4.ogg', 50, TRUE)
 		qdel(src)

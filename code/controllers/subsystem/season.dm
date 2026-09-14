@@ -377,6 +377,26 @@ SUBSYSTEM_DEF(season)
 	if(!T.is_seasonally_exposed())
 		return
 	var/target_type = should_show_snow_icons() ? T.winter_type : T.summer_type
+	swap_path_turf(T, target_type)
+
+/// Forces a winter_type turf straight back to its summer_type, regardless of current season -
+/// used by the shovel's manual "scoop the snow away" interaction, so digging out a winter-reskinned
+/// dirt/road/cobble tile doesn't leave it stuck showing a snow icon (and, worse, still being a real
+/// dirt subtype underneath - letting dirt-hole digging draw its sprites over that mismatched icon)
+/// until the next natural season tick. Returns TRUE if T was actually thawed back - FALSE if it
+/// had no summer_type to thaw to, or swap_path_turf() declined (e.g. an in-progress grave).
+/datum/controller/subsystem/season/proc/thaw_path_turf(turf/T)
+	if(!istype(T, /turf/open/floor/rogue))
+		return FALSE
+	var/turf/open/floor/rogue/RT = T
+	if(!RT.summer_type)
+		return FALSE
+	return !!swap_path_turf(RT, RT.summer_type)
+
+/// Shared by apply_season_to_path() (automatic seasonal cycling) and thaw_path_turf() (manual,
+/// shovel-forced) - ChangeTurf()s T into target_type, carrying over dirt's per-instance state
+/// either caller needs preserved. Returns the new turf on success, null otherwise.
+/datum/controller/subsystem/season/proc/swap_path_turf(turf/open/floor/rogue/T, target_type)
 	if(!target_type || T.type == target_type)
 		return
 	var/turf/open/floor/rogue/dirt/old_dirt
@@ -405,6 +425,7 @@ SUBSYSTEM_DEF(season)
 			new_dirt.barefootstep = old_dirt.barefootstep
 			new_dirt.heavyfootstep = old_dirt.heavyfootstep
 			new_dirt.track_prob = old_dirt.track_prob
+	return new_turf
 
 /// Map-placed decals with a winter_icon_state get swapped directly - no smoothing, and few
 /// enough of them that converting all at once costs nothing worth budgeting for. Called
