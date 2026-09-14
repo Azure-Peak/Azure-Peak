@@ -117,6 +117,8 @@
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"
 #define TRAIT_ARMOUR_DISLIKED "Misfitting Armour"
 #define TRAIT_FENCERDEXTERITY "Fencer's Dexterity"
+#define TRAIT_FREEBLADE "Free Blade"
+#define TRAIT_FREEBLADEDEXTERITY "Fastidious Finesse"
 #define TRAIT_NALEDI "Naledi Complex"
 #define TRAIT_LONGSWORDSMAN "Master Longswordman"
 #define TRAIT_SABRIST "Renowned Sabrist"
@@ -509,6 +511,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ARMOUR_LIKED = span_greentext("I'm wearing something more suited to my style."),
 	TRAIT_ARMOUR_DISLIKED = span_warning("I'm wearing something that burdens me."),
 	TRAIT_FENCERDEXTERITY = span_info("I've trained my entire lyfe around the art of unarmoured fencing, affording myself unmatched speed when wearing very light armour. I'm very choosy otherwise."),
+	TRAIT_FREEBLADEDEXTERITY = span_info("Though I've plenty of experience in armor, I am a picky bastard. A true duelist trusts his sword to block his blows, and a good thief is light on their feet. Never any heavier than a cuirass, never a second layer of steel. Lighter on the extremities - my sword can cover those.  "),
+	TRAIT_FREEBLADE = span_info("I am unparalleled in my craft, a lifelong killer of Kingsmen and thief of renown. Matthios above has blessed me with unmatched skill to take as I need, and liberate as I must. Faith, Time, and Zeal have made me master of the blade, short or long, though I've a distaste for greatswords, and a love for the Longsword. "),
 	TRAIT_HONORBOUND = span_info("The Tattoos of this Clan bind me to a lyfestyle of bare-skinned battle and swordsmanship. I refuse to wear armor that do not compliment my traditional garb and tattoos."),
 	TRAIT_NALEDI = span_info("I hail from the lands of Naledi. My blood and knowledge storied in yils of texts and techniques. My birthright is my pride."),
 	TRAIT_SKILLBLESSED = span_greentext("I've reunited with an old friend of mine. All is well."),

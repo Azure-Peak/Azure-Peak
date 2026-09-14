@@ -51,6 +51,7 @@
 /obj/item/clothing/wrists/roguetown/bracers/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/gold
 	name = "golden bracers"
@@ -166,6 +167,7 @@
 /obj/item/clothing/wrists/roguetown/bracers/leather/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	name = "hardened leather bracers"
@@ -298,6 +300,7 @@
 /obj/item/clothing/wrists/roguetown/bracers/brigandine/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/splint
 	name = "splint bracers"
@@ -313,6 +316,9 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
 	sewrepair = FALSE
+
+/obj/item/clothing/wrists/roguetown/bracers/splint/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/iron
 	name = "iron bracers"
@@ -340,6 +346,13 @@
 /obj/item/clothing/wrists/roguetown/bracers/jackchain/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
+
+/obj/item/clothing/wrists/roguetown/bracers/jackchain/alloyed
+	name = "alloyed jack chains"
+	desc = "Thin strips of darkened, dirty steel riveted to thin shoulder and elbow plates, with a thin strip of gold running through them."
+	max_integrity = ARMOR_INT_SIDE_IRON
+	armor = ARMOR_MAILLE
 
 /obj/item/clothing/wrists/roguetown/gem
 	name = "gem bracelet base"
@@ -430,6 +443,9 @@
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
 
+/obj/item/clothing/wrists/roguetown/bracers/aalloy/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
+
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 	name = "ancient chain sleeves"
 	desc = "Coverings of polished gilbranze-maille, fashioned from hundreds of interlinked rings. An aura of undying harlotry eminates from these sleeves. \
@@ -465,6 +481,9 @@
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
 
+/obj/item/clothing/wrists/roguetown/bracers/paalloy/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
+
 /obj/item/clothing/wrists/roguetown/bracers/iron/chain
 	name = "iron chain sleeves"
 	desc = "Coverings of iron maille, fashioned from hundreds of interlinked rings. An aura of traditional harlotry eminates from these sleeves. \
@@ -499,6 +518,9 @@
 		user.update_inv_shirt()
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
+
+/obj/item/clothing/wrists/roguetown/bracers/iron/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/bronze/chain
 	name = "bronze chain sleeves"
@@ -536,6 +558,9 @@
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
 
+/obj/item/clothing/wrists/roguetown/bracers/bronze/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
+
 /obj/item/clothing/wrists/roguetown/bracers/chain
 	name = "chain sleeves"
 	desc = "Coverings of steel maille, fashioned from hundreds of interlinked rings. An aura of inexplicable harlotry eminates from these sleeves. \
@@ -570,6 +595,9 @@
 		user.update_inv_shirt()
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
+
+/obj/item/clothing/wrists/roguetown/bracers/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 //
 
