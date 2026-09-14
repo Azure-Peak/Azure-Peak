@@ -52,9 +52,17 @@
 
 /datum/sex_action/sex/other/anal/handle_climax_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/flipped = FALSE
+	if(!sex_session)
+		sex_session = get_sex_session(target, user)
+		flipped = TRUE
 	var/do_subtle = sex_session.doing_subtly
-	user.visible_message(span_love("[user] [do_subtle ? "subtly " : ""]cums into [target]'s butt!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
-	target.virginity = FALSE
+	if(flipped)	// The one being ridden is accessing this.
+		user.visible_message(span_love("[user] [do_subtle ? "subtly " : ""]cums into [target]'s butt!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
+		user.virginity = FALSE
+	else 		// The Rider
+		user.visible_message(span_love("[user] [do_subtle ? "subtly " : ""]quivers onto [target]'s pintle!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
+		target.virginity = FALSE
 	return "into"
 
 /datum/sex_action/sex/other/anal/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)

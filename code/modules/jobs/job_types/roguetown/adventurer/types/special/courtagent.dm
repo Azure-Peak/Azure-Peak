@@ -13,7 +13,7 @@
 	always_show_on_latechoices = TRUE
 	show_in_credits = TRUE
 	advclass_cat_rolls = list(CTAG_COURTAGENT = 20)
-	obsfuscated_job = TRUE
+	obfuscated_job = TRUE
 	townie_contract_gate_exempt = TRUE
 	class_setup_examine = FALSE
 	has_subprefs = TRUE

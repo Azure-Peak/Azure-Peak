@@ -1,4 +1,0 @@
-author: "SomeDeviant"
-delete-after: True
-changes:
-  - bugfix: "fixed runtime on Conjurer's Mark"

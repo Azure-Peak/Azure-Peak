@@ -193,6 +193,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			known_people[H.real_name] = list()
 		known_people[H.real_name]["VCOLOR"] = H.voice_color
 		var/used_title = H.get_role_title()
+		var/datum/job/J = SSjob.GetJob(H.job)
+		if(J && J.wanderer_examine && !(HAS_TRAIT(src, TRAIT_RESIDENT)))
+			used_title = "Wanderer"
 		if(!used_title)
 			used_title = "unknown"
 		known_people[H.real_name]["FJOB"] = used_title
@@ -232,6 +235,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 					M.known_people[H.real_name] = list()
 				M.known_people[H.real_name]["VCOLOR"] = H.voice_color
 				var/used_title = H.get_role_title()
+				var/datum/job/J = SSjob.GetJob(H.job)
+				if(J && J.wanderer_examine && !(HAS_TRAIT(src, TRAIT_RESIDENT)))
+					used_title = "Wanderer"
 				if(!used_title)
 					used_title = "unknown"
 				M.known_people[H.real_name]["FJOB"] = used_title
@@ -298,10 +304,23 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		var/fage = known_people[P]["FAGE"]
 		var/fspecies = known_people[P]["FSPECIES"]
 		var/fheresy = known_people[P]["FHERESY"]
+		var/link
+		var/rumors
+		var/mob/living/carbon/human/H
+		for(var/mob/living/carbon/human/cand in GLOB.player_list)
+			if(cand.real_name == P)
+				H = cand
+				break
+		if(H)
+			link = (H.flavortext || H.headshot_link || H.ooc_notes)
+			rumors = (length(H.rumour_cached) || length(H.noble_gossip_cached))
+			if(fjob == "unknown") // this can be 'unknown' if people are added to our known list too soon in roundstart; so we want to refresh the cache here
+				known_people[P]["FJOB"] = (H.get_role_title() || "unknown")
+				fjob = known_people[P]["FJOB"]
 		if(fcolor && fjob)
 			if (fheresy)
 				contents +="<B><font color=#f1d669>[fheresy]</font></B> "
-			contents += "<B><font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font></B><BR>[fjob], [capitalize(fgender)], [fspecies], [fage]"
+			contents += "<B>[link ? "<a style='margin: 0px; padding: 0px;' href='?src=[REF(H)];task=view_headshot;overridevisible=1'>" : ""]<font color=#[fcolor];text-shadow:0 0 10px #8d5958, 0 0 20px #8d5958, 0 0 30px #8d5958, 0 0 40px #8d5958, 0 0 50px #e60073, 0 0 60px #8d5958, 0 0 70px #8d5958;>[P]</font>[link ? "</a>" : ""]</B>[rumors ? " <a style='margin: 0px; padding: 0px;' href='?src=[REF(H)];task=view_rumours_gossip;'>?</a>" : ""]<BR>[fjob], [capitalize(fgender)], [fspecies], [fage]"
 			contents += "<BR>"
 
 	var/datum/browser/popup = new(user, "PEOPLEIKNOW", "", 260, 400)
