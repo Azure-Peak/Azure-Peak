@@ -351,8 +351,12 @@
 /obj/item/clothing/wrists/roguetown/bracers/jackchain/alloyed
 	name = "alloyed jack chains"
 	desc = "Thin strips of darkened, dirty steel riveted to thin shoulder and elbow plates, with a thin strip of gold running through them."
-	max_integrity = ARMOR_INT_SIDE_IRON
+	max_integrity = ARMOR_INT_SIDE_STEEL
 	armor = ARMOR_MAILLE
+
+/obj/item/clothing/wrists/roguetown/bracers/jackchain/alloyed/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_GRINNING)
+
 
 /obj/item/clothing/wrists/roguetown/gem
 	name = "gem bracelet base"
