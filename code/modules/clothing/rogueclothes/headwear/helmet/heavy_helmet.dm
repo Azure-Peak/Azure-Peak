@@ -19,6 +19,7 @@
 	..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/bronze
 	name = "bronze barbute"
