@@ -60,6 +60,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	icon_state = "ihaubergeon"
