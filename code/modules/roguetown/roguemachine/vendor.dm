@@ -413,7 +413,7 @@
 	keycontrol = "tavern"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/tavernstaff/Initialize()
+/obj/structure/roguemachine/vendor/tavernstaff/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/tavernstaff, /obj/item/roguekey/tavernstaff/two, /obj/item/roguekey/tavernstaff/three, /obj/item/roguekey/tavernstaff/four, /obj/item/roguekey/tavernstaff/five))
@@ -476,7 +476,7 @@
 	keycontrol = "druidtreebig"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/druid/Initialize()
+/obj/structure/roguemachine/vendor/druid/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/church/druid, /obj/item/roguekey/church/druid/two, /obj/item/roguekey/church/druidmaster, /obj/item/storage/keyring, /obj/item/roguekey/church/druidmaster, /obj/item/storage/keyring))
@@ -541,7 +541,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_menatarms/Initialize()
+/obj/structure/roguemachine/vendor/keep_menatarms/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/manor/manatarms, /obj/item/roguekey/manor/manatarms/two, /obj/item/roguekey/manor/manatarms/three, /obj/item/roguekey/manor/manatarms/four, /obj/item/roguekey/manor/manatarms/five, /obj/item/roguekey/manor/manatarms/six))
@@ -554,7 +554,7 @@
 	keycontrol = "lord"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/keep_vipguests/Initialize()
+/obj/structure/roguemachine/vendor/keep_vipguests/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/manor/guestvip, /obj/item/roguekey/manor/guestvip/two))
@@ -596,7 +596,7 @@
 	keycontrol = "mage"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/collegekeys/Initialize()
+/obj/structure/roguemachine/vendor/collegekeys/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/associate, /obj/item/roguekey/associate/two, /obj/item/roguekey/associate/three, /obj/item/roguekey/associate/four))
@@ -609,7 +609,7 @@
 	keycontrol = "mage"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/collegekeys_two/Initialize()
+/obj/structure/roguemachine/vendor/collegekeys_two/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/apprentice, /obj/item/roguekey/apprentice/two))
@@ -637,7 +637,7 @@
 	keycontrol = "mercenary"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/merc_keys/Initialize()
+/obj/structure/roguemachine/vendor/merc_keys/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/mercenary/bedrooms, /obj/item/roguekey/mercenary/bedrooms/ii, /obj/item/roguekey/mercenary/bedrooms/iii, /obj/item/roguekey/mercenary/bedrooms/iv, /obj/item/roguekey/mercenary/bedrooms/v, /obj/item/roguekey/mercenary/bedrooms/vi, /obj/item/roguekey/mercenary/bedrooms/vii, /obj/item/roguekey/mercenary/bedrooms/viii, /obj/item/roguekey/mercenary/cell))
@@ -725,7 +725,7 @@
 	keycontrol = "priest"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/church_bedroomset_grim/Initialize()
+/obj/structure/roguemachine/vendor/church_bedroomset_grim/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/church/roomi, /obj/item/roguekey/church/roomii, /obj/item/roguekey/church/roomiii, /obj/item/roguekey/church/roomiv, /obj/item/roguekey/church/roomv, /obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx))
@@ -738,7 +738,7 @@
 	keycontrol = "apothecary"
 	will_hawk = FALSE
 
-/obj/structure/roguemachine/vendor/apothecaryrooms/Initialize()
+/obj/structure/roguemachine/vendor/apothecaryrooms/Initialize(mapload)
 	. = ..()
 
 	for (var/X in list(/obj/item/roguekey/apothecary/roomone, /obj/item/roguekey/apothecary/roomtwo))

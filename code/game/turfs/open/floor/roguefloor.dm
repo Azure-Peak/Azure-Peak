@@ -1372,7 +1372,7 @@
 /turf/open/floor/rogue/tile/brownbrick/browner
 	icon_state = "browner"
 
-/turf/open/floor/rogue/tile/brownbrick/browner/Initialize()
+/turf/open/floor/rogue/tile/brownbrick/browner/Initialize(mapload)
 	. = ..()
 	icon_state = "browner"
 	dir = pick(GLOB.cardinals)
@@ -1380,7 +1380,7 @@
 /turf/open/floor/rogue/tile/bluebrick
 	icon_state = "bluebrick"
 
-/turf/open/floor/rogue/tile/bluebrick/Initialize()
+/turf/open/floor/rogue/tile/bluebrick/Initialize(mapload)
 	. = ..()
 	icon_state = "bluebrick"
 	dir = pick(GLOB.cardinals)

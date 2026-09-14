@@ -340,7 +340,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	dynamic_lighting = 0
 	smooth = SMOOTH_FALSE
 
-/turf/closed/sky_void/Initialize()
+/turf/closed/sky_void/Initialize(mapload)
 	. = ..()
 
 /turf/closed/sky_void/zPassIn(atom/movable/A, direction, turf/source)
