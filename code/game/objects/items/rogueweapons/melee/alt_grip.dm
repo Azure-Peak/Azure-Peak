@@ -686,7 +686,7 @@
 
 /datum/alt_grip/halfsword/frei
 	name = "mezza spada"
-	trait_applied = list(TRAIT_LONGSWORDSMAN)
+	trait_applied = list(TRAIT_LONGSWORDSMAN, TRAIT_FREEBLADE)
 	additive_var_overrides = list(
 		"wdefense" = 2
 	)
@@ -703,7 +703,7 @@
 	additive_var_overrides = list(
 		"wdefense" = -4
 	)
-	trait_applied = list(TRAIT_LONGSWORDSMAN)
+	trait_applied = list(TRAIT_LONGSWORDSMAN, TRAIT_FREEBLADE)
 	grip_intents = list(
 		/datum/intent/sword/strike/bash/mordhau,
 		/datum/intent/sword/strike/bash/mordhau/smash,
