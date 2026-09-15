@@ -2,7 +2,7 @@
 	name = "Excommunicated"
 	tutorial = "The Church has found you bereft of mercy, and you walk the lands of Azuria with nothing but the tattered shreds of the faith you cling to."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/vagabond/excommunicated
 	category_tags = list(CTAG_VAGABOND)
 	subclass_stats = list(
@@ -32,8 +32,16 @@
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	
+
 	r_hand = /obj/item/rogueweapon/woodstaff
+
+	switch(H.patron?.type)
+		if(/datum/patron/inhumen/zizo)
+			head = /obj/item/clothing/head/roguetown/roguehood
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
+		else
+			head = /obj/item/clothing/head/roguetown/roguehood //Being excommunicated, only makes sense they start with their face covered
 
 	if (H.mind)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
