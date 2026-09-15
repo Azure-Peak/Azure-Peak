@@ -3,6 +3,67 @@
 GLOBAL_LIST_EMPTY(roundstart_races)
 GLOBAL_LIST_EMPTY(roundstart_races_paths)
 
+/// One alternate silhouette a character can be rendered on, shared by every species offering it. The sprites and
+/// offsets live here rather than on /datum/species so the ~40 species that offer no builds don't each carry a
+/// copy they can never use, and so a bulky elf and a bulky human are guaranteed to be drawn on the same body.
+/datum/body_build
+	/// The BODY_BUILD_* id this build is registered under.
+	var/id
+	/// Limb sprites. A null here means the build isn't offered to that gender at all.
+	var/limbs_icon_m
+	var/limbs_icon_f
+	var/list/offset_features
+	/// TRUE if worn clothing should use its masculine cut on this build. See is_bulky_body().
+	var/bulky_cut = FALSE
+	/// Pixel nudge for body markings on this build, by body zone, for a character wearing marking art drawn for
+	/// a body that isn't his - see get_specific_markings_overlays. Positive moves a marking up. A zone left out
+	/// is not nudged, which is why the legs never appear here: a raised body leaves the feet planted.
+	var/list/marking_offsets
+
+/// Whether this build has a body for the given gender, and so can be offered to them.
+/datum/body_build/proc/supports_gender(gender)
+	return (gender == MALE) ? limbs_icon_m : limbs_icon_f
+
+/datum/body_build/bulky
+	id = BODY_BUILD_BULKY
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mt.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/ft_muscular.dmi'
+	offset_features = OFFSET_FEATURES_BULKY_REFERENCE
+	bulky_cut = TRUE
+
+/datum/body_build/slim
+	id = BODY_BUILD_SLIM
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mem.dmi'
+	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fm.dmi'
+	offset_features = OFFSET_FEATURES_SLIM_REFERENCE
+	marking_offsets = list(
+		BODY_ZONE_HEAD = 1,
+		BODY_ZONE_PRECISE_L_HAND = -1,
+		BODY_ZONE_PRECISE_R_HAND = -1,
+	)
+
+/// The Wood Elf male body, kept as an option for elves after they standardised onto mem.dmi. It is the slim
+/// body one pixel higher, so it borrows the slim table wholesale and raises it rather than defining its own.
+/// There is no female counterpart sprite, so no limbs_icon_f - it is offered to masculine characters only.
+/datum/body_build/elven
+	id = BODY_BUILD_ELVEN
+	limbs_icon_m = 'icons/roguetown/mob/bodies/m/met.dmi'
+	offset_features = OFFSET_FEATURES_ELVEN_REFERENCE
+	marking_offsets = list(
+		BODY_ZONE_HEAD = 2,
+		BODY_ZONE_CHEST = 1,
+		BODY_ZONE_L_ARM = 1,
+		BODY_ZONE_R_ARM = 1,
+	)
+
+GLOBAL_LIST_INIT(body_builds, init_body_builds())
+
+/proc/init_body_builds()
+	. = list()
+	for(var/build_type in subtypesof(/datum/body_build))
+		var/datum/body_build/build = new build_type
+		.[build.id] = build
+
 /datum/species
 	var/id	// if the game needs to manually check my race to do something not included in a proc here, it will use this
 	var/limbs_id		//this is used if you want to use a different species limb sprites. Mainly used for angels as they look like humans.
@@ -14,6 +75,15 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 	var/default_color = "#FFF"	// if alien colors are disabled, this is the color that will be used by that race
 	var/limbs_icon_m
 	var/limbs_icon_f
+	/// Body builds this species offers in character creation, from ALL_BODY_BUILDS. Null (the default) means the
+	/// species only has its own limbs_icon_m/limbs_icon_f and shows the plain Masculine/Feminine choice instead.
+	var/list/allowed_body_builds
+	/// The build a new character of this species starts on, and the one fallen back to whenever
+	/// features["body_build"] is unset or invalid — so NPCs and old savefiles keep rendering as they always did.
+	/// Split by gender, because a species' native male and female bodies need not be the same build: a human
+	/// male is bulky where a human female is slim. Set each to the build matching limbs_icon_m/limbs_icon_f.
+	var/default_body_build_m
+	var/default_body_build_f
 	var/icon_override
 	var/icon_override_m
 	var/icon_override_f
@@ -193,6 +263,38 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 ///////////
 // PROCS //
 ///////////
+
+/// The build this species falls back to for a given gender when nothing valid has been picked. Guaranteed to
+/// name a build the species actually offers, so callers can trust the result without re-validating it: a
+/// default that isn't in allowed_body_builds would otherwise reach the savefile and the UI, where it renders
+/// as a blank dropdown and a body the species has no sprites for.
+/datum/species/proc/get_default_body_build(gender)
+	if(!length(allowed_body_builds))
+		return null
+	var/build = (gender == MALE) ? default_body_build_m : default_body_build_f
+	if(is_body_build_valid(build, gender))
+		return build
+	for(var/fallback in allowed_body_builds)
+		if(is_body_build_valid(fallback, gender))
+			return fallback
+	return null
+
+/// Whether this species offers `build`, and that build has a body for `gender`.
+/datum/species/proc/is_body_build_valid(build, gender)
+	if(!(build in allowed_body_builds))
+		return FALSE
+	var/datum/body_build/candidate = GLOB.body_builds[build]
+	return candidate?.supports_gender(gender)
+
+/// The limb sprite sheet this character's body is drawn from: the sheet belonging to their current build if
+/// their species offers builds, otherwise the species' own limbs_icon_m/limbs_icon_f. Every consumer of a body
+/// sprite should go through here rather than reading limbs_icon_m/limbs_icon_f directly, or overlays meant to
+/// sit on the body (damage, body hair) end up drawn against a silhouette the character isn't wearing.
+/datum/species/proc/get_limbs_icon(mob/living/carbon/human/H)
+	var/datum/body_build/build = GLOB.body_builds[H.get_body_build()]
+	if(build)
+		return (H.gender == MALE) ? build.limbs_icon_m : build.limbs_icon_f
+	return (H.gender == MALE) ? limbs_icon_m : limbs_icon_f
 
 /datum/species/proc/is_organ_slot_allowed(mob/living/carbon/human/human, organ_slot)
 	return TRUE
@@ -576,24 +678,13 @@ GLOBAL_LIST_EMPTY(roundstart_races_paths)
 		if(H.lip_style && (LIPS in species_traits))
 			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[H.lip_style]", -BODY_LAYER)
 			lip_overlay.color = H.lip_color
-			if(H.gender == MALE)
-				if(OFFSET_FACE in H.dna.species.offset_features)
-					lip_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE][1]
-					lip_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE][2]
-			else
-				if(OFFSET_FACE_F in H.dna.species.offset_features)
-					lip_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE_F][1]
-					lip_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE_F][2]
+			H.apply_offset(lip_overlay, OFFSET_FACE, OFFSET_FACE_F)
 			standing += lip_overlay
 
 
 #ifdef MATURESERVER
 		if(H.dna.species.hairyness)
-			var/mutable_appearance/bodyhair_overlay
-			if(H.gender == MALE)
-				bodyhair_overlay = mutable_appearance(H.dna.species.limbs_icon_m, "[H.dna.species.hairyness]", -BODY_LAYER)
-			else
-				bodyhair_overlay = mutable_appearance(H.dna.species.limbs_icon_f, "[H.dna.species.hairyness]", -BODY_LAYER)
+			var/mutable_appearance/bodyhair_overlay = mutable_appearance(H.dna.species.get_limbs_icon(H), "[H.dna.species.hairyness]", -BODY_LAYER)
 			bodyhair_overlay.color = "#" + H.hair_color
 			standing += bodyhair_overlay
 #endif
