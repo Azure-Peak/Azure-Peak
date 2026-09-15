@@ -79,7 +79,6 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden
 	belt = /obj/item/storage/belt/rogue/leather/black
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 						/obj/item/rogueweapon/huntingknife = 1,
 						/obj/item/book/rogue/lamplighter = 1)
@@ -135,7 +134,6 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter
 	belt = /obj/item/storage/belt/rogue/leather/black
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 						/obj/item/rogueweapon/huntingknife = 1,
 						/obj/item/book/rogue/lamplighter = 1)
