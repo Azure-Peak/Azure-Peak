@@ -135,7 +135,7 @@
 	owner.remove_filter(RECUPERATION_BASE_FILTER)
 
 #undef RECUPERATION_BASE_FILTER
-
+/*
 ///////////////////
 // T1 - Miracle	//
 ///////////////////
@@ -147,7 +147,7 @@
 	fluff_desc = "Within Their realm disease and ailments hold no sway over the devout, even the deepest wound shall soon come apart in Their light."
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // T1 - Twinned Gaze - Removes vision cone for duration as well grants night vision on high enough level. //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -237,13 +237,102 @@
 		REMOVE_TRAIT(owner, TRAIT_DARKVISION, TRAIT_GAZE)
 
 ////////////////////////////////////////////////////////////
-// T2 - Perseverance- Seal wounds and calm down a person. //
+// T2 - Divine Inspiration - Select your pack of miracles.//
+////////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/undivided/undivided_spellpack
+	name = "Divine Inspiration"
+	desc = "Allows you to pick out 2 miracles from three different sets - Generalist, Acolyte, Templar."
+	fluff_desc = "They protect against the enroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
+	button_icon_state = "inspiration"
+	sound = 'sound/magic/undivided_bless.ogg'
+	glow_intensity = 0
+
+	click_to_activate = FALSE
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 5 SECONDS
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	/// var we use to flag we are currently choosing a bundle.
+	var/choosing_bundle = FALSE
+	var/chosen_bundle
+	var/list/miracle_generalist_bundle = list(
+		/datum/action/cooldown/spell/darkvision/undivided::name		=/datum/action/cooldown/spell/darkvision/undivided,
+		/datum/action/cooldown/spell/noc/invisibility::name			=/datum/action/cooldown/spell/noc/invisibility,
+		/obj/effect/proc_holder/spell/invoked/bless_food::name		=/obj/effect/proc_holder/spell/invoked/bless_food,
+		/datum/action/cooldown/spell/arcyne_forge/miracle::name		=/datum/action/cooldown/spell/arcyne_forge/miracle,
+	)
+	var/list/miracle_acolyte_bundle = list(
+		/obj/effect/proc_holder/spell/invoked/eora_blessing::name		=/obj/effect/proc_holder/spell/invoked/eora_blessing,
+		/obj/effect/proc_holder/spell/targeted/blesscrop::name			=/obj/effect/proc_holder/spell/targeted/blesscrop,
+		/obj/effect/proc_holder/spell/invoked/avert::name				=/obj/effect/proc_holder/spell/invoked/avert,
+		/datum/action/cooldown/spell/miracle/fortify/undivided::name	=/datum/action/cooldown/spell/miracle/fortify/undivided,
+	)
+	var/list/miracle_templar_bundle = list(
+		/datum/action/cooldown/spell/projectile/moonscorch::name	=/datum/action/cooldown/spell/projectile/moonscorch,
+		/datum/action/cooldown/spell/ravox/judgement::name			=/datum/action/cooldown/spell/ravox/judgement,
+		/obj/effect/proc_holder/spell/self/abyssor_wind::name		=/obj/effect/proc_holder/spell/self/abyssor_wind,
+		/obj/effect/proc_holder/spell/invoked/vendetta::name		=/obj/effect/proc_holder/spell/invoked/vendetta,
+	)
+
+/datum/action/cooldown/spell/undivided/undivided_spellpack/cast(atom/cast_on)
+	. = ..()
+
+	if(choosing_bundle)
+		return FALSE
+	var/choice = chosen_bundle
+	if(!chosen_bundle)
+		choosing_bundle = TRUE
+		choice = alert(owner, "What type of miracles did the Divines bless you with?", "CHOOSE PATH", "Generalist", "Acolyte", "Templar")
+		chosen_bundle = choice
+		choosing_bundle = FALSE
+	switch(choice)
+		if("Generalist")
+			add_spells(owner, miracle_generalist_bundle, choice_count = 2)
+			owner.mind?.RemoveSpell(src.type)
+			return TRUE
+		if("Acolyte")
+			add_spells(owner, miracle_acolyte_bundle, choice_count = 2)
+			owner.mind?.RemoveSpell(src.type)
+			return TRUE
+		if("Templar")
+			add_spells(owner, miracle_templar_bundle, choice_count = 2)
+			owner.mind?.RemoveSpell(src.type)
+			return TRUE
+	return FALSE
+
+/datum/action/cooldown/spell/undivided/undivided_spellpack/proc/add_spells(mob/owner, list/spells, choice_count = 1, grant_all = FALSE)
+	for(var/spell_type in spells)
+		if(owner?.mind.has_spell(spells[spell_type]))
+			spells.Remove(spell_type)
+	if(!grant_all)
+		var/choice_count_visual = choice_count
+		for(var/i in 1 to choice_count)
+			var/choice = input(owner, "Choose a spell! Choices remaining: [choice_count_visual]") as anything in spells
+			if(!isnull(choice))
+				var/picked_spell = spells[choice]
+				var/obj/effect/proc_holder/spell/new_spell = new picked_spell
+				owner?.mind.AddSpell(new_spell)
+				choice_count_visual--
+				spells.Remove(choice)
+	else
+		for(var/spell_type in spells)
+			var/obj/effect/proc_holder/spell/new_spell = new spell_type
+			owner?.mind.AddSpell(new_spell)
+	if(!length(spells))
+		owner.mind?.RemoveSpell(src.type)
+
+////////////////////////////////////////////////////////////
+// T3 - Perseverance- Seal wounds and calm down a person. //
 ////////////////////////////////////////////////////////////
 //Ravox + Eora
 
 /datum/action/cooldown/spell/undivided/perseverance
 	name = "Perseverance"
-	desc = "Slows down bleed rate of living beings as well calming them down."
+	desc = "Slow down the bleed rate, increase clotting speed and decrease pain of wounds on a targeted limb, as well giving slight stress reduction to living beings."
 	fluff_desc = "Born of an union between compassion of Eora and persistance of Ravox, the couple heeds pleas of dying warriors as well the innocents lost to ravages of war offering them but a mote of respite and chance at lyfe."
 	button_icon_state = "perseverance"
 	sound = 'sound/magic/undivided_perserverance.ogg'
@@ -309,155 +398,92 @@
 	stressadd = -4 //Should be enough to offset the bleed
 	desc = span_undivided("A mere respite from the horrors.")
 
-////////////////////////////////////////////////////////////
-// T2 - Divine Inspiration - Select your pack of miracles.//
-////////////////////////////////////////////////////////////
-
-/datum/action/cooldown/spell/undivided/undivided_spellpack
-	name = "Divine Inspiration"
-	desc = "Allows you to pick out miracles from three different sets - Generalist (3 choices) Acolyte (2 choices) Templar (2 choices)."
-	fluff_desc = "They protect against the enroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
-	button_icon_state = "inspiration"
-	sound = 'sound/magic/undivided_bless.ogg'
-	glow_intensity = 0
-
-	click_to_activate = FALSE
-	primary_resource_cost = SPELLCOST_MIRACLE
-	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
-	invocation_type = INVOCATION_NONE
-	charge_required = FALSE
-	cooldown_time = 5 SECONDS
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-	/// var we use to flag we are currently choosing a bundle.
-	var/choosing_bundle = FALSE
-	var/chosen_bundle
-	var/list/miracle_generalist_bundle = list(
-		/datum/action/cooldown/spell/darkvision/undivided::name		= /datum/action/cooldown/spell/darkvision/undivided,
-		/datum/action/cooldown/spell/noc/invisibility::name			= /datum/action/cooldown/spell/noc/invisibility,
-		/obj/effect/proc_holder/spell/targeted/blesscrop::name		= /obj/effect/proc_holder/spell/targeted/blesscrop,
-		/obj/effect/proc_holder/spell/invoked/eora_blessing::name	= /obj/effect/proc_holder/spell/invoked/eora_blessing,
-		/datum/action/cooldown/spell/arcyne_forge/miracle::name		= /datum/action/cooldown/spell/arcyne_forge/miracle,
-	)
-	var/list/miracle_acolyte_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
-		/datum/action/cooldown/spell/projectile/moonscorch::name		= /datum/action/cooldown/spell/projectile/moonscorch,
-		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
-		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
-		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
-	)
-	var/list/miracle_templar_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
-		/datum/action/cooldown/spell/ravox/withstand::name					= /datum/action/cooldown/spell/ravox/withstand,
-		/datum/action/cooldown/spell/mending/malum::name					= /datum/action/cooldown/spell/mending/malum,
-		/datum/action/cooldown/spell/noc/enlightenment::name				= /datum/action/cooldown/spell/noc/enlightenment,
-		/obj/effect/proc_holder/spell/invoked/vendetta::name				= /obj/effect/proc_holder/spell/invoked/vendetta,
-	)
-
-/datum/action/cooldown/spell/undivided/undivided_spellpack/cast(atom/cast_on)
-	. = ..()
-
-	if(choosing_bundle)
-		return FALSE
-	var/choice = chosen_bundle
-	if(!chosen_bundle)
-		choosing_bundle = TRUE
-		choice = alert(owner, "What type of miracles did the Divines bless you with?", "CHOOSE PATH", "Generalist", "Acolyte", "Templar")
-		chosen_bundle = choice
-		choosing_bundle = FALSE
-	switch(choice)
-		if("Generalist")
-			add_spells(owner, miracle_generalist_bundle, choice_count = 3)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-		if("Acolyte")
-			add_spells(owner, miracle_acolyte_bundle, choice_count = 2)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-		if("Templar")
-			add_spells(owner, miracle_templar_bundle, choice_count = 2)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-	return FALSE
-
-/datum/action/cooldown/spell/undivided/undivided_spellpack/proc/add_spells(mob/owner, list/spells, choice_count = 1, grant_all = FALSE)
-	for(var/spell_type in spells)
-		if(owner?.mind.has_spell(spells[spell_type]))
-			spells.Remove(spell_type)
-	if(!grant_all)
-		var/choice_count_visual = choice_count
-		for(var/i in 1 to choice_count)
-			var/choice = input(owner, "Choose a spell! Choices remaining: [choice_count_visual]") as anything in spells
-			if(!isnull(choice))
-				var/picked_spell = spells[choice]
-				var/obj/effect/proc_holder/spell/new_spell = new picked_spell
-				owner?.mind.AddSpell(new_spell)
-				choice_count_visual--
-				spells.Remove(choice)
-	else
-		for(var/spell_type in spells)
-			var/obj/effect/proc_holder/spell/new_spell = new spell_type
-			owner?.mind.AddSpell(new_spell)
-	if(!length(spells))
-		owner.mind?.RemoveSpell(src.type)
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // T3 - Gallows Humor - Moodnuke a target with any negative stress being double for quite a while. //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //Necra + Xylix
 
-/datum/action/cooldown/spell/undivided/gallow_humor
+/datum/action/cooldown/spell/projectile/gallows_humor
 	name = "Gallows Humor"
-	desc = "Share a terrible secret of lyfe with your target, reducing their Fortune and stressing them out."
+	desc = "Share a terrible secret of lyfe with your target stressing them out. Mindless creechers get immobilized for 5 seconds."
 	fluff_desc = "Psydonia is a place of many joys but underneath the facade lies true terror, lying in wait for another to stumble upon it. During his antics in the underworld Xylix stumbled upon one such horror, deep within realm of Necra laid great archive from times of Psydon filled to the brim with knowledge not meant for the eyes of mortals. Ignoring warnings given by Noc he bestowed such a gift towards his followers in hopes they use it well, for one only underestimates the poet once."
+	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon_state = "gallows"
-	sound = 'sound/magic/undivided_gallows.ogg'
-	glow_intensity = GLOW_INTENSITY_MEDIUM
+	spell_color = GLOW_COLOR_UNDIVIDED
+	glow_intensity = GLOW_INTENSITY_LOW
 
-	click_to_activate = TRUE
+	projectile_type = /obj/projectile/magic/gallows
 	cast_range = SPELL_RANGE_GROUND
-	self_cast_possible = FALSE
 
+	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
 
-	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+	secondary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 
-	invocation_type = INVOCATION_NONE//Handled on coast
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Terror reigns!")
 
 	charge_required = TRUE
-	charge_time = 1 SECONDS
-	hold_drain = 0
+	weapon_cast_penalized = FALSE
+	charge_time = CHARGETIME_POKE
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
-	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 1 MINUTES
 
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
 	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-/datum/action/cooldown/spell/undivided/gallow_humor/cast(atom/cast_on)
-	. = ..()
+	ignore_armor_penalty = TRUE
+	attunement_school = null
+
+	spell_tier = 0
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
+/datum/action/cooldown/spell/projectile/gallows_humor/cast(atom/cast_on)
 	var/mob/living/carbon/human/H = owner
-	if(!istype(H))
-		return FALSE
+	if(!ishuman(H))
+		return
+	. = ..()
 
-	var/mob/living/spelltarget = cast_on
+// ---- Projectile ----
 
-	if(!isliving(spelltarget))
-		show_visible_message(owner, "You can only cast this on living beings.")
-		return FALSE
-	owner.visible_message("<font color='cyan'>[owner] whispers something to [spelltarget].</font>")
-	if(spelltarget.anti_magic_check(TRUE, TRUE))
-		return FALSE
-	if(spell_guard_check(spelltarget, TRUE))
-		spelltarget.visible_message(span_warning("[spelltarget] shrugs off the mockery!"))
-		return TRUE
-	if(!spelltarget.can_hear()) // Vicious mockery requires people to be able to hear you.
-		return FALSE
-	spelltarget.apply_status_effect(/datum/status_effect/debuff/gallowshumor)
-	spelltarget.add_stress(/datum/stressevent/gallowshumor)
-	SEND_SIGNAL(owner, COMSIG_VICIOUSLY_MOCKED, spelltarget)
-	record_round_statistic(STATS_PEOPLE_MOCKED)
-	return TRUE
+/obj/projectile/magic/gallows
+	name = "terror note"
+	icon = 'icons/obj/magic_projectiles.dmi'
+	icon_state = "gallows"
+	damage = 0
+	nodamage = TRUE
+	range = 8
+	hitsound = 'sound/magic/undivided_gallows.ogg'
+	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
+
+/obj/projectile/magic/gallows/on_hit(target, blocked = FALSE)
+	if(ismob(target))
+		var/mob/living/M = target
+		if(M.anti_magic_check(TRUE, TRUE))
+			visible_message(span_warning("[src] fizzles on contact with [target]!"))
+			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			qdel(src)
+			return BULLET_ACT_BLOCK
+		if(!M.mind)
+			M.Immobilize(5 SECONDS)
+			M.emote("cry", forced = TRUE)
+			qdel(src)
+			return TRUE
+		if(M.has_status_effect(/datum/status_effect/debuff/gallowshumor))
+			visible_message(span_warning("They already heard this one!"))
+			qdel(src)
+			return BULLET_ACT_BLOCK
+		M.apply_status_effect(/datum/status_effect/debuff/gallowshumor)
+		M.add_stress(/datum/stressevent/gallowshumor)
+		playsound(get_turf(target), hitsound, 60, TRUE)
+	return ..()
 
 /datum/status_effect/debuff/gallowshumor
 	id = "gallowshumor"
@@ -484,8 +510,76 @@
 	owner.update_stress()
 	return ..()
 
+//////////////////////
+// T4 - Ten United  //
+//////////////////////
+
+/datum/action/cooldown/spell/undivided/undivided_battlecry
+	name = "Ten United"
+	desc = "Rally the faithful to fight by your side, providing a buff (CONSTITUTION 2, WILLPOWER 2, FORTUNE 4) to Divine worshippers and prevents Panic/Heart attacks."
+	fluff_desc = "From one whole they were created, molded by eachother into the beings they are now, alone they would wither away and die by enroaching darkness."
+	button_icon_state = "united"
+	sound = 'sound/magic/battle_cry_undivided.ogg'
+	glow_intensity = GLOW_INTENSITY_VERY_HIGH
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 40
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_STAT_BUFF + 20
+
+	invocations = list("United we stand, together we fall!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = 1
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	cooldown_time = 10 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/undivided/undivided_battlecry/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	H.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
+	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
+		if(istype(target.patron, /datum/patron/divine))
+			target.apply_status_effect(/datum/status_effect/buff/ten_united)
+			continue
+		else
+			continue
+	return TRUE
+
+/datum/status_effect/buff/ten_united
+	id = "ten_united"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/ten_united
+	duration = 3 MINUTES// T4 and carries no debuff with it
+	effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_LCK = 4)
+
+/atom/movable/screen/alert/status_effect/buff/ten_united
+	name = "Undivided Camaraderie"
+	desc = span_undivided("WE STAND TOGETHER!")
+	icon_state = "ten_united"
+
+/datum/status_effect/buff/ten_united/on_apply()
+	. = ..()
+	to_chat(owner, span_undivided("My heart basks in Their light..!"))
+	ADD_TRAIT(owner, TRAIT_RALLIED, TRAIT_MIRACLE)
+
+/datum/status_effect/buff/ten_united/on_remove()
+	. = ..()
+	to_chat(owner, span_undivided("My heart is no longer protected by Their light..!"))
+	REMOVE_TRAIT(owner, TRAIT_RALLIED, TRAIT_MIRACLE)
+
 //////////////////////////////////////////////////////////////////////////////////////////
-// T3 - Undivided Fortify - Heals and damages undead like actual one, bit worse though. //
+// T? - Undivided Fortify - Heals and damages undead like actual one, bit worse though. //
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/action/cooldown/spell/miracle/fortify/undivided
@@ -507,65 +601,9 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/holycharging.ogg'
 
-///////////////////////////////////////////////////////////////////////////////////
-// T4 - Ten United - Select your pack of miracles. This is for acolytes/heretics //
-///////////////////////////////////////////////////////////////////////////////////
-
-/datum/action/cooldown/spell/undivided/undivided_battlecry
-	name = "Ten United"
-	desc = "Rally the faithful to fight by your side, providing a buff (CONSTITUTION 2, WILLPOWER 2, FORTUNE 4) to Divine worshippers. Inhumen and Psydonites are left out, deadites suffer Daze (PERCEPTION -1, INTELLIGENCE -2, SPEED -1) within the radius."
-	fluff_desc = "From one whole they were created, molded by eachother into the beings they are now, alone they would wither away and die by enroaching darkness."
-	button_icon_state = "united"
-	sound = 'sound/magic/battle_cry_undivided.ogg'
-	glow_intensity = GLOW_INTENSITY_VERY_HIGH
-
-	click_to_activate = FALSE
-	cast_range = SPELL_RANGE_AURA
-
-	primary_resource_type = SPELL_COST_DEVOTION
-	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 40
-
-	secondary_resource_type = SPELL_COST_STAMINA
-	secondary_resource_cost = SPELLCOST_STAT_BUFF + 20
-
-	invocations = list("United we stand!")
-	invocation_type = INVOCATION_SHOUT
-
-	charge_required = FALSE
-	cooldown_time = 6 MINUTES
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/undivided/undivided_battlecry/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/H = owner
-	if(!istype(H))
-		return FALSE
-
-	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
-		if(istype(target.patron, /datum/patron/divine))
-			target.apply_status_effect(/datum/status_effect/buff/ten_united)
-			continue
-		if(istype(target.patron, /datum/patron/old_god) || istype(target.patron, /datum/patron/inhumen))
-			to_chat(target, span_undivided("The divine light leaves me as abruptly as it came."))
-			continue
-		if(!owner.faction_check_mob(target))
-			continue
-		if(target.mob_biotypes & MOB_UNDEAD)
-			target.apply_status_effect(/datum/status_effect/debuff/dazed/smite)
-			continue
-	return TRUE
-
-/datum/status_effect/buff/ten_united
-	id = "ten_united"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/ten_united
-	duration = 3 MINUTES// T4 and carries no debuff with it
-	effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_LCK = 4)
-
-/atom/movable/screen/alert/status_effect/buff/ten_united
-	name = "Undivided Camaraderie"
-	desc = span_undivided("WE STAND TOGETHER!")
-	icon_state = "ten_united"
+///////////////////////////
+// T? - Lesser Anastasis //
+///////////////////////////
 
 /datum/action/cooldown/spell/miracle/anastasis/undivided
 	name = "Lesser Anastasis"
