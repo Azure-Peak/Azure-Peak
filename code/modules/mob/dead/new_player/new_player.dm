@@ -314,14 +314,15 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 					return JOB_UNAVAILABLE_SLOTFULL
 		else
 			return JOB_UNAVAILABLE_SLOTFULL
-	if(length(job.vice_restrictions) || length(job.virtue_restrictions))
+	if(length(job.vice_restrictions) || length(job.quirk_restrictions) || length(job.virtue_restrictions))
 		var/has_restricted_virtue = (client.prefs.virtue?.type in job.virtue_restrictions) || (client.prefs.virtuetwo?.type in job.virtue_restrictions)
+		var/has_restricted_quirk = (client.prefs.quirklesser?.type in job.quirk_restrictions) || (client.prefs.quirkgreater?.type in job.quirk_restrictions)
 		var/has_restricted_vice = FALSE
 		for(var/cf_type in client.prefs.charflaws)
 			if(cf_type in job.vice_restrictions)
 				has_restricted_vice = TRUE
 				break
-		if(has_restricted_virtue || has_restricted_vice)
+		if(has_restricted_virtue || has_restricted_quirk || has_restricted_vice)
 			return JOB_UNAVAILABLE_VIRTUESVICE
 	if(job.prefs_all_subclasses_restricted(client))
 		return JOB_UNAVAILABLE_VIRTUESVICE
