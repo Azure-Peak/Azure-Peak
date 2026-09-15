@@ -618,6 +618,18 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_rockhillarmet
+	name = "Triumph Kit - Knight-Errant's Armet"
+	path = /obj/item/enchantingkit/donator_rockhillarmet
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_rockhillmaille
+	name = "Triumph Kit - Jacketed Plate-and-Maille"
+	path = /obj/item/enchantingkit/donator_rockhillmaille
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 //////////////////
 //	PERFUMES !	//
 //////////////////

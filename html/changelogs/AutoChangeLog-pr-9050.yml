@@ -1,0 +1,4 @@
+author: "Fi"
+delete-after: True
+changes:
+  - rscadd: "Added a button (located left of the action buttons on the Castlevania pillar), keybind, and verb for toggling the action buttons' visibility."

@@ -1,0 +1,6 @@
+author: "DmitriyPershukov"
+delete-after: True
+changes:
+  - rscadd: "added bulk pure moondust recipe"
+  - balance: "lowered pure moondust recipe difficulty to expert from master"
+  - balance: "changed recipes for pure moondust, starsugar and herozium"

@@ -1,0 +1,5 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - balance: "non-unbound skeletons get swift back"
+  - balance: "unbound skeletons also got swift back for consistency"

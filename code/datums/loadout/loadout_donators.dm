@@ -258,6 +258,34 @@
 	name = "Gift - Kit, Long Jacketed Gambeson"
 	path = /obj/item/enchantingkit/donator_jacketed_gambeson_long
 
+/datum/loadout_item/donator/universal/armorpiece_decapauldron
+	name = "Gift - Armor Cosmetic, Decablessed Pauldrons"
+	path = /obj/item/enchantingkit/donator_universal_decapauldron
+
+/datum/loadout_item/donator/universal/armorpiece_steelpauldron
+	name = "Gift - Armor Cosmetic, Steel Pauldrons"
+	path = /obj/item/enchantingkit/donator_universal_steelpauldron
+
+/datum/loadout_item/donator/universal/donator_brimmedhat
+	name = "Gift - Brimmed Hat"
+	path = /obj/item/clothing/head/roguetown/duelhat/donator_brimmedhat
+
+/datum/loadout_item/donator/universal/donator_avantynehelm
+	name = "Gift - Kit, Avantyne-Threaded Barbute"
+	path = /obj/item/enchantingkit/donator_avantynehelm
+
+/datum/loadout_item/donator/universal/donator_shawl
+	name = "Gift - Scarfed Shawl"
+	path = /obj/item/clothing/head/roguetown/shawl/donator
+
+/datum/loadout_item/donator/universal/donator_rockhillarmet
+	name = "Gift - Kit, Knight-Errant's Armet"
+	path = /obj/item/enchantingkit/donator_rockhillarmet
+
+/datum/loadout_item/donator/universal/donator_rockhillmaile
+	name = "Gift - Kit, Jacketed Plate-and-Maille"
+	path = /obj/item/enchantingkit/donator_rockhillmaille
+
 // --- GRENZEL REGIONAL ---
 
 /datum/loadout_item/donator/universal/regional/grenzelhat
@@ -920,6 +948,16 @@
 	path = /obj/item/enchantingkit/truill_flowerblade
 	ckeywhitelist = list("truill")
 
+/datum/loadout_item/donator/rhynnrhynn_brigandine
+	name = "Donator Kit - Jacketed Brigandine"
+	path = /obj/item/enchantingkit/rhynnrhynn_brigandine
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/rhynnrhynn_longcloak
+	name = "Donator Item - Ladylike Longcloak"
+	path = /obj/item/clothing/cloak/donator_rhynn
+	ckeywhitelist = list("rhynnrhynn")
+
 /datum/loadout_item/donator/rhynnrhynn_staff
 	name = "Donator Kit - Celestial Staff"
 	path = /obj/item/enchantingkit/rhynnrhynn_staff
@@ -1075,6 +1113,36 @@
 	path = /obj/item/rogueweapon/mace/donator_flybrokenwings_parasol
 	ckeywhitelist = list("flybrokenwings")
 
+/datum/loadout_item/donator/flybrokenwings_drowpants
+	name = "Donator Item - Underdweller's Trousers"
+	path =/obj/item/clothing/under/roguetown/trou/artipants/donator_thistle
+	ckeywhitelist = list("flybrokenwings")
+
+/datum/loadout_item/donator/flybrokenwings_drowshirt
+	name = "Donator Item - Underdweller's Shirt"
+	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/donator_thistle
+	ckeywhitelist = list("flybrokenwings")
+
+/datum/loadout_item/donator/flybrokenwings_drowgloves
+	name = "Donator Item - Underdweller's Gloves"
+	path = /obj/item/clothing/gloves/roguetown/cloth/donator_thistle
+	ckeywhitelist = list("flybrokenwings")
+
+/datum/loadout_item/donator/flybrokenwings_drowboots
+	name = "Donator Item - Underdweller's Shoes"
+	path = /obj/item/clothing/shoes/roguetown/boots/leather/donator_thistle
+	ckeywhitelist = list("flybrokenwings")
+
+/datum/loadout_item/donator/flybrokenwings_drowapron
+	name = "Donator Item - Underdweller's Apron"
+	path = /obj/item/clothing/cloak/apron/blacksmith/donator_thistle
+	ckeywhitelist = list("flybrokenwings")
+
+/datum/loadout_item/donator/flybrokenwings_case
+	name = "Gift - Kit, Cased Satchel"
+	path = /obj/item/enchantingkit/donator_case
+	ckeywhitelist = list("flybrokenwings")
+
 /datum/loadout_item/donator/naman_lance
 	name = "Donator Kit - Noble Lance"
 	path = /obj/item/enchantingkit/donator_naman_lance
@@ -1165,7 +1233,6 @@
 	name = "Donator Item - Aurum's Amulets"
 	path = /obj/item/clothing/neck/roguetown/psicross/liefdonator
 	ckeywhitelist = list("linxsysart", "pessime959")
-
 
 /datum/loadout_item/donator/rezathedwarf
 	name = "Donator Item - Noah's Glimmering Cloak"

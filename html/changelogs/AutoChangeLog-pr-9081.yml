@@ -1,0 +1,10 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Visored sallets can now be combined with a regular Grenzelhoftian beret."
+  - rscdel: "Crafting recipes involving the Triumph-specific Grenzelhoftian beret have been removed, as it can already be worn on the cosmetic slot of most helmets as-is."
+  - rscadd: "Rhynn's unique jacketed brigandine and longcloak sprite."
+  - rscadd: "Lizzy's unique apron, pants, boots, gloves, and blouse."
+  - rscadd: "Universal goggles and scarfs for donators."
+  - rscadd: "Avantyne-threaded barbute as a cosmetic option, courtesy of Dakken."
+  - rscadd: "Unique maille and armet reskin, available through Triumph-purchased reskin kits as well."
