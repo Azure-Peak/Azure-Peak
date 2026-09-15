@@ -210,6 +210,7 @@
 	else if (HAS_TRAIT(user, TRAIT_ROOT_WALKER))
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && length(GLOB.active_hags))
+		contents += "<a href='?src=[REF(src)];action=hag'>[span_danger("Reap Mother's Blood")]</a><BR>"
 		contents += "<a href='?src=[REF(src)];action=message'>[span_boldnotice("Whisper to the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
@@ -335,8 +336,11 @@
 
 
 		qdel(W)
+		var/counts_as_pure = FALSE
+		if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_ROOT_WALKER)) // this is our first offering, so it counts as pure bcs this is PROBABLY a leechtick. doesn't give bogwalker though you do need real lux for that
+			counts_as_pure = TRUE
 		check_fey_ascension(!is_impure, user)
-		feed_the_network(is_impure, user)
+		feed_the_network((is_impure || counts_as_pure), user)
 		return
 	return ..()
 

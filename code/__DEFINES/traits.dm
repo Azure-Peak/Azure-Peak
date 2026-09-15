@@ -146,6 +146,7 @@
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
 #define TRAIT_CURSE_SCAR "Curse Scar"
 #define TRAIT_BOGWALKER "Bogwalker"
+#define TRAIT_NONAMESTEAL "Onomastic Freeze"
 
 //Deadites - Handles self healing + Examines + Combat/Mobility Shutdowns
 #define TRAIT_DEADITE "Deadite"
