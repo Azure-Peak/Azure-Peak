@@ -69,10 +69,29 @@
 			add_verb(H, /mob/living/carbon/human/proc/gnoll_inspect_skin)
 			add_verb(H, /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair)
 
+/datum/outfit/job/roguetown/gnoll/proc/set_bits(mob/living/carbon/human/H, slot, organ_type)
+	var/obj/item/organ/existing = H.getorganslot(slot)
+
+	if(!organ_type)
+		if(existing)
+			existing.Remove(H, special = TRUE)
+			qdel(existing)
+		if(H.dna)
+			H.dna.organ_dna -= slot
+		return
+
+	if(existing?.type == organ_type)
+		return
+
+	var/obj/item/organ/new_organ = new organ_type()
+	new_organ.Insert(H, TRUE, FALSE)
+	if(H.dna)
+		H.dna.organ_dna[slot] = new_organ.create_organ_dna()
+
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
 		var/pelts = list("firepelt", "rotpelt", "whitepelt", "bloodpelt", "nightpelt", "darkpelt")
-		var/pelt_choice = input(H, "Choose your pelt.", "SPILL THEIR ENTRAILS.") as anything in pelts
+		var/pelt_choice = input(H, "Choose your pelt.", "WITNESS FURY.") as anything in pelts
 		H.set_blindness(0)
 		H.icon_state = "[pelt_choice]"
 		H.dna?.species?.custom_base_icon = "[pelt_choice]"
@@ -109,6 +128,44 @@
 					to_chat(H, span_notice("Your name is now [H.real_name]."))
 				if("Keep Current Name")
 					to_chat(H, span_notice("You keep your name as [H.real_name]."))
+
+			var/static/list/breast_options = list(
+				"yes" = /obj/item/organ/breasts,
+				"no" = null,
+			)
+			var/breast_choice = input(H, "Do you have breasts?", "NURSE RESENTMENT.") as null|anything in breast_options
+			if(isnull(breast_choice))
+				breast_choice = "no"
+			set_bits(H, ORGAN_SLOT_BREASTS, breast_options[breast_choice])
+
+			var/static/list/testes_options = list(
+				"sac" = /obj/item/organ/testicles,
+				"cryptorchid" = /obj/item/organ/testicles/internal,
+				"no" = null,
+			)
+			var/testes_choice = input(H, "Do you have testes?", "BREED HATRED.") as null|anything in testes_options
+			if(isnull(testes_choice))
+				testes_choice = "no"
+			set_bits(H, ORGAN_SLOT_TESTICLES, testes_options[testes_choice])
+
+			var/static/list/pintle_options = list(
+				"yes" = /obj/item/organ/penis,
+				"yes, knotted" = /obj/item/organ/penis/knotted,
+				"no" = null,
+			)
+			var/pintle_choice = input(H, "Do you have a pintle?", "MOUNT ADVERSITY.") as null|anything in pintle_options
+			if(isnull(pintle_choice))
+				testes_choice = "no"
+			set_bits(H, ORGAN_SLOT_PENIS, pintle_options[pintle_choice])
+
+			var/static/list/vagina_options = list(
+				"yes" = /obj/item/organ/vagina,
+				"no" = null,
+			)
+			var/vagina_choice = input(H, "Do you have a gudgeon?", "FUCK THE WORLD.") as null|anything in vagina_options
+			if(isnull(vagina_choice))
+				vagina_choice = "no"
+			set_bits(H, ORGAN_SLOT_VAGINA, vagina_options[vagina_choice])
 
 /// Population-scaled gnoll count for a scaling mode, capped at the mode's maximum (DYNAMIC 3, FLAT 2, SINGLE 1,
 /// NONE 0). Scales with population like wretch slots (+1 per 10 players above 40), just clamped lower.
