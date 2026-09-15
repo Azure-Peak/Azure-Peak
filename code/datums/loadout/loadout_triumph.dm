@@ -726,6 +726,18 @@
 //	EXTRAS !//
 //////////////
 
+/datum/loadout_item/paper_parasol
+	name = "Paper Parasol"
+	triumph_cost = 3
+	path = /obj/item/rogueweapon/mace/parasol
+	sort_category = "Triumphs"
+
+/datum/loadout_item/fine_parasol
+	name = "Fine Parasol"
+	triumph_cost = 5
+	path = /obj/item/rogueweapon/mace/parasol/noble
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_fermented_crab
 	name = "Fermented Crab"
 	desc = "A man thinks he's done, drinks a mouthful of this. Five minutes later he's back in the race."
