@@ -483,6 +483,18 @@
 	)
 	result_item = null
 
+/obj/item/enchantingkit/donator_universal_decapauldron
+	name = "'Decablessed Pauldrons' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Steel Bracers."
+	target_items = list(/obj/item/clothing/wrists/roguetown/bracers)
+	result_item = /obj/item/clothing/wrists/roguetown/bracers/donator_decapauldron
+
+/obj/item/enchantingkit/donator_universal_steelpauldron
+	name = "'Steel Pauldrons' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Steel Bracers."
+	target_items = list(/obj/item/clothing/wrists/roguetown/bracers)
+	result_item = /obj/item/clothing/wrists/roguetown/bracers/donator_steelpauldron
+
 /////////////////////////////
 // ! Player / Donor Kits ! //
 /////////////////////////////
