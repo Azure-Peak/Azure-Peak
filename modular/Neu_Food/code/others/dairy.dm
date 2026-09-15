@@ -99,7 +99,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 2)
 
 /obj/item/reagent_containers/food/snacks/butterslice/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	update_cooktime(user)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/sugar))
 		if(isturf(loc)&& (found_table))
@@ -132,7 +132,7 @@
 
 /*	............	Making cheese wheel	................ */
 /obj/item/natural/cloth/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
 		if(isturf(loc)&& (found_table))
 			user.visible_message(span_info("[user] starts packing the cloth with fresh cheese..."))
@@ -159,7 +159,7 @@
 	var/mature_proc = PROC_REF(maturing_done)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	update_cooktime(user)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
 		if(isturf(loc) && found_table)
