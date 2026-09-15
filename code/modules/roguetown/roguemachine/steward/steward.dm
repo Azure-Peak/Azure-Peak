@@ -147,6 +147,10 @@
 		var/X = locate(href_list["givemoney"])
 		if(!X)
 			return
+		if(!has_fiscal_authority(usr))
+			say("Only the Steward, Clerk, or Ruler may disburse from the treasury.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
 				var/newtax = input(usr, "How much to give [X]", src) as null|num
@@ -166,6 +170,10 @@
 			return
 		if(!has_fiscal_authority(usr))
 			say("Only the Steward, Clerk, or Ruler may levy fines.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
+		if(X == usr)
+			say("You cannot fine yourself.")
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
@@ -673,8 +681,8 @@
 						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m[debt_tag]"
 					else
 						contents += "[A.real_name] - [balance]m[debt_tag]"
-					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a>"
 					if(show_fiscal_actions)
+						contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a>"
 						contents += " <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_short]\]</a>"
 					contents += "<BR><BR>"
 				else
@@ -683,8 +691,8 @@
 						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m[debt_tag]<BR>"
 					else
 						contents += "[A.real_name] - [balance]m[debt_tag]<BR>"
-					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a>"
 					if(show_fiscal_actions)
+						contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a>"
 						contents += " <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_long_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_long]\]</a>"
 					contents += "<BR><BR>"
 		if(TAB_DEBT)
