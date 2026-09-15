@@ -677,6 +677,9 @@ GLOBAL_LIST_EMPTY(species_list)
 	for(var/obj/item/thing as anything in equipped_items)
 		if (thing.flags_inv)
 			new_flags |= thing.flags_inv
+		for(var/obj/item/cosmetic in thing.contents)
+			if(cosmetic.flags_inv)
+				new_flags |= cosmetic.flags_inv
 
 	if(new_flags == obscured_flags)
 		return
