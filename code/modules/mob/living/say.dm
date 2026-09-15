@@ -579,7 +579,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(tildes)
 		if(tildes > (5 - tilde_count))
 			if(is_near_scom)
-				to_chat(src, span_userdanger("The SCOMrats chew me apart for violating the ducal code against excessive scomline flirtation!"))
+				to_chat(src, span_userdanger("The SCOMrats chew me apart for violating the ducal code against excessive SCOMline flirtation!"))
 				src.gib()
 			return FALSE
 		tilde_count += tildes
@@ -587,7 +587,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	if(tildes > 3)
 		if(is_near_scom)
-			to_chat(src, span_userdanger("The SCOMrats chew me apart for violating the ducal code against excessive scomline flirtation!"))
+			to_chat(src, span_userdanger("The SCOMrats chew me apart for violating the ducal code against excessive SCOMline flirtation!"))
 			src.gib()
 		return FALSE
 
