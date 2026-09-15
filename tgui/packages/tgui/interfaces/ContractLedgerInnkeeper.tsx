@@ -3,6 +3,11 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { formatRatioPct } from './common/format';
+import {
+  type IssuedContract,
+  IssuedContractsView,
+  issueStatusSuffix,
+} from './ContractLedgerIssued';
 
 type RumorLogEntry = {
   title: string;
@@ -10,6 +15,8 @@ type RumorLogEntry = {
   region: string;
   in_hands: BooleanLike;
   day: number;
+  status?: string;
+  refund?: string;
 };
 
 type InnkeeperData = {
@@ -22,12 +29,14 @@ type InnkeeperData = {
   rumor_destinations: string[];
   rumor_log: RumorLogEntry[];
   rumor_lucrative_mult: number;
+  rumor_issued: IssuedContract[];
+  issuer_cancel_window_minutes: number;
   region_tp_multipliers: Record<string, number>;
   region_delivery_multipliers: Record<string, number>;
 };
 
 type DispatchMode = 'board' | 'hands';
-type SubTab = 'compose' | 'history';
+type SubTab = 'compose' | 'issued' | 'history';
 const RECOVERY_TYPE = 'Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
 
@@ -99,10 +108,12 @@ const ModeRadio = (props: {
 const SubTabBar = (props: {
   active: SubTab;
   onSelect: (t: SubTab) => void;
+  issuedCount: number;
   historyCount: number;
 }) => {
   const tabs: { id: SubTab; label: string }[] = [
     { id: 'compose', label: 'Compose' },
+    { id: 'issued', label: `Issued (${props.issuedCount})` },
     { id: 'history', label: `History (${props.historyCount})` },
   ];
   return (
@@ -144,6 +155,7 @@ const HistoryView = (props: { log: RumorLogEntry[] }) => {
           <span className="ContractLedger__InnkeeperHistoryMeta">
             {r.type} &middot; {r.region} &middot; day {r.day} &middot;{' '}
             {r.in_hands ? 'in hands' : 'on board'}
+            {issueStatusSuffix(r.status, r.refund)}
           </span>
         </div>
       ))}
@@ -366,14 +378,19 @@ export const InnkeeperRumorPanel = () => {
       <SubTabBar
         active={subTab}
         onSelect={setSubTab}
+        issuedCount={(data.rumor_issued || []).length}
         historyCount={(data.rumor_log || []).length}
       />
 
-      {subTab === 'compose' ? (
-        <ComposeView />
-      ) : (
-        <HistoryView log={data.rumor_log || []} />
+      {subTab === 'compose' && <ComposeView />}
+      {subTab === 'issued' && (
+        <IssuedContractsView
+          entries={data.rumor_issued || []}
+          windowMinutes={data.issuer_cancel_window_minutes}
+          emptyText="No rumors are abroad."
+        />
       )}
+      {subTab === 'history' && <HistoryView log={data.rumor_log || []} />}
     </div>
   );
 };
