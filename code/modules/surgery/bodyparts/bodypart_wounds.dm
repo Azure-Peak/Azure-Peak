@@ -180,6 +180,7 @@
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
 		var/sundering = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && istype(weapon) && weapon?.is_silver && psyblessed?.is_blessed
 		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message)
+		try_organ_crit(bclass, dam, user, zone_precise)
 		if(crit_attempt)
 			if(bclass == BCLASS_BURN && user && user != owner)
 				shake_camera(user, 2, 2)
@@ -302,6 +303,10 @@
 				used += 10
 		if(HAS_TRAIT(src, TRAIT_BRITTLE))
 			used += 10
+		if((body_zone == BODY_ZONE_L_ARM || body_zone == BODY_ZONE_R_ARM) && (zone_precise == BODY_ZONE_PRECISE_L_HAND || zone_precise == BODY_ZONE_PRECISE_R_HAND))
+			used += AIM_PRECISION_BONUS
+		else if((body_zone == BODY_ZONE_L_LEG || body_zone == BODY_ZONE_R_LEG) && (zone_precise == BODY_ZONE_PRECISE_L_FOOT || zone_precise == BODY_ZONE_PRECISE_R_FOOT))
+			used += AIM_PRECISION_BONUS
 		if(prob(used))
 			if(damage_dividend >= 0.6)
 				attempted_wounds += /datum/wound/fracture		//More sevre wound
@@ -352,6 +357,57 @@
 				record_round_statistic(STATS_CRITS_MADE)
 			return applied
 	return FALSE
+
+
+/obj/item/bodypart/proc/try_organ_crit(bclass, dam, mob/living/user, zone_precise = src.body_zone)
+	if(!owner || (owner.status_flags & GODMODE))
+		return FALSE
+	if(!(bclass in GLOB.stab_bclasses))	//only piercing/stabbing reaches the organs
+		return FALSE
+	var/want_slot	//aiming a precise zone targets a specific organ
+	switch(zone_precise)
+		if(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
+			want_slot = ORGAN_SLOT_EYES
+		if(BODY_ZONE_PRECISE_MOUTH)
+			want_slot = ORGAN_SLOT_TONGUE
+		if(BODY_ZONE_PRECISE_SKULL)
+			want_slot = ORGAN_SLOT_BRAIN
+		if(BODY_ZONE_PRECISE_STOMACH)
+			want_slot = ORGAN_SLOT_STOMACH
+	var/list/reachable = list()
+	var/obj/item/organ/aimed
+	for(var/obj/item/organ/O in owner.internal_organs)
+		if(!O.medical_organ || O.is_dead_organ())
+			continue
+		if(check_zone(O.zone) != body_zone)	//organ must live in the struck bodypart
+			continue
+		var/obj/item/organ/bone/guard = owner.get_protecting_bone(O.slot)
+		if(guard)
+			if(!guard.is_major_fracture())	//a guarded organ is only reachable once its bone is caved in
+				continue
+		else if(!O.exposed)	//an unguarded gut organ is only reachable once a gutspill has laid it bare
+			continue
+		reachable += O
+		if(O.slot == want_slot)
+			aimed = O
+	if(!length(reachable))
+		return FALSE
+	var/obj/item/organ/target = aimed || pick(reachable)
+	if(!prob(ORGAN_CRIT_BASE_CHANCE + (aimed ? AIM_PRECISION_BONUS : 0)))
+		return FALSE
+	if(owner.try_resist_critical())	//critical resistance can shrug off the organ hit, same as fractures/arteries
+		return TRUE
+	if(HAS_TRAIT(owner, TRAIT_TOUGH_ORGANS) && prob(60))	//for deadites mostly
+		return TRUE
+	if(!target.escalate_injury(dam >= ORGAN_SEVERE_CRIT_THRESHOLD))
+		return FALSE
+	var/severity_word = "pierced"
+	if(target.is_dead_organ())
+		severity_word = "destroyed"
+	else if(target.is_severe())
+		severity_word = "ruptured"
+	owner.next_attack_msg += span_crit(" The [target.name] is [severity_word]!")
+	return TRUE
 
 /obj/item/bodypart/chest/try_crit(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE)
 	if(!bclass || !dam || (owner.status_flags & GODMODE))
@@ -485,6 +541,11 @@
 		if(user)
 			if(istype(user.rmb_intent, /datum/rmb_intent/strong) || (user.m_intent == MOVE_INTENT_SNEAK))
 				used += 10
+		switch(zone_precise)
+			if(BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
+				used += AIM_PRECISION_BONUS
+			if(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
+				used += AIM_PRECISION_BONUS_MINOR	//eyes only slightly threaten the facial bone
 		if(!owner.stat && (zone_precise in knockout_zones) && (bclass != BCLASS_CHOP && bclass != BCLASS_PIERCE) && prob(used))
 			try_knockout = TRUE
 		var/dislocation_type
@@ -643,6 +704,14 @@
 			var/datum/component/silverbless/psyblessed = embedder.GetComponent(/datum/component/silverbless)
 			owner.adjust_fire_stacks(1, psyblessed?.is_blessed ? /datum/status_effect/fire_handler/fire_stacks/sunder/blessed : /datum/status_effect/fire_handler/fire_stacks/sunder)
 			to_chat(owner, span_danger("the [embedder] in your body painfully jostles!"))
+		if(crit_message)
+			var/list/reachable_organs = list()
+			for(var/obj/item/organ/reachable in owner.internal_organs)
+				if(reachable.medical_organ && !reachable.is_dead_organ() && check_zone(reachable.zone) == body_zone)
+					reachable_organs += reachable
+			if(length(reachable_organs))
+				var/obj/item/organ/struck = pick(reachable_organs)
+				struck.escalate_injury(FALSE)
 	return TRUE
 
 /// Removes an embedded object from this bodypart

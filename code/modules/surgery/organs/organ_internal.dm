@@ -52,6 +52,28 @@
 
 	embedding = list("embed_chance" = 0) // ...they're not sharp
 
+	/// Effective medical injury state (ORGAN_INJURY_NONE/MINOR/SEVERE/DEAD) = max(acute floor, chronic tier).
+	/// Organs are NOT health-based; their debilitating effects are dictated by this state, not by `damage`.
+	var/injury = ORGAN_INJURY_NONE
+	/// Acute injury floor from piercing crits. Permanent until surgically repaired; only surgery lowers it.
+	var/crit_injury = ORGAN_INJURY_NONE
+	/// Hidden chronic accumulator (oxygen starvation, poisoning, augment rejection). NOT a health pool -
+	/// it rises while a harmful condition persists and eases when it clears, escalating `injury` recoverably.
+	var/strain = 0
+	/// Highest injury tier that chronic strain alone can drive this organ to (acute crits ignore this cap).
+	var/chronic_cap = ORGAN_INJURY_DEAD
+	/// For organs with no protecting bone (liver/stomach): whether they've been laid bare (gutspill) and
+	/// can be reached by organ-crits. Bone-guarded organs ignore this (their bone is the gate).
+	var/exposed = FALSE
+	/// Whether this organ participates in the medical injury-state simulation (minor/severe/dead effects + organ crits).
+	/// Only the simulated medical organs (brain, eyes, tongue, lungs, heart, liver, stomach, lux) set this TRUE.
+	var/medical_organ = FALSE
+	/// Metal/inorganic organs (constructs) are whole until shattered: they skip the MINOR/SEVERE stages
+	/// entirely - one organ-crit takes them straight to DEAD ("broken"), and chronic strain can't tier them.
+	var/two_state = FALSE
+	/// Cached wound-colour overlay (orange/red/dark by injury) so damage reads at a glance on the icon.
+	var/mutable_appearance/injury_wash
+
 	grid_width = 32
 	grid_height = 32
 
@@ -127,9 +149,18 @@
 	applyOrganDamage(maxHealth * decay_factor)
 
 /obj/item/organ/proc/on_life()	//repair organ damage if the organ is not failing
-	if(organ_flags & ORGAN_FAILING)
-		return
 	if(isnull(owner))
+		return
+	//Medical (injury-state) organs don't passively heal; their effects are re-asserted each tick.
+	if(medical_organ)
+		apply_injury_effects()
+		//A MINOR crit-wound knits itself shut while the body recuperates (sleep, or resting on a bed by a
+		//fire); SEVERE wounds need the surgeon's table. (Drugs are a separate path - mend_minor_injury;
+		//two_state metal organs never sit at MINOR, so this skips them.)
+		if(crit_injury == ORGAN_INJURY_MINOR && prob(MINOR_ORGAN_RECOVERY_PROB) && owner.is_recuperating())
+			heal_injury()
+		return
+	if(organ_flags & ORGAN_FAILING)
 		return
 	///Damage decrements by a percent of its maxhealth
 	var/healing_amount = -(maxHealth * healing_factor)
@@ -256,6 +287,123 @@
 ///SETS an organ's damage to the amount "d", and in doing so clears or sets the failing flag, good for when you have an effect that should fix an organ if broken
 /obj/item/organ/proc/setOrganDamage(d)	//use mostly for admin heals
 	applyOrganDamage(d - damage)
+
+//=========================
+// Medical injury state machine (minor/severe/dead). See code/__DEFINES/medical.dm
+//=========================
+/obj/item/organ/proc/is_minor()
+	return injury == ORGAN_INJURY_MINOR
+
+/obj/item/organ/proc/is_severe()
+	return injury == ORGAN_INJURY_SEVERE
+
+/obj/item/organ/proc/is_dead_organ()
+	return injury == ORGAN_INJURY_DEAD
+
+/// The injury tier implied by the current chronic strain, capped per-organ by chronic_cap.
+/obj/item/organ/proc/strain_tier()
+	if(two_state)	//metal organs are binary: chronic strain only ever leaves them whole or fully shattered
+		return (strain >= ORGAN_STRAIN_DEAD) ? ORGAN_INJURY_DEAD : ORGAN_INJURY_NONE
+	var/tier = ORGAN_INJURY_NONE
+	if(strain >= ORGAN_STRAIN_DEAD)
+		tier = ORGAN_INJURY_DEAD
+	else if(strain >= ORGAN_STRAIN_SEVERE)
+		tier = ORGAN_INJURY_SEVERE
+	else if(strain >= ORGAN_STRAIN_MINOR)
+		tier = ORGAN_INJURY_MINOR
+	if(tier == ORGAN_INJURY_MINOR && owner && HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))	//critweak skips minor here too
+		tier = ORGAN_INJURY_SEVERE
+	return min(tier, chronic_cap)
+
+/// Recomputes the effective injury from the acute floor + chronic strain, firing effects on change.
+/// DEAD is terminal: a dead organ stays dead and stops working.
+/obj/item/organ/proc/update_injury()
+	if(injury == ORGAN_INJURY_DEAD)
+		return
+	var/new_state = max(crit_injury, strain_tier())
+	if(new_state == injury)
+		return
+	injury = new_state
+	on_injury_changed()
+	apply_injury_effects()
+	update_injury_appearance()
+
+/// (Re)paints the cached wound-colour wash over the icon (or clears it when wash_color is null), so
+/// damage reads at a glance wherever the icon shows - extracted, dropped, or laid out in the cavity.
+/obj/item/organ/proc/paint_wound_wash(wash_color)
+	cut_overlay(injury_wash)
+	injury_wash = null
+	if(!wash_color)
+		return
+	injury_wash = mutable_appearance(icon, icon_state, alpha = 150)
+	injury_wash.color = wash_color
+	injury_wash.appearance_flags |= RESET_COLOR
+	add_overlay(injury_wash)
+
+/// Wound-colour for the current injury state: orange minor / red severe / dark dead. Override per-kind
+/// (bones key off their fracture state instead - see bones.dm).
+/obj/item/organ/proc/update_injury_appearance()
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			paint_wound_wash(COLOR_ORGAN_WOUND_MINOR)
+		if(ORGAN_INJURY_SEVERE)
+			paint_wound_wash(COLOR_ORGAN_WOUND_SEVERE)
+		if(ORGAN_INJURY_DEAD)
+			paint_wound_wash(COLOR_ORGAN_WOUND_DEAD)
+		else
+			paint_wound_wash(null)
+
+/// Acute injury from a piercing crit: escalates the surgical floor one tier (a big hit skips to SEVERE).
+/// Returns TRUE if the floor advanced, FALSE if the organ was already dead (locked).
+/obj/item/organ/proc/escalate_injury(big_hit = FALSE)
+	if(!medical_organ)
+		return FALSE
+	if(crit_injury == ORGAN_INJURY_DEAD)	//already broken/destroyed - nothing more to do
+		return FALSE
+	if(two_state)	//metal organs have no in-between: one crit shatters them outright
+		crit_injury = ORGAN_INJURY_DEAD
+		update_injury()
+		return TRUE
+	if(owner && HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))	//the critically weak skip the minor stage - crits cut straight to severe
+		big_hit = TRUE
+	switch(crit_injury)
+		if(ORGAN_INJURY_NONE)
+			crit_injury = big_hit ? ORGAN_INJURY_SEVERE : ORGAN_INJURY_MINOR
+		if(ORGAN_INJURY_MINOR)
+			crit_injury = ORGAN_INJURY_SEVERE
+		if(ORGAN_INJURY_SEVERE)
+			crit_injury = ORGAN_INJURY_DEAD
+	update_injury()
+	return TRUE
+
+/// Chronic damage/recovery (oxygen starvation, poisoning, augment rejection). Escalates the injury
+/// recoverably up to chronic_cap, and eases back as the harmful condition clears.
+/obj/item/organ/proc/adjust_strain(amount)
+	if(!medical_organ || !amount)
+		return
+	strain = CLAMP(strain + amount, 0, ORGAN_STRAIN_DEAD)
+	update_injury()
+
+/// Surgical/medicinal repair: lifts the acute injury floor one tier toward NONE. A DEAD organ is
+/// terminal and cannot be mended (it must be surgically extracted and replaced). Chronic strain is
+/// untouched (it recovers on its own once the harmful condition clears). Returns TRUE if it improved.
+/obj/item/organ/proc/heal_injury()
+	if(!medical_organ || is_dead_organ())
+		return FALSE
+	if(crit_injury <= ORGAN_INJURY_NONE)
+		return FALSE
+	crit_injury--
+	update_injury()
+	return TRUE
+
+/// One-shot reactions to a state change (messages, instant effects like death). Override per organ.
+/obj/item/organ/proc/on_injury_changed()
+	return
+
+/// Ongoing per-state effects. Called on state change and re-asserted each life tick (for things like
+/// oxyloss/toxloss/status effects). Override per organ. Safe to call with no owner.
+/obj/item/organ/proc/apply_injury_effects()
+	return
 
 /** check_damage_thresholds
 	* input: M (a mob, the owner of the organ we call the proc on)
@@ -424,4 +572,8 @@
 //See above
 /obj/item/organ/proc/enter_wardrobe()
 	accessory_type = initial(accessory_type)
+	injury = initial(injury)
+	crit_injury = ORGAN_INJURY_NONE
+	strain = 0
+	exposed = FALSE
 	STOP_PROCESSING(SSobj, src)

@@ -69,6 +69,16 @@
 #define ORGAN_SLOT_HUD "eye_hud"
 #define ORGAN_SLOT_LIVER "liver"
 #define ORGAN_SLOT_TONGUE "tongue"
+#define ORGAN_SLOT_LUX "lux"
+#define ORGAN_SLOT_BONE_SKULL "bone_skull"
+#define ORGAN_SLOT_BONE_NOSE "bone_nose"
+#define ORGAN_SLOT_BONE_JAW "bone_jaw"
+#define ORGAN_SLOT_BONE_RIBCAGE "bone_ribcage"
+#define ORGAN_SLOT_BONE_SPINE "bone_spine"
+#define ORGAN_SLOT_BONE_L_ARM "bone_l_arm"
+#define ORGAN_SLOT_BONE_R_ARM "bone_r_arm"
+#define ORGAN_SLOT_BONE_L_LEG "bone_l_leg"
+#define ORGAN_SLOT_BONE_R_LEG "bone_r_leg"
 #define ORGAN_SLOT_VOICE "vocal_cords"
 #define ORGAN_SLOT_ADAMANTINE_RESONATOR "adamantine_resonator"
 #define ORGAN_SLOT_HEART_AID "heartdrive"
@@ -126,6 +136,46 @@
 #define ORGAN_SURGERY_HIDDEN	(1<<5)
 /// Organ only exists internally and will be deleted if removed.
 #define ORGAN_INTERNAL_ONLY (1<<6)
+
+#define ORGAN_INJURY_NONE 0
+#define ORGAN_INJURY_MINOR 1
+#define ORGAN_INJURY_SEVERE 2
+#define ORGAN_INJURY_DEAD 3
+
+#define BONE_FRACTURE_NONE 0
+#define BONE_FRACTURE_MINOR 1
+#define BONE_FRACTURE_MAJOR 2
+
+#define ORGAN_SEVERE_CRIT_THRESHOLD 25
+
+#define PULSE_NONE    0
+#define PULSE_SLOW    1
+#define PULSE_NORM    2
+#define PULSE_FAST    3
+#define PULSE_2FAST   4
+#define PULSE_THREADY 5
+
+#define PAIN_LEVEL_1 40
+#define PAIN_LEVEL_2 70
+#define PAIN_LEVEL_3 100
+#define PAIN_LEVEL_4 160
+#define PAIN_DECAY_RATE 2
+
+#define AIM_PRECISION_BONUS 15
+#define AIM_PRECISION_BONUS_MINOR 7
+#define ORGAN_CRIT_BASE_CHANCE 50
+#define BRAIN_OXYGEN_STARVE 40
+#define HEART_TOXIN_FLOOR 20
+
+#define ORGAN_STRAIN_MINOR 30
+#define ORGAN_STRAIN_SEVERE 60
+#define ORGAN_STRAIN_DEAD 100
+
+#define MINOR_ORGAN_RECOVERY_PROB 2
+
+#define COLOR_ORGAN_WOUND_MINOR "#d98a2b"
+#define COLOR_ORGAN_WOUND_SEVERE "#c0392b"
+#define COLOR_ORGAN_WOUND_DEAD "#5a2a2a"
 
 //wound severities for /datum/wound
 /// Wounds that are either surgically induced or too minor to matter
