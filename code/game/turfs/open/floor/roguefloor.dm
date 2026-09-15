@@ -16,6 +16,10 @@
 	var/winter_type
 	/// The reverse of winter_type - set on the Winter form, pointing back to what it thaws to.
 	var/summer_type
+	/// If TRUE, right-clicking this turf with an empty hand scoops up a snowball instead of
+	/// whatever type-specific thing (a dirtclod, nothing) it'd otherwise do. Set on plain snow and
+	/// every Winter-form sibling turf - anything that currently reads as snow underfoot.
+	var/snowy = FALSE
 
 /turf/open/floor/rogue/break_tile()
 	return //unbreakable
@@ -29,6 +33,26 @@
 	. = ..()
 	if(winter_type || summer_type)
 		GLOB.seasonal_icon_turfs |= src
+
+/turf/open/floor/rogue/attack_right(mob/user)
+	if(snowy)
+		pick_up_snowball(user)
+	return ..()
+
+/// Shared by every snowy turf (see the `snowy` var) - gives the user a snowball, same as scooping
+/// up a handful of snow anywhere else. Type-specific attack_right() overrides that also need their
+/// own (non-snowy) behavior call this directly rather than relying on the default above.
+/turf/open/floor/rogue/proc/pick_up_snowball(mob/user)
+	if(!isliving(user))
+		return
+	var/mob/living/L = user
+	if(L.stat != CONSCIOUS)
+		return
+	var/obj/item/I = new /obj/item/natural/snowball(src)
+	if(L.put_in_active_hand(I))
+		L.visible_message(span_warning("[L] picks up some snow."))
+	else
+		qdel(I)
 
 // Harmless no-op if never tracked - keeps SSseason's lists from going stale regardless of type.
 /turf/open/floor/rogue/Destroy()
@@ -262,6 +286,7 @@
 						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowedge"
 	spread_chance = 0
+	snowy = TRUE
 
 /turf/open/floor/rogue/snow/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -269,19 +294,6 @@
 
 /turf/open/floor/rogue/snow/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
-
-/turf/open/floor/rogue/snow/attack_right(mob/user)
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.stat != CONSCIOUS)
-			return
-		var/obj/item/I = new /obj/item/natural/snowball(src)
-		if(L.put_in_active_hand(I))
-			L.visible_message(span_warning("[L] picks up some snow."))
-		else
-			qdel(I)
-
-	. = ..()
 
 /turf/open/floor/rogue/snow/attackby(obj/item/C, mob/user, params)
 	if(istype(C, /obj/item/natural/snowball))
@@ -384,6 +396,7 @@
 	neighborlay = "snowedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/grasscold
+	snowy = TRUE
 
 /turf/open/floor/rogue/grassred
 	name = "red grass"
@@ -419,6 +432,7 @@
 	neighborlay = "snowedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/grassred
+	snowy = TRUE
 
 /turf/open/floor/rogue/grassyel
 	name = "yellow grass"
@@ -453,6 +467,7 @@
 	neighborlay = "snowedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/grassyel
+	snowy = TRUE
 
 /turf/open/floor/rogue/grass
 	name = "grass"
@@ -559,6 +574,9 @@
 
 
 /turf/open/floor/rogue/dirt/attack_right(mob/user)
+	if(snowy)
+		pick_up_snowball(user)
+		return ..()
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.stat != CONSCIOUS)
@@ -683,6 +701,9 @@
 	slowdown = 0
 
 /turf/open/floor/rogue/dirt/road/attack_right(mob/user)
+	if(snowy)
+		pick_up_snowball(user)
+		return ..()
 	return
 
 /turf/open/floor/rogue/dirt/road/cardinal_smooth(adjacencies)
@@ -696,10 +717,13 @@
 /// its snowedge spills onto an adjacent indoor dirt tile instead of both sides drawing a border -
 /// see roguesmooth().
 /turf/open/floor/rogue/dirt/winter
+	name = "snow"
+	desc = "A gentle blanket of snow."
 	icon_state = "snow"
 	neighborlay = "snowedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/dirt
+	snowy = TRUE
 
 /// Same reasoning as dirt/winter, for dirt/road - sprite/edge family is snowrough's instead.
 /turf/open/floor/rogue/dirt/road/winter
@@ -707,6 +731,7 @@
 	neighborlay = "snowroughedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/dirt/road
+	snowy = TRUE
 
 /turf/open/floor/rogue/sand
 	name = "sand"
@@ -1263,6 +1288,7 @@
 	neighborlay = "snowcobbleedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/cobble
+	snowy = TRUE
 
 /turf/open/floor/rogue/cobble/winter/Initialize(mapload)
 	. = ..()
@@ -1307,6 +1333,7 @@
 	neighborlay = "snowcobbleedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/cobble/mossy
+	snowy = TRUE
 
 /turf/open/floor/rogue/cobble/mossy/winter/Initialize(mapload)
 	. = ..()
@@ -1374,6 +1401,7 @@
 	neighborlay = "snowcobblerockedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/cobblerock
+	snowy = TRUE
 
 /obj/effect/decal/cobbleedge
 	name = "old cobble path"
