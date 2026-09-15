@@ -132,7 +132,7 @@
 	burn_power = 20
 	spread_chance = 4
 
-/turf/closed/wall/mineral/rogue/woodbark/Initialize()
+/turf/closed/wall/mineral/rogue/woodbark/Initialize(mapload)
 	dir = pick(NORTH, SOUTH, EAST, WEST)
 	return ..()
 

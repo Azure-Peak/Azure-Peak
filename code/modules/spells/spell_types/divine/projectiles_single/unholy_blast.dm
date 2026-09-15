@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/projectile/unholy_blast
 	background_icon = 'icons/mob/actions/genericmiracles.dmi'
 	button_icon = 'icons/mob/actions/genericmiracles.dmi'
-	button_icon_state = "ublast"
+	button_icon_state = "dblast"
 	name = "Profane Blast"
 	desc = "Release a blast of sheer divine energy at your enemies. Deals more damage to conformists, undead, and simple-minded creatures. Once every 30 seconds, your God may smite the target, inflicting debilitating effects that are especially potent against the mindless. Incapacitated mindless are brutally executed by the blast.<br><br>Toggle firing mode (Shift+G): Focus or Arc."
 	fluff_desc = "Among the first miracles bestowed upon the faithful is the ability to channel their patron's essence into a focused blast of divine power. Though simple in execution, it is a versatile expression of a deity's will, carrying forth a fragment of the patron's true nature."
@@ -30,12 +30,12 @@
 	var/next_bonus_time = 0
 	var/current_mode = 1
 	var/list/modes = list(
-		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/unholyblast, "invocation" = "Larkas Strahl!"),
-		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/unholyblast/arc, "invocation" = "Larkas Strahl!"),
+		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/unholyblast, "invocation" = "Sakral Strahl!"),
+		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/unholyblast/arc, "invocation" = "Sakral Strahlum!"),
 	)
 
 /obj/projectile/energy/unholyblast
-	name = "unholy blast"
+	name = "divine blast"
 	tracer_type = /obj/effect/projectile/tracer/tracer/beam_rifle
 	muzzle_type = null
 	impact_type = null
@@ -53,7 +53,7 @@
 	color = "#ff0000"
 
 /obj/projectile/energy/unholyblast/arc
-	name = "arced unholy blast"
+	name = "arced divine blast"
 	damage = 20
 	arcshot = TRUE
 

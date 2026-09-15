@@ -1053,7 +1053,7 @@
 	static_debris = list(/obj/item/grown/log/tree = 2)
 	stump_type = /obj/structure/flora/roguetree/stump
 
-/obj/structure/flora/roguetree/dead/Initialize()
+/obj/structure/flora/roguetree/dead/Initialize(mapload)
 	. = ..()
 	icon_state = "tree_[rand(1, 6)]"
 
@@ -1067,7 +1067,7 @@
 	static_debris = list(/obj/item/grown/log/tree = 2)
 	stump_type = /obj/structure/flora/roguetree/stump
 
-/obj/structure/flora/roguetree/jungle/Initialize()
+/obj/structure/flora/roguetree/jungle/Initialize(mapload)
 	. = ..()
 	icon_state = "tree[rand(1, 6)]"
 

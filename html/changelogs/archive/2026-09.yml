@@ -557,3 +557,27 @@
   voidwytch:
   - bugfix: high society cloak issue
   - bugfix: velvet dress two electric boogaloo rename
+2026-09-14:
+  KatTheFox:
+  - bugfix: Roundstart known characters will no longer have their role title show
+      up as "unknown".
+  - rscadd: Clicking the name of a known character in the known menu will now trigger
+      their headshot/flavortext/ooc notes window. You can do this from anywhere, allowing
+      you to read the OOC notes of all the people that are supposed to, icly, know
+      and work with you. If they have rumors/gossip, a ? will show up next to their
+      name that you can click to view that as well.
+  OrbisAnima:
+  - bugfix: Makes it so the Ride with backdoor action uses the same logic as the regular
+      riding action in the ERP panel
+  Ryan180602:
+  - bugfix: dual wield proccing instant red intents
+  - bugfix: Advance spell works diagonally now.
+  anything86:
+  - qol: Players no longer drop on the floor paralyzed when trying to extinguish themselves
+      if their combat mode is on
+  borneblood:
+  - image: Changed Divine/Profane Blast's spell icon.
+  - spellcheck: Changed Profane Blast's chant.
+  radarseas:
+  - rscadd: Necrans now flip off deadites with taunting, sovl. This does not include
+      vampires, so no metagaming.
