@@ -694,6 +694,38 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+//////////////////
+//	LIPSTICKS !	//
+//////////////////
+
+/datum/loadout_item/lipstick_red
+	name = "Red Lipstick"
+	path = /obj/item/lipstick
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/lipstick_purple
+	name = "Purple Lipstick"
+	path = /obj/item/lipstick/purple
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/lipstick_jade
+	name = "Jade Lipstick"
+	path = /obj/item/lipstick/jade
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/lipstick_black
+	name = "Black Lipstick"
+	path = /obj/item/lipstick/black
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+//////////////
+//	EXTRAS !//
+//////////////
+
 /datum/loadout_item/triumph_fermented_crab
 	name = "Fermented Crab"
 	desc = "A man thinks he's done, drinks a mouthful of this. Five minutes later he's back in the race."
