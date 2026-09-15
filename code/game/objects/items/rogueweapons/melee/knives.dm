@@ -1215,7 +1215,7 @@
 	max_integrity = 150
 	wdefense = 3
 	icon_state = "throw_knifesil"
-	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 0)
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 0) //Higher embed chance, doesn't fall.
 	is_silver = TRUE
 
 /obj/item/rogueweapon/huntingknife/throwingknife/silver/ComponentInitialize()
