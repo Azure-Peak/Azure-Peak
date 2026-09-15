@@ -22,7 +22,7 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
 
-	job_traits = list(TRAIT_SEEPRICES)
+	job_traits = list(TRAIT_SEEPRICES, TRAIT_SEEWEALTH)
 	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 
 	advclass_cat_rolls = list(CTAG_SHOPHAND = 2)
@@ -39,10 +39,10 @@
 	subclass_stats = list(
 		STATKEY_SPD = 1,
 		STATKEY_INT = 1,
+		STATKEY_STR = 1,
 		STATKEY_LCK = 1
 	)
 	subclass_skills = list(
-		//worse skills than a normal peasant, generally, with random bad combat skill
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -53,6 +53,8 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/shophand/basic/pre_equip(mob/living/carbon/human/H)
@@ -74,16 +76,6 @@
 		beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 		beltl = /obj/item/storage/keyring/merchant
 		backr = /obj/item/storage/backpack/rogue/satchel
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
-	if(prob(33))
-		H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-	else if(prob(33))
-		H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
-	else //the legendary shopARM
-		H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-		H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-		H.change_stat(STATKEY_STR, 1)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)
 	backpack_contents = list(
