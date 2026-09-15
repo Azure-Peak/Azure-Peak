@@ -574,6 +574,23 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(!IsVocal())
 		return FALSE
 
+	var/tildes = length(splittext(message, "~")) - 1
+	var/is_near_scom = (locate(/obj/structure/roguemachine/scomm) in src.loc)
+	if(tildes)
+		if(tildes > (5 - tilde_count))
+			if(is_near_scom)
+				to_chat(src, span_userdanger("The SCOMrats chew me apart for violating the ducal code against excessive SCOMline flirtation!"))
+				src.gib()
+			return FALSE
+		tilde_count += tildes
+		addtimer(CALLBACK(src, PROC_REF(decrement_tildecount), tildes), 5 MINUTES)
+
+	if(tildes > 3)
+		if(is_near_scom)
+			to_chat(src, span_userdanger("The SCOMrats chew me apart for violating the ducal code against excessive SCOMline flirtation!"))
+			src.gib()
+		return FALSE
+
 	return TRUE
 
 /mob/living/proc/get_key(message)

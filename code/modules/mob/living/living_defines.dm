@@ -260,3 +260,6 @@
 
 	/// Inquisition trauma should only happen once per examined.
 	var/list/examined_inquisitors = list()
+
+	///Used to prevent spam
+	var/tilde_count = 0
