@@ -32,8 +32,7 @@
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	wdefense = 5
-	wdefense_wbonus = 6	//11 when wielded.
+	wdefense = 3
 	bigboy = TRUE
 	gripsprite = TRUE
 	associated_skill = /datum/skill/combat/staves
@@ -266,6 +265,7 @@
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 150
+	wdefense = 4
 	smeltresult = /obj/item/ash
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/virtue
