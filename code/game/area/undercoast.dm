@@ -8,6 +8,7 @@
 	soundenv = 8
 	deathsight_message = "a dark cave where Abyssor's dream echoes"
 	detail_text = DETAIL_TEXT_UNDERCOAST
+	area_sniff_message = "You smell the sea and the damp, murky depths."
 
 /area/rogue/indoors/cave/underhamlet
 	name = "The Underhamlet"
