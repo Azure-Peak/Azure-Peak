@@ -402,8 +402,7 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/grassred/winter,) // one-sided, see dirt/winter
+						/turf/open/floor/rogue/snowrough) // one-sided, see dirt/winter
 	neighborlay = "grass_rededge"
 	winter_type = /turf/open/floor/rogue/grassred/winter
 
@@ -437,7 +436,7 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/grassyel/winter,) // one-sided, see dirt/winter
+						/turf/open/floor/rogue/grasscold/winter,) // one-sided, see dirt/winter
 	neighborlay = "grass_yeledge"
 	winter_type = /turf/open/floor/rogue/grassyel/winter
 
@@ -473,7 +472,7 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/frozen_water,)
+						/turf/open/floor/rogue/frozen_water) // one-sided, see dirt/winter
 	neighborlay = "grassedge"
 
 	spread_chance = 15
@@ -537,7 +536,7 @@
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/AzureSand,
-						/turf/open/floor/rogue/dirt/winter) // one-sided, see dirt/winter - lets its snow edge spill onto an unconverted (e.g. indoor) dirt tile instead of drawing a dirtedge border back at it
+						/turf/open/floor/rogue/dirt/winter)
 	neighborlay = "dirtedge"
 	winter_type = /turf/open/floor/rogue/dirt/winter
 	var/muddy = FALSE
@@ -677,7 +676,8 @@
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/AzureSand,
-						/turf/open/floor/rogue/dirt/road/winter) // one-sided, see dirt/road/winter
+						/turf/open/floor/rogue/dirt/road/winter, // one-sided, see dirt/road/winter
+						/turf/open/floor/rogue/dirt/winter)
 	neighborlay = "roadedge"
 	winter_type = /turf/open/floor/rogue/dirt/road/winter
 	slowdown = 0
@@ -1229,6 +1229,7 @@
 	icon_state = "cobblestone1"
 	name = "cobblestone"
 	desc = "Stone bricks carefully inlaid upon the ground for a more refined and resilient path."
+	layer = MID_TURF_LAYER
 	footstep = FOOTSTEP_STONE
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
@@ -1246,7 +1247,9 @@
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/AzureSand,
-						/turf/open/floor/rogue/cobble/winter) // one-sided, see dirt/winter
+						/turf/open/floor/rogue/cobblerock,
+						/turf/open/floor/rogue/cobble/winter, // one-sided, see dirt/winter
+						/turf/open/floor/rogue/dirt/winter)
 
 /turf/open/floor/rogue/cobble/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1287,7 +1290,9 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/cobble/mossy/winter,) // one-sided, see dirt/winter
+						/turf/open/floor/rogue/cobblerock,
+						/turf/open/floor/rogue/cobble/mossy/winter, // one-sided, see dirt/winter
+						/turf/open/floor/rogue/dirt/winter)
 
 /turf/open/floor/rogue/cobble/mossy/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1349,12 +1354,13 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
-//	neighborlay = "cobblerock"
+	neighborlay = "cobblerockedge"
 	winter_type = /turf/open/floor/rogue/cobblerock/winter
 	smooth = SMOOTH_MORE
 	canSmoothWith = list(/turf/open/floor/rogue,
 						/turf/closed/mineral,
-						/turf/closed/wall/mineral)
+						/turf/closed/wall/mineral,
+						)
 
 /turf/open/floor/rogue/cobblerock/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1363,9 +1369,9 @@
 	smooth = SMOOTH_FALSE
 
 /// See /turf/open/floor/rogue/dirt/winter for why this is a subtype rather than an icon swap.
-/// cobblerock's own neighborlay is disabled (see above) so there's no edge family to swap here.
 /turf/open/floor/rogue/cobblerock/winter
 	icon_state = "snowcobblerock"
+	neighborlay = "snowcobblerockedge"
 	winter_type = null
 	summer_type = /turf/open/floor/rogue/cobblerock
 
