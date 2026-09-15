@@ -18,6 +18,7 @@
 	var/messagereceivedsound = 'sound/misc/scom.ogg'
 	var/hearrange = 0 // Only hearable by wearer
 	is_important = TRUE
+	materia = list(/datum/materia_aspect/solar) // i don't think i have to explain this one
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_VIBE_CROWN, VIBEDESC_CROWN)
