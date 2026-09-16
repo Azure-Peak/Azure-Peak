@@ -1383,11 +1383,18 @@
 	landsound = 'sound/foley/jumpland/stoneland.wav'
 	neighborlay = "cobblerockedge"
 	winter_type = /turf/open/floor/rogue/cobblerock/winter
-	smooth = SMOOTH_MORE
-	canSmoothWith = list(/turf/open/floor/rogue,
-						/turf/closed/mineral,
-						/turf/closed/wall/mineral,
-						)
+	smooth = SMOOTH_TRUE
+	canSmoothWith = list(/turf/open/floor/rogue/dirt,
+						/turf/open/floor/rogue/grass,
+						/turf/open/floor/rogue/grassred,
+						/turf/open/floor/rogue/grassyel,
+						/turf/open/floor/rogue/grasscold,
+						/turf/open/floor/rogue/snowpatchy,
+						/turf/open/floor/rogue/snow,
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/cobblerock/winter, // one-sided, see dirt/winter
+						/turf/open/floor/rogue/dirt/winter)
 
 /turf/open/floor/rogue/cobblerock/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
