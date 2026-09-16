@@ -64,6 +64,9 @@
 /datum/emote/proc/adjacentaction(mob/user, mob/target)
 	return
 
+/datum/emote/proc/get_env(mob/user)
+	return null
+
 /datum/emote/proc/run_emote(mob/user, params, type_override, intentional = FALSE, targetted = FALSE, animal = FALSE, quiet = FALSE)
 	. = TRUE
 	if(!can_run_emote(user, TRUE, intentional))
@@ -79,12 +82,10 @@
 		if(mobsadjacent.len)
 			chosenmob = input(user, "[key] who?") in mobsadjacent
 		if(chosenmob)
-			if(user.Adjacent(chosenmob))
+			if(user.Adjacent(chosenmob) || targetrange > 2)
 				params = chosenmob.name
 				adjacentaction(user, chosenmob)
-			else if(targetrange > 2) //if it's a ranged targeted emote
-				params = chosenmob.name
-				adjacentaction(user, chosenmob)
+
 	var/raw_msg = select_message_type(user, intentional)
 	var/msg = raw_msg
 	if(params && message_param)
@@ -158,7 +159,8 @@
 			msg = "[styled_name] [msg]"
 		var/runechat_msg_to_use = null
 		if(show_runechat)
-			runechat_msg_to_use = runechat_msg ? runechat_msg : pre_color_msg
+			runechat_msg_to_use = (runechat_msg && !use_params_for_runechat) ? runechat_msg : pre_color_msg
+
 		if(emote_type == EMOTE_AUDIBLE)
 			emotelocation.audible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE, hearing_distance = (quiet ? 1 : DEFAULT_MESSAGE_RANGE))
 		else
@@ -166,17 +168,6 @@
 
 /mob/living/proc/get_emote_pitch()
 	return clamp(voice_pitch, 0.5, 2)
-
-/mob/living/carbon/human/get_emote_pitch()
-	var/final_pitch = ..()
-	var/pitch_modifier = 0
-	if(STASTR > 10)
-		pitch_modifier -= (STASTR - 10) * 0.03
-	else if(STASTR < 10)
-		pitch_modifier += (10 - STASTR) * 0.03
-	return clamp(final_pitch + pitch_modifier, 0.5, 2)
-/datum/emote/proc/get_env(mob/living/user)
-	return
 
 
 

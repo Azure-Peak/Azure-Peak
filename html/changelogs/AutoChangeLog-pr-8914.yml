@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - qol: "all forms of healing miracle rejections use a consistant small feedback in chat and a blue font on the recieving end."
-  - bugfix: "fixed trait_ironman not giving the correct feedback of who's getting miracled."

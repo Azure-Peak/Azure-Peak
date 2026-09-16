@@ -208,7 +208,7 @@
 
 /datum/component/storage/concrete/tray/New(datum/P, ...)
 	. = ..()
-	can_hold = typecacheof(list(/obj/item/cooking, /obj/item/reagent_containers/glass/bowl, /obj/item/reagent_containers/glass/cup, /obj/item/kitchen, /obj/item/reagent_containers/food, /obj/item/reagent_containers/glass/bottle))
+	can_hold = typecacheof(list(/obj/item/cooking, /obj/item/reagent_containers/glass/bowl, /obj/item/reagent_containers/glass/cup, /obj/item/kitchen, /obj/item/reagent_containers/food, /obj/item/reagent_containers/glass/bottle, /obj/item/seeds))
 
 /datum/component/storage/concrete/grid/headhook
 	max_w_class = WEIGHT_CLASS_NORMAL

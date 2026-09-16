@@ -38,6 +38,7 @@
 
 	/// The preferences this refers to
 	var/datum/preferences/preferences
+	var/forced_grid_size = 0
 
 	var/atom/movable/screen/background/char_preview/preview_background
 
@@ -69,21 +70,37 @@
 	var/mob/living/carbon/human/dummy/mannequin = generate_or_wait_for_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
 
 	appearance = preferences.render_new_preview_appearance(mannequin)
-	var/body_size = ROUND_UP(mannequin.dna.current_body_size - 0.1) // arbitrarily chosen wiggle room
-
+	var/grid_size = forced_grid_size || ROUND_UP(mannequin.dna.current_body_size - 0.1) // arbitrarily chosen wiggle room
 	// this calls wipe_state()
 	unset_busy_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
+	update_size(grid_size)
 
+/atom/movable/screen/map_view/char_preview/proc/cycle_forced_size(mob/user)
+	switch(forced_grid_size)
+		if(0)
+			forced_grid_size = 1
+		if(1)
+			forced_grid_size = 2
+		if(2)
+			forced_grid_size = 3
+		else
+			forced_grid_size = 0
+
+	to_chat(user, span_notice("Your character will now be displayed [forced_grid_size == 0 ? "according to their size" : "on a [forced_grid_size]x[forced_grid_size] grid"]"))
+	update_size(forced_grid_size || preferences.features["body_size"])
+
+/atom/movable/screen/map_view/char_preview/proc/update_size(grid_size)
 	// this isn't required upstream but helps tremendously with sizes >110% downstream
-	preview_background.fill_rect(1, 1, body_size, body_size)
-	set_position((body_size + 1) / 2, 1)
+	preview_background.fill_rect(1, 1, grid_size, grid_size)
+	set_position((grid_size + 1) / 2, 1)
 
 /// This is an old-fashioned fix for the ByondUI Layout bug, changing the screen_loc slightly will force a re-layout
 /atom/movable/screen/map_view/char_preview/proc/jiggle_map()
+	var/old_pos = screen_loc
 	sleep(1 TICKS)
 	set_position(1, 1, 2, 2)
 	sleep(1 TICKS)
-	set_position(1, 1)
+	screen_loc = old_pos
 
 
 // Cycling Background

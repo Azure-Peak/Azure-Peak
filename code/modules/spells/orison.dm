@@ -648,12 +648,13 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		// however, they can have TRAIT_PSYDONITE as a treat
 		ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)
 
-	// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording
-	if(istype(new_convert.patron, /datum/patron/old_god))
-		caster.add_stress(/datum/stressevent/convert/psydon)
-	else
-		caster.add_stress(/datum/stressevent/convert)
-	new_convert.add_stress(/datum/stressevent/convert/recipient)
+	if(!(ispath(new_patron, /datum/patron/divine) && istype(old_patron, /datum/patron/divine))) // sigh.
+		// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording
+		if(istype(new_convert.patron, /datum/patron/old_god))
+			caster.add_stress(/datum/stressevent/convert/psydon)
+		else
+			caster.add_stress(/datum/stressevent/convert)
+		new_convert.add_stress(/datum/stressevent/convert/recipient)
 
 	message_admins("CONVERSION: [caster.real_name] ([caster.ckey]) has converted [new_convert.real_name] ([new_convert.ckey]) to [new_convert.patron.name]")
 	log_game("CONVERSION: [caster.real_name] ([caster.ckey]) converted [new_convert.real_name] ([new_convert.ckey]) to [new_convert.patron.name]")

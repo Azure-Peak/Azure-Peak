@@ -249,7 +249,7 @@
 		return
 	var/aimed_zone = def_zone
 	var/list/roll_out = list()
-	def_zone = bullet_hit_accuracy_check(P.accuracy + P.bonus_accuracy, def_zone, roll_out)
+	def_zone = bullet_hit_accuracy_check(P.get_aim_from(src), def_zone, roll_out)
 	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = P.armor_penetration, damage = P.damage, intdamfactor = P.intdamfactor, used_weapon = P)
 
 	next_attack_msg.Cut()

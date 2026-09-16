@@ -1,0 +1,15 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Archery and Slings skill is now the sole determinant of ranged rate of fire and also drives accuracy. Perception now only scales ranged damage for Sling and Bows."
+  - balance: "STR below 10 reduce ROF of Longbow. No longer does anything else as it was largely a cosmetic change anyway."
+  - balance: "Draw times are properly floored and capped - bows range from 0.8 to 4.4 seconds, slings roughly 0.8 to 1.6. Crossbows no longer scale off Perception at all."
+  - balance: "Bows and slings now charge their stamina on release instead of draining while held. Cancelling a draw costs the same as loosing the shot. Holding beyond 2 - 3 seconds (Scaling from 10 to 15 PER linearly) will strain you with a strain emote and cost you accuracy and stamina."
+  - balance: "Ranged accuracy reworked to 15 + 15 per skill level, minus 10 per tile past your view range and minus 20 when shooting across Z levels. Shots below a weapon's minimum or above its maximum range hit the chest. Aimed limb shot cap at 75% at before, ultra precise zone like hand or feet 50, and face 30."
+  - balance: "Removed the aim modifier from spells and retooled mage projectile accuracy."
+  - balance: "Quivers now hold 24 arrows and 16 bolts, with arrow and bolt recipes producing even number that fill them up."
+  - balance: "Ranged NPCs retreat a bit longer while kiting, pause for a second after firing, and had their ROF penalty cut from 1.6 to 1.3x."
+  - bugfix: "A barely drawn shot no longer deals near-full damage while a fully drawn one deals almost none."
+  - bugfix: "NPCs can no longer parry / dodge while drawing a ranged weapon."
+  - code_imp: "Archery, sling and crossbow tuning moved into defines, and the ranged damage, accuracy and spread formulas split into shared procs."
+  - balance: "Maximum accuracy vs a limb has been raised to 90% from 75%, given it is now dependent on having high ranged skills and maintaining sweet spot."

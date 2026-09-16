@@ -1,0 +1,4 @@
+author: "zRainbowcat"
+delete-after: True
+changes:
+  - bugfix: "Hallowed trait actually works now"

@@ -35,14 +35,14 @@
 	beltl = /obj/item/storage/belt/rogue/pouch
 	head = /obj/item/clothing/head/roguetown/jester
 	neck = /obj/item/clothing/neck/roguetown/coif
-	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/stealing, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/music, rand(1,6), TRUE)
-	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/cooking, rand(1,3), TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/stealing, SKILL_LEVEL_MASTER, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/music, rand(SKILL_LEVEL_EXPERT, SKILL_LEVEL_LEGENDARY), TRUE)
+	H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_APPRENTICE, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/cooking, rand(SKILL_LEVEL_NOVICE, SKILL_LEVEL_JOURNEYMAN), TRUE)
 	var/datum/inspiration/I = new /datum/inspiration(H)
 	I.grant_inspiration(H, bard_tier = BARD_T2)
 	H.STASTR = rand(1, 21)

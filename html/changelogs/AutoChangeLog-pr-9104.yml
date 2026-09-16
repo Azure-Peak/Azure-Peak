@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Dueling goggles lose the armour."
+  - bugfix: "Limetease's saber is now locked to the ckey."

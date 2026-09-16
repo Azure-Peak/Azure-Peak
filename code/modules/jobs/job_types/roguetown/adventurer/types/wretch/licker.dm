@@ -26,6 +26,7 @@
 			possible_classes += CHECKS
 
 		var/datum/advclass/C = input(H.client, "What is my class?", "Adventure") as null|anything in possible_classes
+		H.licker_subclass = C
 		C.equipme(H)
 
 		H.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE)
@@ -67,6 +68,7 @@
 		else
 			M.emote(pick("twitch_s","chuckle"))
 	M.apply_status_effect(/datum/status_effect/debuff/vampbite)
+	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	..()
 
 /atom/movable/screen/fullscreen/vampsolution

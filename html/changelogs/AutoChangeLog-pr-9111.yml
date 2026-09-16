@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Jacketed plate-and-maille now properly renders sleeve sprites."

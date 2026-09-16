@@ -1,0 +1,10 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "(From a previous PR..) Adds the Jacketed Plate-and-Maille and Knight-Errant's Armet, touched-up versions of Ratwood's watchmen armor. Comes in both iron- and steel variants, and can be obtained as reskins via the Triumph menu."
+  - bugfix: "(From a previous PR..) Reduces the lightness of Gothic Iron Armor to be much more in line with other iron-paletted items."
+  - rscadd: "Mystogen's radiant gold mask, Thistle's poncho, and Rhynn's broche."
+  - bugfix: "Scarfed shawls should now properly render."
+  - bugfix: "Cased satchels no longer cover the hands when worn."
+  - bugfix: "Jacketed brigandine and decorated coat-of-plates now properly dye on all sides."
+  - bugfix: "The ladylike longcloak can now be dyed in both independant ways, with the broche as an added connector."

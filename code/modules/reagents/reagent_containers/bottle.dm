@@ -143,13 +143,6 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 		return
 	toggle_cork(user)
 
-/obj/item/reagent_containers/glass/bottle/examine()
-	. = ..()
-	if(closed)
-		. += span_notice("It is sealed with a cork.")
-	else
-		. += span_notice("It is open. Hopefully a cork is nearby.")
-
 /obj/item/reagent_containers/glass/bottle/Initialize(mapload)
 	. = ..()
 	if(!icon_state)

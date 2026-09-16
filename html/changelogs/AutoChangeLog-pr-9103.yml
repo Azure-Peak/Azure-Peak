@@ -1,0 +1,4 @@
+author: "anything86"
+delete-after: True
+changes:
+  - qol: "kick now defaults to chest when attempting to hit head without relevant traits"
