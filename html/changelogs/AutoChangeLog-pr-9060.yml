@@ -1,0 +1,4 @@
+author: "Moku-Mok"
+delete-after: True
+changes:
+  - rscadd: "Added helmet choice (2 helmets instead of 1) to Undivided Guardians."

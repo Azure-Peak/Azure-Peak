@@ -1,0 +1,6 @@
+author: "Juubo"
+delete-after: True
+changes:
+  - rscadd: "engineer launcher can now fire sling bullets"
+  - rscadd: "quiver now ejects when the launcher is destroyed."
+  - balance: "increased integrity"

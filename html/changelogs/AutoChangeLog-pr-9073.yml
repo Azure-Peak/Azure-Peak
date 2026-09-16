@@ -1,0 +1,9 @@
+author: "Draganfrukts"
+delete-after: True
+changes:
+  - rscadd: "Added new hunting swords that can thrust but have no axe chop. They are sidegrades to messers, with the difference that they can also butcher animals."
+  - rscadd: "Added two towner-exclusive bows. The hunting flatbow has a 1.1x accuracy modifier, and the hunting longbow has half the damage multiplier (.15x) while retaining its 1x accuracy multiplier."
+  - bugfix: "Made the Steppesman and Warden bows use the correct colors again."
+  - image: "Changed the appearance of the noble hunting sword."
+  - balance: "Towner hunters get JOURNEYMAN atthletics. Towner bow-hunters get JOURNEYMAN swords and an unique hunting sword. Towner hunters get NOVICE LUMBERJACKING (And bow-hunter loses its redundant novice axe skill)"
+  - balance: "Spear-Hunter towners spawn with a boar spear."

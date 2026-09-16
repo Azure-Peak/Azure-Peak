@@ -586,6 +586,13 @@
 	created_item = /obj/item/rogueweapon/sword/short/messer/iron
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/iron/hunting
+	name = "Hunting Sword, Iron"
+	category = "Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/rogueweapon/sword/short/messer/hunting
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
 /datum/anvil_recipe/weapons/iron/cqcclaws
 	name = "Fighting Claws, Iron"
 	category = "Iron"
@@ -929,11 +936,19 @@
 	created_item = /obj/item/rogueweapon/sword/short/messer
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
-/datum/anvil_recipe/weapons/steel/messeralt
+/datum/anvil_recipe/weapons/steel/huntingnoble
+	name = "Noble's Hunting Sword, Steel (+1 Bronze)"
+	category = "Steel"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/bronze)
+	created_item = /obj/item/rogueweapon/sword/short/messer/alt
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/steel/hunting
 	name = "Hunting Sword, Steel"
 	category = "Steel"
 	req_bar = /obj/item/ingot/steel
-	created_item = /obj/item/rogueweapon/sword/short/messer/alt
+	created_item = /obj/item/rogueweapon/sword/short/messer/hunting/steel
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/steel/sword

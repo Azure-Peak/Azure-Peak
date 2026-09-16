@@ -477,6 +477,19 @@
 	desc = "A medium length composite bow of glued horn, wood, and sinew with fine shooting characteristics. Hewn from a living Black Oak branch, it carries the quiet strength of untouched groves; unyielding, unbroken, and fiercely guarded from the hands of Man."
 	icon_state = "recurve_bow_blackoak"
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/towner
+	name = "hunting flatbow"
+	desc = "A short flatbow made of Hazel from the Azurian Enclave's forests, historically favoured by wood elves and thus becoming a tradition of the local hunters. Compared to similar hunting bows, this one's marginally more accurate."
+	icon_state = "bow_towner"
+	accfactor = 1.1
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/towner
+	name = "hunting longbow"
+	desc = "A sturdy longbow made of Black Locust from a small dense reserve in Mount Decapitation. It doesn't have a draw as heavy as that of the war longbow, but it preserves its accuracy this way."
+	icon_state = "longbow_towner"
+	damfactor = 1.15
+	accfactor = 1
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 	name = "short bow"
 	desc = "As the eagle was killed by the arrow winged with his own feather, so the hand of the world is wounded by its own skill."

@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Swampweed no longer needs to be maid into tea to sate junkie for whatever reason; the normal swampweed reagent does as well."
+  - rscadd: "Vamp solution now sates junkie."

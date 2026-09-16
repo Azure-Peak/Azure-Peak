@@ -73,7 +73,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/longbowpartial
-	name = "unstrung long bow"
+	name = "unstrung longbow"
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	category = "Ranged"
 	result = /obj/item/grown/log/tree/bowpartial/longbow
@@ -89,7 +89,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/survival/longbow
-	name = "long bow"
+	name = "longbow"
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	category = "Ranged"
 	result = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
@@ -100,6 +100,20 @@
 	verbage_simple = "string together"
 	verbage = "strings together"
 	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/survival/huntinglongbow
+	name = "hunting longbow"
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	category = "Ranged"
+	result = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/towner
+	reqs = list(
+		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow = 1,
+		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/towner = 1,
+		/obj/item/natural/silk = 1,
+	)
+	verbage_simple = "re-string"
+	verbage = "re-strings"
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/longbow_warden
 	name = "blackhorn longbow"

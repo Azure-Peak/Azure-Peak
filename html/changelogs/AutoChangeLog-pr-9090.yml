@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Undestroys the recent Donor PR's item access point."
+  - rscadd: "Iron variants of the new maille-and-armets."
