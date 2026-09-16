@@ -959,3 +959,4 @@
 	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
 	icon_state = "lampmask2"
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
