@@ -10,6 +10,7 @@
 
 	tutorial = "A seasoned member of the Roadsmans guild, you dedicate your life to keeping the roads and their wanderers safe from the various evils that go bump in the night no matter their allegiance or faith.."
 
+	townie_contract_gate_exempt = TRUE
 	display_order = JDO_LAMPLIGHTER
 	selection_color = JCOLOR_WANDERER
 	show_in_credits = TRUE
@@ -36,7 +37,7 @@
 	outfit = /datum/outfit/job/roguetown/lampwarden
 	cmode_music = 'sound/music/cmode/adventurer/combat_lamplighter.ogg'
 	category_tags = list(CTAG_LAMPLIGHTER)
-	traits_applied = list(TRAIT_OUTDOORSMAN)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_HOMESTEAD_EXPERT)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_PER = 2,
@@ -71,7 +72,7 @@
 	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter/warden
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter/warden
-	mask = /obj/item/clothing/mask/rogue/lamplighter
+	mask = /obj/item/clothing/mask/rogue/facemask/leather/lamplighter
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/dark
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -89,7 +90,7 @@
 	outfit = /datum/outfit/job/roguetown/lampwicker
 	cmode_music = 'sound/music/cmode/adventurer/combat_lamplighter.ogg'
 	category_tags = list(CTAG_LAMPLIGHTER)
-	traits_applied = list(TRAIT_OUTDOORSMAN)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_HOMESTEAD_EXPERT)
 	subclass_stats = list(
 		STATKEY_PER = 1,
 		STATKEY_INT = 2,
@@ -126,7 +127,7 @@
 	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter
-	mask = /obj/item/clothing/mask/rogue/lamplighter/beaked
+	mask = /obj/item/clothing/mask/rogue/facemask/leather/lamplighter/beaked
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/dark
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -149,6 +150,7 @@
 	light_outer_range = 15
 	light_power = 2
 	light_color = "#e66b45"
+	max_integrity = 250
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/MiddleClick(mob/user)
 	var/turf/target_turf = get_step(user,user.dir)
@@ -182,7 +184,7 @@
 	light_power = 2
 	force = 18
 	force_wielded = 25
-	max_integrity = 200
+	max_integrity = 300
 	light_color = "#e66b45"
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden/MiddleClick(mob/user)

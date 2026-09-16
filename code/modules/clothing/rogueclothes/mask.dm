@@ -558,21 +558,6 @@
 /obj/item/clothing/mask/rogue/physician/ComponentInitialize()
 	AddElement(/datum/element/plague_ward)
 
-/obj/item/clothing/mask/rogue/lamplighter
-	name = "lamplighter's mask"
-	desc = "A leather mask meant to shield your face from claw and oil."
-	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
-	icon_state = "lampmask1"
-	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
-
-/obj/item/clothing/mask/rogue/lamplighter/beaked
-	name = "lamplighter's beaked mask"
-	desc = "A beaked leather mask meant to shield your face from claw and oil."
-	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
-	icon_state = "lampmask2"
-
 /obj/item/clothing/mask/rogue/skullmask
 	name = "skull mask"
 	desc = "A mask in the shape of a skull, designed to terrify."
@@ -954,3 +939,19 @@
 	armor = ARMOR_BRONZE
 	max_integrity = ARMOR_INT_MASK_STONE
 	smeltresult = null
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter
+	name = "lamplighter's mask"
+	desc = "A leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask1"
+	adjustable = CANT_CADJUST
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter/beaked
+	name = "lamplighter's beaked mask"
+	desc = "A beaked leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask2"
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
