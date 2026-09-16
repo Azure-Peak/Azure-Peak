@@ -1164,6 +1164,8 @@
 	color = null
 	detail_color = CLOTHING_WHITE
 	detail_tag = "_detail"
+	sleeved_detail = TRUE
+	nodismemsleeves = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/heavy/decorated/Initialize(mapload)
 	. = ..()

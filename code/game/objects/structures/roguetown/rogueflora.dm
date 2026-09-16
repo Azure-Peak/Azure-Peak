@@ -143,8 +143,9 @@
 
 /obj/structure/flora/roguetree/wise/examine(mob/user)
 	. = ..()
+	// clear any pre-exising sound
 	SEND_SOUND(usr, sound(null))
-	playsound(user, 'sound/music/tree.ogg', 80)
+	user.playsound_local(src, 'sound/music/tree.ogg', 80, FALSE)
 
 /obj/structure/flora/roguetree/wise/druids/take_damage(damage_amount, damage_type = BRUTE || BURN, damage_flag, sound_effect = TRUE)
 	. = ..()

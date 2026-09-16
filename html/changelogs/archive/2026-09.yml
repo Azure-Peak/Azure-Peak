@@ -642,3 +642,53 @@
   - bugfix: fixed hag having ability to become roundstart ww
   - bugfix: athletics skill description is no longer psyop
   - bugfix: fixed nodrop items from conjured summons
+2026-09-16:
+  DmitriyPershukov:
+  - rscadd: added bulk pure moondust recipe
+  - balance: lowered pure moondust recipe difficulty to expert from master
+  - balance: changed recipes for pure moondust, starsugar and herozium
+  Draganfrukts:
+  - rscadd: Added new hunting swords that can thrust but have no axe chop. They are
+      sidegrades to messers, with the difference that they can also butcher animals.
+  - rscadd: Added two towner-exclusive bows. The hunting flatbow has a 1.1x accuracy
+      modifier, and the hunting longbow has half the damage multiplier (.15x) while
+      retaining its 1x accuracy multiplier.
+  - bugfix: Made the Steppesman and Warden bows use the correct colors again.
+  - image: Changed the appearance of the noble hunting sword.
+  - balance: Towner hunters get JOURNEYMAN atthletics. Towner bow-hunters get JOURNEYMAN
+      swords and an unique hunting sword. Towner hunters get NOVICE LUMBERJACKING
+      (And bow-hunter loses its redundant novice axe skill)
+  - balance: Spear-Hunter towners spawn with a boar spear.
+  Fi:
+  - rscadd: Added a button (located left of the action buttons on the Castlevania
+      pillar), keybind, and verb for toggling the action buttons' visibility.
+  Juubo:
+  - rscadd: engineer launcher can now fire sling bullets
+  - rscadd: quiver now ejects when the launcher is destroyed.
+  - balance: increased integrity
+  KatTheFox:
+  - bugfix: Swampweed no longer needs to be maid into tea to sate junkie for whatever
+      reason; the normal swampweed reagent does as well.
+  - rscadd: Vamp solution now sates junkie.
+  Moku-Mok:
+  - rscadd: Added helmet choice (2 helmets instead of 1) to Undivided Guardians.
+  Ollanius:
+  - rscadd: Visored sallets can now be combined with a regular Grenzelhoftian beret.
+  - rscdel: Crafting recipes involving the Triumph-specific Grenzelhoftian beret have
+      been removed, as it can already be worn on the cosmetic slot of most helmets
+      as-is.
+  - rscadd: Rhynn's unique jacketed brigandine and longcloak sprite.
+  - rscadd: Lizzy's unique apron, pants, boots, gloves, and blouse.
+  - rscadd: Universal goggles and scarfs for donators.
+  - rscadd: Avantyne-threaded barbute as a cosmetic option, courtesy of Dakken.
+  - rscadd: Unique maille and armet reskin, available through Triumph-purchased reskin
+      kits as well.
+  - bugfix: Undestroys the recent Donor PR's item access point.
+  - rscadd: Iron variants of the new maille-and-armets.
+  WeNeedMorePhoron:
+  - rscadd: You can no longer fine yourself
+  mumblemancer:
+  - balance: non-unbound skeletons get swift back
+  - balance: unbound skeletons also got swift back for consistency
+  tmyqlfpir:
+  - bugfix: Ice slipping letting mobs clip through solid objects

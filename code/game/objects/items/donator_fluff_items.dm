@@ -765,6 +765,9 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+/obj/item/clothing/head/roguetown/decoration
+	armor = null
+
 /obj/item/clothing/head/roguetown/decoration/orle
 	name = "noble striped decoration"
 	desc = "A delicate weaving of colored fabric, intended to be worn atop a helmet; a touch of elegance, indiscriminate of the alloy."
@@ -1074,11 +1077,14 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	smeltresult = /obj/item/ingot/drow
+	armor = null
 
 /obj/item/clothing/head/roguetown/shawl/donator
 	name = "scarfed shawl"
 	desc = "Keeps the hair in check, and looks proper."
 	icon_state = "clothheadveil"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 /obj/item/clothing/head/roguetown/helmet/heavy/barbute/avantyne
 	name = "avantyne-threaded barbute"
@@ -3221,7 +3227,7 @@ As Excaliber."
 	fashion-minded from flaunting their Grenzelhoftian silks at any given opportunity."
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-	boobed = TRUE
+	boobed = FALSE
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	icon_state = "rhynncloak"
@@ -3230,9 +3236,9 @@ As Excaliber."
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	allowed_sex = list(FEMALE) //Character-specific.
-	color = null
+	color = CLOTHING_RED
 	detail_tag = "_detail"
-	detail_color = COLOR_WHITE
+	detail_color = CLOTHING_WHITE
 
 /obj/item/clothing/cloak/donator_rhynn/Initialize(mapload)
 	. = ..()
@@ -3247,6 +3253,18 @@ As Excaliber."
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/head/roguetown/decoration/broche
+	name = "golden broche"
+	desc = "Noble lapels for a noble coat."
+	item_state = "broche"
+	icon_state = "broche"
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_ARMOR
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	color = null
+	grid_width = 32
+	grid_height = 32
+
 /obj/item/clothing/suit/roguetown/armor/brigandine/light/donator_rhynn
 	name = "jacketed brigandine"
 	desc = "A lightweight jacket of studded brigandine, worn beneath a steel cuirass that's been custom-fitted to someone's bosom. While more \
@@ -3257,8 +3275,25 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
-	color = null
 	allowed_sex = list(FEMALE)
+	sleeved_detail = TRUE
+	nodismemsleeves = FALSE
+	color = CLOTHING_WHITE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/donator_rhynn/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/donator_rhynn/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 //Lamprey
 /obj/item/clothing/head/roguetown/helmet/heavy/aventail/donator_lamprey
@@ -4612,3 +4647,13 @@ As Excaliber."
 	desc = "A sinister-looking sabre with a deep malevolent aura. Its blade seems to pulse with an otherworldly energy only a god could imbue."
 	icon_state = "limesaber"
 	icon = 'icons/obj/items/donor_weapons.dmi'
+
+// Mystogen
+/obj/item/clothing/mask/rogue/facemask/goldmask/radiant
+	name = "radiant gold mask"
+	desc = "A ceremonial mask that mimics Astrata's solar might. Relics like these were once commonplace across the Holy See's plains, as \
+	garments to be worn by village-acolytes during the summer solstice's many festivals. Nowadaes, they're a rare sight to see - at least, \
+	beyond the hands of wandering zealots and priests."
+	icon_state = "radiantgoldmask"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
