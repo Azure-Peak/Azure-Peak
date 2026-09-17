@@ -33,6 +33,12 @@
 	name = "Southern Undercoast"
 	first_time_text = "Southern Undercoast"
 
+/area/rogue/indoors/cave/bog
+	icon_state = "bog"
+	name = "Flooded Caves"
+	first_time_text = "Flooded Caves"
+	deathsight_message = "dank, moldy caverns flowing with foul water from a rotten swamp"
+
 /area/rogue/under/cave/mazedungeon
 	name = "Temple of the Shattered God"
 	loot_budget = LOOT_BUDGET_TEMPLE_SHATTERED

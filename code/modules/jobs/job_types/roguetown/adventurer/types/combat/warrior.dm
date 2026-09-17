@@ -174,7 +174,7 @@
 				l_hand = /obj/item/rogueweapon/sword/sabre
 				r_hand = /obj/item/rogueweapon/shield/buckler
 				beltr = /obj/item/rogueweapon/scabbard/sword
-			if("Messer & Buckler")
+			if("Steel Messer & Buckler")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/short/messer/duelist
 				r_hand = /obj/item/rogueweapon/shield/buckler
