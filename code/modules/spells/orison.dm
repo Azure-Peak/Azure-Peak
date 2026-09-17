@@ -144,7 +144,7 @@
 	var/filter = owner.get_filter(BLESSINGOFLIGHT_FILTER)
 	if (!filter)
 		owner.add_filter(BLESSINGOFLIGHT_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
-	mob_light_obj = owner.mob_light(holy_light_range, LIGHT_POWER_MAGIC, _color = color_mob_light)
+	mob_light_obj = owner.mob_light(LIGHT_POWER_MAGIC, holy_light_range, _color = color_mob_light)
 	return TRUE
 
 /datum/status_effect/light_buff/on_remove()
