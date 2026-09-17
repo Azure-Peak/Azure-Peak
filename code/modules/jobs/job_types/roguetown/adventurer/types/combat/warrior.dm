@@ -249,8 +249,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 	)
-	extra_context = "This subclass has three disciplines to choose from: one provides Expert skills in fistfighting and the 'Expert Pugilist' trait, the other provides unique equipment and a one-point exchange of Speed for Perception,\
-						and the final one grants you a greatsword and a special form of armor while taking away three points of intelligence."
+	extra_context = "This subclass has several disciplines to choose from: one provides Expert skills in fistfighting and the 'Expert Pugilist' trait for bonuses on unarmed weapons, Whiphunter provides a bronze whip and a one-point exchange of Speed for Perception,\ other discipline offers Greatweapons and Journeyman skill, focused in fight several enemies at once. All three disciplines provide Journeyman Wrestling and Unarmed skills as secondary weapons, you also got one handed bronze weapon options to pick from."
 
 /datum/outfit/job/roguetown/adventurer/barbarian/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -261,28 +260,38 @@
 	if(!H.mind)
 		return
 
-	var/weapons = list("Bronze Katar","Bronze Sword","Bronze Axe","Bronze Mace","Bronze Spear","Bronze Flail","Discipline - Whiphunter (+I PER / -I SPD)","Discipline - Unarmed","Discipline - Bodybuilder")
+	to_chat(H, span_warning("You got a few wild helmets to pick from, get the one who fits your high adventure."))
+	var/helmets = list(
+		"Volfhelm"			= /obj/item/clothing/head/roguetown/helmet/leather/volfhelm,
+		"Roughspun Headband"	= /obj/item/clothing/head/roguetown/headband/monk/barbarian,
+		"Winged Cap"	= /obj/item/clothing/head/roguetown/helmet/winged/iron,
+		"Horned Helmet"		= /obj/item/clothing/head/roguetown/helmet/horned,
+		"Saiga Skull"		= /obj/item/clothing/head/roguetown/helmet/leather/saiga,
+		"None"
+		)
+	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	if(helmchoice != "None")
+		head = helmets[helmchoice]
+
+	var/weapons = list("Bronze Greatsword","Bronze Sword","Bronze Axe","Bronze Mace","Bronze Spear","Bronze Flail","Discipline - Whiphunter (+I PER / -I SPD)","Discipline - Unarmed","Discipline - Iron Greatsword", "Discipline - Greataxe")
 	var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS.") as anything in weapons
 	switch(weapon_choice)
-		if("Bronze Katar")
-			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
-			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
-			r_hand = /obj/item/rogueweapon/katar/bronze
+		if("Bronze Greatsword")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			beltr = /obj/item/rogueweapon/scabbard/sword
+			r_hand = /obj/item/rogueweapon/sword/long/broadsword/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 		if("Bronze Axe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 		if("Bronze Sword")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			r_hand = /obj/item/rogueweapon/sword/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 		if("Bronze Mace")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			r_hand = /obj/item/rogueweapon/mace/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 		if("Bronze Spear")
@@ -290,17 +299,15 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/hunting, SKILL_LEVEL_NOVICE, TRUE)
 			ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
-			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			r_hand = /obj/item/rogueweapon/spear/bronze
+			backr = /obj/item/rogueweapon/scabbard/gwstrap
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 		if("Bronze Flail")
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			r_hand = /obj/item/rogueweapon/flail/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 		if("Discipline - Whiphunter (+I PER / -I SPD)")
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			head = /obj/item/clothing/head/roguetown/headband/monk/barbarian
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 			r_hand = /obj/item/rogueweapon/whip/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
@@ -309,24 +316,25 @@
 		if ("Discipline - Unarmed")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian //a leather armor.
-			shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/barbarian //a gambeson. The skin armor options start better protected, but cannot upgrade. A basic gamby + leather armor will match them, and heavy gamby + light brig will eclipse them significantly.
-		if ("Discipline - Bodybuilder") //Better starting protection than the bronze sword option, but cannot upgrade to brigandine.
+		if ("Discipline - Iron Greatsword")
 			H.adjust_skillrank_up_to(/datum/skill.combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian //a leather armor.
-			shirt = /obj/item/clothing/suit/roguetown/armor/manual/pushups/barbarian //a fullbody leather armor.
 			r_hand = /obj/item/rogueweapon/greatsword/iron
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
+		if ("Discipline - Greataxe")
+			H.adjust_skillrank_up_to(/datum/skill.combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			r_hand = /obj/item/rogueweapon/greataxe/bronze
+			backr = /obj/item/rogueweapon/scabbard/gwstrap
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/barbarian
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(should_wear_masc_clothes(H))
 		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	if(should_wear_femme_clothes(H))
-		if(weapon_choice != "Discipline - Unarmed" && weapon_choice != "Discipline - Bodybuilder")
+		if(weapon_choice != "Discipline - Unarmed" && weapon_choice != "Discipline - Greatsword")
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
