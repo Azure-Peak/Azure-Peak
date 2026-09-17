@@ -61,9 +61,9 @@
 
 /obj/item/flashlight/flare/light
 	name = "condensed light"
-	desc = "An orb of condensed light."
-	w_class = WEIGHT_CLASS_NORMAL
-	light_outer_range = 10
+	desc = "An orb of condensed light. (Use right click to light it or dim it, do it while sneaking to change color)"
+	w_class = WEIGHT_CLASS_SMALL
+	light_outer_range = LIGHT_RANGE_LAMPTERN + 2
 	light_color = LIGHT_COLOR_WHITE
 	force = 10
 	icon = 'icons/roguetown/rav/obj/cult.dmi'
@@ -71,7 +71,6 @@
 	item_state = "sphere0"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
-	light_color = "#ffffff"
 	on_damage = 10
 	flags_1 = null
 	possible_item_intents = list(/datum/intent/use)
@@ -116,6 +115,19 @@
 				//turn_off()
 				STOP_PROCESSING(SSobj, src)
 				return
+
+/obj/item/flashlight/flare/light/attack_right(obj/item/i, mob/living/user)
+	if(!on)
+		if(user.m_intent == MOVE_INTENT_SNEAK)
+			light_color = pick_light_color()
+		on = TRUE
+		update_brightness()
+		START_PROCESSING(SSobj, src)
+		to_chat(user, span_notice("I grip [i] lightly, and it abruptly lights up with shining light"))
+	else
+		turn_off()
+		to_chat(user, span_notice("I grip [i] lightly, and the light fades away"))
+	. = ..()
 
 /obj/item/flashlight/flare/light/turn_off()
 	playsound(src.loc, 'sound/items/firesnuff.ogg', 100)

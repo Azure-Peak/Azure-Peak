@@ -118,22 +118,22 @@
 	duration = 5 MINUTES
 	status_type = STATUS_EFFECT_REFRESH
 	examine_text = "SUBJECTPRONOUN is surrounded by an aura of gentle light."
-	var/outline_colour = "#ffffff"
-	var/color_mob_light = "#f5edda"
+	var/outline_colour = LIGHT_COLOR_WHITE
+	var/color_mob_light = LIGHT_COLOR_HOLY
 	/// The object attached to the mob that emits light
 	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
 	/// Amount of light our buff emits, can be buffed by someone with higher miracles skill
-	var/holy_light_power = 1
+	var/holy_light_range = 1
 
-/datum/status_effect/light_buff/on_creation(mob/living/new_owner, light_power)
-	if(light_power > holy_light_power)
-		holy_light_power = light_power
+/datum/status_effect/light_buff/on_creation(mob/living/new_owner, light_range)
+	if(light_range > holy_light_range)
+		holy_light_range = light_range
 	return ..()
 
-/datum/status_effect/light_buff/refresh(mob/living/owner, light_power)
+/datum/status_effect/light_buff/refresh(mob/living/owner, light_range)
 	duration += initial(duration) // stack this up as much as we can be bothered to cast it
-	if(holy_light_power > mob_light_obj.light_power)
-		mob_light_obj.light_power = holy_light_power
+	if(holy_light_range > mob_light_obj.light_outer_range)
+		mob_light_obj.light_outer_range = holy_light_range
 
 /datum/status_effect/light_buff/on_apply()
 	. = ..()
@@ -144,8 +144,7 @@
 	var/filter = owner.get_filter(BLESSINGOFLIGHT_FILTER)
 	if (!filter)
 		owner.add_filter(BLESSINGOFLIGHT_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
-	mob_light_obj = owner.mob_light(7, 7, _color ="#f5edda")
-	mob_light_obj.light_power = holy_light_power
+	mob_light_obj = owner.mob_light(holy_light_range, LIGHT_POWER_MAGIC, _color = color_mob_light)
 	return TRUE
 
 /datum/status_effect/light_buff/on_remove()
@@ -181,8 +180,8 @@
 	else
 		caster.visible_message(span_notice("A gentle illumination suddenly blossoms into being around [living_thing]!"), span_notice("I grant [living_thing] a blessing of light."))
 
-	var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
-	living_thing.apply_status_effect(/datum/status_effect/light_buff, light_power)
+	var/light_range = clamp(4 + (holy_skill - 3), LIGHT_RANGE_LAMPTERN-1, LIGHT_RANGE_LAMPTERN+2)
+	living_thing.apply_status_effect(/datum/status_effect/light_buff, light_range)
 
 	H.devotion?.update_devotion(-SPELLCOST_MIRACLE_MINOR)
 	StartCooldown()
