@@ -289,7 +289,17 @@
 						prob2craft -= (25*R.craftdiff)
 					if(R.skillcraft)
 						if(user.mind)
-							prob2craft += (user.get_skill_level(R.skillcraft) * 25)
+							var/user_skill = user.get_skill_level(R.skillcraft)
+							prob2craft += (user_skill * 25)
+							// Extra bonus for experts!
+							if(user_skill >= R.craftdiff)
+								switch(user_skill)
+									if(4)
+										prob2craft += 5
+									if(5)
+										prob2craft += 15
+									if(6)
+										prob2craft += 25
 					else
 						prob2craft = 100
 					if(isliving(user))
@@ -306,8 +316,8 @@
 
 					// Pseudorandomization!
 					var/datum/skill_holder/holder = user.ensure_skills()
-					if(holder.last_recipe != R)
-						holder.last_recipe = R
+					if(holder.last_recipe != R.type)
+						holder.last_recipe = R.type
 						holder.pseudo_craft_chance = prob2craft
 					else if(prob2craft > holder.pseudo_craft_chance)
 						holder.pseudo_craft_chance = prob2craft
@@ -325,7 +335,6 @@
 							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
 						continue
 
-					holder.reset_pseudo_chance()
 					var/list/quality_capture = R.skip_quality ? list() : null
 					var/list/parts = del_reqs(R, user, quality_capture)
 					var/inherited_quality = quality_capture?["min_quality"]
@@ -385,6 +394,7 @@
 							amt2raise = round(amt2raise * R.xp_modifier)
 							if(amt2raise > 0)
 								user.mind.add_sleep_experience(R.skillcraft, amt2raise, FALSE)
+					holder.reset_pseudo_chance()
 					return TRUE
 				return FALSE
 			return FALSE
