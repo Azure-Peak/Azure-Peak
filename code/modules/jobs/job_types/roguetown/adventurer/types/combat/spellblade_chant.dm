@@ -354,7 +354,7 @@ a.choose-btn:hover {
 <li><b>Maximum (10)</b> — Unleash an empowered version of your ultimate ability.</li>
 <li><b>Empower Weapon</b> — Requires 5+ momentum. Burns ALL momentum to empower your next melee attack, bypassing parry and dodge. Visible red glow warns enemies. 30s cooldown. 8s duration.</li>
 <li><b>Arcyne Surge</b> — Certain non-ultimate abilities that strike 2 or more targets grant 1 bonus Momentum.</li>
-<li><b>Precision</b> — Arcyne strikes use the same zone accuracy system as ranged attacks. Hands and feet are capped at 50%, limbs and head at 75%, face zones at 30%. Perception and Intelligence above 10 each improve your base accuracy.</li>
+<li><b>Precision</b> — Arcyne strikes roll to place their blow the same way a melee swing does. Skill and Perception above ten both improve where it lands. A blow aimed at the chest always connects.</li>
 </ul>
 </div>
 <div class="preamble">

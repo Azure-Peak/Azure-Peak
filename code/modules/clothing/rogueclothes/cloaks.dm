@@ -2099,8 +2099,8 @@
 	item_state = "dupatta"
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+	altdetail_tag = "_detailalt"
 	altdetail_color = CLOTHING_WHITE
-	altdetail_tag = "_detailalt"//has more details for more colours
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
 	sleevetype = "shirt"
 

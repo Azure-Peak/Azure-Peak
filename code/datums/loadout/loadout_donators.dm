@@ -962,6 +962,11 @@
 	path = /obj/item/clothing/cloak/donator_rhynn
 	ckeywhitelist = list("rhynnrhynn")
 
+/datum/loadout_item/donator/rhynnrhynn_longcloak_broche
+	name = "Donator Item - Ladylike Longcloak's Broche"
+	path = /obj/item/clothing/head/roguetown/decoration/broche
+	ckeywhitelist = list("rhynnrhynn")
+
 /datum/loadout_item/donator/rhynnrhynn_staff
 	name = "Donator Kit - Celestial Staff"
 	path = /obj/item/enchantingkit/rhynnrhynn_staff
@@ -1252,6 +1257,12 @@
 	name = "Donator Kit - The Enclave Blade"
 	path = /obj/item/enchantingkit/weapon/donator_rezathedwarf_blade
 
-/datum/loadout_item/donator/limetease/limesaber
+/datum/loadout_item/donator/lime_saber
 	name = "Donator Kit - Malignant Blade"
 	path = /obj/item/enchantingkit/weapon/limesaber
+	ckeywhitelist = list("limetease")
+
+/datum/loadout_item/donator/mystogan_radiantmask
+	name = "Donator Item - Radiant Golden Mask"
+	path = /obj/item/clothing/mask/rogue/facemask/goldmask/radiant
+	ckeywhitelist = list("mystoganzi")

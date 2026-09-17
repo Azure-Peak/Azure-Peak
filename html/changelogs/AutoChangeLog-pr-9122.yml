@@ -1,0 +1,4 @@
+author: "NonQueueingMatt"
+delete-after: True
+changes:
+  - rscadd: "Absolvers can now spawn in as Azurians."
