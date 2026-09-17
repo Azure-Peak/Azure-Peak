@@ -1,5 +1,5 @@
 // Bonuse % to craft per INT.
-#define CRAFT_BONUS_PER_INT 1.6
+#define CRAFT_BONUS_PER_INT 1.5
 
 /datum/component/personal_crafting/Initialize(mapload)
 	if(!ismob(parent))
