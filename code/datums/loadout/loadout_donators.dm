@@ -182,6 +182,10 @@
 	name = "Gift - Shaded Hat"
 	path = /obj/item/clothing/head/roguetown/roguehood/shadedhat
 
+/datum/loadout_item/donator/universal/brimmedhat
+	name = "Gift - Brimmed Hat"
+	path = /obj/item/clothing/head/roguetown/duelhat/donator_brimmedhat
+
 /datum/loadout_item/donator/universal/beltedbackpackkit
 	name = "Gift - Kit, Belted Backpack"
 	path = /obj/item/enchantingkit/beltedbackpack
@@ -1160,5 +1164,18 @@
 /datum/loadout_item/donator/lief_friend
 	name = "Donator Item - Aurum's Amulets"
 	path = /obj/item/clothing/neck/roguetown/psicross/liefdonator
-	ckeywhitelist = list("linxsysart", "Pessime959")
+	ckeywhitelist = list("linxsysart", "pessime959")
 
+
+/datum/loadout_item/donator/rezathedwarf
+	name = "Donator Item - Noah's Glimmering Cloak"
+	path = /obj/item/clothing/cloak/half/donator_rezathedwarf
+	ckeywhitelist = list("rezathedwarf", "maesune")
+
+/datum/loadout_item/donator/rezathedwarf/blade
+	name = "Donator Kit - The Enclave Blade"
+	path = /obj/item/enchantingkit/weapon/donator_rezathedwarf_blade
+
+/datum/loadout_item/donator/limetease/limesaber
+	name = "Donator Kit - Malignant Blade"
+	path = /obj/item/enchantingkit/weapon/limesaber
